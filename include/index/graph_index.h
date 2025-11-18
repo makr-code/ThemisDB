@@ -72,6 +72,9 @@ public:
         double totalCost = 0.0;
     };
 
+    // Direction for traversal/shortest-path
+    enum class Direction { Outbound, Inbound, Any };
+
     // Sprint B: Temporal Graph Extensions
     // Traversal with temporal filtering (edges must be valid at specified timestamp)
     std::pair<Status, std::vector<std::string>> bfsAtTime(
@@ -84,6 +87,14 @@ public:
         std::string_view startPk,
         std::string_view targetPk,
         int64_t timestamp_ms
+    ) const;
+
+    // Directional variant
+    std::pair<Status, PathResult> dijkstraAtTime(
+        std::string_view startPk,
+        std::string_view targetPk,
+        int64_t timestamp_ms,
+        Direction direction
     ) const;
 
     // Sprint B Extended: Time-Range Queries
@@ -160,12 +171,28 @@ public:
         std::string_view targetPk
     ) const;
 
+    // Dijkstra with direction selection
+    std::pair<Status, PathResult> dijkstra(
+        std::string_view startPk,
+        std::string_view targetPk,
+        Direction direction
+    ) const;
+
     // Dijkstra with edge type filtering and graph scope (server-side)
     std::pair<Status, PathResult> dijkstra(
         std::string_view startPk,
         std::string_view targetPk,
         std::string_view edge_type,
         std::string_view graph_id
+    ) const;
+
+    // Dijkstra with edge type filtering, graph scope and direction (server-side)
+    std::pair<Status, PathResult> dijkstra(
+        std::string_view startPk,
+        std::string_view targetPk,
+        std::string_view edge_type,
+        std::string_view graph_id,
+        Direction direction
     ) const;
 
     // A*: Kürzester Pfad mit Heuristik (optional)

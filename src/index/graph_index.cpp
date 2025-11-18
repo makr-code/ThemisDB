@@ -788,6 +788,142 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk)
 	return {Status::OK(), std::move(result)};
 }
 
+// Dijkstra with direction selection (no type or graph filter)
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, Direction direction) const {
+	if (!db_.isOpen()) return {Status::Error("dijkstra: Datenbank ist nicht geöffnet"), {}};
+	if (startPk.empty() || targetPk.empty()) {
+		return {Status::Error("dijkstra: Start und Ziel dürfen nicht leer sein"), {}};
+	}
+
+	std::string start(startPk);
+	std::string target(targetPk);
+
+	using QueueItem = std::pair<double, std::string>;
+	auto cmp = [](const QueueItem& a, const QueueItem& b) { return a.first > b.first; };
+	std::priority_queue<QueueItem, std::vector<QueueItem>, decltype(cmp)> pq(cmp);
+
+	std::unordered_map<std::string, double> dist;
+	std::unordered_map<std::string, std::string> prev;
+	std::unordered_set<std::string> visited;
+
+	dist[start] = 0.0;
+	pq.emplace(0.0, start);
+
+	while (!pq.empty()) {
+		auto [cost, node] = pq.top();
+		pq.pop();
+
+		if (visited.count(node)) continue;
+		visited.insert(node);
+
+		if (node == target) break;
+
+		if (topologyLoaded_) {
+			std::lock_guard<std::mutex> lock(topology_mutex_);
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				auto it = outEdges_.find(node);
+				if (it != outEdges_.end()) {
+					for (const auto& adj : it->second) {
+						double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+						double newCost = dist[node] + weight;
+						if (!dist.count(adj.targetPk) || newCost < dist[adj.targetPk]) {
+							dist[adj.targetPk] = newCost;
+							prev[adj.targetPk] = node;
+							pq.emplace(newCost, adj.targetPk);
+						}
+					}
+				}
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				auto it2 = inEdges_.find(node);
+				if (it2 != inEdges_.end()) {
+					for (const auto& adj : it2->second) {
+						// adj.targetPk is source (fromPk) for inbound index
+						const std::string& neighbor = adj.targetPk;
+						double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+						double newCost = dist[node] + weight;
+						if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+							dist[neighbor] = newCost;
+							prev[neighbor] = node;
+							pq.emplace(newCost, neighbor);
+						}
+					}
+				}
+			}
+		} else {
+			// Fallback: RocksDB scan (all graphs). This is expensive; use directional prefixes.
+			const std::string outPrefix = std::string("graph:out:");
+			const std::string inPrefix  = std::string("graph:in:");
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				// Scan all out edges from node across all graphs (legacy + graphId variants)
+				db_.scanPrefix(outPrefix, [&](std::string_view key, std::string_view val) {
+					std::string keyStr(key);
+					size_t lastColon = keyStr.rfind(':');
+					if (lastColon == std::string::npos) return true;
+					const size_t prefixLen = outPrefix.size();
+					if (keyStr.size() <= prefixLen) return true;
+					std::string middle = keyStr.substr(prefixLen, lastColon - prefixLen);
+					size_t innerColon = middle.rfind(':');
+					std::string fromPk = (innerColon == std::string::npos) ? middle : middle.substr(innerColon + 1);
+					if (fromPk != node) return true;
+
+					std::string edgeId = keyStr.substr(lastColon + 1);
+					std::string graphId;
+					if (innerColon == std::string::npos) graphId.clear();
+					else graphId = middle.substr(0, innerColon);
+
+					std::string neighbor(val);
+					double weight = getEdgeWeight_(graphId, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				// Scan all inbound edges to node across all graphs
+				db_.scanPrefix(inPrefix, [&](std::string_view key, std::string_view val) {
+					std::string gid, toPk, edgeId;
+					if (!parseInKey_(key, gid, toPk, edgeId)) return true;
+					if (toPk != node) return true;
+					std::string neighbor(val); // fromPk
+					double weight = getEdgeWeight_(gid, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+		}
+	}
+
+	if (!prev.count(target) && target != start) {
+		return {Status::Error("dijkstra: Kein Pfad gefunden"), {}};
+	}
+
+	PathResult result;
+	result.totalCost = dist[target];
+	std::vector<std::string> path;
+	std::string current = target;
+	while (current != start) {
+		path.push_back(current);
+		auto it = prev.find(current);
+		if (it == prev.end()) break;
+		current = it->second;
+	}
+	path.push_back(start);
+	std::reverse(path.begin(), path.end());
+	result.path = std::move(path);
+	return {Status::OK(), std::move(result)};
+}
+
 // Dijkstra with edge type filtering and graph scope (server-side)
 std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
 GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, std::string_view edge_type, std::string_view graph_id) const {
@@ -897,6 +1033,140 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
 	std::reverse(path.begin(), path.end());
 	result.path = std::move(path);
 
+	return {Status::OK(), std::move(result)};
+}
+
+// Dijkstra with edge type filtering, graph scope and direction (server-side)
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, std::string_view edge_type, std::string_view graph_id, Direction direction) const {
+	if (!db_.isOpen()) return {Status::Error("dijkstra: Datenbank ist nicht geöffnet"), {}};
+	if (startPk.empty() || targetPk.empty()) {
+		return {Status::Error("dijkstra: Start und Ziel dürfen nicht leer sein"), {}};
+	}
+
+	std::string start(startPk);
+	std::string target(targetPk);
+	std::string typeFilter(edge_type);
+	std::string graphFilter(graph_id);
+
+	using QueueItem = std::pair<double, std::string>;
+	auto cmp = [](const QueueItem& a, const QueueItem& b) { return a.first > b.first; };
+	std::priority_queue<QueueItem, std::vector<QueueItem>, decltype(cmp)> pq(cmp);
+
+	std::unordered_map<std::string, double> dist;
+	std::unordered_map<std::string, std::string> prev;
+	std::unordered_set<std::string> visited;
+
+	dist[start] = 0.0;
+	pq.emplace(0.0, start);
+
+	while (!pq.empty()) {
+		auto [cost, node] = pq.top();
+		pq.pop();
+
+		if (visited.count(node)) continue;
+		visited.insert(node);
+
+		if (node == target) break;
+
+		if (topologyLoaded_) {
+			std::lock_guard<std::mutex> lock(topology_mutex_);
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				auto it = outEdges_.find(node);
+				if (it != outEdges_.end()) {
+					for (const auto& adj : it->second) {
+						if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+						std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
+						if (!typeFilter.empty() && edgeType != typeFilter) continue;
+						double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+						double newCost = dist[node] + weight;
+						if (!dist.count(adj.targetPk) || newCost < dist[adj.targetPk]) {
+							dist[adj.targetPk] = newCost;
+							prev[adj.targetPk] = node;
+							pq.emplace(newCost, adj.targetPk);
+						}
+					}
+				}
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				auto it2 = inEdges_.find(node);
+				if (it2 != inEdges_.end()) {
+					for (const auto& adj : it2->second) {
+						if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+						std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
+						if (!typeFilter.empty() && edgeType != typeFilter) continue;
+						const std::string& neighbor = adj.targetPk; // fromPk
+						double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+						double newCost = dist[node] + weight;
+						if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+							dist[neighbor] = newCost;
+							prev[neighbor] = node;
+							pq.emplace(newCost, neighbor);
+						}
+					}
+				}
+			}
+		} else {
+			// Fallback: RocksDB scan requires graph_id for efficiency
+			if (graphFilter.empty()) {
+				return {Status::Error("dijkstra: graph_id required for scan without topology"), {}};
+			}
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				const std::string prefix = std::string("graph:out:") + graphFilter + ":" + std::string(node) + ":";
+				db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
+					std::string gid, from, edgeId;
+					if (!parseOutKey_(key, gid, from, edgeId)) return true;
+					std::string edgeType = getEdgeType_(gid, edgeId);
+					if (!typeFilter.empty() && edgeType != typeFilter) return true;
+					std::string neighbor(val);
+					double weight = getEdgeWeight_(gid, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				const std::string prefix = std::string("graph:in:") + graphFilter + ":" + std::string(node) + ":";
+				db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
+					std::string gid, to, edgeId;
+					if (!parseInKey_(key, gid, to, edgeId)) return true;
+					std::string edgeType = getEdgeType_(gid, edgeId);
+					if (!typeFilter.empty() && edgeType != typeFilter) return true;
+					std::string neighbor(val); // fromPk
+					double weight = getEdgeWeight_(gid, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+		}
+	}
+
+	if (!prev.count(target) && target != start) {
+		return {Status::Error("dijkstra: Kein Pfad gefunden"), {}};
+	}
+
+	PathResult result;
+	result.totalCost = dist[target];
+	std::vector<std::string> path;
+	std::string current = target;
+	while (current != start) {
+		path.push_back(current);
+		auto it = prev.find(current);
+		if (it == prev.end()) break;
+		current = it->second;
+	}
+	path.push_back(start);
+	std::reverse(path.begin(), path.end());
+	result.path = std::move(path);
 	return {Status::OK(), std::move(result)};
 }
 
@@ -1293,11 +1563,101 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
 	result.path.push_back(start);
 	std::reverse(result.path.begin(), result.path.end());
 
-	return {Status::OK(), result};
+    return {Status::OK(), result};
+}
+
+// Directional variant of dijkstraAtTime
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view targetPk, int64_t timestamp_ms, Direction direction) const {
+    if (!db_.isOpen()) return {Status::Error("dijkstraAtTime: Datenbank ist nicht geöffnet"), {}};
+    if (startPk.empty() || targetPk.empty()) {
+        return {Status::Error("dijkstraAtTime: start/target dürfen nicht leer sein"), {}};
+    }
+
+    TemporalFilter filter = TemporalFilter::at(timestamp_ms);
+
+    std::unordered_map<std::string, double> dist;
+    std::unordered_map<std::string, std::string> prev;
+
+    using PQElem = std::pair<double, std::string>;
+    std::priority_queue<PQElem, std::vector<PQElem>, std::greater<>> pq;
+
+    std::string start(startPk);
+    std::string target(targetPk);
+
+    dist[start] = 0.0;
+    pq.emplace(0.0, start);
+
+    while (!pq.empty()) {
+        auto [d, u] = pq.top();
+        pq.pop();
+
+        if (u == target) break;
+        if (dist.count(u) && d > dist[u]) continue;
+
+        std::vector<AdjacencyInfo> neigh;
+        if (direction == Direction::Outbound || direction == Direction::Any) {
+            auto [st1, a1] = outAdjacency(u);
+            if (st1.ok) {
+                neigh.insert(neigh.end(), std::make_move_iterator(a1.begin()), std::make_move_iterator(a1.end()));
+            }
+        }
+        if (direction == Direction::Inbound || direction == Direction::Any) {
+            auto [st2, a2] = inAdjacency(u);
+            if (st2.ok) {
+                neigh.insert(neigh.end(), std::make_move_iterator(a2.begin()), std::make_move_iterator(a2.end()));
+            }
+        }
+
+        for (const auto& info : neigh) {
+            std::string edgeKey = KeySchema::makeGraphEdgeKey(info.edgeId);
+            auto blob = db_.get(edgeKey);
+            if (!blob) continue;
+
+            BaseEntity edge = BaseEntity::deserialize(info.edgeId, *blob);
+
+            std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
+            std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+
+            if (!filter.isValid(valid_from, valid_to)) {
+                continue; // Skip edge - not valid at query time
+            }
+
+            double weight = 1.0;
+            if (auto w = edge.getFieldAsDouble("_weight")) {
+                weight = *w;
+            }
+
+            const std::string& v = info.targetPk; // for inbound, this holds source pk
+            double alt = d + weight;
+
+            if (!dist.count(v) || alt < dist[v]) {
+                dist[v] = alt;
+                prev[v] = u;
+                pq.emplace(alt, v);
+            }
+        }
+    }
+
+    PathResult result;
+    if (!dist.count(target)) {
+        return {Status::Error("dijkstraAtTime: Kein Pfad gefunden"), result};
+    }
+
+    result.totalCost = dist[target];
+    std::string curr = target;
+    while (curr != start) {
+        result.path.push_back(curr);
+        if (!prev.count(curr)) break;
+        curr = prev[curr];
+    }
+    result.path.push_back(start);
+    std::reverse(result.path.begin(), result.path.end());
+
+    return {Status::OK(), result};
 }
 
 // ===== Sprint B Extended: Time-Range Queries =====
-
 std::pair<GraphIndexManager::Status, std::vector<GraphIndexManager::EdgeInfo>>
 GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end_ms, bool require_full_containment) const {
 	if (!db_.isOpen()) {

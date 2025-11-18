@@ -2322,15 +2322,34 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
 		
 		if (timestamp_ms.has_value()) {
-			auto [status, result] = graphIdx_->dijkstraAtTime(q.start_node, q.end_node, *timestamp_ms);
+			GraphIndexManager::Direction dir = GraphIndexManager::Direction::Outbound;
+			switch (q.direction) {
+				case RecursivePathQuery::Direction::Inbound: dir = GraphIndexManager::Direction::Inbound; break;
+				case RecursivePathQuery::Direction::Any: dir = GraphIndexManager::Direction::Any; break;
+				case RecursivePathQuery::Direction::Outbound: default: dir = GraphIndexManager::Direction::Outbound; break;
+			}
+			auto [status, result] = graphIdx_->dijkstraAtTime(q.start_node, q.end_node, *timestamp_ms, dir);
 			st = status;
 			pathResult = result;
 		} else if (hasTypeFilter) {
-			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, q.edge_type, graphId);
+			// Map query direction to GraphIndex direction
+			GraphIndexManager::Direction dir = GraphIndexManager::Direction::Outbound;
+			switch (q.direction) {
+				case RecursivePathQuery::Direction::Inbound: dir = GraphIndexManager::Direction::Inbound; break;
+				case RecursivePathQuery::Direction::Any: dir = GraphIndexManager::Direction::Any; break;
+				case RecursivePathQuery::Direction::Outbound: default: dir = GraphIndexManager::Direction::Outbound; break;
+			}
+			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, q.edge_type, graphId, dir);
 			st = status;
 			pathResult = result;
 		} else {
-			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node);
+			GraphIndexManager::Direction dir = GraphIndexManager::Direction::Outbound;
+			switch (q.direction) {
+				case RecursivePathQuery::Direction::Inbound: dir = GraphIndexManager::Direction::Inbound; break;
+				case RecursivePathQuery::Direction::Any: dir = GraphIndexManager::Direction::Any; break;
+				case RecursivePathQuery::Direction::Outbound: default: dir = GraphIndexManager::Direction::Outbound; break;
+			}
+			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, dir);
 			st = status;
 			pathResult = result;
 		}
