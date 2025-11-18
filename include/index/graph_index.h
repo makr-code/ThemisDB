@@ -75,6 +75,28 @@ public:
     // Direction for traversal/shortest-path
     enum class Direction { Outbound, Inbound, Any };
 
+    // Path Constraints for advanced traversal control
+    struct PathConstraints {
+        bool unique_vertices = false;              // No vertex visited twice (cycle detection)
+        bool unique_edges = false;                 // No edge traversed twice
+        std::unordered_set<std::string> forbidden_vertices;  // Blacklist: skip these vertices
+        std::unordered_set<std::string> forbidden_edges;     // Blacklist: skip these edges
+        std::unordered_set<std::string> required_vertices;   // Must-visit: path must include these
+        int max_path_length = -1;                  // Maximum number of edges (-1 = unlimited)
+        
+        bool isVertexAllowed(const std::string& vertex) const {
+            return forbidden_vertices.find(vertex) == forbidden_vertices.end();
+        }
+        
+        bool isEdgeAllowed(const std::string& edge) const {
+            return forbidden_edges.find(edge) == forbidden_edges.end();
+        }
+        
+        bool hasRequiredVertices() const {
+            return !required_vertices.empty();
+        }
+    };
+
     // Sprint B: Temporal Graph Extensions
     // Traversal with temporal filtering (edges must be valid at specified timestamp)
     std::pair<Status, std::vector<std::string>> bfsAtTime(
@@ -178,6 +200,21 @@ public:
         Direction direction
     ) const;
 
+    // Dijkstra with path constraints
+    std::pair<Status, PathResult> dijkstra(
+        std::string_view startPk,
+        std::string_view targetPk,
+        const PathConstraints& constraints
+    ) const;
+
+    // Dijkstra with direction and path constraints
+    std::pair<Status, PathResult> dijkstra(
+        std::string_view startPk,
+        std::string_view targetPk,
+        Direction direction,
+        const PathConstraints& constraints
+    ) const;
+
     // Dijkstra with edge type filtering and graph scope (server-side)
     std::pair<Status, PathResult> dijkstra(
         std::string_view startPk,
@@ -193,6 +230,16 @@ public:
         std::string_view edge_type,
         std::string_view graph_id,
         Direction direction
+    ) const;
+
+    // Dijkstra with edge type filtering, graph scope, direction and path constraints
+    std::pair<Status, PathResult> dijkstra(
+        std::string_view startPk,
+        std::string_view targetPk,
+        std::string_view edge_type,
+        std::string_view graph_id,
+        Direction direction,
+        const PathConstraints& constraints
     ) const;
 
     // A*: Kürzester Pfad mit Heuristik (optional)

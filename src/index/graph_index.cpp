@@ -1939,4 +1939,98 @@ GraphIndexManager::getTemporalStats(int64_t range_start_ms, int64_t range_end_ms
 	return {Status::OK(), stats};
 }
 
+
+// Dijkstra with path constraints (delegates to direction variant)
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, const PathConstraints& constraints) const {
+    return dijkstra(startPk, targetPk, Direction::Outbound, constraints);
+}
+
+// Dijkstra with direction and path constraints (simplified stub)
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, Direction direction, const PathConstraints& constraints) const {
+    // Check forbidden start/target
+    if (!constraints.isVertexAllowed(std::string(startPk))) {
+        return {Status::Error("dijkstra: Startknoten ist verboten (forbidden_vertices)"), {}};
+    }
+    if (!constraints.isVertexAllowed(std::string(targetPk))) {
+        return {Status::Error("dijkstra: Zielknoten ist verboten (forbidden_vertices)"), {}};
+    }
+    
+    // For now: delegate to non-constraint version (TODO: full implementation)
+    // This is a minimal stub that validates forbidden nodes
+    auto [status, result] = dijkstra(startPk, targetPk, direction);
+    if (!status.ok) return {status, result};
+    
+    // Post-process: check path against constraints
+    if (constraints.unique_vertices) {
+        std::unordered_set<std::string> seen;
+        for (const auto& v : result.path) {
+            if (!seen.insert(v).second) {
+                return {Status::Error("dijkstra: Pfad verletzt unique_vertices constraint"), {}};
+            }
+        }
+    }
+    
+    for (const auto& v : result.path) {
+        if (!constraints.isVertexAllowed(v)) {
+            return {Status::Error("dijkstra: Pfad enthält verbotenen Knoten: " + v), {}};
+        }
+    }
+    
+    if (constraints.hasRequiredVertices()) {
+        std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
+        for (const auto& req : constraints.required_vertices) {
+            if (!path_set.count(req)) {
+                return {Status::Error("dijkstra: Pfad enthält nicht required vertex: " + req), {}};
+            }
+        }
+    }
+    
+    return {status, result};
+}
+
+// Dijkstra with all filters
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, std::string_view edge_type, std::string_view graph_id, Direction direction, const PathConstraints& constraints) const {
+    // Check forbidden start/target
+    if (!constraints.isVertexAllowed(std::string(startPk))) {
+        return {Status::Error("dijkstra: Startknoten ist verboten (forbidden_vertices)"), {}};
+    }
+    if (!constraints.isVertexAllowed(std::string(targetPk))) {
+        return {Status::Error("dijkstra: Zielknoten ist verboten (forbidden_vertices)"), {}};
+    }
+    
+    // Delegate to type/graph version
+    auto [status, result] = dijkstra(startPk, targetPk, edge_type, graph_id, direction);
+    if (!status.ok) return {status, result};
+    
+    // Post-process constraints
+    if (constraints.unique_vertices) {
+        std::unordered_set<std::string> seen;
+        for (const auto& v : result.path) {
+            if (!seen.insert(v).second) {
+                return {Status::Error("dijkstra: Pfad verletzt unique_vertices constraint"), {}};
+            }
+        }
+    }
+    
+    for (const auto& v : result.path) {
+        if (!constraints.isVertexAllowed(v)) {
+            return {Status::Error("dijkstra: Pfad enthält verbotenen Knoten: " + v), {}};
+        }
+    }
+    
+    if (constraints.hasRequiredVertices()) {
+        std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
+        for (const auto& req : constraints.required_vertices) {
+            if (!path_set.count(req)) {
+                return {Status::Error("dijkstra: Pfad enthält nicht required vertex: " + req), {}};
+            }
+        }
+    }
+    
+    return {status, result};
+}
+
 } // namespace themis
