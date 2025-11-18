@@ -1,13 +1,51 @@
 # Database Capabilities Vervollständigung - Roadmap
 
-**Branch:** `feature/aql-st-functions` (merged from `feature/complete-database-capabilities`)  
+**Branch:** `feat/graph-path-constraints` (merged from `feature/aql-st-functions`)  
 **Erstellt:** 17. November 2025  
-**Letztes Update:** 17. November 2025  
+**Letztes Update:** 18. November 2025  
 **Ziel:** Vervollständigung der Multi-Model-Datenbank-Fähigkeiten auf 90%+
 
 ---
 
 ## 🎉 Neueste Implementierungen
+
+### Graph Direction Support ✅ **ABGESCHLOSSEN** (18. Nov 2025)
+
+**Implementierungszeit:** 3 Stunden
+
+**Neue Features:**
+- ✅ **Direction Enum** (Outbound/Inbound/Any) für Graph-Traversierung
+- ✅ **Direction-aware dijkstra()** für reguläre Shortest-Path Queries
+- ✅ **Direction-aware dijkstraAtTime()** für temporale Graph-Queries
+- ✅ **QueryEngine Integration** - Direction-Mapping für RecursivePathQuery
+- ✅ **Bidirectional Support** - Any-Direction nutzt beide Adjacency-Listen
+
+**Code:**
+- 545+ Zeilen neuer Code
+- 3 Tests (2 directional + 1 temporal)
+- 2 neue Testdateien: `test_graph_direction.cpp`, `test_temporal_graph_direction.cpp`
+
+**Beispiel:**
+```aql
+// Finde Pfad von D nach A (rückwärts durch den Graphen)
+FOR path IN SHORTEST_PATH
+  FROM "D" TO "A"
+  DIRECTION INBOUND  // Folge nur eingehenden Kanten
+  GRAPH "myGraph"
+RETURN path
+
+// Temporale Query mit Direction
+FOR path IN SHORTEST_PATH
+  FROM "Berlin" TO "Munich"
+  AT_TIME 1640000000
+  DIRECTION OUTBOUND
+  GRAPH "cities"
+RETURN path
+```
+
+**Status:** Code Complete, Committed (811da98)
+
+---
 
 ### Phase 3 & 4: Subqueries & CTEs ✅ **ABGESCHLOSSEN** (17. Nov 2025)
 
@@ -56,11 +94,11 @@ RETURN {hotel: doc, nearby_count: LENGTH(nearby)}
 
 ## Executive Summary
 
-ThemisDB ist aktuell zu **~67%** implementiert mit starken Core-Features. Diese Roadmap fokussiert sich auf die Vervollständigung der **5 Datenbank-Modelle** + **Geo als Cross-Cutting Capability**:
+ThemisDB ist aktuell zu **~72%** implementiert mit starken Core-Features. Diese Roadmap fokussiert sich auf die Vervollständigung der **5 Datenbank-Modelle** + **Geo als Cross-Cutting Capability**:
 
 ### Datenbank-Modelle (über RocksDB Blob Storage)
 1. **Relational** (aktuell 100% → Ziel: 100%)
-2. **Graph** (aktuell 70% → Ziel: 95%)
+2. **Graph** (aktuell 75% → Ziel: 95%) ✅ **Direction Support Added**
 3. **Vector** (aktuell 75% → Ziel: 95%)
 4. **Content/Filesystem** (aktuell 30% → Ziel: 75%)
 5. **Time-Series** (aktuell 85% → stabil)
@@ -742,8 +780,10 @@ if (spatial_selectivity < 0.01) {
 ## 🎯 Phase 1: Graph Database Vervollständigung (70% → 95%)
 
 ### Aktueller Stand
-✅ **Implementiert (70%):**
+✅ **Implementiert (75%):**
 - BFS/Dijkstra/A* Traversal
+- **Direction Control (Outbound/Inbound/Any)** ✅ NEU (18. Nov 2025)
+- **Temporal Direction-Aware Queries** ✅ NEU (18. Nov 2025)
 - Adjacency Lists (graph:out, graph:in)
 - Variable Depth (min..max hops)
 - Temporal Graph Queries
@@ -751,8 +791,8 @@ if (spatial_selectivity < 0.01) {
 - Property Graph Model (Labels, Types)
 - Multi-Graph Support
 
-❌ **Fehlend (30%):**
-- Path Constraints (LAST_EDGE, NO_VERTEX, UNIQUE_VERTICES)
+❌ **Fehlend (25%):**
+- Path Constraints (UNIQUE_VERTICES, NO_VERTEX, UNIQUE_EDGES)
 - Centrality Algorithms (Degree, Betweenness, Closeness, PageRank)
 - Community Detection (Louvain, Label Propagation)
 - Pattern Matching (Cypher-ähnlich)
