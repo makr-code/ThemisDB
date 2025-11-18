@@ -230,6 +230,7 @@ set(THEMIS_CORE_SOURCES
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
+    src/server/rate_limiter.cpp
     
     src/content/content_type.cpp
     src/content/content_manager.cpp

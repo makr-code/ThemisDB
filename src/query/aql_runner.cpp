@@ -57,13 +57,24 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
     if (tr.traversal.has_value()) {
         const auto &tv = *tr.traversal;
         if (tv.shortestPath) {
-            RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = ""; // edge_type placeholder
+            RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = tv.edgeType;
             auto [st, paths] = engine.executeRecursivePathQuery(rq);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
             return { st, nlohmann::json{{"type","shortest_path"},{"paths", arr}} };
         }
-        return { QueryEngine::Status::Error("Traversal dispatch (non-shortest) not implemented"), nlohmann::json{{"error","traversal_not_implemented"}} };
+        // Non-shortest traversal: BFS bis maxDepth
+        {
+            RecursivePathQuery rq;
+            rq.start_node = tv.startVertex;
+            rq.graph_id = tv.graphName;
+            rq.max_depth = tv.maxDepth;
+            rq.edge_type = tv.edgeType;
+            auto [st, paths] = engine.executeRecursivePathQuery(rq);
+            nlohmann::json arr = nlohmann::json::array();
+            for (const auto& p : paths) arr.push_back(p);
+            return { st, nlohmann::json{{"type","traversal"},{"paths", arr}} };
+        }
     }
 
     // Join query

@@ -64,6 +64,7 @@ public:
             Direction direction = Direction::Outbound;
             std::string startVertex;
             std::string graphName;
+            std::string edgeType; // optional edge type filter
             bool shortestPath = false;
             std::string endVertex; // gesetzt wenn shortestPath
         };

@@ -49,6 +49,33 @@ QueryEngine::QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, Grap
                          VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx)
 	: db_(db), secIdx_(secIdx), graphIdx_(&graphIdx), vectorIdx_(vectorIdx), spatialIdx_(spatialIdx) {}
 
+// ----------------------------------------------------------------------------
+// EvaluationContext CTE helpers (out-of-line definitions)
+// ----------------------------------------------------------------------------
+// Phase 4.3: If a spillable cache is present, delegate storage/retrieval there.
+// Otherwise fall back to in-memory map (legacy path). Supports parent chaining.
+void QueryEngine::EvaluationContext::storeCTE(const std::string& name, std::vector<nlohmann::json> results) {
+	if (cte_cache) {
+		cte_cache->store(name, std::move(results));
+		return;
+	}
+	cte_results[name] = std::move(results);
+}
+
+std::optional<std::vector<nlohmann::json>> QueryEngine::EvaluationContext::getCTE(const std::string& name) const {
+	if (cte_cache && cte_cache->contains(name)) {
+		return cte_cache->get(name);
+	}
+	auto it = cte_results.find(name);
+	if (it != cte_results.end()) {
+		return it->second;
+	}
+	if (parent) {
+		return parent->getCTE(name);
+	}
+	return std::nullopt;
+}
+
 std::pair<QueryEngine::Status, std::vector<std::string>>
 QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeys");
@@ -515,6 +542,8 @@ QueryEngine::executeOrEntitiesWithFallback(const DisjunctiveQuery& q, bool optim
 	span.setStatus(true);
 	return {Status::OK(), std::move(out)};
 }
+
+ 
 
 std::pair<QueryEngine::Status, std::vector<BaseEntity>>
 QueryEngine::executeOrEntities(const DisjunctiveQuery& q) const {
