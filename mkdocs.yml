@@ -58,6 +58,7 @@ nav:
       - AQL Syntax: aql_syntax.md
       - Explain & Profile: aql_explain_profile.md
       - Rekursive Pfadabfragen: recursive_path_queries.md
+      - Traversal-Constraints: graph_traversal_constraints.md
       - Temporale Graphen: temporal_graphs.md
       - Zeitbereichs-Abfragen: temporal_time_range_queries.md
       - Semantischer Cache: semantic_cache.md

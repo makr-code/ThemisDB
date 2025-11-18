@@ -58,6 +58,12 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         const auto &tv = *tr.traversal;
         if (tv.shortestPath) {
             RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = tv.edgeType;
+            // direction passthrough
+            switch (tv.direction) {
+                case AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound: rq.direction = RecursivePathQuery::Direction::Outbound; break;
+                case AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound: rq.direction = RecursivePathQuery::Direction::Inbound; break;
+                case AQLTranslator::TranslationResult::TraversalQuery::Direction::Any: rq.direction = RecursivePathQuery::Direction::Any; break;
+            }
             // pass-through advanced constraints (engine may selectively use them)
             rq.no_backtrack = tv.noBacktrack;
             rq.edge_label_whitelist = tv.edgeLabelWhitelist;
@@ -76,6 +82,11 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             rq.graph_id = tv.graphName;
             rq.max_depth = tv.maxDepth;
             rq.edge_type = tv.edgeType;
+            switch (tv.direction) {
+                case AQLTranslator::TranslationResult::TraversalQuery::Direction::Outbound: rq.direction = RecursivePathQuery::Direction::Outbound; break;
+                case AQLTranslator::TranslationResult::TraversalQuery::Direction::Inbound: rq.direction = RecursivePathQuery::Direction::Inbound; break;
+                case AQLTranslator::TranslationResult::TraversalQuery::Direction::Any: rq.direction = RecursivePathQuery::Direction::Any; break;
+            }
             // pass-through advanced constraints
             rq.no_backtrack = tv.noBacktrack;
             rq.edge_label_whitelist = tv.edgeLabelWhitelist;

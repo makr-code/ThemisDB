@@ -15,11 +15,13 @@ namespace themis {
 namespace query { struct Expression; struct Query; class CTECache; }
 
 struct RecursivePathQuery {
+    enum class Direction { Outbound, Inbound, Any };
     std::string start_node;
     std::string end_node;
     std::string edge_type;
     std::string graph_id; // multi-graph scope (optional, default="default")
     size_t max_depth = 5;
+    Direction direction = Direction::Outbound;
     std::optional<std::string> valid_from;
     std::optional<std::string> valid_to;
     // Optional: weitere Filter auf Knoten/Kanten

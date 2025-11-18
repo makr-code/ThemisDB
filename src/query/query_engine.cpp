@@ -2476,6 +2476,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 		// If no additional constraints are present, use GraphIndexManager's optimized BFS
 		bool hasConstraints = q.no_backtrack || !q.edge_label_whitelist.empty() || !q.edge_label_blacklist.empty()
 			|| !q.node_label_whitelist.empty() || !q.node_label_blacklist.empty();
+		bool directionIsDefaultOutbound = (q.direction == RecursivePathQuery::Direction::Outbound);
 		std::vector<std::string> reachableNodes;
 		GraphIndexManager::Status st;
 		bool hasTypeFilter = !q.edge_type.empty();
@@ -2541,7 +2542,7 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			cache[pk] = ok; return ok;
 		};
 
-		if (!hasConstraints && !timestamp_ms.has_value()) {
+		if (!hasConstraints && !timestamp_ms.has_value() && directionIsDefaultOutbound) {
 			// Fast path via GraphIndexManager
 			if (hasTypeFilter) {
 				auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth), q.edge_type, graphId);
@@ -2583,9 +2584,23 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			while (!dq.empty()) {
 				Item cur = dq.front(); dq.pop_front();
 				if (cur.depth >= q.max_depth) continue;
-				auto [s, adj] = graphIdx_->outAdjacency(cur.node);
-				if (!s.ok) { span.setStatus(false, s.message); return {Status::Error(s.message), {}}; }
-				for (const auto& e : adj) {
+				std::vector<GraphIndexManager::AdjacencyInfo> neigh;
+				{
+					if (q.direction == RecursivePathQuery::Direction::Outbound || q.direction == RecursivePathQuery::Direction::Any) {
+						auto [s1, a1] = graphIdx_->outAdjacency(cur.node); if (!s1.ok) { span.setStatus(false, s1.message); return {Status::Error(s1.message), {}}; }
+						neigh.insert(neigh.end(), std::make_move_iterator(a1.begin()), std::make_move_iterator(a1.end()));
+					}
+					if (q.direction == RecursivePathQuery::Direction::Inbound || q.direction == RecursivePathQuery::Direction::Any) {
+						auto [s2, a2] = graphIdx_->inAdjacency(cur.node); if (!s2.ok) { span.setStatus(false, s2.message); return {Status::Error(s2.message), {}}; }
+						// For inbound, a2.targetPk are sources; normalize so that target becomes the neighbor
+						for (auto &info : a2) {
+							GraphIndexManager::AdjacencyInfo x = info; // copy
+							x.targetPk = info.targetPk; // inAdjacency returns source as edge.from? We keep as provided
+							neigh.push_back(std::move(x));
+						}
+					}
+				}
+				for (const auto& e : neigh) {
 					if (!graphId.empty() && !q.graph_id.empty() && e.graphId != graphId) continue;
 					// backtrack prevention
 					if (q.no_backtrack && !cur.prev.empty() && e.targetPk == cur.prev) continue;
