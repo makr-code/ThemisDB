@@ -67,6 +67,12 @@ public:
             std::string edgeType; // optional edge type filter
             bool shortestPath = false;
             std::string endVertex; // gesetzt wenn shortestPath
+            // Erweiterte Constraints (werden zunächst nur durchgereicht)
+            bool noBacktrack = false;
+            std::vector<std::string> edgeLabelWhitelist;
+            std::vector<std::string> edgeLabelBlacklist;
+            std::vector<std::string> nodeLabelWhitelist;
+            std::vector<std::string> nodeLabelBlacklist;
         };
         std::optional<TraversalQuery> traversal;
         

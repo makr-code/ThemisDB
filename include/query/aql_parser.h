@@ -458,6 +458,12 @@ struct Query {
         std::string edgeType;    // optional: Kanten-Typ-Filter (wenn gesetzt)
             bool shortestPath = false; // SHORTEST_PATH Syntax aktiviert
             std::string shortestPathTarget; // Zielknoten für Pfad
+        // Phase: Erweiterte Pfad-Constraints (Syntax folgt noch)
+        bool noBacktrack = false; // Verhindert sofortige Rückkehr zur vorherigen Kante
+        std::vector<std::string> edgeLabelWhitelist; // erlaubte Edge-Labels
+        std::vector<std::string> edgeLabelBlacklist; // ausgeschlossene Edge-Labels
+        std::vector<std::string> nodeLabelWhitelist; // erlaubte Node-Labels
+        std::vector<std::string> nodeLabelBlacklist; // ausgeschlossene Node-Labels
 
         nlohmann::json toJSON() const {
             const char* dir = direction == Direction::Outbound ? "OUTBOUND" : (direction == Direction::Inbound ? "INBOUND" : "ANY");
@@ -479,6 +485,11 @@ struct Query {
                     j["shortestPath"] = true;
                     j["shortestPathTarget"] = shortestPathTarget;
                 }
+            if (noBacktrack) j["noBacktrack"] = true;
+            if (!edgeLabelWhitelist.empty()) j["edgeLabelWhitelist"] = edgeLabelWhitelist;
+            if (!edgeLabelBlacklist.empty()) j["edgeLabelBlacklist"] = edgeLabelBlacklist;
+            if (!nodeLabelWhitelist.empty()) j["nodeLabelWhitelist"] = nodeLabelWhitelist;
+            if (!nodeLabelBlacklist.empty()) j["nodeLabelBlacklist"] = nodeLabelBlacklist;
             return j;
         }
     };

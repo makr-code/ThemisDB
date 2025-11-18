@@ -23,6 +23,12 @@ struct RecursivePathQuery {
     std::optional<std::string> valid_from;
     std::optional<std::string> valid_to;
     // Optional: weitere Filter auf Knoten/Kanten
+    // Erweiterte Pfad-Constraints (Syntax durch AQL-Parser gesetzt)
+    bool no_backtrack = false;
+    std::vector<std::string> edge_label_whitelist;
+    std::vector<std::string> edge_label_blacklist;
+    std::vector<std::string> node_label_whitelist;
+    std::vector<std::string> node_label_blacklist;
     
     // Spatial constraints for Graph+Geo hybrid queries
     struct SpatialConstraint {

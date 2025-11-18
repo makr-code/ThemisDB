@@ -2350,6 +2350,69 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			return {Status::OK(), std::move(allPaths)};
 		}
 		
+
+		// Apply advanced constraints on resulting path (node/edge labels, no_backtrack)
+		if (!pathResult.path.empty()) {
+			bool hasConstraints = q.no_backtrack || !q.edge_label_whitelist.empty() || !q.edge_label_blacklist.empty()
+				|| !q.node_label_whitelist.empty() || !q.node_label_blacklist.empty();
+			if (hasConstraints) {
+				// helpers
+				auto loadJson = [&](const std::string& key) -> std::optional<nlohmann::json> {
+					auto val = db_.get(key);
+					if (!val.has_value()) return std::nullopt;
+					try { std::string s(val->begin(), val->end()); return nlohmann::json::parse(s); } catch (...) { return std::nullopt; }
+				};
+				auto labelAllowed = [&](const nlohmann::json& obj,
+								 const std::vector<std::string>& whitelist,
+								 const std::vector<std::string>& blacklist) -> bool {
+					std::vector<std::string> labels;
+					if (obj.contains("labels") && obj["labels"].is_array()) { for (const auto& v : obj["labels"]) if (v.is_string()) labels.push_back(v.get<std::string>()); }
+					else if (obj.contains("_type") && obj["_type"].is_string()) { labels.push_back(obj["_type"].get<std::string>()); }
+					else if (obj.contains("type") && obj["type"].is_string()) { labels.push_back(obj["type"].get<std::string>()); }
+					if (!whitelist.empty()) { bool any=false; for (const auto& l:labels) { if (std::find(whitelist.begin(), whitelist.end(), l)!=whitelist.end()) { any=true; break; } } if (!any) return false; }
+					for (const auto& l:labels) { if (std::find(blacklist.begin(), blacklist.end(), l)!=blacklist.end()) return false; }
+					return true;
+				};
+				auto edgeAllowed = [&](const std::string& edgeId) -> bool {
+					auto obj = loadJson(edgeId); if (!obj.has_value()) return false;
+					if (!q.edge_type.empty()) {
+						std::string t;
+						if ((*obj).contains("_type") && (*obj)["_type"].is_string()) t = (*obj)["_type"].get<std::string>();
+						else if ((*obj).contains("type") && (*obj)["type"].is_string()) t = (*obj)["type"].get<std::string>();
+						if (t != q.edge_type) return false;
+					}
+					return labelAllowed(*obj, q.edge_label_whitelist, q.edge_label_blacklist);
+				};
+				// no_backtrack check
+				if (q.no_backtrack && pathResult.path.size() >= 3) {
+					for (size_t i=0;i+2<pathResult.path.size();++i) {
+						if (pathResult.path[i] == pathResult.path[i+2]) { pathResult.path.clear(); break; }
+					}
+				}
+				// node labels
+				if (!pathResult.path.empty() && (!q.node_label_whitelist.empty() || !q.node_label_blacklist.empty())) {
+					bool ok = true;
+					for (const auto& v : pathResult.path) { auto obj = loadJson(v); if (!obj.has_value() || !labelAllowed(*obj, q.node_label_whitelist, q.node_label_blacklist)) { ok = false; break; } }
+					if (!ok) pathResult.path.clear();
+				}
+				// edge labels
+				if (!pathResult.path.empty() && (!q.edge_label_whitelist.empty() || !q.edge_label_blacklist.empty() || !q.edge_type.empty())) {
+					bool ok = true;
+					for (size_t i=0;i+1<pathResult.path.size();++i) {
+						auto [s2, adj] = graphIdx_->outAdjacency(pathResult.path[i]); if (!s2.ok) { ok=false; break; }
+						bool anyEdgeOk = false;
+						for (const auto& e : adj) {
+							if (!q.graph_id.empty() && e.graphId != (q.graph_id.empty()?std::string("default"):q.graph_id)) continue;
+							if (e.targetPk != pathResult.path[i+1]) continue;
+							if (edgeAllowed(e.edgeId)) { anyEdgeOk = true; break; }
+						}
+						if (!anyEdgeOk) { ok = false; break; }
+					}
+					if (!ok) pathResult.path.clear();
+				}
+			}
+		}
+
 		// Graph + Geo: Apply spatial filter to path vertices
 		if (!pathResult.path.empty() && q.spatial_constraint.has_value()) {
 			auto spatialSpan = Tracer::startSpan("spatial_filter_path");
@@ -2409,83 +2472,146 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 			allPaths.push_back(std::move(pathResult.path));
 		}
 	} else {
-		// No end_node: BFS to find all reachable nodes up to max_depth; optimize with optional spatial constraint pruning
+		// No end_node: BFS to find all reachable nodes up to max_depth
+		// If no additional constraints are present, use GraphIndexManager's optimized BFS
+		bool hasConstraints = q.no_backtrack || !q.edge_label_whitelist.empty() || !q.edge_label_blacklist.empty()
+			|| !q.node_label_whitelist.empty() || !q.node_label_blacklist.empty();
 		std::vector<std::string> reachableNodes;
 		GraphIndexManager::Status st;
-		
-	// Use edge_type filtering if specified
-	bool hasTypeFilter = !q.edge_type.empty();
-	std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
-		
-		if (timestamp_ms.has_value()) {
-			auto [status, nodes] = graphIdx_->bfsAtTime(q.start_node, *timestamp_ms, static_cast<int>(q.max_depth));
-			st = status;
-			reachableNodes = std::move(nodes);
-		} else if (hasTypeFilter) {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth), q.edge_type, graphId);
-			st = status;
-			reachableNodes = std::move(nodes);
+		bool hasTypeFilter = !q.edge_type.empty();
+		std::string graphId = q.graph_id.empty() ? std::string("default") : q.graph_id;
+
+		auto labelAllowed = [&](const nlohmann::json& obj,
+							 const std::vector<std::string>& whitelist,
+							 const std::vector<std::string>& blacklist) -> bool {
+			std::vector<std::string> labels;
+			if (obj.contains("labels") && obj["labels"].is_array()) {
+				for (const auto& v : obj["labels"]) if (v.is_string()) labels.push_back(v.get<std::string>());
+			} else if (obj.contains("_type") && obj["_type"].is_string()) {
+				labels.push_back(obj["_type"].get<std::string>());
+			} else if (obj.contains("type") && obj["type"].is_string()) {
+				labels.push_back(obj["type"].get<std::string>());
+			}
+			if (!whitelist.empty()) {
+				bool any = false;
+				for (const auto& l : labels) {
+					if (std::find(whitelist.begin(), whitelist.end(), l) != whitelist.end()) { any = true; break; }
+				}
+				if (!any) return false;
+			}
+			for (const auto& l : labels) {
+				if (std::find(blacklist.begin(), blacklist.end(), l) != blacklist.end()) return false;
+			}
+			return true;
+		};
+
+		auto loadJson = [&](const std::string& key) -> std::optional<nlohmann::json> {
+			auto val = db_.get(key);
+			if (!val.has_value()) return std::nullopt;
+			try {
+				std::string s(val->begin(), val->end());
+				return nlohmann::json::parse(s);
+			} catch (...) { return std::nullopt; }
+		};
+
+		auto edgeAllowed = [&](const std::string& edgeId) -> bool {
+			static thread_local std::unordered_map<std::string, bool> cache;
+			auto it = cache.find(edgeId);
+			if (it != cache.end()) return it->second;
+			auto obj = loadJson(edgeId);
+			if (!obj.has_value()) { cache[edgeId] = false; return false; }
+			// Enforce q.edge_type by treating as required type if set
+			if (!q.edge_type.empty()) {
+				std::string t;
+				if ((*obj).contains("_type") && (*obj)["_type"].is_string()) t = (*obj)["_type"].get<std::string>();
+				else if ((*obj).contains("type") && (*obj)["type"].is_string()) t = (*obj)["type"].get<std::string>();
+				if (t != q.edge_type) { cache[edgeId] = false; return false; }
+			}
+			bool ok = labelAllowed(*obj, q.edge_label_whitelist, q.edge_label_blacklist);
+			cache[edgeId] = ok; return ok;
+		};
+
+		auto nodeAllowed = [&](const std::string& pk) -> bool {
+			static thread_local std::unordered_map<std::string, bool> cache;
+			auto it = cache.find(pk);
+			if (it != cache.end()) return it->second;
+			auto obj = loadJson(pk);
+			if (!obj.has_value()) { cache[pk] = false; return false; }
+			bool ok = labelAllowed(*obj, q.node_label_whitelist, q.node_label_blacklist);
+			cache[pk] = ok; return ok;
+		};
+
+		if (!hasConstraints && !timestamp_ms.has_value()) {
+			// Fast path via GraphIndexManager
+			if (hasTypeFilter) {
+				auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth), q.edge_type, graphId);
+				st = status; reachableNodes = std::move(nodes);
+			} else {
+				auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth));
+				st = status; reachableNodes = std::move(nodes);
+			}
+			if (!st.ok) { span.setStatus(false, st.message); return {Status::Error(st.message), {}}; }
+			// Optional spatial filter on nodes
+			if (q.spatial_constraint.has_value()) {
+				auto spatialSpan = Tracer::startSpan("spatial_filter_nodes");
+				const auto& sc = *q.spatial_constraint;
+				std::vector<std::string> filteredNodes;
+				auto vertexDataList = db_.multiGet(reachableNodes);
+				const size_t n = reachableNodes.size();
+				for (size_t i = 0; i < n; ++i) {
+					const auto& vertexDataOpt = vertexDataList[i];
+					if (!vertexDataOpt.has_value()) continue;
+					nlohmann::json vertex; try { std::string s(vertexDataOpt->begin(), vertexDataOpt->end()); vertex = nlohmann::json::parse(s); } catch (...) { continue; }
+					EvaluationContext ctx; ctx.bind("v", vertex);
+					if (evaluateCondition(sc.spatial_filter, ctx)) filteredNodes.push_back(reachableNodes[i]);
+				}
+				reachableNodes = std::move(filteredNodes);
+				spatialSpan.setAttribute("filtered_nodes", static_cast<int64_t>(reachableNodes.size()));
+				spatialSpan.setAttribute("batch_loaded", static_cast<int64_t>(vertexDataList.size()));
+				spatialSpan.setStatus(true);
+			}
+			for (const auto& node : reachableNodes) {
+				if (node != q.start_node) allPaths.push_back({q.start_node, node});
+			}
 		} else {
-			auto [status, nodes] = graphIdx_->bfs(q.start_node, static_cast<int>(q.max_depth));
-			st = status;
-			reachableNodes = std::move(nodes);
-		}
-		
-		if (!st.ok) {
-			span.setStatus(false, st.message);
-			return {Status::Error(st.message), {}};
-		}
-		
-		// Graph + Geo: Apply spatial filter to reachable nodes (early pruning)
-		if (q.spatial_constraint.has_value()) {
-			auto spatialSpan = Tracer::startSpan("spatial_filter_nodes");
-			const auto& sc = *q.spatial_constraint;
-			std::vector<std::string> filteredNodes;
-			
-			// Batch load all reachable vertices
-			auto vertexDataList = db_.multiGet(reachableNodes);
-			
-			// Evaluate spatial filter for each vertex (parallel)
-			const size_t n = reachableNodes.size();
-			const size_t T = std::max<unsigned>(1u, std::thread::hardware_concurrency());
-			const size_t CHUNK = std::max<std::size_t>(128, (n + T - 1) / T);
-			std::vector<std::vector<std::string>> buckets((n + CHUNK - 1) / CHUNK);
-			tbb::task_group tg3;
-			for (size_t bi = 0; bi < buckets.size(); ++bi) {
-				tg3.run([&, bi]() {
-					size_t start = bi * CHUNK;
-					size_t end = std::min(start + CHUNK, n);
-					std::vector<std::string> buf;
-					buf.reserve(end - start);
-					for (size_t i = start; i < end; ++i) {
-						const auto& vertexPk = reachableNodes[i];
-						const auto& vertexDataOpt = vertexDataList[i];
-						if (!vertexDataOpt.has_value()) continue;
-						nlohmann::json vertex;
-						try { std::string s(vertexDataOpt->begin(), vertexDataOpt->end()); vertex = nlohmann::json::parse(s); }
-						catch (...) { continue; }
-						EvaluationContext ctx; ctx.bind("v", vertex);
-						if (evaluateCondition(sc.spatial_filter, ctx)) buf.push_back(vertexPk);
+			// Constraint-aware BFS in engine
+			struct Item { std::string node; std::string prev; size_t depth; };
+			std::deque<Item> dq;
+			std::unordered_set<std::string> visited;
+			dq.push_back({q.start_node, std::string(), 0});
+			visited.insert(q.start_node);
+			while (!dq.empty()) {
+				Item cur = dq.front(); dq.pop_front();
+				if (cur.depth >= q.max_depth) continue;
+				auto [s, adj] = graphIdx_->outAdjacency(cur.node);
+				if (!s.ok) { span.setStatus(false, s.message); return {Status::Error(s.message), {}}; }
+				for (const auto& e : adj) {
+					if (!graphId.empty() && !q.graph_id.empty() && e.graphId != graphId) continue;
+					// backtrack prevention
+					if (q.no_backtrack && !cur.prev.empty() && e.targetPk == cur.prev) continue;
+					// edge filters
+					if (hasTypeFilter || !q.edge_label_whitelist.empty() || !q.edge_label_blacklist.empty()) {
+						if (!edgeAllowed(e.edgeId)) continue;
 					}
-					buckets[bi] = std::move(buf);
-				});
-			}
-			tg3.wait();
-			for (auto& b : buckets) {
-				filteredNodes.insert(filteredNodes.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
-			}
-			
-			reachableNodes = std::move(filteredNodes);
-			spatialSpan.setAttribute("filtered_nodes", static_cast<int64_t>(reachableNodes.size()));
-			spatialSpan.setAttribute("batch_loaded", static_cast<int64_t>(vertexDataList.size()));
-			spatialSpan.setStatus(true);
-		}
-		
-		// For each reachable node, construct trivial 2-node path; future: enhance BFS to retain full paths.
-		for (const auto& node : reachableNodes) {
-			if (node != q.start_node) {
-				// For now, return single-node paths (path reconstruction would require BFS modification)
-				allPaths.push_back({q.start_node, node});
+					// node filters for successor
+					if (!q.node_label_whitelist.empty() || !q.node_label_blacklist.empty()) {
+						if (!nodeAllowed(e.targetPk)) continue;
+					}
+					if (!visited.count(e.targetPk)) {
+						visited.insert(e.targetPk);
+						// spatial filter on node if required
+						if (q.spatial_constraint.has_value()) {
+							auto obj = loadJson(e.targetPk);
+							if (!obj.has_value()) continue;
+							EvaluationContext ctx; ctx.bind("v", *obj);
+							if (!evaluateCondition(q.spatial_constraint->spatial_filter, ctx)) continue;
+						}
+						// accept
+						allPaths.push_back({q.start_node, e.targetPk});
+						// enqueue for further expansion
+						dq.push_back({e.targetPk, cur.node, cur.depth + 1});
+					}
+				}
 			}
 		}
 	}

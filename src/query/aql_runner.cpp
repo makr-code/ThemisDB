@@ -58,6 +58,12 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
         const auto &tv = *tr.traversal;
         if (tv.shortestPath) {
             RecursivePathQuery rq; rq.start_node = tv.startVertex; rq.end_node = tv.endVertex; rq.graph_id = tv.graphName; rq.max_depth = tv.maxDepth; rq.edge_type = tv.edgeType;
+            // pass-through advanced constraints (engine may selectively use them)
+            rq.no_backtrack = tv.noBacktrack;
+            rq.edge_label_whitelist = tv.edgeLabelWhitelist;
+            rq.edge_label_blacklist = tv.edgeLabelBlacklist;
+            rq.node_label_whitelist = tv.nodeLabelWhitelist;
+            rq.node_label_blacklist = tv.nodeLabelBlacklist;
             auto [st, paths] = engine.executeRecursivePathQuery(rq);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
@@ -70,6 +76,12 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             rq.graph_id = tv.graphName;
             rq.max_depth = tv.maxDepth;
             rq.edge_type = tv.edgeType;
+            // pass-through advanced constraints
+            rq.no_backtrack = tv.noBacktrack;
+            rq.edge_label_whitelist = tv.edgeLabelWhitelist;
+            rq.edge_label_blacklist = tv.edgeLabelBlacklist;
+            rq.node_label_whitelist = tv.nodeLabelWhitelist;
+            rq.node_label_blacklist = tv.nodeLabelBlacklist;
             auto [st, paths] = engine.executeRecursivePathQuery(rq);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);

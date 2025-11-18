@@ -26,6 +26,13 @@ enum class TokenType {
     SHORTEST_PATH,   // SHORTEST_PATH TO target for Graph+Geo
     TO,              // TO keyword for shortest path target
     
+    // Path constraint keywords (Graph constraints)
+    NO_BACKTRACK,    // disallow immediate backtracking on path
+    EDGE_LABEL_WHITELIST, // EDGE_LABEL_WHITELIST ["a","b"]
+    EDGE_LABEL_BLACKLIST, // EDGE_LABEL_BLACKLIST ["x"]
+    NODE_LABEL_WHITELIST, // NODE_LABEL_WHITELIST ["Person"]
+    NODE_LABEL_BLACKLIST, // NODE_LABEL_BLACKLIST ["Bot"]
+    
     // Phase 3: Subqueries & CTEs
     WITH,            // WITH cteName = subquery for CTEs
     AS,              // AS alias for CTE naming
@@ -232,6 +239,12 @@ private:
             if (lower == "proximity") return Token(TokenType::PROXIMITY, value, line, col);
             if (lower == "shortest_path") return Token(TokenType::SHORTEST_PATH, value, line, col);
             if (lower == "to") return Token(TokenType::TO, value, line, col);
+            // Graph path constraints
+            if (lower == "no_backtrack") return Token(TokenType::NO_BACKTRACK, value, line, col);
+            if (lower == "edge_label_whitelist") return Token(TokenType::EDGE_LABEL_WHITELIST, value, line, col);
+            if (lower == "edge_label_blacklist") return Token(TokenType::EDGE_LABEL_BLACKLIST, value, line, col);
+            if (lower == "node_label_whitelist") return Token(TokenType::NODE_LABEL_WHITELIST, value, line, col);
+            if (lower == "node_label_blacklist") return Token(TokenType::NODE_LABEL_BLACKLIST, value, line, col);
         
         // Phase 3: Subqueries & CTEs
         if (lower == "with") return Token(TokenType::WITH, value, line, col);
@@ -349,6 +362,28 @@ private:
             throw std::runtime_error(msg);
         }
         advance();
+    }
+
+    // Parse ["a", "b", ...] into vector<string>
+    std::vector<std::string> parseStringArray() {
+        std::vector<std::string> out;
+        expect(TokenType::LBRACKET, "Expected '[' to start list");
+        if (!match(TokenType::RBRACKET)) {
+            while (true) {
+                if (!(match(TokenType::STRING) || match(TokenType::IDENTIFIER))) {
+                    throw std::runtime_error("Expected string or identifier in list");
+                }
+                out.push_back(current().value);
+                advance();
+                if (match(TokenType::COMMA)) { advance(); continue; }
+                break;
+            }
+            expect(TokenType::RBRACKET, "Expected ']' to close list");
+        } else {
+            // empty list []
+            advance();
+        }
+        return out;
     }
     
     std::shared_ptr<Query> parseQuery() {
@@ -532,6 +567,48 @@ private:
             trav->startVertex = startVertex;
             trav->graphName = graphName;
             trav->edgeType = edgeType;
+
+            // Optional: parse path constraints immediately following GRAPH clause
+            // Supported clauses (order-independent, repeat not allowed):
+            // NO_BACKTRACK
+            // EDGE_LABEL_WHITELIST [..]
+            // EDGE_LABEL_BLACKLIST [..]
+            // NODE_LABEL_WHITELIST [..]
+            // NODE_LABEL_BLACKLIST [..]
+            bool seenConstraint = true;
+            while (seenConstraint) {
+                seenConstraint = false;
+                if (match(TokenType::NO_BACKTRACK)) {
+                    trav->noBacktrack = true;
+                    advance();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::EDGE_LABEL_WHITELIST)) {
+                    advance();
+                    trav->edgeLabelWhitelist = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::EDGE_LABEL_BLACKLIST)) {
+                    advance();
+                    trav->edgeLabelBlacklist = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::NODE_LABEL_WHITELIST)) {
+                    advance();
+                    trav->nodeLabelWhitelist = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::NODE_LABEL_BLACKLIST)) {
+                    advance();
+                    trav->nodeLabelBlacklist = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+            }
             lastTraversal_ = trav;
 
             // Still return a ForNode for compatibility (collection = "graph")
