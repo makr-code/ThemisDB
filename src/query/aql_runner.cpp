@@ -70,6 +70,18 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             rq.edge_label_blacklist = tv.edgeLabelBlacklist;
             rq.node_label_whitelist = tv.nodeLabelWhitelist;
             rq.node_label_blacklist = tv.nodeLabelBlacklist;
+            // Path constraints passthrough if any set (construct only when at least one non-default present)
+            bool hasPC = tv.uniqueVertices || tv.uniqueEdges || !tv.forbiddenVertices.empty() || !tv.forbiddenEdges.empty() || !tv.requiredVertices.empty() || tv.maxPathLength >= 0;
+            if (hasPC) {
+                RecursivePathQuery::PathConstraints pc;
+                pc.unique_vertices = tv.uniqueVertices;
+                pc.unique_edges = tv.uniqueEdges;
+                pc.forbidden_vertices = tv.forbiddenVertices;
+                pc.forbidden_edges = tv.forbiddenEdges;
+                pc.required_vertices = tv.requiredVertices;
+                pc.max_path_length = tv.maxPathLength;
+                rq.path_constraints = std::move(pc);
+            }
             auto [st, paths] = engine.executeRecursivePathQuery(rq);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);
@@ -93,6 +105,18 @@ std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql
             rq.edge_label_blacklist = tv.edgeLabelBlacklist;
             rq.node_label_whitelist = tv.nodeLabelWhitelist;
             rq.node_label_blacklist = tv.nodeLabelBlacklist;
+            // Path constraints passthrough (BFS paths here are pairs only; still pass for future engine use)
+            bool hasPC = tv.uniqueVertices || tv.uniqueEdges || !tv.forbiddenVertices.empty() || !tv.forbiddenEdges.empty() || !tv.requiredVertices.empty() || tv.maxPathLength >= 0;
+            if (hasPC) {
+                RecursivePathQuery::PathConstraints pc;
+                pc.unique_vertices = tv.uniqueVertices;
+                pc.unique_edges = tv.uniqueEdges;
+                pc.forbidden_vertices = tv.forbiddenVertices;
+                pc.forbidden_edges = tv.forbiddenEdges;
+                pc.required_vertices = tv.requiredVertices;
+                pc.max_path_length = tv.maxPathLength;
+                rq.path_constraints = std::move(pc);
+            }
             auto [st, paths] = engine.executeRecursivePathQuery(rq);
             nlohmann::json arr = nlohmann::json::array();
             for (const auto& p : paths) arr.push_back(p);

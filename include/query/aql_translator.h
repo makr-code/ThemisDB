@@ -73,6 +73,13 @@ public:
             std::vector<std::string> edgeLabelBlacklist;
             std::vector<std::string> nodeLabelWhitelist;
             std::vector<std::string> nodeLabelBlacklist;
+            // Path Constraints (durchreichen, falls Parser sie setzt)
+            bool uniqueVertices = false;
+            bool uniqueEdges = false;
+            std::vector<std::string> forbiddenVertices;
+            std::vector<std::string> forbiddenEdges;
+            std::vector<std::string> requiredVertices;
+            int maxPathLength = -1;
         };
         std::optional<TraversalQuery> traversal;
         

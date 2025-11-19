@@ -47,6 +47,53 @@ RETURN path
 
 ---
 
+### Path Constraints (MVP) 🚧 Teilweise integriert (18. Nov 2025)
+
+**Implementierungszeit:** 3 Stunden
+
+**Neue Fähigkeiten:**
+- ✅ `PathConstraints` API in `GraphIndexManager` (unique_vertices, unique_edges, forbidden/required, max_path_length)
+- ✅ Server-seitige Overloads von `dijkstra(...)` mit Direction + Constraints
+- ✅ QueryEngine: `RecursivePathQuery.path_constraints` und Durchreichung an Index
+- ✅ Temporale Pfade: Constraint-Validierung als Post-Check (bis `dijkstraAtTime`-Overload vorhanden)
+- 🔜 AQL-Parser-Syntax für Constraints (NO_VERTEX, UNIQUE_VERTICES, UNIQUE_EDGES, MAX_PATH_LENGTH)
+
+**Beispiel (engine-intern):**
+```cpp
+RecursivePathQuery rq; 
+rq.start_node = "A"; rq.end_node = "F";
+rq.direction = RecursivePathQuery::Direction::Any;
+rq.path_constraints = { /* unique_vertices = */ true, /* unique_edges = */ false,
+  /* forbidden_vertices */ {"X"}, /* forbidden_edges */ {}, /* required_vertices */ {"C"}, /* max_path_length */ 5 };
+auto [st, paths] = engine.executeRecursivePathQuery(rq);
+```
+
+**Status:** Engine/Index integriert; Parser noch offen (58e2866 + aktuelle Commits)
+ 
+**AQL-Syntax (MVP):**
+```aql
+// Traversal mit Constraints
+FOR v IN 1..5 ANY "A" TYPE "road" GRAPH "g"
+  UNIQUE_VERTICES
+  NO_VERTEX ["X","Y"]
+  REQUIRED_VERTEX ["C"]
+  MAX_PATH_LENGTH 4
+RETURN v
+
+// Kürzester Pfad mit Kanten-Constraint
+FOR path IN SHORTEST_PATH
+  FROM "S" TO "T"
+  DIRECTION OUTBOUND
+  GRAPH "g"
+  UNIQUE_EDGES
+  NO_EDGE ["e42","e99"]
+RETURN path
+```
+
+**Status:** Parser/Translator/Runner unterstützen die obige Syntax; temporale Pfade validieren per Post-Check.
+
+---
+
 ### Phase 3 & 4: Subqueries & CTEs ✅ **ABGESCHLOSSEN** (17. Nov 2025)
 
 **Implementierungszeit:** 28 Stunden (Phase 3: 14h + Phase 4: 14h)

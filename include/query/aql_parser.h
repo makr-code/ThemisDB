@@ -464,6 +464,13 @@ struct Query {
         std::vector<std::string> edgeLabelBlacklist; // ausgeschlossene Edge-Labels
         std::vector<std::string> nodeLabelWhitelist; // erlaubte Node-Labels
         std::vector<std::string> nodeLabelBlacklist; // ausgeschlossene Node-Labels
+        // Path Constraints (MVP)
+        bool uniqueVertices = false;
+        bool uniqueEdges = false;
+        std::vector<std::string> forbiddenVertices;
+        std::vector<std::string> forbiddenEdges;
+        std::vector<std::string> requiredVertices;
+        int maxPathLength = -1;
 
         nlohmann::json toJSON() const {
             const char* dir = direction == Direction::Outbound ? "OUTBOUND" : (direction == Direction::Inbound ? "INBOUND" : "ANY");
@@ -490,6 +497,12 @@ struct Query {
             if (!edgeLabelBlacklist.empty()) j["edgeLabelBlacklist"] = edgeLabelBlacklist;
             if (!nodeLabelWhitelist.empty()) j["nodeLabelWhitelist"] = nodeLabelWhitelist;
             if (!nodeLabelBlacklist.empty()) j["nodeLabelBlacklist"] = nodeLabelBlacklist;
+            if (uniqueVertices) j["uniqueVertices"] = true;
+            if (uniqueEdges) j["uniqueEdges"] = true;
+            if (!forbiddenVertices.empty()) j["forbiddenVertices"] = forbiddenVertices;
+            if (!forbiddenEdges.empty()) j["forbiddenEdges"] = forbiddenEdges;
+            if (!requiredVertices.empty()) j["requiredVertices"] = requiredVertices;
+            if (maxPathLength >= 0) j["maxPathLength"] = maxPathLength;
             return j;
         }
     };

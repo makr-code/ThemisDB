@@ -32,6 +32,12 @@ enum class TokenType {
     EDGE_LABEL_BLACKLIST, // EDGE_LABEL_BLACKLIST ["x"]
     NODE_LABEL_WHITELIST, // NODE_LABEL_WHITELIST ["Person"]
     NODE_LABEL_BLACKLIST, // NODE_LABEL_BLACKLIST ["Bot"]
+    UNIQUE_VERTICES,      // UNIQUE_VERTICES
+    UNIQUE_EDGES,         // UNIQUE_EDGES
+    NO_VERTEX,            // NO_VERTEX [..]
+    NO_EDGE,              // NO_EDGE [..]
+    REQUIRED_VERTEX,      // REQUIRED_VERTEX [..]
+    MAX_PATH_LENGTH,      // MAX_PATH_LENGTH <int>
     
     // Phase 3: Subqueries & CTEs
     WITH,            // WITH cteName = subquery for CTEs
@@ -245,6 +251,12 @@ private:
             if (lower == "edge_label_blacklist") return Token(TokenType::EDGE_LABEL_BLACKLIST, value, line, col);
             if (lower == "node_label_whitelist") return Token(TokenType::NODE_LABEL_WHITELIST, value, line, col);
             if (lower == "node_label_blacklist") return Token(TokenType::NODE_LABEL_BLACKLIST, value, line, col);
+            if (lower == "unique_vertices") return Token(TokenType::UNIQUE_VERTICES, value, line, col);
+            if (lower == "unique_edges") return Token(TokenType::UNIQUE_EDGES, value, line, col);
+            if (lower == "no_vertex") return Token(TokenType::NO_VERTEX, value, line, col);
+            if (lower == "no_edge") return Token(TokenType::NO_EDGE, value, line, col);
+            if (lower == "required_vertex") return Token(TokenType::REQUIRED_VERTEX, value, line, col);
+            if (lower == "max_path_length") return Token(TokenType::MAX_PATH_LENGTH, value, line, col);
         
         // Phase 3: Subqueries & CTEs
         if (lower == "with") return Token(TokenType::WITH, value, line, col);
@@ -575,6 +587,12 @@ private:
             // EDGE_LABEL_BLACKLIST [..]
             // NODE_LABEL_WHITELIST [..]
             // NODE_LABEL_BLACKLIST [..]
+            // UNIQUE_VERTICES
+            // UNIQUE_EDGES
+            // NO_VERTEX [..]
+            // NO_EDGE [..]
+            // REQUIRED_VERTEX [..]
+            // MAX_PATH_LENGTH <int>
             bool seenConstraint = true;
             while (seenConstraint) {
                 seenConstraint = false;
@@ -605,6 +623,46 @@ private:
                 if (match(TokenType::NODE_LABEL_BLACKLIST)) {
                     advance();
                     trav->nodeLabelBlacklist = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::UNIQUE_VERTICES)) {
+                    trav->uniqueVertices = true;
+                    advance();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::UNIQUE_EDGES)) {
+                    trav->uniqueEdges = true;
+                    advance();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::NO_VERTEX)) {
+                    advance();
+                    trav->forbiddenVertices = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::NO_EDGE)) {
+                    advance();
+                    trav->forbiddenEdges = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::REQUIRED_VERTEX)) {
+                    advance();
+                    trav->requiredVertices = parseStringArray();
+                    seenConstraint = true;
+                    continue;
+                }
+                if (match(TokenType::MAX_PATH_LENGTH)) {
+                    advance();
+                    if (!match(TokenType::INTEGER)) {
+                        throw std::runtime_error("Expected integer after MAX_PATH_LENGTH");
+                    }
+                    trav->maxPathLength = std::max(0, std::stoi(current().value));
+                    advance();
                     seenConstraint = true;
                     continue;
                 }
