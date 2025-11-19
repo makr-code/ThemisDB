@@ -1,6 +1,7 @@
 # Multi-stage Docker build for VCCDB (Linux x86_64)
+# Uses Ubuntu 20.04 LTS for maximum compatibility (GLIBC 2.31, GLIBCXX 3.4.28)
 
-FROM ubuntu:22.04 AS build
+FROM ubuntu:20.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential cmake ninja-build git curl zip unzip pkg-config ca-certificates \
@@ -32,7 +33,7 @@ RUN cmake -S . -B build -G Ninja \
     && cmake --build build -j
 
 # Runtime image
-FROM ubuntu:22.04 AS runtime
+FROM ubuntu:20.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl jq \

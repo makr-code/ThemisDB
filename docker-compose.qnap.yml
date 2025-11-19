@@ -1,4 +1,8 @@
 # CI trigger: docker-qnap workflow
+# ThemisDB Docker Compose for QNAP Container Station
+# Requires Ubuntu 20.04-based image for GLIBC 2.31 compatibility
+# Build: docker build --build-arg VCPKG_TRIPLET=x64-linux -t themis:latest -f Dockerfile .
+# See QNAP_DEPLOYMENT.md for detailed deployment instructions
 version: "3.8"
 services:
   themis:

@@ -902,6 +902,8 @@ docker compose up --build
 
 Der Container lauscht auf Port 8765 und nutzt `/data` als Volume. Eine Beispielkonfiguration liegt in `config/config.json` und wird innerhalb des Containers nach `/etc/vccdb/config.json` gemountet.
 
+**QNAP Deployment:** Für QNAP NAS-Systeme siehe [`QNAP_DEPLOYMENT.md`](QNAP_DEPLOYMENT.md) für spezielle Anweisungen zu GLIBC-Kompatibilität und Container Station Setup.
+
 ### HTTP API (Auszug)
 
 - Healthcheck:
