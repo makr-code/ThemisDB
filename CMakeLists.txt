@@ -1,5 +1,5 @@
 ﻿cmake_minimum_required(VERSION 3.20)
-project(Themis VERSION 1.0.0 LANGUAGES CXX)
+project(Themis VERSION 0.1.0 LANGUAGES CXX)
 
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
