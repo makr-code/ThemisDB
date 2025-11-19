@@ -1657,6 +1657,127 @@ GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view tar
     return {Status::OK(), result};
 }
 
+// Constraint-aware temporal Dijkstra (directional)
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view targetPk, int64_t timestamp_ms, Direction direction, const PathConstraints& constraints) const {
+	if (!db_.isOpen()) return {Status::Error("dijkstraAtTime: Datenbank ist nicht geöffnet"), {}};
+	if (startPk.empty() || targetPk.empty()) {
+		return {Status::Error("dijkstraAtTime: start/target dürfen nicht leer sein"), {}};
+	}
+
+	// early forbidden endpoint check
+	if (!constraints.isVertexAllowed(std::string(startPk)) || !constraints.isVertexAllowed(std::string(targetPk))) {
+		return {Status::Error("dijkstraAtTime: Start/Ziel ist verboten (forbidden_vertices)"), {}};
+	}
+
+	TemporalFilter filter = TemporalFilter::at(timestamp_ms);
+
+	std::unordered_map<std::string, double> dist;
+	std::unordered_map<std::string, std::string> prev;
+	std::unordered_map<std::string, int> depth;
+
+	using PQElem = std::pair<double, std::string>;
+	std::priority_queue<PQElem, std::vector<PQElem>, std::greater<>> pq;
+
+	std::string start(startPk);
+	std::string target(targetPk);
+
+	dist[start] = 0.0;
+	depth[start] = 0;
+	pq.emplace(0.0, start);
+
+	while (!pq.empty()) {
+		auto [d, u] = pq.top();
+		pq.pop();
+
+		if (u == target) break;
+		if (dist.count(u) && d > dist[u]) continue;
+
+		std::vector<AdjacencyInfo> neigh;
+		if (direction == Direction::Outbound || direction == Direction::Any) {
+			auto [st1, a1] = outAdjacency(u);
+			if (st1.ok) {
+				neigh.insert(neigh.end(), std::make_move_iterator(a1.begin()), std::make_move_iterator(a1.end()));
+			}
+		}
+		if (direction == Direction::Inbound || direction == Direction::Any) {
+			auto [st2, a2] = inAdjacency(u);
+			if (st2.ok) {
+				neigh.insert(neigh.end(), std::make_move_iterator(a2.begin()), std::make_move_iterator(a2.end()));
+			}
+		}
+
+		for (const auto& info : neigh) {
+			// Constraint: forbidden edge id
+			if (!constraints.isEdgeAllowed(info.edgeId)) continue;
+
+			std::string edgeKey = KeySchema::makeGraphEdgeKey(info.edgeId);
+			auto blob = db_.get(edgeKey);
+			if (!blob) continue;
+
+			BaseEntity edge = BaseEntity::deserialize(info.edgeId, *blob);
+
+			std::optional<int64_t> valid_from = edge.getFieldAsInt("valid_from");
+			std::optional<int64_t> valid_to = edge.getFieldAsInt("valid_to");
+
+			if (!filter.isValid(valid_from, valid_to)) {
+				continue; // Skip edge - not valid at query time
+			}
+
+			double weight = 1.0;
+			if (auto w = edge.getFieldAsDouble("_weight")) {
+				weight = *w;
+			}
+
+			const std::string& v = info.targetPk; // inbound adjacency encodes source here
+			if (!constraints.isVertexAllowed(v)) continue;
+			int newDepth = depth[u] + 1;
+			if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) continue;
+
+			double alt = d + weight;
+			if (!dist.count(v) || alt < dist[v]) {
+				dist[v] = alt;
+				prev[v] = u;
+				depth[v] = newDepth;
+				pq.emplace(alt, v);
+			}
+		}
+	}
+
+	PathResult result;
+	if (!dist.count(target)) {
+		return {Status::Error("dijkstraAtTime: Kein Pfad gefunden"), result};
+	}
+
+	result.totalCost = dist[target];
+	std::string curr = target;
+	while (curr != start) {
+		result.path.push_back(curr);
+		if (!prev.count(curr)) break;
+		curr = prev[curr];
+	}
+	result.path.push_back(start);
+	std::reverse(result.path.begin(), result.path.end());
+
+	// Post validation of unique/required
+	if (constraints.unique_vertices) {
+		std::unordered_set<std::string> seen;
+		for (const auto& v : result.path) if (!seen.insert(v).second) return {Status::Error("dijkstraAtTime: Pfad verletzt unique_vertices"), {}};
+	}
+	if (constraints.hasRequiredVertices()) {
+		std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
+		for (const auto& req : constraints.required_vertices) if (!path_set.count(req)) return {Status::Error("dijkstraAtTime: Pfad enthält nicht required vertex: " + req), {}};
+	}
+
+	return {Status::OK(), result};
+}
+
+// Convenience: temporal Dijkstra with constraints (default Outbound)
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstraAtTime(std::string_view startPk, std::string_view targetPk, int64_t timestamp_ms, const PathConstraints& constraints) const {
+	return dijkstraAtTime(startPk, targetPk, timestamp_ms, Direction::Outbound, constraints);
+}
+
 // ===== Sprint B Extended: Time-Range Queries =====
 std::pair<GraphIndexManager::Status, std::vector<GraphIndexManager::EdgeInfo>>
 GraphIndexManager::getEdgesInTimeRange(int64_t range_start_ms, int64_t range_end_ms, bool require_full_containment) const {
@@ -1946,91 +2067,303 @@ GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk,
     return dijkstra(startPk, targetPk, Direction::Outbound, constraints);
 }
 
-// Dijkstra with direction and path constraints (simplified stub)
+// Dijkstra with direction and path constraints (inline enforcement)
 std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
 GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, Direction direction, const PathConstraints& constraints) const {
-    // Check forbidden start/target
-    if (!constraints.isVertexAllowed(std::string(startPk))) {
-        return {Status::Error("dijkstra: Startknoten ist verboten (forbidden_vertices)"), {}};
-    }
-    if (!constraints.isVertexAllowed(std::string(targetPk))) {
-        return {Status::Error("dijkstra: Zielknoten ist verboten (forbidden_vertices)"), {}};
-    }
-    
-    // For now: delegate to non-constraint version (TODO: full implementation)
-    // This is a minimal stub that validates forbidden nodes
-    auto [status, result] = dijkstra(startPk, targetPk, direction);
-    if (!status.ok) return {status, result};
-    
-    // Post-process: check path against constraints
-    if (constraints.unique_vertices) {
-        std::unordered_set<std::string> seen;
-        for (const auto& v : result.path) {
-            if (!seen.insert(v).second) {
-                return {Status::Error("dijkstra: Pfad verletzt unique_vertices constraint"), {}};
-            }
-        }
-    }
-    
-    for (const auto& v : result.path) {
-        if (!constraints.isVertexAllowed(v)) {
-            return {Status::Error("dijkstra: Pfad enthält verbotenen Knoten: " + v), {}};
-        }
-    }
-    
-    if (constraints.hasRequiredVertices()) {
-        std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
-        for (const auto& req : constraints.required_vertices) {
-            if (!path_set.count(req)) {
-                return {Status::Error("dijkstra: Pfad enthält nicht required vertex: " + req), {}};
-            }
-        }
-    }
-    
-    return {status, result};
+	if (!db_.isOpen()) return {Status::Error("dijkstra: Datenbank ist nicht geöffnet"), {}};
+	if (startPk.empty() || targetPk.empty()) {
+		return {Status::Error("dijkstra: Start und Ziel dürfen nicht leer sein"), {}};
+	}
+
+	// Early checks for forbidden endpoints
+	if (!constraints.isVertexAllowed(std::string(startPk))) {
+		return {Status::Error("dijkstra: Startknoten ist verboten (forbidden_vertices)"), {}};
+	}
+	if (!constraints.isVertexAllowed(std::string(targetPk))) {
+		return {Status::Error("dijkstra: Zielknoten ist verboten (forbidden_vertices)"), {}};
+	}
+
+	std::string start(startPk);
+	std::string target(targetPk);
+
+	using QueueItem = std::pair<double, std::string>;
+	auto cmp = [](const QueueItem& a, const QueueItem& b) { return a.first > b.first; };
+	std::priority_queue<QueueItem, std::vector<QueueItem>, decltype(cmp)> pq(cmp);
+
+	std::unordered_map<std::string, double> dist;
+	std::unordered_map<std::string, std::string> prev;
+	std::unordered_map<std::string, int> depth; // number of edges from start
+
+	dist[start] = 0.0;
+	depth[start] = 0;
+	pq.emplace(0.0, start);
+
+	while (!pq.empty()) {
+		auto [cost, node] = pq.top();
+		pq.pop();
+
+		if (node == target) break;
+		if (dist.count(node) && cost > dist[node]) continue;
+
+		// prepare adjacency by direction
+		if (topologyLoaded_) {
+			std::lock_guard<std::mutex> lock(topology_mutex_);
+			auto expand = [&](const std::vector<AdjacencyInfo>& lst) {
+				for (const auto& adj : lst) {
+					const std::string& neighbor = adj.targetPk; // inbound index stores source in targetPk
+					// Constraint: forbidden edge
+					if (!constraints.isEdgeAllowed(adj.edgeId)) continue;
+					// Constraint: forbidden vertex
+					if (!constraints.isVertexAllowed(neighbor)) continue;
+					// Constraint: max path length
+					int newDepth = depth[node] + 1;
+					if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) continue;
+
+					double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						depth[neighbor] = newDepth;
+						pq.emplace(newCost, neighbor);
+					}
+				}
+			};
+
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				auto it = outEdges_.find(node);
+				if (it != outEdges_.end()) expand(it->second);
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				auto it2 = inEdges_.find(node);
+				if (it2 != inEdges_.end()) expand(it2->second);
+			}
+		} else {
+			// Fallback: RocksDB scan
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				const std::string outPrefix = std::string("graph:out:");
+				db_.scanPrefix(outPrefix, [&](std::string_view key, std::string_view val) {
+					std::string graphId, fromPk, edgeId;
+					if (!parseOutKey_(key, graphId, fromPk, edgeId)) return true;
+					if (fromPk != node) return true;
+					if (!constraints.isEdgeAllowed(edgeId)) return true;
+					std::string neighbor(val);
+					if (!constraints.isVertexAllowed(neighbor)) return true;
+					int newDepth = depth[node] + 1;
+					if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) return true;
+					double weight = getEdgeWeight_(graphId, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						depth[neighbor] = newDepth;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				const std::string inPrefix = std::string("graph:in:");
+				db_.scanPrefix(inPrefix, [&](std::string_view key, std::string_view val) {
+					std::string graphId, toPk, edgeId;
+					if (!parseInKey_(key, graphId, toPk, edgeId)) return true;
+					if (toPk != node) return true;
+					if (!constraints.isEdgeAllowed(edgeId)) return true;
+					std::string neighbor(val); // fromPk
+					if (!constraints.isVertexAllowed(neighbor)) return true;
+					int newDepth = depth[node] + 1;
+					if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) return true;
+					double weight = getEdgeWeight_(graphId, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						depth[neighbor] = newDepth;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+		}
+	}
+
+	if (!prev.count(target) && target != start) {
+		return {Status::Error("dijkstra: Kein Pfad gefunden"), {}};
+	}
+
+	PathResult result;
+	result.totalCost = dist[target];
+	std::vector<std::string> path;
+	std::string current = target;
+	while (current != start) {
+		path.push_back(current);
+		auto it = prev.find(current);
+		if (it == prev.end()) break;
+		current = it->second;
+	}
+	path.push_back(start);
+	std::reverse(path.begin(), path.end());
+	result.path = std::move(path);
+
+	// Post validation for unique/required (edges uniqueness is implicitly cycle-free with positive weights)
+	if (constraints.unique_vertices) {
+		std::unordered_set<std::string> seen;
+		for (const auto& v : result.path) if (!seen.insert(v).second) return {Status::Error("dijkstra: Pfad verletzt unique_vertices constraint"), {}};
+	}
+	if (constraints.hasRequiredVertices()) {
+		std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
+		for (const auto& req : constraints.required_vertices) if (!path_set.count(req)) return {Status::Error("dijkstra: Pfad enthält nicht required vertex: " + req), {}};
+	}
+
+	return {Status::OK(), result};
 }
 
-// Dijkstra with all filters
+// Dijkstra with all filters (edge type, graph scope, direction and constraints)
 std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
 GraphIndexManager::dijkstra(std::string_view startPk, std::string_view targetPk, std::string_view edge_type, std::string_view graph_id, Direction direction, const PathConstraints& constraints) const {
-    // Check forbidden start/target
-    if (!constraints.isVertexAllowed(std::string(startPk))) {
-        return {Status::Error("dijkstra: Startknoten ist verboten (forbidden_vertices)"), {}};
-    }
-    if (!constraints.isVertexAllowed(std::string(targetPk))) {
-        return {Status::Error("dijkstra: Zielknoten ist verboten (forbidden_vertices)"), {}};
-    }
-    
-    // Delegate to type/graph version
-    auto [status, result] = dijkstra(startPk, targetPk, edge_type, graph_id, direction);
-    if (!status.ok) return {status, result};
-    
-    // Post-process constraints
-    if (constraints.unique_vertices) {
-        std::unordered_set<std::string> seen;
-        for (const auto& v : result.path) {
-            if (!seen.insert(v).second) {
-                return {Status::Error("dijkstra: Pfad verletzt unique_vertices constraint"), {}};
-            }
-        }
-    }
-    
-    for (const auto& v : result.path) {
-        if (!constraints.isVertexAllowed(v)) {
-            return {Status::Error("dijkstra: Pfad enthält verbotenen Knoten: " + v), {}};
-        }
-    }
-    
-    if (constraints.hasRequiredVertices()) {
-        std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
-        for (const auto& req : constraints.required_vertices) {
-            if (!path_set.count(req)) {
-                return {Status::Error("dijkstra: Pfad enthält nicht required vertex: " + req), {}};
-            }
-        }
-    }
-    
-    return {status, result};
+	if (!db_.isOpen()) return {Status::Error("dijkstra: Datenbank ist nicht geöffnet"), {}};
+	if (startPk.empty() || targetPk.empty()) {
+		return {Status::Error("dijkstra: Start und Ziel dürfen nicht leer sein"), {}};
+	}
+
+	std::string start(startPk);
+	std::string target(targetPk);
+	std::string typeFilter(edge_type);
+	std::string graphFilter(graph_id);
+
+	if (!constraints.isVertexAllowed(start) || !constraints.isVertexAllowed(target)) {
+		return {Status::Error("dijkstra: Start/Zielknoten ist verboten (forbidden_vertices)"), {}};
+	}
+
+	using QueueItem = std::pair<double, std::string>;
+	auto cmp = [](const QueueItem& a, const QueueItem& b) { return a.first > b.first; };
+	std::priority_queue<QueueItem, std::vector<QueueItem>, decltype(cmp)> pq(cmp);
+
+	std::unordered_map<std::string, double> dist;
+	std::unordered_map<std::string, std::string> prev;
+	std::unordered_map<std::string, int> depth;
+
+	dist[start] = 0.0;
+	depth[start] = 0;
+	pq.emplace(0.0, start);
+
+	while (!pq.empty()) {
+		auto [cost, node] = pq.top();
+		pq.pop();
+		if (node == target) break;
+		if (dist.count(node) && cost > dist[node]) continue;
+
+		if (topologyLoaded_) {
+			std::lock_guard<std::mutex> lock(topology_mutex_);
+			auto expand = [&](const std::vector<AdjacencyInfo>& lst) {
+				for (const auto& adj : lst) {
+					if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+					std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
+					if (!typeFilter.empty() && edgeType != typeFilter) continue;
+					if (!constraints.isEdgeAllowed(adj.edgeId)) continue;
+					const std::string& neighbor = adj.targetPk;
+					if (!constraints.isVertexAllowed(neighbor)) continue;
+					int newDepth = depth[node] + 1;
+					if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) continue;
+					double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						depth[neighbor] = newDepth;
+						pq.emplace(newCost, neighbor);
+					}
+				}
+			};
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				auto it = outEdges_.find(node);
+				if (it != outEdges_.end()) expand(it->second);
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				auto it2 = inEdges_.find(node);
+				if (it2 != inEdges_.end()) expand(it2->second);
+			}
+		} else {
+			if (graphFilter.empty()) {
+				return {Status::Error("dijkstra: graph_id required for scan without topology"), {}};
+			}
+			if (direction == Direction::Outbound || direction == Direction::Any) {
+				const std::string prefix = std::string("graph:out:") + graphFilter + ":" + node + ":";
+				db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
+					std::string gid, from, edgeId;
+					if (!parseOutKey_(key, gid, from, edgeId)) return true;
+					std::string edgeType = getEdgeType_(gid, edgeId);
+					if (!typeFilter.empty() && edgeType != typeFilter) return true;
+					if (!constraints.isEdgeAllowed(edgeId)) return true;
+					std::string neighbor(val);
+					if (!constraints.isVertexAllowed(neighbor)) return true;
+					int newDepth = depth[node] + 1;
+					if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) return true;
+					double weight = getEdgeWeight_(gid, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						depth[neighbor] = newDepth;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+			if (direction == Direction::Inbound || direction == Direction::Any) {
+				const std::string prefix = std::string("graph:in:") + graphFilter + ":" + node + ":";
+				db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val) {
+					std::string gid, to, edgeId;
+					if (!parseInKey_(key, gid, to, edgeId)) return true;
+					std::string edgeType = getEdgeType_(gid, edgeId);
+					if (!typeFilter.empty() && edgeType != typeFilter) return true;
+					if (!constraints.isEdgeAllowed(edgeId)) return true;
+					std::string neighbor(val);
+					if (!constraints.isVertexAllowed(neighbor)) return true;
+					int newDepth = depth[node] + 1;
+					if (constraints.max_path_length >= 0 && newDepth > constraints.max_path_length) return true;
+					double weight = getEdgeWeight_(gid, edgeId);
+					double newCost = dist[node] + weight;
+					if (!dist.count(neighbor) || newCost < dist[neighbor]) {
+						dist[neighbor] = newCost;
+						prev[neighbor] = node;
+						depth[neighbor] = newDepth;
+						pq.emplace(newCost, neighbor);
+					}
+					return true;
+				});
+			}
+		}
+	}
+
+	if (!prev.count(target) && target != start) {
+		return {Status::Error("dijkstra: Kein Pfad gefunden"), {}};
+	}
+
+	PathResult result;
+	result.totalCost = dist[target];
+	std::vector<std::string> path;
+	std::string current = target;
+	while (current != start) {
+		path.push_back(current);
+		auto it = prev.find(current);
+		if (it == prev.end()) break;
+		current = it->second;
+	}
+	path.push_back(start);
+	std::reverse(path.begin(), path.end());
+	result.path = std::move(path);
+
+	if (constraints.unique_vertices) {
+		std::unordered_set<std::string> seen;
+		for (const auto& v : result.path) if (!seen.insert(v).second) return {Status::Error("dijkstra: Pfad verletzt unique_vertices constraint"), {}};
+	}
+	if (constraints.hasRequiredVertices()) {
+		std::unordered_set<std::string> path_set(result.path.begin(), result.path.end());
+		for (const auto& req : constraints.required_vertices) if (!path_set.count(req)) return {Status::Error("dijkstra: Pfad enthält nicht required vertex: " + req), {}};
+	}
+
+	return {Status::OK(), result};
 }
 
 } // namespace themis

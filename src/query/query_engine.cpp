@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
+#include <unordered_set>
 #include <set>
 #include <map>
 #include <queue>
@@ -2312,6 +2313,65 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 	
 	std::vector<std::vector<std::string>> allPaths;
 	
+	// Helper: validate/enforce path constraints on a realized path (temporal fallback or extra safety)
+	auto applyPathConstraints = [&](std::vector<std::string>& path) -> bool {
+		if (!q.path_constraints.has_value() || path.empty()) return true;
+		const auto& pc = *q.path_constraints;
+		// Max path length (in edges)
+		if (pc.max_path_length >= 0) {
+			if (path.size() > static_cast<size_t>(pc.max_path_length + 1)) return false;
+		}
+		// Forbidden vertices
+		if (!pc.forbidden_vertices.empty()) {
+			std::unordered_set<std::string> forb(pc.forbidden_vertices.begin(), pc.forbidden_vertices.end());
+			for (const auto& v : path) if (forb.count(v)) return false;
+		}
+		// Unique vertices
+		if (pc.unique_vertices) {
+			std::unordered_set<std::string> seen;
+			for (const auto& v : path) {
+				if (!seen.insert(v).second) return false;
+			}
+		}
+		// Required vertices
+		if (!pc.required_vertices.empty()) {
+			std::unordered_set<std::string> req(pc.required_vertices.begin(), pc.required_vertices.end());
+			for (const auto& v : path) req.erase(v);
+			if (!req.empty()) return false;
+		}
+		// Edges: build list and check forbidden/unique
+		if (path.size() >= 2 && (pc.unique_edges || !pc.forbidden_edges.empty())) {
+			std::unordered_set<std::string> reqForbidden(pc.forbidden_edges.begin(), pc.forbidden_edges.end());
+			std::unordered_set<std::string> seenEdges;
+			for (size_t i = 0; i + 1 < path.size(); ++i) {
+				// Find edgeId between path[i] -> path[i+1] respecting filters
+				auto [s2, adj] = graphIdx_->outAdjacency(path[i]);
+				if (!s2.ok) return false;
+				bool found = false;
+				for (const auto& e : adj) {
+					if (!q.graph_id.empty() && e.graphId != (q.graph_id.empty()?std::string("default"):q.graph_id)) continue;
+					if (e.targetPk != path[i+1]) continue;
+					// optional edge_type filter
+					if (!q.edge_type.empty()) {
+						// We only have edgeId here; type validation already happens earlier when edge filters used
+						// For constraint validation we skip re-checking type.
+					}
+					const std::string& edgeId = e.edgeId;
+					// Forbidden edge
+					if (!reqForbidden.empty() && reqForbidden.count(edgeId)) return false;
+					// Unique edges
+					if (pc.unique_edges) {
+						if (!seenEdges.insert(edgeId).second) return false;
+					}
+					found = true;
+					break;
+				}
+				if (!found) return false; // Edge not resolvable => invalid for constraints
+			}
+		}
+		return true;
+	};
+
 	// If end_node is specified, use Dijkstra for single shortest path (early exit optimizations)
 	if (!q.end_node.empty()) {
 		GraphIndexManager::PathResult pathResult;
@@ -2328,9 +2388,26 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				case RecursivePathQuery::Direction::Any: dir = GraphIndexManager::Direction::Any; break;
 				case RecursivePathQuery::Direction::Outbound: default: dir = GraphIndexManager::Direction::Outbound; break;
 			}
-			auto [status, result] = graphIdx_->dijkstraAtTime(q.start_node, q.end_node, *timestamp_ms, dir);
-			st = status;
-			pathResult = result;
+			if (q.path_constraints.has_value()) {
+				GraphIndexManager::PathConstraints pc;
+				pc.unique_vertices = q.path_constraints->unique_vertices;
+				pc.unique_edges = q.path_constraints->unique_edges;
+				pc.max_path_length = q.path_constraints->max_path_length;
+				pc.forbidden_vertices.insert(q.path_constraints->forbidden_vertices.begin(), q.path_constraints->forbidden_vertices.end());
+				pc.forbidden_edges.insert(q.path_constraints->forbidden_edges.begin(), q.path_constraints->forbidden_edges.end());
+				pc.required_vertices.insert(q.path_constraints->required_vertices.begin(), q.path_constraints->required_vertices.end());
+				auto [status, result] = graphIdx_->dijkstraAtTime(q.start_node, q.end_node, *timestamp_ms, dir, pc);
+				st = status; pathResult = result;
+			} else {
+				auto [status, result] = graphIdx_->dijkstraAtTime(q.start_node, q.end_node, *timestamp_ms, dir);
+				st = status; pathResult = result;
+			}
+			// Safety: still apply engine-level post-validation if any
+			if (st.ok && !pathResult.path.empty()) {
+				if (!applyPathConstraints(pathResult.path)) {
+					pathResult.path.clear();
+				}
+			}
 		} else if (hasTypeFilter) {
 			// Map query direction to GraphIndex direction
 			GraphIndexManager::Direction dir = GraphIndexManager::Direction::Outbound;
@@ -2339,9 +2416,20 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				case RecursivePathQuery::Direction::Any: dir = GraphIndexManager::Direction::Any; break;
 				case RecursivePathQuery::Direction::Outbound: default: dir = GraphIndexManager::Direction::Outbound; break;
 			}
-			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, q.edge_type, graphId, dir);
-			st = status;
-			pathResult = result;
+			if (q.path_constraints.has_value()) {
+				GraphIndexManager::PathConstraints pc;
+				pc.unique_vertices = q.path_constraints->unique_vertices;
+				pc.unique_edges = q.path_constraints->unique_edges;
+				pc.max_path_length = q.path_constraints->max_path_length;
+				pc.forbidden_vertices.insert(q.path_constraints->forbidden_vertices.begin(), q.path_constraints->forbidden_vertices.end());
+				pc.forbidden_edges.insert(q.path_constraints->forbidden_edges.begin(), q.path_constraints->forbidden_edges.end());
+				pc.required_vertices.insert(q.path_constraints->required_vertices.begin(), q.path_constraints->required_vertices.end());
+				auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, q.edge_type, graphId, dir, pc);
+				st = status; pathResult = result;
+			} else {
+				auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, q.edge_type, graphId, dir);
+				st = status; pathResult = result;
+			}
 		} else {
 			GraphIndexManager::Direction dir = GraphIndexManager::Direction::Outbound;
 			switch (q.direction) {
@@ -2349,9 +2437,20 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 				case RecursivePathQuery::Direction::Any: dir = GraphIndexManager::Direction::Any; break;
 				case RecursivePathQuery::Direction::Outbound: default: dir = GraphIndexManager::Direction::Outbound; break;
 			}
-			auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, dir);
-			st = status;
-			pathResult = result;
+			if (q.path_constraints.has_value()) {
+				GraphIndexManager::PathConstraints pc;
+				pc.unique_vertices = q.path_constraints->unique_vertices;
+				pc.unique_edges = q.path_constraints->unique_edges;
+				pc.max_path_length = q.path_constraints->max_path_length;
+				pc.forbidden_vertices.insert(q.path_constraints->forbidden_vertices.begin(), q.path_constraints->forbidden_vertices.end());
+				pc.forbidden_edges.insert(q.path_constraints->forbidden_edges.begin(), q.path_constraints->forbidden_edges.end());
+				pc.required_vertices.insert(q.path_constraints->required_vertices.begin(), q.path_constraints->required_vertices.end());
+				auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, dir, pc);
+				st = status; pathResult = result;
+			} else {
+				auto [status, result] = graphIdx_->dijkstra(q.start_node, q.end_node, dir);
+				st = status; pathResult = result;
+			}
 		}
 		
 		// "No path found" is not an error, just an empty result
@@ -2372,6 +2471,10 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 
 		// Apply advanced constraints on resulting path (node/edge labels, no_backtrack)
 		if (!pathResult.path.empty()) {
+			// Path-constraint post-validation (engine-level) in addition to index-level
+			if (!applyPathConstraints(pathResult.path)) {
+				pathResult.path.clear();
+			}
 			bool hasConstraints = q.no_backtrack || !q.edge_label_whitelist.empty() || !q.edge_label_blacklist.empty()
 				|| !q.node_label_whitelist.empty() || !q.node_label_blacklist.empty();
 			if (hasConstraints) {

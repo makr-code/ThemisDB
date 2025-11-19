@@ -31,6 +31,16 @@ struct RecursivePathQuery {
     std::vector<std::string> edge_label_blacklist;
     std::vector<std::string> node_label_whitelist;
     std::vector<std::string> node_label_blacklist;
+    // Path Constraints (engine-level). AQL Parser/Translator kann diese setzen.
+    struct PathConstraints {
+        bool unique_vertices = false;
+        bool unique_edges = false;
+        std::vector<std::string> forbidden_vertices;
+        std::vector<std::string> forbidden_edges;
+        std::vector<std::string> required_vertices;
+        int max_path_length = -1; // -1 = unlimited
+    };
+    std::optional<PathConstraints> path_constraints;
     
     // Spatial constraints for Graph+Geo hybrid queries
     struct SpatialConstraint {

@@ -119,6 +119,22 @@ public:
         Direction direction
     ) const;
 
+    // Constraint-aware temporal variants
+    std::pair<Status, PathResult> dijkstraAtTime(
+        std::string_view startPk,
+        std::string_view targetPk,
+        int64_t timestamp_ms,
+        const PathConstraints& constraints
+    ) const;
+
+    std::pair<Status, PathResult> dijkstraAtTime(
+        std::string_view startPk,
+        std::string_view targetPk,
+        int64_t timestamp_ms,
+        Direction direction,
+        const PathConstraints& constraints
+    ) const;
+
     // Sprint B Extended: Time-Range Queries
     // Find all edges valid during a time window (any overlap)
     struct EdgeInfo {
