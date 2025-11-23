@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "themis-qnap",
+  "version": "0.1.0",
+  "description": "Themis QNAP static build manifest (includes tests, benchmarks, tracing)",
+  "license": "MIT",
+  "dependencies": [
+    { "name": "openssl" },
+    { "name": "rocksdb", "features": ["lz4", "zstd"] },
+    { "name": "simdjson" },
+    { "name": "tbb" },
+    { "name": "arrow", "features": ["parquet", "compute"] },
+    { "name": "hnswlib" },
+    { "name": "gtest" },
+    { "name": "benchmark" },
+    { "name": "boost-asio" },
+    { "name": "boost-beast" },
+    { "name": "spdlog" },
+    { "name": "nlohmann-json" },
+    { "name": "opentelemetry-cpp", "features": ["otlp-http"] },
+    { "name": "curl" },
+    { "name": "yaml-cpp" },
+    { "name": "zstd" }
+  ],
+  "features": {
+    "gpu": {
+      "description": "Enable GPU acceleration for vector search (not recommended for QNAP NAS)",
+      "dependencies": ["faiss"]
+    }
+  },
+  "builtin-baseline": "*"
+}
