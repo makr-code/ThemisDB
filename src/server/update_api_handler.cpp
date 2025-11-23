@@ -3,6 +3,9 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 
+#define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
+#define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
+
 namespace themis {
 namespace server {
 

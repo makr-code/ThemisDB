@@ -7,14 +7,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install build tools and system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential cmake ninja-build git curl zip unzip tar pkg-config \
-    ca-certificates python3 perl nasm autoconf automake libtool \
+    ca-certificates python3 perl nasm autoconf automake libtool aria2 linux-libc-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Bootstrap vcpkg - use stable 2024.12.16 release
 ENV VCPKG_ROOT=/opt/vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
     && cd ${VCPKG_ROOT} \
-    && git checkout 2024.12.16 \
+    && git checkout 2024.10.21 \
     && ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics \
     && VCPKG_BASELINE=$(git rev-parse HEAD) \
     && echo "Using vcpkg baseline: $VCPKG_BASELINE"
@@ -32,7 +32,7 @@ WORKDIR /src
 COPY vcpkg.docker.json ./vcpkg.json
 COPY vcpkg-configuration.json ./
 
-# Update vcpkg-configuration.json with current baseline
+## Pin vcpkg registry baseline to checked out commit to avoid version db mismatches
 RUN cd ${VCPKG_ROOT} \
     && VCPKG_BASELINE=$(git rev-parse HEAD) \
     && echo "{\"default-registry\":{\"kind\":\"builtin\",\"baseline\":\"$VCPKG_BASELINE\"}}" > /src/vcpkg-configuration.json
@@ -41,7 +41,13 @@ RUN cd ${VCPKG_ROOT} \
 # Disable compiler tracking and metrics for faster, more stable builds
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
-RUN ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET}
+ENV VCPKG_USE_ARIA2=1
+ENV VCPKG_DOWNLOADER=aria2
+ENV VCPKG_MAX_CONCURRENCY=2
+RUN set -eux; \
+        for i in 1 2 3; do \
+            ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} && break || (echo "vcpkg install failed (attempt $i), retrying..."; sleep 10); \
+        done
 
 # Copy source code
 COPY CMakeLists.txt ./
