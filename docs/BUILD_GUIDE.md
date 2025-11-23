@@ -27,6 +27,9 @@
 
 # Quick build with pre-compiled binary
 .\build-docker-simple.ps1
+ 
+# QNAP (Ubuntu 20.04, GLIBC 2.31) statischer Build mit separatem Manifest
+ .\build-qnap.ps1
 ```
 
 ### ARM64 / Raspberry Pi
@@ -106,7 +109,7 @@ The following files are obsolete and should be removed:
 
 ### Docker
 - Standard: Ubuntu 24.04 (GLIBC 2.38+)
-- QNAP: Requires Ubuntu 20.04 (GLIBC 2.31) - **Not yet implemented**
+- QNAP: Ubuntu 20.04 (GLIBC 2.31) via `build-qnap.ps1` (statisch, separates Manifest `vcpkg.qnap.json`)
 
 ### ARM64
 - Tested on Raspberry Pi 4/5
@@ -132,6 +135,8 @@ The following files are obsolete and should be removed:
 ### Static Build (for QNAP)
 ```powershell
 .\build-unified.ps1 -Platform linux -Static
+# Alternativ mit QNAP Manifest (Tests/Benchmarks/Tracing aktiv)
+.\build-qnap.ps1
 ```
 
 ### Docker Build without Cache
@@ -148,9 +153,9 @@ Use the simplified Docker build:
 ```
 
 ### QNAP GLIBC Errors
-Build with static linking (implementation pending):
+Nutze QNAP Build-Script (statisch + eigenes Manifest):
 ```powershell
-.\build-unified.ps1 -Platform linux -Static
+.\build-qnap.ps1
 ```
 
 ### WSL Path Issues
@@ -185,5 +190,6 @@ Triggers:
 See [BUILD_STRATEGY.md](BUILD_STRATEGY.md) for:
 - Detailed platform matrix
 - QNAP deployment solutions
+	- Separates Manifest: `vcpkg.qnap.json` (inkl. tests/benchmarks/tracing, statischer Triplet)
 - Packaging strategy (.deb, .rpm, etc.)
 - Migration plan

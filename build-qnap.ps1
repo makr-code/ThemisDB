@@ -38,17 +38,20 @@ if (-not $NoBuildContainer) {
     Write-Host ""
 }
 
-Write-Host "Building static ThemisDB binary (direct configure)..." -ForegroundColor Yellow
+Write-Host "Building static ThemisDB binary (direct configure, QNAP manifest)..." -ForegroundColor Yellow
 
 $cmakeConfigure = @"
+export VCPKG_MANIFEST_DIR=/src
+export VCPKG_FEATURE_FLAGS=manifests
 cmake -S . -B build-qnap \
-  -G Ninja \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DTHEMIS_STATIC_BUILD=ON \
-  -DTHEMIS_BUILD_TESTS=OFF \
-  -DTHEMIS_BUILD_BENCHMARKS=OFF \
-  -DTHEMIS_ENABLE_TRACING=OFF \
-  -DVCPKG_TARGET_TRIPLET=x64-linux-static
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DTHEMIS_STATIC_BUILD=ON \
+    -DTHEMIS_BUILD_TESTS=ON \
+    -DTHEMIS_BUILD_BENCHMARKS=ON \
+    -DTHEMIS_ENABLE_TRACING=ON \
+    -DVCPKG_MANIFEST_FILE=vcpkg.qnap.json \
+    -DVCPKG_TARGET_TRIPLET=x64-linux-static
 "@
 
 $cmakeBuild = "cmake --build build-qnap --parallel"
@@ -57,6 +60,7 @@ $fullBuildScript = @"
 set -e
 echo '>>> Ninja Version:'
 ninja --version || { echo 'Ninja fehlt!'; exit 1; }
+echo '>>> Using QNAP manifest: vcpkg.qnap.json'
 echo '>>> Configure'
 $cmakeConfigure
 echo '>>> Build'
