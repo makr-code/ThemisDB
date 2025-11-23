@@ -23,7 +23,9 @@
     },
     {
       "name": "windows-ninja-msvc-debug",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-msvc-ninja-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
@@ -31,7 +33,9 @@
     },
     {
       "name": "windows-ninja-msvc-release",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-msvc-ninja-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -39,7 +43,9 @@
     },
     {
       "name": "windows-ninja-clangcl-debug",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-clangcl-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -49,7 +55,9 @@
     },
     {
       "name": "windows-ninja-clangcl-release",
-      "inherits": ["windows-ninja-clangcl-debug"],
+      "inherits": [
+        "windows-ninja-clangcl-debug"
+      ],
       "binaryDir": "${sourceDir}/build-clangcl-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -57,7 +65,9 @@
     },
     {
       "name": "linux-ninja-clang-debug",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-linux-clang-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -67,15 +77,45 @@
     },
     {
       "name": "linux-ninja-clang-release",
-      "inherits": ["linux-ninja-clang-debug"],
+      "inherits": [
+        "linux-ninja-clang-debug"
+      ],
       "binaryDir": "${sourceDir}/build-linux-clang-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
+      "name": "linux-ninja-gcc-debug",
+      "inherits": [
+        "base"
+      ],
+      "binaryDir": "${sourceDir}/build-linux-gcc-debug",
+      "displayName": "Linux x86_64 GCC Debug",
+      "description": "Debug build for Linux with GCC",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "linux-ninja-gcc-release",
+      "inherits": [
+        "linux-ninja-gcc-debug"
+      ],
+      "binaryDir": "${sourceDir}/build-linux-gcc-release",
+      "displayName": "Linux x86_64 GCC Release",
+      "description": "Release build for Linux with GCC",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "linux-arm64-gcc-debug",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-arm64-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -86,7 +126,9 @@
     },
     {
       "name": "linux-arm64-gcc-release",
-      "inherits": ["linux-arm64-gcc-debug"],
+      "inherits": [
+        "linux-arm64-gcc-debug"
+      ],
       "binaryDir": "${sourceDir}/build-arm64-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -94,7 +136,9 @@
     },
     {
       "name": "rpi-arm64-gcc-debug",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-rpi-arm64-debug",
       "displayName": "Raspberry Pi ARM64 Debug",
       "description": "Debug build for Raspberry Pi 3/4/5 (ARM64)",
@@ -107,7 +151,9 @@
     },
     {
       "name": "rpi-arm64-gcc-release",
-      "inherits": ["rpi-arm64-gcc-debug"],
+      "inherits": [
+        "rpi-arm64-gcc-debug"
+      ],
       "binaryDir": "${sourceDir}/build-rpi-arm64-release",
       "displayName": "Raspberry Pi ARM64 Release",
       "description": "Release build for Raspberry Pi 3/4/5 (ARM64)",
@@ -117,7 +163,9 @@
     },
     {
       "name": "rpi-armv7-gcc-debug",
-      "inherits": ["base"],
+      "inherits": [
+        "base"
+      ],
       "binaryDir": "${sourceDir}/build-rpi-armv7-debug",
       "displayName": "Raspberry Pi ARMv7 Debug",
       "description": "Debug build for Raspberry Pi 2/3 (ARMv7 32-bit)",
@@ -130,14 +178,21 @@
     },
     {
       "name": "rpi-armv7-gcc-release",
-      "inherits": ["rpi-armv7-gcc-debug"],
+      "inherits": [
+        "rpi-armv7-gcc-debug"
+      ],
       "binaryDir": "${sourceDir}/build-rpi-armv7-release",
       "displayName": "Raspberry Pi ARMv7 Release",
       "description": "Release build for Raspberry Pi 2/3 (ARMv7 32-bit)",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "linux-ninja-clang-debug-bench",
-      "inherits": ["linux-ninja-clang-debug"],
+      "inherits": [
+        "linux-ninja-clang-debug"
+      ],
       "binaryDir": "${sourceDir}/build-linux-clang-debug-bench",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -173,6 +228,14 @@
       "configurePreset": "linux-ninja-clang-release"
     },
     {
+      "name": "linux-ninja-gcc-debug",
+      "configurePreset": "linux-ninja-gcc-debug"
+    },
+    {
+      "name": "linux-ninja-gcc-release",
+      "configurePreset": "linux-ninja-gcc-release"
+    },
+    {
       "name": "linux-arm64-gcc-debug",
       "configurePreset": "linux-arm64-gcc-debug"
     },
@@ -195,6 +258,8 @@
     {
       "name": "rpi-armv7-gcc-release",
       "configurePreset": "rpi-armv7-gcc-release"
+    },
+    {
       "name": "linux-ninja-clang-debug-bench",
       "configurePreset": "linux-ninja-clang-debug-bench"
     }
@@ -247,6 +312,8 @@
     {
       "name": "rpi-armv7-gcc-release",
       "configurePreset": "rpi-armv7-gcc-release"
+    },
+    {
       "name": "linux-ninja-clang-debug-bench",
       "configurePreset": "linux-ninja-clang-debug-bench"
     }
