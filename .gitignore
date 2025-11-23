@@ -61,6 +61,28 @@ logs/
 *.log
 server.pid
 server.err
+server.out
+server_err.log
+server_out.log
+themis_server.log
+vccdb.log
+vccdb_server.log
+testsserver_start.log
+build_log.txt
+build_final.txt
+build_output.log
+docker-build.log
+docker_build.log
+docker_build_*.log
+tidy_full.log
+
+# Temporary test/development files
+tmp_*.json
+body.json
+test_output*.txt
+CTempmetrics_from_test.txt
+diff_aql.txt
+geo-aql-todo
 
 # Documentation build output
 docs/_build/
