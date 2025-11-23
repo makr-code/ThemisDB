@@ -205,7 +205,7 @@ function Invoke-DockerBuild {
 function Invoke-QNAPBuild {
     param($Tag, $Static)
     
-    Write-Host "Building QNAP-compatible image (Ubuntu 20.04)..." -ForegroundColor Yellow
+    Write-Host "Building QNAP-compatible binary (Ubuntu 20.04, GLIBC 2.31)..." -ForegroundColor Yellow
     
     if (-not $Static) {
         Write-Host ""
@@ -215,14 +215,96 @@ function Invoke-QNAPBuild {
         $Static = $true
     }
     
-    # TODO: Implement static build in Docker container
-    Write-Host "QNAP build not yet implemented!" -ForegroundColor Red
+    Write-Host "Strategy: Using static build for QNAP compatibility" -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "Workaround:" -ForegroundColor Yellow
-    Write-Host "  1. Build with static linking: .\build-unified.ps1 -Platform linux -Static" -ForegroundColor Gray
-    Write-Host "  2. Use build-docker-qnap-simple.ps1 (if WSL is Ubuntu 20.04)" -ForegroundColor Gray
-    Write-Host ""
-    exit 1
+    
+    # Check if Docker is available
+    $dockerAvailable = Get-Command docker -ErrorAction SilentlyContinue
+    if (-not $dockerAvailable) {
+        Write-Host "Docker not found! Install Docker to build QNAP images." -ForegroundColor Red
+        exit 1
+    }
+    
+    # Use Ubuntu 20.04 build container for GLIBC 2.31 compatibility
+    Write-Host "Building in Ubuntu 20.04 container..." -ForegroundColor Gray
+    
+    $dockerfile = @"
+# Ubuntu 20.04 for GLIBC 2.31 (QNAP compatibility)
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install build essentials and CMake 3.28
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    curl \
+    zip \
+    unzip \
+    tar \
+    pkg-config \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install CMake 3.28 (Ubuntu 20.04 ships 3.16, vcpkg needs 3.21+)
+RUN curl -L -o cmake.sh https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-linux-x86_64.sh \
+    && sh cmake.sh --prefix=/usr/local --skip-license \
+    && rm cmake.sh
+
+# Install vcpkg
+RUN git clone https://github.com/microsoft/vcpkg.git /opt/vcpkg \
+    && cd /opt/vcpkg \
+    && git checkout 2024.10.21 \
+    && ./bootstrap-vcpkg.sh
+
+ENV VCPKG_ROOT=/opt/vcpkg
+ENV PATH="/opt/vcpkg:`${PATH}"
+
+WORKDIR /build
+
+CMD ["bash"]
+"@
+
+    # Create temporary Dockerfile
+    $tempDockerfile = Join-Path $PSScriptRoot "Dockerfile.qnap.tmp"
+    $dockerfile | Out-File -FilePath $tempDockerfile -Encoding UTF8
+    
+    try {
+        # Build container image
+        Write-Host "Building build container..." -ForegroundColor Gray
+        docker build -f $tempDockerfile -t themisdb-qnap-builder:latest .
+        
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Failed to build container!" -ForegroundColor Red
+            exit 1
+        }
+        
+        # Build static binary in container
+        Write-Host "Building static binary in container..." -ForegroundColor Gray
+        docker run --rm -v "${PWD}:/src" -w /src themisdb-qnap-builder:latest bash -c @"
+cmake --preset linux-ninja-gcc-release -DTHEMIS_STATIC_BUILD=ON
+cmake --build --preset linux-ninja-gcc-release
+"@
+        
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Build failed!" -ForegroundColor Red
+            exit 1
+        }
+        
+        Write-Host ""
+        Write-Host "Build successful!" -ForegroundColor Green
+        Write-Host "Binary: build-linux-gcc-release/themis_server" -ForegroundColor Cyan
+        Write-Host ""
+        Write-Host "Verify GLIBC compatibility:" -ForegroundColor Yellow
+        Write-Host "  ldd build-linux-gcc-release/themis_server | grep GLIBC" -ForegroundColor Gray
+        Write-Host ""
+        
+    } finally {
+        # Cleanup
+        if (Test-Path $tempDockerfile) {
+            Remove-Item $tempDockerfile -Force
+        }
+    }
 }
 
 # ============================================================================
