@@ -63,6 +63,14 @@ public:
     };
     
     /**
+     * @brief Get default configuration
+     */
+    static const Config& defaultConfig() {
+        static Config cfg{};
+        return cfg;
+    }
+    
+    /**
      * @brief Construct hot-reload engine
      * @param manifest_db Manifest database
      * @param update_checker Update checker for fetching releases
@@ -71,7 +79,7 @@ public:
     HotReloadEngine(
         std::shared_ptr<ManifestDatabase> manifest_db,
         std::shared_ptr<utils::UpdateChecker> update_checker,
-        const Config& config = Config()
+        const Config& config = defaultConfig()
     );
     
     ~HotReloadEngine();

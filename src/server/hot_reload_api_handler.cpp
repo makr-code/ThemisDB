@@ -2,6 +2,9 @@
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 
+#define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
+#define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
+
 namespace themis {
 namespace server {
 

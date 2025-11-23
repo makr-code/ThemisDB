@@ -1,6 +1,14 @@
 #include "updates/manifest_database.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <rocksdb/db.h>
+#include <rocksdb/options.h>
+#include <rocksdb/utilities/transaction_db.h>
+
+#define LOG_ERROR(...) SPDLOG_ERROR(__VA_ARGS__)
+#define LOG_INFO(...) SPDLOG_INFO(__VA_ARGS__)
+#define LOG_WARN(...) SPDLOG_WARN(__VA_ARGS__)
+#define LOG_DEBUG(...) SPDLOG_DEBUG(__VA_ARGS__)
 
 namespace themis {
 namespace updates {
