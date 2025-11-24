@@ -410,7 +410,7 @@ TEST_F(IndexStatsTest, RebuildProgressCallback_Abort) {
 
     // Rebuild mit Abbruch nach 3 Entities
     size_t calls = 0;
-    indexMgr_->rebuildIndex("users", "email", [&](size_t done, size_t total){
+    indexMgr_->rebuildIndex("users", "email", [&](size_t done, [[maybe_unused]] size_t total){
         ++calls;
         return done < 3; // abbrechen, sobald 3 erreicht
     });

@@ -49,28 +49,28 @@ protected:
         // Insert test users
         BaseEntity alice("alice");
         alice.setField("city", "Berlin");
-        alice.setField("age", 25);
+        alice.setField("age", int64_t(25));
         db_->put("users:alice", alice.serialize());
         auto st_alice = secIdx_->put("users", alice);
         ASSERT_TRUE(st_alice.ok) << st_alice.message;
 
         BaseEntity bob("bob");
         bob.setField("city", "Munich");
-        bob.setField("age", 30);
+        bob.setField("age", int64_t(30));
         db_->put("users:bob", bob.serialize());
         auto st_bob = secIdx_->put("users", bob);
         ASSERT_TRUE(st_bob.ok) << st_bob.message;
 
         BaseEntity charlie("charlie");
         charlie.setField("city", "Berlin");
-        charlie.setField("age", 35);
+        charlie.setField("age", int64_t(35));
         db_->put("users:charlie", charlie.serialize());
         auto st_charlie = secIdx_->put("users", charlie);
         ASSERT_TRUE(st_charlie.ok) << st_charlie.message;
 
         BaseEntity diana("diana");
         diana.setField("city", "Hamburg");
-        diana.setField("age", 28);
+        diana.setField("age", int64_t(28));
         db_->put("users:diana", diana.serialize());
         auto st_diana = secIdx_->put("users", diana);
         ASSERT_TRUE(st_diana.ok) << st_diana.message;

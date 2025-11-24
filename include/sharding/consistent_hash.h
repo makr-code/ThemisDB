@@ -1,12 +1,14 @@
 #pragma once
 
 #include "sharding/urn.h"
+#include "sharding/shard_topology.h"
 #include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
 #include <functional>
 #include <mutex>
+#include <optional>
 
 namespace themis::sharding {
 
@@ -131,6 +133,47 @@ private:
      * @return 64-bit hash value
      */
     uint64_t hash(const std::string& key) const;
+};
+
+class ConsistentHash {
+public:
+    explicit ConsistentHash(int /*expected_shards*/) {}
+
+    void addNode(const std::string& shard_id, const std::string& endpoint, size_t virtual_nodes = 150) {
+        endpoints_[shard_id] = endpoint;
+        ring_.addShard(shard_id, virtual_nodes);
+    }
+
+    void removeNode(const std::string& shard_id) {
+        endpoints_.erase(shard_id);
+        ring_.removeShard(shard_id);
+    }
+
+    std::optional<ShardInfo> getNode(const std::string& key) const {
+        if (ring_.getShardCount() == 0) {
+            return std::nullopt;
+        }
+        // Use same hashing strategy as ring (cannot access private hash, replicate std::hash path)
+        std::hash<std::string> hasher;
+        uint64_t h = hasher(key);
+        std::string shard = ring_.getShardForHash(h);
+        if (shard.empty()) {
+            return std::nullopt;
+        }
+        auto it = endpoints_.find(shard);
+        std::string endpoint = (it != endpoints_.end()) ? it->second : std::string();
+        ShardInfo info{};
+        info.shard_id = shard;
+        info.primary_endpoint = endpoint;
+        return info;
+    }
+
+    size_t getShardCount() const { return ring_.getShardCount(); }
+    size_t getVirtualNodeCount() const { return ring_.getVirtualNodeCount(); }
+
+private:
+    ConsistentHashRing ring_;
+    std::map<std::string, std::string> endpoints_;
 };
 
 } // namespace themis::sharding

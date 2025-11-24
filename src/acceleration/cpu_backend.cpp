@@ -116,6 +116,7 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchBFS(
     size_t numStarts,
     uint32_t maxDepth
 ) {
+    (void)adjacency; // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numStarts);
     
     for (size_t s = 0; s < numStarts; ++s) {
@@ -152,6 +153,8 @@ std::vector<std::vector<uint32_t>> CPUGraphBackend::batchShortestPath(
     const uint32_t* endVertices,
     size_t numPairs
 ) {
+    (void)adjacency; (void)weights; (void)numVertices;
+    (void)startVertices; (void)endVertices; // Placeholder implementation
     std::vector<std::vector<uint32_t>> results(numPairs);
     
     // Simplified Dijkstra implementation placeholder

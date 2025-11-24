@@ -1,5 +1,16 @@
 ﻿cmake_minimum_required(VERSION 3.20)
-project(Themis VERSION 1.0.0 LANGUAGES CXX)
+
+# Read version from VERSION file if present
+set(THEMIS_VERSION "1.0.0")
+if(EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
+    file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
+    string(STRIP "${_ver}" _ver)
+    if(_ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
+        set(THEMIS_VERSION "${_ver}")
+    endif()
+endif()
+
+project(Themis VERSION ${THEMIS_VERSION} LANGUAGES CXX)
 
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
@@ -21,6 +32,8 @@ if(DEFINED ENV{VCPKG_ROOT})
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "Vcpkg toolchain file")
 endif()
+# Prefer CONFIG packages (vcpkg) over FindXXX modules
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
 # Dependencies
 find_package(OpenSSL REQUIRED)
@@ -53,11 +66,6 @@ option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
-    
-    # Set vcpkg to use static triplet
-    if(UNIX AND NOT APPLE)
-        set(VCPKG_TARGET_TRIPLET "x64-linux-static" CACHE STRING "" FORCE)
-    endif()
     
     # Static linking flags
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -113,18 +121,23 @@ if(MSVC)
     # /FS: Allow parallel PDB writes to avoid C1041 errors
     # Suppress unreachable code warnings from external headers (e.g., nlohmann/json)
     add_compile_options(/wd4702)
+    # Suppress AddressSanitizer warnings treated as errors (C5072)
+    add_compile_options(/wd5072)
+    # Suppress OpenSSL 3.0 deprecation warnings globally (C4996)
+    add_compile_options(/wd4996)
     if(THEMIS_STRICT_BUILD)
         add_compile_options(/WX)
     endif()
     add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _WIN32_WINNT=0x0A00)
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        add_compile_options(/O2 /GL)
-        if(THEMIS_ENABLE_AVX2 AND THEMIS_TARGET_ARCH STREQUAL "x86_64")
-            add_compile_options(/arch:AVX2)
-        endif()
-        # Ensure Link-Time Code Generation to avoid link restart messages
-        add_link_options(/LTCG)
+    # Apply Release-specific settings for single- and multi-config generators
+    add_compile_options($<$<CONFIG:Release>:/O2> $<$<CONFIG:Release>:/GL>)
+    # Disable iterator debugging in Release to match vcpkg RocksDB
+    add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
+    if(THEMIS_ENABLE_AVX2 AND THEMIS_TARGET_ARCH STREQUAL "x86_64")
+        add_compile_options($<$<CONFIG:Release>:/arch:AVX2>)
     endif()
+    # Ensure Link-Time Code Generation to avoid link restart messages
+    add_link_options($<$<CONFIG:Release>:/LTCG>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
     if(THEMIS_STRICT_BUILD)
@@ -154,8 +167,12 @@ endif()
 
 # AddressSanitizer support
 if(THEMIS_ENABLE_ASAN)
-    add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
-    add_link_options(-fsanitize=address)
+    if(MSVC)
+        add_compile_options(/fsanitize=address)
+    else()
+        add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=address)
+    endif()
 endif()
 
 # Optionale lokale clang-tidy Aktivierung (nicht in CI standardmäßig).
@@ -438,6 +455,9 @@ set(THEMIS_CORE_SOURCES
     src/acceleration/plugin_security.cpp
 )
 
+# Define core library early so subsequent target_* commands are valid
+add_library(themis_core STATIC ${THEMIS_CORE_SOURCES})
+
 # Add hardware acceleration backends based on build options
 set(THEMIS_ACCELERATION_SOURCES "")
 
@@ -493,8 +513,7 @@ if(THEMIS_ACCELERATION_SOURCES)
     target_sources(themis_core PRIVATE ${THEMIS_ACCELERATION_SOURCES})
 endif()
 
-# Main library
-add_library(themis_core STATIC ${THEMIS_CORE_SOURCES})
+# Main library already defined above (before feature-specific target modifications)
 
 if(THEMIS_ENABLE_HSM_REAL)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HSM_REAL)

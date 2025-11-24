@@ -88,11 +88,11 @@ public:
         bool server_ready = false;
         for (int i = 0; i < 50; ++i) {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
-            bool ok = checkServerHealth();
+            bool health_ok = checkServerHealth();
             std::ofstream log2("tests\\server_start.log", std::ios::app);
-            log2 << "startServer: health check iter=" << i << " => " << (ok?"OK":"NOTOK") << std::endl;
+            log2 << "startServer: health check iter=" << i << " => " << (health_ok?"OK":"NOTOK") << std::endl;
             log2.close();
-            if (ok) { server_ready = true; break; }
+            if (health_ok) { server_ready = true; break; }
         }
         
         if (!server_ready) {

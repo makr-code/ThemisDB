@@ -6,7 +6,7 @@
 
 #include <nlohmann/json.hpp>
 
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 
 namespace themis {
 
@@ -20,12 +20,31 @@ static std::string toHex(const uint8_t* data, size_t len) {
 }
 
 std::string ContentFS::sha256Hex(const std::vector<uint8_t>& data) {
-    uint8_t md[SHA256_DIGEST_LENGTH];
-    SHA256_CTX ctx;
-    SHA256_Init(&ctx);
-    if (!data.empty()) SHA256_Update(&ctx, data.data(), data.size());
-    SHA256_Final(md, &ctx);
-    return toHex(md, sizeof(md));
+    unsigned char md[EVP_MAX_MD_SIZE];
+    unsigned int mdLen = 0;
+    
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) return "";
+    
+    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return "";
+    }
+    
+    if (!data.empty()) {
+        if (EVP_DigestUpdate(mdctx, data.data(), data.size()) != 1) {
+            EVP_MD_CTX_free(mdctx);
+            return "";
+        }
+    }
+    
+    if (EVP_DigestFinal_ex(mdctx, md, &mdLen) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return "";
+    }
+    EVP_MD_CTX_free(mdctx);
+    
+    return toHex(md, mdLen);
 }
 
 ContentFS::Status ContentFS::put(const std::string& pk,

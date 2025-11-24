@@ -424,8 +424,9 @@ SemanticQueryCache::Status SemanticQueryCache::saveCacheEntry_(const CacheEntry&
         entry.created_at.time_since_epoch()).count());
     entity.setField("last_accessed", std::chrono::duration_cast<std::chrono::milliseconds>(
         entry.last_accessed.time_since_epoch()).count());
-    entity.setField("hit_count", entry.hit_count);
-    entity.setField("result_size", static_cast<int>(entry.result_size));
+    // Ensure integral fields match Value's int64_t alternative
+    entity.setField("hit_count", static_cast<int64_t>(entry.hit_count));
+    entity.setField("result_size", static_cast<int64_t>(entry.result_size));
     
     db_.put(key, entity.serialize());
     

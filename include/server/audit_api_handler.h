@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <climits>
 #include <nlohmann/json.hpp>
 #include "utils/audit_logger.h"
 #include "security/encryption.h"
