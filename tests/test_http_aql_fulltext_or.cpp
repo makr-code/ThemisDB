@@ -42,11 +42,11 @@ protected:
         ASSERT_TRUE(st.ok) << st.message;
         
         // Insert test documents
-        auto e1 = themis::BaseEntity::fromFields("a1", themis::BaseEntity::FieldMap{{"title","AI Basics"},{"content","Artificial intelligence and machine learning"},{"year",2020}});
-        auto e2 = themis::BaseEntity::fromFields("a2", themis::BaseEntity::FieldMap{{"title","Database Theory"},{"content","Relational databases and SQL fundamentals"},{"year",2018}});
-        auto e3 = themis::BaseEntity::fromFields("a3", themis::BaseEntity::FieldMap{{"title","AI Applications"},{"content","Deep learning in artificial intelligence"},{"year",2022}});
-        auto e4 = themis::BaseEntity::fromFields("a4", themis::BaseEntity::FieldMap{{"title","Old Document"},{"content","Historical records from ancient times"},{"year",1990}});
-        auto e5 = themis::BaseEntity::fromFields("a5", themis::BaseEntity::FieldMap{{"title","Recent Update"},{"content","Latest news and current events"},{"year",2023}});
+        auto e1 = themis::BaseEntity::fromFields("a1", themis::BaseEntity::FieldMap{{"title","AI Basics"},{"content","Artificial intelligence and machine learning"},{"year",int64_t(2020)}});
+        auto e2 = themis::BaseEntity::fromFields("a2", themis::BaseEntity::FieldMap{{"title","Database Theory"},{"content","Relational databases and SQL fundamentals"},{"year",int64_t(2018)}});
+        auto e3 = themis::BaseEntity::fromFields("a3", themis::BaseEntity::FieldMap{{"title","AI Applications"},{"content","Deep learning in artificial intelligence"},{"year",int64_t(2022)}});
+        auto e4 = themis::BaseEntity::fromFields("a4", themis::BaseEntity::FieldMap{{"title","Old Document"},{"content","Historical records from ancient times"},{"year",int64_t(1990)}});
+        auto e5 = themis::BaseEntity::fromFields("a5", themis::BaseEntity::FieldMap{{"title","Recent Update"},{"content","Latest news and current events"},{"year",int64_t(2023)}});
         
         ASSERT_TRUE(secondary_index_->put("articles", e1).ok);
         ASSERT_TRUE(secondary_index_->put("articles", e2).ok);

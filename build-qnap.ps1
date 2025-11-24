@@ -3,9 +3,9 @@
     Build ThemisDB for QNAP (Ubuntu 20.04, GLIBC 2.31)
 
 .DESCRIPTION
-    Statischer Build über einen Ubuntu 20.04 Container. Verzicht auf Presets
-    (direkte CMake Aufrufe) und Abschalten optionaler Komponenten für
-    maximalen Erfolg bei älterer Toolchain.
+    Statischer Build Ã¼ber einen Ubuntu 20.04 Container. Verzicht auf Presets
+    (direkte CMake Aufrufe) und Abschalten optionaler Komponenten fÃ¼r
+    maximalen Erfolg bei Ã¤lterer Toolchain.
 
 .EXAMPLE
     .\build-qnap.ps1
@@ -40,34 +40,29 @@ if (-not $NoBuildContainer) {
 
 Write-Host "Building static ThemisDB binary (direct configure, QNAP manifest)..." -ForegroundColor Yellow
 
-$cmakeConfigure = @"
-export VCPKG_MANIFEST_DIR=/src
-export VCPKG_FEATURE_FLAGS=manifests
-cmake -S . -B build-qnap \
-    -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DTHEMIS_STATIC_BUILD=ON \
-    -DTHEMIS_BUILD_TESTS=ON \
-    -DTHEMIS_BUILD_BENCHMARKS=ON \
-    -DTHEMIS_ENABLE_TRACING=ON \
-    -DVCPKG_MANIFEST_FILE=vcpkg.qnap.json \
-    -DVCPKG_TARGET_TRIPLET=x64-linux-static
-"@
+# Compose bash command without Windows CRLF issues
+$envBlock = "export VCPKG_MANIFEST_DIR=/src && export VCPKG_FEATURE_FLAGS=manifests"
+$configure = (
+    "cmake -S . -B build-qnap -G Ninja" +
+    " -DCMAKE_BUILD_TYPE=Release" +
+    " -DTHEMIS_STATIC_BUILD=ON" +
+    " -DTHEMIS_BUILD_TESTS=ON" +
+    " -DTHEMIS_BUILD_BENCHMARKS=ON" +
+    " -DTHEMIS_ENABLE_TRACING=ON" +
+    " -DVCPKG_MANIFEST_FILE=vcpkg.qnap.json" +
+    " -DVCPKG_TARGET_TRIPLET=x64-linux-release" +
+    " -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake" +
+    " -DOPENSSL_ROOT_DIR=/usr" +
+    " -DOPENSSL_INCLUDE_DIR=/usr/include" +
+    " -DOPENSSL_CRYPTO_LIBRARY=/usr/lib/x86_64-linux-gnu/libcrypto.so" +
+    " -DOPENSSL_SSL_LIBRARY=/usr/lib/x86_64-linux-gnu/libssl.so"
+)
+$build = "cmake --build build-qnap --parallel"
+$verify = "ls -l build-qnap | grep themis_server || echo 'Binary fehlt noch'"
 
-$cmakeBuild = "cmake --build build-qnap --parallel"
+$bashCmd = "set -e; echo '>>> Ninja Version:'; ninja --version; echo '>>> vcpkg bootstrap (ensure up to date)'; /opt/vcpkg/bootstrap-vcpkg.sh; echo '>>> vcpkg manifest install (x64-linux-release triplet)'; cd /src; /opt/vcpkg/vcpkg install --triplet x64-linux-release --x-manifest-root=/src || { echo 'vcpkg install failed'; exit 1; }; echo '>>> Configure'; $envBlock && $configure; echo '>>> Build'; $build; echo '>>> Verify'; $verify"
 
-$fullBuildScript = @"
-set -e
-echo '>>> Ninja Version:'
-ninja --version || { echo 'Ninja fehlt!'; exit 1; }
-echo '>>> Using QNAP manifest: vcpkg.qnap.json'
-echo '>>> Configure'
-$cmakeConfigure
-echo '>>> Build'
-$cmakeBuild
-"@
-
-& docker run --rm -v "${PWD}:/src" -w /src themisdb-qnap-builder:latest bash -lc $fullBuildScript
+& docker run --rm -v "${PWD}:/src" -w /src themisdb-qnap-builder:latest bash -lc "$bashCmd"
 
 if ($LASTEXITCODE -ne 0) { Write-Host "ERROR: Build failed!" -ForegroundColor Red; exit 1 }
 

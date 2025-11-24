@@ -10,7 +10,7 @@
 #include <sstream>
 #include <iomanip>
 #include <chrono>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 
 #ifdef THEMIS_ENABLE_CURL
 #include <curl/curl.h>
@@ -69,12 +69,12 @@ DownloadResult HotReloadEngine::downloadRelease(const std::string& version) {
     result.download_path = version_dir;
     
     // Download files
-    int file_count = manifest->files.size();
-    int current_file = 0;
+    size_t file_count = manifest->files.size();
+    size_t current_file = 0;
     
     for (const auto& file : manifest->files) {
         current_file++;
-        int progress = 10 + (current_file * 80 / file_count);
+        int progress = 10 + (static_cast<int>(current_file) * 80 / static_cast<int>(file_count));
         reportProgress(progress, "Downloading " + file.path);
         
         std::string dest_path = version_dir + "/" + file.path;
@@ -163,14 +163,14 @@ ReloadResult HotReloadEngine::applyHotReload(
     
     // Apply updates
     reportProgress(50, "Applying updates");
-    int file_count = manifest->files.size();
-    int current_file = 0;
+    size_t file_count = manifest->files.size();
+    size_t current_file = 0;
     
     std::string version_dir = config_.download_directory + "/" + version;
     
     for (const auto& file : manifest->files) {
         current_file++;
-        int progress = 50 + (current_file * 40 / file_count);
+        int progress = 50 + (static_cast<int>(current_file) * 40 / static_cast<int>(file_count));
         reportProgress(progress, "Updating " + file.path);
         
         std::string src_path = version_dir + "/" + file.path;
@@ -498,21 +498,36 @@ std::string HotReloadEngine::calculateFileHash(const std::string& path) {
         return "";
     }
     
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        return "";
+    }
+    
+    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return "";
+    }
     
     const size_t bufferSize = 32768;
     std::vector<char> buffer(bufferSize);
     
     while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-        SHA256_Update(&sha256, buffer.data(), file.gcount());
+        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
+            EVP_MD_CTX_free(mdctx);
+            return "";
+        }
     }
     
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_Final(hash, &sha256);
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hashLen = 0;
+    if (EVP_DigestFinal_ex(mdctx, hash, &hashLen) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return "";
+    }
+    EVP_MD_CTX_free(mdctx);
     
     std::ostringstream ss;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
     

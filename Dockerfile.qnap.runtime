@@ -1,0 +1,27 @@
+# Runtime image for QNAP-compatible ThemisDB
+# Expects a prebuilt static-ish binary at build context path: build-qnap/themis_server
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/local/bin
+COPY build-qnap/themis_server /usr/local/bin/themis_server
+
+RUN chmod +x /usr/local/bin/themis_server && \
+    useradd -r -u 999 -g root themis && \
+    mkdir -p /data /var/log/themis && \
+    chown -R themis:root /data /var/log/themis
+
+ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
+ENV THEMIS_PORT=18765
+
+VOLUME ["/data"]
+EXPOSE 8080 18765
+
+USER themis
+ENTRYPOINT ["/usr/local/bin/themis_server"]
+CMD ["--config", "/etc/themis/config.json"]

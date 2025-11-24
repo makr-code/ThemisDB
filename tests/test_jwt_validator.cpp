@@ -2,7 +2,7 @@
 #include <nlohmann/json.hpp>
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include <openssl/bn.h>
 #include "auth/jwt_validator.h"
 
@@ -20,8 +20,6 @@ static std::string b64url(const std::vector<uint8_t>& in) {
     while(!b64.empty() && b64.back()=='=') b64.pop_back();
     return b64;
 }
-
-static std::vector<uint8_t> sha256(const std::string& s){ std::vector<uint8_t> h(SHA256_DIGEST_LENGTH); SHA256((const uint8_t*)s.data(), s.size(), h.data()); return h; }
 
 struct RSAFixture {
     RSA* rsa=nullptr; EVP_PKEY* pkey=nullptr; BIGNUM* bn=nullptr; 

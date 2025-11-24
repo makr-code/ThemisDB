@@ -96,7 +96,7 @@ TEST_F(TransactionIsolationTest, NoDirtyReads) {
     std::atomic<double> t2_read_value{0.0};
     
     // T1: Deduct 500 but don't commit yet
-    std::thread t1([&]() {
+    std::thread t1([this, &key, &t1_started, &t2_can_read]() {
         auto txn_id = tx_manager_->beginTransaction();
         auto txn = tx_manager_->getTransaction(txn_id);
         
@@ -123,7 +123,7 @@ TEST_F(TransactionIsolationTest, NoDirtyReads) {
     });
     
     // T2: Should read committed value (1000), not uncommitted (500)
-    std::thread t2([&]() {
+    std::thread t2([this, &key, &t1_started, &t2_can_read, &t2_read_value]() {
         // Wait for T1 to start
         while (!t1_started) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -179,7 +179,7 @@ TEST_F(TransactionIsolationTest, RepeatableReads) {
     std::atomic<bool> t2_done{false};
     
     // T1: Read, wait, read again
-    std::thread t1([&]() {
+    std::thread t1([this, &key, &first_read, &second_read, &t1_first_read_done, &t2_done]() {
         auto txn_id = tx_manager_->beginTransaction();
         auto txn = tx_manager_->getTransaction(txn_id);
         
@@ -204,7 +204,7 @@ TEST_F(TransactionIsolationTest, RepeatableReads) {
     });
     
     // T2: Modify price
-    std::thread t2([&]() {
+    std::thread t2([this, &key, &t1_first_read_done, &t2_done]() {
         // Wait for T1's first read
         while (!t1_first_read_done) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -262,7 +262,7 @@ TEST_F(TransactionIsolationTest, NoPhantomReads) {
     std::atomic<bool> t2_done{false};
     
     // T1: Query twice for products with price < 100
-    std::thread t1([&]() {
+    std::thread t1([this, &first_count, &second_count, &t1_first_query_done, &t2_done]() {
         auto txn_id = tx_manager_->beginTransaction();
         auto txn = tx_manager_->getTransaction(txn_id);
         
@@ -297,7 +297,7 @@ TEST_F(TransactionIsolationTest, NoPhantomReads) {
     });
     
     // T2: Insert new product with price < 100
-    std::thread t2([&]() {
+    std::thread t2([this, &t1_first_query_done, &t2_done]() {
         // Wait for T1's first query
         while (!t1_first_query_done) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -352,7 +352,7 @@ TEST_F(TransactionIsolationTest, WriteSkewDetection) {
     std::atomic<bool> both_started{false};
     
     // T1: Doctor A goes off call
-    std::thread t1([&]() {
+    std::thread t1([this, &t1_committed, &both_started]() {
         auto txn_id = tx_manager_->beginTransaction();
         auto txn = tx_manager_->getTransaction(txn_id);
         
@@ -379,7 +379,7 @@ TEST_F(TransactionIsolationTest, WriteSkewDetection) {
     });
     
     // T2: Doctor B goes off call
-    std::thread t2([&]() {
+    std::thread t2([this, &both_started, &t2_committed]() {
         // Wait for both transactions to start
         while (!both_started) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10));

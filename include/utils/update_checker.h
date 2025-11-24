@@ -9,6 +9,7 @@
 #include <functional>
 #include <optional>
 #include <vector>
+#include <variant>
 #include <nlohmann/json.hpp>
 
 namespace themis {

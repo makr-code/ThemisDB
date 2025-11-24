@@ -4,11 +4,10 @@
 #include <iomanip>
 #include <chrono>
 #include <filesystem>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
 #include <openssl/rsa.h>
-#include <openssl/evp.h>
 #include <openssl/err.h>
 #include <nlohmann/json.hpp>
 
@@ -31,21 +30,36 @@ std::string PluginSecurityVerifier::calculateFileHash(const std::string& filePat
         return "";
     }
     
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        return "";
+    }
+    
+    if (EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return "";
+    }
     
     const size_t bufferSize = 32768;
     std::vector<char> buffer(bufferSize);
     
     while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-        SHA256_Update(&sha256, buffer.data(), file.gcount());
+        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
+            EVP_MD_CTX_free(mdctx);
+            return "";
+        }
     }
     
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_Final(hash, &sha256);
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hashLen = 0;
+    if (EVP_DigestFinal_ex(mdctx, hash, &hashLen) != 1) {
+        EVP_MD_CTX_free(mdctx);
+        return "";
+    }
+    EVP_MD_CTX_free(mdctx);
     
     std::stringstream ss;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    for (unsigned int i = 0; i < hashLen; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
     
@@ -59,7 +73,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
     if (!std::filesystem::exists(metadataPath)) {
         // Try alternative location: same directory, same name
         std::filesystem::path p(pluginPath);
-        metadataPath = p.parent_path() / (p.stem().string() + ".json");
+        metadataPath = (p.parent_path() / (p.stem().string() + ".json")).string();
         
         if (!std::filesystem::exists(metadataPath)) {
             return std::nullopt;
@@ -100,6 +114,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
         
     } catch (const std::exception& e) {
         // Failed to parse metadata
+        (void)e; // Suppress unused variable warning
         return std::nullopt;
     }
 }
@@ -295,6 +310,8 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string& pluginPath, std::st
 
 bool PluginSecurityVerifier::verifySignature(const std::string& filePath, 
                                              const PluginSignature& signature) {
+    (void)filePath; // Suppress unused parameter warning - stub implementation
+    
     // Stub implementation - full implementation would use OpenSSL
     // to verify RSA/ECDSA signature against certificate
     

@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y \
     tar \
     pkg-config \
     ninja-build \
+    flex \
+    bison \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install CMake 3.28 (Ubuntu 20.04 ships 3.16, vcpkg needs 3.21+)
@@ -23,10 +26,11 @@ RUN curl -L -o cmake.sh https://github.com/Kitware/CMake/releases/download/v3.28
 # Install vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git /opt/vcpkg \
     && cd /opt/vcpkg \
-    && git checkout 2024.11.16 \
     && ./bootstrap-vcpkg.sh
 
 ENV VCPKG_ROOT=/opt/vcpkg
+ENV VCPKG_DEFAULT_TRIPLET=x64-linux
+ENV VCPKG_FEATURE_FLAGS=manifests
 ENV PATH="/opt/vcpkg:${PATH}"
 
 WORKDIR /build

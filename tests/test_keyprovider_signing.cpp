@@ -11,9 +11,16 @@
 using namespace themis;
 
 // TestKeyProvider: returns PEM-encoded private key and cert for a given key_id
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4250) // Dominance warning for virtual inheritance
+#endif
 class TestKeyProvider : public MockKeyProvider, public SigningProvider {
 public:
     TestKeyProvider() = default;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
     void setKeyPem(const std::string& id, const std::string& priv_pem, const std::string& cert_pem) {
         priv_[id] = std::vector<uint8_t>(priv_pem.begin(), priv_pem.end());
