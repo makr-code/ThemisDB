@@ -1,9 +1,13 @@
-# RAG LLM Programmierhilfe mit ThemisDB + vLLM
+# RAG LLM Programmierhilfe - RESPO
 
 **Projektname:** RESPO (RAG-Enhanced Software Programming Optimizer)  
 **Version:** 1.0  
 **Stand:** November 2025  
-**Typ:** Recherche & Umsetzungsplan
+**Typ:** Recherche & Umsetzungsplan  
+**Projektpfad:** `projects/respo/`
+
+> **Hinweis:** RESPO ist ein **eigenständiges Projekt**, unabhängig von ThemisDB.
+> Es unterstützt verschiedene Vector Store Backends (ChromaDB, Qdrant, Weaviate, ThemisDB).
 
 ---
 
@@ -12,10 +16,11 @@
 Dieses Dokument beschreibt die Konzeption und Implementierung eines **on-premise RAG-basierten LLM-Systems für Programmierhilfe**, das folgende Kernmerkmale bietet:
 
 - **Kein Vendor-Login** - Vollständig lokale Ausführung
-- **ThemisDB als Vektor-/Wissensspeicher** - Nutzung der bestehenden Multi-Model-Architektur
+- **Pluggable Vector Stores** - ChromaDB (default), Qdrant, Weaviate, ThemisDB
 - **vLLM als Inference-Engine** - Hochperformante LLM-Inferenz
 - **LoRA Fine-Tuning** - Anpassung an spezifische Programmierdomänen
 - **Enterprise-Ready** - DSGVO-konform, air-gapped deployment möglich
+- **Unabhängig** - Keine feste Abhängigkeit von spezifischen Datenbanken
 
 ---
 

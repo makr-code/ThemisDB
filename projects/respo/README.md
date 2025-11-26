@@ -2,15 +2,17 @@
 
 [![Status](https://img.shields.io/badge/status-development-yellow)](.)
 [![Python](https://img.shields.io/badge/python-3.10+-blue)](.)
-[![License](https://img.shields.io/badge/license-MIT-green)](../../LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ## 🎯 Übersicht
 
-RESPO ist ein **on-premise RAG LLM Programmierhilfe-System** basierend auf:
+RESPO ist ein **eigenständiges, on-premise RAG LLM Programmierhilfe-System**:
 
-- **ThemisDB** - Multi-Model Datenbank für Vektor, Graph und Dokumente
+- **Unabhängig** - Keine Abhängigkeit von spezifischen Datenbanken
+- **Pluggable Vector Stores** - ChromaDB, Qdrant, Weaviate, ThemisDB, etc.
 - **vLLM** - Hochperformante LLM-Inferenz mit LoRA Support
 - **Ohne Vendor-Login** - Vollständig lokale Ausführung
+- **Air-Gapped Deployment** - Läuft komplett offline
 
 ## 🏗️ Architektur
 
@@ -24,51 +26,48 @@ RESPO ist ein **on-premise RAG LLM Programmierhilfe-System** basierend auf:
           ┌───────────────────┼───────────────────┐
           ▼                   ▼                   ▼
    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-   │ RAG Pipeline│     │ vLLM Engine │     │  ThemisDB   │
-   │             │     │             │     │             │
-   │ - Retrieval │     │ - Inference │     │ - Vectors   │
-   │ - Reranking │     │ - LoRA      │     │ - Graphs    │
-   │ - Context   │     │ - Streaming │     │ - Docs      │
-   └─────────────┘     └─────────────┘     └─────────────┘
+   │ RAG Pipeline│     │ vLLM Engine │     │Vector Store │
+   │             │     │             │     │ (Pluggable) │
+   │ - Retrieval │     │ - Inference │     │             │
+   │ - Reranking │     │ - LoRA      │     │ - ChromaDB  │
+   │ - Context   │     │ - Streaming │     │ - Qdrant    │
+   └─────────────┘     └─────────────┘     │ - Weaviate  │
+                                           │ - ThemisDB  │
+                                           └─────────────┘
 ```
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- Python 3.10+
-- ThemisDB Server running
-- vLLM Server with GPU (optional für CPU-Fallback)
-- NVIDIA GPU mit 16+ GB VRAM (empfohlen)
-
 ### Installation
 
 ```bash
-# 1. Dependencies installieren
-cd adapters/respo
+# Clone the repository
+git clone https://github.com/makr-code/respo.git
+cd respo
+
+# Install dependencies
 pip install -e .
 
-# 2. Konfiguration kopieren
+# Or with optional vector stores
+pip install -e ".[qdrant]"    # With Qdrant
+pip install -e ".[all]"       # All optional dependencies
+
+# Copy configuration
 cp .env.example .env
 # Edit .env with your settings
 
-# 3. ThemisDB starten (falls nicht läuft)
-docker compose -f ../../docker-compose.yml up -d themisdb
-
-# 4. RESPO API starten
-uvicorn respo.api.app:app --host 0.0.0.0 --port 8080
+# Start RESPO API
+respo server --port 8080
 ```
 
 ### Mit Docker Compose
 
 ```bash
-cd adapters/respo/docker
+cd docker
 docker compose up -d
 ```
 
 ## 📡 API Endpoints
-
-### Core Endpoints
 
 | Endpoint | Methode | Beschreibung |
 |----------|---------|--------------|
@@ -93,21 +92,9 @@ curl -X POST http://localhost:8080/chat \
   }'
 ```
 
-### Beispiel: Code Search
-
-```bash
-curl -X POST http://localhost:8080/search \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "database connection pooling",
-    "language": "python",
-    "limit": 10
-  }'
-```
-
 ## 🔍 GitHub Scraper
 
-RESPO enthält einen leistungsfähigen GitHub Scraper zum Sammeln von Trainingsdaten und Wissensbasis.
+RESPO enthält einen leistungsfähigen GitHub Scraper zum Sammeln von Trainingsdaten.
 
 ### CLI Befehle
 
@@ -134,7 +121,7 @@ respo scrape python/cpython -o ./python-src -e py
 # Top TypeScript Repos finden
 respo search "typescript framework" -l typescript -s 5000 -n 50
 
-# Batch-Scraping mit Metadaten
+# Batch-Scraping
 cat > repos.txt << EOF
 facebook/react
 microsoft/TypeScript
@@ -142,14 +129,6 @@ rust-lang/rust
 EOF
 respo batch-scrape repos.txt -o ./training-data -j metadata.json
 ```
-
-### Scraper Features
-
-- **Repository Cloning**: Shallow clones für schnelles Scraping
-- **Datei-Filterung**: Nach Erweiterung und Mustern
-- **Rate Limiting**: GitHub API Limits respektieren
-- **Metadaten-Extraktion**: Stars, Forks, Lizenz, Topics
-- **Batch-Processing**: Mehrere Repos parallel verarbeiten
 
 ## 📁 Projektstruktur
 
@@ -159,8 +138,14 @@ respo/
 │   ├── api/                # FastAPI Endpoints
 │   ├── rag/                # RAG Pipeline
 │   ├── embedding/          # Embedding Service
-│   ├── ingestion/          # Code Ingestion
+│   ├── ingestion/          # Code Ingestion + GitHub Scraper
 │   ├── llm/                # vLLM Integration
+│   ├── vectorstore/        # Pluggable Vector Stores
+│   │   ├── base.py         # Abstract Interface
+│   │   ├── chroma.py       # ChromaDB (default)
+│   │   ├── qdrant.py       # Qdrant
+│   │   ├── weaviate.py     # Weaviate
+│   │   └── themis.py       # ThemisDB
 │   ├── graph/              # Code Graph Analysis
 │   └── utils/              # Utilities
 ├── training/               # LoRA Training
@@ -174,8 +159,12 @@ respo/
 ### Umgebungsvariablen
 
 ```bash
-# ThemisDB
-THEMIS_URL=http://localhost:8765
+# Vector Store (choose one)
+VECTOR_STORE=chroma                    # chroma, qdrant, weaviate, themis
+CHROMA_PERSIST_DIR=./data/chroma
+# QDRANT_URL=http://localhost:6333
+# WEAVIATE_URL=http://localhost:8080
+# THEMIS_URL=http://localhost:8765
 
 # vLLM
 VLLM_URL=http://localhost:8000
@@ -190,18 +179,18 @@ LOG_LEVEL=INFO
 
 ## 🧪 LoRA Training
 
-Siehe [training/README.md](training/README.md) für Details zum Fine-Tuning.
-
 ```bash
 cd training
 python train_lora.py --config configs/python.yaml
 ```
 
+Siehe [training/README.md](training/README.md) für Details.
+
 ## 📊 Performance
 
-| Operation | Latenz | Hardware |
-|-----------|--------|----------|
-| Vector Search | 5-20 ms | ThemisDB |
+| Operation | Latenz | Anmerkung |
+|-----------|--------|-----------|
+| Vector Search | 5-20 ms | ChromaDB/Qdrant |
 | Reranking | 100-200 ms | CPU |
 | LLM First Token | 500-1000 ms | A100 |
 | LLM Total (500 Token) | 3-8 s | A100 |
@@ -211,14 +200,19 @@ python train_lora.py --config configs/python.yaml
 - ✅ **On-Premise** - Keine Cloud-Abhängigkeiten
 - ✅ **Kein Vendor-Login** - Vollständig lokal
 - ✅ **DSGVO-konform** - Alle Daten bleiben lokal
-- ✅ **Air-Gapped Deployment** - Möglich
+- ✅ **Air-Gapped Deployment** - Läuft komplett offline
+- ✅ **Unabhängig** - Kein Lock-in zu spezifischen Backends
 
-## 📚 Dokumentation
+## 🔌 Vector Store Backends
 
-- [Architektur](docs/architecture.md)
-- [API Reference](docs/api.md)
-- [Deployment Guide](docs/deployment.md)
-- [LoRA Training Guide](docs/training.md)
+RESPO unterstützt verschiedene Vector Store Backends:
+
+| Backend | Status | Beschreibung |
+|---------|--------|--------------|
+| ChromaDB | ✅ Default | Lokale Embedded-Datenbank |
+| Qdrant | ✅ Supported | Hochperformante Vector-DB |
+| Weaviate | 🔧 Planned | GraphQL-basierte Vector-DB |
+| ThemisDB | 🔧 Optional | Multi-Model Datenbank |
 
 ## 🛠️ Development
 
@@ -231,14 +225,17 @@ ruff check respo/
 
 # Type Checking
 mypy respo/
+
+# Formatierung
+black respo/
 ```
 
 ## 📄 Lizenz
 
-MIT License - siehe [LICENSE](../../LICENSE)
+MIT License
 
 ---
 
 **Status:** Development  
 **Version:** 0.1.0  
-**Maintainer:** ThemisDB Team
+**Maintainer:** RESPO Team
