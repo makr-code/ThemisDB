@@ -4,9 +4,10 @@ RESPO Ingestion Module
 Provides code ingestion capabilities including:
 - GitHub repository scraping
 - Code chunking and parsing
-- ThemisDB indexing
+- Indexing
 """
 
+from respo.ingestion.chunker import CodeChunk, CodeChunker
 from respo.ingestion.github_scraper import (
     CodeFile,
     GitHubScraper,
@@ -19,4 +20,6 @@ __all__ = [
     "GitHubScraper",
     "ScraperConfig",
     "parse_github_url",
+    "CodeChunk",
+    "CodeChunker",
 ]
