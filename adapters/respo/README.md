@@ -105,6 +105,52 @@ curl -X POST http://localhost:8080/search \
   }'
 ```
 
+## 🔍 GitHub Scraper
+
+RESPO enthält einen leistungsfähigen GitHub Scraper zum Sammeln von Trainingsdaten und Wissensbasis.
+
+### CLI Befehle
+
+```bash
+# Repository scrapen
+respo scrape owner/repo -o ./output
+
+# Mit GitHub Token (höhere Rate Limits)
+respo scrape owner/repo -t $GITHUB_TOKEN -o ./output
+
+# Repository suchen
+respo search "machine learning" --language python --min-stars 1000
+
+# Batch-Scraping aus Datei
+respo batch-scrape repos.txt -o ./data -j metadata.json
+```
+
+### Beispiele
+
+```bash
+# Python-Repositories scrapen
+respo scrape python/cpython -o ./python-src -e py
+
+# Top TypeScript Repos finden
+respo search "typescript framework" -l typescript -s 5000 -n 50
+
+# Batch-Scraping mit Metadaten
+cat > repos.txt << EOF
+facebook/react
+microsoft/TypeScript
+rust-lang/rust
+EOF
+respo batch-scrape repos.txt -o ./training-data -j metadata.json
+```
+
+### Scraper Features
+
+- **Repository Cloning**: Shallow clones für schnelles Scraping
+- **Datei-Filterung**: Nach Erweiterung und Mustern
+- **Rate Limiting**: GitHub API Limits respektieren
+- **Metadaten-Extraktion**: Stars, Forks, Lizenz, Topics
+- **Batch-Processing**: Mehrere Repos parallel verarbeiten
+
 ## 📁 Projektstruktur
 
 ```
