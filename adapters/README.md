@@ -6,39 +6,6 @@ This directory contains adapters for integrating ThemisDB with external systems 
 
 ## Available Adapters
 
-### RESPO - RAG LLM Programmierhilfe 🆕
-**Path:** `respo/`  
-**Type:** FastAPI Application + vLLM Integration  
-**Port:** 8080  
-**Status:** Development
-
-On-premise RAG-based LLM coding assistant:
-- **ThemisDB** als Vektor-/Wissensspeicher
-- **vLLM** als Inference-Engine mit LoRA Support
-- **Kein Vendor-Login** - Vollständig lokale Ausführung
-- Code Embeddings mit CodeBERT
-- Semantic Code Search
-- Code Explanation, Review, Completion
-
-**Features:**
-- RAG Pipeline mit Hybrid Search (Vector + Graph + Keyword)
-- LoRA Fine-Tuning für domänenspezifische Anpassung
-- WebSocket Streaming für Token-by-Token Responses
-- Air-gapped Deployment möglich
-
-**Endpoints:**
-- `POST /chat` - Interactive Chat mit Code-Kontext
-- `POST /complete` - Code Completion
-- `POST /explain` - Code Explanation
-- `POST /review` - Code Review
-- `POST /search` - Semantic Code Search
-- `POST /ingest` - Code Repository Indexing
-- `GET /health` - Health check
-
-**Documentation:** See [`docs/projects/RAG_LLM_PROGRAMMIERHILFE.md`](../docs/projects/RAG_LLM_PROGRAMMIERHILFE.md)
-
----
-
 ### VCC Base Library ✅
 **Path:** `vcc_base/`  
 **Type:** Python Library  
