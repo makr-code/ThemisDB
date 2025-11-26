@@ -2,9 +2,20 @@
 # RESPO LoRA Training - Python Configuration
 # =============================================================================
 # Configuration for Python-specific code LLM fine-tuning.
-# Inherits from base.yaml
+# 
+# NOTE: This config is designed to be used with a custom config loader
+# that supports the '_base_' inheritance pattern. When using standard
+# YAML parsers, manually merge settings from base.yaml.
+#
+# Usage with custom loader:
+#   config = load_config_with_inheritance("python.yaml")
+#
+# Usage with standard YAML:
+#   base_config = yaml.safe_load(open("base.yaml"))
+#   python_config = yaml.safe_load(open("python.yaml"))
+#   config = {**base_config, **python_config}  # Merge
 
-# Inherit base configuration
+# Inherit base configuration (requires custom config loader)
 _base_: "base.yaml"
 
 # Model Configuration (override if needed)
