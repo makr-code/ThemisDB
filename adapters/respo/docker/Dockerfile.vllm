@@ -1,0 +1,77 @@
+# =============================================================================
+# vLLM Server Dockerfile with LoRA Support
+# =============================================================================
+# Custom vLLM image with pre-configured LoRA support
+
+FROM nvidia/cuda:12.1.0-devel-ubuntu22.04 as builder
+
+# Prevent interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python and dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 \
+    python3.11-venv \
+    python3-pip \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Python 3.11 as default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1 && \
+    update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install vLLM with CUDA support
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir vllm==0.4.0
+
+# Runtime stage
+FROM nvidia/cuda:12.1.0-runtime-ubuntu22.04 as runtime
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Python 3.11 as default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.11 1
+
+# Copy virtual environment
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Create directories
+RUN mkdir -p /models/base /models/lora
+
+# Create non-root user
+RUN useradd -m -u 1000 vllm && \
+    chown -R vllm:vllm /models
+USER vllm
+
+WORKDIR /app
+
+# Environment variables
+ENV CUDA_VISIBLE_DEVICES=all \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# Expose port
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Default command with LoRA support
+ENTRYPOINT ["python", "-m", "vllm.entrypoints.openai.api_server"]
+CMD ["--model", "codellama/CodeLlama-13b-Instruct-hf", \
+     "--enable-lora", \
+     "--max-lora-rank", "64", \
+     "--gpu-memory-utilization", "0.9", \
+     "--max-model-len", "8192", \
+     "--port", "8000"]
