@@ -5,7 +5,7 @@ Handles all configuration via environment variables with sensible defaults.
 """
 
 from functools import lru_cache
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -98,7 +98,7 @@ class CORSSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="CORS_")
 
     @property
-    def origin_list(self) -> List[str]:
+    def origin_list(self) -> list[str]:
         """Parse origins string into list."""
         if self.origins == "*":
             return ["*"]

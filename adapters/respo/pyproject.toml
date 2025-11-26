@@ -82,7 +82,23 @@ reranking = [
 ]
 
 all = [
-    "respo[dev,training,reranking]",
+    # Dev dependencies
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+    "black>=23.11.0",
+    "httpx>=0.25.0",
+    # Training dependencies
+    "peft>=0.7.0",
+    "accelerate>=0.24.0",
+    "bitsandbytes>=0.41.0",
+    "datasets>=2.15.0",
+    "trl>=0.7.0",
+    "deepspeed>=0.12.0",
+    # Reranking dependencies
+    "sentence-transformers>=2.2.0",
 ]
 
 [project.scripts]

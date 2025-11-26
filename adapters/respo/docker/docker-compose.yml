@@ -1,4 +1,5 @@
-version: '3.8'
+# RESPO - RAG LLM Programmierhilfe Docker Compose
+# Requires Docker Compose v2.0+ (no version field needed)
 
 services:
   # ==========================================================================
