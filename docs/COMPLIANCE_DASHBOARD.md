@@ -63,7 +63,9 @@
 | 7 | **BCP/DRP** | `docs/compliance/BCP_DRP.md` | 500 Zeilen | ✅ |
 | 8 | **Risk Register** | `docs/compliance/RISK_REGISTER.md` | 350 Zeilen | ✅ |
 | 9 | **Vendor Assessment** | `docs/compliance/VENDOR_ASSESSMENT.md` | 350 Zeilen | ✅ |
-| 10 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
+| 10 | **Access Control Policy** | `docs/policies/ACCESS_CONTROL_POLICY.md` | 400 Zeilen | ✅ |
+| 11 | **Change Management Policy** | `docs/policies/CHANGE_MANAGEMENT_POLICY.md` | 450 Zeilen | ✅ |
+| 12 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
 
 ### CI/CD Security
 
