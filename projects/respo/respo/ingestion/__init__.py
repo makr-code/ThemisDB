@@ -4,6 +4,7 @@ RESPO Ingestion Module
 Provides code ingestion capabilities including:
 - GitHub repository scraping
 - Code chunking and parsing
+- Ingestion pipeline
 - Indexing
 """
 
@@ -14,6 +15,7 @@ from respo.ingestion.github_scraper import (
     ScraperConfig,
     parse_github_url,
 )
+from respo.ingestion.pipeline import IngestionConfig, IngestionPipeline, IngestionStats
 
 __all__ = [
     "CodeFile",
@@ -22,4 +24,7 @@ __all__ = [
     "parse_github_url",
     "CodeChunk",
     "CodeChunker",
+    "IngestionPipeline",
+    "IngestionConfig",
+    "IngestionStats",
 ]

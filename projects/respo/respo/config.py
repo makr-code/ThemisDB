@@ -11,8 +11,20 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+class VectorStoreSettings(BaseSettings):
+    """Vector store settings."""
+
+    backend: str = Field(default="chroma", description="Vector store backend (chroma, qdrant, weaviate, themis)")
+    chroma_persist_dir: str = Field(default="./data/chroma", description="ChromaDB persistence directory")
+    qdrant_url: str = Field(default="http://localhost:6333", description="Qdrant server URL")
+    weaviate_url: str = Field(default="http://localhost:8080", description="Weaviate server URL")
+    themis_url: str = Field(default="http://localhost:8765", description="ThemisDB server URL")
+
+    model_config = SettingsConfigDict(env_prefix="VECTOR_STORE_")
+
+
 class ThemisSettings(BaseSettings):
-    """ThemisDB connection settings."""
+    """ThemisDB connection settings (legacy, use VectorStoreSettings)."""
 
     url: str = Field(default="http://localhost:8765", description="ThemisDB server URL")
     auth_token: Optional[str] = Field(default=None, description="Optional JWT auth token")
@@ -138,6 +150,7 @@ class Settings(BaseSettings):
     """Main settings class combining all sub-settings."""
 
     # Sub-settings
+    vector_store: VectorStoreSettings = Field(default_factory=VectorStoreSettings)
     themis: ThemisSettings = Field(default_factory=ThemisSettings)
     vllm: VLLMSettings = Field(default_factory=VLLMSettings)
     embedding: EmbeddingSettings = Field(default_factory=EmbeddingSettings)
