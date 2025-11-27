@@ -1,0 +1,1 @@
+UPDATE doc WITH { "updated": true } IN collection
