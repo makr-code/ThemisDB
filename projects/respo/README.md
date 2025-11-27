@@ -211,8 +211,75 @@ RESPO unterstützt verschiedene Vector Store Backends:
 |---------|--------|--------------|
 | ChromaDB | ✅ Default | Lokale Embedded-Datenbank |
 | Qdrant | ✅ Supported | Hochperformante Vector-DB |
+| ThemisDB | ✅ Supported | Multi-Model DB mit Graph & Hybrid Search |
 | Weaviate | 🔧 Planned | GraphQL-basierte Vector-DB |
-| ThemisDB | 🔧 Optional | Multi-Model Datenbank |
+
+## 🔗 ThemisDB Integration
+
+Bei Verwendung von ThemisDB als Backend werden zusätzliche Features freigeschaltet:
+
+### Graph-basierte Code-Analyse
+
+```python
+from respo.ingestion import IngestionPipeline
+
+# Ingestion mit Graph-Extraktion
+pipeline = IngestionPipeline(
+    vector_store=themis_store,
+    embedder=embedder,
+)
+
+# Repository indexieren - Graph wird automatisch aufgebaut
+await pipeline.ingest_github_repo("owner", "repo")
+
+# Dependency-Analyse
+deps = await pipeline.analyze_dependencies("module.function_name")
+print(f"Dependencies: {deps['dependencies']}")
+print(f"Used by: {deps['usages']}")
+
+# Call Graph abrufen
+call_graph = await pipeline.get_call_graph("main.process_data", depth=3)
+```
+
+### Hybrid Search mit Graph Expansion
+
+```python
+from respo.vectorstore.themis import ThemisVectorStore
+
+store = ThemisVectorStore()
+
+# Standard Vector Search
+results = await store.search(query_embedding, k=10)
+
+# Hybrid Search: Vector + Keyword + Graph
+results = await store.hybrid_search(
+    query_embedding=embedding,
+    query_text="database connection",
+    k=10,
+    expand_graph=True,  # Findet auch verwandte Code-Entitäten
+    graph_depth=2,
+)
+
+# Graph Traversal
+callees = await store.graph_traverse(
+    start_id="utils.db.connect",
+    edge_types=["calls"],
+    direction="outgoing",
+    depth=3,
+)
+```
+
+### Extrahierte Beziehungen
+
+| Beziehungstyp | Beschreibung |
+|---------------|--------------|
+| `imports` | Modul-Import-Beziehungen |
+| `calls` | Funktionsaufrufe |
+| `inherits` | Klassen-Vererbung |
+| `implements` | Interface-Implementierung |
+| `uses` | Variablen-/Typen-Nutzung |
+| `contains` | Modul/Klasse enthält Funktion |
+| `defines` | Klasse definiert Methode |
 
 ## 🛠️ Development
 

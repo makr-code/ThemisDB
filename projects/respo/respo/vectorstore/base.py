@@ -155,6 +155,12 @@ def _register_backends() -> None:
         VectorStoreFactory.register("qdrant", QdrantVectorStore)
     except ImportError:
         pass
+    
+    try:
+        from respo.vectorstore.themis import ThemisVectorStore
+        VectorStoreFactory.register("themis", ThemisVectorStore)
+    except ImportError:
+        pass
 
 
 _register_backends()
