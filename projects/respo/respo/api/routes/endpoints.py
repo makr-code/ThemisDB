@@ -399,3 +399,378 @@ async def ingest(request: IngestRequest) -> IngestResponse:
     except Exception as e:
         logger.error("Ingest error", error=str(e))
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ============================================================================
+# Capabilities Endpoint (Self-Discovery)
+# ============================================================================
+
+
+@router.get("/capabilities")
+async def get_capabilities():
+    """
+    Get server capabilities and available endpoints.
+    
+    Returns self-describing API with request/response patterns for each endpoint.
+    Enables dynamic client integration (VS Code, MCP, etc.)
+    """
+    return {
+        "server": {
+            "name": "respo",
+            "version": "1.0.0",
+            "description": "RAG LLM Coding Assistant",
+            "protocol_version": "2024-11-05",
+        },
+        "capabilities": {
+            "chat": True,
+            "streaming": True,
+            "code_completion": True,
+            "code_explanation": True,
+            "code_review": True,
+            "semantic_search": True,
+            "ingestion": True,
+            "agentic_planning": True,
+            "deep_research": True,
+            "mcp": True,
+            "sse": True,
+            "graph_search": _vector_store is not None and hasattr(_vector_store, "graph_search"),
+        },
+        "endpoints": {
+            "chat": {
+                "path": "/chat",
+                "method": "POST",
+                "description": "Interactive chat with code context",
+                "request": {
+                    "message": {"type": "string", "required": True, "description": "User message"},
+                    "language": {"type": "string", "required": False, "default": "python"},
+                    "history": {"type": "array", "required": False, "description": "Chat history"},
+                },
+                "response": {
+                    "answer": {"type": "string", "description": "Generated response"},
+                    "sources": {"type": "array", "description": "Retrieved code sources"},
+                    "usage": {"type": "object", "description": "Token usage stats"},
+                },
+            },
+            "chat_stream": {
+                "path": "/chat/stream",
+                "method": "POST",
+                "description": "Streaming chat with SSE",
+                "content_type": "text/event-stream",
+                "request": {
+                    "message": {"type": "string", "required": True},
+                    "language": {"type": "string", "required": False},
+                },
+                "response": {
+                    "format": "SSE",
+                    "events": ["data", "[DONE]", "[ERROR]"],
+                },
+            },
+            "complete": {
+                "path": "/complete",
+                "method": "POST",
+                "description": "Code completion",
+                "request": {
+                    "code": {"type": "string", "required": True, "description": "Code to complete"},
+                    "language": {"type": "string", "required": True},
+                    "max_tokens": {"type": "integer", "required": False, "default": 512},
+                },
+                "response": {
+                    "completion": {"type": "string"},
+                    "confidence": {"type": "number"},
+                },
+            },
+            "explain": {
+                "path": "/explain",
+                "method": "POST",
+                "description": "Code explanation",
+                "request": {
+                    "code": {"type": "string", "required": True},
+                    "language": {"type": "string", "required": False},
+                    "detail_level": {"type": "string", "enum": ["brief", "detailed", "comprehensive"]},
+                },
+                "response": {
+                    "explanation": {"type": "string"},
+                    "concepts": {"type": "array"},
+                },
+            },
+            "review": {
+                "path": "/review",
+                "method": "POST",
+                "description": "Code review",
+                "request": {
+                    "code": {"type": "string", "required": True},
+                    "focus": {"type": "array", "items": ["bugs", "security", "performance", "style"]},
+                },
+                "response": {
+                    "summary": {"type": "string"},
+                    "issues": {"type": "array"},
+                    "score": {"type": "number"},
+                },
+            },
+            "search": {
+                "path": "/search",
+                "method": "POST",
+                "description": "Semantic code search",
+                "request": {
+                    "query": {"type": "string", "required": True},
+                    "limit": {"type": "integer", "default": 10},
+                    "language": {"type": "string", "required": False},
+                },
+                "response": {
+                    "results": {"type": "array"},
+                    "total": {"type": "integer"},
+                    "query_time_ms": {"type": "number"},
+                },
+            },
+            "ingest": {
+                "path": "/ingest",
+                "method": "POST",
+                "description": "Ingest code into vector store",
+                "request": {
+                    "source_type": {"type": "string", "enum": ["github", "directory", "file"]},
+                    "source": {"type": "string", "required": True, "description": "owner/repo or path"},
+                    "branch": {"type": "string", "required": False},
+                },
+                "response": {
+                    "status": {"type": "string", "enum": ["success", "partial", "error"]},
+                    "files_processed": {"type": "integer"},
+                    "chunks_indexed": {"type": "integer"},
+                },
+            },
+            "plan": {
+                "path": "/agents/plan",
+                "method": "POST",
+                "description": "Create execution plan for complex task",
+                "request": {
+                    "task": {"type": "string", "required": True, "description": "Complex task description"},
+                    "context": {"type": "string", "required": False},
+                },
+                "response": {
+                    "plan_id": {"type": "string"},
+                    "goal": {"type": "string"},
+                    "steps": {"type": "array"},
+                },
+            },
+            "plan_stream": {
+                "path": "/agents/plan/stream",
+                "method": "POST",
+                "description": "Stream plan execution via SSE",
+                "content_type": "text/event-stream",
+                "request": {
+                    "task": {"type": "string", "required": True},
+                },
+                "response": {
+                    "format": "SSE",
+                    "events": ["plan_start", "step_start", "step_complete", "step_error", "plan_complete"],
+                },
+            },
+            "research": {
+                "path": "/agents/research",
+                "method": "POST",
+                "description": "Deep research on a topic",
+                "request": {
+                    "query": {"type": "string", "required": True},
+                    "context": {"type": "string", "required": False},
+                },
+                "response": {
+                    "summary": {"type": "string"},
+                    "findings": {"type": "array"},
+                    "code_examples": {"type": "array"},
+                    "confidence": {"type": "number"},
+                },
+            },
+            "research_stream": {
+                "path": "/agents/research/stream",
+                "method": "POST",
+                "description": "Stream deep research via SSE",
+                "content_type": "text/event-stream",
+                "request": {
+                    "query": {"type": "string", "required": True},
+                },
+                "response": {
+                    "format": "SSE",
+                    "events": ["research_start", "plan_created", "step_start", "step_complete", "finding", "code_example", "research_complete"],
+                },
+            },
+            "mcp": {
+                "path": "/mcp",
+                "method": "POST",
+                "description": "MCP (Model Context Protocol) endpoint for VS Code",
+                "request": {
+                    "jsonrpc": {"type": "string", "value": "2.0"},
+                    "method": {"type": "string", "description": "MCP method (tools/list, tools/call, etc.)"},
+                    "params": {"type": "object"},
+                    "id": {"type": "any"},
+                },
+                "response": {
+                    "jsonrpc": {"type": "string", "value": "2.0"},
+                    "result": {"type": "object"},
+                    "id": {"type": "any"},
+                },
+            },
+        },
+        "tools": [
+            {"name": "respo_search", "description": "Semantic code search"},
+            {"name": "respo_implement", "description": "Generate code implementation"},
+            {"name": "respo_explain", "description": "Explain code"},
+            {"name": "respo_review", "description": "Review code"},
+            {"name": "respo_research", "description": "Deep research"},
+            {"name": "respo_plan", "description": "Create execution plan"},
+        ],
+    }
+
+
+# ============================================================================
+# Agentic Endpoints (Deep Research, Planning)
+# ============================================================================
+
+# Global agent instances
+_planner = None
+_research_agent = None
+
+
+def get_planner():
+    """Get agentic planner instance."""
+    if _planner is None:
+        raise HTTPException(status_code=503, detail="Planner not initialized")
+    return _planner
+
+
+def get_research_agent():
+    """Get deep research agent instance."""
+    if _research_agent is None:
+        raise HTTPException(status_code=503, detail="Research agent not initialized")
+    return _research_agent
+
+
+@router.post("/agents/plan")
+async def create_plan(request: dict):
+    """
+    Create an execution plan for a complex task.
+    
+    Decomposes the task into smaller, actionable steps.
+    """
+    task = request.get("task")
+    if not task:
+        raise HTTPException(status_code=400, detail="task is required")
+
+    planner = get_planner()
+    context = {"user_context": request.get("context")} if request.get("context") else None
+
+    try:
+        plan = await planner.create_plan(task, context)
+        return plan.to_dict()
+    except Exception as e:
+        logger.error("Plan error", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/agents/plan/stream")
+async def stream_plan_execution(request: dict):
+    """
+    Stream plan execution via SSE.
+    
+    Creates a plan and streams execution progress in real-time.
+    """
+    import json
+
+    task = request.get("task")
+    if not task:
+        raise HTTPException(status_code=400, detail="task is required")
+
+    planner = get_planner()
+    from respo.agents.executor import StepExecutor
+    executor = StepExecutor(_llm_client, _vector_store, _pipeline)
+
+    async def generate():
+        try:
+            plan = await planner.create_plan(task)
+            async for event in planner.stream_plan_execution(plan, executor):
+                yield f"event: {event['event']}\ndata: {json.dumps(event['data'])}\n\n"
+        except Exception as e:
+            yield f"event: error\ndata: {json.dumps({'error': str(e)})}\n\n"
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
+
+
+@router.post("/agents/research")
+async def deep_research(request: dict):
+    """
+    Perform deep research on a complex topic.
+    
+    Uses iterative search, analysis, and synthesis.
+    """
+    query = request.get("query")
+    if not query:
+        raise HTTPException(status_code=400, detail="query is required")
+
+    agent = get_research_agent()
+    context = request.get("context")
+
+    try:
+        result = await agent.research(query, context)
+        return result.to_dict()
+    except Exception as e:
+        logger.error("Research error", error=str(e))
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/agents/research/stream")
+async def stream_research(request: dict):
+    """
+    Stream deep research via SSE.
+    
+    Provides real-time progress on research steps.
+    """
+    import json
+
+    query = request.get("query")
+    if not query:
+        raise HTTPException(status_code=400, detail="query is required")
+
+    agent = get_research_agent()
+    context = request.get("context")
+
+    async def generate():
+        try:
+            async for event in agent.stream_research(query, context):
+                yield f"event: {event['event']}\ndata: {json.dumps(event['data'])}\n\n"
+        except Exception as e:
+            yield f"event: error\ndata: {json.dumps({'error': str(e)})}\n\n"
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
+
+
+# ============================================================================
+# MCP Endpoint
+# ============================================================================
+
+_mcp_handler = None
+
+
+def get_mcp_handler():
+    """Get MCP handler instance."""
+    if _mcp_handler is None:
+        raise HTTPException(status_code=503, detail="MCP handler not initialized")
+    return _mcp_handler
+
+
+@router.post("/mcp")
+async def mcp_endpoint(request: dict):
+    """
+    MCP (Model Context Protocol) endpoint.
+    
+    Handles JSON-RPC requests for VS Code Copilot and other MCP clients.
+    """
+    handler = get_mcp_handler()
+
+    try:
+        response = await handler.handle_mcp_request(request)
+        return response
+    except Exception as e:
+        logger.error("MCP error", error=str(e))
+        return {
+            "jsonrpc": "2.0",
+            "id": request.get("id"),
+            "error": {"code": -32603, "message": str(e)},
+        }
