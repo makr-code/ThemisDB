@@ -28,12 +28,14 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - **[Projektkostenschätzung & Gesamtwert](docs/THEMIS_PROJECT_VALUATION.md)** - Wirtschaftliche Bewertung, SaaS-Entwicklungskosten
 
 **Für Audits & Compliance:**
+- **[🎯 Compliance Dashboard](docs/COMPLIANCE_DASHBOARD.md)** - Executive Summary aller Compliance-Aktivitäten
 - **[Vollständige Audit-Checkliste](docs/FULL_AUDIT_CHECKLIST.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
 - **[Security Audit Report](docs/reports/SECURITY_AUDIT_REPORT.md)** - Durchgeführtes Security Audit mit Ergebnissen
 - **[Security Policy](SECURITY.md)** - Vulnerability Disclosure, Sicherheitsmaßnahmen
 - **[Incident Response Plan](docs/security/INCIDENT_RESPONSE_PLAN.md)** - Notfallplan nach BSI IT-Grundschutz & NIST CSF
 - **[SBOM Dokumentation](docs/security/SBOM.md)** - Software Bill of Materials (Syft/CycloneDX)
 - **[DPIA - Datenschutz-Folgenabschätzung](docs/compliance/DPIA.md)** - DSGVO Art. 35 Risikobewertung
+- **[BCP/DRP - Business Continuity](docs/compliance/BCP_DRP.md)** - Disaster Recovery nach ISO 22301 & NIS2
 
 **Für Entwickler:**
 - **[Documentation Verification Report](DOCUMENTATION_VERIFICATION_REPORT.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
