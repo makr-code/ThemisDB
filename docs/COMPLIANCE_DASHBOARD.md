@@ -65,7 +65,19 @@
 | 9 | **Vendor Assessment** | `docs/compliance/VENDOR_ASSESSMENT.md` | 350 Zeilen | ✅ |
 | 10 | **Access Control Policy** | `docs/policies/ACCESS_CONTROL_POLICY.md` | 400 Zeilen | ✅ |
 | 11 | **Change Management Policy** | `docs/policies/CHANGE_MANAGEMENT_POLICY.md` | 450 Zeilen | ✅ |
-| 12 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
+| 12 | **Data Classification Policy** | `docs/policies/DATA_CLASSIFICATION_POLICY.md` | 500 Zeilen | ✅ |
+| 13 | **Encryption & Key Management** | `docs/policies/ENCRYPTION_KEY_MANAGEMENT_POLICY.md` | 750 Zeilen | ✅ |
+| 14 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
+
+### Fuzzing-Infrastruktur (AFL++)
+
+| # | Datei | Pfad | Beschreibung |
+|---|-------|------|--------------|
+| 1 | **AFL++ Config (JSON)** | `fuzz/aflplusplus-config.json` | Fuzzing-Konfiguration |
+| 2 | **AFL++ Config (YAML)** | `fuzz/aflplusplus-config.yaml` | Fuzzing-Konfiguration |
+| 3 | **Fuzzing Workflow** | `.github/workflows/fuzzing.yml` | CI/CD Integration |
+| 4 | **Dictionaries** | `fuzz/dictionaries/*.dict` | AQL, JSON, Crypto |
+| 5 | **Harnesses** | `fuzz/harnesses/*.cpp` | Parser Harnesses |
 
 ### CI/CD Security
 
@@ -73,6 +85,7 @@
 |----------|------|----------|--------|
 | **SBOM Generation** | `.github/workflows/sbom.yml` | Bei Release | ✅ |
 | **Security Scanning** | `.github/workflows/security-scan.yml` | Wöchentlich + PR | ✅ |
+| **AFL++ Fuzzing** | `.github/workflows/fuzzing.yml` | Wöchentlich | ✅ |
 
 ---
 
