@@ -774,3 +774,208 @@ async def mcp_endpoint(request: dict):
             "id": request.get("id"),
             "error": {"code": -32603, "message": str(e)},
         }
+
+
+# ============================================================================
+# Task Management (CRUD) Endpoints for SSE/MCP
+# ============================================================================
+
+from respo.api.sessions import (
+    TaskManager,
+    TaskType,
+    TaskStatus,
+    TaskCreateRequest,
+    TaskResponse,
+    TaskListResponse,
+    TaskActionResponse,
+    get_task_manager,
+)
+
+
+def _task_to_response(task) -> TaskResponse:
+    """Convert Task to TaskResponse."""
+    return TaskResponse(
+        id=task.id,
+        type=task.type,
+        status=task.status,
+        created_at=task.created_at,
+        updated_at=task.updated_at,
+        started_at=task.started_at,
+        completed_at=task.completed_at,
+        progress={
+            "current_step": task.progress.current_step,
+            "total_steps": task.progress.total_steps,
+            "percentage": task.progress.percentage,
+            "current_step_name": task.progress.current_step_name,
+            "message": task.progress.message,
+        },
+        error=task.error,
+        metadata=task.metadata,
+    )
+
+
+@router.get("/tasks", response_model=TaskListResponse)
+async def list_tasks(
+    task_type: Optional[str] = None,
+    status: Optional[str] = None,
+    limit: int = 100,
+) -> TaskListResponse:
+    """
+    List all tasks with optional filtering.
+    
+    Query parameters:
+    - task_type: Filter by task type (plan_execution, deep_research, etc.)
+    - status: Filter by status (pending, running, completed, cancelled, failed, paused)
+    - limit: Maximum number of tasks to return (default 100)
+    """
+    manager = get_task_manager()
+    
+    type_filter = TaskType(task_type) if task_type else None
+    status_filter = TaskStatus(status) if status else None
+    
+    tasks = await manager.list_tasks(
+        task_type=type_filter,
+        status=status_filter,
+        limit=limit,
+    )
+    
+    return TaskListResponse(
+        tasks=[_task_to_response(t) for t in tasks],
+        total=len(tasks),
+    )
+
+
+@router.post("/tasks", response_model=TaskResponse, status_code=201)
+async def create_task(request: TaskCreateRequest) -> TaskResponse:
+    """
+    Create a new task.
+    
+    The task will be created in PENDING status. Use the task ID
+    to start execution via the appropriate endpoint (e.g., /agents/plan/stream).
+    """
+    manager = get_task_manager()
+    task = await manager.create_task(
+        task_type=request.type,
+        metadata=request.metadata,
+    )
+    
+    logger.info("Task created", task_id=task.id, type=task.type)
+    return _task_to_response(task)
+
+
+@router.get("/tasks/{task_id}", response_model=TaskResponse)
+async def get_task(task_id: str) -> TaskResponse:
+    """
+    Get task by ID.
+    
+    Returns the current status and progress of a task.
+    """
+    manager = get_task_manager()
+    task = await manager.get_task(task_id)
+    
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    
+    return _task_to_response(task)
+
+
+@router.post("/tasks/{task_id}/cancel", response_model=TaskActionResponse)
+async def cancel_task(task_id: str) -> TaskActionResponse:
+    """
+    Cancel a running or pending task.
+    
+    Signals the task to stop gracefully. SSE streams will receive
+    a cancellation event.
+    """
+    manager = get_task_manager()
+    task = await manager.get_task(task_id)
+    
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    
+    success = await manager.cancel_task(task_id)
+    
+    logger.info("Task cancelled", task_id=task_id, success=success)
+    
+    return TaskActionResponse(
+        success=success,
+        task_id=task_id,
+        action="cancel",
+        message="Task cancelled" if success else "Task could not be cancelled",
+    )
+
+
+@router.post("/tasks/{task_id}/pause", response_model=TaskActionResponse)
+async def pause_task(task_id: str) -> TaskActionResponse:
+    """
+    Pause a running task.
+    
+    The task will pause at the next checkpoint. SSE streams will
+    receive a pause event.
+    """
+    manager = get_task_manager()
+    task = await manager.get_task(task_id)
+    
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    
+    success = await manager.pause_task(task_id)
+    
+    logger.info("Task paused", task_id=task_id, success=success)
+    
+    return TaskActionResponse(
+        success=success,
+        task_id=task_id,
+        action="pause",
+        message="Task paused" if success else "Task could not be paused",
+    )
+
+
+@router.post("/tasks/{task_id}/resume", response_model=TaskActionResponse)
+async def resume_task(task_id: str) -> TaskActionResponse:
+    """
+    Resume a paused task.
+    
+    The task will continue from where it was paused.
+    """
+    manager = get_task_manager()
+    task = await manager.get_task(task_id)
+    
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    
+    success = await manager.resume_task(task_id)
+    
+    logger.info("Task resumed", task_id=task_id, success=success)
+    
+    return TaskActionResponse(
+        success=success,
+        task_id=task_id,
+        action="resume",
+        message="Task resumed" if success else "Task could not be resumed",
+    )
+
+
+@router.delete("/tasks/{task_id}", response_model=TaskActionResponse)
+async def delete_task(task_id: str) -> TaskActionResponse:
+    """
+    Delete a task.
+    
+    Running tasks will be cancelled before deletion.
+    """
+    manager = get_task_manager()
+    task = await manager.get_task(task_id)
+    
+    if not task:
+        raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+    
+    success = await manager.delete_task(task_id)
+    
+    logger.info("Task deleted", task_id=task_id, success=success)
+    
+    return TaskActionResponse(
+        success=success,
+        task_id=task_id,
+        action="delete",
+        message="Task deleted" if success else "Task could not be deleted",
+    )
