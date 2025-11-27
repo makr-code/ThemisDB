@@ -26,6 +26,10 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 **Für Stakeholder:**
 - **[Themis Sachstandsbericht 2025](THEMIS_SACHSTANDSBERICHT_2025.md)** - Executive Summary, Performance-Benchmarks, Compliance-Readiness
 
+**Für Audits & Compliance:**
+- **[Vollständige Audit-Checkliste](docs/FULL_AUDIT_CHECKLIST.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
+- **[Security Policy](SECURITY.md)** - Vulnerability Disclosure, Sicherheitsmaßnahmen
+
 **Für Entwickler:**
 - **[Documentation Verification Report](DOCUMENTATION_VERIFICATION_REPORT.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
 

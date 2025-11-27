@@ -2,6 +2,8 @@
 
 Diese Checkliste unterstützt ein wiederholbares Sicherheits-Audit für Themis-Server und Admin-Tools.
 
+> **📋 Vollständige Compliance-Checkliste:** Für eine umfassende Audit-Checkliste nach BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, HIPAA und DIN-Normen siehe: **[Vollständige Audit-Checkliste](../FULL_AUDIT_CHECKLIST.md)**
+
 ## 1) Architektur & Threat Modeling
 - Datenflüsse und Vertrauensgrenzen dokumentiert (Client ↔ Server ↔ Storage)
 - Angriffsflächen identifiziert (HTTP-API, Admin-Tools, Datei-Importe)
