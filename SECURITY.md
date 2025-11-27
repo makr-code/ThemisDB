@@ -20,11 +20,14 @@ We take security vulnerabilities seriously. If you discover a security vulnerabi
 - Exploit the vulnerability beyond what's necessary to demonstrate it
 
 ### Do:
-1. **Email us directly** at [security@themisdb.io](mailto:security@themisdb.io) with:
-   - A description of the vulnerability
-   - Steps to reproduce the issue
-   - Potential impact assessment
-   - Any suggested fixes (optional)
+1. **Report via GitHub Security Advisories** (Recommended):
+   - Go to [Security Advisories](https://github.com/makr-code/ThemisDB/security/advisories/new)
+   - Create a new private security advisory
+   - Include:
+     - A description of the vulnerability
+     - Steps to reproduce the issue
+     - Potential impact assessment
+     - Any suggested fixes (optional)
 
 2. **Use responsible disclosure** - Give us reasonable time to address the issue before any public disclosure
 
@@ -124,17 +127,23 @@ We use the following tools for security scanning:
 To run security scans locally:
 
 ```powershell
-# Windows
+# Windows (PowerShell)
 .\security-scan.ps1
 
-# Linux/WSL
-./scripts/security-scan.sh
+# Linux/WSL (if the script exists in your environment)
+./security-scan.ps1
+# Or use the underlying tools directly:
+# gitleaks detect --source . --verbose
+# cppcheck --enable=warning,style --inconclusive ./src ./include
 ```
 
 ## Security Contact
 
-- **Email**: [security@themisdb.io](mailto:security@themisdb.io)
-- **PGP Key**: Available upon request
+For security-related issues, please use one of the following methods:
+
+- **GitHub Security Advisories**: [Report a vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) (Recommended)
+- **GitHub Issues**: For non-sensitive security discussions
+- **PGP Key**: Available upon request for encrypted communications
 - **Response Time**: Within 24 hours for initial acknowledgment
 
 ## Changelog
