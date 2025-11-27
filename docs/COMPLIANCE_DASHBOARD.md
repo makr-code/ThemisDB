@@ -61,7 +61,9 @@
 | 5 | **SBOM Dokumentation** | `docs/security/SBOM.md` | 200 Zeilen | ✅ |
 | 6 | **DPIA** | `docs/compliance/DPIA.md` | 400 Zeilen | ✅ |
 | 7 | **BCP/DRP** | `docs/compliance/BCP_DRP.md` | 500 Zeilen | ✅ |
-| 8 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
+| 8 | **Risk Register** | `docs/compliance/RISK_REGISTER.md` | 350 Zeilen | ✅ |
+| 9 | **Vendor Assessment** | `docs/compliance/VENDOR_ASSESSMENT.md` | 350 Zeilen | ✅ |
+| 10 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
 
 ### CI/CD Security
 
