@@ -80,10 +80,15 @@ training = [
     "datasets>=2.15.0",
     "trl>=0.7.0",
     "deepspeed>=0.12.0",
+    "pyyaml>=6.0.0",
 ]
 
 reranking = [
     "sentence-transformers>=2.2.0",
+]
+
+ui = [
+    "gradio>=4.0.0",
 ]
 
 # Optional vector store backends
@@ -113,13 +118,16 @@ all = [
     "datasets>=2.15.0",
     "trl>=0.7.0",
     "deepspeed>=0.12.0",
+    "pyyaml>=6.0.0",
     "sentence-transformers>=2.2.0",
     "qdrant-client>=1.7.0",
+    "gradio>=4.0.0",
 ]
 
 [project.scripts]
 respo = "respo.cli:main"
 respo-server = "respo.api.app:run_server"
+respo-ui = "respo.ui.dashboard:create_app"
 
 [project.urls]
 Homepage = "https://github.com/makr-code/respo"
