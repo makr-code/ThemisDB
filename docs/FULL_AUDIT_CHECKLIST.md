@@ -10,16 +10,29 @@
 
 Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der ThemisDB gemäß:
 
+**Internationale Standards:**
 - **BSI C5** (Cloud Computing Compliance Criteria Catalogue) Version 2020
 - **ISO/IEC 27001:2022** - Informationssicherheitsmanagementsystem
 - **ISO/IEC 27017** - Cloud-spezifische Sicherheitskontrollen
 - **ISO/IEC 27018** - Schutz personenbezogener Daten in Public Clouds
+- **ISO/IEC 27701** - Privacy Information Management System (PIMS)
+- **NIST Cybersecurity Framework (CSF) 2.0** - US-Cybersicherheitsrahmenwerk
+- **Common Criteria (ISO/IEC 15408)** - Sicherheitsevaluierung für IT-Produkte
+
+**EU-Regulierung:**
 - **DSGVO/GDPR** (EU) 2016/679
 - **eIDAS** (EU) No 910/2014
+- **NIS2-Richtlinie** (EU) 2022/2555 - Netz- und Informationssicherheit
+- **CE-Kennzeichnung** / Cyber Resilience Act (CRA)
+- **EU AI Act** (falls KI-Komponenten)
+
+**Branchenstandards:**
 - **DIN EN ISO 9001:2015** - Qualitätsmanagementsysteme
-- **CE-Kennzeichnung** (wo anwendbar für Software/digitale Produkte)
 - **SOC 2 Type II** - Trust Services Criteria
 - **HIPAA** (Health Insurance Portability and Accountability Act)
+- **PCI DSS v4.0** - Payment Card Industry Data Security Standard
+- **TISAX** - Trusted Information Security Assessment Exchange (Automotive)
+- **KRITIS-Verordnung** - BSI-Kritisverordnung (kritische Infrastrukturen)
 
 ---
 
@@ -442,7 +455,252 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 ---
 
-## 19. Technische Audit-Punkte
+## 19. NIST Cybersecurity Framework (CSF) 2.0
+
+### 19.1 Identify (ID)
+
+| Funktion | Kategorie | Status | Nachweis/Kommentar |
+|----------|-----------|--------|-------------------|
+| ID.AM | Asset Management | ✅ | `vcpkg.json`, Code-Struktur dokumentiert |
+| ID.BE | Business Environment | ⚠️ | Teilweise in `ROADMAP.md` |
+| ID.GV | Governance | ⚠️ | Sicherheitsrichtlinien vorhanden, formale Governance fehlt |
+| ID.RA | Risk Assessment | ⚠️ | Threat Model vorhanden (`docs/security/threat_model.md`) |
+| ID.RM | Risk Management Strategy | ⚠️ | Implizit in Sicherheitsdokumentation |
+| ID.SC | Supply Chain Risk Management | ⚠️ | vcpkg-Dependencies, SBOM empfohlen |
+
+### 19.2 Protect (PR)
+
+| Funktion | Kategorie | Status | Nachweis/Kommentar |
+|----------|-----------|--------|-------------------|
+| PR.AA | Identity Management & Access Control | ✅ | RBAC, mTLS, Token-Auth |
+| PR.AT | Awareness and Training | ⚠️ | `CONTRIBUTING.md` vorhanden |
+| PR.DS | Data Security | ✅ | AES-256-GCM, TLS 1.3, Field-Level Encryption |
+| PR.IP | Information Protection Processes | ✅ | Backup, Recovery, Retention |
+| PR.MA | Maintenance | ✅ | Semantic Versioning, CI/CD |
+| PR.PT | Protective Technology | ✅ | Rate Limiting, Security Headers, Input Validation |
+
+### 19.3 Detect (DE)
+
+| Funktion | Kategorie | Status | Nachweis/Kommentar |
+|----------|-----------|--------|-------------------|
+| DE.AE | Anomalies and Events | ⚠️ | Audit-Logging, keine automatische Anomalieerkennung |
+| DE.CM | Security Continuous Monitoring | ✅ | Prometheus Metrics, 65+ Audit-Events |
+| DE.DP | Detection Processes | ⚠️ | Keine formalen Detection-Prozesse |
+
+### 19.4 Respond (RS)
+
+| Funktion | Kategorie | Status | Nachweis/Kommentar |
+|----------|-----------|--------|-------------------|
+| RS.AN | Analysis | ⚠️ | Audit-Logs analysierbar, keine automatische Analyse |
+| RS.CO | Communications | ⚠️ | `SECURITY.md` vorhanden, IRP fehlt |
+| RS.IM | Improvements | ⚠️ | Lessons Learned nicht dokumentiert |
+| RS.MI | Mitigation | ⚠️ | Keine formalen Mitigationsprozesse |
+| RS.RP | Response Planning | ⚠️ | Kein formaler Incident Response Plan |
+
+### 19.5 Recover (RC)
+
+| Funktion | Kategorie | Status | Nachweis/Kommentar |
+|----------|-----------|--------|-------------------|
+| RC.CO | Communications | ⚠️ | Keine Recovery-Kommunikationsplanung |
+| RC.IM | Improvements | ⚠️ | Keine formale Recovery-Verbesserung |
+| RC.RP | Recovery Planning | ✅ | Point-in-Time Recovery, WAL-Archivierung |
+
+---
+
+## 20. NIS2-Richtlinie (EU 2022/2555)
+
+### 20.1 Risikomanagement-Maßnahmen (Artikel 21)
+
+| Nr. | Anforderung | Status | Nachweis/Kommentar |
+|-----|-------------|--------|-------------------|
+| NIS2-01 | Risikoanalyse und Sicherheit von Informationssystemen | ⚠️ | Threat Model vorhanden, formale Risikoanalyse empfohlen |
+| NIS2-02 | Bewältigung von Sicherheitsvorfällen | ⚠️ | Audit-Logging vorhanden, IRP fehlt |
+| NIS2-03 | Aufrechterhaltung des Betriebs (BCM) | ⚠️ | Backup/Recovery vorhanden, kein BCP |
+| NIS2-04 | Sicherheit der Lieferkette | ⚠️ | vcpkg-Dependencies, SBOM empfohlen |
+| NIS2-05 | Sicherheit bei Erwerb, Entwicklung und Wartung | ✅ | SDLC, Code Reviews, Static Analysis |
+| NIS2-06 | Bewertung der Wirksamkeit von Risikomanagement | ⚠️ | Keine regelmäßige formale Bewertung |
+| NIS2-07 | Cyberhygiene und Schulungen | ⚠️ | `CONTRIBUTING.md`, Schulungsmaterial fehlt |
+| NIS2-08 | Kryptographie und Verschlüsselung | ✅ | AES-256-GCM, TLS 1.3, RSA-SHA256 |
+| NIS2-09 | Personalsicherheit | N/A | Open-Source-Projekt |
+| NIS2-10 | Zugriffskontrolle | ✅ | RBAC mit 4-stufiger Hierarchie |
+| NIS2-11 | Multi-Faktor-Authentifizierung | ⚠️ | mTLS verfügbar, MFA nicht explizit |
+
+### 20.2 Meldepflichten (Artikel 23)
+
+| Nr. | Anforderung | Status | Nachweis/Kommentar |
+|-----|-------------|--------|-------------------|
+| NIS2-M01 | Frühwarnung (24h) | ⚠️ | Kein formaler Prozess |
+| NIS2-M02 | Sicherheitsvorfallmeldung (72h) | ⚠️ | Kein formaler Prozess |
+| NIS2-M03 | Zwischen-/Abschlussbericht (1 Monat) | ⚠️ | Kein formaler Prozess |
+
+---
+
+## 21. PCI DSS v4.0 (falls Zahlungsdaten verarbeitet werden)
+
+### 21.1 Aufbau und Wartung eines sicheren Netzwerks
+
+| Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
+|-------------|-------------|--------|-------------------|
+| Firewall-Konfiguration | 1.x | N/A | Deployment-abhängig |
+| Keine Herstellerstandards für Passwörter | 2.x | ✅ | Konfigurierbare Authentifizierung |
+
+### 21.2 Schutz von Karteninhaberdaten
+
+| Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
+|-------------|-------------|--------|-------------------|
+| Schutz gespeicherter Karteninhaberdaten | 3.x | ✅ | AES-256-GCM Verschlüsselung, PII-Detection |
+| Verschlüsselung bei Übertragung | 4.x | ✅ | TLS 1.3, Strong Cipher Suites |
+
+### 21.3 Schwachstellenmanagement
+
+| Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
+|-------------|-------------|--------|-------------------|
+| Anti-Malware | 5.x | ⚠️ | Keine explizite Malware-Prüfung |
+| Sichere Systeme und Anwendungen | 6.x | ✅ | SDLC, Code Reviews, Static Analysis |
+
+### 21.4 Zugriffskontrolle
+
+| Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
+|-------------|-------------|--------|-------------------|
+| Beschränkung des Zugriffs | 7.x | ✅ | RBAC implementiert |
+| Eindeutige IDs | 8.x | ✅ | User-ID-Tracking in Audit-Logs |
+| Physische Zugriffsbeschränkung | 9.x | N/A | Software-Produkt |
+
+### 21.5 Überwachung und Tests
+
+| Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
+|-------------|-------------|--------|-------------------|
+| Netzwerküberwachung | 10.x | ✅ | Prometheus Metrics, Audit-Logging |
+| Regelmäßige Sicherheitstests | 11.x | ⚠️ | Static Analysis vorhanden, Pen-Test empfohlen |
+
+### 21.6 Informationssicherheitspolitik
+
+| Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
+|-------------|-------------|--------|-------------------|
+| Sicherheitsrichtlinie dokumentiert | 12.x | ⚠️ | Sicherheitsdokumentation vorhanden, formale Policy empfohlen |
+
+---
+
+## 22. TISAX (Trusted Information Security Assessment Exchange)
+
+### 22.1 Informationssicherheit (AL 2/3)
+
+| Modul | Anforderung | Status | Nachweis/Kommentar |
+|-------|-------------|--------|-------------------|
+| ISA-01 | Informationssicherheitsmanagement | ⚠️ | Sicherheitsdokumentation vorhanden, formales ISMS fehlt |
+| ISA-02 | Personelle Sicherheit | N/A | Open-Source-Projekt |
+| ISA-03 | Physische Sicherheit | N/A | Software-Produkt |
+| ISA-04 | Identitäts- und Zugriffsmanagement | ✅ | RBAC, mTLS |
+| ISA-05 | IT-Sicherheit / Cybersecurity | ✅ | Encryption, Secure Coding, Monitoring |
+| ISA-06 | Lieferantenbeziehungen | ⚠️ | vcpkg-Dependencies |
+| ISA-07 | Compliance | ✅ | Umfangreiche Compliance-Dokumentation |
+
+### 22.2 Prototypenschutz (falls relevant)
+
+| Modul | Anforderung | Status | Nachweis/Kommentar |
+|-------|-------------|--------|-------------------|
+| PROTO-01 | Schutz von Prototypen | N/A | Nicht anwendbar |
+| PROTO-02 | Umgang mit Prototypen | N/A | Nicht anwendbar |
+
+### 22.3 Datenschutz (TISAX-DSC)
+
+| Modul | Anforderung | Status | Nachweis/Kommentar |
+|-------|-------------|--------|-------------------|
+| DSC-01 | Datenschutzmanagement | ✅ | PII-Detection, Retention Manager |
+| DSC-02 | Technisch-organisatorische Maßnahmen | ✅ | Encryption, RBAC, Audit-Logging |
+
+---
+
+## 23. ISO/IEC 27701 (Privacy Information Management)
+
+### 23.1 PIMS-spezifische Anforderungen
+
+| Klausel | Anforderung | Status | Nachweis/Kommentar |
+|---------|-------------|--------|-------------------|
+| 5.2 | Datenschutzpolitik | ⚠️ | Implizit in Sicherheitsdokumentation |
+| 5.4 | Rollen und Verantwortlichkeiten | ✅ | RBAC, Governance-Dokumentation |
+| 6.2 | Datenschutzrisikobewertung | ⚠️ | Threat Model, formale DPIA empfohlen |
+| 6.5 | Datenschutzziele | ⚠️ | Nicht explizit dokumentiert |
+| 7.2 | Einwilligung | N/A | Anwendungsabhängig |
+| 7.3 | Datenminimierung | ✅ | PII-Detection, Retention Policies |
+| 7.4 | Löschung | ✅ | Retention Manager, Auto-Purge |
+| 7.5 | Datenqualität | ⚠️ | Keine explizite Datenqualitätsprüfung |
+
+### 23.2 PII-Controller (Verantwortlicher)
+
+| Klausel | Anforderung | Status | Nachweis/Kommentar |
+|---------|-------------|--------|-------------------|
+| A.7.2 | Bestimmung der Zwecke | N/A | Anwendungsabhängig |
+| A.7.3 | Einholung von Einwilligungen | N/A | Anwendungsabhängig |
+| A.7.4 | Betroffenenrechte | ✅ | Export-API, Lösch-API |
+
+### 23.3 PII-Processor (Auftragsverarbeiter)
+
+| Klausel | Anforderung | Status | Nachweis/Kommentar |
+|---------|-------------|--------|-------------------|
+| B.8.2 | Verarbeitung nur gemäß Auftrag | ✅ | Governance-Policies, RBAC |
+| B.8.3 | Aufzeichnungspflichten | ✅ | Audit-Logging |
+| B.8.4 | Unterauftragnehmer | N/A | Open-Source-Projekt |
+| B.8.5 | Datentransfer | ⚠️ | TLS vorhanden, keine Transferregeln |
+
+---
+
+## 24. Common Criteria (ISO/IEC 15408)
+
+### 24.1 Sicherheitsfunktionsklassen
+
+| Klasse | Beschreibung | Status | Nachweis/Kommentar |
+|--------|--------------|--------|-------------------|
+| FAU | Security Audit | ✅ | 65+ Audit-Event-Typen, Encrypt-then-Sign |
+| FCS | Cryptographic Support | ✅ | AES-256-GCM, SHA-256, RSA-2048+ |
+| FDP | User Data Protection | ✅ | Encryption, RBAC, Retention |
+| FIA | Identification & Authentication | ✅ | mTLS, Token-Auth, RBAC |
+| FMT | Security Management | ✅ | Admin-APIs, Key Rotation |
+| FPR | Privacy | ✅ | PII-Detection, Pseudonymisierung |
+| FPT | Protection of TSF | ✅ | TLS, Input Validation |
+| FRU | Resource Utilization | ⚠️ | Rate Limiting vorhanden |
+| FTA | TOE Access | ✅ | Session Management, Timeout |
+| FTP | Trusted Path/Channels | ✅ | TLS 1.3, mTLS |
+
+### 24.2 Vertrauenswürdigkeitsklassen (EAL)
+
+| EAL | Beschreibung | Status | Nachweis/Kommentar |
+|-----|--------------|--------|-------------------|
+| EAL1 | Functionally tested | ✅ | 303/303 Tests PASS, 85%+ Coverage |
+| EAL2 | Structurally tested | ✅ | Code Coverage, Static Analysis |
+| EAL3 | Methodically tested and checked | ⚠️ | Formale Testmethodik empfohlen |
+| EAL4 | Methodically designed, tested, and reviewed | ⚠️ | Formaler Entwurf empfohlen |
+| EAL5+ | Semiformally/Formally designed and tested | 📋 | Nicht angestrebt |
+
+---
+
+## 25. KRITIS-Verordnung (BSI-Kritisverordnung)
+
+### 25.1 Sektoren und Anwendbarkeit
+
+| Sektor | Anwendbarkeit | Nachweis/Kommentar |
+|--------|---------------|-------------------|
+| Energie | ⚠️ | Möglich bei Einsatz in Smart Grid |
+| Gesundheit | ⚠️ | Möglich bei Krankenhaus-Datenverarbeitung |
+| IT und Telekommunikation | ⚠️ | Möglich bei großen Installationen |
+| Transport und Verkehr | ⚠️ | Möglich bei Verkehrsinfrastruktur |
+| Wasser | ⚠️ | Möglich bei Wasserversorgung |
+| Ernährung | ⚠️ | Möglich bei Lebensmittellogistik |
+| Finanz- und Versicherungswesen | ⚠️ | Möglich bei Finanzdienstleistern |
+
+### 25.2 Anforderungen (§ 8a BSIG)
+
+| Anforderung | Status | Nachweis/Kommentar |
+|-------------|--------|-------------------|
+| Stand der Technik | ✅ | Aktuelle Verschlüsselung, Protokolle |
+| Angemessene Sicherheitsmaßnahmen | ✅ | Defense in Depth |
+| Erkennung von Angriffen | ⚠️ | Audit-Logging, keine IDS-Integration |
+| Meldepflicht | ⚠️ | Kein formaler Prozess |
+| Nachweis alle 2 Jahre | ⚠️ | Audit-Checkliste vorhanden |
+
+---
+
+## 26. Technische Audit-Punkte
 
 ### 19.1 Source-Code-Audit
 
@@ -480,9 +738,9 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 ---
 
-## 20. Empfehlungen und Handlungsbedarf
+## 27. Empfehlungen und Handlungsbedarf
 
-### 20.1 Kritischer Handlungsbedarf (Priorität 1)
+### 27.1 Kritischer Handlungsbedarf (Priorität 1)
 
 | # | Befund | Empfehlung | BSI C5 Ref |
 |---|--------|------------|------------|
@@ -491,7 +749,7 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 | 3 | SBOM fehlt | Syft/Cosign für SBOM-Generierung | SSO-02 |
 | 4 | Penetrationstest ausstehend | Externes Penetration Testing beauftragen | OPS-07 |
 
-### 20.2 Hoher Handlungsbedarf (Priorität 2)
+### 27.2 Hoher Handlungsbedarf (Priorität 2)
 
 | # | Befund | Empfehlung | BSI C5 Ref |
 |---|--------|------------|------------|
@@ -500,7 +758,7 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 | 7 | Backup-Tests undokumentiert | Regelmäßige Restore-Tests planen | OPS-09 |
 | 8 | NTP-Validierung fehlt | Zeitquellen-Validierung implementieren | OPS-14 |
 
-### 20.3 Mittlerer Handlungsbedarf (Priorität 3)
+### 27.3 Mittlerer Handlungsbedarf (Priorität 3)
 
 | # | Befund | Empfehlung | BSI C5 Ref |
 |---|--------|------------|------------|
@@ -511,9 +769,9 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 ---
 
-## 21. Audit-Protokoll
+## 28. Audit-Protokoll
 
-### 21.1 Audit-Durchführung
+### 28.1 Audit-Durchführung
 
 | Feld | Wert |
 |------|------|
@@ -523,7 +781,7 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 | **Commit** | [Git-Commit-Hash] |
 | **Scope** | Vollständiges Review (Sourcecode + Dokumentation) |
 
-### 21.2 Audit-Ergebnis
+### 28.2 Audit-Ergebnis
 
 | Kategorie | Erfüllungsgrad |
 |-----------|----------------|
@@ -532,8 +790,15 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 | **DSGVO** | ~90% |
 | **eIDAS** | ~95% |
 | **SOC 2** | ~85% |
+| **NIST CSF** | ~75% |
+| **NIS2** | ~70% |
+| **PCI DSS** | ~80% |
+| **TISAX** | ~75% |
+| **ISO 27701** | ~70% |
+| **Common Criteria** | EAL2+ |
+| **KRITIS** | ~75% |
 
-### 21.3 Gesamtbewertung
+### 28.3 Gesamtbewertung
 
 **Status:** ⚠️ **Bedingt produktionsreif**
 
@@ -541,7 +806,7 @@ ThemisDB weist eine solide Sicherheitsarchitektur auf und erfüllt die meisten k
 
 ---
 
-## 22. Anhänge
+## 29. Anhänge
 
 ### A. Referenzierte Dokumente
 
@@ -591,20 +856,27 @@ ThemisDB weist eine solide Sicherheitsarchitektur auf und erfüllt die meisten k
 | eIDAS | EU-Verordnung über elektronische Identifizierung und Vertrauensdienste |
 | HSTS | HTTP Strict Transport Security |
 | HSM | Hardware Security Module |
+| KRITIS | Kritische Infrastrukturen (BSI-Kritisverordnung) |
 | mTLS | Mutual TLS (Client-Zertifikat-Authentifizierung) |
+| NIS2 | Network and Information Security Directive 2 |
+| NIST CSF | NIST Cybersecurity Framework |
+| PCI DSS | Payment Card Industry Data Security Standard |
 | PII | Personally Identifiable Information |
+| PIMS | Privacy Information Management System (ISO 27701) |
 | PKCS#11 | Cryptoki - Standard für Kryptographie-Token |
 | RBAC | Role-Based Access Control |
 | SBOM | Software Bill of Materials |
+| TISAX | Trusted Information Security Assessment Exchange |
 | TLS | Transport Layer Security |
 
 ---
 
-## 23. Versionierung
+## 30. Versionierung
 
 | Version | Datum | Autor | Änderungen |
 |---------|-------|-------|------------|
 | 1.0 | November 2025 | ThemisDB Team | Erstversion |
+| 1.1 | November 2025 | ThemisDB Team | Erweitert um NIST CSF, NIS2, PCI DSS, TISAX, ISO 27701, Common Criteria, KRITIS |
 
 ---
 
