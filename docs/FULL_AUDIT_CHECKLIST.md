@@ -742,12 +742,12 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 ### 27.1 Kritischer Handlungsbedarf (Priorität 1)
 
-| # | Befund | Empfehlung | BSI C5 Ref |
-|---|--------|------------|------------|
-| 1 | Keine SECURITY.md | Erstellen mit Meldeprozess für Schwachstellen | SIM-02 |
-| 2 | Kein formales Incident Response | IRP dokumentieren | SIM-01 |
-| 3 | SBOM fehlt | Syft/Cosign für SBOM-Generierung | SSO-02 |
-| 4 | Penetrationstest ausstehend | Externes Penetration Testing beauftragen | OPS-07 |
+| # | Befund | Empfehlung | BSI C5 Ref | Status |
+|---|--------|------------|------------|--------|
+| 1 | ~~Keine SECURITY.md~~ | ~~Erstellen mit Meldeprozess für Schwachstellen~~ | SIM-02 | ✅ Erledigt |
+| 2 | ~~Kein formales Incident Response~~ | ~~IRP dokumentieren~~ | SIM-01 | ✅ Erledigt |
+| 3 | ~~SBOM fehlt~~ | ~~Syft/Cosign für SBOM-Generierung~~ | SSO-02 | ✅ Erledigt |
+| 4 | Penetrationstest ausstehend | Externes Penetration Testing beauftragen | OPS-07 | ⚠️ Offen |
 
 ### 27.2 Hoher Handlungsbedarf (Priorität 2)
 

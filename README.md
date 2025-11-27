@@ -30,6 +30,8 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 **Für Audits & Compliance:**
 - **[Vollständige Audit-Checkliste](docs/FULL_AUDIT_CHECKLIST.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
 - **[Security Policy](SECURITY.md)** - Vulnerability Disclosure, Sicherheitsmaßnahmen
+- **[Incident Response Plan](docs/security/INCIDENT_RESPONSE_PLAN.md)** - Notfallplan nach BSI IT-Grundschutz & NIST CSF
+- **[SBOM Dokumentation](docs/security/SBOM.md)** - Software Bill of Materials (Syft/CycloneDX)
 
 **Für Entwickler:**
 - **[Documentation Verification Report](DOCUMENTATION_VERIFICATION_REPORT.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
