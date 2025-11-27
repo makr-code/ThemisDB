@@ -2,19 +2,28 @@
 RESPO Ingestion Pipeline
 
 Complete pipeline for ingesting code repositories into the vector store.
+
+When using ThemisDB as the backend, this pipeline also:
+- Extracts code graph relationships (imports, calls, inheritance)
+- Stores graph edges for traversal queries
+- Enables hybrid search with graph expansion
 """
 
 import asyncio
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, AsyncIterator, Optional
+from typing import Any, AsyncIterator, Optional, TYPE_CHECKING
 
 import structlog
 
 from respo.embedding import CodeEmbedder
+from respo.graph.analyzer import CodeGraph, CodeGraphAnalyzer
 from respo.ingestion.chunker import CodeChunk, CodeChunker
 from respo.ingestion.github_scraper import CodeFile, GitHubScraper, ScraperConfig
 from respo.vectorstore.base import VectorStoreBase
+
+if TYPE_CHECKING:
+    from respo.vectorstore.themis import ThemisVectorStore
 
 logger = structlog.get_logger(__name__)
 
@@ -26,6 +35,8 @@ class IngestionStats:
     files_processed: int = 0
     chunks_created: int = 0
     chunks_indexed: int = 0
+    graph_nodes: int = 0
+    graph_edges: int = 0
     errors: int = 0
     total_size_bytes: int = 0
 
@@ -45,10 +56,16 @@ class IngestionConfig:
 
     # Filtering
     include_languages: Optional[list[str]] = None
-    exclude_patterns: list[str] = None  # type: ignore
+    exclude_patterns: list[str] = field(default_factory=list)
+    
+    # Graph extraction (for ThemisDB)
+    enable_graph: bool = True
+    extract_imports: bool = True
+    extract_calls: bool = True
+    extract_inheritance: bool = True
 
     def __post_init__(self) -> None:
-        if self.exclude_patterns is None:
+        if not self.exclude_patterns:
             self.exclude_patterns = ["**/test*", "**/spec*", "**/__pycache__/*"]
 
 
@@ -59,8 +76,14 @@ class IngestionPipeline:
     Steps:
     1. Parse/scrape source code files
     2. Chunk code into semantic units
-    3. Generate embeddings
-    4. Store in vector database
+    3. Extract code graph relationships (if ThemisDB)
+    4. Generate embeddings
+    5. Store in vector database with graph edges
+    
+    When using ThemisDB as backend:
+    - Graph relationships (imports, calls, inheritance) are extracted
+    - Enables hybrid search with graph expansion
+    - Supports dependency traversal queries
     """
 
     def __init__(
@@ -84,6 +107,22 @@ class IngestionPipeline:
             max_chunk_size=self.config.max_chunk_size,
             min_chunk_size=self.config.min_chunk_size,
         )
+        
+        # Initialize graph analyzer if graph extraction is enabled
+        self.graph_analyzer: Optional[CodeGraphAnalyzer] = None
+        if self.config.enable_graph:
+            self.graph_analyzer = CodeGraphAnalyzer()
+        
+        # Check if we're using ThemisDB (has graph capabilities)
+        self._is_themis = self._check_themis_backend()
+    
+    def _check_themis_backend(self) -> bool:
+        """Check if vector store is ThemisDB."""
+        try:
+            from respo.vectorstore.themis import ThemisVectorStore
+            return isinstance(self.vector_store, ThemisVectorStore)
+        except ImportError:
+            return False
 
     async def ingest_file(
         self,
@@ -120,6 +159,17 @@ class IngestionPipeline:
             if not chunks:
                 logger.warning("No chunks created", path=path)
                 return stats
+            
+            # Extract graph relationships if enabled and using ThemisDB
+            graph: Optional[CodeGraph] = None
+            if self.graph_analyzer and self._is_themis:
+                graph = self.graph_analyzer.analyze(
+                    source=content,
+                    language=language,
+                    file_path=path,
+                )
+                stats.graph_nodes = len(graph.nodes)
+                stats.graph_edges = len(graph.edges)
 
             # Prepare for indexing
             ids = []
@@ -131,7 +181,7 @@ class IngestionPipeline:
                 ids.append(chunk_id)
                 documents.append(chunk.content)
 
-                chunk_metadata = {
+                chunk_metadata: dict[str, Any] = {
                     "path": path,
                     "language": language,
                     "chunk_type": chunk.chunk_type,
@@ -140,6 +190,15 @@ class IngestionPipeline:
                     "name": chunk.name,
                     **(metadata or {}),
                 }
+                
+                # Add graph edges for this chunk if available
+                if graph:
+                    chunk_edges = self._get_edges_for_chunk(
+                        graph, chunk, path
+                    )
+                    if chunk_edges:
+                        chunk_metadata["graph_edges"] = chunk_edges
+
                 metadatas.append(chunk_metadata)
 
             # Generate embeddings
@@ -158,6 +217,7 @@ class IngestionPipeline:
                 "File ingested",
                 path=path,
                 chunks=len(chunks),
+                graph_edges=stats.graph_edges,
             )
 
         except Exception as e:
@@ -165,6 +225,45 @@ class IngestionPipeline:
             logger.error("Ingestion error", path=path, error=str(e))
 
         return stats
+    
+    def _get_edges_for_chunk(
+        self,
+        graph: CodeGraph,
+        chunk: CodeChunk,
+        path: str,
+    ) -> list[dict[str, Any]]:
+        """
+        Get graph edges relevant to a code chunk.
+        
+        Args:
+            graph: Full file graph
+            chunk: Code chunk
+            path: File path
+            
+        Returns:
+            List of edge dictionaries
+        """
+        edges = []
+        chunk_id = f"{path}:{chunk.start_line}-{chunk.end_line}"
+        
+        # Find edges where source matches chunk's code entity
+        for edge in graph.edges:
+            # Check if edge source is within chunk's line range
+            source_node = next(
+                (n for n in graph.nodes if n.id == edge.source_id),
+                None
+            )
+            if source_node:
+                if (source_node.line_start >= chunk.start_line and 
+                    source_node.line_end <= chunk.end_line):
+                    edges.append({
+                        "source": chunk_id,
+                        "target": edge.target_id,
+                        "type": edge.edge_type,
+                        "properties": edge.properties,
+                    })
+        
+        return edges
 
     async def ingest_directory(
         self,
@@ -173,6 +272,11 @@ class IngestionPipeline:
     ) -> IngestionStats:
         """
         Ingest all code files from a directory.
+        
+        When using ThemisDB:
+        - Extracts cross-file dependencies
+        - Builds complete dependency graph
+        - Enables repository-wide traversal queries
 
         Args:
             directory: Directory path
@@ -227,7 +331,9 @@ class IngestionPipeline:
                 content = file_path.read_text(encoding="utf-8")
                 relative_path = str(file_path.relative_to(directory))
 
-                metadata = {"repo": repo_name} if repo_name else {}
+                metadata: dict[str, Any] = {}
+                if repo_name:
+                    metadata["repo"] = repo_name
 
                 batch.append((content, relative_path, language, metadata))
 
@@ -249,6 +355,8 @@ class IngestionPipeline:
             "Directory ingestion complete",
             files=total_stats.files_processed,
             chunks=total_stats.chunks_indexed,
+            graph_nodes=total_stats.graph_nodes,
+            graph_edges=total_stats.graph_edges,
             errors=total_stats.errors,
         )
 
@@ -263,6 +371,11 @@ class IngestionPipeline:
     ) -> IngestionStats:
         """
         Ingest a GitHub repository.
+        
+        When using ThemisDB:
+        - Extracts cross-file dependency graph
+        - Enables "find all usages" queries
+        - Supports call graph visualization
 
         Args:
             owner: Repository owner
@@ -309,13 +422,80 @@ class IngestionPipeline:
             repo=f"{owner}/{repo}",
             files=total_stats.files_processed,
             chunks=total_stats.chunks_indexed,
+            graph_edges=total_stats.graph_edges,
         )
 
         return total_stats
+    
+    async def analyze_dependencies(
+        self,
+        code_id: str,
+    ) -> dict[str, Any]:
+        """
+        Analyze dependencies for a code entity (requires ThemisDB).
+        
+        Uses ThemisDB's graph traversal to find:
+        - Direct imports
+        - Transitive dependencies
+        - Usages (reverse dependencies)
+        
+        Args:
+            code_id: Code entity ID
+            
+        Returns:
+            Dependency analysis result
+        """
+        if not self._is_themis:
+            return {"error": "Dependency analysis requires ThemisDB backend"}
+        
+        # Import here to avoid circular imports
+        from respo.vectorstore.themis import ThemisVectorStore
+        themis_store: ThemisVectorStore = self.vector_store  # type: ignore
+        
+        dependencies = await themis_store.find_dependencies(
+            code_id=code_id,
+            include_transitive=True,
+        )
+        
+        usages = await themis_store.find_usages(code_id=code_id)
+        
+        return {
+            "code_id": code_id,
+            "dependencies": dependencies,
+            "usages": usages,
+            "dependency_count": sum(len(v) for v in dependencies.values()),
+            "usage_count": len(usages),
+        }
+    
+    async def get_call_graph(
+        self,
+        function_id: str,
+        depth: int = 3,
+    ) -> dict[str, Any]:
+        """
+        Get the call graph for a function (requires ThemisDB).
+        
+        Args:
+            function_id: Function ID
+            depth: Maximum call depth
+            
+        Returns:
+            Call graph structure
+        """
+        if not self._is_themis:
+            return {"error": "Call graph requires ThemisDB backend"}
+        
+        from respo.vectorstore.themis import ThemisVectorStore
+        themis_store: ThemisVectorStore = self.vector_store  # type: ignore
+        
+        return await themis_store.get_call_graph(
+            function_id=function_id,
+            depth=depth,
+        )
 
     async def _process_batch(
         self,
-        batch: list[tuple[str, str, str, dict]],
+        batch: list[tuple[str, str, str, dict[str, Any]]],
     ) -> IngestionStats:
         """Process a batch of files concurrently."""
         total_stats = IngestionStats()
@@ -329,7 +509,7 @@ class IngestionPipeline:
         # Run with concurrency limit
         semaphore = asyncio.Semaphore(self.config.max_concurrent)
 
-        async def limited_task(task):
+        async def limited_task(task: Any) -> IngestionStats:
             async with semaphore:
                 return await task
 
@@ -353,6 +533,8 @@ class IngestionPipeline:
             files_processed=a.files_processed + b.files_processed,
             chunks_created=a.chunks_created + b.chunks_created,
             chunks_indexed=a.chunks_indexed + b.chunks_indexed,
+            graph_nodes=a.graph_nodes + b.graph_nodes,
+            graph_edges=a.graph_edges + b.graph_edges,
             errors=a.errors + b.errors,
             total_size_bytes=a.total_size_bytes + b.total_size_bytes,
         )
