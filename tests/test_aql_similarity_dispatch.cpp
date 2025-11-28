@@ -6,6 +6,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
+#include "storage/base_entity.h"
 
 using namespace themis;
 
@@ -21,7 +22,7 @@ protected:
         // Insert a minimal entity with embedding + location fields
         BaseEntity e("h1");
         e.setField("embedding", std::vector<float>{0.1f,0.2f});
-        e.setField("location", std::vector<double>{0.5,0.5});
+        e.setField("location", std::vector<float>{0.5f,0.5f});
         sec->put("hotels", e);
     }
     void TearDown() override {

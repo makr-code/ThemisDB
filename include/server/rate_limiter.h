@@ -6,6 +6,7 @@
 #include <mutex>
 #include <chrono>
 #include <memory>
+#include <vector>
 
 namespace themis {
 namespace server {

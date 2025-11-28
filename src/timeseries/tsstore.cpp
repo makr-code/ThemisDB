@@ -9,6 +9,7 @@
 #include <map>
 #include <unordered_set>
 #include <algorithm>
+#include <unordered_set>
 
 namespace themis {
 

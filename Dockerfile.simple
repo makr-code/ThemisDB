@@ -1,0 +1,26 @@
+# Simplified Dockerfile - copies pre-built binary
+# Build themis_server locally first, then use this to containerize
+
+FROM ubuntu:24.04 AS runtime
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy pre-built binary (prepared by build-docker-simple.ps1)
+COPY build/themis_server /usr/local/bin/themis_server
+
+# Copy configuration files
+RUN mkdir -p /etc/themis /usr/local/share/themis /data /var/log/themis
+
+RUN chmod +x /usr/local/bin/themis_server
+
+ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
+ENV THEMIS_PORT=18765
+
+VOLUME ["/data"]
+EXPOSE 8080 18765
+
+ENTRYPOINT ["/usr/local/bin/themis_server"]
+CMD ["--config", "/etc/themis/config.json"]

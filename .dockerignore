@@ -1,5 +1,6 @@
 # Exclude build artifacts and local environment files from Docker build context
-build/
+build/*
+!build/themis_server
 build-*/
 .git/
 .gitignore
