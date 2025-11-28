@@ -43,6 +43,7 @@
 #include "utils/pki_client.h"
 #include "content/content_manager.h"
 #include "content/content_processor.h"
+#include "content/content_fs.h"
 // Fuer Graph-Kanten-Entities
 #include "storage/key_schema.h"
 // HKDF Helper fuer Feldschluessel-Ableitung beim Entschluesseln
@@ -140,6 +141,8 @@ HttpServer::HttpServer(
     , graph_index_(std::move(graph_index))
     , vector_index_(std::move(vector_index))
     , tx_manager_(std::move(tx_manager))
+    , security_sig_mgr_(std::make_shared<storage::SecuritySignatureManager>(storage_))
+    , mime_detector_(std::make_shared<content::MimeDetector>("", security_sig_mgr_))
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
@@ -178,7 +181,6 @@ HttpServer::HttpServer(
     
     // Initialize Semantic Cache (Sprint A) if feature enabled
     if (config_.feature_semantic_cache) {
-        // Use default column family for MVP (no dedicated CF needed)
         cache_cf_handle_ = nullptr;
         semantic_cache_ = std::make_unique<SemanticCache>(
             storage_->getRawDB(),
@@ -237,28 +239,21 @@ HttpServer::HttpServer(
         pii_api_ = std::make_unique<PIIApiHandler>(storage_->getRawDB(), nullptr);
         THEMIS_INFO("PII Manager initialized using default CF (feature flag off, CF isolation disabled)");
     }
-
-    // Initialize PromptManager (Prompt Template Registry)
-    try {
-        // Try to create a dedicated column family for prompt templates; fall back to default CF
+    // Initialize PromptManager (Sprint A)
+    if (storage_) {
         prompt_cf_handle_ = nullptr;
-        if (storage_) {
-            try {
-                prompt_cf_handle_ = storage_->getOrCreateColumnFamily("prompt_templates");
-                THEMIS_INFO("PromptManager: using dedicated CF 'prompt_templates'");
-                prompt_manager_ = std::make_unique<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
-            } catch (const std::exception& ex) {
-                THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", ex.what());
-                prompt_manager_ = std::make_unique<themis::PromptManager>();
-            }
-        } else {
-            // No storage available (tests / in-memory run)
+        try {
+            prompt_cf_handle_ = storage_->getOrCreateColumnFamily("prompt_templates");
+            THEMIS_INFO("PromptManager: using dedicated CF 'prompt_templates'");
+            prompt_manager_ = std::make_unique<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
+        } catch (const std::exception& ex) {
+            THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", ex.what());
             prompt_manager_ = std::make_unique<themis::PromptManager>();
-            THEMIS_INFO("PromptManager initialized in-memory (no storage provided)");
         }
-    } catch (const std::exception& ex) {
-        THEMIS_ERROR("PromptManager initialization failure: {}", ex.what());
+    } else {
+        // No storage available (tests / in-memory run)
         prompt_manager_ = std::make_unique<themis::PromptManager>();
+        THEMIS_INFO("PromptManager initialized in-memory (no storage provided)");
     }
     
     // Initialize Time-Series Store (Sprint B) if feature enabled
@@ -351,6 +346,32 @@ HttpServer::HttpServer(
     // Initialize Keys API Handler with KeyProvider
     keys_api_ = std::make_unique<themis::server::KeysApiHandler>(key_provider_);
     THEMIS_INFO("Keys API Handler initialized");
+    // Initialize ContentFS (binary content KV API)
+    try {
+        if (storage_) {
+            content_fs_ = std::make_unique<themis::ContentFS>(*storage_);
+            // Load chunk size from persisted content config or env override
+            uint64_t chunk_sz = themis::ContentFS::kDefaultChunkSize; // default 1 MiB
+            // Try persisted config
+            try {
+                if (auto v = storage_->get("config:content")) {
+                    std::string s(v->begin(), v->end());
+                    auto jc = nlohmann::json::parse(s);
+                    if (jc.contains("chunk_size_bytes") && jc["chunk_size_bytes"].is_number_unsigned()) {
+                        chunk_sz = jc["chunk_size_bytes"].get<uint64_t>();
+                    }
+                }
+            } catch (...) {}
+            // Env override: THEMIS_CONTENT_CHUNK_SIZE_BYTES
+            if (const char* ev = std::getenv("THEMIS_CONTENT_CHUNK_SIZE_BYTES")) {
+                try { uint64_t v = std::stoull(ev); if (v > 0) chunk_sz = v; } catch (...) {}
+            }
+            content_fs_->setChunkSizeBytes(chunk_sz);
+            THEMIS_INFO("ContentFS initialized (RocksDB-backed)");
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize ContentFS: {}", e.what());
+    }
     // Initialize PKI API Handler using a SigningService backed by the KeyProvider
     try {
         pki_api_ = std::make_unique<themis::server::PkiApiHandler>(themis::createKeyProviderSigningService(key_provider_));
@@ -880,9 +901,17 @@ namespace {
         TransactionRollbackPost,
         TransactionStatsGet,
         ContentImportPost,
+        ContentSearchPost,
         ContentGet,
         ContentBlobGet,
         ContentChunksGet,
+        ContentAssembleGet,
+        ContentChunkNavigationGet,
+        FilesystemGet,
+        FilesystemPut,
+        FilesystemDelete,
+        FilesystemListGet,
+        FilesystemMkdirPost,
         HybridSearchPost,
         FusionSearchPost,
         FulltextSearchPost,
@@ -930,7 +959,19 @@ namespace {
     SpatialIndexRebuildPost,
     SpatialIndexStatsGet,
     SpatialIndexMetricsGet,
-       
+       // Security Signatures
+    SecuritySignaturesListGet,
+    SecuritySignatureGet,
+    SecuritySignaturePost,
+    SecuritySignatureDelete,
+    SecurityVerifyPost,
+    // Content Policy Validation
+    ContentValidatePost,
+    // ContentFS
+    ContentFsGet,
+    ContentFsPut,
+    ContentFsHead,
+    ContentFsDelete,
         NotFound
     };
 
@@ -1052,6 +1093,17 @@ namespace {
     // Audit API endpoints
     if (path_only == "/api/audit" && method == http::verb::get) return Route::AuditQueryGet;
     if (path_only == "/api/audit/export/csv" && method == http::verb::get) return Route::AuditExportCsvGet;
+    
+    // Security Signatures API
+    if (path_only == "/api/security/signatures" && method == http::verb::get) return Route::SecuritySignaturesListGet;
+    if (path_only == "/api/security/signatures" && method == http::verb::post) return Route::SecuritySignaturePost;
+    if (path_only.rfind("/api/security/signatures/", 0) == 0 && method == http::verb::get) return Route::SecuritySignatureGet;
+    if (path_only.rfind("/api/security/signatures/", 0) == 0 && method == http::verb::delete_) return Route::SecuritySignatureDelete;
+    if (path_only.rfind("/api/security/verify/", 0) == 0 && method == http::verb::post) return Route::SecurityVerifyPost;
+    
+    // Content Policy Validation API
+    if (path_only == "/api/content/validate" && method == http::verb::post) return Route::ContentValidatePost;
+    
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
@@ -1060,13 +1112,42 @@ namespace {
 
         // Content API
         if (target == "/content/import" && method == http::verb::post) return Route::ContentImportPost;
+        if (target == "/content/search" && method == http::verb::post) return Route::ContentSearchPost;
         if (target == "/content/config" && method == http::verb::get) return Route::ContentConfigGet;
         if (target == "/content/config" && method == http::verb::put) return Route::ContentConfigPut;
         if (target.rfind("/content/", 0) == 0 && method == http::verb::get) {
             if (target.find("/blob") != std::string::npos) return Route::ContentBlobGet;
             if (target.find("/chunks") != std::string::npos) return Route::ContentChunksGet;
+            if (target.find("/assemble") != std::string::npos) return Route::ContentAssembleGet;
             return Route::ContentGet;
         }
+
+        // ContentFS endpoints: /contentfs/:pk
+        if (path_only.rfind("/contentfs/", 0) == 0) {
+            if (method == http::verb::get) return Route::ContentFsGet; // supports Range
+            if (method == http::verb::put || method == http::verb::post) return Route::ContentFsPut;
+            if (method == http::verb::head) return Route::ContentFsHead;
+            if (method == http::verb::delete_) return Route::ContentFsDelete;
+        }
+    
+    // Chunk Navigation API
+    if (path_only.rfind("/chunk/", 0) == 0 && method == http::verb::get) {
+        if (target.find("/next") != std::string::npos || target.find("/previous") != std::string::npos) {
+            return Route::ContentChunkNavigationGet;
+        }
+    }
+
+    // Virtual Filesystem API
+    if (path_only.rfind("/fs/", 0) == 0) {
+        if (method == http::verb::get) {
+            // Check if list query
+            if (target.find("?list") != std::string::npos) return Route::FilesystemListGet;
+            return Route::FilesystemGet;
+        }
+        if (method == http::verb::put) return Route::FilesystemPut;
+        if (method == http::verb::delete_) return Route::FilesystemDelete;
+        if (method == http::verb::post && target.find("?mkdir") != std::string::npos) return Route::FilesystemMkdirPost;
+    }
 
     // Hybrid Search
         if (target == "/search/hybrid" && method == http::verb::post) return Route::HybridSearchPost;
@@ -1427,6 +1508,36 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::AuditExportCsvGet:
             response = handleAuditExportCsv(req);
             break;
+        case Route::SecuritySignaturesListGet:
+            response = handleSecuritySignaturesList(req);
+            break;
+        case Route::SecuritySignatureGet:
+            response = handleSecuritySignatureGet(req);
+            break;
+        case Route::SecuritySignaturePost:
+            response = handleSecuritySignaturePost(req);
+            break;
+        case Route::SecuritySignatureDelete:
+            response = handleSecuritySignatureDelete(req);
+            break;
+        case Route::SecurityVerifyPost:
+            response = handleSecurityVerify(req);
+            break;
+        case Route::ContentValidatePost:
+            response = handleContentValidate(req);
+            break;
+        case Route::ContentFsGet:
+            response = handleContentFsGet(req);
+            break;
+        case Route::ContentFsPut:
+            response = handleContentFsPut(req);
+            break;
+        case Route::ContentFsHead:
+            response = handleContentFsHead(req);
+            break;
+        case Route::ContentFsDelete:
+            response = handleContentFsDelete(req);
+            break;
         case Route::TransactionPost:
             response = handleTransaction(req);
             break;
@@ -1460,6 +1571,9 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = handleContentImport(req);
             }
             break;
+        case Route::ContentSearchPost:
+            response = handleContentSearch(req);
+            break;
         case Route::ContentGet:
             response = handleGetContent(req);
             break;
@@ -1468,6 +1582,27 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ContentChunksGet:
             response = handleGetContentChunks(req);
+            break;
+        case Route::ContentAssembleGet:
+            response = handleContentAssemble(req);
+            break;
+        case Route::ContentChunkNavigationGet:
+            response = handleChunkNavigation(req);
+            break;
+        case Route::FilesystemGet:
+            response = handleFilesystemGet(req);
+            break;
+        case Route::FilesystemPut:
+            response = handleFilesystemPut(req);
+            break;
+        case Route::FilesystemDelete:
+            response = handleFilesystemDelete(req);
+            break;
+        case Route::FilesystemListGet:
+            response = handleFilesystemList(req);
+            break;
+        case Route::FilesystemMkdirPost:
+            response = handleFilesystemMkdir(req);
             break;
         case Route::HybridSearchPost:
             response = handleHybridSearch(req);
@@ -1532,6 +1667,205 @@ http::response<http::string_body> HttpServer::routeRequest(
 // -----------------------------------------------------------------------------
 // Keys / Classification / Reports API Handlers
 // -----------------------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// ContentFS API Handlers
+// -----------------------------------------------------------------------------
+
+http::response<http::string_body> HttpServer::handleContentFsPut(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!content_fs_) return makeErrorResponse(http::status::service_unavailable, "ContentFS not available", req);
+        // Extract pk from path: /contentfs/:pk
+        auto path = std::string(req.target());
+        auto pk = extractPathParam(path, "/contentfs/");
+        if (pk.empty()) return makeErrorResponse(http::status::bad_request, "Missing pk", req);
+        if (validator_ && !validator_->validatePathSegment(pk)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid pk", req);
+        }
+        // Authorization: require data:write scope and policy action content.write
+        if (auto resp = requireAccess(req, "data:write", "content.write", "/contentfs/" + pk)) return *resp;
+        // Prepare payload
+        std::vector<uint8_t> data;
+        if (!req.body().empty()) {
+            const auto& b = req.body();
+            data.assign(reinterpret_cast<const uint8_t*>(b.data()), reinterpret_cast<const uint8_t*>(b.data()) + b.size());
+        }
+        // Use Content-Type as mime, default to application/octet-stream
+        std::string mime = "application/octet-stream";
+        if (req.find(http::field::content_type) != req.end()) {
+            mime = std::string(req[http::field::content_type]);
+        }
+        // Optional checksum header
+        std::optional<std::string> checksum;
+        auto it = req.find("X-Checksum-SHA256");
+        if (it != req.end()) checksum = std::string(it->value());
+
+        auto st = content_fs_->put(pk, data, mime, checksum);
+        if (!st.ok) {
+            http::status sc = (st.message.find("checksum mismatch") != std::string::npos)
+                ? http::status::bad_request : http::status::internal_server_error;
+            return makeErrorResponse(sc, st.message, req);
+        }
+        // Build response JSON with meta
+        auto [hst, meta] = content_fs_->head(pk);
+        nlohmann::json body;
+        if (hst.ok) {
+            body = {
+                {"pk", meta.pk},
+                {"mime", meta.mime},
+                {"size", meta.size},
+                {"sha256_hex", meta.sha256_hex}
+            };
+        } else {
+            body = {{"pk", pk}, {"mime", mime}, {"size", data.size()}};
+        }
+        auto res = makeResponse(http::status::created, body.dump(), req);
+        // Set ETag and Content-Location
+        if (hst.ok && !meta.sha256_hex.empty()) res.set(http::field::etag, meta.sha256_hex);
+        res.set(http::field::location, "/contentfs/" + pk);
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleContentFsHead(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!content_fs_) return makeErrorResponse(http::status::service_unavailable, "ContentFS not available", req);
+        auto path = std::string(req.target());
+        auto pk = extractPathParam(path, "/contentfs/");
+        if (pk.empty()) return makeErrorResponse(http::status::bad_request, "Missing pk", req);
+        if (validator_ && !validator_->validatePathSegment(pk)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid pk", req);
+        }
+        // Authorization: require data:read scope and policy action content.read
+        if (auto resp = requireAccess(req, "data:read", "content.read", "/contentfs/" + pk)) return *resp;
+        auto [st, meta] = content_fs_->head(pk);
+        if (!st.ok) return makeErrorResponse(http::status::not_found, "Not found", req);
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, meta.mime.empty() ? "application/octet-stream" : meta.mime);
+        res.set(http::field::content_length, std::to_string(meta.size));
+        if (!meta.sha256_hex.empty()) res.set(http::field::etag, meta.sha256_hex);
+        res.set(http::field::accept_ranges, "bytes");
+        applyGovernanceHeaders(req, res);
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleContentFsGet(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!content_fs_) return makeErrorResponse(http::status::service_unavailable, "ContentFS not available", req);
+        auto path = std::string(req.target());
+        auto pk = extractPathParam(path, "/contentfs/");
+        if (pk.empty()) return makeErrorResponse(http::status::bad_request, "Missing pk", req);
+        if (validator_ && !validator_->validatePathSegment(pk)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid pk", req);
+        }
+        // Authorization: require data:read scope and policy action content.read
+        if (auto resp = requireAccess(req, "data:read", "content.read", "/contentfs/" + pk)) return *resp;
+        auto [hst, meta] = content_fs_->head(pk);
+        if (!hst.ok) return makeErrorResponse(http::status::not_found, "Not found", req);
+
+        // Parse Range header (single range only): bytes=start-end
+        uint64_t offset = 0;
+        uint64_t length = 0; // 0 -> to end
+        bool has_range = false;
+        auto rit = req.find(http::field::range);
+        if (rit != req.end()) {
+            std::string rv = std::string(rit->value());
+            // Expect format: bytes=start-end
+            auto pos = rv.find("bytes=");
+            if (pos != std::string::npos) {
+                auto spec = rv.substr(pos + 6);
+                auto dash = spec.find('-');
+                if (dash != std::string::npos) {
+                    std::string start_s = spec.substr(0, dash);
+                    std::string end_s = spec.substr(dash + 1);
+                    try {
+                        if (!start_s.empty()) {
+                            offset = static_cast<uint64_t>(std::stoull(start_s));
+                            if (!end_s.empty()) {
+                                uint64_t end_i = static_cast<uint64_t>(std::stoull(end_s));
+                                if (end_i + 1 > offset) length = (end_i + 1) - offset; else length = 0;
+                            }
+                            has_range = true;
+                        }
+                    } catch (...) {
+                        // ignore parse error -> treat as no range
+                        has_range = false;
+                    }
+                }
+            }
+        }
+
+        std::vector<uint8_t> out;
+        http::status status_code = http::status::ok;
+        if (has_range) {
+            auto [st, buf] = content_fs_->getRange(pk, offset, length);
+            if (!st.ok) return makeErrorResponse(http::status::range_not_satisfiable, st.message, req);
+            out = std::move(buf);
+            status_code = http::status::partial_content;
+        } else {
+            auto [st, buf] = content_fs_->get(pk);
+            if (!st.ok) return makeErrorResponse(http::status::not_found, "Not found", req);
+            out = std::move(buf);
+        }
+
+        // Build response
+        http::response<http::string_body> res{status_code, req.version()};
+        res.set(http::field::content_type, meta.mime.empty() ? "application/octet-stream" : meta.mime);
+        // Set ETag and Accept-Ranges
+        if (!meta.sha256_hex.empty()) res.set(http::field::etag, meta.sha256_hex);
+        res.set(http::field::accept_ranges, "bytes");
+        if (status_code == http::status::partial_content) {
+            uint64_t end_pos = std::min(meta.size, offset + static_cast<uint64_t>(out.size()));
+            std::ostringstream cr;
+            cr << "bytes " << offset << "-" << (end_pos > 0 ? (end_pos - 1) : 0) << "/" << meta.size;
+            res.set(http::field::content_range, cr.str());
+        }
+        // Move payload into body
+        std::string body;
+        body.assign(reinterpret_cast<const char*>(out.data()), reinterpret_cast<const char*>(out.data()) + out.size());
+        res.body() = std::move(body);
+        applyGovernanceHeaders(req, res);
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleContentFsDelete(
+    const http::request<http::string_body>& req
+) {
+    try {
+        if (!content_fs_) return makeErrorResponse(http::status::service_unavailable, "ContentFS not available", req);
+        auto path = std::string(req.target());
+        auto pk = extractPathParam(path, "/contentfs/");
+        if (pk.empty()) return makeErrorResponse(http::status::bad_request, "Missing pk", req);
+        if (validator_ && !validator_->validatePathSegment(pk)) {
+            return makeErrorResponse(http::status::bad_request, "Invalid pk", req);
+        }
+        // Authorization: require data:write scope and policy action content.delete
+        if (auto resp = requireAccess(req, "data:write", "content.delete", "/contentfs/" + pk)) return *resp;
+        auto st = content_fs_->remove(pk);
+        if (!st.ok) return makeErrorResponse(http::status::not_found, "Not found", req);
+        http::response<http::string_body> res{http::status::no_content, req.version()};
+        applyGovernanceHeaders(req, res);
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
 
 http::response<http::string_body> HttpServer::handleKeysListKeys(
     const http::request<http::string_body>& req
@@ -8247,6 +8581,98 @@ http::response<http::string_body> HttpServer::handleTransaction(
     }
 }
 
+http::response<http::string_body> HttpServer::handleContentSearch(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto body = json::parse(req.body());
+        
+        // Extract required parameter: query
+        if (!body.contains("query")) {
+            return makeErrorResponse(http::status::bad_request, "Missing 'query' field", req);
+        }
+        std::string query_text = body["query"].get<std::string>();
+        
+        // Extract optional parameters
+        int k = body.value("k", 10);
+        if (k <= 0 || k > 1000) {
+            return makeErrorResponse(http::status::bad_request, "k must be between 1 and 1000", req);
+        }
+        
+        // Extract filters
+        json filters = body.value("filters", json::object());
+        
+        // Extract weights (default: 0.5 each for hybrid)
+        float vector_weight = body.value("vector_weight", 0.5f);
+        float fulltext_weight = body.value("fulltext_weight", 0.5f);
+        float rrf_k = body.value("rrf_k", 60.0f);
+        
+        // Normalize weights if both are provided
+        if (body.contains("vector_weight") && body.contains("fulltext_weight")) {
+            float sum = vector_weight + fulltext_weight;
+            if (sum > 0.0f) {
+                vector_weight /= sum;
+                fulltext_weight /= sum;
+            }
+        }
+        
+        // Call ContentManager::searchContentHybrid
+        auto results = content_manager_->searchContentHybrid(
+            query_text,
+            k,
+            filters,
+            vector_weight,
+            fulltext_weight,
+            rrf_k
+        );
+        
+        // Build response with chunk metadata
+        json response_json = json::array();
+        for (const auto& [chunk_id, score] : results) {
+            auto chunk_meta = content_manager_->getChunk(chunk_id);
+            if (!chunk_meta) continue;
+            
+            auto content_meta = content_manager_->getContentMeta(chunk_meta->content_id);
+            
+            json result_item = {
+                {"chunk_id", chunk_id},
+                {"score", score},
+                {"content_id", chunk_meta->content_id},
+                {"chunk_index", chunk_meta->seq_num},
+                {"text_preview", chunk_meta->text.substr(0, std::min<size_t>(200, chunk_meta->text.size()))}
+            };
+            
+            // Add content metadata if available
+            if (content_meta) {
+                result_item["mime_type"] = content_meta->mime_type;
+                result_item["category"] = static_cast<int>(content_meta->category);
+                result_item["original_filename"] = content_meta->original_filename;
+                result_item["created_at"] = content_meta->created_at;
+            }
+            
+            response_json.push_back(result_item);
+        }
+        
+        // Wrap in result object
+        json final_response = {
+            {"status", "success"},
+            {"query", query_text},
+            {"k", k},
+            {"results", response_json},
+            {"total_results", response_json.size()},
+            {"vector_weight", vector_weight},
+            {"fulltext_weight", fulltext_weight}
+        };
+        
+        return makeResponse(http::status::ok, final_response.dump(), req);
+        
+    } catch (const json::exception& e) {
+        return makeErrorResponse(http::status::bad_request, std::string("Invalid JSON: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 // ===================== Content API =====================
 
 http::response<http::string_body> HttpServer::handleContentImport(
@@ -8254,6 +8680,52 @@ http::response<http::string_body> HttpServer::handleContentImport(
 ) {
     try {
         auto body = json::parse(req.body());
+        
+        // Pre-upload validation: Check content policy before storing
+        if (mime_detector_ && body.contains("content")) {
+            auto& content = body["content"];
+            std::string filename;
+            uint64_t file_size = 0;
+            
+            // Extract filename from various possible fields
+            if (content.contains("filename")) {
+                filename = content["filename"].get<std::string>();
+            } else if (content.contains("name")) {
+                filename = content["name"].get<std::string>();
+            }
+            
+            // Extract file size
+            if (content.contains("size")) {
+                file_size = content["size"].get<uint64_t>();
+            } else if (body.contains("blob")) {
+                file_size = body["blob"].get<std::string>().size();
+            } else if (body.contains("blob_base64")) {
+                // Estimate decoded size (base64 ~= 4/3 of original)
+                file_size = (body["blob_base64"].get<std::string>().size() * 3) / 4;
+            }
+            
+            // Validate upload against content policy
+            if (!filename.empty() && file_size > 0) {
+                auto validation_result = mime_detector_->validateUpload(filename, file_size);
+                if (!validation_result.allowed) {
+                    json error_response = {
+                        {"status", "forbidden"},
+                        {"error", "Content policy violation"},
+                        {"reason", validation_result.reason},
+                        {"mime_type", validation_result.mime_type},
+                        {"file_size", validation_result.file_size},
+                        {"max_allowed_size", validation_result.max_allowed_size}
+                    };
+                    if (validation_result.blacklisted) {
+                        error_response["blacklisted"] = true;
+                    }
+                    if (validation_result.size_exceeded) {
+                        error_response["size_exceeded"] = true;
+                    }
+                    return makeResponse(http::status::forbidden, error_response.dump(), req);
+                }
+            }
+        }
         
         // Extract optional blob (can be base64 or raw string)
         std::optional<std::string> blob;
@@ -8358,6 +8830,311 @@ http::response<http::string_body> HttpServer::handleGetContentChunks(
     }
 }
 
+// ===================== Virtual Filesystem API =====================
+
+http::response<http::string_body> HttpServer::handleFilesystemGet(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto target = std::string(req.target());
+        // Extract path: /fs/path/to/file
+        std::string vpath = target.substr(3); // Skip "/fs"
+        if (vpath.empty()) vpath = "/";
+        
+        // Resolve path to content ID
+        auto content_id = content_manager_->resolvePath(vpath);
+        if (!content_id.has_value()) {
+            return makeErrorResponse(http::status::not_found, "File not found: " + vpath, req);
+        }
+        
+        // Get content metadata
+        auto meta = content_manager_->getContentMeta(*content_id);
+        if (!meta.has_value()) {
+            return makeErrorResponse(http::status::not_found, "Content metadata not found", req);
+        }
+        
+        // If directory, return metadata (not blob)
+        if (meta->is_directory) {
+            return makeResponse(http::status::ok, meta->toJson().dump(), req);
+        }
+        
+        // Get blob for file
+        auto auth_ctx = extractAuthContext(req);
+        auto blob = content_manager_->getContentBlob(*content_id, auth_ctx.user_id);
+        if (!blob.has_value()) {
+            return makeErrorResponse(http::status::not_found, "Blob not found", req);
+        }
+        
+        // Return file content
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.set(http::field::content_type, meta->mime_type);
+        res.keep_alive(req.keep_alive());
+        res.body() = *blob;
+        applyGovernanceHeaders(req, res);
+        res.prepare_payload();
+        return res;
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleFilesystemPut(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto target = std::string(req.target());
+        std::string vpath = target.substr(3); // Skip "/fs"
+        if (vpath.empty()) vpath = "/";
+        
+        // Extract filename from path
+        size_t last_slash = vpath.rfind('/');
+        std::string filename = (last_slash != std::string::npos) ? vpath.substr(last_slash + 1) : vpath;
+        
+        // Import content via ContentManager
+        json spec = {
+            {"content", {
+                {"original_filename", filename},
+                {"virtual_path", vpath}
+            }}
+        };
+        
+        std::optional<std::string> blob = req.body();
+        auto auth_ctx = extractAuthContext(req);
+        auto status = content_manager_->importContent(spec, blob, auth_ctx.user_id);
+        
+        if (!status.ok) {
+            return makeErrorResponse(http::status::internal_server_error, status.message, req);
+        }
+        
+        json response = {
+            {"status", "success"},
+            {"path", vpath},
+            {"message", "File uploaded"}
+        };
+        
+        return makeResponse(http::status::created, response.dump(), req);
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleFilesystemDelete(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto target = std::string(req.target());
+        std::string vpath = target.substr(3); // Skip "/fs"
+        if (vpath.empty()) vpath = "/";
+        
+        // Resolve path to content ID
+        auto content_id = content_manager_->resolvePath(vpath);
+        if (!content_id.has_value()) {
+            return makeErrorResponse(http::status::not_found, "File not found: " + vpath, req);
+        }
+        
+        // Delete content
+        auto status = content_manager_->deleteContent(*content_id);
+        if (!status.ok) {
+            return makeErrorResponse(http::status::internal_server_error, status.message, req);
+        }
+        
+        json response = {
+            {"status", "success"},
+            {"path", vpath},
+            {"message", "File deleted"}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(), req);
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleFilesystemList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto target = std::string(req.target());
+        // Remove query string
+        size_t qpos = target.find('?');
+        std::string vpath = target.substr(3, qpos - 3); // Skip "/fs", stop at "?"
+        if (vpath.empty()) vpath = "/";
+        
+        // List directory contents
+        auto items = content_manager_->listDirectory(vpath);
+        
+        json arr = json::array();
+        for (const auto& item : items) {
+            json entry = {
+                {"name", item.original_filename},
+                {"path", item.virtual_path},
+                {"is_directory", item.is_directory},
+                {"size", item.size_bytes},
+                {"mime_type", item.mime_type},
+                {"created_at", item.created_at},
+                {"modified_at", item.modified_at}
+            };
+            arr.push_back(entry);
+        }
+        
+        json response = {
+            {"path", vpath},
+            {"count", items.size()},
+            {"items", arr}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(), req);
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleFilesystemMkdir(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto target = std::string(req.target());
+        // Remove query string
+        size_t qpos = target.find('?');
+        std::string vpath = target.substr(3, qpos - 3); // Skip "/fs", stop at "?"
+        if (vpath.empty()) vpath = "/";
+        
+        // Check for recursive flag
+        bool recursive = (target.find("recursive=true") != std::string::npos);
+        
+        // Create directory
+        auto status = content_manager_->createDirectory(vpath, recursive);
+        if (!status.ok) {
+            return makeErrorResponse(http::status::bad_request, status.message, req);
+        }
+        
+        json response = {
+            {"status", "success"},
+            {"path", vpath},
+            {"message", "Directory created"}
+        };
+        
+        return makeResponse(http::status::created, response.dump(), req);
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+// ===================== Content Assembly & Navigation =====================
+
+http::response<http::string_body> HttpServer::handleContentAssemble(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto path = std::string(req.target());
+        // path format: /content/{id}/assemble?include_text=true
+        auto prefix = std::string("/content/");
+        auto pos = path.find("/assemble");
+        if (pos == std::string::npos) {
+            return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        
+        auto id = path.substr(prefix.size(), pos - prefix.size());
+        
+        // Check for include_text parameter
+        bool include_text = (path.find("include_text=true") != std::string::npos);
+        
+        // Assemble content
+        auto assembly = content_manager_->assembleContent(id, include_text);
+        if (!assembly.has_value()) {
+            return makeErrorResponse(http::status::not_found, "Content not found", req);
+        }
+        
+        // Build response
+        json response = {
+            {"content_id", id},
+            {"metadata", assembly->metadata.toJson()},
+            {"chunk_count", assembly->chunks.size()},
+            {"total_size_bytes", assembly->total_size_bytes}
+        };
+        
+        // Add chunk summaries
+        json chunks_array = json::array();
+        for (const auto& chunk : assembly->chunks) {
+            json chunk_info = {
+                {"id", chunk.id},
+                {"seq_num", chunk.seq_num},
+                {"chunk_type", chunk.chunk_type},
+                {"text_length", chunk.text.size()},
+                {"start_offset", chunk.start_offset},
+                {"end_offset", chunk.end_offset}
+            };
+            chunks_array.push_back(chunk_info);
+        }
+        response["chunks"] = chunks_array;
+        
+        // Add full text if requested
+        if (assembly->assembled_text.has_value()) {
+            response["assembled_text"] = *assembly->assembled_text;
+        }
+        
+        return makeResponse(http::status::ok, response.dump(), req);
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleChunkNavigation(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto target = std::string(req.target());
+        
+        // Extract chunk_id and direction
+        // Format: /chunk/{id}/next or /chunk/{id}/previous
+        if (target.find("/chunk/") != 0) {
+            return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        
+        std::string path = target.substr(7); // Skip "/chunk/"
+        size_t slash_pos = path.find('/');
+        if (slash_pos == std::string::npos) {
+            return makeErrorResponse(http::status::bad_request, "Missing direction (next/previous)", req);
+        }
+        
+        std::string chunk_id = path.substr(0, slash_pos);
+        std::string direction = path.substr(slash_pos + 1);
+        
+        // Remove query params if present
+        size_t query_pos = direction.find('?');
+        if (query_pos != std::string::npos) {
+            direction = direction.substr(0, query_pos);
+        }
+        
+        // Navigate
+        std::optional<themis::content::ChunkMeta> result;
+        if (direction == "next") {
+            result = content_manager_->getNextChunk(chunk_id);
+        } else if (direction == "previous") {
+            result = content_manager_->getPreviousChunk(chunk_id);
+        } else {
+            return makeErrorResponse(http::status::bad_request, "Invalid direction: " + direction, req);
+        }
+        
+        if (!result.has_value()) {
+            return makeErrorResponse(http::status::not_found, "Chunk not found", req);
+        }
+        
+        // Return chunk metadata
+        return makeResponse(http::status::ok, result->toJson().dump(), req);
+        
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
 http::response<http::string_body> HttpServer::handleHybridSearch(
     const http::request<http::string_body>& req
 ) {
@@ -8370,11 +9147,50 @@ http::response<http::string_body> HttpServer::handleHybridSearch(
         if (body.contains("expand") && body["expand"].is_object()) {
             hops = body["expand"].value("hops", 1);
         }
+        // Normalize filters: accept object or array form
         json filters = json::object();
-        if (body.contains("filters")) filters = body["filters"];
+        if (body.contains("filters")) {
+            const auto& jf = body["filters"];
+            if (jf.is_object()) {
+                filters = jf;
+            } else if (jf.is_array()) {
+                for (const auto& it : jf) {
+                    if (!it.is_object()) continue;
+                    if (!it.contains("field")) continue;
+                    std::string field = it["field"].get<std::string>();
+                    std::string op = it.value("op", std::string("EQUALS"));
+                    std::string opu; opu.resize(op.size());
+                    std::transform(op.begin(), op.end(), opu.begin(), [](unsigned char c){ return std::toupper(c); });
+                    if (opu == "EQUALS" || opu == "EQ") {
+                        if (it.contains("value")) filters[field] = it["value"]; // map to object-form equals
+                    } else if (opu == "IN") {
+                        if (it.contains("values") && it["values"].is_array()) filters[field] = it["values"]; // array means IN
+                    } else if (opu == "RANGE") {
+                        json r = json::object();
+                        if (it.contains("min")) r["min"] = it["min"]; 
+                        if (it.contains("max")) r["max"] = it["max"]; 
+                        if (!r.empty()) filters[field] = r; // object with min/max for numeric range
+                    }
+                    // Other ops are not supported in content whitelist filters yet
+                }
+            }
+        }
         if (body.contains("scoring")) filters["scoring"] = body["scoring"];
 
         auto results = content_manager_->searchWithExpansion(query, k, hops, filters);
+
+        // Optional deterministic tie-break on equal scores
+        double tieBreakEps = body.value("tie_break_epsilon", 1e-12);
+        std::string tieBreak = body.value("tie_break", std::string("pk")); // pk | none
+        if (!results.empty()) {
+            std::sort(results.begin(), results.end(), [&](const auto& a, const auto& b){
+                double da = static_cast<double>(a.second);
+                double db = static_cast<double>(b.second);
+                if (std::fabs(da - db) > tieBreakEps) return da > db;
+                if (tieBreak == "pk") return a.first < b.first;
+                return false;
+            });
+        }
         json resp = json::array();
         for (const auto& [pk, score] : results) {
             resp.push_back({{"pk", pk}, {"score", score}});
@@ -8473,6 +9289,47 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         std::string table = body["table"];
         int k = body.value("k", 10);
         std::string fusionMode = body.value("fusion_mode", "rrf"); // "rrf" or "weighted"
+
+        // Optional tie-break & cutoff parameters
+        double tieBreakEps = body.value("tie_break_epsilon", 1e-12);
+        std::string tieBreak = body.value("tie_break", std::string("pk")); // pk | none
+        double minTextScore = body.value("min_text_score", std::numeric_limits<double>::lowest());
+        double maxVectorDistance = body.value("max_vector_distance", std::numeric_limits<double>::infinity());
+
+        // Optional attribute filters (whitelist prefilter)
+        struct SimpleFilter { std::string field; std::string op; std::string value; std::vector<std::string> values; std::string vmin; std::string vmax; };
+        std::vector<SimpleFilter> simpleFilters;
+        std::vector<VectorIndexManager::AttributeFilterV2> vimFilters;
+        auto pushEqualsObj = [&](const std::string& key, const json& jval){
+            SimpleFilter f; f.field = key; f.op = "EQUALS"; if (jval.is_string()) f.value = jval.get<std::string>(); else f.value = jval.dump(); simpleFilters.push_back(f);
+            VectorIndexManager::AttributeFilterV2 vf; vf.field = key; vf.op = VectorIndexManager::AttributeFilterV2::Op::EQUALS; vf.value = f.value; vimFilters.push_back(vf);
+        };
+        if (body.contains("filters")) {
+            const auto& jf = body["filters"];
+            if (jf.is_object()) {
+                for (auto it = jf.begin(); it != jf.end(); ++it) pushEqualsObj(it.key(), it.value());
+            } else if (jf.is_array()) {
+                for (const auto& item : jf) {
+                    if (!item.is_object() || !item.contains("field") || !item.contains("op")) continue;
+                    std::string field = item["field"].get<std::string>();
+                    std::string op = item["op"].get<std::string>();
+                    std::string opu; opu.resize(op.size()); std::transform(op.begin(), op.end(), opu.begin(), [](unsigned char c){ return std::toupper(c); });
+                    SimpleFilter sf; sf.field = field; sf.op = opu;
+                    VectorIndexManager::AttributeFilterV2 vf; vf.field = field;
+                    if (opu == "EQUALS" || opu == "EQ") { vf.op = VectorIndexManager::AttributeFilterV2::Op::EQUALS; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "NOT_EQUALS" || opu == "NE") { vf.op = VectorIndexManager::AttributeFilterV2::Op::NOT_EQUALS; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "CONTAINS") { vf.op = VectorIndexManager::AttributeFilterV2::Op::CONTAINS; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "GREATER_THAN" || opu == "GT") { vf.op = VectorIndexManager::AttributeFilterV2::Op::GREATER_THAN; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "LESS_THAN" || opu == "LT") { vf.op = VectorIndexManager::AttributeFilterV2::Op::LESS_THAN; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "GREATER_EQUAL" || opu == "GTE") { vf.op = VectorIndexManager::AttributeFilterV2::Op::GREATER_EQUAL; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "LESS_EQUAL" || opu == "LTE") { vf.op = VectorIndexManager::AttributeFilterV2::Op::LESS_EQUAL; sf.value = item.value("value", ""); vf.value = sf.value; }
+                    else if (opu == "IN") { vf.op = VectorIndexManager::AttributeFilterV2::Op::IN; if (item.contains("values") && item["values"].is_array()) { for (const auto& v : item["values"]) if (v.is_string()) { sf.values.push_back(v.get<std::string>());} } vf.values = sf.values; }
+                    else if (opu == "RANGE") { vf.op = VectorIndexManager::AttributeFilterV2::Op::RANGE; sf.vmin = item.value("min", ""); sf.vmax = item.value("max", ""); vf.value_min = sf.vmin; vf.value_max = sf.vmax; }
+                    else { continue; }
+                    simpleFilters.push_back(sf); vimFilters.push_back(vf);
+                }
+            }
+        }
         
         // Text search parameters (optional)
         std::vector<SecondaryIndexManager::FulltextResult> textResults;
@@ -8492,7 +9349,47 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             if (!textStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Text search failed: " + textStatus.message, req);
             }
-            textResults = std::move(textRes);
+            // Apply optional cutoff
+            if (minTextScore != std::numeric_limits<double>::lowest()) {
+                for (const auto& r : textRes) if (static_cast<double>(r.score) >= minTextScore) textResults.push_back(r);
+            } else {
+                textResults = std::move(textRes);
+            }
+
+            // Apply attribute filters to text results (post-filter)
+            if (!simpleFilters.empty() && !textResults.empty()) {
+                std::vector<SecondaryIndexManager::FulltextResult> filtered;
+                filtered.reserve(textResults.size());
+                auto matchesFilters = [&](const std::string& pk)->bool{
+                    auto key = KeySchema::makeRelationalKey(table, pk);
+                    auto blob = storage_->get(key);
+                    if (!blob || blob->empty()) return false;
+                    try {
+                        BaseEntity::Blob beBlob(blob->begin(), blob->end());
+                        BaseEntity entity = BaseEntity::deserialize(pk, beBlob);
+                        for (const auto& f : simpleFilters) {
+                            auto valOpt = entity.extractField(f.field);
+                            std::string sval = valOpt.has_value() ? *valOpt : std::string();
+                            if (f.op == "EQUALS" || f.op == "EQ") { if (sval != f.value) return false; }
+                            else if (f.op == "NOT_EQUALS" || f.op == "NE") { if (sval == f.value) return false; }
+                            else if (f.op == "CONTAINS") { if (sval.find(f.value) == std::string::npos) return false; }
+                            else if (f.op == "IN") { if (std::find(f.values.begin(), f.values.end(), sval) == f.values.end()) return false; }
+                            else if (f.op == "RANGE" || f.op == "GT" || f.op == "LT" || f.op == "GTE" || f.op == "LTE" || f.op == "GREATER_THAN" || f.op == "LESS_THAN" || f.op == "GREATER_EQUAL" || f.op == "LESS_EQUAL") {
+                                double d = 0.0, dmin = -std::numeric_limits<double>::infinity(), dmax = std::numeric_limits<double>::infinity();
+                                try { d = std::stod(sval); } catch (...) { return false; }
+                                if (f.op == "RANGE") { if (!f.vmin.empty()) { try { dmin = std::stod(f.vmin); } catch (...) {} } if (!f.vmax.empty()) { try { dmax = std::stod(f.vmax); } catch (...) {} } if (d < dmin || d > dmax) return false; }
+                                else if (f.op == "GT" || f.op == "GREATER_THAN") { try { dmin = std::stod(f.value); } catch (...) { return false; } if (!(d > dmin)) return false; }
+                                else if (f.op == "GTE" || f.op == "GREATER_EQUAL") { try { dmin = std::stod(f.value); } catch (...) { return false; } if (!(d >= dmin)) return false; }
+                                else if (f.op == "LT" || f.op == "LESS_THAN") { try { dmax = std::stod(f.value); } catch (...) { return false; } if (!(d < dmax)) return false; }
+                                else if (f.op == "LTE" || f.op == "LESS_EQUAL") { try { dmax = std::stod(f.value); } catch (...) { return false; } if (!(d <= dmax)) return false; }
+                            }
+                        }
+                        return true;
+                    } catch (...) { return false; }
+                };
+                for (const auto& r : textResults) if (matchesFilters(r.pk)) filtered.push_back(r);
+                textResults.swap(filtered);
+            }
         }
         
         // Vector search parameters (optional)
@@ -8516,11 +9413,22 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
             }
             
             int vectorLimit = body.value("vector_limit", 1000);
-            auto [vecStatus, vecRes] = vector_index_->searchKnn(vectorQuery, vectorLimit);
+            std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>> vecPair;
+            if (!vimFilters.empty()) {
+                vecPair = vector_index_->searchKnnPreFiltered(vectorQuery, static_cast<size_t>(vectorLimit), vimFilters, secondary_index_.get());
+            } else {
+                vecPair = vector_index_->searchKnn(vectorQuery, vectorLimit);
+            }
+            auto vecStatus = vecPair.first; auto vecRes = std::move(vecPair.second);
             if (!vecStatus.ok) {
                 return makeErrorResponse(http::status::internal_server_error, "Vector search failed: " + vecStatus.message, req);
             }
-            vectorResults = std::move(vecRes);
+            // Apply optional cutoff on distance
+            if (std::isfinite(maxVectorDistance)) {
+                for (const auto& r : vecRes) if (static_cast<double>(r.distance) <= maxVectorDistance) vectorResults.push_back(r);
+            } else {
+                vectorResults = std::move(vecRes);
+            }
         }
         
         // Require at least one query type
@@ -8552,11 +9460,16 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
                 fusedResults.emplace_back(pk, score);
             }
             std::sort(fusedResults.begin(), fusedResults.end(), 
-                [](const auto& a, const auto& b) { return a.second > b.second; });
+                [&](const auto& a, const auto& b) {
+                    if (std::fabs(a.second - b.second) > tieBreakEps) return a.second > b.second;
+                    if (tieBreak == "pk") return a.first < b.first; // stable deterministic
+                    return false; // keep relative order
+                });
             
         } else if (fusionMode == "weighted") {
             // Weighted fusion: alpha * normalize(text_score) + (1 - alpha) * normalize(vector_sim)
-            double alpha = body.value("weight_text", 0.5);
+            // Accept alias parameters: alpha or weight_text
+            double alpha = body.contains("alpha") ? body.value("alpha", 0.5) : body.value("weight_text", 0.5);
             alpha = std::clamp(alpha, 0.0, 1.0);
             
             // Normalize text scores (min-max)
@@ -8591,7 +9504,11 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
                 fusedResults.emplace_back(pk, score);
             }
             std::sort(fusedResults.begin(), fusedResults.end(), 
-                [](const auto& a, const auto& b) { return a.second > b.second; });
+                [&](const auto& a, const auto& b) {
+                    if (std::fabs(a.second - b.second) > tieBreakEps) return a.second > b.second;
+                    if (tieBreak == "pk") return a.first < b.first;
+                    return false;
+                });
             
         } else {
             return makeErrorResponse(http::status::bad_request, 
@@ -8693,8 +9610,13 @@ http::response<http::string_body> HttpServer::handleContentConfigGet(
             resp = {
                 {"compress_blobs", false},
                 {"compression_level", 19},
-                {"skip_compressed_mimes", json::array({"image/", "video/", "application/zip", "application/gzip"})}
+                {"skip_compressed_mimes", json::array({"image/", "video/", "application/zip", "application/gzip"})},
+                {"chunk_size_bytes", content_fs_ ? content_fs_->getChunkSizeBytes() : 1048576}
             };
+        }
+        // Ensure current runtime chunk size is visible even if config exists (read-modify)
+        if (!resp.contains("chunk_size_bytes") && content_fs_) {
+            resp["chunk_size_bytes"] = content_fs_->getChunkSizeBytes();
         }
         
         span.setStatus(true);
@@ -8769,6 +9691,25 @@ http::response<http::string_body> HttpServer::handleContentConfigPut(
                 }
             }
             config["skip_compressed_mimes"] = body["skip_compressed_mimes"];
+        }
+
+        // Chunk size update (optional)
+        if (body.contains("chunk_size_bytes")) {
+            if (!body["chunk_size_bytes"].is_number_unsigned()) {
+                span.setStatus(false, "invalid_chunk_size");
+                return makeErrorResponse(http::status::bad_request, 
+                    "chunk_size_bytes must be an unsigned integer", req);
+            }
+            uint64_t v = body["chunk_size_bytes"].get<uint64_t>();
+            const uint64_t min_sz = 64ull * 1024ull;   // 64 KiB
+            const uint64_t max_sz = 16ull * 1024ull * 1024ull; // 16 MiB
+            if (v < min_sz || v > max_sz) {
+                span.setStatus(false, "chunk_size_out_of_range");
+                return makeErrorResponse(http::status::bad_request,
+                    "chunk_size_bytes must be between 65536 and 16777216", req);
+            }
+            config["chunk_size_bytes"] = v;
+            if (content_fs_) content_fs_->setChunkSizeBytes(v);
         }
         
         // Store updated config
@@ -10621,7 +11562,7 @@ std::optional<http::response<http::string_body>> HttpServer::checkRateLimit(
 }
 
 // ============================================================================
-// G5: Spatial Index Management Handlers
+// G5: Spatial Index Management Handlers + Security Signatures & Content Policy
 // ============================================================================
 
 http::response<http::string_body> HttpServer::handleSpatialIndexCreate(
@@ -10646,7 +11587,7 @@ http::response<http::string_body> HttpServer::handleSpatialIndexCreate(
         }
         
         // Parse optional config
-        SpatialIndexManager::RTreeConfig config;
+        RTreeConfig config;
         if (j.contains("config") && j["config"].is_object()) {
             auto cfg = j["config"];
             if (cfg.contains("total_bounds") && cfg["total_bounds"].is_object()) {
@@ -10753,14 +11694,19 @@ http::response<http::string_body> HttpServer::handleSpatialIndexStats(
             return makeErrorResponse(http::status::internal_server_error, "Spatial index manager not available", req);
         }
         
-        auto stats = spatial_index_->getIndexStats(table);
+        auto stats = spatial_index_->getStats(table);
         
-        if (!stats) {
-            span.setStatus(false, stats.message);
-            return makeErrorResponse(http::status::not_found, stats.message, req);
-        }
-        
-        json response = *stats;
+        // getStats returns IndexStats struct directly, not optional
+        json response;
+        response["entry_count"] = stats.entry_count;
+        response["total_bounds"] = {
+            {"minx", stats.total_bounds.minx},
+            {"miny", stats.total_bounds.miny},
+            {"maxx", stats.total_bounds.maxx},
+            {"maxy", stats.total_bounds.maxy}
+        };
+        response["avg_area"] = stats.avg_area;
+        response["morton_buckets"] = stats.morton_buckets;
         res.body() = response.dump();
         span.setStatus(true);
         
@@ -10827,6 +11773,367 @@ http::response<http::string_body> HttpServer::handleSpatialMetrics(
     applyGovernanceHeaders(req, res);
     res.prepare_payload();
     return res;
+// ---------------------------------------------------------------------------
+// Security Signatures & Content Policy Validation Handlers
+// ---------------------------------------------------------------------------
+// Security Signatures API Handlers
+
+http::response<http::string_body> HttpServer::handleSecuritySignaturesList(
+    const http::request<http::string_body>& req) {
+    
+    http::response<http::string_body> response;
+    response.version(req.version());
+    response.set(http::field::content_type, "application/json");
+    
+    try {
+        if (!security_sig_mgr_) {
+            response.result(http::status::service_unavailable);
+            response.body() = R"({"error":"Security signature manager not initialized"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        auto signatures = security_sig_mgr_->listAllSignatures();
+        
+        json result = json::array();
+        for (const auto& sig : signatures) {
+            result.push_back(sig.toJson());
+        }
+        
+        response.result(http::status::ok);
+        response.body() = result.dump();
+        response.prepare_payload();
+        return response;
+        
+    } catch (const std::exception& e) {
+        response.result(http::status::internal_server_error);
+        json error = {{"error", "Failed to list signatures"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSecuritySignatureGet(
+    const http::request<http::string_body>& req) {
+    
+    http::response<http::string_body> response;
+    response.version(req.version());
+    response.set(http::field::content_type, "application/json");
+    
+    try {
+        if (!security_sig_mgr_) {
+            response.result(http::status::service_unavailable);
+            response.body() = R"({"error":"Security signature manager not initialized"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/security/signatures/";
+        
+        if (target.size() <= prefix.size()) {
+            response.result(http::status::bad_request);
+            response.body() = R"({"error":"Missing resource_id in path"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string resource_id = target.substr(prefix.size());
+        // URL decode resource_id
+        resource_id = urlDecode(resource_id);
+        
+        auto sig_opt = security_sig_mgr_->getSignature(resource_id);
+        
+        if (!sig_opt.has_value()) {
+            response.result(http::status::not_found);
+            json error = {{"error", "Signature not found"}, {"resource_id", resource_id}};
+            response.body() = error.dump();
+            response.prepare_payload();
+            return response;
+        }
+        
+        response.result(http::status::ok);
+        response.body() = sig_opt->toJson().dump();
+        response.prepare_payload();
+        return response;
+        
+    } catch (const std::exception& e) {
+        response.result(http::status::internal_server_error);
+        json error = {{"error", "Failed to get signature"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSecuritySignaturePost(
+    const http::request<http::string_body>& req) {
+    
+    http::response<http::string_body> response;
+    response.version(req.version());
+    response.set(http::field::content_type, "application/json");
+    
+    try {
+        if (!security_sig_mgr_) {
+            response.result(http::status::service_unavailable);
+            response.body() = R"({"error":"Security signature manager not initialized"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        json body = json::parse(req.body());
+        
+        auto sig_opt = storage::SecuritySignature::fromJson(body);
+        if (!sig_opt.has_value()) {
+            response.result(http::status::bad_request);
+            response.body() = R"({"error":"Invalid signature format"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        // Set server-side timestamp if not provided
+        if (sig_opt->created_at == 0) {
+            sig_opt->created_at = static_cast<uint64_t>(
+                std::chrono::system_clock::now().time_since_epoch().count() / 1000000000);
+        }
+        
+        bool success = security_sig_mgr_->storeSignature(*sig_opt);
+        
+        if (success) {
+            response.result(http::status::created);
+            json result = {
+                {"status", "created"},
+                {"resource_id", sig_opt->resource_id},
+                {"created_at", sig_opt->created_at}
+            };
+            response.body() = result.dump();
+        } else {
+            response.result(http::status::internal_server_error);
+            response.body() = R"({"error":"Failed to store signature"})";
+        }
+        
+        response.prepare_payload();
+        return response;
+        
+    } catch (const json::parse_error& e) {
+        response.result(http::status::bad_request);
+        json error = {{"error", "Invalid JSON"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    } catch (const std::exception& e) {
+        response.result(http::status::internal_server_error);
+        json error = {{"error", "Failed to create signature"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSecuritySignatureDelete(
+    const http::request<http::string_body>& req) {
+    
+    http::response<http::string_body> response;
+    response.version(req.version());
+    response.set(http::field::content_type, "application/json");
+    
+    try {
+        if (!security_sig_mgr_) {
+            response.result(http::status::service_unavailable);
+            response.body() = R"({"error":"Security signature manager not initialized"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/security/signatures/";
+        
+        if (target.size() <= prefix.size()) {
+            response.result(http::status::bad_request);
+            response.body() = R"({"error":"Missing resource_id in path"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string resource_id = target.substr(prefix.size());
+        resource_id = urlDecode(resource_id);
+        
+        bool success = security_sig_mgr_->deleteSignature(resource_id);
+        
+        if (success) {
+            response.result(http::status::ok);
+            json result = {{"status", "deleted"}, {"resource_id", resource_id}};
+            response.body() = result.dump();
+        } else {
+            response.result(http::status::not_found);
+            json error = {{"error", "Signature not found"}, {"resource_id", resource_id}};
+            response.body() = error.dump();
+        }
+        
+        response.prepare_payload();
+        return response;
+        
+    } catch (const std::exception& e) {
+        response.result(http::status::internal_server_error);
+        json error = {{"error", "Failed to delete signature"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    }
+}
+
+http::response<http::string_body> HttpServer::handleSecurityVerify(
+    const http::request<http::string_body>& req) {
+    
+    http::response<http::string_body> response;
+    response.version(req.version());
+    response.set(http::field::content_type, "application/json");
+    
+    try {
+        if (!security_sig_mgr_) {
+            response.result(http::status::service_unavailable);
+            response.body() = R"({"error":"Security signature manager not initialized"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/security/verify/";
+        
+        if (target.size() <= prefix.size()) {
+            response.result(http::status::bad_request);
+            response.body() = R"({"error":"Missing resource_id in path"})";
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string resource_id = target.substr(prefix.size());
+        resource_id = urlDecode(resource_id);
+        
+        // Get file path from request body or infer from resource_id
+        json body;
+        std::string file_path = resource_id; // Default: assume resource_id is file path
+        
+        if (!req.body().empty()) {
+            body = json::parse(req.body());
+            if (body.contains("file_path")) {
+                file_path = body["file_path"].get<std::string>();
+            }
+        }
+        
+        // Get stored signature
+        auto sig_opt = security_sig_mgr_->getSignature(resource_id);
+        if (!sig_opt.has_value()) {
+            response.result(http::status::not_found);
+            json error = {
+                {"error", "No signature found"},
+                {"resource_id", resource_id},
+                {"verified", false}
+            };
+            response.body() = error.dump();
+            response.prepare_payload();
+            return response;
+        }
+        
+        // Compute current file hash
+        std::string current_hash = storage::SecuritySignatureManager::computeFileHash(file_path);
+        
+        bool verified = (current_hash == sig_opt->hash);
+        
+        json result = {
+            {"resource_id", resource_id},
+            {"verified", verified},
+            {"current_hash", current_hash},
+            {"stored_hash", sig_opt->hash},
+            {"algorithm", sig_opt->algorithm},
+            {"last_updated", sig_opt->created_at}
+        };
+        
+        response.result(verified ? http::status::ok : http::status::conflict);
+        response.body() = result.dump();
+        response.prepare_payload();
+        return response;
+        
+    } catch (const json::parse_error& e) {
+        response.result(http::status::bad_request);
+        json error = {{"error", "Invalid JSON"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    } catch (const std::exception& e) {
+        response.result(http::status::internal_server_error);
+        json error = {{"error", "Verification failed"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    }
+}
+
+http::response<http::string_body> HttpServer::handleContentValidate(
+    const http::request<http::string_body>& req) {
+    
+    http::response<http::string_body> response{http::status::ok, req.version()};
+    response.set(http::field::server, "Themis");
+    response.set(http::field::content_type, "application/json");
+    
+    try {
+        json body = json::parse(req.body());
+        
+        // Required fields: filename, file_size
+        if (!body.contains("filename") || !body.contains("file_size")) {
+            response.result(http::status::bad_request);
+            json error = {
+                {"error", "Invalid request"},
+                {"message", "Required fields: filename, file_size"}
+            };
+            response.body() = error.dump();
+            response.prepare_payload();
+            return response;
+        }
+        
+        std::string filename = body["filename"].get<std::string>();
+        uint64_t file_size = body["file_size"].get<uint64_t>();
+        
+        // Validate using MimeDetector's policy engine
+        content::ValidationResult result = mime_detector_->validateUpload(filename, file_size);
+        
+        // Build response JSON
+        json response_json = {
+            {"allowed", result.allowed},
+            {"filename", filename},
+            {"mime_type", result.mime_type},
+            {"file_size", result.file_size},
+            {"max_allowed_size", result.max_allowed_size},
+            {"reason", result.reason}
+        };
+        
+        // Add detailed flags if denied
+        if (!result.allowed) {
+            response_json["blacklisted"] = result.blacklisted;
+            response_json["size_exceeded"] = result.size_exceeded;
+            response_json["not_whitelisted"] = result.not_whitelisted;
+        }
+        
+        // Return 200 OK if allowed, 403 Forbidden if denied
+        response.result(result.allowed ? http::status::ok : http::status::forbidden);
+        response.body() = response_json.dump();
+        response.prepare_payload();
+        return response;
+        
+    } catch (const json::parse_error& e) {
+        response.result(http::status::bad_request);
+        json error = {{"error", "Invalid JSON"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    } catch (const std::exception& e) {
+        response.result(http::status::internal_server_error);
+        json error = {{"error", "Validation failed"}, {"message", e.what()}};
+        response.body() = error.dump();
+        response.prepare_payload();
+        return response;
+    }
 }
 
 } // namespace server

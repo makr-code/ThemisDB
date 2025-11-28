@@ -4,6 +4,7 @@
 #include "query/aql_runner.h"
 #include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 
 using namespace themis;

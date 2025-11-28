@@ -244,6 +244,17 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
     return std::nullopt;
 }
 
+bool RocksDBWrapper::get(std::string_view key, std::string& out) {
+    if (!db_) return false;
+    std::string value;
+    rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(), key.size()), &value);
+    if (status.ok()) {
+        out = std::move(value);
+        return true;
+    }
+    return false;
+}
+
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     if (!db_) return false;
     
@@ -253,6 +264,16 @@ bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value
         rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
     );
     
+    return status.ok();
+}
+
+bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
+    if (!db_) return false;
+    rocksdb::Status status = db_->Put(
+        *write_options_,
+        rocksdb::Slice(key.data(), key.size()),
+        rocksdb::Slice(value.data(), value.size())
+    );
     return status.ok();
 }
 

@@ -222,6 +222,8 @@ nav:
   - APIs:
       - OpenAPI & Endpunkte: apis/openapi.md
       - SSE-Streaming (Changefeed): apis/openapi.md
+      - ContentFS API: apis/contentfs_api.md
+      - Hybrid Search API: apis/hybrid_search_api.md
   - Client SDKs:
       - JavaScript SDK Quickstart: clients/javascript_sdk_quickstart.md
       - Python SDK Quickstart: clients/python_sdk_quickstart.md

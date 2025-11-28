@@ -112,9 +112,39 @@ Abfrage der Metadaten:
 - GET /content/doc-001/chunks → { count, chunks: [...] } (embedding-Felder leere Arrays)
 - GET /content/doc-001/blob → liefert den Blob (Content-Type: text/plain)
 
-## Filter- und Graph-Funktionen (Ausblick)
+## Filter- und Graph-Funktionen
 
 - Hybrid-/Vektorsuche: POST /search/hybrid (siehe allgemeine Doku); nutzt VectorIndex plus optionale Graph-Expansion.
+  - Beispiel (Array-Form mit IN und RANGE):
+
+    Schema-Mapping (Konfiguration, optional):
+
+    ```json
+    {
+      "field_map": {
+        "dataset": "user_metadata.dataset",
+        "score":   "user_metadata.score"
+      }
+    }
+    ```
+
+    Anfrage:
+
+    ```json
+    {
+      "query": "any",
+      "k": 10,
+      "expand": { "hops": 0 },
+      "filters": [
+        {"field": "dataset", "op": "IN",    "values": ["train", "test"]},
+        {"field": "score",   "op": "RANGE", "min": 0.5, "max": 1.0}
+      ],
+      "tie_break": "pk",
+      "tie_break_epsilon": 1e-12
+    }
+    ```
+  - Objekt-Form (`{"field":"value"}`) entspricht EQUALS.
+  - Array-Form unterstützt in Hybrid: `EQUALS|EQ`, `IN`, `RANGE` (für gemappte Felder).
 - Filterkonfiguration: GET/PUT /config/content-filters
   - Schema: { field_map: { alias: "json.pfad.im.contentmeta" } }
   - Dient der Deklaration, welche Felder in Content-Metadaten für Filter verwendet werden können.

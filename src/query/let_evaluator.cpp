@@ -45,6 +45,16 @@ nlohmann::json LetEvaluator::evaluateExpression(
         return nlohmann::json(nullptr);
     }
 
+    // Backward-compat: JSON literal wrapper from legacy tests
+    if (auto jsonLit = dynamic_cast<query::JsonLiteralExpr*>(expr.get())) {
+        return jsonLit->value;
+    }
+
+    // Backward-compat: path-based field access (supports array indices)
+    if (auto pathFA = dynamic_cast<query::PathFieldAccessExpr*>(expr.get())) {
+        return getNestedValue(currentDoc, pathFA->path);
+    }
+
     // Literal (number, string, bool, null, array, object)
     if (auto lit = dynamic_cast<query::LiteralExpr*>(expr.get())) {
         return evaluateLiteral(lit);
@@ -60,9 +70,38 @@ nlohmann::json LetEvaluator::evaluateExpression(
         return evaluateBinaryOp(binOp, currentDoc);
     }
 
+    // Backward-compat: binary op with string operator
+    if (auto sbin = dynamic_cast<query::StringBinaryOpExpr*>(expr.get())) {
+        auto left = evaluateExpression(sbin->left, currentDoc);
+        auto right = evaluateExpression(sbin->right, currentDoc);
+        const std::string& op = sbin->op;
+        if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
+            return applyArithmeticOp(op, left, right);
+        }
+        if (op == "==" || op == "!=" || op == "<" || op == ">" || op == "<=" || op == ">=") {
+            return applyComparisonOp(op, left, right);
+        }
+        if (op == "AND" || op == "OR") {
+            return applyLogicalOp(op, left, right);
+        }
+        throw std::runtime_error("Unknown legacy binary operator: " + op);
+    }
+
     // Unary Operation (-, NOT)
     if (auto unaryOp = dynamic_cast<query::UnaryOpExpr*>(expr.get())) {
         return evaluateUnaryOp(unaryOp, currentDoc);
+    }
+
+    // Backward-compat: unary op with string operator
+    if (auto sunary = dynamic_cast<query::StringUnaryOpExpr*>(expr.get())) {
+        auto val = evaluateExpression(sunary->operand, currentDoc);
+        if (sunary->op == "NOT") {
+            return !toBool(val);
+        }
+        if (sunary->op == "-") {
+            return -toNumber(val);
+        }
+        throw std::runtime_error("Unknown legacy unary operator: " + sunary->op);
     }
 
     // Variable (doc, user, let-bound variable)
@@ -80,6 +119,12 @@ nlohmann::json LetEvaluator::evaluateExpression(
     // Function Call (LENGTH, CONCAT, SUBSTRING, UPPER, LOWER, etc.)
     if (auto funcCall = dynamic_cast<query::FunctionCallExpr*>(expr.get())) {
         return evaluateFunctionCall(funcCall, currentDoc);
+    }
+
+    // Backward-compat: function call shim with functionName + arguments
+    if (auto cfunc = dynamic_cast<query::CompatFunctionCallExpr*>(expr.get())) {
+        query::FunctionCallExpr tmp(cfunc->functionName, cfunc->arguments);
+        return evaluateFunctionCall(&tmp, currentDoc);
     }
 
     throw std::runtime_error("Unknown expression type in LET evaluator");
@@ -106,6 +151,22 @@ nlohmann::json LetEvaluator::evaluateFieldAccess(
     // Access the field on the base value
     if (baseValue.is_object() && baseValue.contains(fieldAccess->field)) {
         return baseValue[fieldAccess->field];
+    }
+
+    // Backward-compat: numeric string treated as array index
+    if (baseValue.is_array()) {
+        const std::string& f = fieldAccess->field;
+        bool numeric = !f.empty() && std::all_of(f.begin(), f.end(), [](unsigned char ch){ return std::isdigit(ch) != 0; });
+        if (numeric) {
+            try {
+                size_t idx = static_cast<size_t>(std::stoull(f));
+                if (idx < baseValue.size()) {
+                    return baseValue[idx];
+                }
+            } catch (...) {
+                // fallthrough to null
+            }
+        }
     }
     
     // Field not found
