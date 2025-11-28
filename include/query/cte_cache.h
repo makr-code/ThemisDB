@@ -46,12 +46,8 @@ public:
     /**
      * @brief Construct cache with configuration
      */
-    explicit CTECache(const Config& config);
-    
-    /**
-     * @brief Construct cache with default configuration  
-     */
     CTECache();
+    explicit CTECache(Config config);
     
     /**
      * @brief Destructor - cleanup spill files if auto_cleanup enabled
@@ -87,15 +83,6 @@ public:
      * @return CTE results or nullopt if not found
      */
     std::optional<std::vector<nlohmann::json>> get(const std::string& name);
-
-    // Convenience wrappers used by QueryEngine EvaluationContext
-    bool storeCTE(const std::string& name, std::vector<nlohmann::json> results) {
-        return store(name, std::move(results));
-    }
-    std::optional<std::vector<nlohmann::json>> getCTE(const std::string& name) const {
-        // get() may perform disk I/O and update stats, so cast away constness safely here
-        return const_cast<CTECache*>(this)->get(name);
-    }
     
     /**
      * @brief Check if CTE exists in cache
