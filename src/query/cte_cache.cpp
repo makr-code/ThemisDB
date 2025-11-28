@@ -7,15 +7,13 @@
 namespace themis {
 namespace query {
 
-CTECache::CTECache(const Config& config)
-    : config_(config) {
+CTECache::CTECache() : CTECache(Config{}) {}
+
+CTECache::CTECache(Config config)
+    : config_(std::move(config)) {
     if (config_.auto_cleanup) {
         ensureSpillDirectory();
     }
-}
-
-CTECache::CTECache()
-    : CTECache(Config{}) {
 }
 
 CTECache::~CTECache() {

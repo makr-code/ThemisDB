@@ -66,13 +66,6 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
         }
         tq.startVertex = ast->traversal->startVertex;
         tq.graphName = ast->traversal->graphName;
-        
-        // SHORTEST_PATH Support (Pattern Matching Extension)
-        if (ast->traversal->shortestPath) {
-            tq.shortestPath = true;
-            tq.endVertex = ast->traversal->shortestPathTarget;
-        }
-        
         return finalizeResult(TranslationResult::SuccessTraversal(std::move(tq)));
     }
     
@@ -1413,3 +1406,4 @@ void AQLTranslator::attachCTEs(
 }
 
 } // namespace themis
+

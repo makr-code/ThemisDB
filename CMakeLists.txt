@@ -1,10 +1,28 @@
 ﻿cmake_minimum_required(VERSION 3.20)
-project(Themis VERSION 1.0.0 LANGUAGES CXX)
+
+# Read version from VERSION file if present
+set(THEMIS_VERSION "1.0.0")
+if(EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
+    file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
+    string(STRIP "${_ver}" _ver)
+    if(_ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
+        set(THEMIS_VERSION "${_ver}")
+    endif()
+endif()
+
+project(Themis VERSION ${THEMIS_VERSION} LANGUAGES CXX)
 
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Enable CUDA if requested
+if(THEMIS_ENABLE_CUDA)
+    enable_language(CUDA)
+    set(CMAKE_CUDA_STANDARD 17)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+endif()
 
 # Export compile commands for IDE support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -14,6 +32,8 @@ if(DEFINED ENV{VCPKG_ROOT})
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "Vcpkg toolchain file")
 endif()
+# Prefer CONFIG packages (vcpkg) over FindXXX modules
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
 # Dependencies
 find_package(OpenSSL REQUIRED)
@@ -36,6 +56,44 @@ option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
 option(THEMIS_ENABLE_ASAN "Enable AddressSanitizer for debugging" OFF)
 option(THEMIS_STRICT_BUILD "Treat warnings as errors" OFF)
 option(THEMIS_ENABLE_AVX2 "Enable AVX2/FMA for SIMD kernels in Release builds (MSVC)" ON)
+option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stub if OFF)" OFF)
+option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
+
+# Hardware acceleration backend options
+option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
+option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+
+# Static build configuration for QNAP/older systems
+if(THEMIS_STATIC_BUILD)
+    message(STATUS "Configuring static build for maximum portability")
+    
+    # Static linking flags
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+        
+        # For fully static builds, link everything statically
+        # Note: This requires static versions of all libraries
+        # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    endif()
+    
+    # Prefer static libraries
+    set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+endif()
+option(THEMIS_ENABLE_ZLUDA "Enable AMD ZLUDA (CUDA compatibility on AMD)" OFF)
+option(THEMIS_ENABLE_ROCM "Enable AMD ROCm acceleration" OFF)
+option(THEMIS_ENABLE_DIRECTX "Enable DirectX 12 Compute Shaders (Windows)" OFF)
+option(THEMIS_ENABLE_VULKAN "Enable Vulkan Compute acceleration" OFF)
+option(THEMIS_ENABLE_OPENGL "Enable OpenGL Compute Shaders" OFF)
+option(THEMIS_ENABLE_METAL "Enable Apple Metal acceleration" OFF)
+option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI/SYCL acceleration" OFF)
+option(THEMIS_ENABLE_OPENCL "Enable OpenCL acceleration" OFF)
+option(THEMIS_ENABLE_WEBGPU "Enable WebGPU acceleration (experimental)" OFF)
+
+# Lokal aktivierbare Code-Qualität (clang-tidy) ohne CI-Kosten.
+option(ENABLE_LOCAL_CLANG_TIDY "Enable local clang-tidy analysis (off by default)" OFF)
+
 
 # Geo feature tiering options (Core vs. Enterprise add-ins)
 option(THEMIS_GEO "Enable Geo core feature scaffolding" ON)
@@ -45,44 +103,88 @@ option(THEMIS_GEO_H3 "Enable H3 integration (enterprise add-in)" OFF)
 option(THEMIS_GEO_GEOS_PLUGIN "Enable GEOS prepared geometries plugin (enterprise add-in)" OFF)
 option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
 
+# Detect target architecture
+set(THEMIS_TARGET_ARCH "unknown")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
+    set(THEMIS_TARGET_ARCH "x86_64")
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(aarch64|arm64|ARM64)$")
+    set(THEMIS_TARGET_ARCH "aarch64")
+elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^(arm|ARM|armv7l)$")
+    set(THEMIS_TARGET_ARCH "armv7")
+endif()
+
+message(STATUS "Target architecture: ${THEMIS_TARGET_ARCH} (${CMAKE_SYSTEM_PROCESSOR})")
+
 # Compiler warnings and optimizations
 if(MSVC)
-    add_compile_options(/W4 /utf-8 /wd4701 /bigobj /FS
-        /wd4267  # size_t -> smaller type warnings (treated as errors previously)
-        /wd4100  # unreferenced parameters in stub implementations
-        /wd4996  # OpenSSL 3.0 deprecation warnings in test stubs
-        /wd4250  # dominance inheritance warnings in mock providers
-        /wd4505  # unreferenced static functions (test helpers)
-    )
+    add_compile_options(/W4 /utf-8 /wd4701 /bigobj /FS)
     # /FS: Allow parallel PDB writes to avoid C1041 errors
     # Suppress unreachable code warnings from external headers (e.g., nlohmann/json)
     add_compile_options(/wd4702)
+    # Suppress AddressSanitizer warnings treated as errors (C5072)
+    add_compile_options(/wd5072)
+    # Suppress OpenSSL 3.0 deprecation warnings globally (C4996)
+    add_compile_options(/wd4996)
     if(THEMIS_STRICT_BUILD)
         add_compile_options(/WX)
     endif()
     add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _WIN32_WINNT=0x0A00)
-    if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        add_compile_options(/O2 /GL)
-        if(THEMIS_ENABLE_AVX2)
-            add_compile_options(/arch:AVX2)
-        endif()
-        # Ensure Link-Time Code Generation to avoid link restart messages
-        add_link_options(/LTCG)
+    # Apply Release-specific settings for single- and multi-config generators
+    add_compile_options($<$<CONFIG:Release>:/O2> $<$<CONFIG:Release>:/GL>)
+    # Disable iterator debugging in Release to match vcpkg RocksDB
+    add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
+    if(THEMIS_ENABLE_AVX2 AND THEMIS_TARGET_ARCH STREQUAL "x86_64")
+        add_compile_options($<$<CONFIG:Release>:/arch:AVX2>)
     endif()
+    # Ensure Link-Time Code Generation to avoid link restart messages
+    add_link_options($<$<CONFIG:Release>:/LTCG>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
     if(THEMIS_STRICT_BUILD)
         add_compile_options(-Werror)
     endif()
     if(CMAKE_BUILD_TYPE STREQUAL "Release")
-        add_compile_options(-O3 -march=native)
+        add_compile_options(-O3)
+        # Architecture-specific optimizations
+        if(THEMIS_TARGET_ARCH STREQUAL "x86_64")
+            # Use native optimizations for x86_64
+            add_compile_options(-march=native)
+        elseif(THEMIS_TARGET_ARCH STREQUAL "aarch64")
+            # ARM64/AArch64 optimizations - enable NEON (standard on AArch64)
+            add_compile_options(-march=armv8-a)
+            message(STATUS "Enabling ARM64 NEON optimizations")
+        elseif(THEMIS_TARGET_ARCH STREQUAL "armv7")
+            # ARMv7 optimizations - enable NEON if available
+            # Note: Not all ARMv7 CPUs have NEON, but Raspberry Pi 2/3 do
+            add_compile_options(-march=armv7-a -mfpu=neon -mfloat-abi=hard)
+            message(STATUS "Enabling ARMv7 NEON optimizations")
+        else()
+            # Generic optimizations for unknown architectures
+            message(STATUS "Using generic optimizations for ${THEMIS_TARGET_ARCH}")
+        endif()
     endif()
 endif()
 
 # AddressSanitizer support
 if(THEMIS_ENABLE_ASAN)
-    add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
-    add_link_options(-fsanitize=address)
+    if(MSVC)
+        add_compile_options(/fsanitize=address)
+    else()
+        add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=address)
+    endif()
+endif()
+
+# Optionale lokale clang-tidy Aktivierung (nicht in CI standardmäßig).
+if(ENABLE_LOCAL_CLANG_TIDY)
+    find_program(CLANG_TIDY_EXE NAMES clang-tidy)
+    if(CLANG_TIDY_EXE)
+        message(STATUS "clang-tidy aktiviert: ${CLANG_TIDY_EXE}")
+        # Keine automatischen Fixes hier; Entwickler nutzen Skript für -fix.
+        set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+    else()
+        message(WARNING "ENABLE_LOCAL_CLANG_TIDY=ON aber clang-tidy nicht gefunden.")
+    endif()
 endif()
 
 # CMake helper function to safely link required targets
@@ -126,48 +228,14 @@ if(NOT TARGET RocksDB::rocksdb)
     endif()
 endif()
 
-# Core packages - try system packages first, then vcpkg
-find_package(simdjson CONFIG QUIET)
-if(NOT simdjson_FOUND)
-    message(STATUS "simdjson not found in system, using vcpkg")
-    find_package(simdjson CONFIG REQUIRED)
-endif()
-
-find_package(TBB CONFIG QUIET)
-if(NOT TBB_FOUND)
-    message(STATUS "TBB not found in system, searching alternatives")
-    find_package(TBB REQUIRED)
-endif()
-
-# Arrow is optional - most builds won't need it in Docker
-find_package(Arrow CONFIG QUIET)
-if(Arrow_FOUND)
-    message(STATUS "Arrow found - columnar features enabled")
-else()
-    message(WARNING "Arrow not found - columnar storage features disabled")
-    # Create dummy target to avoid CMake errors
-    add_library(Arrow::arrow_shared INTERFACE IMPORTED)
-endif()
-
-find_package(fmt CONFIG QUIET)
-if(NOT fmt_FOUND)
-    message(STATUS "fmt not found in system, using vcpkg")
-    find_package(fmt CONFIG REQUIRED)
-endif()
-
-find_package(spdlog CONFIG QUIET)
-if(NOT spdlog_FOUND)
-    message(STATUS "spdlog not found in system, using vcpkg")
-    find_package(spdlog CONFIG REQUIRED)
-endif()
-
-find_package(nlohmann_json CONFIG QUIET)
-if(NOT nlohmann_json_FOUND)
-    message(STATUS "nlohmann_json not found in system, searching alternatives")
-    find_package(nlohmann_json REQUIRED)
-endif()
-
-find_package(Boost REQUIRED COMPONENTS system thread)
+# Core packages via vcpkg (or system where available)
+find_package(simdjson CONFIG REQUIRED)
+find_package(TBB CONFIG REQUIRED)
+find_package(Arrow CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system)
 
 # yaml-cpp might be found via PkgConfig or CONFIG
 find_package(yaml-cpp CONFIG QUIET)
@@ -253,12 +321,9 @@ set(THEMIS_CORE_SOURCES
     src/storage/base_entity.cpp
     src/storage/key_schema.cpp
     src/storage/backup_manager.cpp
-    src/storage/security_signature.cpp
-    src/storage/security_signature_manager.cpp
     
     src/index/secondary_index.cpp
     src/index/graph_index.cpp
-    src/index/graph_analytics.cpp
     src/index/temporal_graph.cpp
     src/index/property_graph.cpp
     src/index/gnn_embeddings.cpp
@@ -272,8 +337,6 @@ set(THEMIS_CORE_SOURCES
     src/security/vault_signing_provider.cpp
     src/security/field_encryption.cpp
     src/security/encrypted_field.cpp
-    src/security/hsm_provider.cpp
-    src/security/timestamp_authority.cpp
     
     src/transaction/transaction_manager.cpp
     src/transaction/saga.cpp
@@ -291,7 +354,6 @@ set(THEMIS_CORE_SOURCES
     src/query/semantic_cache.cpp
     
     src/server/http_server.cpp
-    src/server/rate_limiter.cpp
     src/server/sse_connection_manager.cpp
     src/server/audit_api_handler.cpp
     src/server/pki_api_handler.cpp
@@ -305,12 +367,13 @@ set(THEMIS_CORE_SOURCES
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
     src/server/rate_limiter.cpp
+    src/server/update_api_handler.cpp
+    src/server/hot_reload_api_handler.cpp
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
     src/content/text_processor.cpp
     src/content/mock_clip_processor.cpp
-    src/content/content_fs.cpp
     
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
@@ -343,6 +406,13 @@ set(THEMIS_CORE_SOURCES
     src/utils/pii_pseudonymizer.cpp
     src/utils/normalizer.cpp
     src/utils/simd_distance.cpp
+    src/utils/update_checker.cpp
+    
+    # Updates (hot-reload)
+    src/updates/release_manifest.cpp
+    src/updates/manifest_database.cpp
+    src/updates/hot_reload_engine.cpp
+    src/updates/updates_config.cpp
     
     # Geo utilities
     src/utils/geo/ewkb.cpp
@@ -361,7 +431,7 @@ set(THEMIS_CORE_SOURCES
     src/geo/gpu_backend_stub.cpp
     src/geo/boost_cpu_exact_backend.cpp
     src/api/geo_index_hooks.cpp
-
+    
     # Sharding (horizontal scaling)
     src/sharding/urn.cpp
     src/sharding/consistent_hash.cpp
@@ -377,14 +447,78 @@ set(THEMIS_CORE_SOURCES
     src/sharding/prometheus_metrics.cpp
     src/sharding/health_check.cpp
     src/sharding/admin_api.cpp
-
-    # Content processing
-    src/content/mime_detector.cpp
-    src/content/content_policy.cpp
+    
+    # Hardware acceleration (core abstraction layer - always included)
+    src/acceleration/backend_registry.cpp
+    src/acceleration/cpu_backend.cpp
+    src/acceleration/plugin_loader.cpp
+    src/acceleration/plugin_security.cpp
 )
 
-# Main library
+# Define core library early so subsequent target_* commands are valid
 add_library(themis_core STATIC ${THEMIS_CORE_SOURCES})
+
+# Add hardware acceleration backends based on build options
+set(THEMIS_ACCELERATION_SOURCES "")
+
+# CUDA backend
+if(THEMIS_ENABLE_CUDA)
+    find_package(CUDAToolkit REQUIRED)
+    
+    # Add CUDA source files
+    list(APPEND THEMIS_ACCELERATION_SOURCES 
+        src/acceleration/cuda_backend.cpp
+        src/acceleration/cuda/vector_kernels.cu
+    )
+    
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
+    target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
+    target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
+    
+    message(STATUS "CUDA acceleration enabled")
+    message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
+    message(STATUS "  CUDA Include: ${CUDAToolkit_INCLUDE_DIRS}")
+endif()
+
+# Graphics API backends
+if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
+    list(APPEND THEMIS_ACCELERATION_SOURCES src/acceleration/graphics_backends.cpp)
+    
+    if(THEMIS_ENABLE_DIRECTX)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DIRECTX)
+        message(STATUS "DirectX acceleration enabled (stub)")
+    endif()
+    
+    if(THEMIS_ENABLE_VULKAN)
+        # Try to find Vulkan SDK
+        find_package(Vulkan QUIET)
+        if(Vulkan_FOUND)
+            target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VULKAN)
+            target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
+            message(STATUS "Vulkan acceleration enabled")
+            message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
+        else()
+            message(WARNING "Vulkan SDK not found, Vulkan support disabled")
+        endif()
+    endif()
+    
+    if(THEMIS_ENABLE_OPENGL)
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_OPENGL)
+        message(STATUS "OpenGL acceleration enabled (stub)")
+    endif()
+endif()
+
+# Add acceleration sources to core if any were selected
+if(THEMIS_ACCELERATION_SOURCES)
+    target_sources(themis_core PRIVATE ${THEMIS_ACCELERATION_SOURCES})
+endif()
+
+# Main library already defined above (before feature-specific target modifications)
+
+if(THEMIS_ENABLE_HSM_REAL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HSM_REAL)
+    target_sources(themis_core PRIVATE src/security/hsm_provider_pkcs11.cpp)
+endif()
 
 # Geo feature flags and Boost.Geometry support
 if(THEMIS_GEO)
@@ -431,6 +565,19 @@ if(DEFINED THEMIS_ZSTD_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_ZSTD_TARGET})
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_ZSTD)
 endif()
+
+# Define THEMIS_ENABLE_CURL if CURL is found
+if(CURL_FOUND)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
+endif()
+
+# Define version string for runtime use
+target_compile_definitions(themis_core PUBLIC 
+    THEMIS_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
+    THEMIS_VERSION_MINOR=${PROJECT_VERSION_MINOR}
+    THEMIS_VERSION_PATCH=${PROJECT_VERSION_PATCH}
+    THEMIS_VERSION_STRING="${PROJECT_VERSION}"
+)
 
 if(THEMIS_ENABLE_GPU)
     target_link_libraries(themis_core PUBLIC faiss)
@@ -524,7 +671,6 @@ if(THEMIS_BUILD_TESTS)
         tests/test_ttl_fulltext_index.cpp
         tests/test_index_stats.cpp
         tests/test_graph_index.cpp
-        tests/test_graph_analytics.cpp
         tests/test_vector_index.cpp
         tests/test_query_engine.cpp
         tests/test_query_or.cpp
@@ -562,7 +708,6 @@ if(THEMIS_BUILD_TESTS)
     tests/test_stemming.cpp
         tests/test_stopwords.cpp
         tests/test_http_governance.cpp
-        tests/test_content_features.cpp
         
         # Geo tests
         tests/geo/test_geo_ewkb.cpp
@@ -572,9 +717,16 @@ if(THEMIS_BUILD_TESTS)
         tests/test_geo_index_integration.cpp
         tests/test_aql_let_st.cpp
         tests/test_hybrid_queries.cpp
-            tests/test_filtered_vector_search.cpp
         tests/test_http_audit.cpp
         tests/test_transaction_manager.cpp
+        tests/test_transaction_isolation.cpp
+        tests/test_changefeed_ordering.cpp
+        tests/test_gorilla_codec_edge_cases.cpp
+        tests/test_saga_concurrent_execution.cpp
+        tests/test_consistent_hash_distribution.cpp
+        tests/test_vulkan_backend.cpp
+        tests/test_postgres_importer_datatypes.cpp
+        tests/test_plugin_lifecycle.cpp
         tests/test_mvcc.cpp
         tests/test_aql_parser.cpp
         tests/test_aql_with_clause.cpp
@@ -639,7 +791,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_shard_communication.cpp
         tests/test_rebalance_migration.cpp
         tests/test_monitoring_ops.cpp
-        tests/test_content_policy.cpp
+        tests/update_checker_test.cpp
     )
     
     target_link_libraries(themis_tests
@@ -663,185 +815,11 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
-    # Minimal test target for new filtered vector search (isolated from legacy test issues)
-    add_executable(filtered_vector_search_tests
-        tests/test_filtered_vector_search.cpp
-    )
-    target_link_libraries(filtered_vector_search_tests
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-
-    # Dedicated ContentFS tests
-    add_executable(content_fs_tests
-        tests/test_content_fs.cpp
-    )
-    target_link_libraries(content_fs_tests
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    gtest_discover_tests(content_fs_tests
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    gtest_discover_tests(filtered_vector_search_tests
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-
     # Note: Do not add an aggregate test that runs the entire suite again.
     # gtest_discover_tests already registers each test case with CTest. Adding
     # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
     # the full suite a second time and can make CI appear to hang on the last
     # test (previously "Test #619: ThemisTests").
-    
-    # Standalone test for Graph Analytics (avoids compilation errors in other tests)
-    add_executable(test_graph_analytics_standalone
-        tests/test_graph_analytics.cpp
-    )
-    
-    target_link_libraries(test_graph_analytics_standalone
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    gtest_discover_tests(test_graph_analytics_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    
-    # Standalone test for Vector Filtered Search
-    add_executable(test_vector_filtered_standalone
-        tests/test_vector_filtered_standalone.cpp
-    )
-    
-    target_link_libraries(test_vector_filtered_standalone
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    gtest_discover_tests(test_vector_filtered_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-
-    # Standalone test for Fusion Search (/search/fusion)
-    add_executable(test_fusion_search_standalone
-        tests/test_http_fusion_search.cpp
-    )
-    
-    target_link_libraries(test_fusion_search_standalone
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    gtest_discover_tests(test_fusion_search_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    
-    # Standalone test for Hybrid Search (/search/hybrid)
-    add_executable(test_hybrid_search_standalone
-        tests/test_http_hybrid_search.cpp
-    )
-    
-    target_link_libraries(test_hybrid_search_standalone
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    gtest_discover_tests(test_hybrid_search_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    
-    # Standalone test for MIME detector
-    add_executable(test_mime_detector_standalone
-        tests/test_mime_detector_standalone.cpp
-        src/content/mime_detector.cpp
-        src/content/content_policy.cpp
-    )
-    
-    target_link_libraries(test_mime_detector_standalone
-        PRIVATE
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    target_include_directories(test_mime_detector_standalone
-        PRIVATE
-            ${CMAKE_SOURCE_DIR}/include
-    )
-    
-    gtest_discover_tests(test_mime_detector_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    
-    # Standalone test for Security Signature Manager
-    add_executable(test_security_signature_standalone
-        tests/test_security_signature_standalone.cpp
-    )
-    
-    target_link_libraries(test_security_signature_standalone
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    gtest_discover_tests(test_security_signature_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    
-    # Standalone test for Vector Statistics
-    add_executable(test_vector_stats_standalone
-        tests/test_vector_stats_standalone.cpp
-    )
-    
-    target_link_libraries(test_vector_stats_standalone
-        PRIVATE
-            themis_core
-            GTest::gtest
-            GTest::gtest_main
-    )
-    
-    gtest_discover_tests(test_vector_stats_standalone
-        DISCOVERY_MODE PRE_TEST
-        WORKING_DIRECTORY ${_gtest_workdir}
-        EXTRA_ARGS --gtest_color=yes
-    )
-    
-    # Manual test for Content Policy (no GTest dependency)
-    add_executable(test_content_policy_manual
-        tests/test_content_policy_manual.cpp
-    )
-    
-    target_link_libraries(test_content_policy_manual
-        PRIVATE
-            themis_core
-    )
 endif()
 
 # Benchmarks
@@ -852,7 +830,6 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_crud.cpp
         benchmarks/bench_query.cpp
         benchmarks/bench_vector_search.cpp
-        benchmarks/bench_vector_prefilter.cpp
     )
     
     target_link_libraries(themis_benchmarks
@@ -861,22 +838,6 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
-
-    # Lightweight standalone benchmark for whitelist prefilter only (avoid other benches)
-    add_executable(bench_vector_prefilter_only
-        benchmarks/bench_vector_prefilter.cpp
-    )
-    target_link_libraries(bench_vector_prefilter_only
-        PRIVATE
-            themis_core
-            benchmark::benchmark
-            benchmark::benchmark_main
-    )
-    if(MSVC)
-        # Align MSVC STL iterator debug level with vcpkg-built Debug deps
-        # Use standard Debug level (2) to match libraries.
-        target_compile_definitions(bench_vector_prefilter_only PRIVATE _ITERATOR_DEBUG_LEVEL=2 _HAS_ITERATOR_DEBUGGING=1)
-    endif()
     
     # Compression benchmark (standalone)
     add_executable(bench_compression
@@ -935,27 +896,160 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
     )
 
-    # Minimal HNSW prefilter benchmark (no themis_core linkage)
-    add_executable(bench_hnsw_prefilter_minimal
-        benchmarks/bench_hnsw_prefilter_minimal.cpp
+    # HSM Provider performance benchmark (standalone)
+    add_executable(bench_hsm_provider
+        benchmarks/bench_hsm_provider.cpp
     )
-    target_link_libraries(bench_hnsw_prefilter_minimal
+    
+    target_link_libraries(bench_hsm_provider
         PRIVATE
+            themis_core
             benchmark::benchmark
             benchmark::benchmark_main
     )
-    # Header-only in most setups; link target if available
-    if(hnswlib_FOUND AND TARGET hnswlib::hnswlib)
-        target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE hnswlib::hnswlib)
-    endif()
-    target_compile_definitions(bench_hnsw_prefilter_minimal PRIVATE _CRT_SECURE_NO_WARNINGS)
 
-    # Very small sanity benchmark to validate runtime
-    add_executable(bench_sanity
-        benchmarks/bench_sanity.cpp
+    # Phase 1 Benchmarks - Critical Performance Testing
+
+    # Shard Routing benchmark
+    add_executable(bench_shard_routing
+        benchmarks/bench_shard_routing.cpp
     )
-    target_link_libraries(bench_sanity
+    
+    target_link_libraries(bench_shard_routing
         PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Transaction Throughput benchmark
+    add_executable(bench_transaction_throughput
+        benchmarks/bench_transaction_throughput.cpp
+    )
+    
+    target_link_libraries(bench_transaction_throughput
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Changefeed Throughput benchmark
+    add_executable(bench_changefeed_throughput
+        benchmarks/bench_changefeed_throughput.cpp
+    )
+    
+    target_link_libraries(bench_changefeed_throughput
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Timeseries Ingestion benchmark
+    add_executable(bench_timeseries_ingestion
+        benchmarks/bench_timeseries_ingestion.cpp
+    )
+    
+    target_link_libraries(bench_timeseries_ingestion
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # SAGA Compensation benchmark
+    add_executable(bench_saga_compensation
+        benchmarks/bench_saga_compensation.cpp
+    )
+    
+    target_link_libraries(bench_saga_compensation
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Phase 2 Benchmarks - GPU Backends and Graph Analytics
+
+    # Graph Traversal benchmark
+    add_executable(bench_graph_traversal
+        benchmarks/bench_graph_traversal.cpp
+    )
+    
+    target_link_libraries(bench_graph_traversal
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # PageRank benchmark
+    add_executable(bench_pagerank
+        benchmarks/bench_pagerank.cpp
+    )
+    
+    target_link_libraries(bench_pagerank
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # GPU Backends benchmark
+    add_executable(bench_gpu_backends
+        benchmarks/bench_gpu_backends.cpp
+    )
+    
+    target_link_libraries(bench_gpu_backends
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # GNN Embeddings benchmark
+    add_executable(bench_gnn_embeddings
+        benchmarks/bench_gnn_embeddings.cpp
+    )
+    
+    target_link_libraries(bench_gnn_embeddings
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Phase 3: Content Management & Governance Benchmarks
+    add_executable(bench_content_versioning
+        benchmarks/bench_content_versioning.cpp
+    )
+    
+    target_link_libraries(bench_content_versioning
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    add_executable(bench_text_extraction
+        benchmarks/bench_text_extraction.cpp
+    )
+    
+    target_link_libraries(bench_text_extraction
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    add_executable(bench_policy_evaluation
+        benchmarks/bench_policy_evaluation.cpp
+    )
+    
+    target_link_libraries(bench_policy_evaluation
+        PRIVATE
+            themis_core
             benchmark::benchmark
             benchmark::benchmark_main
     )
