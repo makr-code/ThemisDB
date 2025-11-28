@@ -186,11 +186,37 @@ bool RocksDBWrapper::open() {
         return false;
     }
 
+    // List existing column families to open them all
+    std::vector<std::string> cf_names;
+    rocksdb::Status list_status = rocksdb::DB::ListColumnFamilies(
+        rocksdb::DBOptions(*options_), 
+        config_.db_path, 
+        &cf_names
+    );
+    
+    // If DB doesn't exist yet, start with default CF only
+    if (!list_status.ok()) {
+        cf_names = {rocksdb::kDefaultColumnFamilyName};
+    }
+    
+    // Prepare column family descriptors
+    std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
+    rocksdb::ColumnFamilyOptions cf_opts;
+    cf_opts.OptimizeForPointLookup(256); // 256MB block cache
+    
+    for (const auto& cf_name : cf_names) {
+        cf_descriptors.emplace_back(cf_name, cf_opts);
+    }
+    
+    // Open with all existing column families
+    std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
     rocksdb::TransactionDB* txn_db_ptr = nullptr;
     rocksdb::Status status = rocksdb::TransactionDB::Open(
         *options_, 
         *txn_db_options_,
-        config_.db_path, 
+        config_.db_path,
+        cf_descriptors,
+        &cf_handles,
         &txn_db_ptr
     );
     
@@ -203,7 +229,19 @@ bool RocksDBWrapper::open() {
     }
     
     db_.reset(txn_db_ptr);
-    THEMIS_INFO("Opened RocksDB TransactionDB at: {} (MVCC enabled)", config_.db_path);
+    
+    // Store column family handles (except default which is handled separately by RocksDB)
+    for (size_t i = 0; i < cf_handles.size(); ++i) {
+        if (cf_names[i] != rocksdb::kDefaultColumnFamilyName) {
+            cf_handles_.push_back(cf_handles[i]);
+        } else {
+            // Default CF handle - RocksDB manages this, but we need to track it for cleanup
+            cf_handles_.push_back(cf_handles[i]);
+        }
+    }
+    
+    THEMIS_INFO("Opened RocksDB TransactionDB at: {} (MVCC enabled, {} column families)", 
+                config_.db_path, cf_names.size());
     return true;
 }
 
@@ -709,6 +747,14 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
     if (!db_) {
         THEMIS_ERROR("getOrCreateColumnFamily: DB not open");
         return nullptr;
+    }
+    
+    // Check if CF already exists in our handles
+    for (auto* handle : cf_handles_) {
+        if (handle && handle->GetName() == cf_name) {
+            THEMIS_DEBUG("Column family '{}' already exists", cf_name);
+            return handle;
+        }
     }
     
     // Create new column family with default options

@@ -22,6 +22,7 @@ TEST(VaultKeyProviderRetry, RetriesAndSucceeds) {
     std::string vault_resp = std::string("{\"data\":{\"signature\":\"vault:v1:") + b64 + "\"}}";
 
     vp.setTestRequestOverride([&](const std::string& url, const std::string& method, const std::string& body)->std::string {
+        (void)url; (void)method; (void)body;
         ++calls;
         if (calls < 3) {
             // Simulate transient vault server error by throwing KeyOperationException with transient=true

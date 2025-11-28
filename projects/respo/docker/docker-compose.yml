@@ -1,0 +1,159 @@
+# RESPO - RAG LLM Programmierhilfe Docker Compose
+# Requires Docker Compose v2.0+ (no version field needed)
+
+services:
+  # ==========================================================================
+  # ThemisDB Backend
+  # ==========================================================================
+  themisdb:
+    image: ghcr.io/makr-code/themis:latest
+    container_name: respo-themisdb
+    ports:
+      - "8765:8765"
+    volumes:
+      - themis-data:/data
+      - ./config/themis.yaml:/etc/themis/config.yaml:ro
+    environment:
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8765/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - respo-network
+
+  # ==========================================================================
+  # vLLM Inference Server
+  # ==========================================================================
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: respo-vllm
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/models
+      - huggingface-cache:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN:-}
+    command: >
+      --model ${VLLM_MODEL:-codellama/CodeLlama-13b-Instruct-hf}
+      --enable-lora
+      --max-lora-rank 64
+      --gpu-memory-utilization 0.9
+      --max-model-len 8192
+      --trust-remote-code
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 300s  # vLLM needs time to load model
+    restart: unless-stopped
+    networks:
+      - respo-network
+    depends_on:
+      themisdb:
+        condition: service_healthy
+
+  # ==========================================================================
+  # RESPO API Server
+  # ==========================================================================
+  respo-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    container_name: respo-api
+    ports:
+      - "8080:8080"
+    environment:
+      - THEMIS_URL=http://themisdb:8765
+      - VLLM_URL=http://vllm:8000
+      - EMBEDDING_MODEL=microsoft/codebert-base
+      - EMBEDDING_DEVICE=cuda
+      - LOG_LEVEL=INFO
+      - ENABLE_STREAMING=true
+      - ENABLE_RERANKING=true
+    volumes:
+      - embedding-cache:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - respo-network
+    depends_on:
+      themisdb:
+        condition: service_healthy
+      vllm:
+        condition: service_healthy
+
+  # ==========================================================================
+  # Embedding Service (optional, for batch processing)
+  # ==========================================================================
+  embedding:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.embedding
+    container_name: respo-embedding
+    ports:
+      - "8001:8001"
+    environment:
+      - MODEL_NAME=microsoft/codebert-base
+      - DEVICE=cuda
+      - BATCH_SIZE=32
+      - LOG_LEVEL=INFO
+    volumes:
+      - embedding-cache:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - respo-network
+    profiles:
+      - batch  # Only start with: docker compose --profile batch up
+
+# ==========================================================================
+# Networks
+# ==========================================================================
+networks:
+  respo-network:
+    driver: bridge
+
+# ==========================================================================
+# Volumes
+# ==========================================================================
+volumes:
+  themis-data:
+    driver: local
+  huggingface-cache:
+    driver: local
+  embedding-cache:
+    driver: local

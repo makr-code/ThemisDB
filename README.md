@@ -7,6 +7,8 @@
 
 [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
 [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
+[![ARM Build](https://github.com/makr-code/ThemisDB/actions/workflows/arm-build.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/arm-build.yml)
+[![Multi-Arch](https://github.com/makr-code/ThemisDB/actions/workflows/build-multiarch.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/build-multiarch.yml)
 [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
 
 
@@ -15,12 +17,25 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 ## 📊 Entwicklungsstand & Dokumentation
 
 **Kern-Dokumentation (Neu konsolidiert):**
+- **[Features Liste](FEATURES.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
 - **[Development Audit Log](DEVELOPMENT_AUDITLOG.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
 - **[Roadmap](ROADMAP.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
+- **[Next Implementation Priorities](NEXT_IMPLEMENTATION_PRIORITIES.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
 - **[Changelog](CHANGELOG.md)** - Detaillierte Änderungshistorie nach Semantic Versioning
 
 **Für Stakeholder:**
 - **[Themis Sachstandsbericht 2025](THEMIS_SACHSTANDSBERICHT_2025.md)** - Executive Summary, Performance-Benchmarks, Compliance-Readiness
+- **[Projektkostenschätzung & Gesamtwert](docs/THEMIS_PROJECT_VALUATION.md)** - Wirtschaftliche Bewertung, SaaS-Entwicklungskosten
+
+**Für Audits & Compliance:**
+- **[🎯 Compliance Dashboard](docs/COMPLIANCE_DASHBOARD.md)** - Executive Summary aller Compliance-Aktivitäten
+- **[Vollständige Audit-Checkliste](docs/FULL_AUDIT_CHECKLIST.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
+- **[Security Audit Report](docs/reports/SECURITY_AUDIT_REPORT.md)** - Durchgeführtes Security Audit mit Ergebnissen
+- **[Security Policy](SECURITY.md)** - Vulnerability Disclosure, Sicherheitsmaßnahmen
+- **[Incident Response Plan](docs/security/INCIDENT_RESPONSE_PLAN.md)** - Notfallplan nach BSI IT-Grundschutz & NIST CSF
+- **[SBOM Dokumentation](docs/security/SBOM.md)** - Software Bill of Materials (Syft/CycloneDX)
+- **[DPIA - Datenschutz-Folgenabschätzung](docs/compliance/DPIA.md)** - DSGVO Art. 35 Risikobewertung
+- **[BCP/DRP - Business Continuity](docs/compliance/BCP_DRP.md)** - Disaster Recovery nach ISO 22301 & NIS2
 
 **Für Entwickler:**
 - **[Documentation Verification Report](DOCUMENTATION_VERIFICATION_REPORT.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
@@ -70,6 +85,135 @@ Erzeugt die Ausgabe in `site/` (nicht committen). Das GitHub Pages Deployment is
 
 - **Toolchain/Dependencies:** vcpkg Toolchain wird automatisch genutzt, wenn `VCPKG_ROOT` gesetzt ist. OpenSSL, Arrow, RocksDB, Boost, spdlog etc. werden über `vcpkg.json` im Manifest-Modus aufgelöst.
 - **Notes on container/runtime:** `Dockerfile.runtime` uses `/usr/local/bin/themis_server --config /etc/themis/config.json` as entrypoint and also exposes ports `8080` and `18765` in the image — these are image-level ports and may be mapped to the server's configured port (default `8765`) at runtime; when running the binary directly prefer to use the `--port` flag or a config file to guarantee port choice.
+
+
+### Hardware Security Module (HSM / PKCS#11)
+
+Themis unterstützt zwei Betriebsmodi für den HSM Provider:
+
+1. Stub (Default) – keine echte Kryptographie, deterministische Hex-Signaturen für lokale Entwicklung.
+2. Real PKCS#11 – dynamisches Laden einer Bibliothek (SoftHSM2, CloudHSM, Luna usw.), Slot‑Login, Key Discovery, echte Signaturen.
+
+Aktivierung des realen Providers beim Build:
+
+```powershell
+cmake -S . -B build -G Ninja -DTHEMIS_ENABLE_HSM_REAL=ON
+cmake --build build --target themis_core -j
+```
+
+Konfiguration (`HSMConfig` Felder):
+- `library_path`: Pfad zur PKCS#11 Bibliothek (z.B. `/usr/lib/softhsm/libsofthsm2.so`)
+- `slot_id`: Slot (Standard 0)
+- `pin`: Benutzer PIN (alternativ Env `THEMIS_HSM_PIN`)
+- `key_label`: Label des Private Keys (`themis-signing-key` default)
+- `signature_algorithm`: z.B. `RSA-SHA256`
+
+Umgebungsvariablen:
+- `THEMIS_HSM_PIN`: Überschreibt PIN
+- `THEMIS_TEST_HSM_LIBRARY`: Pfad für Tests
+- `SOFTHSM2_CONF`: SoftHSM2 Konfigurationsdatei
+
+Fallback-Strategie:
+- Falls Laden / Slot / Login oder Key Discovery fehlschlägt, wird automatisch der Stub genutzt (Warnung im Log). Dadurch bleibt Entwicklungs-Funktionalität erhalten ohne harte Abhängigkeit.
+
+Zertifikate:
+- Bei realem Provider wird das X.509 Zertifikat (falls vorhanden) per `CKA_VALUE` gezogen, DER → PEM konvertiert und Serial abgelegt.
+
+Tests:
+- Siehe `tests/test_hsm_provider.cpp` für SoftHSM2 Setup und Sign/Verify Ablauf.
+
+Roadmap:
+- KeyPair Generation, ECDSA Support, Session-Pooling, Performance Counters, vollständige C_Verify Zertifikatskette.
+
+### Lokale Codequalität (Format & Analyse)
+
+Die Code-Qualitätsprüfungen sind bewusst lokal gehalten, um keine zusätzlichen CI-Kosten zu verursachen.
+
+Komponenten:
+- `/.clang-format` – Einheitlicher Stil (C++20, 4 Spaces, Attach Braces, Include-Sortierung)
+- `/.clang-tidy` – Aktivierte Gruppen: bugprone, clang-analyzer, modernize, performance, readability, cppcoreguidelines (mit Ausnahmen), hicpp (teilweise), portability
+- Skript: `scripts/run_clang_quality_wsl.sh` – Führt Format-Diff und clang-tidy parallelisiert aus
+- CMake Option: `ENABLE_LOCAL_CLANG_TIDY` – aktiviert clang-tidy Inline im Build (Standard: OFF)
+
+Anwendung (WSL / Linux):
+```bash
+# Format-Diff & Tidy auf geänderten Dateien
+./scripts/run_clang_quality_wsl.sh
+
+# Format direkt anwenden
+./scripts/run_clang_quality_wsl.sh --apply-format
+
+# Alle Dateien prüfen (kostenintensiver)
+./scripts/run_clang_quality_wsl.sh --all
+
+# Alle Dateien mit automatischen Fixes (nur nach Review verwenden)
+./scripts/run_clang_quality_wsl.sh --all --fix
+
+# Mehr Parallelität
+./scripts/run_clang_quality_wsl.sh --jobs 8
+```
+
+Aktivierung von clang-tidy im Build (nur lokal empfohlen):
+```bash
+cmake -S . -B build-wsl -DCMAKE_BUILD_TYPE=Debug -DENABLE_LOCAL_CLANG_TIDY=ON
+cmake --build build-wsl -j
+```
+
+Empfohlener Workflow vor Commit:
+1. Entwickeln & kompilieren
+2. `./scripts/run_clang_quality_wsl.sh --apply-format`
+3. Prüfen Diff / Falls ok: `git add -p`
+4. `./scripts/run_clang_quality_wsl.sh` (Tidy nur geänderte Dateien)
+5. Bei relevanten Warnungen Fix anwenden oder gezielt kommentieren
+
+#### Git Pre-Commit Hooks
+
+Aktivierung eines lokalen Pre-Commit Hooks (WSL/Linux):
+```bash
+git config core.hooksPath scripts/githooks
+``` 
+Der Hook führt das WSL Skript mit `--fail-on-format` aus und blockiert den Commit bei Format-Abweichungen.
+
+Rücksetzen:
+```bash
+git config --unset core.hooksPath
+```
+
+PowerShell (Windows-only) Alternative ohne WSL:
+```powershell
+./scripts/run_clang_quality.ps1 -ApplyFormat -FailOnFormat
+```
+
+Optionen für das Windows Skript:
+- `-ApplyFormat` wendet Formatierung sofort an
+- `-All` prüft alle Dateien statt nur gestagte
+- `-Fix` aktiviert automatische clang-tidy Fixes (vorsichtig einsetzen)
+- `-FailOnFormat` beendet mit Fehlercode bei Abweichungen
+
+#### Pre-Push Hook
+
+Zusätzliche Prüfung vor `git push` (diff-basiert oder Vollanalyse via Env):
+```bash
+git config core.hooksPath scripts/githooks
+export THEMIS_QUALITY_ALL=1   # optional: Vollanalyse aller Dateien
+git push
+```
+Hook-Datei: `scripts/githooks/pre-push` nutzt `run_clang_quality_wsl.sh` mit `--fail-on-format`.
+
+#### Build Script Integration
+
+Qualität direkt vor dem Build erzwingen (Windows):
+```powershell
+./build.ps1 -BuildType Debug -Quality         # Diff-basierter Check
+./build.ps1 -BuildType Debug -QualityApply    # Format anwenden + Fail bei verbleibenden Abweichungen
+```
+Bei Fehler beendet das Skript mit Exitcode 5.
+
+
+Hinweise:
+- Keine automatischen Fixes im CMake Build gesetzt (bewusst konservativ).
+- In großen Refactor-Phasen kann `--all` hilfreich sein, aber zeitaufwendig.
+- CI kann später `WarningsAsErrors` wieder aktivieren, lokal bleibt es flexibel.
 
 
 ## Recent changes (2025-11-17)
@@ -731,7 +875,132 @@ Weitere Ressourcen:
 - Gesamt‑PDF: https://makr-code.github.io/ThemisDB/themisdb-docs-complete.pdf
 - GitHub Wiki: https://github.com/makr-code/ThemisDB/wiki
 
+## Installation
+
+### Package Managers
+
+ThemisDB is available through various package managers for easy installation:
+
+#### Linux
+
+**Debian/Ubuntu:**
+```bash
+# Add repository (once available)
+sudo apt-get install themisdb
+
+# Or download .deb package
+wget https://github.com/makr-code/ThemisDB/releases/download/v1.0.0/themisdb_1.0.0-1_amd64.deb
+sudo dpkg -i themisdb_1.0.0-1_amd64.deb
+sudo apt-get install -f
+```
+
+**Fedora/RHEL/CentOS:**
+```bash
+# Install from RPM
+sudo dnf install https://github.com/makr-code/ThemisDB/releases/download/v1.0.0/themisdb-1.0.0-1.x86_64.rpm
+```
+
+**Arch Linux:**
+```bash
+# Install from AUR (once available)
+yay -S themisdb
+
+# Or build manually
+git clone https://aur.archlinux.org/themisdb.git
+cd themisdb
+makepkg -si
+```
+
+#### Windows
+
+**Chocolatey:**
+```powershell
+choco install themisdb
+```
+
+**WinGet:**
+```powershell
+winget install ThemisDB.ThemisDB
+```
+
+#### macOS
+
+**Homebrew:**
+```bash
+brew install themisdb
+
+# Start the service
+brew services start themisdb
+```
+
+### Docker
+
+```bash
+# Pull from GitHub Container Registry
+docker pull ghcr.io/makr-code/themis:latest
+
+# Or from Docker Hub
+docker pull themisdb/themis:latest
+
+# Run with Docker Compose
+docker compose up
+
+# For ARM/Raspberry Pi (multi-architecture support)
+docker compose -f docker-compose-arm.yml up
+```
+
+**Multi-Architecture Support:**
+ThemisDB Docker images support multiple architectures:
+- `linux/amd64` (x86_64)
+- `linux/arm64` (ARM64/AArch64 - Raspberry Pi 3/4/5)
+- `linux/arm/v7` (ARMv7 - Raspberry Pi 2/3)
+
+Docker automatically pulls the correct image for your platform.
+
+For detailed packaging and distribution information, see [docs/packaging.md](docs/packaging.md).
+
+### ARM and Raspberry Pi
+
+ThemisDB fully supports ARM-based systems including Raspberry Pi. 
+
+**Quick Install (Pre-built Packages):**
+```bash
+# Debian/Ubuntu/Raspberry Pi OS (ARM64)
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.0.0-1_arm64.deb
+sudo apt install ./themisdb_1.0.0-1_arm64.deb
+sudo systemctl start themisdb
+
+# Raspberry Pi OS (ARMv7 32-bit)
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.0.0-1_armhf.deb
+sudo apt install ./themisdb_1.0.0-1_armhf.deb
+```
+
+**Or Build from Source:**
+```bash
+# Clone repository
+git clone https://github.com/makr-code/ThemisDB.git
+cd ThemisDB
+
+# Setup and build
+./setup.sh
+cmake --preset rpi-arm64-gcc-release
+cmake --build --preset rpi-arm64-gcc-release
+```
+
+**Documentation:**
+- **[ARM Packages Guide](docs/ARM_PACKAGES.md)** - Pre-built package installation
+- **[ARM & Raspberry Pi Build Guide](docs/ARM_RASPBERRY_PI_BUILD.md)** - Build from source
+
+Features on ARM:
+- ✅ ARM NEON SIMD optimizations for vector operations
+- ✅ Architecture-specific compiler flags (armv8-a, armv7-a+neon)
+- ✅ All core features supported (no GPU required)
+- ✅ Docker multi-arch images available
+- ✅ Pre-built DEB, RPM, and Arch packages
+
 ## Quick Start
+
+### From Source
 
 ```powershell
 # 1. Clone and setup

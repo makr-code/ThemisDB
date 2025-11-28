@@ -154,6 +154,7 @@ TEST_F(RetentionManagerTest, ArchiveEntity_RecordsAction) {
     
     bool handler_called = false;
     auto archive_handler = [&handler_called](const std::string& entity_id) -> bool {
+        (void)entity_id;
         handler_called = true;
         return true;
     };
@@ -178,6 +179,7 @@ TEST_F(RetentionManagerTest, PurgeEntity_RecordsAction) {
     
     bool handler_called = false;
     auto purge_handler = [&handler_called](const std::string& entity_id) -> bool {
+        (void)entity_id;
         handler_called = true;
         return true;
     };
@@ -203,6 +205,7 @@ TEST_F(RetentionManagerTest, RunRetentionCheck_ProcessesEntities) {
     // Mock entity provider
     auto entity_provider = [](const std::string& policy_name) 
         -> std::vector<std::pair<std::string, system_clock::time_point>> {
+        (void)policy_name;
         std::vector<std::pair<std::string, system_clock::time_point>> entities;
         
         // Entity 1: 10 days old (should archive)

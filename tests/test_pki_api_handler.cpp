@@ -41,24 +41,6 @@ static std::string b64_encode(const std::vector<uint8_t>& data) {
     return out;
 }
 
-static std::vector<uint8_t> b64_decode(const std::string& encoded) {
-    std::vector<int> T(256, -1);
-    const std::string b64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    for (int i=0;i<64;i++) T[(unsigned char)b64_chars[i]] = i;
-    std::vector<uint8_t> out;
-    int val=0, valb=-8;
-    for (unsigned char c : encoded) {
-        if (T[c]==-1) break;
-        val = (val<<6) + T[c];
-        valb += 6;
-        if (valb>=0) {
-            out.push_back((uint8_t)((val>>valb)&0xFF));
-            valb -= 8;
-        }
-    }
-    return out;
-}
-
 TEST(PkiApiHandlerTest, SignAndVerify) {
     auto svc = std::make_shared<MockSigningService>();
     themis::server::PkiApiHandler handler(svc);
