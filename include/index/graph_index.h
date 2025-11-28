@@ -71,6 +71,17 @@ public:
         std::vector<std::string> path;  // Knoten vom Start zum Ziel
         double totalCost = 0.0;
     };
+    
+    // Path Constraints for advanced traversal control
+    struct PathConstraints {
+        bool unique_vertices = false;      // No vertex visited twice (cycle detection)
+        bool unique_edges = false;         // No edge traversed twice
+        std::unordered_set<std::string> forbidden_vertices;  // Blacklist vertices
+        std::unordered_set<std::string> forbidden_edges;     // Blacklist edges
+        std::unordered_set<std::string> required_vertices;   // Must-visit vertices
+        int max_edge_count = -1;           // Limit edges per path (-1 = unlimited)
+        int min_edge_count = 0;            // Minimum edges per path
+    };
 
     // Sprint B: Temporal Graph Extensions
     // Traversal with temporal filtering (edges must be valid at specified timestamp)
@@ -166,6 +177,24 @@ public:
         std::string_view targetPk,
         std::string_view edge_type,
         std::string_view graph_id
+    ) const;
+    
+    // BFS with path constraints
+    std::pair<Status, std::vector<std::string>> bfsWithConstraints(
+        std::string_view startPk,
+        int maxDepth,
+        const PathConstraints& constraints,
+        std::string_view edge_type = "",
+        std::string_view graph_id = ""
+    ) const;
+    
+    // Dijkstra with path constraints
+    std::pair<Status, PathResult> dijkstraWithConstraints(
+        std::string_view startPk,
+        std::string_view targetPk,
+        const PathConstraints& constraints,
+        std::string_view edge_type = "",
+        std::string_view graph_id = ""
     ) const;
 
     // A*: Kürzester Pfad mit Heuristik (optional)

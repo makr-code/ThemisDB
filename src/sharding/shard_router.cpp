@@ -29,7 +29,7 @@ std::optional<nlohmann::json> ShardRouter::get(const URN& urn) {
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
     
-    auto result = routeRequest(urn, "PUT", "/api/v1/data/" + urn.toString(), data);
+    auto result = routeRequest(urn, "PUT", "/api/v1/data/" + urn.toString(), std::optional<nlohmann::json>{data});
     
     if (!result.success) {
         errors_++;
@@ -325,10 +325,10 @@ std::optional<URN> ShardRouter::extractURN(const std::string& query) const {
 
 std::optional<std::string> ShardRouter::extractNamespace(const std::string& query) const {
     // Simple pattern matching for namespace
-    std::regex ns_pattern(R"(NAMESPACE\s+([a-zA-Z0-9_]+))");
+    std::regex ns_pattern(R\"(NAMESPACE\\s+([a-zA-Z0-9_]+))\");
     std::smatch match;
     
-    if (std::regex_search(query, match, urn_pattern)) {
+    if (std::regex_search(query, match, ns_pattern)) {
         return match[1].str();
     }
     

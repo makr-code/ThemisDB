@@ -68,6 +68,9 @@ public:
         // Values: "none", "lz4", "zstd", "snappy", "zlib", "bzip2", "lz4hc"
         std::string compression_default = "none";
         std::string compression_bottommost = "none";
+        // Legacy compatibility flags used by some tests
+        bool wal_enabled = true;         // maps to enable_wal
+        bool create_if_missing = true;   // respected in options configuration
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -93,8 +96,14 @@ public:
     /// Get value by key
     std::optional<std::vector<uint8_t>> get(std::string_view key);
     
+    /// Convenience: Get as string (legacy test compatibility). Returns true if found.
+    bool get(std::string_view key, std::string& out);
+    
     /// Put key-value pair
     bool put(std::string_view key, const std::vector<uint8_t>& value);
+    
+    /// Convenience: Put string value (legacy test compatibility)
+    bool put(std::string_view key, std::string_view value);
     
     /// Delete key
     bool del(std::string_view key);

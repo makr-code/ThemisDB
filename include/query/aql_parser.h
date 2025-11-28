@@ -98,6 +98,13 @@ enum class UnaryOperator {
 // ============================================================================
 
 struct Expression {
+    // Legacy nested type forward declarations for test compatibility
+    struct LiteralExpression;
+    struct FieldAccessExpression;
+    struct BinaryOpExpression;
+    struct UnaryOpExpression;
+    struct FunctionCallExpression;
+
     virtual ~Expression() = default;
     virtual ASTNodeType getType() const = 0;
     virtual nlohmann::json toJSON() const = 0;
@@ -617,3 +624,94 @@ private:
 
 }  // namespace query
 }  // namespace themis
+
+// ---------------------------------------------------------------------------
+// Backward-compatibility shim for older tests
+// Provides Expression::... types used by legacy tests while mapping to
+// the current Expression evaluation in LetEvaluator.
+// ---------------------------------------------------------------------------
+namespace themis {
+namespace query {
+
+// Generic JSON literal expression (legacy tests pass arbitrary JSON)
+struct JsonLiteralExpr : Expression {
+    nlohmann::json value;
+    JsonLiteralExpr() = default;
+    explicit JsonLiteralExpr(const nlohmann::json& v) : value(v) {}
+    ASTNodeType getType() const override { return ASTNodeType::Literal; }
+    nlohmann::json toJSON() const override {
+        return {{"type","literal"},{"value", value}};
+    }
+};
+
+// Legacy field-access with path vector, e.g., {"doc","address","city"}
+struct PathFieldAccessExpr : Expression {
+    std::vector<std::string> path; // may include numeric indices as strings
+    PathFieldAccessExpr() = default;
+    explicit PathFieldAccessExpr(std::vector<std::string> p) : path(std::move(p)) {}
+    ASTNodeType getType() const override { return ASTNodeType::FieldAccess; }
+    nlohmann::json toJSON() const override {
+        return {{"type","field_access"},{"path", path}};
+    }
+};
+
+// Legacy binary op with string operator
+struct StringBinaryOpExpr : Expression {
+    std::string op; // "+", "-", "*", "/", "%", "==", "!=", "<", ">", "<=", ">=", "AND", "OR"
+    std::shared_ptr<Expression> left;
+    std::shared_ptr<Expression> right;
+    StringBinaryOpExpr() = default;
+    ASTNodeType getType() const override { return ASTNodeType::BinaryOp; }
+    nlohmann::json toJSON() const override {
+        return {{"type","binary_op"},{"op",op},{"left", left? left->toJSON(): nlohmann::json()},{"right", right? right->toJSON(): nlohmann::json()}};
+    }
+};
+
+// Legacy unary op with string operator ("NOT", "-")
+struct StringUnaryOpExpr : Expression {
+    std::string op;
+    std::shared_ptr<Expression> operand;
+    StringUnaryOpExpr() = default;
+    ASTNodeType getType() const override { return ASTNodeType::UnaryOp; }
+    nlohmann::json toJSON() const override {
+        return {{"type","unary_op"},{"op",op},{"operand", operand? operand->toJSON(): nlohmann::json()}};
+    }
+};
+
+// Legacy function-call with explicit functionName and arguments
+struct CompatFunctionCallExpr : Expression {
+    std::string functionName;
+    std::vector<std::shared_ptr<Expression>> arguments;
+    CompatFunctionCallExpr() = default;
+    ASTNodeType getType() const override { return ASTNodeType::FunctionCall; }
+    nlohmann::json toJSON() const override {
+        nlohmann::json arr = nlohmann::json::array();
+        for (auto &a : arguments) arr.push_back(a? a->toJSON(): nlohmann::json());
+        return {{"type","function_call"},{"name", functionName},{"arguments", arr}};
+    }
+};
+
+// Define nested legacy types inside base `Expression` for compatibility
+struct Expression::LiteralExpression : public JsonLiteralExpr {
+    using JsonLiteralExpr::JsonLiteralExpr;
+    LiteralExpression() = default;
+};
+struct Expression::FieldAccessExpression : public PathFieldAccessExpr {
+    using PathFieldAccessExpr::PathFieldAccessExpr;
+    FieldAccessExpression() = default;
+};
+struct Expression::BinaryOpExpression : public StringBinaryOpExpr {
+    using StringBinaryOpExpr::StringBinaryOpExpr;
+    BinaryOpExpression() = default;
+};
+struct Expression::UnaryOpExpression : public StringUnaryOpExpr {
+    using StringUnaryOpExpr::StringUnaryOpExpr;
+    UnaryOpExpression() = default;
+};
+struct Expression::FunctionCallExpression : public CompatFunctionCallExpr {
+    using CompatFunctionCallExpr::CompatFunctionCallExpr;
+    FunctionCallExpression() = default;
+};
+
+} // namespace query
+} // namespace themis

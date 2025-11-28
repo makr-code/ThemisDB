@@ -47,7 +47,13 @@ option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
 
 # Compiler warnings and optimizations
 if(MSVC)
-    add_compile_options(/W4 /utf-8 /wd4701 /bigobj /FS)
+    add_compile_options(/W4 /utf-8 /wd4701 /bigobj /FS
+        /wd4267  # size_t -> smaller type warnings (treated as errors previously)
+        /wd4100  # unreferenced parameters in stub implementations
+        /wd4996  # OpenSSL 3.0 deprecation warnings in test stubs
+        /wd4250  # dominance inheritance warnings in mock providers
+        /wd4505  # unreferenced static functions (test helpers)
+    )
     # /FS: Allow parallel PDB writes to avoid C1041 errors
     # Suppress unreachable code warnings from external headers (e.g., nlohmann/json)
     add_compile_options(/wd4702)
@@ -120,14 +126,48 @@ if(NOT TARGET RocksDB::rocksdb)
     endif()
 endif()
 
-# Core packages via vcpkg (or system where available)
-find_package(simdjson CONFIG REQUIRED)
-find_package(TBB CONFIG REQUIRED)
-find_package(Arrow CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system)
+# Core packages - try system packages first, then vcpkg
+find_package(simdjson CONFIG QUIET)
+if(NOT simdjson_FOUND)
+    message(STATUS "simdjson not found in system, using vcpkg")
+    find_package(simdjson CONFIG REQUIRED)
+endif()
+
+find_package(TBB CONFIG QUIET)
+if(NOT TBB_FOUND)
+    message(STATUS "TBB not found in system, searching alternatives")
+    find_package(TBB REQUIRED)
+endif()
+
+# Arrow is optional - most builds won't need it in Docker
+find_package(Arrow CONFIG QUIET)
+if(Arrow_FOUND)
+    message(STATUS "Arrow found - columnar features enabled")
+else()
+    message(WARNING "Arrow not found - columnar storage features disabled")
+    # Create dummy target to avoid CMake errors
+    add_library(Arrow::arrow_shared INTERFACE IMPORTED)
+endif()
+
+find_package(fmt CONFIG QUIET)
+if(NOT fmt_FOUND)
+    message(STATUS "fmt not found in system, using vcpkg")
+    find_package(fmt CONFIG REQUIRED)
+endif()
+
+find_package(spdlog CONFIG QUIET)
+if(NOT spdlog_FOUND)
+    message(STATUS "spdlog not found in system, using vcpkg")
+    find_package(spdlog CONFIG REQUIRED)
+endif()
+
+find_package(nlohmann_json CONFIG QUIET)
+if(NOT nlohmann_json_FOUND)
+    message(STATUS "nlohmann_json not found in system, searching alternatives")
+    find_package(nlohmann_json REQUIRED)
+endif()
+
+find_package(Boost REQUIRED COMPONENTS system thread)
 
 # yaml-cpp might be found via PkgConfig or CONFIG
 find_package(yaml-cpp CONFIG QUIET)
@@ -213,9 +253,12 @@ set(THEMIS_CORE_SOURCES
     src/storage/base_entity.cpp
     src/storage/key_schema.cpp
     src/storage/backup_manager.cpp
+    src/storage/security_signature.cpp
+    src/storage/security_signature_manager.cpp
     
     src/index/secondary_index.cpp
     src/index/graph_index.cpp
+    src/index/graph_analytics.cpp
     src/index/temporal_graph.cpp
     src/index/property_graph.cpp
     src/index/gnn_embeddings.cpp
@@ -229,6 +272,8 @@ set(THEMIS_CORE_SOURCES
     src/security/vault_signing_provider.cpp
     src/security/field_encryption.cpp
     src/security/encrypted_field.cpp
+    src/security/hsm_provider.cpp
+    src/security/timestamp_authority.cpp
     
     src/transaction/transaction_manager.cpp
     src/transaction/saga.cpp
@@ -246,6 +291,7 @@ set(THEMIS_CORE_SOURCES
     src/query/semantic_cache.cpp
     
     src/server/http_server.cpp
+    src/server/rate_limiter.cpp
     src/server/sse_connection_manager.cpp
     src/server/audit_api_handler.cpp
     src/server/pki_api_handler.cpp
@@ -264,6 +310,7 @@ set(THEMIS_CORE_SOURCES
     src/content/content_manager.cpp
     src/content/text_processor.cpp
     src/content/mock_clip_processor.cpp
+    src/content/content_fs.cpp
     
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
@@ -314,7 +361,7 @@ set(THEMIS_CORE_SOURCES
     src/geo/gpu_backend_stub.cpp
     src/geo/boost_cpu_exact_backend.cpp
     src/api/geo_index_hooks.cpp
-    
+
     # Sharding (horizontal scaling)
     src/sharding/urn.cpp
     src/sharding/consistent_hash.cpp
@@ -330,6 +377,10 @@ set(THEMIS_CORE_SOURCES
     src/sharding/prometheus_metrics.cpp
     src/sharding/health_check.cpp
     src/sharding/admin_api.cpp
+
+    # Content processing
+    src/content/mime_detector.cpp
+    src/content/content_policy.cpp
 )
 
 # Main library
@@ -473,6 +524,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_ttl_fulltext_index.cpp
         tests/test_index_stats.cpp
         tests/test_graph_index.cpp
+        tests/test_graph_analytics.cpp
         tests/test_vector_index.cpp
         tests/test_query_engine.cpp
         tests/test_query_or.cpp
@@ -510,6 +562,7 @@ if(THEMIS_BUILD_TESTS)
     tests/test_stemming.cpp
         tests/test_stopwords.cpp
         tests/test_http_governance.cpp
+        tests/test_content_features.cpp
         
         # Geo tests
         tests/geo/test_geo_ewkb.cpp
@@ -519,6 +572,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_geo_index_integration.cpp
         tests/test_aql_let_st.cpp
         tests/test_hybrid_queries.cpp
+            tests/test_filtered_vector_search.cpp
         tests/test_http_audit.cpp
         tests/test_transaction_manager.cpp
         tests/test_mvcc.cpp
@@ -585,6 +639,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_shard_communication.cpp
         tests/test_rebalance_migration.cpp
         tests/test_monitoring_ops.cpp
+        tests/test_content_policy.cpp
     )
     
     target_link_libraries(themis_tests
@@ -608,11 +663,185 @@ if(THEMIS_BUILD_TESTS)
         EXTRA_ARGS --gtest_color=yes
     )
 
+    # Minimal test target for new filtered vector search (isolated from legacy test issues)
+    add_executable(filtered_vector_search_tests
+        tests/test_filtered_vector_search.cpp
+    )
+    target_link_libraries(filtered_vector_search_tests
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+
+    # Dedicated ContentFS tests
+    add_executable(content_fs_tests
+        tests/test_content_fs.cpp
+    )
+    target_link_libraries(content_fs_tests
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    gtest_discover_tests(content_fs_tests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    gtest_discover_tests(filtered_vector_search_tests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+
     # Note: Do not add an aggregate test that runs the entire suite again.
     # gtest_discover_tests already registers each test case with CTest. Adding
     # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
     # the full suite a second time and can make CI appear to hang on the last
     # test (previously "Test #619: ThemisTests").
+    
+    # Standalone test for Graph Analytics (avoids compilation errors in other tests)
+    add_executable(test_graph_analytics_standalone
+        tests/test_graph_analytics.cpp
+    )
+    
+    target_link_libraries(test_graph_analytics_standalone
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_graph_analytics_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    
+    # Standalone test for Vector Filtered Search
+    add_executable(test_vector_filtered_standalone
+        tests/test_vector_filtered_standalone.cpp
+    )
+    
+    target_link_libraries(test_vector_filtered_standalone
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_vector_filtered_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+
+    # Standalone test for Fusion Search (/search/fusion)
+    add_executable(test_fusion_search_standalone
+        tests/test_http_fusion_search.cpp
+    )
+    
+    target_link_libraries(test_fusion_search_standalone
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_fusion_search_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    
+    # Standalone test for Hybrid Search (/search/hybrid)
+    add_executable(test_hybrid_search_standalone
+        tests/test_http_hybrid_search.cpp
+    )
+    
+    target_link_libraries(test_hybrid_search_standalone
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_hybrid_search_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    
+    # Standalone test for MIME detector
+    add_executable(test_mime_detector_standalone
+        tests/test_mime_detector_standalone.cpp
+        src/content/mime_detector.cpp
+        src/content/content_policy.cpp
+    )
+    
+    target_link_libraries(test_mime_detector_standalone
+        PRIVATE
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    target_include_directories(test_mime_detector_standalone
+        PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+    )
+    
+    gtest_discover_tests(test_mime_detector_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    
+    # Standalone test for Security Signature Manager
+    add_executable(test_security_signature_standalone
+        tests/test_security_signature_standalone.cpp
+    )
+    
+    target_link_libraries(test_security_signature_standalone
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_security_signature_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    
+    # Standalone test for Vector Statistics
+    add_executable(test_vector_stats_standalone
+        tests/test_vector_stats_standalone.cpp
+    )
+    
+    target_link_libraries(test_vector_stats_standalone
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_vector_stats_standalone
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
+    
+    # Manual test for Content Policy (no GTest dependency)
+    add_executable(test_content_policy_manual
+        tests/test_content_policy_manual.cpp
+    )
+    
+    target_link_libraries(test_content_policy_manual
+        PRIVATE
+            themis_core
+    )
 endif()
 
 # Benchmarks
@@ -623,6 +852,7 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_crud.cpp
         benchmarks/bench_query.cpp
         benchmarks/bench_vector_search.cpp
+        benchmarks/bench_vector_prefilter.cpp
     )
     
     target_link_libraries(themis_benchmarks
@@ -631,6 +861,22 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+
+    # Lightweight standalone benchmark for whitelist prefilter only (avoid other benches)
+    add_executable(bench_vector_prefilter_only
+        benchmarks/bench_vector_prefilter.cpp
+    )
+    target_link_libraries(bench_vector_prefilter_only
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    if(MSVC)
+        # Align MSVC STL iterator debug level with vcpkg-built Debug deps
+        # Use standard Debug level (2) to match libraries.
+        target_compile_definitions(bench_vector_prefilter_only PRIVATE _ITERATOR_DEBUG_LEVEL=2 _HAS_ITERATOR_DEBUGGING=1)
+    endif()
     
     # Compression benchmark (standalone)
     add_executable(bench_compression
@@ -687,6 +933,31 @@ if(THEMIS_BUILD_BENCHMARKS)
         PRIVATE
             themis_core
             benchmark::benchmark
+    )
+
+    # Minimal HNSW prefilter benchmark (no themis_core linkage)
+    add_executable(bench_hnsw_prefilter_minimal
+        benchmarks/bench_hnsw_prefilter_minimal.cpp
+    )
+    target_link_libraries(bench_hnsw_prefilter_minimal
+        PRIVATE
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    # Header-only in most setups; link target if available
+    if(hnswlib_FOUND AND TARGET hnswlib::hnswlib)
+        target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE hnswlib::hnswlib)
+    endif()
+    target_compile_definitions(bench_hnsw_prefilter_minimal PRIVATE _CRT_SECURE_NO_WARNINGS)
+
+    # Very small sanity benchmark to validate runtime
+    add_executable(bench_sanity
+        benchmarks/bench_sanity.cpp
+    )
+    target_link_libraries(bench_sanity
+        PRIVATE
+            benchmark::benchmark
+            benchmark::benchmark_main
     )
 endif()
 

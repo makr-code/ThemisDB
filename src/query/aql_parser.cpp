@@ -1,5 +1,6 @@
 ﻿#include "query/aql_parser.h"
 #include <cctype>
+#include <optional>
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>

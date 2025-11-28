@@ -144,6 +144,29 @@ std::string SecondaryIndexManager::encodeKeyComponent(std::string_view raw) {
 	return out;
 }
 
+// ---------------------------------------------------------------------------
+// Backward-compatibility API: createIndex with IndexType enum
+// ---------------------------------------------------------------------------
+SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_view table, std::string_view column, IndexType type) {
+	switch (type) {
+		case IndexType::REGULAR:
+			return createIndex(table, column, false);
+		case IndexType::RANGE:
+			return createRangeIndex(table, column);
+		case IndexType::SPARSE:
+			return createSparseIndex(table, column, false);
+		case IndexType::GEO:
+			return createGeoIndex(table, column);
+		case IndexType::TTL:
+			// TTL requires ttl_seconds, cannot infer via this overload
+			return Status::Error("createIndex(table,column,TTL) requires TTL seconds; use createTTLIndex(table,column,ttl_seconds)");
+		case IndexType::FULLTEXT:
+			return createFulltextIndex(table, column);
+		default:
+			return Status::Error("Unknown IndexType");
+	}
+}
+
 // static
 std::string SecondaryIndexManager::makeRangeIndexMetaKey(std::string_view table, std::string_view column) {
 	return std::string("ridxmeta:") + std::string(table) + ":" + std::string(column);

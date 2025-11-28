@@ -1,23 +1,26 @@
 # Multi-stage Docker build for ThemisDB
-# Uses vcpkg for complete dependency management
+# Hybrid approach: System packages + vcpkg for missing libraries
 
 FROM ubuntu:22.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install build tools and system dependencies
+# Install build tools and available system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential cmake ninja-build git curl zip unzip tar pkg-config \
-    ca-certificates python3 perl nasm autoconf automake libtool \
+    ca-certificates python3 perl nasm \
+    # Core system libraries
+    libssl-dev libcurl4-openssl-dev zlib1g-dev \
+    # Available dependencies from Ubuntu 22.04
+    librocksdb-dev libtbb-dev libfmt-dev \
+    nlohmann-json3-dev libboost-system-dev libboost-thread-dev \
+    libyaml-cpp-dev libzstd-dev libsnappy-dev liblz4-dev \
+    libbz2-dev libgflags-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Bootstrap vcpkg - use stable 2024.12.16 release
+# Bootstrap vcpkg for missing packages (simdjson, spdlog, hnswlib)
 ENV VCPKG_ROOT=/opt/vcpkg
-RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
-    && cd ${VCPKG_ROOT} \
-    && git checkout 2024.12.16 \
-    && ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics \
-    && VCPKG_BASELINE=$(git rev-parse HEAD) \
-    && echo "Using vcpkg baseline: $VCPKG_BASELINE"
+RUN git clone --depth 1 https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
+    && ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics
 
 # Set up environment
 ENV CC=/usr/bin/gcc
@@ -27,21 +30,11 @@ ENV VCPKG_DEFAULT_TRIPLET=${VCPKG_TRIPLET}
 
 WORKDIR /src
 
-# Copy vcpkg manifest files first (for better layer caching)
-# Use simplified vcpkg.docker.json for faster builds
-COPY vcpkg.docker.json ./vcpkg.json
-COPY vcpkg-configuration.json ./
-
-# Update vcpkg-configuration.json with current baseline
-RUN cd ${VCPKG_ROOT} \
-    && VCPKG_BASELINE=$(git rev-parse HEAD) \
-    && echo "{\"default-registry\":{\"kind\":\"builtin\",\"baseline\":\"$VCPKG_BASELINE\"}}" > /src/vcpkg-configuration.json
-
-# Install dependencies via vcpkg manifest mode
-# Disable compiler tracking and metrics for faster, more stable builds
-ENV VCPKG_FORCE_SYSTEM_BINARIES=1
-ENV VCPKG_DISABLE_METRICS=1
-RUN ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET}
+# Install only missing packages via vcpkg
+RUN ${VCPKG_ROOT}/vcpkg install \
+    simdjson:${VCPKG_TRIPLET} \
+    spdlog:${VCPKG_TRIPLET} \
+    hnswlib:${VCPKG_TRIPLET}
 
 # Copy source code
 COPY CMakeLists.txt ./

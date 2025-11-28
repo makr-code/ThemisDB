@@ -506,6 +506,10 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("  POST /graph/traverse      - Graph traversal");
         THEMIS_INFO("  POST /vector/search       - Vector search");
         THEMIS_INFO("  POST /transaction         - Execute transaction");
+        THEMIS_INFO("  PUT  /contentfs/:pk       - Store binary content (ContentFS)");
+        THEMIS_INFO("  GET  /contentfs/:pk       - Retrieve content (Range supported)");
+        THEMIS_INFO("  HEAD /contentfs/:pk       - Content metadata (size, ETag)");
+        THEMIS_INFO("  DELETE /contentfs/:pk     - Delete content");
         if (server_config.feature_semantic_cache) {
             THEMIS_INFO("  POST /cache/query         - Semantic cache lookup (beta)");
             THEMIS_INFO("  POST /cache/put           - Semantic cache put (beta)");

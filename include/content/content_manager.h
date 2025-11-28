@@ -60,6 +60,10 @@ struct ContentMeta {
     std::string parent_id;           // Parent content (e.g., archive member)
     std::vector<std::string> child_ids; // Child content (e.g., CAD parts, archive files)
     
+    // Virtual Filesystem
+    std::string virtual_path;        // Virtual filesystem path (e.g., "/documents/report.pdf")
+    bool is_directory = false;       // True if this represents a directory
+    
     json toJson() const;
     static ContentMeta fromJson(const json& j);
 };
@@ -93,6 +97,21 @@ struct ChunkMeta {
     
     json toJson() const;
     static ChunkMeta fromJson(const json& j);
+};
+
+/**
+ * @brief Content Assembly Result
+ * 
+ * Efficient container for reconstructed content with lazy-loaded chunks.
+ */
+struct ContentAssembly {
+    ContentMeta metadata;                    // Content metadata
+    std::vector<ChunkMeta> chunks;           // All chunks (ordered by seq_num)
+    std::optional<std::string> assembled_text; // Full text (lazy: only if requested)
+    int64_t total_size_bytes;                // Total size of all chunks
+    
+    // Helper: Get chunk by sequence number
+    std::optional<ChunkMeta> getChunkBySeqNum(int seq_num) const;
 };
 
 // Ingestion wurde entfernt. Stattdessen erwartet der Server bereits
@@ -185,6 +204,43 @@ public:
     std::optional<ChunkMeta> getChunk(const std::string& chunk_id);
 
     /**
+     * @brief Assemble complete content from chunks
+     * 
+     * Efficiently reconstructs content from stored chunks.
+     * 
+     * @param content_id Content UUID
+     * @param include_text If true, concatenate all chunk texts into assembled_text
+     * @return ContentAssembly with metadata and chunks
+     */
+    std::optional<ContentAssembly> assembleContent(const std::string& content_id, bool include_text = false);
+
+    /**
+     * @brief Get next chunk in sequence
+     * 
+     * @param chunk_id Current chunk UUID
+     * @return Next chunk (seq_num + 1) if exists
+     */
+    std::optional<ChunkMeta> getNextChunk(const std::string& chunk_id);
+
+    /**
+     * @brief Get previous chunk in sequence
+     * 
+     * @param chunk_id Current chunk UUID
+     * @return Previous chunk (seq_num - 1) if exists
+     */
+    std::optional<ChunkMeta> getPreviousChunk(const std::string& chunk_id);
+
+    /**
+     * @brief Get chunk range (pagination)
+     * 
+     * @param content_id Content UUID
+     * @param start_seq Starting sequence number (inclusive)
+     * @param count Number of chunks to retrieve
+     * @return Vector of ChunkMeta in sequence order
+     */
+    std::vector<ChunkMeta> getChunkRange(const std::string& content_id, int start_seq, int count);
+
+    /**
      * @brief Search content by semantic similarity
      * 
      * @param query_text Query text (will be embedded)
@@ -196,6 +252,29 @@ public:
         const std::string& query_text,
         int k,
         const json& filters = json::object()
+    );
+
+    /**
+     * @brief Hybrid Search: Vector (HNSW) + Fulltext (BM25) + RRF
+     * 
+     * Combines vector similarity search and fulltext search using
+     * Reciprocal Rank Fusion (RRF) for optimal ranking.
+     * 
+     * @param query_text Query text (used for both embedding and fulltext)
+     * @param k Number of results to return
+     * @param filters Optional filters (category, mime_type, tags, date_from, date_to)
+     * @param vector_weight Weight for vector search (default 0.5)
+     * @param fulltext_weight Weight for fulltext search (default 0.5)
+     * @param rrf_k RRF constant (default 60)
+     * @return Vector of (chunk_id, combined_score) pairs, sorted by score descending
+     */
+    std::vector<std::pair<std::string, float>> searchContentHybrid(
+        const std::string& query_text,
+        int k,
+        const json& filters = json::object(),
+        float vector_weight = 0.5f,
+        float fulltext_weight = 0.5f,
+        float rrf_k = 60.0f
     );
 
     /**
@@ -223,6 +302,40 @@ public:
      * @return Status
      */
     Status deleteContent(const std::string& content_id);
+
+    /**
+     * @brief Virtual Filesystem: Resolve path to content ID
+     * 
+     * @param virtual_path Path like "/documents/report.pdf"
+     * @return Content ID if found, nullopt otherwise
+     */
+    std::optional<std::string> resolvePath(const std::string& virtual_path);
+
+    /**
+     * @brief Virtual Filesystem: List directory contents
+     * 
+     * @param virtual_path Directory path like "/documents"
+     * @return Vector of ContentMeta for children (files and subdirectories)
+     */
+    std::vector<ContentMeta> listDirectory(const std::string& virtual_path);
+
+    /**
+     * @brief Virtual Filesystem: Create directory
+     * 
+     * @param virtual_path Directory path
+     * @param recursive Create parent directories if needed
+     * @return Status
+     */
+    Status createDirectory(const std::string& virtual_path, bool recursive = false);
+
+    /**
+     * @brief Virtual Filesystem: Register path for existing content
+     * 
+     * @param content_id Existing content UUID
+     * @param virtual_path Path to register
+     * @return Status
+     */
+    Status registerPath(const std::string& content_id, const std::string& virtual_path);
 
     /**
      * @brief Get processor for a category
