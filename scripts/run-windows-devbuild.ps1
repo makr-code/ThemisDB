@@ -29,8 +29,18 @@ if (-not (Test-Path $vsdev)) {
 
 Write-Host "Found VsDevCmd: $vsdev"
 
+# Determine vcpkg toolchain path: prefer VCPKG_ROOT env var, fallback to external/vcpkg
+$vcpkgToolchain = 'external/vcpkg/scripts/buildsystems/vcpkg.cmake'
+if ($env:VCPKG_ROOT) {
+    $vcpkgToolchain = Join-Path $env:VCPKG_ROOT 'scripts\buildsystems\vcpkg.cmake'
+}
+$vcpkgToolchain = ($vcpkgToolchain -replace '\\', '/')
+
 # Build base CMake command
-$cmakeCmd = 'cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=external/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CXX_FLAGS="/bigobj /EHsc"'
+$cmakeCmd = 'cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE="' + $vcpkgToolchain + '" -DCMAKE_CXX_FLAGS="/bigobj /EHsc"'
+
+# Ensure the cmd runs from repo root (script lives in scripts\)
+$repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 
 if ($OpenSslRoot) {
     # Use forward slashes for CMake and quote path
@@ -45,6 +55,7 @@ if ($OpenSslRoot) {
 $cmdFile = Join-Path $PSScriptRoot 'build-msvc-run.cmd'
 $lines = @()
 $lines += 'call "' + $vsdev + '" -arch=amd64 -host_arch=amd64'
+$lines += 'cd /d "' + $repoRoot + '"'
 $lines += $cmakeCmd
 $lines += 'cmake --build build-msvc --config Debug --target themis_tests'
 $lines += 'cd build-msvc'

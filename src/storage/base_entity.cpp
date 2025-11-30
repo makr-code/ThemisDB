@@ -193,17 +193,15 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
         for (auto field : obj) {
             auto key_res = field.unescaped_key();
             if (key_res.error()) continue;
-            std::string_view key = key_res.value();
-            std::string key_str(key);
+            std::string key_str(key_res.value_unsafe());
 
             auto val_res = field.value();
             if (val_res.error()) continue;
-            auto val = val_res.value();
-
+            
             // Determine type and convert
-            auto type_res = val.type();
+            auto type_res = val_res.type();
             if (type_res.error()) continue;
-            auto type = type_res.value();
+            auto type = type_res.value_unsafe();
 
             switch (type) {
                 case simdjson::ondemand::json_type::null:
@@ -211,43 +209,42 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
                     break;
 
                 case simdjson::ondemand::json_type::boolean: {
-                    auto bres = val.get_bool();
-                    if (!bres.error()) fields[key_str] = bool(bres.value());
+                    auto bres = val_res.get_bool();
+                    if (!bres.error()) fields[key_str] = bres.value_unsafe();
                     break;
                 }
 
                 case simdjson::ondemand::json_type::number: {
                     // Try int first, then double
-                    auto ires = val.get_int64();
+                    auto ires = val_res.get_int64();
                     if (!ires.error()) {
-                        fields[key_str] = ires.value();
+                        fields[key_str] = ires.value_unsafe();
                     } else {
-                        auto dres = val.get_double();
-                        if (!dres.error()) fields[key_str] = double(dres.value());
+                        auto dres = val_res.get_double();
+                        if (!dres.error()) fields[key_str] = dres.value_unsafe();
                     }
                     break;
                 }
 
                 case simdjson::ondemand::json_type::string: {
-                    auto sv_res = val.get_string();
+                    auto sv_res = val_res.get_string();
                     if (!sv_res.error()) {
-                        fields[key_str] = std::string(sv_res.value());
+                        fields[key_str] = std::string(sv_res.value_unsafe());
                     }
                     break;
                 }
 
                 case simdjson::ondemand::json_type::array: {
                     // Check if it's a float vector (for embeddings)
-                    auto arr_res = val.get_array();
+                    auto arr_res = val_res.get_array();
                     if (arr_res.error()) break;
-                    auto arr = arr_res.value();
                     std::vector<float> vec;
                     bool is_float_vec = true;
 
-                    for (auto elem : arr) {
-                        auto dres = elem.get_double();
+                    for (auto elem_res : arr_res.value_unsafe()) {
+                        auto dres = elem_res.get_double();
                         if (!dres.error()) {
-                            vec.push_back(static_cast<float>(dres.value()));
+                            vec.push_back(static_cast<float>(dres.value_unsafe()));
                         } else {
                             is_float_vec = false;
                             break;

@@ -188,8 +188,13 @@ bool RocksDBWrapper::open() {
 
     // List existing column families to open them all
     std::vector<std::string> cf_names;
+    rocksdb::DBOptions db_opts;
+    db_opts.create_if_missing = options_->create_if_missing;
+    db_opts.create_missing_column_families = options_->create_missing_column_families;
+    db_opts.max_open_files = options_->max_open_files;
+    db_opts.max_background_jobs = options_->max_background_jobs;
     rocksdb::Status list_status = rocksdb::DB::ListColumnFamilies(
-        rocksdb::DBOptions(*options_), 
+        db_opts, 
         config_.db_path, 
         &cf_names
     );
@@ -282,6 +287,17 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::get(std::string_view key) {
     return std::nullopt;
 }
 
+bool RocksDBWrapper::get(std::string_view key, std::string& out) {
+    if (!db_) return false;
+    std::string value;
+    rocksdb::Status status = db_->Get(*read_options_, rocksdb::Slice(key.data(), key.size()), &value);
+    if (status.ok()) {
+        out = std::move(value);
+        return true;
+    }
+    return false;
+}
+
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
     if (!db_) return false;
     
@@ -291,6 +307,16 @@ bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value
         rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
     );
     
+    return status.ok();
+}
+
+bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
+    if (!db_) return false;
+    rocksdb::Status status = db_->Put(
+        *write_options_,
+        rocksdb::Slice(key.data(), key.size()),
+        rocksdb::Slice(value.data(), value.size())
+    );
     return status.ok();
 }
 

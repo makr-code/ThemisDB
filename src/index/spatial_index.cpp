@@ -157,11 +157,19 @@ std::optional<RTreeConfig> SpatialIndexManager::getConfig(std::string_view table
         config.use_3d = j.value("use_3d", false);
         
         if (j.contains("total_bounds")) {
-            auto& b = j["total_bounds"];
-            config.total_bounds.minx = b.value("minx", -180.0);
-            config.total_bounds.miny = b.value("miny", -90.0);
-            config.total_bounds.maxx = b.value("maxx", 180.0);
-            config.total_bounds.maxy = b.value("maxy", 90.0);
+            try {
+                const auto& b = j.at("total_bounds");
+                config.total_bounds.minx = b.value("minx", -180.0);
+                config.total_bounds.miny = b.value("miny", -90.0);
+                config.total_bounds.maxx = b.value("maxx", 180.0);
+                config.total_bounds.maxy = b.value("maxy", 90.0);
+            } catch (...) {
+                // Use defaults if parsing fails
+                config.total_bounds.minx = -180.0;
+                config.total_bounds.miny = -90.0;
+                config.total_bounds.maxx = 180.0;
+                config.total_bounds.maxy = 90.0;
+            }
         }
         
         return config;
@@ -232,17 +240,19 @@ std::vector<SpatialIndexManager::SidecarEntry> SpatialIndexManager::parseSidecar
         auto j = json::parse(value);
         for (const auto& item : j) {
             SidecarEntry entry;
-            entry.primary_key = item["pk"];
+            entry.primary_key = item.value("pk", std::string());
             
-            auto& mbr = item["mbr"];
-            entry.sidecar.mbr.minx = mbr["minx"];
-            entry.sidecar.mbr.miny = mbr["miny"];
-            entry.sidecar.mbr.maxx = mbr["maxx"];
-            entry.sidecar.mbr.maxy = mbr["maxy"];
+            if (item.contains("mbr") && item["mbr"].is_object()) {
+                const auto& mbr = item["mbr"];
+                entry.sidecar.mbr.minx = mbr.value("minx", 0.0);
+                entry.sidecar.mbr.miny = mbr.value("miny", 0.0);
+                entry.sidecar.mbr.maxx = mbr.value("maxx", 0.0);
+                entry.sidecar.mbr.maxy = mbr.value("maxy", 0.0);
+            }
             
             if (item.contains("z_min")) {
-                entry.sidecar.z_min = item["z_min"];
-                entry.sidecar.z_max = item["z_max"];
+                entry.sidecar.z_min = item.value("z_min", 0.0);
+                entry.sidecar.z_max = item.value("z_max", 0.0);
             }
             
             result.push_back(entry);

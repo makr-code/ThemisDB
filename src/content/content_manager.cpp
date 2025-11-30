@@ -51,7 +51,36 @@ static std::optional<ContentCategory> parseCategory(const std::string& s) {
     return std::nullopt;
 }
 
+// Helper: convert category enum to string
+static std::string categoryToString(ContentCategory cat) {
+    switch (cat) {
+        case ContentCategory::TEXT: return "TEXT";
+        case ContentCategory::IMAGE: return "IMAGE";
+        case ContentCategory::GEO: return "GEO";
+        case ContentCategory::CAD: return "CAD";
+        case ContentCategory::AUDIO: return "AUDIO";
+        case ContentCategory::STRUCTURED: return "STRUCTURED";
+        case ContentCategory::BINARY: return "BINARY";
+        default: return "UNKNOWN";
+    }
+}
+
 // Build whitelist of chunk PKs ("chunks:<id>") based on filters
+static const json* jsonPathRef(const json& j, const std::string& path) {
+    // dotted path (no arrays)
+    const json* cur = &j;
+    size_t start = 0;
+    while (start <= path.size()) {
+        size_t dot = path.find('.', start);
+        std::string key = dot == std::string::npos ? path.substr(start) : path.substr(start, dot - start);
+        if (!cur->is_object() || !cur->contains(key)) return nullptr;
+        cur = &((*cur)[key]);
+        if (dot == std::string::npos) break;
+        start = dot + 1;
+    }
+    return cur;
+}
+
 static std::vector<std::string> buildChunkWhitelist(
     RocksDBWrapper& storage,
     const json& filters
@@ -116,17 +145,8 @@ static std::vector<std::string> buildChunkWhitelist(
     } catch (...) {}
 
     auto jsonPathEq = [](const json& j, const std::string& path, const json& expected) -> bool {
-        // dotted path (no arrays)
-        const json* cur = &j;
-        size_t start = 0;
-        while (start <= path.size()) {
-            size_t dot = path.find('.', start);
-            std::string key = dot == std::string::npos ? path.substr(start) : path.substr(start, dot - start);
-            if (!cur->is_object() || !cur->contains(key)) return false;
-            cur = &((*cur)[key]);
-            if (dot == std::string::npos) break;
-            start = dot + 1;
-        }
+        auto cur = jsonPathRef(j, path);
+        if (!cur) return false;
         try { return cur->dump() == expected.dump(); } catch (...) { return false; }
     };
 
@@ -177,7 +197,43 @@ static std::vector<std::string> buildChunkWhitelist(
                 auto fmap = fieldMap.find(keyName);
                 if (fmap == fieldMap.end()) continue; // unknown key → ignore
                 const std::string& jpath = fmap->second;
-                if (!jsonPathEq(j, jpath, it.value())) return true; // mismatch → reject
+                const json* vptr = jsonPathRef(j, jpath);
+                if (!vptr) return true; // missing → reject
+
+                const json& cond = it.value();
+                bool match = false;
+                try {
+                    if (cond.is_array()) {
+                        // IN semantics: any equals
+                        for (const auto& c : cond) {
+                            if (vptr->dump() == c.dump()) { match = true; break; }
+                        }
+                    } else if (cond.is_object() && (cond.contains("min") || cond.contains("max"))) {
+                        // RANGE semantics (numeric). Convert vptr to number if possible.
+                        double val = 0.0; bool ok = false;
+                        if (vptr->is_number()) { val = vptr->get<double>(); ok = true; }
+                        else if (vptr->is_string()) { try { val = std::stod(vptr->get<std::string>()); ok = true; } catch (...) { ok = false; } }
+                        if (ok) {
+                            double vmin = -std::numeric_limits<double>::infinity();
+                            double vmax =  std::numeric_limits<double>::infinity();
+                            if (cond.contains("min")) {
+                                if (cond["min"].is_number()) vmin = cond["min"].get<double>();
+                                else if (cond["min"].is_string()) { try { vmin = std::stod(cond["min"].get<std::string>()); } catch (...) {} }
+                            }
+                            if (cond.contains("max")) {
+                                if (cond["max"].is_number()) vmax = cond["max"].get<double>();
+                                else if (cond["max"].is_string()) { try { vmax = std::stod(cond["max"].get<std::string>()); } catch (...) {} }
+                            }
+                            match = (val >= vmin && val <= vmax);
+                        } else {
+                            match = false;
+                        }
+                    } else {
+                        // default: equality
+                        match = (vptr->dump() == cond.dump());
+                    }
+                } catch (...) { match = false; }
+                if (!match) return true; // mismatch → reject
             }
             // This content matches → add all its chunks to whitelist
             std::string id = m.id;
@@ -225,7 +281,9 @@ json ContentMeta::toJson() const {
         {"user_metadata", user_metadata},
         {"tags", tags},
         {"parent_id", parent_id},
-        {"child_ids", child_ids}
+        {"child_ids", child_ids},
+        {"virtual_path", virtual_path},
+        {"is_directory", is_directory}
     };
 }
 
@@ -253,6 +311,8 @@ ContentMeta ContentMeta::fromJson(const json& j) {
     m.tags = j.value("tags", std::vector<std::string>{});
     m.parent_id = j.value("parent_id", "");
     m.child_ids = j.value("child_ids", std::vector<std::string>{});
+    m.virtual_path = j.value("virtual_path", "");
+    m.is_directory = j.value("is_directory", false);
     return m;
 }
 
@@ -852,6 +912,121 @@ std::optional<ChunkMeta> ContentManager::getChunk(const std::string& chunk_id) {
     } catch (...) { return std::nullopt; }
 }
 
+// ===================== Content Assembly & Navigation =====================
+
+std::optional<ChunkMeta> ContentAssembly::getChunkBySeqNum(int seq_num) const {
+    for (const auto& chunk : chunks) {
+        if (chunk.seq_num == seq_num) {
+            return chunk;
+        }
+    }
+    return std::nullopt;
+}
+
+std::optional<ContentAssembly> ContentManager::assembleContent(const std::string& content_id, bool include_text) {
+    // Get metadata
+    auto meta = getContentMeta(content_id);
+    if (!meta.has_value()) {
+        return std::nullopt;
+    }
+    
+    // Get all chunks
+    auto chunks = getContentChunks(content_id);
+    
+    // Build assembly
+    ContentAssembly assembly;
+    assembly.metadata = *meta;
+    assembly.chunks = chunks;
+    assembly.total_size_bytes = 0;
+    
+    // Calculate total size
+    for (const auto& chunk : chunks) {
+        assembly.total_size_bytes += chunk.text.size();
+    }
+    
+    // Optionally assemble full text
+    if (include_text && !chunks.empty()) {
+        std::string full_text;
+        full_text.reserve(assembly.total_size_bytes);
+        
+        for (const auto& chunk : chunks) {
+            full_text += chunk.text;
+        }
+        
+        assembly.assembled_text = std::move(full_text);
+    }
+    
+    return assembly;
+}
+
+std::optional<ChunkMeta> ContentManager::getNextChunk(const std::string& chunk_id) {
+    // Get current chunk
+    auto current = getChunk(chunk_id);
+    if (!current.has_value()) {
+        return std::nullopt;
+    }
+    
+    // Get all chunks for this content
+    auto chunks = getContentChunks(current->content_id);
+    
+    // Find next chunk by seq_num
+    int next_seq = current->seq_num + 1;
+    for (const auto& chunk : chunks) {
+        if (chunk.seq_num == next_seq) {
+            return chunk;
+        }
+    }
+    
+    return std::nullopt;
+}
+
+std::optional<ChunkMeta> ContentManager::getPreviousChunk(const std::string& chunk_id) {
+    // Get current chunk
+    auto current = getChunk(chunk_id);
+    if (!current.has_value()) {
+        return std::nullopt;
+    }
+    
+    // Get all chunks for this content
+    auto chunks = getContentChunks(current->content_id);
+    
+    // Find previous chunk by seq_num
+    int prev_seq = current->seq_num - 1;
+    if (prev_seq < 0) {
+        return std::nullopt;
+    }
+    
+    for (const auto& chunk : chunks) {
+        if (chunk.seq_num == prev_seq) {
+            return chunk;
+        }
+    }
+    
+    return std::nullopt;
+}
+
+std::vector<ChunkMeta> ContentManager::getChunkRange(const std::string& content_id, int start_seq, int count) {
+    std::vector<ChunkMeta> result;
+    
+    if (count <= 0) {
+        return result;
+    }
+    
+    // Get all chunks
+    auto all_chunks = getContentChunks(content_id);
+    
+    // Filter by sequence range
+    int end_seq = start_seq + count - 1;
+    for (const auto& chunk : all_chunks) {
+        if (chunk.seq_num >= start_seq && chunk.seq_num <= end_seq) {
+            result.push_back(chunk);
+        }
+    }
+    
+    // Already sorted by seq_num from getContentChunks
+    return result;
+}
+
 std::vector<std::pair<std::string, float>> ContentManager::searchContent(
     const std::string& query_text, int k, const json& filters
 ) {
@@ -871,6 +1046,146 @@ std::vector<std::pair<std::string, float>> ContentManager::searchContent(
         res.emplace_back(r.pk, r.distance);
     }
     return res;
+}
+
+std::vector<std::pair<std::string, float>> ContentManager::searchContentHybrid(
+    const std::string& query_text,
+    int k,
+    const json& filters,
+    float vector_weight,
+    float fulltext_weight,
+    float rrf_k
+) {
+    std::vector<std::pair<std::string, float>> result;
+    
+    // Step 1: Vector Search (HNSW)
+    std::unordered_map<std::string, float> vector_scores;
+    std::unordered_map<std::string, size_t> vector_ranks;
+    
+    if (vector_index_ && vector_index_->getDimension() > 0 && vector_weight > 0.0f) {
+        auto it = processors_.find(ContentCategory::TEXT);
+        if (it != processors_.end()) {
+            std::vector<float> q = it->second->generateEmbedding(query_text);
+            std::vector<std::string> whitelist = buildChunkWhitelist(*storage_, filters);
+            const std::vector<std::string>* wptr = whitelist.empty() ? nullptr : &whitelist;
+            
+            // Retrieve more results for better RRF fusion (k*2)
+            size_t fetch_k = static_cast<size_t>(k * 2);
+            auto [st, results] = vector_index_->searchKnn(q, fetch_k, wptr);
+            
+            if (st.ok) {
+                size_t rank = 1;
+                for (const auto& r : results) {
+                    // Convert distance to similarity score
+                    // For COSINE: similarity = 1 - distance
+                    // For L2: similarity = 1 / (1 + distance)
+                    float similarity = 0.0f;
+                    auto metric = vector_index_->getMetric();
+                    if (metric == VectorIndexManager::Metric::COSINE) {
+                        similarity = std::max(0.0f, 1.0f - r.distance);
+                    } else {
+                        similarity = 1.0f / (1.0f + r.distance);
+                    }
+                    
+                    vector_scores[r.pk] = similarity;
+                    vector_ranks[r.pk] = rank++;
+                }
+            }
+        }
+    }
+    
+    // Step 2: Fulltext Search (BM25)
+    std::unordered_map<std::string, float> fulltext_scores;
+    std::unordered_map<std::string, size_t> fulltext_ranks;
+    
+    if (secondary_index_ && fulltext_weight > 0.0f) {
+        // Check if fulltext index exists on chunks.text_content
+        if (secondary_index_->hasFulltextIndex("chunks", "text_content")) {
+            size_t fetch_k = static_cast<size_t>(k * 2);
+            auto [st, ft_results] = secondary_index_->scanFulltextWithScores(
+                "chunks", 
+                "text_content", 
+                query_text, 
+                fetch_k
+            );
+            
+            if (st.ok) {
+                size_t rank = 1;
+                for (const auto& r : ft_results) {
+                    // Apply filters manually (fulltext doesn't support filter integration yet)
+                    if (!filters.empty()) {
+                        auto chunk_meta = getChunk(r.pk);
+                        if (!chunk_meta.has_value()) continue;
+                        
+                        // Apply category filter
+                        if (filters.contains("category")) {
+                            auto content_meta = getContentMeta(chunk_meta->content_id);
+                            if (!content_meta.has_value()) continue;
+                            std::string filter_cat = filters["category"].get<std::string>();
+                            if (categoryToString(content_meta->category) != filter_cat) continue;
+                        }
+                        
+                        // Apply mime_type filter
+                        if (filters.contains("mime_type")) {
+                            auto content_meta = getContentMeta(chunk_meta->content_id);
+                            if (!content_meta.has_value()) continue;
+                            std::string filter_mime = filters["mime_type"].get<std::string>();
+                            if (content_meta->mime_type != filter_mime) continue;
+                        }
+                        
+                        // Apply date filters
+                        if (filters.contains("date_from")) {
+                            auto content_meta = getContentMeta(chunk_meta->content_id);
+                            if (!content_meta.has_value()) continue;
+                            int64_t date_from = filters["date_from"].get<int64_t>();
+                            if (content_meta->created_at < date_from) continue;
+                        }
+                        if (filters.contains("date_to")) {
+                            auto content_meta = getContentMeta(chunk_meta->content_id);
+                            if (!content_meta.has_value()) continue;
+                            int64_t date_to = filters["date_to"].get<int64_t>();
+                            if (content_meta->created_at > date_to) continue;
+                        }
+                    }
+                    
+                    fulltext_scores[r.pk] = static_cast<float>(r.score);
+                    fulltext_ranks[r.pk] = rank++;
+                }
+            }
+        }
+    }
+    
+    // Step 3: Reciprocal Rank Fusion (RRF)
+    // RRF formula: score = sum_i [ weight_i / (k + rank_i) ]
+    // where k is typically 60, rank_i is the rank in result set i
+    
+    std::unordered_map<std::string, float> rrf_scores;
+    
+    // Combine vector scores
+    for (const auto& [chunk_id, rank] : vector_ranks) {
+        float rrf_score = vector_weight / (rrf_k + static_cast<float>(rank));
+        rrf_scores[chunk_id] += rrf_score;
+    }
+    
+    // Combine fulltext scores
+    for (const auto& [chunk_id, rank] : fulltext_ranks) {
+        float rrf_score = fulltext_weight / (rrf_k + static_cast<float>(rank));
+        rrf_scores[chunk_id] += rrf_score;
+    }
+    
+    // Step 4: Sort by combined RRF score and return top-k
+    for (const auto& [chunk_id, score] : rrf_scores) {
+        result.emplace_back(chunk_id, score);
+    }
+    
+    std::sort(result.begin(), result.end(), 
+        [](const auto& a, const auto& b) { return a.second > b.second; });
+    
+    if (result.size() > static_cast<size_t>(k)) {
+        result.resize(k);
+    }
+    
+    return result;
 }
 
 std::vector<std::pair<std::string, float>> ContentManager::searchWithExpansion(
@@ -982,6 +1297,206 @@ IContentProcessor* ContentManager::getProcessor(ContentCategory category) {
     auto it = processors_.find(category);
     if (it == processors_.end()) return nullptr;
     return it->second.get();
+}
+
+// ===================== Virtual Filesystem =====================
+
+std::optional<std::string> ContentManager::resolvePath(const std::string& virtual_path) {
+    std::optional<std::string> result;
+    
+    // Normalize path (remove trailing slash, ensure leading slash)
+    std::string normalized = virtual_path;
+    if (!normalized.empty() && normalized.back() == '/') {
+        normalized.pop_back();
+    }
+    if (normalized.empty() || normalized[0] != '/') {
+        normalized = "/" + normalized;
+    }
+    
+    // Scan all content items for matching virtual_path
+    storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+        try {
+            json j = json::parse(value);
+            if (j.contains("virtual_path") && j["virtual_path"].get<std::string>() == normalized) {
+                // Extract content ID from key "content:<uuid>"
+                std::string key_str(key);
+                if (key_str.size() > 8) {
+                    result = key_str.substr(8); // Skip "content:"
+                }
+                return false; // Stop scanning
+            }
+        } catch (...) {}
+        return true; // Continue scanning
+    });
+    
+    return result;
+}
+
+std::vector<ContentMeta> ContentManager::listDirectory(const std::string& virtual_path) {
+    std::vector<ContentMeta> results;
+    
+    // Normalize directory path
+    std::string dir_path = virtual_path;
+    if (!dir_path.empty() && dir_path.back() == '/') {
+        dir_path.pop_back();
+    }
+    if (dir_path.empty()) {
+        dir_path = "/";
+    }
+    
+    // Find all content with this directory as parent
+    // Strategy: Find directory content by path, then get children
+    auto dir_id = resolvePath(dir_path);
+    
+    if (dir_id.has_value()) {
+        // List children by parent_id
+        storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+            try {
+                json j = json::parse(value);
+                if (j.contains("parent_id") && j["parent_id"].get<std::string>() == *dir_id) {
+                    results.push_back(ContentMeta::fromJson(j));
+                }
+            } catch (...) {}
+            return true;
+        });
+    } else {
+        // If directory doesn't exist, list items directly under this path
+        std::string prefix = dir_path;
+        if (prefix != "/") prefix += "/";
+        
+        storage_->scanPrefix("content:", [&](std::string_view key, std::string_view value) {
+            try {
+                json j = json::parse(value);
+                if (j.contains("virtual_path")) {
+                    std::string vpath = j["virtual_path"].get<std::string>();
+                    // Check if this is a direct child
+                    if (vpath.size() > prefix.size() && vpath.rfind(prefix, 0) == 0) {
+                        std::string remainder = vpath.substr(prefix.size());
+                        // Direct child if no more slashes
+                        if (remainder.find('/') == std::string::npos) {
+                            results.push_back(ContentMeta::fromJson(j));
+                        }
+                    }
+                }
+            } catch (...) {}
+            return true;
+        });
+    }
+    
+    return results;
+}
+
+Status ContentManager::createDirectory(const std::string& virtual_path, bool recursive) {
+    // Normalize path
+    std::string normalized = virtual_path;
+    if (!normalized.empty() && normalized.back() == '/') {
+        normalized.pop_back();
+    }
+    if (normalized.empty() || normalized[0] != '/') {
+        normalized = "/" + normalized;
+    }
+    
+    // Check if already exists
+    auto existing = resolvePath(normalized);
+    if (existing.has_value()) {
+        return Status::Error("Directory already exists: " + normalized);
+    }
+    
+    // If recursive, create parent directories first
+    if (recursive) {
+        size_t pos = normalized.rfind('/');
+        if (pos > 0) {
+            std::string parent = normalized.substr(0, pos);
+            auto parent_status = createDirectory(parent, true);
+            if (!parent_status.ok) {
+                return parent_status;
+            }
+        }
+    }
+    
+    // Create directory entry
+    ContentMeta meta;
+    meta.id = generateUuid();
+    meta.virtual_path = normalized;
+    meta.is_directory = true;
+    meta.mime_type = "inode/directory";
+    meta.category = ContentCategory::BINARY;
+    meta.original_filename = normalized.substr(normalized.rfind('/') + 1);
+    meta.size_bytes = 0;
+    meta.created_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000;
+    meta.modified_at = meta.created_at;
+    meta.text_extracted = false;
+    meta.chunked = false;
+    meta.indexed = false;
+    meta.chunk_count = 0;
+    meta.embedding_dim = 0;
+    
+    // Set parent_id if not root
+    size_t parent_pos = normalized.rfind('/');
+    if (parent_pos > 0) {
+        std::string parent_path = normalized.substr(0, parent_pos);
+        auto parent_id = resolvePath(parent_path);
+        if (parent_id.has_value()) {
+            meta.parent_id = *parent_id;
+        }
+    }
+    
+    // Store directory metadata
+    std::string key = "content:" + meta.id;
+    std::string value = meta.toJson().dump();
+    if (!storage_->put(key, value)) {
+        return Status::Error("Failed to store directory metadata");
+    }
+    
+    return Status::OK();
+}
+
+Status ContentManager::registerPath(const std::string& content_id, const std::string& virtual_path) {
+    // Normalize path
+    std::string normalized = virtual_path;
+    if (!normalized.empty() && normalized.back() == '/') {
+        normalized.pop_back();
+    }
+    if (normalized.empty() || normalized[0] != '/') {
+        normalized = "/" + normalized;
+    }
+    
+    // Check if path already taken
+    auto existing = resolvePath(normalized);
+    if (existing.has_value() && *existing != content_id) {
+        return Status::Error("Path already exists: " + normalized);
+    }
+    
+    // Load content metadata
+    std::string key = "content:" + content_id;
+    auto val = storage_->get(key);
+    if (!val.has_value()) {
+        return Status::Error("Content not found: " + content_id);
+    }
+    
+    try {
+        json j = json::parse(*val);
+        j["virtual_path"] = normalized;
+        
+        // Set parent_id based on path hierarchy
+        size_t parent_pos = normalized.rfind('/');
+        if (parent_pos > 0) {
+            std::string parent_path = normalized.substr(0, parent_pos);
+            auto parent_id = resolvePath(parent_path);
+            if (parent_id.has_value()) {
+                j["parent_id"] = *parent_id;
+            }
+        }
+        
+        // Update stored metadata
+        if (!storage_->put(key, j.dump())) {
+            return Status::Error("Failed to update content metadata");
+        }
+        
+        return Status::OK();
+    } catch (const json::exception& e) {
+        return Status::Error(std::string("JSON error: ") + e.what());
+    }
 }
 
 ContentManager::Stats ContentManager::getStats() {

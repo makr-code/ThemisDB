@@ -61,12 +61,12 @@ nlohmann::json AuditLogEntry::toJson() const {
     j["action"] = action;
     j["entityType"] = entity_type;
     j["entityId"] = entity_id;
-    j["oldValue"] = old_value.empty() ? nullptr : nlohmann::json(old_value);
-    j["newValue"] = new_value.empty() ? nullptr : nlohmann::json(new_value);
+    j["oldValue"] = old_value.empty() ? nlohmann::json() : nlohmann::json(old_value);
+    j["newValue"] = new_value.empty() ? nlohmann::json() : nlohmann::json(new_value);
     j["success"] = success;
-    j["ipAddress"] = ip_address.empty() ? nullptr : nlohmann::json(ip_address);
-    j["sessionId"] = session_id.empty() ? nullptr : nlohmann::json(session_id);
-    j["errorMessage"] = error_message.empty() ? nullptr : nlohmann::json(error_message);
+    j["ipAddress"] = ip_address.empty() ? nlohmann::json() : nlohmann::json(ip_address);
+    j["sessionId"] = session_id.empty() ? nlohmann::json() : nlohmann::json(session_id);
+    j["errorMessage"] = error_message.empty() ? nlohmann::json() : nlohmann::json(error_message);
     
     return j;
 }

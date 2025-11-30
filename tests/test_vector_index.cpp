@@ -337,3 +337,183 @@ TEST_F(VectorIndexTest, PersistenceLoadInvalidDirectory_ReturnsError) {
     EXPECT_FALSE(st.ok);
     EXPECT_NE(st.message.find("meta.txt"), std::string::npos);
 }
+
+// =============================================================================
+// Filtered Vector Search Tests
+// =============================================================================
+
+TEST_F(VectorIndexTest, SearchKnnFiltered_AttributeEquals) {
+    vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
+    
+    // Add documents with categories
+    themis::BaseEntity doc1("doc1");
+    doc1.setField("id", "doc1");
+    doc1.setField("category", "science");
+    doc1.setField("embedding", std::vector<float>{1.0f, 0.0f, 0.0f});
+    vector_mgr_->addEntity(doc1);
+    
+    themis::BaseEntity doc2("doc2");
+    doc2.setField("id", "doc2");
+    doc2.setField("category", "news");
+    doc2.setField("embedding", std::vector<float>{0.9f, 0.1f, 0.0f});
+    vector_mgr_->addEntity(doc2);
+    
+    themis::BaseEntity doc3("doc3");
+    doc3.setField("id", "doc3");
+    doc3.setField("category", "science");
+    doc3.setField("embedding", std::vector<float>{0.8f, 0.0f, 0.2f});
+    vector_mgr_->addEntity(doc3);
+    
+    themis::BaseEntity doc4("doc4");
+    doc4.setField("id", "doc4");
+    doc4.setField("category", "news");
+    doc4.setField("embedding", std::vector<float>{0.7f, 0.3f, 0.0f});
+    vector_mgr_->addEntity(doc4);
+    
+    // Search with filter: only "science" category
+    std::vector<float> query{1.0f, 0.0f, 0.0f};
+    std::vector<themis::VectorIndexManager::AttributeFilter> filters;
+    filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
+    
+    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(st.ok) << st.message;
+    
+    // Should only return doc1 and doc3 (both science category)
+    EXPECT_EQ(results.size(), 2);
+    EXPECT_EQ(results[0].pk, "doc1");
+    EXPECT_EQ(results[1].pk, "doc3");
+}
+
+TEST_F(VectorIndexTest, SearchKnnFiltered_AttributeNotEquals) {
+    vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
+    
+    themis::BaseEntity doc1("doc1");
+    doc1.setField("id", "doc1");
+    doc1.setField("status", "archived");
+    doc1.setField("embedding", std::vector<float>{1.0f, 0.0f, 0.0f});
+    vector_mgr_->addEntity(doc1);
+    
+    themis::BaseEntity doc2("doc2");
+    doc2.setField("id", "doc2");
+    doc2.setField("status", "active");
+    doc2.setField("embedding", std::vector<float>{0.9f, 0.1f, 0.0f});
+    vector_mgr_->addEntity(doc2);
+    
+    themis::BaseEntity doc3("doc3");
+    doc3.setField("id", "doc3");
+    doc3.setField("status", "active");
+    doc3.setField("embedding", std::vector<float>{0.8f, 0.0f, 0.2f});
+    vector_mgr_->addEntity(doc3);
+    
+    // Filter: NOT archived
+    std::vector<float> query{1.0f, 0.0f, 0.0f};
+    std::vector<themis::VectorIndexManager::AttributeFilter> filters;
+    filters.push_back({"status", "archived", themis::VectorIndexManager::AttributeFilter::Op::NOT_EQUALS});
+    
+    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(st.ok) << st.message;
+    
+    EXPECT_EQ(results.size(), 2);
+    EXPECT_EQ(results[0].pk, "doc2");
+    EXPECT_EQ(results[1].pk, "doc3");
+}
+
+TEST_F(VectorIndexTest, SearchKnnFiltered_AttributeContains) {
+    vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
+    
+    themis::BaseEntity doc1("doc1");
+    doc1.setField("id", "doc1");
+    doc1.setField("tags", "machine-learning,ai");
+    doc1.setField("embedding", std::vector<float>{1.0f, 0.0f, 0.0f});
+    vector_mgr_->addEntity(doc1);
+    
+    themis::BaseEntity doc2("doc2");
+    doc2.setField("id", "doc2");
+    doc2.setField("tags", "database,sql");
+    doc2.setField("embedding", std::vector<float>{0.9f, 0.1f, 0.0f});
+    vector_mgr_->addEntity(doc2);
+    
+    themis::BaseEntity doc3("doc3");
+    doc3.setField("id", "doc3");
+    doc3.setField("tags", "ai,neural-networks");
+    doc3.setField("embedding", std::vector<float>{0.8f, 0.0f, 0.2f});
+    vector_mgr_->addEntity(doc3);
+    
+    // Filter: tags contains "ai"
+    std::vector<float> query{1.0f, 0.0f, 0.0f};
+    std::vector<themis::VectorIndexManager::AttributeFilter> filters;
+    filters.push_back({"tags", "ai", themis::VectorIndexManager::AttributeFilter::Op::CONTAINS});
+    
+    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(st.ok) << st.message;
+    
+    EXPECT_EQ(results.size(), 2);
+    EXPECT_EQ(results[0].pk, "doc1");
+    EXPECT_EQ(results[1].pk, "doc3");
+}
+
+TEST_F(VectorIndexTest, SearchKnnFiltered_MultipleFilters) {
+    vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
+    
+    themis::BaseEntity doc1("doc1");
+    doc1.setField("id", "doc1");
+    doc1.setField("category", "science");
+    doc1.setField("status", "active");
+    doc1.setField("embedding", std::vector<float>{1.0f, 0.0f, 0.0f});
+    vector_mgr_->addEntity(doc1);
+    
+    themis::BaseEntity doc2("doc2");
+    doc2.setField("id", "doc2");
+    doc2.setField("category", "science");
+    doc2.setField("status", "archived");
+    doc2.setField("embedding", std::vector<float>{0.95f, 0.05f, 0.0f});
+    vector_mgr_->addEntity(doc2);
+    
+    themis::BaseEntity doc3("doc3");
+    doc3.setField("id", "doc3");
+    doc3.setField("category", "news");
+    doc3.setField("status", "active");
+    doc3.setField("embedding", std::vector<float>{0.9f, 0.1f, 0.0f});
+    vector_mgr_->addEntity(doc3);
+    
+    themis::BaseEntity doc4("doc4");
+    doc4.setField("id", "doc4");
+    doc4.setField("category", "science");
+    doc4.setField("status", "active");
+    doc4.setField("embedding", std::vector<float>{0.85f, 0.0f, 0.15f});
+    vector_mgr_->addEntity(doc4);
+    
+    // Filter: category=science AND status=active
+    std::vector<float> query{1.0f, 0.0f, 0.0f};
+    std::vector<themis::VectorIndexManager::AttributeFilter> filters;
+    filters.push_back({"category", "science", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
+    filters.push_back({"status", "active", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
+    
+    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(st.ok) << st.message;
+    
+    // Should return doc1 and doc4 (both science AND active)
+    EXPECT_EQ(results.size(), 2);
+    EXPECT_EQ(results[0].pk, "doc1");
+    EXPECT_EQ(results[1].pk, "doc4");
+}
+
+TEST_F(VectorIndexTest, SearchKnnFiltered_NoMatchesAfterFilter) {
+    vector_mgr_->init("documents", 3, themis::VectorIndexManager::Metric::COSINE);
+    
+    themis::BaseEntity doc1("doc1");
+    doc1.setField("id", "doc1");
+    doc1.setField("category", "science");
+    doc1.setField("embedding", std::vector<float>{1.0f, 0.0f, 0.0f});
+    vector_mgr_->addEntity(doc1);
+    
+    // Filter for non-existent category
+    std::vector<float> query{1.0f, 0.0f, 0.0f};
+    std::vector<themis::VectorIndexManager::AttributeFilter> filters;
+    filters.push_back({"category", "nonexistent", themis::VectorIndexManager::AttributeFilter::Op::EQUALS});
+    
+    auto [st, results] = vector_mgr_->searchKnnFiltered(query, 2, filters);
+    ASSERT_TRUE(st.ok) << st.message;
+    EXPECT_EQ(results.size(), 0);
+}
+

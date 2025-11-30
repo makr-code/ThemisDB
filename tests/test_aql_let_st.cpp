@@ -30,8 +30,11 @@ protected:
                 convertedArgs.push_back(std::make_shared<LiteralExpr>(LiteralValue(static_cast<int64_t>(arg.get<int64_t>()))));
             } else if (arg.is_boolean()) {
                 convertedArgs.push_back(std::make_shared<LiteralExpr>(LiteralValue(arg.get<bool>())));
+            } else if (arg.is_null()) {
+                convertedArgs.push_back(std::make_shared<LiteralExpr>(LiteralValue(nullptr)));
             } else {
-                convertedArgs.push_back(std::make_shared<LiteralExpr>(LiteralValue(arg.dump())));
+                // For complex objects/arrays (GeoJSON), pass as JSON directly
+                convertedArgs.push_back(std::make_shared<LiteralExpr>(LiteralValue(arg)));
             }
         }
 
@@ -69,7 +72,7 @@ TEST_F(LetSTFunctionsTest, LET_ST_Buffer_Point) {
     auto funcCall = std::make_shared<FunctionCallExpr>(
         std::string("ST_Buffer"),
         std::vector<std::shared_ptr<Expression>>{
-            std::make_shared<LiteralExpr>(LiteralValue(point.dump())),
+            std::make_shared<LiteralExpr>(LiteralValue(point)),
             std::make_shared<LiteralExpr>(LiteralValue(0.5))
         }
     );
@@ -99,8 +102,8 @@ TEST_F(LetSTFunctionsTest, LET_ST_Distance_BetweenPoints) {
     auto funcCall = std::make_shared<FunctionCallExpr>(
         std::string("ST_Distance"),
         std::vector<std::shared_ptr<Expression>>{
-            std::make_shared<LiteralExpr>(LiteralValue(p1.dump())),
-            std::make_shared<LiteralExpr>(LiteralValue(p2.dump()))
+            std::make_shared<LiteralExpr>(LiteralValue(p1)),
+            std::make_shared<LiteralExpr>(LiteralValue(p2))
         }
     );
     
@@ -125,7 +128,7 @@ TEST_F(LetSTFunctionsTest, LET_ST_AsText_WKT_Output) {
     auto funcCall = std::make_shared<FunctionCallExpr>(
         std::string("ST_AsText"),
         std::vector<std::shared_ptr<Expression>>{
-            std::make_shared<LiteralExpr>(LiteralValue(point.dump()))
+            std::make_shared<LiteralExpr>(LiteralValue(point))
         }
     );
     
@@ -151,8 +154,8 @@ TEST_F(LetSTFunctionsTest, LET_ST_DWithin_Proximity) {
     auto funcCall = std::make_shared<FunctionCallExpr>(
         std::string("ST_DWithin"),
         std::vector<std::shared_ptr<Expression>>{
-            std::make_shared<LiteralExpr>(LiteralValue(center.dump())),
-            std::make_shared<LiteralExpr>(LiteralValue(nearby.dump())),
+            std::make_shared<LiteralExpr>(LiteralValue(center)),
+            std::make_shared<LiteralExpr>(LiteralValue(nearby)),
             std::make_shared<LiteralExpr>(LiteralValue(1.0))
         }
     );
@@ -179,8 +182,8 @@ TEST_F(LetSTFunctionsTest, LET_ST_Union_MBR) {
     auto funcCall = std::make_shared<FunctionCallExpr>(
         std::string("ST_Union"),
         std::vector<std::shared_ptr<Expression>>{
-            std::make_shared<LiteralExpr>(LiteralValue(p1.dump())),
-            std::make_shared<LiteralExpr>(LiteralValue(p2.dump()))
+            std::make_shared<LiteralExpr>(LiteralValue(p1)),
+            std::make_shared<LiteralExpr>(LiteralValue(p2))
         }
     );
     

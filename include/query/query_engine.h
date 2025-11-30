@@ -44,6 +44,77 @@ struct VectorGeoQuery {
     std::vector<std::shared_ptr<query::Expression>> extra_filters; // evaluated conjunctively
 };
 
+// Filtered Vector Search Query (Pure Vector + Attribute Filters, NO Geo)
+struct FilteredVectorSearchQuery {
+    std::string table;
+    std::string vector_field = "embedding";
+    std::vector<float> query_vector;
+    size_t k = 10;
+    
+    // Attribute filters for pre-filtering via SecondaryIndex
+    struct AttributeFilter {
+        std::string field;
+        // Vermeide Konflikt mit möglichem Windows Makro IN
+        #ifdef IN
+        #undef IN
+        #endif
+        enum class Op { 
+            EQUALS,           // field == value
+            NOT_EQUALS,       // field != value (post-filter only)
+            CONTAINS,         // string contains (post-filter only)
+            GREATER_THAN,     // field > value
+            LESS_THAN,        // field < value
+            GREATER_EQUAL,    // field >= value
+            LESS_EQUAL,       // field <= value
+            IN,               // field in [values]
+            RANGE             // value_min <= field <= value_max
+        } op = Op::EQUALS;
+        
+        std::string value;              // For EQUALS, GT, LT, GTE, LTE, NOT_EQUALS, CONTAINS
+        std::vector<std::string> values; // For IN
+        std::string value_min;          // For RANGE
+        std::string value_max;          // For RANGE
+    };
+    
+    std::vector<AttributeFilter> filters;
+    
+    // Strategy hint: "auto", "pre-filter", "post-filter"
+    std::string strategy = "auto";
+};
+
+// Radius Vector Search Query (Epsilon-based neighbors)
+struct RadiusVectorSearchQuery {
+    std::string table;
+    std::string vector_field = "embedding";
+    std::vector<float> query_vector;
+    float epsilon = 0.5f;  // Distance threshold
+    size_t max_results = 0; // 0 = unlimited
+    
+    // Reuse AttributeFilter from FilteredVectorSearchQuery
+    std::vector<FilteredVectorSearchQuery::AttributeFilter> filters;
+    std::string strategy = "auto";
+};
+
+// Content Search Query (Fulltext + Metadata Filtering)
+struct ContentSearchQuery {
+    std::string table;
+    std::string fulltext_field = "content"; // Field containing text content
+    std::string fulltext_query;             // Search query string
+    size_t limit = 100;
+    
+    // Optional metadata filters (category, mime_type, author, etc.)
+    struct MetadataFilter {
+        std::string field;
+        enum class Op { EQUALS, NOT_EQUALS, CONTAINS, IN } op = Op::EQUALS;
+        std::string value;
+        std::vector<std::string> values; // for IN
+    };
+    std::vector<MetadataFilter> metadata_filters;
+    
+    // Score threshold (BM25)
+    double min_score = 0.0;
+};
+
 // Content + Geo Hybrid Query
 struct ContentGeoQuery {
     std::string table;
@@ -163,6 +234,16 @@ public:
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx);
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx,
                 VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx);
+    
+    // Forward declaration for EvaluationContext
+    struct EvaluationContext;
+    
+    // Expression evaluation (public for testing)
+    bool evaluateCondition(
+        const std::shared_ptr<query::Expression>& expr,
+        const EvaluationContext& ctx
+    ) const;
+    
     // Rekursive Pfadabfrage (Multi-Hop Traversal)
     std::pair<Status, std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
 
@@ -268,9 +349,39 @@ public:
     std::pair<Status, std::vector<ContentGeoResult>> executeContentGeoQuery(
         const ContentGeoQuery& q
     ) const;
-
-    // Forward declaration for EvaluationContext (defined after private members)
-    struct EvaluationContext;
+    
+    // Filtered Vector Search: Pure vector search with attribute pre/post-filtering
+    // No spatial constraints (use VectorGeoQuery for geo+vector)
+    struct FilteredVectorSearchResult {
+        std::string pk;
+        float vector_distance;
+        nlohmann::json entity;
+    };
+    std::pair<Status, std::vector<FilteredVectorSearchResult>> executeFilteredVectorSearch(
+        const FilteredVectorSearchQuery& q
+    ) const;
+    
+    // Radius Vector Search: Epsilon-based neighbors with attribute filtering
+    // Returns all vectors within distance threshold (epsilon)
+    struct RadiusVectorSearchResult {
+        std::string pk;
+        float vector_distance;
+        nlohmann::json entity;
+    };
+    std::pair<Status, std::vector<RadiusVectorSearchResult>> executeRadiusVectorSearch(
+        const RadiusVectorSearchQuery& q
+    ) const;
+    
+    // Content Search: Fulltext + Metadata filtering
+    // Returns documents matching fulltext query and metadata filters
+    struct ContentSearchResult {
+        std::string pk;
+        double bm25_score;
+        nlohmann::json entity;
+    };
+    std::pair<Status, std::vector<ContentSearchResult>> executeContentSearch(
+        const ContentSearchQuery& q
+    ) const;
 
 private:
     RocksDBWrapper& db_;
@@ -281,11 +392,6 @@ private:
     
     // Expression evaluation helpers (implemented in cpp)
     nlohmann::json evaluateExpression(
-        const std::shared_ptr<query::Expression>& expr,
-        const EvaluationContext& ctx
-    ) const;
-    
-    bool evaluateCondition(
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;

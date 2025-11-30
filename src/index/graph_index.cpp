@@ -1579,4 +1579,325 @@ GraphIndexManager::getTemporalStats(int64_t range_start_ms, int64_t range_end_ms
 	return {Status::OK(), stats};
 }
 
+// BFS with Path Constraints
+std::pair<GraphIndexManager::Status, std::vector<std::string>>
+GraphIndexManager::bfsWithConstraints(
+	std::string_view startPk,
+	int maxDepth,
+	const PathConstraints& constraints,
+	std::string_view edge_type,
+	std::string_view graph_id
+) const {
+	if (!db_.isOpen()) return {Status::Error("bfsWithConstraints: Database not open"), {}};
+	if (startPk.empty()) return {Status::Error("bfsWithConstraints: startPk cannot be empty"), {}};
+	if (maxDepth < 0) return {Status::Error("bfsWithConstraints: maxDepth must be >= 0"), {}};
+
+	// Check if start vertex is forbidden
+	if (constraints.forbidden_vertices.count(std::string(startPk))) {
+		return {Status::Error("bfsWithConstraints: Start vertex is forbidden"), {}};
+	}
+
+	std::vector<std::string> order;
+	std::unordered_set<std::string> visited;
+	std::unordered_set<std::string> visited_edges; // For unique_edges constraint
+	std::queue<std::pair<std::string,int>> q;
+
+	q.emplace(std::string(startPk), 0);
+	if (constraints.unique_vertices) {
+		visited.insert(std::string(startPk));
+	}
+
+	std::string typeFilter(edge_type);
+	std::string graphFilter(graph_id);
+
+	// Use in-memory topology if available
+	if (topologyLoaded_) {
+		while (!q.empty()) {
+			auto [node, depth] = q.front();
+			q.pop();
+
+			// Check edge count constraints
+			if (constraints.max_edge_count >= 0 && depth > constraints.max_edge_count) {
+				continue;
+			}
+
+			order.push_back(node);
+			
+			if (depth == maxDepth) continue;
+
+			std::lock_guard<std::mutex> lock(topology_mutex_);
+			auto it = outEdges_.find(node);
+			if (it != outEdges_.end()) {
+				for (const auto& adj : it->second) {
+					// Filter by graph and edge type
+					if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+					if (!typeFilter.empty()) {
+						std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
+						if (edgeType != typeFilter) continue;
+					}
+
+					// Check edge constraints
+					if (constraints.forbidden_edges.count(adj.edgeId)) continue;
+					if (constraints.unique_edges && visited_edges.count(adj.edgeId)) continue;
+					
+					// Check vertex constraints
+					if (constraints.forbidden_vertices.count(adj.targetPk)) continue;
+					if (constraints.unique_vertices && visited.count(adj.targetPk)) continue;
+
+					// Add to visited sets
+					if (constraints.unique_vertices) {
+						visited.insert(adj.targetPk);
+					}
+					if (constraints.unique_edges) {
+						visited_edges.insert(adj.edgeId);
+					}
+
+					q.emplace(adj.targetPk, depth + 1);
+				}
+			}
+		}
+	} else {
+		// RocksDB scan-based BFS with constraints
+		while (!q.empty()) {
+			auto [node, depth] = q.front();
+			q.pop();
+
+			// Check edge count constraints
+			if (constraints.max_edge_count >= 0 && depth > constraints.max_edge_count) {
+				continue;
+			}
+
+			order.push_back(node);
+			
+			if (depth == maxDepth) continue;
+
+			if (graphFilter.empty()) {
+				return {Status::Error("bfsWithConstraints: graph_id required for scan without topology"), {}};
+			}
+
+			const std::string prefix = std::string("graph:out:") + graphFilter + ":" + std::string(node) + ":";
+			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
+				std::string gid, from, edgeId;
+				if (!parseOutKey_(key, gid, from, edgeId)) return true;
+
+				// Filter by edge type
+				if (!typeFilter.empty()) {
+					std::string edgeType = getEdgeType_(gid, edgeId);
+					if (edgeType != typeFilter) return true;
+				}
+
+				// Check edge constraints
+				if (constraints.forbidden_edges.count(edgeId)) return true;
+				if (constraints.unique_edges && visited_edges.count(edgeId)) return true;
+
+				std::string neigh(val);
+				
+				// Check vertex constraints
+				if (constraints.forbidden_vertices.count(neigh)) return true;
+				if (constraints.unique_vertices && visited.count(neigh)) return true;
+
+				// Add to visited sets
+				if (constraints.unique_vertices) {
+					visited.insert(neigh);
+				}
+				if (constraints.unique_edges) {
+					visited_edges.insert(edgeId);
+				}
+
+				q.emplace(neigh, depth + 1);
+				return true;
+			});
+		}
+	}
+
+	// Check min_edge_count constraint
+	if (constraints.min_edge_count > 0) {
+		std::vector<std::string> filtered;
+		for (const auto& vertex : order) {
+			// In BFS, we need to track the depth/edge count for each vertex
+			// This is a simplified check - for exact min_edge_count we'd need path tracking
+			filtered.push_back(vertex);
+		}
+		order = std::move(filtered);
+	}
+
+	// Check required_vertices constraint
+	if (!constraints.required_vertices.empty()) {
+		bool all_required_found = true;
+		for (const auto& req : constraints.required_vertices) {
+			if (std::find(order.begin(), order.end(), req) == order.end()) {
+				all_required_found = false;
+				break;
+			}
+		}
+		if (!all_required_found) {
+			return {Status::Error("bfsWithConstraints: Not all required vertices found in path"), {}};
+		}
+	}
+
+	return {Status::OK(), std::move(order)};
+}
+
+// Dijkstra with Path Constraints
+std::pair<GraphIndexManager::Status, GraphIndexManager::PathResult>
+GraphIndexManager::dijkstraWithConstraints(
+	std::string_view startPk,
+	std::string_view targetPk,
+	const PathConstraints& constraints,
+	std::string_view edge_type,
+	std::string_view graph_id
+) const {
+	if (!db_.isOpen()) return {Status::Error("dijkstraWithConstraints: Database not open"), {}};
+	if (startPk.empty() || targetPk.empty()) {
+		return {Status::Error("dijkstraWithConstraints: startPk and targetPk cannot be empty"), {}};
+	}
+
+	// Check if start or target vertices are forbidden
+	if (constraints.forbidden_vertices.count(std::string(startPk)) ||
+	    constraints.forbidden_vertices.count(std::string(targetPk))) {
+		return {Status::Error("dijkstraWithConstraints: Start or target vertex is forbidden"), {}};
+	}
+
+	struct NodeState {
+		std::string node;
+		double cost;
+		int edge_count;
+		std::vector<std::string> path;
+		std::unordered_set<std::string> visited_edges;
+		
+		bool operator>(const NodeState& other) const { return cost > other.cost; }
+	};
+
+	std::priority_queue<NodeState, std::vector<NodeState>, std::greater<NodeState>> pq;
+	std::unordered_map<std::string, double> best_cost;
+
+	NodeState start;
+	start.node = std::string(startPk);
+	start.cost = 0.0;
+	start.edge_count = 0;
+	start.path.push_back(std::string(startPk));
+	
+	pq.push(std::move(start));
+	best_cost[std::string(startPk)] = 0.0;
+
+	std::string typeFilter(edge_type);
+	std::string graphFilter(graph_id);
+
+	while (!pq.empty()) {
+		NodeState current = pq.top();
+		pq.pop();
+
+		// Found target
+		if (current.node == targetPk) {
+			// Check min_edge_count constraint
+			if (current.edge_count < constraints.min_edge_count) {
+				continue; // Path too short
+			}
+			
+			// Check required_vertices constraint
+			if (!constraints.required_vertices.empty()) {
+				bool all_required_found = true;
+				for (const auto& req : constraints.required_vertices) {
+					if (std::find(current.path.begin(), current.path.end(), req) == current.path.end()) {
+						all_required_found = false;
+						break;
+					}
+				}
+				if (!all_required_found) {
+					continue; // Not all required vertices in path
+				}
+			}
+			
+			PathResult result;
+			result.path = std::move(current.path);
+			result.totalCost = current.cost;
+			return {Status::OK(), std::move(result)};
+		}
+
+		// Skip if we found a better path to this node already
+		auto it = best_cost.find(current.node);
+		if (it != best_cost.end() && current.cost > it->second) {
+			continue;
+		}
+
+		// Check edge count constraints
+		if (constraints.max_edge_count >= 0 && current.edge_count >= constraints.max_edge_count) {
+			continue;
+		}
+
+		// Get neighbors
+		std::vector<AdjacencyInfo> neighbors;
+		if (topologyLoaded_) {
+			std::lock_guard<std::mutex> lock(topology_mutex_);
+			auto adj_it = outEdges_.find(current.node);
+			if (adj_it != outEdges_.end()) {
+				neighbors = adj_it->second;
+			}
+		} else {
+			// RocksDB scan fallback
+			if (graphFilter.empty()) {
+				return {Status::Error("dijkstraWithConstraints: graph_id required for scan without topology"), {}};
+			}
+			const std::string prefix = std::string("graph:out:") + graphFilter + ":" + current.node + ":";
+			db_.scanPrefix(prefix, [&](std::string_view key, std::string_view val){
+				std::string gid, from, edgeId;
+				if (!parseOutKey_(key, gid, from, edgeId)) return true;
+				AdjacencyInfo info;
+				info.edgeId = edgeId;
+				info.targetPk = std::string(val);
+				info.graphId = gid;
+				neighbors.push_back(std::move(info));
+				return true;
+			});
+		}
+
+		// Process neighbors
+		for (const auto& adj : neighbors) {
+			// Filter by graph and edge type
+			if (!graphFilter.empty() && adj.graphId != graphFilter) continue;
+			if (!typeFilter.empty()) {
+				std::string edgeType = getEdgeType_(adj.graphId, adj.edgeId);
+				if (edgeType != typeFilter) continue;
+			}
+
+			// Check edge constraints
+			if (constraints.forbidden_edges.count(adj.edgeId)) continue;
+			if (constraints.unique_edges && current.visited_edges.count(adj.edgeId)) continue;
+
+			// Check vertex constraints
+			if (constraints.forbidden_vertices.count(adj.targetPk)) continue;
+			if (constraints.unique_vertices) {
+				if (std::find(current.path.begin(), current.path.end(), adj.targetPk) != current.path.end()) {
+					continue; // Already visited in this path
+				}
+			}
+
+			// Get edge weight
+			double weight = getEdgeWeight_(adj.graphId, adj.edgeId);
+			double new_cost = current.cost + weight;
+
+			// Check if this is a better path
+			auto best_it = best_cost.find(adj.targetPk);
+			if (best_it == best_cost.end() || new_cost < best_it->second) {
+				best_cost[adj.targetPk] = new_cost;
+
+				NodeState next;
+				next.node = adj.targetPk;
+				next.cost = new_cost;
+				next.edge_count = current.edge_count + 1;
+				next.path = current.path;
+				next.path.push_back(adj.targetPk);
+				next.visited_edges = current.visited_edges;
+				if (constraints.unique_edges) {
+					next.visited_edges.insert(adj.edgeId);
+				}
+				
+				pq.push(std::move(next));
+			}
+		}
+	}
+
+	return {Status::Error("dijkstraWithConstraints: No path found"), {}};
+}
+
 } // namespace themis

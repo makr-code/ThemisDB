@@ -39,6 +39,10 @@ public:
     bool hasIndex(std::string_view table, std::string_view column) const;
     bool hasCompositeIndex(std::string_view table, const std::vector<std::string>& columns) const;
 
+    // Backward-compatibility: Unified IndexType for simple "createIndex(..., IndexType)"
+    enum class IndexType { REGULAR, RANGE, SPARSE, GEO, TTL, FULLTEXT };
+    Status createIndex(std::string_view table, std::string_view column, IndexType type);
+
     // Range-/Sort-Index (lexikografisch über String-Encoding)
     Status createRangeIndex(std::string_view table, std::string_view column);
     Status dropRangeIndex(std::string_view table, std::string_view column);
