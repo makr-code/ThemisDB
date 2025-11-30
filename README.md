@@ -17,11 +17,16 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 ## 📊 Entwicklungsstand & Dokumentation
 
 **Kern-Dokumentation (Neu konsolidiert):**
-- **[Features Liste](FEATURES.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
+- **[Features Liste](docs/FEATURES.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
 - **[Development Audit Log](DEVELOPMENT_AUDITLOG.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
-- **[Roadmap](ROADMAP.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
-- **[Next Implementation Priorities](NEXT_IMPLEMENTATION_PRIORITIES.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
+- **[Roadmap](docs/ROADMAP.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
+- **[Next Implementation Priorities](docs/NEXT_IMPLEMENTATION_PRIORITIES.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
 - **[Changelog](CHANGELOG.md)** - Detaillierte Änderungshistorie nach Semantic Versioning
+
+**Enterprise Features:**
+- **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool
+- **[Build Strategy](docs/BUILD_STRATEGY.md)** - Build-Toolchain inkl. Enterprise Builds
+- **[Integration Analysis](docs/reports/INTEGRATION_ANALYSIS.md)** - Koexistenz mit Legacy-Code
 
 **Für Stakeholder:**
 - **[Themis Sachstandsbericht 2025](THEMIS_SACHSTANDSBERICHT_2025.md)** - Executive Summary, Performance-Benchmarks, Compliance-Readiness

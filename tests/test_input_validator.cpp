@@ -84,7 +84,9 @@ TEST_F(InputValidatorTest, RejectEncodedTraversal) {
 }
 
 TEST_F(InputValidatorTest, RejectControlCharacters) {
-    EXPECT_FALSE(validator_->validatePathSegment("key\x00value"));
+    // Use explicit string construction to include NUL byte
+    std::string nul_str = std::string("key") + '\x00' + std::string("value");
+    EXPECT_FALSE(validator_->validatePathSegment(nul_str));
     EXPECT_FALSE(validator_->validatePathSegment("key\nvalue"));
     EXPECT_FALSE(validator_->validatePathSegment("key\x7fvalue"));
 }
@@ -163,8 +165,9 @@ TEST_F(InputValidatorTest, RejectTooLargeQuery) {
 }
 
 TEST_F(InputValidatorTest, RejectQueryWithControlChars) {
+    std::string query_with_nul = std::string("FOR doc IN collection") + '\x00' + std::string("RETURN doc");
     json invalid = {
-        {"query", "FOR doc IN collection\x00RETURN doc"}
+        {"query", query_with_nul}
     };
     auto err = validator_->validateAqlRequest(invalid);
     EXPECT_TRUE(err.has_value());
@@ -289,7 +292,14 @@ TEST_F(InputValidatorTest, ValidateNonObjectPayload) {
 // ============================================================================
 
 TEST_F(InputValidatorTest, SanitizeForLogs) {
-    std::string input = "normal text\x00\x01\x1F" "control" "\x7F" "chars";
+    // Build string with control characters explicitly
+    std::string input = "normal text";
+    input += '\x00';
+    input += '\x01';
+    input += '\x1F';
+    input += "control";
+    input += '\x7F';
+    input += "chars";
     std::string sanitized = validator_->sanitizeForLogs(input);
     
     // Control characters should be removed

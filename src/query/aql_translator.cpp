@@ -267,7 +267,7 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
     }
 
     // Hybrid vector+geo detection for single-FOR queries using SORT sugar
-    if (ast->sort && ast->sort->specifications.size() == 1 && ast->for_nodes.empty()) {
+    if (ast->sort && ast->sort->specifications.size() == 1 && ast->for_nodes.size() == 1) {
         const auto& spec = ast->sort->specifications[0];
         if (spec.expression) {
             // Specialized SIMILARITY() node path

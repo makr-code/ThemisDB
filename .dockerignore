@@ -1,45 +1,134 @@
-# Exclude build artifacts and local environment files from Docker build context
-build/*
-!build/themis_server
+# ============================================================================
+# .dockerignore - Docker Build Context Optimization
+# ============================================================================
+# Reduziert Build-Context von ~200k+ auf ~500 Dateien
+# Spart ~1-2 GB Upload-Zeit zum Docker-Daemon
+
+# --- Build Artifacts (nicht für Docker-Build nötig) ------------------------
+build/
 build-*/
-.git/
-.gitignore
-vcpkg_installed/
-external/
+out/
+bin/
+lib/
+dist/
 Testing/
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+
+# --- vcpkg (wird im Docker neu gebaut - 163k+ Dateien!) --------------------
+vcpkg_installed/
+vcpkg/
+.vcpkg/
+packages/
+downloads/
+buildtrees/
+
+# --- Development & Testing (nicht für Production) --------------------------
+tests/
+benchmarks/
+fuzz/
+data/
+test_geo_integration_db/
+examples/
+adapters/
+clients/
+
+# --- Documentation (nicht für Runtime) -------------------------------------
+docs/
+site/
+wiki/
+wiki_out/
+wiki-temp/
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE.md
+
+# --- Developer Tools (nicht für Production) --------------------------------
+tools/
+.tools/
+scripts/
+.github/
 .vscode/
 .idea/
+.vs/
+
+# --- Logs und temporäre Dateien --------------------------------------------
+logs/
 *.log
 *.pid
 *.err
+*.out
 tmp*/
 test_output*
-dist/
-site/
-docs/
-tests/
-data/
-benchmarks/
-adapters/
-clients/
-tools/
-wiki_out/
-__pycache__/
-\.pytest_cache/
-node_modules/
+server.pid
+server.err
+server.out
+
+# --- Git Repository --------------------------------------------------------
+.git/
+.gitignore
+.gitattributes
+
+# --- IDE und OS Dateien ----------------------------------------------------
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.suo
+*.user
+.vscode/
+.idea/
+
+# --- Build Artefakte (kompiliert) ------------------------------------------
 *.o
 *.obj
-*.exe
-*.dll
-*.so
-*.dylib
-*.pdb
+*.a
 *.lib
+*.so
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.dylib
+
+# --- Archive und Packages --------------------------------------------------
 *.tar.gz
 *.zip
-Dockerfile*~
-# Keep essential files
-!README.md
-!QNAP_DEPLOYMENT.md
+*.deb
+*.rpm
+*.tgz
+
+# --- Python (falls vorhanden) ----------------------------------------------
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+*.egg-info/
+
+# --- Node.js (falls vorhanden) ---------------------------------------------
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# --- Packaging (nicht für Docker-Build) ------------------------------------
+packaging/
+debian/
+PKGBUILD
+*.spec
+
+# ============================================================================
+# Explizit einbeziehen (überschreibt obige Regeln)
+# ============================================================================
+!CMakeLists.txt
 !vcpkg.json
 !vcpkg-configuration.json
+!Dockerfile
+!docker-compose*.yml
+!setup.sh
+!build.sh
+
+# --- Ende .dockerignore -----------------------------------------------------

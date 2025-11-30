@@ -234,6 +234,16 @@ public:
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx);
     QueryEngine(RocksDBWrapper& db, SecondaryIndexManager& secIdx, GraphIndexManager& graphIdx,
                 VectorIndexManager* vectorIdx, SpatialIndexManager* spatialIdx);
+    
+    // Forward declaration for EvaluationContext
+    struct EvaluationContext;
+    
+    // Expression evaluation (public for testing)
+    bool evaluateCondition(
+        const std::shared_ptr<query::Expression>& expr,
+        const EvaluationContext& ctx
+    ) const;
+    
     // Rekursive Pfadabfrage (Multi-Hop Traversal)
     std::pair<Status, std::vector<std::vector<std::string>>> executeRecursivePathQuery(const RecursivePathQuery& q) const;
 
@@ -373,9 +383,6 @@ public:
         const ContentSearchQuery& q
     ) const;
 
-    // Forward declaration for EvaluationContext (defined after private members)
-    struct EvaluationContext;
-
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -385,11 +392,6 @@ private:
     
     // Expression evaluation helpers (implemented in cpp)
     nlohmann::json evaluateExpression(
-        const std::shared_ptr<query::Expression>& expr,
-        const EvaluationContext& ctx
-    ) const;
-    
-    bool evaluateCondition(
         const std::shared_ptr<query::Expression>& expr,
         const EvaluationContext& ctx
     ) const;

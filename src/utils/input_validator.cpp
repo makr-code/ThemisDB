@@ -121,7 +121,7 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     if (q.empty()) return std::string("AQL query must not be empty");
     if (q.size() > 100000) return std::string("AQL query too large (>100k)");
 
-    // Disallow control characters and NULs
+    // Disallow control characters (including NUL bytes)
     for (char c : q) {
         if (isAsciiControl(c) && c != '\n' && c != '\t' && c != '\r') {
             return std::string("AQL query contains control characters");
@@ -130,8 +130,8 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     // Very conservative blacklist (injection & multiple statements patterns)
     std::string lower = q; std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
     if (lower.find(";;") != std::string::npos) return std::string("multiple statement separator not allowed");
-    if (lower.find("\0") != std::string::npos) return std::string("NUL byte not allowed");
-    // Disallow obvious DDL/DML tokens that don't belong in read-only endpoints (adjust as needed)
+    
+    // Disallow obvious DDL/DML tokens that don't belong in read-only endpoints
     static const char* forbidden[] = { "drop ", "truncate ", "alter ", "grant ", "revoke ", "create table", "insert ", "update ", "delete " };
     for (auto* f : forbidden) {
         if (lower.find(f) != std::string::npos) {
