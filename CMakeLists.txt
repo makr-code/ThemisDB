@@ -354,6 +354,7 @@ set(THEMIS_CORE_SOURCES
     src/query/cte_cache.cpp
     src/query/statistical_aggregator.cpp
     src/query/semantic_cache.cpp
+    src/query/functions/function_registry.cpp
     
     src/server/http_server.cpp
     src/server/sse_connection_manager.cpp
