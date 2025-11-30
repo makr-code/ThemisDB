@@ -55,7 +55,8 @@ using LiteralValue = std::variant<
     bool,               // true/false
     int64_t,            // integers
     double,             // floats
-    std::string         // strings
+    std::string,        // strings
+    nlohmann::json      // complex objects/arrays (for ST_* functions)
 >;
 
 // ============================================================================

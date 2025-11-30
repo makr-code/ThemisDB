@@ -188,8 +188,13 @@ bool RocksDBWrapper::open() {
 
     // List existing column families to open them all
     std::vector<std::string> cf_names;
+    rocksdb::DBOptions db_opts;
+    db_opts.create_if_missing = options_->create_if_missing;
+    db_opts.create_missing_column_families = options_->create_missing_column_families;
+    db_opts.max_open_files = options_->max_open_files;
+    db_opts.max_background_jobs = options_->max_background_jobs;
     rocksdb::Status list_status = rocksdb::DB::ListColumnFamilies(
-        rocksdb::DBOptions(*options_), 
+        db_opts, 
         config_.db_path, 
         &cf_names
     );

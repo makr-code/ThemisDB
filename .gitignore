@@ -13,13 +13,20 @@ CTestTestfile.cmake
 Makefile
 *.cmake
 
-# vcpkg (local installs)
+# vcpkg (local installs - 163k+ files!)
 vcpkg_installed/
 .vcpkg/
 vcpkg/
 packages/
 downloads/
 buildtrees/
+
+# Distribution artifacts (not needed in repo)
+dist/
+*.tar.gz
+*.zip
+*.deb
+*.rpm
 
 # IDE / editor
 .idea/
@@ -76,13 +83,25 @@ docker_build.log
 docker_build_*.log
 tidy_full.log
 
+# Local data directories (development/testing only)
+data/
+test_geo_integration_db/
+Testing/
+
 # Temporary test/development files
 tmp_*.json
 body.json
 test_output*.txt
+test_*.txt
 CTempmetrics_from_test.txt
 diff_aql.txt
 geo-aql-todo
+test_geo_integration_db/
+
+# Test outputs and integration scripts (moved to tests/)
+tests/outputs/
+tests/integration-scripts/*.ps1
+tests/standalone/test_*.cpp
 
 # Documentation build output
 docs/_build/

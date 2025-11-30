@@ -25,15 +25,15 @@ protected:
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         engine = std::make_unique<QueryEngine>(*db, *secIdx);
 
-        // Insert documents into 'places' with geometry as GeoJSON string
+        // Insert documents into 'places' with geometry as GeoJSON string (clean JSON, not escaped)
         BaseEntity p1("p1");
         p1.setField("name", std::string("inside"));
-        p1.setField("geom", std::string(R"({\"type\":\"Point\",\"coordinates\":[1.0,1.0]})"));
+        p1.setField("geom", std::string(R"({"type":"Point","coordinates":[1.0,1.0]})"));
         secIdx->put("places", p1);
 
         BaseEntity p2("p2");
         p2.setField("name", std::string("outside"));
-        p2.setField("geom", std::string(R"({\"type\":\"Point\",\"coordinates\":[10.0,10.0]})"));
+        p2.setField("geom", std::string(R"({"type":"Point","coordinates":[10.0,10.0]})"));
         secIdx->put("places", p2);
     }
 

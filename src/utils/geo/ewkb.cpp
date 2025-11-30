@@ -342,8 +342,47 @@ GeometryInfo EWKBParser::parseGeoJSON(const std::string& geojson_str) {
         } else {
             geom.coords.emplace_back(x, y);
         }
+    } else if (type == "LineString") {
+        auto coords_arr = j["coordinates"];
+        bool has_z = !coords_arr.empty() && coords_arr[0].size() > 2;
+        geom.type = has_z ? GeometryType::LineStringZ : GeometryType::LineString;
+        geom.has_z = has_z;
+        
+        for (const auto& coord : coords_arr) {
+            double x = coord[0];
+            double y = coord[1];
+            if (has_z) {
+                geom.coords.emplace_back(x, y, coord[2].get<double>());
+            } else {
+                geom.coords.emplace_back(x, y);
+            }
+        }
+    } else if (type == "Polygon") {
+        auto rings_arr = j["coordinates"];
+        if (rings_arr.empty()) {
+            throw std::runtime_error("GeoJSON Polygon must have at least one ring");
+        }
+        
+        bool has_z = !rings_arr[0].empty() && rings_arr[0][0].size() > 2;
+        geom.type = has_z ? GeometryType::PolygonZ : GeometryType::Polygon;
+        geom.has_z = has_z;
+        
+        for (const auto& ring : rings_arr) {
+            std::vector<Coordinate> ring_coords;
+            for (const auto& coord : ring) {
+                double x = coord[0];
+                double y = coord[1];
+                if (has_z) {
+                    ring_coords.emplace_back(x, y, coord[2].get<double>());
+                } else {
+                    ring_coords.emplace_back(x, y);
+                }
+            }
+            geom.rings.push_back(std::move(ring_coords));
+        }
+    } else {
+        throw std::runtime_error("Unsupported GeoJSON type: " + type);
     }
-    // ... More GeoJSON types can be added here
     
     return geom;
 }
@@ -360,8 +399,33 @@ std::string EWKBParser::toGeoJSON(const GeometryInfo& geom) {
         } else {
             j["coordinates"] = {c.x, c.y};
         }
+    } else if (geom.isLineString()) {
+        j["type"] = "LineString";
+        json coords_arr = json::array();
+        for (const auto& c : geom.coords) {
+            if (geom.has_z) {
+                coords_arr.push_back({c.x, c.y, c.getZ()});
+            } else {
+                coords_arr.push_back({c.x, c.y});
+            }
+        }
+        j["coordinates"] = coords_arr;
+    } else if (geom.isPolygon()) {
+        j["type"] = "Polygon";
+        json rings_arr = json::array();
+        for (const auto& ring : geom.rings) {
+            json ring_coords = json::array();
+            for (const auto& c : ring) {
+                if (geom.has_z) {
+                    ring_coords.push_back({c.x, c.y, c.getZ()});
+                } else {
+                    ring_coords.push_back({c.x, c.y});
+                }
+            }
+            rings_arr.push_back(ring_coords);
+        }
+        j["coordinates"] = rings_arr;
     }
-    // ... More geometry types
     
     return j.dump();
 }

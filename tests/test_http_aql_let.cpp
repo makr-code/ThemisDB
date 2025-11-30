@@ -46,7 +46,11 @@ protected:
             themis::BaseEntity::fromFields("alice", themis::BaseEntity::FieldMap{{"name","Alice"},{"age","25"},{"city","Berlin"}}),
             themis::BaseEntity::fromFields("bob", themis::BaseEntity::FieldMap{{"name","Bob"},{"age","17"},{"city","Hamburg"}})
         };
-        for (const auto& u : users) ASSERT_TRUE(secondary_index_->put("users", u).ok);
+        for (const auto& u : users) {
+            ASSERT_TRUE(secondary_index_->put("users", u).ok);
+        }
+        // Ensure data is flushed
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     http::response<http::string_body> post(const std::string& target, const json& body) {
         try {
@@ -81,7 +85,7 @@ TEST_F(HttpAqlLetTest, LetAndReturnObjectProjection) {
     ASSERT_TRUE(body.contains("entities"));
     ASSERT_TRUE(body["entities"].is_array());
     // Expect two results with object projection
-    ASSERT_EQ(body["entities"].size(), 2);
+    ASSERT_EQ(body["entities"].size(), 2) << "Response: " << body.dump(2);
     std::set<std::string> cities;
     std::set<std::string> names;
     for (const auto& e : body["entities"]) {

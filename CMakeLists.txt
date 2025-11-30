@@ -367,6 +367,8 @@ set(THEMIS_CORE_SOURCES
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
     src/server/rate_limiter.cpp
+    src/server/rate_limiter_v2.cpp
+    src/server/load_shedder.cpp
     src/server/update_api_handler.cpp
     src/server/hot_reload_api_handler.cpp
     
@@ -407,6 +409,7 @@ set(THEMIS_CORE_SOURCES
     src/utils/normalizer.cpp
     src/utils/simd_distance.cpp
     src/utils/update_checker.cpp
+    src/utils/http_client_pool.cpp
     
     # Updates (hot-reload)
     src/updates/release_manifest.cpp
@@ -433,6 +436,7 @@ set(THEMIS_CORE_SOURCES
     src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
+        src/utils/boost_throw_exception.cpp
     src/sharding/urn.cpp
     src/sharding/consistent_hash.cpp
     src/sharding/shard_topology.cpp
@@ -774,6 +778,7 @@ if(THEMIS_BUILD_TESTS)
     tests/test_cms_signing.cpp
         tests/test_keyprovider_signing.cpp
     tests/test_vault_signing_provider.cpp
+        tests/test_enterprise_scalability.cpp
         tests/test_http_policies_export.cpp
         tests/test_pii_soft_delete.cpp
         tests/test_http_pii_lazy_init.cpp
@@ -799,6 +804,7 @@ if(THEMIS_BUILD_TESTS)
             themis_core
             GTest::gtest
             GTest::gtest_main
+            Boost::system
     )
 
     # Discover individual GoogleTest tests for better CTest integration

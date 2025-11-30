@@ -220,6 +220,7 @@ private:
     http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
     http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
     http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
