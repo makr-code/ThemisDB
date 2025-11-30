@@ -143,6 +143,9 @@ wiki/
 # Docker / containers
 docker-compose.override.yml
 
+# GitHub Actions (temporarily disabled / dry-run only)
+.github/workflows/
+
 # RocksDB / DB artifacts and local test data
 *.db
 *.sst
