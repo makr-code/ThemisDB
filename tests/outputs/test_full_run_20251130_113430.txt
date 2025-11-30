@@ -1,0 +1,46 @@
+[2025-11-30 11:34:30.489] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:34:30.493] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:34:30.496] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:34:30.500] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:34:30.504] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:34:30.508] [info] PIIDetector: Initialized with 1 engine(s)
+Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+unknown file: error: C++ exception with description "ST_Within: Expected Point geometry" thrown in the test body.
+
+[  FAILED  ] AQLProximityDispatchTest.ExecuteProximityHybrid (145 ms)
+[2025-11-30 11:36:55.500] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:36:55.656] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:36:55.656] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:36:55.658] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:36:55.659] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:36:55.660] [info] PIIDetector: Initialized with 1 engine(s)
+[2025-11-30 11:37:00.774] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:37:00.775] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:37:00.775] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:37:00.777] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:37:00.778] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:37:00.779] [info] PIIDetector: Initialized with 1 engine(s)
+[2025-11-30 11:37:06.134] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:37:06.134] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:37:06.135] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:37:06.136] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:37:06.137] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:37:06.138] [info] PIIDetector: Initialized with 1 engine(s)
+[2025-11-30 11:37:12.436] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:37:12.437] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:37:12.437] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:37:12.439] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:37:12.440] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:37:12.441] [info] PIIDetector: Initialized with 1 engine(s)
+[2025-11-30 11:37:16.267] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:37:16.268] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:37:16.268] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:37:16.270] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:37:16.271] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:37:16.272] [info] PIIDetector: Initialized with 1 engine(s)
+[2025-11-30 11:37:19.524] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:37:19.525] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:37:19.525] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:37:19.527] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:37:19.529] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:37:19.530] [info] PIIDetector: Initialized with 1 engine(s)

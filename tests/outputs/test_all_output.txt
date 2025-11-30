@@ -1,0 +1,6 @@
+[2025-11-30 11:23:47.443] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:23:47.446] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:23:47.449] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:23:47.453] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:23:47.457] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:23:47.460] [info] PIIDetector: Initialized with 1 engine(s)

@@ -1,0 +1,14 @@
+[2025-11-30 11:20:29.483] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:20:29.486] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:20:29.490] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:20:29.494] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:20:29.498] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:20:29.501] [info] PIIDetector: Initialized with 1 engine(s)
+Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+C:\VCC\themis\tests\test_enterprise_scalability.cpp(476): error: Expected: (rejected_rate_limit) > (50), actual: 0 vs 50
+
+C:\VCC\themis\tests\test_enterprise_scalability.cpp(477): error: Expected: (accepted) < (150), actual: 200 vs 150
+
+[  FAILED  ] EnterpriseScalabilityTest.RateLimiterWithLoadShedder (2 ms)
+[==========] 1 test from 1 test suite ran. (2418 ms total)
+[  PASSED  ] 0 tests.

@@ -1,0 +1,14 @@
+[2025-11-30 11:12:42.552] [warning] PIIDetector: Loading engine 'regex' WITHOUT PKI verification
+[2025-11-30 11:12:42.556] [info] RegexDetectionEngine: Initialized with 7 patterns
+[2025-11-30 11:12:42.559] [info] PIIDetector: Loaded engine 'regex' v1.0.0
+[2025-11-30 11:12:42.563] [info] PIIDetector: Skipping disabled engine 'ner'
+[2025-11-30 11:12:42.568] [info] PIIDetector: Skipping disabled engine 'embedding'
+[2025-11-30 11:12:42.571] [info] PIIDetector: Initialized with 1 engine(s)
+Running main() from C:\VCC\themis\vcpkg\buildtrees\gtest\src\v1.17.0-0c449efaff.clean\googletest\src\gtest_main.cc
+C:\VCC\themis\tests\test_enterprise_scalability.cpp(195): error: Value of: shedder.shouldReject(LoadShedder::Priority::LOW)
+  Actual: false
+Expected: true
+
+[  FAILED  ] LoadShedderTest.HighLoadRejectsLow (2 ms)
+[==========] 13 tests from 3 test suites ran. (2614 ms total)
+[  PASSED  ] 12 tests.
