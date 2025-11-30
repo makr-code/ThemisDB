@@ -132,11 +132,17 @@ public:
         std::chrono::system_clock::time_point last_activity;
     };
     
+    explicit CloudAgent(
+        std::shared_ptr<ShardTopology> topology,
+        std::shared_ptr<RemoteExecutor> executor,
+        std::shared_ptr<PrometheusMetrics> metrics
+    );
+    
     CloudAgent(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<RemoteExecutor> executor,
         std::shared_ptr<PrometheusMetrics> metrics,
-        const Config& config = Config{}
+        const Config& config
     );
     
     ~CloudAgent();

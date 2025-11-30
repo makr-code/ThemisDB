@@ -1226,6 +1226,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://example.local/themisdb/docs/reports/SHARDING_AUTO_REBALANCING/</loc>
+         <lastmod>2025-11-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://example.local/themisdb/docs/reports/TEST_REPORT/</loc>
          <lastmod>2025-11-30</lastmod>
          <changefreq>daily</changefreq>

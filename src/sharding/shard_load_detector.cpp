@@ -11,6 +11,11 @@ namespace sharding {
 
 ShardLoadDetector::ShardLoadDetector(
     std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<PrometheusMetrics> metrics
+) : ShardLoadDetector(topology, metrics, Config{}) {}
+
+ShardLoadDetector::ShardLoadDetector(
+    std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<PrometheusMetrics> metrics,
     const Config& config
 ) : topology_(topology),

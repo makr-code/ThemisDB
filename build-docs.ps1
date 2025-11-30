@@ -23,13 +23,43 @@ if (Test-Path "requirements-docs.txt") {
 
 # Build Documentation
 Write-Host "`nBaue Dokumentation..." -ForegroundColor Green
+
+# Aktiviert PDF-Export-Plugin für strukturierten PDF-Index/Bookmarks
+$env:MKDOCS_PDF_EXPORT = "1"
 mkdocs build --clean
+
+Write-Host "`nErzeuge strukturiertes PDF (mit Index/Bookmarks)..." -ForegroundColor Green
+$pdfPath = Join-Path (Get-Location) "docs/ThemisDB-Documentation.pdf"
+
+# Versuche PDF über Plugin, andernfalls wkhtmltopdf-Fallback
+if (Test-Path $pdfPath) {
+    Write-Host "✅ PDF erstellt (Plugin): $pdfPath" -ForegroundColor Green
+} else {
+    Write-Host "Plugin-PDF nicht gefunden, nutze wkhtmltopdf-Fallback..." -ForegroundColor Yellow
+    $wkhtml = "C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
+    if (Test-Path $wkhtml) {
+        $src = Join-Path (Get-Location) "site/print_page/index.html"
+        if (-not (Test-Path $src)) {
+            Write-Host "Druckseite nicht gefunden: $src. Stelle sicher, dass der print-site Plugin aktiv ist." -ForegroundColor Yellow
+        } else {
+            & $wkhtml --outline --enable-local-file-access --zoom 1.0 "$src" "$pdfPath"
+            if ($LASTEXITCODE -eq 0 -and (Test-Path $pdfPath)) {
+                Write-Host "✅ PDF erstellt (wkhtmltopdf): $pdfPath" -ForegroundColor Green
+            } else {
+                Write-Host "❌ wkhtmltopdf fehlgeschlagen." -ForegroundColor Red
+            }
+        }
+    } else {
+        Write-Host "wkhtmltopdf nicht installiert. Installiere von https://wkhtmltopdf.org/downloads.html" -ForegroundColor Yellow
+    }
+}
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`n✅ Dokumentation erfolgreich gebaut!" -ForegroundColor Green
     Write-Host "   Output: .\site\" -ForegroundColor Gray
     Write-Host "`nÖffne die Dokumentation lokal:" -ForegroundColor Cyan
     Write-Host "   .\site\index.html" -ForegroundColor White
+    Write-Host "   PDF: docs\\ThemisDB-Documentation.pdf" -ForegroundColor White
     
     # Optional: Öffne im Browser
     $openBrowser = Read-Host "`nMöchtest du die Dokumentation im Browser öffnen? (j/n)"

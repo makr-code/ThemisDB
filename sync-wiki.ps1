@@ -16,6 +16,25 @@ if (-not (Test-Path $DocsPath)) {
     exit 1
 }
 
+# Baue die Dokumentation inkl. strukturiertem PDF (Bookmarks/TOC)
+Write-Host "Baue Dokumentation und PDF (mit Index)..." -ForegroundColor Green
+$env:MKDOCS_PDF_EXPORT = "1"
+if (Test-Path "build-docs.ps1") {
+    & powershell -ExecutionPolicy Bypass -File "build-docs.ps1"
+} else {
+    Write-Host "build-docs.ps1 nicht gefunden, rufe mkdocs direkt auf..." -ForegroundColor Yellow
+    pip install -r requirements-docs.txt --upgrade
+    mkdocs build --clean
+}
+
+# Stelle sicher, dass das PDF existiert
+$pdfSource = Join-Path (Get-Location) "docs/ThemisDB-Documentation.pdf"
+if (Test-Path $pdfSource) {
+    Write-Host "PDF gefunden: $pdfSource" -ForegroundColor Gray
+} else {
+    Write-Host "⚠️ PDF nicht gefunden. Der Wiki-Sync laeuft fort, aber ohne PDF im Wiki." -ForegroundColor Yellow
+}
+
 # Cleanup old wiki clone if exists
 if (Test-Path $WikiPath) {
     Write-Host "Loesche altes Wiki-Verzeichnis..." -ForegroundColor Yellow
@@ -58,6 +77,13 @@ foreach ($file in $mdFiles) {
 }
 
 Write-Progress -Activity "Kopiere Dateien" -Completed
+
+# Kopiere PDF ins Wiki-Wurzelverzeichnis
+if (Test-Path $pdfSource) {
+    $pdfTarget = Join-Path $WikiPath "ThemisDB-Documentation.pdf"
+    Copy-Item -Path $pdfSource -Destination $pdfTarget -Force
+    Write-Host "  PDF exportiert: $pdfTarget" -ForegroundColor Gray
+}
 
 # Kopiere auch wichtige YAML-Dateien fuer Kontext
 if (Test-Path "mkdocs.yml") {
@@ -365,6 +391,10 @@ Set-Content -Path $sidebarPath -Value $sb -Encoding UTF8
 $footerPath = Join-Path $WikiPath "_Footer.md"
 $footerLines = @()
 $footerLines += "ThemisDB Documentation - auto-synced from /docs on $(Get-Date -Format 'yyyy-MM-dd')"
+if (Test-Path (Join-Path $WikiPath "ThemisDB-Documentation.pdf")) {
+    $footerLines += ""
+    $footerLines += "PDF: [[ThemisDB-Documentation.pdf|ThemisDB-Documentation.pdf]]"
+}
 Set-Content -Path $footerPath -Value $footerLines -Encoding UTF8
 
 # Git Commit & Push

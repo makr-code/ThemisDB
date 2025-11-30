@@ -34,6 +34,7 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     const OptimizationHint& hint) {
     
     auto span = Tracer::startSpan("TSQueryOptimizer.optimizeAggregateQuery");
+
     span.setAttribute("metric", metric);
     if (entity.has_value()) {
         span.setAttribute("entity", *entity);
@@ -110,6 +111,15 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
                  metric, agg_metric, plan.estimated_speedup, raw_points, agg_points);
     
     return plan;
+}
+
+TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
+    const std::string& metric,
+    const std::optional<std::string>& entity,
+    int64_t from_timestamp_ms,
+    int64_t to_timestamp_ms) {
+    OptimizationHint hint{};
+    return optimizeAggregateQuery(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
 }
 
 std::optional<std::string> TSQueryOptimizer::findBestAggregate(
