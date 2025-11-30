@@ -1,0 +1,10 @@
+# actionlint configuration for ThemisDB workflows
+# See: https://github.com/rhysd/actionlint/blob/main/docs/config.md
+
+self-hosted-runner:
+  # Labels for self-hosted runners (if used in the future)
+  labels: []
+
+# Ignore certain shellcheck rules that are too noisy for workflow scripts
+# SC2086: Double quote to prevent globbing and word splitting (info level)
+# SC2129: Consider using { cmd1; cmd2; } >> file instead of individual redirects (style level)

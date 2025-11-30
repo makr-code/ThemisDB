@@ -1,0 +1,141 @@
+# =============================================================================
+# THEMISDB CI/CD - DRY-RUN MODE
+# =============================================================================
+# Dieser Workflow ist im Dry-Run Modus und führt KEINE echten Veröffentlichungen durch.
+# Um echte Releases zu aktivieren, siehe docs/RELEASE.md
+# =============================================================================
+
+name: CI Main (Orchestration)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  # Docker Build Test
+  docker:
+    name: Docker Build
+    uses: ./.github/workflows/docker-build-test.yml
+    permissions:
+      contents: read
+      packages: read
+
+  # Python SDK Test
+  python:
+    name: Python SDK
+    uses: ./.github/workflows/python-sdk-test.yml
+    permissions:
+      contents: read
+
+  # Java SDK Test
+  java:
+    name: Java SDK
+    uses: ./.github/workflows/java-sdk-test.yml
+    permissions:
+      contents: read
+
+  # C# SDK Test
+  csharp:
+    name: C# SDK
+    uses: ./.github/workflows/csharp-sdk-test.yml
+    permissions:
+      contents: read
+
+  # Helm Chart Test
+  helm:
+    name: Helm Charts
+    uses: ./.github/workflows/helm-chart-test.yml
+    permissions:
+      contents: read
+
+  # Summary job - runs after all other jobs complete
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [docker, python, java, csharp, helm]
+    if: always()
+    
+    steps:
+      - name: Generate CI Summary
+        run: |
+          echo "# 🚀 ThemisDB CI/CD Summary (DRY-RUN)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          
+          # Docker status
+          if [ "${{ needs.docker.result }}" == "success" ]; then
+            echo "| 🐳 Docker Build | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.docker.result }}" == "skipped" ]; then
+            echo "| 🐳 Docker Build | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| 🐳 Docker Build | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Python status
+          if [ "${{ needs.python.result }}" == "success" ]; then
+            echo "| 🐍 Python SDK | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.python.result }}" == "skipped" ]; then
+            echo "| 🐍 Python SDK | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| 🐍 Python SDK | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Java status
+          if [ "${{ needs.java.result }}" == "success" ]; then
+            echo "| ☕ Java SDK | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.java.result }}" == "skipped" ]; then
+            echo "| ☕ Java SDK | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ☕ Java SDK | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # C# status
+          if [ "${{ needs.csharp.result }}" == "success" ]; then
+            echo "| 🔷 C# SDK | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.csharp.result }}" == "skipped" ]; then
+            echo "| 🔷 C# SDK | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| 🔷 C# SDK | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Helm status
+          if [ "${{ needs.helm.result }}" == "success" ]; then
+            echo "| ⎈ Helm Charts | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.helm.result }}" == "skipped" ]; then
+            echo "| ⎈ Helm Charts | ⏭️ Skipped |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| ⎈ Helm Charts | ❌ Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **DRY-RUN MODE ACTIVE**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All builds completed without publishing to any registries:" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker images: NOT pushed to GHCR" >> $GITHUB_STEP_SUMMARY
+          echo "- Python packages: NOT uploaded to PyPI" >> $GITHUB_STEP_SUMMARY
+          echo "- Java JARs: NOT deployed to Maven Central" >> $GITHUB_STEP_SUMMARY
+          echo "- NuGet packages: NOT pushed to nuget.org" >> $GITHUB_STEP_SUMMARY
+          echo "- Helm charts: NOT released to any Helm repository" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Build artifacts are available for manual inspection in the Actions tab." >> $GITHUB_STEP_SUMMARY
+
+      - name: Check overall status
+        run: |
+          # Fail the summary job if any required job failed
+          if [ "${{ needs.docker.result }}" == "failure" ] || \
+             [ "${{ needs.python.result }}" == "failure" ] || \
+             [ "${{ needs.java.result }}" == "failure" ] || \
+             [ "${{ needs.csharp.result }}" == "failure" ] || \
+             [ "${{ needs.helm.result }}" == "failure" ]; then
+            echo "One or more CI jobs failed"
+            exit 1
+          fi
+          echo "All CI jobs completed successfully or were skipped"

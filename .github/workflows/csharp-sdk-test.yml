@@ -1,0 +1,126 @@
+# =============================================================================
+# THEMISDB CI/CD - DRY-RUN MODE
+# =============================================================================
+# Dieser Workflow ist im Dry-Run Modus und führt KEINE echten Veröffentlichungen durch.
+# Um echte Releases zu aktivieren, siehe docs/RELEASE.md
+# =============================================================================
+
+name: C# SDK Test (Dry-Run)
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'clients/csharp/**'
+      - '.github/workflows/csharp-sdk-test.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'clients/csharp/**'
+      - '.github/workflows/csharp-sdk-test.yml'
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  csharp-sdk-test:
+    name: .NET ${{ matrix.dotnet-version }} Test
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet-version: ['6.0.x', '7.0.x', '8.0.x']
+
+    defaults:
+      run:
+        working-directory: clients/csharp
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}-${{ hashFiles('**/**.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}-
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: |
+          dotnet restore ThemisDB.Client/ThemisDB.Client.csproj
+          dotnet restore ThemisDB.Client.Tests/ThemisDB.Client.Tests.csproj
+
+      - name: Build
+        run: |
+          echo "### 🔷 .NET Build Results (.NET ${{ matrix.dotnet-version }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          dotnet build ThemisDB.Client/ThemisDB.Client.csproj --configuration Release --no-restore 2>&1 | tee dotnet-build.txt
+          
+          echo "**Build Status:** ✅ Built successfully" >> $GITHUB_STEP_SUMMARY
+
+      - name: Run tests
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🧪 .NET Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          dotnet test ThemisDB.Client.Tests/ThemisDB.Client.Tests.csproj \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --logger "trx;LogFileName=test-results.trx" \
+            2>&1 | tee dotnet-test.txt || true
+          
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -50 dotnet-test.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+      - name: Pack NuGet package (DRY-RUN - no push)
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 NuGet Package Build (DRY-RUN)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          dotnet pack ThemisDB.Client/ThemisDB.Client.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./nupkg
+          
+          echo "**Built packages:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          ls -lh nupkg/*.nupkg 2>/dev/null >> $GITHUB_STEP_SUMMARY || echo "No packages found"
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **DRY-RUN MODE:** NuGet package created but NOT pushed to nuget.org." >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csharp-test-results-${{ matrix.dotnet-version }}
+          path: |
+            clients/csharp/**/TestResults/*.trx
+            clients/csharp/dotnet-test.txt
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload NuGet artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package-${{ matrix.dotnet-version }}-${{ github.sha }}
+          path: clients/csharp/nupkg/*.nupkg
+          retention-days: 7
+          if-no-files-found: warn

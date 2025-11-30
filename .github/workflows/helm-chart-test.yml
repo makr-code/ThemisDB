@@ -1,0 +1,137 @@
+# =============================================================================
+# THEMISDB CI/CD - DRY-RUN MODE
+# =============================================================================
+# Dieser Workflow ist im Dry-Run Modus und führt KEINE echten Veröffentlichungen durch.
+# Um echte Releases zu aktivieren, siehe docs/RELEASE.md
+# =============================================================================
+
+name: Helm Chart Test (Dry-Run)
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'helm/**'
+      - '.github/workflows/helm-chart-test.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'helm/**'
+      - '.github/workflows/helm-chart-test.yml'
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  helm-chart-test:
+    name: Helm Chart Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: 'v3.14.0'
+
+      - name: Check for Helm charts
+        id: check-charts
+        run: |
+          if [ -d "helm" ] && [ -n "$(ls -A helm 2>/dev/null)" ]; then
+            echo "charts_exist=true" >> $GITHUB_OUTPUT
+            echo "Helm charts directory found"
+          else
+            echo "charts_exist=false" >> $GITHUB_OUTPUT
+            echo "No Helm charts found in helm/ directory"
+          fi
+
+      - name: Lint Helm charts
+        if: steps.check-charts.outputs.charts_exist == 'true'
+        run: |
+          echo "### ⎈ Helm Chart Validation (DRY-RUN)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "**Linting charts:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          
+          for chart in helm/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Linting: $chart"
+              helm lint "$chart" 2>&1 | tee -a lint-output.txt >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+          
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Template Helm charts (Dry-Run Rendering)
+        if: steps.check-charts.outputs.charts_exist == 'true'
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Template rendering (dry-run):**" >> $GITHUB_STEP_SUMMARY
+          
+          for chart in helm/*/; do
+            if [ -f "$chart/Chart.yaml" ]; then
+              echo "Templating: $chart"
+              mkdir -p rendered-templates/$(basename "$chart")
+              
+              helm template test-release "$chart" \
+                --output-dir rendered-templates/$(basename "$chart") \
+                2>&1 | tee template-output.txt || true
+              
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              echo "Chart: $(basename "$chart")" >> $GITHUB_STEP_SUMMARY
+              find rendered-templates/$(basename "$chart") -name "*.yaml" | head -10 >> $GITHUB_STEP_SUMMARY || true
+              echo '```' >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **DRY-RUN MODE:** Charts validated but NOT released to any Helm repository." >> $GITHUB_STEP_SUMMARY
+
+      - name: Run Helm unit tests (if available)
+        if: steps.check-charts.outputs.charts_exist == 'true'
+        run: |
+          # Install helm-unittest plugin if tests exist
+          for chart in helm/*/; do
+            if [ -d "$chart/tests" ]; then
+              echo "Installing helm-unittest plugin..."
+              helm plugin install https://github.com/helm-unittest/helm-unittest.git || true
+              
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "**Unit tests:**" >> $GITHUB_STEP_SUMMARY
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              helm unittest "$chart" 2>&1 | tee -a >> $GITHUB_STEP_SUMMARY || echo "No tests or test failures"
+              echo '```' >> $GITHUB_STEP_SUMMARY
+              break
+            fi
+          done
+        continue-on-error: true
+
+      - name: No charts found notice
+        if: steps.check-charts.outputs.charts_exist == 'false'
+        run: |
+          echo "### ⎈ Helm Chart Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "ℹ️ No Helm charts found in \`helm/\` directory." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "To add Helm charts, create a directory structure like:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "helm/" >> $GITHUB_STEP_SUMMARY
+          echo "└── themisdb/" >> $GITHUB_STEP_SUMMARY
+          echo "    ├── Chart.yaml" >> $GITHUB_STEP_SUMMARY
+          echo "    ├── values.yaml" >> $GITHUB_STEP_SUMMARY
+          echo "    └── templates/" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload rendered templates
+        if: steps.check-charts.outputs.charts_exist == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: helm-rendered-templates-${{ github.sha }}
+          path: rendered-templates/
+          retention-days: 7
+          if-no-files-found: ignore

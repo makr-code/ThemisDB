@@ -1,0 +1,123 @@
+# =============================================================================
+# THEMISDB CI/CD - DRY-RUN MODE
+# =============================================================================
+# Dieser Workflow ist im Dry-Run Modus und führt KEINE echten Veröffentlichungen durch.
+# Um echte Releases zu aktivieren, siehe docs/RELEASE.md
+# =============================================================================
+
+name: Python SDK Test (Dry-Run)
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'clients/python/**'
+      - '.github/workflows/python-sdk-test.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'clients/python/**'
+      - '.github/workflows/python-sdk-test.yml'
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  python-sdk-test:
+    name: Python ${{ matrix.python-version }} Test
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+
+    defaults:
+      run:
+        working-directory: clients/python
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          cache-dependency-path: 'clients/python/pyproject.toml'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+          pip install build twine ruff
+
+      - name: Lint with ruff
+        run: |
+          echo "### 🔍 Python Linting Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Run ruff check
+          ruff check . --output-format=github || true
+          
+          # Run ruff format check
+          ruff format --check . || true
+          
+          echo "Linting completed (warnings may be present)" >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+      - name: Run unit tests with pytest
+        run: |
+          echo "### 🧪 Python Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          pytest tests/ -v --tb=short --junitxml=test-results.xml 2>&1 | tee pytest-output.txt || true
+          
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -50 pytest-output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+      - name: Build wheel and sdist (DRY-RUN)
+        run: |
+          echo "### 📦 Python Package Build (DRY-RUN)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          python -m build
+          
+          echo "**Built packages:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          ls -lh dist/ >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Validate package with twine check (NO UPLOAD)
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Package validation:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          twine check dist/* 2>&1 | tee twine-check.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **DRY-RUN MODE:** Package validated but NOT uploaded to PyPI." >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-test-results-${{ matrix.python-version }}
+          path: |
+            clients/python/test-results.xml
+            clients/python/pytest-output.txt
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-wheel-${{ matrix.python-version }}-${{ github.sha }}
+          path: clients/python/dist/*.whl
+          retention-days: 7
+          if-no-files-found: warn

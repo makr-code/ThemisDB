@@ -482,6 +482,103 @@ These scripts automatically update version numbers across all packaging files.
 - Direct communication channel with core team
 - Recognition in release notes
 
+## Local CI/CD Testing with `act`
+
+You can run GitHub Actions workflows locally using [`act`](https://github.com/nektos/act). This is useful for testing workflow changes before pushing.
+
+### Installation
+
+```bash
+# macOS
+brew install act
+
+# Linux (via curl)
+curl -s https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+
+# Windows (via Chocolatey)
+choco install act-cli
+
+# Windows (via Scoop)
+scoop install act
+```
+
+### Basic Usage
+
+```bash
+# List all available workflows and jobs
+act -l
+
+# Run all workflows triggered by push
+act push
+
+# Run a specific job
+act push -j docker-build-test
+act push -j python-sdk-test
+act push -j java-sdk-test
+act push -j csharp-sdk-test
+
+# Run with a smaller Docker image (faster)
+act push -P ubuntu-latest=catthehacker/ubuntu:act-latest
+
+# Run in dry-run mode (show what would be executed)
+act push -n
+
+# Run with verbose output
+act push -v
+```
+
+### Testing Individual SDK Workflows
+
+```bash
+# Python SDK
+act push -j python-sdk-test --container-architecture linux/amd64
+
+# Java SDK
+act push -j java-sdk-test
+
+# C# SDK
+act push -j csharp-sdk-test
+
+# Helm Charts
+act push -j helm-chart-test
+```
+
+### Tips for Local Testing
+
+1. **First Run**: The first run will download Docker images and may take several minutes.
+
+2. **Secrets**: If workflows require secrets, create a `.secrets` file:
+   ```bash
+   echo "GITHUB_TOKEN=your_token_here" > .secrets
+   act push --secret-file .secrets
+   ```
+
+3. **Environment Variables**: Use `.env` file for environment variables:
+   ```bash
+   echo "MY_VAR=value" > .env
+   act push --env-file .env
+   ```
+
+4. **Memory Issues**: If you encounter memory issues, increase Docker's memory allocation or use smaller images.
+
+5. **Platform Issues on Apple Silicon**: Use `--container-architecture linux/amd64` if you encounter platform issues on M1/M2 Macs.
+
+### Workflow Validation with actionlint
+
+Before committing workflow changes, validate them with [`actionlint`](https://github.com/rhysd/actionlint):
+
+```bash
+# Install actionlint
+# macOS
+brew install actionlint
+
+# Linux
+go install github.com/rhysd/actionlint/cmd/actionlint@latest
+
+# Run validation
+actionlint .github/workflows/*.yml
+```
+
 ## Questions?
 
 - **GitHub Discussions**: For general questions and discussions

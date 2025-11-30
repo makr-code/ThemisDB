@@ -1,0 +1,124 @@
+# =============================================================================
+# THEMISDB CI/CD - DRY-RUN MODE
+# =============================================================================
+# Dieser Workflow ist im Dry-Run Modus und führt KEINE echten Veröffentlichungen durch.
+# Um echte Releases zu aktivieren, siehe docs/RELEASE.md
+# =============================================================================
+
+name: Docker Build Test (Dry-Run)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  docker-build-test:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix=
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build Docker image (DRY-RUN - no push)
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          outputs: type=docker,dest=/tmp/themisdb-image.tar
+
+      - name: Display build info
+        run: |
+          echo "### 🐳 Docker Build Results (DRY-RUN)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Status:** ✅ Success" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Image Tags (simulated):**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Image Size:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          ls -lh /tmp/themisdb-image.tar || echo "Image tar not found"
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **DRY-RUN MODE:** Image was built but NOT pushed to registry." >> $GITHUB_STEP_SUMMARY
+
+      - name: Load and test Docker image
+        run: |
+          echo "Loading Docker image..."
+          docker load < /tmp/themisdb-image.tar
+          
+          echo "### Container Start Test" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Get the first tag from metadata
+          IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+          echo "Testing image: $IMAGE_TAG"
+          
+          # Run container with timeout for health check
+          docker run --name themisdb-test -d \
+            -p 18765:18765 \
+            "$IMAGE_TAG" --help || true
+          
+          # Wait briefly and check container status
+          sleep 5
+          
+          CONTAINER_STATUS=$(docker inspect --format='{{.State.Status}}' themisdb-test 2>/dev/null || echo "unknown")
+          echo "**Container Status:** $CONTAINER_STATUS" >> $GITHUB_STEP_SUMMARY
+          
+          # Show container logs
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Container Logs:**" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          docker logs themisdb-test 2>&1 | tail -50 >> $GITHUB_STEP_SUMMARY || echo "No logs available"
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          
+          # Cleanup
+          docker stop themisdb-test 2>/dev/null || true
+          docker rm themisdb-test 2>/dev/null || true
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image-${{ github.sha }}
+          path: /tmp/themisdb-image.tar
+          retention-days: 7
+          if-no-files-found: warn
