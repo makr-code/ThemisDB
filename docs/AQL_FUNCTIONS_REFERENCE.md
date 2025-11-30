@@ -1,24 +1,43 @@
-# AQL Functions Reference
+# AQL Functions Reference - Complete Documentation
 
-> **ThemisDB Query Language** - Die einzige Abfragesprache, die Graph, Vector, Relational, Geo und File in einer einheitlichen Syntax vereint.
+> **ThemisDB Query Language (AQL)** - Die einzige Abfragesprache, die Graph, Vector, Relational, Geo und File in einer einheitlichen Syntax vereint.
+
+**Version:** 1.0  
+**Stand:** November 2024  
+**Funktionen:** ~210  
+**Kategorien:** 11
+
+---
 
 ## Inhaltsverzeichnis
 
+### Grundlagen
 1. [Alleinstellungsmerkmale](#alleinstellungsmerkmale)
-2. [Vergleich mit anderen Datenbanken](#vergleich-mit-anderen-datenbanken)
-3. [Funktionskategorien](#funktionskategorien)
-4. [String-Funktionen](#string-funktionen)
-5. [Math-Funktionen](#math-funktionen)
-6. [Array-Funktionen](#array-funktionen)
-7. [Date-Funktionen](#date-funktionen)
-8. [Document-Funktionen](#document-funktionen)
-9. [Geo-Funktionen](#geo-funktionen)
-10. [CRS-Funktionen (Koordinatentransformation)](#crs-funktionen)
-11. [Vector-Funktionen](#vector-funktionen)
-12. [Graph-Funktionen](#graph-funktionen)
-13. [Relational-Funktionen](#relational-funktionen)
-14. [File-Funktionen](#file-funktionen)
-15. [FAQ](#faq)
+2. [Architektur-Übersicht](#architektur-übersicht)
+3. [Vergleich mit anderen Datenbanken](#vergleich-mit-anderen-datenbanken)
+4. [Funktionskategorien](#funktionskategorien)
+5. [Syntax-Grundlagen](#syntax-grundlagen)
+
+### Funktionsreferenz
+6. [String-Funktionen](#string-funktionen) (~15 Funktionen)
+7. [Math-Funktionen](#math-funktionen) (~25 Funktionen)
+8. [Array-Funktionen](#array-funktionen) (~20 Funktionen)
+9. [Date-Funktionen](#date-funktionen) (~15 Funktionen)
+10. [Document-Funktionen](#document-funktionen) (~20 Funktionen)
+11. [Geo-Funktionen](#geo-funktionen) (~25 Funktionen)
+12. [CRS-Funktionen (Koordinatentransformation)](#crs-funktionen) (~10 Funktionen)
+13. [Vector-Funktionen](#vector-funktionen) (~20 Funktionen)
+14. [Graph-Funktionen](#graph-funktionen) (~15 Funktionen)
+15. [Relational-Funktionen](#relational-funktionen) (~25 Funktionen)
+16. [File-Funktionen](#file-funktionen) (~20 Funktionen)
+
+### Praxis & Referenz
+17. [Praxisbeispiele nach Branche](#praxisbeispiele-nach-branche)
+18. [Performance-Optimierung](#performance-optimierung)
+19. [Fehlerbehandlung](#fehlerbehandlung)
+20. [FAQ - Häufige Fragen](#faq)
+21. [Migrations-Leitfäden](#migrations-leitfäden)
+22. [Glossar](#glossar)
 
 ---
 
@@ -26,122 +45,687 @@
 
 ### 🎯 Was macht ThemisDB einzigartig?
 
-| Feature | ThemisDB | Neo4j | PostgreSQL | MongoDB | Pinecone |
-|---------|----------|-------|------------|---------|----------|
-| **Unified Query Language** | ✅ Eine Syntax für alles | ❌ Cypher only | ❌ SQL only | ❌ MQL only | ❌ API only |
-| **Native Graph + Vector** | ✅ Integriert | ❌ Plugin | ❌ Extension | ❌ Atlas Search | ✅ Vector only |
-| **Geo + Graph kombiniert** | ✅ ST_* + SHORTEST_PATH | ❌ Separat | ✅ PostGIS | ✅ GeoJSON | ❌ |
-| **BPMN Process Mining** | ✅ Native | ❌ | ❌ | ❌ | ❌ |
-| **CRS Transformation** | ✅ ETRS89/UTM/WGS84 | ❌ | ✅ PostGIS | ❌ | ❌ |
-| **Multi-Model in einer Query** | ✅ | ❌ | ❌ | ❌ | ❌ |
+ThemisDB ist die erste und einzige Datenbank, die **echte Multi-Model-Queries** in einer einheitlichen Abfragesprache ermöglicht. Während andere Datenbanken einzelne Stärken haben, vereint ThemisDB alle Paradigmen nahtlos.
 
-### 🚀 Die "Killer-Features"
+#### Feature-Matrix im Vergleich
 
-#### 1. Multi-Model Queries in einer Zeile
+| Feature | ThemisDB | Neo4j | PostgreSQL | MongoDB | Pinecone | ArangoDB |
+|---------|----------|-------|------------|---------|----------|----------|
+| **Unified Query Language** | ✅ Eine Syntax für alles | ❌ Cypher only | ❌ SQL only | ❌ MQL only | ❌ API only | ⚠️ AQL (limitiert) |
+| **Native Graph + Vector** | ✅ Integriert | ❌ Plugin | ❌ Extension | ❌ Atlas Search | ✅ Vector only | ⚠️ Separat |
+| **Geo + Graph kombiniert** | ✅ ST_* + SHORTEST_PATH | ❌ Separat | ✅ PostGIS | ✅ GeoJSON | ❌ | ⚠️ Basic |
+| **BPMN Process Mining** | ✅ Native | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **CRS Transformation** | ✅ ETRS89/UTM/WGS84 | ❌ | ✅ PostGIS | ❌ | ❌ | ❌ |
+| **Multi-Model in einer Query** | ✅ Vollständig | ❌ | ❌ | ❌ | ❌ | ⚠️ Teilweise |
+| **Window Functions** | ✅ ROW_NUMBER, LAG, LEAD | ❌ | ✅ | ❌ | ❌ | ❌ |
+| **File/MIME Operations** | ✅ Native | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **Helmert Transformation** | ✅ 7-Parameter | ❌ | ✅ PostGIS | ❌ | ❌ | ❌ |
+
+#### Die 7 Killer-Features im Detail
+
+##### 1. Multi-Model Queries in einer Zeile
+
+**Das Problem:** In traditionellen Architekturen müssen Sie mehrere Systeme kombinieren:
+- PostgreSQL für relationale Daten
+- Neo4j für Graphen
+- Pinecone/Weaviate für Vektoren
+- Elasticsearch für Volltextsuche
+- Redis für Caching
+
+**Die ThemisDB-Lösung:**
 
 ```aql
--- Finde Kunden in der Nähe, mit ähnlichen Interessen, über Empfehlungsnetzwerk
+-- Eine Query, die Graph, Vector, Geo und Relational kombiniert
 FOR customer IN customers
+  -- Geo: Kunden im Umkreis von 10 km
   FILTER GEO_DISTANCE(customer.location, @myLocation) < 10000
-  LET similar = SIMILARITY(customer.interests_vector, @myInterests, 0.8)
-  FOR friend IN 1..3 OUTBOUND customer knows
-    FILTER friend.active == true
-  RETURN { customer, similarity: similar, connection: friend }
+  
+  -- Vector: Ähnliche Interessen (ML-Embedding)
+  LET similarity = COSINE_SIMILARITY(customer.interests_embedding, @myInterests)
+  FILTER similarity > 0.8
+  
+  -- Graph: Verbindungen über Empfehlungsnetzwerk
+  FOR connection IN 1..3 OUTBOUND customer knows
+    FILTER connection.active == true
+    
+    -- Relational: Aggregation und Window Functions
+    LET orderStats = (
+      FOR order IN orders
+        FILTER order.customer_id == customer._key
+        COLLECT AGGREGATE 
+          total = SUM(order.amount),
+          count = COUNT(1)
+        RETURN { total, count }
+    )
+    
+  RETURN { 
+    customer, 
+    similarity, 
+    connection,
+    orderStats,
+    distance_km: GEO_DISTANCE(customer.location, @myLocation) / 1000
+  }
 ```
 
-**Das gleiche in anderen Systemen würde erfordern:**
-- PostgreSQL: 3 separate Queries + Application Join
-- Neo4j + Pinecone: 2 Systeme + API-Calls
-- MongoDB: Aggregation Pipeline + Atlas Search + \$graphLookup (komplex!)
+**Vergleich: Das gleiche in anderen Systemen**
 
-#### 2. Prozess-Mining aus Dokumenten
+| System | Erforderliche Queries/Calls | Komplexität |
+|--------|----------------------------|-------------|
+| ThemisDB | 1 Query | ⭐ Einfach |
+| PostgreSQL + PostGIS + pgvector | 3 Queries + Application Join | ⭐⭐⭐ Komplex |
+| Neo4j + Pinecone | 2 Systeme + 2 API-Calls + Application Join | ⭐⭐⭐ Komplex |
+| MongoDB Atlas | Aggregation Pipeline + Atlas Search + $graphLookup | ⭐⭐⭐⭐ Sehr komplex |
+
+##### 2. Native Prozess-Mining (BPMN/EPK)
+
+ThemisDB kann Prozesse aus Event-Logs **entdecken** und als BPMN-Diagramme exportieren.
 
 ```aql
--- Entdecke Prozesse aus Event-Logs
+-- Prozesse aus Audit-Logs entdecken
 LET events = (
   FOR e IN audit_logs
-    FILTER e.timestamp >= DATE_SUBTRACT(DATE_NOW(), 30, "days")
+    FILTER e.timestamp >= DATE_SUBTRACT(DATE_NOW(), 90, "days")
     SORT e.case_id, e.timestamp
-    RETURN e
+    RETURN {
+      case_id: e.case_id,
+      activity: e.activity,
+      timestamp: e.timestamp,
+      resource: e.user_id
+    }
 )
+
 LET process = DISCOVER_PROCESS(events, "case_id", "activity", "timestamp")
+
 RETURN {
+  -- Entdeckte Aktivitäten
   activities: process.activities,
+  
+  -- Übergänge zwischen Aktivitäten
   transitions: process.transitions,
+  
+  -- Prozessvarianten (unterschiedliche Pfade)
   variants: process.variants,
-  bottlenecks: process.bottlenecks
+  
+  -- Engpässe identifizieren
+  bottlenecks: process.bottlenecks,
+  
+  -- BPMN-Export
+  bpmn_xml: EXPORT_BPMN(process)
 }
 ```
 
-#### 3. Koordinatentransformation on-the-fly
+**Anwendungsfälle:**
+- 🏥 Krankenhaus: Patientenpfade optimieren
+- 🏭 Fertigung: Produktionsprozesse analysieren
+- 🏦 Bank: Kreditanträge beschleunigen
+- 📦 Logistik: Lieferketten visualisieren
+
+##### 3. Vollständige Koordinatensystem-Transformation
+
+ThemisDB transformiert zwischen **allen gängigen Koordinatensystemen** - inklusive der komplexen Helmert-7-Parameter-Transformation für historische Datensätze.
 
 ```aql
--- Transformiere UTM-Koordinaten (Vermessungsdaten) zu WGS84 (GPS)
-FOR parcel IN land_parcels
-  LET wgs84 = ST_TRANSFORM(parcel.geometry, 25832, 4326)  -- ETRS89/UTM32 → WGS84
-  LET center = ST_CENTROID(wgs84)
+-- Beispiel: Katasterdaten aus verschiedenen Epochen harmonisieren
+
+-- 1. Historische Gauß-Krüger Daten (DHDN, Bessel-Ellipsoid)
+FOR parcel IN historic_parcels_gk
+  LET wgs84 = ST_TRANSFORM(parcel.geometry, 31467, 4326)
+  UPDATE parcel WITH { geometry_wgs84: wgs84 } IN historic_parcels_gk
+
+-- 2. Aktuelle ETRS89/UTM Daten
+FOR parcel IN modern_parcels_utm
+  LET wgs84 = ST_TRANSFORM(parcel.geometry, 25832, 4326)
+  UPDATE parcel WITH { geometry_wgs84: wgs84 } IN modern_parcels_utm
+
+-- 3. Kombinierte Abfrage über alle Epochen
+FOR parcel IN UNION(historic_parcels_gk, modern_parcels_utm)
+  LET center = ST_CENTROID(parcel.geometry_wgs84)
+  FILTER ST_CONTAINS(@searchArea, center)
   RETURN {
     id: parcel.id,
+    original_crs: parcel.original_srid,
     area_sqm: ST_AREA(parcel.geometry),
-    center_lat: ST_Y(center),
-    center_lon: ST_X(center)
+    center: { lat: ST_Y(center), lon: ST_X(center) }
   }
 ```
+
+**Unterstützte Transformationen:**
+
+| Von | Nach | Methode |
+|-----|------|---------|
+| EPSG:31466-31469 (Gauß-Krüger) | EPSG:4326 (WGS84) | Helmert 7-Parameter |
+| EPSG:25831-25833 (ETRS89/UTM) | EPSG:4326 (WGS84) | Transverse Mercator |
+| EPSG:32631-32633 (WGS84/UTM) | EPSG:4326 (WGS84) | Transverse Mercator |
+| EPSG:3857 (Web Mercator) | EPSG:4326 (WGS84) | Spherical Mercator |
+| EPSG:4258 (ETRS89) | EPSG:4326 (WGS84) | Identity (praktisch gleich) |
+
+##### 4. ML-Ready Vector Operations
+
+ThemisDB speichert und durchsucht Embeddings von beliebigen ML-Modellen nativ.
+
+```aql
+-- OpenAI Embeddings (1536 Dimensionen)
+INSERT { 
+  text: "Künstliche Intelligenz revolutioniert die Medizin",
+  embedding: [0.0123, -0.0456, 0.0789, ...],  -- 1536 Werte
+  source: "research_paper",
+  published: DATE_NOW()
+} INTO documents
+
+-- Cohere Embeddings (1024 Dimensionen)
+INSERT {
+  text: "AI transforms healthcare",
+  embedding: [0.0234, 0.0567, -0.0890, ...],  -- 1024 Werte
+  source: "news_article"
+} INTO documents
+
+-- Lokale Sentence-Transformers (384 Dimensionen)
+INSERT {
+  text: "Machine Learning im Gesundheitswesen",
+  embedding: [0.1234, 0.5678, 0.9012, ...],  -- 384 Werte
+  model: "all-MiniLM-L6-v2"
+} INTO documents
+
+-- Hybride Suche: Semantisch + Keyword + Geo + Zeit
+FOR doc IN documents
+  LET semantic_score = COSINE_SIMILARITY(doc.embedding, @queryEmbedding)
+  LET keyword_match = CONTAINS(LOWER(doc.text), LOWER(@searchTerm))
+  LET geo_score = doc.location ? 1 / (1 + GEO_DISTANCE(doc.location, @userLocation) / 10000) : 0
+  LET recency_score = 1 / (1 + DATE_DIFF(doc.published, DATE_NOW(), "days") / 30)
+  
+  -- Kombinierter Relevanz-Score
+  LET combined_score = (
+    semantic_score * 0.5 +
+    (keyword_match ? 0.2 : 0) +
+    geo_score * 0.15 +
+    recency_score * 0.15
+  )
+  
+  FILTER semantic_score > 0.7 OR keyword_match
+  SORT combined_score DESC
+  LIMIT 20
+  
+  RETURN {
+    doc,
+    scores: { semantic: semantic_score, geo: geo_score, recency: recency_score },
+    combined_score
+  }
+```
+
+##### 5. Native Graph-Traversierung mit SQL-Komfort
+
+ThemisDB kombiniert die Eleganz von Cypher mit der Vertrautheit von SQL.
+
+```aql
+-- Finde Influencer im Netzwerk mit mehreren Kriterien
+FOR influencer IN users
+  -- Graph: Follower-Netzwerk analysieren
+  LET followers = (
+    FOR f IN 1..1 INBOUND influencer follows
+      RETURN f
+  )
+  LET follower_count = LENGTH(followers)
+  
+  -- Graph: Reichweite (2-Hop Netzwerk)
+  LET reach = (
+    FOR r IN 1..2 INBOUND influencer follows
+      RETURN DISTINCT r
+  )
+  LET reach_count = LENGTH(reach)
+  
+  -- Zentralitätsmaße
+  LET pagerank = PAGERANK(influencer, "follows", 0.85)
+  LET clustering = CLUSTERING_COEFFICIENT(influencer, "follows")
+  
+  -- Geo: Durchschnittliche Entfernung der Follower
+  LET avg_follower_distance = AVG(
+    FOR f IN followers
+      FILTER f.location != null
+      RETURN GEO_DISTANCE(f.location, influencer.location)
+  )
+  
+  -- Relational: Engagement-Statistiken
+  LET engagement = (
+    FOR post IN posts
+      FILTER post.author_id == influencer._key
+      FILTER DATE_DIFF(post.created, DATE_NOW(), "days") <= 30
+      COLLECT AGGREGATE
+        posts = COUNT(1),
+        likes = SUM(post.likes),
+        comments = SUM(post.comments),
+        shares = SUM(post.shares)
+      RETURN { posts, likes, comments, shares }
+  )[0]
+  
+  FILTER follower_count >= 1000
+  SORT pagerank DESC
+  LIMIT 100
+  
+  RETURN {
+    username: influencer.username,
+    follower_count,
+    reach_count,
+    pagerank,
+    clustering_coefficient: clustering,
+    avg_follower_distance_km: avg_follower_distance / 1000,
+    engagement,
+    influence_score: pagerank * LOG(follower_count + 1) * (engagement.likes / (engagement.posts + 1))
+  }
+```
+
+##### 6. SQL-kompatible Window Functions
+
+ThemisDB unterstützt vollständige Window Functions wie PostgreSQL.
+
+```aql
+-- Umsatzanalyse mit Window Functions
+FOR sale IN sales
+  LET sale_date = DATE_TIMESTAMP(sale.created_at)
+  
+  -- Gruppierung nach Region und Monat
+  COLLECT 
+    region = sale.region,
+    month = DATE_TRUNC(sale_date, "month")
+  AGGREGATE
+    revenue = SUM(sale.amount),
+    orders = COUNT(1),
+    avg_order = AVG(sale.amount)
+  
+  -- Window Functions
+  LET prev_month_revenue = LAG(revenue, 1) OVER (PARTITION BY region ORDER BY month)
+  LET next_month_revenue = LEAD(revenue, 1) OVER (PARTITION BY region ORDER BY month)
+  LET running_total = RUNNING_SUM(revenue) OVER (PARTITION BY region ORDER BY month)
+  LET rank_in_region = ROW_NUMBER() OVER (PARTITION BY region ORDER BY revenue DESC)
+  LET percentile_rank = PERCENT_RANK() OVER (ORDER BY revenue)
+  
+  -- Berechnete Metriken
+  LET mom_growth = prev_month_revenue ? ((revenue - prev_month_revenue) / prev_month_revenue * 100) : null
+  LET yoy_revenue = LAG(revenue, 12) OVER (PARTITION BY region ORDER BY month)
+  LET yoy_growth = yoy_revenue ? ((revenue - yoy_revenue) / yoy_revenue * 100) : null
+  
+  SORT region, month
+  
+  RETURN {
+    region,
+    month: DATE_FORMAT(month, "%Y-%m"),
+    revenue,
+    orders,
+    avg_order: ROUND(avg_order, 2),
+    prev_month_revenue,
+    mom_growth: mom_growth ? CONCAT(ROUND(mom_growth, 1), "%") : "N/A",
+    yoy_growth: yoy_growth ? CONCAT(ROUND(yoy_growth, 1), "%") : "N/A",
+    running_total,
+    rank_in_region,
+    percentile: ROUND(percentile_rank * 100, 1)
+  }
+```
+
+##### 7. Datei-Operationen im Query
+
+ThemisDB kann mit Dateimetadaten direkt im Query arbeiten.
+
+```aql
+-- Datei-Repository analysieren
+FOR file IN files
+  LET path_parts = PATH_SPLIT(file.path)
+  LET ext = FILE_EXT(file.name)
+  LET mime = MIME_TYPE(file.name)
+  LET size_human = FORMAT_FILESIZE(file.size)
+  
+  -- Kategorisierung
+  LET category = (
+    IS_IMAGE(file.name) ? "images" :
+    IS_VIDEO(file.name) ? "videos" :
+    IS_AUDIO(file.name) ? "audio" :
+    IS_DOCUMENT(file.name) ? "documents" :
+    ext IN ["zip", "tar", "gz", "7z"] ? "archives" :
+    ext IN ["js", "py", "java", "cpp", "h"] ? "code" :
+    "other"
+  )
+  
+  -- Duplikat-Erkennung via Hash
+  COLLECT 
+    hash = file.content_hash
+  INTO duplicates
+  
+  LET is_duplicate = LENGTH(duplicates) > 1
+  
+  FOR dup IN duplicates
+    LET f = dup.file
+    RETURN {
+      path: f.path,
+      name: f.name,
+      extension: ext,
+      mime_type: mime,
+      size: f.size,
+      size_human,
+      category,
+      is_duplicate,
+      duplicate_count: LENGTH(duplicates),
+      created: f.created_at,
+      modified: f.modified_at
+    }
+```
+
+---
+
+## Architektur-Übersicht
+
+### Wie AQL intern funktioniert
+
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                           AQL Query                                   │
+│  FOR doc IN collection FILTER ... LET x = FUNC(...) RETURN ...       │
+└────────────────────────────────┬─────────────────────────────────────┘
+                                 │
+                                 ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                         Query Parser                                  │
+│   - Lexikalische Analyse                                             │
+│   - Syntaxbaum (AST) erstellen                                       │
+│   - Semantische Validierung                                          │
+└────────────────────────────────┬─────────────────────────────────────┘
+                                 │
+                                 ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                      Query Optimizer                                  │
+│   - Index-Auswahl                                                    │
+│   - Join-Reihenfolge                                                 │
+│   - Filter-Pushdown                                                  │
+│   - Subquery-Optimierung                                             │
+└────────────────────────────────┬─────────────────────────────────────┘
+                                 │
+                                 ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                     Execution Engine                                  │
+│  ┌──────────────────────────────────────────────────────────────┐   │
+│  │                  FunctionRegistry                              │   │
+│  │  ┌─────────┬─────────┬─────────┬─────────┬─────────────────┐ │   │
+│  │  │ String  │  Math   │  Array  │  Date   │    Document     │ │   │
+│  │  │ (~15)   │  (~25)  │  (~20)  │  (~15)  │     (~20)       │ │   │
+│  │  ├─────────┼─────────┼─────────┼─────────┼─────────────────┤ │   │
+│  │  │   Geo   │   CRS   │ Vector  │  Graph  │   Relational    │ │   │
+│  │  │  (~25)  │  (~10)  │  (~20)  │  (~15)  │     (~25)       │ │   │
+│  │  ├─────────┴─────────┴─────────┴─────────┴─────────────────┤ │   │
+│  │  │                      File (~20)                          │ │   │
+│  │  └──────────────────────────────────────────────────────────┘ │   │
+│  └──────────────────────────────────────────────────────────────────┘   │
+└────────────────────────────────┬─────────────────────────────────────┘
+                                 │
+                                 ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                      Storage Engines                                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐ │
+│  │ Document │  │   Graph  │  │  Vector  │  │    Geo (R-Tree)      │ │
+│  │  Store   │  │   Index  │  │   Index  │  │                      │ │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────────────────┘ │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### OOP-basiertes Funktionssystem
+
+Jede AQL-Funktion ist eine eigene Klasse mit definierter Schnittstelle:
+
+```cpp
+// Interface für alle Funktionen
+class IFunction {
+public:
+    virtual ~IFunction() = default;
+    
+    // Funktionsname (z.B. "LENGTH", "ST_DISTANCE")
+    virtual std::string getName() const = 0;
+    
+    // Beschreibung für Dokumentation
+    virtual std::string getDescription() const = 0;
+    
+    // Erlaubte Signaturen
+    virtual std::vector<FunctionSignature> getSignatures() const = 0;
+    
+    // Ausführung
+    virtual JsonValue execute(
+        const std::vector<JsonValue>& args,
+        const FunctionContext& ctx
+    ) const = 0;
+};
+
+// Beispiel: LENGTH-Funktion
+class LengthFunction : public IFunction {
+public:
+    std::string getName() const override { return "LENGTH"; }
+    
+    std::string getDescription() const override {
+        return "Returns length of string, array, or object";
+    }
+    
+    std::vector<FunctionSignature> getSignatures() const override {
+        return {
+            { {ArgType::STRING}, ReturnType::NUMBER },
+            { {ArgType::ARRAY}, ReturnType::NUMBER },
+            { {ArgType::OBJECT}, ReturnType::NUMBER }
+        };
+    }
+    
+    JsonValue execute(const std::vector<JsonValue>& args, const FunctionContext& ctx) const override {
+        if (args[0].isString()) return args[0].asString().length();
+        if (args[0].isArray()) return args[0].asArray().size();
+        if (args[0].isObject()) return args[0].asObject().size();
+        throw FunctionError("LENGTH requires string, array, or object");
+    }
+};
+```
+
+**Vorteile dieses Designs:**
+- ✅ Single Responsibility: Jede Funktion in eigener Klasse
+- ✅ Open/Closed: Neue Funktionen ohne Änderung bestehenden Codes
+- ✅ Testbarkeit: Jede Funktion isoliert testbar
+- ✅ Dokumentation: Automatisch aus Metadaten generierbar
+- ✅ Plugin-fähig: Externe Funktionen registrierbar
 
 ---
 
 ## Vergleich mit anderen Datenbanken
 
-### ThemisDB vs. Neo4j (Cypher)
+### Detaillierter Feature-Vergleich
 
-| Aufgabe | ThemisDB AQL | Neo4j Cypher |
-|---------|--------------|--------------|
-| **Pfadsuche** | `FOR v IN 1..5 OUTBOUND start knows RETURN v` | `MATCH (start)-[:knows*1..5]->(v) RETURN v` |
-| **Mit Geo-Filter** | `FILTER GEO_DISTANCE(v.loc, @point) < 1000` | ❌ Nicht möglich ohne Plugin |
-| **Mit Vector-Similarity** | `LET sim = COSINE_SIMILARITY(v.emb, @vec)` | ❌ Braucht externes System |
-| **Shortest Path** | `SHORTEST_PATH(a, b, "knows")` | `shortestPath((a)-[:knows*]-(b))` |
+#### ThemisDB vs. Neo4j (Cypher)
 
-### ThemisDB vs. PostgreSQL
+| Aufgabe | ThemisDB AQL | Neo4j Cypher | Anmerkung |
+|---------|--------------|--------------|-----------|
+| **Einfache Traversierung** | `FOR v IN 1..5 OUTBOUND start knows RETURN v` | `MATCH (start)-[:knows*1..5]->(v) RETURN v` | Ähnliche Syntax |
+| **Mit Geo-Filter** | `FILTER GEO_DISTANCE(v.loc, @point) < 1000` | ❌ Nicht möglich ohne Plugin | ThemisDB: Native Integration |
+| **Mit Vector-Similarity** | `LET sim = COSINE_SIMILARITY(v.emb, @vec)` | ❌ Braucht externes System | ThemisDB: Native Vektorsuche |
+| **Shortest Path** | `SHORTEST_PATH(a, b, "knows")` | `shortestPath((a)-[:knows*]-(b))` | Beide nativ unterstützt |
+| **Aggregation** | `COLLECT ... AGGREGATE SUM(), AVG()` | `WITH ... COLLECT` | ThemisDB: SQL-ähnlicher |
+| **Window Functions** | `ROW_NUMBER() OVER (...)` | ❌ Nicht verfügbar | ThemisDB exklusiv |
+| **Subqueries** | `LET x = (FOR ...)` | `CALL { ... }` | Beide unterstützt |
+| **CRS Transformation** | `ST_TRANSFORM(geom, 25832, 4326)` | ❌ Nicht verfügbar | ThemisDB exklusiv |
 
-| Aufgabe | ThemisDB AQL | PostgreSQL |
-|---------|--------------|------------|
-| **JSON-Dokumente** | Native | `jsonb` Typ |
-| **Graph-Traversal** | `FOR v IN OUTBOUND` | `WITH RECURSIVE` (komplex!) |
-| **Vector-Search** | `SIMILARITY()` | `pgvector` Extension |
-| **Geo-Operationen** | `ST_*` Funktionen | PostGIS Extension |
-| **Alles kombiniert** | ✅ Eine Query | ❌ Mehrere Queries/CTEs |
+**Migration von Cypher zu AQL:**
 
-### ThemisDB vs. MongoDB
-
-| Aufgabe | ThemisDB AQL | MongoDB |
-|---------|--------------|---------|
-| **Syntax** | SQL-ähnlich, lesbar | JSON-basiert, verschachtelt |
-| **Graph** | Native Traversal | `\$graphLookup` (limitiert) |
-| **Aggregation** | `COLLECT`, `AGGREGATE` | Pipeline Stages |
-| **Joins** | `FOR ... FOR` | `\$lookup` |
-| **Window Functions** | `ROW_NUMBER`, `LAG`, `LEAD` | ❌ Nicht verfügbar |
-
-**Beispiel - Gruppierung mit Ranking:**
-
-```aql
--- ThemisDB: Klar und lesbar
-FOR order IN orders
-  COLLECT customer = order.customer_id
-  AGGREGATE total = SUM(order.amount), count = COUNT(1)
-  LET rank = ROW_NUMBER() OVER (ORDER BY total DESC)
-  FILTER rank <= 10
-  RETURN { customer, total, count, rank }
+```cypher
+// Neo4j Cypher
+MATCH (p:Person)-[:KNOWS*1..3]->(friend:Person)
+WHERE p.name = 'Alice'
+AND friend.age > 30
+RETURN friend.name, friend.age
+ORDER BY friend.age DESC
+LIMIT 10
 ```
 
+```aql
+// ThemisDB AQL
+FOR p IN persons
+  FILTER p.name == "Alice"
+  FOR friend IN 1..3 OUTBOUND p knows
+    FILTER friend.age > 30
+    SORT friend.age DESC
+    LIMIT 10
+    RETURN { name: friend.name, age: friend.age }
+```
+
+#### ThemisDB vs. PostgreSQL
+
+| Aufgabe | ThemisDB AQL | PostgreSQL | Anmerkung |
+|---------|--------------|------------|-----------|
+| **JSON-Dokumente** | Native | `jsonb` Typ | ThemisDB: Schema-frei |
+| **Graph-Traversal** | `FOR v IN OUTBOUND` | `WITH RECURSIVE` (komplex!) | ThemisDB: Eleganter |
+| **Vector-Search** | `COSINE_SIMILARITY()` | `pgvector` Extension | Beide gut |
+| **Geo-Operationen** | `ST_*` Funktionen | PostGIS Extension | Beide OGC-kompatibel |
+| **CRS Transformation** | `ST_TRANSFORM()` | PostGIS `ST_Transform()` | Beide vollständig |
+| **Window Functions** | `ROW_NUMBER`, `LAG`, `LEAD` | Vollständig | Beide vollständig |
+| **Alles kombiniert** | ✅ Eine Query | ❌ Mehrere Queries/CTEs | ThemisDB: Einfacher |
+
+**Migration von SQL zu AQL:**
+
+```sql
+-- PostgreSQL
+SELECT c.name, o.total, 
+       ROW_NUMBER() OVER (ORDER BY o.total DESC) as rank
+FROM customers c
+JOIN (
+  SELECT customer_id, SUM(amount) as total
+  FROM orders
+  GROUP BY customer_id
+) o ON c.id = o.customer_id
+WHERE o.total > 1000
+ORDER BY o.total DESC;
+```
+
+```aql
+-- ThemisDB AQL
+FOR c IN customers
+  LET orderTotal = SUM(
+    FOR o IN orders
+      FILTER o.customer_id == c._key
+      RETURN o.amount
+  )
+  FILTER orderTotal > 1000
+  LET rank = ROW_NUMBER() OVER (ORDER BY orderTotal DESC)
+  SORT orderTotal DESC
+  RETURN { name: c.name, total: orderTotal, rank }
+```
+
+#### ThemisDB vs. MongoDB
+
+| Aufgabe | ThemisDB AQL | MongoDB | Anmerkung |
+|---------|--------------|---------|-----------|
+| **Syntax** | SQL-ähnlich, lesbar | JSON-basiert, verschachtelt | ThemisDB: Lesbarer |
+| **Graph** | Native Traversal | `$graphLookup` (limitiert) | ThemisDB: Mächtiger |
+| **Aggregation** | `COLLECT`, `AGGREGATE` | Pipeline Stages | Beide mächtig |
+| **Joins** | `FOR ... FOR` | `$lookup` | ThemisDB: Flexibler |
+| **Window Functions** | `ROW_NUMBER`, `LAG`, `LEAD` | ❌ Nicht verfügbar | ThemisDB exklusiv |
+| **Vector Search** | Native | Atlas Search (Cloud) | ThemisDB: On-premise möglich |
+| **Geo** | OGC ST_* Funktionen | GeoJSON-basiert | Beide gut |
+
+**Migration von MongoDB Aggregation zu AQL:**
+
 ```javascript
-// MongoDB: Verschachtelt und komplex
+// MongoDB Aggregation Pipeline
 db.orders.aggregate([
-  { \$group: { _id: "\$customer_id", total: { \$sum: "\$amount" }, count: { \$sum: 1 } } },
-  { \$sort: { total: -1 } },
-  { \$limit: 10 },
-  { \$project: { customer: "\$_id", total: 1, count: 1 } }
+  { $match: { status: "completed" } },
+  { $group: { 
+      _id: "$customer_id", 
+      total: { $sum: "$amount" }, 
+      count: { $sum: 1 } 
+  }},
+  { $lookup: {
+      from: "customers",
+      localField: "_id",
+      foreignField: "_id",
+      as: "customer"
+  }},
+  { $unwind: "$customer" },
+  { $sort: { total: -1 } },
+  { $limit: 10 },
+  { $project: {
+      customerName: "$customer.name",
+      total: 1,
+      count: 1
+  }}
 ])
-// Hinweis: ROW_NUMBER() nicht nativ verfügbar!
+```
+
+```aql
+// ThemisDB AQL - Deutlich lesbarer
+FOR o IN orders
+  FILTER o.status == "completed"
+  COLLECT customerId = o.customer_id
+  AGGREGATE 
+    total = SUM(o.amount),
+    count = COUNT(1)
+  LET customer = DOCUMENT("customers", customerId)
+  SORT total DESC
+  LIMIT 10
+  RETURN {
+    customerName: customer.name,
+    total,
+    count
+  }
+```
+
+#### ThemisDB vs. ArangoDB
+
+| Aufgabe | ThemisDB AQL | ArangoDB AQL | Anmerkung |
+|---------|--------------|--------------|-----------|
+| **Graph Traversal** | Identische Syntax | Identische Syntax | Kompatibel |
+| **Vector Search** | Native | Nur über Views | ThemisDB: Einfacher |
+| **CRS Transformation** | `ST_TRANSFORM()` mit Helmert | Nur WGS84 | ThemisDB: Vollständiger |
+| **Process Mining** | Native BPMN | ❌ Nicht verfügbar | ThemisDB exklusiv |
+| **Window Functions** | `ROW_NUMBER`, `LAG`, `LEAD` | ❌ Nicht verfügbar | ThemisDB exklusiv |
+| **File Functions** | `MIME_TYPE`, `PATH_*` | ❌ Nicht verfügbar | ThemisDB exklusiv |
+
+#### ThemisDB vs. Pinecone/Weaviate (Vector DBs)
+
+| Aufgabe | ThemisDB | Pinecone/Weaviate | Anmerkung |
+|---------|----------|-------------------|-----------|
+| **Vector Search** | `COSINE_SIMILARITY()` | Native API | Beide schnell |
+| **Metadata Filter** | AQL Filter-Syntax | Eigene Filter-Syntax | ThemisDB: Mächtiger |
+| **Joins** | Native | ❌ Nicht möglich | ThemisDB exklusiv |
+| **Geo-Filter** | `GEO_DISTANCE()` | Limitiert | ThemisDB: Vollständig |
+| **Graph** | Native Traversal | ❌ Nicht möglich | ThemisDB exklusiv |
+| **Aggregation** | `COLLECT AGGREGATE` | ❌ Nur Count | ThemisDB: Vollständig |
+
+**Typische Pinecone-Abfrage in ThemisDB:**
+
+```python
+# Pinecone Python
+results = index.query(
+    vector=query_embedding,
+    top_k=10,
+    filter={"category": "electronics", "price": {"$lt": 100}}
+)
+```
+
+```aql
+-- ThemisDB AQL - Mit zusätzlichen Möglichkeiten
+FOR doc IN products
+  FILTER doc.category == "electronics"
+  FILTER doc.price < 100
+  LET similarity = COSINE_SIMILARITY(doc.embedding, @queryEmbedding)
+  FILTER similarity > 0.7
+  SORT similarity DESC
+  LIMIT 10
+  
+  -- Zusätzlich: Ähnliche Produkte über Graph
+  LET related = (
+    FOR r IN 1..2 OUTBOUND doc similar_to
+      RETURN r.name
+  )
+  
+  -- Zusätzlich: Durchschnittliche Bewertung
+  LET avgRating = AVG(
+    FOR review IN reviews
+      FILTER review.product_id == doc._key
+      RETURN review.rating
+  )
+  
+  RETURN { 
+    doc, 
+    similarity, 
+    related: SLICE(related, 0, 5),
+    avgRating
+  }
 ```
 
 ---
@@ -150,133 +734,1036 @@ db.orders.aggregate([
 
 ThemisDB bietet **~210 Funktionen** in **11 Kategorien**:
 
-| Kategorie | Anzahl | Beschreibung |
-|-----------|--------|--------------|
-| String | ~15 | Textmanipulation, Pattern Matching |
-| Math | ~25 | Arithmetik, Trigonometrie, Statistik |
-| Array | ~20 | Listen-Operationen |
-| Date | ~15 | Datum/Zeit-Verarbeitung |
-| Document | ~20 | Objektmanipulation, Typ-Prüfungen |
-| Geo | ~25 | Räumliche Operationen (OGC-kompatibel) |
-| CRS | ~10 | Koordinatentransformationen |
-| Vector | ~20 | ML-Embeddings, Ähnlichkeitssuche |
-| Graph | ~15 | Traversierung, Zentralität, Pfade |
-| Relational | ~25 | SQL-Joins, Aggregation, Window |
-| File | ~20 | Pfade, MIME-Typen, Dateigrößen |
+| Kategorie | Anzahl | Beschreibung | Haupt-Anwendungsfälle |
+|-----------|--------|--------------|----------------------|
+| **String** | ~15 | Textmanipulation, Pattern Matching, Fuzzy Search | Datenbereinigung, Suche, Validierung |
+| **Math** | ~25 | Arithmetik, Trigonometrie, Statistik | Berechnungen, Analysen, ML-Features |
+| **Array** | ~20 | Listen-Operationen, Set-Funktionen | Datenstruktur-Manipulation |
+| **Date** | ~15 | Datum/Zeit-Verarbeitung, Formatierung | Zeitreihen, Berichte, Scheduling |
+| **Document** | ~20 | Objektmanipulation, Typ-Prüfungen | Schema-Validierung, Transformation |
+| **Geo** | ~25 | Räumliche Operationen (OGC-kompatibel) | GIS, Location-Services, Routing |
+| **CRS** | ~10 | Koordinatentransformationen | Vermessung, Kataster, Kartografie |
+| **Vector** | ~20 | ML-Embeddings, Ähnlichkeitssuche | Semantic Search, Recommendations |
+| **Graph** | ~15 | Traversierung, Zentralität, Pfade | Social Networks, Fraud Detection |
+| **Relational** | ~25 | SQL-Joins, Aggregation, Window | Business Analytics, Reporting |
+| **File** | ~20 | Pfade, MIME-Typen, Dateigrößen | Document Management, Storage |
+
+---
+
+## Syntax-Grundlagen
+
+### Grundstruktur einer AQL-Query
+
+```aql
+// Iteration über Collection
+FOR variable IN collection
+  
+  // Filterung
+  FILTER variable.field == "value"
+  FILTER variable.number > 10
+  
+  // Berechnungen und Zwischenvariablen
+  LET computed = FUNCTION(variable.field)
+  LET subquery = (
+    FOR sub IN other_collection
+      FILTER sub.ref == variable._key
+      RETURN sub
+  )
+  
+  // Sortierung
+  SORT variable.field ASC
+  
+  // Limitierung
+  LIMIT 10
+  
+  // Rückgabe
+  RETURN {
+    id: variable._key,
+    computed,
+    subquery
+  }
+```
+
+### Operatoren
+
+| Kategorie | Operatoren | Beispiel |
+|-----------|------------|----------|
+| **Vergleich** | `==`, `!=`, `<`, `>`, `<=`, `>=` | `x == 5` |
+| **Logisch** | `AND`, `OR`, `NOT`, `!` | `a > 5 AND b < 10` |
+| **Arithmetisch** | `+`, `-`, `*`, `/`, `%` | `price * quantity` |
+| **String** | `+` (Konkatenation) | `firstName + " " + lastName` |
+| **Ternär** | `? :` | `age >= 18 ? "adult" : "minor"` |
+| **In** | `IN`, `NOT IN` | `status IN ["active", "pending"]` |
+| **Like** | `LIKE` | `name LIKE "A%"` |
+| **Range** | `..` | `FOR i IN 1..10` |
+
+### Datentypen
+
+| Typ | Beispiel | AQL-Literal |
+|-----|----------|-------------|
+| **null** | Kein Wert | `null` |
+| **Boolean** | Wahr/Falsch | `true`, `false` |
+| **Number** | Ganz-/Fließkommazahl | `42`, `3.14`, `-17` |
+| **String** | Text | `"Hello"`, `'World'` |
+| **Array** | Liste | `[1, 2, 3]`, `["a", "b"]` |
+| **Object** | Dokument | `{ key: "value", num: 42 }` |
+
+### Variablen-Bindung
+
+```aql
+// LET für Zwischenvariablen
+LET x = 5
+LET greeting = CONCAT("Hello, ", @userName)
+LET result = (FOR doc IN docs RETURN doc.value)
+
+// @ für Parameter (Query-Bindung)
+FOR user IN users
+  FILTER user.age >= @minAge
+  FILTER user.country == @country
+  RETURN user
+```
+
+### Subqueries
+
+```aql
+// Korrelierte Subquery
+FOR user IN users
+  LET orders = (
+    FOR order IN orders
+      FILTER order.user_id == user._key
+      SORT order.date DESC
+      LIMIT 5
+      RETURN order
+  )
+  RETURN { user, recentOrders: orders }
+
+// Aggregierte Subquery
+FOR user IN users
+  LET totalSpent = SUM(
+    FOR order IN orders
+      FILTER order.user_id == user._key
+      RETURN order.amount
+  )
+  RETURN { user, totalSpent }
+```
 
 ---
 
 ## String-Funktionen
 
+Die String-Funktionen bieten umfassende Textmanipulation von einfacher Verkettung bis zu Fuzzy-Matching mit Levenshtein-Distanz.
+
+### Übersicht
+
+| Funktion | Beschreibung | Beispiel-Rückgabe |
+|----------|--------------|-------------------|
+| `LENGTH(str)` | Länge eines Strings | `11` |
+| `CONCAT(...)` | Strings verketten | `"Hello World"` |
+| `SUBSTRING(str, start, len)` | Teilstring extrahieren | `"llo"` |
+| `UPPER(str)` | Großschreibung | `"HELLO"` |
+| `LOWER(str)` | Kleinschreibung | `"hello"` |
+| `TRIM(str)` | Leerzeichen entfernen | `"text"` |
+| `LTRIM(str)` | Links trimmen | `"text  "` |
+| `RTRIM(str)` | Rechts trimmen | `"  text"` |
+| `SPLIT(str, sep)` | String teilen | `["a", "b", "c"]` |
+| `CONTAINS(str, search)` | Enthält Substring? | `true` / `false` |
+| `STARTS_WITH(str, prefix)` | Beginnt mit? | `true` / `false` |
+| `ENDS_WITH(str, suffix)` | Endet mit? | `true` / `false` |
+| `REPLACE(str, old, new)` | Ersetzen | `"Hello World"` |
+| `REGEX_TEST(str, pattern)` | Regex-Match? | `true` / `false` |
+| `REGEX_REPLACE(str, pattern, replacement)` | Regex-Ersetzung | `"processed"` |
+| `LEVENSHTEIN_DISTANCE(a, b)` | Edit-Distanz | `3` |
+
+---
+
 ### LENGTH(value)
+
 Gibt die Länge eines Strings, Arrays oder Objekts zurück.
+
+**Signatur:**
+```
+LENGTH(value) → number
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung |
+|-----------|-----|--------------|
+| `value` | string \| array \| object | Der zu messende Wert |
+
+**Rückgabewert:** `number` - Die Länge
+
+**Verhalten nach Typ:**
+- **String**: Anzahl der UTF-8 Zeichen (nicht Bytes!)
+- **Array**: Anzahl der Elemente
+- **Object**: Anzahl der Eigenschaften (Top-Level)
+
+**Beispiele:**
 
 ```aql
 -- String-Länge
-RETURN LENGTH("Hello World")  -- 11
+RETURN LENGTH("Hello World")
+// Ergebnis: 11
+
+-- Unicode-Strings (Zeichen, nicht Bytes)
+RETURN LENGTH("Hëllö Wörld")
+// Ergebnis: 11
+
+RETURN LENGTH("你好世界")
+// Ergebnis: 4
+
+-- Emoji-Strings
+RETURN LENGTH("👋🌍")
+// Ergebnis: 2
 
 -- Array-Länge
-RETURN LENGTH([1, 2, 3, 4, 5])  -- 5
+RETURN LENGTH([1, 2, 3, 4, 5])
+// Ergebnis: 5
+
+RETURN LENGTH([])
+// Ergebnis: 0
 
 -- Objekt-Eigenschaften zählen
-RETURN LENGTH({ name: "Max", age: 30 })  -- 2
+RETURN LENGTH({ name: "Max", age: 30 })
+// Ergebnis: 2
+
+-- Verschachtelte Objekte (nur Top-Level)
+RETURN LENGTH({ user: { name: "Max", age: 30 }, active: true })
+// Ergebnis: 2 (nicht 3!)
+
+-- Null-Handling
+RETURN LENGTH(null)
+// Ergebnis: 0
 ```
 
+**Praxisbeispiele:**
+
+```aql
+-- Kurze Beschreibungen finden
+FOR product IN products
+  FILTER LENGTH(product.description) < 50
+  RETURN { id: product._key, description: product.description }
+
+-- Validierung: Mindestlänge
+FOR user IN users
+  FILTER LENGTH(user.password_hash) < 60
+  RETURN { user: user.email, warning: "Passwort-Hash zu kurz" }
+
+-- Array-Größen analysieren
+FOR order IN orders
+  LET itemCount = LENGTH(order.items)
+  COLLECT bucket = FLOOR(itemCount / 5) * 5
+  AGGREGATE count = COUNT(1)
+  SORT bucket
+  RETURN { items: CONCAT(bucket, "-", bucket + 4), orders: count }
+```
+
+**Edge Cases:**
+
+```aql
+RETURN LENGTH("")           // 0
+RETURN LENGTH(" ")          // 1
+RETURN LENGTH("   ")        // 3
+RETURN LENGTH([null, null]) // 2 (Elemente zählen, auch null)
+RETURN LENGTH({})           // 0
+```
+
+---
+
 ### CONCAT(...values)
-Verbindet mehrere Werte zu einem String.
+
+Verbindet mehrere Werte zu einem String. Null-Werte werden als leerer String behandelt.
+
+**Signatur:**
+```
+CONCAT(value1, value2, ...) → string
+CONCAT(array) → string
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung |
+|-----------|-----|--------------|
+| `values` | any... | Beliebig viele Werte |
+| `array` | array | Array von Werten |
+
+**Rückgabewert:** `string` - Der verkettete String
+
+**Typ-Konvertierung:**
+- **string**: Unverändert
+- **number**: Als Dezimalzahl
+- **boolean**: `"true"` oder `"false"`
+- **null**: Leerer String `""`
+- **array**: JSON-Darstellung
+- **object**: JSON-Darstellung
+
+**Beispiele:**
 
 ```aql
 -- Einfache Verkettung
-RETURN CONCAT("Hello", " ", "World")  -- "Hello World"
+RETURN CONCAT("Hello", " ", "World")
+// Ergebnis: "Hello World"
 
 -- Mit Variablen
 FOR user IN users
   RETURN CONCAT(user.firstName, " ", user.lastName)
+// Ergebnis: "Max Mustermann"
+
+-- Zahlen einbinden
+RETURN CONCAT("Preis: ", 42.50, " EUR")
+// Ergebnis: "Preis: 42.5 EUR"
+
+-- Null-Handling (ignoriert null)
+RETURN CONCAT("Hello", null, "World")
+// Ergebnis: "HelloWorld"
+
+-- Array als Eingabe
+RETURN CONCAT(["Hello", " ", "World"])
+// Ergebnis: "Hello World"
+
+-- Boolean einbinden
+RETURN CONCAT("Status: ", true)
+// Ergebnis: "Status: true"
 ```
+
+**Praxisbeispiele:**
+
+```aql
+-- Vollständige Adresse generieren
+FOR customer IN customers
+  LET address = CONCAT(
+    customer.street, " ", customer.houseNumber, "\n",
+    customer.zipCode, " ", customer.city, "\n",
+    customer.country
+  )
+  RETURN { customer: customer.name, address }
+
+-- URL generieren
+FOR product IN products
+  LET url = CONCAT(
+    "https://shop.example.com/products/",
+    product.category, "/",
+    product.slug
+  )
+  RETURN { product: product.name, url }
+
+-- Log-Nachricht erstellen
+FOR event IN events
+  LET logLine = CONCAT(
+    "[", DATE_FORMAT(event.timestamp, "%Y-%m-%d %H:%M:%S"), "] ",
+    "[", UPPER(event.level), "] ",
+    event.message
+  )
+  RETURN logLine
+// Ergebnis: "[2024-01-15 10:30:45] [ERROR] Connection timeout"
+```
+
+**Verwandte Funktionen:**
+- `CONCAT_SEPARATOR()` - Mit Trennzeichen
+- `+` Operator - Alternative für zwei Strings
+
+---
 
 ### SUBSTRING(str, start, length?)
-Extrahiert einen Teilstring.
+
+Extrahiert einen Teilstring ab einer Position.
+
+**Signatur:**
+```
+SUBSTRING(str, start) → string
+SUBSTRING(str, start, length) → string
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung | Default |
+|-----------|-----|--------------|---------|
+| `str` | string | Quell-String | - |
+| `start` | number | Startposition (0-basiert) | - |
+| `length` | number | Anzahl Zeichen | Bis Ende |
+
+**Rückgabewert:** `string` - Der extrahierte Teilstring
+
+**Besonderheiten:**
+- Negative `start`-Werte: Vom Ende zählen
+- `length` > verfügbare Zeichen: Bis Ende
+- `start` > String-Länge: Leerer String
+
+**Beispiele:**
 
 ```aql
-RETURN SUBSTRING("ThemisDB", 0, 6)  -- "Themis"
-RETURN SUBSTRING("ThemisDB", 6)     -- "DB"
+-- Einfache Extraktion
+RETURN SUBSTRING("ThemisDB", 0, 6)
+// Ergebnis: "Themis"
+
+RETURN SUBSTRING("ThemisDB", 6)
+// Ergebnis: "DB"
+
+-- Negative Startposition
+RETURN SUBSTRING("ThemisDB", -2)
+// Ergebnis: "DB"
+
+RETURN SUBSTRING("ThemisDB", -5, 3)
+// Ergebnis: "mis"
+
+-- Über String-Ende hinaus
+RETURN SUBSTRING("Hello", 3, 100)
+// Ergebnis: "lo"
+
+-- Leeres Ergebnis
+RETURN SUBSTRING("Hello", 10)
+// Ergebnis: ""
 ```
+
+**Praxisbeispiele:**
+
+```aql
+-- Vorwahl extrahieren (deutsche Telefonnummern)
+FOR contact IN contacts
+  LET phone = contact.phone
+  LET areaCode = (
+    STARTS_WITH(phone, "+49") ? SUBSTRING(phone, 3, 4) :
+    STARTS_WITH(phone, "0") ? SUBSTRING(phone, 0, 4) :
+    null
+  )
+  RETURN { name: contact.name, phone, areaCode }
+
+-- Dateiname kürzen für Anzeige
+FOR file IN files
+  LET shortName = LENGTH(file.name) > 30 
+    ? CONCAT(SUBSTRING(file.name, 0, 27), "...")
+    : file.name
+  RETURN { id: file._key, displayName: shortName }
+
+-- Jahr aus Datumsstring extrahieren
+FOR event IN events
+  LET year = SUBSTRING(event.date_string, 0, 4)
+  COLLECT year = year
+  AGGREGATE count = COUNT(1)
+  RETURN { year, count }
+```
+
+---
 
 ### UPPER(str) / LOWER(str)
-Konvertiert zu Groß-/Kleinschreibung.
+
+Konvertiert String zu Groß- oder Kleinschreibung.
+
+**Signatur:**
+```
+UPPER(str) → string
+LOWER(str) → string
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung |
+|-----------|-----|--------------|
+| `str` | string | Der zu konvertierende String |
+
+**Rückgabewert:** `string` - Der konvertierte String
+
+**Unicode-Unterstützung:**
+Vollständige Unicode-Unterstützung inklusive:
+- Deutsche Umlaute (ä→Ä, ö→Ö, ü→Ü, ß→SS)
+- Akzentzeichen (é→É, ñ→Ñ)
+- Griechische, kyrillische und andere Alphabete
+
+**Beispiele:**
 
 ```aql
-RETURN UPPER("hello")  -- "HELLO"
-RETURN LOWER("WORLD")  -- "world"
+RETURN UPPER("hello world")
+// Ergebnis: "HELLO WORLD"
+
+RETURN LOWER("HELLO WORLD")
+// Ergebnis: "hello world"
+
+-- Deutsche Umlaute
+RETURN UPPER("größe")
+// Ergebnis: "GRÖSSE" (ß → SS)
+
+RETURN LOWER("GRÖSSE")
+// Ergebnis: "grösse"
+
+-- Mixed Case normalisieren
+RETURN LOWER("ThEmIsDb")
+// Ergebnis: "themisdb"
 ```
+
+**Praxisbeispiele:**
+
+```aql
+-- Case-insensitive Suche
+FOR product IN products
+  FILTER LOWER(product.name) == LOWER(@searchTerm)
+  RETURN product
+
+-- E-Mail-Normalisierung
+FOR user IN users
+  UPDATE user WITH { email: LOWER(user.email) } IN users
+
+-- Titel-Formatierung (First Letter Uppercase)
+FOR article IN articles
+  LET words = SPLIT(article.title, " ")
+  LET formatted = (
+    FOR word IN words
+      RETURN CONCAT(UPPER(SUBSTRING(word, 0, 1)), LOWER(SUBSTRING(word, 1)))
+  )
+  RETURN { 
+    original: article.title, 
+    formatted: CONCAT_SEPARATOR(" ", formatted) 
+  }
+```
+
+---
 
 ### TRIM(str) / LTRIM(str) / RTRIM(str)
-Entfernt Leerzeichen.
 
-```aql
-RETURN TRIM("  hello  ")   -- "hello"
-RETURN LTRIM("  hello  ")  -- "hello  "
-RETURN RTRIM("  hello  ")  -- "  hello"
+Entfernt Leerzeichen oder spezifische Zeichen von Strings.
+
+**Signatur:**
+```
+TRIM(str) → string
+TRIM(str, chars) → string
+LTRIM(str) → string
+LTRIM(str, chars) → string
+RTRIM(str) → string
+RTRIM(str, chars) → string
 ```
 
-### SPLIT(str, separator)
-Teilt String in Array.
+**Parameter:**
+
+| Parameter | Typ | Beschreibung | Default |
+|-----------|-----|--------------|---------|
+| `str` | string | Der zu trimmende String | - |
+| `chars` | string | Zu entfernende Zeichen | Whitespace |
+
+**Rückgabewert:** `string` - Der getrimmte String
+
+**Whitespace-Definition:**
+Standardmäßig werden entfernt: Space, Tab, Newline, Carriage Return, Form Feed
+
+**Beispiele:**
 
 ```aql
-RETURN SPLIT("a,b,c", ",")  -- ["a", "b", "c"]
+-- Basis-Trim
+RETURN TRIM("  hello  ")
+// Ergebnis: "hello"
 
+RETURN LTRIM("  hello  ")
+// Ergebnis: "hello  "
+
+RETURN RTRIM("  hello  ")
+// Ergebnis: "  hello"
+
+-- Newlines entfernen
+RETURN TRIM("  \n  hello  \n  ")
+// Ergebnis: "hello"
+
+-- Spezifische Zeichen entfernen
+RETURN TRIM("---hello---", "-")
+// Ergebnis: "hello"
+
+RETURN LTRIM("000123", "0")
+// Ergebnis: "123"
+
+RETURN RTRIM("price$$$", "$")
+// Ergebnis: "price"
+
+-- Mehrere Zeichen
+RETURN TRIM("<<hello>>", "<>")
+// Ergebnis: "hello"
+```
+
+**Praxisbeispiele:**
+
+```aql
+-- Datenbereinigung bei Import
+FOR record IN raw_import
+  UPDATE record WITH {
+    name: TRIM(record.name),
+    email: TRIM(LOWER(record.email)),
+    phone: TRIM(REPLACE(record.phone, " ", ""))
+  } IN raw_import
+
+-- CSV-Werte bereinigen
+FOR line IN csv_lines
+  LET values = SPLIT(line, ",")
+  LET cleaned = (FOR v IN values RETURN TRIM(v))
+  RETURN cleaned
+
+-- Führende Nullen entfernen (z.B. Artikelnummern)
+FOR product IN products
+  LET cleanedSku = LTRIM(product.sku, "0")
+  UPDATE product WITH { sku_clean: cleanedSku } IN products
+```
+
+---
+
+### SPLIT(str, separator)
+
+Teilt einen String in ein Array anhand eines Trennzeichens.
+
+**Signatur:**
+```
+SPLIT(str, separator) → array
+SPLIT(str, separator, limit) → array
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung | Default |
+|-----------|-----|--------------|---------|
+| `str` | string | Der zu teilende String | - |
+| `separator` | string | Das Trennzeichen | - |
+| `limit` | number | Maximale Teile | Unbegrenzt |
+
+**Rückgabewert:** `array` - Array von Strings
+
+**Besonderheiten:**
+- Leerer Separator teilt in einzelne Zeichen
+- Separator am Ende erzeugt leeres Element
+- Aufeinanderfolgende Separatoren erzeugen leere Elemente
+
+**Beispiele:**
+
+```aql
+-- Einfaches Teilen
+RETURN SPLIT("a,b,c", ",")
+// Ergebnis: ["a", "b", "c"]
+
+-- Mit Limit
+RETURN SPLIT("a,b,c,d,e", ",", 3)
+// Ergebnis: ["a", "b", "c,d,e"]
+
+-- Leere Elemente
+RETURN SPLIT("a,,b", ",")
+// Ergebnis: ["a", "", "b"]
+
+-- Leerer String
+RETURN SPLIT("", ",")
+// Ergebnis: [""]
+
+-- In Zeichen teilen
+RETURN SPLIT("hello", "")
+// Ergebnis: ["h", "e", "l", "l", "o"]
+```
+
+**Praxisbeispiele:**
+
+```aql
 -- E-Mail-Domain extrahieren
 FOR user IN users
   LET parts = SPLIT(user.email, "@")
-  RETURN { user: parts[0], domain: parts[1] }
+  RETURN { 
+    user: parts[0], 
+    domain: parts[1],
+    topLevel: LAST(SPLIT(parts[1], "."))
+  }
+
+-- Tags parsen (kommasepariert)
+FOR article IN articles
+  LET tags = (
+    FOR tag IN SPLIT(article.tags_string, ",")
+      RETURN TRIM(tag)
+  )
+  RETURN { title: article.title, tags }
+
+-- Pfad-Komponenten
+FOR file IN files
+  LET pathParts = SPLIT(file.path, "/")
+  RETURN {
+    file: LAST(pathParts),
+    folder: NTH(pathParts, LENGTH(pathParts) - 2),
+    depth: LENGTH(pathParts) - 1
+  }
+
+-- IP-Adresse parsen
+FOR log IN access_logs
+  LET octets = SPLIT(log.ip_address, ".")
+  FILTER TO_NUMBER(octets[0]) == 192
+  FILTER TO_NUMBER(octets[1]) == 168
+  RETURN log
 ```
 
-### CONTAINS(str, search)
-Prüft ob Substring enthalten ist.
+---
+
+### CONTAINS(str, search) / STARTS_WITH(str, prefix) / ENDS_WITH(str, suffix)
+
+Prüft ob ein String einen Teilstring enthält oder mit bestimmten Zeichen beginnt/endet.
+
+**Signatur:**
+```
+CONTAINS(str, search) → bool
+CONTAINS(str, search, returnIndex) → bool | number
+STARTS_WITH(str, prefix) → bool
+ENDS_WITH(str, suffix) → bool
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung |
+|-----------|-----|--------------|
+| `str` | string | Der zu durchsuchende String |
+| `search`/`prefix`/`suffix` | string | Der gesuchte String |
+| `returnIndex` | boolean | Wenn true, Position statt bool |
+
+**Rückgabewert:** `bool` oder `number` (Position, -1 wenn nicht gefunden)
+
+**Beispiele:**
 
 ```aql
-RETURN CONTAINS("Hello World", "World")  -- true
-RETURN CONTAINS("Hello World", "Themis")  -- false
+-- Einfache Prüfung
+RETURN CONTAINS("Hello World", "World")
+// Ergebnis: true
 
--- Filter mit CONTAINS
-FOR product IN products
-  FILTER CONTAINS(product.description, "premium")
-  RETURN product
+RETURN CONTAINS("Hello World", "world")
+// Ergebnis: false (case-sensitive!)
+
+-- Position zurückgeben
+RETURN CONTAINS("Hello World", "World", true)
+// Ergebnis: 6
+
+RETURN CONTAINS("Hello World", "xyz", true)
+// Ergebnis: -1
+
+-- Prefix-Prüfung
+RETURN STARTS_WITH("ThemisDB", "Themis")
+// Ergebnis: true
+
+RETURN STARTS_WITH("ThemisDB", "themis")
+// Ergebnis: false
+
+-- Suffix-Prüfung
+RETURN ENDS_WITH("document.pdf", ".pdf")
+// Ergebnis: true
+
+RETURN ENDS_WITH("document.pdf", ".PDF")
+// Ergebnis: false
 ```
+
+**Praxisbeispiele:**
+
+```aql
+-- Case-insensitive Suche
+FOR product IN products
+  FILTER CONTAINS(LOWER(product.description), LOWER(@searchTerm))
+  RETURN product
+
+-- Dateitypen filtern
+FOR file IN files
+  FILTER ENDS_WITH(LOWER(file.name), ".pdf") OR 
+         ENDS_WITH(LOWER(file.name), ".doc") OR
+         ENDS_WITH(LOWER(file.name), ".docx")
+  RETURN file
+
+-- URLs analysieren
+FOR url IN urls
+  LET isSecure = STARTS_WITH(url.href, "https://")
+  LET domain = (
+    LET withoutProtocol = STARTS_WITH(url.href, "https://") 
+      ? SUBSTRING(url.href, 8) 
+      : SUBSTRING(url.href, 7)
+    LET endPos = CONTAINS(withoutProtocol, "/", true)
+    RETURN endPos > 0 ? SUBSTRING(withoutProtocol, 0, endPos) : withoutProtocol
+  )
+  RETURN { url: url.href, isSecure, domain }
+
+-- E-Mail-Validation (einfach)
+FOR user IN users
+  LET email = user.email
+  FILTER CONTAINS(email, "@")
+  FILTER CONTAINS(email, ".")
+  FILTER NOT STARTS_WITH(email, "@")
+  FILTER NOT ENDS_WITH(email, ".")
+  RETURN user
+```
+
+---
 
 ### REPLACE(str, search, replacement)
-Ersetzt alle Vorkommen.
 
-```aql
-RETURN REPLACE("Hello World", "World", "ThemisDB")  -- "Hello ThemisDB"
+Ersetzt alle Vorkommen eines Substrings.
+
+**Signatur:**
+```
+REPLACE(str, search, replacement) → string
+REPLACE(str, search, replacement, limit) → string
 ```
 
-### REGEX_TEST(str, pattern)
-Prüft ob Regex-Muster matcht.
+**Parameter:**
+
+| Parameter | Typ | Beschreibung | Default |
+|-----------|-----|--------------|---------|
+| `str` | string | Der Quell-String | - |
+| `search` | string | Der zu ersetzende String | - |
+| `replacement` | string | Der Ersetzungs-String | - |
+| `limit` | number | Max. Ersetzungen | Alle |
+
+**Rückgabewert:** `string` - Der modifizierte String
+
+**Beispiele:**
+
+```aql
+-- Einfache Ersetzung
+RETURN REPLACE("Hello World", "World", "ThemisDB")
+// Ergebnis: "Hello ThemisDB"
+
+-- Mehrfache Ersetzung
+RETURN REPLACE("aaa", "a", "b")
+// Ergebnis: "bbb"
+
+-- Mit Limit
+RETURN REPLACE("aaa", "a", "b", 2)
+// Ergebnis: "bba"
+
+-- Zeichen entfernen
+RETURN REPLACE("Hello World", " ", "")
+// Ergebnis: "HelloWorld"
+
+-- Leerer Ersetzungsstring
+RETURN REPLACE("H-e-l-l-o", "-", "")
+// Ergebnis: "Hello"
+```
+
+**Praxisbeispiele:**
+
+```aql
+-- Telefonnummern normalisieren
+FOR contact IN contacts
+  LET phone = contact.phone
+  LET normalized = REPLACE(REPLACE(REPLACE(
+    phone, " ", ""), "-", ""), "/", "")
+  UPDATE contact WITH { phone_normalized: normalized } IN contacts
+
+-- Slugs generieren
+FOR article IN articles
+  LET slug = LOWER(REPLACE(REPLACE(REPLACE(
+    article.title, " ", "-"), "ä", "ae"), "ü", "ue"))
+  UPDATE article WITH { slug } IN articles
+
+-- Sensible Daten maskieren
+FOR user IN users
+  LET maskedEmail = CONCAT(
+    SUBSTRING(user.email, 0, 2),
+    REPLACE(SUBSTRING(user.email, 2, CONTAINS(user.email, "@", true) - 2), 
+            REGEX_REPLACE(SUBSTRING(user.email, 2, CONTAINS(user.email, "@", true) - 2), ".", "*")),
+    SUBSTRING(user.email, CONTAINS(user.email, "@", true))
+  )
+  RETURN { id: user._key, maskedEmail }
+```
+
+---
+
+### REGEX_TEST(str, pattern) / REGEX_REPLACE(str, pattern, replacement)
+
+Reguläre Ausdrücke für Pattern Matching und Ersetzung.
+
+**Signatur:**
+```
+REGEX_TEST(str, pattern) → bool
+REGEX_TEST(str, pattern, ignoreCase) → bool
+REGEX_REPLACE(str, pattern, replacement) → string
+REGEX_REPLACE(str, pattern, replacement, ignoreCase) → string
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung | Default |
+|-----------|-----|--------------|---------|
+| `str` | string | Der zu prüfende String | - |
+| `pattern` | string | Regex-Pattern | - |
+| `replacement` | string | Ersetzungs-String | - |
+| `ignoreCase` | boolean | Case-insensitive | false |
+
+**Rückgabewert:** `bool` oder `string`
+
+**Regex-Syntax:**
+ThemisDB unterstützt ECMAScript-kompatible reguläre Ausdrücke:
+
+| Pattern | Bedeutung |
+|---------|-----------|
+| `.` | Beliebiges Zeichen |
+| `*` | 0 oder mehr |
+| `+` | 1 oder mehr |
+| `?` | 0 oder 1 |
+| `^` | Zeilenanfang |
+| `$` | Zeilenende |
+| `[abc]` | Zeichenklasse |
+| `[^abc]` | Negierte Zeichenklasse |
+| `\d` | Ziffer |
+| `\w` | Wortzeichen |
+| `\s` | Whitespace |
+| `(...)` | Gruppe |
+| `\1`, `\2` | Rückreferenz |
+
+**Beispiele:**
 
 ```aql
 -- E-Mail-Validierung
-FOR user IN users
-  FILTER REGEX_TEST(user.email, "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$")
-  RETURN user
+RETURN REGEX_TEST("user@example.com", "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+// Ergebnis: true
 
--- Telefonnummer-Format
-RETURN REGEX_TEST("+49 123 456789", "^\\+[0-9]{2}")  -- true
+RETURN REGEX_TEST("invalid-email", "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+// Ergebnis: false
+
+-- Telefonnummer-Format (deutsch)
+RETURN REGEX_TEST("+49 123 456789", "^\\+49\\s*\\d{3,}\\s*\\d+$")
+// Ergebnis: true
+
+-- Case-insensitive
+RETURN REGEX_TEST("Hello World", "hello", true)
+// Ergebnis: true
+
+-- Ersetzung mit Gruppen
+RETURN REGEX_REPLACE("John Doe", "^(\\w+)\\s+(\\w+)$", "$2, $1")
+// Ergebnis: "Doe, John"
+
+-- Alle Zahlen entfernen
+RETURN REGEX_REPLACE("abc123def456", "\\d+", "")
+// Ergebnis: "abcdef"
+
+-- Mehrere Leerzeichen zu einem
+RETURN REGEX_REPLACE("Hello    World", "\\s+", " ")
+// Ergebnis: "Hello World"
 ```
 
-### LEVENSHTEIN_DISTANCE(str1, str2)
-Berechnet Edit-Distanz (für Fuzzy-Matching).
+**Praxisbeispiele:**
 
 ```aql
-RETURN LEVENSHTEIN_DISTANCE("kitten", "sitting")  -- 3
+-- Verschiedene Datumsformate erkennen
+FOR doc IN documents
+  LET dateStr = doc.date_field
+  LET format = (
+    REGEX_TEST(dateStr, "^\\d{4}-\\d{2}-\\d{2}$") ? "ISO" :
+    REGEX_TEST(dateStr, "^\\d{2}\\.\\d{2}\\.\\d{4}$") ? "DE" :
+    REGEX_TEST(dateStr, "^\\d{2}/\\d{2}/\\d{4}$") ? "US" :
+    "UNKNOWN"
+  )
+  RETURN { dateStr, format }
 
--- Ähnliche Produktnamen finden
-FOR product IN products
-  LET distance = LEVENSHTEIN_DISTANCE(product.name, @searchTerm)
-  FILTER distance <= 3
-  SORT distance ASC
-  RETURN { product, distance }
+-- PLZ validieren (Deutschland)
+FOR customer IN customers
+  LET validPLZ = REGEX_TEST(customer.zip, "^\\d{5}$")
+  FILTER NOT validPLZ
+  RETURN { customer: customer.name, invalidZip: customer.zip }
+
+-- Kreditkartennummern maskieren
+FOR transaction IN transactions
+  LET maskedCC = REGEX_REPLACE(
+    transaction.card_number,
+    "^(\\d{4})\\d{8}(\\d{4})$",
+    "$1********$2"
+  )
+  RETURN { id: transaction._key, card: maskedCC }
+
+-- HTML-Tags entfernen
+FOR article IN articles
+  LET plainText = REGEX_REPLACE(article.content, "<[^>]+>", "")
+  RETURN { title: article.title, plainText: SUBSTRING(plainText, 0, 200) }
 ```
+
+**Performance-Hinweis:**
+Regex-Operationen sind rechenintensiv. Für einfache Suchen ist `CONTAINS()` deutlich schneller.
+
+---
+
+### LEVENSHTEIN_DISTANCE(str1, str2)
+
+Berechnet die Edit-Distanz (minimale Anzahl von Einfügungen, Löschungen, Ersetzungen) zwischen zwei Strings.
+
+**Signatur:**
+```
+LEVENSHTEIN_DISTANCE(str1, str2) → number
+```
+
+**Parameter:**
+
+| Parameter | Typ | Beschreibung |
+|-----------|-----|--------------|
+| `str1` | string | Erster String |
+| `str2` | string | Zweiter String |
+
+**Rückgabewert:** `number` - Die Levenshtein-Distanz (0 = identisch)
+
+**Anwendungsfälle:**
+- Tippfehler-Toleranz
+- Fuzzy-Suche
+- Ähnlichkeitsanalyse
+- Plagiatserkennung
+
+**Beispiele:**
+
+```aql
+-- Identische Strings
+RETURN LEVENSHTEIN_DISTANCE("hello", "hello")
+// Ergebnis: 0
+
+-- Ein Buchstabe anders
+RETURN LEVENSHTEIN_DISTANCE("hello", "hallo")
+// Ergebnis: 1
+
+-- Klassisches Beispiel
+RETURN LEVENSHTEIN_DISTANCE("kitten", "sitting")
+// Ergebnis: 3 (k→s, e→i, +g)
+
+-- Unterschiedliche Längen
+RETURN LEVENSHTEIN_DISTANCE("abc", "abcdef")
+// Ergebnis: 3
+
+-- Komplett unterschiedlich
+RETURN LEVENSHTEIN_DISTANCE("abc", "xyz")
+// Ergebnis: 3
+```
+
+**Praxisbeispiele:**
+
+```aql
+-- Tippfehler-tolerante Suche
+FOR product IN products
+  LET distance = LEVENSHTEIN_DISTANCE(LOWER(product.name), LOWER(@searchTerm))
+  FILTER distance <= 2  -- Max. 2 Änderungen
+  SORT distance ASC, product.popularity DESC
+  LIMIT 10
+  RETURN { product, distance, match: distance == 0 ? "exact" : "fuzzy" }
+
+-- "Did you mean?" Vorschläge
+LET searchTerm = "Thims"
+FOR keyword IN search_keywords
+  LET distance = LEVENSHTEIN_DISTANCE(LOWER(keyword.term), LOWER(searchTerm))
+  FILTER distance > 0 AND distance <= 2
+  SORT distance ASC, keyword.frequency DESC
+  LIMIT 5
+  RETURN keyword.term
+
+-- Duplikaterkennung
+FOR doc1 IN documents
+  FOR doc2 IN documents
+    FILTER doc1._key < doc2._key  -- Vermeidet Doppelvergleiche
+    LET titleSim = 1 - (LEVENSHTEIN_DISTANCE(doc1.title, doc2.title) / 
+                        MAX(LENGTH(doc1.title), LENGTH(doc2.title)))
+    FILTER titleSim > 0.8
+    RETURN {
+      doc1: doc1.title,
+      doc2: doc2.title,
+      similarity: ROUND(titleSim * 100)
+    }
+
+-- Normalisierte Ähnlichkeit (0-1)
+LET str1 = "ThemisDB"
+LET str2 = "ThemisDatabase"
+LET distance = LEVENSHTEIN_DISTANCE(str1, str2)
+LET maxLen = MAX(LENGTH(str1), LENGTH(str2))
+LET similarity = 1 - (distance / maxLen)
+RETURN { str1, str2, distance, similarity: ROUND(similarity, 2) }
+// Ergebnis: { str1: "ThemisDB", str2: "ThemisDatabase", distance: 6, similarity: 0.57 }
+```
+
+**Performance-Hinweis:**
+Levenshtein-Berechnung ist O(n*m) mit n und m als String-Längen. Für große Datensätze:
+1. Erst mit `LENGTH()` vorfiltern
+2. Erst mit `STARTS_WITH()` vorfiltern
+3. Index auf normalisierte Versionen erstellen
 
 ---
 
