@@ -59,7 +59,7 @@ spec:
         {{- if .Values.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "themisdb.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-data" (include "themisdb.fullname" .)) }}
         {{- else }}
         - name: data
           emptyDir: {}

@@ -16,6 +16,10 @@ on:
       - '.github/workflows/helm-chart-test.yml'
   workflow_dispatch:
 
+# Minimal permissions for security
+permissions:
+  contents: read
+
 jobs:
   lint-and-test:
     name: Lint & Template Test

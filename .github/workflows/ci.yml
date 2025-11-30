@@ -10,6 +10,10 @@ on:
     branches: [main, develop]
   workflow_dispatch:
 
+# Minimal permissions for security
+permissions:
+  contents: read
+
 env:
   BUILD_TYPE: Release
   VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache

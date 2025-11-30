@@ -96,6 +96,7 @@ themisdb:
   # Enable metrics endpoint
   metricsEnabled: true
   # Configuration file content (JSON)
+  # Note: logLevel above is for documentation; the actual log level is set in the config below
   config: |
     {
       "storage": {
