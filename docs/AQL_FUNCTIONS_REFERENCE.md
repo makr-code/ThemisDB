@@ -2,10 +2,10 @@
 
 > **ThemisDB Query Language (AQL)** - Die einzige Abfragesprache, die Graph, Vector, Relational, Geo und File in einer einheitlichen Syntax vereint.
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Stand:** November 2024  
-**Funktionen:** ~210  
-**Kategorien:** 11
+**Funktionen:** ~255  
+**Kategorien:** 13
 
 ---
 
@@ -22,22 +22,24 @@
 6. [String-Funktionen](#string-funktionen) (~15 Funktionen)
 7. [Math-Funktionen](#math-funktionen) (~25 Funktionen)
 8. [Array-Funktionen](#array-funktionen) (~20 Funktionen)
-9. [Date-Funktionen](#date-funktionen) (~15 Funktionen)
+9. [Date-Funktionen](#date-funktionen) (~45 Funktionen) ⭐ *Erweitert*
 10. [Document-Funktionen](#document-funktionen) (~20 Funktionen)
-11. [Geo-Funktionen](#geo-funktionen) (~25 Funktionen)
-12. [CRS-Funktionen (Koordinatentransformation)](#crs-funktionen) (~10 Funktionen)
-13. [Vector-Funktionen](#vector-funktionen) (~20 Funktionen)
-14. [Graph-Funktionen](#graph-funktionen) (~15 Funktionen)
-15. [Relational-Funktionen](#relational-funktionen) (~25 Funktionen)
-16. [File-Funktionen](#file-funktionen) (~20 Funktionen)
+11. [Collection-Funktionen](#collection-funktionen) (~25 Funktionen) ⭐ *Neu*
+12. [Geo-Funktionen](#geo-funktionen) (~25 Funktionen)
+13. [CRS-Funktionen (Koordinatentransformation)](#crs-funktionen) (~10 Funktionen)
+14. [Vector-Funktionen](#vector-funktionen) (~20 Funktionen)
+15. [Graph-Funktionen](#graph-funktionen) (~15 Funktionen)
+16. [Relational-Funktionen](#relational-funktionen) (~25 Funktionen)
+17. [File-Funktionen](#file-funktionen) (~20 Funktionen)
+18. [Security-Funktionen](#security-funktionen) (~15 Funktionen) ⭐ *Neu*
 
 ### Praxis & Referenz
-17. [Praxisbeispiele nach Branche](#praxisbeispiele-nach-branche)
-18. [Performance-Optimierung](#performance-optimierung)
-19. [Fehlerbehandlung](#fehlerbehandlung)
-20. [FAQ - Häufige Fragen](#faq)
-21. [Migrations-Leitfäden](#migrations-leitfäden)
-22. [Glossar](#glossar)
+19. [Praxisbeispiele nach Branche](#praxisbeispiele-nach-branche)
+20. [Performance-Optimierung](#performance-optimierung)
+21. [Fehlerbehandlung](#fehlerbehandlung)
+22. [FAQ - Häufige Fragen](#faq)
+23. [Migrations-Leitfäden](#migrations-leitfäden)
+24. [Glossar](#glossar)
 
 ---
 
@@ -1878,24 +1880,85 @@ RETURN RANGE(0, 10, 2)              -- [0, 2, 4, 6, 8, 10]
 
 ## Date-Funktionen
 
-### Aktuelles Datum/Zeit
+ThemisDB bietet **~45 Date-Funktionen** mit SQL-kompatibler Syntax und erweiterten Arbeitstag-Berechnungen.
+
+### Aktuelles Datum/Zeit (SQL-kompatibel)
 
 ```aql
-RETURN DATE_NOW()        -- Unix Timestamp in ms
-RETURN DATE_ISO8601()    -- "2024-01-15T10:30:00.000Z"
+-- Grundfunktionen
+RETURN DATE_NOW()           -- Unix Timestamp in ms
+RETURN NOW()                -- SQL-Standard Alias
+RETURN CURRENT_TIMESTAMP()  -- SQL-Standard
+RETURN CURRENT_DATE()       -- Nur Datum (00:00:00 UTC)
+RETURN CURRENT_TIME()       -- Zeit seit Mitternacht (ms)
+
+-- Praktische Helper
+RETURN TODAY()              -- Start von heute (00:00:00)
+RETURN YESTERDAY()          -- Start von gestern
+RETURN TOMORROW()           -- Start von morgen
+
+-- DB-kompatible Aliase
+RETURN GETDATE()            -- SQL Server kompatibel
+RETURN SYSDATE()            -- Oracle kompatibel
+RETURN UNIX_TIMESTAMP()     -- MySQL kompatibel (Sekunden)
 ```
 
 ### Komponenten extrahieren
 
 ```aql
 LET ts = DATE_TIMESTAMP("2024-06-15T14:30:00Z")
-RETURN DATE_YEAR(ts)       -- 2024
-RETURN DATE_MONTH(ts)      -- 6
-RETURN DATE_DAY(ts)        -- 15
-RETURN DATE_HOUR(ts)       -- 14
-RETURN DATE_MINUTE(ts)     -- 30
-RETURN DATE_DAYOFWEEK(ts)  -- 6 (Samstag, 0=Sonntag)
-RETURN DATE_DAYOFYEAR(ts)  -- 167
+RETURN DATE_YEAR(ts)        -- 2024
+RETURN DATE_MONTH(ts)       -- 6
+RETURN DATE_DAY(ts)         -- 15
+RETURN DATE_HOUR(ts)        -- 14
+RETURN DATE_MINUTE(ts)      -- 30
+RETURN DATE_SECOND(ts)      -- 0
+RETURN DATE_MILLISECOND(ts) -- 0
+RETURN DATE_DAYOFWEEK(ts)   -- 6 (Samstag, 0=Sonntag)
+RETURN DATE_DAYOFYEAR(ts)   -- 167
+RETURN DATE_QUARTER(ts)     -- 2
+RETURN DATE_WEEK(ts)        -- 24 (ISO-Kalenderwoche)
+```
+
+### Datum-Konstruktion
+
+```aql
+-- Datum aus Komponenten
+RETURN MAKE_DATE(2024, 12, 25)              -- Weihnachten 2024
+RETURN MAKE_DATETIME(2024, 12, 24, 18, 0)   -- Heiligabend 18:00
+RETURN MAKE_TIME(14, 30, 0)                 -- 14:30:00
+
+-- Umrechnung
+RETURN FROM_UNIXTIME(1700000000)            -- Sekunden zu Timestamp
+RETURN EPOCH_SECONDS(1700000000000)         -- ms zu Sekunden
+```
+
+### Interval-Funktionen für relative Zeitangaben ⭐
+
+```aql
+-- Einfache Syntax für relative Zeit
+FOR event IN events
+  FILTER event.date >= NOW() - DAYS(7)      -- Letzte 7 Tage
+  RETURN event
+
+-- Alle Interval-Funktionen
+RETURN YEARS(1)       -- 1 Jahr in ms (~31,557,600,000)
+RETURN MONTHS(3)      -- 3 Monate in ms
+RETURN WEEKS(2)       -- 2 Wochen in ms
+RETURN DAYS(10)       -- 10 Tage in ms
+RETURN HOURS(24)      -- 24 Stunden in ms
+RETURN MINUTES(30)    -- 30 Minuten in ms
+RETURN SECONDS(60)    -- 60 Sekunden in ms
+
+-- Flexibles INTERVAL
+RETURN INTERVAL(6, "months")    -- Wie MONTHS(6)
+RETURN INTERVAL(2.5, "weeks")   -- 2.5 Wochen
+
+-- Praktische Kombination
+FOR order IN orders
+  FILTER order.created >= TODAY() - WEEKS(2)   -- Letzte 2 Wochen
+  FILTER order.deadline < TOMORROW()           -- Fällig bis morgen
+  RETURN order
 ```
 
 ### Datum-Arithmetik
@@ -1903,16 +1966,94 @@ RETURN DATE_DAYOFYEAR(ts)  -- 167
 ```aql
 LET now = DATE_NOW()
 
--- 7 Tage in die Zukunft
+-- Mit DATE_ADD/SUBTRACT
 RETURN DATE_ADD(now, 7, "days")
-
--- 1 Monat zurück
 RETURN DATE_SUBTRACT(now, 1, "months")
+
+-- Mit Interval-Funktionen (eleganter)
+RETURN now + DAYS(7)          -- 7 Tage in die Zukunft
+RETURN now - MONTHS(1)        -- 1 Monat zurück
+RETURN now + YEARS(1)         -- In einem Jahr
 
 -- Differenz berechnen
 LET start = DATE_TIMESTAMP("2024-01-01")
 LET end = DATE_TIMESTAMP("2024-12-31")
-RETURN DATE_DIFF(start, end, "days")  -- 365
+RETURN DATE_DIFF(start, end, "days")    -- 365
+RETURN DATE_DIFF(start, end, "months")  -- 12
+RETURN DATE_DIFF(start, end, "weeks")   -- 52
+```
+
+### Arbeitstage-Funktionen ⭐
+
+```aql
+-- Arbeitstage mit Feiertags-Kalender
+LET holidays = HOLIDAYS("DE_2024")   -- Deutsche Feiertage 2024
+LET start = MAKE_DATE(2024, 12, 1)
+LET end = MAKE_DATE(2024, 12, 31)
+
+-- Arbeitstage zählen (Mo-Fr, ohne Feiertage)
+RETURN WORKDAYS(start, end, holidays)   -- ~18 Arbeitstage
+
+-- Arbeitstage addieren (Lieferzeit-Berechnung)
+LET orderDate = NOW()
+LET deliveryDate = WORKDAYS_ADD(orderDate, 10, holidays)
+RETURN DATE_FORMAT(deliveryDate, "%Y-%m-%d")
+
+-- Prüffunktionen
+RETURN IS_WEEKEND(MAKE_DATE(2024, 12, 25))    -- true (Mittwoch? false)
+RETURN IS_WORKDAY(MAKE_DATE(2024, 12, 25), holidays)  -- false (Feiertag)
+```
+
+### Verfügbare Feiertags-Kalender ⭐
+
+```aql
+-- Liste aller verfügbaren Kalender
+RETURN LIST_CALENDARS()
+-- ["DE_2024", "DE_2025", "AT_2024", "CH_2024", "US_FEDERAL_2024", ...]
+
+-- Kalender laden
+LET deHolidays = HOLIDAYS("DE_2024")      -- Deutschland 2024
+LET atHolidays = HOLIDAYS("AT_2024")      -- Österreich 2024
+LET chHolidays = HOLIDAYS("CH_2024")      -- Schweiz 2024
+LET usHolidays = HOLIDAYS("US_FEDERAL_2024")  -- USA Federal 2024
+LET ukHolidays = HOLIDAYS("UK_2024")      -- Großbritannien 2024
+LET frHolidays = HOLIDAYS("FR_2024")      -- Frankreich 2024
+
+-- Kalender zusammenführen (Firma mit Standorten DE + AT)
+LET companyHolidays = HOLIDAYS("DE_2024", "AT_2024")
+
+-- Inline-Feiertage definieren
+LET customHolidays = HOLIDAYS("2024-12-23", "2024-12-27", "2024-12-30")
+
+-- Feiertage in Zeitraum filtern
+RETURN HOLIDAYS_BETWEEN("DE_2024", MAKE_DATE(2024, 12, 1), MAKE_DATE(2024, 12, 31))
+```
+
+### Hilfsfunktionen
+
+```aql
+-- Schaltjahr prüfen
+RETURN DATE_LEAPYEAR(2024)  -- true
+RETURN DATE_LEAPYEAR(2023)  -- false
+
+-- Tage im Monat
+RETURN DATE_DAYS_IN_MONTH(2024, 2)  -- 29 (Schaltjahr)
+RETURN DATE_DAYS_IN_MONTH(2023, 2)  -- 28
+
+-- Wochenanfang/-ende
+RETURN DATE_START_OF_WEEK(NOW())        -- Montag 00:00
+RETURN DATE_START_OF_WEEK(NOW(), 0)     -- Sonntag 00:00 (US-Style)
+RETURN DATE_END_OF_MONTH(NOW())         -- Letzter Tag des Monats
+
+-- Alter berechnen
+FOR person IN persons
+  LET age = AGE(person.birthdate)
+  FILTER age >= 18
+  RETURN { name: person.name, age }
+
+-- Datums-Vergleich
+RETURN DATE_COMPARE(date1, date2)       -- -1, 0, oder 1
+RETURN DATE_BETWEEN(checkDate, start, end)  -- true/false
 ```
 
 ### Formatierung
@@ -1921,22 +2062,42 @@ RETURN DATE_DIFF(start, end, "days")  -- 365
 LET ts = DATE_TIMESTAMP("2024-06-15T14:30:00Z")
 RETURN DATE_FORMAT(ts, "%Y-%m-%d")        -- "2024-06-15"
 RETURN DATE_FORMAT(ts, "%d.%m.%Y %H:%M")  -- "15.06.2024 14:30"
+RETURN DATE_ISO8601(ts)                   -- "2024-06-15T14:30:00Z"
 
--- Auf Monatsbeginn runden
-RETURN DATE_TRUNC(ts, "month")  -- "2024-06-01T00:00:00.000Z"
+-- Auf Zeiteinheit runden
+RETURN DATE_TRUNC(ts, "year")    -- "2024-01-01T00:00:00Z"
+RETURN DATE_TRUNC(ts, "month")   -- "2024-06-01T00:00:00Z"
+RETURN DATE_TRUNC(ts, "week")    -- Wochenanfang
+RETURN DATE_TRUNC(ts, "day")     -- "2024-06-15T00:00:00Z"
+RETURN DATE_TRUNC(ts, "hour")    -- "2024-06-15T14:00:00Z"
 ```
 
 **Praxisbeispiel: Aktivität der letzten 30 Tage**
 
 ```aql
 FOR event IN events
-  LET eventDate = DATE_TIMESTAMP(event.created_at)
-  LET daysAgo = DATE_DIFF(eventDate, DATE_NOW(), "days")
-  FILTER daysAgo <= 30
-  COLLECT week = DATE_TRUNC(eventDate, "week")
+  FILTER event.created_at >= NOW() - DAYS(30)   -- Elegante Syntax
+  COLLECT week = DATE_TRUNC(event.created_at, "week")
   AGGREGATE count = COUNT(1)
   SORT week ASC
   RETURN { week: DATE_FORMAT(week, "%Y-W%V"), count }
+```
+
+**Praxisbeispiel: Fälligkeitsdatum mit Arbeitstagen**
+
+```aql
+LET holidays = HOLIDAYS("DE_2024")
+FOR order IN orders
+  FILTER order.status == "pending"
+  LET dueDate = WORKDAYS_ADD(order.created_at, 10, holidays)
+  LET overdue = dueDate < NOW()
+  RETURN {
+    orderId: order._key,
+    createdAt: DATE_FORMAT(order.created_at, "%d.%m.%Y"),
+    dueDate: DATE_FORMAT(dueDate, "%d.%m.%Y"),
+    overdue,
+    daysRemaining: overdue ? 0 : WORKDAYS(NOW(), dueDate, holidays)
+  }
 ```
 
 ---
@@ -2011,6 +2172,188 @@ RETURN TO_STRING(42)       -- "42"
 RETURN TO_BOOL(1)          -- true
 RETURN TO_BOOL("")         -- false
 RETURN TO_ARRAY("hello")   -- ["hello"]
+```
+
+---
+
+## Collection-Funktionen
+
+ThemisDB bietet **~25 Collection-Funktionen** für das Erstellen und Manipulieren von Arrays, Objekten und JSON-Daten mit **JSON-Native Support**.
+
+### Array-Konstruktoren
+
+```aql
+-- Einfaches Array erstellen
+RETURN ARRAY(1, 2, 3)                    -- [1, 2, 3]
+RETURN ARRAY("a", "b", "c")              -- ["a", "b", "c"]
+RETURN ARRAY()                           -- []
+
+-- JSON-Native Parsing ⭐
+RETURN ARRAY('[1, 2, 3]')                -- [1, 2, 3] (JSON-String geparst)
+RETURN ARRAY('[1, 2]', '[3, 4]')         -- [[1, 2], [3, 4]]
+
+-- Set (unique values)
+RETURN SET(1, 2, 2, 3, 3, 3)             -- [1, 2, 3]
+RETURN SET("a", "b", "a")                -- ["a", "b"]
+
+-- Tuple (feste Größe)
+RETURN TUPLE(x, y, z)                    -- [x, y, z]
+RETURN PAIR("key", "value")              -- ["key", "value"]
+
+-- Range
+RETURN RANGE(0, 5)                       -- [0, 1, 2, 3, 4]
+RETURN RANGE(1, 10, 2)                   -- [1, 3, 5, 7, 9]
+RETURN RANGE(10, 0, -1)                  -- [10, 9, 8, ..., 1]
+
+-- Repeat
+RETURN REPEAT(0, 5)                      -- [0, 0, 0, 0, 0]
+RETURN REPEAT("x", 3)                    -- ["x", "x", "x"]
+```
+
+### Objekt-Konstruktoren (DICT)
+
+```aql
+-- Key-Value Paare
+RETURN DICT("name", "Alice", "age", 30)
+-- {"name": "Alice", "age": 30}
+
+RETURN DICT("x", 1, "y", 2, "z", 3)
+-- {"x": 1, "y": 2, "z": 3}
+
+-- JSON-Native Parsing ⭐
+RETURN DICT('{"name": "Alice", "age": 30}')
+-- {"name": "Alice", "age": 30}
+
+-- Verschachtelt
+RETURN DICT("person", DICT('{"name": "Bob"}'), "active", true)
+-- {"person": {"name": "Bob"}, "active": true}
+
+-- OBJECT Alias
+RETURN OBJECT("key", "value")            -- {"key": "value"}
+```
+
+### JSON-Funktionen ⭐
+
+```aql
+-- JSON parsen
+RETURN JSON('[1, 2, 3]')                 -- [1, 2, 3]
+RETURN JSON('{"name": "Alice"}')         -- {"name": "Alice"}
+RETURN JSON('null')                      -- null
+RETURN JSON('123')                       -- 123
+
+-- JSON serialisieren
+RETURN TO_JSON([1, 2, 3])                -- "[1,2,3]"
+RETURN TO_JSON({name: "Alice"})          -- '{"name":"Alice"}'
+RETURN TO_JSON(doc, true)                -- Pretty-printed (mit Indentation)
+
+-- JSON validieren
+RETURN JSON_VALID('[1, 2, 3]')           -- true
+RETURN JSON_VALID('not json')            -- false
+RETURN JSON_VALID('{"incomplete":')      -- false
+
+-- JSON-Typ ermitteln
+RETURN JSON_TYPE([1, 2])                 -- "array"
+RETURN JSON_TYPE({a: 1})                 -- "object"
+RETURN JSON_TYPE(123)                    -- "number"
+RETURN JSON_TYPE("text")                 -- "string"
+RETURN JSON_TYPE(null)                   -- "null"
+RETURN JSON_TYPE(true)                   -- "boolean"
+```
+
+### Objekt-Konvertierung
+
+```aql
+-- Object zu Array
+RETURN KEYS({a: 1, b: 2, c: 3})          -- ["a", "b", "c"]
+RETURN ENTRIES({a: 1, b: 2})             -- [["a", 1], ["b", 2]]
+
+-- Array zu Object
+RETURN FROM_ENTRIES([["a", 1], ["b", 2]])  -- {a: 1, b: 2}
+
+-- String zu Array (splitting)
+RETURN LIST("a,b,c")                     -- ["a", "b", "c"]
+RETURN LIST("a;b;c")                     -- ["a", "b", "c"]
+RETURN LIST("a\nb\nc")                   -- ["a", "b", "c"]
+
+-- Object Values zu Array
+RETURN LIST({a: 1, b: 2})                -- [1, 2]
+```
+
+### Holiday-Funktionen ⭐
+
+```aql
+-- Feiertags-Kalender laden
+LET holidays = HOLIDAYS("DE_2024")       -- Deutsche Feiertage 2024
+
+-- Verfügbare Kalender anzeigen
+RETURN LIST_CALENDARS()
+-- ["DE_2024", "DE_2025", "AT_2024", "CH_2024", 
+--  "US_FEDERAL_2024", "US_FEDERAL_2025", "UK_2024", "FR_2024", 
+--  "NONE", "WEEKENDS_ONLY"]
+
+-- Kalender zusammenführen
+LET combined = HOLIDAYS("DE_2024", "AT_2024")    -- DE + AT Feiertage
+
+-- Inline-Feiertage (Betriebsferien)
+LET companyHolidays = HOLIDAYS("2024-12-23", "2024-12-27", "2024-12-30")
+
+-- Feiertage in Zeitraum
+LET december = HOLIDAYS_BETWEEN("DE_2024", MAKE_DATE(2024,12,1), MAKE_DATE(2024,12,31))
+-- [1735084800000, 1735171200000]  // 25.12. und 26.12.
+
+-- Mit WORKDAYS kombinieren
+FOR project IN projects
+  LET holidays = HOLIDAYS("DE_2024")
+  LET workdays = WORKDAYS(project.start, project.deadline, holidays)
+  RETURN { project: project.name, workdays }
+```
+
+### Built-in Kalender
+
+| Kalender | Region | Jahr | Beschreibung |
+|----------|--------|------|--------------|
+| `DE_2024` | Deutschland | 2024 | Bundesweite Feiertage |
+| `DE_2025` | Deutschland | 2025 | Bundesweite Feiertage |
+| `AT_2024` | Österreich | 2024 | Nationale Feiertage |
+| `CH_2024` | Schweiz | 2024 | Bundesfeiertage |
+| `US_FEDERAL_2024` | USA | 2024 | Federal Holidays |
+| `US_FEDERAL_2025` | USA | 2025 | Federal Holidays |
+| `UK_2024` | Großbritannien | 2024 | Bank Holidays |
+| `FR_2024` | Frankreich | 2024 | Jours fériés |
+| `NONE` | - | - | Leerer Kalender |
+| `WEEKENDS_ONLY` | - | - | Nur Wochenenden |
+
+**Praxisbeispiel: Lieferzeit-Berechnung**
+
+```aql
+LET holidays = HOLIDAYS("DE_2024")
+
+FOR order IN orders
+  FILTER order.status == "shipped"
+  LET estimatedDelivery = WORKDAYS_ADD(order.shipped_at, 3, holidays)
+  LET isLate = estimatedDelivery < NOW() AND order.delivered_at == null
+  RETURN {
+    orderId: order._key,
+    shippedAt: DATE_FORMAT(order.shipped_at, "%d.%m.%Y"),
+    estimatedDelivery: DATE_FORMAT(estimatedDelivery, "%d.%m.%Y"),
+    isLate,
+    customer: order.customer_name
+  }
+```
+
+**Praxisbeispiel: JSON-Daten aus API verarbeiten**
+
+```aql
+-- Externe API-Daten (als JSON-String empfangen)
+LET apiResponse = '{"users": [{"name": "Alice"}, {"name": "Bob"}]}'
+LET data = JSON(apiResponse)
+
+FOR user IN data.users
+  INSERT user INTO users
+
+-- Oder direkt mit DICT
+LET config = DICT('{"theme": "dark", "language": "de"}')
+RETURN config.theme  -- "dark"
 ```
 
 ---
@@ -2824,17 +3167,154 @@ themisdb import --collection users --file users.json
 
 ---
 
+## Security-Funktionen
+
+ThemisDB verfügt über ein umfassendes integriertes Security-Modul. Die AQL-Funktionen ermöglichen Validierung, Sanitization und Maskierung direkt in Queries.
+
+### Daten-Validierung
+
+```aql
+-- Format-Validierung
+FILTER IS_EMAIL(doc.email)           -- E-Mail-Format prüfen
+FILTER IS_URL(doc.website)           -- URL-Format prüfen
+FILTER IS_UUID(doc._key)             -- UUID-Format prüfen
+FILTER IS_IP(doc.ip_address)         -- IP-Adresse prüfen
+
+-- Schema-Validierung (registrierte Schemas)
+LET result = VALIDATE(doc, "user_schema")
+RETURN result.valid                   -- true/false
+RETURN result.errors                  -- ["field: error message", ...]
+
+-- Schnelle Boolean-Prüfung
+FILTER IS_VALID(doc, "order_schema")
+```
+
+### Input-Sanitization
+
+```aql
+-- Daten bereinigen
+LET clean = SANITIZE(userInput)
+
+-- Mit Optionen
+LET clean = SANITIZE(data, {
+  escapeHtml: true,
+  escapeSql: true,
+  trimStrings: true,
+  maxStringLength: 1000
+})
+
+-- Einzelnen String bereinigen
+LET cleanName = SANITIZE_STRING(userName, {escapeHtml: true})
+
+-- Injection-Prüfung
+FILTER NOT HAS_INJECTION(userInput)
+```
+
+### Sensitive Daten maskieren
+
+```aql
+-- Einzelwert maskieren
+RETURN MASK(password, "password")     -- "********"
+RETURN MASK(email, "email")           -- "j***@example.com"
+RETURN MASK(ccNumber, "credit_card")  -- "************1234"
+RETURN MASK(ssn, "ssn")               -- "***-**-1234"
+RETURN MASK(phone, "phone")           -- "*******1234"
+
+-- Mehrere Felder maskieren
+LET safeUser = MASK_FIELDS(user, {
+  password: "password",
+  ssn: "ssn",
+  creditCard: "credit_card"
+})
+
+-- Auto-Erkennung von sensitiven Feldern
+LET safeData = AUTO_MASK(userData)    -- Erkennt password, api_key, etc.
+
+-- Felder entfernen
+LET publicUser = REDACT(user, ["password", "ssn", "internal_id"])
+```
+
+### Daten-Integrität
+
+```aql
+-- Checksumme berechnen
+LET hash = CHECKSUM(doc)              -- "a1b2c3d4..."
+
+-- Checksumme verifizieren
+FILTER VERIFY_CHECKSUM(doc, doc._checksum)
+
+-- Signatur erstellen (HMAC)
+LET signature = SIGN(doc, @secretKey)
+
+-- Signatur verifizieren
+FILTER VERIFY_SIGNATURE(doc, doc._signature, @secretKey)
+```
+
+**Praxisbeispiel: API-Response mit maskierten Daten**
+
+```aql
+FOR user IN users
+  FILTER user._key == @userId
+  
+  -- Sensitive Felder maskieren vor Rückgabe
+  LET safeUser = REDACT(user, ["password_hash", "api_keys", "internal_notes"])
+  LET maskedUser = MASK_FIELDS(safeUser, {
+    email: "email",
+    phone: "phone"
+  })
+  
+  RETURN maskedUser
+```
+
+**Praxisbeispiel: Input-Validierung vor Insert**
+
+```aql
+LET userInput = @input
+
+-- Validieren
+LET validation = VALIDATE(userInput, "new_user_schema")
+FILTER validation.valid
+
+-- Sanitizen
+LET clean = SANITIZE(userInput, {trimStrings: true})
+
+-- Injection-Check
+FILTER NOT HAS_INJECTION(clean.name)
+FILTER NOT HAS_INJECTION(clean.bio)
+
+-- Sicher speichern
+INSERT clean INTO users
+RETURN NEW
+```
+
+---
+
 ## Zusammenfassung
 
 ThemisDB AQL bietet:
 
-✅ **~210 Funktionen** in 11 Kategorien
-✅ **Einheitliche Syntax** für alle Datenmodelle
-✅ **Native Multi-Model Queries** (Graph + Vector + Geo + Relational)
-✅ **Vollständige CRS-Unterstützung** (ETRS89, UTM, WGS84, Gauß-Krüger)
-✅ **SQL-kompatible** Aggregation und Window Functions
-✅ **Prozess-Mining** aus Event-Daten
+✅ **~255 Funktionen** in 13 Kategorien  
+✅ **Einheitliche Syntax** für alle Datenmodelle  
+✅ **Native Multi-Model Queries** (Graph + Vector + Geo + Relational)  
+✅ **Vollständige CRS-Unterstützung** (ETRS89, UTM, WGS84, Gauß-Krüger)  
+✅ **SQL-kompatible** Aggregation und Window Functions  
+✅ **~45 Date-Funktionen** mit Interval-Syntax und Arbeitstagen  
+✅ **JSON-Native** ARRAY/DICT Konstruktoren  
+✅ **Built-in Feiertags-Kalender** (DE, AT, CH, US, UK, FR)  
+✅ **Integrierte Security-Funktionen** (Validation, Sanitization, Masking)  
+✅ **Prozess-Mining** aus Event-Daten  
 ✅ **Keine Vendor Lock-in** bei Query-Sprache
+
+### Neue Features in Version 1.1
+
+| Feature | Beschreibung |
+|---------|--------------|
+| **Interval-Syntax** | `NOW() - DAYS(7)` statt `DATE_SUBTRACT(DATE_NOW(), 7, "days")` |
+| **Arbeitstage** | `WORKDAYS()`, `WORKDAYS_ADD()`, `IS_WORKDAY()` |
+| **Holiday-Kalender** | `HOLIDAYS("DE_2024")` mit Built-in Kalendern |
+| **JSON-Native** | `ARRAY('[1,2,3]')`, `DICT('{"a":1}')` parsen JSON-Strings |
+| **Security-Funktionen** | `VALIDATE()`, `SANITIZE()`, `MASK()`, `REDACT()` |
+| **Format-Validierung** | `IS_EMAIL()`, `IS_URL()`, `IS_UUID()`, `IS_IP()` |
 
 **Nächste Schritte:**
 - [Installation Guide](./INSTALLATION.md)
