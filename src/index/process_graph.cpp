@@ -876,6 +876,232 @@ ProcessGraphManager::isHyperedgeReady(std::string_view hyperedge_id) const {
 }
 
 // ============================================================================
+// Multi-Model Query Stubs
+// ============================================================================
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>>
+ProcessGraphManager::queryTasksByFormData(
+    std::string_view process_id,
+    const nlohmann::json& filter_conditions
+) const {
+    (void)process_id;
+    (void)filter_conditions;
+    return {Status::Error("Form data queries not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::JoinResult>>
+ProcessGraphManager::joinWithCollection(
+    std::string_view process_id,
+    std::string_view collection_name,
+    std::string_view local_field,
+    std::string_view foreign_field
+) const {
+    (void)process_id;
+    (void)collection_name;
+    (void)local_field;
+    (void)foreign_field;
+    return {Status::Error("Collection joins not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::AggregateResult>>
+ProcessGraphManager::aggregateByField(
+    std::string_view process_id,
+    std::string_view group_field,
+    std::string_view agg_field,
+    std::string_view agg_function
+) const {
+    (void)process_id;
+    (void)group_field;
+    (void)agg_field;
+    (void)agg_function;
+    return {Status::Error("Field aggregation not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::SimilarProcess>>
+ProcessGraphManager::findSimilarProcesses(
+    const std::vector<float>& query_embedding,
+    size_t k,
+    float min_similarity
+) const {
+    (void)query_embedding;
+    (void)k;
+    (void)min_similarity;
+    return {Status::Error("Similar process search not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>>
+ProcessGraphManager::findSimilarTasks(
+    std::string_view instance_id,
+    std::string_view task_node,
+    size_t k
+) const {
+    (void)instance_id;
+    (void)task_node;
+    (void)k;
+    return {Status::Error("Similar task search not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::SimilarProcess>>
+ProcessGraphManager::semanticSearchProcesses(
+    std::string_view natural_language_query,
+    size_t k
+) const {
+    (void)natural_language_query;
+    (void)k;
+    return {Status::Error("Semantic search not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::AnomalyResult>>
+ProcessGraphManager::detectAnomalies(
+    std::string_view process_id,
+    float threshold
+) const {
+    (void)process_id;
+    (void)threshold;
+    return {Status::Error("Anomaly detection not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>>
+ProcessGraphManager::findTasksInArea(
+    std::string_view process_id,
+    double center_lon,
+    double center_lat,
+    double radius_km
+) const {
+    (void)process_id;
+    (void)center_lon;
+    (void)center_lat;
+    (void)radius_km;
+    return {Status::Error("Geo area search not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessToken>>
+ProcessGraphManager::findTasksInGeofence(
+    std::string_view process_id,
+    std::string_view geofence_wkt
+) const {
+    (void)process_id;
+    (void)geofence_wkt;
+    return {Status::Error("Geofence search not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::RouteStop>>
+ProcessGraphManager::optimizeTaskRoute(
+    const std::vector<std::string>& task_ids,
+    double start_lon,
+    double start_lat
+) const {
+    (void)task_ids;
+    (void)start_lon;
+    (void)start_lat;
+    return {Status::Error("Route optimization not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, bool>
+ProcessGraphManager::validateLocationConstraint(
+    std::string_view instance_id,
+    std::string_view task_node,
+    double execution_lon,
+    double execution_lat
+) const {
+    (void)instance_id;
+    (void)task_node;
+    (void)execution_lon;
+    (void)execution_lat;
+    return {Status::Error("Location validation not yet implemented"), false};
+}
+
+std::pair<ProcessGraphManager::Status, nlohmann::json>
+ProcessGraphManager::getRegionalParameters(
+    std::string_view process_id,
+    double lon,
+    double lat
+) const {
+    (void)process_id;
+    (void)lon;
+    (void)lat;
+    return {Status::Error("Regional parameters not yet implemented"), {}};
+}
+
+std::pair<ProcessGraphManager::Status, std::vector<ProcessGraphManager::MultiModelResult>>
+ProcessGraphManager::executeMultiModelQuery(
+    std::string_view process_id,
+    const MultiModelQuery& query
+) const {
+    (void)process_id;
+    (void)query;
+    return {Status::Error("Multi-model query not yet implemented"), {}};
+}
+
+// Private helper stubs
+ProcessGraphManager::Status ProcessGraphManager::createToken_(
+    ProcessInstance& instance,
+    std::string_view node_id
+) {
+    ProcessToken token;
+    token.token_id = generateTokenId_();
+    token.process_instance_id = instance.instance_id;
+    token.current_node = std::string(node_id);
+    token.state = ProcessToken::State::READY;
+    token.created_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    
+    instance.tokens.push_back(token);
+    return Status::OK();
+}
+
+ProcessGraphManager::Status ProcessGraphManager::moveToken_(
+    ProcessInstance& instance,
+    ProcessToken& token,
+    std::string_view target_node
+) {
+    (void)instance;
+    token.current_node = std::string(target_node);
+    token.visited_nodes.push_back(std::string(target_node));
+    return Status::OK();
+}
+
+std::vector<std::string> ProcessGraphManager::evaluateGateway_(
+    const ProcessNodeInfo& gateway,
+    const ProcessToken& token,
+    const std::vector<ProcessEdgeInfo>& outgoing_edges
+) const {
+    (void)gateway;
+    (void)token;
+    
+    std::vector<std::string> targets;
+    for (const auto& edge : outgoing_edges) {
+        targets.push_back(edge.to_node);
+    }
+    return targets;
+}
+
+bool ProcessGraphManager::checkHyperedgeCondition_(const Hyperedge& hyperedge) const {
+    switch (hyperedge.sync_type) {
+        case Hyperedge::SyncType::AND_JOIN:
+            return hyperedge.activated_sources.size() == hyperedge.source_nodes.size();
+        case Hyperedge::SyncType::OR_JOIN:
+            return !hyperedge.activated_sources.empty();
+        case Hyperedge::SyncType::N_OF_M_JOIN:
+            return hyperedge.required_count.has_value() && 
+                   hyperedge.activated_sources.size() >= static_cast<size_t>(*hyperedge.required_count);
+        case Hyperedge::SyncType::DISCRIMINATOR:
+            return hyperedge.activated_sources.size() == 1;
+        default:
+            return false;
+    }
+}
+
+ProcessGraphManager::Status ProcessGraphManager::activateHyperedgeSource_(
+    Hyperedge& hyperedge,
+    std::string_view source_node
+) {
+    hyperedge.activated_sources.insert(std::string(source_node));
+    hyperedge.is_complete = checkHyperedgeCondition_(hyperedge);
+    return Status::OK();
+}
+
+// ============================================================================
 // Register Process Edge Types
 // ============================================================================
 
