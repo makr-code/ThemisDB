@@ -941,17 +941,20 @@ brew services start themisdb
 ### Docker
 
 ```bash
-# Pull from GitHub Container Registry
-docker pull ghcr.io/makr-code/themis:latest
+# Standard Build (Ubuntu 22.04)
+docker pull themisdb/themisdb:latest
 
-# Or from Docker Hub
-docker pull themisdb/themis:latest
+# QNAP Build (Ubuntu 20.04, GLIBC 2.31)
+docker pull themisdb/themisdb:qnap
 
 # Run with Docker Compose
 docker compose up
 
 # For ARM/Raspberry Pi (multi-architecture support)
 docker compose -f docker-compose-arm.yml up
+
+# For QNAP NAS
+docker compose -f docker-compose.qnap.yml up
 ```
 
 **Multi-Architecture Support:**
@@ -959,6 +962,14 @@ ThemisDB Docker images support multiple architectures:
 - `linux/amd64` (x86_64)
 - `linux/arm64` (ARM64/AArch64 - Raspberry Pi 3/4/5)
 - `linux/arm/v7` (ARMv7 - Raspberry Pi 2/3)
+
+**QNAP NAS Support:**
+ThemisDB provides dedicated builds for QNAP NAS systems:
+- **Image**: `themisdb/themisdb:qnap` (Ubuntu 20.04 based)
+- **Compatibility**: GLIBC 2.31 for older QNAP models
+- **Default Port**: 18765 (avoids QNAP service conflicts)
+- **Quick Start**: See [QNAP_QUICKSTART.md](QNAP_QUICKSTART.md)
+- **Full Guide**: See [docs/QNAP_DEPLOYMENT.md](docs/QNAP_DEPLOYMENT.md)
 
 Docker automatically pulls the correct image for your platform.
 
