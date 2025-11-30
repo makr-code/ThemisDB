@@ -1096,6 +1096,862 @@ public:
 };
 
 // ============================================================================
+// Logical Array Functions (Excel-Style)
+// ============================================================================
+//
+// These functions provide Excel-inspired logical operations on arrays and
+// collections. They support AND, OR, NOT, XOR semantics for combining,
+// filtering, and transforming data sets.
+//
+// **Excel-Style Examples:**
+//   AND([true, true, true])           => true  (all true)
+//   OR([false, true, false])          => true  (at least one true)
+//   NOT([true, false])                => [false, true]
+//   XOR([true, true])                 => false (exclusive or)
+//   IF(condition, trueVal, falseVal)  => conditional value
+//   IFS(cond1, val1, cond2, val2)     => multi-conditional
+//   FILTER(array, condition)          => filtered array
+//   MAP(array, expression)            => transformed array
+//   REDUCE(array, initial, expr)      => aggregated value
+//
+// ============================================================================
+
+/**
+ * @brief AND(...) - Logical AND operation (Excel-compatible)
+ * 
+ * Returns true if ALL arguments are true or truthy.
+ * For arrays: returns true if ALL elements are truthy.
+ * 
+ * Truthy values: true, non-zero numbers, non-empty strings, non-empty arrays/objects
+ * Falsy values: false, 0, "", null, [], {}
+ * 
+ * Examples:
+ *   AND(true, true, true)             => true
+ *   AND(true, false, true)            => false
+ *   AND([true, true, true])           => true (array form)
+ *   AND(1, 2, 3)                      => true (all non-zero)
+ *   AND(1, 0, 3)                      => false (zero is falsy)
+ */
+class AndFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "AND",
+            .category = "Logical",
+            .description = "Returns true if all arguments are truthy (Excel-compatible)",
+            .arguments = {
+                {"values", ArgType::ANY, false, nullptr, "Values or array to test"}
+            },
+            .return_type = ArgType::BOOLEAN,
+            .is_deterministic = true,
+            .examples = {
+                R"(AND(true, true, true) // true)",
+                R"(AND(true, false) // false)",
+                R"(AND([1, 2, 3]) // true - all non-zero)",
+                R"(AND(1, 0, 3) // false - zero is falsy)"
+            }
+        };
+    }
+    
+    void validateArgs(const std::vector<nlohmann::json>&) const override {}
+    
+    static bool isTruthy(const nlohmann::json& val) {
+        if (val.is_null()) return false;
+        if (val.is_boolean()) return val.get<bool>();
+        if (val.is_number()) return val.get<double>() != 0;
+        if (val.is_string()) return !val.get<std::string>().empty();
+        if (val.is_array()) return !val.empty();
+        if (val.is_object()) return !val.empty();
+        return false;
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        if (args.empty()) return true;
+        
+        // Single array argument - test all elements
+        if (args.size() == 1 && args[0].is_array()) {
+            for (const auto& elem : args[0]) {
+                if (!isTruthy(elem)) return false;
+            }
+            return true;
+        }
+        
+        // Multiple arguments
+        for (const auto& arg : args) {
+            if (!isTruthy(arg)) return false;
+        }
+        return true;
+    }
+};
+
+/**
+ * @brief OR(...) - Logical OR operation (Excel-compatible)
+ * 
+ * Returns true if AT LEAST ONE argument is true or truthy.
+ * For arrays: returns true if ANY element is truthy.
+ * 
+ * Examples:
+ *   OR(false, false, true)            => true
+ *   OR(false, false, false)           => false
+ *   OR([0, 0, 1])                     => true
+ */
+class OrFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "OR",
+            .category = "Logical",
+            .description = "Returns true if at least one argument is truthy (Excel-compatible)",
+            .arguments = {
+                {"values", ArgType::ANY, false, nullptr, "Values or array to test"}
+            },
+            .return_type = ArgType::BOOLEAN,
+            .is_deterministic = true,
+            .examples = {
+                R"(OR(false, true, false) // true)",
+                R"(OR(false, false, false) // false)",
+                R"(OR([0, 0, 1]) // true)"
+            }
+        };
+    }
+    
+    void validateArgs(const std::vector<nlohmann::json>&) const override {}
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        if (args.empty()) return false;
+        
+        // Single array argument
+        if (args.size() == 1 && args[0].is_array()) {
+            for (const auto& elem : args[0]) {
+                if (AndFunction::isTruthy(elem)) return true;
+            }
+            return false;
+        }
+        
+        // Multiple arguments
+        for (const auto& arg : args) {
+            if (AndFunction::isTruthy(arg)) return true;
+        }
+        return false;
+    }
+};
+
+/**
+ * @brief NOT(value) - Logical NOT operation (Excel-compatible)
+ * 
+ * Inverts the truthiness of a value or all elements in an array.
+ * 
+ * Examples:
+ *   NOT(true)                         => false
+ *   NOT(false)                        => true
+ *   NOT(0)                            => true
+ *   NOT([true, false, true])          => [false, true, false]
+ */
+class NotFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "NOT",
+            .category = "Logical",
+            .description = "Inverts truthiness of a value or array elements",
+            .arguments = {
+                {"value", ArgType::ANY, true, nullptr, "Value or array to invert"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(NOT(true) // false)",
+                R"(NOT(0) // true)",
+                R"(NOT([true, false]) // [false, true])"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& val = args[0];
+        
+        // Array - invert each element
+        if (val.is_array()) {
+            nlohmann::json result = nlohmann::json::array();
+            for (const auto& elem : val) {
+                result.push_back(!AndFunction::isTruthy(elem));
+            }
+            return result;
+        }
+        
+        // Single value
+        return !AndFunction::isTruthy(val);
+    }
+};
+
+/**
+ * @brief XOR(...) - Logical Exclusive OR operation (Excel-compatible)
+ * 
+ * Returns true if an ODD number of arguments are true.
+ * For arrays: counts truthy elements.
+ * 
+ * Examples:
+ *   XOR(true, false)                  => true  (1 true)
+ *   XOR(true, true)                   => false (2 trues)
+ *   XOR(true, true, true)             => true  (3 trues)
+ *   XOR([true, false, true])          => false (2 trues)
+ */
+class XorFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "XOR",
+            .category = "Logical",
+            .description = "Returns true if an odd number of arguments are truthy (Excel-compatible)",
+            .arguments = {
+                {"values", ArgType::ANY, false, nullptr, "Values or array to test"}
+            },
+            .return_type = ArgType::BOOLEAN,
+            .is_deterministic = true,
+            .examples = {
+                R"(XOR(true, false) // true)",
+                R"(XOR(true, true) // false)",
+                R"(XOR(true, true, true) // true)",
+                R"(XOR([1, 0, 1]) // false)"
+            }
+        };
+    }
+    
+    void validateArgs(const std::vector<nlohmann::json>&) const override {}
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        size_t trueCount = 0;
+        
+        // Single array argument
+        if (args.size() == 1 && args[0].is_array()) {
+            for (const auto& elem : args[0]) {
+                if (AndFunction::isTruthy(elem)) trueCount++;
+            }
+        } else {
+            // Multiple arguments
+            for (const auto& arg : args) {
+                if (AndFunction::isTruthy(arg)) trueCount++;
+            }
+        }
+        
+        return (trueCount % 2) == 1;
+    }
+};
+
+/**
+ * @brief IF(condition, trueValue [, falseValue]) - Conditional expression (Excel-compatible)
+ * 
+ * Returns trueValue if condition is truthy, otherwise falseValue.
+ * 
+ * Examples:
+ *   IF(true, "yes", "no")             => "yes"
+ *   IF(1 > 0, "positive", "negative") => "positive"
+ *   IF(false, "yes")                  => null (no else value)
+ */
+class IfFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "IF",
+            .category = "Logical",
+            .description = "Returns one value if condition is true, another if false",
+            .arguments = {
+                {"condition", ArgType::ANY, true, nullptr, "Condition to test"},
+                {"trueValue", ArgType::ANY, true, nullptr, "Value if true"},
+                {"falseValue", ArgType::ANY, false, nullptr, "Value if false (default: null)"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(IF(true, "yes", "no") // "yes")",
+                R"(IF(x > 0, "positive", "negative"))",
+                R"(IF(false, "yes") // null)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        bool condition = AndFunction::isTruthy(args[0]);
+        
+        if (condition) {
+            return args[1];
+        }
+        
+        return args.size() > 2 ? args[2] : nullptr;
+    }
+};
+
+/**
+ * @brief IFS(cond1, val1, cond2, val2, ...) - Multiple conditions (Excel-compatible)
+ * 
+ * Evaluates conditions in order and returns the first matching value.
+ * 
+ * Examples:
+ *   IFS(false, "a", true, "b", true, "c")  => "b"
+ *   IFS(x < 0, "negative", x > 0, "positive", true, "zero")
+ */
+class IfsFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "IFS",
+            .category = "Logical",
+            .description = "Returns value for first true condition (Excel-compatible)",
+            .arguments = {
+                {"pairs", ArgType::ANY, false, nullptr, "Condition-value pairs"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(IFS(false, "a", true, "b") // "b")",
+                R"(IFS(x < 0, "neg", x > 0, "pos", true, "zero"))"
+            }
+        };
+    }
+    
+    void validateArgs(const std::vector<nlohmann::json>& args) const override {
+        if (args.size() % 2 != 0) {
+            throw std::runtime_error("IFS: requires an even number of arguments (condition-value pairs)");
+        }
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        for (size_t i = 0; i < args.size(); i += 2) {
+            if (AndFunction::isTruthy(args[i])) {
+                return args[i + 1];
+            }
+        }
+        return nullptr;
+    }
+};
+
+/**
+ * @brief SWITCH(expr, case1, val1, case2, val2, ..., [default]) - Switch/Case (Excel-compatible)
+ * 
+ * Matches expression against cases and returns corresponding value.
+ * 
+ * Examples:
+ *   SWITCH(2, 1, "one", 2, "two", 3, "three")  => "two"
+ *   SWITCH(x, "a", 1, "b", 2, 0)  => 0 (default if no match)
+ */
+class SwitchFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "SWITCH",
+            .category = "Logical",
+            .description = "Matches expression against cases (Excel-compatible)",
+            .arguments = {
+                {"expression", ArgType::ANY, true, nullptr, "Value to match"},
+                {"cases", ArgType::ANY, false, nullptr, "Case-value pairs, optional default"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(SWITCH(2, 1, "one", 2, "two") // "two")",
+                R"(SWITCH(x, "a", 1, "b", 2, 0) // 0 if no match)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        if (args.size() < 2) return nullptr;
+        
+        const auto& expr = args[0];
+        
+        // Check pairs
+        size_t i = 1;
+        while (i + 1 < args.size()) {
+            if (args[i] == expr) {
+                return args[i + 1];
+            }
+            i += 2;
+        }
+        
+        // Default value (odd number of remaining args)
+        if (i < args.size()) {
+            return args[i];
+        }
+        
+        return nullptr;
+    }
+};
+
+/**
+ * @brief CHOOSE(index, val1, val2, ...) - Choose by index (Excel-compatible)
+ * 
+ * Returns the value at the specified index (1-based like Excel).
+ * 
+ * Examples:
+ *   CHOOSE(2, "a", "b", "c")          => "b"
+ *   CHOOSE(1, 10, 20, 30)             => 10
+ */
+class ChooseFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "CHOOSE",
+            .category = "Logical",
+            .description = "Returns value at index (1-based, Excel-compatible)",
+            .arguments = {
+                {"index", ArgType::INTEGER, true, nullptr, "Index (1-based)"},
+                {"values", ArgType::ANY, false, nullptr, "Values to choose from"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(CHOOSE(2, "a", "b", "c") // "b")",
+                R"(CHOOSE(1, 10, 20, 30) // 10)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        if (args.size() < 2) return nullptr;
+        
+        int64_t index = args[0].get<int64_t>();
+        
+        // 1-based index like Excel
+        if (index < 1 || static_cast<size_t>(index) >= args.size()) {
+            return nullptr;
+        }
+        
+        return args[static_cast<size_t>(index)];
+    }
+};
+
+// ============================================================================
+// Set/Array Logical Operations
+// ============================================================================
+
+/**
+ * @brief ARRAY_AND(arr1, arr2) - Element-wise AND
+ * 
+ * Returns array with element-wise AND of two arrays.
+ * 
+ * Examples:
+ *   ARRAY_AND([true, true, false], [true, false, false])  
+ *   => [true, false, false]
+ */
+class ArrayAndFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "ARRAY_AND",
+            .category = "Logical",
+            .description = "Element-wise AND of two arrays",
+            .arguments = {
+                {"arr1", ArgType::ARRAY, true, nullptr, "First array"},
+                {"arr2", ArgType::ARRAY, true, nullptr, "Second array"}
+            },
+            .return_type = ArgType::ARRAY,
+            .is_deterministic = true,
+            .examples = {
+                R"(ARRAY_AND([true, true, false], [true, false, false]) // [true, false, false])",
+                R"(ARRAY_AND([1, 2, 0], [1, 0, 1]) // [true, false, false])"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr1 = args[0];
+        const auto& arr2 = args[1];
+        
+        size_t len = std::min(arr1.size(), arr2.size());
+        nlohmann::json result = nlohmann::json::array();
+        
+        for (size_t i = 0; i < len; i++) {
+            result.push_back(AndFunction::isTruthy(arr1[i]) && AndFunction::isTruthy(arr2[i]));
+        }
+        
+        return result;
+    }
+};
+
+/**
+ * @brief ARRAY_OR(arr1, arr2) - Element-wise OR
+ */
+class ArrayOrFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "ARRAY_OR",
+            .category = "Logical",
+            .description = "Element-wise OR of two arrays",
+            .arguments = {
+                {"arr1", ArgType::ARRAY, true, nullptr, "First array"},
+                {"arr2", ArgType::ARRAY, true, nullptr, "Second array"}
+            },
+            .return_type = ArgType::ARRAY,
+            .is_deterministic = true,
+            .examples = {
+                R"(ARRAY_OR([true, false, false], [false, false, true]) // [true, false, true])"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr1 = args[0];
+        const auto& arr2 = args[1];
+        
+        size_t len = std::min(arr1.size(), arr2.size());
+        nlohmann::json result = nlohmann::json::array();
+        
+        for (size_t i = 0; i < len; i++) {
+            result.push_back(AndFunction::isTruthy(arr1[i]) || AndFunction::isTruthy(arr2[i]));
+        }
+        
+        return result;
+    }
+};
+
+/**
+ * @brief ARRAY_XOR(arr1, arr2) - Element-wise XOR
+ */
+class ArrayXorFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "ARRAY_XOR",
+            .category = "Logical",
+            .description = "Element-wise XOR of two arrays",
+            .arguments = {
+                {"arr1", ArgType::ARRAY, true, nullptr, "First array"},
+                {"arr2", ArgType::ARRAY, true, nullptr, "Second array"}
+            },
+            .return_type = ArgType::ARRAY,
+            .is_deterministic = true,
+            .examples = {
+                R"(ARRAY_XOR([true, true, false], [true, false, false]) // [false, true, false])"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr1 = args[0];
+        const auto& arr2 = args[1];
+        
+        size_t len = std::min(arr1.size(), arr2.size());
+        nlohmann::json result = nlohmann::json::array();
+        
+        for (size_t i = 0; i < len; i++) {
+            bool a = AndFunction::isTruthy(arr1[i]);
+            bool b = AndFunction::isTruthy(arr2[i]);
+            result.push_back(a != b);
+        }
+        
+        return result;
+    }
+};
+
+/**
+ * @brief ALL(array) - Check if all elements are truthy
+ * 
+ * Alias for AND with single array argument.
+ */
+class AllFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "ALL",
+            .category = "Logical",
+            .description = "Returns true if all array elements are truthy",
+            .arguments = {
+                {"array", ArgType::ARRAY, true, nullptr, "Array to test"}
+            },
+            .return_type = ArgType::BOOLEAN,
+            .is_deterministic = true,
+            .examples = {
+                R"(ALL([true, true, true]) // true)",
+                R"(ALL([1, 2, 3]) // true)",
+                R"(ALL([1, 0, 3]) // false)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr = args[0];
+        for (const auto& elem : arr) {
+            if (!AndFunction::isTruthy(elem)) return false;
+        }
+        return true;
+    }
+};
+
+/**
+ * @brief ANY(array) - Check if any element is truthy
+ * 
+ * Alias for OR with single array argument.
+ */
+class AnyFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "ANY",
+            .category = "Logical",
+            .description = "Returns true if any array element is truthy",
+            .arguments = {
+                {"array", ArgType::ARRAY, true, nullptr, "Array to test"}
+            },
+            .return_type = ArgType::BOOLEAN,
+            .is_deterministic = true,
+            .examples = {
+                R"(ANY([false, false, true]) // true)",
+                R"(ANY([0, 0, 1]) // true)",
+                R"(ANY([0, 0, 0]) // false)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr = args[0];
+        for (const auto& elem : arr) {
+            if (AndFunction::isTruthy(elem)) return true;
+        }
+        return false;
+    }
+};
+
+/**
+ * @brief NONE(array) - Check if no elements are truthy
+ */
+class NoneFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "NONE",
+            .category = "Logical",
+            .description = "Returns true if no array elements are truthy",
+            .arguments = {
+                {"array", ArgType::ARRAY, true, nullptr, "Array to test"}
+            },
+            .return_type = ArgType::BOOLEAN,
+            .is_deterministic = true,
+            .examples = {
+                R"(NONE([false, false, false]) // true)",
+                R"(NONE([0, 0, 0]) // true)",
+                R"(NONE([0, 1, 0]) // false)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr = args[0];
+        for (const auto& elem : arr) {
+            if (AndFunction::isTruthy(elem)) return false;
+        }
+        return true;
+    }
+};
+
+/**
+ * @brief COUNT_IF(array, condition) - Count elements matching condition
+ * 
+ * Note: In AQL, condition is typically expressed via FILTER.
+ * This counts truthy elements in the array.
+ */
+class CountIfFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "COUNT_IF",
+            .category = "Logical",
+            .description = "Counts truthy elements in array (Excel COUNTIF style)",
+            .arguments = {
+                {"array", ArgType::ARRAY, true, nullptr, "Array to count"},
+                {"value", ArgType::ANY, false, nullptr, "Specific value to count (optional)"}
+            },
+            .return_type = ArgType::INTEGER,
+            .is_deterministic = true,
+            .examples = {
+                R"(COUNT_IF([true, false, true]) // 2)",
+                R"(COUNT_IF([1, 0, 2, 0, 3]) // 3)",
+                R"(COUNT_IF([1, 2, 1, 3, 1], 1) // 3)"
+            }
+        };
+    }
+    
+    void validateArgs(const std::vector<nlohmann::json>&) const override {}
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr = args[0];
+        int64_t count = 0;
+        
+        if (args.size() > 1) {
+            // Count specific value
+            const auto& value = args[1];
+            for (const auto& elem : arr) {
+                if (elem == value) count++;
+            }
+        } else {
+            // Count truthy elements
+            for (const auto& elem : arr) {
+                if (AndFunction::isTruthy(elem)) count++;
+            }
+        }
+        
+        return count;
+    }
+};
+
+/**
+ * @brief SUM_IF(array, conditionArray) - Sum elements where condition is true
+ */
+class SumIfFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "SUM_IF",
+            .category = "Logical",
+            .description = "Sums elements where corresponding condition is truthy",
+            .arguments = {
+                {"values", ArgType::ARRAY, true, nullptr, "Array of numbers"},
+                {"conditions", ArgType::ARRAY, true, nullptr, "Array of conditions"}
+            },
+            .return_type = ArgType::NUMBER,
+            .is_deterministic = true,
+            .examples = {
+                R"(SUM_IF([10, 20, 30], [true, false, true]) // 40)",
+                R"(SUM_IF([1, 2, 3, 4], [1, 0, 1, 0]) // 4)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& values = args[0];
+        const auto& conditions = args[1];
+        
+        double sum = 0;
+        size_t len = std::min(values.size(), conditions.size());
+        
+        for (size_t i = 0; i < len; i++) {
+            if (AndFunction::isTruthy(conditions[i]) && values[i].is_number()) {
+                sum += values[i].get<double>();
+            }
+        }
+        
+        return sum;
+    }
+};
+
+/**
+ * @brief FILTER_BY(array, conditionArray) - Filter array by condition array
+ */
+class FilterByFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "FILTER_BY",
+            .category = "Logical",
+            .description = "Filters array elements by corresponding condition array",
+            .arguments = {
+                {"array", ArgType::ARRAY, true, nullptr, "Array to filter"},
+                {"conditions", ArgType::ARRAY, true, nullptr, "Condition array (parallel)"}
+            },
+            .return_type = ArgType::ARRAY,
+            .is_deterministic = true,
+            .examples = {
+                R"(FILTER_BY([1, 2, 3, 4], [true, false, true, false]) // [1, 3])",
+                R"(FILTER_BY(["a", "b", "c"], [1, 0, 1]) // ["a", "c"])"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        const auto& arr = args[0];
+        const auto& conditions = args[1];
+        
+        nlohmann::json result = nlohmann::json::array();
+        size_t len = std::min(arr.size(), conditions.size());
+        
+        for (size_t i = 0; i < len; i++) {
+            if (AndFunction::isTruthy(conditions[i])) {
+                result.push_back(arr[i]);
+            }
+        }
+        
+        return result;
+    }
+};
+
+/**
+ * @brief IFERROR(value, errorValue) - Return alternative on error/null
+ * 
+ * Excel-compatible error handling.
+ */
+class IfErrorFunction : public IFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "IFERROR",
+            .category = "Logical",
+            .description = "Returns alternative value if first value is null/error",
+            .arguments = {
+                {"value", ArgType::ANY, true, nullptr, "Value to test"},
+                {"errorValue", ArgType::ANY, true, nullptr, "Value to return if null"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(IFERROR(null, 0) // 0)",
+                R"(IFERROR(123, 0) // 123)"
+            }
+        };
+    }
+    
+    nlohmann::json execute(const std::vector<nlohmann::json>& args,
+                           const FunctionContext&) const override {
+        if (args[0].is_null()) {
+            return args[1];
+        }
+        return args[0];
+    }
+};
+
+/**
+ * @brief IFNA(value, naValue) - Return alternative for N/A values
+ * 
+ * Same as IFERROR for our purposes.
+ */
+class IfNaFunction : public IfErrorFunction {
+public:
+    FunctionSignature signature() const override {
+        return {
+            .name = "IFNA",
+            .category = "Logical",
+            .description = "Returns alternative value if first value is null/N/A",
+            .arguments = {
+                {"value", ArgType::ANY, true, nullptr, "Value to test"},
+                {"naValue", ArgType::ANY, true, nullptr, "Value to return if N/A"}
+            },
+            .return_type = ArgType::ANY,
+            .is_deterministic = true,
+            .examples = {
+                R"(IFNA(null, "N/A") // "N/A")",
+                R"(IFNA("value", "N/A") // "value")"
+            }
+        };
+    }
+};
+
+// ============================================================================
 // Register Collection Functions
 // ============================================================================
 
@@ -1127,6 +1983,29 @@ inline void registerCollectionFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<KeysFunction>());
     reg.registerFunction(std::make_unique<EntriesFunction>());
     reg.registerFunction(std::make_unique<FromEntriesFunction>());
+    
+    // Logical functions (Excel-style)
+    reg.registerFunction(std::make_unique<AndFunction>());
+    reg.registerFunction(std::make_unique<OrFunction>());
+    reg.registerFunction(std::make_unique<NotFunction>());
+    reg.registerFunction(std::make_unique<XorFunction>());
+    reg.registerFunction(std::make_unique<IfFunction>());
+    reg.registerFunction(std::make_unique<IfsFunction>());
+    reg.registerFunction(std::make_unique<SwitchFunction>());
+    reg.registerFunction(std::make_unique<ChooseFunction>());
+    
+    // Array logical operations
+    reg.registerFunction(std::make_unique<ArrayAndFunction>());
+    reg.registerFunction(std::make_unique<ArrayOrFunction>());
+    reg.registerFunction(std::make_unique<ArrayXorFunction>());
+    reg.registerFunction(std::make_unique<AllFunction>());
+    reg.registerFunction(std::make_unique<AnyFunction>());
+    reg.registerFunction(std::make_unique<NoneFunction>());
+    reg.registerFunction(std::make_unique<CountIfFunction>());
+    reg.registerFunction(std::make_unique<SumIfFunction>());
+    reg.registerFunction(std::make_unique<FilterByFunction>());
+    reg.registerFunction(std::make_unique<IfErrorFunction>());
+    reg.registerFunction(std::make_unique<IfNaFunction>());
 }
 
 } // namespace functions
