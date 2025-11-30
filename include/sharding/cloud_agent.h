@@ -114,6 +114,11 @@ public:
         // Metrics settings
         bool enable_metrics = true;
         std::string metrics_prefix = "themis_cloud_agent_";
+        
+        // Statistics settings
+        double avg_execution_time_smoothing_factor = 0.1;  // EMA alpha
+        size_t max_completed_operations_history = 1000;    // Cleanup threshold
+        std::chrono::minutes cleanup_interval{5};           // Cleanup frequency
     };
     
     struct Statistics {
@@ -245,6 +250,7 @@ private:
     void workerLoop();
     void healthLoop();
     std::string generateOperationId() const;
+    std::string generateAgentId() const;
     CloudAgentResult executeOperation(const CloudAgentOperation& operation);
     CloudAgentResult executeScatterGather(
         const CloudAgentOperation& operation,
