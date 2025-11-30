@@ -155,8 +155,20 @@ public:
      * @brief Compute aggregations over time range
      * @param options Query options
      * @return Pair of Status and aggregation result
+     * 
+     * Automatically uses pre-computed aggregates when available for better performance.
      */
     std::pair<Status, AggregationResult> aggregate(const QueryOptions& options) const;
+    
+    /**
+     * @brief Compute aggregations with optimizer hints
+     * @param options Query options
+     * @param use_optimizer Enable query optimization (default: true)
+     * @return Pair of Status and aggregation result
+     */
+    std::pair<Status, AggregationResult> aggregateOptimized(
+        const QueryOptions& options,
+        bool use_optimizer = true) const;
     
     /**
      * @brief Get time-series statistics

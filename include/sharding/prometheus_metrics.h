@@ -58,6 +58,11 @@ public:
     void recordClusterSize(int num_shards);
     void recordVirtualNodes(int total_vnodes);
 
+    // Generic metrics (for extensibility)
+    void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
+    void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
+    void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
+
     // Get metrics in Prometheus text format
     std::string getMetrics() const;
 
@@ -73,10 +78,6 @@ private:
     
     // Histograms (simplified - stores recent values)
     std::map<std::string, std::vector<double>> histograms_;
-
-    void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
-    void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
-    void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
     
     std::string formatLabels(const std::map<std::string, std::string>& labels) const;
     std::string getCounterKey(const std::string& name, const std::map<std::string, std::string>& labels) const;

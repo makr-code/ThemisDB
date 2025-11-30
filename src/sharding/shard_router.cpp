@@ -1,4 +1,5 @@
 #include "sharding/shard_router.h"
+#include "utils/tracing.h"
 #include <algorithm>
 #include <regex>
 
@@ -51,10 +52,28 @@ bool ShardRouter::del(const URN& urn) {
 }
 
 nlohmann::json ShardRouter::executeQuery(const std::string& query) {
+    auto span = Tracer::startSpan("ShardRouter.executeQuery");
+    span.setAttribute("query_length", static_cast<int64_t>(query.length()));
+    
     total_requests_++;
     
     // Analyze query to determine routing strategy
     RoutingStrategy strategy = analyzeQuery(query);
+    
+    switch (strategy) {
+        case RoutingStrategy::SINGLE_SHARD:
+            span.setAttribute("routing_strategy", "single_shard");
+            break;
+        case RoutingStrategy::SCATTER_GATHER:
+            span.setAttribute("routing_strategy", "scatter_gather");
+            break;
+        case RoutingStrategy::NAMESPACE_LOCAL:
+            span.setAttribute("routing_strategy", "namespace_local");
+            break;
+        case RoutingStrategy::CROSS_SHARD_JOIN:
+            span.setAttribute("routing_strategy", "cross_shard_join");
+            break;
+    }
     
     switch (strategy) {
         case RoutingStrategy::SINGLE_SHARD: {
