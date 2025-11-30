@@ -326,6 +326,8 @@ set(THEMIS_CORE_SOURCES
     src/index/graph_index.cpp
     src/index/temporal_graph.cpp
     src/index/property_graph.cpp
+    src/index/edge_types.cpp
+    src/index/process_graph.cpp
     src/index/gnn_embeddings.cpp
     src/index/vector_index.cpp
     src/index/adaptive_index.cpp
