@@ -462,6 +462,15 @@ set(THEMIS_CORE_SOURCES
     src/acceleration/cpu_backend.cpp
     src/acceleration/plugin_loader.cpp
     src/acceleration/plugin_security.cpp
+    
+    # Multi-tenancy support
+    src/server/tenant_manager.cpp
+    
+    # GraphQL API
+    src/api/graphql.cpp
+    
+    # OLAP Analytics
+    src/analytics/olap.cpp
 )
 
 # Define core library early so subsequent target_* commands are valid
@@ -802,6 +811,11 @@ if(THEMIS_BUILD_TESTS)
         tests/test_rebalance_migration.cpp
         tests/test_monitoring_ops.cpp
         tests/update_checker_test.cpp
+        
+        # New feature tests
+        tests/test_tenant_manager.cpp
+        tests/test_graphql.cpp
+        tests/test_olap.cpp
     )
     
     target_link_libraries(themis_tests
