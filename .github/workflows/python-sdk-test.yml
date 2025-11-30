@@ -98,7 +98,8 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Package validation:**" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          twine check dist/* 2>&1 | tee twine-check.txt >> $GITHUB_STEP_SUMMARY
+          twine check dist/* 2>&1 | tee twine-check.txt
+          cat twine-check.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "⚠️ **DRY-RUN MODE:** Package validated but NOT uploaded to PyPI." >> $GITHUB_STEP_SUMMARY

@@ -104,7 +104,8 @@ jobs:
               echo "" >> $GITHUB_STEP_SUMMARY
               echo "**Unit tests:**" >> $GITHUB_STEP_SUMMARY
               echo '```' >> $GITHUB_STEP_SUMMARY
-              helm unittest "$chart" 2>&1 | tee -a >> $GITHUB_STEP_SUMMARY || echo "No tests or test failures"
+              helm unittest "$chart" 2>&1 | tee helm-unittest.txt || echo "No tests or test failures"
+              cat helm-unittest.txt >> $GITHUB_STEP_SUMMARY
               echo '```' >> $GITHUB_STEP_SUMMARY
               break
             fi
