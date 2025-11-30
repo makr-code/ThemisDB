@@ -586,8 +586,7 @@ private:
 // Register String Functions
 // ============================================================================
 
-inline void registerStringFunctions() {
-    auto& reg = FunctionRegistry::instance();
+inline void registerStringFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<LengthFunction>());
     reg.registerFunction(std::make_unique<ConcatFunction>());
     reg.registerFunction(std::make_unique<SubstringFunction>());

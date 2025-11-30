@@ -570,8 +570,7 @@ public:
 // Register Date Functions
 // ============================================================================
 
-inline void registerDateFunctions() {
-    auto& reg = FunctionRegistry::instance();
+inline void registerDateFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<DateNowFunction>());
     reg.registerFunction(std::make_unique<DateTimestampFunction>());
     reg.registerFunction(std::make_unique<DateIso8601Function>());

@@ -595,8 +595,7 @@ public:
 // Register Document Functions
 // ============================================================================
 
-inline void registerDocumentFunctions() {
-    auto& reg = FunctionRegistry::instance();
+inline void registerDocumentFunctions(FunctionRegistry& reg) {
     // Document functions
     reg.registerFunction(std::make_unique<DocumentFunction>());
     reg.registerFunction(std::make_unique<MergeFunction>());

@@ -677,8 +677,7 @@ public:
 // Register Array Functions
 // ============================================================================
 
-inline void registerArrayFunctions() {
-    auto& reg = FunctionRegistry::instance();
+inline void registerArrayFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<FirstFunction>());
     reg.registerFunction(std::make_unique<LastFunction>());
     reg.registerFunction(std::make_unique<NthFunction>());

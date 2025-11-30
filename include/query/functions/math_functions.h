@@ -685,8 +685,7 @@ public:
 // Register Math Functions
 // ============================================================================
 
-inline void registerMathFunctions() {
-    auto& reg = FunctionRegistry::instance();
+inline void registerMathFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<AbsFunction>());
     reg.registerFunction(std::make_unique<CeilFunction>());
     reg.registerFunction(std::make_unique<FloorFunction>());
