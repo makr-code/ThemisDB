@@ -182,6 +182,10 @@ nav:
       - Competitive Gap Analysis: competitive_gap_analysis.md
   - Deployment & Betrieb:
       - Deployment: deployment.md
+      - Docker:
+          - Docker Build: DOCKER_BUILD.md
+          - Docker Status: DOCKER_STATUS.md
+          - QNAP Deployment: QNAP_DEPLOYMENT.md
       - Tracing & Observability: tracing.md
       - Observability:
           - Prometheus Metrics: observability/prometheus_metrics.md
