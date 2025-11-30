@@ -114,10 +114,10 @@ Weitere Beispiele: [AQL Syntax](aql/syntax.md) | [Hybrid Queries](aql/hybrid-que
 - ✅ **Sharding Phase 2-3 (Automatic Rebalancing)** - [Report](reports/SHARDING_AUTO_REBALANCING.md)
 
 ### 🔄 In Arbeit
-- 📋 GPU Acceleration (CUDA/Vulkan Backends)
-- 📋 Multi-Tenancy Support
-- 📋 GraphQL API
-- 📋 Advanced Analytics (OLAP Features)
+- ✅ GPU Acceleration (CUDA/Vulkan Backends) - [Dokumentation](performance/GPU_ACCELERATION_PLAN.md)
+- ✅ Multi-Tenancy Support - [Dokumentation](features/multi_tenancy.md)
+- ✅ GraphQL API - [Dokumentation](apis/graphql.md)
+- ✅ Advanced Analytics (OLAP Features) - [Dokumentation](features/olap_analytics.md)
 
 Details: [Roadmap](ROADMAP.md) | [Implementation Status](development/implementation_status.md)
 
