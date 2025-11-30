@@ -159,6 +159,9 @@ target/
 # Allow CMakeLists (explicitly)
 !CMakeLists.txt
 
+# GitHub Actions local testing secrets (never commit)
+.github/act-secrets
+
 # End of .gitignore
 
 # Additional ignores for generated build artifacts and logs applied during stash restore
