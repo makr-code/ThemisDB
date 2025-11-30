@@ -155,6 +155,13 @@ Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "performance_ben
 Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "compression_benchmarks.md" -Title "Compression Benchmarks"
 $sb += ""
 
+$sb += "### Enterprise Features"
+Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "enterprise/README.md" -Title "Enterprise Overview"
+Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "ENTERPRISE_SCALABILITY.md" -Title "Scalability Features"
+Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "HTTP_CLIENT_POOL_COMPLETE.md" -Title "HTTP Client Pool"
+Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "ENTERPRISE_BUILD_GUIDE.md" -Title "Enterprise Build Guide"
+$sb += ""
+
 $sb += "### Time Series"
 Add-LinkIfExists -Lines ([ref]$sb) -WikiRoot $WikiPath -RelPath "time_series.md" -Title "Time Series Overview"
 $sb += ""

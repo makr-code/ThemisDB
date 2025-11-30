@@ -11,6 +11,7 @@
 namespace themis {
 
 class BaseEntity;
+class SecondaryIndexManager;
 
 /// VectorIndexManager
 /// - Optional HNSWlib-Unterstützung (compile-time)
@@ -81,6 +82,123 @@ public:
         size_t k,
         const std::vector<std::string>* whitelistPks = nullptr
     ) const;
+
+    // KNN-Suche mit Attribut-Filter (Post-Filtering)
+    // Filtert Ergebnisse basierend auf Entity-Attributen nach HNSW-Suche
+    struct AttributeFilter {
+        std::string field;
+        std::string value;
+        enum class Op { EQUALS, NOT_EQUALS, CONTAINS } op = Op::EQUALS;
+    };
+    
+    // Extended AttributeFilter für Pre-Filtering via SecondaryIndex
+    // Hinweis: Windows headers definieren ggf. ein Makro IN. Konflikt vermeiden.
+    #ifdef IN
+    #undef IN
+    #endif
+    struct AttributeFilterV2 {
+        std::string field;
+        enum class Op { 
+            EQUALS,           // field == value
+            NOT_EQUALS,       // field != value
+            CONTAINS,         // string contains substring
+            GREATER_THAN,     // field > value (numeric/string)
+            LESS_THAN,        // field < value
+            GREATER_EQUAL,    // field >= value
+            LESS_EQUAL,       // field <= value
+            IN,               // field in [values]
+            RANGE             // value_min <= field <= value_max
+        } op = Op::EQUALS;
+        
+        std::string value;              // For EQUALS, NOT_EQUALS, CONTAINS, GT, LT, GTE, LTE
+        std::vector<std::string> values; // For IN operator
+        std::string value_min;          // For RANGE operator
+        std::string value_max;          // For RANGE operator
+        
+        // Convenience constructors
+        static AttributeFilterV2 Equals(std::string field, std::string value) {
+            return {std::move(field), Op::EQUALS, std::move(value), {}, "", ""};
+        }
+        static AttributeFilterV2 Range(std::string field, std::string min, std::string max) {
+            return {std::move(field), Op::RANGE, "", {}, std::move(min), std::move(max)};
+        }
+        static AttributeFilterV2 In(std::string field, std::vector<std::string> vals) {
+            return {std::move(field), Op::IN, "", std::move(vals), "", ""};
+        }
+    };
+    
+    std::pair<Status, std::vector<Result>> searchKnnFiltered(
+        const std::vector<float>& query,
+        size_t k,
+        const std::vector<AttributeFilter>& filters,
+        size_t candidateMultiplier = 3  // Fetch k*multiplier from HNSW, then filter
+    ) const;
+    
+    // KNN-Suche mit Pre-Filtering via SecondaryIndexManager
+    // Generiert Whitelist aus SecondaryIndex-Scans, dann HNSW mit Whitelist
+    // Benötigt SecondaryIndexManager-Pointer (optional dependency)
+    std::pair<Status, std::vector<Result>> searchKnnPreFiltered(
+        const std::vector<float>& query,
+        size_t k,
+        const std::vector<AttributeFilterV2>& filters,
+        SecondaryIndexManager* secondaryIdx = nullptr
+    ) const;
+
+    // ===== Radius Search (Epsilon Neighbors) =====
+    
+    /// Radius search: alle Nachbarn innerhalb Distanzschwelle epsilon
+    /// Optional mit k als Obergrenze (verhindert Riesige Result Sets)
+    std::pair<Status, std::vector<Result>> searchKnnRadius(
+        const std::vector<float>& query,
+        float epsilon,
+        size_t max_results = 0,  // 0 = unbegrenzt
+        const std::vector<std::string>* whitelistPks = nullptr
+    ) const;
+    
+    /// Radius search mit Pre-Filtering via SecondaryIndexManager
+    std::pair<Status, std::vector<Result>> searchKnnRadiusPreFiltered(
+        const std::vector<float>& query,
+        float epsilon,
+        size_t max_results,
+        const std::vector<AttributeFilterV2>& filters,
+        SecondaryIndexManager* secondaryIdx = nullptr
+    ) const;
+
+    // ===== Batch Operations =====
+    
+    /// Add multiple entities in single batch (more efficient than individual adds)
+    Status addBatch(const std::vector<BaseEntity>& entities, std::string_view vectorField = "embedding");
+    
+    /// Update multiple entities in single batch
+    Status updateBatch(const std::vector<BaseEntity>& entities, std::string_view vectorField = "embedding");
+    
+    /// Remove multiple entities by PKs in single batch
+    Status removeBatch(const std::vector<std::string>& pks);
+
+    // ===== Vector Statistics & Aggregation =====
+    
+    struct Statistics {
+        size_t vector_count = 0;
+        int dimension = 0;
+        float min_distance = 0.0f;
+        float max_distance = 0.0f;
+        float mean_distance = 0.0f;
+        float std_dev_distance = 0.0f;
+        std::string metric_name;
+    };
+    
+    /// Get index statistics (distance distribution, vector count, etc.)
+    std::pair<Status, Statistics> getStatistics() const;
+    
+    /// Compute centroid (mean vector) of all vectors in index
+    std::pair<Status, std::vector<float>> computeCentroid() const;
+    
+    /// Compute variance per dimension
+    std::pair<Status, std::vector<float>> computeVariance() const;
+    
+    /// Find outlier vectors (those far from centroid)
+    /// Returns PKs of vectors with distance > threshold * std_dev from centroid
+    std::pair<Status, std::vector<std::string>> findOutliers(float threshold = 3.0f) const;
 
     // Getter für Konfiguration & Statistiken
     std::string getObjectName() const { return objectName_; }

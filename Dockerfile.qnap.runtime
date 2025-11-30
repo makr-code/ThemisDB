@@ -6,15 +6,21 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     tzdata \
+    jq \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/local/bin
-COPY build-qnap/themis_server /usr/local/bin/themis_server
+# The build context includes `build/` (see .dockerignore). Copy the
+# prebuilt binary from `build/themis_server` so it isn't excluded.
+COPY build/themis_server /usr/local/bin/themis_server
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY config/config.qnap.json /usr/local/share/themis/config.qnap.json
 
-RUN chmod +x /usr/local/bin/themis_server && \
+RUN chmod +x /usr/local/bin/themis_server /usr/local/bin/entrypoint.sh && \
+    sed -i 's/\r$//' /usr/local/bin/entrypoint.sh || true && \
     useradd -r -u 999 -g root themis && \
-    mkdir -p /data /var/log/themis && \
-    chown -R themis:root /data /var/log/themis
+    mkdir -p /data /data/themis_server /data/vector_indexes /var/log/themis /etc/themis && \
+    chown -R themis:root /data /var/log/themis || true
 
 ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
 ENV THEMIS_PORT=18765
@@ -22,6 +28,5 @@ ENV THEMIS_PORT=18765
 VOLUME ["/data"]
 EXPOSE 8080 18765
 
-USER themis
-ENTRYPOINT ["/usr/local/bin/themis_server"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["--config", "/etc/themis/config.json"]

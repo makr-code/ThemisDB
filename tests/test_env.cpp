@@ -21,8 +21,13 @@ public:
         try {
             // Prepare clean test DB directory
             base_path_ = std::filesystem::path("./data/themis_gtest_env");
-            if (std::filesystem::exists(base_path_)) {
-                std::error_code ec; std::filesystem::remove_all(base_path_, ec);
+            {
+                std::error_code ec;
+                if (std::filesystem::exists(base_path_)) {
+                    std::filesystem::remove_all(base_path_, ec);
+                }
+                // Ensure directory exists
+                std::filesystem::create_directories(base_path_, ec);
             }
 
             // RocksDB configuration
@@ -34,7 +39,11 @@ public:
 
             storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
             if (!storage_->open()) {
-                throw std::runtime_error("Failed to open RocksDB for test env");
+                // Try again after a short delay in case of lingering locks
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                if (!storage_->open()) {
+                    throw std::runtime_error("Failed to open RocksDB for test env");
+                }
             }
 
             secondary_index_ = std::make_shared<themis::SecondaryIndexManager>(*storage_);
@@ -44,7 +53,7 @@ public:
                 *storage_, *secondary_index_, *graph_index_, *vector_index_
             );
 
-            // HTTP server on standard test port
+            // HTTP server on available test port (retry range)
             themis::server::HttpServer::Config scfg;
             scfg.host = "127.0.0.1";
             scfg.port = 8765;
@@ -55,11 +64,26 @@ public:
             scfg.feature_cdc = false;
             scfg.feature_timeseries = false; // timeseries tests bring their own server
 
-            server_ = std::make_unique<themis::server::HttpServer>(
-                scfg, storage_, secondary_index_, graph_index_, vector_index_, tx_manager_
-            );
-            server_->start();
-            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+            int attempts = 0;
+            const int maxAttempts = 16;
+            while (attempts < maxAttempts) {
+                try {
+                    server_ = std::make_unique<themis::server::HttpServer>(
+                        scfg, storage_, secondary_index_, graph_index_, vector_index_, tx_manager_
+                    );
+                    server_->start();
+                    break; // started successfully
+                } catch (const std::exception&) {
+                    // try next port
+                    ++attempts;
+                    ++scfg.port;
+                    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                }
+            }
+            if (!server_) {
+                throw std::runtime_error("Failed to start HTTP server for test env (ports in use) ");
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(200));
         } catch (const std::exception& e) {
             ADD_FAILURE() << "ThemisServerEnvironment setup failed: " << e.what();
         }

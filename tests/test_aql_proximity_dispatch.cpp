@@ -4,6 +4,7 @@
 #include "query/aql_runner.h"
 #include "query/query_engine.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
 
@@ -32,6 +33,7 @@ TEST_F(AQLProximityDispatchTest, ExecuteProximityHybrid) {
     std::string aql = R"(
         FOR doc IN places
         FILTER FULLTEXT(doc.description, "coffee", 10)
+        FILTER ST_Within(doc.location, [13.4,52.5,13.5,52.6])
         SORT PROXIMITY(doc.location, [13.45,52.55]) ASC
         LIMIT 5
         RETURN doc

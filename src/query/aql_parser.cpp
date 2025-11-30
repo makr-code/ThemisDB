@@ -1,5 +1,6 @@
 ﻿#include "query/aql_parser.h"
 #include <cctype>
+#include <optional>
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
@@ -228,8 +229,9 @@ private:
         if (lower == "aggregate") return Token(TokenType::AGGREGATE, value, line, col);
         
             // Phase 2: Hybrid Query Keywords
-            if (lower == "similarity") return Token(TokenType::SIMILARITY, value, line, col);
-            if (lower == "proximity") return Token(TokenType::PROXIMITY, value, line, col);
+            // Note: SIMILARITY and PROXIMITY are function names, not keywords - should remain as IDENTIFIER
+            // if (lower == "similarity") return Token(TokenType::SIMILARITY, value, line, col);
+            // if (lower == "proximity") return Token(TokenType::PROXIMITY, value, line, col);
             if (lower == "shortest_path") return Token(TokenType::SHORTEST_PATH, value, line, col);
             if (lower == "to") return Token(TokenType::TO, value, line, col);
         
@@ -314,7 +316,7 @@ public:
                 }
             }
             
-            auto query = parseQuery();
+            auto query = parseQuery(false); // false = not a subquery
             return ParseResult::Success(query);
         } catch (const std::runtime_error& e) {
             const auto& tok = current();
@@ -351,7 +353,7 @@ private:
         advance();
     }
     
-    std::shared_ptr<Query> parseQuery() {
+    std::shared_ptr<Query> parseQuery(bool isSubquery = false) {
         auto query = std::make_shared<Query>();
         
         // Phase 3: Optional WITH clause
@@ -423,8 +425,10 @@ private:
             query->traversal->shortestPathTarget = target;
         }
         
-        // End of query
-        expect(TokenType::END_OF_FILE, "Expected end of query");
+        // End of query - only check for EOF if not in subquery context
+        if (!isSubquery) {
+            expect(TokenType::END_OF_FILE, "Expected end of query");
+        }
         
         return query;
     }
@@ -649,8 +653,8 @@ private:
             // Subquery in parentheses
             expect(TokenType::LPAREN, "Expected '(' before CTE subquery");
             
-            // Parse subquery (recursive call to parseQuery)
-            cte.subquery = parseQuery();
+            // Parse subquery (recursive call to parseQuery with isSubquery=true)
+            cte.subquery = parseQuery(true);
             
             expect(TokenType::RPAREN, "Expected ')' after CTE subquery");
             
@@ -861,8 +865,8 @@ private:
             
             // Check if this is a subquery (starts with FOR)
             if (match(TokenType::FOR)) {
-                // Parse as subquery
-                auto subquery = parseQuery();
+                // Parse as subquery (isSubquery=true)
+                auto subquery = parseQuery(true);
                 expect(TokenType::RPAREN, "Expected ')' after subquery");
                 return std::make_shared<SubqueryExpr>(subquery);
             }
@@ -1088,6 +1092,8 @@ nlohmann::json LiteralExpr::toJSON() const {
             j["value"] = arg;
         } else if constexpr (std::is_same_v<T, std::string>) {
             j["value"] = arg;
+        } else if constexpr (std::is_same_v<T, nlohmann::json>) {
+            j["value"] = arg; // Preserve complex JSON objects (GeoJSON, etc.)
         }
     }, value);
     

@@ -24,6 +24,7 @@
 
 #include "content/content_manager.h"
 #include "content/content_processor.h"
+#include "content/mime_detector.h"
 #include "cache/semantic_cache.h"
 #include "server/sse_connection_manager.h"
 #include "server/audit_api_handler.h"
@@ -43,6 +44,8 @@
 #include "utils/update_checker.h"
 #include "security/encryption.h"
 #include "utils/input_validator.h"
+#include "storage/security_signature_manager.h"
+#include "content/content_fs.h"
 
 namespace themis {
 // Forward declarations
@@ -217,6 +220,7 @@ private:
     http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
     http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
     http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
     http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
@@ -249,9 +253,20 @@ private:
 
     // Content API endpoints
     http::response<http::string_body> handleContentImport(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleContentSearch(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGetContent(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGetContentBlob(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGetContentChunks(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleContentAssemble(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleChunkNavigation(const http::request<http::string_body>& req);
+    
+    // Virtual Filesystem API
+    http::response<http::string_body> handleFilesystemGet(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleFilesystemPut(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleFilesystemDelete(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleFilesystemList(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleFilesystemMkdir(const http::request<http::string_body>& req);
+    
     http::response<http::string_body> handleHybridSearch(const http::request<http::string_body>& req);
     http::response<http::string_body> handleFusionSearch(const http::request<http::string_body>& req);
     http::response<http::string_body> handleFulltextSearch(const http::request<http::string_body>& req);
@@ -316,6 +331,22 @@ private:
     // Audit API endpoints
     http::response<http::string_body> handleAuditQuery(const http::request<http::string_body>& req);
     http::response<http::string_body> handleAuditExportCsv(const http::request<http::string_body>& req);
+    
+    // Security Signatures API endpoints
+    http::response<http::string_body> handleSecuritySignaturesList(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSecuritySignatureGet(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSecuritySignaturePost(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSecuritySignatureDelete(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSecurityVerify(const http::request<http::string_body>& req);
+    
+    // Content Policy Validation endpoint
+    http::response<http::string_body> handleContentValidate(const http::request<http::string_body>& req);
+
+    // ContentFS API (binary content over HTTP)
+    http::response<http::string_body> handleContentFsGet(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleContentFsPut(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleContentFsHead(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleContentFsDelete(const http::request<http::string_body>& req);
     
     // SAGA API endpoints
     http::response<http::string_body> handleSagaListBatches(const http::request<http::string_body>& req);
@@ -430,6 +461,10 @@ private:
     
     // Spatial Index Manager (geo MVP)
     std::unique_ptr<index::SpatialIndexManager> spatial_index_;
+    // Security Signatures Manager (content integrity & verification)
+    std::shared_ptr<storage::SecuritySignatureManager> security_sig_mgr_;
+    // MIME Detector for content ingestion classification
+    std::shared_ptr<content::MimeDetector> mime_detector_;
 
     // Content Manager
     std::unique_ptr<themis::content::ContentManager> content_manager_;
@@ -591,6 +626,9 @@ private:
     std::atomic<uint64_t> page_count_{0};
     
     void recordPageFetch(std::chrono::milliseconds duration_ms);
+
+    // ContentFS instance
+    std::unique_ptr<themis::ContentFS> content_fs_;
 };
 
 } // namespace server

@@ -4,6 +4,8 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "index/spatial_index.h"
+#include "api/geo_index_hooks.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
@@ -24,9 +26,12 @@ protected:
 
         db = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db->open());
+        
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         graphIdx = std::make_unique<GraphIndexManager>(*db);
-        engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx);
+        vectorIdx = std::make_unique<VectorIndexManager>(*db);
+        spatialIdx = std::make_unique<SpatialIndexManager>(*db);
+        engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), spatialIdx.get());
 
         // Create fulltext index for Content+Geo tests
         auto st = secIdx->createFulltextIndex("documents", "text");
@@ -37,6 +42,8 @@ protected:
 
     void TearDown() override {
         engine.reset();
+        spatialIdx.reset();
+        vectorIdx.reset();
         graphIdx.reset();
         secIdx.reset();
         db.reset();
@@ -44,6 +51,14 @@ protected:
     }
 
     void setupTestData() {
+        // Create spatial indexes for all tables with geometry
+        spatialIdx->createSpatialIndex("images", "location");
+        spatialIdx->createSpatialIndex("documents", "location");
+        spatialIdx->createSpatialIndex("locations", "location");
+        
+        // Create vector index for images (3-dimensional vectors)
+        vectorIdx->init("images", 3, VectorIndexManager::Metric::L2, 16, 200, 64);
+        
         // Vector + Geo: Images with embeddings and locations
         {
             BaseEntity img1("img1");
@@ -51,18 +66,27 @@ protected:
             img1.setField("embedding", std::vector<float>{0.1f, 0.2f, 0.3f});
             img1.setField("location", std::string(R"({"type":"Point","coordinates":[13.405,52.52]})"));
             secIdx->put("images", img1);
+            auto vec_st1 = vectorIdx->addEntity(img1, "embedding");
+            auto blob1 = img1.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "images", "img1", blob1);
 
             BaseEntity img2("img2");
             img2.setField("name", std::string("Paris Tower"));
             img2.setField("embedding", std::vector<float>{0.15f, 0.25f, 0.35f});
             img2.setField("location", std::string(R"({"type":"Point","coordinates":[2.35,48.86]})"));
             secIdx->put("images", img2);
+            auto vec_st2 = vectorIdx->addEntity(img2, "embedding");
+            auto blob2 = img2.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "images", "img2", blob2);
 
             BaseEntity img3("img3");
             img3.setField("name", std::string("Munich Church"));
             img3.setField("embedding", std::vector<float>{0.9f, 0.8f, 0.7f});
             img3.setField("location", std::string(R"({"type":"Point","coordinates":[11.58,48.14]})"));
             secIdx->put("images", img3);
+            auto vec_st3 = vectorIdx->addEntity(img3, "embedding");
+            auto blob3 = img3.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "images", "img3", blob3);
         }
 
         // Content + Geo: Documents with text and locations
@@ -71,16 +95,22 @@ protected:
             doc1.setField("text", std::string("Best hotel in Berlin city center"));
             doc1.setField("location", std::string(R"({"type":"Point","coordinates":[13.405,52.52]})"));
             secIdx->put("documents", doc1);
+            auto blob1 = doc1.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "documents", "doc1", blob1);
 
             BaseEntity doc2("doc2");
             doc2.setField("text", std::string("Luxury hotel near Eiffel Tower"));
             doc2.setField("location", std::string(R"({"type":"Point","coordinates":[2.35,48.86]})"));
             secIdx->put("documents", doc2);
+            auto blob2 = doc2.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "documents", "doc2", blob2);
 
             BaseEntity doc3("doc3");
             doc3.setField("text", std::string("Budget hotel in Munich"));
             doc3.setField("location", std::string(R"({"type":"Point","coordinates":[11.58,48.14]})"));
             secIdx->put("documents", doc3);
+            auto blob3 = doc3.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "documents", "doc3", blob3);
         }
 
         // Graph + Geo: Locations connected by roads
@@ -89,46 +119,59 @@ protected:
             loc1.setField("name", std::string("Berlin"));
             loc1.setField("location", std::string(R"({"type":"Point","coordinates":[13.405,52.52]})"));
             secIdx->put("locations", loc1);
+            auto blob1 = loc1.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "locations", "locations/berlin", blob1);
 
             BaseEntity loc2("locations/potsdam");
             loc2.setField("name", std::string("Potsdam"));
             loc2.setField("location", std::string(R"({"type":"Point","coordinates":[13.06,52.39]})"));
             secIdx->put("locations", loc2);
+            auto blob2 = loc2.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "locations", "locations/potsdam", blob2);
 
             BaseEntity loc3("locations/dresden");
             loc3.setField("name", std::string("Dresden"));
             loc3.setField("location", std::string(R"({"type":"Point","coordinates":[13.74,51.05]})"));
             secIdx->put("locations", loc3);
+            auto blob3 = loc3.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "locations", "locations/dresden", blob3);
 
             BaseEntity loc4("locations/paris");
             loc4.setField("name", std::string("Paris"));
             loc4.setField("location", std::string(R"({"type":"Point","coordinates":[2.35,48.86]})"));
             secIdx->put("locations", loc4);
+            auto blob4 = loc4.serialize();
+            api::GeoIndexHooks::onEntityPut(*db, spatialIdx.get(), "locations", "locations/paris", blob4);
 
             // Edges
             BaseEntity edge1("roads/r1");
+            edge1.setField("id", std::string("roads/r1"));
             edge1.setField("_from", std::string("locations/berlin"));
             edge1.setField("_to", std::string("locations/potsdam"));
             edge1.setField("distance", 30.0);
-            graphIdx->addEdge(edge1);
+            auto edge1Status = graphIdx->addEdge(edge1);
 
             BaseEntity edge2("roads/r2");
+            edge2.setField("id", std::string("roads/r2"));
             edge2.setField("_from", std::string("locations/potsdam"));
             edge2.setField("_to", std::string("locations/dresden"));
             edge2.setField("distance", 150.0);
-            graphIdx->addEdge(edge2);
+            auto edge2Status = graphIdx->addEdge(edge2);
 
             BaseEntity edge3("roads/r3");
+            edge3.setField("id", std::string("roads/r3"));
             edge3.setField("_from", std::string("locations/berlin"));
             edge3.setField("_to", std::string("locations/paris"));
             edge3.setField("distance", 1000.0);
-            graphIdx->addEdge(edge3);
+            auto edge3Status = graphIdx->addEdge(edge3);
         }
     }
 
     std::unique_ptr<RocksDBWrapper> db;
     std::unique_ptr<SecondaryIndexManager> secIdx;
     std::unique_ptr<GraphIndexManager> graphIdx;
+    std::unique_ptr<VectorIndexManager> vectorIdx;
+    std::unique_ptr<SpatialIndexManager> spatialIdx;
     std::unique_ptr<QueryEngine> engine;
 };
 
@@ -166,6 +209,22 @@ TEST_F(HybridQueriesTest, VectorGeo_SpatialFilteredANN_BerlinRegion)
         std::string("ST_Within"),
         std::vector<std::shared_ptr<Expression>>{ callGeomFromJSON, callBBox }
     );
+
+    // DEBUG: Test spatial filter directly on img1
+    {
+        auto val = db->get("images:img1");
+        ASSERT_TRUE(val.has_value()) << "img1 not in DB";
+        
+        // Deserialize entity from MessagePack blob
+        auto entity = BaseEntity::deserialize("img1", *val);
+        nlohmann::json doc = nlohmann::json::parse(entity.toJson());
+        
+        // Manually evaluate spatial_filter with img1
+        QueryEngine::EvaluationContext ctx;
+        ctx.bind("doc", doc);
+        bool filterPassed = engine->evaluateCondition(q.spatial_filter, ctx);
+        EXPECT_TRUE(filterPassed) << "Spatial filter should pass for img1 (Berlin in Berlin-region)";
+    }
 
     auto [st, results] = engine->executeVectorGeoQuery(q);
     ASSERT_TRUE(st.ok) << st.message;
@@ -382,6 +441,9 @@ TEST_F(HybridQueriesTest, GraphGeo_ShortestPathWithSpatialFilter_BerlinToDresden
     );
 
     q.spatial_constraint = sc;
+
+    // DEBUG: Check if edges exist
+    auto [adjSt, adj] = graphIdx->outAdjacency("locations/berlin");
 
     auto [st, paths] = engine->executeRecursivePathQuery(q);
     ASSERT_TRUE(st.ok) << st.message;

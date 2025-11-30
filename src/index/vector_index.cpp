@@ -1,11 +1,16 @@
 ﻿// Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include "utils/simd_distance.h"
+#include <shared_mutex>
+#ifdef IN
+#undef IN
+#endif
 
 #ifdef THEMIS_HNSW_ENABLED
 #include <hnswlib/hnswlib.h>
@@ -17,6 +22,7 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -491,6 +497,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	}
 
 #ifdef THEMIS_HNSW_ENABLED
+	// Fall 1: HNSW-Suche ohne Whitelist
 	if (useHnsw_ && (!whitelist || whitelist->empty())) {
 		try {
 			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
@@ -512,9 +519,613 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			THEMIS_WARN("searchKnn: HNSW-Suche fehlgeschlagen, Fallback auf Brute-Force");
 		}
 	}
+
+	// Fall 2: HNSW vorhanden + Whitelist → iterativ Kandidaten vergrößern und filtern
+	if (useHnsw_ && whitelist && !whitelist->empty()) {
+		try {
+			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+			std::vector<float> q = query;
+			if (metric_ == Metric::COSINE) normalizeL2(q);
+
+			std::unordered_set<std::string> wl(whitelist->begin(), whitelist->end());
+			// Konfigurierbare Prefilter-Parameter aus config:vector (JSON)
+			int initialFactor = 3;           // k * initialFactor
+			int minCandidatesFloor = 32;     // Untergrenze
+			int maxAttempts = 4;             // Iterationen
+			double growthFactor = 2.0;       // Multiplikator
+			bool prefilterEnabled = true;    // Kann deaktiviert werden
+			try {
+				if (auto cfgBlob = db_.get("config:vector")) {
+					std::string s(cfgBlob->begin(), cfgBlob->end());
+					auto j = nlohmann::json::parse(s);
+					prefilterEnabled = j.value("whitelist_prefilter_enabled", true);
+					initialFactor = j.value("whitelist_initial_factor", 3);
+					minCandidatesFloor = j.value("whitelist_min_candidates", 32);
+					maxAttempts = j.value("whitelist_max_attempts", 4);
+					growthFactor = j.value("whitelist_growth_factor", 2.0);
+				}
+			} catch (...) {
+				// Ignoriere Parsingfehler und nutze Defaults
+			}
+
+			if (!prefilterEnabled) {
+				// Prefilter deaktiviert → exakter (langsamer) Brute-Force über Whitelist
+				THEMIS_INFO("searchKnn: Prefilter deaktiviert, Brute-Force über Whitelist");
+				auto bf = bruteForceSearch_(query, k, whitelist);
+				return {Status::OK(), std::move(bf)};
+			}
+
+			// Starte mit konfigurierter Kandidatenanzahl und wachse bis ausreichend Treffer
+			size_t candidateCount = std::max(static_cast<size_t>(k * initialFactor), static_cast<size_t>(std::max(efSearch_ * 2, minCandidatesFloor)));
+
+			std::vector<Result> filtered;
+			filtered.reserve(k);
+			std::unordered_set<std::string> seen;
+
+			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && filtered.size() < k; ++attempt) {
+				auto top = appr->searchKnn(q.data(), candidateCount);
+				std::vector<Result> tmp;
+				tmp.reserve(top.size());
+				while (!top.empty()) {
+					auto p = top.top();
+					top.pop();
+					size_t id = p.second;
+					float d = p.first;
+					if (id < idToPk_.size()) {
+						const std::string& pk = idToPk_[id];
+						if (wl.find(pk) != wl.end()) {
+							tmp.push_back({pk, d});
+						}
+					}
+				}
+				std::reverse(tmp.begin(), tmp.end()); // kleinste Distanz zuerst
+
+				for (const auto& r : tmp) {
+					if (seen.insert(r.pk).second) {
+						filtered.push_back(r);
+						if (filtered.size() >= k) break;
+					}
+				}
+
+				// Nächster Versuch mit Wachstum
+				candidateCount = static_cast<size_t>(candidateCount * growthFactor);
+			}
+
+			if (filtered.size() >= k) {
+				if (filtered.size() > k) filtered.resize(k);
+				return {Status::OK(), std::move(filtered)};
+			}
+			// Wenn nicht genügend Treffer: Fallback für Rest via Brute-Force über Whitelist (korrekt und vollständig)
+			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force", filtered.size(), k);
+			auto bf = bruteForceSearch_(query, k, whitelist);
+			return {Status::OK(), std::move(bf)};
+		} catch (...) {
+			THEMIS_WARN("searchKnn: HNSW-Whitelist-Suche fehlgeschlagen, Fallback auf Brute-Force");
+			// weiter unten erfolgt Brute-Force
+		}
+	}
 #endif
 	// Fallback oder Whitelist-Fall: Brute-Force
 	return {Status::OK(), bruteForceSearch_(query, k, whitelist)};
+}
+
+// =============================================================================
+// Filtered KNN Search with Attribute Filtering (Post-Filtering)
+// =============================================================================
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnFiltered(
+	const std::vector<float>& query,
+	size_t k,
+	const std::vector<AttributeFilter>& filters,
+	size_t candidateMultiplier
+) const {
+	if (query.size() != static_cast<size_t>(dim_)) {
+		return {Status::Error("searchKnnFiltered: Query-Dimension passt nicht"), {}};
+	}
+
+	if (filters.empty()) {
+		// No filters: fallback to standard KNN
+		return searchKnn(query, k, nullptr);
+	}
+
+	// Strategy: Fetch k * candidateMultiplier candidates from HNSW, then post-filter
+	size_t candidateCount = k * candidateMultiplier;
+
+#ifdef THEMIS_HNSW_ENABLED
+	if (useHnsw_) {
+		try {
+			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+			std::vector<float> q = query;
+			if (metric_ == Metric::COSINE) normalizeL2(q);
+			
+			auto topk = appr->searchKnn(q.data(), candidateCount);
+			std::vector<Result> candidates;
+			candidates.reserve(topk.size());
+			
+			while (!topk.empty()) {
+				auto p = topk.top();
+				topk.pop();
+				size_t id = p.second;
+				float d = p.first;
+				if (id < idToPk_.size()) {
+					candidates.push_back({idToPk_[id], d});
+				}
+			}
+			std::reverse(candidates.begin(), candidates.end());
+			
+			// Post-filter: Load entities and check attributes
+			std::vector<Result> filtered;
+			for (const auto& candidate : candidates) {
+				std::string objKey = makeObjectKey(candidate.pk);
+				auto entity_opt = db_.get(objKey);
+				if (!entity_opt) continue;
+				
+				BaseEntity entity = BaseEntity::deserialize(candidate.pk, entity_opt.value());
+				
+				// Apply all filters
+				bool passes = true;
+				for (const auto& filter : filters) {
+					auto val_opt = entity.getFieldAsString(filter.field);
+					if (!val_opt.has_value()) {
+						passes = false;
+						break;
+					}
+					
+					std::string fieldValue = val_opt.value();
+					
+					switch (filter.op) {
+						case AttributeFilter::Op::EQUALS:
+							if (fieldValue != filter.value) passes = false;
+							break;
+						case AttributeFilter::Op::NOT_EQUALS:
+							if (fieldValue == filter.value) passes = false;
+							break;
+						case AttributeFilter::Op::CONTAINS:
+							if (fieldValue.find(filter.value) == std::string::npos) passes = false;
+							break;
+					}
+					
+					if (!passes) break;
+				}
+				
+				if (passes) {
+					filtered.push_back(candidate);
+					if (filtered.size() >= k) break;
+				}
+			}
+			
+			return {Status::OK(), std::move(filtered)};
+			
+		} catch (const std::exception& ex) {
+			THEMIS_WARN("searchKnnFiltered: HNSW-Suche fehlgeschlagen: {}", ex.what());
+			return {Status::Error(std::string("HNSW exception: ") + ex.what()), {}};
+		}
+	}
+#endif
+
+	// Fallback: Brute-force with filtering
+	std::vector<Result> allResults = bruteForceSearch_(query, candidateCount, nullptr);
+	std::vector<Result> filtered;
+	
+	for (const auto& candidate : allResults) {
+		std::string objKey = makeObjectKey(candidate.pk);
+		auto entity_opt = db_.get(objKey);
+		if (!entity_opt) continue;
+		
+		BaseEntity entity = BaseEntity::deserialize(candidate.pk, entity_opt.value());
+		
+		bool passes = true;
+		for (const auto& filter : filters) {
+			auto val_opt = entity.getFieldAsString(filter.field);
+			if (!val_opt.has_value()) {
+				passes = false;
+				break;
+			}
+			
+			std::string fieldValue = val_opt.value();
+			
+			switch (filter.op) {
+				case AttributeFilter::Op::EQUALS:
+					if (fieldValue != filter.value) passes = false;
+					break;
+				case AttributeFilter::Op::NOT_EQUALS:
+					if (fieldValue == filter.value) passes = false;
+					break;
+				case AttributeFilter::Op::CONTAINS:
+					if (fieldValue.find(filter.value) == std::string::npos) passes = false;
+					break;
+			}
+			
+			if (!passes) break;
+		}
+		
+		if (passes) {
+			filtered.push_back(candidate);
+			if (filtered.size() >= k) break;
+		}
+	}
+	
+	return {Status::OK(), std::move(filtered)};
+}
+
+// =============================================================================
+// Pre-Filtered Vector Search (AttributeFilterV2 + SecondaryIndexManager)
+// =============================================================================
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnPreFiltered(
+	const std::vector<float>& query,
+	size_t k,
+	const std::vector<AttributeFilterV2>& filters,
+	SecondaryIndexManager* secondaryIdx
+) const {
+	if (query.size() != static_cast<size_t>(dim_)) {
+		return {Status::Error("searchKnnPreFiltered: Query-Dimension passt nicht"), {}};
+	}
+
+	if (filters.empty()) {
+		// No filters: standard KNN
+		return searchKnn(query, k, nullptr);
+	}
+
+	if (!secondaryIdx) {
+		// No SecondaryIndexManager: fallback to post-filtering
+		THEMIS_WARN("searchKnnPreFiltered: SecondaryIndexManager nicht verf\u00fcgbar, Fallback auf Post-Filtering");
+		std::vector<AttributeFilter> legacyFilters;
+		for (const auto& f : filters) {
+			if (f.op == AttributeFilterV2::Op::EQUALS) {
+				legacyFilters.push_back({f.field, f.value, AttributeFilter::Op::EQUALS});
+			}
+		}
+		return searchKnnFiltered(query, k, legacyFilters, 3);
+	}
+
+	// Strategy: Generate whitelist from SecondaryIndex scans, then HNSW with whitelist
+	std::vector<std::string> whitelist;
+	std::unordered_set<std::string> whitelistSet;
+
+	// Read config for max filter scan size
+	size_t maxFilterScanSize = 100000; // Default: 100k entities
+	try {
+		if (auto cfgBlob = db_.get("config:vector")) {
+			std::string s(cfgBlob->begin(), cfgBlob->end());
+			auto j = nlohmann::json::parse(s);
+			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
+		}
+	} catch (...) {
+		// Ignore parse errors, use default
+	}
+
+	// Process filters and build whitelist
+	bool isFirstFilter = true;
+	for (const auto& filter : filters) {
+		std::vector<std::string> filterResults;
+
+		switch (filter.op) {
+			case AttributeFilterV2::Op::EQUALS: {
+				auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, filter.value);
+				if (st.ok) {
+					filterResults = std::move(pks);
+				} else {
+					THEMIS_WARN("searchKnnPreFiltered: SecondaryIndex scan failed for {}={}: {}", 
+						filter.field, filter.value, st.message);
+					// Continue with empty result for this filter
+				}
+				break;
+			}
+			case AttributeFilterV2::Op::RANGE: {
+				auto [st, pks] = secondaryIdx->scanKeysRange(
+					objectName_, 
+					filter.field,
+					std::optional<std::string>(filter.value_min),
+					std::optional<std::string>(filter.value_max),
+					true,  // includeLower
+					true,  // includeUpper
+					maxFilterScanSize
+				);
+				if (st.ok) {
+					filterResults = std::move(pks);
+				} else {
+					THEMIS_WARN("searchKnnPreFiltered: Range scan failed for {} [{}, {}]: {}", 
+						filter.field, filter.value_min, filter.value_max, st.message);
+				}
+				break;
+			}
+			case AttributeFilterV2::Op::IN: {
+				std::unordered_set<std::string> inResults;
+				for (const auto& val : filter.values) {
+					auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, val);
+					if (st.ok) {
+						inResults.insert(pks.begin(), pks.end());
+					}
+				}
+				filterResults.assign(inResults.begin(), inResults.end());
+				break;
+			}
+			case AttributeFilterV2::Op::GREATER_THAN:
+			case AttributeFilterV2::Op::GREATER_EQUAL:
+			case AttributeFilterV2::Op::LESS_THAN:
+			case AttributeFilterV2::Op::LESS_EQUAL: {
+				// Use range scan with appropriate bounds
+				std::optional<std::string> lower, upper;
+				bool includeLower = false, includeUpper = false;
+
+				if (filter.op == AttributeFilterV2::Op::GREATER_THAN) {
+					lower = filter.value;
+					includeLower = false;
+				} else if (filter.op == AttributeFilterV2::Op::GREATER_EQUAL) {
+					lower = filter.value;
+					includeLower = true;
+				} else if (filter.op == AttributeFilterV2::Op::LESS_THAN) {
+					upper = filter.value;
+					includeUpper = false;
+				} else { // LESS_EQUAL
+					upper = filter.value;
+					includeUpper = true;
+				}
+
+				auto [st, pks] = secondaryIdx->scanKeysRange(
+					objectName_, 
+					filter.field,
+					lower,
+					upper,
+					includeLower,
+					includeUpper,
+					maxFilterScanSize
+				);
+				if (st.ok) {
+					filterResults = std::move(pks);
+				}
+				break;
+			}
+			case AttributeFilterV2::Op::NOT_EQUALS:
+			case AttributeFilterV2::Op::CONTAINS: {
+				// These require full scan, not supported for pre-filtering
+				THEMIS_WARN("searchKnnPreFiltered: {} operator requires post-filtering, skipping", 
+					filter.op == AttributeFilterV2::Op::NOT_EQUALS ? "NOT_EQUALS" : "CONTAINS");
+				continue;
+			}
+		}
+
+		// Intersect with existing whitelist (AND logic)
+		if (isFirstFilter) {
+			whitelistSet.insert(filterResults.begin(), filterResults.end());
+			isFirstFilter = false;
+		} else {
+			std::unordered_set<std::string> intersection;
+			for (const auto& pk : filterResults) {
+				if (whitelistSet.count(pk)) {
+					intersection.insert(pk);
+				}
+			}
+			whitelistSet = std::move(intersection);
+		}
+
+		// Early exit if whitelist is empty
+		if (whitelistSet.empty()) {
+			THEMIS_INFO("searchKnnPreFiltered: Whitelist empty after filter on {}", filter.field);
+			return {Status::OK(), {}};
+		}
+	}
+
+	// Convert set to vector for searchKnn
+	whitelist.assign(whitelistSet.begin(), whitelistSet.end());
+
+	THEMIS_INFO("searchKnnPreFiltered: Generated whitelist with {} candidates from {} filters", 
+		whitelist.size(), filters.size());
+
+	// Check if whitelist is too large (inefficient for HNSW prefilter)
+	if (whitelist.size() > maxFilterScanSize) {
+		THEMIS_WARN("searchKnnPreFiltered: Whitelist size {} exceeds max {}, using post-filtering instead", 
+			whitelist.size(), maxFilterScanSize);
+		// Fallback to standard KNN with post-filtering
+		std::vector<AttributeFilter> legacyFilters;
+		for (const auto& f : filters) {
+			if (f.op == AttributeFilterV2::Op::EQUALS) {
+				legacyFilters.push_back({f.field, f.value, AttributeFilter::Op::EQUALS});
+			}
+		}
+		return searchKnnFiltered(query, k, legacyFilters, 5);
+	}
+
+	// Execute HNSW with whitelist
+	return searchKnn(query, k, &whitelist);
+}
+
+// =============================================================================
+// Radius Search (Epsilon Neighbors)
+// =============================================================================
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnRadius(
+	const std::vector<float>& query,
+	float epsilon,
+	size_t max_results,
+	const std::vector<std::string>* whitelistPks
+) const {
+	if (static_cast<int>(query.size()) != dim_) {
+		return {Status::Error("searchKnnRadius: Query-Dimension passt nicht"), {}};
+	}
+
+	std::vector<Result> results;
+
+#ifdef THEMIS_HNSW_ENABLED
+	if (useHnsw_) {
+		// HNSW unterstützt keine native radius search; nutze searchKnn mit großem k und filter
+		size_t fetchK = max_results > 0 ? std::max(max_results * 2, size_t(100)) : pkToId_.size();
+		auto [st, candidates] = searchKnn(query, fetchK, whitelistPks);
+		if (!st.ok) return {st, {}};
+		
+		for (const auto& c : candidates) {
+			if (c.distance <= epsilon) {
+				results.push_back(c);
+				if (max_results > 0 && results.size() >= max_results) break;
+			}
+		}
+		return {Status::OK(), results};
+	}
+#endif
+
+	// Fallback: Brute-Force über Cache/Storage
+	const auto& searchSpace = whitelistPks ? *whitelistPks : std::vector<std::string>{};
+	bool useWhitelist = (whitelistPks != nullptr);
+
+	if (!useWhitelist) {
+		// Scan über cache_
+		for (const auto& [pk, vec] : cache_) {
+			float dist = distance(query, vec);
+			if (dist <= epsilon) {
+				results.push_back({pk, dist});
+				if (max_results > 0 && results.size() >= max_results) break;
+			}
+		}
+	} else {
+		// Nur Whitelist prüfen
+		for (const auto& pk : searchSpace) {
+			auto it = cache_.find(pk);
+			if (it == cache_.end()) {
+				// Lade aus Storage
+				std::string key = makeObjectKey(pk);
+				auto blob = db_.get(key);
+				if (!blob) continue;
+				try {
+					BaseEntity e = BaseEntity::deserialize(pk, *blob);
+					auto vecOpt = e.extractVector("embedding");
+					if (!vecOpt) continue;
+					cache_[pk] = *vecOpt;
+					it = cache_.find(pk);
+				} catch (...) { continue; }
+			}
+			if (it != cache_.end()) {
+				float dist = distance(query, it->second);
+				if (dist <= epsilon) {
+					results.push_back({pk, dist});
+					if (max_results > 0 && results.size() >= max_results) break;
+				}
+			}
+		}
+	}
+
+	// Sortiere nach Distanz
+	std::sort(results.begin(), results.end(), [](const Result& a, const Result& b) {
+		return a.distance < b.distance;
+	});
+
+	return {Status::OK(), results};
+}
+
+std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
+VectorIndexManager::searchKnnRadiusPreFiltered(
+	const std::vector<float>& query,
+	float epsilon,
+	size_t max_results,
+	const std::vector<AttributeFilterV2>& filters,
+	SecondaryIndexManager* secondaryIdx
+) const {
+	if (static_cast<int>(query.size()) != dim_) {
+		return {Status::Error("searchKnnRadiusPreFiltered: Query-Dimension passt nicht"), {}};
+	}
+
+	if (filters.empty()) {
+		return searchKnnRadius(query, epsilon, max_results, nullptr);
+	}
+
+	if (!secondaryIdx) {
+		THEMIS_WARN("searchKnnRadiusPreFiltered: SecondaryIndexManager nicht verfügbar, Fallback ohne Filter");
+		return searchKnnRadius(query, epsilon, max_results, nullptr);
+	}
+
+	// Reuse whitelist generation from searchKnnPreFiltered
+	std::vector<std::string> whitelist;
+	std::unordered_set<std::string> whitelistSet;
+
+	size_t maxFilterScanSize = 100000;
+	try {
+		if (auto cfgBlob = db_.get("config:vector")) {
+			std::string s(cfgBlob->begin(), cfgBlob->end());
+			auto j = nlohmann::json::parse(s);
+			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
+		}
+	} catch (...) {}
+
+	bool isFirstFilter = true;
+	for (const auto& filter : filters) {
+		std::vector<std::string> filterResults;
+
+		switch (filter.op) {
+			case AttributeFilterV2::Op::EQUALS: {
+				auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, filter.value);
+				if (st.ok) filterResults = std::move(pks);
+				break;
+			}
+			case AttributeFilterV2::Op::RANGE: {
+				auto [st, pks] = secondaryIdx->scanKeysRange(
+					objectName_, filter.field,
+					std::optional<std::string>(filter.value_min),
+					std::optional<std::string>(filter.value_max),
+					true, true, maxFilterScanSize
+				);
+				if (st.ok) filterResults = std::move(pks);
+				break;
+			}
+			case AttributeFilterV2::Op::IN: {
+				std::unordered_set<std::string> inResults;
+				for (const auto& val : filter.values) {
+					auto [st, pks] = secondaryIdx->scanKeysEqual(objectName_, filter.field, val);
+					if (st.ok) inResults.insert(pks.begin(), pks.end());
+				}
+				filterResults.assign(inResults.begin(), inResults.end());
+				break;
+			}
+			case AttributeFilterV2::Op::GREATER_THAN:
+			case AttributeFilterV2::Op::GREATER_EQUAL:
+			case AttributeFilterV2::Op::LESS_THAN:
+			case AttributeFilterV2::Op::LESS_EQUAL: {
+				std::optional<std::string> lower, upper;
+				bool includeLower = false, includeUpper = false;
+				if (filter.op == AttributeFilterV2::Op::GREATER_THAN) {
+					lower = filter.value; includeLower = false;
+				} else if (filter.op == AttributeFilterV2::Op::GREATER_EQUAL) {
+					lower = filter.value; includeLower = true;
+				} else if (filter.op == AttributeFilterV2::Op::LESS_THAN) {
+					upper = filter.value; includeUpper = false;
+				} else {
+					upper = filter.value; includeUpper = true;
+				}
+				auto [st, pks] = secondaryIdx->scanKeysRange(
+					objectName_, filter.field, lower, upper,
+					includeLower, includeUpper, maxFilterScanSize
+				);
+				if (st.ok) filterResults = std::move(pks);
+				break;
+			}
+			default:
+				THEMIS_WARN("searchKnnRadiusPreFiltered: Unsupported op, skipping");
+				continue;
+		}
+
+		if (isFirstFilter) {
+			whitelistSet.insert(filterResults.begin(), filterResults.end());
+			isFirstFilter = false;
+		} else {
+			std::unordered_set<std::string> intersection;
+			for (const auto& pk : filterResults) {
+				if (whitelistSet.count(pk)) intersection.insert(pk);
+			}
+			whitelistSet = std::move(intersection);
+		}
+
+		if (whitelistSet.empty()) {
+			THEMIS_INFO("searchKnnRadiusPreFiltered: Whitelist empty after filter on {}", filter.field);
+			return {Status::OK(), {}};
+		}
+	}
+
+	whitelist.assign(whitelistSet.begin(), whitelistSet.end());
+	THEMIS_INFO("searchKnnRadiusPreFiltered: Generated whitelist with {} candidates", whitelist.size());
+
+	return searchKnnRadius(query, epsilon, max_results, &whitelist);
 }
 
 	// =============================================================================
@@ -711,6 +1322,233 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 	}
 #endif
 	return Status::OK();
+}
+
+// =============================================================================
+// Batch Operations
+// =============================================================================
+
+VectorIndexManager::Status VectorIndexManager::addBatch(
+	const std::vector<BaseEntity>& entities,
+	std::string_view vectorField
+) {
+	if (entities.empty()) {
+		return Status::OK();
+	}
+
+	// Use WriteBatch for atomic batch insert
+	auto batch = db_.createWriteBatch();
+	
+	for (const auto& entity : entities) {
+		auto result = addEntity(entity, *batch, vectorField);
+		if (!result.ok) {
+			THEMIS_WARN("addBatch: Failed to add entity {}: {}", entity.getPrimaryKey(), result.message);
+			// Continue with other entities
+		}
+	}
+	
+	// Commit batch atomically
+	if (!batch->commit()) {
+		return Status::Error("addBatch: Failed to commit WriteBatch");
+	}
+	
+	return Status::OK();
+}
+
+VectorIndexManager::Status VectorIndexManager::updateBatch(
+	const std::vector<BaseEntity>& entities,
+	std::string_view vectorField
+) {
+	if (entities.empty()) {
+		return Status::OK();
+	}
+
+	auto batch = db_.createWriteBatch();
+	
+	for (const auto& entity : entities) {
+		auto result = updateEntity(entity, *batch, vectorField);
+		if (!result.ok) {
+			THEMIS_WARN("updateBatch: Failed to update entity {}: {}", entity.getPrimaryKey(), result.message);
+		}
+	}
+	
+	if (!batch->commit()) {
+		return Status::Error("updateBatch: Failed to commit WriteBatch");
+	}
+	
+	return Status::OK();
+}
+
+VectorIndexManager::Status VectorIndexManager::removeBatch(
+	const std::vector<std::string>& pks
+) {
+	if (pks.empty()) {
+		return Status::OK();
+	}
+
+	auto batch = db_.createWriteBatch();
+	
+	for (const auto& pk : pks) {
+		auto result = removeByPk(pk, *batch);
+		if (!result.ok) {
+			THEMIS_WARN("removeBatch: Failed to remove entity {}: {}", pk, result.message);
+		}
+	}
+	
+	if (!batch->commit()) {
+		return Status::Error("removeBatch: Failed to commit WriteBatch");
+	}
+	
+	return Status::OK();
+}
+
+// =============================================================================
+// Vector Statistics & Aggregation
+// =============================================================================
+
+std::pair<VectorIndexManager::Status, VectorIndexManager::Statistics>
+VectorIndexManager::getStatistics() const {
+	Statistics stats;
+	stats.vector_count = cache_.size();
+	stats.dimension = dim_;
+	stats.metric_name = (metric_ == Metric::L2) ? "L2" : 
+	                    (metric_ == Metric::COSINE) ? "COSINE" : "DOT";
+
+	if (cache_.empty()) {
+		return {Status::OK(), stats};
+	}
+
+	// Compute pairwise distance statistics (sample-based for large datasets)
+	std::vector<float> distances;
+	const size_t MAX_SAMPLES = 1000;
+	size_t sample_count = std::min(cache_.size(), MAX_SAMPLES);
+	
+	std::vector<std::string> pks;
+	pks.reserve(cache_.size());
+	for (const auto& [pk, vec] : cache_) {
+		pks.push_back(pk);
+	}
+
+	// Sample random pairs
+	for (size_t i = 0; i < sample_count && i < pks.size(); ++i) {
+		for (size_t j = i + 1; j < std::min(i + 10, pks.size()); ++j) {
+			float dist = distance(cache_.at(pks[i]), cache_.at(pks[j]));
+			distances.push_back(dist);
+		}
+	}
+
+	if (distances.empty()) {
+		return {Status::OK(), stats};
+	}
+
+	// Calculate statistics
+	stats.min_distance = *std::min_element(distances.begin(), distances.end());
+	stats.max_distance = *std::max_element(distances.begin(), distances.end());
+	
+	float sum = 0.0f;
+	for (float d : distances) {
+		sum += d;
+	}
+	stats.mean_distance = sum / distances.size();
+	
+	// Standard deviation
+	float sq_sum = 0.0f;
+	for (float d : distances) {
+		float diff = d - stats.mean_distance;
+		sq_sum += diff * diff;
+	}
+	stats.std_dev_distance = std::sqrt(sq_sum / distances.size());
+
+	return {Status::OK(), stats};
+}
+
+std::pair<VectorIndexManager::Status, std::vector<float>>
+VectorIndexManager::computeCentroid() const {
+	if (cache_.empty()) {
+		return {Status::Error("computeCentroid: No vectors in index"), {}};
+	}
+
+	std::vector<float> centroid(dim_, 0.0f);
+	
+	for (const auto& [pk, vec] : cache_) {
+		if (vec.size() != static_cast<size_t>(dim_)) {
+			continue;
+		}
+		for (int i = 0; i < dim_; ++i) {
+			centroid[i] += vec[i];
+		}
+	}
+	
+	// Average
+	for (int i = 0; i < dim_; ++i) {
+		centroid[i] /= cache_.size();
+	}
+	
+	return {Status::OK(), centroid};
+}
+
+std::pair<VectorIndexManager::Status, std::vector<float>>
+VectorIndexManager::computeVariance() const {
+	if (cache_.empty()) {
+		return {Status::Error("computeVariance: No vectors in index"), {}};
+	}
+
+	auto [st, centroid] = computeCentroid();
+	if (!st.ok) {
+		return {st, {}};
+	}
+
+	std::vector<float> variance(dim_, 0.0f);
+	
+	for (const auto& [pk, vec] : cache_) {
+		if (vec.size() != static_cast<size_t>(dim_)) {
+			continue;
+		}
+		for (int i = 0; i < dim_; ++i) {
+			float diff = vec[i] - centroid[i];
+			variance[i] += diff * diff;
+		}
+	}
+	
+	// Divide by count
+	for (int i = 0; i < dim_; ++i) {
+		variance[i] /= cache_.size();
+	}
+	
+	return {Status::OK(), variance};
+}
+
+std::pair<VectorIndexManager::Status, std::vector<std::string>>
+VectorIndexManager::findOutliers(float threshold) const {
+	if (cache_.empty()) {
+		return {Status::OK(), {}};
+	}
+
+	auto [st_cent, centroid] = computeCentroid();
+	if (!st_cent.ok) {
+		return {st_cent, {}};
+	}
+
+	auto [st_stats, stats] = getStatistics();
+	if (!st_stats.ok) {
+		return {st_stats, {}};
+	}
+
+	std::vector<std::string> outliers;
+	float outlier_threshold = stats.mean_distance + threshold * stats.std_dev_distance;
+
+	for (const auto& [pk, vec] : cache_) {
+		if (vec.size() != static_cast<size_t>(dim_)) {
+			continue;
+		}
+		
+		float dist = distance(vec, centroid);
+		if (dist > outlier_threshold) {
+			outliers.push_back(pk);
+		}
+	}
+
+	return {Status::OK(), outliers};
 }
 
 } // namespace themis
