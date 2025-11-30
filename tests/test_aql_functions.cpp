@@ -11,8 +11,11 @@
 #include "query/functions/date_functions.h"
 #include "query/functions/document_functions.h"
 #include "query/functions/geo_functions.h"
+#include "query/functions/crs_functions.h"
 #include "query/functions/vector_functions.h"
 #include "query/functions/graph_functions.h"
+#include "query/functions/relational_functions.h"
+#include "query/functions/file_functions.h"
 
 using namespace themis::query::functions;
 
@@ -854,6 +857,337 @@ TEST_F(AQLFunctionsTest, GraphFunctionsRegistered) {
     EXPECT_TRUE(reg.hasFunction("CONNECTED_COMPONENTS"));
 }
 
+// ============================================================================
+// CRS/Coordinate Transformation Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, UtmZoneFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Berlin is in UTM zone 33
+    EXPECT_EQ(reg.call("UTM_ZONE", {13.4}, ctx).get<int>(), 33);
+    
+    // Munich is in UTM zone 32
+    EXPECT_EQ(reg.call("UTM_ZONE", {11.6}, ctx).get<int>(), 32);
+    
+    // London is in UTM zone 30
+    EXPECT_EQ(reg.call("UTM_ZONE", {-0.1}, ctx).get<int>(), 30);
+}
+
+TEST_F(AQLFunctionsTest, UtmEpsgFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // WGS84 UTM zone 32N
+    EXPECT_EQ(reg.call("UTM_EPSG", {32}, ctx).get<int>(), 32632);
+    EXPECT_EQ(reg.call("UTM_EPSG", {32, "N", "WGS84"}, ctx).get<int>(), 32632);
+    
+    // ETRS89 UTM zone 32N
+    EXPECT_EQ(reg.call("UTM_EPSG", {32, "N", "ETRS89"}, ctx).get<int>(), 25832);
+}
+
+TEST_F(AQLFunctionsTest, CrsNameFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto name4326 = reg.call("CRS_NAME", {4326}, ctx).get<std::string>();
+    EXPECT_TRUE(name4326.find("WGS") != std::string::npos);
+    
+    auto name25832 = reg.call("CRS_NAME", {25832}, ctx).get<std::string>();
+    EXPECT_TRUE(name25832.find("ETRS89") != std::string::npos);
+    EXPECT_TRUE(name25832.find("32") != std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, CrsTypeCheckFunctions) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // WGS84 is geographic
+    EXPECT_TRUE(reg.call("CRS_IS_GEOGRAPHIC", {4326}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("CRS_IS_PROJECTED", {4326}, ctx).get<bool>());
+    
+    // UTM is projected
+    EXPECT_FALSE(reg.call("CRS_IS_GEOGRAPHIC", {25832}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("CRS_IS_PROJECTED", {25832}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, StTransformUtmToWgs84) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Create a point in UTM zone 32N (Munich area)
+    nlohmann::json utmPoint = {{"type", "Point"}, {"coordinates", {691607.0, 5334736.0}}};
+    
+    // Transform to WGS84
+    auto wgs84Point = reg.call("ST_TRANSFORM", {utmPoint, 25832, 4326}, ctx);
+    
+    // Should be approximately Munich (11.58, 48.14)
+    double lon = wgs84Point["coordinates"][0].get<double>();
+    double lat = wgs84Point["coordinates"][1].get<double>();
+    
+    EXPECT_NEAR(lon, 11.58, 0.1);
+    EXPECT_NEAR(lat, 48.14, 0.1);
+}
+
+TEST_F(AQLFunctionsTest, StMakePointUtmFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Create WGS84 point from UTM coordinates
+    auto point = reg.call("ST_MAKEPOINT_UTM", {500000.0, 5500000.0, 32, "N"}, ctx);
+    
+    EXPECT_EQ(point["type"], "Point");
+    // Central meridian of zone 32 is 9°E
+    EXPECT_NEAR(point["coordinates"][0].get<double>(), 9.0, 0.5);
+}
+
+// ============================================================================
+// Relational Function Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, CountDistinctFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto count = reg.call("COUNT_DISTINCT", {nlohmann::json::array({1, 2, 2, 3, 3, 3})}, ctx);
+    EXPECT_EQ(count.get<int>(), 3);
+}
+
+TEST_F(AQLFunctionsTest, GroupConcatFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto result = reg.call("GROUP_CONCAT", {nlohmann::json::array({"a", "b", "c"}), ", "}, ctx);
+    EXPECT_EQ(result.get<std::string>(), "a, b, c");
+}
+
+TEST_F(AQLFunctionsTest, MedianFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Odd count
+    EXPECT_EQ(reg.call("MEDIAN", {nlohmann::json::array({1, 2, 3, 4, 5})}, ctx).get<double>(), 3.0);
+    
+    // Even count
+    EXPECT_EQ(reg.call("MEDIAN", {nlohmann::json::array({1, 2, 3, 4})}, ctx).get<double>(), 2.5);
+}
+
+TEST_F(AQLFunctionsTest, PercentileFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto p50 = reg.call("PERCENTILE", {nlohmann::json::array({1,2,3,4,5,6,7,8,9,10}), 50}, ctx);
+    EXPECT_NEAR(p50.get<double>(), 5.5, 0.5);
+    
+    auto p90 = reg.call("PERCENTILE", {nlohmann::json::array({1,2,3,4,5,6,7,8,9,10}), 90}, ctx);
+    EXPECT_NEAR(p90.get<double>(), 9.0, 0.5);
+}
+
+TEST_F(AQLFunctionsTest, CoalesceFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("COALESCE", {nullptr, nullptr, "default"}, ctx), "default");
+    EXPECT_EQ(reg.call("COALESCE", {"first", nullptr, "default"}, ctx), "first");
+}
+
+TEST_F(AQLFunctionsTest, GreatestLeastFunctions) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("GREATEST", {1, 5, 3}, ctx).get<int>(), 5);
+    EXPECT_EQ(reg.call("LEAST", {1, 5, 3}, ctx).get<int>(), 1);
+}
+
+TEST_F(AQLFunctionsTest, IfFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("IF", {true, "yes", "no"}, ctx), "yes");
+    EXPECT_EQ(reg.call("IF", {false, "yes", "no"}, ctx), "no");
+}
+
+TEST_F(AQLFunctionsTest, InnerJoinFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json orders = nlohmann::json::array({
+        {{"id", 1}, {"customerId", 100}, {"amount", 50}},
+        {{"id", 2}, {"customerId", 101}, {"amount", 75}}
+    });
+    
+    nlohmann::json customers = nlohmann::json::array({
+        {{"id", 100}, {"name", "Alice"}},
+        {{"id", 101}, {"name", "Bob"}}
+    });
+    
+    auto joined = reg.call("INNER_JOIN", {orders, customers, "customerId", "id"}, ctx);
+    EXPECT_EQ(joined.size(), 2);
+}
+
+TEST_F(AQLFunctionsTest, LookupFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json users = nlohmann::json::array({
+        {{"id", 1}, {"name", "Alice"}},
+        {{"id", 2}, {"name", "Bob"}}
+    });
+    
+    auto found = reg.call("LOOKUP", {users, "id", 2}, ctx);
+    EXPECT_EQ(found["name"], "Bob");
+    
+    auto notFound = reg.call("LOOKUP", {users, "id", 99}, ctx);
+    EXPECT_TRUE(notFound.is_null());
+}
+
+TEST_F(AQLFunctionsTest, RowNumberFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json arr = nlohmann::json::array({
+        {{"name", "a"}},
+        {{"name", "b"}},
+        {{"name", "c"}}
+    });
+    
+    auto result = reg.call("ROW_NUMBER", {arr}, ctx);
+    EXPECT_EQ(result[0]["_row_number"], 1);
+    EXPECT_EQ(result[1]["_row_number"], 2);
+    EXPECT_EQ(result[2]["_row_number"], 3);
+}
+
+TEST_F(AQLFunctionsTest, RunningSumFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto result = reg.call("RUNNING_SUM", {nlohmann::json::array({1, 2, 3, 4})}, ctx);
+    EXPECT_EQ(result[0]["_running_sum"], 1);
+    EXPECT_EQ(result[1]["_running_sum"], 3);
+    EXPECT_EQ(result[2]["_running_sum"], 6);
+    EXPECT_EQ(result[3]["_running_sum"], 10);
+}
+
+// ============================================================================
+// File Function Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, PathJoinFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto path = reg.call("PATH_JOIN", {"/home", "user", "docs"}, ctx);
+    EXPECT_EQ(path.get<std::string>(), "/home/user/docs");
+}
+
+TEST_F(AQLFunctionsTest, PathDirnameFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("PATH_DIRNAME", {"/home/user/file.txt"}, ctx), "/home/user");
+    EXPECT_EQ(reg.call("PATH_DIRNAME", {"file.txt"}, ctx), ".");
+}
+
+TEST_F(AQLFunctionsTest, PathBasenameFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("PATH_BASENAME", {"/home/user/file.txt"}, ctx), "file.txt");
+    EXPECT_EQ(reg.call("PATH_BASENAME", {"/home/user/file.txt", true}, ctx), "file");
+}
+
+TEST_F(AQLFunctionsTest, PathExtensionFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("PATH_EXTENSION", {"/path/to/file.txt"}, ctx), "txt");
+    EXPECT_EQ(reg.call("PATH_EXTENSION", {"/path/to/file"}, ctx), "");
+}
+
+TEST_F(AQLFunctionsTest, PathNormalizeFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto normalized = reg.call("PATH_NORMALIZE", {"/home/user/../admin/./docs"}, ctx);
+    EXPECT_EQ(normalized.get<std::string>(), "/home/admin/docs");
+}
+
+TEST_F(AQLFunctionsTest, PathSplitFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto parts = reg.call("PATH_SPLIT", {"/home/user/docs"}, ctx);
+    EXPECT_EQ(parts.size(), 4);
+    EXPECT_EQ(parts[0], "/");
+    EXPECT_EQ(parts[1], "home");
+    EXPECT_EQ(parts[2], "user");
+    EXPECT_EQ(parts[3], "docs");
+}
+
+TEST_F(AQLFunctionsTest, PathIsAbsoluteFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("PATH_IS_ABSOLUTE", {"/home/user"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("PATH_IS_ABSOLUTE", {"docs/file.txt"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, SanitizeFilenameFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto safe = reg.call("SANITIZE_FILENAME", {"file:name?.txt"}, ctx);
+    EXPECT_EQ(safe.get<std::string>(), "file_name_.txt");
+}
+
+TEST_F(AQLFunctionsTest, MimeTypeFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("MIME_TYPE", {"document.pdf"}, ctx), "application/pdf");
+    EXPECT_EQ(reg.call("MIME_TYPE", {"image.jpg"}, ctx), "image/jpeg");
+    EXPECT_EQ(reg.call("MIME_TYPE", {"video.mp4"}, ctx), "video/mp4");
+}
+
+TEST_F(AQLFunctionsTest, IsMediaTypeFunctions) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("IS_IMAGE", {"photo.jpg"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_IMAGE", {"document.pdf"}, ctx).get<bool>());
+    
+    EXPECT_TRUE(reg.call("IS_VIDEO", {"movie.mp4"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("IS_AUDIO", {"song.mp3"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("IS_DOCUMENT", {"report.pdf"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, FormatFilesizeFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto formatted = reg.call("FORMAT_FILESIZE", {1536000}, ctx).get<std::string>();
+    EXPECT_TRUE(formatted.find("MB") != std::string::npos);
+    
+    auto kb = reg.call("FORMAT_FILESIZE", {1024}, ctx).get<std::string>();
+    EXPECT_TRUE(kb.find("KB") != std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, ParseFilesizeFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("PARSE_FILESIZE", {"1KB"}, ctx).get<double>(), 1024);
+    EXPECT_EQ(reg.call("PARSE_FILESIZE", {"1MB"}, ctx).get<double>(), 1024 * 1024);
+}
+
+// ============================================================================
+// Category Registration Tests (Updated)
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, CrsFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.hasFunction("ST_TRANSFORM"));
+    EXPECT_TRUE(reg.hasFunction("ST_SRID"));
+    EXPECT_TRUE(reg.hasFunction("UTM_ZONE"));
+    EXPECT_TRUE(reg.hasFunction("UTM_EPSG"));
+    EXPECT_TRUE(reg.hasFunction("CRS_NAME"));
+}
+
+TEST_F(AQLFunctionsTest, RelationalFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.hasFunction("COUNT_DISTINCT"));
+    EXPECT_TRUE(reg.hasFunction("MEDIAN"));
+    EXPECT_TRUE(reg.hasFunction("PERCENTILE"));
+    EXPECT_TRUE(reg.hasFunction("COALESCE"));
+    EXPECT_TRUE(reg.hasFunction("INNER_JOIN"));
+    EXPECT_TRUE(reg.hasFunction("LEFT_JOIN"));
+    EXPECT_TRUE(reg.hasFunction("ROW_NUMBER"));
+}
+
+TEST_F(AQLFunctionsTest, FileFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.hasFunction("PATH_JOIN"));
+    EXPECT_TRUE(reg.hasFunction("PATH_DIRNAME"));
+    EXPECT_TRUE(reg.hasFunction("PATH_BASENAME"));
+    EXPECT_TRUE(reg.hasFunction("MIME_TYPE"));
+    EXPECT_TRUE(reg.hasFunction("FORMAT_FILESIZE"));
+}
+
 TEST_F(AQLFunctionsTest, AllCategoriesPresent) {
     auto& reg = FunctionRegistry::instance();
     
@@ -861,7 +1195,7 @@ TEST_F(AQLFunctionsTest, AllCategoriesPresent) {
     
     std::unordered_set<std::string> catSet(cats.begin(), cats.end());
     
-    // All 8 categories should be present
+    // All 11 categories should be present
     EXPECT_TRUE(catSet.count("String") > 0);
     EXPECT_TRUE(catSet.count("Math") > 0);
     EXPECT_TRUE(catSet.count("Array") > 0);
@@ -870,4 +1204,6 @@ TEST_F(AQLFunctionsTest, AllCategoriesPresent) {
     EXPECT_TRUE(catSet.count("Geo") > 0);
     EXPECT_TRUE(catSet.count("Vector") > 0);
     EXPECT_TRUE(catSet.count("Graph") > 0);
+    EXPECT_TRUE(catSet.count("Relational") > 0);
+    EXPECT_TRUE(catSet.count("File") > 0);
 }
