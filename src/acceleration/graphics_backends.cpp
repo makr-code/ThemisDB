@@ -94,6 +94,10 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // ============================================================================
 // Vulkan Vector Backend Implementation
 // ============================================================================
+// Vulkan Vector Backend Implementation
+// ============================================================================
+
+VulkanVectorBackend::VulkanVectorBackend() : initialized_(false) {}
 
 VulkanVectorBackend::~VulkanVectorBackend() {
     shutdown();
@@ -129,37 +133,16 @@ BackendCapabilities VulkanVectorBackend::getCapabilities() const {
 
 bool VulkanVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
-    std::cout << "Vulkan Backend: Initialization..." << std::endl;
+    std::cout << "Vulkan Backend: Initialization (stub)..." << std::endl;
     
-    if (!loadVulkanLibrary()) {
-        std::cerr << "Failed to load Vulkan library" << std::endl;
-        return false;
-    }
+    // Full Vulkan initialization would be done here via VulkanVectorBackendImpl
+    // For now, this is a stub that requires the full implementation to be linked
     
-    if (!createInstance()) {
-        std::cerr << "Failed to create Vulkan instance" << std::endl;
-        return false;
-    }
+    // When Vulkan SDK is available, the full implementation in vulkan_backend_full.cpp
+    // would be used via the impl_ pointer
     
-    if (!selectPhysicalDevice()) {
-        std::cerr << "Failed to select suitable physical device" << std::endl;
-        return false;
-    }
-    
-    if (!createLogicalDevice()) {
-        std::cerr << "Failed to create logical device" << std::endl;
-        return false;
-    }
-    
-    if (!createComputePipelines()) {
-        std::cerr << "Failed to create compute pipelines" << std::endl;
-        return false;
-    }
-    
-    initialized_ = true;
-    std::cout << "Vulkan Backend: Successfully initialized" << std::endl;
-    
-    return true;
+    initialized_ = false;  // Stub: not fully implemented without Vulkan SDK
+    return false;
 #else
     return false;
 #endif
