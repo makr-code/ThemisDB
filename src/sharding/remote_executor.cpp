@@ -1,4 +1,5 @@
 #include "sharding/remote_executor.h"
+#include "utils/tracing.h"
 #include <chrono>
 
 namespace themis::sharding {
@@ -89,10 +90,16 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     const std::string& path,
     const std::optional<nlohmann::json>& body) {
     
+    auto span = Tracer::startSpan("RemoteExecutor.executeRequest");
+    span.setAttribute("method", method);
+    span.setAttribute("shard_id", shard_info.shard_id);
+    span.setAttribute("path", path);
+    
     auto start = std::chrono::steady_clock::now();
     
     // Get endpoint URL
     std::string endpoint = getEndpointURL(shard_info);
+    span.setAttribute("endpoint", endpoint);
     
     // Prepare request body (with signing if enabled)
     nlohmann::json request_body;

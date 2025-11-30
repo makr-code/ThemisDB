@@ -386,6 +386,9 @@ set(THEMIS_CORE_SOURCES
     src/timeseries/gorilla.cpp
     src/timeseries/retention.cpp
     src/timeseries/continuous_agg.cpp
+    src/timeseries/aggregate_scheduler.cpp
+    src/timeseries/aggregate_scheduler_helper.cpp
+    src/timeseries/query_optimizer.cpp
     
     src/utils/serialization.cpp
     src/utils/logger.cpp
@@ -448,6 +451,8 @@ set(THEMIS_CORE_SOURCES
     src/sharding/shard_router.cpp
     src/sharding/rebalance_operation.cpp
     src/sharding/data_migrator.cpp
+    src/sharding/shard_load_detector.cpp
+    src/sharding/auto_rebalancer.cpp
     src/sharding/prometheus_metrics.cpp
     src/sharding/health_check.cpp
     src/sharding/admin_api.cpp

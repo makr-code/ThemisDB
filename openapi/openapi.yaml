@@ -277,6 +277,334 @@ paths:
                   # TYPE vccdb_requests_total counter
                   vccdb_requests_total 1
                   ...
+  /api/keys:
+    post:
+      summary: API-Key erstellen
+      operationId: createApiKey
+      tags: [auth]
+      description: |
+        Erstellt einen neuen API-Key mit konfigurierbaren Berechtigungen.
+        Der Key wird nur einmal zurückgegeben und sollte sicher gespeichert werden.
+      security:
+        - bearerAuth: [admin]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+            examples:
+              basic_key:
+                summary: Basis-Key mit Lesezugriff
+                value:
+                  name: "Analytics Service Key"
+                  permissions: ["audit:read", "stats:read"]
+                  expires_in_days: 90
+              admin_key:
+                summary: Admin-Key ohne Ablauf
+                value:
+                  name: "Admin Key"
+                  permissions: ["*"]
+                  expires_in_days: null
+                  metadata:
+                    service: "internal-admin"
+                    environment: "production"
+      responses:
+        '201':
+          description: API-Key erfolgreich erstellt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateApiKeyResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    get:
+      summary: API-Keys auflisten
+      operationId: listApiKeys
+      tags: [auth]
+      description: |
+        Listet alle API-Keys auf (ohne Anzeige des Secret-Werts).
+        Zeigt Status, Permissions und Ablaufdatum.
+      security:
+        - bearerAuth: [admin]
+      parameters:
+        - in: query
+          name: include_revoked
+          schema: { type: boolean, default: false }
+          description: Auch widerrufene Keys anzeigen
+        - in: query
+          name: page
+          schema: { type: integer, minimum: 1, default: 1 }
+        - in: query
+          name: page_size
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        '200':
+          description: Liste der API-Keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListApiKeysResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /api/keys/{keyId}:
+    get:
+      summary: API-Key Details abrufen
+      operationId: getApiKey
+      tags: [auth]
+      security:
+        - bearerAuth: [admin]
+      parameters:
+        - in: path
+          name: keyId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Key-Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyDetails'
+        '404': { $ref: '#/components/responses/NotFound' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    put:
+      summary: API-Key aktualisieren
+      operationId: updateApiKey
+      tags: [auth]
+      description: |
+        Aktualisiert Name, Permissions oder Metadata eines API-Keys.
+        Der Secret-Wert kann nicht geändert werden.
+      security:
+        - bearerAuth: [admin]
+      parameters:
+        - in: path
+          name: keyId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApiKeyRequest'
+      responses:
+        '200':
+          description: Key aktualisiert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyDetails'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    delete:
+      summary: API-Key widerrufen
+      operationId: revokeApiKey
+      tags: [auth]
+      description: Widerruft einen API-Key permanent. Diese Aktion kann nicht rückgängig gemacht werden.
+      security:
+        - bearerAuth: [admin]
+      parameters:
+        - in: path
+          name: keyId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Key widerrufen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  keyId: { type: string }
+                  revoked_at: { type: string, format: date-time }
+                required: [success, keyId, revoked_at]
+        '404': { $ref: '#/components/responses/NotFound' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /api/classify:
+    post:
+      summary: Datenschutz-Klassifizierung durchführen
+      operationId: classifyContent
+      tags: [compliance]
+      description: |
+        Klassifiziert einen Text oder ein Dokument auf personenbezogene Daten (PII).
+        Erkennt: E-Mail, Telefon, IBAN, Kreditkarten, Namen, Adressen (DE/EN).
+        Nutzt Regex-basierte Erkennung + optionales NLP-Modell.
+      security:
+        - bearerAuth: [classify:read]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassifyRequest'
+            examples:
+              text_classification:
+                summary: Text klassifizieren
+                value:
+                  text: "Kontakt: Max Mustermann, max@example.com, +49 123 456789"
+                  include_positions: true
+              document_classification:
+                summary: Dokument-Klassifizierung
+                value:
+                  document_id: "doc:12345"
+                  include_positions: false
+      responses:
+        '200':
+          description: Klassifizierungsergebnis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassifyResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+    get:
+      summary: Klassifizierungs-Regeln abrufen
+      operationId: getClassificationRules
+      tags: [compliance]
+      description: |
+        Gibt die aktuell konfigurierten Klassifizierungs-Regeln zurück.
+        Zeigt PII-Kategorien, Regex-Patterns und NLP-Modell-Konfiguration.
+      security:
+        - bearerAuth: [classify:read]
+      responses:
+        '200':
+          description: Aktuelle Klassifizierungs-Regeln
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassificationRulesResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /api/reports/audit:
+    get:
+      summary: Audit-Report generieren
+      operationId: getAuditReport
+      tags: [reports]
+      description: |
+        Generiert einen aggregierten Audit-Report für einen Zeitraum.
+        Enthält Statistiken zu Aktionen, Benutzern, Erfolgsraten und Top-Entities.
+      security:
+        - bearerAuth: [audit:read, reports:read]
+      parameters:
+        - in: query
+          name: start
+          schema: { type: string }
+          description: Start-Zeitpunkt (ISO 8601 oder Epoch ms)
+        - in: query
+          name: end
+          schema: { type: string }
+          description: End-Zeitpunkt (ISO 8601 oder Epoch ms)
+        - in: query
+          name: format
+          schema: 
+            type: string
+            enum: [json, csv, pdf]
+            default: json
+          description: Report-Format
+        - in: query
+          name: group_by
+          schema:
+            type: string
+            enum: [user, action, entity_type, hour, day]
+            default: action
+          description: Gruppierung der Statistiken
+      responses:
+        '200':
+          description: Audit-Report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditReportResponse'
+            text/csv:
+              schema:
+                type: string
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /api/reports/compliance:
+    get:
+      summary: Compliance-Report (DSGVO/Datenschutz)
+      operationId: getComplianceReport
+      tags: [reports]
+      description: |
+        Generiert einen Compliance-Report gemäß DSGVO/Datenschutz-Anforderungen.
+        Zeigt PII-Verarbeitung, Retention-Status, Löschvorgänge und Sicherheitsmetriken.
+      security:
+        - bearerAuth: [reports:read, audit:read]
+      parameters:
+        - in: query
+          name: start
+          schema: { type: string }
+        - in: query
+          name: end
+          schema: { type: string }
+        - in: query
+          name: format
+          schema:
+            type: string
+            enum: [json, pdf]
+            default: json
+      responses:
+        '200':
+          description: Compliance-Report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceReportResponse'
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
+  /api/reports/retention:
+    get:
+      summary: Retention Policy Status Report
+      operationId: getRetentionReport
+      tags: [reports]
+      description: |
+        Zeigt den Status der Retention Policies für alle Collections/Tables.
+        Beinhaltet Statistiken zu automatischen Löschvorgängen und veralteten Daten.
+      security:
+        - bearerAuth: [reports:read]
+      parameters:
+        - in: query
+          name: include_stats
+          schema: { type: boolean, default: true }
+          description: Detaillierte Statistiken pro Collection einbeziehen
+      responses:
+        '200':
+          description: Retention-Report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RetentionReportResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '500': { $ref: '#/components/responses/InternalError' }
   /content/import:
     post:
       summary: Content importieren (v0 Bulk)
@@ -1803,3 +2131,296 @@ components:
           type: array
           items: { $ref: '#/components/schemas/ChangeEntry' }
       required: [from_seq, next_seq, entries]
+    # API Key Management Schemas
+    CreateApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Beschreibender Name für den API-Key
+        permissions:
+          type: array
+          items: { type: string }
+          description: Liste von Berechtigungen (z.B. "audit:read", "stats:read", "*")
+          example: ["audit:read", "query:execute"]
+        expires_in_days:
+          type: integer
+          nullable: true
+          minimum: 1
+          maximum: 3650
+          description: Ablauf in Tagen (null = kein Ablauf)
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Optionale Metadaten (Service-Name, Environment, etc.)
+      required: [name, permissions]
+    CreateApiKeyResponse:
+      type: object
+      properties:
+        keyId: { type: string }
+        secret:
+          type: string
+          description: API-Key Secret (nur einmal zurückgegeben!)
+        name: { type: string }
+        permissions:
+          type: array
+          items: { type: string }
+        created_at: { type: string, format: date-time }
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+      required: [keyId, secret, name, permissions, created_at]
+    ApiKeyDetails:
+      type: object
+      properties:
+        keyId: { type: string }
+        name: { type: string }
+        permissions:
+          type: array
+          items: { type: string }
+        created_at: { type: string, format: date-time }
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        last_used_at:
+          type: string
+          format: date-time
+          nullable: true
+        revoked: { type: boolean }
+        revoked_at:
+          type: string
+          format: date-time
+          nullable: true
+        metadata:
+          type: object
+          additionalProperties: true
+      required: [keyId, name, permissions, created_at, revoked]
+    UpdateApiKeyRequest:
+      type: object
+      properties:
+        name: { type: string }
+        permissions:
+          type: array
+          items: { type: string }
+        metadata:
+          type: object
+          additionalProperties: true
+    ListApiKeysResponse:
+      type: object
+      properties:
+        keys:
+          type: array
+          items: { $ref: '#/components/schemas/ApiKeyDetails' }
+        total: { type: integer }
+        page: { type: integer }
+        page_size: { type: integer }
+      required: [keys, total, page, page_size]
+    # Classification Schemas
+    ClassifyRequest:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Zu klassifizierender Text
+        document_id:
+          type: string
+          description: ID eines gespeicherten Dokuments (alternativ zu text)
+        include_positions:
+          type: boolean
+          default: false
+          description: PII-Positionen im Text zurückgeben
+        categories:
+          type: array
+          items:
+            type: string
+            enum: [email, phone, iban, credit_card, name, address, all]
+          description: Zu erkennende PII-Kategorien (default = all)
+      anyOf:
+        - required: [text]
+        - required: [document_id]
+    PiiMatch:
+      type: object
+      properties:
+        category:
+          type: string
+          enum: [email, phone, iban, credit_card, name, address]
+        value: { type: string }
+        confidence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+        start_pos:
+          type: integer
+          nullable: true
+        end_pos:
+          type: integer
+          nullable: true
+      required: [category, value, confidence]
+    ClassifyResponse:
+      type: object
+      properties:
+        contains_pii: { type: boolean }
+        matches:
+          type: array
+          items: { $ref: '#/components/schemas/PiiMatch' }
+        summary:
+          type: object
+          properties:
+            total_matches: { type: integer }
+            categories_found:
+              type: array
+              items: { type: string }
+            risk_level:
+              type: string
+              enum: [none, low, medium, high]
+              description: Datenschutz-Risiko basierend auf PII-Anzahl und -Typ
+          required: [total_matches, categories_found, risk_level]
+      required: [contains_pii, matches, summary]
+    ClassificationRule:
+      type: object
+      properties:
+        category: { type: string }
+        pattern: { type: string }
+        enabled: { type: boolean }
+        confidence: { type: number }
+      required: [category, pattern, enabled]
+    ClassificationRulesResponse:
+      type: object
+      properties:
+        rules:
+          type: array
+          items: { $ref: '#/components/schemas/ClassificationRule' }
+        nlp_enabled: { type: boolean }
+        nlp_model:
+          type: string
+          nullable: true
+        supported_languages:
+          type: array
+          items: { type: string }
+      required: [rules, nlp_enabled]
+    # Report Schemas
+    AuditReportResponse:
+      type: object
+      properties:
+        period:
+          type: object
+          properties:
+            start: { type: string, format: date-time }
+            end: { type: string, format: date-time }
+          required: [start, end]
+        summary:
+          type: object
+          properties:
+            total_events: { type: integer, format: int64 }
+            successful_events: { type: integer, format: int64 }
+            failed_events: { type: integer, format: int64 }
+            success_rate: { type: number }
+            unique_users: { type: integer }
+            unique_entities: { type: integer }
+          required: [total_events, successful_events, failed_events, success_rate]
+        top_actions:
+          type: array
+          items:
+            type: object
+            properties:
+              action: { type: string }
+              count: { type: integer }
+              success_rate: { type: number }
+        top_users:
+          type: array
+          items:
+            type: object
+            properties:
+              user: { type: string }
+              action_count: { type: integer }
+              failed_count: { type: integer }
+        top_entities:
+          type: array
+          items:
+            type: object
+            properties:
+              entity_type: { type: string }
+              entity_id: { type: string }
+              access_count: { type: integer }
+        timeline:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp: { type: string, format: date-time }
+              event_count: { type: integer }
+          description: Zeitliche Verteilung der Events (gruppiert nach group_by Parameter)
+      required: [period, summary]
+    ComplianceReportResponse:
+      type: object
+      properties:
+        period:
+          type: object
+          properties:
+            start: { type: string, format: date-time }
+            end: { type: string, format: date-time }
+          required: [start, end]
+        pii_processing:
+          type: object
+          properties:
+            total_pii_records: { type: integer, format: int64 }
+            pii_access_events: { type: integer, format: int64 }
+            pii_deletion_events: { type: integer, format: int64 }
+            pseudonymization_active: { type: boolean }
+            encryption_enabled: { type: boolean }
+          required: [total_pii_records, pii_access_events, pii_deletion_events]
+        retention:
+          type: object
+          properties:
+            policies_active: { type: integer }
+            auto_deletion_enabled: { type: boolean }
+            records_deleted_in_period: { type: integer, format: int64 }
+        security:
+          type: object
+          properties:
+            failed_auth_attempts: { type: integer }
+            unauthorized_access_attempts: { type: integer }
+            data_breaches_detected: { type: integer }
+        data_subject_rights:
+          type: object
+          properties:
+            access_requests: { type: integer }
+            deletion_requests: { type: integer }
+            rectification_requests: { type: integer }
+            portability_requests: { type: integer }
+          description: DSGVO Art. 15-20 Anfragen
+        compliance_score:
+          type: number
+          minimum: 0.0
+          maximum: 100.0
+          description: Gesamt-Compliance-Score (0-100)
+      required: [period, pii_processing, retention, security, compliance_score]
+    RetentionPolicyStatus:
+      type: object
+      properties:
+        collection: { type: string }
+        retention_days: { type: integer }
+        auto_deletion_enabled: { type: boolean }
+        last_cleanup: { type: string, format: date-time, nullable: true }
+        records_total: { type: integer, format: int64 }
+        records_expired: { type: integer, format: int64 }
+        oldest_record_age_days: { type: integer }
+      required: [collection, retention_days, auto_deletion_enabled, records_total]
+    RetentionReportResponse:
+      type: object
+      properties:
+        policies:
+          type: array
+          items: { $ref: '#/components/schemas/RetentionPolicyStatus' }
+        summary:
+          type: object
+          properties:
+            total_collections: { type: integer }
+            collections_with_policy: { type: integer }
+            total_expired_records: { type: integer, format: int64 }
+            auto_deletion_active: { type: boolean }
+            last_global_cleanup: { type: string, format: date-time, nullable: true }
+          required: [total_collections, collections_with_policy, total_expired_records]
+      required: [policies, summary]

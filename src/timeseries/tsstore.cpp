@@ -1,6 +1,8 @@
 #include "timeseries/tsstore.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 #include "timeseries/gorilla.h"
+#include "timeseries/query_optimizer.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
 #include <rocksdb/write_batch.h>
@@ -110,10 +112,17 @@ bool TSStore::matchesTagFilter(const DataPoint& point,
 }
 
 TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
+    auto span = Tracer::startSpan("TSStore.putDataPoint");
+    span.setAttribute("metric", point.metric);
+    span.setAttribute("entity", point.entity);
+    span.setAttribute("timestamp_ms", point.timestamp_ms);
+    
     if (point.metric.empty()) {
+        span.recordError("Metric name cannot be empty");
         return Status::Error("Metric name cannot be empty");
     }
     if (point.entity.empty()) {
+        span.recordError("Entity ID cannot be empty");
         return Status::Error("Entity ID cannot be empty");
     }
     
@@ -146,6 +155,9 @@ TSStore::Status TSStore::putDataPoint(const DataPoint& point) {
 }
 
 TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
+    auto span = Tracer::startSpan("TSStore.putDataPoints");
+    span.setAttribute("batch_size", static_cast<int64_t>(points.size()));
+    
     if (points.empty()) {
         return Status::OK();
     }
@@ -269,9 +281,19 @@ TSStore::Status TSStore::putDataPoints(const std::vector<DataPoint>& points) {
 
 std::pair<TSStore::Status, std::vector<TSStore::DataPoint>>
 TSStore::query(const QueryOptions& options) const {
+    auto span = Tracer::startSpan("TSStore.query");
+    span.setAttribute("metric", options.metric);
+    if (options.entity.has_value()) {
+        span.setAttribute("entity", *options.entity);
+    }
+    span.setAttribute("from_timestamp_ms", options.from_timestamp_ms);
+    span.setAttribute("to_timestamp_ms", options.to_timestamp_ms);
+    span.setAttribute("limit", static_cast<int64_t>(options.limit));
+    
     std::vector<DataPoint> results;
     
     if (options.metric.empty()) {
+        span.recordError("Metric name is required");
         return {Status::Error("Metric name is required"), results};
     }
     
@@ -423,18 +445,100 @@ TSStore::query(const QueryOptions& options) const {
 
 std::pair<TSStore::Status, TSStore::AggregationResult>
 TSStore::aggregate(const QueryOptions& options) const {
+    return aggregateOptimized(options, true);
+}
+
+std::pair<TSStore::Status, TSStore::AggregationResult>
+TSStore::aggregateOptimized(const QueryOptions& options, bool use_optimizer) const {
+    auto span = Tracer::startSpan("TSStore.aggregate");
+    span.setAttribute("metric", options.metric);
+    if (options.entity.has_value()) {
+        span.setAttribute("entity", *options.entity);
+    }
+    span.setAttribute("from_timestamp_ms", options.from_timestamp_ms);
+    span.setAttribute("to_timestamp_ms", options.to_timestamp_ms);
+    span.setAttribute("use_optimizer", use_optimizer);
+    
     AggregationResult result;
     
+    // Try optimizer first if enabled
+    if (use_optimizer) {
+        TSQueryOptimizer optimizer(const_cast<TSStore*>(this));
+        TSQueryOptimizer::OptimizationHint hint;
+        hint.use_aggregates = true;
+        hint.min_window_for_agg_ms = 3600000;  // 1 hour
+        hint.max_raw_points = 10000;
+        
+        auto plan = optimizer.optimizeAggregateQuery(
+            options.metric,
+            options.entity.value_or(""),
+            options.from_timestamp_ms,
+            options.to_timestamp_ms,
+            hint
+        );
+        
+        if (plan.uses_aggregate) {
+            THEMIS_INFO("Using pre-computed aggregate: {} ({}x speedup)", 
+                       plan.source_metric, plan.estimated_speedup);
+            span.setAttribute("optimized", true);
+            span.setAttribute("speedup", plan.estimated_speedup);
+            span.setAttribute("optimizer_decision", plan.explanation);
+            
+            // Query the aggregate instead
+            QueryOptions agg_options = options;
+            agg_options.metric = plan.source_metric;
+            
+            auto [status, data_points] = query(agg_options);
+            if (!status.ok) {
+                // Fallback to raw data
+                THEMIS_WARN("Aggregate query failed, falling back to raw data: {}", status.message);
+            } else {
+                if (data_points.empty()) {
+                    span.setAttribute("result_count", static_cast<int64_t>(0));
+                    return {Status::OK(), result};
+                }
+                
+                result.count = data_points.size();
+                span.setAttribute("result_count", static_cast<int64_t>(data_points.size()));
+                result.min = data_points[0].value;
+                result.max = data_points[0].value;
+                result.sum = 0.0;
+                result.first_timestamp_ms = data_points[0].timestamp_ms;
+                result.last_timestamp_ms = data_points[data_points.size() - 1].timestamp_ms;
+                
+                for (const auto& point : data_points) {
+                    result.min = std::min(result.min, point.value);
+                    result.max = std::max(result.max, point.value);
+                    result.sum += point.value;
+                }
+                
+                result.avg = result.sum / static_cast<double>(result.count);
+                
+                THEMIS_DEBUG("Aggregation (optimized): count={}, min={}, max={}, avg={}, sum={}", 
+                           result.count, result.min, result.max, result.avg, result.sum);
+                
+                return {Status::OK(), result};
+            }
+        } else {
+            span.setAttribute("optimized", false);
+            span.setAttribute("optimizer_decision", plan.explanation);
+        }
+    }
+    
+    // Original implementation (raw data)
     auto [status, data_points] = query(options);
     if (!status.ok) {
+        span.recordError("Query failed: " + status.message);
         return {status, result};
     }
     
     if (data_points.empty()) {
+        span.setAttribute("result_count", static_cast<int64_t>(0));
         return {Status::OK(), result};
     }
     
     result.count = data_points.size();
+    span.setAttribute("result_count", static_cast<int64_t>(data_points.size()));
     result.min = data_points[0].value;
     result.max = data_points[0].value;
     result.sum = 0.0;
