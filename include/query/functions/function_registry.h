@@ -13,9 +13,9 @@ namespace query {
 namespace functions {
 
 /**
- * @brief AQL Function Registry - Modulares OOP-basiertes Funktionssystem
+ * @brief AQL Function Registry - Modular OOP-based Function System
  * 
- * ## Design-Prinzipien
+ * ## Design Principles
  * 
  * 1. **Single Responsibility**: Jede Funktion ist eine eigene Klasse
  * 2. **Open/Closed**: Neue Funktionen ohne Änderung bestehenden Codes
