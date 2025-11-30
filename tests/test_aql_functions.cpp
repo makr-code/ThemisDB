@@ -448,6 +448,6 @@ TEST_F(AQLFunctionsTest, UnknownFunctionThrows) {
 TEST_F(AQLFunctionsTest, InvalidArgsThrows) {
     auto& reg = FunctionRegistry::instance();
     
-    // LENGTH requires 1 argument
+    // SUBSTRING requires 2 arguments
     EXPECT_THROW(reg.call("SUBSTRING", {"hello"}, ctx), std::runtime_error);
 }

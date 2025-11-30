@@ -10,6 +10,17 @@ namespace themis {
 namespace query {
 namespace functions {
 
+// Portable timegm implementation for Windows compatibility
+#ifdef _WIN32
+inline time_t portable_timegm(struct tm* tm) {
+    return _mkgmtime(tm);
+}
+#else
+inline time_t portable_timegm(struct tm* tm) {
+    return ::timegm(tm);
+}
+#endif
+
 // ============================================================================
 // Date/Time Functions
 // ============================================================================
@@ -81,7 +92,7 @@ private:
             }
         }
         
-        auto tp = std::chrono::system_clock::from_time_t(timegm(&tm));
+        auto tp = std::chrono::system_clock::from_time_t(portable_timegm(&tm));
         return std::chrono::duration_cast<std::chrono::milliseconds>(
             tp.time_since_epoch()
         ).count();
@@ -517,7 +528,7 @@ public:
             throw std::runtime_error("DATE_TRUNC: unknown unit '" + unit + "'");
         }
         
-        return static_cast<int64_t>(timegm(tm)) * 1000;
+        return static_cast<int64_t>(portable_timegm(tm)) * 1000;
     }
 };
 
