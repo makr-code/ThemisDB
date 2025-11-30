@@ -62,7 +62,15 @@ public:
         const std::optional<std::string>& entity,
         int64_t from_timestamp_ms,
         int64_t to_timestamp_ms,
-        const OptimizationHint& hint = OptimizationHint{}
+        const OptimizationHint& hint
+    );
+
+    // Overload without hint (uses defaults)
+    QueryPlan optimizeAggregateQuery(
+        const std::string& metric,
+        const std::optional<std::string>& entity,
+        int64_t from_timestamp_ms,
+        int64_t to_timestamp_ms
     );
     
     /**

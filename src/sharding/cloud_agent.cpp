@@ -13,6 +13,12 @@ namespace sharding {
 CloudAgent::CloudAgent(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<RemoteExecutor> executor,
+    std::shared_ptr<PrometheusMetrics> metrics
+) : CloudAgent(topology, executor, metrics, Config{}) {}
+
+CloudAgent::CloudAgent(
+    std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<RemoteExecutor> executor,
     std::shared_ptr<PrometheusMetrics> metrics,
     const Config& config
 ) : topology_(std::move(topology)),

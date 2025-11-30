@@ -67,7 +67,8 @@ public:
         size_t max_catch_up_windows = 100;  // Max windows to catch up
     };
     
-    explicit AggregateScheduler(TSStore* store, const Config& config = Config{});
+    explicit AggregateScheduler(TSStore* store);
+    AggregateScheduler(TSStore* store, const Config& config);
     ~AggregateScheduler();
     
     // Lifecycle

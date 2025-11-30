@@ -152,10 +152,8 @@ RUN VCPKG_TRIPLET_COPY="x64-linux"; \
     echo "Copying libraries from ${VCPKG_TRIPLET_COPY}..." && \
     cp -v /opt/vcpkg/installed/${VCPKG_TRIPLET_COPY}/lib/*.so* /usr/local/lib/ 2>/dev/null || true
 
-# Copy configuration files
+# Setup runtime environment
 RUN mkdir -p /etc/themis /usr/local/share/themis
-COPY --from=build /src/config/config.json /etc/themis/config.json || true
-COPY --from=build /src/config/config.qnap.json /usr/local/share/themis/config.qnap.json || true
 
 # Setup runtime environment
 RUN mkdir -p /data /var/log/themis && \

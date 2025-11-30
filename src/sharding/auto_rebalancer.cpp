@@ -16,6 +16,13 @@ AutoRebalancer::AutoRebalancer(
     std::shared_ptr<ShardTopology> topology,
     std::shared_ptr<ShardLoadDetector> load_detector,
     std::shared_ptr<PrometheusMetrics> metrics,
+    std::shared_ptr<DataMigrator> migrator
+) : AutoRebalancer(topology, load_detector, metrics, migrator, Config{}) {}
+
+AutoRebalancer::AutoRebalancer(
+    std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<ShardLoadDetector> load_detector,
+    std::shared_ptr<PrometheusMetrics> metrics,
     std::shared_ptr<DataMigrator> migrator,
     const Config& config
 ) : topology_(topology),

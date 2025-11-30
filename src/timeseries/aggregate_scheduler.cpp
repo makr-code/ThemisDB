@@ -8,6 +8,9 @@
 
 namespace themis {
 
+AggregateScheduler::AggregateScheduler(TSStore* store)
+    : AggregateScheduler(store, Config{}) {}
+
 AggregateScheduler::AggregateScheduler(TSStore* store, const Config& config)
     : store_(store), config_(config) {
     

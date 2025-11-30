@@ -124,10 +124,15 @@ public:
         std::chrono::milliseconds rebalance_cooldown{std::chrono::hours(1)};
     };
     
+    explicit ShardLoadDetector(
+        std::shared_ptr<ShardTopology> topology,
+        std::shared_ptr<PrometheusMetrics> metrics
+    );
+    
     ShardLoadDetector(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<PrometheusMetrics> metrics,
-        const Config& config = Config{}
+        const Config& config
     );
     
     /**

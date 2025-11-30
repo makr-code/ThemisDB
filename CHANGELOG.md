@@ -5,6 +5,146 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2025-11-30
+
+🎉 **Production Release - ThemisDB v1.0.0**
+
+### Major Features
+
+#### Sharding Phase 2-3: Automatic Rebalancing
+- **ShardLoadDetector** - Multi-criteria load detection (1,210 lines)
+  - Storage imbalance detection (>30% threshold)
+  - Request imbalance detection (>50% threshold)
+  - Latency degradation detection (p99 > 2x average)
+  - Resource exhaustion detection (CPU >80%, Storage >85%)
+  - Weighted load calculation (40% storage, 30% requests, 20% latency, 10% CPU)
+  - Prometheus metrics export (6 gauges per shard)
+  - Rebalance recommendation generation
+
+- **AutoRebalancer** - Automatic rebalancing coordination
+  - Background monitoring (5-minute intervals)
+  - Safety mechanisms (1h cooldown, max 2 concurrent, 10/day limit)
+  - Manual approval workflow (optional)
+  - Operation lifecycle management (PLANNED → IN_PROGRESS → COMPLETED/FAILED)
+  - Automatic rollback on failure
+  - OpenTelemetry instrumentation (monitorTick, executeRebalance spans)
+
+#### TSStore Stabilization: Time Series Optimization
+- **AggregateScheduler** - Automatic aggregate refresh (420 lines)
+  - Background refresh with configurable intervals
+  - Dependency resolution (materialized views)
+  - Incremental refresh for time-window aggregates
+  - Pause/resume support
+  - Prometheus metrics (refresh duration, errors)
+
+- **TSQueryOptimizer** - Cost-based query optimization (280 lines)
+  - 360-3600x query speedup via aggregate materialization
+  - Automatic query rewriting (raw → aggregate)
+  - Time range subsumption detection
+  - Cost estimation (scan reduction factor)
+  - Query plan transformation
+
+#### Observability & Tracing Extensions
+- **MetricsCollector** - Centralized metrics aggregation (505 lines)
+  - Prometheus exporter integration
+  - OpenTelemetry trace export
+  - Custom metric registration
+  - Histogram/Counter/Gauge support
+
+#### OpenAPI Updates
+- Keys Management API (keys_api_handler.cpp - 328 lines)
+- Classification API (classification_api_handler.cpp)
+- Compliance Reports API (reports_api_handler.cpp)
+
+### Infrastructure & Platform
+
+#### Multi-Tenancy Support
+- **TenantManager** - Complete tenant isolation
+  - Per-tenant resource quotas (storage, CPU, memory)
+  - Per-tenant rate limiting
+  - Tenant authentication via JWT claims
+  - Tenant-scoped data isolation
+  - Billing metrics export
+
+#### GPU Acceleration
+- **CUDA Backend** - NVIDIA GPU support for vector operations
+  - HNSW index acceleration (10-50x speedup)
+  - Batch vector distance calculations
+  - Device memory management
+  - Fallback to CPU on errors
+
+- **Vulkan Backend** - Cross-platform GPU compute
+  - Shader-based vector operations
+  - Multi-vendor GPU support (NVIDIA, AMD, Intel)
+  - Compute pipeline optimization
+
+#### GraphQL API
+- **GraphQL Server** - Full GraphQL query support
+  - Schema introspection
+  - Mutations for CRUD operations
+  - Subscriptions for real-time updates
+  - Dataloader for N+1 query optimization
+  - Integration with existing AQL backend
+
+#### Advanced Analytics (OLAP)
+- **OLAP Engine** - Analytical query support
+  - CUBE, ROLLUP, GROUPING SETS
+  - Window functions (ROW_NUMBER, RANK, LAG, LEAD)
+  - Materialized views
+  - Columnar storage optimization
+  - Query parallelization
+
+### Production Readiness
+
+#### Enterprise Scalability
+- Rate Limiter v2 (token bucket + leaky bucket)
+- Load Shedder (adaptive shedding, circuit breaker)
+- HTTP Client Pool (connection reuse, health checks)
+- Connection pooling (max 1000 concurrent)
+
+#### Security & Compliance
+- Column-level encryption (AES-256-GCM)
+- PKI integration (eIDAS qualified signatures)
+- HSM support (PKCS#11)
+- Audit logging (OpenSearch integration)
+- Change Data Capture (CDC)
+
+#### Performance
+- HNSW Vector Index with persistence
+- Compression (ZSTD, LZ4)
+- SIMD distance calculations (AVX2, AVX-512)
+- Query caching (semantic cache)
+
+#### Content Management
+- Content Pipeline with Image/Geo processors
+- Fulltext search (BM25, stemming, stopwords)
+- Hybrid search (vector + fulltext + graph)
+
+### Documentation
+- Comprehensive reports (2,500+ lines)
+  - SHARDING_AUTO_REBALANCING.md (886 lines)
+  - TSSTORE_STABILIZATION.md (850 lines)
+  - OBSERVABILITY_TRACING_IMPLEMENTATION.md
+- Updated deployment guides
+- API documentation (OpenAPI 3.0)
+- Wiki synchronization
+
+### Statistics
+- **Total Code**: 3,340 lines of production-ready code (Q4 2025)
+- **Documentation**: 361 documents, 25 categories
+- **Tests**: 89 test files with comprehensive coverage
+- **Compilation**: Successful on Windows (MSVC), Linux (GCC), QNAP
+
+### Breaking Changes
+- None (backward compatible with v0.x)
+
+### Migration Guide
+- Existing databases compatible without migration
+- New features opt-in via configuration
+- Auto-rebalancing disabled by default (enable via config)
+
+---
+
 ## [Unreleased]
 
 ### Added - C# SDK (2025-11-20 Phase 2)

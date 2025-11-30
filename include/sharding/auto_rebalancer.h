@@ -83,12 +83,19 @@ public:
         std::string error_message;
     };
     
+    explicit AutoRebalancer(
+        std::shared_ptr<ShardTopology> topology,
+        std::shared_ptr<ShardLoadDetector> load_detector,
+        std::shared_ptr<PrometheusMetrics> metrics,
+        std::shared_ptr<DataMigrator> migrator
+    );
+    
     AutoRebalancer(
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<ShardLoadDetector> load_detector,
         std::shared_ptr<PrometheusMetrics> metrics,
         std::shared_ptr<DataMigrator> migrator,
-        const Config& config = Config{}
+        const Config& config
     );
     
     ~AutoRebalancer();
