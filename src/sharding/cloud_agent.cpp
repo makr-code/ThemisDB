@@ -25,7 +25,7 @@ CloudAgent::CloudAgent(
     
     // Generate agent ID if not provided
     if (config_.agent_id.empty()) {
-        config_.agent_id = "cloud_agent_" + generateOperationId().substr(0, 8);
+        config_.agent_id = generateAgentId();
     }
 }
 
@@ -520,8 +520,8 @@ void CloudAgent::updateStatistics(const CloudAgentResult& result) {
         statistics_.failed_operations++;
     }
     
-    // Update average execution time (exponential moving average)
-    double alpha = 0.1;  // Smoothing factor
+    // Update average execution time using exponential moving average
+    const double alpha = config_.avg_execution_time_smoothing_factor;
     statistics_.avg_execution_time_ms = 
         alpha * result.execution_time.count() + 
         (1.0 - alpha) * statistics_.avg_execution_time_ms;
@@ -543,8 +543,8 @@ void CloudAgent::cleanupOldOperations() {
     static auto last_cleanup = std::chrono::steady_clock::now();
     auto now = std::chrono::steady_clock::now();
     
-    // Cleanup every 5 minutes
-    if (std::chrono::duration_cast<std::chrono::minutes>(now - last_cleanup).count() < 5) {
+    // Use configurable cleanup interval
+    if (now - last_cleanup < config_.cleanup_interval) {
         return;
     }
     
@@ -552,14 +552,21 @@ void CloudAgent::cleanupOldOperations() {
     
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Remove completed operations older than 1 hour
-    auto threshold = std::chrono::system_clock::now() - std::chrono::hours(1);
-    
-    // Note: In production, we would track completion time and cleanup based on that
-    // For now, we limit the completed operations map size
-    while (completed_operations_.size() > 1000) {
+    // Remove completed operations when exceeding the configured threshold
+    const size_t max_history = config_.max_completed_operations_history;
+    while (completed_operations_.size() > max_history) {
         completed_operations_.erase(completed_operations_.begin());
     }
+}
+
+std::string CloudAgent::generateAgentId() const {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<uint32_t> dis;
+    
+    std::stringstream ss;
+    ss << "cloud_agent_" << std::hex << std::setfill('0') << std::setw(8) << dis(gen);
+    return ss.str();
 }
 
 } // namespace sharding

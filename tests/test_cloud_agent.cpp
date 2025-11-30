@@ -192,7 +192,7 @@ TEST_F(CloudAgentTest, DelegateAsync) {
     std::string op_id = agent.delegateAsync(op);
     
     EXPECT_FALSE(op_id.empty());
-    EXPECT_TRUE(op_id.find("op_") == 0);  // Starts with "op_"
+    EXPECT_TRUE(op_id.starts_with("op_"));  // Starts with "op_"
     
     // Give time for async processing
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -302,7 +302,7 @@ TEST_F(CloudAgentTest, AutoGenerateAgentId) {
     
     // Agent ID should be auto-generated
     EXPECT_FALSE(agent.getConfig().agent_id.empty());
-    EXPECT_TRUE(agent.getConfig().agent_id.find("cloud_agent_") == 0);
+    EXPECT_TRUE(agent.getConfig().agent_id.starts_with("cloud_agent_"));
 }
 
 TEST_F(CloudAgentTest, MultipleStartStop) {
