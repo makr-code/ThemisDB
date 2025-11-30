@@ -146,6 +146,19 @@ struct DocumentModelInfo {
     }
 };
 
+/**
+ * @brief Vereinfachte Multi-Model Aspekte für Prozesselemente
+ * 
+ * Da wir reservierte Felder verwenden, ist dies hauptsächlich
+ * für Metadaten und Konfiguration gedacht.
+ */
+struct MultiModelAspects {
+    bool has_graph = true;          ///< Immer true für Prozesselemente
+    bool has_relational = true;     ///< Meist true für Geschäftsdaten
+    bool has_vector = false;        ///< Für semantische Suche
+    bool has_geo = false;           ///< Für ortsbezogene Prozesse
+};
+
 // ============================================================================
 // Process Node Types (BPMN + EPK)
 // ============================================================================
