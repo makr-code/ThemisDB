@@ -3,6 +3,7 @@
 #include "function_registry.h"
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 #include <regex>
 
 namespace themis {
