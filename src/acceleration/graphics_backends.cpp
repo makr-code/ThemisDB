@@ -94,8 +94,6 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // ============================================================================
 // Vulkan Vector Backend Implementation
 // ============================================================================
-// Vulkan Vector Backend Implementation
-// ============================================================================
 
 VulkanVectorBackend::VulkanVectorBackend() : initialized_(false) {}
 

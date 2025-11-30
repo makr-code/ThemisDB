@@ -408,13 +408,14 @@ std::string TenantManager::getMetrics() const {
     oss << "themis_tenant_count " << tenants_.size() << "\n\n";
     
     for (const auto& [id, usage] : usage_) {
-        std::string tid = id;
-        // Escape label value
-        for (size_t i = 0; i < tid.size(); ++i) {
-            if (tid[i] == '"' || tid[i] == '\\') {
-                tid.insert(i, 1, '\\');
-                ++i;
+        // Escape label value safely using a new string
+        std::string tid;
+        tid.reserve(id.size() + 4);  // Reserve some extra space for escapes
+        for (char c : id) {
+            if (c == '"' || c == '\\') {
+                tid += '\\';
             }
+            tid += c;
         }
         
         oss << "# HELP themis_tenant_storage_bytes Storage used by tenant\n";
