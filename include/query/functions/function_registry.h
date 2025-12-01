@@ -84,6 +84,33 @@ struct ArgSpec {
 };
 
 /**
+ * @brief Cost complexity class for query optimizer integration
+ * 
+ * Used by QueryOptimizer to estimate function execution costs
+ * and choose optimal query plans.
+ */
+enum class CostComplexity {
+    CONSTANT,       ///< O(1) - LENGTH, NOW, simple math
+    LINEAR,         ///< O(n) - SUM, FLATTEN, UNIQUE
+    LINEARITHMIC,   ///< O(n log n) - SORTED, MEDIAN
+    QUADRATIC,      ///< O(n²) - LEVENSHTEIN on long strings
+    INDEXED,        ///< Uses index - DOCUMENT, GEO_DISTANCE with spatial index
+    EXTERNAL        ///< External I/O - HOLIDAYS (calendar loading)
+};
+
+/**
+ * @brief Function cost estimation for query planning
+ */
+struct FunctionCost {
+    CostComplexity complexity = CostComplexity::CONSTANT;
+    double base_cost = 1.0;         ///< Base cost in abstract units
+    double per_element_cost = 0.0;  ///< Additional cost per input element
+    bool can_use_index = false;     ///< Can leverage database indexes
+    bool is_parallelizable = false; ///< Can be parallelized across documents
+    std::string index_type;         ///< Required index type (geo, vector, fulltext)
+};
+
+/**
  * @brief Function signature for validation and documentation
  */
 struct FunctionSignature {
@@ -95,6 +122,9 @@ struct FunctionSignature {
     bool is_deterministic = true;   ///< Same input always produces same output
     bool is_aggregate = false;      ///< Aggregation function (works on multiple rows)
     std::vector<std::string> examples;
+    
+    // Query optimizer integration
+    FunctionCost cost;              ///< Cost estimation for query planning
 };
 
 // ============================================================================
