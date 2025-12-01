@@ -73,6 +73,6 @@ curl -X DELETE -H "Authorization: Bearer %THEMIS_TOKEN_ADMIN%" \
 
 ## Hinweise
 
-- Schlüsselmanagement: Standardmäßig `MockKeyProvider` (Entwicklung). In Produktion KMS/Vault-Provider verwenden.
+- Schlüsselmanagement: Standardmäßig `MockKeyProvider` (Entwicklung). In Produktion stehen **vollständig implementierte** `VaultKeyProvider` (HashiCorp Vault) oder `HSMProvider` (PKCS#11) zur Verfügung – siehe `docs/security/key_management.md`.
 - Persistenz der Schlüssel ist notwendig, um Mappings nach Neustart entschlüsseln zu können.
 - UUID muss exakt dem beim Pseudonymisieren zurückgegebenen Identifier entsprechen.
