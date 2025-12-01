@@ -1,0 +1,27 @@
+ThemisDB v1.0.0 - Linux x64 (Ubuntu 22.04+, GLIBC 2.38+)
+========================================================
+
+Installation:
+1. Extrahiere dieses Archiv
+2. Mache themis_server ausführbar: chmod +x themis_server
+3. Starte den Server: ./themis_server
+
+Systemanforderungen:
+- Linux x64 (Ubuntu 22.04+, Debian 12+, RHEL 9+)
+- GLIBC 2.38 oder höher
+- 2 GB RAM minimum, 4+ GB empfohlen
+
+Konfiguration:
+- Standard-Port: 18765
+- Konfigurationsdatei: config/themis.yaml (optional)
+
+Docker Alternative:
+docker pull themisdb/themisdb:latest
+docker run -p 18765:18765 themisdb/themisdb:latest
+
+Dokumentation:
+- https://github.com/makr-code/ThemisDB
+- README.md
+
+Support:
+- GitHub Issues: https://github.com/makr-code/ThemisDB/issues

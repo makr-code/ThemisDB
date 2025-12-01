@@ -27,6 +27,5 @@
       "description": "Enable GPU acceleration for vector search (not recommended for QNAP NAS)",
       "dependencies": ["faiss"]
     }
-  },
-  "builtin-baseline": "edffab1bcd2cb5b8c17d6ba34d5651ea0bf82979"
+  }
 }

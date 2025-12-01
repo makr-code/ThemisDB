@@ -253,10 +253,10 @@ public:
         
         // Handle negative indices
         int64_t size = static_cast<int64_t>(arr.size());
-        if (start < 0) start = std::max(0L, size + start);
+        if (start < 0) start = std::max(int64_t{0}, size + start);
         if (end < 0) end = size + end;
-        start = std::max(0L, std::min(start, size));
-        end = std::max(0L, std::min(end, size));
+        start = std::max(int64_t{0}, std::min(start, size));
+        end = std::max(int64_t{0}, std::min(end, size));
         
         nlohmann::json result = nlohmann::json::array();
         for (int64_t i = start; i < end; i++) {
