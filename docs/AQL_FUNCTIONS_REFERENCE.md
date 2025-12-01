@@ -2,10 +2,10 @@
 
 > **ThemisDB Query Language (AQL)** - Die einzige Abfragesprache, die Graph, Vector, Relational, Geo und File in einer einheitlichen Syntax vereint.
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Stand:** Dezember 2024  
-**Funktionen:** ~320  
-**Kategorien:** 17
+**Funktionen:** ~355  
+**Kategorien:** 13
 
 ---
 
@@ -3890,3 +3890,335 @@ make bench_aql_functions
 3. **CRS-Transformationen** cachen wenn möglich
 4. **Graph-Algorithmen** profitieren von Indexierung
 
+
+---
+
+## Security-Funktionen (Erweiterte Dokumentation)
+
+Die Security-Funktionen bieten umfassende Validierung, Sanitization und Maskierung für sichere Datenverarbeitung. Sie integrieren sich mit dem bestehenden ThemisDB Security-Modul.
+
+### Validierung
+
+#### IS_EMAIL(str)
+
+Validiert E-Mail-Adressen nach RFC 5322 (vereinfacht).
+
+```aql
+-- E-Mail-Validierung
+FOR user IN users
+  LET valid = IS_EMAIL(user.email)
+  RETURN { email: user.email, valid }
+
+-- Beispiele
+IS_EMAIL("user@example.com")        → true
+IS_EMAIL("user.name@sub.domain.com") → true
+IS_EMAIL("invalid")                  → false
+IS_EMAIL("@missing.local")           → false
+```
+
+#### IS_URL(str)
+
+Validiert URLs (http, https, ftp).
+
+```aql
+-- URL-Validierung
+IS_URL("https://example.com/path?query=1")  → true
+IS_URL("ftp://files.example.com")           → true
+IS_URL("not-a-url")                         → false
+IS_URL("javascript:alert(1)")               → false
+```
+
+#### IS_UUID(str)
+
+Validiert UUIDs (Version 1-5).
+
+```aql
+IS_UUID("550e8400-e29b-41d4-a716-446655440000") → true
+IS_UUID("550e8400-e29b-61d4-a716-446655440000") → false (Version 6 nicht gültig)
+IS_UUID("invalid")                               → false
+```
+
+#### IS_IP(str, version?)
+
+Validiert IP-Adressen (IPv4/IPv6).
+
+```aql
+-- IPv4
+IS_IP("192.168.1.1")           → true
+IS_IP("10.0.0.1")              → true
+IS_IP("192.168.1.1", 4)        → true
+
+-- IPv6
+IS_IP("::1")                   → true
+IS_IP("::1", 6)                → true
+IS_IP("192.168.1.1", 6)        → false
+
+-- Ungültig
+IS_IP("999.999.999.999")       → false
+IS_IP("not-an-ip")             → false
+```
+
+#### IS_PHONE(str, countryCode?)
+
+Validiert Telefonnummern.
+
+```aql
+IS_PHONE("+49 123 456789")     → true
+IS_PHONE("0123456789")         → true
+IS_PHONE("+1 555 123 4567")    → true
+IS_PHONE("abc")                → false
+```
+
+#### IS_IBAN(str)
+
+Validiert IBAN mit Prüfsumme (Mod 97).
+
+```aql
+IS_IBAN("DE89370400440532013000") → true
+IS_IBAN("DE89 3704 0044 0532 0130 00") → true (Leerzeichen erlaubt)
+IS_IBAN("DE00000000000000000000") → false (ungültige Prüfsumme)
+```
+
+#### IS_CREDIT_CARD(str)
+
+Validiert Kreditkartennummern mit Luhn-Algorithmus.
+
+```aql
+IS_CREDIT_CARD("4532015112830366")     → true (Visa)
+IS_CREDIT_CARD("5425233430109903")     → true (Mastercard)
+IS_CREDIT_CARD("1234 5678 9012 3456")  → false
+```
+
+### Sanitization
+
+#### SANITIZE(str, type?)
+
+Bereinigt Eingaben für verschiedene Kontexte.
+
+| Type | Beschreibung |
+|------|--------------|
+| "html" | HTML-Entitäten escapen (Standard) |
+| "sql" | SQL-Injection verhindern |
+| "json" | JSON-Sonderzeichen escapen |
+| "filename" | Sichere Dateinamen |
+
+```aql
+-- HTML
+SANITIZE("<script>alert('xss')</script>", "html")
+→ "&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"
+
+-- SQL
+SANITIZE("O'Brien", "sql")
+→ "O''Brien"
+
+-- JSON
+SANITIZE("Line1\nLine2", "json")
+→ "Line1\\nLine2"
+
+-- Filename
+SANITIZE("../../../etc/passwd", "filename")
+→ "etcpasswd"
+```
+
+#### HAS_INJECTION(str, type?)
+
+Erkennt potenzielle Injection-Angriffe.
+
+| Type | Erkannte Muster |
+|------|-----------------|
+| "sql" | DROP, DELETE, UNION SELECT, --, etc. |
+| "xss" | \<script\>, javascript:, onerror=, etc. |
+| "path" | ../, ..\, %2e%2e |
+| "cmd" | ;, |, \`, $(), &&, || |
+| "all" | Alle Typen (Standard) |
+
+```aql
+-- SQL Injection
+HAS_INJECTION("1'; DROP TABLE users--", "sql")  → true
+HAS_INJECTION("' OR '1'='1", "sql")             → true
+HAS_INJECTION("normal input", "sql")             → false
+
+-- XSS
+HAS_INJECTION("<script>alert(1)</script>", "xss") → true
+HAS_INJECTION("javascript:void(0)", "xss")        → true
+
+-- Path Traversal
+HAS_INJECTION("../../../etc/passwd", "path")      → true
+
+-- Praxis: Input-Validierung
+FOR input IN user_inputs
+  LET unsafe = HAS_INJECTION(input.value)
+  FILTER unsafe == false
+  RETURN input
+```
+
+### Maskierung
+
+#### MASK(str, start?, end?, char?)
+
+Maskiert Zeichen in einem String.
+
+```aql
+-- Standard: Alles maskieren
+MASK("secret")                → "******"
+
+-- Zeige erste und letzte Zeichen
+MASK("1234567890", 0, 4)     → "******7890"
+MASK("secret", 1, 1)          → "s****t"
+
+-- Anderes Maskierungszeichen
+MASK("password", 2, 2, '#')   → "pa####rd"
+```
+
+#### MASK_EMAIL(email)
+
+Maskiert E-Mail-Adressen intelligent.
+
+```aql
+MASK_EMAIL("john.doe@example.com")
+→ "j******e@e*****e.com"
+
+MASK_EMAIL("a@b.de")
+→ "a@b.de" (zu kurz zum Maskieren)
+```
+
+#### MASK_CREDIT_CARD(card)
+
+Zeigt nur die letzten 4 Ziffern.
+
+```aql
+MASK_CREDIT_CARD("4532015112830366")
+→ "************0366"
+
+MASK_CREDIT_CARD("4532 0151 1283 0366")
+→ "************0366"
+```
+
+#### MASK_IBAN(iban)
+
+Zeigt Ländercode und letzte 4 Zeichen.
+
+```aql
+MASK_IBAN("DE89370400440532013000")
+→ "DE**************3000"
+```
+
+### Hashing & Prüfsummen
+
+#### HASH(str, algorithm?)
+
+Berechnet einen Hash-Wert (nicht-kryptografisch).
+
+```aql
+-- FNV-1a (Standard, schnell)
+HASH("password")              → "af63bd4c8601b7df"
+
+-- DJB2
+HASH("password", "djb2")      → "7c9e6679350367a3"
+
+-- Praxis: Deduplizierung
+FOR doc IN documents
+  LET hash = HASH(doc.content)
+  COLLECT h = hash INTO grouped
+  RETURN { hash: h, count: LENGTH(grouped) }
+```
+
+#### CHECKSUM(data, algorithm?)
+
+Berechnet eine Prüfsumme.
+
+```aql
+-- CRC32 (Standard)
+CHECKSUM("hello world")       → 222957957
+
+-- Adler32
+CHECKSUM("hello world", "adler32") → 436929629
+
+-- Praxis: Datenintegrität
+FOR file IN files
+  LET stored = file.checksum
+  LET current = CHECKSUM(file.content)
+  RETURN { name: file.name, valid: stored == current }
+```
+
+### Praxisbeispiele
+
+#### Sichere Benutzerregistrierung
+
+```aql
+LET input = {
+  email: @email,
+  phone: @phone,
+  password: @password
+}
+
+-- Validierung
+LET validEmail = IS_EMAIL(input.email)
+LET validPhone = IS_PHONE(input.phone)
+LET noInjection = NOT HAS_INJECTION(input.email)
+
+FILTER validEmail AND validPhone AND noInjection
+
+-- Registrierung mit maskierten Daten im Log
+INSERT {
+  email: input.email,
+  phone: input.phone,
+  _log: {
+    maskedEmail: MASK_EMAIL(input.email),
+    maskedPhone: MASK(input.phone, 0, 4)
+  }
+} INTO users
+```
+
+#### GDPR-konforme API-Response
+
+```aql
+FOR customer IN customers
+  RETURN {
+    id: customer._key,
+    email: MASK_EMAIL(customer.email),
+    phone: MASK(customer.phone, 0, 4),
+    iban: MASK_IBAN(customer.iban),
+    creditCard: MASK_CREDIT_CARD(customer.creditCard)
+  }
+```
+
+#### Input-Sanitization für Suchfunktion
+
+```aql
+LET searchTerm = @query
+
+-- Prüfe auf Injection
+LET isSafe = NOT HAS_INJECTION(searchTerm)
+
+FILTER isSafe
+
+-- Sanitize für sichere Verwendung
+LET cleanTerm = SANITIZE(searchTerm, "html")
+
+FOR doc IN FULLTEXT(products, "description", cleanTerm)
+  RETURN doc
+```
+
+---
+
+## Changelog
+
+### Version 1.3 (aktuell)
+- **Security-Funktionen erweitert**: IS_IBAN, IS_CREDIT_CARD, IS_PHONE, IS_IP hinzugefügt
+- **Maskierung**: MASK_EMAIL, MASK_CREDIT_CARD, MASK_IBAN
+- **Injection-Erkennung**: HAS_INJECTION mit sql, xss, path, cmd Typen
+- **Hashing**: HASH (FNV-1a, DJB2), CHECKSUM (CRC32, Adler32)
+- **Insgesamt**: ~355 Funktionen in 13 Kategorien
+
+### Version 1.2
+- Collection-Funktionen (ARRAY, DICT, JSON, HOLIDAYS)
+- Logical-Funktionen (AND, OR, IF, SWITCH, ALL, ANY)
+- Excel-kompatible Funktionen (VLOOKUP, SUMPRODUCT, PMT)
+
+### Version 1.1
+- Date-Funktionen erweitert (NOW, TODAY, INTERVAL, WORKDAYS)
+- CRS-Transformationen (ST_TRANSFORM, ETRS89/UTM)
+
+### Version 1.0
+- Initiale Version mit ~210 Funktionen

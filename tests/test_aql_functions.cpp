@@ -16,6 +16,7 @@
 #include "query/functions/graph_functions.h"
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
+#include "query/functions/security_functions.h"
 
 using namespace themis::query::functions;
 
@@ -2223,13 +2224,157 @@ TEST_F(AQLFunctionsTest, MaskFunction) {
 TEST_F(AQLFunctionsTest, SecurityFunctionsRegistered) {
     auto& reg = FunctionRegistry::instance();
     
-    EXPECT_TRUE(reg.hasFunction("VALIDATE"));
+    // Validation functions
     EXPECT_TRUE(reg.hasFunction("IS_EMAIL"));
     EXPECT_TRUE(reg.hasFunction("IS_URL"));
     EXPECT_TRUE(reg.hasFunction("IS_UUID"));
-    EXPECT_TRUE(reg.hasFunction("MASK"));
+    EXPECT_TRUE(reg.hasFunction("IS_IP"));
+    EXPECT_TRUE(reg.hasFunction("IS_PHONE"));
+    EXPECT_TRUE(reg.hasFunction("IS_IBAN"));
+    EXPECT_TRUE(reg.hasFunction("IS_CREDIT_CARD"));
+    
+    // Sanitization functions
     EXPECT_TRUE(reg.hasFunction("SANITIZE"));
+    EXPECT_TRUE(reg.hasFunction("HAS_INJECTION"));
+    
+    // Masking functions
+    EXPECT_TRUE(reg.hasFunction("MASK"));
+    EXPECT_TRUE(reg.hasFunction("MASK_EMAIL"));
+    EXPECT_TRUE(reg.hasFunction("MASK_CREDIT_CARD"));
+    EXPECT_TRUE(reg.hasFunction("MASK_IBAN"));
+    
+    // Hashing functions
+    EXPECT_TRUE(reg.hasFunction("HASH"));
     EXPECT_TRUE(reg.hasFunction("CHECKSUM"));
+}
+
+// ============================================================================
+// Extended Security Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, IsIpFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("IS_IP", {"192.168.1.1"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("IS_IP", {"10.0.0.1"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_IP", {"999.999.999.999"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_IP", {"not-an-ip"}, ctx).get<bool>());
+    
+    // IPv4 specific
+    EXPECT_TRUE(reg.call("IS_IP", {"192.168.1.1", 4}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_IP", {"::1", 4}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, IsIbanFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("IS_IBAN", {"DE89370400440532013000"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_IBAN", {"DE00000000000000000000"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_IBAN", {"invalid"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, IsCreditCardFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Valid Luhn numbers
+    EXPECT_TRUE(reg.call("IS_CREDIT_CARD", {"4532015112830366"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("IS_CREDIT_CARD", {"5425233430109903"}, ctx).get<bool>());
+    
+    // Invalid
+    EXPECT_FALSE(reg.call("IS_CREDIT_CARD", {"1234567890123456"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_CREDIT_CARD", {"invalid"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, SanitizeFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // HTML sanitization
+    auto result = reg.call("SANITIZE", {"<script>alert('xss')</script>", "html"}, ctx).get<std::string>();
+    EXPECT_TRUE(result.find("&lt;script&gt;") != std::string::npos);
+    EXPECT_TRUE(result.find("<script>") == std::string::npos);
+    
+    // SQL sanitization
+    result = reg.call("SANITIZE", {"O'Brien", "sql"}, ctx).get<std::string>();
+    EXPECT_TRUE(result.find("''") != std::string::npos);
+    
+    // Filename sanitization
+    result = reg.call("SANITIZE", {"../../../etc/passwd", "filename"}, ctx).get<std::string>();
+    EXPECT_TRUE(result.find("..") == std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, HasInjectionFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // SQL injection
+    EXPECT_TRUE(reg.call("HAS_INJECTION", {"1'; DROP TABLE users--", "sql"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("HAS_INJECTION", {"' OR '1'='1", "sql"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("HAS_INJECTION", {"hello world", "sql"}, ctx).get<bool>());
+    
+    // XSS
+    EXPECT_TRUE(reg.call("HAS_INJECTION", {"<script>alert('xss')</script>", "xss"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("HAS_INJECTION", {"javascript:alert(1)", "xss"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("HAS_INJECTION", {"normal text", "xss"}, ctx).get<bool>());
+    
+    // Path traversal
+    EXPECT_TRUE(reg.call("HAS_INJECTION", {"../../../etc/passwd", "path"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("HAS_INJECTION", {"/var/log/app.log", "path"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, MaskEmailFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto result = reg.call("MASK_EMAIL", {"john.doe@example.com"}, ctx).get<std::string>();
+    EXPECT_TRUE(result.find("@") != std::string::npos);
+    EXPECT_TRUE(result.find("*") != std::string::npos);
+    EXPECT_TRUE(result.find("j") != std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, MaskCreditCardFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto result = reg.call("MASK_CREDIT_CARD", {"4532015112830366"}, ctx).get<std::string>();
+    EXPECT_EQ(result.substr(result.length() - 4), "0366");
+    EXPECT_TRUE(result.find("*") != std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, MaskIbanFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto result = reg.call("MASK_IBAN", {"DE89370400440532013000"}, ctx).get<std::string>();
+    EXPECT_EQ(result.substr(0, 2), "DE");
+    EXPECT_EQ(result.substr(result.length() - 4), "3000");
+    EXPECT_TRUE(result.find("*") != std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, HashFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto hash1 = reg.call("HASH", {"password"}, ctx).get<std::string>();
+    auto hash2 = reg.call("HASH", {"password"}, ctx).get<std::string>();
+    auto hash3 = reg.call("HASH", {"different"}, ctx).get<std::string>();
+    
+    // Same input should produce same hash
+    EXPECT_EQ(hash1, hash2);
+    
+    // Different input should produce different hash
+    EXPECT_NE(hash1, hash3);
+    
+    // Hash should be hex string
+    EXPECT_EQ(hash1.length(), 16);
+}
+
+TEST_F(AQLFunctionsTest, ChecksumFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto crc1 = reg.call("CHECKSUM", {"hello"}, ctx).get<uint32_t>();
+    auto crc2 = reg.call("CHECKSUM", {"hello"}, ctx).get<uint32_t>();
+    auto crc3 = reg.call("CHECKSUM", {"world"}, ctx).get<uint32_t>();
+    
+    // Same input should produce same checksum
+    EXPECT_EQ(crc1, crc2);
+    
+    // Different input should produce different checksum
+    EXPECT_NE(crc1, crc3);
 }
 
 // ============================================================================
@@ -2241,8 +2386,8 @@ TEST_F(AQLFunctionsTest, TotalFunctionCount) {
     
     auto all = reg.getAllSignatures();
     
-    // We should have approximately 320+ functions now
-    EXPECT_GE(all.size(), 300);
+    // We should have approximately 350+ functions now
+    EXPECT_GE(all.size(), 350);
     
     // Print count for verification
     std::cout << "Total registered AQL functions: " << all.size() << std::endl;

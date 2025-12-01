@@ -20,8 +20,9 @@
  * | Relational | SQL-style joins, aggregation, window     | ~25   |
  * | File       | Path manipulation, MIME types, sizing    | ~20   |
  * | Collection | JSON-native constructors, logical ops    | ~40   |
+ * | Security   | Validation, sanitization, masking        | ~15   |
  * 
- * Total: ~340 functions
+ * Total: ~355 functions
  */
 
 #include "query/functions/function_registry.h"
@@ -37,6 +38,7 @@
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
 #include "query/functions/collection_functions.h"
+#include "query/functions/security_functions.h"
 
 namespace themis {
 namespace query {
@@ -67,6 +69,10 @@ void registerBuiltinFunctions() {
     // Collection and logical functions (JSON-native, Excel-style)
     // Includes: ARRAY, DICT, JSON, HOLIDAYS, AND, OR, IF, SWITCH, ALL, ANY, etc.
     registerCollectionFunctions(registry);
+    
+    // Security functions (validation, sanitization, masking)
+    // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
+    registerSecurityFunctions();
 }
 
 } // namespace functions
