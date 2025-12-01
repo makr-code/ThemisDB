@@ -337,15 +337,22 @@ public:
         return *it->second;
     }
     
-    /// Call a function by name
+    /// Call a function by name (resolves aliases automatically)
     nlohmann::json call(
         const std::string& name,
         const std::vector<nlohmann::json>& args,
         const FunctionContext& context
     ) const {
-        const auto& func = getFunction(name);
+        std::string resolvedName = resolveAlias(name);
+        const auto& func = getFunction(resolvedName);
         func.validateArgs(args);
         return func.execute(args, context);
+    }
+    
+    /// Check if function exists (including aliases)
+    bool hasFunction(const std::string& name) const {
+        std::string resolvedName = resolveAlias(name);
+        return functions_.find(resolvedName) != functions_.end();
     }
     
     /// Get all function signatures (for documentation)
@@ -381,10 +388,54 @@ public:
         }
         return result;
     }
+    
+    // ========================================================================
+    // Function Aliasing System
+    // ========================================================================
+    //
+    // Aliases allow multiple function names to use the same implementation.
+    // This consolidates Excel-compatible names with native names:
+    //
+    //   CEILING -> CEIL     (Excel compatibility)
+    //   ROUNDUP -> CEIL     (Excel compatibility)
+    //   ROUNDDOWN -> FLOOR  (Excel compatibility)
+    //   CONCATENATE -> CONCAT (Excel compatibility)
+    //   LEN -> LENGTH       (Excel/SQL compatibility)
+    //   MID -> SUBSTRING    (Excel compatibility)
+    //   LOWER -> LOWER      (self, native)
+    //   LCASE -> LOWER      (SQL compatibility)
+    //   UCASE -> UPPER      (SQL compatibility)
+    //   POWER -> POW        (SQL compatibility)
+    //   OBJECT -> DICT      (alternative name)
+    //   MAP -> DICT         (Python-style)
+    //
+    // ========================================================================
+    
+    /// Register an alias for an existing function
+    void registerAlias(const std::string& alias, const std::string& target) {
+        aliases_[alias] = target;
+    }
+    
+    /// Resolve alias to actual function name
+    std::string resolveAlias(const std::string& name) const {
+        auto it = aliases_.find(name);
+        return it != aliases_.end() ? it->second : name;
+    }
+    
+    /// Get all registered aliases
+    std::unordered_map<std::string, std::string> getAliases() const {
+        return aliases_;
+    }
+    
+    /// Check if a name is an alias
+    bool isAlias(const std::string& name) const {
+        return aliases_.find(name) != aliases_.end();
+    }
 
 private:
     FunctionRegistry() = default;
     std::unordered_map<std::string, std::unique_ptr<IFunction>> functions_;
+    std::unordered_map<std::string, std::string> aliases_;  ///< alias -> target function
 };
 
 // ============================================================================
