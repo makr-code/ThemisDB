@@ -1796,6 +1796,443 @@ TEST_F(AQLFunctionsTest, ExtendedDateFunctionsRegistered) {
 }
 
 // ============================================================================
+// Collection Function Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, ArrayConstructorFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // From values
+    auto arr = reg.call("ARRAY", {1, 2, 3}, ctx);
+    EXPECT_EQ(arr.size(), 3);
+    EXPECT_EQ(arr[0], 1);
+    
+    // From JSON string
+    auto jsonArr = reg.call("ARRAY", {"[1, 2, 3]"}, ctx);
+    EXPECT_EQ(jsonArr.size(), 3);
+}
+
+TEST_F(AQLFunctionsTest, DictConstructorFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // From key-value pairs
+    auto dict = reg.call("DICT", {"name", "Alice", "age", 30}, ctx);
+    EXPECT_EQ(dict["name"], "Alice");
+    EXPECT_EQ(dict["age"], 30);
+    
+    // From JSON string
+    auto jsonDict = reg.call("DICT", {"{\"name\": \"Bob\"}"}, ctx);
+    EXPECT_EQ(jsonDict["name"], "Bob");
+}
+
+TEST_F(AQLFunctionsTest, SetFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto set = reg.call("SET", {1, 2, 2, 3, 3, 3}, ctx);
+    EXPECT_EQ(set.size(), 3);
+}
+
+TEST_F(AQLFunctionsTest, JsonFunctions) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // JSON parsing
+    auto parsed = reg.call("JSON", {"[1, 2, 3]"}, ctx);
+    EXPECT_EQ(parsed.size(), 3);
+    
+    // TO_JSON
+    nlohmann::json obj = {{"name", "Test"}};
+    auto jsonStr = reg.call("TO_JSON", {obj}, ctx).get<std::string>();
+    EXPECT_TRUE(jsonStr.find("name") != std::string::npos);
+    
+    // JSON_VALID
+    EXPECT_TRUE(reg.call("JSON_VALID", {"[1, 2, 3]"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("JSON_VALID", {"invalid"}, ctx).get<bool>());
+    
+    // JSON_TYPE
+    EXPECT_EQ(reg.call("JSON_TYPE", {nlohmann::json::array()}, ctx), "array");
+    EXPECT_EQ(reg.call("JSON_TYPE", {nlohmann::json::object()}, ctx), "object");
+}
+
+TEST_F(AQLFunctionsTest, KeysEntriesFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json obj = {{"a", 1}, {"b", 2}};
+    
+    auto keys = reg.call("KEYS", {obj}, ctx);
+    EXPECT_EQ(keys.size(), 2);
+    
+    auto entries = reg.call("ENTRIES", {obj}, ctx);
+    EXPECT_EQ(entries.size(), 2);
+}
+
+TEST_F(AQLFunctionsTest, HolidaysFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Get German holidays
+    auto holidays = reg.call("HOLIDAYS", {"DE_2024"}, ctx);
+    EXPECT_FALSE(holidays.empty());
+    
+    // List available calendars
+    auto calendars = reg.call("LIST_CALENDARS", {}, ctx);
+    EXPECT_FALSE(calendars.empty());
+}
+
+TEST_F(AQLFunctionsTest, CollectionFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.hasFunction("ARRAY"));
+    EXPECT_TRUE(reg.hasFunction("DICT"));
+    EXPECT_TRUE(reg.hasFunction("SET"));
+    EXPECT_TRUE(reg.hasFunction("TUPLE"));
+    EXPECT_TRUE(reg.hasFunction("PAIR"));
+    EXPECT_TRUE(reg.hasFunction("JSON"));
+    EXPECT_TRUE(reg.hasFunction("TO_JSON"));
+    EXPECT_TRUE(reg.hasFunction("JSON_VALID"));
+    EXPECT_TRUE(reg.hasFunction("JSON_TYPE"));
+    EXPECT_TRUE(reg.hasFunction("KEYS"));
+    EXPECT_TRUE(reg.hasFunction("ENTRIES"));
+    EXPECT_TRUE(reg.hasFunction("FROM_ENTRIES"));
+    EXPECT_TRUE(reg.hasFunction("HOLIDAYS"));
+    EXPECT_TRUE(reg.hasFunction("LIST_CALENDARS"));
+}
+
+// ============================================================================
+// Logical Function Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, AndFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("AND", {true, true}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("AND", {true, false}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("AND", {false, false}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("AND", {true, true, true}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, OrFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("OR", {true, false}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("OR", {false, true}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("OR", {false, false}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, NotFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_FALSE(reg.call("NOT", {true}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("NOT", {false}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, XorFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("XOR", {true, false}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("XOR", {false, true}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("XOR", {true, true}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("XOR", {false, false}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, IfFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("IF", {true, "yes", "no"}, ctx), "yes");
+    EXPECT_EQ(reg.call("IF", {false, "yes", "no"}, ctx), "no");
+}
+
+TEST_F(AQLFunctionsTest, SwitchFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto result = reg.call("SWITCH", {1, 1, "one", 2, "two", "default"}, ctx);
+    EXPECT_EQ(result, "one");
+    
+    auto result2 = reg.call("SWITCH", {3, 1, "one", 2, "two", "default"}, ctx);
+    EXPECT_EQ(result2, "default");
+}
+
+TEST_F(AQLFunctionsTest, ChooseFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("CHOOSE", {1, "a", "b", "c"}, ctx), "a");
+    EXPECT_EQ(reg.call("CHOOSE", {2, "a", "b", "c"}, ctx), "b");
+    EXPECT_EQ(reg.call("CHOOSE", {3, "a", "b", "c"}, ctx), "c");
+}
+
+TEST_F(AQLFunctionsTest, AllAnyNoneFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto arr = nlohmann::json::array({true, true, true});
+    EXPECT_TRUE(reg.call("ALL", {arr}, ctx).get<bool>());
+    
+    arr = nlohmann::json::array({true, false, true});
+    EXPECT_FALSE(reg.call("ALL", {arr}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("ANY", {arr}, ctx).get<bool>());
+    
+    arr = nlohmann::json::array({false, false, false});
+    EXPECT_TRUE(reg.call("NONE", {arr}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, IfErrorFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // IFERROR returns fallback on null/error
+    EXPECT_EQ(reg.call("IFERROR", {nullptr, "fallback"}, ctx), "fallback");
+    EXPECT_EQ(reg.call("IFERROR", {"valid", "fallback"}, ctx), "valid");
+}
+
+TEST_F(AQLFunctionsTest, CountIfSumIfFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto numbers = nlohmann::json::array({1, 5, 3, 8, 2, 9});
+    
+    // Count values > 4
+    auto count = reg.call("COUNT_IF", {numbers, ">", 4}, ctx);
+    EXPECT_EQ(count.get<int>(), 3); // 5, 8, 9
+    
+    // Sum values > 4
+    auto sum = reg.call("SUM_IF", {numbers, ">", 4}, ctx);
+    EXPECT_EQ(sum.get<int>(), 22); // 5 + 8 + 9
+}
+
+TEST_F(AQLFunctionsTest, LogicalFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.hasFunction("AND"));
+    EXPECT_TRUE(reg.hasFunction("OR"));
+    EXPECT_TRUE(reg.hasFunction("NOT"));
+    EXPECT_TRUE(reg.hasFunction("XOR"));
+    EXPECT_TRUE(reg.hasFunction("IF"));
+    EXPECT_TRUE(reg.hasFunction("IFS"));
+    EXPECT_TRUE(reg.hasFunction("SWITCH"));
+    EXPECT_TRUE(reg.hasFunction("CHOOSE"));
+    EXPECT_TRUE(reg.hasFunction("ALL"));
+    EXPECT_TRUE(reg.hasFunction("ANY"));
+    EXPECT_TRUE(reg.hasFunction("NONE"));
+    EXPECT_TRUE(reg.hasFunction("IFERROR"));
+    EXPECT_TRUE(reg.hasFunction("COUNT_IF"));
+    EXPECT_TRUE(reg.hasFunction("SUM_IF"));
+}
+
+// ============================================================================
+// Excel-Compatible Function Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, VlookupFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json table = nlohmann::json::array({
+        nlohmann::json::array({"A001", "Alice", 1000}),
+        nlohmann::json::array({"A002", "Bob", 2000}),
+        nlohmann::json::array({"A003", "Carol", 3000})
+    });
+    
+    // Lookup Bob's salary (column 3)
+    auto salary = reg.call("VLOOKUP", {"A002", table, 3}, ctx);
+    EXPECT_EQ(salary.get<int>(), 2000);
+}
+
+TEST_F(AQLFunctionsTest, IndexMatchFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json arr = nlohmann::json::array({"apple", "banana", "cherry"});
+    
+    // INDEX returns value at position
+    EXPECT_EQ(reg.call("INDEX", {arr, 2}, ctx), "banana");
+    
+    // MATCH returns position of value
+    EXPECT_EQ(reg.call("MATCH", {"banana", arr}, ctx).get<int>(), 2);
+}
+
+TEST_F(AQLFunctionsTest, ProperFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("PROPER", {"hello world"}, ctx), "Hello World");
+    EXPECT_EQ(reg.call("PROPER", {"JOHN DOE"}, ctx), "John Doe");
+}
+
+TEST_F(AQLFunctionsTest, SubstituteFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("SUBSTITUTE", {"Hello World", "World", "Universe"}, ctx), "Hello Universe");
+}
+
+TEST_F(AQLFunctionsTest, ReptFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("REPT", {"*", 5}, ctx), "*****");
+    EXPECT_EQ(reg.call("REPT", {"ab", 3}, ctx), "ababab");
+}
+
+TEST_F(AQLFunctionsTest, ExactFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("EXACT", {"Hello", "Hello"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("EXACT", {"Hello", "hello"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, SumproductFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json arr1 = nlohmann::json::array({1, 2, 3});
+    nlohmann::json arr2 = nlohmann::json::array({4, 5, 6});
+    
+    // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
+    auto result = reg.call("SUMPRODUCT", {arr1, arr2}, ctx);
+    EXPECT_EQ(result.get<int>(), 32);
+}
+
+TEST_F(AQLFunctionsTest, RankFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json arr = nlohmann::json::array({80, 90, 70, 100, 85});
+    
+    // Rank of 90 (descending - 2nd highest)
+    EXPECT_EQ(reg.call("RANK", {90, arr}, ctx).get<int>(), 2);
+    
+    // Rank of 100 (highest)
+    EXPECT_EQ(reg.call("RANK", {100, arr}, ctx).get<int>(), 1);
+}
+
+TEST_F(AQLFunctionsTest, LargeSmallFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json arr = nlohmann::json::array({5, 2, 8, 1, 9, 3});
+    
+    EXPECT_EQ(reg.call("LARGE", {arr, 1}, ctx).get<int>(), 9);  // Largest
+    EXPECT_EQ(reg.call("LARGE", {arr, 2}, ctx).get<int>(), 8);  // 2nd largest
+    EXPECT_EQ(reg.call("SMALL", {arr, 1}, ctx).get<int>(), 1);  // Smallest
+    EXPECT_EQ(reg.call("SMALL", {arr, 2}, ctx).get<int>(), 2);  // 2nd smallest
+}
+
+TEST_F(AQLFunctionsTest, ProductFactFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("PRODUCT", {2, 3, 4}, ctx).get<int>(), 24);
+    EXPECT_EQ(reg.call("FACT", {5}, ctx).get<int>(), 120);
+}
+
+TEST_F(AQLFunctionsTest, ModQuotientFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("MOD", {17, 5}, ctx).get<int>(), 2);
+    EXPECT_EQ(reg.call("QUOTIENT", {17, 5}, ctx).get<int>(), 3);
+}
+
+TEST_F(AQLFunctionsTest, TypeCheckFunctions) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("ISERROR", {nullptr}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("ISBLANK", {""}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("ISTEXT", {"hello"}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("ISNUMBER", {123}, ctx).get<bool>());
+    EXPECT_TRUE(reg.call("ISLOGICAL", {true}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, TypeFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_EQ(reg.call("TYPE", {1.5}, ctx).get<int>(), 1);      // Number
+    EXPECT_EQ(reg.call("TYPE", {"hello"}, ctx).get<int>(), 2);  // Text
+    EXPECT_EQ(reg.call("TYPE", {true}, ctx).get<int>(), 4);     // Boolean
+}
+
+TEST_F(AQLFunctionsTest, PmtFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Monthly payment for $200,000 loan at 6% annual for 30 years
+    auto pmt = reg.call("PMT", {0.06/12, 360, 200000}, ctx).get<double>();
+    EXPECT_NEAR(pmt, -1199.10, 1.0);  // Approximately $1,199/month
+}
+
+TEST_F(AQLFunctionsTest, NpvFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    nlohmann::json cashflows = nlohmann::json::array({-100, 30, 40, 50});
+    
+    // NPV at 10% discount rate
+    auto npv = reg.call("NPV", {0.10, cashflows}, ctx).get<double>();
+    EXPECT_GT(npv, 0); // Positive NPV means profitable
+}
+
+TEST_F(AQLFunctionsTest, ExcelFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    // Lookup & Reference
+    EXPECT_TRUE(reg.hasFunction("VLOOKUP"));
+    EXPECT_TRUE(reg.hasFunction("HLOOKUP"));
+    EXPECT_TRUE(reg.hasFunction("INDEX"));
+    EXPECT_TRUE(reg.hasFunction("MATCH"));
+    
+    // Text
+    EXPECT_TRUE(reg.hasFunction("PROPER"));
+    EXPECT_TRUE(reg.hasFunction("SUBSTITUTE"));
+    EXPECT_TRUE(reg.hasFunction("REPT"));
+    EXPECT_TRUE(reg.hasFunction("EXACT"));
+    
+    // Statistical
+    EXPECT_TRUE(reg.hasFunction("SUMPRODUCT"));
+    EXPECT_TRUE(reg.hasFunction("RANK"));
+    EXPECT_TRUE(reg.hasFunction("LARGE"));
+    EXPECT_TRUE(reg.hasFunction("SMALL"));
+    
+    // Math
+    EXPECT_TRUE(reg.hasFunction("PRODUCT"));
+    EXPECT_TRUE(reg.hasFunction("FACT"));
+    EXPECT_TRUE(reg.hasFunction("MOD"));
+    EXPECT_TRUE(reg.hasFunction("QUOTIENT"));
+    
+    // Type checking
+    EXPECT_TRUE(reg.hasFunction("ISERROR"));
+    EXPECT_TRUE(reg.hasFunction("ISBLANK"));
+    EXPECT_TRUE(reg.hasFunction("ISTEXT"));
+    EXPECT_TRUE(reg.hasFunction("ISNUMBER"));
+    EXPECT_TRUE(reg.hasFunction("TYPE"));
+    
+    // Financial
+    EXPECT_TRUE(reg.hasFunction("PMT"));
+    EXPECT_TRUE(reg.hasFunction("FV"));
+    EXPECT_TRUE(reg.hasFunction("PV"));
+    EXPECT_TRUE(reg.hasFunction("NPV"));
+}
+
+// ============================================================================
+// Security Function Tests
+// ============================================================================
+
+TEST_F(AQLFunctionsTest, ValidationFunctions) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.call("IS_EMAIL", {"test@example.com"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_EMAIL", {"invalid"}, ctx).get<bool>());
+    
+    EXPECT_TRUE(reg.call("IS_URL", {"https://example.com"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_URL", {"not-a-url"}, ctx).get<bool>());
+    
+    EXPECT_TRUE(reg.call("IS_UUID", {"550e8400-e29b-41d4-a716-446655440000"}, ctx).get<bool>());
+    EXPECT_FALSE(reg.call("IS_UUID", {"invalid"}, ctx).get<bool>());
+}
+
+TEST_F(AQLFunctionsTest, MaskFunction) {
+    auto& reg = FunctionRegistry::instance();
+    
+    auto masked = reg.call("MASK", {"1234567890"}, ctx).get<std::string>();
+    EXPECT_TRUE(masked.find("****") != std::string::npos);
+    EXPECT_TRUE(masked.find("7890") != std::string::npos);
+}
+
+TEST_F(AQLFunctionsTest, SecurityFunctionsRegistered) {
+    auto& reg = FunctionRegistry::instance();
+    
+    EXPECT_TRUE(reg.hasFunction("VALIDATE"));
+    EXPECT_TRUE(reg.hasFunction("IS_EMAIL"));
+    EXPECT_TRUE(reg.hasFunction("IS_URL"));
+    EXPECT_TRUE(reg.hasFunction("IS_UUID"));
+    EXPECT_TRUE(reg.hasFunction("MASK"));
+    EXPECT_TRUE(reg.hasFunction("SANITIZE"));
+    EXPECT_TRUE(reg.hasFunction("CHECKSUM"));
+}
+
+// ============================================================================
 // Function Count Test
 // ============================================================================
 
@@ -1804,8 +2241,8 @@ TEST_F(AQLFunctionsTest, TotalFunctionCount) {
     
     auto all = reg.getAllSignatures();
     
-    // We should have approximately 295+ functions now
-    EXPECT_GE(all.size(), 250);
+    // We should have approximately 320+ functions now
+    EXPECT_GE(all.size(), 300);
     
     // Print count for verification
     std::cout << "Total registered AQL functions: " << all.size() << std::endl;
