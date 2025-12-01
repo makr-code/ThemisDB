@@ -13,18 +13,32 @@ namespace functions {
 // Collection Constructor Functions with JSON-Native Support
 // ============================================================================
 // 
-// These functions provide explicit type constructors for creating
-// arrays, dictionaries (objects), and sets. They support:
-// - JSON-native parsing from strings
-// - Explicit type conversion
-// - Creating complex nested structures
-// - Loading external data
-// - Ensuring type safety in queries
+// **IMPORTANT: Native Syntax vs Function Aliases**
+// 
+// AQL supports native literal syntax for creating collections:
+//   LET arr = [1, 2, 3]           -- Native array literal
+//   LET obj = { name: "Alice" }  -- Native object literal
+//   LET nested = [1, [2, 3]]     -- Native nested structures
 //
-// **JSON-Native Examples:**
-//   ARRAY('[1, 2, 3]')                => [1, 2, 3]
-//   DICT('{"name": "Alice"}')         => {"name": "Alice"}
-//   ARRAY(1, 2, ARRAY('[3, 4]'))      => [1, 2, [3, 4]]
+// The functions ARRAY(), DICT(), TUPLE(), SET() are **ALIASES** that provide:
+// 1. **JSON-Native Parsing** - Parse JSON strings into collections
+//    ARRAY('[1, 2, 3]')  =>  [1, 2, 3]  (parses JSON string)
+// 2. **Explicit Type Coercion** - Ensure a value is a specific type
+//    ARRAY(singleValue)  =>  [singleValue]  (wrap in array)
+// 3. **Dynamic Construction** - Build from function results
+//    DICT(ENTRIES(otherObj))  =>  reconstructed object
+//
+// **Recommendation:**
+// - Use native syntax `[...]` and `{...}` for static literals
+// - Use functions when parsing JSON strings or need type coercion
+//
+// **Equivalence Table:**
+// | Native Syntax           | Function Alias                    |
+// |-------------------------|-----------------------------------|
+// | [1, 2, 3]               | ARRAY(1, 2, 3)                    |
+// | { name: "Alice" }       | DICT("name", "Alice")             |
+// | [[1], [2]]              | ARRAY([1], [2])                   |
+// | (JSON string)           | ARRAY('[1,2,3]') - parses string! |
 //
 // ============================================================================
 
@@ -47,19 +61,25 @@ inline bool tryParseJson(const std::string& str, nlohmann::json& out) {
 }
 
 /**
- * @brief ARRAY(...) - Create an array from arguments (JSON-native)
+ * @brief ARRAY(...) - Alias/wrapper for array creation with JSON parsing
  * 
- * Creates an array containing all passed arguments.
- * **Supports JSON-native parsing from strings.**
+ * This function is an **ALIAS** for the native array syntax `[...]`.
+ * Use it when you need JSON-native parsing or explicit type coercion.
+ * 
+ * **Native Syntax (preferred for static literals):**
+ *   LET arr = [1, 2, 3]              -- Use this for static arrays
+ * 
+ * **Function Syntax (for JSON parsing/coercion):**
+ *   ARRAY('[1, 2, 3]')               -- Parses JSON string
+ *   ARRAY(singleValue)               -- Wraps in array
  * 
  * Examples:
- *   ARRAY(1, 2, 3)                    => [1, 2, 3]
- *   ARRAY('[1, 2, 3]')                => [1, 2, 3]  (JSON string parsed)
+ *   ARRAY(1, 2, 3)                    => [1, 2, 3]  (equivalent to [1, 2, 3])
+ *   ARRAY('[1, 2, 3]')                => [1, 2, 3]  (JSON string parsed!)
  *   ARRAY("a", "b", "c")              => ["a", "b", "c"]
  *   ARRAY({a: 1}, {b: 2})             => [{a: 1}, {b: 2}]
- *   ARRAY(singleValue)                => [singleValue]
+ *   ARRAY(singleValue)                => [singleValue]  (type coercion)
  *   ARRAY()                           => []
- *   ARRAY('[1, 2]', '[3, 4]')         => [[1, 2], [3, 4]]  (nested)
  */
 class ArrayConstructorFunction : public IFunction {
 public:
