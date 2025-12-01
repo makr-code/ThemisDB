@@ -4285,3 +4285,516 @@ FOR doc IN FULLTEXT(products, "description", cleanTerm)
 
 ### Version 1.0
 - Initiale Version mit ~210 Funktionen
+
+---
+
+## CRUD-Operationen in Prozessen
+
+ThemisDB ermöglicht die Modellierung und Ausführung von Geschäftsprozessen mit vollständiger Datenmanipulation. Dieser Abschnitt zeigt, wie CRUD-Operationen (Create, Read, Update, Delete) in typischen Verwaltungsprozessen implementiert werden.
+
+### Grundprinzipien
+
+1. **Prozess als Graph**: Jeder Prozess wird als Graph mit Knoten (Aktivitäten) und Kanten (Übergänge) modelliert
+2. **Dokumente als Prozessinstanzen**: Jede Prozessinstanz ist ein Dokument mit Status und Variablen
+3. **Transaktionale Updates**: Statusänderungen sind atomar und nachvollziehbar
+4. **Audit-Trail**: Alle Änderungen werden protokolliert
+
+### Beispiel: Antragsverfahren (Verwaltungsprozess)
+
+#### Schritt 1: Antrag einreichen (CREATE)
+
+```aql
+-- Neuen Antrag erstellen
+LET antrag = {
+  _key: UUID(),
+  typ: "bauantrag",
+  status: "eingegangen",
+  antragsteller: @personId,
+  eingangsdatum: NOW(),
+  daten: {
+    grundstueck: @grundstueckId,
+    bauvorhaben: @bauvorhaben,
+    geschosszahl: @geschosse
+  },
+  dokumente: [],
+  sachbearbeiter: null,
+  _created: NOW(),
+  _history: [{
+    zeitpunkt: NOW(),
+    aktion: "eingereicht",
+    benutzer: @benutzer,
+    status: "eingegangen"
+  }]
+}
+
+INSERT antrag INTO antraege
+RETURN NEW
+```
+
+#### Schritt 2: Sachbearbeiter zuweisen (UPDATE)
+
+```aql
+-- Automatische Zuweisung nach Arbeitslast
+LET freieSachbearbeiter = (
+  FOR sb IN sachbearbeiter
+    FILTER sb.abteilung == "bauamt"
+    LET offeneAntraege = LENGTH(
+      FOR a IN antraege
+        FILTER a.sachbearbeiter == sb._key
+        FILTER a.status NOT IN ["abgeschlossen", "abgelehnt"]
+        RETURN 1
+    )
+    SORT offeneAntraege ASC
+    LIMIT 1
+    RETURN sb._key
+)
+
+UPDATE @antragId WITH {
+  status: "in_bearbeitung",
+  sachbearbeiter: FIRST(freieSachbearbeiter),
+  _history: PUSH(OLD._history, {
+    zeitpunkt: NOW(),
+    aktion: "zugewiesen",
+    benutzer: "system",
+    status: "in_bearbeitung",
+    sachbearbeiter: FIRST(freieSachbearbeiter)
+  })
+} IN antraege
+RETURN NEW
+```
+
+#### Schritt 3: Dokumente hinzufügen (UPDATE)
+
+```aql
+-- Dokument zum Antrag hinzufügen
+LET dokument = {
+  id: UUID(),
+  typ: @dokumentTyp,
+  name: SANITIZE(@filename, "filename"),
+  hochgeladen: NOW(),
+  von: @benutzer,
+  pfad: @speicherpfad,
+  mime: MIME_TYPE(@filename),
+  checksum: CHECKSUM(@inhalt)
+}
+
+-- Validierung
+FILTER IS_VALID(@dokumentTyp, ["lageplan", "bauplan", "statik", "brandschutz"])
+FILTER NOT HAS_INJECTION(@filename, "path")
+
+UPDATE @antragId WITH {
+  dokumente: PUSH(OLD.dokumente, dokument),
+  _history: PUSH(OLD._history, {
+    zeitpunkt: NOW(),
+    aktion: "dokument_hinzugefuegt",
+    benutzer: @benutzer,
+    dokument: dokument.name
+  })
+} IN antraege
+RETURN NEW
+```
+
+#### Schritt 4: Prüfung durchführen (READ + UPDATE)
+
+```aql
+-- Antrag lesen und Prüfungsergebnis eintragen
+FOR antrag IN antraege
+  FILTER antrag._key == @antragId
+  
+  -- Vollständigkeitsprüfung
+  LET erforderlicheDokumente = ["lageplan", "bauplan", "statik"]
+  LET vorhandeneDokumente = antrag.dokumente[*].typ
+  LET fehlend = MINUS(erforderlicheDokumente, vorhandeneDokumente)
+  LET vollstaendig = LENGTH(fehlend) == 0
+  
+  -- Geo-Prüfung: Liegt Grundstück im Bebauungsplan-Gebiet?
+  LET grundstueck = DOCUMENT("grundstuecke", antrag.daten.grundstueck)
+  LET imBebauungsplan = (
+    FOR bp IN bebauungsplaene
+      FILTER ST_CONTAINS(bp.gebiet, grundstueck.geometrie)
+      RETURN bp
+  )
+  
+  -- Ergebnis speichern
+  UPDATE antrag WITH {
+    pruefung: {
+      vollstaendig: vollstaendig,
+      fehlendeUnterlagen: fehlend,
+      bebauungsplan: FIRST(imBebauungsplan),
+      geprueft: NOW(),
+      pruefer: @benutzer
+    },
+    status: vollstaendig ? "geprueft" : "unvollstaendig",
+    _history: PUSH(antrag._history, {
+      zeitpunkt: NOW(),
+      aktion: "geprueft",
+      benutzer: @benutzer,
+      ergebnis: vollstaendig ? "vollstaendig" : "unvollstaendig"
+    })
+  } IN antraege
+  RETURN NEW
+```
+
+#### Schritt 5: Genehmigung/Ablehnung (UPDATE)
+
+```aql
+-- Entscheidung treffen
+UPDATE @antragId WITH {
+  status: @entscheidung,  -- "genehmigt" oder "abgelehnt"
+  entscheidung: {
+    datum: NOW(),
+    entscheider: @benutzer,
+    begruendung: @begruendung,
+    auflagen: @auflagen
+  },
+  _history: PUSH(OLD._history, {
+    zeitpunkt: NOW(),
+    aktion: "entschieden",
+    benutzer: @benutzer,
+    status: @entscheidung,
+    begruendung: @begruendung
+  })
+} IN antraege
+RETURN NEW
+```
+
+#### Schritt 6: Archivierung (UPDATE + CREATE)
+
+```aql
+-- Antrag archivieren
+LET antrag = DOCUMENT("antraege", @antragId)
+
+-- Archiv-Eintrag erstellen
+INSERT {
+  _key: antrag._key,
+  originalDaten: antrag,
+  archiviertAm: NOW(),
+  aufbewahrungsbis: DATE_ADD(NOW(), YEARS(10)),
+  kategorie: "bauantraege"
+} INTO archiv
+
+-- Original-Status aktualisieren
+UPDATE @antragId WITH {
+  status: "archiviert",
+  archivReferenz: antrag._key,
+  _history: PUSH(OLD._history, {
+    zeitpunkt: NOW(),
+    aktion: "archiviert",
+    benutzer: @benutzer
+  })
+} IN antraege
+
+RETURN { archiviert: true, referenz: antrag._key }
+```
+
+### Prozess-übergreifende Abfragen
+
+#### Dashboard: Offene Anträge nach Status
+
+```aql
+FOR antrag IN antraege
+  FILTER antrag.status NOT IN ["abgeschlossen", "archiviert"]
+  COLLECT status = antrag.status WITH COUNT INTO anzahl
+  RETURN { status, anzahl }
+```
+
+#### Bearbeitungszeiten analysieren
+
+```aql
+FOR antrag IN antraege
+  FILTER antrag.status == "genehmigt"
+  LET eingangsdatum = antrag.eingangsdatum
+  LET entscheidungsdatum = antrag.entscheidung.datum
+  LET bearbeitungstage = WORKDAYS(eingangsdatum, entscheidungsdatum, HOLIDAYS("DE_2024"))
+  COLLECT typ = antrag.typ
+  AGGREGATE avgTage = AVG(bearbeitungstage), maxTage = MAX(bearbeitungstage)
+  RETURN { typ, avgTage, maxTage }
+```
+
+#### Sachbearbeiter-Leistungsübersicht
+
+```aql
+FOR sb IN sachbearbeiter
+  LET antraege = (
+    FOR a IN antraege
+      FILTER a.sachbearbeiter == sb._key
+      FILTER a.entscheidung != null
+      RETURN a
+  )
+  LET bearbeitungszeiten = (
+    FOR a IN antraege
+      LET tage = WORKDAYS(a.eingangsdatum, a.entscheidung.datum, HOLIDAYS("DE_2024"))
+      RETURN tage
+  )
+  RETURN {
+    sachbearbeiter: sb.name,
+    abgeschlossen: LENGTH(antraege),
+    avgBearbeitungszeit: AVG(bearbeitungszeiten),
+    genehmigungsquote: LENGTH(antraege[* FILTER CURRENT.status == "genehmigt"]) / LENGTH(antraege)
+  }
+```
+
+---
+
+## FAQ - Erweitert
+
+### Grundlagen
+
+#### F: Was ist der Unterschied zwischen AQL und SQL?
+
+**A:** AQL ist eine **Multi-Model-Abfragesprache**, die SQL-ähnliche Syntax mit Graph-, Vector- und Geo-Operationen kombiniert:
+
+| Aspekt | SQL | AQL |
+|--------|-----|-----|
+| Iteration | `SELECT ... FROM table` | `FOR doc IN collection` |
+| Filter | `WHERE column = value` | `FILTER doc.field == value` |
+| Joins | `JOIN table2 ON ...` | Graph-Traversierung oder `FOR ... IN` |
+| Aggregation | `GROUP BY` | `COLLECT ... AGGREGATE` |
+| Updates | `UPDATE table SET ...` | `UPDATE doc WITH {...} IN collection` |
+| Multi-Model | Nicht möglich | Graph + Vector + Geo in einer Query |
+
+#### F: Wie unterscheidet sich `[...]` von `ARRAY(...)`?
+
+**A:** Beide erzeugen Arrays, aber mit unterschiedlichen Fähigkeiten:
+
+```aql
+-- Native Syntax (für statische Werte)
+LET arr = [1, 2, 3]
+
+-- ARRAY() Funktion (für JSON-Parsing)
+LET arr = ARRAY('[1, 2, 3]')  -- parst JSON-String!
+LET arr = ARRAY(singleValue)   -- Typ-Coercion
+```
+
+Empfehlung: Native Syntax für Literale, Funktionen für dynamische Konstruktion.
+
+#### F: Welche Funktionen haben Aliase?
+
+**A:** Excel- und SQL-kompatible Aliase:
+
+| Alias | Ziel-Funktion | Herkunft |
+|-------|---------------|----------|
+| CEILING | CEIL | Excel |
+| CONCATENATE | CONCAT | Excel |
+| LEN | LENGTH | Excel/SQL |
+| MID | SUBSTRING | Excel |
+| LCASE | LOWER | SQL |
+| UCASE | UPPER | SQL |
+| POWER | POW | SQL |
+| OBJECT | DICT | Alternative |
+
+### Prozesse und CRUD
+
+#### F: Wie implementiere ich Transaktionen?
+
+**A:** ThemisDB unterstützt ACID-Transaktionen:
+
+```aql
+-- Transaktion mit mehreren Operationen
+LET transfer = (
+  -- Abbuchung
+  UPDATE "konto_a" WITH { saldo: OLD.saldo - @betrag } IN konten
+  
+  -- Gutschrift
+  UPDATE "konto_b" WITH { saldo: OLD.saldo + @betrag } IN konten
+)
+RETURN { success: true }
+```
+
+Bei Fehlern wird die gesamte Transaktion zurückgerollt.
+
+#### F: Wie erstelle ich einen Audit-Trail?
+
+**A:** Nutzen Sie das `_history`-Feld-Pattern:
+
+```aql
+UPDATE docId WITH {
+  feldname: neuerWert,
+  _history: PUSH(OLD._history, {
+    zeitpunkt: NOW(),
+    feld: "feldname",
+    alterWert: OLD.feldname,
+    neuerWert: neuerWert,
+    benutzer: @benutzer,
+    grund: @aenderungsgrund
+  })
+} IN collection
+```
+
+#### F: Wie validiere ich Eingabedaten vor dem INSERT?
+
+**A:** Kombinieren Sie Validierungsfunktionen:
+
+```aql
+LET validierung = {
+  emailGueltig: IS_EMAIL(@email),
+  telefonGueltig: IS_PHONE(@telefon),
+  keineInjection: NOT HAS_INJECTION(CONCAT(@email, @name), "sql"),
+  pflichtfelderVorhanden: @name != null AND @email != null
+}
+
+LET alleGueltig = ALL(VALUES(validierung))
+
+FILTER alleGueltig
+
+INSERT { ... } INTO collection
+RETURN { success: true }
+```
+
+#### F: Wie setze ich Soft-Delete um?
+
+**A:** Markieren statt löschen:
+
+```aql
+-- Soft-Delete
+UPDATE docId WITH {
+  _deleted: true,
+  _deletedAt: NOW(),
+  _deletedBy: @benutzer
+} IN collection
+
+-- Normale Abfragen ignorieren gelöschte
+FOR doc IN collection
+  FILTER doc._deleted != true
+  RETURN doc
+
+-- Gelöschte wiederherstellen
+UPDATE docId WITH {
+  _deleted: null,
+  _deletedAt: null,
+  _deletedBy: null,
+  _restoredAt: NOW(),
+  _restoredBy: @benutzer
+} IN collection
+```
+
+### Performance
+
+#### F: Wie optimiere ich langsame Abfragen?
+
+**A:** Befolgen Sie diese Regeln:
+
+1. **Indizes nutzen**: FILTER-Bedingungen auf indizierte Felder
+2. **Früh filtern**: FILTER vor aufwändigen Operationen
+3. **LIMIT verwenden**: Ergebnismenge begrenzen
+4. **Projektionen**: Nur benötigte Felder zurückgeben
+5. **Subqueries vermeiden**: Wenn möglich durch JOINs ersetzen
+
+```aql
+-- Schlecht
+FOR doc IN large_collection
+  LET related = (FOR r IN other FILTER r.parent == doc._key RETURN r)
+  RETURN { doc, related }
+
+-- Besser
+FOR doc IN large_collection
+  FOR related IN other
+    FILTER related.parent == doc._key
+    COLLECT parentDoc = doc INTO relatedDocs
+    RETURN { doc: parentDoc, related: relatedDocs[*].related }
+```
+
+#### F: Welche Funktionen können Indizes nutzen?
+
+**A:** Index-fähige Funktionen:
+
+| Funktion | Index-Typ | Beschreibung |
+|----------|-----------|--------------|
+| GEO_DISTANCE | Geo-Index | Räumliche Suche |
+| GEO_CONTAINS | Geo-Index | Enthaltensein |
+| FULLTEXT | Volltext-Index | Textsuche |
+| SIMILARITY | Vector-Index | Ähnlichkeitssuche |
+| DOCUMENT | Primary-Key | Direktzugriff |
+
+### Sicherheit
+
+#### F: Wie schütze ich vor SQL-Injection in AQL?
+
+**A:** ThemisDB verwendet Bind-Parameter:
+
+```aql
+-- NIEMALS so (unsicher!)
+FOR doc IN collection
+  FILTER doc.name == "${userInput}"  -- GEFÄHRLICH!
+
+-- IMMER so (sicher)
+FOR doc IN collection
+  FILTER doc.name == @userInput  -- Bind-Parameter
+```
+
+Zusätzlich: `HAS_INJECTION()` zur Validierung.
+
+#### F: Wie maskiere ich sensible Daten für Logs?
+
+**A:** Nutzen Sie die MASK-Funktionen:
+
+```aql
+LET logEntry = {
+  email: MASK_EMAIL(user.email),        -- u***@example.com
+  kreditkarte: MASK_CREDIT_CARD(cc),     -- ****-****-****-1234
+  iban: MASK_IBAN(iban),                 -- DE**************4321
+  telefon: MASK(telefon, 0, 4)           -- +49 *** ****4567
+}
+INSERT logEntry INTO audit_log
+```
+
+### Migration
+
+#### F: Wie migriere ich von ArangoDB?
+
+**A:** AQL-Syntax ist weitgehend kompatibel. Hauptunterschiede:
+
+```aql
+-- ArangoDB                    -- ThemisDB
+DOCUMENT(collection, key)      -- DOCUMENT(collection, key)  ✓
+FOR v IN 1..3 OUTBOUND         -- FOR v IN 1..3 OUTBOUND     ✓
+COLLECT ... INTO groups        -- COLLECT ... INTO groups    ✓
+
+-- Neue ThemisDB-Features
+ST_TRANSFORM(geom, 25832)      -- CRS-Transformation
+SIMILARITY(vec1, vec2, k)      -- Vector-Suche
+WORKDAYS(start, end, holidays) -- Arbeitstage
+HOLIDAYS("DE_2024")            -- Feiertags-Kalender
+```
+
+#### F: Wie migriere ich von Neo4j/Cypher?
+
+**A:** Syntax-Übersetzung:
+
+```cypher
+-- Cypher
+MATCH (p:Person)-[:KNOWS]->(f:Person)
+WHERE p.name = 'Alice'
+RETURN f.name
+```
+
+```aql
+-- AQL
+FOR p IN persons
+  FILTER p.name == 'Alice'
+  FOR f IN 1..1 OUTBOUND p knows
+    RETURN f.name
+```
+
+#### F: Wie migriere ich von MongoDB?
+
+**A:** Aggregation-Pipeline zu AQL:
+
+```javascript
+// MongoDB
+db.orders.aggregate([
+  { $match: { status: "completed" } },
+  { $group: { _id: "$customerId", total: { $sum: "$amount" } } },
+  { $sort: { total: -1 } }
+])
+```
+
+```aql
+-- AQL
+FOR order IN orders
+  FILTER order.status == "completed"
+  COLLECT customerId = order.customerId
+  AGGREGATE total = SUM(order.amount)
+  SORT total DESC
+  RETURN { customerId, total }
+```
