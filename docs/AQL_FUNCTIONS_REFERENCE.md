@@ -4536,6 +4536,462 @@ FOR sb IN sachbearbeiter
 
 ---
 
+## Prozess-Conformance und Vorhersagen
+
+ThemisDB kann den aktuellen Prozessstand mit einem generischen Prozessmodell abgleichen (Conformance Checking) und Vorhersagen über das weitere Vorgehen sowie Zeitziele treffen.
+
+### Prozessmodell als Graph
+
+Ein generisches Prozessmodell wird als Graph gespeichert:
+
+```aql
+-- Prozessmodell-Knoten (Aktivitäten)
+INSERT [
+  { _key: "start", name: "Antrag eingegangen", typ: "start", 
+    avgDauer: 0, stdDauer: 0 },
+  { _key: "pruefung", name: "Formale Prüfung", typ: "activity", 
+    avgDauer: 2, stdDauer: 0.5 },
+  { _key: "zuweisung", name: "Sachbearbeiter zuweisen", typ: "activity", 
+    avgDauer: 1, stdDauer: 0.3 },
+  { _key: "fachpruefung", name: "Fachliche Prüfung", typ: "activity", 
+    avgDauer: 10, stdDauer: 3 },
+  { _key: "nachforderung", name: "Unterlagen nachfordern", typ: "activity", 
+    avgDauer: 14, stdDauer: 7 },
+  { _key: "entscheidung", name: "Entscheidung treffen", typ: "gateway_xor", 
+    avgDauer: 3, stdDauer: 1 },
+  { _key: "genehmigt", name: "Genehmigung erteilt", typ: "end", 
+    avgDauer: 1, stdDauer: 0.2 },
+  { _key: "abgelehnt", name: "Antrag abgelehnt", typ: "end", 
+    avgDauer: 1, stdDauer: 0.2 }
+] INTO prozess_aktivitaeten
+
+-- Prozessmodell-Kanten (Übergänge mit Wahrscheinlichkeiten)
+INSERT [
+  { _from: "prozess_aktivitaeten/start", _to: "prozess_aktivitaeten/pruefung", 
+    wahrscheinlichkeit: 1.0 },
+  { _from: "prozess_aktivitaeten/pruefung", _to: "prozess_aktivitaeten/zuweisung", 
+    wahrscheinlichkeit: 0.7, bedingung: "vollstaendig" },
+  { _from: "prozess_aktivitaeten/pruefung", _to: "prozess_aktivitaeten/nachforderung", 
+    wahrscheinlichkeit: 0.3, bedingung: "unvollstaendig" },
+  { _from: "prozess_aktivitaeten/nachforderung", _to: "prozess_aktivitaeten/pruefung", 
+    wahrscheinlichkeit: 1.0 },
+  { _from: "prozess_aktivitaeten/zuweisung", _to: "prozess_aktivitaeten/fachpruefung", 
+    wahrscheinlichkeit: 1.0 },
+  { _from: "prozess_aktivitaeten/fachpruefung", _to: "prozess_aktivitaeten/entscheidung", 
+    wahrscheinlichkeit: 1.0 },
+  { _from: "prozess_aktivitaeten/entscheidung", _to: "prozess_aktivitaeten/genehmigt", 
+    wahrscheinlichkeit: 0.75 },
+  { _from: "prozess_aktivitaeten/entscheidung", _to: "prozess_aktivitaeten/abgelehnt", 
+    wahrscheinlichkeit: 0.25 }
+] INTO prozess_uebergaenge
+```
+
+### Conformance Checking: Ist-Zustand vs. Soll-Prozess
+
+```aql
+-- Prüfe ob ein Antrag dem Prozessmodell folgt
+FOR antrag IN antraege
+  FILTER antrag._key == @antragId
+  
+  -- Hole alle durchlaufenen Schritte aus History
+  LET durchlaufeneSchritte = (
+    FOR h IN antrag._history
+      SORT h.zeitpunkt ASC
+      RETURN h.aktion
+  )
+  
+  -- Mapping: Aktion -> Prozessaktivität
+  LET statusMapping = {
+    "eingereicht": "start",
+    "geprueft": "pruefung",
+    "unvollstaendig": "nachforderung",
+    "zugewiesen": "zuweisung",
+    "fachlich_geprueft": "fachpruefung",
+    "entschieden": "entscheidung",
+    "genehmigt": "genehmigt",
+    "abgelehnt": "abgelehnt"
+  }
+  
+  LET durchlaufeneAktivitaeten = (
+    FOR schritt IN durchlaufeneSchritte
+      LET aktivitaet = statusMapping[schritt]
+      FILTER aktivitaet != null
+      RETURN aktivitaet
+  )
+  
+  -- Prüfe jeden Übergang auf Konformität
+  LET uebergangspruefung = (
+    FOR i IN 0..LENGTH(durchlaufeneAktivitaeten)-2
+      LET von = durchlaufeneAktivitaeten[i]
+      LET nach = durchlaufeneAktivitaeten[i+1]
+      
+      -- Suche erlaubten Übergang im Modell
+      LET erlaubt = FIRST(
+        FOR ue IN prozess_uebergaenge
+          FILTER ue._from == CONCAT("prozess_aktivitaeten/", von)
+          FILTER ue._to == CONCAT("prozess_aktivitaeten/", nach)
+          RETURN true
+      )
+      
+      RETURN {
+        von: von,
+        nach: nach,
+        konform: erlaubt == true,
+        index: i
+      }
+    )
+  
+  LET alleKonform = ALL(uebergangspruefung[*].konform)
+  LET abweichungen = uebergangspruefung[* FILTER NOT CURRENT.konform]
+  
+  RETURN {
+    antragId: antrag._key,
+    aktuellerStatus: antrag.status,
+    durchlaufeneSchritte: durchlaufeneAktivitaeten,
+    konformitaet: {
+      istKonform: alleKonform,
+      abweichungen: abweichungen,
+      konformitaetsgrad: (LENGTH(uebergangspruefung) - LENGTH(abweichungen)) 
+                         / MAX(LENGTH(uebergangspruefung), 1)
+    }
+  }
+```
+
+### Vorhersage: Nächste Schritte und Zeitziel
+
+```aql
+-- Vorhersage für einen Antrag basierend auf aktuellem Status
+FOR antrag IN antraege
+  FILTER antrag._key == @antragId
+  
+  -- Aktuelle Position im Prozess
+  LET aktuelleAktivitaet = CASE antrag.status
+    WHEN "eingegangen" THEN "start"
+    WHEN "in_bearbeitung" THEN "zuweisung"
+    WHEN "geprueft" THEN "fachpruefung"
+    WHEN "fachlich_geprueft" THEN "entscheidung"
+    ELSE antrag.status
+  END
+  
+  -- Alle möglichen Pfade zum Ende berechnen (BFS)
+  LET moeglichePfade = (
+    FOR v, e, p IN 1..10 OUTBOUND 
+      CONCAT("prozess_aktivitaeten/", aktuelleAktivitaet) 
+      prozess_uebergaenge
+      OPTIONS { uniqueVertices: "path" }
+      FILTER v.typ IN ["end"]
+      
+      LET pfadAktivitaeten = p.vertices[*].name
+      LET pfadDauern = p.vertices[*].avgDauer
+      LET pfadStdDauern = p.vertices[*].stdDauer
+      LET wahrscheinlichkeiten = p.edges[*].wahrscheinlichkeit
+      
+      -- Gesamtwahrscheinlichkeit des Pfads
+      LET pfadWahrscheinlichkeit = PRODUCT(wahrscheinlichkeiten)
+      
+      -- Erwartete Dauer (Summe der Aktivitätsdauern)
+      LET erwarteteDauer = SUM(pfadDauern)
+      
+      -- Standardabweichung (Wurzel der Summe der Varianzen)
+      LET varianz = SUM(
+        FOR i IN 0..LENGTH(pfadStdDauern)-1
+          RETURN POW(pfadStdDauern[i], 2)
+      )
+      LET stdAbweichung = SQRT(varianz)
+      
+      RETURN {
+        ziel: LAST(pfadAktivitaeten),
+        pfad: pfadAktivitaeten,
+        schritte: LENGTH(pfadAktivitaeten) - 1,
+        wahrscheinlichkeit: pfadWahrscheinlichkeit,
+        erwarteteDauerTage: erwarteteDauer,
+        stdAbweichungTage: stdAbweichung,
+        konfidenzintervall95: {
+          min: MAX(0, erwarteteDauer - 1.96 * stdAbweichung),
+          max: erwarteteDauer + 1.96 * stdAbweichung
+        }
+      }
+  )
+  
+  -- Sortiere nach Wahrscheinlichkeit
+  LET sortiertePfade = (
+    FOR p IN moeglichePfade
+      SORT p.wahrscheinlichkeit DESC
+      RETURN p
+  )
+  
+  -- Berechne gewichtete Durchschnittsdauer
+  LET gewichteteDauer = SUM(
+    FOR p IN moeglichePfade
+      RETURN p.erwarteteDauerTage * p.wahrscheinlichkeit
+  )
+  
+  -- Nächster wahrscheinlichster Schritt
+  LET naechsterSchritt = FIRST(
+    FOR ue IN prozess_uebergaenge
+      FILTER ue._from == CONCAT("prozess_aktivitaeten/", aktuelleAktivitaet)
+      SORT ue.wahrscheinlichkeit DESC
+      LET zielAktivitaet = DOCUMENT(ue._to)
+      RETURN {
+        aktivitaet: zielAktivitaet.name,
+        wahrscheinlichkeit: ue.wahrscheinlichkeit,
+        erwarteteDauer: zielAktivitaet.avgDauer
+      }
+  )
+  
+  -- Bisherige Bearbeitungszeit
+  LET bisherigeDauer = WORKDAYS(
+    antrag.eingangsdatum, 
+    NOW(), 
+    HOLIDAYS("DE_2024")
+  )
+  
+  -- Zeitziel berechnen
+  LET zeitziel = WORKDAYS_ADD(
+    NOW(),
+    ROUND(gewichteteDauer),
+    HOLIDAYS("DE_2024")
+  )
+  
+  RETURN {
+    antragId: antrag._key,
+    aktuellerStatus: antrag.status,
+    aktuelleAktivitaet: aktuelleAktivitaet,
+    bisherigeDauerTage: bisherigeDauer,
+    
+    vorhersage: {
+      naechsterSchritt: naechsterSchritt,
+      
+      erwartetesEnde: {
+        wahrscheinlichstesZiel: FIRST(sortiertePfade).ziel,
+        wahrscheinlichkeit: FIRST(sortiertePfade).wahrscheinlichkeit,
+        restdauerTage: ROUND(gewichteteDauer),
+        zeitziel: DATE_FORMAT(zeitziel, "%Y-%m-%d"),
+        konfidenzintervall: {
+          optimistisch: DATE_FORMAT(
+            WORKDAYS_ADD(NOW(), ROUND(FIRST(sortiertePfade).konfidenzintervall95.min), HOLIDAYS("DE_2024")),
+            "%Y-%m-%d"
+          ),
+          pessimistisch: DATE_FORMAT(
+            WORKDAYS_ADD(NOW(), ROUND(FIRST(sortiertePfade).konfidenzintervall95.max), HOLIDAYS("DE_2024")),
+            "%Y-%m-%d"
+          )
+        }
+      },
+      
+      moeglichePfade: sortiertePfade
+    }
+  }
+```
+
+### Beispiel-Ausgabe
+
+```json
+{
+  "antragId": "BA-2024-001234",
+  "aktuellerStatus": "in_bearbeitung",
+  "aktuelleAktivitaet": "zuweisung",
+  "bisherigeDauerTage": 5,
+  
+  "vorhersage": {
+    "naechsterSchritt": {
+      "aktivitaet": "Fachliche Prüfung",
+      "wahrscheinlichkeit": 1.0,
+      "erwarteteDauer": 10
+    },
+    
+    "erwartetesEnde": {
+      "wahrscheinlichstesZiel": "Genehmigung erteilt",
+      "wahrscheinlichkeit": 0.75,
+      "restdauerTage": 14,
+      "zeitziel": "2024-12-20",
+      "konfidenzintervall": {
+        "optimistisch": "2024-12-16",
+        "pessimistisch": "2024-12-27"
+      }
+    },
+    
+    "moeglichePfade": [
+      {
+        "ziel": "Genehmigung erteilt",
+        "pfad": ["Sachbearbeiter zuweisen", "Fachliche Prüfung", "Entscheidung treffen", "Genehmigung erteilt"],
+        "schritte": 3,
+        "wahrscheinlichkeit": 0.75,
+        "erwarteteDauerTage": 14,
+        "konfidenzintervall95": { "min": 10.2, "max": 17.8 }
+      },
+      {
+        "ziel": "Antrag abgelehnt",
+        "pfad": ["Sachbearbeiter zuweisen", "Fachliche Prüfung", "Entscheidung treffen", "Antrag abgelehnt"],
+        "schritte": 3,
+        "wahrscheinlichkeit": 0.25,
+        "erwarteteDauerTage": 14,
+        "konfidenzintervall95": { "min": 10.2, "max": 17.8 }
+      }
+    ]
+  }
+}
+```
+
+### Batch-Vorhersage für alle offenen Anträge
+
+```aql
+-- Vorhersage für alle offenen Anträge mit Priorisierung
+FOR antrag IN antraege
+  FILTER antrag.status NOT IN ["genehmigt", "abgelehnt", "archiviert"]
+  
+  LET aktuelleAktivitaet = CASE antrag.status
+    WHEN "eingegangen" THEN "start"
+    WHEN "in_bearbeitung" THEN "zuweisung"
+    WHEN "geprueft" THEN "fachpruefung"
+    ELSE "fachpruefung"
+  END
+  
+  -- Kürzester Pfad zum Ende
+  LET kuerzesterPfad = FIRST(
+    FOR v, e, p IN 1..10 OUTBOUND 
+      CONCAT("prozess_aktivitaeten/", aktuelleAktivitaet) 
+      prozess_uebergaenge
+      OPTIONS { uniqueVertices: "path" }
+      FILTER v.typ IN ["end"]
+      LET dauer = SUM(p.vertices[*].avgDauer)
+      SORT dauer ASC
+      LIMIT 1
+      RETURN dauer
+  )
+  
+  LET bisherigeDauer = WORKDAYS(antrag.eingangsdatum, NOW(), HOLIDAYS("DE_2024"))
+  LET gesamtDauer = bisherigeDauer + kuerzesterPfad
+  
+  -- Frist aus Antragsdaten (z.B. gesetzliche Bearbeitungsfrist)
+  LET frist = antrag.frist ?? 30  -- Standard: 30 Arbeitstage
+  LET zeitPuffer = frist - gesamtDauer
+  
+  SORT zeitPuffer ASC  -- Dringendste zuerst
+  
+  RETURN {
+    antragId: antrag._key,
+    typ: antrag.typ,
+    status: antrag.status,
+    bisherigeDauer: bisherigeDauer,
+    restdauer: kuerzesterPfad,
+    gesamtdauer: gesamtDauer,
+    frist: frist,
+    zeitPuffer: zeitPuffer,
+    ampel: CASE
+      WHEN zeitPuffer < 0 THEN "rot"
+      WHEN zeitPuffer < 5 THEN "gelb"
+      ELSE "gruen"
+    END,
+    zeitziel: DATE_FORMAT(
+      WORKDAYS_ADD(NOW(), kuerzesterPfad, HOLIDAYS("DE_2024")),
+      "%Y-%m-%d"
+    )
+  }
+```
+
+### Prozess-Mining: Modell aus historischen Daten lernen
+
+```aql
+-- Lerne Übergangswahrscheinlichkeiten aus abgeschlossenen Anträgen
+LET historischeAntraege = (
+  FOR a IN antraege
+    FILTER a.status IN ["genehmigt", "abgelehnt", "archiviert"]
+    FILTER a._history != null
+    RETURN a
+)
+
+-- Zähle alle Übergänge
+LET uebergangszaehlung = (
+  FOR antrag IN historischeAntraege
+    FOR i IN 0..LENGTH(antrag._history)-2
+      LET von = antrag._history[i].aktion
+      LET nach = antrag._history[i+1].aktion
+      LET dauer = WORKDAYS(
+        antrag._history[i].zeitpunkt,
+        antrag._history[i+1].zeitpunkt,
+        HOLIDAYS("DE_2024")
+      )
+      COLLECT vonAktion = von, nachAktion = nach
+      AGGREGATE 
+        anzahl = COUNT(1),
+        avgDauer = AVG(dauer),
+        stdDauer = STDDEV(dauer)
+      RETURN {
+        von: vonAktion,
+        nach: nachAktion,
+        anzahl: anzahl,
+        avgDauer: avgDauer,
+        stdDauer: stdDauer
+      }
+)
+
+-- Berechne Wahrscheinlichkeiten pro Ausgangsknoten
+LET mitWahrscheinlichkeiten = (
+  FOR ue IN uebergangszaehlung
+    LET gesamtVonKnoten = SUM(
+      FOR other IN uebergangszaehlung
+        FILTER other.von == ue.von
+        RETURN other.anzahl
+    )
+    RETURN MERGE(ue, {
+      wahrscheinlichkeit: ue.anzahl / gesamtVonKnoten
+    })
+)
+
+RETURN {
+  analysierteAntraege: LENGTH(historischeAntraege),
+  uebergaenge: mitWahrscheinlichkeiten
+}
+```
+
+### SLA-Überwachung mit Vorhersage
+
+```aql
+-- Echtzeit-Dashboard: Anträge mit SLA-Risiko
+FOR antrag IN antraege
+  FILTER antrag.status NOT IN ["genehmigt", "abgelehnt", "archiviert"]
+  
+  LET bisherigeDauer = WORKDAYS(antrag.eingangsdatum, NOW(), HOLIDAYS("DE_2024"))
+  
+  -- Durchschnittliche Restdauer aus historischen Daten
+  LET avgRestdauer = FIRST(
+    FOR hist IN antraege
+      FILTER hist.status IN ["genehmigt", "abgelehnt"]
+      FILTER hist.typ == antrag.typ
+      LET gesamtDauer = WORKDAYS(hist.eingangsdatum, hist.entscheidung.datum, HOLIDAYS("DE_2024"))
+      COLLECT AGGREGATE avg = AVG(gesamtDauer)
+      RETURN avg - bisherigeDauer
+  ) ?? 10
+  
+  LET slaFrist = antrag.slaFrist ?? 20
+  LET voraussichtlichesDatum = WORKDAYS_ADD(NOW(), ROUND(avgRestdauer), HOLIDAYS("DE_2024"))
+  LET slaEingehalten = bisherigeDauer + avgRestdauer <= slaFrist
+  
+  FILTER NOT slaEingehalten OR bisherigeDauer > slaFrist * 0.7  -- Warnung ab 70%
+  
+  SORT (slaFrist - bisherigeDauer) ASC
+  
+  RETURN {
+    antragId: antrag._key,
+    typ: antrag.typ,
+    sachbearbeiter: antrag.sachbearbeiter,
+    bisherigeDauer: bisherigeDauer,
+    slaFrist: slaFrist,
+    slaVerbrauch: ROUND(bisherigeDauer / slaFrist * 100) || "%",
+    voraussichtlichesDatum: DATE_FORMAT(voraussichtlichesDatum, "%Y-%m-%d"),
+    slaPrognose: slaEingehalten ? "OK" : "GEFÄHRDET",
+    handlungsbedarf: CASE
+      WHEN bisherigeDauer > slaFrist THEN "ÜBERFÄLLIG"
+      WHEN bisherigeDauer > slaFrist * 0.9 THEN "KRITISCH"
+      WHEN bisherigeDauer > slaFrist * 0.7 THEN "WARNUNG"
+      ELSE "OK"
+    END
+  }
+```
+
+---
+
 ## FAQ - Erweitert
 
 ### Grundlagen
