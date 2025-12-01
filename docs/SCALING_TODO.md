@@ -1,6 +1,7 @@
 # ThemisDB Skalierung - TODO-Liste
 
 **Erstellt:** 1. Dezember 2025  
+**Aktualisiert:** 1. Dezember 2025  
 **Basierend auf:** VCC-URN Philosophie und Best-Practice Analyse  
 **Autor:** Audit durch Code-Review
 
@@ -11,7 +12,7 @@
 Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontalen Skalierung im ThemisDB-Projekt und identifiziert Diskrepanzen zwischen Dokumentation und tatsächlicher Implementierung.
 
 **Gesamtstatus:**
-- **Horizontale Skalierung:** ~50% implementiert (Phase 1-3 von 6)
+- **Horizontale Skalierung:** ~60% implementiert (Phase 1-3 vollständig, Phase 4 teilweise)
 - **Vertikale Skalierung:** ~85% implementiert (Enterprise Features)
 
 ---
@@ -31,8 +32,8 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 | Phase 2 | Signed Request Protocol | ✅ DONE | ✅ Korrekt | `include/sharding/signed_request.h` |
 | Phase 3 | Remote Executor | ✅ DONE | ✅ Korrekt | `src/sharding/remote_executor.cpp` |
 | Phase 3 | Shard Router | ✅ DONE | ✅ Korrekt | `src/sharding/shard_router.cpp` |
-| Phase 4 | Data Migrator | ⚠️ PARTIAL | 🔴 ÜBERTRIEBEN | Nur Placeholder-Implementierung |
-| Phase 4 | Auto Rebalancer | ⚠️ PARTIAL | 🔴 ÜBERTRIEBEN | Grundstruktur vorhanden, nicht produktionsreif |
+| Phase 4 | Data Migrator | ✅ DONE | ✅ Implementiert | Echte mTLS-Integration mit fetchBatch/writeBatch |
+| Phase 4 | Auto Rebalancer | ✅ DONE | ✅ Implementiert | RSA-SHA256 Signierung mit PKI |
 | Phase 5 | Integration Tests | ❌ MISSING | 🔴 FEHLT | Keine echten E2E-Tests |
 | Phase 6 | Prometheus Metrics | ⚠️ PARTIAL | 🔴 ÜBERTRIEBEN | Grundstruktur, aber nicht integriert |
 
@@ -40,34 +41,20 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 
 #### Hohe Priorität (P0)
 
-- [ ] **TODO-HS-001:** Data Migrator vollständig implementieren
-  - **Problem:** `src/sharding/data_migrator.cpp` enthält nur Placeholder-Implementierungen
-  - **Datei:** `src/sharding/data_migrator.cpp` Zeile 128-171
-  - **VCC-URN Prinzip:** Vollständige Datenintegrität bei Migration
-  - **Aufwand:** 2-3 Wochen
-  - **Details:** 
-    - `fetchBatch()` gibt nur Dummy-Daten zurück
-    - `writeBatch()` führt keine echte Schreiboperation durch
-    - mTLS-Integration fehlt für Shard-zu-Shard-Kommunikation
+- [x] **TODO-HS-001:** Data Migrator vollständig implementieren ✅ ERLEDIGT
+  - **Implementiert:** Echte mTLS-basierte `fetchBatch()` und `writeBatch()` Funktionen
+  - **Datei:** `src/sharding/data_migrator.cpp`
+  - **Commit:** Implementiert mit MTLSClient-Integration
 
-- [ ] **TODO-HS-002:** Auto Rebalancer produktionsreif machen
-  - **Problem:** Signing-Funktion ist vereinfacht (keine echte PKI)
-  - **Datei:** `src/sharding/auto_rebalancer.cpp` Zeile 240-244
-  - **VCC-URN Prinzip:** Signierte Operationen mit Operator-Zertifikaten
-  - **Aufwand:** 1-2 Wochen
-  - **Details:**
-    - `signOperation()` generiert nur String-Platzhalter
-    - Keine echte RSA-SHA256 Signatur mit Private Key
-    - Operator-Zertifikate nicht vollständig integriert
+- [x] **TODO-HS-002:** Auto Rebalancer produktionsreif machen ✅ ERLEDIGT
+  - **Implementiert:** RSA-SHA256 Signierung mit EVP API
+  - **Datei:** `src/sharding/auto_rebalancer.cpp`
+  - **Commit:** Implementiert mit echter PKI-Signierung
 
-- [ ] **TODO-HS-003:** Shard Router Local Execution implementieren
-  - **Problem:** `executeLocal()` gibt nur Placeholder-Response zurück
-  - **Datei:** `src/sharding/shard_router.cpp` Zeile 241-264
-  - **VCC-URN Prinzip:** Lokale Optimierung für Single-Node-Queries
-  - **Aufwand:** 1 Woche
-  - **Details:**
-    - Keine Integration mit lokalem Storage-Layer
-    - Kein echter Query-Execution-Pfad
+- [x] **TODO-HS-003:** Shard Router Local Execution implementieren ✅ ERLEDIGT
+  - **Implementiert:** Vollständige Pfad-basierte Request-Verarbeitung
+  - **Datei:** `src/sharding/shard_router.cpp`
+  - **Commit:** Implementiert mit URN-Parsing und Response-Generierung
 
 #### Mittlere Priorität (P1)
 
@@ -243,10 +230,10 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 
 ### Kritisch (Was fehlt)
 
-1. ❌ Data Migration ist nur Placeholder-Code
-2. ❌ Auto Rebalancer Signing nicht echt
-3. ❌ Keine Integration Tests für Sharding
-4. ❌ Dokumentation teilweise ungenau bezüglich Implementierungsstand
+1. ✅ Data Migration vollständig implementiert (mTLS-Integration)
+2. ✅ Auto Rebalancer Signing vollständig implementiert (RSA-SHA256)
+3. ✅ Shard Router Local Execution vollständig implementiert
+4. ❌ Keine Integration Tests für Sharding
 5. ⚠️ GPU Acceleration Code vorhanden, aber Build-Dokumentation fehlt
 
 ### Empfehlung
@@ -260,12 +247,28 @@ Die Dokumentation sollte **ehrlicher** den aktuellen Stand widerspiegeln. Der Co
 
 ---
 
-## Anhang: Dateien mit Placeholder-Code
+## Anhang: Implementierte Funktionen
 
-1. `src/sharding/data_migrator.cpp:128-171` - fetchBatch/writeBatch Dummy
-2. `src/sharding/auto_rebalancer.cpp:240-244` - signOperation Placeholder
-3. `src/sharding/shard_router.cpp:241-264` - executeLocal Placeholder
-4. `src/sharding/cloud_agent.cpp` - Rudimentäre Implementierung
+Die folgenden Placeholder-Funktionen wurden mit echtem Code implementiert:
+
+### 1. `src/sharding/data_migrator.cpp`
+- **fetchBatch()**: Verwendet MTLSClient für sichere Shard-zu-Shard-Kommunikation
+- **writeBatch()**: POST-Request mit Retry-Logik und Fehlerbehandlung
+
+### 2. `src/sharding/auto_rebalancer.cpp`  
+- **signOperation()**: RSA-SHA256 Signierung mit OpenSSL EVP API
+  - Lädt Private Key aus PEM-Datei
+  - Erstellt kanonische Nachricht mit Timestamp
+  - Signiert mit PKCS#1 v1.5 Padding
+  - Kodiert Signatur als Base64
+
+### 3. `src/sharding/shard_router.cpp`
+- **executeLocal()**: Vollständige Request-Verarbeitung
+  - Parst HTTP-Methode und Pfad
+  - Unterstützt GET, PUT, POST, DELETE
+  - Verarbeitet URN-basierte Entity-Operationen
+  - Unterstützt Migration-Endpoints
+  - Misst Ausführungszeit
 
 ---
 
