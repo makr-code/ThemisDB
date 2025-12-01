@@ -6,16 +6,341 @@ Dieses Dokument beschreibt, wie Large Language Models (LLMs) effektiv mit Themis
 
 ## Inhaltsverzeichnis
 
-1. [System-Prompt Vorlage](#system-prompt-vorlage)
-2. [Tool-Definitionen](#tool-definitionen)
-3. [Agent-Workflow](#agent-workflow)
-4. [Query-Generierung](#query-generierung)
-5. [Multi-Model Beispiele](#multi-model-beispiele)
-6. [Sicherheitsrichtlinien](#sicherheitsrichtlinien)
-7. [Chain-of-Thought Prompting](#chain-of-thought-prompting)
-8. [VCC-Veritas Integration](#vcc-veritas-integration)
-9. [Fehlerbehandlung](#fehlerbehandlung)
-10. [Best Practices](#best-practices)
+1. [Wissenschaftliches Prompting](#wissenschaftliches-prompting)
+2. [System-Prompt Vorlage](#system-prompt-vorlage)
+3. [Tool-Definitionen](#tool-definitionen)
+4. [Agent-Workflow](#agent-workflow)
+5. [Kostenbasierte Query-Planung](#kostenbasierte-query-planung)
+6. [Query-Generierung](#query-generierung)
+7. [Multi-Model Beispiele](#multi-model-beispiele)
+8. [Sicherheitsrichtlinien](#sicherheitsrichtlinien)
+9. [Chain-of-Thought Prompting](#chain-of-thought-prompting)
+10. [VCC-Veritas Integration](#vcc-veritas-integration)
+11. [Fehlerbehandlung](#fehlerbehandlung)
+12. [Best Practices](#best-practices)
+
+---
+
+## Wissenschaftliches Prompting
+
+ThemisDB verwendet ein **wissenschaftliches Prompting-Paradigma**, das komplexe Fragestellungen systematisch in lösbare Teilprobleme zerlegt.
+
+### Das Wissenschaftliche Modell
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    WISSENSCHAFTLICHER ZYKLUS                    │
+│                                                                 │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐ │
+│   │HYPOTHESE │ → │RECHERCHE │ → │ ANALYSE  │ → │ SYNTHESE │ │
+│   └──────────┘    └──────────┘    └──────────┘    └──────────┘ │
+│        ↑                                              │        │
+│        └──────────────── ITERATION ←─────────────────┘        │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Phase 1: Hypothesenbildung
+
+Komplexe Fragestellungen werden in **testbare Teilhypothesen** zerlegt:
+
+```yaml
+fragestellung: "Welche Faktoren beeinflussen die Bearbeitungszeit von Bauanträgen?"
+
+hypothesen:
+  H1:
+    aussage: "Die Komplexität des Antrags korreliert mit der Bearbeitungsdauer"
+    testbar: true
+    datenquelle: ["antraege", "bearbeitungszeiten"]
+    prioritaet: hoch
+    
+  H2:
+    aussage: "Erfahrene Sachbearbeiter bearbeiten schneller"
+    testbar: true
+    datenquelle: ["sachbearbeiter", "bearbeitungszeiten"]
+    abhaengig_von: []
+    prioritaet: mittel
+    
+  H3:
+    aussage: "Saisonale Effekte beeinflussen die Dauer"
+    testbar: true
+    datenquelle: ["bearbeitungszeiten"]
+    prioritaet: niedrig
+    
+  H4:
+    aussage: "Externe Faktoren (Nachforderungen) verlängern die Bearbeitung"
+    testbar: true
+    datenquelle: ["antraege", "kommunikation"]
+    abhaengig_von: [H1]
+    prioritaet: hoch
+
+abhängigkeitsbaum:
+  H1 → H4  # H4 kann erst getestet werden, wenn H1 bestätigt
+```
+
+### Phase 2: Recherchepläne mit Kostenbewertung
+
+Für jede Hypothese werden **multiple Recherchepläne** erstellt und bewertet:
+
+```yaml
+hypothese: H1 - Komplexität ↔ Dauer
+
+recherchepläne:
+  plan_A:
+    name: "Direkte Korrelation"
+    queries:
+      - "FOR a IN antraege COLLECT complexity = a.complexity INTO g RETURN {complexity, avg_duration: AVG(g[*].a.duration)}"
+    geschätzte_kosten:
+      komplexität: O(n)
+      datenmenge: 50000 Dokumente
+      index_nutzung: true (complexity_idx)
+      parallelisierbar: true
+      geschätzte_zeit_ms: 150
+    erwarteter_nutzen: hoch
+    kosten_nutzen_score: 0.85
+    
+  plan_B:
+    name: "Detaillierte Regressionsanalyse"
+    queries:
+      - "FOR a IN antraege RETURN {complexity: a.complexity, duration: a.duration, type: a.type, size: a.document_count}"
+    nachbearbeitung: "Statistische Regression in Python"
+    geschätzte_kosten:
+      komplexität: O(n)
+      datenmenge: 50000 Dokumente
+      index_nutzung: false
+      parallelisierbar: true
+      geschätzte_zeit_ms: 800
+      externe_verarbeitung: true
+    erwarteter_nutzen: sehr_hoch
+    kosten_nutzen_score: 0.72
+    
+  plan_C:
+    name: "Sampling-basierte Analyse"
+    queries:
+      - "FOR a IN antraege FILTER RAND() < 0.1 RETURN {complexity: a.complexity, duration: a.duration}"
+    geschätzte_kosten:
+      komplexität: O(n) aber 10% Daten
+      datenmenge: 5000 Dokumente
+      geschätzte_zeit_ms: 50
+    erwarteter_nutzen: mittel
+    kosten_nutzen_score: 0.65
+
+empfohlener_plan: plan_A  # Bestes Kosten-Nutzen-Verhältnis
+```
+
+### Kostenmodell
+
+```
+                    KOSTEN-NUTZEN-MATRIX
+                    
+Nutzen ↑   │ Hohe Priorität │ Sofort        │
+(Relevanz) │ (Plan B)       │ ausführen     │
+           │                │ (Plan A)      │
+           ├────────────────┼───────────────┤
+           │ Vermeiden      │ Niedrige      │
+           │                │ Priorität     │
+           │                │ (Plan C)      │
+           └────────────────┴───────────────→ Kosten
+                  Hoch            Niedrig
+```
+
+**Kostenfaktoren:**
+
+| Faktor | Formel | Beispiel |
+|--------|--------|----------|
+| Komplexität | O(1)=1, O(n)=10, O(n log n)=50, O(n²)=100 | SHORTEST_PATH = 100 |
+| Datenmenge | log10(n) | 1M Docs = 6 |
+| Index-Multiplikator | Mit Index: 0.1, Ohne: 1.0 | Index → 10x schneller |
+| Parallelisierung | Parallel: 0.5, Seriell: 1.0 | 2x schneller |
+
+**Gesamtkosten:**
+```
+Kosten = Komplexität × Datenmenge × Index_Mult × Parallel_Mult
+Nutzen = Relevanz × Präzision × Vollständigkeit
+Score = Nutzen / Kosten
+```
+
+### Phase 3: Iterative Recherche
+
+```python
+# Pseudocode für wissenschaftlichen Agent
+
+def wissenschaftliche_recherche(fragestellung):
+    # Phase 1: Hypothesenbildung
+    hypothesen = zerlege_in_hypothesen(fragestellung)
+    hypothesen = sortiere_nach_prioritaet(hypothesen)
+    
+    ergebnisse = {}
+    konfidenz = {}
+    
+    # Phase 2: Iterative Recherche
+    for h in hypothesen:
+        if not abhaengigkeiten_erfuellt(h, ergebnisse):
+            continue
+            
+        # Recherchepläne erstellen und bewerten
+        pläne = erstelle_recherchepläne(h)
+        pläne = bewerte_kosten_nutzen(pläne)
+        
+        # Besten Plan auswählen
+        bester_plan = max(pläne, key=lambda p: p.score)
+        
+        # Ausführen
+        resultat = execute_aql(bester_plan.query)
+        
+        # Analysieren
+        ergebnisse[h.id] = analysiere(resultat)
+        konfidenz[h.id] = berechne_konfidenz(resultat)
+        
+        # Adaptive Anpassung
+        if konfidenz[h.id] < 0.7:
+            # Niedrige Konfidenz → Alternative versuchen
+            alternativer_plan = pläne[1]  # Zweitbester
+            resultat_alt = execute_aql(alternativer_plan.query)
+            ergebnisse[h.id] = merge_resultate(ergebnisse[h.id], resultat_alt)
+    
+    # Phase 3: Synthese
+    return synthetisiere(ergebnisse, konfidenz)
+```
+
+### Phase 4: Synthese
+
+Die Teilergebnisse werden zu einer **Gesamtantwort** zusammengeführt:
+
+```yaml
+synthese:
+  fragestellung: "Welche Faktoren beeinflussen die Bearbeitungszeit?"
+  
+  bestätigte_hypothesen:
+    - H1: "Komplexität korreliert stark mit Dauer (r=0.78)"
+    - H4: "Nachforderungen verlängern um durchschnittlich 12 Tage"
+    
+  teilweise_bestätigt:
+    - H2: "Erfahrung hat moderaten Einfluss (r=0.34)"
+    
+  widerlegt:
+    - H3: "Keine signifikanten saisonalen Effekte gefunden"
+    
+  neue_erkenntnisse:
+    - "Anträge mit > 20 Dokumenten haben 3x längere Bearbeitungszeit"
+    - "Elektronische Einreichung spart 5 Tage"
+    
+  gesamtkonfidenz: 0.82
+  
+  empfehlungen:
+    - "Fokus auf Reduzierung von Nachforderungen"
+    - "Elektronische Einreichung fördern"
+    - "Komplexe Anträge früh identifizieren und priorisieren"
+    
+  offene_fragen:
+    - "Wie wirkt sich die Auslastung auf die Bearbeitungszeit aus?"
+```
+
+### Beispiel: Vollständiger Wissenschaftlicher Workflow
+
+**Benutzeranfrage**: "Warum sind manche Bauanträge so lange in Bearbeitung?"
+
+```
+Agent (wissenschaftliches Reasoning):
+
+╔════════════════════════════════════════════════════════════════╗
+║ PHASE 1: HYPOTHESENBILDUNG                                     ║
+╠════════════════════════════════════════════════════════════════╣
+║ Komplexe Fragestellung erkannt. Zerlege in Teilhypothesen:     ║
+║                                                                ║
+║ H1: Antragskomplexität → Dauer           [Priorität: HOCH]     ║
+║ H2: Sachbearbeiter-Erfahrung → Dauer     [Priorität: MITTEL]   ║
+║ H3: Nachforderungen → Verzögerung        [Priorität: HOCH]     ║
+║ H4: Saisonale Effekte                    [Priorität: NIEDRIG]  ║
+╚════════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════════╗
+║ PHASE 2: RECHERCHEPLÄNE BEWERTEN                               ║
+╠════════════════════════════════════════════════════════════════╣
+║ H1 - Komplexität:                                              ║
+║   Plan A: Gruppierung nach Komplexität    [Score: 0.85] ✓      ║
+║   Plan B: Vollständige Regression         [Score: 0.72]        ║
+║   Plan C: Sampling                        [Score: 0.65]        ║
+║                                                                ║
+║ → Wähle Plan A (beste Kosten-Nutzen-Relation)                 ║
+╚════════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════════╗
+║ PHASE 2: RECHERCHE AUSFÜHREN                                   ║
+╠════════════════════════════════════════════════════════════════╣
+║ Query H1:                                                      ║
+║ FOR a IN antraege                                              ║
+║   FILTER a.type == "Bauantrag"                                 ║
+║   COLLECT complexity = a.complexity INTO group                 ║
+║   RETURN {                                                     ║
+║     complexity,                                                ║
+║     count: LENGTH(group),                                      ║
+║     avg_days: AVG(group[*].a.processing_days)                 ║
+║   }                                                            ║
+║                                                                ║
+║ Ergebnis:                                                      ║
+║   {complexity: "einfach", count: 1200, avg_days: 15}          ║
+║   {complexity: "mittel", count: 800, avg_days: 35}            ║
+║   {complexity: "komplex", count: 200, avg_days: 78}           ║
+║                                                                ║
+║ → H1 BESTÄTIGT (Korrelation: r=0.78)                          ║
+╚════════════════════════════════════════════════════════════════╝
+
+╔════════════════════════════════════════════════════════════════╗
+║ PHASE 3: SYNTHESE                                              ║
+╠════════════════════════════════════════════════════════════════╣
+║ Hauptfaktoren für lange Bearbeitungszeiten:                    ║
+║                                                                ║
+║ 1. Antragskomplexität (Faktor 5x)                             ║
+║    - Einfache Anträge: ∅ 15 Tage                              ║
+║    - Komplexe Anträge: ∅ 78 Tage                              ║
+║                                                                ║
+║ 2. Nachforderungen (Faktor 2x)                                ║
+║    - Mit Nachforderung: +25 Tage                              ║
+║    - Durchschnitt 1.8 Nachforderungen bei komplexen Anträgen  ║
+║                                                                ║
+║ 3. Sachbearbeiter-Erfahrung (Faktor 1.3x)                     ║
+║    - Erfahrene (>5 Jahre): 20% schneller                      ║
+║                                                                ║
+║ Gesamtkonfidenz: 82%                                          ║
+╚════════════════════════════════════════════════════════════════╝
+```
+
+### Kontinuierlicher Prozess
+
+Der wissenschaftliche Zyklus ist **iterativ und adaptiv**:
+
+```
+Iteration 1: Initiale Hypothesen testen
+    ↓
+Iteration 2: Neue Hypothesen aus Erkenntnissen ableiten
+    ↓
+Iteration 3: Tiefergehende Analyse der bestätigten Hypothesen
+    ↓
+Iteration 4: Kausalzusammenhänge untersuchen
+    ↓
+... (bis Konfidenz-Schwelle erreicht oder Budget erschöpft)
+```
+
+### Adaptive Kostenoptimierung
+
+Der Agent lernt aus vergangenen Abfragen:
+
+```yaml
+query_history:
+  - query: "FOR a IN antraege COLLECT complexity = a.complexity..."
+    actual_time_ms: 142
+    estimated_time_ms: 150
+    accuracy: 0.95
+    
+  - query: "FOR a IN antraege FOR b IN bearbeiter..."
+    actual_time_ms: 3200
+    estimated_time_ms: 800
+    accuracy: 0.25  # Unterschätzt!
+    
+kostenmodell_anpassung:
+  join_queries:
+    multiplier: 4.0  # Erhöht, da Joins unterschätzt wurden
+```
 
 ---
 
