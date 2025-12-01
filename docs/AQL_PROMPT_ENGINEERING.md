@@ -344,6 +344,305 @@ kostenmodell_anpassung:
 
 ---
 
+## Massive Parallelisierung
+
+Die Zerlegung in unabhängige Hypothesen ermöglicht **massive Parallelisierung**:
+
+### Dependency Graph für Parallelisierung
+
+```
+                    PARALLELISIERUNGS-GRAPH
+                    
+        ┌────────────────────────────────────────┐
+        │           FRAGESTELLUNG                │
+        └────────────────┬───────────────────────┘
+                         │
+         ┌───────────────┼───────────────┐
+         ↓               ↓               ↓
+    ┌─────────┐    ┌─────────┐    ┌─────────┐
+    │   H1    │    │   H2    │    │   H3    │   ← PARALLEL
+    │Komplex. │    │Erfahrung│    │Saison   │
+    └────┬────┘    └────┬────┘    └────┬────┘
+         │              │              │
+         ↓              │              │
+    ┌─────────┐         │              │
+    │   H4    │←────────┘              │      ← ABHÄNGIG
+    │Nachford.│                        │
+    └────┬────┘                        │
+         │                             │
+         └──────────────┬──────────────┘
+                        ↓
+                 ┌─────────────┐
+                 │  SYNTHESE   │
+                 └─────────────┘
+```
+
+### Worker-Pool Architektur
+
+```yaml
+parallelisierung:
+  max_workers: 8
+  
+  worker_pool:
+    query_workers: 4      # AQL-Ausführung
+    analysis_workers: 2   # Statistische Analyse
+    synthesis_workers: 2  # Ergebnis-Zusammenführung
+    
+  scheduling:
+    strategie: "dependency_aware"
+    priorität_nach: "kosten_nutzen_score"
+    
+  beispiel_ausführung:
+    t0: [H1, H2, H3]  # Parallel starten
+    t1: [H4]          # Wartet auf H1
+    t2: [Synthese]    # Wartet auf alle
+    
+  speedup:
+    sequentiell: "~4 Sekunden"
+    parallel: "~1.5 Sekunden"
+    faktor: 2.7x
+```
+
+### Parallele Query-Ausführung
+
+```python
+async def parallel_recherche(hypothesen):
+    """Führt unabhängige Hypothesen parallel aus."""
+    
+    # Dependency Graph erstellen
+    graph = build_dependency_graph(hypothesen)
+    
+    # Unabhängige Hypothesen identifizieren
+    unabhängig = [h for h in hypothesen if not h.abhaengig_von]
+    
+    # Parallel ausführen
+    async with TaskGroup() as tg:
+        for h in unabhängig:
+            tg.create_task(teste_hypothese(h))
+    
+    # Abhängige Hypothesen in Wellen
+    while incomplete_hypothesen:
+        bereit = [h for h in incomplete if abhaengigkeiten_erfuellt(h)]
+        async with TaskGroup() as tg:
+            for h in bereit:
+                tg.create_task(teste_hypothese(h))
+```
+
+---
+
+## SLM/NLP Optimierung
+
+Die wissenschaftliche Methodik ermöglicht den **effizienten Einsatz kleiner Modelle**:
+
+### Modell-Hierarchie
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MODELL-AUSWAHL-PYRAMIDE                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│                      ┌───────────┐                              │
+│                      │  LLM      │  ← Planung & Synthese        │
+│                      │ (70B+)    │     Komplexe Reasoning        │
+│                      │   5%      │     Neue Hypothesen           │
+│                      └─────┬─────┘                              │
+│                            │                                    │
+│                   ┌────────┴────────┐                           │
+│                   │      SLM        │  ← Query-Generierung       │
+│                   │    (7B-13B)     │     Template-Anpassung     │
+│                   │      15%        │     Ergebnis-Formatierung  │
+│                   └────────┬────────┘                           │
+│                            │                                    │
+│           ┌────────────────┴────────────────┐                   │
+│           │           NLP/Regex             │  ← Parsing         │
+│           │        (Regel-basiert)          │     Extraktion     │
+│           │             30%                 │     Validierung    │
+│           └────────────────┬────────────────┘                   │
+│                            │                                    │
+│  ┌─────────────────────────┴─────────────────────────┐          │
+│  │              Direkte Ausführung                   │← Caching  │
+│  │            (Kein Modell nötig)                    │  Lookup   │
+│  │                    50%                            │  Index    │
+│  └───────────────────────────────────────────────────┘          │
+│                                                                 │
+│  Anteil der Anfragen ────────────────────────────── Kosten →   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Aufgaben-Routing
+
+```yaml
+modell_routing:
+  # Großes LLM (GPT-4, Claude, Llama-70B)
+  llm_tasks:
+    - "Komplexe Fragestellung zerlegen"
+    - "Neue Hypothesen aus Ergebnissen ableiten"
+    - "Synthese mit Schlussfolgerungen"
+    - "Unerwartete Muster erklären"
+    kosten: "$$$$"
+    latenz: "1-5 Sekunden"
+    
+  # Kleines SLM (Llama-7B, Mistral-7B, Phi-3)
+  slm_tasks:
+    - "AQL-Query aus Template generieren"
+    - "Ergebnisse in natürliche Sprache formatieren"
+    - "Einfache Folgefragen beantworten"
+    - "Feld-Mapping durchführen"
+    kosten: "$"
+    latenz: "100-500ms"
+    
+  # NLP/Regel-basiert (spaCy, Regex, Keyword-Matching)
+  nlp_tasks:
+    - "Entitäten extrahieren (Namen, Daten, Zahlen)"
+    - "Intent erkennen (Suche, Aggregation, Vergleich)"
+    - "Collection-Namen matchen"
+    - "Syntax-Validierung"
+    kosten: "Minimal"
+    latenz: "<10ms"
+    
+  # Direkt (Kein Modell)
+  direct_tasks:
+    - "Gecachte Abfragen wiederverwenden"
+    - "Standard-Dashboards laden"
+    - "Schema-Lookups"
+    - "Vordefinierte Reports"
+    kosten: "Keine GPU"
+    latenz: "<1ms"
+```
+
+### Query-Template-System für SLM
+
+Kleine Modelle arbeiten effizient mit **Templates**:
+
+```yaml
+templates:
+  # Template: Einfache Suche
+  simple_search:
+    pattern: "Finde|Zeige|Liste {entity} mit|wo {condition}"
+    template: |
+      FOR doc IN {collection}
+        FILTER doc.{field} {operator} @value
+        LIMIT @limit
+        RETURN doc
+    slm_task: "Extrahiere collection, field, operator, value"
+    
+  # Template: Aggregation
+  aggregation:
+    pattern: "Wie viele|Summe|Durchschnitt von {metric} pro {group}"
+    template: |
+      FOR doc IN {collection}
+        COLLECT group = doc.{group_field}
+        AGGREGATE result = {agg_func}(doc.{metric_field})
+        RETURN { group, result }
+    slm_task: "Extrahiere collection, group_field, agg_func, metric_field"
+    
+  # Template: Zeitreihe
+  timeseries:
+    pattern: "{metric} über Zeit|pro Monat|pro Tag"
+    template: |
+      FOR doc IN {collection}
+        COLLECT period = DATE_FORMAT(doc.{date_field}, "{format}")
+        AGGREGATE value = {agg_func}(doc.{metric_field})
+        SORT period
+        RETURN { period, value }
+```
+
+### SLM Query-Generator
+
+```python
+class SLMQueryGenerator:
+    """Verwendet kleines Modell für Query-Generierung."""
+    
+    def __init__(self, model="mistral-7b"):
+        self.model = load_model(model)
+        self.templates = load_templates()
+        
+    def generate(self, intent, entities, schema):
+        # Template auswählen
+        template = self.match_template(intent)
+        
+        if template:
+            # Schneller Pfad: Template ausfüllen
+            prompt = f"""
+            Template: {template.template}
+            Entities: {entities}
+            Schema: {schema}
+            
+            Fülle die Platzhalter aus:
+            """
+            return self.model.complete(prompt, max_tokens=100)
+        else:
+            # Fallback: Vollständige Generierung
+            return self.escalate_to_llm(intent, entities, schema)
+```
+
+### Kosten-Vergleich
+
+```
+╔═══════════════════════════════════════════════════════════════════╗
+║                    KOSTEN PRO 1000 ANFRAGEN                       ║
+╠═══════════════════════════════════════════════════════════════════╣
+║                                                                   ║
+║  Traditionell (nur LLM):                                          ║
+║  ├── 1000 × LLM-Aufruf = 1000 × $0.03 = $30.00                   ║
+║  └── Latenz: ∅ 2 Sekunden                                        ║
+║                                                                   ║
+║  Wissenschaftliches Prompting (Hybrid):                           ║
+║  ├── 50 × LLM (Planung/Synthese)  = 50 × $0.03  = $1.50          ║
+║  ├── 150 × SLM (Query-Gen)        = 150 × $0.001 = $0.15         ║
+║  ├── 300 × NLP (Parsing)          = 300 × $0.0001 = $0.03        ║
+║  └── 500 × Direct (Cache)         = 500 × $0.00   = $0.00        ║
+║                                                                   ║
+║  GESAMT: $1.68 (94% Ersparnis!)                                  ║
+║  Latenz: ∅ 300ms (85% schneller!)                                ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+```
+
+### VCC-Veritas SLM-Konfiguration
+
+```yaml
+vcc_veritas:
+  agent_config:
+    orchestrator:
+      model: "gpt-4"
+      tasks: ["planning", "synthesis", "complex_reasoning"]
+      max_tokens: 4096
+      
+    query_generator:
+      model: "mistral-7b-instruct"
+      tasks: ["query_generation", "formatting"]
+      max_tokens: 256
+      templates_enabled: true
+      
+    entity_extractor:
+      type: "spacy"
+      model: "de_core_news_lg"
+      tasks: ["ner", "intent_classification"]
+      
+    cache:
+      type: "redis"
+      ttl_seconds: 3600
+      max_entries: 10000
+      
+  routing_rules:
+    - condition: "intent in ['simple_search', 'count', 'list']"
+      route: "query_generator"
+      
+    - condition: "has_cached_query(entities)"
+      route: "cache"
+      
+    - condition: "intent in ['complex_analysis', 'hypothesis']"
+      route: "orchestrator"
+      
+  parallel_execution:
+    enabled: true
+    max_concurrent_queries: 10
+    hypothesis_parallelism: true
+```
+
+---
+
 ## System-Prompt Vorlage
 
 ```
