@@ -64,7 +64,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - Index-Statistiken und Wartung
 - **Dateien:** `src/index/secondary_index.cpp`, `include/index/secondary_index.h`
 - **Tests:** Vollständig abgedeckt
-- **Dokumentation:** `docs/indexes.md`, `docs/index_stats_maintenance.md`
+- **Dokumentation:** `docs/features/indexes.md`, `docs/features/index_stats_maintenance.md`
 
 ##### 1.2 Graph Model (95%)
 - **Status:** ✅ Production-Ready
@@ -77,7 +77,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - Path Constraints (Last-Edge, No-Vertex)
 - **Dateien:** `src/index/graph_index.cpp`, `include/index/graph_index.h`
 - **Tests:** 27/27 PASS
-- **Dokumentation:** `docs/recursive_path_queries.md`, `docs/temporal_graphs.md`, `docs/path_constraints.md`
+- **Dokumentation:** `docs/features/recursive_path_queries.md`, `docs/features/temporal_graphs.md`, `docs/features/path_constraints.md`
 
 ##### 1.3 Vector Model (95%)
 - **Status:** ✅ Production-Ready
@@ -90,7 +90,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - GPU-Beschleunigung (optional, Faiss)
 - **Dateien:** `src/index/vector_index.cpp`, `include/index/vector_index.h`
 - **Tests:** 10/10 PASS
-- **Dokumentation:** `docs/vector_ops.md`, `docs/hnsw_persistence.md`
+- **Dokumentation:** `docs/features/vector_ops.md`, `docs/features/hnsw_persistence.md`
 
 ##### 1.4 Time-Series Model (85%)
 - **Status:** ✅ Production-Ready
@@ -101,7 +101,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - Time-Range Queries
 - **Dateien:** `src/timeseries/`, `include/timeseries/`
 - **Tests:** 22/22 PASS
-- **Dokumentation:** `docs/time_series.md`, `docs/temporal_time_range_queries.md`
+- **Dokumentation:** `docs/features/time_series.md`, `docs/features/temporal_time_range_queries.md`
 
 ##### 1.5 Content/Document Model (75%)
 - **Status:** ⚠️ MVP implementiert
@@ -114,7 +114,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
     - Geo-Processor (GeoJSON/GPX Parsing, Normalisierung)
   - JSON Ingestion Specification
 - **Dateien:** `src/content/`, `include/content/`
-- **Dokumentation:** `docs/content_architecture.md`, `docs/content_pipeline.md`, `docs/ingestion/json_ingestion_spec.md`
+- **Dokumentation:** `docs/architecture/content_architecture.md`, `docs/architecture/content_pipeline.md`, `docs/ingestion/json_ingestion_spec.md`
 
 #### 1.6 Geo/Spatial als Cross-Cutting Capability (85%)
 - **Status:** ✅ MVP Production-Ready
@@ -131,7 +131,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
     - Advanced: `ST_Buffer`, `ST_Union` (MVP)
 - **Dateien:** `src/geo/`, `include/geo/`, `src/index/spatial_index.cpp`
 - **Tests:** 333 Zeilen (test_spatial_index.cpp)
-- **Dokumentation:** `docs/GEO_ARCHITECTURE.md`
+- **Dokumentation:** `docs/geo/architecture.md`
 
 ---
 
@@ -148,7 +148,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - LZ4 (Default, 33.8 MB/s, 2.1x Kompression)
   - ZSTD (Bottommost Level, 32.3 MB/s, 2.8x Kompression)
 - **Dateien:** `src/storage/rocksdb_wrapper.cpp`, `src/storage/base_entity.cpp`
-- **Dokumentation:** `docs/base_entity.md`, `docs/storage/rocksdb_layout.md`, `docs/compression_benchmarks.md`
+- **Dokumentation:** `docs/architecture/base_entity.md`, `docs/storage/rocksdb_layout.md`, `docs/performance/compression_benchmarks.md`
 
 #### 2.2 MVCC (Multi-Version Concurrency Control)
 - **Status:** ✅ Production-Ready
@@ -159,7 +159,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - Concurrent Transactions
   - Atomare Updates über alle Index-Layer
 - **Tests:** 27/27 PASS
-- **Dokumentation:** `docs/mvcc_design.md`, `docs/transactions.md`
+- **Dokumentation:** `docs/architecture/mvcc_design.md`, `docs/features/transactions.md`
 
 #### 2.3 Memory Hierarchy Optimierung
 - **WAL:** NVMe SSD (niedrigste Latenz für Commits)
@@ -169,7 +169,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - **Bloom-Filter:** RAM (probabilistische Prüfung auf nicht-existente Keys)
 - **HNSW Upper Layers:** RAM (pinned für Navigation-Hotspots)
 - **Graph-Topologie (Hot):** RAM (O(k) Traversals)
-- **Dokumentation:** `docs/memory_tuning.md`
+- **Dokumentation:** `docs/performance/memory_tuning.md`
 
 ---
 
@@ -209,7 +209,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 **Implementierungszeit:** 28 Stunden (Phase 3: 14h + Phase 4: 14h)  
 **Code:** 1800+ Zeilen neuer/modifizierter Code  
 **Tests:** 36 Tests (21 Execution + 15 Memory Management)  
-**Dokumentation:** `docs/SUBQUERY_IMPLEMENTATION_SUMMARY.md`, `docs/SUBQUERY_QUICK_REFERENCE.md`
+**Dokumentation:** `docs/aql/subquery_implementation_summary.md`, `docs/aql/subquery_quick_reference.md`
 
 #### 3.2 Query Optimizer
 - ✅ `EXPLAIN` - Zeigt geplanten Execution-Path
@@ -219,13 +219,13 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - ✅ Hybrid Query Optimization (Vector + Graph + Relational)
 - **Dateien:** `src/query/query_engine.cpp`, `src/query/aql_translator.cpp`
 - **Tests:** 43/43 Parser PASS, 9/9 HTTP-AQL PASS
-- **Dokumentation:** `docs/aql_syntax.md`, `docs/aql_explain_profile.md`, `docs/query_engine_aql.md`
+- **Dokumentation:** `docs/aql/syntax.md`, `docs/aql/explain_profile.md`, `docs/aql/query_engine.md`
 
 #### 3.3 Hybrid Queries
 - ✅ **Vector + Geo Queries:** Pre-Filtering mit Spatial Index
 - ✅ **Graph + Relational Queries:** Traversal mit Property-Filter
 - ✅ **Recursive Path Queries:** Zeitbereichs-basierte Graph-Navigation
-- **Dokumentation:** `docs/search/hybrid_search_design.md`, `docs/HYBRID_QUERIES_README.md`
+- **Dokumentation:** `docs/search/hybrid_search_design.md`, `docs/query/HYBRID_QUERIES_README.md`
 
 ---
 
@@ -253,7 +253,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - HSTS Headers (`max-age=31536000; includeSubDomains`)
 - Overhead: ~5% CPU, ~20ms Handshake
 - **Dateien:** `src/server/http_server.cpp`, `scripts/generate_test_certs.sh`
-- **Dokumentation:** `docs/TLS_SETUP.md` (400+ Zeilen)
+- **Dokumentation:** `docs/guides/tls_setup.md` (400+ Zeilen)
 
 ##### 4.1.3 Certificate Pinning (HSM/TSA) ✅
 - SHA256 Fingerprint Verification
@@ -261,7 +261,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - Leaf vs. Chain Pinning Support
 - Redundanz für Zertifikatsrotation
 - **Dateien:** `src/utils/pki_client.cpp`
-- **Dokumentation:** `docs/CERTIFICATE_PINNING.md` (700+ Zeilen)
+- **Dokumentation:** `docs/security/certificate_pinning.md` (700+ Zeilen)
 
 ##### 4.1.4 Input Validation & Sanitization ✅
 - JSON Schema Validation
@@ -283,7 +283,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - Automatische Token-Renewal
 - Secret Rotation Callbacks
 - Environment Fallback für Development
-- **Dokumentation:** `docs/VAULT.md` (500+ Zeilen)
+- **Dokumentation:** `docs/guides/vault.md` (500+ Zeilen)
 
 ##### 4.1.7 Audit Logging Enhancement ✅
 - **65 Security Event Types:**
@@ -292,7 +292,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - Hash Chain für Tamper-Detection (Merkle-like)
 - SIEM Integration (Syslog RFC 5424, Splunk HEC)
 - Severity Levels (HIGH/MEDIUM/LOW)
-- **Dokumentation:** `docs/AUDIT_LOGGING.md` (900+ Zeilen)
+- **Dokumentation:** `docs/features/audit_logging.md` (900+ Zeilen)
 
 ##### 4.1.8 RBAC (Role-Based Access Control) ✅
 - **Role Hierarchy:** admin → operator → analyst → readonly
@@ -300,7 +300,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - Wildcard Support (`*:*`)
 - JSON/YAML Konfiguration
 - User-Role Mapping Store
-- **Dokumentation:** `docs/RBAC.md` (800+ Zeilen)
+- **Dokumentation:** `docs/guides/rbac.md` (800+ Zeilen)
 
 #### 4.2 Compliance-Features
 
@@ -309,7 +309,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - ✅ Recht auf Auskunft (Audit Log Viewer)
 - ✅ Pseudonymisierung (PII Pseudonymizer)
 - ✅ Spaltenverschlüsselung (Column-Level Encryption - Design Phase)
-- **Dokumentation:** `docs/compliance.md`, `docs/pii_detection_engines.md`
+- **Dokumentation:** `docs/features/compliance.md`, `docs/security/pii_detection_engines.md`
 
 ##### SOC 2 ✅
 - ✅ Access Control (CC6.1) - RBAC
@@ -327,7 +327,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - ✅ Testing: Zero kritische CVEs, OWASP ZAP Baseline bestanden
 - 📊 Performance: <15% Overhead mit allen Features aktiviert
 
-**Dokumentation:** `docs/SECURITY_IMPLEMENTATION_SUMMARY.md`
+**Dokumentation:** `docs/security/overview.md`
 
 ---
 
@@ -355,7 +355,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   - `rocksdb_memtable_size_bytes`
   - `rocksdb_files_level{level="L0".."L6"}` (pro Level)
 - **Encryption-Metriken:** 42 Counters, Performance Histograms, Grafana Alerts
-- **Dokumentation:** `docs/observability/prometheus_metrics.md`, `docs/encryption_metrics.md`
+- **Dokumentation:** `docs/observability/prometheus_metrics.md`, `docs/security/encryption_metrics.md`
 
 ##### OpenTelemetry Tracing ✅
 - **Status:** ✅ Infrastruktur implementiert
@@ -367,7 +367,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - **Kompatibilität:** opentelemetry-cpp v1.23.0
 - **TODO:** HTTP-Handler + Query-Engine instrumentieren
 - **Dateien:** `include/utils/tracing.h`, `src/utils/tracing.cpp`
-- **Dokumentation:** `docs/tracing.md`
+- **Dokumentation:** `docs/observability/tracing.md`
 
 ##### Statistics Endpoint ✅
 - **Endpoint:** `GET /stats`
@@ -380,13 +380,13 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 - RocksDB Checkpoints via `POST /admin/backup`
 - Point-in-Time Recovery mit WAL Archiving
 - Incremental Backup Scripts (Linux & Windows)
-- **Dokumentation:** `docs/deployment.md#backup--recovery`
+- **Dokumentation:** `docs/guides/deployment.md#backup--recovery`
 
 #### 5.3 Change Data Capture (CDC) ✅
 - Append-Only Event Log für alle Mutations
 - Incremental Consumption mit Checkpointing
 - SSE Streaming Support (experimentell)
-- **Dokumentation:** `docs/change_data_capture.md`, `docs/cdc.md`
+- **Dokumentation:** `docs/features/change_data_capture.md`, `docs/features/cdc.md`
 
 #### 5.4 Admin Tools (7 Tools) ✅
 - **WPF-Tools** mit einheitlichem Themis-Layout:
@@ -399,7 +399,7 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
   7. Compliance Reports
 - **Build/Publish:** `publish-all.ps1` (Release, self-contained win-x64)
 - **Artefakte:** `dist/<ToolName>/`
-- **Dokumentation:** `docs/admin_tools_user_guide.md`, `docs/admin_tools_admin_guide.md`
+- **Dokumentation:** `docs/admin_tools/user_guide.md`, `docs/admin_tools/admin_guide.md`
 
 ---
 
