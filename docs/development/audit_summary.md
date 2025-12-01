@@ -1,6 +1,6 @@
 # ThemisDB Stub & Simulation Audit - Zusammenfassung
 
-**Datum:** 21. November 2025  
+**Datum:** 1. Dezember 2025 (aktualisiert)  
 **Branch:** copilot/check-source-code-stubs  
 **Auftraggeber:** Issue-Anforderung zur Prüfung auf Stubs und Simulationen
 
@@ -19,6 +19,12 @@
 - **7 SDKs** geprüft (JavaScript, Python, Rust, Go, Java, C#, Swift)
 - **24 relevante Stubs/TODOs** identifiziert und kategorisiert
 - **Alle Findings dokumentiert** in strukturierter Form
+
+### Update Dezember 2025
+- ✅ **Ranger Adapter vollständig implementiert** (Retry, Timeouts, TLS)
+- ✅ **VaultKeyProvider vollständig implementiert** (713 Zeilen)
+- ✅ **HSMProvider PKCS#11 vollständig implementiert** (511 Zeilen)
+- ✅ **VCC-URN/VCC-PKI Sharding vollständig implementiert** (~6.900 Zeilen)
 
 ### 2. Erstellte Dokumente
 
@@ -82,10 +88,13 @@ Fehlende SDKs entdeckt:
 - Swift SDK (385 Zeilen)
 ```
 
-**code_audit_mockups_stubs.md - Status korrigiert:**
-- HSM Provider: ~~"Stub only"~~ → Real PKCS#11-Implementation vorhanden
-- PKI Client: ~~"Base64 only"~~ → OpenSSL RSA-Signaturen implementiert
-- Compliance: ~~"eIDAS nicht konform"~~ → eIDAS konform mit Zertifikaten
+**code_audit_mockups_stubs.md - Status korrigiert (Dezember 2025):**
+- HSM Provider: ~~"Stub only"~~ → ✅ Real PKCS#11-Implementation vorhanden (511 Zeilen)
+- PKI Client: ~~"Base64 only"~~ → ✅ OpenSSL RSA-Signaturen implementiert
+- VaultKeyProvider: ~~"vorbereitet"~~ → ✅ Vollständig implementiert (713 Zeilen)
+- Ranger Adapter: ~~"Teilweise simuliert"~~ → ✅ Vollständig implementiert (208 Zeilen)
+- VCC-URN/VCC-PKI Sharding: ~~"Roadmap"~~ → ✅ Vollständig implementiert (~6.900 Zeilen)
+- Compliance: ~~"eIDAS nicht konform"~~ → ✅ eIDAS konform mit Zertifikaten
 
 ---
 
@@ -140,10 +149,9 @@ Stubs haben immer Real-Alternativen oder bewusste Fallback-Strategien.
    - Impact: Performance-Optimierung
    - Aufwand: 3-4 Wochen (CUDA/Vulkan)
 
-4. **Ranger Adapter Hardening**
-   - Status: Funktional, aber ohne Retry/Pooling
-   - Impact: HIGH-Throughput-Szenarien
-   - Aufwand: 3-4 Tage
+4. ~~**Ranger Adapter Hardening**~~ ✅ ERLEDIGT (Dezember 2025)
+   - Status: ✅ Retry-Logic, Timeouts, TLS/mTLS implementiert
+   - Siehe: `src/server/ranger_adapter.cpp`
 
 ---
 

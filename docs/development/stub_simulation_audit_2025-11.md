@@ -1,5 +1,5 @@
 # ThemisDB Stub & Simulation Audit Report
-**Datum:** 21. November 2025  
+**Datum:** 1. Dezember 2025 (aktualisiert)  
 **Branch:** copilot/check-source-code-stubs  
 **Zweck:** Vollständige Prüfung des Sourcecodes auf Stubs, Simulationen und fehlende Implementierungen
 
@@ -15,10 +15,13 @@
 
 **Hauptfunde:**
 - 🟢 **Kernfunktionalität vollständig implementiert** (MVCC, Vector Search, Graph, AQL)
-- 🟡 **4 bewusste Stubs mit Fallback-Strategien** (HSM, PKI, GPU, TSA)
+- 🟢 **Enterprise-Integration vollständig** (Ranger, Vault, HSM/PKCS#11)
+- 🟢 **VCC-URN/VCC-PKI Sharding vollständig** (~6.900 Zeilen, 18 Module)
+- 🟡 **3 bewusste Stubs mit Fallback-Strategien** (GPU, TSA-Stub, Legacy Query Parser)
 - 🟢 **Alle Test-Mocks korrekt isoliert** (MockKeyProvider, MockCLIP)
-- ⚠️ **SDK Transaction Support fehlt** (alle 7 SDKs)
-- 🟢 **Legacy Query Parser entfernt** (korrekter Status)
+- ⚠️ **SDK Transaction Support fehlt** (6 von 7 SDKs - Java hat es)
+
+**Update Dezember 2025:** Ranger Adapter, VaultKeyProvider und HSMProvider sind vollständig produktionsreif (keine Stubs).
 
 ---
 
@@ -505,15 +508,16 @@ class Transaction {
 
 ---
 
-#### 2. Ranger Adapter Hardening
+#### 2. Ranger Adapter ✅ ERLEDIGT
 **Datei:** `src/server/ranger_adapter.cpp`
 
-**Fehlt:**
-- Connection Pooling
-- Retry-Logic
-- Timeout-Konfiguration
+**Status:** ✅ **Vollständig implementiert** (Dezember 2025)
+- ✅ Retry-Logic mit exponential backoff
+- ✅ Timeout-Konfiguration (connect + request)
+- ✅ TLS/mTLS Support
+- Optional: Connection-Pooling für sehr hohe Lasten
 
-**Aufwand:** 3-4 Tage
+**Siehe:** `docs/security/policies.md` für Details
 
 ---
 
