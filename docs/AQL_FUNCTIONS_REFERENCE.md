@@ -4992,6 +4992,482 @@ FOR antrag IN antraege
 
 ---
 
+## Automatisiertes Meilensteinmodell
+
+Dieses Kapitel zeigt, wie mit vorhandenen AQL-Mitteln ein vollautomatisiertes Meilensteinmodell auf Prozess-Nodes implementiert werden kann.
+
+### Datenmodell
+
+#### 1. Meilenstein-Definitionen (Master-Daten)
+
+```aql
+-- Collection: _milestones
+-- Definiert alle möglichen Meilensteine für einen Prozesstyp
+
+INSERT {
+  _key: "M1_EINGEGANGEN",
+  process_type: "bauantrag",
+  name: "Antrag eingegangen",
+  description: "Der Antrag wurde formal entgegengenommen",
+  trigger_activity: "antrag_einreichen",
+  sla_hours: 1,
+  sla_type: "business_hours",  -- calendar_hours | business_hours
+  is_critical: true,
+  is_reportable: true,
+  sequence: 1,
+  notify_on_reach: ["antragsteller"],
+  notify_on_overdue: ["teamleiter", "antragsteller"]
+} INTO _milestones
+
+INSERT {
+  _key: "M2_VOLLSTAENDIG",
+  process_type: "bauantrag",
+  name: "Vollständigkeitsprüfung abgeschlossen",
+  description: "Alle erforderlichen Unterlagen liegen vor",
+  trigger_activity: "vollstaendigkeit_pruefen",
+  sla_hours: 24,
+  sla_type: "business_hours",
+  is_critical: true,
+  is_reportable: true,
+  sequence: 2,
+  depends_on: "M1_EINGEGANGEN",
+  notify_on_reach: ["antragsteller"],
+  notify_on_overdue: ["sachbearbeiter", "teamleiter"]
+} INTO _milestones
+
+INSERT {
+  _key: "M3_FACHPRUEFUNG",
+  process_type: "bauantrag",
+  name: "Fachliche Prüfung abgeschlossen",
+  description: "Technische und rechtliche Prüfung durchgeführt",
+  trigger_activity: "fachlich_pruefen",
+  sla_hours: 120,  -- 15 Arbeitstage
+  sla_type: "business_hours",
+  is_critical: true,
+  is_reportable: true,
+  sequence: 3,
+  depends_on: "M2_VOLLSTAENDIG"
+} INTO _milestones
+
+INSERT {
+  _key: "M4_ENTSCHEIDUNG",
+  process_type: "bauantrag",
+  name: "Entscheidung getroffen",
+  description: "Genehmigung oder Ablehnung beschlossen",
+  trigger_activity: "entscheiden",
+  sla_hours: 160,  -- 20 Arbeitstage
+  sla_type: "business_hours",
+  is_critical: true,
+  is_reportable: true,
+  sequence: 4,
+  depends_on: "M3_FACHPRUEFUNG"
+} INTO _milestones
+
+INSERT {
+  _key: "M5_ZUGESTELLT",
+  process_type: "bauantrag",
+  name: "Bescheid zugestellt",
+  description: "Der Bescheid wurde dem Antragsteller zugestellt",
+  trigger_activity: "bescheid_versenden",
+  sla_hours: 168,  -- 21 Arbeitstage (gesetzliche Frist)
+  sla_type: "business_hours",
+  is_critical: true,
+  is_reportable: true,
+  sequence: 5,
+  depends_on: "M4_ENTSCHEIDUNG"
+} INTO _milestones
+```
+
+#### 2. Meilenstein-Instanzen (Tracking pro Vorgang)
+
+```aql
+-- Collection: _milestone_instances
+-- Tracking-Datensätze für jeden Vorgang
+
+{
+  _key: "MI-V2024-0001-M1",
+  milestone_id: "M1_EINGEGANGEN",
+  vorgang_id: "V-2024-0001",
+  process_type: "bauantrag",
+  
+  -- Zeitplanung
+  created_at: 1704060000000,      -- Wann wurde Instanz erstellt
+  due_date: 1704063600000,        -- Wann muss Meilenstein erreicht sein
+  reached_at: 1704061800000,      -- Wann wurde er tatsächlich erreicht (null wenn noch offen)
+  
+  -- Status
+  status: "reached",  -- pending | reached | overdue | skipped | cancelled
+  
+  -- Metriken
+  planned_duration_hours: 1,
+  actual_duration_hours: 0.5,
+  delay_hours: 0,
+  
+  -- Kontext
+  reached_by_user: "mueller",
+  notes: "Antrag vollständig eingereicht"
+}
+```
+
+### Automatische Meilenstein-Erstellung bei Vorgangsstart
+
+```aql
+-- Beim Anlegen eines neuen Vorgangs: Alle Meilensteine initialisieren
+LET vorgang = DOCUMENT("antraege", "V-2024-0001")
+LET processType = vorgang.process_type
+LET startTime = vorgang.created_at
+LET holidays = HOLIDAYS("DE_2024")
+
+-- Alle Meilensteine für diesen Prozesstyp laden
+FOR milestone IN _milestones
+  FILTER milestone.process_type == processType
+  SORT milestone.sequence ASC
+  
+  -- Kumulierte SLA-Zeit berechnen (jeder Meilenstein baut auf dem vorherigen auf)
+  LET previousMilestones = (
+    FOR m IN _milestones
+      FILTER m.process_type == processType
+      FILTER m.sequence < milestone.sequence
+      RETURN m.sla_hours
+  )
+  LET cumulativeSlaHours = SUM(previousMilestones) + milestone.sla_hours
+  
+  -- Due Date berechnen (mit Arbeitstagen)
+  LET dueDate = milestone.sla_type == "business_hours"
+    ? WORKDAYS_ADD(startTime, CEIL(cumulativeSlaHours / 8), holidays)
+    : startTime + (cumulativeSlaHours * 3600 * 1000)
+  
+  -- Meilenstein-Instanz erstellen
+  INSERT {
+    _key: CONCAT("MI-", vorgang._key, "-", milestone._key),
+    milestone_id: milestone._key,
+    vorgang_id: vorgang._key,
+    process_type: processType,
+    created_at: NOW(),
+    due_date: dueDate,
+    reached_at: null,
+    status: "pending",
+    planned_duration_hours: milestone.sla_hours,
+    actual_duration_hours: null,
+    delay_hours: null,
+    sequence: milestone.sequence
+  } INTO _milestone_instances
+  
+  RETURN {
+    milestone: milestone.name,
+    due: DATE_FORMAT(dueDate, "%Y-%m-%d %H:%M"),
+    sla_hours: milestone.sla_hours
+  }
+```
+
+### Meilenstein-Aktualisierung bei Aktivitätsabschluss
+
+```aql
+-- Wenn eine Aktivität abgeschlossen wird: Entsprechenden Meilenstein aktualisieren
+LET vorgangId = "V-2024-0001"
+LET activity = "vollstaendigkeit_pruefen"
+LET completedAt = NOW()
+LET completedBy = "mueller"
+
+-- Meilenstein finden, der durch diese Aktivität getriggert wird
+LET milestone = FIRST(
+  FOR m IN _milestones
+    FILTER m.trigger_activity == activity
+    RETURN m
+)
+
+-- Meilenstein-Instanz aktualisieren
+FOR mi IN _milestone_instances
+  FILTER mi.vorgang_id == vorgangId
+  FILTER mi.milestone_id == milestone._key
+  
+  LET actualDuration = (completedAt - mi.created_at) / (1000 * 3600)
+  LET delay = MAX([0, actualDuration - mi.planned_duration_hours])
+  LET newStatus = completedAt <= mi.due_date ? "reached" : "overdue"
+  
+  UPDATE mi WITH {
+    reached_at: completedAt,
+    status: newStatus,
+    actual_duration_hours: actualDuration,
+    delay_hours: delay,
+    reached_by_user: completedBy
+  } IN _milestone_instances
+  
+  RETURN {
+    milestone: milestone.name,
+    status: newStatus,
+    on_time: newStatus == "reached",
+    delay_hours: delay
+  }
+```
+
+### Meilenstein-Dashboard: Alle offenen Vorgänge mit SLA-Status
+
+```aql
+-- Übersicht aller Vorgänge mit aktuellem Meilenstein-Status
+FOR vorgang IN antraege
+  FILTER vorgang.status != "abgeschlossen"
+  
+  -- Alle Meilenstein-Instanzen für diesen Vorgang
+  LET milestones = (
+    FOR mi IN _milestone_instances
+      FILTER mi.vorgang_id == vorgang._key
+      SORT mi.sequence ASC
+      
+      FOR m IN _milestones
+        FILTER m._key == mi.milestone_id
+        
+        LET verbleibendeZeit = mi.status == "pending"
+          ? (mi.due_date - NOW()) / (1000 * 3600)
+          : null
+        
+        LET ampel = mi.status == "reached" ? "grün"
+          : mi.status == "overdue" ? "rot"
+          : verbleibendeZeit < 0 ? "rot"
+          : verbleibendeZeit < 8 ? "gelb"
+          : "grün"
+        
+        RETURN {
+          name: m.name,
+          sequence: mi.sequence,
+          status: mi.status,
+          due: DATE_FORMAT(mi.due_date, "%Y-%m-%d %H:%M"),
+          reached: mi.reached_at ? DATE_FORMAT(mi.reached_at, "%Y-%m-%d %H:%M") : null,
+          remaining_hours: ROUND(verbleibendeZeit, 1),
+          delay_hours: mi.delay_hours,
+          ampel: ampel,
+          is_critical: m.is_critical
+        }
+  )
+  
+  -- Nächster fälliger Meilenstein
+  LET naechsterMeilenstein = FIRST(
+    FOR ms IN milestones
+      FILTER ms.status == "pending"
+      SORT ms.sequence ASC
+      LIMIT 1
+      RETURN ms
+  )
+  
+  -- Gesamtstatus berechnen
+  LET hatUeberfaellige = LENGTH(
+    FOR ms IN milestones FILTER ms.ampel == "rot" RETURN 1
+  ) > 0
+  
+  LET hatWarnungen = LENGTH(
+    FOR ms IN milestones FILTER ms.ampel == "gelb" RETURN 1
+  ) > 0
+  
+  RETURN {
+    vorgang_id: vorgang._key,
+    antragsteller: vorgang.antragsteller,
+    typ: vorgang.process_type,
+    gesamtstatus: hatUeberfaellige ? "KRITISCH" : hatWarnungen ? "WARNUNG" : "OK",
+    naechster_meilenstein: naechsterMeilenstein,
+    meilensteine: milestones,
+    fortschritt: CONCAT(
+      LENGTH(FOR ms IN milestones FILTER ms.status == "reached" RETURN 1),
+      " / ",
+      LENGTH(milestones)
+    )
+  }
+```
+
+### Meilenstein-Statistik pro Meilenstein-Typ
+
+```aql
+-- Aggregierte Statistiken für alle Meilensteine eines Typs
+FOR milestone IN _milestones
+  FILTER milestone.process_type == "bauantrag"
+  
+  LET instances = (
+    FOR mi IN _milestone_instances
+      FILTER mi.milestone_id == milestone._key
+      RETURN mi
+  )
+  
+  LET reached = (FOR i IN instances FILTER i.status == "reached" RETURN i)
+  LET overdue = (FOR i IN instances FILTER i.status == "overdue" RETURN i)
+  LET pending = (FOR i IN instances FILTER i.status == "pending" RETURN i)
+  
+  LET slaEinhaltung = LENGTH(instances) > 0
+    ? ROUND(LENGTH(reached) * 100 / LENGTH(instances), 1)
+    : null
+  
+  LET avgDuration = LENGTH(reached) > 0
+    ? ROUND(AVG(FOR r IN reached RETURN r.actual_duration_hours), 1)
+    : null
+  
+  LET avgDelay = LENGTH(overdue) > 0
+    ? ROUND(AVG(FOR o IN overdue RETURN o.delay_hours), 1)
+    : null
+  
+  RETURN {
+    meilenstein: milestone.name,
+    sla_stunden: milestone.sla_hours,
+    erreicht: LENGTH(reached),
+    ueberfaellig: LENGTH(overdue),
+    offen: LENGTH(pending),
+    gesamt: LENGTH(instances),
+    sla_einhaltung_prozent: slaEinhaltung,
+    durchschnittliche_dauer_stunden: avgDuration,
+    durchschnittliche_verzoegerung_stunden: avgDelay
+  }
+```
+
+### Automatische Eskalation bei kritischen Meilensteinen
+
+```aql
+-- Täglich ausführen: Finde gefährdete kritische Meilensteine und eskaliere
+LET warnschwelleStunden = 8  -- 1 Arbeitstag Vorlauf
+
+FOR mi IN _milestone_instances
+  FILTER mi.status == "pending"
+  
+  FOR m IN _milestones
+    FILTER m._key == mi.milestone_id
+    FILTER m.is_critical == true
+    
+    LET verbleibendeStunden = (mi.due_date - NOW()) / (1000 * 3600)
+    
+    -- Eskalieren wenn weniger als Schwellwert übrig
+    FILTER verbleibendeStunden < warnschwelleStunden AND verbleibendeStunden > 0
+    
+    -- Vorgang laden
+    LET vorgang = DOCUMENT("antraege", mi.vorgang_id)
+    
+    -- Eskalationsnachricht erstellen
+    INSERT {
+      _key: CONCAT("ESK-", mi._key, "-", DATE_FORMAT(NOW(), "%Y%m%d")),
+      type: "milestone_warning",
+      milestone_id: mi.milestone_id,
+      milestone_name: m.name,
+      vorgang_id: mi.vorgang_id,
+      due_date: mi.due_date,
+      remaining_hours: ROUND(verbleibendeStunden, 1),
+      severity: verbleibendeStunden < 4 ? "high" : "medium",
+      recipients: m.notify_on_overdue,
+      created_at: NOW(),
+      message: CONCAT(
+        "Meilenstein '", m.name, "' für Vorgang ", mi.vorgang_id,
+        " läuft in ", ROUND(verbleibendeStunden, 1), " Stunden ab!"
+      )
+    } INTO _escalations OPTIONS { ignoreErrors: true }
+    
+    RETURN {
+      vorgang: mi.vorgang_id,
+      meilenstein: m.name,
+      ablauf_in_stunden: ROUND(verbleibendeStunden, 1),
+      empfaenger: m.notify_on_overdue
+    }
+```
+
+### Meilenstein-Report für einen Vorgang
+
+```aql
+-- Vollständiger Meilenstein-Report für einen einzelnen Vorgang
+LET vorgangId = "V-2024-0001"
+LET vorgang = DOCUMENT("antraege", vorgangId)
+
+LET meilensteine = (
+  FOR mi IN _milestone_instances
+    FILTER mi.vorgang_id == vorgangId
+    SORT mi.sequence ASC
+    
+    FOR m IN _milestones
+      FILTER m._key == mi.milestone_id
+      
+      RETURN {
+        nr: mi.sequence,
+        name: m.name,
+        beschreibung: m.description,
+        sla_stunden: m.sla_hours,
+        faellig_am: DATE_FORMAT(mi.due_date, "%d.%m.%Y %H:%M"),
+        erreicht_am: mi.reached_at ? DATE_FORMAT(mi.reached_at, "%d.%m.%Y %H:%M") : "-",
+        status: mi.status,
+        dauer_stunden: mi.actual_duration_hours,
+        verzoegerung_stunden: mi.delay_hours,
+        bearbeiter: mi.reached_by_user
+      }
+)
+
+LET erreicht = LENGTH(FOR ms IN meilensteine FILTER ms.status == "reached" RETURN 1)
+LET gesamt = LENGTH(meilensteine)
+LET onTime = LENGTH(FOR ms IN meilensteine FILTER ms.status == "reached" AND ms.verzoegerung_stunden == 0 RETURN 1)
+
+RETURN {
+  vorgang: {
+    id: vorgangId,
+    typ: vorgang.process_type,
+    antragsteller: vorgang.antragsteller,
+    eingereicht_am: DATE_FORMAT(vorgang.created_at, "%d.%m.%Y")
+  },
+  fortschritt: {
+    erreicht: erreicht,
+    gesamt: gesamt,
+    prozent: ROUND(erreicht * 100 / gesamt),
+    on_time: onTime,
+    verspaetet: erreicht - onTime
+  },
+  meilensteine: meilensteine,
+  naechster_schritt: FIRST(
+    FOR ms IN meilensteine
+      FILTER ms.status == "pending"
+      LIMIT 1
+      RETURN ms
+  )
+}
+```
+
+### Vorhersage der Gesamtdurchlaufzeit basierend auf Meilensteinen
+
+```aql
+-- Prognose der Gesamtdurchlaufzeit basierend auf bisherigem Fortschritt
+LET vorgangId = "V-2024-0001"
+
+LET meilensteine = (
+  FOR mi IN _milestone_instances
+    FILTER mi.vorgang_id == vorgangId
+    SORT mi.sequence ASC
+    
+    FOR m IN _milestones
+      FILTER m._key == mi.milestone_id
+      RETURN MERGE(mi, { sla_hours: m.sla_hours, name: m.name })
+)
+
+-- Bisherige Performance berechnen
+LET erreicht = (FOR ms IN meilensteine FILTER ms.status == "reached" RETURN ms)
+LET offen = (FOR ms IN meilensteine FILTER ms.status == "pending" RETURN ms)
+
+LET durchschnittlicheAbweichung = LENGTH(erreicht) > 0
+  ? AVG(FOR e IN erreicht RETURN (e.actual_duration_hours - e.sla_hours) / e.sla_hours)
+  : 0
+
+-- Restdauer prognostizieren
+LET geplanteSlaRestStunden = SUM(FOR o IN offen RETURN o.sla_hours)
+LET prognostizierteRestStunden = geplanteSlaRestStunden * (1 + durchschnittlicheAbweichung)
+
+-- Enddatum prognostizieren
+LET jetzt = NOW()
+LET holidays = HOLIDAYS("DE_2024")
+LET prognostiziertesEnde = WORKDAYS_ADD(jetzt, CEIL(prognostizierteRestStunden / 8), holidays)
+
+RETURN {
+  vorgang_id: vorgangId,
+  meilensteine_erreicht: LENGTH(erreicht),
+  meilensteine_offen: LENGTH(offen),
+  durchschnittliche_abweichung_prozent: ROUND(durchschnittlicheAbweichung * 100, 1),
+  geplante_rest_stunden: geplanteSlaRestStunden,
+  prognostizierte_rest_stunden: ROUND(prognostizierteRestStunden, 1),
+  prognostiziertes_ende: DATE_FORMAT(prognostiziertesEnde, "%d.%m.%Y"),
+  konfidenz: durchschnittlicheAbweichung < 0.1 ? "hoch" 
+           : durchschnittlicheAbweichung < 0.3 ? "mittel" 
+           : "niedrig"
+}
+```
+
+---
+
 ## FAQ - Erweitert
 
 ### Grundlagen
