@@ -789,6 +789,69 @@ FOR variable IN collection
   }
 ```
 
+### Inline-Literale in RETURN (JSON-alike)
+
+AQL unterstützt vollständig verschachtelte inline Object- und Array-Literale im RETURN:
+
+```aql
+// Einfaches Objekt-Literal
+RETURN { name: "Alice", age: 30 }
+
+// Verschachteltes Objekt mit Array
+RETURN {
+  user: {
+    name: doc.name,
+    contact: {
+      email: doc.email,
+      phone: doc.phone
+    }
+  },
+  tags: ["active", "premium"],
+  metadata: {
+    created: NOW(),
+    version: 1
+  }
+}
+
+// Array von Objekten
+RETURN [
+  { type: "primary", value: doc.email },
+  { type: "secondary", value: doc.phone }
+]
+
+// Dynamische Verschachtelung mit Funktionen
+FOR user IN users
+  LET orders = (FOR o IN orders FILTER o.user == user._key RETURN o)
+  RETURN {
+    profile: {
+      id: user._key,
+      name: CONCAT(user.firstName, " ", user.lastName),
+      initials: CONCAT(SUBSTRING(user.firstName, 0, 1), SUBSTRING(user.lastName, 0, 1))
+    },
+    statistics: {
+      orderCount: LENGTH(orders),
+      totalSpent: SUM(orders[*].amount),
+      avgOrder: AVG(orders[*].amount)
+    },
+    recentOrders: (
+      FOR o IN orders
+        SORT o.date DESC
+        LIMIT 3
+        RETURN { id: o._key, date: o.date, amount: o.amount }
+    ),
+    flags: [
+      user.isActive ? "active" : "inactive",
+      LENGTH(orders) > 10 ? "frequent" : "occasional"
+    ]
+  }
+```
+
+**Wichtig:** Die Syntax ist JSON-ähnlich, aber mit AQL-Erweiterungen:
+- Schlüssel ohne Anführungszeichen: `{ name: "value" }` statt `{ "name": "value" }`
+- Shorthand-Syntax: `{ name, age }` entspricht `{ name: name, age: age }`
+- Ausdrücke als Werte: `{ total: SUM(values) }`
+- Ternäre Operatoren: `{ status: isActive ? "on" : "off" }`
+
 ### Operatoren
 
 | Kategorie | Operatoren | Beispiel |
