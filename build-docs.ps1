@@ -56,15 +56,13 @@ if (Test-Path $pdfPath) {
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "`n✅ Dokumentation erfolgreich gebaut!" -ForegroundColor Green
-    Write-Host "   Output: .\site\" -ForegroundColor Gray
-    Write-Host "`nÖffne die Dokumentation lokal:" -ForegroundColor Cyan
-    Write-Host "   .\site\index.html" -ForegroundColor White
     Write-Host "   PDF: docs\\ThemisDB-Documentation.pdf" -ForegroundColor White
     
-    # Optional: Öffne im Browser
-    $openBrowser = Read-Host "`nMöchtest du die Dokumentation im Browser öffnen? (j/n)"
-    if ($openBrowser -eq 'j' -or $openBrowser -eq 'J' -or $openBrowser -eq 'y' -or $openBrowser -eq 'Y') {
-        Start-Process ".\site\index.html"
+    # Lösche HTML-Ausgabe nach PDF-Generierung
+    Write-Host "`nLösche HTML-Ausgabe (site/) zur Speicherplatzersparnis..." -ForegroundColor Yellow
+    if (Test-Path "site") {
+        Remove-Item -Recurse -Force "site"
+        Write-Host "✅ site/ gelöscht" -ForegroundColor Green
     }
 } else {
     Write-Error "Build fehlgeschlagen!"
