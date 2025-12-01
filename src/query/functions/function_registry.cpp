@@ -8,10 +8,10 @@
  * 
  * | Category   | Description                              | Count |
  * |------------|------------------------------------------|-------|
- * | String     | Text manipulation and pattern matching   | ~15   |
- * | Math       | Arithmetic, trigonometry, statistics     | ~25   |
+ * | String     | Text manipulation and pattern matching   | ~20   |
+ * | Math       | Arithmetic, trigonometry, statistics     | ~30   |
  * | Array      | List operations and transformations      | ~20   |
- * | Date       | Date/time parsing, formatting, arithmetic| ~15   |
+ * | Date       | Date/time parsing, formatting, arithmetic| ~45   |
  * | Document   | Object manipulation and type checking    | ~20   |
  * | Geo        | Spatial/GIS functions (OGC compatible)   | ~25   |
  * | CRS        | Coordinate Reference System transforms   | ~10   |
@@ -19,8 +19,9 @@
  * | Graph      | Traversal, centrality, path finding      | ~15   |
  * | Relational | SQL-style joins, aggregation, window     | ~25   |
  * | File       | Path manipulation, MIME types, sizing    | ~20   |
+ * | Collection | JSON-native constructors, logical ops    | ~40   |
  * 
- * Total: ~210 functions
+ * Total: ~340 functions
  */
 
 #include "query/functions/function_registry.h"
@@ -35,6 +36,7 @@
 #include "query/functions/graph_functions.h"
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
+#include "query/functions/collection_functions.h"
 
 namespace themis {
 namespace query {
@@ -61,6 +63,10 @@ void registerBuiltinFunctions() {
     
     // File/storage functions
     registerFileFunctions(registry);        // Path manipulation, MIME types
+    
+    // Collection and logical functions (JSON-native, Excel-style)
+    // Includes: ARRAY, DICT, JSON, HOLIDAYS, AND, OR, IF, SWITCH, ALL, ANY, etc.
+    registerCollectionFunctions(registry);
 }
 
 } // namespace functions
