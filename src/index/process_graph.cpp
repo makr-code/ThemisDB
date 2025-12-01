@@ -178,16 +178,17 @@ ProcessGraphManager::Status ProcessGraphManager::registerProcess(
         return Status::Error("Process ID cannot be empty");
     }
 
-    BaseEntity process(std::string(process_id));
-    process.setField("id", std::string(process_id));
-    process.setField("name", std::string(name));
-    process.setField("created_at", currentTimeMs());
+    BaseEntity::FieldMap fields;
+    fields["id"] = std::string(process_id);
+    fields["name"] = std::string(name);
+    fields["created_at"] = static_cast<int64_t>(currentTimeMs());
     if (!bpmn_xml.empty()) {
-        process.setField("bpmn_xml", std::string(bpmn_xml));
+        fields["bpmn_xml"] = std::string(bpmn_xml);
     }
+    BaseEntity processEntity = BaseEntity::fromFields(std::string(process_id), fields);
 
     std::string key = makeProcessKey_(process_id);
-    if (!db_.put(key, process.serialize())) {
+    if (!db_.put(key, processEntity.serialize())) {
         return Status::Error("Failed to store process definition");
     }
 
@@ -346,7 +347,8 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
             std::string nodeId = keyStr.substr(lastColon + 1);
-            BaseEntity entity = BaseEntity::deserialize(nodeId, val);
+            std::vector<uint8_t> blob(val.begin(), val.end());
+            BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
             
             ProcessNodeInfo info;
             info.node_id = nodeId;
@@ -384,7 +386,8 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
             std::string edgeId = keyStr.substr(lastColon + 1);
-            BaseEntity entity = BaseEntity::deserialize(edgeId, val);
+            std::vector<uint8_t> blob(val.begin(), val.end());
+            BaseEntity entity = BaseEntity::deserialize(edgeId, blob);
             
             ProcessEdgeInfo info;
             info.edge_id = edgeId;
@@ -492,7 +495,8 @@ std::pair<ProcessGraphManager::Status, std::string> ProcessGraphManager::startPr
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
             std::string nodeId = keyStr.substr(lastColon + 1);
-            BaseEntity entity = BaseEntity::deserialize(nodeId, val);
+            std::vector<uint8_t> blob(val.begin(), val.end());
+            BaseEntity entity = BaseEntity::deserialize(nodeId, blob);
             
             auto nodeType = entity.getFieldAsString("node_type").value_or("");
             if (nodeType == "START_EVENT" || nodeType == "EVENT") {
@@ -601,7 +605,8 @@ ProcessGraphManager::getProcessInstance(std::string_view instance_id) const {
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
             std::string tokenId = keyStr.substr(lastColon + 1);
-            BaseEntity tokenEntity = BaseEntity::deserialize(tokenId, val);
+            std::vector<uint8_t> blob(val.begin(), val.end());
+            BaseEntity tokenEntity = BaseEntity::deserialize(tokenId, blob);
             
             ProcessToken token;
             token.token_id = tokenId;
@@ -653,7 +658,8 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         size_t lastColon = keyStr.rfind(':');
         if (lastColon != std::string::npos) {
             std::string edgeId = keyStr.substr(lastColon + 1);
-            BaseEntity entity = BaseEntity::deserialize(edgeId, val);
+            std::vector<uint8_t> blob(val.begin(), val.end());
+            BaseEntity entity = BaseEntity::deserialize(edgeId, blob);
             
             auto from = entity.getFieldAsString("_from").value_or("");
             if (from == token->current_node) {
@@ -677,12 +683,13 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
         token->completed_at_ms = currentTimeMs();
         
         // Update token in DB
-        BaseEntity tokenEntity(std::string(token_id));
-        tokenEntity.setField("id", std::string(token_id));
-        tokenEntity.setField("instance_id", std::string(instance_id));
-        tokenEntity.setField("current_node", token->current_node);
-        tokenEntity.setField("state", "COMPLETED");
-        tokenEntity.setField("completed_at", *token->completed_at_ms);
+        BaseEntity::FieldMap fields;
+        fields["id"] = std::string(token_id);
+        fields["instance_id"] = std::string(instance_id);
+        fields["current_node"] = token->current_node;
+        fields["state"] = std::string("COMPLETED");
+        fields["completed_at"] = static_cast<int64_t>(*token->completed_at_ms);
+        BaseEntity tokenEntity = BaseEntity::fromFields(std::string(token_id), fields);
         
         std::string tokenKey = makeTokenKey_(instance_id, token_id);
         db_.put(tokenKey, tokenEntity.serialize());
@@ -717,14 +724,15 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
     token->visited_nodes.push_back(targetNode);
 
     // Update token in DB
-    BaseEntity tokenEntity(std::string(token_id));
-    tokenEntity.setField("id", std::string(token_id));
-    tokenEntity.setField("instance_id", std::string(instance_id));
-    tokenEntity.setField("current_node", token->current_node);
-    tokenEntity.setField("state", "READY");
+    BaseEntity::FieldMap fields2;
+    fields2["id"] = std::string(token_id);
+    fields2["instance_id"] = std::string(instance_id);
+    fields2["current_node"] = token->current_node;
+    fields2["state"] = std::string("READY");
+    BaseEntity tokenEntity2 = BaseEntity::fromFields(std::string(token_id), fields2);
     
     std::string tokenKey = makeTokenKey_(instance_id, token_id);
-    db_.put(tokenKey, tokenEntity.serialize());
+    db_.put(tokenKey, tokenEntity2.serialize());
 
     return Status::OK();
 }

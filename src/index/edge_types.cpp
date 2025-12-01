@@ -13,9 +13,7 @@ namespace {
 
 EdgeTypeRegistry& EdgeTypeRegistry::instance() {
     static EdgeTypeRegistry registry;
-    std::call_once(init_flag, [&registry]() {
-        registry.initializeBuiltinTypes();
-    });
+    std::call_once(init_flag, &EdgeTypeRegistry::initializeBuiltinTypes, &registry);
     return registry;
 }
 

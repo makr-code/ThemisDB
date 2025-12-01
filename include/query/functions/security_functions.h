@@ -44,10 +44,12 @@ class IsEmailFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_EMAIL",
-            "Validate email address format",
-            {{"email", ArgType::String, false, "Email address to validate"}},
-            ArgType::Boolean
+            .name = "IS_EMAIL",
+            .category = "Security",
+            .description = "Validate email address format",
+            .arguments = {{"email", ArgType::String, false, nullptr, "Email address to validate"}},
+            .return_type = ArgType::Boolean,
+            .is_deterministic = true
         };
     }
     
@@ -79,10 +81,11 @@ class IsUrlFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_URL",
-            "Validate URL format",
-            {{"url", ArgType::String, false, "URL to validate"}},
-            ArgType::Boolean
+            .name = "IS_URL",
+            .category = "Security",
+            .description = "Validate URL format",
+            .arguments = {{"url", ArgType::String, false, nullptr, "URL to validate"}},
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -112,10 +115,11 @@ class IsUuidFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_UUID",
-            "Validate UUID format (v1-v5)",
-            {{"uuid", ArgType::String, false, "UUID to validate"}},
-            ArgType::Boolean
+            .name = "IS_UUID",
+            .category = "Security",
+            .description = "Validate UUID format (v1-v5)",
+            .arguments = {{"uuid", ArgType::String, false, nullptr, "UUID to validate"}},
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -147,13 +151,14 @@ class IsIpFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_IP",
-            "Validate IP address format",
-            {
-                {"ip", ArgType::String, false, "IP address to validate"},
-                {"version", ArgType::Number, true, "4 for IPv4, 6 for IPv6"}
+            .name = "IS_IP",
+            .category = "Security",
+            .description = "Validate IP address format",
+            .arguments = {
+                {"ip", ArgType::String, false, nullptr, "IP address to validate"},
+                {"version", ArgType::Number, true, nullptr, "4 for IPv4, 6 for IPv6"}
             },
-            ArgType::Boolean
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -195,13 +200,14 @@ class IsPhoneFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_PHONE",
-            "Validate phone number format",
-            {
-                {"phone", ArgType::String, false, "Phone number to validate"},
-                {"countryCode", ArgType::String, true, "Country code (e.g., DE, US)"}
+            .name = "IS_PHONE",
+            .category = "Security",
+            .description = "Validate phone number format",
+            .arguments = {
+                {"phone", ArgType::String, false, nullptr, "Phone number to validate"},
+                {"countryCode", ArgType::String, true, nullptr, "Country code (e.g., DE, US)"}
             },
-            ArgType::Boolean
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -240,10 +246,11 @@ class IsIbanFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_IBAN",
-            "Validate IBAN format with checksum",
-            {{"iban", ArgType::String, false, "IBAN to validate"}},
-            ArgType::Boolean
+            .name = "IS_IBAN",
+            .category = "Security",
+            .description = "Validate IBAN format with checksum",
+            .arguments = {{"iban", ArgType::String, false, nullptr, "IBAN to validate"}},
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -298,10 +305,11 @@ class IsCreditCardFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "IS_CREDIT_CARD",
-            "Validate credit card number (Luhn algorithm)",
-            {{"card", ArgType::String, false, "Credit card number to validate"}},
-            ArgType::Boolean
+            .name = "IS_CREDIT_CARD",
+            .category = "Security",
+            .description = "Validate credit card number (Luhn algorithm)",
+            .arguments = {{"card", ArgType::String, false, nullptr, "Credit card number to validate"}},
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -360,13 +368,14 @@ class SanitizeFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "SANITIZE",
-            "Sanitize input string",
-            {
-                {"str", ArgType::String, false, "String to sanitize"},
-                {"type", ArgType::String, true, "Type: html, sql, json, filename"}
+            .name = "SANITIZE",
+            .category = "Security",
+            .description = "Sanitize input string",
+            .arguments = {
+                {"str", ArgType::String, false, nullptr, "String to sanitize"},
+                {"type", ArgType::String, true, nullptr, "Type: html, sql, json, filename"}
             },
-            ArgType::String
+            .return_type = ArgType::String
         };
     }
     
@@ -469,13 +478,14 @@ class HasInjectionFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "HAS_INJECTION",
-            "Check for potential injection patterns",
-            {
-                {"str", ArgType::String, false, "String to check"},
-                {"type", ArgType::String, true, "Type: sql, xss, path, cmd"}
+            .name = "HAS_INJECTION",
+            .category = "Security",
+            .description = "Check for potential injection patterns",
+            .arguments = {
+                {"str", ArgType::String, false, nullptr, "String to check"},
+                {"type", ArgType::String, true, nullptr, "Type: sql, xss, path, cmd"}
             },
-            ArgType::Boolean
+            .return_type = ArgType::Boolean
         };
     }
     
@@ -564,15 +574,16 @@ class MaskFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "MASK",
-            "Mask characters in string",
-            {
-                {"str", ArgType::String, false, "String to mask"},
-                {"start", ArgType::Number, true, "Characters to show at start"},
-                {"end", ArgType::Number, true, "Characters to show at end"},
-                {"char", ArgType::String, true, "Masking character"}
+            .name = "MASK",
+            .category = "Security",
+            .description = "Mask characters in string",
+            .arguments = {
+                {"str", ArgType::String, false, nullptr, "String to mask"},
+                {"start", ArgType::Number, true, nullptr, "Characters to show at start"},
+                {"end", ArgType::Number, true, nullptr, "Characters to show at end"},
+                {"char", ArgType::String, true, nullptr, "Masking character"}
             },
-            ArgType::String
+            .return_type = ArgType::String
         };
     }
     
@@ -615,10 +626,11 @@ class MaskEmailFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "MASK_EMAIL",
-            "Mask email address",
-            {{"email", ArgType::String, false, "Email to mask"}},
-            ArgType::String
+            .name = "MASK_EMAIL",
+            .category = "Security",
+            .description = "Mask email address",
+            .arguments = {{"email", ArgType::String, false, nullptr, "Email to mask"}},
+            .return_type = ArgType::String
         };
     }
     
@@ -673,10 +685,11 @@ class MaskCreditCardFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "MASK_CREDIT_CARD",
-            "Mask credit card number",
-            {{"card", ArgType::String, false, "Credit card to mask"}},
-            ArgType::String
+            .name = "MASK_CREDIT_CARD",
+            .category = "Security",
+            .description = "Mask credit card number",
+            .arguments = {{"card", ArgType::String, false, nullptr, "Credit card to mask"}},
+            .return_type = ArgType::String
         };
     }
     
@@ -712,10 +725,11 @@ class MaskIbanFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "MASK_IBAN",
-            "Mask IBAN",
-            {{"iban", ArgType::String, false, "IBAN to mask"}},
-            ArgType::String
+            .name = "MASK_IBAN",
+            .category = "Security",
+            .description = "Mask IBAN",
+            .arguments = {{"iban", ArgType::String, false, nullptr, "IBAN to mask"}},
+            .return_type = ArgType::String
         };
     }
     
@@ -757,13 +771,14 @@ class HashFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "HASH",
-            "Compute hash of string (non-cryptographic)",
-            {
-                {"str", ArgType::String, false, "String to hash"},
-                {"algorithm", ArgType::String, true, "Algorithm: fnv1a, djb2"}
+            .name = "HASH",
+            .category = "Security",
+            .description = "Compute hash of string (non-cryptographic)",
+            .arguments = {
+                {"str", ArgType::String, false, nullptr, "String to hash"},
+                {"algorithm", ArgType::String, true, nullptr, "Algorithm: fnv1a, djb2"}
             },
-            ArgType::String
+            .return_type = ArgType::String
         };
     }
     
@@ -816,13 +831,14 @@ class ChecksumFunction : public IFunction {
 public:
     FunctionSignature signature() const override {
         return FunctionSignature{
-            "CHECKSUM",
-            "Compute checksum of data",
-            {
-                {"data", ArgType::Any, false, "Data to checksum"},
-                {"algorithm", ArgType::String, true, "Algorithm: crc32, adler32"}
+            .name = "CHECKSUM",
+            .category = "Security",
+            .description = "Compute checksum of data",
+            .arguments = {
+                {"data", ArgType::Any, false, nullptr, "Data to checksum"},
+                {"algorithm", ArgType::String, true, nullptr, "Algorithm: crc32, adler32"}
             },
-            ArgType::Number
+            .return_type = ArgType::Number
         };
     }
     

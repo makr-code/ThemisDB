@@ -729,7 +729,7 @@ public:
         std::string name = args[0].get<std::string>();
         
         auto& provider = HolidayProvider::instance();
-        std::set<int64_t> holidays = provider.loadHolidays(name);
+        std::set<int64_t> holidays = provider.getHolidays(name);
         
         return HolidayProvider::toJsonArray(holidays);
     }
@@ -1372,7 +1372,7 @@ public:
  *   IF(1 > 0, "positive", "negative") => "positive"
  *   IF(false, "yes")                  => null (no else value)
  */
-class IfFunction : public IFunction {
+class IfFunction_Collection : public IFunction {
 public:
     FunctionSignature signature() const override {
         return {

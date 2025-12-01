@@ -26,7 +26,7 @@ Write-Host "`nBaue Dokumentation..." -ForegroundColor Green
 
 # Aktiviert PDF-Export-Plugin für strukturierten PDF-Index/Bookmarks
 $env:MKDOCS_PDF_EXPORT = "1"
-mkdocs build --clean
+python -m mkdocs build --clean
 
 Write-Host "`nErzeuge strukturiertes PDF (mit Index/Bookmarks)..." -ForegroundColor Green
 $pdfPath = Join-Path (Get-Location) "docs/ThemisDB-Documentation.pdf"

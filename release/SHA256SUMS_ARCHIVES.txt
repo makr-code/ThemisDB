@@ -1,0 +1,8 @@
+﻿
+File                              Hash                                                            
+----                              ----                                                            
+themisdb-1.0.0-linux-x64.zip      0C8E327415E69D8B7A723684628BB640F5F2D1BCD33BD4F5C58C86B2E3D15E02
+themisdb-1.0.0-qnap-x64.zip       07ED3F3DFF849355A4553D3AE0783BAEDEFDC1DAF5F31D3FC98A69FDD1CDD094
+themis-1.0.0-windows-x64.zip      46F727CB443FBAEA956F4231D74C607343B302908FEE680E2B0C3A2C2700E0ED
+
+

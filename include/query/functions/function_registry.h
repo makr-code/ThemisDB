@@ -59,6 +59,7 @@ class IFunction;
  * @brief Argument type constraints for function validation
  */
 enum class ArgType {
+    // Canonical names (UPPERCASE)
     ANY,        ///< Any type accepted
     STRING,     ///< String required
     NUMBER,     ///< Number (int or double) required
@@ -69,7 +70,20 @@ enum class ArgType {
     GEOMETRY,   ///< GeoJSON geometry required
     VECTOR,     ///< Numeric array (vector) required
     DOCUMENT,   ///< Document reference required
-    NULLABLE    ///< Can be null
+    NULLABLE,   ///< Can be null
+
+    // Compatibility aliases (PascalCase) to support existing uses
+    Any = ANY,
+    String = STRING,
+    Number = NUMBER,
+    Integer = INTEGER,
+    Boolean = BOOLEAN,
+    Array = ARRAY,
+    Object = OBJECT,
+    Geometry = GEOMETRY,
+    Vector = VECTOR,
+    Document = DOCUMENT,
+    Nullable = NULLABLE
 };
 
 /**
@@ -321,11 +335,6 @@ public:
     void registerFunction(std::unique_ptr<IFunction> func) {
         auto sig = func->signature();
         functions_[sig.name] = std::move(func);
-    }
-    
-    /// Check if function exists
-    bool hasFunction(const std::string& name) const {
-        return functions_.find(name) != functions_.end();
     }
     
     /// Get function (throws if not found)

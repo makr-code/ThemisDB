@@ -1,0 +1,9 @@
+﻿
+
+Algorithm : SHA256
+Hash      : 916064C27008E815C1BADE2A8EC68EF2CA2D6E4018BFFB464FB7084241
+            BECB62
+File      : themis_server
+
+
+

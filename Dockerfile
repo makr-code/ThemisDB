@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
 
 # Bootstrap vcpkg - use stable 2024.12.16 release
 ENV VCPKG_ROOT=/opt/vcpkg
+# Required on non-amd64 platforms when building under emulation (ARM, s390x, ppc64le, riscv)
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
     && cd ${VCPKG_ROOT} \
     && git checkout 2024.10.21 \

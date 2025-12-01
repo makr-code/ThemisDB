@@ -61,14 +61,14 @@ namespace crs {
  * @brief Ellipsoid parameters
  */
 struct Ellipsoid {
-    std::string name;
+    const char* name;
     double a;      // Semi-major axis (meters)
     double b;      // Semi-minor axis (meters)
     double f;      // Flattening = (a-b)/a
     double e2;     // First eccentricity squared = (a²-b²)/a²
     double ep2;    // Second eccentricity squared = (a²-b²)/b²
     
-    constexpr Ellipsoid(const char* n, double semi_major, double inv_flattening)
+    Ellipsoid(const char* n, double semi_major, double inv_flattening)
         : name(n)
         , a(semi_major)
         , f(1.0 / inv_flattening)
@@ -79,9 +79,9 @@ struct Ellipsoid {
 };
 
 // Standard ellipsoids
-constexpr Ellipsoid WGS84_ELLIPSOID("WGS84", 6378137.0, 298.257223563);
-constexpr Ellipsoid GRS80_ELLIPSOID("GRS80", 6378137.0, 298.257222101);
-constexpr Ellipsoid BESSEL_ELLIPSOID("Bessel 1841", 6377397.155, 299.1528128);
+inline const Ellipsoid WGS84_ELLIPSOID("WGS84", 6378137.0, 298.257223563);
+inline const Ellipsoid GRS80_ELLIPSOID("GRS80", 6378137.0, 298.257222101);
+inline const Ellipsoid BESSEL_ELLIPSOID("Bessel 1841", 6377397.155, 299.1528128);
 
 /**
  * @brief UTM Zone parameters
@@ -109,8 +109,8 @@ struct UTMZone {
  */
 struct EPSGDefinition {
     int code;
-    std::string name;
-    std::string type;           // "geographic" or "projected"
+    const char* name;
+    const char* type;           // "geographic" or "projected"
     Ellipsoid ellipsoid;
     int utmZone;                // For UTM-based systems
     bool utmNorth;
@@ -124,28 +124,28 @@ struct EPSGDefinition {
 inline const std::unordered_map<int, EPSGDefinition>& getEPSGDatabase() {
     static const std::unordered_map<int, EPSGDefinition> db = {
         // Geographic CRS
-        {4326, {"WGS 84", "WGS 84", "geographic", WGS84_ELLIPSOID, 0, true, 0, 1, 0, 0}},
-        {4258, {"ETRS89", "ETRS89", "geographic", GRS80_ELLIPSOID, 0, true, 0, 1, 0, 0}},
-        {4314, {"DHDN", "DHDN (Potsdam Datum)", "geographic", BESSEL_ELLIPSOID, 0, true, 0, 1, 0, 0}},
+        {4326, {4326, "WGS 84", "geographic", WGS84_ELLIPSOID, 0, true, 0.0, 1.0, 0.0, 0.0}},
+        {4258, {4258, "ETRS89", "geographic", GRS80_ELLIPSOID, 0, true, 0.0, 1.0, 0.0, 0.0}},
+        {4314, {4314, "DHDN (Potsdam Datum)", "geographic", BESSEL_ELLIPSOID, 0, true, 0.0, 1.0, 0.0, 0.0}},
         
         // ETRS89/UTM zones (Germany)
-        {25831, {"ETRS89/UTM31N", "ETRS89 / UTM zone 31N", "projected", GRS80_ELLIPSOID, 31, true, 3.0, 0.9996, 500000, 0}},
-        {25832, {"ETRS89/UTM32N", "ETRS89 / UTM zone 32N", "projected", GRS80_ELLIPSOID, 32, true, 9.0, 0.9996, 500000, 0}},
-        {25833, {"ETRS89/UTM33N", "ETRS89 / UTM zone 33N", "projected", GRS80_ELLIPSOID, 33, true, 15.0, 0.9996, 500000, 0}},
+        {25831, {25831, "ETRS89 / UTM zone 31N", "projected", GRS80_ELLIPSOID, 31, true, 3.0, 0.9996, 500000.0, 0.0}},
+        {25832, {25832, "ETRS89 / UTM zone 32N", "projected", GRS80_ELLIPSOID, 32, true, 9.0, 0.9996, 500000.0, 0.0}},
+        {25833, {25833, "ETRS89 / UTM zone 33N", "projected", GRS80_ELLIPSOID, 33, true, 15.0, 0.9996, 500000.0, 0.0}},
         
         // WGS84/UTM zones
-        {32631, {"WGS84/UTM31N", "WGS 84 / UTM zone 31N", "projected", WGS84_ELLIPSOID, 31, true, 3.0, 0.9996, 500000, 0}},
-        {32632, {"WGS84/UTM32N", "WGS 84 / UTM zone 32N", "projected", WGS84_ELLIPSOID, 32, true, 9.0, 0.9996, 500000, 0}},
-        {32633, {"WGS84/UTM33N", "WGS 84 / UTM zone 33N", "projected", WGS84_ELLIPSOID, 33, true, 15.0, 0.9996, 500000, 0}},
+        {32631, {32631, "WGS 84 / UTM zone 31N", "projected", WGS84_ELLIPSOID, 31, true, 3.0, 0.9996, 500000.0, 0.0}},
+        {32632, {32632, "WGS 84 / UTM zone 32N", "projected", WGS84_ELLIPSOID, 32, true, 9.0, 0.9996, 500000.0, 0.0}},
+        {32633, {32633, "WGS 84 / UTM zone 33N", "projected", WGS84_ELLIPSOID, 33, true, 15.0, 0.9996, 500000.0, 0.0}},
         
         // Gauß-Krüger (legacy German)
-        {31466, {"DHDN/GK2", "DHDN / 3-degree Gauss-Kruger zone 2", "projected", BESSEL_ELLIPSOID, 0, true, 6.0, 1.0, 2500000, 0}},
-        {31467, {"DHDN/GK3", "DHDN / 3-degree Gauss-Kruger zone 3", "projected", BESSEL_ELLIPSOID, 0, true, 9.0, 1.0, 3500000, 0}},
-        {31468, {"DHDN/GK4", "DHDN / 3-degree Gauss-Kruger zone 4", "projected", BESSEL_ELLIPSOID, 0, true, 12.0, 1.0, 4500000, 0}},
-        {31469, {"DHDN/GK5", "DHDN / 3-degree Gauss-Kruger zone 5", "projected", BESSEL_ELLIPSOID, 0, true, 15.0, 1.0, 5500000, 0}},
+        {31466, {31466, "DHDN / 3-degree Gauss-Kruger zone 2", "projected", BESSEL_ELLIPSOID, 0, true, 6.0, 1.0, 2500000.0, 0.0}},
+        {31467, {31467, "DHDN / 3-degree Gauss-Kruger zone 3", "projected", BESSEL_ELLIPSOID, 0, true, 9.0, 1.0, 3500000.0, 0.0}},
+        {31468, {31468, "DHDN / 3-degree Gauss-Kruger zone 4", "projected", BESSEL_ELLIPSOID, 0, true, 12.0, 1.0, 4500000.0, 0.0}},
+        {31469, {31469, "DHDN / 3-degree Gauss-Kruger zone 5", "projected", BESSEL_ELLIPSOID, 0, true, 15.0, 1.0, 5500000.0, 0.0}},
         
         // Web Mercator (Google Maps, OSM)
-        {3857, {"WebMercator", "WGS 84 / Pseudo-Mercator", "projected", WGS84_ELLIPSOID, 0, true, 0.0, 1.0, 0, 0}},
+        {3857, {3857, "WGS 84 / Pseudo-Mercator", "projected", WGS84_ELLIPSOID, 0, true, 0.0, 1.0, 0.0, 0.0}},
     };
     return db;
 }
