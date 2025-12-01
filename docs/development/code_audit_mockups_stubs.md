@@ -18,6 +18,12 @@
 
 **Wichtig:** Frühere Aussagen, dass "Enterprise Integration 0-10%" oder "Ranger Adapter fehlt" oder "KMS sind Mocks" sind **FALSCH**. Alle diese Komponenten sind vollständig implementiert und produktionsreif.
 
+**Evidenz-Referenzen:**
+- Apache Ranger: `src/server/ranger_adapter.cpp`, `include/server/ranger_adapter.h`
+- HashiCorp Vault: `src/security/vault_key_provider.cpp`, `include/security/vault_key_provider.h`
+- HSM/PKCS#11: `src/security/hsm_provider_pkcs11.cpp`, `include/security/hsm_provider.h`
+- PKI/OpenSSL: `src/utils/pki_client.cpp`, `include/security/vcc_pki_client.h`
+
 ---
 
 ## 📊 Detaillierte Findings
