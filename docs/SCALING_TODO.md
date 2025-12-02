@@ -154,22 +154,29 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 
 #### Hohe Priorität (P0)
 
-- [ ] **TODO-VS-001:** GPU Acceleration Dokumentation präzisieren
-  - **Problem:** Dokumentation suggeriert "Production-Ready" ohne klaren Hinweis auf opt-in Kompilierung
-  - **Datei:** `src/acceleration/cuda_backend.cpp`, `src/acceleration/faiss_gpu_backend.cpp`
-  - **VCC-URN Prinzip:** Klare Build-Anleitung für GPU-Features
-  - **Aufwand:** 1-2 Tage
-  - **Details:**
-    - Code ist vorhanden und implementiert (Faiss GPU, CUDA, Vulkan)
-    - Nur bei `-DTHEMIS_ENABLE_CUDA=ON` oder `-DTHEMIS_ENABLE_GPU=ON` kompiliert
-    - Dokumentation sollte Build-Optionen klar kommunizieren
+- [x] **TODO-VS-001:** GPU Acceleration Dokumentation präzisieren ✅ ERLEDIGT
+  - **Implementiert:** FEATURES.md mit Build-Anweisungen aktualisiert
+  - **Änderungen:**
+    - Status auf "✅ (Optional Build)" geändert
+    - Build-Befehle für CUDA und Vulkan hinzugefügt
+    - Warnung über Build-Requirement hinzugefügt
 
 #### Mittlere Priorität (P1)
 
-- [ ] **TODO-VS-002:** Kubernetes Operator
-  - **Problem:** In Roadmap erwähnt aber nicht vorhanden
-  - **VCC-URN Prinzip:** Cloud-native Deployment
-  - **Aufwand:** 4-6 Wochen
+- [x] **TODO-VS-002:** Kubernetes Operator ✅ GRUNDSTRUKTUR ERLEDIGT
+  - **Implementiert:** CRDs und Beispiel-Manifeste
+  - **Dateien:**
+    - `deploy/kubernetes/README.md` - Dokumentation
+    - `deploy/kubernetes/crds/themisdb.vcc.io_themisdbs.yaml` - CRD
+    - `deploy/kubernetes/examples/themisdb-cluster.yaml` - 3-Node Cluster
+    - `deploy/kubernetes/examples/themisdb-single.yaml` - Single Node
+  - **Features:**
+    - ThemisDB Custom Resource Definition
+    - Sharding-Konfiguration mit P2P Gossip Option
+    - mTLS, RBAC, Field-Encryption Optionen
+    - Prometheus/Grafana/OpenTelemetry Monitoring
+    - Backup-Scheduling mit S3/GCS/Azure
+  - **Verbleibend:** Controller-Implementierung (Go)
 
 - [ ] **TODO-VS-003:** Multi-Tenancy Quota-Enforcement
   - **Problem:** Quotas definiert aber nicht enforced
@@ -191,10 +198,11 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 
 ### 3.2 TODO: Dokumentation korrigieren
 
-- [ ] **TODO-DOC-001:** FEATURES.md aktualisieren
-  - Status-Indikatoren korrigieren
-  - GPU Acceleration Status von ✅ auf "✅ (optional, build flag required)" präzisieren
-  - Sharding-Status differenzierter darstellen
+- [x] **TODO-DOC-001:** FEATURES.md aktualisieren ✅ ERLEDIGT
+  - Status-Indikatoren korrigiert
+  - GPU Acceleration Status auf "✅ (Optional Build)" geändert
+  - Sharding-Status auf "Phase 1-4 Complete" aktualisiert
+  - Build-Anweisungen für GPU hinzugefügt
 
 - [ ] **TODO-DOC-002:** README.md "Recent changes" präzisieren
   - Klare Unterscheidung zwischen "implementiert" und "geplant"
@@ -215,17 +223,19 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 | **Location Transparency** | ✅ URN-Schema implementiert | Beibehalten |
 | **Zero-Trust Security** | ✅ mTLS + Signed Requests | Beibehalten |
 | **Consistent Hashing** | ✅ Virtual Nodes (150/Shard) | Beibehalten |
-| **PKI-basierte Identität** | ⚠️ Grundstruktur | Operator-Zertifikate vollständig integrieren |
-| **Automatisches Rebalancing** | ⚠️ Placeholder | Vollständige Implementierung |
-| **Scatter-Gather Queries** | ⚠️ Sequentiell | Parallelisierung |
+| **PKI-basierte Identität** | ✅ Vollständig | RSA-SHA256 Signierung implementiert |
+| **Automatisches Rebalancing** | ✅ Implementiert | mTLS-basierte Data Migration |
+| **Scatter-Gather Queries** | ✅ Parallelisiert | std::async mit Batching |
+| **P2P Peer Discovery** | ✅ Implementiert | SWIM-basiertes Gossip-Protokoll |
+| **Cross-Shard Joins** | ✅ Implementiert | Broadcast Hash + Co-Located Joins |
 
 ### 4.2 Priorisierte Implementierungs-Reihenfolge (VCC-URN konform)
 
-1. **Woche 1-3:** Data Migrator vollständig implementieren (TODO-HS-001)
-2. **Woche 4-5:** Auto Rebalancer PKI-Signierung (TODO-HS-002)
-3. **Woche 6-7:** Local Execution Path (TODO-HS-003)
-4. **Woche 8-10:** etcd Integration (TODO-HS-004)
-5. **Woche 11-12:** Integration Tests + Dokumentation korrigieren
+1. ✅ **Woche 1-3:** Data Migrator vollständig implementieren (TODO-HS-001) - ERLEDIGT
+2. ✅ **Woche 4-5:** Auto Rebalancer PKI-Signierung (TODO-HS-002) - ERLEDIGT
+3. ✅ **Woche 6-7:** Local Execution Path (TODO-HS-003) - ERLEDIGT
+4. ✅ **Woche 8-10:** etcd Integration (TODO-HS-004) - ERLEDIGT
+5. 🔄 **Woche 11-12:** Integration Tests + Dokumentation - IN ARBEIT
 
 ---
 
