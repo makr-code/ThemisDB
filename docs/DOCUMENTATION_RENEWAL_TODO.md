@@ -140,15 +140,35 @@ Für jede Komponente muss geprüft werden:
    - ✅ ~150 Dateien nach Namenskonvention umbenannt
    - ✅ Alle Cross-References aktualisiert
 
-3. **Phase C: Code-Abgleich** (2-3 Wochen)
-   - Pro Komponente: Header-Dateien mit Dokumentation vergleichen
-   - Neue/geänderte APIs dokumentieren
-   - Veraltete Dokumentation aktualisieren/archivieren
+3. **Phase C: Root-Dateien Konsolidierung** ✅ ABGESCHLOSSEN (2. Dezember 2025)
+   - ✅ 45 Root-Dateien in thematische Unterordner verschoben
+   - ✅ Neue Ordner erstellt: updates/, roadmap/, cicd/
+   - ✅ README.md für neue Ordner erstellt
 
-4. **Phase D: Qualitätssicherung** (laufend)
-   - Link-Checker in CI integrieren
-   - Dokumentations-Coverage-Metriken
-   - Review-Prozess für Doku-Änderungen
+4. **Phase D: CI-Integration** ✅ ABGESCHLOSSEN (2. Dezember 2025)
+   - ✅ `.github/workflows/docs-link-check.yml` erstellt
+   - ✅ Automatische Link-Validierung bei Push/PR
+   - ✅ Dokumentations-Statistiken in CI
+
+### Phase C: Root-Dateien verschoben
+
+| Kategorie | Dateien | Zielordner |
+|-----------|---------|------------|
+| AQL | 3 | `docs/aql/` |
+| ARM/Deployment | 7 | `docs/deployment/` |
+| Build/Guides | 6 | `docs/guides/` |
+| Enterprise | 5 | `docs/enterprise/` |
+| Compliance | 3 | `docs/compliance/` |
+| Security | 1 | `docs/security/` |
+| SDK/Clients | 2 | `docs/clients/` |
+| Architecture | 2 | `docs/architecture/` |
+| Updates/Manifests | 8 | `docs/updates/` |
+| Scaling | 1 | `docs/sharding/` |
+| API | 1 | `docs/apis/` |
+| Reports | 2 | `docs/reports/` |
+| Features | 2 | `docs/features/` |
+| Roadmap | 1 | `docs/roadmap/` |
+| CI/CD | 1 | `docs/cicd/` |
 
 ### Phase A: Durchgeführte Link-Korrekturen
 
