@@ -142,6 +142,12 @@ COPY README.md LICENSE CHANGELOG.md SECURITY.md /usr/local/share/themis/docs/
 COPY docs/ThemisDB-Documentation.pdf /usr/local/share/themis/docs/ 2>/dev/null || true
 COPY docs/deployment/QNAP_CPU_COMPATIBILITY.md /usr/local/share/themis/docs/
 
+# Copy OpenAPI specification
+COPY openapi/openapi.yaml /usr/local/share/themis/openapi/
+
+# Copy client libraries (SDKs)
+COPY clients /usr/local/share/themis/clients
+
 # Copy examples (QNAP users benefit from docker-compose examples)
 COPY examples /usr/local/share/themis/examples
 
@@ -153,6 +159,7 @@ COPY tools/sign_pii_engine.py /usr/local/share/themis/tools/
 # Copy vcpkg installed libraries that are needed at runtime
 ARG TARGETARCH
 ARG VCPKG_TRIPLET
+COPY --from=build /src/vcpkg_installed /tmp/vcpkg_installed
 RUN VCPKG_TRIPLET_COPY="${VCPKG_TRIPLET:-x64-linux}"; \
     if [ -z "$VCPKG_TRIPLET" ]; then \
       case "${TARGETARCH}" in \
@@ -161,7 +168,21 @@ RUN VCPKG_TRIPLET_COPY="${VCPKG_TRIPLET:-x64-linux}"; \
         arm) VCPKG_TRIPLET_COPY="arm-linux" ;; \
       esac; \
     fi && \
-    echo "Runtime triplet: ${VCPKG_TRIPLET_COPY}"
+    echo "Copying shared libraries from ${VCPKG_TRIPLET_COPY} for QNAP..." && \
+    mkdir -p /usr/local/lib/themisdb && \
+    if [ -d "/tmp/vcpkg_installed/${VCPKG_TRIPLET_COPY}/lib" ]; then \
+      find /tmp/vcpkg_installed/${VCPKG_TRIPLET_COPY}/lib -name "*.so*" -exec cp -v {} /usr/local/lib/themisdb/ \; ; \
+    fi && \
+    # Create symlinks for library compatibility
+    cd /usr/local/lib/themisdb && \
+    for lib in *.so.*; do \
+      [ -f "$lib" ] || continue; \
+      base=$(echo $lib | sed 's/\.so\..*/\.so/'); \
+      ln -sf "$lib" "$base" 2>/dev/null || true; \
+    done && \
+    cd - && \
+    rm -rf /tmp/vcpkg_installed && \
+    ldconfig
 
 # Setup QNAP-specific runtime environment
 RUN mkdir -p /data /var/log/themis /etc/themis /usr/local/share/themis && \
@@ -171,7 +192,7 @@ RUN mkdir -p /data /var/log/themis /etc/themis /usr/local/share/themis && \
 # QNAP Container Station environment
 ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
 ENV THEMIS_PORT=18765
-ENV LD_LIBRARY_PATH=/usr/local/lib
+ENV LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib:${LD_LIBRARY_PATH}
 ENV TZ=Europe/Berlin
 
 # QNAP data volume

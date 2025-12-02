@@ -123,7 +123,8 @@ RUN apt-get update && apt-get install -y ninja-build build-essential && \
     -DTHEMIS_BUILD_TESTS=OFF \
     -DTHEMIS_BUILD_BENCHMARKS=OFF \
     -DTHEMIS_ENABLE_TRACING=OFF \
-    -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} 2>&1 | tee /tmp/cmake_config.log || \
+    -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
+    -DTHEMIS_STATIC_BUILD=OFF 2>&1 | tee /tmp/cmake_config.log || \
         (echo "=== CMake configure FAILED ==="; \
         echo "=== Last 100 lines of CMake output ==="; \
         tail -100 /tmp/cmake_config.log; \
@@ -157,6 +158,12 @@ COPY config/schemas /etc/themis/schemas
 COPY README.md LICENSE CHANGELOG.md SECURITY.md /usr/local/share/themis/docs/
 COPY docs/ThemisDB-Documentation.pdf /usr/local/share/themis/docs/ 2>/dev/null || true
 
+# Copy OpenAPI specification
+COPY openapi/openapi.yaml /usr/local/share/themis/openapi/
+
+# Copy client libraries (SDKs)
+COPY clients /usr/local/share/themis/clients
+
 # Copy examples
 COPY examples /usr/local/share/themis/examples
 
@@ -166,16 +173,32 @@ COPY tools/sign_plugin_manifest.py /usr/local/share/themis/tools/
 COPY tools/sign_pii_engine.py /usr/local/share/themis/tools/
 
 # Copy vcpkg installed libraries that are needed at runtime
-# Auto-detect triplet from build stage
 ARG TARGETARCH
-RUN VCPKG_TRIPLET_COPY="x64-linux"; \
-    case "${TARGETARCH}" in \
-      amd64) VCPKG_TRIPLET_COPY="x64-linux" ;; \
-      arm64) VCPKG_TRIPLET_COPY="arm64-linux" ;; \
-      arm) VCPKG_TRIPLET_COPY="arm-linux" ;; \
-    esac && \
-    echo "Copying libraries from ${VCPKG_TRIPLET_COPY}..." && \
-    cp -v /opt/vcpkg/installed/${VCPKG_TRIPLET_COPY}/lib/*.so* /usr/local/lib/ 2>/dev/null || true
+ARG VCPKG_TRIPLET
+COPY --from=build /src/vcpkg_installed /tmp/vcpkg_installed
+RUN VCPKG_TRIPLET_COPY="${VCPKG_TRIPLET:-x64-linux}"; \
+    if [ -z "$VCPKG_TRIPLET" ]; then \
+      case "${TARGETARCH}" in \
+        amd64) VCPKG_TRIPLET_COPY="x64-linux" ;; \
+        arm64) VCPKG_TRIPLET_COPY="arm64-linux" ;; \
+        arm) VCPKG_TRIPLET_COPY="arm-linux" ;; \
+      esac; \
+    fi && \
+    echo "Copying shared libraries from ${VCPKG_TRIPLET_COPY}..." && \
+    mkdir -p /usr/local/lib/themisdb && \
+    if [ -d "/tmp/vcpkg_installed/${VCPKG_TRIPLET_COPY}/lib" ]; then \
+      find /tmp/vcpkg_installed/${VCPKG_TRIPLET_COPY}/lib -name "*.so*" -exec cp -v {} /usr/local/lib/themisdb/ \; ; \
+    fi && \
+    # Create symlinks in /usr/local/lib for compatibility
+    cd /usr/local/lib/themisdb && \
+    for lib in *.so.*; do \
+      [ -f "$lib" ] || continue; \
+      base=$(echo $lib | sed 's/\.so\..*/\.so/'); \
+      ln -sf "$lib" "$base" 2>/dev/null || true; \
+    done && \
+    cd - && \
+    rm -rf /tmp/vcpkg_installed && \
+    ldconfig
 
 # Setup runtime environment
 RUN mkdir -p /etc/themis /usr/local/share/themis
@@ -187,7 +210,7 @@ RUN mkdir -p /data /var/log/themis && \
 
 ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
 ENV THEMIS_PORT=18765
-ENV LD_LIBRARY_PATH=/usr/local/lib
+ENV LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib:${LD_LIBRARY_PATH}
 
 VOLUME ["/data"]
 EXPOSE 8080 18765
