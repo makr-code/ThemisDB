@@ -17,24 +17,24 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 ## 📊 Entwicklungsstand & Dokumentation
 
 **Kern-Dokumentation (Neu konsolidiert):**
-- **[Features Liste](docs/FEATURES.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
+- **[Features Liste](docs/features/features_overview.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
 - **[Development Audit Log](DEVELOPMENT_AUDITLOG.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
-- **[Roadmap](docs/roadmap.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
-- **[Next Implementation Priorities](docs/NEXT_IMPLEMENTATION_PRIORITIES.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
+- **[Roadmap](docs/roadmap/roadmap_overview.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
+- **[Next Implementation Priorities](docs/features/features_priorities.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
 - **[Changelog](CHANGELOG.md)** - Detaillierte Änderungshistorie nach Semantic Versioning
 
 **Enterprise Features:**
 - **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool
-- **[Build Strategy](docs/BUILD_STRATEGY.md)** - Build-Toolchain inkl. Enterprise Builds
+- **[Build Strategy](docs/guides/guides_build_strategy.md)** - Build-Toolchain inkl. Enterprise Builds
 - **[Integration Analysis](docs/reports/INTEGRATION_ANALYSIS.md)** - Koexistenz mit Legacy-Code
 
 **Für Stakeholder:**
 - **[Themis Sachstandsbericht 2025](THEMIS_SACHSTANDSBERICHT_2025.md)** - Executive Summary, Performance-Benchmarks, Compliance-Readiness
-- **[Projektkostenschätzung & Gesamtwert](docs/THEMIS_PROJECT_VALUATION.md)** - Wirtschaftliche Bewertung, SaaS-Entwicklungskosten
+- **[Projektkostenschätzung & Gesamtwert](docs/reports/reports_project_valuation.md)** - Wirtschaftliche Bewertung, SaaS-Entwicklungskosten
 
 **Für Audits & Compliance:**
-- **[🎯 Compliance Dashboard](docs/COMPLIANCE_DASHBOARD.md)** - Executive Summary aller Compliance-Aktivitäten
-- **[Vollständige Audit-Checkliste](docs/FULL_AUDIT_CHECKLIST.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
+- **[🎯 Compliance Dashboard](docs/compliance/compliance_dashboard.md)** - Executive Summary aller Compliance-Aktivitäten
+- **[Vollständige Audit-Checkliste](docs/compliance/compliance_full_checklist.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
 - **[Security Audit Report](docs/reports/SECURITY_AUDIT_REPORT.md)** - Durchgeführtes Security Audit mit Ergebnissen
 - **[Security Policy](SECURITY.md)** - Vulnerability Disclosure, Sicherheitsmaßnahmen
 - **[Incident Response Plan](docs/security/INCIDENT_RESPONSE_PLAN.md)** - Notfallplan nach BSI IT-Grundschutz & NIST CSF
@@ -1075,11 +1075,11 @@ ThemisDB provides dedicated builds for QNAP NAS systems:
 - **Compatibility**: GLIBC 2.31 for older QNAP models
 - **Default Port**: 18765 (avoids QNAP service conflicts)
 - **Quick Start**: See [QNAP_QUICKSTART.md](QNAP_QUICKSTART.md)
-- **Full Guide**: See [docs/QNAP_DEPLOYMENT.md](docs/QNAP_DEPLOYMENT.md)
+- **Full Guide**: See [docs/deployment/deployment_qnap.md](docs/deployment/deployment_qnap.md)
 
 Docker automatically pulls the correct image for your platform.
 
-For detailed packaging and distribution information, see [docs/packaging.md](docs/packaging.md).
+For detailed packaging and distribution information, see [docs/guides/guides_packaging.md](docs/guides/guides_packaging.md).
 
 ### ARM and Raspberry Pi
 
@@ -1110,8 +1110,8 @@ cmake --build --preset rpi-arm64-gcc-release
 ```
 
 **Documentation:**
-- **[ARM Packages Guide](docs/ARM_PACKAGES.md)** - Pre-built package installation
-- **[ARM & Raspberry Pi Build Guide](docs/ARM_RASPBERRY_PI_BUILD.md)** - Build from source
+- **[ARM Packages Guide](docs/deployment/deployment_arm_packages.md)** - Pre-built package installation
+- **[ARM & Raspberry Pi Build Guide](docs/deployment/deployment_arm_build.md)** - Build from source
 
 Features on ARM:
 - ✅ ARM NEON SIMD optimizations for vector operations
@@ -2013,7 +2013,7 @@ curl http://localhost:8765/metrics
 
 ## Documentation
 
-- **[Architecture Overview](docs/architecture.md)** - System design and components
+- **[Architecture Overview](docs/architecture/architecture_overview.md)** - System design and components
 - **[Deployment Guide](docs/guides/guides_deployment.md)** - Production setup and configuration
 - **[Transaction Management](docs/features/features_transactions.md)** - ACID transactions, isolation levels, best practices
 - **[Base Entity](docs/architecture/architecture_base_entity.md)** - Entity serialization and storage

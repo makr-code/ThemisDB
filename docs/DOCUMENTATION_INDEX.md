@@ -6,20 +6,20 @@
 
 ### Für Entwickler
 1. [README.md](../README.md) - Projektübersicht & Quick Start
-2. [BUILD_STRATEGY.md](BUILD_STRATEGY.md) - Build-Toolchain (Windows/Linux/Docker)
-3. [docs/BUILD_GUIDE.md](BUILD_GUIDE.md) - Detaillierte Build-Anleitung
+2. [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Toolchain (Windows/Linux/Docker)
+3. [docs/guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
 4. [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Aktueller Entwicklungsstand
 5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
 
 ### Für Stakeholder
 1. [THEMIS_SACHSTANDSBERICHT_2025.md](THEMIS_SACHSTANDSBERICHT_2025.md) - Executive Summary
 2. [THEMIS_PROJECT_VALUATION.md](THEMIS_PROJECT_VALUATION.md) - Wirtschaftliche Bewertung
-3. [FEATURES.md](FEATURES.md) - Feature-Übersicht mit Status
-4. [ROADMAP.md](roadmap.md) - Entwicklungs-Roadmap
+3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
+4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
 
 ### Für Compliance & Audits
-1. [COMPLIANCE_DASHBOARD.md](COMPLIANCE_DASHBOARD.md) - Executive Compliance Summary
-2. [FULL_AUDIT_CHECKLIST.md](FULL_AUDIT_CHECKLIST.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
+1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary
+2. [compliance/compliance_full_checklist.md](compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
 3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Ergebnisse
 4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
 
@@ -29,10 +29,10 @@
 ```
 /
 ├── README.md                        # Projektübersicht & Quick Start
-├── FEATURES.md                      # Feature-Liste mit Status
+├── features/features_overview.md                      # Feature-Liste mit Status
 ├── ROADMAP.md                       # Entwicklungs-Roadmap
 ├── CHANGELOG.md                     # Änderungshistorie
-├── BUILD_STRATEGY.md                # Build-Toolchain & Strategie
+├── guides/guides_build_strategy.md                # Build-Toolchain & Strategie
 ├── INTEGRATION_ANALYSIS.md          # Enterprise Integration Analysis
 ├── TEST_REPORT.md                   # Vollständiger Test-Report
 ├── DEVELOPMENT_AUDITLOG.md          # Entwicklungsstand & Audit
@@ -58,10 +58,10 @@ docs/
 | Dokument | Zweck | Zielgruppe |
 |----------|-------|------------|
 | [enterprise/README.md](enterprise/README.md) | Übersicht & Quick Start | Entwickler, DevOps |
-| [ENTERPRISE_SCALABILITY.md](ENTERPRISE_SCALABILITY.md) | Feature-Details & Code-Beispiele | Entwickler |
-| [HTTP_CLIENT_POOL_COMPLETE.md](HTTP_CLIENT_POOL_COMPLETE.md) | HTTP Client Implementation | Entwickler |
-| [ENTERPRISE_BUILD_GUIDE.md](ENTERPRISE_BUILD_GUIDE.md) | Build & Deployment | DevOps |
-| [ENTERPRISE_FINAL_REPORT.md](ENTERPRISE_FINAL_REPORT.md) | Implementation Summary | Stakeholder |
+| [enterprise/enterprise_scalability.md](enterprise/enterprise_scalability.md) | Feature-Details & Code-Beispiele | Entwickler |
+| [enterprise/enterprise_http_pool.md](enterprise/enterprise_http_pool.md) | HTTP Client Implementation | Entwickler |
+| [ENTERPRISE_guides/guides_build.md](ENTERPRISE_guides/guides_build.md) | Build & Deployment | DevOps |
+| [enterprise/enterprise_final_report.md](enterprise/enterprise_final_report.md) | Implementation Summary | Stakeholder |
 | [INTEGRATION_ANALYSIS.md](reports/INTEGRATION_ANALYSIS.md) | Legacy Integration | Entwickler |
 
 ### Status
@@ -76,7 +76,7 @@ docs/
 ## 📖 Architektur & Design
 
 ### Kern-Architektur
-- [architecture.md](architecture.md) - System-Architektur Übersicht
+- [architecture.md](architecture/architecture_overview.md) - System-Architektur Übersicht
 - [storage/storage_rocksdb.md](storage/storage_rocksdb.md) - RocksDB Storage Layout
 - [mvcc_design.md](architecture/architecture_mvcc.md) - MVCC Transaction Design
 - [query_engine_aql.md](aql/aql_query_engine.md) - Query Engine & AQL
@@ -97,7 +97,7 @@ docs/
 - [security_hardening_guide.md](security/security_hardening.md) - Hardening Guide
 
 ### Compliance
-- [COMPLIANCE_DASHBOARD.md](COMPLIANCE_DASHBOARD.md) - Executive Dashboard
+- [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Dashboard
 - [compliance/compliance_dpia.md](compliance/compliance_dpia.md) - Datenschutz-Folgenabschätzung (DSGVO)
 - [compliance/compliance_bcp_drp.md](compliance/compliance_bcp_drp.md) - Business Continuity & Disaster Recovery
 - [compliance_audit.md](features/features_compliance_audit.md) - Compliance Audit
@@ -111,9 +111,9 @@ docs/
 ## 🛠️ Build & Deployment
 
 ### Build-Dokumentation
-- [BUILD_STRATEGY.md](BUILD_STRATEGY.md) - Build-Strategie & Plattformen
-- [BUILD_GUIDE.md](BUILD_GUIDE.md) - Detaillierte Build-Anleitung
-- [ENTERPRISE_BUILD_GUIDE.md](ENTERPRISE_BUILD_GUIDE.md) - Enterprise Build Guide
+- [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Strategie & Plattformen
+- [guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
+- [ENTERPRISE_guides/guides_build.md](ENTERPRISE_guides/guides_build.md) - Enterprise Build Guide
 
 ### Deployment
 - [deployment.md](guides/guides_deployment.md) - Deployment-Strategien
