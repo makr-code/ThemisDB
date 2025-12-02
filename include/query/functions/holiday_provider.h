@@ -318,12 +318,16 @@ public:
      *         name: "Neujahr"
      *       - date: "2024-12-25"
      *         name: "Weihnachten"
+     * 
+     * config:
+     *   override_builtin: false  # Allow overriding built-in calendars
+     *   validation: "strict"     # "strict" throws on invalid dates, "lenient" skips them
      * ```
      * 
      * @param filePath Path to YAML file
      * @param overrideBuiltin If true, allow overriding built-in calendars
      * @return Number of calendars loaded
-     * @throws std::runtime_error if file invalid
+     * @throws std::runtime_error if file invalid or (in strict mode) date is invalid
      */
     size_t loadCalendarsFromYaml(const std::string& filePath, bool overrideBuiltin = false) {
         if (!std::filesystem::exists(filePath)) {
@@ -341,9 +345,14 @@ public:
         
         // Check for config section
         bool configOverrideBuiltin = overrideBuiltin;
+        bool strictValidation = true;  // Default to strict
         if (config["config"]) {
             if (config["config"]["override_builtin"]) {
                 configOverrideBuiltin = config["config"]["override_builtin"].as<bool>();
+            }
+            if (config["config"]["validation"]) {
+                std::string validationLevel = config["config"]["validation"].as<std::string>();
+                strictValidation = (validationLevel == "strict");
             }
         }
         
@@ -396,9 +405,12 @@ public:
                         try {
                             int64_t ts = parseDateToTimestamp(dateStr);
                             holidays.insert(ts);
-                        } catch (const std::exception&) {
-                            // Skip invalid dates in lenient mode
-                            // Could add validation level check here
+                        } catch (const std::exception& e) {
+                            if (strictValidation) {
+                                throw std::runtime_error("Invalid date in calendar '" + name + 
+                                    "': " + dateStr + " - " + e.what());
+                            }
+                            // In lenient mode, skip invalid dates silently
                         }
                     }
                 }
@@ -418,6 +430,7 @@ public:
      * Searches for holidays.yaml in standard locations:
      * - config/holidays.yaml
      * - ../config/holidays.yaml
+     * - ../../config/holidays.yaml
      * - /etc/themis/holidays.yaml
      * 
      * @return Number of calendars loaded (0 if no file found)
