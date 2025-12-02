@@ -1,21 +1,31 @@
 # Multi-stage Docker build for ThemisDB on QNAP
-# Uses Ubuntu 20.04 for GLIBC 2.31 compatibility with older QNAP systems
+# Uses same base as standard Dockerfile but with QNAP-specific CPU optimizations
 
-FROM ubuntu:20.04 AS build
+FROM ubuntu:22.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install build tools and system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential git curl zip unzip tar pkg-config \
+    build-essential cmake ninja-build git curl zip unzip tar pkg-config \
     ca-certificates python3 perl nasm autoconf automake libtool aria2 linux-libc-dev \
-    flex bison ninja-build wget gpg software-properties-common \
+    flex bison \
     && rm -rf /var/lib/apt/lists/*
 
-# Install CMake 3.28 (Ubuntu 20.04 ships 3.16, vcpkg needs 3.21+)
-RUN curl -L -o cmake.sh https://github.com/Kitware/CMake/releases/download/v3.28.1/cmake-3.28.1-linux-x86_64.sh \
-    && sh cmake.sh --prefix=/usr/local --skip-license \
-    && rm cmake.sh \
-    && cmake --version
+# Upgrade to a recent CMake (>=3.25) required by Boost 1.86
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget gpg software-properties-common \
+    && rm -rf /var/lib/apt/lists/* \
+    && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor -o /usr/share/keyrings/kitware-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main" > /etc/apt/sources.list.d/kitware.list \
+    && apt-get update && apt-get install -y --no-install-recommends cmake \
+    && cmake --version \
+    && rm -rf /var/lib/apt/lists/*
+
+# Ensure CMake is <4.0 for ports requiring legacy policy (<3.5), but >=3.25 for Boost
+RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
+    && pip3 install --no-cache-dir "cmake>=3.25,<4.0" \
+    && cmake --version \
+    && rm -rf /var/lib/apt/lists/*
 
 # Bootstrap vcpkg - use stable 2024.10.21 release
 ENV VCPKG_ROOT=/opt/vcpkg
@@ -90,7 +100,7 @@ COPY src ./src
 
 # Build ThemisDB
 RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
-    echo "=== Building ThemisDB for QNAP (Ubuntu 20.04, GLIBC 2.31, baseline x86-64) ===" && \
+    echo "=== Building ThemisDB for QNAP (SSE4.2 baseline, Ubuntu 22.04 build) ===" && \
     echo "VCPKG_TRIPLET=${VCPKG_TRIPLET}" && \
     cmake -S . -B build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \

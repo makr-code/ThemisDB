@@ -1,0 +1,21 @@
+Package: themisdb
+Version: 1.0.0
+Section: database
+Priority: optional
+Architecture: amd64
+Maintainer: ThemisDB Team <themisdb@example.com>
+Depends: libc6 (>= 2.34)
+Description: Multi-model database with vector, graph, and spatial capabilities
+ ThemisDB is a high-performance, multi-model database that combines document,
+ graph, vector, and spatial data models in a unified storage engine.
+ .
+ Features:
+  - Multi-model: documents, graphs, vectors, spatial data
+  - MVCC transactions with ACID compliance
+  - Vector search with HNSW indexing
+  - Spatial queries with R-tree indexing
+  - Graph traversal and pathfinding
+  - Field-level encryption and PII detection
+  - RESTful HTTP API with AQL query language
+Homepage: https://github.com/makr-code/ThemisDB
+Installed-Size: 28157

@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+# Stop service if running
+if [ -d /run/systemd/system ]; then
+    systemctl stop themisdb.service >/dev/null 2>&1 || true
+    systemctl disable themisdb.service >/dev/null 2>&1 || true
+fi
+
+exit 0
