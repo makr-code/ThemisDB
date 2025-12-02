@@ -54,20 +54,21 @@
 
 | # | Dokument | Pfad | Seiten | Status |
 |---|----------|------|--------|--------|
-| 1 | **Audit-Checkliste** | `docs/FULL_AUDIT_CHECKLIST.md` | 885 Zeilen | ✅ |
+| 1 | **Audit-Checkliste** | `docs/compliance/compliance_full_checklist.md` | 885 Zeilen | ✅ |
 | 2 | **Security Audit Report** | `docs/reports/SECURITY_AUDIT_REPORT.md` | 350 Zeilen | ✅ |
 | 3 | **Security Policy** | `SECURITY.md` | 150 Zeilen | ✅ |
-| 4 | **Incident Response Plan** | `docs/security/INCIDENT_RESPONSE_PLAN.md` | 500 Zeilen | ✅ |
-| 5 | **SBOM Dokumentation** | `docs/security/SBOM.md` | 200 Zeilen | ✅ |
-| 6 | **DPIA** | `docs/compliance/DPIA.md` | 400 Zeilen | ✅ |
-| 7 | **BCP/DRP** | `docs/compliance/BCP_DRP.md` | 500 Zeilen | ✅ |
-| 8 | **Risk Register** | `docs/compliance/RISK_REGISTER.md` | 350 Zeilen | ✅ |
-| 9 | **Vendor Assessment** | `docs/compliance/VENDOR_ASSESSMENT.md` | 350 Zeilen | ✅ |
-| 10 | **Access Control Policy** | `docs/policies/ACCESS_CONTROL_POLICY.md` | 400 Zeilen | ✅ |
-| 11 | **Change Management Policy** | `docs/policies/CHANGE_MANAGEMENT_POLICY.md` | 450 Zeilen | ✅ |
-| 12 | **Data Classification Policy** | `docs/policies/DATA_CLASSIFICATION_POLICY.md` | 500 Zeilen | ✅ |
-| 13 | **Encryption & Key Management** | `docs/policies/ENCRYPTION_KEY_MANAGEMENT_POLICY.md` | 750 Zeilen | ✅ |
-| 14 | **Projektkostenschätzung** | `docs/THEMIS_PROJECT_VALUATION.md` | 300 Zeilen | ✅ |
+| 4 | **Incident Response Plan** | `docs/security/security_incident_response.md` | 500 Zeilen | ✅ |
+| 5 | **SBOM Dokumentation** | `docs/security/security_sbom.md` | 200 Zeilen | ✅ |
+| 6 | **Malware Scanner** | `docs/security/security_malware_scanner.md` | 350 Zeilen | ✅ |
+| 7 | **DPIA** | `docs/compliance/compliance_dpia.md` | 400 Zeilen | ✅ |
+| 8 | **BCP/DRP** | `docs/compliance/compliance_bcp_drp.md` | 500 Zeilen | ✅ |
+| 9 | **Risk Register** | `docs/compliance/compliance_risk_register.md` | 350 Zeilen | ✅ |
+| 10 | **Vendor Assessment** | `docs/compliance/compliance_vendor_assessment.md` | 350 Zeilen | ✅ |
+| 11 | **Access Control Policy** | `docs/policies/policies_access_control.md` | 400 Zeilen | ✅ |
+| 12 | **Change Management Policy** | `docs/policies/policies_change_management.md` | 450 Zeilen | ✅ |
+| 13 | **Data Classification Policy** | `docs/policies/policies_data_classification.md` | 500 Zeilen | ✅ |
+| 14 | **Encryption & Key Management** | `docs/policies/policies_encryption_key.md` | 750 Zeilen | ✅ |
+| 15 | **Projektkostenschätzung** | `docs/reports/reports_project_valuation.md` | 300 Zeilen | ✅ |
 
 ### Fuzzing-Infrastruktur (AFL++)
 
