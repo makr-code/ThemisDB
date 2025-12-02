@@ -536,7 +536,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - Point-in-time recovery with WAL archiving
 - Incremental backup scripts (Linux & Windows)
 - **Status:** ✅ Production-ready
-- **Documentation:** [`docs/deployment.md`](docs/deployment.md#backup--recovery)
+- **Documentation:** [`docs/guides/guides_deployment.md`](docs/guides/guides_deployment.md#backup--recovery)
 
 ### 🔒 Enterprise Security (NEW!)
 - **TLS 1.3 Hardening** with mTLS, HSTS, strong ciphers
