@@ -6,6 +6,9 @@
 #include <chrono>
 #include <sstream>
 #include <map>
+#include <future>
+#include <thread>
+#include <vector>
 
 namespace themis::sharding {
 
@@ -197,27 +200,110 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     // Get all healthy shards
     auto shards = resolver_->getHealthyShards();
     
-    // Execute query on each shard
-    for (const auto& shard : shards) {
-        ShardResult result;
-        result.shard_id = shard.shard_id;
+    if (shards.empty()) {
+        return results;
+    }
+    
+    // Limit concurrent shard requests
+    const size_t max_concurrent = std::min(
+        static_cast<size_t>(config_.max_concurrent_shards),
+        shards.size()
+    );
+    
+    // Thread-safe counters for local/remote requests
+    std::atomic<uint64_t> local_count{0};
+    std::atomic<uint64_t> remote_count{0};
+    
+    // Process shards in batches to limit concurrency
+    for (size_t batch_start = 0; batch_start < shards.size(); batch_start += max_concurrent) {
+        size_t batch_end = std::min(batch_start + max_concurrent, shards.size());
         
-        // Check if this is the local shard
-        if (shard.shard_id == config_.local_shard_id) {
-            local_requests_++;
-            result = executeLocal("POST", "/api/v1/query", std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
-        } else {
-            remote_requests_++;
-            auto exec_result = executor_->executeQuery(shard, query);
+        // Create futures for this batch
+        std::vector<std::future<ShardResult>> futures;
+        futures.reserve(batch_end - batch_start);
+        
+        // Store shard IDs for timeout error reporting
+        std::vector<std::string> batch_shard_ids;
+        batch_shard_ids.reserve(batch_end - batch_start);
+        
+        // Launch parallel requests for this batch
+        for (size_t i = batch_start; i < batch_end; ++i) {
+            const auto& shard = shards[i];
+            batch_shard_ids.push_back(shard.shard_id);
             
-            result.success = exec_result.success;
-            result.data = exec_result.data;
-            result.error_msg = exec_result.error;
-            result.execution_time_ms = exec_result.execution_time_ms;
+            // Capture shard by value to avoid dangling reference
+            futures.push_back(std::async(std::launch::async, 
+                [this, shard, &query, &local_count, &remote_count]() -> ShardResult {
+                ShardResult result;
+                result.shard_id = shard.shard_id;
+                
+                auto start_time = std::chrono::steady_clock::now();
+                
+                try {
+                    // Check if this is the local shard
+                    if (shard.shard_id == config_.local_shard_id) {
+                        local_count++;
+                        result = executeLocal("POST", "/api/v1/query", 
+                            std::optional<nlohmann::json>(nlohmann::json{{"query", query}}));
+                        result.shard_id = shard.shard_id;  // Ensure shard_id is preserved
+                    } else {
+                        remote_count++;
+                        auto exec_result = executor_->executeQuery(shard, query);
+                        
+                        result.success = exec_result.success;
+                        result.data = exec_result.data;
+                        result.error_msg = exec_result.error;
+                        result.execution_time_ms = exec_result.execution_time_ms;
+                    }
+                } catch (const std::exception& e) {
+                    result.success = false;
+                    result.error_msg = std::string("Scatter-gather exception: ") + e.what();
+                }
+                
+                // Calculate execution time if not already set
+                if (result.execution_time_ms == 0) {
+                    auto end_time = std::chrono::steady_clock::now();
+                    result.execution_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        end_time - start_time
+                    ).count();
+                }
+                
+                return result;
+            }));
         }
         
-        results.push_back(result);
+        // Collect results from all futures with timeout
+        const auto timeout = std::chrono::milliseconds(config_.scatter_timeout_ms);
+        
+        for (size_t i = 0; i < futures.size(); ++i) {
+            try {
+                // Wait for result with timeout
+                auto status = futures[i].wait_for(timeout);
+                
+                if (status == std::future_status::ready) {
+                    results.push_back(futures[i].get());
+                } else {
+                    // Timeout - add error result with correct shard_id
+                    ShardResult timeout_result;
+                    timeout_result.shard_id = batch_shard_ids[i];
+                    timeout_result.success = false;
+                    timeout_result.error_msg = "Scatter-gather request timed out";
+                    timeout_result.execution_time_ms = config_.scatter_timeout_ms;
+                    results.push_back(timeout_result);
+                }
+            } catch (const std::exception& e) {
+                ShardResult error_result;
+                error_result.shard_id = batch_shard_ids[i];
+                error_result.success = false;
+                error_result.error_msg = std::string("Future exception: ") + e.what();
+                results.push_back(error_result);
+            }
+        }
     }
+    
+    // Update atomic counters
+    local_requests_ += local_count.load();
+    remote_requests_ += remote_count.load();
     
     return results;
 }

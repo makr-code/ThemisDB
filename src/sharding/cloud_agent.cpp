@@ -6,6 +6,9 @@
 #include <iomanip>
 #include <random>
 #include <algorithm>
+#include <future>
+#include <thread>
+#include <vector>
 
 namespace themis {
 namespace sharding {
@@ -434,76 +437,183 @@ CloudAgentResult CloudAgent::executeScatterGather(
     result.success = true;
     result.status = "completed";
     
-    nlohmann::json aggregated_result = nlohmann::json::array();
-    size_t success_count = 0;
-    size_t failure_count = 0;
-    
-    for (const auto& shard_id : shards) {
-        nlohmann::json shard_result;
-        shard_result["shard_id"] = shard_id;
-        
-        if (!topology_) {
-            shard_result["success"] = false;
-            shard_result["error"] = "Topology not available";
-            failure_count++;
-            result.shard_results[shard_id] = shard_result;
-            continue;
-        }
-        
-        auto shard_info = topology_->getShard(shard_id);
-        if (!shard_info) {
-            shard_result["success"] = false;
-            shard_result["error"] = "Shard not found: " + shard_id;
-            failure_count++;
-            result.shard_results[shard_id] = shard_result;
-            continue;
-        }
-        
-        if (!executor_) {
-            shard_result["success"] = false;
-            shard_result["error"] = "Remote executor not available";
-            failure_count++;
-            result.shard_results[shard_id] = shard_result;
-            continue;
-        }
-        
-        try {
-            // Execute the operation on the shard
-            std::string path = "/api/v1/" + operation.operation_type;
-            auto response = executor_->post(*shard_info, path, operation.parameters);
-            
-            shard_result["success"] = response.success;
-            shard_result["data"] = response.data;
-            shard_result["latency_ms"] = response.execution_time_ms;
-            
-            if (response.success) {
-                success_count++;
-                aggregated_result.push_back(response.data);
-            } else {
-                failure_count++;
-                shard_result["error"] = response.error;
-            }
-        } catch (const std::exception& e) {
-            shard_result["success"] = false;
-            shard_result["error"] = e.what();
-            failure_count++;
-        }
-        
-        result.shard_results[shard_id] = shard_result;
+    if (shards.empty()) {
+        result.success = false;
+        result.status = "failed";
+        result.error_message = "No shards to execute on";
+        return result;
     }
     
+    // Prepare shared data structures for parallel execution
+    std::mutex results_mutex;
+    nlohmann::json aggregated_result = nlohmann::json::array();
+    std::atomic<size_t> success_count{0};
+    std::atomic<size_t> failure_count{0};
+    std::atomic<size_t> timeout_counter{0};  // Unique counter for timeout keys
+    
+    // Limit concurrency based on configuration
+    const size_t max_concurrent = config_.max_concurrent_operations;
+    
+    // Launch parallel requests with datacenter-aware ordering
+    // Sort shards by datacenter proximity (local DC first)
+    std::vector<std::string> sorted_shards = shards;
+    if (topology_ && !config_.datacenter.empty()) {
+        std::sort(sorted_shards.begin(), sorted_shards.end(),
+            [this](const std::string& a, const std::string& b) {
+                auto shard_a = topology_->getShard(a);
+                auto shard_b = topology_->getShard(b);
+                if (shard_a && shard_b) {
+                    // Prioritize local datacenter
+                    bool a_local = (shard_a->datacenter == config_.datacenter);
+                    bool b_local = (shard_b->datacenter == config_.datacenter);
+                    if (a_local != b_local) return a_local;
+                    // Then prioritize same region (if both are non-local)
+                    if (!config_.region.empty()) {
+                        // Check if datacenter contains region identifier
+                        bool a_same_region = (shard_a->datacenter.find(config_.region) != std::string::npos);
+                        bool b_same_region = (shard_b->datacenter.find(config_.region) != std::string::npos);
+                        if (a_same_region != b_same_region) return a_same_region;
+                    }
+                }
+                return a < b;  // Fallback: alphabetical order
+            });
+    }
+    
+    // Process shards in batches to limit concurrency
+    for (size_t batch_start = 0; batch_start < sorted_shards.size(); batch_start += max_concurrent) {
+        size_t batch_end = std::min(batch_start + max_concurrent, sorted_shards.size());
+        
+        // Create futures for this batch
+        std::vector<std::future<std::pair<std::string, nlohmann::json>>> futures;
+        futures.reserve(batch_end - batch_start);
+        
+        // Store shard IDs for this batch (for timeout error reporting)
+        std::vector<std::string> batch_shard_ids;
+        batch_shard_ids.reserve(batch_end - batch_start);
+        
+        // Execute operations in parallel for this batch
+        for (size_t i = batch_start; i < batch_end; ++i) {
+            const std::string& shard_id = sorted_shards[i];
+            batch_shard_ids.push_back(shard_id);
+            
+            futures.push_back(std::async(std::launch::async,
+                [this, &operation, shard_id]() -> std::pair<std::string, nlohmann::json> {
+                nlohmann::json shard_result;
+                shard_result["shard_id"] = shard_id;
+                
+                auto start_time = std::chrono::steady_clock::now();
+                
+                if (!topology_) {
+                    shard_result["success"] = false;
+                    shard_result["error"] = "Topology not available";
+                    return {shard_id, shard_result};
+                }
+                
+                auto shard_info = topology_->getShard(shard_id);
+                if (!shard_info) {
+                    shard_result["success"] = false;
+                    shard_result["error"] = "Shard not found: " + shard_id;
+                    return {shard_id, shard_result};
+                }
+                
+                // Add datacenter info to result
+                shard_result["datacenter"] = shard_info->datacenter;
+                
+                if (!executor_) {
+                    shard_result["success"] = false;
+                    shard_result["error"] = "Remote executor not available";
+                    return {shard_id, shard_result};
+                }
+                
+                try {
+                    // Execute the operation on the shard
+                    std::string path = "/api/v1/" + operation.operation_type;
+                    auto response = executor_->post(*shard_info, path, operation.parameters);
+                    
+                    auto end_time = std::chrono::steady_clock::now();
+                    auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        end_time - start_time
+                    ).count();
+                    
+                    shard_result["success"] = response.success;
+                    shard_result["data"] = response.data;
+                    shard_result["latency_ms"] = (response.execution_time_ms > 0) 
+                        ? response.execution_time_ms : latency;
+                    
+                    if (!response.success) {
+                        shard_result["error"] = response.error;
+                    }
+                } catch (const std::exception& e) {
+                    shard_result["success"] = false;
+                    shard_result["error"] = e.what();
+                }
+                
+                return {shard_id, shard_result};
+            }));
+        }
+        
+        // Collect results from all futures with timeout
+        const auto timeout = operation.timeout;
+        
+        for (size_t i = 0; i < futures.size(); ++i) {
+            try {
+                auto status = futures[i].wait_for(timeout);
+                
+                if (status == std::future_status::ready) {
+                    auto [shard_id, shard_result] = futures[i].get();
+                    
+                    // Thread-safe update of shared state
+                    {
+                        std::lock_guard<std::mutex> lock(results_mutex);
+                        result.shard_results[shard_id] = shard_result;
+                        
+                        if (shard_result["success"].get<bool>()) {
+                            success_count++;
+                            if (shard_result.contains("data")) {
+                                aggregated_result.push_back(shard_result["data"]);
+                            }
+                        } else {
+                            failure_count++;
+                        }
+                    }
+                } else {
+                    // Timeout - add error result with correct shard_id
+                    std::lock_guard<std::mutex> lock(results_mutex);
+                    nlohmann::json timeout_result;
+                    timeout_result["shard_id"] = batch_shard_ids[i];
+                    timeout_result["success"] = false;
+                    timeout_result["error"] = "Operation timed out";
+                    timeout_result["timeout_ms"] = timeout.count();
+                    result.shard_results[batch_shard_ids[i]] = timeout_result;
+                    failure_count++;
+                }
+            } catch (const std::exception& e) {
+                std::lock_guard<std::mutex> lock(results_mutex);
+                nlohmann::json error_result;
+                error_result["shard_id"] = batch_shard_ids[i];
+                error_result["success"] = false;
+                error_result["error"] = std::string("Exception: ") + e.what();
+                result.shard_results[batch_shard_ids[i]] = error_result;
+                failure_count++;
+            }
+        }
+    }
+    
+    // Build final result
     result.result = {
         {"total_shards", shards.size()},
-        {"success_count", success_count},
-        {"failure_count", failure_count},
-        {"aggregated_results", aggregated_result}
+        {"success_count", success_count.load()},
+        {"failure_count", failure_count.load()},
+        {"aggregated_results", aggregated_result},
+        {"agent_datacenter", config_.datacenter},
+        {"agent_region", config_.region}
     };
     
     // Set overall success based on partial success threshold
-    result.success = (success_count > 0);
-    if (failure_count > 0 && success_count > 0) {
+    result.success = (success_count.load() > 0);
+    if (failure_count.load() > 0 && success_count.load() > 0) {
         result.status = "partial_success";
-    } else if (failure_count == shards.size()) {
+    } else if (failure_count.load() == shards.size()) {
         result.success = false;
         result.status = "failed";
         result.error_message = "All shard operations failed";
