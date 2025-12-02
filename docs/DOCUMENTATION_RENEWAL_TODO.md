@@ -9,10 +9,17 @@
 
 ## 📋 Executive Summary
 
-Die ThemisDB-Dokumentation umfasst derzeit:
+Die ThemisDB-Dokumentation umfasst derzeit (Stand: 2. Dezember 2025):
 - **6 Markdown-Dateien** im Root-Verzeichnis
 - **439 Markdown-Dateien** im `/docs`-Verzeichnis
 - **59 Unterverzeichnisse** in `/docs`
+
+> **Hinweis:** Diese Zahlen können sich ändern. Zum Aktualisieren:
+> ```bash
+> find docs -name "*.md" | wc -l  # Anzahl Docs-Dateien
+> find . -maxdepth 1 -name "*.md" | wc -l  # Anzahl Root-Dateien
+> find docs -type d | wc -l  # Anzahl Verzeichnisse
+> ```
 
 Diese TODO-Liste dient der systematischen Überprüfung und Aktualisierung aller Dokumentationsdateien, um sicherzustellen, dass sie den aktuellen Implementierungsstand widerspiegeln.
 
