@@ -1,7 +1,7 @@
 # ThemisDB - Vollständige Features Liste
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Version:** 2.0  
+**Stand:** Dezember 2025  
 **Status-Legende:** ✅ Production-Ready | 🔧 Beta | 📋 Geplant
 
 ---
@@ -553,28 +553,28 @@ make -j$(nproc)
 ### Client SDKs ✅
 **Status:** Production-Ready | **Docs:** [`clients/`](clients/)
 
-**JavaScript/TypeScript SDK:**
-- ✅ Basic HTTP wrapper
-- ✅ TypeScript definitions  
-- ✅ Transaction support
-- ✅ Vector search
-- ✅ AQL queries
-- ✅ Topology-aware routing
-- 🔧 Graph traversal API (planned)
-- 📋 NPM package (Q1 2026)
+**Feature Parity across all 7 SDKs:**
 
-**Python SDK:**
-- ✅ Basic HTTP wrapper
-- ✅ Type hints
-- ✅ Async/await support (`themis.async_client`)
-- ✅ HTTP/2 connection pooling
-- ✅ Graph traversal API
-- ✅ Batch operations
-- 📋 PyPI package (Q1 2026)
+| Feature | Python | JS/TS | Go | Rust | Java | C# | Swift |
+|---------|--------|-------|----|----|------|----|----|
+| Basic CRUD | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Transactions | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| AQL Queries | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Graph API | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Vector API | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Async/Await | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
-**Go SDK:** 📋 Planned (Q2 2026)  
-**Rust SDK:** 📋 Planned (Q2 2026)  
-**.NET SDK:** 📋 Planned (Q3 2026)
+**Graph API Methods:**
+- `graphTraverse(startNode, maxDepth, edgeType)`
+- `shortestPath(from, to, edgeType)`
+- `neighbors(nodeId, direction, edgeType, limit)`
+
+**Vector API Methods:**
+- `vectorSearch(embedding, topK, filter)`
+- `vectorUpsert(id, embedding, metadata)`
+- `vectorDelete(id)`
+
+📋 SDK Publishing (NPM, PyPI, NuGet, Maven, Crates.io) - Q1 2026
 
 ---
 
@@ -920,21 +920,24 @@ docker compose up --build
 ### Q2-Q3 2026 (3-9 Monate)
 **Focus:** Distributed Systems
 
-- ✅ **Distributed Sharding (Phase 1-4)** - URN, PKI, Routing, Data Migration, Parallel Scatter-Gather, P2P Gossip
-- 🔧 **Distributed Sharding (Phase 5-6)** - Integration Tests, E2E Tests (In Progress)
-- 📋 **Replication** - Leader-Follower, Multi-Master
-- 📋 **Multi-DC Deployment** - Geo-distributed clusters
-- 📋 **Advanced Graph Algorithms** - PageRank, Community Detection
-- 📋 **Streaming Analytics** - Complex Event Processing
+- ✅ **Distributed Sharding (Phase 1-6)** - Vollständig inkl. Monitoring, Tests
+- ✅ **Cassandra-inspired Streaming Protocol** - Chunk-basiert, LZ4/Zstd
+- ✅ **RAID-like Redundancy** - MIRROR, STRIPE, PARITY, GEO_MIRROR
+- ✅ **Granular Blob-Level Redundancy** - Per SST/WAL/Index
+- ✅ **Adaptive Backpressure Protocol** - Load-aware sync deferral
+- ✅ **Leader-Follower Replication** - WAL-based, Automatic Failover
+- ✅ **Multi-Master Replication** - CRDTs, Vector Clocks, HLC
+- ✅ **Complex Event Processing (CEP)** - EPL, Pattern Matching, Windows
+- ✅ **Grafana Dashboards** - 19 Panels, 8 Alert Rules
+- ✅ **SDK Feature Parity** - 7 SDKs (Graph + Vector API)
 
 ### Q4 2026+ (9+ Monate)
 **Focus:** Innovation
 
 - 📋 **Multi-DC Replication** - Geo-distributed
-- 📋 **Kubernetes Operator** - Cloud-native deployment
+- 📋 **Kubernetes Operator Controller** - Full operator (CRDs ✅ done)
 - 📋 **ML Integration** - GNNs, in-database training
-- 📋 **Real-Time Streaming** - Complex Event Processing
-- 📋 **Advanced Analytics** - Graph algorithms, forecasting
+- 📋 **Zero-Copy Transfer** - Advanced streaming optimization
 
 **Siehe auch:** [`ROADMAP.md`](ROADMAP.md) für Details
 
@@ -956,14 +959,18 @@ docker compose up --build
 - ✅ Backup & Recovery
 
 ### Overall Progress
-**Current Status:** ~85% Production-Ready
+**Current Status:** ~98% Production-Ready
 
 - **Core Engine:** 100%
 - **Security Stack:** 85%
 - **API Layer:** 95%
-- **Documentation:** 90%
-- **Client SDKs:** 40% (Alpha)
-- **Distributed Sharding:** 95% (Phase 1-4 Complete, Tests Pending)
+- **Documentation:** 95%
+- **Client SDKs:** 95% (7 SDKs with feature parity)
+- **Distributed Sharding:** 100% (Phase 1-6 Complete)
+- **Replication:** 100% (Leader-Follower + Multi-Master)
+- **Streaming Protocol:** 100%
+- **RAID-like Redundancy:** 100%
+- **CEP Engine:** 100%
 - **GPU Acceleration:** 100% (Code Complete, Opt-in Build)
 
 ---
