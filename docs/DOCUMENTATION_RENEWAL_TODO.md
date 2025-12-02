@@ -35,6 +35,123 @@ Diese TODO-Liste dient der systematischen Überprüfung und Aktualisierung aller
 
 ---
 
+## 🔄 Konsolidierungsstrategie
+
+### Problem: Dateien in Unterordner verschoben
+
+Viele Dokumentationsdateien wurden in Unterordner verschoben, aber die Links in anderen Dokumenten wurden nicht aktualisiert. Dies führt zu:
+- Broken Links in README.md und anderen Dokumenten
+- Inkonsistente Pfadstrukturen
+- Verwirrung bei der Navigation
+
+### Lösungsansatz: Source-Code-zu-Dokumentation-Mapping
+
+**Schritt 1: Dokumentations-Struktur an Source-Code anpassen**
+
+Die `/docs`-Verzeichnisstruktur sollte die `/src` und `/include` Struktur spiegeln:
+
+| Source Code (`src/`, `include/`) | Dokumentation (`docs/`) |
+|----------------------------------|-------------------------|
+| `src/analytics/` | `docs/analytics/` |
+| `src/api/` | `docs/api/` oder `docs/apis/` |
+| `src/auth/` | `docs/auth/` |
+| `src/cache/` | `docs/cache/` (fehlt) |
+| `src/cdc/` | `docs/cdc/` (fehlt, nur archiviert) |
+| `src/content/` | `docs/content/` |
+| `src/geo/` | `docs/geo/` |
+| `src/governance/` | `docs/governance/` (fehlt) |
+| `src/index/` | `docs/indexing/` oder `docs/search/` |
+| `src/query/` | `docs/query/` |
+| `src/replication/` | `docs/replication/` (fehlt) |
+| `src/security/` | `docs/security/` |
+| `src/server/` | `docs/server/` (fehlt) |
+| `src/sharding/` | `docs/sharding/` |
+| `src/storage/` | `docs/storage/` |
+| `src/timeseries/` | `docs/timeseries/` (fehlt) |
+| `src/transaction/` | `docs/transaction/` (fehlt) |
+
+**Schritt 2: Systematischer Code-Dokumentations-Abgleich**
+
+Für jede Source-Datei prüfen:
+
+```bash
+# Beispiel: Alle Header-Dateien auflisten
+find include -name "*.h" | while read header; do
+  component=$(dirname "$header" | sed 's|include/||')
+  echo "Component: $component"
+  echo "  Header: $header"
+  echo "  Doc sollte sein: docs/$component/"
+done
+```
+
+**Schritt 3: Automatisierte Link-Korrektur**
+
+```bash
+# Broken Links finden
+grep -r "](docs/" README.md | while read line; do
+  link=$(echo "$line" | grep -oP '\(docs/[^)]+\)' | tr -d '()')
+  if [ ! -f "$link" ]; then
+    # Versuche, die Datei zu finden
+    filename=$(basename "$link")
+    found=$(find docs -name "$filename" -type f 2>/dev/null | head -1)
+    if [ -n "$found" ]; then
+      echo "BROKEN: $link -> FOUND: $found"
+    else
+      echo "MISSING: $link"
+    fi
+  fi
+done
+```
+
+### Code-Dokumentations-Abgleich pro Komponente
+
+Für jede Komponente muss geprüft werden:
+
+| Komponente | Header-Dateien | Source-Dateien | Dokumentation Status |
+|------------|----------------|----------------|---------------------|
+| analytics | `include/analytics/*.h` | `src/analytics/*.cpp` | ⚠️ Prüfen |
+| api | `include/api/*.h` | `src/api/*.cpp` | ⚠️ Prüfen |
+| auth | `include/auth/*.h` | `src/auth/*.cpp` | ⚠️ Prüfen |
+| cache | `include/cache/*.h` | `src/cache/*.cpp` | ❌ Fehlt |
+| cdc | `include/cdc/*.h` | `src/cdc/*.cpp` | ⚠️ Archiviert |
+| content | `include/content/*.h` | `src/content/*.cpp` | ⚠️ Prüfen |
+| geo | `include/geo/*.h` | `src/geo/*.cpp` | ⚠️ Prüfen |
+| governance | `include/governance/*.h` | `src/governance/*.cpp` | ❌ Fehlt |
+| index | `include/index/*.h` | `src/index/*.cpp` | ⚠️ Prüfen |
+| query | `include/query/*.h` | `src/query/*.cpp` | ⚠️ Prüfen |
+| replication | `include/replication/*.h` | `src/replication/*.cpp` | ❌ Fehlt |
+| security | `include/security/*.h` | `src/security/*.cpp` | ⚠️ Prüfen |
+| server | `include/server/*.h` | `src/server/*.cpp` | ❌ Fehlt |
+| sharding | `include/sharding/*.h` | `src/sharding/*.cpp` | ⚠️ Prüfen |
+| storage | `include/storage/*.h` | `src/storage/*.cpp` | ⚠️ Prüfen |
+| streaming | `include/streaming/*.h` | `src/streaming/*.cpp` | ⚠️ Prüfen |
+| timeseries | `include/timeseries/*.h` | `src/timeseries/*.cpp` | ❌ Fehlt |
+| transaction | `include/transaction/*.h` | `src/transaction/*.cpp` | ❌ Fehlt |
+
+### Empfohlene Vorgehensweise
+
+1. **Phase A: Link-Reparatur** (1-2 Tage)
+   - Alle broken Links in README.md fixen
+   - Links in DOCUMENTATION_INDEX.md aktualisieren
+   - MkDocs-Navigation anpassen
+
+2. **Phase B: Struktur-Konsolidierung** (1 Woche)
+   - Fehlende Dokumentations-Ordner erstellen
+   - Dokumente in richtige Ordner verschieben
+   - Redirect-Hinweise in alten Dateien
+
+3. **Phase C: Code-Abgleich** (2-3 Wochen)
+   - Pro Komponente: Header-Dateien mit Dokumentation vergleichen
+   - Neue/geänderte APIs dokumentieren
+   - Veraltete Dokumentation aktualisieren/archivieren
+
+4. **Phase D: Qualitätssicherung** (laufend)
+   - Link-Checker in CI integrieren
+   - Dokumentations-Coverage-Metriken
+   - Review-Prozess für Doku-Änderungen
+
+---
+
 ## 📁 1. Root-Level Dokumente
 
 ### 1.1 README.md ⚠️ PRIORITÄT HOCH
