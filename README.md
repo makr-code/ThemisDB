@@ -130,6 +130,112 @@ Tests:
 Roadmap:
 - KeyPair Generation, ECDSA Support, Session-Pooling, Performance Counters, vollständige C_Verify Zertifikatskette.
 
+### Distributed Sharding (Horizontale Skalierung)
+
+ThemisDB unterstützt horizontale Skalierung durch ein verteiltes Sharding-System basierend auf VCC-URN Best Practices:
+
+**Implementierte Features (Phase 1-6 Complete):**
+- **URN-basiertes Routing** - Consistent Hashing mit 150 Virtual Nodes pro Shard
+- **mTLS Shard-Kommunikation** - Sichere Datenübertragung zwischen Shards
+- **PKI-basierte Operationssignierung** - RSA-SHA256 signierte Operationen
+- **etcd Metadata Store** - Persistente Shard-Topologie
+- **Parallel Scatter-Gather** - Batch-basierte parallele Query-Execution
+- **Cross-Shard Joins** - Broadcast Hash Join und Co-Located Join Strategien
+- **P2P Gossip-Protokoll** - Optional, SWIM-basiert für Peer Discovery
+- **Cassandra-inspired Streaming** - Chunk-basiert mit LZ4/Zstd Kompression
+- **Adaptive Backpressure** - Load-aware Sync-Deferral mit WAL-Replay
+- **44 Prometheus Metrics** - Vollständige Observability
+- **Grafana Dashboards** - 19 Panels, 8 Alert Rules
+
+**P2P Peer Discovery (Optional):**
+```cpp
+// Aktivierung in Config
+sharding:
+  gossip:
+    enabled: true                    // Default: false
+    gossip_interval_sec: 30
+    max_peers: 100
+    bootstrap_peers:
+      - "themisdb-node-1:18765"
+```
+
+**Kubernetes Deployment:**
+```bash
+# CRDs installieren
+kubectl apply -f deploy/kubernetes/crds/
+
+# Cluster erstellen
+kubectl apply -f deploy/kubernetes/examples/themisdb-cluster.yaml
+```
+
+Siehe auch: [`docs/sharding/`](docs/sharding/) für detaillierte Dokumentation.
+
+### RAID-like Redundanz & Replication
+
+ThemisDB bietet flexible Redundanz-Modi ähnlich RAID-Systemen:
+
+**Redundanz-Modi:**
+| Modus | Beschreibung | Äquivalent | Speichereffizienz |
+|-------|--------------|------------|-------------------|
+| NONE | Nur Sharding | - | 100% |
+| MIRROR | Vollständige Spiegelung | RAID-1 | 100/N% |
+| STRIPE | Daten-Striping | RAID-0 | 100% |
+| STRIPE_MIRROR | Striping + Mirror | RAID-10 | 50% |
+| PARITY | Erasure Coding | RAID-5/6 | k/(k+m)% |
+| GEO_MIRROR | Geo-verteilte Replikation | - | 100/N% |
+
+**Granulare Blob-Level Redundanz:**
+- Per-File Konfiguration (SST, WAL, Index, Blob)
+- YAML-basiert: `config/storage_redundancy.yaml`
+- Tiered Storage: Hot → Warm → Cold → Archive
+
+**Replication:**
+- **Leader-Follower:** WAL-basiert, Automatic Failover
+- **Multi-Master:** CRDTs, Vector Clocks, HLC
+
+Siehe: [`docs/sharding/RAID_REDUNDANCY_ARCHITECTURE.md`](docs/sharding/RAID_REDUNDANCY_ARCHITECTURE.md)
+
+### Complex Event Processing (CEP)
+
+Streaming Analytics Engine für Echtzeit-Ereignisverarbeitung:
+
+**Features:**
+- **Pattern Matching** - SEQUENCE, AND, OR, NOT, WITHIN
+- **Windows** - TUMBLING, SLIDING, SESSION, HOPPING
+- **Aggregations** - COUNT, SUM, AVG, MIN, MAX, PERCENTILE
+- **Stream-Stream Joins**
+- **EPL Query Language**
+
+**Beispiel:**
+```sql
+CREATE RULE failed_login_alert AS
+SELECT userId, COUNT(*) as attempts
+FROM LoginEvents
+WHERE success = false
+WINDOW TUMBLING(5 MINUTES)
+GROUP BY userId
+HAVING COUNT(*) >= 3
+ACTION alert('security');
+```
+
+Siehe: [`docs/analytics/CEP_STREAMING_ANALYTICS.md`](docs/analytics/CEP_STREAMING_ANALYTICS.md)
+
+### GPU Acceleration (Optional Build)
+
+GPU-beschleunigte Operationen für Vektor-Suche und Aggregationen:
+
+```bash
+# NVIDIA CUDA Build
+cmake -DTHEMIS_ENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+
+# Vulkan GPU Build (AMD/Intel/NVIDIA)
+cmake -DTHEMIS_ENABLE_GPU=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
+
+Siehe auch: [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+
 ### Lokale Codequalität (Format & Analyse)
 
 Die Code-Qualitätsprüfungen sind bewusst lokal gehalten, um keine zusätzlichen CI-Kosten zu verursachen.
