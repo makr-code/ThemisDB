@@ -30,25 +30,40 @@ benchmarks/
 fuzz/
 data/
 test_geo_integration_db/
-examples/
+# examples/ - NEEDED for Docker packages
+# clients/ - NEEDED for SDK distribution
+# openapi/ - NEEDED for API specification
 adapters/
-clients/
 
 # --- Documentation (nicht für Runtime) -------------------------------------
-docs/
+# docs/ - Some docs needed for packages (openapi, deployment guides)
 site/
 wiki/
 wiki_out/
 wiki-temp/
+# Exclude most markdown except essential ones
 *.md
 !README.md
 !CHANGELOG.md
 !LICENSE.md
+!SECURITY.md
+# Exclude most of docs/ but keep essential subdirs
+docs/**
+!docs/ThemisDB-Documentation.pdf
+!docs/deployment/
 
 # --- Developer Tools (nicht für Production) --------------------------------
-tools/
+# tools/ - plugin_signer and sign scripts needed
+tools/jaeger/
+tools/Themis.*/
+tools/CMakeLists.txt
+tools/debug_graph_keys.cpp
+tools/publish_wiki.py
+tools/STATUS.md
+tools/MOCK_MODE.md
+tools/Themis.sln
 .tools/
-scripts/
+# scripts/ - needed for install scripts in packages
 .github/
 .vscode/
 .idea/
