@@ -20,7 +20,7 @@
 ### Für Compliance & Audits
 1. [COMPLIANCE_DASHBOARD.md](COMPLIANCE_DASHBOARD.md) - Executive Compliance Summary
 2. [FULL_AUDIT_CHECKLIST.md](FULL_AUDIT_CHECKLIST.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
-3. [security/SECURITY_AUDIT_REPORT.md](reports/SECURITY_AUDIT_REPORT.md) - Security Audit Ergebnisse
+3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Ergebnisse
 4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
 
 ## 📚 Dokumentationsstruktur
@@ -77,24 +77,24 @@ docs/
 
 ### Kern-Architektur
 - [architecture.md](architecture.md) - System-Architektur Übersicht
-- [storage/rocksdb_layout.md](storage/rocksdb_layout.md) - RocksDB Storage Layout
-- [mvcc_design.md](architecture/mvcc_design.md) - MVCC Transaction Design
-- [query_engine_aql.md](aql/query_engine.md) - Query Engine & AQL
+- [storage/storage_rocksdb.md](storage/storage_rocksdb.md) - RocksDB Storage Layout
+- [mvcc_design.md](architecture/architecture_mvcc.md) - MVCC Transaction Design
+- [query_engine_aql.md](aql/aql_query_engine.md) - Query Engine & AQL
 
 ### Spezielle Features
-- [geo/GEO_ARCHITECTURE.md](geo/architecture.md) - Geo/Spatial Architecture
+- [geo/GEO_ARCHITECTURE.md](geo/geo_architecture.md) - Geo/Spatial Architecture
 - [vector_ops.md](features/vector_ops.md) - Vector Operations & HNSW
-- [content_pipeline.md](architecture/content_pipeline.md) - Content Processing Pipeline
+- [content_pipeline.md](architecture/architecture_content_pipeline.md) - Content Processing Pipeline
 - [search/hybrid_search_design.md](search/hybrid_search_design.md) - Hybrid Search
 
 ## 🔒 Security & Compliance
 
 ### Security
-- [security/overview.md](security/overview.md) - Security Übersicht
-- [encryption_strategy.md](security/encryption_strategy.md) - Verschlüsselungsstrategie
-- [security/key_management.md](security/key_management.md) - Key Management
-- [security/threat_model.md](security/threat_model.md) - Threat Model
-- [security_hardening_guide.md](security/hardening_guide.md) - Hardening Guide
+- [security/security_overview.md](security/security_overview.md) - Security Übersicht
+- [encryption_strategy.md](security/security_encryption_strategy.md) - Verschlüsselungsstrategie
+- [security/security_key_management.md](security/security_key_management.md) - Key Management
+- [security/security_threat_model.md](security/security_threat_model.md) - Threat Model
+- [security_hardening_guide.md](security/security_hardening.md) - Hardening Guide
 
 ### Compliance
 - [COMPLIANCE_DASHBOARD.md](COMPLIANCE_DASHBOARD.md) - Executive Dashboard
@@ -104,8 +104,8 @@ docs/
 - [AUDIT_LOGGING.md](features/audit_logging.md) - Audit Logging
 
 ### PKI & eIDAS
-- [pki_integration_architecture.md](security/pki_integration_architecture.md) - PKI Integration
-- [eidas_qualified_signatures.md](security/eidas_qualified_signatures.md) - eIDAS Signaturen
+- [pki_integration_architecture.md](security/security_pki_architecture.md) - PKI Integration
+- [eidas_qualified_signatures.md](security/security_eidas.md) - eIDAS Signaturen
 - [security/pki_rsa_integration.md](security/pki_rsa_integration.md) - PKI RSA Integration
 
 ## 🛠️ Build & Deployment
@@ -127,17 +127,17 @@ docs/
 
 ## 📊 Performance & Benchmarks
 
-- [performance_benchmarks.md](performance/benchmarks.md) - Performance Übersicht
-- [compression_benchmarks.md](performance/compression_benchmarks.md) - Kompression
-- [encryption_metrics.md](security/encryption_metrics.md) - Verschlüsselung Performance
+- [performance_benchmarks.md](performance/performance_benchmarks.md) - Performance Übersicht
+- [compression_benchmarks.md](performance/performance_compression_benchmarks.md) - Kompression
+- [encryption_metrics.md](security/security_encryption_metrics.md) - Verschlüsselung Performance
 - [performance/ENTERPRISE_SCALABILITY_STRATEGY.md](performance/ENTERPRISE_SCALABILITY_STRATEGY.md) - Enterprise Strategy
 
 ## 🔍 API & Query Language
 
 ### AQL (Advanced Query Language)
-- [aql_syntax.md](aql/syntax.md) - AQL Syntax
-- [aql-hybrid-queries.md](aql/hybrid-queries.md) - Hybrid Queries
-- [aql_explain_profile.md](aql/explain_profile.md) - EXPLAIN & PROFILE
+- [aql_syntax.md](aql/aql_syntax.md) - AQL Syntax
+- [aql-hybrid-queries.md](aql/aql_hybrid_queries.md) - Hybrid Queries
+- [aql_explain_profile.md](aql/aql_explain_profile.md) - EXPLAIN & PROFILE
 - [recursive_path_queries.md](features/recursive_path_queries.md) - Rekursive Pfade
 - [temporal_graphs.md](features/temporal_graphs.md) - Temporale Graphen
 
@@ -185,14 +185,14 @@ docs/
 
 ### Multi-Model Features
 - **Graph:** [property_graph_model.md](features/property_graph_model.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
-- **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
+- **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
 - **Time-Series:** [time_series.md](features/time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
-- **Document:** [content_pipeline.md](architecture/content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
+- **Document:** [content_pipeline.md](architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
 - **Vector/Embedding:** [vector_ops.md](features/vector_ops.md), [gnn_embeddings.md](features/gnn_embeddings.md)
 
 ### Storage & Persistence
-- **RocksDB:** [storage/rocksdb_layout.md](storage/rocksdb_layout.md), [storage/rocksdb_wrapper.cpp.md](src/storage/rocksdb_wrapper.cpp.md)
-- **MVCC:** [mvcc_design.md](architecture/mvcc_design.md)
+- **RocksDB:** [storage/storage_rocksdb.md](storage/storage_rocksdb.md), [storage/rocksdb_wrapper.cpp.md](src/storage/rocksdb_wrapper.cpp.md)
+- **MVCC:** [mvcc_design.md](architecture/architecture_mvcc.md)
 - **Transactions:** [transactions.md](features/transactions.md), [transaction/saga.cpp.md](src/transaction/saga.cpp.md)
 - **Compression:** [compression_strategy.md](performance/compression_strategy.md), [timeseries/gorilla.cpp.md](src/timeseries/gorilla.cpp.md)
 
@@ -203,8 +203,8 @@ docs/
 - **Geo Indexing:** [geo/cpu_backend.cpp.md](src/geo/cpu_backend.cpp.md)
 
 ### Governance & PII
-- **PII Detection:** [security/pii_detection.md](security/pii_detection.md), [pii_api.md](security/pii_api.md)
-- **Policies:** [security/policies.md](security/policies.md), [governance/policy_engine.cpp.md](src/governance/policy_engine.cpp.md)
+- **PII Detection:** [security/pii_detection.md](security/pii_detection.md), [pii_api.md](security/security_pii_api.md)
+- **Policies:** [security/security_policies.md](security/security_policies.md), [governance/policy_engine.cpp.md](src/governance/policy_engine.cpp.md)
 - **RBAC:** [rbac_authorization.md](guides/rbac.md), [RBAC.md](guides/rbac.md)
 - **Retention:** [security/audit_and_retention.md](security/audit_and_retention.md)
 
