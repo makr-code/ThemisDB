@@ -483,8 +483,12 @@ storage:
 - ✅ **Index Scans** - Parallel predicate evaluation
 - ✅ **Throughput** - 3.5x speedup on 8-core systems
 
-### GPU Acceleration ✅
-**Status:** Production-Ready | **Docs:** [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+### GPU Acceleration ✅ (Optional Build)
+**Status:** Available (Build Flag Required) | **Docs:** [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+
+> ⚠️ **Build Requirement:** GPU acceleration requires explicit build flags:
+> - `-DTHEMIS_ENABLE_CUDA=ON` for NVIDIA CUDA backend
+> - `-DTHEMIS_ENABLE_GPU=ON` for general GPU support (Vulkan)
 
 **CUDA Backend:**
 - ✅ Faiss GPU Integration
@@ -495,6 +499,17 @@ storage:
 - ✅ Cross-platform GPU compute
 - ✅ Multi-vendor support (NVIDIA, AMD, Intel)
 - ✅ Compute shaders for vector operations
+
+**Build Instructions:**
+```bash
+# NVIDIA CUDA Build
+cmake -DTHEMIS_ENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+
+# Vulkan GPU Build
+cmake -DTHEMIS_ENABLE_GPU=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
 
 ---
 
@@ -866,7 +881,8 @@ docker compose up --build
 ### Q2-Q3 2026 (3-9 Monate)
 **Focus:** Distributed Systems
 
-- ✅ **Distributed Sharding (Phase 1-3)** - Auto-Rebalancing with Load Detection
+- ✅ **Distributed Sharding (Phase 1-4)** - URN, PKI, Routing, Data Migration, Parallel Scatter-Gather, P2P Gossip
+- 🔧 **Distributed Sharding (Phase 5-6)** - Integration Tests, E2E Tests (In Progress)
 - 📋 **Replication** - Leader-Follower, Multi-Master
 - 📋 **Multi-DC Deployment** - Geo-distributed clusters
 - 📋 **Advanced Graph Algorithms** - PageRank, Community Detection
@@ -908,7 +924,8 @@ docker compose up --build
 - **API Layer:** 95%
 - **Documentation:** 90%
 - **Client SDKs:** 40% (Alpha)
-- **GPU Acceleration:** 10% (Planned)
+- **Distributed Sharding:** 95% (Phase 1-4 Complete, Tests Pending)
+- **GPU Acceleration:** 100% (Code Complete, Opt-in Build)
 
 ---
 
