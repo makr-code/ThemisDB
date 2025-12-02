@@ -1,0 +1,436 @@
+# ThemisDB Comparative Benchmark - Multi-Database Docker Environment
+# Version: 1.0.0
+# 
+# This docker-compose file sets up all database candidates for comparative benchmarking.
+# All databases are configured with equivalent resource limits for fair comparison.
+#
+# Usage:
+#   docker-compose -f docker-compose.benchmark.yml up -d
+#   docker-compose -f docker-compose.benchmark.yml down -v
+
+version: "3.8"
+
+# Shared resource limits for fair comparison
+x-resource-limits: &resource-limits
+  deploy:
+    resources:
+      limits:
+        cpus: '4'
+        memory: 4G
+      reservations:
+        cpus: '2'
+        memory: 2G
+
+# Common healthcheck settings
+x-healthcheck-defaults: &healthcheck-defaults
+  interval: 10s
+  timeout: 5s
+  retries: 10
+  start_period: 30s
+
+services:
+  # ============================================================================
+  # ThemisDB - Reference Multi-Model Database
+  # ============================================================================
+  themisdb:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: themisdb/themisdb:benchmark
+    container_name: benchmark-themisdb
+    ports:
+      - "8765:8765"
+    volumes:
+      - themisdb-data:/data
+      - ./config/themisdb.yaml:/etc/themis/config.yaml:ro
+    environment:
+      - THEMIS_LOG_LEVEL=info
+      - THEMIS_DATA_PATH=/data
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8765/health || exit 1"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # PostgreSQL - Relational Database (SQL, ACID)
+  # ============================================================================
+  postgresql:
+    image: postgres:16-alpine
+    container_name: benchmark-postgresql
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+      - ./config/postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      POSTGRES_USER: benchmark
+      POSTGRES_PASSWORD: benchmark123
+      POSTGRES_DB: benchmark
+      # Performance tuning
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    command: >
+      postgres
+      -c shared_buffers=1GB
+      -c effective_cache_size=3GB
+      -c maintenance_work_mem=256MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=16MB
+      -c min_wal_size=1GB
+      -c max_wal_size=4GB
+      -c max_worker_processes=4
+      -c max_parallel_workers_per_gather=2
+      -c max_parallel_workers=4
+      -c max_parallel_maintenance_workers=2
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "pg_isready -U benchmark -d benchmark"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # PostgreSQL with pgvector - Vector Extension
+  # ============================================================================
+  postgresql-pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: benchmark-postgresql-pgvector
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgresql-pgvector-data:/var/lib/postgresql/data
+      - ./config/postgresql/init-pgvector.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      POSTGRES_USER: benchmark
+      POSTGRES_PASSWORD: benchmark123
+      POSTGRES_DB: benchmark
+    command: >
+      postgres
+      -c shared_buffers=1GB
+      -c effective_cache_size=3GB
+      -c maintenance_work_mem=256MB
+      -c work_mem=16MB
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "pg_isready -U benchmark -d benchmark"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # MongoDB - Document Database
+  # ============================================================================
+  mongodb:
+    image: mongo:7.0
+    container_name: benchmark-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+      - ./config/mongodb/mongod.conf:/etc/mongod.conf:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: benchmark
+      MONGO_INITDB_ROOT_PASSWORD: benchmark123
+      MONGO_INITDB_DATABASE: benchmark
+    command: ["mongod", "--config", "/etc/mongod.conf"]
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Redis - In-Memory Key-Value Store
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: benchmark-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "redis-cli", "ping"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Redis Stack - Redis with Vector Search (RediSearch + RedisJSON)
+  # ============================================================================
+  redis-stack:
+    image: redis/redis-stack:latest
+    container_name: benchmark-redis-stack
+    ports:
+      - "6380:6379"
+      - "8001:8001"  # RedisInsight
+    volumes:
+      - redis-stack-data:/data
+    environment:
+      REDIS_ARGS: "--maxmemory 3gb --maxmemory-policy allkeys-lru"
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "redis-cli", "ping"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # ArangoDB - Multi-Model Database (Direct Competitor)
+  # ============================================================================
+  arangodb:
+    image: arangodb:3.11
+    container_name: benchmark-arangodb
+    ports:
+      - "8529:8529"
+    volumes:
+      - arangodb-data:/var/lib/arangodb3
+      - arangodb-apps:/var/lib/arangodb3-apps
+    environment:
+      ARANGO_ROOT_PASSWORD: benchmark123
+      ARANGO_NO_AUTH: 0
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "curl", "-fsS", "http://localhost:8529/_api/version"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Neo4j - Graph Database
+  # ============================================================================
+  neo4j:
+    image: neo4j:5-community
+    container_name: benchmark-neo4j
+    ports:
+      - "7474:7474"  # HTTP
+      - "7687:7687"  # Bolt
+    volumes:
+      - neo4j-data:/data
+      - neo4j-logs:/logs
+    environment:
+      NEO4J_AUTH: neo4j/benchmark123
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_memory_heap_initial__size: 1G
+      NEO4J_dbms_memory_heap_max__size: 2G
+      NEO4J_dbms_memory_pagecache_size: 1G
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Milvus - Vector Database
+  # ============================================================================
+  milvus-etcd:
+    image: quay.io/coreos/etcd:v3.5.5
+    container_name: benchmark-milvus-etcd
+    environment:
+      ETCD_AUTO_COMPACTION_MODE: revision
+      ETCD_AUTO_COMPACTION_RETENTION: "1000"
+      ETCD_QUOTA_BACKEND_BYTES: "4294967296"
+      ETCD_SNAPSHOT_COUNT: "50000"
+    volumes:
+      - milvus-etcd-data:/etcd
+    command: >
+      etcd
+      -advertise-client-urls=http://127.0.0.1:2379
+      -listen-client-urls http://0.0.0.0:2379
+      --data-dir /etcd
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+    networks:
+      - benchmark-net
+
+  milvus-minio:
+    image: minio/minio:RELEASE.2023-03-20T20-16-18Z
+    container_name: benchmark-milvus-minio
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    volumes:
+      - milvus-minio-data:/minio_data
+    command: minio server /minio_data --console-address ":9001"
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    networks:
+      - benchmark-net
+
+  milvus:
+    image: milvusdb/milvus:v2.4.0
+    container_name: benchmark-milvus
+    ports:
+      - "19530:19530"
+      - "9091:9091"
+    volumes:
+      - milvus-data:/var/lib/milvus
+    environment:
+      ETCD_ENDPOINTS: milvus-etcd:2379
+      MINIO_ADDRESS: milvus-minio:9000
+    command: ["milvus", "run", "standalone"]
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      start_period: 60s
+    depends_on:
+      - milvus-etcd
+      - milvus-minio
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Elasticsearch - Search Engine
+  # ============================================================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: benchmark-elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms2g -Xmx2g"
+      xpack.security.enabled: "false"
+      xpack.security.enrollment.enabled: "false"
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health || exit 1"]
+      start_period: 60s
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # ChromaDB - Vector Database for AI/ML (Polyglot Persistence)
+  # ============================================================================
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: benchmark-chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chromadb-data:/chroma/chroma
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+      ALLOW_RESET: "TRUE"
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/api/v1/heartbeat || exit 1"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Benchmark Runner - Python-based benchmark orchestrator
+  # ============================================================================
+  benchmark-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.benchmark
+    image: themisdb/benchmark-runner:latest
+    container_name: benchmark-runner
+    volumes:
+      - ./:/app
+      - ./results:/app/results
+      - ./reports:/app/reports
+    environment:
+      # ThemisDB
+      THEMISDB_HOST: themisdb
+      THEMISDB_PORT: 8765
+      # PostgreSQL
+      POSTGRESQL_HOST: postgresql
+      POSTGRESQL_PORT: 5432
+      POSTGRESQL_USER: benchmark
+      POSTGRESQL_PASSWORD: benchmark123
+      POSTGRESQL_DB: benchmark
+      # PostgreSQL pgvector
+      POSTGRESQL_PGVECTOR_HOST: postgresql-pgvector
+      POSTGRESQL_PGVECTOR_PORT: 5432
+      # MongoDB
+      MONGODB_HOST: mongodb
+      MONGODB_PORT: 27017
+      MONGODB_USER: benchmark
+      MONGODB_PASSWORD: benchmark123
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      # Redis Stack
+      REDIS_STACK_HOST: redis-stack
+      REDIS_STACK_PORT: 6379
+      # ArangoDB
+      ARANGODB_HOST: arangodb
+      ARANGODB_PORT: 8529
+      ARANGODB_PASSWORD: benchmark123
+      # Neo4j
+      NEO4J_HOST: neo4j
+      NEO4J_BOLT_PORT: 7687
+      NEO4J_HTTP_PORT: 7474
+      NEO4J_PASSWORD: benchmark123
+      # Milvus
+      MILVUS_HOST: milvus
+      MILVUS_PORT: 19530
+      # Elasticsearch
+      ELASTICSEARCH_HOST: elasticsearch
+      ELASTICSEARCH_PORT: 9200
+      # ChromaDB
+      CHROMADB_HOST: chromadb
+      CHROMADB_PORT: 8000
+      # Benchmark settings
+      BENCHMARK_DATASET_SIZE: 10000
+      BENCHMARK_WARMUP_ITERATIONS: 100
+      BENCHMARK_ITERATIONS: 1000
+    depends_on:
+      - themisdb
+      - postgresql
+      - postgresql-pgvector
+      - mongodb
+      - redis
+      - redis-stack
+      - arangodb
+      - neo4j
+      - milvus
+      - elasticsearch
+      - chromadb
+    networks:
+      - benchmark-net
+    profiles:
+      - runner
+
+networks:
+  benchmark-net:
+    driver: bridge
+    name: themisdb-benchmark-network
+
+volumes:
+  themisdb-data:
+  postgresql-data:
+  postgresql-pgvector-data:
+  mongodb-data:
+  redis-data:
+  redis-stack-data:
+  arangodb-data:
+  arangodb-apps:
+  neo4j-data:
+  neo4j-logs:
+  milvus-etcd-data:
+  milvus-minio-data:
+  milvus-data:
+  elasticsearch-data:
+  chromadb-data:
