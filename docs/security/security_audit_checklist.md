@@ -2,7 +2,7 @@
 
 Diese Checkliste unterstützt ein wiederholbares Sicherheits-Audit für Themis-Server und Admin-Tools.
 
-> **📋 Vollständige Compliance-Checkliste:** Für eine umfassende Audit-Checkliste nach BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, HIPAA und DIN-Normen siehe: **[Vollständige Audit-Checkliste](../FULL_AUDIT_CHECKLIST.md)**
+> **📋 Vollständige Compliance-Checkliste:** Für eine umfassende Audit-Checkliste nach BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, HIPAA und DIN-Normen siehe: **[Vollständige Audit-Checkliste](../compliance/compliance_full_checklist.md)**
 
 ## 1) Architektur & Threat Modeling
 - Datenflüsse und Vertrauensgrenzen dokumentiert (Client ↔ Server ↔ Storage)
@@ -14,6 +14,12 @@ Diese Checkliste unterstützt ein wiederholbares Sicherheits-Audit für Themis-S
 - C++/vcpkg: Versionen und CVEs prüfen (vcpkg-Baseline aktuell, Release Notes)
 - Container-Images (falls genutzt): Trivy/Grype Scan
 - Repo-Scan: `security-scan.ps1` ausführen (C/C++ Risky-APIs, Secret-Pattern, .NET Vulnerabilities)
+
+## 2a) Malware-Schutz (BSI C5 OPS-05) ✅
+- Malware-Scanner in Content-Ingestion-Pipeline aktiviert (`MalwareFilterManager`)
+- SignatureScanner (built-in): PE/ELF/Mach-O, Doppelendungen, Archive-Bombs, EICAR
+- ClamAV-Integration (optional): clamd-Daemon für professionelles AV-Scanning
+- Dokumentation: `docs/security/security_malware_scanner.md`
 
 ## 3) Build/Compiler-Härtung
 - C++: Warnings auf Maximum, Sanitizer im CI-Testlauf (ASAN/UBSAN) aktivierbar
