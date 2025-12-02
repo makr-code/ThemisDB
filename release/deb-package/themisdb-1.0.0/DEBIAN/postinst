@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+# Create themisdb user if it doesn't exist
+if ! id themisdb >/dev/null 2>&1; then
+    useradd --system --home-dir /var/lib/themisdb --create-home \
+            --shell /usr/sbin/nologin --comment "ThemisDB Server" themisdb
+fi
+
+# Create data directory
+mkdir -p /var/lib/themisdb/data
+chown -R themisdb:themisdb /var/lib/themisdb
+
+# Create log directory
+mkdir -p /var/log/themisdb
+chown -R themisdb:themisdb /var/log/themisdb
+
+# Reload systemd daemon
+if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload >/dev/null 2>&1 || true
+fi
+
+exit 0
