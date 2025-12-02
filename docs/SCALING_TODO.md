@@ -12,7 +12,7 @@
 Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontalen Skalierung im ThemisDB-Projekt und identifiziert Diskrepanzen zwischen Dokumentation und tatsächlicher Implementierung.
 
 **Gesamtstatus:**
-- **Horizontale Skalierung:** ~60% implementiert (Phase 1-3 vollständig, Phase 4 teilweise)
+- **Horizontale Skalierung:** ~75% implementiert (Phase 1-4 vollständig, Phase 5-6 fehlen)
 - **Vertikale Skalierung:** ~85% implementiert (Enterprise Features)
 
 ---
@@ -34,6 +34,8 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 | Phase 3 | Shard Router | ✅ DONE | ✅ Korrekt | `src/sharding/shard_router.cpp` |
 | Phase 4 | Data Migrator | ✅ DONE | ✅ Implementiert | Echte mTLS-Integration mit fetchBatch/writeBatch |
 | Phase 4 | Auto Rebalancer | ✅ DONE | ✅ Implementiert | RSA-SHA256 Signierung mit PKI |
+| Phase 4 | Shard Topology (etcd) | ✅ DONE | ✅ Implementiert | etcd v3 HTTP API Integration |
+| Phase 4 | Health Check System | ✅ DONE | ✅ Implementiert | Echte HTTP Health Checks + Cert Parsing |
 | Phase 5 | Integration Tests | ❌ MISSING | 🔴 FEHLT | Keine echten E2E-Tests |
 | Phase 6 | Prometheus Metrics | ⚠️ PARTIAL | 🔴 ÜBERTRIEBEN | Grundstruktur, aber nicht integriert |
 
@@ -58,17 +60,21 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 
 #### Mittlere Priorität (P1)
 
-- [ ] **TODO-HS-004:** etcd/Consul Integration für Metadata Store
-  - **Problem:** Shard Topology nur in-memory
-  - **VCC-URN Prinzip:** Verteilter Metadata Store für Cluster-Koordination
-  - **Aufwand:** 2-3 Wochen
-  - **Referenz:** `docs/reports/infrastructure_roadmap.md` Zeile 86-91
+- [x] **TODO-HS-004:** etcd/Consul Integration für Metadata Store ✅ ERLEDIGT
+  - **Implementiert:** Echte etcd v3 HTTP API Integration
+  - **Datei:** `src/sharding/shard_topology.cpp`
+  - **Details:** 
+    - `loadFromMetadataStore()` lädt Shard-Konfiguration von etcd mit Base64 En-/Decoding
+    - `saveToMetadataStore()` persistiert Topologie zu etcd
+    - Key-Struktur: `/themis/{cluster_name}/shards/{shard_id}`
 
-- [ ] **TODO-HS-005:** Health Check Integration
-  - **Problem:** Health Status nur manuell aktualisierbar
-  - **Datei:** `include/sharding/health_check.h` vorhanden aber nicht integriert
-  - **VCC-URN Prinzip:** Automatische Shard-Health-Überwachung
-  - **Aufwand:** 1-2 Wochen
+- [x] **TODO-HS-005:** Health Check Integration ✅ ERLEDIGT
+  - **Implementiert:** Echte HTTP-basierte Health Checks
+  - **Datei:** `src/sharding/health_check.cpp`
+  - **Details:**
+    - `checkCertificateValidity()` parst ASN1_TIME für echte Ablaufprüfung
+    - `checkStorageCapacity()` ruft `/api/v1/metrics/storage` Endpoint ab
+    - `checkNetworkConnectivity()` misst echte HTTP-Latenz zu Shards
 
 - [ ] **TODO-HS-006:** Cloud Agent für Multi-DC Deployment
   - **Problem:** Cloud Agent vorhanden aber rudimentär
@@ -270,7 +276,27 @@ Die folgenden Placeholder-Funktionen wurden mit echtem Code implementiert:
   - Unterstützt Migration-Endpoints
   - Misst Ausführungszeit
 
+### 4. `src/sharding/shard_topology.cpp`
+- **loadFromMetadataStore()**: etcd v3 HTTP API Integration
+  - Lädt Shard-Konfiguration mit Range-Query
+  - Base64 En-/Decoding für etcd Keys/Values
+  - JSON-Parsing der Shard-Informationen
+- **saveToMetadataStore()**: Persistiert Topologie zu etcd
+  - Iteriert über alle Shards
+  - Schreibt JSON-serialisierte ShardInfo
+
+### 5. `src/sharding/health_check.cpp`
+- **checkCertificateValidity()**: Echte X.509 Zertifikatsprüfung
+  - Parst ASN1_TIME (UTC/GeneralizedTime)
+  - Berechnet echte Sekunden bis Ablauf
+- **checkStorageCapacity()**: HTTP-basierte Speicherabfrage
+  - Ruft `/api/v1/metrics/storage` Endpoint ab
+  - Parst JSON-Antwort für Speichernutzung
+- **checkNetworkConnectivity()**: Latenz-Messung
+  - HTTP GET auf `/health` Endpoint
+  - Misst Round-Trip-Zeit
+
 ---
 
-**Letzte Aktualisierung:** 1. Dezember 2025  
+**Letzte Aktualisierung:** 2. Dezember 2025  
 **Review-Status:** Awaiting Review
