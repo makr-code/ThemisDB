@@ -386,6 +386,14 @@ set(THEMIS_CORE_SOURCES
     src/content/content_manager.cpp
     src/content/text_processor.cpp
     src/content/mock_clip_processor.cpp
+    # Additional content processors
+    src/content/audio_processor.cpp
+    src/content/image_processor.cpp
+    src/content/video_processor.cpp
+    src/content/office_processor.cpp
+    src/content/pdf_processor.cpp
+    src/content/geo_processor.cpp
+    src/content/cad_processor.cpp
     
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
@@ -473,6 +481,8 @@ set(THEMIS_CORE_SOURCES
     src/acceleration/cpu_backend.cpp
     src/acceleration/plugin_loader.cpp
     src/acceleration/plugin_security.cpp
+    # Plugin manager (core plugin orchestration)
+    src/plugins/plugin_manager.cpp
     
     # Multi-tenancy support
     src/server/tenant_manager.cpp
