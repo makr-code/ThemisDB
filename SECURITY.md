@@ -78,7 +78,7 @@ ThemisDB implements the following security measures:
 
 ## Security Hardening
 
-For production deployments, please follow our [Security Hardening Guide](docs/security/hardening_guide.md):
+For production deployments, please follow our [Security Hardening Guide](docs/security/security_hardening.md):
 
 1. Enable TLS with strong cipher suites
 2. Configure RBAC with least-privilege principle
@@ -90,15 +90,15 @@ For production deployments, please follow our [Security Hardening Guide](docs/se
 
 ## Security Documentation
 
-- [Security Overview](docs/security/overview.md)
-- [TLS Setup Guide](docs/TLS_SETUP.md)
-- [RBAC Configuration](docs/security/implementation_summary.md)
-- [Encryption Strategy](docs/security/encryption_strategy.md)
-- [Key Management](docs/security/key_management.md)
-- [HSM Integration](docs/security/hsm_integration.md)
-- [Audit Logging](docs/features/audit_logging.md)
-- [Threat Model](docs/security/threat_model.md)
-- [Full Audit Checklist (BSI C5, ISO 27001, DSGVO)](docs/FULL_AUDIT_CHECKLIST.md)
+- [Security Overview](docs/security/security_overview.md)
+- [TLS Setup Guide](docs/guides/guides_tls_setup.md)
+- [RBAC Configuration](docs/security/security_implementation.md)
+- [Encryption Strategy](docs/security/security_encryption_strategy.md)
+- [Key Management](docs/security/security_key_management.md)
+- [HSM Integration](docs/security/security_hsm.md)
+- [Audit Logging](docs/features/features_audit_logging.md)
+- [Threat Model](docs/security/security_threat_model.md)
+- [Full Audit Checklist (BSI C5, ISO 27001, DSGVO)](docs/compliance/compliance_full_checklist.md)
 
 ## Vulnerability Disclosure Policy
 

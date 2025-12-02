@@ -18,7 +18,7 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 
 **Kern-Dokumentation (Neu konsolidiert):**
 - **[Features Liste](docs/features/features_overview.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
-- **[Development Audit Log](DEVELOPMENT_AUDITLOG.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
+- **[Development Audit Log](docs/development/DEVELOPMENT_SUMMARY.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
 - **[Roadmap](docs/roadmap/roadmap_overview.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
 - **[Next Implementation Priorities](docs/features/features_priorities.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
 - **[Changelog](CHANGELOG.md)** - Detaillierte Änderungshistorie nach Semantic Versioning
@@ -29,7 +29,7 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - **[Integration Analysis](docs/reports/INTEGRATION_ANALYSIS.md)** - Koexistenz mit Legacy-Code
 
 **Für Stakeholder:**
-- **[Themis Sachstandsbericht 2025](THEMIS_SACHSTANDSBERICHT_2025.md)** - Executive Summary, Performance-Benchmarks, Compliance-Readiness
+- **[Themis Sachstandsbericht 2025](docs/reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Performance-Benchmarks, Compliance-Readiness
 - **[Projektkostenschätzung & Gesamtwert](docs/reports/reports_project_valuation.md)** - Wirtschaftliche Bewertung, SaaS-Entwicklungskosten
 
 **Für Audits & Compliance:**
@@ -37,13 +37,13 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - **[Vollständige Audit-Checkliste](docs/compliance/compliance_full_checklist.md)** - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, DIN-Normen
 - **[Security Audit Report](docs/reports/SECURITY_AUDIT_REPORT.md)** - Durchgeführtes Security Audit mit Ergebnissen
 - **[Security Policy](SECURITY.md)** - Vulnerability Disclosure, Sicherheitsmaßnahmen
-- **[Incident Response Plan](docs/security/INCIDENT_RESPONSE_PLAN.md)** - Notfallplan nach BSI IT-Grundschutz & NIST CSF
-- **[SBOM Dokumentation](docs/security/SBOM.md)** - Software Bill of Materials (Syft/CycloneDX)
+- **[Incident Response Plan](docs/security/security_incident_response.md)** - Notfallplan nach BSI IT-Grundschutz & NIST CSF
+- **[SBOM Dokumentation](docs/security/security_sbom.md)** - Software Bill of Materials (Syft/CycloneDX)
 - **[DPIA - Datenschutz-Folgenabschätzung](docs/compliance/compliance_dpia.md)** - DSGVO Art. 35 Risikobewertung
 - **[BCP/DRP - Business Continuity](docs/compliance/compliance_bcp_drp.md)** - Disaster Recovery nach ISO 22301 & NIS2
 
 **Für Entwickler:**
-- **[Documentation Verification Report](DOCUMENTATION_VERIFICATION_REPORT.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
+- **[Documentation Verification Report](docs/reports/documentation_verification_report.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
 
 ## Dokumentation
 

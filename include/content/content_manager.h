@@ -15,6 +15,7 @@
 #include "index/graph_index.h"
 #include "index/secondary_index.h"
 #include "security/encryption.h"
+#include "security/malware_scanner.h"
 
 namespace themis {
 namespace content {
@@ -380,12 +381,33 @@ public:
 
     const Metrics& getMetrics() const;
 
+    /**
+     * @brief Set malware filter for content scanning (Audit Compliance)
+     * 
+     * When set, all imported content will be scanned for malware before storage.
+     * Threats exceeding the configured threshold will block the import.
+     * 
+     * Compliance:
+     * - BSI C5 (OPS-12): Malware Protection
+     * - ISO 27001 A.12.2.1: Controls against malware
+     * - NIS2 Art. 21(2)(d): Supply chain security
+     * 
+     * @param malware_filter Malware filter manager instance
+     */
+    void setMalwareFilter(std::shared_ptr<themis::security::MalwareFilterManager> malware_filter);
+
+    /**
+     * @brief Get malware filter (for status/metrics)
+     */
+    std::shared_ptr<themis::security::MalwareFilterManager> getMalwareFilter() const;
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<FieldEncryption> field_encryption_;
+    std::shared_ptr<themis::security::MalwareFilterManager> malware_filter_;
     
     // Processor registry (Category → Processor)
     std::unordered_map<ContentCategory, std::unique_ptr<IContentProcessor>> processors_;
