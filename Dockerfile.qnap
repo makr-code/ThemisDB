@@ -102,7 +102,7 @@ COPY src ./src
 RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
     echo "=== Building ThemisDB for QNAP (SSE4.2 baseline, Ubuntu 20.04 build) ===" && \
     echo "VCPKG_TRIPLET=${VCPKG_TRIPLET}" && \
-    cmake -S . -B build -G Ninja \
+    cmake -S . -B build -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
     -DVCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \
@@ -117,7 +117,7 @@ RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
     tail -100 /tmp/cmake_config.log; \
     exit 1) && \
     echo "=== Starting build ===" && \
-    cmake --build build --target themis_server -j$(nproc)
+    cmake --build build --target themis_server -- -j$(nproc)
 
 # Runtime stage - Ubuntu 20.04 for QNAP compatibility
 FROM ubuntu:20.04 AS runtime
