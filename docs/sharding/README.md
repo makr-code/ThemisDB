@@ -4,11 +4,20 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 
 ## Contents
 
-- **implementation_summary.md** - Sharding implementation overview
-- **phase1_report.md** - Phase 1 implementation report
-- **phases_1-3_summary.md** - Phases 1-3 summary
-- **horizontal_scaling_strategy.md** - Horizontal scaling strategy
-- **[Auto-Rebalancing Report](../reports/SHARDING_AUTO_REBALANCING.md)** - Phase 2-3: Automatic Rebalancing (Q4 2025)
+> **📋 Autoritative Dokumentation:** [SHARDING_UNIFIED_DOCUMENTATION.md](SHARDING_UNIFIED_DOCUMENTATION.md)
+
+### Hauptdokumentation
+- **[SHARDING_UNIFIED_DOCUMENTATION.md](SHARDING_UNIFIED_DOCUMENTATION.md)** - **Autoritative Quelle** (Phase 1-4 Status)
+
+### Archivierte Dokumente (historisch)
+- **implementation_summary.md** - Phase 1 Zusammenfassung (veraltet, siehe Unified Doc)
+- **phase1_report.md** - Phase 1 Report (historisch)
+- **phases_1-3_summary.md** - Phasen 1-3 Summary (historisch)
+- **horizontal_scaling_strategy.md** - Strategie-Dokument (historisch)
+
+### Weitere Ressourcen
+- **[Auto-Rebalancing Report](../reports/SHARDING_AUTO_REBALANCING.md)** - Phase 2-3: Automatic Rebalancing
+- **[SCALING_TODO.md](../SCALING_TODO.md)** - Vollständige Audit-Dokumentation
 
 ## Features
 
@@ -24,6 +33,13 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 - Safety mechanisms (Cooldown, Concurrency limits, Daily limits)
 - Full observability (Prometheus + OpenTelemetry)
 
+✅ **Phase 4: Advanced Features** (Completed)
+- etcd v3 Metadata Store Integration
+- Real Health Check System (Cert validity, Storage, Network)
+- Multi-DC Cloud Agent with Scatter-Gather
+- Cross-Shard Join Optimization (Hash Join, Co-Located Join)
+- P2P Gossip Protocol (SWIM-based, optional)
+
 ✅ **Cloud Agent** (Completed)
 - Remote operation delegation across shards
 - Parallel scatter-gather execution
@@ -31,11 +47,15 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 - Cloud service integration interface (AWS, Azure, GCP)
 - Async operation handling with progress tracking
 
-📋 **Phase 4: Advanced Features** (Planned Q1 2026)
-- Multi-DC replication
-- Geo-aware sharding
-- Read replicas
-- Automatic failover
+🔄 **Phase 5: Testing** (In Progress)
+- Integration Tests (test_sharding_integration.cpp)
+- E2E Tests (test_sharding_e2e.cpp)
+- Chaos Tests (test_sharding_chaos.cpp)
+
+⚠️ **Phase 6: Monitoring** (Partial)
+- Prometheus Metrics (basic structure)
+- Health Checks (integrated)
+- Admin Endpoints (partial)
 
 ## Cloud Agent
 
