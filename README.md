@@ -19,7 +19,7 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 **Kern-Dokumentation (Neu konsolidiert):**
 - **[Features Liste](docs/FEATURES.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
 - **[Development Audit Log](DEVELOPMENT_AUDITLOG.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
-- **[Roadmap](docs/ROADMAP.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
+- **[Roadmap](docs/roadmap.md)** - Konsolidierte Entwicklungs-Roadmap (Q1-Q4 2026+), GPU/CUDA Pläne
 - **[Next Implementation Priorities](docs/NEXT_IMPLEMENTATION_PRIORITIES.md)** - Priorisierung der nächsten Entwicklungsschritte (empfohlen: Column-Level Encryption)
 - **[Changelog](CHANGELOG.md)** - Detaillierte Änderungshistorie nach Semantic Versioning
 
@@ -345,13 +345,13 @@ All 8 CRITICAL security features implemented (Production-Ready):
    - Strong cipher suites (ECDHE-RSA-AES256-GCM-SHA384, ChaCha20-Poly1305)
    - mTLS client certificate verification
    - HSTS headers (`max-age=31536000; includeSubDomains`)
-   - **Documentation:** [`docs/TLS_SETUP.md`](docs/TLS_SETUP.md) (400+ lines)
+   - **Documentation:** [`docs/TLS_SETUP.md`](docs/guides/tls_setup.md) (400+ lines)
 
 3. **Certificate Pinning (HSM/TSA)** ✅
    - SHA256 fingerprint verification
    - CURL SSL context callbacks
    - Leaf vs. chain pinning support
-   - **Documentation:** [`docs/CERTIFICATE_PINNING.md`](docs/CERTIFICATE_PINNING.md) (700+ lines)
+   - **Documentation:** [`docs/CERTIFICATE_PINNING.md`](docs/security/certificate_pinning.md) (700+ lines)
 
 4. **Input Validation & Sanitization** ✅
    - JSON schema validation
@@ -369,14 +369,14 @@ All 8 CRITICAL security features implemented (Production-Ready):
    - Automatic token renewal
    - Secret rotation callbacks
    - Environment fallback for development
-   - **Documentation:** [`docs/SECRETS_MANAGEMENT.md`](docs/SECRETS_MANAGEMENT.md) (500+ lines)
+   - **Documentation:** [`docs/SECRETS_MANAGEMENT.md`](docs/guides/vault.md) (500+ lines)
 
 7. **Audit Logging Enhancement** ✅
    - 65 security event types (LOGIN_FAILED, PRIVILEGE_ESCALATION_ATTEMPT, etc.)
    - Hash chain for tamper-detection (Merkle-like)
    - SIEM integration (Syslog RFC 5424, Splunk HEC)
    - Severity levels (HIGH/MEDIUM/LOW)
-   - **Documentation:** [`docs/AUDIT_LOGGING.md`](docs/AUDIT_LOGGING.md) (900+ lines)
+   - **Documentation:** [`docs/AUDIT_LOGGING.md`](docs/features/audit_logging.md) (900+ lines)
 
 8. **RBAC Implementation** ✅
    - Role hierarchy (admin → operator → analyst → readonly)
@@ -384,7 +384,7 @@ All 8 CRITICAL security features implemented (Production-Ready):
    - Wildcard support (`*:*`)
    - JSON/YAML configuration
    - User-role mapping store
-   - **Documentation:** [`docs/RBAC.md`](docs/RBAC.md) (800+ lines)
+   - **Documentation:** [`docs/RBAC.md`](docs/guides/rbac.md) (800+ lines)
 
 **Production Impact:**
 - 🔐 **Security:** Production-ready security stack (GDPR/SOC2/HIPAA compliant)
@@ -409,7 +409,7 @@ All 8 CRITICAL security features implemented (Production-Ready):
 - ✅ SOC 2: Access Control (CC6.1), Audit Logs (CC6.7), Change Mgmt (CC7.2)
 - ✅ HIPAA: §164.312(a)(1) Access Control, §164.312(e)(1) Transmission Security
 
-See [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/SECURITY_IMPLEMENTATION_SUMMARY.md) for complete details.
+See [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/security/implementation_summary.md) for complete details.
 
 ### Vector Search Enhancements (2025-11-19) ✅
 
@@ -506,7 +506,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - Write-write conflict detection with automatic rollbacks
 - Atomic updates across all index layers
 - **Status:** ✅ Production-ready (27/27 tests PASS)
-- **Documentation:** [`docs/mvcc_design.md`](docs/mvcc_design.md)
+- **Documentation:** [`docs/mvcc_design.md`](docs/architecture/mvcc_design.md)
 
 ### 📊 Vector Search with Persistence
 - **HNSW Index** with L2, Cosine, and Dot Product metrics
@@ -514,14 +514,14 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - Batch insert operations (500-1000 items)
 - Configurable efSearch for query-time tuning
 - **Status:** ✅ Production-ready (10/10 tests PASS)
-- **Documentation:** [`docs/vector_ops.md`](docs/vector_ops.md)
+- **Documentation:** [`docs/vector_ops.md`](docs/features/vector_ops.md)
 
 ### 📈 Time-Series Engine
 - **Gorilla Compression** (10-20x compression ratio)
 - Continuous aggregates (pre-computed rollups)
 - Retention policies (automatic data expiration)
 - **Status:** ✅ Production-ready (22/22 tests PASS)
-- **Documentation:** [`docs/time_series.md`](docs/time_series.md)
+- **Documentation:** [`docs/time_series.md`](docs/features/time_series.md)
 
 ### 🔍 Advanced Query Language (AQL)
 - FOR/FILTER/SORT/LIMIT/RETURN syntax
@@ -529,7 +529,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - **COLLECT/GROUP BY** with aggregations (COUNT, SUM, AVG, MIN, MAX)
 - Temporal graph queries with time-range filters
 - **Status:** ✅ MVP production-ready
-- **Documentation:** [`docs/aql_syntax.md`](docs/aql_syntax.md)
+- **Documentation:** [`docs/aql_syntax.md`](docs/aql/syntax.md)
 
 ### 💾 Backup & Recovery
 - **RocksDB Checkpoints** via `POST /admin/backup`
@@ -549,7 +549,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - **Security Headers** (CSP, X-Frame-Options, CORS whitelisting)
 - **Compliance:** GDPR/SOC2/HIPAA ready
 - **Status:** ✅ Production-ready (85% security coverage)
-- **Documentation:** [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/SECURITY_IMPLEMENTATION_SUMMARY.md)
+- **Documentation:** [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/security/implementation_summary.md)
 
 ### 📊 Observability
 - **Prometheus metrics** with cumulative histograms
@@ -565,14 +565,14 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - Geo-spatial indexes (R-Tree, geohash)
 - Automatic index maintenance with MVCC
 - **Status:** ✅ Production-ready
-- **Documentation:** [`docs/indexes.md`](docs/indexes.md)
+- **Documentation:** [`docs/indexes.md`](docs/features/indexes.md)
 
 ### 📡 Change Data Capture (CDC)
 - Append-only event log for all mutations
 - Incremental consumption with checkpointing
 - SSE streaming support (experimental)
 - **Status:** ✅ MVP production-ready
-- **Documentation:** [`docs/change_data_capture.md`](docs/change_data_capture.md)
+- **Documentation:** [`docs/change_data_capture.md`](docs/features/change_data_capture.md)
 
 
 Part 1: The Canonical Storage Architecture: The “Base Entity” Foundation of ThemisDB
@@ -1849,7 +1849,7 @@ Run benchmarks after building:
 | LZ4 | 33.8 MB/s | 2.1x | Default (balanced) |
 | ZSTD | 32.3 MB/s | 2.8x | Bottommost level (storage optimization) |
 
-See [docs/memory_tuning.md](docs/memory_tuning.md) for detailed compression configuration.
+See [docs/memory_tuning.md](docs/performance/memory_tuning.md) for detailed compression configuration.
 
 ### Query Parallelization
 
@@ -1991,7 +1991,7 @@ curl http://localhost:8765/transaction/stats
 - **Multi-Index Support**: Secondary, Graph, Vector indexes in single transaction
 - **Statistics**: Success rate, durations, active count
 
-**Documentation:** See [docs/transactions.md](docs/transactions.md) for detailed guide including:
+**Documentation:** See [docs/transactions.md](docs/features/transactions.md) for detailed guide including:
 - Transaction workflows and best practices
 - C++ API examples (Direct & Session-based)
 - Error handling strategies
@@ -2014,12 +2014,12 @@ curl http://localhost:8765/metrics
 ## Documentation
 
 - **[Architecture Overview](docs/architecture.md)** - System design and components
-- **[Deployment Guide](docs/deployment.md)** - Production setup and configuration
-- **[Transaction Management](docs/transactions.md)** - ACID transactions, isolation levels, best practices
-- **[Base Entity](docs/base_entity.md)** - Entity serialization and storage
-- **[Memory Tuning](docs/memory_tuning.md)** - Performance optimization
+- **[Deployment Guide](docs/guides/deployment.md)** - Production setup and configuration
+- **[Transaction Management](docs/features/transactions.md)** - ACID transactions, isolation levels, best practices
+- **[Base Entity](docs/architecture/base_entity.md)** - Entity serialization and storage
+- **[Memory Tuning](docs/performance/memory_tuning.md)** - Performance optimization
 - **[OpenAPI Specification](docs/openapi.yaml)** - Complete REST API reference
-- **[Change Data Capture (CDC)](docs/cdc.md)** - Changefeed API, Checkpointing, Backpressure, Retention
+- **[Change Data Capture (CDC)](docs/features/cdc.md)** - Changefeed API, Checkpointing, Backpressure, Retention
 
 ## License
 
@@ -2048,7 +2048,7 @@ ThemisDB maintains high code quality standards through automated CI checks:
 .\scripts\check-quality.ps1
 ```
 
-**View detailed guide:** [Code Quality Documentation](docs/code_quality.md)
+**View detailed guide:** [Code Quality Documentation](docs/guides/code_quality.md)
 
 **CI Workflows:**
 - `.github/workflows/ci.yml` - Build and test
