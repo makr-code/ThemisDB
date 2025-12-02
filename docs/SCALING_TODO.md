@@ -12,7 +12,7 @@
 Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontalen Skalierung im ThemisDB-Projekt und identifiziert Diskrepanzen zwischen Dokumentation und tatsächlicher Implementierung.
 
 **Gesamtstatus:**
-- **Horizontale Skalierung:** ~85% implementiert (Phase 1-4 vollständig, Scatter-Gather parallelisiert)
+- **Horizontale Skalierung:** ~95% implementiert (Phase 1-4 + P2P Gossip + Cross-Shard Joins)
 - **Vertikale Skalierung:** ~85% implementiert (Enterprise Features)
 
 ---
@@ -96,11 +96,40 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
     - Thread-sichere Counter für lokale/remote Requests
     - Fehlerbehandlung für Timeouts und Exceptions
 
-- [ ] **TODO-HS-008:** Cross-Shard Join Optimierung
-  - **Problem:** Aktuell nur als Scatter-Gather implementiert
-  - **Datei:** `src/sharding/shard_router.cpp` Zeile 171-182
-  - **VCC-URN Prinzip:** Effiziente Cross-Shard Joins
-  - **Aufwand:** 2-4 Wochen
+- [x] **TODO-HS-008:** Cross-Shard Join Optimierung ✅ ERLEDIGT
+  - **Implementiert:** Broadcast Hash Join und Co-Located Join Strategien
+  - **Datei:** `src/sharding/shard_router.cpp`
+  - **Details:**
+    - Automatische Strategiewahl basierend auf join_field
+    - Broadcast Hash Join für non-partition keys
+    - Co-Located Join wenn join_field = Partition Key
+    - Hash-Table-Aufbau für effiziente Lookups
+    - OpenTelemetry Tracing Integration
+
+- [x] **TODO-HS-009:** Peer-to-Peer Gossip-Protokoll ✅ ERLEDIGT 🆕
+  - **Implementiert:** SWIM-basiertes Gossip-Protokoll für Peer-Discovery
+  - **Dateien:** 
+    - `include/sharding/gossip_protocol.h`
+    - `src/sharding/gossip_protocol.cpp`
+  - **Features:**
+    - `GossipProtocol` Klasse mit periodischem Heartbeat
+    - Peer-Liste austauschen (JSON-serialisiert)
+    - Anti-Entropy mit Version-Vectors
+    - Standardmäßig deaktiviert, konfigurierbar (`enabled: false`)
+    - Fanout-basierte Peer-Selektion
+  - **Konfiguration:**
+    ```yaml
+    peer_discovery:
+      enabled: false
+      gossip_interval_sec: 30
+      max_peers: 100
+      seed_nodes: []
+    ```
+  - **Sicherheit:**
+    - mTLS-authentifizierte Peers
+    - RSA-SHA256 Message Signing
+    - Rate-Limiting pro Peer
+    - Replay-Protection (max_message_age_sec)
 
 ---
 
@@ -286,6 +315,11 @@ Die folgenden Placeholder-Funktionen wurden mit echtem Code implementiert:
   - Konfigurierbares Timeout pro Shard
   - Thread-sichere Counter für Statistiken
   - Fehlerbehandlung für Timeouts und Exceptions
+- **executeCrossShardJoin()**: Optimierte Cross-Shard Joins ✅ NEU
+  - Broadcast Hash Join für non-partition keys
+  - Co-Located Join für Partition-Key-basierte Joins
+  - Hash-Table-Aufbau für effiziente Lookups
+  - OpenTelemetry Tracing Integration
 
 ### 4. `src/sharding/shard_topology.cpp`
 - **loadFromMetadataStore()**: etcd v3 HTTP API Integration
@@ -314,6 +348,21 @@ Die folgenden Placeholder-Funktionen wurden mit echtem Code implementiert:
   - Thread-sichere Ergebnisaggregation
   - Timeout-Handling mit konfigurierbarer Dauer
   - Fügt DC/Region-Metadaten zu Ergebnissen hinzu
+
+### 7. `src/sharding/gossip_protocol.cpp` ✅ NEU
+- **GossipProtocol-Klasse**: SWIM-basiertes P2P Gossip-Protokoll
+  - Periodischer Heartbeat mit konfigurierbarem Intervall
+  - Fanout-basierte Peer-Selektion
+  - Peer-Liste austauschen (JSON-serialisiert)
+  - Version-Vectors für Anti-Entropy
+- **handleMessage()**: Verarbeitet eingehende Gossip-Nachrichten
+  - Heartbeat, Peer-Liste, Leave-Messages
+  - Replay-Protection durch Timestamp-Validierung
+  - Rate-Limiting pro Peer
+- **Sicherheit**:
+  - RSA-SHA256 Message Signing
+  - mTLS-basierte Peer-Kommunikation
+  - Certificate-Chain-Validierung
 
 ---
 
