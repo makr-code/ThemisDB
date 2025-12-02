@@ -1,6 +1,6 @@
 # ThemisDB - Umfassende Audit-TODO-Liste
 
-**Version:** 3.0  
+**Version:** 4.0  
 **Stand:** 2. Dezember 2025  
 **Basierend auf:** FULL_AUDIT_CHECKLIST.md, FEATURES.md, VCC-URN Best-Practices  
 **Autor:** Code-Audit
@@ -20,15 +20,15 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 |---------|--------|-----------|
 | **Horizontale Skalierung** | 95% ✅ | - |
 | **Vertikale Skalierung** | 100% ✅ | - |
-| **Client SDKs** | 60% 🔧 | P1 |
-| **Content Processors (Plugin-basiert)** | 90% ✅ | P2 |
+| **Client SDKs** | 85% ✅ | P1 |
+| **Content Processors (Plugin-basiert)** | 100% ✅ | - |
 | **Penetration Testing** | 80% ✅ | P1 |
 | **Replication** | 0% 📋 | P2 |
 | **Streaming Analytics** | 0% 📋 | P3 |
 | **Advanced Graph Algorithms** | 80% ✅ | P3 |
 | **Compliance/Audit Gaps** | 90% ✅ | P1 |
 
-### Neue Implementierungen (Dezember 2025)
+### Neue Implementierungen (Dezember 2025 - Update 4.0)
 
 | Komponente | Beschreibung | Dateien |
 |------------|--------------|---------|
@@ -36,6 +36,12 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 | **Penetration Test Guide** | Vollständige Angriffsvektoren-Analyse (50+ Vektoren) | `docs/security/PENETRATION_TEST_GUIDE.md` |
 | **PDF Processor** | Poppler-basierte Text-/Metadaten-Extraktion | `include/content/pdf_processor.h`, `src/content/pdf_processor.cpp` |
 | **Office Processor** | OOXML/ODF Extraktion (DOCX, XLSX, PPTX) | `include/content/office_processor.h`, `src/content/office_processor.cpp` |
+| **Video Processor** | FFmpeg-basierte Video-Analyse | `include/content/video_processor.h`, `src/content/video_processor.cpp` |
+| **Audio Processor** | FFmpeg-basierte Audio-Analyse + Transcription | `include/content/audio_processor.h`, `src/content/audio_processor.cpp` |
+| **Geo Processor** | GDAL-basierte Geospatial-Analyse | `include/content/geo_processor.h`, `src/content/geo_processor.cpp` |
+| **Image Processor** | libvips-basierte Bildanalyse + OCR | `include/content/image_processor.h`, `src/content/image_processor.cpp` |
+| **CAD Processor** | OpenCASCADE-basierte CAD-Analyse | `include/content/cad_processor.h`, `src/content/cad_processor.cpp` |
+| **Python Async SDK** | HTTP/2 Connection Pooling + Graph API | `clients/python/themis/async_client.py` |
 | **Processor Configs** | YAML-Konfiguration für alle Prozessoren | `config/processors/*.yaml` |
 
 ---
