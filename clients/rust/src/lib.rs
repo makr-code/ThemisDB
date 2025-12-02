@@ -379,6 +379,146 @@ impl ThemisClient {
         Ok(json!({ "results": results, "partials": raw }))
     }
 
+    // ==================== Graph API ====================
+
+    pub async fn graph_traverse(
+        &self,
+        start_node: &str,
+        max_depth: Option<u32>,
+        edge_type: Option<&str>,
+    ) -> Result<Value> {
+        let mut payload = Map::new();
+        payload.insert("start".into(), Value::String(start_node.to_string()));
+        payload.insert("max_depth".into(), Value::from(max_depth.unwrap_or(3)));
+        if let Some(edge_type) = edge_type {
+            payload.insert("edge_type".into(), Value::String(edge_type.to_string()));
+        }
+
+        let endpoint = self
+            .config
+            .endpoints
+            .first()
+            .cloned()
+            .ok_or_else(|| ThemisError::InvalidConfig("endpoints must not be empty".into()))?;
+
+        let url = format!("{endpoint}/graph/traverse");
+        let response = self
+            .request(
+                Method::POST,
+                url,
+                Some(RequestBody {
+                    body: Some(Value::Object(payload).to_string()),
+                    content_type: Some(JSON_CONTENT_TYPE.to_string()),
+                }),
+            )
+            .await?;
+        ensure_success(response)
+            .await?
+            .json::<Value>()
+            .await
+            .map_err(|err| ThemisError::Serde(err.to_string()))
+    }
+
+    pub async fn shortest_path(
+        &self,
+        from: &str,
+        to: &str,
+        edge_type: Option<&str>,
+    ) -> Result<Vec<String>> {
+        let mut payload = Map::new();
+        payload.insert("from".into(), Value::String(from.to_string()));
+        payload.insert("to".into(), Value::String(to.to_string()));
+        if let Some(edge_type) = edge_type {
+            payload.insert("edge_type".into(), Value::String(edge_type.to_string()));
+        }
+
+        let endpoint = self
+            .config
+            .endpoints
+            .first()
+            .cloned()
+            .ok_or_else(|| ThemisError::InvalidConfig("endpoints must not be empty".into()))?;
+
+        let url = format!("{endpoint}/graph/shortest-path");
+        let response = self
+            .request(
+                Method::POST,
+                url,
+                Some(RequestBody {
+                    body: Some(Value::Object(payload).to_string()),
+                    content_type: Some(JSON_CONTENT_TYPE.to_string()),
+                }),
+            )
+            .await?;
+
+        let result = ensure_success(response)
+            .await?
+            .json::<Value>()
+            .await
+            .map_err(|err| ThemisError::Serde(err.to_string()))?;
+
+        let path = result
+            .get("path")
+            .and_then(|v| v.as_array())
+            .map(|arr| arr.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+            .unwrap_or_default();
+
+        Ok(path)
+    }
+
+    pub async fn neighbors(
+        &self,
+        node_id: &str,
+        direction: Option<&str>,
+        edge_type: Option<&str>,
+        limit: Option<u32>,
+    ) -> Result<Vec<String>> {
+        let mut payload = Map::new();
+        payload.insert("node".into(), Value::String(node_id.to_string()));
+        if let Some(direction) = direction {
+            payload.insert("direction".into(), Value::String(direction.to_string()));
+        }
+        if let Some(edge_type) = edge_type {
+            payload.insert("edge_type".into(), Value::String(edge_type.to_string()));
+        }
+        if let Some(limit) = limit {
+            payload.insert("limit".into(), Value::from(limit));
+        }
+
+        let endpoint = self
+            .config
+            .endpoints
+            .first()
+            .cloned()
+            .ok_or_else(|| ThemisError::InvalidConfig("endpoints must not be empty".into()))?;
+
+        let url = format!("{endpoint}/graph/neighbors");
+        let response = self
+            .request(
+                Method::POST,
+                url,
+                Some(RequestBody {
+                    body: Some(Value::Object(payload).to_string()),
+                    content_type: Some(JSON_CONTENT_TYPE.to_string()),
+                }),
+            )
+            .await?;
+
+        let result = ensure_success(response)
+            .await?
+            .json::<Value>()
+            .await
+            .map_err(|err| ThemisError::Serde(err.to_string()))?;
+
+        let neighbors = result
+            .get("neighbors")
+            .and_then(|v| v.as_array())
+            .map(|arr| arr.iter().filter_map(|v| v.as_str().map(String::from)).collect())
+            .unwrap_or_default();
+
+        Ok(neighbors)
+    }
+
     async fn current_endpoints(&self) -> Result<Vec<String>> {
         self.ensure_topology().await?;
         let topo = self.topology.read().await;

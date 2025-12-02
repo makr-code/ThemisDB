@@ -9,6 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -247,5 +248,286 @@ public class ThemisClient {
      */
     Duration getTimeout() {
         return timeout;
+    }
+
+    // ==================== Graph API ====================
+
+    /**
+     * Traverse a graph starting from a node
+     * 
+     * @param startNode Starting node identifier
+     * @param maxDepth Maximum traversal depth (default 3)
+     * @param edgeType Optional edge type filter
+     * @return GraphTraverseResult containing nodes and visited list
+     * @throws IOException If the request fails
+     */
+    public GraphTraverseResult graphTraverse(String startNode, int maxDepth, String edgeType) throws IOException, InterruptedException {
+        String url = String.format("%s/graph/traverse", getCurrentEndpoint());
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("start", startNode);
+        requestBody.addProperty("max_depth", maxDepth);
+        if (edgeType != null && !edgeType.isEmpty()) {
+            requestBody.addProperty("edge_type", edgeType);
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200) {
+            throw new IOException("Graph traverse failed with status: " + response.statusCode());
+        }
+
+        return gson.fromJson(response.body(), GraphTraverseResult.class);
+    }
+
+    /**
+     * Traverse a graph starting from a node with default depth
+     */
+    public GraphTraverseResult graphTraverse(String startNode) throws IOException, InterruptedException {
+        return graphTraverse(startNode, 3, null);
+    }
+
+    /**
+     * Find the shortest path between two nodes
+     * 
+     * @param from Source node identifier
+     * @param to Target node identifier
+     * @param edgeType Optional edge type filter
+     * @return List of node IDs in the path
+     * @throws IOException If the request fails
+     */
+    public List<String> shortestPath(String from, String to, String edgeType) throws IOException, InterruptedException {
+        String url = String.format("%s/graph/shortest-path", getCurrentEndpoint());
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("from", from);
+        requestBody.addProperty("to", to);
+        if (edgeType != null && !edgeType.isEmpty()) {
+            requestBody.addProperty("edge_type", edgeType);
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200) {
+            throw new IOException("Shortest path query failed with status: " + response.statusCode());
+        }
+
+        ShortestPathResult result = gson.fromJson(response.body(), ShortestPathResult.class);
+        return result != null ? result.getPath() : List.of();
+    }
+
+    /**
+     * Find the shortest path between two nodes
+     */
+    public List<String> shortestPath(String from, String to) throws IOException, InterruptedException {
+        return shortestPath(from, to, null);
+    }
+
+    /**
+     * Get neighbors of a node
+     * 
+     * @param nodeId Node identifier
+     * @param direction Direction filter ("in", "out", "both")
+     * @param edgeType Optional edge type filter
+     * @param limit Maximum number of neighbors to return
+     * @return List of neighbor node IDs
+     * @throws IOException If the request fails
+     */
+    public List<String> neighbors(String nodeId, String direction, String edgeType, Integer limit) throws IOException, InterruptedException {
+        String url = String.format("%s/graph/neighbors", getCurrentEndpoint());
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("node", nodeId);
+        if (direction != null && !direction.isEmpty()) {
+            requestBody.addProperty("direction", direction);
+        }
+        if (edgeType != null && !edgeType.isEmpty()) {
+            requestBody.addProperty("edge_type", edgeType);
+        }
+        if (limit != null) {
+            requestBody.addProperty("limit", limit);
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200) {
+            throw new IOException("Neighbors query failed with status: " + response.statusCode());
+        }
+
+        NeighborsResult result = gson.fromJson(response.body(), NeighborsResult.class);
+        return result != null ? result.getNeighbors() : List.of();
+    }
+
+    /**
+     * Get neighbors of a node with defaults
+     */
+    public List<String> neighbors(String nodeId) throws IOException, InterruptedException {
+        return neighbors(nodeId, null, null, null);
+    }
+
+    // ==================== Vector API ====================
+
+    /**
+     * Perform a vector similarity search
+     * 
+     * @param embedding The query vector
+     * @param topK Number of results to return
+     * @param filter Optional metadata filter
+     * @return VectorSearchResult containing matched vectors
+     * @throws IOException If the request fails
+     */
+    public VectorSearchResult vectorSearch(double[] embedding, int topK, JsonObject filter) throws IOException, InterruptedException {
+        String url = String.format("%s/vector/search", getCurrentEndpoint());
+        JsonObject requestBody = new JsonObject();
+        requestBody.add("vector", gson.toJsonTree(embedding));
+        requestBody.addProperty("k", topK);
+        if (filter != null) {
+            requestBody.add("filter", filter);
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200) {
+            throw new IOException("Vector search failed with status: " + response.statusCode());
+        }
+
+        return gson.fromJson(response.body(), VectorSearchResult.class);
+    }
+
+    /**
+     * Perform a vector similarity search with defaults
+     */
+    public VectorSearchResult vectorSearch(double[] embedding, int topK) throws IOException, InterruptedException {
+        return vectorSearch(embedding, topK, null);
+    }
+
+    /**
+     * Upsert a vector with metadata
+     * 
+     * @param id Vector identifier
+     * @param embedding The vector data
+     * @param metadata Optional metadata
+     * @throws IOException If the request fails
+     */
+    public void vectorUpsert(String id, double[] embedding, JsonObject metadata) throws IOException, InterruptedException {
+        String url = String.format("%s/vector/upsert", getCurrentEndpoint());
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("id", id);
+        requestBody.add("vector", gson.toJsonTree(embedding));
+        if (metadata != null) {
+            requestBody.add("metadata", metadata);
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200 && response.statusCode() != 201) {
+            throw new IOException("Vector upsert failed with status: " + response.statusCode());
+        }
+    }
+
+    /**
+     * Delete a vector by ID
+     * 
+     * @param id Vector identifier
+     * @throws IOException If the request fails
+     */
+    public void vectorDelete(String id) throws IOException, InterruptedException {
+        String url = String.format("%s/vector/%s", getCurrentEndpoint(), id);
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200 && response.statusCode() != 204) {
+            throw new IOException("Vector delete failed with status: " + response.statusCode());
+        }
+    }
+
+    // ==================== Supporting Classes ====================
+
+    /**
+     * Result of a graph traversal
+     */
+    public static class GraphTraverseResult {
+        private List<String> nodes = new ArrayList<>();
+        private List<String> visited = new ArrayList<>();
+        
+        public List<String> getNodes() { return nodes; }
+        public List<String> getVisited() { return visited; }
+    }
+
+    /**
+     * Result of a shortest path query
+     */
+    private static class ShortestPathResult {
+        private List<String> path = new ArrayList<>();
+        public List<String> getPath() { return path; }
+    }
+
+    /**
+     * Result of a neighbors query
+     */
+    private static class NeighborsResult {
+        private List<String> neighbors = new ArrayList<>();
+        public List<String> getNeighbors() { return neighbors; }
+    }
+
+    /**
+     * Result of a vector search
+     */
+    public static class VectorSearchResult {
+        private List<VectorSearchHit> results = new ArrayList<>();
+        public List<VectorSearchHit> getResults() { return results; }
+    }
+
+    /**
+     * A single hit from a vector search
+     */
+    public static class VectorSearchHit {
+        private String id;
+        private double score;
+        private Double distance;
+        private JsonObject metadata;
+        
+        public String getId() { return id; }
+        public double getScore() { return score; }
+        public Double getDistance() { return distance; }
+        public JsonObject getMetadata() { return metadata; }
     }
 }

@@ -383,3 +383,144 @@ public actor Transaction {
         active = false
     }
 }
+
+// MARK: - Graph API Extension
+
+extension ThemisClient {
+    /// Traverse a graph starting from a node
+    public func graphTraverse(startNode: String, maxDepth: Int = 3, edgeType: String? = nil) async throws -> GraphTraverseResult {
+        var bodyDict: [String: Any] = [
+            "start": startNode,
+            "max_depth": maxDepth
+        ]
+        if let edgeType = edgeType {
+            bodyDict["edge_type"] = edgeType
+        }
+        
+        return try await request(
+            method: "POST",
+            path: "/graph/traverse",
+            body: bodyDict
+        )
+    }
+    
+    /// Find the shortest path between two nodes
+    public func shortestPath(from: String, to: String, edgeType: String? = nil) async throws -> [String] {
+        var bodyDict: [String: Any] = [
+            "from": from,
+            "to": to
+        ]
+        if let edgeType = edgeType {
+            bodyDict["edge_type"] = edgeType
+        }
+        
+        let result: ShortestPathResult = try await request(
+            method: "POST",
+            path: "/graph/shortest-path",
+            body: bodyDict
+        )
+        return result.path
+    }
+    
+    /// Get neighbors of a node
+    public func neighbors(nodeId: String, direction: String? = nil, edgeType: String? = nil, limit: Int? = nil) async throws -> [String] {
+        var bodyDict: [String: Any] = ["node": nodeId]
+        if let direction = direction {
+            bodyDict["direction"] = direction
+        }
+        if let edgeType = edgeType {
+            bodyDict["edge_type"] = edgeType
+        }
+        if let limit = limit {
+            bodyDict["limit"] = limit
+        }
+        
+        let result: NeighborsResult = try await request(
+            method: "POST",
+            path: "/graph/neighbors",
+            body: bodyDict
+        )
+        return result.neighbors
+    }
+}
+
+// MARK: - Vector API Extension
+
+extension ThemisClient {
+    /// Perform a vector similarity search
+    public func vectorSearch(embedding: [Double], topK: Int = 10, filter: [String: Any]? = nil) async throws -> VectorSearchResult {
+        var bodyDict: [String: Any] = [
+            "vector": embedding,
+            "k": topK
+        ]
+        if let filter = filter {
+            bodyDict["filter"] = filter
+        }
+        
+        return try await request(
+            method: "POST",
+            path: "/vector/search",
+            body: bodyDict
+        )
+    }
+    
+    /// Upsert a vector with metadata
+    public func vectorUpsert(id: String, embedding: [Double], metadata: [String: Any]? = nil) async throws {
+        var bodyDict: [String: Any] = [
+            "id": id,
+            "vector": embedding
+        ]
+        if let metadata = metadata {
+            bodyDict["metadata"] = metadata
+        }
+        
+        let _: [String: String] = try await request(
+            method: "POST",
+            path: "/vector/upsert",
+            body: bodyDict
+        )
+    }
+    
+    /// Delete a vector by ID
+    public func vectorDelete(id: String) async throws {
+        let _: [String: String] = try await request(
+            method: "DELETE",
+            path: "/vector/\(id)"
+        )
+    }
+}
+
+// MARK: - Supporting Types
+
+public struct GraphTraverseResult: Decodable {
+    public let nodes: [String]
+    public let visited: [String]
+    
+    public init(nodes: [String] = [], visited: [String] = []) {
+        self.nodes = nodes
+        self.visited = visited
+    }
+}
+
+private struct ShortestPathResult: Decodable {
+    let path: [String]
+}
+
+private struct NeighborsResult: Decodable {
+    let neighbors: [String]
+}
+
+public struct VectorSearchResult: Decodable {
+    public let results: [VectorSearchHit]
+    
+    public init(results: [VectorSearchHit] = []) {
+        self.results = results
+    }
+}
+
+public struct VectorSearchHit: Decodable {
+    public let id: String
+    public let score: Double
+    public let distance: Double?
+    public let metadata: [String: String]?
+}
