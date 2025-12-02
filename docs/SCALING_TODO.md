@@ -178,10 +178,18 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
     - Backup-Scheduling mit S3/GCS/Azure
   - **Verbleibend:** Controller-Implementierung (Go)
 
-- [ ] **TODO-VS-003:** Multi-Tenancy Quota-Enforcement
-  - **Problem:** Quotas definiert aber nicht enforced
-  - **VCC-URN Prinzip:** Resource Isolation
-  - **Aufwand:** 1-2 Wochen
+- [x] **TODO-VS-003:** Multi-Tenancy Quota-Enforcement ✅ BEREITS IMPLEMENTIERT
+  - **Status:** Vollständig implementiert in `src/server/tenant_manager.cpp`
+  - **Implementierte Features:**
+    - `TenantManager` mit vollständiger Quota-Prüfung
+    - `checkQuota()` für storage, documents, collections, connections, queries
+    - `TenantContextGuard` RAII für automatische Connection/Query Tracking
+    - Prometheus Metriken pro Tenant (`getMetrics()`)
+    - Rate-Limiting Integration (`recordRateLimited()`)
+  - **Quota-Typen:**
+    - `max_storage_bytes`, `max_documents`, `max_collections`
+    - `max_concurrent_queries`, `max_connections`
+    - `requests_per_second`, `burst_size`
 
 ---
 
@@ -189,10 +197,10 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
 
 ### 3.1 Dokumentation > Code (Übertrieben)
 
-| Dokument | Behauptung | Realität |
-|----------|------------|----------|
-| `docs/FEATURES.md` Zeile 871 | "Distributed Sharding (Phase 1-3) ✅" | Phase 4-6 fehlen komplett |
-| `docs/FEATURES.md` Zeile 488-500 | "GPU Acceleration ✅ Production-Ready" | Code vorhanden, aber opt-in Build, keine klare Dokumentation |
+| Dokument | Behauptung | Realität | Status |
+|----------|------------|----------|--------|
+| `docs/FEATURES.md` Zeile 871 | "Distributed Sharding (Phase 1-3) ✅" | Phase 1-4 vollständig, Phase 5-6 (Tests) ausstehend | ✅ Korrigiert |
+| `docs/FEATURES.md` Zeile 488-500 | "GPU Acceleration ✅ Production-Ready" | Code vorhanden, opt-in Build | ✅ Korrigiert |
 | `docs/sharding/implementation_summary.md` | "Data Migration Tool vollständig" | Nur Placeholder-Code |
 | `README.md` Abschnitt "Recent changes" | Impliziert vollständige Features | Viele Features unvollständig |
 
@@ -204,9 +212,11 @@ Diese TODO-Liste dokumentiert den aktuellen Stand der vertikalen und horizontale
   - Sharding-Status auf "Phase 1-4 Complete" aktualisiert
   - Build-Anweisungen für GPU hinzugefügt
 
-- [ ] **TODO-DOC-002:** README.md "Recent changes" präzisieren
-  - Klare Unterscheidung zwischen "implementiert" und "geplant"
-  - Status-Badges für unvollständige Features
+- [x] **TODO-DOC-002:** README.md aktualisieren ✅ ERLEDIGT
+  - Neuer Abschnitt "Distributed Sharding (Horizontale Skalierung)"
+  - Neuer Abschnitt "GPU Acceleration (Optional Build)"
+  - P2P Gossip-Protokoll Konfigurationsbeispiel
+  - Kubernetes Deployment Befehle
 
 - [ ] **TODO-DOC-003:** Sharding-Dokumentation vereinheitlichen
   - `phases_1-3_summary.md` und `implementation_summary.md` sind redundant
