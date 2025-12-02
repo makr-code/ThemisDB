@@ -56,7 +56,7 @@ Write-Host "Synchronisiere Markdown-Dateien..." -ForegroundColor Green
 # Loesche alte Dateien im Wiki (ausser .git)
 Get-ChildItem -Path $WikiPath -Exclude ".git" | Remove-Item -Recurse -Force
 
-# Kopiere alle Markdown-Dateien (rekursiv, Struktur beibehalten)
+# Kopiere alle Markdown-Dateien (flatten structure for Wiki compatibility)
 $mdFiles = Get-ChildItem -Path $DocsPath -Filter "*.md" -Recurse
 $totalFiles = $mdFiles.Count
 $counter = 0
@@ -64,13 +64,11 @@ $counter = 0
 foreach ($file in $mdFiles) {
     $counter++
     $relativePath = $file.FullName.Substring($DocsPath.Length + 1)
-    $targetPath = Join-Path $WikiPath $relativePath
-    $targetDir = Split-Path $targetPath -Parent
     
-    # Erstelle Zielverzeichnis falls noetig
-    if (-not (Test-Path $targetDir)) {
-        New-Item -Path $targetDir -ItemType Directory -Force | Out-Null
-    }
+    # Convert path to Wiki-compatible filename (replace / with -, remove .md extension for link matching)
+    # E.g.: "guides/deployment.md" -> "guides-deployment.md"
+    $wikiFileName = $relativePath -replace '[/\\]', '-'
+    $targetPath = Join-Path $WikiPath $wikiFileName
     
     Copy-Item -Path $file.FullName -Destination $targetPath -Force
     Write-Progress -Activity "Kopiere Dateien" -Status "$counter von $totalFiles" -PercentComplete (($counter / $totalFiles) * 100)
