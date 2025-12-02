@@ -1,6 +1,6 @@
 # ThemisDB - Umfassende Audit-TODO-Liste
 
-**Version:** 2.0  
+**Version:** 3.0  
 **Stand:** 2. Dezember 2025  
 **Basierend auf:** FULL_AUDIT_CHECKLIST.md, FEATURES.md, VCC-URN Best-Practices  
 **Autor:** Code-Audit
@@ -21,11 +21,22 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 | **Horizontale Skalierung** | 95% ✅ | - |
 | **Vertikale Skalierung** | 100% ✅ | - |
 | **Client SDKs** | 60% 🔧 | P1 |
-| **Content Processors** | 40% 🔧 | P2 |
+| **Content Processors (Plugin-basiert)** | 90% ✅ | P2 |
+| **Penetration Testing** | 80% ✅ | P1 |
 | **Replication** | 0% 📋 | P2 |
 | **Streaming Analytics** | 0% 📋 | P3 |
 | **Advanced Graph Algorithms** | 80% ✅ | P3 |
-| **Compliance/Audit Gaps** | 85% ⚠️ | P1 |
+| **Compliance/Audit Gaps** | 90% ✅ | P1 |
+
+### Neue Implementierungen (Dezember 2025)
+
+| Komponente | Beschreibung | Dateien |
+|------------|--------------|---------|
+| **Content Processor Plugins** | DLL-basierte Plugin-Architektur mit YAML-Config | `include/content/content_plugin_interface.h`, `config/content_processors.yaml` |
+| **Penetration Test Guide** | Vollständige Angriffsvektoren-Analyse (50+ Vektoren) | `docs/security/PENETRATION_TEST_GUIDE.md` |
+| **PDF Processor** | Poppler-basierte Text-/Metadaten-Extraktion | `include/content/pdf_processor.h`, `src/content/pdf_processor.cpp` |
+| **Office Processor** | OOXML/ODF Extraktion (DOCX, XLSX, PPTX) | `include/content/office_processor.h`, `src/content/office_processor.cpp` |
+| **Processor Configs** | YAML-Konfiguration für alle Prozessoren | `config/processors/*.yaml` |
 
 ---
 

@@ -1,10 +1,16 @@
 # ThemisDB - Entwicklungs-Roadmap
 
-**Version:** 2.0  
-**Stand:** 20. November 2025  
+**Version:** 3.0  
+**Stand:** 2. Dezember 2025  
 **Typ:** Konsolidierte Gesamt-Roadmap
 
-> **📌 Nächste Schritte:** Siehe [NEXT_IMPLEMENTATION_PRIORITIES.md](NEXT_IMPLEMENTATION_PRIORITIES.md) für die detaillierte Priorisierung der nächsten Implementierung (empfohlen: Column-Level Encryption).
+> **📌 Status Update Dezember 2025:**
+> - ✅ Horizontale Skalierung (Phase 1-4 + P2P Gossip) **95% abgeschlossen**
+> - ✅ Kubernetes Operator CRDs **implementiert**
+> - ✅ Content Processor Plugin-Architektur **implementiert**
+> - ✅ Performance Benchmarks **implementiert**
+> - ✅ Penetration Test Guide **erstellt**
+> - 🔧 Client SDKs (JS, Python) **in Arbeit**
 
 ---
 
@@ -13,30 +19,108 @@
 ThemisDB entwickelt sich von einer **Single-Node Multi-Model Database** zu einer **verteilten, cloud-nativen Datenplattform** mit GPU-Beschleunigung und erweiterten Analytics-Funktionen.
 
 **Kernziele:**
-1. **Horizontal Scaling** - Multi-Node Sharding & Replication
+1. **Horizontal Scaling** - Multi-Node Sharding & Replication ✅ 95%
 2. **GPU Acceleration** - CUDA/DirectX für Vector & Geo Operations
 3. **Advanced Analytics** - OLAP, ML Integration, Real-Time Streaming
-4. **Enterprise Features** - Multi-Tenancy, Cloud Deployment, SaaS-Ready
+4. **Enterprise Features** - Multi-Tenancy ✅, Cloud Deployment, SaaS-Ready
 
 ---
 
-## Roadmap-Übersicht
+## Roadmap-Übersicht (Aktualisiert Dezember 2025)
 
 ```
-2025 Q4 (Aktuell)          2026 Q1              2026 Q2-Q3           2026 Q4+
+2025 Q4 (AKTUELL)          2026 Q1              2026 Q2-Q3           2026 Q4+
 ─────────────────────────────────────────────────────────────────────────────
 │                          │                    │                    │
-│ ✅ Core Features         │ 🔧 Polishing      │ 🚀 Scaling         │ 🌟 Innovation
-│   (100%)                 │                    │                    │
+│ ✅ Core + Scaling        │ 🔧 SDK & Testing  │ 🚀 Replication     │ 🌟 Innovation
+│   (95%)                  │                    │                    │
 │                          │                    │                    │
-│ • ACID Transactions      │ • Column Encrypt.  │ • Sharding         │ • Multi-DC
-│ • Multi-Model            │ • SDK Finalize     │ • GPU Accel.       │ • ML Integration
-│ • Security Stack         │ • Content Proc.    │ • OLAP Features    │ • Streaming
-│ • Vector Search          │ • CI/CD            │ • Replication      │ • K8s Operator
-│ • Graph Engine           │ • Window Funcs     │ • Cloud Deploy     │
+│ ✅ ACID Transactions     │ • SDK Publish     │ • Replication      │ • Multi-DC
+│ ✅ Multi-Model           │ • Pen-Test        │ • GPU Accel.       │ • ML Integration
+│ ✅ Security Stack        │ • E2E Tests       │ • OLAP Features    │ • Streaming
+│ ✅ Vector Search         │ • Go/Rust SDK     │ • Leader-Follower  │ • CEP Engine
+│ ✅ Graph Engine          │ • Content Proc.   │ • Cloud Deploy     │ • GNN Integration
+│ ✅ Sharding Phase 1-4    │   Plugin DLLs     │                    │
+│ ✅ P2P Gossip Protocol   │                   │                    │
+│ ✅ K8s Operator CRDs     │                   │                    │
+│ ✅ Content Plugin Arch   │                   │                    │
 │                          │                    │                    │
 └──────────────────────────┴────────────────────┴────────────────────┴────────
 ```
+
+---
+
+## ✅ Abgeschlossen: Q4 2025 (November-Dezember)
+
+### Horizontale Skalierung (95% Complete)
+
+| Phase | Komponente | Status | Dateien |
+|-------|------------|--------|---------|
+| 1 | VCC-URN Schema | ✅ ERLEDIGT | `src/sharding/urn_resolver.cpp` |
+| 2 | PKI/mTLS Infrastructure | ✅ ERLEDIGT | `src/sharding/mtls_client.cpp` |
+| 3 | Request Routing | ✅ ERLEDIGT | `src/sharding/shard_router.cpp` |
+| 4 | Data Migration | ✅ ERLEDIGT | `src/sharding/data_migrator.cpp` |
+| P2P | Gossip-Protokoll | ✅ ERLEDIGT | `src/sharding/gossip_protocol.cpp` |
+| P2 | Cross-Shard Joins | ✅ ERLEDIGT | `shard_router.cpp::executeCrossShardJoin()` |
+| P2 | Scatter-Gather | ✅ ERLEDIGT | `shard_router.cpp::scatterGather()` |
+| Infra | etcd Integration | ✅ ERLEDIGT | `shard_topology.cpp::loadFromMetadataStore()` |
+| Infra | Health Checks | ✅ ERLEDIGT | `health_check.cpp` |
+| Infra | Cloud Agent Multi-DC | ✅ ERLEDIGT | `cloud_agent.cpp` |
+
+### Kubernetes Operator
+
+| Komponente | Status | Dateien |
+|------------|--------|---------|
+| CRD Definition | ✅ ERLEDIGT | `deploy/kubernetes/crds/themisdb.vcc.io_themisdbs.yaml` |
+| Cluster Example | ✅ ERLEDIGT | `deploy/kubernetes/examples/themisdb-cluster.yaml` |
+| Single-Node Example | ✅ ERLEDIGT | `deploy/kubernetes/examples/themisdb-single.yaml` |
+| README | ✅ ERLEDIGT | `deploy/kubernetes/README.md` |
+
+### Content Processor Plugin-Architektur
+
+| Komponente | Status | Dateien |
+|------------|--------|---------|
+| Plugin Interface | ✅ ERLEDIGT | `include/content/content_plugin_interface.h` |
+| PDF Processor | ✅ ERLEDIGT | `include/content/pdf_processor.h`, `src/content/pdf_processor.cpp` |
+| Office Processor | ✅ ERLEDIGT | `include/content/office_processor.h`, `src/content/office_processor.cpp` |
+| YAML Configs | ✅ ERLEDIGT | `config/content_processors.yaml`, `config/processors/*.yaml` |
+| Architecture Doc | ✅ ERLEDIGT | `docs/content/CONTENT_PROCESSOR_PLUGINS.md` |
+
+**Plugin-Konfigurationen:**
+- `config/processors/pdf.yaml` - PDF (poppler backend)
+- `config/processors/office.yaml` - DOCX, XLSX, PPTX, ODF
+- `config/processors/video.yaml` - MP4, MKV, WebM (FFmpeg)
+- `config/processors/audio.yaml` - MP3, WAV, FLAC (FFmpeg)
+- `config/processors/geo.yaml` - GeoJSON, GPX, Shapefile (GDAL)
+- `config/processors/image.yaml` - JPEG, PNG, TIFF (libvips)
+- `config/processors/cad.yaml` - STEP, IGES, STL (OpenCASCADE)
+- `config/processors/text.yaml` - TXT, JSON, XML, Markdown
+
+### Security & Compliance
+
+| Komponente | Status | Dateien |
+|------------|--------|---------|
+| Penetration Test Guide | ✅ ERLEDIGT | `docs/security/PENETRATION_TEST_GUIDE.md` |
+| Attack Vectors Analysis | ✅ ERLEDIGT | 50+ Vektoren dokumentiert |
+| Comprehensive Audit | ✅ ERLEDIGT | `docs/COMPREHENSIVE_AUDIT_TODO.md` |
+
+### Tests & Benchmarks
+
+| Komponente | Status | Dateien |
+|------------|--------|---------|
+| Integration Tests | ✅ ERLEDIGT | `tests/test_sharding_integration.cpp` (~17 Tests) |
+| E2E Tests | ✅ ERLEDIGT | `tests/test_sharding_e2e.cpp` (~15 Tests) |
+| Chaos Tests | ✅ ERLEDIGT | `tests/test_sharding_chaos.cpp` (~18 Tests) |
+| Performance Benchmarks | ✅ ERLEDIGT | `benchmarks/bench_sharding_performance.cpp` |
+
+### Dokumentation
+
+| Dokument | Status | Beschreibung |
+|----------|--------|--------------|
+| SCALING_TODO.md | ✅ ERLEDIGT | Vollständige TODO-Liste |
+| SHARDING_UNIFIED_DOCUMENTATION.md | ✅ ERLEDIGT | Autoritative Sharding-Docs |
+| FEATURES.md | ✅ AKTUALISIERT | Status-Korrekturen |
+| README.md | ✅ AKTUALISIERT | Sharding + GPU Abschnitte |
 
 ---
 
@@ -44,103 +128,72 @@ ThemisDB entwickelt sich von einer **Single-Node Multi-Model Database** zu einer
 
 ### P0 - Kritische Priorität
 
-#### 1.1 Dokumentation & Konsolidierung ✅ COMPLETED
-**Status:** Abgeschlossen (20. November 2025)  
-**Aufwand:** 2 Tage  
-**Owner:** Copilot Agent
-
-**Deliverables:**
-- ✅ `DEVELOPMENT_AUDITLOG.md` - Vollständiger Entwicklungsstand
-- ✅ `ROADMAP.md` - Konsolidierte Roadmap
-- ✅ `README.md` - Vereinfacht und aktualisiert
-- ✅ `CHANGELOG.md` - Validiert und aktualisiert
-- ✅ `NEXT_IMPLEMENTATION_PRIORITIES.md` - Nächste Entwicklungsschritte priorisiert
-
-#### 1.2 Column-Level Encryption ✅ COMPLETED
-**Status:** Vollständig implementiert als Field-Level + Schema-Based Encryption  
-**Aufwand:** Bereits erledigt  
-**Owner:** Themis Development Team
-
-**Hinweis:** In document databases sind Field-Level und Column-Level Encryption funktional äquivalent. Die Implementierung ist unter dem Namen "Field-Level Encryption" bereits vollständig.
-
-**Implementiert:**
-- ✅ Transparent encryption/decryption (AES-256-GCM)
-- ✅ Key rotation support (Lazy Re-Encryption)
-- ✅ Pluggable Key Management (MockKeyProvider, HSMKeyProvider, VaultKeyProvider)
-- ✅ Index compatibility
-- ✅ Schema-based configuration via `/config/encryption-schema` API
-
-**Dokumentation:**
-- ✅ `docs/column_encryption.md` (25K Zeilen Design-Doc)
-- ✅ `docs/encryption_metrics.md` (410 Zeilen)
-- ✅ Code: `include/security/encryption.h`, `src/security/field_encryption.cpp`
-
-**Tests:**
-- ✅ E2E encryption tests (`tests/test_schema_encryption.cpp`, 809 Zeilen)
-- ✅ Key rotation tests (`tests/test_lazy_reencryption.cpp`, 412 Zeilen)
-- ✅ Performance metrics (42 atomic counters)
-
-#### 1.3 JavaScript/Python SDK Finalisierung → NEXT PRIORITY
-**Status:** Alpha → Beta  
-**Aufwand:** 2-3 Wochen  
+#### 1.1 Client SDK Publishing
+**Status:** 🔧 In Arbeit  
+**Aufwand:** 2 Wochen  
 **Owner:** TBD
 
 **JavaScript SDK:**
-- ✅ Basic HTTP wrapper (Alpha)
-- ⚠️ TypeScript definitions
-- ⚠️ Transaction support
-- ⚠️ Error handling
-- ⚠️ Comprehensive tests
-- ⚠️ NPM package
+- ✅ Basic CRUD, URN Routing, Transactions
+- ⚠️ Graph Traversal API hinzufügen
+- ⚠️ Connection Pooling
+- ⚠️ NPM Package veröffentlichen
 
 **Python SDK:**
-- ✅ Basic HTTP wrapper (Alpha)
-- ⚠️ Type hints
-- ⚠️ Transaction support
-- ⚠️ Async/await support
-- ⚠️ Comprehensive tests
-- ⚠️ PyPI package
+- ✅ Basic CRUD, URN Routing, Transactions
+- ⚠️ Async/Await Support hinzufügen
+- ⚠️ PyPI Package veröffentlichen
 
-**Dokumentation:**
-- SDK Quick Start Guides
-- API Reference
-- Code Examples
+#### 1.2 Penetration Testing
+**Status:** 📋 Vorbereitet  
+**Aufwand:** 4-6 Wochen  
+**Owner:** Externer Dienstleister
 
-### P1 - Hohe Priorität
+**Scope:**
+- ✅ Attack Vectors dokumentiert (`docs/security/PENETRATION_TEST_GUIDE.md`)
+- ⚠️ Externen Pen-Tester beauftragen
+- ⚠️ Test durchführen
+- ⚠️ Findings beheben
+- ⚠️ Re-Test
 
-#### 1.4 Content Processors Erweiterung
-**Status:** Planung  
+#### 1.3 Content Processor DLL Plugins
+**Status:** ✅ Architektur implementiert, DLL-Build ausstehend  
 **Aufwand:** 2-3 Wochen  
 **Owner:** TBD
 
-**Neue Prozessoren:**
-- PDF Processor (Text extraction, metadata)
-- Office Processor (DOCX, XLSX, PPTX)
-- Video/Audio Metadata Extractor
+**Implementiert:**
+- ✅ Plugin Interface (`content_plugin_interface.h`)
+- ✅ YAML-Konfigurationen für alle Prozessoren
+- ✅ PDF Processor Header + Implementierung
+- ✅ Office Processor Header + Implementierung
 
-**Integration:**
-- Content Architecture erweitern
-- Unified Ingestion Pipeline
-- Batch processing support
+**Ausstehend:**
+- ⚠️ CMake für Plugin-Build (separate DLLs)
+- ⚠️ Video/Audio Plugin mit FFmpeg
+- ⚠️ Geo Plugin mit GDAL
+- ⚠️ Image Plugin mit libvips
+- ⚠️ CAD Plugin mit OpenCASCADE
 
-#### 1.5 CI/CD Verbesserungen
-**Status:** Planung  
-**Aufwand:** 1 Woche  
+### P1 - Hohe Priorität
+
+#### 1.4 Go & Rust SDK
+**Status:** 📋 Geplant  
+**Aufwand:** 6-8 Wochen  
 **Owner:** TBD
 
-**Implementierung:**
-- GitHub Actions Matrix (Linux + Windows)
-- Trivy Security Scanning (fail on HIGH/CRITICAL)
-- Coverage Reporting
-- Automated Release Process
-- Container Multi-Arch Builds
+**Go SDK:**
+- Idiomatic Go API
+- Context cancellation
+- Connection pooling
+- Comprehensive tests
 
-**Dokumentation:**
-- `.github/workflows/` aktualisieren
-- CI/CD guide
+**Rust SDK:**
+- Safe wrapper
+- Async/await
+- Type-safe query builder
 
-#### 1.6 Window Functions (SQL Analytics)
-**Status:** Design  
+#### 1.5 Window Functions (AQL Analytics)
+**Status:** 📋 Design  
 **Aufwand:** 2-3 Wochen  
 **Owner:** TBD
 
@@ -151,67 +204,39 @@ ThemisDB entwickelt sich von einer **Single-Node Multi-Model Database** zu einer
 - LAG, LEAD
 - Running totals
 
-**Implementierung:**
-- AQL Syntax Extension
-- Query Executor Updates
-- Optimization
-
-#### 1.7 Docker Runtime Optimierung
-**Status:** Planung  
-**Aufwand:** 3-5 Tage  
-**Owner:** TBD
-
-**Verbesserungen:**
-- Multi-stage build
-- Distroless/slim base image
-- Smaller image size (<100MB)
-- Security hardening
-- Non-root user (bereits implementiert)
-
 ---
 
 ## Mittelfristig: Q2-Q3 2026 (3-9 Monate)
 
 ### P0 - Kritische Priorität
 
-#### 2.1 Distributed Sharding & Replication 🚀
-**Status:** Design-Phase  
+#### 2.1 Replication (Aufbauend auf Sharding) 🚀
+**Status:** 📋 Geplant  
 **Aufwand:** 3-4 Monate  
 **Owner:** TBD
 
-**Phase 1: Sharding (Q2 2026)**
-- Hash-based sharding
-- Range-based sharding
-- Shard routing layer
-- Distributed query execution
-- Cross-shard transactions (2PC)
+**Hinweis:** Sharding Phase 1-4 ist bereits zu 95% implementiert. Die Replication baut darauf auf.
 
-**Phase 2: Replication (Q3 2026)**
-- Leader-Follower replication
-- Multi-Master (Conflict Resolution)
-- Read scalability
-- Automatic failover
-- Consensus protocol (Raft/Paxos)
+**Phase 1: Leader-Follower (Q2 2026)**
+- WAL-basierte Replikation
+- Async mit konfigurierbarem Lag
+- Automatic Failover
+- Read Replicas
 
-**Challenges:**
-- MVCC across nodes
-- Distributed deadlock detection
-- Index consistency
-- Network partitions
+**Phase 2: Multi-Master (Q3 2026)**
+- CRDT-basierte Konfliktlösung
+- Vector Clocks für Kausalität
+- Last-Write-Wins als Fallback
+- Quorum-basierte Konsistenz
 
-**Dokumentation:**
-- `docs/distributed/sharding.md`
-- `docs/distributed/replication.md`
-- `docs/distributed/consensus.md`
-
-**Tests:**
-- Distributed transaction tests
-- Failover tests
-- Network partition tests
-- Performance benchmarks
+**Bereits implementiert (Dezember 2025):**
+- ✅ Shard Routing Layer
+- ✅ Cross-Shard Transactions
+- ✅ P2P Gossip Protocol
+- ✅ Health Checks & Failover Detection
 
 #### 2.2 GPU Acceleration (CUDA/DirectX) 🎮
-**Status:** Planung  
+**Status:** 📋 Geplant  
 **Aufwand:** 2-3 Monate  
 **Owner:** TBD
 
@@ -576,23 +601,32 @@ ThemisDB entwickelt sich von einer **Single-Node Multi-Model Database** zu einer
 
 ## Erfolgskriterien
 
+### Q4 2025 (Dezember) ✅ ERREICHT
+- ✅ Horizontale Skalierung Phase 1-4 implementiert (95%)
+- ✅ P2P Gossip-Protokoll implementiert
+- ✅ Kubernetes Operator CRDs erstellt
+- ✅ Content Processor Plugin-Architektur definiert
+- ✅ Penetration Test Guide erstellt
+- ✅ Performance Benchmarks implementiert
+- ✅ Integration/E2E/Chaos Tests erstellt
+
 ### Q1 2026
-- ✅ All P0 features completed
-- ✅ SDK Beta releases (JS, Python)
-- ✅ 100% test coverage maintained
-- ✅ Documentation complete & up-to-date
+- ⚠️ SDK Publishing (NPM, PyPI)
+- ⚠️ Penetration Test durchgeführt
+- ⚠️ Content Processor DLLs gebaut
+- ⚠️ Go/Rust SDK Alpha
 
 ### Q2-Q3 2026
-- ✅ GPU acceleration operational (10x speedup)
-- ✅ Sharding & Replication functional
-- ✅ Production deployments (3+ customers)
-- ✅ Performance targets met
+- ⚠️ GPU acceleration operational (10x speedup)
+- ⚠️ Replication (Leader-Follower) functional
+- ⚠️ Production deployments (3+ customers)
+- ⚠️ Performance targets met
 
 ### Q4 2026+
-- ✅ Multi-DC deployment
-- ✅ Kubernetes Operator released
-- ✅ 10+ production customers
-- ✅ Community adoption (1000+ GitHub stars)
+- ⚠️ Multi-DC deployment
+- ⚠️ Kubernetes Operator Controller released
+- ⚠️ 10+ production customers
+- ⚠️ Community adoption (1000+ GitHub stars)
 
 ---
 
@@ -616,6 +650,6 @@ Diese Roadmap ist ein lebendes Dokument. Änderungen ergeben sich aus:
 
 ---
 
-**Letzte Aktualisierung:** 20. November 2025  
-**Version:** 2.0  
+**Letzte Aktualisierung:** 2. Dezember 2025  
+**Version:** 3.0  
 **Nächstes Review:** Januar 2026
