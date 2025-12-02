@@ -11,9 +11,15 @@ import httpx
 from tenacity import retry, stop_after_attempt, wait_exponential
 import structlog
 
-import sys
-sys.path.append('..')
-from benchmarks.base_benchmark import BaseDatabaseAdapter
+# Import base class using relative import
+try:
+    from ..benchmarks.base_benchmark import BaseDatabaseAdapter
+except ImportError:
+    # Fallback for direct script execution
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from benchmarks.base_benchmark import BaseDatabaseAdapter
 
 logger = structlog.get_logger()
 

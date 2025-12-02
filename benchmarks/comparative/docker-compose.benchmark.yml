@@ -270,7 +270,7 @@ services:
       - benchmark-net
 
   milvus:
-    image: milvusdb/milvus:v2.3.4
+    image: milvusdb/milvus:v2.4.0
     container_name: benchmark-milvus
     ports:
       - "19530:19530"
