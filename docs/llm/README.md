@@ -12,6 +12,16 @@ ThemisDB bietet LLM-Integration für:
 - RAG (Retrieval Augmented Generation)
 - Prompt Engineering für AQL
 
+## Dokumentation in diesem Ordner
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| [llm_overview.md](./llm_overview.md) | Konzept und Architektur | 📋 TODO |
+| [llm_implementation.md](./llm_implementation.md) | Embedding-Pipeline | 📋 TODO |
+| [llm_api.md](./llm_api.md) | LLM API-Referenz | 📋 TODO |
+| [llm_config.md](./llm_config.md) | Model-Konfiguration | 📋 TODO |
+| [llm_rag.md](./llm_rag.md) | RAG Integration | 📋 TODO |
+
 ## Verwandte Dokumentation
 
 - [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)

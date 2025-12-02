@@ -193,7 +193,7 @@ ThemisDB bietet flexible Redundanz-Modi ähnlich RAID-Systemen:
 - **Leader-Follower:** WAL-basiert, Automatic Failover
 - **Multi-Master:** CRDTs, Vector Clocks, HLC
 
-Siehe: [`docs/sharding/RAID_REDUNDANCY_ARCHITECTURE.md`](docs/sharding/RAID_REDUNDANCY_ARCHITECTURE.md)
+Siehe: [`docs/sharding/sharding_redundancy.md`](docs/sharding/sharding_redundancy.md)
 
 ### Complex Event Processing (CEP)
 
@@ -234,7 +234,7 @@ cmake -DTHEMIS_ENABLE_GPU=ON -DCMAKE_BUILD_TYPE=Release ..
 make -j$(nproc)
 ```
 
-Siehe auch: [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+Siehe auch: [`docs/performance/performance_gpu_plan.md`](docs/performance/performance_gpu_plan.md)
 
 ### Lokale Codequalität (Format & Analyse)
 
@@ -351,7 +351,7 @@ All 8 CRITICAL security features implemented (Production-Ready):
    - SHA256 fingerprint verification
    - CURL SSL context callbacks
    - Leaf vs. chain pinning support
-   - **Documentation:** [`docs/CERTIFICATE_PINNING.md`](docs/security/certificate_pinning.md) (700+ lines)
+   - **Documentation:** [`docs/CERTIFICATE_PINNING.md`](docs/security/security_certificate_pinning.md) (700+ lines)
 
 4. **Input Validation & Sanitization** ✅
    - JSON schema validation
@@ -409,7 +409,7 @@ All 8 CRITICAL security features implemented (Production-Ready):
 - ✅ SOC 2: Access Control (CC6.1), Audit Logs (CC6.7), Change Mgmt (CC7.2)
 - ✅ HIPAA: §164.312(a)(1) Access Control, §164.312(e)(1) Transmission Security
 
-See [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/security/implementation_summary.md) for complete details.
+See [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/security/security_implementation.md) for complete details.
 
 ### Vector Search Enhancements (2025-11-19) ✅
 
@@ -506,7 +506,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - Write-write conflict detection with automatic rollbacks
 - Atomic updates across all index layers
 - **Status:** ✅ Production-ready (27/27 tests PASS)
-- **Documentation:** [`docs/mvcc_design.md`](docs/architecture/mvcc_design.md)
+- **Documentation:** [`docs/mvcc_design.md`](docs/architecture/architecture_mvcc.md)
 
 ### 📊 Vector Search with Persistence
 - **HNSW Index** with L2, Cosine, and Dot Product metrics
@@ -529,7 +529,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - **COLLECT/GROUP BY** with aggregations (COUNT, SUM, AVG, MIN, MAX)
 - Temporal graph queries with time-range filters
 - **Status:** ✅ MVP production-ready
-- **Documentation:** [`docs/aql_syntax.md`](docs/aql/syntax.md)
+- **Documentation:** [`docs/aql_syntax.md`](docs/aql/aql_syntax.md)
 
 ### 💾 Backup & Recovery
 - **RocksDB Checkpoints** via `POST /admin/backup`
@@ -549,7 +549,7 @@ ThemisDB provides a comprehensive multi-model database with the following produc
 - **Security Headers** (CSP, X-Frame-Options, CORS whitelisting)
 - **Compliance:** GDPR/SOC2/HIPAA ready
 - **Status:** ✅ Production-ready (85% security coverage)
-- **Documentation:** [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/security/implementation_summary.md)
+- **Documentation:** [`docs/SECURITY_IMPLEMENTATION_SUMMARY.md`](docs/security/security_implementation.md)
 
 ### 📊 Observability
 - **Prometheus metrics** with cumulative histograms
@@ -1849,7 +1849,7 @@ Run benchmarks after building:
 | LZ4 | 33.8 MB/s | 2.1x | Default (balanced) |
 | ZSTD | 32.3 MB/s | 2.8x | Bottommost level (storage optimization) |
 
-See [docs/memory_tuning.md](docs/performance/memory_tuning.md) for detailed compression configuration.
+See [docs/memory_tuning.md](docs/performance/performance_memory.md) for detailed compression configuration.
 
 ### Query Parallelization
 
@@ -2016,8 +2016,8 @@ curl http://localhost:8765/metrics
 - **[Architecture Overview](docs/architecture.md)** - System design and components
 - **[Deployment Guide](docs/guides/deployment.md)** - Production setup and configuration
 - **[Transaction Management](docs/features/transactions.md)** - ACID transactions, isolation levels, best practices
-- **[Base Entity](docs/architecture/base_entity.md)** - Entity serialization and storage
-- **[Memory Tuning](docs/performance/memory_tuning.md)** - Performance optimization
+- **[Base Entity](docs/architecture/architecture_base_entity.md)** - Entity serialization and storage
+- **[Memory Tuning](docs/performance/performance_memory.md)** - Performance optimization
 - **[OpenAPI Specification](docs/openapi.yaml)** - Complete REST API reference
 - **[Change Data Capture (CDC)](docs/features/cdc.md)** - Changefeed API, Checkpointing, Backpressure, Retention
 

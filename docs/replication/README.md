@@ -11,7 +11,17 @@ ThemisDB unterstützt verschiedene Replikationsstrategien:
 - Multi-Master Replication (CRDTs, Vector Clocks, HLC)
 - Geo-Distributed Replication
 
+## Dokumentation in diesem Ordner
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| [replication_overview.md](./replication_overview.md) | Konzept und Architektur | 📋 TODO |
+| [replication_implementation.md](./replication_implementation.md) | Implementierungsdetails | 📋 TODO |
+| [replication_config.md](./replication_config.md) | Konfigurationsoptionen | 📋 TODO |
+| [replication_security.md](./replication_security.md) | mTLS, Verschlüsselung | 📋 TODO |
+| [replication_performance.md](./replication_performance.md) | Benchmarks & Latenz | 📋 TODO |
+
 ## Verwandte Dokumentation
 
-- [Sharding: RAID Redundancy Architecture](../sharding/RAID_REDUNDANCY_ARCHITECTURE.md)
-- [Sharding: Streaming Architecture](../sharding/STREAMING_ARCHITECTURE.md)
+- [Sharding: RAID Redundancy Architecture](../sharding/sharding_redundancy.md)
+- [Sharding: Streaming Architecture](../sharding/sharding_streaming.md)
