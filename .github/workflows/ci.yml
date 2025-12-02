@@ -1,0 +1,105 @@
+name: CI [Dry-Run]
+
+# Main CI workflow for C++ build, unit tests and code quality checks
+# 🔶 DRY-RUN MODE - This workflow does not publish any artifacts
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+# Minimal permissions for security
+permissions:
+  contents: read
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+
+jobs:
+  build-and-test:
+    name: Build & Test (Ubuntu)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🔶 Dry-Run Notice
+        run: |
+          echo "🔶 DRY-RUN MODE - No actual publishing"
+          echo "This workflow builds and tests the C++ codebase."
+          echo "No artifacts are published to external registries."
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-ubuntu-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            vcpkg-ubuntu-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            libssl-dev libcurl4-openssl-dev \
+            pkg-config autoconf automake libtool \
+            cppcheck clang-tidy
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: '2024.10.21'
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_TRACING=OFF
+
+      - name: Build
+        run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Run Unit Tests
+        run: |
+          cd build
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 300 -j $(nproc)
+
+      - name: Run cppcheck
+        if: always()
+        run: |
+          cppcheck --project=build/compile_commands.json \
+            --enable=warning,performance,portability \
+            --suppressions-list=.cppcheck-suppressions \
+            --error-exitcode=0 \
+            --xml --xml-version=2 2> cppcheck-report.xml || true
+        continue-on-error: true
+
+      - name: Upload cppcheck report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cppcheck-report
+          path: cppcheck-report.xml
+          retention-days: 7
+
+      - name: Build Summary
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "🔶 **DRY-RUN MODE** - No artifacts published" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: Executed" >> $GITHUB_STEP_SUMMARY
+          echo "- Platform: Ubuntu Latest" >> $GITHUB_STEP_SUMMARY
