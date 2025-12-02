@@ -338,7 +338,7 @@ if ! should_skip "clang-tidy"; then
             
             if [ -n "$files" ]; then
                 tidy_issues=0
-                echo "$files" | while read -r file; do
+                while IFS= read -r file; do
                     if [ -f "$file" ]; then
                         log_detail "Analyzing: $file"
                         result=$(clang-tidy "$file" -p "$BUILD_DIR" 2>&1 || true)
@@ -346,7 +346,7 @@ if ! should_skip "clang-tidy"; then
                             ((tidy_issues++)) || true
                         fi
                     fi
-                done
+                done <<< "$files"
                 
                 if [ "$tidy_issues" -eq 0 ]; then
                     log_success "Clang-tidy analysis passed"
@@ -526,10 +526,21 @@ if [ "$QUICK_MODE" -eq 0 ]; then
                 start = 0
             }
         ' "$file" 2>/dev/null
-    done < <(find src -name "*.cpp" 2>/dev/null | tr '\n' '\0') | while read -r line; do
-        log_warning "$line"
-        ((large_functions++)) || true
-    done
+    done < <(find src -name "*.cpp" 2>/dev/null | tr '\n' '\0')
+    
+    # Count large functions found
+    large_func_output=$(find src -name "*.cpp" -exec awk '
+        /^[a-zA-Z_].*\(.*\)\s*{?\s*$/ { start = NR }
+        /^}$/ && start > 0 { 
+            if (NR - start > 100) { count++ }
+            start = 0
+        }
+        END { print count+0 }
+    ' {} + 2>/dev/null)
+    
+    if [ "${large_func_output:-0}" -gt 0 ]; then
+        log_warning "Found $large_func_output large functions (>100 lines)"
+    fi
     
     print_subsection "Checking file sizes"
     

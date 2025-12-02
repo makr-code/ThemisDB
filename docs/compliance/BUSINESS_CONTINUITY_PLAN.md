@@ -187,8 +187,6 @@ redundancy:
 
 *bei RAID-6 Konfiguration (2 Parity-Shards)
 
-### 3.5 Replication-Strategien
-
 #### 3.5.1 Leader-Follower Replication
 
 ```yaml
