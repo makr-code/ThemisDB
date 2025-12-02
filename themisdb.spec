@@ -74,6 +74,17 @@ link against ThemisDB.
 install -D -m 644 %{_builddir}/ThemisDB-%{version}/debian/themisdb.service \
     %{buildroot}%{_unitdir}/themisdb.service
 
+# Install binary
+install -D -m 755 %{_builddir}/ThemisDB-%{version}/build/themis_server \
+    %{buildroot}%{_bindir}/themis_server
+
+# Install shared libraries from vcpkg
+if [ -d %{_builddir}/ThemisDB-%{version}/vcpkg_installed/x64-linux/lib ]; then
+    mkdir -p %{buildroot}%{_libdir}/themisdb
+    find %{_builddir}/ThemisDB-%{version}/vcpkg_installed/x64-linux/lib \
+        -name "*.so*" -exec cp -v {} %{buildroot}%{_libdir}/themisdb/ \;
+fi
+
 # Install configuration files
 install -D -m 640 %{_builddir}/ThemisDB-%{version}/config/config.json \
     %{buildroot}%{_sysconfdir}/themisdb/config.json
@@ -102,6 +113,20 @@ install -m 644 %{_builddir}/ThemisDB-%{version}/CHANGELOG.md \
 if [ -f %{_builddir}/ThemisDB-%{version}/docs/ThemisDB-Documentation.pdf ]; then
     install -m 644 %{_builddir}/ThemisDB-%{version}/docs/ThemisDB-Documentation.pdf \
         %{buildroot}%{_docdir}/themisdb/
+fi
+
+# Install OpenAPI specification
+if [ -d %{_builddir}/ThemisDB-%{version}/openapi ]; then
+    mkdir -p %{buildroot}%{_datadir}/themisdb/openapi
+    cp -r %{_builddir}/ThemisDB-%{version}/openapi/* \
+        %{buildroot}%{_datadir}/themisdb/openapi/
+fi
+
+# Install client libraries (SDKs)
+if [ -d %{_builddir}/ThemisDB-%{version}/clients ]; then
+    mkdir -p %{buildroot}%{_datadir}/themisdb/clients
+    cp -r %{_builddir}/ThemisDB-%{version}/clients/* \
+        %{buildroot}%{_datadir}/themisdb/clients/
 fi
 
 # Install examples
@@ -138,7 +163,10 @@ chmod 750 %{_sharedstatedir}/themisdb
 # Set ownership of config directory
 chown -R root:themisdb %{_sysconfdir}/themisdb
 chmod 750 %{_sysconfdir}/themisdb
-chmod 640 %{_sysconfdir}/themisdb/config.yaml
+chmod 640 %{_sysconfdir}/themisdb/config.json
+# Configure library path
+echo "/usr/lib64/themisdb" > /etc/ld.so.conf.d/themisdb.conf
+ldconfig
 
 %preun
 %systemd_preun themisdb.service
@@ -150,20 +178,27 @@ if [ $1 -eq 0 ] ; then
     getent passwd themisdb >/dev/null && userdel themisdb
     getent group themisdb >/dev/null && groupdel themisdb
     rm -rf %{_sharedstatedir}/themisdb
+    rm -f /etc/ld.so.conf.d/themisdb.conf
+    ldconfig
 fi
 
 %files
 %license LICENSE
 %doc README.md CHANGELOG.md
 %{_bindir}/themis_server
+%{_libdir}/themisdb/*.so*
 %{_unitdir}/themisdb.service
 %dir %attr(750,root,themisdb) %{_sysconfdir}/themisdb
 %config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/config.json
 %config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/*.yaml
 %config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/policies.json
+%config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/processors/*
+%config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/schemas/*
 %dir %attr(750,themisdb,themisdb) %{_sharedstatedir}/themisdb
 %{_docdir}/themisdb/*
 %{_datadir}/themisdb/tools/*
+%{_datadir}/themisdb/openapi/*
+%{_datadir}/themisdb/clients/*
 
 %files devel
 %{_includedir}/*

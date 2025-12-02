@@ -41,6 +41,12 @@ if (Test-Path $binQnap) {
     $cmd += 'cp /src/build-qnap/themis_server /src/dist/themisdb-1.0.0/bin/'
     if (-not $SkipStrip) { $cmd += 'strip /src/dist/themisdb-1.0.0/bin/themis_server' }
     
+    # Copy shared libraries
+    $cmd += 'mkdir -p /src/dist/themisdb-1.0.0/lib'
+    $cmd += 'if [ -d /src/vcpkg_installed/x64-linux/lib ]; then'
+    $cmd += '  find /src/vcpkg_installed/x64-linux/lib -name \"*.so*\" -exec cp -v {} /src/dist/themisdb-1.0.0/lib/ \;'
+    $cmd += 'fi'
+    
     # Config
     $cmd += 'cp /src/config/config.qnap.json /src/dist/themisdb-1.0.0/config/config.json'
     $cmd += 'cp /src/config/*.yaml /src/dist/themisdb-1.0.0/config/'
@@ -55,6 +61,10 @@ if (Test-Path $binQnap) {
     $cmd += 'test -f /src/docs/ThemisDB-Documentation.pdf && cp /src/docs/ThemisDB-Documentation.pdf /src/dist/themisdb-1.0.0/docs/ || true'
     $cmd += 'test -f /src/docs/deployment/QNAP_CPU_COMPATIBILITY.md && cp /src/docs/deployment/QNAP_CPU_COMPATIBILITY.md /src/dist/themisdb-1.0.0/docs/ || true'
     
+    # OpenAPI & Client SDKs
+    $cmd += 'test -d /src/openapi && cp -r /src/openapi /src/dist/themisdb-1.0.0/ || true'
+    $cmd += 'test -d /src/clients && cp -r /src/clients /src/dist/themisdb-1.0.0/ || true'
+    
     # Examples & Tools
     $cmd += 'test -d /src/examples && cp -r /src/examples/* /src/dist/themisdb-1.0.0/examples/ || true'
     $cmd += 'test -d /src/tools/plugin_signer && cp -r /src/tools/plugin_signer /src/dist/themisdb-1.0.0/tools/ || true'
@@ -66,11 +76,13 @@ if (Test-Path $binQnap) {
     $cmd += 'INSTALL_DIR=/opt/themisdb'
     $cmd += 'echo \"Installing ThemisDB to $INSTALL_DIR...\"'
     $cmd += 'mkdir -p $INSTALL_DIR'
-    $cmd += 'cp -r bin config docs examples tools $INSTALL_DIR/'
+    $cmd += 'cp -r bin config docs examples tools lib $INSTALL_DIR/'
     $cmd += 'chmod +x $INSTALL_DIR/bin/themis_server'
     $cmd += 'mkdir -p /var/lib/themisdb/data'
     $cmd += 'mkdir -p /var/log/themisdb'
+    $cmd += 'echo \"export LD_LIBRARY_PATH=$INSTALL_DIR/lib:\\$LD_LIBRARY_PATH\" >> ~/.bashrc'
     $cmd += 'echo \"Installation complete. Start with:\"'
+    $cmd += 'echo \"  export LD_LIBRARY_PATH=$INSTALL_DIR/lib:\\$LD_LIBRARY_PATH\"'
     $cmd += 'echo \"  $INSTALL_DIR/bin/themis_server --config $INSTALL_DIR/config/config.json\"'
     $cmd += 'EOF'
     $cmd += 'chmod +x /src/dist/themisdb-1.0.0/install.sh'
@@ -103,6 +115,12 @@ if (Test-Path $binLinuxGcc) {
     $cmd += 'cp /src/build-linux-gcc-release/themis_server /src/dist/themisdb-1.0.0/bin/'
     if (-not $SkipStrip) { $cmd += 'strip /src/dist/themisdb-1.0.0/bin/themis_server' }
     
+    # Copy shared libraries
+    $cmd += 'mkdir -p /src/dist/themisdb-1.0.0/lib'
+    $cmd += 'if [ -d /src/vcpkg_installed/x64-linux/lib ]; then'
+    $cmd += '  find /src/vcpkg_installed/x64-linux/lib -name \"*.so*\" -exec cp -v {} /src/dist/themisdb-1.0.0/lib/ \;'
+    $cmd += 'fi'
+    
     # Config
     $cmd += 'cp /src/config/config.json /src/dist/themisdb-1.0.0/config/'
     $cmd += 'cp /src/config/*.yaml /src/dist/themisdb-1.0.0/config/'
@@ -115,6 +133,10 @@ if (Test-Path $binLinuxGcc) {
     $cmd += 'test -f /src/CHANGELOG.md && cp /src/CHANGELOG.md /src/dist/themisdb-1.0.0/ || true'
     $cmd += 'test -f /src/SECURITY.md && cp /src/SECURITY.md /src/dist/themisdb-1.0.0/ || true'
     $cmd += 'test -f /src/docs/ThemisDB-Documentation.pdf && cp /src/docs/ThemisDB-Documentation.pdf /src/dist/themisdb-1.0.0/docs/ || true'
+    
+    # OpenAPI & Client SDKs
+    $cmd += 'test -d /src/openapi && cp -r /src/openapi /src/dist/themisdb-1.0.0/ || true'
+    $cmd += 'test -d /src/clients && cp -r /src/clients /src/dist/themisdb-1.0.0/ || true'
     
     # Examples & Tools
     $cmd += 'test -d /src/examples && cp -r /src/examples/* /src/dist/themisdb-1.0.0/examples/ || true'
@@ -130,12 +152,15 @@ if (Test-Path $binLinuxGcc) {
     $cmd += 'INSTALL_DIR=/opt/themisdb'
     $cmd += 'echo \"Installing ThemisDB to $INSTALL_DIR...\"'
     $cmd += 'sudo mkdir -p $INSTALL_DIR'
-    $cmd += 'sudo cp -r bin config docs examples tools $INSTALL_DIR/'
+    $cmd += 'sudo cp -r bin config docs examples tools lib $INSTALL_DIR/'
     $cmd += 'sudo chmod +x $INSTALL_DIR/bin/themis_server'
     $cmd += 'sudo mkdir -p /var/lib/themisdb/data'
     $cmd += 'sudo mkdir -p /var/log/themisdb'
     $cmd += 'sudo mkdir -p /etc/themisdb'
     $cmd += 'sudo cp config/*.json config/*.yaml /etc/themisdb/ || true'
+    $cmd += '# Install libraries to system'
+    $cmd += 'sudo cp lib/*.so* /usr/local/lib/ 2>/dev/null || true'
+    $cmd += 'sudo ldconfig'
     $cmd += 'if [ -f systemd/themisdb.service ]; then'
     $cmd += '  echo \"Installing systemd service...\"'
     $cmd += '  sudo cp systemd/themisdb.service /etc/systemd/system/'
@@ -184,6 +209,18 @@ if (Test-Path $binWin) {
     # Binary
     Copy-Item $binWin -Destination "$stage\bin\themis_server.exe" -Force
     
+    # Copy DLLs from vcpkg
+    $vcpkgLibDir = Join-Path $repo "vcpkg_installed\x64-windows\bin"
+    if (Test-Path $vcpkgLibDir) {
+        Write-Host "  Copying DLLs from vcpkg..." -ForegroundColor Cyan
+        Get-ChildItem "$vcpkgLibDir\*.dll" -ErrorAction SilentlyContinue | ForEach-Object {
+            Copy-Item $_.FullName -Destination "$stage\bin\" -Force
+            Write-Host "    → $($_.Name)" -ForegroundColor DarkGray
+        }
+    } else {
+        Write-Warning "  vcpkg bin directory not found: $vcpkgLibDir"
+    }
+    
     # Config-Dateien
     Copy-Item "$repo\config\*.json" -Destination "$stage\config\" -Force
     Copy-Item "$repo\config\*.yaml" -Destination "$stage\config\" -Force
@@ -201,6 +238,16 @@ if (Test-Path $binWin) {
     Copy-Item "$repo\SECURITY.md" -Destination "$stage\" -Force -ErrorAction SilentlyContinue
     if (Test-Path "$repo\docs\ThemisDB-Documentation.pdf") {
         Copy-Item "$repo\docs\ThemisDB-Documentation.pdf" -Destination "$stage\docs\" -Force
+    }
+    
+    # OpenAPI specification
+    if (Test-Path "$repo\openapi") {
+        Copy-Item "$repo\openapi\*" -Destination "$stage\openapi\" -Recurse -Force
+    }
+    
+    # Client libraries (SDKs)
+    if (Test-Path "$repo\clients") {
+        Copy-Item "$repo\clients\*" -Destination "$stage\clients\" -Recurse -Force
     }
     
     # Beispiele
