@@ -1,10 +1,10 @@
-# ThemisDB - Hybrid Vector-Geo Database
+# ThemisDB - Multi-Model Database System
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb)
 ![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest)
 ![License](https://img.shields.io/github/license/makr-code/ThemisDB)
 
-ThemisDB is a high-performance hybrid database combining **vector search**, **geospatial queries**, and **traditional CRUD operations** in a single system. Built with C++20, RocksDB, and modern AI/ML integrations.
+ThemisDB is a high-performance **multi-model database** combining **Graph**, **Relational**, **Vector**, **Document**, **Geospatial**, and **Time-Series** capabilities in a unified system. Built with C++20 on a LSM-tree foundation (RocksDB) with enterprise-grade security and AI/ML integration.
 
 ## 🚀 Quick Start
 
@@ -33,23 +33,31 @@ curl http://localhost:8765/health
 
 ## 🎯 Key Features
 
+### Multi-Model Architecture
+- **Graph Model** - Vertices, edges, property graphs with Cypher-like queries
+- **Relational Model** - Tables, schemas, SQL-style queries, JOINs
+- **Vector Model** - HNSW index for semantic search with SIMD optimization
+- **Document Model** - JSON documents with flexible schemas (RocksDB)
+- **Geospatial** - GeoJSON, R-tree indexing, spatial queries
+- **Time-Series** - Temporal data with retention policies
+
+### Graph Database
+- **Property Graphs** - Vertices and edges with rich attributes
+- **Pattern Matching** - Cypher-like graph traversal queries
+- **Relationship Navigation** - Multi-hop queries and path finding
+- **Graph Analytics** - PageRank, community detection, centrality
+
 ### Vector Search
 - **HNSW Index** - Fast approximate nearest neighbor search
-- **Euclidean, Cosine, IP** - Multiple distance metrics
-- **SIMD Optimized** - Hardware-accelerated computations
-- **Metadata Filtering** - Pre-filter vectors by attributes
+- **Multiple Metrics** - Euclidean, Cosine, Inner Product
+- **SIMD Optimized** - Hardware-accelerated distance computations
+- **Hybrid Queries** - Combine vector search with filters and geo
 
-### Geospatial
-- **Point, Polygon, LineString** - Full GeoJSON support
-- **Spatial Indexing** - R-tree for efficient queries
-- **Distance Queries** - Within radius, bounding box
-- **Geo + Vector** - Hybrid search capabilities
-
-### CRUD & Hybrid
-- **Key-Value Store** - Fast document storage (RocksDB)
-- **AQL Queries** - Advanced Query Language with filters
-- **MVCC** - Multi-version concurrency control
-- **ACID Transactions** - Full data consistency
+### Relational Capabilities
+- **Schema Support** - Typed columns with constraints
+- **SQL-like Queries** - AQL (Advanced Query Language)
+- **Transactions** - ACID compliance with MVCC
+- **Indexes** - B-tree and hash indexes for fast lookups
 
 ### Security & Compliance
 - **Encryption at Rest** - AES-256-GCM
@@ -122,14 +130,31 @@ volumes:
 
 ## 🔌 API Examples
 
-### Store a Document
+### Graph Queries
 ```bash
-curl -X POST http://localhost:8765/api/documents \
+# Create vertex
+curl -X POST http://localhost:8765/api/graph/vertices \
+  -H "Content-Type: application/json" \
+  -d '{"id": "person:alice", "properties": {"name": "Alice", "age": 30}}'
+
+# Create edge
+curl -X POST http://localhost:8765/api/graph/edges \
+  -H "Content-Type: application/json" \
+  -d '{"from": "person:alice", "to": "person:bob", "type": "knows"}'
+
+# Graph traversal
+curl -X POST http://localhost:8765/api/graph/query \
+  -H "Content-Type: application/json" \
+  -d '{"start": "person:alice", "pattern": "()-[:knows*1..3]->()"}'
+```
+
+### Relational Queries
+```bash
+# Query with AQL
+curl -X POST http://localhost:8765/api/query \
   -H "Content-Type: application/json" \
   -d '{
-    "id": "doc1",
-    "content": "Machine learning advances",
-    "metadata": {"category": "AI"}
+    "query": "SELECT name, age FROM users WHERE age > 25 ORDER BY age"
   }'
 ```
 
@@ -155,14 +180,15 @@ curl -X POST http://localhost:8765/api/search/geo \
   }'
 ```
 
-### Hybrid Search (Vector + Geo)
+### Multi-Model Hybrid Query
 ```bash
+# Graph + Vector + Geo combined
 curl -X POST http://localhost:8765/api/search/hybrid \
   -H "Content-Type: application/json" \
   -d '{
+    "graph_pattern": "()-[:located_in]->(city)",
     "query_vector": [0.1, 0.2, ...],
-    "center": {"lat": 52.52, "lon": 13.405},
-    "radius_km": 10.0,
+    "geo_filter": {"center": {"lat": 52.52, "lon": 13.405}, "radius_km": 10},
     "top_k": 5
   }'
 ```
@@ -187,28 +213,46 @@ curl http://localhost:8765/api/updates
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────┐
-│         HTTP Server (Port 8765)         │
-├─────────────────────────────────────────┤
-│  REST API │ GraphQL │ WebSocket │ gRPC  │
-├─────────────────────────────────────────┤
-│  Vector Engine │ Geo Engine │ AQL      │
-│  (HNSW Index)  │ (R-tree)   │ (Parser) │
-├─────────────────────────────────────────┤
-│     Storage Layer (RocksDB + MVCC)      │
-├─────────────────────────────────────────┤
-│  Encryption │ PII │ Audit │ Compression │
-└─────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│           HTTP Server (Port 8765)                       │
+├─────────────────────────────────────────────────────────┤
+│  REST API │ GraphQL │ WebSocket │ gRPC │ Cypher Query  │
+├─────────────────────────────────────────────────────────┤
+│ Multi-Model Query Engine                               │
+│ ┌──────────┬──────────┬─────────┬──────────┬─────────┐ │
+│ │  Graph   │Relational│ Vector  │   Geo    │TimeSeries│ │
+│ │  Engine  │  Engine  │ Engine  │  Engine  │  Engine  │ │
+│ │(Property)│  (AQL)   │ (HNSW)  │ (R-tree) │(Retention)│ │
+│ └──────────┴──────────┴─────────┴──────────┴─────────┘ │
+├─────────────────────────────────────────────────────────┤
+│         Unified Storage Layer (RocksDB + MVCC)          │
+│         LSM-Tree with Column Families                   │
+├─────────────────────────────────────────────────────────┤
+│ Security & Compliance Layer                             │
+│ Encryption │ PII Detection │ Audit Log │ Compression   │
+│ (AES-256)  │ (Regex + ML)  │ (Append)  │ (Zstd/LZ4)   │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ## 🌍 Use Cases
 
-- **Semantic Search** - Document retrieval with embeddings
-- **Location-based Services** - Geo + vector hybrid queries
-- **RAG Systems** - Retrieval-Augmented Generation backends
-- **Recommendation Engines** - Content similarity search
-- **Fraud Detection** - Anomaly detection with vectors
-- **IoT Data** - Geospatial time-series analysis
+### Enterprise Applications
+- **Knowledge Graphs** - Organizational data with relationships and context
+- **Master Data Management** - Unified view across relational and graph data
+- **Fraud Detection** - Graph pattern matching + vector anomaly detection
+- **Customer 360** - Multi-model customer profiles (graph + relational + time-series)
+
+### AI/ML Applications
+- **RAG Systems** - Retrieval-Augmented Generation with vector + graph context
+- **Semantic Search** - Document retrieval with embeddings and knowledge graphs
+- **Recommendation Engines** - Graph-based recommendations with vector similarity
+- **Content Discovery** - Multi-modal search (text, images, relationships)
+
+### Geospatial & IoT
+- **Location Intelligence** - Geo + graph + time-series analysis
+- **Smart Cities** - Infrastructure monitoring with spatial and temporal data
+- **Fleet Management** - Real-time tracking with route optimization
+- **IoT Analytics** - Sensor networks with geospatial context
 
 ## 🔧 QNAP Deployment
 
