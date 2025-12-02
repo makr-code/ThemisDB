@@ -135,10 +135,10 @@ Für jede Komponente muss geprüft werden:
    - ✅ Links in DOCUMENTATION_INDEX.md aktualisiert (28 Links korrigiert)
    - [ ] MkDocs-Navigation anpassen
 
-2. **Phase B: Struktur-Konsolidierung** (1 Woche)
-   - Fehlende Dokumentations-Ordner erstellen
-   - Dokumente in richtige Ordner verschieben
-   - Redirect-Hinweise in alten Dateien
+2. **Phase B: Struktur-Konsolidierung** 🔄 IN BEARBEITUNG
+   - ✅ Fehlende Dokumentations-Ordner erstellt (8 neue Ordner)
+   - [ ] Dokumente in richtige Ordner verschieben
+   - [ ] Redirect-Hinweise in alten Dateien
 
 3. **Phase C: Code-Abgleich** (2-3 Wochen)
    - Pro Komponente: Header-Dateien mit Dokumentation vergleichen
@@ -177,6 +177,21 @@ Für jede Komponente muss geprüft werden:
 
 **DOCUMENTATION_INDEX.md:**
 - 28 weitere Links korrigiert (siehe git diff für Details)
+
+### Phase B: Erstellte Dokumentations-Ordner
+
+Die folgenden Ordner wurden erstellt, um die Dokumentationsstruktur an die Source-Code-Struktur anzupassen:
+
+| Ordner | Source Code | Status |
+|--------|-------------|--------|
+| `docs/cache/` | `src/cache/`, `include/cache/` | ✅ Erstellt mit README |
+| `docs/replication/` | `src/replication/`, `include/replication/` | ✅ Erstellt mit README |
+| `docs/server/` | `src/server/`, `include/server/` | ✅ Erstellt mit README |
+| `docs/timeseries/` | `src/timeseries/`, `include/timeseries/` | ✅ Erstellt mit README |
+| `docs/transaction/` | `src/transaction/`, `include/transaction/` | ✅ Erstellt mit README |
+| `docs/governance/` | `src/governance/`, `include/governance/` | ✅ Erstellt mit README |
+| `docs/index/` | `src/index/`, `include/index/` | ✅ Erstellt mit README |
+| `docs/llm/` | `src/llm/`, `include/llm/` | ✅ Erstellt mit README |
 
 ---
 
