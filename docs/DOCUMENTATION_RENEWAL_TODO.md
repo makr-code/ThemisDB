@@ -130,10 +130,10 @@ Für jede Komponente muss geprüft werden:
 
 ### Empfohlene Vorgehensweise
 
-1. **Phase A: Link-Reparatur** (1-2 Tage)
-   - Alle broken Links in README.md fixen
-   - Links in DOCUMENTATION_INDEX.md aktualisieren
-   - MkDocs-Navigation anpassen
+1. **Phase A: Link-Reparatur** ✅ ABGESCHLOSSEN (2. Dezember 2025)
+   - ✅ Alle broken Links in README.md gefixt (19 Links korrigiert)
+   - ✅ Links in DOCUMENTATION_INDEX.md aktualisiert (28 Links korrigiert)
+   - [ ] MkDocs-Navigation anpassen
 
 2. **Phase B: Struktur-Konsolidierung** (1 Woche)
    - Fehlende Dokumentations-Ordner erstellen
@@ -149,6 +149,34 @@ Für jede Komponente muss geprüft werden:
    - Link-Checker in CI integrieren
    - Dokumentations-Coverage-Metriken
    - Review-Prozess für Doku-Änderungen
+
+### Phase A: Durchgeführte Link-Korrekturen
+
+**README.md:**
+| Alter Pfad | Neuer Pfad |
+|------------|------------|
+| `docs/ROADMAP.md` | `docs/roadmap.md` |
+| `docs/TLS_SETUP.md` | `docs/guides/tls_setup.md` |
+| `docs/CERTIFICATE_PINNING.md` | `docs/security/certificate_pinning.md` |
+| `docs/SECRETS_MANAGEMENT.md` | `docs/guides/vault.md` |
+| `docs/AUDIT_LOGGING.md` | `docs/features/audit_logging.md` |
+| `docs/RBAC.md` | `docs/guides/rbac.md` |
+| `docs/SECURITY_IMPLEMENTATION_SUMMARY.md` | `docs/security/implementation_summary.md` |
+| `docs/mvcc_design.md` | `docs/architecture/mvcc_design.md` |
+| `docs/vector_ops.md` | `docs/features/vector_ops.md` |
+| `docs/time_series.md` | `docs/features/time_series.md` |
+| `docs/aql_syntax.md` | `docs/aql/syntax.md` |
+| `docs/deployment.md` | `docs/guides/deployment.md` |
+| `docs/indexes.md` | `docs/features/indexes.md` |
+| `docs/change_data_capture.md` | `docs/features/change_data_capture.md` |
+| `docs/transactions.md` | `docs/features/transactions.md` |
+| `docs/base_entity.md` | `docs/architecture/base_entity.md` |
+| `docs/memory_tuning.md` | `docs/performance/memory_tuning.md` |
+| `docs/code_quality.md` | `docs/guides/code_quality.md` |
+| `docs/cdc.md` | `docs/features/cdc.md` |
+
+**DOCUMENTATION_INDEX.md:**
+- 28 weitere Links korrigiert (siehe git diff für Details)
 
 ---
 
