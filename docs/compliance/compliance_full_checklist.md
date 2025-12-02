@@ -183,7 +183,7 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 | Nr. | Anforderung | BSI C5 Ref | Status | Nachweis/Kommentar |
 |-----|-------------|------------|--------|-------------------|
-| OPS-05 | Malware-Schutz | OPS-05 | ⚠️ | Keine explizite Malware-Prüfung in Ingestion |
+| OPS-05 | Malware-Schutz | OPS-05 | ✅ | `MalwareFilterManager` in Ingestion-Pipeline, SignatureScanner (built-in) + ClamAV (optional), Dokumentation: `docs/security/security_malware_scanner.md` |
 | OPS-06 | Schwachstellenmanagement | OPS-06 | ✅ | `security-scan.ps1`, Trivy-Scans geplant |
 | OPS-07 | Penetrationstests | OPS-07 | ⚠️ | Empfohlen in Checkliste, nicht durchgeführt |
 
@@ -555,7 +555,7 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 | Anforderung | PCI DSS Ref | Status | Nachweis/Kommentar |
 |-------------|-------------|--------|-------------------|
-| Anti-Malware | 5.x | ⚠️ | Keine explizite Malware-Prüfung |
+| Anti-Malware | 5.x | ✅ | `MalwareFilterManager` implementiert, SignatureScanner + ClamAV |
 | Sichere Systeme und Anwendungen | 6.x | ✅ | SDLC, Code Reviews, Static Analysis |
 
 ### 21.4 Zugriffskontrolle
@@ -763,7 +763,7 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 | # | Befund | Empfehlung | BSI C5 Ref |
 |---|--------|------------|------------|
 | 9 | Lizenzprüfung manuell | Automatische Lizenzprüfung (license-checker) | DEP-04 |
-| 10 | Malware-Scan bei Ingestion | ClamAV-Integration für Blob-Uploads | OPS-05 |
+| ~~10~~ | ~~Malware-Scan bei Ingestion~~ | ~~ClamAV-Integration für Blob-Uploads~~ | ~~OPS-05~~ ✅ ERLEDIGT |
 | 11 | Fuzzing-Tests fehlen | AFL++/libFuzzer für Parser integrieren | DEV-03 |
 | 12 | SSRF-Schutz | Explizite URL-Validierung für externe Aufrufe | COS-03 |
 
