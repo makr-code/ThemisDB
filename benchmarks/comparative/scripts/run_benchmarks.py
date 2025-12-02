@@ -340,11 +340,11 @@ class ComparativeBenchmarkSuite:
             
             # Generate query vectors
             import numpy as np
-            query_vectors = [
-                (np.random.randn(self.config.vector_dimensions) / 
-                 np.linalg.norm(np.random.randn(self.config.vector_dimensions))).tolist()
-                for _ in range(100)
-            ]
+            query_vectors = []
+            for _ in range(100):
+                vec = np.random.randn(self.config.vector_dimensions).astype(np.float32)
+                normalized_vec = vec / np.linalg.norm(vec)
+                query_vectors.append(normalized_vec.tolist())
             
             # k-NN search benchmark
             search_idx = [0]

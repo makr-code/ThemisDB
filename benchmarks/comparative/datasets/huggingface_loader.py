@@ -52,7 +52,8 @@ class HuggingFaceDatasetLoader:
     def __init__(self, 
                  dataset_size: int = 10000,
                  vector_dimensions: int = 384,
-                 random_seed: int = 42):
+                 random_seed: int = 42,
+                 max_content_length: int = 2000):
         """
         Initialize the dataset loader.
         
@@ -60,10 +61,12 @@ class HuggingFaceDatasetLoader:
             dataset_size: Number of documents to load
             vector_dimensions: Dimension of vector embeddings
             random_seed: Random seed for reproducibility
+            max_content_length: Maximum content length for document truncation
         """
         self.dataset_size = dataset_size
         self.vector_dimensions = vector_dimensions
         self.random_seed = random_seed
+        self.max_content_length = max_content_length
         random.seed(random_seed)
         np.random.seed(random_seed)
     
@@ -104,7 +107,7 @@ class HuggingFaceDatasetLoader:
                 doc = {
                     "id": f"wiki_{i:08d}",
                     "title": item.get("title", f"Document {i}"),
-                    "content": item.get("text", "")[:2000],  # Truncate for benchmarks
+                    "content": item.get("text", "")[:self.max_content_length],
                     "category": random.choice(categories),
                     "word_count": len(item.get("text", "").split()),
                     "source": "wikipedia",
@@ -160,7 +163,7 @@ class HuggingFaceDatasetLoader:
             doc = {
                 "id": f"synthetic_{i:08d}",
                 "title": f"Document about {topic} - {i}",
-                "content": content[:2000],
+                "content": content[:self.max_content_length],
                 "category": random.choice(categories),
                 "word_count": len(content.split()),
                 "source": "synthetic",
