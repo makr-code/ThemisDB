@@ -16,7 +16,7 @@ namespace sharding {
  * 
  * Exposes metrics in Prometheus text format via HTTP endpoint /metrics.
  * Tracks shard health, routing statistics, PKI events, migration progress,
- * query performance, and topology changes.
+ * query performance, topology changes, gossip protocol, and cross-shard joins.
  */
 class PrometheusMetrics {
 public:
@@ -58,6 +58,44 @@ public:
     void recordClusterSize(int num_shards);
     void recordVirtualNodes(int total_vnodes);
 
+    // ==================== Phase 6 New Metrics ====================
+
+    // Gossip Protocol metrics
+    void recordGossipMessage(const std::string& message_type); // heartbeat/peer_list/ack
+    void recordGossipMessageSize(int64_t bytes);
+    void recordGossipRoundTrip(double latency_ms);
+    void recordGossipPeerCount(int count);
+    void recordGossipFailedPeer(const std::string& peer_id);
+    void recordGossipVersionVector(const std::string& peer_id, uint64_t version);
+
+    // Cross-Shard Join metrics
+    void recordCrossShardJoin(const std::string& strategy); // broadcast_hash/co_located
+    void recordCrossShardJoinDuration(const std::string& strategy, double duration_ms);
+    void recordCrossShardJoinRows(const std::string& strategy, int64_t left_rows, int64_t right_rows, int64_t result_rows);
+    void recordHashTableBuildTime(double time_ms);
+    void recordProbePhaseTime(double time_ms);
+
+    // Content Processor metrics
+    void recordContentProcessorInvocation(const std::string& processor_type); // pdf/office/video/audio/geo/image/cad
+    void recordContentProcessorDuration(const std::string& processor_type, double duration_ms);
+    void recordContentProcessorError(const std::string& processor_type, const std::string& error_type);
+    void recordContentProcessorBytes(const std::string& processor_type, int64_t input_bytes, int64_t output_bytes);
+
+    // etcd/Metadata Store metrics
+    void recordMetadataStoreOperation(const std::string& operation); // get/put/delete/watch
+    void recordMetadataStoreLatency(const std::string& operation, double latency_ms);
+    void recordMetadataStoreError(const std::string& operation, const std::string& error_type);
+
+    // Health Check metrics
+    void recordHealthCheckExecution(const std::string& check_type); // certificate/storage/network
+    void recordHealthCheckDuration(const std::string& check_type, double duration_ms);
+    void recordHealthCheckResult(const std::string& check_type, const std::string& result); // healthy/warning/critical
+
+    // Cloud Agent metrics
+    void recordCloudAgentOperation(const std::string& operation); // scatter_gather/dc_routing
+    void recordDatacenterLatency(const std::string& datacenter, double latency_ms);
+    void recordCrossDCRequest(const std::string& source_dc, const std::string& target_dc);
+
     // Generic metrics (for extensibility)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
     void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
@@ -65,6 +103,9 @@ public:
 
     // Get metrics in Prometheus text format
     std::string getMetrics() const;
+
+    // Get metrics with HELP and TYPE annotations
+    std::string getMetricsWithAnnotations() const;
 
 private:
     Config config_;

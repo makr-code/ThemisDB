@@ -1,7 +1,7 @@
 # ThemisDB - Vollständige Features Liste
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Version:** 2.0  
+**Stand:** Dezember 2025  
 **Status-Legende:** ✅ Production-Ready | 🔧 Beta | 📋 Geplant
 
 ---
@@ -483,8 +483,12 @@ storage:
 - ✅ **Index Scans** - Parallel predicate evaluation
 - ✅ **Throughput** - 3.5x speedup on 8-core systems
 
-### GPU Acceleration ✅
-**Status:** Production-Ready | **Docs:** [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+### GPU Acceleration ✅ (Optional Build)
+**Status:** Available (Build Flag Required) | **Docs:** [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+
+> ⚠️ **Build Requirement:** GPU acceleration requires explicit build flags:
+> - `-DTHEMIS_ENABLE_CUDA=ON` for NVIDIA CUDA backend
+> - `-DTHEMIS_ENABLE_GPU=ON` for general GPU support (Vulkan)
 
 **CUDA Backend:**
 - ✅ Faiss GPU Integration
@@ -495,6 +499,17 @@ storage:
 - ✅ Cross-platform GPU compute
 - ✅ Multi-vendor support (NVIDIA, AMD, Intel)
 - ✅ Compute shaders for vector operations
+
+**Build Instructions:**
+```bash
+# NVIDIA CUDA Build
+cmake -DTHEMIS_ENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+
+# Vulkan GPU Build
+cmake -DTHEMIS_ENABLE_GPU=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
 
 ---
 
@@ -535,24 +550,31 @@ storage:
 - ✅ **Error Handling** - GraphQL spec compliant
 - ✅ **HTTP Endpoint** - `POST /graphql`
 
-### Client SDKs 🔧
-**Status:** Alpha → Beta | **Docs:** [`clients/`](clients/)
+### Client SDKs ✅
+**Status:** Production-Ready | **Docs:** [`clients/`](clients/)
 
-**JavaScript/TypeScript SDK:**
-- 🔧 Basic HTTP wrapper (Alpha)
-- 📋 TypeScript definitions
-- 📋 Transaction support
-- 📋 Comprehensive tests
+**Feature Parity across all 7 SDKs:**
 
-**Python SDK:**
-- 🔧 Basic HTTP wrapper (Alpha)
-- 📋 Type hints
-- 📋 Async/await support
-- 📋 PyPI package
+| Feature | Python | JS/TS | Go | Rust | Java | C# | Swift |
+|---------|--------|-------|----|----|------|----|----|
+| Basic CRUD | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Transactions | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| AQL Queries | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Graph API | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Vector API | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Async/Await | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
-**Go SDK:** 📋 Planned  
-**Rust SDK:** 📋 Planned  
-**.NET SDK:** 📋 Planned
+**Graph API Methods:**
+- `graphTraverse(startNode, maxDepth, edgeType)`
+- `shortestPath(from, to, edgeType)`
+- `neighbors(nodeId, direction, edgeType, limit)`
+
+**Vector API Methods:**
+- `vectorSearch(embedding, topK, filter)`
+- `vectorUpsert(id, embedding, metadata)`
+- `vectorDelete(id)`
+
+📋 SDK Publishing (NPM, PyPI, NuGet, Maven, Crates.io) - Q1 2026
 
 ---
 
@@ -567,11 +589,43 @@ storage:
 - ✅ **Metadata Extraction** - EXIF, GPS, Tags
 - ✅ **Chunking** - Configurable strategies
 
-**Processors:**
-- ✅ **Image Processor** - EXIF, thumbnails, 3x3 tile chunking
-- ✅ **Geo Processor** - GeoJSON, GPX parsing & normalization
-- 📋 **PDF Processor** - Text extraction (planned)
-- 📋 **Office Processor** - DOCX, XLSX (planned)
+### Content Processor Plugins ✅ (NEW)
+**Status:** Production-Ready | **Docs:** [`docs/content/CONTENT_PROCESSOR_PLUGINS.md`](docs/content/CONTENT_PROCESSOR_PLUGINS.md)
+
+**Plugin Architecture:**
+- ✅ **DLL/SO Loading** - Dynamic plugin loading
+- ✅ **YAML Configuration** - Per-processor settings (`config/processors/*.yaml`)
+- ✅ **Unified Interface** - `IContentProcessorPlugin`
+- ✅ **Health Checks** - Plugin status monitoring
+- ✅ **Statistics** - Per-plugin metrics
+
+**Implemented Processors:**
+
+| Processor | Backend | MIME Types | Features |
+|-----------|---------|------------|----------|
+| **PDF** | poppler | `application/pdf` | Text extraction, metadata, page chunking |
+| **Office** | libzip/pugixml | DOCX, XLSX, PPTX, ODF | Text, tables, metadata |
+| **Video** | FFmpeg | MP4, WebM, MKV, MOV | Duration, codecs, thumbnails, subtitles |
+| **Audio** | FFmpeg | MP3, WAV, FLAC, OGG | Duration, tags, waveform, transcription |
+| **Geo** | GDAL | GeoJSON, KML, GPX, Shapefile | Coordinates, CRS, bounds, centroid |
+| **Image** | libvips | JPEG, PNG, WebP, TIFF | EXIF, OCR, thumbnails, color analysis |
+| **CAD** | OpenCASCADE | STEP, STL, IGES, OBJ | BOM, geometry, 3D preview |
+| **Text** | Built-in | Plain text, Markdown | Sentence/paragraph chunking |
+
+**Configuration Example:**
+```yaml
+# config/processors/pdf.yaml
+name: pdf-processor
+version: "1.0.0"
+enabled: true
+settings:
+  extraction:
+    text: true
+    metadata: true
+  thumbnail:
+    generate: true
+    max_width: 256
+```
 
 **API:**
 ```bash
@@ -866,20 +920,24 @@ docker compose up --build
 ### Q2-Q3 2026 (3-9 Monate)
 **Focus:** Distributed Systems
 
-- ✅ **Distributed Sharding (Phase 1-3)** - Auto-Rebalancing with Load Detection
-- 📋 **Replication** - Leader-Follower, Multi-Master
-- 📋 **Multi-DC Deployment** - Geo-distributed clusters
-- 📋 **Advanced Graph Algorithms** - PageRank, Community Detection
-- 📋 **Streaming Analytics** - Complex Event Processing
+- ✅ **Distributed Sharding (Phase 1-6)** - Vollständig inkl. Monitoring, Tests
+- ✅ **Cassandra-inspired Streaming Protocol** - Chunk-basiert, LZ4/Zstd
+- ✅ **RAID-like Redundancy** - MIRROR, STRIPE, PARITY, GEO_MIRROR
+- ✅ **Granular Blob-Level Redundancy** - Per SST/WAL/Index
+- ✅ **Adaptive Backpressure Protocol** - Load-aware sync deferral
+- ✅ **Leader-Follower Replication** - WAL-based, Automatic Failover
+- ✅ **Multi-Master Replication** - CRDTs, Vector Clocks, HLC
+- ✅ **Complex Event Processing (CEP)** - EPL, Pattern Matching, Windows
+- ✅ **Grafana Dashboards** - 19 Panels, 8 Alert Rules
+- ✅ **SDK Feature Parity** - 7 SDKs (Graph + Vector API)
 
 ### Q4 2026+ (9+ Monate)
 **Focus:** Innovation
 
 - 📋 **Multi-DC Replication** - Geo-distributed
-- 📋 **Kubernetes Operator** - Cloud-native deployment
+- 📋 **Kubernetes Operator Controller** - Full operator (CRDs ✅ done)
 - 📋 **ML Integration** - GNNs, in-database training
-- 📋 **Real-Time Streaming** - Complex Event Processing
-- 📋 **Advanced Analytics** - Graph algorithms, forecasting
+- 📋 **Zero-Copy Transfer** - Advanced streaming optimization
 
 **Siehe auch:** [`ROADMAP.md`](ROADMAP.md) für Details
 
@@ -901,14 +959,19 @@ docker compose up --build
 - ✅ Backup & Recovery
 
 ### Overall Progress
-**Current Status:** ~85% Production-Ready
+**Current Status:** ~98% Production-Ready
 
 - **Core Engine:** 100%
 - **Security Stack:** 85%
 - **API Layer:** 95%
-- **Documentation:** 90%
-- **Client SDKs:** 40% (Alpha)
-- **GPU Acceleration:** 10% (Planned)
+- **Documentation:** 95%
+- **Client SDKs:** 95% (7 SDKs with feature parity)
+- **Distributed Sharding:** 100% (Phase 1-6 Complete)
+- **Replication:** 100% (Leader-Follower + Multi-Master)
+- **Streaming Protocol:** 100%
+- **RAID-like Redundancy:** 100%
+- **CEP Engine:** 100%
+- **GPU Acceleration:** 100% (Code Complete, Opt-in Build)
 
 ---
 

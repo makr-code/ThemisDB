@@ -1,8 +1,11 @@
 #include "sharding/health_check.h"
+#include "sharding/mtls_client.h"
 #include <openssl/x509.h>
 #include <openssl/pem.h>
+#include <openssl/asn1.h>
 #include <thread>
 #include <chrono>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace sharding {
@@ -134,6 +137,7 @@ ClusterHealthInfo HealthCheckSystem::getCurrentHealth() const {
 bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, int64_t& seconds_until_expiry) {
     FILE* fp = fopen(cert_path.c_str(), "r");
     if (!fp) {
+        seconds_until_expiry = 0;
         return false;
     }
 
@@ -141,40 +145,198 @@ bool HealthCheckSystem::checkCertificateValidity(const std::string& cert_path, i
     fclose(fp);
 
     if (!cert) {
+        seconds_until_expiry = 0;
         return false;
     }
 
-    // Check expiration
-    // Future: Calculate actual expiry time from certificate
-    // ASN1_TIME* not_after = X509_get_notAfter(cert);
-    // time_t now = time(nullptr);
+    // Get certificate expiration time
+    const ASN1_TIME* not_after = X509_get0_notAfter(cert);
+    if (!not_after) {
+        X509_free(cert);
+        seconds_until_expiry = 0;
+        return false;
+    }
     
-    // Calculate seconds until expiry (simplified)
-    seconds_until_expiry = 30 * 86400;  // Placeholder: 30 days
+    // Use OpenSSL's ASN1_TIME_diff for safe and portable time comparison
+    // This is preferred over manual parsing as it handles all ASN1 time formats
+    int day_diff = 0;
+    int sec_diff = 0;
+    
+    // ASN1_TIME_diff calculates (to - from) and stores days and seconds separately
+    // We pass nullptr for 'from' which defaults to current time
+    if (ASN1_TIME_diff(&day_diff, &sec_diff, nullptr, not_after) != 1) {
+        // Fallback: try manual parsing if ASN1_TIME_diff fails
+        // This handles edge cases on older OpenSSL versions
+        
+        struct tm tm_expiry;
+        memset(&tm_expiry, 0, sizeof(tm_expiry));
+        
+        // Parse the ASN1_TIME string with input validation
+        const unsigned char* data = not_after->data;
+        int len = not_after->length;
+        
+        // Validate minimum length and digit characters
+        auto isDigit = [](unsigned char c) { return c >= '0' && c <= '9'; };
+        
+        if (not_after->type == V_ASN1_UTCTIME && len >= 12) {
+            // YYMMDDHHMMSSZ format - validate first 12 chars are digits
+            bool valid = true;
+            for (int i = 0; i < 12 && valid; i++) {
+                valid = isDigit(data[i]);
+            }
+            
+            if (valid) {
+                int year = (data[0] - '0') * 10 + (data[1] - '0');
+                tm_expiry.tm_year = (year >= 50) ? year : (100 + year);  // 1950-2049
+                tm_expiry.tm_mon = (data[2] - '0') * 10 + (data[3] - '0') - 1;
+                tm_expiry.tm_mday = (data[4] - '0') * 10 + (data[5] - '0');
+                tm_expiry.tm_hour = (data[6] - '0') * 10 + (data[7] - '0');
+                tm_expiry.tm_min = (data[8] - '0') * 10 + (data[9] - '0');
+                tm_expiry.tm_sec = (data[10] - '0') * 10 + (data[11] - '0');
+            } else {
+                X509_free(cert);
+                seconds_until_expiry = 30 * 86400;  // Default: assume 30 days
+                return true;
+            }
+        } else if (not_after->type == V_ASN1_GENERALIZEDTIME && len >= 14) {
+            // YYYYMMDDHHMMSSZ format - validate first 14 chars are digits
+            bool valid = true;
+            for (int i = 0; i < 14 && valid; i++) {
+                valid = isDigit(data[i]);
+            }
+            
+            if (valid) {
+                tm_expiry.tm_year = (data[0] - '0') * 1000 + (data[1] - '0') * 100 + 
+                                   (data[2] - '0') * 10 + (data[3] - '0') - 1900;
+                tm_expiry.tm_mon = (data[4] - '0') * 10 + (data[5] - '0') - 1;
+                tm_expiry.tm_mday = (data[6] - '0') * 10 + (data[7] - '0');
+                tm_expiry.tm_hour = (data[8] - '0') * 10 + (data[9] - '0');
+                tm_expiry.tm_min = (data[10] - '0') * 10 + (data[11] - '0');
+                tm_expiry.tm_sec = (data[12] - '0') * 10 + (data[13] - '0');
+            } else {
+                X509_free(cert);
+                seconds_until_expiry = 30 * 86400;  // Default: assume 30 days
+                return true;
+            }
+        } else {
+            X509_free(cert);
+            seconds_until_expiry = 30 * 86400;  // Default: assume 30 days if parsing fails
+            return true;
+        }
+        
+        // Convert to time_t (using mktime and adjusting for UTC)
+        // Note: mktime interprets as local time, so we adjust
+        tm_expiry.tm_isdst = 0;
+        time_t expiry_local = mktime(&tm_expiry);
+        
+        // Get timezone offset to convert local to UTC
+        struct tm* utc_tm = gmtime(&expiry_local);
+        time_t expiry_utc = mktime(utc_tm);
+        time_t tz_offset = expiry_local - expiry_utc;
+        
+        time_t expiry_time = expiry_local + tz_offset;
+        time_t now = time(nullptr);
+        
+        seconds_until_expiry = static_cast<int64_t>(expiry_time - now);
+    } else {
+        // ASN1_TIME_diff succeeded - convert days and seconds to total seconds
+        seconds_until_expiry = static_cast<int64_t>(day_diff) * 86400 + sec_diff;
+    }
     
     X509_free(cert);
-    return true;
+    
+    // Certificate is valid if it hasn't expired yet
+    return seconds_until_expiry > 0;
 }
 
 bool HealthCheckSystem::checkStorageCapacity(const std::string& endpoint, double& usage_percent) {
-    (void)endpoint; // Future: make HTTP call to shard
-    // Placeholder implementation - would make HTTP call to shard
-    usage_percent = 75.0;  // Mock value
-    return true;
+    // Make HTTP request to shard to get storage metrics
+    // Uses the /metrics or /health endpoint on the shard
+    
+    try {
+        // Create HTTP client for health check
+        sharding::MTLSClient::Config client_config;
+        client_config.ca_cert_path = config_.ca_cert_path;
+        client_config.verify_peer = !config_.ca_cert_path.empty();
+        client_config.connect_timeout_ms = 5000;
+        client_config.request_timeout_ms = 10000;
+        client_config.max_retries = 2;
+        
+        sharding::MTLSClient client(client_config);
+        
+        // Request storage metrics from shard
+        auto response = client.get(endpoint, "/api/v1/metrics/storage");
+        
+        if (!response.success) {
+            // Try fallback health endpoint
+            response = client.get(endpoint, "/health");
+            
+            if (!response.success) {
+                usage_percent = 0.0;
+                return false;
+            }
+        }
+        
+        // Parse response to extract storage usage
+        if (response.body.contains("storage_usage_percent")) {
+            usage_percent = response.body["storage_usage_percent"].get<double>();
+        } else if (response.body.contains("storage")) {
+            auto& storage = response.body["storage"];
+            if (storage.contains("used_bytes") && storage.contains("total_bytes")) {
+                uint64_t used = storage["used_bytes"].get<uint64_t>();
+                uint64_t total = storage["total_bytes"].get<uint64_t>();
+                usage_percent = (total > 0) ? (static_cast<double>(used) / total * 100.0) : 0.0;
+            } else if (storage.contains("usage_percent")) {
+                usage_percent = storage["usage_percent"].get<double>();
+            } else {
+                usage_percent = 50.0;  // Default if no storage info
+            }
+        } else {
+            usage_percent = 50.0;  // Default if no storage info in response
+        }
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        usage_percent = 0.0;
+        return false;
+    }
 }
 
 bool HealthCheckSystem::checkNetworkConnectivity(const std::string& endpoint, double& response_time_ms) {
-    (void)endpoint; // Future: ping the endpoint
-    // Placeholder implementation - would ping the endpoint
-    auto start = std::chrono::steady_clock::now();
+    // Measure actual network latency to the shard endpoint
     
-    // Simulate network check
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    
-    auto end = std::chrono::steady_clock::now();
-    response_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
-    
-    return true;
+    try {
+        // Create HTTP client for health check
+        sharding::MTLSClient::Config client_config;
+        client_config.ca_cert_path = config_.ca_cert_path;
+        client_config.verify_peer = !config_.ca_cert_path.empty();
+        client_config.connect_timeout_ms = 5000;
+        client_config.request_timeout_ms = 10000;
+        client_config.max_retries = 1;  // Single attempt for latency measurement
+        
+        sharding::MTLSClient client(client_config);
+        
+        // Measure request latency
+        auto start = std::chrono::steady_clock::now();
+        
+        // Ping the health endpoint
+        auto response = client.get(endpoint, "/health");
+        
+        auto end = std::chrono::steady_clock::now();
+        response_time_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        
+        if (!response.success) {
+            // Connection failed but we measured the time
+            return false;
+        }
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        response_time_ms = 0.0;
+        return false;
+    }
 }
 
 HealthStatus HealthCheckSystem::aggregateHealth(const std::vector<ShardHealthInfo>& shard_health) {

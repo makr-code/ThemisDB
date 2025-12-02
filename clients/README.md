@@ -43,16 +43,27 @@ This directory contains official client SDKs for ThemisDB in multiple programmin
 
 Each SDK directory contains its own README with language-specific installation and usage instructions.
 
-## SDK Features
+## SDK Feature Parity Matrix
 
-All SDKs support:
-- AQL query execution
-- Document CRUD operations
-- Graph traversal
-- Vector search
-- Transaction management
-- Authentication (JWT)
-- TLS/SSL connections
+All SDKs now support the same feature set (as of December 2025):
+
+| Feature | Python | JavaScript | Go | Rust | Java | C# | Swift |
+|---------|--------|------------|----|----|------|----|----|
+| CRUD Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| AQL Queries | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Transactions | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Graph API** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `traverse()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `shortestPath()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `neighbors()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Vector API** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `vectorSearch()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `vectorUpsert()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `vectorDelete()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Batch Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ |
+| TLS/mTLS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Documentation
 

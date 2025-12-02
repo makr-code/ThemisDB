@@ -1,12 +1,31 @@
 #include "sharding/data_migrator.h"
+#include "sharding/mtls_client.h"
 #include <stdexcept>
 #include <thread>
 #include <openssl/sha.h>
 #include <iomanip>
 #include <sstream>
+#include <iostream>
 
 namespace themis {
 namespace sharding {
+
+// Create mTLS client from DataMigratorConfig
+static std::unique_ptr<themis::sharding::MTLSClient> createMTLSClient(const DataMigratorConfig& config) {
+    themis::sharding::MTLSClient::Config mtls_config;
+    mtls_config.cert_path = config.cert_path;
+    mtls_config.key_path = config.key_path;
+    mtls_config.ca_cert_path = config.ca_cert_path;
+    mtls_config.tls_version = "TLSv1.3";
+    mtls_config.verify_peer = true;
+    mtls_config.verify_hostname = true;
+    mtls_config.connect_timeout_ms = 5000;
+    mtls_config.request_timeout_ms = 30000;
+    mtls_config.max_retries = config.max_retries;
+    mtls_config.retry_delay_ms = config.retry_delay_ms;
+    
+    return std::make_unique<themis::sharding::MTLSClient>(mtls_config);
+}
 
 DataMigrator::DataMigrator(const DataMigratorConfig& config)
     : config_(config) {
@@ -132,44 +151,96 @@ nlohmann::json DataMigrator::fetchBatch(
     uint32_t offset,
     uint32_t limit
 ) {
-    (void)source_shard_id; (void)token_range_end; // Future: implement shard connection
-    // In a real implementation, this would:
-    // 1. Connect to source shard using mTLS Client
-    // 2. Query for records in token range with offset/limit
-    // 3. Return JSON array of records
+    // Create mTLS client for secure shard-to-shard communication
+    auto mtls_client = createMTLSClient(config_);
     
-    // Placeholder implementation
-    nlohmann::json batch = nlohmann::json::array();
-    
-    for (uint32_t i = 0; i < limit && (offset + i) < 100; ++i) {
-        batch.push_back({
-            {"id", offset + i},
-            {"token", token_range_start + i},
-            {"data", "placeholder"}
-        });
+    if (!mtls_client->isReady()) {
+        std::cerr << "DataMigrator: mTLS client not ready (missing certificates?)" << std::endl;
+        return nlohmann::json::array();
     }
     
-    return batch;
+    // Build the query endpoint for fetching data in the specified token range
+    std::ostringstream path_oss;
+    path_oss << "/api/v1/data/migrate/fetch"
+             << "?token_range_start=" << token_range_start
+             << "&token_range_end=" << token_range_end
+             << "&offset=" << offset
+             << "&limit=" << limit
+             << "&shard_id=" << source_shard_id;
+    
+    // Execute the GET request via mTLS
+    auto response = mtls_client->get(config_.source_endpoint, path_oss.str());
+    
+    if (!response.success) {
+        std::cerr << "DataMigrator::fetchBatch: Failed to fetch from source shard " 
+                  << source_shard_id << " - " << response.error << std::endl;
+        return nlohmann::json::array();
+    }
+    
+    // Validate response structure
+    if (!response.body.is_object()) {
+        std::cerr << "DataMigrator::fetchBatch: Invalid response format (expected object)" << std::endl;
+        return nlohmann::json::array();
+    }
+    
+    // Extract the records array from the response
+    if (response.body.contains("records") && response.body["records"].is_array()) {
+        return response.body["records"];
+    }
+    
+    // Legacy format: response body itself might be the array
+    if (response.body.is_array()) {
+        return response.body;
+    }
+    
+    std::cerr << "DataMigrator::fetchBatch: Response did not contain 'records' array" << std::endl;
+    return nlohmann::json::array();
 }
 
 bool DataMigrator::writeBatch(
     const std::string& target_shard_id,
     const nlohmann::json& batch
 ) {
-    (void)target_shard_id; // Future: implement shard connection
-    // In a real implementation, this would:
-    // 1. Connect to target shard using mTLS Client
-    // 2. POST batch data to target shard
-    // 3. Return success/failure
-    
-    // Placeholder implementation
     if (!batch.is_array() || batch.empty()) {
         return false;
     }
     
+    // Create mTLS client for secure shard-to-shard communication
+    auto mtls_client = createMTLSClient(config_);
+    
+    if (!mtls_client->isReady()) {
+        std::cerr << "DataMigrator: mTLS client not ready (missing certificates?)" << std::endl;
+        return false;
+    }
+    
+    // Build the request body for the batch write operation
+    nlohmann::json request_body;
+    request_body["shard_id"] = target_shard_id;
+    request_body["records"] = batch;
+    request_body["operation"] = "migration_write";
+    
+    // Retry the write operation with exponential backoff
     return retryOperation([&]() {
-        // Simulate write operation
-        return true;
+        // Build the POST endpoint for migration writes
+        std::string path = "/api/v1/data/migrate/write";
+        
+        // Execute the POST request via mTLS
+        auto response = mtls_client->post(config_.target_endpoint, path, request_body);
+        
+        if (!response.success) {
+            std::cerr << "DataMigrator::writeBatch: Failed to write to target shard " 
+                      << target_shard_id << " - " << response.error 
+                      << " (HTTP " << response.status_code << ")" << std::endl;
+            return false;
+        }
+        
+        // Check response for success confirmation
+        if (response.body.is_object() && response.body.contains("success")) {
+            return response.body["success"].get<bool>();
+        }
+        
+        // HTTP 2xx status codes indicate success
+        return response.status_code >= 200 && response.status_code < 300;
     });
 }
 
