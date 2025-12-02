@@ -102,6 +102,9 @@ COPY src ./src
 
 # All vcpkg manifest dependencies are installed above (with retries)
 
+# Build argument for QNAP compatibility (older CPUs without AVX)
+ARG QNAP_BUILD=OFF
+
 # Build ThemisDB
 RUN apt-get update && apt-get install -y ninja-build build-essential && \
         echo "=== STEP 1: Packages installed ===" && \
@@ -119,7 +122,8 @@ RUN apt-get update && apt-get install -y ninja-build build-essential && \
     -DVCPKG_FEATURE_FLAGS=manifests,versions,binarycaching \
     -DTHEMIS_BUILD_TESTS=OFF \
     -DTHEMIS_BUILD_BENCHMARKS=OFF \
-    -DTHEMIS_ENABLE_TRACING=OFF 2>&1 | tee /tmp/cmake_config.log || \
+    -DTHEMIS_ENABLE_TRACING=OFF \
+    -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} 2>&1 | tee /tmp/cmake_config.log || \
         (echo "=== CMake configure FAILED ==="; \
         echo "=== Last 100 lines of CMake output ==="; \
         tail -100 /tmp/cmake_config.log; \
