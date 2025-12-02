@@ -1,7 +1,7 @@
-# ThemisDB Build & Deployment Strategy
+# ThemisDB Build, Packaging & Deployment Strategy
 
 ## Ziel
-Vereinheitlichte Build-Toolchain für alle Plattformen mit konsistentem Versioning und Packaging.
+Konsistente Build-Toolchain für alle Plattformen, eindeutige Versionierung und abgestimmtes Packaging/CI-CD.
 
 ## Unterstützte Plattformen
 
@@ -114,40 +114,40 @@ cmake --build --preset linux-ninja-clang-release
 
 #### Standard (Ubuntu 24.04)
 ```powershell
-# Methode 1: Voller Build in Docker (langsam, vcpkg-Download-Probleme)
-docker build -f Dockerfile -t themisdb:latest .
-
-# Methode 2: Pre-built Binary (EMPFOHLEN)
-.\build-docker-simple.ps1 -Tag themisdb:latest
+docker build -f Dockerfile -t themisdb/themisdb:1.0.1 -t themisdb/themisdb:latest --platform linux/amd64 .
 ```
 
-#### QNAP (Ubuntu 20.04)
+#### QNAP (Ubuntu 20.04, SSE4.2 Basis)
 ```powershell
-# Aktuell: Nicht funktional (vcpkg-Downloads scheitern)
-# TODO: Implementiere Cross-Compilation oder statisches Linking
-.\build-docker-qnap.ps1 -Tag themisdb:qnap
+docker build -f Dockerfile.qnap -t themisdb/themisdb:1.0.1-qnap -t themisdb/themisdb:qnap --platform linux/amd64 .
+```
+
+Push:
+```powershell
+docker push themisdb/themisdb:1.0.1
+docker push themisdb/themisdb:latest
+docker push themisdb/themisdb:1.0.1-qnap
+docker push themisdb/themisdb:qnap
 ```
 
 ### 3. Packaging
 
-#### Debian/Ubuntu (.deb)
-```bash
-cd packaging/deb
-./build-deb.sh
+#### Portable Archives (Linux/QNAP/Windows)
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\package_releases.ps1
 ```
+Erzeugt unter `dist/`: `themisdb-1.0.0-qnap-x64.tar.gz`, optional `themisdb-1.0.0-linux-x64.tar.gz` und `themisdb-1.0.0-windows-x64.zip` (wenn Binaries vorhanden). Enthält:
+- `bin/` Binaries, `lib/` (gebündelte Shared Libs), `config/`, `openapi/`, `clients/`, `examples/`, `tools/`, `docs/`.
+
+#### Debian/Ubuntu (.deb)
+Build in Linux-Umgebung, siehe `themisdb.spec` Pendant und CI-Job (optional).
 
 #### Red Hat/CentOS (.rpm)
 ```bash
-cd packaging/rpm
-./build-rpm.sh
+rpmbuild -ba themisdb.spec
 ```
 
-#### Arch Linux (PKGBUILD)
-```bash
-makepkg -si
-```
-
-## Deployment-Strategie
+## CI/CD & Deployment
 
 ### 1. GitHub Releases
 **Automated via GitHub Actions:**
@@ -168,30 +168,12 @@ on:
 - `themis_server-{version}.deb`
 - `themis_server-{version}.rpm`
 
-### 2. Docker Hub
-**Tags:**
-```bash
-themisdb/themisdb:latest
-themisdb/themisdb:0.1.0
-themisdb/themisdb:0.1.0-qnap
-themisdb/themisdb:0.1.0-enterprise    # Mit Enterprise Features
-themisdb/themisdb:enterprise-latest    # Neueste Enterprise Version
-themisdb/themisdb:dev
-```
-
-**Automated Push:**
+### Docker Push
 ```powershell
-# Standard Build
-docker tag themisdb:latest themisdb/themisdb:0.1.0
-docker tag themisdb:latest themisdb/themisdb:latest
-docker push themisdb/themisdb:0.1.0
+docker push themisdb/themisdb:1.0.1
 docker push themisdb/themisdb:latest
-
-# Enterprise Build
-docker tag themisdb:enterprise themisdb/themisdb:0.1.0-enterprise
-docker tag themisdb:enterprise themisdb/themisdb:enterprise-latest
-docker push themisdb/themisdb:0.1.0-enterprise
-docker push themisdb/themisdb:enterprise-latest
+docker push themisdb/themisdb:1.0.1-qnap
+docker push themisdb/themisdb:qnap
 ```
 
 ### 3. GitHub Container Registry (ghcr.io)
@@ -224,9 +206,8 @@ docker push ghcr.io/makr-code/themisdb:latest
 2. **Docker-Dateien:**
    - ✅ `Dockerfile` - Multi-Stage Standard-Build
    - ✅ `Dockerfile.simple` - Pre-built Binary Deployment
-   - ❌ `Dockerfile.qnap` - Nicht funktional (vcpkg-Probleme)
-   - ❌ `Dockerfile.qnap.simple` - Unvollständig
-   - ❌ `Dockerfile.runtime` - Redundant zu Dockerfile.simple
+  - ✅ `Dockerfile.qnap` - QNAP-kompatibel (SSE4.2; GLIBC 2.31)
+  - ❌ `Dockerfile.runtime` - Redundant
    - ❌ `Dockerfile.old` - Veraltet
 
 3. **Docker Compose:**
@@ -235,7 +216,7 @@ docker push ghcr.io/makr-code/themisdb:latest
    - ⚠️ `docker-compose.qnap.yml` - Behalten, aber fix required
    - ❌ `docker-compose.pull.qnap.yml` - Redundant
 
-## QNAP-Deployment Lösung
+## QNAP-Deployment
 
 ### Problem
 - WSL/Docker Ubuntu 24.04 → GLIBC 2.38, GLIBCXX 3.4.32
@@ -259,12 +240,8 @@ Build:
 cmake -DTHEMIS_STATIC_BUILD=ON ...
 ```
 
-#### Option 2: Ubuntu 20.04 Build-Container
-```dockerfile
-# Dockerfile.qnap-static
-FROM ubuntu:20.04 AS builder
-# ... build with Ubuntu 20.04 toolchain
-```
+#### Option 2: Ubuntu 20.04 Runtime-Image
+Dockerfile.qnap nutzt 20.04 und SSE4.2 Basis.
 
 #### Option 3: Cross-Compilation
 ```bash
@@ -272,7 +249,7 @@ FROM ubuntu:20.04 AS builder
 docker run -v $(pwd):/src ubuntu:20.04 bash -c "cd /src && ./build.sh"
 ```
 
-## Automatisierung
+## Automatisierung (CI/CD)
 
 ### GitHub Actions Workflow
 ```yaml
@@ -325,10 +302,10 @@ jobs:
         run: |
           ./build/themis_tests --gtest_filter="*Enterprise*:TokenBucket*:PerClient*:LoadShed*"
       
-      - name: Package
+      - name: Package Portable Archives
         run: |
-          cpack -G TGZ -B dist
-          mv dist/*.tar.gz themis_server-${{ github.ref_name }}-${{ matrix.artifact }}.tar.gz
+          pwsh -File scripts/package_releases.ps1
+          ls dist
 ```
 
 ### Vereinfachtes Release-Script
@@ -416,7 +393,8 @@ Write-Host "✅ Released ThemisDB $Version$(if($Enterprise){' (Enterprise)'})" -
 2. **Version in CMakeLists.txt pflegen** - Single Source of Truth
 3. **Git Tags für Releases** - Automatische CI/CD Trigger
 4. **Docker: Pre-built Binary bevorzugen** - Schneller, stabiler
-5. **QNAP: Statisches Linking** - Vermeidet GLIBC-Inkompatibilität
+5. **QNAP: Baseline SSE4.2** - Vermeidet FMA/AVX-Inkompatibilität
+6. **Artefakt-Fluss** - Build → Artefakt → Packaging → Release/Docker
 
 ## Nächste Schritte
 

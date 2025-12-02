@@ -20,7 +20,10 @@ function Sha256($path) {
 
 # Helper: run a bash command in the qnap builder (for linux strip/tar)
 function Run-Docker([string]$command) {
-    & docker run --rm -v "${repo}:/src" -w /src themisdb-qnap-builder:latest bash -lc $command
+    Write-Host "[Docker] bash -lc <<" -ForegroundColor DarkCyan
+    Write-Host $command -ForegroundColor DarkGray
+    Write-Host ">>" -ForegroundColor DarkCyan
+    & docker run --rm -v "${repo}:/src" -w /src themisdb-qnap-builder:latest /bin/sh -c "$command"
     if ($LASTEXITCODE -ne 0) { throw "Docker command failed: $command" }
 }
 
@@ -69,29 +72,19 @@ if (Test-Path $binQnap) {
     $cmd += 'test -d /src/examples && cp -r /src/examples/* /src/dist/themisdb-1.0.0/examples/ || true'
     $cmd += 'test -d /src/tools/plugin_signer && cp -r /src/tools/plugin_signer /src/dist/themisdb-1.0.0/tools/ || true'
     
-    # Install Script
-    $cmd += 'cat > /src/dist/themisdb-1.0.0/install.sh << \"EOF\"'
-    $cmd += '#!/bin/bash'
-    $cmd += 'set -e'
-    $cmd += 'INSTALL_DIR=/opt/themisdb'
-    $cmd += 'echo \"Installing ThemisDB to $INSTALL_DIR...\"'
-    $cmd += 'mkdir -p $INSTALL_DIR'
-    $cmd += 'cp -r bin config docs examples tools lib $INSTALL_DIR/'
-    $cmd += 'chmod +x $INSTALL_DIR/bin/themis_server'
-    $cmd += 'mkdir -p /var/lib/themisdb/data'
-    $cmd += 'mkdir -p /var/log/themisdb'
-    $cmd += 'echo \"export LD_LIBRARY_PATH=$INSTALL_DIR/lib:\\$LD_LIBRARY_PATH\" >> ~/.bashrc'
-    $cmd += 'echo \"Installation complete. Start with:\"'
-    $cmd += 'echo \"  export LD_LIBRARY_PATH=$INSTALL_DIR/lib:\\$LD_LIBRARY_PATH\"'
-    $cmd += 'echo \"  $INSTALL_DIR/bin/themis_server --config $INSTALL_DIR/config/config.json\"'
-    $cmd += 'EOF'
+    # Install Script (printf-based, avoid heredoc)
+        $cmd += 'printf "%s\n" "#!/bin/bash" "set -e" "INSTALL_DIR=/opt/themisdb" "echo \"Installing ThemisDB to \$INSTALL_DIR...\"" "mkdir -p \$INSTALL_DIR" "cp -r bin config docs examples tools lib \$INSTALL_DIR/" "chmod +x \$INSTALL_DIR/bin/themis_server" "mkdir -p /var/lib/themisdb/data" "mkdir -p /var/log/themisdb" "echo \"export LD_LIBRARY_PATH=\$INSTALL_DIR/lib:\\$LD_LIBRARY_PATH\" >> ~/.bashrc" "echo \"Installation complete. Start with:\"" "echo \"  export LD_LIBRARY_PATH=\$INSTALL_DIR/lib:\\$LD_LIBRARY_PATH\"" "echo \"  \$INSTALL_DIR/bin/themis_server --config \$INSTALL_DIR/config/config.json\"" > /src/dist/themisdb-1.0.0/install.sh'
     $cmd += 'chmod +x /src/dist/themisdb-1.0.0/install.sh'
     
     # Tar
     $cmd += 'tar -C /src/dist -czf /src/dist/themisdb-1.0.0-qnap-x64.tar.gz themisdb-1.0.0'
     $cmd += 'rm -rf /src/dist/themisdb-1.0.0'
     
-    Run-Docker ("$($cmd -join '; ')")
+    # Write script to dist and execute inside container to avoid complex quoting
+    $qnapScript = Join-Path $dist 'pkg_qnap.sh'
+    $scriptContent = @('#!/bin/sh') + $cmd
+    $scriptContent -join "`n" | Out-File -FilePath $qnapScript -Encoding ASCII -Force
+    Run-Docker ("/bin/sh /src/dist/pkg_qnap.sh")
     $hash = Sha256 $outTar
     "$hash  $(Split-Path -Leaf $outTar)" | Out-File -FilePath (Join-Path $dist 'SHA256SUMS') -Append -Encoding ASCII
     Write-Host "  → $outTar" -ForegroundColor Green
@@ -145,39 +138,19 @@ if (Test-Path $binLinuxGcc) {
     # Systemd Service
     $cmd += 'test -f /src/release/deb-package/themisdb-1.0.0/lib/systemd/system/themisdb.service && cp /src/release/deb-package/themisdb-1.0.0/lib/systemd/system/themisdb.service /src/dist/themisdb-1.0.0/systemd/ || true'
     
-    # Install Script
-    $cmd += 'cat > /src/dist/themisdb-1.0.0/install.sh << \"EOF\"'
-    $cmd += '#!/bin/bash'
-    $cmd += 'set -e'
-    $cmd += 'INSTALL_DIR=/opt/themisdb'
-    $cmd += 'echo \"Installing ThemisDB to $INSTALL_DIR...\"'
-    $cmd += 'sudo mkdir -p $INSTALL_DIR'
-    $cmd += 'sudo cp -r bin config docs examples tools lib $INSTALL_DIR/'
-    $cmd += 'sudo chmod +x $INSTALL_DIR/bin/themis_server'
-    $cmd += 'sudo mkdir -p /var/lib/themisdb/data'
-    $cmd += 'sudo mkdir -p /var/log/themisdb'
-    $cmd += 'sudo mkdir -p /etc/themisdb'
-    $cmd += 'sudo cp config/*.json config/*.yaml /etc/themisdb/ || true'
-    $cmd += '# Install libraries to system'
-    $cmd += 'sudo cp lib/*.so* /usr/local/lib/ 2>/dev/null || true'
-    $cmd += 'sudo ldconfig'
-    $cmd += 'if [ -f systemd/themisdb.service ]; then'
-    $cmd += '  echo \"Installing systemd service...\"'
-    $cmd += '  sudo cp systemd/themisdb.service /etc/systemd/system/'
-    $cmd += '  sudo systemctl daemon-reload'
-    $cmd += '  echo \"Service installed. Enable with: sudo systemctl enable themisdb\"'
-    $cmd += 'fi'
-    $cmd += 'echo \"Installation complete. Start with:\"'
-    $cmd += 'echo \"  $INSTALL_DIR/bin/themis_server --config /etc/themisdb/config.json\"'
-    $cmd += 'echo \"Or with systemd: sudo systemctl start themisdb\"'
-    $cmd += 'EOF'
+    # Install Script (printf-based, avoid heredoc)
+        $cmd += 'printf "%s\n" "#!/bin/bash" "set -e" "INSTALL_DIR=/opt/themisdb" "echo \"Installing ThemisDB to \$INSTALL_DIR...\"" "sudo mkdir -p \$INSTALL_DIR" "sudo cp -r bin config docs examples tools lib \$INSTALL_DIR/" "sudo chmod +x \$INSTALL_DIR/bin/themis_server" "sudo mkdir -p /var/lib/themisdb/data" "sudo mkdir -p /var/log/themisdb" "sudo mkdir -p /etc/themisdb" "sudo cp config/*.json config/*.yaml /etc/themisdb/ || true" "# Install libraries to system" "sudo cp lib/*.so* /usr/local/lib/ 2>/dev/null || true" "sudo ldconfig" "if [ -f systemd/themisdb.service ]; then" "  echo \"Installing systemd service...\"" "  sudo cp systemd/themisdb.service /etc/systemd/system/" "  sudo systemctl daemon-reload" "  echo \"Service installed. Enable with: sudo systemctl enable themisdb\"" "fi" "echo \"Installation complete. Start with:\"" "echo \"  \$INSTALL_DIR/bin/themis_server --config /etc/themisdb/config.json\"" "echo \"Or with systemd: sudo systemctl start themisdb\"" > /src/dist/themisdb-1.0.0/install.sh'
     $cmd += 'chmod +x /src/dist/themisdb-1.0.0/install.sh'
     
     # Tar
     $cmd += 'tar -C /src/dist -czf /src/dist/themisdb-1.0.0-linux-x64.tar.gz themisdb-1.0.0'
     $cmd += 'rm -rf /src/dist/themisdb-1.0.0'
     
-    Run-Docker ("$($cmd -join '; ')")
+    # Write script to dist and execute inside container to avoid complex quoting
+    $linuxScript = Join-Path $dist 'pkg_linux.sh'
+    $scriptContent2 = @('#!/bin/sh') + $cmd
+    $scriptContent2 -join "`n" | Out-File -FilePath $linuxScript -Encoding ASCII -Force
+    Run-Docker ("/bin/sh /src/dist/pkg_linux.sh")
     $hash = Sha256 $outTar2
     "$hash  $(Split-Path -Leaf $outTar2)" | Out-File -FilePath (Join-Path $dist 'SHA256SUMS') -Append -Encoding ASCII
     Write-Host "  → $outTar2" -ForegroundColor Green

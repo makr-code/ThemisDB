@@ -37,20 +37,39 @@ adapters/
 
 # --- Documentation (nicht für Runtime) -------------------------------------
 # docs/ - Some docs needed for packages (openapi, deployment guides)
+# Most markdown files excluded, but keep essentials
+*.md
+!README.md
+!CHANGELOG.md
+!LICENSE
+!SECURITY.md
+# Exclude heavy documentation dirs
 site/
 wiki/
 wiki_out/
 wiki-temp/
-# Exclude most markdown except essential ones
-*.md
-!README.md
-!CHANGELOG.md
-!LICENSE.md
-!SECURITY.md
-# Exclude most of docs/ but keep essential subdirs
-docs/**
-!docs/ThemisDB-Documentation.pdf
-!docs/deployment/
+docs/api/
+docs/architecture/
+docs/compliance/
+docs/development/
+docs/enterprise/
+docs/features/
+docs/governance/
+docs/guides/
+docs/operations/
+docs/performance/
+docs/plugins/
+docs/query/
+docs/reports/
+docs/roadmap/
+docs/sdk/
+docs/security/
+docs/server/
+docs/sharding/
+docs/src/
+docs/storage/
+docs/tools/
+docs/updates/
 
 # --- Developer Tools (nicht für Production) --------------------------------
 # tools/ - plugin_signer and sign scripts needed

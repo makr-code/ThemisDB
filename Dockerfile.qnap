@@ -1,7 +1,7 @@
 # Multi-stage Docker build for ThemisDB on QNAP
 # Uses same base as standard Dockerfile but with QNAP-specific CPU optimizations
 
-FROM ubuntu:22.04 AS build
+FROM ubuntu:20.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install build tools and system dependencies
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget gpg software-properties-common \
     && rm -rf /var/lib/apt/lists/* \
     && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor -o /usr/share/keyrings/kitware-archive-keyring.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main" > /etc/apt/sources.list.d/kitware.list \
+    && echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main" > /etc/apt/sources.list.d/kitware.list \
     && apt-get update && apt-get install -y --no-install-recommends cmake \
     && cmake --version \
     && rm -rf /var/lib/apt/lists/*
@@ -100,7 +100,7 @@ COPY src ./src
 
 # Build ThemisDB
 RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
-    echo "=== Building ThemisDB for QNAP (SSE4.2 baseline, Ubuntu 22.04 build) ===" && \
+    echo "=== Building ThemisDB for QNAP (SSE4.2 baseline, Ubuntu 20.04 build) ===" && \
     echo "VCPKG_TRIPLET=${VCPKG_TRIPLET}" && \
     cmake -S . -B build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
