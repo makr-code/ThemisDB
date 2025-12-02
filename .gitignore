@@ -24,9 +24,17 @@ buildtrees/
 # Distribution artifacts (not needed in repo)
 dist/
 *.tar.gz
+
+# Release packages (allow in release/ directory)
 *.zip
 *.deb
 *.rpm
+!release/*.zip
+!release/*.deb
+!release/*.rpm
+!release/**/*.zip
+!release/**/*.deb
+!release/**/*.rpm
 
 # IDE / editor
 .idea/
