@@ -329,3 +329,124 @@ var (
 	// ErrTransactionNotActive indicates the transaction is no longer active
 	ErrTransactionNotActive = fmt.Errorf("transaction is not active")
 )
+
+// GraphTraverseResult holds the result of a graph traversal
+type GraphTraverseResult struct {
+	Nodes   []string               `json:"nodes"`
+	Visited []string               `json:"visited"`
+	Edges   []map[string]interface{} `json:"edges,omitempty"`
+}
+
+// GraphTraverse performs a graph traversal starting from a node
+func (c *Client) GraphTraverse(ctx context.Context, startNode string, maxDepth int, edgeType string) (*GraphTraverseResult, error) {
+	path := "/graph/traverse"
+	body := map[string]interface{}{
+		"start":     startNode,
+		"max_depth": maxDepth,
+	}
+	if edgeType != "" {
+		body["edge_type"] = edgeType
+	}
+
+	var result GraphTraverseResult
+	if err := c.request(ctx, "POST", path, body, &result, nil); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// ShortestPath finds the shortest path between two nodes
+func (c *Client) ShortestPath(ctx context.Context, from, to string, edgeType string) ([]string, error) {
+	path := "/graph/shortest-path"
+	body := map[string]interface{}{
+		"from": from,
+		"to":   to,
+	}
+	if edgeType != "" {
+		body["edge_type"] = edgeType
+	}
+
+	var result struct {
+		Path []string `json:"path"`
+	}
+	if err := c.request(ctx, "POST", path, body, &result, nil); err != nil {
+		return nil, err
+	}
+	return result.Path, nil
+}
+
+// Neighbors retrieves the neighboring nodes
+func (c *Client) Neighbors(ctx context.Context, nodeID string, direction string, edgeType string, limit int) ([]string, error) {
+	path := "/graph/neighbors"
+	body := map[string]interface{}{
+		"node": nodeID,
+	}
+	if direction != "" {
+		body["direction"] = direction
+	}
+	if edgeType != "" {
+		body["edge_type"] = edgeType
+	}
+	if limit > 0 {
+		body["limit"] = limit
+	}
+
+	var result struct {
+		Neighbors []string `json:"neighbors"`
+	}
+	if err := c.request(ctx, "POST", path, body, &result, nil); err != nil {
+		return nil, err
+	}
+	return result.Neighbors, nil
+}
+
+// VectorSearchResult holds the result of a vector search
+type VectorSearchResult struct {
+	ID       string                 `json:"id"`
+	Score    float64                `json:"score"`
+	Distance float64                `json:"distance,omitempty"`
+	Metadata map[string]interface{} `json:"metadata,omitempty"`
+}
+
+// VectorSearchResponse holds the full response from vector search
+type VectorSearchResponse struct {
+	Results []VectorSearchResult `json:"results"`
+}
+
+// VectorSearch performs a similarity search on vectors
+func (c *Client) VectorSearch(ctx context.Context, embedding []float64, topK int, filter map[string]interface{}) (*VectorSearchResponse, error) {
+	path := "/vector/search"
+	body := map[string]interface{}{
+		"vector": embedding,
+		"k":      topK,
+	}
+	if filter != nil {
+		body["filter"] = filter
+	}
+
+	var result VectorSearchResponse
+	if err := c.request(ctx, "POST", path, body, &result, nil); err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// VectorUpsert inserts or updates a vector
+func (c *Client) VectorUpsert(ctx context.Context, id string, embedding []float64, metadata map[string]interface{}) error {
+	path := "/vector/upsert"
+	body := map[string]interface{}{
+		"id":     id,
+		"vector": embedding,
+	}
+	if metadata != nil {
+		body["metadata"] = metadata
+	}
+
+	return c.request(ctx, "POST", path, body, nil, nil)
+}
+
+// VectorDelete deletes a vector by ID
+func (c *Client) VectorDelete(ctx context.Context, id string) error {
+	path := fmt.Sprintf("/vector/%s", id)
+	return c.request(ctx, "DELETE", path, nil, nil, nil)
+}

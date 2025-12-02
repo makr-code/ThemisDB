@@ -152,6 +152,84 @@ export class ThemisClient {
     return { items, hasMore, nextCursor: null, raw: { partials: responses.map((r) => r.raw) } };
   }
 
+  // ==================== Graph API ====================
+
+  async graphTraverse(
+    startNode: string,
+    options: { maxDepth?: number; edgeType?: string } = {},
+  ): Promise<{ nodes: string[]; visited: string[]; edges?: Record<string, unknown>[] }> {
+    const body: Record<string, unknown> = {
+      start: startNode,
+      max_depth: options.maxDepth ?? 3,
+    };
+    if (options.edgeType) body.edge_type = options.edgeType;
+
+    const endpoint = await this.resolveEndpoint(startNode);
+    const response = await this.request("POST", `${endpoint}/graph/traverse`, {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw await toHttpError(response, "graph traversal failed");
+    }
+
+    const payload = (await response.json()) as { nodes?: string[]; visited?: string[]; edges?: Record<string, unknown>[] };
+    return {
+      nodes: payload.nodes ?? [],
+      visited: payload.visited ?? [],
+      edges: payload.edges,
+    };
+  }
+
+  async shortestPath(
+    from: string,
+    to: string,
+    options: { edgeType?: string; maxDepth?: number } = {},
+  ): Promise<string[]> {
+    const body: Record<string, unknown> = { from, to };
+    if (options.edgeType) body.edge_type = options.edgeType;
+    if (options.maxDepth) body.max_depth = options.maxDepth;
+
+    const endpoint = this.endpoints[0];
+    const response = await this.request("POST", `${endpoint}/graph/shortest-path`, {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw await toHttpError(response, "shortest path query failed");
+    }
+
+    const payload = (await response.json()) as { path: string[] };
+    return payload.path ?? [];
+  }
+
+  async neighbors(
+    nodeId: string,
+    options: { direction?: "in" | "out" | "both"; edgeType?: string; limit?: number } = {},
+  ): Promise<string[]> {
+    const body: Record<string, unknown> = { node: nodeId };
+    if (options.direction) body.direction = options.direction;
+    if (options.edgeType) body.edge_type = options.edgeType;
+    if (options.limit) body.limit = options.limit;
+
+    const endpoint = this.endpoints[0];
+    const response = await this.request("POST", `${endpoint}/graph/neighbors`, {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw await toHttpError(response, "neighbors query failed");
+    }
+
+    const payload = (await response.json()) as { neighbors: string[] };
+    return payload.neighbors ?? [];
+  }
+
+  // ==================== Vector API ====================
+
   async vectorSearch(
     embedding: number[],
     options: { topK?: number; filter?: Record<string, unknown>; cursor?: string; useCursor?: boolean } = {},

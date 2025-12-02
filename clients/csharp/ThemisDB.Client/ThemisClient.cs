@@ -194,8 +194,248 @@ public class ThemisClient : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    // ==================== Graph API ====================
+
+    /// <summary>
+    /// Traverses a graph starting from a node
+    /// </summary>
+    public async Task<GraphTraverseResult> GraphTraverseAsync(
+        string startNode,
+        int maxDepth = 3,
+        string? edgeType = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/graph/traverse";
+        
+        var body = new Dictionary<string, object>
+        {
+            ["start"] = startNode,
+            ["max_depth"] = maxDepth
+        };
+        if (!string.IsNullOrEmpty(edgeType))
+        {
+            body["edge_type"] = edgeType;
+        }
+        
+        var content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        
+        return await response.Content.ReadFromJsonAsync<GraphTraverseResult>(cancellationToken: cancellationToken) 
+            ?? new GraphTraverseResult();
+    }
+
+    /// <summary>
+    /// Finds the shortest path between two nodes
+    /// </summary>
+    public async Task<List<string>> ShortestPathAsync(
+        string from,
+        string to,
+        string? edgeType = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/graph/shortest-path";
+        
+        var body = new Dictionary<string, object>
+        {
+            ["from"] = from,
+            ["to"] = to
+        };
+        if (!string.IsNullOrEmpty(edgeType))
+        {
+            body["edge_type"] = edgeType;
+        }
+        
+        var content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        
+        var result = await response.Content.ReadFromJsonAsync<ShortestPathResult>(cancellationToken: cancellationToken);
+        return result?.Path ?? new List<string>();
+    }
+
+    /// <summary>
+    /// Gets the neighbors of a node
+    /// </summary>
+    public async Task<List<string>> NeighborsAsync(
+        string nodeId,
+        string? direction = null,
+        string? edgeType = null,
+        int? limit = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/graph/neighbors";
+        
+        var body = new Dictionary<string, object>
+        {
+            ["node"] = nodeId
+        };
+        if (!string.IsNullOrEmpty(direction))
+        {
+            body["direction"] = direction;
+        }
+        if (!string.IsNullOrEmpty(edgeType))
+        {
+            body["edge_type"] = edgeType;
+        }
+        if (limit.HasValue)
+        {
+            body["limit"] = limit.Value;
+        }
+        
+        var content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        
+        var result = await response.Content.ReadFromJsonAsync<NeighborsResult>(cancellationToken: cancellationToken);
+        return result?.Neighbors ?? new List<string>();
+    }
+
+    // ==================== Vector API ====================
+
+    /// <summary>
+    /// Performs a vector similarity search
+    /// </summary>
+    public async Task<VectorSearchResult> VectorSearchAsync(
+        double[] embedding,
+        int topK = 10,
+        Dictionary<string, object>? filter = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/vector/search";
+        
+        var body = new Dictionary<string, object>
+        {
+            ["vector"] = embedding,
+            ["k"] = topK
+        };
+        if (filter != null)
+        {
+            body["filter"] = filter;
+        }
+        
+        var content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        
+        return await response.Content.ReadFromJsonAsync<VectorSearchResult>(cancellationToken: cancellationToken) 
+            ?? new VectorSearchResult();
+    }
+
+    /// <summary>
+    /// Upserts a vector with metadata
+    /// </summary>
+    public async Task VectorUpsertAsync(
+        string id,
+        double[] embedding,
+        Dictionary<string, object>? metadata = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/vector/upsert";
+        
+        var body = new Dictionary<string, object>
+        {
+            ["id"] = id,
+            ["vector"] = embedding
+        };
+        if (metadata != null)
+        {
+            body["metadata"] = metadata;
+        }
+        
+        var content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    /// <summary>
+    /// Deletes a vector by ID
+    /// </summary>
+    public async Task VectorDeleteAsync(string id, CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/vector/{id}";
+        
+        var response = await _httpClient.DeleteAsync(url, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
     private class TransactionBeginResponse
     {
         public string TransactionId { get; set; } = string.Empty;
     }
+}
+
+/// <summary>
+/// Result of a graph traversal
+/// </summary>
+public class GraphTraverseResult
+{
+    public List<string> Nodes { get; set; } = new();
+    public List<string> Visited { get; set; } = new();
+}
+
+/// <summary>
+/// Result of a shortest path query
+/// </summary>
+public class ShortestPathResult
+{
+    public List<string> Path { get; set; } = new();
+}
+
+/// <summary>
+/// Result of a neighbors query
+/// </summary>
+public class NeighborsResult
+{
+    public List<string> Neighbors { get; set; } = new();
+}
+
+/// <summary>
+/// Result of a vector search
+/// </summary>
+public class VectorSearchResult
+{
+    public List<VectorSearchHit> Results { get; set; } = new();
+}
+
+/// <summary>
+/// A single hit from a vector search
+/// </summary>
+public class VectorSearchHit
+{
+    public string Id { get; set; } = string.Empty;
+    public double Score { get; set; }
+    public double? Distance { get; set; }
+    public Dictionary<string, object>? Metadata { get; set; }
 }
