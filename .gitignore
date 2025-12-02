@@ -151,8 +151,11 @@ wiki/
 # Docker / containers
 docker-compose.override.yml
 
-# GitHub Actions (temporarily disabled / dry-run only)
+# GitHub Actions (workflows disabled for now - enable when ready for CI/CD)
 .github/workflows/
+
+# GitHub Actions local testing secrets (never commit act secrets)
+.github/act-secrets
 
 # RocksDB / DB artifacts and local test data
 *.db
@@ -169,9 +172,6 @@ target/
 
 # Allow CMakeLists (explicitly)
 !CMakeLists.txt
-
-# GitHub Actions local testing secrets (never commit)
-.github/act-secrets
 
 # End of .gitignore
 
