@@ -367,6 +367,14 @@ const ContentManager::Metrics& ContentManager::getMetrics() const {
     return metrics_;
 }
 
+void ContentManager::setMalwareFilter(std::shared_ptr<themis::security::MalwareFilterManager> malware_filter) {
+    malware_filter_ = std::move(malware_filter);
+}
+
+std::shared_ptr<themis::security::MalwareFilterManager> ContentManager::getMalwareFilter() const {
+    return malware_filter_;
+}
+
 void ContentManager::registerProcessor(std::unique_ptr<IContentProcessor> processor) {
     if (!processor) return;
     auto cats = processor->getSupportedCategories();
@@ -441,6 +449,37 @@ Status ContentManager::importContent(const json& spec, const std::optional<std::
         ContentMeta meta = ContentMeta::fromJson(spec["content"]);
         // ID vergeben falls nicht vorhanden
         if (meta.id.empty()) meta.id = generateUuid();
+        
+        // Malware scan before storing blob (Audit Compliance: BSI C5 OPS-12, ISO 27001 A.12.2.1)
+        if (blob.has_value() && malware_filter_) {
+            const std::string& blob_data = *blob;
+            auto scan_result = malware_filter_->scan(
+                blob_data,
+                meta.original_filename,
+                meta.mime_type,
+                meta.id
+            );
+            
+            if (malware_filter_->shouldBlock(scan_result)) {
+                std::string threat_info = "Malware detected: ";
+                if (!scan_result.scanner_results.empty()) {
+                    for (const auto& r : scan_result.scanner_results) {
+                        if (!r.clean) {
+                            threat_info += r.threat_name + " (" + r.scanner_name + "); ";
+                        }
+                    }
+                }
+                THEMIS_WARN("Content import blocked due to malware: {} - {}", meta.id, threat_info);
+                return Status::Error("Content blocked: " + threat_info);
+            }
+            
+            if (!scan_result.clean) {
+                THEMIS_WARN("Content {} passed with warnings: threat_level={}", 
+                           meta.id, 
+                           security::threatLevelToString(scan_result.highest_threat));
+            }
+        }
+        
         // Blob optional speichern
         if (blob.has_value()) {
             std::string bkey = std::string("content_blob:") + meta.id;

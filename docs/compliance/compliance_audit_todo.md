@@ -47,6 +47,7 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 | **RAID-like Redundancy** | MIRROR, STRIPE, PARITY, GEO | `include/sharding/redundancy_strategy.h` |
 | **CEP Engine** | EPL, Pattern Matching, Windows | `include/analytics/cep_engine.h` |
 | **Streaming Protocol** | Cassandra-inspired, Backpressure | `include/streaming/streaming_protocol.h` |
+| **Malware Scanner** | BSI C5 OPS-05, ISO 27001 A.12.2.1, NIS2 | `include/security/malware_scanner.h`, `src/security/malware_scanner.cpp`, `docs/security/security_malware_scanner.md` |
 
 ---
 
@@ -57,14 +58,15 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 | # | Anforderung | Status | Nachweis |
 |---|-------------|--------|----------|
 | 1 | SECURITY.md | ✅ ERLEDIGT | `/SECURITY.md` mit Meldeprozess |
-| 2 | Incident Response Plan | ✅ ERLEDIGT | `/docs/security/INCIDENT_RESPONSE_PLAN.md` |
-| 3 | SBOM (Software Bill of Materials) | ✅ ERLEDIGT | `/docs/security/SBOM.md` |
+| 2 | Incident Response Plan | ✅ ERLEDIGT | `/docs/security/security_incident_response.md` |
+| 3 | SBOM (Software Bill of Materials) | ✅ ERLEDIGT | `/docs/security/security_sbom.md` |
 | 4 | RBAC | ✅ ERLEDIGT | `/src/security/rbac.cpp` |
 | 5 | Audit Logging (65+ Events) | ✅ ERLEDIGT | `/src/security/audit_logger.cpp` |
 | 6 | AES-256-GCM Encryption | ✅ ERLEDIGT | `/src/security/field_encryption.cpp` |
 | 7 | TLS 1.3 / mTLS | ✅ ERLEDIGT | Implementiert |
-| 8 | HSM Integration (PKCS#11) | ✅ ERLEDIGT | `/docs/security/hsm_integration.md` |
+| 8 | HSM Integration (PKCS#11) | ✅ ERLEDIGT | `/docs/security/security_hsm.md` |
 | 9 | Vault Key Provider | ✅ ERLEDIGT | `/src/security/vault_key_provider.cpp` |
+| 10 | Malware Scanner | ✅ ERLEDIGT | `/src/security/malware_scanner.cpp`, `/docs/security/security_malware_scanner.md` |
 
 ### 1.2 Horizontale Skalierung
 
@@ -308,7 +310,7 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 | # | Gap | Referenz | Status |
 |---|-----|----------|--------|
 | 6 | Lizenzprüfung manuell | DEP-04 | ⚠️ |
-| 7 | Malware-Scan bei Ingestion | OPS-05 | ⚠️ |
+| ~~7~~ | ~~Malware-Scan bei Ingestion~~ | ~~OPS-05~~ | ✅ ERLEDIGT |
 | 8 | Fuzzing-Tests fehlen | DEV-03 | ⚠️ |
 | 9 | SSRF-Schutz | COS-03 | ⚠️ |
 | 10 | Constant-Time Crypto | CRY | ⚠️ |
@@ -319,10 +321,17 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 - Aufwand: 1-2 Tage
 - Priorität: P2
 
-**TODO-COMPLIANCE-005:** ClamAV-Integration
-- Blob-Upload Malware-Scan
-- Aufwand: 1 Woche
-- Priorität: P3
+**~~TODO-COMPLIANCE-005:~~** ✅ ERLEDIGT - Malware-Scanner implementiert
+- **Implementierung:** `include/security/malware_scanner.h`, `src/security/malware_scanner.cpp`
+- **Features:**
+  - `MalwareFilterManager` - Zentraler Manager
+  - `SignatureScanner` (built-in) - PE/ELF/Mach-O, Doppelendungen, Archive-Bombs, EICAR
+  - `ClamAVScanner` (optional) - ClamAV-Daemon-Integration
+  - Integration in `ContentManager::importContent()`
+  - Konfigurierbare Threat-Levels und Blocking-Schwellenwerte
+  - Vollständiges Audit-Logging
+- **Dokumentation:** `docs/security/security_malware_scanner.md`
+- **Compliance:** BSI C5 (OPS-05), ISO 27001 A.12.2.1, NIS2 Art. 21(2)(d)
 
 **TODO-COMPLIANCE-006:** Fuzzing-Tests
 - AFL++ / libFuzzer für Parser
@@ -424,12 +433,13 @@ Diese TODO-Liste konsolidiert alle offenen Implementierungen basierend auf:
 
 | Dokument | Pfad |
 |----------|------|
-| FULL_AUDIT_CHECKLIST.md | `/docs/FULL_AUDIT_CHECKLIST.md` |
-| FEATURES.md | `/docs/FEATURES.md` |
-| SCALING_TODO.md | `/docs/SCALING_TODO.md` |
+| FULL_AUDIT_CHECKLIST.md | `/docs/compliance/compliance_full_checklist.md` |
+| FEATURES.md | `/docs/features/features_overview.md` |
+| SCALING_TODO.md | `/docs/sharding/sharding_scaling_todo.md` |
 | SECURITY.md | `/SECURITY.md` |
-| IRP | `/docs/security/INCIDENT_RESPONSE_PLAN.md` |
-| SBOM | `/docs/security/SBOM.md` |
+| IRP | `/docs/security/security_incident_response.md` |
+| SBOM | `/docs/security/security_sbom.md` |
+| Malware Scanner | `/docs/security/security_malware_scanner.md` |
 | JS SDK | `/clients/javascript/src/index.ts` |
 | Python SDK | `/clients/python/themis/__init__.py` |
 | Graph Analytics | `/src/index/graph_analytics.cpp` |
