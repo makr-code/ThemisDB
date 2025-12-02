@@ -2,7 +2,42 @@
 
 This directory contains performance benchmarks and testing utilities for ThemisDB.
 
-## Benchmarks
+## Comparative Benchmark Suite (NEW)
+
+**Directory:** [`comparative/`](comparative/)
+
+A comprehensive benchmark framework for comparing ThemisDB against established database systems:
+
+- **Multi-Database Support**: PostgreSQL, MongoDB, Redis, ArangoDB, Neo4j, Milvus, Elasticsearch
+- **Docker-based Environment**: Consistent, reproducible testing with resource-limited containers
+- **Hugging Face Datasets**: Standardized test data (Wikipedia Simple English, synthetic vectors/graphs)
+- **Comprehensive Metrics**: Latency percentiles (p50/p95/p99), throughput, resource usage
+- **HTML/Markdown Reports**: Interactive charts and documentation-ready output
+
+### Quick Start
+
+```bash
+# Navigate to comparative benchmarks
+cd benchmarks/comparative
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start all database containers
+docker-compose -f docker-compose.benchmark.yml up -d
+
+# Run benchmarks
+python scripts/run_benchmarks.py --all --databases themisdb,postgresql,mongodb
+
+# Generate reports
+python scripts/generate_report.py --format html --output reports/
+```
+
+See [`comparative/README.md`](comparative/README.md) for detailed documentation.
+
+---
+
+## Internal Benchmarks
 
 ### Sharding Performance Benchmarks
 **File:** `bench_sharding_performance.cpp`
