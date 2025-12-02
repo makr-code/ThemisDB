@@ -18,6 +18,7 @@ The benchmark suite uses Docker containers to ensure consistent, reproducible te
 | **Neo4j** | Graph | Graph traversals |
 | **Milvus** | Vector | Vector similarity search |
 | **Elasticsearch** | Search | Full-text search |
+| **ChromaDB** | Vector | AI/ML embeddings |
 
 ## Benchmark Categories
 
@@ -47,6 +48,30 @@ The benchmark suite uses Docker containers to ensure consistent, reproducible te
 - Single term search
 - Phrase search
 - Boolean queries
+
+### 6. Polyglot Persistence Benchmark (NEW)
+
+Compares ThemisDB's unified multi-model approach against polyglot persistence patterns:
+
+| Scenario | ThemisDB | Polyglot Approach |
+|----------|----------|-------------------|
+| **Graph + Vector** | Single DB | Neo4j + ChromaDB |
+| **Relational + Graph** | Single DB | PostgreSQL + Neo4j |
+| **Full Multi-Model** | Single DB | PostgreSQL + Neo4j + ChromaDB |
+
+**Key Advantages of ThemisDB:**
+- Single database for all data models
+- No cross-database coordination needed
+- Simpler operational complexity
+- Native multi-model queries
+
+```bash
+# Run polyglot persistence benchmark
+python scripts/polyglot_benchmark.py --all
+
+# Run specific scenario
+python scripts/polyglot_benchmark.py --scenario graph-vector
+```
 
 ## Hugging Face Datasets
 

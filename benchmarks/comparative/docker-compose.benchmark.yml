@@ -317,6 +317,27 @@ services:
       - benchmark-net
 
   # ============================================================================
+  # ChromaDB - Vector Database for AI/ML (Polyglot Persistence)
+  # ============================================================================
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: benchmark-chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chromadb-data:/chroma/chroma
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+      ALLOW_RESET: "TRUE"
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/api/v1/heartbeat || exit 1"]
+    <<: *resource-limits
+    networks:
+      - benchmark-net
+
+  # ============================================================================
   # Benchmark Runner - Python-based benchmark orchestrator
   # ============================================================================
   benchmark-runner:
@@ -368,6 +389,9 @@ services:
       # Elasticsearch
       ELASTICSEARCH_HOST: elasticsearch
       ELASTICSEARCH_PORT: 9200
+      # ChromaDB
+      CHROMADB_HOST: chromadb
+      CHROMADB_PORT: 8000
       # Benchmark settings
       BENCHMARK_DATASET_SIZE: 10000
       BENCHMARK_WARMUP_ITERATIONS: 100
@@ -383,6 +407,7 @@ services:
       - neo4j
       - milvus
       - elasticsearch
+      - chromadb
     networks:
       - benchmark-net
     profiles:
@@ -408,3 +433,4 @@ volumes:
   milvus-minio-data:
   milvus-data:
   elasticsearch-data:
+  chromadb-data:
