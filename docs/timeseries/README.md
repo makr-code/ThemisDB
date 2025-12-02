@@ -24,4 +24,4 @@ ThemisDB unterstützt Time-Series-Daten mit:
 
 ## Verwandte Dokumentation
 
-- [Features: Time Series](../features/time_series.md)
+- [Features: Time Series](../features/features_time_series.md)

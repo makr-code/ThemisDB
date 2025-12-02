@@ -83,7 +83,7 @@ docs/
 
 ### Spezielle Features
 - [geo/GEO_ARCHITECTURE.md](geo/geo_architecture.md) - Geo/Spatial Architecture
-- [vector_ops.md](features/vector_ops.md) - Vector Operations & HNSW
+- [vector_ops.md](features/features_vector_ops.md) - Vector Operations & HNSW
 - [content_pipeline.md](architecture/architecture_content_pipeline.md) - Content Processing Pipeline
 - [search/hybrid_search_design.md](search/hybrid_search_design.md) - Hybrid Search
 
@@ -98,10 +98,10 @@ docs/
 
 ### Compliance
 - [COMPLIANCE_DASHBOARD.md](COMPLIANCE_DASHBOARD.md) - Executive Dashboard
-- [compliance/DPIA.md](compliance/DPIA.md) - Datenschutz-Folgenabschätzung (DSGVO)
-- [compliance/BCP_DRP.md](compliance/BCP_DRP.md) - Business Continuity & Disaster Recovery
-- [compliance_audit.md](features/compliance_audit.md) - Compliance Audit
-- [AUDIT_LOGGING.md](features/audit_logging.md) - Audit Logging
+- [compliance/compliance_dpia.md](compliance/compliance_dpia.md) - Datenschutz-Folgenabschätzung (DSGVO)
+- [compliance/compliance_bcp_drp.md](compliance/compliance_bcp_drp.md) - Business Continuity & Disaster Recovery
+- [compliance_audit.md](features/features_compliance_audit.md) - Compliance Audit
+- [AUDIT_LOGGING.md](features/features_audit_logging.md) - Audit Logging
 
 ### PKI & eIDAS
 - [pki_integration_architecture.md](security/security_pki_architecture.md) - PKI Integration
@@ -116,7 +116,7 @@ docs/
 - [ENTERPRISE_BUILD_GUIDE.md](ENTERPRISE_BUILD_GUIDE.md) - Enterprise Build Guide
 
 ### Deployment
-- [deployment.md](guides/deployment.md) - Deployment-Strategien
+- [deployment.md](guides/guides_deployment.md) - Deployment-Strategien
 - [DOCKER_MULTI_ARCH_STRATEGY.md](DOCKER_MULTI_ARCH_STRATEGY.md) - Multi-Arch Docker
 - [docs/CI_CD_MULTIARCH.md](CI_CD_MULTIARCH.md) - Multi-Arch CI/CD
 
@@ -138,8 +138,8 @@ docs/
 - [aql_syntax.md](aql/aql_syntax.md) - AQL Syntax
 - [aql-hybrid-queries.md](aql/aql_hybrid_queries.md) - Hybrid Queries
 - [aql_explain_profile.md](aql/aql_explain_profile.md) - EXPLAIN & PROFILE
-- [recursive_path_queries.md](features/recursive_path_queries.md) - Rekursive Pfade
-- [temporal_graphs.md](features/temporal_graphs.md) - Temporale Graphen
+- [recursive_path_queries.md](features/features_recursive_path.md) - Rekursive Pfade
+- [temporal_graphs.md](features/features_temporal_graphs.md) - Temporale Graphen
 
 ### APIs
 - [apis/openapi.md](apis/openapi.md) - REST API & OpenAPI Spec
@@ -156,7 +156,7 @@ docs/
 
 ### Guidelines
 - [development/developers.md](development/developers.md) - Developer Guide
-- [code_quality.md](guides/code_quality.md) - Code Quality Pipeline
+- [code_quality.md](guides/guides_code_quality.md) - Code Quality Pipeline
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution Guidelines
 
 ### Status & Planning
@@ -186,26 +186,26 @@ docs/
 ### Multi-Model Features
 - **Graph:** [property_graph_model.md](features/property_graph_model.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
 - **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
-- **Time-Series:** [time_series.md](features/time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
+- **Time-Series:** [time_series.md](features/features_time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
 - **Document:** [content_pipeline.md](architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
-- **Vector/Embedding:** [vector_ops.md](features/vector_ops.md), [gnn_embeddings.md](features/gnn_embeddings.md)
+- **Vector/Embedding:** [vector_ops.md](features/features_vector_ops.md), [gnn_embeddings.md](features/gnn_embeddings.md)
 
 ### Storage & Persistence
 - **RocksDB:** [storage/storage_rocksdb.md](storage/storage_rocksdb.md), [storage/rocksdb_wrapper.cpp.md](src/storage/rocksdb_wrapper.cpp.md)
 - **MVCC:** [mvcc_design.md](architecture/architecture_mvcc.md)
-- **Transactions:** [transactions.md](features/transactions.md), [transaction/saga.cpp.md](src/transaction/saga.cpp.md)
+- **Transactions:** [transactions.md](features/features_transactions.md), [transaction/saga.cpp.md](src/transaction/saga.cpp.md)
 - **Compression:** [compression_strategy.md](performance/compression_strategy.md), [timeseries/gorilla.cpp.md](src/timeseries/gorilla.cpp.md)
 
 ### Search & Indexing
 - **Fulltext:** [search/fulltext_api.md](search/fulltext_api.md), [search/stemming.md](search/stemming.md)
 - **Hybrid Search:** [search/hybrid_search_design.md](search/hybrid_search_design.md)
-- **Vector Search:** [vector_ops.md](features/vector_ops.md), [index/vector_index.cpp.md](src/index/vector_index.cpp.md)
+- **Vector Search:** [vector_ops.md](features/features_vector_ops.md), [index/vector_index.cpp.md](src/index/vector_index.cpp.md)
 - **Geo Indexing:** [geo/cpu_backend.cpp.md](src/geo/cpu_backend.cpp.md)
 
 ### Governance & PII
 - **PII Detection:** [security/pii_detection.md](security/pii_detection.md), [pii_api.md](security/security_pii_api.md)
 - **Policies:** [security/security_policies.md](security/security_policies.md), [governance/policy_engine.cpp.md](src/governance/policy_engine.cpp.md)
-- **RBAC:** [rbac_authorization.md](guides/rbac.md), [RBAC.md](guides/rbac.md)
+- **RBAC:** [rbac_authorization.md](guides/guides_rbac.md), [RBAC.md](guides/guides_rbac.md)
 - **Retention:** [security/audit_and_retention.md](security/audit_and_retention.md)
 
 ## ⚠️ Deprecated / Archive

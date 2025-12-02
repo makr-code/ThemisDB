@@ -26,7 +26,7 @@ Der ThemisDB-Server implementiert:
 
 ## Verwandte Dokumentation
 
-- [Deployment Guide](../guides/deployment.md)
-- [TLS Setup](../guides/tls_setup.md)
-- [RBAC](../guides/rbac.md)
+- [Deployment Guide](../guides/guides_deployment.md)
+- [TLS Setup](../guides/guides_tls_setup.md)
+- [RBAC](../guides/guides_rbac.md)
 - [Enterprise Features](../enterprise/README.md)

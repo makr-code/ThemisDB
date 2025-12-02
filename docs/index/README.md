@@ -29,6 +29,6 @@ ThemisDB unterstützt verschiedene Index-Typen:
 
 ## Verwandte Dokumentation
 
-- [Features: Indexes](../features/indexes.md)
-- [Features: Vector Operations](../features/vector_ops.md)
+- [Features: Indexes](../features/features_indexes.md)
+- [Features: Vector Operations](../features/features_vector_ops.md)
 - [Query: Vector Hybrid Search](../query/query_vector_hybrid.md)
