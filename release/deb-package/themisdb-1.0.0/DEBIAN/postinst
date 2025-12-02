@@ -7,13 +7,33 @@ if ! id themisdb >/dev/null 2>&1; then
             --shell /usr/sbin/nologin --comment "ThemisDB Server" themisdb
 fi
 
-# Create data directory
+# Create directories
 mkdir -p /var/lib/themisdb/data
-chown -R themisdb:themisdb /var/lib/themisdb
-
-# Create log directory
 mkdir -p /var/log/themisdb
+mkdir -p /etc/themisdb
+
+# Set ownership
+chown -R themisdb:themisdb /var/lib/themisdb
 chown -R themisdb:themisdb /var/log/themisdb
+chown -R root:themisdb /etc/themisdb
+
+# Set permissions
+chmod 750 /var/lib/themisdb
+chmod 750 /var/log/themisdb
+chmod 750 /etc/themisdb
+
+# Config files should be readable by themisdb group
+if [ -f /etc/themisdb/config.json ]; then
+    chmod 640 /etc/themisdb/config.json
+fi
+chmod 640 /etc/themisdb/*.yaml 2>/dev/null || true
+
+# Copy default configs if not exists
+if [ ! -f /etc/themisdb/config.json ] && [ -f /usr/share/themisdb/config/config.json ]; then
+    cp /usr/share/themisdb/config/config.json /etc/themisdb/
+    chown root:themisdb /etc/themisdb/config.json
+    chmod 640 /etc/themisdb/config.json
+fi
 
 # Reload systemd daemon
 if [ -d /run/systemd/system ]; then

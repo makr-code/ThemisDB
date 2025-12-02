@@ -74,12 +74,54 @@ link against ThemisDB.
 install -D -m 644 %{_builddir}/ThemisDB-%{version}/debian/themisdb.service \
     %{buildroot}%{_unitdir}/themisdb.service
 
-# Install configuration file
-install -D -m 644 %{_builddir}/ThemisDB-%{version}/config/config.yaml \
-    %{buildroot}%{_sysconfdir}/themisdb/config.yaml
+# Install configuration files
+install -D -m 640 %{_builddir}/ThemisDB-%{version}/config/config.json \
+    %{buildroot}%{_sysconfdir}/themisdb/config.json
+install -m 640 %{_builddir}/ThemisDB-%{version}/config/*.yaml \
+    %{buildroot}%{_sysconfdir}/themisdb/
+install -m 640 %{_builddir}/ThemisDB-%{version}/config/policies.json \
+    %{buildroot}%{_sysconfdir}/themisdb/
+
+# Install processors and schemas if they exist
+if [ -d %{_builddir}/ThemisDB-%{version}/config/processors ]; then
+    mkdir -p %{buildroot}%{_sysconfdir}/themisdb/processors
+    cp -r %{_builddir}/ThemisDB-%{version}/config/processors/* \
+        %{buildroot}%{_sysconfdir}/themisdb/processors/
+fi
+if [ -d %{_builddir}/ThemisDB-%{version}/config/schemas ]; then
+    mkdir -p %{buildroot}%{_sysconfdir}/themisdb/schemas
+    cp -r %{_builddir}/ThemisDB-%{version}/config/schemas/* \
+        %{buildroot}%{_sysconfdir}/themisdb/schemas/
+fi
+
+# Install documentation
+install -D -m 644 %{_builddir}/ThemisDB-%{version}/README.md \
+    %{buildroot}%{_docdir}/themisdb/README.md
+install -m 644 %{_builddir}/ThemisDB-%{version}/CHANGELOG.md \
+    %{buildroot}%{_docdir}/themisdb/CHANGELOG.md
+if [ -f %{_builddir}/ThemisDB-%{version}/docs/ThemisDB-Documentation.pdf ]; then
+    install -m 644 %{_builddir}/ThemisDB-%{version}/docs/ThemisDB-Documentation.pdf \
+        %{buildroot}%{_docdir}/themisdb/
+fi
+
+# Install examples
+if [ -d %{_builddir}/ThemisDB-%{version}/examples ]; then
+    mkdir -p %{buildroot}%{_docdir}/themisdb/examples
+    cp -r %{_builddir}/ThemisDB-%{version}/examples/* \
+        %{buildroot}%{_docdir}/themisdb/examples/
+fi
+
+# Install tools
+if [ -d %{_builddir}/ThemisDB-%{version}/tools/plugin_signer ]; then
+    mkdir -p %{buildroot}%{_datadir}/themisdb/tools
+    cp -r %{_builddir}/ThemisDB-%{version}/tools/plugin_signer \
+        %{buildroot}%{_datadir}/themisdb/tools/
+    install -m 755 %{_builddir}/ThemisDB-%{version}/tools/sign_*.py \
+        %{buildroot}%{_datadir}/themisdb/tools/ || true
+fi
 
 # Create data directory
-install -d -m 755 %{buildroot}%{_sharedstatedir}/themisdb
+install -d -m 750 %{buildroot}%{_sharedstatedir}/themisdb
 
 %pre
 getent group themisdb >/dev/null || groupadd -r themisdb
@@ -116,8 +158,12 @@ fi
 %{_bindir}/themis_server
 %{_unitdir}/themisdb.service
 %dir %attr(750,root,themisdb) %{_sysconfdir}/themisdb
-%config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/config.yaml
+%config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/config.json
+%config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/*.yaml
+%config(noreplace) %attr(640,root,themisdb) %{_sysconfdir}/themisdb/policies.json
 %dir %attr(750,themisdb,themisdb) %{_sharedstatedir}/themisdb
+%{_docdir}/themisdb/*
+%{_datadir}/themisdb/tools/*
 
 %files devel
 %{_includedir}/*

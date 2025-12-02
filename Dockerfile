@@ -146,6 +146,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copy built binary
 COPY --from=build /src/build/themis_server /usr/local/bin/themis_server
 
+# Copy configuration files
+COPY config/config.json /etc/themis/config.json
+COPY config/*.yaml /etc/themis/
+COPY config/policies.json /etc/themis/
+COPY config/processors /etc/themis/processors
+COPY config/schemas /etc/themis/schemas
+
+# Copy documentation
+COPY README.md LICENSE CHANGELOG.md SECURITY.md /usr/local/share/themis/docs/
+COPY docs/ThemisDB-Documentation.pdf /usr/local/share/themis/docs/ 2>/dev/null || true
+
+# Copy examples
+COPY examples /usr/local/share/themis/examples
+
+# Copy tools
+COPY tools/plugin_signer /usr/local/share/themis/tools/plugin_signer
+COPY tools/sign_plugin_manifest.py /usr/local/share/themis/tools/
+COPY tools/sign_pii_engine.py /usr/local/share/themis/tools/
+
 # Copy vcpkg installed libraries that are needed at runtime
 # Auto-detect triplet from build stage
 ARG TARGETARCH
