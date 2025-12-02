@@ -12,8 +12,8 @@
 5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
 
 ### Für Stakeholder
-1. [THEMIS_SACHSTANDSBERICHT_2025.md](THEMIS_SACHSTANDSBERICHT_2025.md) - Executive Summary
-2. [THEMIS_PROJECT_VALUATION.md](THEMIS_PROJECT_VALUATION.md) - Wirtschaftliche Bewertung
+1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
+2. [THEMIS_PROJECT_VALUATION.md](reports/reports_project_valuation.md) - Wirtschaftliche Bewertung
 3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
 4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
 
@@ -60,7 +60,6 @@ docs/
 | [enterprise/README.md](enterprise/README.md) | Übersicht & Quick Start | Entwickler, DevOps |
 | [enterprise/enterprise_scalability.md](enterprise/enterprise_scalability.md) | Feature-Details & Code-Beispiele | Entwickler |
 | [enterprise/enterprise_http_pool.md](enterprise/enterprise_http_pool.md) | HTTP Client Implementation | Entwickler |
-| [ENTERPRISE_guides/guides_build.md](ENTERPRISE_guides/guides_build.md) | Build & Deployment | DevOps |
 | [enterprise/enterprise_final_report.md](enterprise/enterprise_final_report.md) | Implementation Summary | Stakeholder |
 | [INTEGRATION_ANALYSIS.md](reports/INTEGRATION_ANALYSIS.md) | Legacy Integration | Entwickler |
 
@@ -106,31 +105,30 @@ docs/
 ### PKI & eIDAS
 - [pki_integration_architecture.md](security/security_pki_architecture.md) - PKI Integration
 - [eidas_qualified_signatures.md](security/security_eidas.md) - eIDAS Signaturen
-- [security/pki_rsa_integration.md](security/pki_rsa_integration.md) - PKI RSA Integration
+- [security/pki_rsa_integration.md](security/security_pki_rsa.md) - PKI RSA Integration
 
 ## 🛠️ Build & Deployment
 
 ### Build-Dokumentation
 - [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Strategie & Plattformen
 - [guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
-- [ENTERPRISE_guides/guides_build.md](ENTERPRISE_guides/guides_build.md) - Enterprise Build Guide
 
 ### Deployment
 - [deployment.md](guides/guides_deployment.md) - Deployment-Strategien
-- [DOCKER_MULTI_ARCH_STRATEGY.md](DOCKER_MULTI_ARCH_STRATEGY.md) - Multi-Arch Docker
-- [docs/CI_CD_MULTIARCH.md](CI_CD_MULTIARCH.md) - Multi-Arch CI/CD
+- [DOCKER_MULTI_ARCH_STRATEGY.md](deployment/deployment_docker_multiarch.md) - Multi-Arch Docker
+- [docs/CI_CD_MULTIARCH.md](deployment/deployment_cicd_multiarch.md) - Multi-Arch CI/CD
 
 ### Platform-Specific
-- [ARM_RASPBERRY_PI_BUILD.md](ARM_RASPBERRY_PI_BUILD.md) - Raspberry Pi Build
-- [ARM_BENCHMARKS.md](ARM_BENCHMARKS.md) - ARM Performance
-- [RASPBERRY_PI_TUNING.md](RASPBERRY_PI_TUNING.md) - Pi Tuning Guide
+- [ARM_RASPBERRY_PI_BUILD.md](deployment/deployment_arm_build.md) - Raspberry Pi Build
+- [ARM_BENCHMARKS.md](deployment/deployment_arm_benchmarks.md) - ARM Performance
+- [RASPBERRY_PI_TUNING.md](deployment/deployment_raspberry_tuning.md) - Pi Tuning Guide
 
 ## 📊 Performance & Benchmarks
 
 - [performance_benchmarks.md](performance/performance_benchmarks.md) - Performance Übersicht
 - [compression_benchmarks.md](performance/performance_compression_benchmarks.md) - Kompression
 - [encryption_metrics.md](security/security_encryption_metrics.md) - Verschlüsselung Performance
-- [performance/ENTERPRISE_SCALABILITY_STRATEGY.md](performance/ENTERPRISE_SCALABILITY_STRATEGY.md) - Enterprise Strategy
+- [performance/ENTERPRISE_SCALABILITY_STRATEGY.md](enterprise/enterprise_scalability.md) - Enterprise Strategy
 
 ## 🔍 API & Query Language
 
@@ -142,15 +140,15 @@ docs/
 - [temporal_graphs.md](features/features_temporal_graphs.md) - Temporale Graphen
 
 ### APIs
-- [apis/openapi.md](apis/openapi.md) - REST API & OpenAPI Spec
-- [apis/contentfs_api.md](apis/contentfs_api.md) - ContentFS API
-- [apis/hybrid_search_api.md](apis/hybrid_search_api.md) - Hybrid Search API
+- [apis/openapi.md](apis/apis_openapi.md) - REST API & OpenAPI Spec
+- [apis/contentfs_api.md](apis/apis_contentfs.md) - ContentFS API
+- [apis/hybrid_search_api.md](apis/apis_hybrid_search.md) - Hybrid Search API
 
 ## 👥 Client SDKs
 
-- [clients/javascript_sdk_quickstart.md](clients/javascript_sdk_quickstart.md) - JavaScript SDK
-- [clients/python_sdk_quickstart.md](clients/python_sdk_quickstart.md) - Python SDK
-- [clients/rust_sdk_quickstart.md](clients/rust_sdk_quickstart.md) - Rust SDK
+- [clients/javascript_sdk_quickstart.md](clients/clients_javascript_sdk.md) - JavaScript SDK
+- [clients/python_sdk_quickstart.md](clients/clients_python_sdk.md) - Python SDK
+- [clients/rust_sdk_quickstart.md](clients/clients_rust_sdk.md) - Rust SDK
 
 ## 📝 Development
 
@@ -184,17 +182,17 @@ docs/
 ## 📋 Navigation nach Thema
 
 ### Multi-Model Features
-- **Graph:** [property_graph_model.md](features/property_graph_model.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
+- **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
 - **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
 - **Time-Series:** [time_series.md](features/features_time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
 - **Document:** [content_pipeline.md](architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
-- **Vector/Embedding:** [vector_ops.md](features/features_vector_ops.md), [gnn_embeddings.md](features/gnn_embeddings.md)
+- **Vector/Embedding:** [vector_ops.md](features/features_vector_ops.md), [gnn_embeddings.md](features/features_gnn_embeddings.md)
 
 ### Storage & Persistence
 - **RocksDB:** [storage/storage_rocksdb.md](storage/storage_rocksdb.md), [storage/rocksdb_wrapper.cpp.md](src/storage/rocksdb_wrapper.cpp.md)
 - **MVCC:** [mvcc_design.md](architecture/architecture_mvcc.md)
 - **Transactions:** [transactions.md](features/features_transactions.md), [transaction/saga.cpp.md](src/transaction/saga.cpp.md)
-- **Compression:** [compression_strategy.md](performance/compression_strategy.md), [timeseries/gorilla.cpp.md](src/timeseries/gorilla.cpp.md)
+- **Compression:** [compression_strategy.md](performance/performance_compression_strategy.md), [timeseries/gorilla.cpp.md](src/timeseries/gorilla.cpp.md)
 
 ### Search & Indexing
 - **Fulltext:** [search/fulltext_api.md](search/fulltext_api.md), [search/stemming.md](search/stemming.md)
@@ -203,10 +201,10 @@ docs/
 - **Geo Indexing:** [geo/cpu_backend.cpp.md](src/geo/cpu_backend.cpp.md)
 
 ### Governance & PII
-- **PII Detection:** [security/pii_detection.md](security/pii_detection.md), [pii_api.md](security/security_pii_api.md)
+- **PII Detection:** [security/pii_detection.md](security/security_pii_detection.md), [pii_api.md](security/security_pii_api.md)
 - **Policies:** [security/security_policies.md](security/security_policies.md), [governance/policy_engine.cpp.md](src/governance/policy_engine.cpp.md)
 - **RBAC:** [rbac_authorization.md](guides/guides_rbac.md), [RBAC.md](guides/guides_rbac.md)
-- **Retention:** [security/audit_and_retention.md](security/audit_and_retention.md)
+- **Retention:** [security/audit_and_retention.md](security/security_audit_retention.md)
 
 ## ⚠️ Deprecated / Archive
 
