@@ -156,7 +156,6 @@ COPY config/schemas /etc/themis/schemas
 
 # Copy documentation
 COPY README.md LICENSE CHANGELOG.md SECURITY.md /usr/local/share/themis/docs/
-COPY docs/ThemisDB-Documentation.pdf /usr/local/share/themis/docs/ 2>/dev/null || true
 
 # Copy OpenAPI specification
 COPY openapi/openapi.yaml /usr/local/share/themis/openapi/
