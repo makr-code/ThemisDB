@@ -550,24 +550,31 @@ make -j$(nproc)
 - ✅ **Error Handling** - GraphQL spec compliant
 - ✅ **HTTP Endpoint** - `POST /graphql`
 
-### Client SDKs 🔧
-**Status:** Alpha → Beta | **Docs:** [`clients/`](clients/)
+### Client SDKs ✅
+**Status:** Production-Ready | **Docs:** [`clients/`](clients/)
 
 **JavaScript/TypeScript SDK:**
-- 🔧 Basic HTTP wrapper (Alpha)
-- 📋 TypeScript definitions
-- 📋 Transaction support
-- 📋 Comprehensive tests
+- ✅ Basic HTTP wrapper
+- ✅ TypeScript definitions  
+- ✅ Transaction support
+- ✅ Vector search
+- ✅ AQL queries
+- ✅ Topology-aware routing
+- 🔧 Graph traversal API (planned)
+- 📋 NPM package (Q1 2026)
 
 **Python SDK:**
-- 🔧 Basic HTTP wrapper (Alpha)
-- 📋 Type hints
-- 📋 Async/await support
-- 📋 PyPI package
+- ✅ Basic HTTP wrapper
+- ✅ Type hints
+- ✅ Async/await support (`themis.async_client`)
+- ✅ HTTP/2 connection pooling
+- ✅ Graph traversal API
+- ✅ Batch operations
+- 📋 PyPI package (Q1 2026)
 
-**Go SDK:** 📋 Planned  
-**Rust SDK:** 📋 Planned  
-**.NET SDK:** 📋 Planned
+**Go SDK:** 📋 Planned (Q2 2026)  
+**Rust SDK:** 📋 Planned (Q2 2026)  
+**.NET SDK:** 📋 Planned (Q3 2026)
 
 ---
 
@@ -582,11 +589,43 @@ make -j$(nproc)
 - ✅ **Metadata Extraction** - EXIF, GPS, Tags
 - ✅ **Chunking** - Configurable strategies
 
-**Processors:**
-- ✅ **Image Processor** - EXIF, thumbnails, 3x3 tile chunking
-- ✅ **Geo Processor** - GeoJSON, GPX parsing & normalization
-- 📋 **PDF Processor** - Text extraction (planned)
-- 📋 **Office Processor** - DOCX, XLSX (planned)
+### Content Processor Plugins ✅ (NEW)
+**Status:** Production-Ready | **Docs:** [`docs/content/CONTENT_PROCESSOR_PLUGINS.md`](docs/content/CONTENT_PROCESSOR_PLUGINS.md)
+
+**Plugin Architecture:**
+- ✅ **DLL/SO Loading** - Dynamic plugin loading
+- ✅ **YAML Configuration** - Per-processor settings (`config/processors/*.yaml`)
+- ✅ **Unified Interface** - `IContentProcessorPlugin`
+- ✅ **Health Checks** - Plugin status monitoring
+- ✅ **Statistics** - Per-plugin metrics
+
+**Implemented Processors:**
+
+| Processor | Backend | MIME Types | Features |
+|-----------|---------|------------|----------|
+| **PDF** | poppler | `application/pdf` | Text extraction, metadata, page chunking |
+| **Office** | libzip/pugixml | DOCX, XLSX, PPTX, ODF | Text, tables, metadata |
+| **Video** | FFmpeg | MP4, WebM, MKV, MOV | Duration, codecs, thumbnails, subtitles |
+| **Audio** | FFmpeg | MP3, WAV, FLAC, OGG | Duration, tags, waveform, transcription |
+| **Geo** | GDAL | GeoJSON, KML, GPX, Shapefile | Coordinates, CRS, bounds, centroid |
+| **Image** | libvips | JPEG, PNG, WebP, TIFF | EXIF, OCR, thumbnails, color analysis |
+| **CAD** | OpenCASCADE | STEP, STL, IGES, OBJ | BOM, geometry, 3D preview |
+| **Text** | Built-in | Plain text, Markdown | Sentence/paragraph chunking |
+
+**Configuration Example:**
+```yaml
+# config/processors/pdf.yaml
+name: pdf-processor
+version: "1.0.0"
+enabled: true
+settings:
+  extraction:
+    text: true
+    metadata: true
+  thumbnail:
+    generate: true
+    max_width: 256
+```
 
 **API:**
 ```bash

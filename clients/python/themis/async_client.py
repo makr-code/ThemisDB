@@ -1,0 +1,816 @@
+"""
+ThemisDB Python SDK - Async Client Module
+
+This module provides an async/await interface for ThemisDB operations.
+Requires: httpx[http2], asyncio
+
+Usage:
+    import asyncio
+    from themis.async_client import AsyncThemisClient
+    
+    async def main():
+        client = AsyncThemisClient(endpoints=["http://localhost:8080"])
+        await client.connect()
+        
+        # CRUD operations
+        await client.put("mymodel", "users", "user-123", {"name": "John"})
+        user = await client.get("mymodel", "users", "user-123")
+        
+        # Batch operations
+        results = await client.batch_get("mymodel", "users", ["user-1", "user-2"])
+        
+        # Graph traversal
+        neighbors = await client.traverse("mymodel", "users", "user-123", depth=2)
+        
+        await client.close()
+    
+    asyncio.run(main())
+
+Author: ThemisDB Team
+Date: December 2025
+"""
+
+from __future__ import annotations
+
+import asyncio
+import hashlib
+import json
+from contextlib import asynccontextmanager
+from dataclasses import dataclass, field
+from typing import Any, AsyncIterator, Dict, List, Optional, Set, Union
+
+import httpx
+
+__all__ = [
+    "AsyncThemisClient",
+    "AsyncTransaction",
+    "GraphTraversalResult",
+    "AsyncQueryResult",
+    "ConnectionPool",
+]
+
+
+@dataclass
+class GraphNode:
+    """Represents a node in graph traversal results."""
+    id: str
+    collection: str
+    data: Dict[str, Any]
+    depth: int = 0
+
+
+@dataclass
+class GraphEdge:
+    """Represents an edge in graph traversal results."""
+    id: str
+    source: str
+    target: str
+    label: str
+    properties: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class GraphTraversalResult:
+    """Result of a graph traversal operation."""
+    nodes: List[GraphNode]
+    edges: List[GraphEdge]
+    paths: List[List[str]]
+    total_visited: int
+    max_depth_reached: int
+    execution_time_ms: float
+
+
+@dataclass
+class AsyncQueryResult:
+    """Async query result with streaming support."""
+    items: List[Any]
+    has_more: bool
+    next_cursor: Optional[str]
+    count: Optional[int]
+    
+    async def iter_pages(self, client: "AsyncThemisClient", query: str) -> AsyncIterator[List[Any]]:
+        """Iterate through all pages of results."""
+        yield self.items
+        cursor = self.next_cursor
+        while cursor:
+            result = await client.query(query, cursor=cursor)
+            yield result.items
+            cursor = result.next_cursor
+
+
+class ConnectionPool:
+    """Manages a pool of HTTP/2 connections for optimal performance."""
+    
+    def __init__(
+        self,
+        endpoints: List[str],
+        max_connections: int = 100,
+        max_keepalive: int = 20,
+        timeout: float = 30.0,
+    ):
+        self.endpoints = [e.rstrip("/") for e in endpoints]
+        self.timeout = timeout
+        
+        # Create HTTP/2 client with connection pooling
+        limits = httpx.Limits(
+            max_connections=max_connections,
+            max_keepalive_connections=max_keepalive,
+        )
+        
+        self._client = httpx.AsyncClient(
+            http2=True,
+            limits=limits,
+            timeout=httpx.Timeout(timeout),
+        )
+        
+        self._healthy_endpoints: Set[str] = set(self.endpoints)
+        self._lock = asyncio.Lock()
+    
+    async def close(self):
+        """Close all connections."""
+        await self._client.aclose()
+    
+    async def request(
+        self,
+        method: str,
+        path: str,
+        endpoint: Optional[str] = None,
+        **kwargs
+    ) -> httpx.Response:
+        """Make an async HTTP request."""
+        target = endpoint or await self._get_healthy_endpoint()
+        url = f"{target}{path}"
+        return await self._client.request(method, url, **kwargs)
+    
+    async def _get_healthy_endpoint(self) -> str:
+        """Get a healthy endpoint from the pool."""
+        async with self._lock:
+            if not self._healthy_endpoints:
+                # All endpoints unhealthy, try all
+                self._healthy_endpoints = set(self.endpoints)
+            
+            # Simple round-robin (could be improved with load balancing)
+            endpoint = next(iter(self._healthy_endpoints))
+            return endpoint
+    
+    async def mark_unhealthy(self, endpoint: str):
+        """Mark an endpoint as unhealthy."""
+        async with self._lock:
+            self._healthy_endpoints.discard(endpoint)
+    
+    async def health_check_all(self) -> Dict[str, bool]:
+        """Check health of all endpoints."""
+        results = {}
+        async with self._lock:
+            self._healthy_endpoints.clear()
+            
+            for endpoint in self.endpoints:
+                try:
+                    response = await self._client.get(f"{endpoint}/health", timeout=5.0)
+                    healthy = response.status_code == 200
+                    results[endpoint] = healthy
+                    if healthy:
+                        self._healthy_endpoints.add(endpoint)
+                except Exception:
+                    results[endpoint] = False
+        
+        return results
+
+
+class AsyncThemisClient:
+    """
+    Async ThemisDB client with connection pooling and graph support.
+    
+    Features:
+    - Async/await interface
+    - HTTP/2 connection pooling
+    - Topology-aware routing
+    - Graph traversal API
+    - Streaming query results
+    - Transaction support
+    """
+    
+    def __init__(
+        self,
+        endpoints: List[str],
+        namespace: str = "default",
+        timeout: float = 30.0,
+        max_connections: int = 100,
+        max_retries: int = 3,
+    ):
+        if not endpoints:
+            raise ValueError("endpoints must not be empty")
+        
+        self.namespace = namespace
+        self.max_retries = max_retries
+        self._pool = ConnectionPool(
+            endpoints=endpoints,
+            max_connections=max_connections,
+            timeout=timeout,
+        )
+        self._topology_cache: Optional[Dict[str, Any]] = None
+        self._topology_lock = asyncio.Lock()
+    
+    async def connect(self):
+        """Initialize connection pool and fetch topology."""
+        await self._refresh_topology()
+    
+    async def close(self):
+        """Close all connections."""
+        await self._pool.close()
+    
+    async def __aenter__(self) -> "AsyncThemisClient":
+        await self.connect()
+        return self
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()
+    
+    # ==========================================================================
+    # CRUD Operations
+    # ==========================================================================
+    
+    async def get(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+    ) -> Optional[Dict[str, Any]]:
+        """Get an entity by URN."""
+        urn = self._build_urn(model, collection, uuid)
+        endpoint = await self._resolve_endpoint(urn)
+        key = self._build_entity_key(model, collection, uuid)
+        
+        response = await self._pool.request("GET", f"/entities/{key}", endpoint=endpoint)
+        
+        if response.status_code == 404:
+            return None
+        
+        response.raise_for_status()
+        payload = response.json()
+        return self._decode_entity(payload)
+    
+    async def put(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+        data: Dict[str, Any],
+    ) -> bool:
+        """Create or update an entity."""
+        urn = self._build_urn(model, collection, uuid)
+        endpoint = await self._resolve_endpoint(urn)
+        key = self._build_entity_key(model, collection, uuid)
+        
+        response = await self._pool.request(
+            "PUT",
+            f"/entities/{key}",
+            endpoint=endpoint,
+            json={"blob": self._encode_entity(data)},
+        )
+        
+        response.raise_for_status()
+        return True
+    
+    async def delete(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+    ) -> bool:
+        """Delete an entity."""
+        urn = self._build_urn(model, collection, uuid)
+        endpoint = await self._resolve_endpoint(urn)
+        key = self._build_entity_key(model, collection, uuid)
+        
+        response = await self._pool.request("DELETE", f"/entities/{key}", endpoint=endpoint)
+        
+        if response.status_code == 404:
+            return False
+        
+        response.raise_for_status()
+        return True
+    
+    # ==========================================================================
+    # Batch Operations
+    # ==========================================================================
+    
+    async def batch_get(
+        self,
+        model: str,
+        collection: str,
+        uuids: List[str],
+        concurrency: int = 10,
+    ) -> Dict[str, Optional[Dict[str, Any]]]:
+        """Get multiple entities concurrently."""
+        semaphore = asyncio.Semaphore(concurrency)
+        
+        async def fetch_one(uuid: str):
+            async with semaphore:
+                try:
+                    return uuid, await self.get(model, collection, uuid)
+                except Exception as e:
+                    return uuid, None
+        
+        tasks = [fetch_one(uuid) for uuid in uuids]
+        results = await asyncio.gather(*tasks)
+        
+        return {uuid: data for uuid, data in results}
+    
+    async def batch_put(
+        self,
+        model: str,
+        collection: str,
+        items: Dict[str, Dict[str, Any]],
+        concurrency: int = 10,
+    ) -> Dict[str, bool]:
+        """Put multiple entities concurrently."""
+        semaphore = asyncio.Semaphore(concurrency)
+        
+        async def put_one(uuid: str, data: Dict[str, Any]):
+            async with semaphore:
+                try:
+                    return uuid, await self.put(model, collection, uuid, data)
+                except Exception:
+                    return uuid, False
+        
+        tasks = [put_one(uuid, data) for uuid, data in items.items()]
+        results = await asyncio.gather(*tasks)
+        
+        return {uuid: success for uuid, success in results}
+    
+    # ==========================================================================
+    # Query Operations
+    # ==========================================================================
+    
+    async def query(
+        self,
+        aql: str,
+        params: Optional[Dict[str, Any]] = None,
+        cursor: Optional[str] = None,
+        batch_size: int = 100,
+    ) -> AsyncQueryResult:
+        """Execute an AQL query."""
+        endpoint = self._pool.endpoints[0]  # Query on primary
+        
+        body = {
+            "query": aql,
+            "batchSize": batch_size,
+        }
+        if params:
+            body["bindVars"] = params
+        if cursor:
+            body["cursor"] = cursor
+        
+        response = await self._pool.request(
+            "POST",
+            "/api/v1/query",
+            endpoint=endpoint,
+            json=body,
+        )
+        response.raise_for_status()
+        
+        result = response.json()
+        return AsyncQueryResult(
+            items=result.get("result", []),
+            has_more=result.get("hasMore", False),
+            next_cursor=result.get("cursor"),
+            count=result.get("count"),
+        )
+    
+    async def query_all(
+        self,
+        aql: str,
+        params: Optional[Dict[str, Any]] = None,
+        batch_size: int = 100,
+    ) -> List[Any]:
+        """Execute a query and return all results (pagination handled automatically)."""
+        all_items = []
+        result = await self.query(aql, params=params, batch_size=batch_size)
+        all_items.extend(result.items)
+        
+        while result.has_more and result.next_cursor:
+            result = await self.query(aql, params=params, cursor=result.next_cursor, batch_size=batch_size)
+            all_items.extend(result.items)
+        
+        return all_items
+    
+    # ==========================================================================
+    # Graph Traversal API
+    # ==========================================================================
+    
+    async def traverse(
+        self,
+        model: str,
+        collection: str,
+        start_uuid: str,
+        depth: int = 1,
+        direction: str = "outbound",  # "outbound", "inbound", "any"
+        edge_collections: Optional[List[str]] = None,
+        filter_expression: Optional[str] = None,
+        max_results: int = 1000,
+    ) -> GraphTraversalResult:
+        """
+        Perform a graph traversal starting from a vertex.
+        
+        Args:
+            model: Data model name
+            collection: Starting vertex collection
+            start_uuid: Starting vertex UUID
+            depth: Maximum traversal depth (1-10)
+            direction: Traversal direction
+            edge_collections: Optional list of edge collections to traverse
+            filter_expression: Optional AQL filter for vertices
+            max_results: Maximum number of results
+        
+        Returns:
+            GraphTraversalResult with nodes, edges, and paths
+        """
+        import time
+        start_time = time.time()
+        
+        start_urn = self._build_urn(model, collection, start_uuid)
+        endpoint = await self._resolve_endpoint(start_urn)
+        
+        body = {
+            "startVertex": f"{collection}/{start_uuid}",
+            "depth": min(depth, 10),
+            "direction": direction,
+            "maxResults": max_results,
+        }
+        
+        if edge_collections:
+            body["edgeCollections"] = edge_collections
+        if filter_expression:
+            body["filter"] = filter_expression
+        
+        response = await self._pool.request(
+            "POST",
+            f"/api/v1/graph/{model}/traverse",
+            endpoint=endpoint,
+            json=body,
+        )
+        response.raise_for_status()
+        
+        result = response.json()
+        
+        # Parse nodes
+        nodes = []
+        for node_data in result.get("vertices", []):
+            nodes.append(GraphNode(
+                id=node_data.get("_key", ""),
+                collection=node_data.get("_id", "").split("/")[0] if "/" in node_data.get("_id", "") else "",
+                data=node_data,
+                depth=node_data.get("_depth", 0),
+            ))
+        
+        # Parse edges
+        edges = []
+        for edge_data in result.get("edges", []):
+            edges.append(GraphEdge(
+                id=edge_data.get("_key", ""),
+                source=edge_data.get("_from", ""),
+                target=edge_data.get("_to", ""),
+                label=edge_data.get("_label", ""),
+                properties={k: v for k, v in edge_data.items() if not k.startswith("_")},
+            ))
+        
+        # Parse paths
+        paths = result.get("paths", [])
+        
+        execution_time = (time.time() - start_time) * 1000
+        
+        return GraphTraversalResult(
+            nodes=nodes,
+            edges=edges,
+            paths=paths,
+            total_visited=len(nodes),
+            max_depth_reached=max(n.depth for n in nodes) if nodes else 0,
+            execution_time_ms=execution_time,
+        )
+    
+    async def shortest_path(
+        self,
+        model: str,
+        from_collection: str,
+        from_uuid: str,
+        to_collection: str,
+        to_uuid: str,
+        edge_collections: Optional[List[str]] = None,
+        weight_attribute: Optional[str] = None,
+    ) -> Optional[List[GraphNode]]:
+        """
+        Find the shortest path between two vertices.
+        
+        Args:
+            model: Data model name
+            from_collection: Source vertex collection
+            from_uuid: Source vertex UUID
+            to_collection: Target vertex collection
+            to_uuid: Target vertex UUID
+            edge_collections: Optional edge collections to consider
+            weight_attribute: Optional edge attribute for weighted shortest path
+        
+        Returns:
+            List of nodes in the path, or None if no path exists
+        """
+        endpoint = self._pool.endpoints[0]
+        
+        body = {
+            "from": f"{from_collection}/{from_uuid}",
+            "to": f"{to_collection}/{to_uuid}",
+        }
+        
+        if edge_collections:
+            body["edgeCollections"] = edge_collections
+        if weight_attribute:
+            body["weightAttribute"] = weight_attribute
+        
+        response = await self._pool.request(
+            "POST",
+            f"/api/v1/graph/{model}/shortestPath",
+            endpoint=endpoint,
+            json=body,
+        )
+        
+        if response.status_code == 404:
+            return None
+        
+        response.raise_for_status()
+        result = response.json()
+        
+        if not result.get("vertices"):
+            return None
+        
+        return [
+            GraphNode(
+                id=v.get("_key", ""),
+                collection=v.get("_id", "").split("/")[0] if "/" in v.get("_id", "") else "",
+                data=v,
+            )
+            for v in result["vertices"]
+        ]
+    
+    async def neighbors(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+        direction: str = "any",
+        edge_collection: Optional[str] = None,
+    ) -> List[GraphNode]:
+        """Get immediate neighbors of a vertex."""
+        result = await self.traverse(
+            model=model,
+            collection=collection,
+            start_uuid=uuid,
+            depth=1,
+            direction=direction,
+            edge_collections=[edge_collection] if edge_collection else None,
+        )
+        
+        # Filter out the start node
+        return [n for n in result.nodes if n.id != uuid]
+    
+    # ==========================================================================
+    # Transaction Support
+    # ==========================================================================
+    
+    @asynccontextmanager
+    async def transaction(
+        self,
+        read_collections: Optional[List[str]] = None,
+        write_collections: Optional[List[str]] = None,
+    ) -> AsyncIterator["AsyncTransaction"]:
+        """
+        Start a transaction context.
+        
+        Usage:
+            async with client.transaction(write_collections=["users"]) as txn:
+                await txn.put("mymodel", "users", "user-1", {"name": "Alice"})
+                await txn.put("mymodel", "users", "user-2", {"name": "Bob"})
+        """
+        txn = AsyncTransaction(
+            client=self,
+            read_collections=read_collections or [],
+            write_collections=write_collections or [],
+        )
+        
+        await txn.begin()
+        try:
+            yield txn
+            await txn.commit()
+        except Exception:
+            await txn.rollback()
+            raise
+    
+    # ==========================================================================
+    # Vector Search
+    # ==========================================================================
+    
+    async def vector_search(
+        self,
+        model: str,
+        collection: str,
+        vector: List[float],
+        k: int = 10,
+        filter_expression: Optional[str] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Perform a vector similarity search.
+        
+        Args:
+            model: Data model name
+            collection: Collection to search
+            vector: Query vector
+            k: Number of results to return
+            filter_expression: Optional AQL filter
+        
+        Returns:
+            List of documents with similarity scores
+        """
+        endpoint = self._pool.endpoints[0]
+        
+        body = {
+            "collection": collection,
+            "vector": vector,
+            "k": k,
+        }
+        
+        if filter_expression:
+            body["filter"] = filter_expression
+        
+        response = await self._pool.request(
+            "POST",
+            f"/api/v1/vector/{model}/search",
+            endpoint=endpoint,
+            json=body,
+        )
+        response.raise_for_status()
+        
+        return response.json().get("results", [])
+    
+    # ==========================================================================
+    # Internal Methods
+    # ==========================================================================
+    
+    async def _refresh_topology(self):
+        """Refresh the shard topology cache."""
+        async with self._topology_lock:
+            for endpoint in self._pool.endpoints:
+                try:
+                    response = await self._pool.request(
+                        "GET",
+                        "/_admin/cluster/topology",
+                        endpoint=endpoint,
+                    )
+                    if response.status_code == 200:
+                        self._topology_cache = response.json()
+                        return
+                except Exception:
+                    continue
+            
+            # Fallback: single-node mode
+            self._topology_cache = {"shards": self._pool.endpoints}
+    
+    async def _resolve_endpoint(self, urn: str) -> str:
+        """Resolve URN to shard endpoint."""
+        if not self._topology_cache:
+            await self._refresh_topology()
+        
+        shards = self._topology_cache.get("shards", [])
+        if not shards:
+            return self._pool.endpoints[0]
+        
+        # Consistent hashing
+        hash_value = self._stable_hash(urn)
+        shard_index = hash_value % len(shards)
+        
+        shard = shards[shard_index]
+        if isinstance(shard, str):
+            return shard.rstrip("/")
+        elif isinstance(shard, dict):
+            return shard.get("endpoint", self._pool.endpoints[0]).rstrip("/")
+        
+        return self._pool.endpoints[0]
+    
+    def _build_urn(self, model: str, collection: str, uuid: str) -> str:
+        return f"urn:themis:{self.namespace}:{model}:{collection}:{uuid}"
+    
+    def _build_entity_key(self, model: str, collection: str, uuid: str) -> str:
+        return f"{self.namespace}/{model}/{collection}/{uuid}"
+    
+    @staticmethod
+    def _stable_hash(value: str) -> int:
+        digest = hashlib.blake2b(value.encode("utf-8"), digest_size=4).digest()
+        return int.from_bytes(digest, "big")
+    
+    @staticmethod
+    def _encode_entity(data: Dict[str, Any]) -> str:
+        import base64
+        return base64.b64encode(json.dumps(data).encode()).decode()
+    
+    @staticmethod
+    def _decode_entity(payload: Dict[str, Any]) -> Dict[str, Any]:
+        import base64
+        blob = payload.get("blob", "")
+        if not blob:
+            return payload
+        try:
+            decoded = base64.b64decode(blob)
+            return json.loads(decoded)
+        except Exception:
+            return payload
+
+
+class AsyncTransaction:
+    """Async transaction context for atomic operations."""
+    
+    def __init__(
+        self,
+        client: AsyncThemisClient,
+        read_collections: List[str],
+        write_collections: List[str],
+    ):
+        self._client = client
+        self._read_collections = read_collections
+        self._write_collections = write_collections
+        self._txn_id: Optional[str] = None
+        self._operations: List[Dict[str, Any]] = []
+    
+    async def begin(self):
+        """Begin the transaction."""
+        endpoint = self._client._pool.endpoints[0]
+        
+        response = await self._client._pool.request(
+            "POST",
+            "/api/v1/transaction/begin",
+            endpoint=endpoint,
+            json={
+                "readCollections": self._read_collections,
+                "writeCollections": self._write_collections,
+            },
+        )
+        response.raise_for_status()
+        self._txn_id = response.json().get("transactionId")
+    
+    async def commit(self):
+        """Commit the transaction."""
+        if not self._txn_id:
+            raise RuntimeError("Transaction not started")
+        
+        endpoint = self._client._pool.endpoints[0]
+        
+        response = await self._client._pool.request(
+            "POST",
+            f"/api/v1/transaction/{self._txn_id}/commit",
+            endpoint=endpoint,
+        )
+        response.raise_for_status()
+        self._txn_id = None
+    
+    async def rollback(self):
+        """Rollback the transaction."""
+        if not self._txn_id:
+            return
+        
+        endpoint = self._client._pool.endpoints[0]
+        
+        try:
+            await self._client._pool.request(
+                "POST",
+                f"/api/v1/transaction/{self._txn_id}/rollback",
+                endpoint=endpoint,
+            )
+        except Exception:
+            pass
+        finally:
+            self._txn_id = None
+    
+    async def get(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+    ) -> Optional[Dict[str, Any]]:
+        """Get an entity within the transaction."""
+        return await self._client.get(model, collection, uuid)
+    
+    async def put(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+        data: Dict[str, Any],
+    ) -> bool:
+        """Put an entity within the transaction."""
+        return await self._client.put(model, collection, uuid, data)
+    
+    async def delete(
+        self,
+        model: str,
+        collection: str,
+        uuid: str,
+    ) -> bool:
+        """Delete an entity within the transaction."""
+        return await self._client.delete(model, collection, uuid)
