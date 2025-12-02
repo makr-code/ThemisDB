@@ -94,6 +94,65 @@ Jeder Dokumentations-Unterordner in `/docs` sollte folgende Dateien enthalten:
 | `geo_integration_readme.md` | `geo_integration.md` |
 | ... (3 Dateien umbenannt) | ... |
 
+### docs/features/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `audit_logging.md` | `features_audit_logging.md` |
+| `vector_ops.md` | `features_vector_ops.md` |
+| `transactions.md` | `features_transactions.md` |
+| `indexes.md` | `features_indexes.md` |
+| ... (31 Dateien umbenannt) | ... |
+
+### docs/guides/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `deployment.md` | `guides_deployment.md` |
+| `tls_setup.md` | `guides_tls_setup.md` |
+| `rbac.md` | `guides_rbac.md` |
+| ... (11 Dateien umbenannt) | ... |
+
+### docs/content/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `ingestion.md` | `content_ingestion.md` |
+| `search_api.md` | `content_search_api.md` |
+| ... (9 Dateien umbenannt) | ... |
+
+### docs/compliance/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `DPIA.md` | `compliance_dpia.md` |
+| `BCP_DRP.md` | `compliance_bcp_drp.md` |
+| ... (5 Dateien umbenannt) | ... |
+
+### docs/observability/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `prometheus_metrics.md` | `observability_prometheus.md` |
+| `tracing.md` | `observability_tracing.md` |
+| ... (4 Dateien umbenannt) | ... |
+
+### docs/clients/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `javascript_sdk_quickstart.md` | `clients_javascript_sdk.md` |
+| `python_sdk_quickstart.md` | `clients_python_sdk.md` |
+| ... (6 Dateien umbenannt) | ... |
+
+### docs/apis/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `openapi.md` | `apis_openapi.md` |
+| `graphql.md` | `apis_graphql.md` |
+| ... (4 Dateien umbenannt) | ... |
+
+### docs/policies/ (NEU)
+| Alt | Neu |
+|-----|-----|
+| `ACCESS_CONTROL_POLICY.md` | `policies_access_control.md` |
+| `DATA_CLASSIFICATION_POLICY.md` | `policies_data_classification.md` |
+| ... (4 Dateien umbenannt) | ... |
+
 ## Cross-References
 
 Jede README.md sollte "Verwandte Dokumentation" Links enthalten:

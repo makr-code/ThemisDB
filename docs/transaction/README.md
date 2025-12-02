@@ -24,5 +24,5 @@ ThemisDB implementiert vollständige ACID-Transaktionen mit:
 
 ## Verwandte Dokumentation
 
-- [Features: Transactions](../features/transactions.md)
+- [Features: Transactions](../features/features_transactions.md)
 - [Architecture: MVCC Design](../architecture/architecture_mvcc.md)

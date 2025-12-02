@@ -27,4 +27,4 @@ ThemisDB Governance umfasst:
 
 - [Security: PII API](../security/security_pii_api.md)
 - [Security: Policies](../security/security_policies.md)
-- [Policies: Data Classification](../policies/DATA_CLASSIFICATION_POLICY.md)
+- [Policies: Data Classification](../policies/policies_data_classification.md)
