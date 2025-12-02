@@ -1,0 +1,28 @@
+# Test holidays YAML for unit tests
+calendars:
+  - name: "TEST_HOLIDAYS_2024"
+    region: "TEST"
+    year: 2024
+    description: "Test calendar for unit testing"
+    holidays:
+      - date: "2024-01-01"
+        name: "Test Holiday 1"
+      - date: "2024-06-15"
+        name: "Test Holiday 2"
+      - date: "2024-12-25"
+        name: "Test Holiday 3"
+
+  - name: "TEST_GERMAN_FORMAT"
+    region: "DE"
+    year: 2024
+    description: "Test German date format"
+    holidays:
+      - date: "01.01.2024"
+        name: "Neujahr"
+      - date: "25.12.2024"
+        name: "Weihnachten"
+
+config:
+  auto_load: true
+  override_builtin: false
+  validation: "strict"

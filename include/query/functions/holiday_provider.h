@@ -1,6 +1,7 @@
 #pragma once
 
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 #include <string>
 #include <vector>
 #include <set>
@@ -57,8 +58,19 @@ namespace functions {
  *   LET holidays = HOLIDAYS("DE_2024", "company_holidays")  // Merge calendars
  * 
  * **Admin API (server startup only):**
+ *   HolidayProvider::instance().loadCalendarsFromYaml("/path/to/holidays.yaml");
+ *   HolidayProvider::instance().loadCalendarsFromDefaultYaml();  // Auto-detect
  *   HolidayProvider::instance().loadCalendarFromFile("company", "/path/to/file.json");
  *   HolidayProvider::instance().registerCalendar("custom", {dates...});
+ * 
+ * **YAML Configuration (config/holidays.yaml):**
+ *   calendars:
+ *     - name: "DE_COMPANY_2024"
+ *       region: "DE"
+ *       year: 2024
+ *       holidays:
+ *         - date: "2024-01-01"
+ *           name: "Neujahr"
  */
 class HolidayProvider {
 public:
@@ -286,6 +298,149 @@ public:
         
         // Register
         registerCalendar(name, region, year, holidays, description);
+    }
+    
+    /**
+     * @brief Load calendars from YAML configuration file (Admin API)
+     * 
+     * Used at server startup to load holiday calendars from YAML files.
+     * NOT accessible from AQL queries.
+     * 
+     * YAML format:
+     * ```yaml
+     * calendars:
+     *   - name: "DE_COMPANY_2024"
+     *     region: "DE"
+     *     year: 2024
+     *     description: "Company holidays"
+     *     holidays:
+     *       - date: "2024-01-01"
+     *         name: "Neujahr"
+     *       - date: "2024-12-25"
+     *         name: "Weihnachten"
+     * ```
+     * 
+     * @param filePath Path to YAML file
+     * @param overrideBuiltin If true, allow overriding built-in calendars
+     * @return Number of calendars loaded
+     * @throws std::runtime_error if file invalid
+     */
+    size_t loadCalendarsFromYaml(const std::string& filePath, bool overrideBuiltin = false) {
+        if (!std::filesystem::exists(filePath)) {
+            throw std::runtime_error("Calendar YAML file not found: " + filePath);
+        }
+        
+        YAML::Node config;
+        try {
+            config = YAML::LoadFile(filePath);
+        } catch (const YAML::Exception& e) {
+            throw std::runtime_error("Invalid YAML in calendar file: " + std::string(e.what()));
+        }
+        
+        size_t loadedCount = 0;
+        
+        // Check for config section
+        bool configOverrideBuiltin = overrideBuiltin;
+        if (config["config"]) {
+            if (config["config"]["override_builtin"]) {
+                configOverrideBuiltin = config["config"]["override_builtin"].as<bool>();
+            }
+        }
+        
+        // Load calendars
+        if (!config["calendars"] || !config["calendars"].IsSequence()) {
+            throw std::runtime_error("YAML file must contain 'calendars' array");
+        }
+        
+        for (const auto& calNode : config["calendars"]) {
+            std::string name = calNode["name"] ? calNode["name"].as<std::string>() : "";
+            if (name.empty()) {
+                continue;  // Skip calendars without a name
+            }
+            
+            // Validate name format
+            validateName(name);
+            std::string upperName = toUpperCase(name);
+            
+            // Check if overriding built-in
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                auto it = calendars_.find(upperName);
+                if (it != calendars_.end() && it->second.isBuiltin && !configOverrideBuiltin) {
+                    continue;  // Skip - cannot override built-in without flag
+                }
+            }
+            
+            std::string region = calNode["region"] ? calNode["region"].as<std::string>() : "";
+            int year = calNode["year"] ? calNode["year"].as<int>() : 0;
+            std::string description = calNode["description"] ? calNode["description"].as<std::string>() : "";
+            
+            // Parse holidays
+            std::set<int64_t> holidays;
+            
+            if (calNode["holidays"] && calNode["holidays"].IsSequence()) {
+                for (const auto& holiday : calNode["holidays"]) {
+                    std::string dateStr;
+                    
+                    if (holiday.IsScalar()) {
+                        // Simple format: just the date string
+                        dateStr = holiday.as<std::string>();
+                    } else if (holiday.IsMap()) {
+                        // Object format: { date: "...", name: "..." }
+                        if (holiday["date"]) {
+                            dateStr = holiday["date"].as<std::string>();
+                        }
+                    }
+                    
+                    if (!dateStr.empty()) {
+                        try {
+                            int64_t ts = parseDateToTimestamp(dateStr);
+                            holidays.insert(ts);
+                        } catch (const std::exception&) {
+                            // Skip invalid dates in lenient mode
+                            // Could add validation level check here
+                        }
+                    }
+                }
+            }
+            
+            // Register the calendar
+            registerCalendar(upperName, region, year, holidays, description);
+            loadedCount++;
+        }
+        
+        return loadedCount;
+    }
+    
+    /**
+     * @brief Load calendars from default YAML config paths (Admin API)
+     * 
+     * Searches for holidays.yaml in standard locations:
+     * - config/holidays.yaml
+     * - ../config/holidays.yaml
+     * - /etc/themis/holidays.yaml
+     * 
+     * @return Number of calendars loaded (0 if no file found)
+     */
+    size_t loadCalendarsFromDefaultYaml() {
+        std::vector<std::string> candidates = {
+            "config/holidays.yaml",
+            "../config/holidays.yaml",
+            "../../config/holidays.yaml",
+            "/etc/themis/holidays.yaml"
+        };
+        
+        for (const auto& path : candidates) {
+            if (std::filesystem::exists(path)) {
+                try {
+                    return loadCalendarsFromYaml(path);
+                } catch (const std::exception&) {
+                    // Try next path
+                }
+            }
+        }
+        
+        return 0;  // No file found
     }
     
     /**

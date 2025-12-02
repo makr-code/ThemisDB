@@ -4,6 +4,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <filesystem>
 #include "query/functions/function_registry.h"
 #include "query/functions/string_functions.h"
 #include "query/functions/math_functions.h"
@@ -17,6 +18,7 @@
 #include "query/functions/relational_functions.h"
 #include "query/functions/file_functions.h"
 #include "query/functions/security_functions.h"
+#include "query/functions/holiday_provider.h"
 
 using namespace themis::query::functions;
 
@@ -1876,6 +1878,49 @@ TEST_F(AQLFunctionsTest, HolidaysFunction) {
     // List available calendars
     auto calendars = reg.call("LIST_CALENDARS", {}, ctx);
     EXPECT_FALSE(calendars.empty());
+}
+
+TEST_F(AQLFunctionsTest, HolidaysYamlLoading) {
+    auto& provider = HolidayProvider::instance();
+    
+    // Load test YAML file
+    std::string testYamlPath = "tests/config/holidays.test.yaml";
+    
+    // Try alternate paths if running from different directory
+    if (!std::filesystem::exists(testYamlPath)) {
+        testYamlPath = "../tests/config/holidays.test.yaml";
+    }
+    if (!std::filesystem::exists(testYamlPath)) {
+        testYamlPath = "../../tests/config/holidays.test.yaml";
+    }
+    
+    // Skip test if file not found (CI may run from different directory)
+    if (!std::filesystem::exists(testYamlPath)) {
+        GTEST_SKIP() << "Test YAML file not found";
+    }
+    
+    // Load calendars from YAML
+    size_t loaded = provider.loadCalendarsFromYaml(testYamlPath);
+    EXPECT_GE(loaded, 2);  // Should load at least 2 calendars
+    
+    // Check that TEST_HOLIDAYS_2024 was loaded
+    auto holidays = provider.getHolidays("TEST_HOLIDAYS_2024");
+    EXPECT_EQ(holidays.size(), 3);  // 3 holidays defined
+    
+    // Check that TEST_GERMAN_FORMAT was loaded (German date format)
+    auto germanHolidays = provider.getHolidays("TEST_GERMAN_FORMAT");
+    EXPECT_EQ(germanHolidays.size(), 2);  // 2 holidays in German format
+    
+    // Verify calendar is in the list
+    auto calendarList = provider.listCalendars();
+    bool found = false;
+    for (const auto& name : calendarList) {
+        if (name == "TEST_HOLIDAYS_2024") {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
 }
 
 TEST_F(AQLFunctionsTest, CollectionFunctionsRegistered) {
