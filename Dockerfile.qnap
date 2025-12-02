@@ -90,7 +90,7 @@ COPY src ./src
 
 # Build ThemisDB
 RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
-    echo "=== Building ThemisDB for QNAP (Ubuntu 20.04, GLIBC 2.31) ===" && \
+    echo "=== Building ThemisDB for QNAP (Ubuntu 20.04, GLIBC 2.31, baseline x86-64) ===" && \
     echo "VCPKG_TRIPLET=${VCPKG_TRIPLET}" && \
     cmake -S . -B build -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
@@ -101,7 +101,8 @@ RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
     -DVCPKG_FEATURE_FLAGS=manifests,versions,binarycaching \
     -DTHEMIS_BUILD_TESTS=OFF \
     -DTHEMIS_BUILD_BENCHMARKS=OFF \
-    -DTHEMIS_ENABLE_TRACING=OFF 2>&1 | tee /tmp/cmake_config.log || \
+    -DTHEMIS_ENABLE_TRACING=OFF \
+    -DTHEMIS_QNAP_BUILD=ON 2>&1 | tee /tmp/cmake_config.log || \
     (echo "=== CMake configure FAILED ==="; \
     tail -100 /tmp/cmake_config.log; \
     exit 1) && \
