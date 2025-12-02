@@ -36,6 +36,9 @@ from benchmarks.base_benchmark import (
 )
 from datasets.huggingface_loader import HuggingFaceDatasetLoader, BenchmarkDataset
 from adapters.themisdb_adapter import ThemisDBAdapter
+from adapters.postgresql_adapter import PostgreSQLAdapter
+from adapters.neo4j_adapter import Neo4jAdapter
+from adapters.chromadb_adapter import ChromaDBAdapter
 
 # Configure logging
 structlog.configure(
@@ -59,12 +62,14 @@ console = Console()
 # Database adapter registry
 ADAPTERS: Dict[str, Type[BaseDatabaseAdapter]] = {
     "themisdb": ThemisDBAdapter,
-    # Additional adapters would be registered here:
-    # "postgresql": PostgreSQLAdapter,
+    "postgresql": PostgreSQLAdapter,
+    "postgresql-pgvector": PostgreSQLAdapter,  # With pgvector config
+    "neo4j": Neo4jAdapter,
+    "chromadb": ChromaDBAdapter,
+    # Additional adapters can be registered here:
     # "mongodb": MongoDBAdapter,
     # "redis": RedisAdapter,
     # "arangodb": ArangoDBAdapter,
-    # "neo4j": Neo4jAdapter,
     # "milvus": MilvusAdapter,
     # "elasticsearch": ElasticsearchAdapter,
 }
@@ -83,6 +88,15 @@ def get_adapter_config(db_name: str) -> Dict:
             "user": os.getenv("POSTGRESQL_USER", "benchmark"),
             "password": os.getenv("POSTGRESQL_PASSWORD", "benchmark123"),
             "database": os.getenv("POSTGRESQL_DB", "benchmark"),
+            "use_pgvector": False,
+        },
+        "postgresql-pgvector": {
+            "host": os.getenv("POSTGRESQL_PGVECTOR_HOST", "localhost"),
+            "port": int(os.getenv("POSTGRESQL_PGVECTOR_PORT", "5433")),
+            "user": os.getenv("POSTGRESQL_USER", "benchmark"),
+            "password": os.getenv("POSTGRESQL_PASSWORD", "benchmark123"),
+            "database": os.getenv("POSTGRESQL_DB", "benchmark"),
+            "use_pgvector": True,
         },
         "mongodb": {
             "host": os.getenv("MONGODB_HOST", "localhost"),
@@ -111,6 +125,10 @@ def get_adapter_config(db_name: str) -> Dict:
         "elasticsearch": {
             "host": os.getenv("ELASTICSEARCH_HOST", "localhost"),
             "port": int(os.getenv("ELASTICSEARCH_PORT", "9200")),
+        },
+        "chromadb": {
+            "host": os.getenv("CHROMADB_HOST", "localhost"),
+            "port": int(os.getenv("CHROMADB_PORT", "8000")),
         },
     }
     return configs.get(db_name, {})
