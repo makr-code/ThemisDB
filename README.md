@@ -130,6 +130,58 @@ Tests:
 Roadmap:
 - KeyPair Generation, ECDSA Support, Session-Pooling, Performance Counters, vollständige C_Verify Zertifikatskette.
 
+### Distributed Sharding (Horizontale Skalierung)
+
+ThemisDB unterstützt horizontale Skalierung durch ein verteiltes Sharding-System basierend auf VCC-URN Best Practices:
+
+**Implementierte Features:**
+- **URN-basiertes Routing** - Consistent Hashing mit 150 Virtual Nodes pro Shard
+- **mTLS Shard-Kommunikation** - Sichere Datenübertragung zwischen Shards
+- **PKI-basierte Operationssignierung** - RSA-SHA256 signierte Operationen
+- **etcd Metadata Store** - Persistente Shard-Topologie
+- **Parallel Scatter-Gather** - Batch-basierte parallele Query-Execution
+- **Cross-Shard Joins** - Broadcast Hash Join und Co-Located Join Strategien
+- **P2P Gossip-Protokoll** - Optional, SWIM-basiert für Peer Discovery
+
+**P2P Peer Discovery (Optional):**
+```cpp
+// Aktivierung in Config
+sharding:
+  gossip:
+    enabled: true                    // Default: false
+    gossip_interval_sec: 30
+    max_peers: 100
+    bootstrap_peers:
+      - "themisdb-node-1:18765"
+```
+
+**Kubernetes Deployment:**
+```bash
+# CRDs installieren
+kubectl apply -f deploy/kubernetes/crds/
+
+# Cluster erstellen
+kubectl apply -f deploy/kubernetes/examples/themisdb-cluster.yaml
+```
+
+Siehe auch: [`docs/sharding/`](docs/sharding/) für detaillierte Dokumentation.
+
+### GPU Acceleration (Optional Build)
+
+GPU-beschleunigte Operationen für Vektor-Suche und Aggregationen:
+
+```bash
+# NVIDIA CUDA Build
+cmake -DTHEMIS_ENABLE_CUDA=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+
+# Vulkan GPU Build (AMD/Intel/NVIDIA)
+cmake -DTHEMIS_ENABLE_GPU=ON -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
+
+Siehe auch: [`docs/performance/GPU_ACCELERATION_PLAN.md`](docs/performance/GPU_ACCELERATION_PLAN.md)
+
 ### Lokale Codequalität (Format & Analyse)
 
 Die Code-Qualitätsprüfungen sind bewusst lokal gehalten, um keine zusätzlichen CI-Kosten zu verursachen.
