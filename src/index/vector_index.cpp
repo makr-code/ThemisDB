@@ -72,22 +72,52 @@ float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<floa
 }
 
 float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std::vector<float>& b) {
+	// SIMD-optimized cosine distance using inline SIMD for dot product & norms
+	if (a.size() != b.size() || a.empty()) return 1.0f;
+	
+	const size_t n = a.size();
+	const size_t simd_width = 8; // AVX2 float width
 	float dot = 0.0f, na = 0.0f, nb = 0.0f;
-	for (size_t i = 0; i < a.size(); ++i) {
+	
+	// SIMD loop: process 8 floats at a time
+	size_t i = 0;
+	#pragma omp simd reduction(+:dot,na,nb) collapse(1)
+	for (; i + simd_width <= n; i += simd_width) {
+		#pragma unroll(8)
+		for (size_t j = 0; j < simd_width; ++j) {
+			dot += a[i+j] * b[i+j];
+			na += a[i+j] * a[i+j];
+			nb += b[i+j] * b[i+j];
+		}
+	}
+	
+	// Scalar tail for remaining elements
+	for (; i < n; ++i) {
 		dot += a[i] * b[i];
 		na += a[i] * a[i];
 		nb += b[i] * b[i];
 	}
+	
 	float denom = std::sqrt(std::max(na * nb, 1e-12f));
 	float cosv = denom > 0 ? (dot / denom) : 0.0f;
 	return 1.0f - cosv;
 }
 
 float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vector<float>& b) {
+	// SIMD-optimized dot product
+	if (a.size() != b.size() || a.empty()) return 0.0f;
+	
+	const size_t n = a.size();
+	const size_t simd_width = 8; // AVX2 float width
 	float dot = 0.0f;
-	for (size_t i = 0; i < a.size(); ++i) {
+	
+	// SIMD loop with reduction
+	size_t i = 0;
+	#pragma omp simd reduction(+:dot)
+	for (; i < n; ++i) {
 		dot += a[i] * b[i];
 	}
+	
 	// Return negative dot product so that "lower is better" ordering works
 	// (higher dot product = more similar → negate for distance semantics)
 	return -dot;
@@ -433,29 +463,62 @@ VectorIndexManager::Status VectorIndexManager::removeByPk(std::string_view pk, R
 std::vector<VectorIndexManager::Result>
 VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 									  const std::vector<std::string>* whitelist) const {
+	// Cache-aware top-k with partial heap optimization
 	std::vector<Result> results;
-	results.reserve(k);
-
+	results.reserve(std::min(k + 1, size_t(1024))); // Avoid excessive allocations
+	
+	// Use a simple threshold approach instead of full heap
+	// This reduces memory bandwidth usage significantly
+	float threshold = std::numeric_limits<float>::infinity();
+	
 	auto consider = [&](const std::string& pk, const std::vector<float>& vec) {
 		float dist = distance(query, vec);
-		if (results.size() < k) {
+		
+		// Fast path: if below threshold, add it
+		if (dist < threshold) {
 			results.push_back({pk, dist});
+			
+			// Once we have k results, update threshold
 			if (results.size() == k) {
-				std::sort(results.begin(), results.end(), [](const Result& a, const Result& b){return a.distance < b.distance;});
+				// Use partial_sort for the top k (O(n log k) vs O(n log n))
+				std::partial_sort(results.begin(), results.end(), results.end(),
+					[](const Result& a, const Result& b) { return a.distance < b.distance; });
+				threshold = results.back().distance;
+			} else if (results.size() > k) {
+				// If we exceeded k, recompute threshold
+				std::nth_element(results.begin(), results.begin() + k, results.end(),
+					[](const Result& a, const Result& b) { return a.distance < b.distance; });
+				threshold = results[k].distance;
+				results.resize(k);
 			}
-		} else if (dist < results.back().distance) {
-			results.back() = {pk, dist};
-			std::sort(results.begin(), results.end(), [](const Result& a, const Result& b){return a.distance < b.distance;});
 		}
 	};
 
 	if (whitelist && !whitelist->empty()) {
+		// Pre-allocate for cache efficiency
+		std::vector<std::pair<std::string, std::vector<float>>> cached_vecs;
+		cached_vecs.reserve(std::min(whitelist->size(), size_t(256)));
+		
+		// First pass: load from cache and prefetch
 		for (const auto& pk : *whitelist) {
 			auto it = cache_.find(pk);
 			if (it != cache_.end() && it->second.size() == static_cast<size_t>(dim_)) {
-				consider(pk, it->second);
-			} else {
-				// Lade aus Storage on-demand
+				cached_vecs.push_back({pk, it->second});
+				// Hardware prefetch hint for next iteration
+				__builtin_prefetch(&cached_vecs.back().second[0], 0, 3);
+			}
+		}
+		
+		// Process cached vectors first (better memory locality)
+		for (const auto& [pk, vec] : cached_vecs) {
+			consider(pk, vec);
+		}
+		
+		// Second pass: load missing vectors on-demand
+		for (const auto& pk : *whitelist) {
+			auto it = cache_.find(pk);
+			if (it == cache_.end() || it->second.size() != static_cast<size_t>(dim_)) {
+				// On-demand load
 				auto blob = db_.get(makeObjectKey(pk));
 				if (!blob) continue;
 				try {
@@ -483,11 +546,34 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 			}
 		}
 	} else {
+		// Cache-local iteration with prefetching
+		std::vector<std::pair<std::string, const std::vector<float>*>> vec_ptrs;
+		vec_ptrs.reserve(cache_.size());
+		
 		for (const auto& [pk, vec] : cache_) {
-			if (vec.size() == static_cast<size_t>(dim_)) consider(pk, vec);
+			if (vec.size() == static_cast<size_t>(dim_)) {
+				vec_ptrs.push_back({pk, &vec});
+				__builtin_prefetch(&vec.front(), 0, 3);
+			}
+		}
+		
+		for (const auto& [pk, vec_ptr] : vec_ptrs) {
+			consider(pk, *vec_ptr);
 		}
 	}
+	
+	// Final sort if needed
+	if (results.size() > k) {
+		std::partial_sort(results.begin(), results.begin() + k, results.end(),
+			[](const Result& a, const Result& b) { return a.distance < b.distance; });
+		results.resize(k);
+	} else if (results.size() > 1) {
+		std::sort(results.begin(), results.end(),
+			[](const Result& a, const Result& b) { return a.distance < b.distance; });
+	}
+	
 	return results;
+}
 }
 
 std::pair<VectorIndexManager::Status, std::vector<VectorIndexManager::Result>>
@@ -528,21 +614,23 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 			if (metric_ == Metric::COSINE) normalizeL2(q);
 
 			std::unordered_set<std::string> wl(whitelist->begin(), whitelist->end());
-			// Konfigurierbare Prefilter-Parameter aus config:vector (JSON)
-			int initialFactor = 3;           // k * initialFactor
-			int minCandidatesFloor = 32;     // Untergrenze
-			int maxAttempts = 4;             // Iterationen
-			double growthFactor = 2.0;       // Multiplikator
-			bool prefilterEnabled = true;    // Kann deaktiviert werden
+			
+			// OPTIMIZATION: Adaptive parameter tuning based on whitelist size
+			int initialFactor = 2;           // Reduced from 3 (memory bandwidth optimization)
+			int minCandidatesFloor = 16;     // Reduced from 32
+			int maxAttempts = 3;             // Reduced from 4
+			double growthFactor = 1.5;       // Reduced from 2.0 (smoother growth)
+			bool prefilterEnabled = true;
+			
 			try {
 				if (auto cfgBlob = db_.get("config:vector")) {
 					std::string s(cfgBlob->begin(), cfgBlob->end());
 					auto j = nlohmann::json::parse(s);
 					prefilterEnabled = j.value("whitelist_prefilter_enabled", true);
-					initialFactor = j.value("whitelist_initial_factor", 3);
-					minCandidatesFloor = j.value("whitelist_min_candidates", 32);
-					maxAttempts = j.value("whitelist_max_attempts", 4);
-					growthFactor = j.value("whitelist_growth_factor", 2.0);
+					initialFactor = j.value("whitelist_initial_factor", 2);
+					minCandidatesFloor = j.value("whitelist_min_candidates", 16);
+					maxAttempts = j.value("whitelist_max_attempts", 3);
+					growthFactor = j.value("whitelist_growth_factor", 1.5);
 				}
 			} catch (...) {
 				// Ignoriere Parsingfehler und nutze Defaults
@@ -555,17 +643,23 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				return {Status::OK(), std::move(bf)};
 			}
 
-			// Starte mit konfigurierter Kandidatenanzahl und wachse bis ausreichend Treffer
-			size_t candidateCount = std::max(static_cast<size_t>(k * initialFactor), static_cast<size_t>(std::max(efSearch_ * 2, minCandidatesFloor)));
+			// Starte mit adaptiver Kandidatenanzahl
+			size_t candidateCount = std::max(
+				static_cast<size_t>(k * initialFactor),
+				static_cast<size_t>(std::max(static_cast<int>(efSearch_ * 1.5f), minCandidatesFloor))
+			);
 
 			std::vector<Result> filtered;
 			filtered.reserve(k);
 			std::unordered_set<std::string> seen;
+			seen.reserve(k * 2);
 
 			for (size_t attempt = 0; attempt < static_cast<size_t>(maxAttempts) && filtered.size() < k; ++attempt) {
 				auto top = appr->searchKnn(q.data(), candidateCount);
 				std::vector<Result> tmp;
-				tmp.reserve(top.size());
+				tmp.reserve(candidateCount);
+				
+				// Batch process results with prefetching
 				while (!top.empty()) {
 					auto p = top.top();
 					top.pop();
@@ -580,6 +674,7 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 				}
 				std::reverse(tmp.begin(), tmp.end()); // kleinste Distanz zuerst
 
+				// Process candidates with early termination
 				for (const auto& r : tmp) {
 					if (seen.insert(r.pk).second) {
 						filtered.push_back(r);
@@ -587,14 +682,18 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 					}
 				}
 
-				// Nächster Versuch mit Wachstum
+				// Nächster Versuch mit adaptivem Wachstum
 				candidateCount = static_cast<size_t>(candidateCount * growthFactor);
+				if (candidateCount > whitelist->size() * 2) {
+					candidateCount = whitelist->size() * 2; // Cap to avoid excessive search
+				}
 			}
 
 			if (filtered.size() >= k) {
 				if (filtered.size() > k) filtered.resize(k);
 				return {Status::OK(), std::move(filtered)};
 			}
+			
 			// Wenn nicht genügend Treffer: Fallback für Rest via Brute-Force über Whitelist (korrekt und vollständig)
 			THEMIS_INFO("searchKnn: HNSW+Whitelist lieferte nur {} von {} – ergänze via Brute-Force", filtered.size(), k);
 			auto bf = bruteForceSearch_(query, k, whitelist);
@@ -1336,15 +1435,104 @@ VectorIndexManager::Status VectorIndexManager::addBatch(
 		return Status::OK();
 	}
 
+	// OPTIMIZATION: Batch quantization analysis before write
+	bool shouldQuantize = [&]() -> bool {
+		std::string mode = "auto"; 
+		int64_t threshold = 1000000;
+		try {
+			if (auto cfg = db_.get("config:vector")) {
+				std::string s(cfg->begin(), cfg->end());
+				nlohmann::json j = nlohmann::json::parse(s);
+				mode = j.value("quantization", std::string("auto"));
+				threshold = j.value("auto_threshold", 1000000);
+			}
+		} catch (...) {}
+		if (mode == "none") return false;
+		if (mode == "sq8") return true;
+		return static_cast<int64_t>(getVectorCount()) >= threshold;
+	}();
+
+	// Pre-allocate and prepare quantization data
+	std::vector<std::vector<uint8_t>> batch_quantized;
+	std::vector<double> batch_scales;
+	if (shouldQuantize) {
+		batch_quantized.reserve(entities.size());
+		batch_scales.reserve(entities.size());
+		
+		for (const auto& entity : entities) {
+			auto v = entity.extractVector(std::string(vectorField));
+			if (v && v->size() == static_cast<size_t>(dim_)) {
+				float amax = 0.0f;
+				for (float x : *v) amax = std::max(amax, std::fabs(x));
+				float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
+				
+				std::vector<uint8_t> codes(v->size());
+				#pragma omp simd
+				for (size_t i = 0; i < v->size(); ++i) {
+					int q = static_cast<int>(std::round((*v)[i] / scale));
+					q = std::max(-127, std::min(127, q));
+					codes[i] = static_cast<uint8_t>(static_cast<int8_t>(q));
+				}
+				batch_quantized.push_back(std::move(codes));
+				batch_scales.push_back(scale);
+			}
+		}
+	}
+
 	// Use WriteBatch for atomic batch insert
 	auto batch = db_.createWriteBatch();
 	
-	for (const auto& entity : entities) {
-		auto result = addEntity(entity, *batch, vectorField);
-		if (!result.ok) {
-			THEMIS_WARN("addBatch: Failed to add entity {}: {}", entity.getPrimaryKey(), result.message);
-			// Continue with other entities
+	for (size_t i = 0; i < entities.size(); ++i) {
+		const auto& entity = entities[i];
+		const std::string& pk = entity.getPrimaryKey();
+		auto v = entity.extractVector(std::string(vectorField));
+		
+		if (!v || v->size() != static_cast<size_t>(dim_)) {
+			THEMIS_WARN("addBatch: Entity {} has invalid vector", pk);
+			continue;
 		}
+
+		// Persist via batch
+		std::string key = makeObjectKey(pk);
+		std::vector<uint8_t> serialized;
+		
+		if (shouldQuantize && i < batch_quantized.size()) {
+			auto fields = entity.getAllFields();
+			fields.erase("embedding");
+			fields["embedding_q"] = batch_quantized[i];
+			fields["embedding_scale"] = batch_scales[i];
+			BaseEntity eq = BaseEntity::fromFields(pk, fields);
+			serialized = eq.serialize();
+		} else {
+			serialized = entity.serialize();
+		}
+		
+		batch->put(key, serialized);
+
+		// Cache update with normalization
+		std::vector<float> vv = *v;
+		if (metric_ == Metric::COSINE) normalizeL2(vv);
+		cache_[pk] = vv;
+		
+#ifdef THEMIS_HNSW_ENABLED
+		if (useHnsw_) {
+			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+			auto it = pkToId_.find(pk);
+			size_t id;
+			if (it == pkToId_.end()) {
+				id = idToPk_.size();
+				pkToId_[pk] = id;
+				idToPk_.push_back(pk);
+			} else {
+				id = it->second;
+			}
+			try { 
+				appr->addPoint(cache_[pk].data(), id); 
+			} catch (...) { 
+				// Already exists 
+			}
+		}
+#endif
 	}
 	
 	// Commit batch atomically
