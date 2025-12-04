@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  themis-server:
+    image: themis-db:wire-protocol-latest
+    container_name: themis-wire-protocol
+    ports:
+      # HTTP REST API
+      - "8765:8765"
+      # Wire Protocol (binary TCP)
+      - "8766:8766"
+    environment:
+      - THEMIS_CONFIG_PATH=/etc/themis/config.json
+      - THEMIS_PORT=8765
+      - THEMIS_WIRE_PORT=8766
+      - LD_LIBRARY_PATH=/app/vcpkg_installed/x64-linux/lib
+    volumes:
+      - themis_data:/data
+      - ./config:/etc/themis:ro
+    healthcheck:
+      test: ["CMD", "test", "-f", "/app/themis_server"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - themis_network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  themis_data:
+    driver: local
+
+networks:
+  themis_network:
+    driver: bridge

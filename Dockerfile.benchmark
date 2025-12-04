@@ -1,0 +1,28 @@
+FROM ubuntu:22.04
+
+# Install runtime dependencies only (no build)
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    libstdc++6 \
+    libssl3 \
+    zlib1g \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy pre-built binary from build context
+COPY build-msvc/Release/themis_server.exe /usr/local/bin/themis_server
+RUN chmod +x /usr/local/bin/themis_server
+
+# Create data directory
+RUN mkdir -p /data && chmod 755 /data
+
+# Expose port
+EXPOSE 8765
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --retries=10 --start-period=30s \
+    CMD curl -fsS http://localhost:8765/health || exit 1
+
+# Start server
+ENTRYPOINT ["themis_server"]
+CMD ["--port", "8765", "--data", "/data"]

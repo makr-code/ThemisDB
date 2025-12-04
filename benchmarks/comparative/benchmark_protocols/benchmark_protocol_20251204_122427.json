@@ -1,0 +1,471 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-04T12:24:11.647437",
+    "date": "04.12.2025",
+    "time": "12:24:11",
+    "timezone": "Mitteleuropäische Zeit",
+    "epoch": 1764847451647
+  },
+  "hardware": {
+    "cpu": {
+      "model": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+      "manufacturer": "GenuineIntel",
+      "description": "Intel64 Family 6 Model 165 Stepping 5",
+      "physical_cores": 10,
+      "logical_processors": 20,
+      "max_clock_speed_mhz": 3696,
+      "l2_cache_kb": 2560,
+      "l3_cache_kb": 20480,
+      "family": 207,
+      "model_number": 0,
+      "stepping": null
+    },
+    "memory": {
+      "total_gb": 0.0,
+      "modules": 0,
+      "modules_detail": []
+    },
+    "storage": {
+      "drive": "C:",
+      "filesystem": "NTFS",
+      "total_gb": 1906.42,
+      "used_gb": 1631.97,
+      "free_gb": 274.46,
+      "usage_percent": 85.6,
+      "available_for_benchmarks_gb": 219.56
+    }
+  },
+  "software": {
+    "os": {
+      "name": "Microsoft Windows 11 Pro",
+      "version": "10.0.26100",
+      "build": "26100",
+      "architecture": "64bit",
+      "python_version": "3.13.6",
+      "python_implementation": "CPython"
+    },
+    "containerization": {
+      "docker": "Docker version 29.0.1, build eedd969",
+      "docker_compose": "Docker Compose version v2.40.3-desktop.1"
+    },
+    "python_packages": {
+      "python_version": "3.13.6",
+      "packages": {
+        "aiohttp": "3.13.0",
+        "elasticsearch": "9.2.0",
+        "grpcio": "1.75.1",
+        "httpx": "0.28.1",
+        "matplotlib": "3.10.6",
+        "numpy": "2.3.4",
+        "pandas": "2.3.3",
+        "protobuf": "6.32.1",
+        "psycopg2-binary": "2.9.11",
+        "pymongo": "4.15.5",
+        "requests": "2.32.5",
+        "scipy": "1.16.2"
+      },
+      "total_installed": 423
+    }
+  },
+  "test_environment": {},
+  "network": {
+    "adapters": [
+      {
+        "name": "vEthernet (WSL (Hyper-V firewall))",
+        "description": "Hyper-V Virtual Ethernet Adapter #2",
+        "link_speed": "10 Gbps"
+      },
+      {
+        "name": "Ethernet 3",
+        "description": "Intel(R) Ethernet Connection (12) I219-V",
+        "link_speed": "100 Mbps"
+      },
+      {
+        "name": "vEthernet (Default Switch)",
+        "description": "Hyper-V Virtual Ethernet Adapter",
+        "link_speed": "10 Gbps"
+      }
+    ]
+  },
+  "docker_config": {
+    "system_info": {
+      "ID": "1be1c038-1fc6-4d52-82f7-53b030748405",
+      "Containers": 8,
+      "ContainersRunning": 8,
+      "ContainersPaused": 0,
+      "ContainersStopped": 0,
+      "Images": 39,
+      "Driver": "overlay2",
+      "DriverStatus": [
+        [
+          "Backing Filesystem",
+          "extfs"
+        ],
+        [
+          "Supports d_type",
+          "true"
+        ],
+        [
+          "Using metacopy",
+          "false"
+        ],
+        [
+          "Native Overlay Diff",
+          "true"
+        ],
+        [
+          "userxattr",
+          "false"
+        ]
+      ],
+      "Plugins": {
+        "Volume": [
+          "local"
+        ],
+        "Network": [
+          "bridge",
+          "host",
+          "ipvlan",
+          "macvlan",
+          "null",
+          "overlay"
+        ],
+        "Authorization": null,
+        "Log": [
+          "awslogs",
+          "fluentd",
+          "gcplogs",
+          "gelf",
+          "journald",
+          "json-file",
+          "local",
+          "splunk",
+          "syslog"
+        ]
+      },
+      "MemoryLimit": true,
+      "SwapLimit": true,
+      "CpuCfsPeriod": true,
+      "CpuCfsQuota": true,
+      "CPUShares": true,
+      "CPUSet": true,
+      "PidsLimit": true,
+      "IPv4Forwarding": true,
+      "Debug": false,
+      "NFd": 126,
+      "OomKillDisable": true,
+      "NGoroutines": 142,
+      "SystemTime": "2025-12-04T11:24:24.859302579Z",
+      "LoggingDriver": "json-file",
+      "CgroupDriver": "cgroupfs",
+      "CgroupVersion": "1",
+      "NEventsListener": 14,
+      "KernelVersion": "5.15.167.4-microsoft-standard-WSL2",
+      "OperatingSystem": "Docker Desktop",
+      "OSVersion": "",
+      "OSType": "linux",
+      "Architecture": "x86_64",
+      "IndexServerAddress": "https://index.docker.io/v1/",
+      "RegistryConfig": {
+        "InsecureRegistryCIDRs": [
+          "::1/128",
+          "127.0.0.0/8"
+        ],
+        "IndexConfigs": {
+          "docker.io": {
+            "Name": "docker.io",
+            "Mirrors": [],
+            "Secure": true,
+            "Official": true
+          },
+          "hubproxy.docker.internal:5555": {
+            "Name": "hubproxy.docker.internal:5555",
+            "Mirrors": [],
+            "Secure": false,
+            "Official": false
+          }
+        },
+        "Mirrors": []
+      },
+      "NCPU": 20,
+      "MemTotal": 33619804160,
+      "GenericResources": null,
+      "DockerRootDir": "/var/lib/docker",
+      "HttpProxy": "http.docker.internal:3128",
+      "HttpsProxy": "http.docker.internal:3128",
+      "NoProxy": "hubproxy.docker.internal",
+      "Name": "docker-desktop",
+      "Labels": [
+        "com.docker.desktop.address=npipe://\\\\.\\pipe\\docker_cli"
+      ],
+      "ExperimentalBuild": false,
+      "ServerVersion": "29.0.1",
+      "Runtimes": {
+        "io.containerd.runc.v2": {
+          "path": "runc",
+          "status": {
+            "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.2.1\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true},\"mountExtensions\":{\"idmap\":{\"enabled\":true}}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.4\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.3.3-0-gd842d771\",\"org.opencontainers.runc.version\":\"1.3.3\\n\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+          }
+        },
+        "nvidia": {
+          "path": "nvidia-container-runtime",
+          "status": {
+            "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.2.1\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true},\"mountExtensions\":{\"idmap\":{\"enabled\":true}}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.4\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.3.3-0-gd842d771\",\"org.opencontainers.runc.version\":\"1.3.3\\n\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+          }
+        },
+        "runc": {
+          "path": "runc",
+          "status": {
+            "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.2.1\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true},\"mountExtensions\":{\"idmap\":{\"enabled\":true}}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.4\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.3.3-0-gd842d771\",\"org.opencontainers.runc.version\":\"1.3.3\\n\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+          }
+        }
+      },
+      "DefaultRuntime": "runc",
+      "Swarm": {
+        "NodeID": "",
+        "NodeAddr": "",
+        "LocalNodeState": "inactive",
+        "ControlAvailable": false,
+        "Error": "",
+        "RemoteManagers": null
+      },
+      "LiveRestoreEnabled": false,
+      "Isolation": "",
+      "InitBinary": "docker-init",
+      "ContainerdCommit": {
+        "ID": "fcd43222d6b07379a4be9786bda52438f0dd16a1"
+      },
+      "RuncCommit": {
+        "ID": "v1.3.3-0-gd842d771"
+      },
+      "InitCommit": {
+        "ID": "de40ad0"
+      },
+      "SecurityOptions": [
+        "name=seccomp,profile=builtin"
+      ],
+      "FirewallBackend": {
+        "Driver": "iptables"
+      },
+      "CDISpecDirs": [
+        "/etc/cdi",
+        "/var/run/cdi"
+      ],
+      "DiscoveredDevices": [
+        {
+          "Source": "cdi",
+          "ID": "docker.com/gpu=webgpu"
+        }
+      ],
+      "Containerd": {
+        "Address": "/run/containerd/containerd.sock",
+        "Namespaces": {
+          "Containers": "moby",
+          "Plugins": "plugins.moby"
+        }
+      },
+      "Warnings": [
+        "WARNING: No blkio throttle.read_bps_device support",
+        "WARNING: No blkio throttle.write_bps_device support",
+        "WARNING: No blkio throttle.read_iops_device support",
+        "WARNING: No blkio throttle.write_iops_device support",
+        "WARNING: Support for cgroup v1 is deprecated and planned to be removed by no later than May 2029 (https://github.com/moby/moby/issues/51111)"
+      ],
+      "ClientInfo": {
+        "Debug": false,
+        "Version": "29.0.1",
+        "DefaultAPIVersion": "1.52",
+        "GitCommit": "eedd969",
+        "GoVersion": "go1.25.4",
+        "Os": "windows",
+        "Arch": "amd64",
+        "BuildTime": "Fri Nov 14 16:19:55 2025",
+        "Context": "desktop-linux",
+        "Plugins": [
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v1.13.0",
+            "ShortDescription": "Docker AI Agent - Ask Gordon",
+            "Name": "ai",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-ai.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.29.1-desktop.1",
+            "ShortDescription": "Docker Buildx",
+            "Name": "buildx",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-buildx.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v2.40.3-desktop.1",
+            "ShortDescription": "Docker Compose",
+            "Name": "compose",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-compose.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "0.0.45",
+            "ShortDescription": "Get a shell into any image or container",
+            "Name": "debug",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-debug.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.2.0",
+            "ShortDescription": "Docker Desktop commands",
+            "Name": "desktop",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-desktop.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.2.31",
+            "ShortDescription": "Manages Docker extensions",
+            "Name": "extension",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-extension.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v1.4.0",
+            "ShortDescription": "Creates Docker-related starter files for your project",
+            "Name": "init",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-init.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.28.0",
+            "ShortDescription": "Docker MCP Plugin",
+            "Name": "mcp",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-mcp.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v1.0.0",
+            "ShortDescription": "Docker Model Runner",
+            "Name": "model",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-model.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.5.24",
+            "ShortDescription": "Docker Offload",
+            "Name": "offload",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-offload.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.0.11",
+            "ShortDescription": "Docker Pass Secrets Manager Plugin (beta)",
+            "Hidden": true,
+            "Name": "pass",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-pass.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v0.6.0",
+            "ShortDescription": "Docker Sandbox",
+            "Name": "sandbox",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-sandbox.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Anchore Inc.",
+            "Version": "0.6.0",
+            "ShortDescription": "View the packaged-based Software Bill Of Materials (SBOM) for an image",
+            "URL": "https://github.com/docker/sbom-cli-plugin",
+            "Name": "sbom",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-sbom.exe"
+          },
+          {
+            "SchemaVersion": "0.1.0",
+            "Vendor": "Docker Inc.",
+            "Version": "v1.18.3",
+            "ShortDescription": "Docker Scout",
+            "Name": "scout",
+            "Path": "C:\\Program Files\\Docker\\cli-plugins\\docker-scout.exe"
+          }
+        ],
+        "Warnings": null
+      }
+    },
+    "version": {
+      "Client": {
+        "Version": "29.0.1",
+        "ApiVersion": "1.52",
+        "DefaultAPIVersion": "1.52",
+        "GitCommit": "eedd969",
+        "GoVersion": "go1.25.4",
+        "Os": "windows",
+        "Arch": "amd64",
+        "BuildTime": "Fri Nov 14 16:19:55 2025",
+        "Context": "desktop-linux"
+      },
+      "Server": {
+        "Platform": {
+          "Name": "Docker Desktop 4.53.0 (211793)"
+        },
+        "Version": "29.0.1",
+        "ApiVersion": "1.52",
+        "MinAPIVersion": "1.44",
+        "Os": "linux",
+        "Arch": "amd64",
+        "Components": [
+          {
+            "Name": "Engine",
+            "Version": "29.0.1",
+            "Details": {
+              "ApiVersion": "1.52",
+              "Arch": "amd64",
+              "BuildTime": "Fri Nov 14 16:17:57 2025",
+              "Experimental": "false",
+              "GitCommit": "198b5e3",
+              "GoVersion": "go1.25.4",
+              "KernelVersion": "5.15.167.4-microsoft-standard-WSL2",
+              "MinAPIVersion": "1.44",
+              "Os": "linux"
+            }
+          },
+          {
+            "Name": "containerd",
+            "Version": "v2.1.5",
+            "Details": {
+              "GitCommit": "fcd43222d6b07379a4be9786bda52438f0dd16a1"
+            }
+          },
+          {
+            "Name": "runc",
+            "Version": "1.3.3",
+            "Details": {
+              "GitCommit": "v1.3.3-0-gd842d771"
+            }
+          },
+          {
+            "Name": "docker-init",
+            "Version": "0.19.0",
+            "Details": {
+              "GitCommit": "de40ad0"
+            }
+          }
+        ],
+        "GitCommit": "198b5e3",
+        "GoVersion": "go1.25.4",
+        "KernelVersion": "5.15.167.4-microsoft-standard-WSL2",
+        "BuildTime": "Fri Nov 14 16:17:57 2025"
+      }
+    }
+  },
+  "benchmark_config": {},
+  "results": {}
+}

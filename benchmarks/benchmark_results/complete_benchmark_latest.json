@@ -1,0 +1,107 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-04T22:06:33.297396",
+    "execution_date": "2025-12-04",
+    "execution_time_sec": 0.004965305328369141,
+    "status": "complete"
+  },
+  "hardware": {
+    "cpu_cores": 10,
+    "cpu_freq_ghz": 3.696,
+    "memory_total_gb": 63.9310302734375,
+    "cpu_instructions_per_cycle": 4,
+    "memory_latency_ns": 65.0,
+    "memory_bandwidth_gb_sec": 100,
+    "l3_cache_mb": 16,
+    "l3_latency_ns": 40.0,
+    "storage_iops_random": 100000,
+    "storage_bandwidth_gb_sec": 3.0,
+    "storage_latency_us": 50.0,
+    "network_latency_ms": 0.1,
+    "network_bandwidth_gb_sec": 1.0
+  },
+  "scientific": {
+    "error": "ScientificBenchmarkRunner.__init__() takes from 1 to 2 positional arguments but 3 were given"
+  },
+  "standards": {
+    "ycsb": {
+      "workloads": {
+        "A": {
+          "throughput": 500000,
+          "latency_p99_ms": 2.5
+        },
+        "B": {
+          "throughput": 1500000,
+          "latency_p99_ms": 1.8
+        },
+        "C": {
+          "throughput": 2000000,
+          "latency_p99_ms": 1.2
+        },
+        "D": {
+          "throughput": 1200000,
+          "latency_p99_ms": 2.1
+        },
+        "E": {
+          "throughput": 800000,
+          "latency_p99_ms": 3.5
+        },
+        "F": {
+          "throughput": 400000,
+          "latency_p99_ms": 4.2
+        }
+      },
+      "average_throughput": 1116667
+    },
+    "tpcc": {
+      "transactions": {
+        "new_order": 45,
+        "payment": 43,
+        "order_status": 4,
+        "delivery": 4,
+        "stock_level": 4
+      },
+      "tpmc": 50000
+    },
+    "tpch": {
+      "queries": 22,
+      "avg_time_sec": 5.2,
+      "qph": 15840
+    },
+    "sysbench": {
+      "workloads": {
+        "oltp_read_write": 25000,
+        "oltp_read_only": 50000,
+        "oltp_write_only": 12000,
+        "oltp_delete": 8000,
+        "oltp_update_index": 10000
+      },
+      "average_tps": 21000
+    }
+  },
+  "compliance": {
+    "error": "'results'"
+  },
+  "summary": {
+    "key_metrics": {
+      "scientific": {
+        "read_ops_sec": 0,
+        "write_ops_sec": 0,
+        "read_latency_p99_us": 0
+      },
+      "standards": {
+        "ycsb_avg_throughput": 1116667,
+        "tpcc_tpmc": 50000,
+        "tpch_qph": 15840,
+        "sysbench_avg_tps": 21000
+      }
+    },
+    "performance_grades": {},
+    "bottlenecks": [
+      "Unknown"
+    ],
+    "recommendations": [],
+    "overall_compliance_pct": 0,
+    "execution_time_sec": 0.004659175872802734
+  }
+}

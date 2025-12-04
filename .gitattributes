@@ -1,0 +1,59 @@
+# Git Attributes - File handling and normalization
+
+# Auto detect text files and normalize line endings to LF
+* text=auto
+
+# Source code
+*.h text eol=lf
+*.hpp text eol=lf
+*.cpp text eol=lf
+*.c text eol=lf
+*.py text eol=lf
+*.ps1 text eol=crlf
+*.sh text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.xml text eol=lf
+*.toml text eol=lf
+
+# Binary files
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.lib binary
+*.a binary
+*.o binary
+*.obj binary
+
+# Images
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+
+# Archives
+*.zip binary
+*.tar.gz binary
+*.rar binary
+*.7z binary
+
+# Databases
+*.db binary
+*.sst binary
+*.ldb binary
+
+# Large file protection - prevent accidental commits of large test data
+# These patterns work in conjunction with .gitignore
+*.test.db binary
+testdata*.json binary
+test_data*.json binary
+benchmark_results/*.json binary
+
+# CMake files
+CMakeLists.txt text eol=lf
+*.cmake text eol=lf
+vcpkg.json text eol=lf

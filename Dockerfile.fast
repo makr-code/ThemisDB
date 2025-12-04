@@ -1,0 +1,43 @@
+# ThemisDB Fast Runtime Image - Uses local WSL binary
+# This approach copies the pre-built binary directly into the image
+# Build with: docker build -t themis-db:wire-protocol-latest -f Dockerfile.fast .
+
+FROM ubuntu:24.04
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libssl3t64 \
+    libstdc++6 \
+    libc6 \
+    libboost-system1.83.0 \
+    libboost-thread1.83.0 \
+    libzstd1 \
+    libbrotli1 \
+    libcurl4t64 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# The binary will be provided via build context
+# Copy from Windows: build-wsl/themis_server
+COPY themis_server /app/themis_server
+
+RUN chmod +x /app/themis_server && \
+    ls -lh /app/themis_server
+
+# Create required directories
+RUN mkdir -p /data /etc/themis /var/log/themis
+
+# Run as root for now (can be changed later)
+# USER themis
+
+# Expose ports: 8765 (HTTP REST API), 8766 (Wire Protocol)
+EXPOSE 8765 8766
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD test -f /app/themis_server || exit 1
+
+# Default command
+CMD ["/app/themis_server"]

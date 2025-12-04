@@ -1,0 +1,45 @@
+# Fast Docker image using locally built themis_server binary
+# Assumes build-wsl/themis_server is available and contains optimizations
+
+FROM ubuntu:22.04 AS runtime
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install runtime dependencies only (much smaller layer)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libc6 libstdc++6 libgcc-s1 \
+    ca-certificates \
+    curl \
+    python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip3 install --no-cache-dir \
+    requests numpy pandas \
+    && python3 -m pip install --upgrade pip setuptools
+
+# Create app directory
+WORKDIR /app
+
+# Copy the pre-built themis_server binary from local build-wsl
+COPY build-wsl/themis_server /app/themis_server
+
+# Copy benchmark scripts for validation
+COPY benchmarks/ /app/benchmarks/
+COPY tests/ /app/tests/
+
+# Copy documentation for reference
+COPY docs/ /app/docs/
+COPY README.md /app/README.md
+COPY BENCHMARK_RESULTS_COMPLETE_2025.md /app/
+
+# Make binary executable
+RUN chmod +x /app/themis_server
+
+# Expose API ports
+EXPOSE 8765 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8765/health || exit 1
+
+# Default command starts server
+CMD ["/app/themis_server", "--bind", "0.0.0.0", "--port", "8765"]

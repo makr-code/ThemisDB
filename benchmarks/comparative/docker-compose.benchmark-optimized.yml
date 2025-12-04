@@ -1,0 +1,222 @@
+# Hardware-Optimized Benchmark Environment
+# Actual Hardware: 274GB disk, 64GB RAM, Intel i9-10900K (10C/20T)
+# Optimized for: 20GB datasets (5GB per database)
+# Total Memory Usage: ~26GB (4 DBs × 6-8GB)
+
+version: '3.8'
+
+services:
+  # ============================================================================
+  # ThemisDB - Multi-Model Unified Database
+  # ============================================================================
+  themisdb:
+    image: themisdb/themisdb:latest
+    container_name: benchmark-themisdb
+    ports:
+      - "8765:8765"  # HTTP REST API
+      - "8766:8766"  # Wire Protocol (Native Binary)
+    volumes:
+      - themisdb-data:/data
+      - ./scripts:/scripts:ro
+    environment:
+      - THEMIS_LOG_LEVEL=info
+      - THEMIS_DATA_PATH=/data
+      - THEMIS_MAX_MEMORY=8G
+      - THEMIS_WIRE_PROTOCOL_ENABLED=true
+      - THEMIS_WIRE_PROTOCOL_PORT=8766
+    deploy:
+      resources:
+        limits:
+          cpus: '6'
+          memory: 8G  # 5GB data + 3GB overhead
+        reservations:
+          cpus: '3'
+          memory: 4G
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # PostgreSQL 16 + pgvector (Vector Search)
+  # ============================================================================
+  postgresql:
+    image: pgvector/pgvector:pg16
+    container_name: benchmark-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=benchmark
+      - POSTGRES_PASSWORD=benchmark123
+      - POSTGRES_DB=benchmarkdb
+      - POSTGRES_SHARED_BUFFERS=2GB
+      - POSTGRES_EFFECTIVE_CACHE_SIZE=4GB
+      - POSTGRES_MAX_CONNECTIONS=200
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-postgres.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: >
+      postgres
+      -c shared_buffers=2GB
+      -c effective_cache_size=4GB
+      -c max_connections=200
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 6G  # 5GB data + 1GB buffers
+        reservations:
+          cpus: '2'
+          memory: 3G
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U benchmark"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # Elasticsearch 8.x (Full-Text + Vector Search)
+  # ============================================================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: benchmark-elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g"  # 3GB heap (50% of memory limit)
+      - bootstrap.memory_lock=true
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 6G  # 3GB heap + 3GB off-heap
+        reservations:
+          cpus: '2'
+          memory: 3G
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks:
+      - benchmark-net
+
+  # ============================================================================
+  # MongoDB 7.x (Document Store)
+  # ============================================================================
+  mongodb:
+    image: mongo:7.0
+    container_name: benchmark-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=benchmark
+      - MONGO_INITDB_ROOT_PASSWORD=benchmark123
+      - MONGO_INITDB_DATABASE=benchmarkdb
+    volumes:
+      - mongodb-data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init.js:ro
+    command: >
+      mongod
+      --wiredTigerCacheSizeGB=4
+      --maxConns=500
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 6G  # 4GB WiredTiger cache + 2GB overhead
+        reservations:
+          cpus: '2'
+          memory: 3G
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - benchmark-net
+
+# ==============================================================================
+# Volumes (Persistent Storage)
+# ==============================================================================
+volumes:
+  themisdb-data:
+    driver: local
+  postgres-data:
+    driver: local
+  elasticsearch-data:
+    driver: local
+  mongodb-data:
+    driver: local
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  benchmark-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ==============================================================================
+# Usage Instructions
+# ==============================================================================
+#
+# 1. Start all databases:
+#    docker-compose -f docker-compose.benchmark-optimized.yml up -d
+#
+# 2. Check status:
+#    docker-compose -f docker-compose.benchmark-optimized.yml ps
+#
+# 3. View logs:
+#    docker-compose -f docker-compose.benchmark-optimized.yml logs -f themisdb
+#
+# 4. Stop all:
+#    docker-compose -f docker-compose.benchmark-optimized.yml down
+#
+# 5. Clean volumes (WARNING: deletes all data):
+#    docker-compose -f docker-compose.benchmark-optimized.yml down -v
+#
+# ==============================================================================
+# Resource Summary
+# ==============================================================================
+#
+# Total Memory: 26 GB (40% of available 64GB)
+#   - ThemisDB:       8 GB (6 CPUs)
+#   - PostgreSQL:     6 GB (4 CPUs)
+#   - Elasticsearch:  6 GB (4 CPUs)
+#   - MongoDB:        6 GB (4 CPUs)
+#
+# Total CPUs: 18 cores allocated (90% of 20 threads on i9-10900K)
+#
+# Total Disk: ~80 GB estimated
+#   - Datasets:  20 GB (4 × 5GB)
+#   - Indices:   30 GB (HNSW, B-trees, Geo)
+#   - Containers: 20 GB (images + logs)
+#   - Temp:      10 GB (buffer)
+#
+# Available: 274 GB disk → Only 29% utilization ✅
+#

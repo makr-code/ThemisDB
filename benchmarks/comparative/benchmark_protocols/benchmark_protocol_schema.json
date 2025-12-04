@@ -1,0 +1,278 @@
+{
+  "benchmark_protocol": {
+    "metadata": {
+      "timestamp": "2025-12-04T12:24:27Z",
+      "date": "04.12.2025",
+      "time": "12:24:27",
+      "timezone": "UTC+1",
+      "protocol_version": "1.0",
+      "generator": "Automated Hardware Verification System"
+    },
+    "certification": {
+      "status": "CERTIFIED",
+      "all_checks_passed": true,
+      "verification_date": "2025-12-04",
+      "locked_for_reproducibility": true
+    },
+    "hardware": {
+      "cpu": {
+        "model": "Intel Core i9-10900K",
+        "full_name": "Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz",
+        "manufacturer": "GenuineIntel",
+        "architecture": "Comet Lake-X",
+        "generation": "10th Gen",
+        "socket": "LGA 1200",
+        "physical_cores": 10,
+        "logical_processors": 20,
+        "base_clock_mhz": 3696,
+        "max_turbo_ghz": 5.3,
+        "tdp_watts": 125,
+        "l2_cache_kb": 2560,
+        "l3_cache_kb": 20480,
+        "status": "VERIFIED"
+      },
+      "memory": {
+        "total_gb": 64,
+        "modules": 4,
+        "type": "DDR4",
+        "speed_mhz": 2933,
+        "cas_latency": 17,
+        "bandwidth_gbps": 187,
+        "per_module": {
+          "capacity_gb": 16,
+          "type": "DDR4-2933",
+          "form_factor": "DIMM",
+          "manufacturer": "Micron Technology"
+        },
+        "configuration": [
+          {"slot": 1, "capacity_gb": 16, "status": "installed"},
+          {"slot": 2, "capacity_gb": 16, "status": "installed"},
+          {"slot": 3, "capacity_gb": 16, "status": "installed"},
+          {"slot": 4, "capacity_gb": 16, "status": "installed"}
+        ],
+        "status": "VERIFIED"
+      },
+      "storage": {
+        "primary_drive": "C:",
+        "filesystem": "NTFS",
+        "total_gb": 1906.42,
+        "used_gb": 1631.97,
+        "free_gb": 274.46,
+        "usage_percent": 85.6,
+        "available_benchmarks_gb": 219.57,
+        "safety_margin_percent": 58.2,
+        "status": "VERIFIED"
+      },
+      "network": {
+        "adapters": [
+          {
+            "name": "vEthernet (WSL)",
+            "type": "Virtual",
+            "speed": "10 Gbps",
+            "status": "Up"
+          },
+          {
+            "name": "vEthernet (Default)",
+            "type": "Virtual",
+            "speed": "10 Gbps",
+            "status": "Up"
+          },
+          {
+            "name": "Ethernet 3",
+            "type": "Physical",
+            "speed": "100 Mbps",
+            "status": "Up"
+          }
+        ],
+        "status": "VERIFIED"
+      }
+    },
+    "software": {
+      "os": {
+        "name": "Microsoft Windows 11 Pro",
+        "version": "10.0",
+        "build": "26100",
+        "release": "Latest (2025H1)",
+        "architecture": "64-bit (x64)",
+        "status": "CURRENT"
+      },
+      "containerization": {
+        "docker": {
+          "version": "29.0.1",
+          "build": "eedd969",
+          "status": "Current"
+        },
+        "docker_compose": {
+          "version": "v2.40.3-desktop.1",
+          "status": "Current"
+        },
+        "hyper_v": {
+          "status": "Enabled"
+        },
+        "wsl2": {
+          "version": "2",
+          "status": "Enabled"
+        }
+      },
+      "python": {
+        "version": "3.13.6",
+        "implementation": "CPython",
+        "status": "Current"
+      },
+      "packages": {
+        "numpy": "2.3.4",
+        "pandas": "2.3.3",
+        "scipy": "1.16.2",
+        "psycopg2-binary": "2.9.11",
+        "pymongo": "4.15.5",
+        "elasticsearch": "9.2.0",
+        "protobuf": "6.32.1"
+      }
+    },
+    "benchmark_environment": {
+      "datasets": {
+        "wikipedia": {
+          "size_gb": 5,
+          "records": 2000000,
+          "embeddings": "384-dim MiniLM",
+          "purpose": "Hybrid Vector + Filter Search"
+        },
+        "openstreetmap": {
+          "size_gb": 5,
+          "records": 8000000,
+          "embeddings": "N/A",
+          "purpose": "Geo + Graph Traversal"
+        },
+        "amazon_reviews": {
+          "size_gb": 5,
+          "records": 8000000,
+          "embeddings": "384-dim MiniLM",
+          "purpose": "Multi-Model Text + Vector"
+        },
+        "financial_ticks": {
+          "size_gb": 5,
+          "records": 60000000,
+          "embeddings": "N/A",
+          "purpose": "Time-Series OLAP"
+        },
+        "total_size_gb": 20,
+        "total_records": 78200000
+      },
+      "docker_resources": {
+        "cpu": {
+          "allocated_cores": 18,
+          "available_cores": 20,
+          "utilization_percent": 90,
+          "allocation": {
+            "themis": 6,
+            "postgresql": 4,
+            "elasticsearch": 4,
+            "mongodb": 4
+          }
+        },
+        "memory": {
+          "allocated_gb": 26,
+          "available_gb": 64,
+          "utilization_percent": 40.6,
+          "allocation": {
+            "themis": 8,
+            "postgresql": 6,
+            "elasticsearch": 6,
+            "mongodb": 6
+          }
+        },
+        "storage": {
+          "required_gb": 80,
+          "available_gb": 219,
+          "utilization_percent": 29.2,
+          "allocation": {
+            "datasets": 20,
+            "indices": 30,
+            "containers": 20,
+            "temporary": 10
+          }
+        }
+      }
+    },
+    "test_parameters": {
+      "iterations_per_scenario": 50,
+      "warmup_iterations": 5,
+      "test_repetitions": 3,
+      "reporting_metrics": ["Min", "Max", "Mean", "Median", "P95", "P99"],
+      "test_duration_days": 12,
+      "data_freshness": "1 run per day"
+    },
+    "expected_performance": {
+      "wikipedia_hybrid": {
+        "themisdb_ms": 25,
+        "competitor": "Elasticsearch",
+        "competitor_ms": 120,
+        "advantage": "4.8x faster"
+      },
+      "osm_geo_graph": {
+        "themisdb_ms": 15,
+        "competitor": "PostGIS",
+        "competitor_ms": 250,
+        "advantage": "16.7x faster"
+      },
+      "amazon_reviews": {
+        "themisdb_ms": 20,
+        "competitor": "Elasticsearch",
+        "competitor_ms": 85,
+        "advantage": "4.25x faster"
+      },
+      "financial_olap": {
+        "themisdb_ms": 45,
+        "competitor": "ClickHouse",
+        "competitor_ms": 32,
+        "advantage": "1.4x slower (acceptable - multi-model tradeoff)"
+      }
+    },
+    "wire_protocol_performance": {
+      "target_improvement": "5-10x faster than HTTP",
+      "projected_results": {
+        "wikipedia_ms": 5,
+        "osm_ms": 3,
+        "amazon_ms": 4,
+        "financial_ms": 10
+      }
+    },
+    "reproducibility": {
+      "hardware_fingerprint": "i9-10900K-64GB-1906GB",
+      "os_build": "26100",
+      "docker_version": "29.0.1",
+      "python_version": "3.13.6",
+      "lock_date": "2025-12-04T12:24:27Z",
+      "locked_for_reproducibility": true,
+      "deviation_policy": "Document any deviations from locked versions"
+    },
+    "recommendations": {
+      "general": [
+        "Use this protocol as baseline for all benchmark runs",
+        "Document any deviations from locked software versions",
+        "Monitor system resources during execution",
+        "Archive protocol with benchmark results for reproducibility"
+      ],
+      "performance": [
+        "Implement wire protocol for 5-10x improvement",
+        "Cache warm-up recommended before production runs",
+        "Consider Tier 2 (50GB) benchmarks for extended validation"
+      ],
+      "operational": [
+        "Maintain 40GB minimum free space during benchmarks",
+        "Reserve 2 CPU cores for system operations",
+        "Monitor memory usage - 26GB allocated leaves 38GB headroom"
+      ]
+    },
+    "archival_notes": {
+      "purpose": "System certification and benchmark reproducibility",
+      "retention_period": "Permanent (paired with benchmark results)",
+      "access_level": "Internal",
+      "related_files": [
+        "BENCHMARK_SYSTEM_CERTIFICATION.md",
+        "HARDWARE_OPTIMIZED_STRATEGY.md",
+        "docker-compose.benchmark-optimized.yml"
+      ]
+    }
+  }
+}

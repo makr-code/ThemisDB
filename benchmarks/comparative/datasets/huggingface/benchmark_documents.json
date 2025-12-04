@@ -1,0 +1,1502 @@
+[
+  {
+    "_id": "doc0000",
+    "title": "Document 0: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 0",
+    "category": "Robotics",
+    "citations": 22,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0001",
+    "title": "Document 1: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 1",
+    "category": "ML",
+    "citations": 152,
+    "year": 2024,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0002",
+    "title": "Document 2: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 2",
+    "category": "NLP",
+    "citations": 493,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0003",
+    "title": "Document 3: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 3",
+    "category": "Vision",
+    "citations": 7,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0004",
+    "title": "Document 4: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 4",
+    "category": "Robotics",
+    "citations": 45,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0005",
+    "title": "Document 5: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 5",
+    "category": "Vision",
+    "citations": 467,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0006",
+    "title": "Document 6: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 6",
+    "category": "ML",
+    "citations": 124,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0007",
+    "title": "Document 7: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 7",
+    "category": "ML",
+    "citations": 24,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0008",
+    "title": "Document 8: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 8",
+    "category": "AI",
+    "citations": 393,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0009",
+    "title": "Document 9: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 9",
+    "category": "ML",
+    "citations": 278,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0010",
+    "title": "Document 10: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 10",
+    "category": "NLP",
+    "citations": 256,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0011",
+    "title": "Document 11: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 11",
+    "category": "Vision",
+    "citations": 76,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0012",
+    "title": "Document 12: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 12",
+    "category": "AI",
+    "citations": 382,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0013",
+    "title": "Document 13: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 13",
+    "category": "AI",
+    "citations": 69,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0014",
+    "title": "Document 14: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 14",
+    "category": "Vision",
+    "citations": 308,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0015",
+    "title": "Document 15: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 15",
+    "category": "AI",
+    "citations": 150,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0016",
+    "title": "Document 16: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 16",
+    "category": "Vision",
+    "citations": 477,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0017",
+    "title": "Document 17: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 17",
+    "category": "Vision",
+    "citations": 459,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0018",
+    "title": "Document 18: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 18",
+    "category": "ML",
+    "citations": 72,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0019",
+    "title": "Document 19: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 19",
+    "category": "AI",
+    "citations": 388,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0020",
+    "title": "Document 20: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 0",
+    "category": "NLP",
+    "citations": 379,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0021",
+    "title": "Document 21: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 1",
+    "category": "Robotics",
+    "citations": 19,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0022",
+    "title": "Document 22: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 2",
+    "category": "AI",
+    "citations": 330,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0023",
+    "title": "Document 23: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 3",
+    "category": "Vision",
+    "citations": 111,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0024",
+    "title": "Document 24: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 4",
+    "category": "ML",
+    "citations": 56,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0025",
+    "title": "Document 25: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 5",
+    "category": "NLP",
+    "citations": 97,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0026",
+    "title": "Document 26: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 6",
+    "category": "Vision",
+    "citations": 187,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0027",
+    "title": "Document 27: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 7",
+    "category": "NLP",
+    "citations": 91,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0028",
+    "title": "Document 28: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 8",
+    "category": "Robotics",
+    "citations": 365,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0029",
+    "title": "Document 29: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 9",
+    "category": "Robotics",
+    "citations": 71,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0030",
+    "title": "Document 30: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 10",
+    "category": "AI",
+    "citations": 401,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0031",
+    "title": "Document 31: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 11",
+    "category": "Robotics",
+    "citations": 415,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0032",
+    "title": "Document 32: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 12",
+    "category": "AI",
+    "citations": 259,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0033",
+    "title": "Document 33: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 13",
+    "category": "ML",
+    "citations": 440,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0034",
+    "title": "Document 34: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 14",
+    "category": "Robotics",
+    "citations": 230,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0035",
+    "title": "Document 35: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 15",
+    "category": "ML",
+    "citations": 19,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0036",
+    "title": "Document 36: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 16",
+    "category": "Robotics",
+    "citations": 271,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0037",
+    "title": "Document 37: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 17",
+    "category": "ML",
+    "citations": 346,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0038",
+    "title": "Document 38: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 18",
+    "category": "ML",
+    "citations": 241,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0039",
+    "title": "Document 39: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 19",
+    "category": "Vision",
+    "citations": 113,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0040",
+    "title": "Document 40: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 0",
+    "category": "Robotics",
+    "citations": 71,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0041",
+    "title": "Document 41: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 1",
+    "category": "Robotics",
+    "citations": 454,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0042",
+    "title": "Document 42: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 2",
+    "category": "Vision",
+    "citations": 241,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0043",
+    "title": "Document 43: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 3",
+    "category": "Vision",
+    "citations": 331,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0044",
+    "title": "Document 44: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 4",
+    "category": "Robotics",
+    "citations": 295,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0045",
+    "title": "Document 45: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 5",
+    "category": "Vision",
+    "citations": 225,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0046",
+    "title": "Document 46: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 6",
+    "category": "Vision",
+    "citations": 103,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0047",
+    "title": "Document 47: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 7",
+    "category": "Vision",
+    "citations": 24,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0048",
+    "title": "Document 48: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 8",
+    "category": "Robotics",
+    "citations": 158,
+    "year": 2015,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0049",
+    "title": "Document 49: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 9",
+    "category": "Vision",
+    "citations": 346,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0050",
+    "title": "Document 50: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 10",
+    "category": "Vision",
+    "citations": 150,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0051",
+    "title": "Document 51: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 11",
+    "category": "Robotics",
+    "citations": 118,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0052",
+    "title": "Document 52: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 12",
+    "category": "ML",
+    "citations": 183,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0053",
+    "title": "Document 53: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 13",
+    "category": "Robotics",
+    "citations": 105,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0054",
+    "title": "Document 54: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 14",
+    "category": "Vision",
+    "citations": 152,
+    "year": 2024,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0055",
+    "title": "Document 55: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 15",
+    "category": "AI",
+    "citations": 475,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0056",
+    "title": "Document 56: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 16",
+    "category": "NLP",
+    "citations": 290,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0057",
+    "title": "Document 57: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 17",
+    "category": "Robotics",
+    "citations": 85,
+    "year": 2015,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0058",
+    "title": "Document 58: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 18",
+    "category": "NLP",
+    "citations": 76,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0059",
+    "title": "Document 59: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 19",
+    "category": "Vision",
+    "citations": 174,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0060",
+    "title": "Document 60: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 0",
+    "category": "ML",
+    "citations": 77,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0061",
+    "title": "Document 61: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 1",
+    "category": "ML",
+    "citations": 196,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0062",
+    "title": "Document 62: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 2",
+    "category": "Vision",
+    "citations": 369,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0063",
+    "title": "Document 63: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 3",
+    "category": "NLP",
+    "citations": 107,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0064",
+    "title": "Document 64: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 4",
+    "category": "NLP",
+    "citations": 363,
+    "year": 2024,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0065",
+    "title": "Document 65: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 5",
+    "category": "ML",
+    "citations": 323,
+    "year": 2015,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0066",
+    "title": "Document 66: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 6",
+    "category": "ML",
+    "citations": 21,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0067",
+    "title": "Document 67: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 7",
+    "category": "NLP",
+    "citations": 63,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0068",
+    "title": "Document 68: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 8",
+    "category": "Vision",
+    "citations": 417,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0069",
+    "title": "Document 69: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 9",
+    "category": "Vision",
+    "citations": 487,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0070",
+    "title": "Document 70: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 10",
+    "category": "Robotics",
+    "citations": 411,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0071",
+    "title": "Document 71: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 11",
+    "category": "Vision",
+    "citations": 282,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0072",
+    "title": "Document 72: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 12",
+    "category": "NLP",
+    "citations": 39,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0073",
+    "title": "Document 73: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 13",
+    "category": "ML",
+    "citations": 234,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0074",
+    "title": "Document 74: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 14",
+    "category": "NLP",
+    "citations": 289,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0075",
+    "title": "Document 75: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 15",
+    "category": "NLP",
+    "citations": 224,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0076",
+    "title": "Document 76: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 16",
+    "category": "Vision",
+    "citations": 452,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0077",
+    "title": "Document 77: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 17",
+    "category": "ML",
+    "citations": 294,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0078",
+    "title": "Document 78: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 18",
+    "category": "Robotics",
+    "citations": 433,
+    "year": 2016,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0079",
+    "title": "Document 79: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 19",
+    "category": "AI",
+    "citations": 309,
+    "year": 2018,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0080",
+    "title": "Document 80: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 0",
+    "category": "NLP",
+    "citations": 4,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0081",
+    "title": "Document 81: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 1",
+    "category": "Robotics",
+    "citations": 240,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0082",
+    "title": "Document 82: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 2",
+    "category": "Robotics",
+    "citations": 266,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0083",
+    "title": "Document 83: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 3",
+    "category": "NLP",
+    "citations": 388,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0084",
+    "title": "Document 84: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 4",
+    "category": "ML",
+    "citations": 474,
+    "year": 2023,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0085",
+    "title": "Document 85: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 5",
+    "category": "Robotics",
+    "citations": 231,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0086",
+    "title": "Document 86: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 6",
+    "category": "Vision",
+    "citations": 432,
+    "year": 2025,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0087",
+    "title": "Document 87: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 7",
+    "category": "Vision",
+    "citations": 250,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0088",
+    "title": "Document 88: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 8",
+    "category": "NLP",
+    "citations": 243,
+    "year": 2015,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0089",
+    "title": "Document 89: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 9",
+    "category": "Robotics",
+    "citations": 17,
+    "year": 2017,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0090",
+    "title": "Document 90: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 10",
+    "category": "ML",
+    "citations": 401,
+    "year": 2015,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0091",
+    "title": "Document 91: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 11",
+    "category": "Vision",
+    "citations": 457,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0092",
+    "title": "Document 92: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 12",
+    "category": "NLP",
+    "citations": 3,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0093",
+    "title": "Document 93: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 13",
+    "category": "AI",
+    "citations": 341,
+    "year": 2022,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0094",
+    "title": "Document 94: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 14",
+    "category": "Vision",
+    "citations": 328,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0095",
+    "title": "Document 95: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. ",
+    "author": "Author 15",
+    "category": "NLP",
+    "citations": 230,
+    "year": 2020,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0096",
+    "title": "Document 96: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 16",
+    "category": "ML",
+    "citations": 426,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0097",
+    "title": "Document 97: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 17",
+    "category": "Robotics",
+    "citations": 130,
+    "year": 2024,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0098",
+    "title": "Document 98: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 18",
+    "category": "AI",
+    "citations": 441,
+    "year": 2019,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  },
+  {
+    "_id": "doc0099",
+    "title": "Document 99: Research Paper on AI",
+    "content": "This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. This is a sample document about AI and machine learning. ",
+    "author": "Author 19",
+    "category": "AI",
+    "citations": 44,
+    "year": 2021,
+    "keywords": [
+      "AI",
+      "machine learning",
+      "neural networks",
+      "deep learning"
+    ]
+  }
+]
