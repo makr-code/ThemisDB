@@ -31,7 +31,7 @@ Welcome to the ThemisDB documentation! This directory contains comprehensive doc
 - [Main README](../README.md) - Quick start guide and basic usage
 - [Architecture Overview](architecture/README.md) - High-level system architecture  
 - [Deployment Guide](deployment/README.md) - How to deploy ThemisDB
-- [Operations Runbook](guides/guides_operations.md) - Day-to-day operations
+- [Operations Runbook](guides/guides_operations_runbook.md) - Day-to-day operations
 
 ### 📖 Core Documentation - Source Modules
 
