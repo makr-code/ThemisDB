@@ -1,5 +1,12 @@
 # semantic_cache.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/cache/semantic_cache.cpp`
 
 Purpose: Implements an exact‑match semantic cache used for LLM responses. Uses RocksDB Column Family, supports TTL and basic statistics.

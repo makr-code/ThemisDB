@@ -1,5 +1,12 @@
 # ARM and Raspberry Pi Compilation Support - Implementation Summary
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 ## Investigation Results
 
 **Question:** Can ThemisDB be compiled for ARM and Raspberry Pi?

@@ -1,5 +1,12 @@
 # Kompressionsvalidierung und Benchmarks
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
 **Datum:** 27. Oktober 2025  
 **System:** Windows 11, MSVC 19.44, 20 CPU cores @ 3.7 GHz
 

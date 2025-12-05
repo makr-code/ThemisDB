@@ -1,5 +1,12 @@
 # changefeed.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/cdc/changefeed.cpp`
 
 Purpose: Changefeed implementation (writer/reader). If incomplete, document intended behavior: append events on DB writes, provide sequence numbers and replay support.

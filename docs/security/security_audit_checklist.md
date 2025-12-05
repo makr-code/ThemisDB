@@ -1,5 +1,12 @@
 # Themis – Sicherheits-Audit Checkliste
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Diese Checkliste unterstützt ein wiederholbares Sicherheits-Audit für Themis-Server und Admin-Tools.
 
 > **📋 Vollständige Compliance-Checkliste:** Für eine umfassende Audit-Checkliste nach BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2, HIPAA und DIN-Normen siehe: **[Vollständige Audit-Checkliste](../compliance/compliance_full_checklist.md)**

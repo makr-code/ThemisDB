@@ -1,5 +1,12 @@
 # Konzept: GitHub Update Checker Subsystem für ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Zusammenfassung
 
 Dieses Dokument beschreibt das Konzept und die Implementierung eines Update-Checker-Subsystems für ThemisDB, das regelmäßig auf GitHub nach Updates prüft und diese Informationen über den HTTP-Server für Admin-Tools verfügbar macht.

@@ -1,5 +1,12 @@
 # Raspberry Pi Performance Tuning Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 This guide provides detailed optimization strategies for running ThemisDB on Raspberry Pi devices.
 
 ## Table of Contents

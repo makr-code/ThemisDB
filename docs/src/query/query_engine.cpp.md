@@ -1,5 +1,12 @@
 # query_engine.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/query/query_engine.cpp`
 
 Purpose: Executes query plans, integrates BM25 scoring, vector search fusion, and result ranking.

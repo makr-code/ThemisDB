@@ -1,5 +1,12 @@
 # ContentFS HTTP API
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Apis
+
+---
+
+
 Schnittstelle zum Speichern, Abrufen und Löschen binärer Inhalte (Blobs) mit integren Metadaten. Unterstützt ETags (SHA‑256) und Byte-Range Downloads.
 
 - Basis-URL: `http://<host>:<port>`

@@ -1,5 +1,12 @@
 # pii_detector.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/pii_detector.cpp`
 
 Purpose: Implements individual PII detectors (regex, heuristics) used by the detection engine.

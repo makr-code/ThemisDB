@@ -1,6 +1,13 @@
 ```markdown
 # content_manager.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/content/content_manager.cpp`
 
 **Purpose:** Implementiert `ContentManager` für Content‑Ingest, Chunking, optionale ZSTD‑Kompression, Metadatenverwaltung und Integration mit Vector/Graph Indizes.

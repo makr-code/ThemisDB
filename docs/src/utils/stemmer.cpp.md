@@ -1,5 +1,12 @@
 # stemmer.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/stemmer.cpp`
 
 Purpose: Language stemming utilities used by text processing and search.

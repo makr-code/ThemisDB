@@ -1,5 +1,12 @@
 # Sicherheit & Governance – Überblick
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Dieser Überblick fasst die sicherheitsrelevanten Bausteine von ThemisDB zusammen und verlinkt die Detailseiten.
 
 ## ✅ Implementierungsstatus (Dezember 2025)

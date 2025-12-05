@@ -1,5 +1,12 @@
 # base_entity.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/storage/base_entity.cpp`
 
 Purpose: Base classes and helpers for entities persisted in storage layer.

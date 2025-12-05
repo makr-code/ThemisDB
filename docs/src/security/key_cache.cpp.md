@@ -1,5 +1,12 @@
 # key_cache.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/security/key_cache.cpp`
 
 Purpose: Caching of derived keys (HKDF) and key metadata for FieldEncryption.

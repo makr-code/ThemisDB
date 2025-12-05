@@ -1,5 +1,12 @@
 # Hot-Reload API Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Apis
+
+---
+
+
 ## Overview
 
 The Hot-Reload system allows ThemisDB to be updated without downtime by:

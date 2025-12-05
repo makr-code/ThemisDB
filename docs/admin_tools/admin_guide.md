@@ -1,5 +1,12 @@
 # Themis Admin Tools – Admin-Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Admin Tools
+
+---
+
+
 Dieser Guide richtet sich an Administratoren und beschreibt Bereitstellung, Konfiguration, Betrieb und Troubleshooting der Themis Admin-Tools (Audit, SAGA, Keys, Classification, Reports, Retention, PII).
 
 ## Architektur-Überblick

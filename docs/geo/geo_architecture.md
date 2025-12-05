@@ -1,5 +1,12 @@
 # Geo Architecture - Cross-Cutting Capability
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Geo
+
+---
+
+
 **Erstellt:** 17. November 2025  
 **Status:** Phase 0.1 implementiert (EWKB Storage + Sidecar)  
 **Design:** Geo als Cross-Cutting Infrastructure für alle 5 Datenbank-Modelle

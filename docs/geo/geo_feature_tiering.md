@@ -1,5 +1,12 @@
 # Geo Feature Tiering & Plugin-Architektur
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Geo
+
+---
+
+
 Ziel: ThemisDB Geo so gestalten, dass erweiterte Funktionen optional als "Enterprise Capabilities" zugeschaltet werden können, ohne den Core (OSS) zu belasten. Build- und Runtime-Gating, klare Schnittstellen, Capability-Discovery.
 
 ## Grundprinzipien

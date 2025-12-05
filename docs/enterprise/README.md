@@ -1,5 +1,12 @@
 # ThemisDB Enterprise Features
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Enterprise
+
+---
+
+
 ## Übersicht
 
 ThemisDB Enterprise bietet erweiterte Skalierbarkeits- und Performance-Features für unternehmenskritische Deployments mit hohem Durchsatz und strengen SLA-Anforderungen.

@@ -1,5 +1,12 @@
 # Fulltext Search API
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Search
+
+---
+
+
 **Status:** ✅ Implementiert (v1) – BM25 Ranking mit HTTP Endpoint
 
 ## Übersicht

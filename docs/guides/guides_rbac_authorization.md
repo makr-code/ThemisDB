@@ -1,5 +1,12 @@
 # RBAC & ABAC Authorization
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Diese Seite beschreibt die vollständige Zugriffskontrolle in ThemisDB mit zweistufigem Sicherheitsmodell:
 1. **Token-basierte Authentifizierung** mit Scopes (RBAC-Ebene)
 2. **Policy Engine** mit Attribute-Based Access Control (ABAC, Ranger-kompatibel)

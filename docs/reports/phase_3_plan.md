@@ -1,5 +1,12 @@
 # Phase 3: Subqueries & Common Table Expressions (CTEs)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Datum:** 17. November 2025  
 **Branch:** `feature/aql-subqueries` → `feature/aql-st-functions` (Implementierung)  
 **Status:** ✅ **ABGESCHLOSSEN** (17. November 2025)  

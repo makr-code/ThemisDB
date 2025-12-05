@@ -1,5 +1,12 @@
 # Chain-of-Thought (CoT) Storage - LLM Interaction Store
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 **Status:** ✅ Vollständig implementiert und validiert (30. Oktober 2025)
 
 ## Überblick

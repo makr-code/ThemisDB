@@ -1,5 +1,12 @@
 # Publikation & Ablage
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Diese Seite beschreibt den Build der Dokumentation, die Veröffentlichung auf GitHub Pages und einen optionalen PDF-Export für Offline-Nutzung.
 
 ## 1) Lokaler Docs-Build

@@ -1,5 +1,12 @@
 # Temporal Graphs - Themis
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Overview
 
 Themis' Temporal Graph implementation adds time-awareness to graph edges, enabling historical queries and point-in-time graph traversals. This is critical for tracking relationship evolution, knowledge graph versioning, and time-series network analysis.

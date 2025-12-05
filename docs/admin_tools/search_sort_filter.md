@@ -1,5 +1,12 @@
 # Admin Tools - Such-, Sortier- und Filterlogik
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Admin Tools
+
+---
+
+
 ## Übersicht
 
 Alle ThemisDB Admin Tools verfügen über eine vollständige Such-, Sortier- und Filterlogik, um große Datenmengen effizient zu durchsuchen und zu analysieren.

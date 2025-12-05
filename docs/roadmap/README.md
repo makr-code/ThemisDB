@@ -1,5 +1,12 @@
 # Roadmap Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Roadmap
+
+---
+
+
 Diese Dokumentation enthält die Entwicklungs-Roadmap von ThemisDB.
 
 ## Dokumentation in diesem Ordner

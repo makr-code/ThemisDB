@@ -1,5 +1,12 @@
 # Updates & Manifests Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 **Source Code:** `src/updates/`, `include/updates/`
 
 Diese Dokumentation beschreibt das Update-System und Manifest-Management von ThemisDB.

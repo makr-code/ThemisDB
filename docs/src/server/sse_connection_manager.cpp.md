@@ -1,5 +1,12 @@
 # sse_connection_manager.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/sse_connection_manager.cpp`
 
 Purpose: Manages Server‑Sent Events connections for streaming endpoints (changefeed SSE, etc.).

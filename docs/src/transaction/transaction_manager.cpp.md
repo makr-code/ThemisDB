@@ -1,5 +1,12 @@
 # transaction_manager.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/transaction/transaction_manager.cpp`
 
 Purpose: Coordinates transactions, manages commit/rollback semantics and integrates with RocksDB transactions.

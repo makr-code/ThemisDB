@@ -1,5 +1,12 @@
 # Distribution Package Maintainer Information
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 This document provides essential information for distribution package maintainers.
 
 ## Project Information

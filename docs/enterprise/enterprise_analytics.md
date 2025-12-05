@@ -1,5 +1,12 @@
 # ThemisDB Enterprise Analytics Plugins
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Enterprise
+
+---
+
+
 ## Übersicht
 
 ThemisDB Enterprise Analytics erweitert die Kernfunktionalität um fortgeschrittene Analysefähigkeiten, die als separate DLLs/Shared Libraries bereitgestellt werden.

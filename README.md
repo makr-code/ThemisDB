@@ -44,6 +44,30 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 
 **Für Entwickler:**
 - **[Documentation Verification Report](docs/reports/documentation_verification_report.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
+- **[Source Code Audit](docs/development/SOURCE_CODE_AUDIT.md)** - Systematische Analyse aller 16 Source-Komponenten (132 Header, 124 Sources, 90,829 LOC)
+- **[Dokumentationsstruktur](docs/DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Source-Modul-Mapping
+
+**Source-Code-Module (v1.0.0):**
+
+| Modul | Headers | Sources | LOC | Beschreibung |
+|-------|---------|---------|-----|--------------|
+| server | 20 | 20 | 18,282 | HTTP Server, REST API Handler |
+| index | 12 | 11 | 14,629 | Secondary, Vector, Graph Indexes |
+| query | 12 | 12 | 12,560 | AQL Parser, Optimizer, Engine |
+| sharding | 21 | 19 | 12,278 | Horizontal Scaling, Consistent Hashing |
+| content | 16 | 15 | 9,091 | Content Pipeline, Processors |
+| security | 16 | 16 | 8,138 | Encryption, RBAC, PKI |
+| storage | 9 | 10 | 4,591 | RocksDB Wrapper, Base Entity |
+| analytics | 3 | 2 | 3,742 | OLAP, CEP, ColumnarStore |
+| timeseries | 7 | 8 | 2,767 | Gorilla Compression, Aggregates |
+| replication | 2 | 1 | 1,612 | CRDT, Vector Clocks, HLC |
+| transaction | 2 | 2 | 895 | MVCC, SAGA Patterns |
+| llm | 2 | 2 | 679 | LLM Interaction Store |
+| cdc | 1 | 1 | 510 | Change Data Capture |
+| cache | 6 | 1 | 492 | Semantic Cache |
+| geo | 2 | 3 | 304 | Spatial Operations |
+| governance | 1 | 1 | 259 | Policy Engine |
+| **Gesamt** | **132** | **124** | **90,829** | |
 
 ## Dokumentation
 

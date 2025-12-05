@@ -1,5 +1,12 @@
 # CI/CD Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Cicd
+
+---
+
+
 Diese Dokumentation beschreibt die CI/CD-Pipelines und Workflows von ThemisDB.
 
 ## Dokumentation in diesem Ordner

@@ -1,5 +1,12 @@
 # Hybrid Search – Design (Phase 4)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Search
+
+---
+
+
 Kombiniert Vektorähnlichkeit (Chunks) mit Graph-Expansion und optionalen Filtern, um robuste Ergebnisse über Content-Chunks zu liefern.
 
 ## Ziele

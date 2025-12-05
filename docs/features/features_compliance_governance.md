@@ -1,5 +1,12 @@
 # Compliance & Governance-Strategie für ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Executive Summary
 
 **Ziel:** Umfassende Compliance- und Governance-Architektur für ThemisDB mit PKI-signiertem Audit-Trail, DSGVO-by-Design, automatischer PII-Erkennung und konfigurierbaren Governance-Policies.

@@ -1,5 +1,12 @@
 # pii_pseudonymizer.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/pii_pseudonymizer.cpp`
 
 Purpose: Pseudonymization utilities for PII (deterministic masking, reversible pseudonyms).

@@ -1,5 +1,12 @@
 # lek_manager.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/lek_manager.cpp`
 
 Purpose: LEK (local encryption key) manager helpers and rotation policies.

@@ -1,5 +1,12 @@
 # Doku-Inventar (Stand: 2025-11-02)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 Dieser Überblick listet vorhandene Inhalte, offene Dubletten/Kollisionen und Quick-Wins zur Konsolidierung.
 
 ## Wurzel (docs/)

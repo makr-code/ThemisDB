@@ -1,5 +1,12 @@
 # HNSW Persistenz & Warmstart
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 Diese Seite beschreibt die Persistierung und Wiederherstellung von HNSW-Vektorindizes für schnellere Warmstarts und robustes Recovery.
 
 ## Motivation

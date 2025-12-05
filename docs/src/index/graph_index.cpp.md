@@ -1,5 +1,12 @@
 # graph_index.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/index/graph_index.cpp`
 
 Purpose: Graph index implementation for relationship queries and traversal support.

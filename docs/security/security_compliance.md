@@ -1,5 +1,12 @@
 # Security & Compliance Review
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Dieses Dokument fasst den Sicherheits- und Compliance-Status von ThemisDB zusammen, verlinkt die relevanten Detaildokumente und enthält eine überprüfbare Checkliste für Audits.
 
 > **📋 Vollständige Audit-Checkliste:** Für eine umfassende Compliance-Prüfung nach BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2 und DIN-Normen siehe: **[Vollständige Audit-Checkliste](../FULL_AUDIT_CHECKLIST.md)**

@@ -1,5 +1,12 @@
 # PII Detection Engine Signing
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Overview
 
 All PII detection engines must be signed with PKI signatures before they can be loaded by the PIIDetector orchestrator. This ensures:

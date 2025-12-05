@@ -1,4 +1,11 @@
 # Documentation Gap Analysis
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
 **Erstellt:** 17. November 2025  
 **Zweck:** Systematischer Abgleich zwischen Implementierung und Dokumentation
 

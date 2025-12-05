@@ -1,7 +1,7 @@
 # ThemisDB – Compliance Dashboard
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Version:** 1.1  
+**Stand:** Dezember 2025  
 **Typ:** Executive Summary & Status-Übersicht
 
 ---
@@ -122,12 +122,13 @@
 
 | Metrik | Wert |
 |--------|------|
-| **Lines of Code** | ~220.000 |
-| **Dateien** | 856 |
+| **Lines of Code** | 90,829 (16 Source-Module) |
+| **Header-Dateien** | 132 |
+| **Source-Dateien** | 124 |
 | **Sprachen** | C++, C#, Python, TypeScript, Go, Rust, Java |
 | **Test Coverage** | 85%+ |
-| **Unit Tests** | 169 |
-| **Dokumentation** | 279+ Dateien |
+| **Unit Tests** | 143+ |
+| **Dokumentation** | 456+ Dateien |
 
 ### Wirtschaftliche Bewertung
 
@@ -292,6 +293,6 @@
 
 ---
 
-**Letzte Aktualisierung:** November 2025  
+**Letzte Aktualisierung:** Dezember 2025  
 **Dokumentverantwortlicher:** ThemisDB Compliance Team  
 **Nächstes Review:** [Datum + 3 Monate]

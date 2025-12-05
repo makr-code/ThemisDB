@@ -1,4 +1,11 @@
 # Dokumentations-Verifizierungsbericht
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
 **Datum:** 18. November 2025  
 **Branch:** feature/aql-st-functions  
 **Build:** themis_core.lib erfolgreich kompiliert (MSVC Debug)

@@ -1,5 +1,12 @@
 # vault_key_provider.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/security/vault_key_provider.cpp`
 
 Purpose: Integration with HashiCorp Vault or similar to fetch and use keys for signing/encryption.

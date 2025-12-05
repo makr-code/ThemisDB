@@ -1,5 +1,12 @@
 # ThemisDB auf QNAP NAS
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 Dieses Dokument beschreibt die Installation und Konfiguration von ThemisDB auf QNAP NAS-Systemen mittels Container Station.
 
 ## Systemvoraussetzungen

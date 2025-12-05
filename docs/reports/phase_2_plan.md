@@ -1,5 +1,12 @@
 # Phase 2: AQL Syntax Sugar für Hybrid Queries - Implementation Plan
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Datum:** 17. November 2025  
 **Branch:** `feature/aql-st-functions`  
 **Status:** ✅ Phase 2 + 2.5 abgeschlossen (SIMILARITY, PROXIMITY, SHORTEST_PATH, spezialisierte AST-Knoten, Composite Index Prefilter, erweiterte Kostenmodelle, Graph-Optimierung, Benchmark Suite)

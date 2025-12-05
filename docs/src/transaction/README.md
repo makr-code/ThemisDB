@@ -1,5 +1,12 @@
 # src/transaction
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder:
 - `saga.cpp` — saga workflow orchestration.
 - `transaction_manager.cpp` — transaction coordinator and helpers.

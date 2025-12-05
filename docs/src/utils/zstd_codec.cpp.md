@@ -1,5 +1,12 @@
 # zstd_codec.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/zstd_codec.cpp`
 
 Purpose: ZSTD compression/decompression helper wrappers guarded by `THEMIS_HAS_ZSTD`.

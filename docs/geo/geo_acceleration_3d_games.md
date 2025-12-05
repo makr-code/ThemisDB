@@ -1,5 +1,12 @@
 # 3D-/GameDev-Techniken für Geo-Beschleunigung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Geo
+
+---
+
+
 Ziel: Techniken aus der 3D-Games-/Echtzeit-Grafik nutzen, um Geo-Queries (ST_Intersects/Within/Contains, Distance/DWithin, Spatial Join, kNN) schneller und speichereffizienter auszuführen. Fokus auf CPU-First (portabel), optional GPU-Pfade. Lizenzkonform (permissiv), ohne harte Runtime-Abhängigkeit.
 
 ## Kurzüberblick (Mapping)

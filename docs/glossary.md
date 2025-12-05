@@ -1,5 +1,12 @@
 # Glossar
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Glossary.Md
+
+---
+
+
 - AQL: Abfragesprache von ThemisDB (ähnlich JSON-basiert)
 - Entity: Knoten-Element (Dokument) im Graph-/Dokumentenmodell
 - Edge: Beziehung zwischen Entities

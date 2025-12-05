@@ -1,28 +1,127 @@
-# Transaction-Dokumentation
+# Transaction Module
 
-**Source Code:** `src/transaction/`, `include/transaction/`
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Transaction
 
-Diese Dokumentation beschreibt die Transaktions-Komponenten von ThemisDB.
+---
 
 ## Übersicht
 
-ThemisDB implementiert vollständige ACID-Transaktionen mit:
-- MVCC (Multi-Version Concurrency Control)
-- Snapshot Isolation
-- Write-Write Conflict Detection
-- Atomic Rollbacks
+Das Transaction-Modul implementiert vollständige ACID-Transaktionen mit MVCC (Multi-Version Concurrency Control) für ThemisDB.
 
-## Dokumentation in diesem Ordner
+## Source-Code Referenz
 
-| Datei | Beschreibung | Status |
-|-------|--------------|--------|
-| [transaction_overview.md](./transaction_overview.md) | ACID-Konzept | 📋 TODO |
-| [transaction_implementation.md](./transaction_implementation.md) | MVCC-Details | 📋 TODO |
-| [transaction_api.md](./transaction_api.md) | Transaction API | 📋 TODO |
-| [transaction_isolation.md](./transaction_isolation.md) | Isolation Levels | 📋 TODO |
-| [transaction_performance.md](./transaction_performance.md) | Benchmarks | 📋 TODO |
+| Komponente | Header | Source | Beschreibung |
+|------------|--------|--------|--------------|
+| TransactionManager | `transaction_manager.h` | `transaction_manager.cpp` | MVCC Manager |
+| Transaction | `transaction_manager.h` | `transaction_manager.cpp` | Transaktions-Handle |
+| Saga | `saga.h` | `saga.cpp` | Distributed Transactions |
+
+**Gesamt:** 2 Header, 2 Source-Dateien, ~900 LOC
+
+## Implementierte Klassen
+
+### TransactionManager
+
+```cpp
+class TransactionManager {
+    using TransactionId = uint64_t;
+    
+    struct Status {
+        bool ok;
+        std::string message;
+        static Status OK();
+        static Status Error(std::string msg);
+    };
+    
+    // Begin Transaction
+    Transaction begin(IsolationLevel level = IsolationLevel::ReadCommitted);
+    
+    // Statistics
+    size_t activeTransactionCount() const;
+};
+```
+
+### Transaction
+
+```cpp
+class Transaction {
+    // Metadata
+    TransactionId getId() const;
+    IsolationLevel getIsolationLevel() const;
+    std::chrono::system_clock::time_point getStartTime() const;
+    uint64_t getDurationMs() const;
+    bool isFinished() const;
+    
+    // Relational Operations
+    Status putEntity(std::string_view table, const BaseEntity& entity);
+    Status eraseEntity(std::string_view table, std::string_view pk);
+    
+    // Graph Operations
+    Status addEdge(const BaseEntity& edgeEntity);
+    Status deleteEdge(std::string_view edgeId);
+    
+    // Vector Operations
+    Status addVector(const BaseEntity& entity, vectorField = "embedding");
+    Status updateVector(const BaseEntity& entity, vectorField = "embedding");
+    Status removeVector(std::string_view pk);
+    
+    // Commit/Rollback
+    Status commit();
+    Status rollback();
+};
+```
+
+### Isolation Levels
+
+```cpp
+enum class IsolationLevel {
+    ReadCommitted,  // Default: nur committed data sichtbar
+    Snapshot        // Snapshot Isolation (point-in-time consistency)
+};
+```
+
+## Beispiel
+
+```cpp
+TransactionManager tm(db, secIdx, graphIdx, vecIdx);
+
+// Begin Transaction
+auto txn = tm.begin(IsolationLevel::Snapshot);
+
+// Multi-Model Operations
+txn.putEntity("users", userEntity);
+txn.addEdge(followsEdge);
+txn.addVector(embeddingEntity);
+
+// Commit
+auto status = txn.commit();
+if (!status.ok) {
+    // Automatic rollback on error
+    std::cerr << status.message << std::endl;
+}
+```
+
+## ACID-Garantien
+
+| Property | Implementation |
+|----------|----------------|
+| **Atomicity** | RocksDB WriteBatch (alle oder keine) |
+| **Consistency** | Index-Updates in gleicher Batch |
+| **Isolation** | MVCC mit Snapshot Isolation |
+| **Durability** | WAL (Write-Ahead Log) |
+
+## Write-Write Conflict Detection
+
+```cpp
+// Bei Konflikt:
+// - Transaction A: UPDATE users SET name='Alice' WHERE id=1
+// - Transaction B: UPDATE users SET name='Bob' WHERE id=1
+// → Transaction B wird mit CONFLICT abgebrochen wenn A zuerst committed
+```
 
 ## Verwandte Dokumentation
 
-- [Features: Transactions](../features/features_transactions.md)
-- [Architecture: MVCC Design](../architecture/architecture_mvcc.md)
+- [Features: Transactions](../features/features_transactions.md) - Feature-Details
+- [Architecture: MVCC](../architecture/architecture_mvcc.md) - MVCC-Architektur

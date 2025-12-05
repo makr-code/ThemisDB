@@ -1,5 +1,12 @@
 # PII‑Erkennung & Klassifizierung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ThemisDB nutzt eine regelbasierte PII‑Erkennung (PIIDetector) zur Klassifizierung von Inhalten.
 
 ## Komponenten

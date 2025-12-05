@@ -1,5 +1,12 @@
 # Lookup-Pattern Katalog – Caching & Parallelisierung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 Dieser Katalog beschreibt Standard-Pfade und zugehörige Caching-Hooks.
 
 ## 1) GET by PK (URN)

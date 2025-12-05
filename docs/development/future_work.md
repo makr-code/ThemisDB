@@ -1,5 +1,12 @@
 # Search & Relevance – Future Work
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 **Status:** v1 Complete (BM25 HTTP + Hybrid Fusion) – v2 Planning
 
 <<<<<<< Updated upstream

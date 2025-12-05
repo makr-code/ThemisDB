@@ -1,5 +1,12 @@
 # ThemisDB SDK Publishing Checklist
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 ## Pre-Publishing Requirements
 
 ### 1. Version Control
