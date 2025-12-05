@@ -44,12 +44,6 @@
 ---
 
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
-
----
-
 wget https://github.com/<org>/vccdb/releases/download/v1.0.0/vccdb-linux-x64.tar.gz
 
 # Extract

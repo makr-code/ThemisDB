@@ -51,12 +51,6 @@ Bei der DB-Erstellung wird die Kompression automatisch aktiviert. Prüfen mit:
 ---
 
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Performance
-
----
-
 cat data/themis_server/OPTIONS-* | grep compression
 ```
 

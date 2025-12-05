@@ -50,13 +50,6 @@ Beispiel‑Skeleton (`docs/src/index/README.md`)
 ---
 
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Development
-
----
-
-
 Kurze Beschreibung des Subsystems.
 
 Enthaltene Dateien:

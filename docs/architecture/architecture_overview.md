@@ -436,12 +436,6 @@ curl http://localhost:8765/health
 ---
 
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Architecture
-
----
-
 ```
 
 ### Configuration Inspection
