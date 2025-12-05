@@ -1,5 +1,12 @@
 # ThemisDB: Integrierte Multi-Model Architektur
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 ## Übersicht
 
 ThemisDB verwendet einen **vollständig integrierten** Ansatz für Multi-Model-Abfragen.

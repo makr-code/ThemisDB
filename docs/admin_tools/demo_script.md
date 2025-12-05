@@ -1,5 +1,12 @@
 # ThemisDB Admin Tools - Demo Script
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Admin Tools
+
+---
+
+
 ## Demo 1: Audit Log Viewer - Such- und Filterfunktionen (5 Minuten)
 
 ### Setup (30 Sekunden)

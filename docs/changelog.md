@@ -1,5 +1,12 @@
 # Changelog
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Changelog.Md
+
+---
+
+
 Alle nennenswerten Änderungen dieses Projekts werden in diesem Dokument festgehalten. Das Format orientiert sich lose an Keep a Changelog.
 
 ## [Unreleased]

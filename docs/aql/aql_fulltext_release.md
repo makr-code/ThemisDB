@@ -1,5 +1,12 @@
 # Release Notes - AQL Fulltext Integration (v1.2)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 **Datum:** 03. November 2025  
 **Feature:** BM25-basierte Fulltext-Suche in AQL
 

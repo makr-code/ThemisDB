@@ -1,5 +1,12 @@
 # content_type.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/content/content_type.cpp`
 
 Purpose: Detect and manage content MIME types and metadata.

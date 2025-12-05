@@ -1,5 +1,12 @@
 # CI/CD for ARM and Multi-Architecture Builds
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 This document describes the continuous integration and deployment setup for ThemisDB's multi-architecture builds, including ARM support.
 
 ## GitHub Actions Workflows

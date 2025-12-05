@@ -1,5 +1,12 @@
 # Hybrid Fusion Search API
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Search
+
+---
+
+
 **Status:** ✅ Implementiert (v1) – Text+Vector Fusion mit RRF und Weighted Modes
 
 ## Übersicht

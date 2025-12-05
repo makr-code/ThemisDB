@@ -1,5 +1,12 @@
 # Update Checker Subsystem
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Overview
 
 The Update Checker subsystem is a DLL/shared library component that periodically checks GitHub for new ThemisDB releases and makes this information available via the HTTP API.

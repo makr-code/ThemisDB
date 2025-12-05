@@ -1,5 +1,12 @@
 # Compliance & Audit: PKI-Signing und Audit Logger
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Überblick
 
 Dieses Dokument beschreibt die ersten Schritte der Compliance- und Audit-Implementierung:

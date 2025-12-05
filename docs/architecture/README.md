@@ -1,5 +1,12 @@
 # Architecture Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 Technical architecture documentation for ThemisDB.
 
 ## Contents

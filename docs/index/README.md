@@ -1,5 +1,12 @@
 # Index-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Index
+
+---
+
+
 **Source Code:** `src/index/`, `include/index/`
 
 Diese Dokumentation beschreibt die Index-Komponenten von ThemisDB.

@@ -1,5 +1,12 @@
 # Cache-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Cache
+
+---
+
+
 **Source Code:** `src/cache/`, `include/cache/`
 
 Diese Dokumentation beschreibt die Caching-Komponenten von ThemisDB.

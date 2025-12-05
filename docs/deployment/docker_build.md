@@ -1,5 +1,12 @@
 # ThemisDB Docker Build und Deployment
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 ## Build-Prozess
 
 ### Docker-Image bauen

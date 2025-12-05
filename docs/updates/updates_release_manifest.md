@@ -1,5 +1,12 @@
 # Release Manifest Service für Hot-Reload - Konzept
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Neue Anforderung
 
 Für die Hot-Reload-Funktionalität benötigen wir einen automatisierten Signaturen- und Manifest-Datenbank-Service für alle Release-DLLs und Themis-Dateien.

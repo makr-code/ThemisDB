@@ -1,5 +1,12 @@
 # ThemisDB Release & Distribution Strategie (Lokaler Build)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Übersicht
 
 Diese Strategie beschreibt **manuelle Release-Prozesse** ohne GitHub Actions. Builds werden **lokal** erstellt, verpackt und als GitHub Releases hochgeladen. Kritische Bugfixes und Updates werden über strukturierte Channels verteilt.

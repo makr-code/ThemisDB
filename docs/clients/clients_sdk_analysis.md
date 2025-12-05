@@ -1,5 +1,12 @@
 # ThemisDB - Relevante Programmiersprachen für SDKs
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 **Datum:** 20. November 2025  
 **Kontext:** Planung zusätzlicher SDK-Sprachen
 

@@ -1,5 +1,12 @@
 # aql_translator.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/query/aql_translator.cpp`
 
 Purpose: Translate AQL AST fragments into internal query engine operations; handles FULLTEXT parsing.

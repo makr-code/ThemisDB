@@ -1,5 +1,12 @@
 # rocksdb_wrapper.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/storage/rocksdb_wrapper.cpp`
 
 Purpose: Wrapper utilities for RocksDB TransactionDB, CF management, checkpointing and snapshot helpers.

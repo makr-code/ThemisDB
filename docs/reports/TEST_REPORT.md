@@ -1,4 +1,11 @@
 # ThemisDB - Vollständiger Test-Bericht
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
 **Datum**: 30. November 2025, 11:45 Uhr  
 **Build**: Debug (MSVC 19.44)  
 **Branch**: stash-content-integration

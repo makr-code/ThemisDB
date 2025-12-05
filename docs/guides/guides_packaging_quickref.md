@@ -1,5 +1,12 @@
 # ThemisDB Package Maintainer Quick Reference
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 This is a quick reference guide for package maintainers. For detailed instructions, see [packaging.md](packaging.md).
 
 ## Version Update Checklist

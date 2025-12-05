@@ -1,5 +1,12 @@
 # SAGA API Implementation Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 ## Übersicht
 
 Die SAGA API bietet REST-Endpunkte für die Verifikation von SAGA-Batch-Signaturen. Sie ermöglicht die Überprüfung der Integrität und Authentizität von signierten SAGA-Transaktionsprotokollen.

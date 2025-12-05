@@ -1,5 +1,12 @@
 # Horizontal Sharding - Implementierungszusammenfassung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Sharding
+
+---
+
+
 **Projekt:** ThemisDB  
 **Feature:** Horizontale Skalierung mit URN-basiertem Sharding  
 **Status:** Phase 1 ABGESCHLOSSEN ✅  

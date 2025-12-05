@@ -1,17 +1,19 @@
 # Semantic Query Cache# Semantic Cache (Sprint A - Task 1)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
 
 
 ## Overview**Status:** ✅ Vollständig implementiert (30. Oktober 2025)
 
 
-
 The **Semantic Query Cache** is an intelligent, LRU-based cache for query results that supports both exact string matching and semantic similarity matching. It uses feature-based embeddings to find similar queries and return cached results, significantly reducing redundant query execution.## Überblick
 
 
-
 ## Key FeaturesDer Semantic Cache reduziert LLM-Kosten um 40-60% durch Zwischenspeicherung von Prompt-Response-Paaren. Er verwendet SHA256-Hashing für exaktes Matching von `(prompt, parameters)` → `response`.
-
 
 
 ### 1. Multi-Level Lookup Strategy## Implementierung
@@ -29,7 +31,6 @@ Query → Exact Match → Semantic Match (KNN) → Cache Miss### Dateien
 - **Semantic Match**: KNN search in vector space (configurable threshold)
 
 - **Fallback**: Execute query if no match found### Architektur
-
 
 
 ### 2. Intelligent Eviction```cpp
@@ -57,7 +58,6 @@ Feature-based embedding with:    std::optional<CacheEntry> query(prompt, params)
 - **L2 Normalization**: Unit-length vectors for cosine similarity```
 
 
-
 ### 4. Thread-Safe Operations### Storage
 
 - **Concurrent Reads**: Multiple threads can call `get()` simultaneously- **RocksDB Column Family:** Default CF (geplant: `semantic_cache` CF)
@@ -65,7 +65,6 @@ Feature-based embedding with:    std::optional<CacheEntry> query(prompt, params)
 - **Concurrent Writes**: Thread-safe `put()` with mutex protection- **Key Format:** SHA256 hash (32 bytes hex string)
 
 - **Deadlock-Free**: Careful lock ordering prevents resource deadlocks- **Value Format:** JSON `{response, metadata, timestamp_ms, ttl_seconds}`
-
 
 
 ## Architecture### TTL-Mechanik
@@ -245,7 +244,6 @@ if (lookup.found) {```
 ```## Performance-Ziele
 
 
-
 ### Configuration| Metric | Ziel | Status |
 
 ```cpp|--------|------|--------|
@@ -279,7 +277,6 @@ cache.evictLRU(0.1);
 // Remove expired entries
 
 cache.evictExpired();### Manuelle HTTP-Tests
-
 
 
 // Remove specific entry| Test | Ergebnis | Details |

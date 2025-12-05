@@ -1,5 +1,12 @@
 # Operations Runbook
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Dieses Runbook fasst die wichtigsten Betriebsaufgaben und Notfallmaßnahmen für THEMIS zusammen. Es richtet sich an On-Call/Operations und beschreibt Checks, Standardprozeduren und Playbooks.
 
 ## 1) Quick Checks (60 Sekunden)

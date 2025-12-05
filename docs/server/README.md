@@ -1,5 +1,12 @@
 # Server-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Server
+
+---
+
+
 **Source Code:** `src/server/`, `include/server/`
 
 Diese Dokumentation beschreibt die Server-Komponenten von ThemisDB.

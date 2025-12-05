@@ -1,5 +1,12 @@
 # Query & Search Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Query
+
+---
+
+
 Documentation for query and search capabilities.
 
 ## Contents

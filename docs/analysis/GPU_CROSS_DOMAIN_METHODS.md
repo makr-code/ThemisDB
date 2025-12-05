@@ -1,4 +1,11 @@
 # GPU-Beschleunigte Analysemethoden für ThemisDB
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Analysis
+
+---
+
 # Cross-Domain Pattern Recognition & Search Optimization
 
 **Datum:** 20. November 2025  

@@ -1,5 +1,12 @@
 # Development Reports & Planning
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 Development status reports, phase plans, and project documentation.
 
 ## Contents

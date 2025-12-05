@@ -1,5 +1,12 @@
 # Vulkan Compute Backend
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
 ## Status: 🚧 Partial Implementation (Shaders Ready)
 
 Vulkan compute shaders are implemented and ready. Full C++ backend integration requires Vulkan SDK.

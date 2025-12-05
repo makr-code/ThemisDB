@@ -1,5 +1,12 @@
 # Verschlüsselte Release Manifests - Sicherheitskonzept
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Problem
 
 Wie stellen wir sicher, dass:

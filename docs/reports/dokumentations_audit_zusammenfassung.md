@@ -1,4 +1,11 @@
 # Dokumentations-Audit - Zusammenfassung
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
 **Datum:** 20. November 2025  
 **Branch:** `copilot/update-documentation-and-audit`  
 **Aufgabe:** Dokumentation mit Source Code abgleichen und komprimierten Sachstandsbericht erstellen

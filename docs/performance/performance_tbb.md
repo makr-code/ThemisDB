@@ -1,5 +1,12 @@
 # Intel TBB Integration for Multi-CPU Backend
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
 ## Current State
 
 ✅ **Intel TBB is ALREADY in use** in ThemisDB:

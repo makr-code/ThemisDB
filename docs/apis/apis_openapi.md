@@ -1,5 +1,12 @@
 # OpenAPI & Endpunkte
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Apis
+
+---
+
+
 Die vollständige API-Spezifikation liegt als YAML vor:
 
 - `docs/openapi.yaml` (aktuell)

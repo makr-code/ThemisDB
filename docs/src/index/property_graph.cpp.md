@@ -1,5 +1,12 @@
 # property_graph.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/index/property_graph.cpp`
 
 Purpose: Utilities for property graph structures and queries.

@@ -1,5 +1,12 @@
 # MIME Detector Security & Integrity Konzept
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Archive
+
+---
+
+
 > **⚠️ DEPRECATED**: Dieses In-File-Integrity-Konzept wurde durch ein externes Signatur-System ersetzt.  
 > Siehe **[SECURITY_SIGNATURES.md](SECURITY_SIGNATURES.md)** für das aktuelle Design.
 

@@ -1,5 +1,12 @@
 # ImageProcessor – Design (Phase 4)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Content
+
+---
+
+
 Dieses Dokument beschreibt die Architektur und Testspezifikation für den Bildverarbeitungsprozessor innerhalb des Content/Filesystem-Layers.
 
 ## Ziele

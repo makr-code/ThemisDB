@@ -1,5 +1,12 @@
 # ThemisDB JavaScript/TypeScript SDK Quickstart
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 _Stand: 10. November 2025_
 
 Die JavaScript/TypeScript SDK (`@themisdb/sdk`) steht als Alpha-Build im Repository zur Verfügung. Die API ist noch nicht stabil – Breaking Changes sind ohne Vorankündigung möglich.

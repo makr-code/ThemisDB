@@ -1,5 +1,12 @@
 # Developers Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Dieser Leitfaden richtet sich an Entwicklerinnen und Entwickler, die am Themis Multi‑Modell‑Datenbanksystem mitarbeiten.
 
 ## Inhalte

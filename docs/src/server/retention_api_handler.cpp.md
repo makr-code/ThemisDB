@@ -1,5 +1,12 @@
 # retention_api_handler.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/retention_api_handler.cpp`
 
 Purpose: Handlers for data retention APIs (delete/expire data according to policies).

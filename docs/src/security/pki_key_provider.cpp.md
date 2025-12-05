@@ -1,5 +1,12 @@
 # pki_key_provider.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/security/pki_key_provider.cpp`
 
 Purpose: PKI Key provider interface and OpenSSL/Vault backed implementations for signing/verification (eIDAS scope noted).

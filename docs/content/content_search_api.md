@@ -1,5 +1,12 @@
 # Content Search API – Hybrid Search with RRF
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Content
+
+---
+
+
 ## Overview
 
 The **Content Search API** provides advanced hybrid search capabilities that combine:

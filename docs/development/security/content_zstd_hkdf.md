@@ -1,6 +1,13 @@
 ````markdown
 # Content‑Blob ZSTD Compression und HKDF‑Caching — Detaillierte Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Datum: 16. November 2025
 
 Dieses Dokument beschreibt zwei verwandte, aber eigenständige Funktionsbereiche, die im Repository implementiert sind: die Content‑Blob Vor‑Kompression mit ZSTD und das Thread‑local HKDF LRU‑Cache für Key‑Derivationen. Es fasst Verhalten, Konfiguration, zentrale Codepfade, Tests, offene Punkte und DoD zusammen.
@@ -151,7 +158,6 @@ cmake -S . -B build -G "Visual Studio 17 2022" -A x64; cmake --build build --con
 Empfohlene Unit‑Tests (zu implementieren/erweitern):
 - `tests/test_content_zstd_roundtrip.cpp` — parameterized by mime/size
 - `tests/test_hkdf_cache_eviction.cpp` — capacity & eviction
-
 
 
 ````

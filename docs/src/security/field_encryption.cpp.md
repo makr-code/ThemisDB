@@ -1,5 +1,12 @@
 # field_encryption.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/security/field_encryption.cpp`
 
 Purpose: High level FieldEncryption API. Design references mention `encryptEntityBatch`; verify and document batch API and HKDF integration.

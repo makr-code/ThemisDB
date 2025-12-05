@@ -1,5 +1,12 @@
 # Encryption Infrastructure - Nächste Schritte
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 **Status**: ✅ **Implementierung abgeschlossen** (8. November 2025 - Aktualisiert)
 
 ---

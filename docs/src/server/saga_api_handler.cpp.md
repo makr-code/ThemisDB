@@ -1,5 +1,12 @@
 # saga_api_handler.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/saga_api_handler.cpp`
 
 Purpose: Handlers to orchestrate SAGA/transactional workflows exposed via API.

@@ -1,5 +1,12 @@
 # PII API
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Dieses Dokument beschreibt die PII-bezogenen Endpunkte von ThemisDB.
 
 ## Ziel

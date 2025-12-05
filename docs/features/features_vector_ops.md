@@ -1,5 +1,12 @@
 # Vector Operations
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 Dieses Dokument beschreibt die Vektor-Indexierungs- und Suchoperationen in Themis.
 
 ## Übersicht

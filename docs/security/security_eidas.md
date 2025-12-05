@@ -1,5 +1,12 @@
 # eIDAS Qualified Electronic Signatures
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Overview
 
 ThemisDB implements **eIDAS-compliant qualified electronic signatures** (QES) by combining hardware-backed signing (HSM via PKCS#11) with cryptographic timestamps (RFC 3161 TSA). This provides legally binding signatures recognized across the EU.

@@ -1,5 +1,12 @@
 # Content v0: Bulk Ingestion
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Content
+
+---
+
+
 Dieses Dokument beschreibt das v0-Schema für den Bulk-Import von bereits vorverarbeiteten Inhalten über die HTTP-API. Ziel: Einfache, robuste Übernahme von Content-Metadaten, optionalem Original-Blob, Chunks (inkl. Embeddings) und optionalen Graph-Kanten.
 
 Stand: MVP, stabil genug für erste Integrationen. Erweiterungen (z. B. SSE-CDC, fortgeschrittene Filter) folgen später.

@@ -1,6 +1,13 @@
 ```markdown
 # vector_index.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/index/vector_index.cpp`
 
 **Purpose:** Verwaltung des ANN Vektorindex (VectorIndexManager). Unterstützt HNSW (nur wenn mit `THEMIS_HNSW_ENABLED` kompiliert), optionale Quantisierung und Persistenz/Auto‑Save.

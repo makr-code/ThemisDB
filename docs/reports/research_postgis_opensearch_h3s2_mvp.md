@@ -1,5 +1,12 @@
 # Research-Report: PostGIS vs. OpenSearch vs. H3/S2 – Leitentscheidungen für ThemisDB (MVP)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 Ziel: 1–2 Seiten Überblick für Index- und Storage-Entscheidungen in ThemisDB (Geo-MVP). Fokus: Portabilität (Windows/Linux), permissive Lizenzen, schnelle Kandidatenfilter + exakte Geo-Prüfung, einfache Integration in bestehende Engine/HTTP.
 
 ## Kurzprofil der Optionen

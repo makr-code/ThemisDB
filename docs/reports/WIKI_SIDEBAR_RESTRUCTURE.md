@@ -1,5 +1,12 @@
 # Wiki Sidebar Umstrukturierung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Datum:** 2025-11-30  
 **Status:** ✅ Abgeschlossen  
 **Commit:** bc7556a

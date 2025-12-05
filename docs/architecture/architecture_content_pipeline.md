@@ -1,5 +1,12 @@
 # Content Pipeline
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 ## Überblick
 
 Die **Content Pipeline** ist das zentrale System für die Verarbeitung heterogener Datentypen in THEMIS. Sie ermöglicht es, beliebige Inhalte (Text, Bilder, Geodaten, CAD, Audio, strukturierte Daten) zu importieren, zu transformieren und für Vektor-, Graph- und Attributsuche bereitzustellen.

@@ -1,5 +1,12 @@
 # Database Capabilities Vervollständigung - Roadmap
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Branch:** `feature/aql-st-functions` (merged from `feature/complete-database-capabilities`)  
 **Erstellt:** 17. November 2025  
 **Letztes Update:** 19. November 2025

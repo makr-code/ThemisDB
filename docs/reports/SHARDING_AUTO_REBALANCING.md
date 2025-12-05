@@ -1,5 +1,12 @@
 # Sharding Phase 2-3: Automatisches Rebalancing
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Status**: ✅ **PRODUKTIV** (implementiert und getestet)  
 **Version**: 1.0  
 **Datum**: 2025-01-23

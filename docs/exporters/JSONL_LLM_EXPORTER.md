@@ -1,5 +1,12 @@
 # JSONL LLM Exporter - LoRA/QLoRA Training Data Export
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Exporters
+
+---
+
+
 ## Overview
 
 The JSONL LLM Exporter exports ThemisDB BaseEntity data as **weighted training samples** in JSONL format for fine-tuning Large Language Models with **LoRA** (Low-Rank Adaptation) and **QLoRA** (Quantized LoRA).

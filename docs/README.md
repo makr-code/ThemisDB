@@ -1,5 +1,12 @@
 # ThemisDB Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Readme.Md
+
+---
+
+
 Welcome to the ThemisDB documentation! This directory contains comprehensive documentation for all aspects of the ThemisDB multi-model database system.
 
 ## Quick Navigation

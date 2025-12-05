@@ -1,5 +1,12 @@
 # Vector Hybrid Search
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Query
+
+---
+
+
 Datum: 19. Nov 2025
 Status: EXPERIMENTAL (Windows/MSVC: einzelne Tests schlagen fehl; siehe Known Issues)
 

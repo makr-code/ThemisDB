@@ -1,5 +1,12 @@
 # Themis Compliance Integration Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Übersicht
 
 Themis bietet eine vollständige Compliance-Pipeline für DSGVO/eIDAS-konforme Datenverarbeitung:

@@ -1,5 +1,12 @@
 # aql_parser.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/query/aql_parser.cpp`
 
 Purpose: Parses AQL queries into AST. Should include grammar details and handling of FULLTEXT tokens.

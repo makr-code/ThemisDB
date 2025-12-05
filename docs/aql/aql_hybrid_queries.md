@@ -1,5 +1,12 @@
 # AQL Hybrid Queries Guide (Phase 2 + 2.5)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 Dieses Dokument fasst die Syntax-Zucker für Hybrid Queries zusammen und zeigt Best Practices.
 
 ## Übersicht

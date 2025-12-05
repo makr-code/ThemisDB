@@ -1,5 +1,12 @@
 # Fulltext Stemming Support
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Search
+
+---
+
+
 **Status:** ✅ Implemented (v1.1) – Per-Index Configuration
 
 ## Overview

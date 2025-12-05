@@ -1,5 +1,12 @@
 # AQL Pattern Matching - Implementation Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 **Datum:** 19. November 2025  
 **Status:** Design Complete - Nutzt existierende AQL-Syntax
 

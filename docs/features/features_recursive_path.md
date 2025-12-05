@@ -1,5 +1,12 @@
 # Recursive Path Queries & Multi-Hop Reasoning
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 **Status:** MVP Complete (31. Oktober 2025)  
 **Feature Set:** Rekursive Pfadabfragen, Multi-Hop Traversal, Temporale Graph-Queries
 

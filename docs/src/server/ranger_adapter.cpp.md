@@ -1,5 +1,12 @@
 # ranger_adapter.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/ranger_adapter.cpp`
 
 Purpose: Adapter for Ranger policy enforcement or external authorization service integration.

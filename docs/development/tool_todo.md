@@ -1,5 +1,12 @@
 # ThemisDB Administration & Compliance Tools - Roadmap
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 ## Übersicht
 
 Diese Roadmap beschreibt die Entwicklung einer Suite von Windows-Desktop-Tools für die Administration, Audit, Compliance und Governance von ThemisDB.

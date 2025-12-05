@@ -1,5 +1,12 @@
 # Change Data Capture (CDC) - Themis
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Overview
 
 Themis' Change Data Capture (CDC) implementation provides a minimal, append-only event log that tracks all data mutations (PUT/DELETE) in the database. This enables real-time data synchronization, audit trails, and stream processing use cases.

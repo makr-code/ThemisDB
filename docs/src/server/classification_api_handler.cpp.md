@@ -1,5 +1,12 @@
 # classification_api_handler.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/classification_api_handler.cpp`
 
 Purpose: HTTP handlers for classification APIs, likely related to PII or policy classification.

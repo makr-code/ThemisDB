@@ -1,5 +1,12 @@
 # FEM & Flow Analysis für ThemisDB - Kurzanalyse
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Analysis
+
+---
+
+
 **Datum:** 20. November 2025  
 **Status:** Konzept-Analyse
 

@@ -1,5 +1,12 @@
 # ThemisDB SDK Audit Status
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 **Datum:** 21. November 2025 (AKTUALISIERT)  
 **Branch:** copilot/check-source-code-stubs  
 **Zweck:** Vollständige Prüfung aller SDKs auf Funktionalität

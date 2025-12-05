@@ -1,5 +1,12 @@
 # Vulkan Compute Backend - Complete Implementation Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
 ## Overview
 
 The Vulkan compute backend provides cross-platform GPU acceleration for ThemisDB vector operations using Vulkan Compute Shaders. This implementation offers:

@@ -1,5 +1,12 @@
 # Index-Statistiken & Wartung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 Dieses Dokument erklärt die Statistik- und Wartungsfunktionen für Indizes.
 
 ## IndexStats
