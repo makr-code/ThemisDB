@@ -1,5 +1,12 @@
 # main.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/main.cpp`
 
 Purpose: Program entry point. TODO: expand with startup flow and command line options.

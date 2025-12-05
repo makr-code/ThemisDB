@@ -1,5 +1,12 @@
 # src/server
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder:
 - `audit_api_handler.cpp`
 - `auth_middleware.cpp`

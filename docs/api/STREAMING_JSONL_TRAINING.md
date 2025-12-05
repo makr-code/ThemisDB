@@ -1,5 +1,12 @@
 # Streaming JSONL LLM Training Endpoint
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Api
+
+---
+
+
 ## Overview
 
 ThemisDB JSONL Export API unterstützt **echtes Streaming** für on-demand LLM Training. Der LoRA/QLoRA Trainingsprozess kann Daten direkt aus der DB beziehen, ohne vollständigen Export.

@@ -1,5 +1,12 @@
 # mock_key_provider.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/security/mock_key_provider.cpp`
 
 Purpose: Test key provider used in unit tests to simulate key retrieval and signing operations.

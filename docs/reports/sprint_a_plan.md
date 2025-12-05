@@ -1,5 +1,12 @@
 # Sprint A Plan (RAG/CDC)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 Ziel: APIs und Grundgerüste für RAG‑nahe Features (Semantic Cache, CoT Storage) und Minimal‑CDC bereitstellen. Fokus auf OpenAPI, Feature‑Flags, DoD, Tests.
 
 ## Deliverables

@@ -1,5 +1,12 @@
 # Pre-built ARM Packages for ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 This guide explains how to install and use pre-built ThemisDB packages for ARM architectures.
 
 ## Supported Platforms

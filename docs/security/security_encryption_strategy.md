@@ -1,5 +1,12 @@
 # Verschlüsselungsstrategie für ThemisDB (E2E On-Premise)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Executive Summary
 
 **Ziel:** End-to-End-Verschlüsselung für sensible Daten in ThemisDB mit on-premise PKI-basiertem Key-Management unter Nutzung des VCC-PKI-Systems (`c:\vcc\pki`) und VCC-User-Systems (`c:\vcc\user`).

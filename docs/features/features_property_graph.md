@@ -1,5 +1,12 @@
 # Property Graph Model & Multi-Graph Federation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 **Status:** ✅ Implemented & Tested (13/13 tests passing)  
 **Feature:** Property Graph Model with Node Labels, Relationship Types, and Multi-Graph Federation  
 **Date:** 2025-01-15

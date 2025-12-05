@@ -1,5 +1,12 @@
 # Suche & Relevanz – Gap-Analyse (Stand: 2025-11-02)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 **Status Update (02.11.2025):** BM25 v1 und HTTP-API implementiert (Commit 94af141)
 
 Ziel: Abgleich Dokumentation (Kapitel „Suche & Relevanz") mit dem aktuellen Quellcode. Fokus auf BM25/TF‑IDF, Hybrid (RRF / gewichtete Fusion) und Fulltext-Funktionalität.

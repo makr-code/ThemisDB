@@ -1,5 +1,12 @@
 # Content Filesystem API
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Content
+
+---
+
+
 Datum: 19. Nov 2025
 Status: Implementiert (Core), Server-Endpoints optional
 

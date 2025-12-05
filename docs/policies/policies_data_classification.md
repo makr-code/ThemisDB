@@ -1,5 +1,12 @@
 # ThemisDB Data Classification Policy
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Policies
+
+---
+
+
 **Version:** 1.0  
 **Datum:** 2025-11-27  
 **Status:** Aktiv  

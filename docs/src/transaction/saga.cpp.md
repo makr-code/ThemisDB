@@ -1,5 +1,12 @@
 # saga.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/transaction/saga.cpp`
 
 Purpose: Implements SAGA pattern orchestration for distributed transactions and compensation flows.

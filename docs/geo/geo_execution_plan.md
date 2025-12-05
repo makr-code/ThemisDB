@@ -1,5 +1,12 @@
 # Geo Execution Plan (oberhalb des Blob-Layers)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Geo
+
+---
+
+
 Ziel: Geo-Funktionalität aufbauend auf dem bestehenden Themis-Stack (Storage/Blob, Secondary Indices, Query Engine, HTTP) integrieren. Geo-Daten liegen als WKB/EWKB(Z)-Blobs vor; darüber implementieren wir Sidecar-Metadaten, Indizes, AQL-Syntax (ST_*), Engine-Pfade und optionale GPU/CPU-Beschleuniger.
 
 Leitprinzipien

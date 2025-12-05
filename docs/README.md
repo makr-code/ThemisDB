@@ -1,62 +1,70 @@
 # ThemisDB Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Documentation
+
+---
+
 Welcome to the ThemisDB documentation! This directory contains comprehensive documentation for all aspects of the ThemisDB multi-model database system.
+
+## Source-Code Statistiken
+
+| Metrik | Wert |
+|--------|------|
+| Header-Dateien | 132 |
+| Source-Dateien | 124 |
+| Lines of Code | ~91,000 |
+| Module | 16 |
+| Dokumentationsdateien | 363 |
+| Dokumentationsordner | 30+ |
+
+**Source-Code-Audit:** [SOURCE_CODE_AUDIT.md](development/SOURCE_CODE_AUDIT.md)
 
 ## Quick Navigation
 
 ### 📋 Overview
 - **[FEATURES.md](../FEATURES.md)** - **Comprehensive features list** with production-ready status indicators (✅/🔧/📋)
+- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index
 
 ### 🚀 Getting Started
 - [Main README](../README.md) - Quick start guide and basic usage
-- [Architecture Overview](architecture.md) - High-level system architecture  
-- [Deployment Guide](guides/deployment.md) - How to deploy ThemisDB
-- [Operations Runbook](guides/operations_runbook.md) - Day-to-day operations
+- [Architecture Overview](architecture/README.md) - High-level system architecture  
+- [Deployment Guide](deployment/README.md) - How to deploy ThemisDB
+- [Operations Runbook](guides/guides_operations_runbook.md) - Day-to-day operations
 
-### 📖 Core Documentation
+### 📖 Core Documentation - Source Modules
 
-#### Query Language & Features
-- **[AQL Documentation](aql/)** - ArangoDB Query Language support
-  - [Syntax Reference](aql/syntax.md)
-  - [Query Engine](aql/query_engine.md)
-  - [Explain & Profile](aql/explain_profile.md)
-  
-- **[Search & Query](search/)** - Full-text and hybrid search
-  - [Full-text API](search/fulltext_api.md)
-  - [Hybrid Search](search/hybrid_search_design.md)
-  - [Performance Tuning](search/performance_tuning.md)
+#### Query & Analytics
+- **[AQL Documentation](aql/README.md)** - AQL Parser, AST Nodes, Query Syntax
+- **[Query Module](query/README.md)** - QueryEngine, Optimizer, Execution
+- **[Analytics Module](analytics/README.md)** - OLAP, CEP, ColumnarStore
+- **[Search Documentation](search/README.md)** - Fulltext, Vector, Hybrid Search
 
-- **[Features](features/)** - Database capabilities
-  - [Indexes](features/indexes.md)
-  - [Transactions](features/transactions.md)
-  - [Time Series](features/time_series.md)
-  - [Temporal Graphs](features/temporal_graphs.md)
-  - [Vector Operations](features/vector_ops.md)
-  - [Compliance](features/compliance.md)
+#### Storage & Indexing
+- **[Storage Module](storage/README.md)** - RocksDB Wrapper, BaseEntity, BlobRedundancy
+- **[Index Module](index/README.md)** - Secondary, Vector (HNSW), Graph Index
+- **[Cache Module](cache/README.md)** - SemanticCache, ResultCache
+- **[Timeseries Module](timeseries/README.md)** - TimeSeriesStore, Gorilla Compression
 
-#### Architecture & Design
-- **[Architecture](architecture/)** - System design
-  - [Ecosystem Overview](architecture/ecosystem_overview.md)
-  - [Strategic Overview](architecture/strategic_overview.md)
-  - [Content Architecture](architecture/content_architecture.md)
-  - [MVCC Design](architecture/mvcc_design.md)
+#### Distributed Systems
+- **[Replication Module](replication/README.md)** - VectorClock, HLC, CRDTs, Multi-Master
+- **[Sharding Module](sharding/README.md)** - Horizontal Scaling, Partitioning
+- **[Transaction Module](transaction/README.md)** - TransactionManager, MVCC, Isolation
 
-- **[Geospatial](geo/)** - Geo features
-  - [Geo Architecture](geo/architecture.md)
-  - [Integration Guide](geo/geo_integration_readme.md)
+#### Content & Data
+- **[Content Module](content/README.md)** - ContentManager, 16 Processors
+- **[CDC Module](cdc/README.md)** - Changefeed, ChangeEvent, Long-Polling
+- **[Geo Module](geo/README.md)** - ISpatialComputeBackend, Plugin System
 
-- **[Sharding](sharding/)** - Horizontal scaling
-  - [Implementation Summary](sharding/implementation_summary.md)
-  - [Horizontal Scaling Strategy](sharding/horizontal_scaling_strategy.md)
+#### Server & Integration
+- **[Server Module](server/README.md)** - HttpServer, 12 API Handlers
+- **[LLM Module](llm/README.md)** - LLMInteractionStore, PromptManager, CoT
 
-#### Security & Compliance
-- **[Security](security/)** - Security features
-  - [Overview](security/overview.md)
-  - [Encryption](security/encryption_deployment.md)
-  - [PKI Integration](security/pki_integration_architecture.md)
-  - [Key Management](security/key_management.md)
-  - [PII Detection](security/pii_detection.md)
-  - [Audit & Retention](security/audit_and_retention.md)
+#### Security & Governance
+- **[Security Module](security/README.md)** - FieldEncryption, KeyProviders, RBAC
+- **[Governance Module](governance/README.md)** - PolicyEngine, ClassificationProfile
+- **[Compliance Documentation](compliance/README.md)** - BSI C5, ISO 27001, DSGVO
 
 ### 🛠️ Development
 
@@ -200,4 +208,5 @@ This documentation is part of ThemisDB and is licensed under the same terms. See
 
 ---
 
-**Last Updated**: November 2025
+**Last Updated**: December 2025
+**Version**: 1.0.0

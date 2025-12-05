@@ -1,5 +1,12 @@
 # Building ThemisDB on ARM and Raspberry Pi
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 This guide explains how to build and run ThemisDB on ARM-based systems, including Raspberry Pi.
 
 ## Quick Start: Pre-built Packages

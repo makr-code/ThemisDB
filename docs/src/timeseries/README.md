@@ -1,5 +1,12 @@
 # src/timeseries
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder:
 - `continuous_agg.cpp` — continuous aggregation helpers for TS data.
 - `gorilla.cpp` — Gorilla compression codec implementation.

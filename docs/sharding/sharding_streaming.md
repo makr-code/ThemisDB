@@ -1,5 +1,12 @@
 # ThemisDB Inter-Shard Streaming Architecture
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Sharding
+
+---
+
+
 ## Aktueller Stand vs. Cassandra-Ansatz
 
 ### Cassandra Streaming (Referenz)

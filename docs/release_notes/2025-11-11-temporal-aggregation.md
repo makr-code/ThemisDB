@@ -1,5 +1,12 @@
 # Release Notes — Temporal Aggregation Support
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Release Notes
+
+---
+
+
 Datum: 11. November 2025
 Autor: Entwickler-Repository-Commit
 

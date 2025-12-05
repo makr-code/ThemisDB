@@ -1,5 +1,12 @@
 # ThemisDB Skalierung - TODO-Liste
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Sharding
+
+---
+
+
 **Erstellt:** 1. Dezember 2025  
 **Aktualisiert:** 1. Dezember 2025  
 **Basierend auf:** VCC-URN Philosophie und Best-Practice Analyse  

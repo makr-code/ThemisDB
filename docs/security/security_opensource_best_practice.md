@@ -1,5 +1,12 @@
 # ThemisDB Release Security - Best Practice für Open Source
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Klarstellung
 
 **ThemisDB ist ein Open-Source-Projekt ohne Kundenstamm.**

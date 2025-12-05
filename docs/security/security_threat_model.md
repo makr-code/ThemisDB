@@ -1,5 +1,12 @@
 # Threat Model (light)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 
 ## Assets

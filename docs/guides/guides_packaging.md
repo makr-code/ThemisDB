@@ -1,5 +1,12 @@
 # ThemisDB Packaging Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 This document describes how to build and publish ThemisDB packages for various operating systems and package managers.
 
 ## Table of Contents

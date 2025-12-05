@@ -1,5 +1,12 @@
 # audit_logger.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/audit_logger.cpp`
 
 Purpose: Audit logging helper for security events.

@@ -1,5 +1,12 @@
 # pki_client.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/pki_client.cpp`
 
 Purpose: Client utilities for PKI interactions (fetching certs, validating chains).

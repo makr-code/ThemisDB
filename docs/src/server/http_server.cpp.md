@@ -1,5 +1,12 @@
 # http_server.cpp (server)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/http_server.cpp`
 
 Purpose: Server HTTP entrypoints and routing for the application; differs from `src/api/http_server.cpp` in that it organizes API handlers and middleware.

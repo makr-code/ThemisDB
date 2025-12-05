@@ -1,5 +1,12 @@
 # Column-Level Encryption Design
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 **Status:** Design Phase (Sprint C.3)  
 **Datum:** 30. Oktober 2025  
 **Autor:** Themis Development Team

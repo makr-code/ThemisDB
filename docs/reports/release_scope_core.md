@@ -1,5 +1,12 @@
 # Release Scope – Core Datenbank & Höhere Funktionen
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 Status: Draft (03.11.2025)
 
 Ziel: Klarer, testbarer Umfang für den Core-Release ohne Geo-Module. Alle Punkte sind DoD-kritisch (Definition of Done) und mit Metriken/Tests belegbar.

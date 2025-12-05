@@ -1,5 +1,12 @@
 # Hybrid & Fusion Search API
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Apis
+
+---
+
+
 Diese Seite beschreibt die allgemeinen Suchendpunkte, die Vektor- und Volltextsuche kombinieren.
 
 - Basis-URL: `http://<host>:<port>`

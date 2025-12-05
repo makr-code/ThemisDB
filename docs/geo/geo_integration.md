@@ -1,5 +1,12 @@
 # Geo MVP Integration Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Geo
+
+---
+
+
 ## Overview
 
 This document describes the geo MVP implementation that connects blob ingestion with spatial indexing and provides **CPU-based exact geometry checks using Boost.Geometry**.

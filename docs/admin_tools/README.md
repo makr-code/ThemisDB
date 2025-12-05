@@ -1,5 +1,12 @@
 # Admin Tools Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Admin Tools
+
+---
+
+
 Documentation for ThemisDB administrative tools and dashboards.
 
 ## Contents

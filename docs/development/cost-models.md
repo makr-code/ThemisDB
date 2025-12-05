@@ -1,5 +1,12 @@
 # Kostenmodelle für Hybrid Queries (Phase 2.5)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Diese Entwickler-Dokumentation beschreibt die vereinfachten Kostenmodelle, die zur Planwahl für Hybrid Queries in ThemisDB eingesetzt werden.
 
 ## Vector+Geo Kostenmodell

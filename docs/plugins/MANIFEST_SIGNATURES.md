@@ -1,5 +1,12 @@
 # Plugin Manifest Signature Verification
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Plugins
+
+---
+
+
 **Datum:** 21. November 2025  
 **Feature:** Signatur-Verifikation für plugin.json Manifeste  
 **Zweck:** Sicherstellung der Integrität von Plugin-Manifesten

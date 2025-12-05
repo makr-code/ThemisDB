@@ -1,5 +1,12 @@
 # Known Issues
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Datum: 19. Nov 2025
 
 ## Filtered Vector Search (QueryEngine::executeFilteredVectorSearch)

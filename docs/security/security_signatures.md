@@ -1,5 +1,12 @@
 # Security Signatures System
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Problem: Henne-Ei bei In-File-Hash
 Ein Hash **in** der Datei (`mime_types.yaml`) verändert die Datei selbst → Hash wird ungültig (Selbstreferenz-Paradoxon).
 

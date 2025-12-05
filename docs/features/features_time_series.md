@@ -1,5 +1,12 @@
 # Time-Series Engine (TSStore)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 Stand: Implementiert und per HTTP-API nutzbar. Diese Seite ist mit dem Quellcode abgeglichen.
 
 ## Überblick

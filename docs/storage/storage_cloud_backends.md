@@ -1,5 +1,12 @@
 # Cloud Blob Storage Backends: S3 & Azure
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Storage
+
+---
+
+
 ## Overview
 
 ThemisDB unterstützt Cloud-Blob-Storage für große Binärdaten via Plugin-Architektur.

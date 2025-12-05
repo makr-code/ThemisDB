@@ -1,16 +1,47 @@
 # ThemisDB - Sachstandsbericht und Audit
-**Datum:** 1. Dezember 2025  
-**Version:** 1.2 (aktualisiert)  
+**Datum:** 5. Dezember 2025  
+**Version:** 1.3 (aktualisiert nach Source-Code-Audit)  
 **Status:** Production-Ready Core, Enterprise-Integration vollständig implementiert
 
-> **HINWEIS:** Dieses Dokument wurde konsolidiert. Für die aktuelle Version siehe:
-> **`docs/THEMIS_SACHSTANDSBERICHT_2025.md`** (primäres Dokument)
+> **Source-Code-Audit durchgeführt:** Alle Statistiken basieren auf tatsächlicher Code-Analyse.
+> Siehe auch: [SOURCE_CODE_AUDIT.md](../development/SOURCE_CODE_AUDIT.md)
 
 ---
 
 ## Executive Summary
 
-ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Graph-, Vektor-, Time-Series- und Content-Modelle** in einem einheitlichen System kombiniert. Das Projekt hat einen signifikanten Reifegrad erreicht mit **63.500+ Zeilen Code**, **279 Dokumentationsdateien**, **143 Test-Dateien** und einem **robusten Security-Stack**.
+ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Graph-, Vektor-, Time-Series- und Content-Modelle** in einem einheitlichen System kombiniert. Das Projekt hat einen signifikanten Reifegrad erreicht mit:
+
+| Metrik | Wert |
+|--------|------|
+| **Gesamtcode (LOC)** | 90,829 Zeilen |
+| **Header-Dateien** | 132 |
+| **Source-Dateien** | 124 |
+| **Source-Module** | 16 |
+| **Dokumentationsdateien** | 456+ |
+| **Dokumentationsverzeichnisse** | 71 |
+| **Test-Dateien** | 143+ |
+
+### Source-Modul-Übersicht
+
+| Modul | Headers | Sources | LOC | Beschreibung |
+|-------|---------|---------|-----|--------------|
+| server | 20 | 20 | 18,282 | HTTP Server, REST API Handler |
+| index | 12 | 11 | 14,629 | Secondary, Vector, Graph Indexes |
+| query | 12 | 12 | 12,560 | AQL Parser, Optimizer, Engine |
+| sharding | 21 | 19 | 12,278 | Horizontal Scaling, Consistent Hashing |
+| content | 16 | 15 | 9,091 | Content Pipeline, Processors |
+| security | 16 | 16 | 8,138 | Encryption, RBAC, PKI |
+| storage | 9 | 10 | 4,591 | RocksDB Wrapper, Base Entity |
+| analytics | 3 | 2 | 3,742 | OLAP, CEP, ColumnarStore |
+| timeseries | 7 | 8 | 2,767 | Gorilla Compression, Aggregates |
+| replication | 2 | 1 | 1,612 | CRDT, Vector Clocks, HLC |
+| transaction | 2 | 2 | 895 | MVCC, SAGA Patterns |
+| llm | 2 | 2 | 679 | LLM Interaction Store |
+| cdc | 1 | 1 | 510 | Change Data Capture |
+| cache | 6 | 1 | 492 | Semantic Cache |
+| geo | 2 | 3 | 304 | Spatial Operations |
+| governance | 1 | 1 | 259 | Policy Engine |
 
 ### Gesamtstatus
 

@@ -1,5 +1,12 @@
 # ThemisDB Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Index.Md
+
+---
+
+
 Willkommen bei ThemisDB - einer hochperformanten Multi-Model-Datenbank mit Unterstützung für Dokumente, Graphen, Vektoren, Zeitreihen und Geospatial-Daten.
 
 ## Schnellzugriff

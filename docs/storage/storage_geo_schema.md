@@ -1,5 +1,12 @@
 # Relationales Schema für Geo-Daten (Post-Go-Live)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Storage
+
+---
+
+
 Dieses Dokument definiert ein abfragefreundliches relationales Schema für Punkt-, Linien- und Polygon-Daten inklusive Indexierung und Beispielabfragen. Es dient als Zielbild für die Ablage nach dem Ingestion-Prozess.
 
 ## Ziele

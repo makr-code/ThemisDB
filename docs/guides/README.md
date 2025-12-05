@@ -1,5 +1,12 @@
 # User & Administrator Guides
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Practical guides for using and administering ThemisDB.
 
 ## Contents

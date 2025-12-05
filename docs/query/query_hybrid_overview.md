@@ -1,5 +1,12 @@
 # Hybrid Multi-Model Queries - Quick Start
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Query
+
+---
+
+
 **Status:** ✅ Production-Ready (Phase 1.5 Optimized)  
 **Performance:** <5ms für Vector+Geo, 20-50ms für Graph+Geo
 

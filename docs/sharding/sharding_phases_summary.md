@@ -1,5 +1,12 @@
 # Horizontal Sharding - Phase 1-3 Complete Summary
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Sharding
+
+---
+
+
 **Projekt:** ThemisDB  
 **Feature:** Horizontale Skalierung mit URN-basiertem Sharding  
 **Status:** Phasen 1-3 ABGESCHLOSSEN ✅ (50% Complete)  

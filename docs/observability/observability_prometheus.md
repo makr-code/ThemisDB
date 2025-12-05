@@ -1,5 +1,12 @@
 # Prometheus Metrics Reference
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Observability
+
+---
+
+
 **Status:** ✅ Vollständig implementiert (29.10.2025)  
 **Endpoint:** `GET /metrics`  
 **Format:** Prometheus Text Format

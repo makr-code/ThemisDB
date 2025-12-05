@@ -1,5 +1,12 @@
 # ThemisDB Complex Event Processing (CEP) - Streaming Analytics
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Analytics
+
+---
+
+
 ## Übersicht
 
 ThemisDB CEP ist eine vollständige Streaming Analytics Engine für Echtzeit-Ereignisverarbeitung. Sie ermöglicht:

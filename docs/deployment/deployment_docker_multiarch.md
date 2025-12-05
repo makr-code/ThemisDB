@@ -1,5 +1,12 @@
 # ThemisDB Multi-Architecture Docker Build-Strategie
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 ## Übersicht
 
 ThemisDB unterstützt **drei Zielplattformen** mit optimierten Docker-Images:

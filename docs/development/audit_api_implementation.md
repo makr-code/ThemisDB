@@ -1,5 +1,12 @@
 # ThemisDB Audit API – Implementierung & Hardening ✅
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 **Datum:** 7. November 2025  
 **Status:** REST-API implementiert, Hardening (URL-Decoding, erweiterter ISO8601 Parser, Rate-Limiting) aktiv, Tests grün
 

@@ -1,5 +1,12 @@
 # Hybrid Query Performance Optimizations (Phase 1.5) & Phase 2 Syntax Sugar (SIMILARITY / PROXIMITY)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 **Status:** ✅ Phase 1.5 implementiert • Phase 2 (Syntax-Zucker) teilweise aktiv (SIMILARITY, PROXIMITY Basis)  
 **Datum:** 17. November 2025  
 **Branch:** `feature/aql-st-functions`

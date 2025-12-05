@@ -1,5 +1,12 @@
 # Manifest Security - Authentizität der Binärdateien sicherstellen
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Kernproblem
 
 **Wie stellen wir sicher, dass heruntergeladene Binärdateien wirklich von uns (ThemisDB Team) stammen?**

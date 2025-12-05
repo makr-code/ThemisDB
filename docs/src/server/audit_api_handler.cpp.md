@@ -1,5 +1,12 @@
 # audit_api_handler.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/audit_api_handler.cpp`
 
 Purpose: HTTP handlers for audit APIs; manage audit logs and retrieval.

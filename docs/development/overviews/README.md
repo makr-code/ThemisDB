@@ -1,6 +1,13 @@
 ```markdown
 # Overviews — Konsolidierte Übersichten
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Dieser Ordner enthält konsolidierte Entwicklungs‑Übersichten und Verifikationsdokumente.
 
 Enthaltene Dateien:

@@ -1,5 +1,12 @@
 # JWT / Auth Middleware
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Auth
+
+---
+
+
 This document gives a short guide how the JWT validator and AuthMiddleware work in Themis, an example JWKS file, and how to test the middleware with curl/PowerShell.
 
 ## Overview

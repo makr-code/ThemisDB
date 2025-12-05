@@ -1,6 +1,13 @@
 <!-- Development audit generated: 2025-11-16 -->
 # Development Audit — ThemisDB (Kurzbericht)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 Version: wsl-stabilize (Arbeitsbranch)
 Datum: 2025-11-16
 

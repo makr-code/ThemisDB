@@ -1,5 +1,12 @@
 # TSStore Stabilization Implementation Report
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Feature:** Time-Series Aggregation Automation and Query Optimization  
 **Status:** ✅ Complete  
 **Date:** 2025  

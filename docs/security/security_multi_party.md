@@ -1,5 +1,12 @@
 # Multi-Party-Verschlüsselung für ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Problem Statement
 
 **Anforderung:** Mehrere Personen/Rollen/Gruppen/Abteilungen/Behörden müssen dieselben verschlüsselten Daten lesen und schreiben können, ohne dass:

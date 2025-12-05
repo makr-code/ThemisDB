@@ -1,5 +1,12 @@
 # ThemisDB AQL Sprachumfang - Analyse und Erweiterungen
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 ## Übersicht
 
 Dieses Dokument analysiert den AQL-Sprachumfang von ThemisDB im Vergleich zu führenden 

@@ -1,5 +1,12 @@
 # Hybrid Query Optimizations Benchmarks (Phase 1.5+)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Query
+
+---
+
+
 Dieser Bericht dokumentiert die Messmethodik und Zielmetriken für die neuen Optimierungen:
 1. Parallel Filtering (TBB + multiGet)
 2. SIMD L2 Distance (AVX2/AVX512 Fallback Scalar)

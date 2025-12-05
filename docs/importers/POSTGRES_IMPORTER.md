@@ -1,5 +1,12 @@
 # PostgreSQL Importer Plugin
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Importers
+
+---
+
+
 **Version:** 1.0.0  
 **Type:** Data Importer  
 **Format:** pg_dump SQL

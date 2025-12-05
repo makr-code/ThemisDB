@@ -1,5 +1,12 @@
 # ThemisDB - Nächste Implementierungsprioritäten
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 **Datum:** 20. November 2025  
 **Basierend auf:** ROADMAP.md v2.0  
 **Status:** Aktualisiert nach Code-Audit (v3)

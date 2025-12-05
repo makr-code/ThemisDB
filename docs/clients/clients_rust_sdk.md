@@ -1,5 +1,12 @@
 # ThemisDB Rust SDK Quickstart
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 _Stand: 10. November 2025_
 
 Das Rust-SDK (`themisdb_sdk`) befindet sich im Alpha-Stadium. Die API kann sich kurzfristig ändern. Dieser Leitfaden beschreibt, wie der Client gegen eine laufende ThemisDB-Instanz verwendet wird.

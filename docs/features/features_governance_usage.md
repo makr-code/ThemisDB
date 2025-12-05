@@ -1,5 +1,12 @@
 # Governance Policy Engine - Usage Examples
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 This document demonstrates how to use the YAML-based governance policy engine in Themis.
 
 ## Overview

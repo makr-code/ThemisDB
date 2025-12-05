@@ -1,5 +1,12 @@
 # gorilla.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/timeseries/gorilla.cpp`
 
 Purpose: Gorilla encoder/decoder implementation used for efficient TS compression.

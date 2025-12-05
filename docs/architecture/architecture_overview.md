@@ -428,6 +428,14 @@ BATCH_SIZE = 100;          // Larger batches (better CPU utilization)
 ```bash
 curl http://localhost:8765/health
 # Response: {"status":"ok","timestamp":"2025-10-28T10:30:00Z"}
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 ```
 
 ### Configuration Inspection

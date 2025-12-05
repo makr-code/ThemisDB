@@ -1,5 +1,12 @@
 # LoRA Adapter & Metadata Improvements - Implementation Summary
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Exporters
+
+---
+
+
 ## Executive Summary
 
 ThemisDB has been enhanced with comprehensive support for modern LoRA (Low-Rank Adaptation) training workflows, structured generation, and multi-LoRA inference using **100% open-source technologies**. These improvements were derived from analysis of:

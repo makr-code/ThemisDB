@@ -1,5 +1,12 @@
 # text_processor.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/content/text_processor.cpp`
 
 Purpose: Tokenization, normalization and simple text transformations used by content indexing and search.

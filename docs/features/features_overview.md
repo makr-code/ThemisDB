@@ -1,6 +1,6 @@
 # ThemisDB - Vollständige Features Liste
 
-**Version:** 2.0  
+**Version:** 1.0.0  
 **Stand:** Dezember 2025  
 **Status-Legende:** ✅ Production-Ready | 🔧 Beta | 📋 Geplant
 
@@ -1048,6 +1048,6 @@ docker compose up --build
 
 ---
 
-**Stand:** November 2025  
-**Version:** 1.0  
-**Letzte Aktualisierung:** 21. November 2025
+**Stand:** Dezember 2025  
+**Version:** 1.0.0  
+**Letzte Aktualisierung:** 5. Dezember 2025

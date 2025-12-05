@@ -1,5 +1,12 @@
 # G3 & Phase 2 Implementation Status
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Geo
+
+---
+
+
 ## Completed in this PR
 
 ### G3 - AQL Parser Integration (Partial ✅)

@@ -1,5 +1,12 @@
 # Filtered Vector Search - Implementation Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Query
+
+---
+
+
 **Status:** ✅ Vollständig implementiert (19. November 2025)
 
 **Phase:** 2.1 - Vector Database Enhancements

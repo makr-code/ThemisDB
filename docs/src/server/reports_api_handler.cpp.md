@@ -1,5 +1,12 @@
 # reports_api_handler.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/server/reports_api_handler.cpp`
 
 Purpose: Handlers for generating and retrieving reports.

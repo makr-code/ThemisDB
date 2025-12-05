@@ -1,5 +1,12 @@
 # retention_manager.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/retention_manager.cpp`
 
 Purpose: Manages retention jobs for various subsystems (TS, content, changefeed).
