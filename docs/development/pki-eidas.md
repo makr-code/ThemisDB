@@ -1,5 +1,12 @@
 # PKI / eIDAS-konforme Signaturen
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Ziel: Implementierung einer eIDAS-kompatiblen Signatur-Engine für Dokumente und API-Antworten.
 
 Aufwandsschätzung: 3–5 Tage

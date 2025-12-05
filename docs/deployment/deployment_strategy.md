@@ -1,5 +1,12 @@
 # ThemisDB Build & Deployment Strategy
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 ## Overview
 
 ThemisDB v1.0.0 follows a comprehensive multi-platform deployment strategy with automated CI/CD pipelines for Docker Hub, GitHub Releases, and package repositories.

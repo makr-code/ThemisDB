@@ -1,5 +1,12 @@
 # Multi-CPU Support Implementation for ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
 ## Current State Analysis
 
 The current `cpu_backend.cpp` implementation is **single-threaded only**:

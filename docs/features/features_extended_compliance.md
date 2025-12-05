@@ -1,5 +1,12 @@
 # Erweiterte Compliance-Features - Implementierungsroadmap
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Status: Code bereit, Integration ausstehend
 
 Alle erweiterten Compliance-Features aus den Strategiedokumenten sind **implementiert**, aber noch nicht in CMake/Build integriert (Breaking Changes vermeiden).

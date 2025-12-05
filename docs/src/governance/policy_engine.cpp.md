@@ -1,5 +1,12 @@
 # policy_engine.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/governance/policy_engine.cpp`
 
 Purpose: Implements policy evaluation and enforcement; integrates with API and storage layers for access control.

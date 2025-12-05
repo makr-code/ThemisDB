@@ -1,5 +1,12 @@
 # GeoProcessor – Design (Phase 4)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Content
+
+---
+
+
 Dieses Dokument beschreibt die Verarbeitung von Geo-Daten (GeoJSON/GPX) im Content/Filesystem-Layer.
 
 ## Ziele

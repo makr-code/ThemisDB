@@ -1,5 +1,12 @@
 # Audit & Retention
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Audit-Trails und Datenaufbewahrung sind Kernbausteine der Sicherheit & Compliance.
 
 ## Changefeed (Audit‑Trail)

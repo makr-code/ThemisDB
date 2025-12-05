@@ -1,5 +1,12 @@
 # semantic_cache.cpp (query)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/query/semantic_cache.cpp`
 
 Purpose: Query side semantic cache; note: there is also `src/cache/semantic_cache.cpp`.

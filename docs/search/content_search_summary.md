@@ -1,5 +1,12 @@
 # Content Search API Implementation Summary
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Search
+
+---
+
+
 **Date:** 2024-01-XX  
 **Status:** ✅ Completed  
 **Effort:** ~6 hours (estimated 8h)  

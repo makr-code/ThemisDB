@@ -1,5 +1,12 @@
 # Governance-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Governance
+
+---
+
+
 **Source Code:** `src/governance/`, `include/governance/`
 
 Diese Dokumentation beschreibt die Governance-Komponenten von ThemisDB.

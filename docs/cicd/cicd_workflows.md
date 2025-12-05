@@ -1,5 +1,12 @@
 # GitHub Workflows – Leitfaden (kostenarm & sicher)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Cicd
+
+---
+
+
 Aktuell sind alle GitHub Actions Workflows entfernt und in `.gitignore` blockiert (`.github/workflows/`). Dieses Dokument beschreibt, wie wir sie später wieder aktivieren – kostenarm (Dry-Run) und sicher.
 
 ## Ziele

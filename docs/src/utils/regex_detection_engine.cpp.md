@@ -1,5 +1,12 @@
 # regex_detection_engine.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/regex_detection_engine.cpp`
 
 Purpose: Regex based detectors for PII and pattern matching utilities.

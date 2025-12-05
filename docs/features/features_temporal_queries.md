@@ -1,5 +1,12 @@
 # Temporal Time-Range Queries
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 **Status:** ✅ Implemented & Tested (8/8 tests passing)  
 **Feature:** Extended temporal graph queries with time-window filtering  
 **Date:** 2025-01-15

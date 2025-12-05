@@ -1,5 +1,12 @@
 # Time-Series-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Timeseries
+
+---
+
+
 **Source Code:** `src/timeseries/`, `include/timeseries/`
 
 Diese Dokumentation beschreibt die Time-Series-Komponenten von ThemisDB.

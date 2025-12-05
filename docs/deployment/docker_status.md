@@ -1,5 +1,12 @@
 # Docker Build - Status und nächste Schritte
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 ## Problem
 
 vcpkg-basierte Docker-Builds sind derzeit instabil:

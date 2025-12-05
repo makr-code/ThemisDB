@@ -1,5 +1,12 @@
 # Automatic Update Check
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 ThemisDB supports automatic version checking to notify administrators when new updates are available.
 
 ## Overview

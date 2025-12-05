@@ -1,5 +1,12 @@
 # RBAC - Role-Based Access Control
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Umfassende rollenbasierte Zugriffskontrolle mit Hierarchien, Vererbung und feingranularen Berechtigungen.
 
 ## Übersicht

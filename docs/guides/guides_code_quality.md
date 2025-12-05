@@ -1,5 +1,12 @@
 # Code Quality Pipeline
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 ThemisDB uses a comprehensive code quality pipeline to ensure high standards across the codebase.
 
 ## Overview

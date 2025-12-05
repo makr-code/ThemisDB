@@ -1,5 +1,12 @@
 # AQL Prompt Engineering Guide für LLM-basierte Datenrecherche
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 ## Übersicht
 
 Dieses Dokument beschreibt, wie Large Language Models (LLMs) effektiv mit ThemisDB AQL für Datenrecherche eingesetzt werden können. Es ist speziell für die Integration mit dem VCC-Veritas Agenten-Framework konzipiert.

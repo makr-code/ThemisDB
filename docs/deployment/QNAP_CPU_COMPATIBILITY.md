@@ -1,5 +1,12 @@
 # QNAP CPU Compatibility Fix
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Deployment
+
+---
+
+
 ## Problem
 
 ThemisDB v1.0.0 crashes on QNAP NAS devices with "Illegal instruction" error:

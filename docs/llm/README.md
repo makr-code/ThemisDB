@@ -1,5 +1,12 @@
 # LLM-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Llm
+
+---
+
+
 **Source Code:** `src/llm/`, `include/llm/`
 
 Diese Dokumentation beschreibt die LLM-Integration von ThemisDB.

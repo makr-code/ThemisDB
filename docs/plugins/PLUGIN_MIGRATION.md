@@ -1,5 +1,12 @@
 # Plugin-System Migration & Konsolidierung
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Plugins
+
+---
+
+
 **Datum:** 21. November 2025  
 **Zweck:** Zusammenführung bestehender DLL-Loader zu einem einheitlichen Plugin-System
 

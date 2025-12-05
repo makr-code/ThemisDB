@@ -1,5 +1,12 @@
 # RocksDB Storage – Layout & Betrieb
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Storage
+
+---
+
+
 Dieser Leitfaden beschreibt das physische Storage-Verhalten der ThemisDB-Engine auf Basis von RocksDB: Schlüsselpräfixe, WAL, Snapshots und Compaction.
 
 ## Schlüsselräume & Präfixe

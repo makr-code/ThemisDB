@@ -1,5 +1,12 @@
 # Subquery & CTE Implementation Summary
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Aql
+
+---
+
+
 **Feature:** Full Subquery and Common Table Expression (CTE) Support  
 **Branch:** `feature/aql-st-functions`  
 **Completion Date:** 17. November 2025  

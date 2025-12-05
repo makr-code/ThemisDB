@@ -1,5 +1,12 @@
 # Manifest-Verschlüsselung: Sinnhaftigkeit & Best Practices
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Die kritische Frage
 
 **Ist es sinnvoll, das Release-Manifest zu verschlüsseln, wenn der Source Code öffentlich ist?**

@@ -1,5 +1,12 @@
 # adaptive_index.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/index/adaptive_index.cpp`
 
 Purpose: Adaptive indexing strategies for dynamically changing data distributions.

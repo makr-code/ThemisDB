@@ -1,5 +1,12 @@
 # Themis Admin Tools – Benutzerhandbuch
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Admin Tools
+
+---
+
+
 Dieses Handbuch beschreibt die sieben Themis Admin-Tools mit einheitlichem Layout (Toolbar | Sidebar | Content | StatusBar) und erklärt die wichtigsten Funktionen und Workflows.
 
 - Einheitliches Branding: Rechts oben „Themis“ (hellblau) öffnet den About-Dialog

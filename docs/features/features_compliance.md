@@ -1,5 +1,12 @@
 # Themis Compliance Suite
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 Vollständige DSGVO/eIDAS/HGB-konforme Datenverarbeitung für hochsensible Anwendungen.
 
 ## 🎯 Features

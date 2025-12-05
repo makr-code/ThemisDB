@@ -1,6 +1,13 @@
 weiter ```markdown
 # Vault integration (developer notes)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 This document explains how to run the Vault developer helper and the repository's Vault integration tests locally.
 
 Prerequisites

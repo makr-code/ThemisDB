@@ -43,6 +43,20 @@ Bei der DB-Erstellung wird die Kompression automatisch aktiviert. Prüfen mit:
 
 ```bash
 # OPTIONS-Datei inspizieren
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
 cat data/themis_server/OPTIONS-* | grep compression
 ```
 

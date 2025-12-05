@@ -1,5 +1,12 @@
 # ThemisDB Build, Packaging & Deployment Strategy
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 ## Ziel
 Konsistente Build-Toolchain für alle Plattformen, eindeutige Versionierung und abgestimmtes Packaging/CI-CD.
 

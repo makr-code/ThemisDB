@@ -1,5 +1,12 @@
 # Themis – Security Hardening Guide
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Umfassender Praxisleitfaden zur Härtung von Themis-Server mit vollständiger Security-Implementation.
 
 ## ✅ Implementierter Security Stack (Stand: 2025-11-17)

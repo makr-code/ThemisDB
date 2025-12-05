@@ -1,4 +1,11 @@
 # Todo-Liste: Hybride Multi-Modell-Datenbank in C++
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
 LOGO Erklärung ***WICHTIG***:
 - Das Logo "Eule mit Buch" symbolisiert Weisheit, Wissen und Wahrheit.
 - Lateinischer Spruch darunter:

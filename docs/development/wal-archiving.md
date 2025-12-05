@@ -1,5 +1,12 @@
 # Inkrementelle Backups & WAL-Archiving
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Ziel: Implementiere inkrementelle Backups und WAL-Archiving/Restore für ThemisDB.
 
 Aufwandsschätzung: 2–3 Tage

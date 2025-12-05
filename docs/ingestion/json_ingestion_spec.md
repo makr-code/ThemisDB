@@ -1,5 +1,12 @@
 # JSON Ingestion Spezifikation (Post-Go-Live)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Ingestion
+
+---
+
+
 Ziel dieses Dokuments ist, den standardisierten JSON-gestützten Ingestion-Prozess (ETL) zu definieren, damit strukturierte, Geo- und Textdaten aus heterogenen Quellen konsistent, abfragefreundlich und revisionssicher in die Kerndatenbank übernommen werden.
 
 ## Zweck & Scope

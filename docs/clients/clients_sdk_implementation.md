@@ -1,5 +1,12 @@
 # ThemisDB SDK Implementation Plan
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 **Datum:** 20. November 2025  
 **Branch:** sdk-beta-release  
 **Status:** Phase 1 - ✅ COMPLETE | Phase 2 - 🚧 IN PROGRESS (Go ✅, Java ✅, C# ✅)

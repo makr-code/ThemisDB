@@ -1,5 +1,12 @@
 # Encryption Metrics Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Overview
 
 ThemisDB exposes comprehensive encryption metrics for monitoring security operations, performance, and key rotation progress.

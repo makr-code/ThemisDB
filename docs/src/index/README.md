@@ -1,5 +1,12 @@
 # src/index
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder:
 - `adaptive_index.cpp` — adaptive index structures.
 - `gnn_embeddings.cpp` — GNN embedding helpers.

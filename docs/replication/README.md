@@ -1,5 +1,12 @@
 # Replication-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Replication
+
+---
+
+
 **Source Code:** `src/replication/`, `include/replication/`
 
 Diese Dokumentation beschreibt die Replikations-Komponenten von ThemisDB.

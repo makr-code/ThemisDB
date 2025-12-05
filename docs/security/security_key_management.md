@@ -1,5 +1,12 @@
 # Schlüsselverwaltung (Key Management)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ThemisDB unterstützt eine externe Schlüsselverwaltung via KeyProvider-Interface. Für die Entwicklung ist standardmäßig ein MockKeyProvider aktiv; für den Produktionseinsatz stehen **vollständig implementierte** Provider für HashiCorp Vault und HSM (PKCS#11) zur Verfügung.
 
 ## ✅ Implementierungsstatus (November 2025)

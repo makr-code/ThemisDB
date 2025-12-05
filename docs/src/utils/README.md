@@ -1,5 +1,12 @@
 # src/utils
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder include logging, HKDF helpers, PII detection, serialization, and utilities.
 
 Per‑file drafts:

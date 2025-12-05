@@ -1,5 +1,12 @@
 # OpenTelemetry Distributed Tracing
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Observability
+
+---
+
+
 **Themis** unterstützt verteiltes Tracing via OpenTelemetry für Production-Debugging und Performance-Analyse.
 
 ## Features

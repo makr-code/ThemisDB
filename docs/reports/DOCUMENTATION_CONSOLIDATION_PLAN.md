@@ -1,4 +1,11 @@
 # Dokumentations-Konsolidierungsplan
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
 **Erstellt:** 17. November 2025  
 **Zweck:** Detaillierter Plan zur Reorganisation und Konsolidierung der ThemisDB-Dokumentation
 

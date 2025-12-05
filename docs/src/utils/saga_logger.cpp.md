@@ -1,5 +1,12 @@
 # saga_logger.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/saga_logger.cpp`
 
 Purpose: Logging utilities specific to SAGA/transaction flows.

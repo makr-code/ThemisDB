@@ -1,5 +1,12 @@
 # Cursor-Based Pagination in Themis
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 ## Overview
 
 Themis unterstützt Cursor-basierte Pagination für AQL-Queries. Dabei wird auf Index-Ebene ein effizienter Startpunkt gesetzt (Start-after/Start-before), statt große Offsets zu überspringen.

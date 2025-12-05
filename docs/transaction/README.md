@@ -1,5 +1,12 @@
 # Transaction-Dokumentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Transaction
+
+---
+
+
 **Source Code:** `src/transaction/`, `include/transaction/`
 
 Diese Dokumentation beschreibt die Transaktions-Komponenten von ThemisDB.

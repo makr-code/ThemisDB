@@ -1,5 +1,12 @@
 # ThemisDB Python SDK Quickstart
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Clients
+
+---
+
+
 _Stand: 10. November 2025_
 
 Dieses Dokument fasst die wichtigsten Schritte zusammen, um die Python-Clientbibliothek gegen eine ThemisDB-Instanz zu verwenden. Die SDK befindet sich noch im Alpha-Status (`themis.__version__ == "0.1.0a0"`). Breaking Changes sind jederzeit möglich.

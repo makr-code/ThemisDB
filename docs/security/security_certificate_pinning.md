@@ -1,5 +1,12 @@
 # Certificate Pinning - HSM/TSA TLS Hardening
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Erweiterte TLS-Sicherheit für ausgehende Verbindungen zu HSM (Hardware Security Module) und TSA (Timestamp Authority) durch Certificate Pinning.
 
 ## Übersicht

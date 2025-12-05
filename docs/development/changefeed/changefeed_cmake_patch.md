@@ -1,6 +1,13 @@
 ````markdown
 # CMake / Test registration snippet for Changefeed MVP
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Füge folgende Zeilen in die passende `CMakeLists.txt` (z. B. `tests/CMakeLists.txt` oder Top‑level `CMakeLists.txt`) ein, um die Tests zu bauen und auszuführen:
 
 ```

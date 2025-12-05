@@ -1,4 +1,11 @@
 # Critical/High-Priority Sprint Summary
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
 **Branch:** `feature/critical-high-priority-fixes`  
 **Date:** November 17, 2025  
 **Duration:** 1 day  

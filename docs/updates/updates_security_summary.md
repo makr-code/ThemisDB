@@ -1,5 +1,12 @@
 # Security Summary - Update Checker Subsystem
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Updates
+
+---
+
+
 ## Overview
 This document summarizes the security analysis of the GitHub Update Checker subsystem implementation.
 

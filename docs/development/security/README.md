@@ -1,6 +1,13 @@
 ```markdown
 # Security — Dokumente
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Dieser Ordner enthält Sicherheits‑ und Krypto‑bezogene Entwürfe, Designdokumente und Hinweise.
 
 Enthaltene Dateien:

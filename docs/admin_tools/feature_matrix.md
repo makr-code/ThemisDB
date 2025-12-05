@@ -1,5 +1,12 @@
 # ThemisDB Admin Tools - Feature Matrix
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Admin Tools
+
+---
+
+
 ## Übersicht der implementierten Features
 
 ### ✅ Key Rotation Dashboard

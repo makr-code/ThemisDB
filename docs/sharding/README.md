@@ -1,5 +1,12 @@
 # Sharding & Horizontal Scaling Documentation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Sharding
+
+---
+
+
 Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 
 ## Contents

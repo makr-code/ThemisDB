@@ -1,5 +1,12 @@
 # Key-Rotation-Strategie für ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## 1. Übersicht
 
 Die Key-Rotation-Infrastruktur ist bereits in ThemisDB implementiert und ermöglicht sichere Schlüsselrotation ohne Downtime. Dieses Dokument beschreibt die Strategie und Implementierung.

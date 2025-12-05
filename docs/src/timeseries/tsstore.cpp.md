@@ -1,6 +1,13 @@
 ```markdown
 # tsstore.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/timeseries/tsstore.cpp`
 
 **Purpose:** Implementiert `TSStore` für Zeitreihen‑Ingest, Chunking, Abfragen und Aggregationen. Nutzt den Gorilla‑Codec zur effizienten Kompression von Zeitstempeln und numerischen Werten.

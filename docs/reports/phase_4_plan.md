@@ -1,5 +1,12 @@
 # Phase 4: Full Subquery Execution & CTE Materialization
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Reports
+
+---
+
+
 **Datum:** 17. November 2025  
 **Branch:** `feature/aql-st-functions`  
 **Status:** ✅ **COMPLETED**  

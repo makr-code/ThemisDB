@@ -1,5 +1,12 @@
 # jwt_validator.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/auth/jwt_validator.cpp`
 
 Purpose: Validate and parse JWT tokens; extract claims for authentication/authorization.

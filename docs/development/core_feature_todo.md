@@ -1,5 +1,12 @@
 # Core Feature TODO (Stand: 10. November 2025)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
 Diese Liste fasst die nächsten Core-Implementierungsschritte zusammen. Jede Aufgabe enthält betroffene Bereiche und empfohlene Artefakte für Tests und Dokumentation.
 
 ## Höchste Priorität

@@ -1,5 +1,12 @@
 # LoRA Adapter Metadata & Structured Generation
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Exporters
+
+---
+
+
 ## Overview
 
 ThemisDB's JSONL LLM Exporter has been enhanced with **vendor-neutral, open-source** support for structured generation and comprehensive LoRA adapter metadata tracking. These improvements enable:

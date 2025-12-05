@@ -1,5 +1,12 @@
 # Performance & Benchmarks
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Performance
+
+---
+
+
 Dieser Leitfaden konsolidiert die wichtigsten Performance-Themen und Microbenchmarks in ThemisDB: Kompression, Pagination, MVCC vs. WriteBatch, Index-Rebuilds und Vector-Suche. Er beschreibt Messmethodik, Interpretation und konkrete Tuning-Empfehlungen.
 
 ## Ziele und Erfolgsmetriken

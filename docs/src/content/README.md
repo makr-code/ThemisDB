@@ -1,5 +1,12 @@
 # src/content
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder:
 - `content_manager.cpp` — manages content ingestion, storage and retrieval (ZSTD compression paths, chunks).
 - `content_type.cpp` — content type detection / metadata handling.

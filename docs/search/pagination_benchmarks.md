@@ -1,5 +1,12 @@
 # Pagination Benchmarks: Offset vs Cursor
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Search
+
+---
+
+
 Dieser Leitfaden beschreibt zwei Microbenchmarks zur Pagination-Performance:
 
 - Offset-basierte Pagination (ORDER BY + LIMIT offset,count mit Post-Slicing)

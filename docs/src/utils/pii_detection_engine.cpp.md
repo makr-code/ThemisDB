@@ -1,5 +1,12 @@
 # pii_detection_engine.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/pii_detection_engine.cpp`
 
 Purpose: Engine coordinating PII detection across various detectors and rules.

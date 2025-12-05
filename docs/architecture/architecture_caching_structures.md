@@ -1,5 +1,12 @@
 # Caching – Datenstrukturen (Skizze)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 Dieser Entwurf konkretisiert die in `docs/infrastructure_roadmap.md` (Abschnitt 2.5) beschriebenen Strukturen.
 
 ## L1 In-Process Cache

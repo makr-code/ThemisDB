@@ -1,5 +1,12 @@
 # Externe Blob-Storage-Analyse für ThemisDB
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Storage
+
+---
+
+
 **Datum:** 21. November 2025  
 **Anforderung:** Support für externe Blob-Storage (ActiveDirectory, AWS S3, etc.)  
 **Status:** 🟡 Design vorhanden, Implementation ausstehend

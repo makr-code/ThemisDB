@@ -1,5 +1,12 @@
 # secondary_index.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/index/secondary_index.cpp`
 
 Purpose: Secondary index implementation for non‑primary key attributes.

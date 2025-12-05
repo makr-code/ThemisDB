@@ -1,5 +1,12 @@
 # Cache-Invalidierungsstrategie
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
+
+---
+
+
 Ziel: Korrekte Freshness trotz Replikation/Rebalancing.
 
 ## Events

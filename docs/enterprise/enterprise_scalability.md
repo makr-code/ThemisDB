@@ -1,5 +1,12 @@
 # Enterprise Scalability Features
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Enterprise
+
+---
+
+
 ## Overview
 
 ThemisDB Enterprise includes advanced scalability features for high-throughput, mission-critical deployments:

@@ -1,5 +1,12 @@
 # Audit Logging - Security Events, Hash Chain & SIEM Integration
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Features
+
+---
+
+
 Umfassende Audit-Logging-Funktionalität mit Manipulationsschutz und SIEM-Integration.
 
 ## Übersicht

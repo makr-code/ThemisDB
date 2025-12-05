@@ -1,5 +1,12 @@
 # PII Detection Engine Extensions
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 ## Overview
 
 The PII detection system uses a plugin architecture that allows multiple detection engines to work together:

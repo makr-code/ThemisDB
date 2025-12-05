@@ -1,5 +1,12 @@
 # src/query
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Files in this folder:
 - `aql_parser.cpp` — AQL parser implementation.
 - `aql_translator.cpp` — Translates AQL FULLTEXT expressions into query engine operations.

@@ -1,5 +1,12 @@
 # tracing.cpp
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Src
+
+---
+
+
 Path: `src/utils/tracing.cpp`
 
 Purpose: Tracing integration for distributed traces (OpenTelemetry etc.) and span helpers.

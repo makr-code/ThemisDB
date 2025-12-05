@@ -1,5 +1,12 @@
 # vLLM Multi-LoRA Integration for VCC-Clara
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Exporters
+
+---
+
+
 ## Overview
 
 ThemisDB provides native support for **vLLM multi-LoRA inference** (open-source), designed to power the VCC-Clara AI system. This integration enables efficient serving of multiple domain-specific LoRA adapters with dynamic loading and batching.

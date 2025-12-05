@@ -1,5 +1,12 @@
 # Qualitätssicherung (QA)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Guides
+
+---
+
+
 Diese Seite beschreibt die Teststrategie, Werkzeuge und Best Practices zur Sicherstellung der Softwarequalität in ThemisDB: Unit/Integration/E2E-Tests, CI/CD, Code Coverage, statische Analysen und Performance-Regressionstests.
 
 ## Testpyramide und Abdeckung

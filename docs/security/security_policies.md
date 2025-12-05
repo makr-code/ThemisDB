@@ -1,5 +1,12 @@
 # Policy Engine (Ranger-inspiriert)
 
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Security
+
+---
+
+
 Die Policy-Engine ergänzt die Token/Scope-Authorisierung um feingranulare Prüfungen auf Basis von Subjekt (Benutzer), Aktion, Ressourcenpfad und optionalen Bedingungen (z. B. IP-Präfixe).
 
 ## Aktivierung & Laden
