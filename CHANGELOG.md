@@ -130,10 +130,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Wiki synchronization
 
 ### Statistics
-- **Total Code**: 3,340 lines of production-ready code (Q4 2025)
-- **Documentation**: 361 documents, 25 categories
-- **Tests**: 89 test files with comprehensive coverage
-- **Compilation**: Successful on Windows (MSVC), Linux (GCC), QNAP
+- **Total Code**: 90,829 lines across 16 source modules (132 headers, 124 sources)
+- **Documentation**: 456+ markdown files in 71 directories
+- **Tests**: 143+ test files with comprehensive coverage
+- **Compilation**: Successful on Windows (MSVC), Linux (GCC), ARM64, QNAP
+
+### Source Modules (v1.0.0)
+| Module | Headers | Sources | LOC |
+|--------|---------|---------|-----|
+| server | 20 | 20 | 18,282 |
+| index | 12 | 11 | 14,629 |
+| query | 12 | 12 | 12,560 |
+| sharding | 21 | 19 | 12,278 |
+| content | 16 | 15 | 9,091 |
+| security | 16 | 16 | 8,138 |
+| storage | 9 | 10 | 4,591 |
+| analytics | 3 | 2 | 3,742 |
+| timeseries | 7 | 8 | 2,767 |
+| replication | 2 | 1 | 1,612 |
+| transaction | 2 | 2 | 895 |
+| llm | 2 | 2 | 679 |
+| cdc | 1 | 1 | 510 |
+| cache | 6 | 1 | 492 |
+| geo | 2 | 3 | 304 |
+| governance | 1 | 1 | 259 |
 
 ### Breaking Changes
 - None (backward compatible with v0.x)
