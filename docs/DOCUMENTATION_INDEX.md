@@ -1,6 +1,7 @@
 # ThemisDB Dokumentations-Index
 
-**Letzte Aktualisierung:** 30. November 2025
+**Letzte Aktualisierung:** 5. Dezember 2025
+**Version:** 1.0.0
 
 ## 🎯 Schnelleinstieg nach Rolle
 
@@ -236,6 +237,6 @@ Veraltete oder abgelöste Dokumentation:
 
 ---
 
-**Dokumentations-Status:** ✅ Konsolidiert (30. November 2025)  
+**Dokumentations-Status:** ✅ Konsolidiert (5. Dezember 2025)  
 **Maintainer:** ThemisDB Team  
-**Letzte Audit:** 30. November 2025
+**Letzte Audit:** 5. Dezember 2025
