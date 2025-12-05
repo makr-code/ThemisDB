@@ -1,7 +1,7 @@
 # ThemisDB – Security Audit Report
 
-**Version:** 1.0  
-**Audit-Datum:** November 2025  
+**Version:** 1.1  
+**Audit-Datum:** Dezember 2025  
 **Auditor:** Automatisierte Analyse + Manuelle Review  
 **Klassifizierung:** Vertraulich
 
@@ -32,12 +32,13 @@ Dieses Dokument enthält die Ergebnisse des Security Audits der ThemisDB-Codebas
 
 | Metrik | Wert |
 |--------|------|
-| **Source Code (C++)** | ~85.000 LoC |
-| **Header Files** | ~51.000 LoC |
+| **Source Code (C++)** | 90,829 LoC (16 Module) |
+| **Header Files** | 132 Dateien |
+| **Source Files** | 124 Dateien |
 | **Test Code** | ~42.000 LoC |
-| **Dokumentation** | ~113.000 Zeilen |
-| **Gesamtdateien** | 856 |
-| **Test-Dateien** | 169 Unit Tests |
+| **Dokumentation** | 456+ Dateien |
+| **Gesamtdateien** | 900+ |
+| **Test-Dateien** | 143+ Unit Tests |
 
 ### Sprachen-Verteilung
 
@@ -245,11 +246,11 @@ Dieses Dokument enthält die Ergebnisse des Security Audits der ThemisDB-Codebas
 
 ### Code Quality
 
-- [x] **Test Coverage:** 85%+ (169 Unit Tests)
+- [x] **Test Coverage:** 85%+ (143+ Unit Tests)
 - [x] **Static Analysis:** clang-tidy verfügbar
 - [x] **Memory Safety:** AddressSanitizer verfügbar
 - [x] **Code Review:** GitHub PR-Workflow
-- [x] **Dokumentation:** 279+ Dokumente, 113K Zeilen
+- [x] **Dokumentation:** 456+ Dokumente, 16 Source-Module
 
 ### Compliance Documentation
 
@@ -346,6 +347,6 @@ Die detaillierten Scan-Logs sind auf Anfrage verfügbar.
 
 ---
 
-**Letzte Aktualisierung:** November 2025  
+**Letzte Aktualisierung:** Dezember 2025  
 **Dokumentverantwortlicher:** ThemisDB Security Team  
 **Nächstes Audit:** [Datum + 12 Monate]
