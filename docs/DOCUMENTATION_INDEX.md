@@ -203,7 +203,7 @@ docs/
 | timeseries | [docs/timeseries/README.md](timeseries/README.md) | 8 | 7 | 2,767 |
 | transaction | [docs/transaction/README.md](transaction/README.md) | 2 | 2 | 895 |
 
-**Gesamt:** 124 Source-Dateien, 132 Header-Dateien, ~91,000 LOC
+**Gesamt:** 124 Source-Dateien, 132 Header-Dateien, 90,829 LOC
 
 **Audit-Report:** [SOURCE_CODE_AUDIT.md](development/SOURCE_CODE_AUDIT.md)
 
