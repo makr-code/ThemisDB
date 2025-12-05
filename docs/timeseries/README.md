@@ -131,7 +131,3 @@ auto agg = ts.aggregate("cpu_usage", "server-1", query);
 ## Verwandte Dokumentation
 
 - [Features: Time Series](../features/features_time_series.md) - Feature-Details
-
-## Verwandte Dokumentation
-
-- [Features: Time Series](../features/features_time_series.md)

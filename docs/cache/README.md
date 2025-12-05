@@ -113,9 +113,6 @@ class ResultCache {
 ## Verwandte Dokumentation
 
 - [Features: Semantic Cache](../features/features_semantic_cache.md) - Feature-Details
-
-## Verwandte Dokumentation
-
 - [Architektur: Caching Data Structures](../architecture/architecture_caching_structures.md)
 - [Architektur: Caching Lookup Patterns](../architecture/architecture_caching_patterns.md)
 - [Architektur: Cache Invalidation Strategy](../architecture/architecture_cache_invalidation.md)

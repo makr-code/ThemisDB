@@ -125,8 +125,3 @@ if (!status.ok) {
 
 - [Features: Transactions](../features/features_transactions.md) - Feature-Details
 - [Architecture: MVCC](../architecture/architecture_mvcc.md) - MVCC-Architektur
-
-## Verwandte Dokumentation
-
-- [Features: Transactions](../features/features_transactions.md)
-- [Architecture: MVCC Design](../architecture/architecture_mvcc.md)
