@@ -661,6 +661,6 @@ Diese Roadmap ist ein lebendes Dokument. Änderungen ergeben sich aus:
 
 ---
 
-**Letzte Aktualisierung:** 2. Dezember 2025  
-**Version:** 3.0  
+**Letzte Aktualisierung:** 5. Dezember 2025  
+**Version:** 4.0  
 **Nächstes Review:** Januar 2026
