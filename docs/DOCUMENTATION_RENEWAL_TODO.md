@@ -1,7 +1,8 @@
 # ThemisDB Dokumentations-Erneuerungs-TODO
 
-**Version:** 1.0  
+**Version:** 2.0  
 **Erstellt:** 2. Dezember 2025  
+**Aktualisiert:** 5. Dezember 2025  
 **Zweck:** Systematische Überprüfung und Aktualisierung der gesamten ThemisDB-Dokumentation  
 **Ausgelöst durch:** Issue zu STREAMING_ARCHITECTURE.md - Dokumentation entspricht nicht mehr dem aktuellen Stand
 
@@ -9,10 +10,13 @@
 
 ## 📋 Executive Summary
 
-Die ThemisDB-Dokumentation umfasst derzeit (Stand: 2. Dezember 2025):
-- **6 Markdown-Dateien** im Root-Verzeichnis
-- **439 Markdown-Dateien** im `/docs`-Verzeichnis
-- **59 Unterverzeichnisse** in `/docs`
+Die ThemisDB-Dokumentation umfasst derzeit (Stand: 5. Dezember 2025):
+- **9 Markdown-Dateien** im Root-Verzeichnis
+- **456 Markdown-Dateien** im `/docs`-Verzeichnis
+- **71 Unterverzeichnisse** in `/docs`
+- **180 C++ Source-Dateien** in `/src`
+- **202 Header-Dateien** in `/include`
+- **7 Client SDKs** (Python, JavaScript, Rust, Go, Java, C#, Swift)
 
 > **Hinweis:** Diese Zahlen können sich ändern. Zum Aktualisieren:
 > ```bash
@@ -107,33 +111,49 @@ done
 
 Für jede Komponente muss geprüft werden:
 
-| Komponente | Header-Dateien | Source-Dateien | Dokumentation Status |
-|------------|----------------|----------------|---------------------|
-| analytics | `include/analytics/*.h` | `src/analytics/*.cpp` | ⚠️ Prüfen |
-| api | `include/api/*.h` | `src/api/*.cpp` | ⚠️ Prüfen |
-| auth | `include/auth/*.h` | `src/auth/*.cpp` | ⚠️ Prüfen |
-| cache | `include/cache/*.h` | `src/cache/*.cpp` | ❌ Fehlt |
-| cdc | `include/cdc/*.h` | `src/cdc/*.cpp` | ⚠️ Archiviert |
-| content | `include/content/*.h` | `src/content/*.cpp` | ⚠️ Prüfen |
-| geo | `include/geo/*.h` | `src/geo/*.cpp` | ⚠️ Prüfen |
-| governance | `include/governance/*.h` | `src/governance/*.cpp` | ❌ Fehlt |
-| index | `include/index/*.h` | `src/index/*.cpp` | ⚠️ Prüfen |
-| query | `include/query/*.h` | `src/query/*.cpp` | ⚠️ Prüfen |
-| replication | `include/replication/*.h` | `src/replication/*.cpp` | ❌ Fehlt |
-| security | `include/security/*.h` | `src/security/*.cpp` | ⚠️ Prüfen |
-| server | `include/server/*.h` | `src/server/*.cpp` | ❌ Fehlt |
-| sharding | `include/sharding/*.h` | `src/sharding/*.cpp` | ⚠️ Prüfen |
-| storage | `include/storage/*.h` | `src/storage/*.cpp` | ⚠️ Prüfen |
-| streaming | `include/streaming/*.h` | `src/streaming/*.cpp` | ⚠️ Prüfen |
-| timeseries | `include/timeseries/*.h` | `src/timeseries/*.cpp` | ❌ Fehlt |
-| transaction | `include/transaction/*.h` | `src/transaction/*.cpp` | ❌ Fehlt |
+| Komponente | Header | Source | Dokumentation | Status |
+|------------|--------|--------|---------------|--------|
+| acceleration | 7 | 15 | ❌ Fehlt | Neu hinzufügen |
+| analytics | 3 | 2 | ✅ Vorhanden | Prüfen |
+| api | 2 | 3 | ✅ Vorhanden | Prüfen |
+| auth | 1 | 1 | ✅ Vorhanden | Prüfen |
+| cache | 6 | 1 | ✅ Vorhanden | Prüfen |
+| cdc | 1 | 1 | ❌ Fehlt | Neu hinzufügen |
+| content | 16 | 15 | ✅ Vorhanden | Prüfen |
+| exporters | 2 | 1 | ✅ Vorhanden | Prüfen |
+| geo | 2 | 3 | ✅ Vorhanden | Prüfen |
+| governance | 1 | 1 | ✅ Vorhanden | Prüfen |
+| importers | 2 | 1 | ✅ Vorhanden | Prüfen |
+| index | 12 | 11 | ✅ Vorhanden | Prüfen |
+| llm | 2 | 2 | ✅ Vorhanden | Prüfen |
+| observability | 1 | 1 | ✅ Vorhanden | Prüfen |
+| plugins | 2 | 1 | ✅ Vorhanden | Prüfen |
+| query | 32 | 13 | ✅ Vorhanden | Prüfen |
+| replication | 2 | 1 | ✅ Vorhanden | Prüfen |
+| security | 16 | 16 | ✅ Vorhanden | Prüfen |
+| server | 20 | 20 | ✅ Vorhanden | Prüfen |
+| sharding | 21 | 19 | ✅ Vorhanden | Prüfen |
+| storage | 9 | 10 | ✅ Vorhanden | Prüfen |
+| timeseries | 7 | 8 | ✅ Vorhanden | Prüfen |
+| transaction | 2 | 2 | ✅ Vorhanden | Prüfen |
+| updates | 4 | 4 | ✅ Vorhanden | Prüfen |
+| utils | 26 | 25 | ❌ Fehlt | Neu hinzufügen |
+
+**Gesamt:** 202 Header, 180 Source-Dateien
+
+### Fehlende Dokumentations-Ordner
+
+Die folgenden Source-Code-Komponenten haben keine dedizierte Dokumentation:
+- `docs/acceleration/` - GPU/CUDA/Vulkan Beschleunigung (15 cpp, 7 h)
+- `docs/cdc/` - Change Data Capture (1 cpp, 1 h)  
+- `docs/utils/` - Utility-Funktionen (25 cpp, 26 h)
 
 ### Empfohlene Vorgehensweise
 
 1. **Phase A: Link-Reparatur** ✅ ABGESCHLOSSEN (2. Dezember 2025)
    - ✅ Alle broken Links in README.md gefixt (19 Links korrigiert)
    - ✅ Links in DOCUMENTATION_INDEX.md aktualisiert (28 Links korrigiert)
-   - [ ] MkDocs-Navigation anpassen
+   - ✅ MkDocs-Navigation angepasst
 
 2. **Phase B: Struktur-Konsolidierung** ✅ ABGESCHLOSSEN (2. Dezember 2025)
    - ✅ Fehlende Dokumentations-Ordner erstellt (8 neue Ordner)
@@ -149,6 +169,15 @@ Für jede Komponente muss geprüft werden:
    - ✅ `.github/workflows/docs-link-check.yml` erstellt
    - ✅ Automatische Link-Validierung bei Push/PR
    - ✅ Dokumentations-Statistiken in CI
+
+5. **Phase E: Source-Code-zu-Doku Abgleich** 🔄 IN ARBEIT (5. Dezember 2025)
+   - [ ] Fehlende Ordner erstellen (acceleration/, cdc/, utils/)
+   - [ ] Implementierungsstatus in features_overview.md aktualisieren
+   - [ ] DEVELOPMENT_SUMMARY.md mit aktuellem Code-Stand abgleichen
+   - [ ] implementation_status.md aktualisieren (Stand: Oktober 2025 → Dezember 2025)
+   - [ ] Client SDK Dokumentation vervollständigen (7 SDKs)
+   - [ ] Sharding-Dokumentation mit 21 Header-Dateien abgleichen
+   - [ ] Security-Dokumentation mit 16 Implementierungen abgleichen
 
 ### Phase C: Root-Dateien verschoben
 
