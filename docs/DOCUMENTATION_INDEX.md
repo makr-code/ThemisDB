@@ -182,6 +182,31 @@ docs/
 
 ## 📋 Navigation nach Thema
 
+### Source-Module (16 Komponenten)
+
+| Modul | README | Source | Headers | LOC |
+|-------|--------|--------|---------|-----|
+| analytics | [docs/analytics/README.md](analytics/README.md) | 2 | 3 | 3,742 |
+| cache | [docs/cache/README.md](cache/README.md) | 1 | 6 | 492 |
+| cdc | [docs/cdc/README.md](cdc/README.md) | 1 | 1 | 510 |
+| content | [docs/content/README.md](content/README.md) | 15 | 16 | 9,091 |
+| geo | [docs/geo/README.md](geo/README.md) | 3 | 2 | 304 |
+| governance | [docs/governance/README.md](governance/README.md) | 1 | 1 | 259 |
+| index | [docs/index/README.md](index/README.md) | 11 | 12 | 14,629 |
+| llm | [docs/llm/README.md](llm/README.md) | 2 | 2 | 679 |
+| query | [docs/query/README.md](query/README.md) | 12 | 12 | 12,560 |
+| replication | [docs/replication/README.md](replication/README.md) | 1 | 2 | 1,612 |
+| security | [docs/security/README.md](security/README.md) | 16 | 16 | 8,138 |
+| server | [docs/server/README.md](server/README.md) | 20 | 20 | 18,282 |
+| sharding | [docs/sharding/README.md](sharding/README.md) | 19 | 21 | 12,278 |
+| storage | [docs/storage/README.md](storage/README.md) | 10 | 9 | 4,591 |
+| timeseries | [docs/timeseries/README.md](timeseries/README.md) | 8 | 7 | 2,767 |
+| transaction | [docs/transaction/README.md](transaction/README.md) | 2 | 2 | 895 |
+
+**Gesamt:** 124 Source-Dateien, 132 Header-Dateien, ~91,000 LOC
+
+**Audit-Report:** [SOURCE_CODE_AUDIT.md](development/SOURCE_CODE_AUDIT.md)
+
 ### Multi-Model Features
 - **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
 - **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
