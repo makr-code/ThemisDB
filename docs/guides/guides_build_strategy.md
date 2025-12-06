@@ -10,15 +10,35 @@
 ## Ziel
 Konsistente Build-Toolchain für alle Plattformen, eindeutige Versionierung und abgestimmtes Packaging/CI-CD.
 
+## Build-Strategie nach Plattform
+
+### Linking-Strategie
+
+| Plattform | Linking | Begründung |
+|-----------|---------|------------|
+| **Docker/QNAP** | **Monolithisch (Statisch)** | Maximale Portabilität, keine GLIBC-Abhängigkeiten |
+| **Windows** | **Dynamisch (DLL)** | Native Windows-Konventionen, kleinere Binary |
+| **Linux (Native)** | Dynamisch oder Statisch | Je nach Deployment-Szenario |
+
+### CMake-Flags
+
+```bash
+# Docker/QNAP: Monolithisch (statisch)
+cmake -DTHEMIS_STATIC_BUILD=ON -DBUILD_SHARED_LIBS=OFF ...
+
+# Windows: Dynamisch (DLL)
+cmake -DTHEMIS_STATIC_BUILD=OFF -DBUILD_SHARED_LIBS=ON ...
+```
+
 ## Unterstützte Plattformen
 
-| Plattform | Architektur | Build-Methode | Binary-Kompatibilität |
-|-----------|-------------|---------------|----------------------|
-| **Windows** | x64 | MSVC/ClangCL + vcpkg + boost | Native .exe |
-| **WSL/Linux** | x64 | GCC/Clang + vcpkg | GLIBC 2.38+ (Ubuntu 24.04) |
-| **Docker (Standard)** | x64 | Ubuntu 24.04 | GLIBC 2.38+, GLIBCXX 3.4.32 |
-| **Docker (QNAP)** | x64 | Ubuntu 20.04 | GLIBC 2.31, GLIBCXX 3.4.28 |
-| **Raspberry Pi** | ARM64 | GCC + vcpkg | GLIBC 2.31+ (Debian Bullseye) |
+| Plattform | Architektur | Build-Methode | Linking | Binary-Kompatibilität |
+|-----------|-------------|---------------|---------|----------------------|
+| **Windows** | x64 | MSVC/ClangCL + vcpkg | **DLL** | Native .exe + .dll |
+| **Docker (Standard)** | x64 | Ubuntu 24.04 | **Statisch** | Monolithische Binary |
+| **Docker (QNAP)** | x64 | Ubuntu 20.04 | **Statisch** | Monolithische Binary |
+| **Raspberry Pi** | ARM64 | GCC + vcpkg | **Statisch** | Monolithische Binary |
+| **WSL/Linux** | x64 | GCC/Clang + vcpkg | Dynamisch/Statisch | Je nach Bedarf |
 
 ## Versionierungs-Strategie
 
@@ -117,19 +137,53 @@ cmake --build --preset linux-ninja-clang-release
 # - THEMIS_ENABLE_HTTP_POOL (immer ON)
 ```
 
-### 2. Docker Builds
+### 2. Docker Builds (Hybrid Pre-built Binary Ansatz)
 
-#### Standard (Ubuntu 24.04)
+Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
+
+1. Binary lokal mit vcpkg bauen (einmalig, ~30-40 Minuten)
+2. Docker-Image mit `Dockerfile.simple` erstellen (schnell, ~30 Sekunden)
+3. Kleine Images (~100-200 MB) und 100% offline-fähig
+
+#### Unified Docker Build Script
+
 ```powershell
-docker build -f Dockerfile -t themisdb/themisdb:1.0.1 -t themisdb/themisdb:latest --platform linux/amd64 .
+# Standard Build (mit existierender Binary)
+.\docker-build.ps1
+
+# Binary zuerst in WSL bauen, dann Docker-Image erstellen
+.\docker-build.ps1 -BuildBinary
+
+# QNAP-Variante
+.\docker-build.ps1 -Variant qnap
+
+# Build und Push zu Registry
+.\docker-build.ps1 -Push
 ```
 
-#### QNAP (Ubuntu 20.04, SSE4.2 Basis)
-```powershell
-docker build -f Dockerfile.qnap -t themisdb/themisdb:1.0.1-qnap -t themisdb/themisdb:qnap --platform linux/amd64 .
+```bash
+# Bash-Äquivalent (Linux/macOS)
+./docker-build.sh
+./docker-build.sh --build-binary
+./docker-build.sh -b qnap
+./docker-build.sh --push
 ```
 
-Push:
+#### Unterstützte Plattformen
+
+| Plattform | Architektur | Use Case |
+|-----------|-------------|----------|
+| `linux/amd64` | x86_64 | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Raspberry Pi 4/5, ARM Server, Apple Silicon |
+
+#### Manueller Docker Build (Alternative)
+
+```powershell
+# Pre-built Binary muss in build/ vorhanden sein
+docker build -f Dockerfile.simple -t themisdb/themisdb:1.0.1 --platform linux/amd64 .
+```
+
+#### Push zu Registry
 ```powershell
 docker push themisdb/themisdb:1.0.1
 docker push themisdb/themisdb:latest
@@ -201,20 +255,25 @@ docker push ghcr.io/makr-code/themisdb:latest
 
 ### Zu Konsolidieren
 1. **Build-Scripts:**
-   - ✅ `build.ps1` - Haupt-Windows-Build (behalten)
+   - ✅ `build.ps1` - Haupt-Windows-Build (DLL-basiert)
    - ✅ `build.sh` - Haupt-Linux-Build (behalten)
-   - ✅ `build-docker-simple.ps1` - Vereinfachter Docker-Build (behalten)
-   - ✅ `scripts/build_enterprise.cmd` - Enterprise Build für Windows (NEU)
-   - ✅ `scripts/enable_enterprise_features.ps1` - Enterprise Build PowerShell (NEU)
-   - ❌ `build-docker-qnap.ps1` - Funktioniert nicht (ersetzen durch Cross-Compile)
-   - ❌ `build-docker-qnap-simple.ps1` - Unvollständig (entfernen)
-   - ❌ `build-tests-msvc.ps1` - Redundant (nutze CMakePresets)
+   - ✅ `docker-build.ps1` - Unified Docker Build (Hybrid Pre-built, monolithisch)
+   - ✅ `build-unified.ps1` - Unified Build Script (behalten)
+   - ✅ `build-qnap.sh` - Native QNAP Build ohne Docker (monolithisch)
+   - ✅ `build-deb.sh` / `build-rpm.sh` - Packaging-Skripte (behalten)
+   - ✅ `scripts/build_enterprise.cmd` - Enterprise Build für Windows (DLL)
+   - ✅ `scripts/enable_enterprise_features.ps1` - Enterprise Build PowerShell
+   - ❌ ~~`build-docker-qnap.ps1`~~ - Entfernt (ersetzt durch docker-build.ps1 -Variant qnap)
+   - ❌ ~~`build-docker-simple.ps1`~~ - Entfernt (ersetzt durch docker-build.ps1)
+   - ❌ ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ - Entfernt (lokal mit -DTHEMIS_STATIC_BUILD=ON bauen)
+   - ❌ ~~`docker-build-push.ps1`~~ - Entfernt (ersetzt durch docker-build.ps1 -Push)
+   - ❌ ~~`docker-build-multiarch.ps1/.sh`~~ - Entfernt (vereinfacht zu `docker-build.ps1/.sh`)
 
 2. **Docker-Dateien:**
-   - ✅ `Dockerfile` - Multi-Stage Standard-Build
-   - ✅ `Dockerfile.simple` - Pre-built Binary Deployment
-  - ✅ `Dockerfile.qnap` - QNAP-kompatibel (SSE4.2; GLIBC 2.31)
-  - ❌ `Dockerfile.runtime` - Redundant
+   - ✅ `Dockerfile.simple` - **EMPFOHLEN**: Pre-built Binary Deployment (monolithisch)
+   - ✅ `Dockerfile` - Multi-Stage Standard-Build (für CI/CD, langsam)
+   - ✅ `Dockerfile.qnap` - QNAP-kompatibel (SSE4.2; GLIBC 2.31, monolithisch)
+   - ❌ `Dockerfile.runtime` - Redundant
    - ❌ `Dockerfile.old` - Veraltet
 
 3. **Docker Compose:**

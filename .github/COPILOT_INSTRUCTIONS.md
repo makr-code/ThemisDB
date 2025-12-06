@@ -24,7 +24,60 @@ Examples for Copilot prompts:
 Testing & CI:
 - Provide unit tests and a micro-benchmark harness; CI should run static analysis and unit tests.
 
-Build-Pfade (aktive Konfigurationen):
+---
+
+## Build-Strategie nach Plattform
+
+### Linking-Strategie
+
+| Plattform | Linking | CMake-Flag |
+|-----------|---------|------------|
+| **Docker/QNAP** | **Monolithisch (Statisch)** | `-DTHEMIS_STATIC_BUILD=ON` |
+| **Windows** | **Dynamisch (DLL)** | `-DTHEMIS_STATIC_BUILD=OFF` |
+
+### Docker Build: Hybrid Pre-built Binary
+
+Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
+
+### Unified Docker Build Script
+- `docker-build.ps1` - PowerShell (Windows/WSL)
+
+### Workflow
+1. Binary **monolithisch** mit vcpkg bauen: `cmake -DTHEMIS_STATIC_BUILD=ON ...`
+2. Docker-Image mit `Dockerfile.simple` erstellen (schnell)
+3. Ergebnis: Kleine Images (~100-200 MB), 100% offline-fähig
+
+### Verwendung
+```powershell
+# Standard Build
+.\docker-build.ps1
+
+# Mit Binary-Build in WSL
+.\docker-build.ps1 -BuildBinary
+
+# QNAP Variante
+.\docker-build.ps1 -Variant qnap
+
+# Push zu Registry
+.\docker-build.ps1 -Push
+```
+
+### Unterstützte Plattformen
+| Plattform | Architektur | Linking | Use Case |
+|-----------|-------------|---------|----------|
+| `linux/amd64` | x86_64 | Statisch | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Statisch | Raspberry Pi 4/5, ARM Server |
+
+### Entfernte/Ersetzte Skripte
+Die folgenden Skripte wurden durch `docker-build.ps1` ersetzt:
+- ~~`build-docker-qnap.ps1`~~ → `docker-build.ps1 -Variant qnap`
+- ~~`build-docker-simple.ps1`~~ → `docker-build.ps1 -BuildBinary`
+- ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ → Lokal mit `-DTHEMIS_STATIC_BUILD=ON` bauen
+- ~~`docker-build-push.ps1`~~ → `docker-build.ps1 -Push`
+
+---
+
+## Build-Pfade (aktive Konfigurationen):
 
 1. build-qnap/
 	- Ziel: Statischer Release-Build für QNAP / Ubuntu 20.04 (GLIBC 2.31)
@@ -77,5 +130,6 @@ Erwartungen an Copilot bei Build-Themen:
 	- Bei Änderung an `build-qnap.sh`: Nur notwendige Flags anpassen, keine Preset-Einführung.
 	- Statische Build-Optimierungsvorschläge nur nach Prüfung auf symbolische Duplikate (nm -C | sort | uniq -d).
 	- Bei Paket-Find-Problemen zuerst CMAKE_PREFIX_PATH / *_DIR prüfen, erst danach find_package Log erweitern.
+	- Docker-Builds immer mit `docker-build.ps1/.sh` (Hybrid Pre-built Binary Ansatz)
 
 Bitte neue Build-Profile konsistent mit obiger Matrix ergänzen und Unterschiede klar dokumentieren.

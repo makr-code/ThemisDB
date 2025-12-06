@@ -1,127 +1,160 @@
 # ThemisDB Docker Build und Deployment
 
-**Stand:** 5. Dezember 2025  
+**Stand:** 6. Dezember 2025  
 **Version:** 1.0.0  
 **Kategorie:** Deployment
 
 ---
 
+## Build-Strategie: Hybrid Pre-built Binary (Monolithisch)
 
-## Build-Prozess
+Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow mit **monolithischem (statischem) Linking**:
 
-### Docker-Image bauen
+1. **Binary lokal bauen** (einmalig, ~30-40 Minuten mit vcpkg, `-DTHEMIS_STATIC_BUILD=ON`)
+2. **Docker-Image erstellen** mit `Dockerfile.simple` (schnell, ~30 Sekunden)
+3. **Ergebnis**: Kleine Images (~100-200 MB), 100% offline-fähig, maximale Portabilität
+
+### Vorteile
+- ✅ Schnelle Build-Zeiten (Sekunden statt Minuten)
+- ✅ Kleine Image-Größe (~100-200 MB)
+- ✅ 100% Offline-fähig
+- ✅ Monolithische Binary (keine Library-Abhängigkeiten)
+- ✅ Health-Check für Container-Orchestrierung
+
+## Unified Docker Build Scripts
+
+### PowerShell (Windows/WSL)
+
 ```powershell
-# Vollständiges Build (Build + Runtime)
-docker build -t themisdb/themis:v0.1.0-alpha .
+# Standard Build mit existierender Binary
+.\docker-build.ps1
 
-# Nur Build-Stage testen
-docker build --target build -t themisdb-test-build .
+# Binary in WSL bauen, dann Docker-Image erstellen
+.\docker-build.ps1 -BuildBinary
+
+# QNAP-Variante
+.\docker-build.ps1 -Variant qnap
+
+# Build und Push zu Registry
+.\docker-build.ps1 -Push
+
+# Alle Optionen
+.\docker-build.ps1 -Version 1.0.1 -Registry themisdb -Variant standard -Push
 ```
 
-### Build-Konfiguration
+### Bash (Linux/macOS)
 
-- **Base Image**: Ubuntu 22.04 (GLIBC 2.35)
-- **Dependency Manager**: vcpkg (vollständiger Clone)
-- **Build System**: CMake + Ninja
-- **Compiler**: GCC 11.4.0
+```bash
+# Standard Build mit existierender Binary
+./docker-build.sh
 
-### Abhängigkeiten (vcpkg.docker.json)
+# Binary bauen, dann Docker-Image erstellen
+./docker-build.sh --build-binary
 
-Kern-Bibliotheken:
-- OpenSSL (TLS/Krypto)
-- RocksDB mit LZ4 + ZSTD (Storage Engine)
-- simdjson (Fast JSON Parsing)
-- TBB (Threading)
-- Arrow mit JSON + Filesystem (Columnar Data)
-- spdlog (Logging)
-- yaml-cpp (Konfiguration)
-- Boost (Asio + Beast für Networking)
-- nlohmann-json (JSON)
-- hnswlib (Vector Search)
+# QNAP-Variante
+./docker-build.sh -b qnap
 
-### Build-Zeiten
-
-- vcpkg Clone: ~40s
-- vcpkg Install: ~20-30 Minuten (alle Pakete kompilieren)
-- CMake Build: ~5 Minuten
-- **Gesamt**: ~30-40 Minuten
-
-### Optimierungen
-
-- Multi-stage Build: Runtime-Image ist minimal
-- Layer Caching: vcpkg-Manifest zuerst kopieren
-- Reduced Arrow: Nur JSON + Filesystem Features (nicht Parquet/Compute)
-
-## Docker Hub Deployment
-
-### Login
-```powershell
-docker login
+# Build und Push zu Registry
+./docker-build.sh --push
 ```
 
-### Tag und Push
-```powershell
-# Tag v0.1.0-alpha
-docker tag themisdb/themis:v0.1.0-alpha themisdb/themis:v0.1.0-alpha
-docker push themisdb/themis:v0.1.0-alpha
+## Unterstützte Plattformen
 
-# Tag qnap-latest
-docker tag themisdb/themis:v0.1.0-alpha themisdb/themis:qnap-latest
-docker push themisdb/themis:qnap-latest
+| Plattform | Architektur | Linking | Use Case |
+|-----------|-------------|---------|----------|
+| `linux/amd64` | x86_64 | Statisch | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Statisch | Raspberry Pi 4/5, ARM Server |
 
-# Tag latest
-docker tag themisdb/themis:v0.1.0-alpha themisdb/themis:latest
-docker push themisdb/themis:latest
+## Docker Tags
+
+| Tag | Beschreibung |
+|-----|--------------|
+| `themisdb/themisdb:latest` | Neueste stabile Version |
+| `themisdb/themisdb:1.0.0` | Spezifische Version |
+| `themisdb/themisdb:qnap` | QNAP NAS optimiert |
+| `themisdb/themisdb:1.0.0-qnap` | QNAP spezifische Version |
+
+## Voraussetzungen
+
+### Binary vorbereiten (monolithisch/statisch)
+
+Die Binary muss vor dem Docker-Build vorhanden sein:
+
+```bash
+# Option 1: Mit dem Script
+./docker-build.sh --build-binary  # Linux/macOS
+.\docker-build.ps1 -BuildBinary   # Windows/WSL
+
+# Option 2: Manuell in WSL/Linux (mit statischem Build)
+cd ~/themis-build-release
+cmake -S /path/to/ThemisDB -B . -DCMAKE_BUILD_TYPE=Release -DTHEMIS_STATIC_BUILD=ON
+cmake --build . --target themis_server -j$(nproc)
+cp themis_server /path/to/ThemisDB/build/
 ```
 
-### Oder alle auf einmal
-```powershell
-docker build -t themisdb/themis:v0.1.0-alpha -t themisdb/themis:qnap-latest -t themisdb/themis:latest .
-docker push themisdb/themis:v0.1.0-alpha
-docker push themisdb/themis:qnap-latest
-docker push themisdb/themis:latest
+### Verzeichnisstruktur
+```
+ThemisDB/
+├── build/
+│   └── themis_server          # Pre-built Binary (monolithisch)
+├── docker/
+│   └── entrypoint.sh
+├── config/
+│   └── config.qnap.json
+├── Dockerfile.simple          # Verwendet für Hybrid-Build
+├── docker-build.ps1
+└── docker-build.sh
 ```
 
-## Verwendung
+## Container starten
 
-### Container starten
 ```powershell
-docker run -d `
-  -p 8080:8080 `
-  -p 18765:18765 `
-  -v themis-data:/data `
-  themisdb/themis:qnap-latest
+# Einfacher Start
+docker run -d -p 18765:18765 themisdb/themisdb:latest
+
+# Mit Daten-Volume
+docker run -d \
+  -p 18765:18765 \
+  -v themis-data:/data \
+  themisdb/themisdb:latest
+
+# Mit custom Config
+docker run -d \
+  -p 18765:18765 \
+  -v /pfad/zu/config.json:/etc/themis/config.json \
+  -v themis-data:/data \
+  themisdb/themisdb:latest
 ```
 
-### Mit custom config
-```powershell
-docker run -d `
-  -p 8080:8080 `
-  -v /pfad/zu/config.json:/etc/themis/config.json `
-  -v themis-data:/data `
-  themisdb/themis:qnap-latest --config /etc/themis/config.json
-```
+## Docker Compose (QNAP)
 
-### Docker Compose (für QNAP)
 Siehe `docker-compose.qnap.yml` für Production-Setup.
+
+## Abhängigkeiten (Runtime)
+
+Das Runtime-Image enthält nur minimale Abhängigkeiten:
+- Ubuntu 24.04 Base
+- ca-certificates
+- curl
+- libstdc++6
+- jq (für Config-Verarbeitung)
 
 ## Troubleshooting
 
-### Build schlägt fehl: "shallow repository"
-- vcpkg muss vollständig geklont werden (nicht --depth 1)
-- Bereits im Dockerfile behoben
+### Binary nicht gefunden
+```
+✗ Binary not found at: build/themis_server
+```
+**Lösung**: Binary zuerst bauen mit `-BuildBinary` oder manuell kopieren.
 
-### Build schlägt fehl: "baseline not found"
-- vcpkg-configuration.json wird dynamisch mit aktuellem Commit generiert
-- Keine feste Baseline mehr nötig
+### Docker nicht verfügbar
+```
+✗ Docker is not running
+```
+**Lösung**: Docker Desktop starten.
 
-### xsimd build error
-- Arrow-Features reduziert auf json + filesystem
-- parquet + compute Features benötigen xsimd (build-intensiv)
-
-## Änderungen gegenüber lokalem Build
-
-- `vcpkg.docker.json` statt `vcpkg.json` (reduzierte Dependencies)
-- Keine opentelemetry-cpp (optional, build-intensiv)
-- Arrow ohne parquet/compute Features
-- Keine Benchmarks, Tests im Docker-Build
+### Platform-Fehler bei ARM64
+```
+ERROR: no matching manifest for linux/arm64
+```
+**Lösung**: Binary muss für ARM64 kompiliert sein (Cross-Compile oder auf ARM-System).
