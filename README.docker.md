@@ -311,6 +311,54 @@ ThemisDB Docker images support multiple architectures:
 
 The `latest` tag automatically selects the correct architecture for your system.
 
+## 🔨 Local Docker Build (Docker Desktop)
+
+Build all image variants locally using Docker Desktop with buildx support:
+
+### PowerShell (Windows)
+
+```powershell
+# Build all variants
+.\docker-build-multiarch.ps1
+
+# Build specific variant
+.\docker-build-multiarch.ps1 -Variant qnap      # QNAP only
+.\docker-build-multiarch.ps1 -Variant rpi       # Raspberry Pi only
+.\docker-build-multiarch.ps1 -Variant standard  # Standard multi-arch
+
+# Build with specific version
+.\docker-build-multiarch.ps1 -Version 1.0.1
+
+# Build and push to registry
+.\docker-build-multiarch.ps1 -Push
+```
+
+### Bash (Linux/macOS)
+
+```bash
+# Build all variants
+./docker-build-multiarch.sh
+
+# Build specific variant
+./docker-build-multiarch.sh -b qnap      # QNAP only
+./docker-build-multiarch.sh -b rpi       # Raspberry Pi only
+./docker-build-multiarch.sh -b standard  # Standard multi-arch
+
+# Build with specific version
+./docker-build-multiarch.sh -v 1.0.1
+
+# Build and push to registry
+./docker-build-multiarch.sh --push
+```
+
+### Build Variants
+
+| Variant | Dockerfile | Base | Architectures | Use Case |
+|---------|------------|------|---------------|----------|
+| `standard` | `Dockerfile` | Ubuntu 22.04 | amd64, arm64 | General use |
+| `qnap` | `Dockerfile.qnap` | Ubuntu 20.04 | amd64 | QNAP NAS (GLIBC 2.31) |
+| `rpi` | `Dockerfile` | Ubuntu 22.04 | arm64 | Raspberry Pi 4/5 |
+
 ## 📚 Documentation
 
 - **GitHub Repository**: https://github.com/makr-code/ThemisDB
