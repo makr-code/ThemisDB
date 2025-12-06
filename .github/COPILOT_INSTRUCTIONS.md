@@ -24,7 +24,64 @@ Examples for Copilot prompts:
 Testing & CI:
 - Provide unit tests and a micro-benchmark harness; CI should run static analysis and unit tests.
 
-Build-Pfade (aktive Konfigurationen):
+---
+
+## Docker Build Strategy: Hybrid Pre-built Binary
+
+Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
+
+### Unified Docker Build Scripts
+- `docker-build-multiarch.ps1` - PowerShell (Windows/WSL)
+- `docker-build-multiarch.sh` - Bash (Linux/macOS)
+
+### Workflow
+1. Binary lokal mit vcpkg bauen (einmalig)
+2. Docker-Image mit `Dockerfile.simple` erstellen (schnell)
+3. Ergebnis: Kleine Images (~100-200 MB), 100% offline-fähig
+
+### Verwendung
+```powershell
+# Standard Build
+.\docker-build-multiarch.ps1
+
+# Mit Binary-Build in WSL
+.\docker-build-multiarch.ps1 -BuildBinary
+
+# QNAP Variante
+.\docker-build-multiarch.ps1 -Variant qnap
+
+# ARM64 (Raspberry Pi)
+.\docker-build-multiarch.ps1 -Platform linux/arm64
+
+# Push zu Registry
+.\docker-build-multiarch.ps1 -Push
+```
+
+```bash
+# Bash-Äquivalent
+./docker-build-multiarch.sh
+./docker-build-multiarch.sh --build-binary
+./docker-build-multiarch.sh -b qnap
+./docker-build-multiarch.sh -p linux/arm64
+./docker-build-multiarch.sh --push
+```
+
+### Unterstützte Plattformen
+| Plattform | Architektur | Use Case |
+|-----------|-------------|----------|
+| `linux/amd64` | x86_64 | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Raspberry Pi 4/5, ARM Server |
+
+### Entfernte/Ersetzte Skripte
+Die folgenden Skripte wurden durch `docker-build-multiarch` ersetzt:
+- ~~`build-docker-qnap.ps1`~~ → `docker-build-multiarch.ps1 -Variant qnap`
+- ~~`build-docker-simple.ps1`~~ → `docker-build-multiarch.ps1 -BuildBinary`
+- ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ → `docker-build-multiarch -Platform linux/arm64`
+- ~~`docker-build-push.ps1`~~ → `docker-build-multiarch.ps1 -Push`
+
+---
+
+## Build-Pfade (aktive Konfigurationen):
 
 1. build-qnap/
 	- Ziel: Statischer Release-Build für QNAP / Ubuntu 20.04 (GLIBC 2.31)
@@ -77,5 +134,6 @@ Erwartungen an Copilot bei Build-Themen:
 	- Bei Änderung an `build-qnap.sh`: Nur notwendige Flags anpassen, keine Preset-Einführung.
 	- Statische Build-Optimierungsvorschläge nur nach Prüfung auf symbolische Duplikate (nm -C | sort | uniq -d).
 	- Bei Paket-Find-Problemen zuerst CMAKE_PREFIX_PATH / *_DIR prüfen, erst danach find_package Log erweitern.
+	- Docker-Builds immer mit `docker-build-multiarch.ps1/.sh` (Hybrid Pre-built Binary Ansatz)
 
 Bitte neue Build-Profile konsistent mit obiger Matrix ergänzen und Unterschiede klar dokumentieren.

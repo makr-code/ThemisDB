@@ -117,19 +117,57 @@ cmake --build --preset linux-ninja-clang-release
 # - THEMIS_ENABLE_HTTP_POOL (immer ON)
 ```
 
-### 2. Docker Builds
+### 2. Docker Builds (Hybrid Pre-built Binary Ansatz)
 
-#### Standard (Ubuntu 24.04)
+Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
+
+1. Binary lokal mit vcpkg bauen (einmalig, ~30-40 Minuten)
+2. Docker-Image mit `Dockerfile.simple` erstellen (schnell, ~30 Sekunden)
+3. Kleine Images (~100-200 MB) und 100% offline-fähig
+
+#### Unified Multi-Arch Build Script
+
 ```powershell
-docker build -f Dockerfile -t themisdb/themisdb:1.0.1 -t themisdb/themisdb:latest --platform linux/amd64 .
+# Standard Build (mit existierender Binary)
+.\docker-build-multiarch.ps1
+
+# Binary zuerst in WSL bauen, dann Docker-Image erstellen
+.\docker-build-multiarch.ps1 -BuildBinary
+
+# QNAP-Variante
+.\docker-build-multiarch.ps1 -Variant qnap
+
+# ARM64 für Raspberry Pi
+.\docker-build-multiarch.ps1 -Platform linux/arm64
+
+# Build und Push zu Registry
+.\docker-build-multiarch.ps1 -Push
 ```
 
-#### QNAP (Ubuntu 20.04, SSE4.2 Basis)
-```powershell
-docker build -f Dockerfile.qnap -t themisdb/themisdb:1.0.1-qnap -t themisdb/themisdb:qnap --platform linux/amd64 .
+```bash
+# Bash-Äquivalent (Linux/macOS)
+./docker-build-multiarch.sh
+./docker-build-multiarch.sh --build-binary
+./docker-build-multiarch.sh -b qnap
+./docker-build-multiarch.sh -p linux/arm64
+./docker-build-multiarch.sh --push
 ```
 
-Push:
+#### Unterstützte Plattformen
+
+| Plattform | Architektur | Use Case |
+|-----------|-------------|----------|
+| `linux/amd64` | x86_64 | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Raspberry Pi 4/5, ARM Server, Apple Silicon |
+
+#### Manueller Docker Build (Alternative)
+
+```powershell
+# Pre-built Binary muss in build/ vorhanden sein
+docker build -f Dockerfile.simple -t themisdb/themisdb:1.0.1 --platform linux/amd64 .
+```
+
+#### Push zu Registry
 ```powershell
 docker push themisdb/themisdb:1.0.1
 docker push themisdb/themisdb:latest
@@ -203,18 +241,23 @@ docker push ghcr.io/makr-code/themisdb:latest
 1. **Build-Scripts:**
    - ✅ `build.ps1` - Haupt-Windows-Build (behalten)
    - ✅ `build.sh` - Haupt-Linux-Build (behalten)
-   - ✅ `build-docker-simple.ps1` - Vereinfachter Docker-Build (behalten)
-   - ✅ `scripts/build_enterprise.cmd` - Enterprise Build für Windows (NEU)
-   - ✅ `scripts/enable_enterprise_features.ps1` - Enterprise Build PowerShell (NEU)
-   - ❌ `build-docker-qnap.ps1` - Funktioniert nicht (ersetzen durch Cross-Compile)
-   - ❌ `build-docker-qnap-simple.ps1` - Unvollständig (entfernen)
-   - ❌ `build-tests-msvc.ps1` - Redundant (nutze CMakePresets)
+   - ✅ `docker-build-multiarch.ps1` - Unified Multi-Arch Docker Build (Hybrid Pre-built)
+   - ✅ `docker-build-multiarch.sh` - Unified Multi-Arch Docker Build Bash (Hybrid Pre-built)
+   - ✅ `build-unified.ps1` - Unified Build Script (behalten)
+   - ✅ `build-qnap.sh` - Native QNAP Build ohne Docker (behalten)
+   - ✅ `build-deb.sh` / `build-rpm.sh` - Packaging-Skripte (behalten)
+   - ✅ `scripts/build_enterprise.cmd` - Enterprise Build für Windows
+   - ✅ `scripts/enable_enterprise_features.ps1` - Enterprise Build PowerShell
+   - ❌ ~~`build-docker-qnap.ps1`~~ - Entfernt (ersetzt durch docker-build-multiarch.ps1)
+   - ❌ ~~`build-docker-simple.ps1`~~ - Entfernt (ersetzt durch docker-build-multiarch.ps1)
+   - ❌ ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ - Entfernt (ersetzt durch docker-build-multiarch)
+   - ❌ ~~`docker-build-push.ps1`~~ - Entfernt (ersetzt durch docker-build-multiarch.ps1 -Push)
 
 2. **Docker-Dateien:**
-   - ✅ `Dockerfile` - Multi-Stage Standard-Build
-   - ✅ `Dockerfile.simple` - Pre-built Binary Deployment
-  - ✅ `Dockerfile.qnap` - QNAP-kompatibel (SSE4.2; GLIBC 2.31)
-  - ❌ `Dockerfile.runtime` - Redundant
+   - ✅ `Dockerfile.simple` - **EMPFOHLEN**: Pre-built Binary Deployment (Hybrid Ansatz)
+   - ✅ `Dockerfile` - Multi-Stage Standard-Build (für CI/CD, langsam)
+   - ✅ `Dockerfile.qnap` - QNAP-kompatibel (SSE4.2; GLIBC 2.31, für CI/CD)
+   - ❌ `Dockerfile.runtime` - Redundant
    - ❌ `Dockerfile.old` - Veraltet
 
 3. **Docker Compose:**
