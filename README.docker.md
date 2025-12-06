@@ -351,11 +351,10 @@ Build Docker images locally using the hybrid pre-built binary approach:
 
 ### Build Variants
 
-| Variant | Dockerfile | Base | Architectures | Use Case |
-|---------|------------|------|---------------|----------|
-| `standard` | `Dockerfile` | Ubuntu 22.04 | amd64, arm64 | General use |
-| `qnap` | `Dockerfile.qnap` | Ubuntu 20.04 | amd64 | QNAP NAS (GLIBC 2.31) |
-| `rpi` | `Dockerfile` | Ubuntu 22.04 | arm64 | Raspberry Pi 4/5 |
+| Variant | Dockerfile | Base | Use Case |
+|---------|------------|------|----------|
+| `standard` | `Dockerfile.simple` | Ubuntu 24.04 | General use, Servers, Desktop |
+| `qnap` | `Dockerfile.simple` | Ubuntu 24.04 | QNAP NAS (monolithic binary) |
 
 ## 📚 Documentation
 
