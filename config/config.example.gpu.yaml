@@ -1,0 +1,77 @@
+# Example ThemisDB Configuration with GPU Acceleration
+# This file demonstrates GPU acceleration configuration options
+
+server:
+  host: 0.0.0.0
+  port: 8765
+  worker_threads: 4
+
+storage:
+  rocksdb_path: /data/rocksdb
+  memtable_size_mb: 256
+  block_cache_size_mb: 1024
+  enable_blobdb: true
+  compression:
+    default: lz4
+    bottommost: zstd
+  wal:
+    enabled: true
+    sync_mode: batch
+
+# GPU Acceleration Configuration
+acceleration:
+  # Backend preference: auto (default) | gpu | cpu
+  # auto: Use GPU if available, fall back to CPU
+  # gpu: Require GPU, fail if not available (unless gpu_fallback=true)
+  # cpu: Force CPU-only execution
+  prefer: auto
+  
+  # Enable automatic CPU fallback on GPU errors
+  gpu_fallback: true
+  
+  # Minimum batch size to use GPU (operations below this use CPU)
+  min_batch_size: 1000
+  
+  # CUDA-specific settings (when CUDA backend is available)
+  cuda:
+    enabled: true
+    device_id: 0
+    memory_limit_gb: 8
+    batch_size: 1000
+    async_compute: true
+  
+  # Vulkan settings (cross-platform GPU)
+  vulkan:
+    enabled: true
+    device_id: 0
+    memory_limit_gb: 8
+  
+  # DirectX settings (Windows only)
+  directx:
+    enabled: false
+    adapter_index: 0
+    use_directml: true
+
+# Vector index configuration
+vector_index:
+  engine: hnsw
+  hnsw_m: 16
+  hnsw_ef_construction: 200
+  use_gpu: true  # Uses acceleration config above
+
+# Features
+features:
+  semantic_cache: true
+  llm_store: true
+  cdc: true
+  timeseries: true
+
+# Logging
+logging:
+  level: info
+  format: json
+
+# Metrics
+metrics:
+  enabled: true
+  prometheus_port: 9090

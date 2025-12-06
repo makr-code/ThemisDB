@@ -37,7 +37,7 @@ TEST_F(AccelerationTest, BackendRegistryBasics) {
 
 TEST_F(AccelerationTest, CPUVectorBackend) {
     auto& registry = BackendRegistry::instance();
-    auto* backend = registry.getBestVectorBackend();
+    auto* backend = registry.getBestVectorBackend(0);  // 0 = no batch size threshold
     
     ASSERT_NE(backend, nullptr);
     EXPECT_TRUE(backend->initialize());
@@ -72,7 +72,7 @@ TEST_F(AccelerationTest, CPUVectorBackend) {
 
 TEST_F(AccelerationTest, CPUVectorKnnSearch) {
     auto& registry = BackendRegistry::instance();
-    auto* backend = registry.getBestVectorBackend();
+    auto* backend = registry.getBestVectorBackend(0);  // 0 = no batch size threshold
     
     ASSERT_NE(backend, nullptr);
     EXPECT_TRUE(backend->initialize());
@@ -110,7 +110,7 @@ TEST_F(AccelerationTest, CPUVectorKnnSearch) {
 
 TEST_F(AccelerationTest, CPUGeoBackend) {
     auto& registry = BackendRegistry::instance();
-    auto* backend = registry.getBestGeoBackend();
+    auto* backend = registry.getBestGeoBackend(0);  // 0 = no batch size threshold
     
     ASSERT_NE(backend, nullptr);
     EXPECT_TRUE(backend->initialize());
@@ -138,7 +138,7 @@ TEST_F(AccelerationTest, CPUGeoBackend) {
 
 TEST_F(AccelerationTest, CPUGeoPointInPolygon) {
     auto& registry = BackendRegistry::instance();
-    auto* backend = registry.getBestGeoBackend();
+    auto* backend = registry.getBestGeoBackend(0);  // 0 = no batch size threshold
     
     ASSERT_NE(backend, nullptr);
     EXPECT_TRUE(backend->initialize());
@@ -171,7 +171,7 @@ TEST_F(AccelerationTest, CPUGeoPointInPolygon) {
 TEST_F(AccelerationTest, BackendCapabilities) {
     auto& registry = BackendRegistry::instance();
     
-    auto* vectorBackend = registry.getBestVectorBackend();
+    auto* vectorBackend = registry.getBestVectorBackend(0);  // 0 = no batch size threshold
     ASSERT_NE(vectorBackend, nullptr);
     
     auto caps = vectorBackend->getCapabilities();
@@ -187,7 +187,7 @@ TEST_F(AccelerationTest, GracefulDegradation) {
     auto* cudaBackend = registry.getBackend(BackendType::CUDA);
     
     // Should fall back to best available (CPU)
-    auto* bestBackend = registry.getBestVectorBackend();
+    auto* bestBackend = registry.getBestVectorBackend(0);  // 0 = no batch size threshold
     ASSERT_NE(bestBackend, nullptr);
     
     // Should work regardless of which backend is used
@@ -198,7 +198,7 @@ TEST_F(AccelerationTest, GracefulDegradation) {
 // Benchmark test (disabled by default)
 TEST_F(AccelerationTest, DISABLED_VectorSearchBenchmark) {
     auto& registry = BackendRegistry::instance();
-    auto* backend = registry.getBestVectorBackend();
+    auto* backend = registry.getBestVectorBackend(10000);  // Large batch for GPU
     
     ASSERT_NE(backend, nullptr);
     backend->initialize();
