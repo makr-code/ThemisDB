@@ -23,13 +23,22 @@ curl http://localhost:8765/health
 
 ## 📦 Available Tags
 
-| Tag | Description | Use Case |
-|-----|-------------|----------|
-| `latest` | Latest stable release | Production deployments |
-| `1.0.0` | Specific version v1.0.0 | Version pinning |
-| `1.0` | Latest patch in 1.0.x | Minor version tracking |
-| `qnap` | QNAP NAS optimized | QNAP Container Station |
-| `1.0.0-qnap` | QNAP-specific v1.0.0 | QNAP version pinning |
+### Multi-Architecture Images
+
+| Tag | Description | Architectures | Use Case |
+|-----|-------------|---------------|----------|
+| `latest` | Latest stable release | amd64, arm64 | Production deployments |
+| `1.0.0` | Specific version v1.0.0 | amd64, arm64 | Version pinning |
+| `1.0` | Latest patch in 1.0.x | amd64, arm64 | Minor version tracking |
+
+### Platform-Specific Images
+
+| Tag | Description | Architecture | Use Case |
+|-----|-------------|--------------|----------|
+| `qnap` | QNAP NAS optimized (Ubuntu 20.04) | amd64 | QNAP Container Station |
+| `1.0.0-qnap` | QNAP-specific v1.0.0 | amd64 | QNAP version pinning |
+| `rpi` | Raspberry Pi optimized | arm64 | Raspberry Pi 4/5 |
+| `1.0.0-rpi` | Raspberry Pi v1.0.0 | arm64 | Raspberry Pi version pinning |
 
 ## 🎯 Key Features
 
@@ -269,6 +278,38 @@ docker run -d \
   -v /share/Container/themisdb:/var/lib/themisdb/data \
   themisdb/themisdb:qnap
 ```
+
+## 🍓 Raspberry Pi Deployment
+
+For Raspberry Pi 4/5 users (64-bit OS required):
+
+```bash
+# Pull Raspberry Pi-optimized image
+docker pull themisdb/themisdb:rpi
+
+# Run on Raspberry Pi
+docker run -d \
+  --name themisdb \
+  -p 8765:8765 \
+  -v themisdb-data:/var/lib/themisdb/data \
+  themisdb/themisdb:rpi
+```
+
+**System Requirements:**
+- Raspberry Pi 4 or 5 (4GB+ RAM recommended)
+- Raspberry Pi OS 64-bit (Bullseye or Bookworm)
+- Docker installed (`curl -sSL https://get.docker.com | sh`)
+
+## 🏗️ Multi-Architecture Support
+
+ThemisDB Docker images support multiple architectures:
+
+| Architecture | Supported Images | Typical Hardware |
+|--------------|------------------|------------------|
+| `amd64` | `latest`, `qnap` | x86_64 servers, desktops, QNAP NAS |
+| `arm64` | `latest`, `rpi` | Raspberry Pi 4/5, ARM servers, Apple Silicon |
+
+The `latest` tag automatically selects the correct architecture for your system.
 
 ## 📚 Documentation
 
