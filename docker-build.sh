@@ -187,11 +187,11 @@ build_binary() {
     fi
     
     print_step "Copying binary..."
-    mkdir -p "$SCRIPT_DIR/build"
-    cp "$build_dir/themis_server" "$SCRIPT_DIR/build/"
+    mkdir -p "${SCRIPT_DIR}/build"
+    cp "${build_dir}/themis_server" "${SCRIPT_DIR}/build/"
     
     print_success "Binary built and copied successfully"
-    cd "$SCRIPT_DIR"
+    cd "${SCRIPT_DIR}"
     return 0
 }
 
