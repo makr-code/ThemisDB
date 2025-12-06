@@ -134,11 +134,11 @@ function Build-BinaryInWSL {
     
     if ($buildExists -match 'missing') {
         Write-Warning 'Build directory not found. Please run setup first:'
-        Write-Host '  wsl bash -lc "mkdir -p ~/themis-build-release && cd ~/themis-build-release && cmake -S /path/to/ThemisDB -B . -DCMAKE_BUILD_TYPE=Release"' -ForegroundColor Gray
+        Write-Host '  wsl bash -lc "mkdir -p ~/themis-build-release && cd ~/themis-build-release && cmake -S /path/to/ThemisDB -B . -DCMAKE_BUILD_TYPE=Release -DTHEMIS_STATIC_BUILD=ON"' -ForegroundColor Gray
         return $false
     }
     
-    Write-Step 'Building themis_server in WSL...'
+    Write-Step 'Building themis_server (monolithic/static) in WSL...'
     wsl bash -lc "cd ~/themis-build-release && cmake --build . --target themis_server -j`$(nproc)"
     
     if ($LASTEXITCODE -ne 0) {
@@ -152,8 +152,10 @@ function Build-BinaryInWSL {
         New-Item -ItemType Directory -Path $buildDir -Force | Out-Null
     }
     
+    # Get WSL path and escape single quotes for safety
     $wslPath = (wsl wslpath -u (Get-Location).Path) -replace '\s+$', ''
-    wsl bash -lc "cp ~/themis-build-release/themis_server '$wslPath/build/'"
+    $escapedWslPath = $wslPath -replace "'", "'\\''"
+    wsl bash -lc "cp ~/themis-build-release/themis_server '$escapedWslPath/build/'"
     
     if ($LASTEXITCODE -ne 0) {
         Write-Failure 'Failed to copy binary'

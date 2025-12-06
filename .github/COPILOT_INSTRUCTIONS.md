@@ -130,6 +130,6 @@ Erwartungen an Copilot bei Build-Themen:
 	- Bei Änderung an `build-qnap.sh`: Nur notwendige Flags anpassen, keine Preset-Einführung.
 	- Statische Build-Optimierungsvorschläge nur nach Prüfung auf symbolische Duplikate (nm -C | sort | uniq -d).
 	- Bei Paket-Find-Problemen zuerst CMAKE_PREFIX_PATH / *_DIR prüfen, erst danach find_package Log erweitern.
-	- Docker-Builds immer mit `docker-build-multiarch.ps1/.sh` (Hybrid Pre-built Binary Ansatz)
+	- Docker-Builds immer mit `docker-build.ps1/.sh` (Hybrid Pre-built Binary Ansatz)
 
 Bitte neue Build-Profile konsistent mit obiger Matrix ergänzen und Unterschiede klar dokumentieren.

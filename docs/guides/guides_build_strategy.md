@@ -145,32 +145,28 @@ Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Wor
 2. Docker-Image mit `Dockerfile.simple` erstellen (schnell, ~30 Sekunden)
 3. Kleine Images (~100-200 MB) und 100% offline-fähig
 
-#### Unified Multi-Arch Build Script
+#### Unified Docker Build Script
 
 ```powershell
 # Standard Build (mit existierender Binary)
-.\docker-build-multiarch.ps1
+.\docker-build.ps1
 
 # Binary zuerst in WSL bauen, dann Docker-Image erstellen
-.\docker-build-multiarch.ps1 -BuildBinary
+.\docker-build.ps1 -BuildBinary
 
 # QNAP-Variante
-.\docker-build-multiarch.ps1 -Variant qnap
-
-# ARM64 für Raspberry Pi
-.\docker-build-multiarch.ps1 -Platform linux/arm64
+.\docker-build.ps1 -Variant qnap
 
 # Build und Push zu Registry
-.\docker-build-multiarch.ps1 -Push
+.\docker-build.ps1 -Push
 ```
 
 ```bash
 # Bash-Äquivalent (Linux/macOS)
-./docker-build-multiarch.sh
-./docker-build-multiarch.sh --build-binary
-./docker-build-multiarch.sh -b qnap
-./docker-build-multiarch.sh -p linux/arm64
-./docker-build-multiarch.sh --push
+./docker-build.sh
+./docker-build.sh --build-binary
+./docker-build.sh -b qnap
+./docker-build.sh --push
 ```
 
 #### Unterstützte Plattformen
@@ -271,7 +267,7 @@ docker push ghcr.io/makr-code/themisdb:latest
    - ❌ ~~`build-docker-simple.ps1`~~ - Entfernt (ersetzt durch docker-build.ps1)
    - ❌ ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ - Entfernt (lokal mit -DTHEMIS_STATIC_BUILD=ON bauen)
    - ❌ ~~`docker-build-push.ps1`~~ - Entfernt (ersetzt durch docker-build.ps1 -Push)
-   - ❌ ~~`docker-build-multiarch.ps1/.sh`~~ - Entfernt (vereinfacht zu docker-build.ps1)
+   - ❌ ~~`docker-build-multiarch.ps1/.sh`~~ - Entfernt (vereinfacht zu `docker-build.ps1/.sh`)
 
 2. **Docker-Dateien:**
    - ✅ `Dockerfile.simple` - **EMPFOHLEN**: Pre-built Binary Deployment (monolithisch)

@@ -313,42 +313,40 @@ The `latest` tag automatically selects the correct architecture for your system.
 
 ## 🔨 Local Docker Build (Docker Desktop)
 
-Build all image variants locally using Docker Desktop with buildx support:
+Build Docker images locally using the hybrid pre-built binary approach:
 
 ### PowerShell (Windows)
 
 ```powershell
-# Build all variants
-.\docker-build-multiarch.ps1
+# Build Docker image with existing binary
+.\docker-build.ps1
 
 # Build specific variant
-.\docker-build-multiarch.ps1 -Variant qnap      # QNAP only
-.\docker-build-multiarch.ps1 -Variant rpi       # Raspberry Pi only
-.\docker-build-multiarch.ps1 -Variant standard  # Standard multi-arch
+.\docker-build.ps1 -Variant qnap      # QNAP only
+.\docker-build.ps1 -Variant standard  # Standard
 
 # Build with specific version
-.\docker-build-multiarch.ps1 -Version 1.0.1
+.\docker-build.ps1 -Version 1.0.1
 
 # Build and push to registry
-.\docker-build-multiarch.ps1 -Push
+.\docker-build.ps1 -Push
 ```
 
 ### Bash (Linux/macOS)
 
 ```bash
-# Build all variants
-./docker-build-multiarch.sh
+# Build Docker image with existing binary
+./docker-build.sh
 
 # Build specific variant
-./docker-build-multiarch.sh -b qnap      # QNAP only
-./docker-build-multiarch.sh -b rpi       # Raspberry Pi only
-./docker-build-multiarch.sh -b standard  # Standard multi-arch
+./docker-build.sh -b qnap      # QNAP only
+./docker-build.sh -b standard  # Standard
 
 # Build with specific version
-./docker-build-multiarch.sh -v 1.0.1
+./docker-build.sh -v 1.0.1
 
 # Build and push to registry
-./docker-build-multiarch.sh --push
+./docker-build.sh --push
 ```
 
 ### Build Variants

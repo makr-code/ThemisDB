@@ -102,8 +102,8 @@ ThemisDB/
 ├── config/
 │   └── config.qnap.json
 ├── Dockerfile.simple          # Verwendet für Hybrid-Build
-├── docker-build-multiarch.ps1
-└── docker-build-multiarch.sh
+├── docker-build.ps1
+└── docker-build.sh
 ```
 
 ## Container starten
