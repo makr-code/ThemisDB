@@ -20,6 +20,8 @@
 #include "utils/pki_client.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "acceleration/compute_backend.h"
+#include "acceleration/config_loader.h"
 
 #include <iostream>
 #include <fstream>
@@ -201,6 +203,38 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Database opened successfully");
+        
+        // Initialize acceleration backend registry
+        THEMIS_INFO("Initializing acceleration backends...");
+        auto& accelRegistry = acceleration::BackendRegistry::instance();
+        
+        // Load acceleration configuration
+        acceleration::AccelerationConfig accelConfig;
+        if (cfg && cfg->contains("acceleration")) {
+            accelConfig = acceleration::ConfigLoader::loadFromJSON(&(*cfg));
+        } else {
+            // Try to load from dedicated acceleration.yaml
+            accelConfig = acceleration::ConfigLoader::loadDefault();
+        }
+        
+        // Apply configuration
+        accelRegistry.configure(accelConfig);
+        
+        // Auto-detect available backends
+        accelRegistry.autoDetect();
+        
+        // Log configuration
+        const char* preferStr[] = {"AUTO", "GPU", "CPU"};
+        THEMIS_INFO("Acceleration configured: prefer={}, gpu_fallback={}, min_batch_size={}", 
+            preferStr[static_cast<int>(accelConfig.prefer)], 
+            accelConfig.gpuFallback, 
+            accelConfig.minBatchSize);
+        
+        if (accelRegistry.hasGPUBackend()) {
+            THEMIS_INFO("GPU acceleration is AVAILABLE");
+        } else {
+            THEMIS_INFO("GPU acceleration NOT available, using CPU");
+        }
         
         // Create index managers
         THEMIS_INFO("Initializing index managers...");

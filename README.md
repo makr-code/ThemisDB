@@ -1077,8 +1077,16 @@ docker pull themisdb/themisdb:latest
 # QNAP Build (Ubuntu 20.04, GLIBC 2.31)
 docker pull themisdb/themisdb:qnap
 
+# GPU-Accelerated Build (CUDA 12.3)
+docker pull themisdb/themisdb:cuda
+# or build locally:
+docker build -f Dockerfile.cuda -t themisdb:cuda .
+
 # Run with Docker Compose
 docker compose up
+
+# Run with GPU support
+docker run --gpus all -p 8765:8765 -v $(pwd)/data:/data themisdb:cuda
 
 # For ARM/Raspberry Pi (multi-architecture support)
 docker compose -f docker-compose-arm.yml up
@@ -1086,6 +1094,14 @@ docker compose -f docker-compose-arm.yml up
 # For QNAP NAS
 docker compose -f docker-compose.qnap.yml up
 ```
+
+**GPU Acceleration (CUDA):**
+ThemisDB supports GPU acceleration for vector search, graph operations, and spatial queries:
+- **Image**: `themisdb/themisdb:cuda` (NVIDIA CUDA 12.3 based)
+- **Requirements**: NVIDIA GPU, NVIDIA Container Toolkit
+- **Performance**: Up to 10x faster vector search on large batches
+- **Configuration**: See [GPU Acceleration Documentation](docs/features/gpu_acceleration.md)
+- **Auto-fallback**: Automatically falls back to CPU if GPU unavailable
 
 **Multi-Architecture Support:**
 ThemisDB Docker images support multiple architectures:
