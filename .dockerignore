@@ -6,6 +6,7 @@
 
 # --- Build Artifacts (nicht für Docker-Build nötig) ------------------------
 build/
+!build/themis_server
 build-*/
 out/
 bin/

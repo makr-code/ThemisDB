@@ -1,28 +1,34 @@
 # Simplified Dockerfile - copies pre-built binary
 # Build themis_server locally first, then use this to containerize
+# Uses monolithic (static) binary for maximum portability
 
 FROM ubuntu:24.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Install minimal runtime dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl libstdc++6 jq \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy pre-built binary (prepared by build-docker-simple.ps1)
+# Copy pre-built binary (monolithic/static build)
 COPY build/themis_server /usr/local/bin/themis_server
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY config/config.qnap.json /usr/local/share/themis/config.qnap.json
 
-# Copy configuration files
-RUN mkdir -p /etc/themis /usr/local/share/themis /data /data/themis_server /data/vector_indexes /var/log/themis
-
-RUN chmod +x /usr/local/bin/themis_server /usr/local/bin/entrypoint.sh && \
+# Create directories and user
+RUN mkdir -p /etc/themis /usr/local/share/themis /data /data/themis_server /data/vector_indexes /var/log/themis && \
+    chmod +x /usr/local/bin/themis_server /usr/local/bin/entrypoint.sh && \
     sed -i 's/\r$//' /usr/local/bin/entrypoint.sh || true && \
     useradd -r -u 999 -g root themis || true && \
     chown -R themis:root /data /var/log/themis || true
 
+# Environment
 ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
 ENV THEMIS_PORT=18765
+
+# Health check - verifies server is responding
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:${THEMIS_PORT}/health || exit 1
 
 VOLUME ["/data"]
 EXPOSE 8080 18765

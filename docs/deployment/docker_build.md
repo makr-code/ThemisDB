@@ -6,69 +6,64 @@
 
 ---
 
-## Build-Strategie: Hybrid Pre-built Binary
+## Build-Strategie: Hybrid Pre-built Binary (Monolithisch)
 
-Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
+Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow mit **monolithischem (statischem) Linking**:
 
-1. **Binary lokal bauen** (einmalig, ~30-40 Minuten mit vcpkg)
+1. **Binary lokal bauen** (einmalig, ~30-40 Minuten mit vcpkg, `-DTHEMIS_STATIC_BUILD=ON`)
 2. **Docker-Image erstellen** mit `Dockerfile.simple` (schnell, ~30 Sekunden)
-3. **Ergebnis**: Kleine Images (~100-200 MB) und 100% offline-fähig
+3. **Ergebnis**: Kleine Images (~100-200 MB), 100% offline-fähig, maximale Portabilität
 
 ### Vorteile
 - ✅ Schnelle Build-Zeiten (Sekunden statt Minuten)
 - ✅ Kleine Image-Größe (~100-200 MB)
 - ✅ 100% Offline-fähig
-- ✅ Multi-Architektur Unterstützung (amd64, arm64)
+- ✅ Monolithische Binary (keine Library-Abhängigkeiten)
+- ✅ Health-Check für Container-Orchestrierung
 
-## Unified Multi-Arch Build Script
+## Unified Docker Build Scripts
 
-### PowerShell (Windows)
+### PowerShell (Windows/WSL)
 
 ```powershell
 # Standard Build mit existierender Binary
-.\docker-build-multiarch.ps1
+.\docker-build.ps1
 
 # Binary in WSL bauen, dann Docker-Image erstellen
-.\docker-build-multiarch.ps1 -BuildBinary
+.\docker-build.ps1 -BuildBinary
 
 # QNAP-Variante
-.\docker-build-multiarch.ps1 -Variant qnap
-
-# ARM64 für Raspberry Pi
-.\docker-build-multiarch.ps1 -Platform linux/arm64
+.\docker-build.ps1 -Variant qnap
 
 # Build und Push zu Registry
-.\docker-build-multiarch.ps1 -Push
+.\docker-build.ps1 -Push
 
 # Alle Optionen
-.\docker-build-multiarch.ps1 -Version 1.0.1 -Registry themisdb -Variant standard -Push
+.\docker-build.ps1 -Version 1.0.1 -Registry themisdb -Variant standard -Push
 ```
 
 ### Bash (Linux/macOS)
 
 ```bash
 # Standard Build mit existierender Binary
-./docker-build-multiarch.sh
+./docker-build.sh
 
 # Binary bauen, dann Docker-Image erstellen
-./docker-build-multiarch.sh --build-binary
+./docker-build.sh --build-binary
 
 # QNAP-Variante
-./docker-build-multiarch.sh -b qnap
-
-# ARM64 für Raspberry Pi
-./docker-build-multiarch.sh -p linux/arm64
+./docker-build.sh -b qnap
 
 # Build und Push zu Registry
-./docker-build-multiarch.sh --push
+./docker-build.sh --push
 ```
 
 ## Unterstützte Plattformen
 
-| Plattform | Architektur | Use Case |
-|-----------|-------------|----------|
-| `linux/amd64` | x86_64 | Server, Desktop, QNAP NAS |
-| `linux/arm64` | ARM64 | Raspberry Pi 4/5, ARM Server, Apple Silicon |
+| Plattform | Architektur | Linking | Use Case |
+|-----------|-------------|---------|----------|
+| `linux/amd64` | x86_64 | Statisch | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Statisch | Raspberry Pi 4/5, ARM Server |
 
 ## Docker Tags
 
@@ -78,20 +73,21 @@ Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Wor
 | `themisdb/themisdb:1.0.0` | Spezifische Version |
 | `themisdb/themisdb:qnap` | QNAP NAS optimiert |
 | `themisdb/themisdb:1.0.0-qnap` | QNAP spezifische Version |
-| `themisdb/themisdb:1.0.0-arm64` | ARM64 spezifische Version |
 
 ## Voraussetzungen
 
-### Binary vorbereiten
+### Binary vorbereiten (monolithisch/statisch)
 
 Die Binary muss vor dem Docker-Build vorhanden sein:
 
 ```bash
-# Option 1: Mit dem Script (WSL)
-.\docker-build-multiarch.ps1 -BuildBinary
+# Option 1: Mit dem Script
+./docker-build.sh --build-binary  # Linux/macOS
+.\docker-build.ps1 -BuildBinary   # Windows/WSL
 
-# Option 2: Manuell in WSL/Linux
+# Option 2: Manuell in WSL/Linux (mit statischem Build)
 cd ~/themis-build-release
+cmake -S /path/to/ThemisDB -B . -DCMAKE_BUILD_TYPE=Release -DTHEMIS_STATIC_BUILD=ON
 cmake --build . --target themis_server -j$(nproc)
 cp themis_server /path/to/ThemisDB/build/
 ```
@@ -100,7 +96,7 @@ cp themis_server /path/to/ThemisDB/build/
 ```
 ThemisDB/
 ├── build/
-│   └── themis_server          # Pre-built Binary (erforderlich)
+│   └── themis_server          # Pre-built Binary (monolithisch)
 ├── docker/
 │   └── entrypoint.sh
 ├── config/
