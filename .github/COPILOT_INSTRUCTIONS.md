@@ -26,58 +26,54 @@ Testing & CI:
 
 ---
 
-## Docker Build Strategy: Hybrid Pre-built Binary
+## Build-Strategie nach Plattform
+
+### Linking-Strategie
+
+| Plattform | Linking | CMake-Flag |
+|-----------|---------|------------|
+| **Docker/QNAP** | **Monolithisch (Statisch)** | `-DTHEMIS_STATIC_BUILD=ON` |
+| **Windows** | **Dynamisch (DLL)** | `-DTHEMIS_STATIC_BUILD=OFF` |
+
+### Docker Build: Hybrid Pre-built Binary
 
 Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
 
-### Unified Docker Build Scripts
-- `docker-build-multiarch.ps1` - PowerShell (Windows/WSL)
-- `docker-build-multiarch.sh` - Bash (Linux/macOS)
+### Unified Docker Build Script
+- `docker-build.ps1` - PowerShell (Windows/WSL)
 
 ### Workflow
-1. Binary lokal mit vcpkg bauen (einmalig)
+1. Binary **monolithisch** mit vcpkg bauen: `cmake -DTHEMIS_STATIC_BUILD=ON ...`
 2. Docker-Image mit `Dockerfile.simple` erstellen (schnell)
 3. Ergebnis: Kleine Images (~100-200 MB), 100% offline-fähig
 
 ### Verwendung
 ```powershell
 # Standard Build
-.\docker-build-multiarch.ps1
+.\docker-build.ps1
 
 # Mit Binary-Build in WSL
-.\docker-build-multiarch.ps1 -BuildBinary
+.\docker-build.ps1 -BuildBinary
 
 # QNAP Variante
-.\docker-build-multiarch.ps1 -Variant qnap
-
-# ARM64 (Raspberry Pi)
-.\docker-build-multiarch.ps1 -Platform linux/arm64
+.\docker-build.ps1 -Variant qnap
 
 # Push zu Registry
-.\docker-build-multiarch.ps1 -Push
-```
-
-```bash
-# Bash-Äquivalent
-./docker-build-multiarch.sh
-./docker-build-multiarch.sh --build-binary
-./docker-build-multiarch.sh -b qnap
-./docker-build-multiarch.sh -p linux/arm64
-./docker-build-multiarch.sh --push
+.\docker-build.ps1 -Push
 ```
 
 ### Unterstützte Plattformen
-| Plattform | Architektur | Use Case |
-|-----------|-------------|----------|
-| `linux/amd64` | x86_64 | Server, Desktop, QNAP NAS |
-| `linux/arm64` | ARM64 | Raspberry Pi 4/5, ARM Server |
+| Plattform | Architektur | Linking | Use Case |
+|-----------|-------------|---------|----------|
+| `linux/amd64` | x86_64 | Statisch | Server, Desktop, QNAP NAS |
+| `linux/arm64` | ARM64 | Statisch | Raspberry Pi 4/5, ARM Server |
 
 ### Entfernte/Ersetzte Skripte
-Die folgenden Skripte wurden durch `docker-build-multiarch` ersetzt:
-- ~~`build-docker-qnap.ps1`~~ → `docker-build-multiarch.ps1 -Variant qnap`
-- ~~`build-docker-simple.ps1`~~ → `docker-build-multiarch.ps1 -BuildBinary`
-- ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ → `docker-build-multiarch -Platform linux/arm64`
-- ~~`docker-build-push.ps1`~~ → `docker-build-multiarch.ps1 -Push`
+Die folgenden Skripte wurden durch `docker-build.ps1` ersetzt:
+- ~~`build-docker-qnap.ps1`~~ → `docker-build.ps1 -Variant qnap`
+- ~~`build-docker-simple.ps1`~~ → `docker-build.ps1 -BuildBinary`
+- ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ → Lokal mit `-DTHEMIS_STATIC_BUILD=ON` bauen
+- ~~`docker-build-push.ps1`~~ → `docker-build.ps1 -Push`
 
 ---
 
