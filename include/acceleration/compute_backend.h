@@ -135,10 +135,31 @@ public:
 // Forward declaration
 class PluginLoader;
 
+// Acceleration configuration preferences
+enum class AccelerationPreference {
+    AUTO,  // Automatically select best available (GPU preferred, CPU fallback)
+    GPU,   // Prefer GPU backends only
+    CPU    // Force CPU-only execution
+};
+
+// Configuration for acceleration backend selection
+struct AccelerationConfig {
+    AccelerationPreference prefer = AccelerationPreference::AUTO;
+    bool gpuFallback = true;           // Enable CPU fallback on GPU errors
+    size_t minBatchSize = 1000;        // Minimum batch size to use GPU
+    
+    // Default constructor
+    AccelerationConfig() = default;
+};
+
 // Backend registry for managing different acceleration backends
 class BackendRegistry {
 public:
     static BackendRegistry& instance();
+    
+    // Configure acceleration preferences
+    void configure(const AccelerationConfig& config);
+    AccelerationConfig getConfig() const;
     
     // Register a backend (manual registration)
     void registerBackend(std::unique_ptr<IComputeBackend> backend);
@@ -153,16 +174,19 @@ public:
     // Get backend by type
     IComputeBackend* getBackend(BackendType type) const;
     
-    // Get best available backend for a capability
-    IVectorBackend* getBestVectorBackend() const;
-    IGraphBackend* getBestGraphBackend() const;
-    IGeoBackend* getBestGeoBackend() const;
+    // Get best available backend for a capability (respects config preferences)
+    IVectorBackend* getBestVectorBackend(size_t batchSize = 0) const;
+    IGraphBackend* getBestGraphBackend(size_t batchSize = 0) const;
+    IGeoBackend* getBestGeoBackend(size_t batchSize = 0) const;
     
     // Auto-detect and initialize all available backends
     void autoDetect();
     
     // List all available backends
     std::vector<BackendType> getAvailableBackends() const;
+    
+    // Check if GPU backend is available
+    bool hasGPUBackend() const;
     
     // Shutdown all backends
     void shutdownAll();
@@ -173,8 +197,12 @@ private:
     BackendRegistry(const BackendRegistry&) = delete;
     BackendRegistry& operator=(const BackendRegistry&) = delete;
     
+    // Internal helper to check if a backend is a GPU backend
+    bool isGPUBackend(BackendType type) const;
+    
     std::vector<std::unique_ptr<IComputeBackend>> backends_;
     std::unique_ptr<PluginLoader> pluginLoader_;
+    AccelerationConfig config_;
 };
 
 } // namespace acceleration

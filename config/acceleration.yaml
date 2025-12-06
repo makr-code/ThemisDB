@@ -3,6 +3,22 @@
 
 # Backend selection mode
 acceleration:
+  # Preference for backend selection
+  # auto: Automatically select best available backend (GPU if available, CPU fallback)
+  # gpu: Prefer GPU backends, fail if not available (unless gpu_fallback=true)
+  # cpu: Force CPU-only execution
+  prefer: auto
+  
+  # Enable automatic CPU fallback when GPU operations fail
+  # When true, operations will retry on CPU if GPU execution fails
+  # When false, GPU errors will propagate to the caller
+  gpu_fallback: true
+  
+  # Minimum batch size to activate GPU acceleration
+  # Operations with fewer items will use CPU (reduces GPU overhead for small batches)
+  min_batch_size: 1000
+  
+  # Backend selection mode (legacy, prefer using 'prefer' option)
   # AUTO: Automatically select best available backend
   # MANUAL: Use explicitly specified backend
   # DISABLED: Use CPU only (no acceleration)

@@ -1,0 +1,99 @@
+# ThemisDB CUDA-enabled Docker Image
+# Provides GPU acceleration for vector search using NVIDIA CUDA and Faiss GPU
+
+# Stage 1: Builder
+FROM nvidia/cuda:12.3.0-devel-ubuntu22.04 AS builder
+
+# Install build dependencies
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    ninja-build \
+    pkg-config \
+    curl \
+    zip \
+    unzip \
+    tar \
+    wget \
+    libssl-dev \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install vcpkg
+ENV VCPKG_ROOT=/opt/vcpkg
+RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
+    && ${VCPKG_ROOT}/bootstrap-vcpkg.sh \
+    && ln -s ${VCPKG_ROOT}/vcpkg /usr/local/bin/vcpkg
+
+# Set working directory
+WORKDIR /build
+
+# Copy vcpkg configuration
+COPY vcpkg.json vcpkg-configuration.json ./
+
+# Install dependencies via vcpkg
+RUN vcpkg install --triplet=x64-linux
+
+# Copy source code
+COPY . .
+
+# Build ThemisDB with CUDA support
+RUN cmake -B build -S . \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+    -DTHEMIS_ENABLE_CUDA=ON \
+    -DTHEMIS_ENABLE_GPU=ON \
+    -DTHEMIS_BUILD_TESTS=OFF \
+    -DTHEMIS_BUILD_BENCHMARKS=OFF \
+    -GNinja \
+    && cmake --build build --config Release -j$(nproc)
+
+# Stage 2: Runtime
+FROM nvidia/cuda:12.3.0-runtime-ubuntu22.04
+
+# Install runtime dependencies
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    libssl3 \
+    libgomp1 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory and user
+RUN useradd -m -u 1000 themis && \
+    mkdir -p /app /data /config && \
+    chown -R themis:themis /app /data /config
+
+WORKDIR /app
+
+# Copy built binaries and libraries from builder
+COPY --from=builder /build/build/themis_server /app/
+COPY --from=builder /build/build/themis_core /app/
+COPY --from=builder /build/config /app/config/
+
+# Copy shared libraries from vcpkg
+COPY --from=builder /opt/vcpkg/installed/x64-linux/lib/*.so* /usr/local/lib/
+
+# Update library cache
+RUN ldconfig
+
+# Set ownership
+RUN chown -R themis:themis /app /data /config
+
+# Switch to non-root user
+USER themis
+
+# Expose API port
+EXPOSE 8765
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:8765/health || exit 1
+
+# Environment variables
+ENV THEMIS_DB_PATH=/data \
+    THEMIS_CONFIG_PATH=/config/acceleration.yaml
+
+# Default command
+CMD ["/app/themis_server", "--db", "/data", "--config", "/config/acceleration.yaml"]

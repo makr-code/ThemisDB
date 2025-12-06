@@ -1,6 +1,7 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <mutex>
 #include <iostream>
@@ -23,6 +24,30 @@ BackendRegistry::~BackendRegistry() {
 BackendRegistry& BackendRegistry::instance() {
     static BackendRegistry instance;
     return instance;
+}
+
+void BackendRegistry::configure(const AccelerationConfig& config) {
+    config_ = config;
+    THEMIS_INFO("Acceleration configured: prefer={}, gpu_fallback={}, min_batch_size={}", 
+        static_cast<int>(config_.prefer), config_.gpuFallback, config_.minBatchSize);
+}
+
+AccelerationConfig BackendRegistry::getConfig() const {
+    return config_;
+}
+
+bool BackendRegistry::isGPUBackend(BackendType type) const {
+    // GPU backend types (non-CPU)
+    return type != BackendType::CPU && type != BackendType::AUTO;
+}
+
+bool BackendRegistry::hasGPUBackend() const {
+    for (const auto& backend : backends_) {
+        if (isGPUBackend(backend->type()) && backend->isAvailable()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void BackendRegistry::registerBackend(std::unique_ptr<IComputeBackend> backend) {
@@ -97,7 +122,19 @@ IComputeBackend* BackendRegistry::getBackend(BackendType type) const {
     return nullptr;
 }
 
-IVectorBackend* BackendRegistry::getBestVectorBackend() const {
+IVectorBackend* BackendRegistry::getBestVectorBackend(size_t batchSize) const {
+    // Check batch size threshold
+    bool useGPU = true;
+    if (batchSize > 0 && batchSize < config_.minBatchSize) {
+        THEMIS_DEBUG("Batch size {} below threshold {}, using CPU", batchSize, config_.minBatchSize);
+        useGPU = false;
+    }
+    
+    // Apply preference configuration
+    if (config_.prefer == AccelerationPreference::CPU) {
+        useGPU = false;
+    }
+    
     // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
     // CUDA: Best performance on NVIDIA
     // HIP: Native AMD solution
@@ -125,21 +162,48 @@ IVectorBackend* BackendRegistry::getBestVectorBackend() const {
         BackendType::CPU
     };
     
+    // If GPU is disabled or preference is CPU, skip GPU backends
     for (auto type : priority) {
+        // Skip GPU backends if GPU not desired
+        if (!useGPU && isGPUBackend(type)) {
+            continue;
+        }
+        
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsVectorOps) {
                 auto* vectorBackend = dynamic_cast<IVectorBackend*>(backend.get());
                 if (vectorBackend) {
+                    if (isGPUBackend(type)) {
+                        THEMIS_DEBUG("Selected GPU backend: {}", backend->name());
+                    }
                     return vectorBackend;
                 }
             }
         }
     }
     
+    // If GPU preference but no GPU available, check if fallback is allowed
+    if (config_.prefer == AccelerationPreference::GPU && !config_.gpuFallback) {
+        THEMIS_WARN("GPU backend requested but not available and fallback disabled");
+        return nullptr;
+    }
+    
     return nullptr;
 }
 
-IGraphBackend* BackendRegistry::getBestGraphBackend() const {
+IGraphBackend* BackendRegistry::getBestGraphBackend(size_t batchSize) const {
+    // Check batch size threshold
+    bool useGPU = true;
+    if (batchSize > 0 && batchSize < config_.minBatchSize) {
+        THEMIS_DEBUG("Batch size {} below threshold {}, using CPU", batchSize, config_.minBatchSize);
+        useGPU = false;
+    }
+    
+    // Apply preference configuration
+    if (config_.prefer == AccelerationPreference::CPU) {
+        useGPU = false;
+    }
+    
     // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
     static const BackendType priority[] = {
         BackendType::CUDA,
@@ -157,20 +221,46 @@ IGraphBackend* BackendRegistry::getBestGraphBackend() const {
     };
     
     for (auto type : priority) {
+        // Skip GPU backends if GPU not desired
+        if (!useGPU && isGPUBackend(type)) {
+            continue;
+        }
+        
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsGraphOps) {
                 auto* graphBackend = dynamic_cast<IGraphBackend*>(backend.get());
                 if (graphBackend) {
+                    if (isGPUBackend(type)) {
+                        THEMIS_DEBUG("Selected GPU backend: {}", backend->name());
+                    }
                     return graphBackend;
                 }
             }
         }
     }
     
+    // If GPU preference but no GPU available, check if fallback is allowed
+    if (config_.prefer == AccelerationPreference::GPU && !config_.gpuFallback) {
+        THEMIS_WARN("GPU backend requested but not available and fallback disabled");
+        return nullptr;
+    }
+    
     return nullptr;
 }
 
-IGeoBackend* BackendRegistry::getBestGeoBackend() const {
+IGeoBackend* BackendRegistry::getBestGeoBackend(size_t batchSize) const {
+    // Check batch size threshold
+    bool useGPU = true;
+    if (batchSize > 0 && batchSize < config_.minBatchSize) {
+        THEMIS_DEBUG("Batch size {} below threshold {}, using CPU", batchSize, config_.minBatchSize);
+        useGPU = false;
+    }
+    
+    // Apply preference configuration
+    if (config_.prefer == AccelerationPreference::CPU) {
+        useGPU = false;
+    }
+    
     // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
     static const BackendType priority[] = {
         BackendType::CUDA,
@@ -188,14 +278,28 @@ IGeoBackend* BackendRegistry::getBestGeoBackend() const {
     };
     
     for (auto type : priority) {
+        // Skip GPU backends if GPU not desired
+        if (!useGPU && isGPUBackend(type)) {
+            continue;
+        }
+        
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsGeoOps) {
                 auto* geoBackend = dynamic_cast<IGeoBackend*>(backend.get());
                 if (geoBackend) {
+                    if (isGPUBackend(type)) {
+                        THEMIS_DEBUG("Selected GPU backend: {}", backend->name());
+                    }
                     return geoBackend;
                 }
             }
         }
+    }
+    
+    // If GPU preference but no GPU available, check if fallback is allowed
+    if (config_.prefer == AccelerationPreference::GPU && !config_.gpuFallback) {
+        THEMIS_WARN("GPU backend requested but not available and fallback disabled");
+        return nullptr;
     }
     
     return nullptr;

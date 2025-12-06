@@ -481,6 +481,7 @@ set(THEMIS_CORE_SOURCES
     src/acceleration/cpu_backend.cpp
     src/acceleration/plugin_loader.cpp
     src/acceleration/plugin_security.cpp
+    src/acceleration/config_loader.cpp
     # Plugin manager (core plugin orchestration)
     src/plugins/plugin_manager.cpp
     
@@ -764,6 +765,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_saga_concurrent_execution.cpp
         tests/test_consistent_hash_distribution.cpp
         tests/test_vulkan_backend.cpp
+        tests/test_acceleration_config.cpp
         tests/test_postgres_importer_datatypes.cpp
         tests/test_plugin_lifecycle.cpp
         tests/test_mvcc.cpp
