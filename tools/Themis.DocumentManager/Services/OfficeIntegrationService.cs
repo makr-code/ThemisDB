@@ -487,9 +487,35 @@ public class OfficeIntegrationService : IOfficeIntegrationService
 
             dynamic oneNoteApp = Activator.CreateInstance(oneNoteType);
 
-            // Get or create notebook
-            string notebookId = string.Empty;
+            // Get the default notebook's section
+            string notebookXml = string.Empty;
+            oneNoteApp.GetHierarchy("", 2, out notebookXml); // 2 = hsNotebooks
+            
+            // Parse XML to get section ID (simplified - in production use proper XML parsing)
+            // For now, create page in default section
             string sectionId = string.Empty;
+            
+            // Get first section from hierarchy
+            if (!string.IsNullOrEmpty(notebookXml))
+            {
+                var xml = new System.Xml.XmlDocument();
+                xml.LoadXml(notebookXml);
+                var sectionNode = xml.SelectSingleNode("//one:Section", 
+                    new System.Xml.XmlNamespaceManager(xml.NameTable) 
+                    { 
+                        { "one", "http://schemas.microsoft.com/office/onenote/2013/onenote" } 
+                    });
+                sectionId = sectionNode?.Attributes?["ID"]?.Value ?? string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(sectionId))
+            {
+                return new OfficeDocumentResult
+                {
+                    Success = false,
+                    ErrorMessage = "Could not find a valid OneNote section. Please create a notebook first."
+                };
+            }
 
             // Create new page
             string pageId = string.Empty;
@@ -510,6 +536,7 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                 {
                     ["OfficeApplication"] = "OneNote",
                     ["PageId"] = pageId,
+                    ["SectionId"] = sectionId,
                     ["RevisionTracking"] = true
                 }
             };
@@ -549,9 +576,10 @@ public class OfficeIntegrationService : IOfficeIntegrationService
             if (document == null)
                 return false;
 
-            // Get revision count
-            var revisions = await _revisionService.GetDocumentRevisionsAsync(documentId);
-            var nextRevisionNumber = revisions.Count() + 1;
+            // Get revision count - use atomic transaction if possible
+            // For now, we'll get the latest revision number and increment
+            var latestRevision = await _revisionService.GetLatestRevisionAsync(documentId);
+            var nextRevisionNumber = (latestRevision?.RevisionNumber ?? 0) + 1;
 
             // Create revision backup
             var revisionFileName = $"{Path.GetFileNameWithoutExtension(documentPath)}_rev{nextRevisionNumber}{Path.GetExtension(documentPath)}";
@@ -559,9 +587,21 @@ public class OfficeIntegrationService : IOfficeIntegrationService
             Directory.CreateDirectory(revisionPath);
 
             var revisionFilePath = Path.Combine(revisionPath, revisionFileName);
-            File.Copy(documentPath, revisionFilePath, true);
+            
+            // Use lock to prevent race condition during file copy and revision creation
+            var lockObj = GetDocumentLock(documentId);
+            await Task.Run(() =>
+            {
+                lock (lockObj)
+                {
+                    File.Copy(documentPath, revisionFilePath, true);
+                }
+            });
 
-            // Create revision entry
+            // Create revision entry with file hash
+            var fileHash = CalculateFileHash(revisionFilePath);
+            var fileInfo = new FileInfo(revisionFilePath);
+            
             await _revisionService.CreateRevisionAsync(new DocumentRevision
             {
                 Id = Guid.NewGuid().ToString(),
@@ -571,7 +611,8 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                 Author = Environment.UserName,
                 Comment = $"Revision {nextRevisionNumber}",
                 FilePath = revisionFilePath,
-                FileHash = CalculateFileHash(revisionFilePath)
+                FileHash = fileHash,
+                FileSize = fileInfo.Length
             });
 
             return true;
@@ -580,6 +621,13 @@ public class OfficeIntegrationService : IOfficeIntegrationService
         {
             return false;
         }
+    }
+
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, object> _documentLocks = new();
+    
+    private static object GetDocumentLock(string documentId)
+    {
+        return _documentLocks.GetOrAdd(documentId, _ => new object());
     }
 
     public async Task<IEnumerable<DocumentRevision>> GetDocumentRevisionsAsync(string documentId)

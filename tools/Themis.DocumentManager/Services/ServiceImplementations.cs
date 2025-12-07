@@ -104,11 +104,15 @@ public class SearchService : ISearchService
 
     public async Task<IEnumerable<SearchResult>> FullTextSearchAsync(string query, int limit = 10)
     {
+        // Sanitize input to prevent AQL injection
+        var sanitizedQuery = query.Replace("'", "\\'").Replace("\"", "\\\"");
+        
         var response = await _apiClient.PostAsync<object, SearchResponse>(
             "/query/aql",
             new
             {
-                query = $"FOR doc IN documents FILTER CONTAINS(doc.title, '{query}') OR CONTAINS(doc.description, '{query}') LIMIT {limit} RETURN doc"
+                query = $"FOR doc IN documents FILTER CONTAINS(doc.title, @query) OR CONTAINS(doc.description, @query) LIMIT {limit} RETURN doc",
+                bindVars = new { query = sanitizedQuery }
             }
         );
 
@@ -160,15 +164,33 @@ public class SearchService : ISearchService
 
     public async Task<IEnumerable<SearchResult>> FacetedSearchAsync(Dictionary<string, object> facets, int limit = 10)
     {
-        // Build AQL query with facets
-        var predicates = facets.Select(f => $"doc.{f.Key} == '{f.Value}'");
-        var filterClause = string.Join(" AND ", predicates);
+        // Build AQL query with bind variables for safety
+        var bindVars = new Dictionary<string, object>();
+        var filterClauses = new List<string>();
+        
+        int paramIndex = 0;
+        foreach (var facet in facets)
+        {
+            // Validate field name contains only alphanumeric and underscore
+            if (!System.Text.RegularExpressions.Regex.IsMatch(facet.Key, "^[a-zA-Z0-9_]+$"))
+                continue;
+                
+            var paramName = $"param{paramIndex++}";
+            filterClauses.Add($"doc.{facet.Key} == @{paramName}");
+            bindVars[paramName] = facet.Value;
+        }
+
+        if (filterClauses.Count == 0)
+            return Enumerable.Empty<SearchResult>();
+
+        var filterClause = string.Join(" AND ", filterClauses);
 
         var response = await _apiClient.PostAsync<object, SearchResponse>(
             "/query/aql",
             new
             {
-                query = $"FOR doc IN documents FILTER {filterClause} LIMIT {limit} RETURN doc"
+                query = $"FOR doc IN documents FILTER {filterClause} LIMIT {limit} RETURN doc",
+                bindVars
             }
         );
 
@@ -279,10 +301,16 @@ public class GeoService : IGeoService
             "/query/aql",
             new
             {
-                query = $@"FOR doc IN documents 
+                query = @"FOR doc IN documents 
                           FILTER doc.location != null 
-                          FILTER DISTANCE(doc.location.latitude, doc.location.longitude, {latitude}, {longitude}) <= {radiusKm * 1000}
-                          RETURN doc"
+                          FILTER DISTANCE(doc.location.latitude, doc.location.longitude, @lat, @lon) <= @radius
+                          RETURN doc",
+                bindVars = new
+                {
+                    lat = latitude,
+                    lon = longitude,
+                    radius = radiusKm * 1000
+                }
             }
         );
 
