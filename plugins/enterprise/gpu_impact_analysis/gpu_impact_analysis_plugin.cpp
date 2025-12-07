@@ -260,6 +260,184 @@ public:
     }
     
     // ========================================================================
+    // Multi-Layer Impact Analysis - Implementation
+    // ========================================================================
+    
+    ImpactAnalysisResult analyzeMultiLayerImpact(
+        const DocumentChange& change,
+        const std::vector<std::string>& target_layers,
+        const nlohmann::json& config
+    ) override {
+        auto start = std::chrono::high_resolution_clock::now();
+        
+        ImpactAnalysisResult result;
+        result.analysis_id = generateAnalysisId();
+        result.source_change = change;
+        
+        try {
+            // Load graph structure with layer information
+            auto graph = loadGraphStructure(change.document_id);
+            
+            // Extract layer-specific config
+            FEMPropagationConfig fem_config = fem_config_;
+            if (config.contains("fem")) {
+                if (config["fem"].contains("layer_damping_factors")) {
+                    for (auto& [layer, damping] : config["fem"]["layer_damping_factors"].items()) {
+                        fem_config.layer_damping_factors[layer] = damping.get<double>();
+                    }
+                }
+                if (config["fem"].contains("cross_layer_damping")) {
+                    for (auto& [key, damping] : config["fem"]["cross_layer_damping"].items()) {
+                        // Parse "layer1->layer2" format
+                        auto pos = key.find("->");
+                        if (pos != std::string::npos) {
+                            std::string from_layer = key.substr(0, pos);
+                            std::string to_layer = key.substr(pos + 2);
+                            fem_config.cross_layer_damping[{from_layer, to_layer}] = damping.get<double>();
+                        }
+                    }
+                }
+            }
+            
+            // Perform multi-layer propagation
+            std::unordered_set<std::string> visited;
+            std::queue<std::pair<std::string, double>> to_process;
+            std::map<std::string, std::string> node_layers; // node_id -> layer
+            std::map<std::string, std::vector<std::string>> layer_paths; // node_id -> layers crossed
+            
+            // Extract layer information from graph
+            if (graph.contains("nodes") && graph["nodes"].is_array()) {
+                for (const auto& node : graph["nodes"]) {
+                    std::string node_id = node.value("id", "");
+                    std::string layer = node.value("_layer", "document");
+                    node_layers[node_id] = layer;
+                }
+            }
+            
+            // Initialize with source node
+            std::string source_layer = change.source_layer.empty() ? "document" : change.source_layer;
+            to_process.push({change.document_id, change.magnitude});
+            layer_paths[change.document_id] = {source_layer};
+            
+            // Multi-layer BFS with layer-aware damping
+            while (!to_process.empty()) {
+                auto [current_node, current_impact] = to_process.front();
+                to_process.pop();
+                
+                if (visited.count(current_node) > 0 || current_impact < fem_config.impact_threshold) {
+                    continue;
+                }
+                visited.insert(current_node);
+                
+                std::string current_layer = node_layers.count(current_node) ? 
+                    node_layers[current_node] : "document";
+                
+                // Check if this layer is in target layers (if specified)
+                if (!target_layers.empty() && 
+                    std::find(target_layers.begin(), target_layers.end(), current_layer) == target_layers.end()) {
+                    continue;
+                }
+                
+                // Add to results
+                NodeImpact node_impact;
+                node_impact.node_id = current_node;
+                node_impact.node_type = current_layer;
+                node_impact.impact_score = current_impact;
+                node_impact.node_layer = current_layer;
+                node_impact.crossed_layers = layer_paths[current_node];
+                node_impact.is_cross_layer_impact = layer_paths[current_node].size() > 1;
+                node_impact.confidence = 0.95;
+                result.affected_nodes.push_back(node_impact);
+                
+                // Update per-layer statistics
+                result.affected_nodes_per_layer[current_layer]++;
+                if (current_impact > result.max_impact_per_layer[current_layer]) {
+                    result.max_impact_per_layer[current_layer] = current_impact;
+                }
+                
+                // Propagate to neighbors with layer-aware damping
+                auto neighbors = getIncomingEdges(current_node, graph);
+                for (const auto& [neighbor_id, edge_weight] : neighbors) {
+                    std::string neighbor_layer = node_layers.count(neighbor_id) ? 
+                        node_layers[neighbor_id] : "document";
+                    
+                    // Calculate damping factor
+                    double damping = fem_config.damping_factor;
+                    
+                    // Apply layer-specific damping if configured
+                    if (fem_config.layer_damping_factors.count(neighbor_layer)) {
+                        damping *= fem_config.layer_damping_factors[neighbor_layer];
+                    }
+                    
+                    // Apply cross-layer damping if crossing layers
+                    if (neighbor_layer != current_layer) {
+                        if (!fem_config.enable_cross_layer_propagation) {
+                            continue; // Skip cross-layer propagation if disabled
+                        }
+                        
+                        auto cross_key = std::make_pair(current_layer, neighbor_layer);
+                        if (fem_config.cross_layer_damping.count(cross_key)) {
+                            damping *= fem_config.cross_layer_damping[cross_key];
+                        } else {
+                            damping *= 0.7; // Default cross-layer damping
+                        }
+                        
+                        // Track layer transition
+                        result.cross_layer_transitions++;
+                        result.layer_transition_paths.push_back({current_layer, neighbor_layer});
+                    }
+                    
+                    double propagated_impact = current_impact * edge_weight * damping;
+                    
+                    if (propagated_impact >= fem_config.impact_threshold) {
+                        to_process.push({neighbor_id, propagated_impact});
+                        
+                        // Update layer path
+                        auto new_path = layer_paths[current_node];
+                        if (neighbor_layer != current_layer && 
+                            (new_path.empty() || new_path.back() != neighbor_layer)) {
+                            new_path.push_back(neighbor_layer);
+                        }
+                        layer_paths[neighbor_id] = new_path;
+                    }
+                }
+            }
+            
+            // Calculate statistics
+            result.total_affected_count = static_cast<int>(result.affected_nodes.size());
+            if (!result.affected_nodes.empty()) {
+                result.max_impact_score = std::max_element(
+                    result.affected_nodes.begin(),
+                    result.affected_nodes.end(),
+                    [](const NodeImpact& a, const NodeImpact& b) {
+                        return a.impact_score < b.impact_score;
+                    }
+                )->impact_score;
+                
+                result.avg_impact_score = std::accumulate(
+                    result.affected_nodes.begin(),
+                    result.affected_nodes.end(),
+                    0.0,
+                    [](double sum, const NodeImpact& n) {
+                        return sum + n.impact_score;
+                    }
+                ) / result.affected_nodes.size();
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::error("[GPUImpactAnalysis] Multi-layer analysis failed: {}", e.what());
+        }
+        
+        auto end = std::chrono::high_resolution_clock::now();
+        result.computation_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        
+        total_analyses_++;
+        total_analysis_time_ms_ += result.computation_time.count();
+        
+        return result;
+    }
+    
+    // ========================================================================
     // FEM-Inspired Graph Propagation - Implementation
     // ========================================================================
     
