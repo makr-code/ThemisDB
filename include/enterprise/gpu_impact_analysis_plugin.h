@@ -426,5 +426,19 @@ public:
     virtual void resetPerformanceMetrics() = 0;
 };
 
+// ============================================================================
+// Factory Function
+// ============================================================================
+
+/**
+ * @brief Create GPU Impact Analysis Plugin instance
+ * 
+ * Factory function to create a new instance of the GPU Impact Analysis Plugin.
+ * The plugin must be initialized with a configuration before use.
+ * 
+ * @return Pointer to new plugin instance (caller owns the memory)
+ */
+IGPUImpactAnalysisPlugin* createGPUImpactAnalysisPlugin();
+
 } // namespace enterprise
 } // namespace themis
