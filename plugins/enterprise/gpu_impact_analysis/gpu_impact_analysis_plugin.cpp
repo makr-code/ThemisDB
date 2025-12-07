@@ -282,23 +282,22 @@ public:
             double max_change = 0.0;
             
             // Propagate impacts through edges
-            if (graph_structure.contains("edges") && graph_structure["edges"].is_array()) {
-                for (const auto& edge : graph_structure["edges"]) {
-                    std::string from = edge.value("from", "");
-                    std::string to = edge.value("to", "");
-                    double weight = edge.value("weight", 1.0);
+            iterateGraphEdges(graph_structure, [&](const auto& edge) {
+                std::string from = edge.value("from", "");
+                std::string to = edge.value("to", "");
+                double weight = edge.value("weight", 1.0);
+                
+                auto it = impact_map.find(from);
+                if (it != impact_map.end()) {
+                    double propagated_impact = it->second * weight * config.damping_factor;
                     
-                    if (impact_map.count(from) > 0) {
-                        double propagated_impact = impact_map[from] * weight * config.damping_factor;
-                        
-                        if (propagated_impact >= config.impact_threshold) {
-                            double old_impact = new_impacts[to];
-                            new_impacts[to] = std::max(new_impacts[to], propagated_impact);
-                            max_change = std::max(max_change, std::abs(new_impacts[to] - old_impact));
-                        }
+                    if (propagated_impact >= config.impact_threshold) {
+                        double old_impact = new_impacts[to];
+                        new_impacts[to] = std::max(new_impacts[to], propagated_impact);
+                        max_change = std::max(max_change, std::abs(new_impacts[to] - old_impact));
                     }
                 }
-            }
+            });
             
             impact_map = std::move(new_impacts);
             
@@ -819,6 +818,16 @@ private:
         static std::atomic<int64_t> counter{0};
         auto now = std::chrono::system_clock::now().time_since_epoch().count();
         return "impact_" + std::to_string(now) + "_" + std::to_string(counter++);
+    }
+    
+    // Helper: Get edges from graph JSON safely
+    template<typename Func>
+    void iterateGraphEdges(const nlohmann::json& graph, Func&& func) {
+        if (graph.contains("edges") && graph["edges"].is_array()) {
+            for (const auto& edge : graph["edges"]) {
+                func(edge);
+            }
+        }
     }
     
     nlohmann::json loadGraphStructure(const std::string& document_id) {

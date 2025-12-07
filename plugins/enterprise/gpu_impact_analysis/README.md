@@ -1,24 +1,24 @@
 # GPU Impact Analysis Plugin
 
-**Enterprise Plugin für ThemisDB**  
+**Enterprise Plugin for ThemisDB**  
 **Version:** 1.0.0  
 **Status:** Reference Implementation (CPU Fallback) ✅
 
 ---
 
-## Übersicht
+## Overview
 
 GPU-accelerated FEM-inspired cause-effect analysis for document changes and their impact propagation through the graph.
 
-### Hauptfunktionen
+### Main Features
 
-- **FEM-basierte Impact-Propagierung**: Graph propagation analog to stress distribution in FEM
-- **Monte Carlo Risikobewertung**: Probabilistic simulation with 10K+ scenarios
-- **Temporale Analyse**: Time series analysis with trend calculation and forecasting
+- **FEM-based Impact Propagation**: Graph propagation analog to stress distribution in FEM
+- **Monte Carlo Risk Assessment**: Probabilistic simulation with 10K+ scenarios
+- **Temporal Analysis**: Time series analysis with trend calculation and forecasting
 - **Pattern Detection**: Recognition of recurring impact patterns
-- **Anomalie-Erkennung**: Statistical detection of unusual impact distributions
-- **What-If Analyse**: Simulation of hypothetical change scenarios
-- **Sensitivitätsanalyse**: Parameter dependency evaluation
+- **Anomaly Detection**: Statistical detection of unusual impact distributions
+- **What-If Analysis**: Simulation of hypothetical change scenarios
+- **Sensitivity Analysis**: Parameter dependency evaluation
 - **Root Cause Analysis**: Identification of most likely causes
 
 ---
