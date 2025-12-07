@@ -13,13 +13,22 @@ namespace enterprise {
 /**
  * @brief GPU Impact Analysis Plugin Implementation
  * 
- * Diese Implementierung nutzt GPU-Beschleunigung für:
- * - Graph-Traversierung (CUDA/Vulkan)
- * - Monte Carlo Simulation (cuRAND)
- * - FFT für Pattern Detection (cuFFT)
- * - Sparse Matrix Operations (cuSPARSE)
- * - Time Series Forecasting (cuML)
- * - Anomaly Detection (cuML Isolation Forest)
+ * NOTE: This is a REFERENCE IMPLEMENTATION demonstrating the plugin architecture
+ * and API design. GPU acceleration features are marked with TODO comments and
+ * require integration with actual GPU backends (CUDA, Vulkan, etc.).
+ * 
+ * The implementation currently provides:
+ * - Complete plugin interface (IGPUImpactAnalysisPlugin)
+ * - CPU-based fallback algorithms
+ * - Framework for GPU acceleration integration
+ * 
+ * GPU acceleration targets (requires backend implementation):
+ * - Graph traversal (CUDA/Vulkan) - Target: 10-50x speedup
+ * - Monte Carlo simulation (cuRAND) - Target: 100-1000x speedup
+ * - FFT pattern detection (cuFFT) - Target: 100-500x speedup
+ * - Sparse matrix operations (cuSPARSE) - Target: 20x speedup
+ * - Time series forecasting (cuML) - Target: 100x speedup
+ * - Anomaly detection (cuML Isolation Forest) - Target: 20-50x speedup
  */
 class GPUImpactAnalysisPluginImpl : public IGPUImpactAnalysisPlugin {
 public:

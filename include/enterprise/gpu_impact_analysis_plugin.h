@@ -12,28 +12,32 @@ namespace themis {
 namespace enterprise {
 
 /**
- * @brief GPU-Accelerated Impact Analysis Plugin
+ * @brief GPU-Accelerated Impact Analysis Plugin Interface
  * 
- * FEM (Finite Element Method) inspirierte Ursachen-Folgen-Analyse
- * für Dokumentenänderungen und deren Auswirkungen im Graph.
+ * FEM (Finite Element Method) inspired cause-effect analysis
+ * for document changes and their impact propagation through the graph.
  * 
  * ## Use Cases
- * - Dokumenten-Änderungsanalyse: Wie wirkt sich eine Änderung auf abhängige Dokumente aus?
- * - Graph-Propagierung: Welche Knoten sind von einer Änderung betroffen?
- * - Risikobewertung: Was sind die potenziellen Auswirkungen einer Änderung?
- * - Temporale Analyse: Wie entwickelt sich der Impact über Zeit?
+ * - Document change analysis: How does a change affect dependent documents?
+ * - Graph propagation: Which nodes are affected by a change?
+ * - Risk assessment: What are the potential impacts of a change?
+ * - Temporal analysis: How does impact evolve over time?
  * 
- * ## GPU-Beschleunigung
- * - Graph-Traversierung: 10-50x Speedup
- * - Impact-Simulation: 100-1000x Speedup (Monte Carlo)
- * - Pattern-Matching: 100-500x Speedup (FFT)
+ * ## GPU Acceleration (Target Performance)
+ * - Graph traversal: 10-50x speedup over CPU
+ * - Impact simulation: 100-1000x speedup (Monte Carlo)
+ * - Pattern matching: 100-500x speedup (FFT)
  * 
- * ## FEM-Inspiration
- * Das FEM-Modell wird auf Graphen übertragen:
- * - Knoten = finite Elemente
- * - Kanten = Verbindungen mit Gewichten (Stärke der Abhängigkeit)
- * - Änderung = externe Kraft/Belastung
- * - Impact = Deformation/Spannung im System
+ * ## FEM Inspiration
+ * The FEM model is adapted for graph analysis:
+ * - Nodes = finite elements
+ * - Edges = connections with weights (dependency strength)
+ * - Change = external force/load
+ * - Impact = deformation/stress in the system
+ * 
+ * @note This is an ENTERPRISE PLUGIN INTERFACE demonstrating advanced analytics
+ * capabilities. Reference implementation provides CPU fallback; GPU acceleration
+ * requires backend integration (CUDA, Vulkan, HIP, etc.).
  */
 class IGPUImpactAnalysisPlugin : public IAnalyticsPlugin {
 public:
