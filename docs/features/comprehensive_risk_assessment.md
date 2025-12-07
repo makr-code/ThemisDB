@@ -1,8 +1,21 @@
-# Environmental and Facility Risk Assessment - Comprehensive Guide
+# Environmental and Facility Risk Assessment - Comprehensive Guide (Enterprise Features)
 
 ## Übersicht
 
 ThemisDB bietet umfassende Risikobewertungsmodelle für Umweltrisiken und Anlagenrisiken, die vollständig mit deutschen Umwelt- und Sicherheitsvorschriften konform sind.
+
+**Enterprise Feature**: Diese Risikobewertungsmodelle sind als Enterprise-Funktionen gekapselt und separat verfügbar.
+
+**Core Feature**: Die 3D-Geospatial-Unterstützung (Point(x,y,z)) ist als Core-Feature in ThemisDB integriert.
+
+## Headers
+
+```cpp
+// Enterprise Features
+#include "enterprise/environmental_risk_models.h"
+#include "enterprise/facility_risk_assessment.h"
+#include "enterprise/arcgis_data_provider.h"
+```
 
 ## Umweltrisikobewertung
 

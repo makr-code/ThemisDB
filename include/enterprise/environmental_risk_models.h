@@ -1,6 +1,6 @@
 /**
  * @file environmental_risk_models.h
- * @brief Environmental Risk Assessment Models for Geospatial Analysis
+ * @brief Environmental Risk Assessment Models (Enterprise Feature)
  * 
  * This module provides comprehensive environmental risk assessment models
  * including climate risks, natural hazards, and regulatory compliance (e.g., WHG).

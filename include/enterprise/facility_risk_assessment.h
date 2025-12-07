@@ -1,6 +1,6 @@
 /**
  * @file facility_risk_assessment.h
- * @brief Facility-Specific Risk Assessment Models
+ * @brief Facility-Specific Risk Assessment Models (Enterprise Feature)
  * 
  * Comprehensive risk assessment for industrial facilities, critical infrastructure,
  * and regulatory compliance (12. BImSchV, Seveso-III, WHG, AwSV, etc.).
@@ -12,7 +12,7 @@
 #pragma once
 
 #include "utils/geo/ewkb.h"
-#include "geo/environmental_risk_models.h"
+#include "enterprise/environmental_risk_models.h"
 #include <string>
 #include <vector>
 #include <optional>

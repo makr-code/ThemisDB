@@ -1,9 +1,9 @@
 /**
  * @file arcgis_data_provider.cpp
- * @brief Implementation of ArcGIS Data Provider
+ * @brief Implementation of ArcGIS Data Provider (Enterprise Plugin)
  */
 
-#include "geo/arcgis_data_provider.h"
+#include "enterprise/arcgis_data_provider.h"
 #include "utils/geo/ewkb.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/spatial_index.h"

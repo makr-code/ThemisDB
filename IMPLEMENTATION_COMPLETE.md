@@ -4,9 +4,23 @@
 
 Alle Anforderungen aus dem Problem Statement wurden erfolgreich umgesetzt und erweitert.
 
+## Architektur: Core vs. Enterprise
+
+### Core Features (Basis-Funktionalität)
+- 3D-Geometrieunterstützung Point(x, y, z)
+- Alle ST_* Geo-Funktionen mit 3D
+- 3D Spatial Index (Morton-Code, Z-Range Queries)
+- EWKB Parser mit 3D
+
+### Enterprise Features (Spezialisierte Funktionen)
+- Umweltrisikobewertung (20+ Modelle)
+- Anlagenrisikobewertung (15+ Modelle)
+- ArcGIS Data Provider Plugin
+- FEM-basierte Kaskadenanalyse
+
 ## Kern-Anforderungen (Problem Statement)
 
-### ✅ 1. Vollständiges 3D Modell Point(x, y, z)
+### ✅ 1. Vollständiges 3D Modell Point(x, y, z) (CORE)
 
 **Implementiert in**:
 - `include/utils/geo/ewkb.h` - EWKB Parser mit 3D-Support
@@ -19,7 +33,7 @@ Alle Anforderungen aus dem Problem Statement wurden erfolgreich umgesetzt und er
 - 3D Euclidean Distance
 - Z-coordinate preservation in all transformations
 
-### ✅ 2. Geo-Verarbeitung mit 3D-Unterstützung
+### ✅ 2. Geo-Verarbeitung mit 3D-Unterstützung (CORE)
 
 **Alle ST_* Funktionen erweitert**:
 - `ST_DISTANCE` - 3D Euklidische Distanz
@@ -29,13 +43,13 @@ Alle Anforderungen aus dem Problem Statement wurden erfolgreich umgesetzt und er
 - `ST_HASZ` - Prüft Z-Präsenz
 - `ST_POINT(x, y, z)` - 3D Point Creation
 
-### ✅ 3. ArcGIS DLL Integration
+### ✅ 3. ArcGIS DLL Integration (ENTERPRISE)
 
-**Implementiert als**: Enterprise Data Provider DLL
+**Implementiert als**: Enterprise Data Provider Plugin
 
 **Dateien**:
-- `include/geo/arcgis_data_provider.h` (13.9 KB)
-- `src/geo/arcgis_data_provider.cpp` (15.4 KB)
+- `include/enterprise/arcgis_data_provider.h` (13.9 KB)
+- `plugins/enterprise/arcgis_data_provider/arcgis_data_provider.cpp` (15.4 KB)
 
 **Zweck**: ThemisDB als Datenlieferant für ArcGIS
 
@@ -43,11 +57,11 @@ Alle Anforderungen aus dem Problem Statement wurden erfolgreich umgesetzt und er
 - Layer Discovery
 - Spatial/Temporal Queries
 - ESRI JSON, GeoJSON, WKT Export
-- 3D Geometry Support
+- 3D Geometry Support (nutzt Core-Features)
 - FEM Metadata Integration
 - Multi-Model Data (Graph + Geo + Time-Series)
 
-### ✅ 4. Plugin-Schnittstelle
+### ✅ 4. Plugin-Schnittstelle (ENTERPRISE)
 
 **Implementiert**:
 - DLL-basierte Erweiterungen
@@ -141,28 +155,32 @@ Alle Anforderungen aus dem Problem Statement wurden erfolgreich umgesetzt und er
 
 ## Datei-Übersicht
 
-### Neue Dateien (9)
+### Neue Dateien (10)
 
-| Datei | Größe | Beschreibung |
-|-------|-------|--------------|
-| `include/geo/arcgis_data_provider.h` | 13.9 KB | ArcGIS Provider Interface |
-| `src/geo/arcgis_data_provider.cpp` | 15.4 KB | Provider Implementation |
-| `include/geo/environmental_risk_models.h` | 17.0 KB | 20+ Umweltrisiken |
-| `include/geo/facility_risk_assessment.h` | 21.2 KB | 15+ Anlagenrisiken |
-| `tests/geo/test_geo_3d_functions.cpp` | 8.2 KB | 11 Test Cases |
-| `examples/geo/example_3d.cpp` | 1.1 KB | Usage Example |
-| `docs/integrations/arcgis_data_provider.md` | 0.7 KB | Integration Docs |
-| `docs/features/geospatial_3d_implementation.md` | 11.5 KB | Implementation Spec |
-| `docs/features/comprehensive_risk_assessment.md` | 14.6 KB | Risk Assessment Guide |
+| Datei | Größe | Typ | Beschreibung |
+|-------|-------|-----|--------------|
+| **Core Features** |
+| `include/query/functions/geo_functions.h` (enhanced) | - | Core | 3D distance functions |
+| `tests/geo/test_geo_3d_functions.cpp` | 8.2 KB | Core | 11 Test Cases |
+| `examples/geo/example_3d.cpp` | 1.1 KB | Core | Usage Example |
+| **Enterprise Features** |
+| `include/enterprise/arcgis_data_provider.h` | 13.9 KB | Enterprise | ArcGIS Provider Interface |
+| `plugins/enterprise/arcgis_data_provider/arcgis_data_provider.cpp` | 15.4 KB | Enterprise | Provider Implementation |
+| `include/enterprise/environmental_risk_models.h` | 17.0 KB | Enterprise | 20+ Umweltrisiken |
+| `include/enterprise/facility_risk_assessment.h` | 21.2 KB | Enterprise | 15+ Anlagenrisiken |
+| **Documentation** |
+| `docs/integrations/arcgis_data_provider.md` | 0.7 KB | Docs | Integration Guide |
+| `docs/features/geospatial_3d_implementation.md` | 11.5 KB | Docs | Implementation Spec |
+| `docs/features/comprehensive_risk_assessment.md` | 14.6 KB | Docs | Risk Assessment Guide |
 
-**Total**: ~103 KB Production Code + Tests + Documentation
+**Total**: ~103 KB (Core: ~9 KB, Enterprise: ~68 KB, Docs: ~27 KB)
 
 ### Modifizierte Dateien (2)
 
-| Datei | Änderung |
-|-------|----------|
-| `include/query/functions/geo_functions.h` | +3D distance functions |
-| `CMakeLists.txt` | +test_geo_3d_functions.cpp |
+| Datei | Änderung | Typ |
+|-------|----------|-----|
+| `include/query/functions/geo_functions.h` | +3D distance functions | Core |
+| `CMakeLists.txt` | +test_geo_3d_functions.cpp | Core |
 
 ## Test Coverage
 

@@ -4,9 +4,23 @@
 
 Das ThemisDB Geo-Spatial Model wurde erfolgreich zu einem vollständigen 3D-Modell erweitert mit Point(x, y, z) Unterstützung. Alle Geo-Verarbeitungsfunktionen können mit 3D-Koordinaten umgehen (mit z=0 als Fallback für 2D-Daten).
 
+## Feature-Architektur
+
+### Core Features (Basis-Funktionalität)
+- 3D-Geometrieunterstützung Point(x, y, z)
+- Alle ST_* Geo-Funktionen mit 3D
+- 3D Spatial Index
+- EWKB Parser mit 3D
+
+### Enterprise Features (Spezialisierte Funktionen)
+- Umweltrisikobewertung (20+ Modelle)
+- Anlagenrisikobewertung (15+ Modelle)
+- ArcGIS Data Provider
+- FEM-basierte Kaskadenanalyse
+
 ## Implementierte Features
 
-### 1. Vollständige 3D-Geometrieunterstützung
+### 1. Vollständige 3D-Geometrieunterstützung (Core)
 
 #### Bestehende Infrastruktur (bereits vorhanden)
 - ✅ **EWKB Parser** (`include/utils/geo/ewkb.h`)
@@ -21,7 +35,7 @@ Das ThemisDB Geo-Spatial Model wurde erfolgreich zu einem vollständigen 3D-Mode
   - 3D Bounding Box Queries (`searchIntersectsWithZ()`)
   - RTreeConfig mit `use_3d` Flag
 
-#### Neue Erweiterungen
+#### Neue Erweiterungen (Core)
 - ✅ **3D Distance Calculations** (`include/query/functions/geo_functions.h`)
   - `euclideanDistance3D()` - 3D Euklidische Distanz
   - `ST_DISTANCE` - Automatische 3D-Distanzberechnung wenn beide Punkte Z haben
@@ -30,9 +44,11 @@ Das ThemisDB Geo-Spatial Model wurde erfolgreich zu einem vollständigen 3D-Mode
   - `ST_Z` - Extrahiert Z-Koordinate
   - `ST_HASZ` - Prüft ob Geometrie Z-Koordinaten hat
 
-### 2. ArcGIS Data Provider (Enterprise DLL)
+### 2. ArcGIS Data Provider (Enterprise Plugin)
 
 **Zweck**: ThemisDB als Datenlieferant für ArcGIS-Anwendungen
+
+**Location**: `include/enterprise/arcgis_data_provider.h`, `plugins/enterprise/arcgis_data_provider/`
 
 #### Architektur
 ```
@@ -41,11 +57,11 @@ Das ThemisDB Geo-Spatial Model wurde erfolgreich zu einem vollständigen 3D-Mode
 │  ArcGIS Server  │
 │   ArcGIS Online │
 └────────┬────────┘
-         │ (lädt DLL)
+         │ (lädt Enterprise DLL)
          ↓
 ┌─────────────────────────────┐
 │ ThemisDB ArcGIS Provider    │
-│ (themis_arcgis_provider.dll)│
+│ (Enterprise Plugin)         │
 │                             │
 │ - IArcGISDataProvider       │
 │ - Spatial Query Engine      │
@@ -101,37 +117,40 @@ Das ThemisDB Geo-Spatial Model wurde erfolgreich zu einem vollständigen 3D-Mode
 
 ### 3. Anwendungsfälle
 
-#### A. Umweltrisikobewertung (Hochwasser)
+#### A. 3D Spatial Queries (Core Feature)
 
 ```cpp
-// Hochwasser-Szenario
-double flood_water_level = 180.0;  // Meter über NN
-
-// Abfrage gefährdeter Anlagen unter Wasserpegel
+// 3D-Abfrage: Anlagen nach Höhe filtern
 auto at_risk = spatial_mgr.searchZRange(
     "industrial_facilities",
     0.0,
-    flood_water_level
+    180.0  // Alle Anlagen unter 180m Höhe
 );
-
-// Ergebnis: Alle Facilities mit elevation < 180m
 ```
 
 **Datenfluss**:
-1. ThemisDB speichert Facilities mit 3D-Koordinaten (Lon, Lat, Elevation)
-2. Spatial Index mit Z-Koordinaten
-3. Query findet alle Objekte unter Wasserpegel
-4. Export nach ArcGIS für Visualisierung
+1. ThemisDB speichert Facilities mit 3D-Koordinaten (Lon, Lat, Elevation) - Core
+2. Spatial Index mit Z-Koordinaten - Core
+3. Query findet alle Objekte in Z-Range - Core
+4. Export nach ArcGIS für Visualisierung - Enterprise
 
-#### B. Dürre-Risikobewertung
+#### B. Umweltrisikobewertung (Enterprise Feature)
 
+**Hochwasser-Risiko**:
 ```cpp
-// Dürre-gefährdete Bereiche
-SpatialQuery query;
-query.bounding_box = MBR(...);  // Region
-query.where_clause = "precipitation_mm < 500";  // Niederschlag < 500mm/Jahr
+#include "enterprise/environmental_risk_models.h"
 
-auto drought_zones = provider->queryFeatures("climate_zones", query);
+EnvironmentalRiskAssessor assessor;
+WaterRiskParams params;
+params.water_level_m = 180.0;
+
+auto result = assessor.assessFloodRisk(area, params, 100);  // HQ100
+```
+
+**Dürre-Risikobewertung**:
+```cpp
+params.precipitation_mm = 450.0;
+auto drought_result = assessor.assessDroughtRisk(area, params, 30);
 ```
 
 #### C. Störfall-Kaskadeneffekt (12. BImSchV)
