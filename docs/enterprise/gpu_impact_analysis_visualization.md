@@ -18,12 +18,314 @@ This document specifies the visual representation of FEM-based impact analysis r
   - Large: 60px diameter (high importance/hub)
 - **Border:** 2px stroke, color based on node type
 
-**Node Labeling:**
+**Node Labeling (Configurable & Dynamic):**
+
+Labels are fully configurable and can be dynamically positioned based on zoom level, node density, and user preferences.
+
+**Label Configuration Options:**
+```csharp
+public class NodeLabelConfiguration
+{
+    // Content Configuration
+    public LabelContentTemplate Template { get; set; }
+    public bool ShowImpactScore { get; set; } = true;
+    public bool ShowNodeType { get; set; } = true;
+    public bool ShowMetadata { get; set; } = false;
+    
+    // Visual Configuration
+    public LabelPosition Position { get; set; } = LabelPosition.Auto;
+    public LabelSize Size { get; set; } = LabelSize.Medium;
+    public bool MultiLine { get; set; } = false;
+    public bool BackgroundBox { get; set; } = true;
+    
+    // Dynamic Behavior
+    public bool AutoHideOnZoomOut { get; set; } = true;
+    public double MinZoomLevel { get; set; } = 0.5;
+    public bool AvoidOverlap { get; set; } = true;
+    public LabelPriority Priority { get; set; } = LabelPriority.ImpactBased;
+}
+
+public enum LabelPosition
+{
+    Auto,           // Automatic positioning to avoid overlap
+    Above,          // Always above node
+    Below,          // Always below node
+    Left,           // Left of node
+    Right,          // Right of node
+    Inside,         // Inside large nodes
+    OnHover         // Show only on mouse hover
+}
+
+public enum LabelSize
+{
+    Small,          // 10px font
+    Medium,         // 12px font
+    Large,          // 14px font
+    ExtraLarge      // 16px font
+}
+
+public enum LabelPriority
+{
+    All,                // Show all labels always
+    ImpactBased,        // Show high-impact nodes first
+    DegreeBasedCentrality, // Show hub nodes first
+    Selected            // Show only selected nodes
+}
+```
+
+**Label Content Templates:**
+
+Template 1: **Simple (default)**
 ```
 ┌─────────────────┐
-│   ●  Node 123   │  ← Label below/beside node
-│  [0.87]         │  ← Impact score (optional)
+│   ●  api/payment.md   │
+│     [0.87]            │
 └─────────────────┘
+```
+
+Template 2: **Detailed**
+```
+┌──────────────────────────┐
+│   ●  api/payment.md      │
+│     Impact: 0.87 (High)  │
+│     Type: API Spec       │
+│     Depth: 1             │
+└──────────────────────────┘
+```
+
+Template 3: **Compact**
+```
+┌──────────────┐
+│ ● payment.md │
+└──────────────┘
+```
+
+Template 4: **Custom Expression**
+Users can define custom expressions using metadata fields:
+```
+{node.name} [{node.impact_score:0.00}]
+{node.type}: {node.document_id}
+Impact {node.impact_score:P0} | Depth {node.depth}
+```
+
+**Example Custom Templates:**
+```csharp
+// Legal documents
+"{node.legal_reference} - {node.impact_score:P0}"
+// Output: "§44a SGB II - 95%"
+
+// Technical documents  
+"{node.file_name} (v{node.version})"
+// Output: "payment_api.md (v2.3)"
+
+// FEM metadata
+"{node.name}\n[Inertia: {node.fem_metadata.inertia:0.00}]"
+// Output: "payment.md
+//          [Inertia: 0.85]"
+```
+
+**Visual Positioning Examples:**
+
+Position: **Auto** (smart anti-collision)
+```
+    ● Doc1              ● Doc2
+  [0.9]              [0.45]
+            
+  ● Doc3
+[0.78]
+              ● Doc4
+            [0.23]
+```
+
+Position: **Inside** (for large nodes)
+```
+  ┌──────────────┐
+  │              │
+  │  ● payment   │  ← Label inside circle
+  │   [0.87]     │
+  │              │
+  └──────────────┘
+```
+
+Position: **OnHover** (minimal clutter)
+```
+Default:   ●  ●  ●  ●
+
+Hover:     ●  ●─────────────────┐
+                │ payment.md     │
+                │ Impact: 0.87   │
+                │ Type: API      │
+                └────────────────┘
+```
+
+**Dynamic Label Updates:**
+
+Labels update in real-time as the impact analysis progresses or user interacts:
+
+```csharp
+public class DynamicLabelManager
+{
+    private Dictionary<string, NodeLabel> _labels = new();
+    private NodeLabelConfiguration _config;
+    
+    // Called when impact scores change
+    public void UpdateImpactScores(Dictionary<string, double> newScores)
+    {
+        foreach (var kvp in newScores)
+        {
+            if (_labels.TryGetValue(kvp.Key, out var label))
+            {
+                // Animate score change
+                label.AnimateScoreChange(label.ImpactScore, kvp.Value, 
+                                        duration: TimeSpan.FromMilliseconds(500));
+            }
+        }
+    }
+    
+    // Called on zoom level change
+    public void OnZoomChanged(double zoomLevel)
+    {
+        if (_config.AutoHideOnZoomOut && zoomLevel < _config.MinZoomLevel)
+        {
+            // Fade out labels
+            foreach (var label in _labels.Values)
+            {
+                label.FadeOut(TimeSpan.FromMilliseconds(200));
+            }
+        }
+        else
+        {
+            // Fade in labels based on priority
+            var prioritizedLabels = GetPrioritizedLabels(_labels.Values);
+            foreach (var label in prioritizedLabels)
+            {
+                label.FadeIn(TimeSpan.FromMilliseconds(200));
+            }
+        }
+    }
+    
+    // Anti-collision algorithm
+    public void RepositionLabels(Rectangle viewportBounds)
+    {
+        if (!_config.AvoidOverlap) return;
+        
+        var overlapping = FindOverlappingLabels();
+        
+        foreach (var (label1, label2) in overlapping)
+        {
+            // Apply force-based separation
+            Vector2 direction = label2.Position - label1.Position;
+            float distance = direction.Length();
+            
+            if (distance < label1.Width + label2.Width)
+            {
+                // Push labels apart
+                Vector2 offset = Vector2.Normalize(direction) * 5;
+                label1.Position -= offset;
+                label2.Position += offset;
+            }
+        }
+    }
+}
+```
+
+**User Interaction Events:**
+
+```csharp
+// Mouse hover shows detailed tooltip
+private void OnNodeHover(Node node)
+{
+    if (_config.Position == LabelPosition.OnHover)
+    {
+        var detailedLabel = CreateDetailedLabel(node);
+        ShowTooltip(detailedLabel, node.Position);
+    }
+}
+
+// Click to toggle label visibility
+private void OnNodeClick(Node node)
+{
+    var label = _labels[node.Id];
+    label.IsPinned = !label.IsPinned;
+    
+    if (label.IsPinned)
+    {
+        // Show permanently until unpinned
+        label.BackgroundColor = Color.FromArgb(220, 255, 255, 200);  // Highlight
+    }
+}
+
+// Right-click for label context menu
+private void OnNodeRightClick(Node node, Point screenPosition)
+{
+    var menu = new ContextMenu();
+    menu.Items.Add("Copy Node Name", () => Clipboard.SetText(node.Name));
+    menu.Items.Add("Copy Impact Score", () => Clipboard.SetText(node.ImpactScore.ToString()));
+    menu.Items.Add("Edit Label...", () => ShowLabelEditor(node));
+    menu.Show(screenPosition);
+}
+```
+
+**Label Formatting Helper:**
+
+```csharp
+public static class LabelFormatter
+{
+    public static string FormatLabel(Node node, LabelContentTemplate template)
+    {
+        return template switch
+        {
+            LabelContentTemplate.Simple => 
+                $"{Path.GetFileName(node.DocumentPath)}\n[{node.ImpactScore:0.00}]",
+                
+            LabelContentTemplate.Detailed =>
+                $"{Path.GetFileName(node.DocumentPath)}\n" +
+                $"Impact: {node.ImpactScore:P0} ({GetImpactLevel(node.ImpactScore)})\n" +
+                $"Type: {node.Type}\n" +
+                $"Depth: {node.PropagationDepth}",
+                
+            LabelContentTemplate.Compact =>
+                Path.GetFileNameWithoutExtension(node.DocumentPath),
+                
+            LabelContentTemplate.Custom =>
+                EvaluateCustomExpression(node, template.Expression),
+                
+            _ => node.Name
+        };
+    }
+    
+    private static string GetImpactLevel(double score)
+    {
+        return score switch
+        {
+            >= 0.9 => "Critical",
+            >= 0.8 => "Very High",
+            >= 0.7 => "High",
+            >= 0.55 => "Medium",
+            >= 0.4 => "Moderate",
+            >= 0.25 => "Low",
+            >= 0.1 => "Very Low",
+            _ => "Minimal"
+        };
+    }
+    
+    private static string EvaluateCustomExpression(Node node, string expression)
+    {
+        // Simple template engine
+        return expression
+            .Replace("{node.name}", node.Name)
+            .Replace("{node.impact_score:0.00}", node.ImpactScore.ToString("0.00"))
+            .Replace("{node.impact_score:P0}", node.ImpactScore.ToString("P0"))
+            .Replace("{node.type}", node.Type)
+            .Replace("{node.depth}", node.PropagationDepth.ToString())
+            .Replace("{node.file_name}", Path.GetFileName(node.DocumentPath))
+            // Add FEM metadata
+            .Replace("{node.fem_metadata.inertia:0.00}", 
+                    node.FEMMetadata?.Inertia.ToString("0.00") ?? "N/A")
+            .Replace("{node.fem_metadata.amplification:0.00}", 
+                    node.FEMMetadata?.ChangeAmplification.ToString("0.00") ?? "N/A");
+    }
+}
 ```
 
 ### 1.2 Edge Representation
@@ -43,7 +345,171 @@ This document specifies the visual representation of FEM-based impact analysis r
 - Arrow at end of edge for directed graphs
 - Bidirectional arrows for two-way dependencies
 
-### 1.3 FEM Impact Color Mapping (Heat Map)
+### 1.4 Label Configuration UI Panel
+
+**User-facing configuration panel for complete label customization:**
+
+```
+┌──────────────────────────────────────────────────────────┐
+│ Label Configuration                            [Save] [X]│
+├──────────────────────────────────────────────────────────┤
+│                                                           │
+│ Content Template:                                         │
+│ ○ Simple      ● Detailed     ○ Compact     ○ Custom      │
+│                                                           │
+│ ┌─── Custom Expression ────────────────────────────┐     │
+│ │ {node.name} [{node.impact_score:P0}]            │     │
+│ │ Type: {node.type}                               │     │
+│ │                                                  │     │
+│ │ Available fields:                                │     │
+│ │  • {node.name} {node.type} {node.depth}         │     │
+│ │  • {node.impact_score:0.00} or :P0              │     │
+│ │  • {node.fem_metadata.inertia:0.00}             │     │
+│ │  • {node.file_name} {node.version}              │     │
+│ └──────────────────────────────────────────────────┘     │
+│                                                           │
+│ Display Settings:                                         │
+│ ☑ Show Impact Score     ☑ Show Node Type                 │
+│ ☐ Show FEM Metadata     ☐ Multi-line labels              │
+│                                                           │
+│ Position:  [Auto (smart) ▼]                              │
+│            □ Above  □ Below  □ Left  □ Right              │
+│            □ Inside large nodes  □ On hover only          │
+│                                                           │
+│ Size:      ○ Small  ● Medium  ○ Large  ○ Extra Large     │
+│                                                           │
+│ Dynamic Behavior:                                         │
+│ ☑ Auto-hide when zoomed out (threshold: [0.5    ])       │
+│ ☑ Avoid label overlap (smart positioning)                │
+│                                                           │
+│ Label Priority:  [Impact-based ▼]                        │
+│                  □ All  □ Impact  □ Centrality  □ Custom │
+│                                                           │
+│ Visual Style:                                             │
+│ ☑ Background box (opacity: [80%     ])                   │
+│ Font: [Segoe UI ▼]  Color: [⬛ Auto ] [🎨 Custom...]     │
+│                                                           │
+│ ┌─── Preview ───────────────────────────────────────┐    │
+│ │                                                    │    │
+│ │      ●  api/payment.md                             │    │
+│ │        Impact: 87% (High)                          │    │
+│ │        Type: API Specification                     │    │
+│ │        Depth: 1                                    │    │
+│ │                                                    │    │
+│ └────────────────────────────────────────────────────┘    │
+│                                                           │
+│ [Apply]  [Reset to Defaults]  [Load Preset...]           │
+└──────────────────────────────────────────────────────────┘
+```
+
+**Preset Configurations:**
+
+The tool includes several built-in presets that users can select:
+
+1. **Minimal** (for cluttered graphs)
+   ```
+   - Template: Compact
+   - Position: OnHover
+   - Size: Small
+   - Priority: Impact-based (top 20%)
+   ```
+
+2. **Standard** (default)
+   ```
+   - Template: Simple
+   - Position: Auto
+   - Size: Medium
+   - Priority: Impact-based (top 50%)
+   ```
+
+3. **Detailed** (for presentations)
+   ```
+   - Template: Detailed
+   - Position: Above
+   - Size: Large
+   - Priority: All
+   - Background: Yes
+   ```
+
+4. **Legal/Compliance**
+   ```
+   - Template: Custom
+   - Expression: "{node.legal_reference} - {node.impact_score:P0}"
+   - Size: Medium
+   - Shows: Document citations, impact percentages
+   ```
+
+5. **Technical**
+   ```
+   - Template: Custom
+   - Expression: "{node.file_name} (v{node.version})\n[{node.fem_metadata.inertia:0.00}]"
+   - Size: Small
+   - Shows: File names, versions, FEM inertia
+   ```
+
+**Saving/Loading Configurations:**
+
+```csharp
+public class LabelConfigurationManager
+{
+    private const string ConfigFilePath = "label_configs.json";
+    
+    // Save current configuration
+    public void SaveConfiguration(string name, NodeLabelConfiguration config)
+    {
+        var configs = LoadAllConfigurations();
+        configs[name] = config;
+        
+        File.WriteAllText(ConfigFilePath, 
+                         JsonSerializer.Serialize(configs, _jsonOptions));
+    }
+    
+    // Load saved configuration
+    public NodeLabelConfiguration LoadConfiguration(string name)
+    {
+        var configs = LoadAllConfigurations();
+        return configs.ContainsKey(name) 
+            ? configs[name] 
+            : GetDefaultConfiguration();
+    }
+    
+    // Get all saved configurations
+    public Dictionary<string, NodeLabelConfiguration> LoadAllConfigurations()
+    {
+        if (!File.Exists(ConfigFilePath))
+            return GetBuiltInPresets();
+        
+        var json = File.ReadAllText(ConfigFilePath);
+        return JsonSerializer.Deserialize<Dictionary<string, NodeLabelConfiguration>>(json);
+    }
+    
+    private Dictionary<string, NodeLabelConfiguration> GetBuiltInPresets()
+    {
+        return new Dictionary<string, NodeLabelConfiguration>
+        {
+            ["Minimal"] = new NodeLabelConfiguration
+            {
+                Template = LabelContentTemplate.Compact,
+                Position = LabelPosition.OnHover,
+                Size = LabelSize.Small,
+                Priority = LabelPriority.ImpactBased
+            },
+            ["Standard"] = GetDefaultConfiguration(),
+            ["Detailed"] = new NodeLabelConfiguration
+            {
+                Template = LabelContentTemplate.Detailed,
+                Position = LabelPosition.Above,
+                Size = LabelSize.Large,
+                Priority = LabelPriority.All,
+                BackgroundBox = true
+            }
+            // ... more presets
+        };
+    }
+}
+```
+
+### 1.5 FEM Impact Color Mapping (Heat Map)
 
 **Color Gradient Specification:**
 
@@ -441,7 +907,318 @@ float4 GetHeatMapColor(float impact)
 }
 ```
 
-### 5.4 3D Edge Rendering
+### 5.4 3D Node Labeling (Configurable & Dynamic)
+
+**Text Rendering in 3D Space:**
+
+Labels in 3D must always face the camera (billboard technique) and be readable from any viewing angle.
+
+**Label Configuration for 3D:**
+```csharp
+public class Node3DLabelConfiguration
+{
+    // Content (same as 2D)
+    public LabelContentTemplate Template { get; set; }
+    
+    // 3D-Specific Positioning
+    public Label3DPosition Position { get; set; } = Label3DPosition.Billboard;
+    public bool DepthFade { get; set; } = true;  // Fade far labels
+    public bool ScaleWithDistance { get; set; } = true;  // Maintain readable size
+    
+    // Occlusion Handling
+    public bool HideWhenOccluded { get; set; } = true;
+    public bool XRayMode { get; set; } = false;  // Show through objects
+    
+    // Dynamic Level of Detail
+    public Label3DLOD LODSettings { get; set; } = new Label3DLOD
+    {
+        NearDistance = 100,   // Show full label
+        MediumDistance = 300, // Show abbreviated
+        FarDistance = 600     // Show only icon/dot
+    };
+}
+
+public enum Label3DPosition
+{
+    Billboard,      // Always face camera (recommended)
+    Above,          // Floating above sphere
+    OnSphere,       // Rendered on sphere surface
+    Integrated      // Part of node geometry
+}
+```
+
+**Billboard Rendering (Recommended Approach):**
+
+Labels always face the camera using inverse view matrix:
+
+```csharp
+// C# code for billboard matrix calculation
+public Matrix4x4 CalculateBillboardMatrix(
+    Vector3 nodePosition, 
+    Vector3 cameraPosition, 
+    Vector3 cameraUp)
+{
+    // Calculate vectors for billboard orientation
+    Vector3 forward = Vector3.Normalize(cameraPosition - nodePosition);
+    Vector3 right = Vector3.Normalize(Vector3.Cross(cameraUp, forward));
+    Vector3 up = Vector3.Cross(forward, right);
+    
+    // Build billboard matrix
+    return new Matrix4x4(
+        right.X, right.Y, right.Z, 0,
+        up.X, up.Y, up.Z, 0,
+        forward.X, forward.Y, forward.Z, 0,
+        nodePosition.X, nodePosition.Y, nodePosition.Z, 1
+    );
+}
+```
+
+**HLSL Shader for 3D Labels:**
+```hlsl
+cbuffer CameraBuffer : register(b0)
+{
+    float4x4 ViewMatrix;
+    float4x4 ProjectionMatrix;
+    float3 CameraPosition;
+};
+
+struct VS_INPUT
+{
+    float3 Position : POSITION;     // Node position in world space
+    float2 TexCoord : TEXCOORD;     // Label texture coordinates
+    uint NodeID : TEXCOORD1;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position : SV_POSITION;
+    float2 TexCoord : TEXCOORD0;
+    float Distance : TEXCOORD1;     // Distance to camera
+    float ImpactScore : TEXCOORD2;
+};
+
+VS_OUTPUT main(VS_INPUT input)
+{
+    VS_OUTPUT output;
+    
+    // Calculate distance to camera for LOD
+    float distance = length(CameraPosition - input.Position);
+    output.Distance = distance;
+    
+    // Billboard calculation - extract camera right and up vectors
+    float3 cameraRight = float3(ViewMatrix._11, ViewMatrix._21, ViewMatrix._31);
+    float3 cameraUp = float3(ViewMatrix._12, ViewMatrix._22, ViewMatrix._32);
+    
+    // Offset label position above node (e.g., 40 units above sphere)
+    float3 labelPosition = input.Position + cameraUp * 40.0;
+    
+    // Apply billboard offset based on vertex position
+    float3 worldPosition = labelPosition 
+        + cameraRight * input.TexCoord.x * 100.0  // Width
+        + cameraUp * input.TexCoord.y * 30.0;     // Height
+    
+    // Transform to screen space
+    float4 viewPos = mul(float4(worldPosition, 1.0), ViewMatrix);
+    output.Position = mul(viewPos, ProjectionMatrix);
+    
+    output.TexCoord = input.TexCoord;
+    output.ImpactScore = GetNodeImpact(input.NodeID);
+    
+    return output;
+}
+```
+
+**Pixel Shader with Dynamic Fading:**
+```hlsl
+Texture2D LabelTexture : register(t0);
+SamplerState SamplerLinear : register(s0);
+
+struct PS_INPUT
+{
+    float4 Position : SV_POSITION;
+    float2 TexCoord : TEXCOORD0;
+    float Distance : TEXCOORD1;
+    float ImpactScore : TEXCOORD2;
+};
+
+float4 main(PS_INPUT input) : SV_TARGET
+{
+    // Sample label texture (pre-rendered text)
+    float4 labelColor = LabelTexture.Sample(SamplerLinear, input.TexCoord);
+    
+    // Distance-based LOD
+    float nearDist = 100.0;
+    float farDist = 600.0;
+    float fade = saturate((farDist - input.Distance) / (farDist - nearDist));
+    
+    // Higher priority for high-impact nodes
+    fade *= (0.5 + 0.5 * input.ImpactScore);
+    
+    labelColor.a *= fade;
+    
+    return labelColor;
+}
+```
+
+**Dynamic Label Content Based on Distance:**
+
+```csharp
+public string GetLabelText(Node node, float cameraDistance)
+{
+    if (cameraDistance < 100)
+    {
+        // Near: Full detail
+        return $"{node.DocumentName}\n" +
+               $"Impact: {node.ImpactScore:P0}\n" +
+               $"Type: {node.Type}\n" +
+               $"Depth: {node.PropagationDepth}";
+    }
+    else if (cameraDistance < 300)
+    {
+        // Medium: Abbreviated
+        return $"{node.ShortName}\n[{node.ImpactScore:0.00}]";
+    }
+    else if (cameraDistance < 600)
+    {
+        // Far: Minimal
+        return node.ShortName;
+    }
+    else
+    {
+        // Very far: No label, just icon/marker
+        return string.Empty;
+    }
+}
+```
+
+**Label Occlusion Handling:**
+
+Option 1: **Depth Testing** (hide labels behind nodes)
+```csharp
+// Render labels with depth test enabled
+rasterizerState.DepthTest = true;
+rasterizerState.DepthWrite = false;
+```
+
+Option 2: **X-Ray Mode** (show labels through objects with transparency)
+```csharp
+// Render labels with additive blending
+blendState.SourceBlend = Blend.SourceAlpha;
+blendState.DestinationBlend = Blend.One;
+blendState.BlendOperation = BlendOperation.Add;
+```
+
+Option 3: **Smart Culling** (CPU-based visibility check)
+```csharp
+public bool IsLabelVisible(Node node, Vector3 cameraPosition, List<Node> allNodes)
+{
+    Vector3 nodePos = node.Position;
+    Vector3 direction = Vector3.Normalize(nodePos - cameraPosition);
+    
+    // Ray-sphere intersection test with all other nodes
+    foreach (var otherNode in allNodes)
+    {
+        if (otherNode == node) continue;
+        
+        if (RaySphereIntersect(cameraPosition, direction, 
+                               otherNode.Position, otherNode.Radius))
+        {
+            // Check if occluding node is closer to camera
+            float distToOther = Vector3.Distance(cameraPosition, otherNode.Position);
+            float distToNode = Vector3.Distance(cameraPosition, nodePos);
+            
+            if (distToOther < distToNode)
+                return false;  // Occluded
+        }
+    }
+    
+    return true;  // Visible
+}
+```
+
+**Visual Examples of 3D Labels:**
+
+View 1: **Near Camera (< 100 units)**
+```
+        ╔══════════════════════╗
+        ║ api/payment.md       ║  ← Full detail
+        ║ Impact: 87% (High)   ║
+        ║ Type: API Spec       ║
+        ║ Depth: 1             ║
+        ╚══════════════════════╝
+              │
+              ●  (Sphere, Red/Orange)
+             ╱│╲
+```
+
+View 2: **Medium Distance (100-300 units)**
+```
+    ┌──────────────┐
+    │ payment.md   │  ← Abbreviated
+    │   [0.87]     │
+    └──────────────┘
+         │
+         ●
+```
+
+View 3: **Far Distance (300-600 units)**
+```
+    payment.md  ← Name only
+         ●
+```
+
+View 4: **Very Far (> 600 units)**
+```
+         ●  ← No label, just node
+```
+
+**Adaptive Label Density:**
+
+When many nodes are close together, intelligently reduce label count:
+
+```csharp
+public List<Node> SelectLabelsToDisplay(
+    List<Node> nodes, 
+    Vector3 cameraPosition, 
+    float screenWidth, 
+    float screenHeight)
+{
+    var projected = nodes
+        .Select(n => new {
+            Node = n,
+            ScreenPos = ProjectToScreen(n.Position, cameraPosition),
+            Priority = n.ImpactScore  // Higher impact = higher priority
+        })
+        .ToList();
+    
+    // Grid-based culling: divide screen into 10x10 grid
+    var grid = new Dictionary<(int x, int y), List<dynamic>>();
+    
+    foreach (var item in projected)
+    {
+        int gridX = (int)(item.ScreenPos.X / screenWidth * 10);
+        int gridY = (int)(item.ScreenPos.Y / screenHeight * 10);
+        var key = (gridX, gridY);
+        
+        if (!grid.ContainsKey(key))
+            grid[key] = new List<dynamic>();
+        
+        grid[key].Add(item);
+    }
+    
+    // Keep only highest priority node per grid cell
+    var result = new List<Node>();
+    foreach (var cell in grid.Values)
+    {
+        var topNode = cell.OrderByDescending(n => n.Priority).First();
+        result.Add(topNode.Node);
+    }
+    
+    return result;
+}
+```
+
+### 5.5 3D Edge Rendering
 
 **Cylinder Connections:**
 - **Shape:** Cylinder connecting two spheres
