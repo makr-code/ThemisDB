@@ -4,15 +4,15 @@
 FROM ubuntu:20.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install build tools and system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install build tools and system dependencies (apply available security updates first)
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     build-essential cmake ninja-build git curl zip unzip tar pkg-config \
     ca-certificates python3 perl nasm autoconf automake libtool aria2 linux-libc-dev \
     flex bison \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade to a recent CMake (>=3.25) required by Boost 1.86
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     wget gpg software-properties-common \
     && rm -rf /var/lib/apt/lists/* \
     && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor -o /usr/share/keyrings/kitware-archive-keyring.gpg \
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Ensure CMake is <4.0 for ports requiring legacy policy (<3.5), but >=3.25 for Boost
-RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends python3-pip \
     && pip3 install --no-cache-dir "cmake>=3.25,<4.0" \
     && cmake --version \
     && rm -rf /var/lib/apt/lists/*
@@ -32,8 +32,8 @@ ENV VCPKG_ROOT=/opt/vcpkg
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
     && cd ${VCPKG_ROOT} \
     && git checkout 2024.10.21 \
-    && ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics \
-    && ./vcpkg update \
+    && VCPKG_FORCE_SYSTEM_BINARIES=1 ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics \
+    && VCPKG_FORCE_SYSTEM_BINARIES=1 ./vcpkg update \
     && VCPKG_BASELINE=$(git rev-parse HEAD) \
     && echo "Using vcpkg baseline: $VCPKG_BASELINE"
 
@@ -123,7 +123,7 @@ RUN export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
 FROM ubuntu:20.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     ca-certificates curl libstdc++6 \
     && rm -rf /var/lib/apt/lists/*
 

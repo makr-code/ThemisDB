@@ -130,7 +130,8 @@ public:
         std::string password;              // For encrypted documents
     };
 
-    explicit OfficeProcessor(Config config = {});
+    OfficeProcessor();
+    explicit OfficeProcessor(Config config);
     ~OfficeProcessor() override = default;
 
     /**
@@ -222,8 +223,9 @@ private:
  * @param config Optional configuration
  * @return Unique pointer to OfficeProcessor
  */
+std::unique_ptr<IContentProcessor> createOfficeProcessor();
 std::unique_ptr<IContentProcessor> createOfficeProcessor(
-    OfficeProcessor::Config config = {}
+    OfficeProcessor::Config config
 );
 
 } // namespace content

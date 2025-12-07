@@ -46,6 +46,11 @@ constexpr uint32_t ZIP_SIGNATURE = 0x04034b50;  // PK\x03\x04
 // OfficeProcessor Implementation
 // ============================================================================
 
+OfficeProcessor::OfficeProcessor()
+    : OfficeProcessor(Config{})
+{
+}
+
 OfficeProcessor::OfficeProcessor(Config config)
     : config_(std::move(config))
 {
@@ -788,6 +793,10 @@ bool OfficeProcessor::isValidOOXML(const std::string& blob) {
 bool OfficeProcessor::isValidODF(const std::string& blob) {
     return blob.find("mimetype") != std::string::npos &&
            blob.find("application/vnd.oasis.opendocument") != std::string::npos;
+}
+
+std::unique_ptr<IContentProcessor> createOfficeProcessor() {
+    return std::make_unique<OfficeProcessor>(OfficeProcessor::Config{});
 }
 
 std::unique_ptr<IContentProcessor> createOfficeProcessor(OfficeProcessor::Config config) {

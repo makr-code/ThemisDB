@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <vector>
 #include <optional>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {

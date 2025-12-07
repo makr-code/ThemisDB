@@ -15,6 +15,9 @@
 namespace themis {
 namespace content {
 
+// Forward declaration for recursive coordinate parsing
+static void parseCoordinates(const json& coords, GeoExtractionData& data);
+
 GeoProcessor::GeoProcessor() = default;
 
 GeoProcessor::~GeoProcessor() {
@@ -331,7 +334,7 @@ GeoExtractionData GeoProcessor::parseGeoJSON(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-void parseCoordinates(const json& coords, GeoExtractionData& data) {
+static void parseCoordinates(const json& coords, GeoExtractionData& data) {
     if (coords.is_array()) {
         if (coords.size() >= 2 && coords[0].is_number() && coords[1].is_number()) {
             // [lon, lat] pair

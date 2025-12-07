@@ -16,6 +16,10 @@
 namespace themis {
 namespace content {
 
+// Forward declarations for internal helpers
+static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& mime_type, int& width, int& height);
+static std::string rgbToHex(uint8_t r, uint8_t g, uint8_t b);
+
 ImageProcessor::ImageProcessor() = default;
 
 ImageProcessor::~ImageProcessor() {
@@ -279,7 +283,7 @@ json ImageProcessor::getStatistics() const {
 
 // Private implementation methods
 
-void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& mime_type, int& width, int& height) {
+static void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& mime_type, int& width, int& height) {
     width = 0;
     height = 0;
     
@@ -319,7 +323,7 @@ void detectImageDimensions(const std::vector<uint8_t>& blob, const std::string& 
     }
 }
 
-std::string rgbToHex(uint8_t r, uint8_t g, uint8_t b) {
+static std::string rgbToHex(uint8_t r, uint8_t g, uint8_t b) {
     char hex[8];
     snprintf(hex, sizeof(hex), "#%02X%02X%02X", r, g, b);
     return std::string(hex);

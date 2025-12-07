@@ -38,6 +38,11 @@ namespace content {
 // PDFProcessor Implementation
 // ============================================================================
 
+PDFProcessor::PDFProcessor()
+    : PDFProcessor(Config{})
+{
+}
+
 PDFProcessor::PDFProcessor(Config config)
     : config_(std::move(config))
 {
@@ -442,6 +447,10 @@ std::string PDFProcessor::parsePDFDate(const std::string& pdf_date) {
     
     iso << "Z";
     return iso.str();
+}
+
+std::unique_ptr<IContentProcessor> createPDFProcessor() {
+    return std::make_unique<PDFProcessor>(PDFProcessor::Config{});
 }
 
 std::unique_ptr<IContentProcessor> createPDFProcessor(PDFProcessor::Config config) {

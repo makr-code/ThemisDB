@@ -77,7 +77,8 @@ public:
         std::string password;             // For encrypted PDFs
     };
 
-    explicit PDFProcessor(Config config = {});
+    PDFProcessor();
+    explicit PDFProcessor(Config config);
     ~PDFProcessor() override = default;
 
     /**
@@ -158,8 +159,9 @@ private:
  * @param config Optional configuration
  * @return Unique pointer to PDFProcessor
  */
+std::unique_ptr<IContentProcessor> createPDFProcessor();
 std::unique_ptr<IContentProcessor> createPDFProcessor(
-    PDFProcessor::Config config = {}
+    PDFProcessor::Config config
 );
 
 } // namespace content
