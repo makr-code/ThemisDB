@@ -80,6 +80,31 @@ public partial class App : Application
         services.AddSingleton<IMetadataBadgeService, MetadataBadgeService>();
         services.AddSingleton<ISmartSuggestionService, SmartSuggestionService>();
         services.AddSingleton<ISmartInputValidatorService, SmartInputValidatorService>();
+        
+        // Process Watch & Timeline Services
+        services.AddSingleton<IProcessWatchService, ProcessWatchService>();
+        services.AddSingleton<ITimelineAggregationService, TimelineAggregationService>();
+        services.AddSingleton<IGanttService, GanttService>();
+        
+        // Outbox Service
+        services.AddSingleton<IOutboxService, OutboxService>();
+        
+        // Phase 2 Services (Email, Scan, OCR, Search, Notifications, Forms)
+        services.AddSingleton<IEmailIntegrationService, EmailIntegrationService>();
+        services.AddSingleton<IScanService, ScanService>();
+        services.AddSingleton<IOCRService, OCRService>();
+        services.AddSingleton<IFullTextSearchService, FullTextSearchService>();
+        services.AddSingleton<IEnhancedNotificationService, EnhancedNotificationService>();
+        services.AddSingleton<IFormManagementService, FormManagementService>();
+        
+        // Email Threading Services
+        services.AddSingleton<IEmailHeaderService, EmailHeaderService>();
+        
+        // Seamless Integration Services (Messenger, Calendar, Tasks)
+        services.AddSingleton<IMessengerIntegrationService, MessengerIntegrationService>();
+        services.AddSingleton<ICalendarIntegrationService, CalendarIntegrationService>();
+        services.AddSingleton<IOutlookTaskService, OutlookTaskService>();
+        services.AddSingleton<ISeamlessIntegrationOrchestrator, SeamlessIntegrationOrchestrator>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
