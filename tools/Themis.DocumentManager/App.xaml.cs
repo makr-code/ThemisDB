@@ -27,7 +27,7 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        // Services
+        // Core Services
         services.AddSingleton<IThemisApiClient, ThemisApiClient>();
         services.AddSingleton<IDocumentService, DocumentService>();
         services.AddSingleton<ISearchService, SearchService>();
@@ -39,9 +39,40 @@ public partial class App : Application
         services.AddSingleton<IRevisionService, RevisionService>();
         services.AddSingleton<IOfficeIntegrationService, OfficeIntegrationService>();
         
-        // Administrative Structure Services (NEW)
+        // Administrative Structure Services
         services.AddSingleton<IProcessTimelineService, ProcessTimelineService>();
         services.AddSingleton<IAdministrativeStructureService, AdministrativeStructureService>();
+        
+        // Phase 1 VIS Features Services
+        services.AddSingleton<INotificationService, NotificationService>();
+        services.AddSingleton<IInboxService, InboxService>();
+        services.AddSingleton<IReminderService, ReminderService>();
+        services.AddSingleton<ICosigningService, CosigningService>();
+        services.AddSingleton<IProcessLogService, ProcessLogService>();
+        services.AddSingleton<IFilingPlanService, FilingPlanService>();
+        
+        // Geo Services (OSM Layer Support)
+        services.AddSingleton<IMapConfigurationService, MapConfigurationService>();
+        services.AddSingleton<IGeoLayerService, GeoLayerService>();
+        services.AddSingleton<IGeoFeatureService, GeoFeatureService>();
+        services.AddSingleton<IGeocodingService, GeocodingService>();
+        services.AddSingleton<IGeoDocumentService, GeoDocumentService>();
+        
+        // LLM Services (Native AI Support) - Interfaces only, implementations TBD
+        // services.AddSingleton<ILLMService, LLMService>();
+        // services.AddSingleton<IDocumentAnalysisService, DocumentAnalysisService>();
+        // services.AddSingleton<ISemanticSearchService, SemanticSearchService>();
+        // services.AddSingleton<IChatAssistantService, ChatAssistantService>();
+        // services.AddSingleton<IDocumentGenerationService, DocumentGenerationService>();
+        // services.AddSingleton<IDocumentComparisonService, DocumentComparisonService>();
+        // services.AddSingleton<IComplianceCheckService, ComplianceCheckService>();
+        // services.AddSingleton<ITranslationService, TranslationService>();
+        // services.AddSingleton<IAutoClassificationService, AutoClassificationService>();
+        // services.AddSingleton<IRedactionService, RedactionService>();
+        // services.AddSingleton<IQualityAssuranceService, QualityAssuranceService>();
+        // services.AddSingleton<ISmartRoutingService, SmartRoutingService>();
+        // services.AddSingleton<IKnowledgeBaseService, KnowledgeBaseService>();
+        // services.AddSingleton<IOCRService, OCRService>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
