@@ -1109,6 +1109,12 @@ if(THEMIS_BUILD_ADMIN_TOOLS)
     add_subdirectory(tools)
 endif()
 
+# Enterprise Plugins
+option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
+if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
+    add_subdirectory(plugins)
+endif()
+
 # Installation
 install(TARGETS themis_server themis_core
     RUNTIME DESTINATION bin

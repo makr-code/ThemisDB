@@ -48,7 +48,32 @@ public:
     // ========================================================================
     
     /**
+     * @brief Layer-Typ für Multi-Layer-Analyse
+     */
+    enum class LayerType {
+        DOCUMENT,       // Document/Data Layer
+        PROCESS,        // Business Process/Workflow Layer (BPMN)
+        API,            // API/Service Layer
+        DATABASE,       // Database/Schema Layer
+        UI,             // User Interface Layer
+        INFRASTRUCTURE, // Infrastructure/Deployment Layer
+        CUSTOM          // User-defined Layer
+    };
+    
+    /**
+     * @brief Layer-Metadaten für universelle Analyse
+     */
+    struct LayerMetadata {
+        LayerType layer_type;
+        std::string layer_name;         // e.g., "order_workflow", "payment_api"
+        double criticality = 0.5;       // 0.0-1.0
+        nlohmann::json layer_properties; // Layer-specific data
+    };
+    
+    /**
      * @brief Dokumentänderung (Input für Analyse)
+     * 
+     * Erweitert um Layer-Support für universelle Multi-Layer-Analyse
      */
     struct DocumentChange {
         std::string document_id;
@@ -59,10 +84,16 @@ public:
         std::string user_id;
         std::vector<std::string> affected_fields;
         double magnitude;               // Stärke der Änderung (0.0-1.0)
+        
+        // Multi-Layer Support
+        std::optional<LayerMetadata> layer_metadata; // Layer-Information
+        std::string source_layer;       // Layer where change originated
     };
     
     /**
      * @brief Impact auf einen Knoten
+     * 
+     * Erweitert um Layer-Informationen für Cross-Layer-Tracking
      */
     struct NodeImpact {
         std::string node_id;
@@ -72,10 +103,17 @@ public:
         int distance_from_source;
         double confidence;
         nlohmann::json impact_details;
+        
+        // Multi-Layer Support
+        std::string node_layer;         // Layer of this node
+        std::vector<std::string> crossed_layers; // Layers crossed to reach this node
+        bool is_cross_layer_impact = false;      // True if impact crossed layers
     };
     
     /**
      * @brief Gesamtergebnis der Impact-Analyse
+     * 
+     * Erweitert um Multi-Layer-Statistiken
      */
     struct ImpactAnalysisResult {
         std::string analysis_id;
@@ -87,6 +125,12 @@ public:
         int max_propagation_depth;
         std::chrono::milliseconds computation_time;
         nlohmann::json metadata;
+        
+        // Multi-Layer Statistics
+        std::map<std::string, int> affected_nodes_per_layer;  // Layer -> Count
+        std::map<std::string, double> max_impact_per_layer;   // Layer -> Max Impact
+        int cross_layer_transitions = 0;                      // Number of layer crosses
+        std::vector<std::pair<std::string, std::string>> layer_transition_paths; // From -> To
     };
     
     /**
@@ -111,12 +155,30 @@ public:
         const nlohmann::json& config
     ) = 0;
     
+    /**
+     * @brief Multi-Layer Cross-Impact Analysis
+     * 
+     * Analysiert Impact über mehrere Layer hinweg (z.B. Process -> API -> Database)
+     * 
+     * @param change Source change
+     * @param target_layers Layers to analyze (empty = all layers)
+     * @param config Configuration including layer-specific settings
+     * @return Impact analysis with cross-layer tracking
+     */
+    virtual ImpactAnalysisResult analyzeMultiLayerImpact(
+        const DocumentChange& change,
+        const std::vector<std::string>& target_layers,
+        const nlohmann::json& config
+    ) = 0;
+    
     // ========================================================================
     // FEM-Inspired Graph Propagation
     // ========================================================================
     
     /**
      * @brief FEM-Konfiguration für Graph-Propagierung
+     * 
+     * Erweitert um Layer-spezifische Dämpfungsfaktoren
      */
     struct FEMPropagationConfig {
         double damping_factor = 0.85;       // Dämpfung bei jedem Hop (ähnlich PageRank)
@@ -125,6 +187,11 @@ public:
         double convergence_threshold = 0.001;
         bool use_temporal_decay = true;     // Zeitabhängige Dämpfung
         double temporal_half_life_hours = 24.0;
+        
+        // Layer-Specific Damping Factors
+        std::map<std::string, double> layer_damping_factors; // Layer -> Damping
+        std::map<std::pair<std::string, std::string>, double> cross_layer_damping; // (FromLayer, ToLayer) -> Damping
+        bool enable_cross_layer_propagation = true;
     };
     
     /**
@@ -425,6 +492,20 @@ public:
     virtual PerformanceMetrics getPerformanceMetrics() const = 0;
     virtual void resetPerformanceMetrics() = 0;
 };
+
+// ============================================================================
+// Factory Function
+// ============================================================================
+
+/**
+ * @brief Create GPU Impact Analysis Plugin instance
+ * 
+ * Factory function to create a new instance of the GPU Impact Analysis Plugin.
+ * The plugin must be initialized with a configuration before use.
+ * 
+ * @return Pointer to new plugin instance (caller owns the memory)
+ */
+IGPUImpactAnalysisPlugin* createGPUImpactAnalysisPlugin();
 
 } // namespace enterprise
 } // namespace themis

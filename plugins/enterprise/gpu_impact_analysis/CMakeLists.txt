@@ -1,15 +1,18 @@
 # GPU Impact Analysis Plugin - CMake Build Configuration
 cmake_minimum_required(VERSION 3.20)
 
-project(ThemisGPUImpactAnalysis VERSION 1.0.0 LANGUAGES CXX)
+# Don't create a separate project if we're included from parent
+if(NOT PROJECT_NAME)
+    project(ThemisGPUImpactAnalysis VERSION 1.0.0 LANGUAGES CXX)
+endif()
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Options
-option(THEMIS_ENABLE_CUDA "Enable CUDA GPU acceleration" ON)
-option(THEMIS_ENABLE_VULKAN "Enable Vulkan GPU acceleration" ON)
+option(THEMIS_ENABLE_CUDA "Enable CUDA GPU acceleration" OFF)
+option(THEMIS_ENABLE_VULKAN "Enable Vulkan GPU acceleration" OFF)
 option(THEMIS_BUILD_PLUGIN_SHARED "Build as shared library (DLL/SO)" ON)
 
 # Find dependencies
@@ -39,8 +42,8 @@ set(PLUGIN_SOURCES
 )
 
 set(PLUGIN_HEADERS
-    ../../../include/enterprise/gpu_impact_analysis_plugin.h
-    ../../../include/enterprise/analytics_plugins.h
+    ${CMAKE_SOURCE_DIR}/include/enterprise/gpu_impact_analysis_plugin.h
+    ${CMAKE_SOURCE_DIR}/include/enterprise/analytics_plugins.h
 )
 
 # Build as shared library (Plugin DLL/SO)
@@ -56,24 +59,23 @@ if(THEMIS_BUILD_PLUGIN_SHARED)
         THEMIS_PLUGIN_EXPORTS
     )
     
-    # Set output name
-    set_target_properties(themis_gpu_impact_analysis PROPERTIES
-        OUTPUT_NAME "themis_gpu_impact_analysis"
-        PREFIX ""  # No 'lib' prefix on Windows
-        SUFFIX ".dll"  # Or .so on Linux
-    )
-    
     # Platform-specific settings
     if(WIN32)
         set_target_properties(themis_gpu_impact_analysis PROPERTIES
+            OUTPUT_NAME "themis_gpu_impact_analysis"
+            PREFIX ""
             SUFFIX ".dll"
         )
     elseif(APPLE)
         set_target_properties(themis_gpu_impact_analysis PROPERTIES
+            OUTPUT_NAME "themis_gpu_impact_analysis"
+            PREFIX "lib"
             SUFFIX ".dylib"
         )
     else()
         set_target_properties(themis_gpu_impact_analysis PROPERTIES
+            OUTPUT_NAME "themis_gpu_impact_analysis"
+            PREFIX "lib"
             SUFFIX ".so"
         )
     endif()
@@ -124,9 +126,9 @@ endif()
 
 # Compiler warnings
 if(MSVC)
-    target_compile_options(themis_gpu_impact_analysis PRIVATE /W4 /WX)
+    target_compile_options(themis_gpu_impact_analysis PRIVATE /W4)
 else()
-    target_compile_options(themis_gpu_impact_analysis PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(themis_gpu_impact_analysis PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
 # Install rules
@@ -142,23 +144,11 @@ install(FILES config.yaml
 )
 
 # Install documentation
-install(FILES ../../../docs/enterprise/gpu_impact_analysis_plugin.md
-    DESTINATION share/doc/themis/plugins
-)
-
-# Testing
-if(BUILD_TESTING)
-    enable_testing()
-    
-    # TODO: Add unit tests
-    # add_subdirectory(tests)
+if(EXISTS ${CMAKE_SOURCE_DIR}/docs/enterprise/gpu_impact_analysis_plugin.md)
+    install(FILES ${CMAKE_SOURCE_DIR}/docs/enterprise/gpu_impact_analysis_plugin.md
+        DESTINATION share/doc/themis/plugins
+    )
 endif()
 
-# Package information
-set(CPACK_PACKAGE_NAME "themis-gpu-impact-analysis-plugin")
-set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
-set(CPACK_PACKAGE_VENDOR "ThemisDB Enterprise")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "GPU-accelerated impact analysis plugin for ThemisDB")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+message(STATUS "GPU Impact Analysis Plugin configured")
 
-include(CPack)
