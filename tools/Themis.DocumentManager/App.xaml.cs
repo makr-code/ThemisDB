@@ -73,6 +73,13 @@ public partial class App : Application
         // services.AddSingleton<ISmartRoutingService, SmartRoutingService>();
         // services.AddSingleton<IKnowledgeBaseService, KnowledgeBaseService>();
         // services.AddSingleton<IOCRService, OCRService>();
+        
+        // Metadata Badge Services (Smart Input with Semantic Similarity)
+        services.AddSingleton<IBadgePatternService, BadgePatternService>();
+        services.AddSingleton<IAbbreviationService, AbbreviationService>();
+        services.AddSingleton<IMetadataBadgeService, MetadataBadgeService>();
+        services.AddSingleton<ISmartSuggestionService, SmartSuggestionService>();
+        services.AddSingleton<ISmartInputValidatorService, SmartInputValidatorService>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
