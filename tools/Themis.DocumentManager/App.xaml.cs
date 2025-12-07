@@ -38,6 +38,10 @@ public partial class App : Application
         services.AddSingleton<IGraphService, GraphService>();
         services.AddSingleton<IRevisionService, RevisionService>();
         services.AddSingleton<IOfficeIntegrationService, OfficeIntegrationService>();
+        
+        // Administrative Structure Services (NEW)
+        services.AddSingleton<IProcessTimelineService, ProcessTimelineService>();
+        services.AddSingleton<IAdministrativeStructureService, AdministrativeStructureService>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
