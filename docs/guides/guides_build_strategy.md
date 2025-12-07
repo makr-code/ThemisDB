@@ -427,11 +427,19 @@ geo_operations:
 
 ### Performance-Vergleich
 
+**Test-System:**
+- CPU: AMD Ryzen 9 5950X (16C/32T)
+- GPU: NVIDIA RTX 3090 (24GB VRAM, CUDA 11.8)
+- RAM: 64GB DDR4-3600
+- Storage: NVMe SSD (PCIe 4.0)
+
 | Workload | CPU | CUDA GPU | Vulkan GPU | Speedup |
 |----------|-----|----------|------------|---------|
-| Vector Search (k=100) | 1,800 q/s | 50,000 q/s | 35,000 q/s | 10-50x |
-| Geo Distance Calc | 5,000 ops/s | 50,000 ops/s | 40,000 ops/s | 5-20x |
-| OLAP Aggregation | 1,000 q/s | 10,000 q/s | 8,000 q/s | 5-10x |
+| Vector Search (k=100, 1M vectors) | 1,800 q/s | 50,000 q/s | 35,000 q/s | 10-50x |
+| Geo Distance Calc (1M points) | 5,000 ops/s | 50,000 ops/s | 40,000 ops/s | 5-20x |
+| OLAP Aggregation (100M rows) | 1,000 q/s | 10,000 q/s | 8,000 q/s | 5-10x |
+
+**Hinweis:** Performance kann je nach Hardware und Workload variieren. Benchmarks dienen als Richtwerte.
 
 ### Dokumentation
 

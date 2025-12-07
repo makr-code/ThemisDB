@@ -38,11 +38,11 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 ## Roadmap-Übersicht (Aktualisiert Dezember 2025)
 
 ```
-2025 Q4 (✅ ABGESCHLOSSEN)  2026 Q1 (🔧 Operations)  2026 Q2-Q3 (🚀 Optimization)  2026 Q4+ (🌟 Innovation)
+2025 (✅ ABGESCHLOSSEN)    2026 Q1 (🔧 Operations)  2026 Q2-Q3 (🚀 Optimization)  2026 Q4+ (🌟 Innovation)
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 │                             │                        │                          │
 │ ✅ VOLLSTÄNDIG              │ 🔧 Operations          │ 🚀 Optimization          │ 🌟 Innovation
-│   (100%)                    │                        │                          │
+│   (100%, Nov-Dez 2025)      │                        │                          │
 │                             │                        │                          │
 │ ✅ ACID Transactions        │ • SDK Publishing       │ • Query Optimizer        │ • Multi-DC Production
 │ ✅ Multi-Model (100%)       │ • Pen-Test             │ • GPU Performance        │ • K8s Operator Controller
@@ -60,7 +60,7 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 
 ---
 
-## ✅ Abgeschlossen: Q4 2025 (November-Dezember)
+## ✅ Abgeschlossen: 2025 (November-Dezember)
 
 ### Horizontale Skalierung (95% Complete)
 

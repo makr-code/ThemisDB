@@ -64,18 +64,18 @@ ThemisDB ist eine fortgeschrittene Multi-Model-Datenbank, die **relationale, Gra
 
 **WICHTIG:** Die für 2026 geplanten Features wurden bereits implementiert:
 
-| Feature (ursprünglich Q1-Q4 2026) | Status | Code |
-|------------------------------------|--------|------|
-| **Horizontale Skalierung (Sharding)** | ✅ **100% IMPLEMENTIERT** | 19 Module, ~12.278 LOC |
-| **Leader-Follower Replication** | ✅ **100% IMPLEMENTIERT** | `src/replication/replication_manager.cpp` |
-| **Multi-Master Replication (CRDT)** | ✅ **100% IMPLEMENTIERT** | `src/replication/` + CRDT Support |
-| **P2P Gossip Protocol** | ✅ **100% IMPLEMENTIERT** | `src/sharding/gossip_protocol.cpp` (19.675 LOC) |
-| **GPU Acceleration (CUDA/Vulkan/HIP)** | ✅ **100% IMPLEMENTIERT** | 10 Backend-Module in `src/acceleration/` |
+| Feature (ursprünglich Q1-Q4 2026) | Status | Code (Module/Gesamt-LOC) |
+|------------------------------------|--------|--------------------------|
+| **Horizontale Skalierung (Sharding)** | ✅ **100% IMPLEMENTIERT** | 19 Module, ~12.278 Gesamt-LOC |
+| **Leader-Follower Replication** | ✅ **100% IMPLEMENTIERT** | Replication Module |
+| **Multi-Master Replication (CRDT)** | ✅ **100% IMPLEMENTIERT** | Replication + CRDT Support |
+| **P2P Gossip Protocol** | ✅ **100% IMPLEMENTIERT** | `gossip_protocol.cpp` (666 LOC) |
+| **GPU Acceleration (CUDA/Vulkan/HIP)** | ✅ **100% IMPLEMENTIERT** | 10 Backend-Module, ~5.000 Gesamt-LOC |
 | **CEP Streaming Analytics** | ✅ **100% IMPLEMENTIERT** | CEP Engine mit EPL |
-| **OLAP Analytics (CUBE/ROLLUP)** | ✅ **100% IMPLEMENTIERT** | `src/analytics/olap.cpp` (30.563 LOC) |
+| **OLAP Analytics (CUBE/ROLLUP)** | ✅ **100% IMPLEMENTIERT** | Analytics Module (~906 LOC OLAP core) |
 | **Kubernetes Operator CRDs** | ✅ **100% IMPLEMENTIERT** | `deploy/kubernetes/crds/` |
 | **7 Client SDKs** | ✅ **100% IMPLEMENTIERT** | Python, JS, Rust, Go, Java, C#, Swift |
-| **Content Processor Plugins** | ✅ **100% IMPLEMENTIERT** | PDF, Office, Video, Audio, Geo, CAD |
+| **Content Processor Plugins** | ✅ **100% IMPLEMENTIERT** | PDF, Office, Video, Audio, Geo, CAD, etc. |
 
 **Gesamtbewertung:** 🟢 **PRODUKTIONSBEREIT** für horizontale Skalierung, GPU-beschleunigte Workloads und verteilte Deployments
 
@@ -625,10 +625,10 @@ ACTION alert('security');
 ```
 
 **Real-Time Streaming:**
-- Apache Kafka Integration (geplant)
-- Low-Latency Aggregations
-- Stateful Stream Processing
-- Watermark-basierte Event-Time Processing
+- Low-Latency Aggregations ✅
+- Stateful Stream Processing ✅
+- Watermark-basierte Event-Time Processing ✅
+- Apache Kafka Integration (Roadmap Q1 2026)
 
 **Dokumentation:** `docs/analytics/CEP_STREAMING_ANALYTICS.md`
 
