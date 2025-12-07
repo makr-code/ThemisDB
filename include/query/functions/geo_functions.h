@@ -84,11 +84,19 @@ inline double haversineDistance(double lon1, double lat1, double lon2, double la
     return EARTH_RADIUS_M * c;
 }
 
-// Euclidean distance
+// Euclidean distance (2D)
 inline double euclideanDistance(double x1, double y1, double x2, double y2) {
     double dx = x2 - x1;
     double dy = y2 - y1;
     return std::sqrt(dx * dx + dy * dy);
+}
+
+// Euclidean distance (3D)
+inline double euclideanDistance3D(double x1, double y1, double z1, double x2, double y2, double z2) {
+    double dx = x2 - x1;
+    double dy = y2 - y1;
+    double dz = z2 - z1;
+    return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
 // Extract point coordinates from GeoJSON
@@ -454,12 +462,20 @@ public:
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         
-        // Use haversine for geographic coordinates
-        if (geo_helpers::looksLikeDegrees(x1, y1) && geo_helpers::looksLikeDegrees(x2, y2)) {
+        // Check if both points have Z coordinates
+        bool has_z1 = args[0]["coordinates"].size() >= 3;
+        bool has_z2 = args[1]["coordinates"].size() >= 3;
+        bool use_3d = has_z1 && has_z2;
+        
+        // Use haversine for geographic coordinates (2D only)
+        if (!use_3d && geo_helpers::looksLikeDegrees(x1, y1) && geo_helpers::looksLikeDegrees(x2, y2)) {
             return geo_helpers::haversineDistance(x1, y1, x2, y2);
         }
         
-        // Euclidean for projected coordinates
+        // Euclidean for projected coordinates or 3D
+        if (use_3d) {
+            return geo_helpers::euclideanDistance3D(x1, y1, z1, x2, y2, z2);
+        }
         return geo_helpers::euclideanDistance(x1, y1, x2, y2);
     }
 };
@@ -704,9 +720,16 @@ public:
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         double maxDistance = args[2].get<double>();
         
+        // Check if both points have Z coordinates
+        bool has_z1 = args[0]["coordinates"].size() >= 3;
+        bool has_z2 = args[1]["coordinates"].size() >= 3;
+        bool use_3d = has_z1 && has_z2;
+        
         double distance;
-        if (geo_helpers::looksLikeDegrees(x1, y1) && geo_helpers::looksLikeDegrees(x2, y2)) {
+        if (!use_3d && geo_helpers::looksLikeDegrees(x1, y1) && geo_helpers::looksLikeDegrees(x2, y2)) {
             distance = geo_helpers::haversineDistance(x1, y1, x2, y2);
+        } else if (use_3d) {
+            distance = geo_helpers::euclideanDistance3D(x1, y1, z1, x2, y2, z2);
         } else {
             distance = geo_helpers::euclideanDistance(x1, y1, x2, y2);
         }
@@ -999,14 +1022,19 @@ public:
             return geom;
         }
         
-        // Calculate average of all coordinates
-        double sumX = 0.0, sumY = 0.0;
+        // Calculate average of all coordinates including Z if present
+        double sumX = 0.0, sumY = 0.0, sumZ = 0.0;
         size_t count = 0;
+        bool hasZ = false;
         
         auto addCoords = [&](const nlohmann::json& coordList) {
             for (const auto& coord : coordList) {
                 sumX += coord[0].get<double>();
                 sumY += coord[1].get<double>();
+                if (coord.size() >= 3) {
+                    sumZ += coord[2].get<double>();
+                    hasZ = true;
+                }
                 count++;
             }
         };
@@ -1023,7 +1051,11 @@ public:
         
         nlohmann::json centroid;
         centroid["type"] = "Point";
-        centroid["coordinates"] = {sumX / count, sumY / count};
+        if (hasZ) {
+            centroid["coordinates"] = {sumX / count, sumY / count, sumZ / count};
+        } else {
+            centroid["coordinates"] = {sumX / count, sumY / count};
+        }
         return centroid;
     }
 };
