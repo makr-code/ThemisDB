@@ -754,6 +754,7 @@ if(THEMIS_BUILD_TESTS)
         tests/geo/test_spatial_index.cpp
         tests/geo/test_aql_st_functions.cpp
         tests/geo/test_aql_st_queryengine.cpp
+        tests/geo/test_geo_3d_functions.cpp
         tests/test_geo_index_integration.cpp
         tests/test_aql_let_st.cpp
         tests/test_hybrid_queries.cpp

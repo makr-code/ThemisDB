@@ -214,9 +214,9 @@ TEST_F(Geo3DFunctionsTest, StCentroid3D) {
     EXPECT_TRUE(result["coordinates"].is_array());
     EXPECT_EQ(result["coordinates"].size(), 3);
     
-    // Centroid should be average: (0+2+4)/3 = 2, (0+2+0)/3 = 0.667, (0+10+20)/3 = 10
+    // Centroid should be average: (0+2+4)/3 = 2, (0+2+0)/3 = 0.666..., (0+10+20)/3 = 10
     EXPECT_NEAR(result["coordinates"][0].get<double>(), 2.0, 0.001);
-    EXPECT_NEAR(result["coordinates"][1].get<double>(), 0.667, 0.01);
+    EXPECT_NEAR(result["coordinates"][1].get<double>(), 0.666666, 0.001);
     EXPECT_NEAR(result["coordinates"][2].get<double>(), 10.0, 0.001);
 }
 
