@@ -21,20 +21,29 @@ param(
 Write-Host "=== THEMIS Build Script ===" -ForegroundColor Cyan
 Write-Host ""
 
-# Check if vcpkg is installed
+# Prüfe und setze VCPKG_ROOT automatisch, falls nicht gesetzt
 if (-not $env:VCPKG_ROOT) {
-    Write-Host "Error: VCPKG_ROOT environment variable not set!" -ForegroundColor Red
-    Write-Host "Please install vcpkg and set VCPKG_ROOT environment variable." -ForegroundColor Yellow
-    Write-Host ""
-    Write-Host "Quick setup:" -ForegroundColor Yellow
-    Write-Host "  git clone https://github.com/microsoft/vcpkg.git" -ForegroundColor Gray
-    Write-Host "  cd vcpkg" -ForegroundColor Gray
-    Write-Host "  .\bootstrap-vcpkg.bat" -ForegroundColor Gray
-    Write-Host "  `$env:VCPKG_ROOT = (Get-Location).Path" -ForegroundColor Gray
-    exit 1
+    $possiblePaths = @(
+        "C:\vcc\vcpkg",
+        "$HOME\vcpkg",
+        "C:\tools\vcpkg",
+        "D:\vcpkg"
+    )
+    $found = $false
+    foreach ($p in $possiblePaths) {
+        if (Test-Path "$p\scripts\buildsystems\vcpkg.cmake") {
+            $env:VCPKG_ROOT = $p
+            $found = $true
+            break
+        }
+    }
+    if (-not $found) {
+        Write-Host "Error: VCPKG_ROOT environment variable not set und kein vcpkg gefunden!" -ForegroundColor Red
+        Write-Host "Bitte vcpkg installieren und VCPKG_ROOT setzen." -ForegroundColor Yellow
+        exit 1
+    }
 }
-
-Write-Host "vcpkg found at: $env:VCPKG_ROOT" -ForegroundColor Green
+Write-Host "vcpkg gefunden unter: $env:VCPKG_ROOT" -ForegroundColor Green
 
 # Auto-detect generator and adapt default build dir
 if (-not $Generator) {
