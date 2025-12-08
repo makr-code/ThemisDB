@@ -112,10 +112,15 @@ public:
                 }
                 
                 case LosslessCompressionMethod::DELTA_VARINT: {
-                    // Convert to integers
+                    // Convert to integers with range validation
                     std::vector<int32_t> int_vec;
                     int_vec.reserve(vec.size());
                     for (float f : vec) {
+                        // Validate range to prevent overflow
+                        if (f < -2147483648.0f || f > 2147483647.0f) {
+                            THEMIS_WARN("Delta+VarInt: Value {} out of int32 range, skipping lossless compression", f);
+                            return std::nullopt;
+                        }
                         int_vec.push_back(static_cast<int32_t>(std::round(f)));
                     }
                     

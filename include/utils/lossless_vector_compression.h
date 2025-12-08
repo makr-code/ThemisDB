@@ -18,7 +18,9 @@
 #include <vector>
 #include <cstdint>
 #include <cmath>
+#include <cstring>
 #include <unordered_map>
+#include <unordered_set>
 #include <algorithm>
 
 namespace themis {

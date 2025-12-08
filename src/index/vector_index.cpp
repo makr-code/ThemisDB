@@ -300,6 +300,9 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	// NOTE: Scientific experiment - may be rolled back
 	// Priority: Lossless > SQ8 > Raw storage
 	auto losslessCompressed = experimental::VectorCompressionHelper::tryLosslessCompression(e, *v, db_);
+	if (!losslessCompressed.has_value()) {
+		THEMIS_DEBUG("VectorIndexManager: Lossless compression not applicable for pk={}, falling back", pk);
+	}
 	
 	// Decide on SQ8 quantization based on config in DB
 	// NOTE: This is the EXISTING implementation (preserved, not deleted)
