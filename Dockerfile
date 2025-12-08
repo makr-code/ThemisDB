@@ -74,24 +74,26 @@ RUN cd ${VCPKG_ROOT} \
     && VCPKG_BASELINE=$(git rev-parse HEAD) \
     && echo "{\"default-registry\":{\"kind\":\"builtin\",\"baseline\":\"$VCPKG_BASELINE\"}}" > /src/vcpkg-configuration.json
 
-# Install dependencies via vcpkg manifest mode
-# Disable compiler tracking and metrics for faster, more stable builds
+# Install dependencies via vcpkg manifest mode with local caching
+# Pre-built libs reduce build time significantly
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
 ENV VCPKG_USE_ARIA2=1
 ENV VCPKG_DOWNLOADER=aria2
-ENV VCPKG_MAX_CONCURRENCY=2
+ENV VCPKG_MAX_CONCURRENCY=4
 ENV VCPKG_INSTALLED_DIR=/src/vcpkg_installed
+# Local binary cache directory for faster multi-arch builds
+RUN mkdir -p /root/.cache/vcpkg/archives && chmod -R 755 /root/.cache/vcpkg
 
 RUN . /etc/profile.d/vcpkg.sh && \
-    echo "Installing dependencies for ${VCPKG_TRIPLET} (vcpkg --debug)..." && \
+    echo "Installing dependencies for ${VCPKG_TRIPLET} with local caching..." && \
     set -eux; \
     for i in 1 2 3; do \
-        ${VCPKG_ROOT}/vcpkg install --debug --triplet=${VCPKG_TRIPLET} && break || (echo "vcpkg install failed (attempt $i), retrying..."; sleep 10); \
+        ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} && break || (echo "vcpkg install failed (attempt $i), retrying..."; sleep 10); \
     done || ( \
         echo "vcpkg install failed after retries; dumping most recent logs"; \
-        RECENT_LOGS=$(find /opt/vcpkg/buildtrees -maxdepth 3 -type f -name "*.log" -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 80 | cut -d' ' -f2-); \
-        for f in $RECENT_LOGS; do echo "===== $f ====="; tail -n 300 "$f" || true; done; \
+        RECENT_LOGS=$(find /opt/vcpkg/buildtrees -maxdepth 3 -type f -name "*.log" -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 30 | cut -d' ' -f2-); \
+        for f in $RECENT_LOGS; do echo "===== $f ====="; tail -n 200 "$f" || true; done; \
         exit 1 \
     )
 
@@ -105,36 +107,22 @@ COPY src ./src
 # Build argument for QNAP compatibility (older CPUs without AVX)
 ARG QNAP_BUILD=OFF
 
-# Build ThemisDB
-RUN apt-get update && apt-get install -y ninja-build build-essential && \
-        echo "=== STEP 1: Packages installed ===" && \
-        export VCPKG_TRIPLET=${VCPKG_TRIPLET:-x64-linux} && \
-        echo "=== STEP 2: VCPKG_TRIPLET=${VCPKG_TRIPLET} ===" && \
-        echo "=== STEP 3: Listing vcpkg installed packages ===" && \
-        ls -lah /src/vcpkg_installed/${VCPKG_TRIPLET}/share 2>&1 | head -50 && \
-        echo "=== STEP 4: Starting CMake configure ===" && \
-        cmake -S . -B build -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
-    -DVCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \
-    -DVCPKG_MANIFEST_DIR=/src \
-    -DVCPKG_INSTALLED_DIR=/src/vcpkg_installed \
-    -DVCPKG_FEATURE_FLAGS=manifests,versions,binarycaching \
-    -DTHEMIS_BUILD_TESTS=OFF \
-    -DTHEMIS_BUILD_BENCHMARKS=OFF \
-    -DTHEMIS_ENABLE_TRACING=OFF \
-    -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
-    -DTHEMIS_STATIC_BUILD=OFF 2>&1 | tee /tmp/cmake_config.log || \
-        (echo "=== CMake configure FAILED ==="; \
-        echo "=== Last 100 lines of CMake output ==="; \
-        tail -100 /tmp/cmake_config.log; \
-        echo "=== CMakeError.log ==="; \
-        cat build/CMakeFiles/CMakeError.log 2>/dev/null || echo "Not found"; \
-        echo "=== CMakeCache.txt (first 200 lines) ==="; \
-        head -200 build/CMakeCache.txt 2>/dev/null || echo "Not found"; \
-        exit 1) && \
-        echo "=== STEP 5: CMake configure SUCCESS, starting build ===" && \
-        cmake --build build --target themis_server -j$(nproc)
+# Build ThemisDB with optimized triplet detection
+RUN . /etc/profile.d/vcpkg.sh && \
+    echo "=== Building for ${VCPKG_TRIPLET:-x64-linux} ===" && \
+    cmake -S . -B build -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+        -DVCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \
+        -DVCPKG_MANIFEST_DIR=/src \
+        -DVCPKG_INSTALLED_DIR=/src/vcpkg_installed \
+        -DVCPKG_FEATURE_FLAGS=manifests,versions \
+        -DTHEMIS_BUILD_TESTS=OFF \
+        -DTHEMIS_BUILD_BENCHMARKS=OFF \
+        -DTHEMIS_ENABLE_TRACING=OFF \
+        -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
+        -DTHEMIS_STATIC_BUILD=OFF 2>&1 | tee /tmp/cmake_config.log && \
+    cmake --build build --target themis_server -j$(nproc) 2>&1 | tee /tmp/cmake_build.log
 
 # Runtime stage - minimal Ubuntu image
 FROM ubuntu:22.04 AS runtime
