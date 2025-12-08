@@ -90,7 +90,7 @@ struct Status {
     bool ok;
     std::string message;
     
-    explicit Status(bool success = true, std::string msg = {}) 
+    Status(bool success, std::string msg = {}) 
         : ok(success), message(std::move(msg)) {}
     
     static Status OK() { return Status{true, ""}; }

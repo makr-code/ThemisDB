@@ -22,10 +22,8 @@ This module was previously located in the `document` module and has been moved t
 ```cpp
 #include "projects/DocumentManager/document_manager.h"
 
-using namespace themis::projects;
-
 // Create DocumentManager instance
-auto doc_manager = std::make_shared<DocumentManager>(
+auto doc_manager = std::make_shared<themis::projects::DocumentManager>(
     storage,
     vector_index,
     graph_index
@@ -37,7 +35,7 @@ auto result = doc_manager->uploadDocument(
     "text/plain",
     "example.txt",
     std::nullopt,  // text (optional)
-    json::object(),  // metadata
+    nlohmann::json::object(),  // metadata
     true  // store_blob
 );
 
