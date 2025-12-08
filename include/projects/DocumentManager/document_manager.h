@@ -84,6 +84,16 @@ struct UploadResult {
 };
 
 /**
+ * @brief Status result for operations
+ */
+struct Status {
+    bool ok = true;
+    std::string message;
+    static Status OK() { return {}; }
+    static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
+};
+
+/**
  * @brief Document Manager
  * 
  * Manages document upload, text extraction, chunking, embedding, and graph construction.
