@@ -1142,69 +1142,760 @@ Client-SDKs, Tools und Ausblick
 ### **TEIL III: KERN-KOMPONENTEN**
 
 #### **Kapitel 8: Storage Layer**
-- 8.1 RocksDB-Integration
-- 8.2 Column Families
-- 8.3 Compaction-Strategie
-- 8.4 Write-Ahead-Log (WAL)
-- 8.5 Block Cache und Memory Management
-- 8.6 Compression Strategy (L0-L5: LZ4, L6: ZSTD)
+
+**8.1 RocksDB-Integration: Architecture und Design**
+- RocksDB als Embedded Database
+  - Dong, S., et al. (2021). "RocksDB: Evolution of Development Priorities"
+  - Embedded vs. Client-Server Architecture
+  - Thread-Safety und Concurrent Access
+  - Memory-Mapped Files vs. Direct I/O
+- LSM-Tree Implementation Details
+  - Memtable (SkipList vs. HashLinkedList)
+  - Immutable Memtable Queue
+  - SSTable (Sorted String Table) Format
+  - Level Structure (L0-L6)
+- RocksDB API Design
+  - Put/Get/Delete Operations
+  - Batch Writes für Atomicity
+  - Iterators für Range Scans
+  - Snapshots für Consistent Reads
+- Performance Tuning Knobs
+  - Write Buffer Size
+  - Max Write Buffer Number
+  - Level0 File Num Compaction Trigger
+  - Target File Size Base
+
+**8.2 Column Families: Multi-Tenant Storage**
+- Column Family Concept
+  - Independent LSM Trees
+  - Separate Memtables und SSTables
+  - Isolated Compaction
+- ThemisDB CF Strategy
+  - CF für Entities (Default)
+  - CF für Secondary Indexes
+  - CF für Vector Indexes
+  - CF für Metadata
+- Vergleich mit Alternativen
+  - HBase: Column Families für Schema
+  - Cassandra: Column Families = Tables
+  - ScyllaDB: Per-Table Configuration
+  - ThemisDB: Logical Separation
+- CF Performance Implications
+  - Independent Write Buffers
+  - Compaction Isolation
+  - Read Amplification
+
+**8.3 Compaction-Strategie**
+- Compaction Goals
+  - Reduce Space Amplification
+  - Reduce Read Amplification
+  - Manage Write Amplification
+- Compaction Algorithms
+  - Leveled Compaction (Default)
+  - Universal Compaction
+  - FIFO Compaction
+  - Vergleich: Seltzer, M., et al. (1996). "File System Logging"
+- Leveled Compaction Deep Dive
+  - L0: Overlapping Files
+  - L1-L6: Non-Overlapping Files
+  - Size Ratio: 10x per Level
+  - Compaction Triggers
+- Write Amplification Analysis
+  - Formula: WA = (Data Written to Disk) / (Data Written by User)
+  - Typical WA: 10-30x für Leveled
+  - Optimization Techniques
+- Compaction Scheduling
+  - Background Threads
+  - Rate Limiting
+  - Priority-based Scheduling
+
+**8.4 Write-Ahead-Log (WAL)**
+- WAL Purpose
+  - Durability Guarantee
+  - Crash Recovery
+  - Point-in-Time Recovery
+- WAL Implementation
+  - Sequential Writes
+  - fsync() Policies
+  - WAL Recycling
+- WAL vs. Memtable
+  - WAL: Sequential Write
+  - Memtable: Random Access Structure
+  - Recovery: Replay WAL
+- Vergleich WAL Strategien
+  - PostgreSQL: WAL Archiving
+  - MySQL: Redo Log + Undo Log
+  - Oracle: Redo Logs
+  - ThemisDB/RocksDB: Simple WAL
+
+**8.5 Block Cache und Memory Management**
+- Block Cache Design
+  - LRU Cache Implementation
+  - Shard-based Locking
+  - Cache Key: File + Offset
+- Cache Policies
+  - LRU (Least Recently Used)
+  - LRU-K: O'Neil, E., et al. (1993). "The LRU-K Page Replacement Algorithm"
+  - Clock Algorithm
+  - LIRS: Jiang, S., Zhang, X. (2002). "LIRS: Low Inter-reference Recency Set"
+- Memory Budget
+  - Block Cache: 1GB Default
+  - Write Buffers: 256MB per CF
+  - Index/Filter Blocks
+  - Bloom Filters
+- Cache Hit Ratio
+  - Monitoring und Tuning
+  - Working Set Size
+  - Prefetching Strategies
+
+**8.6 Compression Strategy**
+- Compression Algorithms Comparison
+  - LZ4: Fast, Moderate Ratio
+  - Snappy: Google, Fast Decompression
+  - ZSTD: Facebook, Best Ratio
+  - Zlib: Standard, Slower
+- Per-Level Compression
+  - L0-L5: LZ4 (Speed Priority)
+  - L6 (Bottommost): ZSTD (Ratio Priority)
+  - Rationale: Frequent Access vs. Cold Data
+- Compression Effectiveness
+  - Compression Ratio Measurement
+  - Decompression Speed
+  - CPU vs. I/O Trade-off
+- Block-Level Compression
+  - 4KB-64KB Blocks
+  - Compression in SSTables
+  - Aligned Reads
+
+**8.7 Vergleichende Storage Engine Analyse**
+
+| Engine | Structure | Compaction | Read | Write |
+|--------|-----------|------------|------|-------|
+| RocksDB | LSM | Leveled | Good | Excellent |
+| LevelDB | LSM | Leveled | Good | Excellent |
+| WiredTiger | B-Tree | Reconciliation | Excellent | Good |
+| InnoDB | B-Tree | None | Excellent | Good |
+| LMDB | B-Tree | Copy-on-Write | Excellent | Good |
+
+**ThemisDB Rationale:**
+- LSM für Write-Heavy Workloads
+- Leveled Compaction für Read Performance
+- ZSTD Bottommost für Storage Efficiency
 
 **Referenzdokumente:**
 - `docs/storage/storage_rocksdb.md`
 - `docs/storage/storage_tuning.md`
+- `include/storage/storage_engine.hpp`
+- `src/storage/rocksdb_wrapper.cpp`
+
+**Vollständige Bibliographie (Kapitel 8):**
+
+[1] Dong, S., Callaghan, M., Galanis, L., et al. (2021). "RocksDB: Evolution of Development Priorities in a Key-Value Store Serving Large-scale Applications". ACM TOCS, 39(4).
+
+[2] O'Neil, P., Cheng, E., Gawlick, D., O'Neil, E. (1996). "The Log-Structured Merge-Tree (LSM-Tree)". Acta Informatica, 33(4), 351-385.
+
+[3] Seltzer, M., Bostic, K., McKusick, M., et al. (1996). "File System Logging versus Clustering: A Performance Comparison". USENIX Winter, 249-264.
+
+[4] O'Neil, E., O'Neil, P., Weikum, G. (1993). "The LRU-K Page Replacement Algorithm for Database Disk Buffering". ACM SIGMOD, 297-306.
+
+[5] Jiang, S., Zhang, X. (2002). "LIRS: An Efficient Low Inter-reference Recency Set Replacement Policy". ACM SIGMETRICS, 31-42.
+
+[6] Collet, Y. (2016). "Zstandard: Real-time data compression algorithm". RFC 8478.
 
 ---
 
 #### **Kapitel 9: Indexierung**
-- 9.1 Index-Architektur
-- 9.2 Secondary Indexes (Equality, Range, Composite)
-- 9.3 Fulltext-Indexierung
-- 9.4 Index-Persistierung
-- 9.5 Index Maintenance und Rebuilding
+
+**9.1 Index-Architektur: Multi-Model Index Design**
+- Index als Materialized View
+  - Query Performance Optimization
+  - Space vs. Speed Trade-off
+  - Staleness vs. Consistency
+- Index Types in ThemisDB
+  - Secondary Indexes (B-Tree-like)
+  - Full-Text Indexes (Inverted Index)
+  - Vector Indexes (HNSW)
+  - Graph Indexes (Adjacency Lists)
+  - Spatial Indexes (R-Tree)
+- Index Manager Design
+  - Pluggable Index Architecture
+  - Common Index Interface
+  - Index Registration
+  - Query Planner Integration
+- Vergleich Index Architekturen
+  - PostgreSQL: Extensible Index Framework (GiST, GIN, SP-GiST, BRIN)
+  - Hellerstein, J., et al. (1995). "Generalized Search Trees for Database Systems"
+  - MongoDB: Index Plugins
+  - Elasticsearch: Lucene-basiert
+  - ThemisDB: Multi-Model Unified
+
+**9.2 Secondary Indexes: Equality, Range, Composite**
+- Secondary Index Fundamentals
+  - Index Key → Primary Key Mapping
+  - Non-Unique Indexes
+  - Covering Indexes
+- B-Tree for Secondary Indexes
+  - Ordered Keys
+  - Range Scan Support
+  - Prefix Compression
+- Index Types
+  - **Equality Index**: Hash-based or B-Tree
+  - **Range Index**: B-Tree required
+  - **Composite Index**: Multiple Columns
+    - Column Order Matters
+    - Prefix Matching
+- Index Maintenance
+  - Insert: Update Index + Data
+  - Delete: Mark as Deleted
+  - Update: Delete + Insert
+- Index Selection Algorithm
+  - Cardinality Estimation
+  - Selectivity Calculation
+  - Cost Estimation
+
+**9.3 Fulltext-Indexierung**
+- Inverted Index Design
+  - Zobel, J., Moffat, A. (2006). "Inverted Files for Text Search Engines"
+  - Term → Document List Mapping
+  - Position Information (für Phrase Queries)
+  - Term Frequency (TF)
+- Text Processing Pipeline
+  - Tokenization (Whitespace, Unicode)
+  - Normalization (Lowercasing)
+  - Stemming (Porter, M. F. (1980). "An Algorithm for Suffix Stripping")
+  - Stop Words Removal
+- Ranking Algorithms
+  - TF-IDF: Salton, G., McGill, M. (1983). "Introduction to Modern Information Retrieval"
+  - BM25: Robertson, S., Zaragoza, H. (2009). "The Probabilistic Relevance Framework: BM25 and Beyond"
+  - Cosine Similarity
+- Vergleich Full-Text Engines
+  - Lucene/Elasticsearch: Industry Standard
+  - PostgreSQL Full-Text: Built-in
+  - Sphinx: Dedicated Search Engine
+  - ThemisDB: Lightweight, Embedded
+
+**9.4 Index-Persistierung**
+- Index Storage Strategies
+  - Separate Index Files
+  - Embedded in Data Files
+  - RocksDB Column Families für Indexes
+- Index Serialization
+  - Binary Format
+  - Compression
+  - Versioning
+- Index Loading
+  - Lazy Loading (On-Demand)
+  - Eager Loading (Startup)
+  - Memory-Mapped Indexes
+- Index Checkpointing
+  - Periodic Snapshots
+  - Incremental Updates
+  - Recovery from Crash
+
+**9.5 Index Maintenance und Rebuilding**
+- Online Index Building
+  - No Downtime
+  - Background Process
+  - Progress Tracking
+- Index Rebuild Triggers
+  - Schema Changes
+  - Corruption Detection
+  - Performance Degradation
+- Concurrent Index Creation
+  - Snapshot-based Building
+  - Merge with New Writes
+  - Atomic Swap
+- Index Statistics
+  - Cardinality
+  - Null Count
+  - Histogram (Distribution)
+  - Query Optimizer Usage
+
+**9.6 Vergleichende Index-Analyse**
+
+| System | Secondary | Full-Text | Vector | Spatial | Graph |
+|--------|-----------|-----------|--------|---------|-------|
+| PostgreSQL | B-Tree, Hash | GIN | pgvector | PostGIS | - |
+| MongoDB | B-Tree | Text Index | Atlas Vector | 2dsphere | - |
+| Elasticsearch | - | Inverted | Dense Vector | Geo | - |
+| Neo4j | - | Lucene | - | - | Native |
+| **ThemisDB** | B-Tree | Inverted | HNSW | R-Tree | Adjacency |
+
+**ThemisDB Unified Approach:**
+- All Index Types in One System
+- Consistent Interface
+- Cross-Model Queries
 
 **Referenzdokumente:**
 - `docs/index/index_overview.md`
 - `docs/index/index_secondary.md`
+- `include/index/index_manager.hpp`
+- `src/index/secondary_index.cpp`
+
+**Vollständige Bibliographie (Kapitel 9):**
+
+[1] Bayer, R., McCreight, E. (1972). "Organization and Maintenance of Large Ordered Indices". Acta Informatica, 1(3), 173-189.
+
+[2] Hellerstein, J., Naughton, J., Pfeffer, A. (1995). "Generalized Search Trees for Database Systems". VLDB, 562-573.
+
+[3] Zobel, J., Moffat, A. (2006). "Inverted Files for Text Search Engines". ACM Computing Surveys, 38(2), Article 6.
+
+[4] Porter, M. F. (1980). "An Algorithm for Suffix Stripping". Program, 14(3), 130-137.
+
+[5] Salton, G., McGill, M. J. (1983). "Introduction to Modern Information Retrieval". McGraw-Hill.
+
+[6] Robertson, S., Zaragoza, H. (2009). "The Probabilistic Relevance Framework: BM25 and Beyond". Foundations and Trends in Information Retrieval, 3(4), 333-389.
 
 ---
 
 #### **Kapitel 10: HTTP Server**
-- 10.1 Boost.Beast-Architektur
-- 10.2 REST API Design
-- 10.3 Request-Routing
-- 10.4 Error Handling
-- 10.5 Middleware-Pattern
+
+**10.1 Boost.Beast-Architektur**
+- Beast Design Philosophy
+  - Header-Only Library
+  - Based on Boost.Asio
+  - Zero-Copy I/O
+  - Extensible Parser
+- HTTP/1.1 Support
+  - RFC 7230-7235: HTTP/1.1 Specification
+  - Keep-Alive Connections
+  - Chunked Transfer Encoding
+  - Pipeline Support
+- Async I/O Model
+  - Event Loop (Reactor Pattern)
+  - Schmidt, D., et al. (2000). "Pattern-Oriented Software Architecture, Volume 2"
+  - Completion Handlers
+  - Strand for Thread Safety
+- Vergleich HTTP Libraries
+  - cpp-httplib: Simplicity
+  - Pistache: Modern C++
+  - Crow: Flask-like API
+  - Beast: Performance + Flexibility
+  - ThemisDB: Beast für Production-Grade
+
+**10.2 REST API Design**
+- RESTful Principles
+  - Fielding, R. T. (2000). "Architectural Styles and the Design of Network-based Software Architectures"
+  - Resource-Oriented
+  - Stateless Communication
+  - HTTP Verbs (GET, POST, PUT, DELETE, PATCH)
+- Resource Hierarchy
+  - `/entities/{table}:{key}` - Single Entity
+  - `/entities/{table}` - Collection
+  - `/query` - AQL Endpoint
+  - `/admin` - Administration
+- HTTP Method Semantics
+  - GET: Idempotent, Cacheable
+  - POST: Create, Non-Idempotent
+  - PUT: Update/Replace, Idempotent
+  - DELETE: Remove, Idempotent
+  - PATCH: Partial Update
+- Versioning Strategy
+  - URI Versioning: `/v1/entities`
+  - Header Versioning: `Accept: application/vnd.themisdb.v1+json`
+  - ThemisDB: URI Versioning für Simplicity
+
+**10.3 Request-Routing**
+- Routing Algorithms
+  - Trie-based Router
+  - Regex-based Router
+  - Path Template Matching
+- Route Registration
+  - Static Routes: `/health`, `/metrics`
+  - Parameterized Routes: `/entities/{table}:{key}`
+  - Wildcard Routes: `/files/*`
+- Handler Chain
+  - Middleware Pattern
+  - Pre-Processing (Auth, Logging)
+  - Main Handler
+  - Post-Processing (Metrics, Cleanup)
+- Performance Considerations
+  - Route Lookup: O(log N) or O(1)
+  - Handler Caching
+  - Connection Pooling
+
+**10.4 Error Handling**
+- HTTP Status Codes
+  - 2xx: Success
+  - 4xx: Client Error
+  - 5xx: Server Error
+  - Proper Status Code Selection
+- RFC 7807: Problem Details
+  - Structured Error Responses
+  - Machine-Readable Format
+  - Human-Readable Title/Detail
+- Error Response Format
+  ```json
+  {
+    "type": "https://docs.themisdb.com/errors#entity-not-found",
+    "title": "Entity Not Found",
+    "status": 404,
+    "detail": "Entity users:123 does not exist",
+    "instance": "/entities/users:123"
+  }
+  ```
+- Exception Handling Strategy
+  - Catch at Handler Level
+  - Log with Context
+  - Return Appropriate Status
+  - Never Leak Internal Details
+
+**10.5 Middleware-Pattern**
+- Middleware Chain
+  - Request Interception
+  - Response Modification
+  - Cross-Cutting Concerns
+- Common Middleware
+  - **Authentication**: JWT, API Keys
+  - **Authorization**: RBAC Checks
+  - **Logging**: Request/Response Logging
+  - **Metrics**: Prometheus Metrics
+  - **CORS**: Cross-Origin Resource Sharing
+  - **Rate Limiting**: Token Bucket
+- Middleware Ordering
+  - Logging (First)
+  - CORS
+  - Authentication
+  - Authorization
+  - Rate Limiting
+  - Handler
+  - Error Handling (Last)
+- Middleware Implementation
+  - Handler Wrapper Pattern
+  - Decorator Pattern (GoF)
+  - Functional Composition
+
+**10.6 Vergleichende Server-Architektur**
+
+| Server | Model | Concurrency | Performance | Language |
+|--------|-------|-------------|-------------|----------|
+| nginx | Event-Driven | epoll/kqueue | Excellent | C |
+| Node.js | Event-Driven | libuv | Good | JavaScript |
+| Go net/http | Goroutines | Go Scheduler | Good | Go |
+| Boost.Beast | Async I/O | Asio | Excellent | C++ |
+| **ThemisDB** | Async + TBB | Asio + TBB | Excellent | C++ |
+
+**ThemisDB Hybrid Approach:**
+- Async I/O für Network Efficiency
+- TBB für CPU-bound Tasks
+- Best of Both Worlds
 
 **Referenzdokumente:**
 - `docs/server/server_overview.md`
 - `docs/api/api_reference.md`
+- `include/server/http_server.hpp`
+- `src/server/request_handler.cpp`
+
+**Vollständige Bibliographie (Kapitel 10):**
+
+[1] Fielding, R. T. (2000). "Architectural Styles and the Design of Network-based Software Architectures". UC Irvine Dissertation.
+
+[2] Schmidt, D., Stal, M., Rohnert, H., Buschmann, F. (2000). "Pattern-Oriented Software Architecture, Volume 2: Patterns for Concurrent and Networked Objects". Wiley.
+
+[3] IETF (2014). "RFC 7230-7235: Hypertext Transfer Protocol (HTTP/1.1)".
+
+[4] IETF (2016). "RFC 7807: Problem Details for HTTP APIs".
+
+[5] Gamma, E., Helm, R., Johnson, R., Vlissides, J. (1994). "Design Patterns: Elements of Reusable Object-Oriented Software". Addison-Wesley.
 
 ---
 
 #### **Kapitel 11: Security**
-- 11.1 Authentication & Authorization (RBAC)
-- 11.2 Field-Level Encryption
-- 11.3 Key Management (VCC-PKI)
-- 11.4 TLS/SSL
-- 11.5 Audit Logging
+
+**11.1 Authentication & Authorization (RBAC)**
+- Authentication Mechanisms
+  - JWT (JSON Web Tokens): RFC 7519
+  - API Keys
+  - OAuth 2.0: RFC 6749
+  - mTLS (Mutual TLS)
+- JWT Implementation
+  - Header: Algorithm (HS256, RS256)
+  - Payload: Claims (user_id, roles, exp)
+  - Signature: HMAC or RSA
+  - Stateless Authentication
+- Role-Based Access Control (RBAC)
+  - Sandhu, R., et al. (1996). "Role-Based Access Control Models"
+  - Users → Roles → Permissions
+  - Principle of Least Privilege
+  - Role Hierarchies
+- Permission Model
+  - Resource: Table, Collection
+  - Action: READ, WRITE, DELETE, ADMIN
+  - Scope: Global, Database, Table, Document
+- Vergleich Authorization Models
+  - ACL (Access Control Lists): Fine-grained
+  - RBAC: Scalable, Manageable
+  - ABAC (Attribute-Based): Most Flexible
+  - ThemisDB: RBAC für Balance
+
+**11.2 Field-Level Encryption**
+- Encryption-at-Rest
+  - AES-256-GCM
+  - NIST SP 800-38D: Galois/Counter Mode
+  - Authenticated Encryption
+- Field-Level vs. Full-DB Encryption
+  - Field-Level: Selective, Query-Aware
+  - Full-DB: Transparent, All-or-Nothing
+  - ThemisDB: Field-Level für Flexibility
+- Encryption Implementation
+  - Encrypt on Write
+  - Decrypt on Read
+  - Encrypted Index Support (Limited)
+- Key Rotation
+  - Lazy Re-Encryption
+  - Background Re-Encryption
+  - Zero-Downtime Rotation
+- Performance Impact
+  - Encryption Overhead: ~10-20%
+  - AES-NI Hardware Acceleration
+  - Batch Operations Optimization
+
+**11.3 Key Management (VCC-PKI)**
+- Key Management Challenges
+  - Boneh, D., Shoup, V. (2020). "A Graduate Course in Applied Cryptography"
+  - Key Generation
+  - Key Distribution
+  - Key Rotation
+  - Key Revocation
+- VCC-PKI Design
+  - Virtual Cluster Coordinator PKI
+  - Hierarchical Key Structure
+  - Master Key → Data Encryption Keys (DEK)
+  - Key Derivation Function (KDF)
+- Key Storage
+  - Hardware Security Module (HSM)
+  - Cloud KMS (AWS KMS, GCP KMS)
+  - Vault (HashiCorp)
+  - Environment Variables (Development)
+- Key Rotation Strategy
+  - Automated Rotation Schedule
+  - Manual Emergency Rotation
+  - Gradual Re-Encryption
+  - Audit Trail
+
+**11.4 TLS/SSL**
+- Transport Layer Security
+  - TLS 1.3: RFC 8446
+  - Perfect Forward Secrecy (PFS)
+  - Certificate Validation
+- Certificate Management
+  - X.509 Certificates
+  - Let's Encrypt Integration
+  - Certificate Rotation
+  - CRL (Certificate Revocation List)
+- Cipher Suite Selection
+  - Recommended: TLS_AES_256_GCM_SHA384
+  - Avoid: Deprecated Ciphers (RC4, DES)
+  - OWASP Guidelines
+- mTLS (Mutual TLS)
+  - Client Certificate Authentication
+  - Strong Authentication
+  - Zero Trust Architecture
+
+**11.5 Audit Logging**
+- Audit Requirements
+  - Who (User/Role)
+  - What (Action)
+  - When (Timestamp)
+  - Where (Resource)
+  - How (Success/Failure)
+- Audit Log Format
+  - Structured Logging (JSON)
+  - Tamper-Evident (Hashing/Signing)
+  - Searchable
+  - Archivable
+- Compliance Requirements
+  - GDPR: Art. 30 (Records of Processing Activities)
+  - SOC 2: Logging and Monitoring
+  - ISO 27001: A.12.4 (Log Management)
+  - HIPAA: Audit Controls
+- Log Storage
+  - Separate Audit Database
+  - Write-Once Storage
+  - Long-Term Retention (7 years+)
+  - SIEM Integration (Splunk, ELK)
+
+**11.6 Vergleichende Security-Analyse**
+
+| System | Auth | Encryption | TLS | Audit |
+|--------|------|------------|-----|-------|
+| PostgreSQL | SCRAM-SHA-256 | pgcrypto | TLS 1.3 | pg_audit |
+| MongoDB | SCRAM-SHA-256 | Field-Level | TLS 1.3 | Audit Log |
+| CouchDB | Basic/Cookie | - | TLS | Log Files |
+| ArangoDB | JWT | Field-Level | TLS | Enterprise |
+| **ThemisDB** | JWT/mTLS | Field-Level (VCC-PKI) | TLS 1.3 | Structured |
+
+**ThemisDB Security Posture:**
+- Defense in Depth
+- Encryption Everywhere
+- Least Privilege
+- Audit Everything
 
 **Referenzdokumente:**
 - `docs/security/security_overview.md`
 - `docs/security/security_encryption_strategy.md`
 - `docs/security/security_key_management.md`
+- `include/security/encryption_manager.hpp`
+
+**Vollständige Bibliographie (Kapitel 11):**
+
+[1] Sandhu, R., Coyne, E., Feinstein, H., Youman, C. (1996). "Role-Based Access Control Models". IEEE Computer, 29(2), 38-47.
+
+[2] NIST (2007). "SP 800-38D: Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC".
+
+[3] Boneh, D., Shoup, V. (2020). "A Graduate Course in Applied Cryptography". Cambridge University Press.
+
+[4] IETF (2018). "RFC 8446: The Transport Layer Security (TLS) Protocol Version 1.3".
+
+[5] IETF (2015). "RFC 7519: JSON Web Token (JWT)".
+
+[6] IETF (2012). "RFC 6749: The OAuth 2.0 Authorization Framework".
 
 ---
 
 #### **Kapitel 12: Content Pipeline**
-- 12.1 Pipeline-Architektur
-- 12.2 Content Processors
-- 12.3 Text Extraction
-- 12.4 Entity Extraction
-- 12.5 Embedding Generation
+
+**12.1 Pipeline-Architektur**
+- Pipeline Pattern
+  - Gamma, E., et al. (1994). "Design Patterns" (Pipes and Filters)
+  - Data Flow Architecture
+  - Stage-based Processing
+  - Composable Components
+- Content Processing Workflow
+  - Input: Raw Documents (PDF, HTML, Text)
+  - Extraction: Text, Metadata, Entities
+  - Transformation: Normalization, Cleaning
+  - Enrichment: Embeddings, Tags
+  - Output: Structured Data + Indexes
+- Pipeline Stages
+  - **Ingestion**: File Upload, Stream Processing
+  - **Extraction**: Content Parsing
+  - **Analysis**: NLP, Entity Recognition
+  - **Indexing**: Full-Text, Vector
+  - **Storage**: Persist to Database
+- Parallelization Strategy
+  - Parallel Stages (TBB Task Groups)
+  - Batch Processing
+  - Stream Processing
+  - Backpressure Handling
+
+**12.2 Content Processors**
+- Processor Interface
+  - `process(Document) → Document`
+  - Chainable
+  - Stateless
+  - Error Handling
+- Built-in Processors
+  - **TextExtractor**: PDF, DOCX, HTML
+  - **TokenExtractor**: Tokenization
+  - **EntityExtractor**: NER (Named Entity Recognition)
+  - **EmbeddingGenerator**: Vector Embeddings
+  - **MetadataExtractor**: Author, Date, Language
+- Custom Processors
+  - Plugin Architecture
+  - Dynamic Loading
+  - Configuration via JSON/YAML
+- Processor Composition
+  - Sequential: P1 → P2 → P3
+  - Parallel: [P1, P2, P3] → Merge
+  - Conditional: if condition then P1 else P2
+
+**12.3 Text Extraction**
+- PDF Extraction
+  - PDFBox (Java), poppler (C++)
+  - Text Layer vs. OCR
+  - Layout Preservation
+- HTML Extraction
+  - Beautiful Soup Concept
+  - DOM Traversal
+  - Script/Style Removal
+  - Boilerplate Detection
+- Office Documents
+  - DOCX: XML-based
+  - XLSX: Spreadsheet Parsing
+  - PPTX: Slide Extraction
+- OCR (Optical Character Recognition)
+  - Tesseract Integration
+  - Smith, R. (2007). "An Overview of the Tesseract OCR Engine"
+  - Image Preprocessing
+  - Language Detection
+
+**12.4 Entity Extraction**
+- Named Entity Recognition (NER)
+  - Nadeau, D., Sekine, S. (2007). "A Survey of Named Entity Recognition and Classification"
+  - Person, Organization, Location
+  - Rule-Based vs. ML-Based
+- NER Algorithms
+  - CRF (Conditional Random Fields)
+  - BiLSTM-CRF
+  - Transformer-based (BERT)
+- Entity Linking
+  - Disambiguation
+  - Knowledge Base Linking
+  - Entity Resolution
+- Custom Entity Types
+  - Domain-Specific Entities
+  - Regex Patterns
+  - Dictionary-Based
+
+**12.5 Embedding Generation**
+- Word Embeddings
+  - Word2Vec: Mikolov, T., et al. (2013). "Efficient Estimation of Word Representations"
+  - GloVe: Pennington, J., et al. (2014). "GloVe: Global Vectors for Word Representation"
+  - FastText: Bojanowski, P., et al. (2017). "Enriching Word Vectors with Subword Information"
+- Sentence/Document Embeddings
+  - BERT: Devlin, J., et al. (2019). "BERT: Pre-training of Deep Bidirectional Transformers"
+  - Sentence-BERT: Reimers, N., Gurevych, I. (2019). "Sentence-BERT"
+  - Universal Sentence Encoder
+- Embedding Models Integration
+  - ONNX Runtime
+  - TensorFlow Lite
+  - PyTorch C++ Frontend
+  - Model Serving
+- Dimensionality
+  - 128, 256, 512, 768 dimensions
+  - Trade-off: Accuracy vs. Storage
+  - PCA/t-SNE for Reduction
+
+**12.6 Vergleichende Content Pipeline Analyse**
+
+| System | Text Extract | NER | Embeddings | Search |
+|--------|--------------|-----|------------|--------|
+| Elasticsearch | Tika | - | Dense Vector | Full-Text |
+| Vespa | Custom | - | Transformers | Hybrid |
+| Weaviate | - | - | Transformers | Vector-First |
+| Milvus | - | - | External | Vector-Only |
+| **ThemisDB** | Built-in | Optional | Pluggable | Multi-Model |
+
+**ThemisDB Flexibility:**
+- Built-in Basic Processors
+- Plugin für Advanced NLP
+- Bring-Your-Own Embeddings
+- Unified Storage
 
 **Referenzdokumente:**
 - `docs/architecture/architecture_content_pipeline.md`
 - `docs/content/content_overview.md`
+- `include/content/content_processor.hpp`
+- `src/content/text_extractor.cpp`
+
+**Vollständige Bibliographie (Kapitel 12):**
+
+[1] Gamma, E., Helm, R., Johnson, R., Vlissides, J. (1994). "Design Patterns: Elements of Reusable Object-Oriented Software". Addison-Wesley.
+
+[2] Smith, R. (2007). "An Overview of the Tesseract OCR Engine". Proceedings of the Ninth International Conference on Document Analysis and Recognition, 629-633.
+
+[3] Nadeau, D., Sekine, S. (2007). "A Survey of Named Entity Recognition and Classification". Lingvisticae Investigationes, 30(1), 3-26.
+
+[4] Mikolov, T., Chen, K., Corrado, G., Dean, J. (2013). "Efficient Estimation of Word Representations in Vector Space". ICLR.
+
+[5] Pennington, J., Socher, R., Manning, C. (2014). "GloVe: Global Vectors for Word Representation". EMNLP, 1532-1543.
+
+[6] Bojanowski, P., Grave, E., Joulin, A., Mikolov, T. (2017). "Enriching Word Vectors with Subword Information". TACL, 5, 135-146.
+
+[7] Devlin, J., Chang, M., Lee, K., Toutanova, K. (2019). "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding". NAACL, 4171-4186.
+
+[8] Reimers, N., Gurevych, I. (2019). "Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks". EMNLP-IJCNLP, 3982-3992.
 
 ---
 
