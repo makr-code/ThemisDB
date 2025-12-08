@@ -445,6 +445,142 @@ Die Implementierung finden Sie in:
 
 ---
 
+### 6.5 Akademische Zitationen
+
+**PFLICHT:** Alle Konzepte, Algorithmen, Design-Patterns und Benchmarks müssen zitiert werden.
+
+#### Zitationsstil: IEEE/ACM Format
+
+**Journal Paper:**
+```
+[1] Nachname, V. (Jahr). "Titel des Papers". Journal Name, Band(Ausgabe), Seiten.
+
+Beispiel:
+[1] O'Neil, P., Cheng, E., Gawlick, D., O'Neil, E. (1996). "The Log-Structured Merge-Tree (LSM-Tree)". Acta Informatica, 33(4), 351-385.
+```
+
+**Conference Paper:**
+```
+[2] Nachname, V., Nachname, N. (Jahr). "Titel". Conference Acronym, Seiten.
+
+Beispiel:
+[2] Berenson, H., Bernstein, P., Gray, J., et al. (1995). "A Critique of ANSI SQL Isolation Levels". ACM SIGMOD, 24(2), 1-10.
+```
+
+**Buch:**
+```
+[3] Nachname, V. (Jahr). "Buchtitel". Verlag.
+
+Beispiel:
+[3] Stroustrup, B. (2013). "The C++ Programming Language, 4th Edition". Addison-Wesley Professional.
+```
+
+**Technical Report / Whitepaper:**
+```
+[4] Organization (Jahr). "Titel". Technical Report Nummer.
+
+Beispiel:
+[4] Facebook Engineering (2021). "RocksDB: Evolution of Development Priorities in a Key-Value Store". Facebook Tech Report.
+```
+
+**Online-Ressource:**
+```
+[5] Autor/Organization (Jahr). "Titel". URL (Zugegriffen: YYYY-MM-DD)
+
+Beispiel:
+[5] TechEmpower (2023). "Web Framework Benchmarks - Round 22". https://www.techempower.com/benchmarks/ (Zugegriffen: 2025-12-08)
+```
+
+#### Im Text zitieren
+
+**Inline-Zitation:**
+```markdown
+LSM-Trees wurden erstmals von O'Neil et al. [1] beschrieben und optimieren Schreiboperationen durch...
+```
+
+**Mehrfach-Zitation:**
+```markdown
+Verschiedene MVCC-Implementierungen wurden untersucht [2, 3, 5], wobei PostgreSQL [2] den Vacuum-basierten Ansatz nutzt.
+```
+
+**Indirekte Zitation:**
+```markdown
+Wie in der Literatur beschrieben [1-4], bieten LSM-Trees...
+```
+
+#### Wann zitieren?
+
+**IMMER zitieren bei:**
+- ✅ Algorithmen (z.B. "HNSW-Algorithmus [7]")
+- ✅ Theoretischen Konzepten (z.B. "CAP-Theorem [12]")
+- ✅ Performance-Behauptungen (z.B. "RocksDB erreicht 500K ops/sec [4]")
+- ✅ Design-Patterns (z.B. "MVCC nach Gray & Reuter [3]")
+- ✅ Vergleichen (z.B. "Im Vergleich zu PostgreSQL [2]...")
+- ✅ Historical Context (z.B. "Seit Brewer's PODC Keynote [12]...")
+
+**NICHT zitieren:**
+- ❌ Allgemein bekannte Fakten ("Datenbanken speichern Daten")
+- ❌ Eigene Implementierungsdetails (Code im Repository)
+- ❌ Triviale Definitionen
+
+#### Bibliographie am Kapitelende
+
+**Format:**
+```markdown
+## Vollständige Bibliographie (Kapitel X)
+
+**Foundational Papers:**
+[1] O'Neil, P., et al. (1996). "The Log-Structured Merge-Tree (LSM-Tree)". Acta Informatica, 33(4), 351-385.
+
+**Books:**
+[2] Gray, J., Reuter, A. (1992). "Transaction Processing: Concepts and Techniques". Morgan Kaufmann.
+
+**Comparative Studies:**
+[3] Abadi, D. (2012). "Consistency Tradeoffs in Modern Distributed Database System Design". IEEE Computer, 45(2), 37-42.
+
+**Implementation Reports:**
+[4] Dong, S., et al. (2021). "RocksDB: Evolution of Development Priorities". ACM TOCS, 39(4).
+
+**Online Resources:**
+[5] TechEmpower (2023). "Web Framework Benchmarks". https://... (Zugegriffen: 2025-12-08)
+```
+
+#### Plagiarism vermeiden
+
+**❌ Plagiat:**
+```markdown
+LSM-Trees optimize write operations by buffering writes in memory and then flushing them to disk in sorted batches.
+```
+
+**✅ Korrekt (Paraphrase + Zitation):**
+```markdown
+LSM-Trees optimieren Schreiboperationen, indem Writes zunächst im Speicher gepuffert und dann in sortierten Batches auf Disk geschrieben werden [1].
+```
+
+**✅ Korrekt (Direktes Zitat):**
+```markdown
+Wie O'Neil et al. [1] beschreiben: "The LSM-tree uses an algorithm that defers and batches index changes, cascading the changes from a memory-based component through one or more disk components."
+```
+
+#### Zitations-Management
+
+**Tools:**
+- BibTeX für LaTeX (falls PDF-Generation)
+- Zotero für Referenz-Management
+- Google Scholar für Zitation-Suche
+- Semantic Scholar für Paper-Discovery
+
+**Datei-Organisation:**
+```
+book/
+├── references/
+│   ├── bibliography.bib        # Alle Referenzen
+│   ├── chapter_01.bib         # Kapitel-spezifisch
+│   └── chapter_02.bib
+```
+
+---
+
 ## 7. Technische Präzision
 
 ### 7.1 Zahlen und Einheiten
@@ -580,6 +716,10 @@ RocksDB v8.6.7
 - [ ] Alle Platzhalter `[...]` ersetzt
 - [ ] Code-Beispiele kompilieren
 - [ ] Code-Beispiele getestet
+- [ ] **ALLE Quellen korrekt zitiert (IEEE/ACM Style)**
+- [ ] **Akademische Referenzen am Kapitelende aufgelistet**
+- [ ] **Vergleichende Analysen durchgeführt**
+- [ ] **Design-Entscheidungen begründet**
 - [ ] Rechtschreibprüfung durchgeführt
 - [ ] Links validiert (intern und extern)
 - [ ] Diagramme erstellt/eingefügt
