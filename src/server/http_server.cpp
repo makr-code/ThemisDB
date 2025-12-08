@@ -748,6 +748,12 @@ void HttpServer::start() {
         });
     }
 
+#ifdef THEMIS_VERSION_STRING
+    THEMIS_INFO("🎉 ThemisDB {} is now READY for operations", THEMIS_VERSION_STRING);
+#else
+    THEMIS_INFO("🎉 ThemisDB 1.0.1 is now READY for operations");
+#endif
+
     THEMIS_INFO("HTTP Server started successfully");
 }
 
@@ -2457,7 +2463,11 @@ http::response<http::string_body> HttpServer::handleAuditExportCsv(
 
         auto csv = audit_api_->exportAuditLogsCsv(f);
         http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::server, "THEMIS/0.1.0");
+#ifdef THEMIS_VERSION_STRING
+        res.set(http::field::server, std::string("THEMIS/") + THEMIS_VERSION_STRING);
+#else
+        res.set(http::field::server, "THEMIS/1.0.1");
+#endif
         res.set(http::field::content_type, "text/csv");
         res.set(http::field::content_disposition, "attachment; filename=themis_audit_export.csv");
         res.keep_alive(req.keep_alive());
