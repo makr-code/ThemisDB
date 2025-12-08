@@ -2544,11 +2544,106 @@ Client-SDKs, Tools und Ausblick
 ### **TEIL V: ENTERPRISE-FEATURES**
 
 #### **Kapitel 18: Sharding und Horizontale Skalierung**
-- 18.1 Sharding-Strategie
-- 18.2 VCC-URN Consistent Hashing
-- 18.3 Shard-Koordination
-- 18.4 P2P Gossip Protocol
-- 18.5 Auto-Rebalancing
+
+**18.1 Sharding-Strategien: Hash, Range, Directory-based**
+- Sharding Fundamentals
+  - Horizontal vs. Vertical Partitioning
+  - Partition Key Selection
+  - Data Distribution Strategies
+- Hash-based Sharding
+  - Simple Modulo Hashing
+  - Problems: Adding/Removing Nodes
+  - Minimal Reshuffling Requirement
+- Range-based Sharding
+  - Lexicographic Ordering
+  - Hot Spots and Load Imbalance
+  - Used by: MongoDB, HBase
+- Directory-based Sharding
+  - Lookup Table Approach
+  - Flexibility vs. Single Point of Failure
+  - Used by: Google Spanner
+
+**18.2 Consistent Hashing: Karger et al. (1997)**
+- Algorithm Design
+  - Karger, D., Lehman, E., et al. (1997). "Consistent Hashing and Random Trees: Distributed Caching Protocols for Relieving Hot Spots on the World Wide Web". ACM STOC.
+  - Hash Ring Concept
+  - Virtual Nodes (VNodes)
+  - O(log N) Lookup with Binary Search
+- Load Balancing
+  - Uniform Distribution
+  - Virtual Node Count Optimization
+  - Hotspot Avoidance
+- Rebalancing
+  - Minimal Data Movement: K/N keys
+  - Only Affected Ranges Move
+  - Amazon Dynamo Approach (DeCandia et al. 2007)
+- ThemisDB VCC-URN Design
+  - VCC-based Consistent Hashing
+  - Integration with Entity Keys
+  - Performance Characteristics
+
+**18.3 Data Distribution und Query Routing**
+- Partition Assignment
+  - Shard Map Management
+  - Metadata Service Design
+  - Range to Shard Mapping
+- Query Routing Strategies
+  - Scatter-Gather Pattern
+  - Partition Pruning
+  - Cross-Shard Queries
+  - Coordinator Node Design
+- Distributed Joins
+  - Broadcast Join
+  - Repartition Join
+  - Co-located Join
+  - Performance Trade-offs
+- P2P Gossip Protocol
+  - Cassandra-Style Gossip (Lakshman & Malik 2010)
+  - Failure Detection
+  - Cluster Membership
+  - Eventual Consistency
+
+**18.4 Rebalancing: Auto vs. Manual**
+- Rebalancing Triggers
+  - Load Imbalance Detection
+  - Capacity Thresholds
+  - Node Addition/Removal
+- Online Rebalancing
+  - Live Migration Protocols
+  - Zero-Downtime Strategies
+  - Throttling to Avoid Impact
+- Manual vs. Automatic
+  - MongoDB: Manual Chunk Migration
+  - Cassandra: Automatic via VNodes
+  - CockroachDB: Automatic Range Rebalancing
+  - ThemisDB: Auto-Rebalancing
+
+**18.5 Vergleichende Sharding-Analyse**
+
+| System | Strategie | Rebalancing | Query Routing | Consistency |
+|--------|----------|-------------|---------------|-------------|
+| **MongoDB** | Range/Hash | Auto (but slow) | mongos Router | Eventual/Strong |
+| **Cassandra** | Consistent Hash | Auto (vnodes) | Any Node (gossip) | Tunable (ONE, QUORUM, ALL) |
+| **Elasticsearch** | Hash | Auto | Coordinating Node | Eventual |
+| **CockroachDB** | Range (Raft groups) | Auto | Gateway | Strong (Serializable) |
+| **ThemisDB** | Consistent Hash (VCC-URN) | Auto | Coordinator | Strong (SI) |
+
+**Begründung ThemisDB-Design:**
+- Consistent Hashing: Minimale Rebalancing-Kosten
+- VCC-URN Integration: Unified Key Space
+- Auto-Rebalancing: Operational Simplicity
+- Strong Consistency: ACID-Garantien
+
+**18.6 Akademische Referenzen**
+
+*Foundational:*
+[1] Karger, D., Lehman, E., et al. (1997). "Consistent Hashing and Random Trees". ACM STOC, 654-663.
+
+*Comparative Systems:*
+[2] DeCandia, G., et al. (2007). "Dynamo: Amazon's Highly Available Key-Value Store". SOSP, 205-220.
+[3] Lakshman, A., Malik, P. (2010). "Cassandra: A Decentralized Structured Storage System". ACM SIGOPS, 35-40.
+[4] Corbett, J. C., et al. (2013). "Spanner: Google's Globally Distributed Database". ACM TOCS, 31(3), 8.
+[5] Taft, R., et al. (2020). "CockroachDB: The Resilient Geo-Distributed SQL Database". ACM SIGMOD, 1493-1509.
 
 **Referenzdokumente:**
 - `docs/sharding/sharding_overview.md`
@@ -2558,11 +2653,115 @@ Client-SDKs, Tools und Ausblick
 ---
 
 #### **Kapitel 19: Replication**
-- 19.1 Leader-Follower Replication
-- 19.2 Multi-Master Replication
-- 19.3 CRDT-basierte Konfliktauflösung
-- 19.4 Vector Clocks und Hybrid Logical Clocks
-- 19.5 RAID-like Redundancy (MIRROR, STRIPE, PARITY)
+
+**19.1 Replication Topologies**
+- Primary-Secondary Replication
+  - Single Leader Architecture
+  - Read Scalability
+  - Write Bottleneck
+  - Used by: PostgreSQL, MySQL, MongoDB
+- Multi-Primary Replication
+  - Write Scalability
+  - Conflict Resolution Required
+  - Used by: Cassandra (Multi-DC), CouchDB
+- Chain Replication
+  - van Renesse, R., Schneider, F. B. (2004). "Chain Replication for Supporting High Throughput and Availability". OSDI.
+  - Strong Consistency
+  - Head/Tail Nodes
+  - Used by: Microsoft Azure Storage, CRAQ
+
+**19.2 Consensus Algorithms: Raft und Paxos**
+- Paxos (Lamport 1998)
+  - Lamport, L. (1998). "The Part-Time Parliament". ACM TOCS, 16(2), 133-169.
+  - Multi-Paxos for Log Replication
+  - Complex to Implement
+  - Used by: Google Chubby, Spanner
+- Raft (Ongaro & Ousterhout 2014)
+  - Ongaro, D., Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm". USENIX ATC.
+  - Leader Election
+  - Log Replication
+  - Safety Properties
+  - Easier to Understand than Paxos
+  - Used by: etcd, Consul, CockroachDB, MongoDB (Raft-like)
+- ThemisDB Approach
+  - Raft for Metadata Consensus
+  - Leader-Based Log Replication
+  - Strong Consistency Guarantees
+
+**19.3 Conflict Resolution: Vector Clocks und CRDTs**
+- Vector Clocks
+  - Fidge, C. (1988). "Timestamps in Message-Passing Systems That Preserve the Partial Ordering". Australian Computer Science Conference.
+  - Causal Ordering
+  - Conflict Detection
+  - Used by: Dynamo, Riak, Voldemort
+- Hybrid Logical Clocks (HLC)
+  - Kulkarni, S., et al. (2014). "Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases". OPODIS.
+  - Combines Physical + Logical Time
+  - Bounded Drift
+  - Used by: CockroachDB
+- CRDTs (Conflict-free Replicated Data Types)
+  - Shapiro, M., Preguiça, N., et al. (2011). "Conflict-Free Replicated Data Types". INRIA Technical Report.
+  - G-Counter, PN-Counter
+  - LWW-Register, OR-Set
+  - Strong Eventual Consistency
+  - Used by: Riak, Redis Enterprise
+- ThemisDB Approach
+  - Vector Clocks for Versioning
+  - CRDTs for Specific Data Types
+  - Last-Write-Wins with Timestamps
+
+**19.4 Asynchronous Replication**
+- Binlog/Oplog Streaming
+  - MySQL Binlog Replication
+  - MongoDB Oplog
+  - PostgreSQL WAL Shipping
+- Replication Lag
+  - Monitoring Metrics
+  - Catch-Up Protocols
+  - Read-Your-Writes Consistency
+- Eventual Consistency
+  - Trade-off: Availability vs. Consistency
+  - BASE vs. ACID
+  - Use Cases: Analytics Replicas
+
+**19.5 Failover & Recovery**
+- Leader Election
+  - Raft Election Process
+  - Quorum-Based Decisions
+  - Split-Brain Prevention
+- Automatic Failover
+  - Heartbeat Monitoring
+  - Failover Timeout Configuration
+  - Promoting a Follower
+- Manual Failover
+  - Planned Maintenance
+  - Controlled Switchover
+  - Zero-Downtime Upgrades
+
+**19.6 Vergleichende Replication-Analyse**
+
+| System | Algorithm | Topology | Failover | Consistency |
+|--------|-----------|----------|----------|-------------|
+| **PostgreSQL** | Streaming Replication | Primary-Secondary | Manual/Auto (Patroni) | Async/Sync |
+| **MySQL** | Binlog Replication | Primary-Secondary | Manual/Auto (Orchestrator) | Async/Semi-sync |
+| **MongoDB** | Raft-like | Replica Set | Auto | Strong (w:majority) |
+| **Cassandra** | Gossip + Hinted Handoff | Multi-Master | N/A (no leader) | Tunable |
+| **ThemisDB** | Raft | Primary-Secondary | Auto | Strong (SI) |
+
+**Begründung ThemisDB-Design:**
+- Raft: Proven, Understandable, Strong Consistency
+- Auto Failover: Operational Simplicity
+- Strong Consistency: ACID über Replicas
+- Vector Clocks: Causal Ordering
+
+**19.7 Akademische Referenzen**
+
+*Foundational:*
+[1] Ongaro, D., Ousterhout, J. (2014). "In Search of an Understandable Consensus Algorithm". USENIX ATC.
+[2] Lamport, L. (1998). "The Part-Time Parliament". ACM TOCS, 16(2), 133-169.
+[3] van Renesse, R., Schneider, F. B. (2004). "Chain Replication for Supporting High Throughput and Availability". OSDI.
+[4] Fidge, C. (1988). "Timestamps in Message-Passing Systems That Preserve the Partial Ordering". Australian Computer Science Conference.
+[5] Shapiro, M., et al. (2011). "Conflict-Free Replicated Data Types". INRIA Technical Report 7506.
 
 **Referenzdokumente:**
 - `docs/replication/README.md`
@@ -2570,12 +2769,236 @@ Client-SDKs, Tools und Ausblick
 
 ---
 
-#### **Kapitel 20: GPU Acceleration**
-- 20.1 GPU-Computing-Architektur
-- 20.2 CUDA-Backend
-- 20.3 Vulkan-Backend
-- 20.4 Weitere Backends (HIP, DirectX, OpenCL, OneAPI)
-- 20.5 Performance-Benchmarks
+#### **Kapitel 20: Backup & Recovery**
+
+**20.1 Backup-Strategien: Full, Incremental, Differential**
+- Full Backups
+  - Complete Database Snapshot
+  - RocksDB Checkpoint API
+  - Consistent Point-in-Time
+  - Highest Storage Cost
+- Incremental Backups
+  - Only Changed Data Since Last Backup
+  - WAL-based Incremental
+  - Lowest Storage Cost
+  - Longer Recovery Time (chain dependency)
+- Differential Backups
+  - Changes Since Last Full Backup
+  - Balance: Storage vs. Recovery Time
+  - No Chain Dependency
+
+**20.2 Point-in-Time Recovery (PITR)**
+- WAL Replay Mechanisms
+  - Write-Ahead Log Architecture
+  - Gray, J., Reuter, A. (1992). "Transaction Processing: Concepts and Techniques". Morgan Kaufmann.
+  - Forward Recovery
+  - Recovery Point Objective (RPO)
+- Continuous Archival
+  - WAL Segment Archiving
+  - S3/Cloud Storage Integration
+  - Retention Policies
+- PostgreSQL pg_basebackup
+  - Base Backup + WAL Segments
+  - Hot Standby
+  - Streaming Replication
+- ThemisDB Approach
+  - RocksDB WAL + Checkpoints
+  - Cloud-Native Backup
+  - Automated PITR
+
+**20.3 Snapshot Mechanisms**
+- Copy-on-Write (CoW) Snapshots
+  - ZFS, Btrfs Snapshots
+  - Storage-Level Snapshots
+  - Instant Snapshot Creation
+- RocksDB Checkpoints
+  - Hard Links to SST Files
+  - No Data Copying
+  - Consistent Snapshot
+- Consistent Snapshots in Distributed Systems
+  - Chandy-Lamport Algorithm
+  - Distributed Snapshot Protocol
+  - Used by: Flink, Spark Streaming
+
+**20.4 Continuous Archival: WAL Archiving**
+- WAL Segment Management
+  - Segment Size Configuration
+  - Archive Command
+  - Compression (gzip, lz4, zstd)
+- Cloud Storage Integration
+  - S3, Azure Blob, GCS
+  - Encryption at Rest
+  - Geographic Redundancy
+- WAL Shipping vs. Streaming
+  - PostgreSQL: archive_command
+  - MySQL: mysqlbinlog
+  - ThemisDB: Continuous WAL Upload
+
+**20.5 Disaster Recovery: Multi-Region Replication**
+- Recovery Time Objective (RTO)
+  - Acceptable Downtime
+  - Failover Automation
+  - DNS Switchover
+- Recovery Point Objective (RPO)
+  - Acceptable Data Loss
+  - Sync vs. Async Replication
+  - WAL Archiving Frequency
+- Geo-Redundancy
+  - Multi-Region Replication
+  - Cross-Region Failover
+  - Disaster Recovery Testing
+
+**20.6 Vergleichende Backup-Analyse**
+
+| System | Backup Type | PITR | Incremental | Cloud Integration |
+|--------|-------------|------|-------------|-------------------|
+| **PostgreSQL** | Physical/Logical (pg_dump) | ✅ WAL | ✅ pgBackRest, Barman | ✅ wal-g |
+| **MySQL** | Physical/Logical (mysqldump) | ✅ Binlog | ✅ Percona XtraBackup | ✅ mydumper |
+| **MongoDB** | mongodump/Ops Manager | ✅ Oplog | ✅ Ops Manager | ✅ Atlas Backups |
+| **Cassandra** | Snapshot (nodetool) | ❌ | ✅ Incremental | ✅ Medusa, Tablesnap |
+| **ThemisDB** | Checkpoint/Export | ✅ WAL | ✅ RocksDB Incremental | ✅ S3 Integration |
+
+**Begründung ThemisDB-Design:**
+- RocksDB Checkpoints: Efficient, No Downtime
+- WAL-based PITR: Industry Standard
+- Cloud-Native: S3 Integration Built-in
+- Automated Retention: Operational Simplicity
+
+**20.7 Akademische Referenzen**
+
+*Foundational:*
+[1] Gray, J., Reuter, A. (1992). "Transaction Processing: Concepts and Techniques". Morgan Kaufmann.
+[2] Mohan, C., et al. (1992). "ARIES: A Transaction Recovery Method Supporting Fine-Granularity Locking and Partial Rollbacks Using Write-Ahead Logging". ACM TODS, 17(1), 94-162.
+[3] Stonebraker, M. (1981). "Operating System Support for Database Management". CACM, 24(7), 412-418.
+
+**Referenzdokumente:**
+- `docs/admin_tools/README.md`
+- `docs/guides/guides_operations_runbook.md`
+
+---
+
+#### **Kapitel 21: GPU-Acceleration**
+
+**21.1 CUDA & GPU Computing Fundamentals**
+- GPU Architecture
+  - Nickolls, J., et al. (2008). "Scalable Parallel Programming with CUDA". ACM Queue, 6(2), 40-53.
+  - SIMT (Single Instruction, Multiple Threads)
+  - Warp Execution Model
+  - Memory Hierarchy: Global, Shared, Constant, Texture
+- CUDA Programming Model
+  - Kernel Launch Configuration
+  - Thread Blocks and Grids
+  - Synchronization Primitives
+  - Memory Management (cudaMalloc, cudaMemcpy)
+- GPU vs. CPU Trade-offs
+  - Throughput vs. Latency
+  - Parallelizable Workloads
+  - Data Transfer Overhead
+
+**21.2 Vectorized Operations: SIMD/SIMT**
+- Batched Operations
+  - Large Batch Sizes (1000s-millions)
+  - Amortizing Launch Overhead
+  - Memory Coalescing
+- Warp Efficiency
+  - 32 Threads per Warp
+  - Avoiding Divergence
+  - Occupancy Optimization
+- Memory Access Patterns
+  - Coalesced vs. Non-Coalesced
+  - Bank Conflicts in Shared Memory
+  - Caching Strategies
+
+**21.3 GPU-Datenstrukturen: Memory Hierarchy**
+- Global Memory
+  - Largest, Highest Latency (400-600 cycles)
+  - DRAM-based
+  - All Threads Access
+- Shared Memory
+  - Low Latency (~30 cycles)
+  - Per-Block Shared
+  - Limited Size (48-96 KB)
+- Constant/Texture Memory
+  - Read-Only
+  - Cached
+  - Broadcast to All Threads
+- GPU-Friendly Layouts
+  - Structure of Arrays (SoA) vs. Array of Structures (AoS)
+  - Padding for Alignment
+
+**21.4 Query Processing on GPU**
+- Relational Operators on GPU
+  - He, B., et al. (2008). "Relational Joins on Graphics Processors". ACM SIGMOD, 511-524.
+  - Selection (Filter)
+  - Projection
+  - Aggregation
+- GPU Hash Join
+  - Bakkum, P., Skadron, K. (2010). "Accelerating SQL Database Operations on a GPU with CUDA". ACM GPGPU-3.
+  - Build Phase: Hash Table Construction
+  - Probe Phase: Parallel Lookup
+  - Performance: 2-10x Speedup
+- Group-By Aggregation
+  - Atomic Operations
+  - Parallel Reduction
+  - Multi-Pass Algorithms
+
+**21.5 Vector Search Acceleration**
+- Billion-Scale ANN on GPU
+  - Johnson, J., et al. (2017). "Billion-Scale Similarity Search with GPUs". arXiv:1702.08734.
+  - FAISS Library (Facebook AI Similarity Search)
+  - GPU-Accelerated HNSW
+  - Product Quantization on GPU
+- GPU Index Building
+  - Parallel k-NN Graph Construction
+  - 10-100x Faster than CPU
+  - Used by: Milvus, Weaviate (GPU mode)
+- Batch Similarity Search
+  - Query Batching (1000s of queries)
+  - k-NN for All Queries in Parallel
+  - Distance Computation: Dot Product, L2
+
+**21.6 Vergleichende GPU DB Analyse**
+
+| System | GPU Operations | Use Case | Framework | Performance Gain |
+|--------|----------------|----------|-----------|------------------|
+| **Brytlyt** | Full SQL Engine | Analytics | CUDA | 100x (claimed) |
+| **OmniSci (HEAVY.AI)** | SQL + Rendering | Geospatial Analytics | CUDA | 50-100x |
+| **BlazingDB** | SQL on Parquet/ORC | Data Lake Analytics | CUDA (cuDF) | 10-50x |
+| **Kinetica** | Vectorized SQL | Real-Time Analytics | CUDA | 10-100x |
+| **ThemisDB** | Vector Search + Aggregation | Hybrid OLAP | CUDA | 10-50x |
+
+**Begründung ThemisDB-Design:**
+- GPU for Vector Search: 10-50x Speedup (FAISS Integration)
+- GPU for Aggregation: Batched Analytics Queries
+- CPU for Transactional: ACID Guarantees
+- Hybrid CPU+GPU: Best of Both Worlds
+
+**21.7 Weitere GPU Backends**
+- Vulkan Compute
+  - Cross-Platform (Windows, Linux, macOS, Android)
+  - Lower-Level than CUDA
+  - Used by: Mobile GPUs
+- ROCm/HIP (AMD)
+  - AMD GPU Support
+  - HIP: Portable CUDA/ROCm Code
+- OpenCL
+  - Vendor-Neutral
+  - CPU, GPU, FPGA Support
+  - Performance: Lower than CUDA
+- OneAPI (Intel)
+  - SYCL-based
+  - Intel GPU Support
+
+**21.8 Akademische Referenzen**
+
+*Foundational:*
+[1] Nickolls, J., et al. (2008). "Scalable Parallel Programming with CUDA". ACM Queue, 6(2), 40-53.
+[2] He, B., et al. (2008). "Relational Joins on Graphics Processors". ACM SIGMOD, 511-524.
+[3] Bakkum, P., Skadron, K. (2010). "Accelerating SQL Database Operations on a GPU with CUDA". ACM GPGPU-3.
+
+*Implementation:*
+[4] Johnson, J., et al. (2017). "Billion-Scale Similarity Search with GPUs". arXiv:1702.08734.
+[5] Douze, M., et al. (2024). "The Faiss Library". arXiv:2401.08281.
 
 **Referenzdokumente:**
 - `docs/performance/performance_gpu.md`
@@ -2583,29 +3006,127 @@ Client-SDKs, Tools und Ausblick
 
 ---
 
-#### **Kapitel 21: Analytics (CEP und OLAP)**
-- 21.1 Complex Event Processing (CEP)
-- 21.2 Event Pattern Language (EPL)
-- 21.3 OLAP Operations (CUBE, ROLLUP)
-- 21.4 Window Functions
-- 21.5 Columnar Store
+#### **Kapitel 22: Analytics & OLAP**
+
+**22.1 Columnar Storage: Abadi et al. (2006)**
+- Column-Oriented vs. Row-Oriented
+  - Abadi, D. J., et al. (2006). "The Design and Implementation of Modern Column-Oriented Database Systems". Foundations and Trends in Databases, 5(3), 197-280.
+  - C-Store/Vertica Architecture
+  - Compression Advantages
+  - Query Performance: Analytical Workloads
+- Columnar Compression
+  - Run-Length Encoding (RLE)
+  - Dictionary Encoding
+  - Bit-Packing
+  - 10-100x Compression Ratios
+- Read vs. Write Trade-offs
+  - Read-Optimized: Columnar
+  - Write-Optimized: Row-Based
+  - HTAP: Hybrid Row+Column
+
+**22.2 Materialized Views**
+- View Maintenance Strategies
+  - Immediate Refresh
+  - Deferred Refresh
+  - Incremental Maintenance
+- Query Rewriting
+  - Matching Queries to Views
+  - Partial Match Optimization
+  - Cost-Based Decision
+- Use Cases
+  - Pre-Aggregated Reports
+  - Denormalized Join Results
+  - Time-Series Rollups
+
+**22.3 Aggregation Pipeline: Multi-Stage Processing**
+- Pipeline Operators
+  - $match (Filter)
+  - $group (Aggregation)
+  - $sort, $limit, $skip
+  - $lookup (Join)
+  - $unwind (Array Expansion)
+- Operator Pushdown
+  - Filter Pushdown to Storage
+  - Aggregation Pushdown
+  - Index Usage
+- Parallel Aggregation
+  - Partition-wise Aggregation
+  - Shuffle-Hash Aggregation
+  - Sort-Merge Aggregation
+
+**22.4 Cube & Rollup: Gray et al. (1997)**
+- OLAP Cube Concept
+  - Gray, J., et al. (1997). "Data Cube: A Relational Aggregation Operator Generalizing Group-By, Cross-Tab, and Sub-Totals". Data Mining and Knowledge Discovery, 1(1), 29-53.
+  - Multi-Dimensional Aggregation
+  - Drill-Down, Roll-Up, Slice, Dice
+  - CUBE vs. ROLLUP vs. GROUPING SETS
+- Cube Materialization
+  - Full Materialization: All Combinations
+  - Partial Materialization: Frequent Queries
+  - On-Demand Computation
+- Performance Optimization
+  - Bitmap Indexes
+  - Star Schema Optimization
+  - Aggregate Navigation
+
+**22.5 Query Optimization for Analytics**
+- Vectorized Execution
+  - Boncz, P., et al. (2005). "MonetDB/X100: Hyper-Pipelining Query Execution". CIDR.
+  - Processing 1000s of Rows per Iteration
+  - SIMD Instructions
+  - Cache-Efficient
+  - Used by: DuckDB, ClickHouse, Snowflake
+- Late Materialization
+  - Operate on Column IDs, Not Values
+  - Defer Tuple Reconstruction
+  - Reduced Memory Bandwidth
+  - Abadi, D. J., et al. (2008). "Column-Oriented Database Systems". VLDB Tutorial.
+- JIT Compilation
+  - Neumann, T. (2011). "Efficiently Compiling Efficient Query Plans for Modern Hardware". VLDB, 4(9), 539-550.
+  - LLVM-based Code Generation
+  - Removing Interpretation Overhead
+  - Used by: HyPer, Impala
+
+**22.6 Vergleichende OLAP-Analyse**
+
+| System | Storage | Query Model | Ingest | Vectorized | Use Case |
+|--------|---------|-------------|--------|------------|----------|
+| **ClickHouse** | Columnar (MergeTree) | SQL | Batch/Stream | ✅ | Real-Time Analytics |
+| **Druid** | Columnar (Segments) | JSON API | Stream | ✅ | Event Analytics |
+| **Apache Pinot** | Columnar | SQL | Stream | ✅ | User-Facing Analytics |
+| **DuckDB** | Columnar (in-process) | SQL | File-based | ✅ | Embedded Analytics |
+| **ThemisDB** | Row+Column (Hybrid) | AQL | Batch | Partial | HTAP (Hybrid) |
+
+**Begründung ThemisDB-Design:**
+- Hybrid Row+Column: HTAP Capability
+- AQL Aggregation Pipeline: Familiar MongoDB-Style API
+- Columnar Projection: For Analytics Queries
+- OLTP Primary: Row-Based for Transactions
+
+**22.7 Window Functions**
+- SQL Window Functions
+  - ROW_NUMBER(), RANK(), DENSE_RANK()
+  - LAG(), LEAD()
+  - SUM() OVER (PARTITION BY ... ORDER BY ...)
+- Implementation
+  - Sort-Based
+  - Segmented Scan
+  - Frame-Based Computation
+
+**22.8 Akademische Referenzen**
+
+*Foundational:*
+[1] Abadi, D. J., et al. (2006). "The Design and Implementation of Modern Column-Oriented Database Systems". Foundations and Trends in Databases.
+[2] Gray, J., et al. (1997). "Data Cube: A Relational Aggregation Operator". Data Mining and Knowledge Discovery, 1(1), 29-53.
+[3] Boncz, P., et al. (2005). "MonetDB/X100: Hyper-Pipelining Query Execution". CIDR.
+
+*Advanced Techniques:*
+[4] Lamb, A., et al. (2012). "The Vertica Analytic Database: C-Store 7 Years Later". VLDB, 5(12), 1790-1801.
+[5] Stonebraker, M., et al. (2007). "H-Store: A High-Performance, Distributed Main Memory Transaction Processing System". VLDB Endowment.
 
 **Referenzdokumente:**
 - `docs/analytics/analytics_cep.md`
 - `docs/analytics/analytics_olap.md`
-
----
-
-#### **Kapitel 22: Multi-Tenancy und Rate Limiting**
-- 22.1 Tenant Isolation
-- 22.2 Resource Quotas
-- 22.3 Token Bucket Rate Limiter
-- 22.4 Per-Client Rate Limiting
-- 22.5 Load Shedding
-
-**Referenzdokumente:**
-- `docs/enterprise/README.md`
-- `docs/enterprise/enterprise_scalability.md`
 
 ---
 
