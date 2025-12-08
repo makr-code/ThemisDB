@@ -7,6 +7,12 @@
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include "utils/simd_distance.h"
+
+// EXPERIMENTAL: Lossless vector compression support
+// NOTE: This is a scientific experiment and may be rolled back.
+// See docs/performance/performance_vector_compression_lossless.md for details
+#include "utils/lossless_vector_integration.h"
+
 #include <shared_mutex>
 #ifdef IN
 #undef IN
@@ -229,24 +235,37 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 		std::vector<uint8_t> bytes(value.begin(), value.end());
 		try {
 			BaseEntity e = BaseEntity::deserialize(pk, bytes);
-			auto vecOpt = e.extractVector("embedding");
+			
+			// EXPERIMENTAL: Try lossless decompression first
+			// NOTE: Scientific experiment - may be rolled back
+			auto losslessVec = experimental::VectorCompressionHelper::decompressVector(e);
+			
 			std::vector<float> v;
-			if (vecOpt && vecOpt->size() == static_cast<size_t>(dim_)) {
-				v = *vecOpt;
+			if (losslessVec.has_value()) {
+				// EXPERIMENTAL: Use lossless decompressed vector
+				v = std::move(*losslessVec);
+				THEMIS_DEBUG("rebuildFromStorage: Using experimental lossless decompression for pk={}", pk);
 			} else {
-				// Try SQ8-coded embedding
-				auto qbufOpt = e.getField("embedding_q");
-				auto scaleOpt = e.getFieldAsDouble("embedding_scale");
-				if (!qbufOpt || !scaleOpt) return true;
-				const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
-				if (!qv || qv->size() != static_cast<size_t>(dim_)) return true;
-				v.resize(dim_);
-				float s = static_cast<float>(*scaleOpt);
-				for (size_t i = 0; i < qv->size(); ++i) {
-					int8_t code = static_cast<int8_t>((*qv)[i]);
-					v[i] = static_cast<float>(code) * s;
+				// EXISTING IMPLEMENTATION (preserved, not deleted)
+				auto vecOpt = e.extractVector("embedding");
+				if (vecOpt && vecOpt->size() == static_cast<size_t>(dim_)) {
+					v = *vecOpt;
+				} else {
+					// Try SQ8-coded embedding (EXISTING)
+					auto qbufOpt = e.getField("embedding_q");
+					auto scaleOpt = e.getFieldAsDouble("embedding_scale");
+					if (!qbufOpt || !scaleOpt) return true;
+					const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
+					if (!qv || qv->size() != static_cast<size_t>(dim_)) return true;
+					v.resize(dim_);
+					float s = static_cast<float>(*scaleOpt);
+					for (size_t i = 0; i < qv->size(); ++i) {
+						int8_t code = static_cast<int8_t>((*qv)[i]);
+						v[i] = static_cast<float>(code) * s;
+					}
 				}
 			}
+			
 			// Normalize only for COSINE (not for DOT or L2)
 			if (metric_ == Metric::COSINE) normalizeL2(v);
 			cache_[pk] = v;
@@ -276,8 +295,18 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	const std::string& pk = e.getPrimaryKey();
 	auto v = e.extractVector(vectorField);
 	if (!v) return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
+	
+	// EXPERIMENTAL: Try lossless compression first (if enabled)
+	// NOTE: Scientific experiment - may be rolled back
+	// Priority: Lossless > SQ8 > Raw storage
+	auto losslessCompressed = experimental::VectorCompressionHelper::tryLosslessCompression(e, *v, db_);
+	
 	// Decide on SQ8 quantization based on config in DB
+	// NOTE: This is the EXISTING implementation (preserved, not deleted)
+	// If lossless compression succeeded, this code path is skipped
 	auto shouldQuantize = [&]() -> bool {
+		if (losslessCompressed.has_value()) return false; // Lossless takes precedence
+		
 		std::string mode = "auto"; int64_t threshold = 1000000;
 		try {
 			if (auto cfg = db_.get("config:vector")) {
@@ -293,10 +322,16 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	}();
 
 
-	// Persistenz in RocksDB (optional: SQ8-Quantisierung)
+	// Persistenz in RocksDB
 	std::string key = makeObjectKey(pk);
 	std::vector<uint8_t> serialized;
-	if (shouldQuantize) {
+	
+	if (losslessCompressed.has_value()) {
+		// EXPERIMENTAL: Use lossless compressed data
+		serialized = std::move(*losslessCompressed);
+		THEMIS_DEBUG("VectorIndexManager: Using experimental lossless compression for pk={}", pk);
+	} else if (shouldQuantize) {
+		// EXISTING SQ8 IMPLEMENTATION (preserved, not deleted)
 		float amax = 0.0f; for (float x : *v) amax = std::max(amax, std::fabs(x));
 		float scale = (amax > 0.f) ? (amax / 127.0f) : 1.0f;
 		std::vector<uint8_t> codes(v->size());
@@ -312,8 +347,10 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 		BaseEntity eq = BaseEntity::fromFields(pk, fields);
 		serialized = eq.serialize();
 	} else {
+		// EXISTING RAW STORAGE (preserved, not deleted)
 		serialized = e.serialize();
 	}
+	
 	if (!db_.put(key, serialized)) {
 		return Status::Error("addEntity: RocksDB put fehlgeschlagen");
 	}
