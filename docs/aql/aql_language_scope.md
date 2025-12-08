@@ -160,10 +160,11 @@ Die ursprüngliche Analyse war unvollständig. Eine tiefere Code-Überprüfung e
 
 **Beweis:** Die Funktionen sind vollständig implementiert, getestet UND gebenchmarkt!
 
-**Höchste Priorität - EINFACH (1-2 Wochen):**
-1. **FunctionRegistry in let_evaluator integrieren** - Dies aktiviert sofort ~140+ Funktionen!
-   - Einfach: `FunctionRegistry::instance().call(funcName, args, context)` statt hardcodierte Checks
-   - Aktiviert: Alle Document-, Array-, Date/Time-, String-Funktionen
+**✅ ERLEDIGT - FunctionRegistry Integration abgeschlossen (8. Dezember 2024):**
+1. ~~**FunctionRegistry in let_evaluator integrieren**~~ - FERTIG!
+   - `src/query/let_evaluator.cpp` nutzt jetzt FunctionRegistry
+   - ~140+ Funktionen sofort aktiviert
+   - 96 Zeilen redundanter Code entfernt
 
 **Hohe Priorität - Fehlende Funktionen implementieren:**
 2. Text/Volltext-Funktionen (FULLTEXT, TOKENS, PHRASE)
