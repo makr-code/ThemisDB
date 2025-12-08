@@ -473,9 +473,11 @@ set(THEMIS_CORE_SOURCES
     src/sharding/shard_load_detector.cpp
     src/sharding/auto_rebalancer.cpp
     src/sharding/prometheus_metrics.cpp
+    src/sharding/metrics_registry.cpp
     src/sharding/health_check.cpp
     src/sharding/admin_api.cpp
     src/sharding/cloud_agent.cpp
+    src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
     src/acceleration/backend_registry.cpp

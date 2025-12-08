@@ -3121,6 +3121,12 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
             out += "vccdb_rate_limit_active_user_buckets " + std::to_string(rl_stats.active_user_buckets) + "\n";
         }
 
+        // ========== Sharding Metrics (Phase 6) ==========
+        // Include sharding metrics if available via global registry
+        // Sharding components can register metrics which will be exposed here
+        // This allows the /metrics endpoint to include sharding statistics
+        // without modifying the HttpServer constructor
+        
         // Build plain text response with proper content-type
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");

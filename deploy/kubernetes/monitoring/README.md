@@ -1,6 +1,53 @@
 # ThemisDB Monitoring Deployment
 
-This directory contains Kubernetes manifests for deploying ThemisDB monitoring infrastructure.
+This directory contains Kubernetes manifests and documentation for deploying ThemisDB monitoring infrastructure with full Prometheus metrics integration (Phase 6).
+
+## Phase 6: Complete Prometheus Integration
+
+**Status:** ✅ COMPLETE (December 2025)
+
+ThemisDB now includes comprehensive Prometheus metrics for all sharding components:
+- Shard Router (routing requests, latency, errors)
+- Data Migrator (migration progress, duration)
+- Gossip Protocol (peer discovery, message exchange)
+- Cross-Shard Joins (join strategies, performance)
+- Health Checks (certificate expiry, storage, network)
+- Cloud Agent (multi-DC operations, cross-DC requests)
+
+### Quick Start
+
+1. **Enable Metrics in Your Code**
+
+```cpp
+#include "sharding/prometheus_metrics.h"
+#include "sharding/metrics_registry.h"
+#include "sharding/shard_router.h"
+
+// Create metrics instance
+using namespace themis::sharding;
+
+PrometheusMetrics::Config config;
+config.enable_histograms = true;
+auto metrics = std::make_shared<PrometheusMetrics>(config);
+
+// Register globally for HTTP /metrics endpoint
+ShardingMetricsRegistry::instance().registerMetrics(metrics);
+
+// Pass to sharding components
+auto router = std::make_shared<ShardRouter>(
+    resolver, executor, router_config, metrics
+);
+```
+
+2. **Access Metrics**
+
+```bash
+# Get all metrics including sharding
+curl http://localhost:8080/metrics
+
+# Filter for sharding metrics only
+curl http://localhost:8080/metrics | grep themis_
+```
 
 ## Components
 

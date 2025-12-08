@@ -1,5 +1,6 @@
 #include "sharding/data_migrator.h"
 #include "sharding/mtls_client.h"
+#include "sharding/prometheus_metrics.h"
 #include <stdexcept>
 #include <thread>
 #include <openssl/sha.h>
@@ -27,8 +28,11 @@ static std::unique_ptr<themis::sharding::MTLSClient> createMTLSClient(const Data
     return std::make_unique<themis::sharding::MTLSClient>(mtls_config);
 }
 
-DataMigrator::DataMigrator(const DataMigratorConfig& config)
-    : config_(config) {
+DataMigrator::DataMigrator(
+    const DataMigratorConfig& config,
+    std::shared_ptr<PrometheusMetrics> metrics)
+    : config_(config),
+      metrics_(metrics) {
     
     if (config_.source_endpoint.empty() || config_.target_endpoint.empty()) {
         throw std::invalid_argument("Source and target endpoints must not be empty");
@@ -48,6 +52,9 @@ MigrationResult DataMigrator::migrate(
 ) {
     MigrationResult result;
     MigrationProgress progress;
+    
+    auto start_time = std::chrono::steady_clock::now();
+    std::string operation_id = source_shard_id + "_to_" + target_shard_id;
     
     try {
         // Estimate total records (would query source shard in real implementation)
@@ -92,6 +99,16 @@ MigrationResult DataMigrator::migrate(
             progress.progress_percent = 
                 (static_cast<double>(progress.records_migrated) / progress.total_records) * 100.0;
             
+            // Record metrics
+            if (metrics_) {
+                metrics_->recordMigrationProgress(
+                    operation_id,
+                    progress.records_migrated,
+                    progress.bytes_transferred,
+                    progress.progress_percent
+                );
+            }
+            
             if (progress_callback) {
                 progress_callback(progress);
             }
@@ -111,6 +128,15 @@ MigrationResult DataMigrator::migrate(
         }
         
         result.success = true;
+        
+        // Record final metrics
+        auto end_time = std::chrono::steady_clock::now();
+        auto duration_sec = std::chrono::duration_cast<std::chrono::seconds>(
+            end_time - start_time).count();
+        
+        if (metrics_) {
+            metrics_->recordMigrationDuration(operation_id, static_cast<double>(duration_sec));
+        }
         
     } catch (const std::exception& e) {
         result.error_message = std::string("Migration failed: ") + e.what();
