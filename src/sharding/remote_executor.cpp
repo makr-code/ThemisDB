@@ -1,11 +1,13 @@
 #include "sharding/remote_executor.h"
+#include "sharding/circuit_breaker.h"
 #include "utils/tracing.h"
 #include <chrono>
 
 namespace themis::sharding {
 
 RemoteExecutor::RemoteExecutor(const Config& config)
-    : config_(config) {
+    : config_(config),
+      circuit_breaker_manager_(std::make_shared<CircuitBreakerManager>()) {
     
     // Initialize mTLS client
     MTLSClient::Config mtls_config{
@@ -97,6 +99,30 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     
     auto start = std::chrono::steady_clock::now();
     
+    // Check circuit breaker if enabled
+    if (config_.enable_circuit_breaker) {
+        auto& circuit_breaker = circuit_breaker_manager_->getCircuitBreaker(
+            shard_info.shard_id,
+            config_.circuit_breaker_config
+        );
+        
+        if (!circuit_breaker.allowRequest()) {
+            // Circuit is OPEN, reject request immediately
+            Result result;
+            result.shard_id = shard_info.shard_id;
+            result.success = false;
+            result.error = "Circuit breaker is OPEN for shard: " + shard_info.shard_id;
+            result.http_status = 503; // Service Unavailable
+            
+            auto end = std::chrono::steady_clock::now();
+            result.execution_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                end - start
+            ).count();
+            
+            return result;
+        }
+    }
+    
     // Get endpoint URL
     std::string endpoint = getEndpointURL(shard_info);
     span.setAttribute("endpoint", endpoint);
@@ -134,6 +160,20 @@ RemoteExecutor::Result RemoteExecutor::executeRequest(
     uint64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         end - start
     ).count();
+    
+    // Record result with circuit breaker if enabled
+    if (config_.enable_circuit_breaker) {
+        auto& circuit_breaker = circuit_breaker_manager_->getCircuitBreaker(
+            shard_info.shard_id,
+            config_.circuit_breaker_config
+        );
+        
+        if (response.success && response.status_code >= 200 && response.status_code < 300) {
+            circuit_breaker.recordSuccess();
+        } else {
+            circuit_breaker.recordFailure();
+        }
+    }
     
     return convertResponse(response, shard_info.shard_id, elapsed_ms);
 }

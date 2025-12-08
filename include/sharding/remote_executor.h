@@ -3,6 +3,7 @@
 #include "sharding/mtls_client.h"
 #include "sharding/signed_request.h"
 #include "sharding/shard_topology.h"
+#include "sharding/circuit_breaker.h"
 #include <string>
 #include <optional>
 #include <memory>
@@ -40,6 +41,10 @@ public:
         uint32_t connect_timeout_ms = 5000;
         uint32_t request_timeout_ms = 30000;
         uint32_t max_retries = 3;
+        
+        // Circuit breaker configuration
+        bool enable_circuit_breaker = true;  // Enable circuit breaker pattern
+        CircuitBreaker::Config circuit_breaker_config;
     };
     
     /**
@@ -124,6 +129,7 @@ private:
     Config config_;
     std::unique_ptr<MTLSClient> mtls_client_;
     std::unique_ptr<SignedRequestSigner> request_signer_;
+    std::shared_ptr<CircuitBreakerManager> circuit_breaker_manager_;
     
     /**
      * Convert ShardInfo to endpoint URL

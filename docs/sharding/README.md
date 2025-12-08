@@ -1,30 +1,40 @@
 # Sharding & Horizontal Scaling Documentation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 8. Dezember 2025  
+**Version:** 1.1.0  
 **Kategorie:** Sharding
 
 ---
 
-
 Documentation for ThemisDB's sharding and horizontal scaling capabilities.
+
+## 🎯 Wichtige Dokumente
+
+### Komplexitätsanalyse & Implementierung ✅
+- **[SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md](SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md)** - 📊 **Executive Summary** für Management/Stakeholder
+- **[SHARDING_COMPLEXITY_ANALYSIS.md](SHARDING_COMPLEXITY_ANALYSIS.md)** - 🔬 **Vollständige technische Analyse** (1,449 Zeilen)
+- **[P0_IMPLEMENTATION_SUMMARY.md](P0_IMPLEMENTATION_SUMMARY.md)** - 🛠️ **P0 Implementierungsdetails** (Circuit Breaker + Idempotent Migration)
+
+> **Analyse & Implementierung (8. Dez 2025):** Umfassende Bewertung der Sharding-Komplexität mit 6 Risikobereichen, 13 Mitigation-Strategien und **vollständige Implementierung von P0 + P1.1 + P1.2** für enterprise-ready Sharding mit automatischem Failover.
 
 ## Contents
 
-> **📋 Autoritative Dokumentation:** [SHARDING_UNIFIED_DOCUMENTATION.md](SHARDING_UNIFIED_DOCUMENTATION.md)
+> **📋 Autoritative Dokumentation:** [sharding_overview.md](sharding_overview.md)
 
 ### Hauptdokumentation
-- **[SHARDING_UNIFIED_DOCUMENTATION.md](SHARDING_UNIFIED_DOCUMENTATION.md)** - **Autoritative Quelle** (Phase 1-4 Status)
+- **[sharding_overview.md](sharding_overview.md)** - **Autoritative Quelle** für Implementierungsstand (Phase 1-6)
+- **[sharding_strategy.md](sharding_strategy.md)** - Vollständige Implementierungsstrategie mit PKI-Integration
 
 ### Archivierte Dokumente (historisch)
-- **implementation_summary.md** - Phase 1 Zusammenfassung (veraltet, siehe Unified Doc)
+- **implementation_summary.md** - Phase 1 Zusammenfassung (veraltet, siehe Overview)
 - **phase1_report.md** - Phase 1 Report (historisch)
 - **phases_1-3_summary.md** - Phasen 1-3 Summary (historisch)
 - **horizontal_scaling_strategy.md** - Strategie-Dokument (historisch)
 
 ### Weitere Ressourcen
-- **[Auto-Rebalancing Report](../reports/SHARDING_AUTO_REBALANCING.md)** - Phase 2-3: Automatic Rebalancing
-- **[SCALING_TODO.md](../SCALING_TODO.md)** - Vollständige Audit-Dokumentation
+- **[sharding_scaling_todo.md](sharding_scaling_todo.md)** - Vollständige Audit-Dokumentation und TODO-Liste
+- **[sharding_redundancy.md](sharding_redundancy.md)** - RAID-ähnliche Redundanz-Modi
+- **[sharding_streaming.md](sharding_streaming.md)** - Cassandra-inspired Streaming Protocol
 
 ## Features
 
@@ -63,6 +73,24 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 - Prometheus Metrics (basic structure)
 - Health Checks (integrated)
 - Admin Endpoints (partial)
+
+✅ **P0: Production Readiness** (Completed)
+- Circuit Breaker Pattern - Prevents cascade failures
+- Idempotent Data Migration - Retry-safe operations
+- 50+ comprehensive tests
+
+✅ **P1.1: WAL-based Replica Sync** (Completed)
+- WAL Manager - Sequential log management with LSN tracking
+- WAL Shipper - Async background replication to replicas
+- WAL Applier - Replica-side log application
+- 70+ integration tests
+
+✅ **P1.2: Raft Consensus** (Completed)
+- State Machine - Automatic leader election
+- Log Replication - AppendEntries RPC with strong consistency
+- Membership Changes - Dynamic cluster scaling (joint consensus)
+- WAL Integration - Quorum-based writes with automatic failover
+- 62+ comprehensive tests
 
 ## Cloud Agent
 
