@@ -105,6 +105,21 @@ public partial class App : Application
         services.AddSingleton<ICalendarIntegrationService, CalendarIntegrationService>();
         services.AddSingleton<IOutlookTaskService, OutlookTaskService>();
         services.AddSingleton<ISeamlessIntegrationOrchestrator, SeamlessIntegrationOrchestrator>();
+        
+        // Phase 3 Compliance & Integration Services
+        services.AddSingleton<IFourEyesPrincipleService, FourEyesPrincipleService>();
+        services.AddSingleton<IFileAccessLogService, FileAccessLogService>();
+        services.AddSingleton<ISubstitutionService, SubstitutionService>();
+        services.AddSingleton<IEGovService, EGovService>();
+        services.AddSingleton<ITransferNoteService, TransferNoteService>();
+        
+        // AI Assistant Services (VSCode-Style with SSE & MCP)
+        services.AddSingleton<IAIChatService, AIChatService>();
+        services.AddSingleton<IMCPToolService, MCPToolService>();
+        services.AddSingleton<ILLMProviderService, LLMProviderService>();
+        
+        // Help System Services
+        services.AddSingleton<IHelpService, HelpService>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
