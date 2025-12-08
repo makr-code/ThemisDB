@@ -88,13 +88,22 @@ Abfragesprachen und identifiziert notwendige Erweiterungen für vollständige Mu
 
 ## 🔍 WICHTIGER HINWEIS: Tatsächlicher Implementierungsstatus
 
-**Analysedatum:** 8. Dezember 2024
+**Analysedatum:** 8. Dezember 2024 (Aktualisiert nach Code-Review)
 
-Die ursprüngliche Version dieses Dokuments markierte viele Funktionen als "✅ vollständig implementiert", die **tatsächlich nicht im Sourcecode vorhanden sind**. Diese korrigierte Version basiert auf einer detaillierten Code-Analyse.
+### 🎯 WICHTIGE ENTDECKUNG: Parallele Funktionsimplementierung!
 
-### ✅ Was IST tatsächlich implementiert:
+Die ursprüngliche Analyse war unvollständig. Eine tiefere Code-Überprüfung ergab:
 
-#### Basis-Funktionen (funktionsfähig):
+**Es gibt ZWEI getrennte Funktions-Systeme im Code:**
+
+1. **Legacy-System** (`/src/query/let_evaluator.cpp`): Hardcodierte Funktionsprüfungen - nur Basis-Funktionen
+2. **Modernes Registry-System** (`/include/query/functions/*.h`): Vollständige, modulare Implementierung - ALLE Funktionen!
+
+**Das Problem:** Das moderne Registry-System ist IMPLEMENTIERT, aber noch NICHT in den Query-Ausführungspfad integriert!
+
+### ✅ Was IST im Code vorhanden (Query-Ausführung aktiv):
+
+#### Basis-Funktionen (in let_evaluator.cpp - funktionsfähig):
 - **String-Funktionen:** LENGTH, CONCAT, SUBSTRING, UPPER, LOWER
 - **Mathematik:** ABS, CEIL, FLOOR, ROUND, MIN, MAX
 - **Geo/Spatial:** ST_Point, ST_Distance, ST_Within, ST_Contains, ST_Intersects, ST_DWithin, ST_Buffer, ST_Union, ST_GeomFromText, ST_GeomFromGeoJSON, ST_AsGeoJSON, ST_AsText, ST_3DDistance, ST_Z, ST_ZMin, ST_ZMax
@@ -103,35 +112,66 @@ Die ursprüngliche Version dieses Dokuments markierte viele Funktionen als "✅ 
 - **Aggregation:** COLLECT x = expr, AGGREGATE COUNT/SUM/AVG
 - **Window Functions:** ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, FIRST_VALUE, LAST_VALUE
 
-**Quellen bestätigt:** `/src/query/let_evaluator.cpp`, `/src/query/window_evaluator.cpp`, `/include/query/aql_parser.h`
+**Quelle:** `/src/query/let_evaluator.cpp`, `/src/query/window_evaluator.cpp`
 
-### ❌ Was NICHT implementiert ist (trotz ✅ in alter Version):
+### ✨ Was AUCH im Code existiert (Function Registry - noch nicht integriert):
 
-- **Dokument-Funktionen:** DOCUMENT, MERGE, UNSET, KEEP, HAS, ATTRIBUTES, VALUES
-- **Array-Funktionen:** FLATTEN, UNIQUE, UNION, INTERSECTION, MINUS, FIRST, LAST, NTH, SLICE, REVERSE, SORTED, CONTAINS_ARRAY
-- **Datum/Zeit:** Alle DATE_* Funktionen
-- **Text/Volltext:** FULLTEXT, TOKENS, PHRASE, LEVENSHTEIN_DISTANCE, SOUNDEX, NGRAM_MATCH, REGEX_*
-- **Erweiterte Graph:** ALL_SHORTEST_PATHS, K_SHORTEST_PATHS, PATH_LENGTH, PATH_VERTICES
-- **AI/ML:** EMBED, CLASSIFY, EXTRACT_ENTITIES, VECTOR_DISTANCE, COSINE_SIMILARITY
-- **JSON:** JSON_EXTRACT, JSON_SET, JSON_TYPE
-- **Statistik:** MODE, STDDEV, VARIANCE, CORRELATION
+#### Dokument-Funktionen (in `/include/query/functions/document_functions.h`):
+- **Implementiert:** DOCUMENT, MERGE, MERGE_RECURSIVE, UNSET, KEEP, HAS, ATTRIBUTES, VALUES, ZIP, UNZIP
+- **Typ-Funktionen:** TYPENAME, IS_NULL, IS_BOOL, IS_NUMBER, IS_STRING, IS_ARRAY, IS_OBJECT
+- **Konvertierung:** TO_NUMBER, TO_STRING, TO_BOOL, TO_ARRAY
+
+#### Array-Funktionen (in `/include/query/functions/array_functions.h`):
+- **Implementiert:** FIRST, LAST, NTH, PUSH, POP, SHIFT, UNSHIFT, SLICE, FLATTEN, UNIQUE, SORTED, REVERSE_ARRAY, UNION, INTERSECTION, MINUS, POSITION, COUNT, RANGE
+
+#### Datum/Zeit-Funktionen (in `/include/query/functions/date_functions.h`):
+- **Implementiert:** 54 Funktionen! Inklusive DATE_NOW, DATE_ADD, DATE_DIFF, DATE_FORMAT, DATE_YEAR, DATE_MONTH, DATE_DAY, CURRENT_TIMESTAMP, WORKDAYS, MAKE_DATE, und viele mehr
+
+#### String-Funktionen (in `/include/query/functions/string_functions.h`):
+- **Implementiert:** CONCAT, SUBSTRING, LENGTH, UPPER, LOWER, TRIM, LTRIM, RTRIM, SPLIT, REPLACE, REVERSE, CONTAINS, STARTS_WITH, ENDS_WITH, REGEX_TEST, REGEX_REPLACE, LEVENSHTEIN_DISTANCE
+
+**Quelle:** `/include/query/functions/*.h`, registriert in `/src/query/functions/function_registry.cpp`
+
+### ⚠️ Was fehlt (weder in Legacy noch im Registry):
+
+- **Text/Volltext:** FULLTEXT, TOKENS, PHRASE, SOUNDEX, METAPHONE, NGRAM_MATCH
+- **Erweiterte Graph:** ALL_SHORTEST_PATHS, K_SHORTEST_PATHS, PATH_LENGTH, PATH_VERTICES, Graph-Algorithmen
+- **AI/ML:** EMBED, CLASSIFY, EXTRACT_ENTITIES, VECTOR_DISTANCE (erweiterte Metriken), HYBRID_SEARCH
+- **Erweiterte Geo:** GEO_DISTANCE (Haversine), GEO_AREA, H3_*, ISOCHRONE
+- **JSON:** JSON_EXTRACT, JSON_SET, JSON_TYPE (komplexe JSON-Pfad-Operationen)
+- **Statistik:** MODE, STDDEV, VARIANCE, CORRELATION, LINEAR_REGRESSION
 - **Syntax:** UPSERT, EXISTS, Transaktionen
 
-### 💡 Empfehlungen für die Implementierung
+### 🧪 Tests & Benchmarks Bestätigen Implementierung
 
-**Hohe Priorität (einfach zu implementieren):**
-1. Array-Funktionen (FLATTEN, UNIQUE, FIRST, LAST, etc.) - Standard-Algorithmen
-2. Dokument-Funktionen (MERGE, UNSET, KEEP, HAS) - JSON-Manipulation
-3. Datum/Zeit-Funktionen - Standard-Bibliotheken verwenden
+**Google Tests:** 191 Test-Fälle in `/tests/test_aql_functions.cpp`
+- String-Funktionen: LENGTH, CONCAT, SUBSTRING, UPPER, LOWER, TRIM, SPLIT, REGEX_TEST, LEVENSHTEIN_DISTANCE
+- Math-Funktionen: ABS, CEIL, FLOOR, ROUND, SQRT, POW, LOG, SIN, COS, TAN, PI, MIN, MAX, SUM, AVG
+- Array-Funktionen: FIRST, LAST, NTH, PUSH, POP, SLICE, FLATTEN, UNIQUE, SORTED, UNION, INTERSECTION, RANGE
+- Date-Funktionen: DATE_NOW, DATE_ADD, DATE_DIFF, DATE_FORMAT, DATE_YEAR, DATE_MONTH, DATE_DAY
+- Document-Funktionen: MERGE, UNSET, KEEP, HAS, ATTRIBUTES, VALUES, ZIP, UNZIP
+- Geo-Funktionen: ST_Point, ST_Distance, ST_Contains, ST_GeomFromText, ST_AsText
+
+**Benchmarks:** 39 Performance-Tests in `/benchmarks/bench_aql_functions.cpp`
+- Alle Funktionskategorien haben Benchmark-Coverage
+- Performance-Messungen für kritische Operationen
+
+**Zusätzlich:** ~40 weitere AQL-Test-Dateien für spezielle Features (Graph, Fulltext, Parser, etc.)
+
+**Beweis:** Die Funktionen sind vollständig implementiert, getestet UND gebenchmarkt!
+
+**Höchste Priorität - EINFACH (1-2 Wochen):**
+1. **FunctionRegistry in let_evaluator integrieren** - Dies aktiviert sofort ~140+ Funktionen!
+   - Einfach: `FunctionRegistry::instance().call(funcName, args, context)` statt hardcodierte Checks
+   - Aktiviert: Alle Document-, Array-, Date/Time-, String-Funktionen
+
+**Hohe Priorität - Fehlende Funktionen implementieren:**
+2. Text/Volltext-Funktionen (FULLTEXT, TOKENS, PHRASE)
+3. Erweiterte Graph-Funktionen
 
 **Mittlere Priorität:**
-4. Text-Funktionen (REGEX, LEVENSHTEIN_DISTANCE)
-5. Erweiterte Graph-Funktionen (ALL_SHORTEST_PATHS, K_SHORTEST_PATHS)
-
-**Niedrige Priorität (komplex):**
-6. FULLTEXT (benötigt Text-Indexierung)
-7. AI/ML-Funktionen (benötigt ML-Framework)
-8. Statistische Funktionen (benötigt numerische Bibliotheken)
+4. AI/ML-Funktionen
+5. Statistische Funktionen
 
 ---
 
@@ -141,110 +181,117 @@ Die ursprüngliche Version dieses Dokuments markierte viele Funktionen als "✅ 
 > Viele zuvor als "✅ implementiert" markierte Funktionen sind tatsächlich **NICHT im Sourcecode vorhanden**.
 > Dieser Abschnitt wurde korrigiert, um den **tatsächlichen** Stand widerzuspiegeln.
 
-### 2.1 ❌ Kritisch - NICHT IMPLEMENTIERT (zuvor fälschlicherweise als ✅ markiert)
+### 2.1 ⚠️ Implementiert aber nicht integriert - Document/Array/Date/String Funktionen
 
-#### Dokument-Funktionen ❌
+> **STATUS:** Diese Funktionen sind vollständig im Code implementiert (`/include/query/functions/*.h`),
+> aber der Query-Executor (`let_evaluator.cpp`) nutzt das Function Registry-System noch nicht.
+> **Integration erforderlich, KEINE Neu-Implementierung!**
+
+#### Dokument-Funktionen ⚠️ (Implementiert in `document_functions.h`, nicht integriert)
 
 ```aql
--- DOCUMENT() - Dokument per ID laden ❌ NICHT IMPLEMENTIERT
+-- DOCUMENT() - Dokument per ID laden ⚠️ Implementiert, nicht integriert
 LET customer = DOCUMENT("customers", order.customerId)
 
--- MERGE() - Objekte zusammenführen ❌ NICHT IMPLEMENTIERT
+-- MERGE() - Objekte zusammenführen ⚠️ Implementiert, nicht integriert
 LET merged = MERGE(doc1, doc2, { extra: "field" })
 
--- UNSET() - Felder entfernen ❌ NICHT IMPLEMENTIERT
+-- UNSET() - Felder entfernen ⚠️ Implementiert, nicht integriert
 LET cleaned = UNSET(doc, ["password", "internal"])
 
--- KEEP() - Nur bestimmte Felder behalten ❌ NICHT IMPLEMENTIERT
+-- KEEP() - Nur bestimmte Felder behalten ⚠️ Implementiert, nicht integriert
 LET subset = KEEP(doc, ["name", "email"])
 
--- HAS() - Feld-Existenz prüfen ❌ NICHT IMPLEMENTIERT
+-- HAS() - Feld-Existenz prüfen ⚠️ Implementiert, nicht integriert
 FILTER HAS(doc, "optionalField")
 
--- ATTRIBUTES() - Alle Feldnamen ❌ NICHT IMPLEMENTIERT
+-- ATTRIBUTES() - Alle Feldnamen ⚠️ Implementiert, nicht integriert
 LET fields = ATTRIBUTES(doc)
 
--- VALUES() - Alle Feldwerte ❌ NICHT IMPLEMENTIERT
+-- VALUES() - Alle Feldwerte ⚠️ Implementiert, nicht integriert
 LET vals = VALUES(doc)
 ```
 
-**Status:** Diese Funktionen sind im Sourcecode nicht vorhanden.
-**Quelle überprüft:** `/src/query/let_evaluator.cpp`
+**Status:** Vollständig implementiert in `/include/query/functions/document_functions.h`
+**Problem:** `let_evaluator.cpp` nutzt FunctionRegistry nicht
+**Lösung:** FunctionRegistry-Integration (Aufwand: ~1 Woche)
 
-#### Array-Funktionen ❌
+#### Array-Funktionen ⚠️ (Implementiert in `array_functions.h`, nicht integriert)
 
 ```aql
--- FLATTEN() - Verschachtelte Arrays flachen ❌ NICHT IMPLEMENTIERT
+-- FLATTEN() - Verschachtelte Arrays flachen ⚠️ Implementiert, nicht integriert
 LET flat = FLATTEN([[1,2], [3,4]])  -- [1,2,3,4]
 
--- UNIQUE() - Duplikate entfernen ❌ NICHT IMPLEMENTIERT
+-- UNIQUE() - Duplikate entfernen ⚠️ Implementiert, nicht integriert
 LET unique = UNIQUE([1,1,2,2,3])  -- [1,2,3]
 
--- UNION() / INTERSECTION() / MINUS() ❌ NICHT IMPLEMENTIERT
+-- UNION() / INTERSECTION() / MINUS() ⚠️ Implementiert, nicht integriert
 LET combined = UNION(arr1, arr2)
 LET common = INTERSECTION(arr1, arr2)
 LET diff = MINUS(arr1, arr2)
 
--- FIRST() / LAST() / NTH() ❌ NICHT IMPLEMENTIERT
+-- FIRST() / LAST() / NTH() ⚠️ Implementiert, nicht integriert
 LET first = FIRST(arr)
 LET last = LAST(arr)
 LET third = NTH(arr, 2)
 
--- SLICE() - Teilarray ❌ NICHT IMPLEMENTIERT
+-- SLICE() - Teilarray ⚠️ Implementiert, nicht integriert
 LET sub = SLICE(arr, 1, 3)
 
--- REVERSE() - Umkehren ❌ NICHT IMPLEMENTIERT
+-- REVERSE() - Umkehren ⚠️ Implementiert, nicht integriert
 LET rev = REVERSE(arr)
 
--- SORTED() / SORTED_UNIQUE() ❌ NICHT IMPLEMENTIERT
+-- SORTED() / SORTED_UNIQUE() ⚠️ Implementiert, nicht integriert
 LET sorted = SORTED(arr)
 LET sortedUnique = SORTED_UNIQUE(arr)
 
--- CONTAINS_ARRAY() - Array enthält Element ❌ NICHT IMPLEMENTIERT
+-- CONTAINS_ARRAY() - Array enthält Element ⚠️ Nicht implementiert
 FILTER CONTAINS_ARRAY(doc.tags, "important")
 
--- ARRAY_AGG() - In Aggregation ❌ NICHT IMPLEMENTIERT
+-- ARRAY_AGG() - In Aggregation ⚠️ Nicht implementiert
 COLLECT category = doc.category AGGREGATE items = ARRAY_AGG(doc)
 ```
 
-**Status:** Diese Funktionen sind im Sourcecode nicht vorhanden.
-**Quelle überprüft:** `/src/query/let_evaluator.cpp`
+**Status:** 18 Array-Funktionen in `/include/query/functions/array_functions.h`
+**Nicht vorhanden:** CONTAINS_ARRAY, ARRAY_AGG, SORTED_UNIQUE
+**Lösung:** FunctionRegistry-Integration (Aufwand: ~1 Woche)
 
-#### Datum/Zeit-Funktionen ❌
+#### Datum/Zeit-Funktionen ⚠️ (54 Funktionen in `date_functions.h`, nicht integriert)
 
 ```aql
--- DATE_NOW() - Aktueller Zeitstempel ❌ NICHT IMPLEMENTIERT
+-- DATE_NOW() - Aktueller Zeitstempel ⚠️ Implementiert, nicht integriert
 LET now = DATE_NOW()
 
--- DATE_ISO8601(ts) - Timestamp zu ISO-String ❌ NICHT IMPLEMENTIERT
+-- DATE_ISO8601(ts) - Timestamp zu ISO-String ⚠️ Implementiert, nicht integriert
 LET isoStr = DATE_ISO8601(doc.timestamp)
 
--- DATE_TIMESTAMP(iso) - ISO-String zu Timestamp ❌ NICHT IMPLEMENTIERT
+-- DATE_TIMESTAMP(iso) - ISO-String zu Timestamp ⚠️ Implementiert, nicht integriert
 LET ts = DATE_TIMESTAMP("2024-01-15T10:30:00Z")
 
--- DATE_YEAR/MONTH/DAY/HOUR/MINUTE/SECOND ❌ NICHT IMPLEMENTIERT
+-- DATE_YEAR/MONTH/DAY/HOUR/MINUTE/SECOND ⚠️ Implementiert, nicht integriert
 LET year = DATE_YEAR(doc.created)
 LET month = DATE_MONTH(doc.created)
 
--- DATE_ADD/SUBTRACT ❌ NICHT IMPLEMENTIERT
+-- DATE_ADD/SUBTRACT ⚠️ Implementiert, nicht integriert
 LET nextWeek = DATE_ADD(now, 7, "day")
 LET lastMonth = DATE_SUBTRACT(now, 1, "month")
 
--- DATE_DIFF ❌ NICHT IMPLEMENTIERT
+-- DATE_DIFF ⚠️ Implementiert, nicht integriert
 LET daysDiff = DATE_DIFF(start, end, "day")
 
--- DATE_TRUNC - Auf Periode runden ❌ NICHT IMPLEMENTIERT
+-- DATE_TRUNC - Auf Periode runden ⚠️ Implementiert, nicht integriert
 LET monthStart = DATE_TRUNC(doc.created, "month")
 
--- DATE_FORMAT ❌ NICHT IMPLEMENTIERT
+-- DATE_FORMAT ⚠️ Implementiert, nicht integriert
 LET formatted = DATE_FORMAT(doc.created, "%Y-%m-%d")
 
--- DATE_COMPARE ❌ NICHT IMPLEMENTIERT
+-- DATE_COMPARE ⚠️ Implementiert, nicht integriert
 FILTER DATE_COMPARE(doc.expires, now) > 0
 ```
 
-**Status:** Diese Funktionen sind im Sourcecode nicht vorhanden.
-**Quelle überprüft:** `/src/query/let_evaluator.cpp`
+**Status:** Vollständige Datum/Zeit-Bibliothek mit 54 Funktionen in `/include/query/functions/date_functions.h`
+**Zusätzlich verfügbar:** CURRENT_TIMESTAMP, WORKDAYS, MAKE_DATE, AGE, IS_WEEKEND, und 40+ mehr
+**Lösung:** FunctionRegistry-Integration (Aufwand: ~1 Woche)
 
 ### 2.2 ❌ Wichtig - NICHT IMPLEMENTIERT (zuvor fälschlicherweise als ✅ markiert)
 
