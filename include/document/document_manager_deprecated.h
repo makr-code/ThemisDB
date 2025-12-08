@@ -19,9 +19,14 @@
 
 #include "projects/DocumentManager/document_manager.h"
 
-// Provide a namespace alias for backward compatibility
+// Provide type aliases for backward compatibility
 namespace themis {
 namespace document {
-    using namespace themis::projects;
+    using DocumentManager = themis::projects::DocumentManager;
+    using DocumentMeta = themis::projects::DocumentMeta;
+    using ChunkMeta = themis::projects::ChunkMeta;
+    using ChunkingConfig = themis::projects::ChunkingConfig;
+    using UploadResult = themis::projects::UploadResult;
+    using Status = themis::projects::Status;
 } // namespace document
 } // namespace themis

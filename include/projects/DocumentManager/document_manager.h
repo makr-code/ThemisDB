@@ -89,7 +89,7 @@ struct UploadResult {
 struct Status {
     bool ok = true;
     std::string message;
-    static Status OK() { return {}; }
+    static Status OK() { return Status{true, ""}; }
     static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
 };
 

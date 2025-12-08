@@ -23,6 +23,7 @@ Dokumentenverwaltungssystem mit Unterstützung für:
 
 using namespace themis::projects;
 
+// Assume storage, vector_index, and graph_index are already created
 auto doc_manager = std::make_shared<DocumentManager>(
     storage, vector_index, graph_index
 );
