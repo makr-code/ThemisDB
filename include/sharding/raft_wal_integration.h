@@ -3,6 +3,9 @@
 
 #include <memory>
 #include <string>
+#include <map>
+#include <set>
+#include <mutex>
 #include "raft_state.h"
 #include "raft_log.h"
 #include "wal_manager.h"
@@ -11,6 +14,13 @@
 
 namespace themisdb {
 namespace sharding {
+
+// Bridge WAL types from themis::sharding into the themisdb::sharding namespace.
+using themis::sharding::LSN;
+using themis::sharding::WALEntry;
+using themis::sharding::WALManager;
+using themis::sharding::WALShipper;
+using themis::sharding::WALApplier;
 
 /**
  * @brief Integrates Raft consensus with WAL replication for automatic failover

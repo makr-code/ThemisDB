@@ -4,6 +4,7 @@
 #include <vector>
 #include <optional>
 #include <cstdint>
+#include <unordered_map>
 
 namespace themis {
 namespace content {

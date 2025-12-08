@@ -1,6 +1,8 @@
-#include "raft_wal_integration.h"
+#include "sharding/raft_wal_integration.h"
 #include <chrono>
 #include <thread>
+#include <set>
+#include <vector>
 
 namespace themisdb {
 namespace sharding {
@@ -26,12 +28,16 @@ RaftWALIntegration::WriteResult RaftWALIntegration::write(const WALEntry& entry)
     
     // 1. Append to local WAL
     LSN wal_lsn = config_.wal_manager->append(entry);
-    
-    // 2. Append to Raft log
+
+    // 2. Append to Raft log (serialize WAL entry as the replicated command)
+    WALEntry replicated_entry = entry;
+    replicated_entry.lsn = wal_lsn;  // ensure serialized command carries assigned LSN
+    const auto serialized = replicated_entry.serialize();
+
     LogEntry log_entry;
     log_entry.term = config_.raft_state->getCurrentTerm();
     log_entry.index = config_.raft_log->getLastLogIndex() + 1;
-    log_entry.command = entry;  // WAL entry as command
+    log_entry.command.assign(serialized.begin(), serialized.end());
     
     uint64_t log_index = config_.raft_log->append(log_entry);
     

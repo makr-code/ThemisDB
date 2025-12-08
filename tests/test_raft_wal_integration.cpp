@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "raft_wal_integration.h"
+#include "sharding/raft_wal_integration.h"
 #include "raft_state.h"
 #include "raft_log.h"
 #include "wal_manager.h"

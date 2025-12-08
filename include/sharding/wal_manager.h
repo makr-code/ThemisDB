@@ -48,6 +48,14 @@ struct LSN {
     bool operator<=(const LSN& other) const {
         return *this < other || *this == other;
     }
+
+    bool operator>(const LSN& other) const {
+        return other < *this;
+    }
+
+    bool operator>=(const LSN& other) const {
+        return !(*this < other);
+    }
     
     std::string toString() const {
         return std::to_string(segment) + "/" + std::to_string(offset);

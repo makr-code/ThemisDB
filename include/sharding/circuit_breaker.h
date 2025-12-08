@@ -5,6 +5,8 @@
 #include <atomic>
 #include <mutex>
 #include <unordered_map>
+#include <vector>
+#include <memory>
 
 namespace themis::sharding {
 
@@ -56,7 +58,7 @@ public:
     /**
      * Construct circuit breaker with configuration
      */
-    explicit CircuitBreaker(const Config& config = Config{});
+    explicit CircuitBreaker(const Config& config);
     
     /**
      * Check if request should be allowed

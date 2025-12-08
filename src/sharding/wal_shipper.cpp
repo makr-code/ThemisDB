@@ -14,11 +14,11 @@ WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
     
     // Create mTLS client if certificates provided
     if (!config_.cert_path.empty()) {
-        MTLSClientConfig mtls_config;
+        MTLSClient::Config mtls_config;
         mtls_config.cert_path = config_.cert_path;
         mtls_config.key_path = config_.key_path;
         mtls_config.ca_cert_path = config_.ca_cert_path;
-        mtls_client_ = createMTLSClient(mtls_config);
+        mtls_client_ = std::make_shared<MTLSClient>(mtls_config);
     }
 }
 

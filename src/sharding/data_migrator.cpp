@@ -354,9 +354,6 @@ bool DataMigrator::retryOperation(Func func) {
     return false;
 }
 
-} // namespace sharding
-} // namespace themis
-
 
 // ============================================================================
 // Idempotency Helper Methods
@@ -509,4 +506,7 @@ void DataMigrator::saveIdempotencyState() {
                   << e.what() << std::endl;
     }
 }
+
+}  // namespace sharding
+}  // namespace themis
 

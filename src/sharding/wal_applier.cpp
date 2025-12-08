@@ -1,5 +1,6 @@
 #include "sharding/wal_applier.h"
 #include <iostream>
+#include <thread>
 
 namespace themis::sharding {
 

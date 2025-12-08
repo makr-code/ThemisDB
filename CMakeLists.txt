@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required(VERSION 3.20)
 
 # Read version from VERSION file if present
-set(THEMIS_VERSION "1.0.0")
+set(THEMIS_VERSION "1.0.1")
 if(EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
     file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
     string(STRIP "${_ver}" _ver)
@@ -387,6 +387,10 @@ set(THEMIS_CORE_SOURCES
     src/content/content_manager.cpp
     src/content/text_processor.cpp
     src/content/mock_clip_processor.cpp
+    src/content/mime_detector.cpp
+    src/content/content_policy.cpp
+    src/content/content_fs.cpp
+    src/content/version_manager.cpp
     # Additional content processors
     src/content/audio_processor.cpp
     src/content/image_processor.cpp
@@ -448,7 +452,10 @@ set(THEMIS_CORE_SOURCES
     src/security/cms_signing.cpp
     src/security/rbac.cpp
     src/security/hsm_provider.cpp
+    src/security/hsm_provider_pkcs11.cpp
     src/security/timestamp_authority.cpp
+    src/security/timestamp_authority_openssl.cpp
+    src/security/vcc_pki_client.cpp
     src/auth/jwt_validator.cpp
     src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
@@ -477,6 +484,16 @@ set(THEMIS_CORE_SOURCES
     src/sharding/health_check.cpp
     src/sharding/admin_api.cpp
     src/sharding/cloud_agent.cpp
+    src/sharding/circuit_breaker.cpp
+    src/sharding/gossip_protocol.cpp
+    src/sharding/raft_configuration.cpp
+    src/sharding/raft_log.cpp
+    src/sharding/raft_state.cpp
+    src/sharding/raft_wal_integration.cpp
+    src/sharding/stream_protocol.cpp
+    src/sharding/wal_applier.cpp
+    src/sharding/wal_manager.cpp
+    src/sharding/wal_shipper.cpp
     src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
@@ -1114,7 +1131,7 @@ endif()
 
 # Enterprise Plugins
 option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
-if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
+if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins")
     add_subdirectory(plugins)
 endif()
 

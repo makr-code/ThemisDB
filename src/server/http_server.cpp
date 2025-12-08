@@ -5370,7 +5370,7 @@ http::response<http::string_body> HttpServer::handleQuery(
     std::string ret = body.contains("return") ? body["return"].get<std::string>() : std::string("entities");
     bool decrypt = body.contains("decrypt") ? body["decrypt"].get<bool>() : false;
 
-    themis::ConjunctiveQuery q{table, preds};
+    themis::ConjunctiveQuery q{table, preds, {}, {}, {}, {}};
     q.rangePredicates = std::move(rpreds);
     q.orderBy = orderBy;
     q.fulltextPredicate = {};
@@ -6145,7 +6145,7 @@ http::response<http::string_body> HttpServer::handleQueryAql(
                 } else if (b.is_string()) {
                     const std::string lit = b.get<std::string>();
                     // Datumsvergleich falls beide ISO-�hnlich
-                    time_t ta, tb; bool da = parseDate(a, ta), db = parseDate(lit, tb);
+                    time_t ta = 0, tb = 0; bool da = parseDate(a, ta), db = parseDate(lit, tb);
                     if (da && db) {
                         switch (op) {
                             case SimplePred::Op::Eq:  return ta == tb;

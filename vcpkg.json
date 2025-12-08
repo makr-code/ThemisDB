@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "themis-qnap",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "Themis QNAP static build manifest (includes tests, benchmarks, tracing)",
   "license": "MIT",
   "dependencies": [
