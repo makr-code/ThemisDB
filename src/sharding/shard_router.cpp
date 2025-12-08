@@ -364,18 +364,16 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
     // - If join_field is the URN/partition key, use co-located join
     // - Otherwise, use hash-join with broadcast of smaller side
     
-    bool use_broadcast_join = true;  // Default to broadcast for non-partition keys
-    std::string strategy_name;
-    
     // Check if join_field matches the partition key pattern
-    if (join_field.find("urn:") == 0 || join_field == "id" || join_field == "_key") {
-        use_broadcast_join = false;
-        strategy_name = "co_located";
-        span.setAttribute("join_strategy", "co_located");
-    } else {
-        strategy_name = "broadcast_hash";
-        span.setAttribute("join_strategy", "broadcast_hash");
-    }
+    const std::string strategy_name = (join_field.find("urn:") == 0 || 
+                                       join_field == "id" || 
+                                       join_field == "_key") 
+        ? "co_located" 
+        : "broadcast_hash";
+    
+    const bool use_broadcast_join = (strategy_name == "broadcast_hash");
+    
+    span.setAttribute("join_strategy", strategy_name);
     
     if (metrics_) {
         metrics_->recordCrossShardJoin(strategy_name);
@@ -440,7 +438,10 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         if (metrics_) {
             metrics_->recordCrossShardJoinDuration(strategy_name, static_cast<double>(duration_ms));
-            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows, 0, total_left_rows);
+            // Note: In a complete implementation, right_rows would come from the right-side query results
+            // For now, using total_left_rows as a placeholder for the result set size
+            // TODO: Track actual right-side row count when full join implementation is complete
+            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows, total_left_rows, total_left_rows);
         }
         
         return result;
