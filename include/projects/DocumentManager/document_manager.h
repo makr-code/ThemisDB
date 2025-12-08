@@ -11,7 +11,7 @@
 #include "index/graph_index.h"
 
 namespace themis {
-namespace document {
+namespace projects {
 
 using json = nlohmann::json;
 
@@ -203,5 +203,5 @@ private:
     void createChunkGraph(const std::vector<std::string>& chunk_ids, const std::string& doc_id);
 };
 
-} // namespace document
+} // namespace projects
 } // namespace themis
