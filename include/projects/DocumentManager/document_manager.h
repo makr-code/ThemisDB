@@ -87,8 +87,12 @@ struct UploadResult {
  * @brief Status result for operations
  */
 struct Status {
-    bool ok = true;
+    bool ok;
     std::string message;
+    
+    explicit Status(bool success = true, std::string msg = {}) 
+        : ok(success), message(std::move(msg)) {}
+    
     static Status OK() { return Status{true, ""}; }
     static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
 };

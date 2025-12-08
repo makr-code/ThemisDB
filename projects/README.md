@@ -23,7 +23,8 @@ Dokumentenverwaltungssystem mit Unterstützung für:
 
 using namespace themis::projects;
 
-// Assume storage, vector_index, and graph_index are already created
+// Assume storage (RocksDBWrapper), vector_index (VectorIndexManager), 
+// and graph_index (GraphIndexManager) are already created
 auto doc_manager = std::make_shared<DocumentManager>(
     storage, vector_index, graph_index
 );
