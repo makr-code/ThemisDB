@@ -214,6 +214,82 @@ size_t RaftState::getVotesReceived() const {
     return count;
 }
 
+AppendEntriesResponse RaftState::handleAppendEntries(const AppendEntriesRequest& request) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    AppendEntriesResponse response;
+    response.term = current_term_;
+    response.success = false;
+    response.match_index = 0;
+    
+    // 1. Reply false if term < currentTerm
+    if (request.term < current_term_) {
+        return response;
+    }
+    
+    // If RPC request or response contains term T > currentTerm:
+    // set currentTerm = T, convert to follower
+    if (request.term > current_term_) {
+        current_term_ = request.term;
+        voted_for_.clear();
+        state_ = RaftNodeState::FOLLOWER;
+        votes_received_.clear();
+    }
+    
+    // Valid leader, reset election timeout
+    leader_id_ = request.leader_id;
+    resetElectionTimeout();
+    
+    // If candidate or leader, step down
+    if (state_ != RaftNodeState::FOLLOWER) {
+        state_ = RaftNodeState::FOLLOWER;
+    }
+    
+    // 2. Reply false if log doesn't contain an entry at prevLogIndex
+    //    whose term matches prevLogTerm
+    if (!log_.hasEntry(request.prev_log_index, request.prev_log_term)) {
+        response.match_index = log_.getLastLogIndex();
+        return response;
+    }
+    
+    // 3. If an existing entry conflicts with a new one (same index but different terms),
+    //    delete the existing entry and all that follow it
+    for (const auto& entry : request.entries) {
+        auto existing = log_.getEntry(entry.index);
+        if (existing.has_value() && existing->term != entry.term) {
+            log_.truncateFrom(entry.index);
+            break;
+        }
+    }
+    
+    // 4. Append any new entries not already in the log
+    for (const auto& entry : request.entries) {
+        if (!log_.getEntry(entry.index).has_value()) {
+            log_.append(entry);
+        }
+    }
+    
+    // 5. If leaderCommit > commitIndex, set commitIndex = min(leaderCommit, index of last new entry)
+    if (request.leader_commit > log_.getCommitIndex()) {
+        uint64_t new_commit = std::min(request.leader_commit, log_.getLastLogIndex());
+        log_.setCommitIndex(new_commit);
+    }
+    
+    response.success = true;
+    response.match_index = log_.getLastLogIndex();
+    response.term = current_term_;
+    
+    return response;
+}
+
+RaftLog& RaftState::getLog() {
+    return log_;
+}
+
+const RaftLog& RaftState::getLog() const {
+    return log_;
+}
+
 std::chrono::milliseconds RaftState::getRandomElectionTimeout() {
     std::uniform_int_distribution<uint32_t> dist(
         config_.election_timeout_min_ms,

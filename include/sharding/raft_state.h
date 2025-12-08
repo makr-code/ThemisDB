@@ -8,6 +8,7 @@
 #include <random>
 #include <string>
 #include <vector>
+#include "sharding/raft_log.h"
 
 namespace themisdb {
 namespace sharding {
@@ -177,6 +178,25 @@ public:
     bool isCandidate() const;
 
     /**
+     * @brief Handle AppendEntries RPC from leader
+     * @param request AppendEntries request
+     * @return AppendEntries response
+     */
+    AppendEntriesResponse handleAppendEntries(const AppendEntriesRequest& request);
+
+    /**
+     * @brief Get reference to the Raft log
+     * @return Reference to RaftLog
+     */
+    RaftLog& getLog();
+
+    /**
+     * @brief Get reference to the Raft log (const)
+     * @return Const reference to RaftLog
+     */
+    const RaftLog& getLog() const;
+
+    /**
      * @brief Get node ID
      * @return This node's ID
      */
@@ -225,6 +245,7 @@ private:
     // Persistent state (would be persisted to disk in production)
     std::atomic<uint64_t> current_term_{0};     // Latest term server has seen
     std::string voted_for_;                     // Candidate ID voted for in current term
+    RaftLog log_;                               // Log entries
     
     // Volatile state
     mutable std::mutex state_mutex_;            // Protects mutable state
