@@ -1,5 +1,6 @@
 #define _USE_MATH_DEFINES
 #include "query/let_evaluator.h"
+#include "query/functions/function_registry.h"
 #include "utils/logger.h"
 #include "utils/geo/ewkb.h"
 #include <stdexcept>
@@ -8,6 +9,16 @@
 #include <cctype>
 #include <sstream>
 #include <iostream>
+
+// Ensure builtin functions are registered on first use
+namespace {
+    struct FunctionRegistryInitializer {
+        FunctionRegistryInitializer() {
+            themis::query::functions::registerBuiltinFunctions();
+        }
+    };
+    static FunctionRegistryInitializer g_function_registry_init;
+}
 
 namespace themis {
 namespace query {
@@ -359,149 +370,42 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
     const std::string& funcName = funcCall->name;
     const auto& args = funcCall->arguments;
 
-    // LENGTH(value) - returns length of string, array, or object
-    if (funcName == "LENGTH") {
-        if (args.size() != 1) {
-            throw std::runtime_error("LENGTH expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        if (val.is_string()) return val.get<std::string>().length();
-        if (val.is_array()) return val.size();
-        if (val.is_object()) return val.size();
-        return 0;
-    }
-
-    // CONCAT(...) - concatenate strings
-    if (funcName == "CONCAT") {
-        std::string result;
-        for (const auto& arg : args) {
-            auto val = evaluateExpression(arg, currentDoc);
-            if (val.is_string()) {
-                result += val.get<std::string>();
-            } else {
-                result += val.dump();
+    // Try FunctionRegistry first - it now contains 140+ functions including:
+    // Document: DOCUMENT, MERGE, UNSET, KEEP, HAS, ATTRIBUTES, VALUES
+    // Array: FLATTEN, UNIQUE, UNION, INTERSECTION, FIRST, LAST, NTH, SLICE, SORTED, REVERSE
+    // Date/Time: DATE_NOW, DATE_ADD, DATE_DIFF, DATE_FORMAT, etc. (54 functions!)
+    // String: REGEX_TEST, REGEX_REPLACE, LEVENSHTEIN_DISTANCE
+    // Math: Extended math functions
+    auto& registry = themis::query::functions::FunctionRegistry::instance();
+    
+    if (registry.hasFunction(funcName)) {
+        try {
+            // Evaluate all arguments to JSON values
+            std::vector<nlohmann::json> evaluatedArgs;
+            evaluatedArgs.reserve(args.size());
+            for (const auto& arg : args) {
+                evaluatedArgs.push_back(evaluateExpression(arg, currentDoc));
             }
+            
+            // Create function context with current document and bindings
+            themis::query::functions::FunctionContext ctx(currentDoc);
+            
+            // Copy LET bindings to function context
+            for (const auto& [varName, varValue] : bindings_) {
+                ctx.setVariable(varName, varValue);
+            }
+            
+            // Call the function through registry
+            return registry.call(funcName, evaluatedArgs, ctx);
+            
+        } catch (const std::exception& e) {
+            // If function exists but execution fails, re-throw with context
+            throw std::runtime_error("Function " + funcName + "() error: " + std::string(e.what()));
         }
-        return result;
     }
-
-    // SUBSTRING(str, start, length)
-    if (funcName == "SUBSTRING") {
-        if (args.size() < 2 || args.size() > 3) {
-            throw std::runtime_error("SUBSTRING expects 2 or 3 arguments");
-        }
-        auto str = evaluateExpression(args[0], currentDoc);
-        auto start = evaluateExpression(args[1], currentDoc);
-        
-        if (!str.is_string()) {
-            throw std::runtime_error("SUBSTRING expects string as first argument");
-        }
-        
-        std::string strVal = str.get<std::string>();
-        size_t startIdx = static_cast<size_t>(toNumber(start));
-        
-        if (startIdx >= strVal.length()) {
-            return "";
-        }
-        
-        if (args.size() == 3) {
-            auto length = evaluateExpression(args[2], currentDoc);
-            size_t lengthVal = static_cast<size_t>(toNumber(length));
-            return strVal.substr(startIdx, lengthVal);
-        }
-        
-        return strVal.substr(startIdx);
-    }
-
-    // UPPER(str) - convert to uppercase
-    if (funcName == "UPPER") {
-        if (args.size() != 1) {
-            throw std::runtime_error("UPPER expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        if (!val.is_string()) {
-            throw std::runtime_error("UPPER expects string argument");
-        }
-        std::string str = val.get<std::string>();
-        std::transform(str.begin(), str.end(), str.begin(), ::toupper);
-        return str;
-    }
-
-    // LOWER(str) - convert to lowercase
-    if (funcName == "LOWER") {
-        if (args.size() != 1) {
-            throw std::runtime_error("LOWER expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        if (!val.is_string()) {
-            throw std::runtime_error("LOWER expects string argument");
-        }
-        std::string str = val.get<std::string>();
-        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-        return str;
-    }
-
-    // ABS(num) - absolute value
-    if (funcName == "ABS") {
-        if (args.size() != 1) {
-            throw std::runtime_error("ABS expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        return std::abs(toNumber(val));
-    }
-
-    // CEIL(num) - ceiling
-    if (funcName == "CEIL") {
-        if (args.size() != 1) {
-            throw std::runtime_error("CEIL expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        return std::ceil(toNumber(val));
-    }
-
-    // FLOOR(num) - floor
-    if (funcName == "FLOOR") {
-        if (args.size() != 1) {
-            throw std::runtime_error("FLOOR expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        return std::floor(toNumber(val));
-    }
-
-    // ROUND(num) - round
-    if (funcName == "ROUND") {
-        if (args.size() != 1) {
-            throw std::runtime_error("ROUND expects 1 argument");
-        }
-        auto val = evaluateExpression(args[0], currentDoc);
-        return std::round(toNumber(val));
-    }
-
-    // MIN(...) - minimum value
-    if (funcName == "MIN") {
-        if (args.empty()) {
-            throw std::runtime_error("MIN expects at least 1 argument");
-        }
-        double minVal = toNumber(evaluateExpression(args[0], currentDoc));
-        for (size_t i = 1; i < args.size(); ++i) {
-            double val = toNumber(evaluateExpression(args[i], currentDoc));
-            minVal = std::min(minVal, val);
-        }
-        return minVal;
-    }
-
-    // MAX(...) - maximum value
-    if (funcName == "MAX") {
-        if (args.empty()) {
-            throw std::runtime_error("MAX expects at least 1 argument");
-        }
-        double maxVal = toNumber(evaluateExpression(args[0], currentDoc));
-        for (size_t i = 1; i < args.size(); ++i) {
-            double val = toNumber(evaluateExpression(args[i], currentDoc));
-            maxVal = std::max(maxVal, val);
-        }
-        return maxVal;
-    }
+    
+    // Legacy fallback for ST_* functions
+    // These remain here for backward compatibility with custom EWKB parsing
 
     // ================= SPATIAL FUNCTIONS (ST_*) =================
     

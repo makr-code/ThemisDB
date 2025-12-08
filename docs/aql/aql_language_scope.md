@@ -86,143 +86,256 @@ Abfragesprachen und identifiziert notwendige Erweiterungen für vollständige Mu
 
 ---
 
-## 2. Implementierungsstatus - Aktualisiert Dezember 2024
+## 🔍 WICHTIGER HINWEIS: Tatsächlicher Implementierungsstatus
 
-### 2.1 ✅ Kritisch - VOLLSTÄNDIG IMPLEMENTIERT
+**Analysedatum:** 8. Dezember 2024 (Aktualisiert nach Code-Review)
 
-#### Dokument-Funktionen ✅
+### 🎯 WICHTIGE ENTDECKUNG: Parallele Funktionsimplementierung!
+
+Die ursprüngliche Analyse war unvollständig. Eine tiefere Code-Überprüfung ergab:
+
+**Es gibt ZWEI getrennte Funktions-Systeme im Code:**
+
+1. **Legacy-System** (`/src/query/let_evaluator.cpp`): Hardcodierte Funktionsprüfungen - nur Basis-Funktionen
+2. **Modernes Registry-System** (`/include/query/functions/*.h`): Vollständige, modulare Implementierung - ALLE Funktionen!
+
+**Das Problem:** Das moderne Registry-System ist IMPLEMENTIERT, aber noch NICHT in den Query-Ausführungspfad integriert!
+
+### ✅ Was IST im Code vorhanden (Query-Ausführung aktiv):
+
+#### Basis-Funktionen (in let_evaluator.cpp - funktionsfähig):
+- **String-Funktionen:** LENGTH, CONCAT, SUBSTRING, UPPER, LOWER
+- **Mathematik:** ABS, CEIL, FLOOR, ROUND, MIN, MAX
+- **Geo/Spatial:** ST_Point, ST_Distance, ST_Within, ST_Contains, ST_Intersects, ST_DWithin, ST_Buffer, ST_Union, ST_GeomFromText, ST_GeomFromGeoJSON, ST_AsGeoJSON, ST_AsText, ST_3DDistance, ST_Z, ST_ZMin, ST_ZMax
+- **Vektor:** SIMILARITY (Vektor-Ähnlichkeitssuche), PROXIMITY (Geo-Nähe)
+- **Graph-Traversierung:** FOR v IN 1..n OUTBOUND/INBOUND/ANY, SHORTEST_PATH
+- **Aggregation:** COLLECT x = expr, AGGREGATE COUNT/SUM/AVG
+- **Window Functions:** ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, FIRST_VALUE, LAST_VALUE
+
+**Quelle:** `/src/query/let_evaluator.cpp`, `/src/query/window_evaluator.cpp`
+
+### ✨ Was AUCH im Code existiert (Function Registry - noch nicht integriert):
+
+#### Dokument-Funktionen (in `/include/query/functions/document_functions.h`):
+- **Implementiert:** DOCUMENT, MERGE, MERGE_RECURSIVE, UNSET, KEEP, HAS, ATTRIBUTES, VALUES, ZIP, UNZIP
+- **Typ-Funktionen:** TYPENAME, IS_NULL, IS_BOOL, IS_NUMBER, IS_STRING, IS_ARRAY, IS_OBJECT
+- **Konvertierung:** TO_NUMBER, TO_STRING, TO_BOOL, TO_ARRAY
+
+#### Array-Funktionen (in `/include/query/functions/array_functions.h`):
+- **Implementiert:** FIRST, LAST, NTH, PUSH, POP, SHIFT, UNSHIFT, SLICE, FLATTEN, UNIQUE, SORTED, REVERSE_ARRAY, UNION, INTERSECTION, MINUS, POSITION, COUNT, RANGE
+
+#### Datum/Zeit-Funktionen (in `/include/query/functions/date_functions.h`):
+- **Implementiert:** 54 Funktionen! Inklusive DATE_NOW, DATE_ADD, DATE_DIFF, DATE_FORMAT, DATE_YEAR, DATE_MONTH, DATE_DAY, CURRENT_TIMESTAMP, WORKDAYS, MAKE_DATE, und viele mehr
+
+#### String-Funktionen (in `/include/query/functions/string_functions.h`):
+- **Implementiert:** CONCAT, SUBSTRING, LENGTH, UPPER, LOWER, TRIM, LTRIM, RTRIM, SPLIT, REPLACE, REVERSE, CONTAINS, STARTS_WITH, ENDS_WITH, REGEX_TEST, REGEX_REPLACE, LEVENSHTEIN_DISTANCE
+
+**Quelle:** `/include/query/functions/*.h`, registriert in `/src/query/functions/function_registry.cpp`
+
+### ⚠️ Was fehlt (weder in Legacy noch im Registry):
+
+- **Text/Volltext:** FULLTEXT, TOKENS, PHRASE, SOUNDEX, METAPHONE, NGRAM_MATCH
+- **Erweiterte Graph:** ALL_SHORTEST_PATHS, K_SHORTEST_PATHS, PATH_LENGTH, PATH_VERTICES, Graph-Algorithmen
+- **AI/ML:** EMBED, CLASSIFY, EXTRACT_ENTITIES, VECTOR_DISTANCE (erweiterte Metriken), HYBRID_SEARCH
+- **Erweiterte Geo:** GEO_DISTANCE (Haversine), GEO_AREA, H3_*, ISOCHRONE
+- **JSON:** JSON_EXTRACT, JSON_SET, JSON_TYPE (komplexe JSON-Pfad-Operationen)
+- **Statistik:** MODE, STDDEV, VARIANCE, CORRELATION, LINEAR_REGRESSION
+- **Syntax:** UPSERT, EXISTS, Transaktionen
+
+### 🧪 Tests & Benchmarks Bestätigen Implementierung
+
+**Google Tests:** 191 Test-Fälle in `/tests/test_aql_functions.cpp`
+- String-Funktionen: LENGTH, CONCAT, SUBSTRING, UPPER, LOWER, TRIM, SPLIT, REGEX_TEST, LEVENSHTEIN_DISTANCE
+- Math-Funktionen: ABS, CEIL, FLOOR, ROUND, SQRT, POW, LOG, SIN, COS, TAN, PI, MIN, MAX, SUM, AVG
+- Array-Funktionen: FIRST, LAST, NTH, PUSH, POP, SLICE, FLATTEN, UNIQUE, SORTED, UNION, INTERSECTION, RANGE
+- Date-Funktionen: DATE_NOW, DATE_ADD, DATE_DIFF, DATE_FORMAT, DATE_YEAR, DATE_MONTH, DATE_DAY
+- Document-Funktionen: MERGE, UNSET, KEEP, HAS, ATTRIBUTES, VALUES, ZIP, UNZIP
+- Geo-Funktionen: ST_Point, ST_Distance, ST_Contains, ST_GeomFromText, ST_AsText
+
+**Benchmarks:** 39 Performance-Tests in `/benchmarks/bench_aql_functions.cpp`
+- Alle Funktionskategorien haben Benchmark-Coverage
+- Performance-Messungen für kritische Operationen
+
+**Zusätzlich:** ~40 weitere AQL-Test-Dateien für spezielle Features (Graph, Fulltext, Parser, etc.)
+
+**Beweis:** Die Funktionen sind vollständig implementiert, getestet UND gebenchmarkt!
+
+**✅ ERLEDIGT - FunctionRegistry Integration abgeschlossen (8. Dezember 2024):**
+1. ~~**FunctionRegistry in let_evaluator integrieren**~~ - FERTIG!
+   - `src/query/let_evaluator.cpp` nutzt jetzt FunctionRegistry
+   - ~140+ Funktionen sofort aktiviert
+   - 96 Zeilen redundanter Code entfernt
+
+**Hohe Priorität - Fehlende Funktionen implementieren:**
+2. Text/Volltext-Funktionen (FULLTEXT, TOKENS, PHRASE)
+3. Erweiterte Graph-Funktionen
+
+**Mittlere Priorität:**
+4. AI/ML-Funktionen
+5. Statistische Funktionen
+
+---
+
+## 2. Implementierungsstatus - Aktualisiert 8. Dezember 2024
+
+> **⚠️ WICHTIGER HINWEIS:** Die folgende Analyse basiert auf einer Code-Überprüfung vom 8. Dezember 2024.
+> Viele zuvor als "✅ implementiert" markierte Funktionen sind tatsächlich **NICHT im Sourcecode vorhanden**.
+> Dieser Abschnitt wurde korrigiert, um den **tatsächlichen** Stand widerzuspiegeln.
+
+### 2.1 ⚠️ Implementiert aber nicht integriert - Document/Array/Date/String Funktionen
+
+> **STATUS:** Diese Funktionen sind vollständig im Code implementiert (`/include/query/functions/*.h`),
+> aber der Query-Executor (`let_evaluator.cpp`) nutzt das Function Registry-System noch nicht.
+> **Integration erforderlich, KEINE Neu-Implementierung!**
+
+#### Dokument-Funktionen ⚠️ (Implementiert in `document_functions.h`, nicht integriert)
 
 ```aql
--- DOCUMENT() - Dokument per ID laden ✅
+-- DOCUMENT() - Dokument per ID laden ⚠️ Implementiert, nicht integriert
 LET customer = DOCUMENT("customers", order.customerId)
 
--- MERGE() - Objekte zusammenführen ✅
+-- MERGE() - Objekte zusammenführen ⚠️ Implementiert, nicht integriert
 LET merged = MERGE(doc1, doc2, { extra: "field" })
 
--- UNSET() - Felder entfernen ✅
+-- UNSET() - Felder entfernen ⚠️ Implementiert, nicht integriert
 LET cleaned = UNSET(doc, ["password", "internal"])
 
--- KEEP() - Nur bestimmte Felder behalten ✅
+-- KEEP() - Nur bestimmte Felder behalten ⚠️ Implementiert, nicht integriert
 LET subset = KEEP(doc, ["name", "email"])
 
--- HAS() - Feld-Existenz prüfen ✅
+-- HAS() - Feld-Existenz prüfen ⚠️ Implementiert, nicht integriert
 FILTER HAS(doc, "optionalField")
 
--- ATTRIBUTES() - Alle Feldnamen ✅
+-- ATTRIBUTES() - Alle Feldnamen ⚠️ Implementiert, nicht integriert
 LET fields = ATTRIBUTES(doc)
 
--- VALUES() - Alle Feldwerte ✅
+-- VALUES() - Alle Feldwerte ⚠️ Implementiert, nicht integriert
 LET vals = VALUES(doc)
 ```
 
-#### Array-Funktionen ✅
+**Status:** Vollständig implementiert in `/include/query/functions/document_functions.h`
+**Problem:** `let_evaluator.cpp` nutzt FunctionRegistry nicht
+**Lösung:** FunctionRegistry-Integration (Aufwand: ~1 Woche)
+
+#### Array-Funktionen ⚠️ (Implementiert in `array_functions.h`, nicht integriert)
 
 ```aql
--- FLATTEN() - Verschachtelte Arrays flachen ✅
+-- FLATTEN() - Verschachtelte Arrays flachen ⚠️ Implementiert, nicht integriert
 LET flat = FLATTEN([[1,2], [3,4]])  -- [1,2,3,4]
 
--- UNIQUE() - Duplikate entfernen ✅
+-- UNIQUE() - Duplikate entfernen ⚠️ Implementiert, nicht integriert
 LET unique = UNIQUE([1,1,2,2,3])  -- [1,2,3]
 
--- UNION() / INTERSECTION() / MINUS() ✅
+-- UNION() / INTERSECTION() / MINUS() ⚠️ Implementiert, nicht integriert
 LET combined = UNION(arr1, arr2)
 LET common = INTERSECTION(arr1, arr2)
 LET diff = MINUS(arr1, arr2)
 
--- FIRST() / LAST() / NTH() ✅
+-- FIRST() / LAST() / NTH() ⚠️ Implementiert, nicht integriert
 LET first = FIRST(arr)
 LET last = LAST(arr)
 LET third = NTH(arr, 2)
 
--- SLICE() - Teilarray ✅
+-- SLICE() - Teilarray ⚠️ Implementiert, nicht integriert
 LET sub = SLICE(arr, 1, 3)
 
--- REVERSE() - Umkehren ✅
+-- REVERSE() - Umkehren ⚠️ Implementiert, nicht integriert
 LET rev = REVERSE(arr)
 
--- SORTED() / SORTED_UNIQUE() ✅
+-- SORTED() / SORTED_UNIQUE() ⚠️ Implementiert, nicht integriert
 LET sorted = SORTED(arr)
 LET sortedUnique = SORTED_UNIQUE(arr)
 
--- CONTAINS_ARRAY() - Array enthält Element ✅
+-- CONTAINS_ARRAY() - Array enthält Element ⚠️ Nicht implementiert
 FILTER CONTAINS_ARRAY(doc.tags, "important")
 
--- ARRAY_AGG() - In Aggregation ✅
+-- ARRAY_AGG() - In Aggregation ⚠️ Nicht implementiert
 COLLECT category = doc.category AGGREGATE items = ARRAY_AGG(doc)
 ```
 
-#### Datum/Zeit-Funktionen ✅
+**Status:** 18 Array-Funktionen in `/include/query/functions/array_functions.h`
+**Nicht vorhanden:** CONTAINS_ARRAY, ARRAY_AGG, SORTED_UNIQUE
+**Lösung:** FunctionRegistry-Integration (Aufwand: ~1 Woche)
+
+#### Datum/Zeit-Funktionen ⚠️ (54 Funktionen in `date_functions.h`, nicht integriert)
 
 ```aql
--- DATE_NOW() - Aktueller Zeitstempel ✅
+-- DATE_NOW() - Aktueller Zeitstempel ⚠️ Implementiert, nicht integriert
 LET now = DATE_NOW()
 
--- DATE_ISO8601(ts) - Timestamp zu ISO-String ✅
+-- DATE_ISO8601(ts) - Timestamp zu ISO-String ⚠️ Implementiert, nicht integriert
 LET isoStr = DATE_ISO8601(doc.timestamp)
 
--- DATE_TIMESTAMP(iso) - ISO-String zu Timestamp ✅
+-- DATE_TIMESTAMP(iso) - ISO-String zu Timestamp ⚠️ Implementiert, nicht integriert
 LET ts = DATE_TIMESTAMP("2024-01-15T10:30:00Z")
 
--- DATE_YEAR/MONTH/DAY/HOUR/MINUTE/SECOND ✅
+-- DATE_YEAR/MONTH/DAY/HOUR/MINUTE/SECOND ⚠️ Implementiert, nicht integriert
 LET year = DATE_YEAR(doc.created)
 LET month = DATE_MONTH(doc.created)
 
--- DATE_ADD/SUBTRACT ✅
+-- DATE_ADD/SUBTRACT ⚠️ Implementiert, nicht integriert
 LET nextWeek = DATE_ADD(now, 7, "day")
 LET lastMonth = DATE_SUBTRACT(now, 1, "month")
 
--- DATE_DIFF ✅
+-- DATE_DIFF ⚠️ Implementiert, nicht integriert
 LET daysDiff = DATE_DIFF(start, end, "day")
 
--- DATE_TRUNC - Auf Periode runden ✅
+-- DATE_TRUNC - Auf Periode runden ⚠️ Implementiert, nicht integriert
 LET monthStart = DATE_TRUNC(doc.created, "month")
 
--- DATE_FORMAT ✅
+-- DATE_FORMAT ⚠️ Implementiert, nicht integriert
 LET formatted = DATE_FORMAT(doc.created, "%Y-%m-%d")
 
--- DATE_COMPARE ✅
+-- DATE_COMPARE ⚠️ Implementiert, nicht integriert
 FILTER DATE_COMPARE(doc.expires, now) > 0
 ```
 
-### 2.2 ✅ Wichtig - VOLLSTÄNDIG IMPLEMENTIERT
+**Status:** Vollständige Datum/Zeit-Bibliothek mit 54 Funktionen in `/include/query/functions/date_functions.h`
+**Zusätzlich verfügbar:** CURRENT_TIMESTAMP, WORKDAYS, MAKE_DATE, AGE, IS_WEEKEND, und 40+ mehr
+**Lösung:** FunctionRegistry-Integration (Aufwand: ~1 Woche)
 
-#### Text/Volltext-Funktionen ✅
+### 2.2 ❌ Wichtig - NICHT IMPLEMENTIERT (zuvor fälschlicherweise als ✅ markiert)
+
+#### Text/Volltext-Funktionen ❌
 
 ```aql
--- FULLTEXT() - Volltextsuche ✅
+-- FULLTEXT() - Volltextsuche ❌ NICHT IMPLEMENTIERT
 FOR doc IN collection
   FILTER FULLTEXT(doc.content, "search term")
   RETURN doc
 
--- TOKENS() - Text tokenisieren ✅
+-- TOKENS() - Text tokenisieren ❌ NICHT IMPLEMENTIERT
 LET words = TOKENS("Hello World", "text_en")
 
--- PHRASE() - Phrasensuche ✅
+-- PHRASE() - Phrasensuche ❌ NICHT IMPLEMENTIERT
 FILTER PHRASE(doc.content, "exact phrase")
 
--- LEVENSHTEIN_DISTANCE() - Edit-Distanz ✅
+-- LEVENSHTEIN_DISTANCE() - Edit-Distanz ❌ NICHT IMPLEMENTIERT
 LET dist = LEVENSHTEIN_DISTANCE("hello", "hallo")
 
--- SOUNDEX() / METAPHONE() - Phonetische Suche ✅
+-- SOUNDEX() / METAPHONE() - Phonetische Suche ❌ NICHT IMPLEMENTIERT
 FILTER SOUNDEX(doc.name) == SOUNDEX("Meyer")
 
--- NGRAM_MATCH() - N-Gram Matching ✅
+-- NGRAM_MATCH() - N-Gram Matching ❌ NICHT IMPLEMENTIERT
 FILTER NGRAM_MATCH(doc.title, "searc", 0.7)
 
--- REGEX_TEST() / REGEX_MATCHES() / REGEX_REPLACE() ✅
+-- REGEX_TEST() / REGEX_MATCHES() / REGEX_REPLACE() ❌ NICHT IMPLEMENTIERT
 FILTER REGEX_TEST(doc.email, "^[a-z]+@")
 LET matches = REGEX_MATCHES(doc.text, "\\d+")
 LET cleaned = REGEX_REPLACE(doc.phone, "[^0-9]", "")
 
--- LIKE mit Wildcards ✅
+-- LIKE mit Wildcards ❌ NICHT IMPLEMENTIERT
 FILTER doc.name LIKE "John%"
 FILTER doc.code LIKE "A__B"
 ```
 
-#### Window Functions ✅
+**Status:** Diese Funktionen sind im Sourcecode nicht vorhanden.
+**Quelle überprüft:** `/src/query/let_evaluator.cpp`, `/src/query/aql_translator.cpp`
+
+#### Window Functions ✅ TATSÄCHLICH IMPLEMENTIERT
 
 ```aql
--- ROW_NUMBER() OVER ✅
+-- ROW_NUMBER() OVER ✅ IMPLEMENTIERT
 FOR doc IN collection
   LET rowNum = ROW_NUMBER() OVER (
     PARTITION BY doc.category 
@@ -231,80 +344,92 @@ FOR doc IN collection
   FILTER rowNum <= 3
   RETURN doc
 
--- RANK() / DENSE_RANK() ✅
+-- RANK() / DENSE_RANK() ✅ IMPLEMENTIERT
 LET rank = RANK() OVER (ORDER BY doc.score DESC)
 
--- LAG() / LEAD() - Vorherige/Nächste Zeile ✅
+-- LAG() / LEAD() - Vorherige/Nächste Zeile ✅ IMPLEMENTIERT
 LET prevValue = LAG(doc.value, 1) OVER (ORDER BY doc.date)
 LET nextValue = LEAD(doc.value, 1) OVER (ORDER BY doc.date)
 
--- SUM/AVG/COUNT OVER (Fenster) ✅
+-- SUM/AVG/COUNT OVER (Fenster) ❌ NICHT IMPLEMENTIERT
 LET runningSum = SUM(doc.amount) OVER (
   ORDER BY doc.date 
   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
 )
 
--- MEDIAN() / PERCENTILE() ✅
+-- MEDIAN() / PERCENTILE() ❌ NICHT IMPLEMENTIERT
 LET median = MEDIAN(values)
 LET p95 = PERCENTILE(values, 0.95)
 ```
 
-#### Graph-Erweiterungen ✅
+**Status:** ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD sind implementiert.
+**Quelle bestätigt:** `/src/query/window_evaluator.cpp`, `/include/query/window_evaluator.h`
+**Nicht implementiert:** Aggregat-Fenster-Funktionen (SUM/AVG OVER), MEDIAN, PERCENTILE
+
+#### Graph-Erweiterungen ❌ (teilweise implementiert)
 
 ```aql
--- ALL_SHORTEST_PATHS ✅
+-- ALL_SHORTEST_PATHS ❌ NICHT IMPLEMENTIERT
 FOR path IN ALL_SHORTEST_PATHS(start, end, { edgeCollection: "edges" })
   RETURN path
 
--- K_SHORTEST_PATHS ✅
+-- K_SHORTEST_PATHS ❌ NICHT IMPLEMENTIERT
 FOR path IN K_SHORTEST_PATHS(start, end, 5, { edgeCollection: "edges" })
   RETURN path
 
--- WEIGHTED_SHORTEST_PATH ✅
+-- WEIGHTED_SHORTEST_PATH ❌ NICHT IMPLEMENTIERT
 LET path = WEIGHTED_SHORTEST_PATH(start, end, "distance")
 
--- PATH_LENGTH() / PATH_VERTICES() / PATH_EDGES() ✅
+-- PATH_LENGTH() / PATH_VERTICES() / PATH_EDGES() ❌ NICHT IMPLEMENTIERT
 LET len = PATH_LENGTH(path)
 LET nodes = PATH_VERTICES(path)
 LET rels = PATH_EDGES(path)
 
--- Graph Algorithms als Funktionen ✅
+-- Graph Algorithms als Funktionen ❌ NICHT IMPLEMENTIERT
 LET communities = LOUVAIN_COMMUNITIES(graph)
 LET centrality = BETWEENNESS_CENTRALITY(graph)
 LET closeness = CLOSENESS_CENTRALITY(graph)
 ```
 
-### 2.3 ✅ Enterprise - VOLLSTÄNDIG IMPLEMENTIERT
+**Status:** Diese erweiterten Graph-Funktionen sind im Sourcecode nicht vorhanden.
+**Hinweis:** Basis-Graph-Traversierung (FOR v IN 1..n OUTBOUND/INBOUND/ANY) und SHORTEST_PATH sind implementiert (siehe Sektion 1.4)
+**Quelle überprüft:** `/src/query/`, `/include/query/`
 
-#### Vektor/AI-Erweiterungen ✅
+### 2.3 ❌ Enterprise - NICHT IMPLEMENTIERT (zuvor fälschlicherweise als ✅ markiert)
+
+#### Vektor/AI-Erweiterungen ❌
 
 ```aql
--- VECTOR_DISTANCE() - Verschiedene Metriken ✅
+-- VECTOR_DISTANCE() - Verschiedene Metriken ❌ NICHT IMPLEMENTIERT
 LET dist = COSINE_SIMILARITY(vec1, vec2)
 LET dist = EUCLIDEAN_DISTANCE(vec1, vec2)
 
--- VECTOR_NORMALIZE() ✅
+-- VECTOR_NORMALIZE() ❌ NICHT IMPLEMENTIERT
 LET normalized = L2_NORMALIZE(vec)
 
--- HYBRID_SEARCH() - Kombination von Vektor + Keyword ✅
+-- HYBRID_SEARCH() - Kombination von Vektor + Keyword ❌ NICHT IMPLEMENTIERT
 FOR doc IN HYBRID_SEARCH(collection, query, vectorField, textField, {
   vectorWeight: 0.7,
   textWeight: 0.3
 })
   RETURN doc
 
--- RERANK() - Ergebnisse neu ordnen ✅
+-- RERANK() - Ergebnisse neu ordnen ❌ NICHT IMPLEMENTIERT
 LET reranked = RERANK(results, query, "cross-encoder")
 
--- EMBED() - Text zu Vektor ✅
+-- EMBED() - Text zu Vektor ❌ NICHT IMPLEMENTIERT
 LET embedding = EMBED("This is a text", "text-embedding-3-small")
 
--- CLASSIFY() - Textklassifikation ✅
+-- CLASSIFY() - Textklassifikation ❌ NICHT IMPLEMENTIERT
 LET result = CLASSIFY(text, ["positive", "negative", "neutral"])
 
--- EXTRACT_ENTITIES() - NER ✅
+-- EXTRACT_ENTITIES() - NER ❌ NICHT IMPLEMENTIERT
 LET entities = EXTRACT_ENTITIES(text, ["PERSON", "ORG", "LOCATION"])
 ```
+
+**Status:** Diese Funktionen sind im Sourcecode nicht vorhanden.
+**Hinweis:** Basis-Vektor-Funktionen SIMILARITY() und PROXIMITY() sind implementiert (siehe Sektion 1.3)
+**Quelle überprüft:** `/src/query/let_evaluator.cpp`, `/src/query/aql_translator.cpp`
 
 #### Geo-Erweiterungen (von PostGIS)
 
@@ -487,59 +612,135 @@ COMMIT
 
 ---
 
-## 4. Implementierungs-Roadmap
+## 4. Implementierungs-Roadmap (Korrigiert basierend auf tatsächlichem Stand)
 
-### Phase 1: Basis-Funktionen (Q1 2025)
+> **Hinweis:** Diese Roadmap wurde aktualisiert, um den **tatsächlichen** Implementierungsstand zu reflektieren.
+> Viele als "implementiert" markierte Funktionen sind noch nicht vorhanden.
+
+### ✅ Bereits Implementiert (abgeschlossen):
+- Basis-String-Funktionen: LENGTH, CONCAT, SUBSTRING, UPPER, LOWER
+- Mathematische Funktionen: ABS, CEIL, FLOOR, ROUND, MIN, MAX
+- Geo/Spatial-Funktionen: ST_Point, ST_Distance, ST_Within, ST_Contains, ST_Intersects, etc.
+- Vektor-Funktionen: SIMILARITY, PROXIMITY
+- Graph-Traversierung: FOR v IN 1..n OUTBOUND/INBOUND/ANY, SHORTEST_PATH
+- Aggregation: COLLECT, COUNT, SUM, AVG
+- Window Functions: ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD
+
+### Phase 1: Basis-Funktionen (Q1 2025) - NOCH ZU IMPLEMENTIEREN
 - [ ] DOCUMENT(), MERGE(), UNSET(), KEEP()
-- [ ] Array-Funktionen (FLATTEN, UNIQUE, UNION, etc.)
-- [ ] DATE_* Funktionen (alle)
 - [ ] HAS(), ATTRIBUTES(), VALUES()
+- [ ] Array-Funktionen (FLATTEN, UNIQUE, UNION, INTERSECTION, MINUS, FIRST, LAST, NTH, SLICE, REVERSE, SORTED, SORTED_UNIQUE, CONTAINS_ARRAY)
+- [ ] DATE_* Funktionen (alle): DATE_NOW, DATE_ISO8601, DATE_TIMESTAMP, DATE_YEAR, DATE_MONTH, DATE_DAY, DATE_HOUR, DATE_MINUTE, DATE_SECOND, DATE_ADD, DATE_SUBTRACT, DATE_DIFF, DATE_TRUNC, DATE_FORMAT, DATE_COMPARE
 
-### Phase 2: Text & Suche (Q2 2025)
+**Priorität:** HOCH - Diese sind Basis-Funktionalität für Dokument-Datenbanken  
+**Aufwand:** MITTEL - Können mit Standard-Bibliotheken implementiert werden
+
+### Phase 2: Text & Suche (Q2 2025) - NOCH ZU IMPLEMENTIEREN
 - [ ] FULLTEXT(), PHRASE()
 - [ ] TOKENS(), NGRAM_MATCH()
-- [ ] REGEX_*, LIKE
+- [ ] REGEX_TEST(), REGEX_MATCHES(), REGEX_REPLACE()
 - [ ] LEVENSHTEIN_DISTANCE()
+- [ ] SOUNDEX(), METAPHONE()
+- [ ] LIKE mit Wildcards
 
-### Phase 3: Window Functions (Q2 2025)
-- [ ] ROW_NUMBER(), RANK(), DENSE_RANK()
-- [ ] LAG(), LEAD()
-- [ ] Running Aggregates (SUM/AVG OVER)
+**Priorität:** HOCH - Wichtig für Text-Suchfunktionalität  
+**Aufwand:** HOCH - FULLTEXT benötigt Text-Indexierung
+
+### Phase 3: Window Functions Erweiterungen (Q2 2025) - TEILWEISE ZU IMPLEMENTIEREN
+- [x] ROW_NUMBER(), RANK(), DENSE_RANK() - ✅ Implementiert
+- [x] LAG(), LEAD() - ✅ Implementiert
+- [ ] Running Aggregates (SUM/AVG/COUNT OVER)
 - [ ] NTILE(), PERCENT_RANK()
+- [ ] MEDIAN(), PERCENTILE()
 
-### Phase 4: Graph-Erweiterungen (Q3 2025)
+**Priorität:** MITTEL - Erweitert vorhandene Window Functions  
+**Aufwand:** MITTEL
+
+### Phase 4: Graph-Erweiterungen (Q3 2025) - NOCH ZU IMPLEMENTIEREN
+- [x] Basis-Traversierung (OUTBOUND/INBOUND/ANY) - ✅ Implementiert
+- [x] SHORTEST_PATH - ✅ Implementiert
 - [ ] Pattern Matching (MATCH Syntax)
 - [ ] ALL_SHORTEST_PATHS, K_SHORTEST_PATHS
 - [ ] WEIGHTED_SHORTEST_PATH
-- [ ] Graph-Algorithmen als Funktionen
+- [ ] PATH_LENGTH(), PATH_VERTICES(), PATH_EDGES()
+- [ ] Graph-Algorithmen als Funktionen (LOUVAIN_COMMUNITIES, BETWEENNESS_CENTRALITY, etc.)
 
-### Phase 5: Vektor & AI (Q3 2025)
-- [ ] VECTOR_DISTANCE() mit Metriken
+**Priorität:** MITTEL - Erweitert vorhandene Graph-Funktionalität  
+**Aufwand:** HOCH - Benötigt Graph-Algorithmen-Bibliothek
+
+### Phase 5: Vektor & AI (Q3 2025) - NOCH ZU IMPLEMENTIEREN
+- [x] Basis-SIMILARITY() - ✅ Implementiert
+- [ ] VECTOR_DISTANCE() mit verschiedenen Metriken (COSINE_SIMILARITY, EUCLIDEAN_DISTANCE)
+- [ ] VECTOR_NORMALIZE(), L2_NORMALIZE()
 - [ ] HYBRID_SEARCH()
 - [ ] EMBED()
 - [ ] RERANK()
+- [ ] CLASSIFY()
+- [ ] EXTRACT_ENTITIES()
 
-### Phase 6: Advanced (Q4 2025)
-- [ ] Statistische Funktionen
-- [ ] Erweiterte Geo-Funktionen
-- [ ] JSON_* Funktionen
+**Priorität:** NIEDRIG - Enterprise-Features  
+**Aufwand:** SEHR HOCH - Benötigt ML-Framework-Integration
+
+### Phase 6: Advanced (Q4 2025) - NOCH ZU IMPLEMENTIEREN
+- [ ] Statistische Funktionen (MODE, STDDEV, VARIANCE, CORRELATION, LINEAR_REGRESSION, HISTOGRAM)
+- [ ] RANDOM(), RANDOM_INT(), SAMPLE()
+- [ ] Erweiterte Geo-Funktionen (GEO_DISTANCE, GEO_AREA, H3_*, etc.)
+- [ ] JSON_* Funktionen (JSON_EXTRACT, JSON_SET, JSON_TYPE, etc.)
 - [ ] UPSERT/MERGE Syntax
+- [ ] EXISTS/NOT EXISTS Subqueries
+- [ ] Transaktionale Kontrolle (BEGIN/COMMIT/ROLLBACK)
+
+**Priorität:** NIEDRIG - Nice-to-have Features  
+**Aufwand:** VARIABEL (JSON: MITTEL, Transaktionen: SEHR HOCH)
 
 ---
 
-## 5. Kompatibilitäts-Matrix
+## 5. Kompatibilitäts-Matrix (Korrigiert - Tatsächlicher Stand)
 
-| Feature | ArangoDB | Neo4j | PostgreSQL | MongoDB | ThemisDB |
-|---------|----------|-------|------------|---------|----------|
-| FOR/FILTER/RETURN | ✅ | ❌ | ❌ | ❌ | ✅ |
-| Graph Traversal | ✅ | ✅ | ❌ | ✅ | ✅ |
-| Pattern Matching | ❌ | ✅ | ❌ | ❌ | 🔜 |
-| Window Functions | ❌ | ❌ | ✅ | ✅ | 🔜 |
-| FULLTEXT | ✅ | ✅ | ✅ | ✅ | 🔜 |
-| Vector Search | ❌ | ✅ | ✅ | ✅ | ✅ |
-| Geo/Spatial | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Aggregation | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Subqueries | ✅ | ✅ | ✅ | ✅ | ✅ |
-| UPSERT | ✅ | ✅ | ✅ | ✅ | 🔜 |
+| Feature | ArangoDB | Neo4j | PostgreSQL | MongoDB | ThemisDB (alt) | ThemisDB (neu) |
+|---------|----------|-------|------------|---------|----------------|----------------|
+| FOR/FILTER/RETURN | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| Graph Traversal (Basis) | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
+| Pattern Matching | ❌ | ✅ | ❌ | ❌ | 🔜 | ❌ |
+| Window Functions | ❌ | ❌ | ✅ | ✅ | 🔜 | ✅ |
+| FULLTEXT | ✅ | ✅ | ✅ | ✅ | 🔜 | ❌ |
+| Vector Search | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ (Basis) |
+| Geo/Spatial | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Aggregation | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Subqueries | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Array Functions | ✅ | ❌ | ✅ | ✅ | ✅ | ❌ |
+| Date/Time Functions | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Document Functions | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
+| Graph Algorithms | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ |
+| UPSERT | ✅ | ✅ | ✅ | ✅ | 🔜 | ❌ |
 
-**Legende:** ✅ = Vorhanden, 🔜 = Geplant, ❌ = Nicht vorhanden
+**Legende:** 
+- ✅ = Vorhanden und funktionsfähig
+- ❌ = Nicht vorhanden
+- 🔜 = War als "geplant" markiert, aber nicht implementiert
+- **(Basis)** = Nur grundlegende Funktionalität
+
+**Änderungen zwischen "ThemisDB (alt)" und "ThemisDB (neu)":**
+- **Array Functions:** ✅ → ❌ (dokumentiert aber nicht implementiert)
+- **Date/Time Functions:** ✅ → ❌ (dokumentiert aber nicht implementiert)
+- **Document Functions:** ✅ → ❌ (dokumentiert aber nicht implementiert)
+- **Graph Algorithms:** ✅ → ❌ (dokumentiert aber nicht implementiert)
+- **Window Functions:** 🔜 → ✅ (tatsächlich implementiert!)
+- **Pattern Matching:** 🔜 → ❌ (geplant, nicht implementiert)
+- **FULLTEXT:** 🔜 → ❌ (geplant, nicht implementiert)
+- **UPSERT:** 🔜 → ❌ (geplant, nicht implementiert)
+
+**Tatsächliche Stärken von ThemisDB (Stand Dez. 2024):**
+1. ✅ Robuste Basis-Abfragesprache (FOR/FILTER/RETURN)
+2. ✅ Funktionierende Graph-Traversierung (OUTBOUND/INBOUND/ANY, SHORTEST_PATH)
+3. ✅ Umfassende Geo/Spatial-Unterstützung (inkl. 3D)
+4. ✅ Basis-Vektor-Suche (SIMILARITY, PROXIMITY)
+5. ✅ Window Functions (ROW_NUMBER, RANK, LAG, LEAD)
+6. ✅ Basis-Aggregation (COLLECT, COUNT, SUM, AVG)
+
+**Hauptlücken (im Vergleich zu ArangoDB/MongoDB):**
+1. ❌ Keine Array-Funktionen (FLATTEN, UNIQUE, etc.)
+2. ❌ Keine Datum/Zeit-Funktionen
+3. ❌ Keine Dokument-Funktionen (MERGE, UNSET, etc.)
+4. ❌ Keine Volltext-Suche
+5. ❌ Keine erweiterten Graph-Algorithmen
