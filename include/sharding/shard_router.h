@@ -2,6 +2,7 @@
 
 #include "sharding/urn_resolver.h"
 #include "sharding/remote_executor.h"
+#include "sharding/prometheus_metrics.h"
 #include <string>
 #include <atomic>
 #include <vector>
@@ -64,11 +65,13 @@ public:
      * @param resolver URN resolver for shard location
      * @param executor Remote executor for shard communication
      * @param config Router configuration
+     * @param metrics Optional Prometheus metrics collector
      */
     ShardRouter(
         std::shared_ptr<URNResolver> resolver,
         std::shared_ptr<RemoteExecutor> executor,
-        const Config& config
+        const Config& config,
+        std::shared_ptr<PrometheusMetrics> metrics = nullptr
     );
     
     /**
@@ -138,6 +141,7 @@ public:
 private:
     std::shared_ptr<URNResolver> resolver_;
     std::shared_ptr<RemoteExecutor> executor_;
+    std::shared_ptr<PrometheusMetrics> metrics_;
     Config config_;
     
     // Statistics

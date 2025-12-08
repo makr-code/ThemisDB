@@ -9,6 +9,9 @@
 namespace themis {
 namespace sharding {
 
+// Forward declaration
+class PrometheusMetrics;
+
 // Progress information for data migration
 struct MigrationProgress {
     uint64_t records_migrated = 0;
@@ -54,7 +57,10 @@ class DataMigrator {
 public:
     using ProgressCallback = std::function<void(const MigrationProgress&)>;
 
-    explicit DataMigrator(const DataMigratorConfig& config);
+    explicit DataMigrator(
+        const DataMigratorConfig& config,
+        std::shared_ptr<PrometheusMetrics> metrics = nullptr
+    );
     ~DataMigrator() = default;
 
     /**
@@ -93,6 +99,7 @@ public:
 
 private:
     DataMigratorConfig config_;
+    std::shared_ptr<PrometheusMetrics> metrics_;
 
     // Fetch batch of records from source
     nlohmann::json fetchBatch(

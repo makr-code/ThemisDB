@@ -1,5 +1,6 @@
 #include "sharding/shard_router.h"
 #include "sharding/urn.h"
+#include "sharding/prometheus_metrics.h"
 #include "utils/tracing.h"
 #include <algorithm>
 #include <regex>
@@ -66,32 +67,51 @@ static std::string extractUrnFromPath(const std::string& path) {
 ShardRouter::ShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
-    const Config& config)
+    const Config& config,
+    std::shared_ptr<PrometheusMetrics> metrics)
     : resolver_(resolver),
       executor_(executor),
+      metrics_(metrics),
       config_(config) {
 }
 
 std::optional<nlohmann::json> ShardRouter::get(const URN& urn) {
     total_requests_++;
+    if (metrics_) {
+        metrics_->recordRoutingRequest("single_shard");
+    }
     
     auto result = routeRequest(urn, "GET", "/api/v1/data/" + urn.toString());
     
     if (result.success) {
+        if (metrics_) {
+            metrics_->recordRoutingLatency("get", static_cast<double>(result.execution_time_ms));
+        }
         return result.data;
     }
     
     errors_++;
+    if (metrics_) {
+        metrics_->recordRoutingError(result.shard_id, "get_failed");
+    }
     return std::nullopt;
 }
 
 bool ShardRouter::put(const URN& urn, const nlohmann::json& data) {
     total_requests_++;
+    if (metrics_) {
+        metrics_->recordRoutingRequest("single_shard");
+    }
     
     auto result = routeRequest(urn, "PUT", "/api/v1/data/" + urn.toString(), std::optional<nlohmann::json>(data));
     
     if (!result.success) {
         errors_++;
+        if (metrics_) {
+            metrics_->recordRoutingError(result.shard_id, "put_failed");
+        }
+    } else if (metrics_) {
+        metrics_->recordRoutingLatency("put", static_cast<double>(result.execution_time_ms));
     }
     
     return result.success;
@@ -197,12 +217,23 @@ RoutingStrategy ShardRouter::analyzeQuery(const std::string& query) const {
 
 std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     std::vector<ShardResult> results;
+    scatter_gather_requests_++;
+    
+    if (metrics_) {
+        metrics_->recordRoutingRequest("scatter_gather");
+    }
+    
+    auto start_time = std::chrono::steady_clock::now();
     
     // Get all healthy shards
     auto shards = resolver_->getHealthyShards();
     
     if (shards.empty()) {
         return results;
+    }
+    
+    if (metrics_) {
+        metrics_->recordScatterGatherFanout(static_cast<int>(shards.size()));
     }
     
     // Limit concurrent shard requests
@@ -306,6 +337,14 @@ std::vector<ShardResult> ShardRouter::scatterGather(const std::string& query) {
     local_requests_ += local_count.load();
     remote_requests_ += remote_count.load();
     
+    // Record scatter-gather latency
+    if (metrics_) {
+        auto end_time = std::chrono::steady_clock::now();
+        auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time).count();
+        metrics_->recordRoutingLatency("scatter_gather", static_cast<double>(duration_ms));
+    }
+    
     return results;
 }
 
@@ -316,6 +355,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
     auto span = Tracer::startSpan("ShardRouter.executeCrossShardJoin");
     span.setAttribute("join_field", join_field);
     
+    auto start_time = std::chrono::steady_clock::now();
+    
     // Parse query to extract left and right collections/conditions
     // Format expected: "JOIN left_collection ON join_field WITH right_collection WHERE ..."
     
@@ -324,13 +365,20 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
     // - Otherwise, use hash-join with broadcast of smaller side
     
     bool use_broadcast_join = true;  // Default to broadcast for non-partition keys
+    std::string strategy_name;
     
     // Check if join_field matches the partition key pattern
     if (join_field.find("urn:") == 0 || join_field == "id" || join_field == "_key") {
         use_broadcast_join = false;
+        strategy_name = "co_located";
         span.setAttribute("join_strategy", "co_located");
     } else {
+        strategy_name = "broadcast_hash";
         span.setAttribute("join_strategy", "broadcast_hash");
+    }
+    
+    if (metrics_) {
+        metrics_->recordCrossShardJoin(strategy_name);
     }
     
     if (use_broadcast_join) {
@@ -341,6 +389,8 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
         
         // Phase 1: Execute left side query on all shards
         auto left_results = scatterGather(query);
+        
+        auto hash_start = std::chrono::steady_clock::now();
         
         // Build hash table keyed by join_field
         std::unordered_map<std::string, std::vector<nlohmann::json>> hash_table;
@@ -363,6 +413,14 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             }
         }
         
+        auto hash_end = std::chrono::steady_clock::now();
+        auto hash_build_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            hash_end - hash_start).count();
+        
+        if (metrics_) {
+            metrics_->recordHashTableBuildTime(static_cast<double>(hash_build_ms));
+        }
+        
         span.setAttribute("left_rows", static_cast<int64_t>(total_left_rows));
         span.setAttribute("hash_table_size", static_cast<int64_t>(hash_table.size()));
         
@@ -375,6 +433,15 @@ nlohmann::json ShardRouter::executeCrossShardJoin(
             {"unique_keys", hash_table.size()},
             {"data", mergeResults(left_results)}
         };
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time).count();
+        
+        if (metrics_) {
+            metrics_->recordCrossShardJoinDuration(strategy_name, static_cast<double>(duration_ms));
+            metrics_->recordCrossShardJoinRows(strategy_name, total_left_rows, 0, total_left_rows);
+        }
         
         return result;
         
