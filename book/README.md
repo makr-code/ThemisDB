@@ -515,58 +515,627 @@ Client-SDKs, Tools und Ausblick
 ### **TEIL II: ARCHITEKTUR UND DESIGN**
 
 #### **Kapitel 4: Systemarchitektur**
-- 4.1 Gesamtarchitektur: Schichtenmodell
-- 4.2 HTTP/REST API Layer
-- 4.3 Query Engine Layer
-- 4.4 Index Layer (Multi-Model-Projektionen)
-- 4.5 Base Entity Layer
-- 4.6 Storage Layer (RocksDB)
+
+**4.1 Schichtenarchitektur: Prinzipien und Patterns**
+- Layered Architecture Pattern
+  - Buschmann, F., et al. (1996). "Pattern-Oriented Software Architecture, Volume 1"
+  - Separation of Concerns
+  - Dependency Inversion Principle (Martin, R. C. (2000). "Design Principles and Design Patterns")
+- Vergleich mit anderen Datenbank-Architekturen
+  - PostgreSQL: Process-per-Connection vs. Thread-per-Connection
+  - MongoDB: Pluggable Storage Engine Architecture
+  - MySQL: Handler Interface Design
+  - ThemisDB: Hybrid Approach
+- Clean Architecture Prinzipien
+  - Martin, R. C. (2017). "Clean Architecture: A Craftsman's Guide to Software Structure"
+  - Core Business Logic unabhängig von Frameworks
+  - Testability und Maintainability
+
+**4.2 HTTP/REST API Layer**
+- RESTful Design Principles
+  - Fielding, R. T. (2000). "Architectural Styles and the Design of Network-based Software Architectures" (Dissertation)
+  - Richardson Maturity Model (Fowler, M. (2010))
+  - HATEOAS: Hypermedia as the Engine of Application State
+- HTTP/2 und Performance
+  - RFC 7540: HTTP/2 Specification
+  - Multiplexing und Stream Prioritization
+  - Server Push Überlegungen
+- API Versioning Strategies
+  - URI Versioning vs. Header Versioning
+  - Semantic Versioning (SemVer 2.0.0)
+  - Backward Compatibility Guarantees
+- Vergleich mit anderen DB APIs
+  - MongoDB: Custom Wire Protocol vs. HTTP
+  - CouchDB: HTTP-Native Design
+  - ArangoDB: REST API + Custom Protocol
+  - ThemisDB Entscheidung: HTTP/REST First, Wire Protocol Optional
+- Error Handling Standards
+  - RFC 7807: Problem Details for HTTP APIs
+  - Structured Error Responses
+  - Client-Friendly Error Messages
+
+**4.3 Query Engine Layer**
+- Query Processing Pipeline
+  - Graefe, G. (1993). "Query Evaluation Techniques for Large Databases". ACM Computing Surveys
+  - Parsing → Optimization → Execution Stages
+  - Cost-Based vs. Rule-Based Optimization
+- Volcano/Iterator Model
+  - Graefe, G. (1994). "Volcano - An Extensible and Parallel Query Evaluation System". IEEE TKDE
+  - Push-based vs. Pull-based Execution
+  - Materialization vs. Pipelining
+- Vergleich mit anderen Query Engines
+  - PostgreSQL: Planner und Executor
+  - MongoDB: Aggregation Pipeline
+  - ArangoDB: AQL Execution Engine
+  - ClickHouse: Vectorized Execution
+  - ThemisDB: Hybrid Iterator + Vectorization
+- Query Optimization Techniques
+  - Predicate Push-Down
+  - Join Reordering (Selinger, P. G., et al. (1979). "Access Path Selection in a Relational Database"))
+  - Index Selection
+  - Parallel Execution Planning
+
+**4.4 Index Layer: Multi-Model-Projektionen**
+- Index Abstraction Design
+  - Pluggable Index Architecture
+  - Common Index Interface
+  - Specialized Implementations
+- Index Selection Strategy
+  - Cost Model für verschiedene Index-Typen
+  - Automatic Index Recommendations
+  - Query Workload Analysis
+- Vergleich Index-Architekturen
+  - PostgreSQL: GiST, GIN, SP-GiST, BRIN
+  - MongoDB: Index Plugins
+  - Elasticsearch: Inverted Index + Doc Values
+  - ThemisDB: Unified Index Manager
+- Index Synchronization
+  - Transactional Index Updates
+  - Eventual Consistency für Secondary Indexes
+  - Index Rebuild Strategies
+
+**4.5 Base Entity Layer: Canonical Storage**
+- Document-Oriented Storage Model
+  - DeCandia, G., et al. (2007). "Dynamo: Amazon's Highly Available Key-Value Store". SOSP
+  - Schema-on-Read vs. Schema-on-Write
+  - Flexible vs. Rigid Schemas
+- JSON als Storage Format
+  - BSON (MongoDB) vs. JSON (CouchDB) vs. Protocol Buffers
+  - simdjson: Performance-Optimierung (Langdale, G., Lemire, D. (2019). "Parsing Gigabytes of JSON per Second")
+  - Memory Overhead Analysis
+- Metadata Management
+  - Version Tracking (MVCC Integration)
+  - Timestamps (Lamport, L. (1978). "Time, Clocks, and the Ordering of Events")
+  - Blob Size Optimization
+- Schema Evolution
+  - Backward Compatibility Patterns
+  - Forward Compatibility Considerations
+  - Migration Strategies
+- Vergleich mit Alternativen
+  - Protobuf: Typed, Compact, aber weniger flexibel
+  - Avro: Schema Evolution Support
+  - MessagePack: Kompakter als JSON
+  - ThemisDB: JSON für Flexibilität, simdjson für Performance
+
+**4.6 Storage Layer (RocksDB) Integration**
+- RocksDB API Abstraktion
+  - Storage Engine Interface Design
+  - Pluggable Storage Backends (Future: andere Engines)
+  - Transaction Coordination
+- Column Families Strategy
+  - Separate CFs für Entities, Indexes, Metadata
+  - Independent Compaction per CF
+  - Resource Isolation
+- Write Path Optimierung
+  - Batch Writes
+  - Write-Ahead-Log (WAL) Tuning
+  - Memtable Sizing
+- Read Path Optimierung
+  - Block Cache Tuning
+  - Bloom Filters
+  - Prefix Iterators
+- Vergleich Storage Engines
+  - B-Tree Engines (WiredTiger, InnoDB): Read-optimiert
+  - LSM Engines (RocksDB, LevelDB): Write-optimiert
+  - Hybrid (MyRocks): LSM mit B-Tree Features
+  - ThemisDB: Pure LSM für Write-Heavy Workloads
 
 **Referenzdokumente:**
 - `docs/architecture/architecture_overview.md`
 - `docs/architecture/architecture_strategic.md`
+- `docs/architecture/architecture_multi_model.md`
+- `docs/server/server_overview.md`
+
+**Vollständige Bibliographie (Kapitel 4):**
+
+[1] Buschmann, F., Meunier, R., Rohnert, H., et al. (1996). "Pattern-Oriented Software Architecture, Volume 1: A System of Patterns". Wiley.
+
+[2] Martin, R. C. (2000). "Design Principles and Design Patterns". Object Mentor.
+
+[3] Martin, R. C. (2017). "Clean Architecture: A Craftsman's Guide to Software Structure and Design". Prentice Hall.
+
+[4] Fielding, R. T. (2000). "Architectural Styles and the Design of Network-based Software Architectures". UC Irvine Dissertation.
+
+[5] Graefe, G. (1993). "Query Evaluation Techniques for Large Databases". ACM Computing Surveys, 25(2), 73-169.
+
+[6] Graefe, G. (1994). "Volcano - An Extensible and Parallel Query Evaluation System". IEEE TKDE, 6(1), 120-135.
+
+[7] Selinger, P. G., Astrahan, M. M., Chamberlin, D. D., et al. (1979). "Access Path Selection in a Relational Database Management System". ACM SIGMOD, 23-34.
+
+[8] DeCandia, G., Hastorun, D., Jampani, M., et al. (2007). "Dynamo: Amazon's Highly Available Key-Value Store". SOSP, 205-220.
+
+[9] Langdale, G., Lemire, D. (2019). "Parsing Gigabytes of JSON per Second". VLDB Journal, 28(6), 941-960.
+
+[10] Lamport, L. (1978). "Time, Clocks, and the Ordering of Events in a Distributed System". CACM, 21(7), 558-565.
+
+[11] Fowler, M. (2010). "Richardson Maturity Model". https://martinfowler.com/articles/richardsonMaturityModel.html
+
+[12] IETF (2015). "RFC 7540: Hypertext Transfer Protocol Version 2 (HTTP/2)".
 
 ---
 
 #### **Kapitel 5: Base Entity Design**
-- 5.1 Canonical Storage Format
-- 5.2 Key-Schema: `table:primary_key`
-- 5.3 JSON-Serialisierung mit simdjson
-- 5.4 Metadaten: Version, Timestamp, Blob Size
-- 5.5 Schema Evolution und Backward Compatibility
+
+**5.1 Canonical Storage Format: Philosophie und Design**
+- One Storage Format to Rule Them All
+  - Multi-Model durch Index-Projektionen
+  - Single Source of Truth
+  - Consistency durch gemeinsamen Storage
+- JSON als Basis-Format
+  - Schema Flexibility vs. Type Safety Trade-off
+  - Self-Describing Data
+  - Human-Readable für Debugging
+- Vergleich Document Formats
+  - BSON (MongoDB): Binary JSON mit Typen
+  - JSONB (PostgreSQL): Binary mit Indexierung
+  - Plain JSON (CouchDB): Text-basiert
+  - ThemisDB: JSON mit simdjson Parsing
+- Document-Oriented vs. Relational
+  - Codd, E. F. (1970). "A Relational Model of Data for Large Shared Data Banks"
+  - Cattell, R. (2011). "Scalable SQL and NoSQL Data Stores"
+  - Impedance Mismatch Problem
+  - ThemisDB Hybrid: Relational Queries auf Document Storage
+
+**5.2 Key-Schema und Namensräume**
+- Key Design: `table:primary_key`
+  - Namespace Isolation
+  - Lexicographic Ordering Benefits
+  - Range Scan Efficiency
+- Alternative Key Schemas
+  - UUID-basiert (Cassandra-Style)
+  - Hash-basiert (Consistent Hashing)
+  - Hierarchisch (HBase Row Key Design)
+  - ThemisDB: Simple, Readable, Scannable
+- Compound Keys und Clustering
+  - CQL (Cassandra): Partition Key + Clustering Columns
+  - DynamoDB: Hash Key + Sort Key
+  - ThemisDB: Application-Level Compound Keys
+- Key Size Optimierung
+  - Short Keys vs. Descriptive Keys
+  - Prefix Compression
+  - Storage Overhead Analysis
+
+**5.3 JSON-Serialisierung mit simdjson**
+- JSON Parsing Performance
+  - Langdale, G., Lemire, D. (2019). "Parsing Gigabytes of JSON per Second"
+  - SIMD-basierte Parallelisierung
+  - Zero-Copy Deserialization
+- Vergleich JSON Libraries
+  - RapidJSON: Populär, C++
+  - nlohmann/json: Modern C++, einfache API
+  - simdjson: 2-5x schneller
+  - sajson: Single-Header
+- Benchmark-Ergebnisse
+  - Parsing Speed: GB/sec
+  - Memory Overhead
+  - API Ergonomics vs. Performance
+- Schema Validation
+  - JSON Schema Draft-07
+  - Runtime Validation vs. Static Typing
+  - Performance Impact
+
+**5.4 Metadaten: Version, Timestamp, Blob Size**
+- MVCC Version Tracking
+  - Version ID als monotonic counter
+  - Transaction ID Integration
+  - Garbage Collection Hints
+- Timestamp Design
+  - Lamport Timestamps vs. Physical Time
+  - Hybrid Logical Clocks (Kulkarni, S., et al. (2014))
+  - Clock Skew Handling
+- Blob Size Management
+  - Inline vs. External Storage
+  - Large Object Handling (> 1MB)
+  - Compression Metadata
+- Metadata Overhead
+  - Fixed-Size vs. Variable-Size Metadata
+  - Space Efficiency Analysis
+  - Read/Write Performance Impact
+
+**5.5 Schema Evolution und Compatibility**
+- Schema Evolution Patterns
+  - Kleppmann, M. (2017). "Designing Data-Intensive Applications"
+  - Forward Compatibility: Old Reader, New Writer
+  - Backward Compatibility: New Reader, Old Writer
+  - Full Compatibility: Both Directions
+- Versioning Strategies
+  - Schema Version in Document
+  - Global Schema Registry (Avro-Style)
+  - Code Handles Multiple Versions
+- Migration Strategies
+  - Lazy Migration (On-Read)
+  - Eager Migration (Background Job)
+  - Dual-Write Pattern
+- Breaking Changes Handling
+  - Deprecation Period
+  - Graceful Degradation
+  - Error Handling
+
+**5.6 Vergleichende Analyse: Storage Formate**
+
+| Format | Pro | Con | Verwendet von |
+|--------|-----|-----|---------------|
+| JSON | Human-readable, Flexible | Verbos, Parsing-Overhead | CouchDB, ThemisDB |
+| BSON | Typed, Traversable | Binary, Größer als JSON | MongoDB |
+| JSONB | Indexed, Compressed | PostgreSQL-spezifisch | PostgreSQL |
+| Protobuf | Compact, Typed, Fast | Schema erforderlich | gRPC, Vitess |
+| Avro | Schema Evolution, Compact | Komplexer | Kafka, Hadoop |
+
+**ThemisDB Entscheidung:**
+- JSON für Developer Experience
+- simdjson für Performance-Parität mit Binary Formats
+- Schema-on-Read für Flexibilität
+- Optional: Schema Validation für Production
 
 **Referenzdokumente:**
 - `docs/architecture/architecture_base_entity.md`
 - `include/storage/base_entity.hpp`
 - `src/storage/base_entity.cpp`
+- `tests/test_base_entity.cpp`
+
+**Vollständige Bibliographie (Kapitel 5):**
+
+[1] Codd, E. F. (1970). "A Relational Model of Data for Large Shared Data Banks". CACM, 13(6), 377-387.
+
+[2] Cattell, R. (2011). "Scalable SQL and NoSQL Data Stores". ACM SIGMOD Record, 39(4), 12-27.
+
+[3] Langdale, G., Lemire, D. (2019). "Parsing Gigabytes of JSON per Second". VLDB Journal, 28(6), 941-960.
+
+[4] Kulkarni, S., Demirbas, M., Madappa, D., et al. (2014). "Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases". OPODIS.
+
+[5] Kleppmann, M. (2017). "Designing Data-Intensive Applications". O'Reilly Media.
+
+[6] IETF (2017). "JSON Schema: A Media Type for Describing JSON Documents". Draft-07.
 
 ---
 
 #### **Kapitel 6: MVCC Transaction Design**
-- 6.1 Snapshot Isolation
-- 6.2 Version Chain Management
-- 6.3 Garbage Collection
-- 6.4 Conflict Detection
-- 6.5 ACID-Garantien
+
+**6.1 Snapshot Isolation: Theorie und Praxis**
+- Snapshot Isolation Definition
+  - Berenson, H., et al. (1995). "A Critique of ANSI SQL Isolation Levels"
+  - Consistent Read View
+  - Write-Write Conflict Detection
+  - Keine Read Locks
+- SI vs. Serializable
+  - Write Skew Anomaly
+  - Fekete, A., et al. (2005). "Making Snapshot Isolation Serializable"
+  - Serializable Snapshot Isolation (SSI)
+  - PostgreSQL SSI Implementation
+- Warum SI für ThemisDB?
+  - Performance: Keine Read Locks
+  - Scalability: Reader-Writer Separation
+  - Predictability: Feste Snapshot-Zeit
+  - Acceptable Anomalies für Use Cases
+
+**6.2 Version Chain Management**
+- Version Storage Strategies
+  - Append-Only (PostgreSQL): Neue Version = Neuer Tuple
+  - Time-Travel (Oracle): Undo Tablespace
+  - Delta Storage (MySQL InnoDB): Rollback Segments
+  - ThemisDB: RocksDB Versioning via Key Encoding
+- Version Chain Organization
+  - Backward Chaining: Newest → Oldest
+  - Forward Chaining: Oldest → Newest
+  - ThemisDB: Implicit via LSM Tree Levels
+- Version Visibility Rules
+  - Transaction Start Timestamp
+  - Version Create/Delete Timestamps
+  - Snapshot Visibility Algorithm
+- Read Performance Optimierung
+  - Version Pruning
+  - Visibility Cache
+  - Fast Path für Newest Version
+
+**6.3 Garbage Collection**
+- When to GC?
+  - No Active Transactions need old versions
+  - Retention Policies (Point-in-Time Recovery)
+  - Storage Pressure Triggers
+- GC Strategies Vergleich
+  - PostgreSQL: Vacuum (Full vs. Lazy)
+  - MySQL: Purge Thread
+  - Oracle: Automatic Undo Retention
+  - CockroachDB: MVCC GC with TTL
+- ThemisDB GC Design
+  - Background Compaction-based GC
+  - RocksDB Compaction Filter Integration
+  - Configurable Retention Period
+  - Manual vs. Automatic Trigger
+- GC Performance Impact
+  - I/O Overhead
+  - CPU Usage
+  - Write Amplification
+  - User-Facing Latency
+
+**6.4 Conflict Detection und Resolution**
+- Write-Write Conflicts
+  - First-Committer-Wins Rule
+  - Last-Writer-Wins (Cassandra)
+  - Application-Level Resolution
+- Conflict Detection Timing
+  - Optimistic: Bei Commit (ThemisDB)
+  - Pessimistic: Bei Write (2PL)
+  - Hybrid: Predicate Locks
+- Retry Logic
+  - Exponential Backoff
+  - Transaction Priority
+  - Deadlock Avoidance
+- Distributed Transactions
+  - 2PC (Two-Phase Commit)
+  - 3PC (Three-Phase Commit)
+  - Paxos/Raft Consensus
+  - ThemisDB: Local MVCC + Distributed Coordination (Future)
+
+**6.5 ACID-Garantien**
+- Atomicity Implementation
+  - WAL (Write-Ahead Logging)
+  - RocksDB WriteBatch
+  - All-or-Nothing Semantics
+- Consistency Enforcement
+  - Application-Level Constraints
+  - Schema Validation
+  - Referential Integrity (Optional)
+- Isolation Levels Support
+  - Read Uncommitted: Nicht unterstützt
+  - Read Committed: Nicht unterstützt
+  - Repeatable Read: Nicht unterstützt
+  - Snapshot Isolation: Standard
+  - Serializable: Future mit SSI
+- Durability Guarantees
+  - fsync() bei Commit
+  - WAL Flush Policies
+  - Replication für Disaster Recovery
+  - Recovery Point Objective (RPO)
+
+**6.6 Vergleichende MVCC-Analyse**
+
+| System | Storage | Visibility | GC | Isolation |
+|--------|---------|------------|----|-----------| 
+| PostgreSQL | Append-Only | Tuple Headers | Vacuum | SI + SSI |
+| MySQL InnoDB | Rollback Segments | Undo Log | Purge Thread | RC, RR |
+| Oracle | Undo Tablespace | SCN | Auto Undo Mgmt | RC, SI |
+| CockroachDB | Versioned KV | MVCC Timestamps | GC Policy | SI + SSI |
+| **ThemisDB** | LSM Versions | Snapshot TS | Compaction Filter | SI |
+
+**Design Trade-offs:**
+- ✅ Pro LSM-based MVCC: Write Performance, Compression
+- ✅ Pro SI: Read Performance, No Locks
+- ❌ Con: Write Skew möglich
+- ❌ Con: Storage Overhead bis GC
 
 **Referenzdokumente:**
 - `docs/architecture/architecture_mvcc.md`
 - `docs/transaction/transaction_overview.md`
+- `include/transaction/mvcc_transaction.hpp`
+- `src/transaction/mvcc_transaction.cpp`
+
+**Vollständige Bibliographie (Kapitel 6):**
+
+[1] Berenson, H., Bernstein, P., Gray, J., et al. (1995). "A Critique of ANSI SQL Isolation Levels". ACM SIGMOD, 24(2), 1-10.
+
+[2] Fekete, A., Liarokapis, D., O'Neil, E., et al. (2005). "Making Snapshot Isolation Serializable". ACM TODS, 30(2), 492-528.
+
+[3] Gray, J., Reuter, A. (1992). "Transaction Processing: Concepts and Techniques". Morgan Kaufmann.
+
+[4] Bernstein, P. A., Newcomer, E. (2009). "Principles of Transaction Processing, 2nd Edition". Morgan Kaufmann.
+
+[5] Ports, D. R., Grittner, K. (2012). "Serializable Snapshot Isolation in PostgreSQL". VLDB Endowment, 5(12), 1850-1861.
+
+[6] Wu, Y., Arulraj, J., Lin, J., et al. (2017). "An Empirical Evaluation of In-Memory Multi-Version Concurrency Control". VLDB Endowment, 10(7), 781-792.
 
 ---
 
 #### **Kapitel 7: Query Engine und AQL**
-- 7.1 AQL-Syntax und Semantik
-- 7.2 Parser-Implementierung
-- 7.3 Query Optimizer
-- 7.4 Execution Engine
-- 7.5 JOIN-Implementierung (Hash-Join, Nested-Loop)
-- 7.6 Predicate Push-Down
+
+**7.1 AQL-Syntax und Semantik**
+- Query Language Design Philosophie
+  - Declarative vs. Imperative
+  - SQL-ähnlich vs. Eigenständig
+  - ArangoDB AQL als Inspiration
+- AQL Syntax Overview
+  - FOR-IN Iteration
+  - FILTER Predicates
+  - LET Variable Binding
+  - COLLECT Aggregation
+  - SORT Ordering
+  - LIMIT/SKIP Pagination
+  - RETURN Projection
+- Multi-Model Query Support
+  - Document Queries
+  - Graph Traversal (FOR ... IN OUTBOUND)
+  - Vector Search (VECTOR_SIMILARITY)
+  - Time Series (Temporal Predicates)
+- Vergleich Query Languages
+  - SQL: Standard, aber nicht Multi-Model
+  - MQL (MongoDB): JSON-basiert, weniger lesbar
+  - Cypher (Neo4j): Graph-fokussiert
+  - AQL (ArangoDB): Multi-Model, aber proprietär
+  - GraphQL: API-Layer, nicht DB Query Language
+  - ThemisDB AQL: ArangoDB-inspired mit Extensions
+
+**7.2 Parser-Implementierung**
+- Parser Architecture
+  - Lexical Analysis (Tokenization)
+  - Syntax Analysis (AST Construction)
+  - Semantic Analysis (Type Checking)
+- Parsing Techniques
+  - Recursive Descent
+  - LL(k) Parsing
+  - LALR Parsing (yacc/bison)
+  - ThemisDB: Hand-Written Recursive Descent
+- Abstract Syntax Tree (AST)
+  - Node Types: Expression, Statement, Query
+  - Visitor Pattern für AST Traversal
+  - Gamma, E., et al. (1994). "Design Patterns: Elements of Reusable Object-Oriented Software"
+- Error Handling
+  - Syntax Error Recovery
+  - Semantic Error Reporting
+  - User-Friendly Error Messages
+- Parser Performance
+  - Parse Time Overhead
+  - AST Memory Footprint
+  - Caching Prepared Statements
+
+**7.3 Query Optimizer**
+- Optimization Goals
+  - Minimize Execution Time
+  - Minimize Memory Usage
+  - Minimize I/O Operations
+- Cost-Based Optimization
+  - Selinger, P. G., et al. (1979). "Access Path Selection in a Relational Database"
+  - Cardinality Estimation
+  - Selectivity Estimation
+  - Cost Models für Operatoren
+- Rule-Based Optimization
+  - Predicate Push-Down
+  - Projection Push-Down
+  - Constant Folding
+  - Dead Code Elimination
+- Join Optimization
+  - Join Order Selection
+  - Left-Deep vs. Bushy Trees
+  - Dynamic Programming (Selinger)
+  - Greedy Heuristics
+- Index Selection
+  - Index-Only Scans
+  - Index Intersection
+  - Covering Indexes
+- Query Rewriting
+  - Subquery Unnesting
+  - View Expansion
+  - Common Subexpression Elimination
+
+**7.4 Execution Engine**
+- Execution Models
+  - Iterator Model (Volcano): Graefe, G. (1994)
+  - Materialization Model
+  - Vectorized Model: Boncz, P., et al. (2005). "MonetDB/X100"
+  - Compilation (LLVM JIT): Neumann, T. (2011). "HyPer"
+  - ThemisDB: Iterator + Vectorization Hybrid
+- Operator Implementations
+  - Scan: Sequential, Index, Range
+  - Filter: Predicate Evaluation
+  - Project: Column Extraction
+  - Join: Hash Join, Nested-Loop Join, Sort-Merge Join
+  - Aggregate: Hash-based Aggregation
+  - Sort: External Sort, Top-K
+- Parallelization
+  - Intra-Query Parallelism
+  - Inter-Query Parallelism
+  - Partition-based Parallelism
+  - TBB Task-based Execution
+- Memory Management
+  - Memory Budgets per Query
+  - Spill-to-Disk für Large Joins
+  - Buffer Pool Integration
+
+**7.5 JOIN-Implementierung**
+- Hash Join
+  - Build Phase: Hash Table Creation
+  - Probe Phase: Matching
+  - Grace Hash Join für Large Tables
+  - Hybrid Hash Join (Shapiro, L. D. (1986))
+- Nested-Loop Join
+  - Simple Nested-Loop
+  - Index Nested-Loop
+  - Block Nested-Loop
+  - When to Use: Small Inner Table
+- Sort-Merge Join
+  - External Sort
+  - Merge Phase
+  - Best for Pre-Sorted Input
+- Join Type Support
+  - Inner Join
+  - Left/Right/Full Outer Join
+  - Semi Join / Anti Join
+  - Cross Join
+- Multi-Way Joins
+  - Binary Join Tree
+  - Star Join Optimization
+  - Broadcast Join (Spark-Style)
+
+**7.6 Predicate Push-Down**
+- Push-Down Optimization
+  - Filter Early, Filter Often
+  - Reduce Data Movement
+  - Index Utilization
+- Storage-Level Push-Down
+  - RocksDB Prefix Filtering
+  - Bloom Filter Usage
+  - Skip Irrelevant SST Files
+- Index Push-Down
+  - Secondary Index Filtering
+  - Vector Index Filtering
+  - Graph Traversal Pruning
+- Limitations
+  - Non-Deterministic Functions
+  - Correlated Subqueries
+  - Aggregate Functions
+
+**7.7 Vergleichende Query Engine Analyse**
+
+| System | Execution Model | Optimization | Parallelism |
+|--------|----------------|--------------|-------------|
+| PostgreSQL | Iterator | Cost-Based | Process-based |
+| MySQL | Iterator | Cost-Based + Hints | Limited |
+| MongoDB | Aggregation Pipeline | Rule-Based | Sharded |
+| ClickHouse | Vectorized | Cost-Based | Thread-based |
+| DuckDB | Vectorized + JIT | Cost-Based | Thread-based |
+| **ThemisDB** | Iterator + Vectorized | Cost + Rule-Based | TBB Tasks |
+
+**ThemisDB Design Rationale:**
+- Iterator Model: Simplicity, Memory Efficiency
+- Vectorization: SIMD for Numeric Operations
+- TBB: Easy Parallelization
+- Extensible: Plugin für Custom Operators
 
 **Referenzdokumente:**
 - `docs/aql/aql_syntax.md`
 - `docs/aql/aql_query_engine.md`
 - `docs/query/query_optimizer.md`
+- `include/query/aql_parser.hpp`
+- `src/query/query_executor.cpp`
+
+**Vollständige Bibliographie (Kapitel 7):**
+
+[1] Selinger, P. G., Astrahan, M. M., Chamberlin, D. D., et al. (1979). "Access Path Selection in a Relational Database Management System". ACM SIGMOD, 23-34.
+
+[2] Graefe, G. (1994). "Volcano - An Extensible and Parallel Query Evaluation System". IEEE TKDE, 6(1), 120-135.
+
+[3] Graefe, G. (1993). "Query Evaluation Techniques for Large Databases". ACM Computing Surveys, 25(2), 73-169.
+
+[4] Boncz, P., Zukowski, M., Nes, N. (2005). "MonetDB/X100: Hyper-Pipelining Query Execution". CIDR.
+
+[5] Neumann, T. (2011). "Efficiently Compiling Efficient Query Plans for Modern Hardware". VLDB Endowment, 4(9), 539-550.
+
+[6] Shapiro, L. D. (1986). "Join Processing in Database Systems with Large Main Memories". ACM TODS, 11(3), 239-264.
+
+[7] Gamma, E., Helm, R., Johnson, R., Vlissides, J. (1994). "Design Patterns: Elements of Reusable Object-Oriented Software". Addison-Wesley.
+
+[8] Ibaraki, T., Kameda, T. (1984). "On the Optimal Nesting Order for Computing N-Relational Joins". ACM TODS, 9(3), 482-502.
+
+[9] Chaudhuri, S. (1998). "An Overview of Query Optimization in Relational Systems". PODS, 34-43.
 
 ---
 
