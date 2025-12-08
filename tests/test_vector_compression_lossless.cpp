@@ -6,6 +6,7 @@
 #include <random>
 #include <cmath>
 #include <unordered_set>
+#include <unordered_map>
 
 // Mock implementations for testing (will be in utils/ in actual implementation)
 namespace themis::compression {

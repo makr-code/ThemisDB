@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <chrono>
 #include <iostream>
+#include <thread>
 #include <immintrin.h> // AVX/AVX2/AVX-512
 
 #ifdef __ARM_NEON
