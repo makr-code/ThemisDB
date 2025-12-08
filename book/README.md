@@ -128,6 +128,52 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Performance-Benchmarks (YCSB, TPC-C)
 - Deployment-Modelle und Licensing
 
+**1.7 Hyperscaler und Managed Databases - Internationale Einordnung**
+- AWS Datenbank-Portfolio im Vergleich
+  - Amazon DynamoDB: Managed NoSQL (Key-Value, Document)
+  - Amazon Aurora: MySQL/PostgreSQL-kompatibel, cloud-native
+  - Amazon DocumentDB: MongoDB-kompatibel, managed
+  - Amazon Neptune: Managed Graph Database (Gremlin, SPARQL)
+  - Amazon Timestream: Managed Time Series Database
+  - Amazon MemoryDB: Redis-kompatibel, in-memory
+  - **ThemisDB Positionierung**: All-in-One vs. Spezialisierte Services
+- Microsoft Azure Datenbank-Angebote
+  - Azure CosmosDB: Multi-Model, Global Distribution (5 APIs: SQL, MongoDB, Cassandra, Gremlin, Table)
+  - Azure SQL Database: Managed SQL Server
+  - Azure Database for PostgreSQL/MySQL: Managed Open Source
+  - Azure Synapse Analytics: Data Warehouse + Spark
+  - **ThemisDB vs. CosmosDB**: Self-Hosted vs. Cloud-Only, Kostenvergleich
+- Google Cloud Platform (GCP)
+  - Cloud Firestore: Document Database, serverless
+  - Cloud Spanner: Global Relational Database (Corbett et al. 2012 - TrueTime)
+  - Cloud BigQuery: Serverless Data Warehouse (Dremel - Melnik et al. 2010)
+  - Cloud Bigtable: Wide-Column Store (Basis für BigTable Paper 2006)
+  - **ThemisDB Differenzierung**: Kein Lock-In, Multi-Cloud, On-Premise
+- Self-Hosted vs. DBaaS Trade-off Matrix
+
+| Kriterium | Self-Hosted (ThemisDB) | Managed (Hyperscaler) |
+|-----------|------------------------|----------------------|
+| **Kosten** | Hardware + Personal | Pay-per-Use (oft teurer) |
+| **Kontrolle** | Vollständig | Eingeschränkt |
+| **Vendor Lock-In** | Keiner | Hoch (APIs, Tooling) |
+| **Skalierung** | Manuell/Automatisiert | Automatisch |
+| **Maintenance** | Self-Service | Managed |
+| **Compliance** | Volle Kontrolle | Shared Responsibility |
+| **Latency** | Optimierbar | Region-abhängig |
+| **Multi-Cloud** | ✅ Ja | ❌ Nein |
+
+- Cloud-Native Features in ThemisDB Roadmap
+  - Kubernetes-Native Deployment (Operators, Helm Charts)
+  - Cloud Storage Integration (S3-kompatible APIs)
+  - Auto-Scaling Policies (Horizontal Pod Autoscaler)
+  - Multi-Region Replication
+  - Backup to Object Storage (AWS S3, Azure Blob, GCS, MinIO)
+- Hybrid-Cloud Szenarien
+  - On-Premise Primary + Cloud DR (Disaster Recovery)
+  - Cloud Bursting für Analytics Workloads
+  - Edge Computing mit Cloud-Sync
+  - Data Sovereignty und GDPR Compliance
+
 **Referenzdokumente:**
 - [`README.md`](../README.md) - Projekt-Übersicht
 - [`docs/architecture/architecture_overview.md`](../docs/architecture/architecture_overview.md) - System-Architektur
@@ -139,6 +185,12 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Stonebraker, M., Cetintemel, U. (2005). "One Size Fits All: An Idea Whose Time Has Come and Gone"
 - Abadi, D. (2010). "Consistency Tradeoffs in Modern Distributed Database System Design"
 - Lu, J., et al. (2019). "Multi-model Databases: A New Journey to Handle the Variety of Data"
+
+**Hyperscaler & Cloud Databases:**
+- Corbett, J. C., et al. (2012). "Spanner: Google's Globally-Distributed Database." OSDI.
+- Melnik, S., et al. (2010). "Dremel: Interactive Analysis of Web-Scale Datasets." VLDB.
+- Chang, F., et al. (2006). "Bigtable: A Distributed Storage System for Structured Data." OSDI.
+- Verbitski, A., et al. (2017). "Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases." SIGMOD.
 
 ---
 
@@ -3331,10 +3383,20 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
   - Streaming SQL (Flink-style), complex event processing (CEP)
   - Approximate query processing (AQP) für Big Data (Agarwal et al. 2013)
   - OLAP cubes mit materialized views
-- **Cloud-Native Features**:
-  - Serverless compute tier (AWS Lambda-style)
-  - Multi-cloud federation (Spanner-style global replication)
-  - Kubernetes Operator für Auto-Scaling
+- **Cloud-Native & Multi-Cloud Features**:
+  - **Kubernetes-Native**: Custom Resource Definitions (CRDs), StatefulSet optimization, Persistent Volume management
+  - **Cloud Storage Tier**: S3-compatible API integration (AWS S3, GCS, Azure Blob, MinIO, Ceph)
+  - **Serverless Tier**: Auto-pause/resume, cold-start optimization (<1s), pay-per-query billing
+  - **Multi-Cloud Federation**: Global replication across AWS/Azure/GCP, unified control plane
+  - **Kubernetes Operator**: Auto-scaling (HPA/VPA), self-healing, rolling updates, backup automation
+  - **Service Mesh Integration**: Istio/Linkerd support, mutual TLS, traffic management
+  - **Cloud Marketplace**: AWS Marketplace, Azure Marketplace, GCP Marketplace listings
+  - **Managed Service Option**: DBaaS offering (ThemisDB Cloud), free tier + pay-as-you-go pricing
+- **Hybrid & Edge Computing**:
+  - **Edge Nodes**: Lightweight binary (<50MB), ARM support (Raspberry Pi, AWS Graviton)
+  - **Edge-to-Cloud Sync**: Conflict-free replication (CRDTs), delta synchronization, bandwidth optimization
+  - **CDN Integration**: Query result caching at edge, GraphQL Federation
+  - **5G/IoT Use Cases**: Low-latency writes, time series aggregation at edge
 - **AI-Assisted Development**:
   - Natural language to AQL query translation (GPT-based)
   - Automated schema design recommendations
