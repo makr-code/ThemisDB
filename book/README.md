@@ -53,6 +53,9 @@ Produktionsreife Features für den Unternehmenseinsatz
 ### TEIL VI: Ecosystem und Zukunft (Kapitel 23-25)
 Client-SDKs, Tools und Ausblick
 
+### TEIL VII: LLM-getriebene Prozessverwaltung (Kapitel 26-28)
+Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
+
 ---
 
 ## Detailliertes Inhaltsverzeichnis
@@ -3385,6 +3388,243 @@ Client-SDKs, Tools und Ausblick
 
 ---
 
+### **TEIL VII: LLM-GETRIEBENE PROZESSVERWALTUNG**
+
+#### **Kapitel 26: Maschinenlesbare Prozessmodellierung**
+
+**26.1 Prozessmodellierung für KI-Systeme**
+- **Strukturierte Prozessbeschreibungen**: BPMN 2.0 (Business Process Model and Notation - OMG 2011), CMMN (Case Management), DMN (Decision Model and Notation)
+- **Maschinenlesbare Formate**: JSON Schema, YAML, XML, RDF/OWL für semantische Prozesse
+- **Graph-basierte Prozessmodelle**: Process Mining Graphs, directed acyclic graphs (DAGs) für Workflows
+- **Prozess-Ontologien**: Semantic Web ontologies (FOAF, PROV-O), domain-specific process ontologies
+- **Vergleich mit etablierten Standards**: BPMN vs. Petri Nets vs. UML Activity Diagrams vs. ThemisDB Process Schema
+
+**26.2 Prozess-Storage in ThemisDB**
+- **Document Model für Prozesse**: JSON-basierte Prozessdefinitionen, versioning mit MVCC
+- **Graph Model für Ablauflogik**: Nodes = Process Steps, Edges = Transitions, properties = conditions/rules
+- **Temporal Modeling**: Zustandshistorie mit Time Series, audit trails, process instance lifecycle
+- **Metadata Management**: Process templates, instances, execution context, versioning strategy
+- **Schema Design**:
+```json
+{
+  "process_id": "VCC-URN",
+  "definition": { "steps": [], "transitions": [], "rules": {} },
+  "instances": [ { "instance_id": "", "state": "", "history": [] } ],
+  "version": "semantic versioning",
+  "metadata": { "created_by": "", "ai_optimized": true }
+}
+```
+
+**26.3 Prozess-Abfragen mit AQL**
+- **Query-Patterns für Prozesse**: Find all active instances, filter by state, temporal queries
+- **Graph-Traversal für Prozessflüsse**: Follow process paths, detect bottlenecks, analyze cycles
+- **Aggregation für Prozess-Analytics**: Average duration, success rates, resource utilization
+- **Full-Text Search in Prozessbeschreibungen**: Semantic search in process documentation
+- **Vector Search für ähnliche Prozesse**: Embedding-based process similarity (Process2Vec)
+
+**26.4 Prozess-Versionierung und Evolution**
+- **Semantic Versioning für Prozesse**: Major/minor/patch changes, breaking vs. non-breaking changes
+- **Schema Migration**: Forward/backward compatibility, instance migration strategies
+- **Branching und Merging**: Git-inspired versioning, A/B testing of process variants
+- **Rollback Mechanismen**: Safe rollback to previous process versions, instance state handling
+
+**26.5 Process Mining und Analytics**
+- **Event Log Analysis**: Alpha algorithm (van der Aalst 2004), process discovery from logs
+- **Conformance Checking**: Actual vs. planned process execution, deviation detection
+- **Performance Mining**: Bottleneck identification, critical path analysis, resource optimization
+- **Predictive Process Monitoring**: ML-based prediction of process outcomes (Teinemaa et al. 2019)
+
+**26.6 Vergleichende Prozess-Storage Analyse**
+
+| System | Process Model | Query Support | Versioning | Analytics | AI-Ready |
+|--------|---------------|---------------|------------|-----------|----------|
+| Camunda | BPMN 2.0 | SQL | Limited | Process Mining | Partial |
+| Temporal | Workflow Code | SDK queries | Code versions | Dashboards | No |
+| Apache Airflow | DAG (Python) | DB queries | Git | Basic | No |
+| Neo4j | Custom Graph | Cypher | Manual | Graph analytics | Partial |
+| **ThemisDB** | Multi-Model | AQL (Graph+Doc) | Native MVCC | Full PM + ML | ✅ Yes |
+
+**26.7 Akademische Referenzen**
+
+**Process Modeling:**
+- [1] OMG (2011). "Business Process Model and Notation (BPMN) Version 2.0." Object Management Group.
+- [2] van der Aalst, W. M. P. (2016). "Process Mining: Data Science in Action." Springer.
+- [3] Dumas, M., et al. (2018). "Fundamentals of Business Process Management." 2nd Edition. Springer.
+
+**Process Mining:**
+- [4] van der Aalst, W. M. P. (2004). "Business Process Mining: An Industrial Application." Information Systems, 29(7).
+- [5] Teinemaa, I., et al. (2019). "Outcome-Oriented Predictive Process Monitoring." ACM TKDD, 13(2).
+
+**Semantic Web:**
+- [6] Lebo, T., et al. (2013). "PROV-O: The PROV Ontology." W3C Recommendation.
+
+**Referenzdokumente:**
+- `docs/processes/process_modeling.md`
+- `docs/processes/bpmn_integration.md`
+- `docs/api/process_api.md`
+
+---
+
+#### **Kapitel 27: LLM-Integration für Dokumentenverwaltung**
+
+**27.1 LLM-basierte Dokumentenverarbeitung**
+- **Document Understanding**: Text extraction, structure recognition, entity extraction
+- **Large Language Models im Überblick**: GPT-4, Claude, Llama 3, Mistral, domain-specific models
+- **Prompt Engineering für Dokumentenanalyse**: Few-shot learning, chain-of-thought prompting (Wei et al. 2022)
+- **Retrieval-Augmented Generation (RAG)**: Context injection (Lewis et al. 2020), grounding LLM responses
+- **Vergleich: Fine-Tuning vs. RAG vs. Prompt Engineering**: Cost, accuracy, maintenance trade-offs
+
+**27.2 Embedding-basierte Dokumentensuche**
+- **Sentence Embeddings**: Sentence-BERT (Reimers & Gurevych 2019), OpenAI Ada-002, multilingual models
+- **Chunk-Strategien**: Fixed-size vs. semantic chunking, overlap strategies, optimal chunk size (512-1024 tokens)
+- **Hybrid Search**: BM25 + Vector similarity, reciprocal rank fusion (RRF), alpha-weighted combination
+- **Metadata Filtering**: Pre-filtering vs. post-filtering, structured + unstructured search
+- **Embedding Cache**: Storage in ThemisDB Vector Index, incremental updates, embedding versioning
+
+**27.3 Verwaltungsprozesse mit LLM automatisieren**
+- **Document Classification**: Multi-class classification, confidence thresholding, human-in-the-loop
+- **Information Extraction**: Named Entity Recognition, relation extraction, form field extraction
+- **Document Summarization**: Abstractive vs. extractive summarization, multi-document summarization
+- **Compliance Checking**: Automated GDPR/ISO compliance checks, policy violation detection
+- **Workflow Automation**: LLM-gesteuerte Entscheidungen, approval routing, escalation rules
+
+**27.4 Knowledge Graph Construction aus Dokumenten**
+- **Entity Linking**: Disambiguierung, knowledge base construction, entity resolution
+- **Relation Extraction**: Dependency parsing, transformer-based extraction (SpERT - Eberts & Ulges 2020)
+- **Ontology Learning**: Automatic taxonomy creation, concept hierarchy extraction
+- **Graph Storage**: RDF triples in ThemisDB Graph Model, SPARQL-like queries via AQL
+- **Knowledge Graph Embeddings**: TransE, DistMult, ComplEx for link prediction
+
+**27.5 LLM-Sicherheit und Governance**
+- **Prompt Injection Prevention**: Input sanitization, output validation, system prompt protection
+- **Data Privacy**: On-premise LLMs (Llama 3, Mistral), data anonymization, PII detection
+- **Hallucination Mitigation**: Fact-checking against knowledge base, confidence scoring, citation of sources
+- **Bias Detection**: Fairness metrics, demographic parity, bias mitigation strategies
+- **Auditability**: Logging all LLM interactions, prompt versioning, decision traceability
+
+**27.6 Kostenoptimierung für LLM-Workflows**
+- **Token-Management**: Prompt compression, caching strategies, context length optimization
+- **Model Selection**: GPT-4 vs. GPT-3.5 vs. open-source, cost-performance trade-offs
+- **Batch Processing**: Async batch APIs (OpenAI Batch API), priority queues
+- **Caching Strategies**: Semantic caching (query similarity), result reuse, cache invalidation
+- **Self-Hosted vs. API**: Infrastructure costs, latency, compliance requirements
+
+**27.7 Vergleichende LLM-Integration Analyse**
+
+| System | LLM Support | Vector Search | RAG | Knowledge Graph | Document AI |
+|--------|-------------|---------------|-----|-----------------|-------------|
+| Elasticsearch | OpenAI plugin | Dense vector | Basic | No | Limited |
+| Weaviate | Built-in | HNSW | Native | Basic | Good |
+| MongoDB Atlas | Atlas Search | Yes | Via app | No | Limited |
+| Neo4j | LangChain | No (external) | Via integration | Native | Good |
+| **ThemisDB** | Native API | HNSW | Native RAG | Native Graph | Full Suite |
+
+**27.8 Akademische Referenzen**
+
+**Large Language Models:**
+- [1] Brown, T., et al. (2020). "Language Models are Few-Shot Learners." NeurIPS (GPT-3).
+- [2] Wei, J., et al. (2022). "Chain-of-Thought Prompting Elicits Reasoning in LLMs." NeurIPS.
+- [3] Lewis, P., et al. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP." NeurIPS.
+- [4] Reimers, N., Gurevych, I. (2019). "Sentence-BERT." EMNLP.
+
+**Information Extraction:**
+- [5] Eberts, M., Ulges, A. (2020). "Span-based Joint Entity and Relation Extraction with Transformer Pre-training." ECAI.
+
+**Knowledge Graphs:**
+- [6] Bordes, A., et al. (2013). "Translating Embeddings for Modeling Multi-relational Data." NeurIPS (TransE).
+
+**Security:**
+- [7] Perez, F., Ribeiro, I. (2022). "Ignore Previous Prompt: Attack Techniques For LLMs." arXiv:2211.09527.
+
+**Referenzdokumente:**
+- `docs/llm/llm_integration.md`
+- `docs/llm/rag_architecture.md`
+- `docs/llm/embedding_strategies.md`
+
+---
+
+#### **Kapitel 28: Intelligente Prozessoptimierung mit KI**
+
+**28.1 Process Discovery mit Machine Learning**
+- **Automated Process Discovery**: Alpha Miner, Heuristic Miner (Weijters & van der Aalst 2003), Inductive Miner
+- **Deep Learning für Prozesse**: RNNs/LSTMs for sequence prediction, Transformer models for process modeling
+- **Anomaly Detection**: Isolation Forest, Autoencoders for outlier detection, One-Class SVM
+- **Clustering von Prozessvarianten**: K-Means, DBSCAN, hierarchical clustering for process variants
+- **Trace Alignment**: Edit distance, optimal alignment algorithms
+
+**28.2 Predictive Process Analytics**
+- **Next Activity Prediction**: Sequence models (LSTM, Transformer), prefix-based prediction
+- **Remaining Time Prediction**: Regression models, survival analysis, time series forecasting
+- **Outcome Prediction**: Binary/multi-class classification, risk scoring, intervention triggers
+- **Resource Allocation Optimization**: Reinforcement Learning (RL), Multi-Armed Bandits, Q-Learning
+- **What-If Simulation**: Counterfactual analysis, causal inference, scenario planning
+
+**28.3 LLM-gesteuerte Prozessverbesserung**
+- **Natural Language Process Queries**: "Zeige mir alle verzögerten Genehmigungen" → AQL generation
+- **Process Description Generation**: Automatic BPMN documentation, natural language summaries
+- **Bottleneck Explanation**: LLM-generated root cause analysis, recommendation generation
+- **Process Redesign Suggestions**: GPT-4 based optimization recommendations, best practices injection
+- **Conversational Process Analytics**: Chatbot interface for business users, guided analytics
+
+**28.4 Adaptive Prozesse und Self-Optimization**
+- **Adaptive Workflows**: Dynamic process adaptation based on context, runtime process modification
+- **A/B Testing für Prozesse**: Variant testing, statistical significance, Bayesian optimization
+- **Feedback Loops**: User feedback integration, continuous improvement cycles, process KPI tracking
+- **AutoML für Prozess-Modelle**: Automated model selection, hyperparameter tuning, feature engineering
+- **Digital Twins für Prozesse**: Real-time process simulation, predictive maintenance, what-if scenarios
+
+**28.5 Compliance und Governance mit KI**
+- **Automated Compliance Checking**: GDPR/ISO 27001 rule verification, policy enforcement
+- **Regulatory Change Detection**: LLM-based monitoring of regulatory updates, impact analysis
+- **Audit Trail Generation**: Immutable logs in ThemisDB, blockchain integration (optional)
+- **Explainable AI (XAI)**: LIME, SHAP for model interpretability, decision justification
+- **Human-in-the-Loop**: Active learning, confidence-based escalation, approval workflows
+
+**28.6 Echtzeit-Prozessüberwachung**
+- **Complex Event Processing (CEP)**: Esper, Flink CEP, real-time pattern matching
+- **Streaming Analytics**: Apache Kafka + Flink integration, windowed aggregations
+- **Alert Generation**: Threshold-based, ML-based anomaly alerts, intelligent noise reduction
+- **Dashboard Automation**: Real-time KPI tracking, process performance metrics, SLA monitoring
+- **Predictive Alerts**: ML models predicting SLA violations, proactive intervention
+
+**28.7 Vergleichende Prozess-KI Analyse**
+
+| System | ML Support | Process Mining | Predictive | LLM Integration | Adaptive |
+|--------|------------|----------------|------------|-----------------|----------|
+| Celonis | Built-in ML | Industry leader | ✅ Good | Limited | Partial |
+| UiPath | Process Mining | Good | ✅ Good | ChatGPT plugin | Partial |
+| Signavio | Limited | Basic | Limited | No | No |
+| Camunda | External ML | Via plugins | Limited | No | Partial |
+| **ThemisDB** | Native ML/LLM | Full PM Suite | ✅ Advanced | ✅ Native | ✅ Full |
+
+**28.8 Akademische Referenzen**
+
+**Process Mining:**
+- [1] Weijters, A. J. M. M., van der Aalst, W. M. P. (2003). "Rediscovering Workflow Models from Event-Based Data using Little Thumb." Integrated Computer-Aided Engineering, 10(2).
+- [2] Leemans, S. J. J., et al. (2013). "Discovering Block-Structured Process Models from Event Logs." BPM.
+
+**Machine Learning:**
+- [3] Tax, N., et al. (2017). "Predictive Business Process Monitoring with LSTM Neural Networks." CAiSE.
+- [4] Evermann, J., et al. (2017). "Predicting Process Behaviour Using Deep Learning." Decision Support Systems, 100.
+
+**Explainable AI:**
+- [5] Ribeiro, M. T., et al. (2016). "Why Should I Trust You?: Explaining the Predictions of Any Classifier." KDD (LIME).
+- [6] Lundberg, S. M., Lee, S.-I. (2017). "A Unified Approach to Interpreting Model Predictions." NeurIPS (SHAP).
+
+**Complex Event Processing:**
+- [7] Luckham, D. C. (2002). "The Power of Events: An Introduction to Complex Event Processing." Addison-Wesley.
+
+**Adaptive Processes:**
+- [8] Reichert, M., Weber, B. (2012). "Enabling Flexibility in Process-Aware Information Systems." Springer.
+
+**Referenzdokumente:**
+- `docs/processes/ml_integration.md`
+- `docs/processes/adaptive_workflows.md`
+- `docs/llm/conversational_analytics.md`
+- `docs/compliance/ai_governance.md`
+
+---
+
 ## Anhänge
 
 ### **Anhang A: API-Referenz**
@@ -3461,6 +3701,9 @@ Client-SDKs, Tools und Ausblick
 - Distributed Systems & Consensus
 - Index Structures (HNSW, R-Tree, etc.)
 - Compression Algorithms
+- Process Mining & BPM
+- Large Language Models & NLP
+- Machine Learning for Processes
 
 ---
 
@@ -3486,6 +3729,20 @@ Client-SDKs, Tools und Ausblick
 3. Kapitel 4: Systemarchitektur
 4. Teil V: Enterprise-Features (Kapitel 18-22)
 5. Kapitel 25: Zukunft und Roadmap
+
+### Für Process & Workflow Engineers (NEU)
+1. Kapitel 1: Einführung
+2. Kapitel 26: Maschinenlesbare Prozessmodellierung
+3. Kapitel 27: LLM-Integration für Dokumentenverwaltung
+4. Kapitel 28: Intelligente Prozessoptimierung mit KI
+5. Kapitel 13: Graph Database (für Prozessflüsse)
+
+### Für AI/ML Engineers (NEU)
+1. Kapitel 14: Vector Database
+2. Kapitel 12: Content Pipeline
+3. Kapitel 27: LLM-Integration
+4. Kapitel 28: Intelligente Prozessoptimierung
+5. Kapitel 21: GPU-Acceleration
 
 ### Für Operations/DevOps
 1. Kapitel 10: HTTP Server
