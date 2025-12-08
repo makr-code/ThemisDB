@@ -3,6 +3,8 @@
 #include "sharding/prometheus_metrics.h"
 #include <stdexcept>
 #include <thread>
+#include <filesystem>
+#include <fstream>
 #include <openssl/sha.h>
 #include <iomanip>
 #include <sstream>
@@ -41,6 +43,11 @@ DataMigrator::DataMigrator(
     if (config_.batch_size == 0) {
         throw std::invalid_argument("Batch size must be greater than 0");
     }
+    
+    // Load idempotency state if enabled
+    if (config_.enable_idempotency) {
+        loadIdempotencyState();
+    }
 }
 
 MigrationResult DataMigrator::migrate(
@@ -53,6 +60,21 @@ MigrationResult DataMigrator::migrate(
     MigrationResult result;
     MigrationProgress progress;
     
+    // Generate deterministic migration ID
+    std::string migration_id = generateMigrationId(
+        source_shard_id, target_shard_id,
+        token_range_start, token_range_end
+    );
+    result.migration_id = migration_id;
+    progress.migration_id = migration_id;
+    
+    // Check if already completed (idempotency)
+    if (config_.enable_idempotency && isMigrationCompleted(migration_id)) {
+        result.success = true;
+        result.was_already_completed = true;
+        return result;
+    }
+    
     auto start_time = std::chrono::steady_clock::now();
     std::string operation_id = source_shard_id + "_to_" + target_shard_id;
     
@@ -61,9 +83,20 @@ MigrationResult DataMigrator::migrate(
         progress.total_records = 10000; // Placeholder
         
         uint32_t offset = 0;
+        uint32_t batch_index = 0;
         uint32_t records_in_batch = config_.batch_size;
         
         while (records_in_batch == config_.batch_size) {
+            // Generate deterministic batch ID
+            std::string batch_id = generateBatchId(migration_id, batch_index);
+            
+            // Skip already completed batches (idempotency)
+            if (config_.enable_idempotency && isBatchCompleted(batch_id)) {
+                offset += config_.batch_size;
+                batch_index++;
+                continue;
+            }
+            
             // Fetch batch from source
             auto batch = fetchBatch(source_shard_id, token_range_start, 
                                   token_range_end, offset, config_.batch_size);
@@ -80,7 +113,7 @@ MigrationResult DataMigrator::migrate(
                 batch_hash = calculateHash(batch);
             }
             
-            // Write batch to target
+            // Write batch to target (atomic operation)
             if (!writeBatch(target_shard_id, batch)) {
                 result.errors.push_back("Failed to write batch at offset " + 
                                       std::to_string(offset));
@@ -90,7 +123,15 @@ MigrationResult DataMigrator::migrate(
                     result.error_message = "Too many errors during migration";
                     return result;
                 }
+                // Do not mark batch as completed on failure - allows retry
+                offset += config_.batch_size;
+                batch_index++;
                 continue;
+            }
+            
+            // Mark batch as completed (idempotency tracking)
+            if (config_.enable_idempotency) {
+                markBatchCompleted(batch_id);
             }
             
             // Update progress
@@ -128,6 +169,11 @@ MigrationResult DataMigrator::migrate(
         }
         
         result.success = true;
+        
+        // Mark migration as completed (idempotency)
+        if (config_.enable_idempotency) {
+            markMigrationCompleted(migration_id);
+        }
         
         // Record final metrics
         auto end_time = std::chrono::steady_clock::now();
@@ -310,3 +356,157 @@ bool DataMigrator::retryOperation(Func func) {
 
 } // namespace sharding
 } // namespace themis
+
+
+// ============================================================================
+// Idempotency Helper Methods
+// ============================================================================
+
+std::string DataMigrator::generateMigrationId(
+    const std::string& source_shard_id,
+    const std::string& target_shard_id,
+    uint64_t token_range_start,
+    uint64_t token_range_end
+) {
+    // Create deterministic string for hashing
+    std::ostringstream oss;
+    oss << source_shard_id << ":"
+        << target_shard_id << ":"
+        << token_range_start << ":"
+        << token_range_end;
+    
+    // Calculate SHA256 hash
+    std::string input = oss.str();
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), 
+           input.size(), hash);
+    
+    // Convert to hex string
+    std::ostringstream hex_oss;
+    hex_oss << std::hex << std::setfill('0');
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+        hex_oss << std::setw(2) << static_cast<unsigned>(hash[i]);
+    }
+    
+    return "migration_" + hex_oss.str();
+}
+
+std::string DataMigrator::generateBatchId(
+    const std::string& migration_id,
+    uint32_t batch_index
+) {
+    return migration_id + "_batch_" + std::to_string(batch_index);
+}
+
+bool DataMigrator::isMigrationCompleted(const std::string& migration_id) {
+    std::lock_guard<std::mutex> lock(idempotency_mutex_);
+    return completed_migrations_.find(migration_id) != completed_migrations_.end();
+}
+
+void DataMigrator::markMigrationCompleted(const std::string& migration_id) {
+    std::lock_guard<std::mutex> lock(idempotency_mutex_);
+    completed_migrations_.insert(migration_id);
+    saveIdempotencyState();
+}
+
+bool DataMigrator::isBatchCompleted(const std::string& batch_id) {
+    std::lock_guard<std::mutex> lock(idempotency_mutex_);
+    return completed_batches_.find(batch_id) != completed_batches_.end();
+}
+
+void DataMigrator::markBatchCompleted(const std::string& batch_id) {
+    std::lock_guard<std::mutex> lock(idempotency_mutex_);
+    completed_batches_.insert(batch_id);
+    // Persist after every N batches to avoid too frequent I/O
+    static size_t batch_counter = 0;
+    if (++batch_counter % 10 == 0) {
+        saveIdempotencyState();
+    }
+}
+
+void DataMigrator::loadIdempotencyState() {
+    std::lock_guard<std::mutex> lock(idempotency_mutex_);
+    
+    try {
+        namespace fs = std::filesystem;
+        fs::path state_dir(config_.idempotency_store_path);
+        
+        if (!fs::exists(state_dir)) {
+            fs::create_directories(state_dir);
+            return;
+        }
+        
+        // Load completed migrations
+        fs::path migrations_file = state_dir / "completed_migrations.json";
+        if (fs::exists(migrations_file)) {
+            std::ifstream ifs(migrations_file);
+            nlohmann::json j;
+            ifs >> j;
+            
+            if (j.is_array()) {
+                for (const auto& item : j) {
+                    if (item.is_string()) {
+                        completed_migrations_.insert(item.get<std::string>());
+                    }
+                }
+            }
+        }
+        
+        // Load completed batches
+        fs::path batches_file = state_dir / "completed_batches.json";
+        if (fs::exists(batches_file)) {
+            std::ifstream ifs(batches_file);
+            nlohmann::json j;
+            ifs >> j;
+            
+            if (j.is_array()) {
+                for (const auto& item : j) {
+                    if (item.is_string()) {
+                        completed_batches_.insert(item.get<std::string>());
+                    }
+                }
+            }
+        }
+    } catch (const std::exception& e) {
+        std::cerr << "DataMigrator: Failed to load idempotency state: " 
+                  << e.what() << std::endl;
+    }
+}
+
+void DataMigrator::saveIdempotencyState() {
+    // Note: mutex should already be locked by caller
+    
+    try {
+        namespace fs = std::filesystem;
+        fs::path state_dir(config_.idempotency_store_path);
+        
+        if (!fs::exists(state_dir)) {
+            fs::create_directories(state_dir);
+        }
+        
+        // Save completed migrations
+        nlohmann::json migrations_json = nlohmann::json::array();
+        for (const auto& migration_id : completed_migrations_) {
+            migrations_json.push_back(migration_id);
+        }
+        
+        fs::path migrations_file = state_dir / "completed_migrations.json";
+        std::ofstream ofs_migrations(migrations_file);
+        ofs_migrations << migrations_json.dump(2);
+        
+        // Save completed batches
+        nlohmann::json batches_json = nlohmann::json::array();
+        for (const auto& batch_id : completed_batches_) {
+            batches_json.push_back(batch_id);
+        }
+        
+        fs::path batches_file = state_dir / "completed_batches.json";
+        std::ofstream ofs_batches(batches_file);
+        ofs_batches << batches_json.dump(2);
+        
+    } catch (const std::exception& e) {
+        std::cerr << "DataMigrator: Failed to save idempotency state: " 
+                  << e.what() << std::endl;
+    }
+}
+

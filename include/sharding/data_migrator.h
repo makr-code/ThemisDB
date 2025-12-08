@@ -4,6 +4,8 @@
 #include <functional>
 #include <vector>
 #include <memory>
+#include <unordered_set>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -19,6 +21,7 @@ struct MigrationProgress {
     uint64_t bytes_transferred = 0;
     uint64_t errors = 0;
     double progress_percent = 0.0;
+    std::string migration_id;  // Deterministic migration ID
 };
 
 // Result of a migration operation
@@ -28,6 +31,8 @@ struct MigrationResult {
     uint64_t bytes_transferred = 0;
     std::vector<std::string> errors;
     std::string error_message;
+    std::string migration_id;  // Deterministic migration ID for tracking
+    bool was_already_completed = false;  // True if migration was already done
 };
 
 // Configuration for data migrator
@@ -41,6 +46,10 @@ struct DataMigratorConfig {
     bool verify_integrity = true;
     uint32_t max_retries = 3;
     uint32_t retry_delay_ms = 1000;
+    
+    // Idempotency configuration
+    bool enable_idempotency = true;     // Enable idempotent migrations
+    std::string idempotency_store_path = "./migrations";  // Path to store migration state
 };
 
 /**
@@ -96,10 +105,43 @@ public:
         uint64_t token_range_start,
         uint64_t token_range_end
     );
+    
+    // Public for testing
+    std::string generateMigrationId(
+        const std::string& source_shard_id,
+        const std::string& target_shard_id,
+        uint64_t token_range_start,
+        uint64_t token_range_end
+    );
+    
+    std::string generateBatchId(
+        const std::string& migration_id,
+        uint32_t batch_index
+    );
+    
+    bool isMigrationCompleted(const std::string& migration_id);
+    void markMigrationCompleted(const std::string& migration_id);
+    bool isBatchCompleted(const std::string& batch_id);
+    void markBatchCompleted(const std::string& batch_id);
 
 private:
     DataMigratorConfig config_;
     std::shared_ptr<PrometheusMetrics> metrics_;
+    
+    // Idempotency tracking
+    mutable std::mutex idempotency_mutex_;
+    std::unordered_set<std::string> completed_migrations_;
+    std::unordered_set<std::string> completed_batches_;
+    
+    /**
+     * Load idempotency state from persistent storage
+     */
+    void loadIdempotencyState();
+    
+    /**
+     * Save idempotency state to persistent storage
+     */
+    void saveIdempotencyState();
 
     // Fetch batch of records from source
     nlohmann::json fetchBatch(
