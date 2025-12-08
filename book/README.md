@@ -3737,13 +3737,140 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 
 ---
 
-### **Anhang D: Glossar**
-- Begriffsdefinitionen
-- Akronyme
-- Technische Terminologie
+### **Anhang D: Technisches Glossar** **[ERWEITERT]**
+
+Umfassendes Verzeichnis aller technischen Begriffe mit **95+ Definitionen**, kategorisiert und mit Querverweisen.
+
+#### D.1 ThemisDB-spezifische Begriffe (15)
+
+- **VCC-URN** (Virtual Canonical Collection - Uniform Resource Name): ThemisDB's eindeutiges Identifikationsformat für Entities. Format: `vcc:namespace:collection:id`
+- **VCC-PKI** (Virtual Canonical Collection - Public Key Infrastructure): Proprietäres Schlüsselverwaltungssystem für Field-Level Encryption
+- **Base Entity**: Kanonisches Speicherformat - einheitliche JSON-Dokumentenrepräsentation für alle Datenmodelle
+- **AQL** (Advanced Query Language): Multi-Model Query Language mit Dokument-, Graph-, Vektor- und Zeitreihen-Operationen
+- **TSStore**: Time Series Store mit Gorilla Compression (90%+ Kompressionsrate)
+- **Canonical Storage Format**: JSON mit Metadaten (Timestamps, Versionen, Verschlüsselungsmarker)
+- **CLARA Export API**: Compliance-Daten-Export API (GDPR, SOC 2)
+- **JSONL Training Format**: Streaming JSON Lines für LLM-Training
+- **Themis Admin Suite**: 7 WPF-Tools (Manager, Configurator, Query Tool, Monitor, Backup, Security Manager, Migration)
+- **VCC Namespace**: Multi-Tenancy-Isolationseinheit
+- **Edge Storage**: Bidirektionaler Index (Outdex/Indeg) für O(1) Graph-Kanten-Lookups
+- **Process2Vec**: Embedding-Repräsentation für maschinenlesbare Prozesse
+- **Hybrid Search Fusion**: RRF kombiniert BM25 + HNSW + Graph-Relevanz
+- **VCC-K**: Field-Level-Encryption Schlüsselhierarchie (Master Key, DEK, KEK)
+- **VCC-T**: MVCC-Transaktionskontext mit Snapshot Isolation
+
+#### D.2 Datenbank-Grundlagen (25)
+
+- **MVCC** (Multi-Version Concurrency Control): Nebenläufigkeitskontrolle durch Versionsketten
+- **LSM-Tree** (Log-Structured Merge-Tree): Write-optimierte Speicherstruktur (RocksDB)
+- **WAL** (Write-Ahead Log): Durability-Mechanismus für Crash-Recovery und PITR
+- **Snapshot Isolation**: ACID-Isolationslevel - Transaktionen sehen konsistenten Snapshot
+- **Column Family**: RocksDB's logischer Namespace für Key-Value-Paare
+- **Compaction**: Hintergrundprozess zum Zusammenführen von LSM-Tree Leveln
+- **SST Files** (Sorted String Table): Immutable RocksDB-Speicherdateien
+- **Bloom Filter**: Probabilistische Membership-Tests (False Positives möglich)
+- **MemTable**: In-Memory Write-Buffer (Skip-List, O(log N))
+- **Block Cache**: LRU-K Cache für RocksDB-Blöcke
+- **Write/Read Amplification**: Verhältnis geschriebene/gelesene Bytes
+- **ACID**: Atomicity, Consistency, Isolation, Durability
+- **CAP Theorem**: Consistency, Availability, Partition Tolerance (wähle 2 von 3)
+- **PACELC**: Bei Partition: A vs. C, sonst: Latency vs. Consistency
+- **Eventual Consistency**: Konvergenz zum gleichen Zustand bei ausreichend Zeit
+- **Strong Consistency**: Alle Reads reflektieren neuesten Write (Linearizability)
+- **Quorum**: Mehrheit (N/2 + 1) erforderlich für Operation
+- **Vector Clock**: Verteilter Timestamp für Kausalitäts-Tracking
+- **CRDT** (Conflict-free Replicated Data Type): Auto-Resolution konkurrenter Updates
+- **Two-Phase Commit (2PC)**: Verteiltes Transaktionsprotokoll
+- **Raft**: Consensus-Algorithmus mit Leader-Election (einfacher als Paxos)
+- **Paxos**: Klassischer Consensus-Algorithmus (komplexer)
+- **Gossip Protocol**: Peer-to-Peer Cluster-Membership
+- **Tombstone**: Marker für gelöschten Schlüssel in LSM-Tree
+
+#### D.3 Multi-Model & Suche (20)
+
+- **HNSW** (Hierarchical Navigable Small World): Graph-basierte ANN-Suche, O(log N)
+- **k-NN** (k-Nearest Neighbors): Finde k nächste Vektoren nach Distanzmetrik
+- **ANN** (Approximate Nearest Neighbor): Trade Accuracy für Geschwindigkeit
+- **Cosine Similarity**: Winkel zwischen Vektoren (0-1, unabhängig von Magnitude)
+- **Euclidean Distance**: L2-Norm - geradlinige Distanz
+- **Dot Product**: Inneres Produkt für Similarity-Ranking
+- **Product Quantization (PQ)**: Vektor-Kompression (8-32x Reduktion)
+- **BM25** (Best Matching 25): Full-Text Ranking (TF-IDF-Erweiterung)
+- **TF-IDF**: Term Frequency - Inverse Document Frequency
+- **Inverted Index**: Map von Termen zu Dokumenten
+- **Porter Stemming**: Wort-Normalisierung ("running" → "run")
+- **Property Graph Model**: Graph mit typisierten Knoten/Kanten + Properties
+- **Cypher**: Neo4j's Graph-Query-Language (ASCII-Art Pattern)
+- **GraphQL**: Query-Language für graph-ähnliche APIs
+- **GeoJSON**: JSON-Format für geografische Features (RFC 7946)
+- **WKT** (Well-Known Text): Textrepräsentation geometrischer Objekte
+- **R-Tree**: Räumlicher Index für Bounding-Box-Queries
+- **Haversine Formula**: Großkreis-Distanz zwischen Lat/Long auf Kugel
+- **Gorilla Compression**: Facebook's Zeitreihen-Kompression (Delta-of-Delta + XOR, 90%+)
+- **Continuous Aggregates**: Materialisierte Views mit inkrementellen Updates
+
+#### D.4 Enterprise & Betrieb (15)
+
+- **Sharding**: Horizontale Partitionierung über mehrere Nodes
+- **Consistent Hashing**: Minimal Rebalancing beim Hinzufügen/Entfernen von Nodes
+- **Virtual Nodes (VNodes)**: Mehrere Hash-Ring-Positionen pro Node (Load Balancing)
+- **Replication Factor**: Anzahl Kopien pro Datenelement (RF=3 überlebt 2 Ausfälle)
+- **Leader Election**: Auswahl des Primary Node (Raft/Paxos)
+- **Split-Brain**: Netzwerkpartition erzeugt zwei unabhängige Cluster
+- **Failover**: Automatischer Wechsel zu Standby bei Primary-Ausfall
+- **Disaster Recovery (DR)**: Wiederherstellung nach katastrophalem Ausfall
+- **RPO** (Recovery Point Objective): Maximal akzeptabler Datenverlust (Zeit)
+- **RTO** (Recovery Time Objective): Maximal akzeptable Downtime
+- **PITR** (Point-in-Time Recovery): Wiederherstellung zu spezifischem Timestamp
+- **Hot Standby**: Standby bereit sofort zu übernehmen (sync repliziert)
+- **Cold Standby**: Backup erfordert manuelle Intervention (async)
+- **Circuit Breaker**: Stoppt Aufrufe an fehlgeschlagenen Service
+- **Backpressure**: Signal zum Verlangsamen bei Consumer-Überlastung
+
+#### D.5 AI/ML & LLM (20)
+
+- **RAG** (Retrieval-Augmented Generation): Kombination Retrieval (Vektorsuche) + Generation (LLM)
+- **Embedding**: Dichte Vektorrepräsentation (z.B. 768-dimensional)
+- **Prompt Engineering**: Prompts gestalten für gewünschtes LLM-Verhalten
+- **Chain-of-Thought (CoT)**: LLM zeigt Reasoning-Schritte ("Let's think step by step")
+- **Few-Shot Learning**: Beispiele im Prompt (vs. zero-shot)
+- **Fine-Tuning**: Model auf domänenspezifischen Daten neu trainieren
+- **Hallucination**: LLM generiert plausible aber falsche Ausgabe
+- **Prompt Injection**: Angriff manipuliert LLM-Instruktionen
+- **Token**: Texteinheit für LLM (1 Token ≈ 0.75 Wörter Englisch)
+- **Context Window**: Maximum Tokens (z.B. 128K für GPT-4)
+- **Temperature**: Randomness-Parameter (0 = deterministisch, 1 = kreativ)
+- **Semantic Caching**: LLM-Antworten cachen nach semantischer Ähnlichkeit
+- **BPMN** (Business Process Model and Notation): Standard für Prozessmodellierung
+- **Process Mining**: Prozesse aus Event-Logs entdecken (Alpha-Algorithmus)
+- **Conformance Checking**: Verifiziert ob Prozess modelliertem Ablauf folgt
+- **XAI** (Explainable AI): ML-Entscheidungen interpretierbar machen
+- **LIME** (Local Interpretable Model-Agnostic Explanations): Erklärt individuelle Vorhersagen
+- **SHAP** (SHapley Additive exPlanations): Spieltheorie-basierte Feature Importance
+- **NER** (Named Entity Recognition): Entities (Personen, Orte, Orgs) extrahieren
+- **Knowledge Graph**: Graph mit semantischer Bedeutung, Ontologien
+
+#### D.6 Abkürzungsverzeichnis
+
+**A-C**: AQL, ANN, ACID, BPMN, BM25, CAP, CRDT, CoT  
+**H-L**: HNSW, k-NN, LIME, LLM, LSM  
+**M-R**: MVCC, NER, PQ, PITR, RAG, RPO, RTO  
+**S-Z**: SHAP, SST, TF-IDF, WAL, XAI, 2PC
+
+#### D.7 Querverweise (Related Terms)
+
+- **VCC-URN** → Base Entity, Canonical Storage, VCC Namespace
+- **VCC-PKI** → VCC-K, Field-Level Encryption
+- **MVCC** → Snapshot Isolation, WAL, Version Chain
+- **LSM-Tree** → RocksDB, Compaction, Write Amplification
+- **HNSW** → k-NN, ANN, Vector Database, Embedding
+- **RAG** → Embedding, Semantic Search, LLM, Vector Database
+- **BPMN** → Process Mining, Process2Vec, Workflow
+- **Raft** → Paxos, Consensus, Leader Election
+- **Sharding** → Consistent Hashing, Virtual Nodes
 
 **Referenzdokumente:**
-- [`docs/glossary.md`](../docs/glossary.md) - Glossar
+- [`docs/glossary.md`](../docs/glossary.md) - Glossar (Kurzversion aus ThemisDB-Dokumentation)
 
 ---
 
