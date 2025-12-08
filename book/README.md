@@ -129,10 +129,11 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Deployment-Modelle und Licensing
 
 **Referenzdokumente:**
-- `README.md`
-- `docs/architecture/architecture_overview.md`
-- `docs/reports/themis_sachstandsbericht_2025.md`
-- `docs/reports/competitive_gap_analysis.md`
+- [`README.md`](../README.md) - Projekt-Übersicht
+- [`docs/architecture/architecture_overview.md`](../docs/architecture/architecture_overview.md) - System-Architektur
+- [`docs/architecture/architecture_strategic.md`](../docs/architecture/architecture_strategic.md) - Strategische Architektur
+- [`docs/architecture/architecture_multi_model.md`](../docs/architecture/architecture_multi_model.md) - Multi-Model Design
+- [`docs/DOCUMENTATION_INDEX.md`](../docs/DOCUMENTATION_INDEX.md) - Dokumentations-Index
 
 **Akademische Referenzen:**
 - Stonebraker, M., Cetintemel, U. (2005). "One Size Fits All: An Idea Whose Time Has Come and Gone"
@@ -253,10 +254,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
   - Benchmark-Ergebnisse
 
 **Referenzdokumente:**
-- `docs/architecture/architecture_mvcc.md`
-- `docs/storage/storage_rocksdb.md`
-- `docs/timeseries/timeseries_overview.md`
-- `docs/index/index_overview.md`
+- [`docs/architecture/architecture_mvcc.md`](../docs/architecture/architecture_mvcc.md) - MVCC-Theorie und Implementierung
+- [`docs/storage/storage_rocksdb.md`](../docs/storage/storage_rocksdb.md) - LSM-Tree Details mit RocksDB
+- [`docs/transaction/transaction_overview.md`](../docs/transaction/transaction_overview.md) - Transaction Semantics
+- [`docs/architecture/architecture_strategic.md`](../docs/architecture/architecture_strategic.md) - Design Patterns
 
 **Vollständige Bibliographie (Kapitel 2):**
 
@@ -476,9 +477,11 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 | simdjson | Apache 2.0 | ✅ | ❌ |
 
 **Referenzdokumente:**
-- `docs/guides/guides_build_strategy.md`
-- `CMakeLists.txt`
-- `vcpkg.json`
+- [`docs/guides/guides_build_strategy.md`](../docs/guides/guides_build_strategy.md) - Build Toolchain
+- [`CMakeLists.txt`](../CMakeLists.txt) - Build-Konfiguration
+- [`vcpkg.json`](../vcpkg.json) - Dependencies und Bibliotheken
+- [`docs/guides/guides_build.md`](../docs/guides/guides_build.md) - Build-Anleitung
+- [`docs/QUICK_BUILD_GUIDE.md`](../docs/QUICK_BUILD_GUIDE.md) - Schnellstart
 
 **Vollständige Bibliographie (Kapitel 3):**
 
@@ -504,9 +507,11 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
   - Lizenz-Kompatibilität und Vendor Lock-in
 
 **Referenzdokumente:**
-- `docs/guides/guides_build_strategy.md`
-- `CMakeLists.txt`
-- `vcpkg.json`
+- [`docs/guides/guides_build_strategy.md`](../docs/guides/guides_build_strategy.md) - Build Toolchain
+- [`CMakeLists.txt`](../CMakeLists.txt) - Build-Konfiguration
+- [`vcpkg.json`](../vcpkg.json) - Dependencies und Bibliotheken
+- [`docs/guides/guides_build.md`](../docs/guides/guides_build.md) - Build-Anleitung
+- [`docs/QUICK_BUILD_GUIDE.md`](../docs/QUICK_BUILD_GUIDE.md) - Schnellstart
 
 **Vergleichende Analysen:**
 - RocksDB vs. WiredTiger Performance Studies
@@ -644,9 +649,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
   - ThemisDB: Pure LSM für Write-Heavy Workloads
 
 **Referenzdokumente:**
-- `docs/architecture/architecture_overview.md`
-- `docs/architecture/architecture_strategic.md`
-- `docs/architecture/architecture_multi_model.md`
+- [`docs/architecture/architecture_overview.md`](../docs/architecture/architecture_overview.md) - System-Übersicht
+- [`docs/architecture/architecture_strategic.md`](../docs/architecture/architecture_strategic.md) - Strategische Architektur
+- [`docs/architecture/architecture_multi_model.md`](../docs/architecture/architecture_multi_model.md) - Multi-Model Design
+- [`docs/server/README.md`](../docs/server/README.md) - Server-Architektur
 - `docs/server/server_overview.md`
 
 **Vollständige Bibliographie (Kapitel 4):**
@@ -791,9 +797,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Optional: Schema Validation für Production
 
 **Referenzdokumente:**
-- `docs/architecture/architecture_base_entity.md`
-- `include/storage/base_entity.hpp`
-- `src/storage/base_entity.cpp`
+- [`docs/architecture/architecture_base_entity.md`](../docs/architecture/architecture_base_entity.md) - Base Entity Konzept
+- [`include/storage/base_entity.hpp`](../include/storage/base_entity.hpp) - Header-Datei
+- [`src/storage/base_entity.cpp`](../src/storage/base_entity.cpp) - Implementierung
+- [`docs/storage/README.md`](../docs/storage/README.md) - Storage-Layer Übersicht
 - `tests/test_base_entity.cpp`
 
 **Vollständige Bibliographie (Kapitel 5):**
@@ -928,8 +935,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - ❌ Con: Storage Overhead bis GC
 
 **Referenzdokumente:**
-- `docs/architecture/architecture_mvcc.md`
-- `docs/transaction/transaction_overview.md`
+- [`docs/architecture/architecture_mvcc.md`](../docs/architecture/architecture_mvcc.md) - MVCC Design und Implementierung
+- [`docs/transaction/transaction_overview.md`](../docs/transaction/transaction_overview.md) - Transaction Semantics
+- [`src/transaction/`](../src/transaction/) - Transaction Implementierung
 - `include/transaction/mvcc_transaction.hpp`
 - `src/transaction/mvcc_transaction.cpp`
 
@@ -1114,8 +1122,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Extensible: Plugin für Custom Operators
 
 **Referenzdokumente:**
-- `docs/aql/aql_syntax.md`
-- `docs/aql/aql_query_engine.md`
+- [`docs/aql/README.md`](../docs/aql/README.md) - AQL Übersicht
+- [`docs/query/README.md`](../docs/query/README.md) - Query Engine
+- [`src/query/`](../src/query/) - Query Engine Implementierung
 - `docs/query/query_optimizer.md`
 - `include/query/aql_parser.hpp`
 - `src/query/query_executor.cpp`
@@ -1286,9 +1295,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - ZSTD Bottommost für Storage Efficiency
 
 **Referenzdokumente:**
-- `docs/storage/storage_rocksdb.md`
-- `docs/storage/storage_tuning.md`
-- `include/storage/storage_engine.hpp`
+- [`docs/storage/storage_rocksdb.md`](../docs/storage/storage_rocksdb.md) - RocksDB Integration
+- [`docs/storage/README.md`](../docs/storage/README.md) - Storage Layer Übersicht
+- [`include/storage/storage_engine.hpp`](../include/storage/storage_engine.hpp) - Storage Engine Interface
+- [`src/storage/`](../src/storage/) - Storage Implementierung
 - `src/storage/rocksdb_wrapper.cpp`
 
 **Vollständige Bibliographie (Kapitel 8):**
@@ -1430,9 +1440,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Cross-Model Queries
 
 **Referenzdokumente:**
-- `docs/index/index_overview.md`
-- `docs/index/index_secondary.md`
-- `include/index/index_manager.hpp`
+- [`docs/index/README.md`](../docs/index/README.md) - Index Übersicht
+- [`docs/search/README.md`](../docs/search/README.md) - Search Funktionalität
+- [`docs/search/fulltext_api.md`](../docs/search/fulltext_api.md) - Fulltext Index API
+- [`include/index/index_manager.hpp`](../include/index/index_manager.hpp) - Index Manager
 - `src/index/secondary_index.cpp`
 
 **Vollständige Bibliographie (Kapitel 9):**
@@ -1584,9 +1595,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Best of Both Worlds
 
 **Referenzdokumente:**
-- `docs/server/server_overview.md`
-- `docs/api/api_reference.md`
-- `include/server/http_server.hpp`
+- [`docs/server/README.md`](../docs/server/README.md) - Server Architektur
+- [`docs/apis/README.md`](../docs/apis/README.md) - API Übersicht
+- [`docs/apis/apis_openapi.md`](../docs/apis/apis_openapi.md) - OpenAPI Spezifikation
+- [`include/server/http_server.hpp`](../include/server/http_server.hpp) - HTTP Server Interface
 - `src/server/request_handler.cpp`
 
 **Vollständige Bibliographie (Kapitel 10):**
@@ -1735,9 +1747,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Audit Everything
 
 **Referenzdokumente:**
-- `docs/security/security_overview.md`
-- `docs/security/security_encryption_strategy.md`
-- `docs/security/security_key_management.md`
+- [`docs/security/README.md`](../docs/security/README.md) - Security Übersicht
+- [`docs/security/SECURITY_ARCHITECTURE.md`](../docs/security/SECURITY_ARCHITECTURE.md) - Security Architektur
+- [`docs/auth/README.md`](../docs/auth/README.md) - Authentication & Authorization
+- [`docs/policies/README.md`](../docs/policies/README.md) - Security Policies
 - `include/security/encryption_manager.hpp`
 
 **Vollständige Bibliographie (Kapitel 11):**
@@ -1877,9 +1890,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Unified Storage
 
 **Referenzdokumente:**
-- `docs/architecture/architecture_content_pipeline.md`
-- `docs/content/content_overview.md`
-- `include/content/content_processor.hpp`
+- [`docs/architecture/architecture_content_pipeline.md`](../docs/architecture/architecture_content_pipeline.md) - Content Pipeline Design
+- [`docs/content/README.md`](../docs/content/README.md) - Content Processing Übersicht
+- [`include/content/content_processor.hpp`](../include/content/content_processor.hpp) - Content Processor Interface
+- [`docs/llm/README.md`](../docs/llm/README.md) - LLM Integration
 - `src/content/text_extractor.cpp`
 
 **Vollständige Bibliographie (Kapitel 12):**
@@ -2018,10 +2032,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Multi-Model Queries
 
 **Referenzdokumente:**
-- `docs/features/features_graph.md`
-- `docs/index/index_graph.md`
-- `include/graph/graph_traversal.hpp`
-- `src/graph/shortest_path.cpp`
+- [`docs/features/README.md`](../docs/features/README.md) - Features Übersicht (Graph, Vector, etc.)
+- [`include/graph/graph_traversal.hpp`](../include/graph/graph_traversal.hpp) - Graph Traversal
+- [`src/graph/`](../src/graph/) - Graph Implementierung
+- [`src/graph/shortest_path.cpp`](../src/graph/shortest_path.cpp) - Shortest Path Algorithmen
 
 **Vollständige Bibliographie (Kapitel 13):**
 
@@ -2156,10 +2170,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Embedded, No Separate Service
 
 **Referenzdokumente:**
-- `docs/features/features_vector_ops.md`
-- `docs/index/index_vector.md`
-- `include/vector/hnsw_index.hpp`
-- `src/vector/similarity_search.cpp`
+- [`docs/query/query_vector_hybrid.md`](../docs/query/query_vector_hybrid.md) - Vector & Hybrid Search
+- [`docs/query/query_filtered_vector.md`](../docs/query/query_filtered_vector.md) - Filtered Vector Search
+- [`include/vector/hnsw_index.hpp`](../include/vector/hnsw_index.hpp) - HNSW Index
+- [`src/vector/similarity_search.cpp`](../src/vector/similarity_search.cpp) - Similarity Search
 
 **Vollständige Bibliographie (Kapitel 14):**
 
@@ -2292,10 +2306,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Standard AQL Queries
 
 **Referenzdokumente:**
-- `docs/features/features_time_series.md`
-- `docs/timeseries/timeseries_overview.md`
-- `include/timeseries/gorilla_compression.hpp`
-- `src/timeseries/continuous_aggregates.cpp`
+- [`docs/timeseries/README.md`](../docs/timeseries/README.md) - TimeSeries Übersicht
+- [`docs/analytics/README.md`](../docs/analytics/README.md) - Analytics Features
+- [`include/timeseries/gorilla_compression.hpp`](../include/timeseries/gorilla_compression.hpp) - Gorilla Compression
+- [`src/timeseries/continuous_aggregates.cpp`](../src/timeseries/continuous_aggregates.cpp) - Continuous Aggregates
 
 **Vollständige Bibliographie (Kapitel 15):**
 
@@ -2410,10 +2424,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Essential Functions (vs. Exhaustive)
 
 **Referenzdokumente:**
-- `docs/geo/geo_architecture.md`
-- `docs/features/features_geo.md`
-- `include/geo/rtree_index.hpp`
-- `src/geo/spatial_queries.cpp`
+- [`docs/geo/geo_architecture.md`](../docs/geo/geo_architecture.md) - Geo Architektur
+- [`docs/geo/README.md`](../docs/geo/README.md) - Geospatial Übersicht
+- [`include/geo/rtree_index.hpp`](../include/geo/rtree_index.hpp) - R-Tree Index
+- [`src/geo/spatial_queries.cpp`](../src/geo/spatial_queries.cpp) - Spatial Queries
 
 **Vollständige Bibliographie (Kapitel 16):**
 
@@ -2527,10 +2541,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Flexible Ranking Strategies
 
 **Referenzdokumente:**
-- `docs/search/hybrid_search_design.md`
-- `docs/query/query_fusion.md`
-- `include/search/hybrid_ranker.hpp`
-- `src/search/reciprocal_rank_fusion.cpp`
+- [`docs/search/hybrid_search_design.md`](../docs/search/hybrid_search_design.md) - Hybrid Search Design
+- [`docs/query/query_hybrid_overview.md`](../docs/query/query_hybrid_overview.md) - Hybrid Query Overview
+- [`include/search/hybrid_ranker.hpp`](../include/search/hybrid_ranker.hpp) - Hybrid Ranker
+- [`src/search/reciprocal_rank_fusion.cpp`](../src/search/reciprocal_rank_fusion.cpp) - RRF Implementierung
 
 **Vollständige Bibliographie (Kapitel 17):**
 
@@ -2649,9 +2663,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 [5] Taft, R., et al. (2020). "CockroachDB: The Resilient Geo-Distributed SQL Database". ACM SIGMOD, 1493-1509.
 
 **Referenzdokumente:**
-- `docs/sharding/sharding_overview.md`
-- `docs/sharding/sharding_vcc_urn.md`
-- `docs/reports/SHARDING_AUTO_REBALANCING.md`
+- [`docs/sharding/README.md`](../docs/sharding/README.md) - Sharding Übersicht
+- [`docs/sharding/sharding_strategy.md`](../docs/sharding/sharding_strategy.md) - Sharding Strategie
+- [`docs/sharding/SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md`](../docs/sharding/SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md) - Sharding Analysis
 
 ---
 
@@ -2767,8 +2781,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 [5] Shapiro, M., et al. (2011). "Conflict-Free Replicated Data Types". INRIA Technical Report 7506.
 
 **Referenzdokumente:**
-- `docs/replication/README.md`
-- `docs/replication/replication_crdt.md`
+- [`docs/replication/README.md`](../docs/replication/README.md) - Replication Übersicht
+- [`docs/architecture/architecture_strategic.md`](../docs/architecture/architecture_strategic.md) - Strategische Architektur (inkl. Replication)
 
 ---
 
@@ -2875,8 +2889,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 [3] Stonebraker, M. (1981). "Operating System Support for Database Management". CACM, 24(7), 412-418.
 
 **Referenzdokumente:**
-- `docs/admin_tools/README.md`
-- `docs/guides/guides_operations_runbook.md`
+- [`docs/admin_tools/README.md`](../docs/admin_tools/README.md) - Admin Tools Übersicht
+- [`docs/guides/README.md`](../docs/guides/README.md) - Operations Guides
 
 ---
 
@@ -3004,8 +3018,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 [5] Douze, M., et al. (2024). "The Faiss Library". arXiv:2401.08281.
 
 **Referenzdokumente:**
-- `docs/performance/performance_gpu.md`
-- `docs/features/features_gpu.md`
+- [`docs/performance/README.md`](../docs/performance/README.md) - Performance Dokumentation
+- [`docs/enterprise/README.md`](../docs/enterprise/README.md) - Enterprise Features (inkl. GPU)
 
 ---
 
@@ -3128,8 +3142,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 [5] Stonebraker, M., et al. (2007). "H-Store: A High-Performance, Distributed Main Memory Transaction Processing System". VLDB Endowment.
 
 **Referenzdokumente:**
-- `docs/analytics/analytics_cep.md`
-- `docs/analytics/analytics_olap.md`
+- [`docs/analytics/README.md`](../docs/analytics/README.md) - Analytics Übersicht
+- [`docs/timeseries/README.md`](../docs/timeseries/README.md) - TimeSeries & Aggregation
 
 ---
 
@@ -3207,9 +3221,10 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - [7] Claessen, K., Hughes, J. (2000). "QuickCheck: A Lightweight Tool for Random Testing." ICFP.
 
 **Referenzdokumente:**
-- `docs/clients/README.md`
-- `clients/*/README.md` (für jedes SDK)
-- `docs/api/api_reference.md`
+- [`docs/clients/README.md`](../docs/clients/README.md) - Client SDKs Übersicht
+- [`clients/*/README.md`](../clients/) - SDK-spezifische Dokumentation
+- [`docs/apis/README.md`](../docs/apis/README.md) - API Dokumentation
+- [`docs/apis/apis_openapi.md`](../docs/apis/apis_openapi.md) - OpenAPI Spezifikation
 
 ---
 
@@ -3283,10 +3298,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - [7] Humble, J., Farley, D. (2010). "Continuous Delivery." Addison-Wesley.
 
 **Referenzdokumente:**
-- `docs/admin_tools/README.md`
-- `docs/observability/README.md`
-- `docs/guides/guides_operations_runbook.md`
-- `docs/monitoring/prometheus_metrics.md`
+- [`docs/admin_tools/README.md`](../docs/admin_tools/README.md) - Admin Tools Übersicht
+- [`docs/observability/README.md`](../docs/observability/README.md) - Observability
+- [`docs/guides/README.md`](../docs/guides/README.md) - Operations Runbooks
 
 ---
 
@@ -3382,9 +3396,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - [11] Procida, D. (2021). "The Diátaxis documentation framework." Divio.
 
 **Referenzdokumente:**
-- `docs/roadmap/roadmap_overview.md`
-- `docs/development/DEVELOPMENT_SUMMARY.md`
-- `docs/research/future_directions.md`
+- [`docs/roadmap/README.md`](../docs/roadmap/README.md) - Roadmap Übersicht
+- [`docs/development/DEVELOPMENT_SUMMARY.md`](../docs/development/DEVELOPMENT_SUMMARY.md) - Entwicklungszusammenfassung
+- [`CHANGELOG.md`](../CHANGELOG.md) - Änderungshistorie
 
 ---
 
@@ -3459,9 +3473,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - [6] Lebo, T., et al. (2013). "PROV-O: The PROV Ontology." W3C Recommendation.
 
 **Referenzdokumente:**
-- `docs/processes/process_modeling.md`
-- `docs/processes/bpmn_integration.md`
-- `docs/api/process_api.md`
+- [`docs/projects/RAG_LLM_PROGRAMMIERHILFE.md`](../docs/projects/RAG_LLM_PROGRAMMIERHILFE.md) - Process Modeling mit LLM
+- [`docs/apis/README.md`](../docs/apis/README.md) - API Übersicht
 
 ---
 
@@ -3537,9 +3550,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - [7] Perez, F., Ribeiro, I. (2022). "Ignore Previous Prompt: Attack Techniques For LLMs." arXiv:2211.09527.
 
 **Referenzdokumente:**
-- `docs/llm/llm_integration.md`
-- `docs/llm/rag_architecture.md`
-- `docs/llm/embedding_strategies.md`
+- [`docs/llm/README.md`](../docs/llm/README.md) - LLM Integration Übersicht
+- [`docs/content/README.md`](../docs/content/README.md) - Content Processing
+- [`docs/search/README.md`](../docs/search/README.md) - Hybrid Search & RAG
 
 ---
 
@@ -3618,10 +3631,9 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - [8] Reichert, M., Weber, B. (2012). "Enabling Flexibility in Process-Aware Information Systems." Springer.
 
 **Referenzdokumente:**
-- `docs/processes/ml_integration.md`
-- `docs/processes/adaptive_workflows.md`
-- `docs/llm/conversational_analytics.md`
-- `docs/compliance/ai_governance.md`
+- [`docs/analytics/README.md`](../docs/analytics/README.md) - Analytics & ML Integration
+- [`docs/llm/README.md`](../docs/llm/README.md) - LLM für Process Analytics
+- [`docs/compliance/README.md`](../docs/compliance/README.md) - AI Governance & Compliance
 
 ---
 
@@ -3633,8 +3645,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - WebSocket Protocol
 
 **Referenzdokumente:**
-- `docs/api/api_reference.md`
-- `openapi/openapi.yaml`
+- [`docs/apis/README.md`](../docs/apis/README.md) - API Dokumentation
+- [`docs/openapi.yaml`](../docs/openapi.yaml) - OpenAPI Spezifikation
 
 ---
 
@@ -3645,8 +3657,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Performance Benchmarks
 
 **Referenzdokumente:**
-- `docs/development/SOURCE_CODE_AUDIT.md`
-- `docs/reports/BENCHMARK_AND_TEST_AUDIT.md`
+- [`docs/development/README.md`](../docs/development/README.md) - Development Dokumentation
+- [`docs/analysis/README.md`](../docs/analysis/README.md) - Code Analysis & Audits
 
 ---
 
@@ -3658,8 +3670,8 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Security Audit Results
 
 **Referenzdokumente:**
-- `docs/compliance/compliance_full_checklist.md`
-- `docs/security/SECURITY_AUDIT_REPORT.md`
+- [`docs/compliance/README.md`](../docs/compliance/README.md) - Compliance Dokumentation
+- [`docs/security/README.md`](../docs/security/README.md) - Security & Compliance
 
 ---
 
@@ -3669,7 +3681,7 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Technische Terminologie
 
 **Referenzdokumente:**
-- `docs/glossar.md`
+- [`docs/glossary.md`](../docs/glossary.md) - Glossar
 
 ---
 
@@ -3684,7 +3696,7 @@ Maschinenlesbare Prozesse und KI-basierte Dokumentenverwaltung
 - Architektur-Unterschiede und Design-Philosophien
 
 **Referenzdokumente:**
-- `docs/reports/competitive_gap_analysis.md`
+- [`docs/DOCUMENTATION_INDEX.md`](../docs/DOCUMENTATION_INDEX.md) - Vollständiger Dokumentations-Index
 
 ---
 
