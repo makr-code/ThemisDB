@@ -654,15 +654,72 @@ POST /content/import
 ## 📈 Observability & Monitoring
 
 ### Metrics & Statistics ✅
-**Status:** Production-Ready | **Docs:** [`docs/observability/prometheus_metrics.md`](docs/observability/prometheus_metrics.md)
+**Status:** Production-Ready | **Docs:** [`docs/observability/observability_prometheus.md`](../observability/observability_prometheus.md)
 
-**Prometheus Metrics:**
+**Core Prometheus Metrics:**
 - ✅ `vccdb_requests_total` (counter)
 - ✅ `vccdb_errors_total` (counter)
 - ✅ `vccdb_qps` (gauge)
 - ✅ `rocksdb_block_cache_usage_bytes` (gauge)
 - ✅ `rocksdb_estimate_num_keys` (gauge)
 - ✅ `vccdb_page_fetch_time_ms_*` (histogram)
+
+**Sharding Metrics (Phase 6 - NEW):** ✅ **Complete**
+
+44 comprehensive metrics for distributed sharding:
+
+**Shard Health & Topology:**
+- `themis_shard_health_status{shard_id, status}` - Shard health indicator
+- `themis_shard_certificate_expiry_seconds{shard_id}` - Certificate validity
+- `themis_cluster_size` - Total number of shards
+- `themis_virtual_nodes_total` - Consistent hash ring virtual nodes
+
+**Routing Performance:**
+- `themis_routing_requests_total{type}` - Requests by type (local/remote/scatter_gather)
+- `themis_routing_errors_total{shard_id, error_type}` - Error tracking
+- `themis_routing_latency_seconds{operation, quantile}` - Latency distribution
+
+**Data Migration:**
+- `themis_migration_records_total{operation_id}` - Records migrated
+- `themis_migration_bytes_total{operation_id}` - Data transferred
+- `themis_migration_progress_percent{operation_id}` - Migration progress
+- `themis_migration_duration_seconds{operation_id}` - Total duration
+
+**Cross-Shard Joins:**
+- `themis_cross_shard_joins_total{strategy}` - Join operations (broadcast_hash/co_located)
+- `themis_cross_shard_join_duration_seconds{strategy, quantile}` - Join latency
+- `themis_hash_table_build_seconds{quantile}` - Hash table construction time
+
+**Gossip Protocol:**
+- `themis_gossip_messages_total{type}` - P2P messages (heartbeat/peer_list)
+- `themis_gossip_peer_count` - Known peers
+- `themis_gossip_roundtrip_seconds{quantile}` - Communication latency
+
+**Cloud Agent:**
+- `themis_datacenter_latency_seconds{datacenter, quantile}` - DC latency
+- `themis_cross_dc_requests_total{source, target}` - Cross-DC traffic
+
+**Configuration:**
+```yaml
+sharding:
+  metrics:
+    enabled: true
+    enable_histograms: true
+```
+
+**Usage:**
+```cpp
+#include "sharding/prometheus_metrics.h"
+#include "sharding/metrics_registry.h"
+
+auto metrics = std::make_shared<PrometheusMetrics>(config);
+ShardingMetricsRegistry::instance().registerMetrics(metrics);
+```
+
+**Monitoring Resources:**
+- Alert Rules: [`deploy/kubernetes/monitoring/prometheus/alert-rules-sharding.yaml`](../../deploy/kubernetes/monitoring/prometheus/alert-rules-sharding.yaml)
+- Grafana Dashboard: [`deploy/kubernetes/monitoring/grafana-dashboards/themisdb-sharding-dashboard.json`](../../deploy/kubernetes/monitoring/grafana-dashboards/themisdb-sharding-dashboard.json)
+- Full Metrics List: [`docs/observability/observability_phase6_complete.md`](../observability/observability_phase6_complete.md)
 
 **RocksDB Statistics:**
 - Block cache hit/miss rates
@@ -673,7 +730,7 @@ POST /content/import
 **API:**
 ```bash
 GET /stats        # JSON format
-GET /metrics      # Prometheus format
+GET /metrics      # Prometheus format (includes sharding metrics)
 ```
 
 ### OpenTelemetry Tracing ✅

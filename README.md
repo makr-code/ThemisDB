@@ -179,6 +179,52 @@ ThemisDB unterstützt horizontale Skalierung durch ein verteiltes Sharding-Syste
 - **44 Prometheus Metrics** - Vollständige Observability
 - **Grafana Dashboards** - 19 Panels, 8 Alert Rules
 
+**Prometheus Metrics Integration (Phase 6):**
+
+ThemisDB exposes comprehensive metrics via HTTP `/metrics` endpoint in Prometheus format:
+
+```bash
+# Get all metrics (includes sharding metrics)
+curl http://localhost:8080/metrics
+
+# Example metrics output:
+# themis_routing_requests_total{type="scatter_gather"} 1234
+# themis_cross_shard_join_duration_seconds{strategy="broadcast_hash",quantile="0.95"} 0.543
+# themis_migration_progress_percent{operation_id="shard1_to_shard2"} 87.5
+```
+
+**Metrics Categories (44 total):**
+- Shard Health & Topology (cluster size, virtual nodes, certificate expiry)
+- Routing Statistics (requests, latency, errors by type)
+- Migration Progress (records, bytes, duration, progress %)
+- Cross-Shard Joins (strategy, duration, row counts, hash table build time)
+- Gossip Protocol (peer count, messages, version vectors)
+- PKI/mTLS (connections, validations, CRL checks)
+- Health Checks (certificate, storage, network)
+- Cloud Agent (datacenter latency, cross-DC requests)
+
+**Usage in Code:**
+```cpp
+#include "sharding/prometheus_metrics.h"
+#include "sharding/metrics_registry.h"
+
+// Create and register metrics
+auto metrics = std::make_shared<PrometheusMetrics>(config);
+ShardingMetricsRegistry::instance().registerMetrics(metrics);
+
+// Pass to sharding components
+auto router = std::make_shared<ShardRouter>(
+    resolver, executor, config, metrics
+);
+```
+
+**Monitoring Setup:**
+- Alert Rules: `deploy/kubernetes/monitoring/prometheus/alert-rules-sharding.yaml`
+- Grafana Dashboard: `deploy/kubernetes/monitoring/grafana-dashboards/themisdb-sharding-dashboard.json`
+- Config Example: `config/sharding-with-metrics.yaml`
+
+See: [`docs/observability/observability_phase6_complete.md`](docs/observability/observability_phase6_complete.md)
+
 **P2P Peer Discovery (Optional):**
 ```cpp
 // Aktivierung in Config
