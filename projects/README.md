@@ -4,6 +4,38 @@ Dieses Verzeichnis enthält **eigenständige Projekte**, die unabhängig von The
 
 ## Verfügbare Projekte
 
+### DocumentManager - Dokumentenverwaltung und RAG
+**Pfad:** `include/projects/DocumentManager/`  
+**Typ:** C++ Header-Only Bibliothek  
+**Status:** Production
+
+Dokumentenverwaltungssystem mit Unterstützung für:
+- **Dokumenten-Upload** - Binäre und Textdokumente
+- **Text-Extraktion** - Automatische Extraktion aus verschiedenen Formaten
+- **Chunking** - Intelligentes Text-Chunking mit konfigurierbarem Overlap
+- **Embeddings** - Integration mit Embedding-Generatoren
+- **Graph-Konstruktion** - Automatische Verknüpfung von Dokumenten-Chunks
+- **Vector Search** - Integration mit VectorIndexManager
+
+**Nutzung:**
+```cpp
+#include "projects/DocumentManager/document_manager.h"
+
+// Assume storage (RocksDBWrapper), vector_index (VectorIndexManager), 
+// and graph_index (GraphIndexManager) are already created
+auto doc_manager = std::make_shared<themis::projects::DocumentManager>(
+    storage, vector_index, graph_index
+);
+
+auto result = doc_manager->uploadDocument(
+    blob, "text/plain", "example.txt"
+);
+```
+
+**Dokumentation:** Siehe [include/projects/DocumentManager/README.md](../include/projects/DocumentManager/README.md)
+
+---
+
 ### RESPO - RAG LLM Programmierhilfe
 **Pfad:** `respo/`  
 **Typ:** Eigenständiges Python-Projekt  

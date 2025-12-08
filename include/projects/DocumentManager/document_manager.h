@@ -11,7 +11,7 @@
 #include "index/graph_index.h"
 
 namespace themis {
-namespace document {
+namespace projects {
 
 using json = nlohmann::json;
 
@@ -81,6 +81,20 @@ struct UploadResult {
     std::string doc_id;
     int chunks_created;
     std::string message;
+};
+
+/**
+ * @brief Status result for operations
+ */
+struct Status {
+    bool ok;
+    std::string message;
+    
+    Status(bool success, std::string msg = {}) 
+        : ok(success), message(std::move(msg)) {}
+    
+    static Status OK() { return Status{true, ""}; }
+    static Status Error(std::string msg) { return Status{false, std::move(msg)}; }
 };
 
 /**
@@ -203,5 +217,5 @@ private:
     void createChunkGraph(const std::vector<std::string>& chunk_ids, const std::string& doc_id);
 };
 
-} // namespace document
+} // namespace projects
 } // namespace themis
