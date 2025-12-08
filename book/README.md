@@ -1902,64 +1902,642 @@ Client-SDKs, Tools und Ausblick
 ### **TEIL IV: MULTI-MODEL-FÄHIGKEITEN**
 
 #### **Kapitel 13: Graph Database**
-- 13.1 Graph-Modell in ThemisDB
-- 13.2 Edge Storage (_from, _to)
-- 13.3 Traversal-Algorithmen (BFS, DFS)
-- 13.4 Shortest-Path
-- 13.5 Graph-Indexierung (Outdex/Indeg)
+
+**13.1 Graph-Modell in ThemisDB**
+- Property Graph Model
+  - Rodriguez, M. A., Neubauer, P. (2010). "Constructions from Dots and Lines"
+  - Vertices (Nodes) + Edges (Relationships)
+  - Properties on both Vertices and Edges
+  - Directed vs. Undirected Graphs
+- Graph Storage Strategies
+  - Native Graph Storage (Neo4j): Pointer-based
+  - Document-based Graph Storage (ArangoDB, ThemisDB)
+  - Relational Graph Storage (PostgreSQL + Extensions)
+- ThemisDB Graph Design
+  - Vertices as Documents
+  - Edges with `_from` and `_to` fields
+  - Edge Collections
+  - Bidirectional Indexing
+- Vergleich Graph Models
+  - RDF (Resource Description Framework): Triples
+  - Labeled Property Graph: Properties + Labels
+  - Hypergraphs: N-ary relationships
+  - ThemisDB: Labeled Property Graph
+
+**13.2 Edge Storage und Indexierung**
+- Edge Representation
+  - `_from`: Source Vertex ID
+  - `_to`: Target Vertex ID
+  - Properties: Weight, Type, Metadata
+- Edge Collections
+  - Separate Collection für Edges
+  - Schema: Flexible Properties
+  - Versioning mit MVCC
+- Graph Indexierung
+  - **Outgoing Edge Index (Outdex)**: `_from` → Edges
+  - **Incoming Edge Index (Indeg)**: `_to` → Edges
+  - Composite Indexes: `(_from, edge_type)`
+  - Performance: O(1) Edge Lookup
+- Storage Overhead
+  - Edge Storage: ~100 bytes per edge
+  - Index Overhead: 2x (Outdex + Indeg)
+  - Comparison: Native vs. Document-based
+
+**13.3 Traversal-Algorithmen**
+- Breadth-First Search (BFS)
+  - Cormen, T. H., et al. (2009). "Introduction to Algorithms, 3rd Edition"
+  - Level-by-Level Exploration
+  - Queue-based Implementation
+  - Shortest Path (Unweighted Graphs)
+- Depth-First Search (DFS)
+  - Stack-based (or Recursive)
+  - Path Finding
+  - Cycle Detection
+- Bidirectional Search
+  - Search from both Source and Target
+  - Meet-in-the-Middle
+  - 2x Speedup
+- Traversal Optimization
+  - Early Termination
+  - Visited Set (Hash Set)
+  - Edge Direction Filtering
+
+**13.4 Shortest-Path Algorithmen**
+- Dijkstra's Algorithm
+  - Dijkstra, E. W. (1959). "A Note on Two Problems in Connexion with Graphs"
+  - Single-Source Shortest Path
+  - Priority Queue (Min-Heap)
+  - Complexity: O((V + E) log V)
+- A* (A-Star) Algorithm
+  - Hart, P., et al. (1968). "A Formal Basis for the Heuristic Determination of Minimum Cost Paths"
+  - Heuristic-guided Search
+  - Faster than Dijkstra with good heuristics
+  - Used in Navigation Systems
+- Bellman-Ford Algorithm
+  - Negative Weights Support
+  - Slower: O(VE)
+- All-Pairs Shortest Path
+  - Floyd-Warshall: O(V³)
+  - Johnson's Algorithm: O(V² log V + VE)
+
+**13.5 Advanced Graph Operations**
+- Pattern Matching
+  - Cypher-style MATCH queries
+  - Subgraph Isomorphism
+  - Regular Path Queries
+- Community Detection
+  - Louvain Method: Blondel, V. D., et al. (2008)
+  - Label Propagation
+  - Modularity Optimization
+- Centrality Measures
+  - PageRank: Brin, S., Page, L. (1998)
+  - Betweenness Centrality
+  - Closeness Centrality
+- Graph Analytics
+  - Connected Components
+  - Strongly Connected Components (Tarjan's Algorithm)
+  - Triangle Counting
+
+**13.6 Vergleichende Graph DB Analyse**
+
+| System | Storage | Traversal | Query Language | ACID |
+|--------|---------|-----------|----------------|------|
+| Neo4j | Native Pointers | Fast | Cypher | Full |
+| ArangoDB | Document-based | Good | AQL | Full |
+| JanusGraph | Pluggable | Moderate | Gremlin | Tunable |
+| Amazon Neptune | Dual (TinkerPop/RDF) | Good | Gremlin/SPARQL | Full |
+| **ThemisDB** | Document-based | Good | AQL | Full |
+
+**ThemisDB Graph Approach:**
+- Unified Storage with Documents
+- Efficient Bidirectional Indexes
+- ACID Transactions
+- Multi-Model Queries
 
 **Referenzdokumente:**
 - `docs/features/features_graph.md`
 - `docs/index/index_graph.md`
+- `include/graph/graph_traversal.hpp`
+- `src/graph/shortest_path.cpp`
+
+**Vollständige Bibliographie (Kapitel 13):**
+
+[1] Rodriguez, M. A., Neubauer, P. (2010). "Constructions from Dots and Lines". Bulletin of the American Society for Information Science and Technology, 36(6), 35-41.
+
+[2] Cormen, T. H., Leiserson, C. E., Rivest, R. L., Stein, C. (2009). "Introduction to Algorithms, 3rd Edition". MIT Press.
+
+[3] Dijkstra, E. W. (1959). "A Note on Two Problems in Connexion with Graphs". Numerische Mathematik, 1(1), 269-271.
+
+[4] Hart, P. E., Nilsson, N. J., Raphael, B. (1968). "A Formal Basis for the Heuristic Determination of Minimum Cost Paths". IEEE Transactions on Systems Science and Cybernetics, 4(2), 100-107.
+
+[5] Blondel, V. D., Guillaume, J.-L., Lambiotte, R., Lefebvre, E. (2008). "Fast Unfolding of Communities in Large Networks". Journal of Statistical Mechanics: Theory and Experiment, P10008.
+
+[6] Brin, S., Page, L. (1998). "The Anatomy of a Large-Scale Hypertextual Web Search Engine". Computer Networks and ISDN Systems, 30(1-7), 107-117.
 
 ---
 
 #### **Kapitel 14: Vector Database**
-- 14.1 Vector Embeddings
-- 14.2 HNSW-Algorithmus
-- 14.3 Similarity Search (Cosine, Euclidean, Dot Product)
-- 14.4 Batch Vector Operations
-- 14.5 Index Persistence
+
+**14.1 Vector Embeddings: Konzepte und Anwendungen**
+- Embedding Spaces
+  - High-Dimensional Vectors (128-1536 dimensions)
+  - Semantic Similarity
+  - Dense vs. Sparse Vectors
+- Embedding Use Cases
+  - Text Similarity (Sentence Embeddings)
+  - Image Search (CNN Features)
+  - Recommendation Systems
+  - Anomaly Detection
+- Distance Metrics
+  - **Euclidean Distance**: L2 Norm
+  - **Cosine Similarity**: Angle-based
+  - **Dot Product**: Inner Product
+  - **Manhattan Distance**: L1 Norm
+- Normalization
+  - L2 Normalization
+  - MinMax Scaling
+  - StandardScaler
+
+**14.2 HNSW-Algorithmus**
+- Hierarchical Navigable Small World
+  - Malkov, Y., Yashunin, D. (2018). "Efficient and robust approximate nearest neighbor search using HNSW"
+  - Multi-Layer Graph Structure
+  - Greedy Search with Backtracking
+  - Probabilistic Layer Assignment
+- HNSW Construction
+  - Layer Selection: exp(-ln(uniform(0,1)) * ml)
+  - Insert Algorithm: Top-down
+  - Connection Creation: M neighbors per layer
+  - Complexity: O(log N) search, O(log N) insertion
+- HNSW Parameters
+  - **M**: Max connections per element (16-64)
+  - **ef_construction**: Search scope during build (100-400)
+  - **ef_search**: Search scope during query (100-500)
+- Vergleich ANN Algorithmen
+  - **LSH (Locality-Sensitive Hashing)**: Indyk, P., Motwani, R. (1998)
+  - **Annoy (Spotify)**: Tree-based
+  - **FAISS (Facebook)**: Inverted File + Product Quantization
+  - **ScaNN (Google)**: Learned Quantization
+  - **HNSW**: Best Recall/Speed Trade-off
+
+**14.3 Similarity Search Operations**
+- k-Nearest Neighbors (k-NN)
+  - Find k most similar vectors
+  - Applications: Recommendation, Clustering
+  - Exact vs. Approximate
+- Range Search
+  - Find all vectors within distance r
+  - Radius-based Queries
+  - Less common than k-NN
+- Batch Operations
+  - Multiple Query Vectors
+  - Parallelization with TBB
+  - Batch Efficiency
+- Filtering
+  - Pre-Filtering: Filter before search
+  - Post-Filtering: Filter after search
+  - Hybrid: Best Recall
+
+**14.4 Vector Index Optimierung**
+- Index Building Strategy
+  - Incremental vs. Batch Building
+  - Memory Budget
+  - Build Time vs. Query Time Trade-off
+- Quantization
+  - Product Quantization: Jégou, H., et al. (2011)
+  - Scalar Quantization
+  - Space Reduction: 8x-32x
+  - Accuracy Loss: 1-5%
+- Memory Management
+  - On-Disk vs. In-Memory
+  - Memory-Mapped Index
+  - Cache Strategies
+- Multi-Vector Queries
+  - Query Fusion
+  - Reciprocal Rank Fusion
+  - Weighted Combination
+
+**14.5 Index Persistence und Recovery**
+- Index Serialization
+  - Binary Format
+  - Version Tagging
+  - Checksum Validation
+- Incremental Updates
+  - Add Vectors: O(log N)
+  - Delete Vectors: Mark as Deleted
+  - Rebuild Threshold
+- Recovery Mechanisms
+  - Index Checkpoint
+  - WAL for Vector Ops
+  - Crash Recovery
+- Index Statistics
+  - Vector Count
+  - Dimensionality
+  - Average Degree
+  - Memory Usage
+
+**14.6 Vergleichende Vector DB Analyse**
+
+| System | Algorithm | Language | Max Dimensions | Filters |
+|--------|-----------|----------|----------------|---------|
+| Milvus | IVF, HNSW | Go/C++ | 32768 | ✅ Pre/Post |
+| Weaviate | HNSW | Go | 65536 | ✅ Pre |
+| Qdrant | HNSW | Rust | 65536 | ✅ Pre/Post |
+| Pinecone | Proprietary | Cloud | 20000 | ✅ Metadata |
+| **ThemisDB** | HNSW | C++ | 4096 | ✅ AQL Filters |
+
+**ThemisDB Vector Strengths:**
+- Unified Multi-Model Queries
+- ACID Transactions on Vectors
+- Flexible AQL Filtering
+- Embedded, No Separate Service
 
 **Referenzdokumente:**
 - `docs/features/features_vector_ops.md`
 - `docs/index/index_vector.md`
+- `include/vector/hnsw_index.hpp`
+- `src/vector/similarity_search.cpp`
+
+**Vollständige Bibliographie (Kapitel 14):**
+
+[1] Malkov, Y. A., Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs". IEEE Transactions on Pattern Analysis and Machine Intelligence, 42(4), 824-836.
+
+[2] Indyk, P., Motwani, R. (1998). "Approximate Nearest Neighbors: Towards Removing the Curse of Dimensionality". Proceedings of STOC, 604-613.
+
+[3] Jégou, H., Douze, M., Schmid, C. (2011). "Product Quantization for Nearest Neighbor Search". IEEE Transactions on Pattern Analysis and Machine Intelligence, 33(1), 117-128.
+
+[4] Johnson, J., Douze, M., Jégou, H. (2019). "Billion-scale similarity search with GPUs". IEEE Transactions on Big Data.
 
 ---
 
 #### **Kapitel 15: Time Series**
-- 15.1 Time Series-Modell
-- 15.2 Gorilla Compression
-- 15.3 Continuous Aggregates
-- 15.4 Retention Policies
-- 15.5 Downsampling
+
+**15.1 Time Series-Modell**
+- Time Series Fundamentals
+  - Timestamped Data Points
+  - Regular vs. Irregular Intervals
+  - Univariate vs. Multivariate
+- Time Series Storage Patterns
+  - Row-Based: One row per measurement
+  - Columnar: Column per metric
+  - Hybrid: ThemisDB approach
+- Data Model Design
+  - Timestamp (64-bit Unix time)
+  - Metric Name/ID
+  - Value (Float64, Int64)
+  - Tags/Labels (Metadata)
+- Vergleich TS Databases
+  - InfluxDB: Line Protocol, TSM Engine
+  - TimescaleDB: PostgreSQL Extension, Hypertables
+  - Prometheus: Pull-based, Local Storage
+  - OpenTSDB: HBase-based
+  - ThemisDB: Multi-Model Integration
+
+**15.2 Gorilla Compression**
+- Facebook's Gorilla Algorithm
+  - Pelkonen, T., et al. (2015). "Gorilla: A Fast, Scalable, In-Memory Time Series Database"
+  - Delta-of-Delta Timestamp Encoding
+  - XOR-based Value Compression
+  - 90%+ Compression Ratio
+- Timestamp Compression
+  - Delta Encoding: Δt = t[i] - t[i-1]
+  - Delta-of-Delta: ΔΔt = Δt[i] - Δt[i-1]
+  - Variable-Length Encoding
+  - Typical Compression: 12 bytes → 1.37 bytes
+- Value Compression
+  - XOR with Previous Value
+  - Leading/Trailing Zero Suppression
+  - Control Bits: 1 bit for "same", 2 bits for "changed"
+  - Float64 Compression: 8 bytes → 1-2 bytes average
+- Decompression Performance
+  - Sequential Read: Necessary
+  - Random Access: Limited
+  - Trade-off: Compression vs. Query Speed
+
+**15.3 Continuous Aggregates**
+- Materialized Views for Time Series
+  - Pre-computed Aggregations
+  - Rollup Windows: 1min, 5min, 1hour, 1day
+  - Automatic Refresh
+- Aggregation Functions
+  - COUNT, SUM, AVG
+  - MIN, MAX
+  - STDDEV, VARIANCE
+  - FIRST, LAST
+  - PERCENTILE (P50, P95, P99)
+- Incremental Maintenance
+  - Background Worker
+  - Watermark Tracking
+  - Partial Aggregates
+- Use Cases
+  - Dashboards: Real-time Metrics
+  - Alerting: Threshold Monitoring
+  - Analytics: Historical Trends
+
+**15.4 Retention Policies**
+- Time-to-Live (TTL)
+  - Automatic Data Deletion
+  - Per-Metric Policies
+  - Space Management
+- Retention Strategies
+  - Drop Old Data: Simple Deletion
+  - Downsampling: Reduce Resolution
+  - Archiving: Move to Cold Storage
+- Implementation
+  - Background Compaction Filter
+  - Timestamp-based Deletion
+  - Lazy Deletion during Compaction
+- Compliance
+  - GDPR: Right to be Forgotten
+  - Data Minimization
+  - Audit Trail for Deletions
+
+**15.5 Downsampling**
+- Downsampling Concept
+  - Reduce Data Resolution
+  - Aggregate High-Frequency → Low-Frequency
+  - Example: 1sec → 1min → 1hour
+- Downsampling Methods
+  - **Averaging**: Mean of window
+  - **Sampling**: First/Last/Random point
+  - **Min/Max**: Range preservation
+  - **Sum**: Total aggregation
+- Multi-Level Downsampling
+  - Raw Data: 1 second (7 days retention)
+  - Level 1: 1 minute (90 days retention)
+  - Level 2: 1 hour (1 year retention)
+  - Level 3: 1 day (∞ retention)
+- Implementation
+  - Continuous Aggregates + TTL
+  - Background Jobs
+  - Query Routing to appropriate level
+
+**15.6 Vergleichende Time Series DB Analyse**
+
+| System | Compression | Aggregates | Retention | Query Language |
+|--------|-------------|------------|-----------|----------------|
+| InfluxDB | TSM | Continuous Queries | TTL | InfluxQL, Flux |
+| TimescaleDB | PostgreSQL | Continuous Aggregates | Retention Policies | SQL |
+| Prometheus | Gorilla-like | Recording Rules | Retention | PromQL |
+| OpenTSDB | HBase | Pre-Aggregation | TTL | Custom |
+| **ThemisDB** | Gorilla | Continuous Aggregates | TTL + Downsample | AQL |
+
+**ThemisDB TS Advantages:**
+- Multi-Model: Join TS with Documents/Graph
+- ACID Transactions
+- Flexible Retention Policies
+- Standard AQL Queries
 
 **Referenzdokumente:**
 - `docs/features/features_time_series.md`
 - `docs/timeseries/timeseries_overview.md`
+- `include/timeseries/gorilla_compression.hpp`
+- `src/timeseries/continuous_aggregates.cpp`
+
+**Vollständige Bibliographie (Kapitel 15):**
+
+[1] Pelkonen, T., Franklin, S., Teller, J., et al. (2015). "Gorilla: A Fast, Scalable, In-Memory Time Series Database". Proceedings of the VLDB Endowment, 8(12), 1816-1827.
+
+[2] Dunning, T., Friedman, E. (2016). "Streaming Architecture: New Designs Using Apache Kafka and MapR Streams". O'Reilly Media.
+
+[3] Shvachko, K., Kuang, H., Radia, S., Chansler, R. (2010). "The Hadoop Distributed File System". IEEE MSST, 1-10.
 
 ---
 
 #### **Kapitel 16: Geospatial**
-- 16.1 Spatial Data Types
-- 16.2 R*-Tree-Indexierung
-- 16.3 Geospatial Queries (Within, Intersects, Distance)
-- 16.4 GeoJSON-Support
+
+**16.1 Spatial Data Types**
+- Geometric Primitives
+  - Point: (longitude, latitude)
+  - LineString: Sequence of Points
+  - Polygon: Closed LineString
+  - MultiPoint, MultiLineString, MultiPolygon
+- Coordinate Systems
+  - WGS84 (GPS): lat/lon, EPSG:4326
+  - Web Mercator: EPSG:3857
+  - Projected Coordinates
+  - Snyder, J. P. (1987). "Map Projections - A Working Manual"
+- GeoJSON Standard
+  - RFC 7946: GeoJSON Format
+  - Feature Collections
+  - Geometry Objects
+  - Properties
+- Well-Known Text (WKT)
+  - OGC Simple Features Specification
+  - Text Representation
+  - POINT(lon lat), LINESTRING, POLYGON
+
+**16.2 R-Tree und R*-Tree Indexierung**
+- R-Tree Fundamentals
+  - Guttman, A. (1984). "R-Trees: A Dynamic Index Structure for Spatial Searching"
+  - Bounding Boxes (MBRs)
+  - Hierarchical Structure
+  - Overlap Minimization
+- R*-Tree Improvements
+  - Beckmann, N., et al. (1990). "The R*-tree: An Efficient and Robust Access Method"
+  - Better Split Algorithm
+  - Forced Reinsert
+  - Improved Query Performance
+- Insertion Algorithm
+  - ChooseLeaf: Minimize area enlargement
+  - Split Node: Quadratic/Linear split
+  - Adjust Tree: Propagate changes upward
+- Query Types
+  - Point Query: Exact match
+  - Range Query: Within bounding box
+  - Nearest Neighbor: k-NN spatial
+  - Intersection Query
+
+**16.3 Geospatial Queries**
+- Spatial Predicates
+  - **ST_Within**: Point/Polygon containment
+  - **ST_Intersects**: Overlap check
+  - **ST_Distance**: Distance calculation
+  - **ST_DWithin**: Within distance radius
+  - **ST_Contains**: Reverse containment
+  - **ST_Crosses**: LineString crossing
+- Distance Calculations
+  - **Haversine Formula**: Great circle distance
+    - Sinnott, R. W. (1984). "Virtues of the Haversine"
+  - **Vincenty Formula**: More accurate, ellipsoidal
+  - **Euclidean Distance**: Planar approximation
+- Spatial Joins
+  - Brinkhoff, T., et al. (1993). "Efficient Processing of Spatial Joins"
+  - R-Tree Index Scans
+  - Filter-Refine Strategy
+  - Plane-Sweep Algorithm
+- Performance Optimization
+  - Bounding Box Filter (Fast)
+  - Exact Geometry Test (Slow)
+  - Spatial Index Required
+
+**16.4 GeoJSON Support**
+- GeoJSON Format
+  - RFC 7946 (2016)
+  - JSON-based Geometry Encoding
+  - FeatureCollection, Feature, Geometry
+- Parsing and Validation
+  - Schema Validation
+  - Coordinate Validation
+  - Topology Checks
+- Storage Strategy
+  - Native GeoJSON in Documents
+  - Extracted Geometry in R*-Tree Index
+  - Dual Representation
+- Integration with Web Maps
+  - Leaflet.js
+  - Mapbox GL JS
+  - Google Maps
+  - OpenStreetMap
+
+**16.5 Vergleichende Geospatial DB Analyse**
+
+| System | Index | Formats | Functions | Standard |
+|--------|-------|---------|-----------|----------|
+| PostGIS | GiST, SP-GiST | WKT, WKB, GeoJSON | 400+ | OGC SFS |
+| MongoDB | 2dsphere | GeoJSON | 20+ | GeoJSON |
+| Elasticsearch | BKD-Tree | GeoJSON, WKT | 30+ | GeoJSON |
+| ArangoDB | S2 Geometry | GeoJSON | 20+ | GeoJSON |
+| **ThemisDB** | R*-Tree | GeoJSON, WKT | 15+ | OGC SFS |
+
+**ThemisDB Geo Positioning:**
+- Multi-Model: Geo + Graph + Vector
+- R*-Tree for Performance
+  - Standard GeoJSON Support
+- Essential Functions (vs. Exhaustive)
 
 **Referenzdokumente:**
 - `docs/geo/geo_architecture.md`
 - `docs/features/features_geo.md`
+- `include/geo/rtree_index.hpp`
+- `src/geo/spatial_queries.cpp`
+
+**Vollständige Bibliographie (Kapitel 16):**
+
+[1] Guttman, A. (1984). "R-Trees: A Dynamic Index Structure for Spatial Searching". ACM SIGMOD Record, 14(2), 47-57.
+
+[2] Beckmann, N., Kriegel, H.-P., Schneider, R., Seeger, B. (1990). "The R*-tree: An Efficient and Robust Access Method for Points and Rectangles". ACM SIGMOD Record, 19(2), 322-331.
+
+[3] Snyder, J. P. (1987). "Map Projections - A Working Manual". U.S. Geological Survey Professional Paper 1395.
+
+[4] Sinnott, R. W. (1984). "Virtues of the Haversine". Sky and Telescope, 68(2), 159.
+
+[5] Brinkhoff, T., Kriegel, H.-P., Seeger, B. (1993). "Efficient Processing of Spatial Joins Using R-Trees". ACM SIGMOD Record, 22(2), 237-246.
+
+[6] IETF (2016). "RFC 7946: The GeoJSON Format".
 
 ---
 
 #### **Kapitel 17: Hybrid Search**
-- 17.1 Combining Full-Text, Vector, and Graph Search
-- 17.2 Ranking Strategies
-- 17.3 Query Fusion
-- 17.4 Performance-Optimierung
+
+**17.1 Multi-Modal Search Integration**
+- Hybrid Search Concept
+  - Combining Multiple Search Paradigms
+  - Full-Text + Vector + Graph
+  - Complementary Strengths
+- Search Modalities
+  - **Keyword Search**: Traditional full-text
+  - **Semantic Search**: Vector similarity
+  - **Structural Search**: Graph traversal
+  - **Spatial Search**: Geospatial queries
+- Use Cases
+  - E-Commerce: Product search with recommendations
+  - Knowledge Graphs: Entity + Semantic search
+  - Document Search: Content + Metadata + Embeddings
+- Challenges
+  - Score Normalization
+  - Result Fusion
+  - Performance Optimization
+
+**17.2 Ranking Strategies**
+- Score Normalization
+  - Min-Max Normalization
+  - Z-Score Normalization
+  - Sigmoid Function
+  - Issue: Different Score Ranges
+- BM25 for Full-Text
+  - Robertson, S., Zaragoza, H. (2009). "The Probabilistic Relevance Framework: BM25 and Beyond"
+  - Term Frequency Saturation
+  - Document Length Normalization
+  - Typical Scores: 0-20
+- Cosine Similarity for Vectors
+  - Range: [-1, 1] or [0, 1] (normalized)
+  - Semantic Similarity
+  - Typical Scores: 0.7-0.99 for relevant
+- Graph Relevance
+  - PageRank-based Scoring
+  - Path Length Penalty
+  - Edge Weight Integration
+
+**17.3 Query Fusion Techniques**
+- Reciprocal Rank Fusion (RRF)
+  - Cormack, G. V., et al. (2009). "Reciprocal Rank Fusion outperforms Condorcet and Individual Rank Learning"
+  - Formula: RRF(d) = Σ 1/(k + rank(d))
+  - k = 60 (typical)
+  - No Score Calibration Needed
+- Linear Combination
+  - Weighted Sum: α·BM25 + β·Cosine + γ·Graph
+  - Weight Tuning: Grid Search, Bayesian Optimization
+  - Requires Score Normalization
+- Cascade Ranking
+  - Stage 1: Fast pre-filtering (BM25)
+  - Stage 2: Re-ranking (Vector similarity)
+  - Stage 3: Fine-tuning (Graph context)
+- Learning to Rank (L2R)
+  - Liu, T.-Y. (2009). "Learning to Rank for Information Retrieval"
+  - LambdaMART, RankNet
+  - Feature Engineering
+  - ML Model Training
+
+**17.4 Performance-Optimierung**
+- Query Planning
+  - Push-Down Filters Early
+  - Index Selection
+  - Parallel Execution
+- Early Termination
+  - Top-k Pruning
+  - Score Threshold
+  - Time Budgets
+- Caching Strategies
+  - Query Result Cache
+  - Embedding Cache
+  - Graph Path Cache
+- Approximate Methods
+  - ANN instead of Exact k-NN
+  - Sampling for Large Result Sets
+  - Probabilistic Data Structures (Bloom Filters)
+
+**17.5 Vergleichende Hybrid Search Analyse**
+
+| System | Full-Text | Vector | Graph | Fusion |
+|--------|-----------|--------|-------|--------|
+| Elasticsearch | BM25 | Dense Vector | - | Script-based |
+| Weaviate | BM25 | HNSW | - | Alpha (Weighted) |
+| Vespa | BM25 | ANN | - | Ranking Expressions |
+| ArangoDB | - | - | Native | AQL |
+| **ThemisDB** | BM25 | HNSW | Native | AQL + RRF |
+
+**ThemisDB Hybrid Search Strengths:**
+- True Multi-Model in Single Query
+- AQL for Complex Combinations
+- ACID Transactions
+- Flexible Ranking Strategies
 
 **Referenzdokumente:**
 - `docs/search/hybrid_search_design.md`
+- `docs/query/query_fusion.md`
+- `include/search/hybrid_ranker.hpp`
+- `src/search/reciprocal_rank_fusion.cpp`
+
+**Vollständige Bibliographie (Kapitel 17):**
+
+[1] Robertson, S., Zaragoza, H. (2009). "The Probabilistic Relevance Framework: BM25 and Beyond". Foundations and Trends in Information Retrieval, 3(4), 333-389.
+
+[2] Cormack, G. V., Clarke, C. L. A., Buettcher, S. (2009). "Reciprocal Rank Fusion outperforms Condorcet and Individual Rank Learning Methods". Proceedings of SIGIR, 758-759.
+
+[3] Liu, T.-Y. (2009). "Learning to Rank for Information Retrieval". Foundations and Trends in Information Retrieval, 3(3), 225-331.
+
+[4] Burges, C. J. C. (2010). "From RankNet to LambdaRank to LambdaMART: An Overview". Microsoft Research Technical Report.
 
 ---
 
