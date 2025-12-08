@@ -7,7 +7,7 @@ namespace Themis.DocumentManager.Models;
 #nullable enable
 
 /// <summary>
-/// Represents a node in the document tree
+/// Represents a node in the document tree with configurable nesting depth
 /// </summary>
 public class DocumentTreeNode
 {
@@ -22,6 +22,11 @@ public class DocumentTreeNode
     public DocumentStatus Status { get; set; }
     public ObservableCollection<DocumentTreeNode> Children { get; set; } = new();
     
+    // Hierarchy tracking
+    public int Level { get; set; }
+    public string? ParentId { get; set; }
+    public List<string> PathToRoot { get; set; } = new(); // IDs from root to this node
+    
     // Metadata
     public string? ProcessId { get; set; }
     public string? FileReference { get; set; }
@@ -33,19 +38,35 @@ public class DocumentTreeNode
     public bool IsProcess => Type == DocumentTreeNodeType.Process;
     public bool HasChildren => ChildCount > 0;
     public bool ShowDetails { get; set; } = true;
+    
+    // Custom nesting support
+    public Dictionary<string, object> CustomMetadata { get; set; } = new();
 }
 
 public enum DocumentTreeNodeType
 {
-    File,           // Akte
-    Process,        // Vorgang
-    Document,       // Dokument
+    // Standard hierarchy (7 levels)
+    Authority,      // Behörde (Level 0)
+    Filing,         // Aktenplan (Level 1)
+    File,           // Akte (Level 2)
+    SubFile,        // Unterakte (Level 3)
+    Process,        // Vorgang (Level 4)
+    Document,       // Dokument (Level 5)
+    Attachment,     // Anhang (Level 6)
+    
+    // Additional types
     Inbox,          // Posteingang-Ordner
     InboxItem,      // Einzelne Eingangsnachricht
     Outbox,         // Postausgang-Ordner
     OutboxItem,     // Einzelne Ausgangsnachricht
-    Attachment,     // Anhang
-    Folder          // Allgemeiner Ordner
+    Folder,         // Allgemeiner Ordner
+    
+    // Extended nesting support (configurable)
+    CustomLevel1,   // Benutzerdefinierte Ebene 1
+    CustomLevel2,   // Benutzerdefinierte Ebene 2
+    CustomLevel3,   // Benutzerdefinierte Ebene 3
+    CustomLevel4,   // Benutzerdefinierte Ebene 4
+    CustomLevel5    // Benutzerdefinierte Ebene 5
 }
 
 public enum DocumentStatus
@@ -73,7 +94,7 @@ public class DocumentTreeFilter
 }
 
 /// <summary>
-/// Configuration for document tree display
+/// Configuration for document tree display with configurable nesting
 /// </summary>
 public class DocumentTreeConfiguration
 {
@@ -84,6 +105,16 @@ public class DocumentTreeConfiguration
     public IconSize IconSize { get; set; } = IconSize.Medium;
     public DetailLevel DetailLevel { get; set; } = DetailLevel.Standard;
     public AutoExpandMode AutoExpand { get; set; } = AutoExpandMode.ActiveProcess;
+    
+    // Configurable nesting depth
+    public int MaxNestingDepth { get; set; } = 12; // Default: 7 standard + 5 custom levels
+    public bool EnableUnlimitedNesting { get; set; } = false; // For extremely deep hierarchies
+    public Dictionary<int, string> CustomLevelNames { get; set; } = new(); // Level -> Display Name
+    
+    // Performance settings for deep nesting
+    public bool LazyLoadChildren { get; set; } = true; // Load children on demand
+    public int InitialLoadDepth { get; set; } = 3; // Initially load only 3 levels
+    public bool VirtualizeTree { get; set; } = true; // Use virtualization for performance
 }
 
 public enum TreeViewMode

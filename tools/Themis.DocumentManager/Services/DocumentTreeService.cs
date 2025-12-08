@@ -14,13 +14,21 @@ public interface IDocumentTreeService
 {
     // Tree Operations
     Task<DocumentTreeNode> BuildTreeAsync(string processId, CancellationToken cancellationToken = default);
+    Task<DocumentTreeNode> BuildTreeAsync(string processId, DocumentTreeConfiguration config, CancellationToken cancellationToken = default);
     Task<List<DocumentTreeNode>> GetFilteredNodesAsync(DocumentTreeFilter filter, CancellationToken cancellationToken = default);
     Task<List<DocumentTreeNode>> SearchTreeAsync(string query, CancellationToken cancellationToken = default);
     
-    // Node Operations
+    // Node Operations with lazy loading
     Task<DocumentTreeNode> GetNodeAsync(string nodeId, CancellationToken cancellationToken = default);
+    Task<DocumentTreeNode> GetNodeWithChildrenAsync(string nodeId, int depth = 1, CancellationToken cancellationToken = default);
     Task<DocumentTreeNode> ExpandNodeAsync(string nodeId, CancellationToken cancellationToken = default);
     Task<DocumentTreeNode> CollapseNodeAsync(string nodeId, CancellationToken cancellationToken = default);
+    Task<List<DocumentTreeNode>> LoadChildrenAsync(string parentId, CancellationToken cancellationToken = default);
+    
+    // Hierarchy operations
+    Task<List<string>> GetPathToRootAsync(string nodeId, CancellationToken cancellationToken = default);
+    Task<int> GetNodeDepthAsync(string nodeId, CancellationToken cancellationToken = default);
+    Task<bool> ValidateNestingDepthAsync(string parentId, int maxDepth, CancellationToken cancellationToken = default);
     
     // Configuration
     Task<DocumentTreeConfiguration> GetConfigurationAsync(string userId, CancellationToken cancellationToken = default);
@@ -47,28 +55,54 @@ public class DocumentTreeService : IDocumentTreeService
 
     public async Task<DocumentTreeNode> BuildTreeAsync(string processId, CancellationToken cancellationToken = default)
     {
+        // Use default configuration
+        var config = new DocumentTreeConfiguration();
+        return await BuildTreeAsync(processId, config, cancellationToken);
+    }
+
+    public async Task<DocumentTreeNode> BuildTreeAsync(string processId, DocumentTreeConfiguration config, CancellationToken cancellationToken = default)
+    {
         ArgumentNullException.ThrowIfNull(processId);
+        ArgumentNullException.ThrowIfNull(config);
 
         try
         {
-            _logger.LogInformation("Building document tree for process {ProcessId}", processId);
+            _logger.LogInformation("Building document tree for process {ProcessId} with max depth {MaxDepth}", 
+                processId, config.MaxNestingDepth);
 
-            // Query ThemisDB für Prozess-Hierarchie
+            // Determine initial load depth
+            var loadDepth = config.LazyLoadChildren ? config.InitialLoadDepth : config.MaxNestingDepth;
+
+            // Query ThemisDB für Prozess-Hierarchie mit konfigurierbarer Tiefe
             var query = @"
                 LET process = DOCUMENT(CONCAT('processes/', @processId))
                 LET file = DOCUMENT(process.fileId)
+                
+                // Rekursive Hierarchie-Abfrage mit Tiefenbegrenzung
+                LET hierarchy = (
+                    FOR v, e, p IN 0..@maxDepth OUTBOUND file._id GRAPH 'document_hierarchy'
+                        OPTIONS {uniqueVertices: 'path', bfs: true}
+                        RETURN {
+                            node: v,
+                            edge: e,
+                            path: p.vertices[*]._id,
+                            level: LENGTH(p.edges)
+                        }
+                )
                 
                 // Vorgänge
                 LET processes = (
                     FOR p IN processes
                         FILTER p.fileId == file._id
+                        LIMIT @limit
                         RETURN p
                 )
                 
-                // Dokumente
-                LET documents = (
+                // Dokumente mit Lazy Loading
+                LET documents = @lazyLoad ? [] : (
                     FOR d IN documents
                         FILTER d.processId == process._id
+                        LIMIT @limit
                         RETURN d
                 )
                 
@@ -76,6 +110,7 @@ public class DocumentTreeService : IDocumentTreeService
                 LET inbox = (
                     FOR i IN inbox_items
                         FILTER i.processId == process._id
+                        LIMIT @limit
                         RETURN i
                 )
                 
@@ -83,11 +118,13 @@ public class DocumentTreeService : IDocumentTreeService
                 LET outbox = (
                     FOR o IN outbox_items
                         FILTER o.processId == process._id
+                        LIMIT @limit
                         RETURN o
                 )
                 
                 RETURN {
                     file: file,
+                    hierarchy: hierarchy,
                     processes: processes,
                     documents: documents,
                     inbox: inbox,
@@ -95,7 +132,14 @@ public class DocumentTreeService : IDocumentTreeService
                 }
             ";
 
-            var bindVars = new { processId };
+            var bindVars = new 
+            { 
+                processId,
+                maxDepth = loadDepth,
+                lazyLoad = config.LazyLoadChildren,
+                limit = config.VirtualizeTree ? 1000 : 10000
+            };
+            
             var result = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
             
             var data = result.FirstOrDefault();
@@ -104,11 +148,25 @@ public class DocumentTreeService : IDocumentTreeService
                 throw new InvalidOperationException($"Process {processId} not found");
             }
 
-            // Build tree structure
-            var rootNode = BuildFileNode(data.file);
-            rootNode.Children.Add(BuildProcessesNode(data.processes, data.documents));
-            rootNode.Children.Add(BuildInboxNode(data.inbox));
-            rootNode.Children.Add(BuildOutboxNode(data.outbox));
+            // Build tree structure with hierarchy tracking
+            var rootNode = BuildFileNodeWithHierarchy(data.file, 0);
+            
+            // Add hierarchy nodes if available
+            if (data.hierarchy != null && data.hierarchy.Length > 0)
+            {
+                foreach (var hierarchyItem in data.hierarchy)
+                {
+                    var node = MapToDocumentTreeNodeWithLevel(hierarchyItem.node, hierarchyItem.level, hierarchyItem.path);
+                    AddToHierarchy(rootNode, node, hierarchyItem.path);
+                }
+            }
+            else
+            {
+                // Fallback to simple structure
+                rootNode.Children.Add(BuildProcessesNode(data.processes, data.documents));
+                rootNode.Children.Add(BuildInboxNode(data.inbox));
+                rootNode.Children.Add(BuildOutboxNode(data.outbox));
+            }
 
             return rootNode;
         }
@@ -328,8 +386,95 @@ public class DocumentTreeService : IDocumentTreeService
         return stats.OverdueTasks;
     }
 
+    public async Task<DocumentTreeNode> GetNodeWithChildrenAsync(string nodeId, int depth = 1, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(nodeId);
+
+        var query = @"
+            LET root = DOCUMENT(@nodeId)
+            LET children = (
+                FOR v, e, p IN 1..@depth OUTBOUND root._id GRAPH 'document_hierarchy'
+                    OPTIONS {uniqueVertices: 'path', bfs: true}
+                    RETURN {
+                        node: v,
+                        level: LENGTH(p.edges),
+                        path: p.vertices[*]._id
+                    }
+            )
+            RETURN {root: root, children: children}
+        ";
+
+        var bindVars = new { nodeId, depth };
+        var result = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
+        var data = result.FirstOrDefault();
+
+        if (data == null)
+        {
+            throw new InvalidOperationException($"Node {nodeId} not found");
+        }
+
+        var rootNode = MapToDocumentTreeNode(data.root);
+        
+        // Build hierarchy from children
+        foreach (var child in data.children)
+        {
+            var childNode = MapToDocumentTreeNodeWithLevel(child.node, child.level, child.path);
+            AddToHierarchy(rootNode, childNode, child.path);
+        }
+
+        return rootNode;
+    }
+
+    public async Task<List<DocumentTreeNode>> LoadChildrenAsync(string parentId, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(parentId);
+
+        var query = @"
+            FOR v IN 1..1 OUTBOUND DOCUMENT(@parentId) GRAPH 'document_hierarchy'
+                RETURN v
+        ";
+
+        var bindVars = new { parentId };
+        var results = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
+
+        return results.Select(MapToDocumentTreeNode).ToList();
+    }
+
+    public async Task<List<string>> GetPathToRootAsync(string nodeId, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(nodeId);
+
+        var query = @"
+            FOR v, e, p IN 0..100 INBOUND DOCUMENT(@nodeId) GRAPH 'document_hierarchy'
+                OPTIONS {uniqueVertices: 'path', bfs: true}
+                RETURN p.vertices[*]._id
+        ";
+
+        var bindVars = new { nodeId };
+        var result = await _themisDb.QueryAsync<List<string>>(query, bindVars, cancellationToken);
+
+        return result.FirstOrDefault() ?? new List<string>();
+    }
+
+    public async Task<int> GetNodeDepthAsync(string nodeId, CancellationToken cancellationToken = default)
+    {
+        var path = await GetPathToRootAsync(nodeId, cancellationToken);
+        return path.Count - 1; // Subtract 1 because path includes the node itself
+    }
+
+    public async Task<bool> ValidateNestingDepthAsync(string parentId, int maxDepth, CancellationToken cancellationToken = default)
+    {
+        var currentDepth = await GetNodeDepthAsync(parentId, cancellationToken);
+        return currentDepth < maxDepth;
+    }
+
     // Helper methods
     private DocumentTreeNode BuildFileNode(dynamic file)
+    {
+        return BuildFileNodeWithHierarchy(file, 0);
+    }
+
+    private DocumentTreeNode BuildFileNodeWithHierarchy(dynamic file, int level)
     {
         return new DocumentTreeNode
         {
@@ -337,8 +482,55 @@ public class DocumentTreeService : IDocumentTreeService
             Type = DocumentTreeNodeType.File,
             Name = $"{file.fileNumber} - {file.subject}",
             Icon = "📁",
-            Status = Enum.Parse<DocumentStatus>(file.status ?? "New")
+            Status = Enum.Parse<DocumentStatus>(file.status ?? "New"),
+            Level = level,
+            ParentId = file.parentId,
+            PathToRoot = new List<string> { file._id }
         };
+    }
+
+    private DocumentTreeNode MapToDocumentTreeNodeWithLevel(dynamic data, int level, List<string> path)
+    {
+        var node = MapToDocumentTreeNode(data);
+        node.Level = level;
+        node.PathToRoot = path;
+        return node;
+    }
+
+    private void AddToHierarchy(DocumentTreeNode root, DocumentTreeNode node, List<string> path)
+    {
+        if (path == null || path.Count <= 1)
+        {
+            root.Children.Add(node);
+            return;
+        }
+
+        // Find parent in hierarchy
+        var parent = FindNodeInTree(root, path[path.Count - 2]);
+        if (parent != null)
+        {
+            parent.Children.Add(node);
+            parent.ChildCount = parent.Children.Count;
+        }
+        else
+        {
+            root.Children.Add(node);
+        }
+    }
+
+    private DocumentTreeNode? FindNodeInTree(DocumentTreeNode root, string nodeId)
+    {
+        if (root.Id == nodeId)
+            return root;
+
+        foreach (var child in root.Children)
+        {
+            var found = FindNodeInTree(child, nodeId);
+            if (found != null)
+                return found;
+        }
+
+        return null;
     }
 
     private DocumentTreeNode BuildProcessesNode(dynamic[] processes, dynamic[] documents)
