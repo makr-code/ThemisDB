@@ -1,0 +1,119 @@
+<Window x:Class="Themis.DocumentManager.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        xmlns:local="clr-namespace:Themis.DocumentManager.Views"
+        mc:Ignorable="d"
+        Title="ThemisDB Document Manager" 
+        Height="900" Width="1600"
+        MinHeight="600" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        ui:WindowHelper.UseModernWindowStyle="True">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Navigation Sidebar -->
+        <Border Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
+                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
+                BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <StackPanel Grid.Row="0" Margin="20,20,20,20">
+                    <TextBlock Text="ThemisDB" FontSize="24" FontWeight="Bold"/>
+                    <TextBlock Text="Document Manager" FontSize="14" Opacity="0.7" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <!-- Search Box -->
+                <ui:AutoSuggestBox Grid.Row="1" Margin="16,0,16,16" 
+                                   PlaceholderText="Search documents..."
+                                   QueryIcon="Find"
+                                   Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                   QuerySubmitted="SearchBox_QuerySubmitted"/>
+
+                <!-- Navigation Menu -->
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="8,0,8,0">
+                        <TextBlock Text="VIEWS" FontSize="11" FontWeight="SemiBold" 
+                                   Margin="12,8,0,4" Opacity="0.6"/>
+                        
+                        <ui:RadioButtons SelectedIndex="0">
+                            <RadioButton Content="📁 Document Browser" 
+                                       Command="{Binding NavigateToDocumentBrowserCommand}"
+                                       Style="{StaticResource NavigationRadioButtonStyle}"/>
+                            <RadioButton Content="🔍 Search" 
+                                       Command="{Binding NavigateToSearchCommand}"
+                                       Style="{StaticResource NavigationRadioButtonStyle}"/>
+                            <RadioButton Content="🗺️ Geo View" 
+                                       Command="{Binding NavigateToGeoViewCommand}"
+                                       Style="{StaticResource NavigationRadioButtonStyle}"/>
+                            <RadioButton Content="📅 Timeline" 
+                                       Command="{Binding NavigateToTimelineCommand}"
+                                       Style="{StaticResource NavigationRadioButtonStyle}"/>
+                            <RadioButton Content="🕸️ Graph View" 
+                                       Command="{Binding NavigateToGraphViewCommand}"
+                                       Style="{StaticResource NavigationRadioButtonStyle}"/>
+                        </ui:RadioButtons>
+
+                        <Separator Margin="8,16"/>
+
+                        <TextBlock Text="OFFICE INTEGRATION" FontSize="11" FontWeight="SemiBold" 
+                                   Margin="12,8,0,4" Opacity="0.6"/>
+                        
+                        <Button Content="📝 New Word Document" 
+                                Click="NewWordDocument_Click"
+                                Style="{StaticResource NavigationButtonStyle}"/>
+                        <Button Content="📊 New Excel Workbook" 
+                                Click="NewExcelWorkbook_Click"
+                                Style="{StaticResource NavigationButtonStyle}"/>
+                        <Button Content="📧 New Outlook Email" 
+                                Click="NewOutlookEmail_Click"
+                                Style="{StaticResource NavigationButtonStyle}"/>
+                        <Button Content="🎯 New PowerPoint" 
+                                Click="NewPowerPoint_Click"
+                                Style="{StaticResource NavigationButtonStyle}"/>
+                        <Button Content="📓 New OneNote Page" 
+                                Click="NewOneNotePage_Click"
+                                Style="{StaticResource NavigationButtonStyle}"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Footer -->
+                <StackPanel Grid.Row="3" Margin="16,8,16,16">
+                    <Separator Margin="0,0,0,8"/>
+                    <Button Content="⚙️ Settings" Style="{StaticResource NavigationButtonStyle}"/>
+                    <TextBlock Text="Version 1.0.0" FontSize="10" Opacity="0.5" 
+                               HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Column="1">
+            <ContentControl x:Name="MainContentControl">
+                <!-- Content will be loaded dynamically based on CurrentView -->
+            </ContentControl>
+
+            <!-- Loading Overlay -->
+            <Grid x:Name="LoadingOverlay" Visibility="Collapsed" Background="#80000000">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <ui:ProgressRing IsActive="True" Width="60" Height="60"/>
+                    <TextBlock Text="Loading..." Foreground="White" FontSize="16" 
+                               Margin="0,16,0,0" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

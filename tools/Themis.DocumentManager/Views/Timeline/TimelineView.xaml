@@ -1,0 +1,125 @@
+<UserControl x:Class="Themis.DocumentManager.Views.Timeline.TimelineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:local="clr-namespace:Themis.DocumentManager.Views.Timeline"
+             xmlns:vm="clr-namespace:Themis.DocumentManager.ViewModels"
+             xmlns:models="clr-namespace:Themis.DocumentManager.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1200"
+             d:DataContext="{d:DesignInstance Type=vm:TimelineViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Toolbar -->
+            <RowDefinition Height="*"/>    <!-- Timeline -->
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <Border Grid.Row="0" 
+                Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="16,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/> <!-- Zoom controls -->
+                    <ColumnDefinition Width="Auto"/> <!-- Navigation -->
+                    <ColumnDefinition Width="*"/>    <!-- Filters -->
+                    <ColumnDefinition Width="Auto"/> <!-- Process selector -->
+                    <ColumnDefinition Width="Auto"/> <!-- Refresh -->
+                </Grid.ColumnDefinitions>
+
+                <!-- Zoom Controls -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,16,0">
+                    <TextBlock Text="Zoom:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <Button Content="−" 
+                            Command="{Binding ZoomOutCommand}"
+                            Width="32" Height="32"
+                            Margin="0,0,4,0"
+                            ToolTip="Zoom Out"/>
+                    <ComboBox SelectedItem="{Binding CurrentScale}"
+                              Width="120"
+                              Margin="0,0,4,0">
+                        <ComboBox.ItemsSource>
+                            <x:Array Type="{x:Type models:TimelineScale}">
+                                <models:TimelineScale>OneDay</models:TimelineScale>
+                                <models:TimelineScale>ThreeDays</models:TimelineScale>
+                                <models:TimelineScale>OneWeek</models:TimelineScale>
+                                <models:TimelineScale>TwoWeeks</models:TimelineScale>
+                                <models:TimelineScale>OneMonth</models:TimelineScale>
+                                <models:TimelineScale>ThreeMonths</models:TimelineScale>
+                                <models:TimelineScale>SixMonths</models:TimelineScale>
+                                <models:TimelineScale>OneYear</models:TimelineScale>
+                                <models:TimelineScale>FiveYears</models:TimelineScale>
+                            </x:Array>
+                        </ComboBox.ItemsSource>
+                    </ComboBox>
+                    <Button Content="+" 
+                            Command="{Binding ZoomInCommand}"
+                            Width="32" Height="32"
+                            ToolTip="Zoom In"/>
+                </StackPanel>
+
+                <!-- Navigation -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
+                    <Button Content="📅 Heute" 
+                            Command="{Binding JumpToTodayCommand}"
+                            Margin="0,0,8,0"/>
+                    <DatePicker SelectedDate="{Binding CenterDate, Mode=TwoWay}"
+                                Width="140"/>
+                </StackPanel>
+
+                <!-- Filter Chips -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Text="Filter:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    
+                    <!-- Object Type Filters -->
+                    <ToggleButton Content="📥 Inbox" Margin="0,0,4,0"/>
+                    <ToggleButton Content="⏰ Deadlines" Margin="0,0,4,0"/>
+                    <ToggleButton Content="📋 Tasks" Margin="0,0,4,0"/>
+                    <ToggleButton Content="✅ Approvals" Margin="0,0,4,0"/>
+                    <ToggleButton Content="📄 Documents" Margin="0,0,8,0"/>
+                    
+                    <Button Content="🔍" 
+                            Width="32"
+                            ToolTip="Mehr Filter..."
+                            Margin="0,0,4,0"/>
+                    <Button Content="✕ Filter löschen" 
+                            Command="{Binding ClearFiltersCommand}"
+                            Style="{StaticResource AccentButtonStyle}"/>
+                </StackPanel>
+
+                <!-- Process Selector -->
+                <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="16,0,16,0">
+                    <TextBlock Text="Prozess:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox Width="180"
+                              SelectedValue="{Binding SelectedProcessId}">
+                    </ComboBox>
+                    <Button Content="✕" 
+                            Command="{Binding ClearProcessCommand}"
+                            Width="32"
+                            Margin="4,0,0,0"
+                            ToolTip="Prozess-Filter entfernen"/>
+                </StackPanel>
+
+                <!-- Refresh -->
+                <Button Grid.Column="4"
+                        Content="🔄"
+                        Command="{Binding RefreshCommand}"
+                        Width="32"
+                        ToolTip="Aktualisieren"/>
+            </Grid>
+        </Border>
+
+        <!-- Timeline Area -->
+        <Grid Grid.Row="1">
+            <TextBlock Text="Timeline wird hier angezeigt" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       FontSize="16"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+        </Grid>
+    </Grid>
+</UserControl>
