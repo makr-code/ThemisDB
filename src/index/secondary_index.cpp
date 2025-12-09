@@ -2064,7 +2064,7 @@ std::vector<SecondaryIndexManager::IndexStats> SecondaryIndexManager::getAllInde
 					// Remove any trailing parts (e.g., composite column suffixes)
 					size_t thirdColon = column.find(':');
 					if (thirdColon != std::string::npos) {
-						column = column.substr(0, thirdColon);
+						column.resize(thirdColon);
 					}
 					
 					processedColumns.insert(column);
@@ -2520,7 +2520,7 @@ void SecondaryIndexManager::reindexTable(const std::string& table) {
 					std::string column = keyStr.substr(secondColon + 1);
 					size_t thirdColon = column.find(':');
 					if (thirdColon != std::string::npos) {
-						column = column.substr(0, thirdColon);
+						column.resize(thirdColon);
 					}
 					columns.insert(column);
 				}

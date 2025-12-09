@@ -36,7 +36,7 @@ namespace experimental {
 struct SparseVectorCSR {
     std::vector<float> values;       // Non-zero values
     std::vector<uint32_t> indices;   // Positions of non-zero values
-    uint32_t dimension;              // Original dimension
+    uint32_t dimension = 0;          // Original dimension
     
     size_t compressed_bytes() const {
         return sizeof(dimension) + 

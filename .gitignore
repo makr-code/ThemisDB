@@ -151,9 +151,6 @@ wiki/
 # Docker / containers
 docker-compose.override.yml
 
-# GitHub Actions (workflows disabled for now - enable when ready for CI/CD)
-.github/workflows/
-
 # GitHub Actions local testing secrets (never commit act secrets)
 .github/act-secrets
 

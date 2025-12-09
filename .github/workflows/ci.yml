@@ -1,7 +1,7 @@
-name: CI [Dry-Run]
+name: CI
 
 # Main CI workflow for C++ build, unit tests and code quality checks
-# 🔶 DRY-RUN MODE - This workflow does not publish any artifacts
+# Full vcpkg build with all dependencies
 
 on:
   push:
@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [main, develop]
   workflow_dispatch:
+
+# Concurrency: Cancel in-progress runs for same workflow on same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 # Minimal permissions for security
 permissions:
@@ -19,17 +24,12 @@ env:
   VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
 
 jobs:
-  build-and-test:
+  build-and-test-linux:
     name: Build & Test (Ubuntu)
     runs-on: ubuntu-latest
+    timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~10-15min, tests ~5min + buffer
     
     steps:
-      - name: 🔶 Dry-Run Notice
-        run: |
-          echo "🔶 DRY-RUN MODE - No actual publishing"
-          echo "This workflow builds and tests the C++ codebase."
-          echo "No artifacts are published to external registries."
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -58,13 +58,14 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          vcpkgGitCommitId: '2024.10.21'
+          vcpkgGitCommitId: '971828fe0920d00c077c7b5d34798bc45b261ec4'  # 2024.11.16
 
       - name: Configure CMake
         run: |
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_TRACING=OFF
@@ -103,3 +104,57 @@ jobs:
           echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $GITHUB_STEP_SUMMARY
           echo "- Tests: Executed" >> $GITHUB_STEP_SUMMARY
           echo "- Platform: Ubuntu Latest" >> $GITHUB_STEP_SUMMARY
+
+  build-and-test-windows:
+    name: Build & Test (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~15-20min, tests ~5min + buffer
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-windows-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            vcpkg-windows-
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: '971828fe0920d00c077c7b5d34798bc45b261ec4'  # 2024.11.16
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja `
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} `
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake `
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON `
+            -DTHEMIS_BUILD_TESTS=ON `
+            -DTHEMIS_BUILD_BENCHMARKS=OFF `
+            -DTHEMIS_ENABLE_TRACING=OFF
+
+      - name: Build
+        run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Run Unit Tests
+        run: |
+          cd build
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 300 -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Build Summary
+        run: |
+          echo "## Build Summary" >> $env:GITHUB_STEP_SUMMARY
+          echo "🔶 **DRY-RUN MODE** - No artifacts published" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $env:GITHUB_STEP_SUMMARY
+          echo "- Tests: Executed" >> $env:GITHUB_STEP_SUMMARY
+          echo "- Platform: Windows Latest" >> $env:GITHUB_STEP_SUMMARY

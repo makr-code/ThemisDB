@@ -391,6 +391,7 @@ ProcessGraphManager::validateProcess(std::string_view process_id) const {
             
             ProcessEdgeInfo info;
             info.edge_id = edgeId;
+            info.edge_type = ProcessEdgeType::SEQUENCE_FLOW;  // Default edge type
             info.from_node = entity.getFieldAsString("_from").value_or("");
             info.to_node = entity.getFieldAsString("_to").value_or("");
             info.is_default = entity.getFieldAsBool("is_default").value_or(false);
@@ -665,6 +666,7 @@ ProcessGraphManager::Status ProcessGraphManager::advanceToken(
             if (from == token->current_node) {
                 ProcessEdgeInfo edge;
                 edge.edge_id = edgeId;
+                edge.edge_type = ProcessEdgeType::SEQUENCE_FLOW;  // Default edge type
                 edge.from_node = from;
                 edge.to_node = entity.getFieldAsString("_to").value_or("");
                 edge.is_default = entity.getFieldAsBool("is_default").value_or(false);

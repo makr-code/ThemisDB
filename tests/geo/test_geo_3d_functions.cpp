@@ -9,41 +9,39 @@ using json = nlohmann::json;
 class Geo3DFunctionsTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        registry_ = std::make_unique<FunctionRegistry>();
-        registerGeoFunctions(*registry_);
+        auto& registry = FunctionRegistry::instance();
+        registerGeoFunctions(registry);
     }
-    
-    std::unique_ptr<FunctionRegistry> registry_;
 };
 
 // Test: ST_POINT with 3D coordinates
 TEST_F(Geo3DFunctionsTest, StPoint3D) {
-    auto func = registry_->getFunction("ST_POINT");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_POINT"));
     
     FunctionContext ctx;
     std::vector<json> args = {13.4, 52.5, 100.0};  // Berlin at 100m elevation
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_POINT", args, ctx);
     
     EXPECT_TRUE(result.is_object());
     EXPECT_EQ(result["type"], "Point");
     EXPECT_TRUE(result["coordinates"].is_array());
     EXPECT_EQ(result["coordinates"].size(), 3);
-    EXPECT_DOUBLE_EQ(result["coordinates"][0].get<double>(), 13.4);
-    EXPECT_DOUBLE_EQ(result["coordinates"][1].get<double>(), 52.5);
-    EXPECT_DOUBLE_EQ(result["coordinates"][2].get<double>(), 100.0);
+    EXPECT_DOUBLE_EQ(result["coordinates"][0].template get<double>(), 13.4);
+    EXPECT_DOUBLE_EQ(result["coordinates"][1].template get<double>(), 52.5);
+    EXPECT_DOUBLE_EQ(result["coordinates"][2].template get<double>(), 100.0);
 }
 
 // Test: ST_POINT with 2D coordinates (z should default to 0)
 TEST_F(Geo3DFunctionsTest, StPoint2D) {
-    auto func = registry_->getFunction("ST_POINT");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+    ASSERT_TRUE(registry.hasFunction("ST_POINT"));
     
     FunctionContext ctx;
     std::vector<json> args = {13.4, 52.5};  // 2D point
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_POINT", args, ctx);
     
     EXPECT_TRUE(result.is_object());
     EXPECT_EQ(result["type"], "Point");
@@ -52,8 +50,9 @@ TEST_F(Geo3DFunctionsTest, StPoint2D) {
 
 // Test: ST_Z extracts Z coordinate
 TEST_F(Geo3DFunctionsTest, StZ) {
-    auto func = registry_->getFunction("ST_Z");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_Z"));
     
     // 3D point
     json point3d = {
@@ -64,8 +63,8 @@ TEST_F(Geo3DFunctionsTest, StZ) {
     FunctionContext ctx;
     std::vector<json> args = {point3d};
     
-    auto result = func->execute(args, ctx);
-    EXPECT_DOUBLE_EQ(result.get<double>(), 100.0);
+    auto result = registry.call("ST_Z", args, ctx);
+    EXPECT_DOUBLE_EQ(result.template get<double>(), 100.0);
     
     // 2D point should return null
     json point2d = {
@@ -74,14 +73,15 @@ TEST_F(Geo3DFunctionsTest, StZ) {
     };
     
     args = {point2d};
-    result = func->execute(args, ctx);
+    result = registry.call("ST_Z", args, ctx);
     EXPECT_TRUE(result.is_null());
 }
 
 // Test: ST_HASZ checks for Z coordinate
 TEST_F(Geo3DFunctionsTest, StHasZ) {
-    auto func = registry_->getFunction("ST_HASZ");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_HASZ"));
     
     FunctionContext ctx;
     
@@ -91,8 +91,8 @@ TEST_F(Geo3DFunctionsTest, StHasZ) {
         {"coordinates", {13.4, 52.5, 100.0}}
     };
     std::vector<json> args = {point3d};
-    auto result = func->execute(args, ctx);
-    EXPECT_TRUE(result.get<bool>());
+    auto result = registry.call("ST_HASZ", args, ctx);
+    EXPECT_TRUE(result.template get<bool>());
     
     // 2D point
     json point2d = {
@@ -100,8 +100,8 @@ TEST_F(Geo3DFunctionsTest, StHasZ) {
         {"coordinates", {13.4, 52.5}}
     };
     args = {point2d};
-    result = func->execute(args, ctx);
-    EXPECT_FALSE(result.get<bool>());
+    result = registry.call("ST_HASZ", args, ctx);
+    EXPECT_FALSE(result.template get<bool>());
     
     // 3D LineString
     json linestring3d = {
@@ -109,14 +109,15 @@ TEST_F(Geo3DFunctionsTest, StHasZ) {
         {"coordinates", {{0.0, 0.0, 10.0}, {1.0, 1.0, 20.0}}}
     };
     args = {linestring3d};
-    result = func->execute(args, ctx);
-    EXPECT_TRUE(result.get<bool>());
+    result = registry.call("ST_HASZ", args, ctx);
+    EXPECT_TRUE(result.template get<bool>());
 }
 
 // Test: ST_DISTANCE with 3D points uses Euclidean 3D distance
 TEST_F(Geo3DFunctionsTest, StDistance3D) {
-    auto func = registry_->getFunction("ST_DISTANCE");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_DISTANCE"));
     
     // Two 3D points
     json point1 = {
@@ -131,17 +132,18 @@ TEST_F(Geo3DFunctionsTest, StDistance3D) {
     FunctionContext ctx;
     std::vector<json> args = {point1, point2};
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_DISTANCE", args, ctx);
     
     // Euclidean 3D distance: sqrt(1^2 + 1^2 + 1^2) = sqrt(3) ≈ 1.732
     double expected = std::sqrt(3.0);
-    EXPECT_NEAR(result.get<double>(), expected, 0.001);
+    EXPECT_NEAR(result.template get<double>(), expected, 0.001);
 }
 
 // Test: ST_DISTANCE with 2D points falls back to 2D distance
 TEST_F(Geo3DFunctionsTest, StDistance2D) {
-    auto func = registry_->getFunction("ST_DISTANCE");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_DISTANCE"));
     
     // Two 2D projected points (not lat/lon)
     json point1 = {
@@ -156,16 +158,17 @@ TEST_F(Geo3DFunctionsTest, StDistance2D) {
     FunctionContext ctx;
     std::vector<json> args = {point1, point2};
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_DISTANCE", args, ctx);
     
     // Euclidean 2D distance: sqrt(3^2 + 4^2) = 5.0
-    EXPECT_NEAR(result.get<double>(), 5.0, 0.001);
+    EXPECT_NEAR(result.template get<double>(), 5.0, 0.001);
 }
 
 // Test: ST_DWITHIN with 3D points
 TEST_F(Geo3DFunctionsTest, StDWithin3D) {
-    auto func = registry_->getFunction("ST_DWITHIN");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_DWITHIN"));
     
     json point1 = {
         {"type", "Point"},
@@ -181,19 +184,20 @@ TEST_F(Geo3DFunctionsTest, StDWithin3D) {
     // Distance is sqrt(3) ≈ 1.732
     // Within 2.0 should be true
     std::vector<json> args = {point1, point2, 2.0};
-    auto result = func->execute(args, ctx);
-    EXPECT_TRUE(result.get<bool>());
+    auto result = registry.call("ST_DWITHIN", args, ctx);
+    EXPECT_TRUE(result.template get<bool>());
     
     // Within 1.0 should be false
     args = {point1, point2, 1.0};
-    result = func->execute(args, ctx);
-    EXPECT_FALSE(result.get<bool>());
+    result = registry.call("ST_DWITHIN", args, ctx);
+    EXPECT_FALSE(result.template get<bool>());
 }
 
 // Test: ST_CENTROID preserves Z coordinate
 TEST_F(Geo3DFunctionsTest, StCentroid3D) {
-    auto func = registry_->getFunction("ST_CENTROID");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_CENTROID"));
     
     // 3D LineString
     json linestring = {
@@ -208,22 +212,23 @@ TEST_F(Geo3DFunctionsTest, StCentroid3D) {
     FunctionContext ctx;
     std::vector<json> args = {linestring};
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_CENTROID", args, ctx);
     
     EXPECT_EQ(result["type"], "Point");
     EXPECT_TRUE(result["coordinates"].is_array());
     EXPECT_EQ(result["coordinates"].size(), 3);
     
     // Centroid should be average: (0+2+4)/3 = 2, (0+2+0)/3 = 0.666..., (0+10+20)/3 = 10
-    EXPECT_NEAR(result["coordinates"][0].get<double>(), 2.0, 0.001);
-    EXPECT_NEAR(result["coordinates"][1].get<double>(), 0.666666, 0.001);
-    EXPECT_NEAR(result["coordinates"][2].get<double>(), 10.0, 0.001);
+    EXPECT_NEAR(result["coordinates"][0].template get<double>(), 2.0, 0.001);
+    EXPECT_NEAR(result["coordinates"][1].template get<double>(), 0.666666, 0.001);
+    EXPECT_NEAR(result["coordinates"][2].template get<double>(), 10.0, 0.001);
 }
 
 // Test: ST_CENTROID with 2D geometry doesn't add Z
 TEST_F(Geo3DFunctionsTest, StCentroid2D) {
-    auto func = registry_->getFunction("ST_CENTROID");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_CENTROID"));
     
     // 2D LineString
     json linestring = {
@@ -238,7 +243,7 @@ TEST_F(Geo3DFunctionsTest, StCentroid2D) {
     FunctionContext ctx;
     std::vector<json> args = {linestring};
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_CENTROID", args, ctx);
     
     EXPECT_EQ(result["type"], "Point");
     EXPECT_EQ(result["coordinates"].size(), 2);  // Should stay 2D
@@ -246,25 +251,27 @@ TEST_F(Geo3DFunctionsTest, StCentroid2D) {
 
 // Test: WKT parsing with 3D coordinates
 TEST_F(Geo3DFunctionsTest, StGeomFromText3D) {
-    auto func = registry_->getFunction("ST_GEOMFROMTEXT");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_GEOMFROMTEXT"));
     
     FunctionContext ctx;
     std::vector<json> args = {"POINT(13.4 52.5 100)"};
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_GEOMFROMTEXT", args, ctx);
     
     EXPECT_EQ(result["type"], "Point");
     EXPECT_EQ(result["coordinates"].size(), 3);
-    EXPECT_DOUBLE_EQ(result["coordinates"][0].get<double>(), 13.4);
-    EXPECT_DOUBLE_EQ(result["coordinates"][1].get<double>(), 52.5);
-    EXPECT_DOUBLE_EQ(result["coordinates"][2].get<double>(), 100.0);
+    EXPECT_DOUBLE_EQ(result["coordinates"][0].template get<double>(), 13.4);
+    EXPECT_DOUBLE_EQ(result["coordinates"][1].template get<double>(), 52.5);
+    EXPECT_DOUBLE_EQ(result["coordinates"][2].template get<double>(), 100.0);
 }
 
 // Test: WKT output with 3D coordinates
 TEST_F(Geo3DFunctionsTest, StAsText3D) {
-    auto func = registry_->getFunction("ST_ASTEXT");
-    ASSERT_NE(func, nullptr);
+    auto& registry = FunctionRegistry::instance();
+
+    ASSERT_TRUE(registry.hasFunction("ST_ASTEXT"));
     
     json point3d = {
         {"type", "Point"},
@@ -274,9 +281,9 @@ TEST_F(Geo3DFunctionsTest, StAsText3D) {
     FunctionContext ctx;
     std::vector<json> args = {point3d};
     
-    auto result = func->execute(args, ctx);
+    auto result = registry.call("ST_ASTEXT", args, ctx);
     
-    std::string wkt = result.get<std::string>();
+    std::string wkt = result.template get<std::string>();
     EXPECT_TRUE(wkt.find("POINT") != std::string::npos);
     EXPECT_TRUE(wkt.find("13.4") != std::string::npos);
     EXPECT_TRUE(wkt.find("52.5") != std::string::npos);
