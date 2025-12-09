@@ -36,6 +36,20 @@ dist/
 !release/**/*.deb
 !release/**/*.rpm
 
+# Exclude pre-created runtime directories in release packages
+release/**/data/
+release/**/logs/
+release/**/cache/
+release/**/plugins/
+release/**/backups/
+release/**/temp/
+!release/**/data/.gitkeep
+!release/**/logs/.gitkeep
+!release/**/cache/.gitkeep
+!release/**/plugins/.gitkeep
+!release/**/backups/.gitkeep
+!release/**/temp/.gitkeep
+
 # IDE / editor
 .idea/
 .vscode/

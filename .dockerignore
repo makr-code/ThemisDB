@@ -36,7 +36,15 @@ test_geo_integration_db/
 # openapi/ - NEEDED for API specification
 adapters/
 
-# --- Documentation (nicht für Runtime) -------------------------------------
+# --- Release packages runtime directories (not needed in Docker) -----------
+release/**/data/
+release/**/logs/
+release/**/cache/
+release/**/plugins/
+release/**/backups/
+release/**/temp/
+
+# --- Documentation (nicht für Runtime) ----------------------------------------
 # docs/ - Some docs needed for packages (openapi, deployment guides)
 # Most markdown files excluded, but keep essentials
 *.md
