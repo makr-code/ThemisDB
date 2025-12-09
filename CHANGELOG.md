@@ -86,12 +86,12 @@ This release focuses on establishing enterprise-grade release processes, supply 
 
 ### Performance Targets
 
-- **v1.0.1 Optimization Goals** (based on gap analysis)
+- **v1.0.1 Optimization Goals** (based on gap analysis vs. v1.0.0 baseline)
   - Overall gap closure: >87% (>30/36 gaps)
   - PostgreSQL critical gaps: 83-100% closure target
   - High-priority gaps: >87% closure target
   - Medium-priority gaps: >86% closure target
-  - Latency reduction target: -30% via SIMD, Wire Protocol, and Query Optimizer improvements
+  - Latency reduction target: -30% compared to v1.0.0 baseline via SIMD, Wire Protocol, and Query Optimizer improvements
 
 ### Scripts & Automation
 

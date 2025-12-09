@@ -39,14 +39,16 @@
 ### Performance Gap Analysis Ergebnisse
 
 **Identifizierte Gaps (Baseline v1.0.0):**
-- **Kritisch:** 6 Gaps (PostgreSQL - 44-49% Latenz-Nachteil)
+- **Kritisch:** 6 Gaps (PostgreSQL - 44-49% Latenz-Nachteil lt. `benchmarks/gap_analysis/historical_gaps.json`)
 - **Hoch:** 23 Gaps (MySQL, MariaDB, CockroachDB, TiDB - 15-24% Nachteil)
 - **Mittel:** 7 Gaps (diverse Protokolle)
 
 **Optimierungsziele v1.0.1:**
 - **Gesamt-Closure:** >87% (>30/36 Gaps)
-- **Latenz-Reduktion:** -30% durch SIMD, Wire Protocol, Query Optimizer
+- **Latenz-Reduktion:** -30% gegenüber v1.0.0 Baseline durch SIMD, Wire Protocol, Query Optimizer
 - **Priorisierung:** PostgreSQL Critical Gaps (83-100% Closure Target)
+
+> Detaillierte Gap-Analyse: `benchmarks/gap_analysis/historical_gaps.md`
 
 ### Neue Scripts & Automation (v1.0.1)
 
