@@ -19,7 +19,7 @@ env:
   VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
 
 jobs:
-  build-and-test:
+  build-and-test-linux:
     name: Build & Test (Ubuntu)
     runs-on: ubuntu-latest
     
@@ -58,13 +58,14 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          vcpkgGitCommitId: '2024.10.21'
+          vcpkgGitCommitId: '6f13f31f798a93a6b08d3be0727120e9af35851f'
 
       - name: Configure CMake
         run: |
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_TRACING=OFF
@@ -103,3 +104,62 @@ jobs:
           echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $GITHUB_STEP_SUMMARY
           echo "- Tests: Executed" >> $GITHUB_STEP_SUMMARY
           echo "- Platform: Ubuntu Latest" >> $GITHUB_STEP_SUMMARY
+
+  build-and-test-windows:
+    name: Build & Test (Windows)
+    runs-on: windows-latest
+    
+    steps:
+      - name: 🔶 Dry-Run Notice
+        run: |
+          echo "🔶 DRY-RUN MODE - No actual publishing"
+          echo "This workflow builds and tests the C++ codebase on Windows."
+          echo "No artifacts are published to external registries."
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-windows-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            vcpkg-windows-
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: '6f13f31f798a93a6b08d3be0727120e9af35851f'
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja `
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} `
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake `
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON `
+            -DTHEMIS_BUILD_TESTS=ON `
+            -DTHEMIS_BUILD_BENCHMARKS=OFF `
+            -DTHEMIS_ENABLE_TRACING=OFF
+
+      - name: Build
+        run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Run Unit Tests
+        run: |
+          cd build
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 300 -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Build Summary
+        run: |
+          echo "## Build Summary" >> $env:GITHUB_STEP_SUMMARY
+          echo "🔶 **DRY-RUN MODE** - No artifacts published" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $env:GITHUB_STEP_SUMMARY
+          echo "- Tests: Executed" >> $env:GITHUB_STEP_SUMMARY
+          echo "- Platform: Windows Latest" >> $env:GITHUB_STEP_SUMMARY
