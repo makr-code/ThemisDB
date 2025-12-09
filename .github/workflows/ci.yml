@@ -10,6 +10,11 @@ on:
     branches: [main, develop]
   workflow_dispatch:
 
+# Concurrency: Cancel in-progress runs for same workflow on same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 # Minimal permissions for security
 permissions:
   contents: read
@@ -22,6 +27,7 @@ jobs:
   build-and-test-linux:
     name: Build & Test (Ubuntu)
     runs-on: ubuntu-latest
+    timeout-minutes: 45  # Prevent runaway builds
     
     steps:
       - name: 🔶 Dry-Run Notice
@@ -108,6 +114,7 @@ jobs:
   build-and-test-windows:
     name: Build & Test (Windows)
     runs-on: windows-latest
+    timeout-minutes: 45  # Prevent runaway builds
     
     steps:
       - name: 🔶 Dry-Run Notice

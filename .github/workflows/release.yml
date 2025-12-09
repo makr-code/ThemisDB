@@ -20,6 +20,11 @@ on:
         type: boolean
         default: true
 
+# Concurrency: Only one release at a time
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false  # Never cancel releases
+
 env:
   BUILD_TYPE: Release
   VCPKG_COMMIT_ID: '6f13f31f798a93a6b08d3be0727120e9af35851f'
@@ -33,6 +38,7 @@ jobs:
   build-linux-x64:
     name: Build Linux x64
     runs-on: ubuntu-latest
+    timeout-minutes: 45  # Protect against runaway builds
     if: github.event.inputs.use_prebuilt != 'true'
     
     steps:
@@ -88,6 +94,7 @@ jobs:
   build-windows-x64:
     name: Build Windows x64
     runs-on: windows-latest
+    timeout-minutes: 45  # Protect against runaway builds
     if: github.event.inputs.use_prebuilt != 'true'
     
     steps:
@@ -136,6 +143,7 @@ jobs:
   package-linux-x64:
     name: Package Linux x64
     runs-on: ubuntu-latest
+    timeout-minutes: 10  # Packaging is fast
     needs: [build-linux-x64]
     if: always() && (needs.build-linux-x64.result == 'success' || github.event.inputs.use_prebuilt == 'true')
     
@@ -188,6 +196,7 @@ jobs:
   package-windows-x64:
     name: Package Windows x64
     runs-on: ubuntu-latest
+    timeout-minutes: 10  # Packaging is fast
     needs: [build-windows-x64]
     if: always() && (needs.build-windows-x64.result == 'success' || github.event.inputs.use_prebuilt == 'true')
     
@@ -257,6 +266,7 @@ jobs:
   build-deb-package:
     name: Build DEB Package
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # Package build
     needs: [package-linux-x64]
     
     steps:
@@ -290,6 +300,7 @@ jobs:
   build-rpm-package:
     name: Build RPM Package
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # Package build
     needs: [package-linux-x64]
     
     steps:
@@ -323,8 +334,12 @@ jobs:
   create-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15  # Release creation
     needs: [package-linux-x64, package-windows-x64, build-deb-package, build-rpm-package]
     if: startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: production
+      url: https://github.com/makr-code/ThemisDB/releases
     
     steps:
       - name: Checkout repository
