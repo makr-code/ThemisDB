@@ -27,7 +27,7 @@ concurrency:
 
 env:
   BUILD_TYPE: Release
-  VCPKG_COMMIT_ID: '6f13f31f798a93a6b08d3be0727120e9af35851f'
+  VCPKG_COMMIT_ID: 'b2cb0da531c2f1f740045bfe7c4dac59f0b2b69c'  # 2024.11.16
 
 permissions:
   contents: write

@@ -53,8 +53,8 @@ jobs:
             libtbb-dev \
             libspdlog-dev \
             nlohmann-json3-dev \
+            libboost-dev \
             libboost-system-dev \
-            libboost-asio-dev \
             libyaml-cpp-dev \
             libzstd-dev \
             libgtest-dev \
