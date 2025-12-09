@@ -442,7 +442,7 @@ struct ProcessInstance {
     nlohmann::json variables;
     
     // Timing
-    int64_t started_at_ms;
+    int64_t started_at_ms = 0;
     std::optional<int64_t> completed_at_ms;
     
     // Parent instance (for subprocesses)
