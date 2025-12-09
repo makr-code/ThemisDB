@@ -71,10 +71,12 @@ jobs:
             mv vcpkg.json vcpkg.json.bak
           fi
           
-          # Install vcpkg (use specific stable commit)
+          # Install vcpkg (use latest master for updated package hashes)
           git clone https://github.com/microsoft/vcpkg.git vcpkg
           cd vcpkg
-          git checkout 01f602195983451bc83e72f4214af2cbc495aa94
+          # Use latest master to avoid stale package hash issues
+          git fetch --depth 1 origin master
+          git checkout origin/master
           cd ..
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
           
@@ -84,15 +86,28 @@ jobs:
           # - hnswlib (not in apt)
           # - opentelemetry-cpp (not in apt)
           
-          # Install with proper error handling
-          if ! ./vcpkg/vcpkg install simdjson arrow[parquet,compute] hnswlib opentelemetry-cpp[otlp-http]; then
-            echo "ERROR: vcpkg installation failed"
-            # Restore vcpkg.json
-            if [ -f vcpkg.json.bak ]; then
-              mv vcpkg.json.bak vcpkg.json
+          # Install with retry logic for transient network failures
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if ./vcpkg/vcpkg install simdjson arrow[parquet,compute] hnswlib opentelemetry-cpp[otlp-http]; then
+              echo "vcpkg installation successful"
+              break
+            else
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "WARNING: vcpkg installation failed (attempt $RETRY_COUNT/$MAX_RETRIES). Retrying in 10 seconds..."
+                sleep 10
+              else
+                echo "ERROR: vcpkg installation failed after $MAX_RETRIES attempts"
+                # Restore vcpkg.json
+                if [ -f vcpkg.json.bak ]; then
+                  mv vcpkg.json.bak vcpkg.json
+                fi
+                exit 1
+              fi
             fi
-            exit 1
-          fi
+          done
           
           # Restore vcpkg.json
           if [ -f vcpkg.json.bak ]; then
