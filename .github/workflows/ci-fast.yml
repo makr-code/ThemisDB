@@ -71,8 +71,11 @@ jobs:
             mv vcpkg.json vcpkg.json.bak
           fi
           
-          # Install vcpkg (lightweight, for missing packages only)
-          git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
+          # Install vcpkg (use specific stable commit)
+          git clone https://github.com/microsoft/vcpkg.git vcpkg
+          cd vcpkg
+          git checkout 01f602195983451bc83e72f4214af2cbc495aa94
+          cd ..
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
           
           # Install only missing packages:
