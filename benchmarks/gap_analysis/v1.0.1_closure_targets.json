@@ -1,0 +1,213 @@
+{
+  "timestamp": "2025-12-09T20:37:02.747463",
+  "version": "1.0.1",
+  "gap_closure_strategy": "Priorisiere kritische Gaps mit h\u00f6chstem Impact",
+  "targets": [
+    {
+      "workload": "relational",
+      "competitor": "PostgreSQL 16",
+      "protocol": "grpc",
+      "current_gap_pct": 49.3,
+      "target_closure_pct": 34.5,
+      "target_latency_ms": 0.565,
+      "severity": "critical",
+      "impact_score": 4926.2
+    },
+    {
+      "workload": "relational",
+      "competitor": "PostgreSQL 16",
+      "protocol": "direct",
+      "current_gap_pct": 48.9,
+      "target_closure_pct": 34.3,
+      "target_latency_ms": 0.395,
+      "severity": "critical",
+      "impact_score": 4893.5
+    },
+    {
+      "workload": "relational",
+      "competitor": "PostgreSQL 16",
+      "protocol": "wire",
+      "current_gap_pct": 48.5,
+      "target_closure_pct": 34.0,
+      "target_latency_ms": 0.549,
+      "severity": "critical",
+      "impact_score": 4850.1
+    },
+    {
+      "workload": "relational",
+      "competitor": "PostgreSQL 16",
+      "protocol": "https",
+      "current_gap_pct": 48.3,
+      "target_closure_pct": 33.8,
+      "target_latency_ms": 0.745,
+      "severity": "critical",
+      "impact_score": 4827.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "PostgreSQL 16",
+      "protocol": "tcp",
+      "current_gap_pct": 45.1,
+      "target_closure_pct": 31.6,
+      "target_latency_ms": 0.558,
+      "severity": "critical",
+      "impact_score": 4508.6
+    },
+    {
+      "workload": "relational",
+      "competitor": "PostgreSQL 16",
+      "protocol": "http",
+      "current_gap_pct": 44.1,
+      "target_closure_pct": 30.9,
+      "target_latency_ms": 0.707,
+      "severity": "critical",
+      "impact_score": 4411.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "MySQL 8.0",
+      "protocol": "grpc",
+      "current_gap_pct": 26.5,
+      "target_closure_pct": 18.6,
+      "target_latency_ms": 0.565,
+      "severity": "high",
+      "impact_score": 1325.2
+    },
+    {
+      "workload": "relational",
+      "competitor": "CockroachDB",
+      "protocol": "direct",
+      "current_gap_pct": 23.9,
+      "target_closure_pct": 16.8,
+      "target_latency_ms": 0.395,
+      "severity": "high",
+      "impact_score": 1197.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "MariaDB 11",
+      "protocol": "grpc",
+      "current_gap_pct": 23.6,
+      "target_closure_pct": 16.5,
+      "target_latency_ms": 0.565,
+      "severity": "high",
+      "impact_score": 1180.2
+    },
+    {
+      "workload": "relational",
+      "competitor": "TiDB",
+      "protocol": "grpc",
+      "current_gap_pct": 23.5,
+      "target_closure_pct": 16.4,
+      "target_latency_ms": 0.565,
+      "severity": "high",
+      "impact_score": 1174.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "MySQL 8.0",
+      "protocol": "wire",
+      "current_gap_pct": 23.3,
+      "target_closure_pct": 16.3,
+      "target_latency_ms": 0.549,
+      "severity": "high",
+      "impact_score": 1166.8
+    },
+    {
+      "workload": "relational",
+      "competitor": "SingleStore",
+      "protocol": "https",
+      "current_gap_pct": 22.8,
+      "target_closure_pct": 15.9,
+      "target_latency_ms": 0.745,
+      "severity": "high",
+      "impact_score": 1138.2
+    },
+    {
+      "workload": "relational",
+      "competitor": "SingleStore",
+      "protocol": "direct",
+      "current_gap_pct": 22.2,
+      "target_closure_pct": 15.6,
+      "target_latency_ms": 0.395,
+      "severity": "high",
+      "impact_score": 1111.7
+    },
+    {
+      "workload": "relational",
+      "competitor": "CockroachDB",
+      "protocol": "http",
+      "current_gap_pct": 22.0,
+      "target_closure_pct": 15.4,
+      "target_latency_ms": 0.707,
+      "severity": "high",
+      "impact_score": 1101.7
+    },
+    {
+      "workload": "relational",
+      "competitor": "SingleStore",
+      "protocol": "http",
+      "current_gap_pct": 21.7,
+      "target_closure_pct": 15.2,
+      "target_latency_ms": 0.707,
+      "severity": "high",
+      "impact_score": 1087.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "MariaDB 11",
+      "protocol": "tcp",
+      "current_gap_pct": 21.6,
+      "target_closure_pct": 15.1,
+      "target_latency_ms": 0.558,
+      "severity": "high",
+      "impact_score": 1081.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "SingleStore",
+      "protocol": "grpc",
+      "current_gap_pct": 21.3,
+      "target_closure_pct": 14.9,
+      "target_latency_ms": 0.565,
+      "severity": "high",
+      "impact_score": 1065.0
+    },
+    {
+      "workload": "relational",
+      "competitor": "CockroachDB",
+      "protocol": "tcp",
+      "current_gap_pct": 21.1,
+      "target_closure_pct": 14.8,
+      "target_latency_ms": 0.558,
+      "severity": "high",
+      "impact_score": 1053.9
+    },
+    {
+      "workload": "relational",
+      "competitor": "TiDB",
+      "protocol": "direct",
+      "current_gap_pct": 20.4,
+      "target_closure_pct": 14.3,
+      "target_latency_ms": 0.395,
+      "severity": "high",
+      "impact_score": 1020.1
+    },
+    {
+      "workload": "relational",
+      "competitor": "MySQL 8.0",
+      "protocol": "tcp",
+      "current_gap_pct": 20.3,
+      "target_closure_pct": 14.2,
+      "target_latency_ms": 0.558,
+      "severity": "high",
+      "impact_score": 1017.4
+    }
+  ],
+  "summary": {
+    "total_critical_targets": 6,
+    "total_high_targets": 14,
+    "total_targets": 20,
+    "expected_overall_improvement": "~45-50% average latency reduction"
+  }
+}
