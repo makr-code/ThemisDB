@@ -1039,7 +1039,7 @@ ThemisDB ist **bereit für produktiven Einsatz in Enterprise-Umgebungen** mit:
 ---
 
 **Erstellt:** 20. November 2025  
-**Aktualisiert:** 7. Dezember 2025 (Roadmap 2026 vollständig implementiert)  
+**Aktualisiert:** 9. Dezember 2025 (v1.0.1 Release Management & Benchmarking)  
 **Autor:** ThemisDB Development Team  
-**Version:** 1.4  
+**Version:** 1.5  
 **Nächstes Update:** 31. Januar 2026

@@ -1,7 +1,7 @@
 # Development Summary (Consolidated)
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 9. Dezember 2025  
+**Version:** 1.0.1  
 **Kategorie:** Development
 
 ---
@@ -13,7 +13,37 @@
 
 This document consolidates all development-related TODO items and implementation status into a single summary for easy reference. Historical details are archived in the reports directory.
 
-## Current Status: v1.0.0 Production Release ✅
+## Current Status: v1.0.1 Release Management & Benchmarking ✅
+
+ThemisDB v1.0.1 was released on December 9, 2025 with enterprise-grade release management infrastructure and competitive benchmarking framework.
+
+### v1.0.1 Release Highlights (December 2025) 🆕
+
+#### Release Management Infrastructure ✅
+- **SLSA Level 1 Compliance** - Supply chain security achieved
+- **SBOM (CycloneDX 1.4)** - Software Bill of Materials for all 11 release packages
+- **Automated Release Pipeline** - GitHub Actions with Prepare→Sign→Verify→Publish workflow
+- **Enterprise Scripts** - PowerShell + Python automation (570+ lines)
+- **SLSA Level 2 Ready** - GPG signing infrastructure (requires secret configuration)
+
+#### Competitive Benchmarking Infrastructure ✅
+- **Gap Analysis Framework** - 36 identified performance gaps vs. 6 major competitors
+  - PostgreSQL, MySQL, MariaDB, CockroachDB, TiDB, SingleStore
+  - Multi-protocol testing: TCP, HTTP, gRPC, Wire Protocol
+  - 150+ test combinations
+- **Docker Benchmark Stack** - 3 variants (Optimized, Lite, Extended)
+- **Automated Reporting** - JSON/CSV/HTML with gap closure tracking
+- **Benchmark Orchestration** - Python + PowerShell runners (1200+ lines)
+- **Performance Targets** - 87% gap closure goal with systematic optimization roadmap
+
+#### Documentation Additions ✅
+- `RELEASE_STRATEGY_AUDIT.md` - Best-practice audit (8.5/10 rating)
+- `RELEASE_IMPROVEMENTS_SUMMARY.md` - Implementation details
+- `RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md` - Complete session report
+- `benchmarks/DOCKER_COMPARATIVE_BENCHMARKS_README.md` - Benchmark guide
+- `benchmarks/gap_analysis/historical_gaps.md` - Detailed gap analysis
+
+### v1.0.0 Production Release (November 2025) ✅
 
 ThemisDB v1.0.0 was released on November 30, 2025 with all major features complete.
 
@@ -126,7 +156,7 @@ Historical TODO items and completed work are archived in:
 
 ---
 
-**Last Updated:** 5. December 2025  
-**Version:** 1.0.0
+**Last Updated:** 9. December 2025  
+**Version:** 1.0.1
 
 For detailed historical information, see the individual TODO files listed in Quick Reference Links above.
