@@ -27,7 +27,7 @@ jobs:
   build-and-test-linux:
     name: Build & Test (Ubuntu)
     runs-on: ubuntu-latest
-    timeout-minutes: 45  # Prevent runaway builds
+    timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~10-15min, tests ~5min + buffer
     
     steps:
       - name: 🔶 Dry-Run Notice
@@ -114,7 +114,7 @@ jobs:
   build-and-test-windows:
     name: Build & Test (Windows)
     runs-on: windows-latest
-    timeout-minutes: 45  # Prevent runaway builds
+    timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~15-20min, tests ~5min + buffer
     
     steps:
       - name: 🔶 Dry-Run Notice

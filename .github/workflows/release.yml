@@ -62,7 +62,7 @@ jobs:
   build-linux-x64:
     name: Build Linux x64
     runs-on: ubuntu-latest
-    timeout-minutes: 45  # Protect against runaway builds
+    timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~10-15min + buffer
     needs: set-version
     if: github.event.inputs.use_prebuilt != 'true'
     
@@ -119,7 +119,7 @@ jobs:
   build-windows-x64:
     name: Build Windows x64
     runs-on: windows-latest
-    timeout-minutes: 45  # Protect against runaway builds
+    timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~15-20min + buffer
     needs: set-version
     if: github.event.inputs.use_prebuilt != 'true'
     

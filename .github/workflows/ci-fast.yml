@@ -28,7 +28,7 @@ jobs:
   build-and-test-ubuntu-fast:
     name: Build & Test (Ubuntu - System Libs)
     runs-on: ubuntu-24.04
-    timeout-minutes: 15  # Fast build should complete quickly
+    timeout-minutes: 60  # vcpkg Arrow build ~15min, project build ~10-15min, tests ~5min + buffer
     
     steps:
       - name: ⚡ Fast Build Notice
