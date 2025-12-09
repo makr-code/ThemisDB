@@ -18,6 +18,10 @@
 #undef IN
 #endif
 
+#if defined(_MSC_VER)
+#include <immintrin.h>
+#endif
+
 #ifdef THEMIS_HNSW_ENABLED
 #include <hnswlib/hnswlib.h>
 #endif
@@ -86,7 +90,9 @@ float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std:
 	// SIMD-optimized loop with OpenMP reduction
 	#pragma omp simd reduction(+:dot,na,nb) collapse(1)
 	for (; i + simd_width <= n; i += simd_width) {
+		#if defined(__clang__) || defined(__GNUC__)
 		#pragma unroll(8)
+		#endif
 		for (size_t j = 0; j < simd_width; ++j) {
 			dot += a[i+j] * b[i+j];
 			na += a[i+j] * a[i+j];
@@ -508,10 +514,20 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	std::vector<Result> heap;
 	heap.reserve(k * 2);  // Reserve extra space to reduce reallocations
 	float threshold = std::numeric_limits<float>::infinity();
+
+	auto prefetch = [](const void* ptr) {
+		#if defined(_MSC_VER)
+			_mm_prefetch(reinterpret_cast<const char*>(ptr), _MM_HINT_T0);
+		#elif defined(__GNUC__) || defined(__clang__)
+			__builtin_prefetch(ptr, 0, 3);
+		#else
+			(void)ptr;
+		#endif
+	};
 	
 	auto consider = [&](const std::string& pk, const std::vector<float>& vec) {
 		// Prefetch next vector for cache locality
-		__builtin_prefetch(&vec.front(), 0, 3);
+		prefetch(&vec.front());
 		
 		float dist = distance(query, vec);
 		

@@ -21,6 +21,7 @@ public class InboxItem
     public DateTime ReceivedAt { get; set; }
     public InboxStatus Status { get; set; } = InboxStatus.New;
     public InboxPriority Priority { get; set; } = InboxPriority.Normal;
+    public bool IsRead { get; set; } = false;
     
     public string AssignedTo { get; set; } = string.Empty;
     public string AssignedBy { get; set; } = string.Empty;
@@ -30,6 +31,8 @@ public class InboxItem
     public string Subject { get; set; } = string.Empty;
     public string Sender { get; set; } = string.Empty;
     public string SenderEmail { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string RelatedProcessId { get; set; } = string.Empty;
     
     public string Notes { get; set; } = string.Empty;
     public Dictionary<string, object> Metadata { get; set; } = new();
@@ -72,6 +75,8 @@ public class Reminder
     public DateTime DueDate { get; set; }
     public DateTime? ReminderDate { get; set; }
     public DateTime? CompletedAt { get; set; }
+    public bool IsCompleted => CompletedAt.HasValue;
+    public bool IsOverdue => DueDate < DateTime.UtcNow && !IsCompleted;
     
     public ReminderType Type { get; set; }
     public ReminderStatus Status { get; set; } = ReminderStatus.Active;
@@ -148,6 +153,8 @@ public class CosigningStep
 {
     public string Id { get; set; } = string.Empty;
     public int Order { get; set; }
+    public int StepNumber { get; set; }
+    public DateTime? CompletedAt { get; set; }
     
     public string CosignerId { get; set; } = string.Empty;
     public string CosignerName { get; set; } = string.Empty;
@@ -309,6 +316,7 @@ public class Notification
     public string FileId { get; set; } = string.Empty;
     public string DocumentId { get; set; } = string.Empty;
     public string ReminderId { get; set; } = string.Empty;
+    public string RecipientUserId { get; set; } = string.Empty;
     
     public Dictionary<string, object> Metadata { get; set; } = new();
 }
@@ -317,13 +325,19 @@ public enum NotificationType
 {
     Info,               // Information
     Warning,            // Warnung
+    Error,              // Fehler
+    Success,            // Erfolgreich
     DeadlineReminder,   // Frist-Erinnerung
+    Deadline,           // Frist
     DeadlineOverdue,    // Frist überfällig
     TaskAssigned,       // Aufgabe zugewiesen
+    Task,               // Aufgabe
     CosigningRequest,   // Mitzeichnung angefordert
+    Cosigning,          // Mitzeichnung
     ProcessCompleted,   // Vorgang abgeschlossen
     DocumentReceived,   // Dokument eingegangen
-    Escalation          // Eskalation
+    Escalation,         // Eskalation
+    System              // System
 }
 
 public enum NotificationPriority

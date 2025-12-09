@@ -16,10 +16,15 @@ public interface IInboxService
 {
     Task<InboxItem> CreateInboxItemAsync(InboxItem item);
     Task<InboxItem?> GetInboxItemByIdAsync(string id);
+    Task<InboxItem?> GetInboxItemAsync(string id);
     Task<IEnumerable<InboxItem>> GetInboxItemsAsync(InboxStatus? status = null, string? assignedTo = null);
+    Task<IEnumerable<InboxItem>> GetAllInboxItemsAsync();
     Task<IEnumerable<InboxItem>> GetMyInboxItemsAsync(string userId);
     Task<bool> AssignInboxItemAsync(string itemId, string assignedTo, string assignedBy);
     Task<bool> UpdateInboxStatusAsync(string itemId, InboxStatus status);
+    Task<bool> MarkAsReadAsync(string itemId);
+    Task<bool> UpdateInboxItemStatusAsync(string itemId, InboxStatus status);
+    Task<bool> DeleteInboxItemAsync(string itemId);
     Task<bool> UpdateInboxPriorityAsync(string itemId, InboxPriority priority);
     Task<int> GetUnreadCountAsync(string userId);
 }
@@ -32,6 +37,7 @@ public interface IReminderService
 {
     Task<Reminder> CreateReminderAsync(Reminder reminder);
     Task<Reminder?> GetReminderByIdAsync(string id);
+    Task<IEnumerable<Reminder>> GetAllRemindersAsync();
     Task<IEnumerable<Reminder>> GetRemindersByProcessAsync(string processId);
     Task<IEnumerable<Reminder>> GetRemindersByUserAsync(string userId, ReminderStatus? status = null);
     Task<IEnumerable<Reminder>> GetDueRemindersAsync(DateTime? upToDate = null);
@@ -50,6 +56,7 @@ public interface ICosigningService
 {
     Task<Cosigning> CreateCosigningAsync(Cosigning cosigning);
     Task<Cosigning?> GetCosigningByIdAsync(string id);
+    Task<IEnumerable<Cosigning>> GetAllCosigningsAsync();
     Task<IEnumerable<Cosigning>> GetCosigningsByProcessAsync(string processId);
     Task<IEnumerable<Cosigning>> GetPendingCosigningsForUserAsync(string userId);
     Task<bool> ApproveCosigningStepAsync(string cosigningId, string cosignerId, string comment);
@@ -100,6 +107,7 @@ public interface INotificationService
     Task<bool> MarkAllAsReadAsync(string userId);
     Task<bool> DismissNotificationAsync(string notificationId);
     Task<int> GetUnreadCountAsync(string userId);
+    Task ShowNotificationAsync(Notification notification, System.Threading.CancellationToken cancellationToken = default);
     
     // Helper methods für automatische Benachrichtigungen
     Task SendDeadlineReminderAsync(string userId, Reminder reminder);

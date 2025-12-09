@@ -6,6 +6,9 @@
  * @date December 2025
  */
 
+// Ensure plugin entry points export correctly when built into core
+#define THEMIS_PLUGIN_EXPORTS
+
 #include "content/video_processor.h"
 #include <algorithm>
 #include <cstring>

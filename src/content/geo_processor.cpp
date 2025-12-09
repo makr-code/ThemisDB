@@ -6,11 +6,18 @@
  * @date December 2025
  */
 
+// Ensure plugin entry points export correctly when built into core
+#define THEMIS_PLUGIN_EXPORTS
+
 #include "content/geo_processor.h"
 #include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <chrono>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace themis {
 namespace content {

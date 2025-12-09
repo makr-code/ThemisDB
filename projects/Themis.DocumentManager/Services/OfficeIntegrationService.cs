@@ -80,6 +80,9 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     };
 
                 wordApp = Activator.CreateInstance(wordType);
+                if (wordApp == null)
+                    return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create Word instance" };
+                    
                 wordApp.Visible = true;
 
                 // Create new document from template or blank
@@ -171,10 +174,16 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft Word is not installed" 
                 };
 
-            dynamic wordApp = Activator.CreateInstance(wordType);
+            var wordAppObj = Activator.CreateInstance(wordType);
+            if (wordAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create Word instance" };
+            dynamic wordApp = wordAppObj;
+                
             wordApp.Visible = true;
 
             var document = wordApp.Documents.Open(documentPath);
+            if (document == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to open document" };
             
             // Enable track changes for revision safety
             document.TrackRevisions = true;
@@ -211,7 +220,11 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft Excel is not installed" 
                 };
 
-            dynamic excelApp = Activator.CreateInstance(excelType);
+            var excelAppObj = Activator.CreateInstance(excelType);
+            if (excelAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create Excel instance" };
+            dynamic excelApp = excelAppObj;
+                
             excelApp.Visible = true;
 
             dynamic workbook;
@@ -294,7 +307,11 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft Excel is not installed" 
                 };
 
-            dynamic excelApp = Activator.CreateInstance(excelType);
+            var excelAppObj = Activator.CreateInstance(excelType);
+            if (excelAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create Excel instance" };
+            dynamic excelApp = excelAppObj;
+                
             excelApp.Visible = true;
 
             var workbook = excelApp.Workbooks.Open(workbookPath);
@@ -332,7 +349,11 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft PowerPoint is not installed" 
                 };
 
-            dynamic pptApp = Activator.CreateInstance(pptType);
+            var pptAppObj = Activator.CreateInstance(pptType);
+            if (pptAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create PowerPoint instance" };
+            dynamic pptApp = pptAppObj;
+                
             pptApp.Visible = true;
 
             dynamic presentation;
@@ -411,7 +432,11 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft PowerPoint is not installed" 
                 };
 
-            dynamic pptApp = Activator.CreateInstance(pptType);
+            var pptAppObj = Activator.CreateInstance(pptType);
+            if (pptAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create PowerPoint instance" };
+            dynamic pptApp = pptAppObj;
+                
             pptApp.Visible = true;
 
             var presentation = pptApp.Presentations.Open(presentationPath);
@@ -448,7 +473,11 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft Outlook is not installed" 
                 };
 
-            dynamic outlookApp = Activator.CreateInstance(outlookType);
+            var outlookAppObj = Activator.CreateInstance(outlookType);
+            if (outlookAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create Outlook instance" };
+            dynamic outlookApp = outlookAppObj;
+                
             dynamic mailItem = outlookApp.CreateItem(0); // 0 = olMailItem
 
             mailItem.Display();
@@ -485,7 +514,10 @@ public class OfficeIntegrationService : IOfficeIntegrationService
                     ErrorMessage = "Microsoft OneNote is not installed" 
                 };
 
-            dynamic oneNoteApp = Activator.CreateInstance(oneNoteType);
+            var oneNoteAppObj = Activator.CreateInstance(oneNoteType);
+            if (oneNoteAppObj == null)
+                return new OfficeDocumentResult { Success = false, ErrorMessage = "Failed to create OneNote instance" };
+            dynamic oneNoteApp = oneNoteAppObj;
 
             // Get the default notebook's section
             string notebookXml = string.Empty;
@@ -500,11 +532,9 @@ public class OfficeIntegrationService : IOfficeIntegrationService
             {
                 var xml = new System.Xml.XmlDocument();
                 xml.LoadXml(notebookXml);
-                var sectionNode = xml.SelectSingleNode("//one:Section", 
-                    new System.Xml.XmlNamespaceManager(xml.NameTable) 
-                    { 
-                        { "one", "http://schemas.microsoft.com/office/onenote/2013/onenote" } 
-                    });
+                var nsmgr = new System.Xml.XmlNamespaceManager(xml.NameTable);
+                nsmgr.AddNamespace("one", "http://schemas.microsoft.com/office/onenote/2013/onenote");
+                var sectionNode = xml.SelectSingleNode("//one:Section", nsmgr);
                 sectionId = sectionNode?.Attributes?["ID"]?.Value ?? string.Empty;
             }
 

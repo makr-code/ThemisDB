@@ -176,7 +176,7 @@ public class DynamicMetadataEmbeddingService : IDynamicMetadataEmbeddingService
             if (field.IsRequired && string.IsNullOrEmpty(field.CurrentValue))
             {
                 result.IsValid = false;
-                result.Errors.Add(new ValidationError
+                result.Errors.Add(new MetadataValidationError
                 {
                     FieldName = field.FieldName,
                     Message = $"Required field '{field.FieldName}' is empty",
@@ -197,7 +197,7 @@ public class DynamicMetadataEmbeddingService : IDynamicMetadataEmbeddingService
                 if (!isValidType)
                 {
                     result.IsValid = false;
-                    result.Errors.Add(new ValidationError
+                    result.Errors.Add(new MetadataValidationError
                     {
                         FieldName = field.FieldName,
                         Message = $"Invalid {field.Type} format for field '{field.FieldName}'",

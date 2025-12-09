@@ -82,7 +82,7 @@ public class CacheService : ICacheService, IDisposable
                 if (DateTime.UtcNow > entry.ExpiresAt)
                 {
                     _cache.TryRemove(key, out _);
-                    Interlocked.Increment(ref _statistics.MissCount);
+                    _statistics.MissCount++;
                     return default;
                 }
                 
@@ -94,7 +94,7 @@ public class CacheService : ICacheService, IDisposable
                     {
                         _logger.LogWarning("Cache integrity check failed for key: {Key}", key);
                         _cache.TryRemove(key, out _);
-                        Interlocked.Increment(ref _statistics.MissCount);
+                        _statistics.MissCount++;
                         return default;
                     }
                 }
@@ -103,12 +103,12 @@ public class CacheService : ICacheService, IDisposable
                 entry.AccessCount++;
                 entry.LastAccessedAt = DateTime.UtcNow;
                 
-                Interlocked.Increment(ref _statistics.HitCount);
+                _statistics.HitCount++;
                 
                 return entry.Value is T typedValue ? typedValue : default;
             }
             
-            Interlocked.Increment(ref _statistics.MissCount);
+            _statistics.MissCount++;
             return default;
         }
         catch (Exception ex)
@@ -159,8 +159,8 @@ public class CacheService : ICacheService, IDisposable
             _cache.AddOrUpdate(key, entry, (k, old) => entry);
             
             // Update statistics
-            Interlocked.Increment(ref _statistics.TotalEntries);
-            Interlocked.Add(ref _statistics.TotalSizeInBytes, sizeInBytes);
+            _statistics.TotalEntries++;
+            _statistics.TotalSizeInBytes += sizeInBytes;
             
             _logger.LogDebug("Cached entry: {Key}, Size: {Size}KB, TTL: {TTL}",
                 key, sizeInBytes / 1024, effectiveTtl);
@@ -190,8 +190,8 @@ public class CacheService : ICacheService, IDisposable
         
         if (_cache.TryRemove(key, out var entry))
         {
-            Interlocked.Decrement(ref _statistics.TotalEntries);
-            Interlocked.Add(ref _statistics.TotalSizeInBytes, -entry.SizeInBytes);
+            _statistics.TotalEntries--;
+            _statistics.TotalSizeInBytes -= entry.SizeInBytes;
             
             _logger.LogDebug("Removed cache entry: {Key}", key);
         }
@@ -317,7 +317,7 @@ public class CacheService : ICacheService, IDisposable
         foreach (var key in entriesToRemove)
         {
             await RemoveAsync(key, cancellationToken);
-            Interlocked.Increment(ref _statistics.EvictionCount);
+            _statistics.EvictionCount++;
         }
         
         _logger.LogInformation("Evicted {Count} cache entries, freed {Size}MB",

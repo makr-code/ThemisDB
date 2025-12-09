@@ -116,6 +116,61 @@ public class WordPreviewContent
     public Dictionary<string, string> CustomProperties { get; set; } = new();
 }
 
+/// <summary>
+/// Rich document metadata from ThemisDB including vector embeddings.
+/// </summary>
+public class DocumentMetadata
+{
+    public string Name { get; set; } = string.Empty;
+    public string ContentType { get; set; } = string.Empty;
+    public long Size { get; set; }
+    public DateTime ModifiedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string? Author { get; set; }
+
+    public string? ExtractedText { get; set; }
+    public string? Summary { get; set; }
+    public List<string>? Tags { get; set; }
+    public List<string>? Topics { get; set; }
+    public List<string>? Categories { get; set; }
+    public string? Language { get; set; }
+    public int? PageCount { get; set; }
+    public int? WordCount { get; set; }
+
+    public List<DocumentEntity>? Entities { get; set; }
+    public SentimentAnalysis? Sentiment { get; set; }
+    public double? Confidence { get; set; }
+
+    public float[]? VectorEmbedding { get; set; }
+    public Dictionary<string, object>? VectorMetadata { get; set; }
+
+    public List<SimilarDocument>? SimilarDocuments { get; set; }
+}
+
+public class DocumentEntity
+{
+    public string Text { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
+    public double Confidence { get; set; }
+    public int StartPosition { get; set; }
+    public int EndPosition { get; set; }
+}
+
+public class SentimentAnalysis
+{
+    public string Overall { get; set; } = "Neutral";
+    public double Score { get; set; }
+    public Dictionary<string, double>? AspectScores { get; set; }
+}
+
+public class SimilarDocument
+{
+    public string DocumentId { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public double Similarity { get; set; }
+    public string? Summary { get; set; }
+}
+
 public class WordTable
 {
     public int Index { get; set; }

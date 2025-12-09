@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Themis.DocumentManager.Models;
+using AsyncEnumerableExtensions = System.Linq.AsyncEnumerable;
 
 namespace Themis.DocumentManager.Services;
 
@@ -132,17 +133,17 @@ public class DocumentTreeService : IDocumentTreeService
                 }
             ";
 
-            var bindVars = new 
+            var bindVars = new Dictionary<string, object>
             { 
-                processId,
-                maxDepth = loadDepth,
-                lazyLoad = config.LazyLoadChildren,
-                limit = config.VirtualizeTree ? 1000 : 10000
+                ["processId"] = processId,
+                ["maxDepth"] = loadDepth,
+                ["lazyLoad"] = config.LazyLoadChildren,
+                ["limit"] = config.VirtualizeTree ? 1000 : 10000
             };
             
             var result = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
             
-            var data = result.FirstOrDefault();
+            var data = await AsyncEnumerableExtensions.FirstOrDefaultAsync(result, cancellationToken);
             if (data == null)
             {
                 throw new InvalidOperationException($"Process {processId} not found");
@@ -227,8 +228,9 @@ public class DocumentTreeService : IDocumentTreeService
             ";
 
             var results = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
+            var resultList = await AsyncEnumerableExtensions.ToListAsync(results, cancellationToken);
             
-            return results.Select(MapToDocumentTreeNode).ToList();
+            return resultList.Select(MapToDocumentTreeNode).ToList();
         }
         catch (Exception ex)
         {
@@ -254,10 +256,10 @@ public class DocumentTreeService : IDocumentTreeService
         ArgumentNullException.ThrowIfNull(nodeId);
 
         var query = "RETURN DOCUMENT(@nodeId)";
-        var bindVars = new { nodeId };
+        var bindVars = new Dictionary<string, object> { ["nodeId"] = nodeId };
         
         var result = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
-        var data = result.FirstOrDefault();
+        var data = await AsyncEnumerableExtensions.FirstOrDefaultAsync(result, cancellationToken);
         
         if (data == null)
         {
@@ -286,10 +288,10 @@ public class DocumentTreeService : IDocumentTreeService
         ArgumentNullException.ThrowIfNull(userId);
 
         var query = "FOR u IN users FILTER u._key == @userId RETURN u.documentTreeConfig";
-        var bindVars = new { userId };
+        var bindVars = new Dictionary<string, object> { ["userId"] = userId };
         
         var result = await _themisDb.QueryAsync<DocumentTreeConfiguration>(query, bindVars, cancellationToken);
-        return result.FirstOrDefault() ?? new DocumentTreeConfiguration();
+        return await AsyncEnumerableExtensions.FirstOrDefaultAsync(result, cancellationToken) ?? new DocumentTreeConfiguration();
     }
 
     public async Task SaveConfigurationAsync(string userId, DocumentTreeConfiguration config, CancellationToken cancellationToken = default)
@@ -302,7 +304,7 @@ public class DocumentTreeService : IDocumentTreeService
             RETURN NEW
         ";
         
-        var bindVars = new { userId, config };
+        var bindVars = new Dictionary<string, object> { ["userId"] = userId, ["config"] = config };
         await _themisDb.ExecuteAsync(query, bindVars, cancellationToken);
         
         _logger.LogInformation("Saved document tree configuration for user {UserId}", userId);
@@ -358,10 +360,11 @@ public class DocumentTreeService : IDocumentTreeService
             RETURN UNION(reminders, cosigning, inbox)
         ";
 
-        var bindVars = new { userId };
+        var bindVars = new Dictionary<string, object> { ["userId"] = userId };
         var results = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
+        var resultList = await AsyncEnumerableExtensions.ToListAsync(results, cancellationToken);
         
-        return results.Select(MapToTaskBasketItem).ToList();
+        return resultList.Select(MapToTaskBasketItem).ToList();
     }
 
     public async Task<TaskBasketStatistics> GetTaskBasketStatisticsAsync(string userId, CancellationToken cancellationToken = default)
@@ -404,9 +407,9 @@ public class DocumentTreeService : IDocumentTreeService
             RETURN {root: root, children: children}
         ";
 
-        var bindVars = new { nodeId, depth };
+        var bindVars = new Dictionary<string, object> { ["nodeId"] = nodeId, ["depth"] = depth };
         var result = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
-        var data = result.FirstOrDefault();
+        var data = await AsyncEnumerableExtensions.FirstOrDefaultAsync(result, cancellationToken);
 
         if (data == null)
         {
@@ -434,10 +437,11 @@ public class DocumentTreeService : IDocumentTreeService
                 RETURN v
         ";
 
-        var bindVars = new { parentId };
+        var bindVars = new Dictionary<string, object> { ["parentId"] = parentId };
         var results = await _themisDb.QueryAsync<dynamic>(query, bindVars, cancellationToken);
+        var resultList = await AsyncEnumerableExtensions.ToListAsync(results, cancellationToken);
 
-        return results.Select(MapToDocumentTreeNode).ToList();
+        return resultList.Select(MapToDocumentTreeNode).ToList();
     }
 
     public async Task<List<string>> GetPathToRootAsync(string nodeId, CancellationToken cancellationToken = default)
@@ -450,10 +454,10 @@ public class DocumentTreeService : IDocumentTreeService
                 RETURN p.vertices[*]._id
         ";
 
-        var bindVars = new { nodeId };
+        var bindVars = new Dictionary<string, object> { ["nodeId"] = nodeId };
         var result = await _themisDb.QueryAsync<List<string>>(query, bindVars, cancellationToken);
 
-        return result.FirstOrDefault() ?? new List<string>();
+        return await AsyncEnumerableExtensions.FirstOrDefaultAsync(result, cancellationToken) ?? new List<string>();
     }
 
     public async Task<int> GetNodeDepthAsync(string nodeId, CancellationToken cancellationToken = default)
@@ -646,20 +650,20 @@ public class DocumentTreeService : IDocumentTreeService
     {
         var type = Enum.Parse<TaskBasketItemType>(data.type);
         var priority = data.priority != null ? Enum.Parse<TaskPriority>(data.priority) : TaskPriority.Normal;
-        var dueDate = data.dueDate != null ? DateTime.Parse(data.dueDate) : (DateTime?)null;
+        DateTime? dueDate = data.dueDate != null ? DateTime.Parse(data.dueDate.ToString()) : null;
         
         return new TaskBasketItem
         {
-            Id = data.id,
+            Id = data.id ?? string.Empty,
             Type = type,
-            Title = data.title,
-            ProcessId = data.processId,
+            Title = data.title ?? string.Empty,
+            ProcessId = data.processId ?? string.Empty,
             DueDate = dueDate,
             Priority = priority,
             IsOverdue = dueDate.HasValue && dueDate.Value < DateTime.UtcNow,
             Icon = GetIconForTaskType(type),
             Color = GetColorForPriority(priority),
-            CreatedAt = DateTime.Parse(data.createdAt)
+            CreatedAt = data.createdAt != null ? DateTime.Parse(data.createdAt.ToString()) : DateTime.UtcNow
         };
     }
 

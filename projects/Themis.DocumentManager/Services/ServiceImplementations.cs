@@ -38,6 +38,11 @@ public class DocumentService : IDocumentService
         return await _apiClient.GetAsync<Document>($"/entities/documents:{id}");
     }
 
+    public async Task<Document?> GetDocumentAsync(string id)
+    {
+        return await GetDocumentByIdAsync(id);
+    }
+
     public async Task<Document> CreateDocumentAsync(Document document)
     {
         var response = await _apiClient.PutAsync<DocumentRequest, DocumentResponse>(
@@ -100,6 +105,11 @@ public class SearchService : ISearchService
     public SearchService(IThemisApiClient apiClient)
     {
         _apiClient = apiClient;
+    }
+
+    public async Task<IEnumerable<SearchResult>> SearchAsync(string query, int limit = 10)
+    {
+        return await FullTextSearchAsync(query, limit);
     }
 
     public async Task<IEnumerable<SearchResult>> FullTextSearchAsync(string query, int limit = 10)
@@ -399,11 +409,12 @@ public class TimelineService : ITimelineService
         return response?.Results ?? Enumerable.Empty<TimelineEvent>();
     }
 
-    public async Task<TimelineEvent> CreateEventAsync(TimelineEvent timelineEvent)
+    public async Task<TimelineEvent> CreateEventAsync(TimelineEvent timelineEvent, CancellationToken cancellationToken = default)
     {
         await _apiClient.PutAsync<object, object>(
             $"/entities/timeline_events:{timelineEvent.Id}",
-            new { blob = System.Text.Json.JsonSerializer.Serialize(timelineEvent) }
+            new { blob = System.Text.Json.JsonSerializer.Serialize(timelineEvent) },
+            cancellationToken
         );
 
         return timelineEvent;
@@ -495,7 +506,7 @@ public class GraphService : IGraphService
 
     public async Task<IEnumerable<DocumentRelation>> GetDocumentRelationsAsync(string documentId)
     {
-        var response = await _apiClient.PostAsync<object, QueryResponse>(
+        var response = await _apiClient.PostAsync<object, RelationQueryResponse>(
             "/query/aql",
             new
             {
@@ -563,6 +574,11 @@ public class GraphService : IGraphService
     }
 
     private class QueryResponse
+    {
+        public List<Document> Results { get; set; } = new();
+    }
+
+    private class RelationQueryResponse
     {
         public List<DocumentRelation> Results { get; set; } = new();
     }

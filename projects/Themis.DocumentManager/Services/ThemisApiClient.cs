@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Themis.DocumentManager.Services;
@@ -70,17 +72,17 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
         }
     }
 
-    public async Task<TResponse?> PutAsync<TRequest, TResponse>(string endpoint, TRequest data)
+    public async Task<TResponse?> PutAsync<TRequest, TResponse>(string endpoint, TRequest data, CancellationToken cancellationToken = default)
     {
         try
         {
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             
-            var response = await _httpClient.PutAsync(endpoint, content);
+            var response = await _httpClient.PutAsync(endpoint, content, cancellationToken);
             response.EnsureSuccessStatusCode();
             
-            return await response.Content.ReadFromJsonAsync<TResponse>();
+            return await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
@@ -100,6 +102,42 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
         {
             Console.WriteLine($"DELETE request failed: {ex.Message}");
             return false;
+        }
+    }
+
+    public async Task<List<T>> ExecuteAqlAsync<T>(string query, object? bindVars = null, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var payload = new
+            {
+                query = query,
+                bindVars = bindVars ?? new { }
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("/query", payload, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            
+            var result = await response.Content.ReadFromJsonAsync<dynamic>(cancellationToken: cancellationToken);
+            
+            // Extract results from response
+            var resultList = new List<T>();
+            if (result?.result is System.Text.Json.JsonElement element)
+            {
+                foreach (var item in element.EnumerateArray())
+                {
+                    var value = JsonSerializer.Deserialize<T>(item.GetRawText());
+                    if (value != null)
+                        resultList.Add(value);
+                }
+            }
+            
+            return resultList;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"AQL query execution failed: {ex.Message}");
+            return new List<T>();
         }
     }
 

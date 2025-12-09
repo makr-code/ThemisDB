@@ -131,15 +131,15 @@ public partial class TimelineViewModel : ObservableObject
             {
                 result = await _timelineService.AggregateProcessItemsAsync(
                     SelectedProcessId,
-                    _currentRange.StartDate,
-                    _currentRange.EndDate,
+                    CurrentRange.StartDate,
+                    CurrentRange.EndDate,
                     ShowOthersDimmed);
             }
             else
             {
                 result = await _timelineService.AggregateAllItemsAsync(
-                    _currentRange.StartDate,
-                    _currentRange.EndDate,
+                    CurrentRange.StartDate,
+                    CurrentRange.EndDate,
                     null);
             }
 
@@ -198,7 +198,7 @@ public partial class TimelineViewModel : ObservableObject
     public async Task ZoomToScaleAsync(TimelineScale scale)
     {
         CurrentScale = scale;
-        _currentRange = TimelineRange.FromScale(CenterDate, scale);
+        CurrentRange = TimelineRange.FromScale(CenterDate, scale);
         UpdateSegments();
         await LoadItemsAsync();
     }
@@ -292,12 +292,12 @@ public partial class TimelineViewModel : ObservableObject
         Segments.Clear();
 
         var segmentDuration = GetSegmentDuration(CurrentScale);
-        var current = _currentRange.StartDate;
+        var current = CurrentRange.StartDate;
 
-        while (current <= _currentRange.EndDate)
+        while (current <= CurrentRange.EndDate)
         {
-            var position = (current - _currentRange.StartDate).TotalMilliseconds / 
-                          _currentRange.Duration.TotalMilliseconds;
+            var position = (current - CurrentRange.StartDate).TotalMilliseconds / 
+                          CurrentRange.Duration.TotalMilliseconds;
 
             var segment = new TimelineSegment
             {

@@ -478,15 +478,17 @@ public class MCPToolService : IMCPToolService
         var query = args["query"].ToString() ?? "";
         var limit = args.TryGetValue("limit", out var limitObj) ? Convert.ToInt32(limitObj) : 10;
         
-        var results = await _searchService.SearchAsync(query, cancellationToken);
-        return results.Take(limit).ToList();
+        var results = await _searchService.SearchAsync(query, limit);
+        return results.ToList();
     }
     
     private async Task<object> ExecuteOpenDocument(Dictionary<string, object> args, CancellationToken cancellationToken)
     {
         var documentId = args["documentId"].ToString() ?? "";
-        var document = await _documentService.GetDocumentAsync(documentId, cancellationToken);
-        return document ?? new { error = "Document not found" };
+        var document = await _documentService.GetDocumentAsync(documentId);
+        if (document == null)
+            return new { error = "Document not found" };
+        return document;
     }
     
     private async Task<object> ExecuteCreateProcess(Dictionary<string, object> args, CancellationToken cancellationToken)
@@ -612,7 +614,7 @@ public class LLMProviderService : ILLMProviderService
         AIModel model,
         double temperature,
         int maxTokens,
-        CancellationToken cancellationToken = default)
+        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         // Placeholder - würde echten SSE-Stream von LLM-Provider liefern
         var chunks = new[]

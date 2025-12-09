@@ -112,8 +112,10 @@ public class AdministrativeProcess
     
     // Zeitstempel
     public DateTime CreatedAt { get; set; }
+    public DateTime? StartDate { get; set; }
     public DateTime? StartedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
+    public DateTime? TargetCompletionDate { get; set; }
     public DateTime? DueDate { get; set; }
     
     // Verantwortlichkeiten
@@ -166,7 +168,7 @@ public class AdministrativeDocument
     public List<string> ReferencedDocuments { get; set; } = new(); // Bezugsdokumente
     
     // Bearbeitung
-    public DocumentStatus Status { get; set; } = DocumentStatus.Draft;
+    public DocumentLifecycleStatus Status { get; set; } = DocumentLifecycleStatus.Draft;
     public bool RequiresSignature { get; set; }
     public List<Signature> Signatures { get; set; } = new();
     
@@ -219,6 +221,7 @@ public class ProcessTimelineEvent
     // Event-Details
     public DateTime Timestamp { get; set; }
     public ProcessEventType EventType { get; set; }
+    public ProcessEventType Type { get; set; }  // Alias for EventType
     public string EventCategory { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     
@@ -227,6 +230,7 @@ public class ProcessTimelineEvent
     public string ActorRole { get; set; } = string.Empty;
     
     // Änderungen
+    public Dictionary<string, object> Changes { get; set; } = new();
     public Dictionary<string, object> ChangedFields { get; set; } = new();
     public Dictionary<string, object> PreviousValues { get; set; } = new();
     public Dictionary<string, object> NewValues { get; set; } = new();
@@ -332,7 +336,7 @@ public enum DocumentDirection
     Internal            // Intern
 }
 
-public enum DocumentStatus
+public enum DocumentLifecycleStatus
 {
     Draft,              // Entwurf
     InReview,           // In Prüfung
@@ -374,6 +378,10 @@ public enum ProcessEventType
     DocumentSigned,
     DocumentApproved,
     DocumentRejected,
+    Approved,
+    Rejected,
+    FileAccessed,
+    FileTransferred,
     
     // Workflow
     StepCompleted,

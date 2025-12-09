@@ -175,7 +175,7 @@ public class TimelineAggregationService : ITimelineAggregationService
         DateTime? endDate = null,
         CancellationToken cancellationToken = default)
     {
-        var inboxItems = await _inboxService.GetAllInboxItemsAsync(cancellationToken);
+        var inboxItems = await _inboxService.GetAllInboxItemsAsync();
 
         return inboxItems
             .Where(i => (!startDate.HasValue || i.ReceivedAt >= startDate.Value) &&
@@ -209,7 +209,7 @@ public class TimelineAggregationService : ITimelineAggregationService
         DateTime? endDate = null,
         CancellationToken cancellationToken = default)
     {
-        var reminders = await _reminderService.GetAllRemindersAsync(cancellationToken);
+        var reminders = await _reminderService.GetAllRemindersAsync();
 
         return reminders
             .Where(r => (!startDate.HasValue || r.DueDate >= startDate.Value) &&
@@ -247,8 +247,8 @@ public class TimelineAggregationService : ITimelineAggregationService
     {
         // Get process timeline events
         var events = processId != null
-            ? await _timelineService.GetEventsByProcessAsync(processId, cancellationToken)
-            : await _timelineService.GetAllEventsAsync(startDate, endDate, cancellationToken);
+            ? await _timelineService.GetEventsByProcessAsync(processId, startDate)
+            : await _timelineService.GetAllEventsAsync();
 
         return events
             .Where(e => (!startDate.HasValue || e.Timestamp >= startDate.Value) &&
@@ -295,7 +295,7 @@ public class TimelineAggregationService : ITimelineAggregationService
         DateTime? endDate = null,
         CancellationToken cancellationToken = default)
     {
-        var cosignings = await _cosigningService.GetAllCosigningsAsync(cancellationToken);
+        var cosignings = await _cosigningService.GetAllCosigningsAsync();
 
         if (processId != null)
         {

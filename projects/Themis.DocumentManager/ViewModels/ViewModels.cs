@@ -265,56 +265,6 @@ public partial class GeoViewModel : ObservableObject
 }
 
 /// <summary>
-/// Timeline view model
-/// </summary>
-public partial class TimelineViewModel : ObservableObject
-{
-    private readonly ITimelineService _timelineService;
-
-    [ObservableProperty]
-    private ObservableCollection<TimelineEvent> _events = new();
-
-    [ObservableProperty]
-    private TimelineEvent? _selectedEvent;
-
-    [ObservableProperty]
-    private DateTime _startDate = DateTime.Now.AddMonths(-1);
-
-    [ObservableProperty]
-    private DateTime _endDate = DateTime.Now;
-
-    [ObservableProperty]
-    private bool _isLoading = false;
-
-    public TimelineViewModel(ITimelineService timelineService)
-    {
-        _timelineService = timelineService;
-        LoadEventsCommand.Execute(null);
-    }
-
-    [RelayCommand]
-    private async Task LoadEventsAsync()
-    {
-        IsLoading = true;
-        try
-        {
-            var events = await _timelineService.GetEventsAsync(StartDate, EndDate);
-            Events = new ObservableCollection<TimelineEvent>(events);
-        }
-        finally
-        {
-            IsLoading = false;
-        }
-    }
-
-    [RelayCommand]
-    private async Task FilterByDateRangeAsync()
-    {
-        await LoadEventsAsync();
-    }
-}
-
-/// <summary>
 /// Graph view model
 /// </summary>
 public partial class GraphViewModel : ObservableObject

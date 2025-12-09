@@ -43,6 +43,21 @@ public class InboxService : IInboxService
         return await _apiClient.GetAsync<InboxItem>($"/entities/{urn}");
     }
 
+    public async Task<InboxItem?> GetInboxItemAsync(string id)
+    {
+        return await GetInboxItemByIdAsync(id);
+    }
+
+    public async Task<IEnumerable<InboxItem>> GetAllInboxItemsAsync()
+    {
+        var query = "FOR item IN inbox_items SORT item.receivedAt DESC RETURN item";
+        var response = await _apiClient.PostAsync<object, QueryResponse<InboxItem>>(
+            "/query/aql",
+            new { query, bindVars = new { } }
+        );
+        return response?.Results ?? Enumerable.Empty<InboxItem>();
+    }
+
     public async Task<IEnumerable<InboxItem>> GetInboxItemsAsync(InboxStatus? status = null, string? assignedTo = null)
     {
         var query = "FOR item IN inbox_items";
@@ -113,6 +128,32 @@ public class InboxService : IInboxService
         );
 
         return true;
+    }
+
+    public async Task<bool> MarkAsReadAsync(string itemId)
+    {
+        var item = await GetInboxItemByIdAsync(itemId);
+        if (item == null) return false;
+
+        item.IsRead = true;
+
+        await _apiClient.PutAsync<object, object>(
+            $"/entities/{item.Urn}",
+            new { blob = System.Text.Json.JsonSerializer.Serialize(item) }
+        );
+
+        return true;
+    }
+
+    public async Task<bool> UpdateInboxItemStatusAsync(string itemId, InboxStatus status)
+    {
+        return await UpdateInboxStatusAsync(itemId, status);
+    }
+
+    public async Task<bool> DeleteInboxItemAsync(string itemId)
+    {
+        var urn = $"urn:themis:inbox:{itemId}";
+        return await _apiClient.DeleteAsync($"/entities/{urn}");
     }
 
     public async Task<bool> UpdateInboxPriorityAsync(string itemId, InboxPriority priority)
@@ -192,6 +233,20 @@ public class ReminderService : IReminderService
     {
         var urn = $"urn:themis:reminder:{id}";
         return await _apiClient.GetAsync<Reminder>($"/entities/{urn}");
+    }
+
+    public async Task<IEnumerable<Reminder>> GetAllRemindersAsync()
+    {
+        var response = await _apiClient.PostAsync<object, QueryResponse<Reminder>>(
+            "/query/aql",
+            new
+            {
+                query = "FOR reminder IN reminders SORT reminder.dueDate ASC RETURN reminder",
+                bindVars = new { }
+            }
+        );
+
+        return response?.Results ?? Enumerable.Empty<Reminder>();
     }
 
     public async Task<IEnumerable<Reminder>> GetRemindersByProcessAsync(string processId)
@@ -432,6 +487,20 @@ public class CosigningService : ICosigningService
     {
         var urn = $"urn:themis:cosigning:{id}";
         return await _apiClient.GetAsync<Cosigning>($"/entities/{urn}");
+    }
+
+    public async Task<IEnumerable<Cosigning>> GetAllCosigningsAsync()
+    {
+        var response = await _apiClient.PostAsync<object, QueryResponse<Cosigning>>(
+            "/query/aql",
+            new
+            {
+                query = "FOR cs IN cosignings RETURN cs",
+                bindVars = new { }
+            }
+        );
+
+        return response?.Results ?? Enumerable.Empty<Cosigning>();
     }
 
     public async Task<IEnumerable<Cosigning>> GetCosigningsByProcessAsync(string processId)

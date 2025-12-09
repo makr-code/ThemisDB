@@ -32,7 +32,7 @@ COPY src/ ./src/
 COPY tests/ ./tests/
 COPY vcpkg.json ./
 COPY .gitmodules ./
-COPY external/ ./external/ || true
+COPY external/ ./external/
 
 # Initialize and download vcpkg
 RUN git init && \

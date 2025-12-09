@@ -242,31 +242,6 @@ public class ScheduledOutboxItem
 }
 
 /// <summary>
-/// Recurrence pattern for scheduled sends
-/// </summary>
-public class RecurrencePattern
-{
-    public RecurrenceType Type { get; set; } = RecurrenceType.Once;
-    public int Interval { get; set; } = 1; // e.g., every 2 days
-    public DayOfWeek? DayOfWeek { get; set; }
-    public int? DayOfMonth { get; set; }
-    public DateTime? EndDate { get; set; }
-    public int? MaxOccurrences { get; set; }
-}
-
-/// <summary>
-/// Recurrence types
-/// </summary>
-public enum RecurrenceType
-{
-    Once,
-    Daily,
-    Weekly,
-    Monthly,
-    Yearly
-}
-
-/// <summary>
 /// Outbox template (for frequently sent communications)
 /// </summary>
 public class OutboxTemplate

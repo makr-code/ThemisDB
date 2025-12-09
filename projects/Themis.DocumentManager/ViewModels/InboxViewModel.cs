@@ -52,7 +52,7 @@ namespace Themis.DocumentManager.ViewModels
             {
                 var items = await _inboxService.GetInboxItemsAsync();
                 InboxItems = new ObservableCollection<InboxItem>(items);
-                UnreadCount = await _inboxService.GetUnreadCountAsync();
+                UnreadCount = await _inboxService.GetUnreadCountAsync(string.Empty);
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace Themis.DocumentManager.ViewModels
                 item.IsRead = true;
                 UnreadCount = Math.Max(0, UnreadCount - 1);
             }
-            catch (Exception ex)
+            catch
             {
                 // Log error
             }

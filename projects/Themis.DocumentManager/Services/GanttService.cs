@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Themis.DocumentManager.Models;
+using TaskStatus = Themis.DocumentManager.Models.TaskStatus;
 
 namespace Themis.DocumentManager.Services;
 
@@ -55,7 +56,7 @@ public class GanttService : IGanttService
         // Generate tasks from processes
         foreach (var processId in processIds)
         {
-            var process = await _adminService.GetProcessAsync(processId, cancellationToken);
+            var process = await _adminService.GetProcessAsync(processId);
             if (process != null)
             {
                 var task = new GanttTask
@@ -106,7 +107,7 @@ public class GanttService : IGanttService
     public async Task DeleteTaskAsync(string taskId, CancellationToken cancellationToken = default)
     {
         var query = "REMOVE @taskId IN @@collection";
-        await _apiClient.ExecuteAqlAsync(query, new { collection = GanttTaskCollection, taskId }, cancellationToken);
+        await _apiClient.ExecuteAqlAsync<object>(query, new { collection = GanttTaskCollection, taskId }, cancellationToken);
     }
     
     public async Task<GanttDependency> AddDependencyAsync(GanttDependency dependency, CancellationToken cancellationToken = default)
@@ -159,7 +160,7 @@ public class GanttService : IGanttService
     private async Task StoreChartAsync(GanttChart chart, CancellationToken cancellationToken)
     {
         var query = "INSERT @chart INTO @@collection RETURN NEW";
-        await _apiClient.ExecuteAqlAsync(query, new { collection = GanttChartCollection, chart }, cancellationToken);
+        await _apiClient.ExecuteAqlAsync<object>(query, new { collection = GanttChartCollection, chart }, cancellationToken);
     }
     
     private TaskStatus MapProcessStatus(ProcessStatus status)

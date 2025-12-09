@@ -91,7 +91,7 @@ public interface ISmartSuggestionService
     /// <summary>
     /// Template-basierte Vorschläge
     /// </summary>
-    Task<List<InputSuggestion>> GetTemplateS uggestionsAsync(
+    Task<List<InputSuggestion>> GetTemplateSuggestionsAsync(
         string fieldName,
         Dictionary<string, object>? context = null,
         CancellationToken cancellationToken = default);

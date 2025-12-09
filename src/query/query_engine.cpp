@@ -1346,7 +1346,10 @@ static nlohmann::json qe_evalExpr(const std::shared_ptr<themis::query::Expressio
 				case BinaryOperator::In: {
 					// Membership: left IN right (right can be array or string)
 					if (r.is_array()) {
-						for (const auto& e : r) if (e == l) return true; return false;
+						for (const auto& e : r) {
+							if (e == l) return true;
+						}
+						return false;
 					}
 					if (r.is_string() && l.is_string()) {
 						return r.get<std::string>().find(l.get<std::string>()) != std::string::npos;
@@ -2845,7 +2848,9 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					if (!all) continue;
 					// Prüfe Existenz des Composite Index explizit
 					if (!secIdx_.hasCompositeIndex(q.table, cols)) continue;
-					auto [cst, keys] = secIdx_.scanKeysEqualComposite(q.table, cols, vals); if (!cst.ok) continue; std::sort(keys.begin(), keys.end());
+					auto [cst, keys] = secIdx_.scanKeysEqualComposite(q.table, cols, vals);
+					if (!cst.ok) continue;
+					std::sort(keys.begin(), keys.end());
 					if (first) { current = std::move(keys); first=false; }
 					else {
 						std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
@@ -2862,7 +2867,8 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		// Wende Range-Prädikate an (intersect)
 		for (auto &kv : rangeMap) {
 			auto [st, keys] = secIdx_.scanKeysRange(q.table, kv.first, kv.second.lower, kv.second.upper, kv.second.includeLower, kv.second.includeUpper, 100000, false);
-			if (!st.ok) continue; std::sort(keys.begin(), keys.end());
+			if (!st.ok) continue;
+			std::sort(keys.begin(), keys.end());
 			if (first) { current = std::move(keys); first=false; }
 			else {
 				std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
@@ -2961,14 +2967,14 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		if (spatialIdx_ && q.spatial_filter) {
 			auto bbox = extractBBoxFromFilter(q.spatial_filter); 
 			if (bbox) {
-				try {
-					auto stats = spatialIdx_->getStats(q.table); 
-					double totalArea = std::max((stats.total_bounds.maxx - stats.total_bounds.minx) * (stats.total_bounds.maxy - stats.total_bounds.miny), 1e-9);
-					double bboxArea = std::max((bbox->maxx - bbox->minx) * (bbox->maxy - bbox->miny), 0.0); 
-					ci.bboxRatio = std::min(std::max(bboxArea / totalArea, 0.0), 1.0); 
-					ci.spatialIndexEntries = stats.entry_count;
-				} catch (const std::exception& e) {
-				}
+					try {
+						auto stats = spatialIdx_->getStats(q.table); 
+						double totalArea = std::max((stats.total_bounds.maxx - stats.total_bounds.minx) * (stats.total_bounds.maxy - stats.total_bounds.miny), 1e-9);
+						double bboxArea = std::max((bbox->maxx - bbox->minx) * (bbox->maxy - bbox->miny), 0.0); 
+						ci.bboxRatio = std::min(std::max(bboxArea / totalArea, 0.0), 1.0); 
+						ci.spatialIndexEntries = stats.entry_count;
+					} catch (const std::exception&) {
+					}
 			}
 		}
 		ci.prefilterSize = indexPrefilter ? indexPrefilter->size() : 0; ci.k = q.k; ci.vectorDim = q.query_vector.size(); ci.overfetch = cfg.overfetch;

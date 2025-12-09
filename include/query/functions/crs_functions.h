@@ -61,7 +61,7 @@ namespace crs {
  * @brief Ellipsoid parameters
  */
 struct Ellipsoid {
-    const char* name;
+    std::string name;
     double a;      // Semi-major axis (meters)
     double b;      // Semi-minor axis (meters)
     double f;      // Flattening = (a-b)/a
@@ -109,8 +109,8 @@ struct UTMZone {
  */
 struct EPSGDefinition {
     int code;
-    const char* name;
-    const char* type;           // "geographic" or "projected"
+    std::string name;
+    std::string type;           // "geographic" or "projected"
     Ellipsoid ellipsoid;
     int utmZone;                // For UTM-based systems
     bool utmNorth;

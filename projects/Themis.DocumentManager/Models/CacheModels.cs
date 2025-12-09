@@ -58,10 +58,21 @@ public enum CacheEvictionPolicy
 /// </summary>
 public class CacheStatistics
 {
+    private long _hitCount;
+    private long _missCount;
+    
     public long TotalEntries { get; set; }
     public long TotalSizeInBytes { get; set; }
-    public long HitCount { get; set; }
-    public long MissCount { get; set; }
+    public long HitCount 
+    { 
+        get => _hitCount;
+        set => _hitCount = value;
+    }
+    public long MissCount 
+    { 
+        get => _missCount;
+        set => _missCount = value;
+    }
     public double HitRate => TotalRequests > 0 ? (double)HitCount / TotalRequests : 0;
     public long TotalRequests => HitCount + MissCount;
     public long EvictionCount { get; set; }

@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using Themis.DocumentManager.ViewModels;
 using Themis.DocumentManager.Services;
@@ -12,6 +12,9 @@ public partial class MainWindow : Window
 {
     private readonly MainViewModel _viewModel;
     private readonly IOfficeIntegrationService _officeService;
+    private bool _isFullscreen = false;
+    private WindowState _previousWindowState;
+    private WindowStyle _previousWindowStyle;
 
     public MainWindow(MainViewModel viewModel, IOfficeIntegrationService officeService)
     {
@@ -22,8 +25,7 @@ public partial class MainWindow : Window
 
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
         
-        // Load initial view
-        LoadView("DocumentBrowser");
+        Loaded += (s, e) => UpdateMenuItems();
     }
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -32,155 +34,95 @@ public partial class MainWindow : Window
         {
             LoadView(_viewModel.CurrentView);
         }
-        else if (e.PropertyName == nameof(MainViewModel.IsLoading))
-        {
-            LoadingOverlay.Visibility = _viewModel.IsLoading ? Visibility.Visible : Visibility.Collapsed;
-        }
     }
 
     private void LoadView(string viewName)
     {
-        UserControl? view = viewName switch
-        {
-            "DocumentBrowser" => new DocumentBrowserView(),
-            "Search" => new SearchView(),
-            "GeoView" => new GeoView(),
-            "Timeline" => new TimelineView(),
-            "GraphView" => new GraphView(),
-            _ => null
-        };
-
-        if (view != null)
-        {
-            MainContentControl.Content = view;
-        }
     }
 
-    private void SearchBox_QuerySubmitted(ModernWpf.Controls.AutoSuggestBox sender, ModernWpf.Controls.AutoSuggestBoxQuerySubmittedEventArgs args)
+    private void RibbonTab_Click(object sender, RoutedEventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(args.QueryText))
-        {
-            _viewModel.SearchQuery = args.QueryText;
-            _viewModel.SearchCommand.Execute(null);
-        }
+        // Hide all ribbon content panels
+        RibbonStartContent.Visibility = Visibility.Collapsed;
+        RibbonInsertContent.Visibility = Visibility.Collapsed;
+        RibbonViewContent.Visibility = Visibility.Collapsed;
+        RibbonModulesContent.Visibility = Visibility.Collapsed;
+
+        // Show the selected ribbon content
+        if (sender == TabStart)
+            RibbonStartContent.Visibility = Visibility.Visible;
+        else if (sender == TabInsert)
+            RibbonInsertContent.Visibility = Visibility.Visible;
+        else if (sender == TabView)
+            RibbonViewContent.Visibility = Visibility.Visible;
+        else if (sender == TabModules)
+            RibbonModulesContent.Visibility = Visibility.Visible;
     }
 
-    #region Office Integration Event Handlers
-
-    private async void NewWordDocument_Click(object sender, RoutedEventArgs e)
+    private void RightSidebarTab_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var result = await _officeService.CreateNewWordDocumentAsync();
-            if (result.Success)
-            {
-                MessageBox.Show($"Word document created: {result.DocumentPath}", 
-                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show($"Failed to create Word document: {result.ErrorMessage}", 
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}", "Error", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        // Hide all right sidebar content panels
+        RightSidebarGraphContent.Visibility = Visibility.Collapsed;
+        RightSidebarChatContent.Visibility = Visibility.Collapsed;
+
+        // Show the selected tab content
+        if (sender == RightTabGraph)
+            RightSidebarGraphContent.Visibility = Visibility.Visible;
+        else if (sender == RightTabChat)
+            RightSidebarChatContent.Visibility = Visibility.Visible;
     }
 
-    private async void NewExcelWorkbook_Click(object sender, RoutedEventArgs e)
+    private void ToggleFullscreen_Click(object sender, RoutedEventArgs e)
     {
-        try
+        _isFullscreen = !_isFullscreen;
+        
+        if (_isFullscreen)
         {
-            var result = await _officeService.CreateNewExcelWorkbookAsync();
-            if (result.Success)
-            {
-                MessageBox.Show($"Excel workbook created: {result.DocumentPath}", 
-                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show($"Failed to create Excel workbook: {result.ErrorMessage}", 
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            _previousWindowState = WindowState;
+            _previousWindowStyle = WindowStyle;
+            WindowState = WindowState.Normal;
+            WindowStyle = WindowStyle.None;
+            WindowState = WindowState.Maximized;
         }
-        catch (Exception ex)
+        else
         {
-            MessageBox.Show($"Error: {ex.Message}", "Error", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
+            WindowStyle = _previousWindowStyle;
+            WindowState = _previousWindowState;
         }
     }
 
-    private async void NewOutlookEmail_Click(object sender, RoutedEventArgs e)
+    private void ToggleWindowMode_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var result = await _officeService.CreateNewOutlookEmailAsync();
-            if (result.Success)
-            {
-                MessageBox.Show("Outlook email draft created", 
-                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show($"Failed to create Outlook email: {result.ErrorMessage}", 
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}", "Error", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
+        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
     }
 
-    private async void NewPowerPoint_Click(object sender, RoutedEventArgs e)
+    private void ToggleSidebar_Click(object sender, RoutedEventArgs e)
     {
-        try
+        if (sender is MenuItem item)
         {
-            var result = await _officeService.CreateNewPowerPointPresentationAsync();
-            if (result.Success)
+            if (item.Name == "MenuLeftSidebar")
             {
-                MessageBox.Show($"PowerPoint presentation created: {result.DocumentPath}", 
-                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                LeftSidebarColumn.Width = item.IsChecked ? new GridLength(250) : new GridLength(0);
             }
-            else
+            else if (item.Name == "MenuRightSidebar")
             {
-                MessageBox.Show($"Failed to create PowerPoint presentation: {result.ErrorMessage}", 
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                RightSidebarColumn.Width = item.IsChecked ? new GridLength(300) : new GridLength(0);
             }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}", "Error", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
-    private async void NewOneNotePage_Click(object sender, RoutedEventArgs e)
+    private void UpdateMenuItems()
     {
-        try
-        {
-            var result = await _officeService.CreateNewOneNotePageAsync();
-            if (result.Success)
-            {
-                MessageBox.Show($"OneNote page created: {result.DocumentPath}", 
-                    "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show($"Failed to create OneNote page: {result.ErrorMessage}", 
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error: {ex.Message}", "Error", 
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
     }
 
-    #endregion
+    protected override void OnKeyDown(System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.F11)
+        {
+            ToggleFullscreen_Click(null!, null!);
+            e.Handled = true;
+        }
+        
+        base.OnKeyDown(e);
+    }
 }

@@ -89,18 +89,18 @@ public class ManipulationDetectionResult
 public class MetadataValidationResult
 {
     public bool IsValid { get; set; }
-    public List<ValidationError> Errors { get; set; } = new();
-    public List<ValidationWarning> Warnings { get; set; } = new();
+    public List<MetadataValidationError> Errors { get; set; } = new();
+    public List<MetadataValidationWarning> Warnings { get; set; } = new();
 }
 
-public class ValidationError
+public class MetadataValidationError
 {
     public string FieldName { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public ErrorSeverity Severity { get; set; } = ErrorSeverity.Error;
 }
 
-public class ValidationWarning
+public class MetadataValidationWarning
 {
     public string FieldName { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;

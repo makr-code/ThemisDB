@@ -65,7 +65,10 @@ Write-Host "Writing temporary batch file: $cmdFile"
 Set-Content -Path $cmdFile -Value $lines -Encoding ASCII
 
 Write-Host 'Invoking Visual Studio Developer environment and build (may take several minutes)...'
-cmd.exe /c $cmdFile
+$logPath = Join-Path $repoRoot 'build_debug_output.log'
+Write-Host "Logging build output to $logPath"
+cmd.exe /c $cmdFile *> $logPath
+Get-Content -Path $logPath
 
 # Cleanup
 Remove-Item -Force $cmdFile -ErrorAction SilentlyContinue

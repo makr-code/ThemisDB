@@ -435,8 +435,6 @@ public interface IGeocodingService
 
 public class GeocodingService : IGeocodingService
 {
-    private readonly string _nominatimUrl = "https://nominatim.openstreetmap.org";
-
     public async Task<GeocodingResult> GeocodeAddressAsync(string address)
     {
         // Use OSM Nominatim for geocoding

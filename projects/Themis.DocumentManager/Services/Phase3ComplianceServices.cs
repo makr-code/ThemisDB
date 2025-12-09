@@ -38,12 +38,12 @@ public interface IFourEyesPrincipleService
 public class FourEyesPrincipleService : IFourEyesPrincipleService
 {
     private readonly IThemisDBService _themisDb;
-    private readonly ITimelineService _timelineService;
+    private readonly IProcessTimelineService _timelineService;
     private readonly INotificationService? _notificationService;
     
     public FourEyesPrincipleService(
         IThemisDBService themisDb,
-        ITimelineService timelineService,
+        IProcessTimelineService timelineService,
         INotificationService? notificationService = null)
     {
         ArgumentNullException.ThrowIfNull(themisDb);
@@ -334,9 +334,9 @@ public interface IFileAccessLogService
 public class FileAccessLogService : IFileAccessLogService
 {
     private readonly IThemisDBService _themisDb;
-    private readonly ITimelineService _timelineService;
+    private readonly IProcessTimelineService _timelineService;
     
-    public FileAccessLogService(IThemisDBService themisDb, ITimelineService timelineService)
+    public FileAccessLogService(IThemisDBService themisDb, IProcessTimelineService timelineService)
     {
         ArgumentNullException.ThrowIfNull(themisDb);
         ArgumentNullException.ThrowIfNull(timelineService);
@@ -637,9 +637,9 @@ public interface IEGovService
 public class EGovService : IEGovService
 {
     private readonly IThemisDBService _themisDb;
-    private readonly ITimelineService _timelineService;
+    private readonly IProcessTimelineService _timelineService;
     
-    public EGovService(IThemisDBService themisDb, ITimelineService timelineService)
+    public EGovService(IThemisDBService themisDb, IProcessTimelineService timelineService)
     {
         ArgumentNullException.ThrowIfNull(themisDb);
         ArgumentNullException.ThrowIfNull(timelineService);
@@ -790,9 +790,9 @@ public interface ITransferNoteService
 public class TransferNoteService : ITransferNoteService
 {
     private readonly IThemisDBService _themisDb;
-    private readonly ITimelineService _timelineService;
+    private readonly IProcessTimelineService _timelineService;
     
-    public TransferNoteService(IThemisDBService themisDb, ITimelineService timelineService)
+    public TransferNoteService(IThemisDBService themisDb, IProcessTimelineService timelineService)
     {
         ArgumentNullException.ThrowIfNull(themisDb);
         ArgumentNullException.ThrowIfNull(timelineService);

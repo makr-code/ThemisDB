@@ -183,7 +183,7 @@ public class ProcessWatchService : IProcessWatchService
         ArgumentNullException.ThrowIfNull(watchedBy);
 
         // Get process details
-        var process = await _adminService.GetProcessAsync(processId, cancellationToken);
+        var process = await _adminService.GetProcessAsync(processId);
         if (process == null)
         {
             throw new ArgumentException($"Process {processId} not found", nameof(processId));
@@ -220,7 +220,7 @@ public class ProcessWatchService : IProcessWatchService
             RETURN NEW
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchCollectionName,
             key = watch.Id,
@@ -374,7 +374,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchCollectionName,
             watchId,
@@ -403,7 +403,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchCollectionName,
             watchId,
@@ -425,7 +425,7 @@ public class ProcessWatchService : IProcessWatchService
             RETURN NEW
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchCollectionName,
             watchId,
@@ -446,7 +446,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchCollectionName,
             watchId
@@ -461,7 +461,7 @@ public class ProcessWatchService : IProcessWatchService
 
         var query = @"REMOVE @watchId IN @@collection";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchCollectionName,
             watchId
@@ -503,7 +503,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchNotificationCollectionName,
             notificationId,
@@ -526,7 +526,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchNotificationCollectionName,
             watchId,
@@ -731,7 +731,7 @@ public class ProcessWatchService : IProcessWatchService
             INSERT @notification INTO @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = WatchNotificationCollectionName,
             notification
@@ -795,7 +795,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@collection
         ";
 
-        await _apiClient.ExecuteAqlAsync(updateQuery, new
+        await _apiClient.ExecuteAqlAsync<object>(updateQuery, new
         {
             collection = WatchNotificationCollectionName,
             notificationId = notification.Id,
@@ -813,7 +813,7 @@ public class ProcessWatchService : IProcessWatchService
             } IN @@watchCollection
         ";
 
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             watchCollection = WatchCollectionName,
             notifCollection = WatchNotificationCollectionName,

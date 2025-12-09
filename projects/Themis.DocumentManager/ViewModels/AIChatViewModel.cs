@@ -375,7 +375,7 @@ public partial class AIChatViewModel : ObservableObject
                 Messages.Add(notification);
             }
         }
-        catch (Exception ex)
+        catch
         {
             // Error handling
         }

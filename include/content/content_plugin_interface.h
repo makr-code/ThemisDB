@@ -298,7 +298,7 @@ public:
      * @param text Text to embed
      * @return Embedding vector
      */
-    virtual std::vector<float> generateEmbedding(const std::string& text) {
+    virtual std::vector<float> generateEmbedding([[maybe_unused]] const std::string& text) {
         return {};
     }
     

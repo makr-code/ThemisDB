@@ -19,6 +19,9 @@ concurrency:
 permissions:
   contents: read
 
+# Cost-saving: Skip CI on documentation-only changes
+# Add [skip ci] to commit message to skip builds
+
 env:
   BUILD_TYPE: Release
   # Use system libraries where possible
@@ -28,7 +31,10 @@ jobs:
   build-and-test-ubuntu-fast:
     name: Build & Test (Ubuntu - System Libs)
     runs-on: ubuntu-24.04
-    timeout-minutes: 60  # vcpkg Arrow build ~15min, project build ~10-15min, tests ~5min + buffer
+    timeout-minutes: 30  # Reduced from 60 - fail fast on hangs
+    
+    # Skip if commit message contains [skip ci]
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     
     steps:
       - name: ⚡ Fast Build Notice

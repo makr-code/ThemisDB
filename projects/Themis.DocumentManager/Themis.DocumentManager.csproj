@@ -7,12 +7,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Resources\themis_icon.ico</ApplicationIcon>
+    <!-- <ApplicationIcon>Resources\themis_icon.ico</ApplicationIcon> -->
     <Version>1.0.0</Version>
     <Authors>ThemisDB Team</Authors>
     <Company>ThemisDB</Company>
     <Product>ThemisDB Document Manager</Product>
     <Description>Modern Document Management System with Geo, Timeline, Vector, and Graph Integration</Description>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,12 +22,13 @@
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+    <PackageReference Include="System.Linq.Async" Version="5.1.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <!-- COM References for Office Integration -->

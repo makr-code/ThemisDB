@@ -299,4 +299,49 @@ public interface IOCRService
     Task<string> EnhanceOCRQualityAsync(string ocrText);
 }
 
+/// <summary>
+/// OCR Service Implementation
+/// </summary>
+public class OCRService : IOCRService
+{
+    private readonly IThemisApiClient _apiClient;
+
+    public OCRService(IThemisApiClient apiClient)
+    {
+        _apiClient = apiClient;
+    }
+
+    public async Task<string> PerformOCRAsync(string filePath)
+    {
+        // Stub implementation
+        return await Task.FromResult($"OCR result for {filePath}");
+    }
+
+    public async Task<string> PerformAdvancedOCRAsync(string filePath)
+    {
+        return await PerformOCRAsync(filePath);
+    }
+
+    public async Task<Dictionary<string, string>> ExtractFormFieldsAsync(string filePath)
+    {
+        return await Task.FromResult(new Dictionary<string, string>());
+    }
+
+    public async Task<Dictionary<string, string>> ExtractTableDataAsync(string filePath)
+    {
+        return await Task.FromResult(new Dictionary<string, string>());
+    }
+
+    public async Task<string> CorrectOCRErrorsAsync(string ocrText)
+    {
+        return await Task.FromResult(ocrText);
+    }
+
+    public async Task<string> EnhanceOCRQualityAsync(string ocrText)
+    {
+        return await Task.FromResult(ocrText);
+    }
+}
+
 #endregion
+

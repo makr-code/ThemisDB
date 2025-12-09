@@ -81,16 +81,17 @@ public enum ReminderMethod
 
 public class RecurrencePattern
 {
-    public RecurrenceType Type { get; set; }
+    public RecurrenceType Type { get; set; } = RecurrenceType.Once;
     public int Interval { get; set; } = 1;
     public List<DayOfWeek> DaysOfWeek { get; set; } = new();
     public int? DayOfMonth { get; set; }
     public DateTime? EndDate { get; set; }
-    public int? Occurrences { get; set; }
+    public int? MaxOccurrences { get; set; }
 }
 
 public enum RecurrenceType
 {
+    Once,
     Daily,
     Weekly,
     Monthly,

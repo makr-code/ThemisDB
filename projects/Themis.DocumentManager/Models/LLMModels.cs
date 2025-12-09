@@ -69,7 +69,7 @@ public class DocumentAnalysis
     public string SuggestedCategory { get; set; } = string.Empty;
     public double CategoryConfidence { get; set; }
     public List<string> SuggestedTags { get; set; } = new();
-    public DocumentSentiment Sentiment { get; set; }
+    public DocumentSentiment Sentiment { get; set; } = new();
     
     // Verwaltungsrelevant
     public bool RequiresAction { get; set; }

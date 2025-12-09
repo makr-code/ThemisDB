@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Themis.DocumentManager.Models;
 
@@ -266,6 +267,14 @@ public class NotificationService : INotificationService
     {
         var notifications = await GetUnreadNotificationsAsync(userId);
         return notifications.Count();
+    }
+
+    public async Task ShowNotificationAsync(Notification notification, CancellationToken cancellationToken = default)
+    {
+        if (notification != null)
+        {
+            await CreateNotificationAsync(notification);
+        }
     }
 
     #region Helper Methods for Automatic Notifications

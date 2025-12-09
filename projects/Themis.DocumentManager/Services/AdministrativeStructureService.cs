@@ -34,6 +34,7 @@ public interface IAdministrativeStructureService
     
     // Process
     Task<AdministrativeProcess> CreateProcessAsync(AdministrativeProcess process);
+    Task<AdministrativeProcess?> GetProcessAsync(string processId);
     Task<AdministrativeProcess?> GetProcessByIdAsync(string processId);
     Task<IEnumerable<AdministrativeProcess>> GetProcessesByFileAsync(string fileId);
     Task<bool> UpdateProcessStatusAsync(string processId, ProcessStatus status);
@@ -55,9 +56,10 @@ public interface IAdministrativeStructureService
 /// </summary>
 public interface IProcessTimelineService
 {
-    Task<ProcessTimelineEvent> CreateEventAsync(ProcessTimelineEvent timelineEvent);
+    Task<ProcessTimelineEvent> CreateEventAsync(ProcessTimelineEvent timelineEvent, CancellationToken cancellationToken = default);
+    Task<IEnumerable<ProcessTimelineEvent>> GetAllEventsAsync();
     Task<IEnumerable<ProcessTimelineEvent>> GetEventsByFileAsync(string fileId, DateTime? startDate = null, DateTime? endDate = null);
-    Task<IEnumerable<ProcessTimelineEvent>> GetEventsByProcessAsync(string processId);
+    Task<IEnumerable<ProcessTimelineEvent>> GetEventsByProcessAsync(string processId, DateTime? startDate = null);
     Task<IEnumerable<ProcessTimelineEvent>> GetEventsByAuthorityAsync(string authorityId, DateTime? startDate = null, DateTime? endDate = null);
     Task<IEnumerable<ProcessTimelineEvent>> GetEventsByActorAsync(string actor, DateTime? startDate = null, DateTime? endDate = null);
     Task<IEnumerable<ProcessTimelineEvent>> GetEventsByTypeAsync(ProcessEventType eventType, DateTime? startDate = null, DateTime? endDate = null);
@@ -349,6 +351,11 @@ public class AdministrativeStructureService : IAdministrativeStructureService
         return response?.Results?.FirstOrDefault();
     }
 
+    public async Task<AdministrativeProcess?> GetProcessAsync(string processId)
+    {
+        return await GetProcessByIdAsync(processId);
+    }
+
     public async Task<IEnumerable<AdministrativeProcess>> GetProcessesByFileAsync(string fileId)
     {
         var response = await _apiClient.PostAsync<object, QueryResponse<AdministrativeProcess>>(
@@ -434,7 +441,7 @@ public class AdministrativeStructureService : IAdministrativeStructureService
     {
         document.Id = document.Id == string.Empty ? Guid.NewGuid().ToString() : document.Id;
         document.CreatedAt = DateTime.UtcNow;
-        document.Status = DocumentStatus.Draft;
+        document.Status = DocumentLifecycleStatus.Draft;
 
         await _apiClient.PutAsync<object, object>(
             $"/entities/{document.Urn}",
@@ -492,7 +499,7 @@ public class AdministrativeStructureService : IAdministrativeStructureService
         if (document == null) return false;
 
         document.Signatures.Add(signature);
-        document.Status = DocumentStatus.Signed;
+        document.Status = DocumentLifecycleStatus.Signed;
 
         await _apiClient.PutAsync<object, object>(
             $"/entities/{document.Urn}",
@@ -567,7 +574,7 @@ public class ProcessTimelineService : IProcessTimelineService
         _apiClient = apiClient;
     }
 
-    public async Task<ProcessTimelineEvent> CreateEventAsync(ProcessTimelineEvent timelineEvent)
+    public async Task<ProcessTimelineEvent> CreateEventAsync(ProcessTimelineEvent timelineEvent, CancellationToken cancellationToken = default)
     {
         timelineEvent.Id = timelineEvent.Id == string.Empty ? Guid.NewGuid().ToString() : timelineEvent.Id;
         timelineEvent.Timestamp = timelineEvent.Timestamp == default ? DateTime.UtcNow : timelineEvent.Timestamp;
@@ -603,14 +610,35 @@ public class ProcessTimelineService : IProcessTimelineService
         return response?.Results ?? Enumerable.Empty<ProcessTimelineEvent>();
     }
 
-    public async Task<IEnumerable<ProcessTimelineEvent>> GetEventsByProcessAsync(string processId)
+    public async Task<IEnumerable<ProcessTimelineEvent>> GetEventsByProcessAsync(string processId, DateTime? startDate = null)
+    {
+        var query = "FOR event IN process_timeline_events FILTER event.processId == @processId";
+        var bindVars = new Dictionary<string, object> { ["processId"] = processId };
+        
+        if (startDate.HasValue)
+        {
+            query += " AND event.timestamp >= @startDate";
+            bindVars["startDate"] = startDate.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
+        }
+        
+        query += " SORT event.timestamp DESC RETURN event";
+
+        var response = await _apiClient.PostAsync<object, QueryResponse<ProcessTimelineEvent>>(
+            "/query/aql",
+            new { query, bindVars }
+        );
+
+        return response?.Results ?? Enumerable.Empty<ProcessTimelineEvent>();
+    }
+
+    public async Task<IEnumerable<ProcessTimelineEvent>> GetAllEventsAsync()
     {
         var response = await _apiClient.PostAsync<object, QueryResponse<ProcessTimelineEvent>>(
             "/query/aql",
             new
             {
-                query = "FOR event IN process_timeline_events FILTER event.processId == @processId SORT event.timestamp DESC RETURN event",
-                bindVars = new { processId }
+                query = "FOR event IN process_timeline_events SORT event.timestamp DESC RETURN event",
+                bindVars = new { }
             }
         );
 

@@ -154,7 +154,9 @@ public:
     }
     
     static int32_t zigzag_decode(uint32_t n) {
-        return static_cast<int32_t>((n >> 1) ^ -(n & 1));
+        // Avoid unary minus on unsigned to keep MSVC warning-free
+        const int32_t sign = static_cast<int32_t>(-(static_cast<int32_t>(n & 1)));
+        return static_cast<int32_t>((n >> 1) ^ sign);
     }
     
     // Variable-length integer encoding
@@ -253,7 +255,7 @@ public:
         for (const auto& val : vec) {
             auto it = value_to_index.find(val);
             if (it == value_to_index.end()) {
-                uint32_t idx = result.dictionary.size();
+                uint32_t idx = static_cast<uint32_t>(result.dictionary.size());
                 result.dictionary.push_back(val);
                 value_to_index[val] = idx;
                 result.indices.push_back(idx);

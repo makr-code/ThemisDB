@@ -165,7 +165,7 @@ public class OutboxService : IOutboxService
         ArgumentNullException.ThrowIfNull(itemId);
         
         var query = "REMOVE @itemId IN @@collection";
-        await _apiClient.ExecuteAqlAsync(query, new
+        await _apiClient.ExecuteAqlAsync<object>(query, new
         {
             collection = OutboxCollectionName,
             itemId
@@ -611,7 +611,7 @@ public class OutboxService : IOutboxService
     
     public async Task<OutboxItem> CreateReplyAsync(string inboxItemId, string replyText, List<OutboxAttachment>? attachments = null, CancellationToken cancellationToken = default)
     {
-        var inboxItem = await _inboxService.GetInboxItemAsync(inboxItemId, cancellationToken);
+        var inboxItem = await _inboxService.GetInboxItemAsync(inboxItemId);
         if (inboxItem == null) throw new ArgumentException($"Inbox item {inboxItemId} not found");
         
         var outboxItem = new OutboxItem

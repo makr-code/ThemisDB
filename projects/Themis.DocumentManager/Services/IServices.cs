@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Themis.DocumentManager.Models;
 
@@ -12,8 +13,9 @@ public interface IThemisApiClient
 {
     Task<T?> GetAsync<T>(string endpoint);
     Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data);
-    Task<TResponse?> PutAsync<TRequest, TResponse>(string endpoint, TRequest data);
+    Task<TResponse?> PutAsync<TRequest, TResponse>(string endpoint, TRequest data, CancellationToken cancellationToken = default);
     Task<bool> DeleteAsync(string endpoint);
+    Task<List<T>> ExecuteAqlAsync<T>(string query, object? bindVars = null, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -22,6 +24,7 @@ public interface IThemisApiClient
 public interface IDocumentService
 {
     Task<IEnumerable<Document>> GetAllDocumentsAsync();
+    Task<Document?> GetDocumentAsync(string id);
     Task<Document?> GetDocumentByIdAsync(string id);
     Task<Document> CreateDocumentAsync(Document document);
     Task<Document> UpdateDocumentAsync(Document document);
@@ -34,6 +37,7 @@ public interface IDocumentService
 /// </summary>
 public interface ISearchService
 {
+    Task<IEnumerable<SearchResult>> SearchAsync(string query, int limit = 10);
     Task<IEnumerable<SearchResult>> FullTextSearchAsync(string query, int limit = 10);
     Task<IEnumerable<SearchResult>> VectorSearchAsync(float[] queryVector, int limit = 10);
     Task<IEnumerable<SearchResult>> HybridSearchAsync(string query, float[] queryVector, int limit = 10);
@@ -68,7 +72,7 @@ public interface ITimelineService
 {
     Task<IEnumerable<TimelineEvent>> GetEventsAsync(DateTime startDate, DateTime endDate);
     Task<IEnumerable<TimelineEvent>> GetDocumentEventsAsync(string documentId);
-    Task<TimelineEvent> CreateEventAsync(TimelineEvent timelineEvent);
+    Task<TimelineEvent> CreateEventAsync(TimelineEvent timelineEvent, CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -91,4 +95,40 @@ public interface IGraphService
     Task<bool> DeleteRelationAsync(string relationId);
     Task<IEnumerable<Document>> TraverseGraphAsync(string startDocumentId, int maxDepth = 3);
     Task<IEnumerable<Document>> FindShortestPathAsync(string fromDocumentId, string toDocumentId);
+}
+
+/// <summary>
+/// Lightweight client abstraction for direct database access (Arango style)
+/// </summary>
+public interface IThemisDbClient
+{
+    Task<IAsyncEnumerable<T>> QueryAsync<T>(string query, IDictionary<string, object>? bindVars = null, CancellationToken cancellationToken = default);
+    Task ExecuteAsync(string query, IDictionary<string, object>? bindVars = null, CancellationToken cancellationToken = default);
+    Task InsertAsync<T>(string collection, T document, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Higher-level DB service used by compliance/AI helpers
+/// </summary>
+public interface IThemisDBService
+{
+    Task<List<T>> ExecuteQueryAsync<T>(string query, object? bindVars = null, CancellationToken cancellationToken = default);
+    Task ExecuteCommandAsync(string query, object? bindVars = null, CancellationToken cancellationToken = default);
+    Task<IAsyncEnumerable<T>> QueryAsync<T>(string query, IDictionary<string, object>? bindVars = null, CancellationToken cancellationToken = default);
+    Task ExecuteAsync(string query, IDictionary<string, object>? bindVars = null, CancellationToken cancellationToken = default);
+}
+
+/// <summary>
+/// Placeholder process abstraction used by AI assistant
+/// </summary>
+public interface IProcessService
+{
+}
+
+/// <summary>
+/// Enhanced notification delivery (toast, email, sms, in-app)
+/// </summary>
+public interface IEnhancedNotificationService
+{
+    Task SendAsync(EnhancedNotification notification, CancellationToken cancellationToken = default);
 }
