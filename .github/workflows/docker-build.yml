@@ -11,9 +11,9 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to build (e.g., 1.0.1)'
-        required: true
-        default: '1.0.1'
+        description: 'Version to build (e.g., 1.0.1). Uses VERSION file if not specified.'
+        required: false
+        default: ''
       push:
         description: 'Push to registry'
         required: true
@@ -32,7 +32,7 @@ concurrency:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: themisdb/themisdb
+  IMAGE_NAME: themisdb/server
   BUILD_TYPE: Release
 
 permissions:
@@ -40,11 +40,36 @@ permissions:
   packages: write
 
 jobs:
+  # Set version from VERSION file if not provided
+  set-version:
+    name: Determine Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Get version
+        id: get-version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          elif [ -f VERSION ]; then
+            VERSION=$(cat VERSION | tr -d '[:space:]')
+          else
+            VERSION="${{ github.ref_name }}"
+            VERSION="${VERSION#v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using version: $VERSION"
+
   # Build binary only if not using pre-built
   build-binary:
     name: Build Binary for Docker
     runs-on: ubuntu-latest
     timeout-minutes: 45  # Protect against runaway builds
+    needs: set-version
     if: github.event.inputs.use_prebuilt != 'true'
     
     steps:
@@ -98,26 +123,15 @@ jobs:
     name: Build Docker (Pre-built Binary)
     runs-on: ubuntu-latest
     timeout-minutes: 10  # Fast Docker build
-    needs: [build-binary]
+    needs: [set-version, build-binary]
     if: always() && (needs.build-binary.result == 'success' || github.event.inputs.use_prebuilt == 'true')
     environment:
       name: ${{ startsWith(github.ref, 'refs/tags/') && 'production' || 'development' }}
-      url: https://hub.docker.com/r/themisdb/themisdb
+      url: https://hub.docker.com/r/themisdb/server
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set version
-        id: version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          elif [ "${{ github.ref_type }}" = "tag" ]; then
-            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-          else
-            echo "VERSION=$(cat VERSION | tr -d '[:space:]')" >> $GITHUB_OUTPUT
-          fi
 
       - name: Use pre-built binary from release/
         if: github.event.inputs.use_prebuilt == 'true'
@@ -126,12 +140,13 @@ jobs:
           if [ -f release/themis_server_linux ]; then
             cp release/themis_server_linux build/themis_server
             chmod +x build/themis_server
-          elif [ -f themis_server_linux_x64 ]; then
-            cp themis_server_linux_x64 build/themis_server
+          elif [ -f release/themis_server_linux_x64 ]; then
+            cp release/themis_server_linux_x64 build/themis_server
             chmod +x build/themis_server
           else
-            echo "ERROR: No pre-built binary found"
-            echo "Expected: release/themis_server_linux or themis_server_linux_x64"
+            echo "ERROR: No pre-built binary found in either location:"
+            echo "  - release/themis_server_linux"
+            echo "  - release/themis_server_linux_x64"
             exit 1
           fi
 
@@ -162,8 +177,8 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.version.outputs.VERSION }}
-            type=semver,pattern={{major}}.{{minor}},value=${{ steps.version.outputs.VERSION }}
+            type=semver,pattern={{version}},value=${{ needs.set-version.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.set-version.outputs.version }}
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push (simple/fast)
@@ -188,7 +203,7 @@ jobs:
           echo "- **Binary Source**: ${{ github.event.inputs.use_prebuilt == 'true' && 'release/' || 'Fresh build' }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Image Details" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ needs.set-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Platform**: linux/amd64" >> $GITHUB_STEP_SUMMARY
           echo "- **Base**: Ubuntu 24.04" >> $GITHUB_STEP_SUMMARY
           echo "- **Size**: ~160 MB (minimal runtime)" >> $GITHUB_STEP_SUMMARY
@@ -206,35 +221,25 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Usage" >> $GITHUB_STEP_SUMMARY
           echo '```bash' >> $GITHUB_STEP_SUMMARY
-          echo "docker pull ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
-          echo "docker run -d -p 8765:8765 -v themisdb-data:/data ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker pull ${{ env.IMAGE_NAME }}:${{ needs.set-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "docker run -d -p 8765:8765 -v themisdb-data:/data ${{ env.IMAGE_NAME }}:${{ needs.set-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
   build-docker-multiarch:
     name: Build Docker (Multi-Arch Full Build)
     runs-on: ubuntu-latest
     timeout-minutes: 60  # Multi-arch builds take longer
+    needs: set-version
     if: github.event.inputs.use_prebuilt != 'true' && (startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
     environment:
       name: production
-      url: https://hub.docker.com/r/themisdb/themisdb
+      url: https://hub.docker.com/r/themisdb/server
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
-
-      - name: Set version
-        id: version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          elif [ "${{ github.ref_type }}" = "tag" ]; then
-            echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-          else
-            echo "VERSION=$(cat VERSION | tr -d '[:space:]')" >> $GITHUB_OUTPUT
-          fi
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -258,7 +263,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}},value=${{ steps.version.outputs.VERSION }}-multiarch
+            type=semver,pattern={{version}},value=${{ needs.set-version.outputs.version }}-multiarch
             type=raw,value=multiarch
 
       - name: Build and push (full multi-arch)
@@ -274,7 +279,7 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             BUILD_TYPE=Release
-            VERSION=${{ steps.version.outputs.VERSION }}
+            VERSION=${{ needs.set-version.outputs.version }}
 
       - name: Build Summary
         run: |
@@ -286,7 +291,7 @@ jobs:
           echo "- **Platforms**: linux/amd64, linux/arm64" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Image Details" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${{ steps.version.outputs.VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ needs.set-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Base**: Ubuntu 22.04" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Tags" >> $GITHUB_STEP_SUMMARY

@@ -80,10 +80,9 @@ jobs:
           # - arrow (apt version may be incompatible)
           # - hnswlib (not in apt)
           # - opentelemetry-cpp (not in apt)
-          set -e
-          ./vcpkg/vcpkg install simdjson arrow[parquet,compute] hnswlib opentelemetry-cpp[otlp-http]
           
-          if [ $? -ne 0 ]; then
+          # Install with proper error handling
+          if ! ./vcpkg/vcpkg install simdjson arrow[parquet,compute] hnswlib opentelemetry-cpp[otlp-http]; then
             echo "ERROR: vcpkg installation failed"
             # Restore vcpkg.json
             if [ -f vcpkg.json.bak ]; then
