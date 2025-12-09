@@ -1,0 +1,361 @@
+name: Release Build & Package
+
+# Complete release pipeline for ThemisDB
+# Uses pre-built binaries strategy to minimize build time and costs
+# Builds once, packages for multiple distributions
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.1)'
+        required: true
+        default: '1.0.1'
+      use_prebuilt:
+        description: 'Use pre-built binaries from release/'
+        required: false
+        type: boolean
+        default: true
+
+env:
+  BUILD_TYPE: Release
+  VCPKG_COMMIT_ID: '6f13f31f798a93a6b08d3be0727120e9af35851f'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  # Only build if we don't have pre-built binaries
+  build-linux-x64:
+    name: Build Linux x64
+    runs-on: ubuntu-latest
+    if: github.event.inputs.use_prebuilt != 'true'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-linux-x64-release-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            vcpkg-linux-x64-release-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            libssl-dev libcurl4-openssl-dev \
+            pkg-config autoconf automake libtool
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_TRACING=OFF \
+            -DTHEMIS_STATIC_BUILD=ON
+
+      - name: Build
+        run: cmake --build build --config ${{ env.BUILD_TYPE }} --target themis_server -j $(nproc)
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: themis_server_linux_x64
+          path: build/themis_server
+          retention-days: 7
+
+  build-windows-x64:
+    name: Build Windows x64
+    runs-on: windows-latest
+    if: github.event.inputs.use_prebuilt != 'true'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-windows-x64-release-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            vcpkg-windows-x64-release-
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT_ID }}
+
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -G Ninja `
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} `
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake `
+            -DTHEMIS_BUILD_TESTS=OFF `
+            -DTHEMIS_BUILD_BENCHMARKS=OFF `
+            -DTHEMIS_ENABLE_TRACING=OFF `
+            -DTHEMIS_STATIC_BUILD=ON
+
+      - name: Build
+        run: cmake --build build --config ${{ env.BUILD_TYPE }} --target themis_server -j $env:NUMBER_OF_PROCESSORS
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: themis_server_windows_x64
+          path: build/${{ env.BUILD_TYPE }}/themis_server.exe
+          retention-days: 7
+
+  # Package pre-built binaries
+  package-linux-x64:
+    name: Package Linux x64
+    runs-on: ubuntu-latest
+    needs: [build-linux-x64]
+    if: always() && (needs.build-linux-x64.result == 'success' || github.event.inputs.use_prebuilt == 'true')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use pre-built binary from release/
+        if: github.event.inputs.use_prebuilt == 'true'
+        run: |
+          mkdir -p build
+          if [ -f release/themis_server_linux ]; then
+            cp release/themis_server_linux build/themis_server
+          elif [ -f themis_server_linux_x64 ]; then
+            cp themis_server_linux_x64 build/themis_server
+          fi
+          chmod +x build/themis_server
+
+      - name: Download built binary
+        if: github.event.inputs.use_prebuilt != 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: themis_server_linux_x64
+          path: build
+
+      - name: Create package structure
+        run: |
+          mkdir -p release-linux-x64/bin
+          chmod +x build/themis_server
+          cp build/themis_server release-linux-x64/bin/
+          cp -r config release-linux-x64/ || true
+          cp -r docs release-linux-x64/ || true
+          cp -r examples release-linux-x64/ || true
+          cp README.md LICENSE release-linux-x64/ || true
+          
+      - name: Create archive
+        run: |
+          VERSION="${{ github.event.inputs.version || github.ref_name }}"
+          VERSION="${VERSION#v}"
+          cd release-linux-x64
+          tar czf ../themisdb-${VERSION}-linux-x64.tar.gz .
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-linux-x64
+          path: themisdb-*.tar.gz
+          retention-days: 7
+
+  package-windows-x64:
+    name: Package Windows x64
+    runs-on: ubuntu-latest
+    needs: [build-windows-x64]
+    if: always() && (needs.build-windows-x64.result == 'success' || github.event.inputs.use_prebuilt == 'true')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+
+      - name: Use pre-built binary from release/
+        if: github.event.inputs.use_prebuilt == 'true'
+        run: |
+          mkdir -p build
+          # Copy from release directory if it exists
+          if [ -f release/themis-1.0.0-windows-x64.zip ]; then
+            unzip release/themis-1.0.0-windows-x64.zip -d build/
+          fi
+
+      - name: Download built binary
+        if: github.event.inputs.use_prebuilt != 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: themis_server_windows_x64
+          path: build
+
+      - name: Create package structure
+        run: |
+          mkdir -p release-windows-x64/bin
+          cp build/themis_server.exe release-windows-x64/bin/ || cp build/bin/themis_server.exe release-windows-x64/bin/ || true
+          cp -r config release-windows-x64/ || true
+          cp -r docs release-windows-x64/ || true
+          cp -r examples release-windows-x64/ || true
+          cp README.md LICENSE release-windows-x64/ || true
+
+      - name: Create archive
+        run: |
+          VERSION="${{ github.event.inputs.version || github.ref_name }}"
+          VERSION="${VERSION#v}"
+          cd release-windows-x64
+          zip -r ../themisdb-${VERSION}-windows-x64.zip .
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-windows-x64
+          path: themisdb-*.zip
+          retention-days: 7
+
+  build-deb-package:
+    name: Build DEB Package
+    runs-on: ubuntu-latest
+    needs: [package-linux-x64]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Linux package
+        uses: actions/download-artifact@v4
+        with:
+          name: package-linux-x64
+
+      - name: Extract and build DEB
+        run: |
+          tar xzf themisdb-*.tar.gz
+          sudo apt-get update && sudo apt-get install -y dpkg-dev debhelper
+          if [ -f build-deb.sh ]; then
+            chmod +x build-deb.sh
+            ./build-deb.sh
+          fi
+
+      - name: Upload DEB package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-deb
+          path: "*.deb"
+          retention-days: 7
+
+  build-rpm-package:
+    name: Build RPM Package
+    runs-on: ubuntu-latest
+    needs: [package-linux-x64]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Linux package
+        uses: actions/download-artifact@v4
+        with:
+          name: package-linux-x64
+
+      - name: Extract and build RPM
+        run: |
+          tar xzf themisdb-*.tar.gz
+          sudo apt-get update && sudo apt-get install -y rpm
+          if [ -f build-rpm.sh ]; then
+            chmod +x build-rpm.sh
+            ./build-rpm.sh
+          fi
+
+      - name: Upload RPM package
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-rpm
+          path: "*.rpm"
+          retention-days: 7
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [package-linux-x64, package-windows-x64, build-deb-package, build-rpm-package]
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all packages
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          pattern: package-*
+
+      - name: Generate checksums
+        run: |
+          cd artifacts
+          find . -type f \( -name "*.tar.gz" -o -name "*.zip" -o -name "*.deb" -o -name "*.rpm" \) -exec sha256sum {} \; > ../SHA256SUMS.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/*.zip
+            artifacts/**/*.deb
+            artifacts/**/*.rpm
+            SHA256SUMS.txt
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-summary:
+    name: Build Summary
+    runs-on: ubuntu-latest
+    needs: [package-linux-x64, package-windows-x64, build-deb-package, build-rpm-package]
+    if: always()
+    
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## Release Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Version: ${{ github.event.inputs.version || github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "### Strategy: ${{ github.event.inputs.use_prebuilt == 'true' && 'Pre-built binaries' || 'Fresh build' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Package Results" >> $GITHUB_STEP_SUMMARY
+          echo "- Linux x64 Package: ${{ needs.package-linux-x64.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Windows x64 Package: ${{ needs.package-windows-x64.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- DEB Package: ${{ needs.build-deb-package.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- RPM Package: ${{ needs.build-rpm-package.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Artifacts Created" >> $GITHUB_STEP_SUMMARY
+          echo "- themisdb-*-linux-x64.tar.gz" >> $GITHUB_STEP_SUMMARY
+          echo "- themisdb-*-windows-x64.zip" >> $GITHUB_STEP_SUMMARY
+          echo "- themisdb_*.deb" >> $GITHUB_STEP_SUMMARY
+          echo "- themisdb-*.rpm" >> $GITHUB_STEP_SUMMARY
+
