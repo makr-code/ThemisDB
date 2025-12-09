@@ -66,6 +66,11 @@ jobs:
           # Only install packages NOT available in apt or requiring specific versions
           # This significantly reduces build time
           
+          # Temporarily rename vcpkg.json to prevent automatic manifest mode
+          if [ -f vcpkg.json ]; then
+            mv vcpkg.json vcpkg.json.bak
+          fi
+          
           # Install vcpkg (lightweight, for missing packages only)
           git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg
           ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
@@ -80,7 +85,16 @@ jobs:
           
           if [ $? -ne 0 ]; then
             echo "ERROR: vcpkg installation failed"
+            # Restore vcpkg.json
+            if [ -f vcpkg.json.bak ]; then
+              mv vcpkg.json.bak vcpkg.json
+            fi
             exit 1
+          fi
+          
+          # Restore vcpkg.json
+          if [ -f vcpkg.json.bak ]; then
+            mv vcpkg.json.bak vcpkg.json
           fi
 
       - name: Configure CMake (System Libraries)
