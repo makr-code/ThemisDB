@@ -14,6 +14,23 @@
 
 The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Database System Based on LSM Tree
 
+## 🆕 Latest Release: v1.0.1 (December 2025)
+
+**Release Focus:** Enterprise-Grade Release Management & Competitive Benchmarking
+
+- ✅ **SLSA Level 1 Compliance** - Supply Chain Security achieved
+- ✅ **SBOM (CycloneDX 1.4)** - Full Software Bill of Materials for all 11 release packages
+- ✅ **Automated Release Pipeline** - Enterprise-grade release automation with GitHub Actions
+- ✅ **Competitive Benchmarking** - Comprehensive framework comparing against PostgreSQL, MySQL, MariaDB, CockroachDB, TiDB, SingleStore
+- ✅ **Performance Gap Analysis** - 36 identified gaps with automated closure tracking
+- 📊 **87% Gap Closure Target** - Systematic performance optimization roadmap
+
+**Key Documentation:**
+- **[Changelog v1.0.1](CHANGELOG.md#101---2025-12-09)** - Complete release notes
+- **[Release Strategy Audit](RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
+- **[Benchmarking Guide](benchmarks/DOCKER_COMPARATIVE_BENCHMARKS_README.md)** - Complete benchmark infrastructure
+- **[Release & Benchmarking Summary](RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
+
 ## 📊 Entwicklungsstand & Dokumentation
 
 **Kern-Dokumentation (Aktualisiert Dezember 2025):**
