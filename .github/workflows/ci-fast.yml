@@ -69,18 +69,25 @@ jobs:
           # - arrow (apt version may be incompatible)
           # - hnswlib (not in apt)
           # - opentelemetry-cpp (not in apt)
+          set -e
           ./vcpkg/vcpkg install simdjson arrow[parquet,compute] hnswlib opentelemetry-cpp[otlp-http]
+          
+          if [ $? -ne 0 ]; then
+            echo "ERROR: vcpkg installation failed"
+            exit 1
+          fi
 
       - name: Configure CMake (System Libraries)
         run: |
+          # Note: THEMIS_USE_SYSTEM_LIBS is informational
+          # System libs are used automatically via pkg-config when available
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
-            -DTHEMIS_ENABLE_TRACING=OFF \
-            -DTHEMIS_USE_SYSTEM_LIBS=ON
+            -DTHEMIS_ENABLE_TRACING=OFF
 
       - name: Build (Fast - only project code)
         run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
@@ -93,6 +100,11 @@ jobs:
       - name: Run cppcheck
         if: always()
         run: |
+          # Create suppressions file if it doesn't exist
+          if [ ! -f .cppcheck-suppressions ]; then
+            touch .cppcheck-suppressions
+          fi
+          
           cppcheck --project=build/compile_commands.json \
             --enable=warning,performance,portability \
             --suppressions-list=.cppcheck-suppressions \
