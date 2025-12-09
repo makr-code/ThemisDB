@@ -34,6 +34,11 @@ Folgende Best-Practice Verbesserungen wurden implementiert:
 - **Neu:** Optionale GPG-Signaturen (Secrets `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`)
 - **Neu:** Provenance-Artifact `provenance_v<version>.json` (SLSA2)
 
+**GPG-Setup für SLSA2-Signing (GitHub Secrets)**
+- `GPG_PRIVATE_KEY`: Base64-kodierter privater Schlüssel (ASCII-armored, mit `base64` encodieren)
+- `GPG_PASSPHRASE`: Passphrase des Keys
+- Workflow: bei vorhandenem Key werden SHA256SUMS, SIGNATURES und SBOM automatisch mit GPG `.asc` signiert
+
 ✅ **Release Manifests**
 - `release/SBOM_v1.0.1.json` - CycloneDX-kompatibles SBOM
 - `release/MANIFEST_v1.0.1.txt` - Lesbare Package-Liste
