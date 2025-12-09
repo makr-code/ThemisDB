@@ -202,9 +202,16 @@ jobs:
         if: github.event.inputs.use_prebuilt == 'true'
         run: |
           mkdir -p build
-          # Copy from release directory if it exists
-          if [ -f release/themis-1.0.0-windows-x64.zip ]; then
-            unzip release/themis-1.0.0-windows-x64.zip -d build/
+          VERSION="${{ github.event.inputs.version || github.ref_name }}"
+          VERSION="${VERSION#v}"
+          # Try version-specific file first, then fall back to any Windows zip
+          if [ -f "release/themis-${VERSION}-windows-x64.zip" ]; then
+            unzip "release/themis-${VERSION}-windows-x64.zip" -d build/
+          elif [ -f release/themis-*-windows-x64.zip ]; then
+            unzip release/themis-*-windows-x64.zip -d build/
+          else
+            echo "ERROR: No pre-built Windows binary found in release/"
+            exit 1
           fi
 
       - name: Download built binary
@@ -217,11 +224,21 @@ jobs:
       - name: Create package structure
         run: |
           mkdir -p release-windows-x64/bin
-          cp build/themis_server.exe release-windows-x64/bin/ || cp build/bin/themis_server.exe release-windows-x64/bin/ || true
-          cp -r config release-windows-x64/ || true
-          cp -r docs release-windows-x64/ || true
-          cp -r examples release-windows-x64/ || true
-          cp README.md LICENSE release-windows-x64/ || true
+          # Try different possible locations for the binary
+          if [ -f build/themis_server.exe ]; then
+            cp build/themis_server.exe release-windows-x64/bin/
+          elif [ -f build/bin/themis_server.exe ]; then
+            cp build/bin/themis_server.exe release-windows-x64/bin/
+          elif [ -f build/Release/themis_server.exe ]; then
+            cp build/Release/themis_server.exe release-windows-x64/bin/
+          else
+            echo "ERROR: themis_server.exe not found"
+            exit 1
+          fi
+          cp -r config release-windows-x64/ 2>/dev/null || echo "Warning: config directory not found"
+          cp -r docs release-windows-x64/ 2>/dev/null || echo "Warning: docs directory not found"
+          cp -r examples release-windows-x64/ 2>/dev/null || echo "Warning: examples directory not found"
+          cp README.md LICENSE release-windows-x64/ 2>/dev/null || echo "Warning: README.md or LICENSE not found"
 
       - name: Create archive
         run: |
@@ -258,6 +275,9 @@ jobs:
           if [ -f build-deb.sh ]; then
             chmod +x build-deb.sh
             ./build-deb.sh
+          else
+            echo "ERROR: build-deb.sh not found - cannot build DEB package"
+            exit 1
           fi
 
       - name: Upload DEB package
@@ -288,6 +308,9 @@ jobs:
           if [ -f build-rpm.sh ]; then
             chmod +x build-rpm.sh
             ./build-rpm.sh
+          else
+            echo "ERROR: build-rpm.sh not found - cannot build RPM package"
+            exit 1
           fi
 
       - name: Upload RPM package

@@ -115,12 +115,15 @@ jobs:
           mkdir -p build
           if [ -f release/themis_server_linux ]; then
             cp release/themis_server_linux build/themis_server
+            chmod +x build/themis_server
           elif [ -f themis_server_linux_x64 ]; then
             cp themis_server_linux_x64 build/themis_server
+            chmod +x build/themis_server
           else
-            echo "Warning: No pre-built binary found, will use fresh build"
+            echo "ERROR: No pre-built binary found"
+            echo "Expected: release/themis_server_linux or themis_server_linux_x64"
+            exit 1
           fi
-          chmod +x build/themis_server || true
 
       - name: Download built binary
         if: github.event.inputs.use_prebuilt != 'true'
