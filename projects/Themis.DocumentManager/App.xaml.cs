@@ -189,7 +189,27 @@ public partial class App : Application
             services.AddSingleton<IOCRService, OCRService>();
             services.AddSingleton<IFullTextSearchService, FullTextSearchService>();
             services.AddSingleton<IEnhancedNotificationService, EnhancedNotificationService>();
-            services.AddSingleton<IFormManagementService, FormManagementService>();
+            services.AddSingleton<IFormManagementService, EnhancedFormManagementService>();
+            
+            // Form Template System Services (NEW - Dynamic Metadata Masks with YAML/JSON Config)
+            services.AddSingleton<IFormTemplateService, FormTemplateService>();
+            services.AddSingleton<IFormConfigurationLoader, FormConfigurationLoader>();
+            services.AddSingleton<IFormDatabaseMappingService, FormDatabaseMappingService>();
+            services.AddSingleton<IFormTestDataService, FormTestDataService>();
+            services.AddSingleton<IFormAuditService, FormAuditService>();
+            services.AddSingleton<IFormSubmissionHistoryService, FormSubmissionHistoryService>();
+            services.AddSingleton<IFormAnalyticsService, FormAnalyticsService>();
+            services.AddSingleton<ISmartFormService, SmartFormService>();
+            services.AddSingleton<IFormContextService, FormContextService>();
+            
+            // SmartForm Configuration & Customization Services (Phase 23 - Dynamic Configuration & LLM Labels)
+            services.AddSingleton<ISmartFormConfigurationService, SmartFormConfigurationService>();
+            services.AddSingleton<IFormFieldLabelingService, FormFieldLabelingService>();
+            services.AddSingleton<IFormUICustomizationService, FormUICustomizationService>();
+            
+            // Graph & Geo Visualization Services (Phase 24 - 3D Graph & OSM Map Integration)
+            services.AddSingleton<IGraphVisualizationService, GraphVisualizationService>();
+            services.AddSingleton<IOsmMapRenderer, OsmMapRenderer>();
             
             // Email Threading Services
             services.AddSingleton<IEmailHeaderService, EmailHeaderService>();
