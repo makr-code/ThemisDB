@@ -1,7 +1,7 @@
-name: CI [Dry-Run]
+name: CI
 
 # Main CI workflow for C++ build, unit tests and code quality checks
-# 🔶 DRY-RUN MODE - This workflow does not publish any artifacts
+# Full vcpkg build with all dependencies
 
 on:
   push:
@@ -30,12 +30,6 @@ jobs:
     timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~10-15min, tests ~5min + buffer
     
     steps:
-      - name: 🔶 Dry-Run Notice
-        run: |
-          echo "🔶 DRY-RUN MODE - No actual publishing"
-          echo "This workflow builds and tests the C++ codebase."
-          echo "No artifacts are published to external registries."
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -117,12 +111,6 @@ jobs:
     timeout-minutes: 90  # Full vcpkg build ~30-40min, project build ~15-20min, tests ~5min + buffer
     
     steps:
-      - name: 🔶 Dry-Run Notice
-        run: |
-          echo "🔶 DRY-RUN MODE - No actual publishing"
-          echo "This workflow builds and tests the C++ codebase on Windows."
-          echo "No artifacts are published to external registries."
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
