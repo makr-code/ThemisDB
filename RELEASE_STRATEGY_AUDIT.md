@@ -27,10 +27,12 @@ Folgende Best-Practice Verbesserungen wurden implementiert:
 - `scripts/release_checklist.ps1` - Interaktive Release-Checklist
 - `scripts/generate_sbom.py` - Python SBOM Generator
 
-✅ **GitHub Actions Workflow**
+✅ **GitHub Actions Workflow (SLSA2-ready)**
 - `.github/workflows/release.yml` - Automatisierte Release-Pipeline
 - Prepare → Sign → Verify → Publish Workflow
 - Automatische GitHub Releases mit Artifacts
+- **Neu:** Optionale GPG-Signaturen (Secrets `GPG_PRIVATE_KEY`, `GPG_PASSPHRASE`)
+- **Neu:** Provenance-Artifact `provenance_v<version>.json` (SLSA2)
 
 ✅ **Release Manifests**
 - `release/SBOM_v1.0.1.json` - CycloneDX-kompatibles SBOM
