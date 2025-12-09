@@ -1,0 +1,22 @@
+```markdown
+# Security — Dokumente
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Development
+
+---
+
+
+Dieser Ordner enthält Sicherheits‑ und Krypto‑bezogene Entwürfe, Designdokumente und Hinweise.
+
+Enthaltene Dateien:
+- `content_zstd_hkdf.md` — Design + Tests für Content ZSTD Compression und HKDF Cache.
+
+Zweck:
+- Ein zentraler Ort für Security‑Designs (Key‑Management, Encryption, Signatures).
+
+Nächste Schritte:
+- Ergänze PKI/KeyProvider Entwürfe oder implementiere Metriken/TTL für den HKDF Cache.
+
+```

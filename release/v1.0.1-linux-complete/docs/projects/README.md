@@ -1,0 +1,22 @@
+# Projects Documentation
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Projects
+
+---
+
+## Übersicht
+
+Projekt-spezifische Dokumentation und Use Cases für ThemisDB.
+
+## Dokumentation in diesem Ordner
+
+| Datei | Beschreibung |
+|-------|--------------|
+| [RAG_LLM_PROGRAMMIERHILFE.md](RAG_LLM_PROGRAMMIERHILFE.md) | RAG LLM Programmierhilfe Projekt |
+
+## Verwandte Dokumentation
+
+- [LLM Module](../llm/README.md) - LLM Integration
+- [Exporters](../exporters/README.md) - LLM Training Export
