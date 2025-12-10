@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ixR9NV6GEhM=",
+  "dgSpecHash": "Eb/5zZXk+kY=",
   "success": true,
-  "projectFilePath": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/tools/Themis.AuditLogViewer/Themis.AuditLogViewer.csproj",
+  "projectFilePath": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/tools/Themis.AuditLogViewer/Themis.AuditLogViewer.csproj",
   "expectedPackageFiles": [
     "/home/runner/work/ThemisDB/.codeql-scratch/dbs/csharp/working/packages/communitytoolkit.mvvm/8.3.2/communitytoolkit.mvvm.8.3.2.nupkg.sha512",
     "/home/runner/work/ThemisDB/.codeql-scratch/dbs/csharp/working/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
