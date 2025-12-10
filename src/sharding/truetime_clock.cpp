@@ -456,6 +456,11 @@ void TrueTimeClock::updateDriftRate(int64_t offset_us, uint64_t elapsed_us) {
         return;
     }
     
+    // Sanity check to prevent division by very small values
+    if (elapsed_us < 1000) {  // Less than 1ms
+        return;
+    }
+    
     // Calculate drift rate in parts per million
     double drift_ppm = (std::abs(offset_us) * 1000000.0) / elapsed_us;
     

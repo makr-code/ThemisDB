@@ -514,7 +514,12 @@ uint64_t ShardLatencyMonitor::calculatePercentile(
         return 0;
     }
     
-    size_t index = static_cast<size_t>(std::ceil(values.size() * percentile)) - 1;
+    size_t index = static_cast<size_t>(std::ceil(values.size() * percentile));
+    if (index == 0) {
+        index = 1;  // Prevent underflow
+    }
+    index = index - 1;  // Convert to 0-based index
+    
     if (index >= values.size()) {
         index = values.size() - 1;
     }
