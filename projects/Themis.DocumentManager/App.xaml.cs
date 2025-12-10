@@ -263,6 +263,7 @@ public partial class App : Application
             services.AddTransient<GeoViewModel>();
             services.AddTransient<TimelineViewModel>();
             services.AddTransient<GraphViewModel>();
+            services.AddTransient<DocumentCollaborationViewModel>();
 
             // Views - WICHTIG: MainWindow am Ende registrieren
             services.AddSingleton<MainWindow>();
