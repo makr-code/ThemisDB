@@ -11,6 +11,7 @@
         xmlns:Inbox="clr-namespace:Themis.DocumentManager.Views.Inbox"
         xmlns:Favorites="clr-namespace:Themis.DocumentManager.Views.Favorites"
         xmlns:Collaboration="clr-namespace:Themis.DocumentManager.Views.Collaboration"
+        xmlns:Gantt="clr-namespace:Themis.DocumentManager.Views.Gantt"
         mc:Ignorable="d"
         Title="ThemisDB Document Manager" 
         Height="900" Width="1600"
@@ -615,7 +616,7 @@
                         <Dashboard:DashboardView DataContext="{Binding DashboardViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Gantt" x:Name="TabGantt">
-                        <TextBlock Text="Gantt-Diagramm (Timers - noch nicht implementiert)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                        <Gantt:GanttView DataContext="{Binding GanttViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Timeline" x:Name="TabTimeline">
                         <Timeline:TimelineView DataContext="{Binding TimelineViewModel}"/>
