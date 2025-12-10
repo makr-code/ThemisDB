@@ -8,10 +8,15 @@
         </Grid.ColumnDefinitions>
 
         <!-- Map Container -->
-        <Border Grid.Column="0" Background="#F0F0F0">
+        <Border Grid.Column="0" 
+                Background="#F0F0F0"
+                KeyboardNavigation.TabNavigation="Continue">
             <Grid>
                 <!-- WebView für Leaflet-Karte wird hier eingefügt -->
-                <Frame x:Name="MapFrame" />
+                <Frame x:Name="MapFrame"
+                       KeyboardNavigation.IsTabStop="True"
+                       AutomationProperties.Name="Geographische Karte"
+                       AutomationProperties.HelpText="Interaktive Karte mit geografischen Daten. Nutzen Sie die Maus zum Navigieren und Zoomen."/>
                 
                 <!-- Loading Indicator -->
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="LoadingPanel">

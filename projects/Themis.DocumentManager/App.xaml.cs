@@ -271,6 +271,9 @@ public partial class App : System.Windows.Application
                 return themeService;
             });
             
+            // Phase 30 Keyboard Navigation & Accessibility
+            services.AddSingleton<IKeyboardNavigationService, KeyboardNavigationService>();
+            
             // Phase 2 Collaboration Services (Sprint 5-6 - Check-in/Check-out, SignalR, Comments)
             services.AddSingleton<ICommentService, CommentService>();
             services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();

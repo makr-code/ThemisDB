@@ -8,10 +8,16 @@
         </Grid.ColumnDefinitions>
 
         <!-- 3D Graph Visualization -->
-        <Border Grid.Column="0" Background="#1a1a1a">
+        <Border Grid.Column="0" 
+                Background="#1a1a1a"
+                KeyboardNavigation.TabNavigation="Continue">
             <Grid>
                 <!-- WebGL Canvas für 3D-Rendering -->
-                <Frame x:Name="GraphFrame" Background="Black"/>
+                <Frame x:Name="GraphFrame" 
+                       Background="Black"
+                       KeyboardNavigation.IsTabStop="True"
+                       AutomationProperties.Name="3D Graph Visualisierung"
+                       AutomationProperties.HelpText="3D-Graph mit interaktiver Navigation. Nutzen Sie die Maus zum Drehen und Zoomen."/>
                 
                 <!-- Loading Indicator -->
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" x:Name="LoadingPanel">
