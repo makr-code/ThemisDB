@@ -244,7 +244,7 @@ sharding:
     
     # Clock source (SYSTEM_CLOCK, NTP, PTP, GPS, ATOMIC)
     source: NTP
-    ntp_server: "pool.ntp.org"
+    ntp_server: "ptbtime1.ptb.de"  # PTB Braunschweig (Stratum 1)
     ptp_interface: "eth0"
     
     # Uncertainty bounds
@@ -376,7 +376,7 @@ using namespace themis::sharding;
 TrueTimeConfig config;
 config.node_id = "shard-001";
 config.source = ClockSource::NTP;
-config.ntp_server = "pool.ntp.org";
+config.ntp_server = "ptbtime1.ptb.de";  // PTB Braunschweig (Stratum 1)
 config.enable_commit_wait = true;
 
 TrueTimeClock clock(config);
@@ -423,10 +423,14 @@ std::cout << "Offset: " << stats.clock_offset_us << "µs" << std::endl;
    # Install NTP
    sudo apt-get install ntp
    
-   # Configure multiple NTP servers for redundancy
+   # Configure multiple PTB NTP servers for redundancy (Stratum 1)
+   echo "server ptbtime1.ptb.de iburst" >> /etc/ntp.conf
+   echo "server ptbtime2.ptb.de iburst" >> /etc/ntp.conf
+   echo "server ptbtime3.ptb.de iburst" >> /etc/ntp.conf
+   
+   # Fallback: German NTP pool servers
    echo "server 0.de.pool.ntp.org iburst" >> /etc/ntp.conf
    echo "server 1.de.pool.ntp.org iburst" >> /etc/ntp.conf
-   echo "server 2.de.pool.ntp.org iburst" >> /etc/ntp.conf
    
    # Restart NTP
    sudo systemctl restart ntp

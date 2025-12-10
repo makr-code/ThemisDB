@@ -124,7 +124,7 @@ struct TrueTimeConfig {
     
     // Clock source
     ClockSource source = ClockSource::SYSTEM_CLOCK;
-    std::string ntp_server = "pool.ntp.org";
+    std::string ntp_server = "ptbtime1.ptb.de";  // PTB Braunschweig (Stratum 1)
     std::string ptp_interface = "eth0";
     
     // Uncertainty bounds

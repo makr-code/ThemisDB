@@ -409,7 +409,7 @@ sharding:
     enabled: true
     node_id: "shard-1"
     source: NTP                     # SYSTEM_CLOCK, NTP, PTP, GPS, ATOMIC
-    ntp_server: "pool.ntp.org"
+    ntp_server: "ptbtime1.ptb.de"  # PTB Braunschweig (Stratum 1)
     base_uncertainty_us: 100
     max_uncertainty_us: 10000
     sync_interval_ms: 30000

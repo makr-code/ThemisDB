@@ -47,7 +47,7 @@ sharding:
     
     # Clock source (SYSTEM_CLOCK, NTP, PTP, GPS, ATOMIC)
     source: NTP
-    ntp_server: "pool.ntp.org"
+    ntp_server: "ptbtime1.ptb.de"  # PTB Braunschweig (Stratum 1)
     ptp_interface: "eth0"
     
     # Uncertainty bounds
