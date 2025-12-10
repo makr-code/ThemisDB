@@ -336,6 +336,7 @@ public partial class App : System.Windows.Application
             services.AddTransient<DashboardViewModel>();
             services.AddTransient<InboxViewModel>();
             services.AddTransient<GanttViewModel>();
+            services.AddTransient<DocumentPreviewViewModel>();
             services.AddTransient<Themis.DocumentManager.ViewModels.Favorites.FavoritesViewModel>();
             services.AddTransient<Themis.DocumentManager.ViewModels.Navigation.IntelligentBreadcrumbViewModel>();
 

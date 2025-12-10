@@ -12,6 +12,7 @@
         xmlns:Favorites="clr-namespace:Themis.DocumentManager.Views.Favorites"
         xmlns:Collaboration="clr-namespace:Themis.DocumentManager.Views.Collaboration"
         xmlns:Gantt="clr-namespace:Themis.DocumentManager.Views.Gantt"
+        xmlns:Preview="clr-namespace:Themis.DocumentManager.Views.Preview"
         mc:Ignorable="d"
         Title="ThemisDB Document Manager" 
         Height="900" Width="1600"
@@ -625,7 +626,7 @@
                         <Tasks:TaskBasketView DataContext="{Binding TaskBasketViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Vorschau" x:Name="TabPreview">
-                        <TextBlock Text="Document Preview (nicht implementiert)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                        <Preview:DocumentPreviewView DataContext="{Binding DocumentPreviewViewModel}"/>
                     </TabItem>
                     <TabItem Header=" AI Chat" x:Name="TabAIChat">
                         <local:AIChatView DataContext="{Binding AIChatViewModel}"/>
