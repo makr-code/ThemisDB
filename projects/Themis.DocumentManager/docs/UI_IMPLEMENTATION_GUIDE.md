@@ -6,12 +6,24 @@ This document provides a comprehensive overview of the UI implementation for the
 
 ## Created UI Components
 
-### 1. Inbox View (`Views/Inbox/InboxView.xaml`)
+### 1. Task Basket View (`Views/Tasks/TaskBasketView.xaml`) 🆕
+- **Status**: ✅ Fully Implemented
+- **Features**: 
+  - TreeView mit hierarchischer Gruppierung
+  - Multi-Selektion (Checkboxen, markierbar)
+  - Filtering & Sorting (vollständig konfigurierbar)
+  - Resizable Panels (GridSplitter)
+  - Customizable Layout (Position, Docking, Visibility)
+  - Drag & Drop Ready
+- **Integration**: TaskBasketViewModel with CQRS
+- **Documentation**: TASK_BASKET_IMPLEMENTATION.md
+
+### 2. Inbox View (`Views/Inbox/InboxView.xaml`)
 - **Status**: Created with placeholder
 - **Features**: Filter sidebar, search, status badges, priority indicators
 - **Integration**: Ready for InboxViewModel binding
 
-### 2. Value Converters (`Converters/ValueConverters.cs`)
+### 3. Value Converters (`Converters/ValueConverters.cs`)
 - **Status**: Fully implemented
 - **Converters**: 10 converters for UI binding
   - BoolToVisibilityConverter
@@ -25,15 +37,24 @@ This document provides a comprehensive overview of the UI implementation for the
   - ConfidenceToOpacityConverter
   - InverseBoolConverter
 
-### 3. InboxViewModel (`ViewModels/InboxViewModel.cs`)
+### 4. InboxViewModel (`ViewModels/InboxViewModel.cs`)
 - **Status**: Fully implemented with MVVM pattern
 - **Commands**: Load, Create, Assign, MarkAsRead, Delete, Archive
 - **Properties**: ObservableCollections, filters, search
+
+### 5. TaskBasketViewModel (`ViewModels/TaskBasketViewModel.cs`) 🆕
+- **Status**: ✅ Fully implemented with MVVM pattern
+- **Commands**: Load, Filter, Sort, Group, MarkCompleted, Delete, TogglePanels
+- **Properties**: CollectionView, multi-selection, customizable layout
+- **Integration**: CQRS with GetMyTasksQuery
 
 ## Directory Structure
 
 ```
 Views/
+├── Tasks/ 🆕
+│   ├── TaskBasketView.xaml ✅
+│   └── TaskBasketView.xaml.cs ✅
 ├── Inbox/
 │   ├── InboxView.xaml ✅
 │   └── InboxView.xaml.cs ✅
@@ -47,6 +68,7 @@ Views/
 └── Common/ (created, ready for implementation)
 
 ViewModels/
+├── TaskBasketViewModel.cs ✅ 🆕
 └── InboxViewModel.cs ✅
 
 Converters/
@@ -157,16 +179,30 @@ Resources/
 3. **Office Preview**: Requires additional COM interop for document preview
 4. **Batch Operations**: UI for bulk actions partially implemented
 
+## Implemented Features (Phase 1 Sprint 1) 🆕
+
+1. ✅ **Task Basket**: Customizable aufgaben-korb mit TreeView
+   - Hierarchische Gruppierung (Kategorie, Priorität, Status, Datum)
+   - Multi-Selektion mit Checkboxen
+   - Filtering & Sorting (vollständig konfigurierbar)
+   - Resizable Panels mit GridSplitter
+   - Toggle zwischen TreeView und ListView
+   - Drag & Drop Ready
+2. ✅ **Customizable Layout**: User-configurable panel sizes and visibility
+3. ✅ **CQRS Integration**: GetMyTasksQuery für aggregierte Aufgaben
+
 ## Future Enhancements
 
 1. **Dark Mode**: Full dark theme support
 2. **Responsive Design**: Mobile-friendly layouts
-3. **Customization**: User-configurable themes and layouts
-4. **Advanced Filtering**: Query builder UI
-5. **Data Export**: Export filtered results to Excel/PDF
-6. **Dashboards**: Analytics and reporting views
-7. **Collaboration**: Real-time multi-user features
-8. **Notifications**: Desktop and email notifications
+3. **Advanced Filtering**: Query builder UI
+4. **Data Export**: Export filtered results to Excel/PDF
+5. **Dashboards**: Analytics and reporting views
+6. **Collaboration**: Real-time multi-user features
+7. **Notifications**: Desktop and email notifications
+8. **Saved Filters**: User-defined filter presets
+9. **Drag & Drop**: Complete implementation for task reordering
+10. **Keyboard Shortcuts**: Full keyboard navigation support
 
 ---
 
