@@ -323,4 +323,41 @@ void LLMInteractionStore::clear() {
     THEMIS_INFO("Cleared {} LLM interactions", count);
 }
 
+bool LLMInteractionStore::updateMetadata(const std::string& id, const nlohmann::json& metadata_updates) {
+    // Read existing interaction
+    auto interaction_opt = getInteraction(id);
+    if (!interaction_opt.has_value()) {
+        THEMIS_WARN("Cannot update metadata: interaction {} not found", id);
+        return false;
+    }
+    
+    Interaction interaction = *interaction_opt;
+    
+    // Merge metadata updates
+    for (auto it = metadata_updates.begin(); it != metadata_updates.end(); ++it) {
+        interaction.metadata[it.key()] = it.value();
+    }
+    
+    // Store updated interaction
+    std::string value = interaction.toJson().dump();
+    std::string key = makeKey(id);
+    
+    rocksdb::WriteOptions write_opts;
+    rocksdb::Status s;
+    
+    if (cf_) {
+        s = db_->Put(write_opts, cf_, key, value);
+    } else {
+        s = db_->Put(write_opts, key, value);
+    }
+    
+    if (!s.ok()) {
+        THEMIS_ERROR("Failed to update interaction {} metadata: {}", id, s.ToString());
+        return false;
+    }
+    
+    THEMIS_DEBUG("Updated metadata for interaction {}", id);
+    return true;
+}
+
 } // namespace themis

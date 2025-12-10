@@ -896,6 +896,8 @@ namespace {
         LlmInteractionPost,
         LlmInteractionGetList,
         LlmInteractionGetById,
+        LlmInteractionUpdateMetadataPatch,
+        QueryEnhancedPost, // Enterprise: Query + LLM context
         ChangefeedGet,
         ChangefeedStreamSse,
     ChangefeedStatsGet,
@@ -1044,6 +1046,9 @@ namespace {
         if (target == "/llm/interaction" && method == http::verb::post) return Route::LlmInteractionPost;
     if (target == "/llm/interaction" && method == http::verb::get) return Route::LlmInteractionGetList;
     if (target.rfind("/llm/interaction/", 0) == 0 && method == http::verb::get) return Route::LlmInteractionGetById;
+    if (target.rfind("/llm/interaction/", 0) == 0 && method == http::verb::patch) return Route::LlmInteractionUpdateMetadataPatch;
+    // Enterprise: Enhanced query endpoint
+    if (target == "/query/enhanced" && method == http::verb::post) return Route::QueryEnhancedPost;
     // Changefeed endpoint should match even with query parameters
     if (path_only == "/changefeed" && method == http::verb::get) return Route::ChangefeedGet;
     if (path_only == "/changefeed/stream" && method == http::verb::get) return Route::ChangefeedStreamSse;
@@ -1354,6 +1359,12 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::LlmInteractionGetById:
             response = handleLlmInteractionGet(req);
+            break;
+        case Route::LlmInteractionUpdateMetadataPatch:
+            response = handleLlmInteractionUpdateMetadata(req);
+            break;
+        case Route::QueryEnhancedPost:
+            response = handleQueryEnhanced(req);
             break;
         case Route::ChangefeedGet:
             response = handleChangefeedGet(req);
@@ -4079,6 +4090,75 @@ http::response<http::string_body> HttpServer::handleLlmInteractionGet(
         span.setStatus(true);
         return makeResponse(http::status::ok, response.dump(), req);
         
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, std::string("Error: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata(
+    const http::request<http::string_body>& req
+) {
+    if (!config_.feature_llm_store) {
+        return makeErrorResponse(http::status::not_found, "Feature 'llm_store' disabled", req);
+    }
+    
+    auto span = Tracer::startSpan("handleLlmInteractionUpdateMetadata");
+    span.setAttribute("http.path", "/llm/interaction/:id/metadata");
+    
+    try {
+        // Extract ID from path: /llm/interaction/{id}/metadata or /llm/interaction/{id}
+        std::string target = std::string(req.target());
+        std::string id;
+        
+        // Remove /llm/interaction/ prefix
+        if (target.rfind("/llm/interaction/", 0) == 0) {
+            std::string suffix = target.substr(17); // "/llm/interaction/" is 17 chars
+            // Remove trailing /metadata if present
+            size_t metadata_pos = suffix.find("/metadata");
+            if (metadata_pos != std::string::npos) {
+                id = suffix.substr(0, metadata_pos);
+            } else {
+                id = suffix;
+            }
+        }
+        
+        if (id.empty()) {
+            span.setStatus(false, "missing_id");
+            return makeErrorResponse(http::status::bad_request, "Missing interaction ID", req);
+        }
+        
+        span.setAttribute("interaction.id", id);
+        
+        // Parse request body with metadata updates
+        auto body_json = json::parse(req.body());
+        
+        if (!body_json.is_object()) {
+            span.setStatus(false, "invalid_metadata");
+            return makeErrorResponse(http::status::bad_request, "Metadata must be a JSON object", req);
+        }
+        
+        // Update metadata
+        bool success = llm_store_->updateMetadata(id, body_json);
+        
+        if (!success) {
+            span.setStatus(false, "not_found");
+            return makeErrorResponse(http::status::not_found, "Interaction not found", req);
+        }
+        
+        // Build response
+        json response;
+        response["success"] = true;
+        response["message"] = "Metadata updated successfully";
+        
+        span.setStatus(true);
+        return makeResponse(http::status::ok, response.dump(), req);
+        
+    } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "json_parse_error");
+        return makeErrorResponse(http::status::bad_request, std::string("JSON error: ") + e.what(), req);
     } catch (const std::exception& e) {
         span.recordError(e.what());
         span.setStatus(false, "internal_error");
@@ -11319,6 +11399,135 @@ http::response<http::string_body> HttpServer::handleSpatialMetrics(
     applyGovernanceHeaders(req, res);
     res.prepare_payload();
     return res;
+}
+
+// ===== Enterprise Feature: Enhanced Query with LLM Context =====
+
+http::response<http::string_body> HttpServer::handleQueryEnhanced(
+    const http::request<http::string_body>& req
+) {
+    if (!config_.feature_llm_query_enhancement) {
+        return makeErrorResponse(http::status::not_found, 
+            "Enterprise feature 'llm_query_enhancement' disabled", req);
+    }
+    
+    if (!config_.feature_llm_store) {
+        return makeErrorResponse(http::status::not_found, 
+            "Feature 'llm_store' must be enabled for enhanced queries", req);
+    }
+    
+    auto span = Tracer::startSpan("handleQueryEnhanced");
+    span.setAttribute("http.path", "/query/enhanced");
+    span.setAttribute("enterprise.feature", true);
+    
+    try {
+        auto body = json::parse(req.body());
+        
+        // Execute standard query first
+        json query_response;
+        
+        // Check if this is an AQL query or standard query
+        if (body.contains("aql")) {
+            // Use AQL query path
+            json aql_req_body;
+            aql_req_body["query"] = body["aql"];
+            if (body.contains("parameters")) {
+                aql_req_body["parameters"] = body["parameters"];
+            }
+            
+            // Create temporary request for AQL handler
+            http::request<http::string_body> aql_req{req};
+            aql_req.body() = aql_req_body.dump();
+            aql_req.prepare_payload();
+            
+            auto aql_response = handleQueryAql(aql_req);
+            
+            if (aql_response.result() != http::status::ok) {
+                // Return the error response directly
+                return aql_response;
+            }
+            
+            query_response = json::parse(aql_response.body());
+            
+        } else if (body.contains("table")) {
+            // Use standard query path
+            http::request<http::string_body> std_req{req};
+            std_req.body() = body.dump();
+            std_req.prepare_payload();
+            
+            auto std_response = handleQuery(std_req);
+            
+            if (std_response.result() != http::status::ok) {
+                return std_response;
+            }
+            
+            query_response = json::parse(std_response.body());
+        } else {
+            span.setStatus(false, "missing_query");
+            return makeErrorResponse(http::status::bad_request, 
+                "Request must contain either 'aql' or 'table' field", req);
+        }
+        
+        // Get LLM context options from request
+        json llm_options;
+        if (body.contains("llm_context")) {
+            llm_options = body["llm_context"];
+        }
+        
+        // Fetch relevant LLM interactions
+        LLMInteractionStore::ListOptions list_opts;
+        list_opts.limit = llm_options.value("limit", 10);
+        
+        if (llm_options.contains("model")) {
+            list_opts.filter_model = llm_options["model"].get<std::string>();
+        }
+        
+        if (llm_options.contains("since_timestamp_ms")) {
+            list_opts.since_timestamp_ms = llm_options["since_timestamp_ms"].get<int64_t>();
+        }
+        
+        auto llm_interactions = llm_store_->listInteractions(list_opts);
+        
+        // Build enhanced response
+        json enhanced_response;
+        enhanced_response["query_results"] = query_response;
+        enhanced_response["llm_context"] = json::array();
+        
+        for (const auto& interaction : llm_interactions) {
+            json llm_entry;
+            llm_entry["id"] = interaction.id;
+            llm_entry["prompt"] = interaction.prompt;
+            llm_entry["response"] = interaction.response;
+            llm_entry["model_version"] = interaction.model_version;
+            llm_entry["timestamp_ms"] = interaction.timestamp_ms;
+            
+            // Include metadata (which may contain feedback from enterprise addons)
+            if (!interaction.metadata.empty()) {
+                llm_entry["metadata"] = interaction.metadata;
+            }
+            
+            enhanced_response["llm_context"].push_back(llm_entry);
+        }
+        
+        enhanced_response["llm_context_count"] = llm_interactions.size();
+        
+        span.setAttribute("query.result_count", query_response.value("count", 0));
+        span.setAttribute("llm.context_count", static_cast<int64_t>(llm_interactions.size()));
+        span.setStatus(true);
+        
+        return makeResponse(http::status::ok, enhanced_response.dump(), req);
+        
+    } catch (const json::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "json_parse_error");
+        return makeErrorResponse(http::status::bad_request, 
+            std::string("JSON error: ") + e.what(), req);
+    } catch (const std::exception& e) {
+        span.recordError(e.what());
+        span.setStatus(false, "internal_error");
+        return makeErrorResponse(http::status::internal_server_error, 
+            std::string("Error: ") + e.what(), req);
+    }
 }
 
 } // namespace server
