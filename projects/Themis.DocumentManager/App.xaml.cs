@@ -226,6 +226,11 @@ public partial class App : Application
             services.AddSingleton<IGraphVisualizationService, GraphVisualizationService>();
             services.AddSingleton<IOsmMapRenderer, OsmMapRenderer>();
             
+            // Phase 2 Collaboration Services (Sprint 5-6 - Check-in/Check-out, SignalR, Comments)
+            services.AddSingleton<IDocumentLockingService, DocumentLockingService>();
+            services.AddSingleton<ICommentService, CommentService>();
+            services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();
+            
             // Email Threading Services
             services.AddSingleton<IEmailHeaderService, EmailHeaderService>();
             
