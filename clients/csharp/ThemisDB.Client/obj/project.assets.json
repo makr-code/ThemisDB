@@ -101,16 +101,16 @@
     ]
   },
   "packageFolders": {
-    "/home/runner/.nuget/packages/": {}
+    "/home/runner/work/ThemisDB/.codeql-scratch/dbs/csharp/working/packages": {}
   },
   "project": {
     "version": "0.1.0-beta.1",
     "restore": {
-      "projectUniqueName": "/home/runner/work/ThemisDB/ThemisDB/clients/csharp/ThemisDB.Client/ThemisDB.Client.csproj",
+      "projectUniqueName": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/clients/csharp/ThemisDB.Client/ThemisDB.Client.csproj",
       "projectName": "ThemisDB.Client",
-      "projectPath": "/home/runner/work/ThemisDB/ThemisDB/clients/csharp/ThemisDB.Client/ThemisDB.Client.csproj",
-      "packagesPath": "/home/runner/.nuget/packages/",
-      "outputPath": "/home/runner/work/ThemisDB/ThemisDB/clients/csharp/ThemisDB.Client/obj/",
+      "projectPath": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/clients/csharp/ThemisDB.Client/ThemisDB.Client.csproj",
+      "packagesPath": "/home/runner/work/ThemisDB/.codeql-scratch/dbs/csharp/working/packages",
+      "outputPath": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/clients/csharp/ThemisDB.Client/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/runner/.nuget/NuGet/NuGet.Config"
@@ -159,6 +159,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.22, 8.0.22]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.22, 8.0.22]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[8.0.22, 8.0.22]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
