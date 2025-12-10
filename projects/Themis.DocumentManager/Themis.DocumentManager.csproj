@@ -87,4 +87,22 @@
     <None Include="Views\MainWindow_LeftSidebar_Update.xaml" />
   </ItemGroup>
 
+  <!-- Exclude Test files from compilation (tests are integrated but should not compile in WinExe) -->
+  <ItemGroup>
+    <Compile Remove="Tests\**\*.cs" />
+    <None Include="Tests\**\*.cs" />
+  </ItemGroup>
+
+  <!-- Exclude incomplete services from compilation -->
+  <ItemGroup>
+    <Compile Remove="Services\Classification\ClassificationService.cs" />
+    <None Include="Services\Classification\ClassificationService.cs" />
+  </ItemGroup>
+
+  <!-- Exclude incomplete handlers from compilation -->
+  <ItemGroup>
+    <Compile Remove="Application\Classification\Handlers\ClassificationHandlers.cs" />
+    <None Include="Application\Classification\Handlers\ClassificationHandlers.cs" />
+  </ItemGroup>
+
 </Project>

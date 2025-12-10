@@ -266,13 +266,13 @@ public partial class App : System.Windows.Application
             services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();
             
             // Phase 2 Background Jobs (Sprint 5-6 - Lock Cleanup)
-            services.AddSingleton<DocumentLockCleanupConfiguration>();
+            // DISABLED: services.AddSingleton<DocumentLockCleanupConfiguration>();
             services.AddSingleton<Infrastructure.BackgroundJobs.DocumentLockCleanupService>();
             
             // Phase 2 AI/ML Services (Sprint 7-8 - Classification & Metadata Extraction)
             services.AddSingleton<Infrastructure.MachineLearning.DocumentClassifier>();
             services.AddSingleton<Infrastructure.MachineLearning.MetadataExtractor>();
-            services.AddSingleton<Services.Classification.IClassificationService, Services.Classification.ClassificationService>();
+            // DISABLED: services.AddSingleton<Services.Classification.IClassificationService, Services.Classification.ClassificationService>();
             
             // Email Threading Services
             services.AddSingleton<IEmailHeaderService, EmailHeaderService>();

@@ -283,13 +283,22 @@
                 <!-- Text Input -->
                 <TextBox Grid.Row="0"
                         x:Name="CommentInputBox"
-                        PlaceholderText="Kommentar hinzufügen..."
                         TextWrapping="Wrap"
                         AcceptsReturn="True"
                         MinHeight="60"
                         MaxHeight="120"
                         Padding="8"
                         Margin="0,0,0,8"/>
+                
+                <!-- Placeholder Text -->
+                <TextBlock Grid.Row="0"
+                          Text="Kommentar hinzufügen..."
+                          Foreground="#CCCCCC"
+                          Padding="12,12"
+                          IsHitTestVisible="False"
+                          FontSize="14"
+                          Margin="0,0,0,8"/>
+                
                 
                 <!-- Action Buttons -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
