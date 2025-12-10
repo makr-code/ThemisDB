@@ -68,20 +68,48 @@ ShardRouter::ShardRouter(
     std::shared_ptr<URNResolver> resolver,
     std::shared_ptr<RemoteExecutor> executor,
     const Config& config,
-    std::shared_ptr<PrometheusMetrics> metrics)
+    std::shared_ptr<PrometheusMetrics> metrics,
+    std::shared_ptr<TrueTime> truetime)
     : resolver_(resolver),
       executor_(executor),
       metrics_(metrics),
+      truetime_(truetime),
       config_(config) {
+    
+    // Initialize transaction coordinator if TrueTime is available
+    if (truetime_) {
+        DistributedTransactionCoordinator::Config txn_config;
+        txn_coordinator_ = std::make_shared<DistributedTransactionCoordinator>(truetime_, txn_config);
+    }
 }
 
-std::optional<nlohmann::json> ShardRouter::get(const URN& urn) {
+void ShardRouter::setTrueTime(std::shared_ptr<TrueTime> truetime) {
+    truetime_ = truetime;
+    if (truetime_) {
+        DistributedTransactionCoordinator::Config txn_config;
+        txn_coordinator_ = std::make_shared<DistributedTransactionCoordinator>(truetime_, txn_config);
+    }
+}
+
+std::shared_ptr<DistributedTransactionCoordinator> ShardRouter::getTransactionCoordinator() {
+    return txn_coordinator_;
+}
+
+std::optional<nlohmann::json> ShardRouter::get(
+    const URN& urn,
+    std::optional<std::chrono::nanoseconds> snapshot_timestamp) {
     total_requests_++;
     if (metrics_) {
         metrics_->recordRoutingRequest("single_shard");
     }
     
-    auto result = routeRequest(urn, "GET", "/api/v1/data/" + urn.toString());
+    // If snapshot timestamp provided, add it to the request
+    std::string path = "/api/v1/data/" + urn.toString();
+    if (snapshot_timestamp.has_value()) {
+        path += "?snapshot_ts=" + std::to_string(snapshot_timestamp->count());
+    }
+    
+    auto result = routeRequest(urn, "GET", path);
     
     if (result.success) {
         if (metrics_) {

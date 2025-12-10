@@ -1,431 +1,234 @@
-/**
- * ThemisDB Distributed Transaction Coordinator with TrueTime
- * 
- * Integrates TrueTime clock synchronization with ACID transactions
- * and SAGA pattern for cross-shard distributed transactions.
- * 
- * Features:
- * - External consistency guarantees using TrueTime
- * - Cross-shard 2PC (Two-Phase Commit) with timestamps
- * - SAGA pattern with compensating transactions
- * - Deadlock detection using timestamp ordering
- * - Network-aware commit-wait optimization
- * 
- * Copyright (c) 2025 ThemisDB Project
- * SPDX-License-Identifier: Apache-2.0
- */
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
 
-#pragma once
+#ifndef THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
+#define THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
 
-#include "sharding/truetime_clock.h"
-#include "sharding/shard_latency_monitor.h"
-#include "sharding/shard_router.h"
-#include "transaction/transaction_manager.h"
+#include "sharding/truetime.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <memory>
 #include <optional>
-#include <functional>
 #include <chrono>
+#include <nlohmann/json.hpp>
 
 namespace themis::sharding {
 
 /**
- * Transaction isolation level
- */
-enum class IsolationLevel {
-    READ_UNCOMMITTED,
-    READ_COMMITTED,
-    REPEATABLE_READ,
-    SERIALIZABLE,
-    SNAPSHOT_ISOLATION  // Using TrueTime timestamps
-};
-
-/**
- * Transaction state
+ * @brief Transaction state
  */
 enum class TransactionState {
-    ACTIVE,         // Transaction in progress
-    PREPARING,      // 2PC: Prepare phase
-    PREPARED,       // 2PC: All participants prepared
-    COMMITTING,     // 2PC: Commit phase
-    COMMITTED,      // Transaction committed
-    ABORTING,       // Transaction aborting
-    ABORTED,        // Transaction aborted
-    COMPENSATING    // SAGA: Executing compensations
+    ACTIVE,      // Transaction is active
+    PREPARING,   // Preparing to commit (phase 1 of 2PC)
+    PREPARED,    // All participants prepared (ready to commit)
+    COMMITTING,  // Committing transaction (phase 2 of 2PC)
+    COMMITTED,   // Transaction committed successfully
+    ABORTING,    // Aborting transaction
+    ABORTED      // Transaction aborted
 };
 
 /**
- * Distributed transaction participant info
+ * @brief Participant in a distributed transaction
  */
 struct TransactionParticipant {
-    std::string shard_id;
-    std::string endpoint;
-    bool is_coordinator;
-    bool prepared;
-    bool committed;
-    TrueTimeStamp prepare_timestamp;
-    TrueTimeStamp commit_timestamp;
+    std::string shard_id;        // Shard identifier
+    std::string endpoint;        // Network endpoint
+    bool prepared;               // Has this participant prepared?
+    bool committed;              // Has this participant committed?
+    std::string error_msg;       // Error message if any
 };
 
 /**
- * SAGA step definition
- */
-struct SagaStep {
-    std::string step_id;
-    std::string shard_id;
-    std::string operation;              // JSON operation to execute
-    std::string compensation;           // JSON compensation to execute on rollback
-    int64_t timeout_ms;                 // Timeout for this step
-    TrueTimeStamp executed_at;          // When step was executed
-    bool completed;
-    bool compensated;
-};
-
-/**
- * Distributed transaction metadata
+ * @brief Distributed transaction metadata
  */
 struct DistributedTransaction {
-    std::string txn_id;                     // Unique transaction ID
-    std::string coordinator_shard;          // Coordinator shard ID
-    IsolationLevel isolation_level;
-    TransactionState state;
+    std::string transaction_id;           // Unique transaction ID
+    TransactionState state;               // Current state
+    std::chrono::nanoseconds start_time;  // Transaction start timestamp
+    std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
+    std::vector<TransactionParticipant> participants;  // Participating shards
+    nlohmann::json operations;            // Operations to execute
     
-    // TrueTime timestamps for ordering
-    TrueTimeStamp start_timestamp;          // When transaction started
-    TrueTimeStamp commit_timestamp;         // When transaction committed
-    TrueTimeStamp snapshot_timestamp;       // For snapshot isolation
-    
-    // Participants
-    std::vector<TransactionParticipant> participants;
-    
-    // SAGA-specific
-    bool is_saga;
-    std::vector<SagaStep> saga_steps;
-    int current_step;
-    
-    // Timeout
-    std::chrono::system_clock::time_point deadline;
-    
-    // Metadata
-    std::map<std::string, std::string> metadata;
+    DistributedTransaction()
+        : state(TransactionState::ACTIVE)
+        , start_time(0)
+        , commit_time(0) {}
 };
 
 /**
- * Transaction coordinator result
- */
-struct TransactionResult {
-    bool success;
-    std::string txn_id;
-    TrueTimeStamp commit_timestamp;
-    std::string error_msg;
-    std::vector<std::string> failed_participants;
-};
-
-/**
- * Distributed Transaction Coordinator
+ * @brief Manages distributed transactions across shards using TrueTime
  * 
- * Coordinates distributed transactions across shards using
- * TrueTime for global ordering and consistency.
+ * This coordinator implements a two-phase commit protocol enhanced with
+ * TrueTime for:
+ * - Snapshot isolation across shards
+ * - Strict serializability guarantees
+ * - Wait-free read-only transactions
  */
 class DistributedTransactionCoordinator {
 public:
     /**
-     * Configuration
+     * @brief Configuration for distributed transaction coordinator
      */
     struct Config {
-        std::string local_shard_id;
-        
-        // Transaction settings
-        IsolationLevel default_isolation = IsolationLevel::SNAPSHOT_ISOLATION;
-        uint32_t default_timeout_ms = 30000;        // 30 seconds
-        uint32_t prepare_timeout_ms = 10000;        // 10 seconds
-        uint32_t commit_timeout_ms = 10000;         // 10 seconds
-        
-        // 2PC settings
-        bool enable_2pc = true;
-        uint32_t max_prepare_retries = 3;
-        
-        // SAGA settings
-        bool enable_saga = true;
-        uint32_t max_compensation_retries = 5;
-        uint32_t compensation_retry_delay_ms = 1000;
-        
-        // TrueTime integration
-        bool use_truetime = true;
-        bool enforce_external_consistency = true;   // Use commit-wait
+        uint64_t prepare_timeout_ms = 10000;   // Timeout for prepare phase
+        uint64_t commit_timeout_ms = 10000;    // Timeout for commit phase
+        uint64_t max_concurrent_txns = 1000;   // Max concurrent transactions
+        bool enable_read_only_opt = true;      // Enable read-only optimization
     };
     
     /**
-     * Construct coordinator
+     * @brief Construct coordinator
+     * @param truetime TrueTime instance for timestamping
+     * @param config Coordinator configuration
      */
-    DistributedTransactionCoordinator(
-        const Config& config,
-        std::shared_ptr<TrueTimeClock> truetime_clock,
-        std::shared_ptr<ShardLatencyMonitor> latency_monitor,
-        std::shared_ptr<ShardRouter> shard_router
+    explicit DistributedTransactionCoordinator(
+        std::shared_ptr<TrueTime> truetime,
+        const Config& config
     );
     
     /**
-     * Begin distributed transaction
-     * @param isolation Isolation level
-     * @param participant_shards List of participating shards
+     * @brief Begin a new distributed transaction
+     * @param shard_ids List of participating shards
      * @return Transaction ID
      */
-    std::string beginTransaction(
-        IsolationLevel isolation,
-        const std::vector<std::string>& participant_shards
-    );
+    std::string beginTransaction(const std::vector<std::string>& shard_ids);
     
     /**
-     * Execute operation within transaction
+     * @brief Add an operation to the transaction
      * @param txn_id Transaction ID
      * @param shard_id Target shard
-     * @param operation Operation to execute (JSON)
-     * @return Success
+     * @param operation Operation to perform
+     * @return True if added successfully
      */
-    bool executeOperation(
+    bool addOperation(
         const std::string& txn_id,
         const std::string& shard_id,
-        const std::string& operation
+        const nlohmann::json& operation
     );
     
     /**
-     * Commit transaction (2PC protocol)
+     * @brief Commit a distributed transaction (two-phase commit)
+     * 
+     * Phase 1: Prepare
+     * - Send prepare requests to all participants
+     * - Wait for all to respond with prepared or timeout
+     * 
+     * Phase 2: Commit
+     * - Assign commit timestamp using TrueTime
+     * - Wait until commit_timestamp is definitely in the past
+     * - Send commit requests to all participants
+     * 
      * @param txn_id Transaction ID
-     * @return Transaction result with commit timestamp
+     * @return True if committed successfully
      */
-    TransactionResult commit(const std::string& txn_id);
+    bool commit(const std::string& txn_id);
     
     /**
-     * Abort transaction
+     * @brief Abort a distributed transaction
      * @param txn_id Transaction ID
-     * @return Success
+     * @return True if aborted successfully
      */
     bool abort(const std::string& txn_id);
     
     /**
-     * Begin SAGA transaction
-     * @param steps SAGA steps to execute
-     * @return Transaction ID
-     */
-    std::string beginSaga(const std::vector<SagaStep>& steps);
-    
-    /**
-     * Execute SAGA (runs all steps, compensates on failure)
-     * @param txn_id SAGA transaction ID
-     * @return Transaction result
-     */
-    TransactionResult executeSaga(const std::string& txn_id);
-    
-    /**
-     * Get transaction state
-     */
-    std::optional<DistributedTransaction> getTransaction(const std::string& txn_id) const;
-    
-    /**
-     * Wait for transaction to reach specific state
-     * @param txn_id Transaction ID
-     * @param state Target state
-     * @param timeout_ms Maximum wait time
-     * @return true if reached state, false if timeout
-     */
-    bool waitForState(
-        const std::string& txn_id,
-        TransactionState state,
-        uint32_t timeout_ms
-    );
-    
-    /**
-     * Check if transaction can proceed (deadlock detection)
-     * Uses timestamp ordering (wait-die scheme)
+     * @brief Execute a read-only transaction (wait-free with TrueTime)
      * 
-     * @param txn_id Requesting transaction
-     * @param resource Resource being accessed
-     * @param holder_txn_id Transaction holding resource
-     * @return true if can wait, false if should abort
+     * Read-only transactions don't need 2PC:
+     * 1. Get timestamp t = TT.now().latest
+     * 2. Read from snapshot at timestamp t
+     * 3. No locks needed, no waiting
+     * 
+     * @param shard_ids Shards to read from
+     * @param operations Read operations
+     * @return Results from all shards
      */
-    bool canWaitForResource(
-        const std::string& txn_id,
-        const std::string& resource,
-        const std::string& holder_txn_id
+    nlohmann::json executeReadOnly(
+        const std::vector<std::string>& shard_ids,
+        const nlohmann::json& operations
     );
     
     /**
-     * Export Prometheus metrics
+     * @brief Get transaction status
+     * @param txn_id Transaction ID
+     * @return Transaction state or nullopt if not found
      */
-    std::string exportPrometheusMetrics() const;
+    std::optional<TransactionState> getTransactionState(const std::string& txn_id) const;
     
+    /**
+     * @brief Get statistics
+     * @return JSON with coordinator stats
+     */
+    nlohmann::json getStatistics() const;
+
 private:
+    std::shared_ptr<TrueTime> truetime_;
     Config config_;
-    std::shared_ptr<TrueTimeClock> truetime_clock_;
-    std::shared_ptr<ShardLatencyMonitor> latency_monitor_;
-    std::shared_ptr<ShardRouter> shard_router_;
     
-    // Active transactions
+    mutable std::mutex mutex_;
     std::map<std::string, DistributedTransaction> transactions_;
-    mutable std::mutex txn_mutex_;
     
     // Statistics
-    std::atomic<uint64_t> stats_txn_started_{0};
-    std::atomic<uint64_t> stats_txn_committed_{0};
-    std::atomic<uint64_t> stats_txn_aborted_{0};
-    std::atomic<uint64_t> stats_saga_started_{0};
-    std::atomic<uint64_t> stats_saga_completed_{0};
-    std::atomic<uint64_t> stats_saga_compensated_{0};
-    std::atomic<uint64_t> stats_2pc_failures_{0};
+    std::atomic<uint64_t> total_transactions_{0};
+    std::atomic<uint64_t> committed_transactions_{0};
+    std::atomic<uint64_t> aborted_transactions_{0};
+    std::atomic<uint64_t> readonly_transactions_{0};
     
-    // Internal methods - 2PC
-    bool prepare(DistributedTransaction& txn);
-    bool commitPhase2(DistributedTransaction& txn);
-    void abortAll(DistributedTransaction& txn);
+    /**
+     * @brief Phase 1: Send prepare requests to all participants
+     * @param txn Distributed transaction
+     * @return True if all participants prepared successfully
+     */
+    bool preparePhase(DistributedTransaction& txn);
     
-    bool sendPrepare(
-        const std::string& shard_id,
-        const std::string& txn_id,
-        const TrueTimeStamp& snapshot_ts
-    );
+    /**
+     * @brief Phase 2: Send commit requests to all participants
+     * @param txn Distributed transaction
+     * @return True if all participants committed successfully
+     */
+    bool commitPhase(DistributedTransaction& txn);
     
+    /**
+     * @brief Send prepare request to a participant
+     * @param participant Participant to prepare
+     * @param txn_id Transaction ID
+     * @return True if prepared successfully
+     */
+    bool sendPrepare(TransactionParticipant& participant, const std::string& txn_id);
+    
+    /**
+     * @brief Send commit request to a participant
+     * @param participant Participant to commit
+     * @param txn_id Transaction ID
+     * @param commit_timestamp Commit timestamp
+     * @return True if committed successfully
+     */
     bool sendCommit(
-        const std::string& shard_id,
+        TransactionParticipant& participant,
         const std::string& txn_id,
-        const TrueTimeStamp& commit_ts
+        std::chrono::nanoseconds commit_timestamp
     );
     
-    bool sendAbort(
-        const std::string& shard_id,
-        const std::string& txn_id
-    );
+    /**
+     * @brief Send abort request to a participant
+     * @param participant Participant to abort
+     * @param txn_id Transaction ID
+     * @return True if aborted successfully
+     */
+    bool sendAbort(TransactionParticipant& participant, const std::string& txn_id);
     
-    // Internal methods - SAGA
-    bool executeSagaStep(DistributedTransaction& txn, SagaStep& step);
-    bool compensateSagaStep(DistributedTransaction& txn, const SagaStep& step);
-    void compensateAll(DistributedTransaction& txn);
+    /**
+     * @brief Generate unique transaction ID
+     * @return Transaction ID
+     */
+    std::string generateTransactionId();
     
-    // TrueTime integration
-    TrueTimeStamp getCommitTimestamp(const DistributedTransaction& txn);
-    bool waitForExternalConsistency(const TrueTimeStamp& commit_ts);
-    
-    // Utilities
-    std::string generateTxnId();
-    void cleanupTransaction(const std::string& txn_id);
+    /**
+     * @brief Clean up old transactions
+     */
+    void cleanupOldTransactions();
 };
-
-/**
- * Transaction-aware operation with timestamp
- */
-struct TimestampedOperation {
-    std::string txn_id;
-    std::string operation_type;         // INSERT, UPDATE, DELETE
-    std::string collection;
-    std::string document_id;
-    std::string data;                   // JSON payload
-    TrueTimeStamp timestamp;            // Operation timestamp
-    
-    // For snapshot isolation
-    TrueTimeStamp read_timestamp;       // Snapshot read point
-    
-    // Serialize
-    std::string toJson() const;
-    static std::optional<TimestampedOperation> fromJson(const std::string& json);
-};
-
-/**
- * Optimistic Concurrency Control using TrueTime
- * 
- * Uses timestamp ordering for conflict detection without locking.
- */
-class OptimisticConcurrencyControl {
-public:
-    OptimisticConcurrencyControl(
-        std::shared_ptr<TrueTimeClock> truetime_clock
-    );
-    
-    /**
-     * Begin read phase
-     * @return Read timestamp for snapshot
-     */
-    TrueTimeStamp beginRead();
-    
-    /**
-     * Validate transaction before commit
-     * Checks if any conflicting writes occurred after read timestamp
-     * 
-     * @param read_ts Transaction's read timestamp
-     * @param write_set Set of documents written
-     * @return true if validation passes
-     */
-    bool validate(
-        const TrueTimeStamp& read_ts,
-        const std::vector<std::string>& write_set
-    );
-    
-    /**
-     * Record write timestamp for a document
-     */
-    void recordWrite(
-        const std::string& document_id,
-        const TrueTimeStamp& write_ts
-    );
-    
-    /**
-     * Get last write timestamp for document
-     */
-    std::optional<TrueTimeStamp> getLastWriteTimestamp(
-        const std::string& document_id
-    ) const;
-    
-private:
-    std::shared_ptr<TrueTimeClock> truetime_clock_;
-    
-    // Document -> Last write timestamp
-    std::map<std::string, TrueTimeStamp> write_timestamps_;
-    mutable std::mutex mutex_;
-};
-
-/**
- * Helper functions for transaction coordination
- */
-namespace txn_utils {
-
-/**
- * Check if transaction T1 happened-before T2
- * Uses TrueTime timestamps for definite ordering
- */
-bool happenedBefore(
-    const TrueTimeStamp& ts1,
-    const TrueTimeStamp& ts2
-);
-
-/**
- * Check if two transactions are concurrent
- * (neither definitely before the other)
- */
-bool areConcurrent(
-    const TrueTimeStamp& ts1,
-    const TrueTimeStamp& ts2
-);
-
-/**
- * Calculate maximum network-aware commit-wait duration
- * Takes into account network latency to all participants
- */
-uint64_t calculateCommitWaitDuration(
-    const std::vector<std::string>& participant_shards,
-    const ShardLatencyMonitor& latency_monitor,
-    const TrueTimeStamp& commit_ts
-);
-
-/**
- * Generate globally unique transaction ID
- * Format: {shard_id}_{timestamp}_{sequence}
- */
-std::string generateTransactionId(
-    const std::string& shard_id,
-    const TrueTimeClock& clock
-);
-
-} // namespace txn_utils
 
 } // namespace themis::sharding
+
+#endif // THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H

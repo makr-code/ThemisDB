@@ -3,6 +3,8 @@
 #include "sharding/urn_resolver.h"
 #include "sharding/remote_executor.h"
 #include "sharding/prometheus_metrics.h"
+#include "sharding/truetime.h"
+#include "sharding/distributed_transaction.h"
 #include <string>
 #include <atomic>
 #include <vector>
@@ -66,20 +68,38 @@ public:
      * @param executor Remote executor for shard communication
      * @param config Router configuration
      * @param metrics Optional Prometheus metrics collector
+     * @param truetime Optional TrueTime for distributed transactions
      */
     ShardRouter(
         std::shared_ptr<URNResolver> resolver,
         std::shared_ptr<RemoteExecutor> executor,
         const Config& config,
-        std::shared_ptr<PrometheusMetrics> metrics = nullptr
+        std::shared_ptr<PrometheusMetrics> metrics = nullptr,
+        std::shared_ptr<TrueTime> truetime = nullptr
     );
+    
+    /**
+     * Set TrueTime instance for distributed transactions
+     * @param truetime TrueTime instance
+     */
+    void setTrueTime(std::shared_ptr<TrueTime> truetime);
+    
+    /**
+     * Get distributed transaction coordinator
+     * @return Transaction coordinator or nullptr if not available
+     */
+    std::shared_ptr<DistributedTransactionCoordinator> getTransactionCoordinator();
     
     /**
      * Route GET request by URN
      * @param urn URN to retrieve
+     * @param snapshot_timestamp Optional timestamp for snapshot reads
      * @return Data from shard, or nullopt if not found/error
      */
-    std::optional<nlohmann::json> get(const URN& urn);
+    std::optional<nlohmann::json> get(
+        const URN& urn,
+        std::optional<std::chrono::nanoseconds> snapshot_timestamp = std::nullopt
+    );
     
     /**
      * Route PUT request by URN
@@ -142,6 +162,8 @@ private:
     std::shared_ptr<URNResolver> resolver_;
     std::shared_ptr<RemoteExecutor> executor_;
     std::shared_ptr<PrometheusMetrics> metrics_;
+    std::shared_ptr<TrueTime> truetime_;
+    std::shared_ptr<DistributedTransactionCoordinator> txn_coordinator_;
     Config config_;
     
     // Statistics
