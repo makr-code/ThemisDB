@@ -23,11 +23,17 @@ public class ThemeService : IThemeService
 
     private ThemeMode _currentTheme = ThemeMode.System;
     private bool _isHighContrast = false;
+    private readonly ISettingsService? _settingsService;
 
     /// <summary>
     /// Event beim Theme-Wechsel
     /// </summary>
     public event EventHandler<ThemeChangedEventArgs>? ThemeChanged;
+
+    public ThemeService(ISettingsService? settingsService = null)
+    {
+        _settingsService = settingsService;
+    }
 
     /// <summary>
     /// Aktuelles Theme
@@ -67,8 +73,9 @@ public class ThemeService : IThemeService
     /// </summary>
     public void Initialize()
     {
-        // TODO: Lade gespeicherte Theme-Einstellung
-        ApplyTheme(ThemeMode.System);
+        var savedTheme = LoadThemeSetting();
+        ApplyTheme(savedTheme);
+        _currentTheme = savedTheme;
     }
 
     /// <summary>
@@ -125,7 +132,13 @@ public class ThemeService : IThemeService
     /// </summary>
     public void SaveThemeSetting()
     {
-        // TODO: Persistiere Theme-Einstellung
+        if (_settingsService != null)
+        {
+            _settingsService.SetSetting("ThemeMode", _currentTheme.ToString());
+            _settingsService.SetSetting("HighContrast", _isHighContrast);
+            _settingsService.Save();
+        }
+        
         System.Diagnostics.Debug.WriteLine($"Theme gespeichert: {CurrentTheme}");
     }
 
@@ -134,7 +147,16 @@ public class ThemeService : IThemeService
     /// </summary>
     public ThemeMode LoadThemeSetting()
     {
-        // TODO: Lade Theme aus Einstellungen
+        if (_settingsService != null)
+        {
+            var themeString = _settingsService.GetSetting("ThemeMode", ThemeMode.System.ToString());
+            if (Enum.TryParse<ThemeMode>(themeString, out var theme))
+            {
+                _isHighContrast = _settingsService.GetSetting("HighContrast", false);
+                return theme;
+            }
+        }
+        
         return ThemeMode.System;
     }
 

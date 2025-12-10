@@ -261,8 +261,17 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IOsmMapRenderer, OsmMapRenderer>();
             
             // Phase 27 UI Styling & Theme System
-            services.AddSingleton<IThemeService, ThemeService>();
-            services.AddSingleton<IDocumentLockingService, DocumentLockingService>();
+            services.AddSingleton<ISettingsService, SettingsService>();
+            services.AddSingleton<IAnimationService, AnimationService>();
+            services.AddSingleton<IThemeService>(sp => 
+            {
+                var settingsService = sp.GetRequiredService<ISettingsService>();
+                var themeService = new ThemeService(settingsService);
+                themeService.Initialize();
+                return themeService;
+            });
+            
+            // Phase 2 Collaboration Services (Sprint 5-6 - Check-in/Check-out, SignalR, Comments)
             services.AddSingleton<ICommentService, CommentService>();
             services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();
             
