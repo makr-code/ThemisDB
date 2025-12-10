@@ -188,6 +188,8 @@ public partial class App : System.Windows.Application
             
             // Core Services - nur die notwendigsten
             services.AddSingleton<IThemisApiClient, ThemisApiClient>();
+            services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<IOllamaService, OllamaService>();
             services.AddSingleton<IDocumentService, DocumentService>();
             services.AddSingleton<ISearchService, SearchService>();
             services.AddSingleton<IMetadataService, MetadataService>();

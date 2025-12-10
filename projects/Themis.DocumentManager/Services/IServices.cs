@@ -11,11 +11,12 @@ namespace Themis.DocumentManager.Services;
 /// </summary>
 public interface IThemisApiClient
 {
-    Task<T?> GetAsync<T>(string endpoint);
-    Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data);
+    Task<T?> GetAsync<T>(string endpoint, CancellationToken cancellationToken = default);
+    Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data, CancellationToken cancellationToken = default);
     Task<TResponse?> PutAsync<TRequest, TResponse>(string endpoint, TRequest data, CancellationToken cancellationToken = default);
-    Task<bool> DeleteAsync(string endpoint);
+    Task<bool> DeleteAsync(string endpoint, CancellationToken cancellationToken = default);
     Task<List<T>> ExecuteAqlAsync<T>(string query, object? bindVars = null, CancellationToken cancellationToken = default);
+    void SetAuthToken(string? token);
 }
 
 /// <summary>

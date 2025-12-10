@@ -132,7 +132,7 @@ public partial class FavoritesViewModel : ObservableObject
         var command = new RemoveFromFavoritesCommand
         {
             EntityId = entityId,
-            UserId = "current-user"
+            UserId = "current-user" // TODO: Get from AuthenticationService via handler
         };
 
         await _mediator.Send(command);
@@ -145,7 +145,7 @@ public partial class FavoritesViewModel : ObservableObject
         var query = new IsFavoriteQuery
         {
             EntityId = entityId,
-            UserId = "current-user"
+            UserId = "current-user" // TODO: Get from AuthenticationService via handler
         };
 
         return await _mediator.Send(query);

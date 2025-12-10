@@ -16,6 +16,7 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
 {
     private readonly HttpClient _httpClient;
     private readonly string _baseUrl;
+    private string? _authToken;
 
     public ThemisApiClient()
     {
@@ -37,13 +38,17 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
         };
     }
 
-    public async Task<T?> GetAsync<T>(string endpoint)
+    public async Task<T?> GetAsync<T>(string endpoint, CancellationToken cancellationToken = default)
     {
         try
         {
-            var response = await _httpClient.GetAsync(endpoint);
+            using var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
+            if (!string.IsNullOrEmpty(_authToken))
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _authToken);
+            
+            var response = await _httpClient.SendAsync(request, cancellationToken);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<T>();
+            return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
@@ -53,17 +58,21 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
         }
     }
 
-    public async Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data)
+    public async Task<TResponse?> PostAsync<TRequest, TResponse>(string endpoint, TRequest data, CancellationToken cancellationToken = default)
     {
         try
         {
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             
-            var response = await _httpClient.PostAsync(endpoint, content);
+            using var request = new HttpRequestMessage(HttpMethod.Post, endpoint) { Content = content };
+            if (!string.IsNullOrEmpty(_authToken))
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _authToken);
+            
+            var response = await _httpClient.SendAsync(request, cancellationToken);
             response.EnsureSuccessStatusCode();
             
-            return await response.Content.ReadFromJsonAsync<TResponse>();
+            return await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: cancellationToken);
         }
         catch (Exception ex)
         {
@@ -91,11 +100,15 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
         }
     }
 
-    public async Task<bool> DeleteAsync(string endpoint)
+    public async Task<bool> DeleteAsync(string endpoint, CancellationToken cancellationToken = default)
     {
         try
         {
-            var response = await _httpClient.DeleteAsync(endpoint);
+            using var request = new HttpRequestMessage(HttpMethod.Delete, endpoint);
+            if (!string.IsNullOrEmpty(_authToken))
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _authToken);
+            
+            var response = await _httpClient.SendAsync(request, cancellationToken);
             return response.IsSuccessStatusCode;
         }
         catch (Exception ex)
@@ -139,6 +152,11 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
             Console.WriteLine($"AQL query execution failed: {ex.Message}");
             return new List<T>();
         }
+    }
+
+    public void SetAuthToken(string? token)
+    {
+        _authToken = token;
     }
 
     public void Dispose()

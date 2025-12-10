@@ -140,6 +140,7 @@ class DockerBenchmarkOrchestrator:
         self.analyze_only = analyze_only
         self.timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         self.results_dir = f"{output_dir}_{self.timestamp}"
+        self.duration = 180  # Default duration in seconds
         
         # Erstelle Output Verzeichnis
         if not analyze_only:
@@ -213,6 +214,7 @@ class DockerBenchmarkOrchestrator:
     async def run_full_benchmark(self, workloads: List[WorkloadType],
                                  duration: int = 60) -> None:
         """Führe vollständige Benchmark-Suite aus"""
+        self.duration = duration  # Store duration for later use
         self.log_info("=" * 80)
         self.log_info("ThemisDB Docker Comparative Benchmarks v1.0.0")
         self.log_info("=" * 80)
