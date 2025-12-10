@@ -86,17 +86,17 @@ public partial class TimelineViewModel : ObservableObject
 
         // Initialize commands
         LoadItemsCommand = new AsyncRelayCommand(LoadItemsAsync);
-        ZoomInCommand = new RelayCommand(ZoomIn, CanZoomIn);
-        ZoomOutCommand = new RelayCommand(ZoomOut, CanZoomOut);
+        ZoomInCommand = new AsyncRelayCommand(ZoomInAsync, CanZoomIn);
+        ZoomOutCommand = new AsyncRelayCommand(ZoomOutAsync, CanZoomOut);
         ZoomToScaleCommand = new AsyncRelayCommand<TimelineScale>(ZoomToScaleAsync);
-        JumpToTodayCommand = new RelayCommand(JumpToToday);
+        JumpToTodayCommand = new AsyncRelayCommand(JumpToTodayAsync);
         JumpToDateCommand = new AsyncRelayCommand<DateTime>(JumpToDateAsync);
         ApplyFiltersCommand = new AsyncRelayCommand(ApplyFiltersAsync);
         ClearFiltersCommand = new AsyncRelayCommand(ClearFiltersAsync);
         SelectProcessCommand = new AsyncRelayCommand<string>(SelectProcessAsync);
         ClearProcessCommand = new AsyncRelayCommand(ClearProcessAsync);
-        NavigateToItemCommand = new RelayCommand<TimelineItem>(NavigateToItem);
-        OpenItemCommand = new RelayCommand<TimelineItem>(OpenItem);
+        NavigateToItemCommand = new AsyncRelayCommand<TimelineItem>(NavigateToItemAsync);
+        OpenItemCommand = new AsyncRelayCommand<TimelineItem>(OpenItemAsync);
         RefreshCommand = new AsyncRelayCommand(LoadItemsAsync);
 
         // Watch for filter changes
@@ -172,23 +172,23 @@ public partial class TimelineViewModel : ObservableObject
         }
     }
 
-    public void ZoomIn()
+    public async Task ZoomInAsync()
     {
         var currentIndex = (int)CurrentScale;
         if (currentIndex > 0)
         {
             CurrentScale = (TimelineScale)(currentIndex - 1);
-            _ = ZoomToScaleAsync(CurrentScale);
+            await ZoomToScaleAsync(CurrentScale);
         }
     }
 
-    public void ZoomOut()
+    public async Task ZoomOutAsync()
     {
         var currentIndex = (int)CurrentScale;
         if (currentIndex < (int)TimelineScale.FiveYears)
         {
             CurrentScale = (TimelineScale)(currentIndex + 1);
-            _ = ZoomToScaleAsync(CurrentScale);
+            await ZoomToScaleAsync(CurrentScale);
         }
     }
 
@@ -203,10 +203,10 @@ public partial class TimelineViewModel : ObservableObject
         await LoadItemsAsync();
     }
 
-    public void JumpToToday()
+    public async Task JumpToTodayAsync()
     {
         CenterDate = DateTime.Now;
-        _ = ZoomToScaleAsync(CurrentScale);
+        await ZoomToScaleAsync(CurrentScale);
     }
 
     public async Task JumpToDateAsync(DateTime date)
@@ -259,14 +259,14 @@ public partial class TimelineViewModel : ObservableObject
         await LoadItemsAsync();
     }
 
-    public void NavigateToItem(TimelineItem? item)
+    public async Task NavigateToItemAsync(TimelineItem? item)
     {
         if (item == null) return;
 
         // Navigate to the appropriate view based on object type
         // This would be implemented by the MainViewModel or navigation service
         // For now, just show a notification
-        _notificationService.ShowNotificationAsync(new Notification
+        await _notificationService.ShowNotificationAsync(new Notification
         {
             Type = NotificationType.Info,
             Title = "Navigation",
@@ -274,12 +274,12 @@ public partial class TimelineViewModel : ObservableObject
         });
     }
 
-    public void OpenItem(TimelineItem? item)
+    public async Task OpenItemAsync(TimelineItem? item)
     {
         if (item == null) return;
 
         // Open the item in a detailed view
-        _notificationService.ShowNotificationAsync(new Notification
+        await _notificationService.ShowNotificationAsync(new Notification
         {
             Type = NotificationType.Info,
             Title = "Öffnen",

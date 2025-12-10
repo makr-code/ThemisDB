@@ -1,4 +1,5 @@
 using MediatR;
+using Themis.DocumentManager.Application.Navigation.Queries.GetNavigationPath;
 
 namespace Themis.DocumentManager.Application.Favorites.Commands.AddToFavorites;
 
@@ -10,7 +11,7 @@ public class AddToFavoritesCommandHandler : IRequestHandler<AddToFavoritesComman
 {
     // In real implementation, this would use a repository
     // For now, using in-memory storage as example
-    private static readonly List<FavoriteEntity> _favorites = new();
+    internal static readonly List<FavoriteEntity> _favorites = new();
 
     public async Task<bool> Handle(AddToFavoritesCommand request, CancellationToken cancellationToken)
     {

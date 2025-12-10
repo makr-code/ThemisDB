@@ -41,6 +41,11 @@ public class MapConfiguration
     public bool EnablePopups { get; set; } = true;
     public bool EnableDrawing { get; set; } = false;
     
+    // UI Display
+    public bool EnableHeatmap { get; set; } = false;
+    public bool ShowLegend { get; set; } = true;
+    public bool ShowLayerControl { get; set; } = true;
+    
     public DateTime CreatedAt { get; set; }
     public string CreatedBy { get; set; } = string.Empty;
     public Dictionary<string, object> Metadata { get; set; } = new();
@@ -73,6 +78,7 @@ public class GeoLayer
     public bool IsVisible { get; set; } = true;
     public bool IsBaseLayer { get; set; } = false;
     public int ZIndex { get; set; } = 0;
+    public int DisplayOrder { get; set; } = 0;
     public double Opacity { get; set; } = 1.0;
     
     // Zoom-Grenzen
@@ -113,6 +119,8 @@ public enum LayerType
     Markers,        // Einzelne Marker/Pins
     Heatmap,        // Heatmap
     Choropleth,     // Choroplethenkarte (gefärbte Flächen)
+    Polygons,       // Polygone/Flächen
+    Lines,          // Linien
     Vector,         // Vektordaten (Linien, Polygone)
     Raster,         // Rasterdaten (Tiles)
     GeoJSON,        // GeoJSON Layer
@@ -153,6 +161,43 @@ public class LayerStyle
     
     // Cluster-Stil
     public ClusterStyle Cluster { get; set; } = new();
+    
+    // Convenience Properties (direct access)
+    public string Color 
+    { 
+        get => Line.Color; 
+        set => Line.Color = value; 
+    }
+    
+    public string FillColor 
+    { 
+        get => Polygon.FillColor; 
+        set => Polygon.FillColor = value; 
+    }
+    
+    public double Opacity 
+    { 
+        get => Line.Opacity; 
+        set { Line.Opacity = value; Polygon.FillOpacity = value; } 
+    }
+    
+    public string IconUrl 
+    { 
+        get => Marker.IconUrl; 
+        set => Marker.IconUrl = value; 
+    }
+    
+    public int[] IconSize 
+    { 
+        get => new[] { Marker.IconSize, Marker.IconSize }; 
+        set => Marker.IconSize = value.Length > 0 ? value[0] : 25; 
+    }
+    
+    public int Weight 
+    { 
+        get => Line.Weight; 
+        set { Line.Weight = value; Polygon.StrokeWeight = value; } 
+    }
 }
 
 public class MarkerStyle
@@ -280,7 +325,11 @@ public class GeoFeature
     public string ProcessId { get; set; } = string.Empty;
     public string FileId { get; set; } = string.Empty;
     
+    // Layer Association
+    public string LayerId { get; set; } = string.Empty;
+    
     // Metadaten
+    public string Name { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }

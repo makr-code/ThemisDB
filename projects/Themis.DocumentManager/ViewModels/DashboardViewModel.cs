@@ -54,7 +54,7 @@ public partial class DashboardViewModel : ObservableObject
             var tasksQuery = new GetMyTasksQuery
             {
                 UserId = "current-user", // TODO: Get from auth service
-                StatusFilter = TaskStatus.Pending
+                StatusFilter = Application.Tasks.Queries.GetMyTasks.TaskStatus.Pending
             };
             var tasks = await _mediator.Send(tasksQuery);
             PendingTasks = tasks.Count;

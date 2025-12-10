@@ -1,4 +1,5 @@
 using MediatR;
+using Themis.DocumentManager.Application.Navigation.Queries.GetNavigationPath;
 
 namespace Themis.DocumentManager.Application.Navigation.Queries.GetRelatedEntities;
 

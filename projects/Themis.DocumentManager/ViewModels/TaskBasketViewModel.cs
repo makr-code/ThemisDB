@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MediatR;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Data;
 using Themis.DocumentManager.Application.Tasks.Queries.GetMyTasks;
 
@@ -32,7 +33,7 @@ public partial class TaskBasketViewModel : ObservableObject
     private string _searchText = string.Empty;
 
     [ObservableProperty]
-    private TaskStatus? _statusFilter;
+    private Application.Tasks.Queries.GetMyTasks.TaskStatus? _statusFilter;
 
     [ObservableProperty]
     private TaskPriority? _priorityFilter;
@@ -111,7 +112,7 @@ public partial class TaskBasketViewModel : ObservableObject
             }
 
             // Calculate unread tasks count (new tasks that haven't been viewed)
-            UnreadTasksCount = tasks.Count(t => t.Status == TaskStatus.Pending && t.CreatedAt > DateTime.UtcNow.AddDays(-1));
+            UnreadTasksCount = tasks.Count(t => t.Status == Application.Tasks.Queries.GetMyTasks.TaskStatus.Pending && t.CreatedAt > DateTime.UtcNow.AddDays(-1));
             HasUnreadTasks = UnreadTasksCount > 0;
 
             TasksView.Refresh();
@@ -186,7 +187,7 @@ public partial class TaskBasketViewModel : ObservableObject
     {
         foreach (var task in SelectedTasks)
         {
-            task.Status = TaskStatus.Completed;
+            task.Status = Application.Tasks.Queries.GetMyTasks.TaskStatus.Completed;
         }
         TasksView.Refresh();
     }
@@ -244,7 +245,7 @@ public partial class TaskBasketViewModel : ObservableObject
         }
 
         // Hide completed tasks if not showing them
-        if (!ShowCompleted && task.Status == TaskStatus.Completed)
+        if (!ShowCompleted && task.Status == Application.Tasks.Queries.GetMyTasks.TaskStatus.Completed)
         {
             return false;
         }

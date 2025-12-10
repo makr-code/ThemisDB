@@ -28,6 +28,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Linq.Async" Version="5.1.0" />
@@ -76,6 +77,11 @@
 
   <ItemGroup>
     <Resource Include="Resources\**\*" />
+  </ItemGroup>
+
+  <!-- Exclude XAML snippet files from compilation -->
+  <ItemGroup>
+    <None Include="Views\MainWindow_LeftSidebar_Update.xaml" />
   </ItemGroup>
 
 </Project>

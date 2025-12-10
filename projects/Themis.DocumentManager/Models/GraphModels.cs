@@ -65,6 +65,8 @@ public class GraphNode
 public enum GraphNodeType
 {
     Default,
+    Central,
+    Standard,
     Document,
     Process,
     Entity,
@@ -219,8 +221,11 @@ public enum LayoutAlgorithm
 {
     ForceDirected,      // Fruchterman-Reingold
     HierarchicalLayout, // Top-down hierarchical
-    CircularLayout,     // Circular arrangement
-    RadialLayout,       // Radial from center
+    Circular,           // Circular arrangement
+    CircularLayout,     // Circular arrangement (alias)
+    Hierarchical,       // Hierarchical (alias)
+    Radial,             // Radial from center
+    RadialLayout,       // Radial from center (alias)
     TreeLayout,         // Tree structure
     Kamada_Kawai,       // Kamada-Kawai algorithm
     Custom              // Benutzerdefiniert
@@ -450,6 +455,8 @@ public class ForceDirectedLayoutParams
     public double Threshold { get; set; } = 0.01; // Konvergenz-Schwelle
     public double CoulombForce { get; set; } = 1.0;
     public double HookeForce { get; set; } = 0.1;
+    public double StepSize { get; set; } = 0.01;
+    public double Cooling { get; set; } = 0.95;
     public bool Use3D { get; set; } = true;
 }
 

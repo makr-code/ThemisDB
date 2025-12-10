@@ -16,11 +16,25 @@ namespace Themis.DocumentManager;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App : System.Windows.Application
 {
     private ServiceProvider? _serviceProvider;
     private SplashScreen? _splashScreen;
     private DynamicAssemblyLoader? _assemblyLoader;
+
+    /// <summary>
+    /// Public access to ServiceProvider for DI lookups
+    /// </summary>
+    public IServiceProvider? ServiceProvider => _serviceProvider;
+
+    /// <summary>
+    /// Get service from DI container
+    /// </summary>
+    public static T? GetService<T>() where T : class
+    {
+        var app = Current as App;
+        return app?.ServiceProvider?.GetService(typeof(T)) as T;
+    }
 
     protected override void OnStartup(StartupEventArgs e)
     {

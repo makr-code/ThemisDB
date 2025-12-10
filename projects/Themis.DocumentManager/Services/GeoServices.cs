@@ -89,6 +89,7 @@ public interface IGeoLayerService
     // Layer Management
     Task<GeoLayer> CreateLayerAsync(GeoLayer layer);
     Task<GeoLayer?> GetLayerAsync(string layerId);
+    Task<IEnumerable<GeoLayer>> GetLayersAsync(string query);
     Task<IEnumerable<GeoLayer>> GetLayersByMapAsync(string mapConfigId);
     Task<bool> UpdateLayerAsync(GeoLayer layer);
     Task<bool> DeleteLayerAsync(string layerId);
@@ -129,6 +130,13 @@ public class GeoLayerService : IGeoLayerService
     {
         var urn = $"urn:themis:geo:layer:{layerId}";
         return await _apiClient.GetAsync<GeoLayer>($"/entities/{urn}");
+    }
+
+    public async Task<IEnumerable<GeoLayer>> GetLayersAsync(string query)
+    {
+        // For now, return empty list as query execution depends on ThemisDB
+        // In production, would execute AQL query against ThemisDB
+        return Enumerable.Empty<GeoLayer>();
     }
 
     public async Task<IEnumerable<GeoLayer>> GetLayersByMapAsync(string mapConfigId)
@@ -278,6 +286,7 @@ public interface IGeoFeatureService
 {
     Task<GeoFeature> CreateFeatureAsync(GeoFeature feature);
     Task<GeoFeature?> GetFeatureAsync(string featureId);
+    Task<IEnumerable<GeoFeature>> GetFeaturesAsync(string query);
     Task<IEnumerable<GeoFeature>> GetFeaturesByDocumentAsync(string documentId);
     Task<bool> UpdateFeatureAsync(GeoFeature feature);
     Task<bool> DeleteFeatureAsync(string featureId);
@@ -314,6 +323,13 @@ public class GeoFeatureService : IGeoFeatureService
     {
         var urn = $"urn:themis:geo:feature:{featureId}";
         return await _apiClient.GetAsync<GeoFeature>($"/entities/{urn}");
+    }
+
+    public async Task<IEnumerable<GeoFeature>> GetFeaturesAsync(string query)
+    {
+        // For now, return empty list as query execution depends on ThemisDB
+        // In production, would execute AQL query against ThemisDB
+        return Enumerable.Empty<GeoFeature>();
     }
 
     public async Task<IEnumerable<GeoFeature>> GetFeaturesByDocumentAsync(string documentId)

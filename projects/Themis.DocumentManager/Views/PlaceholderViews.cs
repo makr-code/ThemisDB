@@ -7,17 +7,12 @@ public partial class SearchView : UserControl
     public SearchView() => InitializeComponent();
 }
 
-public partial class GeoView : UserControl
-{
-    public GeoView() => InitializeComponent();
-}
+// GeoView moved to separate file: Views/GeoView.xaml.cs
 
 public partial class TimelineView : UserControl
 {
     public TimelineView() => InitializeComponent();
 }
 
-public partial class GraphView : UserControl
-{
-    public GraphView() => InitializeComponent();
-}
+// GraphView moved to separate file: Views/GraphView.xaml.cs
+
