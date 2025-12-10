@@ -1,5 +1,6 @@
 using MediatR;
 using Themis.DocumentManager.Domain.Collaboration;
+using Themis.DocumentManager.Application.Common;
 
 namespace Themis.DocumentManager.Application.Collaboration.Commands;
 
@@ -76,18 +77,3 @@ public record AddCommentReactionCommand(
     string ReactionType
 ) : IRequest<Result<bool>>;
 
-/// <summary>
-/// Ergebnis-Wrapper für Commands mit Erfolgs-/Fehler-Handling.
-/// </summary>
-/// <typeparam name="T">Typ des Ergebnisses</typeparam>
-public class Result<T>
-{
-    public bool Success { get; init; }
-    public T? Value { get; init; }
-    public string? ErrorMessage { get; init; }
-    public List<string> Errors { get; init; } = new();
-
-    public static Result<T> Ok(T value) => new() { Success = true, Value = value };
-    public static Result<T> Fail(string error) => new() { Success = false, ErrorMessage = error };
-    public static Result<T> Fail(List<string> errors) => new() { Success = false, Errors = errors };
-}

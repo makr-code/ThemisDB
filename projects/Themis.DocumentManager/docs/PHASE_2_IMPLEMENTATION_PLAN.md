@@ -199,22 +199,22 @@ Themis.DocumentManager/
 ### Woche 1-2: Collaboration Infrastructure
 
 #### Tag 1-2: Domain Models
-- [ ] Erstelle `DocumentLock` Entity
-- [ ] Erstelle `Comment` und `CommentThread` Entities
-- [ ] Erstelle `UserPresence` Value Object
-- [ ] Domain Events definieren
+- [x] Erstelle `DocumentLock` Entity
+- [x] Erstelle `Comment` und `CommentThread` Entities
+- [x] Erstelle `UserPresence` Value Object
+- [x] Domain Events definieren
 
 #### Tag 3-4: Application Layer (CQRS)
-- [ ] MediatR Commands für Check-in/Check-out
-- [ ] Query Handlers für Lock-Status
-- [ ] FluentValidation Rules
+- [x] MediatR Commands für Check-in/Check-out
+- [x] Query Handlers für Lock-Status
+- [x] FluentValidation Rules
 - [ ] Command Pipeline Behaviors
 
 #### Tag 5-7: SignalR Integration
-- [ ] SignalR Hub implementieren
-- [ ] WPF Client Connection Manager
-- [ ] Real-time Event Broadcasting
-- [ ] Connection State Management
+- [x] SignalR Hub implementieren
+- [x] WPF Client Connection Manager
+- [x] Real-time Event Broadcasting
+- [x] Connection State Management
 
 #### Tag 8-10: UI Implementation
 - [ ] Collaboration Panel UI

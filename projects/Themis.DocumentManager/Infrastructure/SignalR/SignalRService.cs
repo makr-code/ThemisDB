@@ -38,6 +38,7 @@ public interface ISignalRService
 public class SignalRService : ISignalRService, IAsyncDisposable
 {
     private readonly ILogger<SignalRService> _logger;
+    private readonly SignalRConfiguration _config;
     private HubConnection? _connection;
     private string _currentUserId = string.Empty;
     private string _currentUserName = string.Empty;
@@ -50,9 +51,10 @@ public class SignalRService : ISignalRService, IAsyncDisposable
 
     public bool IsConnected => _connection?.State == HubConnectionState.Connected;
 
-    public SignalRService(ILogger<SignalRService> logger)
+    public SignalRService(ILogger<SignalRService> logger, SignalRConfiguration? config = null)
     {
         _logger = logger;
+        _config = config ?? new SignalRConfiguration();
     }
 
     public async Task ConnectAsync(string hubUrl, string userId, string userName)
@@ -66,10 +68,16 @@ public class SignalRService : ISignalRService, IAsyncDisposable
         _currentUserId = userId;
         _currentUserName = userName;
 
-        _connection = new HubConnectionBuilder()
-            .WithUrl(hubUrl)
-            .WithAutomaticReconnect(new[] { TimeSpan.Zero, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(10) })
-            .Build();
+        var builder = new HubConnectionBuilder()
+            .WithUrl(hubUrl);
+
+        // Configurable reconnection
+        if (_config.AutoReconnect)
+        {
+            builder.WithAutomaticReconnect(_config.ReconnectionIntervals);
+        }
+
+        _connection = builder.Build();
 
         // Event Handlers registrieren
         RegisterEventHandlers();

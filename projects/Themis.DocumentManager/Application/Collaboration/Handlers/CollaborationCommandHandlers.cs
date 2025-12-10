@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Themis.DocumentManager.Application.Collaboration.Commands;
+using Themis.DocumentManager.Application.Common;
 using Themis.DocumentManager.Domain.Collaboration;
 using Themis.DocumentManager.Services;
 

@@ -399,9 +399,14 @@ public class DocumentDetailViewModel
 
 ## 📚 Dependencies
 
-### Neu hinzugefügt:
+### Phase 2 Sprint 5-6 (Collaboration):
 ```xml
 <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
+```
+
+### Phase 2 Sprint 7-8 (AI/ML - Geplant):
+```xml
+<!-- Noch nicht aktiv verwendet - für Sprint 7-8 vorbereitet -->
 <PackageReference Include="Microsoft.ML" Version="3.0.1" />
 <PackageReference Include="Microsoft.ML.AutoML" Version="0.21.1" />
 ```

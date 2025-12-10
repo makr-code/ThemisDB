@@ -1,6 +1,6 @@
 using MediatR;
 using Themis.DocumentManager.Domain.Collaboration;
-using Themis.DocumentManager.Application.Collaboration.Commands;
+using Themis.DocumentManager.Application.Common;
 
 namespace Themis.DocumentManager.Application.Collaboration.Queries;
 

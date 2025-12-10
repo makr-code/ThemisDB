@@ -101,6 +101,15 @@ public class DocumentLockingService : IDocumentLockingService
                 RETURN NEW
             ";
 
+            // Explicit enum to string mapping für Database-Kompatibilität
+            string lockTypeStr = documentLock.Type switch
+            {
+                LockType.Read => "read",
+                LockType.Write => "write",
+                LockType.Optimistic => "optimistic",
+                _ => "write" // Default fallback
+            };
+
             var bindVars = new
             {
                 lockId = documentLock.Id,
@@ -109,7 +118,7 @@ public class DocumentLockingService : IDocumentLockingService
                 userName = documentLock.UserName,
                 lockedAt = documentLock.LockedAt,
                 expiresAt = documentLock.ExpiresAt,
-                type = documentLock.Type.ToString(),
+                type = lockTypeStr,
                 reason = documentLock.Reason,
                 machineName = documentLock.MachineName
             };
