@@ -201,14 +201,22 @@ if (!Path.GetFullPath(path).StartsWith(_root))
 
 ### Phase 2: Advanced Features (Q2 2026)
 
-| Sprint | Feature | Beschreibung | Aufwand |
-|--------|---------|--------------|---------|
-| 5-6 | **Collaboration** | Check-in/Check-out, SignalR, Comments | 2 Wochen |
-| 7-8 | **AI/ML Integration** | Auto-Classification, Metadata Extraction | 2 Wochen |
+| Sprint | Feature | Beschreibung | Aufwand | Status |
+|--------|---------|--------------|---------|--------|
+| 5-6 | **Collaboration** | Check-in/Check-out, SignalR, Comments | 2 Wochen | ✅ **IN PROGRESS** |
+| 7-8 | **AI/ML Integration** | Auto-Classification, Metadata Extraction | 2 Wochen | ⏳ Geplant |
+
+**Status Update (2025-12-10):**
+- ✅ Sprint 5-6 Foundation implementiert (Domain, Application, Infrastructure)
+- ✅ Check-in/Check-out System mit MediatR CQRS
+- ✅ Comments & Annotations mit Threading
+- ✅ SignalR Real-time Infrastructure
+- ⏳ UI Components (nächster Schritt)
+- ⏳ Tests & Integration
 
 **Ziele:**
-- ✅ 10+ simultane Benutzer
-- ✅ 90%+ Classification Accuracy
+- ✅ 10+ simultane Benutzer (Infrastructure bereit)
+- ⏳ 90%+ Classification Accuracy (Sprint 7-8)
 
 ---
 
@@ -229,21 +237,22 @@ if (!Path.GetFullPath(path).StartsWith(_root))
 
 ### Sofort integrieren
 
-| Bibliothek | Zweck | Installation |
-|-----------|-------|--------------|
-| **MediatR** | CQRS Pattern | `dotnet add package MediatR` |
-| **FluentValidation** | Eingabevalidierung | `dotnet add package FluentValidation` |
-| **Serilog** | Structured Logging | `dotnet add package Serilog` |
-| **xUnit + Moq** | Unit Testing | `dotnet add package xUnit` |
+| Bibliothek | Zweck | Installation | Status |
+|-----------|-------|--------------|--------|
+| **MediatR** | CQRS Pattern | `dotnet add package MediatR` | ✅ Installiert |
+| **FluentValidation** | Eingabevalidierung | `dotnet add package FluentValidation` | ✅ Installiert |
+| **Serilog** | Structured Logging | `dotnet add package Serilog` | ⏳ Empfohlen |
+| **xUnit + Moq** | Unit Testing | `dotnet add package xUnit` | ⏳ Empfohlen |
+| **SignalR.Client** | Real-time Collaboration | `dotnet add package Microsoft.AspNetCore.SignalR.Client` | ✅ Installiert |
 
 ### Mittelfristig (Q1-Q2 2026)
 
-| Bibliothek | Zweck |
-|-----------|-------|
-| **ML.NET** | Document Classification |
-| **Tesseract (wrapper)** | OCR Integration |
-| **SignalR** | Real-time Collaboration |
-| **iText7** | PDF Processing |
+| Bibliothek | Zweck | Status |
+|-----------|-------|--------|
+| **ML.NET** | Document Classification | ✅ Installiert |
+| **ML.NET.AutoML** | Auto ML Training | ✅ Installiert |
+| **Tesseract (wrapper)** | OCR Integration | ⏳ Geplant |
+| **iText7** | PDF Processing | ⏳ Geplant |
 
 ### Langfristig (Q3 2026)
 
@@ -340,6 +349,62 @@ Die Recherche hat **5 relevante Referenz-Implementierungen** identifiziert und *
 Die empfohlene **3-Phasen-Roadmap** (12 Sprints) bietet einen klaren Pfad zur systematischen Weiterentwicklung des Themis.DocumentManager von einem funktionalen Prototyp zu einem **Enterprise-Grade Document Management System**.
 
 **Dokumentation:** Alle Details in [REFERENCE_IMPLEMENTATIONS_AND_BEST_PRACTICES.md](./REFERENCE_IMPLEMENTATIONS_AND_BEST_PRACTICES.md)
+
+---
+
+## 📈 Implementierungs-Status (Update 2025-12-10)
+
+### Phase 2 - Sprint 5-6: Collaboration Features ✅ FOUNDATION COMPLETE
+
+**Implementierte Komponenten:**
+
+1. **Domain Layer** ✅
+   - DocumentLock Entity (Check-in/Check-out)
+   - Comment Entity (Threading, Reactions, Attachments)
+   - UserPresence Entity (Real-time Tracking)
+   - Value Objects (DocumentPosition, BoundingBox)
+
+2. **Application Layer (CQRS)** ✅
+   - MediatR Commands: CheckOut, CheckIn, AddComment, UpdateComment, DeleteComment
+   - MediatR Queries: GetLockStatus, GetComments, CanUserEdit
+   - Command/Query Handlers mit Logging & Error Handling
+
+3. **Infrastructure Layer** ✅
+   - SignalR Client Service (WPF-kompatibel)
+   - Real-time Events: DocumentLocked, CommentAdded, PresenceUpdated
+   - Automatic Reconnection mit Exponential Backoff
+
+4. **Services Layer** ✅
+   - DocumentLockingService (ThemisDB Persistence + In-Memory Cache)
+   - CommentService (Thread-basiert, Soft Delete)
+   - Lock Cleanup & Timeout Management
+
+5. **Dependency Injection** ✅
+   - Services registriert in App.xaml.cs
+   - MediatR Handlers auto-registered
+
+**Dokumentation erstellt:**
+- ✅ [PHASE_2_IMPLEMENTATION_PLAN.md](./PHASE_2_IMPLEMENTATION_PLAN.md) - Vollständiger Implementierungsplan
+- ✅ [PHASE_2_SPRINT_5_6_README.md](./PHASE_2_SPRINT_5_6_README.md) - Technical Documentation
+
+**Nächste Schritte (Sprint 5-6 Completion):**
+- [ ] UI Components (Lock Indicator, Comments Sidebar, Presence Display)
+- [ ] Background Job für Lock Cleanup
+- [ ] Unit Tests (Commands/Handlers)
+- [ ] Integration Tests (SignalR)
+
+**Nächste Phase (Sprint 7-8):**
+- [ ] ML.NET Document Classification
+- [ ] Metadata Extraction Pipeline
+- [ ] Training Data Management
+- [ ] 90%+ Classification Accuracy Goal
+
+---
+
+**Erstellt:** 2025-12-10  
+**Autor:** ThemisDB Research Team  
+**Nächste Review:** Q1 2026  
+**Phase 2 Status:** 🚀 **IN PROGRESS** (Sprint 5-6 Foundation Complete)
 
 ---
 
