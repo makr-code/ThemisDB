@@ -14,6 +14,23 @@
 
 The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Database System Based on LSM Tree
 
+## 🆕 Latest Release: v1.0.1 (December 2025)
+
+**Release Focus:** Enterprise-Grade Release Management & Competitive Benchmarking
+
+- ✅ **SLSA Level 1 Compliance** - Supply Chain Security achieved
+- ✅ **SBOM (CycloneDX 1.4)** - Full Software Bill of Materials for all 11 release packages
+- ✅ **Automated Release Pipeline** - Enterprise-grade release automation with GitHub Actions
+- ✅ **Competitive Benchmarking** - Comprehensive framework comparing against PostgreSQL, MySQL, MariaDB, CockroachDB, TiDB, SingleStore
+- ✅ **Performance Gap Analysis** - 36 identified gaps with automated closure tracking
+- 📊 **87% Gap Closure Target** - Systematic performance optimization roadmap
+
+**Key Documentation:**
+- **[Changelog v1.0.1](CHANGELOG.md#101---2025-12-09)** - Complete release notes
+- **[Release Strategy Audit](RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
+- **[Benchmarking Guide](benchmarks/DOCKER_COMPARATIVE_BENCHMARKS_README.md)** - Complete benchmark infrastructure
+- **[Release & Benchmarking Summary](RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
+
 ## 📊 Entwicklungsstand & Dokumentation
 
 **Kern-Dokumentation (Aktualisiert Dezember 2025):**
@@ -51,9 +68,11 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - **[BCP/DRP - Business Continuity](docs/compliance/compliance_bcp_drp.md)** - Disaster Recovery nach ISO 22301 & NIS2
 
 **Für Entwickler:**
+- **[📖 Dokumentations-Index](docs/README.md)** - Vollständiger Index aller Dokumentation (456+ Dateien)
+- **[Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
+- **[Source Code Changes v1.0](docs/SOURCE_CODE_CHANGES_v1.0.md)** - Comprehensive documentation of all source modules (191 C++ files across 26 directories)
 - **[Documentation Verification Report](docs/reports/documentation_verification_report.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
 - **[Source Code Audit](docs/development/SOURCE_CODE_AUDIT.md)** - Systematische Analyse aller 16 Source-Komponenten (132 Header, 124 Sources, 90,829 LOC)
-- **[Dokumentationsstruktur](docs/DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Source-Modul-Mapping
 
 **Source-Code-Module (v1.0.0):**
 
