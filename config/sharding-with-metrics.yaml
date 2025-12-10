@@ -39,6 +39,29 @@ sharding:
     check_interval_sec: 60
     certificate_warning_days: 7
     storage_warning_percent: 90
+  
+  # TrueTime Clock Configuration
+  truetime:
+    enabled: true
+    node_id: "shard-1"
+    
+    # Clock source (SYSTEM_CLOCK, NTP, PTP, GPS, ATOMIC)
+    source: NTP
+    ntp_server: "pool.ntp.org"
+    ptp_interface: "eth0"
+    
+    # Uncertainty bounds
+    base_uncertainty_us: 100        # Base uncertainty (100µs)
+    max_uncertainty_us: 10000       # Max uncertainty (10ms)
+    drift_rate_ppm: 200             # Clock drift (200 ppm)
+    
+    # Synchronization
+    sync_interval_ms: 30000         # Sync every 30s
+    sync_timeout_ms: 5000           # Timeout for sync requests
+    
+    # Commit-wait protocol for external consistency
+    enable_commit_wait: true        # Enable external consistency
+    commit_wait_multiplier: 2       # Wait 2x uncertainty for safety
 
 # Example: Accessing Metrics
 # 
@@ -62,3 +85,12 @@ sharding:
 #    - themis_cloud_agent_*     (Cloud Agent metrics)
 #    - themis_shard_*           (Shard health and topology)
 #    - themis_pki_*             (PKI/mTLS metrics)
+#    - themis_truetime_*        (TrueTime Clock metrics)
+#
+# 4. TrueTime Metrics:
+#    - themis_truetime_sync_count         (Total synchronizations)
+#    - themis_truetime_sync_failures      (Failed synchronizations)
+#    - themis_truetime_clock_offset_us    (Clock offset from reference)
+#    - themis_truetime_uncertainty_us     (Current uncertainty interval)
+#    - themis_truetime_max_skew_us        (Maximum observed clock skew)
+#    - themis_truetime_drift_rate_ppm     (Clock drift rate)
