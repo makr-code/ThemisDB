@@ -1225,9 +1225,10 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     http::response<http::string_body> response;
 
-    switch (classifyRoute(req)) {
-        case Route::Health:
-            response = handleHealthCheck(req);
+    try {
+        switch (classifyRoute(req)) {
+            case Route::Health:
+                response = handleHealthCheck(req);
             break;
         case Route::Stats:
             response = handleStats(req);
@@ -1603,9 +1604,33 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Trace status code
     span.setAttribute("http.status_code", static_cast<int64_t>(response.result_int()));
     if (response.result_int() >= 200 && response.result_int() < 400) {
-    span.setStatus(true);
+        span.setStatus(true);
     } else {
-    span.setStatus(false);
+        span.setStatus(false);
+    }
+
+    } catch (const nlohmann::json::exception& e) {
+        // JSON parsing errors (including invalid UTF-8)
+        THEMIS_ERROR("JSON parsing error in routeRequest: {}", e.what());
+        response = makeErrorResponse(http::status::bad_request, 
+            "JSON parse error: " + std::string(e.what()), req);
+        span.setStatus(false, "json_parse_error");
+        span.recordError(e.what());
+        
+        auto end = std::chrono::steady_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        recordLatency(dur);
+    } catch (const std::exception& e) {
+        // Any other uncaught exceptions
+        THEMIS_ERROR("Uncaught exception in routeRequest: {}", e.what());
+        response = makeErrorResponse(http::status::internal_server_error, 
+            "Internal server error: " + std::string(e.what()), req);
+        span.setStatus(false, "internal_error");
+        span.recordError(e.what());
+        
+        auto end = std::chrono::steady_clock::now();
+        auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        recordLatency(dur);
     }
 
     return response;
@@ -10090,8 +10115,22 @@ void HttpServer::Session::onRead(
 }
 
 void HttpServer::Session::processRequest() {
-    // Route request to appropriate handler
-    response_ = server_->routeRequest(request_);
+    try {
+        // Route request to appropriate handler
+        response_ = server_->routeRequest(request_);
+    } catch (const std::exception& e) {
+        // Final safety net: catch any exception that escaped routeRequest
+        THEMIS_ERROR("Exception in Session::processRequest: {}", e.what());
+        response_.result(http::status::internal_server_error);
+        response_.set(http::field::content_type, "application/json");
+        nlohmann::json error_body = {
+            {"error", "Internal Server Error"},
+            {"message", "An unexpected error occurred"},
+            {"status_code", 500}
+        };
+        response_.body() = error_body.dump();
+        response_.prepare_payload();
+    }
     
     // Send response
     doWrite();
@@ -10210,12 +10249,26 @@ void HttpServer::SslSession::onRead(
 }
 
 void HttpServer::SslSession::processRequest() {
-    // Route request to appropriate handler
-    response_ = server_->routeRequest(request_);
-    
-    // Add HSTS header for HTTPS connections
-    if (server_->config_.enable_tls) {
-        response_.set(http::field::strict_transport_security, "max-age=31536000; includeSubDomains");
+    try {
+        // Route request to appropriate handler
+        response_ = server_->routeRequest(request_);
+        
+        // Add HSTS header for HTTPS connections
+        if (server_->config_.enable_tls) {
+            response_.set(http::field::strict_transport_security, "max-age=31536000; includeSubDomains");
+        }
+    } catch (const std::exception& e) {
+        // Final safety net: catch any exception that escaped routeRequest
+        THEMIS_ERROR("Exception in SslSession::processRequest: {}", e.what());
+        response_.result(http::status::internal_server_error);
+        response_.set(http::field::content_type, "application/json");
+        nlohmann::json error_body = {
+            {"error", "Internal Server Error"},
+            {"message", "An unexpected error occurred"},
+            {"status_code", 500}
+        };
+        response_.body() = error_body.dump();
+        response_.prepare_payload();
     }
     
     doWrite();
