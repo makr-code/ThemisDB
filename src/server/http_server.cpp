@@ -1003,16 +1003,17 @@ namespace {
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
     if (target == "/admin/restore" && method == http::verb::post) return Route::AdminRestorePost;
 
-        // Parametrized entity by key
+        // Exact matches for /entities endpoints BEFORE parametrized routes
+        if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
+        if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
+
+        // Parametrized entity by key (e.g., /entities/users:123)
         if (target.rfind("/entities/", 0) == 0) {
             if (method == http::verb::get) return Route::EntitiesGet;
             if (method == http::verb::put) return Route::EntitiesPut;
             if (method == http::verb::delete_) return Route::EntitiesDelete;
             return Route::NotFound;
         }
-
-        if (target == "/entities" && method == http::verb::post) return Route::EntitiesPost;
-        if (target == "/entities/batch" && method == http::verb::post) return Route::EntitiesBatchPost;
         if (target == "/query" && method == http::verb::post) return Route::QueryPost;
     if (target == "/query/aql" && method == http::verb::post) return Route::QueryAqlPost;
     // Backward compatibility alias
