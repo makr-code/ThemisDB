@@ -99,6 +99,7 @@ public:
         // Feature flags
         bool feature_semantic_cache = false;
         bool feature_llm_store = false;
+        bool feature_llm_query_enhancement = false; // Enterprise: Include LLM context in queries
         bool feature_cdc = false;
         bool feature_timeseries = false;
     bool feature_pii_manager = false; // PII mappings persistence (RocksDB CF + API handler)
@@ -223,6 +224,7 @@ private:
     http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
     http::response<http::string_body> handleQuery(const http::request<http::string_body>& req);
     http::response<http::string_body> handleQueryAql(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req); // Enterprise: Query + LLM context
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeDelete(const http::request<http::string_body>& req);
@@ -288,6 +290,7 @@ private:
     http::response<http::string_body> handleLlmInteractionPost(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionList(const http::request<http::string_body>& req);
     http::response<http::string_body> handleLlmInteractionGet(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleLlmInteractionUpdateMetadata(const http::request<http::string_body>& req);
     // Prompt Template management
     http::response<http::string_body> handlePromptTemplatePost(const http::request<http::string_body>& req);
     http::response<http::string_body> handlePromptTemplateList(const http::request<http::string_body>& req);

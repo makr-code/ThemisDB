@@ -111,6 +111,14 @@ public:
      */
     void clear();
 
+    /**
+     * @brief Update interaction metadata (e.g., for feedback or other extensions)
+     * @param id Interaction ID
+     * @param metadata_updates JSON object with metadata updates
+     * @return true if updated, false if interaction not found
+     */
+    bool updateMetadata(const std::string& id, const nlohmann::json& metadata_updates);
+
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_; // nullptr = default CF
