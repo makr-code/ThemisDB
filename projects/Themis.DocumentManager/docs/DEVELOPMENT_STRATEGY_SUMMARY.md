@@ -203,20 +203,34 @@ if (!Path.GetFullPath(path).StartsWith(_root))
 
 | Sprint | Feature | Beschreibung | Aufwand | Status |
 |--------|---------|--------------|---------|--------|
-| 5-6 | **Collaboration** | Check-in/Check-out, SignalR, Comments | 2 Wochen | ✅ **IN PROGRESS** |
-| 7-8 | **AI/ML Integration** | Auto-Classification, Metadata Extraction | 2 Wochen | ⏳ Geplant |
+| 5-6 | **Collaboration** | Check-in/Check-out, SignalR, Comments | 2 Wochen | ✅ **COMPLETE** |
+| 7-8 | **AI/ML Integration** | Auto-Classification, Metadata Extraction | 2 Wochen | 🔄 **IN PROGRESS (70%)** |
 
-**Status Update (2025-12-10):**
-- ✅ Sprint 5-6 Foundation implementiert (Domain, Application, Infrastructure)
-- ✅ Check-in/Check-out System mit MediatR CQRS
-- ✅ Comments & Annotations mit Threading
-- ✅ SignalR Real-time Infrastructure
-- ⏳ UI Components (nächster Schritt)
-- ⏳ Tests & Integration
+**Status Update (2025-12-10 - Latest):**
+
+**Sprint 5-6 - COMPLETE ✅ (100%):**
+- ✅ Domain Models (DocumentLock, Comment, UserPresence)
+- ✅ Application Layer (CQRS with MediatR)
+- ✅ Infrastructure (SignalR Client + Background Cleanup Service)
+- ✅ Services (DocumentLockingService, CommentService)
+- ✅ UI Components (DocumentCollaborationView, ViewModel)
+- ✅ Tests (24 tests: 16 unit + 6 integration + 2 performance)
+- ✅ Documentation (5 documents)
+
+**Sprint 7-8 - IN PROGRESS 🔄 (70%):**
+- ✅ Domain Models (DocumentClassification, ExtractedMetadata, TrainingData)
+- ✅ Application Layer (15 Commands/Queries + Handlers)
+- ✅ ML.NET Infrastructure (DocumentClassifier, MetadataExtractor)
+- ✅ Services (ClassificationService with ThemisDB persistence)
+- ✅ Tests (16 tests for ML components)
+- ✅ DI Configuration (ML services registered)
+- ⏳ UI Components (Training Data Management - 30% remaining)
+- ⏳ Model Performance Dashboard
+- ⏳ Background Training Jobs
 
 **Ziele:**
-- ✅ 10+ simultane Benutzer (Infrastructure bereit)
-- ⏳ 90%+ Classification Accuracy (Sprint 7-8)
+- ✅ 10+ simultane Benutzer (Sprint 5-6 - Infrastructure getestet)
+- ⏳ 90%+ Classification Accuracy (Sprint 7-8 - Models trainierbar, Accuracy-Validierung pending)
 
 ---
 

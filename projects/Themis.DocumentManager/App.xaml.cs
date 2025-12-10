@@ -255,6 +255,11 @@ public partial class App : Application
             services.AddSingleton<DocumentLockCleanupConfiguration>();
             services.AddSingleton<Infrastructure.BackgroundJobs.DocumentLockCleanupService>();
             
+            // Phase 2 AI/ML Services (Sprint 7-8 - Classification & Metadata Extraction)
+            services.AddSingleton<Infrastructure.MachineLearning.DocumentClassifier>();
+            services.AddSingleton<Infrastructure.MachineLearning.MetadataExtractor>();
+            services.AddSingleton<Services.Classification.IClassificationService, Services.Classification.ClassificationService>();
+            
             // Email Threading Services
             services.AddSingleton<IEmailHeaderService, EmailHeaderService>();
             
