@@ -225,4 +225,46 @@ namespace Themis.DocumentManager.Converters
             throw new NotImplementedException();
         }
     }
+
+    /// <summary>
+    /// Convert ChatMessage Role to Background Color (User=Blue, AI=Gray)
+    /// </summary>
+    public class RoleToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string role)
+            {
+                return role.ToLower() == "user" 
+                    ? new SolidColorBrush(Color.FromArgb(255, 220, 240, 255))  // Light Blue
+                    : new SolidColorBrush(Color.FromArgb(255, 240, 240, 240)); // Light Gray
+            }
+            return new SolidColorBrush(Colors.White);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// Convert string to Visibility (Empty=Visible, NonEmpty=Hidden)
+    /// </summary>
+    public class StringToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string str)
+            {
+                return string.IsNullOrEmpty(str) ? Visibility.Visible : Visibility.Hidden;
+            }
+            return Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

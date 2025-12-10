@@ -3,8 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Themis.DocumentManager.Converters"
              mc:Ignorable="d"
              Background="White">
+    
+    <!-- Resources -->
+    <UserControl.Resources>
+        <local:RoleToColorConverter x:Key="RoleToColorConverter"/>
+        <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -17,7 +26,7 @@
                 <ItemsControl ItemsSource="{Binding Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Margin="0,8,0,8" Background="#f0f0f0" CornerRadius="4" Padding="12,8">
+                            <Border Margin="0,8,0,8" Background="{Binding Role, Converter={StaticResource RoleToColorConverter}}" CornerRadius="4" Padding="12,8">
                                 <StackPanel>
                                     <TextBlock FontWeight="Bold" Foreground="#666" FontSize="11" Text="{Binding Role}"/>
                                     <TextBlock Text="{Binding Content}" TextWrapping="Wrap" Margin="0,4,0,0" FontSize="12"/>
@@ -64,7 +73,7 @@
         </Border>
 
         <!-- Loading Indicator -->
-        <Border Grid.Row="0" Background="#00000080" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Padding="20">
+        <Border Grid.Row="0" Background="#00000080" Visibility="{Binding IsStreaming, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8" Padding="20">
             <StackPanel>
                 <TextBlock Text="🤖 AI antwortet..." Foreground="White" FontSize="12" Margin="0,0,0,8"/>
                 <ProgressBar Width="200" Height="4" Background="#fff" IsIndeterminate="True"/>
