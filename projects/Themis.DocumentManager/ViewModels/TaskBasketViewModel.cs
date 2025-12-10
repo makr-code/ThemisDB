@@ -68,6 +68,12 @@ public partial class TaskBasketViewModel : ObservableObject
     [ObservableProperty]
     private bool _isTreeViewMode = true; // TreeView vs ListView
 
+    [ObservableProperty]
+    private int _unreadTasksCount;
+
+    [ObservableProperty]
+    private bool _hasUnreadTasks;
+
     public ICollectionView TasksView { get; private set; }
 
     public TaskBasketViewModel(IMediator mediator)
@@ -103,6 +109,10 @@ public partial class TaskBasketViewModel : ObservableObject
             {
                 Tasks.Add(task);
             }
+
+            // Calculate unread tasks count (new tasks that haven't been viewed)
+            UnreadTasksCount = tasks.Count(t => t.Status == TaskStatus.Pending && t.CreatedAt > DateTime.UtcNow.AddDays(-1));
+            HasUnreadTasks = UnreadTasksCount > 0;
 
             TasksView.Refresh();
         }

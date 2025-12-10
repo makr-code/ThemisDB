@@ -1,4 +1,4 @@
-<!-- LEFT SIDEBAR WITH TAB-VIEW -->
+<!-- LEFT SIDEBAR WITH TAB-VIEW (Outlook-style notifications) -->
 <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
         BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0">
     <Grid>
@@ -7,14 +7,56 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <!-- Tab Headers -->
+        <!-- Tab Headers with Outlook-style unread count -->
         <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
                 BorderThickness="0,0,0,1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
             <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="SidebarTabNavigation" Content="Navigation" GroupName="SidebarTabs" 
+                <RadioButton x:Name="SidebarTabNavigation" GroupName="SidebarTabs" 
                              IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}" 
-                             Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
-                <RadioButton x:Name="SidebarTabTasks" Content="Aufgaben" GroupName="SidebarTabs" 
+                             Padding="16,8" FontSize="12" Click="SidebarTab_Click">
+                    <TextBlock Text="Navigation"/>
+                </RadioButton>
+                
+                <RadioButton x:Name="SidebarTabTasks" GroupName="SidebarTabs" 
+                             Style="{StaticResource {x:Type ToggleButton}}" 
+                             Padding="16,8" FontSize="12" Click="SidebarTab_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Aufgaben">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal"/>
+                                    <Style.Triggers>
+                                        <!-- Bold when unread tasks exist (Outlook-style) -->
+                                        <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" 
+                                                     Value="True">
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        
+                        <!-- Unread count in parentheses (Outlook-style) -->
+                        <TextBlock Margin="4,0,0,0">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" 
+                                                     Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Run Text="("/><Run Text="{Binding TaskBasketViewModel.UnreadTasksCount, Mode=OneWay}"/><Run Text=")"/>
+                        </TextBlock>
+                    </StackPanel>
+                </RadioButton>
+                
+                <RadioButton x:Name="SidebarTabFavorites" Content="Favoriten" GroupName="SidebarTabs" 
                              Style="{StaticResource {x:Type ToggleButton}}" 
                              Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
             </StackPanel>
@@ -38,7 +80,6 @@
                             <TreeViewItem Header="Aktive Projekte"/>
                             <TreeViewItem Header="Archivierte Projekte"/>
                         </TreeViewItem>
-                        <TreeViewItem Header="📥 Posteingang"/>
                         <TreeViewItem Header="📅 Wiedervorlagen"/>
                         <TreeViewItem Header="✍️ Mitzeichnungen"/>
                     </TreeView>
@@ -47,6 +88,9 @@
             
             <!-- Tasks Tab Content (Task Basket) -->
             <ContentControl x:Name="TasksTabContent" Visibility="Collapsed"/>
+            
+            <!-- Favorites Tab Content -->
+            <ContentControl x:Name="FavoritesTabContent" Visibility="Collapsed"/>
         </Grid>
     </Grid>
 </Border>
