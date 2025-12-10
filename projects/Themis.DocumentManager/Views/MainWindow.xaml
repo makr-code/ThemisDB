@@ -535,6 +535,24 @@
                     <TabItem Header=" Timeline" x:Name="TabTimeline">
                         <TextBlock Text="Timeline" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
                     </TabItem>
+                    <TabItem Header=" Aufgaben" x:Name="TabTaskBasket">
+                        <TextBlock Text="Task Basket" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    </TabItem>
+                    <TabItem Header=" Vorschau" x:Name="TabPreview">
+                        <TextBlock Text="Document Preview" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    </TabItem>
+                    <TabItem Header=" AI Chat" x:Name="TabAIChat">
+                        <TextBlock Text="AI Assistant" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    </TabItem>
+                    <TabItem Header=" Inbox" x:Name="TabInbox">
+                        <TextBlock Text="Inbox" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    </TabItem>
+                    <TabItem Header=" Favoriten" x:Name="TabFavorites">
+                        <TextBlock Text="Favorites" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    </TabItem>
+                    <TabItem Header=" Zusammenarbeit" x:Name="TabCollaboration">
+                        <TextBlock Text="Document Collaboration" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                    </TabItem>
                 </TabControl>
             </Grid>
 

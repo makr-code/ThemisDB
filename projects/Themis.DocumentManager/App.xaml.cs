@@ -9,7 +9,16 @@ using Themis.DocumentManager.Application.Common.Interfaces;
 using Themis.DocumentManager.Infrastructure.Persistence;
 using Themis.DocumentManager.Services;
 using Themis.DocumentManager.ViewModels;
+using Themis.DocumentManager.ViewModels.Navigation;
+using Themis.DocumentManager.ViewModels.Favorites;
 using Themis.DocumentManager.Views;
+using Themis.DocumentManager.Views.Tasks;
+using Themis.DocumentManager.Views.Inbox;
+using Themis.DocumentManager.Views.Favorites;
+using Themis.DocumentManager.Views.Dashboard;
+using Themis.DocumentManager.Views.Collaboration;
+using Themis.DocumentManager.Views.Navigation;
+using Themis.DocumentManager.Views.Timeline;
 
 namespace Themis.DocumentManager;
 
@@ -322,6 +331,12 @@ public partial class App : System.Windows.Application
             services.AddTransient<TimelineViewModel>();
             services.AddTransient<GraphViewModel>();
             services.AddTransient<DocumentCollaborationViewModel>();
+            services.AddTransient<TaskBasketViewModel>();
+            services.AddTransient<AIChatViewModel>();
+            services.AddTransient<DashboardViewModel>();
+            services.AddTransient<InboxViewModel>();
+            services.AddTransient<Themis.DocumentManager.ViewModels.Favorites.FavoritesViewModel>();
+            services.AddTransient<Themis.DocumentManager.ViewModels.Navigation.IntelligentBreadcrumbViewModel>();
 
             // Views - WICHTIG: MainWindow am Ende registrieren
             services.AddSingleton<MainWindow>();
