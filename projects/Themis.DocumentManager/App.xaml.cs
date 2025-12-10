@@ -1,7 +1,12 @@
+using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using Themis.DocumentManager.Application.Common.Interfaces;
+using Themis.DocumentManager.Infrastructure.Persistence;
 using Themis.DocumentManager.Services;
 using Themis.DocumentManager.ViewModels;
 using Themis.DocumentManager.Views;
@@ -137,6 +142,16 @@ public partial class App : Application
     {
         try
         {
+            // Clean Architecture Layers
+            // MediatR for CQRS
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            
+            // FluentValidation
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            
+            // Infrastructure Layer - Repository Pattern
+            services.AddSingleton<IThemisRepository, ThemisRepository>();
+            
             // Core Services - nur die notwendigsten
             services.AddSingleton<IThemisApiClient, ThemisApiClient>();
             services.AddSingleton<IDocumentService, DocumentService>();
