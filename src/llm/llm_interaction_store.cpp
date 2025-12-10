@@ -334,8 +334,8 @@ bool LLMInteractionStore::updateMetadata(const std::string& id, const nlohmann::
     Interaction interaction = *interaction_opt;
     
     // Merge metadata updates
-    for (auto it = metadata_updates.begin(); it != metadata_updates.end(); ++it) {
-        interaction.metadata[it.key()] = it.value();
+    for (const auto& [key, value] : metadata_updates.items()) {
+        interaction.metadata[key] = value;
     }
     
     // Store updated interaction

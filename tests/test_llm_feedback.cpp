@@ -15,8 +15,11 @@ namespace test {
 class LLMFeedbackTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create temporary database directory
-        db_path_ = std::filesystem::temp_directory_path() / "themis_llm_feedback_test";
+        // Create temporary database directory with unique identifier
+        auto now = std::chrono::system_clock::now().time_since_epoch();
+        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+        db_path_ = std::filesystem::temp_directory_path() / 
+                   ("themis_llm_feedback_test_" + std::to_string(ms));
         std::filesystem::create_directories(db_path_);
         
         // Initialize RocksDB
@@ -120,9 +123,10 @@ TEST_F(LLMFeedbackTest, MultipleMetadataUpdates) {
 // Test: Metadata for LoRa training collection
 TEST_F(LLMFeedbackTest, LoRaTrainingDataCollection) {
     // Create multiple interactions with various feedback
+    constexpr int NUM_TEST_INTERACTIONS = 5;
     std::vector<std::string> interaction_ids;
     
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < NUM_TEST_INTERACTIONS; i++) {
         LLMInteractionStore::Interaction interaction;
         interaction.prompt = "Test prompt " + std::to_string(i);
         interaction.response = "Test response " + std::to_string(i);
@@ -141,7 +145,7 @@ TEST_F(LLMFeedbackTest, LoRaTrainingDataCollection) {
     
     // List all interactions and count training-flagged ones
     auto all_interactions = llm_store_->listInteractions();
-    ASSERT_EQ(all_interactions.size(), 5);
+    ASSERT_EQ(all_interactions.size(), NUM_TEST_INTERACTIONS);
     
     int training_count = 0;
     for (const auto& interaction : all_interactions) {

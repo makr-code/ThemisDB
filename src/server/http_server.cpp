@@ -4105,16 +4105,19 @@ http::response<http::string_body> HttpServer::handleLlmInteractionUpdateMetadata
     }
     
     auto span = Tracer::startSpan("handleLlmInteractionUpdateMetadata");
-    span.setAttribute("http.path", "/llm/interaction/:id/metadata");
+    span.setAttribute("http.method", "PATCH");
+    span.setAttribute("http.endpoint", "/llm/interaction/:id");
     
     try {
         // Extract ID from path: /llm/interaction/{id}/metadata or /llm/interaction/{id}
-        std::string target = std::string(req.target());
+        std::string target(req.target());
         std::string id;
         
         // Remove /llm/interaction/ prefix
-        if (target.rfind("/llm/interaction/", 0) == 0) {
-            std::string suffix = target.substr(17); // "/llm/interaction/" is 17 chars
+        static constexpr const char* LLM_INTERACTION_PREFIX = "/llm/interaction/";
+        constexpr size_t LLM_INTERACTION_PREFIX_LEN = 17;
+        if (target.rfind(LLM_INTERACTION_PREFIX, 0) == 0) {
+            std::string suffix = target.substr(LLM_INTERACTION_PREFIX_LEN);
             // Remove trailing /metadata if present
             size_t metadata_pos = suffix.find("/metadata");
             if (metadata_pos != std::string::npos) {
