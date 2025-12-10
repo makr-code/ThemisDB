@@ -627,7 +627,7 @@
                         <TextBlock Text="Document Preview (nicht implementiert)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
                     </TabItem>
                     <TabItem Header=" AI Chat" x:Name="TabAIChat">
-                        <TextBlock Text="AI Chat (Backend-Integration erforderlich)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                        <local:AIChatView DataContext="{Binding AIChatViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Inbox" x:Name="TabInbox">
                         <Inbox:InboxView DataContext="{Binding InboxViewModel}"/>
