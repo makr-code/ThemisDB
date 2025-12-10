@@ -141,6 +141,9 @@ public partial class App : System.Windows.Application
             _splashScreen?.UpdateStatus("Finalisiere...", 95);
             await Task.Delay(300);
             
+            // Schritt 6: Background Services starten
+            StartBackgroundServices();
+            
             _splashScreen?.UpdateStatus("Bereit!", 100);
             await Task.Delay(200);
         }
@@ -149,6 +152,23 @@ public partial class App : System.Windows.Application
             System.Diagnostics.Debug.WriteLine($"Fehler bei InitializeApplicationAsync: {ex.Message}");
             System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
             throw;
+        }
+    }
+
+    private void StartBackgroundServices()
+    {
+        try
+        {
+            // Document Lock Cleanup Service starten
+            var cleanupService = _serviceProvider?.GetService(typeof(Infrastructure.BackgroundJobs.DocumentLockCleanupService)) 
+                as Infrastructure.BackgroundJobs.DocumentLockCleanupService;
+            
+            cleanupService?.Start();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Fehler beim Starten der Background Services: {ex.Message}");
+            // Nicht-kritischer Fehler, App kann trotzdem starten
         }
     }
 
@@ -240,6 +260,20 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IGraphVisualizationService, GraphVisualizationService>();
             services.AddSingleton<IOsmMapRenderer, OsmMapRenderer>();
             
+            // Phase 2 Collaboration Services (Sprint 5-6 - Check-in/Check-out, SignalR, Comments)
+            services.AddSingleton<IDocumentLockingService, DocumentLockingService>();
+            services.AddSingleton<ICommentService, CommentService>();
+            services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();
+            
+            // Phase 2 Background Jobs (Sprint 5-6 - Lock Cleanup)
+            services.AddSingleton<DocumentLockCleanupConfiguration>();
+            services.AddSingleton<Infrastructure.BackgroundJobs.DocumentLockCleanupService>();
+            
+            // Phase 2 AI/ML Services (Sprint 7-8 - Classification & Metadata Extraction)
+            services.AddSingleton<Infrastructure.MachineLearning.DocumentClassifier>();
+            services.AddSingleton<Infrastructure.MachineLearning.MetadataExtractor>();
+            services.AddSingleton<Services.Classification.IClassificationService, Services.Classification.ClassificationService>();
+            
             // Email Threading Services
             services.AddSingleton<IEmailHeaderService, EmailHeaderService>();
             
@@ -272,6 +306,7 @@ public partial class App : System.Windows.Application
             services.AddTransient<GeoViewModel>();
             services.AddTransient<TimelineViewModel>();
             services.AddTransient<GraphViewModel>();
+            services.AddTransient<DocumentCollaborationViewModel>();
 
             // Views - WICHTIG: MainWindow am Ende registrieren
             services.AddSingleton<MainWindow>();
