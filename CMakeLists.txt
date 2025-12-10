@@ -495,6 +495,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/wal_manager.cpp
     src/sharding/wal_shipper.cpp
     src/sharding/truetime_clock.cpp
+    src/sharding/shard_latency_monitor.cpp
     src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
