@@ -21,15 +21,17 @@ namespace sharding {
  * - term: The term when the entry was created by the leader
  * - index: The position of the entry in the log (1-indexed)
  * - command: The actual command/data to be replicated
+ * - timestamp_ns: TrueTime timestamp in nanoseconds since epoch
  */
 struct LogEntry {
     uint64_t term;
     uint64_t index;
     std::string command;  // Serialized WAL entry or other command
+    uint64_t timestamp_ns;  // TrueTime timestamp for ordering and snapshot isolation
     
-    LogEntry() : term(0), index(0) {}
-    LogEntry(uint64_t t, uint64_t i, const std::string& cmd)
-        : term(t), index(i), command(cmd) {}
+    LogEntry() : term(0), index(0), timestamp_ns(0) {}
+    LogEntry(uint64_t t, uint64_t i, const std::string& cmd, uint64_t ts = 0)
+        : term(t), index(i), command(cmd), timestamp_ns(ts) {}
 };
 
 /**

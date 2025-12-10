@@ -494,6 +494,8 @@ set(THEMIS_CORE_SOURCES
     src/sharding/wal_applier.cpp
     src/sharding/wal_manager.cpp
     src/sharding/wal_shipper.cpp
+    src/sharding/truetime.cpp
+    src/sharding/distributed_transaction.cpp
     src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
