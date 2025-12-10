@@ -78,7 +78,8 @@
 
 ### Server & API Layer
 - **[Server Module](server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
-- **[API Documentation](api/README.md)** - REST API Reference
+- **[HTTP API Referenz](apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
+- **[API Documentation](api/README.md)** - REST API Übersicht
 - **[LLM Module](llm/README.md)** - LLM Interaction Store, Prompt Manager
 
 ### Security & Governance Layer
