@@ -494,8 +494,6 @@ set(THEMIS_CORE_SOURCES
     src/sharding/wal_applier.cpp
     src/sharding/wal_manager.cpp
     src/sharding/wal_shipper.cpp
-    src/sharding/truetime_clock.cpp
-    src/sharding/shard_latency_monitor.cpp
     src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
@@ -848,7 +846,6 @@ if(THEMIS_BUILD_TESTS)
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
-        tests/test_truetime_clock.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
         tests/test_mtls_client.cpp
