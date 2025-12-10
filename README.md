@@ -68,7 +68,7 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - **[BCP/DRP - Business Continuity](docs/compliance/compliance_bcp_drp.md)** - Disaster Recovery nach ISO 22301 & NIS2
 
 **Für Entwickler:**
-- **[Source Code Changes v1.0](docs/SOURCE_CODE_CHANGES_v1.0.md)** - Comprehensive documentation of all 27 source modules (184 files, 90K+ LOC)
+- **[Source Code Changes v1.0](docs/SOURCE_CODE_CHANGES_v1.0.md)** - Comprehensive documentation of all source modules (191 C++ files across 26 directories)
 - **[Documentation Verification Report](docs/reports/documentation_verification_report.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
 - **[Source Code Audit](docs/development/SOURCE_CODE_AUDIT.md)** - Systematische Analyse aller 16 Source-Komponenten (132 Header, 124 Sources, 90,829 LOC)
 - **[Dokumentationsstruktur](docs/DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Source-Modul-Mapping

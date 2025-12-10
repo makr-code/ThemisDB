@@ -8,16 +8,19 @@
 
 ## 📋 Executive Summary
 
-This document provides comprehensive documentation of all source code modules and features implemented in ThemisDB v1.0.0 and subsequent improvements in v1.0.1. The codebase consists of **184+ C++ source files** across **27 modules**, implementing a complete multi-model database system.
+This document provides comprehensive documentation of all source code modules and features implemented in ThemisDB v1.0.0 and subsequent improvements in v1.0.1. The codebase consists of **191 C++ source files** across **26 module directories**, implementing a complete multi-model database system.
+
+**Note:** The Source Code Audit (SOURCE_CODE_AUDIT.md) organizes the code into 16 logical components for architectural analysis. This document provides a directory-by-directory breakdown of all implementation files.
 
 ### Overall Statistics
 
 | Metric | Value |
 |--------|-------|
-| **Total Source Files (.cpp)** | 184 |
+| **Total Source Files (.cpp)** | 191 |
 | **Header Files (.h)** | 132 |
 | **Total Lines of Code** | 90,829+ |
-| **Core Modules** | 27 |
+| **Module Directories** | 26 |
+| **Logical Components** | 16 (per SOURCE_CODE_AUDIT.md) |
 | **Test Files** | 143+ |
 | **Documentation Files** | 456+ |
 
