@@ -42,6 +42,7 @@ Die API-Handler sind implementiert in:
 
 ## Verwandte Dokumentation
 
+- **[HTTP API Referenz](../apis/HTTP_API_REFERENCE.md)** - Vollständige HTTP Endpoint-Dokumentation
 - [OpenAPI Spec](../openapi.yaml) - OpenAPI 3.0 Specification
 - [Server Module](../server/README.md) - Server Implementation
 - [AQL Documentation](../aql/README.md) - Query Language

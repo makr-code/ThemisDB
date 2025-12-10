@@ -22,6 +22,7 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 
 | Datei | Beschreibung |
 |-------|--------------|
+| [HTTP_API_REFERENCE.md](HTTP_API_REFERENCE.md) | **Vollständige HTTP API Referenz** |
 | [apis_contentfs.md](apis_contentfs.md) | ContentFS API |
 | [apis_graphql.md](apis_graphql.md) | GraphQL API |
 | [apis_hot_reload.md](apis_hot_reload.md) | Hot Reload API |
