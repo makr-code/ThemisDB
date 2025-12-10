@@ -1,0 +1,234 @@
+// Copyright 2025 ThemisDB
+// Licensed under MIT License
+
+#ifndef THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
+#define THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
+
+#include "sharding/truetime.h"
+#include <string>
+#include <vector>
+#include <map>
+#include <memory>
+#include <optional>
+#include <chrono>
+#include <nlohmann/json.hpp>
+
+namespace themis::sharding {
+
+/**
+ * @brief Transaction state
+ */
+enum class TransactionState {
+    ACTIVE,      // Transaction is active
+    PREPARING,   // Preparing to commit (phase 1 of 2PC)
+    PREPARED,    // All participants prepared (ready to commit)
+    COMMITTING,  // Committing transaction (phase 2 of 2PC)
+    COMMITTED,   // Transaction committed successfully
+    ABORTING,    // Aborting transaction
+    ABORTED      // Transaction aborted
+};
+
+/**
+ * @brief Participant in a distributed transaction
+ */
+struct TransactionParticipant {
+    std::string shard_id;        // Shard identifier
+    std::string endpoint;        // Network endpoint
+    bool prepared;               // Has this participant prepared?
+    bool committed;              // Has this participant committed?
+    std::string error_msg;       // Error message if any
+};
+
+/**
+ * @brief Distributed transaction metadata
+ */
+struct DistributedTransaction {
+    std::string transaction_id;           // Unique transaction ID
+    TransactionState state;               // Current state
+    std::chrono::nanoseconds start_time;  // Transaction start timestamp
+    std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
+    std::vector<TransactionParticipant> participants;  // Participating shards
+    nlohmann::json operations;            // Operations to execute
+    
+    DistributedTransaction()
+        : state(TransactionState::ACTIVE)
+        , start_time(0)
+        , commit_time(0) {}
+};
+
+/**
+ * @brief Manages distributed transactions across shards using TrueTime
+ * 
+ * This coordinator implements a two-phase commit protocol enhanced with
+ * TrueTime for:
+ * - Snapshot isolation across shards
+ * - Strict serializability guarantees
+ * - Wait-free read-only transactions
+ */
+class DistributedTransactionCoordinator {
+public:
+    /**
+     * @brief Configuration for distributed transaction coordinator
+     */
+    struct Config {
+        uint64_t prepare_timeout_ms = 10000;   // Timeout for prepare phase
+        uint64_t commit_timeout_ms = 10000;    // Timeout for commit phase
+        uint64_t max_concurrent_txns = 1000;   // Max concurrent transactions
+        bool enable_read_only_opt = true;      // Enable read-only optimization
+    };
+    
+    /**
+     * @brief Construct coordinator
+     * @param truetime TrueTime instance for timestamping
+     * @param config Coordinator configuration
+     */
+    explicit DistributedTransactionCoordinator(
+        std::shared_ptr<TrueTime> truetime,
+        const Config& config
+    );
+    
+    /**
+     * @brief Begin a new distributed transaction
+     * @param shard_ids List of participating shards
+     * @return Transaction ID
+     */
+    std::string beginTransaction(const std::vector<std::string>& shard_ids);
+    
+    /**
+     * @brief Add an operation to the transaction
+     * @param txn_id Transaction ID
+     * @param shard_id Target shard
+     * @param operation Operation to perform
+     * @return True if added successfully
+     */
+    bool addOperation(
+        const std::string& txn_id,
+        const std::string& shard_id,
+        const nlohmann::json& operation
+    );
+    
+    /**
+     * @brief Commit a distributed transaction (two-phase commit)
+     * 
+     * Phase 1: Prepare
+     * - Send prepare requests to all participants
+     * - Wait for all to respond with prepared or timeout
+     * 
+     * Phase 2: Commit
+     * - Assign commit timestamp using TrueTime
+     * - Wait until commit_timestamp is definitely in the past
+     * - Send commit requests to all participants
+     * 
+     * @param txn_id Transaction ID
+     * @return True if committed successfully
+     */
+    bool commit(const std::string& txn_id);
+    
+    /**
+     * @brief Abort a distributed transaction
+     * @param txn_id Transaction ID
+     * @return True if aborted successfully
+     */
+    bool abort(const std::string& txn_id);
+    
+    /**
+     * @brief Execute a read-only transaction (wait-free with TrueTime)
+     * 
+     * Read-only transactions don't need 2PC:
+     * 1. Get timestamp t = TT.now().latest
+     * 2. Read from snapshot at timestamp t
+     * 3. No locks needed, no waiting
+     * 
+     * @param shard_ids Shards to read from
+     * @param operations Read operations
+     * @return Results from all shards
+     */
+    nlohmann::json executeReadOnly(
+        const std::vector<std::string>& shard_ids,
+        const nlohmann::json& operations
+    );
+    
+    /**
+     * @brief Get transaction status
+     * @param txn_id Transaction ID
+     * @return Transaction state or nullopt if not found
+     */
+    std::optional<TransactionState> getTransactionState(const std::string& txn_id) const;
+    
+    /**
+     * @brief Get statistics
+     * @return JSON with coordinator stats
+     */
+    nlohmann::json getStatistics() const;
+
+private:
+    std::shared_ptr<TrueTime> truetime_;
+    Config config_;
+    
+    mutable std::mutex mutex_;
+    std::map<std::string, DistributedTransaction> transactions_;
+    
+    // Statistics
+    std::atomic<uint64_t> total_transactions_{0};
+    std::atomic<uint64_t> committed_transactions_{0};
+    std::atomic<uint64_t> aborted_transactions_{0};
+    std::atomic<uint64_t> readonly_transactions_{0};
+    
+    /**
+     * @brief Phase 1: Send prepare requests to all participants
+     * @param txn Distributed transaction
+     * @return True if all participants prepared successfully
+     */
+    bool preparePhase(DistributedTransaction& txn);
+    
+    /**
+     * @brief Phase 2: Send commit requests to all participants
+     * @param txn Distributed transaction
+     * @return True if all participants committed successfully
+     */
+    bool commitPhase(DistributedTransaction& txn);
+    
+    /**
+     * @brief Send prepare request to a participant
+     * @param participant Participant to prepare
+     * @param txn_id Transaction ID
+     * @return True if prepared successfully
+     */
+    bool sendPrepare(TransactionParticipant& participant, const std::string& txn_id);
+    
+    /**
+     * @brief Send commit request to a participant
+     * @param participant Participant to commit
+     * @param txn_id Transaction ID
+     * @param commit_timestamp Commit timestamp
+     * @return True if committed successfully
+     */
+    bool sendCommit(
+        TransactionParticipant& participant,
+        const std::string& txn_id,
+        std::chrono::nanoseconds commit_timestamp
+    );
+    
+    /**
+     * @brief Send abort request to a participant
+     * @param participant Participant to abort
+     * @param txn_id Transaction ID
+     * @return True if aborted successfully
+     */
+    bool sendAbort(TransactionParticipant& participant, const std::string& txn_id);
+    
+    /**
+     * @brief Generate unique transaction ID
+     * @return Transaction ID
+     */
+    std::string generateTransactionId();
+    
+    /**
+     * @brief Clean up old transactions
+     */
+    void cleanupOldTransactions();
+};
+
+} // namespace themis::sharding
+
+#endif // THEMISDB_SHARDING_DISTRIBUTED_TRANSACTION_H
