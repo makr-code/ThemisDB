@@ -127,6 +127,9 @@ public partial class App : Application
             _splashScreen?.UpdateStatus("Finalisiere...", 95);
             await Task.Delay(300);
             
+            // Schritt 6: Background Services starten
+            StartBackgroundServices();
+            
             _splashScreen?.UpdateStatus("Bereit!", 100);
             await Task.Delay(200);
         }
@@ -135,6 +138,23 @@ public partial class App : Application
             System.Diagnostics.Debug.WriteLine($"Fehler bei InitializeApplicationAsync: {ex.Message}");
             System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
             throw;
+        }
+    }
+
+    private void StartBackgroundServices()
+    {
+        try
+        {
+            // Document Lock Cleanup Service starten
+            var cleanupService = _serviceProvider?.GetService(typeof(Infrastructure.BackgroundJobs.DocumentLockCleanupService)) 
+                as Infrastructure.BackgroundJobs.DocumentLockCleanupService;
+            
+            cleanupService?.Start();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Fehler beim Starten der Background Services: {ex.Message}");
+            // Nicht-kritischer Fehler, App kann trotzdem starten
         }
     }
 
@@ -230,6 +250,10 @@ public partial class App : Application
             services.AddSingleton<IDocumentLockingService, DocumentLockingService>();
             services.AddSingleton<ICommentService, CommentService>();
             services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();
+            
+            // Phase 2 Background Jobs (Sprint 5-6 - Lock Cleanup)
+            services.AddSingleton<DocumentLockCleanupConfiguration>();
+            services.AddSingleton<Infrastructure.BackgroundJobs.DocumentLockCleanupService>();
             
             // Email Threading Services
             services.AddSingleton<IEmailHeaderService, EmailHeaderService>();
