@@ -1,0 +1,52 @@
+<!-- LEFT SIDEBAR WITH TAB-VIEW -->
+<Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
+        BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Tab Headers -->
+        <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
+                BorderThickness="0,0,0,1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="SidebarTabNavigation" Content="Navigation" GroupName="SidebarTabs" 
+                             IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}" 
+                             Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
+                <RadioButton x:Name="SidebarTabTasks" Content="Aufgaben" GroupName="SidebarTabs" 
+                             Style="{StaticResource {x:Type ToggleButton}}" 
+                             Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Tab Content -->
+        <Grid Grid.Row="1">
+            <!-- Navigation Tab Content -->
+            <ScrollViewer x:Name="NavigationTabContent" VerticalScrollBarVisibility="Auto" 
+                          Visibility="Visible" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="Navigation" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TreeView>
+                        <TreeViewItem Header="📊 Dashboard" IsExpanded="False"/>
+                        <TreeViewItem Header="📄 Dokumente" IsExpanded="True">
+                            <TreeViewItem Header="Meine Dokumente"/>
+                            <TreeViewItem Header="Zuletzt verwendet"/>
+                            <TreeViewItem Header="Favoriten"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="📂 Projekte">
+                            <TreeViewItem Header="Aktive Projekte"/>
+                            <TreeViewItem Header="Archivierte Projekte"/>
+                        </TreeViewItem>
+                        <TreeViewItem Header="📥 Posteingang"/>
+                        <TreeViewItem Header="📅 Wiedervorlagen"/>
+                        <TreeViewItem Header="✍️ Mitzeichnungen"/>
+                    </TreeView>
+                </StackPanel>
+            </ScrollViewer>
+            
+            <!-- Tasks Tab Content (Task Basket) -->
+            <ContentControl x:Name="TasksTabContent" Visibility="Collapsed"/>
+        </Grid>
+    </Grid>
+</Border>
