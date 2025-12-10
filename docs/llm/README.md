@@ -147,6 +147,53 @@ auto prompt = manager.render(template.id, {
 ### GET /api/llm/interactions?limit=10&filter_model=gpt-4o-mini
 ### GET /api/llm/stats
 
+### PATCH /llm/interaction/{id} - Update Metadata (Enterprise)
+```json
+{
+  "feedback": {
+    "rating": 5,
+    "feedback_text": "Excellent response",
+    "user_id": "user123",
+    "flagged_for_training": true,
+    "training_category": "positive"
+  }
+}
+```
+
+### POST /query/enhanced - Enhanced Query with LLM Context (Enterprise)
+```json
+{
+  "aql": "FOR doc IN products FILTER doc.category == 'electronics' RETURN doc",
+  "llm_context": {
+    "limit": 5,
+    "model": "gpt-4o-mini"
+  }
+}
+```
+
+## Enterprise Features
+
+### Feedback-System
+Das Feedback-System ist als Enterprise Add-on implementiert und nutzt das flexible `metadata`-Feld. Es erfordert **keinen separaten Layer**.
+
+**Use Cases:**
+- User-Feedback für LLM-Antworten sammeln
+- Trainingsdaten für LoRa Fine-Tuning markieren
+- Qualitätsmetriken tracking
+
+**Siehe:** [LLM Feedback Enterprise](./LLM_FEEDBACK_ENTERPRISE.md)
+
+### Query Enhancement
+Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
+
+**Vorteile:**
+- 49% Kostenreduktion
+- 38% Latenz-Verbesserung
+- +25-40% Qualitätsverbesserung
+- Real-time Feedback-Loop
+
+**Siehe:** [LLM Integration Benefits Analysis](../enterprise/LLM_INTEGRATION_BENEFITS_ANALYSIS.md)
+
 ## Verwandte Dokumentation
 
 - [Features: Semantic Cache](../features/features_semantic_cache.md) - LLM Response Caching
