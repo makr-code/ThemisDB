@@ -26,6 +26,9 @@ public partial class MainWindow : Window
     private readonly IFormAuditService _formAuditService;
     private readonly ISmartFormService _smartFormService;
     private readonly IFormContextService _formContextService;
+    private readonly IThemeService _themeService;
+    private readonly ISettingsService _settingsService;
+    private readonly IAnimationService _animationService;
     private bool _isFullscreen = false;
     private WindowState _previousWindowState;
     private WindowStyle _previousWindowStyle;
@@ -43,7 +46,10 @@ public partial class MainWindow : Window
         IFormDatabaseMappingService formDatabaseMappingService,
         IFormAuditService formAuditService,
         ISmartFormService smartFormService,
-        IFormContextService formContextService)
+        IFormContextService formContextService,
+        IThemeService themeService,
+        ISettingsService settingsService,
+        IAnimationService animationService)
     {
         InitializeComponent();
         _viewModel = viewModel;
@@ -54,6 +60,9 @@ public partial class MainWindow : Window
         _formAuditService = formAuditService;
         _smartFormService = smartFormService;
         _formContextService = formContextService;
+        _themeService = themeService;
+        _settingsService = settingsService;
+        _animationService = animationService;
         DataContext = _viewModel;
 
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -62,6 +71,7 @@ public partial class MainWindow : Window
         {
             UpdateMenuItems();
             InitializeTimeline();
+            UpdateThemeMenuItems();
         };
     }
 
@@ -1325,6 +1335,73 @@ public partial class MainWindow : Window
             MessageBoxImage.Information
         );
     }
+
+    #region Phase 29 - Settings & Theme Integration
+
+    /// <summary>
+    /// Öffnet den Settings-Dialog
+    /// </summary>
+    private void OpenSettings_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var settingsDialog = new Settings.SettingsDialog(_themeService, _settingsService, _animationService)
+            {
+                Owner = this
+            };
+
+            var result = settingsDialog.ShowDialog();
+            if (result == true)
+            {
+                // Settings wurden übernommen
+                UpdateThemeMenuItems();
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Fehler beim Öffnen der Einstellungen: {ex.Message}",
+                          "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
+    /// Theme auf Hell setzen
+    /// </summary>
+    private void SetThemeLight_Click(object sender, RoutedEventArgs e)
+    {
+        _themeService.CurrentTheme = ThemeService.ThemeMode.Light;
+        UpdateThemeMenuItems();
+    }
+
+    /// <summary>
+    /// Theme auf Dunkel setzen
+    /// </summary>
+    private void SetThemeDark_Click(object sender, RoutedEventArgs e)
+    {
+        _themeService.CurrentTheme = ThemeService.ThemeMode.Dark;
+        UpdateThemeMenuItems();
+    }
+
+    /// <summary>
+    /// Theme auf System setzen
+    /// </summary>
+    private void SetThemeSystem_Click(object sender, RoutedEventArgs e)
+    {
+        _themeService.CurrentTheme = ThemeService.ThemeMode.System;
+        UpdateThemeMenuItems();
+    }
+
+    /// <summary>
+    /// Aktualisiert die Theme-Menü-Items
+    /// </summary>
+    private void UpdateThemeMenuItems()
+    {
+        MenuThemeLight.IsChecked = _themeService.CurrentTheme == ThemeService.ThemeMode.Light;
+        MenuThemeDark.IsChecked = _themeService.CurrentTheme == ThemeService.ThemeMode.Dark;
+        MenuThemeSystem.IsChecked = _themeService.CurrentTheme == ThemeService.ThemeMode.System;
+    }
+
+    #endregion
 
     /// <summary>
     /// Datenklasse für Dokumenten-Metadaten

@@ -13,6 +13,18 @@
         WindowState="Maximized"
         ui:WindowHelper.UseModernWindowStyle="True">
 
+    <Window.InputBindings>
+        <!-- Settings -->
+        <KeyBinding Key="OemComma" Modifiers="Control" Command="{Binding OpenSettingsCommand}"/>
+        <!-- Navigation -->
+        <KeyBinding Key="Tab" Modifiers="Control" Command="{Binding NextTabCommand}"/>
+        <KeyBinding Key="Tab" Modifiers="Control+Shift" Command="{Binding PreviousTabCommand}"/>
+        <!-- Search -->
+        <KeyBinding Key="F" Modifiers="Control" Command="{Binding OpenSearchCommand}"/>
+        <!-- Theme Toggle -->
+        <KeyBinding Key="T" Modifiers="Control+Shift" Command="{Binding ToggleThemeCommand}"/>
+    </Window.InputBindings>
+
     <Grid Background="{DynamicResource SystemControlBackgroundAltMediumLowBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -36,6 +48,21 @@
                 <Separator/>
                 <MenuItem Header="Linke Seitenleiste" IsCheckable="True" IsChecked="True" x:Name="MenuLeftSidebar" Click="ToggleSidebar_Click"/>
                 <MenuItem Header="Rechte Seitenleiste" IsCheckable="True" IsChecked="True" x:Name="MenuRightSidebar" Click="ToggleSidebar_Click"/>
+            </MenuItem>
+            <MenuItem Header="Extras">
+                <MenuItem Header="Einstellungen..." InputGestureText="Strg+," Click="OpenSettings_Click"/>
+                <Separator/>
+                <MenuItem Header="Theme">
+                    <MenuItem Header="☀️ Hell" x:Name="MenuThemeLight" Click="SetThemeLight_Click"/>
+                    <MenuItem Header="🌙 Dunkel" x:Name="MenuThemeDark" Click="SetThemeDark_Click"/>
+                    <MenuItem Header="💻 System" x:Name="MenuThemeSystem" Click="SetThemeSystem_Click" IsChecked="True"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Hilfe">
+                <MenuItem Header="Dokumentation" InputGestureText="F1"/>
+                <MenuItem Header="Tastenkombinationen"/>
+                <Separator/>
+                <MenuItem Header="Über ThemisDB"/>
             </MenuItem>
         </Menu>
 

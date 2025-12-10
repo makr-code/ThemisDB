@@ -76,4 +76,38 @@ public partial class MainViewModel : ObservableObject
             IsLoading = false;
         }
     }
+
+    #region Phase 29 - Keyboard Shortcuts Commands
+
+    [RelayCommand]
+    private void OpenSettings()
+    {
+        // Wird von MainWindow.xaml.cs gehandelt
+    }
+
+    [RelayCommand]
+    private void NextTab()
+    {
+        // Wird von MainWindow.xaml.cs gehandelt
+    }
+
+    [RelayCommand]
+    private void PreviousTab()
+    {
+        // Wird von MainWindow.xaml.cs gehandelt
+    }
+
+    [RelayCommand]
+    private void OpenSearch()
+    {
+        NavigateToSearch();
+    }
+
+    [RelayCommand]
+    private void ToggleTheme()
+    {
+        // Wird von MainWindow.xaml.cs gehandelt
+    }
+
+    #endregion
 }
