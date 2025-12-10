@@ -59,8 +59,18 @@ protected:
         storage_->close();
     }
 
-    // Send raw bytes (potentially invalid UTF-8)
+    // Send raw bytes (potentially invalid UTF-8) using PUT method
     http::response<http::string_body> putRaw(const std::string& target, const std::string& body) {
+        return sendRaw(target, body, http::verb::put);
+    }
+
+    // Send raw bytes (potentially invalid UTF-8) using POST method
+    http::response<http::string_body> postRaw(const std::string& target, const std::string& body) {
+        return sendRaw(target, body, http::verb::post);
+    }
+
+    // Generic method to send raw bytes with specified HTTP verb
+    http::response<http::string_body> sendRaw(const std::string& target, const std::string& body, http::verb method) {
         try {
             net::io_context ioc;
             tcp::resolver resolver(ioc);
@@ -69,7 +79,7 @@ protected:
             auto const results = resolver.resolve("127.0.0.1", "18099");
             stream.connect(results);
             
-            http::request<http::string_body> req{http::verb::put, target, 11};
+            http::request<http::string_body> req{method, target, 11};
             req.set(http::field::host, "127.0.0.1");
             req.set(http::field::content_type, "application/json");
             req.body() = body;
@@ -104,7 +114,7 @@ protected:
 TEST_F(HttpInvalidUtf8Test, PutEntityWithInvalidUtf8ShouldReturn400) {
     // Test case 1: Invalid UTF-8 in the middle of a string (0xFC which is invalid in UTF-8)
     // This simulates the Windows-1252 encoded umlaut that causes the crash
-    std::string invalid_json = R"({"blob":"{\"name\":\"Test-Uml)" "\xFC" R"(ut\"}"})";;
+    std::string invalid_json = R"({"blob":"{\"name\":\"Test-Uml)" "\xFC" R"(ut\"}"})";
     
     auto response = putRaw("/entities/test:1", invalid_json);
     
@@ -136,7 +146,7 @@ TEST_F(HttpInvalidUtf8Test, QueryWithInvalidUtf8ShouldReturn400) {
     // Test case 2: Invalid UTF-8 in query endpoint
     std::string invalid_json = R"({"table":"users","filter":{"name":")" "\xC3\x28" R"("}})";
     
-    auto response = putRaw("/query", invalid_json);
+    auto response = postRaw("/query", invalid_json);
     
     // Server should NOT crash and should return 400 Bad Request
     EXPECT_EQ(response.result(), http::status::bad_request)
@@ -147,9 +157,9 @@ TEST_F(HttpInvalidUtf8Test, QueryWithInvalidUtf8ShouldReturn400) {
 
 TEST_F(HttpInvalidUtf8Test, AqlQueryWithInvalidUtf8ShouldReturn400) {
     // Test case 3: Invalid UTF-8 in AQL endpoint
-    std::string invalid_json = R"({"query":"FOR u IN users FILTER u.name == ')" "\xFC" R"(' RETURN u"})";;
+    std::string invalid_json = R"({"query":"FOR u IN users FILTER u.name == ')" "\xFC" R"(' RETURN u"})";
     
-    auto response = putRaw("/query/aql", invalid_json);
+    auto response = postRaw("/query/aql", invalid_json);
     
     // Server should NOT crash and should return 400 Bad Request
     EXPECT_EQ(response.result(), http::status::bad_request)
