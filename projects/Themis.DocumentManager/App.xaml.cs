@@ -260,7 +260,8 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IGraphVisualizationService, GraphVisualizationService>();
             services.AddSingleton<IOsmMapRenderer, OsmMapRenderer>();
             
-            // Phase 2 Collaboration Services (Sprint 5-6 - Check-in/Check-out, SignalR, Comments)
+            // Phase 27 UI Styling & Theme System
+            services.AddSingleton<IThemeService, ThemeService>();
             services.AddSingleton<IDocumentLockingService, DocumentLockingService>();
             services.AddSingleton<ICommentService, CommentService>();
             services.AddSingleton<Infrastructure.SignalR.ISignalRService, Infrastructure.SignalR.SignalRService>();
