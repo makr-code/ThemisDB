@@ -882,6 +882,27 @@ public partial class MainWindow : Window
             RibbonModulesContent.Visibility = Visibility.Visible;
     }
 
+    private void SidebarTab_Click(object sender, RoutedEventArgs e)
+    {
+        // Hide all sidebar tab contents
+        if (NavigationTabContent != null) NavigationTabContent.Visibility = Visibility.Collapsed;
+        if (TasksTabContent != null) TasksTabContent.Visibility = Visibility.Collapsed;
+        if (FavoritesTabContent != null) FavoritesTabContent.Visibility = Visibility.Collapsed;
+
+        // Show selected tab content
+        if (sender == SidebarTabNavigation)
+        {
+            if (NavigationTabContent != null) NavigationTabContent.Visibility = Visibility.Visible;
+        }
+        else if (sender == SidebarTabTasks)
+        {
+            if (TasksTabContent != null) TasksTabContent.Visibility = Visibility.Visible;
+        }
+        else if (sender == SidebarTabFavorites)
+        {
+            if (FavoritesTabContent != null) FavoritesTabContent.Visibility = Visibility.Visible;
+        }
+    }
 
     private void VisualizationTab_Click(object sender, RoutedEventArgs e)
     {

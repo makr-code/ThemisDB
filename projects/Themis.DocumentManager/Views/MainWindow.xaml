@@ -5,6 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         xmlns:local="clr-namespace:Themis.DocumentManager.Views"
+        xmlns:Dashboard="clr-namespace:Themis.DocumentManager.Views.Dashboard"
+        xmlns:Timeline="clr-namespace:Themis.DocumentManager.Views.Timeline"
+        xmlns:Tasks="clr-namespace:Themis.DocumentManager.Views.Tasks"
+        xmlns:Inbox="clr-namespace:Themis.DocumentManager.Views.Inbox"
+        xmlns:Favorites="clr-namespace:Themis.DocumentManager.Views.Favorites"
+        xmlns:Collaboration="clr-namespace:Themis.DocumentManager.Views.Collaboration"
         mc:Ignorable="d"
         Title="ThemisDB Document Manager" 
         Height="900" Width="1600"
@@ -494,20 +500,99 @@
                 </Grid>
             </Border>
 
-            <!-- LEFT SIDEBAR -->
-            <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0" Padding="10">
-                <StackPanel>
-                    <TextBlock Text="Navigation" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
-                    <TreeView>
-                        <TreeViewItem Header=" Dokumente" IsExpanded="True">
-                            <TreeViewItem Header="Meine Dokumente"/>
-                            <TreeViewItem Header="Zuletzt verwendet"/>
-                        </TreeViewItem>
-                        <TreeViewItem Header=" Projekte">
-                            <TreeViewItem Header="Aktive Projekte"/>
-                        </TreeViewItem>
-                    </TreeView>
-                </StackPanel>
+            <!-- LEFT SIDEBAR WITH TAB-VIEW (Outlook-style notifications) -->
+            <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Tab Headers with Outlook-style unread count -->
+                    <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
+                            BorderThickness="0,0,0,1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton x:Name="SidebarTabNavigation" GroupName="SidebarTabs" 
+                                         IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}" 
+                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click">
+                                <TextBlock Text="Navigation"/>
+                            </RadioButton>
+                            
+                            <RadioButton x:Name="SidebarTabTasks" GroupName="SidebarTabs" 
+                                         Style="{StaticResource {x:Type ToggleButton}}" 
+                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Aufgaben">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="Normal"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" 
+                                                                 Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    
+                                    <TextBlock Margin="4,0,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" 
+                                                                 Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <Run Text="("/><Run Text="{Binding TaskBasketViewModel.UnreadTasksCount, Mode=OneWay}"/><Run Text=")"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </RadioButton>
+                            
+                            <RadioButton x:Name="SidebarTabFavorites" Content="Favoriten" GroupName="SidebarTabs" 
+                                         Style="{StaticResource {x:Type ToggleButton}}" 
+                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Tab Content -->
+                    <Grid Grid.Row="1">
+                        <!-- Navigation Tab Content -->
+                        <ScrollViewer x:Name="NavigationTabContent" VerticalScrollBarVisibility="Auto" 
+                                      Visibility="Visible" Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="Navigation" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
+                                <TreeView>
+                                    <TreeViewItem Header="📊 Dashboard" IsExpanded="False"/>
+                                    <TreeViewItem Header="📄 Dokumente" IsExpanded="True">
+                                        <TreeViewItem Header="Meine Dokumente"/>
+                                        <TreeViewItem Header="Zuletzt verwendet"/>
+                                        <TreeViewItem Header="Favoriten"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="📂 Projekte">
+                                        <TreeViewItem Header="Aktive Projekte"/>
+                                        <TreeViewItem Header="Archivierte Projekte"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="📅 Wiedervorlagen"/>
+                                    <TreeViewItem Header="✍️ Mitzeichnungen"/>
+                                </TreeView>
+                            </StackPanel>
+                        </ScrollViewer>
+                        
+                        <!-- Tasks Tab Content (Task Basket) -->
+                        <ContentControl x:Name="TasksTabContent" Visibility="Collapsed"/>
+                        
+                        <!-- Favorites Tab Content -->
+                        <ContentControl x:Name="FavoritesTabContent" Visibility="Collapsed"/>
+                    </Grid>
+                </Grid>
             </Border>
 
             <!-- CENTER CONTENT WITH TAB MANAGEMENT -->
@@ -527,31 +612,31 @@
                 <!-- CONTENT AREA -->
                 <TabControl Grid.Row="1" x:Name="CenterContent" Background="White">
                     <TabItem Header=" Dashboard" IsSelected="True">
-                        <TextBlock Text="Dashboard" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+                        <Dashboard:DashboardView DataContext="{Binding DashboardViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Gantt" x:Name="TabGantt">
-                        <TextBlock Text="Gantt-Diagramm" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <TextBlock Text="Gantt-Diagramm (Timers - noch nicht implementiert)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
                     </TabItem>
                     <TabItem Header=" Timeline" x:Name="TabTimeline">
-                        <TextBlock Text="Timeline" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <Timeline:TimelineView DataContext="{Binding TimelineViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Aufgaben" x:Name="TabTaskBasket">
-                        <TextBlock Text="Task Basket" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <Tasks:TaskBasketView DataContext="{Binding TaskBasketViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Vorschau" x:Name="TabPreview">
-                        <TextBlock Text="Document Preview" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <TextBlock Text="Document Preview (nicht implementiert)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
                     </TabItem>
                     <TabItem Header=" AI Chat" x:Name="TabAIChat">
-                        <TextBlock Text="AI Assistant" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <TextBlock Text="AI Chat (Backend-Integration erforderlich)" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
                     </TabItem>
                     <TabItem Header=" Inbox" x:Name="TabInbox">
-                        <TextBlock Text="Inbox" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <Inbox:InboxView DataContext="{Binding InboxViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Favoriten" x:Name="TabFavorites">
-                        <TextBlock Text="Favorites" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <Favorites:FavoritesPanelView DataContext="{Binding FavoritesViewModel}"/>
                     </TabItem>
                     <TabItem Header=" Zusammenarbeit" x:Name="TabCollaboration">
-                        <TextBlock Text="Document Collaboration" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                        <Collaboration:DocumentCollaborationView DataContext="{Binding DocumentCollaborationViewModel}"/>
                     </TabItem>
                 </TabControl>
             </Grid>
