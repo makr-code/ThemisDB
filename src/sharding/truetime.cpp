@@ -206,8 +206,8 @@ uint64_t TrueTime::calculateUncertainty() const {
     uint64_t time_since_sync_ns = now_ns > last_sync ? now_ns - last_sync : 0;
     
     // Uncertainty grows with time since last sync
-    // Assume 1us of drift per second
-    uint64_t drift_uncertainty = time_since_sync_ns / 1000000; // Convert ns to us, then to drift
+    // Assume 1us of drift per second (1us per 1,000,000us = 1us per 1e9 ns)
+    uint64_t drift_uncertainty = time_since_sync_ns / 1000000; // Convert ns to drift in ns
     
     uint64_t total_uncertainty = base_uncertainty + drift_uncertainty;
     
