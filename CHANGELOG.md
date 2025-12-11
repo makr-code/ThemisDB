@@ -34,7 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Health check and API compatibility verification
 
 ### Known Issues
-- None related to this release
+- **Minor:** Tracer initialization warnings on startup
+  - Cause: Worker threads may process requests before Tracer::initialize() completes
+  - Impact: None (tracing gracefully falls back to no-op if uninitialized)
+  - Workaround: Harmless warnings can be ignored; do not affect API functionality
+  - Fix planned for v1.1: Defer request processing until all subsystems initialized
 
 ---
 
