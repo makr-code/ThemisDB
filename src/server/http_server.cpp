@@ -11568,7 +11568,7 @@ http::response<http::string_body> HttpServer::handleQueryEnhanced(
         
         enhanced_response["llm_context_count"] = llm_interactions.size();
         
-        span.setAttribute("query.result_count", query_response.value("count", 0));
+        span.setAttribute("query.result_count", static_cast<int64_t>(query_response.value("count", 0)));
         span.setAttribute("llm.context_count", static_cast<int64_t>(llm_interactions.size()));
         span.setStatus(true);
         

@@ -5,6 +5,39 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-12-11
+
+🐛 **Critical Bugfix Release**
+
+### Fixed
+
+#### HTTP API Routing
+- **Critical:** Fixed `/entities/batch` endpoint returning 404 (Issue #427)
+  - **Root Cause:** Route classification was checking parametrized `/entities/:key` pattern before exact match for `/entities/batch`
+  - **Solution:** Reordered route matching in `HttpServer::classifyRoute()` to prioritize exact matches over prefix patterns
+  - **Impact:** Batch entity operations now work correctly; multi-entity upsert/delete operations fully functional
+  - **Testing:** Verified with 3/3 successful batch operations in local and Docker environments
+  - **Files Modified:**
+    - `src/server/http_server.cpp` - Route classification logic (line 1009)
+    - `include/utils/tracing.h` - Type casting for MSVC compatibility
+  - **Commit:** 47c8cec on main
+
+#### Build System
+- **MSVC Ambiguity Fix:** Resolved `setAttribute()` overload ambiguity in tracing module
+  - Added explicit `int64_t` casting for span attributes
+  - Ensures clean compilation across MSVC and GCC toolchains
+
+### Testing
+- ✅ Local MSVC Release build successful
+- ✅ Docker single-arch and multi-arch (amd64/arm64) validation
+- ✅ Functional batch endpoint testing (3/3 operations)
+- ✅ Health check and API compatibility verification
+
+### Known Issues
+- None related to this release
+
+---
+
 ## [1.0.1] - 2025-12-09
 
 🎯 **Release Management & Benchmarking Infrastructure Release**
