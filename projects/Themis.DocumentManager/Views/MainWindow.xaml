@@ -85,20 +85,104 @@
 
             <!-- Ribbon Tab Bar -->
             <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,0,1">
-                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                    <RadioButton Content="Start" GroupName="RibbonTabs" IsChecked="True" 
-                                Style="{StaticResource {x:Type ToggleButton}}" 
-                                Padding="15,8" FontSize="13" x:Name="TabStart" Click="RibbonTab_Click"/>
-                    <RadioButton Content="Einf�gen" GroupName="RibbonTabs" 
-                                Style="{StaticResource {x:Type ToggleButton}}" 
-                                Padding="15,8" FontSize="13" x:Name="TabInsert" Click="RibbonTab_Click"/>
-                    <RadioButton Content="Ansicht" GroupName="RibbonTabs" 
-                                Style="{StaticResource {x:Type ToggleButton}}" 
-                                Padding="15,8" FontSize="13" x:Name="TabView" Click="RibbonTab_Click"/>
-                    <RadioButton Content="Module" GroupName="RibbonTabs" 
-                                Style="{StaticResource {x:Type ToggleButton}}" 
-                                Padding="15,8" FontSize="13" x:Name="TabModules" Click="RibbonTab_Click"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Ribbon Tabs (Left) -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="10,0,0,0">
+                        <RadioButton Content="Start" GroupName="RibbonTabs" IsChecked="True" 
+                                    Style="{StaticResource {x:Type ToggleButton}}" 
+                                    Padding="15,8" FontSize="13" x:Name="TabStart" Click="RibbonTab_Click"/>
+                        <RadioButton Content="Einfügen" GroupName="RibbonTabs" 
+                                    Style="{StaticResource {x:Type ToggleButton}}" 
+                                    Padding="15,8" FontSize="13" x:Name="TabInsert" Click="RibbonTab_Click"/>
+                        <RadioButton Content="Ansicht" GroupName="RibbonTabs" 
+                                    Style="{StaticResource {x:Type ToggleButton}}" 
+                                    Padding="15,8" FontSize="13" x:Name="TabView" Click="RibbonTab_Click"/>
+                        <RadioButton Content="Module" GroupName="RibbonTabs" 
+                                    Style="{StaticResource {x:Type ToggleButton}}" 
+                                    Padding="15,8" FontSize="13" x:Name="TabModules" Click="RibbonTab_Click"/>
+                    </StackPanel>
+                    
+                    <!-- User Switcher (Right) -->
+                    <Border Grid.Column="1" BorderBrush="#e0e0e0" BorderThickness="1,0,0,0" Padding="12,4" Margin="0,4,10,4"
+                            DataContext="{Binding UserSwitcherViewModel}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="👤" FontSize="14" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <Button x:Name="UserSplitButton" 
+                                    Background="Transparent" 
+                                    BorderBrush="#d0d0d0" 
+                                    BorderThickness="1"
+                                    Padding="8,4"
+                                    MinWidth="180"
+                                    Height="28"
+                                    Click="UserSplitButton_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <StackPanel Grid.Column="0" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding CurrentUser.DisplayName, FallbackValue='Benutzer wählen'}" 
+                                                   FontSize="11" FontWeight="SemiBold" Foreground="#333"/>
+                                        <TextBlock Text="{Binding CurrentUser.Role, FallbackValue='Rolle'}" 
+                                                   FontSize="9" Foreground="#999"/>
+                                    </StackPanel>
+                                    
+                                    <TextBlock Grid.Column="1" Text="▼" FontSize="8" Foreground="#666" 
+                                              VerticalAlignment="Center" Margin="8,0,0,0"/>
+                                </Grid>
+                                
+                                <!-- Dropdown Menu -->
+                                <Button.ContextMenu>
+                                    <ContextMenu x:Name="UserContextMenu">
+                                        <MenuItem Header="BENUTZER WECHSELN" IsEnabled="False" FontWeight="Bold" FontSize="10"/>
+                                        <Separator/>
+                                        <MenuItem Header="Max Mustermann (Admin)" 
+                                                 Command="{Binding PlacementTarget.DataContext.SwitchUserCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" 
+                                                 CommandParameter="{Binding PlacementTarget.DataContext.AvailableUsers[0], RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="👤" FontSize="12"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Anna Schmidt (Editor)" 
+                                                 Command="{Binding PlacementTarget.DataContext.SwitchUserCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" 
+                                                 CommandParameter="{Binding PlacementTarget.DataContext.AvailableUsers[1], RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="👤" FontSize="12"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Thomas Mueller (Editor)" 
+                                                 Command="{Binding PlacementTarget.DataContext.SwitchUserCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" 
+                                                 CommandParameter="{Binding PlacementTarget.DataContext.AvailableUsers[2], RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="👤" FontSize="12"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Lisa Weber (Viewer)" 
+                                                 Command="{Binding PlacementTarget.DataContext.SwitchUserCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" 
+                                                 CommandParameter="{Binding PlacementTarget.DataContext.AvailableUsers[3], RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="👤" FontSize="12"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem Header="Michael Braun (Viewer)" 
+                                                 Command="{Binding PlacementTarget.DataContext.SwitchUserCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" 
+                                                 CommandParameter="{Binding PlacementTarget.DataContext.AvailableUsers[4], RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                                            <MenuItem.Icon>
+                                                <TextBlock Text="👤" FontSize="12"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Border>
 
             <!-- Ribbon Content Area -->
@@ -199,7 +283,41 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBox Width="200" Height="30" Padding="8,5" VerticalContentAlignment="Center" Margin="2"/>
                                         <Button Width="50" Height="30" Margin="2">
-                                            <TextBlock Text="??" FontSize="16"/>
+                                            <TextBlock Text="🔍" FontSize="16"/>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Ansichten Group -->
+                            <Border BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
+                                    BorderThickness="0,0,1,0" Padding="10,0" Margin="0,0,5,0">
+                                <StackPanel>
+                                    <TextBlock Text="Ansichten" FontSize="10" Opacity="0.7" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="60" Height="60" Margin="2" Click="OpenAIChat_Click">
+                                            <StackPanel>
+                                                <TextBlock Text="🤖" FontSize="24" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="AI Chat" FontSize="10" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Width="60" Height="60" Margin="2" Click="OpenTimeline_Click">
+                                            <StackPanel>
+                                                <TextBlock Text="📅" FontSize="24" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="Timeline" FontSize="10" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Width="60" Height="60" Margin="2" Click="OpenTasks_Click">
+                                            <StackPanel>
+                                                <TextBlock Text="✓" FontSize="24" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="Aufgaben" FontSize="10" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Width="60" Height="60" Margin="2" Click="OpenPDVForm_Click">
+                                            <StackPanel>
+                                                <TextBlock Text="📝" FontSize="24" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="Formular" FontSize="10" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                                            </StackPanel>
                                         </Button>
                                     </StackPanel>
                                 </StackPanel>
@@ -502,98 +620,139 @@
                 </Grid>
             </Border>
 
-            <!-- LEFT SIDEBAR WITH TAB-VIEW (Outlook-style notifications) -->
+            <!-- LEFT SIDEBAR WITH MINI-WINDOWS -->
             <Border Grid.Row="1" Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
                     BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0">
-                <Grid>
+                <Grid Margin="4">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
-                    <!-- Tab Headers with Outlook-style unread count -->
-                    <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
-                            BorderThickness="0,0,0,1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
-                        <StackPanel Orientation="Horizontal">
-                            <RadioButton x:Name="SidebarTabNavigation" GroupName="SidebarTabs" 
-                                         IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}" 
-                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click">
-                                <TextBlock Text="Navigation"/>
-                            </RadioButton>
-                            
-                            <RadioButton x:Name="SidebarTabTasks" GroupName="SidebarTabs" 
-                                         Style="{StaticResource {x:Type ToggleButton}}" 
-                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Aufgaben">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontWeight" Value="Normal"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" 
-                                                                 Value="True">
-                                                        <Setter Property="FontWeight" Value="Bold"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                    
-                                    <TextBlock Margin="4,0,0,0">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Setter Property="FontWeight" Value="Bold"/>
-                                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" 
-                                                                 Value="True">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                        <Run Text="("/><Run Text="{Binding TaskBasketViewModel.UnreadTasksCount, Mode=OneWay}"/><Run Text=")"/>
-                                    </TextBlock>
-                                </StackPanel>
-                            </RadioButton>
-                            
-                            <RadioButton x:Name="SidebarTabFavorites" Content="Favoriten" GroupName="SidebarTabs" 
-                                         Style="{StaticResource {x:Type ToggleButton}}" 
-                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
-                        </StackPanel>
+
+                    <!-- NAVIGATION MINI-WINDOW WITH TREEVIEW -->
+                    <Border Grid.Row="0" Background="White" BorderBrush="#e0e0e0" BorderThickness="1" Margin="0,0,0,4">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Mini-Window Title Bar -->
+                            <Grid Grid.Row="0" Background="#f5f5f5" Margin="0,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="📁 Navigation" FontSize="11" FontWeight="Bold" Margin="8,4" VerticalAlignment="Center"/>
+                                <Button Grid.Column="1" Content="_" Width="24" Height="20" FontSize="10" Margin="4,0" ToolTip="Minimieren"/>
+                                <Button Grid.Column="2" Content="X" Width="24" Height="20" FontSize="10" ToolTip="Schließen"/>
+                            </Grid>
+
+                            <!-- Navigation TreeView (Outlook-ähnlich) -->
+                            <TreeView Grid.Row="1" Background="White" Margin="0" x:Name="NavigationTreeView" 
+                                     PreviewMouseLeftButtonDown="NavigationTreeView_PreviewMouseLeftButtonDown"
+                                     PreviewMouseDoubleClick="NavigationTreeView_PreviewMouseDoubleClick"
+                                     PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                                <TreeView.ContextMenu>
+                                    <ContextMenu x:Name="TreeViewContextMenu">
+                                        <MenuItem Header="📄 Öffnen" Click="TreeViewContext_Open"/>
+                                        <MenuItem Header="📄 In neuem Tab öffnen" Click="TreeViewContext_OpenNewTab"/>
+                                        <Separator/>
+                                        <MenuItem Header="✏️ Umbenennen" Click="TreeViewContext_Rename"/>
+                                        <MenuItem Header="📋 Kopieren" Click="TreeViewContext_Copy"/>
+                                        <MenuItem Header="✂️ Ausschneiden" Click="TreeViewContext_Cut"/>
+                                        <MenuItem Header="📁 Einfügen" Click="TreeViewContext_Paste"/>
+                                        <Separator/>
+                                        <MenuItem Header="🗑 Löschen" Click="TreeViewContext_Delete"/>
+                                        <Separator/>
+                                        <MenuItem Header="⚙️ Eigenschaften" Click="TreeViewContext_Properties"/>
+                                    </ContextMenu>
+                                </TreeView.ContextMenu>
+                                <!-- Dashboard Link -->
+                                <TreeViewItem Header="📊 Dashboard" Tag="doc_dashboard" IsExpanded="False"/>
+                                
+                                <!-- Dokumentbereich -->
+                                <TreeViewItem Header="📄 Dokumente" IsExpanded="True">
+                                    <TreeViewItem Header="📂 Meine Dokumente" Tag="folder_mydocs"/>
+                                    <TreeViewItem Header="⏱ Zuletzt verwendet" Tag="folder_recent">
+                                        <TreeViewItem Header="Baugenehmigung_2024.pdf" Tag="doc_001"/>
+                                        <TreeViewItem Header="Kostenschätzung.xlsx" Tag="doc_002"/>
+                                        <TreeViewItem Header="Rechnungsproof.docx" Tag="doc_003"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="⭐ Favoriten" Tag="folder_favorites">
+                                        <TreeViewItem Header="Grundriss_Entwurf.pdf" Tag="doc_004"/>
+                                    </TreeViewItem>
+                                </TreeViewItem>
+
+                                <!-- Projekte -->
+                                <TreeViewItem Header="📂 Projekte" IsExpanded="True">
+                                    <TreeViewItem Header="🔨 Aktive Projekte" Tag="folder_active">
+                                        <TreeViewItem Header="Bauproject München" Tag="proj_001">
+                                            <TreeViewItem Header="Planung" Tag="phase_planning"/>
+                                            <TreeViewItem Header="Genehmigung" Tag="phase_approval"/>
+                                            <TreeViewItem Header="Ausführung" Tag="phase_execution"/>
+                                        </TreeViewItem>
+                                        <TreeViewItem Header="Digitalisierung Akte" Tag="proj_002"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="📦 Abgelossene Projekte" Tag="folder_completed">
+                                        <TreeViewItem Header="Projekt 2023" Tag="proj_2023"/>
+                                    </TreeViewItem>
+                                </TreeViewItem>
+
+                                <!-- Wiedervorlagen / Aufgaben -->
+                                <TreeViewItem Header="📅 Wiedervorlagen" Tag="folder_reminders" IsExpanded="False"/>
+                                
+                                <!-- Mitzeichnungen / Genehmigungen -->
+                                <TreeViewItem Header="✍️ Mitzeichnungen" Tag="folder_signoffs" IsExpanded="False">
+                                    <TreeViewItem Header="Wartend (3)" Tag="folder_pending">
+                                        <TreeViewItem Header="Baugenehmigung ABC" Tag="doc_sign_001"/>
+                                        <TreeViewItem Header="Umweltbericht XYZ" Tag="doc_sign_002"/>
+                                        <TreeViewItem Header="Kostenberechnung" Tag="doc_sign_003"/>
+                                    </TreeViewItem>
+                                    <TreeViewItem Header="Abgeschlossen (12)" Tag="folder_completed_signoffs"/>
+                                </TreeViewItem>
+
+                                <!-- Papierkorb -->
+                                <TreeViewItem Header="🗑 Papierkorb" Tag="folder_trash" IsExpanded="False"/>
+                            </TreeView>
+                        </Grid>
                     </Border>
-                    
-                    <!-- Tab Content -->
-                    <Grid Grid.Row="1">
-                        <!-- Navigation Tab Content -->
-                        <ScrollViewer x:Name="NavigationTabContent" VerticalScrollBarVisibility="Auto" 
-                                      Visibility="Visible" Padding="10">
-                            <StackPanel>
-                                <TextBlock Text="Navigation" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
-                                <TreeView>
-                                    <TreeViewItem Header="📊 Dashboard" IsExpanded="False"/>
-                                    <TreeViewItem Header="📄 Dokumente" IsExpanded="True">
-                                        <TreeViewItem Header="Meine Dokumente"/>
-                                        <TreeViewItem Header="Zuletzt verwendet"/>
-                                        <TreeViewItem Header="Favoriten"/>
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="📂 Projekte">
-                                        <TreeViewItem Header="Aktive Projekte"/>
-                                        <TreeViewItem Header="Archivierte Projekte"/>
-                                    </TreeViewItem>
-                                    <TreeViewItem Header="📅 Wiedervorlagen"/>
-                                    <TreeViewItem Header="✍️ Mitzeichnungen"/>
-                                </TreeView>
-                            </StackPanel>
-                        </ScrollViewer>
-                        
-                        <!-- Tasks Tab Content (Task Basket) -->
-                        <ContentControl x:Name="TasksTabContent" Visibility="Collapsed"/>
-                        
-                        <!-- Favorites Tab Content -->
-                        <ContentControl x:Name="FavoritesTabContent" Visibility="Collapsed"/>
-                    </Grid>
+
+                    <!-- SPACER -->
+                    <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" 
+                                 Background="Transparent" ResizeBehavior="PreviousAndNext"/>
+
+                    <!-- PLACEHOLDER FOR ADDITIONAL MINI-WINDOW -->
+                    <Border Grid.Row="2" Background="White" BorderBrush="#e0e0e0" BorderThickness="1" Margin="0,4,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Mini-Window Title Bar -->
+                            <Grid Grid.Row="0" Background="#f5f5f5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="⭐ Favoriten" FontSize="11" FontWeight="Bold" Margin="8,4" VerticalAlignment="Center"/>
+                                <Button Grid.Column="1" Content="_" Width="24" Height="20" FontSize="10" Margin="4,0" ToolTip="Minimieren"/>
+                                <Button Grid.Column="2" Content="X" Width="24" Height="20" FontSize="10" ToolTip="Schließen"/>
+                            </Grid>
+
+                            <!-- Favorites Content -->
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
+                                <StackPanel>
+                                    <TextBlock Text="Keine Favoriten" FontSize="10" Foreground="#999" 
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
                 </Grid>
             </Border>
 
@@ -601,44 +760,90 @@
             <Grid Grid.Row="1" Grid.Column="1" Background="Transparent">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- TAB BAR WITH CLOSE BUTTONS -->
-                <Border Grid.Row="0" Background="#f5f5f5" BorderBrush="#e0e0e0" BorderThickness="0,0,0,1" Padding="0">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="32">
-                        <StackPanel x:Name="TabBar" Orientation="Horizontal" VerticalAlignment="Center"/>
-                    </ScrollViewer>
+                <!-- BREADCRUMB NAVIGATION -->
+                <local:BreadcrumbView Grid.Row="0" DataContext="{Binding BreadcrumbViewModel}"/>
+
+                <!-- TAB BAR WITH CLOSE BUTTONS AND CONTEXT MENU -->
+                <Border Grid.Row="1" Background="#f5f5f5" BorderBrush="#e0e0e0" BorderThickness="0,0,0,1" Padding="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- TAB SCROLLVIEWER -->
+                        <ScrollViewer Grid.Column="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="32">
+                            <StackPanel x:Name="TabBar" Orientation="Horizontal" VerticalAlignment="Center"/>
+                        </ScrollViewer>
+
+                        <!-- TAB MANAGEMENT BUTTONS -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                            <!-- Search Button -->
+                            <Button x:Name="TabSearchButton" Width="28" Height="28" Margin="2,0" 
+                                    Background="Transparent" BorderBrush="#e0e0e0" BorderThickness="1"
+                                    ToolTip="Tabs durchsuchen" Click="TabSearch_Click">
+                                <TextBlock Text="🔍" FontSize="14"/>
+                            </Button>
+
+                            <!-- Sort/Filter Button (Context Menu) -->
+                            <Button x:Name="TabContextMenuButton" Width="28" Height="28" Margin="2,0" 
+                                    Background="Transparent" BorderBrush="#e0e0e0" BorderThickness="1"
+                                    ToolTip="Sortierung &amp; Filter" Click="TabContextMenu_Click">
+                                <TextBlock Text="⋮" FontSize="14"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- CONTEXT MENU FOR TABS (Attached as Resource) -->
+                    <Border.ContextMenu>
+                        <ContextMenu x:Name="TabContextMenu" StaysOpen="True">
+                            <MenuItem Header="📊 Sortierung" IsEnabled="True">
+                                <MenuItem Header="Nach Name (A-Z)" Click="SortTabsBy_Name"/>
+                                <MenuItem Header="Nach Öffnungsreihenfolge" Click="SortTabsBy_OpenOrder"/>
+                                <MenuItem Header="Nach Zuletzt verwendet" Click="SortTabsBy_LastUsed"/>
+                                <Separator/>
+                                <MenuItem Header="Absteigend" Click="SortTabsBy_Reverse"/>
+                            </MenuItem>
+
+                            <MenuItem Header="🔽 Filter" IsEnabled="True">
+                                <MenuItem Header="Nur aktuelle Kategorie" Click="FilterTabs_CurrentCategory"/>
+                                <MenuItem Header="Nach Typ..." Click="FilterTabs_ByType"/>
+                                <MenuItem Header="Favoriten anzeigen" Click="FilterTabs_Favorites"/>
+                                <Separator/>
+                                <MenuItem Header="Alle anzeigen" Click="FilterTabs_ShowAll"/>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem Header="⚙️ Tab-Verwaltung" IsEnabled="True">
+                                <MenuItem Header="Alle bis auf aktuelle schließen" Click="TabManagement_CloseOthers"/>
+                                <MenuItem Header="Alle Tabs schließen (außer Dashboard)" Click="TabManagement_CloseAll"/>
+                                <Separator/>
+                                <MenuItem Header="Duplikat erstellen" Click="TabManagement_Duplicate"/>
+                                <MenuItem Header="In neuem Fenster öffnen" Click="TabManagement_NewWindow"/>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem Header="📌 Favoriten" IsEnabled="True">
+                                <MenuItem Header="Als Favorit speichern" Click="TabFavorite_Add"/>
+                                <MenuItem Header="Aus Favoriten entfernen" Click="TabFavorite_Remove"/>
+                                <Separator/>
+                                <MenuItem Header="Favoriten anpassen..." Click="TabFavorite_Manage"/>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Border.ContextMenu>
                 </Border>
 
                 <!-- CONTENT AREA -->
-                <TabControl Grid.Row="1" x:Name="CenterContent" Background="White">
-                    <TabItem Header=" Dashboard" IsSelected="True">
+                <TabControl Grid.Row="2" x:Name="CenterContent" Background="White">
+                    <!-- Dashboard Tab (always visible, not closeable) -->
+                    <TabItem Header="📊 Dashboard" IsSelected="True">
                         <Dashboard:DashboardView DataContext="{Binding DashboardViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Gantt" x:Name="TabGantt">
-                        <Gantt:GanttView DataContext="{Binding GanttViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Timeline" x:Name="TabTimeline">
-                        <Timeline:TimelineView DataContext="{Binding TimelineViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Aufgaben" x:Name="TabTaskBasket">
-                        <Tasks:TaskBasketView DataContext="{Binding TaskBasketViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Vorschau" x:Name="TabPreview">
-                        <Preview:DocumentPreviewView DataContext="{Binding DocumentPreviewViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" AI Chat" x:Name="TabAIChat">
-                        <local:AIChatView DataContext="{Binding AIChatViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Inbox" x:Name="TabInbox">
-                        <Inbox:InboxView DataContext="{Binding InboxViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Favoriten" x:Name="TabFavorites">
-                        <Favorites:FavoritesPanelView DataContext="{Binding FavoritesViewModel}"/>
-                    </TabItem>
-                    <TabItem Header=" Zusammenarbeit" x:Name="TabCollaboration">
-                        <Collaboration:DocumentCollaborationView DataContext="{Binding DocumentCollaborationViewModel}"/>
                     </TabItem>
                 </TabControl>
             </Grid>
@@ -761,7 +966,6 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <!-- Mini-Window Title Bar -->
@@ -776,37 +980,8 @@
                                 <Button Grid.Column="2" Content="X" Width="24" Height="20" FontSize="10" ToolTip="Schliessen"/>
                             </Grid>
 
-                            <!-- Messages -->
-                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="8">
-                                <StackPanel Background="#fafafa">
-                                    <Border HorizontalAlignment="Left" Background="#e3f2fd" Margin="0,0,20,6" MaxWidth="220">
-                                        <TextBlock Text="Wie kann ich dir heute helfen?" Foreground="#333" TextWrapping="Wrap" FontSize="9" Margin="8,6"/>
-                                    </Border>
-
-                                    <Border HorizontalAlignment="Right" Background="#2196f3" Margin="20,0,0,6" MaxWidth="220">
-                                        <TextBlock Text="Was sind die naechsten Schritte?" Foreground="White" TextWrapping="Wrap" FontSize="9" Margin="8,6"/>
-                                    </Border>
-
-                                    <Border HorizontalAlignment="Left" Background="#e3f2fd" Margin="0,0,20,6" MaxWidth="220">
-                                        <StackPanel Margin="8,6">
-                                            <TextBlock Text="Basierend auf dem Prozess:" Foreground="#333" TextWrapping="Wrap" FontSize="9" FontWeight="Bold"/>
-                                            <TextBlock Text="1. Dokumentation pruefen&#10;2. Genehmigung einholen" Foreground="#555" TextWrapping="Wrap" FontSize="9" Margin="0,4,0,0"/>
-                                        </StackPanel>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-
-                            <!-- Input -->
-                            <Grid Grid.Row="2" Background="White" Margin="8,6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBox Grid.Column="0" Background="White" BorderBrush="#ddd" BorderThickness="1" FontSize="9" VerticalAlignment="Top" AcceptsReturn="True" MaxHeight="40" Margin="0,0,4,0" Padding="6,4" Text="Frage stellen..."/>
-
-                                <Button Grid.Column="1" Content=">" Width="28" Height="28" FontSize="12" VerticalAlignment="Top"/>
-                            </Grid>
+                            <!-- Integrated AI Chat View -->
+                            <local:AIChatView x:Name="SidebarAIChatView" Grid.Row="1"/> 
                         </Grid>
                     </Border>
                 </Grid>

@@ -73,11 +73,11 @@ class Colors:
     
     @staticmethod
     def success(msg):
-        return f"{Colors.GREEN}[✓]{Colors.RESET} {msg}"
+        return f"{Colors.GREEN}[OK]{Colors.RESET} {msg}"
     
     @staticmethod
     def error(msg):
-        return f"{Colors.RED}[✗]{Colors.RESET} {msg}"
+        return f"{Colors.RED}[FAIL]{Colors.RESET} {msg}"
     
     @staticmethod
     def warning(msg):

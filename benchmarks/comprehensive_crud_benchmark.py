@@ -629,7 +629,7 @@ class CRUDBenchmark:
         
         report_file = os.path.join(self.report_dir, "CRUD_BENCHMARK_REPORT.txt")
         
-        with open(report_file, 'w') as f:
+        with open(report_file, 'w', encoding='utf-8') as f:
             f.write("╔════════════════════════════════════════════════════════════════════════════╗\n")
             f.write("║          ThemisDB Comprehensive CRUD Benchmark Report                       ║\n")
             f.write("║          vs PostgreSQL, MongoDB, Redis                                      ║\n")

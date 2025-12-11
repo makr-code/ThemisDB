@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
 using Themis.DocumentManager.Application.Tasks.Queries.GetMyTasks;
+using static Themis.DocumentManager.Application.Tasks.Queries.GetMyTasks.GetMyTasksQuery;
 
 namespace Themis.DocumentManager.ViewModels;
 
@@ -40,6 +41,12 @@ public partial class TaskBasketViewModel : ObservableObject
 
     [ObservableProperty]
     private string? _categoryFilter;
+
+    [ObservableProperty]
+    private string? _entityId;
+
+    [ObservableProperty]
+    private LinkedEntityType? _entityType;
 
     [ObservableProperty]
     private TaskSortBy _sortBy = TaskSortBy.DueDate;
@@ -88,7 +95,7 @@ public partial class TaskBasketViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task LoadTasksAsync()
+    public async Task LoadTasksAsync()
     {
         IsLoading = true;
         try
@@ -99,6 +106,8 @@ public partial class TaskBasketViewModel : ObservableObject
                 StatusFilter = ShowCompleted ? null : StatusFilter,
                 PriorityFilter = PriorityFilter,
                 CategoryFilter = CategoryFilter,
+                EntityId = EntityId,
+                EntityType = EntityType,
                 SortBy = SortBy,
                 SortDescending = SortDescending
             };
@@ -121,6 +130,15 @@ public partial class TaskBasketViewModel : ObservableObject
         {
             IsLoading = false;
         }
+    }
+
+    /// <summary>
+    /// Setzt Entity-Filter (z.B. Dokument/Vorgang/Akte) für die Aufgabenliste
+    /// </summary>
+    public void ApplyEntityFilter(string? entityId, LinkedEntityType? entityType)
+    {
+        EntityId = entityId;
+        EntityType = entityType;
     }
 
     [RelayCommand]

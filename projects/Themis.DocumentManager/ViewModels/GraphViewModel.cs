@@ -19,6 +19,7 @@ namespace Themis.DocumentManager.ViewModels
     public partial class GraphViewModel : INotifyPropertyChanged
     {
         private readonly IGraphVisualizationService _graphService;
+        private readonly DsmLocalDataStore? _dsmStore;
 
         private Graph? _currentGraph;
         private GraphNode? _selectedNode;
@@ -33,9 +34,10 @@ namespace Themis.DocumentManager.ViewModels
         private string _statusMessage = "Bereit";
         private CancellationTokenSource? _layoutCancellation;
 
-        public GraphViewModel(IGraphVisualizationService graphService)
+        public GraphViewModel(IGraphVisualizationService graphService, DsmLocalDataStore? dsmStore = null)
         {
             _graphService = graphService ?? throw new ArgumentNullException(nameof(graphService));
+            _dsmStore = dsmStore;
 
             _nodes = new ObservableCollection<GraphNode>();
             _edges = new ObservableCollection<GraphEdge>();
@@ -634,8 +636,88 @@ namespace Themis.DocumentManager.ViewModels
 
         private async Task LoadDefaultGraphAsync()
         {
-            var graph = CreateExampleGraph();
-            await LoadGraphAsync(graph);
+            if (_dsmStore != null)
+            {
+                var edges = await _dsmStore.GetAllEdgesAsync();
+                if (edges.Any())
+                {
+                    var graph = BuildGraphFromDsmEdges(edges);
+                    await LoadGraphAsync(graph);
+                    return;
+                }
+            }
+
+            var fallback = CreateExampleGraph();
+            await LoadGraphAsync(fallback);
+        }
+
+        private Graph BuildGraphFromDsmEdges(IEnumerable<DsmEntityGraphEdge> edges)
+        {
+            var graph = new Graph
+            {
+                Id = "dsm-local-graph",
+                Name = "DSM Graph",
+                Nodes = new List<GraphNode>(),
+                Edges = new List<GraphEdge>()
+            };
+
+            var nodes = new Dictionary<string, GraphNode>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var edge in edges)
+            {
+                var sourceId = $"{edge.SourceType}:{edge.SourceId}";
+                var targetId = $"{edge.TargetType}:{edge.TargetId}";
+
+                if (!nodes.ContainsKey(sourceId))
+                {
+                    nodes[sourceId] = new GraphNode
+                    {
+                        Id = sourceId,
+                        Label = sourceId,
+                        Type = edge.SourceType.Equals("document", StringComparison.OrdinalIgnoreCase) ? GraphNodeType.Document : GraphNodeType.Entity,
+                        Color = edge.SourceType.Equals("document", StringComparison.OrdinalIgnoreCase) ? "#2196F3" : "#4CAF50",
+                        EntityId = edge.SourceId,
+                        Data = new Dictionary<string, object>
+                        {
+                            {"entityType", edge.SourceType},
+                            {"entityId", edge.SourceId}
+                        }
+                    };
+                }
+
+                if (!nodes.ContainsKey(targetId))
+                {
+                    nodes[targetId] = new GraphNode
+                    {
+                        Id = targetId,
+                        Label = targetId,
+                        Type = edge.TargetType.Equals("document", StringComparison.OrdinalIgnoreCase) ? GraphNodeType.Document : GraphNodeType.Entity,
+                        Color = edge.TargetType.Equals("document", StringComparison.OrdinalIgnoreCase) ? "#2196F3" : "#4CAF50",
+                        EntityId = edge.TargetId,
+                        Data = new Dictionary<string, object>
+                        {
+                            {"entityType", edge.TargetType},
+                            {"entityId", edge.TargetId}
+                        }
+                    };
+                }
+
+                graph.Edges.Add(new GraphEdge
+                {
+                    Id = string.IsNullOrWhiteSpace(edge.Id) ? Guid.NewGuid().ToString("N") : edge.Id,
+                    SourceNodeId = sourceId,
+                    TargetNodeId = targetId,
+                    RelationType = edge.Relation,
+                    Label = edge.Relation,
+                    Strength = edge.Weight,
+                    Weight = edge.Weight,
+                    Data = new Dictionary<string, object>(edge.Properties)
+                });
+            }
+
+            graph.Nodes = nodes.Values.ToList();
+            graph.Description = "Aus DSM-Cache aufgebaut";
+            return graph;
         }
 
         private Graph CreateExampleGraph()

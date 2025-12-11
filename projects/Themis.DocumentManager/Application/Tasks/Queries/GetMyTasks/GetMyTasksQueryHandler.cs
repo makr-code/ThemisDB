@@ -42,7 +42,10 @@ public class GetMyTasksQueryHandler : IRequestHandler<GetMyTasksQuery, List<Task
             Type = TaskType.Inbox,
             SourceId = item.Id,
             AssignedTo = item.AssignedTo,
-            CreatedAt = item.ReceivedAt
+            CreatedAt = item.ReceivedAt,
+            EntityType = null,
+            EntityId = null,
+            ProcessId = null
         }));
 
         // Get reminders
@@ -59,7 +62,10 @@ public class GetMyTasksQueryHandler : IRequestHandler<GetMyTasksQuery, List<Task
             Type = TaskType.Reminder,
             SourceId = reminder.Id,
             AssignedTo = reminder.AssignedTo,
-            CreatedAt = reminder.CreatedAt
+            CreatedAt = reminder.CreatedAt,
+            EntityType = null,
+            EntityId = null,
+            ProcessId = null
         }));
 
         // Get cosigning tasks
@@ -76,7 +82,10 @@ public class GetMyTasksQueryHandler : IRequestHandler<GetMyTasksQuery, List<Task
             Type = TaskType.Cosigning,
             SourceId = cosigning.Id,
             AssignedTo = request.UserId,
-            CreatedAt = DateTime.UtcNow // Would need actual creation date
+            CreatedAt = DateTime.UtcNow, // Would need actual creation date
+            EntityType = LinkedEntityType.Process,
+            EntityId = cosigning.ProcessId,
+            ProcessId = cosigning.ProcessId
         }));
 
         // Apply filters
@@ -93,6 +102,24 @@ public class GetMyTasksQueryHandler : IRequestHandler<GetMyTasksQuery, List<Task
         if (!string.IsNullOrEmpty(request.CategoryFilter))
         {
             tasks = tasks.Where(t => t.Category == request.CategoryFilter).ToList();
+        }
+
+        // Filter by entity / process
+        if (!string.IsNullOrEmpty(request.EntityId))
+        {
+            tasks = tasks.Where(t => string.Equals(t.EntityId, request.EntityId, StringComparison.OrdinalIgnoreCase)
+                                   || string.Equals(t.ProcessId, request.EntityId, StringComparison.OrdinalIgnoreCase))
+                         .ToList();
+        }
+
+        if (request.EntityType.HasValue)
+        {
+            tasks = tasks.Where(t => t.EntityType == request.EntityType.Value).ToList();
+        }
+
+        if (!string.IsNullOrEmpty(request.ProcessId))
+        {
+            tasks = tasks.Where(t => string.Equals(t.ProcessId, request.ProcessId, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         // Apply sorting
@@ -162,6 +189,9 @@ public class TaskItem
     public string SourceId { get; set; } = string.Empty;
     public string AssignedTo { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
+    public LinkedEntityType? EntityType { get; set; }
+    public string? EntityId { get; set; }
+    public string? ProcessId { get; set; }
     public bool IsOverdue => DueDate.HasValue && DueDate.Value < DateTime.Now && Status != TaskStatus.Completed;
 }
 

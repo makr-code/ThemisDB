@@ -22,12 +22,22 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLoading = false;
 
+    [ObservableProperty]
+    private UserSwitcherViewModel? userSwitcherViewModel;
+
+    [ObservableProperty]
+    private BreadcrumbViewModel? breadcrumbViewModel;
+
     public MainViewModel(
         IDocumentService documentService,
-        ISearchService searchService)
+        ISearchService searchService,
+        UserSwitcherViewModel userSwitcherViewModel,
+        BreadcrumbViewModel breadcrumbViewModel)
     {
         _documentService = documentService;
         _searchService = searchService;
+        UserSwitcherViewModel = userSwitcherViewModel;
+        BreadcrumbViewModel = breadcrumbViewModel;
     }
 
     [RelayCommand]

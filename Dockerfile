@@ -31,6 +31,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
 ENV VCPKG_ROOT=/opt/vcpkg
 # Required on non-amd64 platforms when building under emulation (ARM, s390x, ppc64le, riscv)
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
+ENV VCPKG_USE_ARIA2=1
+ENV VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/downloads,readwrite"
+ENV VCPKG_KEEP_ENV_VARS=HTTPS_PROXY,HTTP_PROXY,ALL_PROXY,NO_PROXY
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
     && cd ${VCPKG_ROOT} \
     && git checkout 2024.10.21 \
@@ -122,7 +125,8 @@ RUN . /etc/profile.d/vcpkg.sh && \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
         -DTHEMIS_STATIC_BUILD=OFF 2>&1 | tee /tmp/cmake_config.log && \
-    cmake --build build --target themis_server -j$(nproc) 2>&1 | tee /tmp/cmake_build.log
+    ninja -C build 2>&1 | tee /tmp/cmake_build.log && \
+    ls -lh /src/build/themis_server
 
 # Runtime stage - minimal Ubuntu image
 FROM ubuntu:22.04 AS runtime

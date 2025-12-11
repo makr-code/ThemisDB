@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Themis.DocumentManager.Controls">
+                    xmlns:controls="clr-namespace:Themis.DocumentManager.Controls"
+                    xmlns:converters="clr-namespace:Themis.DocumentManager.Converters">
 
     <!-- Phase 30: Custom Control Styles -->
 
@@ -236,5 +237,6 @@
 
     <!-- BoolToVisibility Converter -->
     <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
 
 </ResourceDictionary>

@@ -13,6 +13,9 @@ public record GetMyTasksQuery : IRequest<List<TaskItem>>
     public TaskStatus? StatusFilter { get; init; }
     public TaskPriority? PriorityFilter { get; init; }
     public string? CategoryFilter { get; init; }
+    public string? EntityId { get; init; }
+    public LinkedEntityType? EntityType { get; init; }
+    public string? ProcessId { get; init; }
     public TaskSortBy SortBy { get; init; } = TaskSortBy.DueDate;
     public bool SortDescending { get; init; } = false;
 }
@@ -24,4 +27,16 @@ public enum TaskSortBy
     CreatedDate,
     Title,
     Category
+}
+
+/// <summary>
+/// Ziel-Entität, an die eine Aufgabe angehängt ist (Dokument, Vorgang, Akte etc.)
+/// </summary>
+public enum LinkedEntityType
+{
+    Document,
+    Case,     // Vorgang
+    File,     // Akte
+    Folder,
+    Process
 }

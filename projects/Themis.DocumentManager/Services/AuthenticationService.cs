@@ -70,7 +70,7 @@ public class AuthenticationService : IAuthenticationService
     private async Task InitializeAsync()
     {
         try
-    {
+        {
             // Versuche automatischen Login mit lokalem Admin-Account
             await LoginAsync("admin", "admin");
         }

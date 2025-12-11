@@ -20,15 +20,13 @@ public partial class MainWindow : Window
 {
     private readonly MainViewModel _viewModel;
     private readonly IOfficeIntegrationService _officeService;
-    private readonly IFormTemplateService _formTemplateService;
-    private readonly IFormConfigurationLoader _formConfigurationLoader;
-    private readonly IFormDatabaseMappingService _formDatabaseMappingService;
-    private readonly IFormAuditService _formAuditService;
-    private readonly ISmartFormService _smartFormService;
-    private readonly IFormContextService _formContextService;
     private readonly IThemeService _themeService;
     private readonly ISettingsService _settingsService;
     private readonly IAnimationService _animationService;
+    private readonly AIChatViewModel _aiChatViewModel;
+    private readonly IFormTemplateService? _formTemplateService;
+    private readonly IApplicationStateService _stateService;
+    private readonly IFilePreviewPluginService _pluginService;
     private bool _isFullscreen = false;
     private WindowState _previousWindowState;
     private WindowStyle _previousWindowStyle;
@@ -37,32 +35,42 @@ public partial class MainWindow : Window
     private double _pixelsPerDay = 40; // 40 pixels pro Tag (skalierbar)
     private Dictionary<TabItem, bool> _tabChanges = new(); // Track unsaved changes per tab
     private Dictionary<TabItem, DocumentMetadata> _tabMetadata = new(); // Store metadata per tab
+    private TreeViewItem? _contextMenuTreeViewItem; // Item für Kontextmenü-Operationen
 
     public MainWindow(
         MainViewModel viewModel,
         IOfficeIntegrationService officeService,
-        IFormTemplateService formTemplateService,
-        IFormConfigurationLoader formConfigurationLoader,
-        IFormDatabaseMappingService formDatabaseMappingService,
-        IFormAuditService formAuditService,
-        ISmartFormService smartFormService,
-        IFormContextService formContextService,
         IThemeService themeService,
         ISettingsService settingsService,
-        IAnimationService animationService)
+        IAnimationService animationService,
+        AIChatViewModel aiChatViewModel,
+        IFormTemplateService? formTemplateService = null)
     {
-        InitializeComponent();
+        try
+        {
+            InitializeComponent();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            throw;
+        }
         _viewModel = viewModel;
         _officeService = officeService;
-        _formTemplateService = formTemplateService;
-        _formConfigurationLoader = formConfigurationLoader;
-        _formDatabaseMappingService = formDatabaseMappingService;
-        _formAuditService = formAuditService;
-        _smartFormService = smartFormService;
-        _formContextService = formContextService;
         _themeService = themeService;
         _settingsService = settingsService;
         _animationService = animationService;
+        _aiChatViewModel = aiChatViewModel;
+        _formTemplateService = formTemplateService;
+        _stateService = new ApplicationStateService();
+        
+        // Plugin-Service initialisieren und Standard-Plugins registrieren
+        _pluginService = new FilePreviewPluginService();
+        _pluginService.RegisterPlugin(new TextFilePreviewPlugin());
+        _pluginService.RegisterPlugin(new ImageFilePreviewPlugin());
+        _pluginService.RegisterPlugin(new PdfPreviewPlugin());
+        _pluginService.RegisterPlugin(new MsgPreviewPlugin());
+        
         DataContext = _viewModel;
 
         _viewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -72,7 +80,39 @@ public partial class MainWindow : Window
             UpdateMenuItems();
             InitializeTimeline();
             UpdateThemeMenuItems();
+            WireChatViews();
+            
+            // Tab-Wechsel-Event registrieren für Breadcrumb-Updates
+            CenterContent.SelectionChanged += CenterContent_SelectionChanged;
+            
+            // Initiale Breadcrumb für Dashboard setzen
+            if (_viewModel.BreadcrumbViewModel != null)
+            {
+                _viewModel.BreadcrumbViewModel.SetContextForTab("TabDashboard");
+            }
+
+            // Fenster-Zustand wiederherstellen
+            RestoreWindowState();
+            RestoreApplicationState();
         };
+
+        // Fenster schließen - Zustand speichern
+        Closing += (s, e) =>
+        {
+            SaveApplicationState();
+        };
+    }
+
+    private void WireChatViews()
+    {
+        if (FindName("CenterAIChatView") is AIChatView centerChat)
+        {
+            centerChat.DataContext = _aiChatViewModel;
+        }
+        if (FindName("SidebarAIChatView") is AIChatView sidebarChat)
+        {
+            sidebarChat.DataContext = _aiChatViewModel;
+        }
     }
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -360,52 +400,9 @@ public partial class MainWindow : Window
     /// </summary>
     private async void Badge_Click(string eventId, string label, string contentTitle, string note)
     {
-        var contentControl = this.FindName("CenterContent") as TabControl;
-        if (contentControl == null) return;
-
-        const string templateId = "pdv-vis5-document";
-
-        var tabItem = FindTabByTitle(contentControl, contentTitle);
-        if (tabItem == null)
-        {
-            var template = await _formTemplateService.GetTemplateAsync(templateId);
-
-            if (template == null)
-            {
-                var baseDir = AppDomain.CurrentDomain.BaseDirectory;
-                var jsonPath = System.IO.Path.Combine(baseDir, "Config", "FormTemplates", "pdv-vis5-document.json");
-                var yamlPath = System.IO.Path.Combine(baseDir, "Config", "FormTemplates", "pdv-vis5-document.yaml");
-
-                if (File.Exists(jsonPath))
-                    template = await _formConfigurationLoader.LoadFromJsonAsync(jsonPath);
-                else if (File.Exists(yamlPath))
-                    template = await _formConfigurationLoader.LoadFromYamlAsync(yamlPath);
-            }
-
-            if (template == null)
-            {
-                MessageBox.Show("PDV VIS 5 Formularvorlage nicht gefunden.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            var renderer = new FormRenderer();
-            renderer.RenderTemplate(template);
-            renderer.FormSubmitted += async (s, e) => await HandleFormSubmittedAsync(template.Id, e.FormData);
-
-            tabItem = CreateFormTab(contentTitle, renderer);
-
-            _tabMetadata[tabItem] = new DocumentMetadata
-            {
-                DocumentName = contentTitle,
-                Description = note,
-                Author = Environment.UserName
-            };
-            _tabChanges[tabItem] = false;
-
-            contentControl.Items.Add(tabItem);
-        }
-
-        contentControl.SelectedItem = tabItem;
+        // Form system disabled - stubs only
+        MessageBox.Show("Formularsystem ist deaktiviert. Dieses Feature ist momentan nicht verfügbar.", 
+            "Formulare deaktiviert", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private TabItem? FindTabByTitle(TabControl tabControl, string title)
@@ -482,71 +479,9 @@ public partial class MainWindow : Window
 
     private async Task HandleFormSubmittedAsync(string templateId, Dictionary<string, object>? formData)
     {
-        if (formData == null)
-        {
-            MessageBox.Show("Keine Formulardaten vorhanden.", "Hinweis", MessageBoxButton.OK, MessageBoxImage.Information);
-            return;
-        }
-
-        var currentTab = CenterContent.SelectedItem as TabItem;
-        
-        var submission = new FormSubmissionData
-        {
-            FormId = templateId,
-            FieldValues = formData,
-            Status = "Submitted",
-            SubmittedBy = Environment.UserName
-        };
-
-        // Update tab status: show validation in progress
-        if (currentTab != null)
-            UpdateTabHeader(currentTab, "⏳ Validierung...");
-
-        // Optional: Validieren über Template-Service, falls Template verfügbar
-        var template = await _formTemplateService.GetTemplateAsync(templateId);
-        if (template != null)
-        {
-            var validation = await _formTemplateService.ValidateFormAsync(template, formData);
-            if (validation.ValidationErrors.Count > 0)
-            {
-                // Update tab status: show validation error
-                if (currentTab != null)
-                    UpdateTabHeader(currentTab, "❌ Validierungsfehler");
-                
-                // Log failed validation
-                await _formAuditService.LogSubmissionAsync(
-                    submission, 
-                    Environment.UserName, 
-                    "VALIDATE",
-                    "Error",
-                    string.Join("; ", validation.ValidationErrors.Select(kv => $"{kv.Key}: {kv.Value}"))
-                );
-                
-                var msg = string.Join("\n", validation.ValidationErrors.Select(kv => $"{kv.Key}: {kv.Value}"));
-                MessageBox.Show($"Validierungsfehler:\n{msg}", "Validierung", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-        }
-
-        // Log successful validation
-        await _formAuditService.LogSubmissionAsync(submission, Environment.UserName, "VALIDATE");
-
-        // Update tab status: show save in progress
-        if (currentTab != null)
-            UpdateTabHeader(currentTab, "💾 Speichern...");
-
-        await _formTemplateService.SubmitFormAsync(submission);
-
-        var mappedData = await _formDatabaseMappingService.MapFormDataToDatabaseAsync(templateId, submission);
-
-        // Log submission
-        await _formAuditService.LogSubmissionAsync(submission, Environment.UserName, "SUBMIT");
-
-        // Update tab status: show success
-        if (currentTab != null)
-            UpdateTabHeader(currentTab, $"✓ {GetTabTitle(currentTab)}");
-
-        MessageBox.Show($"Formular '{templateId}' eingereicht. Felder: {mappedData.Count}", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+        // Form system disabled - stubs only
+        MessageBox.Show("Formularsystem ist deaktiviert. Diese Aktion ist nicht möglich.", 
+            "Formulare deaktiviert", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     /// <summary>
@@ -863,6 +798,41 @@ public partial class MainWindow : Window
         }
     }
 
+    private void UserSplitButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Open context menu programmatically
+        if (sender is Button button && button.ContextMenu != null)
+        {
+            button.ContextMenu.PlacementTarget = button;
+            button.ContextMenu.IsOpen = true;
+        }
+    }
+
+    private void OpenAIChat_Click(object sender, RoutedEventArgs e)
+    {
+        OpenAIChatTab();
+    }
+
+    private void OpenGantt_Click(object sender, RoutedEventArgs e)
+    {
+        OpenGanttTab();
+    }
+
+    private void OpenTimeline_Click(object sender, RoutedEventArgs e)
+    {
+        OpenTimelineTab();
+    }
+
+    private void OpenTasks_Click(object sender, RoutedEventArgs e)
+    {
+        OpenTasksTab();
+    }
+
+    private void OpenPDVForm_Click(object sender, RoutedEventArgs e)
+    {
+        OpenPDVVIS5DocumentForm();
+    }
+
     private void RibbonTab_Click(object sender, RoutedEventArgs e)
     {
         // Hide all ribbon content panels
@@ -884,6 +854,8 @@ public partial class MainWindow : Window
 
     private void SidebarTab_Click(object sender, RoutedEventArgs e)
     {
+        // Deprecated - left sidebar now uses mini-windows
+        /*
         // Hide all sidebar tab contents
         if (NavigationTabContent != null) NavigationTabContent.Visibility = Visibility.Collapsed;
         if (TasksTabContent != null) TasksTabContent.Visibility = Visibility.Collapsed;
@@ -902,7 +874,9 @@ public partial class MainWindow : Window
         {
             if (FavoritesTabContent != null) FavoritesTabContent.Visibility = Visibility.Visible;
         }
+        */
     }
+
 
     private void VisualizationTab_Click(object sender, RoutedEventArgs e)
     {
@@ -1420,6 +1394,1612 @@ public partial class MainWindow : Window
         MenuThemeLight.IsChecked = _themeService.CurrentTheme == ThemeService.ThemeMode.Light;
         MenuThemeDark.IsChecked = _themeService.CurrentTheme == ThemeService.ThemeMode.Dark;
         MenuThemeSystem.IsChecked = _themeService.CurrentTheme == ThemeService.ThemeMode.System;
+    }
+
+    #endregion
+
+    #region Tab Management
+
+    /// <summary>
+    /// Handler für Tab-Wechsel - aktualisiert Breadcrumb
+    /// </summary>
+    private void CenterContent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (CenterContent.SelectedItem is TabItem selectedTab)
+        {
+            // Extrahiere Tab-Name
+            string? tabName = selectedTab.Name;
+            
+            // Falls kein Name, versuche aus Header zu extrahieren
+            if (string.IsNullOrEmpty(tabName))
+            {
+                if (selectedTab.Header is StackPanel headerPanel)
+                {
+                    var textBlock = headerPanel.Children.OfType<TextBlock>().FirstOrDefault();
+                    tabName = textBlock?.Text;
+                }
+                else
+                {
+                    tabName = selectedTab.Header?.ToString();
+                }
+            }
+            
+            // Aktualisiere Breadcrumb
+            if (!string.IsNullOrEmpty(tabName) && _viewModel?.BreadcrumbViewModel != null)
+            {
+                _viewModel.BreadcrumbViewModel.SetContextForTab(tabName);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Öffnet einen neuen Tab oder wechselt zu einem existierenden
+    /// </summary>
+    public void OpenOrSwitchToTab(string tabName, string tabHeader, UIElement content, bool closeable = true)
+    {
+        // Suche nach existierendem Tab
+        foreach (TabItem tab in CenterContent.Items)
+        {
+            if (tab.Header is StackPanel headerPanel)
+            {
+                var textBlock = headerPanel.Children.OfType<TextBlock>().FirstOrDefault();
+                if (textBlock?.Text == tabHeader)
+                {
+                    CenterContent.SelectedItem = tab;
+                    return;
+                }
+            }
+            else if (tab.Header?.ToString() == tabHeader)
+            {
+                CenterContent.SelectedItem = tab;
+                return;
+            }
+        }
+
+        // Erstelle neuen Tab
+        var newTab = new TabItem { Name = tabName };
+        
+        if (closeable)
+        {
+            // Tab mit Close-Button
+            var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
+            var headerText = new TextBlock { Text = tabHeader, Margin = new Thickness(0, 0, 8, 0), VerticalAlignment = VerticalAlignment.Center };
+            var closeBtn = new Button
+            {
+                Content = "✕",
+                Width = 16,
+                Height = 16,
+                FontSize = 10,
+                Padding = new Thickness(0),
+                Background = new SolidColorBrush(Colors.Transparent),
+                BorderThickness = new Thickness(0),
+                Foreground = new SolidColorBrush(Color.FromRgb(150, 150, 150)),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            closeBtn.Click += (s, e) => 
+            {
+                CenterContent.Items.Remove(newTab);
+                if (CenterContent.Items.Count > 0)
+                    CenterContent.SelectedIndex = 0;
+            };
+            
+            headerPanel.Children.Add(headerText);
+            headerPanel.Children.Add(closeBtn);
+            newTab.Header = headerPanel;
+        }
+        else
+        {
+            // Tab ohne Close-Button
+            newTab.Header = tabHeader;
+        }
+        
+        newTab.Content = content;
+        CenterContent.Items.Add(newTab);
+        CenterContent.SelectedItem = newTab;
+    }
+
+    /// <summary>
+    /// Öffnet AI Chat Tab
+    /// </summary>
+    public void OpenAIChatTab()
+    {
+        // Prüfe ob Tab bereits existiert
+        foreach (TabItem tab in CenterContent.Items)
+        {
+            if (tab.Name == "TabAIChat" || 
+                (tab.Header is StackPanel sp && sp.Children.OfType<TextBlock>().FirstOrDefault()?.Text == "🤖 AI Chat") ||
+                tab.Header?.ToString() == "🤖 AI Chat")
+            {
+                CenterContent.SelectedItem = tab;
+                return;
+            }
+        }
+        
+        // Erstelle View nur wenn nötig
+        var chatView = new AIChatView { DataContext = _aiChatViewModel };
+        OpenOrSwitchToTab("TabAIChat", "🤖 AI Chat", chatView);
+    }
+
+    /// <summary>
+    /// Öffnet Gantt Tab
+    /// </summary>
+    public void OpenGanttTab()
+    {
+        // Prüfe ob Tab bereits existiert
+        foreach (TabItem tab in CenterContent.Items)
+        {
+            if (tab.Name == "TabGantt" || 
+                (tab.Header is StackPanel sp && sp.Children.OfType<TextBlock>().FirstOrDefault()?.Text == "📊 Gantt") ||
+                tab.Header?.ToString() == "📊 Gantt")
+            {
+                CenterContent.SelectedItem = tab;
+                return;
+            }
+        }
+        
+        // Erstelle View nur wenn nötig
+        var ganttView = new Gantt.GanttView();
+        OpenOrSwitchToTab("TabGantt", "📊 Gantt", ganttView);
+    }
+
+    /// <summary>
+    /// Öffnet Timeline Tab
+    /// </summary>
+    public void OpenTimelineTab()
+    {
+        // Prüfe ob Tab bereits existiert
+        foreach (TabItem tab in CenterContent.Items)
+        {
+            if (tab.Name == "TabTimeline" || 
+                (tab.Header is StackPanel sp && sp.Children.OfType<TextBlock>().FirstOrDefault()?.Text == "📅 Timeline") ||
+                tab.Header?.ToString() == "📅 Timeline")
+            {
+                CenterContent.SelectedItem = tab;
+                return;
+            }
+        }
+        
+        // Erstelle View nur wenn nötig
+        var timelineView = new Timeline.TimelineView();
+        OpenOrSwitchToTab("TabTimeline", "📅 Timeline", timelineView);
+    }
+
+    /// <summary>
+    /// Öffnet Aufgaben Tab
+    /// </summary>
+    public void OpenTasksTab()
+    {
+        // Prüfe ob Tab bereits existiert
+        foreach (TabItem tab in CenterContent.Items)
+        {
+            if (tab.Name == "TabTasks" || 
+                (tab.Header is StackPanel sp && sp.Children.OfType<TextBlock>().FirstOrDefault()?.Text == "✓ Aufgaben") ||
+                tab.Header?.ToString() == "✓ Aufgaben")
+            {
+                CenterContent.SelectedItem = tab;
+                return;
+            }
+        }
+        
+        // Erstelle View nur wenn nötig
+        var tasksView = new Tasks.TaskBasketView();
+        OpenOrSwitchToTab("TabTasks", "✓ Aufgaben", tasksView);
+    }
+
+    /// <summary>
+    /// Öffnet Dokument-Vorschau Tab
+    /// </summary>
+    public void OpenPreviewTab()
+    {
+        var previewView = new Preview.DocumentPreviewView();
+        OpenOrSwitchToTab("TabPreview", "👁 Vorschau", previewView);
+    }
+
+    /// <summary>
+    /// Öffnet Formular Tab
+    /// </summary>
+    /// <summary>
+    /// Öffnet ein Formular in einem neuen Tab
+    /// </summary>
+    public async void OpenFormTab(string templateId, string formTitle)
+    {
+        if (_formTemplateService == null)
+        {
+            MessageBox.Show("Formular-Service nicht verfügbar.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        try
+        {
+            // Lade Formular-Template
+            var template = await _formTemplateService.GetTemplateAsync(templateId);
+            
+            if (template == null)
+            {
+                MessageBox.Show($"Formular-Template '{templateId}' nicht gefunden.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Erstelle FormRenderer
+            var formRenderer = new UI.FormRenderer
+            {
+                CurrentTemplate = template,
+                Margin = new Thickness(0)
+            };
+
+            // Event Handler für Formular-Submission
+            formRenderer.FormSubmitted += async (s, e) =>
+            {
+                try
+                {
+                    var formData = new Dictionary<string, object>();
+                    foreach (var kvp in formRenderer.FormData)
+                    {
+                        formData[kvp.Key] = kvp.Value;
+                    }
+
+                    // Validiere Formular
+                    var submission = await _formTemplateService.ValidateFormAsync(template, formData);
+                    
+                    if (submission.ValidationErrors.Count > 0)
+                    {
+                        var errors = string.Join("\n", submission.ValidationErrors.Select(e => $"- {e.Value}"));
+                        MessageBox.Show($"Validierungsfehler:\n{errors}", "Validierung fehlgeschlagen", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    // Speichere Formular
+                    submission.SubmittedBy = _viewModel?.UserSwitcherViewModel?.CurrentUser?.Username ?? "System";
+                    var success = await _formTemplateService.SubmitFormAsync(submission);
+                    
+                    if (success)
+                    {
+                        MessageBox.Show("Formular erfolgreich gespeichert!", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+                        
+                        // Optional: Tab schließen nach erfolgreichem Submit
+                        // CloseFormTab(templateId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Fehler beim Speichern des Formulars.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Fehler beim Absenden: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            };
+
+            // Öffne Tab
+            OpenOrSwitchToTab($"TabForm_{templateId}", $"📝 {formTitle}", formRenderer);
+            
+            // Aktualisiere Breadcrumb für Formular-Kontext
+            if (_viewModel?.BreadcrumbViewModel != null)
+            {
+                _viewModel.BreadcrumbViewModel.BreadcrumbPath.Clear();
+                _viewModel.BreadcrumbViewModel.AppendToBreadcrumb("🏠", "Startseite", BreadcrumbLevel.Authority);
+                _viewModel.BreadcrumbViewModel.AppendToBreadcrumb("📋", "Formulare", BreadcrumbLevel.Repository);
+                _viewModel.BreadcrumbViewModel.AppendToBreadcrumb("📝", formTitle, BreadcrumbLevel.File);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Fehler beim Laden des Formulars: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    /// <summary>
+    /// Öffnet ein vordefiniertes Formular-Template
+    /// </summary>
+    public void OpenPDVVIS5DocumentForm()
+    {
+        OpenFormTab("pdv-vis5-document", "PDV VIS 5 - Dokumentenverwaltung");
+    }
+
+    #endregion
+
+    #region TAB CONTEXT MENU & MANAGEMENT
+
+    private TreeViewItem? _lastClickedTreeViewItem = null;
+    private DateTime _lastTreeViewClickTime = DateTime.MinValue;
+
+    /// <summary>
+    /// Behandelt Single-Click auf TreeView-Items (Preview im aktuellen Tab)
+    /// </summary>
+    private void NavigationTreeView_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        // Finde das tatsächlich geklickte TreeViewItem (nicht das Parent)
+        var clickedElement = e.OriginalSource as DependencyObject;
+        var treeViewItem = GetTreeViewItemFromPoint(clickedElement);
+        
+        if (treeViewItem != null)
+        {
+            // Prüfe auf Doppelklick
+            var timeSinceLastClick = DateTime.Now - _lastTreeViewClickTime;
+            if (_lastClickedTreeViewItem == treeViewItem && timeSinceLastClick.TotalMilliseconds < 300)
+            {
+                // Doppelklick - wird in PreviewMouseDoubleClick behandelt
+                return;
+            }
+
+            _lastClickedTreeViewItem = treeViewItem;
+            _lastTreeViewClickTime = DateTime.Now;
+
+            // Single-Click: Preview im vorhandenen Tab (VS Code-ähnlich)
+            LoadPreviewInCurrentTab(treeViewItem);
+            e.Handled = false; // Lasse Event durchlaufen für TreeView-Selektion
+        }
+    }
+
+    /// <summary>
+    /// Behandelt Double-Click auf TreeView-Items (neuer permanenter Tab)
+    /// </summary>
+    private void NavigationTreeView_PreviewMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        // Finde das tatsächlich geklickte TreeViewItem
+        var clickedElement = e.OriginalSource as DependencyObject;
+        var treeViewItem = GetTreeViewItemFromPoint(clickedElement);
+        
+        if (treeViewItem != null)
+        {
+            // Doppelklick: Neuer permanenter Tab
+            LoadPreviewInNewTab(treeViewItem);
+            e.Handled = true;
+        }
+    }
+
+    /// <summary>
+    /// Findet das TreeViewItem, das geklickt wurde (das nächstliegende, nicht das Parent)
+    /// </summary>
+    private TreeViewItem? GetTreeViewItemFromPoint(DependencyObject? source)
+    {
+        if (source == null) return null;
+
+        // Gehe den visuellen Baum HOCH bis zum ersten TreeViewItem
+        var current = source;
+        while (current != null)
+        {
+            if (current is TreeViewItem item)
+                return item; // Finde das NÄCHSTLIEGENDE (nicht das Parent)
+            current = VisualTreeHelper.GetParent(current);
+        }
+        return null;
+    }
+
+    #endregion
+
+    #region TreeView Context Menu Handlers
+
+    /// <summary>
+    /// Behandelt Rechtsklick auf TreeView-Items
+    /// </summary>
+    private void NavigationTreeView_PreviewMouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        var clickedElement = e.OriginalSource as DependencyObject;
+        var treeViewItem = GetTreeViewItemFromPoint(clickedElement);
+        
+        if (treeViewItem != null)
+        {
+            // Speichere geklicktes Item für Kontextmenü-Operationen
+            _contextMenuTreeViewItem = treeViewItem;
+            treeViewItem.IsSelected = true;
+        }
+    }
+
+    /// <summary>
+    /// Öffnet ausgewähltes TreeView-Item im Preview-Tab
+    /// </summary>
+    private void TreeViewContext_Open(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem != null)
+        {
+            LoadPreviewInCurrentTab(_contextMenuTreeViewItem);
+        }
+    }
+
+    /// <summary>
+    /// Öffnet ausgewähltes TreeView-Item in neuem permanentem Tab
+    /// </summary>
+    private void TreeViewContext_OpenNewTab(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem != null)
+        {
+            LoadPreviewInNewTab(_contextMenuTreeViewItem);
+        }
+    }
+
+    /// <summary>
+    /// Umbenennen-Dialog für TreeView-Item
+    /// </summary>
+    private void TreeViewContext_Rename(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        var currentHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+        var itemTag = _contextMenuTreeViewItem.Tag?.ToString() ?? "";
+
+        // Erstelle Rename-Dialog
+        var dialog = new Window
+        {
+            Title = "Umbenennen",
+            Width = 400,
+            Height = 150,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Owner = this,
+            ResizeMode = ResizeMode.NoResize
+        };
+
+        var grid = new Grid { Margin = new Thickness(16) };
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+        var label = new TextBlock { Text = "Neuer Name:", Margin = new Thickness(0, 0, 0, 8) };
+        Grid.SetRow(label, 0);
+        grid.Children.Add(label);
+
+        var textBox = new TextBox { Text = currentHeader.Replace("📄 ", "").Replace("📂 ", "").Replace("⏱ ", "").Replace("⭐ ", "").Replace("🔨 ", "").Replace("✍️ ", ""), Margin = new Thickness(0, 0, 0, 12) };
+        Grid.SetRow(textBox, 1);
+        grid.Children.Add(textBox);
+
+        var buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+        var okButton = new Button { Content = "OK", Width = 80, Margin = new Thickness(0, 0, 8, 0) };
+        var cancelButton = new Button { Content = "Abbrechen", Width = 80 };
+        
+        okButton.Click += (s, args) =>
+        {
+            if (!string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                // Icon beibehalten, nur Text ändern
+                var icon = currentHeader.Split(' ')[0];
+                _contextMenuTreeViewItem.Header = $"{icon} {textBox.Text}";
+                MessageBox.Show($"'{textBox.Text}' umbenannt.\n(In Produktivversion: ThemisDB-Update)", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            dialog.Close();
+        };
+        cancelButton.Click += (s, args) => dialog.Close();
+
+        buttonPanel.Children.Add(okButton);
+        buttonPanel.Children.Add(cancelButton);
+        Grid.SetRow(buttonPanel, 2);
+        grid.Children.Add(buttonPanel);
+
+        dialog.Content = grid;
+        dialog.ShowDialog();
+    }
+
+    /// <summary>
+    /// Kopiert TreeView-Item in Zwischenablage
+    /// </summary>
+    private void TreeViewContext_Copy(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        var itemTag = _contextMenuTreeViewItem.Tag?.ToString() ?? "";
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+
+        Clipboard.SetText($"{itemTag}|{itemHeader}");
+        MessageBox.Show($"'{itemHeader}' in Zwischenablage kopiert.\n(In Produktivversion: Vollständiger Copy-Mechanismus)", "Kopiert", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    /// <summary>
+    /// Schneidet TreeView-Item aus
+    /// </summary>
+    private void TreeViewContext_Cut(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+        TreeViewContext_Copy(sender, e); // Zuerst kopieren
+        
+        // Optisch markieren als "ausgeschnitten"
+        _contextMenuTreeViewItem.Opacity = 0.5;
+        MessageBox.Show($"'{itemHeader}' ausgeschnitten.\n(In Produktivversion: Entfernen bei Einfügen)", "Ausschneiden", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    /// <summary>
+    /// Fügt zwischengespeichertes Item ein
+    /// </summary>
+    private void TreeViewContext_Paste(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        if (Clipboard.ContainsText())
+        {
+            var clipboardData = Clipboard.GetText();
+            MessageBox.Show($"Einfügen unter '{_contextMenuTreeViewItem.Header}':\n{clipboardData}\n\n(In Produktivversion: ThemisDB-Update)", "Einfügen", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        else
+        {
+            MessageBox.Show("Zwischenablage ist leer oder enthält kein gültiges Element.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+
+    /// <summary>
+    /// Löscht TreeView-Item
+    /// </summary>
+    private void TreeViewContext_Delete(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+        var result = MessageBox.Show(
+            $"Möchten Sie '{itemHeader}' wirklich löschen?",
+            "Löschen bestätigen",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning
+        );
+
+        if (result == MessageBoxResult.Yes)
+        {
+            // In Produktivversion: ThemisDB API-Aufruf
+            MessageBox.Show($"'{itemHeader}' gelöscht.\n(In Produktivversion: ThemisDB DELETE-Operation)", "Gelöscht", MessageBoxButton.OK, MessageBoxImage.Information);
+            
+            // Entferne aus TreeView (optional)
+            var parent = _contextMenuTreeViewItem.Parent as ItemsControl;
+            parent?.Items.Remove(_contextMenuTreeViewItem);
+        }
+    }
+
+    /// <summary>
+    /// Zeigt Eigenschaften-Dialog für TreeView-Item
+    /// </summary>
+    private void TreeViewContext_Properties(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        var itemTag = _contextMenuTreeViewItem.Tag?.ToString() ?? "";
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+
+        // Erstelle Properties-Dialog
+        var dialog = new Window
+        {
+            Title = $"Eigenschaften - {itemHeader}",
+            Width = 500,
+            Height = 400,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Owner = this
+        };
+
+        var grid = new Grid { Margin = new Thickness(16) };
+        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+        // Properties-Bereich
+        var propertiesStack = new StackPanel { Margin = new Thickness(0, 0, 0, 16) };
+        
+        propertiesStack.Children.Add(CreatePropertyRow("Name:", itemHeader));
+        propertiesStack.Children.Add(CreatePropertyRow("ID/Tag:", itemTag));
+        propertiesStack.Children.Add(CreatePropertyRow("Typ:", GetItemType(itemTag)));
+        propertiesStack.Children.Add(CreatePropertyRow("Erstellt:", DateTime.Now.AddDays(-30).ToString("dd.MM.yyyy HH:mm")));
+        propertiesStack.Children.Add(CreatePropertyRow("Geändert:", DateTime.Now.AddDays(-2).ToString("dd.MM.yyyy HH:mm")));
+        propertiesStack.Children.Add(CreatePropertyRow("Größe:", "2.3 MB"));
+        propertiesStack.Children.Add(CreatePropertyRow("Pfad:", $"/Dokumente/{itemHeader}"));
+
+        var scrollViewer = new ScrollViewer { Content = propertiesStack, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        Grid.SetRow(scrollViewer, 0);
+        grid.Children.Add(scrollViewer);
+
+        // Schließen-Button
+        var closeButton = new Button { Content = "Schließen", Width = 100, HorizontalAlignment = HorizontalAlignment.Right };
+        closeButton.Click += (s, args) => dialog.Close();
+        Grid.SetRow(closeButton, 1);
+        grid.Children.Add(closeButton);
+
+        dialog.Content = grid;
+        dialog.ShowDialog();
+    }
+
+    /// <summary>
+    /// Helper: Erstellt Property-Row für Eigenschaften-Dialog
+    /// </summary>
+    private StackPanel CreatePropertyRow(string label, string value)
+    {
+        var row = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 8) };
+        
+        var labelBlock = new TextBlock
+        {
+            Text = label,
+            Width = 120,
+            FontWeight = System.Windows.FontWeights.Bold,
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.DarkGray)
+        };
+        
+        var valueBlock = new TextBlock
+        {
+            Text = value,
+            TextWrapping = System.Windows.TextWrapping.Wrap,
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black)
+        };
+        
+        row.Children.Add(labelBlock);
+        row.Children.Add(valueBlock);
+        
+        return row;
+    }
+
+    #endregion
+
+    #region Preview Loading
+
+    /// <summary>
+    /// Lädt Preview im aktuellen/Preview-Tab (Single-Click, VS Code-ähnlich)
+    /// </summary>
+    private void LoadPreviewInCurrentTab(TreeViewItem treeViewItem)
+    {
+        var itemTag = treeViewItem.Tag?.ToString() ?? "";
+        var itemHeader = treeViewItem.Header?.ToString() ?? "";
+
+        // Erstelle oder aktualisiere Preview-Tab
+        var previewTab = CenterContent.Items.Cast<TabItem>()
+            .FirstOrDefault(t => t.Name == "TabPreview");
+
+        if (previewTab == null)
+        {
+            // Preview-Tab existiert nicht, erstelle ihn
+            var previewContent = GeneratePreviewContent(itemTag, itemHeader);
+            OpenOrSwitchToTab("TabPreview", "👁 Vorschau", previewContent, closeable: true);
+        }
+        else
+        {
+            // Update bestehenden Preview-Tab
+            var previewContent = GeneratePreviewContent(itemTag, itemHeader);
+            previewTab.Content = previewContent;
+            previewTab.Header = $"👁 Vorschau - {itemHeader}";
+            CenterContent.SelectedItem = previewTab;
+        }
+    }
+
+    /// <summary>
+    /// Lädt Preview in neuem permanentem Tab (Double-Click)
+    /// </summary>
+    private void LoadPreviewInNewTab(TreeViewItem treeViewItem)
+    {
+        var itemTag = treeViewItem.Tag?.ToString() ?? "";
+        var itemHeader = treeViewItem.Header?.ToString() ?? "";
+
+        // PRÜFUNG: Existiert bereits ein permanenter Tab für dieses Element?
+        var existingTab = CenterContent.Items.Cast<TabItem>()
+            .FirstOrDefault(t => t.Tag?.ToString() == itemTag && t.Name != "TabPreview");
+
+        if (existingTab != null)
+        {
+            // Tab existiert bereits - nur aktivieren, kein Duplikat erstellen
+            CenterContent.SelectedItem = existingTab;
+            return;
+        }
+
+        // Erstelle neuen permanenten Tab
+        var previewContent = GeneratePreviewContent(itemTag, itemHeader);
+        var tabName = $"TabDoc_{Guid.NewGuid().ToString().Substring(0, 8)}";
+        
+        var newTab = new TabItem
+        {
+            Name = tabName,
+            Header = $"📄 {itemHeader}",
+            Content = previewContent,
+            Tag = itemTag // Tag speichern für Duplikat-Prüfung
+        };
+
+        CenterContent.Items.Add(newTab);
+        CenterContent.SelectedItem = newTab;
+    }
+
+    /// <summary>
+    /// Generiert den Preview-Inhalt basierend auf Item-Typ und Tag
+    /// </summary>
+    private UIElement GeneratePreviewContent(string itemTag, string itemHeader)
+    {
+        var scrollViewer = new ScrollViewer { VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        var stackPanel = new StackPanel { Margin = new Thickness(16) };
+
+        // Header
+        var headerBlock = new TextBlock
+        {
+            Text = itemHeader,
+            FontSize = 18,
+            FontWeight = System.Windows.FontWeights.Bold,
+            Margin = new Thickness(0, 0, 0, 16),
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black)
+        };
+        stackPanel.Children.Add(headerBlock);
+
+        // Metadaten-Sektion
+        var metadataSection = GenerateMetadataSection(itemTag, itemHeader);
+        stackPanel.Children.Add(metadataSection);
+
+        // Content-Sektion basierend auf Typ
+        if (itemTag.StartsWith("doc_") || itemTag.StartsWith("folder_"))
+        {
+            var contentSection = GenerateContentPreview(itemTag, itemHeader);
+            stackPanel.Children.Add(contentSection);
+        }
+
+        scrollViewer.Content = stackPanel;
+        return scrollViewer;
+    }
+
+    /// <summary>
+    /// Generiert Metadaten-Sektion für Preview
+    /// </summary>
+    private UIElement GenerateMetadataSection(string itemTag, string itemHeader)
+    {
+        var grid = new Grid();
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        for (int i = 0; i < 6; i++)
+        {
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        }
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // Aktionszeile
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(120) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+        // Header
+        var headerBlock = new TextBlock
+        {
+            Text = "📋 Metadaten",
+            FontSize = 12,
+            FontWeight = System.Windows.FontWeights.Bold,
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.DarkBlue)
+        };
+        Grid.SetRow(headerBlock, 0);
+        Grid.SetColumnSpan(headerBlock, 2);
+        grid.Children.Add(headerBlock);
+
+        // Metadaten-Einträge
+        var metadata = new[]
+        {
+            ("Typ:", GetItemType(itemTag)),
+            ("ID:", itemTag),
+            ("Erstellt:", DateTime.Now.ToString("dd.MM.yyyy")),
+            ("Bearbeitet:", DateTime.Now.ToString("dd.MM.yyyy")),
+            ("Größe:", "125 KB"),
+            ("Status:", "Aktiv")
+        };
+
+        int row = 1;
+        foreach (var (label, value) in metadata)
+        {
+            var labelBlock = new TextBlock
+            {
+                Text = label,
+                FontWeight = System.Windows.FontWeights.Bold,
+                Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.DarkGray)
+            };
+            Grid.SetRow(labelBlock, row);
+            Grid.SetColumn(labelBlock, 0);
+            grid.Children.Add(labelBlock);
+
+            var valueBlock = new TextBlock
+            {
+                Text = value,
+                Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black),
+                TextWrapping = System.Windows.TextWrapping.Wrap
+            };
+            Grid.SetRow(valueBlock, row);
+            Grid.SetColumn(valueBlock, 1);
+            grid.Children.Add(valueBlock);
+
+            row++;
+        }
+
+        // Aktionsbereich: Metadaten-Form öffnen, falls Form-Service verfügbar
+        var actionPanel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+
+        var openFormButton = CreateMetadataFormButton(itemTag, itemHeader);
+        if (openFormButton != null)
+        {
+            actionPanel.Children.Add(openFormButton);
+        }
+
+        var openTasksButton = CreateMetadataTasksButton(itemTag, itemHeader);
+        if (openTasksButton != null)
+        {
+            actionPanel.Children.Add(openTasksButton);
+        }
+
+        if (actionPanel.Children.Count > 0)
+        {
+            Grid.SetRow(actionPanel, row);
+            Grid.SetColumnSpan(actionPanel, 2);
+            grid.Children.Add(actionPanel);
+        }
+
+        var border = new Border
+        {
+            BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.LightGray),
+            BorderThickness = new Thickness(1),
+            Padding = new Thickness(12),
+            Margin = new Thickness(0, 0, 0, 16),
+            Child = grid
+        };
+
+        return border;
+    }
+
+    /// <summary>
+    /// Generiert Content-Preview basierend auf Item-Typ
+    /// </summary>
+    private UIElement GenerateContentPreview(string itemTag, string itemHeader)
+    {
+        var grid = new Grid();
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+
+        // Header
+        var headerBlock = new TextBlock
+        {
+            Text = "📄 Vorschau",
+            FontSize = 12,
+            FontWeight = System.Windows.FontWeights.Bold,
+            Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.DarkGreen),
+            Margin = new Thickness(0, 0, 0, 8)
+        };
+        Grid.SetRow(headerBlock, 0);
+        grid.Children.Add(headerBlock);
+
+        // Versuche Plugin-Preview zu nutzen (PDF/TXT/PNG/MSG)
+        var pluginPreview = TryGeneratePluginPreview(itemTag, itemHeader);
+
+        UIElement contentElement;
+        if (pluginPreview != null)
+        {
+            contentElement = pluginPreview; // Plugin liefert bereits UIElement
+        }
+        else
+        {
+            // Fallback: Textbasierter Preview
+            var contentBlock = new TextBlock
+            {
+                Text = GetPreviewText(itemTag, itemHeader),
+                TextWrapping = System.Windows.TextWrapping.Wrap,
+                Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.Black),
+                LineHeight = 1.5,
+                Margin = new Thickness(12)
+            };
+
+            contentElement = new ScrollViewer { Content = contentBlock, VerticalScrollBarVisibility = ScrollBarVisibility.Auto };
+        }
+
+        var contentBorder = new Border
+        {
+            BorderBrush = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.LightGray),
+            BorderThickness = new Thickness(1),
+            Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Colors.WhiteSmoke),
+            Child = contentElement
+        };
+        Grid.SetRow(contentBorder, 1);
+        grid.Children.Add(contentBorder);
+
+        var outerBorder = new Border
+        {
+            Margin = new Thickness(0, 0, 0, 16),
+            Child = grid
+        };
+
+        return outerBorder;
+    }
+
+    /// <summary>
+    /// Erstellt Button zum Öffnen des Metadaten-Formulars (falls Service verfügbar)
+    /// </summary>
+    private Button? CreateMetadataFormButton(string itemTag, string itemHeader)
+    {
+        if (_formTemplateService == null)
+        {
+            return null; // Forms-System nicht verfügbar
+        }
+
+        var button = new Button
+        {
+            Content = "📝 Metadaten bearbeiten",
+            Padding = new Thickness(8, 4, 8, 4),
+            Margin = new Thickness(0, 4, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+
+        button.Click += async (s, e) =>
+        {
+            var templateId = GetTemplateIdForMetadata(itemTag, itemHeader);
+            if (string.IsNullOrWhiteSpace(templateId))
+            {
+                MessageBox.Show("Kein passendes Metadaten-Template gefunden.", "Formulare", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            try
+            {
+                await Dispatcher.InvokeAsync(() => OpenFormTab(templateId, $"Metadaten - {itemHeader}"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Öffnen des Formulars: {ex.Message}", "Formulare", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        };
+
+        return button;
+    }
+
+    /// <summary>
+    /// Liefert Template-ID für Metadaten abhängig vom Item-Typ
+    /// </summary>
+    private string GetTemplateIdForMetadata(string itemTag, string itemHeader)
+    {
+        // Basisrouting: Dokumente/Projekte nutzen Standard-Template
+        if (itemTag.StartsWith("doc_") || itemTag.StartsWith("proj_") || itemTag.StartsWith("phase_"))
+        {
+            return "pdv-vis5-document"; // Standard-Metadaten-Template
+        }
+
+        if (itemTag.StartsWith("folder_"))
+        {
+            return "pdv-vis5-folder"; // Optional: separates Template für Ordner
+        }
+
+        // Fallback: leere Zeichenkette bedeutet kein Mapping vorhanden
+        return string.Empty;
+    }
+
+    /// <summary>
+    /// Button zum Öffnen des Aufgaben-Korbs gefiltert auf die aktuelle Entität
+    /// </summary>
+    private Button? CreateMetadataTasksButton(string itemTag, string itemHeader)
+    {
+        var (entityId, entityType) = MapEntityFromTag(itemTag, itemHeader);
+        if (string.IsNullOrWhiteSpace(entityId))
+        {
+            return null; // Keine Zuordnung möglich
+        }
+
+        var button = new Button
+        {
+            Content = "✅ Aufgaben anzeigen",
+            Padding = new Thickness(8, 4, 8, 4),
+            Margin = new Thickness(8, 4, 0, 0),
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+
+        button.Click += (s, e) =>
+        {
+            OpenTasksTabWithFilter(entityId, entityType);
+        };
+
+        return button;
+    }
+
+    /// <summary>
+    /// Öffnet den Aufgaben-Tab und setzt Filter auf Entität
+    /// </summary>
+    private void OpenTasksTabWithFilter(string entityId, Application.Tasks.Queries.GetMyTasks.LinkedEntityType entityType)
+    {
+        // Erzeuge oder aktiviere Task-Basket-Tab
+        var tasksView = new Tasks.TaskBasketView();
+
+        // Versuche ViewModel zu setzen (falls DI verfügbar)
+        if (tasksView.DataContext is not ViewModels.TaskBasketViewModel vm)
+        {
+            vm = App.GetService<ViewModels.TaskBasketViewModel>();
+            if (vm != null)
+            {
+                tasksView.DataContext = vm;
+            }
+        }
+
+        if (tasksView.DataContext is ViewModels.TaskBasketViewModel basketVm)
+        {
+            basketVm.ApplyEntityFilter(entityId, entityType);
+            _ = basketVm.LoadTasksAsync();
+        }
+
+        OpenOrSwitchToTab("TabTasks", "✓ Aufgaben", tasksView);
+    }
+
+    /// <summary>
+    /// Mappt TreeView-Tag auf Entitäts-ID und -Typ für Aufgabenfilter
+    /// </summary>
+    private (string? entityId, Application.Tasks.Queries.GetMyTasks.LinkedEntityType entityType) MapEntityFromTag(string itemTag, string itemHeader)
+    {
+        if (string.IsNullOrWhiteSpace(itemTag))
+        {
+            return (null, Application.Tasks.Queries.GetMyTasks.LinkedEntityType.Document);
+        }
+
+        if (itemTag.StartsWith("doc_"))
+        {
+            return (itemTag, Application.Tasks.Queries.GetMyTasks.LinkedEntityType.Document);
+        }
+
+        if (itemTag.StartsWith("proj_"))
+        {
+            return (itemTag, Application.Tasks.Queries.GetMyTasks.LinkedEntityType.Case);
+        }
+
+        if (itemTag.StartsWith("phase_"))
+        {
+            return (itemTag, Application.Tasks.Queries.GetMyTasks.LinkedEntityType.Process);
+        }
+
+        if (itemTag.StartsWith("folder_"))
+        {
+            return (itemTag, Application.Tasks.Queries.GetMyTasks.LinkedEntityType.Folder);
+        }
+
+        return (null, Application.Tasks.Queries.GetMyTasks.LinkedEntityType.Document);
+    }
+
+    /// <summary>
+    /// Versucht, über registrierte Plugins eine echte Datei-Preview zu erzeugen
+    /// </summary>
+    private UIElement? TryGeneratePluginPreview(string itemTag, string itemHeader)
+    {
+        var filePath = ResolveFilePathFromTag(itemTag, itemHeader);
+        if (filePath == null) return null;
+
+        return _pluginService.GeneratePreview(filePath);
+    }
+
+    /// <summary>
+    /// Leitet aus Tag/Header einen Dateipfad ab (falls vorhanden)
+    /// </summary>
+    private string? ResolveFilePathFromTag(string itemTag, string itemHeader)
+    {
+        // 1) Direktes Tag als Pfad
+        if (!string.IsNullOrWhiteSpace(itemTag) && System.IO.Path.IsPathRooted(itemTag) && File.Exists(itemTag))
+        {
+            return itemTag;
+        }
+
+        var candidates = new List<string>();
+
+        // 2) Tag als Dateiname relativ zum BaseDirectory
+        if (!string.IsNullOrWhiteSpace(itemTag))
+        {
+            var tagExt = System.IO.Path.GetExtension(itemTag);
+            if (!string.IsNullOrWhiteSpace(tagExt))
+            {
+                candidates.Add(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, itemTag));
+            }
+        }
+
+        // 3) Header als Dateiname relativ zum BaseDirectory
+        if (!string.IsNullOrWhiteSpace(itemHeader) && itemHeader.Contains('.'))
+        {
+            candidates.Add(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, itemHeader));
+        }
+
+        foreach (var candidate in candidates)
+        {
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        return null; // Keine echte Datei gefunden -> Plugin wird nicht genutzt
+    }
+
+    /// <summary>
+    /// Bestimmt den Item-Typ basierend auf Tag
+    /// </summary>
+    private string GetItemType(string itemTag)
+    {
+        return itemTag switch
+        {
+            string s when s.StartsWith("doc_") => "Dokument",
+            string s when s.StartsWith("folder_") => "Ordner",
+            string s when s.StartsWith("proj_") => "Projekt",
+            string s when s.StartsWith("phase_") => "Projektphase",
+            _ => "Element"
+        };
+    }
+
+    /// <summary>
+    /// Generiert Preview-Text basierend auf Item-Typ
+    /// </summary>
+    private string GetPreviewText(string itemTag, string itemHeader)
+    {
+        return itemTag switch
+        {
+            "doc_dashboard" => "Dashboard - Übersicht aller Projekte und Aufgaben.\n\nZeigt aktuelle Statistiken, offene Aufgaben und wichtige Metriken.",
+            "doc_001" => "Baugenehmigung 2024\n\nDokument enthält alle erforderlichen Genehmigungen für das Bauvorhaben in München.\n\nZustand: Genehmigt",
+            "doc_002" => "Kostenschätzung\n\nDetailierte Kostenaufstellung für alle Projektphasen.\n\nAktualisiert: 15.11.2024",
+            "doc_003" => "Rechnungsnachweis\n\nBelegte Rechnungen und Zahlungsnachweise.\n\nGesamt: EUR 125.000,-",
+            "doc_004" => "Grundriss Entwurf\n\nAusgangszeichnung mit allen Abmessungen und Spezifikationen.",
+            "proj_001" => "Bauproject München\n\nHauptprojekt für urbane Entwicklung.\n\nDauer: 24 Monate\nStatus: In Bearbeitung",
+            "proj_002" => "Digitalisierung Akte\n\nUmwandlung von Papierdokumenten in digitale Formate.\n\nFortschritt: 65%",
+            "proj_2023" => "Projekt 2023\n\nAus dem Archiv. Abgeschlossenes Projekt.\n\nAbschluss: 31.12.2023",
+            _ => $"Element: {itemHeader}\n\nDetailed content for {itemTag}"
+        };
+    }
+
+    /// <summary>
+    /// Hilfsmethode zum Finden übergeordneter TreeViewItem
+    /// </summary>
+    private T? FindParent<T>(DependencyObject? child) where T : DependencyObject
+    {
+        DependencyObject? parent = System.Windows.Media.VisualTreeHelper.GetParent(child);
+
+        while (parent != null && !(parent is T))
+        {
+            parent = System.Windows.Media.VisualTreeHelper.GetParent(parent);
+        }
+
+        return parent as T;
+    }
+
+    /// <summary>
+    /// Zeigt das Tab-Kontextmenü an
+    /// </summary>
+    private void TabContextMenu_Click(object sender, RoutedEventArgs e)
+    {
+        if (TabContextMenu != null && sender is Button button)
+        {
+            TabContextMenu.PlacementTarget = button;
+            TabContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            TabContextMenu.IsOpen = true;
+        }
+    }
+
+    /// <summary>
+    /// Öffnet das Tab-Suchdialog
+    /// </summary>
+    private void TabSearch_Click(object sender, RoutedEventArgs e)
+    {
+        var searchWindow = new Window
+        {
+            Title = "Tabs durchsuchen",
+            Width = 400,
+            Height = 300,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            Owner = this,
+            Background = System.Windows.Media.Brushes.White,
+            ShowInTaskbar = false
+        };
+
+        var grid = new Grid { Margin = new Thickness(16) };
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+        // Suchfeld
+        var searchBox = new TextBox
+        {
+            Margin = new Thickness(0, 0, 0, 12),
+            Padding = new Thickness(8),
+            FontSize = 12,
+            Text = "Suche nach Tab-Name..."
+        };
+        searchBox.GotFocus += (s, e) => { if (searchBox.Text == "Suche nach Tab-Name...") searchBox.Text = ""; };
+        searchBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(searchBox.Text)) searchBox.Text = "Suche nach Tab-Name..."; };
+        Grid.SetRow(searchBox, 0);
+        grid.Children.Add(searchBox);
+
+        // Ergebnis-ListBox
+        var resultList = new ListBox { Margin = new Thickness(0, 0, 0, 12) };
+        Grid.SetRow(resultList, 1);
+        grid.Children.Add(resultList);
+
+        // Buttons
+        var buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+        var closeBtn = new Button { Content = "Schließen", Width = 80, Margin = new Thickness(4), Padding = new Thickness(8, 4, 8, 4) };
+        closeBtn.Click += (s, e) => searchWindow.Close();
+        buttonPanel.Children.Add(closeBtn);
+        Grid.SetRow(buttonPanel, 2);
+        grid.Children.Add(buttonPanel);
+
+        searchBox.TextChanged += (s, e) =>
+        {
+            resultList.Items.Clear();
+            string searchTerm = searchBox.Text.ToLower();
+            foreach (TabItem tab in CenterContent.Items)
+            {
+                if (tab.Header != null && tab.Header.ToString()!.ToLower().Contains(searchTerm))
+                {
+                    resultList.Items.Add(tab.Header);
+                }
+            }
+        };
+
+        resultList.MouseDoubleClick += (s, e) =>
+        {
+            if (resultList.SelectedItem is string selectedHeader)
+            {
+                foreach (TabItem tab in CenterContent.Items)
+                {
+                    if (tab.Header?.ToString() == selectedHeader)
+                    {
+                        CenterContent.SelectedItem = tab;
+                        searchWindow.Close();
+                        break;
+                    }
+                }
+            }
+        };
+
+        searchWindow.Content = grid;
+        searchWindow.ShowDialog();
+    }
+
+    /// <summary>
+    /// Sortiert Tabs nach Name (A-Z)
+    /// </summary>
+    private void SortTabsBy_Name(object sender, RoutedEventArgs e)
+    {
+        var tabs = CenterContent.Items.Cast<TabItem>().Where(t => t.Header?.ToString() != "📊 Dashboard").OrderBy(t => t.Header?.ToString()).ToList();
+        ReorderTabs(tabs);
+    }
+
+    /// <summary>
+    /// Sortiert Tabs nach Öffnungsreihenfolge (Umkehrung)
+    /// </summary>
+    private void SortTabsBy_OpenOrder(object sender, RoutedEventArgs e)
+    {
+        var tabs = CenterContent.Items.Cast<TabItem>().Where(t => t.Header?.ToString() != "📊 Dashboard").ToList();
+        ReorderTabs(tabs);
+    }
+
+    /// <summary>
+    /// Sortiert Tabs nach Zuletzt verwendet
+    /// </summary>
+    private void SortTabsBy_LastUsed(object sender, RoutedEventArgs e)
+    {
+        var tabs = CenterContent.Items.Cast<TabItem>().Where(t => t.Header?.ToString() != "📊 Dashboard").Reverse().ToList();
+        ReorderTabs(tabs);
+    }
+
+    /// <summary>
+    /// Sortiert Tabs in umgekehrter Reihenfolge
+    /// </summary>
+    private void SortTabsBy_Reverse(object sender, RoutedEventArgs e)
+    {
+        var tabs = CenterContent.Items.Cast<TabItem>().Where(t => t.Header?.ToString() != "📊 Dashboard").Reverse().ToList();
+        ReorderTabs(tabs);
+    }
+
+    /// <summary>
+    /// Filtert Tabs nach aktueller Kategorie
+    /// </summary>
+    private void FilterTabs_CurrentCategory(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show("Filter nach aktueller Kategorie aktiviert", "Filter");
+    }
+
+    /// <summary>
+    /// Filtert Tabs nach Typ
+    /// </summary>
+    private void FilterTabs_ByType(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show("Filter nach Typ öffnen", "Filter");
+    }
+
+    /// <summary>
+    /// Zeigt nur Favoriten-Tabs
+    /// </summary>
+    private void FilterTabs_Favorites(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show("Nur Favoriten anzeigen", "Filter");
+    }
+
+    /// <summary>
+    /// Zeigt alle Tabs an
+    /// </summary>
+    private void FilterTabs_ShowAll(object sender, RoutedEventArgs e)
+    {
+        MessageBox.Show("Alle Tabs anzeigen", "Filter");
+    }
+
+    /// <summary>
+    /// Schließt alle Tabs außer dem aktuellen
+    /// </summary>
+    private void TabManagement_CloseOthers(object sender, RoutedEventArgs e)
+    {
+        var currentTab = CenterContent.SelectedItem as TabItem;
+        var tabsToClose = CenterContent.Items.Cast<TabItem>()
+            .Where(t => t != currentTab && t.Header?.ToString() != "📊 Dashboard")
+            .ToList();
+
+        foreach (var tab in tabsToClose)
+        {
+            CenterContent.Items.Remove(tab);
+        }
+    }
+
+    /// <summary>
+    /// Schließt alle Tabs außer Dashboard
+    /// </summary>
+    private void TabManagement_CloseAll(object sender, RoutedEventArgs e)
+    {
+        var tabsToClose = CenterContent.Items.Cast<TabItem>()
+            .Where(t => t.Header?.ToString() != "📊 Dashboard")
+            .ToList();
+
+        foreach (var tab in tabsToClose)
+        {
+            CenterContent.Items.Remove(tab);
+        }
+    }
+
+    /// <summary>
+    /// Erstellt ein Duplikat des aktuellen Tabs
+    /// </summary>
+    private void TabManagement_Duplicate(object sender, RoutedEventArgs e)
+    {
+        if (CenterContent.SelectedItem is TabItem currentTab)
+        {
+            var newTabHeader = $"{currentTab.Header} (Copy)";
+            var textBlock = new TextBlock { Text = "Duplikat von: " + currentTab.Header, Margin = new Thickness(16) };
+            OpenOrSwitchToTab($"Tab_{Guid.NewGuid()}", newTabHeader.ToString()!, textBlock);
+        }
+    }
+
+    /// <summary>
+    /// Öffnet den aktuellen Tab in einem neuen Fenster
+    /// </summary>
+    private void TabManagement_NewWindow(object sender, RoutedEventArgs e)
+    {
+        if (CenterContent.SelectedItem is TabItem currentTab)
+        {
+            MessageBox.Show($"Tab '{currentTab.Header}' wird in neuem Fenster geöffnet", "Info");
+            // TODO: Implementierung für neues Fenster
+        }
+    }
+
+    /// <summary>
+    /// Fügt aktuellen Tab zu Favoriten hinzu
+    /// </summary>
+    private void TabFavorite_Add(object sender, RoutedEventArgs e)
+    {
+        if (CenterContent.SelectedItem is TabItem currentTab)
+        {
+            var header = currentTab.Header?.ToString() ?? "";
+            if (!header.StartsWith("⭐"))
+            {
+                currentTab.Header = $"⭐ {header}";
+            }
+        }
+    }
+
+    /// <summary>
+    /// Entfernt aktuellen Tab aus Favoriten
+    /// </summary>
+    private void TabFavorite_Remove(object sender, RoutedEventArgs e)
+    {
+        if (CenterContent.SelectedItem is TabItem currentTab)
+        {
+            var header = currentTab.Header?.ToString() ?? "";
+            if (header.StartsWith("⭐"))
+            {
+                currentTab.Header = header.Substring(2);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Öffnet Favoriten-Verwaltungsdialog
+    /// </summary>
+    private void TabFavorite_Manage(object sender, RoutedEventArgs e)
+    {
+        var favoriteTabs = CenterContent.Items.Cast<TabItem>()
+            .Where(t => t.Header?.ToString()?.StartsWith("⭐") == true)
+            .Select(t => t.Header?.ToString() ?? "")
+            .ToList();
+
+        MessageBox.Show($"Favoriten: {string.Join(", ", favoriteTabs)}", "Favoriten-Verwaltung");
+    }
+
+    /// <summary>
+    /// Ordnet Tabs in der angegebenen Reihenfolge neu an
+    /// </summary>
+    private void ReorderTabs(List<TabItem> tabs)
+    {
+        var dashboardTab = CenterContent.Items.Cast<TabItem>().FirstOrDefault(t => t.Header?.ToString() == "📊 Dashboard");
+        
+        // Entferne alle außer Dashboard
+        var itemsToRemove = CenterContent.Items.Cast<TabItem>().Where(t => t != dashboardTab).ToList();
+        foreach (var item in itemsToRemove)
+        {
+            CenterContent.Items.Remove(item);
+        }
+
+        // Füge Tabs in neuer Reihenfolge hinzu
+        foreach (var tab in tabs)
+        {
+            CenterContent.Items.Add(tab);
+        }
+    }
+
+    #endregion
+
+    #region APPLICATION STATE PERSISTENCE
+
+    /// <summary>
+    /// Stellt den Fenster-Zustand wieder her
+    /// </summary>
+    private void RestoreWindowState()
+    {
+        try
+        {
+            var state = _stateService.LoadState();
+            if (state.WindowState != null)
+            {
+                var ws = state.WindowState;
+                
+                // Fenster-Position und Größe
+                if (ws.Left >= 0) Left = ws.Left;
+                if (ws.Top >= 0) Top = ws.Top;
+                if (ws.Width > 0) Width = ws.Width;
+                if (ws.Height > 0) Height = ws.Height;
+
+                // Fenster-Zustand
+                if (ws.IsMaximized)
+                {
+                    WindowState = System.Windows.WindowState.Maximized;
+                }
+                else if (ws.IsFullscreen)
+                {
+                    ToggleFullscreen_Click(this, new RoutedEventArgs());
+                }
+            }
+
+            // Sidebar-Breiten wiederherstellen
+            if (state.SidebarWidths != null)
+            {
+                var sw = state.SidebarWidths;
+                if (LeftSidebarColumn != null) LeftSidebarColumn.Width = new GridLength(sw.LeftSidebarWidth);
+                if (RightSidebarColumn != null) RightSidebarColumn.Width = new GridLength(sw.RightSidebarWidth);
+
+                // Sichtbarkeit
+                if (ToggleLeftSidebar != null) ToggleLeftSidebar.IsChecked = sw.IsLeftSidebarVisible;
+                if (ToggleRightSidebar != null) ToggleRightSidebar.IsChecked = sw.IsRightSidebarVisible;
+            }
+
+            // Theme wiederherstellen
+            if (!string.IsNullOrEmpty(state.Theme))
+            {
+                switch (state.Theme)
+                {
+                    case "Light":
+                        SetThemeLight_Click(this, new RoutedEventArgs());
+                        break;
+                    case "Dark":
+                        SetThemeDark_Click(this, new RoutedEventArgs());
+                        break;
+                    case "System":
+                    default:
+                        SetThemeSystem_Click(this, new RoutedEventArgs());
+                        break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Fehler beim Wiederherstellen des Fenster-Zustands: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Stellt den Anwendungs-Zustand wieder her (offene Tabs, Favoriten, etc.)
+    /// </summary>
+    private void RestoreApplicationState()
+    {
+        try
+        {
+            var state = _stateService.LoadState();
+
+            // Benutzer-Präferenzen anwenden
+            if (state.Preferences != null)
+            {
+                // Sprache/Lokalisierung könnte hier angewendet werden
+                // z.B. Thread.CurrentThread.CurrentCulture = new CultureInfo(state.Preferences.Language);
+            }
+
+            // Letzter Benutzer wiederherstellen (falls gespeichert)
+            if (!string.IsNullOrEmpty(state.LastUser))
+            {
+                // Benutzer umschalten, falls vorhanden
+            }
+
+            // Offene Tabs wiederherstellen (optional - nur wenn RememberLastSession aktiv)
+            if (state.Preferences?.RememberLastSession == true && state.OpenTabs.Any())
+            {
+                foreach (var tabInfo in state.OpenTabs.Where(t => t.Name != "TabDashboard"))
+                {
+                    // Tabs könnten hier wiederhergestellt werden
+                    // Dies erfordert eine Mapping-Logik für Content-Types
+                }
+
+                // Letzten Tab auswählen
+                if (state.SelectedTabIndex >= 0 && state.SelectedTabIndex < CenterContent.Items.Count)
+                {
+                    CenterContent.SelectedIndex = state.SelectedTabIndex;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Fehler beim Wiederherstellen des Anwendungs-Zustands: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Speichert den aktuellen Anwendungs-Zustand
+    /// </summary>
+    private void SaveApplicationState()
+    {
+        try
+        {
+            var state = new ApplicationState();
+
+            // Fenster-Zustand speichern
+            state.WindowState = new WindowStateInfo
+            {
+                IsMaximized = WindowState == System.Windows.WindowState.Maximized,
+                IsFullscreen = _isFullscreen,
+                Left = Left,
+                Top = Top,
+                Width = Width,
+                Height = Height
+            };
+
+            // Sidebar-Breiten speichern
+            state.SidebarWidths = new SidebarWidths
+            {
+                LeftSidebarWidth = LeftSidebarColumn?.Width.Value ?? 250,
+                RightSidebarWidth = RightSidebarColumn?.Width.Value ?? 350,
+                IsLeftSidebarVisible = ToggleLeftSidebar?.IsChecked ?? true,
+                IsRightSidebarVisible = ToggleRightSidebar?.IsChecked ?? true
+            };
+
+            // Theme speichern
+            if (MenuThemeLight?.IsChecked == true) state.Theme = "Light";
+            else if (MenuThemeDark?.IsChecked == true) state.Theme = "Dark";
+            else state.Theme = "System";
+
+            // Offene Tabs speichern
+            foreach (TabItem tab in CenterContent.Items)
+            {
+                if (tab.Header != null)
+                {
+                    state.OpenTabs.Add(new TabInfo
+                    {
+                        Name = tab.Name ?? "",
+                        Header = tab.Header.ToString() ?? "",
+                        ContentType = tab.Content?.GetType().Name ?? "",
+                        IsFavorite = tab.Header.ToString()?.StartsWith("⭐") == true,
+                        IsCloseable = tab.Name != "TabDashboard",
+                        LastAccessed = DateTime.Now
+                    });
+                }
+            }
+
+            // Aktuell ausgewählten Tab speichern
+            state.SelectedTabIndex = CenterContent.SelectedIndex;
+
+            // Letztes Preview-Item speichern
+            if (!string.IsNullOrEmpty(_lastClickedTreeViewItem?.Header?.ToString()))
+            {
+                state.LastPreviewItem = _lastClickedTreeViewItem.Header.ToString();
+            }
+
+            // Benutzerpräferenzen speichern
+            state.Preferences = new UserPreferences
+            {
+                AutoSave = true,
+                ShowNotifications = true,
+                EnableAnimations = true,
+                RememberLastSession = true
+            };
+
+            _stateService.SaveState(state);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Fehler beim Speichern des Anwendungs-Zustands: {ex.Message}");
+        }
     }
 
     #endregion

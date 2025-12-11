@@ -40,16 +40,15 @@ public partial class AIChatViewModel : ObservableObject
     public ObservableCollection<MCPTool> AvailableTools { get; } = new();
     public ObservableCollection<MCPToolCall> PendingApprovals { get; } = new();
     
-    // Commands
-    public ICommand SendMessageCommand { get; }
-    public ICommand SendMessageStreamingCommand { get; }
-    public ICommand NewSessionCommand { get; }
-    public ICommand DeleteSessionCommand { get; }
-    public ICommand SwitchSessionCommand { get; }
-    public ICommand UseSuggestionCommand { get; }
-    public ICommand ApproveToolCallCommand { get; }
-    public ICommand AttachDocumentCommand { get; }
-    public ICommand ClearContextCommand { get; }
+    // Lazy-initialized Commands (MVVM Toolkit Style)
+    private AsyncRelayCommand? _sendMessageCommand;
+    public ICommand SendMessageCommand => _sendMessageCommand ??= new AsyncRelayCommand(SendMessageAsync, () => !IsBusy && !string.IsNullOrWhiteSpace(InputText));
+    
+    private AsyncRelayCommand? _newSessionCommand;
+    public ICommand NewSessionCommand => _newSessionCommand ??= new AsyncRelayCommand(CreateNewSessionAsync);
+    
+    private AsyncRelayCommand? _clearContextCommand;
+    public ICommand ClearContextCommand => _clearContextCommand ??= new AsyncRelayCommand(ClearContextAsync);
     
     public AIChatViewModel(IAIChatService chatService, IMCPToolService mcpService, string userId)
     {
@@ -61,19 +60,17 @@ public partial class AIChatViewModel : ObservableObject
         _mcpService = mcpService;
         _userId = userId;
         
-        // Commands
-        SendMessageCommand = new AsyncRelayCommand(SendMessageAsync, () => !IsBusy && !string.IsNullOrWhiteSpace(InputText));
-        SendMessageStreamingCommand = new AsyncRelayCommand(SendMessageStreamingAsync, () => !IsBusy && !string.IsNullOrWhiteSpace(InputText));
-        NewSessionCommand = new AsyncRelayCommand(CreateNewSessionAsync);
-        DeleteSessionCommand = new AsyncRelayCommand<string>(DeleteSessionAsync);
-        SwitchSessionCommand = new AsyncRelayCommand<string>(SwitchToSessionAsync);
-        UseSuggestionCommand = new AsyncRelayCommand<ChatSuggestion>(UseSuggestionAsync);
-        ApproveToolCallCommand = new AsyncRelayCommand<MCPToolCall>(ApproveToolCallAsync);
-        AttachDocumentCommand = new AsyncRelayCommand<string>(AttachDocumentAsync);
-        ClearContextCommand = new AsyncRelayCommand(ClearContextAsync);
-        
-        // Load initial data
         _ = InitializeAsync();
+    }
+
+    partial void OnInputTextChanged(string value)
+    {
+        _sendMessageCommand?.NotifyCanExecuteChanged();
+    }
+
+    partial void OnIsBusyChanged(bool value)
+    {
+        _sendMessageCommand?.NotifyCanExecuteChanged();
     }
     
     private async Task InitializeAsync()
