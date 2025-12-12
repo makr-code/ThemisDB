@@ -932,5 +932,213 @@ void StreamPlan::notifyListeners(std::function<void(IStreamListener&)> callback)
     }
 }
 
+// ============================================================================
+// StreamTransferTask Implementation
+// ============================================================================
+
+StreamTransferTask::StreamTransferTask(
+    const StreamFileInfo& file,
+    std::shared_ptr<StreamRateLimiter> rate_limiter,
+    const StreamSessionConfig& config
+) : file_(file), rate_limiter_(rate_limiter), config_(config) {
+    chunks_acked_.resize((file_.size + config.chunk_size - 1) / config.chunk_size, false);
+}
+
+StreamTransferTask::~StreamTransferTask() {
+    abort();
+    if (transfer_thread_.joinable()) {
+        transfer_thread_.join();
+    }
+}
+
+bool StreamTransferTask::start() {
+    running_ = true;
+    transfer_thread_ = std::thread(&StreamTransferTask::transferLoop, this);
+    return true;
+}
+
+void StreamTransferTask::pause() {
+    paused_ = true;
+}
+
+void StreamTransferTask::resume() {
+    paused_ = false;
+    cv_.notify_all();
+}
+
+void StreamTransferTask::abort() {
+    running_ = false;
+    failed_ = true;
+    cv_.notify_all();
+}
+
+void StreamTransferTask::onChunkAck(uint32_t chunk_index) {
+    {
+        std::lock_guard<std::mutex> lock(progress_mutex_);
+        if (chunk_index < chunks_acked_.size()) {
+            chunks_acked_[chunk_index] = true;
+        }
+    }
+    cv_.notify_all();
+}
+
+void StreamTransferTask::onRetryRequest(uint32_t chunk_index) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        pending_retries_.push(chunk_index);
+    }
+    cv_.notify_all();
+}
+
+StreamFileProgress StreamTransferTask::getProgress() const {
+    std::lock_guard<std::mutex> lock(progress_mutex_);
+    return progress_;
+}
+
+void StreamTransferTask::transferLoop() {
+    while (running_) {
+        {
+            std::unique_lock<std::mutex> lock(mutex_);
+            cv_.wait(lock, [this] { return !paused_ || !running_; });
+        }
+        
+        if (!running_) break;
+        
+        // Process pending retries
+        while (!pending_retries_.empty()) {
+            uint32_t chunk_index = pending_retries_.front();
+            pending_retries_.pop();
+            
+            if (auto chunk = createChunk(chunk_index)) {
+                sendChunk(*chunk);
+            }
+        }
+        
+        // Send next chunk
+        if (next_chunk_to_send_ < chunks_acked_.size()) {
+            if (!chunks_acked_[next_chunk_to_send_]) {
+                if (auto chunk = createChunk(next_chunk_to_send_)) {
+                    if (sendChunk(*chunk)) {
+                        next_chunk_to_send_++;
+                    }
+                }
+            } else {
+                next_chunk_to_send_++;
+            }
+        } else {
+            complete_ = true;
+            break;
+        }
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+
+std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index) {
+    // TODO: Implement chunk creation from file
+    StreamChunk chunk;
+    chunk.chunk_index = chunk_index;
+    chunk.size = std::min(static_cast<uint64_t>(config_.chunk_size), 
+                          file_.size - chunk_index * config_.chunk_size);
+    return chunk;
+}
+
+bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
+    // TODO: Implement chunk sending via network
+    return true;
+}
+
+// ============================================================================
+// StreamReceiveTask Implementation
+// ============================================================================
+
+StreamReceiveTask::StreamReceiveTask(
+    const StreamFileInfo& file,
+    const std::string& output_path,
+    const StreamSessionConfig& config
+) : file_(file), output_path_(output_path), config_(config) {
+    chunks_received_.resize((file_.size + config.chunk_size - 1) / config.chunk_size, false);
+}
+
+StreamReceiveTask::~StreamReceiveTask() {
+    abort();
+}
+
+bool StreamReceiveTask::start() {
+    running_ = true;
+    // TODO: Open output file
+    return true;
+}
+
+bool StreamReceiveTask::onChunkReceived(const StreamChunk& chunk) {
+    {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        
+        if (chunk.chunk_index < chunks_received_.size()) {
+            chunks_received_[chunk.chunk_index] = true;
+        }
+        
+        // Check if this is the next expected chunk
+        if (chunk.chunk_index == next_expected_chunk_) {
+            if (!writeChunk(chunk)) {
+                return false;
+            }
+            
+            // Write any buffered out-of-order chunks
+            while (out_of_order_chunks_.count(next_expected_chunk_)) {
+                if (!writeChunk(out_of_order_chunks_[next_expected_chunk_])) {
+                    return false;
+                }
+                out_of_order_chunks_.erase(next_expected_chunk_);
+                next_expected_chunk_++;
+            }
+            
+            next_expected_chunk_++;
+        } else {
+            // Buffer out-of-order chunk
+            out_of_order_chunks_[chunk.chunk_index] = chunk;
+        }
+    }
+    
+    // Check if all chunks received
+    bool all_received = true;
+    for (bool received : chunks_received_) {
+        if (!received) {
+            all_received = false;
+            break;
+        }
+    }
+    
+    if (all_received) {
+        complete_ = true;
+    }
+    
+    return true;
+}
+
+void StreamReceiveTask::abort() {
+    running_ = false;
+    failed_ = true;
+}
+
+StreamFileProgress StreamReceiveTask::getProgress() const {
+    std::lock_guard<std::mutex> lock(progress_mutex_);
+    return progress_;
+}
+
+bool StreamReceiveTask::verifyIntegrity() const {
+    // TODO: Implement checksum verification
+    return true;
+}
+
+bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
+    // TODO: Implement actual file writing
+    return true;
+}
+
+void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
+    // TODO: Implement retry request via network
+}
+
 } // namespace streaming
 } // namespace themisdb

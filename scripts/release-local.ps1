@@ -58,6 +58,7 @@ if ($PackageRpm) {
 
 # 4) Checksums
 & (Join-Path $PSScriptRoot 'package-checksums.ps1') -ArtifactsDir $releaseDir
+& (Join-Path $PSScriptRoot 'verify-checksums.ps1') -ArtifactsDir $releaseDir -ChecksumFile (Join-Path $releaseDir 'SHA256SUMS.txt')
 
 # 5) Docker Push (wenn nicht bereits gepusht)
 if ($PushDocker -and -not $BuildDocker) {

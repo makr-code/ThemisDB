@@ -37,13 +37,18 @@ if (Test-Path $buildDir) {
     Remove-Item $buildDir -Recurse -Force
 }
 
+$testsFlag = if ($SkipTests) { 'OFF' } else { 'ON' }
+$traceFlag = if ($Debug) { 'ON' } else { 'OFF' }
 cmake -S $rootDir -B $buildDir `
     -G "Visual Studio 17 2022" `
     -A x64 `
     -DCMAKE_BUILD_TYPE=$Config `
-    -DTHEMIS_BUILD_TESTS=$(if ($SkipTests) { "OFF" } else { "ON" }) `
+    -DCMAKE_TOOLCHAIN_FILE="$rootDir\vcpkg\scripts\buildsystems\vcpkg.cmake" `
+    -DVCPKG_TARGET_TRIPLET=x64-windows `
+    -DTHEMIS_BUILD_TESTS=$testsFlag `
     -DTHEMIS_BUILD_BENCHMARKS=OFF `
-    -DTHEMIS_ENABLE_TRACING=$(if ($Debug) { "ON" } else { "OFF" })
+    -DTHEMIS_ENABLE_TRACING=$traceFlag `
+    -DTHEMIS_CORE_SHARED=ON
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "CMake configuration failed" -ForegroundColor Red

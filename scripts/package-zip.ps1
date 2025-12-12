@@ -26,6 +26,9 @@ switch ($Platform) {
     New-Item -ItemType Directory -Path $pkgDir | Out-Null
 
     Copy-Item $BinaryPath (Join-Path $pkgDir "themis_server.exe")
+    # Falls dynamisch gebaut: DLL beilegen
+    $dll = Join-Path $root "build-msvc\Release\themis_core.dll"
+    if (Test-Path $dll) { Copy-Item $dll (Join-Path $pkgDir "themis_core.dll") }
     Copy-Item (Join-Path $root "README.md") $pkgDir -ErrorAction SilentlyContinue
     Copy-Item (Join-Path $root "LICENSE") $pkgDir -ErrorAction SilentlyContinue
     Copy-Item (Join-Path $root "license.md") $pkgDir -ErrorAction SilentlyContinue
@@ -46,6 +49,9 @@ switch ($Platform) {
     New-Item -ItemType Directory -Path $pkgDir | Out-Null
 
     Copy-Item $BinaryPath (Join-Path $pkgDir "themis_server")
+    # Falls dynamisch gebaut: .so beilegen
+    $so = Join-Path $root "build-linux/libthemis_core.so"
+    if (Test-Path $so) { Copy-Item $so (Join-Path $pkgDir "libthemis_core.so") }
     Copy-Item (Join-Path $root "README.md") $pkgDir -ErrorAction SilentlyContinue
     Copy-Item (Join-Path $root "LICENSE") $pkgDir -ErrorAction SilentlyContinue
     Copy-Item (Join-Path $root "license.md") $pkgDir -ErrorAction SilentlyContinue

@@ -114,6 +114,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
 
 # Copy source code
 COPY CMakeLists.txt ./
+COPY VERSION ./
 COPY include ./include
 COPY src ./src
 
@@ -130,6 +131,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
         -DCMAKE_C_COMPILER=/usr/bin/gcc \
         -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
         -DCMAKE_BUILD_TYPE=Release \
+        -DTHEMIS_CORE_SHARED=OFF \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \
         -DVCPKG_MANIFEST_DIR=/src \
@@ -146,6 +148,12 @@ RUN . /etc/profile.d/vcpkg.sh && \
 # Runtime stage - minimal Ubuntu image
 FROM ubuntu:22.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Image metadata
+ARG THEMIS_VERSION
+LABEL org.opencontainers.image.title="ThemisDB" \
+    org.opencontainers.image.description="ThemisDB server image" \
+    org.opencontainers.image.version="$THEMIS_VERSION"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl libstdc++6 \

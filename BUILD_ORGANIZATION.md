@@ -22,6 +22,20 @@
 .\scripts\build.ps1 -Target all        # All platforms
 ```
 
+### 🧭 Versionierung
+
+- Die Datei `VERSION` ist die einzige Quelle der Wahrheit für die Versionsnummer.
+- CMake liest die Version automatisch daraus (`project(Themis VERSION ...)`).
+- Alle Build-/Release-Skripte verwenden standardmäßig den Inhalt der `VERSION`-Datei.
+
+### 🔗 Linkage/Artefakt-Form
+
+- Standard: dynamisch (EXE/ELF + DLL/.so). `THEMIS_CORE_SHARED=ON` ist Default.
+- QNAP/Static: statisch via `THEMIS_STATIC_BUILD=ON` oder `THEMIS_QNAP_BUILD=ON` (erzwingt statischen Core).
+- `THEMIS_CORE_SHARED=ON` (CMake): baut `themis_core` als Shared Library (DLL/.so).
+    - Windows: automatische Symbol-Exporte via `WINDOWS_EXPORT_ALL_SYMBOLS` (keine `__declspec(dllexport)` notwendig).
+    - Docker-Build bleibt monolithisch (vereinfacht das Runtime-Image).
+
 ### 🐳 Docker (`.\docker\`)
 
 **Dockerfiles:**
@@ -105,7 +119,7 @@ docker-compose -f docker-compose.qnap.yml up
              └─→ Binary Output:
                  ├─ Windows: build-msvc\Release\themis_server.exe
                  ├─ Linux: build-linux\themis_server
-                 └─ Docker: themisdb/themisdb:v1.0.1
+                 └─ Docker: themisdb/themisdb:v$(Get-Content VERSION).Trim()
 ```
 
 ### Cache Architecture

@@ -1,16 +1,16 @@
 ﻿cmake_minimum_required(VERSION 3.20)
 
-# Read version from VERSION file if present
-set(THEMIS_VERSION "1.0.1")
-if(EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
-    file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
-    string(STRIP "${_ver}" _ver)
-    if(_ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
-        set(THEMIS_VERSION "${_ver}")
-    endif()
+# VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
+    message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
+endif()
+file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
+string(STRIP "${_ver}" _ver)
+if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
+    message(FATAL_ERROR "Invalid VERSION content: '${_ver}'. Expected semantic version like 1.2.3")
 endif()
 
-project(Themis VERSION ${THEMIS_VERSION} LANGUAGES CXX)
+project(Themis VERSION ${_ver} LANGUAGES CXX)
 
 # Make project version available to all translation units
 add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
@@ -62,6 +62,13 @@ option(THEMIS_ENABLE_AVX2 "Enable AVX2/FMA for SIMD kernels in Release builds (M
 option(THEMIS_QNAP_BUILD "Build for QNAP NAS with baseline x86-64 (no AVX)" OFF)
 option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stub if OFF)" OFF)
 option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
+option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" ON)
+option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors (audio/image/video/geo/cad) in core" OFF)
+
+# For QNAP or fully static builds, force static core library
+if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
+    set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core for QNAP/static builds" FORCE)
+endif()
 
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
@@ -394,14 +401,6 @@ set(THEMIS_CORE_SOURCES
     src/content/content_policy.cpp
     src/content/content_fs.cpp
     src/content/version_manager.cpp
-    # Additional content processors
-    src/content/audio_processor.cpp
-    src/content/image_processor.cpp
-    src/content/video_processor.cpp
-    src/content/office_processor.cpp
-    src/content/pdf_processor.cpp
-    src/content/geo_processor.cpp
-    src/content/cad_processor.cpp
     
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
@@ -459,6 +458,7 @@ set(THEMIS_CORE_SOURCES
     src/security/timestamp_authority.cpp
     src/security/timestamp_authority_openssl.cpp
     src/security/vcc_pki_client.cpp
+    src/storage/security_signature_manager.cpp
     src/auth/jwt_validator.cpp
     src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
@@ -520,7 +520,16 @@ set(THEMIS_CORE_SOURCES
 )
 
 # Define core library early so subsequent target_* commands are valid
-add_library(themis_core STATIC ${THEMIS_CORE_SOURCES})
+set(_THEMIS_CORE_LIBTYPE STATIC)
+if(THEMIS_CORE_SHARED)
+    set(_THEMIS_CORE_LIBTYPE SHARED)
+endif()
+add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
+
+# On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
+if(MSVC AND THEMIS_CORE_SHARED)
+    set_target_properties(themis_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 # Add hardware acceleration backends based on build options
 set(THEMIS_ACCELERATION_SOURCES "")

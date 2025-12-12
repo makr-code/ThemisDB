@@ -140,7 +140,7 @@ cmake -B build-msvc `
   -G "Visual Studio 17 2022" -A x64 `
   -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
   -DCMAKE_BUILD_TYPE=Release `
-  -DTHEMIS_VERSION_STRING="1.0.1"
+   # Hinweis: Version wird automatisch aus der Datei `VERSION` gelesen
 
 # 3. Compilation & Linking
 cmake --build build-msvc --config Release -j 4
@@ -194,6 +194,38 @@ cmake --build build-linux --parallel 4
 **Output:**
 - `build-linux/themis_server` (Hauptdatei, ELF x86_64)
 
+### Linkage-Varianten (monolithisch vs. DLL/.so)
+
+Sie können die Artefaktform per CMake steuern:
+
+```powershell
+# Monolithisch: statischer Core, exe beinhaltet Logik
+cmake -B build-msvc `
+   -G "Visual Studio 17 2022" -A x64 `
+   -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+   -DCMAKE_BUILD_TYPE=Release `
+   -DTHEMIS_CORE_SHARED=OFF
+
+# Standard (dynamisch): exe + DLL/.so – geteilte Core-Library
+cmake -B build-msvc `
+   -G "Visual Studio 17 2022" -A x64 `
+   -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+   -DCMAKE_BUILD_TYPE=Release `
+   -DTHEMIS_CORE_SHARED=ON
+
+# Maximale Portabilität (QNAP/alt): statisch linkende Runtime
+cmake -B build-linux \
+   -DCMAKE_BUILD_TYPE=Release \
+   -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+   -DVCPKG_TARGET_TRIPLET=x64-linux \
+   -DTHEMIS_STATIC_BUILD=ON
+```
+
+Hinweise:
+- Standard ist dynamisch: `THEMIS_CORE_SHARED=ON` (Windows/Linux). Pakete enthalten DLL/.so zusätzlich zum Binary.
+- QNAP/Static: `THEMIS_STATIC_BUILD=ON` oder `THEMIS_QNAP_BUILD=ON` erzwingen statischen Core.
+- Unter Windows exportiert CMake für `THEMIS_CORE_SHARED=ON` automatisch Symbole (`WINDOWS_EXPORT_ALL_SYMBOLS`).
+
 ### Docker Multi-Arch Build (amd64 + arm64)
 
 **Script:** `.\scripts\build-docker.ps1`
@@ -208,17 +240,18 @@ docker buildx ls  # Stellt sicher, dass buildx verfügbar ist
 # 3. Multi-Arch Build
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
-  --tag themisdb/themisdb:v1.0.1 \
+   --tag themisdb/themisdb:v$((Get-Content VERSION).Trim()) \
   --tag themisdb/themisdb:latest \
   --build-arg VCPKG_ENABLE_ONLINE=OFF \
-  --build-arg THEMIS_VERSION_STRING=1.0.1 \
+   --build-arg THEMIS_VERSION=$((Get-Content VERSION).Trim()) \
+   # Version wird im Build aus `VERSION` bezogen (OCI Label: org.opencontainers.image.version)
   .
 
 # 4. Optionaler Push zu Registry
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   --push \
-  --tag themisdb/themisdb:v1.0.1 \
+   --tag themisdb/themisdb:v$((Get-Content VERSION).Trim()) \
   .
 
 # 5. Time Estimate: 50-60 min (beide Architekturen)
@@ -470,7 +503,7 @@ brew install themisdb
 
 ### Pre-Release
 
-- [ ] Update `CMakeLists.txt` Version (THEMIS_VERSION_STRING)
+ - [ ] `VERSION` aktualisieren (Single-Source-of-Truth)
 - [ ] Update `CHANGELOG.md` mit Release-Notes
 - [ ] Update `docs/VERSION.json` Struktur/Datei
 - [ ] Alle Unit-Tests lokal laufen (pass)
@@ -481,8 +514,9 @@ brew install themisdb
 
 1. **Git Tag erstellen:**
    ```bash
-   git tag -a v1.0.1 -m "Release v1.0.1: [Release Description]"
-   git push origin v1.0.1
+   $ver = (Get-Content VERSION).Trim()
+   git tag -a v$ver -m "Release v$ver: [Release Description]"
+   git push origin v$ver
    ```
 
 2. **Automatische CI/CD (GitHub Actions):**
@@ -501,7 +535,7 @@ brew install themisdb
    .\scripts\build.ps1 -Target all
    
    # Docker Push (falls nicht via CI/CD)
-   .\scripts\build.ps1 -Target docker -Push -Tag v1.0.1
+   .\scripts\build.ps1 -Target docker -Push -Tag (Get-Content VERSION).Trim()
    ```
 
 ### Post-Release
@@ -700,7 +734,7 @@ ThemisDB enthält Subsystem zur Versions-Überprüfung:
 | VCPKG_ENABLE_ONLINE | `ON` | All | Online-Fetches erlauben (OFF für Offline) |
 | VCPKG_ASSET_SOURCES | (default) | All | Alternative Asset-Quelle |
 | VCPKG_BINARY_SOURCES | (default) | All | Alternative Binary-Cache |
-| THEMIS_VERSION_STRING | (CMakeLists) | All | Release-Version (z.B. 1.0.1) |
+| VERSION (Datei) | n/a | All | Single-Source-of-Truth für Release-Version |
 | DOCKER_BUILDKIT | `1` | Docker | BuildKit Engine aktivieren |
 | DOCKER_BUILDKIT_PROGRESS | `plain` | Docker | Build-Ausgabe-Format |
 
