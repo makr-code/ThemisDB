@@ -20,6 +20,8 @@
 #include "utils/pki_client.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "sharding/prometheus_metrics.h"
+#include "sharding/metrics_registry.h"
 
 #include <iostream>
 #include <fstream>
@@ -53,7 +55,11 @@ int main(int argc, char* argv[]) {
     utils::Logger::init("themis_server.log", utils::Logger::Level::INFO);
     
     THEMIS_INFO("=== Themis Multi-Model Database API Server ===");
-    THEMIS_INFO("Version: 0.1.0");
+#ifdef THEMIS_VERSION_STRING
+    THEMIS_INFO("Version: {}", THEMIS_VERSION_STRING);
+#else
+    THEMIS_INFO("Version: unknown");
+#endif
     
     try {
         // Parse command line arguments
@@ -489,6 +495,66 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("Starting HTTP server...");
         g_server->start();
         
+        // Initialize sharding metrics if enabled
+        bool sharding_enabled = false;
+        std::string shard_id = "shard_0"; // Default shard ID
+        int cluster_size = 1; // Default single-node cluster
+        
+        if (cfg && cfg->contains("sharding")) {
+            const auto& shard_cfg = (*cfg)["sharding"];
+            sharding_enabled = shard_cfg.value("enabled", false);
+            if (sharding_enabled) {
+                // Read shard configuration from config or environment
+                if (const char* env_shard_id = std::getenv("SHARD_ID")) {
+                    shard_id = env_shard_id;
+                } else {
+                    shard_id = shard_cfg.value("shard_id", std::string("shard_0"));
+                }
+                
+                if (const char* env_cluster_size = std::getenv("CLUSTER_SIZE")) {
+                    cluster_size = std::stoi(env_cluster_size);
+                } else {
+                    cluster_size = shard_cfg.value("cluster_size", 1);
+                }
+                
+                // Initialize Prometheus metrics
+                themis::sharding::PrometheusMetrics::Config metrics_cfg;
+                
+                auto sharding_metrics = std::make_shared<themis::sharding::PrometheusMetrics>(metrics_cfg);
+                
+                // Register initial cluster state
+                sharding_metrics->recordClusterSize(cluster_size);
+                sharding_metrics->recordShardHealth(shard_id, "healthy");
+                
+                // Register metrics globally
+                themis::sharding::ShardingMetricsRegistry::instance().registerMetrics(sharding_metrics);
+                
+                THEMIS_INFO("Sharding metrics initialized: shard_id={}, cluster_size={}", shard_id, cluster_size);
+            }
+        } else if (const char* env_enable = std::getenv("ENABLE_METRICS")) {
+            // Fallback: Environment variable based initialization
+            if (std::string(env_enable) == "true" || std::string(env_enable) == "1") {
+                sharding_enabled = true;
+                
+                if (const char* env_shard_id = std::getenv("SHARD_ID")) {
+                    shard_id = env_shard_id;
+                }
+                if (const char* env_cluster_size = std::getenv("CLUSTER_SIZE")) {
+                    cluster_size = std::stoi(env_cluster_size);
+                }
+                
+                themis::sharding::PrometheusMetrics::Config metrics_cfg;
+                
+                auto sharding_metrics = std::make_shared<themis::sharding::PrometheusMetrics>(metrics_cfg);
+                sharding_metrics->recordClusterSize(cluster_size);
+                sharding_metrics->recordShardHealth(shard_id, "healthy");
+                
+                themis::sharding::ShardingMetricsRegistry::instance().registerMetrics(sharding_metrics);
+                
+                THEMIS_INFO("Sharding metrics initialized from environment: shard_id={}, cluster_size={}", shard_id, cluster_size);
+            }
+        }
+        
         // Get hardware/system information
         int cpu_count = std::thread::hardware_concurrency();
         
@@ -559,6 +625,17 @@ int main(int argc, char* argv[]) {
         #ifdef THEMIS_HNSW_ENABLED
         THEMIS_INFO("  Vector Search Capability:HNSWLIB-powered (high-dim similarity)");
         #endif
+        THEMIS_INFO("");
+        
+        THEMIS_INFO("🌐 SHARDING & CLUSTERING:");
+        if (sharding_enabled) {
+            THEMIS_INFO("  Sharding:                ✅ ENABLED");
+            THEMIS_INFO("  Shard ID:                {}", shard_id);
+            THEMIS_INFO("  Cluster Size:            {} nodes", cluster_size);
+            THEMIS_INFO("  Metrics Export:          /metrics (Prometheus format)");
+        } else {
+            THEMIS_INFO("  Sharding:                ❌ disabled (standalone mode)");
+        }
         THEMIS_INFO("");
         
         THEMIS_INFO("⚙️  FEATURE FLAGS & CAPABILITIES:");

@@ -3,65 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Themis.DocumentManager.Models;
 using Themis.DocumentManager.Services;
+using MediatR;
+using Themis.DocumentManager.Domain.Events;
 
 namespace Themis.DocumentManager.ViewModels;
-
-/// <summary>
-/// Document browser view model
-/// </summary>
-public partial class DocumentBrowserViewModel : ObservableObject
-{
-    private readonly IDocumentService _documentService;
-
-    [ObservableProperty]
-    private ObservableCollection<Document> _documents = new();
-
-    [ObservableProperty]
-    private Document? _selectedDocument;
-
-    [ObservableProperty]
-    private bool _isLoading = false;
-
-    public DocumentBrowserViewModel(IDocumentService documentService)
-    {
-        _documentService = documentService;
-        LoadDocumentsCommand.Execute(null);
-    }
-
-    [RelayCommand]
-    private async Task LoadDocumentsAsync()
-    {
-        IsLoading = true;
-        try
-        {
-            var docs = await _documentService.GetAllDocumentsAsync();
-            Documents = new ObservableCollection<Document>(docs);
-        }
-        finally
-        {
-            IsLoading = false;
-        }
-    }
-
-    [RelayCommand]
-    private async Task DeleteDocumentAsync(string documentId)
-    {
-        if (string.IsNullOrEmpty(documentId)) return;
-
-        var success = await _documentService.DeleteDocumentAsync(documentId);
-        if (success)
-        {
-            var doc = Documents.FirstOrDefault(d => d.Id == documentId);
-            if (doc != null) Documents.Remove(doc);
-        }
-    }
-
-    [RelayCommand]
-    private async Task RefreshAsync()
-    {
-        await LoadDocumentsAsync();
-    }
-}
 
 /// <summary>
 /// Document detail view model

@@ -12,6 +12,9 @@ endif()
 
 project(Themis VERSION ${THEMIS_VERSION} LANGUAGES CXX)
 
+# Make project version available to all translation units
+add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
+
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -238,7 +241,7 @@ endif()
 # Core packages via vcpkg (or system where available)
 find_package(simdjson CONFIG REQUIRED)
 find_package(TBB CONFIG REQUIRED)
-find_package(Arrow CONFIG REQUIRED)
+find_package(Arrow CONFIG QUIET)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)

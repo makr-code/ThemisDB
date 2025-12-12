@@ -18,7 +18,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
     utils::Logger::init("vccdb.log", utils::Logger::Level::INFO);
     
     THEMIS_INFO("=== Themis Multi-Model Database System ===");
-    THEMIS_INFO("Version: 0.1.0");
+#ifdef THEMIS_VERSION_STRING
+    THEMIS_INFO("Version: {}", THEMIS_VERSION_STRING);
+#else
+    THEMIS_INFO("Version: unknown");
+#endif
     THEMIS_INFO("Architecture: Hybrid Relational-Graph-Vector-Document");
     
     try {

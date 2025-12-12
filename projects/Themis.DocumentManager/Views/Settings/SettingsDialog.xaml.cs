@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Themis.DocumentManager.Services;
+using System.Windows.Input;
 
 namespace Themis.DocumentManager.Views.Settings;
 
@@ -62,6 +63,23 @@ public partial class SettingsDialog : Window
             // Performance Settings
             EnableAnimationsCheckBox.IsChecked = _settingsService.GetSetting("EnableAnimations", true);
             CacheSizeSlider.Value = _settingsService.GetSetting("CacheSize", 500);
+
+            // Shortcut Settings: prefill from current service
+            var svc = KeyboardShortcutService.Instance;
+            var conv = new KeyGestureConverter();
+            ShortcutSaveMetadata.Text = conv.ConvertToString(svc.Shortcuts["SaveMetadata"]);
+            ShortcutReloadMetadata.Text = conv.ConvertToString(svc.Shortcuts["ReloadMetadata"]);
+            ShortcutFinalizeMetadata.Text = conv.ConvertToString(svc.Shortcuts["FinalizeMetadata"]);
+            ShortcutOpenSettings.Text = conv.ConvertToString(svc.Shortcuts["OpenSettings"]);
+                ShortcutCloseTab.Text = conv.ConvertToString(svc.Shortcuts["CloseTab"]);
+                ShortcutDuplicateTab.Text = conv.ConvertToString(svc.Shortcuts["DuplicateTab"]);
+                ShortcutSidebarGraph.Text = conv.ConvertToString(svc.Shortcuts["SwitchSidebarGraph"]);
+                ShortcutSidebarMap.Text = conv.ConvertToString(svc.Shortcuts["SwitchSidebarMap"]);
+            ShortcutOpenTabInNewWindow.Text = conv.ConvertToString(svc.Shortcuts["OpenTabInNewWindow"]);
+            ShortcutFavoriteAdd.Text = conv.ConvertToString(svc.Shortcuts["FavoriteAdd"]);
+            ShortcutFavoriteRemove.Text = conv.ConvertToString(svc.Shortcuts["FavoriteRemove"]);
+                ShortcutCloseOthers.Text = conv.ConvertToString(svc.Shortcuts["CloseOthers"]);
+                ShortcutSearchTabs.Text = conv.ConvertToString(svc.Shortcuts["SearchTabs"]);
         }
         catch (Exception ex)
         {
@@ -91,6 +109,21 @@ public partial class SettingsDialog : Window
             // Performance Settings
             _settingsService.SetSetting("EnableAnimations", EnableAnimationsCheckBox.IsChecked ?? true);
             _settingsService.SetSetting("CacheSize", (int)CacheSizeSlider.Value);
+
+            // Persist shortcut strings
+            _settingsService.SetSetting("Shortcut.SaveMetadata", ShortcutSaveMetadata.Text);
+            _settingsService.SetSetting("Shortcut.ReloadMetadata", ShortcutReloadMetadata.Text);
+            _settingsService.SetSetting("Shortcut.FinalizeMetadata", ShortcutFinalizeMetadata.Text);
+            _settingsService.SetSetting("Shortcut.OpenSettings", ShortcutOpenSettings.Text);
+                _settingsService.SetSetting("Shortcut.CloseTab", ShortcutCloseTab.Text);
+                _settingsService.SetSetting("Shortcut.DuplicateTab", ShortcutDuplicateTab.Text);
+                _settingsService.SetSetting("Shortcut.SwitchSidebarGraph", ShortcutSidebarGraph.Text);
+                _settingsService.SetSetting("Shortcut.SwitchSidebarMap", ShortcutSidebarMap.Text);
+                _settingsService.SetSetting("Shortcut.OpenTabInNewWindow", ShortcutOpenTabInNewWindow.Text);
+                _settingsService.SetSetting("Shortcut.FavoriteAdd", ShortcutFavoriteAdd.Text);
+                _settingsService.SetSetting("Shortcut.FavoriteRemove", ShortcutFavoriteRemove.Text);
+                _settingsService.SetSetting("Shortcut.CloseOthers", ShortcutCloseOthers.Text);
+                _settingsService.SetSetting("Shortcut.SearchTabs", ShortcutSearchTabs.Text);
 
             _settingsService.Save();
             _hasChanges = false;
@@ -218,6 +251,66 @@ public partial class SettingsDialog : Window
 
         DialogResult = false;
         Close();
+    }
+
+    #endregion
+
+    #region Shortcut Settings
+
+    private void SaveShortcuts_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var svc = KeyboardShortcutService.Instance;
+            svc.UpdateShortcut("SaveMetadata", ParseGesture(ShortcutSaveMetadata.Text));
+            svc.UpdateShortcut("ReloadMetadata", ParseGesture(ShortcutReloadMetadata.Text));
+            svc.UpdateShortcut("FinalizeMetadata", ParseGesture(ShortcutFinalizeMetadata.Text));
+            svc.UpdateShortcut("OpenSettings", ParseGesture(ShortcutOpenSettings.Text));
+            svc.UpdateShortcut("CloseTab", ParseGesture(ShortcutCloseTab.Text));
+            svc.UpdateShortcut("DuplicateTab", ParseGesture(ShortcutDuplicateTab.Text));
+            svc.UpdateShortcut("SwitchSidebarGraph", ParseGesture(ShortcutSidebarGraph.Text));
+            svc.UpdateShortcut("SwitchSidebarMap", ParseGesture(ShortcutSidebarMap.Text));
+            svc.UpdateShortcut("OpenTabInNewWindow", ParseGesture(ShortcutOpenTabInNewWindow.Text));
+            svc.UpdateShortcut("FavoriteAdd", ParseGesture(ShortcutFavoriteAdd.Text));
+            svc.UpdateShortcut("FavoriteRemove", ParseGesture(ShortcutFavoriteRemove.Text));
+            svc.UpdateShortcut("CloseOthers", ParseGesture(ShortcutCloseOthers.Text));
+            svc.UpdateShortcut("SearchTabs", ParseGesture(ShortcutSearchTabs.Text));
+            _hasChanges = false;
+            MessageBox.Show("Shortcuts gespeichert.", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Fehler beim Speichern der Shortcuts: {ex.Message}", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ResetShortcuts_Click(object sender, RoutedEventArgs e)
+    {
+        var svc = KeyboardShortcutService.Instance;
+        svc.LoadDefaults();
+        ShortcutSaveMetadata.Text = "Ctrl+S";
+        ShortcutReloadMetadata.Text = "F5";
+        ShortcutFinalizeMetadata.Text = "Ctrl+F";
+        ShortcutOpenSettings.Text = "Ctrl+,";
+            ShortcutCloseTab.Text = "Ctrl+W";
+            ShortcutDuplicateTab.Text = "Ctrl+D";
+            ShortcutSidebarGraph.Text = "Ctrl+Shift+G";
+            ShortcutSidebarMap.Text = "Ctrl+Shift+M";
+        ShortcutOpenTabInNewWindow.Text = "Ctrl+Shift+N";
+        ShortcutFavoriteAdd.Text = "Ctrl+Shift+F";
+        ShortcutFavoriteRemove.Text = "Ctrl+Shift+R";
+        ShortcutCloseOthers.Text = "Ctrl+Shift+K";
+        ShortcutSearchTabs.Text = "Ctrl+P";
+        MessageBox.Show("Shortcuts zurückgesetzt.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    private KeyGesture ParseGesture(string text)
+    {
+        var converter = new KeyGestureConverter();
+        var obj = converter.ConvertFromString(text);
+        if (obj is KeyGesture kg)
+            return kg;
+        throw new InvalidOperationException("Ungültiger Shortcut: " + text);
     }
 
     #endregion

@@ -41,6 +41,23 @@ Alle Dokumente werden automatisch versioniert:
 - Unveränderliche Revisionshistorie in ThemisDB
 - Automatische Metadaten-Erfassung
 
+### 📊 Intelligentes Metadaten-System (NEU!)
+
+Das brandneue Metadaten-System bietet professionelle Verwaltung von Dokumentmetadaten:
+
+- **Gruppierte Ansicht**: Metadaten werden in logische Kategorien organisiert (Vorgang, Status, Organisation, Zeit, Schlagwörter)
+- **Editierbare Felder**: Direkte Bearbeitung mit verschiedenen Eingabetypen (Text, Date, Number, Boolean, **Dropdown**)
+- **Dropdown-Listen**: Vordefinierte Auswahlmöglichkeiten für Status, Priorität, Vorgangsart etc.
+- **Automatische Validierung**: Erkennung und Warnung bei fehlenden Pflichtfeldern
+- **YAML-Konfiguration**: Flexibles Layout über `Config/metadata_layout.yaml`
+- **Smart Hiding**: Automatisches Verstecken leerer Felder für bessere Übersicht
+- **Persistierung**: Speichern/Laden mit intelligentem Caching
+- **Finalisierung**: Dokumente gegen weitere Änderungen sperren
+- **Keyboard Shortcuts**: Schneller Zugriff (Ctrl+S speichern, F5 neu laden, Ctrl+F finalisieren)
+
+**Quick Start**: Siehe [QUICKSTART.md](QUICKSTART.md)  
+**Vollständige Doku**: Siehe [METADATA_GUIDE.md](METADATA_GUIDE.md)
+
 ## Architektur
 
 ### Technologie-Stack
@@ -164,6 +181,19 @@ Die ThemisDB-Server-URL kann in `ThemisApiClient.cs` konfiguriert werden (Standa
 
 ## Weiterentwicklung
 
+### Neu implementiert ✅
+
+#### v1.1.0 - 11. Dezember 2025
+- [x] **Dropdown-Felder** - ComboBox-Support für Auswahlfelder mit YAML-Konfiguration
+
+#### v1.0.0 - 11. Dezember 2025
+- [x] **Metadaten-System** - Vollständig editierbare, gruppierte Metadatenverwaltung
+- [x] **YAML-Konfiguration** - Flexibles Layout-System
+- [x] **Validierung** - Automatische Pflichtfeld-Prüfung
+- [x] **Persistierung** - Service mit Caching und Finalisierung
+- [x] **Keyboard Shortcuts** - Ctrl+S, F5, Ctrl+F
+- [x] **Resizable Sidebars** - Anpassbare UI-Layout
+
 ### Geplante Features
 
 - [ ] Batch-Upload von Dokumenten
@@ -174,6 +204,10 @@ Die ThemisDB-Server-URL kann in `ThemisApiClient.cs` konfiguriert werden (Standa
 - [ ] Automatische Klassifizierung
 - [ ] Collaborative Editing
 - [ ] Mobile App (Xamarin)
+- [ ] ThemisDB API Integration für Metadaten
+- [ ] Dropdown-Felder in Metadaten
+- [ ] RichText-Editor für Metadaten
+- [ ] Undo/Redo für Metadaten-Änderungen
 
 ### Erweiterungspunkte
 

@@ -249,6 +249,9 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IRevisionService, RevisionService>();
             services.AddSingleton<IOfficeIntegrationService, OfficeIntegrationService>();
             
+            // Status Monitoring Service (ThemisDB + Ollama)
+            services.AddSingleton<StatusMonitorService>();
+            
             // Administrative Structure Services
             // DISABLED: Uses AQL which ThemisDB 0.1.0 doesn't support
             // services.AddSingleton<IProcessTimelineService, ProcessTimelineService>();
@@ -319,6 +322,9 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IGraphVisualizationService, GraphVisualizationService>();
             services.AddSingleton<IOsmMapRenderer, OsmMapRenderer>();
             
+            // DirectX 3D Rendering Services (Phase 27 - Native 3D Graph Rendering)
+            services.AddDirectX3DServices();
+            
             // Phase 27 UI Styling & Theme System
             services.AddSingleton<ISettingsService, SettingsService>();
             services.AddSingleton<IAnimationService, AnimationService>();
@@ -366,6 +372,14 @@ public partial class App : System.Windows.Application
             // services.AddSingleton<IEGovService, EGovService>();
             // services.AddSingleton<ITransferNoteService, TransferNoteService>();
             
+            // NEW: Rollenbasierte Berechtigungen, Kontextmenüs, Prozess-Verknüpfungen und Audit-Logging
+            services.AddSingleton<IRoleBasedPermissionService, RoleBasedPermissionService>();
+            services.AddSingleton<IContextMenuService, ContextMenuService>();
+            services.AddSingleton<IProcessLinkingService, ProcessLinkingService>();
+            services.AddSingleton<IAuditLoggingService, AuditLoggingService>();
+            services.AddSingleton<IMetadataFormGeneratorService, MetadataFormGeneratorService>();
+            services.AddSingleton<IDialogService, DialogService>();
+            
             // AI Assistant Services (VSCode-Style with SSE & MCP)
             services.AddSingleton<IAIChatService, AIChatService>();
             services.AddSingleton<IMCPToolService, MCPToolService>();
@@ -386,6 +400,7 @@ public partial class App : System.Windows.Application
             services.AddTransient<GraphViewModel>();
             services.AddTransient<DocumentCollaborationViewModel>();
             services.AddTransient<TaskBasketViewModel>();
+            services.AddTransient<TestDataGeneratorViewModel>();
             services.AddTransient<AIChatViewModel>(sp =>
             {
                 var auth = sp.GetRequiredService<IAuthenticationService>();
@@ -401,8 +416,13 @@ public partial class App : System.Windows.Application
             services.AddTransient<DocumentPreviewViewModel>();
             services.AddTransient<Themis.DocumentManager.ViewModels.Favorites.FavoritesViewModel>();
             services.AddTransient<Themis.DocumentManager.ViewModels.Navigation.IntelligentBreadcrumbViewModel>();
+            services.AddTransient<AuditLogViewerViewModel>();
 
             // Views - WICHTIG: MainWindow am Ende registrieren
+            services.AddTransient<DashboardPreviewView>();
+            services.AddTransient<DocumentBrowserSimpleView>();
+            services.AddTransient<TimelineSimpleView>();
+            services.AddTransient<FullDashboardSimpleView>();
             services.AddSingleton<MainWindow>();
         }
         catch (Exception ex)

@@ -6,27 +6,18 @@
   "homepage": "https://github.com/makr-code/VCC",
   "license": "MIT",
   "dependencies": [
-    { "name": "openssl" },
     { "name": "rocksdb", "features": ["lz4", "zstd"] },
     { "name": "simdjson" },
     { "name": "tbb" },
-    { "name": "arrow", "features": ["json", "filesystem"] },
     { "name": "hnswlib" },
     { "name": "boost-system" },
     { "name": "boost-asio" },
     { "name": "boost-beast" },
     { "name": "boost-optional" },
-    { "name": "boost-variant" },
-    { "name": "boost-algorithm" },
-    { "name": "boost-core" },
-    { "name": "boost-config" },
-    { "name": "boost-smart-ptr" },
-    { "name": "boost-geometry" },
     { "name": "fmt" },
     { "name": "spdlog" },
     { "name": "nlohmann-json" },
     { "name": "curl" },
-    { "name": "yaml-cpp" },
-    { "name": "zstd" }
+    { "name": "yaml-cpp" }
   ]
 }

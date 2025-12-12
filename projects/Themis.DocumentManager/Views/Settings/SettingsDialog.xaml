@@ -220,6 +220,75 @@
                         <ComboBoxItem Content="Deutsch" IsSelected="True"/>
                         <ComboBoxItem Content="English"/>
                     </ComboBox>
+
+                    <TextBlock Text="Tastatur-Shortcuts" 
+                              FontSize="16" 
+                              FontWeight="SemiBold"
+                              Margin="0,0,0,12"/>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Metadaten speichern" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" x:Name="ShortcutSaveMetadata" Text="Ctrl+S"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Metadaten neu laden" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="ShortcutReloadMetadata" Text="F5"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Finalisieren" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="ShortcutFinalizeMetadata" Text="Ctrl+F"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Einstellungen öffnen" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="3" Grid.Column="1" x:Name="ShortcutOpenSettings" Text="Ctrl+,"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Tab schließen" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" x:Name="ShortcutCloseTab" Text="Ctrl+W"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Tab duplizieren" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" x:Name="ShortcutDuplicateTab" Text="Ctrl+D"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Sidebar: Graph" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="6" Grid.Column="1" x:Name="ShortcutSidebarGraph" Text="Ctrl+Shift+G"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Sidebar: OSM-Map" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="7" Grid.Column="1" x:Name="ShortcutSidebarMap" Text="Ctrl+Shift+M"/>
+
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Tab in neuem Fenster" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="8" Grid.Column="1" x:Name="ShortcutOpenTabInNewWindow" Text="Ctrl+Shift+N"/>
+
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Favorit setzen" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="9" Grid.Column="1" x:Name="ShortcutFavoriteAdd" Text="Ctrl+Shift+F"/>
+
+                        <TextBlock Grid.Row="10" Grid.Column="0" Text="Favorit entfernen" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="10" Grid.Column="1" x:Name="ShortcutFavoriteRemove" Text="Ctrl+Shift+R"/>
+
+                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Alle außer aktuelle schließen" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="11" Grid.Column="1" x:Name="ShortcutCloseOthers" Text="Ctrl+Shift+K"/>
+
+                        <TextBlock Grid.Row="12" Grid.Column="0" Text="Tabs durchsuchen" VerticalAlignment="Center"/>
+                        <TextBox Grid.Row="12" Grid.Column="1" x:Name="ShortcutSearchTabs" Text="Ctrl+P"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Speichern" Width="120" Height="30" Margin="0,0,10,0" Click="SaveShortcuts_Click"/>
+                        <Button Content="Zurücksetzen" Width="120" Height="30" Click="ResetShortcuts_Click"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <!-- Performance Settings Panel -->

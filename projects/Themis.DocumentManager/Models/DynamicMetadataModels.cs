@@ -35,6 +35,7 @@ public class MetadataField
     public string? DefaultValue { get; set; }
     public string? CurrentValue { get; set; }
     public DateTime? LastUpdated { get; set; }
+    public List<string>? Options { get; set; }  // For Dropdown fields
 }
 
 /// <summary>

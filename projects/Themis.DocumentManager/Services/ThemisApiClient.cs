@@ -38,6 +38,22 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
         };
     }
 
+    /// <summary>
+    /// Prüft Health-Status der ThemisDB API
+    /// </summary>
+    public async Task<bool> CheckHealthAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync("/health", cancellationToken);
+            return response.IsSuccessStatusCode;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public async Task<T?> GetAsync<T>(string endpoint, CancellationToken cancellationToken = default)
     {
         try

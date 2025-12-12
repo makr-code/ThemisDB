@@ -38,7 +38,27 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource DocumentCardStyle}" Width="250" Height="200">
-                            <StackPanel>
+                            <!-- ContextMenu: Rechtsklick auf Dokument -->
+                            <Border.ContextMenu>
+                                <ContextMenu ItemsSource="{Binding DataContext.ContextMenuActions, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                             Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
+                                    <ContextMenu.ItemTemplate>
+                                        <DataTemplate>
+                                            <MenuItem Header="{Binding Label}" 
+                                                      IsEnabled="{Binding IsEnabled}"
+                                                      Click="MenuItem_Click"
+                                                      Tag="{Binding}">
+                                                <MenuItem.Icon>
+                                                    <TextBlock Text="{Binding Icon}" FontSize="14"/>
+                                                </MenuItem.Icon>
+                                            </MenuItem>
+                                        </DataTemplate>
+                                    </ContextMenu.ItemTemplate>
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            
+                            <!-- MouseRightButtonDown Event für Kontextmenü-Generierung -->
+                            <StackPanel x:Name="DocumentCard">
                                 <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
                                 <TextBlock Text="{Binding Filename}" FontSize="12" Opacity="0.7" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
                                 <TextBlock Text="{Binding CreatedAt, StringFormat='Created: {0:d}'}" FontSize="11" Opacity="0.6" Margin="0,8,0,0"/>

@@ -17,8 +17,8 @@
 
         <!-- Toolbar -->
         <Border Grid.Row="0" 
-                Background="#f5f5f5" 
-                BorderBrush="#e0e0e0" 
+                Background="#1e293b" 
+                BorderBrush="#334155" 
                 BorderThickness="0,0,0,1">
             <Grid Margin="16,12,16,12">
                 <Grid.ColumnDefinitions>
@@ -48,8 +48,8 @@
 
         <!-- Document Info Bar -->
         <Border Grid.Row="1" 
-                Background="#f9f9f9" 
-                BorderBrush="#e0e0e0" 
+                Background="#1e293b" 
+                BorderBrush="#334155" 
                 BorderThickness="0,0,0,1">
             <Grid Margin="16,8,16,8">
                 <Grid.ColumnDefinitions>
@@ -68,8 +68,8 @@
                 </StackPanel>
 
                 <!-- File Type -->
-                <Border Grid.Column="2" Margin="16,0,8,0" Background="#e3f2fd" CornerRadius="2">
-                    <TextBlock Text="{Binding FileType, StringFormat='Format: {0}'}" Padding="8,4" FontSize="10" Foreground="#1976d2"/>
+                <Border Grid.Column="2" Margin="16,0,8,0" Background="#334155" CornerRadius="2">
+                    <TextBlock Text="{Binding FileType, StringFormat='Format: {0}'}" Padding="8,4" FontSize="10" Foreground="#60a5fa"/>
                 </Border>
 
                 <!-- File Size -->
@@ -81,7 +81,7 @@
         </Border>
 
         <!-- Preview Area -->
-        <Border Grid.Row="2" Background="White" BorderBrush="#e0e0e0">
+        <Border Grid.Row="2" Background="#1e293b" BorderBrush="#334155">
             <Grid>
                 <!-- Loading Indicator -->
                 <Border Background="#00000080" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="8">

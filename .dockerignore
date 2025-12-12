@@ -4,7 +4,7 @@
 # Reduziert Build-Context von ~200k+ auf ~500 Dateien
 # Spart ~1-2 GB Upload-Zeit zum Docker-Daemon
 
-# --- Build Artifacts (nicht für Docker-Build nötig) ------------------------
+# --- Build Artifacts (nicht f??r Docker-Build n??tig) ------------------------
 build/
 !build/themis_server
 build-*/
@@ -20,12 +20,14 @@ CMakeCache.txt
 # --- vcpkg (wird im Docker neu gebaut - 163k+ Dateien!) --------------------
 vcpkg_installed/
 vcpkg/
+
+# Allow vcpkg/downloads for offline builds (~2GB source archives)
+!vcpkg/downloads/**
 .vcpkg/
 packages/
-downloads/
 buildtrees/
 
-# --- Development & Testing (nicht für Production) --------------------------
+# --- Development & Testing (nicht f??r Production) --------------------------
 tests/
 benchmarks/
 fuzz/
@@ -44,7 +46,7 @@ release/**/plugins/
 release/**/backups/
 release/**/temp/
 
-# --- Documentation (nicht für Runtime) ----------------------------------------
+# --- Documentation (nicht f??r Runtime) ----------------------------------------
 # docs/ - Some docs needed for packages (openapi, deployment guides)
 # Most markdown files excluded, but keep essentials
 *.md
@@ -80,7 +82,7 @@ docs/storage/
 docs/tools/
 docs/updates/
 
-# --- Developer Tools (nicht für Production) --------------------------------
+# --- Developer Tools (nicht f??r Production) --------------------------------
 # tools/ - plugin_signer and sign scripts needed
 tools/jaeger/
 tools/Themis.*/
@@ -97,7 +99,7 @@ tools/Themis.sln
 .idea/
 .vs/
 
-# --- Logs und temporäre Dateien --------------------------------------------
+# --- Logs und tempor??re Dateien --------------------------------------------
 logs/
 *.log
 *.pid
@@ -157,14 +159,14 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-# --- Packaging (nicht für Docker-Build) ------------------------------------
+# --- Packaging (nicht f??r Docker-Build) ------------------------------------
 packaging/
 debian/
 PKGBUILD
 *.spec
 
 # ============================================================================
-# Explizit einbeziehen (überschreibt obige Regeln)
+# Explizit einbeziehen (??berschreibt obige Regeln)
 # ============================================================================
 !CMakeLists.txt
 !vcpkg.json
@@ -173,5 +175,5 @@ PKGBUILD
 !docker-compose*.yml
 !setup.sh
 !build.sh
-
+!ports-overlays/**
 # --- Ende .dockerignore -----------------------------------------------------

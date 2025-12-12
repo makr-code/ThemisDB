@@ -17,6 +17,7 @@ public interface IThemisApiClient
     Task<bool> DeleteAsync(string endpoint, CancellationToken cancellationToken = default);
     Task<List<T>> ExecuteAqlAsync<T>(string query, object? bindVars = null, CancellationToken cancellationToken = default);
     void SetAuthToken(string? token);
+    Task<bool> CheckHealthAsync(CancellationToken cancellationToken = default);
 }
 
 /// <summary>

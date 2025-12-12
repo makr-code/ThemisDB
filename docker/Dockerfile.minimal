@@ -1,0 +1,48 @@
+# Multi-stage Docker build for ThemisDB - Minimal with Pre-built Binary
+# Stage 1: Builder (optional, for reference)
+# Stage 2: Runtime (main)
+
+FROM ubuntu:22.04 AS runtime
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install minimal runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy pre-built binary from local build
+COPY build-msvc/Release/themis_server /app/themis_server
+
+# Copy configuration
+COPY config/config.json /etc/themis/config.json
+RUN mkdir -p /etc/themis
+
+# Copy YAML and policy files if they exist
+RUN if [ -d config ] && [ "$(find config -name '*.yaml' 2>/dev/null | wc -l)" -gt 0 ]; then \
+      cp config/*.yaml /etc/themis/; \
+    fi
+
+RUN if [ -f config/policies.json ]; then \
+      cp config/policies.json /etc/themis/; \
+    fi
+
+# Create directories
+RUN mkdir -p /data /var/log/themis && \
+    chmod +x /app/themis_server && \
+    ldconfig && \
+    useradd -m -u 1000 themis 2>/dev/null || true && \
+    chown -R themis:themis /app /data /etc/themis /var/log/themis
+
+USER themis
+
+EXPOSE 8765 8766
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8765/metrics || exit 1
+
+CMD ["/app/themis_server"]

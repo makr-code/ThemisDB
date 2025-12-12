@@ -32,8 +32,12 @@ ENV VCPKG_ROOT=/opt/vcpkg
 # Required on non-amd64 platforms when building under emulation (ARM, s390x, ppc64le, riscv)
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_USE_ARIA2=1
-ENV VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/downloads,readwrite"
-ENV VCPKG_KEEP_ENV_VARS=HTTPS_PROXY,HTTP_PROXY,ALL_PROXY,NO_PROXY
+# Offline-first: use local caches for binaries and assets; allow opt-in online fetch
+ARG VCPKG_ENABLE_ONLINE=OFF
+ENV VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite;files,/opt/vcpkg/downloads,readwrite"
+ENV VCPKG_ASSET_SOURCES="clear;files,/opt/vcpkg/downloads,readwrite"
+ENV VCPKG_KEEP_ENV_VARS=HTTPS_PROXY,HTTP_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_ONLINE
+
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
     && cd ${VCPKG_ROOT} \
     && git checkout 2024.10.21 \
@@ -41,6 +45,10 @@ RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
     && ./vcpkg update \
     && VCPKG_BASELINE=$(git rev-parse HEAD) \
     && echo "Using vcpkg baseline: $VCPKG_BASELINE"
+
+# Pre-seed vcpkg downloads cache with source archives from local cache (OFFLINE build)
+# This contains all previously downloaded source packages (~2GB)
+COPY vcpkg/downloads/ ${VCPKG_ROOT}/downloads/
 
 # Set up environment
 ENV CC=/usr/bin/gcc
@@ -67,6 +75,10 @@ ENV VCPKG_DEFAULT_TRIPLET=${VCPKG_TRIPLET:-x64-linux}
 
 WORKDIR /src
 
+# Include local vcpkg overlay ports (used for xsimd patch prefetch avoidance)
+COPY ports-overlays ./ports-overlays
+ENV VCPKG_OVERLAY_PORTS=/src/ports-overlays
+
 # Copy vcpkg manifest files first (for better layer caching)
 # Use simplified vcpkg.docker.json for faster builds
 COPY vcpkg.docker.json ./vcpkg.json
@@ -88,15 +100,15 @@ ENV VCPKG_INSTALLED_DIR=/src/vcpkg_installed
 # Local binary cache directory for faster multi-arch builds
 RUN mkdir -p /root/.cache/vcpkg/archives && chmod -R 755 /root/.cache/vcpkg
 
+# All dependencies are pre-downloaded in downloads/ - NO NETWORK ACCESS NEEDED
 RUN . /etc/profile.d/vcpkg.sh && \
-    echo "Installing dependencies for ${VCPKG_TRIPLET} with local caching..." && \
+    echo "Installing dependencies for ${VCPKG_TRIPLET} (OFFLINE build from local cache)" && \
     set -eux; \
-    for i in 1 2 3; do \
-        ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} && break || (echo "vcpkg install failed (attempt $i), retrying..."; sleep 10); \
-    done || ( \
-        echo "vcpkg install failed after retries; dumping most recent logs"; \
-        RECENT_LOGS=$(find /opt/vcpkg/buildtrees -maxdepth 3 -type f -name "*.log" -printf '%T@ %p\n' 2>/dev/null | sort -nr | head -n 30 | cut -d' ' -f2-); \
-        for f in $RECENT_LOGS; do echo "===== $f ====="; tail -n 200 "$f" || true; done; \
+    export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"; \
+    export VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite;files,/opt/vcpkg/downloads,readwrite"; \
+    ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} 2>&1 | tee /tmp/vcpkg_install.log || ( \
+        echo "vcpkg install failed; tail of log:"; \
+        tail -n 100 /tmp/vcpkg_install.log; \
         exit 1 \
     )
 
@@ -114,6 +126,9 @@ ARG QNAP_BUILD=OFF
 RUN . /etc/profile.d/vcpkg.sh && \
     echo "=== Building for ${VCPKG_TRIPLET:-x64-linux} ===" && \
     cmake -S . -B build -G Ninja \
+        -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja \
+        -DCMAKE_C_COMPILER=/usr/bin/gcc \
+        -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=${VCPKG_TRIPLET} \

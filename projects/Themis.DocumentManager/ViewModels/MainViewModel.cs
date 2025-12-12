@@ -12,6 +12,8 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IDocumentService _documentService;
     private readonly ISearchService _searchService;
+    private readonly IOfficeIntegrationService _officeIntegrationService;
+    private readonly IThemeService _themeService;
 
     [ObservableProperty]
     private string _currentView = "DocumentBrowser";
@@ -31,13 +33,85 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(
         IDocumentService documentService,
         ISearchService searchService,
+        IOfficeIntegrationService officeIntegrationService,
+        IThemeService themeService,
         UserSwitcherViewModel userSwitcherViewModel,
         BreadcrumbViewModel breadcrumbViewModel)
     {
         _documentService = documentService;
         _searchService = searchService;
+        _officeIntegrationService = officeIntegrationService;
+        _themeService = themeService;
         UserSwitcherViewModel = userSwitcherViewModel;
         BreadcrumbViewModel = breadcrumbViewModel;
+    }
+    [RelayCommand]
+    private async Task NewAsync()
+    {
+        IsLoading = true;
+        try
+        {
+            // Create a new Word document via Office integration
+            var result = await _officeIntegrationService.CreateNewWordDocumentAsync();
+            if (result.Success)
+            {
+                NavigateToDocumentBrowser();
+            }
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    [RelayCommand]
+    private async Task OpenAsync()
+    {
+        try
+        {
+            // Prompt user to select a document to open
+            var ofd = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Office-Dateien|*.docx;*.xlsx;*.pptx|Alle Dateien|*.*",
+                Title = "Dokument öffnen"
+            };
+            var ok = ofd.ShowDialog() == true;
+            if (!ok) return;
+
+            var path = ofd.FileName;
+            if (string.IsNullOrWhiteSpace(path)) return;
+
+            // Open based on file extension
+            var ext = System.IO.Path.GetExtension(path).ToLowerInvariant();
+            if (ext == ".docx")
+            {
+                await _officeIntegrationService.OpenWordDocumentAsync(path);
+            }
+            else if (ext == ".xlsx")
+            {
+                await _officeIntegrationService.OpenExcelWorkbookAsync(path);
+            }
+            else if (ext == ".pptx")
+            {
+                await _officeIntegrationService.OpenPowerPointPresentationAsync(path);
+            }
+
+            NavigateToDocumentBrowser();
+        }
+        catch { }
+    }
+
+    [RelayCommand]
+    private async Task SaveAsync()
+    {
+        try
+        {
+            // Placeholder: saving is handled by Office apps; integrate revision save via service when context available
+            // For now, navigate to browser to reflect state
+            NavigateToDocumentBrowser();
+            await Task.CompletedTask;
+        }
+        catch { }
     }
 
     [RelayCommand]
@@ -116,7 +190,15 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void ToggleTheme()
     {
-        // Wird von MainWindow.xaml.cs gehandelt
+        // Cycle Light -> Dark -> System
+        var next = _themeService.CurrentTheme switch
+        {
+            ThemeService.ThemeMode.Light => ThemeService.ThemeMode.Dark,
+            ThemeService.ThemeMode.Dark => ThemeService.ThemeMode.System,
+            _ => ThemeService.ThemeMode.Light
+        };
+        _themeService.CurrentTheme = next;
+        _themeService.SaveThemeSetting();
     }
 
     #endregion

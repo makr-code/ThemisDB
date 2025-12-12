@@ -15,6 +15,7 @@
     <Description>Modern Document Management System with Geo, Timeline, Vector, and Graph Integration</Description>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <UseComReferenceWithoutTlbImp>true</UseComReferenceWithoutTlbImp>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,6 +36,11 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
     <PackageReference Include="ModernWpfUI" Version="0.9.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="YamlDotNet" Version="15.3.0" />
+    <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+    <PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
+    <PackageReference Include="SharpDX.D3DCompiler" Version="4.2.0" />
     <PackageReference Include="System.Linq.Async" Version="5.1.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
@@ -72,6 +78,9 @@
   <ItemGroup>
     <Compile Remove="Application\Classification\Handlers\ClassificationHandlers.cs" />
     <None Include="Application\Classification\Handlers\ClassificationHandlers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="media\" />
   </ItemGroup>
 
 </Project>

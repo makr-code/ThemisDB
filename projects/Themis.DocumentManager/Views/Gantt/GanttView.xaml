@@ -29,7 +29,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Content="➕ Neue Task" Command="{Binding AddTaskCommand}" Width="100" Height="30" Margin="0,0,12,0" Background="#2196f3" Foreground="White" FontSize="12"/>
+                <Button Grid.Column="0" Content="➕ Neue Task" Command="{Binding AddTaskCommand}" Width="100" Height="30" Margin="0,0,12,0" Background="#3b82f6" Foreground="White" FontSize="12"/>
                 <TextBlock Grid.Column="1" Text="von:" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <TextBox Grid.Column="2" Text="{Binding StartDate, StringFormat='dd.MM.yyyy'}" Width="100" Height="28" Margin="0,0,12,0"/>
                 <TextBlock Grid.Column="3" Text="bis:" VerticalAlignment="Center" Margin="0,0,8,0"/>
@@ -45,7 +45,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Task List (Left) -->
-            <Border Grid.Column="0" Background="White" BorderBrush="#e0e0e0" BorderThickness="0,0,1,0">
+            <Border Grid.Column="0" Background="#1e293b" BorderBrush="#334155" BorderThickness="0,0,1,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -53,7 +53,7 @@
                     </Grid.RowDefinitions>
 
                     <!-- Header -->
-                    <Border Grid.Row="0" Background="#f5f5f5" BorderBrush="#e0e0e0" BorderThickness="0,0,0,1">
+                    <Border Grid.Row="0" Background="#1e293b" BorderBrush="#334155" BorderThickness="0,0,0,1">
                         <Grid Margin="12,8,12,8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -71,7 +71,7 @@
                         <ItemsControl ItemsSource="{Binding Tasks}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="#e0e0e0" BorderThickness="0,0,0,1">
+                                    <Border BorderBrush="#334155" BorderThickness="0,0,0,1">
                                         <Grid Margin="12,8,12,8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -97,7 +97,7 @@
             </Border>
 
             <!-- Timeline (Right) -->
-            <Border Grid.Column="1" Background="White" BorderBrush="#e0e0e0">
+            <Border Grid.Column="1" Background="#1e293b" BorderBrush="#334155">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="16">
                         <TextBlock Text="📊 Gantt-Chart Timeline" Foreground="#333" FontSize="14" FontWeight="Bold" Margin="0,0,0,12"/>
@@ -106,7 +106,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,8,0,0">
-                                        <Border BorderBrush="#e0e0e0" BorderThickness="1" CornerRadius="4" Background="#f9f9f9">
+                                        <Border BorderBrush="#334155" BorderThickness="1" CornerRadius="4" Background="#1e293b">
                                             <Grid Margin="12">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="120"/>

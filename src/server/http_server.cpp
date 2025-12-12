@@ -98,6 +98,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 
 #include "security/signing.h"
 #include "utils/input_validator.h"
+#include "sharding/metrics_registry.h"
 
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -1238,7 +1239,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleCapabilities(req);
             break;
         case Route::Metrics:
-            // Prefer the comprehensive metrics exporter (includes vccdb_* metrics).
+            // Prefer the comprehensive metrics exporter (includes themis_* metrics).
             // Historically there was an older/smaller `handleMetrics` implementation
             // which only emitted content-related metrics. Use the more complete
             // `handleMetricsJson` handler here so `/metrics` exposes the full set
@@ -2892,43 +2893,43 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         out += "# TYPE process_uptime_seconds gauge\n";
         out += "process_uptime_seconds " + std::to_string(uptime_seconds) + "\n";
 
-        out += "# HELP vccdb_requests_total Total HTTP requests handled\n";
-        out += "# TYPE vccdb_requests_total counter\n";
-        out += "vccdb_requests_total " + std::to_string(total_requests) + "\n";
+        out += "# HELP themis_requests_total Total HTTP requests handled\n";
+        out += "# TYPE themis_requests_total counter\n";
+        out += "themis_requests_total " + std::to_string(total_requests) + "\n";
 
-        out += "# HELP vccdb_errors_total Total HTTP errors returned\n";
-        out += "# TYPE vccdb_errors_total counter\n";
-        out += "vccdb_errors_total " + std::to_string(total_errors) + "\n";
+        out += "# HELP themis_errors_total Total HTTP errors returned\n";
+        out += "# TYPE themis_errors_total counter\n";
+        out += "themis_errors_total " + std::to_string(total_errors) + "\n";
 
-    out += "# HELP vccdb_qps Queries per second (approx)\n";
-        out += "# TYPE vccdb_qps gauge\n";
-        out += "vccdb_qps " + std::to_string(qps) + "\n";
+    out += "# HELP themis_qps Queries per second (approx)\n";
+        out += "# TYPE themis_qps gauge\n";
+        out += "themis_qps " + std::to_string(qps) + "\n";
         // Auth metrics (if enabled)
         if (auth_ && auth_->isEnabled()) {
             const auto& m = auth_->getMetrics();
-            out += "# HELP vccdb_authz_success_total Successful authorizations\n";
-            out += "# TYPE vccdb_authz_success_total counter\n";
-            out += "vccdb_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
-            out += "# HELP vccdb_authz_denied_total Denied authorizations (forbidden)\n";
-            out += "# TYPE vccdb_authz_denied_total counter\n";
-            out += "vccdb_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
-            out += "# HELP vccdb_authz_invalid_token_total Invalid or missing tokens\n";
-            out += "# TYPE vccdb_authz_invalid_token_total counter\n";
-            out += "vccdb_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
+            out += "# HELP themis_authz_success_total Successful authorizations\n";
+            out += "# TYPE themis_authz_success_total counter\n";
+            out += "themis_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
+            out += "# HELP themis_authz_denied_total Denied authorizations (forbidden)\n";
+            out += "# TYPE themis_authz_denied_total counter\n";
+            out += "themis_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
+            out += "# HELP themis_authz_invalid_token_total Invalid or missing tokens\n";
+            out += "# TYPE themis_authz_invalid_token_total counter\n";
+            out += "themis_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
         }
 
         // Policy Engine metrics (if enabled)
         if (policy_engine_) {
             const auto& pm = policy_engine_->getMetrics();
-            out += "# HELP vccdb_policy_eval_total Total policy evaluations\n";
-            out += "# TYPE vccdb_policy_eval_total counter\n";
-            out += "vccdb_policy_eval_total " + std::to_string(pm.policy_eval_total.load()) + "\n";
-            out += "# HELP vccdb_policy_allow_total Allow decisions by policy engine\n";
-            out += "# TYPE vccdb_policy_allow_total counter\n";
-            out += "vccdb_policy_allow_total " + std::to_string(pm.policy_allow_total.load()) + "\n";
-            out += "# HELP vccdb_policy_deny_total Deny decisions by policy engine\n";
-            out += "# TYPE vccdb_policy_deny_total counter\n";
-            out += "vccdb_policy_deny_total " + std::to_string(pm.policy_deny_total.load()) + "\n";
+            out += "# HELP themis_policy_eval_total Total policy evaluations\n";
+            out += "# TYPE themis_policy_eval_total counter\n";
+            out += "themis_policy_eval_total " + std::to_string(pm.policy_eval_total.load()) + "\n";
+            out += "# HELP themis_policy_allow_total Allow decisions by policy engine\n";
+            out += "# TYPE themis_policy_allow_total counter\n";
+            out += "themis_policy_allow_total " + std::to_string(pm.policy_allow_total.load()) + "\n";
+            out += "# HELP themis_policy_deny_total Deny decisions by policy engine\n";
+            out += "# TYPE themis_policy_deny_total counter\n";
+            out += "themis_policy_deny_total " + std::to_string(pm.policy_deny_total.load()) + "\n";
         }
 
         out += "# HELP rocksdb_block_cache_usage_bytes RocksDB block cache usage in bytes\n";
@@ -2986,17 +2987,17 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
             auto emit = [&](const char* name, uint64_t value){ out += std::string(name) + " " + std::to_string(value) + "\n"; };
 
             const char* names[] = {
-                "vccdb_latency_bucket_microseconds{le=\"100\"}",
-                "vccdb_latency_bucket_microseconds{le=\"500\"}",
-                "vccdb_latency_bucket_microseconds{le=\"1000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"5000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"10000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"50000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"100000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"500000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"1000000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"5000000\"}",
-                "vccdb_latency_bucket_microseconds{le=\"+Inf\"}"
+                "themis_latency_bucket_microseconds{le=\"100\"}",
+                "themis_latency_bucket_microseconds{le=\"500\"}",
+                "themis_latency_bucket_microseconds{le=\"1000\"}",
+                "themis_latency_bucket_microseconds{le=\"5000\"}",
+                "themis_latency_bucket_microseconds{le=\"10000\"}",
+                "themis_latency_bucket_microseconds{le=\"50000\"}",
+                "themis_latency_bucket_microseconds{le=\"100000\"}",
+                "themis_latency_bucket_microseconds{le=\"500000\"}",
+                "themis_latency_bucket_microseconds{le=\"1000000\"}",
+                "themis_latency_bucket_microseconds{le=\"5000000\"}",
+                "themis_latency_bucket_microseconds{le=\"+Inf\"}"
             };
 
             for (size_t i = 0; i < raw.size(); ++i) {
@@ -3014,12 +3015,12 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         // Sum + count for histogram
         uint64_t total_latency_us = latency_sum_us_.load(std::memory_order_relaxed);
         uint64_t total_count = latency_bucket_inf_.load(std::memory_order_relaxed);
-        out += "# HELP vccdb_latency_sum_microseconds Total request latency in microseconds\n";
-        out += "# TYPE vccdb_latency_sum_microseconds counter\n";
-        out += "vccdb_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
-        out += "# HELP vccdb_latency_count Total recorded requests for latency histogram\n";
-        out += "# TYPE vccdb_latency_count counter\n";
-        out += "vccdb_latency_count " + std::to_string(total_count) + "\n";
+        out += "# HELP themis_latency_sum_microseconds Total request latency in microseconds\n";
+        out += "# TYPE themis_latency_sum_microseconds counter\n";
+        out += "themis_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
+        out += "# HELP themis_latency_count Total recorded requests for latency histogram\n";
+        out += "# TYPE themis_latency_count counter\n";
+        out += "themis_latency_count " + std::to_string(total_count) + "\n";
 
     // Index rebuild metrics
         auto& rebuild_metrics = secondary_index_->getRebuildMetrics();
@@ -3027,32 +3028,32 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         uint64_t rebuild_duration_ms = rebuild_metrics.rebuild_duration_ms.load(std::memory_order_relaxed);
         uint64_t rebuild_entities = rebuild_metrics.rebuild_entities_processed.load(std::memory_order_relaxed);
         
-        out += "# HELP vccdb_index_rebuilds_total Total number of index rebuilds performed\n";
-        out += "# TYPE vccdb_index_rebuilds_total counter\n";
-        out += "vccdb_index_rebuilds_total " + std::to_string(rebuild_count) + "\n";
+        out += "# HELP themis_index_rebuilds_total Total number of index rebuilds performed\n";
+        out += "# TYPE themis_index_rebuilds_total counter\n";
+        out += "themis_index_rebuilds_total " + std::to_string(rebuild_count) + "\n";
         
-        out += "# HELP vccdb_index_rebuild_duration_milliseconds_total Total duration of all index rebuilds in milliseconds\n";
-        out += "# TYPE vccdb_index_rebuild_duration_milliseconds_total counter\n";
-        out += "vccdb_index_rebuild_duration_milliseconds_total " + std::to_string(rebuild_duration_ms) + "\n";
+        out += "# HELP themis_index_rebuild_duration_milliseconds_total Total duration of all index rebuilds in milliseconds\n";
+        out += "# TYPE themis_index_rebuild_duration_milliseconds_total counter\n";
+        out += "themis_index_rebuild_duration_milliseconds_total " + std::to_string(rebuild_duration_ms) + "\n";
         
-        out += "# HELP vccdb_index_rebuild_entities_total Total number of entities processed during index rebuilds\n";
-        out += "# TYPE vccdb_index_rebuild_entities_total counter\n";
-        out += "vccdb_index_rebuild_entities_total " + std::to_string(rebuild_entities) + "\n";
+        out += "# HELP themis_index_rebuild_entities_total Total number of entities processed during index rebuilds\n";
+        out += "# TYPE themis_index_rebuild_entities_total counter\n";
+        out += "themis_index_rebuild_entities_total " + std::to_string(rebuild_entities) + "\n";
 
     // Query metrics from SecondaryIndexManager
     auto& qmetrics = secondary_index_->getQueryMetrics();
     uint64_t cursor_anchor_hits = qmetrics.cursor_anchor_hits_total.load(std::memory_order_relaxed);
     uint64_t range_scan_steps = qmetrics.range_scan_steps_total.load(std::memory_order_relaxed);
-    out += "# HELP vccdb_cursor_anchor_hits_total Total number of cursor anchor usages in ORDER BY pagination\n";
-    out += "# TYPE vccdb_cursor_anchor_hits_total counter\n";
-    out += "vccdb_cursor_anchor_hits_total " + std::to_string(cursor_anchor_hits) + "\n";
-    out += "# HELP vccdb_range_scan_steps_total Total index scan steps performed during range scans\n";
-    out += "# TYPE vccdb_range_scan_steps_total counter\n";
-    out += "vccdb_range_scan_steps_total " + std::to_string(range_scan_steps) + "\n";
+    out += "# HELP themis_cursor_anchor_hits_total Total number of cursor anchor usages in ORDER BY pagination\n";
+    out += "# TYPE themis_cursor_anchor_hits_total counter\n";
+    out += "themis_cursor_anchor_hits_total " + std::to_string(cursor_anchor_hits) + "\n";
+    out += "# HELP themis_range_scan_steps_total Total index scan steps performed during range scans\n";
+    out += "# TYPE themis_range_scan_steps_total counter\n";
+    out += "themis_range_scan_steps_total " + std::to_string(range_scan_steps) + "\n";
 
     // Page fetch time histogram (ms) for cursor pagination
-    out += "# HELP vccdb_page_fetch_time_ms_bucket Cursor page fetch time histogram buckets (ms)\n";
-    out += "# TYPE vccdb_page_fetch_time_ms_bucket histogram\n";
+    out += "# HELP themis_page_fetch_time_ms_bucket Cursor page fetch time histogram buckets (ms)\n";
+    out += "# TYPE themis_page_fetch_time_ms_bucket histogram\n";
     {
         std::vector<uint64_t> raw = {
             page_bucket_1ms_.load(std::memory_order_relaxed),
@@ -3071,29 +3072,29 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         for (size_t i = 1; i < raw.size(); ++i) if (raw[i] < raw[i-1]) { non_decreasing = false; break; }
         uint64_t running = 0;
         const char* names[] = {
-            "vccdb_page_fetch_time_ms_bucket{le=\"1\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"5\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"10\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"25\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"50\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"100\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"250\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"500\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"1000\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"5000\"}",
-            "vccdb_page_fetch_time_ms_bucket{le=\"+Inf\"}"
+            "themis_page_fetch_time_ms_bucket{le=\"1\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"5\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"10\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"25\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"50\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"100\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"250\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"500\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"1000\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"5000\"}",
+            "themis_page_fetch_time_ms_bucket{le=\"+Inf\"}"
         };
         for (size_t i = 0; i < raw.size(); ++i) {
             if (non_decreasing) running = raw[i]; else running += raw[i];
             out += std::string(names[i]) + " " + std::to_string(running) + "\n";
         }
     }
-    out += "# HELP vccdb_page_fetch_time_ms_sum Total cursor page fetch time in milliseconds\n";
-    out += "# TYPE vccdb_page_fetch_time_ms_sum counter\n";
-    out += "vccdb_page_fetch_time_ms_sum " + std::to_string(page_sum_ms_.load(std::memory_order_relaxed)) + "\n";
-    out += "# HELP vccdb_page_fetch_time_ms_count Total number of cursor pages fetched\n";
-    out += "# TYPE vccdb_page_fetch_time_ms_count counter\n";
-    out += "vccdb_page_fetch_time_ms_count " + std::to_string(page_count_.load(std::memory_order_relaxed)) + "\n";
+    out += "# HELP themis_page_fetch_time_ms_sum Total cursor page fetch time in milliseconds\n";
+    out += "# TYPE themis_page_fetch_time_ms_sum counter\n";
+    out += "themis_page_fetch_time_ms_sum " + std::to_string(page_sum_ms_.load(std::memory_order_relaxed)) + "\n";
+    out += "# HELP themis_page_fetch_time_ms_count Total number of cursor pages fetched\n";
+    out += "# TYPE themis_page_fetch_time_ms_count counter\n";
+    out += "themis_page_fetch_time_ms_count " + std::to_string(page_count_.load(std::memory_order_relaxed)) + "\n";
 
         // Vector Index metrics
         if (vector_index_) {
@@ -3101,71 +3102,71 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
             int dimension = vector_index_->getDimension();
             bool hnsw_enabled = vector_index_->isHnswEnabled();
             
-            out += "# HELP vccdb_vector_index_vectors_total Total number of vectors in the index\n";
-            out += "# TYPE vccdb_vector_index_vectors_total gauge\n";
-            out += "vccdb_vector_index_vectors_total " + std::to_string(vector_count) + "\n";
+            out += "# HELP themis_vector_index_vectors_total Total number of vectors in the index\n";
+            out += "# TYPE themis_vector_index_vectors_total gauge\n";
+            out += "themis_vector_index_vectors_total " + std::to_string(vector_count) + "\n";
             
-            out += "# HELP vccdb_vector_index_dimension Dimension of vectors in the index\n";
-            out += "# TYPE vccdb_vector_index_dimension gauge\n";
-            out += "vccdb_vector_index_dimension " + std::to_string(dimension) + "\n";
+            out += "# HELP themis_vector_index_dimension Dimension of vectors in the index\n";
+            out += "# TYPE themis_vector_index_dimension gauge\n";
+            out += "themis_vector_index_dimension " + std::to_string(dimension) + "\n";
             
-            out += "# HELP vccdb_vector_index_hnsw_enabled HNSW index enabled (1=yes, 0=no)\n";
-            out += "# TYPE vccdb_vector_index_hnsw_enabled gauge\n";
-            out += "vccdb_vector_index_hnsw_enabled " + std::to_string(hnsw_enabled ? 1 : 0) + "\n";
+            out += "# HELP themis_vector_index_hnsw_enabled HNSW index enabled (1=yes, 0=no)\n";
+            out += "# TYPE themis_vector_index_hnsw_enabled gauge\n";
+            out += "themis_vector_index_hnsw_enabled " + std::to_string(hnsw_enabled ? 1 : 0) + "\n";
             
             if (hnsw_enabled) {
-                out += "# HELP vccdb_vector_index_ef_search Current efSearch parameter for HNSW\n";
-                out += "# TYPE vccdb_vector_index_ef_search gauge\n";
-                out += "vccdb_vector_index_ef_search " + std::to_string(vector_index_->getEfSearch()) + "\n";
+                out += "# HELP themis_vector_index_ef_search Current efSearch parameter for HNSW\n";
+                out += "# TYPE themis_vector_index_ef_search gauge\n";
+                out += "themis_vector_index_ef_search " + std::to_string(vector_index_->getEfSearch()) + "\n";
                 
-                out += "# HELP vccdb_vector_index_m HNSW M parameter (neighbors per layer)\n";
-                out += "# TYPE vccdb_vector_index_m gauge\n";
-                out += "vccdb_vector_index_m " + std::to_string(vector_index_->getM()) + "\n";
+                out += "# HELP themis_vector_index_m HNSW M parameter (neighbors per layer)\n";
+                out += "# TYPE themis_vector_index_m gauge\n";
+                out += "themis_vector_index_m " + std::to_string(vector_index_->getM()) + "\n";
             }
         }
 
         // SSE/Changefeed streaming metrics
         if (sse_manager_) {
             auto sstats = sse_manager_->getStats();
-            out += "# HELP vccdb_sse_active_connections Number of active SSE connections\n";
-            out += "# TYPE vccdb_sse_active_connections gauge\n";
-            out += "vccdb_sse_active_connections " + std::to_string(sstats.active_connections) + "\n";
+            out += "# HELP themis_sse_active_connections Number of active SSE connections\n";
+            out += "# TYPE themis_sse_active_connections gauge\n";
+            out += "themis_sse_active_connections " + std::to_string(sstats.active_connections) + "\n";
 
-            out += "# HELP vccdb_sse_events_sent_total Total SSE events sent\n";
-            out += "# TYPE vccdb_sse_events_sent_total counter\n";
-            out += "vccdb_sse_events_sent_total " + std::to_string(sstats.total_events_sent) + "\n";
+            out += "# HELP themis_sse_events_sent_total Total SSE events sent\n";
+            out += "# TYPE themis_sse_events_sent_total counter\n";
+            out += "themis_sse_events_sent_total " + std::to_string(sstats.total_events_sent) + "\n";
 
-            out += "# HELP vccdb_sse_heartbeats_total Total SSE heartbeats sent\n";
-            out += "# TYPE vccdb_sse_heartbeats_total counter\n";
-            out += "vccdb_sse_heartbeats_total " + std::to_string(sstats.total_heartbeats_sent) + "\n";
+            out += "# HELP themis_sse_heartbeats_total Total SSE heartbeats sent\n";
+            out += "# TYPE themis_sse_heartbeats_total counter\n";
+            out += "themis_sse_heartbeats_total " + std::to_string(sstats.total_heartbeats_sent) + "\n";
 
-            out += "# HELP vccdb_sse_dropped_events_total Total buffered SSE events dropped due to backpressure\n";
-            out += "# TYPE vccdb_sse_dropped_events_total counter\n";
-            out += "vccdb_sse_dropped_events_total " + std::to_string(sstats.total_dropped_events) + "\n";
+            out += "# HELP themis_sse_dropped_events_total Total buffered SSE events dropped due to backpressure\n";
+            out += "# TYPE themis_sse_dropped_events_total counter\n";
+            out += "themis_sse_dropped_events_total " + std::to_string(sstats.total_dropped_events) + "\n";
         }
         
         // Rate Limiter metrics
         if (rate_limiter_) {
             auto rl_stats = rate_limiter_->getStatistics();
-            out += "# HELP vccdb_rate_limit_requests_total Total requests processed by rate limiter\n";
-            out += "# TYPE vccdb_rate_limit_requests_total counter\n";
-            out += "vccdb_rate_limit_requests_total " + std::to_string(rl_stats.total_requests) + "\n";
+            out += "# HELP themis_rate_limit_requests_total Total requests processed by rate limiter\n";
+            out += "# TYPE themis_rate_limit_requests_total counter\n";
+            out += "themis_rate_limit_requests_total " + std::to_string(rl_stats.total_requests) + "\n";
             
-            out += "# HELP vccdb_rate_limit_allowed_total Requests allowed by rate limiter\n";
-            out += "# TYPE vccdb_rate_limit_allowed_total counter\n";
-            out += "vccdb_rate_limit_allowed_total " + std::to_string(rl_stats.allowed_requests) + "\n";
+            out += "# HELP themis_rate_limit_allowed_total Requests allowed by rate limiter\n";
+            out += "# TYPE themis_rate_limit_allowed_total counter\n";
+            out += "themis_rate_limit_allowed_total " + std::to_string(rl_stats.allowed_requests) + "\n";
             
-            out += "# HELP vccdb_rate_limit_rejected_total Requests rejected by rate limiter (429)\n";
-            out += "# TYPE vccdb_rate_limit_rejected_total counter\n";
-            out += "vccdb_rate_limit_rejected_total " + std::to_string(rl_stats.rejected_requests) + "\n";
+            out += "# HELP themis_rate_limit_rejected_total Requests rejected by rate limiter (429)\n";
+            out += "# TYPE themis_rate_limit_rejected_total counter\n";
+            out += "themis_rate_limit_rejected_total " + std::to_string(rl_stats.rejected_requests) + "\n";
             
-            out += "# HELP vccdb_rate_limit_active_ip_buckets Active IP rate limit buckets\n";
-            out += "# TYPE vccdb_rate_limit_active_ip_buckets gauge\n";
-            out += "vccdb_rate_limit_active_ip_buckets " + std::to_string(rl_stats.active_ip_buckets) + "\n";
+            out += "# HELP themis_rate_limit_active_ip_buckets Active IP rate limit buckets\n";
+            out += "# TYPE themis_rate_limit_active_ip_buckets gauge\n";
+            out += "themis_rate_limit_active_ip_buckets " + std::to_string(rl_stats.active_ip_buckets) + "\n";
             
-            out += "# HELP vccdb_rate_limit_active_user_buckets Active user rate limit buckets\n";
-            out += "# TYPE vccdb_rate_limit_active_user_buckets gauge\n";
-            out += "vccdb_rate_limit_active_user_buckets " + std::to_string(rl_stats.active_user_buckets) + "\n";
+            out += "# HELP themis_rate_limit_active_user_buckets Active user rate limit buckets\n";
+            out += "# TYPE themis_rate_limit_active_user_buckets gauge\n";
+            out += "themis_rate_limit_active_user_buckets " + std::to_string(rl_stats.active_user_buckets) + "\n";
         }
 
         // ========== Sharding Metrics (Phase 6) ==========
@@ -3173,6 +3174,11 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         // Sharding components can register metrics which will be exposed here
         // This allows the /metrics endpoint to include sharding statistics
         // without modifying the HttpServer constructor
+        auto sharding_metrics = themis::sharding::ShardingMetricsRegistry::instance().getMetricsString();
+        if (!sharding_metrics.empty()) {
+            out += "\n# Sharding Metrics\n";
+            out += sharding_metrics;
+        }
         
         // Build plain text response with proper content-type
         http::response<http::string_body> res{http::status::ok, req.version()};
