@@ -14,22 +14,26 @@
 
 The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Database System Based on LSM Tree
 
-## 🆕 Latest Release: v1.0.1 (December 2025)
+## 🆕 Latest Release: v1.0.2 (December 2025)
 
-**Release Focus:** Enterprise-Grade Release Management & Competitive Benchmarking
+**Release Focus:** Critical Bugfix Release - HTTP API Routing
 
+- 🐛 **Critical Fix:** `/entities/batch` endpoint now working correctly (Issue #427)
+- ✅ **Route Classification Fix** - Prioritized exact matches over prefix patterns
+- ✅ **MSVC Build Fix** - Resolved type ambiguity in tracing module
+- ✅ **Multi-Arch Validation** - Docker images verified for amd64/arm64
+
+**Previous Release (v1.0.1):** Enterprise-Grade Release Management & Competitive Benchmarking
 - ✅ **SLSA Level 1 Compliance** - Supply Chain Security achieved
-- ✅ **SBOM (CycloneDX 1.4)** - Full Software Bill of Materials for all 11 release packages
-- ✅ **Automated Release Pipeline** - Enterprise-grade release automation with GitHub Actions
-- ✅ **Competitive Benchmarking** - Comprehensive framework comparing against PostgreSQL, MySQL, MariaDB, CockroachDB, TiDB, SingleStore
-- ✅ **Performance Gap Analysis** - 36 identified gaps with automated closure tracking
-- 📊 **87% Gap Closure Target** - Systematic performance optimization roadmap
+- ✅ **SBOM (CycloneDX 1.4)** - Full Software Bill of Materials
+- ✅ **Competitive Benchmarking** - Framework comparing against PostgreSQL, MySQL, MariaDB, CockroachDB, TiDB, SingleStore
 
 **Key Documentation:**
-- **[Changelog v1.0.1](CHANGELOG.md#101---2025-12-09)** - Complete release notes
-- **[Release Strategy Audit](RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
-- **[Benchmarking Guide](benchmarks/DOCKER_COMPARATIVE_BENCHMARKS_README.md)** - Complete benchmark infrastructure
-- **[Release & Benchmarking Summary](RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
+- **[Changelog v1.0.2](CHANGELOG.md#102---2025-12-11)** - Latest bugfix release notes
+- **[Changelog v1.0.1](CHANGELOG.md#101---2025-12-09)** - Enterprise release management
+- **[Release Strategy Audit](docs/archive/RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
+- **[Benchmarking Guide](benchmarks/README.md)** - Complete benchmark infrastructure
+- **[Release & Benchmarking Summary](docs/archive/RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
 
 ## 📊 Entwicklungsstand & Dokumentation
 
@@ -1260,7 +1264,7 @@ ThemisDB provides dedicated builds for QNAP NAS systems:
 - **Image**: `themisdb/themisdb:qnap` (Ubuntu 20.04 based)
 - **Compatibility**: GLIBC 2.31 for older QNAP models
 - **Default Port**: 18765 (avoids QNAP service conflicts)
-- **Quick Start**: See [QNAP_QUICKSTART.md](QNAP_QUICKSTART.md)
+- **Quick Start**: See [QNAP Quick Start Guide](docs/archive/QNAP_QUICKSTART.md)
 - **Full Guide**: See [docs/deployment/deployment_qnap.md](docs/deployment/deployment_qnap.md)
 
 Docker automatically pulls the correct image for your platform.
