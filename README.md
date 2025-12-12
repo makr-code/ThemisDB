@@ -27,9 +27,9 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 
 **Key Documentation:**
 - **[Changelog v1.0.1](CHANGELOG.md#101---2025-12-09)** - Complete release notes
-- **[Release Strategy Audit](RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
-- **[Benchmarking Guide](benchmarks/DOCKER_COMPARATIVE_BENCHMARKS_README.md)** - Complete benchmark infrastructure
-- **[Release & Benchmarking Summary](RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
+- **[Release Strategy Audit](docs/archive/RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
+- **[Benchmarking Guide](benchmarks/README.md)** - Complete benchmark infrastructure
+- **[Release & Benchmarking Summary](docs/archive/RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
 
 ## 📊 Entwicklungsstand & Dokumentation
 
@@ -1260,7 +1260,7 @@ ThemisDB provides dedicated builds for QNAP NAS systems:
 - **Image**: `themisdb/themisdb:qnap` (Ubuntu 20.04 based)
 - **Compatibility**: GLIBC 2.31 for older QNAP models
 - **Default Port**: 18765 (avoids QNAP service conflicts)
-- **Quick Start**: See [QNAP_QUICKSTART.md](QNAP_QUICKSTART.md)
+- **Quick Start**: See [QNAP Quick Start Guide](docs/archive/QNAP_QUICKSTART.md)
 - **Full Guide**: See [docs/deployment/deployment_qnap.md](docs/deployment/deployment_qnap.md)
 
 Docker automatically pulls the correct image for your platform.
