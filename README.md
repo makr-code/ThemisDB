@@ -16,17 +16,25 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 
 ## 🆕 Latest Release: v1.0.1 (December 2025)
 
-**Release Focus:** Enterprise-Grade Release Management & Competitive Benchmarking
+**Release Focus:** Enterprise-Grade Release Management & Docker Deployment
 
 - ✅ **SLSA Level 1 Compliance** - Supply Chain Security achieved
 - ✅ **SBOM (CycloneDX 1.4)** - Full Software Bill of Materials for all 11 release packages
 - ✅ **Automated Release Pipeline** - Enterprise-grade release automation with GitHub Actions
 - ✅ **Competitive Benchmarking** - Comprehensive framework comparing against PostgreSQL, MySQL, MariaDB, CockroachDB, TiDB, SingleStore
-- ✅ **Performance Gap Analysis** - 36 identified gaps with automated closure tracking
+- ✅ **Docker Hub Publishing** - Multi-arch images (amd64 + arm64) published and ready to pull
+- ✅ **Docker Deployment Documentation** - Complete guide for running ThemisDB in containers
 - 📊 **87% Gap Closure Target** - Systematic performance optimization roadmap
 
+**Docker Quick Start:**
+```bash
+docker pull themisdb/themisdb:latest
+docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb:latest
+```
+
 **Key Documentation:**
-- **[Changelog v1.0.1](CHANGELOG.md#101---2025-12-09)** - Complete release notes
+- **[Changelog v1.0.2](CHANGELOG.md#102---2025-12-14)** - Docker deployment and release notes
+- **[Docker Deployment Guide](DOCKER_DEPLOYMENT.md)** - Pull, configuration, Docker Compose
 - **[Release Strategy Audit](docs/archive/RELEASE_STRATEGY_AUDIT.md)** - Best-practice audit (8.5/10 rating)
 - **[Benchmarking Guide](benchmarks/README.md)** - Complete benchmark infrastructure
 - **[Release & Benchmarking Summary](docs/archive/RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - Full session report
@@ -47,6 +55,10 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - ✅ **CEP Streaming Analytics** - Complex Event Processing mit EPL
 - ✅ **OLAP Analytics** - CUBE, ROLLUP, Window Functions
 - ✅ **7 Client SDKs** - Python, JavaScript, Rust, Go, Java, C#, Swift (Feature-Parität)
+
+**Für Deployment & Operations:**
+- **[🐳 Docker Deployment Guide](DOCKER_DEPLOYMENT.md)** - Pull from Docker Hub, configuration, compose examples, troubleshooting
+- **[Deployment Strategy](docs/deployment/deployment_strategy.md)** - Build platforms, cache architecture, distribution channels
 
 **Enterprise Features:**
 - **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool

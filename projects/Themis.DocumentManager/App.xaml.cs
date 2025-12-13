@@ -399,6 +399,8 @@ public partial class App : System.Windows.Application
             services.AddTransient<TimelineViewModel>();
             services.AddTransient<GraphViewModel>();
             services.AddTransient<DocumentCollaborationViewModel>();
+            services.AddTransient<MetadataFormViewModel>();
+            services.AddTransient<ProcessLinkingDialogViewModel>();
             services.AddTransient<TaskBasketViewModel>();
             services.AddTransient<TestDataGeneratorViewModel>();
             services.AddTransient<AIChatViewModel>(sp =>
@@ -422,6 +424,8 @@ public partial class App : System.Windows.Application
             services.AddTransient<DashboardPreviewView>();
             services.AddTransient<DocumentBrowserSimpleView>();
             services.AddTransient<TimelineSimpleView>();
+            services.AddTransient<TimelineViewImproved>();
+            services.AddTransient<GanttView>();
             services.AddTransient<FullDashboardSimpleView>();
             services.AddSingleton<MainWindow>();
         }

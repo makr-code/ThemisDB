@@ -3,8 +3,10 @@
 #include "exporter_interface.h"
 #include "plugins/plugin_interface.h"
 #include <map>
+#include <memory>
 
-namespace themis::exporters {
+namespace themis {
+namespace exporters {
 
 /// JSONL format for LLM fine-tuning (LoRA/QLoRA)
 /// Exports BaseEntity data as weighted training samples
@@ -180,30 +182,35 @@ private:
 };
 
 /// Plugin wrapper for JSONL LLM Exporter
-class JSONLLLMExporterPlugin : public IThemisPlugin {
+#ifdef THEMIS_ENABLE_JSONL_PLUGIN
+using ::themis::plugins::IThemisPlugin;
+using ::themis::plugins::PluginCapabilities;
+using ::themis::plugins::PluginType;
+
+class JSONLLLMExporterPlugin : public ::themis::plugins::IThemisPlugin {
 public:
-    explicit JSONLLLMExporterPlugin(const JSONLLLMConfig& config = {})
-        : exporter_(std::make_unique<JSONLLLMExporter>(config)) {}
-    
+    JSONLLLMExporterPlugin() = default;
+
     const char* getName() const override { return "jsonl_llm_exporter"; }
     const char* getVersion() const override { return "1.0.0"; }
-    PluginType getType() const override { return PluginType::EXPORTER; }
-    
-    bool initialize(const std::string& config_path) override {
-        // TODO: Parse config from JSON file
+    ::themis::plugins::PluginType getType() const override { return ::themis::plugins::PluginType::EXPORTER; }
+    ::themis::plugins::PluginCapabilities getCapabilities() const override { return {}; }
+
+    bool initialize(const char* config_json) override {
+        (void)config_json;
+        exporter_ = std::make_unique<JSONLLLMExporter>();
         return true;
     }
-    
-    void shutdown() override {
-        exporter_.reset();
-    }
-    
-    void* getInstance() override {
-        return static_cast<IExporter*>(exporter_.get());
-    }
-    
+
+    void shutdown() override { exporter_.reset(); }
+
+    void* getInstance() override { return static_cast<IExporter*>(exporter_.get()); }
+
 private:
     std::unique_ptr<JSONLLLMExporter> exporter_;
 };
+#endif // THEMIS_ENABLE_JSONL_PLUGIN
 
-} // namespace themis::exporters
+
+} // namespace exporters
+} // namespace themis

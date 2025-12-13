@@ -1,0 +1,483 @@
+# ThemisDB Docker Deployment Guide
+
+**Version:** 1.0.1  
+**Last Updated:** 14. Dezember 2025  
+**Status:** Production-Ready
+
+## Quick Start
+
+### Pull & Run (Docker Hub)
+
+```bash
+# Latest version
+docker pull themisdb/themisdb:latest
+docker run -d \
+  --name themis \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+
+# Specific version (v1.0.1)
+docker pull themisdb/themisdb:v1.0.1
+docker run -d \
+  --name themis \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -v themis_data:/data \
+  themisdb/themisdb:v1.0.1
+```
+
+### Verify Running
+
+```bash
+# Check container status
+docker ps | grep themis
+
+# Health check
+curl http://localhost:18765/health
+# Expected: 200 OK with JSON response
+
+# View logs
+docker logs -f themis
+```
+
+---
+
+## Docker Images
+
+### Available Tags
+
+| Tag | Architecture | Status | Use Case |
+|-----|--------------|--------|----------|
+| `latest` | amd64 + arm64 | ✅ Production | Recommended for most users |
+| `v1.0.1` | amd64 + arm64 | ✅ Production | Stable release (December 2025) |
+| `v1.0` | amd64 + arm64 | ✅ Production | Minor version track |
+| `v1` | amd64 + arm64 | ✅ Production | Major version track |
+
+### Image Specs
+
+**Registry:** `docker.io/themisdb/themisdb`
+
+**Multi-Architecture Support:**
+- `linux/amd64` - Intel/AMD x64 processors
+- `linux/arm64` - ARM v8 processors (RPi, Apple Silicon, AWS Graviton, etc.)
+
+**Image Size:** ~150MB (compressed)
+
+**Build Configuration:**
+```dockerfile
+FROM ubuntu:22.04
+VCPKG_ENABLE_ONLINE=OFF          # No internet access during build
+VCPKG_TRIPLET=x64-linux          # For amd64
+VCPKG_TRIPLET=arm64-linux        # For arm64
+```
+
+---
+
+## Configuration
+
+### Environment Variables
+
+```bash
+docker run -e THEMIS_CONFIG_PATH=/etc/themis/config.json \
+           -e THEMIS_PORT=18765 \
+           -e LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib \
+           themisdb/themisdb:latest
+```
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `THEMIS_CONFIG_PATH` | `/etc/themis/config.json` | Configuration file path |
+| `THEMIS_PORT` | `18765` | Internal port (mapped via -p) |
+| `LD_LIBRARY_PATH` | `/usr/local/lib/themisdb:/usr/local/lib` | Runtime library path |
+
+### Custom Config
+
+```bash
+# Mount custom config
+docker run -d \
+  -v /path/to/config.json:/etc/themis/config.json:ro \
+  themisdb/themisdb:latest
+```
+
+---
+
+## Volumes
+
+### Data Persistence
+
+```bash
+# Named volume (recommended)
+docker volume create themis_data
+docker run -d \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+
+# Bind mount (for development)
+docker run -d \
+  -v /local/data/path:/data \
+  themisdb/themisdb:latest
+```
+
+### Directories in Container
+
+| Path | Purpose | Persistence |
+|------|---------|-------------|
+| `/data` | Database storage | ✅ Volume |
+| `/etc/themis` | Configuration | ✅ Config mount |
+| `/var/log/themis` | Application logs | ✅ Volume |
+
+---
+
+## Networking
+
+### Port Mapping
+
+```bash
+docker run -d \
+  -p 8080:8080 \                # REST API (HTTP)
+  -p 18765:18765 \              # Internal protocol
+  themisdb/themisdb:latest
+```
+
+| Port | Protocol | Purpose | Default |
+|------|----------|---------|---------|
+| `8080` | HTTP | REST API, Web UI | Required |
+| `18765` | Custom | Binary protocol | Required |
+
+### Network Modes
+
+```bash
+# Host network (performance, less isolation)
+docker run --network host themisdb/themisdb:latest
+
+# Bridge network (default, recommended)
+docker run --network bridge themisdb/themisdb:latest
+
+# Custom network
+docker network create themis_net
+docker run --network themis_net themisdb/themisdb:latest
+```
+
+---
+
+## Docker Compose
+
+### Basic Setup
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  themis:
+    image: themisdb/themisdb:latest
+    container_name: themis
+    ports:
+      - "8080:8080"
+      - "18765:18765"
+    volumes:
+      - themis_data:/data
+      - ./config/config.json:/etc/themis/config.json:ro
+    environment:
+      THEMIS_PORT: 18765
+      THEMIS_CONFIG_PATH: /etc/themis/config.json
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:18765/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  themis_data:
+    driver: local
+```
+
+**Start:**
+```bash
+docker-compose up -d
+docker-compose logs -f
+```
+
+### Multi-Service Stack
+
+```yaml
+version: '3.8'
+
+services:
+  themis:
+    image: themisdb/themisdb:latest
+    ports:
+      - "8080:8080"
+      - "18765:18765"
+    volumes:
+      - themis_data:/data
+    networks:
+      - themis_net
+
+  # Optional: monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - themis_net
+
+networks:
+  themis_net:
+    driver: bridge
+
+volumes:
+  themis_data:
+```
+
+---
+
+## Production Deployment
+
+### Resource Allocation
+
+```bash
+docker run -d \
+  --cpus="4" \                          # 4 CPU cores
+  --memory="8g" \                       # 8GB RAM
+  --memory-swap="10g" \                 # 10GB with swap
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+```
+
+### Restart Policies
+
+```bash
+# Always restart
+docker run --restart=always themisdb/themisdb:latest
+
+# Restart unless manually stopped
+docker run --restart=unless-stopped themisdb/themisdb:latest
+
+# Restart with max retry count
+docker run --restart=on-failure:5 themisdb/themisdb:latest
+```
+
+### Logging
+
+```bash
+# JSON file driver (max size limit)
+docker run -d \
+  --log-driver json-file \
+  --log-opt max-size=10m \
+  --log-opt max-file=3 \
+  themisdb/themisdb:latest
+
+# Syslog driver
+docker run -d \
+  --log-driver syslog \
+  --log-opt syslog-address=udp://localhost:514 \
+  themisdb/themisdb:latest
+
+# View logs
+docker logs --tail 100 --follow themis
+```
+
+---
+
+## Platform-Specific Deployment
+
+### Linux (x64)
+
+```bash
+# Ubuntu 22.04+
+docker run -d \
+  --platform linux/amd64 \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+
+# Debian
+apt-get install docker.io
+docker pull themisdb/themisdb:latest
+```
+
+### ARM/Raspberry Pi
+
+```bash
+# Auto-detects ARM64
+docker pull themisdb/themisdb:latest
+
+# Explicit pull
+docker pull --platform linux/arm64 themisdb/themisdb:latest
+
+# Run
+docker run -d \
+  --platform linux/arm64 \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+```
+
+### macOS (Apple Silicon/Intel)
+
+```bash
+# Auto-selects correct architecture
+docker pull themisdb/themisdb:latest
+
+# Explicitly specify
+docker pull --platform linux/arm64 themisdb/themisdb:latest  # M-series
+docker pull --platform linux/amd64 themisdb/themisdb:latest  # Intel
+```
+
+### Windows (Docker Desktop)
+
+```powershell
+# Pull image
+docker pull themisdb/themisdb:latest
+
+# Run
+docker run -d `
+  -p 8080:8080 `
+  -p 18765:18765 `
+  -v themis_data:C:\data `
+  themisdb/themisdb:latest
+
+# View logs
+docker logs -f themis
+```
+
+---
+
+## Troubleshooting
+
+### Container Fails to Start
+
+```bash
+# Check logs
+docker logs themis
+
+# Common issues:
+# 1. Port already in use
+docker ps  # Find conflicting container
+docker stop <container_id>
+
+# 2. Insufficient disk space
+docker system df  # Check usage
+
+# 3. Broken config
+docker exec themis cat /etc/themis/config.json
+```
+
+### Performance Issues
+
+```bash
+# Monitor container stats
+docker stats themis
+
+# Check resource limits
+docker inspect themis | grep -i memory
+
+# Increase memory allocation
+docker update --memory 16g themis
+docker restart themis
+```
+
+### Network Connectivity
+
+```bash
+# Test from host
+curl http://localhost:8080/api/health
+
+# Test from within container
+docker exec themis curl http://localhost:18765/health
+
+# Check port binding
+docker port themis
+```
+
+### Library Path Issues
+
+```bash
+# Verify libraries are loaded
+docker exec themis ldd /usr/local/bin/themis_server
+
+# Check library path
+docker exec themis echo $LD_LIBRARY_PATH
+
+# Rebuild with updated lib path if needed
+docker pull themisdb/themisdb:latest --force
+```
+
+---
+
+## Build Your Own Image (Advanced)
+
+### Build from Source
+
+```bash
+# Clone repo
+git clone https://github.com/makr-code/ThemisDB.git
+cd ThemisDB
+
+# Build multi-arch (requires buildx setup)
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t themis:custom:latest .
+
+# Build single-arch
+docker build \
+  -f Dockerfile \
+  -t themis:custom:latest .
+```
+
+### Build Arguments
+
+```dockerfile
+# Customize build
+docker build \
+  --build-arg VCPKG_ENABLE_ONLINE=OFF \
+  --build-arg THEMIS_VERSION=1.0.1 \
+  -t themis:custom .
+```
+
+---
+
+## Best Practices
+
+✅ **DO:**
+- Use named volumes for data persistence
+- Set resource limits (CPU, memory)
+- Use health checks
+- Enable restart policies
+- Log to syslog or json-file with rotation
+- Use specific version tags (not just `latest`)
+- Run as non-root (built-in)
+- Mount config as read-only
+
+❌ **DON'T:**
+- Run containers with `--privileged`
+- Use `latest` tag in production (use specific versions)
+- Store secrets in environment variables
+- Ignore health check failures
+- Disable restart policies
+- Map unnecessary ports
+
+---
+
+## Support & Issues
+
+**Docker Hub:** https://hub.docker.com/r/themisdb/themisdb
+
+**GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
+
+**Deployment Strategy:** [Full Deployment Strategy](docs/deployment/deployment_strategy.md)
+
+---
+
+## Related Documentation
+
+- [README.md](README.md) - Main documentation
+- [CHANGELOG.md](CHANGELOG.md) - Release notes
+- [BUILD_ORGANIZATION.md](BUILD_ORGANIZATION.md) - Build system
+- [Dockerfile](Dockerfile) - Build definition

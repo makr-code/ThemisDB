@@ -404,11 +404,11 @@ void PostgreSQLImporterPlugin::shutdown() {
 // ============================================================================
 
 extern "C" {
-    THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
+    themis::plugins::IThemisPlugin* createPlugin() {
         return new themis::importers::PostgreSQLImporterPlugin();
     }
     
-    THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
+    void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
         delete plugin;
     }
 }

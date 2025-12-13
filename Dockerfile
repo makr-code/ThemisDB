@@ -224,7 +224,8 @@ RUN mkdir -p /data /var/log/themis && \
 
 ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
 ENV THEMIS_PORT=18765
-ENV LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib:${LD_LIBRARY_PATH}
+# Ensure runtime libraries are discoverable without relying on pre-set LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib
 
 VOLUME ["/data"]
 EXPOSE 8080 18765

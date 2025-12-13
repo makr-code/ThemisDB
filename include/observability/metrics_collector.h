@@ -11,6 +11,8 @@
 namespace themis {
 namespace observability {
 
+class LatencyTracker;
+
 /**
  * Central metrics collector for ThemisDB observability.
  * 
@@ -73,6 +75,7 @@ private:
     MetricsCollector() = default;
     ~MetricsCollector() = default;
     
+    friend class LatencyTracker;
     mutable std::mutex mutex_;
     
     // Counters (monotonically increasing)

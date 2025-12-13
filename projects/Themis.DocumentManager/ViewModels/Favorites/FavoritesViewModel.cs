@@ -42,7 +42,7 @@ public partial class FavoritesViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task LoadFavoritesAsync()
+    public async Task LoadFavoritesAsync()
     {
         IsLoading = true;
         try

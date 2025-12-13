@@ -63,10 +63,6 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         exporters::ExportOptions export_options;
         export_options.output_path = output_path;
         
-        if (request_json.contains("batch_size")) {
-            export_options.batch_size = request_json["batch_size"];
-        }
-
         // TODO: Query database using AQL query
         // For now, return placeholder response indicating implementation is ready
         std::vector<BaseEntity> entities;  // Would be populated from query
@@ -101,7 +97,7 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         res.prepare_payload();
         
         THEMIS_INFO("JSONL LLM Export completed: export_id={}, records={}", 
-                    export_id, stats.successful_records);
+                    export_id, stats.exported_entities);
         
         return res;
 

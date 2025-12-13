@@ -5,6 +5,72 @@ All notable changes to ThemisDB will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-12-14
+
+🐳 **Docker Deployment Release**
+
+### Added
+
+#### Docker Hub Publishing
+- **Multi-Architecture Images Published to Docker Hub**
+  - Tags: `themisdb/themisdb:v1.0.1` and `latest`
+  - Platforms: `linux/amd64` + `linux/arm64` (multi-manifest support)
+  - Build Command: `docker buildx build --platform linux/amd64,linux/arm64 --push`
+  - Build Time: ~3.8 hours (full compilation for both architectures)
+  - Image Size: ~150MB compressed
+  - Registry: `docker.io/themisdb/themisdb`
+
+- **Docker Deployment Documentation** - `DOCKER_DEPLOYMENT.md`
+  - Quick start guide with `docker pull` and `docker run`
+  - Configuration reference (environment variables, ports)
+  - Volume management and data persistence
+  - Docker Compose examples (single and multi-service)
+  - Production deployment best practices
+  - Platform-specific instructions (Linux, ARM, macOS, Windows)
+  - Troubleshooting guide
+  - Resource allocation and logging strategies
+
+#### Build System Enhancements
+- **Buildx Configuration Optimization**
+  - Switched to `themis-multiarch` builder (docker-container driver)
+  - Supports both amd64 and arm64 platform compilation
+  - Automatic platform detection and selection by Docker pull
+
+### Configuration Updates
+
+#### Dockerfile
+- Fixed `LD_LIBRARY_PATH` undefined variable warning
+- Updated to explicit runtime path: `/usr/local/lib/themisdb:/usr/local/lib`
+- Clean build with zero warnings or errors
+
+### Testing
+
+✅ **Docker Validation:**
+- Single-arch build (amd64) verified clean
+- Multi-arch build (amd64 + arm64) successful
+- Push to Docker Hub confirmed (manifest list created)
+- Image pull and `docker run` tested on host machine
+- Health check endpoint verified: `curl http://localhost:8080/health`
+
+### Migration Guide
+
+**For users pulling from Docker Hub:**
+
+```bash
+# Previous: Manual build
+docker build -t themis:local .
+
+# Current: Official image from Docker Hub
+docker pull themisdb/themisdb:v1.0.1
+docker pull themisdb/themisdb:latest  # Auto-selects amd64 or arm64
+```
+
+**Architecture auto-selection:**
+- Intel/AMD systems → `linux/amd64`
+- ARM systems (RPi, Apple Silicon, AWS Graviton) → `linux/arm64`
+
+---
+
 ## [1.0.2] - 2025-12-11
 
 🐛 **Critical Bugfix Release**

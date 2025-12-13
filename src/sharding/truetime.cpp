@@ -295,15 +295,21 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         ).count();
         
         // Send request
-        if (sendto(sockfd, &packet, sizeof(packet), 0,
-                   (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+        if (sendto(sockfd, reinterpret_cast<const char*>(&packet), static_cast<int>(sizeof(packet)), 0,
+                   reinterpret_cast<struct sockaddr*>(&serv_addr), sizeof(serv_addr)) < 0) {
             return false;
         }
         
         // Receive response
+#ifdef _WIN32
+        int len = sizeof(serv_addr);
+        int n = recvfrom(sockfd, reinterpret_cast<char*>(&packet), static_cast<int>(sizeof(packet)), 0,
+                         reinterpret_cast<struct sockaddr*>(&serv_addr), &len);
+#else
         socklen_t len = sizeof(serv_addr);
         ssize_t n = recvfrom(sockfd, &packet, sizeof(packet), 0,
-                            (struct sockaddr*)&serv_addr, &len);
+                             reinterpret_cast<struct sockaddr*>(&serv_addr), &len);
+#endif
         
         // Record T4 (client receive time)
         auto t4 = std::chrono::system_clock::now();
@@ -313,9 +319,15 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         
         // Socket will be automatically closed by SocketGuard destructor
         
-        if (n < (ssize_t)sizeof(packet)) {
+#ifdef _WIN32
+        if (n < static_cast<int>(sizeof(packet))) {
             return false;
         }
+#else
+        if (n < static_cast<ssize_t>(sizeof(packet))) {
+            return false;
+        }
+#endif
         
         // Extract T2 (server receive time) and T3 (server transmit time)
         // NTP timestamps are in seconds since 1900-01-01, with 32-bit fraction
