@@ -33,7 +33,7 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 
 ### Weitere Ressourcen
 - **[sharding_scaling_todo.md](sharding_scaling_todo.md)** - Vollständige Audit-Dokumentation und TODO-Liste
-- **[sharding_redundancy.md](sharding_redundancy.md)** - RAID-ähnliche Redundanz-Modi
+- **[sharding_redundancy.md](sharding_redundancy.md)** - RAID-ähnliche Redundanz-Modi + **Cross-Shard Graph/Hybrid Search** mit Hub-Shard Knoten
 - **[sharding_streaming.md](sharding_streaming.md)** - Cassandra-inspired Streaming Protocol
 
 ## Features
