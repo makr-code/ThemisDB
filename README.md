@@ -49,7 +49,10 @@ The ThemisDB Architecture: A Technical In-Depth Analysis of a Multi-Model Databa
 - ✅ **7 Client SDKs** - Python, JavaScript, Rust, Go, Java, C#, Swift (Feature-Parität)
 
 **Enterprise Features:**
-- **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool
+- **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Modular DLL architecture, feature matrix
+- **[Enterprise Build Guide](docs/enterprise/ENTERPRISE_BUILD_GUIDE.md)** - Building and deploying enterprise modules
+- **[Edition Comparison](docs/enterprise/EDITION_COMPARISON.md)** - Community vs Professional vs Enterprise
+- **[Feature Analysis](docs/enterprise/ENTERPRISE_FEATURE_ANALYSIS.md)** - Complete enterprise strategy
 - **[Build Strategy](docs/guides/guides_build_strategy.md)** - Build-Toolchain inkl. Enterprise Builds
 - **[Integration Analysis](docs/reports/INTEGRATION_ANALYSIS.md)** - Koexistenz mit Legacy-Code
 
