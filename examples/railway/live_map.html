@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Railway Monitoring - Live Map</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .stats {
+            display: flex;
+            gap: 30px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #bdc3c7;
+        }
+        
+        /* Layer Control */
+        .layer-control {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 999;
+        }
+        .layer-control h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        .layer-control label {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        
+        /* Train Marker Styles */
+        .train-marker {
+            background: #e74c3c;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+        }
+        .train-marker.ice {
+            background: #e74c3c;
+        }
+        .train-marker.ic {
+            background: #f39c12;
+        }
+        .train-marker.re {
+            background: #3498db;
+        }
+        .train-marker.rb {
+            background: #2ecc71;
+        }
+        
+        /* Popup Styles */
+        .train-popup {
+            min-width: 200px;
+        }
+        .train-popup h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        .train-popup table {
+            width: 100%;
+            font-size: 12px;
+        }
+        .train-popup td {
+            padding: 3px 5px;
+        }
+        .train-popup .label {
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+        .delay-warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .delay-ok {
+            color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚂 Railway Monitoring - Live Tracking</h1>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="stat-trains">0</div>
+                <div class="stat-label">Active Trains</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-delays">0</div>
+                <div class="stat-label">Delays > 5min</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-avg-delay">0.0</div>
+                <div class="stat-label">Avg Delay (min)</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="stat-updates">0</div>
+                <div class="stat-label">Updates</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="layer-control">
+        <h3>Layers</h3>
+        <label><input type="checkbox" id="layer-trains" checked> Trains</label>
+        <label><input type="checkbox" id="layer-stations" checked> Stations</label>
+        <label><input type="checkbox" id="layer-tracks"> Track Segments</label>
+        <label><input type="checkbox" id="layer-signals"> Signals</label>
+        <label><input type="checkbox" id="layer-switches"> Switches</label>
+    </div>
+    
+    <div id="map"></div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Initialize map centered on Germany
+        const map = L.map('map').setView([51.1657, 10.4515], 6);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(map);
+        
+        // Layer groups
+        const layers = {
+            trains: L.layerGroup().addTo(map),
+            stations: L.layerGroup().addTo(map),
+            tracks: L.layerGroup(),
+            signals: L.layerGroup(),
+            switches: L.layerGroup()
+        };
+        
+        // Layer control handlers
+        document.getElementById('layer-trains').addEventListener('change', (e) => {
+            if (e.target.checked) map.addLayer(layers.trains);
+            else map.removeLayer(layers.trains);
+        });
+        document.getElementById('layer-stations').addEventListener('change', (e) => {
+            if (e.target.checked) map.addLayer(layers.stations);
+            else map.removeLayer(layers.stations);
+        });
+        document.getElementById('layer-tracks').addEventListener('change', (e) => {
+            if (e.target.checked) map.addLayer(layers.tracks);
+            else map.removeLayer(layers.tracks);
+        });
+        document.getElementById('layer-signals').addEventListener('change', (e) => {
+            if (e.target.checked) map.addLayer(layers.signals);
+            else map.removeLayer(layers.signals);
+        });
+        document.getElementById('layer-switches').addEventListener('change', (e) => {
+            if (e.target.checked) map.addLayer(layers.switches);
+            else map.removeLayer(layers.switches);
+        });
+        
+        // Train markers storage
+        const trainMarkers = new Map();
+        
+        // Statistics
+        let stats = {
+            trains: 0,
+            delays: 0,
+            avgDelay: 0.0,
+            updates: 0
+        };
+        
+        // Configuration
+        const THEMIS_URL = 'http://localhost:8765';
+        const UPDATE_INTERVAL = 1000; // 1 second
+        
+        // Load static infrastructure
+        async function loadInfrastructure() {
+            try {
+                // Load stations
+                const stations = await fetchFromThemis('/query', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        table: 'station',
+                        return: 'entities',
+                        limit: 100
+                    })
+                });
+                
+                if (stations && stations.entities) {
+                    stations.entities.forEach(stationJson => {
+                        const station = JSON.parse(stationJson);
+                        const marker = L.circleMarker(
+                            [station.location.lat, station.location.lon],
+                            {
+                                radius: 6,
+                                fillColor: '#3498db',
+                                color: '#2c3e50',
+                                weight: 2,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            }
+                        );
+                        
+                        marker.bindPopup(`
+                            <div class="train-popup">
+                                <h4>${station.name}</h4>
+                                <table>
+                                    <tr><td class="label">EVA:</td><td>${station.eva_number}</td></tr>
+                                    <tr><td class="label">Tracks:</td><td>${station.tracks}</td></tr>
+                                    <tr><td class="label">Category:</td><td>${station.category}</td></tr>
+                                </table>
+                            </div>
+                        `);
+                        
+                        layers.stations.addLayer(marker);
+                    });
+                }
+                
+                console.log('Infrastructure loaded');
+            } catch (error) {
+                console.error('Error loading infrastructure:', error);
+            }
+        }
+        
+        // Fetch from ThemisDB
+        async function fetchFromThemis(endpoint, options = {}) {
+            const url = THEMIS_URL + endpoint;
+            const response = await fetch(url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                },
+                ...options
+            });
+            return response.json();
+        }
+        
+        // Update train positions
+        async function updateTrains() {
+            try {
+                // In real implementation: Query ThemisDB for latest train telemetry
+                // For now: Simulate data
+                
+                // Simulate some trains
+                const simulatedTrains = generateSimulatedTrains();
+                
+                simulatedTrains.forEach(train => {
+                    updateTrainMarker(train);
+                });
+                
+                // Update statistics
+                stats.trains = simulatedTrains.length;
+                stats.delays = simulatedTrains.filter(t => t.delay_min > 5).length;
+                stats.avgDelay = simulatedTrains.reduce((sum, t) => sum + t.delay_min, 0) / simulatedTrains.length;
+                stats.updates++;
+                
+                updateStatsDisplay();
+                
+            } catch (error) {
+                console.error('Error updating trains:', error);
+            }
+        }
+        
+        // Update or create train marker
+        function updateTrainMarker(train) {
+            let marker = trainMarkers.get(train.train_number);
+            
+            if (!marker) {
+                // Create new marker
+                const iconHtml = `<div class="train-marker ${train.category.toLowerCase()}"></div>`;
+                const icon = L.divIcon({
+                    html: iconHtml,
+                    className: '',
+                    iconSize: [12, 12],
+                    iconAnchor: [6, 6]
+                });
+                
+                marker = L.marker([train.lat, train.lon], { icon });
+                trainMarkers.set(train.train_number, marker);
+                layers.trains.addLayer(marker);
+            } else {
+                // Update position
+                marker.setLatLng([train.lat, train.lon]);
+            }
+            
+            // Update popup
+            const delayClass = train.delay_min > 5 ? 'delay-warning' : 'delay-ok';
+            const delayText = train.delay_min > 0 ? `+${train.delay_min} min` : `${train.delay_min} min`;
+            
+            marker.bindPopup(`
+                <div class="train-popup">
+                    <h4>${train.train_number}</h4>
+                    <table>
+                        <tr><td class="label">Category:</td><td>${train.category}</td></tr>
+                        <tr><td class="label">Speed:</td><td>${train.speed_kmh.toFixed(1)} km/h</td></tr>
+                        <tr><td class="label">Delay:</td><td class="${delayClass}">${delayText}</td></tr>
+                        <tr><td class="label">Occupancy:</td><td>${train.occupancy_percent.toFixed(1)}%</td></tr>
+                        <tr><td class="label">Route:</td><td>${train.origin} → ${train.destination}</td></tr>
+                    </table>
+                </div>
+            `);
+        }
+        
+        // Generate simulated trains (replace with real ThemisDB query)
+        function generateSimulatedTrains() {
+            const trains = [];
+            const categories = ['ICE', 'IC', 'RE', 'RB'];
+            const numTrains = 20;
+            
+            for (let i = 0; i < numTrains; i++) {
+                trains.push({
+                    train_number: `${categories[i % 4]}${1000 + i}`,
+                    category: categories[i % 4],
+                    lat: 51.1657 + (Math.random() - 0.5) * 4,
+                    lon: 10.4515 + (Math.random() - 0.5) * 8,
+                    speed_kmh: 120 + Math.random() * 80,
+                    delay_min: Math.random() > 0.8 ? Math.floor(Math.random() * 20) : Math.floor(Math.random() * 3),
+                    occupancy_percent: 30 + Math.random() * 60,
+                    origin: 'München Hbf',
+                    destination: 'Hamburg Hbf'
+                });
+            }
+            
+            return trains;
+        }
+        
+        // Update statistics display
+        function updateStatsDisplay() {
+            document.getElementById('stat-trains').textContent = stats.trains;
+            document.getElementById('stat-delays').textContent = stats.delays;
+            document.getElementById('stat-avg-delay').textContent = stats.avgDelay.toFixed(1);
+            document.getElementById('stat-updates').textContent = stats.updates;
+        }
+        
+        // Initialize
+        console.log('Railway Monitoring - Live Map Initialized');
+        loadInfrastructure();
+        updateTrains();
+        
+        // Start live updates
+        setInterval(updateTrains, UPDATE_INTERVAL);
+    </script>
+</body>
+</html>
