@@ -4,8 +4,18 @@
 #include "enterprise/plugin_loader.h"
 #include <fstream>
 #include <sstream>
+#include <algorithm>
+#include <iomanip>
 #include <spdlog/spdlog.h>
+#include <spdlog/fmt/ranges.h>
 #include <nlohmann/json.hpp>
+
+// Platform-specific headers
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <dlfcn.h>
+#endif
 
 using json = nlohmann::json;
 
@@ -29,8 +39,19 @@ bool EnterprisePluginLoader::loadLicense(const std::filesystem::path& license_pa
     
     license_info_ = std::move(*license_opt);
     spdlog::info("License loaded successfully for organization: {}", license_info_.organization);
-    spdlog::info("License expires: {}", 
-        std::chrono::system_clock::to_time_t(license_info_.expiry_date));
+    
+    // Format expiry date in human-readable format
+    auto expiry_time = std::chrono::system_clock::to_time_t(license_info_.expiry_date);
+    std::tm expiry_tm = {};
+#ifdef _WIN32
+    localtime_s(&expiry_tm, &expiry_time);
+#else
+    localtime_r(&expiry_time, &expiry_tm);
+#endif
+    std::ostringstream expiry_str;
+    expiry_str << std::put_time(&expiry_tm, "%Y-%m-%d %H:%M:%S");
+    
+    spdlog::info("License expires: {}", expiry_str.str());
     spdlog::info("Enabled modules: {}", fmt::join(license_info_.enabled_modules, ", "));
     
     return true;
@@ -289,18 +310,26 @@ std::optional<LicenseInfo> EnterprisePluginLoader::validateLicenseFile(
         info.organization = license_json.value("organization", "");
         info.edition = license_json.value("edition", "");
         
-        // Parse dates (ISO 8601 format)
+        // Parse dates (ISO 8601 format: YYYY-MM-DD)
         std::string issued_str = license_json.value("issued_date", "");
         std::string expiry_str = license_json.value("expiry_date", "");
         
-        // Simple date parsing (YYYY-MM-DD format)
-        // In production, use a proper date parsing library
         std::tm issued_tm = {};
         std::tm expiry_tm = {};
         std::istringstream issued_ss(issued_str);
         std::istringstream expiry_ss(expiry_str);
+        
         issued_ss >> std::get_time(&issued_tm, "%Y-%m-%d");
+        if (issued_ss.fail()) {
+            spdlog::error("Failed to parse issued_date: {}", issued_str);
+            return std::nullopt;
+        }
+        
         expiry_ss >> std::get_time(&expiry_tm, "%Y-%m-%d");
+        if (expiry_ss.fail()) {
+            spdlog::error("Failed to parse expiry_date: {}", expiry_str);
+            return std::nullopt;
+        }
         
         info.issued_date = std::chrono::system_clock::from_time_t(std::mktime(&issued_tm));
         info.expiry_date = std::chrono::system_clock::from_time_t(std::mktime(&expiry_tm));
@@ -328,11 +357,24 @@ std::optional<LicenseInfo> EnterprisePluginLoader::validateLicenseFile(
         }
         
         // TODO: Verify RSA signature
+        // SECURITY WARNING: This is a stub implementation.
+        // Production use requires RSA signature verification.
+        // Example implementation:
+        // 1. Load public key from embedded certificate
+        // 2. Hash license fields (organization, dates, modules, limits)
+        // 3. Verify signature using RSA-SHA256
+        // 4. Return nullopt if signature verification fails
+        //
         // For now, we just check if required fields are present
         if (info.license_key.empty() || info.organization.empty() || 
             info.enabled_modules.empty()) {
             spdlog::error("Invalid license file: missing required fields");
             return std::nullopt;
+        }
+        
+        // Check for signature field (should be present even if not verified yet)
+        if (!license_json.contains("signature")) {
+            spdlog::warn("License file missing signature field - using development mode");
         }
         
         info.is_valid = true;

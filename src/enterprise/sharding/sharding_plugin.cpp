@@ -81,6 +81,8 @@ public:
             
         } catch (const std::exception& e) {
             spdlog::error("Sharding plugin initialization failed: {}", e.what());
+            // Note: Using string literal for error_message to ensure it persists
+            // beyond function scope. If changed to local string, must use static.
             result.error_message = "Initialization failed";
             result.error_code = 1;
         }
