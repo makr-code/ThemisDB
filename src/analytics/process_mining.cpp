@@ -380,7 +380,145 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog& log, const Mining
     }
     
     // Add gateways for parallel activities
-    // TODO: Implement proper AND gateway detection
+    // Detect AND gateways by finding activities with multiple outgoing or incoming edges
+    std::map<std::string, std::vector<std::string>> outgoing; // activity -> list of following activities
+    std::map<std::string, std::vector<std::string>> incoming; // activity -> list of preceding activities
+    
+    // Build adjacency lists
+    for (const auto& edge : process.edges) {
+        std::string fromName, toName;
+        for (const auto& node : process.nodes) {
+            if (node.id == edge.from) fromName = node.name;
+            if (node.id == edge.to) toName = node.name;
+        }
+        if (!fromName.empty() && !toName.empty() && fromName != "Start" && toName != "End") {
+            outgoing[fromName].push_back(toName);
+            incoming[toName].push_back(fromName);
+        }
+    }
+    
+    // Detect split gateways (AND-split): one activity -> multiple parallel activities
+    int gatewayId = 0;
+    for (const auto& [activity, targets] : outgoing) {
+        if (targets.size() > 1) {
+            // Check if these are parallel (not exclusive choice)
+            // In Alpha Miner, this is determined by the parallel relation
+            bool isParallel = true;
+            for (size_t i = 0; i < targets.size() && isParallel; ++i) {
+                for (size_t j = i + 1; j < targets.size() && isParallel; ++j) {
+                    // Check if targets[i] and targets[j] are parallel
+                    auto it1 = parallel.find({targets[i], targets[j]});
+                    auto it2 = parallel.find({targets[j], targets[i]});
+                    if (it1 == parallel.end() && it2 == parallel.end()) {
+                        isParallel = false;
+                    }
+                }
+            }
+            
+            if (isParallel) {
+                // Create AND-split gateway
+                DiscoveredProcess::Node gateway;
+                gateway.id = "and_split_" + std::to_string(gatewayId++);
+                gateway.name = "AND Split";
+                gateway.type = "AND_GATEWAY";
+                process.nodes.push_back(gateway);
+                
+                // Redirect edges: activity -> gateway -> targets
+                auto actNode = actToNode[activity];
+                
+                // Build set of target nodes for O(1) lookup
+                std::unordered_set<std::string> targetNodes;
+                for (const auto& target : targets) {
+                    targetNodes.insert(actToNode[target]);
+                }
+                
+                // Remove old edges from activity to targets and add new ones
+                process.edges.erase(
+                    std::remove_if(process.edges.begin(), process.edges.end(),
+                        [&](const DiscoveredProcess::Edge& e) {
+                            return e.from == actNode && targetNodes.count(e.to) > 0;
+                        }),
+                    process.edges.end()
+                );
+                
+                // Add edge from activity to gateway
+                DiscoveredProcess::Edge toGateway;
+                toGateway.id = "edge_" + std::to_string(edgeId++);
+                toGateway.from = actNode;
+                toGateway.to = gateway.id;
+                process.edges.push_back(toGateway);
+                
+                // Add edges from gateway to targets
+                for (const auto& target : targets) {
+                    DiscoveredProcess::Edge fromGateway;
+                    fromGateway.id = "edge_" + std::to_string(edgeId++);
+                    fromGateway.from = gateway.id;
+                    fromGateway.to = actToNode[target];
+                    process.edges.push_back(fromGateway);
+                }
+            }
+        }
+    }
+    
+    // Detect join gateways (AND-join): multiple parallel activities -> one activity
+    for (const auto& [activity, sources] : incoming) {
+        if (sources.size() > 1) {
+            // Check if these are parallel
+            bool isParallel = true;
+            for (size_t i = 0; i < sources.size() && isParallel; ++i) {
+                for (size_t j = i + 1; j < sources.size() && isParallel; ++j) {
+                    auto it1 = parallel.find({sources[i], sources[j]});
+                    auto it2 = parallel.find({sources[j], sources[i]});
+                    if (it1 == parallel.end() && it2 == parallel.end()) {
+                        isParallel = false;
+                    }
+                }
+            }
+            
+            if (isParallel) {
+                // Create AND-join gateway
+                DiscoveredProcess::Node gateway;
+                gateway.id = "and_join_" + std::to_string(gatewayId++);
+                gateway.name = "AND Join";
+                gateway.type = "AND_GATEWAY";
+                process.nodes.push_back(gateway);
+                
+                // Redirect edges: sources -> gateway -> activity
+                auto actNode = actToNode[activity];
+                
+                // Build set of source nodes for O(1) lookup
+                std::unordered_set<std::string> sourceNodes;
+                for (const auto& source : sources) {
+                    sourceNodes.insert(actToNode[source]);
+                }
+                
+                // Remove old edges from sources to activity
+                process.edges.erase(
+                    std::remove_if(process.edges.begin(), process.edges.end(),
+                        [&](const DiscoveredProcess::Edge& e) {
+                            return e.to == actNode && sourceNodes.count(e.from) > 0;
+                        }),
+                    process.edges.end()
+                );
+                
+                // Add edges from sources to gateway
+                for (const auto& source : sources) {
+                    DiscoveredProcess::Edge toGateway;
+                    toGateway.id = "edge_" + std::to_string(edgeId++);
+                    toGateway.from = actToNode[source];
+                    toGateway.to = gateway.id;
+                    process.edges.push_back(toGateway);
+                }
+                
+                // Add edge from gateway to activity
+                DiscoveredProcess::Edge fromGateway;
+                fromGateway.id = "edge_" + std::to_string(edgeId++);
+                fromGateway.from = gateway.id;
+                fromGateway.to = actNode;
+                process.edges.push_back(fromGateway);
+            }
+        }
+    }
     
     return process;
 }

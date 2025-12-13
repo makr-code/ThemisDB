@@ -6,6 +6,20 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <cstring>
+
+// Platform-specific includes for socket operations
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <unistd.h>
+#endif
 
 namespace themis::sharding {
 
@@ -183,18 +197,166 @@ bool TrueTime::performSync() {
 }
 
 bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
-    // TODO: Implement actual NTP protocol
-    // For now, this is a placeholder that simulates NTP query
-    // In production, this would use SNTP/NTP protocol (RFC 5905)
+    // Implement SNTP (Simple Network Time Protocol) client - RFC 4330
+    // This is a simplified version suitable for time synchronization
     
-    // Simulate network delay and server processing
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    // RAII wrapper for socket to ensure cleanup
+    class SocketGuard {
+        int fd_;
+    public:
+        explicit SocketGuard(int fd) : fd_(fd) {}
+        ~SocketGuard() { 
+            if (fd_ >= 0) {
+#ifdef _WIN32
+                closesocket(fd_);
+#else
+                close(fd_);
+#endif
+            }
+        }
+        int get() const { return fd_; }
+        // Prevent copying
+        SocketGuard(const SocketGuard&) = delete;
+        SocketGuard& operator=(const SocketGuard&) = delete;
+    };
     
-    // Simulate small random offset (for testing)
-    // In production, this would calculate actual offset from NTP server
-    offset = 0; // Assume local time is accurate for now
-    
-    return true; // Simulate success
+    try {
+        // NTP packet structure (48 bytes)
+        struct NTPPacket {
+            uint8_t li_vn_mode;      // Leap Indicator (2 bits) + Version (3 bits) + Mode (3 bits)
+            uint8_t stratum;         // Stratum level of the local clock
+            uint8_t poll;            // Maximum interval between successive messages
+            uint8_t precision;       // Precision of the local clock
+            uint32_t rootDelay;      // Total round trip delay to reference clock
+            uint32_t rootDispersion; // Total dispersion to reference clock
+            uint32_t refId;          // Reference clock identifier
+            uint32_t refTm_s;        // Reference timestamp (seconds)
+            uint32_t refTm_f;        // Reference timestamp (fraction)
+            uint32_t origTm_s;       // Originate timestamp (seconds)
+            uint32_t origTm_f;       // Originate timestamp (fraction)
+            uint32_t rxTm_s;         // Receive timestamp (seconds)
+            uint32_t rxTm_f;         // Receive timestamp (fraction)
+            uint32_t txTm_s;         // Transmit timestamp (seconds)
+            uint32_t txTm_f;         // Transmit timestamp (fraction)
+        };
+        
+        // Create socket with RAII cleanup
+        int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+        if (sockfd < 0) {
+            return false;
+        }
+        SocketGuard socketGuard(sockfd);
+        
+        // Set socket timeout (5 seconds) - platform-specific
+#ifdef _WIN32
+        DWORD timeout = 5000; // milliseconds on Windows
+        if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout)) < 0) {
+            return false;
+        }
+#else
+        struct timeval tv;
+        tv.tv_sec = 5;
+        tv.tv_usec = 0;
+        if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+            return false;
+        }
+#endif
+        
+        // Resolve server address using thread-safe getaddrinfo
+        struct addrinfo hints, *result = nullptr;
+        memset(&hints, 0, sizeof(hints));
+        hints.ai_family = AF_INET;       // IPv4
+        hints.ai_socktype = SOCK_DGRAM;  // UDP
+        hints.ai_protocol = IPPROTO_UDP;
+        
+        // Use NTP port (123)
+        if (getaddrinfo(server.c_str(), "123", &hints, &result) != 0 || !result) {
+            return false;
+        }
+        
+        // Copy the resolved address
+        struct sockaddr_in serv_addr;
+        memcpy(&serv_addr, result->ai_addr, result->ai_addrlen);
+        
+        // Free the result
+        freeaddrinfo(result);
+        
+        // Prepare NTP request packet
+        NTPPacket packet;
+        memset(&packet, 0, sizeof(packet));
+        
+        // Set NTP version 4 and mode 3 (client) - RFC 4330
+        packet.li_vn_mode = 0x23; // LI=0, VN=4 (SNTPv4), Mode=3 (client)
+        
+        // Record T1 (client transmit time)
+        auto t1 = std::chrono::system_clock::now();
+        auto t1_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            t1.time_since_epoch()
+        ).count();
+        
+        // Send request
+        if (sendto(sockfd, &packet, sizeof(packet), 0,
+                   (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+            return false;
+        }
+        
+        // Receive response
+        socklen_t len = sizeof(serv_addr);
+        ssize_t n = recvfrom(sockfd, &packet, sizeof(packet), 0,
+                            (struct sockaddr*)&serv_addr, &len);
+        
+        // Record T4 (client receive time)
+        auto t4 = std::chrono::system_clock::now();
+        auto t4_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
+            t4.time_since_epoch()
+        ).count();
+        
+        // Socket will be automatically closed by SocketGuard destructor
+        
+        if (n < (ssize_t)sizeof(packet)) {
+            return false;
+        }
+        
+        // Extract T2 (server receive time) and T3 (server transmit time)
+        // NTP timestamps are in seconds since 1900-01-01, with 32-bit fraction
+        // Convert to nanoseconds since Unix epoch (1970-01-01)
+        
+        // NTP_EPOCH_OFFSET = Number of seconds between NTP epoch (1900-01-01) and Unix epoch (1970-01-01)
+        // Calculated as: 70 years * 365.25 days/year * 24 hours/day * 3600 seconds/hour = 2,208,988,800 seconds
+        // This accounts for 17 leap years between 1900 and 1970
+        const uint64_t NTP_EPOCH_OFFSET = 2208988800ULL;
+        
+        uint64_t t2_s = ntohl(packet.rxTm_s);
+        uint64_t t2_f = ntohl(packet.rxTm_f);
+        uint64_t t3_s = ntohl(packet.txTm_s);
+        uint64_t t3_f = ntohl(packet.txTm_f);
+        
+        // Validate NTP timestamps to prevent integer overflow
+        if (t2_s < NTP_EPOCH_OFFSET || t3_s < NTP_EPOCH_OFFSET) {
+            // Invalid NTP response - timestamps before NTP epoch
+            return false;
+        }
+        
+        // Convert NTP timestamps to nanoseconds since Unix epoch
+        int64_t t2_ns = static_cast<int64_t>(
+            ((t2_s - NTP_EPOCH_OFFSET) * 1000000000ULL) +
+            ((t2_f * 1000000000ULL) >> 32)
+        );
+        
+        int64_t t3_ns = static_cast<int64_t>(
+            ((t3_s - NTP_EPOCH_OFFSET) * 1000000000ULL) +
+            ((t3_f * 1000000000ULL) >> 32)
+        );
+        
+        // Calculate offset using the standard NTP formula:
+        // offset = ((T2 - T1) + (T3 - T4)) / 2
+        offset = ((t2_ns - t1_ns) + (t3_ns - t4_ns)) / 2;
+        
+        return true;
+        
+    } catch (const std::exception&) {
+        return false;
+    }
 }
 
 uint64_t TrueTime::calculateUncertainty() const {

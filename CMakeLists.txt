@@ -346,6 +346,7 @@ set(THEMIS_CORE_SOURCES
     src/index/edge_types.cpp
     src/index/process_graph.cpp
     src/index/gnn_embeddings.cpp
+    src/index/graph_analytics.cpp
     src/index/vector_index.cpp
     src/index/adaptive_index.cpp
     
@@ -392,6 +393,7 @@ set(THEMIS_CORE_SOURCES
     src/server/load_shedder.cpp
     src/server/update_api_handler.cpp
     src/server/hot_reload_api_handler.cpp
+    src/server/export_api_handler.cpp
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
@@ -406,6 +408,10 @@ set(THEMIS_CORE_SOURCES
     src/llm/llm_interaction_store.cpp
     src/llm/prompt_manager.cpp
     src/cdc/changefeed.cpp
+    
+    # Replication
+    src/replication/replication_manager.cpp
+    
     src/timeseries/timeseries.cpp
     src/timeseries/tsstore.cpp
     src/timeseries/gorilla.cpp
@@ -513,11 +519,22 @@ set(THEMIS_CORE_SOURCES
     # Multi-tenancy support
     src/server/tenant_manager.cpp
     
+    # Network
+    src/network/wire_protocol_server.cpp
+    
+    # Observability
+    src/observability/metrics_collector.cpp
+    
     # GraphQL API
     src/api/graphql.cpp
     
+    # Exporters and Importers
+    src/exporters/jsonl_llm_exporter.cpp
+    src/importers/postgres_importer.cpp
+    
     # OLAP Analytics
     src/analytics/olap.cpp
+    src/analytics/process_mining.cpp
 )
 
 # Define core library early so subsequent target_* commands are valid

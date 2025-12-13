@@ -1,6 +1,11 @@
 #include "updates/manifest_database.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <openssl/rand.h>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>
@@ -154,9 +159,81 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             return *cached;
         }
         
-        // TODO: Implement signature verification using verifier_
-        // For now, we'll trust the hash verification
-        cacheSignatureVerification(manifest.manifest_hash, true, manifest.signing_certificate);
+        // Create a PluginSignature from manifest data for verification
+        acceleration::PluginSignature sig;
+        sig.sha256Hash = manifest.manifest_hash;
+        sig.signature = manifest.signature;
+        sig.signingCertificate = manifest.signing_certificate;
+        sig.verified = false;
+        
+        // Verify signature using the plugin security verifier
+        // Note: We're verifying the manifest hash signature, not a file
+        // For this, we create a temporary file containing the hash
+        std::string tempPath;
+        try {
+            // Get system temporary directory and create cryptographically secure random filename
+            auto tempDir = std::filesystem::temp_directory_path();
+            
+            // Generate cryptographically secure random filename using OpenSSL
+            unsigned char randomBytes[16];
+            if (RAND_bytes(randomBytes, sizeof(randomBytes)) != 1) {
+                LOG_ERROR("Failed to generate secure random bytes using OpenSSL RAND_bytes for temp filename");
+                return false;
+            }
+            
+            // Convert random bytes to hex string
+            std::ostringstream oss;
+            oss << "themis_";
+            for (size_t i = 0; i < sizeof(randomBytes); ++i) {
+                oss << std::hex << std::setw(2) << std::setfill('0') 
+                    << static_cast<int>(randomBytes[i]);
+            }
+            oss << ".tmp";
+            std::string uniqueName = oss.str();
+            tempPath = (tempDir / uniqueName).string();
+            
+            // Create temporary file with restricted permissions
+            std::ofstream temp(tempPath, std::ios::binary | std::ios::trunc);
+            if (!temp) {
+                LOG_ERROR("Failed to create temporary file for manifest verification");
+                return false;
+            }
+            temp << manifest.manifest_hash;
+            temp.close();
+            
+            // Set file permissions to owner-only (Unix-like systems)
+            #ifndef _WIN32
+            std::filesystem::permissions(tempPath, 
+                std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,
+                std::filesystem::perm_options::replace);
+            #endif
+            
+            bool verified = verifier_->verifySignature(tempPath, sig);
+            
+            // Clean up temporary file
+            std::filesystem::remove(tempPath);
+            
+            // Cache the result
+            cacheSignatureVerification(manifest.manifest_hash, verified, manifest.signing_certificate);
+            
+            if (!verified) {
+                LOG_ERROR("Manifest signature verification failed for version {}", manifest.version);
+                return false;
+            }
+            
+            LOG_INFO("Manifest signature verified for version {}", manifest.version);
+        } catch (const std::exception& e) {
+            // Ensure cleanup even on exception
+            if (!tempPath.empty()) {
+                try {
+                    std::filesystem::remove(tempPath);
+                } catch (...) {
+                    // Ignore cleanup errors
+                }
+            }
+            LOG_ERROR("Exception during manifest signature verification: {}", e.what());
+            return false;
+        }
     }
     
     return true;
@@ -165,11 +242,56 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
 bool ManifestDatabase::verifyFile(const std::string& path, const std::string& version) {
     auto file = getFile(path, version);
     if (!file) {
+        LOG_ERROR("File not found in registry: {} (version {})", path, version);
         return false;
     }
     
-    // TODO: Implement actual file verification
-    // For now, just check if it exists in registry
+    // Check if file exists on filesystem
+    if (!std::filesystem::exists(path)) {
+        LOG_ERROR("File does not exist on filesystem: {}", path);
+        return false;
+    }
+    
+    // Verify file hash if available
+    if (!file->sha256_hash.empty() && verifier_) {
+        std::string actualHash = verifier_->calculateFileHash(path);
+        if (actualHash.empty()) {
+            LOG_ERROR("Failed to calculate hash for file: {}", path);
+            return false;
+        }
+        
+        if (actualHash != file->sha256_hash) {
+            LOG_ERROR("File hash mismatch for {}: expected {}, got {}", 
+                     path, file->sha256_hash, actualHash);
+            return false;
+        }
+        
+        LOG_DEBUG("File hash verified for {}: {}", path, actualHash);
+    }
+    
+    // Verify individual file signature if available
+    if (!file->file_signature.empty() && verifier_) {
+        auto manifest = getManifest(version);
+        if (!manifest) {
+            LOG_ERROR("Manifest not found for version {}", version);
+            return false;
+        }
+        
+        acceleration::PluginSignature sig;
+        sig.sha256Hash = file->sha256_hash;
+        sig.signature = file->file_signature;
+        sig.signingCertificate = manifest->signing_certificate;
+        sig.verified = false;
+        
+        bool verified = verifier_->verifySignature(path, sig);
+        if (!verified) {
+            LOG_ERROR("File signature verification failed for {}", path);
+            return false;
+        }
+        
+        LOG_INFO("File signature verified for {}", path);
+    }
+    
     return true;
 }
 
