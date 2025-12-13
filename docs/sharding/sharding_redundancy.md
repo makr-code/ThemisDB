@@ -1392,6 +1392,478 @@ for (const auto& edge : start_node["edges"]) {
 
 ---
 
+## Link-Discovery bei der Ingestion
+
+### Herausforderung: Cross-Shard Referenzen erkennen
+
+Bei der Ingestion von Dokumenten stellt sich die Frage: **Wie erkennt ThemisDB, ob ein Dokument zu einer entfernten Entity (z.B. Behörde XY) referenziert werden muss?**
+
+Zwei Hauptansätze:
+
+1. **Client-gesteuerte Link-Deklaration** (sofort verfügbar)
+2. **Shard-übergreifende Link-Discovery** (asynchrone Hintergrundaufgabe)
+
+### Ansatz 1: Client-gesteuerte Link-Deklaration
+
+Der Client liefert Link-Informationen bereits beim HTTP-Endpoint:
+
+```bash
+# Ingestion mit expliziten Cross-Shard Links
+POST /api/v1/data/ingest
+{
+  "document": {
+    "urn": "urn:themis:graph:docs:document:doc-123",
+    "type": "administrative_document",
+    "data": {
+      "title": "Antrag für Behörde XY",
+      "content": "..."
+    }
+  },
+  
+  # Explizite Referenzen zu anderen Entities
+  "links": [
+    {
+      "type": "belongs_to_authority",
+      "target_urn": "urn:themis:hierarchy:government:institutional:de_bmf:uuid-xyz",
+      "metadata": {
+        "relationship": "submission",
+        "timestamp": "2025-12-13T10:00:00Z"
+      }
+    },
+    {
+      "type": "references_case",
+      "target_urn": "urn:themis:graph:cases:case:case-456",
+      "metadata": {
+        "case_number": "C-2025-456"
+      }
+    }
+  ]
+}
+```
+
+**Ablauf:**
+
+```cpp
+// HTTP Endpoint Handler
+Status IngestDocument(const IngestionRequest& request) {
+    // 1. Parse URN und bestimme Ziel-Shard für Dokument
+    auto doc_urn = URN::parse(request.document.urn);
+    auto target_shard = urn_resolver_->resolvePrimary(*doc_urn);
+    
+    // 2. Speichere Dokument auf Ziel-Shard
+    auto doc_result = writeDocumentToShard(target_shard, request.document);
+    
+    // 3. Verarbeite explizite Links
+    for (const auto& link : request.links) {
+        auto link_target_urn = URN::parse(link.target_urn);
+        auto link_target_shard = urn_resolver_->resolvePrimary(*link_target_urn);
+        
+        // 3a. Erstelle Edge vom Dokument zum Ziel
+        GraphEntity::Edge edge{
+            .type = link.type,
+            .target_urn = link.target_urn,
+            .is_local = (target_shard.shard_id == link_target_shard.shard_id),
+            .target_shard = link_target_shard.shard_id
+        };
+        
+        // 3b. Speichere Edge im Dokument
+        addEdgeToEntity(target_shard, doc_urn, edge);
+        
+        // 3c. Falls Cross-Shard: Registriere im Hub-Shard Edge-Index
+        if (!edge.is_local) {
+            hub_shard_->registerCrossShardEdge(
+                *doc_urn, link.type, *link_target_urn, link_target_shard.shard_id
+            );
+        }
+        
+        // 3d. Optional: Erstelle Rück-Referenz (bidirektional)
+        if (link.metadata.contains("bidirectional") && 
+            link.metadata["bidirectional"] == true) {
+            GraphEntity::Edge reverse_edge{
+                .type = "referenced_by",
+                .target_urn = request.document.urn,
+                .is_local = !edge.is_local,
+                .target_shard = target_shard.shard_id
+            };
+            addEdgeToEntity(link_target_shard, link_target_urn, reverse_edge);
+        }
+    }
+    
+    return Status::OK();
+}
+```
+
+**Vorteile:**
+- ✅ Sofort verfügbar bei Ingestion
+- ✅ Keine zusätzliche Discovery-Logik nötig
+- ✅ Client hat vollständige Kontrolle über Links
+- ✅ Deterministisch und vorhersagbar
+
+**Nachteile:**
+- ❌ Client muss URNs kennen
+- ❌ Keine automatische Link-Erkennung
+
+### Ansatz 2: Asynchrone Link-Discovery (Hintergrundaufgabe)
+
+Shards tauschen Informationen über relevante URNs aus und entdecken Links automatisch:
+
+```cpp
+/**
+ * Link Discovery Service (läuft als Hintergrund-Task)
+ * Niedrige Priorität, dauerhaft laufend
+ */
+class LinkDiscoveryService {
+public:
+    struct Config {
+        std::chrono::seconds scan_interval{300};  // Alle 5 Minuten
+        size_t batch_size = 100;                  // Dokumente pro Scan
+        bool enable_nlp_extraction = true;        // NLP-basierte Link-Extraktion
+        bool enable_urn_scanning = true;          // URN-Pattern-Scanning in Text
+    };
+    
+    /**
+     * Hauptschleife: Scanne neue Dokumente auf potenzielle Links
+     */
+    void run() {
+        while (!should_stop_) {
+            // 1. Hole neue/unverarbeitete Dokumente vom lokalen Shard
+            auto unprocessed_docs = getUnprocessedDocuments(config_.batch_size);
+            
+            for (const auto& doc : unprocessed_docs) {
+                // 2. Extrahiere potenzielle URN-Referenzen aus Dokument
+                auto potential_links = extractPotentialLinks(doc);
+                
+                // 3. Validiere Links (prüfe ob URNs existieren)
+                auto validated_links = validateLinks(potential_links);
+                
+                // 4. Registriere validierte Links
+                for (const auto& link : validated_links) {
+                    registerDiscoveredLink(doc.urn, link);
+                }
+                
+                // 5. Markiere Dokument als verarbeitet
+                markAsProcessed(doc.urn);
+            }
+            
+            std::this_thread::sleep_for(config_.scan_interval);
+        }
+    }
+    
+private:
+    /**
+     * Extrahiere potenzielle Links aus Dokument-Content
+     */
+    std::vector<PotentialLink> extractPotentialLinks(const Document& doc) {
+        std::vector<PotentialLink> links;
+        
+        // Methode 1: URN-Pattern Matching im Text
+        if (config_.enable_urn_scanning) {
+            // Regex: urn:themis:.*
+            std::regex urn_pattern(R"(urn:themis:[a-z]+:[a-z_]+:[a-z_]+:[a-f0-9\-]+)");
+            std::smatch matches;
+            std::string content = doc.data["content"];
+            
+            auto it = content.cbegin();
+            while (std::regex_search(it, content.cend(), matches, urn_pattern)) {
+                std::string found_urn = matches[0];
+                links.push_back({
+                    .target_urn = found_urn,
+                    .type = "references",
+                    .confidence = 0.9,
+                    .extraction_method = "urn_pattern"
+                });
+                it = matches.suffix().first;
+            }
+        }
+        
+        // Methode 2: NLP-basierte Entity-Extraktion
+        if (config_.enable_nlp_extraction) {
+            // Extrahiere Named Entities (Behörden, Personen, Orte)
+            auto entities = nlp_extractor_->extractEntities(doc.data["content"]);
+            
+            for (const auto& entity : entities) {
+                if (entity.type == "ORGANIZATION" || entity.type == "AUTHORITY") {
+                    // Versuche URN für bekannte Behörden zu finden
+                    auto urn = lookupAuthorityURN(entity.text);
+                    if (urn.has_value()) {
+                        links.push_back({
+                            .target_urn = *urn,
+                            .type = "mentions_authority",
+                            .confidence = entity.confidence,
+                            .extraction_method = "nlp_entity"
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Methode 3: Metadata-basierte Links
+        if (doc.data.contains("metadata")) {
+            auto& meta = doc.data["metadata"];
+            
+            // Beispiel: "authority_id" → URN-Lookup
+            if (meta.contains("authority_id")) {
+                std::string authority_id = meta["authority_id"];
+                auto urn = lookupAuthorityURNById(authority_id);
+                if (urn.has_value()) {
+                    links.push_back({
+                        .target_urn = *urn,
+                        .type = "belongs_to_authority",
+                        .confidence = 1.0,
+                        .extraction_method = "metadata"
+                    });
+                }
+            }
+        }
+        
+        return links;
+    }
+    
+    /**
+     * Validiere ob URNs tatsächlich existieren
+     * Fragt Hub-Shard oder target Shards
+     */
+    std::vector<ValidatedLink> validateLinks(
+        const std::vector<PotentialLink>& potential_links
+    ) {
+        std::vector<ValidatedLink> validated;
+        
+        for (const auto& link : potential_links) {
+            auto target_urn = URN::parse(link.target_urn);
+            if (!target_urn.has_value()) {
+                continue;  // Ungültige URN
+            }
+            
+            // Prüfe ob URN existiert (leichtgewichtige Existenz-Prüfung)
+            auto exists = hub_shard_->checkURNExists(*target_urn);
+            
+            if (exists) {
+                auto target_shard = hub_shard_->resolveURN(*target_urn);
+                validated.push_back({
+                    .target_urn = link.target_urn,
+                    .target_shard = target_shard->shard_id,
+                    .type = link.type,
+                    .confidence = link.confidence,
+                    .method = link.extraction_method
+                });
+            }
+        }
+        
+        return validated;
+    }
+    
+    /**
+     * Lookup Authority URN by Name
+     * Cache für häufige Behörden-Namen → URN Mapping
+     */
+    std::optional<std::string> lookupAuthorityURN(std::string_view authority_name) {
+        // Cache-Lookup
+        auto cached = authority_cache_.find(std::string(authority_name));
+        if (cached != authority_cache_.end()) {
+            return cached->second;
+        }
+        
+        // Query Hub-Shard: Suche nach Behörde mit diesem Namen
+        nlohmann::json query = {
+            {"type", "hierarchy_search"},
+            {"hierarchy_id", "government"},
+            {"level", "institutional"},
+            {"filter", {
+                {"name", authority_name}
+            }}
+        };
+        
+        auto result = hub_shard_->executeQuery(query.dump());
+        if (result.contains("results") && !result["results"].empty()) {
+            std::string urn = result["results"][0]["urn"];
+            authority_cache_[std::string(authority_name)] = urn;
+            return urn;
+        }
+        
+        return std::nullopt;
+    }
+};
+```
+
+### Shard-übergreifender Link-Austausch
+
+Shards können sich gegenseitig über relevante URNs informieren:
+
+```cpp
+/**
+ * Shard-to-Shard Link-Notification
+ */
+class ShardLinkExchange {
+public:
+    /**
+     * Worker-Shard meldet neu entdeckte Links an Hub-Shard
+     */
+    void notifyLinkDiscovered(
+        const URN& source_urn,
+        const URN& target_urn,
+        std::string_view link_type,
+        float confidence
+    ) {
+        LinkNotification notification{
+            .source_urn = source_urn.toString(),
+            .target_urn = target_urn.toString(),
+            .link_type = std::string(link_type),
+            .confidence = confidence,
+            .timestamp = std::chrono::system_clock::now(),
+            .source_shard = local_shard_id_
+        };
+        
+        // Sende an Hub-Shard zur zentralen Registrierung
+        hub_shard_client_->sendLinkNotification(notification);
+    }
+    
+    /**
+     * Hub-Shard empfängt Link-Notification von Worker
+     */
+    void handleLinkNotification(const LinkNotification& notification) {
+        auto source_urn = URN::parse(notification.source_urn);
+        auto target_urn = URN::parse(notification.target_urn);
+        
+        if (!source_urn || !target_urn) {
+            return;  // Ungültige URNs
+        }
+        
+        auto source_shard = resolveURN(*source_urn);
+        auto target_shard = resolveURN(*target_urn);
+        
+        // Registriere Cross-Shard Edge wenn Shards unterschiedlich
+        if (source_shard->shard_id != target_shard->shard_id) {
+            registerCrossShardEdge(
+                *source_urn, 
+                notification.link_type, 
+                *target_urn,
+                target_shard->shard_id
+            );
+        }
+        
+        // Optional: Benachrichtige beide Shards über den Link
+        if (notification.confidence >= 0.8) {  // Nur hohe Konfidenz
+            notifyShardAboutLink(source_shard->shard_id, notification);
+            notifyShardAboutLink(target_shard->shard_id, notification);
+        }
+    }
+};
+```
+
+### Konfiguration: Hybrid-Ansatz
+
+Best Practice: Kombination beider Ansätze:
+
+```yaml
+# config/link_discovery.yaml
+link_discovery:
+  # Client-gesteuert: Sofort verfügbar
+  client_declared_links:
+    enabled: true
+    require_validation: true  # Prüfe ob target URN existiert
+    
+  # Automatische Discovery: Hintergrundaufgabe
+  automatic_discovery:
+    enabled: true
+    priority: low
+    scan_interval_seconds: 300
+    batch_size: 100
+    
+    # Extraktions-Methoden
+    extraction_methods:
+      urn_pattern_scanning:
+        enabled: true
+        confidence_threshold: 0.9
+        
+      nlp_entity_extraction:
+        enabled: true
+        confidence_threshold: 0.7
+        model: "de_core_news_lg"  # Spacy German model
+        
+      metadata_mapping:
+        enabled: true
+        confidence_threshold: 1.0
+        mappings:
+          - field: "authority_id"
+            target_type: "government_institution"
+            
+    # Cache für häufige Lookups
+    cache:
+      authority_name_to_urn:
+        enabled: true
+        max_entries: 10000
+        ttl_seconds: 3600
+```
+
+### Deployment-Beispiel
+
+```yaml
+# kubernetes/link-discovery-service.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: themisdb-link-discovery
+spec:
+  replicas: 2  # Niedrige Priorität, wenige Replicas
+  template:
+    spec:
+      containers:
+      - name: link-discovery
+        image: themisdb:latest
+        env:
+        - name: SERVICE_TYPE
+          value: "link_discovery"
+        - name: SCAN_INTERVAL_SECONDS
+          value: "300"
+        - name: BATCH_SIZE
+          value: "100"
+        resources:
+          requests:
+            cpu: "100m"      # Niedrige CPU (Hintergrund-Task)
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+```
+
+### Monitoring: Link-Discovery Metriken
+
+```
+# Link-Discovery Metriken
+themisdb_link_discovery_documents_scanned_total = 15420
+themisdb_link_discovery_links_found_total = 892
+themisdb_link_discovery_links_validated_total = 734
+themisdb_link_discovery_cross_shard_links_total = 245
+
+# Nach Extraktions-Methode
+themisdb_link_discovery_links_by_method{method="urn_pattern"} = 456
+themisdb_link_discovery_links_by_method{method="nlp_entity"} = 189
+themisdb_link_discovery_links_by_method{method="metadata"} = 89
+
+# Konfidenz-Verteilung
+themisdb_link_discovery_confidence_bucket{le="0.5"} = 23
+themisdb_link_discovery_confidence_bucket{le="0.7"} = 156
+themisdb_link_discovery_confidence_bucket{le="0.9"} = 512
+themisdb_link_discovery_confidence_bucket{le="1.0"} = 734
+```
+
+### Zusammenfassung: Link-Discovery Strategien
+
+| Ansatz | Verfügbarkeit | Genauigkeit | Aufwand | Use Case |
+|--------|--------------|-------------|---------|----------|
+| **Client-deklariert** | Sofort | Hoch (100%) | Client | Bekannte Referenzen, Formular-basierte Eingabe |
+| **URN-Pattern Scan** | Async | Hoch (90%+) | Niedrig | URNs direkt im Text erwähnt |
+| **NLP Entity-Extraktion** | Async | Mittel (70%+) | Hoch | Natürlichsprachliche Dokumente |
+| **Metadata-Mapping** | Async | Hoch (100%) | Niedrig | Strukturierte Metadaten vorhanden |
+
+**Empfehlung:**
+1. **Start mit Client-deklarierten Links** - Sofort verfügbar, volle Kontrolle
+2. **Erweitern mit URN-Pattern Scanning** - Automatische Erkennung expliziter URNs
+3. **Optional NLP** - Für unstrukturierte Dokumente mit Behörden-Referenzen
+4. **Alle Methoden als niedrig-priorisierte Hintergrundaufgabe** - Keine Blockierung der Ingestion
+
+---
+
 ## API-Beispiele für Cross-Shard Queries
 
 ### 1. Graph-Suche über alle Shards
