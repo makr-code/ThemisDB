@@ -559,7 +559,11 @@ public:
      * @param urn_pattern URN pattern (with wildcards)
      *        Example: "urn:themis:graph:docs:chunks:*"
      * @param hops Number of hops to traverse
-     * @param edge_types Edge types to follow (parent, next, geo, etc.)
+     * @param edge_types Edge types to follow:
+     *        - parent: Parent document/chunk relationship
+     *        - next: Sequential ordering (e.g., pages in document)
+     *        - prev: Reverse sequential ordering
+     *        - geo: Geographical proximity (spatial neighbors)
      * @return Merged graph results from all relevant shards
      */
     GraphSearchResult search(
@@ -819,7 +823,7 @@ private:
     mutable std::mutex urn_cache_mutex_;
     
     // Cross-shard edge index
-    // source_urn → [(edge_type, target_urn, target_shard)]
+    // source_urn -> [(edge_type, target_urn, target_shard)]
     std::unordered_map<
         std::string,
         std::vector<std::tuple<std::string, std::string, std::string>>
@@ -933,6 +937,8 @@ nlohmann::json HubShard::executeHybridSearch(
             worker_results.push_back(future.get());
         } catch (const std::exception& e) {
             // Log error, continue with partial results if enabled
+            // If partial results are disabled, the exception will be re-thrown
+            // causing the entire query to fail
             if (!config_.enable_partial_results) {
                 throw;
             }
@@ -958,9 +964,8 @@ nlohmann::json HubShard::mergeHybridResults(
     const std::vector<nlohmann::json>& worker_results,
     const HybridSearchParams& params
 ) {
-    // Collect all results from workers
-    std::unordered_map<std::string, HybridScore> results_map;
-    
+    // Helper struct for tracking scores across modalities
+    // Note: Defined here for simplicity; could be moved to class level for reusability
     struct HybridScore {
         std::string urn;
         float text_score = 0.0;
@@ -971,6 +976,9 @@ nlohmann::json HubShard::mergeHybridResults(
         int graph_rank = INT_MAX;
         nlohmann::json data;
     };
+    
+    // Collect all results from workers
+    std::unordered_map<std::string, HybridScore> results_map;
     
     // 1. Aggregate scores from all workers
     for (size_t worker_idx = 0; worker_idx < worker_results.size(); ++worker_idx) {
@@ -988,6 +996,9 @@ nlohmann::json HubShard::mergeHybridResults(
             score.urn = urn;
             
             // Accumulate scores from different modalities
+            // Using max() to take best score across shards (assumes normalized scores)
+            // Rationale: A document appearing in multiple shards should get the
+            // highest score it received in any shard
             if (item.contains("text_score")) {
                 score.text_score = std::max(score.text_score, 
                                            item["text_score"].get<float>());
@@ -1012,21 +1023,22 @@ nlohmann::json HubShard::mergeHybridResults(
     // 2. Apply fusion algorithm
     std::vector<std::pair<std::string, float>> final_scores;
     
+    // Pre-compute reciprocal for RRF to avoid division in loop
+    const float rrf_denominator_base = static_cast<float>(params.k_rrf);
+    
     for (const auto& [urn, score] : results_map) {
         float final_score = 0.0;
         
         if (params.fusion_mode == "rrf") {
-            // Reciprocal Rank Fusion
-            float k_rrf = static_cast<float>(params.k_rrf);
-            
+            // Reciprocal Rank Fusion (optimized with pre-computed base)
             if (score.text_rank != INT_MAX) {
-                final_score += params.weight_text / (k_rrf + score.text_rank);
+                final_score += params.weight_text / (rrf_denominator_base + score.text_rank);
             }
             if (score.vector_rank != INT_MAX) {
-                final_score += params.weight_vector / (k_rrf + score.vector_rank);
+                final_score += params.weight_vector / (rrf_denominator_base + score.vector_rank);
             }
             if (score.graph_rank != INT_MAX) {
-                final_score += params.weight_graph / (k_rrf + score.graph_rank);
+                final_score += params.weight_graph / (rrf_denominator_base + score.graph_rank);
             }
         } else {
             // Weighted score fusion
@@ -1134,7 +1146,8 @@ void HubShard::followCrossShardEdges(
     std::vector<std::future<nlohmann::json>> futures;
     for (const auto& [urn, shard] : to_fetch) {
         futures.push_back(std::async([&]() {
-            return executor_->get(shard, urn);
+            // Fetch node by URN from remote shard
+            return executor_->fetchNodeByURN(shard, urn);
         }));
     }
     
