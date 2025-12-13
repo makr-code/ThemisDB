@@ -941,7 +941,8 @@ StreamTransferTask::StreamTransferTask(
     std::shared_ptr<StreamRateLimiter> rate_limiter,
     const StreamSessionConfig& config
 ) : file_(file), rate_limiter_(rate_limiter), config_(config) {
-    chunks_acked_.resize((file_.size + config.chunk_size - 1) / config.chunk_size, false);
+    const auto total_size = file_.file_size;
+    chunks_acked_.resize((total_size + config.chunk_size - 1) / config.chunk_size, false);
 }
 
 StreamTransferTask::~StreamTransferTask() {
@@ -1038,8 +1039,23 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
     // TODO: Implement chunk creation from file
     StreamChunk chunk;
     chunk.chunk_index = chunk_index;
-    chunk.size = std::min(static_cast<uint64_t>(config_.chunk_size), 
-                          file_.size - chunk_index * config_.chunk_size);
+    chunk.file_offset = static_cast<uint64_t>(chunk_index) * config_.chunk_size;
+
+    const uint64_t remaining = file_.file_size > chunk.file_offset
+        ? file_.file_size - chunk.file_offset
+        : 0;
+
+    chunk.uncompressed_size = static_cast<uint32_t>(
+        std::min<uint64_t>(config_.chunk_size, remaining));
+    chunk.compressed_size = chunk.uncompressed_size;
+
+    // No payload in stub implementation
+    chunk.data.clear();
+    chunk.checksum = 0;
+
+    if (chunk.uncompressed_size == 0) {
+        return std::nullopt;
+    }
     return chunk;
 }
 
@@ -1057,7 +1073,8 @@ StreamReceiveTask::StreamReceiveTask(
     const std::string& output_path,
     const StreamSessionConfig& config
 ) : file_(file), output_path_(output_path), config_(config) {
-    chunks_received_.resize((file_.size + config.chunk_size - 1) / config.chunk_size, false);
+    const auto total_size = file_.file_size;
+    chunks_received_.resize((total_size + config.chunk_size - 1) / config.chunk_size, false);
 }
 
 StreamReceiveTask::~StreamReceiveTask() {

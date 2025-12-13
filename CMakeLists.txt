@@ -458,6 +458,7 @@ set(THEMIS_CORE_SOURCES
     src/security/timestamp_authority.cpp
     src/security/timestamp_authority_openssl.cpp
     src/security/vcc_pki_client.cpp
+    src/storage/security_signature.cpp
     src/storage/security_signature_manager.cpp
     src/auth/jwt_validator.cpp
     src/governance/policy_engine.cpp
