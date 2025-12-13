@@ -50,8 +50,6 @@ src/enterprise/
 │   └── plugin_loader.cpp          # Plugin-Loader mit Lizenz-Validierung
 ├── sharding/
 │   └── sharding_plugin.cpp
-├── gpu/
-│   └── gpu_plugin.cpp
 ├── analytics/
 │   └── analytics_plugin.cpp
 ├── replication/
@@ -104,7 +102,7 @@ cmake --build build --target themis_enterprise_all
   "issued_date": "2025-01-15",
   "expiry_date": "2026-01-15",
   "edition": "enterprise",
-  "modules": ["sharding", "gpu", "analytics", ...],
+  "modules": ["sharding", "analytics", "replication", "security", "management", "content"],
   "limits": {
     "max_nodes": 100,
     "max_cores": -1

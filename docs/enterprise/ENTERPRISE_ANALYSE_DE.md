@@ -30,6 +30,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 - Basis-Indizes (Secondary, Range, Composite)
 - Graph-Traversierungen (BFS, kürzeste Pfade)
 - Vektor-Suche (HNSW, grundlegende ANN)
+- GPU-Beschleunigung (CUDA, Vulkan, HIP, DirectX - Single GPU)
 - Zeitreihen-Unterstützung (Gorilla-Kompression)
 - AQL Query Language
 - Basis-Sicherheit (TLS 1.2+, Passwort-Auth)
@@ -41,7 +42,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 **Limitierungen für Community:**
 - Nur Single-Node Deployment
 - Max. 8 Worker Threads
-- Keine GPU-Beschleunigung
+- Nur Single-GPU (Multi-GPU erfordert Enterprise)
 - Keine verteilten Features
 - Nur Basis-Monitoring
 
@@ -58,20 +59,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 
 **Zielgruppe:** Organisationen mit >1TB Daten oder >10K Anfragen/Sek
 
-#### 2. GPU-Beschleunigung (GPU DLL)
-- CUDA Backend (NVIDIA)
-- Vulkan Backend (Cross-Platform)
-- HIP Backend (AMD ROCm)
-- DirectX Compute (Windows)
-- OpenCL Backend
-- OneAPI Backend (Intel)
-- ZLUDA Backend
-- Faiss GPU
-- GPU Geo-Operationen
-
-**Zielgruppe:** AI/ML Workloads, Vektor-Ähnlichkeitssuche im großen Maßstab (>1M Vektoren)
-
-#### 3. Erweiterte Analytik (Analytics DLL)
+#### 2. Erweiterte Analytik (Analytics DLL)
 - OLAP Engine (CUBE, ROLLUP, Window Functions)
 - CEP Streaming (Complex Event Processing)
 - Materialized Views
@@ -81,7 +69,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 
 **Zielgruppe:** BI-Teams, Data Warehouses, Echtzeit-Analytik-Plattformen
 
-#### 4. Hochverfügbarkeit (Replication DLL)
+#### 3. Hochverfügbarkeit (Replication DLL)
 - Leader-Follower Replikation
 - Multi-Master Replikation (CRDTs)
 - WAL-Replikation
@@ -91,7 +79,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 
 **Zielgruppe:** Unternehmenskritische Systeme mit 99,99%+ Uptime-Anforderung
 
-#### 5. Erweiterte Sicherheit (Security DLL)
+#### 4. Erweiterte Sicherheit (Security DLL)
 - RBAC (Role-Based Access Control)
 - Feld-Level Verschlüsselung
 - HSM Integration (PKCS#11)
@@ -103,7 +91,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 
 **Zielgruppe:** Regulierte Branchen (Gesundheit, Finanzen, Behörden)
 
-#### 6. Enterprise Management (Management DLL)
+#### 5. Enterprise Management (Management DLL)
 - Multi-Tenancy
 - Erweiterte Rate Limiting
 - Adaptive Load Shedding
@@ -114,7 +102,7 @@ Diese Analyse definiert, welche Features von ThemisDB als Enterprise-Angebote ve
 
 **Zielgruppe:** Managed Service Provider, große Deployments
 
-#### 7. Content-Verarbeitung (Content DLL)
+#### 6. Content-Verarbeitung (Content DLL)
 - PDF-Verarbeitung (poppler)
 - Office-Formate (DOCX, XLSX, PPTX)
 - Video-Verarbeitung (FFmpeg)
@@ -263,7 +251,7 @@ public:
 - **Support:** 24/7 Telefon + E-Mail, dedizierter TAM
 - **Updates:** Prioritätszugang zu neuen Features
 - **SLA:** 99,99% Uptime-Garantie
-- **Features:** Alle 7 Enterprise-Module (Sharding, GPU, Analytics, Replication, Security, Management, Content)
+- **Features:** Alle 6 Enterprise-Module (Sharding, GPU, Analytics, Replication, Security, Management, Content)
 
 #### Hyperscaler Edition
 - **Preis:** Individuelle Preisgestaltung (Enterprise-Vereinbarungen)

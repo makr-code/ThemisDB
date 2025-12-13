@@ -58,14 +58,15 @@
 | Feature | Community | Enterprise | Hyperscaler |
 |---------|-----------|------------|-------------|
 | **CPU Vector Search** | ✅ | ✅ | ✅ |
-| **GPU Acceleration** | ❌ | ✅ | ✅ |
-| **CUDA Support (NVIDIA)** | ❌ | ✅ | ✅ |
-| **Vulkan Compute** | ❌ | ✅ | ✅ |
-| **HIP (AMD ROCm)** | ❌ | ✅ | ✅ |
-| **DirectX Compute** | ❌ | ✅ | ✅ |
-| **Multi-GPU Support** | ❌ | ⚠️ Limited | ✅ |
+| **GPU Acceleration** | ✅ | ✅ | ✅ |
+| **CUDA Support (NVIDIA)** | ✅ | ✅ | ✅ |
+| **Vulkan Compute** | ✅ | ✅ | ✅ |
+| **HIP (AMD ROCm)** | ✅ | ✅ | ✅ |
+| **DirectX Compute** | ✅ | ✅ | ✅ |
+| **Multi-GPU Support** | ⚠️ Single GPU | ⚠️ Multi-GPU | ✅ Advanced Multi-GPU |
+| **GPU Memory Management** | ⚠️ Basic | ✅ Advanced | ✅ Advanced |
 | **Worker Threads** | Max 8 | Max 128 | Unlimited |
-| **Performance Boost** | Baseline | 10-30x | 10-50x |
+| **Performance Boost** | Baseline (with GPU) | 10-30x | 10-50x |
 
 ## Analytics & BI
 

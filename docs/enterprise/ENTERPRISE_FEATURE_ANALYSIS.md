@@ -32,6 +32,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 | **Basic Indexes** (Secondary, Range, Composite) | Required for queries |
 | **Graph Traversals** (BFS, shortest path) | Core graph functionality |
 | **Vector Search** (HNSW, basic ANN) | Modern database necessity |
+| **GPU Acceleration** (CUDA, Vulkan, HIP, DirectX) | Performance feature for all users |
 | **Time-Series Support** (Gorilla compression) | Widely needed feature |
 | **AQL Query Language** (FOR/FILTER/SORT/LIMIT/RETURN) | Query interface |
 | **Basic Security** (TLS 1.2+, password auth) | Security baseline |
@@ -43,7 +44,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 **Limits for Community:**
 - Single-node deployment only
 - Max 8 worker threads
-- No GPU acceleration
+- Single GPU only (multi-GPU requires Enterprise)
 - No distributed features
 - Basic monitoring only
 
@@ -66,26 +67,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 
 ---
 
-#### 2. GPU Acceleration
-**DLL/SO:** `themis_enterprise_gpu.dll`
-
-| Feature | Business Value |
-|---------|----------------|
-| **CUDA Backend** (NVIDIA) | 10-50x vector search speedup |
-| **Vulkan Backend** (Cross-platform) | Portable GPU acceleration |
-| **HIP Backend** (AMD ROCm) | AMD GPU support |
-| **DirectX Compute** (Windows) | Windows GPU optimization |
-| **OpenCL Backend** | Legacy GPU support |
-| **OneAPI Backend** (Intel) | Intel GPU support |
-| **ZLUDA Backend** | CUDA on AMD GPUs |
-| **Faiss GPU** | Optimized vector search |
-| **GPU Geo Operations** | Spatial query acceleration |
-
-**Target:** AI/ML workloads, vector similarity search at scale (>1M vectors)
-
----
-
-#### 3. Advanced Analytics (OLAP/CEP)
+#### 2. Advanced Analytics (OLAP/CEP)
 **DLL/SO:** `themis_enterprise_analytics.dll`
 
 | Feature | Business Value |
@@ -101,7 +83,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 
 ---
 
-#### 4. High Availability & Replication
+#### 3. High Availability & Replication
 **DLL/SO:** `themis_enterprise_replication.dll`
 
 | Feature | Business Value |
@@ -117,7 +99,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 
 ---
 
-#### 5. Advanced Security & Compliance
+#### 4. Advanced Security & Compliance
 **DLL/SO:** `themis_enterprise_security.dll`
 
 | Feature | Business Value |
@@ -135,7 +117,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 
 ---
 
-#### 6. Enterprise Management & Operations
+#### 5. Enterprise Management & Operations
 **DLL/SO:** `themis_enterprise_management.dll`
 
 | Feature | Business Value |
@@ -152,7 +134,7 @@ This document provides a comprehensive analysis of ThemisDB features to determin
 
 ---
 
-#### 7. Content Processing & AI
+#### 6. Content Processing & AI
 **DLL/SO:** `themis_enterprise_content.dll`
 
 | Feature | Business Value |
@@ -412,7 +394,7 @@ public:
 - **Use Case:** Large-scale deployments, mission-critical systems
 - **Limits:** Up to 100 nodes (default)
 - **Support:** 24/7 phone + email, dedicated TAM
-- **Features:** All 7 enterprise modules
+- **Features:** All 6 enterprise modules
 
 #### Hyperscaler Edition
 - **Price:** Custom pricing (enterprise agreements)
