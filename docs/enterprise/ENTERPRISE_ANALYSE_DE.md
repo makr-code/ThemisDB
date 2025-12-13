@@ -243,6 +243,17 @@ public:
 - **Support:** Community-Foren, GitHub Issues
 - **Updates:** Open-Source-Releases
 
+#### Reseller Edition
+- **Preis:** Pro-Anwendung-Lizenz (Mengenrabatte verfügbar)
+- **Kontakt Vertrieb:** reseller@themisdb.io
+- **Anwendungsfall:** Einbettung von ThemisDB in kommerzielle Anwendungen/Produkte
+- **Limits:** 1-3 Nodes pro Anwendungsinstanz, Single-GPU
+- **Support:** E-Mail-Support (Geschäftszeiten), Dokumentation
+- **Updates:** Regelmäßige Updates, Sicherheitspatches
+- **Features:** Kern-Datenbank + GPU-Beschleunigung + Vektor-Suchoptimierung
+- **Weitergabe:** Erlaubt mit Anwendung, keine eigenständige Distribution
+- **Branding:** White-Label-Optionen verfügbar
+
 #### Enterprise Edition
 - **Preis:** Individuelle Preisgestaltung (Mengenrabatte verfügbar)
 - **Kontakt Vertrieb:** enterprise@themisdb.io

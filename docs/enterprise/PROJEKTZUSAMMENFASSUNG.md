@@ -138,6 +138,7 @@ cmake --build build --target themis_enterprise_all
 | Edition | Preis | Use Case | Support |
 |---------|-------|----------|---------|
 | **Community** | KOSTENLOS | Entwicklung, kleine Projekte | Community Forum |
+| **Reseller** | Pro-App-Lizenz | Embedding-Programme | E-Mail (Geschäftszeiten) |
 | **Enterprise** | Individuell | Große Deployments, unternehmenskritisch | 24/7 + TAM |
 | **Hyperscaler** | Individuell | Hyperscale, Kubernetes, Cloud-Native | 24/7 + Dedicated Team |
 
@@ -146,7 +147,9 @@ cmake --build build --target themis_enterprise_all
 ```
 Community (kostenlos, Single-Node)
     ↓
-Enterprise (Alle 7 Module + 24/7 Support + bis 100 Nodes)
+Reseller (Embedding in Anwendungen, 1-3 Nodes, White-Label)
+    ↓
+Enterprise (Alle 6 Module + 24/7 Support + bis 100 Nodes)
     ↓
 Hyperscaler (Unbegrenzt + Kubernetes Operator + Auto-Scaling)
 ```

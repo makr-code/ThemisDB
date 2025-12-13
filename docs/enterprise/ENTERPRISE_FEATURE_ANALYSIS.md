@@ -388,6 +388,16 @@ public:
 - **Limits:** Single node, 8 cores, no enterprise modules
 - **Support:** Community forums, GitHub issues
 
+#### Reseller Edition
+- **Price:** Per-application license (volume discounts available)
+- **Contact Sales:** reseller@themisdb.io
+- **Use Case:** Embedding ThemisDB in commercial applications
+- **Limits:** 1-3 nodes per app instance, single GPU
+- **Support:** Email support (business hours), documentation
+- **Features:** Core database + GPU + optimized vector search
+- **Redistribution:** With application only (no standalone)
+- **Branding:** White-label options
+
 #### Enterprise Edition
 - **Price:** Custom pricing (volume discounts available)
 - **Contact Sales:** enterprise@themisdb.io
