@@ -1171,6 +1171,227 @@ void HubShard::followCrossShardEdges(
 
 ---
 
+## Referenzierung entfernter Nodes in Graph-Entities
+
+### Speicherformat für Cross-Shard Referenzen
+
+Graph-Entities speichern Referenzen zu entfernten Nodes (auf anderen Shards) durch **URN-basierte Edge-Referenzen**. Jede Edge enthält die vollständige URN des Zielnodes, wodurch der Hub-Shard die Shard-Location auflösen kann.
+
+#### Graph-Entity-Struktur mit Remote References
+
+```json
+{
+  "urn": "urn:themis:graph:docs:chunks:abc-123-on-shard-001",
+  "shard": "worker_001",
+  "type": "chunk",
+  "data": {
+    "content": "Machine learning is...",
+    "embedding": [0.1, 0.2, ..., 0.768]
+  },
+  "edges": [
+    {
+      "type": "parent",
+      "target_urn": "urn:themis:graph:docs:document:doc-456-on-shard-001",
+      "local": true,
+      "target_shard": "worker_001"
+    },
+    {
+      "type": "next",
+      "target_urn": "urn:themis:graph:docs:chunks:def-789-on-shard-002",
+      "local": false,
+      "target_shard": "worker_002"
+    },
+    {
+      "type": "geo",
+      "target_urn": "urn:themis:graph:docs:chunks:ghi-234-on-shard-003",
+      "local": false,
+      "target_shard": "worker_003"
+    }
+  ]
+}
+```
+
+**Wichtige Felder:**
+- `target_urn`: Vollständige URN des Zielnodes (globale Eindeutigkeit)
+- `local`: Boolean - ob Zielnode auf gleichem Shard liegt
+- `target_shard`: Shard-ID wo Zielnode gespeichert ist (optional, für Optimierung)
+
+### Auflösung von Remote-Referenzen
+
+```cpp
+/**
+ * Graph entity mit Cross-Shard Edge-Referenzen
+ */
+struct GraphEntity {
+    std::string urn;           // Eigene URN
+    std::string shard_id;      // Shard wo diese Entity liegt
+    std::string type;          // Entity-Typ (chunk, document, etc.)
+    nlohmann::json data;       // Entity-Daten
+    
+    struct Edge {
+        std::string type;           // Edge-Typ (parent, next, geo)
+        std::string target_urn;     // URN des Zielnodes (kann remote sein)
+        bool is_local;              // true wenn auf gleichem Shard
+        std::string target_shard;   // Shard-ID des Zielnodes
+    };
+    
+    std::vector<Edge> edges;
+};
+
+/**
+ * Auflösung einer Remote-Referenz
+ */
+nlohmann::json resolveRemoteReference(const GraphEntity::Edge& edge) {
+    if (edge.is_local) {
+        // Lokaler Zugriff auf gleichem Shard
+        return local_storage_->getNode(edge.target_urn);
+    } else {
+        // Remote-Zugriff über Hub-Shard
+        auto target_urn = URN::parse(edge.target_urn);
+        auto shard_info = hub_shard_->resolveURN(*target_urn);
+        
+        // Fetch von remote Shard
+        return remote_executor_->fetchNodeByURN(shard_info, *target_urn);
+    }
+}
+```
+
+### Speicherung in der Datenbank
+
+Auf jedem Worker-Shard werden Graph-Entities mit **URN als Primary Key** gespeichert:
+
+```cpp
+// Worker Shard Storage Schema
+namespace themis::storage {
+
+class GraphEntityStore {
+public:
+    /**
+     * Speichere Graph-Entity mit Edges
+     * Edges können zu lokalen oder remote Nodes zeigen
+     */
+    Status putEntity(const GraphEntity& entity) {
+        // Serialisiere Entity mit allen Edges
+        nlohmann::json entity_json = {
+            {"urn", entity.urn},
+            {"shard", entity.shard_id},
+            {"type", entity.type},
+            {"data", entity.data},
+            {"edges", nlohmann::json::array()}
+        };
+        
+        // Speichere jede Edge mit vollständiger URN-Referenz
+        for (const auto& edge : entity.edges) {
+            entity_json["edges"].push_back({
+                {"type", edge.type},
+                {"target_urn", edge.target_urn},  // Vollständige URN!
+                {"local", edge.is_local},
+                {"target_shard", edge.target_shard}
+            });
+        }
+        
+        // Speichere in RocksDB mit URN als Key
+        return db_->Put(entity.urn, entity_json.dump());
+    }
+    
+    /**
+     * Lade Graph-Entity mit allen Edge-Referenzen
+     */
+    std::optional<GraphEntity> getEntity(const URN& urn) {
+        std::string value;
+        auto status = db_->Get(urn.toString(), &value);
+        
+        if (!status.ok()) {
+            return std::nullopt;
+        }
+        
+        auto json = nlohmann::json::parse(value);
+        GraphEntity entity;
+        entity.urn = json["urn"];
+        entity.shard_id = json["shard"];
+        entity.type = json["type"];
+        entity.data = json["data"];
+        
+        // Parse Edges (können remote sein)
+        for (const auto& edge_json : json["edges"]) {
+            GraphEntity::Edge edge;
+            edge.type = edge_json["type"];
+            edge.target_urn = edge_json["target_urn"];  // URN des remote Nodes
+            edge.is_local = edge_json.value("local", false);
+            edge.target_shard = edge_json.value("target_shard", "");
+            entity.edges.push_back(edge);
+        }
+        
+        return entity;
+    }
+};
+
+} // namespace themis::storage
+```
+
+### Hub-Shard Edge-Index
+
+Der Hub-Shard verwaltet einen **globalen Index** aller Cross-Shard Edges für effiziente Traversierung:
+
+```cpp
+// Hub-Shard Edge Index Format
+std::unordered_map<std::string, std::vector<CrossShardEdge>> edge_index_;
+
+struct CrossShardEdge {
+    std::string source_urn;      // URN des Quellnodes
+    std::string source_shard;    // Shard wo Quellnode liegt
+    std::string edge_type;       // Edge-Typ (parent, next, geo)
+    std::string target_urn;      // URN des Zielnodes (remote)
+    std::string target_shard;    // Shard wo Zielnode liegt
+};
+
+// Beispiel-Eintrag:
+edge_index_["urn:themis:graph:docs:chunks:abc-123"] = [
+    {
+        source_urn: "urn:themis:graph:docs:chunks:abc-123",
+        source_shard: "worker_001",
+        edge_type: "next",
+        target_urn: "urn:themis:graph:docs:chunks:def-789",
+        target_shard: "worker_002"
+    }
+];
+```
+
+### Beispiel: Graph-Traversierung mit Remote Nodes
+
+```cpp
+// Client-Code: Graph-Traversierung über Shard-Grenzen
+auto start_urn = URN::parse("urn:themis:graph:docs:chunks:abc-123");
+
+// 1. Hole Start-Node (kann auf beliebigem Shard sein)
+auto start_node = hub_shard_->resolveAndFetchNode(start_urn);
+
+// 2. Traverse Edges (einige davon sind remote)
+for (const auto& edge : start_node["edges"]) {
+    std::string target_urn_str = edge["target_urn"];
+    bool is_local = edge["local"];
+    
+    if (is_local) {
+        // Lokaler Node - direkt von Worker-Shard holen
+        auto node = worker_shard_->getLocalNode(target_urn_str);
+    } else {
+        // Remote Node - über Hub-Shard auflösen
+        auto target_urn = URN::parse(target_urn_str);
+        auto node = hub_shard_->resolveAndFetchNode(target_urn);
+    }
+}
+```
+
+### Vorteile der URN-basierten Referenzierung
+
+✅ **Globale Eindeutigkeit** - Jeder Node hat weltweit eindeutige URN  
+✅ **Location Transparency** - Client muss Shard-Verteilung nicht kennen  
+✅ **Resharding-fähig** - URNs bleiben bei Shard-Migration gleich  
+✅ **Federation-ready** - URNs funktionieren cluster-übergreifend  
+✅ **Type Safety** - URN-Schema enthält Model-Typ (graph, relational, vector)
+
+---
+
 ## API-Beispiele für Cross-Shard Queries
 
 ### 1. Graph-Suche über alle Shards
