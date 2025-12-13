@@ -177,7 +177,7 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             // Generate cryptographically secure random filename using OpenSSL
             unsigned char randomBytes[16];
             if (RAND_bytes(randomBytes, sizeof(randomBytes)) != 1) {
-                LOG_ERROR("Failed to generate secure random bytes for temp filename");
+                LOG_ERROR("Failed to generate secure random bytes using OpenSSL RAND_bytes for temp filename");
                 return false;
             }
             

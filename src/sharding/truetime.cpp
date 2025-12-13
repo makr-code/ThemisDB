@@ -331,6 +331,12 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         uint64_t t3_s = ntohl(packet.txTm_s);
         uint64_t t3_f = ntohl(packet.txTm_f);
         
+        // Validate NTP timestamps to prevent integer overflow
+        if (t2_s < NTP_EPOCH_OFFSET || t3_s < NTP_EPOCH_OFFSET) {
+            // Invalid NTP response - timestamps before NTP epoch
+            return false;
+        }
+        
         // Convert NTP timestamps to nanoseconds since Unix epoch
         int64_t t2_ns = static_cast<int64_t>(
             ((t2_s - NTP_EPOCH_OFFSET) * 1000000000ULL) +
