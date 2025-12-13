@@ -2437,5 +2437,505 @@ themisdb_worker_cross_shard_edge_reports_total{shard="worker_001"} = 5234
 ✅ **Global Fusion** - Hub merged und re-rankt Ergebnisse  
 ✅ **Cross-Shard Traversal** - Hub folgt Edges über Shard-Grenzen hinweg
 
+---
+
+## Production Considerations
+
+### Failure Scenarios & Recovery
+
+#### Hub-Shard Ausfall
+
+**Problem:** Hub-Shard ist Single Point of Failure für Query-Koordination
+
+**Lösung: Hub-Shard High Availability**
+
+```yaml
+# Hub-Shard HA-Konfiguration
+hub_shard:
+  high_availability:
+    enabled: true
+    mode: "active_passive"  # oder "active_active"
+    
+    # Primary Hub
+    primary:
+      shard_id: "hub_001"
+      endpoint: "themis-hub-001.cluster.local:8080"
+      
+    # Standby Hubs (Hot Standby)
+    standbys:
+      - shard_id: "hub_002"
+        endpoint: "themis-hub-002.cluster.local:8080"
+        sync_mode: "async"  # Edge-Index Replikation
+      - shard_id: "hub_003"
+        endpoint: "themis-hub-003.cluster.local:8080"
+        sync_mode: "async"
+    
+    # Failover
+    failover:
+      detection_timeout_ms: 5000
+      health_check_interval_ms: 1000
+      automatic_failover: true
+      
+    # Shared State (etcd)
+    shared_state:
+      backend: "etcd"
+      endpoints: ["etcd-001:2379", "etcd-002:2379", "etcd-003:2379"]
+      # Cross-Shard Edge Index in etcd
+      sync_edge_index: true
+```
+
+**Failover-Ablauf:**
+
+1. Health-Check erkennt Primary-Hub-Ausfall
+2. Standby-Hub wird zum Primary promoted
+3. URN-Cache wird aus etcd geladen
+4. Cross-Shard Edge-Index wird synchronisiert
+5. Worker-Shards werden über neuen Primary informiert
+
+**Recovery Time Objective (RTO):** < 30 Sekunden
+
+#### Worker-Shard Ausfall
+
+**Problem:** Worker-Shard mit Daten nicht erreichbar
+
+**Lösung: Replica-Failover + Partial Results**
+
+```cpp
+class HubShard {
+    /**
+     * Worker-Shard Failover bei Scatter-Gather
+     */
+    nlohmann::json executeWithFailover(
+        const std::vector<ShardInfo>& target_shards,
+        const std::string& query
+    ) {
+        std::vector<std::future<ShardResult>> futures;
+        
+        for (const auto& shard : target_shards) {
+            futures.push_back(std::async([this, shard, query]() {
+                ShardResult result;
+                result.shard_id = shard.shard_id;
+                
+                try {
+                    // 1. Versuche Primary Shard
+                    result = executor_->executeQuery(shard, query);
+                } catch (const ShardUnavailableException& e) {
+                    // 2. Failover zu Replica
+                    auto replicas = topology_->getReplicas(shard.shard_id);
+                    
+                    for (const auto& replica : replicas) {
+                        try {
+                            result = executor_->executeQuery(replica, query);
+                            result.served_by_replica = true;
+                            result.replica_shard_id = replica.shard_id;
+                            break;  // Success
+                        } catch (...) {
+                            continue;  // Try next replica
+                        }
+                    }
+                    
+                    // 3. Wenn alle Replicas fehlschlagen
+                    if (!result.success) {
+                        if (config_.enable_partial_results) {
+                            // Partial Results: Fortfahren ohne diesen Shard
+                            result.success = false;
+                            result.partial_failure = true;
+                        } else {
+                            throw;  // Propagate error
+                        }
+                    }
+                }
+                
+                return result;
+            }));
+        }
+        
+        // Collect und merge mit Partial Results Handling
+        return collectAndMergeWithPartialResults(futures);
+    }
+};
+```
+
+#### Netzwerk-Partition (Split-Brain)
+
+**Problem:** Hub kann Worker nicht erreichen, aber Worker sind aktiv
+
+**Lösung: Quorum-basierte Entscheidungen**
+
+```yaml
+consistency:
+  # Quorum für Cross-Shard Operations
+  quorum:
+    read_quorum: "majority"   # N/2 + 1 Shards müssen antworten
+    write_quorum: "majority"
+    
+  # Timeout-Konfiguration
+  timeouts:
+    shard_request_timeout_ms: 5000
+    scatter_gather_timeout_ms: 30000
+    
+  # Split-Brain Prevention
+  split_brain:
+    enabled: true
+    coordination_backend: "etcd"  # Distributed Consensus
+    lease_timeout_seconds: 10
+```
+
+### Consistency Guarantees
+
+#### Read Consistency Levels
+
+```cpp
+enum class ReadConsistency {
+    EVENTUAL,        // Schnellste, kann veraltete Daten liefern
+    MONOTONIC_READ,  // Read-your-writes innerhalb Session
+    STRONG           // Immer aktuellste Daten (langsamer)
+};
+
+nlohmann::json HubShard::executeGraphSearch(
+    const URN& start_urn,
+    uint32_t hops,
+    ReadConsistency consistency_level
+) {
+    switch (consistency_level) {
+        case ReadConsistency::EVENTUAL:
+            // Lese von beliebigem Worker (Replica OK)
+            return executeFastRead(start_urn, hops);
+            
+        case ReadConsistency::MONOTONIC_READ:
+            // Lese von Primary oder aktuellsten Replica
+            return executeMonotonicRead(start_urn, hops);
+            
+        case ReadConsistency::STRONG:
+            // Lese nur von Primary, warte auf Sync
+            return executeStrongRead(start_urn, hops);
+    }
+}
+```
+
+#### Write-After-Read Consistency
+
+**Problem:** Client schreibt Edge, sofortiger Read findet Edge nicht
+
+**Lösung: Session-basierte Consistency + Version Tracking**
+
+```cpp
+struct SessionContext {
+    std::string session_id;
+    uint64_t last_write_version;  // Höchste Version die Session geschrieben hat
+    std::chrono::system_clock::time_point session_start;
+};
+
+class ConsistencyManager {
+public:
+    /**
+     * Garantiert: Reads sehen eigene Writes
+     */
+    nlohmann::json readAfterWrite(
+        const SessionContext& session,
+        const URN& urn
+    ) {
+        auto result = hub_shard_->get(urn);
+        
+        // Prüfe ob Result mindestens so aktuell wie letzter Write
+        if (result.contains("version") && 
+            result["version"].get<uint64_t>() < session.last_write_version) {
+            
+            // Warte auf Replikation oder lese von Primary
+            return hub_shard_->getFromPrimary(urn);
+        }
+        
+        return result;
+    }
+};
+```
+
+### Security & Access Control
+
+**Referenz:** Die Shard-Authentifizierung ist bereits in `docs/sharding/sharding_strategy.md` dokumentiert.
+
+**Wichtige Aspekte für Cross-Shard Security:**
+
+1. **Mutual TLS zwischen Shards**
+   - Hub ↔ Worker: PKI-basierte Zertifikate
+   - Worker ↔ Worker: Peer-Authentifizierung
+
+2. **URN-basierte Access Control**
+   ```cpp
+   // URN enthält Namespace → Access Control Check
+   bool canAccess = acl_->checkPermission(
+       session.user_id,
+       urn.namespace_,
+       Permission::READ
+   );
+   ```
+
+3. **Cross-Shard Query Authorization**
+   - Hub prüft Berechtigung BEVOR Scatter-Gather
+   - Worker validiert Anfragen vom Hub (mutual auth)
+
+**Konfiguration:**
+
+```yaml
+security:
+  shard_authentication:
+    enabled: true
+    mode: "mutual_tls"
+    pki:
+      ca_cert: "/etc/themisdb/certs/ca.crt"
+      hub_cert: "/etc/themisdb/certs/hub.crt"
+      hub_key: "/etc/themisdb/certs/hub.key"
+      
+  urn_access_control:
+    enabled: true
+    enforce_namespace_acl: true
+    
+  cross_shard_queries:
+    require_authentication: true
+    validate_hub_certificate: true
+```
+
+### Capacity Planning
+
+#### Wann neue Shards hinzufügen?
+
+**Trigger-Metriken:**
+
+```yaml
+capacity_triggers:
+  # Storage-basiert
+  storage:
+    high_watermark_percent: 80
+    critical_watermark_percent: 90
+    action: "add_shard"
+    
+  # Request-basiert
+  requests:
+    requests_per_second_threshold: 10000
+    avg_latency_ms_threshold: 100
+    action: "add_shard"
+    
+  # Memory-basiert
+  memory:
+    urn_cache_eviction_rate_threshold: 0.2
+    action: "increase_cache_or_add_shard"
+```
+
+**Shard-Sizing-Guidelines:**
+
+| Metrik | Empfohlener Wert | Max Wert |
+|--------|------------------|----------|
+| Entities pro Shard | 10M - 50M | 100M |
+| Storage pro Shard | 100GB - 500GB | 1TB |
+| Requests/s pro Shard | 1k - 5k | 10k |
+| URN Cache Size | 100k - 1M URNs | 5M |
+
+#### Shard Rebalancing
+
+**Trigger:** Neuer Shard hinzugefügt
+
+**Prozess:**
+
+```cpp
+class ShardRebalancer {
+public:
+    /**
+     * Rebalance nach Shard-Hinzufügung
+     */
+    void rebalanceAfterShardAddition(const std::string& new_shard_id) {
+        // 1. Update Consistent Hash Ring
+        hash_ring_->addShard(new_shard_id, config_.virtual_nodes);
+        
+        // 2. Identifiziere zu verschiebende URNs
+        auto urns_to_migrate = identifyMigrationCandidates(new_shard_id);
+        
+        // 3. Starte Migration (Hintergrund)
+        auto migration_job = std::make_unique<MigrationJob>(
+            urns_to_migrate,
+            new_shard_id,
+            MigrationMode::GRADUAL  // Nicht alle auf einmal
+        );
+        
+        migration_scheduler_->schedule(migration_job);
+        
+        // 4. Update Hub-Shard URN-Cache schrittweise
+        // Während Migration: Dual-Read (alter + neuer Shard)
+        
+        // 5. Nach Migration: Bereinige alte Shards
+    }
+};
+```
+
+### Performance Tuning
+
+#### URN Cache Optimierung
+
+**Cache Size Berechnung:**
+
+```python
+# Formel für optimale Cache-Größe
+def calculate_optimal_cache_size(
+    total_urns: int,
+    hot_urn_percentage: float = 0.1,  # 10% sind "hot"
+    avg_urn_size_bytes: int = 100
+) -> int:
+    """
+    Optimal: Alle "hot" URNs im Cache
+    """
+    hot_urns = int(total_urns * hot_urn_percentage)
+    cache_size_bytes = hot_urns * avg_urn_size_bytes
+    
+    # Add 20% Overhead
+    return int(cache_size_bytes * 1.2)
+
+# Beispiel: 100M URNs, 10% hot
+# = 10M hot URNs × 100 bytes × 1.2 = 1.2GB Cache
+```
+
+**Cache-Konfiguration:**
+
+```yaml
+hub_shard:
+  urn_cache:
+    max_entries: 10000000  # 10M URNs
+    max_memory_mb: 1200
+    eviction_policy: "lru"
+    ttl_seconds: 3600
+    
+    # Preload häufige URNs beim Start
+    preload:
+      enabled: true
+      top_n_urns: 1000000  # Top 1M nach Access-Count
+```
+
+#### Query Timeout-Tuning
+
+```yaml
+timeouts:
+  # Basis-Timeouts
+  single_shard_query_ms: 1000
+  cross_shard_query_ms: 5000
+  scatter_gather_query_ms: 30000
+  
+  # Per-Query-Type Overrides
+  graph_search:
+    timeout_ms_per_hop: 2000  # 2s pro Hop
+    max_total_timeout_ms: 60000
+    
+  hybrid_search:
+    text_search_timeout_ms: 3000
+    vector_search_timeout_ms: 5000
+    graph_expansion_timeout_ms: 5000
+    fusion_timeout_ms: 2000
+    max_total_timeout_ms: 60000
+```
+
+### Troubleshooting Guide
+
+#### Häufige Probleme
+
+**Problem 1: Hohe Cross-Shard Query Latenz**
+
+**Diagnose:**
+```bash
+# Check Scatter-Gather Fanout
+curl http://hub:9090/metrics | grep themisdb_hub_query_fanout_avg
+
+# Check Worker Latenz
+curl http://hub:9090/metrics | grep themisdb_routing_latency_ms
+```
+
+**Lösungen:**
+1. Reduziere Fanout durch besseres Shard-Targeting
+2. Erhöhe Worker-Shard Anzahl (mehr Parallelismus)
+3. Optimiere Query (z.B. kleinere Graph-Hops)
+4. Enable Query Result Caching
+
+**Problem 2: URN Cache Miss Rate hoch**
+
+**Diagnose:**
+```bash
+# Cache Hit Rate prüfen
+curl http://hub:9090/metrics | grep themisdb_hub_urn_cache_hit_rate
+```
+
+**Lösungen:**
+1. Erhöhe Cache-Größe (`max_entries`)
+2. Erhöhe TTL (`ttl_seconds`)
+3. Enable Preloading häufiger URNs
+4. Prüfe ob URN-Pattern zu divers (viele verschiedene URNs)
+
+**Problem 3: Cross-Shard Edge Tracking unvollständig**
+
+**Diagnose:**
+```bash
+# Check Edge-Index Größe
+curl http://hub:8080/api/v1/admin/edge-index/stats
+
+# Vergleiche mit erwarteter Anzahl
+```
+
+**Lösungen:**
+1. Prüfe Link-Discovery-Service Status
+2. Prüfe ob Worker Edges korrekt an Hub melden
+3. Check Edge-Index Replikation (bei HA)
+4. Manuelles Edge-Index Rebuild triggern
+
+**Problem 4: Partial Results nach Worker-Ausfall**
+
+**Diagnose:**
+```bash
+# Check Failed Shards
+curl http://hub:9090/metrics | grep themisdb_routing_errors_total
+```
+
+**Lösungen:**
+1. Prüfe Worker-Shard Health
+2. Aktiviere Replica-Failover
+3. Falls akzeptabel: `enable_partial_results: true`
+4. Erhöhe Worker-Shard Redundanz (mehr Replicas)
+
+#### Debug-Modus
+
+```yaml
+# Für Troubleshooting: Verbose Logging
+logging:
+  level: "debug"
+  
+  # Spezifische Module
+  modules:
+    hub_shard: "trace"
+    shard_router: "debug"
+    urn_resolver: "debug"
+    
+  # Request Tracing
+  request_tracing:
+    enabled: true
+    sample_rate: 1.0  # 100% während Debug
+    include_query_plans: true
+```
+
+**Distributed Tracing:**
+
+```yaml
+tracing:
+  enabled: true
+  backend: "jaeger"
+  endpoint: "jaeger-collector:14268"
+  
+  # Cross-Shard Request Tracing
+  trace_cross_shard_requests: true
+  trace_scatter_gather: true
+  trace_edge_resolution: true
+```
+
+---
+
 **Status:** Design dokumentiert, Implementation folgt in Phase 2  
 **Dependencies:** Sharding ✅, URN System ✅, Graph API ✅, Hybrid Search ✅
+
+**Weitere Referenzen:**
+- Shard Security: `docs/sharding/sharding_strategy.md`
+- Shard Migration: `docs/sharding/sharding_implementation.md`
+- PKI Setup: `docs/security/security_pki.md`
+- Monitoring: `deploy/kubernetes/monitoring/grafana-dashboards/README.md`
