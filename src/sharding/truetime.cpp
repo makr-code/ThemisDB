@@ -247,13 +247,20 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         }
         SocketGuard socketGuard(sockfd);
         
-        // Set socket timeout (5 seconds)
+        // Set socket timeout (5 seconds) - platform-specific
+#ifdef _WIN32
+        DWORD timeout = 5000; // milliseconds on Windows
+        if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout)) < 0) {
+            return false;
+        }
+#else
         struct timeval tv;
         tv.tv_sec = 5;
         tv.tv_usec = 0;
         if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
             return false;
         }
+#endif
         
         // Resolve server address using thread-safe getaddrinfo
         struct addrinfo hints, *result = nullptr;
@@ -313,7 +320,11 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         // Extract T2 (server receive time) and T3 (server transmit time)
         // NTP timestamps are in seconds since 1900-01-01, with 32-bit fraction
         // Convert to nanoseconds since Unix epoch (1970-01-01)
-        const uint64_t NTP_EPOCH_OFFSET = 2208988800ULL; // seconds between 1900 and 1970
+        
+        // NTP_EPOCH_OFFSET = Number of seconds between NTP epoch (1900-01-01) and Unix epoch (1970-01-01)
+        // Calculated as: 70 years * 365.25 days/year * 24 hours/day * 3600 seconds/hour = 2,208,988,800 seconds
+        // This accounts for 17 leap years between 1900 and 1970
+        const uint64_t NTP_EPOCH_OFFSET = 2208988800ULL;
         
         uint64_t t2_s = ntohl(packet.rxTm_s);
         uint64_t t2_f = ntohl(packet.rxTm_f);

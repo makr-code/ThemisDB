@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
-#include <random>
+#include <sstream>
+#include <iomanip>
+#include <openssl/rand.h>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>
@@ -172,15 +174,21 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             // Get system temporary directory and create cryptographically secure random filename
             auto tempDir = std::filesystem::temp_directory_path();
             
-            // Generate secure random filename
-            std::random_device rd;
-            std::mt19937_64 gen(rd());
-            std::uniform_int_distribution<uint64_t> dis;
-            uint64_t random1 = dis(gen);
-            uint64_t random2 = dis(gen);
+            // Generate cryptographically secure random filename using OpenSSL
+            unsigned char randomBytes[16];
+            if (RAND_bytes(randomBytes, sizeof(randomBytes)) != 1) {
+                LOG_ERROR("Failed to generate secure random bytes for temp filename");
+                return false;
+            }
             
+            // Convert random bytes to hex string
             std::ostringstream oss;
-            oss << "themis_" << std::hex << random1 << random2 << ".tmp";
+            oss << "themis_";
+            for (size_t i = 0; i < sizeof(randomBytes); ++i) {
+                oss << std::hex << std::setw(2) << std::setfill('0') 
+                    << static_cast<int>(randomBytes[i]);
+            }
+            oss << ".tmp";
             std::string uniqueName = oss.str();
             tempPath = (tempDir / uniqueName).string();
             
