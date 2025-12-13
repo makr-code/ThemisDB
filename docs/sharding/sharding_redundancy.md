@@ -1145,7 +1145,8 @@ void HubShard::followCrossShardEdges(
     // Fetch nodes from other shards
     std::vector<std::future<nlohmann::json>> futures;
     for (const auto& [urn, shard] : to_fetch) {
-        futures.push_back(std::async([&]() {
+        // Capture loop variables by value to avoid race condition
+        futures.push_back(std::async([this, urn, shard]() {
             // Fetch node by URN from remote shard
             return executor_->fetchNodeByURN(shard, urn);
         }));
