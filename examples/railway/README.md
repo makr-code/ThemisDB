@@ -14,10 +14,14 @@ Vollständiges IoT-basiertes Echtzeit-Überwachungssystem für Zugverkehr mit KI
 ### Schritt 1: Streckennetz generieren
 
 ```bash
+# Installiere nlohmann/json (falls nicht vorhanden)
+# Ubuntu/Debian: sudo apt-get install nlohmann-json3-dev
+# macOS: brew install nlohmann-json
+# Oder: Header-only von https://github.com/nlohmann/json
+
 # Kompiliere Daten-Generator
 cd examples/railway
-g++ -std=c++17 railway_base_data_generator.cpp -o railway_generator \
-    -I../../include/nlohmann
+g++ -std=c++17 railway_base_data_generator.cpp -o railway_generator
 
 # Generiere Streckendaten (ca. 400 Segmente, 150+ Signale)
 mkdir -p ../../data

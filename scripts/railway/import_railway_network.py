@@ -180,12 +180,12 @@ class ThemisDBImporter:
     def _put_entity(self, entity: Dict) -> bool:
         """PUT entity to ThemisDB"""
         key = entity["_key"]
-        blob = json.dumps(entity)
         
         try:
+            # Send entity directly as JSON (not double-encoded)
             response = requests.put(
                 f"{self.themis_url}/entities/{key}",
-                json={"blob": blob},
+                json=entity,
                 timeout=5
             )
             return response.status_code in [200, 201]

@@ -19,6 +19,7 @@ import requests
 import time
 import random
 import math
+import sys
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 import threading
@@ -406,8 +407,13 @@ class TrainSimulator:
             url = f"{self.themis_url}/timeseries/{metric}/{entity}/{timestamp_ms}"
             
             requests.put(url, json=value, timeout=1)
+        except requests.exceptions.RequestException as e:
+            # Log connection errors but don't stop simulation
+            if self.stats['updates_sent'] % 1000 == 0:
+                print(f"\nWarning: Failed to send telemetry: {e}", file=sys.stderr)
         except Exception as e:
-            pass  # Ignore errors in simulation
+            # Log unexpected errors
+            print(f"\nError in _put_timeseries: {e}", file=sys.stderr)
     
     def _update_statistics(self):
         """Update und zeige Statistiken"""
