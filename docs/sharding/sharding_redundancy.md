@@ -2064,7 +2064,71 @@ Response:
 }
 ```
 
-### Grafana Dashboard: Graph-Topologie
+### Grafana Dashboard: Shard Network Monitoring
+
+Ein umfassendes Grafana-Dashboard für Shard-Netzwerk-Monitoring ist verfügbar:
+
+**Location:** `deploy/kubernetes/monitoring/grafana-dashboards/themisdb-shard-network-dashboard.json`
+
+**Dashboard-Funktionen:**
+- **Hub-Shard Network Overview**: Aktive Shards, Cross-Shard Edges, URN Cache
+- **Cross-Shard Query Performance**: Query-Raten, Latenz, Fanout-Verteilung
+- **Link Discovery**: Tracking nach Extraktions-Methode, Konfidenz-Verteilung
+- **Graph Topology Analysis**: Top-10 Hub-Nodes, InDegree-Distribution, Orphaned Documents
+- **Shard Communication**: Netzwerk-Traffic, Routing-Pattern, Error-Raten
+
+**Import-Anleitung:**
+
+```bash
+# Method 1: Via Grafana UI
+# 1. Navigate to Dashboards → Import
+# 2. Upload themisdb-shard-network-dashboard.json
+# 3. Select Prometheus data source
+
+# Method 2: Via kubectl (Kubernetes)
+kubectl apply -f deploy/kubernetes/monitoring/grafana-dashboards/themisdb-shard-network-dashboard.json
+
+# Method 3: ConfigMap
+kubectl create configmap themisdb-shard-network-dashboard \
+  --from-file=deploy/kubernetes/monitoring/grafana-dashboards/themisdb-shard-network-dashboard.json \
+  -n monitoring
+```
+
+**Dashboard-Panels:**
+
+1. **Hub-Shard Network Overview**
+   - Hub Shards Active
+   - Worker Shards Active
+   - Total Cross-Shard Edges
+   - URN Cache Hit Rate
+   - Avg Query Fanout
+
+2. **Cross-Shard Query Performance**
+   - Cross-Shard Query Rate (Graph, Hybrid, Scatter-Gather)
+   - Cross-Shard Query Latency (P95, P99)
+   - Scatter-Gather Fanout Distribution
+
+3. **Link Discovery**
+   - Link Discovery Rate by Method (URN Pattern, NLP, Metadata)
+   - Link Discovery Progress (Scanned, Found, Validated, Cross-Shard)
+   - Link Confidence Distribution
+
+4. **Graph Topology Analysis**
+   - Top 10 Referenced Entities (Hub Nodes) - Table
+   - InDegree Distribution - Histogram
+   - Low-Referenced Entities Count
+   - Average Graph Degree Over Time
+   - Max InDegree (Most Referenced)
+   - Total Graph Nodes Tracked
+
+5. **Shard Communication**
+   - Routing Request Types (Local, Remote, Scatter-Gather)
+   - Shard Network Traffic (Bytes Sent/Received)
+   - Shard Routing Error Rate
+
+**Vollständige Dokumentation:** `deploy/kubernetes/monitoring/grafana-dashboards/README.md`
+
+### Grafana Dashboard: Graph-Topologie (Alternative Ansicht)
 
 ```yaml
 # grafana/dashboards/graph_topology.json (vereinfacht)
