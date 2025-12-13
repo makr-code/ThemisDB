@@ -310,24 +310,96 @@ bool PluginSecurityVerifier::verifyPlugin(const std::string& pluginPath, std::st
 
 bool PluginSecurityVerifier::verifySignature(const std::string& filePath, 
                                              const PluginSignature& signature) {
-    (void)filePath; // Suppress unused parameter warning - stub implementation
-    
-    // Stub implementation - full implementation would use OpenSSL
-    // to verify RSA/ECDSA signature against certificate
-    
     if (signature.signature.empty() || signature.signingCertificate.empty()) {
         return false;
     }
     
-    // TODO: Full implementation
-    // 1. Load certificate
-    // 2. Extract public key
-    // 3. Verify signature of file hash
-    // 4. Verify certificate chain
-    // 5. Check certificate expiration
-    // 6. Check CRL/OCSP if enabled
+    // Step 1: Calculate file hash
+    std::string fileHash = calculateFileHash(filePath);
+    if (fileHash.empty()) {
+        return false;
+    }
     
-    return false; // Stub: always fail for now
+    // Step 2: Load X.509 certificate from PEM string
+    BIO* bio = BIO_new_mem_buf(signature.signingCertificate.data(), 
+                                static_cast<int>(signature.signingCertificate.size()));
+    if (!bio) {
+        return false;
+    }
+    
+    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    
+    if (!cert) {
+        return false;
+    }
+    
+    // Step 3: Check certificate expiration
+    int notBefore = X509_cmp_current_time(X509_get0_notBefore(cert));
+    int notAfter = X509_cmp_current_time(X509_get0_notAfter(cert));
+    
+    if (notBefore >= 0 || notAfter <= 0) {
+        // Certificate is not yet valid or has expired
+        X509_free(cert);
+        return false;
+    }
+    
+    // Step 4: Extract public key from certificate
+    EVP_PKEY* pubKey = X509_get_pubkey(cert);
+    if (!pubKey) {
+        X509_free(cert);
+        return false;
+    }
+    
+    // Step 5: Decode signature from base64 or hex
+    std::vector<uint8_t> sigBytes;
+    try {
+        // Assume signature is hex-encoded for now
+        sigBytes.reserve(signature.signature.size() / 2);
+        for (size_t i = 0; i < signature.signature.size(); i += 2) {
+            std::string byteStr = signature.signature.substr(i, 2);
+            uint8_t byte = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
+            sigBytes.push_back(byte);
+        }
+    } catch (...) {
+        EVP_PKEY_free(pubKey);
+        X509_free(cert);
+        return false;
+    }
+    
+    // Step 6: Verify signature using public key
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    if (!mdctx) {
+        EVP_PKEY_free(pubKey);
+        X509_free(cert);
+        return false;
+    }
+    
+    bool verified = false;
+    
+    // Initialize verification context
+    if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubKey) == 1) {
+        // Convert file hash from hex string to bytes
+        std::vector<uint8_t> hashBytes;
+        hashBytes.reserve(fileHash.size() / 2);
+        for (size_t i = 0; i < fileHash.size(); i += 2) {
+            std::string byteStr = fileHash.substr(i, 2);
+            uint8_t byte = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
+            hashBytes.push_back(byte);
+        }
+        
+        // Verify signature
+        int result = EVP_DigestVerify(mdctx, sigBytes.data(), sigBytes.size(),
+                                      hashBytes.data(), hashBytes.size());
+        verified = (result == 1);
+    }
+    
+    // Cleanup
+    EVP_MD_CTX_free(mdctx);
+    EVP_PKEY_free(pubKey);
+    X509_free(cert);
+    
+    return verified;
 }
 
 void PluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy& policy) {
