@@ -135,24 +135,30 @@ cmake --build build --target themis_enterprise_all
 
 ### Preis-Staffelung
 
-| Edition | Preis | Use Case | Support |
-|---------|-------|----------|---------|
-| **Community** | KOSTENLOS | Entwicklung, kleine Projekte | Community Forum |
-| **Reseller** | Pro-App-Lizenz | Embedding-Programme | E-Mail (Geschäftszeiten) |
-| **Enterprise** | Individuell | Große Deployments, unternehmenskritisch | 24/7 + TAM |
-| **Hyperscaler** | Individuell | Hyperscale, Kubernetes, Cloud-Native | 24/7 + Dedicated Team |
+| Edition | Preis | Nodes | Sharding | Support |
+|---------|-------|-------|----------|---------|
+| **Community** | KOSTENLOS | 1 | ❌ | Community Forum |
+| **Reseller** | Pro-App-Lizenz | 1-3 | ⚠️ Basic (2-3 Nodes, MIRROR) | E-Mail (Geschäftszeiten) |
+| **Enterprise** | Individuell | 4-100 | ✅ Advanced (alle RAID-Modi) | 24/7 + TAM |
+| **Hyperscaler** | Individuell | Unbegrenzt | ✅ Advanced + Auto-Scaling | 24/7 + Dedicated Team |
 
 ### Upgrade-Pfad
 
 ```
-Community (kostenlos, Single-Node)
+Community (kostenlos, Single-Node, kein Sharding)
     ↓
-Reseller (Embedding in Anwendungen, 1-3 Nodes, White-Label)
+Reseller (Embedding in Anwendungen, 1-3 Nodes, Basic Sharding mit 2-3 Nodes, White-Label)
     ↓
-Enterprise (Alle 6 Module + 24/7 Support + bis 100 Nodes)
+Enterprise (Alle 6 Module + 24/7 Support + 4-100 Nodes + Advanced Sharding)
     ↓
 Hyperscaler (Unbegrenzt + Kubernetes Operator + Auto-Scaling)
 ```
+
+**Sharding-Optionen:**
+- **Community:** Kein Sharding
+- **Reseller:** Basic Sharding (nur mit 2-3 Nodes, MIRROR/RAID-1 Modus, 3-5 Shards/Node)
+- **Enterprise:** Advanced Sharding (alle RAID-Modi, 10-20 Shards/Node)
+- **Hyperscaler:** Unbegrenztes Sharding (alle Modi, unbegrenzte Shards/Node)
 
 ---
 

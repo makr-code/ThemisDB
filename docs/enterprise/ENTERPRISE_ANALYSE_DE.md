@@ -247,22 +247,24 @@ public:
 - **Preis:** Pro-Anwendung-Lizenz (Mengenrabatte verfügbar)
 - **Kontakt Vertrieb:** reseller@themisdb.io
 - **Anwendungsfall:** Einbettung von ThemisDB in kommerzielle Anwendungen/Produkte
-- **Limits:** 1-3 Nodes pro Anwendungsinstanz, Single-GPU
+- **Limits:** 1-3 Nodes pro Anwendungsinstanz, Single-GPU, Basic Sharding (bei 2-3 Nodes)
 - **Support:** E-Mail-Support (Geschäftszeiten), Dokumentation
 - **Updates:** Regelmäßige Updates, Sicherheitspatches
-- **Features:** Kern-Datenbank + GPU-Beschleunigung + Vektor-Suchoptimierung
+- **Features:** Kern-Datenbank + GPU-Beschleunigung + Vektor-Suchoptimierung + Basic Sharding (nur MIRROR/RAID-1)
 - **Weitergabe:** Erlaubt mit Anwendung, keine eigenständige Distribution
 - **Branding:** White-Label-Optionen verfügbar
+- **Sharding:** Verfügbar mit 2-3 Nodes (nur RAID-1 MIRROR-Modus, 3-5 Shards pro Node)
 
 #### Enterprise Edition
 - **Preis:** Individuelle Preisgestaltung (Mengenrabatte verfügbar)
 - **Kontakt Vertrieb:** enterprise@themisdb.io
 - **Anwendungsfall:** Große Deployments, unternehmenskritische Systeme
-- **Limits:** Bis zu 100 Nodes (Standard)
+- **Limits:** 4-100 Nodes (Standard)
 - **Support:** 24/7 Telefon + E-Mail, dedizierter TAM
 - **Updates:** Prioritätszugang zu neuen Features
 - **SLA:** 99,99% Uptime-Garantie
-- **Features:** Alle 6 Enterprise-Module (Sharding, GPU, Analytics, Replication, Security, Management, Content)
+- **Features:** Alle 6 Enterprise-Module (Sharding, Analytics, Replication, Security, Management, Content)
+- **Sharding:** Advanced - alle RAID-Modi (MIRROR, STRIPE, STRIPE_MIRROR, PARITY, GEO_MIRROR), 10-20 Shards pro Node
 
 #### Hyperscaler Edition
 - **Preis:** Individuelle Preisgestaltung (Enterprise-Vereinbarungen)

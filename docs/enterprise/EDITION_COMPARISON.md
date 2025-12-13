@@ -43,16 +43,17 @@
 
 | Feature | Community | Reseller | Enterprise | Hyperscaler |
 |---------|----------|------------|-------------|
-| **Horizontal Sharding** | ❌ | ❌ | ✅ | ✅ |
-| **Cross-Shard Joins** | ❌ | ❌ | ✅ | ✅ |
-| **Consistent Hashing** | ❌ | ❌ | ✅ | ✅ |
+| **Horizontal Sharding** | ❌ | ⚠️ Basic (2-3 nodes) | ✅ Advanced | ✅ Advanced |
+| **Cross-Shard Joins** | ❌ | ⚠️ Limited | ✅ | ✅ |
+| **Consistent Hashing** | ❌ | ⚠️ Basic | ✅ | ✅ |
 | **Auto Rebalancing** | ❌ | ❌ | ✅ | ✅ |
 | **P2P Gossip Protocol** | ❌ | ❌ | ✅ | ✅ |
 | **etcd Integration** | ❌ | ❌ | ✅ | ✅ |
 | **Kubernetes Operator** | ❌ | ❌ | ❌ | ✅ |
 | **Auto-Scaling** | ❌ | ❌ | ❌ | ✅ |
-| **Max Nodes** | 1 | 1-3 | 100 | Unlimited |
-| **Max Shards** | 0 | 0 | 1000 | Unlimited |
+| **Max Nodes** | 1 | 1-3 | 4-100 | Unlimited |
+| **Max Shards per Node** | 0 | 3-5 | 10-20 | Unlimited |
+| **RAID Modes** | N/A | MIRROR only | All modes | All modes |
 
 ## Performance & Acceleration
 
@@ -174,22 +175,24 @@
 - **Cost:** Per-application license (volume discounts available)
 - **Contact Sales:** reseller@themisdb.io
 - **Use Case:** Embedding ThemisDB in commercial applications/products
-- **Limits:** 1-3 nodes per application instance, single GPU
+- **Limits:** 1-3 nodes per application instance, single GPU, basic sharding (if 2-3 nodes)
 - **Support:** Email support (business hours), documentation
 - **Updates:** Regular updates, security patches
-- **Features:** Core database + GPU acceleration + vector search optimization
+- **Features:** Core database + GPU acceleration + vector search + basic sharding (MIRROR/RAID-1 only)
 - **Redistribution:** Allowed with application, no standalone distribution
 - **Branding:** White-label options available
+- **Sharding:** Available with 2-3 nodes (RAID-1 MIRROR mode only, 3-5 shards per node)
 
 ### Enterprise Edition
 - **Cost:** Custom pricing (volume discounts available)
 - **Contact Sales:** enterprise@themisdb.io
 - **Use Case:** Large-scale deployments, mission-critical systems
-- **Limits:** Up to 100 nodes (default), custom limits available
+- **Limits:** 4-100 nodes (default), custom limits available
 - **Support:** 24/7 phone + email, dedicated TAM
 - **Updates:** Priority access to new features
 - **SLA:** 99.99% uptime guarantee
 - **Features:** All 6 enterprise modules (Sharding, Analytics, Replication, Security, Management, Content)
+- **Sharding:** Advanced - all RAID modes (MIRROR, STRIPE, STRIPE_MIRROR, PARITY, GEO_MIRROR), 10-20 shards per node
 
 ### Hyperscaler Edition
 - **Cost:** Custom pricing (enterprise agreements)

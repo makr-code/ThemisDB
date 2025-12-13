@@ -392,19 +392,23 @@ public:
 - **Price:** Per-application license (volume discounts available)
 - **Contact Sales:** reseller@themisdb.io
 - **Use Case:** Embedding ThemisDB in commercial applications
-- **Limits:** 1-3 nodes per app instance, single GPU
+- **Limits:** 1-3 nodes per app instance, single GPU, basic sharding (if 2-3 nodes)
 - **Support:** Email support (business hours), documentation
-- **Features:** Core database + GPU + optimized vector search
+- **Features:** Core database + GPU + optimized vector search + basic sharding (MIRROR/RAID-1 only)
 - **Redistribution:** With application only (no standalone)
 - **Branding:** White-label options
+- **Sharding:** Available with 2-3 nodes (RAID-1 MIRROR mode only, 3-5 shards per node)
 
 #### Enterprise Edition
 - **Price:** Custom pricing (volume discounts available)
 - **Contact Sales:** enterprise@themisdb.io
 - **Use Case:** Large-scale deployments, mission-critical systems
-- **Limits:** Up to 100 nodes (default)
+- **Limits:** 4-100 nodes (default), custom limits available
 - **Support:** 24/7 phone + email, dedicated TAM
+- **Updates:** Priority access to new features
+- **SLA:** 99.99% uptime guarantee
 - **Features:** All 6 enterprise modules
+- **Sharding:** Advanced - all RAID modes (MIRROR, STRIPE, STRIPE_MIRROR, PARITY, GEO_MIRROR), 10-20 shards per node
 
 #### Hyperscaler Edition
 - **Price:** Custom pricing (enterprise agreements)
