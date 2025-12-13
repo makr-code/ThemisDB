@@ -251,22 +251,28 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         struct timeval tv;
         tv.tv_sec = 5;
         tv.tv_usec = 0;
-        setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-        
-        // Resolve server address
-        struct sockaddr_in serv_addr;
-        memset(&serv_addr, 0, sizeof(serv_addr));
-        serv_addr.sin_family = AF_INET;
-        serv_addr.sin_port = htons(123); // NTP port
-        
-        // Try to parse as IP address first, otherwise resolve hostname
-        if (inet_pton(AF_INET, server.c_str(), &serv_addr.sin_addr) <= 0) {
-            struct hostent* he = gethostbyname(server.c_str());
-            if (!he) {
-                return false;
-            }
-            memcpy(&serv_addr.sin_addr, he->h_addr, he->h_length);
+        if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+            return false;
         }
+        
+        // Resolve server address using thread-safe getaddrinfo
+        struct addrinfo hints, *result = nullptr;
+        memset(&hints, 0, sizeof(hints));
+        hints.ai_family = AF_INET;       // IPv4
+        hints.ai_socktype = SOCK_DGRAM;  // UDP
+        hints.ai_protocol = IPPROTO_UDP;
+        
+        // Use NTP port (123)
+        if (getaddrinfo(server.c_str(), "123", &hints, &result) != 0 || !result) {
+            return false;
+        }
+        
+        // Copy the resolved address
+        struct sockaddr_in serv_addr;
+        memcpy(&serv_addr, result->ai_addr, result->ai_addrlen);
+        
+        // Free the result
+        freeaddrinfo(result);
         
         // Prepare NTP request packet
         NTPPacket packet;

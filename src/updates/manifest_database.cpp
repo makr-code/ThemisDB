@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <random>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>
@@ -168,11 +169,19 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
         // For this, we create a temporary file containing the hash
         std::string tempPath;
         try {
-            // Get system temporary directory and create unique filename
+            // Get system temporary directory and create cryptographically secure random filename
             auto tempDir = std::filesystem::temp_directory_path();
-            auto uniqueName = "themis_manifest_" + manifest.version + "_" + 
-                            std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) + 
-                            ".hash";
+            
+            // Generate secure random filename
+            std::random_device rd;
+            std::mt19937_64 gen(rd());
+            std::uniform_int_distribution<uint64_t> dis;
+            uint64_t random1 = dis(gen);
+            uint64_t random2 = dis(gen);
+            
+            std::ostringstream oss;
+            oss << "themis_" << std::hex << random1 << random2 << ".tmp";
+            std::string uniqueName = oss.str();
             tempPath = (tempDir / uniqueName).string();
             
             // Create temporary file with restricted permissions

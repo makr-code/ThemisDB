@@ -426,13 +426,17 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog& log, const Mining
                 // Redirect edges: activity -> gateway -> targets
                 auto actNode = actToNode[activity];
                 
+                // Build set of target nodes for O(1) lookup
+                std::unordered_set<std::string> targetNodes;
+                for (const auto& target : targets) {
+                    targetNodes.insert(actToNode[target]);
+                }
+                
                 // Remove old edges from activity to targets and add new ones
                 process.edges.erase(
                     std::remove_if(process.edges.begin(), process.edges.end(),
                         [&](const DiscoveredProcess::Edge& e) {
-                            return e.from == actNode && 
-                                   std::find_if(targets.begin(), targets.end(),
-                                       [&](const std::string& t) { return e.to == actToNode[t]; }) != targets.end();
+                            return e.from == actNode && targetNodes.count(e.to) > 0;
                         }),
                     process.edges.end()
                 );
@@ -482,13 +486,17 @@ DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog& log, const Mining
                 // Redirect edges: sources -> gateway -> activity
                 auto actNode = actToNode[activity];
                 
+                // Build set of source nodes for O(1) lookup
+                std::unordered_set<std::string> sourceNodes;
+                for (const auto& source : sources) {
+                    sourceNodes.insert(actToNode[source]);
+                }
+                
                 // Remove old edges from sources to activity
                 process.edges.erase(
                     std::remove_if(process.edges.begin(), process.edges.end(),
                         [&](const DiscoveredProcess::Edge& e) {
-                            return e.to == actNode && 
-                                   std::find_if(sources.begin(), sources.end(),
-                                       [&](const std::string& s) { return e.from == actToNode[s]; }) != sources.end();
+                            return e.to == actNode && sourceNodes.count(e.from) > 0;
                         }),
                     process.edges.end()
                 );
