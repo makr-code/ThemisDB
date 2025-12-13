@@ -1167,6 +1167,12 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugi
     add_subdirectory(plugins)
 endif()
 
+# Enterprise Modules (new modular DLL architecture)
+option(THEMIS_BUILD_ENTERPRISE "Enable enterprise module builds" OFF)
+if(THEMIS_BUILD_ENTERPRISE)
+    add_subdirectory(src/enterprise)
+endif()
+
 # Installation
 install(TARGETS themis_server themis_core
     RUNTIME DESTINATION bin
