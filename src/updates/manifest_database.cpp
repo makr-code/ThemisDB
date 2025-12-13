@@ -165,17 +165,36 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
         
         // Verify signature using the plugin security verifier
         // Note: We're verifying the manifest hash signature, not a file
-        // For this, we create a temporary string containing the hash
-        std::string tempPath = "/tmp/manifest_" + manifest.version + ".hash";
+        // For this, we create a temporary file containing the hash
+        std::string tempPath;
         try {
-            std::ofstream temp(tempPath);
+            // Get system temporary directory and create unique filename
+            auto tempDir = std::filesystem::temp_directory_path();
+            auto uniqueName = "themis_manifest_" + manifest.version + "_" + 
+                            std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) + 
+                            ".hash";
+            tempPath = (tempDir / uniqueName).string();
+            
+            // Create temporary file with restricted permissions
+            std::ofstream temp(tempPath, std::ios::binary | std::ios::trunc);
+            if (!temp) {
+                LOG_ERROR("Failed to create temporary file for manifest verification");
+                return false;
+            }
             temp << manifest.manifest_hash;
             temp.close();
+            
+            // Set file permissions to owner-only (Unix-like systems)
+            #ifndef _WIN32
+            std::filesystem::permissions(tempPath, 
+                std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,
+                std::filesystem::perm_options::replace);
+            #endif
             
             bool verified = verifier_->verifySignature(tempPath, sig);
             
             // Clean up temporary file
-            std::remove(tempPath.c_str());
+            std::filesystem::remove(tempPath);
             
             // Cache the result
             cacheSignatureVerification(manifest.manifest_hash, verified, manifest.signing_certificate);
@@ -187,6 +206,14 @@ bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
             
             LOG_INFO("Manifest signature verified for version {}", manifest.version);
         } catch (const std::exception& e) {
+            // Ensure cleanup even on exception
+            if (!tempPath.empty()) {
+                try {
+                    std::filesystem::remove(tempPath);
+                } catch (...) {
+                    // Ignore cleanup errors
+                }
+            }
             LOG_ERROR("Exception during manifest signature verification: {}", e.what());
             return false;
         }

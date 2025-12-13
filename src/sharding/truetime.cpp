@@ -200,6 +200,26 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
     // Implement SNTP (Simple Network Time Protocol) client - RFC 4330
     // This is a simplified version suitable for time synchronization
     
+    // RAII wrapper for socket to ensure cleanup
+    class SocketGuard {
+        int fd_;
+    public:
+        explicit SocketGuard(int fd) : fd_(fd) {}
+        ~SocketGuard() { 
+            if (fd_ >= 0) {
+#ifdef _WIN32
+                closesocket(fd_);
+#else
+                close(fd_);
+#endif
+            }
+        }
+        int get() const { return fd_; }
+        // Prevent copying
+        SocketGuard(const SocketGuard&) = delete;
+        SocketGuard& operator=(const SocketGuard&) = delete;
+    };
+    
     try {
         // NTP packet structure (48 bytes)
         struct NTPPacket {
@@ -220,11 +240,12 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
             uint32_t txTm_f;         // Transmit timestamp (fraction)
         };
         
-        // Create socket
+        // Create socket with RAII cleanup
         int sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (sockfd < 0) {
             return false;
         }
+        SocketGuard socketGuard(sockfd);
         
         // Set socket timeout (5 seconds)
         struct timeval tv;
@@ -242,7 +263,6 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         if (inet_pton(AF_INET, server.c_str(), &serv_addr.sin_addr) <= 0) {
             struct hostent* he = gethostbyname(server.c_str());
             if (!he) {
-                close(sockfd);
                 return false;
             }
             memcpy(&serv_addr.sin_addr, he->h_addr, he->h_length);
@@ -252,8 +272,8 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         NTPPacket packet;
         memset(&packet, 0, sizeof(packet));
         
-        // Set NTP version 4 and mode 3 (client)
-        packet.li_vn_mode = 0x1B; // LI=0, VN=3 (NTPv3), Mode=3 (client)
+        // Set NTP version 4 and mode 3 (client) - RFC 4330
+        packet.li_vn_mode = 0x23; // LI=0, VN=4 (SNTPv4), Mode=3 (client)
         
         // Record T1 (client transmit time)
         auto t1 = std::chrono::system_clock::now();
@@ -264,7 +284,6 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
         // Send request
         if (sendto(sockfd, &packet, sizeof(packet), 0,
                    (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-            close(sockfd);
             return false;
         }
         
@@ -279,7 +298,7 @@ bool TrueTime::queryNTPServer(const std::string& server, int64_t& offset) {
             t4.time_since_epoch()
         ).count();
         
-        close(sockfd);
+        // Socket will be automatically closed by SocketGuard destructor
         
         if (n < (ssize_t)sizeof(packet)) {
             return false;

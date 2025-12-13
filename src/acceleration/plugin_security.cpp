@@ -17,6 +17,38 @@ namespace acceleration {
 using json = nlohmann::json;
 
 // ============================================================================
+// Helper Functions
+// ============================================================================
+
+/**
+ * @brief Decode hex string to bytes
+ * @param hexStr Hex-encoded string (must have even length)
+ * @param outBytes Output vector for decoded bytes
+ * @return true if successful, false if invalid format
+ */
+static bool decodeHexString(const std::string& hexStr, std::vector<uint8_t>& outBytes) {
+    // Validate hex string length is even
+    if (hexStr.size() % 2 != 0) {
+        return false;
+    }
+    
+    outBytes.clear();
+    outBytes.reserve(hexStr.size() / 2);
+    
+    try {
+        for (size_t i = 0; i < hexStr.size(); i += 2) {
+            std::string byteStr = hexStr.substr(i, 2);
+            uint8_t byte = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
+            outBytes.push_back(byte);
+        }
+        return true;
+    } catch (...) {
+        outBytes.clear();
+        return false;
+    }
+}
+
+// ============================================================================
 // PluginSecurityVerifier Implementation
 // ============================================================================
 
@@ -351,17 +383,9 @@ bool PluginSecurityVerifier::verifySignature(const std::string& filePath,
         return false;
     }
     
-    // Step 5: Decode signature from base64 or hex
+    // Step 5: Decode signature from hex
     std::vector<uint8_t> sigBytes;
-    try {
-        // Assume signature is hex-encoded for now
-        sigBytes.reserve(signature.signature.size() / 2);
-        for (size_t i = 0; i < signature.signature.size(); i += 2) {
-            std::string byteStr = signature.signature.substr(i, 2);
-            uint8_t byte = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
-            sigBytes.push_back(byte);
-        }
-    } catch (...) {
+    if (!decodeHexString(signature.signature, sigBytes)) {
         EVP_PKEY_free(pubKey);
         X509_free(cert);
         return false;
@@ -381,17 +405,12 @@ bool PluginSecurityVerifier::verifySignature(const std::string& filePath,
     if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubKey) == 1) {
         // Convert file hash from hex string to bytes
         std::vector<uint8_t> hashBytes;
-        hashBytes.reserve(fileHash.size() / 2);
-        for (size_t i = 0; i < fileHash.size(); i += 2) {
-            std::string byteStr = fileHash.substr(i, 2);
-            uint8_t byte = static_cast<uint8_t>(std::stoi(byteStr, nullptr, 16));
-            hashBytes.push_back(byte);
+        if (decodeHexString(fileHash, hashBytes)) {
+            // Verify signature
+            int result = EVP_DigestVerify(mdctx, sigBytes.data(), sigBytes.size(),
+                                          hashBytes.data(), hashBytes.size());
+            verified = (result == 1);
         }
-        
-        // Verify signature
-        int result = EVP_DigestVerify(mdctx, sigBytes.data(), sigBytes.size(),
-                                      hashBytes.data(), hashBytes.size());
-        verified = (result == 1);
     }
     
     // Cleanup
