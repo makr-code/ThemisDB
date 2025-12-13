@@ -1845,7 +1845,362 @@ themisdb_link_discovery_confidence_bucket{le="0.5"} = 23
 themisdb_link_discovery_confidence_bucket{le="0.7"} = 156
 themisdb_link_discovery_confidence_bucket{le="0.9"} = 512
 themisdb_link_discovery_confidence_bucket{le="1.0"} = 734
+
+# Graph-Topologie Metriken: Incoming/Outgoing Edges
+themisdb_graph_node_incoming_edges{urn="urn:themis:hierarchy:government:institutional:de_bmf:*"} = 1243
+themisdb_graph_node_outgoing_edges{urn="urn:themis:graph:docs:document:doc-123"} = 5
+
+# Degree-Verteilung (In-Degree)
+themisdb_graph_indegree_bucket{le="1"} = 8934      # Wenig referenziert
+themisdb_graph_indegree_bucket{le="10"} = 12450
+themisdb_graph_indegree_bucket{le="100"} = 13892
+themisdb_graph_indegree_bucket{le="1000"} = 14123  # Sehr viel referenziert
+themisdb_graph_indegree_bucket{le="+Inf"} = 14234
+
+# Top referenzierte Entities (Hub-Nodes)
+themisdb_graph_top_referenced_entities{
+  urn="urn:themis:hierarchy:government:institutional:de_bmf:uuid-1",
+  type="authority",
+  indegree="1243"
+} = 1
 ```
+
+### Graph-Topologie Analyse: Hub-Nodes und Leaf-Nodes
+
+Der Link-Discovery-Service erfasst automatisch **Graph-Metriken** für jede Entity:
+
+```cpp
+/**
+ * Graph Topology Metrics Tracker
+ */
+class GraphTopologyMetrics {
+public:
+    struct NodeMetrics {
+        std::string urn;
+        std::string type;
+        int64_t indegree = 0;   // Anzahl eingehender Edges (wie oft referenziert)
+        int64_t outdegree = 0;  // Anzahl ausgehender Edges (wie viele Referenzen)
+        double centrality = 0.0; // PageRank-ähnliche Zentralität
+        std::chrono::system_clock::time_point last_updated;
+    };
+    
+    /**
+     * Update Metrics wenn neue Edge registriert wird
+     */
+    void onEdgeRegistered(const URN& source_urn, const URN& target_urn) {
+        std::unique_lock lock(metrics_mutex_);
+        
+        // Erhöhe OutDegree für Source
+        auto& source_metrics = getOrCreateMetrics(source_urn);
+        source_metrics.outdegree++;
+        source_metrics.last_updated = std::chrono::system_clock::now();
+        
+        // Erhöhe InDegree für Target
+        auto& target_metrics = getOrCreateMetrics(target_urn);
+        target_metrics.indegree++;
+        target_metrics.last_updated = std::chrono::system_clock::now();
+        
+        // Update Prometheus Metrics
+        prometheus_indegree_->Set({{"urn", target_urn.toString()}}, 
+                                  target_metrics.indegree);
+        prometheus_outdegree_->Set({{"urn", source_urn.toString()}}, 
+                                   source_metrics.outdegree);
+        
+        // Update Histogramme
+        indegree_histogram_->Observe(target_metrics.indegree);
+        outdegree_histogram_->Observe(source_metrics.outdegree);
+    }
+    
+    /**
+     * Finde Top-N referenzierte Entities (Hub-Nodes)
+     */
+    std::vector<NodeMetrics> getTopReferencedEntities(size_t top_n = 10) {
+        std::shared_lock lock(metrics_mutex_);
+        
+        std::vector<NodeMetrics> all_nodes;
+        for (const auto& [urn, metrics] : node_metrics_) {
+            all_nodes.push_back(metrics);
+        }
+        
+        // Sortiere nach InDegree (absteigend)
+        std::partial_sort(
+            all_nodes.begin(), 
+            all_nodes.begin() + std::min(top_n, all_nodes.size()),
+            all_nodes.end(),
+            [](const NodeMetrics& a, const NodeMetrics& b) {
+                return a.indegree > b.indegree;
+            }
+        );
+        
+        all_nodes.resize(std::min(top_n, all_nodes.size()));
+        return all_nodes;
+    }
+    
+    /**
+     * Finde Entities mit wenigen Referenzen (Leaf-Nodes)
+     */
+    std::vector<NodeMetrics> getLowReferencedEntities(
+        int64_t max_indegree = 5, 
+        size_t limit = 100
+    ) {
+        std::shared_lock lock(metrics_mutex_);
+        
+        std::vector<NodeMetrics> low_referenced;
+        for (const auto& [urn, metrics] : node_metrics_) {
+            if (metrics.indegree <= max_indegree) {
+                low_referenced.push_back(metrics);
+            }
+            if (low_referenced.size() >= limit) {
+                break;
+            }
+        }
+        
+        return low_referenced;
+    }
+    
+    /**
+     * Export Metrics für Prometheus
+     */
+    nlohmann::json exportMetrics() {
+        std::shared_lock lock(metrics_mutex_);
+        
+        nlohmann::json result;
+        result["total_nodes"] = node_metrics_.size();
+        
+        // Statistiken
+        int64_t total_indegree = 0;
+        int64_t total_outdegree = 0;
+        int64_t max_indegree = 0;
+        int64_t max_outdegree = 0;
+        
+        for (const auto& [urn, metrics] : node_metrics_) {
+            total_indegree += metrics.indegree;
+            total_outdegree += metrics.outdegree;
+            max_indegree = std::max(max_indegree, metrics.indegree);
+            max_outdegree = std::max(max_outdegree, metrics.outdegree);
+        }
+        
+        result["avg_indegree"] = static_cast<double>(total_indegree) / node_metrics_.size();
+        result["avg_outdegree"] = static_cast<double>(total_outdegree) / node_metrics_.size();
+        result["max_indegree"] = max_indegree;
+        result["max_outdegree"] = max_outdegree;
+        
+        // Top referenzierte
+        auto top_referenced = getTopReferencedEntities(10);
+        nlohmann::json top_array = nlohmann::json::array();
+        for (const auto& node : top_referenced) {
+            top_array.push_back({
+                {"urn", node.urn},
+                {"type", node.type},
+                {"indegree", node.indegree}
+            });
+        }
+        result["top_referenced"] = top_array;
+        
+        return result;
+    }
+    
+private:
+    std::unordered_map<std::string, NodeMetrics> node_metrics_;
+    mutable std::shared_mutex metrics_mutex_;
+    
+    std::shared_ptr<prometheus::Gauge> prometheus_indegree_;
+    std::shared_ptr<prometheus::Gauge> prometheus_outdegree_;
+    std::shared_ptr<prometheus::Histogram> indegree_histogram_;
+    std::shared_ptr<prometheus::Histogram> outdegree_histogram_;
+};
+```
+
+### API: Graph-Topologie Abfragen
+
+```bash
+# API: Top referenzierte Entities (Hub-Nodes)
+GET /api/v1/graph/topology/top-referenced?limit=10
+
+Response:
+{
+  "total_nodes": 14234,
+  "avg_indegree": 3.2,
+  "max_indegree": 1243,
+  "top_referenced": [
+    {
+      "urn": "urn:themis:hierarchy:government:institutional:de_bmf:uuid-1",
+      "type": "authority",
+      "indegree": 1243,
+      "outdegree": 15,
+      "centrality": 0.89
+    },
+    {
+      "urn": "urn:themis:graph:docs:policy:policy-456",
+      "type": "policy_document",
+      "indegree": 892,
+      "outdegree": 23,
+      "centrality": 0.76
+    }
+  ]
+}
+
+# API: Wenig referenzierte Entities (Leaf-Nodes)
+GET /api/v1/graph/topology/low-referenced?max_indegree=2&limit=100
+
+Response:
+{
+  "total_matching": 8934,
+  "returned": 100,
+  "low_referenced": [
+    {
+      "urn": "urn:themis:graph:docs:document:doc-9876",
+      "type": "document",
+      "indegree": 0,
+      "outdegree": 3
+    },
+    {
+      "urn": "urn:themis:graph:docs:chunk:chunk-5432",
+      "type": "chunk",
+      "indegree": 1,
+      "outdegree": 2
+    }
+  ]
+}
+```
+
+### Grafana Dashboard: Graph-Topologie
+
+```yaml
+# grafana/dashboards/graph_topology.json (vereinfacht)
+panels:
+  - title: "Top 10 Referenzierte Entities (Hub-Nodes)"
+    type: "table"
+    targets:
+      - expr: |
+          topk(10, themisdb_graph_node_incoming_edges)
+    columns:
+      - URN
+      - Type
+      - InDegree
+      
+  - title: "InDegree Verteilung"
+    type: "histogram"
+    targets:
+      - expr: |
+          themisdb_graph_indegree_bucket
+          
+  - title: "Entities mit wenigen Referenzen"
+    type: "stat"
+    targets:
+      - expr: |
+          count(themisdb_graph_node_incoming_edges <= 2)
+    thresholds:
+      - value: 1000
+        color: "green"
+      - value: 5000
+        color: "yellow"
+      - value: 10000
+        color: "red"
+        
+  - title: "Avg InDegree über Zeit"
+    type: "graph"
+    targets:
+      - expr: |
+          avg(themisdb_graph_node_incoming_edges)
+```
+
+### Use Cases für Graph-Topologie Metriken
+
+**1. Wichtige Entities identifizieren (Hub-Nodes)**
+- Behörden mit vielen Dokumenten
+- Policies die oft referenziert werden
+- Zentrale Personen/Organisationen
+
+```sql
+-- Query: Finde die 10 wichtigsten Behörden nach Referenzen
+SELECT urn, type, indegree 
+FROM graph_topology_metrics 
+WHERE type = 'authority' 
+ORDER BY indegree DESC 
+LIMIT 10;
+```
+
+**2. Orphaned Documents erkennen (Leaf-Nodes)**
+- Dokumente ohne eingehende Referenzen
+- Potentiell isolierte oder vergessene Inhalte
+- Kandidaten für Archivierung oder Review
+
+```sql
+-- Query: Finde Dokumente ohne Referenzen
+SELECT urn, type, created_at 
+FROM graph_topology_metrics 
+WHERE indegree = 0 AND type = 'document'
+ORDER BY created_at DESC;
+```
+
+**3. Anomalie-Erkennung**
+- Plötzlicher Anstieg von Referenzen (virales Dokument)
+- Unerwartete Link-Patterns
+- Potentielle Daten-Qualitätsprobleme
+
+```python
+# Alerting Rule (Prometheus)
+- alert: HighInDegreeAnomaly
+  expr: |
+    (themisdb_graph_node_incoming_edges - 
+     themisdb_graph_node_incoming_edges offset 1h) > 100
+  for: 5m
+  annotations:
+    summary: "Entity {{ $labels.urn }} hat ungewöhnlich viele neue Referenzen"
+```
+
+### Persistent Storage für Topologie-Metriken
+
+```cpp
+/**
+ * Persistiere Graph-Topologie Metriken in TimeSeries DB
+ */
+class TopologyMetricsPersister {
+public:
+    /**
+     * Snapshot Metriken alle N Minuten
+     */
+    void scheduleSnapshot(std::chrono::minutes interval) {
+        while (!should_stop_) {
+            auto metrics = topology_metrics_->exportMetrics();
+            
+            // Speichere in TimeSeries (z.B. InfluxDB)
+            influxdb_->write(
+                "graph_topology",
+                {
+                    {"measurement", "node_metrics"},
+                    {"time", std::chrono::system_clock::now()},
+                    {"fields", {
+                        {"total_nodes", metrics["total_nodes"]},
+                        {"avg_indegree", metrics["avg_indegree"]},
+                        {"max_indegree", metrics["max_indegree"]}
+                    }}
+                }
+            );
+            
+            // Speichere Top-N Hub-Nodes
+            for (const auto& node : metrics["top_referenced"]) {
+                influxdb_->write(
+                    "graph_topology",
+                    {
+                        {"measurement", "hub_nodes"},
+                        {"tags", {{"urn", node["urn"]}, {"type", node["type"]}}},
+                        {"time", std::chrono::system_clock::now()},
+                        {"fields", {
+                            {"indegree", node["indegree"]},
+                            {"outdegree", node["outdegree"]}
+                        }}
+                    }
+                );
+            }
+            
+            std::this_thread::sleep_for(interval);
+        }
+    }
+};
+```
+
 
 ### Zusammenfassung: Link-Discovery Strategien
 
