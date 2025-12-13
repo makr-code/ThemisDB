@@ -290,6 +290,11 @@ ThemisDB bietet flexible Redundanz-Modi ähnlich RAID-Systemen:
 - **Leader-Follower:** WAL-basiert, Automatic Failover
 - **Multi-Master:** CRDTs, Vector Clocks, HLC
 
+**Cross-Shard Search:**
+- **URN-basierte Queries** - Location-transparent über alle Shards
+- **Hub-Shard Nodes** - Koordination für Graph/Hybrid Search
+- **Scatter-Gather** - Parallele Ausführung mit Result Fusion
+
 Siehe: [`docs/sharding/sharding_redundancy.md`](docs/sharding/sharding_redundancy.md)
 
 ### Complex Event Processing (CEP)
