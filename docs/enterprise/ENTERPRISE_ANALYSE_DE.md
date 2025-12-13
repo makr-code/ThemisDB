@@ -255,25 +255,29 @@ public:
 - **Support:** Community-Foren, GitHub Issues
 - **Updates:** Open-Source-Releases
 
-#### Professional Edition
-- **Preis:** 500€ pro Node pro Monat
-- **Abrechnung:** Monatlich oder jährlich (5.000€/Jahr pro Node)
-- **Minimum:** 1 Node
-- **Anwendungsfall:** Produktions-Deployments bis zu 10 Nodes
-- **Support:** E-Mail-Support (48h Reaktionszeit)
-- **Updates:** Regelmäßige Updates, Sicherheitspatches
-
 #### Enterprise Edition
 - **Preis:** Individuelle Preisgestaltung (Mengenrabatte verfügbar)
 - **Kontakt Vertrieb:** enterprise@themisdb.io
 - **Anwendungsfall:** Große Deployments, unternehmenskritische Systeme
+- **Limits:** Bis zu 100 Nodes (Standard)
 - **Support:** 24/7 Telefon + E-Mail, dedizierter TAM
 - **Updates:** Prioritätszugang zu neuen Features
 - **SLA:** 99,99% Uptime-Garantie
+- **Features:** Alle 7 Enterprise-Module (Sharding, GPU, Analytics, Replication, Security, Management, Content)
+
+#### Hyperscaler Edition
+- **Preis:** Individuelle Preisgestaltung (Enterprise-Vereinbarungen)
+- **Kontakt Vertrieb:** hyperscaler@themisdb.io
+- **Anwendungsfall:** Hyperscale-Deployments, Kubernetes-Cluster, Cloud-Native-Architekturen
+- **Limits:** Unbegrenzte Nodes und Shards
+- **Support:** 24/7 Telefon + E-Mail, dediziertes Engineering-Team
+- **Updates:** Frühzeitiger Zugang zu neuen Features
+- **SLA:** 99,999% Uptime-Garantie
+- **Features:** Alle Enterprise-Module + Kubernetes Operator + Auto-Scaling + Multi-Region Support
 
 #### Test-Lizenz
 - **Dauer:** 30 Tage
-- **Umfang:** Alle Enterprise-Features
+- **Umfang:** Alle Enterprise- und Hyperscaler-Features
 - **Keine Kreditkarte** erforderlich
 - **Anmeldung:** https://themisdb.io/trial
 

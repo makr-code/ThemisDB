@@ -140,17 +140,17 @@ cmake --build build --target themis_enterprise_all
 | Edition | Preis | Use Case | Support |
 |---------|-------|----------|---------|
 | **Community** | KOSTENLOS | Entwicklung, kleine Projekte | Community Forum |
-| **Professional** | 500€/Node/Monat | Bis 10 Nodes | E-Mail (48h) |
-| **Enterprise** | Individuell | Unbegrenzt | 24/7 + TAM |
+| **Enterprise** | Individuell | Große Deployments, unternehmenskritisch | 24/7 + TAM |
+| **Hyperscaler** | Individuell | Hyperscale, Kubernetes, Cloud-Native | 24/7 + Dedicated Team |
 
 ### Upgrade-Pfad
 
 ```
 Community (kostenlos, Single-Node)
     ↓
-Professional (Sharding + GPU + Analytics)
+Enterprise (Alle 7 Module + 24/7 Support + bis 100 Nodes)
     ↓
-Enterprise (Alle Module + 24/7 Support)
+Hyperscaler (Unbegrenzt + Kubernetes Operator + Auto-Scaling)
 ```
 
 ---

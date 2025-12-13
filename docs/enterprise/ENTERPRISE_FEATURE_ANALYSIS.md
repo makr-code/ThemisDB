@@ -406,19 +406,21 @@ public:
 - **Limits:** Single node, 8 cores, no enterprise modules
 - **Support:** Community forums, GitHub issues
 
-#### Professional Edition
-- **Price:** $500/node/month (or $5,000/year)
-- **Includes:** Sharding + GPU + Analytics
-- **Use Case:** Growing businesses, medium-scale deployments
-- **Limits:** Up to 10 nodes
-- **Support:** Email support, 48h response time
-
 #### Enterprise Edition
-- **Price:** Custom (volume discounts, >10 nodes)
-- **Includes:** All enterprise modules
-- **Use Case:** Large enterprises, mission-critical systems
-- **Limits:** Unlimited (custom license terms)
-- **Support:** 24/7 phone/email, dedicated TAM, SLA guarantees
+- **Price:** Custom pricing (volume discounts available)
+- **Contact Sales:** enterprise@themisdb.io
+- **Use Case:** Large-scale deployments, mission-critical systems
+- **Limits:** Up to 100 nodes (default)
+- **Support:** 24/7 phone + email, dedicated TAM
+- **Features:** All 7 enterprise modules
+
+#### Hyperscaler Edition
+- **Price:** Custom pricing (enterprise agreements)
+- **Contact Sales:** hyperscaler@themisdb.io
+- **Use Case:** Hyperscale deployments, Kubernetes, cloud-native
+- **Limits:** Unlimited nodes and shards
+- **Support:** 24/7 phone + email, dedicated engineering team
+- **Features:** All enterprise modules + Kubernetes Operator + Auto-Scaling
 
 #### Trial License
 - **Duration:** 30 days
