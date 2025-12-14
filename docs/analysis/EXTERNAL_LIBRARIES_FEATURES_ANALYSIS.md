@@ -33,13 +33,14 @@ ThemisDB nutzt eine Reihe leistungsstarker externer Bibliotheken (RocksDB, TBB, 
 - ✅ Compaction (Level/Universal Style)
 
 **Analyse des aktuellen Codes:**
-```cpp
-// src/storage/rocksdb_wrapper.cpp
+
+Basierend auf `src/storage/rocksdb_wrapper.cpp`:
 - Basic Options Configuration (Memtable, Block Cache, Compaction)
 - TransactionDB für ACID-Garantien
 - Column Families für Index-Separation
 - Statistics für Performance Monitoring
-```
+- Bloom Filters und Block-Based Table Options
+- Compression Settings (LZ4, ZSTD)
 
 ### 1.2 Ungenutztes Potenzial - Kurzfristig (Q1-Q2 2026)
 
@@ -385,10 +386,11 @@ float sum = thrust::reduce(d_vec.begin(), d_vec.end(), 0.0f, thrust::plus<float>
 - Automatische Page Migration zwischen Host/Device
 - Reduzierter Boilerplate Code
 
-#### 3.3.2 NVGRAPH (Graph Analytics auf GPU)
-**Status:** ❌ Nicht genutzt (deprecated, aber Nachfolger: cuGraph)  
+#### 3.3.2 cuGraph (Graph Analytics auf GPU)
+**Status:** ❌ Nicht genutzt  
 **Priorität:** 🟢 Niedrig  
 **Use Case:** PageRank, BFS, SSSP auf GPU
+**Hinweis:** NVIDIA cuGraph ist der aktuelle Standard für GPU-basierte Graph Analytics (Nachfolger von NVGRAPH)
 
 #### 3.3.3 TensorRT (Deep Learning Inference)
 **Status:** ❌ Nicht genutzt  
@@ -423,9 +425,10 @@ target_link_libraries(themis_core PUBLIC Arrow::arrow_shared)
 ```
 
 **Status:**
-- ⚠️ Arrow dependency vorhanden, aber **Code-Nutzung unklar**
-- ⚠️ Parquet Feature installiert, aber keine `#include <arrow/parquet/...>` gefunden
-- ⚠️ Compute Feature installiert, aber keine Arrow Compute Kernels genutzt
+- ⚠️ Arrow dependency vorhanden in `vcpkg.json` und `CMakeLists.txt`
+- ⚠️ Parquet Feature installiert, aber keine direkten Includes in Codebase gefunden (Suche nach `arrow::` ergab keine Treffer in `src/`)
+- ⚠️ Compute Feature installiert, aber keine Arrow Compute Kernels in `src/analytics/olap.cpp` oder `src/query/query_engine.cpp` verwendet
+- **Vermutung:** Arrow als Dependency für Faiss/HNSW oder zukünftige Nutzung reserviert
 
 ### 4.2 Ungenutztes Potenzial - Kurzfristig (Q1-Q2 2026)
 
@@ -644,10 +647,10 @@ propagator.Inject(carrier, context);
 - Schema Validation
 
 ### 7.2 hnswlib
-**Aktuell:** ✅ Vector Index (HNSW)  
+**Aktuell:** ✅ Vector Index (HNSW) in `src/index/vector_index.cpp`  
 **Ungenutztes Potenzial:**
-- Persistence (Save/Load Index zu Disk) - **bereits teilweise implementiert**
-- Dynamic Index Updates (Add/Delete Vectors)
+- Persistence (Save/Load Index zu Disk) - **teilweise implementiert in `vector_index.cpp`, aber noch nicht vollständig integriert**
+- Dynamic Index Updates (Add/Delete Vectors) - **API vorhanden, aber Rebuild-Overhead bei großen Updates**
 
 ### 7.3 spdlog
 **Aktuell:** ✅ Logging  
@@ -783,8 +786,10 @@ ThemisDB nutzt derzeit **~30-40% des Potenzials** der integrierten Bibliotheken.
 2. Spike-Tests für Top 3 Features
 3. Integration Roadmap in 2026 Planung
 
-**Anhänge:**
-- A: RocksDB Feature Matrix (Vollständige Liste)
-- B: TBB Performance Benchmarks
-- C: Arrow Compute Kernel Vergleich
-- D: Code-Beispiele & Tutorials
+**Potenzielle Anhänge (für zukünftige Versionen):**
+- A: RocksDB Feature Matrix (Vollständige Liste aller RocksDB Features)
+- B: TBB Performance Benchmarks (Vergleich Flow Graph vs. manuelle Parallelisierung)
+- C: Arrow Compute Kernel Vergleich (SIMD Performance vs. Standard-Implementierung)
+- D: Code-Beispiele & Tutorials (Schritt-für-Schritt Integration Guides)
+
+**Hinweis:** Diese Anhänge werden bei Bedarf in separaten Dokumenten bereitgestellt.
