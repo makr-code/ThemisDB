@@ -218,24 +218,18 @@
         
         // Configuration
         const THEMIS_URL = 'http://localhost:8765';
-        const UPDATE_INTERVAL = 1000; // 1 second
+        const UPDATE_INTERVAL = 5000; // 5 seconds for polling fallback
+        let cdcEventSource = null;
+        let useSimulation = false; // Toggle for demo mode
         
         // Load static infrastructure
         async function loadInfrastructure() {
             try {
-                // Load stations
-                const stations = await fetchFromThemis('/query', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        table: 'station',
-                        return: 'entities',
-                        limit: 100
-                    })
-                });
+                // Load stations from ThemisDB
+                const stationsData = await loadStationsFromThemis();
                 
-                if (stations && stations.entities) {
-                    stations.entities.forEach(stationJson => {
-                        const station = JSON.parse(stationJson);
+                if (stationsData && stationsData.length > 0) {
+                    stationsData.forEach(station => {
                         const marker = L.circleMarker(
                             [station.location.lat, station.location.lon],
                             {
@@ -252,20 +246,50 @@
                             <div class="train-popup">
                                 <h4>${station.name}</h4>
                                 <table>
-                                    <tr><td class="label">EVA:</td><td>${station.eva_number}</td></tr>
-                                    <tr><td class="label">Tracks:</td><td>${station.tracks}</td></tr>
-                                    <tr><td class="label">Category:</td><td>${station.category}</td></tr>
+                                    <tr><td class="label">EVA:</td><td>${station.eva_number || 'N/A'}</td></tr>
+                                    <tr><td class="label">Tracks:</td><td>${station.tracks || 'N/A'}</td></tr>
+                                    <tr><td class="label">Type:</td><td>${station.station_type || 'Station'}</td></tr>
                                 </table>
                             </div>
                         `);
                         
                         layers.stations.addLayer(marker);
                     });
+                    console.log(`Loaded ${stationsData.length} stations from ThemisDB`);
                 }
                 
-                console.log('Infrastructure loaded');
             } catch (error) {
                 console.error('Error loading infrastructure:', error);
+            }
+        }
+        
+        // Load stations from ThemisDB using Entities API
+        async function loadStationsFromThemis() {
+            try {
+                // Query all entities with key prefix "stations:"
+                const response = await fetch(`${THEMIS_URL}/entities?prefix=stations:&limit=100`);
+                if (!response.ok) throw new Error('Failed to fetch stations');
+                
+                const data = await response.json();
+                const stations = [];
+                
+                if (data.entities) {
+                    for (const [key, valueJson] of Object.entries(data.entities)) {
+                        try {
+                            const station = JSON.parse(valueJson);
+                            if (station.location && station.location.lat && station.location.lon) {
+                                stations.push(station);
+                            }
+                        } catch (e) {
+                            console.warn(`Failed to parse station ${key}:`, e);
+                        }
+                    }
+                }
+                
+                return stations;
+            } catch (error) {
+                console.error('Error loading stations:', error);
+                return [];
             }
         }
         
@@ -282,23 +306,122 @@
             return response.json();
         }
         
-        // Update train positions
+        // Connect to ThemisDB Change Data Capture stream
+        function connectToCDCStream() {
+            try {
+                // Connect to changefeed stream for train updates
+                const cdcUrl = `${THEMIS_URL}/changefeed/stream?from_seq=0&key_prefix=trains:`;
+                
+                cdcEventSource = new EventSource(cdcUrl);
+                
+                cdcEventSource.onopen = () => {
+                    console.log('✅ Connected to ThemisDB CDC stream');
+                    useSimulation = false;
+                };
+                
+                cdcEventSource.onmessage = (event) => {
+                    try {
+                        const change = JSON.parse(event.data);
+                        handleTrainUpdate(change);
+                    } catch (error) {
+                        console.error('Error processing CDC event:', error);
+                    }
+                };
+                
+                cdcEventSource.onerror = (error) => {
+                    console.warn('CDC stream error, falling back to polling:', error);
+                    cdcEventSource.close();
+                    cdcEventSource = null;
+                    useSimulation = true; // Fallback to simulation for demo
+                };
+                
+            } catch (error) {
+                console.error('Failed to connect to CDC stream:', error);
+                useSimulation = true;
+            }
+        }
+        
+        // Handle train update from CDC stream
+        function handleTrainUpdate(change) {
+            try {
+                // Parse the train entity from the change event
+                if (change.key && change.key.startsWith('trains:')) {
+                    const train = JSON.parse(change.value);
+                    updateTrainMarker(train);
+                    stats.updates++;
+                    updateStatsDisplay();
+                }
+            } catch (error) {
+                console.error('Error handling train update:', error);
+            }
+        }
+        
+        // Query current train positions from ThemisDB
+        async function queryCurrentTrains() {
+            try {
+                // Get all train entities
+                const response = await fetch(`${THEMIS_URL}/entities?prefix=trains:&limit=1000`);
+                if (!response.ok) {
+                    console.warn('Failed to query trains, using simulation');
+                    return generateSimulatedTrains();
+                }
+                
+                const data = await response.json();
+                const trains = [];
+                
+                if (data.entities) {
+                    for (const [key, valueJson] of Object.entries(data.entities)) {
+                        try {
+                            const train = JSON.parse(valueJson);
+                            if (train.location && train.location.lat && train.location.lon) {
+                                trains.push({
+                                    train_number: train.train_number || key.split(':')[1],
+                                    category: train.category || 'UNKNOWN',
+                                    lat: train.location.lat,
+                                    lon: train.location.lon,
+                                    speed_kmh: train.speed_kmh || 0,
+                                    delay_min: train.delay_min || 0,
+                                    occupancy_percent: train.occupancy_percent || 0,
+                                    origin: train.origin || 'Unknown',
+                                    destination: train.destination || 'Unknown'
+                                });
+                            }
+                        } catch (e) {
+                            console.warn(`Failed to parse train ${key}:`, e);
+                        }
+                    }
+                }
+                
+                return trains.length > 0 ? trains : generateSimulatedTrains();
+            } catch (error) {
+                console.error('Error querying trains:', error);
+                return generateSimulatedTrains();
+            }
+        }
+        
+        // Update train positions (polling fallback or simulation)
         async function updateTrains() {
             try {
-                // In real implementation: Query ThemisDB for latest train telemetry
-                // For now: Simulate data
+                let trains;
                 
-                // Simulate some trains
-                const simulatedTrains = generateSimulatedTrains();
+                if (useSimulation) {
+                    // Simulation mode for demo
+                    trains = generateSimulatedTrains();
+                } else {
+                    // Query current state from ThemisDB
+                    trains = await queryCurrentTrains();
+                }
                 
-                simulatedTrains.forEach(train => {
+                trains.forEach(train => {
                     updateTrainMarker(train);
                 });
                 
                 // Update statistics
-                stats.trains = simulatedTrains.length;
-                stats.delays = simulatedTrains.filter(t => t.delay_min > 5).length;
-                stats.avgDelay = simulatedTrains.reduce((sum, t) => sum + t.delay_min, 0) / simulatedTrains.length;
+                stats.trains = trains.length;
+                stats.delays = trains.filter(t => t.delay_min > 5).length;
+                stats.avgDelay = trains.length > 0 
+                    ? trains.reduce((sum, t) => sum + t.delay_min, 0) / trains.length 
+                    : 0;
                 stats.updates++;
                 
                 updateStatsDisplay();
@@ -380,12 +503,27 @@
         }
         
         // Initialize
-        console.log('Railway Monitoring - Live Map Initialized');
+        console.log('🚂 Railway Monitoring - Live Map Initialized');
+        console.log('📡 Connecting to ThemisDB...');
+        
+        // Load infrastructure first
         loadInfrastructure();
+        
+        // Initial train load
         updateTrains();
         
-        // Start live updates
+        // Try to connect to CDC stream for real-time updates
+        connectToCDCStream();
+        
+        // Fallback polling (also used in simulation mode)
         setInterval(updateTrains, UPDATE_INTERVAL);
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (cdcEventSource) {
+                cdcEventSource.close();
+            }
+        });
     </script>
 </body>
 </html>
