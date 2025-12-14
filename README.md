@@ -44,9 +44,26 @@ docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb
 **Kern-Dokumentation (Aktualisiert Dezember 2025):**
 - **[Features Liste](docs/features/features_overview.md)** - Vollständige Features-Übersicht mit Status-Indikatoren (✅ Production-Ready | 🔧 Beta | 📋 Geplant)
 - **[Development Audit Log](docs/development/DEVELOPMENT_SUMMARY.md)** - Vollständiger Entwicklungsstand, Feature-Status, Metriken, nächste Schritte
-- **[Roadmap](docs/roadmap/roadmap_overview.md)** - **2026 Roadmap VOLLSTÄNDIG abgeschlossen!** (Sharding, Replication, GPU, CEP, OLAP, 7 SDKs)
+- **[Roadmap](docs/roadmap/roadmap_overview.md)** - **2026 Roadmap VOLLSTÄNDIG abgeschlossen!** + **v1.1.0 (Q1) + v1.2.0 (Q2) geplant**
+- **[🆕 v1.1.0 Variant Strategy](docs/analysis/VARIANT_STRATEGY_v1.1.0.md)** - Q1 2026: Bestehende Libraries optimieren + vLLM Co-Location (9-11 Wochen, 1 neue Lib)
+- **[🆕 v1.2.0 Enterprise Features](docs/analysis/ENTERPRISE_FEATURES_STRATEGY.md)** - Q2 2026: vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
 - **[Next Implementation Priorities](docs/features/features_priorities.md)** - Q1 2026: SDK Publishing, Penetration Testing, Production Deployments
 - **[Changelog](CHANGELOG.md)** - Detaillierte Änderungshistorie nach Semantic Versioning
+
+**🔮 COMING SOON - v1.1.0 Optimization Release (Q1 2026):**
+- ✅ **RocksDB Features:** TTL, Incremental Backup, Statistics Export (3 Wochen, 0 neue Libs)
+- ✅ **TBB Features:** Parallel Sort, Concurrent Containers (3 Wochen, 0 neue Libs)
+- ✅ **Arrow Features:** Parquet Export (2 Wochen, 0 neue Libs)
+- ✅ **CUDA Kernbestand:** Streams, adaptive GPU-Nutzung (1 Woche, 0 neue Libs)
+- ✅ **vLLM Co-Location:** CPU/RAM/GPU Koordination für RAG Workflows (1 Woche)
+- ✅ **mimalloc:** Einzige neue Dependency, 20-40% Memory Boost (1 Tag)
+- **Impact:** 3-10x Performance, +6% Dependencies (16 statt 15)
+
+**🚀 PLANNED - v1.2.0 Enterprise Features (Q2 2026):**
+- ✅ **vLLM AI Support:** LoRA Manager, FAISS Advanced, Hybrid Search, Embedding Cache (8-12 Wochen, 1 neue Lib)
+- ✅ **Geo-Spatial PostGIS:** GEOS, PROJ, cuSpatial für PostGIS-Compatibility (6-9 Wochen, 2 neue Libs)
+- ✅ **IoT/Timescale:** Hypertables, Arrow Aggregates, Parquet Archive (5-7 Wochen, 0 neue Libs!)
+- **Impact:** PostGIS + LoRA + TimescaleDB Compatibility, +18% Dependencies (19 statt 16)
 
 **🚀 NEU: 2026 Roadmap Features vollständig implementiert:**
 - ✅ **Horizontale Skalierung** - VCC-URN/VCC-PKI Sharding (19 Module, 12.278 LOC)

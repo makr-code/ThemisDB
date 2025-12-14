@@ -1,8 +1,37 @@
 # ThemisDB Dokumentations-Index
 
-**Stand:** 9. Dezember 2025  
-**Version:** 1.0.1  
+**Stand:** 14. Dezember 2025  
+**Version:** 1.0.2 (v1.1.0 Q1 2026, v1.2.0 Q2 2026)  
 **Typ:** Dokumentations-Index
+
+---
+
+> **🔮 COMING SOON - v1.1.0 Optimization Release (Q1 2026):**
+> 
+> **Fokus:** Bestehende Libraries besser nutzen + vLLM Co-Location  
+> **Highlights:**
+> - ✅ RocksDB TTL, Incremental Backup, Stats (keine neue Lib!)
+> - ✅ TBB Parallel Sort, Concurrent Containers (keine neue Lib!)
+> - ✅ Arrow Parquet Export (keine neue Lib!)
+> - ✅ **CUDA als Kernbestand** (wenn GPU verfügbar, NICHT Enterprise!)
+> - ✅ **🆕 ThemisDB + vLLM Synergie** (optimierte CPU/GPU/RAM Koordination)
+> - ✅ mimalloc (einzige neue Dependency, 20-40% Memory Boost)
+> 
+> **Engineering:** 9-11 Wochen | **Impact:** 3-10x Performance  
+> **Details:** [v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)
+
+> **🚀 PLANNED - v1.2.0 Enterprise Features (Q2 2026):**
+> 
+> **Fokus:** vLLM AI Support (LoRA), Geo-Spatial (PostGIS), IoT/Timescale  
+> **Highlights:**
+> - ✅ **LoRA Manager** - Multi-Tenant LoRA Serving (HuggingFace PEFT)
+> - ✅ **FAISS Advanced** - IVF+PQ Vector Search (bereits integriert, erweitern!)
+> - ✅ **GEOS + PROJ** - PostGIS Compatibility (Topology + Geography)
+> - ✅ **Hypertables** - TimescaleDB-kompatibel via RocksDB CF (nur Code!)
+> - ✅ **cuSpatial** - GPU Geo Ops (optional, nutzt Arrow + CUDA)
+> 
+> **Engineering:** 12-16 Wochen | **Impact:** PostGIS + LoRA + TimescaleDB Compatibility  
+> **Details:** [Enterprise Features Strategy](analysis/ENTERPRISE_FEATURES_STRATEGY.md)
 
 ---
 
@@ -10,6 +39,7 @@
 
 ### Übersichtsdokumente
 - **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.0.1, v1.0.0)
+- **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
 - **[Architecture Overview](ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[Source Code Changes v1.0](SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
@@ -20,12 +50,16 @@
 
 ### Für Stakeholder & Management
 - **[Themis Sachstandsbericht 2025](reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
+- **[🆕 v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
+- **[🆕 v1.2.0 Enterprise Features](analysis/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
 - **[Projektkostenschätzung & Gesamtwert](reports/reports_project_valuation.md)** - Wirtschaftliche Bewertung (6,3M EUR)
 - **[Release Strategy Audit](../RELEASE_STRATEGY_AUDIT.md)** - SLSA Compliance, SBOM (8.5/10 Rating)
 - **[Release & Benchmarking Summary](../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - v1.0.1 Session Report
 
 ### Für Entwickler
 - **[Development Summary](development/DEVELOPMENT_SUMMARY.md)** - Entwicklungsstand v1.0.1
+- **[🆕 External Libraries Analysis](analysis/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
+- **[🆕 Library Interactions](analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
 - **[Source Code Audit](development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
 - **[Documentation Index](DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
 - **[Documentation Verification](reports/documentation_verification_report.md)** - Verifizierung Dokumentation ↔ Code

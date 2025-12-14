@@ -1,7 +1,7 @@
 # ThemisDB - Entwicklungs-Roadmap
 
-**Version:** 5.0  
-**Stand:** 7. Dezember 2025  
+**Version:** 5.1  
+**Stand:** 14. Dezember 2025  
 **Typ:** Konsolidierte Gesamt-Roadmap
 
 > **📌 Status Update Dezember 2025 - ROADMAP 2026 VOLLSTÄNDIG ABGESCHLOSSEN:**
@@ -16,6 +16,17 @@
 > - ✅ Content Processor Plugins (10+ Formate) **100% abgeschlossen**
 > - ✅ P2P Gossip Protocol **100% abgeschlossen**
 > - ✅ Auto-Rebalancing & Cloud Agent **100% abgeschlossen**
+
+> **🆕 v1.1.0 ANSTEHEND (Q1 2026) - Optimierungs-Release:**
+> - 🔧 **Fokus:** Bestehende Libraries besser nutzen (RocksDB, TBB, Arrow, CUDA)
+> - 🔧 **Strategie:** Varianten-basierte Builds (OLTP, OLAP, vLLM Co-Location)
+> - 🔧 **CUDA als Kernbestand** (nicht Enterprise) - wenn GPU verfügbar
+> - 🔧 **ThemisDB + vLLM Synergie** - Optimierte Ressourcen-Koordination
+> - 🔧 **Nur 1 neue Dependency:** mimalloc (20-40% Memory Boost)
+> - 🔧 **Engineering Effort:** 9-11 Wochen
+> - 📊 **Erwarteter Impact:** 3-10x Performance bei bestehenden Features
+> 
+> **Details:** [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md)
 
 ---
 
@@ -33,30 +44,187 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 7. **Enterprise Features** - Multi-Tenancy, Compliance ✅ 100%
 8. **Client SDKs** - 7 Sprachen mit Feature-Parität ✅ 100%
 
+**🆕 Nächste Ziele (Q1 2026 - v1.1.0):**
+1. **Library Optimization** - RocksDB TTL, TBB Concurrent Containers, Arrow Parquet
+2. **CUDA Integration** - Als Kernbestand (nicht Enterprise), adaptive GPU-Nutzung
+3. **vLLM Co-Location** - Optimierte Ressourcen-Koordination für AI/ML Workloads
+4. **Memory Performance** - mimalloc Integration (20-40% Boost)
+
 ---
 
 ## Roadmap-Übersicht (Aktualisiert Dezember 2025)
 
 ```
-2025 (✅ ABGESCHLOSSEN)    2026 Q1 (🔧 Operations)  2026 Q2-Q3 (🚀 Optimization)  2026 Q4+ (🌟 Innovation)
+2025 (✅ ABGESCHLOSSEN)    2026 Q1 (🔧 v1.1.0)      2026 Q2-Q3 (🚀 v1.2.0)     2026 Q4+ (🌟 v1.3.0+)
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 │                             │                        │                          │
-│ ✅ VOLLSTÄNDIG              │ 🔧 Operations          │ 🚀 Optimization          │ 🌟 Innovation
-│   (100%, Nov-Dez 2025)      │                        │                          │
+│ ✅ VOLLSTÄNDIG              │ 🔧 v1.1.0 Optimization │ 🚀 v1.2.0+ Innovation    │ 🌟 Enterprise Scale
+│   (100%, Nov-Dez 2025)      │   (Q1 2026, 9-11 W)    │   (Q2-Q3 2026)           │   (Q4 2026+)
 │                             │                        │                          │
-│ ✅ ACID Transactions        │ • SDK Publishing       │ • Query Optimizer        │ • Multi-DC Production
-│ ✅ Multi-Model (100%)       │ • Pen-Test             │ • GPU Performance        │ • K8s Operator Controller
-│ ✅ Security Stack (100%)    │ • Production Deploy    │ • Multi-Tenancy Prod     │ • ML/GNN Integration
-│ ✅ Sharding (100%)          │                        │                          │
-│ ✅ Replication (100%)       │                        │                          │
-│ ✅ GPU Acceleration (100%)  │                        │                          │
-│ ✅ CEP Engine (100%)        │                        │                          │
+│ ✅ ACID Transactions        │ • RocksDB Features     │ • RE2 Security           │ • Multi-DC Production
+│ ✅ Multi-Model (100%)       │   (TTL, Backup, Stats) │ • TBB Flow Graph         │ • K8s Operator Controller
+│ ✅ Security Stack (100%)    │ • TBB Parallel Algs    │ • DuckDB OLAP (opt)      │ • Advanced ML/GNN
+│ ✅ Sharding (100%)          │ • Arrow Parquet        │ • Query Optimizer v2     │ • Multi-vLLM LB
+│ ✅ Replication (100%)       │ • CUDA Kernbestand     │ • GPU Performance Tuning │
+│ ✅ GPU Acceleration (100%)  │ • vLLM Co-Location     │                          │
+│ ✅ CEP Engine (100%)        │ • mimalloc (1:1 swap)  │                          │
 │ ✅ OLAP Analytics (100%)    │                        │                          │
-│ ✅ 7 SDKs (100%)            │                        │                          │
-│ ✅ K8s CRDs (100%)          │                        │                          │
+│ ✅ 7 SDKs (100%)            │ • SDK Publishing       │ • Production Hardening   │
+│ ✅ K8s CRDs (100%)          │ • Pen-Test Phase 1     │ • Pen-Test Phase 2       │
 │                             │                        │                          │
 └─────────────────────────────┴────────────────────────┴──────────────────────────┴──────────────────────
 ```
+
+---
+
+## 🔧 Anstehend: Q1 2026 - v1.1.0 Optimization Release
+
+> **Philosophie:** "Bestehende Libraries ausreizen, bevor neue hinzufügen"
+
+### v1.1.0 Kern-Features (9 Wochen)
+
+**1. RocksDB Advanced Features (3 Wochen)**
+- ✅ TTL (Time-To-Live) für automatische Data Retention
+- ✅ Incremental Backups (platzsparend, DSGVO-konform)
+- ✅ Statistics Export zu OpenTelemetry
+
+**2. TBB Parallel Features (3 Wochen)**
+- ✅ Parallel Sort (2-4x Speedup bei großen Resultsets)
+- ✅ Concurrent Containers (Lock-free Caches)
+- ✅ Parallel Algorithms (bereits in Library!)
+
+**3. Arrow Data Lake Integration (2 Wochen)**
+- ✅ Parquet Export für Data Warehouses
+- ✅ Compute Kernels für SIMD Aggregationen (optional)
+
+**4. CUDA als Kernbestand (1 Woche)**
+- ✅ **WICHTIG:** CUDA ist KEIN Enterprise-Feature!
+- ✅ Automatische Aktivierung wenn GPU verfügbar
+- ✅ CUDA Streams für Vector Search
+- ✅ Adaptive GPU-Nutzung (vLLM-aware)
+
+**5. 🆕 vLLM Co-Location (1 Woche)**
+- ✅ CPU/RAM Ressourcen-Koordination (50 Cores, 200 GB)
+- ✅ GPU-Sharing mit Priorität (ThemisDB < 20% GPU wenn vLLM aktiv)
+- ✅ Hybrid CPU/GPU Vector Search
+- ✅ RAG-optimierte Prefetching
+
+**6. Memory Performance (1 Tag)**
+- ✅ mimalloc Integration (einzige neue Dependency!)
+- ✅ 20-40% Memory Throughput Boost
+- ✅ Drop-in Replacement (kein Code-Change)
+
+### v1.1.0 Build-Varianten
+
+**Standard (OLTP):** 16 deps (+1 mimalloc)
+- Fokus: Transaktionale Workloads, Point Lookups
+- CUDA: Optional (automatisch wenn GPU verfügbar)
+
+**OLAP:** 17 deps (+2 mit DuckDB)
+- Fokus: Analytics, Reporting, Data Warehouse
+- Optional Build Flag: `THEMIS_ENABLE_OLAP_VARIANT=ON`
+
+**vLLM Co-Location (🆕 EMPFOHLEN für AI/ML):** 16 deps
+- Fokus: RAG, Semantic Search, AI Workloads
+- CUDA: IMMER aktiviert (Kernbestand!)
+- Build Flag: `THEMIS_VLLM_COLOCATION=ON`
+
+**Embedded:** 12 deps (-3 lightweight)
+- Fokus: IoT, Edge Devices
+- CUDA: Deaktiviert
+
+### v1.1.0 Ressourcen
+
+**Engineering Effort:** 9-11 Wochen
+**Neue Dependencies:** 1 (nur mimalloc)
+**Erwartete Performance:** 3-10x bei bestehenden Features
+
+**Dokumentation:**
+- 📖 [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md) - Detaillierte Strategie
+- 📖 [External Libraries Analysis](../analysis/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md) - Feature-Inventar
+- 📖 [Library Interactions](../analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md) - Wechselwirkungen
+
+---
+
+## 🚀 Geplant: Q2 2026 - v1.2.0 Enterprise Features Release
+
+> **Philosophie:** "Smart combination of existing libs + targeted new libs for compatibility"
+
+### v1.2.0 Enterprise Features (12-16 Wochen)
+
+**1. vLLM AI Support (8-12 Wochen, 1 neue Lib)**
+- ✅ **LoRA Manager** - Multi-Tenant LoRA Serving (HuggingFace PEFT, 6-8 Wochen)
+  - LoRA Weight Storage in RocksDB mit ZSTD Compression
+  - TBB Parallel Loading für Multi-Tenant Performance
+  - gRPC Integration zu vLLM (optional)
+- ✅ **FAISS Advanced** - IVF+PQ Vector Search (3-4 Wochen, keine neue Lib!)
+  - 10-100x Memory Reduction vs. Flat Index
+  - GPU Acceleration via CUDA (Kernbestand!)
+- ✅ **Hybrid Search** - BM25 + Vector Fusion (2-3 Wochen, keine neue Lib!)
+  - Reciprocal Rank Fusion (RRF)
+  - RAG Performance Optimization
+- ✅ **Embedding Cache** - Semantic Caching (2-3 Wochen, keine neue Lib!)
+  - 70-90% Cost Reduction für vLLM API Calls
+  - Fuzzy Match via Vector Similarity
+
+**2. Geo-Spatial PostGIS Compatibility (6-9 Wochen, 2 neue Libs)**
+- ✅ **GEOS Integration** - PostGIS-kompatible Topology Operations (4-6 Wochen)
+  - ST_Buffer, ST_Union, ST_Intersection
+  - 3D Geometries Support
+- ✅ **PROJ Transforms** - Coordinate Transformations (2-3 Wochen)
+  - WGS84 ↔ UTM ↔ Web Mercator
+  - Geography Support (Spherical Distances)
+- ✅ **cuSpatial GPU Ops** - GPU-beschleunigte Geo Operations (6-8 Wochen, optional)
+  - 10-100x Speedup für Spatial Joins
+  - Arrow Zero-Copy Integration
+
+**3. IoT/Timescale Compatibility (5-7 Wochen, 0 neue Libs!)**
+- ✅ **Hypertables** - RocksDB Column Families (3-4 Wochen, nur Code!)
+  - Automatische Partitionierung (1 Chunk pro Tag)
+  - TTL via RocksDB (v1.1.0 Feature!)
+- ✅ **Arrow Aggregates** - Time-Series Analytics (2-3 Wochen, keine neue Lib!)
+  - SIMD Performance mit Arrow Compute
+  - 5-10x Speedup bei Aggregationen
+- ✅ **Parquet Archive** - Cold Storage (bereits in v1.1.0!)
+  - 90% Storage Reduction vs. RocksDB
+  - DuckDB Parquet Queries (v1.2.0)
+
+### v1.2.0 Build-Varianten
+
+**Enterprise AI+Geo:** 19 deps (+3 auf v1.1.0 Basis)
+- GEOS, PROJ, HuggingFace PEFT
+- Fokus: PostGIS + LoRA + TimescaleDB Compatibility
+
+**Enterprise AI (nur vLLM):** 17 deps (+1 auf v1.1.0 Basis)
+- HuggingFace PEFT
+- Fokus: Multi-Tenant LoRA Serving
+
+**Enterprise Geo (nur PostGIS):** 18 deps (+2 auf v1.1.0 Basis)
+- GEOS, PROJ
+- Fokus: PostGIS Drop-in Replacement
+
+### v1.2.0 Ressourcen
+
+**Engineering Effort:** 12-16 Wochen (parallelisierbar auf ~8-10 Wochen mit Team)
+**Neue Dependencies:** 3 (GEOS, PROJ, HuggingFace PEFT)
+**Dependency Overhead:** +18% (3 neue Libs auf 16 bestehende)
+
+**Erwartete Performance:**
+- **vLLM AI:** 10-100x Vector Search (IVF+PQ), 70-90% Cost Reduction (Embedding Cache)
+- **Geo-Spatial:** PostGIS Compatibility, 10-100x GPU Geo Ops
+- **IoT/Timescale:** TimescaleDB-kompatible Hypertables, 5-10x Aggregation Performance
+
+**Dokumentation:**
+- 📖 [Enterprise Features Strategy](../analysis/ENTERPRISE_FEATURES_STRATEGY.md) - Detaillierte v1.2.0 Strategie
+- 📖 [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md) - Basis für v1.2.0
+- 📖 [Library Interactions](../analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md) - Wechselwirkungen
+
+**Wechselwirkungen:**
+- **LoRA Manager:** RocksDB (Storage) + TBB (Parallel Loading) + vLLM (gRPC)
+- **FAISS Advanced:** CUDA (GPU Acceleration, Kernbestand!)
+- **GEOS/PROJ:** Boost.Geometry (Hybrid Strategy)
+- **cuSpatial:** Arrow (Zero-Copy) + CUDA (Kernbestand!)
+- **Hypertables:** RocksDB Column Families + TTL (v1.1.0!)
 
 ---
 
