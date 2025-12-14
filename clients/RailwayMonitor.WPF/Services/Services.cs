@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net.Http.Json;
+using System.Text.Json;
 using RailwayMonitor.WPF.Models;
 
 namespace RailwayMonitor.WPF.Services;
@@ -11,8 +12,11 @@ public interface IThemisDbService
 {
     Task<bool> ConnectAsync();
     Task<List<Train>> GetActiveTrainsAsync();
+    Task<List<Train>> GetDelayedTrainsAsync(int minDelayMinutes = 5);
     Task<List<Station>> GetStationsAsync();
     Task<Train?> GetTrainAsync(string trainNumber);
+    Task<Dictionary<string, int>> GetTrainsByTypeAsync();
+    Task<T?> QueryAqlAsync<T>(string aqlQuery) where T : class;
 }
 
 public class ThemisDbService : IThemisDbService
@@ -47,18 +51,75 @@ public class ThemisDbService : IThemisDbService
     {
         try
         {
-            // In production, this would query ThemisDB time-series data
-            // For now, return sample data
-            var response = await _httpClient.GetAsync("/api/trains/active");
+            // Query ThemisDB using AQL to get all active trains
+            var aqlQuery = @"
+                FOR train IN entities
+                  FILTER train._key LIKE ""trains:%""
+                  RETURN {
+                    train_number: train.train_number,
+                    category: train.type,
+                    operator: train.operator,
+                    latitude: train.lat,
+                    longitude: train.lon,
+                    altitude: train.altitude,
+                    speed_kmh: train.speed,
+                    heading: train.heading,
+                    acceleration_mps2: train.acceleration,
+                    origin: train.origin,
+                    destination: train.destination,
+                    current_segment: train.current_segment,
+                    distance_traveled_km: train.distance_traveled,
+                    delay_min: train.delay,
+                    scheduled_arrival: train.scheduled_arrival,
+                    estimated_arrival: train.estimated_arrival,
+                    passenger_capacity: train.passenger_capacity,
+                    passenger_count: train.passenger_count,
+                    instantaneous_power_kw: train.power_kw,
+                    cumulative_energy_kwh: train.energy_kwh,
+                    efficiency_percent: train.efficiency,
+                    status: train.status,
+                    last_update: train.updated_at
+                  }
+            ";
+            
+            var request = new { query = aqlQuery };
+            var response = await _httpClient.PostAsJsonAsync("/query/aql", request);
+            
             if (response.IsSuccessStatusCode)
             {
-                var trains = await response.Content.ReadFromJsonAsync<List<Train>>();
-                return trains ?? new List<Train>();
+                var result = await response.Content.ReadFromJsonAsync<AqlQueryResponse>();
+                if (result?.Result != null)
+                {
+                    return result.Result.Select(item => new Train
+                    {
+                        TrainNumber = item.GetProperty("train_number").GetString() ?? "",
+                        Category = item.GetProperty("category").GetString() ?? "",
+                        Operator = item.GetProperty("operator").GetString() ?? "DB Fernverkehr AG",
+                        Latitude = item.GetProperty("latitude").GetDouble(),
+                        Longitude = item.GetProperty("longitude").GetDouble(),
+                        Altitude = item.GetProperty("altitude").GetDouble(),
+                        SpeedKmh = item.GetProperty("speed_kmh").GetDouble(),
+                        Heading = item.GetProperty("heading").GetDouble(),
+                        AccelerationMps2 = item.GetProperty("acceleration_mps2").GetDouble(),
+                        Origin = item.GetProperty("origin").GetString() ?? "",
+                        Destination = item.GetProperty("destination").GetString() ?? "",
+                        CurrentSegment = item.GetProperty("current_segment").GetString() ?? "",
+                        DistanceTraveledKm = item.GetProperty("distance_traveled_km").GetDouble(),
+                        DelayMin = item.GetProperty("delay_min").GetInt32(),
+                        InstantaneousPowerKw = item.GetProperty("instantaneous_power_kw").GetDouble(),
+                        CumulativeEnergyKwh = item.GetProperty("cumulative_energy_kwh").GetDouble(),
+                        EfficiencyPercent = item.GetProperty("efficiency_percent").GetDouble(),
+                        Status = item.GetProperty("status").GetString() ?? "in_service",
+                        PassengerCapacity = item.GetProperty("passenger_capacity").GetInt32(),
+                        PassengerCount = item.GetProperty("passenger_count").GetInt32()
+                    }).ToList();
+                }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // If ThemisDB is not available, return empty list
+            // Log error if needed
+            System.Diagnostics.Debug.WriteLine($"Error fetching trains: {ex.Message}");
         }
         
         return new List<Train>();
@@ -68,16 +129,53 @@ public class ThemisDbService : IThemisDbService
     {
         try
         {
-            var response = await _httpClient.GetAsync("/api/stations");
+            // Query ThemisDB using AQL to get all stations
+            var aqlQuery = @"
+                FOR station IN entities
+                  FILTER station._key LIKE ""stations:%""
+                  RETURN {
+                    station_id: station.station_id,
+                    name: station.name,
+                    eva_number: station.eva_number,
+                    latitude: station.lat,
+                    longitude: station.lon,
+                    category: station.category,
+                    operator: station.operator,
+                    has_parking: station.has_parking,
+                    has_bicycle_parking: station.has_bicycle_parking,
+                    has_elevator: station.has_elevator,
+                    has_db_information: station.has_db_information
+                  }
+            ";
+            
+            var request = new { query = aqlQuery };
+            var response = await _httpClient.PostAsJsonAsync("/query/aql", request);
+            
             if (response.IsSuccessStatusCode)
             {
-                var stations = await response.Content.ReadFromJsonAsync<List<Station>>();
-                return stations ?? new List<Station>();
+                var result = await response.Content.ReadFromJsonAsync<AqlQueryResponse>();
+                if (result?.Result != null)
+                {
+                    return result.Result.Select(item => new Station
+                    {
+                        StationId = item.GetProperty("station_id").GetString() ?? "",
+                        Name = item.GetProperty("name").GetString() ?? "",
+                        EvaNumber = item.GetProperty("eva_number").GetString() ?? "",
+                        Latitude = item.GetProperty("latitude").GetDouble(),
+                        Longitude = item.GetProperty("longitude").GetDouble(),
+                        Category = item.GetProperty("category").GetString() ?? "",
+                        Operator = item.GetProperty("operator").GetString() ?? "DB Station&Service AG",
+                        HasParking = item.GetProperty("has_parking").GetBoolean(),
+                        HasBicycleParking = item.GetProperty("has_bicycle_parking").GetBoolean(),
+                        HasElevator = item.GetProperty("has_elevator").GetBoolean(),
+                        HasDbInformation = item.GetProperty("has_db_information").GetBoolean()
+                    }).ToList();
+                }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Return empty list if service unavailable
+            System.Diagnostics.Debug.WriteLine($"Error fetching stations: {ex.Message}");
         }
         
         return new List<Station>();
@@ -87,18 +185,196 @@ public class ThemisDbService : IThemisDbService
     {
         try
         {
-            var response = await _httpClient.GetAsync($"/api/trains/{trainNumber}");
+            // Query ThemisDB using AQL to get a specific train by train number
+            var aqlQuery = $@"
+                FOR train IN entities
+                  FILTER train._key LIKE ""trains:%""
+                  FILTER train.train_number == ""{trainNumber}""
+                  LIMIT 1
+                  RETURN {{
+                    train_number: train.train_number,
+                    category: train.type,
+                    operator: train.operator,
+                    latitude: train.lat,
+                    longitude: train.lon,
+                    altitude: train.altitude,
+                    speed_kmh: train.speed,
+                    heading: train.heading,
+                    acceleration_mps2: train.acceleration,
+                    origin: train.origin,
+                    destination: train.destination,
+                    current_segment: train.current_segment,
+                    distance_traveled_km: train.distance_traveled,
+                    delay_min: train.delay,
+                    scheduled_arrival: train.scheduled_arrival,
+                    estimated_arrival: train.estimated_arrival,
+                    passenger_capacity: train.passenger_capacity,
+                    passenger_count: train.passenger_count,
+                    instantaneous_power_kw: train.power_kw,
+                    cumulative_energy_kwh: train.energy_kwh,
+                    efficiency_percent: train.efficiency,
+                    status: train.status,
+                    last_update: train.updated_at
+                  }}
+            ";
+            
+            var request = new { query = aqlQuery };
+            var response = await _httpClient.PostAsJsonAsync("/query/aql", request);
+            
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<Train>();
+                var result = await response.Content.ReadFromJsonAsync<AqlQueryResponse>();
+                if (result?.Result != null && result.Result.Count > 0)
+                {
+                    var item = result.Result[0];
+                    return new Train
+                    {
+                        TrainNumber = item.GetProperty("train_number").GetString() ?? "",
+                        Category = item.GetProperty("category").GetString() ?? "",
+                        Operator = item.GetProperty("operator").GetString() ?? "DB Fernverkehr AG",
+                        Latitude = item.GetProperty("latitude").GetDouble(),
+                        Longitude = item.GetProperty("longitude").GetDouble(),
+                        Altitude = item.GetProperty("altitude").GetDouble(),
+                        SpeedKmh = item.GetProperty("speed_kmh").GetDouble(),
+                        Heading = item.GetProperty("heading").GetDouble(),
+                        AccelerationMps2 = item.GetProperty("acceleration_mps2").GetDouble(),
+                        Origin = item.GetProperty("origin").GetString() ?? "",
+                        Destination = item.GetProperty("destination").GetString() ?? "",
+                        CurrentSegment = item.GetProperty("current_segment").GetString() ?? "",
+                        DistanceTraveledKm = item.GetProperty("distance_traveled_km").GetDouble(),
+                        DelayMin = item.GetProperty("delay_min").GetInt32(),
+                        InstantaneousPowerKw = item.GetProperty("instantaneous_power_kw").GetDouble(),
+                        CumulativeEnergyKwh = item.GetProperty("cumulative_energy_kwh").GetDouble(),
+                        EfficiencyPercent = item.GetProperty("efficiency_percent").GetDouble(),
+                        Status = item.GetProperty("status").GetString() ?? "in_service",
+                        PassengerCapacity = item.GetProperty("passenger_capacity").GetInt32(),
+                        PassengerCount = item.GetProperty("passenger_count").GetInt32()
+                    };
+                }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Return null if not found
+            System.Diagnostics.Debug.WriteLine($"Error fetching train {trainNumber}: {ex.Message}");
         }
         
         return null;
+    }
+
+    public async Task<List<Train>> GetDelayedTrainsAsync(int minDelayMinutes = 5)
+    {
+        try
+        {
+            // Query ThemisDB for delayed trains
+            var aqlQuery = $@"
+                FOR train IN entities
+                  FILTER train._key LIKE ""trains:%""
+                  FILTER train.delay > {minDelayMinutes}
+                  SORT train.delay DESC
+                  LIMIT 20
+                  RETURN {{
+                    train_number: train.train_number,
+                    category: train.type,
+                    delay_min: train.delay,
+                    origin: train.origin,
+                    destination: train.destination,
+                    latitude: train.lat,
+                    longitude: train.lon,
+                    status: train.status
+                  }}
+            ";
+            
+            var request = new { query = aqlQuery };
+            var response = await _httpClient.PostAsJsonAsync("/query/aql", request);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<AqlQueryResponse>();
+                if (result?.Result != null)
+                {
+                    return result.Result.Select(item => new Train
+                    {
+                        TrainNumber = item.GetProperty("train_number").GetString() ?? "",
+                        Category = item.GetProperty("category").GetString() ?? "",
+                        DelayMin = item.GetProperty("delay_min").GetInt32(),
+                        Origin = item.GetProperty("origin").GetString() ?? "",
+                        Destination = item.GetProperty("destination").GetString() ?? "",
+                        Latitude = item.GetProperty("latitude").GetDouble(),
+                        Longitude = item.GetProperty("longitude").GetDouble(),
+                        Status = item.GetProperty("status").GetString() ?? "delayed"
+                    }).ToList();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error fetching delayed trains: {ex.Message}");
+        }
+        
+        return new List<Train>();
+    }
+
+    public async Task<Dictionary<string, int>> GetTrainsByTypeAsync()
+    {
+        try
+        {
+            // Query ThemisDB for trains grouped by type
+            var aqlQuery = @"
+                FOR train IN entities
+                  FILTER train._key LIKE ""trains:%""
+                  COLLECT type = train.type WITH COUNT INTO count
+                  RETURN { type: type, count: count }
+            ";
+            
+            var request = new { query = aqlQuery };
+            var response = await _httpClient.PostAsJsonAsync("/query/aql", request);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<AqlQueryResponse>();
+                if (result?.Result != null)
+                {
+                    return result.Result.ToDictionary(
+                        item => item.GetProperty("type").GetString() ?? "Unknown",
+                        item => item.GetProperty("count").GetInt32()
+                    );
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error fetching trains by type: {ex.Message}");
+        }
+        
+        return new Dictionary<string, int>();
+    }
+
+    public async Task<T?> QueryAqlAsync<T>(string aqlQuery) where T : class
+    {
+        try
+        {
+            var request = new { query = aqlQuery };
+            var response = await _httpClient.PostAsJsonAsync("/query/aql", request);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<T>();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error executing AQL query: {ex.Message}");
+        }
+        
+        return null;
+    }
+
+    // Helper class for AQL query responses
+    private class AqlQueryResponse
+    {
+        public List<JsonElement> Result { get; set; } = new();
+        public bool Error { get; set; }
+        public string? ErrorMessage { get; set; }
     }
 }
 
