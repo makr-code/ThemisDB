@@ -183,5 +183,5 @@ public class VectorDataStats
     public int TotalLayers { get; set; }
     public int VisibleLayers { get; set; }
     public int CachedTiles { get; set; }
-    public string TileCacheSize { get; set; }
+    public string TileCacheSize { get; set; } = "0 MB";
 }
