@@ -332,55 +332,79 @@ class TrainSimulator:
             )
             alt = train['origin']['location']['altitude']
         
-        # GPS Telemetrie
-        telemetry = {
-            "gps": {
+        # Update Train Entity (current state)
+        train_entity = {
+            "_key": f"trains:{train['train_number']}",
+            "type": "train",
+            "train_number": train['train_number'],
+            "category": train['category'],
+            "origin_eva": train['origin']['eva_number'],
+            "destination_eva": train['destination']['eva_number'],
+            "current_position": {
                 "lat": lat,
                 "lon": lon,
-                "altitude_m": alt,
-                "hdop": round(random.uniform(0.6, 1.2), 2),
-                "satellites": random.randint(10, 14),
-                "fix_quality": "3D_differential"
+                "altitude_m": alt
             },
-            "kinematics": {
-                "speed_kmh": round(train['current_speed_kmh'], 1),
-                "acceleration_mps2": round(random.uniform(-0.5, 0.5), 2),
-                "heading_deg": round(random.uniform(0, 360), 1)
-            },
-            "operational": {
-                "delay_min": train['delay_min'],
-                "occupancy": train['occupancy'],
-                "capacity": train['capacity'],
-                "occupancy_percent": round(100 * train['occupancy'] / train['capacity'], 1)
-            }
+            "speed_kmh": round(train['current_speed_kmh'], 1),
+            "delay_min": train['delay_min'],
+            "occupancy": train['occupancy'],
+            "capacity": train['capacity'],
+            "occupancy_percent": round(100 * train['occupancy'] / train['capacity'], 1),
+            "progress_km": round(train['current_km'], 2),
+            "total_distance_km": round(train['total_distance_km'], 2),
+            "last_update": datetime.now().isoformat()
         }
+        self._put_entity(train_entity)
         
-        # Sende an ThemisDB Time-Series
-        self._put_timeseries("train_telemetry", train['train_number'], telemetry)
+        # GPS Telemetrie (Time-Series)
+        timestamp_ms = int(datetime.now().timestamp() * 1000)
+        gps_telemetry = {
+            "_key": f"train_gps:{train['train_number']}:{timestamp_ms}",
+            "type": "gps_telemetry",
+            "train_number": train['train_number'],
+            "timestamp_ms": timestamp_ms,
+            "lat": lat,
+            "lon": lon,
+            "altitude_m": alt,
+            "speed_kmh": round(train['current_speed_kmh'], 1),
+            "heading_deg": round(random.uniform(0, 360), 1),
+            "hdop": round(random.uniform(0.6, 1.2), 2),
+            "satellites": random.randint(10, 14)
+        }
+        self._put_entity(gps_telemetry)
+        
         self.stats['updates_sent'] += 1
     
     def _send_infrastructure_events(self, train: Dict):
         """Simuliere Infrastruktur-Events (Achszähler, Hotbox, etc.)"""
         
+        timestamp_ms = int(datetime.now().timestamp() * 1000)
+        
         # Achszähler Event (wenn Zug Segment betritt)
         if random.random() < 0.05:  # 5% Chance
             axle_event = {
-                "event": "axle_detected",
+                "_key": f"axle_event:{train['train_number']}:{timestamp_ms}",
+                "type": "axle_counter_event",
                 "train_id": train['train_number'],
+                "timestamp_ms": timestamp_ms,
                 "speed_kmh": train['current_speed_kmh'],
-                "axle_count": random.randint(12, 20)
+                "axle_count": random.randint(12, 20),
+                "event": "axle_detected"
             }
-            self._put_timeseries("axle_counter_events", f"AC_{train['train_number']}", axle_event)
+            self._put_entity(axle_event)
         
         # Hotbox Detector (Heißläufer - selten!)
         if random.random() < 0.001:  # 0.1% Chance (selten)
             hotbox = {
+                "_key": f"hotbox:{train['train_number']}:{timestamp_ms}",
+                "type": "hotbox_detector_event",
                 "train_id": train['train_number'],
+                "timestamp_ms": timestamp_ms,
                 "bearing_temp_celsius": random.uniform(75, 95),
                 "alert": "elevated_temperature",
                 "status": "warning"
             }
-            self._put_timeseries("hotbox_detector", f"HABD_{train['train_number']}", hotbox)
+            self._put_entity(hotbox)
             self.stats['hotbox_alerts'] += 1
         
         # Signal-Aspekt ändern
@@ -390,30 +414,56 @@ class TrainSimulator:
                 signal_id = random.choice(signals)
                 aspect = random.choice(["Hp0_rot", "Hp1_gruen", "Hp2_gelb"])
                 signal_event = {
+                    "_key": f"signal_event:{signal_id}:{timestamp_ms}",
+                    "type": "signal_aspect_change",
                     "signal_id": signal_id,
+                    "timestamp_ms": timestamp_ms,
                     "aspect": aspect,
                     "train_approaching": train['train_number']
                 }
-                self._put_timeseries("signal_events", signal_id, signal_event)
+                self._put_entity(signal_event)
                 self.stats['signals_changed'] += 1
     
     def _put_timeseries(self, metric: str, entity: str, value: Dict):
-        """Schreibe Time-Series Daten an ThemisDB"""
+        """DEPRECATED: Use _put_entity instead
+        
+        Schreibe Time-Series Daten an ThemisDB
+        Kept for backwards compatibility
+        """
         try:
             timestamp_ms = int(datetime.now().timestamp() * 1000)
             
-            # ThemisDB Time-Series API
-            # PUT /timeseries/{metric}/{entity}/{timestamp}
-            url = f"{self.themis_url}/timeseries/{metric}/{entity}/{timestamp_ms}"
+            # Convert to entity format
+            ts_entity = {
+                "_key": f"{metric}:{entity}:{timestamp_ms}",
+                "type": metric,
+                "entity_id": entity,
+                "timestamp_ms": timestamp_ms,
+                **value
+            }
             
-            requests.put(url, json=value, timeout=1)
-        except requests.exceptions.RequestException as e:
-            # Log connection errors but don't stop simulation
-            if self.stats['updates_sent'] % 1000 == 0:
-                print(f"\nWarning: Failed to send telemetry: {e}", file=sys.stderr)
+            self._put_entity(ts_entity)
         except Exception as e:
             # Log unexpected errors
             print(f"\nError in _put_timeseries: {e}", file=sys.stderr)
+    
+    def _put_entity(self, entity: Dict):
+        """Schreibe Entity an ThemisDB"""
+        try:
+            key = entity["_key"]
+            
+            # ThemisDB Entities API
+            # PUT /entities/{key}
+            url = f"{self.themis_url}/entities/{key}"
+            
+            requests.put(url, json=entity, timeout=1)
+        except requests.exceptions.RequestException as e:
+            # Log connection errors but don't stop simulation
+            if self.stats['updates_sent'] % 1000 == 0:
+                print(f"\nWarning: Failed to send entity to ThemisDB: {e}", file=sys.stderr)
+        except Exception as e:
+            # Log unexpected errors
+            print(f"\nError in _put_entity: {e}", file=sys.stderr)
     
     def _update_statistics(self):
         """Update und zeige Statistiken"""
