@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "themis-qnap",
-  "version": "1.0.1",
-  "description": "Themis QNAP static build manifest (includes tests, benchmarks, tracing)",
+  "version": "1.1.0",
+  "description": "Themis v1.1.0 build manifest with mimalloc optimization",
   "license": "MIT",
   "builtin-baseline": "edffab1bcd2cb5b8c17d6ba34d5651ea0bf82979",
   "dependencies": [
@@ -21,7 +21,8 @@
     { "name": "opentelemetry-cpp", "features": ["otlp-http"] },
     { "name": "curl" },
     { "name": "yaml-cpp" },
-    { "name": "zstd" }
+    { "name": "zstd" },
+    { "name": "mimalloc" }
   ],
   "features": {
     "gpu": {

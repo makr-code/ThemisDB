@@ -1,4 +1,9 @@
-﻿// Windows headers must come before Boost.Asio on Windows
+﻿// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
+#ifdef THEMIS_USE_MIMALLOC
+    #include <mimalloc-override.h> // Automatic override of malloc
+#endif
+
+// Windows headers must come before Boost.Asio on Windows
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
