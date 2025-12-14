@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RailwayMonitor.WPF.Services.VectorData;
@@ -135,11 +136,11 @@ public class VectorDataServiceStub : IVectorDataService
 
 public class VectorLayer
 {
-    public string Id { get; set; }
-    public string Name { get; set; }
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
     public VectorLayerType Type { get; set; }
     public bool Visible { get; set; }
-    public LayerStyle Style { get; set; }
+    public LayerStyle Style { get; set; } = new();
     public string Source { get; set; } = "osm";
 }
 
@@ -153,21 +154,21 @@ public enum VectorLayerType
 public class LayerStyle
 {
     // Line properties
-    public string LineColor { get; set; }
-    public int LineWidth { get; set; }
-    public LineCap LineCap { get; set; }
+    public string LineColor { get; set; } = "#000000";
+    public int LineWidth { get; set; } = 1;
+    public LineCap LineCap { get; set; } = LineCap.Butt;
 
     // Circle properties (for points)
-    public int CircleRadius { get; set; }
-    public string CircleColor { get; set; }
-    public int CircleStrokeWidth { get; set; }
-    public string CircleStrokeColor { get; set; }
+    public int CircleRadius { get; set; } = 5;
+    public string CircleColor { get; set; } = "#000000";
+    public int CircleStrokeWidth { get; set; } = 1;
+    public string CircleStrokeColor { get; set; } = "#FFFFFF";
 
     // Fill properties (for polygons)
-    public string FillColor { get; set; }
-    public float FillOpacity { get; set; }
-    public string StrokeColor { get; set; }
-    public int StrokeWidth { get; set; }
+    public string FillColor { get; set; } = "#CCCCCC";
+    public float FillOpacity { get; set; } = 1.0f;
+    public string StrokeColor { get; set; } = "#000000";
+    public int StrokeWidth { get; set; } = 1;
 }
 
 public enum LineCap

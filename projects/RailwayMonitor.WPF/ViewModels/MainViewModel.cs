@@ -519,11 +519,13 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void SetLodLevel(string level)
     {
+        // LOD Level: 0=Highest detail, 4=Lowest (culled)
+        // User-friendly mapping: High quality = LOD 0-1, Auto = LOD 2, Low = LOD 3
         MaxLodLevel = level switch
         {
-            "Auto" => 2,
-            "High" => 1,
-            "Low" => 3,
+            "Auto" => 2,   // Balanced quality (LOD 0-2 rendered)
+            "High" => 0,   // Maximum quality (LOD 0 rendered)
+            "Low" => 3,    // Performance mode (LOD 0-3 rendered)
             _ => 2
         };
         StatusMessage = $"LOD-Level: {level}";
@@ -551,11 +553,13 @@ public partial class MainViewModel : ObservableObject
         StatusMessage = ShowVectorLayers ? "Vector-Layers aktiviert" : "Vector-Layers deaktiviert";
     }
 
+    private const int REFRESH_SIMULATION_DELAY_MS = 500;
+
     [RelayCommand]
     private async Task RefreshVectorTiles()
     {
         StatusMessage = "Aktualisiere Vector Tiles...";
-        await Task.Delay(500); // Simulate refresh
+        await Task.Delay(REFRESH_SIMULATION_DELAY_MS); // Simulate refresh
         StatusMessage = "Vector Tiles aktualisiert";
     }
 
