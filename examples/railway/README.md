@@ -2,6 +2,38 @@
 
 Vollständiges IoT-basiertes Echtzeit-Überwachungssystem für Zugverkehr mit KI-gestützter Analyse.
 
+---
+
+## ⚡ NEU: Production-Ready Deployment!
+
+**Jetzt verfügbar:**
+- ✅ **Docker Compose Setup** - Komplettes System mit einem Befehl
+- ✅ **Quick-Start Scripts** - Automatische Installation (Linux/macOS/Windows)
+- ✅ **Python Network Generator** - Keine C++ Compilation erforderlich
+- ✅ **WPF Desktop Client** - Vollständig implementiert (.NET 8)
+- ✅ **Web UI mit Nginx** - Production-ready Konfiguration
+
+### 🚀 Schnellster Start (2 Minuten)
+
+**Linux/macOS**:
+```bash
+./quick-start.sh
+```
+
+**Windows PowerShell**:
+```powershell
+.\quick-start.ps1
+```
+
+Das war's! System läuft auf:
+- 🌐 Web UI: http://localhost:8080
+- 🗄️ ThemisDB API: http://localhost:8765
+- 🤖 Ollama LLM: http://localhost:11434
+
+**📖 Vollständige Dokumentation:** Siehe **[DEPLOYMENT.md](DEPLOYMENT.md)**
+
+---
+
 ## 🚀 Schnellstart (5 Minuten)
 
 ### Voraussetzungen
