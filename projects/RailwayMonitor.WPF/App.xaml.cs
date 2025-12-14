@@ -59,6 +59,8 @@ public partial class App : Application
 
         // Services
         services.AddSingleton<IThemisDbService, ThemisDbService>();
+        services.AddSingleton<IEnergyManagementService, EnergyManagementService>();
+        services.AddSingleton<IChangeFeedService, ChangeFeedService>();
         services.AddSingleton<ITrainSimulatorService, TrainSimulatorService>();
         services.AddSingleton<IMapService, MapService>();
         services.AddSingleton<ILlmService, OllamaService>();

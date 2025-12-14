@@ -302,6 +302,13 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<PowerForecastPoint>? powerForecast;
 
+    // Chart Series for LiveCharts
+    [ObservableProperty]
+    private object? delaySeries;
+    
+    [ObservableProperty]
+    private object? categorySeries;
+
     // Commands
     [RelayCommand]
     private async Task AnalyzeWithLlm()
