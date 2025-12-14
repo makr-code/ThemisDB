@@ -664,6 +664,12 @@ else()
     set(THEMIS_ARROW_TARGET "")
 endif()
 
+# v1.1.0: Define ARROW_ENABLED if Arrow is available
+if(THEMIS_ARROW_TARGET)
+    target_compile_definitions(themis_core PUBLIC ARROW_ENABLED)
+    message(STATUS "Arrow enabled - Parquet export available")
+endif()
+
 target_link_libraries(themis_core
     PUBLIC
         RocksDB::rocksdb

@@ -902,5 +902,192 @@ bool MaterializedView::isStale() const {
     return age.count() > definition_.refresh_interval_seconds;
 }
 
+// ============================================================================
+// v1.1.0: Parquet Export Implementation
+// ============================================================================
+
+#ifdef ARROW_ENABLED
+#include <arrow/api.h>
+#include <arrow/io/api.h>
+#include <parquet/arrow/writer.h>
+
+bool OLAPEngine::exportToParquet(
+    const OLAPResult& result,
+    const std::string& path,
+    const std::string& compression
+) {
+    try {
+        // Build Arrow schema from result columns
+        std::vector<std::shared_ptr<arrow::Field>> schema_fields;
+        
+        for (const auto& col_name : result.columns) {
+            // Infer type from first non-null value
+            arrow::Type::type arrow_type = arrow::Type::STRING;  // Default to string
+            
+            if (!result.rows.empty()) {
+                for (const auto& row : result.rows) {
+                    auto it = row.values.find(col_name);
+                    if (it != row.values.end()) {
+                        std::visit([&](const auto& val) {
+                            using T = std::decay_t<decltype(val)>;
+                            if constexpr (std::is_same_v<T, bool>) {
+                                arrow_type = arrow::Type::BOOL;
+                            } else if constexpr (std::is_same_v<T, int64_t>) {
+                                arrow_type = arrow::Type::INT64;
+                            } else if constexpr (std::is_same_v<T, double>) {
+                                arrow_type = arrow::Type::DOUBLE;
+                            } else if constexpr (std::is_same_v<T, std::string>) {
+                                arrow_type = arrow::Type::STRING;
+                            }
+                        }, it->second);
+                        break;
+                    }
+                }
+            }
+            
+            std::shared_ptr<arrow::DataType> field_type;
+            switch (arrow_type) {
+                case arrow::Type::BOOL: field_type = arrow::boolean(); break;
+                case arrow::Type::INT64: field_type = arrow::int64(); break;
+                case arrow::Type::DOUBLE: field_type = arrow::float64(); break;
+                default: field_type = arrow::utf8(); break;
+            }
+            
+            schema_fields.push_back(arrow::field(col_name, field_type));
+        }
+        
+        auto schema = std::make_shared<arrow::Schema>(schema_fields);
+        
+        // Build column arrays
+        std::vector<std::shared_ptr<arrow::Array>> arrays;
+        
+        for (size_t col_idx = 0; col_idx < result.columns.size(); ++col_idx) {
+            const auto& col_name = result.columns[col_idx];
+            const auto& field_type = schema_fields[col_idx]->type();
+            
+            // Create array builder based on type
+            std::shared_ptr<arrow::Array> array;
+            
+            if (field_type->id() == arrow::Type::BOOL) {
+                arrow::BooleanBuilder builder;
+                for (const auto& row : result.rows) {
+                    auto it = row.values.find(col_name);
+                    if (it != row.values.end() && std::holds_alternative<bool>(it->second)) {
+                        builder.Append(std::get<bool>(it->second));
+                    } else {
+                        builder.AppendNull();
+                    }
+                }
+                builder.Finish(&array);
+            } else if (field_type->id() == arrow::Type::INT64) {
+                arrow::Int64Builder builder;
+                for (const auto& row : result.rows) {
+                    auto it = row.values.find(col_name);
+                    if (it != row.values.end() && std::holds_alternative<int64_t>(it->second)) {
+                        builder.Append(std::get<int64_t>(it->second));
+                    } else {
+                        builder.AppendNull();
+                    }
+                }
+                builder.Finish(&array);
+            } else if (field_type->id() == arrow::Type::DOUBLE) {
+                arrow::DoubleBuilder builder;
+                for (const auto& row : result.rows) {
+                    auto it = row.values.find(col_name);
+                    if (it != row.values.end() && std::holds_alternative<double>(it->second)) {
+                        builder.Append(std::get<double>(it->second));
+                    } else {
+                        builder.AppendNull();
+                    }
+                }
+                builder.Finish(&array);
+            } else {
+                arrow::StringBuilder builder;
+                for (const auto& row : result.rows) {
+                    auto it = row.values.find(col_name);
+                    if (it != row.values.end() && std::holds_alternative<std::string>(it->second)) {
+                        builder.Append(std::get<std::string>(it->second));
+                    } else {
+                        builder.AppendNull();
+                    }
+                }
+                builder.Finish(&array);
+            }
+            
+            arrays.push_back(array);
+        }
+        
+        // Create Arrow Table
+        auto table = arrow::Table::Make(schema, arrays);
+        
+        // Write to Parquet
+        std::shared_ptr<arrow::io::FileOutputStream> outfile;
+        PARQUET_ASSIGN_OR_THROW(outfile, arrow::io::FileOutputStream::Open(path));
+        
+        // Set compression
+        parquet::WriterProperties::Builder props_builder;
+        if (compression == "snappy") {
+            props_builder.compression(parquet::Compression::SNAPPY);
+        } else if (compression == "gzip") {
+            props_builder.compression(parquet::Compression::GZIP);
+        } else if (compression == "zstd") {
+            props_builder.compression(parquet::Compression::ZSTD);
+        } else {
+            props_builder.compression(parquet::Compression::UNCOMPRESSED);
+        }
+        
+        auto props = props_builder.build();
+        
+        // Write table
+        PARQUET_THROW_NOT_OK(
+            parquet::arrow::WriteTable(*table, arrow::default_memory_pool(), outfile, 1024, props)
+        );
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        // Log error (would use THEMIS_ERROR in production)
+        return false;
+    }
+}
+
+bool OLAPEngine::exportCollectionToParquet(
+    std::string_view collection,
+    const std::string& path,
+    const std::vector<Filter>& filters,
+    const std::string& compression
+) {
+    // Build simple query to export all data
+    OLAPQuery query;
+    query.collection = std::string(collection);
+    query.filters = filters;
+    query.grouping_mode = OLAPQuery::GroupingMode::Simple;
+    
+    // Execute query to get all rows
+    auto result = execute(query);
+    
+    // Export to Parquet
+    return exportToParquet(result, path, compression);
+}
+#else
+// Arrow not available - stub implementations
+bool OLAPEngine::exportToParquet(
+    const OLAPResult&,
+    const std::string&,
+    const std::string&
+) {
+    return false;  // Arrow not compiled in
+}
+
+bool OLAPEngine::exportCollectionToParquet(
+    std::string_view,
+    const std::string&,
+    const std::vector<Filter>&,
+    const std::string&
+) {
+    return false;  // Arrow not compiled in
+}
+#endif // ARROW_ENABLED
+
 } // namespace analytics
 } // namespace themis
