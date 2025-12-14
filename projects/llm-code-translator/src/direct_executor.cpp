@@ -4,7 +4,8 @@
 #include <sstream>
 #include <cmath>
 
-namespace llm_code_translator {
+namespace themis {
+namespace llm_translator {
 
 // DirectExecutor implementation
 class DirectExecutor::Impl {
@@ -108,20 +109,26 @@ ExecutionResult DirectExecutor::executeQuery(const ExecutionPlan& plan, const Re
         data = applyFilters(data, plan.filters);
     }
     
-    // Apply sorting
-    if (!plan.sorting.empty()) {
-        data = applySorting(data, plan.sorting);
+    // Apply pagination
+    int64_t limit = -1;
+    int64_t offset = 0;
+    
+    auto limit_it = plan.parameters.find("limit");
+    if (limit_it != plan.parameters.end() && std::holds_alternative<int64_t>(limit_it->second)) {
+        limit = std::get<int64_t>(limit_it->second);
     }
     
-    // Apply pagination
-    int limit = plan.parameters.value("limit", -1);
-    int offset = plan.parameters.value("offset", 0);
+    auto offset_it = plan.parameters.find("offset");
+    if (offset_it != plan.parameters.end() && std::holds_alternative<int64_t>(offset_it->second)) {
+        offset = std::get<int64_t>(offset_it->second);
+    }
+    
     if (limit > 0 || offset > 0) {
         data = applyPagination(data, limit, offset);
     }
     
     result.success = true;
-    result.result_data = data;
+    result.data = data;
     result.rows_affected = data.is_array() ? data.size() : 1;
     
     return result;
@@ -138,18 +145,18 @@ ExecutionResult DirectExecutor::executeAggregate(const ExecutionPlan& plan, cons
         data = applyFilters(data, plan.filters);
     }
     
-    // Group by fields
-    std::vector<std::string> group_by = plan.parameters.value("groupBy", std::vector<std::string>());
-    nlohmann::json aggregations = plan.parameters.value("aggregations", nlohmann::json::array());
+    // Group by fields (from plan.group_by)
+    const auto& group_by = plan.group_by;
+    const auto& aggregations = plan.aggregations;
     
     // Simplified aggregation logic (real implementation would be more sophisticated)
     if (group_by.empty()) {
         // No grouping - aggregate all rows
         nlohmann::json agg_result;
         for (const auto& agg : aggregations) {
-            std::string function = agg.value("function", "");
-            std::string field = agg.value("field", "");
-            std::string as = agg.value("as", field + "_" + function);
+            std::string function = agg.function;
+            std::string field = agg.field;
+            std::string as = agg.alias.empty() ? (field + "_" + function) : agg.alias;
             
             if (function == "COUNT") {
                 agg_result[as] = data.size();
@@ -165,14 +172,14 @@ ExecutionResult DirectExecutor::executeAggregate(const ExecutionPlan& plan, cons
                 agg_result[as] = (function == "SUM") ? sum : (count > 0 ? sum / count : 0.0);
             }
         }
-        result.result_data = nlohmann::json::array({agg_result});
+        result.data = nlohmann::json::array({agg_result});
     } else {
         // With grouping - simplified version
-        result.result_data = nlohmann::json::array();
+        result.data = nlohmann::json::array();
     }
     
     result.success = true;
-    result.rows_affected = result.result_data.size();
+    result.rows_affected = result.data.size();
     
     return result;
 }
@@ -187,11 +194,10 @@ ExecutionResult DirectExecutor::executeTransform(const ExecutionPlan& plan, cons
         data = applyFilters(data, plan.filters);
     }
     
-    // Apply transformations (simplified)
-    nlohmann::json transformations = plan.parameters.value("transformations", nlohmann::json::array());
+    // Apply transformations (simplified - would need transformation specs)
     
     result.success = true;
-    result.result_data = data;
+    result.data = data;
     result.rows_affected = data.is_array() ? data.size() : 1;
     
     return result;
@@ -207,14 +213,29 @@ ExecutionResult DirectExecutor::executeJoin(const ExecutionPlan& plan, const Res
 ExecutionResult DirectExecutor::executeGraphTraverse(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
     
-    nlohmann::json start_node = plan.parameters.value("start_node", nlohmann::json());
-    std::string traversal_type = plan.parameters.value("traversal_type", "BFS");
-    int max_depth = plan.parameters.value("max_depth", 10);
+    nlohmann::json start_node;
+    std::string traversal_type = "BFS";
+    int64_t max_depth = 10;
+    
+    auto start_it = plan.parameters.find("start_node");
+    if (start_it != plan.parameters.end() && std::holds_alternative<std::string>(start_it->second)) {
+        start_node = std::get<std::string>(start_it->second);
+    }
+    
+    auto type_it = plan.parameters.find("traversal_type");
+    if (type_it != plan.parameters.end() && std::holds_alternative<std::string>(type_it->second)) {
+        traversal_type = std::get<std::string>(type_it->second);
+    }
+    
+    auto depth_it = plan.parameters.find("max_depth");
+    if (depth_it != plan.parameters.end() && std::holds_alternative<int64_t>(depth_it->second)) {
+        max_depth = std::get<int64_t>(depth_it->second);
+    }
     
     nlohmann::json graph_data = impl_->db->graphTraverse(plan.datasource, start_node, traversal_type, max_depth);
     
     result.success = true;
-    result.result_data = graph_data;
+    result.data = graph_data;
     result.rows_affected = graph_data.is_array() ? graph_data.size() : 1;
     
     return result;
@@ -223,14 +244,25 @@ ExecutionResult DirectExecutor::executeGraphTraverse(const ExecutionPlan& plan, 
 ExecutionResult DirectExecutor::executeVectorSearch(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
     
-    std::vector<float> query_vector = plan.parameters.value("query_vector", std::vector<float>());
-    int top_k = plan.parameters.value("top_k", 10);
-    std::string distance_metric = plan.parameters.value("distance_metric", "cosine");
+    // Vector search would need vector parameter - for now simplified
+    std::vector<float> query_vector;
+    int64_t top_k = 10;
+    std::string distance_metric = "cosine";
+    
+    auto topk_it = plan.parameters.find("top_k");
+    if (topk_it != plan.parameters.end() && std::holds_alternative<int64_t>(topk_it->second)) {
+        top_k = std::get<int64_t>(topk_it->second);
+    }
+    
+    auto metric_it = plan.parameters.find("distance_metric");
+    if (metric_it != plan.parameters.end() && std::holds_alternative<std::string>(metric_it->second)) {
+        distance_metric = std::get<std::string>(metric_it->second);
+    }
     
     nlohmann::json search_results = impl_->db->vectorSearch(plan.datasource, query_vector, top_k, distance_metric);
     
     result.success = true;
-    result.result_data = search_results;
+    result.data = search_results;
     result.rows_affected = search_results.is_array() ? search_results.size() : 1;
     
     return result;
@@ -239,14 +271,29 @@ ExecutionResult DirectExecutor::executeVectorSearch(const ExecutionPlan& plan, c
 ExecutionResult DirectExecutor::executeTimeSeries(const ExecutionPlan& plan, const ResourceLimits& limits) {
     ExecutionResult result;
     
-    std::string start_time = plan.parameters.value("start_time", "");
-    std::string end_time = plan.parameters.value("end_time", "");
-    std::string aggregation = plan.parameters.value("aggregation", "none");
+    std::string start_time;
+    std::string end_time;
+    std::string aggregation = "none";
+    
+    auto start_it = plan.parameters.find("start_time");
+    if (start_it != plan.parameters.end() && std::holds_alternative<std::string>(start_it->second)) {
+        start_time = std::get<std::string>(start_it->second);
+    }
+    
+    auto end_it = plan.parameters.find("end_time");
+    if (end_it != plan.parameters.end() && std::holds_alternative<std::string>(end_it->second)) {
+        end_time = std::get<std::string>(end_it->second);
+    }
+    
+    auto agg_it = plan.parameters.find("aggregation");
+    if (agg_it != plan.parameters.end() && std::holds_alternative<std::string>(agg_it->second)) {
+        aggregation = std::get<std::string>(agg_it->second);
+    }
     
     nlohmann::json ts_data = impl_->db->timeSeriesQuery(plan.datasource, start_time, end_time, aggregation);
     
     result.success = true;
-    result.result_data = ts_data;
+    result.data = ts_data;
     result.rows_affected = ts_data.is_array() ? ts_data.size() : 1;
     
     return result;
@@ -278,29 +325,38 @@ nlohmann::json DirectExecutor::applyFilters(const nlohmann::json& data,
             
             auto value = row[filter.field];
             
-            if (filter.op == "==") {
-                if (value != filter.value) matches = false;
-            } else if (filter.op == "!=") {
-                if (value == filter.value) matches = false;
-            } else if (filter.op == ">") {
-                if (value.is_number() && filter.value.is_number()) {
-                    if (value.get<double>() <= filter.value.get<double>()) matches = false;
+            // Handle different value types from PlanValue variant
+            auto compareValue = [&](const auto& filter_val) -> bool {
+                if (filter.op == "==") {
+                    return value == filter_val;
+                } else if (filter.op == "!=") {
+                    return value != filter_val;
+                } else if (filter.op == ">") {
+                    if (value.is_number()) {
+                        return value.get<double>() > static_cast<double>(filter_val);
+                    }
+                } else if (filter.op == ">=") {
+                    if (value.is_number()) {
+                        return value.get<double>() >= static_cast<double>(filter_val);
+                    }
+                } else if (filter.op == "<") {
+                    if (value.is_number()) {
+                        return value.get<double>() < static_cast<double>(filter_val);
+                    }
+                } else if (filter.op == "<=") {
+                    if (value.is_number()) {
+                        return value.get<double>() <= static_cast<double>(filter_val);
+                    }
                 }
-            } else if (filter.op == ">=") {
-                if (value.is_number() && filter.value.is_number()) {
-                    if (value.get<double>() < filter.value.get<double>()) matches = false;
-                }
-            } else if (filter.op == "<") {
-                if (value.is_number() && filter.value.is_number()) {
-                    if (value.get<double>() >= filter.value.get<double>()) matches = false;
-                }
-            } else if (filter.op == "<=") {
-                if (value.is_number() && filter.value.is_number()) {
-                    if (value.get<double>() > filter.value.get<double>()) matches = false;
-                }
-            }
+                return false;
+            };
             
-            if (!matches) break;
+            bool condition_met = std::visit([&](const auto& val) { return compareValue(val); }, filter.value);
+            
+            if (!condition_met) {
+                matches = false;
+                break;
+            }
         }
         
         if (matches) {
@@ -309,41 +365,6 @@ nlohmann::json DirectExecutor::applyFilters(const nlohmann::json& data,
     }
     
     return filtered;
-}
-
-nlohmann::json DirectExecutor::applySorting(const nlohmann::json& data, 
-                                            const std::vector<SortOrder>& sorting) {
-    if (!data.is_array() || sorting.empty()) {
-        return data;
-    }
-    
-    nlohmann::json sorted = data;
-    
-    // Simple sorting implementation (production would be more efficient)
-    std::sort(sorted.begin(), sorted.end(), [&sorting](const nlohmann::json& a, const nlohmann::json& b) {
-        for (const auto& sort : sorting) {
-            if (!a.contains(sort.field) || !b.contains(sort.field)) {
-                continue;
-            }
-            
-            auto a_val = a[sort.field];
-            auto b_val = b[sort.field];
-            
-            if (a_val != b_val) {
-                bool less_than = false;
-                if (a_val.is_number() && b_val.is_number()) {
-                    less_than = a_val.get<double>() < b_val.get<double>();
-                } else if (a_val.is_string() && b_val.is_string()) {
-                    less_than = a_val.get<std::string>() < b_val.get<std::string>();
-                }
-                
-                return sort.ascending ? less_than : !less_than;
-            }
-        }
-        return false;
-    });
-    
-    return sorted;
 }
 
 nlohmann::json DirectExecutor::applyPagination(const nlohmann::json& data, int limit, int offset) {
@@ -459,4 +480,5 @@ nlohmann::json MockDatabase::timeSeriesQuery(const std::string& datasource,
     return nlohmann::json::array();
 }
 
-} // namespace llm_code_translator
+} // namespace llm_translator
+} // namespace themis

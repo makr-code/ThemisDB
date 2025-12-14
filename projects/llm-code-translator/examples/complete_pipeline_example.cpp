@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
-using namespace llm_code_translator;
+using namespace themis::llm_translator;
 
 void printExecutionResult(const std::string& prompt, const ExecutionResult& result) {
     std::cout << "\n" << std::string(80, '=') << "\n";
@@ -15,7 +15,7 @@ void printExecutionResult(const std::string& prompt, const ExecutionResult& resu
         std::cout << "✓ Success!\n";
         std::cout << "Execution Time: " << result.execution_time_ms << "ms\n";
         std::cout << "Rows Affected: " << result.rows_affected << "\n";
-        std::cout << "Results:\n" << result.result_data.dump(2) << "\n";
+        std::cout << "Results:\n" << result.data.dump(2) << "\n";
     } else {
         std::cout << "✗ Failed: " << result.error_message << "\n";
     }
@@ -82,11 +82,9 @@ int main() {
     plan2.filters = {
         FilterCondition{"temperature", ">", 50.0}
     };
-    plan2.parameters = {
-        {"aggregations", nlohmann::json::array({
-            {{"function", "AVG"}, {"field", "temperature"}, {"as", "avg_temp"}},
-            {{"function", "COUNT"}, {"field", "sensor_id"}, {"as", "count"}}
-        })}
+    plan2.aggregations = {
+        Aggregation{"AVG", "temperature", "avg_temp"},
+        Aggregation{"COUNT", "sensor_id", "count"}
     };
     
     auto result2 = executor.execute(plan2);
@@ -99,12 +97,9 @@ int main() {
     ExecutionPlan plan3;
     plan3.operation = OperationType::QUERY;
     plan3.datasource = "sensor_readings";
-    plan3.sorting = {
-        SortOrder{"temperature", false}  // descending
-    };
     plan3.parameters = {
-        {"limit", 3},
-        {"offset", 0}
+        {"limit", static_cast<int64_t>(3)},
+        {"offset", static_cast<int64_t>(0)}
     };
     
     auto result3 = executor.execute(plan3);
@@ -120,7 +115,7 @@ int main() {
             auto plan4 = translator.translate(prompt4);
             
             std::cout << "✓ Plan generated:\n";
-            std::cout << plan4.toJSON().dump(2) << "\n\n";
+            std::cout << plan4.toJson().dump(2) << "\n\n";
             
             std::cout << "Executing plan...\n";
             auto result4 = executor.execute(plan4);

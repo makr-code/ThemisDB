@@ -6,21 +6,11 @@
 #include <vector>
 #include <functional>
 
-namespace llm_code_translator {
+namespace themis {
+namespace llm_translator {
 
 // Forward declaration for database interface
 class DatabaseInterface;
-
-// Result of executing a plan
-struct ExecutionResult {
-    bool success;
-    std::string error_message;
-    nlohmann::json result_data;
-    int64_t execution_time_ms;
-    size_t rows_affected;
-    
-    ExecutionResult() : success(false), execution_time_ms(0), rows_affected(0) {}
-};
 
 // Direct executor - interprets and executes execution plans
 class DirectExecutor {
@@ -31,13 +21,14 @@ public:
     // Execute a single plan
     ExecutionResult execute(const ExecutionPlan& plan);
     
-    // Execute with resource limits
+    // Resource limits for execution
     struct ResourceLimits {
         int64_t max_execution_time_ms = 30000;  // 30 seconds
         size_t max_memory_bytes = 1024 * 1024 * 1024;  // 1GB
         size_t max_result_rows = 1000000;  // 1M rows
     };
     
+    // Execute with resource limits
     ExecutionResult execute(const ExecutionPlan& plan, const ResourceLimits& limits);
     
     // Enable/disable execution metrics
@@ -72,7 +63,6 @@ private:
     // Helper methods
     bool checkResourceLimits(const ResourceLimits& limits, int64_t elapsed_ms, size_t memory_used);
     nlohmann::json applyFilters(const nlohmann::json& data, const std::vector<FilterCondition>& filters);
-    nlohmann::json applySorting(const nlohmann::json& data, const std::vector<SortOrder>& sorting);
     nlohmann::json applyPagination(const nlohmann::json& data, int limit, int offset);
 };
 
@@ -152,4 +142,5 @@ private:
     std::map<std::string, std::vector<nlohmann::json>> data_;
 };
 
-} // namespace llm_code_translator
+} // namespace llm_translator
+} // namespace themis
