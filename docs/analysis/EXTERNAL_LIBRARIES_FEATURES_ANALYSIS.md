@@ -668,17 +668,17 @@ propagator.Inject(carrier, context);
 
 ## 8. Priorisierte Roadmap (Neu: Tier-basiert)
 
-### TIER 1: Must-Have - Production Readiness (Essenziell)
+### TIER 1: Must-Have - Production Readiness (Produktions-Kritisch)
 
 **Kritische Features für stabile Production-Deployments**
 
 | Rang | Feature | Library | Effort | ROI | Business Impact |
 |------|---------|---------|--------|-----|-----------------|
-| 1 | OpenTelemetry Metrics | OpenTelemetry | 2 Wochen | 🔥🔥 | Monitoring ohne Metrics unmöglich |
-| 2 | RocksDB TTL | RocksDB | 2 Wochen | 🔥🔥 | Verhindert Disk-Full in Production |
-| 3 | Incremental Backups | RocksDB | 2 Wochen | 🔥 | DSGVO/ISO27001 Compliance |
-| 4 | WAL Archive (PITR) | RocksDB | 2 Wochen | 🔥 | Disaster Recovery |
-| 5 | Context Propagation | OpenTelemetry | 1 Woche | 🔥 | Distributed Tracing |
+| 1 | OpenTelemetry Metrics | OpenTelemetry | 2 Wochen | Critical | Monitoring ohne Metrics unmöglich |
+| 2 | RocksDB TTL | RocksDB | 2 Wochen | Critical | Verhindert Disk-Full in Production |
+| 3 | Incremental Backups | RocksDB | 2 Wochen | Critical | DSGVO/ISO27001 Compliance |
+| 4 | WAL Archive (PITR) | RocksDB | 2 Wochen | Critical | Disaster Recovery |
+| 5 | Context Propagation | OpenTelemetry | 1 Woche | High | Distributed Tracing |
 
 **Total: 9 Wochen | Impact: Production-fähig, Compliance-ready**
 
@@ -794,14 +794,14 @@ Woche 8-10:  Arrow Gandiva (JIT)
 
 ## 9. Kosten-Nutzen-Analyse (Aktualisiert)
 
-### Must-Have Features (ROI: Unendlich - Production-Critical)
+### Must-Have Features (ROI: Critical - Production-Critical)
 
 | Feature | Engineering Effort | Nutzen | ROI | Kategorie |
 |---------|-------------------|--------|-----|-----------|
-| OpenTelemetry Metrics | 2 Wochen | Production Monitoring | ∞ | Must-Have |
-| RocksDB TTL | 2 Wochen | Auto-Cleanup, Disk-Full Prevention | ∞ | Must-Have |
-| Incremental Backups | 2 Wochen | Compliance (DSGVO, ISO27001) | ∞ | Must-Have |
-| WAL Archive | 2 Wochen | Disaster Recovery | ∞ | Must-Have |
+| OpenTelemetry Metrics | 2 Wochen | Production Monitoring | Critical | Must-Have |
+| RocksDB TTL | 2 Wochen | Auto-Cleanup, Disk-Full Prevention | Critical | Must-Have |
+| Incremental Backups | 2 Wochen | Compliance (DSGVO, ISO27001) | Critical | Must-Have |
+| WAL Archive | 2 Wochen | Disaster Recovery | Critical | Must-Have |
 
 ### Should-Have Features (ROI > 5x)
 

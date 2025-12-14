@@ -830,13 +830,13 @@ Total:                18 GB (64 GB System)
 
 | Rang | Library/Feature | Kategorie | ROI | Effort | Begründung |
 |------|----------------|-----------|-----|--------|------------|
-| 1 | **mimalloc Drop-in** | Performance | 🔥🔥 20-40% | 1 Tag | Drop-in Replacement, sofortiger Gewinn, kein Risiko |
-| 2 | **OpenTelemetry Metrics** | Observability | 🔥🔥 Essential | 2 Wochen | Production ohne Metrics nicht betreibbar |
-| 3 | **RocksDB TTL** | Operations | 🔥 Auto-Cleanup | 2 Wochen | Verhindert Disk-Full in Production |
-| 4 | **RE2 Regex Engine** | Security | 🔥🔥 10-100x + Security | 1 Woche | Verhindert ReDoS-Angriffe (CVE-Risiko) |
-| 5 | **RocksDB Incremental Backup** | Disaster Recovery | 🔥 Compliance | 2 Wochen | DSGVO/ISO27001 Requirement |
+| 1 | **mimalloc Drop-in** | Performance | 20-40% Speedup | 1 Tag | Drop-in Replacement, sofortiger Gewinn, kein Risiko |
+| 2 | **OpenTelemetry Metrics** | Observability | Critical | 2 Wochen | Production ohne Metrics nicht betreibbar |
+| 3 | **RocksDB TTL** | Operations | Critical | 2 Wochen | Verhindert Disk-Full in Production |
+| 4 | **RE2 Regex Engine** | Security | 10-100x + Security | 1 Woche | Verhindert ReDoS-Angriffe (CVE-Risiko) |
+| 5 | **RocksDB Incremental Backup** | Disaster Recovery | Critical | 2 Wochen | DSGVO/ISO27001 Requirement |
 
-**Total Effort: 6-7 Wochen**  
+**Total Effort: 7-8 Wochen**  
 **Impact: Produktions-fähig, sicher, wartbar**
 
 ---
