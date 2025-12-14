@@ -56,36 +56,107 @@ Das Railway Monitoring System ist ein **ambitioniertes Showcase-Projekt** mit **
 
 ---
 
-## ⚠️ Funktionale Gaps (Kritisch)
+## ✅ ThemisDB APIs Verfügbar - Integration möglich!
 
-### 1. **ThemisDB Backend Integration - MISSING** ❌
+**UPDATE 2025-12-14**: ThemisDB bietet **vollständige REST APIs** (siehe `docs/apis/HTTP_API_REFERENCE.md`, 1890 Zeilen).
 
-**Problem**: Die Implementierung ist **hauptsächlich client-seitig**.
+### Verfügbare APIs für Railway Integration
 
-```python
-# scripts/railway/train_simulator.py:407
-url = f"{self.themis_url}/timeseries/{metric}/{entity}/{timestamp_ms}"
-requests.put(url, json=value, timeout=1)
+#### 1. **Entities (CRUD)** ✅
+```bash
+# Züge speichern/abrufen
+PUT /entities/trains:ICE508
+GET /entities/trains:ICE508
+
+# Stationen, Signale, Weichen
+PUT /entities/stations:FRANKFURT_HBF
+PUT /entities/signals:SIG_FFM_001
+PUT /entities/switches:SWITCH_FFM_WEST_01
 ```
 
-**Gap**: 
-- ❌ **Keine ThemisDB Time-Series Engine Integration**
-- ❌ **Keine REST API Endpoints implementiert** (`/timeseries/{metric}/{entity}/{timestamp}`)
-- ❌ **Keine CEP Rules Engine aktiv**
-- ❌ **Keine Graph Database Queries**
-- ❌ **Keine Geo-Spatial Index**
+#### 2. **Time-Series Modeling** ✅
+```bash
+# Time-Series als Entity-Keys mit Zeitstempel
+PUT /entities/train_gps:ICE508:1702400000000
+PUT /entities/train_vehicle_systems:ICE508:1702400000100
+PUT /entities/substation_load:UW_FFM_SUED:1702400000000
+```
 
-**Status**: Der Simulator sendet HTTP PUT Requests, aber ThemisDB Core hat **keine Railway-spezifischen API Endpoints**.
+#### 3. **Graph Operations** ✅
+```bash
+# Streckennetz-Traversierung (BFS)
+POST /graph/traverse
+{
+  "start_vertex": "FRANKFURT_HBF",
+  "max_depth": 3
+}
 
-**Empfehlung**: 
+# Edges als Entities:
+# _from: "FRANKFURT_HBF", _to: "MANNHEIM_HBF", distance_km: 75
+```
+
+#### 4. **Query & AQL** ✅
+```bash
+# Verspätete Züge finden
+POST /query/aql
+{
+  "query": "FOR train IN trains FILTER train.delay > 5 SORT train.delay DESC LIMIT 10 RETURN train"
+}
+
+# Energie-Verbrauch aggregieren
+POST /query/aql
+{
+  "query": "FOR reading IN train_energy FILTER reading.timestamp > @start_time COLLECT train = reading.train AGGREGATE total_kwh = SUM(reading.energy_kwh) RETURN {train, total_kwh}"
+}
+```
+
+#### 5. **Vector Search** ✅
+```bash
+# LLM Embeddings für semantische Suche
+POST /vector/search
+{
+  "vector": [0.1, 0.2, 0.3],  # Query Embedding
+  "k": 10
+}
+
+# Batch Insert für LLM Context
+POST /vector/batch_insert
+{
+  "items": [
+    {"pk": "verspätung:ICE508:2025-12-14", "vector": [...], "fields": {...}}
+  ]
+}
+```
+
+#### 6. **Change Data Capture (CDC)** ✅
+```bash
+# Echtzeit-Updates per Server-Sent Events
+GET /changefeed/stream?from_seq=0&key_prefix=trains:
+
+# Streaming Response:
+# data: {"operation":"PUT","key":"trains:ICE508","sequence":42,...}
+# data: {"operation":"PUT","key":"trains:ICE701","sequence":43,...}
+```
+
+---
+
+## ⚠️ Funktionale Gaps (Moderat)
+
+### 1. **Railway Adapter Layer - EMPFOHLEN** ⚠️
+
+**Status**: ThemisDB Core APIs sind **generisch**. Für bessere Developer Experience: **Railway-spezifischer Adapter**.
+
+**Empfehlung** (Optional, nicht kritisch):
 ```cpp
-// src/adapters/railway_adapter.cpp (NEU)
-// Implementiere REST API Handler für:
-// - PUT /timeseries/{metric}/{entity}/{timestamp}
-// - GET /api/trains/active
-// - GET /api/energy/substations
-// - POST /cep/rules (für Verspätungs-Alerts)
+// src/adapters/railway_adapter.cpp (Optional)
+// Convenience-Endpoints:
+// - GET /api/trains/active → SELECT * FROM trains WHERE status='active'
+// - GET /api/trains/{id}/delays → Time-Series Query über train_gps
+// - GET /api/energy/substations → Entity Query
+// - POST /api/routes/shortest → Graph BFS Wrapper
 ```
+
+**Vorteil**: Vereinfacht Client-Code, aber **nicht zwingend** - kann auch direkt über Standard-APIs gemacht werden.
 
 ---
 
@@ -397,63 +468,105 @@ SBB ─┘                  └── Predictions
 
 ---
 
-## 🎯 Empfohlene Priorisierung
+## 🎯 Empfohlene Priorisierung (AKTUALISIERT)
 
-### Phase 1: Core Integration (1-2 Wochen) ⭐⭐⭐
+**UPDATE 2025-12-14**: ThemisDB REST APIs sind **bereits verfügbar**! Phase 1 kann sofort starten.
 
-1. **ThemisDB REST API Endpoints**
-   ```cpp
-   // src/adapters/railway_adapter.cpp
-   - PUT /timeseries/{metric}/{entity}/{timestamp}
-   - GET /api/trains/active
-   - GET /api/stations
-   - POST /graph/route (Shortest Path Query)
+### Phase 1: Client Implementation (1-2 Wochen) ⭐⭐⭐
+
+**Ziel**: Integration mit existierenden ThemisDB REST APIs
+
+1. **Train Simulator → ThemisDB Integration**
+   ```python
+   # scripts/railway/train_simulator.py
+   # Nutze existierende APIs:
+   - PUT /entities/trains:ICE508  # Zug-Daten
+   - PUT /entities/train_gps:ICE508:{timestamp}  # Time-Series
+   - POST /query/aql  # Queries für Dashboard
+   - GET /changefeed/stream?key_prefix=trains:  # Live Updates
+2. **Network Data Generator → ThemisDB**
+   ```python
+   # scripts/railway/import_railway_network.py
+   # Nutze existierende APIs:
+   - PUT /entities/stations:{id}  # Bahnhöfe
+   - PUT /entities/signals:{id}   # Signale
+   - PUT /entities/switches:{id}  # Weichen
+   # Graph Edges als Entities:
+   - PUT /entities/track:{from}:{to}  # mit _from, _to, distance_km
    ```
 
-2. **Time-Series Storage**
-   - Aktiviere Gorilla Compression für IoT-Daten
-   - Retention Policies (z.B. 30 Tage Raw, 1 Jahr Aggregated)
-
-3. **Basic CEP Rules**
-   - Verspätungs-Alerts (>5 Min)
-   - Hotbox-Warnings
-   - Signal-Störungen
-
-### Phase 2: Client Implementation (2-3 Wochen) ⭐⭐
-
-4. **WPF Services vervollständigen**
-   - Refit HTTP Clients
-   - WebSocket Live-Updates
+3. **WPF Services vervollständigen**
+   ```csharp
+   // clients/RailwayMonitor.WPF/Services/Services.cs
+   - ThemisDbService: Refit Client für /entities, /query/aql
+   - WebSocketService: /changefeed/stream Anbindung
+   - MapService: Bahnhöfe + Strecken abrufen via GET /entities/*
    - Error Handling + Retry Logic
+   ```
 
-5. **Web UI verbessern**
-   - Echte Daten von ThemisDB
-   - Live-Updates via WebSocket
-   - Performance-Optimierung (Canvas Rendering)
+4. **Optional: Railway Adapter Layer**
+   ```cpp
+   // src/adapters/railway_adapter.cpp (Optional für DX)
+   - GET /api/trains/active → Wrapper um AQL Query
+   - GET /api/trains/{id}/timeline → Time-Series Aggregation
+   - POST /api/routes/shortest → Graph BFS Wrapper
+   ```
 
-6. **Simulator erweitern**
-   - Energie-Berechnungen
-   - Asset-Status Updates
-   - DB API Integration (GovData.de)
+**Aufwand**: 40-80 Stunden (hauptsächlich Client-Code)
 
-### Phase 3: Advanced Features (4-6 Wochen) ⭐
+---
 
-7. **LLM Integration**
-   - Ollama Context Builder
-   - Prompt Templates
-   - Natürlichsprachliche Queries
+### Phase 2: Advanced Analytics (2-3 Wochen) ⭐⭐
 
-8. **Energie-Management**
-   - Merit-Order Dispatch
-   - Lastprognose (ML)
-   - Grünstrom-Optimierung
+5. **Energie-Berechnungen**
+   ```python
+   # scripts/railway/train_simulator.py
+   def calculate_energy(speed, gradient, mass):
+       # Implementiere Formeln aus RAILWAY_ENERGY_MANAGEMENT.md
+       traction_power_kw = ...
+       return energy_kwh
+   
+   # Store via PUT /entities/train_energy:{id}:{timestamp}
+   ```
 
-9. **Asset Management**
-   - Wartungsplanung
-   - Materialwirtschaft
-   - Personalplanung
+6. **LLM Integration**
+   ```python
+   # services/llm_context_builder.py
+   def build_context(train_id):
+       # Query ThemisDB via AQL
+       train_data = aql_query("FOR t IN trains FILTER t.id == @id RETURN t")
+       timeline = aql_query("FOR ts IN train_gps FILTER ts.train == @id RETURN ts")
+       
+       # Build Ollama Prompt
+       prompt = f"Train {train_id} status: {train_data}. Timeline: {timeline}. Why delay?"
+       return ollama_client.query(prompt)
+   ```
 
-### Phase 4: Enterprise Features (2-3 Monate)
+7. **Web UI Live-Updates**
+   ```javascript
+   // examples/railway/live_map.html
+   const eventSource = new EventSource('http://localhost:8765/changefeed/stream?key_prefix=trains:');
+   eventSource.onmessage = (event) => {
+       const data = JSON.parse(event.data);
+       updateTrainMarker(data.key, data.new_val);
+   };
+   ```
+
+**Aufwand**: 60-100 Stunden
+
+---
+
+### Phase 3: Enterprise Features (4-6 Wochen) ⭐
+
+8. **Asset Management Implementation**
+9. **CEP Rules Engine** (via Flink/Kafka oder Custom)
+10. **Deutsche Bahn API Integration** (GovData.de, Timetables)
+
+**Aufwand**: 120-180 Stunden
+
+---
+
+### Phase 4: Advanced Architecture (2-3 Monate)
 
 10. **Event-Driven Architecture**
 11. **Digital Twin**
