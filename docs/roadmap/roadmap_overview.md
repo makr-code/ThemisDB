@@ -146,6 +146,88 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 
 ---
 
+## 🚀 Geplant: Q2 2026 - v1.2.0 Enterprise Features Release
+
+> **Philosophie:** "Smart combination of existing libs + targeted new libs for compatibility"
+
+### v1.2.0 Enterprise Features (12-16 Wochen)
+
+**1. vLLM AI Support (8-12 Wochen, 1 neue Lib)**
+- ✅ **LoRA Manager** - Multi-Tenant LoRA Serving (HuggingFace PEFT, 6-8 Wochen)
+  - LoRA Weight Storage in RocksDB mit ZSTD Compression
+  - TBB Parallel Loading für Multi-Tenant Performance
+  - gRPC Integration zu vLLM (optional)
+- ✅ **FAISS Advanced** - IVF+PQ Vector Search (3-4 Wochen, keine neue Lib!)
+  - 10-100x Memory Reduction vs. Flat Index
+  - GPU Acceleration via CUDA (Kernbestand!)
+- ✅ **Hybrid Search** - BM25 + Vector Fusion (2-3 Wochen, keine neue Lib!)
+  - Reciprocal Rank Fusion (RRF)
+  - RAG Performance Optimization
+- ✅ **Embedding Cache** - Semantic Caching (2-3 Wochen, keine neue Lib!)
+  - 70-90% Cost Reduction für vLLM API Calls
+  - Fuzzy Match via Vector Similarity
+
+**2. Geo-Spatial PostGIS Compatibility (6-9 Wochen, 2 neue Libs)**
+- ✅ **GEOS Integration** - PostGIS-kompatible Topology Operations (4-6 Wochen)
+  - ST_Buffer, ST_Union, ST_Intersection
+  - 3D Geometries Support
+- ✅ **PROJ Transforms** - Coordinate Transformations (2-3 Wochen)
+  - WGS84 ↔ UTM ↔ Web Mercator
+  - Geography Support (Spherical Distances)
+- ✅ **cuSpatial GPU Ops** - GPU-beschleunigte Geo Operations (6-8 Wochen, optional)
+  - 10-100x Speedup für Spatial Joins
+  - Arrow Zero-Copy Integration
+
+**3. IoT/Timescale Compatibility (5-7 Wochen, 0 neue Libs!)**
+- ✅ **Hypertables** - RocksDB Column Families (3-4 Wochen, nur Code!)
+  - Automatische Partitionierung (1 Chunk pro Tag)
+  - TTL via RocksDB (v1.1.0 Feature!)
+- ✅ **Arrow Aggregates** - Time-Series Analytics (2-3 Wochen, keine neue Lib!)
+  - SIMD Performance mit Arrow Compute
+  - 5-10x Speedup bei Aggregationen
+- ✅ **Parquet Archive** - Cold Storage (bereits in v1.1.0!)
+  - 90% Storage Reduction vs. RocksDB
+  - DuckDB Parquet Queries (v1.2.0)
+
+### v1.2.0 Build-Varianten
+
+**Enterprise AI+Geo:** 19 deps (+3 auf v1.1.0 Basis)
+- GEOS, PROJ, HuggingFace PEFT
+- Fokus: PostGIS + LoRA + TimescaleDB Compatibility
+
+**Enterprise AI (nur vLLM):** 17 deps (+1 auf v1.1.0 Basis)
+- HuggingFace PEFT
+- Fokus: Multi-Tenant LoRA Serving
+
+**Enterprise Geo (nur PostGIS):** 18 deps (+2 auf v1.1.0 Basis)
+- GEOS, PROJ
+- Fokus: PostGIS Drop-in Replacement
+
+### v1.2.0 Ressourcen
+
+**Engineering Effort:** 12-16 Wochen (parallelisierbar auf ~8-10 Wochen mit Team)
+**Neue Dependencies:** 3 (GEOS, PROJ, HuggingFace PEFT)
+**Dependency Overhead:** +18% (3 neue Libs auf 16 bestehende)
+
+**Erwartete Performance:**
+- **vLLM AI:** 10-100x Vector Search (IVF+PQ), 70-90% Cost Reduction (Embedding Cache)
+- **Geo-Spatial:** PostGIS Compatibility, 10-100x GPU Geo Ops
+- **IoT/Timescale:** TimescaleDB-kompatible Hypertables, 5-10x Aggregation Performance
+
+**Dokumentation:**
+- 📖 [Enterprise Features Strategy](../analysis/ENTERPRISE_FEATURES_STRATEGY.md) - Detaillierte v1.2.0 Strategie
+- 📖 [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md) - Basis für v1.2.0
+- 📖 [Library Interactions](../analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md) - Wechselwirkungen
+
+**Wechselwirkungen:**
+- **LoRA Manager:** RocksDB (Storage) + TBB (Parallel Loading) + vLLM (gRPC)
+- **FAISS Advanced:** CUDA (GPU Acceleration, Kernbestand!)
+- **GEOS/PROJ:** Boost.Geometry (Hybrid Strategy)
+- **cuSpatial:** Arrow (Zero-Copy) + CUDA (Kernbestand!)
+- **Hypertables:** RocksDB Column Families + TTL (v1.1.0!)
+
+---
+
 ## ✅ Abgeschlossen: 2025 (November-Dezember)
 
 ### Horizontale Skalierung (95% Complete)
