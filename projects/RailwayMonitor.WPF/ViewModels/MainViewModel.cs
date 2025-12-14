@@ -352,6 +352,133 @@ public partial class MainViewModel : ObservableObject
         StatusMessage = $"CO₂-optimiert. Emissionen: {dispatch.Co2KgPerMwh:F1} kg/MWh";
     }
 
+    [RelayCommand]
+    private async Task Refresh()
+    {
+        StatusMessage = "Aktualisiere Daten...";
+        await UpdateAsync();
+        StatusMessage = "Aktualisierung abgeschlossen";
+    }
+
+    [RelayCommand]
+    private void ToggleFullscreen()
+    {
+        // Handled in MainWindow code-behind
+    }
+
+    [RelayCommand]
+    private void ShowEnergyDashboard()
+    {
+        // Switch to Energy tab
+        StatusMessage = "Energie-Dashboard geöffnet";
+    }
+
+    [RelayCommand]
+    private void ShowLlmAnalysis()
+    {
+        // Switch to LLM Analysis tab
+        StatusMessage = "KI-Analyse geöffnet";
+    }
+
+    [RelayCommand]
+    private async Task SearchTrains()
+    {
+        if (string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            // Show all trains
+            FilteredTrains.Clear();
+            foreach (var train in Trains)
+            {
+                FilteredTrains.Add(train);
+            }
+        }
+        else
+        {
+            // Filter trains by search query
+            FilteredTrains.Clear();
+            var filtered = Trains.Where(t => 
+                t.TrainNumber.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                t.Origin.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                t.Destination.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+            );
+            foreach (var train in filtered)
+            {
+                FilteredTrains.Add(train);
+            }
+        }
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private void ShowAllTrains()
+    {
+        FilteredTrains.Clear();
+        foreach (var train in Trains)
+        {
+            FilteredTrains.Add(train);
+        }
+    }
+
+    [RelayCommand]
+    private void ShowDelayedTrains()
+    {
+        FilteredTrains.Clear();
+        foreach (var train in Trains.Where(t => t.DelayMin > 5))
+        {
+            FilteredTrains.Add(train);
+        }
+    }
+
+    [RelayCommand]
+    private void FilterByType(string trainType)
+    {
+        FilteredTrains.Clear();
+        foreach (var train in Trains.Where(t => t.Category == trainType))
+        {
+            FilteredTrains.Add(train);
+        }
+    }
+
+    [RelayCommand]
+    private async Task ToggleSimulator()
+    {
+        if (_simulator.IsRunning)
+        {
+            await _simulator.StopAsync();
+            StatusMessage = "Simulator gestoppt";
+        }
+        else
+        {
+            var started = await _simulator.StartAsync(50);
+            StatusMessage = started ? "Simulator gestartet (50 Züge)" : "Simulator konnte nicht gestartet werden";
+        }
+    }
+
+    [RelayCommand]
+    private async Task StartSimulator()
+    {
+        var started = await _simulator.StartAsync(50);
+        StatusMessage = started ? "Simulator gestartet (50 Züge)" : "Simulator konnte nicht gestartet werden";
+    }
+
+    [RelayCommand]
+    private async Task StopSimulator()
+    {
+        await _simulator.StopAsync();
+        StatusMessage = "Simulator gestoppt";
+    }
+
+    [RelayCommand]
+    private async Task ShowEnergyForecast()
+    {
+        StatusMessage = "Lade Lastprognose...";
+        await UpdateEnergyForecastAsync();
+        StatusMessage = "Lastprognose aktualisiert";
+    }
+
+    [ObservableProperty]
+    private string searchQuery = "";
+
     private async Task LoadStationsAsync()
     {
         // Load from ThemisDB
