@@ -85,6 +85,10 @@ Thumbs.db
 *.pdb
 *.ilk
 
+# Docker build artifacts
+.docker/
+docker/tmp/
+
 # Logs and runtime files
 logs/
 *.log
@@ -129,6 +133,10 @@ tests/standalone/test_*.cpp
 docs/_build/
 docs/html/
 docs/latex/
+site/
+!docker/README.md
+!docker/CHANGELOG.md
+!docker/ROADMAP.md
 
 # Test / coverage / profiling
 .pytest_cache/

@@ -38,13 +38,8 @@ test_geo_integration_db/
 # openapi/ - NEEDED for API specification
 adapters/
 
-# --- Release packages runtime directories (not needed in Docker) -----------
-release/**/data/
-release/**/logs/
-release/**/cache/
-release/**/plugins/
-release/**/backups/
-release/**/temp/
+# --- Release packages (not needed in Docker builds) -----------------------
+release/
 
 # --- Documentation (nicht f??r Runtime) ----------------------------------------
 # docs/ - Some docs needed for packages (openapi, deployment guides)
@@ -54,11 +49,16 @@ release/**/temp/
 !CHANGELOG.md
 !LICENSE
 !SECURITY.md
+!docker/README.md
+!docker/CHANGELOG.md
+!docker/ROADMAP.md
+!DOCKER_DEPLOYMENT.md
 # Exclude heavy documentation dirs
 site/
 wiki/
 wiki_out/
 wiki-temp/
+docs/archive/
 docs/api/
 docs/architecture/
 docs/compliance/
@@ -81,6 +81,7 @@ docs/src/
 docs/storage/
 docs/tools/
 docs/updates/
+docs/analysis/
 
 # --- Developer Tools (nicht f??r Production) --------------------------------
 # tools/ - plugin_signer and sign scripts needed
