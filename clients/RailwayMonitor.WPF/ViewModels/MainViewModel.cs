@@ -1,9 +1,10 @@
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using RailwayMonitor.WPF.Services;
 using RailwayMonitor.WPF.Models;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
 
 namespace RailwayMonitor.WPF.ViewModels;
 
