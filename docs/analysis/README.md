@@ -1,7 +1,7 @@
 # Analysis Documentation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 14. Dezember 2025  
+**Version:** 1.0.1  
 **Kategorie:** Analysis
 
 ---
@@ -14,6 +14,7 @@ Technische Analysen und Research-Dokumentation für ThemisDB.
 
 | Datei | Beschreibung |
 |-------|--------------|
+| [EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md](EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md) | **NEU:** Umfassende Analyse ungenutzter Features in externen Bibliotheken (RocksDB, TBB, CUDA, Arrow, Boost, OpenTelemetry) mit Roadmap und ROI-Bewertung |
 | [FEM_FLOW_ANALYSIS.md](FEM_FLOW_ANALYSIS.md) | FEM Flow Analysis |
 | [GPU_CROSS_DOMAIN_METHODS.md](GPU_CROSS_DOMAIN_METHODS.md) | GPU Cross-Domain Methods |
 
