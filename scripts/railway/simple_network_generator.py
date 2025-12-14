@@ -11,6 +11,7 @@ Generates a realistic German railway network with:
 
 import json
 import math
+import random
 from datetime import datetime
 from typing import List, Dict, Tuple
 
@@ -103,7 +104,6 @@ class SimpleNetworkGenerator:
                 speed_limit = max_speed
             
             # Randomize slightly for realism
-            import random
             if random.random() < 0.1:  # 10% chance of temporary restriction
                 speed_limit = min(speed_limit, random.choice([120, 140, 160]))
             
@@ -139,7 +139,6 @@ class SimpleNetworkGenerator:
     
     def generate_switches(self):
         """Generate switches at major stations"""
-        import random
         for station in self.STATIONS:
             # Number of switches based on platform count
             num_switches = max(2, station["platforms"] // 3)
@@ -159,7 +158,6 @@ class SimpleNetworkGenerator:
     
     def generate_level_crossings(self):
         """Generate level crossings (only on regional tracks)"""
-        import random
         for segment in self.segments:
             # Only on slower tracks
             if segment["speed_limit_kmh"] <= 160 and random.random() < 0.05:  # 5% chance

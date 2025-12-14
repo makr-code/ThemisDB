@@ -25,4 +25,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Run simulator
 ENTRYPOINT ["python", "train_simulator.py"]
-CMD ["--trains", "50", "--themisdb-url", "http://themisdb:8765"]
+CMD ["--network", "/data/railway_network_base_germany.json", "--trains", "50", "--themis", "http://themisdb:8765"]

@@ -83,7 +83,7 @@ services:
       - ../../scripts/railway:/app
     networks:
       - railway-net
-    command: python train_simulator.py --trains 50 --themisdb-url http://themisdb:8765
+    command: python train_simulator.py --network /data/railway_network_base_germany.json --trains 50 --themis http://themisdb:8765
     restart: unless-stopped
 
   # Web Interface (Nginx serving static HTML)
