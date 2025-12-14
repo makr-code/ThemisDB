@@ -1,0 +1,73 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop, 'copilot/**' ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore projects/RailwayMonitor.WPF/RailwayMonitor.WPF.csproj
+      
+    - name: Build
+      run: dotnet build projects/RailwayMonitor.WPF/RailwayMonitor.WPF.csproj --configuration Release --no-restore
+      
+    - name: Run Unit Tests
+      run: dotnet test projects/RailwayMonitor.WPF.Tests/RailwayMonitor.WPF.Tests.csproj --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      
+    - name: Run Benchmarks
+      run: dotnet run --project projects/RailwayMonitor.WPF.Benchmarks/RailwayMonitor.WPF.Benchmarks.csproj --configuration Release -- --filter * --exporters json
+      
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: '**/TestResults/**/*.xml'
+        
+    - name: Upload Code Coverage
+      uses: codecov/codecov-action@v4
+      with:
+        files: '**/coverage.cobertura.xml'
+        flags: unittests
+        name: codecov-umbrella
+        
+    - name: Upload Benchmark Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: benchmark-results
+        path: '**/BenchmarkDotNet.Artifacts/**/*.json'
+
+  code-quality:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Install dotnet-format
+      run: dotnet tool install -g dotnet-format
+      
+    - name: Check code formatting
+      run: dotnet format projects/RailwayMonitor.WPF/RailwayMonitor.WPF.csproj --verify-no-changes --verbosity diagnostic
+      
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
