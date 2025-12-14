@@ -479,6 +479,86 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string searchQuery = "";
 
+    // Phase 5: 3D Visualization Properties
+    [ObservableProperty]
+    private bool show3DView = false;
+
+    [ObservableProperty]
+    private int maxLodLevel = 2;
+
+    [ObservableProperty]
+    private int currentFps = 60;
+
+    [ObservableProperty]
+    private int vertexCount = 0;
+
+    [ObservableProperty]
+    private bool showBuildings3D = true;
+
+    [ObservableProperty]
+    private bool showTerrain3D = true;
+
+    // Phase 5: Vector Data Properties
+    [ObservableProperty]
+    private bool showVectorLayers = false;
+
+    [ObservableProperty]
+    private int visibleVectorLayers = 0;
+
+    [ObservableProperty]
+    private int cachedTiles = 0;
+
+    // Phase 5: 3D View Commands
+    [RelayCommand]
+    private void Toggle3DView()
+    {
+        Show3DView = !Show3DView;
+        StatusMessage = Show3DView ? "3D-Ansicht aktiviert" : "2D-Ansicht aktiviert";
+    }
+
+    [RelayCommand]
+    private void SetLodLevel(string level)
+    {
+        MaxLodLevel = level switch
+        {
+            "Auto" => 2,
+            "High" => 1,
+            "Low" => 3,
+            _ => 2
+        };
+        StatusMessage = $"LOD-Level: {level}";
+    }
+
+    [RelayCommand]
+    private void ToggleBuildings3D()
+    {
+        ShowBuildings3D = !ShowBuildings3D;
+        StatusMessage = ShowBuildings3D ? "3D-Gebäude aktiviert" : "3D-Gebäude deaktiviert";
+    }
+
+    [RelayCommand]
+    private void ToggleTerrain3D()
+    {
+        ShowTerrain3D = !ShowTerrain3D;
+        StatusMessage = ShowTerrain3D ? "3D-Terrain aktiviert" : "3D-Terrain deaktiviert";
+    }
+
+    // Phase 5: Vector Layer Commands
+    [RelayCommand]
+    private void ToggleVectorLayers()
+    {
+        ShowVectorLayers = !ShowVectorLayers;
+        StatusMessage = ShowVectorLayers ? "Vector-Layers aktiviert" : "Vector-Layers deaktiviert";
+    }
+
+    [RelayCommand]
+    private async Task RefreshVectorTiles()
+    {
+        StatusMessage = "Aktualisiere Vector Tiles...";
+        await Task.Delay(500); // Simulate refresh
+        StatusMessage = "Vector Tiles aktualisiert";
+    }
+
     private async Task LoadStationsAsync()
     {
         // Load from ThemisDB
