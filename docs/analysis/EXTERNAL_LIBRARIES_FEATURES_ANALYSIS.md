@@ -666,125 +666,236 @@ propagator.Inject(carrier, context);
 
 ---
 
-## 8. Priorisierte Roadmap
+## 8. Priorisierte Roadmap (Neu: Tier-basiert)
 
-### Phase 1: Kurzfristig (Q1-Q2 2026) - Quick Wins
+### TIER 1: Must-Have - Production Readiness (Essenziell)
 
-**RocksDB:**
-1. ✅ TTL für Time Series & Cache (2 Wochen)
-2. ✅ Incremental Backups (1 Woche)
-3. ✅ WAL Archive für PITR (2 Wochen)
-4. ✅ Merge Operators für Counters (1 Woche)
+**Kritische Features für stabile Production-Deployments**
 
-**TBB:**
-1. ✅ Flow Graph für Query Pipeline (3 Wochen)
-2. ✅ Concurrent Containers (2 Wochen)
-3. ✅ Parallel Algorithms (1 Woche)
+| Rang | Feature | Library | Effort | ROI | Business Impact |
+|------|---------|---------|--------|-----|-----------------|
+| 1 | OpenTelemetry Metrics | OpenTelemetry | 2 Wochen | 🔥🔥 | Monitoring ohne Metrics unmöglich |
+| 2 | RocksDB TTL | RocksDB | 2 Wochen | 🔥🔥 | Verhindert Disk-Full in Production |
+| 3 | Incremental Backups | RocksDB | 2 Wochen | 🔥 | DSGVO/ISO27001 Compliance |
+| 4 | WAL Archive (PITR) | RocksDB | 2 Wochen | 🔥 | Disaster Recovery |
+| 5 | Context Propagation | OpenTelemetry | 1 Woche | 🔥 | Distributed Tracing |
 
-**OpenTelemetry:**
-1. ✅ Metrics API (2 Wochen)
-2. ✅ Context Propagation (1 Woche)
-
-**Apache Arrow:**
-1. ✅ Parquet Export (2 Wochen)
-2. ✅ Compute Kernels für OLAP (3 Wochen)
-
-**Gesamt:** ~15-20 Wochen Engineering Effort
-
-### Phase 2: Mittelfristig (Q3-Q4 2026)
-
-**CUDA:**
-1. ✅ CUDA Streams (2 Wochen)
-2. ✅ cuBLAS Integration (2 Wochen)
-3. ✅ Thrust Library (1 Woche)
-
-**Arrow:**
-1. ✅ Arrow Flight für Sharding RPC (4 Wochen)
-
-**Boost:**
-1. ✅ Geometry R-Tree (2 Wochen)
-2. ✅ Interprocess Shared Memory (2 Wochen)
-
-**Gesamt:** ~13 Wochen Engineering Effort
+**Total: 9 Wochen | Impact: Production-fähig, Compliance-ready**
 
 ---
 
-## 9. Kosten-Nutzen-Analyse
+### TIER 2: Should-Have - Competitive Performance (Wichtig)
 
-### High-Impact Features (ROI > 5x)
+**Features für Wettbewerbsfähigkeit und hohe Performance**
+
+| Rang | Feature | Library | Effort | ROI | Business Impact |
+|------|---------|---------|--------|-----|-----------------|
+| 6 | TBB Flow Graph | TBB | 3 Wochen | 🔥🔥 | 2-3x Query Throughput |
+| 7 | Parquet Export | Arrow | 2 Wochen | 🔥 | Data Lake Integration (Spark, Snowflake) |
+| 8 | Arrow Compute Kernels | Arrow | 3 Wochen | 🔥🔥 | 5-10x OLAP Performance |
+| 9 | TBB Concurrent Containers | TBB | 2 Wochen | 🔥 | Lock-free Scalability |
+| 10 | Parallel Algorithms | TBB | 1 Woche | 🟡 | Sort, Scan Performance |
+
+**Total: 11 Wochen | Impact: High-Performance OLTP+OLAP, Ecosystem-Integration**
+
+---
+
+### TIER 3: Could-Have - Optimizations (Hilfreich)
+
+**Features für weitere Performance-Verbesserungen**
+
+| Rang | Feature | Library | Effort | ROI | Business Impact |
+|------|---------|---------|--------|-----|-----------------|
+| 11 | Merge Operators | RocksDB | 1 Woche | 🟡 | Atomic Counters, simplified Code |
+| 12 | CUDA Streams | CUDA | 2 Wochen | 🟡 | 2x GPU Throughput |
+| 13 | cuBLAS Integration | CUDA | 2 Wochen | 🟡 | GNN/Matrix Performance |
+| 14 | Boost Geometry R-Tree | Boost | 2 Wochen | 🟡 | Advanced Geo Queries |
+| 15 | Boost Interprocess | Boost | 2 Wochen | 🟢 | Shared Memory Cache |
+
+**Total: 9 Wochen | Impact: Performance Tuning, Advanced Features**
+
+---
+
+### TIER 4: Nice-to-Have - Enterprise Features (Optional)
+
+**Features für spezielle Enterprise Use Cases**
+
+| Rang | Feature | Library | Effort | ROI | Business Impact |
+|------|---------|---------|--------|-----|-----------------|
+| 16 | Thrust Library | CUDA | 1 Woche | 🟢 | GPU Algorithms (Sort, Reduce) |
+| 17 | Arrow Flight | Arrow | 4 Wochen | 🟢 | High-Performance Shard RPC |
+| 18 | Arrow Dataset API | Arrow | 2 Wochen | 🟢 | Partitioned Data Management |
+| 19 | Arrow Gandiva | Arrow | 3 Wochen | 🟢 | JIT-compiled Filters |
+
+**Total: 10 Wochen | Impact: Enterprise-Differenzierung, Niche Use Cases**
+
+---
+
+### TIER 5: Won't-Have - Nicht empfohlen (Vermeiden)
+
+**Features mit negativem ROI oder zu hohem Risiko**
+
+| Feature | Library | Begründung |
+|---------|---------|------------|
+| CUDA Unified Memory | CUDA | Komplexität > Nutzen, Memory-Overhead |
+| Boost Serialization | Boost | JSON/simdjson ausreichend |
+| Arrow Dataset API | Arrow | Derzeit kein Use Case |
+
+---
+
+### Phasen-basierte Umsetzung
+
+#### **Phase 1 (Q1 2026): Must-Have - 9 Wochen**
+```
+Woche 1-2:   OpenTelemetry Metrics API
+Woche 3-4:   RocksDB TTL
+Woche 5-6:   RocksDB Incremental Backups
+Woche 7-8:   RocksDB WAL Archive (PITR)
+Woche 9:     OpenTelemetry Context Propagation
+```
+**Deliverables:** Production-ready, Observable, Compliant
+
+---
+
+#### **Phase 2 (Q2 2026): Should-Have - 11 Wochen**
+```
+Woche 1-3:   TBB Flow Graph (Query Pipeline)
+Woche 4-5:   Arrow Parquet Export
+Woche 6-8:   Arrow Compute Kernels (OLAP)
+Woche 9-10:  TBB Concurrent Containers
+Woche 11:    TBB Parallel Algorithms
+```
+**Deliverables:** High-Performance, Data Lake Integration
+
+---
+
+#### **Phase 3 (Q3 2026): Could-Have - 9 Wochen**
+```
+Woche 1:     RocksDB Merge Operators
+Woche 2-3:   CUDA Streams
+Woche 4-5:   cuBLAS Integration
+Woche 6-7:   Boost Geometry R-Tree
+Woche 8-9:   Boost Interprocess
+```
+**Deliverables:** GPU Optimization, Advanced Geo
+
+---
+
+#### **Phase 4 (Q4 2026): Nice-to-Have - 10 Wochen** *(Optional)*
+```
+Woche 1:     Thrust Library
+Woche 2-5:   Arrow Flight (Shard RPC)
+Woche 6-7:   Arrow Dataset API
+Woche 8-10:  Arrow Gandiva (JIT)
+```
+**Deliverables:** Enterprise Features, Niche Use Cases
+
+---
+
+## 9. Kosten-Nutzen-Analyse (Aktualisiert)
+
+### Must-Have Features (ROI: Unendlich - Production-Critical)
+
+| Feature | Engineering Effort | Nutzen | ROI | Kategorie |
+|---------|-------------------|--------|-----|-----------|
+| OpenTelemetry Metrics | 2 Wochen | Production Monitoring | ∞ | Must-Have |
+| RocksDB TTL | 2 Wochen | Auto-Cleanup, Disk-Full Prevention | ∞ | Must-Have |
+| Incremental Backups | 2 Wochen | Compliance (DSGVO, ISO27001) | ∞ | Must-Have |
+| WAL Archive | 2 Wochen | Disaster Recovery | ∞ | Must-Have |
+
+### Should-Have Features (ROI > 5x)
 
 | Feature | Engineering Effort | Nutzen | ROI |
 |---------|-------------------|--------|-----|
-| RocksDB TTL | 2 Wochen | Auto-Cleanup, reduzierter Ops-Aufwand | 10x |
 | TBB Flow Graph | 3 Wochen | 2-3x Query Throughput | 8x |
-| OpenTelemetry Metrics | 2 Wochen | Observability, Debugging | 7x |
 | Arrow Compute | 3 Wochen | 5-10x OLAP Performance | 6x |
+| Parquet Export | 2 Wochen | Data Lake Integration | 5x |
 | TBB Concurrent Containers | 2 Wochen | Reduzierte Lock Contention | 5x |
 
-### Medium-Impact Features (ROI 2-5x)
+### Could-Have Features (ROI 2-5x)
 
 | Feature | Engineering Effort | Nutzen | ROI |
 |---------|-------------------|--------|-----|
 | CUDA Streams | 2 Wochen | 2x GPU Throughput | 4x |
-| Arrow Parquet | 2 Wochen | Data Lake Integration | 3x |
-| RocksDB Merge Operators | 1 Woche | Atomic Counters | 3x |
+| Merge Operators | 1 Woche | Atomic Counters | 3x |
+| cuBLAS | 2 Wochen | GNN Performance | 3x |
 
-### Low-Impact Features (ROI < 2x)
+### Nice-to-Have Features (ROI < 2x)
 
-- Boost.Serialization (JSON ausreichend)
-- CUDA Unified Memory (Komplexität vs. Nutzen)
-- Arrow Dataset API (derzeit kein Use Case)
+| Feature | Engineering Effort | Nutzen | ROI |
+|---------|-------------------|--------|-----|
+| Arrow Flight | 4 Wochen | Shard RPC | 2x |
+| Thrust Library | 1 Woche | GPU Algorithms | 1.5x |
 
 ---
 
-## 10. Empfehlungen
+## 10. Empfehlungen (Neu: Tier-basiert)
 
-### Sofort umsetzen (Q1 2026):
-1. **RocksDB TTL** - Kritisch für Production
-2. **OpenTelemetry Metrics** - Unverzichtbar für Monitoring
-3. **TBB Flow Graph** - Höchster Performance-Impact
+### Sofort umsetzen (Q1 2026) - TIER 1:
+1. **OpenTelemetry Metrics** - Ohne Monitoring keine Production
+2. **RocksDB TTL** - Verhindert Disk-Full (Operations-Kritisch)
+3. **Incremental Backups** - Compliance-Requirement
+4. **WAL Archive** - Disaster Recovery
 
-### Nächste Schritte (Q2 2026):
-4. **Arrow Compute Kernels** - OLAP Performance
-5. **TBB Concurrent Containers** - Scalability
-6. **RocksDB Incremental Backups** - Operational Excellence
+### Nächste Schritte (Q2 2026) - TIER 2:
+5. **TBB Flow Graph** - Höchster Performance-Impact (2-3x)
+6. **Arrow Compute Kernels** - OLAP Performance (5-10x)
+7. **Parquet Export** - Data Lake Integration (Ecosystem)
+8. **TBB Concurrent Containers** - Scalability
 
-### Später evaluieren (Q3-Q4 2026):
-7. **CUDA Advanced Features** - Nur wenn GPU-Adoption steigt
-8. **Arrow Flight** - Nur wenn Sharding im Prod-Einsatz ist
+### Evaluieren nach Bedarf (Q3-Q4 2026) - TIER 3+4:
+9. **CUDA Advanced Features** - Nur wenn GPU-Adoption steigt
+10. **Arrow Flight** - Nur wenn Multi-Shard Production läuft
+11. **Boost Geometry** - Nur für Advanced Geo Use Cases
+
+### NICHT implementieren - TIER 5:
+❌ **CUDA Unified Memory** - Komplexität > Nutzen  
+❌ **Boost Serialization** - JSON ausreichend  
+❌ **Arrow Dataset API** - Kein aktueller Use Case  
 
 ---
 
 ## 11. Risiken & Mitigationen
 
 ### Risiko 1: Komplexität-Explosion
-**Mitigation:** Inkrementelle Integration, Feature Flags
+**Mitigation:** Tier-basierte Implementierung, Feature Flags, Inkrementelle Integration
 
 ### Risiko 2: Performance-Regressionen
-**Mitigation:** Benchmarks vor/nach jeder Integration
+**Mitigation:** Benchmarks vor/nach jeder Integration, A/B Testing in Production
 
 ### Risiko 3: Breaking Changes in Dependencies
-**Mitigation:** Version Pinning, Automated Tests
+**Mitigation:** Version Pinning (vcpkg baseline), Automated Dependency Tests
+
+### Risiko 4: Priorisierungs-Fehler
+**Mitigation:** Tier-System, Stakeholder-Alignment, Business-Impact-Matrix
 
 ---
 
 ## Fazit
 
-ThemisDB nutzt derzeit **~30-40% des Potenzials** der integrierten Bibliotheken. Die größten Optimierungschancen liegen in:
+ThemisDB nutzt derzeit **~30-40% des Potenzials** der integrierten Bibliotheken. 
 
-1. **RocksDB Advanced Features** (TTL, WAL Archive, Merge Ops)
-2. **TBB Flow Graphs & Concurrent Containers**
-3. **Arrow Parquet & Compute**
-4. **OpenTelemetry Metrics & Context Propagation**
+**Tier-basierte Priorisierung:**
+- **TIER 1 (Must-Have):** 9 Wochen → Production-Ready
+- **TIER 2 (Should-Have):** 11 Wochen → Competitive Performance
+- **TIER 3 (Could-Have):** 9 Wochen → Optimizations
+- **TIER 4 (Nice-to-Have):** 10 Wochen → Enterprise Features
+- **TIER 5 (Won't-Have):** 0 Wochen → Vermeiden
 
-**Geschätzter ROI:** 5-10x Performance-Gewinn bei 20-30 Wochen Engineering Effort.
+**Empfohlener Fokus:** TIER 1+2 (20 Wochen) für Production-Ready + High-Performance
+
+**Geschätzter ROI:** 
+- TIER 1: ∞ (Production-Critical)
+- TIER 2: 5-10x Performance-Gewinn
+- TIER 3+4: 2-4x in Niche Use Cases
 
 ---
 
 **Nächste Schritte:**
-1. Priorisierung mit Stakeholdern
-2. Spike-Tests für Top 3 Features
-3. Integration Roadmap in 2026 Planung
+1. Stakeholder-Review der Tier-Priorisierung
+2. Spike-Tests für TIER 1 Features (1 Woche)
+3. Q1 2026 Integration Roadmap (TIER 1)
+4. Continuous Re-Evaluation (Quarterly)
 
 **Potenzielle Anhänge (für zukünftige Versionen):**
 - A: RocksDB Feature Matrix (Vollständige Liste aller RocksDB Features)
