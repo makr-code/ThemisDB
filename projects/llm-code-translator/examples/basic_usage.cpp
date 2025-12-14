@@ -20,7 +20,7 @@ void example1_simple_aql_generation() {
 
     // Initialize translator
     // Note: In real usage, you would pass your actual DB instance
-    auto db = /* your ThemisDB instance */;
+    rocksdb::TransactionDB* db = nullptr;  // Placeholder - use actual DB in production
     
     LLMCodeTranslator::Config config;
     config.llm_endpoint = "http://localhost:8000";
@@ -114,7 +114,7 @@ void example2_python_data_analysis() {
 void example3_cpp_api_handler() {
     std::cout << "\n=== Example 3: C++ API Handler Generation ===\n\n";
 
-    auto db = /* your ThemisDB instance */;
+    rocksdb::TransactionDB* db = nullptr;  // Placeholder - use actual DB in production
     LLMCodeTranslator translator(db);
 
     std::string user_request = R"(
@@ -159,7 +159,7 @@ void example3_cpp_api_handler() {
 void example4_iterative_improvement() {
     std::cout << "\n=== Example 4: Iterative Improvement ===\n\n";
 
-    auto db = /* your ThemisDB instance */;
+    rocksdb::TransactionDB* db = nullptr;  // Placeholder - use actual DB in production
     LLMCodeTranslator translator(db);
 
     std::string initial_request = R"(
@@ -194,7 +194,7 @@ void example4_iterative_improvement() {
 void example5_security_and_sandboxing() {
     std::cout << "\n=== Example 5: Security and Sandboxing ===\n\n";
 
-    auto db = /* your ThemisDB instance */;
+    rocksdb::TransactionDB* db = nullptr;  // Placeholder - use actual DB in production
     
     LLMCodeTranslator::Config config;
     config.enable_security_review = true;  // Enable automatic security review
@@ -244,7 +244,7 @@ void example5_security_and_sandboxing() {
 void example6_custom_templates() {
     std::cout << "\n=== Example 6: Custom Prompt Templates ===\n\n";
 
-    auto db = /* your ThemisDB instance */;
+    rocksdb::TransactionDB* db = nullptr;  // Placeholder - use actual DB in production
     LLMCodeTranslator translator(db);
 
     // Define a custom template for specialized domain
