@@ -665,6 +665,280 @@ public class MapService : IMapService
 /// <summary>
 /// WebSocket service for real-time updates
 /// </summary>
+/// <summary>
+/// Service for real-time Change Data Capture (CDC) streaming from ThemisDB
+/// Uses Server-Sent Events (EventSource) to receive live entity updates
+/// </summary>
+public interface IChangeFeedService
+{
+    Task ConnectAsync(string keyPrefix = "trains:");
+    Task DisconnectAsync();
+    bool IsConnected { get; }
+    event EventHandler<TrainUpdateEventArgs>? TrainUpdated;
+    event EventHandler<ConnectionStateEventArgs>? ConnectionStateChanged;
+}
+
+public class TrainUpdateEventArgs : EventArgs
+{
+    public Train Train { get; set; } = new();
+    public string UpdateType { get; set; } = "update"; // "insert", "update", "delete"
+}
+
+public class ConnectionStateEventArgs : EventArgs
+{
+    public bool IsConnected { get; set; }
+    public string? ErrorMessage { get; set; }
+}
+
+public class ChangeFeedService : IChangeFeedService, IDisposable
+{
+    private readonly HttpClient _httpClient;
+    private readonly string _baseUrl;
+    private CancellationTokenSource? _cancellationTokenSource;
+    private Task? _streamTask;
+    private bool _isConnected;
+
+    public event EventHandler<TrainUpdateEventArgs>? TrainUpdated;
+    public event EventHandler<ConnectionStateEventArgs>? ConnectionStateChanged;
+
+    public bool IsConnected => _isConnected;
+
+    public ChangeFeedService(IConfiguration config)
+    {
+        _baseUrl = config.ThemisDbUrl;
+        _httpClient = new HttpClient
+        {
+            BaseAddress = new Uri(_baseUrl),
+            Timeout = TimeSpan.FromMinutes(30) // Long timeout for streaming
+        };
+    }
+
+    public async Task ConnectAsync(string keyPrefix = "trains:")
+    {
+        if (_isConnected)
+        {
+            await DisconnectAsync();
+        }
+
+        _cancellationTokenSource = new CancellationTokenSource();
+        _streamTask = StreamChangeFeedAsync(keyPrefix, _cancellationTokenSource.Token);
+        
+        // Wait a bit to ensure connection is established
+        await Task.Delay(500);
+    }
+
+    public async Task DisconnectAsync()
+    {
+        if (_cancellationTokenSource != null)
+        {
+            _cancellationTokenSource.Cancel();
+            
+            if (_streamTask != null)
+            {
+                try
+                {
+                    await _streamTask;
+                }
+                catch (OperationCanceledException)
+                {
+                    // Expected when cancelling
+                }
+            }
+
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = null;
+            _streamTask = null;
+        }
+
+        _isConnected = false;
+        OnConnectionStateChanged(false, null);
+    }
+
+    private async Task StreamChangeFeedAsync(string keyPrefix, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                var url = $"/changefeed/stream?key_prefix={keyPrefix}";
+                using var request = new HttpRequestMessage(HttpMethod.Get, url);
+                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("text/event-stream"));
+
+                using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+
+                _isConnected = true;
+                OnConnectionStateChanged(true, null);
+
+                using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                using var reader = new StreamReader(stream);
+
+                string? line;
+                string? eventType = null;
+                string? data = null;
+
+                while ((line = await reader.ReadLineAsync()) != null && !cancellationToken.IsCancellationRequested)
+                {
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        // Empty line indicates end of event
+                        if (data != null)
+                        {
+                            ProcessEvent(eventType, data);
+                            data = null;
+                            eventType = null;
+                        }
+                        continue;
+                    }
+
+                    if (line.StartsWith("event:"))
+                    {
+                        eventType = line.Substring(6).Trim();
+                    }
+                    else if (line.StartsWith("data:"))
+                    {
+                        data = line.Substring(5).Trim();
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                throw; // Re-throw to exit loop
+            }
+            catch (Exception ex)
+            {
+                _isConnected = false;
+                OnConnectionStateChanged(false, ex.Message);
+
+                // Exponential backoff retry
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    await Task.Delay(5000, cancellationToken);
+                }
+            }
+        }
+    }
+
+    private void ProcessEvent(string? eventType, string data)
+    {
+        try
+        {
+            var jsonDoc = JsonDocument.Parse(data);
+            var root = jsonDoc.RootElement;
+
+            // Parse train data from CDC event
+            var train = new Train();
+            
+            if (root.TryGetProperty("train_number", out var trainNumber))
+                train.TrainNumber = trainNumber.GetString() ?? "";
+            
+            if (root.TryGetProperty("type", out var type))
+                train.Category = type.GetString() ?? "";
+            
+            if (root.TryGetProperty("operator", out var op))
+                train.Operator = op.GetString() ?? "DB Fernverkehr AG";
+            
+            if (root.TryGetProperty("lat", out var lat))
+                train.Latitude = lat.GetDouble();
+            
+            if (root.TryGetProperty("lon", out var lon))
+                train.Longitude = lon.GetDouble();
+            
+            if (root.TryGetProperty("altitude", out var alt))
+                train.Altitude = alt.GetDouble();
+            
+            if (root.TryGetProperty("speed", out var speed))
+                train.SpeedKmh = speed.GetDouble();
+            
+            if (root.TryGetProperty("heading", out var heading))
+                train.Heading = heading.GetDouble();
+            
+            if (root.TryGetProperty("acceleration", out var accel))
+                train.AccelerationMps2 = accel.GetDouble();
+            
+            if (root.TryGetProperty("origin", out var origin))
+                train.Origin = origin.GetString() ?? "";
+            
+            if (root.TryGetProperty("destination", out var dest))
+                train.Destination = dest.GetString() ?? "";
+            
+            if (root.TryGetProperty("current_segment", out var segment))
+                train.CurrentSegment = segment.GetString() ?? "";
+            
+            if (root.TryGetProperty("distance_traveled", out var distance))
+                train.DistanceTraveledKm = distance.GetDouble();
+            
+            if (root.TryGetProperty("delay", out var delay))
+                train.DelayMin = delay.GetInt32();
+            
+            if (root.TryGetProperty("scheduled_arrival", out var schedArr))
+                train.ScheduledArrival = schedArr.GetString() ?? "";
+            
+            if (root.TryGetProperty("estimated_arrival", out var estArr))
+                train.EstimatedArrival = estArr.GetString() ?? "";
+            
+            if (root.TryGetProperty("passenger_capacity", out var passCap))
+                train.PassengerCapacity = passCap.GetInt32();
+            
+            if (root.TryGetProperty("passenger_count", out var passCount))
+                train.PassengerCount = passCount.GetInt32();
+            
+            if (root.TryGetProperty("power_kw", out var power))
+                train.InstantaneousPowerKw = power.GetDouble();
+            
+            if (root.TryGetProperty("energy_kwh", out var energy))
+                train.CumulativeEnergyKwh = energy.GetDouble();
+            
+            if (root.TryGetProperty("efficiency", out var efficiency))
+                train.EfficiencyPercent = efficiency.GetDouble();
+            
+            if (root.TryGetProperty("status", out var status))
+                train.Status = status.GetString() ?? "active";
+            
+            if (root.TryGetProperty("updated_at", out var updated))
+                train.LastUpdate = updated.GetString() ?? DateTime.UtcNow.ToString("O");
+
+            var updateType = eventType switch
+            {
+                "insert" => "insert",
+                "delete" => "delete",
+                _ => "update"
+            };
+
+            OnTrainUpdated(train, updateType);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error processing CDC event: {ex.Message}");
+        }
+    }
+
+    private void OnTrainUpdated(Train train, string updateType)
+    {
+        TrainUpdated?.Invoke(this, new TrainUpdateEventArgs 
+        { 
+            Train = train, 
+            UpdateType = updateType 
+        });
+    }
+
+    private void OnConnectionStateChanged(bool isConnected, string? errorMessage)
+    {
+        ConnectionStateChanged?.Invoke(this, new ConnectionStateEventArgs 
+        { 
+            IsConnected = isConnected, 
+            ErrorMessage = errorMessage 
+        });
+    }
+
+    public void Dispose()
+    {
+        DisconnectAsync().GetAwaiter().GetResult();
+        _httpClient?.Dispose();
+    }
+}
+
+// Legacy WebSocket interface for backwards compatibility
 public interface IWebSocketService
 {
     Task ConnectAsync(string url);
@@ -679,12 +953,12 @@ public class WebSocketService : IWebSocketService
     public async Task ConnectAsync(string url)
     {
         await Task.CompletedTask;
-        // WebSocket implementation
+        // Legacy WebSocket implementation - use ChangeFeedService instead
     }
 
     public async Task DisconnectAsync()
     {
         await Task.CompletedTask;
-        // Disconnect implementation
+        // Legacy disconnect implementation
     }
 }
