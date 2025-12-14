@@ -78,7 +78,10 @@ docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb
 - **[Deployment Strategy](docs/deployment/deployment_strategy.md)** - Build platforms, cache architecture, distribution channels
 
 **Enterprise Features:**
-- **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool
+- **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Modular DLL architecture, feature matrix
+- **[Enterprise Build Guide](docs/enterprise/ENTERPRISE_BUILD_GUIDE.md)** - Building and deploying enterprise modules
+- **[Edition Comparison](docs/enterprise/EDITION_COMPARISON.md)** - Community vs Professional vs Enterprise
+- **[Feature Analysis](docs/enterprise/ENTERPRISE_FEATURE_ANALYSIS.md)** - Complete enterprise strategy
 - **[Build Strategy](docs/guides/guides_build_strategy.md)** - Build-Toolchain inkl. Enterprise Builds
 - **[Integration Analysis](docs/reports/INTEGRATION_ANALYSIS.md)** - Koexistenz mit Legacy-Code
 
