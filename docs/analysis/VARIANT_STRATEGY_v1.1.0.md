@@ -1,8 +1,9 @@
 # ThemisDB v1.1.0: Varianten-Strategie und Optimierungsplan
 
-**Version:** 1.2  
+**Version:** 1.3  
 **Datum:** Dezember 2025  
-**Ziel:** v1.1.0 - Fokus auf bestehende Libraries und 1:1 Performance-Optimierungen
+**Ziel:** v1.1.0 - Fokus auf bestehende Libraries und 1:1 Performance-Optimierungen  
+**Deployment-Szenario:** ThemisDB (CPU/RAM + minimal GPU) + vLLM (GPU/VRAM + minimal CPU) Co-Location
 
 ## Executive Summary
 
@@ -10,14 +11,259 @@ Basierend auf Stakeholder-Feedback: **Reduzierung der Komplexität** durch Fokus
 1. **Kernbestand beibehalten** - Bestehende Libraries besser nutzen
 2. **1:1 Austausch** - Nur wo signifikanter Performance-Gewinn
 3. **Use-Case-basierte Varianten** - OLTP, OLAP, Hybrid, Embedded
+4. **🆕 ThemisDB + vLLM Synergie** - Ressourcen-optimierte Co-Location
 
 **Strategie-Änderung für v1.1.0:**
 - ❌ NICHT: 10+ neue Libraries gleichzeitig
 - ✅ STATTDESSEN: 3-4 gezielte Optimierungen + bessere Nutzung existierender Libs
+- ✅ **NEU:** CUDA als Kernbestand (wenn GPU verfügbar, nicht Enterprise)
+- ✅ **NEU:** vLLM Co-Location Optimierung (CPU/RAM ↔ GPU/VRAM Balance)
 
 ---
 
-## 1. Varianten-Strategie: Use-Case-basierte Builds
+## 🆕 0. ThemisDB + vLLM Co-Location Strategie
+
+### 0.1 Deployment-Szenario
+
+**Typische Server-Konfiguration:**
+```
+Hardware:
+- CPU: 64 Cores (z.B. AMD EPYC / Intel Xeon)
+- RAM: 256 GB DDR4/DDR5
+- GPU: 4x NVIDIA A100 (80 GB VRAM each) oder H100
+
+Workload-Verteilung:
+┌─────────────────────────────────────────────┐
+│  ThemisDB                    vLLM           │
+│  (CPU/RAM heavy)        (GPU/VRAM heavy)    │
+├─────────────────────────────────────────────┤
+│  CPU: 50-60 Cores        CPU: 4-14 Cores    │
+│  RAM: 200 GB             RAM: 56 GB         │
+│  GPU: Minimal (CUDA      GPU: 4x A100       │
+│       Streams für              (320 GB      │
+│       Vector Search)           VRAM total)  │
+└─────────────────────────────────────────────┘
+```
+
+**Synergie-Punkte:**
+1. **CPU-Allokation:** ThemisDB nutzt Cores, die vLLM nicht braucht
+2. **RAM-Allokation:** ThemisDB nutzt RAM für Caching, vLLM minimal
+3. **GPU-Sharing:** ThemisDB nutzt GPU nur für spezifische Tasks (Vector Search), vLLM dominiert
+4. **Datenaustausch:** ThemisDB speichert Embeddings, vLLM generiert sie
+
+---
+
+### 0.2 Ressourcen-Koordination
+
+#### CPU/RAM Thread-Allokation (ThemisDB-optimiert)
+```cpp
+// src/main_server.cpp - Resource Coordination
+#include <thread>
+
+struct ResourceConfig {
+    // Total System Resources
+    size_t total_cpu_cores = std::thread::hardware_concurrency(); // 64
+    size_t total_ram_gb = 256;
+    
+    // vLLM Reservation (Tensor Parallel + Pipeline Parallel)
+    size_t vllm_cpu_cores = 14;  // vLLM braucht wenig CPU
+    size_t vllm_ram_gb = 56;     // Model Loading + KV Cache
+    
+    // ThemisDB Allocation
+    size_t themis_cpu_cores = total_cpu_cores - vllm_cpu_cores;  // 50 Cores
+    size_t themis_ram_gb = total_ram_gb - vllm_ram_gb;            // 200 GB
+    
+    // ThemisDB Internal Allocation
+    size_t rocksdb_threads = themis_cpu_cores * 0.3;  // 15 Cores
+    size_t tbb_threads = themis_cpu_cores * 0.6;      // 30 Cores
+    size_t system_reserve = themis_cpu_cores * 0.1;   // 5 Cores
+};
+
+void configureThemisDB(const ResourceConfig& config) {
+    // RocksDB Background Jobs
+    rocksdb::Options opts;
+    opts.max_background_jobs = config.rocksdb_threads;
+    
+    // TBB Thread Pool
+    tbb::global_control tbb_limit(
+        tbb::global_control::max_allowed_parallelism,
+        config.tbb_threads
+    );
+    
+    // RocksDB Memory Budget (80% of allocated RAM)
+    size_t block_cache_mb = (config.themis_ram_gb * 0.8 * 1024) * 0.6; // 60% für Cache
+    size_t memtable_mb = (config.themis_ram_gb * 0.8 * 1024) * 0.3;    // 30% für Memtables
+    
+    opts.write_buffer_size = memtable_mb * 1024 * 1024 / 3;
+    rocksdb::BlockBasedTableOptions table_opts;
+    table_opts.block_cache = rocksdb::NewLRUCache(block_cache_mb * 1024 * 1024);
+}
+```
+
+---
+
+#### GPU/VRAM Sharing-Strategie
+```cpp
+// src/acceleration/cuda_backend.cpp - GPU Sharing mit vLLM
+
+class CUDAResourceManager {
+public:
+    void initializeSharedGPU() {
+        // vLLM nutzt GPUs 0-3 für Model Inference
+        // ThemisDB nutzt GPU 0 mit niedriger Priorität für Vector Search
+        
+        // CUDA Stream mit niedriger Priorität (non-blocking für vLLM)
+        cudaStream_t themis_stream;
+        cudaStreamCreateWithPriority(&themis_stream, cudaStreamNonBlocking, -1);
+        
+        // Minimale VRAM-Allokation (vLLM hat Vorrang)
+        size_t themis_vram_mb = 2048; // 2 GB pro GPU (vLLM hat 78 GB)
+        
+        // Batch-Größe begrenzen, um vLLM nicht zu stören
+        size_t max_vector_batch = 1024; // Statt 10k+
+    }
+    
+    // Adaptive GPU-Nutzung: Nur wenn vLLM idle
+    bool canUseGPU() {
+        // Check GPU Utilization (nvml)
+        nvmlDevice_t device;
+        nvmlDeviceGetHandleByIndex(0, &device);
+        
+        nvmlUtilization_t util;
+        nvmlDeviceGetUtilizationRates(device, &util);
+        
+        // Nur GPU nutzen wenn < 80% Auslastung (vLLM idle)
+        return util.gpu < 80;
+    }
+};
+```
+
+---
+
+### 0.3 ThemisDB + vLLM Integration Pattern
+
+#### Use Case: RAG (Retrieval-Augmented Generation)
+```
+Workflow:
+1. User Query → vLLM (Embedding-Modell, z.B. BGE-large)
+   - GPU: Embedding-Generierung (1-2ms)
+   - Output: Query-Vektor [1024 dim]
+
+2. Vector Search → ThemisDB (HNSW Index)
+   - CPU: HNSW Traversal (5-10ms) ODER
+   - GPU: CUDA Vector Search (1-2ms, wenn verfügbar)
+   - Output: Top-K relevante Dokumente
+
+3. Context Augmentation → ThemisDB (RocksDB)
+   - CPU: Dokument-Retrieval (1-2ms)
+   - RAM: Cache Hit (sub-ms)
+
+4. LLM Generation → vLLM (Llama 3 70B)
+   - GPU: Autoregressive Decoding (100-500ms)
+   - Output: Generated Answer
+
+Total Latency: ~110-520ms (CPU+GPU optimiert)
+```
+
+**ThemisDB-Optimierungen für RAG:**
+```cpp
+// src/index/vector_index.cpp - vLLM-optimierte Vector Search
+
+class VectorIndex {
+    // Hybrid CPU/GPU Search (abhängig von vLLM-Last)
+    std::vector<Result> search(const float* query_vec, size_t k) {
+        if (cuda_mgr_->canUseGPU()) {
+            // vLLM idle → GPU nutzen (1-2ms)
+            return searchGPU(query_vec, k);
+        } else {
+            // vLLM busy → CPU fallback (5-10ms)
+            return searchCPU(query_vec, k);
+        }
+    }
+    
+    // Prefetch für vLLM-Kontext
+    void prefetchForLLM(const std::vector<std::string>& doc_ids) {
+        // Dokumente in RAM-Cache laden (bevor vLLM sie braucht)
+        tbb::parallel_for_each(doc_ids.begin(), doc_ids.end(), 
+            [this](const std::string& id) {
+                rocksdb_->Get(read_opts_, id, &cache_[id]);
+            }
+        );
+    }
+};
+```
+
+---
+
+### 0.4 Build-Konfiguration: ThemisDB + vLLM Co-Location
+
+**CMake Preset für Co-Location:**
+```cmake
+# CMakeLists.txt
+option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location" ON)
+
+if(THEMIS_VLLM_COLOCATION)
+    # CUDA aktiviert (Kernbestand, NICHT Enterprise!)
+    set(THEMIS_ENABLE_CUDA ON CACHE BOOL "" FORCE)
+    
+    # Resource Limits für GPU-Sharing
+    target_compile_definitions(themis_core PRIVATE
+        THEMIS_MAX_GPU_VRAM_MB=2048        # 2 GB pro GPU (vLLM hat Rest)
+        THEMIS_MAX_VECTOR_BATCH_SIZE=1024  # Kleine Batches
+        THEMIS_GPU_LOW_PRIORITY=1          # Niedriger als vLLM
+    )
+    
+    # CPU/RAM Optimierungen
+    target_compile_definitions(themis_core PRIVATE
+        THEMIS_CPU_CORES_RESERVED=50       # 50 von 64 Cores
+        THEMIS_RAM_GB_ALLOCATED=200        # 200 von 256 GB
+    )
+endif()
+```
+
+**Docker Compose Beispiel:**
+```yaml
+# docker-compose.yml - ThemisDB + vLLM
+version: '3.8'
+services:
+  themisdb:
+    image: themisdb/themisdb:v1.1.0-cuda
+    environment:
+      - THEMIS_CPU_CORES=50
+      - THEMIS_RAM_GB=200
+      - THEMIS_GPU_VRAM_MB=2048
+    deploy:
+      resources:
+        limits:
+          cpus: '50'
+          memory: 200G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    
+  vllm:
+    image: vllm/vllm-openai:latest
+    command: >
+      --model meta-llama/Llama-3-70b-chat-hf
+      --tensor-parallel-size 4
+      --gpu-memory-utilization 0.95
+    deploy:
+      resources:
+        limits:
+          cpus: '14'
+          memory: 56G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 4
+              capabilities: [gpu]
+```
+
+---
+
+## 1. Varianten-Strategie: Use-Case-basierte Builds (Aktualisiert)
 
 ### Variante A: OLTP-optimiert (Standard)
 **Zielgruppe:** Transaktionale Workloads, Point Lookups, Writes  
@@ -25,6 +271,7 @@ Basierend auf Stakeholder-Feedback: **Reduzierung der Komplexität** durch Fokus
 - RocksDB (bereits vorhanden)
 - TBB (bereits vorhanden)
 - OpenTelemetry (bereits vorhanden)
+- **CUDA (bereits vorhanden) - KERNBESTAND wenn GPU verfügbar!**
 
 **v1.1.0 Optimierungen:**
 1. **RocksDB besser nutzen:**
@@ -36,7 +283,11 @@ Basierend auf Stakeholder-Feedback: **Reduzierung der Komplexität** durch Fokus
    - ✅ Parallel Algorithms statt manual loops
    - ✅ Concurrent Containers statt std::mutex
 
-3. **1:1 Austausch (nur 1!):**
+3. **CUDA besser nutzen (wenn GPU verfügbar):**
+   - ✅ CUDA Streams für Vector Search
+   - ✅ Adaptive GPU-Nutzung (vLLM Co-Location)
+
+4. **1:1 Austausch (nur 1!):**
    - ✅ **mimalloc statt glibc malloc** (1 Tag, 20-40% Gewinn, kein Code-Change)
 
 **Engineering Effort:** 4-5 Wochen  
@@ -49,6 +300,7 @@ Basierend auf Stakeholder-Feedback: **Reduzierung der Komplexität** durch Fokus
 **Kernbestand + 1 neue Library:**
 - RocksDB + Arrow (bereits vorhanden)
 - TBB (bereits vorhanden)
+- CUDA (optional, für Parquet-Processing)
 - **DuckDB** (NEU - aber nur für OLAP-Variante)
 
 **v1.1.0 Optimierungen:**
@@ -69,7 +321,7 @@ Basierend auf Stakeholder-Feedback: **Reduzierung der Komplexität** durch Fokus
 **Kernbestand - reduziert:**
 - RocksDB (optimiert für wenig RAM)
 - simdjson (bereits vorhanden)
-- **KEINE** TBB, Arrow, OpenTelemetry
+- **KEINE** TBB, Arrow, OpenTelemetry, CUDA
 
 **v1.1.0 Optimierungen:**
 1. **RocksDB Tuning:**
@@ -82,19 +334,31 @@ Basierend auf Stakeholder-Feedback: **Reduzierung der Komplexität** durch Fokus
 
 ---
 
-### Variante D: GPU-Accelerated (Enterprise)
-**Zielgruppe:** ML/AI Workloads, Vector Search  
-**Kernbestand + GPU:**
+### Variante D: vLLM Co-Location (🆕 EMPFOHLEN für AI/ML)
+**Zielgruppe:** RAG, Semantic Search, AI Workloads  
+**Kernbestand + vLLM-Optimierungen:**
 - RocksDB, TBB, Arrow (bereits vorhanden)
-- CUDA (bereits vorhanden, aber minimal genutzt)
+- **CUDA (Kernbestand!)** - Adaptive GPU-Nutzung mit vLLM
+- mimalloc (Memory-Effizienz)
 
 **v1.1.0 Optimierungen:**
 1. **CUDA besser nutzen:**
-   - ✅ CUDA Streams (bereits in Toolkit!)
-   - ✅ cuBLAS für GNN (bereits in Toolkit!)
+   - ✅ CUDA Streams mit niedriger Priorität
+   - ✅ Adaptive GPU-Nutzung (nur wenn vLLM < 80% Last)
+   - ✅ VRAM-Limit (2 GB, Rest für vLLM)
+   
+2. **CPU/RAM Koordination:**
+   - ✅ CPU-Allokation: 50 von 64 Cores
+   - ✅ RAM-Allokation: 200 von 256 GB
+   - ✅ Thread-Pool Tuning (RocksDB 30%, TBB 60%)
 
-**Engineering Effort:** 3-4 Wochen  
-**Build Flag:** `THEMIS_ENABLE_CUDA=ON` (bereits vorhanden)
+3. **RAG-Optimierungen:**
+   - ✅ Vector Search Prefetching
+   - ✅ Document Cache Warming
+   - ✅ Hybrid CPU/GPU Search
+
+**Engineering Effort:** 5-6 Wochen  
+**Build Flag:** `THEMIS_VLLM_COLOCATION=ON` (automatisch aktiviert CUDA)
 
 ---
 
@@ -370,9 +634,17 @@ Dependencies: 25+ Libraries (❌ 67% mehr Verwaltung!)
 
 ### v1.1.0 mit Varianten-Strategie (✅ EMPFOHLEN):
 ```
-Standard-Build: 16 Libraries (+1: mimalloc)
+Standard-Build (OLTP): 16 Libraries (+1: mimalloc)
+  - CUDA wenn verfügbar (Kernbestand, nicht Enterprise!)
+  
 OLAP-Build: 17 Libraries (+2: mimalloc, DuckDB)
-Embedded-Build: 12 Libraries (-3: TBB, Arrow, OpenTelemetry deaktiviert)
+
+Embedded-Build: 12 Libraries (-3: TBB, Arrow, OpenTelemetry deaktiviert, kein CUDA)
+
+vLLM Co-Location Build: 16 Libraries (+1: mimalloc)
+  - CUDA IMMER aktiviert (Kernbestand!)
+  - Optimiert für GPU-Sharing mit vLLM
+  - CPU/RAM Koordination (50 Cores, 200 GB)
 ```
 
 **Verwaltungsaufwand-Reduktion:** 60% vs. "alle Libraries gleichzeitig"
@@ -384,6 +656,18 @@ Embedded-Build: 12 Libraries (-3: TBB, Arrow, OpenTelemetry deaktiviert)
 ### Empfohlener v1.1.0 Scope:
 
 | Feature | Library | Neu? | Effort | ROI | Verwaltung |
+|---------|---------|------|--------|-----|------------|
+| RocksDB TTL | RocksDB | ❌ | 1 Woche | 10x | 0% |
+| RocksDB Backup | RocksDB | ❌ | 1 Woche | 8x | 0% |
+| TBB Parallel Sort | TBB | ❌ | 1 Woche | 3x | 0% |
+| TBB Concurrent Map | TBB | ❌ | 2 Wochen | 2x | 0% |
+| Arrow Parquet | Arrow | ❌ | 2 Wochen | 5x | 0% |
+| CUDA Streams | CUDA | ❌ | 1 Woche | 2x | 0% (Kernbestand!) |
+| vLLM Koordination | - | ❌ | 1 Woche | 3x | 0% (Config-only) |
+| mimalloc | mimalloc | ✅ | 1 Tag | 1.3x | +6% |
+
+**Gesamt:** 9 Wochen, 1 neue Library, 3-10x Performance-Gewinn  
+**🆕 vLLM Co-Location:** +1 Woche für Ressourcen-Koordination
 |---------|---------|------|--------|-----|------------|
 | RocksDB TTL | RocksDB | ❌ | 1 Woche | 10x | 0% |
 | RocksDB Backup | RocksDB | ❌ | 1 Woche | 8x | 0% |
@@ -416,8 +700,17 @@ Embedded-Build: 12 Libraries (-3: TBB, Arrow, OpenTelemetry deaktiviert)
 option(THEMIS_USE_MIMALLOC "Use mimalloc allocator" ON)
 option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant" OFF)
+option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location" OFF)
 
 # Standard: RocksDB + TBB + Arrow + mimalloc
+# CUDA: Automatisch aktiviert wenn Hardware erkannt (Kernbestand!)
+```
+
+### vLLM Co-Location Build (🆕 EMPFOHLEN für AI/ML):
+```bash
+cmake -DTHEMIS_VLLM_COLOCATION=ON ..
+# Aktiviert: CUDA (forced), GPU-Sharing, CPU/RAM Koordination
+# Setzt automatisch: THEMIS_ENABLE_CUDA=ON
 ```
 
 ### OLAP-Build (Optional):
@@ -429,7 +722,7 @@ cmake -DTHEMIS_ENABLE_OLAP_VARIANT=ON ..
 ### Embedded-Build (Optional):
 ```bash
 cmake -DTHEMIS_EMBEDDED=ON ..
-# Deaktiviert: TBB, Arrow, OpenTelemetry
+# Deaktiviert: TBB, Arrow, OpenTelemetry, CUDA
 # Aktiviert: Aggressive Compression, Low Memory Mode
 ```
 
@@ -438,16 +731,20 @@ cmake -DTHEMIS_EMBEDDED=ON ..
 ## 8. Migration Path
 
 ### v1.1.0 (Q1 2026):
-- ✅ Bestehende Libraries besser nutzen
+- ✅ Bestehende Libraries besser nutzen (RocksDB, TBB, Arrow)
+- ✅ CUDA als Kernbestand (nicht Enterprise) - wenn GPU verfügbar
 - ✅ mimalloc als einziger 1:1 Austausch
 - ✅ Varianten-basierte Builds
+- ✅ 🆕 vLLM Co-Location Optimierung
 
 ### v1.2.0 (Q2 2026):
 - ✅ RE2 (Security-Fokus)
 - ✅ TBB Flow Graph (wenn Performance noch nicht ausreicht)
+- ✅ Erweiterte vLLM Integration (Embedding Cache Warming)
 
 ### v1.3.0 (Q3 2026):
 - ✅ Abseil oder LMDB (falls Bedarf entsteht)
+- ✅ Multi-vLLM Load Balancing
 
 ---
 
@@ -471,9 +768,11 @@ cmake -DTHEMIS_EMBEDDED=ON ..
 1. **RocksDB TTL, Backup, Stats** (3 Wochen) - 0 neue Libs
 2. **TBB Parallel Sort, Concurrent Map** (3 Wochen) - 0 neue Libs
 3. **Arrow Parquet Export** (2 Wochen) - 0 neue Libs
-4. **mimalloc** (1 Tag) - 1 neue Lib (Drop-in)
+4. **CUDA Streams** (1 Woche) - 0 neue Libs (Kernbestand!)
+5. **🆕 vLLM Co-Location** (1 Woche) - 0 neue Libs (Konfiguration)
+6. **mimalloc** (1 Tag) - 1 neue Lib (Drop-in)
 
-**Total:** 8 Wochen, 1 neue Library, 3-10x Performance
+**Total:** 9 Wochen, 1 neue Library, 3-10x Performance
 
 ---
 
@@ -487,41 +786,112 @@ cmake -DTHEMIS_EMBEDDED=ON ..
 ### 🎯 Fokus v1.1.0:
 **"Bestehende Libraries ausreizen, bevor neue hinzufügen"**
 
+**🆕 Zusätzlicher Fokus:**
+**"ThemisDB + vLLM Synergie für maximale Ressourcen-Effizienz"**
+
 **Erfolgsmetrik:** 
-- < 5% mehr Dependencies
-- > 3x Performance-Gewinn
-- < 10 Wochen Implementierung
+- < 5% mehr Dependencies (✅ nur mimalloc)
+- > 3x Performance-Gewinn (✅ RocksDB + TBB + CUDA)
+- < 10 Wochen Implementierung (✅ 9 Wochen)
+- 🆕 Optimale GPU-Sharing mit vLLM (< 80% GPU-Auslastung für ThemisDB)
+- 🆕 CPU/RAM Balance (50 Cores, 200 GB für ThemisDB)
 
 ---
 
 ## Anhang A: Varianten-Vergleich
 
-| Variante | Dependencies | Build Time | Binary Size | Use Case |
-|----------|--------------|------------|-------------|----------|
-| Standard | 16 (+1) | 20 min | 50 MB | OLTP, General Purpose |
-| OLAP | 17 (+2) | 25 min | 80 MB | Analytics, Reporting |
-| Embedded | 12 (-3) | 10 min | 20 MB | IoT, Edge |
-| GPU | 16 (+1) | 30 min | 60 MB | ML/AI, Vector Search |
+| Variante | Dependencies | Build Time | Binary Size | Use Case | CUDA |
+|----------|--------------|------------|-------------|----------|------|
+| Standard (OLTP) | 16 (+1) | 20 min | 50 MB | OLTP, General Purpose | Optional¹ |
+| OLAP | 17 (+2) | 25 min | 80 MB | Analytics, Reporting | Optional |
+| Embedded | 12 (-3) | 10 min | 20 MB | IoT, Edge | ❌ |
+| 🆕 vLLM Co-Location | 16 (+1) | 25 min | 55 MB | RAG, AI/ML Workloads | ✅ Kernbestand |
+
+¹ CUDA wird automatisch aktiviert wenn GPU erkannt (Kernbestand, nicht Enterprise!)
 
 ---
 
 ## Anhang B: v1.1.0 Checkliste
 
+### Kern-Features (8 Wochen):
 - [ ] RocksDB TTL Integration (1 Woche)
 - [ ] RocksDB Incremental Backup (1 Woche)
 - [ ] RocksDB Statistics Export (1 Woche)
 - [ ] TBB Parallel Sort (1 Woche)
 - [ ] TBB Concurrent Hash Map (2 Wochen)
 - [ ] Arrow Parquet Export (2 Wochen)
-- [ ] mimalloc Integration (1 Tag)
-- [ ] Build-Varianten Testing (1 Woche)
-- [ ] Documentation Update (1 Woche)
 
-**Total:** 10 Wochen (inkl. Testing & Docs)
+### GPU & vLLM (2 Wochen):
+- [ ] 🆕 CUDA Streams für Vector Search (1 Woche)
+- [ ] 🆕 vLLM Co-Location Ressourcen-Koordination (1 Woche)
+  - [ ] CPU/RAM Allokations-Logik
+  - [ ] GPU-Sharing mit Priorität
+  - [ ] Adaptive CUDA-Nutzung (nvml Monitoring)
+
+### Performance & Build (1 Woche):
+- [ ] mimalloc Integration (1 Tag)
+- [ ] Build-Varianten Testing (3 Tage)
+- [ ] Docker Compose ThemisDB+vLLM (2 Tage)
+- [ ] Documentation Update (1 Tag)
+
+**Total:** 11 Wochen (inkl. vLLM-Integration, Testing & Docs)
+
+---
+
+## 🆕 Anhang C: vLLM Co-Location Best Practices
+
+### Hardware-Empfehlung:
+```
+Minimum:
+- CPU: 32 Cores (20 ThemisDB, 10 vLLM, 2 System)
+- RAM: 128 GB (90 ThemisDB, 35 vLLM, 3 System)
+- GPU: 2x NVIDIA A100 40GB (vLLM primär, ThemisDB gelegentlich)
+
+Optimal:
+- CPU: 64 Cores (50 ThemisDB, 12 vLLM, 2 System)
+- RAM: 256 GB (200 ThemisDB, 50 vLLM, 6 System)
+- GPU: 4x NVIDIA A100 80GB (vLLM primär, ThemisDB adaptiv)
+```
+
+### Monitoring-Metriken:
+```
+ThemisDB:
+- CPU Utilization (Target: 70-80%)
+- RAM Usage (Target: < 200 GB)
+- GPU Utilization (Target: < 20% wenn vLLM aktiv)
+- Vector Search Latency (Target: < 10ms)
+
+vLLM:
+- GPU Utilization (Target: 70-90%)
+- VRAM Usage (Target: 70-80 GB pro GPU)
+- Token Generation Latency (Target: < 50ms/token)
+- Concurrent Requests (Target: 10-50)
+
+System:
+- GPU Memory Contention (Target: 0 OOM errors)
+- CPU Context Switches (Target: < 100k/s)
+- Network Throughput ThemisDB↔vLLM (Target: < 1 Gbps)
+```
+
+### Fallback-Strategien:
+```
+Wenn vLLM GPU-Last > 90%:
+→ ThemisDB nutzt CPU-only Vector Search (HNSW)
+→ Latenz: 5-10ms statt 1-2ms (akzeptabel)
+
+Wenn RAM < 20 GB frei:
+→ ThemisDB reduziert Block Cache (aggressive eviction)
+→ Leichte Performance-Degradation, aber kein OOM
+
+Wenn CPU-Last > 90%:
+→ ThemisDB aktiviert Rate Limiting
+→ vLLM bleibt unbeeinflusst (höhere Priorität)
+```
 
 ---
 
 **Version History:**
 - v1.0: Initial Analysis (alle Libraries)
 - v1.1: Wechselwirkungen + zusätzliche Libraries
-- v1.2: **Varianten-Strategie + Fokus auf Kernbestand (dieses Dokument)**
+- v1.2: Varianten-Strategie + Fokus auf Kernbestand
+- v1.3: **🆕 vLLM Co-Location + CUDA als Kernbestand (dieses Dokument)**

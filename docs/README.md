@@ -1,8 +1,24 @@
 # ThemisDB Dokumentations-Index
 
-**Stand:** 9. Dezember 2025  
-**Version:** 1.0.1  
+**Stand:** 14. Dezember 2025  
+**Version:** 1.0.2 (v1.1.0 anstehend)  
 **Typ:** Dokumentations-Index
+
+---
+
+> **🆕 COMING SOON - v1.1.0 Optimization Release (Q1 2026):**
+> 
+> **Fokus:** Bestehende Libraries besser nutzen + vLLM Co-Location  
+> **Highlights:**
+> - ✅ RocksDB TTL, Incremental Backup, Stats (keine neue Lib!)
+> - ✅ TBB Parallel Sort, Concurrent Containers (keine neue Lib!)
+> - ✅ Arrow Parquet Export (keine neue Lib!)
+> - ✅ **CUDA als Kernbestand** (wenn GPU verfügbar, NICHT Enterprise!)
+> - ✅ **🆕 ThemisDB + vLLM Synergie** (optimierte CPU/GPU/RAM Koordination)
+> - ✅ mimalloc (einzige neue Dependency, 20-40% Memory Boost)
+> 
+> **Engineering:** 9-11 Wochen | **Impact:** 3-10x Performance  
+> **Details:** [v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)
 
 ---
 
@@ -10,6 +26,7 @@
 
 ### Übersichtsdokumente
 - **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.0.1, v1.0.0)
+- **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
 - **[Architecture Overview](ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[Source Code Changes v1.0](SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
@@ -20,12 +37,15 @@
 
 ### Für Stakeholder & Management
 - **[Themis Sachstandsbericht 2025](reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
+- **[🆕 v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)** - **NEU:** Optimierungs-Strategie mit vLLM Co-Location
 - **[Projektkostenschätzung & Gesamtwert](reports/reports_project_valuation.md)** - Wirtschaftliche Bewertung (6,3M EUR)
 - **[Release Strategy Audit](../RELEASE_STRATEGY_AUDIT.md)** - SLSA Compliance, SBOM (8.5/10 Rating)
 - **[Release & Benchmarking Summary](../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - v1.0.1 Session Report
 
 ### Für Entwickler
 - **[Development Summary](development/DEVELOPMENT_SUMMARY.md)** - Entwicklungsstand v1.0.1
+- **[🆕 External Libraries Analysis](analysis/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
+- **[🆕 Library Interactions](analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
 - **[Source Code Audit](development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
 - **[Documentation Index](DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
 - **[Documentation Verification](reports/documentation_verification_report.md)** - Verifizierung Dokumentation ↔ Code
