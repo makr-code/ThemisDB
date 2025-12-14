@@ -11,8 +11,10 @@
 #include <rocksdb/advanced_options.h>
 #include <rocksdb/statistics.h>
 #include <rocksdb/utilities/checkpoint.h>
+#include <rocksdb/utilities/backup_engine.h> // v1.1.0: Incremental Backup
 #include <filesystem>
 #include <nlohmann/json.hpp>
+#include <unordered_map>
 
 namespace themis {
 
@@ -777,6 +779,181 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
     cf_handles_.push_back(cf_handle);
     THEMIS_INFO("Created or got column family '{}'", cf_name);
     return cf_handle;
+}
+
+// ===== v1.1.0: Advanced RocksDB Features =====
+
+bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {
+    if (!db_) {
+        THEMIS_ERROR("createIncrementalBackup: DB not open");
+        return false;
+    }
+    
+    try {
+        rocksdb::BackupEngineOptions backup_opts(backup_dir);
+        backup_opts.share_table_files = true; // Enable incremental backups
+        
+        rocksdb::BackupEngine* backup_engine_ptr = nullptr;
+        rocksdb::Status s = rocksdb::BackupEngine::Open(
+            rocksdb::Env::Default(),
+            backup_opts,
+            &backup_engine_ptr
+        );
+        
+        if (!s.ok()) {
+            THEMIS_ERROR("Failed to open BackupEngine: {}", s.ToString());
+            return false;
+        }
+        
+        std::unique_ptr<rocksdb::BackupEngine> backup_engine(backup_engine_ptr);
+        
+        // Create incremental backup (only delta since last backup)
+        s = backup_engine->CreateNewBackup(db_->GetBaseDB(), flush_before_backup);
+        
+        if (!s.ok()) {
+            THEMIS_ERROR("Failed to create incremental backup: {}", s.ToString());
+            return false;
+        }
+        
+        THEMIS_INFO("Created incremental backup in '{}' (flush={})", backup_dir, flush_before_backup);
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("createIncrementalBackup exception: {}", e.what());
+        return false;
+    }
+}
+
+bool RocksDBWrapper::restoreFromBackup(const std::string& backup_dir) {
+    try {
+        rocksdb::BackupEngineOptions backup_opts(backup_dir);
+        rocksdb::BackupEngine* backup_engine_ptr = nullptr;
+        rocksdb::Status s = rocksdb::BackupEngine::Open(
+            rocksdb::Env::Default(),
+            backup_opts,
+            &backup_engine_ptr
+        );
+        
+        if (!s.ok()) {
+            THEMIS_ERROR("Failed to open BackupEngine for restore: {}", s.ToString());
+            return false;
+        }
+        
+        std::unique_ptr<rocksdb::BackupEngine> backup_engine(backup_engine_ptr);
+        
+        // Close current DB before restore
+        if (db_) {
+            close();
+        }
+        
+        // Restore from latest backup
+        s = backup_engine->RestoreDBFromLatestBackup(config_.db_path, config_.db_path);
+        
+        if (!s.ok()) {
+            THEMIS_ERROR("Failed to restore from backup: {}", s.ToString());
+            return false;
+        }
+        
+        // Reopen DB
+        if (!open()) {
+            THEMIS_ERROR("Failed to reopen DB after restore from backup '{}'", backup_dir);
+            return false;
+        }
+        
+        THEMIS_INFO("Restored DB from backup '{}' to '{}'", backup_dir, config_.db_path);
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("restoreFromBackup exception: {}", e.what());
+        return false;
+    }
+}
+
+uint32_t RocksDBWrapper::getBackupCount(const std::string& backup_dir) const {
+    try {
+        rocksdb::BackupEngineOptions backup_opts(backup_dir);
+        rocksdb::BackupEngine* backup_engine_ptr = nullptr;
+        rocksdb::Status s = rocksdb::BackupEngine::Open(
+            rocksdb::Env::Default(),
+            backup_opts,
+            &backup_engine_ptr
+        );
+        
+        if (!s.ok()) {
+            return 0;
+        }
+        
+        std::unique_ptr<rocksdb::BackupEngine> backup_engine(backup_engine_ptr);
+        std::vector<rocksdb::BackupInfo> backup_info;
+        backup_engine->GetBackupInfo(&backup_info);
+        
+        return static_cast<uint32_t>(backup_info.size());
+        
+    } catch (...) {
+        return 0;
+    }
+}
+
+std::string RocksDBWrapper::exportStatisticsJSON() const {
+    if (!db_ || !options_->statistics) {
+        return "{}";
+    }
+    
+    try {
+        json stats_obj;
+        
+        // Export key RocksDB statistics
+        auto stats = options_->statistics;
+        
+        stats_obj["bytes_written"] = stats->getTickerCount(rocksdb::BYTES_WRITTEN);
+        stats_obj["bytes_read"] = stats->getTickerCount(rocksdb::BYTES_READ);
+        stats_obj["number_keys_written"] = stats->getTickerCount(rocksdb::NUMBER_KEYS_WRITTEN);
+        stats_obj["number_keys_read"] = stats->getTickerCount(rocksdb::NUMBER_KEYS_READ);
+        stats_obj["number_keys_updated"] = stats->getTickerCount(rocksdb::NUMBER_KEYS_UPDATED);
+        stats_obj["block_cache_miss"] = stats->getTickerCount(rocksdb::BLOCK_CACHE_MISS);
+        stats_obj["block_cache_hit"] = stats->getTickerCount(rocksdb::BLOCK_CACHE_HIT);
+        stats_obj["bloom_filter_useful"] = stats->getTickerCount(rocksdb::BLOOM_FILTER_USEFUL);
+        stats_obj["memtable_hit"] = stats->getTickerCount(rocksdb::MEMTABLE_HIT);
+        stats_obj["memtable_miss"] = stats->getTickerCount(rocksdb::MEMTABLE_MISS);
+        stats_obj["compaction_key_drop_obsolete"] = stats->getTickerCount(rocksdb::COMPACTION_KEY_DROP_OBSOLETE);
+        stats_obj["wal_file_synced"] = stats->getTickerCount(rocksdb::WAL_FILE_SYNCED);
+        stats_obj["stall_micros"] = stats->getTickerCount(rocksdb::STALL_MICROS);
+        
+        return stats_obj.dump();
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("exportStatisticsJSON exception: {}", e.what());
+        return "{}";
+    }
+}
+
+uint64_t RocksDBWrapper::getStatistic(const std::string& ticker_name) const {
+    if (!db_ || !options_->statistics) {
+        return 0;
+    }
+    
+    // Map ticker names to RocksDB ticker types
+    static const std::unordered_map<std::string, rocksdb::Tickers> ticker_map = {
+        {"BYTES_WRITTEN", rocksdb::BYTES_WRITTEN},
+        {"BYTES_READ", rocksdb::BYTES_READ},
+        {"NUMBER_KEYS_WRITTEN", rocksdb::NUMBER_KEYS_WRITTEN},
+        {"NUMBER_KEYS_READ", rocksdb::NUMBER_KEYS_READ},
+        {"NUMBER_KEYS_UPDATED", rocksdb::NUMBER_KEYS_UPDATED},
+        {"BLOCK_CACHE_MISS", rocksdb::BLOCK_CACHE_MISS},
+        {"BLOCK_CACHE_HIT", rocksdb::BLOCK_CACHE_HIT},
+        {"BLOOM_FILTER_USEFUL", rocksdb::BLOOM_FILTER_USEFUL},
+        {"MEMTABLE_HIT", rocksdb::MEMTABLE_HIT},
+        {"MEMTABLE_MISS", rocksdb::MEMTABLE_MISS},
+        {"WAL_FILE_SYNCED", rocksdb::WAL_FILE_SYNCED},
+        {"STALL_MICROS", rocksdb::STALL_MICROS}
+    };
+    
+    auto it = ticker_map.find(ticker_name);
+    if (it != ticker_map.end()) {
+        return options_->statistics->getTickerCount(it->second);
+    }
+    
+    return 0;
 }
 
 } // namespace themis

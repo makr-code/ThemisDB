@@ -71,6 +71,10 @@ public:
         // Legacy compatibility flags used by some tests
         bool wal_enabled = true;         // maps to enable_wal
         bool create_if_missing = true;   // respected in options configuration
+        
+        // v1.1.0: TTL (Time-To-Live) support
+        bool enable_ttl = false;         // Enable TTL for automatic data expiration
+        int32_t ttl_seconds = 0;         // TTL in seconds (0 = disabled)
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -217,6 +221,33 @@ public:
     /// This will close the current DB, replace the DB path contents with the checkpoint,
     /// and reopen the DB. Returns true on success.
     bool restoreFromCheckpoint(const std::string& checkpoint_dir);
+
+    // ===== v1.1.0: Advanced RocksDB Features =====
+    
+    /// Create an incremental backup (only delta since last backup)
+    /// @param backup_dir Directory to store backups
+    /// @param flush_before_backup Flush memtables before backup
+    /// @return true on success
+    bool createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup = true);
+    
+    /// Restore from the latest backup
+    /// @param backup_dir Directory containing backups
+    /// @return true on success
+    bool restoreFromBackup(const std::string& backup_dir);
+    
+    /// Get number of backups available
+    /// @param backup_dir Directory containing backups
+    /// @return Number of backups
+    uint32_t getBackupCount(const std::string& backup_dir) const;
+    
+    /// Export RocksDB statistics as JSON (for OpenTelemetry integration)
+    /// @return JSON object with statistics
+    std::string exportStatisticsJSON() const;
+    
+    /// Get specific statistic value by ticker type
+    /// @param ticker_name Name of the ticker (e.g., "BYTES_WRITTEN", "BYTES_READ")
+    /// @return Ticker value
+    uint64_t getStatistic(const std::string& ticker_name) const;
 
     // ===== Column Family Management =====
     
