@@ -283,6 +283,11 @@ class TrainSimulator:
             train['current_speed_kmh'] + speed_change
         ))
         
+        # Energie-Berechnung (Phase 2.4)
+        energy_kwh = self._calculate_energy_consumption(train, distance_km)
+        train['energy_consumed_kwh'] = train.get('energy_consumed_kwh', 0.0) + energy_kwh
+        train['last_energy_update'] = datetime.now().isoformat()
+        
         # Verspätung dynamisch ändern
         if random.random() < 0.01:  # 1% Chance pro Update
             train['delay_min'] += random.randint(-1, 2)
@@ -291,6 +296,46 @@ class TrainSimulator:
         # Ziel erreicht? Neue Route
         if train['current_km'] >= train['total_distance_km']:
             self._respawn_train(train)
+    
+    def _calculate_energy_consumption(self, train: Dict, distance_km: float) -> float:
+        """
+        Berechne Energieverbrauch basierend auf realistischen Faktoren
+        Basierend auf RAILWAY_ENERGY_MANAGEMENT.md
+        """
+        # Basis-Verbrauch pro Zugtyp (kWh/km)
+        base_consumption = {
+            "ICE": 2.5,  # ICE 3: ~2.5 kWh/km
+            "IC": 2.0,   # IC/EC: ~2.0 kWh/km
+            "RE": 1.5,   # RE: ~1.5 kWh/km
+            "RB": 1.2,   # RB: ~1.2 kWh/km
+        }
+        
+        base_kwh_per_km = base_consumption.get(train['category'], 1.5)
+        
+        # Faktor 1: Geschwindigkeit (kubische Beziehung: P ∝ v³)
+        # Normalisiert auf max_speed
+        speed_factor = (train['current_speed_kmh'] / train['max_speed_kmh']) ** 3
+        
+        # Faktor 2: Auslastung/Masse
+        # Pro 100 Tonnen: +12% Energieverbrauch
+        occupancy_ratio = train['occupancy'] / train['capacity']
+        mass_factor = 1.0 + (occupancy_ratio * 0.25)  # 0-25% mehr je nach Auslastung
+        
+        # Faktor 3: Steigung (simuliert, -10‰ bis +10‰)
+        gradient_permille = random.uniform(-10, 10)
+        if gradient_permille > 0:
+            gradient_factor = 1.0 + (gradient_permille / 10.0) * 0.30  # +30% bei 10‰
+        else:
+            gradient_factor = 1.0 + (gradient_permille / 10.0) * 0.20  # -20% bei -10‰ (Rekup.)
+        
+        # Faktor 4: Wetter (simuliert)
+        weather_factor = random.uniform(0.95, 1.08)  # -5% bis +8%
+        
+        # Gesamtberechnung
+        energy_kwh = (base_kwh_per_km * distance_km * speed_factor * 
+                     mass_factor * gradient_factor * weather_factor)
+        
+        return max(0.0, energy_kwh)  # Mindestens 0 kWh
     
     def _respawn_train(self, train: Dict):
         """Respawn Zug mit neuer Route"""
@@ -352,6 +397,7 @@ class TrainSimulator:
             "occupancy_percent": round(100 * train['occupancy'] / train['capacity'], 1),
             "progress_km": round(train['current_km'], 2),
             "total_distance_km": round(train['total_distance_km'], 2),
+            "energy_consumed_kwh": round(train.get('energy_consumed_kwh', 0.0), 2),
             "last_update": datetime.now().isoformat()
         }
         self._put_entity(train_entity)

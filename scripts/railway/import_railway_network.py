@@ -20,12 +20,14 @@ from datetime import datetime
 class ThemisDBImporter:
     def __init__(self, themis_url: str = "http://localhost:8765"):
         self.themis_url = themis_url
+        self.track_network = {}  # For graph connections
         self.stats = {
             "stations": 0,
             "track_segments": 0,
             "signals": 0,
             "switches": 0,
             "level_crossings": 0,
+            "connections": 0,
             "errors": []
         }
     
@@ -37,6 +39,12 @@ class ThemisDBImporter:
             data = json.load(f)
         
         print(f"Data loaded. Metadata: {data.get('metadata', {})}")
+        
+        # Store network data for graph connections
+        self.track_network = {
+            'stations': {s['eva_number']: s for s in data.get('stations', [])}
+        }
+        
         print("\nImporting into ThemisDB...")
         
         # Import in order (dependencies)
@@ -111,10 +119,69 @@ class ThemisDBImporter:
             if self._put_entity(edge):
                 self.stats["track_segments"] += 1
             
+            # Create graph edges for routing (Phase 2.4)
+            # Connect stations to nearby track points
+            self._create_station_connections(seg, start_point, end_point)
+            
             if self.stats["track_segments"] % 50 == 0:
                 print(f"   Imported {self.stats['track_segments']} segments...", end='\r')
         
         print(f"   ✓ Imported {self.stats['track_segments']} track segments")
+    
+    def _create_station_connections(self, segment: Dict, start_point: Dict, end_point: Dict):
+        """Create graph edges between stations and track points for routing"""
+        # This creates bidirectional edges for graph traversal
+        # Simplified: Connect if track passes near station
+        for station_eva, station in self.track_network.get('stations', {}).items():
+            # Check if either endpoint is near this station (simplified distance check)
+            start_dist = self._point_distance(
+                start_point['location'], station.get('location', {})
+            )
+            end_dist = self._point_distance(
+                end_point['location'], station.get('location', {})
+            )
+            
+            # If track point within 2km of station, create connection
+            if start_dist < 2.0:
+                connection = {
+                    "_key": f"conn:station_{station_eva}_track_{start_point['_key']}",
+                    "_from": f"station:{station_eva}",
+                    "_to": start_point["_key"],
+                    "type": "station_track_connection",
+                    "distance_km": round(start_dist, 3)
+                }
+                if self._put_entity(connection):
+                    self.stats["connections"] += 1
+            
+            if end_dist < 2.0:
+                connection = {
+                    "_key": f"conn:station_{station_eva}_track_{end_point['_key']}",
+                    "_from": f"station:{station_eva}",
+                    "_to": end_point["_key"],
+                    "type": "station_track_connection",
+                    "distance_km": round(end_dist, 3)
+                }
+                if self._put_entity(connection):
+                    self.stats["connections"] += 1
+    
+    def _point_distance(self, loc1: Dict, loc2: Dict) -> float:
+        """Simple Haversine distance calculation between two points (km)"""
+        if not loc1 or not loc2 or 'lat' not in loc1 or 'lat' not in loc2:
+            return 999.9  # Invalid distance
+        
+        import math
+        R = 6371  # Earth radius in km
+        
+        lat1, lon1 = math.radians(loc1['lat']), math.radians(loc1['lon'])
+        lat2, lon2 = math.radians(loc2['lat']), math.radians(loc2['lon'])
+        
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+        
+        a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+        c = 2 * math.asin(math.sqrt(a))
+        
+        return R * c
     
     def _import_signals(self, signals: List[Dict]):
         """Import signals as vertices"""
@@ -203,6 +270,7 @@ class ThemisDBImporter:
         print(f"Signals:         {self.stats['signals']}")
         print(f"Switches:        {self.stats['switches']}")
         print(f"Level Crossings: {self.stats['level_crossings']}")
+        print(f"Graph Connections: {self.stats['connections']}")
         print(f"Errors:          {len(self.stats['errors'])}")
         
         if self.stats['errors']:
