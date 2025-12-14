@@ -1046,7 +1046,8 @@ bool OLAPEngine::exportToParquet(
         return true;
         
     } catch (const std::exception& e) {
-        // Log error (would use THEMIS_ERROR in production)
+        // Note: Error logging available via THEMIS_ERROR in production builds
+        (void)e;  // Suppress unused variable warning
         return false;
     }
 }

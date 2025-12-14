@@ -18,10 +18,9 @@ PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::Promp
     // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
     if (t.id.empty()) t.id = generateId();
     
-    // Insert using TBB concurrent_hash_map
+    // Insert using TBB concurrent_hash_map (efficient single operation)
     StoreType::accessor acc;
-    store_.insert(acc, t.id);
-    acc->second = t;
+    store_.insert(acc, {t.id, t});
     acc.release(); // Release lock
 
     // Persist if DB configured

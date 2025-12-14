@@ -785,7 +785,7 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
 
 bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {
     if (!db_) {
-        THEMIS_ERROR("createIncrementalBackup: DB not open");
+        THEMIS_ERROR("createIncrementalBackup failed: database not open");
         return false;
     }
     

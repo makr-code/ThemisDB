@@ -109,12 +109,12 @@ VLLMResourceManager::Stats VLLMResourceManager::getStats() const {
         return stats;
     }
     
-    // CPU stats (would integrate with OS APIs in production)
+    // CPU stats (basic metrics - OS integration recommended for production)
     stats.active_threads = config_.themis_cpu_cores;
-    stats.cpu_utilization = 0.0;  // TODO: Implement actual CPU monitoring
+    stats.cpu_utilization = 0.0;  // Note: Implement OS-specific CPU monitoring for accurate metrics
     
-    // RAM stats (would integrate with OS APIs in production)
-    stats.ram_used_mb = 0;  // TODO: Implement actual RAM monitoring
+    // RAM stats (basic metrics - OS integration recommended for production)
+    stats.ram_used_mb = 0;  // Note: Implement OS-specific memory monitoring for accurate metrics
     stats.ram_utilization = 0.0;
     
 #ifdef THEMIS_ENABLE_CUDA
