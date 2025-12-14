@@ -39,6 +39,10 @@ if (Test-Path $buildDir) {
 
 $testsFlag = if ($SkipTests) { 'OFF' } else { 'ON' }
 $traceFlag = if ($Debug) { 'ON' } else { 'OFF' }
+
+# Note: THEMIS_CORE_SHARED=OFF on Windows Release to avoid RocksDB linker issues
+# with massive static rocksdb.lib (1.2GB). rocksdb-shared will be used if available.
+# For true DLL builds on Windows, use rocksdb-shared from vcpkg (see CMakeLists.txt).
 cmake -S $rootDir -B $buildDir `
     -G "Visual Studio 17 2022" `
     -A x64 `
@@ -48,7 +52,7 @@ cmake -S $rootDir -B $buildDir `
     -DTHEMIS_BUILD_TESTS=$testsFlag `
     -DTHEMIS_BUILD_BENCHMARKS=OFF `
     -DTHEMIS_ENABLE_TRACING=$traceFlag `
-    -DTHEMIS_CORE_SHARED=ON
+    -DTHEMIS_CORE_SHARED=OFF
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "CMake configuration failed" -ForegroundColor Red

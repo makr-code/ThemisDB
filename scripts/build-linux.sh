@@ -25,7 +25,13 @@ echo "=== ThemisDB Linux Build ==="
 # Step 1: Update cache
 if [ "$NO_CACHE" != "true" ]; then
     echo -e "\n[1/3] Updating vcpkg cache..."
-    "$SCRIPT_DIR/update-vcpkg-cache.ps1" -Triplets @("x64-linux") || true
+    if command -v pwsh >/dev/null 2>&1; then
+        pwsh -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR/update-vcpkg-cache.ps1" -Triplets "x64-linux" || true
+    elif command -v powershell.exe >/dev/null 2>&1; then
+        powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR\\update-vcpkg-cache.ps1" -Triplets "x64-linux" || true
+    else
+        echo "pwsh/powershell not available; skipping cache update" >&2
+    fi
 fi
 
 # Step 2: Configure with CMake
@@ -36,6 +42,8 @@ BUILD_DIR="$ROOT_DIR/build-linux"
 cmake -S "$ROOT_DIR" -B "$BUILD_DIR" \
     -G Ninja \
     -DCMAKE_BUILD_TYPE="$CONFIG" \
+    -DCMAKE_TOOLCHAIN_FILE="$ROOT_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake" \
+    -DVCPKG_TARGET_TRIPLET="x64-linux" \
     -DTHEMIS_BUILD_TESTS=$([ "$SKIP_TESTS" = "true" ] && echo "OFF" || echo "ON") \
     -DTHEMIS_BUILD_BENCHMARKS=OFF \
     -DTHEMIS_ENABLE_TRACING=$([ "$DEBUG" = "true" ] && echo "ON" || echo "OFF")
