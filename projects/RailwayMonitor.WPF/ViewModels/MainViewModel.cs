@@ -302,6 +302,13 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<PowerForecastPoint>? powerForecast;
 
+    // Chart Series for LiveCharts
+    [ObservableProperty]
+    private object? delaySeries;
+    
+    [ObservableProperty]
+    private object? categorySeries;
+
     // Commands
     [RelayCommand]
     private async Task AnalyzeWithLlm()
@@ -343,6 +350,217 @@ public partial class MainViewModel : ObservableObject
             optimizeFor: "co2"
         );
         StatusMessage = $"CO₂-optimiert. Emissionen: {dispatch.Co2KgPerMwh:F1} kg/MWh";
+    }
+
+    [RelayCommand]
+    private async Task Refresh()
+    {
+        StatusMessage = "Aktualisiere Daten...";
+        await UpdateAsync();
+        StatusMessage = "Aktualisierung abgeschlossen";
+    }
+
+    [RelayCommand]
+    private void ToggleFullscreen()
+    {
+        // Handled in MainWindow code-behind
+    }
+
+    [RelayCommand]
+    private void ShowEnergyDashboard()
+    {
+        // Switch to Energy tab
+        StatusMessage = "Energie-Dashboard geöffnet";
+    }
+
+    [RelayCommand]
+    private void ShowLlmAnalysis()
+    {
+        // Switch to LLM Analysis tab
+        StatusMessage = "KI-Analyse geöffnet";
+    }
+
+    [RelayCommand]
+    private async Task SearchTrains()
+    {
+        if (string.IsNullOrWhiteSpace(SearchQuery))
+        {
+            // Show all trains
+            FilteredTrains.Clear();
+            foreach (var train in Trains)
+            {
+                FilteredTrains.Add(train);
+            }
+        }
+        else
+        {
+            // Filter trains by search query
+            FilteredTrains.Clear();
+            var filtered = Trains.Where(t => 
+                t.TrainNumber.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                t.Origin.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                t.Destination.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase)
+            );
+            foreach (var train in filtered)
+            {
+                FilteredTrains.Add(train);
+            }
+        }
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private void ShowAllTrains()
+    {
+        FilteredTrains.Clear();
+        foreach (var train in Trains)
+        {
+            FilteredTrains.Add(train);
+        }
+    }
+
+    [RelayCommand]
+    private void ShowDelayedTrains()
+    {
+        FilteredTrains.Clear();
+        foreach (var train in Trains.Where(t => t.DelayMin > 5))
+        {
+            FilteredTrains.Add(train);
+        }
+    }
+
+    [RelayCommand]
+    private void FilterByType(string trainType)
+    {
+        FilteredTrains.Clear();
+        foreach (var train in Trains.Where(t => t.Category == trainType))
+        {
+            FilteredTrains.Add(train);
+        }
+    }
+
+    [RelayCommand]
+    private async Task ToggleSimulator()
+    {
+        if (_simulator.IsRunning)
+        {
+            await _simulator.StopAsync();
+            StatusMessage = "Simulator gestoppt";
+        }
+        else
+        {
+            var started = await _simulator.StartAsync(50);
+            StatusMessage = started ? "Simulator gestartet (50 Züge)" : "Simulator konnte nicht gestartet werden";
+        }
+    }
+
+    [RelayCommand]
+    private async Task StartSimulator()
+    {
+        var started = await _simulator.StartAsync(50);
+        StatusMessage = started ? "Simulator gestartet (50 Züge)" : "Simulator konnte nicht gestartet werden";
+    }
+
+    [RelayCommand]
+    private async Task StopSimulator()
+    {
+        await _simulator.StopAsync();
+        StatusMessage = "Simulator gestoppt";
+    }
+
+    [RelayCommand]
+    private async Task ShowEnergyForecast()
+    {
+        StatusMessage = "Lade Lastprognose...";
+        await UpdateEnergyForecastAsync();
+        StatusMessage = "Lastprognose aktualisiert";
+    }
+
+    [ObservableProperty]
+    private string searchQuery = "";
+
+    // Phase 5: 3D Visualization Properties
+    [ObservableProperty]
+    private bool show3DView = false;
+
+    [ObservableProperty]
+    private int maxLodLevel = 2;
+
+    [ObservableProperty]
+    private int currentFps = 60;
+
+    [ObservableProperty]
+    private int vertexCount = 0;
+
+    [ObservableProperty]
+    private bool showBuildings3D = true;
+
+    [ObservableProperty]
+    private bool showTerrain3D = true;
+
+    // Phase 5: Vector Data Properties
+    [ObservableProperty]
+    private bool showVectorLayers = false;
+
+    [ObservableProperty]
+    private int visibleVectorLayers = 0;
+
+    [ObservableProperty]
+    private int cachedTiles = 0;
+
+    // Phase 5: 3D View Commands
+    [RelayCommand]
+    private void Toggle3DView()
+    {
+        Show3DView = !Show3DView;
+        StatusMessage = Show3DView ? "3D-Ansicht aktiviert" : "2D-Ansicht aktiviert";
+    }
+
+    [RelayCommand]
+    private void SetLodLevel(string level)
+    {
+        // LOD Level: 0=Highest detail, 4=Lowest (culled)
+        // User-friendly mapping: High quality = LOD 0-1, Auto = LOD 2, Low = LOD 3
+        MaxLodLevel = level switch
+        {
+            "Auto" => 2,   // Balanced quality (LOD 0-2 rendered)
+            "High" => 0,   // Maximum quality (LOD 0 rendered)
+            "Low" => 3,    // Performance mode (LOD 0-3 rendered)
+            _ => 2
+        };
+        StatusMessage = $"LOD-Level: {level}";
+    }
+
+    [RelayCommand]
+    private void ToggleBuildings3D()
+    {
+        ShowBuildings3D = !ShowBuildings3D;
+        StatusMessage = ShowBuildings3D ? "3D-Gebäude aktiviert" : "3D-Gebäude deaktiviert";
+    }
+
+    [RelayCommand]
+    private void ToggleTerrain3D()
+    {
+        ShowTerrain3D = !ShowTerrain3D;
+        StatusMessage = ShowTerrain3D ? "3D-Terrain aktiviert" : "3D-Terrain deaktiviert";
+    }
+
+    // Phase 5: Vector Layer Commands
+    [RelayCommand]
+    private void ToggleVectorLayers()
+    {
+        ShowVectorLayers = !ShowVectorLayers;
+        StatusMessage = ShowVectorLayers ? "Vector-Layers aktiviert" : "Vector-Layers deaktiviert";
+    }
+
+    private const int REFRESH_SIMULATION_DELAY_MS = 500;
+
+    [RelayCommand]
+    private async Task RefreshVectorTiles()
+    {
+        StatusMessage = "Aktualisiere Vector Tiles...";
+        await Task.Delay(REFRESH_SIMULATION_DELAY_MS); // Simulate refresh
+        StatusMessage = "Vector Tiles aktualisiert";
     }
 
     private async Task LoadStationsAsync()

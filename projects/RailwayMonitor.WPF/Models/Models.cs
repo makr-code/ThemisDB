@@ -27,8 +27,9 @@ public class Train
     
     // Delay information
     public int DelayMin { get; set; }
-    public DateTime? ScheduledArrival { get; set; }
-    public DateTime? EstimatedArrival { get; set; }
+    public bool HasDelay => DelayMin > 0;
+    public string ScheduledArrival { get; set; } = "";
+    public string EstimatedArrival { get; set; } = "";
     
     // Passenger data
     public int PassengerCapacity { get; set; }

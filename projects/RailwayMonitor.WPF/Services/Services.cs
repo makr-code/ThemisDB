@@ -649,17 +649,49 @@ public class EnergyManagementService : IEnergyManagementService
     }
 }
 
+using RailwayMonitor.WPF.Services.Map;
+
+namespace RailwayMonitor.WPF.Services;
+
 /// <summary>
-/// Service for map operations
+/// Service for map operations with DirectX/Vulkan-accelerated rendering
 /// </summary>
-public interface IMapService
+public interface IMapService : IDisposable
 {
-    // Map service would handle Mapsui operations
+    Task<bool> InitializeAsync();
+    IRailwayMapRenderer GetRenderer();
 }
 
 public class MapService : IMapService
 {
-    // Implementation for map operations
+    private readonly IRailwayMapRenderer _renderer;
+    
+    public MapService()
+    {
+        // Create high-performance renderer with DirectX support
+        _renderer = new RailwayMapRenderer(RenderQuality.High);
+    }
+    
+    public async Task<bool> InitializeAsync()
+    {
+        // Initialize with Germany center coordinates
+        await _renderer.InitializeAsync(
+            centerLat: 51.1657,  // Germany center
+            centerLon: 10.4515,
+            zoomLevel: 6
+        );
+        return true;
+    }
+    
+    public IRailwayMapRenderer GetRenderer()
+    {
+        return _renderer;
+    }
+    
+    public void Dispose()
+    {
+        _renderer?.Dispose();
+    }
 }
 
 /// <summary>
