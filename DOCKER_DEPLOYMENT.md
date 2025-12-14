@@ -1,6 +1,6 @@
 # ThemisDB Docker Deployment Guide
 
-**Version:** 1.0.1  
+**Version:** 1.0.2  
 **Last Updated:** 14. Dezember 2025  
 **Status:** Production-Ready
 
@@ -18,14 +18,14 @@ docker run -d \
   -v themis_data:/data \
   themisdb/themisdb:latest
 
-# Specific version (v1.0.1)
-docker pull themisdb/themisdb:v1.0.1
+# Specific version (v1.0.2)
+docker pull themisdb/themisdb:v1.0.2
 docker run -d \
   --name themis \
   -p 8080:8080 \
   -p 18765:18765 \
   -v themis_data:/data \
-  themisdb/themisdb:v1.0.1
+  themisdb/themisdb:v1.0.2
 ```
 
 ### Verify Running
@@ -51,7 +51,9 @@ docker logs -f themis
 | Tag | Architecture | Status | Use Case |
 |-----|--------------|--------|----------|
 | `latest` | amd64 + arm64 | ✅ Production | Recommended for most users |
-| `v1.0.1` | amd64 + arm64 | ✅ Production | Stable release (December 2025) |
+| `qnap` | amd64 | ✅ Production | QNAP NAS optimized (Ubuntu 20.04, SSE4.2 baseline) |
+| `v1.0.2` | amd64 + arm64 | ✅ Production | Stable release (December 2025) |
+| `v1.0.2-qnap` | amd64 | ✅ Production | QNAP v1.0.2 release |
 | `v1.0` | amd64 + arm64 | ✅ Production | Minor version track |
 | `v1` | amd64 + arm64 | ✅ Production | Major version track |
 
@@ -319,6 +321,30 @@ docker run -d \
   themisdb/themisdb:latest
 ```
 
+### QNAP NAS
+
+```bash
+# Pull QNAP-optimized image (Ubuntu 20.04, SSE4.2 baseline)
+docker pull themisdb/themisdb:qnap
+
+# Run on QNAP (port 18765 to avoid conflicts)
+docker run -d \
+  --name themis \
+  -p 18765:18765 \
+  -v /share/Container/themis/data:/data \
+  -v /share/Container/themis/config/config.qnap.json:/etc/themis/config.json:ro \
+  themisdb/themisdb:qnap
+
+# Or use docker-compose.qnap.yml
+# See docker/docker-compose.qnap.yml for full setup
+```
+
+**QNAP Notes:**
+- Use `qnap` or `v1.0.2-qnap` tags (optimized for older CPUs)
+- Default port 18765 avoids QNAP service conflicts
+- Mount volumes to `/share/Container/themis/`
+- Requires GLIBC 2.31+ (QNAP QTS 5.0+)
+
 ### macOS (Apple Silicon/Intel)
 
 ```bash
@@ -437,8 +463,22 @@ docker build \
 # Customize build
 docker build \
   --build-arg VCPKG_ENABLE_ONLINE=OFF \
-  --build-arg THEMIS_VERSION=1.0.1 \
+  --build-arg THEMIS_VERSION=1.0.2 \
   -t themis:custom .
+```
+
+### QNAP-Specific Build
+
+```bash
+# Build QNAP-optimized image (Ubuntu 20.04, baseline CPU)
+docker build \
+  -f docker/Dockerfile.qnap \
+  -t themis:qnap \
+  .
+
+# Tag and push
+docker tag themis:qnap themisdb/themisdb:qnap
+docker push themisdb/themisdb:qnap
 ```
 
 ---
