@@ -15,6 +15,7 @@ set(SOURCES
     src/vllm_client.cpp
     src/execution_plan.cpp
     src/prompt_to_plan.cpp
+    src/direct_executor.cpp
 )
 
 # Headers
@@ -22,6 +23,7 @@ set(HEADERS
     src/vllm_client.h
     src/execution_plan.h
     src/prompt_to_plan.h
+    src/direct_executor.h
     src/direct_execution_engine.h
     src/jit_compiler.h
     src/llm_code_translator.h
