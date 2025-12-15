@@ -198,19 +198,26 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 
 ### LLM Integration & Loader
 
-- [LLM Loader Guide](./LLM_LOADER_GUIDE.md) - **NEU:** Vollständiger Implementierungsleitfaden für vLLM-ähnlichen LLM Loader
+- [AI Ecosystem Sharding Architecture](./AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md) - **NEU:** Komplettes AI-Ökosystem mit horizontalem Sharding
+  - Jede Shard mit eigenem LLM (llama.cpp + GPU)
+  - Dynamic LoRA Transfer zwischen Shards
+  - Federated RAG Queries über mehrere Domains
+  - Raft-basierte Model Replication
+  - Production-ready mit 3-10+ Shards
+
+- [LLM Loader Guide](./LLM_LOADER_GUIDE.md) - Vollständiger Implementierungsleitfaden für vLLM-ähnlichen LLM Loader
   - Benötigte Bibliotheken (llama.cpp, GGML, Protobuf, etc.)
   - Architektur und Integration mit ThemisDB
   - Model Loading, LoRA Support, Inference
   - HTTP API und Code-Beispiele
   
-- [Binary Communication Protocols](./BINARY_COMMUNICATION_PROTOCOLS.md) - **NEU:** Kommunikation zwischen ThemisDB und vLLM
+- [Binary Communication Protocols](./BINARY_COMMUNICATION_PROTOCOLS.md) - Kommunikation zwischen ThemisDB und vLLM
   - HTTP/JSON vs. gRPC/Protobuf (binär)
   - Unix Domain Sockets und Shared Memory
   - Performance-Vergleiche und Entscheidungshilfe
   - Code-Beispiele für alle Protokolle
   
-- [GPU Referencing Capabilities](./GPU_REFERENCING_CAPABILITIES.md) - **NEU:** Rechenintensives Referencing im VRAM
+- [GPU Referencing Capabilities](./GPU_REFERENCING_CAPABILITIES.md) - Rechenintensives Referencing im VRAM
   - FAISS GPU Backend (bis zu 31x schneller)
   - Hybrid Search (BM25 + Vector) für RAG
   - Batch Processing und Semantic Caching
@@ -220,5 +227,6 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 ### Weitere Ressourcen
 
 - [Features: Semantic Cache](../features/features_semantic_cache.md) - LLM Response Caching
+- [Sharding Overview](../sharding/sharding_overview.md) - Horizontales Sharding in ThemisDB
 - [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)
 - [Projects: RAG LLM Programmierhilfe](../projects/RAG_LLM_PROGRAMMIERHILFE.md)
