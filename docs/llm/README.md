@@ -196,11 +196,29 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 
 ## Verwandte Dokumentation
 
+### LLM Integration & Loader
+
+- [LLM Loader Guide](./LLM_LOADER_GUIDE.md) - **NEU:** Vollständiger Implementierungsleitfaden für vLLM-ähnlichen LLM Loader
+  - Benötigte Bibliotheken (llama.cpp, GGML, Protobuf, etc.)
+  - Architektur und Integration mit ThemisDB
+  - Model Loading, LoRA Support, Inference
+  - HTTP API und Code-Beispiele
+  
+- [Binary Communication Protocols](./BINARY_COMMUNICATION_PROTOCOLS.md) - **NEU:** Kommunikation zwischen ThemisDB und vLLM
+  - HTTP/JSON vs. gRPC/Protobuf (binär)
+  - Unix Domain Sockets und Shared Memory
+  - Performance-Vergleiche und Entscheidungshilfe
+  - Code-Beispiele für alle Protokolle
+  
+- [GPU Referencing Capabilities](./GPU_REFERENCING_CAPABILITIES.md) - **NEU:** Rechenintensives Referencing im VRAM
+  - FAISS GPU Backend (bis zu 31x schneller)
+  - Hybrid Search (BM25 + Vector) für RAG
+  - Batch Processing und Semantic Caching
+  - Co-Located Deployment (ThemisDB + vLLM auf einer GPU)
+  - Performance-Benchmarks und Skalierung
+
+### Weitere Ressourcen
+
 - [Features: Semantic Cache](../features/features_semantic_cache.md) - LLM Response Caching
-- [Projects: RAG LLM](../projects/RAG_LLM_PROGRAMMIERHILFE.md) - RAG Integration
-
-## Verwandte Dokumentation
-
-- [LLM Loader Guide](./LLM_LOADER_GUIDE.md) - **NEU:** Implementierungsleitfaden für vLLM-ähnlichen LLM Loader
 - [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)
 - [Projects: RAG LLM Programmierhilfe](../projects/RAG_LLM_PROGRAMMIERHILFE.md)
