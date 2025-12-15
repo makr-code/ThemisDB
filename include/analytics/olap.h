@@ -257,6 +257,37 @@ public:
     // Statistics collection for optimization
     void collectStatistics(std::string_view collection);
     
+    // v1.1.0: Parquet Export for Data Lake Integration
+    /**
+     * @brief Export OLAP query results to Parquet file
+     * 
+     * @param result The OLAP query result to export
+     * @param path Output path for Parquet file
+     * @param compression Compression codec (none, snappy, gzip, zstd)
+     * @return true if successful
+     */
+    bool exportToParquet(
+        const OLAPResult& result,
+        const std::string& path,
+        const std::string& compression = "snappy"
+    );
+    
+    /**
+     * @brief Export entire collection to Parquet (columnar format)
+     * 
+     * @param collection Collection name
+     * @param path Output path for Parquet file
+     * @param filters Optional filters to apply
+     * @param compression Compression codec
+     * @return true if successful
+     */
+    bool exportCollectionToParquet(
+        std::string_view collection,
+        const std::string& path,
+        const std::vector<Filter>& filters = {},
+        const std::string& compression = "snappy"
+    );
+
 private:
     // Internal helpers
     OLAPResult executeSimpleGroupBy(const OLAPQuery& query);

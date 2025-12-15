@@ -115,9 +115,18 @@ bool CUDAVectorBackend::initialize() {
     // Set device
     CUDA_CHECK_BOOL(cudaSetDevice(0));
     
-    // Create CUDA stream for async operations
+    // v1.1.0: Create CUDA stream with low priority for vLLM co-location
     cudaStream_t stream;
+#ifdef THEMIS_VLLM_COLOCATION
+    // Non-blocking stream with low priority (doesn't block vLLM)
+    int leastPriority, greatestPriority;
+    CUDA_CHECK_BOOL(cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority));
+    CUDA_CHECK_BOOL(cudaStreamCreateWithPriority(&stream, cudaStreamNonBlocking, leastPriority));
+    std::cout << "CUDA: Created low-priority stream for vLLM co-location (priority=" << leastPriority << ")" << std::endl;
+#else
+    // Standard stream for non-vLLM deployments
     CUDA_CHECK_BOOL(cudaStreamCreate(&stream));
+#endif
     deviceContext_ = static_cast<void*>(stream);
     
     // Query device properties
@@ -129,6 +138,9 @@ bool CUDAVectorBackend::initialize() {
     std::cout << "  Compute Capability: " << prop.major << "." << prop.minor << std::endl;
     std::cout << "  Global Memory: " << (prop.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
     std::cout << "  Multiprocessors: " << prop.multiProcessorCount << std::endl;
+#ifdef THEMIS_VLLM_COLOCATION
+    std::cout << "  vLLM Co-Location: ENABLED (low-priority stream, max " << THEMIS_MAX_GPU_VRAM_MB << " MB VRAM)" << std::endl;
+#endif
     
     initialized_ = true;
     return true;

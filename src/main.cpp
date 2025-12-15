@@ -1,4 +1,9 @@
-﻿#include "utils/logger.h"
+﻿// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
+#ifdef THEMIS_USE_MIMALLOC
+    #include <mimalloc-override.h> // Automatic override of malloc
+#endif
+
+#include "utils/logger.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"

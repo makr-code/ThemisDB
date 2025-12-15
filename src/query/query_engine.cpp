@@ -25,6 +25,7 @@
 
 #include <tbb/parallel_invoke.h>
 #include <tbb/task_group.h>
+#include <tbb/parallel_sort.h> // v1.1.0: TBB Parallel Sort
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
@@ -109,8 +110,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			
 			// Intersect fulltext results with structural predicate results
 			// Both lists should be sorted for efficient intersection
-			std::sort(fulltextKeys.begin(), fulltextKeys.end());
-			std::sort(structKeys.begin(), structKeys.end());
+			tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
+			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
 			std::vector<std::string> intersection;
 			std::set_intersection(
@@ -195,8 +196,8 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 			}
 			
 			// Intersect spatial results with structural predicate results
-			std::sort(spatialKeys.begin(), spatialKeys.end());
-			std::sort(structKeys.begin(), structKeys.end());
+			tbb::parallel_sort(spatialKeys.begin(), spatialKeys.end());
+			tbb::parallel_sort(structKeys.begin(), structKeys.end());
 			
 			std::vector<std::string> intersection;
 			std::set_intersection(
@@ -247,7 +248,7 @@ QueryEngine::executeAndKeys(const ConjunctiveQuery& q) const {
 				return;
 			}
 			// Sortieren zur späteren Schnittmenge
-			std::sort(keys.begin(), keys.end());
+			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("index.result_count", static_cast<int64_t>(all_lists[i].size()));
 			child.setStatus(true);
@@ -336,8 +337,8 @@ QueryEngine::executeAndKeysWithScores(const ConjunctiveQuery& q) const {
 		}
 		
 		// Intersect fulltext results with structural predicate results
-		std::sort(fulltextKeys.begin(), fulltextKeys.end());
-		std::sort(structKeys.begin(), structKeys.end());
+		tbb::parallel_sort(fulltextKeys.begin(), fulltextKeys.end());
+		tbb::parallel_sort(structKeys.begin(), structKeys.end());
 		
 		std::vector<std::string> intersection;
 		std::set_intersection(
@@ -437,7 +438,7 @@ QueryEngine::executeAndEntities(const ConjunctiveQuery& q) const {
 std::vector<std::string>
 QueryEngine::intersectSortedLists_(std::vector<std::vector<std::string>> lists) {
 	// Sortiere nach Größe, beginne mit kleinsten Listen für effiziente Schnittmenge
-	std::sort(lists.begin(), lists.end(), [](const auto& a, const auto& b){ return a.size() < b.size(); });
+	tbb::parallel_sort(lists.begin(), lists.end(), [](const auto& a, const auto& b){ return a.size() < b.size(); });
 	if (lists.empty()) return {};
 	
 	std::vector<std::string> result = lists.front();
@@ -498,7 +499,7 @@ QueryEngine::executeOrKeys(const DisjunctiveQuery& q) const {
 				return;
 			}
 			// Sort for later union
-			std::sort(keys.begin(), keys.end());
+			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
 			child.setStatus(true);
@@ -539,7 +540,7 @@ QueryEngine::executeOrKeysWithFallback(const DisjunctiveQuery& q, bool optimize)
 				child.setStatus(false, st.message);
 				return; // Dieser Disjunkt liefert keine Ergebnisse
 			}
-			std::sort(keys.begin(), keys.end());
+			tbb::parallel_sort(keys.begin(), keys.end());
 			all_lists[i] = std::move(keys);
 			child.setAttribute("disjunct.result_count", static_cast<int64_t>(all_lists[i].size()));
 			child.setStatus(true);
@@ -676,7 +677,7 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 		auto [st0, baseTmp] = secIdx_.scanKeysEqual(table, orderedPredicates[0].column, orderedPredicates[0].value);
 		if (!st0.ok) { child.setStatus(false, st0.message); return {Status::Error("sequential: " + st0.message), {}}; }
 		std::vector<std::string> base = std::move(baseTmp);
-		std::sort(base.begin(), base.end());
+		tbb::parallel_sort(base.begin(), base.end());
 		child.setAttribute("index.result_count", static_cast<int64_t>(base.size()));
 		child.setStatus(true);
 		if (base.empty()) { span.setStatus(true); return {Status::OK(), {}}; }
@@ -690,7 +691,7 @@ QueryEngine::executeAndKeysSequential(const std::string& table,
 			auto [st, keys] = secIdx_.scanKeysEqual(table, p.column, p.value);
 			if (!st.ok) { child2.setStatus(false, st.message); return {Status::Error("sequential: " + st.message), {}}; }
 			if (keys.empty()) { child2.setStatus(true); span.setStatus(true); return {Status::OK(), {}}; }
-			std::sort(keys.begin(), keys.end());
+			tbb::parallel_sort(keys.begin(), keys.end());
 			std::vector<std::string> tmp;
 			tmp.reserve(std::min(current.size(), keys.size()));
 			std::set_intersection(current.begin(), current.end(), keys.begin(), keys.end(), std::back_inserter(tmp));
@@ -1578,7 +1579,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("index.column", p.column);
 		auto [st, keys] = secIdx_.scanKeysEqual(q.table, p.column, p.value);
 		if (!st.ok) return {Status::Error(st.message), {}};
-		std::sort(keys.begin(), keys.end());
+		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
 		child.setStatus(true);
@@ -1598,7 +1599,7 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 		child.setAttribute("range.includeUpper", r.includeUpper);
 		auto [st, keys] = secIdx_.scanKeysRange(q.table, r.column, r.lower, r.upper, r.includeLower, r.includeUpper, bigLimit(), false);
 		if (!st.ok) return {Status::Error(st.message), {}};
-		std::sort(keys.begin(), keys.end());
+		tbb::parallel_sort(keys.begin(), keys.end());
 		lists.push_back(std::move(keys));
 		child.setAttribute("index.result_count", static_cast<int64_t>(lists.back().size()));
 		child.setStatus(true);
@@ -2184,7 +2185,7 @@ apply_sort_limit:
 	// Apply SORT if specified
 	if (sort && !sort->specifications.empty()) {
 		const auto& spec = sort->specifications[0];
-		std::sort(results.begin(), results.end(), [&](const nlohmann::json& a, const nlohmann::json& b) {
+		tbb::parallel_sort(results.begin(), results.end(), [&](const nlohmann::json& a, const nlohmann::json& b) {
 			EvaluationContext ctxA, ctxB;
 			ctxA.bindings["doc"] = a;
 			ctxB.bindings["doc"] = b;
@@ -2808,7 +2809,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			else if (std::holds_alternative<bool>(lit->value)) value = std::get<bool>(lit->value)?"true":"false"; else continue;
 			// Equality
 			if (bin->op == query::BinaryOperator::Eq && secIdx_.hasIndex(q.table, fa->field)) {
-				auto [st, keys] = secIdx_.scanKeysEqual(q.table, fa->field, value); if (!st.ok) continue; std::sort(keys.begin(), keys.end());
+				auto [st, keys] = secIdx_.scanKeysEqual(q.table, fa->field, value); if (!st.ok) continue; tbb::parallel_sort(keys.begin(), keys.end());
 				if (first) { current = std::move(keys); first=false; }
 				else {
 					std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
@@ -2850,7 +2851,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 					if (!secIdx_.hasCompositeIndex(q.table, cols)) continue;
 					auto [cst, keys] = secIdx_.scanKeysEqualComposite(q.table, cols, vals);
 					if (!cst.ok) continue;
-					std::sort(keys.begin(), keys.end());
+					tbb::parallel_sort(keys.begin(), keys.end());
 					if (first) { current = std::move(keys); first=false; }
 					else {
 						std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
@@ -2868,7 +2869,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 		for (auto &kv : rangeMap) {
 			auto [st, keys] = secIdx_.scanKeysRange(q.table, kv.first, kv.second.lower, kv.second.upper, kv.second.includeLower, kv.second.includeUpper, 100000, false);
 			if (!st.ok) continue;
-			std::sort(keys.begin(), keys.end());
+			tbb::parallel_sort(keys.begin(), keys.end());
 			if (first) { current = std::move(keys); first=false; }
 			else {
 				std::vector<std::string> intersected; intersected.reserve(std::min(current.size(), keys.size()));
@@ -2940,7 +2941,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 			tmp.emplace_back(pk, d);
 			return true;
 		});
-		std::sort(tmp.begin(), tmp.end(), [](auto&a,auto&b){return a.second<b.second;});
+		tbb::parallel_sort(tmp.begin(), tmp.end(), [](auto&a,auto&b){return a.second<b.second;});
 		for (size_t i=0;i<std::min(tmp.size(),k);++i) {
 			VectorGeoResult r;
 			r.pk = tmp[i].first;
@@ -3038,7 +3039,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 				results.insert(results.end(), std::make_move_iterator(b.begin()), std::make_move_iterator(b.end()));
 			}
 			// Sort by vector distance and keep top-k
-			std::sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.vector_distance < b.vector_distance; });
+			tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.vector_distance < b.vector_distance; });
 			if (results.size() > q.k) results.resize(q.k);
 			child0.setAttribute("vector_first_after_spatial", static_cast<int64_t>(results.size()));
 			child0.setStatus(true);
@@ -3238,7 +3239,7 @@ QueryEngine::executeVectorGeoQuery(const VectorGeoQuery& q) const {
 	}
 	
 	// Sort by distance and take top-k
-	std::sort(vectorResults.begin(), vectorResults.end(),
+	tbb::parallel_sort(vectorResults.begin(), vectorResults.end(),
 	          [](const auto& a, const auto& b) { return a.second < b.second; });
 	
 	size_t resultCount = std::min(vectorResults.size(), q.k);
@@ -3353,9 +3354,9 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 	}
 	// Ranking
 	if (q.boost_by_distance) {
-		std::sort(results.begin(), results.end(), [](const auto& a, const auto& b){ double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1); double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1); return sa>sb; });
+		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ double sa = a.bm25_score - (a.geo_distance.value_or(0.0)*0.1); double sb = b.bm25_score - (b.geo_distance.value_or(0.0)*0.1); return sa>sb; });
 	} else {
-		std::sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.bm25_score > b.bm25_score; });
+		tbb::parallel_sort(results.begin(), results.end(), [](const auto& a, const auto& b){ return a.bm25_score > b.bm25_score; });
 	}
 	if (results.size() > q.limit) results.resize(q.limit);
 	span.setAttribute("result_count", static_cast<int64_t>(results.size())); span.setStatus(true); return {Status::OK(), std::move(results)};

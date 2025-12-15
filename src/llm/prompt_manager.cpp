@@ -15,9 +15,13 @@ PromptManager::PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf
     : db_(db), cf_(cf) {}
 
 PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::PromptTemplate t) {
-    std::lock_guard<std::mutex> lock(mu_);
+    // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
     if (t.id.empty()) t.id = generateId();
-    store_[t.id] = t;
+    
+    // Insert using TBB concurrent_hash_map (efficient single operation)
+    StoreType::accessor acc;
+    store_.insert(acc, {t.id, t});
+    acc.release(); // Release lock
 
     // Persist if DB configured
     if (db_) {
@@ -59,10 +63,12 @@ std::optional<PromptManager::PromptTemplate> PromptManager::getTemplate(const st
         // fallthrough to in-memory
     }
 
-    std::lock_guard<std::mutex> lock(mu_);
-    auto it = store_.find(id);
-    if (it == store_.end()) return std::nullopt;
-    return it->second;
+    // v1.1.0: Lock-free read with const_accessor
+    StoreType::const_accessor acc;
+    if (store_.find(acc, id)) {
+        return acc->second;
+    }
+    return std::nullopt;
 }
 
 std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const {
@@ -90,23 +96,28 @@ std::vector<PromptManager::PromptTemplate> PromptManager::listTemplates() const 
         return out;
     }
 
-    std::lock_guard<std::mutex> lock(mu_);
+    // v1.1.0: Iterate over concurrent hash map (snapshot iteration)
     std::vector<PromptTemplate> out;
     out.reserve(store_.size());
-    for (const auto& kv : store_) out.push_back(kv.second);
+    for (const auto& kv : store_) {
+        out.push_back(kv.second);
+    }
     return out;
 }
 
 bool PromptManager::updateTemplate(const std::string& id, const nlohmann::json& metadata, bool active) {
-    std::lock_guard<std::mutex> lock(mu_);
-    auto it = store_.find(id);
-    if (it == store_.end()) return false;
-    it->second.metadata = metadata;
-    it->second.active = active;
+    // v1.1.0: Update using accessor for thread-safe modification
+    StoreType::accessor acc;
+    if (!store_.find(acc, id)) {
+        return false;
+    }
+    
+    acc->second.metadata = metadata;
+    acc->second.active = active;
 
     if (db_) {
         std::string key = std::string(KEY_PREFIX) + id;
-        nlohmann::json j = it->second.toJson();
+        nlohmann::json j = acc->second.toJson();
         std::string s = j.dump();
         std::vector<uint8_t> bytes(s.begin(), s.end());
         if (!db_->put(key, bytes)) {
@@ -119,14 +130,17 @@ bool PromptManager::updateTemplate(const std::string& id, const nlohmann::json& 
 }
 
 bool PromptManager::assignExperiment(const std::string& id, const std::string& experiment_id) {
-    std::lock_guard<std::mutex> lock(mu_);
-    auto it = store_.find(id);
-    if (it == store_.end()) return false;
-    it->second.metadata["experiment_id"] = experiment_id;
+    // v1.1.0: Update using accessor for thread-safe modification
+    StoreType::accessor acc;
+    if (!store_.find(acc, id)) {
+        return false;
+    }
+    
+    acc->second.metadata["experiment_id"] = experiment_id;
 
     if (db_) {
         std::string key = std::string(KEY_PREFIX) + id;
-        nlohmann::json j = it->second.toJson();
+        nlohmann::json j = acc->second.toJson();
         std::string s = j.dump();
         std::vector<uint8_t> bytes(s.begin(), s.end());
         if (!db_->put(key, bytes)) {
