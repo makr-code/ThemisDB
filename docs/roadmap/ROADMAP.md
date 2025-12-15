@@ -1,0 +1,334 @@
+# ThemisDB Roadmap
+
+**Current Version:** 1.2.0  
+**Last Updated:** December 15, 2025  
+**Status:** Active Development
+
+---
+
+## Vision
+
+ThemisDB aims to be the **leading open-source multi-model database** that combines the simplicity of traditional databases with the power of modern data platforms—supporting relational, graph, vector, and document models with enterprise-grade security and compliance.
+
+**Core Principles:**
+- **Unified Storage:** Single database for all data models
+- **ACID Guarantees:** Full transactional consistency
+- **Performance First:** Optimized for real-world workloads
+- **Security by Design:** Enterprise-ready security and compliance
+- **Developer Experience:** Simple APIs, comprehensive SDKs
+
+---
+
+## Release Timeline
+
+```
+2025 Q4          │  2026 Q1         │  2026 Q2         │  2026 Q3-Q4
+═════════════════╪═════════════════╪═════════════════╪══════════════
+v1.0.0 ✅        │  v1.3.0 🚧       │  v1.4.0 📋       │  v2.0.0 📋
+v1.1.0 ✅        │                  │                  │
+v1.2.0 ✅        │                  │                  │
+```
+
+**Legend:** ✅ Released | 🚧 In Progress | 📋 Planned
+
+---
+
+## Completed Milestones
+
+### v1.0.0 - Foundation (December 2025) ✅
+
+**Theme:** Production-Ready Multi-Model Database
+
+**Key Achievements:**
+- ✅ ACID transactions with MVCC
+- ✅ Multi-model support (Relational, Graph, Vector, Document)
+- ✅ RocksDB storage engine
+- ✅ Advanced Query Language (AQL)
+- ✅ Enterprise security stack
+- ✅ Horizontal sharding and replication
+- ✅ GPU acceleration (10 backends)
+- ✅ Client SDKs (7 languages)
+- ✅ 85%+ test coverage
+- ✅ Complete documentation
+
+**Performance:**
+- 45K writes/s, 120K reads/s
+- Sub-millisecond query latency (p50)
+- 10-50x GPU speedup for vector search
+
+### v1.1.0 - Optimization (December 2025) ✅
+
+**Theme:** Performance Through Better Library Utilization
+
+**Key Features:**
+- ✅ RocksDB advanced features (TTL, incremental backup, statistics)
+- ✅ TBB parallelization (parallel sort, concurrent containers)
+- ✅ Apache Arrow Parquet export
+- ✅ vLLM co-location resource manager
+- ✅ mimalloc memory allocator
+- ✅ 4 build variants (OLTP, OLAP, Embedded, vLLM)
+
+**Impact:**
+- 3-10x overall performance improvement
+- 20-40% memory performance boost
+- Only 1 new dependency added
+
+### v1.2.0 - Enterprise Features (December 2025) ✅
+
+**Theme:** AI, Geo-Spatial, IoT/Timescale
+
+**Key Features:**
+- ✅ Hypertables (TimescaleDB compatibility)
+- ✅ Hybrid Search (RAG optimization)
+- ✅ FAISS Advanced (IVF+PQ vector search)
+- ✅ Embedding Cache (70-90% cost reduction)
+- ✅ Time-Series Aggregates (SIMD-accelerated)
+
+**Impact:**
+- 85% recall@10 for hybrid search
+- 10-100x memory reduction with FAISS PQ
+- 5-10x faster time-series aggregations
+- Production-ready for AI/ML workloads
+
+---
+
+## Current Focus
+
+### v1.3.0 - Query Optimizer & Production Hardening (Q1 2026) 🚧
+
+**Theme:** Performance Optimization & Reliability
+
+**Status:** In Development
+
+**Goals:**
+- 🚧 **Query Optimizer v2**
+  - Cost-based optimization
+  - Advanced statistics collection
+  - Adaptive query execution
+  - Join order optimization
+  - Index selection heuristics
+  
+- 🚧 **RE2 Integration**
+  - Memory-safe regex engine
+  - DDoS protection for pattern matching
+  - Predictable performance
+  - Security hardening
+  
+- 🚧 **TBB Flow Graph**
+  - Dataflow parallelism for complex queries
+  - Pipeline optimization
+  - Resource-aware scheduling
+  
+- 🚧 **SDK Publishing**
+  - Publish to package repositories (PyPI, npm, crates.io, Maven Central)
+  - Automated versioning and releases
+  - Comprehensive documentation
+  
+- 🚧 **Penetration Testing - Phase 1**
+  - OWASP Top 10 coverage
+  - API security testing
+  - Automated security scanning
+  - Vulnerability remediation
+
+**Expected Outcomes:**
+- 2-5x query performance improvement
+- Improved regex safety and performance
+- Published SDKs for easier adoption
+- Security audit certification
+
+**Target Date:** March 2026
+
+---
+
+## Upcoming Releases
+
+### v1.4.0 - Multi-Datacenter & Advanced ML (Q2 2026) 📋
+
+**Theme:** Distributed Systems & Machine Learning
+
+**Planned Features:**
+
+- 📋 **Multi-Datacenter Deployment**
+  - Cross-region replication
+  - Geo-distribution strategies
+  - Latency-aware routing
+  - Conflict resolution policies
+  
+- 📋 **DuckDB OLAP Integration** (Optional)
+  - Advanced analytical queries
+  - Columnar storage optimization
+  - Integration with existing Arrow pipeline
+  
+- 📋 **Advanced ML Features**
+  - Graph Neural Networks (GNN) support
+  - Automated feature engineering
+  - Model serving integration
+  - Online learning pipelines
+  
+- 📋 **Query Optimizer - Advanced**
+  - ML-based query optimization
+  - Workload-aware tuning
+  - Automatic index recommendations
+  
+- 📋 **GPU Performance Tuning**
+  - Kernel optimization
+  - Memory transfer optimization
+  - Multi-GPU support
+  - Unified memory management
+  
+- 📋 **Penetration Testing - Phase 2**
+  - Advanced attack scenarios
+  - Red team exercises
+  - Compliance certification (SOC 2, HIPAA)
+
+**Expected Impact:**
+- Global deployment capability
+- 5-10x analytical query speedup
+- Enhanced ML/AI capabilities
+- SOC 2 / HIPAA certification ready
+
+**Target Date:** June 2026
+
+### v1.5.0 - Cloud-Native Optimizations (Q3 2026) 📋
+
+**Theme:** Cloud & Kubernetes
+
+**Planned Features:**
+
+- 📋 **Kubernetes Operator Enhancement**
+  - Automated scaling
+  - Rolling updates
+  - Self-healing
+  - Multi-tenancy support
+  
+- 📋 **Cloud Storage Integration**
+  - S3/Azure Blob/GCS support
+  - Tiered storage (hot/warm/cold)
+  - Object storage for backups
+  
+- 📋 **Serverless Mode**
+  - On-demand scaling
+  - Pay-per-query pricing model
+  - Cold start optimization
+  
+- 📋 **Multi-vLLM Load Balancing**
+  - Distribute AI workloads
+  - Resource pooling
+  - Intelligent routing
+
+**Target Date:** September 2026
+
+---
+
+## Long-Term Vision (v2.0.0 - 2026 Q4+) 📋
+
+### Major Themes
+
+**1. Advanced Data Platform**
+- Real-time materialized views
+- Streaming data pipelines
+- Change data capture enhancements
+- Data lake integration
+
+**2. Enterprise Scale**
+- 100+ node clusters
+- Petabyte-scale deployments
+- Advanced monitoring and alerting
+- Automated performance tuning
+
+**3. Developer Experience**
+- Visual query builder
+- Schema migration tools
+- Admin dashboard UI
+- Enhanced CLI tools
+
+**4. Compliance & Governance**
+- GDPR automation
+- Data lineage tracking
+- Fine-grained access control
+- Audit automation
+
+---
+
+## Feature Requests & Community Input
+
+We welcome feature requests and community feedback!
+
+**How to Contribute to the Roadmap:**
+
+1. **Feature Requests:** [Open an issue](https://github.com/makr-code/ThemisDB/issues/new?template=feature_request.md)
+2. **Discussions:** [Join community discussions](https://github.com/makr-code/ThemisDB/discussions)
+3. **Voting:** 👍 upvote issues you care about
+4. **Contributing:** [See CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+**Most Requested Features:**
+- 🔥 Real-time materialized views (23 votes)
+- 🔥 Visual query builder (18 votes)
+- 🔥 PostgreSQL wire protocol compatibility (15 votes)
+- 🔥 Automated schema migration (12 votes)
+
+---
+
+## Release Schedule
+
+**Regular Release Cycle:**
+- **Major releases** (X.0.0): Annually (breaking changes allowed)
+- **Minor releases** (X.Y.0): Quarterly (new features, backward compatible)
+- **Patch releases** (X.Y.Z): As needed (bug fixes only)
+
+**Support Policy:**
+- Latest major version: Full support (new features + bug fixes)
+- Previous major version: Critical bug fixes only (6 months)
+- Older versions: Community support only
+
+---
+
+## Dependencies & Technology Choices
+
+**Current Stack:**
+- **Storage:** RocksDB 8.x
+- **Parallelism:** Intel TBB
+- **Serialization:** simdjson, Apache Arrow
+- **Vector Search:** HNSWlib, FAISS
+- **Security:** OpenSSL 3.x, HashiCorp Vault
+- **Observability:** Prometheus, OpenTelemetry
+- **GPU:** CUDA, Vulkan, HIP, OpenCL
+
+**Evaluation for Future:**
+- **DuckDB** - Advanced OLAP (v1.4.0)
+- **RE2** - Safe regex (v1.3.0)
+- **DataFusion** - Query execution (v2.0.0)
+- **Lance** - ML-native storage (v2.0.0)
+
+---
+
+## Success Metrics
+
+**Performance Goals:**
+- Maintain <1ms p50 latency for point queries
+- Achieve 50K+ writes/s sustained throughput
+- Scale to 1B+ vectors with <10ms ANN search
+
+**Adoption Goals:**
+- 10K+ stars on GitHub
+- 1K+ production deployments
+- 100+ active contributors
+
+**Quality Goals:**
+- Maintain 85%+ test coverage
+- Zero critical security vulnerabilities
+- <1% critical bug rate per release
+
+---
+
+## Stay Updated
+
+- **GitHub Releases:** [https://github.com/makr-code/ThemisDB/releases](https://github.com/makr-code/ThemisDB/releases)
+- **Changelog:** [CHANGELOG.md](../../CHANGELOG.md)
+- **Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
+- **Discussions:** [https://github.com/makr-code/ThemisDB/discussions](https://github.com/makr-code/ThemisDB/discussions)
+
+---
+
+**Last Updated:** December 15, 2025  
+**Next Review:** March 15, 2026
