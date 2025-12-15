@@ -1,11 +1,40 @@
 # ThemisDB Enterprise Features
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 13. Dezember 2025  
+**Version:** 1.0.1  
 **Kategorie:** Enterprise
 
 ---
 
+## 🎯 Quick Links
+
+- **[Feature Analysis & Strategy](ENTERPRISE_FEATURE_ANALYSIS.md)** - Complete analysis of enterprise vs community features
+- **[Build Guide](ENTERPRISE_BUILD_GUIDE.md)** - How to build enterprise DLL modules
+- **[Edition Comparison](EDITION_COMPARISON.md)** - Feature matrix comparing Community/Professional/Enterprise
+- **[Implementation Status](enterprise_implementation.md)** - Current implementation details (legacy)
+
+---
+
+## 🆕 New: Modular Enterprise Architecture (December 2025)
+
+ThemisDB now supports a **modular enterprise architecture** where advanced features are distributed as separate DLLs/shared libraries. This enables:
+
+- **Clear separation** between community (free) and enterprise (licensed) features
+- **Flexible licensing** - pay only for the modules you need
+- **Easy upgrades** - add enterprise modules without rebuilding the core
+- **Maintainability** - independent module development and testing
+
+### Enterprise Modules (7 DLLs)
+
+1. **Sharding** - Horizontal scaling, consistent hashing, cross-shard joins
+2. **GPU** - CUDA, Vulkan, HIP, DirectX GPU acceleration
+3. **Analytics** - OLAP (CUBE/ROLLUP), CEP streaming, Arrow integration
+4. **Replication** - Leader-follower, multi-master, CRDTs, geo-replication
+5. **Security** - RBAC, HSM, field encryption, enhanced audit logging
+6. **Management** - Multi-tenancy, rate limiting, load shedding, admin tools
+7. **Content** - PDF, video, audio, geo, CAD, image processors
+
+---
 
 ## Übersicht
 

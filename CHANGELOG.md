@@ -7,7 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.2] - 2025-12-14
 
-🐳 **Docker Deployment Release**
+🔧 Fix Release (Windows/Linux Build Stability)
+
+### Fixed
+
+- Windows MSVC Release-Build stabilisiert durch angepasstes RocksDB-Linking
+  - Auswahl des passenden RocksDB-Targets in `CMakeLists.txt` (`THEMIS_ROCKSDB_TARGET`)
+  - Standard: statischer Build auf Windows (`THEMIS_CORE_SHARED=OFF`)
+  - Dokumentation unter `docs/troubleshooting/rocksdb-windows-build-issues.md`
+- Linux-Build via WSL erneut validiert; Artefakte und Checksums aktualisiert
+
+### Packaging
+
+- Release-Artefakte und ZIP-Bundles für Windows/Linux neu erstellt
+- `MANIFEST_v1.0.2.txt`, `SHA256SUMS.txt`, `README_v1.0.2.md`, `RELEASE_NOTES_v1.0.2.md` hinzugefügt
+
+### Notes
+
+- Semantische Versionierung: Patch-Release, kompatibel zu 1.0.x
+- Keine DB-Migration erforderlich
+
+🐳 **Docker Deployment Release + Windows Build Fix**
 
 ### Added
 
@@ -45,6 +65,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Testing
 
+### Fixed
+
+#### Windows MSVC Build System
+- **RocksDB Linker Error:** Fixed "unrecognized file format in rocksdb_wrapper.obj" on Windows Release builds
+  - **Root Cause:** DLL build mode (`THEMIS_CORE_SHARED=ON`) attempted to link massive static `rocksdb.lib` (1.2 GB), causing export definition generation to fail
+  - **Solution:**
+    - Updated `CMakeLists.txt` with intelligent RocksDB target selection (`THEMIS_ROCKSDB_TARGET`)
+    - Automatically uses `rocksdb-shared.dll` when building shared libraries
+    - Uses static `rocksdb.lib` for static builds (default on Windows)
+    - Modified `scripts/build-windows.ps1` to use `THEMIS_CORE_SHARED=OFF` as default for reliable builds
+  - **Impact:** Windows Release builds now compile successfully
+  - **Build Output:** `themis_server.exe` (10.1 MB), `themis_core.lib` (1.27 GB static)
+  - **Documentation:** Created knowledge base in `docs/troubleshooting/rocksdb-windows-build-issues.md`
+  - **Testing:** Full clean build verified on Windows 11 with MSVC 19.44
+  - **Files Modified:**
+    - `CMakeLists.txt` - RocksDB target selection logic
+    - `scripts/build-windows.ps1` - Default to static build
+  - **Workarounds Documented:**
+    - Option A: Static build (recommended, `THEMIS_CORE_SHARED=OFF`)
+    - Option B: Use `rocksdb-shared.dll` (experimental, requires runtime DLL)
+
 ✅ **Docker Validation:**
 - Single-arch build (amd64) verified clean
 - Multi-arch build (amd64 + arm64) successful
@@ -71,7 +112,7 @@ docker pull themisdb/themisdb:latest  # Auto-selects amd64 or arm64
 
 ---
 
-## [1.0.2] - 2025-12-11
+## [1.0.1] - 2025-12-11
 
 🐛 **Critical Bugfix Release**
 

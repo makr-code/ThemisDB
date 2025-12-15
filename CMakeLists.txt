@@ -247,10 +247,21 @@ endfunction()
 
 # Find required packages
 find_package(RocksDB CONFIG)
-# If vcpkg-provided CMake config for RocksDB is not available, try to locate system
-# library and headers and create an imported target so the rest of the CMake script
-# can link against RocksDB::rocksdb transparently.
-if(NOT TARGET RocksDB::rocksdb)
+
+# Select appropriate RocksDB target based on build type
+# THEMIS_CORE_SHARED=ON requires rocksdb-shared (DLL) to avoid linker issues with huge static .lib
+# THEMIS_CORE_SHARED=OFF can use the static rocksdb library
+set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
+if(TARGET RocksDB::rocksdb-shared AND THEMIS_CORE_SHARED)
+    # Use shared library for Windows DLL build (avoids "unrecognized file format" linker error)
+    set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb-shared")
+    message(STATUS "RocksDB: Using shared library (rocksdb-shared.dll) for THEMIS_CORE_SHARED=ON")
+elseif(TARGET RocksDB::rocksdb)
+    message(STATUS "RocksDB: Using static library (rocksdb.lib)")
+endif()
+
+# Fallback: locate system RocksDB if vcpkg didn't provide it
+if(NOT TARGET RocksDB::rocksdb AND NOT TARGET RocksDB::rocksdb-shared)
     find_library(ROCKSDB_LIB rocksdb)
     find_path(ROCKSDB_INCLUDE_DIR rocksdb/db.h)
     if(ROCKSDB_LIB AND ROCKSDB_INCLUDE_DIR)
@@ -258,6 +269,7 @@ if(NOT TARGET RocksDB::rocksdb)
         set_target_properties(RocksDB::rocksdb PROPERTIES
             IMPORTED_LOCATION "${ROCKSDB_LIB}"
             INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}")
+        set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
         message(STATUS "Using system RocksDB library at ${ROCKSDB_LIB} and include ${ROCKSDB_INCLUDE_DIR}")
     else()
         message(FATAL_ERROR "RocksDB not found. Install via vcpkg or system package (librocksdb-dev).")
@@ -672,7 +684,7 @@ endif()
 
 target_link_libraries(themis_core
     PUBLIC
-        RocksDB::rocksdb
+        ${THEMIS_ROCKSDB_TARGET}
         simdjson::simdjson
         TBB::tbb
         ${THEMIS_ARROW_TARGET}
@@ -1222,6 +1234,12 @@ endif()
 option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
 if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins")
     add_subdirectory(plugins)
+endif()
+
+# Enterprise Modules (new modular DLL architecture)
+option(THEMIS_BUILD_ENTERPRISE "Enable enterprise module builds" OFF)
+if(THEMIS_BUILD_ENTERPRISE)
+    add_subdirectory(src/enterprise)
 endif()
 
 # Installation

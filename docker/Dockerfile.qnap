@@ -94,6 +94,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
     )
 
 # Copy source code
+COPY VERSION ./
 COPY CMakeLists.txt ./
 COPY include ./include
 COPY src ./src
