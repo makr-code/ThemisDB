@@ -1,6 +1,6 @@
 # ThemisDB Roadmap
 
-**Version:** 2.0  
+**Current Version:** 1.2.0  
 **Last Updated:** December 15, 2025  
 **Status:** Active Development
 
