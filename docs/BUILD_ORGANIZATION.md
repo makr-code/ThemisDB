@@ -66,9 +66,9 @@ docker-compose -f docker-compose.qnap.yml up
 
 **Build & Deployment:**
 - `deployment/deployment_strategy.md` - **2.0.0** Unified build system
-- `BUILD-SYSTEM.md` (root) - High-level architecture
-- `BUILDGUIDE.md` (root) - Detailed build handbook
-- `IMPLEMENTATION-SUMMARY.md` (root) - What/Why/How
+- `BUILD-SYSTEM.md` - High-level architecture
+- `BUILDGUIDE.md` - Detailed build handbook
+- `IMPLEMENTATION-SUMMARY.md` - What/Why/How
 
 **Archive (`.\docs\archive\`):**
 - Old session summaries, release notes (v1.0.0), audit reports
