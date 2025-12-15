@@ -201,5 +201,6 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 
 ## Verwandte Dokumentation
 
+- [LLM Loader Guide](./LLM_LOADER_GUIDE.md) - **NEU:** Implementierungsleitfaden für vLLM-ähnlichen LLM Loader
 - [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)
 - [Projects: RAG LLM Programmierhilfe](../projects/RAG_LLM_PROGRAMMIERHILFE.md)
