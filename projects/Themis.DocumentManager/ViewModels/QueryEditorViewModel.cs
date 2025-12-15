@@ -46,8 +46,18 @@ public class QueryEditorViewModel : INotifyPropertyChanged
         FormatQueryCommand = new RelayCommand(FormatQuery);
         ClearResultsCommand = new RelayCommand(ClearResults);
 
-        // Load saved queries
-        _ = LoadSavedQueriesAsync();
+        // Load saved queries - use Task.Run to avoid fire-and-forget warning
+        Task.Run(async () => 
+        {
+            try 
+            {
+                await LoadSavedQueriesAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error during initial query load: {ex.Message}");
+            }
+        });
         
         // Set default query
         QueryText = "FOR doc IN documents\n  LIMIT 10\n  RETURN doc";
@@ -66,7 +76,18 @@ public class QueryEditorViewModel : INotifyPropertyChanged
                 OnPropertyChanged();
                 ExecuteQueryCommand.NotifyCanExecuteChanged();
                 SaveCurrentQueryCommand.NotifyCanExecuteChanged();
-                _ = ValidateQueryAsync();
+                // Trigger validation asynchronously
+                Task.Run(async () => 
+                {
+                    try 
+                    {
+                        await ValidateQueryAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Validation error: {ex.Message}");
+                    }
+                });
             }
         }
     }
@@ -80,7 +101,18 @@ public class QueryEditorViewModel : INotifyPropertyChanged
             {
                 _selectedLanguage = value;
                 OnPropertyChanged();
-                _ = ValidateQueryAsync();
+                // Trigger validation asynchronously
+                Task.Run(async () => 
+                {
+                    try 
+                    {
+                        await ValidateQueryAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Validation error: {ex.Message}");
+                    }
+                });
             }
         }
     }

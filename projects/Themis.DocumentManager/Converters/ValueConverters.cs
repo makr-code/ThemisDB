@@ -250,6 +250,7 @@ namespace Themis.DocumentManager.Converters
 
     /// <summary>
     /// Convert string to Visibility (NonEmpty=Visible, Empty=Collapsed)
+    /// Example: "text" -> Visible, null/empty -> Collapsed
     /// </summary>
     public class StringToVisibilityConverter : IValueConverter
     {

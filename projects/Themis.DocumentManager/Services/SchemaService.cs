@@ -73,7 +73,7 @@ public class SchemaService : ISchemaService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Schema refresh failed: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Schema refresh failed: {ex.Message}");
             // Fall back to default schema if API call fails
             _cachedSchema = CreateDefaultSchema();
             _lastRefresh = DateTime.Now;

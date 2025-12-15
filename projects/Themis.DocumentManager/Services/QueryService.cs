@@ -246,7 +246,7 @@ public class QueryService : IQueryService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error loading saved queries: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Error loading saved queries: {ex.Message}");
             _savedQueries = CreateExampleQueries();
         }
     }
@@ -261,7 +261,7 @@ public class QueryService : IQueryService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error saving queries: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Error saving queries: {ex.Message}");
         }
     }
 
