@@ -152,13 +152,17 @@ ts.putDataPoints(batch);  // Mit Gorilla-Kompression
 
 ### Geplante Verbesserungen
 
-1. **Auto-Buffering:** Automatische Pufferung von Einzelpunkten für Batch-Kompression
-   - TODO in `src/timeseries/tsstore.cpp:131-132`
+1. ✅ **Auto-Buffering:** Automatische Pufferung von Einzelpunkten für Batch-Kompression
+   - **Implementiert:** `TSAutoBuffer` (siehe [AUTO_BUFFER.md](./AUTO_BUFFER.md))
    - Konfigurierbare Buffer-Größe und Flush-Intervalle
+   - Thread-safe, mit Zeit- und Größen-basierten Flush-Strategien
+   - Nutzt bestehende Patterns (CEP Engine, Backpressure Protocol)
+   - Keine neuen Dependencies erforderlich
 
 2. **Batch-HTTP-API:** Endpoint für Batch-Einfügungen
    - `POST /ts/put/batch` mit Array von DataPoints
    - Automatische Gorilla-Kompression wenn konfiguriert
+   - Integration mit TSAutoBuffer geplant
 
 3. **Adaptive Kompression:** Automatische Wahl zwischen Singular/Batch basierend auf Datenmustern
 
@@ -181,6 +185,12 @@ ts.putDataPoints(batch);  // Mit Gorilla-Kompression
 - Offline-Analysen
 - Speicheroptimierung (bei großen Datenmengen)
 - C++-basierte Bulk-Operationen
+
+✅ **ODER verwenden Sie `TSAutoBuffer` für automatisches Batching:**
+- Automatische Pufferung von Einzelpunkten
+- Konfigurierbare Flush-Strategien (Zeit/Größe)
+- Transparent für Echtzeit-Anwendungen
+- Siehe [AUTO_BUFFER.md](./AUTO_BUFFER.md) für Details
 
 ### Hybride Strategie
 
