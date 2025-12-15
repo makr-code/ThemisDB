@@ -13,6 +13,9 @@
 // See docs/performance/performance_vector_compression_lossless.md for details
 #include "utils/lossless_vector_integration.h"
 
+// Phase 1: Vector encryption support
+#include "security/encryption.h"
+
 #include <shared_mutex>
 #ifdef IN
 #undef IN
@@ -72,6 +75,80 @@ void VectorIndexManager::setAutoSavePath(const std::string& savePath, bool autoS
 				THEMIS_WARN("VectorIndexManager::setAutoSavePath - Failed to load index: {}", loadStatus.message);
 			}
 		}
+	}
+}
+
+// Phase 1: Vector encryption configuration
+bool VectorIndexManager::isVectorEncryptionEnabled() const {
+	try {
+		if (auto cfg = db_.get("config:vector")) {
+			std::string s(cfg->begin(), cfg->end());
+			nlohmann::json j = nlohmann::json::parse(s);
+			return j.value("encryption_enabled", false);
+		}
+	} catch (...) {
+		// If config doesn't exist or can't be parsed, default to disabled
+	}
+	return false;  // Default: encryption disabled (backward compatible)
+}
+
+void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
+	try {
+		nlohmann::json j;
+		// Read existing config if present
+		if (auto cfg = db_.get("config:vector")) {
+			std::string s(cfg->begin(), cfg->end());
+			j = nlohmann::json::parse(s);
+		}
+		
+		// Update encryption setting
+		j["encryption_enabled"] = enabled;
+		
+		// Write back to database
+		std::string json_str = j.dump();
+		std::vector<uint8_t> data(json_str.begin(), json_str.end());
+		db_.put("config:vector", data);
+		
+		THEMIS_INFO("VectorIndexManager: Vector encryption {}", enabled ? "ENABLED" : "DISABLED");
+	} catch (const std::exception& ex) {
+		THEMIS_ERROR("VectorIndexManager: Failed to set encryption config: {}", ex.what());
+	}
+}
+
+// Phase 2: HNSW index encryption configuration
+bool VectorIndexManager::isHnswEncryptionEnabled() const {
+	try {
+		if (auto cfg = db_.get("config:hnsw")) {
+			std::string s(cfg->begin(), cfg->end());
+			nlohmann::json j = nlohmann::json::parse(s);
+			return j.value("encryption_enabled", false);
+		}
+	} catch (...) {
+		// If config doesn't exist or can't be parsed, default to disabled
+	}
+	return false;  // Default: encryption disabled (backward compatible)
+}
+
+void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
+	try {
+		nlohmann::json j;
+		// Read existing config if present
+		if (auto cfg = db_.get("config:hnsw")) {
+			std::string s(cfg->begin(), cfg->end());
+			j = nlohmann::json::parse(s);
+		}
+		
+		// Update encryption setting
+		j["encryption_enabled"] = enabled;
+		
+		// Write back to database
+		std::string json_str = j.dump();
+		std::vector<uint8_t> data(json_str.begin(), json_str.end());
+		db_.put("config:hnsw", data);
+		
+		THEMIS_INFO("VectorIndexManager: HNSW index encryption {}", enabled ? "ENABLED" : "DISABLED");
+	} catch (const std::exception& ex) {
+		THEMIS_ERROR("VectorIndexManager: Failed to set HNSW encryption config: {}", ex.what());
 	}
 }
 
@@ -242,17 +319,33 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 		try {
 			BaseEntity e = BaseEntity::deserialize(pk, bytes);
 			
-			// EXPERIMENTAL: Try lossless decompression first
-			// NOTE: Scientific experiment - may be rolled back
-			auto losslessVec = experimental::VectorCompressionHelper::decompressVector(e);
-			
 			std::vector<float> v;
-			if (losslessVec.has_value()) {
+			
+			// Phase 1: Try encrypted vector first
+			auto encFieldOpt = e.getField("embedding_encrypted");
+			if (encFieldOpt) {
+				try {
+					// Extract encrypted base64 string
+					const auto* enc_str = std::get_if<std::string>(&(*encFieldOpt));
+					if (enc_str && !enc_str->empty()) {
+						// Decrypt using EncryptedField
+						auto enc_field = EncryptedField<std::vector<float>>::fromBase64(*enc_str);
+						v = enc_field.decrypt();
+						THEMIS_DEBUG("rebuildFromStorage: Decrypted vector for pk={}", pk);
+					}
+				} catch (const std::exception& ex) {
+					THEMIS_WARN("rebuildFromStorage: Failed to decrypt vector for pk={}: {}", pk, ex.what());
+					return true;  // Skip this entity, continue to next
+				}
+			}
+			// EXPERIMENTAL: Try lossless decompression
+			else if (auto losslessVec = experimental::VectorCompressionHelper::decompressVector(e); losslessVec.has_value()) {
 				// EXPERIMENTAL: Use lossless decompressed vector
 				v = std::move(*losslessVec);
 				THEMIS_DEBUG("rebuildFromStorage: Using experimental lossless decompression for pk={}", pk);
-			} else {
-				// EXISTING IMPLEMENTATION (preserved, not deleted)
+			}
+			// EXISTING IMPLEMENTATION (preserved, not deleted)
+			else {
 				auto vecOpt = e.extractVector("embedding");
 				if (vecOpt && vecOpt->size() == static_cast<size_t>(dim_)) {
 					v = *vecOpt;
@@ -302,9 +395,12 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	auto v = e.extractVector(vectorField);
 	if (!v) return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
 	
+	// Phase 1: Check if encryption is enabled
+	bool encryptVectors = isVectorEncryptionEnabled();
+	
 	// EXPERIMENTAL: Try lossless compression first (if enabled)
 	// NOTE: Scientific experiment - may be rolled back
-	// Priority: Lossless > SQ8 > Raw storage
+	// Priority: Encryption > Lossless > SQ8 > Raw storage
 	auto losslessCompressed = experimental::VectorCompressionHelper::tryLosslessCompression(e, *v, db_);
 	if (!losslessCompressed.has_value()) {
 		THEMIS_DEBUG("VectorIndexManager: Lossless compression not applicable for pk={}, falling back", pk);
@@ -312,8 +408,10 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	
 	// Decide on SQ8 quantization based on config in DB
 	// NOTE: This is the EXISTING implementation (preserved, not deleted)
+	// If encryption is enabled, quantization is disabled (they are mutually exclusive)
 	// If lossless compression succeeded, this code path is skipped
 	auto shouldQuantize = [&]() -> bool {
+		if (encryptVectors) return false; // Disable quantization when encryption is enabled
 		if (losslessCompressed.has_value()) return false; // Lossless takes precedence
 		
 		std::string mode = "auto"; int64_t threshold = 1000000;
@@ -335,7 +433,27 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	std::string key = makeObjectKey(pk);
 	std::vector<uint8_t> serialized;
 	
-	if (losslessCompressed.has_value()) {
+	if (encryptVectors) {
+		// Phase 1: Encrypt vector and store
+		// Note: Uses global FieldEncryption state set via EncryptedField::setFieldEncryption()
+		// This pattern is consistent with existing EncryptedField usage throughout the codebase
+		try {
+			EncryptedField<std::vector<float>> enc_field;
+			enc_field.encrypt(*v, vectorKeyId_);
+			
+			// Create storage entity with encrypted vector
+			auto fields = e.getAllFields();
+			fields.erase(std::string(vectorField));  // Remove plaintext vector
+			fields["embedding_encrypted"] = enc_field.toBase64();
+			
+			BaseEntity encrypted_entity = BaseEntity::fromFields(pk, fields);
+			serialized = encrypted_entity.serialize();
+			
+			THEMIS_DEBUG("VectorIndexManager: Encrypted vector for pk={}", pk);
+		} catch (const std::exception& ex) {
+			return Status::Error("addEntity: Vector encryption failed: " + std::string(ex.what()));
+		}
+	} else if (losslessCompressed.has_value()) {
 		// EXPERIMENTAL: Use lossless compressed data
 		serialized = std::move(*losslessCompressed);
 		THEMIS_DEBUG("VectorIndexManager: Using experimental lossless compression for pk={}", pk);
@@ -1257,6 +1375,10 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		namespace fs = std::filesystem;
 		try {
 			fs::create_directories(directory);
+			
+			// Check if HNSW encryption is enabled
+			bool encryptHnsw = isHnswEncryptionEnabled();
+			
 			// Speichere Mapping (id -> pk)
 			{
 				std::ofstream mapFile(fs::path(directory) / "labels.txt", std::ios::binary | std::ios::trunc);
@@ -1271,12 +1393,60 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				if (!metaFile) return Status::Error("saveIndex: meta.txt nicht schreibbar");
 				metaFile << objectName_ << "\n" << dim_ << "\n" << (metric_ == Metric::L2 ? "L2" : "COSINE")
 						 << "\n" << efSearch_ << "\n" << m_ << "\n" << efConstruction_ << "\n";
+				// Add encryption flag to metadata
+				metaFile << (encryptHnsw ? "encrypted" : "plaintext") << "\n";
 			}
 	#ifdef THEMIS_HNSW_ENABLED
 			if (useHnsw_) {
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-				std::string indexPath = (fs::path(directory) / "index.bin").string();
-				appr->saveIndex(indexPath);
+				
+				if (encryptHnsw) {
+					// Phase 2: Save encrypted HNSW index
+					// 1. Save to temporary file first
+					std::string tempPath = (fs::path(directory) / "index.bin.tmp").string();
+					appr->saveIndex(tempPath);
+					
+					// 2. Load temporary file into memory
+					std::ifstream tempFile(tempPath, std::ios::binary);
+					if (!tempFile) {
+						fs::remove(tempPath);
+						return Status::Error("saveIndex: Failed to read temporary index file");
+					}
+					
+					std::vector<uint8_t> indexData(
+						(std::istreambuf_iterator<char>(tempFile)),
+						std::istreambuf_iterator<char>()
+					);
+					tempFile.close();
+					
+					// 3. Encrypt the index data
+					// Note: Assumes FieldEncryption is initialized via setFieldEncryption()
+					// If not initialized, encrypt() will throw an exception caught below
+					EncryptedField<std::vector<uint8_t>> encField;
+					encField.encrypt(indexData, hnswKeyId_);
+					
+					// 4. Save encrypted index
+					std::string encPath = (fs::path(directory) / "index.bin.encrypted").string();
+					std::ofstream encFile(encPath, std::ios::binary | std::ios::trunc);
+					if (!encFile) {
+						fs::remove(tempPath);
+						return Status::Error("saveIndex: index.bin.encrypted nicht schreibbar");
+					}
+					
+					std::string encData = encField.toBase64();
+					encFile.write(encData.data(), encData.size());
+					encFile.close();
+					
+					// 5. Remove temporary file
+					fs::remove(tempPath);
+					
+					THEMIS_INFO("VectorIndexManager: HNSW index encrypted and saved to {}", directory);
+				} else {
+					// Original plaintext save
+					std::string indexPath = (fs::path(directory) / "index.bin").string();
+					appr->saveIndex(indexPath);
+					THEMIS_DEBUG("VectorIndexManager: HNSW index saved (plaintext) to {}", directory);
+				}
 			}
 	#endif
 		} catch (const std::exception& ex) {
@@ -1300,6 +1470,11 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			metaFile >> ef; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			metaFile >> m; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			metaFile >> efc; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			
+			// Check for encryption flag (Phase 2)
+			std::string encryptionFlag;
+			std::getline(metaFile, encryptionFlag);
+			bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
 			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");
@@ -1308,15 +1483,82 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			efSearch_ = ef; m_ = m; efConstruction_ = efc;
 
 	#ifdef THEMIS_HNSW_ENABLED
-			// Initialisiere Space und Index und lade
+			// Initialisiere Space
 			hnswlib::SpaceInterface<float>* space = nullptr;
 			if (metric_ == Metric::L2) space = new hnswlib::L2Space(dim_);
 			else space = new hnswlib::InnerProductSpace(dim_);
 
-			auto* appr = new hnswlib::HierarchicalNSW<float>(space, (fs::path(directory) / "index.bin").string(), false);
-			appr->ef_ = efSearch_;
-			hnswIndex_ = static_cast<void*>(appr);
-			useHnsw_ = true;
+			std::string indexPath;
+			
+			if (isEncrypted) {
+				// Phase 2: Load encrypted HNSW index
+				std::string encPath = (fs::path(directory) / "index.bin.encrypted").string();
+				if (!fs::exists(encPath)) {
+					delete space;
+					return Status::Error("loadIndex: index.bin.encrypted nicht gefunden");
+				}
+				
+				// 1. Read encrypted file
+				std::ifstream encFile(encPath, std::ios::binary);
+				if (!encFile) {
+					delete space;
+					return Status::Error("loadIndex: index.bin.encrypted nicht lesbar");
+				}
+				
+				std::string encData(
+					(std::istreambuf_iterator<char>(encFile)),
+					std::istreambuf_iterator<char>()
+				);
+				encFile.close();
+				
+				// 2. Decrypt the index data
+				// Note: Assumes FieldEncryption is initialized via setFieldEncryption()
+				// If not initialized, decrypt() will throw an exception caught below
+				EncryptedField<std::vector<uint8_t>> encField;
+				try {
+					encField = EncryptedField<std::vector<uint8_t>>::fromBase64(encData);
+					std::vector<uint8_t> indexData = encField.decrypt();
+					
+					// 3. Write to temporary file for hnswlib
+					std::string tempPath = (fs::path(directory) / "index.bin.tmp").string();
+					std::ofstream tempFile(tempPath, std::ios::binary | std::ios::trunc);
+					if (!tempFile) {
+						delete space;
+						return Status::Error("loadIndex: Failed to write temporary index file");
+					}
+					
+					tempFile.write(reinterpret_cast<const char*>(indexData.data()), indexData.size());
+					tempFile.close();
+					
+					// 4. Load from temporary file
+					auto* appr = new hnswlib::HierarchicalNSW<float>(space, tempPath, false);
+					appr->ef_ = efSearch_;
+					hnswIndex_ = static_cast<void*>(appr);
+					useHnsw_ = true;
+					
+					// 5. Remove temporary file
+					fs::remove(tempPath);
+					
+					THEMIS_INFO("VectorIndexManager: HNSW index decrypted and loaded from {}", directory);
+				} catch (const std::exception& ex) {
+					delete space;
+					return Status::Error(std::string("loadIndex: Decryption failed: ") + ex.what());
+				}
+			} else {
+				// Original plaintext load (backward compatibility)
+				indexPath = (fs::path(directory) / "index.bin").string();
+				if (!fs::exists(indexPath)) {
+					delete space;
+					return Status::Error("loadIndex: index.bin nicht gefunden");
+				}
+				
+				auto* appr = new hnswlib::HierarchicalNSW<float>(space, indexPath, false);
+				appr->ef_ = efSearch_;
+				hnswIndex_ = static_cast<void*>(appr);
+				useHnsw_ = true;
+				
+				THEMIS_DEBUG("VectorIndexManager: HNSW index loaded (plaintext) from {}", directory);
+			}
 	#else
 			useHnsw_ = false;
 	#endif
