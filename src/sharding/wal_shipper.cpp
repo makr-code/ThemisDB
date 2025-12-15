@@ -1,4 +1,5 @@
 #include "sharding/wal_shipper.h"
+#include "utils/zstd_codec.h"
 #include <algorithm>
 #include <iostream>
 
@@ -227,7 +228,55 @@ bool WALShipper::shipBatch(const std::string& endpoint,
     
     nlohmann::json request;
     request["primary_id"] = config_.primary_id;
-    request["entries"] = batch_json;
+    
+    // Serialize and potentially compress the batch
+    std::string serialized_entries = batch_json.dump();
+    size_t uncompressed_size = serialized_entries.size();
+    std::string payload_data;
+    bool compressed = false;
+    
+    // Apply compression if configured
+    if (config_.compression != WALShipperConfig::CompressionType::None && 
+        uncompressed_size > 1024) {  // Only compress if > 1KB
+        
+        if (config_.compression == WALShipperConfig::CompressionType::Zstd) {
+            auto compressed_bytes = utils::zstd_compress(serialized_entries, config_.compression_level);
+            if (!compressed_bytes.empty()) {
+                // Convert to base64 or hex string for JSON transport
+                payload_data = std::string(compressed_bytes.begin(), compressed_bytes.end());
+                request["compression"] = "zstd";
+                compressed = true;
+                
+                // Update statistics
+                {
+                    std::lock_guard<std::mutex> lock(stats_mutex_);
+                    stats_.total_bytes_uncompressed += uncompressed_size;
+                    double ratio = static_cast<double>(uncompressed_size) / compressed_bytes.size();
+                    stats_.avg_compression_ratio = 
+                        (stats_.avg_compression_ratio * (stats_.total_batches - 1) + ratio) / 
+                        stats_.total_batches;
+                }
+            }
+        }
+        // LZ4 support can be added here in the future
+    }
+    
+    // If compression failed or not enabled, use uncompressed
+    if (!compressed) {
+        request["entries"] = batch_json;
+        request["compression"] = "none";
+        
+        // Update statistics for uncompressed
+        {
+            std::lock_guard<std::mutex> lock(stats_mutex_);
+            stats_.total_bytes_uncompressed += uncompressed_size;
+        }
+    } else {
+        // Store compressed data as binary (base64 encoded for JSON)
+        request["entries_compressed"] = nlohmann::json::binary(
+            std::vector<uint8_t>(payload_data.begin(), payload_data.end())
+        );
+    }
     
     // Ship via mTLS POST request
     auto response = mtls_client_->post(endpoint, "/api/v1/wal/apply", request.dump());

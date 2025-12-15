@@ -54,6 +54,20 @@ struct WALShipperConfig {
     size_t max_retries = 5;
     uint64_t health_check_interval_ms = 10000;  // 10 seconds
     
+    // Compression configuration
+    enum class CompressionType {
+        None,       // No compression
+        LZ4,        // Fast compression (2-4x, lower CPU)
+        Zstd        // Better compression (3-10x, higher CPU)
+    };
+    CompressionType compression = CompressionType::Zstd;  // Default to Zstd
+    int compression_level = 3;  // Zstd/LZ4 compression level (1-22 for Zstd, 1-12 for LZ4)
+    
+    // Adaptive batching
+    bool adaptive_batch_size = false;  // Adjust batch size based on network conditions
+    size_t min_batch_size = 10;        // Minimum batch size (when adaptive)
+    size_t max_batch_size = 1000;      // Maximum batch size (when adaptive)
+    
     // mTLS configuration
     std::string cert_path;
     std::string key_path;
@@ -66,11 +80,13 @@ struct WALShipperConfig {
 struct WALShipperStats {
     uint64_t total_entries_shipped = 0;
     uint64_t total_bytes_shipped = 0;
+    uint64_t total_bytes_uncompressed = 0;  // Bytes before compression
     uint64_t total_batches = 0;
     uint64_t failed_ships = 0;
     uint64_t retries = 0;
     std::chrono::milliseconds avg_ship_time{0};
     std::chrono::milliseconds max_lag{0};
+    double avg_compression_ratio = 1.0;  // Bytes_uncompressed / Bytes_compressed
 };
 
 /**
