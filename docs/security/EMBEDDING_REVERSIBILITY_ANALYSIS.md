@@ -271,34 +271,82 @@ Ergebnisse:
 
 ## 5. Sofortmaßnahmen (Empfohlen)
 
-### 5.1 OPTION 1: Embedding-Verschlüsselung (Empfohlen)
+### 5.1 OPTION 1: At-Rest/In-Transit Verschlüsselung mit VRAM-Entschlüsselung (⭐ Empfohlen)
+
+**Architektur:**
+```
+Disk (At-Rest):     Encrypted Embeddings (AES-256-GCM)
+       ↓
+Network (In-Transit): TLS 1.3 (encrypted)
+       ↓
+Memory (VRAM):       Decrypted Embeddings (für HNSW-Index)
+       ↓
+Search:              Standard HNSW-Suche (performant)
+```
 
 **Implementierung:**
 ```cpp
-// Schritt 1: Embeddings verschlüsseln
+// Schritt 1: At-Rest - Embeddings verschlüsselt speichern
 EncryptedField<std::vector<float>> encrypted_embedding;
 encrypted_embedding.encrypt(embedding_vector, "vector_embeddings");
 
-// Schritt 2: Speichern
 BaseEntity vec_doc;
 vec_doc.setField("embedding_encrypted", encrypted_embedding.toBase64());
+db_->put("vec:123", vec_doc.serialize());  // Auf Disk: verschlüsselt
 
-// Schritt 3: Vektorsuche NUR in Memory (nach Entschlüsselung)
-for (auto& doc : all_docs) {
-    auto emb = doc.embedding_encrypted.decrypt();
-    float similarity = cosine_similarity(query_embedding, emb);
-}
+// Schritt 2: Beim Laden - Entschlüsselung in Memory/VRAM
+class VectorIndexManager {
+    // Encrypted on disk, decrypted in memory
+    std::vector<std::vector<float>> in_memory_embeddings_;
+    
+    void loadIndex() {
+        for (auto& doc : db_->scan("vec:")) {
+            auto enc_emb = EncryptedField<std::vector<float>>::fromBase64(
+                doc.getField("embedding_encrypted")
+            );
+            // Decrypt into VRAM
+            auto plaintext_emb = enc_emb.decrypt();
+            in_memory_embeddings_.push_back(plaintext_emb);
+        }
+        
+        // Build HNSW index on decrypted data (in memory)
+        hnsw_index_.build(in_memory_embeddings_);
+    }
+    
+    std::vector<Result> search(const std::vector<float>& query) {
+        // Search on decrypted HNSW index (fast!)
+        return hnsw_index_.search(query, k=10);
+    }
+};
 ```
 
-**Nachteile:**
-- ❌ Vektorindex (HNSW, FAISS) funktioniert nicht mehr
-- ❌ Performance: O(n) statt O(log n)
-- ❌ Nicht skalierbar für >1M Vektoren
-
 **Vorteile:**
-- ✅ BSI C5-konform
-- ✅ DSGVO/HIPAA-konform
-- ✅ Zero-Trust Security
+- ✅ **At-Rest geschützt:** Embeddings auf Disk verschlüsselt (BSI C5-konform)
+- ✅ **In-Transit geschützt:** TLS 1.3 (BSI C5-konform)
+- ✅ **Performance:** HNSW-Index funktioniert normal (O(log n))
+- ✅ **Skalierbar:** Für Millionen von Vektoren geeignet
+- ✅ **Angriffsfläche reduziert:** Nur Memory/VRAM ist vulnerabel (kein Disk/Network)
+
+**Verbleibende Risiken:**
+- ⚠️ **Memory Dumps:** Angreifer mit physischem Zugriff könnte RAM auslesen
+- ⚠️ **Memory Scraping:** Rootkit/Malware mit Kernel-Zugriff
+- ⚠️ **Cold Boot Attack:** RAM-Daten nach Neustart lesbar (selten)
+
+**Mitigations für Memory-Risiken:**
+1. ✅ Encrypted Swap/Page Files (Linux: `cryptsetup`, Windows: BitLocker)
+2. ✅ Memory Protection: ASLR, DEP, Stack Canaries
+3. ✅ Kernel Hardening: SELinux, AppArmor, grsecurity
+4. ✅ Physical Security: Locked Server-Räume, Access Control
+5. ✅ Process Isolation: Separate User für DB-Prozess
+
+**BSI C5 Bewertung:**
+- **CRY-03 (At-Rest):** ✅ **VOLL KONFORM** (Disk verschlüsselt)
+- **CRY-04 (In-Transit):** ✅ **VOLL KONFORM** (TLS 1.3)
+- **Verbleibende Lücke:** Memory-only (akzeptiert gemäß "Stand der Technik")
+
+**Zeitaufwand:** 1-2 Wochen für Implementierung
+
+**Empfehlung:** ⭐ **Dies ist die bevorzugte Lösung** - balanciert Security, Performance und Compliance optimal.
 
 ### 5.2 OPTION 2: Homomorphic Encryption (HE)
 
@@ -450,11 +498,28 @@ vec_doc.setField("source_encrypted", source.toBase64());
    
    ### Embedding-Reversibilität
    - **Risiko:** Embeddings sind teilweise rekonstruierbar (40-80%)
-   - **Mitigation:** Keine PII in Embedding-Text, verschlüsselte Metadaten
-   - **Langfristig:** Homomorphic Encryption oder Secure Enklaves
+   - **Mitigation:** At-Rest/In-Transit Verschlüsselung, Entschlüsselung nur in VRAM
+   - **Verbleibende Lücke:** Memory-only Angriffe (akzeptiert)
    ```
 
-3. **1 Woche:** Implementiere Zugriffskontrolle auf Embeddings
+3. **1-2 Wochen:** ⭐ Implementiere At-Rest/In-Transit Verschlüsselung (OPTION 1)
+   ```cpp
+   // Embeddings verschlüsselt auf Disk
+   EncryptedField<std::vector<float>> enc_emb;
+   enc_emb.encrypt(embedding, "vector_embeddings");
+   vec_doc.setField("embedding_encrypted", enc_emb.toBase64());
+   
+   // Entschlüsselung beim Index-Laden
+   VectorIndexManager::loadIndex() {
+       for (auto& doc : db_->scan("vec:")) {
+           auto emb = decrypt_embedding(doc);
+           in_memory_embeddings_.push_back(emb);  // VRAM
+       }
+       hnsw_index_.build(in_memory_embeddings_);
+   }
+   ```
+
+4. **1 Woche:** Implementiere Zugriffskontrolle auf Embeddings
    ```cpp
    // RBAC für Embedding-Zugriff
    if (!user.hasPermission("vector:read")) {
@@ -462,7 +527,7 @@ vec_doc.setField("source_encrypted", source.toBase64());
    }
    ```
 
-4. **1 Monat:** Audit-Logging für Embedding-Zugriffe
+5. **1 Monat:** Audit-Logging für Embedding-Zugriffe
    ```cpp
    AuditLogger::log(AuditEvent::EMBEDDING_ACCESS, {
        {"user_id", current_user},
@@ -497,21 +562,29 @@ vec_doc.setField("source_encrypted", source.toBase64());
 - ✅ CRY-03: Konform (Annahme: Embeddings sind keine PII)
 
 **Jetzt (mit Reversibilitäts-Analyse):**
-- ⚠️ CRY-03: **BEDINGT KONFORM** (Embeddings rekonstruierbar, aber Mitigations vorhanden)
+- ✅ CRY-03: **VOLL KONFORM** (mit At-Rest/In-Transit Verschlüsselung - OPTION 1)
 
-**Begründung für "Bedingt Konform":**
-1. ✅ Mitigation: Keine PII in Embedding-Text (Best Practice)
-2. ✅ Mitigation: Verschlüsselte Metadaten
-3. ✅ Dokumentiert: Risiko in Security Policy
-4. ✅ Roadmap: HE/Enclaves für Langfrist-Lösung
-5. ⚠️ Verbleibende Lücke: Rekonstruktions-Angriffe weiterhin möglich
+**Begründung für "Voll Konform" (mit OPTION 1):**
+1. ✅ **At-Rest:** Embeddings verschlüsselt auf Disk (AES-256-GCM)
+2. ✅ **In-Transit:** TLS 1.3/1.2 für alle Kommunikation
+3. ✅ **Entschlüsselung:** Nur in VRAM für HNSW-Index (Memory-only)
+4. ✅ **Angriffsfläche:** Reduziert von Disk+Network+Memory → nur Memory
+5. ✅ **Performance:** HNSW-Index funktioniert normal (keine Degradation)
+
+**Verbleibende Risiken (Memory-only):**
+- Memory Dumps (benötigt physischen/Kernel-Zugriff)
+- Cold Boot Attacks (selten, mitigierbar durch Encrypted Swap)
 
 **BSI C5 Interpretation:**
 - **Artikel 32 DSGVO:** "...dem Stand der Technik..."
-  - Aktuelle Technik: HE zu langsam für Produktion
-  - Stand der Technik: Best Practices + Roadmap = ausreichend
-- **"Need-to-Know"-Prinzip:** Embeddings für Vektorsuche erforderlich
-- **Verhältnismäßigkeit:** Komplette Verschlüsselung würde System unbrauchbar machen
+  - Stand der Technik: At-Rest + In-Transit Verschlüsselung ✅
+  - Memory-Protection: Encrypted Swap, ASLR, DEP, Physical Security ✅
+- **"Need-to-Know"-Prinzip:** Entschlüsselung nur für Suche (legitimiert)
+- **Verhältnismäßigkeit:** Optimale Balance Security/Performance
+
+**Alternative (ohne OPTION 1 - nur Best Practices):**
+- ⚠️ CRY-03: **BEDINGT KONFORM** (Embeddings auf Disk im Klartext)
+- Begründung: Mitigations vorhanden, aber Lücke bleibt
 
 ### 8.2 Gesamt-Compliance
 
@@ -540,29 +613,45 @@ vec_doc.setField("source_encrypted", source.toBase64());
 
 ### 9.2 Sicherheits-Implikationen
 
-⚠️ **KRITISCH:**
-1. Embeddings im Klartext = Sicherheitsrisiko
-2. DSGVO/HIPAA-Compliance gefährdet
-3. BSI C5 CRY-03 nur "bedingt konform"
+**MIT OPTION 1 (At-Rest/In-Transit Verschlüsselung):**
+- ✅ **At-Rest geschützt:** Kein Risiko bei Disk-Compromise
+- ✅ **In-Transit geschützt:** Kein Risiko bei Network-Sniffing
+- ⚠️ **Memory-only Risiko:** Benötigt physischen/Kernel-Zugriff (akzeptabel)
+- ✅ **BSI C5 CRY-03:** Voll konform
+- ✅ **DSGVO/HIPAA:** Konform (Memory-Risiko = Stand der Technik)
+
+**OHNE OPTION 1 (nur Best Practices):**
+- ⚠️ **KRITISCH:** Embeddings im Klartext auf Disk
+- ⚠️ **DSGVO/HIPAA-Compliance:** Gefährdet
+- ⚠️ **BSI C5 CRY-03:** Nur "bedingt konform"
 
 ### 9.3 Handlungsempfehlungen
 
-**SOFORT:**
-1. ❌ Entferne `text`-Feld aus Vector-Storage
-2. ✅ Dokumentiere Risiko in Security Policy
-3. ✅ Implementiere RBAC für Embedding-Zugriff
-4. ✅ Aktiviere Audit-Logging
+**PRIORITÄT 1 (1-2 Wochen):** ⭐
+1. ✅ **Implementiere OPTION 1:** At-Rest/In-Transit Verschlüsselung mit VRAM-Entschlüsselung
+   - Embeddings verschlüsselt auf Disk speichern
+   - Entschlüsselung beim Laden in Memory/VRAM
+   - HNSW-Index auf entschlüsselten Daten (performant)
+   - **Ergebnis:** Volle BSI C5-Konformität erreicht
 
-**MITTELFRISTIG (3-6 Monate):**
-5. Differential Privacy für Embeddings
-6. POC für Homomorphic Encryption
+**SOFORT (parallel zu OPTION 1):**
+2. ❌ Entferne `text`-Feld aus Vector-Storage
+3. ✅ Dokumentiere Architektur in Security Policy
+4. ✅ Implementiere RBAC für Embedding-Zugriff
+5. ✅ Aktiviere Audit-Logging
 
-**LANGFRISTIG (12 Monate):**
-7. Produktionsreife HE- oder Enclave-Lösung
+**OPTIONAL (langfristig, nur bei höchsten Security-Anforderungen):**
+6. Differential Privacy für zusätzliche Memory-Protection (3-6 Monate)
+7. Homomorphic Encryption für Zero-Trust Memory (12+ Monate)
 
 ---
 
-**Status:** 🔴 KRITISCHES SICHERHEITSRISIKO IDENTIFIZIERT  
+**Status (mit OPTION 1):** ✅ LÖSBAR - At-Rest/In-Transit Verschlüsselung implementieren  
+**Priority:** P1 (High - aber lösbar in 1-2 Wochen)  
+**Owner:** Security Team + Development Team  
+**Review:** Implementierung innerhalb 2 Wochen empfohlen
+
+**Status (ohne OPTION 1):** 🔴 KRITISCHES SICHERHEITSRISIKO  
 **Priority:** P0 (Highest)  
 **Owner:** Security Team  
 **Review:** Sofort erforderlich
