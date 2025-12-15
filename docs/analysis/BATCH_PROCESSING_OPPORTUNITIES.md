@@ -488,19 +488,22 @@ Status generateNodeEmbeddingsBatch(
    - **Files:** `include/sharding/wal_shipper.h`, `src/sharding/wal_shipper.cpp`
    - **ROI:** 3-10x Bandbreite, 80-90% Kosteneinsparung
 
-### 🟡 MEDIUM PRIORITY (To Do)
-
-3. **ChangefeedBuffer** (CDC)
+4. **ChangefeedBuffer** (CDC)
+   - **Status:** Implementiert ✅
    - **Impact:** Mittel (Bulk-Transaktionen)
-   - **Aufwand:** Niedrig
+   - **Files:** `include/cdc/changefeed_buffer.h/cpp`
    - **ROI:** 3-5x Kompression, niedrigere Latenz
 
-4. **GraphAutoBuffer** (Property Graphs)
+5. **GraphAutoBuffer** (Property Graphs)
+   - **Status:** Header implementiert ✅ (Implementation in Arbeit)
    - **Impact:** Mittel (Knowledge Graphs)
-   - **Aufwand:** Mittel
+   - **Files:** `include/index/graph_auto_buffer.h`
    - **ROI:** 2-5x Durchsatz
 
-5. **MetricsRingBuffer** (Observability)
+### 🔄 IN PROGRESS
+
+6. **MetricsRingBuffer** (Observability)
+   - **Status:** In Planung
    - **Impact:** Mittel (High-Throughput-Metriken)
    - **Aufwand:** Hoch (Lock-free Design)
    - **ROI:** 10-100x Recording-Throughput
