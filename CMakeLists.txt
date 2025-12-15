@@ -960,6 +960,9 @@ if(THEMIS_BUILD_TESTS)
         tests/test_tenant_manager.cpp
         tests/test_graphql.cpp
         tests/test_olap.cpp
+        
+        # Vector encryption integration tests
+        tests/test_vector_encryption_integration.cpp
     )
     
     target_link_libraries(themis_tests
