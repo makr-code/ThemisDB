@@ -14,11 +14,15 @@
             
             <!-- Converters -->
             <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
             <local:NullToBoolConverter x:Key="NullToBoolConverter"/>
             <local:BoolToColorConverter x:Key="BoolToColorConverter"/>
+            <local:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter"/>
             <local:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
             <local:TypeToVisibilityConverter x:Key="TypeToVisibilityConverter"/>
             <local:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <local:StringToIconConverter x:Key="StringToIconConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
