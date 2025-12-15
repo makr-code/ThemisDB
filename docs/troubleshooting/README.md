@@ -266,7 +266,7 @@ cmake -DTHEMIS_ENABLE_ASAN=ON ...
 - **[RocksDB Windows Build Issues](rocksdb-windows-build-issues.md)** - Detaillierte RocksDB-Problemlösung
 - **[Docker Deployment Guide](../DOCKER_DEPLOYMENT.md)** - Docker Setup & Konfiguration
 - **[Build Strategy](../docs/guides/guides_build_strategy.md)** - Build-Prozess-Dokumentation
-- **[Architecture Overview](../docs/ARCHITECTURE_OVERVIEW.md)** - System-Architektur
+- **[Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md)** - System-Architektur
 - **[Changelog](../CHANGELOG.md)** - Known Issues & Fixes
 
 ---

@@ -1,8 +1,28 @@
 # ThemisDB Dokumentations-Index
 
-**Stand:** 14. Dezember 2025  
-**Version:** 1.0.2 (v1.1.0 Q1 2026, v1.2.0 Q2 2026)  
+**Stand:** 15. Dezember 2025  
+**Version:** 1.2.0 (v1.1.0 & v1.2.0 released)  
 **Typ:** Dokumentations-Index
+
+---
+
+## 📁 Dokumentations-Struktur (Neu Organisiert)
+
+Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
+
+**Root-Dokumente (nur essentials):**
+- `README.md` - Hauptdokumentation
+- `index.md` - Dokumentations-Index
+- `glossary.md` - Terminologie
+
+**Organisierte Ordner:**
+- `build/` - Build-System-Dokumentation (BUILD-SYSTEM.md, BUILDGUIDE.md, etc.)
+- `development/` - Entwicklungs-Dokumentation (IMPLEMENTATION-*.md, CODE_REVIEW-*.md)
+- `guides/` - Benutzer- und Entwickler-Guides (RAILWAY_COMPLETE_GUIDE.md, etc.)
+- `architecture/` - Architektur-Dokumentation (ARCHITECTURE_OVERVIEW.md, etc.)
+- `stakeholder/` - Stakeholder-Dokumentation
+- `releases/` - Release-Notizen (v1.2.0.md, v1.1.0.md, etc.)
+- `archive/` - Alte/historische Dokumentation
 
 ---
 
@@ -38,10 +58,10 @@
 ## 📚 Haupt-Dokumentation
 
 ### Übersichtsdokumente
-- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.0.1, v1.0.0)
+- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
 - **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
-- **[Architecture Overview](ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
-- **[Source Code Changes v1.0](SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
+- **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
+- **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
 - **[Features Liste](features/features_overview.md)** - Vollständige Feature-Übersicht mit Status
 
 ---

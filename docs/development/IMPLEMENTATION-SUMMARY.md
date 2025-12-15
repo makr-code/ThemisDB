@@ -47,8 +47,8 @@
 
 | Datei | Inhalt |
 |-------|--------|
-| `BUILDGUIDE.md` | Detailliertes 300+ Zeilen Handbuch |
-| `BUILD-SYSTEM.md` | Schnelle Übersicht & Zusammenfassung |
+| `docs/build/BUILDGUIDE.md` | Detailliertes 300+ Zeilen Handbuch |
+| `docs/build/BUILD-SYSTEM.md` | Schnelle Übersicht & Zusammenfassung |
 
 ---
 
@@ -230,7 +230,7 @@ vcpkg\
 3. ✅ **Multi-Plattform** - Windows (MSVC), Linux (GCC), Docker (Multi-Arch)
 4. ✅ **Unified Interface** - Ein `.\scripts\build.ps1` für alles
 5. ✅ **Production Ready** - Error-Handling, CI/CD Support
-6. ✅ **Well Documented** - BUILDGUIDE.md + BUILD-SYSTEM.md
+6. ✅ **Well Documented** - docs/build/BUILDGUIDE.md + docs/build/BUILD-SYSTEM.md
 
 ### Wie wird es verwendet?
 ```powershell
