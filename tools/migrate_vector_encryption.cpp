@@ -20,6 +20,7 @@
 #include "security/mock_key_provider.h"
 #include "utils/logger.h"
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 #include <cstdlib>
