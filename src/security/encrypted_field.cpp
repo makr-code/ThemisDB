@@ -163,15 +163,18 @@ std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::st
 }
 
 // std::vector<uint8_t> specialization (for HNSW index encryption)
+// Note: For large binary data (multi-GB HNSW indexes), this creates copies.
+// This is acceptable for Phase 2 initial implementation.
+// Future optimization: Use move semantics or memory-mapped files.
 template<>
 std::string EncryptedField<std::vector<uint8_t>>::serialize(const std::vector<uint8_t>& value) {
-    // For binary data, just return as-is (already bytes)
+    // For binary data, convert to string (creates copy)
     return std::string(value.begin(), value.end());
 }
 
 template<>
 std::vector<uint8_t> EncryptedField<std::vector<uint8_t>>::deserialize(const std::string& str) {
-    // Convert back to bytes
+    // Convert back to bytes (creates copy)
     return std::vector<uint8_t>(str.begin(), str.end());
 }
 

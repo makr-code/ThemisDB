@@ -1420,6 +1420,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 					tempFile.close();
 					
 					// 3. Encrypt the index data
+					// Note: Assumes FieldEncryption is initialized via setFieldEncryption()
+					// If not initialized, encrypt() will throw an exception caught below
 					EncryptedField<std::vector<uint8_t>> encField;
 					encField.encrypt(indexData, hnswKeyId_);
 					
@@ -1510,6 +1512,8 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				encFile.close();
 				
 				// 2. Decrypt the index data
+				// Note: Assumes FieldEncryption is initialized via setFieldEncryption()
+				// If not initialized, decrypt() will throw an exception caught below
 				EncryptedField<std::vector<uint8_t>> encField;
 				try {
 					encField = EncryptedField<std::vector<uint8_t>>::fromBase64(encData);
