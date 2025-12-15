@@ -216,6 +216,12 @@ public:
     void setVectorEncryptionEnabled(bool enabled);
     std::string getVectorKeyId() const { return vectorKeyId_; }
     void setVectorKeyId(const std::string& keyId) { vectorKeyId_ = keyId; }
+    
+    // Phase 2: HNSW index encryption
+    bool isHnswEncryptionEnabled() const;
+    void setHnswEncryptionEnabled(bool enabled);
+    std::string getHnswKeyId() const { return hnswKeyId_; }
+    void setHnswKeyId(const std::string& keyId) { hnswKeyId_ = keyId; }
 
 private:
     RocksDBWrapper& db_;
@@ -230,6 +236,9 @@ private:
     
     // Phase 1: Vector encryption configuration
     std::string vectorKeyId_ = "vector_embeddings";  // Key ID for vector encryption
+    
+    // Phase 2: HNSW index encryption configuration
+    std::string hnswKeyId_ = "hnsw_index";  // Key ID for HNSW index encryption
 
     // In-Memory Mapping PK <-> Label-ID (für HNSW) und Cache für Fallback
     mutable std::unordered_map<std::string, size_t> pkToId_;

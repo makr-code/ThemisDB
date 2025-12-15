@@ -115,6 +115,43 @@ void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
 	}
 }
 
+// Phase 2: HNSW index encryption configuration
+bool VectorIndexManager::isHnswEncryptionEnabled() const {
+	try {
+		if (auto cfg = db_.get("config:hnsw")) {
+			std::string s(cfg->begin(), cfg->end());
+			nlohmann::json j = nlohmann::json::parse(s);
+			return j.value("encryption_enabled", false);
+		}
+	} catch (...) {
+		// If config doesn't exist or can't be parsed, default to disabled
+	}
+	return false;  // Default: encryption disabled (backward compatible)
+}
+
+void VectorIndexManager::setHnswEncryptionEnabled(bool enabled) {
+	try {
+		nlohmann::json j;
+		// Read existing config if present
+		if (auto cfg = db_.get("config:hnsw")) {
+			std::string s(cfg->begin(), cfg->end());
+			j = nlohmann::json::parse(s);
+		}
+		
+		// Update encryption setting
+		j["encryption_enabled"] = enabled;
+		
+		// Write back to database
+		std::string json_str = j.dump();
+		std::vector<uint8_t> data(json_str.begin(), json_str.end());
+		db_.put("config:hnsw", data);
+		
+		THEMIS_INFO("VectorIndexManager: HNSW index encryption {}", enabled ? "ENABLED" : "DISABLED");
+	} catch (const std::exception& ex) {
+		THEMIS_ERROR("VectorIndexManager: Failed to set HNSW encryption config: {}", ex.what());
+	}
+}
+
 float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<float>& b) {
 	if (a.size() != b.size()) return std::numeric_limits<float>::infinity();
 	// Return squared L2 to match existing distance semantics (lower is better)
@@ -1338,6 +1375,10 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		namespace fs = std::filesystem;
 		try {
 			fs::create_directories(directory);
+			
+			// Check if HNSW encryption is enabled
+			bool encryptHnsw = isHnswEncryptionEnabled();
+			
 			// Speichere Mapping (id -> pk)
 			{
 				std::ofstream mapFile(fs::path(directory) / "labels.txt", std::ios::binary | std::ios::trunc);
@@ -1352,12 +1393,58 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 				if (!metaFile) return Status::Error("saveIndex: meta.txt nicht schreibbar");
 				metaFile << objectName_ << "\n" << dim_ << "\n" << (metric_ == Metric::L2 ? "L2" : "COSINE")
 						 << "\n" << efSearch_ << "\n" << m_ << "\n" << efConstruction_ << "\n";
+				// Add encryption flag to metadata
+				metaFile << (encryptHnsw ? "encrypted" : "plaintext") << "\n";
 			}
 	#ifdef THEMIS_HNSW_ENABLED
 			if (useHnsw_) {
 				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
-				std::string indexPath = (fs::path(directory) / "index.bin").string();
-				appr->saveIndex(indexPath);
+				
+				if (encryptHnsw) {
+					// Phase 2: Save encrypted HNSW index
+					// 1. Save to temporary file first
+					std::string tempPath = (fs::path(directory) / "index.bin.tmp").string();
+					appr->saveIndex(tempPath);
+					
+					// 2. Load temporary file into memory
+					std::ifstream tempFile(tempPath, std::ios::binary);
+					if (!tempFile) {
+						fs::remove(tempPath);
+						return Status::Error("saveIndex: Failed to read temporary index file");
+					}
+					
+					std::vector<uint8_t> indexData(
+						(std::istreambuf_iterator<char>(tempFile)),
+						std::istreambuf_iterator<char>()
+					);
+					tempFile.close();
+					
+					// 3. Encrypt the index data
+					EncryptedField<std::vector<uint8_t>> encField;
+					encField.encrypt(indexData, hnswKeyId_);
+					
+					// 4. Save encrypted index
+					std::string encPath = (fs::path(directory) / "index.bin.encrypted").string();
+					std::ofstream encFile(encPath, std::ios::binary | std::ios::trunc);
+					if (!encFile) {
+						fs::remove(tempPath);
+						return Status::Error("saveIndex: index.bin.encrypted nicht schreibbar");
+					}
+					
+					std::string encData = encField.toBase64();
+					encFile.write(encData.data(), encData.size());
+					encFile.close();
+					
+					// 5. Remove temporary file
+					fs::remove(tempPath);
+					
+					THEMIS_INFO("VectorIndexManager: HNSW index encrypted and saved to {}", directory);
+				} else {
+					// Original plaintext save
+					std::string indexPath = (fs::path(directory) / "index.bin").string();
+					appr->saveIndex(indexPath);
+					THEMIS_DEBUG("VectorIndexManager: HNSW index saved (plaintext) to {}", directory);
+				}
 			}
 	#endif
 		} catch (const std::exception& ex) {
@@ -1381,6 +1468,11 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			metaFile >> ef; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			metaFile >> m; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			metaFile >> efc; metaFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			
+			// Check for encryption flag (Phase 2)
+			std::string encryptionFlag;
+			std::getline(metaFile, encryptionFlag);
+			bool isEncrypted = (encryptionFlag == "encrypted");
 
 			if (obj != objectName_) return Status::Error("loadIndex: objectName passt nicht zum Manager");
 			if (dim_ != 0 && dim_ != dim) return Status::Error("loadIndex: Dimension passt nicht zum Manager");
@@ -1389,15 +1481,80 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 			efSearch_ = ef; m_ = m; efConstruction_ = efc;
 
 	#ifdef THEMIS_HNSW_ENABLED
-			// Initialisiere Space und Index und lade
+			// Initialisiere Space
 			hnswlib::SpaceInterface<float>* space = nullptr;
 			if (metric_ == Metric::L2) space = new hnswlib::L2Space(dim_);
 			else space = new hnswlib::InnerProductSpace(dim_);
 
-			auto* appr = new hnswlib::HierarchicalNSW<float>(space, (fs::path(directory) / "index.bin").string(), false);
-			appr->ef_ = efSearch_;
-			hnswIndex_ = static_cast<void*>(appr);
-			useHnsw_ = true;
+			std::string indexPath;
+			
+			if (isEncrypted) {
+				// Phase 2: Load encrypted HNSW index
+				std::string encPath = (fs::path(directory) / "index.bin.encrypted").string();
+				if (!fs::exists(encPath)) {
+					delete space;
+					return Status::Error("loadIndex: index.bin.encrypted nicht gefunden");
+				}
+				
+				// 1. Read encrypted file
+				std::ifstream encFile(encPath, std::ios::binary);
+				if (!encFile) {
+					delete space;
+					return Status::Error("loadIndex: index.bin.encrypted nicht lesbar");
+				}
+				
+				std::string encData(
+					(std::istreambuf_iterator<char>(encFile)),
+					std::istreambuf_iterator<char>()
+				);
+				encFile.close();
+				
+				// 2. Decrypt the index data
+				EncryptedField<std::vector<uint8_t>> encField;
+				try {
+					encField = EncryptedField<std::vector<uint8_t>>::fromBase64(encData);
+					std::vector<uint8_t> indexData = encField.decrypt();
+					
+					// 3. Write to temporary file for hnswlib
+					std::string tempPath = (fs::path(directory) / "index.bin.tmp").string();
+					std::ofstream tempFile(tempPath, std::ios::binary | std::ios::trunc);
+					if (!tempFile) {
+						delete space;
+						return Status::Error("loadIndex: Failed to write temporary index file");
+					}
+					
+					tempFile.write(reinterpret_cast<const char*>(indexData.data()), indexData.size());
+					tempFile.close();
+					
+					// 4. Load from temporary file
+					auto* appr = new hnswlib::HierarchicalNSW<float>(space, tempPath, false);
+					appr->ef_ = efSearch_;
+					hnswIndex_ = static_cast<void*>(appr);
+					useHnsw_ = true;
+					
+					// 5. Remove temporary file
+					fs::remove(tempPath);
+					
+					THEMIS_INFO("VectorIndexManager: HNSW index decrypted and loaded from {}", directory);
+				} catch (const std::exception& ex) {
+					delete space;
+					return Status::Error(std::string("loadIndex: Decryption failed: ") + ex.what());
+				}
+			} else {
+				// Original plaintext load (backward compatibility)
+				indexPath = (fs::path(directory) / "index.bin").string();
+				if (!fs::exists(indexPath)) {
+					delete space;
+					return Status::Error("loadIndex: index.bin nicht gefunden");
+				}
+				
+				auto* appr = new hnswlib::HierarchicalNSW<float>(space, indexPath, false);
+				appr->ef_ = efSearch_;
+				hnswIndex_ = static_cast<void*>(appr);
+				useHnsw_ = true;
+				
+				THEMIS_DEBUG("VectorIndexManager: HNSW index loaded (plaintext) from {}", directory);
+			}
 	#else
 			useHnsw_ = false;
 	#endif

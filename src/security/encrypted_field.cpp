@@ -162,10 +162,24 @@ std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::st
     return result;
 }
 
+// std::vector<uint8_t> specialization (for HNSW index encryption)
+template<>
+std::string EncryptedField<std::vector<uint8_t>>::serialize(const std::vector<uint8_t>& value) {
+    // For binary data, just return as-is (already bytes)
+    return std::string(value.begin(), value.end());
+}
+
+template<>
+std::vector<uint8_t> EncryptedField<std::vector<uint8_t>>::deserialize(const std::string& str) {
+    // Convert back to bytes
+    return std::vector<uint8_t>(str.begin(), str.end());
+}
+
 // Explicit template instantiations
 template class EncryptedField<std::string>;
 template class EncryptedField<int64_t>;
 template class EncryptedField<double>;
 template class EncryptedField<std::vector<float>>;
+template class EncryptedField<std::vector<uint8_t>>;
 
 }  // namespace themis
