@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NaY9lO9/fEs=",
+  "dgSpecHash": "IShKSdCSURs=",
   "success": true,
-  "projectFilePath": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/tools/Themis.AdminTools.Shared/Themis.AdminTools.Shared.csproj",
+  "projectFilePath": "/home/runner/work/ThemisDB/ThemisDB/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/_codeql_detected_source_root/tools/Themis.AdminTools.Shared/Themis.AdminTools.Shared.csproj",
   "expectedPackageFiles": [
     "/home/runner/work/ThemisDB/.codeql-scratch/dbs/csharp/working/packages/microsoft.extensions.configuration/8.0.0/microsoft.extensions.configuration.8.0.0.nupkg.sha512",
     "/home/runner/work/ThemisDB/.codeql-scratch/dbs/csharp/working/packages/microsoft.extensions.configuration.abstractions/8.0.0/microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
