@@ -43,6 +43,12 @@ namespace themis {
  * Compression:
  * - Gorilla compression for float64 time-series (10-20x ratio, +15% CPU)
  * - Configurable per-metric compression strategy
+ * - NOTE: Compression only applies to batch inserts (putDataPoints), not single inserts (putDataPoint)
+ * 
+ * Storage Methods:
+ * - Single-point inserts: Stored as individual RocksDB entities (ts:{metric}:{entity}:{timestamp})
+ * - Batch inserts with compression: Stored as compressed chunks (tsc:{metric}:{entity}:{first_ts}:{last_ts})
+ * - See documentation for details on choosing the appropriate method
  */
 class TSStore {
 public:
@@ -134,6 +140,12 @@ public:
      * @brief Write a data point
      * @param point Data point to store
      * @return Status
+     * 
+     * @note STORAGE METHOD: Singular RocksDB Entity
+     * Single data points are always stored as individual RocksDB entities
+     * with key format ts:{metric}:{entity}:{timestamp_ms}, regardless of
+     * the compression configuration. For Gorilla compression, use putDataPoints()
+     * with multiple points for batch compression.
      */
     Status putDataPoint(const DataPoint& point);
     
@@ -141,6 +153,13 @@ public:
      * @brief Write multiple data points (batch operation)
      * @param points Vector of data points
      * @return Status
+     * 
+     * @note STORAGE METHOD: Batch with Gorilla Compression (if enabled)
+     * When compression is enabled (config.compression = CompressionType::Gorilla),
+     * points are grouped by metric:entity, sorted by timestamp, and compressed
+     * as chunks with key format tsc:{metric}:{entity}:{first_ts}:{last_ts}.
+     * This provides 10-20x compression ratio. Without compression, points are
+     * stored as individual entities like putDataPoint().
      */
     Status putDataPoints(const std::vector<DataPoint>& points);
     

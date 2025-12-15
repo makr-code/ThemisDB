@@ -30,9 +30,48 @@ Hinweis zur Implementierung:
 - ContinuousAggregateManager (`include/timeseries/continuous_agg.h`): erstellt abgeleitete Metriken in Fenstern
 - Gorilla-Codec (Tests/Utils): Kompression für (timestamp,double)
 
+## Speichermethoden
+
+### Singuläre RocksDB-Entities vs. Batch mit Gorilla-Kompression
+
+Die Speicherung von Zeitreihenelementen (timeline, IOT) erfolgt abhängig von der verwendeten API-Methode:
+
+**Einzelpunkt-Einfügung (`putDataPoint`)**
+- Speichert Datenpunkte als **individuelle RocksDB-Entities**
+- Key-Format: `ts:{metric}:{entity}:{timestamp_ms}`
+- Value-Format: JSON mit vollständigen DataPoint-Informationen
+- **Keine Gorilla-Kompression**, auch wenn diese konfiguriert ist
+- Geeignet für: Einzelne Messwerte, Echtzeit-Streaming, IOT-Sensordaten
+- Hinweis: Eine zukünftige Buffering-Strategie ist geplant, um Gorilla-Kompression auch für Einzelpunkt-Einfügungen zu ermöglichen (siehe TODO in `tsstore.cpp:131-132`)
+
+**Batch-Einfügung (`putDataPoints`)**
+- Gruppiert Datenpunkte nach `metric:entity` und komprimiert sie als Chunk
+- Key-Format: `tsc:{metric}:{entity}:{first_ts}:{last_ts}` (bei Gorilla-Kompression)
+- Value-Format: JSON-Metadaten + binärer Gorilla-komprimierter Chunk
+- **Mit Gorilla-Kompression** (wenn `config.compression = CompressionType::Gorilla`)
+- Kompressionsrate: 10-20x bei +15% CPU-Overhead
+- Geeignet für: Batch-Import, historische Daten, Bulk-Operationen
+
+**Beispiel:**
+```cpp
+// Einzelpunkt-Einfügung (keine Kompression)
+TSStore ts(db, cf);
+ts.putDataPoint({.metric="temp", .entity="sensor1", .timestamp_ms=now(), .value=22.5});
+
+// Batch-Einfügung (mit Gorilla-Kompression wenn konfiguriert)
+std::vector<DataPoint> points = {...};
+ts.putDataPoints(points);  // Komprimiert zu Chunks pro metric:entity
+```
+
+**Empfehlung:**
+- Verwenden Sie `putDataPoints()` für bessere Speichereffizienz bei größeren Datenmengen
+- Die HTTP-API `/ts/put` verwendet intern `putDataPoint()` (keine Kompression)
+- Für Batch-Import kann eine eigene Batch-API oder direkter C++-Zugriff verwendet werden
+
 ## Datenmodell (TSStore)
 
-Key: `ts:{metric}:{entity}:{timestamp_ms}`
+Key (ohne Kompression): `ts:{metric}:{entity}:{timestamp_ms}`
+Key (mit Gorilla-Kompression): `tsc:{metric}:{entity}:{first_ts}:{last_ts}`
 
 DataPoint:
 ```json
@@ -167,4 +206,6 @@ while (auto p = dec.next()) { /* ... */ }
 
 - Kein automatisches Downsampling/TTL – Retention ist manuell bzw. per Job
 - HTTP-Endpunkte erfordern `entity`; TSStore unterstützt zudem Tag‑Filter (noch nicht im Endpoint)
-- Kompression standardmäßig deaktiviert (`CompressionType::None`)
+- Gorilla-Kompression nur bei Batch-Einfügung (`putDataPoints`), nicht bei Einzelpunkt-Einfügung (`putDataPoint`)
+- Einzelpunkt-Einfügungen werden immer als singuläre RocksDB-Entities gespeichert (TODO: Buffering-Strategie implementieren)
+- HTTP-API verwendet `putDataPoint()` intern, daher keine Kompression über `/ts/put` Endpoint
