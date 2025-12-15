@@ -17,11 +17,18 @@ Diese Analyse vergleicht **ThemisDB Native LLM Integration** auf verschiedenen G
 - ✅ **High-End GPUs (>24GB):** Multi-Model Serving mit bis zu 70B Parametern möglich
 - ✅ **ROI Break-Even:** 3-6 Monate vs. Hyperscaler für typische Workloads
 
+**🔒 Lizenzmodell (v1.5.0):**
+- ✅ **Community Edition (Kostenlos):** ≤24 GB VRAM - 80% aller Use Cases abgedeckt
+- 🔒 **Enterprise Edition (Lizenzpflichtig):** >24 GB VRAM - Für große Modelle (70B+), Multi-GPU, HA-Cluster
+- **→ Siehe:** [Enterprise VRAM Licensing](ENTERPRISE_VRAM_LICENSING.md)
+
 ---
 
 ## 🎯 GPU-Tier Kategorisierung
 
-### Tier 1: Entry-Level (<16 GB VRAM)
+### Tier 1: Entry-Level (<16 GB VRAM) ✅ Community Edition
+
+**Lizenz:** ✅ **Community Edition (Kostenlos)**
 
 **Hardware-Beispiele:**
 - NVIDIA RTX 4060 Ti (16 GB): ~500 EUR
@@ -82,7 +89,11 @@ Diese Analyse vergleicht **ThemisDB Native LLM Integration** auf verschiedenen G
 - ✅ FAQ-Bots
 - ⚠️ Nicht für: Komplexe Reasoning, Multi-Step-Tasks
 
-### Tier 2: Mid-Range (<24 GB VRAM)
+### Tier 2: Mid-Range (<24 GB VRAM) ✅ Community Edition
+
+**Lizenz:** ✅ **Community Edition (Kostenlos)** - **Empfohlen für 80% der Use Cases!**
+
+**Hardware-Beispiele:**
 
 **Hardware-Beispiele:**
 - NVIDIA RTX 4090 (24 GB): ~1,800 EUR
@@ -145,7 +156,9 @@ Diese Analyse vergleicht **ThemisDB Native LLM Integration** auf verschiedenen G
 - ✅ Technische Dokumentation
 - ✅ Customer Support Bots
 
-### Tier 3: High-End (>24 GB VRAM)
+### Tier 3: High-End (>24 GB VRAM) 🔒 Enterprise Edition
+
+**Lizenz:** 🔒 **Enterprise Edition erforderlich** (ab €5,000/Jahr)
 
 **Hardware-Beispiele:**
 - NVIDIA A100 (80 GB): ~10,000 EUR

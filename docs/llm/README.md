@@ -1,14 +1,21 @@
-# LLM Module
+# LLM & AI Integration Documentation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** LLM
+**Stand:** 15. Dezember 2025  
+**Version:** 1.2.0 (v1.5.0 Native LLM Integration planned for Q3 2026)  
+**Kategorie:** LLM & Distributed AI
 
 ---
 
-## Übersicht
+## 🚀 Übersicht
 
-Das LLM-Modul bietet Speicherung und Verwaltung von LLM-Interaktionen, Prompt-Templates und Chain-of-Thought (CoT) Reasoning.
+ThemisDB entwickelt sich zur ersten Multi-Model-Datenbank mit **eingebetteter LLM-Engine** und **verteiltem Reasoning**. Das LLM-Modul bietet Speicherung und Verwaltung von LLM-Interaktionen, Prompt-Templates und Chain-of-Thought (CoT) Reasoning.
+
+**Neue Fähigkeiten in v1.5.0:**
+- 🧠 **Embedded llama.cpp** - Native LLM-Engine ohne externe APIs
+- ⚡ **Zero-Copy RAG** - Direkte Speicherzugriffe (4x schneller)
+- 🔄 **Distributed Reasoning** - Multi-Shard Collaboration wie im Gehirn
+- 💰 **100-1000x Kostenersparnis** - vs. AWS/Azure/GCP APIs
+- 🎯 **Alle GPU-Tiers** - Entry (<16GB), Mid (<24GB), High-End (>24GB)
 
 ## Source-Code Referenz
 
@@ -196,9 +203,34 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 
 ## Verwandte Dokumentation
 
-### LLM Integration & Loader
+### LLM Integration & Distributed Reasoning
 
-- [Native LLM Integration Concept](./NATIVE_LLM_INTEGRATION_CONCEPT.md) - **NEU:** Technisches Konzept für direkte LLM Integration
+- [**Enterprise VRAM Licensing**](./ENTERPRISE_VRAM_LICENSING.md) ⭐ **NEU:** VRAM-basiertes Lizenzmodell
+  - **Community Edition (Free):** ≤24 GB VRAM - 80% aller Use Cases abgedeckt
+  - **Enterprise Edition:** >24 GB VRAM - Llama-70B+, Multi-GPU, HA-Cluster
+  - **Technische Implementierung:** VRAMLicenseManager, Runtime Enforcement
+  - **Pricing:** €5,000-€50,000/Jahr je nach VRAM-Tier
+  - **ROI:** 90-99% Einsparung vs. Hyperscaler
+  - **Free Trial:** 30 Tage Enterprise testen
+
+- [**Distributed Reasoning Architecture**](./DISTRIBUTED_REASONING_ARCHITECTURE.md) ⭐ **NEU:** Verteiltes Denken wie im Gehirn
+  - **Brain-Inspired Multi-Shard Collaboration** - Spezialisierte Shards wie Gehirnregionen
+  - **Parallel Chain-of-Thought (CoT)** - Multi-Step Tasks 3-5x schneller durch Parallelisierung
+  - **Multi-Perspective Reasoning** - Verschiedene LoRA-Adapter analysieren aus verschiedenen Blickwinkeln
+  - **Hierarchical Task Decomposition** - Orchestrator zerlegt komplexe Tasks automatisch
+  - **Performance:** 3.6x schneller, 21x günstiger als GPT-4 bei Multi-Step Tasks
+  - **Use Cases:** Legal Contract Analysis, Medical Diagnosis, Scientific Research
+  - **Roadmap:** v1.5.0 (Q3 2026)
+
+- [**GPU-Tier Analysis & Hyperscaler Comparison**](./GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md) ⭐ **NEU:** SLM/LLM Performance-Analyse
+  - Entry-Level (<16GB): RTX 4060 Ti + Phi-3-Mini - €0.02/1M tokens, 1500x günstiger
+  - Mid-Range (<24GB): RTX 4090 + Mistral-7B - €0.05/1M tokens, 600x günstiger, **Best ROI**
+  - High-End (>24GB): A100 + Llama-3-70B - €0.15/1M tokens, 200x günstiger
+  - 3-Jahr TCO: €9,801 (RTX 4090) vs. €835,200 (Azure) = 99% Einsparung
+  - Break-Even: 2.3 Monate (Mid-Range), 6.5 Monate (High-End)
+  - Use-Case-spezifische Empfehlungen
+
+- [Native LLM Integration Concept](./NATIVE_LLM_INTEGRATION_CONCEPT.md) ⭐ **NEU:** Technisches Konzept für direkte LLM Integration
   - Zero-Copy Memory Access (Apache Arrow, PyTorch Best Practices)
   - Unified Memory Space (CUDA Unified Memory)
   - Lazy Loading & Streaming (HuggingFace Datasets)
@@ -208,7 +240,7 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
   - **Performance:** 4x schneller, 6x VRAM-effizienter
   - **Roadmap:** v1.5.0 (Q3 2026)
 
-- [Zero-Copy Memory Access](./ZERO_COPY_MEMORY_ACCESS.md) - **NEU:** Intra-Ops vs. Inter-Ops Kommunikation
+- [Zero-Copy Memory Access](./ZERO_COPY_MEMORY_ACCESS.md) ⭐ **NEU:** Intra-Ops vs. Inter-Ops Kommunikation
   - Shared Memory für same-host deployment
   - GPU Direct Memory Access (GPUDirect)
   - gRPC/Protobuf für distributed deployment
