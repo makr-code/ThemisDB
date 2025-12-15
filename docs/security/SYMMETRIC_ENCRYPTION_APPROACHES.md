@@ -568,6 +568,15 @@ public:
         std::vector<std::string> all_vector_ids;
         std::vector<std::vector<float>> decrypted_embeddings;
         
+        // Option 1: Lade persisentierten HNSW-Index (Warm-Start)
+        if (loadPersistedHNSWIndex()) {
+            Logger::info("HNSW index loaded from disk (warm-start)");
+            return;  // Index bereits im VRAM, bereit für Suche
+        }
+        
+        // Option 2: Rebuild von verschlüsselten Vektoren
+        Logger::info("Building HNSW index from encrypted vectors...");
+        
         // 1. Batch-Load von Disk (verschlüsselt)
         auto encrypted_vectors = db_->scan("vec:");
         
@@ -597,8 +606,40 @@ public:
             hnsw_index_->addVector(all_vector_ids[i], decrypted_embeddings[i]);
         }
         
-        Logger::info("Vector index loaded: {} vectors decrypted and indexed", 
+        Logger::info("Vector index built: {} vectors decrypted and indexed", 
                     decrypted_embeddings.size());
+        
+        // 4. Speichere HNSW-Index für zukünftige Warm-Starts
+        persistHNSWIndex();
+    }
+    
+    // === HNSW PERSISTENCE (für Warm-Start) ===
+    bool loadPersistedHNSWIndex() {
+        std::string index_path = "./data/hnsw_" + object_name_;
+        
+        // Prüfe ob persistierter Index existiert
+        if (!std::filesystem::exists(index_path + "/index.bin")) {
+            return false;
+        }
+        
+        // Lade HNSW-Index (Plaintext in VRAM, aber nur temporär)
+        auto status = vector_index_manager_->loadIndex(index_path);
+        return status.ok;
+    }
+    
+    void persistHNSWIndex() {
+        std::string index_path = "./data/hnsw_" + object_name_;
+        
+        // Speichere HNSW-Graph-Struktur (Plaintext!)
+        // Hinweis: Dies speichert die PLAINTEXT-Vektoren auf Disk
+        // für schnelle Warm-Starts
+        auto status = vector_index_manager_->saveIndex(index_path);
+        
+        if (!status.ok) {
+            Logger::warn("Failed to persist HNSW index: {}", status.message);
+        } else {
+            Logger::info("HNSW index persisted to {} for warm-start", index_path);
+        }
     }
     
     // === SEARCH (auf Plaintext in VRAM) ===
@@ -610,10 +651,21 @@ public:
         return hnsw_index_->search(query, k);
     }
     
+    // === SHUTDOWN ===
+    void shutdown() {
+        // Auto-Save HNSW-Index beim Herunterfahren
+        if (auto_save_hnsw_) {
+            persistHNSWIndex();
+        }
+    }
+    
 private:
     std::shared_ptr<RocksDBWrapper> db_;
     std::unique_ptr<HNSWIndex> hnsw_index_;
+    std::shared_ptr<VectorIndexManager> vector_index_manager_;
     std::vector<std::pair<std::string, std::vector<float>>> pending_vectors_;
+    std::string object_name_;
+    bool auto_save_hnsw_ = true;
     
     static constexpr size_t BATCH_SIZE = 1000;
 };
