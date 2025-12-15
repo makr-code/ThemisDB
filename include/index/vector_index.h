@@ -210,6 +210,12 @@ public:
     size_t getVectorCount() const { return pkToId_.size(); }
     bool isHnswEnabled() const { return useHnsw_; }
         std::string getSavePath() const { return savePath_; }
+    
+    // Encryption configuration (Phase 1)
+    bool isVectorEncryptionEnabled() const;
+    void setVectorEncryptionEnabled(bool enabled);
+    std::string getVectorKeyId() const { return vectorKeyId_; }
+    void setVectorKeyId(const std::string& keyId) { vectorKeyId_ = keyId; }
 
 private:
     RocksDBWrapper& db_;
@@ -221,6 +227,9 @@ private:
     int efConstruction_ = 200;
         std::string savePath_; // Verzeichnis für saveIndex/loadIndex
         bool autoSave_ = false; // Automatisches Speichern bei shutdown()
+    
+    // Phase 1: Vector encryption configuration
+    std::string vectorKeyId_ = "vector_embeddings";  // Key ID for vector encryption
 
     // In-Memory Mapping PK <-> Label-ID (für HNSW) und Cache für Fallback
     mutable std::unordered_map<std::string, size_t> pkToId_;

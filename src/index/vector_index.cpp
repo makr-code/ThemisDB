@@ -13,6 +13,9 @@
 // See docs/performance/performance_vector_compression_lossless.md for details
 #include "utils/lossless_vector_integration.h"
 
+// Phase 1: Vector encryption support
+#include "security/encryption.h"
+
 #include <shared_mutex>
 #ifdef IN
 #undef IN
@@ -72,6 +75,43 @@ void VectorIndexManager::setAutoSavePath(const std::string& savePath, bool autoS
 				THEMIS_WARN("VectorIndexManager::setAutoSavePath - Failed to load index: {}", loadStatus.message);
 			}
 		}
+	}
+}
+
+// Phase 1: Vector encryption configuration
+bool VectorIndexManager::isVectorEncryptionEnabled() const {
+	try {
+		if (auto cfg = db_.get("config:vector")) {
+			std::string s(cfg->begin(), cfg->end());
+			nlohmann::json j = nlohmann::json::parse(s);
+			return j.value("encryption_enabled", false);
+		}
+	} catch (...) {
+		// If config doesn't exist or can't be parsed, default to disabled
+	}
+	return false;  // Default: encryption disabled (backward compatible)
+}
+
+void VectorIndexManager::setVectorEncryptionEnabled(bool enabled) {
+	try {
+		nlohmann::json j;
+		// Read existing config if present
+		if (auto cfg = db_.get("config:vector")) {
+			std::string s(cfg->begin(), cfg->end());
+			j = nlohmann::json::parse(s);
+		}
+		
+		// Update encryption setting
+		j["encryption_enabled"] = enabled;
+		
+		// Write back to database
+		std::string json_str = j.dump();
+		std::vector<uint8_t> data(json_str.begin(), json_str.end());
+		db_.put("config:vector", data);
+		
+		THEMIS_INFO("VectorIndexManager: Vector encryption {}", enabled ? "ENABLED" : "DISABLED");
+	} catch (const std::exception& ex) {
+		THEMIS_ERROR("VectorIndexManager: Failed to set encryption config: {}", ex.what());
 	}
 }
 
@@ -242,17 +282,33 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 		try {
 			BaseEntity e = BaseEntity::deserialize(pk, bytes);
 			
-			// EXPERIMENTAL: Try lossless decompression first
-			// NOTE: Scientific experiment - may be rolled back
-			auto losslessVec = experimental::VectorCompressionHelper::decompressVector(e);
-			
 			std::vector<float> v;
-			if (losslessVec.has_value()) {
+			
+			// Phase 1: Try encrypted vector first
+			auto encFieldOpt = e.getField("embedding_encrypted");
+			if (encFieldOpt) {
+				try {
+					// Extract encrypted base64 string
+					const auto* enc_str = std::get_if<std::string>(&(*encFieldOpt));
+					if (enc_str && !enc_str->empty()) {
+						// Decrypt using EncryptedField
+						auto enc_field = EncryptedField<std::vector<float>>::fromBase64(*enc_str);
+						v = enc_field.decrypt();
+						THEMIS_DEBUG("rebuildFromStorage: Decrypted vector for pk={}", pk);
+					}
+				} catch (const std::exception& ex) {
+					THEMIS_WARN("rebuildFromStorage: Failed to decrypt vector for pk={}: {}", pk, ex.what());
+					return true;  // Skip this entity, continue to next
+				}
+			}
+			// EXPERIMENTAL: Try lossless decompression
+			else if (auto losslessVec = experimental::VectorCompressionHelper::decompressVector(e); losslessVec.has_value()) {
 				// EXPERIMENTAL: Use lossless decompressed vector
 				v = std::move(*losslessVec);
 				THEMIS_DEBUG("rebuildFromStorage: Using experimental lossless decompression for pk={}", pk);
-			} else {
-				// EXISTING IMPLEMENTATION (preserved, not deleted)
+			}
+			// EXISTING IMPLEMENTATION (preserved, not deleted)
+			else {
 				auto vecOpt = e.extractVector("embedding");
 				if (vecOpt && vecOpt->size() == static_cast<size_t>(dim_)) {
 					v = *vecOpt;
@@ -302,9 +358,12 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	auto v = e.extractVector(vectorField);
 	if (!v) return Status::Error("addEntity: Vektor-Feld fehlt oder hat falsches Format");
 	
+	// Phase 1: Check if encryption is enabled
+	bool encryptVectors = isVectorEncryptionEnabled();
+	
 	// EXPERIMENTAL: Try lossless compression first (if enabled)
 	// NOTE: Scientific experiment - may be rolled back
-	// Priority: Lossless > SQ8 > Raw storage
+	// Priority: Encryption > Lossless > SQ8 > Raw storage
 	auto losslessCompressed = experimental::VectorCompressionHelper::tryLosslessCompression(e, *v, db_);
 	if (!losslessCompressed.has_value()) {
 		THEMIS_DEBUG("VectorIndexManager: Lossless compression not applicable for pk={}, falling back", pk);
@@ -312,8 +371,9 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	
 	// Decide on SQ8 quantization based on config in DB
 	// NOTE: This is the EXISTING implementation (preserved, not deleted)
-	// If lossless compression succeeded, this code path is skipped
+	// If lossless compression or encryption succeeded, this code path is skipped
 	auto shouldQuantize = [&]() -> bool {
+		if (encryptVectors) return false; // Encryption takes precedence
 		if (losslessCompressed.has_value()) return false; // Lossless takes precedence
 		
 		std::string mode = "auto"; int64_t threshold = 1000000;
@@ -335,7 +395,25 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	std::string key = makeObjectKey(pk);
 	std::vector<uint8_t> serialized;
 	
-	if (losslessCompressed.has_value()) {
+	if (encryptVectors) {
+		// Phase 1: Encrypt vector and store
+		try {
+			EncryptedField<std::vector<float>> enc_field;
+			enc_field.encrypt(*v, vectorKeyId_);
+			
+			// Create storage entity with encrypted vector
+			auto fields = e.getAllFields();
+			fields.erase(std::string(vectorField));  // Remove plaintext vector
+			fields["embedding_encrypted"] = enc_field.toBase64();
+			
+			BaseEntity encrypted_entity = BaseEntity::fromFields(pk, fields);
+			serialized = encrypted_entity.serialize();
+			
+			THEMIS_DEBUG("VectorIndexManager: Encrypted vector for pk={}", pk);
+		} catch (const std::exception& ex) {
+			return Status::Error("addEntity: Vector encryption failed: " + std::string(ex.what()));
+		}
+	} else if (losslessCompressed.has_value()) {
 		// EXPERIMENTAL: Use lossless compressed data
 		serialized = std::move(*losslessCompressed);
 		THEMIS_DEBUG("VectorIndexManager: Using experimental lossless compression for pk={}", pk);
