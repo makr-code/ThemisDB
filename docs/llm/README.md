@@ -198,7 +198,24 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 
 ### LLM Integration & Loader
 
-- [AI Ecosystem Sharding Architecture](./AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md) - **NEU:** Komplettes AI-Ökosystem mit horizontalem Sharding
+- [Native LLM Integration Concept](./NATIVE_LLM_INTEGRATION_CONCEPT.md) - **NEU:** Technisches Konzept für direkte LLM Integration
+  - Zero-Copy Memory Access (Apache Arrow, PyTorch Best Practices)
+  - Unified Memory Space (CUDA Unified Memory)
+  - Lazy Loading & Streaming (HuggingFace Datasets)
+  - Continuous Batching (vLLM-style)
+  - PagedAttention KV Cache
+  - LoRA Fusion Engine (PEFT)
+  - **Performance:** 4x schneller, 6x VRAM-effizienter
+  - **Roadmap:** v1.5.0 (Q3 2026)
+
+- [Zero-Copy Memory Access](./ZERO_COPY_MEMORY_ACCESS.md) - **NEU:** Intra-Ops vs. Inter-Ops Kommunikation
+  - Shared Memory für same-host deployment
+  - GPU Direct Memory Access (GPUDirect)
+  - gRPC/Protobuf für distributed deployment
+  - mTLS Security Layer
+  - **Performance:** 0ms (GPU Direct) bis 12s (gRPC compressed)
+
+- [AI Ecosystem Sharding Architecture](./AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md) - Komplettes AI-Ökosystem mit horizontalem Sharding
   - Jede Shard mit eigenem LLM (llama.cpp + GPU)
   - Dynamic LoRA Transfer zwischen Shards
   - Federated RAG Queries über mehrere Domains
@@ -230,3 +247,4 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 - [Sharding Overview](../sharding/sharding_overview.md) - Horizontales Sharding in ThemisDB
 - [AQL Prompt Engineering](../AQL_PROMPT_ENGINEERING.md)
 - [Projects: RAG LLM Programmierhilfe](../projects/RAG_LLM_PROGRAMMIERHILFE.md)
+- [Roadmap](../roadmap/ROADMAP.md) - ThemisDB Roadmap (v1.5.0 LLM Integration)

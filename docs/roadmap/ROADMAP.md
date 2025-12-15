@@ -189,12 +189,35 @@ v1.2.0 ✅        │                  │                  │
 
 **Target Date:** June 2026
 
-### v1.5.0 - Cloud-Native Optimizations (Q3 2026) 📋
+### v1.5.0 - Native LLM Integration & Cloud Optimizations (Q3 2026) 📋
 
-**Theme:** Cloud & Kubernetes
+**Theme:** AI-First Database with Native LLM Engine
 
 **Planned Features:**
 
+- 📋 **Native LLM Engine Integration** ⭐ NEW
+  - Embedded llama.cpp engine (no external dependencies)
+  - Zero-copy vector-to-LLM memory access
+  - CUDA Unified Memory for DB + LLM
+  - GPU VRAM sharing (FAISS + LLM on same GPU)
+  - Memory-mapped model loading (lazy initialization)
+  - Mixed precision inference (INT4/FP16/FP32)
+  
+- 📋 **Advanced LoRA Management** ⭐ NEW
+  - Dynamic LoRA adapter loading from shards
+  - LoRA fusion engine (multi-adapter combining)
+  - Shared memory LoRA cache
+  - Cross-shard LoRA transfer protocol
+  - Adapter registry (etcd-based coordination)
+  
+- 📋 **Production-Ready RAG** ⭐ NEW
+  - Zero-copy RAG pipeline (FAISS → LLM direct)
+  - Continuous batching (vLLM-style)
+  - PagedAttention KV cache
+  - Federated RAG across shards
+  - Streaming token generation
+  - Batch inference optimization
+  
 - 📋 **Kubernetes Operator Enhancement**
   - Automated scaling
   - Rolling updates
@@ -205,16 +228,18 @@ v1.2.0 ✅        │                  │                  │
   - S3/Azure Blob/GCS support
   - Tiered storage (hot/warm/cold)
   - Object storage for backups
-  
-- 📋 **Serverless Mode**
-  - On-demand scaling
-  - Pay-per-query pricing model
-  - Cold start optimization
-  
-- 📋 **Multi-vLLM Load Balancing**
-  - Distribute AI workloads
-  - Resource pooling
-  - Intelligent routing
+
+**Expected Impact:**
+- 4x faster RAG queries (zero-copy optimization)
+- 2.6x higher throughput (continuous batching)
+- 6x better VRAM efficiency (paged KV cache)
+- No external LLM service needed
+- Complete AI ecosystem in single database
+
+**Documentation:**
+- [Native LLM Integration Concept](../llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)
+- [AI Ecosystem Sharding Architecture](../llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md)
+- [Zero-Copy Memory Access](../llm/ZERO_COPY_MEMORY_ACCESS.md)
 
 **Target Date:** September 2026
 
@@ -224,25 +249,32 @@ v1.2.0 ✅        │                  │                  │
 
 ### Major Themes
 
-**1. Advanced Data Platform**
+**1. Native AI Database**
+- Production-ready LLM serving at scale
+- Multi-model ensemble (multiple base models)
+- Automatic LoRA optimization
+- GPU cluster coordination
+- AI workload scheduling
+
+**2. Advanced Data Platform**
 - Real-time materialized views
 - Streaming data pipelines
 - Change data capture enhancements
 - Data lake integration
 
-**2. Enterprise Scale**
+**3. Enterprise Scale**
 - 100+ node clusters
 - Petabyte-scale deployments
 - Advanced monitoring and alerting
 - Automated performance tuning
 
-**3. Developer Experience**
+**4. Developer Experience**
 - Visual query builder
 - Schema migration tools
 - Admin dashboard UI
 - Enhanced CLI tools
 
-**4. Compliance & Governance**
+**5. Compliance & Governance**
 - GDPR automation
 - Data lineage tracking
 - Fine-grained access control
