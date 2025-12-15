@@ -19,10 +19,13 @@ public interface IGeoSpatialAnalyzer
 
 /// <summary>
 /// Geo-Spatial Analyzer mit Railway Empire-ähnlichem A* für Routenplanung
+/// Integriert CrossingAnalyzer und SettlementAnalyzer für realistische Kostenberechnung
 /// </summary>
 public class GeoSpatialAnalyzer : IGeoSpatialAnalyzer
 {
     private readonly ITerrainDataProvider _terrainProvider;
+    private readonly CrossingAnalyzer? _crossingAnalyzer;
+    private readonly SettlementAnalyzer? _settlementAnalyzer;
     private readonly Dictionary<string, GeoNode> _nodeCache = new();
     private readonly ConcurrentDictionary<string, TerrainInfo> _terrainCache = new();
     
@@ -37,9 +40,14 @@ public class GeoSpatialAnalyzer : IGeoSpatialAnalyzer
     private const double COST_CURVE_MULTIPLIER = 1.5;        // Kurvenzuschlag
     private const double COST_PROTECTED_AREA = 100_000_000;  // Schutzgebiet-Zuschlag
 
-    public GeoSpatialAnalyzer(ITerrainDataProvider terrainProvider)
+    public GeoSpatialAnalyzer(
+        ITerrainDataProvider terrainProvider,
+        CrossingAnalyzer? crossingAnalyzer = null,
+        SettlementAnalyzer? settlementAnalyzer = null)
     {
         _terrainProvider = terrainProvider;
+        _crossingAnalyzer = crossingAnalyzer;
+        _settlementAnalyzer = settlementAnalyzer;
     }
 
     /// <summary>
@@ -206,14 +214,61 @@ public class GeoSpatialAnalyzer : IGeoSpatialAnalyzer
             }
         }
         
-        // 6. Bebauung (Enteignungskosten)
+        // 6. Bebauung (Enteignungskosten) - ENHANCED with SettlementAnalyzer
         double urbanCost = 0;
-        if (terrainFrom.UrbanDensity > 0.5 || terrainTo.UrbanDensity > 0.5)
+        if (_settlementAnalyzer != null)
         {
+            // Use SettlementAnalyzer for precise urban constraint analysis
+            var midPoint = new GeoPoint(
+                (from.Latitude + to.Latitude) / 2,
+                (from.Longitude + to.Longitude) / 2
+            );
+            
+            var settlement = await _settlementAnalyzer.AnalyzeSettlementAsync(midPoint, distance / 2);
+            
+            // Add urban penalty based on settlement type
+            urbanCost = (double)settlement.EstimatedPenaltyCost;
+            
+            // If tunnel is required for this settlement type, force tunnel costs
+            if (settlement.RequiresTunnel && !criteria.AllowTunnels)
+            {
+                // Make route prohibitively expensive if tunnels not allowed but required
+                urbanCost += COST_PER_KM_TUNNEL * distance * 2;
+            }
+        }
+        else if (terrainFrom.UrbanDensity > 0.5 || terrainTo.UrbanDensity > 0.5)
+        {
+            // Fallback to simple calculation if SettlementAnalyzer not available
             urbanCost = distance * COST_PER_KM_FLAT * 2.0 * terrainFrom.UrbanDensity;
         }
         
-        // 7. Existierende Korridore bevorzugen (billiger!)
+        // 7. Road/Railway Crossings - NEW with CrossingAnalyzer
+        double crossingCost = 0;
+        if (_crossingAnalyzer != null)
+        {
+            // Detect crossings along this segment
+            var routeSegment = new List<GeoPoint>
+            {
+                new GeoPoint(from.Latitude, from.Longitude),
+                new GeoPoint(to.Latitude, to.Longitude)
+            };
+            
+            var crossings = await _crossingAnalyzer.DetectRoadCrossingsAsync(routeSegment, 50);
+            
+            // Sum up all crossing costs
+            foreach (var crossing in crossings)
+            {
+                crossingCost += (double)crossing.EstimatedCost;
+                
+                // Additional penalty for crossings requiring permits
+                if (crossing.RequiresPermit)
+                {
+                    crossingCost += 500_000; // Administrative costs
+                }
+            }
+        }
+        
+        // 8. Existierende Korridore bevorzugen (billiger!)
         double corridorDiscount = 0;
         if (criteria.PreferExistingCorridors)
         {
@@ -223,12 +278,13 @@ public class GeoSpatialAnalyzer : IGeoSpatialAnalyzer
             }
         }
         
-        // Gesamtkosten
+        // Gesamtkosten - NOW includes crossing costs
         var totalCost = (baseCost * distance * gradientMultiplier) + 
                        bridgeCost + 
                        curveCost + 
                        protectedAreaCost + 
-                       urbanCost - 
+                       urbanCost + 
+                       crossingCost - 
                        corridorDiscount;
         
         // Kriterien-basierte Adjustierung
@@ -567,6 +623,7 @@ public class PathCriteria
     public bool MinimizeDistance { get; set; }
     public bool AvoidDifficultTerrain { get; set; }
     public bool PreferExistingCorridors { get; set; }
+    public bool AllowTunnels { get; set; } = true; // Allow tunnels by default
     public double MaxGradient { get; set; } = 2.5; // % Steigung
 }
 
@@ -582,6 +639,13 @@ public class OptimalPath
     public double DifficultTerrainPercent { get; set; }
     public int EstimatedTravelTimeMinutes { get; set; }
     public List<GeoLocation> Waypoints { get; set; } = new();
+    
+    // NEW: Crossing and Settlement Analysis Results
+    public List<RoadCrossing> RoadCrossings { get; set; } = new();
+    public List<SettlementInfo> SettlementsAffected { get; set; } = new();
+    public double TotalCrossingCost { get; set; }
+    public double TotalUrbanPenaltyCost { get; set; }
+    public int SettlementsRequiringTunnels { get; set; }
 }
 
 public class PathResult
