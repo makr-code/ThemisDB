@@ -6,6 +6,14 @@
 
 ---
 
+## BSI C5 Compliance
+
+**[➡️ BSI C5 Column Encryption Compliance Report](BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md)**  
+Comprehensive analysis of column encryption implementation against BSI C5 requirements (CRY-01 to CRY-06).  
+**Compliance Score: 95% (18/19 criteria met)** ✅
+
+---
+
 ## Übersicht
 
 Das Security-Modul implementiert Field-Level Encryption, Key Management, RBAC, PKI und Malware-Scanning für ThemisDB.
