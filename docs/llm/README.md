@@ -205,6 +205,23 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 
 ### LLM Integration & Distributed Reasoning
 
+- [**Docker/VM Deployment Guide**](./DOCKER_VM_DEPLOYMENT_GUIDE.md) ⭐ **NEU:** Deployment in Containern und VMs
+  - **GPU Passthrough:** Docker NVIDIA Toolkit, KVM/QEMU, VMware vSphere
+  - **CPU Fallback Mode:** Vollständiges Testing OHNE GPU (5-10x langsamer, aber funktional)
+  - **Mixed Mode:** Hybrid-Cluster mit GPU + CPU Shards
+  - **Multi-Shard Testing:** Komplett in Docker ohne GPU möglich
+  - **Kubernetes:** GPU Device Plugin, StatefulSets, Health Probes
+  - **Performance:** GPU (100%), CPU (15-20%), Mixed (90%/15%)
+
+- [**Monitoring & Testing Strategy**](./MONITORING_TESTING_STRATEGY.md) ⭐ **NEU:** Observability & QA
+  - **6 Grafana Dashboards:** Cluster Overview, Inter-Cerebral Communication, LLM Performance, Vector Search, Distributed Reasoning, Cost/ROI
+  - **Inter-Cerebral Monitoring:** Brain-inspired Shard-zu-Shard Kommunikationsvisualisierung
+  - **40+ Prometheus Metriken:** Counter, Gauge, Histogram für alle Komponenten
+  - **Testing Pyramid:** 70% Unit, 25% Integration, 5% E2E Tests
+  - **CI/CD Integration:** GitHub Actions mit GPU/CPU Testing
+  - **Benchmarks:** Inference Throughput, Distributed Reasoning, LoRA Transfer, Vector Search
+  - **Expected:** 99.9% Uptime, <2s p95 Latency, >70% VRAM Utilization
+
 - [**Enterprise VRAM Licensing**](./ENTERPRISE_VRAM_LICENSING.md) ⭐ **NEU:** VRAM-basiertes Lizenzmodell
   - **Community Edition (Free):** ≤24 GB VRAM - 80% aller Use Cases abgedeckt
   - **Enterprise Edition:** >24 GB VRAM - Llama-70B+, Multi-GPU, HA-Cluster
