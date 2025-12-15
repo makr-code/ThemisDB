@@ -6,6 +6,61 @@
 
 ---
 
+## 🚀 Next Top Feature: Native LLM Integration (v1.5.0 - Q3 2026)
+
+**AI direkt in der Datenbank - ohne externe API-Kosten!**
+
+ThemisDB wird zur ersten Multi-Model-Datenbank mit **eingebetteter LLM-Engine**:
+
+### Highlights
+
+- 🧠 **Embedded llama.cpp** - SLMs/LLMs (1B-70B Parameter) direkt auf GPU
+- ⚡ **Zero-Copy RAG** - Direkte Speicherzugriffe zwischen Vector-DB und LLM (4x schneller)
+- 💰 **100-1000x Kostenersparnis** - vs. AWS/Azure/GCP (€0.02 vs. €30 pro 1M Tokens)
+- 🎯 **Alle GPU-Tiers** - Entry (<16GB), Mid-Range (<24GB), High-End (>24GB)
+- 🔄 **Federated RAG** - Cross-Shard Queries mit dynamischer LoRA-Fusion
+- 📊 **Continuous Batching** - vLLM-style (2.6x Durchsatz)
+
+### GPU-Tier Empfehlungen
+
+| GPU-Tier | Hardware | Model | Use Case | Kosten/1M Tokens | vs. GPT-4 |
+|----------|----------|-------|----------|------------------|-----------|
+| **Entry** | RTX 4060 Ti (16GB) | Phi-3-Mini (3.8B) | FAQ, einfache RAG | €0.02 | **1500x günstiger** |
+| **Mid-Range** | RTX 4090 (24GB) | Mistral-7B | Production RAG | €0.05 | **600x günstiger** |
+| **High-End** | A100 (80GB) | Llama-3-70B | Enterprise Scale | €0.15 | **200x günstiger** |
+
+**Break-Even vs. Hyperscaler:** 2-7 Monate je nach Hardware-Tier
+
+### Dokumentation
+
+- **[GPU-Tier Analyse & Hyperscaler-Vergleich](llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)** ⭐ **NEU**
+  - SLM/LLM Performance auf Entry/Mid/High-End GPUs
+  - TCO-Analyse über 3 Jahre
+  - ROI-Berechnung vs. AWS/Azure/GCP
+  - Use-Case-spezifische Empfehlungen
+
+- **[Native LLM Integration Concept](llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)** ⭐ **NEU**
+  - Zero-Copy Architecture (Best Practices)
+  - Continuous Batching (vLLM-style)
+  - PagedAttention (6x VRAM-Effizienz)
+  - Complete Code-Beispiele
+
+- **[Zero-Copy Memory Access](llm/ZERO_COPY_MEMORY_ACCESS.md)** ⭐ **NEU**
+  - Intra-Ops vs. Inter-Ops Kommunikation
+  - GPU Direct Memory Access
+  - Performance: 0ms (GPU Direct) bis 12s (gRPC)
+
+- **[AI Ecosystem Sharding Architecture](llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md)**
+  - Jede Shard mit eigenem LLM
+  - Dynamic LoRA Transfer
+  - Federated RAG
+
+- **[Alle LLM Dokumentation](llm/README.md)** - Kompletter Index
+
+**Roadmap:** v1.5.0 (Q3 2026) - Native LLM Integration
+
+---
+
 ## 📁 Dokumentations-Struktur (Neu Organisiert)
 
 Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
@@ -22,6 +77,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 - `architecture/` - Architektur-Dokumentation (ARCHITECTURE_OVERVIEW.md, etc.)
 - `stakeholder/` - Stakeholder-Dokumentation
 - `releases/` - Release-Notizen (v1.2.0.md, v1.1.0.md, etc.)
+- `llm/` - **LLM & AI Integration** ⭐ **NEU**
 - `archive/` - Alte/historische Dokumentation
 
 ---
