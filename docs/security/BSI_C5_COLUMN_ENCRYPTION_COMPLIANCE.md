@@ -48,6 +48,18 @@ Die Implementierung erfüllt alle relevanten BSI C5-Anforderungen für kryptogra
 
 ---
 
+## 1.3 Multi-Model Coverage
+
+**Wichtige Ergänzung (15. Dezember 2025):**
+
+Diese Analyse fokussiert sich auf die **Column-Level Encryption** für relationale Daten. Für eine vollständige Übersicht der Verschlüsselung über **alle Datenmodell-Schichten** (relational, vector, graph, geo, timeline, process), siehe:
+
+**[➡️ BSI C5 Multi-Model Encryption Analysis](BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md)**
+
+Die Multi-Model-Analyse zeigt, dass **alle höheren Datenmodelle** dieselbe `BaseEntity`-Storage-Architektur verwenden und damit konsistent verschlüsselt werden können.
+
+---
+
 ## 2. Detaillierte Analyse nach BSI C5 Kontrollen
 
 ### 2.1 CRY-01: Kryptographie-Policy
