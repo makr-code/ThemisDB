@@ -173,10 +173,30 @@ vector_doc.setField("source_encrypted", encrypted_source.toBase64());
 **Test-Nachweis:** `tests/test_vector_metadata_encryption_edge_cases.cpp`
 
 **Wichtiger Hinweis für Compliance:**
-Für **BSI C5 CRY-03** ist dies **konform**, da:
-1. Embeddings selbst keine PII enthalten (nur numerische Vektoren)
-2. PII-haltige Metadaten können verschlüsselt werden
-3. Dokumentiert in Policy: "Nur sensitive Metadaten verschlüsseln, nicht Embedding selbst"
+
+**⚠️ AKTUALISIERUNG (15. Dezember 2025):** 
+
+**Embedding-Reversibilität identifiziert:** Siehe **[EMBEDDING_REVERSIBILITY_ANALYSIS.md](EMBEDDING_REVERSIBILITY_ANALYSIS.md)**
+
+Neue Forschung zeigt, dass Embeddings **teilweise rekonstruierbar** sind (40-80% semantische Rekonstruktion, 70-90% PII-Extraktion). Dies stellt ein **kritisches Sicherheitsrisiko** dar.
+
+**Aktualisierte Compliance-Bewertung:**
+- **Vorher:** ✅ Konform (Annahme: Embeddings sind keine PII)
+- **Jetzt:** ⚠️ **BEDINGT KONFORM** (Reversibilitäts-Risiko dokumentiert, Mitigations erforderlich)
+
+**Sofortmaßnahmen:**
+1. ❌ `text`-Feld NIEMALS im Klartext speichern (nur verschlüsselte Metadaten)
+2. ✅ Keine PII in Embedding-Trainingstext
+3. ✅ RBAC auf Embedding-Zugriff
+4. ✅ Audit-Logging für alle Embedding-Queries
+
+**Langfristige Lösung:** Homomorphic Encryption oder Secure Enclaves (6-12 Monate)
+
+Für **BSI C5 CRY-03** ist dies **bedingt konform**, da:
+1. ✅ Risiko ist dokumentiert und bekannt
+2. ✅ Mitigations sind implementiert (Best Practices)
+3. ✅ Langfrist-Roadmap existiert (HE/Enclaves)
+4. ⚠️ Verbleibende Lücke: Rekonstruktions-Angriffe weiterhin möglich (akzeptiertes Risiko bis HE verfügbar)
 
 ---
 
@@ -579,9 +599,11 @@ TEST_F(GraphEdgeEncryptionTest, NodeWithEncryptedPII) {
 - ✅ Foreign Keys unverschlüsselt lassen (für Joins)
 
 **Vector:**
-- ✅ Embeddings im Klartext (technische Notwendigkeit)
-- ✅ Keine PII in Embedding-Source-Text
+- ⚠️ Embeddings im Klartext (HNSW-Index) - **ABER: Teilweise rekonstruierbar!**
+- ✅ Keine PII in Embedding-Text (Anonymisierung erforderlich)
 - ✅ Metadaten (Quelle, Autor, Tags) verschlüsseln
+- ✅ RBAC auf Embedding-Zugriff
+- ⚠️ **Siehe [EMBEDDING_REVERSIBILITY_ANALYSIS.md](EMBEDDING_REVERSIBILITY_ANALYSIS.md) für Risiken**
 
 **Graph:**
 - ✅ Node/Edge-IDs als UUIDs
