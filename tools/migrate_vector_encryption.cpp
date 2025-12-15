@@ -42,6 +42,7 @@ public:
         , db_(std::make_unique<RocksDBWrapper>(opts.db_path))
     {
         // Initialize encryption
+        // Note: Uses global FieldEncryption state pattern consistent with EncryptedField usage
         key_provider_ = std::make_shared<MockKeyProvider>();
         key_provider_->createKey(opts.key_id, 1);
         field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);

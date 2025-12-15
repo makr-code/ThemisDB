@@ -371,9 +371,10 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	
 	// Decide on SQ8 quantization based on config in DB
 	// NOTE: This is the EXISTING implementation (preserved, not deleted)
-	// If lossless compression or encryption succeeded, this code path is skipped
+	// If encryption is enabled, quantization is disabled (they are mutually exclusive)
+	// If lossless compression succeeded, this code path is skipped
 	auto shouldQuantize = [&]() -> bool {
-		if (encryptVectors) return false; // Encryption takes precedence
+		if (encryptVectors) return false; // Disable quantization when encryption is enabled
 		if (losslessCompressed.has_value()) return false; // Lossless takes precedence
 		
 		std::string mode = "auto"; int64_t threshold = 1000000;
@@ -397,6 +398,8 @@ VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, st
 	
 	if (encryptVectors) {
 		// Phase 1: Encrypt vector and store
+		// Note: Uses global FieldEncryption state set via EncryptedField::setFieldEncryption()
+		// This pattern is consistent with existing EncryptedField usage throughout the codebase
 		try {
 			EncryptedField<std::vector<float>> enc_field;
 			enc_field.encrypt(*v, vectorKeyId_);
