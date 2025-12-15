@@ -211,6 +211,12 @@
                 <TabItem Header="📊 Dashboard" x:Name="TabDashboard">
                      <local:FullDashboardSimpleView/>
                 </TabItem>
+                <TabItem Header="🗂️ ERD" x:Name="TabERD">
+                     <local:ERDView/>
+                </TabItem>
+                <TabItem Header="🔍 Query" x:Name="TabQuery">
+                     <local:QueryEditorView/>
+                </TabItem>
             </TabControl>
 
             <!-- Splitter Right -->

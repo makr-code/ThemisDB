@@ -238,6 +238,10 @@ public partial class App : System.Windows.Application
             services.AddSingleton<ITimelineService, TimelineService>();
             services.AddSingleton<IVectorService, VectorService>();
             services.AddSingleton<IGraphService, GraphService>();
+            
+            // Schema and Query Services (ERM/ERD & Query Editor)
+            services.AddSingleton<ISchemaService, SchemaService>();
+            services.AddSingleton<IQueryService, QueryService>();
 
             // DSM-backed Timeline Aggregation + Notifications (No-Op)
             services.AddSingleton<INotificationService, NoOpNotificationService>();
@@ -419,6 +423,8 @@ public partial class App : System.Windows.Application
             services.AddTransient<Themis.DocumentManager.ViewModels.Favorites.FavoritesViewModel>();
             services.AddTransient<Themis.DocumentManager.ViewModels.Navigation.IntelligentBreadcrumbViewModel>();
             services.AddTransient<AuditLogViewerViewModel>();
+            services.AddTransient<ERDViewModel>();
+            services.AddTransient<QueryEditorViewModel>();
 
             // Views - WICHTIG: MainWindow am Ende registrieren
             services.AddTransient<DashboardPreviewView>();
