@@ -114,9 +114,58 @@ double EncryptedField<double>::deserialize(const std::string& str) {
     return std::stod(str);
 }
 
+// std::vector<float> specialization (for vector embeddings)
+template<>
+std::string EncryptedField<std::vector<float>>::serialize(const std::vector<float>& value) {
+    std::string result;
+    uint32_t size = static_cast<uint32_t>(value.size());
+    
+    // Append size (4 bytes, little-endian)
+    result.append(reinterpret_cast<const char*>(&size), sizeof(size));
+    
+    // Append float data
+    if (size > 0) {
+        result.append(reinterpret_cast<const char*>(value.data()), 
+                      value.size() * sizeof(float));
+    }
+    
+    return result;
+}
+
+template<>
+std::vector<float> EncryptedField<std::vector<float>>::deserialize(const std::string& str) {
+    if (str.size() < sizeof(uint32_t)) {
+        throw DecryptionException("Invalid vector serialization: too short");
+    }
+    
+    // Read size
+    uint32_t size;
+    std::memcpy(&size, str.data(), sizeof(size));
+    
+    // Validate size
+    size_t expected_bytes = sizeof(uint32_t) + size * sizeof(float);
+    if (str.size() != expected_bytes) {
+        throw DecryptionException(
+            "Invalid vector serialization: size mismatch (expected " + 
+            std::to_string(expected_bytes) + " bytes, got " + 
+            std::to_string(str.size()) + " bytes)");
+    }
+    
+    // Read floats
+    std::vector<float> result(size);
+    if (size > 0) {
+        std::memcpy(result.data(), 
+                    str.data() + sizeof(uint32_t), 
+                    size * sizeof(float));
+    }
+    
+    return result;
+}
+
 // Explicit template instantiations
 template class EncryptedField<std::string>;
 template class EncryptedField<int64_t>;
 template class EncryptedField<double>;
+template class EncryptedField<std::vector<float>>;
 
 }  // namespace themis

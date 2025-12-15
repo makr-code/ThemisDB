@@ -137,12 +137,12 @@ Diese Checkliste dient als vollständige Grundlage für ein Review und Audit der
 
 | Nr. | Anforderung | BSI C5 Ref | Status | Nachweis/Kommentar |
 |-----|-------------|------------|--------|-------------------|
-| CRY-01 | Kryptographie-Policy | CRY-01 | ✅ | `docs/security/encryption_strategy.md` |
-| CRY-02 | Schlüsselmanagement | CRY-02 | ✅ | 3 Provider: Mock, HSM (PKCS#11), Vault |
-| CRY-03 | Data-at-rest Verschlüsselung | CRY-03 | ✅ | AES-256-GCM (`docs/security/column_encryption.md`) |
+| CRY-01 | Kryptographie-Policy | CRY-01 | ✅ | **`docs/security/CRYPTOGRAPHY_POLICY.md`** (Formale Policy, BSI TR-02102-1 konform), `docs/security/encryption_strategy.md` |
+| CRY-02 | Schlüsselmanagement | CRY-02 | ✅ | **`docs/security/KEY_LIFECYCLE_MANAGEMENT.md`** (Vollständiger Lifecycle), 3 Provider: Mock, HSM (PKCS#11), Vault |
+| CRY-03 | Data-at-rest Verschlüsselung | CRY-03 | ✅ | AES-256-GCM (`docs/security/column_encryption.md`) - **95% Compliance Score** |
 | CRY-04 | Data-in-transit Verschlüsselung | CRY-04 | ✅ | TLS 1.3 default, TLS 1.2 fallback |
-| CRY-05 | Schlüsselrotation | CRY-05 | ✅ | Lazy Re-Encryption implementiert |
-| CRY-06 | Kryptographische Integrität | CRY-06 | ✅ | SHA-256, HMAC, RSA-SHA256 Signaturen |
+| CRY-05 | Schlüsselrotation | CRY-05 | ✅ | Lazy Re-Encryption implementiert - **Vier-Phasen-Prozess dokumentiert** |
+| CRY-06 | Kryptographische Integrität | CRY-06 | ✅ | SHA-256, HMAC, RSA-SHA256 Signaturen, **GCM Authentication Tag** |
 
 ### 5.2 Kryptographische Implementierung
 
