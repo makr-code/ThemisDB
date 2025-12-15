@@ -1,12 +1,29 @@
 # ThemisDB
 
-**A high-performance multi-model database with ACID guarantees**
+**A high-performance multi-model database with ACID guarantees + Native AI/LLM Integration**
 
 [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
 [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
 [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
 [![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.2.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+---
+
+## 🚀 Next Top Feature: Native LLM Integration (v1.5.0 - Q3 2026)
+
+**Run AI/LLM workloads directly in your database - no external API costs!**
+
+- 🧠 **Embedded LLM Engine** - llama.cpp integrated, run SLMs/LLMs (1B-70B params) on GPU
+- ⚡ **Zero-Copy RAG** - Direct memory access between vector DB and LLM (4x faster, 0ms transfer)
+- 💰 **100-1000x Cost Reduction** - vs. AWS/Azure/GCP APIs (€0.02 vs. €30 per 1M tokens)
+- 🎯 **All GPU Tiers Supported** - Entry (<16GB), Mid-Range (<24GB), High-End (>24GB)
+- 🔄 **Federated RAG** - Cross-shard queries with dynamic LoRA fusion
+- 📊 **Continuous Batching** - vLLM-style optimization (2.6x throughput)
+
+**[→ See GPU-Tier Analysis & Hyperscaler Comparison](docs/llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)**  
+**[→ See Native LLM Integration Concept](docs/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)**  
+**[→ See Complete Documentation](docs/llm/README.md)**
 
 ---
 
@@ -22,7 +39,7 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **native LLM engine** (v1.5.0)
 
 ---
 
