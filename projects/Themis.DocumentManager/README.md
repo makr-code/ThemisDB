@@ -58,6 +58,47 @@ Das brandneue Metadaten-System bietet professionelle Verwaltung von Dokumentmeta
 **Quick Start**: Siehe [QUICKSTART.md](QUICKSTART.md)  
 **Vollständige Doku**: Siehe [METADATA_GUIDE.md](METADATA_GUIDE.md)
 
+### 🗂️ ERM/ERD Visualisierung (NEU!)
+
+Das Entity-Relationship-Diagramm-System bietet professionelle Datenbankschema-Visualisierung:
+
+- **Interaktive Diagramme**: Visuelle Darstellung aller Entitäten und Beziehungen
+- **Schema-Introspection**: Automatisches Laden des Datenbankschemas aus ThemisDB
+- **Entitäts-Details**: Anzeige aller Attribute mit Datentypen und Constraints
+- **Zoom & Pan**: Intuitive Navigation durch große Diagramme
+- **Auto-Layout**: Automatische Anordnung der Entitäten für optimale Übersicht
+- **Beziehungs-Typen**: OneToOne, OneToMany, ManyToOne, ManyToMany
+- **Farbcodierung**: Primärschlüssel und Indizes werden hervorgehoben
+
+**Verwendung**: Navigieren Sie zum Tab "🗂️ ERD" im Hauptfenster
+
+### 🔍 Query Editor (NEU!)
+
+Der professionelle Query Editor ermöglicht direkten Zugriff auf ThemisDB:
+
+- **AQL-Unterstützung**: Vollständige Unterstützung für ArangoDB Query Language
+- **Syntax-Validierung**: Echtzeit-Validierung der Query-Syntax
+- **Gespeicherte Queries**: Speichern und Wiederverwenden häufig genutzter Abfragen
+- **Beispiel-Queries**: Vorkonfigurierte Queries für häufige Anwendungsfälle
+- **Ergebnis-Anzeige**: Tabellarische Darstellung der Query-Ergebnisse
+- **Performance-Metriken**: Anzeige von Ausführungszeit und Anzahl der Zeilen
+- **Fehlerbehandlung**: Detaillierte Fehlermeldungen bei ungültigen Queries
+- **Query-Formatierung**: Automatische Formatierung für bessere Lesbarkeit
+
+**Verwendung**: Navigieren Sie zum Tab "🔍 Query" im Hauptfenster
+
+**Beispiel AQL-Query**:
+```aql
+FOR doc IN documents
+  FILTER doc.created_at >= DATE_SUBTRACT(DATE_NOW(), 7, 'days')
+  SORT doc.created_at DESC
+  LIMIT 10
+  RETURN doc
+```
+
+**Quick Start**: Siehe [QUICKSTART.md](QUICKSTART.md)  
+**Vollständige Doku**: Siehe [METADATA_GUIDE.md](METADATA_GUIDE.md)
+
 ## Architektur
 
 ### Technologie-Stack
@@ -183,6 +224,12 @@ Die ThemisDB-Server-URL kann in `ThemisApiClient.cs` konfiguriert werden (Standa
 
 ### Neu implementiert ✅
 
+#### v1.2.0 - 15. Dezember 2025
+- [x] **ERM/ERD Visualisierung** - Interaktive Entity-Relationship-Diagramme zur Datenbankschema-Visualisierung
+- [x] **Query Editor** - Professioneller AQL-Query-Editor mit Syntaxvalidierung und Ergebnisanzeige
+- [x] **Schema-Introspection** - Automatisches Laden und Anzeigen des Datenbankschemas
+- [x] **Gespeicherte Abfragen** - Speichern und Wiederverwenden häufig genutzter Queries
+
 #### v1.1.0 - 11. Dezember 2025
 - [x] **Dropdown-Felder** - ComboBox-Support für Auswahlfelder mit YAML-Konfiguration
 
@@ -204,8 +251,8 @@ Die ThemisDB-Server-URL kann in `ThemisApiClient.cs` konfiguriert werden (Standa
 - [ ] Automatische Klassifizierung
 - [ ] Collaborative Editing
 - [ ] Mobile App (Xamarin)
-- [ ] ThemisDB API Integration für Metadaten
-- [ ] Dropdown-Felder in Metadaten
+- [ ] ERD-Export (PNG, SVG, GraphML)
+- [ ] Visual Query Builder (Drag & Drop)
 - [ ] RichText-Editor für Metadaten
 - [ ] Undo/Redo für Metadaten-Änderungen
 

@@ -249,7 +249,7 @@ namespace Themis.DocumentManager.Converters
     }
 
     /// <summary>
-    /// Convert string to Visibility (Empty=Visible, NonEmpty=Hidden)
+    /// Convert string to Visibility (NonEmpty=Visible, Empty=Collapsed)
     /// </summary>
     public class StringToVisibilityConverter : IValueConverter
     {
@@ -257,9 +257,9 @@ namespace Themis.DocumentManager.Converters
         {
             if (value is string str)
             {
-                return string.IsNullOrEmpty(str) ? Visibility.Visible : Visibility.Hidden;
+                return string.IsNullOrEmpty(str) ? Visibility.Collapsed : Visibility.Visible;
             }
-            return Visibility.Hidden;
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
