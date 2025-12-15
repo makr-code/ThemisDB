@@ -472,7 +472,7 @@ themisdb:
 
 ## Weiterführende Dokumentation
 
-- **Vollständiges Guide**: `../../docs/RAILWAY_COMPLETE_GUIDE.md`
+- **Vollständiges Guide**: `../../docs/guides/RAILWAY_COMPLETE_GUIDE.md`
 - **System-Architektur**: `docs/projects/RAILWAY_MONITORING.md`
 - **Energie-Management**: `docs/projects/RAILWAY_ENERGY_MANAGEMENT.md`
 - **Asset-Management**: `docs/projects/RAILWAY_ASSET_MANAGEMENT.md`

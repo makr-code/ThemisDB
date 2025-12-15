@@ -718,9 +718,9 @@ ThemisDB enthält Subsystem zur Versions-Überprüfung:
 
 ### Related Documentation
 
-- [Build Guide](../BUILDGUIDE.md) - Detaillierte Build-Anleitung
-- [Build System](../BUILD-SYSTEM.md) - Architektur-Übersicht
-- [Implementation Summary](../IMPLEMENTATION-SUMMARY.md) - Was/Warum/Wie
+- [Build Guide](../build/BUILDGUIDE.md) - Detaillierte Build-Anleitung
+- [Build System](../build/BUILD-SYSTEM.md) - Architektur-Übersicht
+- [Implementation Summary](../development/IMPLEMENTATION-SUMMARY.md) - Was/Warum/Wie
 - [Docker Guide](../guides/guides_docker.md) - Docker Deployment
 - [Packaging Guide](../guides/guides_packaging.md) - Package-Erstellung
 

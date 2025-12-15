@@ -101,8 +101,8 @@ docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb
 
 **Für Entwickler:**
 - **[📖 Dokumentations-Index](docs/README.md)** - Vollständiger Index aller Dokumentation (456+ Dateien)
-- **[Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
-- **[Source Code Changes v1.0](docs/SOURCE_CODE_CHANGES_v1.0.md)** - Comprehensive documentation of all source modules (191 C++ files across 26 directories)
+- **[Architecture Overview](docs/architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
+- **[Source Code Changes v1.0](docs/development/SOURCE_CODE_CHANGES_v1.0.md)** - Comprehensive documentation of all source modules (191 C++ files across 26 directories)
 - **[Documentation Verification Report](docs/reports/documentation_verification_report.md)** - Verifizierung der Übereinstimmung zwischen Dokumentation und Code
 - **[Source Code Audit](docs/development/SOURCE_CODE_AUDIT.md)** - Systematische Analyse aller 16 Source-Komponenten (132 Header, 124 Sources, 90,829 LOC)
 
