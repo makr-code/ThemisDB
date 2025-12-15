@@ -241,7 +241,18 @@ public class QueryService : IQueryService
             {
                 // Create some example queries
                 _savedQueries = CreateExampleQueries();
-                _ = PersistSavedQueries();
+                // Persist asynchronously with error handling
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        await PersistSavedQueries();
+                    }
+                    catch (Exception persistEx)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error persisting default queries: {persistEx.Message}");
+                    }
+                });
             }
         }
         catch (Exception ex)

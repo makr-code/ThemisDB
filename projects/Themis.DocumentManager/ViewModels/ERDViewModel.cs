@@ -43,7 +43,17 @@ public class ERDViewModel : INotifyPropertyChanged
         ExportDiagramCommand = new AsyncRelayCommand(ExportDiagramAsync);
 
         // Auto-load schema on initialization
-        _ = LoadSchemaAsync();
+        Task.Run(async () => 
+        {
+            try 
+            {
+                await LoadSchemaAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error during initial schema load: {ex.Message}");
+            }
+        });
     }
 
     #region Properties
@@ -187,7 +197,7 @@ public class ERDViewModel : INotifyPropertyChanged
         catch (Exception ex)
         {
             StatusMessage = $"Fehler beim Laden: {ex.Message}";
-            Console.WriteLine($"Schema load error: {ex}");
+            System.Diagnostics.Debug.WriteLine($"Schema load error: {ex}");
         }
         finally
         {
