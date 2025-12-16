@@ -398,7 +398,7 @@ Running on i9-10900K (10 cores, 64GB RAM):
 - 📖 Documentation: `/docs/wire_protocol_v1.md`
 - 🐛 Bug Reports: Create issue on GitHub
 - 💬 Discussions: Use GitHub Discussions
-- 📧 Email: support@themisdb.com
+- 📧 Email: ma.krueger@outlook.com
 
 ---
 

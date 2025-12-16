@@ -277,7 +277,7 @@ Before production release, perform:
 ## Contact
 
 For security issues, contact:
-- **Security Team:** security@themisdb.io
+- **Security Team:** ma.krueger@outlook.com
 - **PGP Key:** [Link to public key]
 - **Bug Bounty:** [Link to bug bounty program]
 
