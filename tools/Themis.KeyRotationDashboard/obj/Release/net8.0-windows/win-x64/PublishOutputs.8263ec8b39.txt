@@ -1,3 +1,0 @@
-C:\VCC\themis\dist\Themis.KeyRotationDashboard\Themis.KeyRotationDashboard.pdb
-C:\VCC\themis\dist\Themis.KeyRotationDashboard\Themis.AdminTools.Shared.pdb
-C:\VCC\themis\dist\Themis.KeyRotationDashboard\Themis.KeyRotationDashboard.exe
