@@ -596,4 +596,4 @@ cache = EmbeddingCache(similarity_threshold=0.90)  # Lower for more hits
 - **Administrator Guide:** Deployment, backup, and operations
 - **System Architect Guide:** Sharding, distributed systems, and migration
 
-**Version:** 1.2.0 | **License:** MIT | **Support:** community@themisdb.com
+**Version:** 1.2.0 | **License:** MIT | **Support:** ma.krueger@outlook.com

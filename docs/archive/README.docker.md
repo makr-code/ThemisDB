@@ -368,7 +368,7 @@ Build Docker images locally using the hybrid pre-built binary approach:
 
 - **Report Bugs**: https://github.com/makr-code/ThemisDB/issues
 - **Feature Requests**: https://github.com/makr-code/ThemisDB/discussions
-- **Security Issues**: security@themisdb.org
+- **Security Issues**: ma.krueger@outlook.com
 
 ## 📝 License
 

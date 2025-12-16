@@ -264,7 +264,7 @@ Beginnen Sie mit **`README.md`** für:
 
 **Fragen zum Buch:**
 - GitHub Issues: Technical Questions
-- Email: docs@themisdb.org (wenn eingerichtet)
+- Email: ma.krueger@outlook.com
 
 **Contribution Guidelines:**
 - Siehe `CONTRIBUTING.md` im Repository-Root
