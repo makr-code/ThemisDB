@@ -628,7 +628,7 @@ curl -X POST http://localhost:8080/api/pki/eidas/verify \
 
 For technical questions or implementation support:
 - GitHub Issues: https://github.com/yourusername/ThemisDB/issues
-- Email: ma.krueger@outlook.com
+- Email: service@themisdb.org
 - Documentation: https://docs.themisdb.example.com
 
 ---

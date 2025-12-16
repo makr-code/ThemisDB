@@ -275,7 +275,7 @@ themisdb-enterprise-1.0.0/
 ## Support
 
 For enterprise support:
-- Email: ma.krueger@outlook.com
+- Email: service@themisdb.org
 - Documentation: https://docs.themisdb.io/enterprise
 - License activation: https://license.themisdb.io
 
