@@ -10,6 +10,12 @@
 
 namespace themis {
 
+// Cost estimation constants for embedding cache
+namespace {
+    constexpr double EMBEDDING_API_COST_PER_1K_TOKENS = 0.0001;  // $0.0001 per 1K tokens
+    constexpr double TOKENS_PER_EMBEDDING = 0.75;                 // ~750 tokens per embedding
+}
+
 // Internal storage for cache entries
 struct EmbeddingCacheImpl {
     std::unique_ptr<RocksDBWrapper> db;  // Keep DB alive
@@ -17,6 +23,7 @@ struct EmbeddingCacheImpl {
     std::unordered_map<std::string, EmbeddingCache::CacheEntry> entries; // pk -> entry
     mutable std::mutex mutex;
     uint64_t next_id = 0;
+    VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE;
 };
 
 EmbeddingCache::EmbeddingCache(const Config& config)
@@ -29,19 +36,23 @@ EmbeddingCache::EmbeddingCache(const Config& config)
     // Initialize vector index for fast similarity search
     if (config_.use_vector_index) {
         try {
-            // Create in-memory RocksDB wrapper for cache
+            // Create temporary directory for RocksDB cache
+            // Note: Using /tmp for cache - could be configurable
             RocksDBWrapper::Config db_config;
-            db_config.path = ":memory:"; // In-memory cache
+            db_config.path = "/tmp/themis_embedding_cache"; 
             db_config.create_if_missing = true;
             
             impl_->db = std::make_unique<RocksDBWrapper>(db_config);
             impl_->vector_index = std::make_unique<VectorIndexManager>(*impl_->db);
             
+            // Store metric for distance-to-similarity conversion
+            impl_->metric = VectorIndexManager::Metric::COSINE;
+            
             // Initialize HNSW index with cache namespace
             auto status = impl_->vector_index->init(
                 "embedding_cache",
                 config_.embedding_dim,
-                VectorIndexManager::Metric::COSINE,
+                impl_->metric,
                 16,   // M
                 200,  // efConstruction
                 64    // efSearch
@@ -82,8 +93,18 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
         if (status.ok && !results.empty()) {
             const auto& result = results[0];
             
-            // Convert distance to similarity (for cosine: 1 - distance)
-            float similarity = 1.0f - result.distance;
+            // Convert distance to similarity based on metric
+            float similarity;
+            if (impl_->metric == VectorIndexManager::Metric::COSINE) {
+                // For cosine: similarity = 1 - distance
+                similarity = 1.0f - result.distance;
+            } else if (impl_->metric == VectorIndexManager::Metric::DOT) {
+                // For dot product: higher is better (already similarity)
+                similarity = result.distance;
+            } else {
+                // For L2: convert to similarity (inverse distance)
+                similarity = 1.0f / (1.0f + result.distance);
+            }
             
             if (similarity >= config_.similarity_threshold) {
                 // Cache hit!
@@ -111,8 +132,8 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
                     stats_.hit_rate = static_cast<double>(stats_.hit_count) 
                         / (stats_.hit_count + stats_.miss_count);
                     
-                    // Estimate cost savings ($0.0001 per 1K tokens, ~750 tokens per embedding)
-                    stats_.cost_savings_usd += 0.0001 * 0.75;
+                    // Estimate cost savings
+                    stats_.cost_savings_usd += EMBEDDING_API_COST_PER_1K_TOKENS * TOKENS_PER_EMBEDDING;
                     
                     THEMIS_DEBUG("Cache hit: pk={}, similarity={:.4f}, access_count={}",
                                 result.pk, similarity, entry.access_count);
@@ -124,6 +145,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
         // Fallback: brute-force search through all entries
         float best_similarity = 0.0f;
         std::string best_pk;
+        const float threshold = config_.similarity_threshold;
         
         for (const auto& [pk, entry] : impl_->entries) {
             if (isExpired(entry)) {
@@ -143,6 +165,11 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
             if (similarity > best_similarity) {
                 best_similarity = similarity;
                 best_pk = pk;
+                
+                // Early termination if we found a perfect match
+                if (best_similarity >= 0.99f) {
+                    break;
+                }
             }
         }
         
@@ -157,7 +184,7 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
                 / stats_.hit_count;
             stats_.hit_rate = static_cast<double>(stats_.hit_count) 
                 / (stats_.hit_count + stats_.miss_count);
-            stats_.cost_savings_usd += 0.0001 * 0.75;
+            stats_.cost_savings_usd += EMBEDDING_API_COST_PER_1K_TOKENS * TOKENS_PER_EMBEDDING;
             
             THEMIS_DEBUG("Cache hit (brute-force): pk={}, similarity={:.4f}",
                         best_pk, best_similarity);
