@@ -446,7 +446,7 @@ curl -X POST https://splunk.company.com/services/collector \
 1. **Nur offizielle Plugins** - Von vertrauenswürdigen Quellen
 2. **Hash verifizieren** - Mit offiziellen Release-Notes abgleichen
 3. **Updates zeitnah** - Sicherheitsupdates sofort installieren
-4. **Suspicious Activity melden** - An ma.krueger@outlook.com
+4. **Suspicious Activity melden** - An service@themisdb.org
 
 ---
 
@@ -507,7 +507,7 @@ curl -X POST https://security.themisdb.org/api/emergency-block \
 
 ---
 
-**Security Contact:** ma.krueger@outlook.com  
+**Security Contact:** service@themisdb.org  
 **Version:** 1.0  
 **Last Review:** 20. November 2025  
 **Next Review:** 20. Februar 2026

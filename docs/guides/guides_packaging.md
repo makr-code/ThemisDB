@@ -524,4 +524,4 @@ For packaging issues or questions:
 
 - GitHub Issues: https://github.com/makr-code/ThemisDB/issues
 - Documentation: https://makr-code.github.io/ThemisDB/
-- Email: ma.krueger@outlook.com
+- Email: service@themisdb.org

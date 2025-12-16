@@ -300,13 +300,13 @@ Hyperscaler (Unbegrenzt + Kubernetes Operator + Auto-Scaling)
 
 ### Support
 - **Community:** GitHub Issues, Discussions
-- **Enterprise:** ma.krueger@outlook.com
-- **Security:** ma.krueger@outlook.com
+- **Enterprise:** service@themisdb.org
+- **Security:** service@themisdb.org
 
 ### Lizenzierung
 - **Test-Lizenz:** https://themisdb.io/trial (30 Tage)
 - **Kauf:** https://themisdb.io/pricing
-- **Vertrieb:** ma.krueger@outlook.com
+- **Vertrieb:** service@themisdb.org
 
 ---
 

@@ -293,6 +293,6 @@ Planned TLS/PKI features:
 ## Support
 
 For issues or questions:
-- **Security Issues**: Report to ma.krueger@outlook.com (do not open public issues)
+- **Security Issues**: Report to service@themisdb.org (do not open public issues)
 - **General Help**: GitHub Issues or Discussions
 - **Documentation**: https://docs.themisdb.io/security/tls

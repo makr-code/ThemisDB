@@ -229,7 +229,7 @@ bool NativeLLMEngine::loadModel(const std::string& model_path) {
             " GB, but license allows only " + std::to_string(max_gb) + " GB.\n"
             "Current license: " + toString(license_info.type) + "\n"
             "To use models >24 GB VRAM, upgrade to Enterprise License.\n"
-            "Contact: ma.krueger@outlook.com"
+            "Contact: service@themisdb.org"
         );
     }
     
@@ -381,7 +381,7 @@ To use large language models (>24 GB VRAM), please upgrade to:
     • Priority Support (24/7 SLA)
     • Custom LoRA Training Pipeline
     
-  Pricing: Contact ma.krueger@outlook.com
+  Pricing: Contact service@themisdb.org
   
   Free 30-day trial available!
 
@@ -599,6 +599,6 @@ themisdb-llm license trial --email user@example.com
 ---
 
 **Kontakt für Enterprise License:**  
-📧 ma.krueger@outlook.com  
+📧 service@themisdb.org  
 🌐 https://themisdb.io/enterprise  
 📞 +49 (0) XXX XXXXXXX
