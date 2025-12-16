@@ -21,8 +21,13 @@ namespace query {
 
 bool CTEEvaluator::evaluateCTE(
     const CTEDefinition& cte,
-    QueryEngine& queryEngine
+    QueryEngine& queryEngine,
+    bool is_recursive
 ) {
+    if (is_recursive) {
+        return evaluateRecursiveCTE(cte, queryEngine);
+    }
+    
     if (!cte.subquery) {
         THEMIS_ERROR("CTE '{}' has null subquery", cte.name);
         return false;
@@ -65,6 +70,152 @@ bool CTEEvaluator::evaluateCTE(
         THEMIS_ERROR("CTE '{}' evaluation exception: {}", cte.name, e.what());
         return false;
     }
+}
+
+bool CTEEvaluator::evaluateRecursiveCTE(
+    const CTEDefinition& cte,
+    QueryEngine& queryEngine
+) {
+    if (!cte.subquery) {
+        THEMIS_ERROR("Recursive CTE '{}' has null subquery", cte.name);
+        return false;
+    }
+    
+    try {
+        THEMIS_INFO("Starting recursive CTE evaluation for '{}'", cte.name);
+        
+        // Initialize with empty result set
+        std::vector<nlohmann::json> workingSet;
+        std::vector<nlohmann::json> previousSet;
+        std::vector<std::vector<nlohmann::json>> history; // For cycle detection
+        
+        size_t iteration = 0;
+        bool converged = false;
+        
+        // Fixpoint iteration
+        while (!converged && iteration < recursiveConfig_.max_iterations) {
+            ++iteration;
+            
+            // Store previous iteration's results
+            previousSet = workingSet;
+            
+            // Store CTE's current results in context for self-reference
+            cteResults_[cte.name] = workingSet;
+            
+            // Create CTESpec for this iteration
+            QueryEngine::CTESpec spec;
+            spec.name = cte.name;
+            spec.subquery = cte.subquery;
+            spec.should_materialize = true;
+            
+            // Create evaluation context with previous results
+            QueryEngine::EvaluationContext context;
+            context.cte_results = cteResults_;
+            
+            // Execute CTE query
+            auto status = queryEngine.executeCTEs({spec}, context);
+            
+            if (!status.ok) {
+                THEMIS_ERROR("Recursive CTE '{}' iteration {} failed: {}", 
+                            cte.name, iteration, status.message);
+                return false;
+            }
+            
+            // Extract results from context
+            auto it = context.cte_results.find(cte.name);
+            if (it == context.cte_results.end()) {
+                THEMIS_ERROR("Recursive CTE '{}' results not found in context", cte.name);
+                return false;
+            }
+            
+            // Get new results
+            std::vector<nlohmann::json> newResults = it->second;
+            
+            // Check for convergence (fixpoint reached)
+            if (areResultsEqual(newResults, previousSet)) {
+                converged = true;
+                workingSet = newResults;
+                THEMIS_INFO("Recursive CTE '{}' converged after {} iterations with {} rows",
+                           cte.name, iteration, workingSet.size());
+                break;
+            }
+            
+            // Check for cycles if enabled
+            if (recursiveConfig_.enable_cycle_detection) {
+                if (detectCycle(newResults, history)) {
+                    THEMIS_WARN("Recursive CTE '{}' cycle detected at iteration {}", 
+                               cte.name, iteration);
+                    converged = true;
+                    workingSet = newResults;
+                    break;
+                }
+                history.push_back(newResults);
+            }
+            
+            // Check result size limit
+            if (newResults.size() > recursiveConfig_.max_result_size) {
+                THEMIS_ERROR("Recursive CTE '{}' exceeded max result size ({} > {})",
+                            cte.name, newResults.size(), recursiveConfig_.max_result_size);
+                return false;
+            }
+            
+            // Update working set with UNION semantics (combine with previous)
+            // For now, simple append (could be optimized with deduplication)
+            workingSet = newResults;
+            
+            THEMIS_DEBUG("Recursive CTE '{}' iteration {}: {} rows",
+                        cte.name, iteration, workingSet.size());
+        }
+        
+        // Check if we hit max iterations without converging
+        if (!converged) {
+            THEMIS_ERROR("Recursive CTE '{}' exceeded max iterations ({})",
+                        cte.name, recursiveConfig_.max_iterations);
+            return false;
+        }
+        
+        // Store final results
+        cteResults_[cte.name] = std::move(workingSet);
+        THEMIS_INFO("Recursive CTE '{}' completed: {} total rows",
+                   cte.name, cteResults_[cte.name].size());
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Recursive CTE '{}' evaluation exception: {}", cte.name, e.what());
+        return false;
+    }
+}
+
+bool CTEEvaluator::areResultsEqual(
+    const std::vector<nlohmann::json>& a,
+    const std::vector<nlohmann::json>& b
+) const {
+    if (a.size() != b.size()) {
+        return false;
+    }
+    
+    // Simple comparison - could be optimized
+    for (size_t i = 0; i < a.size(); ++i) {
+        if (a[i] != b[i]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+bool CTEEvaluator::detectCycle(
+    const std::vector<nlohmann::json>& newResults,
+    const std::vector<std::vector<nlohmann::json>>& history
+) const {
+    // Check if newResults match any previous iteration
+    for (const auto& pastResults : history) {
+        if (areResultsEqual(newResults, pastResults)) {
+            return true; // Cycle detected
+        }
+    }
+    return false;
 }
 
 std::vector<nlohmann::json> CTEEvaluator::getCTEResults(const std::string& cteName) const {
