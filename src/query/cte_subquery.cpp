@@ -86,6 +86,33 @@ void CTEEvaluator::clear() {
 // SubqueryExpr JSON is provided in aql_parser.h
 
 // ============================================================================
+// Helper Methods
+// ============================================================================
+
+namespace {
+    // Helper: Create parent context with outer row bindings for correlated subqueries
+    QueryEngine::EvaluationContext createParentContext(const nlohmann::json& outerRow) {
+        QueryEngine::EvaluationContext parentContext;
+        if (!outerRow.empty() && outerRow.is_object()) {
+            for (auto& [key, value] : outerRow.items()) {
+                parentContext.bind(key, value);
+            }
+        }
+        return parentContext;
+    }
+    
+    // Helper: Convert entity to JSON (simplified)
+    // TODO: Use entity.toJSON() when available
+    nlohmann::json entityToJSON(const BaseEntity& entity) {
+        nlohmann::json j;
+        j["_key"] = entity.getPrimaryKey();
+        // Note: This is a simplified conversion
+        // Ideally we would extract all fields via entity.toJSON()
+        return j;
+    }
+}
+
+// ============================================================================
 // SubqueryEvaluator Implementation
 // ============================================================================
 
@@ -118,16 +145,11 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
         
         // Create evaluation context
         QueryEngine::EvaluationContext context;
+        QueryEngine::EvaluationContext parentContext;
         
         // Bind outer variables if correlated subquery
         if (!outerRow.empty()) {
-            // Create parent context with outer row bindings
-            QueryEngine::EvaluationContext parentContext;
-            if (outerRow.is_object()) {
-                for (auto& [key, value] : outerRow.items()) {
-                    parentContext.bind(key, value);
-                }
-            }
+            parentContext = createParentContext(outerRow);
             context.parent = &parentContext;
         }
         
@@ -162,22 +184,22 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
             
             // Convert entities to JSON
             for (const auto& entity : entities) {
-                nlohmann::json j;
-                j["_key"] = entity.getPrimaryKey();
-                // Extract all fields from entity
-                // This is a simplified approach - ideally we'd use entity.toJSON()
-                results.push_back(j);
+                results.push_back(entityToJSON(entity));
             }
         }
         
-        // Validate single-row constraint for scalar subquery
+        // Return null if no results
         if (results.empty()) {
             return nullptr;
         }
         
+        // Validate single-row constraint for scalar subquery
         if (results.size() > 1) {
-            THEMIS_ERROR("Scalar subquery returned {} rows (expected 1)", results.size());
-            throw std::runtime_error("Scalar subquery returned multiple rows");
+            std::string err = "Scalar subquery returned " + std::to_string(results.size()) + 
+                            " rows (expected 1)";
+            THEMIS_ERROR("{}", err);
+            // Consistent error handling: return nullptr instead of throwing
+            return nullptr;
         }
         
         // Return the first (and only) result
@@ -210,15 +232,11 @@ bool SubqueryEvaluator::evaluateInSubquery(
         
         // Create evaluation context
         QueryEngine::EvaluationContext context;
+        QueryEngine::EvaluationContext parentContext;
         
         // Bind outer variables if correlated
         if (!outerRow.empty()) {
-            QueryEngine::EvaluationContext parentContext;
-            if (outerRow.is_object()) {
-                for (auto& [key, val] : outerRow.items()) {
-                    parentContext.bind(key, val);
-                }
-            }
+            parentContext = createParentContext(outerRow);
             context.parent = &parentContext;
         }
         
@@ -251,9 +269,7 @@ bool SubqueryEvaluator::evaluateInSubquery(
             }
             
             for (const auto& entity : entities) {
-                nlohmann::json j;
-                j["_key"] = entity.getPrimaryKey();
-                results.push_back(j);
+                results.push_back(entityToJSON(entity));
             }
         }
         
@@ -292,20 +308,17 @@ bool SubqueryEvaluator::evaluateExistsSubquery(
         
         // Create evaluation context
         QueryEngine::EvaluationContext context;
+        QueryEngine::EvaluationContext parentContext;
         
         // Bind outer variables if correlated
         if (!outerRow.empty()) {
-            QueryEngine::EvaluationContext parentContext;
-            if (outerRow.is_object()) {
-                for (auto& [key, val] : outerRow.items()) {
-                    parentContext.bind(key, val);
-                }
-            }
+            parentContext = createParentContext(outerRow);
             context.parent = &parentContext;
         }
         
         // Execute subquery - we only need to know if it returns any rows
-        // Could optimize with LIMIT 1
+        // Performance optimization: Could add LIMIT 1 to query before execution
+        // TODO v1.4.0: Optimize with LIMIT 1 injection for EXISTS queries
         
         if (translation.join.has_value()) {
             auto& join = translation.join.value();
@@ -348,12 +361,17 @@ void SubqueryEvaluator::bindOuterVariables(
     const std::shared_ptr<query::Query>& query,
     const nlohmann::json& outerRow
 ) {
-    // Note: Actual variable binding is handled in the evaluation context
-    // passed to query execution methods. This method is kept for future
-    // use if we need to modify the query AST itself for optimization.
+    // Note: Variable binding for correlated subqueries is currently handled
+    // via parent context in the evaluation methods above (evaluateScalarSubquery,
+    // evaluateInSubquery, evaluateExistsSubquery).
+    //
+    // This method is retained for potential future optimization where we might
+    // modify the query AST directly for better performance.
+    //
+    // TODO v1.4.0: Consider AST-level variable substitution optimization for
+    // correlated subqueries to avoid repeated parent context lookups.
     
-    // For now, binding is done via parent context in evaluation methods above
-    THEMIS_DEBUG("Binding outer variables for correlated subquery");
+    THEMIS_DEBUG("Binding outer variables for correlated subquery (via context)");
 }
 
 } // namespace query
