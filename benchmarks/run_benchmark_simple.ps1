@@ -55,7 +55,7 @@ Log "RAID: $RaidLevel"
 Log "Dauer: $DurationHours Stunden"
 
 # Pre-Checks
-Log "Überprüfe Voraussetzungen..."
+Log "ÃœberprÃ¼fe Voraussetzungen..."
 
 # Docker
 $docker = Get-Command docker -ErrorAction SilentlyContinue
@@ -72,6 +72,18 @@ if (-not $python) {
     exit 1
 }
 Log "Python OK"
+# Version aus VERSION-Datei setzen, damit Compose nicht auf "latest" faellt
+try {
+    $repoRoot = Resolve-Path (Join-Path $benchmarkDir "..")
+    $versionFile = Join-Path $repoRoot "VERSION"
+    if (Test-Path $versionFile) {
+        $themisVersion = (Get-Content -Raw $versionFile).Trim()
+        if (-not [string]::IsNullOrWhiteSpace($themisVersion)) {
+            $env:THEMIS_VERSION = $themisVersion
+            Log "Setze THEMIS_VERSION=$themisVersion"
+        }
+    }
+} catch { }
 
 # Verzeichnisse
 $runId = Get-Date -Format "yyyyMMdd_HHmmss"
@@ -124,7 +136,7 @@ Log "Cluster Status: $healthy/$NumShards Shards ready"
 
 # Run Benchmark
 $durationSec = $DurationHours * 3600
-Log "Starte Benchmark für $DurationHours Stunden ($durationSec Sekunden)..."
+Log "Starte Benchmark fuer `$DurationHours Stunden (`$durationSec Sekunden)..."
 
 $pythonCmd = "python run_multi_shard_raid_benchmark.py --scenario $Scenario --shards $NumShards --raid $RaidLevel --workload $($scenarios[$Scenario].workload) --duration $durationSec"
 Log "Befehl: $pythonCmd"
@@ -148,9 +160,7 @@ finally {
 }
 
 Log "Fertig!"
-Log "Ergebnisse in: $runDir"
-
-# Zurück zum ursprünglichen Verzeichnis
+Log "Ergebnisse in: `$runDir"`n`n# Zurueck zum urspruenglichen Verzeichnis
 Pop-Location
 
 exit 0
