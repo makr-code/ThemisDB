@@ -46,9 +46,12 @@ public:
         double rrf_k = 60.0;        // RRF constant
         bool normalize_scores = true;
         
-        // NEW: Configurable table/column for searches
+        // Configurable table/column for searches
         std::string default_table = "documents";
         std::string default_column = "content";
+        
+        // TODO v1.4.0: Add vector_metric configuration
+        // VectorIndexManager::Metric vector_metric = VectorIndexManager::Metric::COSINE;
     };
     
     struct Result {

@@ -14,6 +14,7 @@ namespace themis {
 namespace {
     constexpr double EMBEDDING_API_COST_PER_1K_TOKENS = 0.0001;  // $0.0001 per 1K tokens
     constexpr double TOKENS_PER_EMBEDDING = 0.75;                 // ~750 tokens per embedding
+    constexpr float EARLY_TERMINATION_THRESHOLD = 0.99f;          // Stop searching if we find a near-perfect match
 }
 
 // Internal storage for cache entries
@@ -24,6 +25,7 @@ struct EmbeddingCacheImpl {
     mutable std::mutex mutex;
     uint64_t next_id = 0;
     VectorIndexManager::Metric metric = VectorIndexManager::Metric::COSINE;
+    std::string cache_dir = "/tmp/themis_embedding_cache";  // Configurable cache directory
 };
 
 EmbeddingCache::EmbeddingCache(const Config& config)
@@ -36,10 +38,10 @@ EmbeddingCache::EmbeddingCache(const Config& config)
     // Initialize vector index for fast similarity search
     if (config_.use_vector_index) {
         try {
-            // Create temporary directory for RocksDB cache
-            // Note: Using /tmp for cache - could be configurable
+            // Use configurable cache directory (default: /tmp/themis_embedding_cache)
+            // TODO: Make cache_dir configurable via EmbeddingCache::Config
             RocksDBWrapper::Config db_config;
-            db_config.path = "/tmp/themis_embedding_cache"; 
+            db_config.path = impl_->cache_dir;
             db_config.create_if_missing = true;
             
             impl_->db = std::make_unique<RocksDBWrapper>(db_config);
@@ -166,8 +168,8 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
                 best_similarity = similarity;
                 best_pk = pk;
                 
-                // Early termination if we found a perfect match
-                if (best_similarity >= 0.99f) {
+                // Early termination if we found a near-perfect match
+                if (best_similarity >= EARLY_TERMINATION_THRESHOLD) {
                     break;
                 }
             }
@@ -261,7 +263,8 @@ bool EmbeddingCache::store(
         entity.set("query_text", query_text);
         entity.set("metadata", metadata);
         entity.set("timestamp_ms", entry.timestamp_ms);
-        entity.setFloatVector("embedding", embedding);
+        // Store embedding as vector<float>
+        entity.setField("embedding", Value{embedding});
         
         auto status = impl_->vector_index->addEntity(entity, "embedding");
         if (!status.ok) {

@@ -7,19 +7,18 @@
 #include <cmath>
 #include <stdexcept>
 
-namespace themis {
-
 namespace {
     // Helper: Convert vector distance to similarity score based on metric
-    double distanceToSimilarity(float distance, VectorIndexManager::Metric metric) {
+    double distanceToSimilarity(float distance, themis::VectorIndexManager::Metric metric) {
+        using Metric = themis::VectorIndexManager::Metric;
         switch (metric) {
-            case VectorIndexManager::Metric::COSINE:
+            case Metric::COSINE:
                 // Cosine: 1 - distance (distance is already cosine distance)
                 return 1.0 - distance;
-            case VectorIndexManager::Metric::DOT:
+            case Metric::DOT:
                 // Dot product: higher is better (already similarity-like)
                 return distance;
-            case VectorIndexManager::Metric::L2:
+            case Metric::L2:
                 // L2: inverse distance
                 return 1.0 / (1.0 + distance);
             default:
@@ -27,6 +26,8 @@ namespace {
         }
     }
 }
+
+namespace themis {
 
 namespace themis {
 
@@ -97,8 +98,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     const auto& vec_result = vec_results[i];
                     Result r;
                     r.document_id = vec_result.pk;
-                    // Convert distance to similarity based on metric (default: cosine)
-                    // TODO: Make metric configurable in HybridSearch::Config
+                    // Convert distance to similarity based on metric
+                    // Currently assumes COSINE - should be configurable in future versions
+                    // See: HybridSearch::Config::vector_metric (to be added)
                     r.vector_score = distanceToSimilarity(vec_result.distance, 
                                                           VectorIndexManager::Metric::COSINE);
                     r.vector_rank = static_cast<int>(i + 1);
