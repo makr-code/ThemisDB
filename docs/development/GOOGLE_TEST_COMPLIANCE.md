@@ -322,7 +322,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     
     - name: Install Dependencies
       run: |
@@ -348,13 +348,13 @@ jobs:
         ./benchmarks/bench_v1_3_0_features --benchmark_format=json --benchmark_out=bench_results.json
     
     - name: Upload Test Results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: test-results
         path: build/test_results.xml
     
     - name: Upload Benchmark Results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: benchmark-results
         path: build/bench_results.json
@@ -372,7 +372,7 @@ jobs:
 - [x] Implement `SetUp()` and `TearDown()` when needed
 - [x] Use `ASSERT_*` macros for fatal assertions
 - [x] Use `EXPECT_*` macros for non-fatal assertions
-- [x] **Never use `assert()` from `<cassert>`**
+- [x] **Prefer Google Test macros over `assert()` in tests** (Note: `assert()` may still be appropriate in production code for fatal invariants)
 - [x] Follow test naming convention: `TestFixture.TestName`
 - [x] Support `--gtest_filter` and `--gtest_list_tests`
 - [x] Compatible with `gtest_discover_tests()` in CMake
