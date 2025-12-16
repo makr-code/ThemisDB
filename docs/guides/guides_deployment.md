@@ -1504,7 +1504,7 @@ tar -xzf vccdb-linux-x64.tar.gz
 
 ## Support
 
-- **Documentation**: https://docs.vccdb.io
+- **Documentation**: https://docs.themisdb.org
 - **GitHub Issues**: https://github.com/<org>/vccdb/issues
 - **Community Chat**: https://discord.gg/vccdb
-- **Email**: support@vccdb.io
+- **Email**: service@themisdb.org
