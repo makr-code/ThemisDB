@@ -9,11 +9,13 @@
 namespace themis {
 
 class VectorIndexManager;
+struct EmbeddingCacheImpl;  // Forward declaration for pimpl
 
 /**
  * @brief Embedding Cache for Semantic Similarity Caching
  * 
  * v1.2.0 Feature: Cost reduction through embedding reuse
+ * v1.3.0 Update: Real vector index integration with HNSW
  * 
  * Benefits:
  * - 70-90% cost reduction (avoid redundant OpenAI API calls)
@@ -24,6 +26,12 @@ class VectorIndexManager;
  * - LLM prompt caching
  * - Embedding API cost reduction
  * - Semantic query deduplication
+ * 
+ * Implementation:
+ * - HNSW vector index for fast ANN search
+ * - In-memory storage with configurable TTL
+ * - Automatic eviction (LRU) when max_entries reached
+ * - Cosine similarity threshold for cache hits
  */
 class EmbeddingCache {
 public:
@@ -64,6 +72,9 @@ public:
     /**
      * @brief Query cache with fuzzy matching
      * 
+     * Uses HNSW ANN search if enabled, otherwise brute-force cosine similarity.
+     * Returns cache hit if similarity >= threshold and entry not expired.
+     * 
      * @param query_embedding Query embedding vector
      * @return Cached entry if similarity > threshold
      */
@@ -71,6 +82,9 @@ public:
     
     /**
      * @brief Store embedding in cache
+     * 
+     * Evicts oldest entry (LRU) if cache is full.
+     * Adds to HNSW index if enabled.
      */
     bool store(const std::string& query_text, 
                const std::vector<float>& embedding,
@@ -83,18 +97,23 @@ public:
     
     /**
      * @brief Clear expired entries
+     * 
+     * Scans all entries and removes those past TTL.
+     * Updates vector index accordingly.
      */
     uint64_t clearExpired();
     
     /**
      * @brief Clear entire cache
+     * 
+     * Removes all entries and reinitializes vector index.
      */
     void clear();
 
 private:
     Config config_;
     mutable CacheStats stats_;
-    std::unique_ptr<VectorIndexManager> vector_index_;
+    std::unique_ptr<EmbeddingCacheImpl> impl_;  // pimpl for vector index + entries
     
     /**
      * @brief Check if entry is expired
