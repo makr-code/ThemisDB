@@ -1092,10 +1092,23 @@ bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
     // Local implementation: write chunk to temporary staging area
     // In distributed setup, this would send via RPC/network to target shard
     
-    // Create staging directory if it doesn't exist
-    std::filesystem::path staging_dir = "/tmp/themis_stream_staging";
+    // Security: Use platform-specific temporary directory instead of hardcoded /tmp
+    std::filesystem::path staging_dir = std::filesystem::temp_directory_path() / "themis_stream_staging";
     if (!std::filesystem::exists(staging_dir)) {
-        std::filesystem::create_directories(staging_dir);
+        try {
+            std::filesystem::create_directories(staging_dir);
+            // Set restrictive permissions (owner read/write only) on Unix-like systems
+            #ifndef _WIN32
+            std::filesystem::permissions(staging_dir, 
+                                       std::filesystem::perms::owner_read | 
+                                       std::filesystem::perms::owner_write | 
+                                       std::filesystem::perms::owner_exec,
+                                       std::filesystem::perm_options::replace);
+            #endif
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Failed to create staging directory: " << e.what() << std::endl;
+            return false;
+        }
     }
 
     // Write chunk to staging file (simulates network transfer)

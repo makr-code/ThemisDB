@@ -1,6 +1,8 @@
 #include "server/llm_grpc_service.h"
 #include <regex>
 #include <fstream>
+#include <filesystem>
+#include <random>
 
 namespace themis::server {
 
@@ -299,13 +301,29 @@ grpc::Status LLMGrpcService::IngestModel(
     try {
         std::string model_id;
         std::ofstream temp_file;
+        std::string temp_path;
         bool first_chunk = true;
         
         llm::ModelChunk chunk;
         while (reader->Read(&chunk)) {
             if (first_chunk) {
                 model_id = chunk.model_id();
-                temp_file.open("/tmp/model_" + model_id + ".tmp", std::ios::binary);
+                
+                // Security: Use secure temporary directory with random suffix
+                // Instead of predictable /tmp/model_ID.tmp, use platform-specific temp dir
+                auto temp_dir = std::filesystem::temp_directory_path();
+                std::random_device rd;
+                std::mt19937 gen(rd());
+                std::uniform_int_distribution<> dis(100000, 999999);
+                std::string random_suffix = std::to_string(dis(gen));
+                
+                temp_path = (temp_dir / ("themis_model_" + model_id + "_" + random_suffix + ".tmp")).string();
+                temp_file.open(temp_path, std::ios::binary);
+                
+                if (!temp_file.is_open()) {
+                    return grpc::Status(grpc::StatusCode::INTERNAL, "Failed to create temporary file");
+                }
+                
                 first_chunk = false;
             }
             
@@ -317,6 +335,12 @@ grpc::Status LLMGrpcService::IngestModel(
         }
         
         temp_file.close();
+        
+        // Clean up temporary file after processing
+        // (In production, move to model storage location)
+        if (!temp_path.empty()) {
+            std::filesystem::remove(temp_path);
+        }
         
         // Ingest model via plugin manager
         auto& plugin_mgr = llm::LLMPluginManager::instance();

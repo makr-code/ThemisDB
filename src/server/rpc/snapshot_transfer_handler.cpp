@@ -224,21 +224,30 @@ public:
         fs::path file_path = snapshot_dir_ / relative_path;
         
         // Canonicalize and verify path is within snapshot directory
+        // Use more robust path validation to prevent bypasses
         try {
             fs::path canonical_dir = fs::canonical(snapshot_dir_);
-            fs::path canonical_file = fs::weakly_canonical(file_path);
             
-            // Check if file path starts with snapshot directory
-            auto dir_str = canonical_dir.string();
-            auto file_str = canonical_file.string();
-            if (file_str.substr(0, dir_str.size()) != dir_str) {
+            // Create parent directories first to enable canonicalization
+            fs::create_directories(file_path.parent_path());
+            fs::path canonical_file = fs::canonical(file_path.parent_path()) / file_path.filename();
+            
+            // Use lexically_relative for more robust path traversal detection
+            // This prevents bypasses with specially crafted paths like "dir/../../../etc/passwd"
+            auto relative = canonical_file.lexically_relative(canonical_dir);
+            if (relative.empty() || relative.string().find("..") != std::string::npos) {
                 return SnapshotStatus::ERROR_INVALID_CONFIG;  // Path traversal attempt detected
+            }
+            
+            // Additional check: ensure canonical file is actually under canonical directory
+            auto [it1, it2] = std::mismatch(canonical_dir.begin(), canonical_dir.end(),
+                                           canonical_file.begin());
+            if (it1 != canonical_dir.end()) {
+                return SnapshotStatus::ERROR_INVALID_CONFIG;  // Not a subdirectory
             }
         } catch (const fs::filesystem_error&) {
             return SnapshotStatus::ERROR_INVALID_CONFIG;
         }
-        
-        fs::create_directories(file_path.parent_path());
         
         std::ofstream file(file_path, std::ios::binary | std::ios::app);
         if (!file) {

@@ -804,14 +804,30 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
     }
     
     // TODO: Implement actual JWT validation
-    // For Phase 3.1, we accept any non-empty token
-    // Real validation should:
-    // 1. Parse JWT
-    // 2. Verify signature
-    // 3. Check expiration
-    // 4. Validate claims
+    // SECURITY WARNING: This is a placeholder implementation for development only.
+    // DO NOT USE IN PRODUCTION without implementing proper JWT validation:
+    // 1. Parse JWT structure (header.payload.signature)
+    // 2. Verify signature using public key/secret
+    // 3. Check expiration (exp claim)
+    // 4. Validate issuer (iss claim)
+    // 5. Validate audience (aud claim)
+    // 6. Check not-before time (nbf claim)
+    // Consider using a JWT library like jwt-cpp or libjwt for production.
     
-    return !token->empty();
+    // For now, reject empty tokens as a minimal safety check
+    if (token->empty()) {
+        return false;
+    }
+    
+    // Development-only: log warning about placeholder validation
+    static bool warning_logged = false;
+    if (!warning_logged) {
+        std::cerr << "WARNING: Using placeholder JWT validation. "
+                  << "Implement proper JWT verification before production use." << std::endl;
+        warning_logged = true;
+    }
+    
+    return true;
 }
 
 http::response<http::string_body> LLMApiHandler::createErrorResponse(
