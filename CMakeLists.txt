@@ -823,6 +823,10 @@ if(THEMIS_ENABLE_LLM)
         src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
+        
+        # Phase 4+5 Week 4-6: llama.cpp Integration
+        src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
+        src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
     )
     
     # Threading support required for async inference
@@ -1070,6 +1074,7 @@ if(THEMIS_BUILD_TESTS)
         
         # LLM plugin tests (v1.3.0+)
         tests/test_llm_plugin.cpp
+        tests/test_llamacpp_integration.cpp  # Phase 4+5 llama.cpp integration tests
         tests/test_llm_caching.cpp
         tests/test_kv_cache_buffer.cpp  # Phase 2.2 tests
         tests/test_llm_response_cache.cpp  # Phase 2.3 tests
