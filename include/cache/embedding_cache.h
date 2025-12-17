@@ -41,6 +41,7 @@ public:
         float similarity_threshold = 0.95f;  // Min similarity for cache hit
         size_t embedding_dim = 1536;         // OpenAI ada-002 dimension
         bool use_vector_index = true;        // Use HNSW for fast lookup
+        std::string cache_dir = "/tmp/themis_embedding_cache";  // Cache storage directory
     };
     
     struct CacheEntry {

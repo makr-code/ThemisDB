@@ -38,8 +38,8 @@ EmbeddingCache::EmbeddingCache(const Config& config)
     // Initialize vector index for fast similarity search
     if (config_.use_vector_index) {
         try {
-            // Use configurable cache directory (default: /tmp/themis_embedding_cache)
-            // TODO: Make cache_dir configurable via EmbeddingCache::Config
+            // Use configurable cache directory
+            impl_->cache_dir = config_.cache_dir;
             RocksDBWrapper::Config db_config;
             db_config.path = impl_->cache_dir;
             db_config.create_if_missing = true;
