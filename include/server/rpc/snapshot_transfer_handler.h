@@ -4,6 +4,7 @@
 #include <string>
 #include <functional>
 #include <vector>
+#include <atomic>
 #include "proto/sharding/shard_rpc.pb.h"
 
 namespace themis {

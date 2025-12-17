@@ -219,8 +219,25 @@ public:
             return SnapshotStatus::ERROR_COMPRESSION_FAILED;
         }
         
-        // Write to file
-        fs::path file_path = snapshot_dir_ / chunk.file_path();
+        // Write to file - SECURITY: Validate path to prevent directory traversal
+        fs::path relative_path(chunk.file_path());
+        fs::path file_path = snapshot_dir_ / relative_path;
+        
+        // Canonicalize and verify path is within snapshot directory
+        try {
+            fs::path canonical_dir = fs::canonical(snapshot_dir_);
+            fs::path canonical_file = fs::weakly_canonical(file_path);
+            
+            // Check if file path starts with snapshot directory
+            auto dir_str = canonical_dir.string();
+            auto file_str = canonical_file.string();
+            if (file_str.substr(0, dir_str.size()) != dir_str) {
+                return SnapshotStatus::ERROR_INVALID_CONFIG;  // Path traversal attempt detected
+            }
+        } catch (const fs::filesystem_error&) {
+            return SnapshotStatus::ERROR_INVALID_CONFIG;
+        }
+        
         fs::create_directories(file_path.parent_path());
         
         std::ofstream file(file_path, std::ios::binary | std::ios::app);
@@ -467,7 +484,7 @@ private:
     uint64_t transferred_bytes_;
     uint32_t total_chunks_;
     uint32_t transferred_chunks_;
-    bool cancelled_;
+    std::atomic<bool> cancelled_;  // THREAD-SAFE: Use atomic for cancellation flag
     std::chrono::steady_clock::time_point start_time_;
 };
 

@@ -15,6 +15,9 @@ namespace rpc {
 
 namespace fs = std::filesystem;
 
+// Security: Maximum chunk size to prevent memory exhaustion
+static constexpr size_t MAX_CHUNK_SIZE = 100 * 1024 * 1024;  // 100 MB
+
 // Implementation class
 class BlobTransferHandler::Impl {
 public:
@@ -204,6 +207,11 @@ public:
 
 private:
     BlobStatus CompressData(const std::string& input, std::string* output) {
+        // SECURITY: Check input size to prevent memory exhaustion
+        if (input.size() > MAX_CHUNK_SIZE) {
+            return BlobStatus::ERROR_INVALID_CONFIG;
+        }
+        
         switch (config_.compression_type) {
             case themis::sharding::COMPRESSION_NONE:
                 *output = input;
@@ -313,7 +321,7 @@ private:
     uint64_t transferred_bytes_;
     uint32_t total_chunks_;
     uint32_t transferred_chunks_;
-    bool cancelled_;
+    std::atomic<bool> cancelled_;  // THREAD-SAFE: Use atomic for cancellation flag
     std::chrono::steady_clock::time_point start_time_;
     std::ofstream output_file_;
     Checkpoint checkpoint_;

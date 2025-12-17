@@ -173,9 +173,10 @@ std::shared_ptr<grpc::ServerCredentials> GRPCServer::configureCredentials() {
         return grpc::SslServerCredentials(ssl_opts);
         
     } catch (const std::exception& e) {
-        std::cerr << "Failed to configure TLS: " << e.what() << std::endl;
-        std::cerr << "Falling back to insecure credentials" << std::endl;
-        return grpc::InsecureServerCredentials();
+        std::cerr << "CRITICAL: Failed to configure TLS: " << e.what() << std::endl;
+        std::cerr << "Server will NOT start with insecure credentials for security" << std::endl;
+        // SECURITY: Fail-closed instead of falling back to insecure mode
+        throw std::runtime_error("TLS configuration failed - aborting for security");
     }
 }
 
