@@ -1,0 +1,125 @@
+// shard_rpc.proto
+// Protocol Buffer definitions for ThemisDB Inter-Shard RPC Communication
+
+syntax = "proto3";
+
+package themis.sharding;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+// Inter-Shard Communication Service
+service ShardService {
+    // Data Replication
+    rpc ReplicateData(ReplicateRequest) returns (ReplicateResponse);
+    rpc ReplicateDataStream(stream ReplicateChunk) returns (ReplicateResponse);
+    
+    // Distributed Transactions (2PC)
+    rpc PrepareTransaction(PrepareRequest) returns (PrepareResponse);
+    rpc CommitTransaction(CommitRequest) returns (CommitResponse);
+    rpc AbortTransaction(AbortRequest) returns (AbortResponse);
+    
+    // Data Migration
+    rpc MigrateData(MigrateRequest) returns (stream MigrateChunk);
+    
+    // Status & Health
+    rpc GetShardStatus(StatusRequest) returns (StatusResponse);
+    rpc HealthCheck(HealthRequest) returns (HealthResponse);
+    
+    // Gossip Protocol
+    rpc GossipExchange(GossipMessage) returns (GossipMessage);
+}
+
+message ReplicateRequest {
+    string shard_id = 1;
+    repeated Entity entities = 2;
+    uint64 timestamp_ns = 3;
+    string transaction_id = 4;
+}
+
+message ReplicateChunk {
+    bytes data = 1;
+    uint32 chunk_index = 2;
+    bool is_last = 3;
+}
+
+message ReplicateResponse {
+    bool success = 1;
+    uint64 replicated_count = 2;
+    string error = 3;
+}
+
+message PrepareRequest {
+    string transaction_id = 1;
+    string coordinator_shard_id = 2;
+    repeated string participant_shards = 3;
+    bytes transaction_data = 4;
+}
+
+message PrepareResponse {
+    bool vote_commit = 1;
+    string error = 2;
+}
+
+message CommitRequest {
+    string transaction_id = 1;
+}
+
+message CommitResponse {
+    bool success = 1;
+    string error = 2;
+}
+
+message AbortRequest {
+    string transaction_id = 1;
+}
+
+message AbortResponse {
+    bool success = 1;
+}
+
+message MigrateRequest {
+    string source_shard_id = 1;
+    string target_shard_id = 2;
+    uint64 token_range_start = 3;
+    uint64 token_range_end = 4;
+}
+
+message MigrateChunk {
+    repeated Entity entities = 1;
+    uint32 chunk_index = 2;
+    bool is_last = 3;
+}
+
+message StatusRequest {
+    bool include_metrics = 1;
+}
+
+message StatusResponse {
+    string shard_id = 1;
+    string state = 2;
+    uint64 token_range_start = 3;
+    uint64 token_range_end = 4;
+}
+
+message HealthRequest {
+}
+
+message HealthResponse {
+    string status = 1;
+    string version = 2;
+    uint64 uptime_seconds = 3;
+}
+
+message GossipMessage {
+    string sender_shard_id = 1;
+    uint64 timestamp_ns = 2;
+}
+
+message Entity {
+    string uuid = 1;
+    string collection = 2;
+    bytes data = 3;
+    uint64 version = 4;
+    uint64 timestamp_ns = 5;
+}

@@ -12,11 +12,11 @@ ThemisDB unterstützt ein Plugin-System für Erweiterungen.
 
 ## Features
 
-| Feature | Status | Beschreibung |
-|---------|--------|--------------|
-| Manifest Signatures | ✅ Production | Plugin Verification |
-| Plugin Migration | ✅ Production | Migration Support |
-| RPC Framework | 📋 Design | RPC Plugin-Architektur |
+| Feature | Status | Beschreibung | Release |
+|---------|--------|--------------|---------|
+| Manifest Signatures | ✅ Production | Plugin Verification | v1.0.0 |
+| Plugin Migration | ✅ Production | Migration Support | v1.0.0 |
+| RPC Framework | 📋 Design | RPC Plugin-Architektur | v1.3.0 |
 
 ## Source-Code Referenz
 

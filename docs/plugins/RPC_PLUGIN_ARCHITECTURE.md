@@ -1,6 +1,7 @@
 # RPC Plugin-Architektur für ThemisDB
 
 **Version:** 1.0.0  
+**Release:** v1.3.0  
 **Datum:** 17. Dezember 2025  
 **Status:** Design & Implementierung  
 **Kategorie:** Plugins, RPC Framework
