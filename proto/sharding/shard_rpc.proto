@@ -7,6 +7,9 @@ package themis.sharding;
 
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
+option java_package = "com.themisdb.sharding.rpc";
+option java_outer_classname = "ShardRpcProto";
+option go_package = "github.com/makr-code/ThemisDB/proto/sharding;sharding";
 
 // Inter-Shard Communication Service
 service ShardService {

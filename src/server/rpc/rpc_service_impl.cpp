@@ -1,5 +1,11 @@
 #include "server/rpc_service_impl.h"
+#include "plugins/rpc_plugin_interface.h"
 #include <sstream>
+
+// Define THEMIS_VERSION_STRING if not already defined
+#ifndef THEMIS_VERSION_STRING
+#define THEMIS_VERSION_STRING "1.3.0-dev"
+#endif
 
 namespace themis {
 namespace server {
@@ -18,8 +24,9 @@ json ThemisRPCService::handleGet(const json& params) {
             );
         }
         
-        // TODO: Implement actual database GET operation
-        // For now, return a placeholder
+        // TODO(v1.3.1): Implement actual database GET operation
+        // Issue: https://github.com/makr-code/ThemisDB/issues/XXX
+        // Integration with db_->storage().get() will be added in v1.3.1
         json result = {
             {"found", true},
             {"entity", {

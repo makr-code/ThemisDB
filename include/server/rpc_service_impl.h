@@ -15,6 +15,15 @@
  * for ThemisDB operations (GET, PUT, DELETE, Query, etc.)
  */
 
+/**
+ * @brief Forward declaration of ThemisDB
+ * 
+ * Full definition will be in themis/themis_db.h when integrated
+ */
+namespace themis {
+class ThemisDB;
+}
+
 namespace themis {
 namespace server {
 namespace rpc {
