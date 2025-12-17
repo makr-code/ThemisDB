@@ -126,6 +126,42 @@ src/
 - Maintain clear dependency declarations
 - Use target-based propagation (INTERFACE/PUBLIC/PRIVATE)
 
+### ⚠️ Challenge 5: DLL Security & Corruption Prevention
+**Problem**: Modular DLLs could be corrupted, tampered with, or replaced with malicious code
+
+**Solution**: Comprehensive module verification system (IMPLEMENTED)
+- **SHA-256 Hash Verification**: Calculate and verify file integrity before loading
+- **Digital Signature Verification**: X.509 certificate-based signing (RSA/ECDSA)
+- **Certificate Chain Validation**: Verify trusted issuers
+- **Blacklist/Whitelist Support**: Block known malicious or allow known good hashes
+- **Audit Logging**: Log all module load attempts and verification results
+- **Production Mode**: Mandatory signature verification (unsigned modules rejected)
+- **Development Mode**: Optional signatures for local development
+
+**Implementation**:
+```cpp
+// themis_base includes ModuleLoader with security verification
+#include "themis/base/module_loader.h"
+
+// Load modules with automatic verification
+themis::modules::ModuleLoader loader;
+auto result = loader.loadModule("themis_storage.dll", "themis_storage");
+
+if (!result.success) {
+    // Module verification failed - security issue detected
+    spdlog::critical("Module verification failed: {}", result.errorMessage);
+    // Module NOT loaded - system remains secure
+}
+```
+
+**Security Features**:
+- Reuses existing `PluginSecurityVerifier` infrastructure
+- Production builds require valid signatures
+- Development builds allow unsigned modules for testing
+- Tampered DLLs are detected via hash mismatch
+- Expired certificates are rejected
+- All security events logged to audit trail
+
 ## Implementation Plan
 
 ### Phase 1: Foundation (Week 1)

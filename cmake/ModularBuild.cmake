@@ -83,6 +83,8 @@ set(THEMIS_BASE_SOURCES
     # To be populated post-v1.3.0
     # src/storage/base_entity.cpp
     # Common types, interfaces, status codes
+    # Module loader (for security verification of modular DLLs)
+    src/base/module_loader.cpp
 )
 
 set(THEMIS_STORAGE_SOURCES
