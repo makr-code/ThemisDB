@@ -1,0 +1,215 @@
+#pragma once
+
+#include "llm/llm_plugin_interface.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/gpu_memory_manager.h"
+#include "llm/kernel_fusion.h"
+#include <vector>
+#include <string>
+#include <chrono>
+#include <functional>
+
+namespace themis {
+namespace llm {
+namespace testing {
+
+/**
+ * @brief Production Validation Framework
+ * 
+ * Week 13-14 Implementation: End-to-end system integration testing,
+ * production validation, and stress testing for 72+ hours stability.
+ */
+class ProductionValidator {
+public:
+    struct ValidationConfig {
+        // Stress test duration
+        std::chrono::hours stress_test_duration{72};
+        
+        // Load testing
+        size_t concurrent_requests = 100;
+        size_t requests_per_second = 50;
+        size_t total_requests = 100000;
+        
+        // Quality checks
+        double max_latency_ms = 100.0;
+        double max_p99_latency_ms = 200.0;
+        double min_throughput_tokens_per_sec = 1000.0;
+        double max_error_rate_pct = 0.1;
+        
+        // Memory checks
+        double max_memory_growth_mb_per_hour = 10.0;
+        size_t max_fragmentation_pct = 15;
+        
+        // Performance regression
+        double max_regression_pct = 1.0;  // Max 1% regression allowed
+    };
+    
+    struct ValidationResult {
+        bool passed = false;
+        std::string error_message;
+        
+        // Performance metrics
+        double avg_latency_ms = 0.0;
+        double p50_latency_ms = 0.0;
+        double p95_latency_ms = 0.0;
+        double p99_latency_ms = 0.0;
+        double throughput_tokens_per_sec = 0.0;
+        
+        // Quality metrics
+        size_t total_requests = 0;
+        size_t successful_requests = 0;
+        size_t failed_requests = 0;
+        double error_rate_pct = 0.0;
+        
+        // Memory metrics
+        size_t peak_memory_mb = 0;
+        size_t final_memory_mb = 0;
+        double memory_growth_mb = 0.0;
+        size_t max_fragmentation_pct = 0;
+        
+        // Stability metrics
+        size_t num_crashes = 0;
+        double uptime_pct = 0.0;
+        std::chrono::seconds total_uptime{0};
+    };
+    
+    explicit ProductionValidator(const ValidationConfig& config);
+    
+    // Main validation methods
+    ValidationResult runEndToEndTests();
+    ValidationResult runStressTest();
+    ValidationResult runLoadTest();
+    ValidationResult checkPerformanceRegression(
+        const std::string& baseline_file
+    );
+    
+    // Individual test suites
+    bool testModelLoading();
+    bool testInferencePipeline();
+    bool testBatchScheduling();
+    bool testMemoryManagement();
+    bool testGPUOffload();
+    bool testQuantization();
+    bool testContinuousBatching();
+    bool testKernelFusion();
+    
+    // Stress testing
+    void startStressTest();
+    void stopStressTest();
+    bool isStressTestRunning() const;
+    
+    // Monitoring
+    struct LiveStats {
+        size_t active_requests = 0;
+        double current_latency_ms = 0.0;
+        double current_throughput = 0.0;
+        size_t memory_mb = 0;
+        size_t uptime_seconds = 0;
+    };
+    
+    LiveStats getLiveStats() const;
+    
+private:
+    ValidationConfig config_;
+    
+    // Test state
+    bool stress_test_running_ = false;
+    std::chrono::system_clock::time_point stress_test_start_;
+    
+    // Statistics
+    std::vector<double> latency_samples_;
+    size_t total_requests_processed_ = 0;
+    size_t total_failures_ = 0;
+    
+    // Helper methods
+    double calculatePercentile(const std::vector<double>& data, double percentile);
+    void recordLatency(double latency_ms);
+    void checkMemoryLeaks();
+};
+
+/**
+ * @brief Performance Regression Framework
+ * 
+ * Detects performance degradation by comparing against baselines.
+ */
+class PerformanceRegressionDetector {
+public:
+    struct Baseline {
+        double avg_latency_ms = 0.0;
+        double p99_latency_ms = 0.0;
+        double throughput_tokens_per_sec = 0.0;
+        size_t memory_usage_mb = 0;
+        
+        std::string version;
+        std::chrono::system_clock::time_point recorded_at;
+    };
+    
+    struct RegressionReport {
+        bool has_regression = false;
+        
+        double latency_change_pct = 0.0;
+        double p99_latency_change_pct = 0.0;
+        double throughput_change_pct = 0.0;
+        double memory_change_pct = 0.0;
+        
+        std::vector<std::string> regressions;
+        std::vector<std::string> improvements;
+    };
+    
+    // Save/load baselines
+    bool saveBaseline(const std::string& filepath, const Baseline& baseline);
+    bool loadBaseline(const std::string& filepath, Baseline& baseline);
+    
+    // Compare current performance against baseline
+    RegressionReport detectRegression(
+        const Baseline& baseline,
+        const ProductionValidator::ValidationResult& current,
+        double threshold_pct = 1.0
+    );
+    
+private:
+    std::vector<Baseline> historical_baselines_;
+};
+
+/**
+ * @brief Integration Test Suite
+ * 
+ * Tests all components working together.
+ */
+class IntegrationTestSuite {
+public:
+    // Component integration tests
+    bool testLazyLoaderWithGPUMemory();
+    bool testSchedulerWithPagedAttention();
+    bool testKernelFusionWithInference();
+    bool testFullPipelineE2E();
+    
+    // Multi-model scenarios
+    bool testMultiModelServing();
+    bool testModelSwitching();
+    bool testLoRAAdapterManagement();
+    
+    // Failure scenarios
+    bool testGPUOutOfMemory();
+    bool testModelLoadFailure();
+    bool testRequestCancellation();
+    bool testPreemption();
+    
+    // Performance scenarios
+    bool testHighConcurrency();
+    bool testLongRunningRequests();
+    bool testBurstTraffic();
+    
+    struct TestResult {
+        std::string test_name;
+        bool passed;
+        std::string error_message;
+        double duration_ms;
+    };
+    
+    std::vector<TestResult> runAllTests();
+};
+
+} // namespace testing
+} // namespace llm
+} // namespace themis
