@@ -16,6 +16,7 @@ ThemisDB unterstützt ein Plugin-System für Erweiterungen.
 |---------|--------|--------------|
 | Manifest Signatures | ✅ Production | Plugin Verification |
 | Plugin Migration | ✅ Production | Migration Support |
+| RPC Framework | 📋 Design | RPC Plugin-Architektur |
 
 ## Source-Code Referenz
 
@@ -28,6 +29,7 @@ ThemisDB unterstützt ein Plugin-System für Erweiterungen.
 |-------|--------------|
 | [MANIFEST_SIGNATURES.md](MANIFEST_SIGNATURES.md) | Plugin Manifest Signing |
 | [PLUGIN_MIGRATION.md](PLUGIN_MIGRATION.md) | Plugin Migration Guide |
+| [RPC_PLUGIN_ARCHITECTURE.md](RPC_PLUGIN_ARCHITECTURE.md) | RPC Framework & Plugin-Integration |
 
 ## Verwandte Dokumentation
 
