@@ -15,6 +15,8 @@ AQL ist ThemisDB's deklarative Abfragesprache für Multi-Model-Datenbank-Operati
 - **Dokument**: Flexible JSON-Queries
 - **Vektor**: Ähnlichkeitssuchen
 - **Geo-Spatial**: ST_*-Funktionen
+- **Zeitreihen**: Optimierte Speicherung, Gorilla-Kompression, kontinuierliche Aggregation
+- **Prozessabbildung**: Event-Log-Extraktion, Process-Discovery, Konformitätsprüfung
 - **LLM** (v1.3.0+): Native LLM-Inferenz, RAG, Embeddings
 
 ## Sprachfeatures
