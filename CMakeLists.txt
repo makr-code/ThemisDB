@@ -486,6 +486,7 @@ set(THEMIS_CORE_SOURCES
     src/server/auth_middleware.cpp
     src/server/llm_api_handler.cpp
     src/server/llm_grpc_service.cpp
+    src/aql/llm_aql_handler.cpp
     
     # gRPC proto files for LLM service
     proto/llm_service.proto
