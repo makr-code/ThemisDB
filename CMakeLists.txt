@@ -808,7 +808,12 @@ if(THEMIS_ENABLE_LLM)
         src/llm/llm_plugin_manager.cpp
         src/llm/model_loader.cpp          # Ollama-style lazy loading
         src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
+        src/llm/async_inference_engine.cpp # Async threading (independent from DB)
     )
+    
+    # Threading support required for async inference
+    find_package(Threads REQUIRED)
+    target_link_libraries(themis_core PRIVATE Threads::Threads)
     
     # Link llama.cpp library
     if(TARGET llama)
@@ -822,6 +827,7 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM Plugin: Source files added to themis_core")
     message(STATUS "  - Ollama-style lazy model loading enabled")
     message(STATUS "  - vLLM-style multi-LoRA management enabled")
+    message(STATUS "  - Async inference engine enabled (independent threading)")
 endif()
 
 
