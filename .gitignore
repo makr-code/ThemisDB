@@ -189,8 +189,9 @@ tools/jaeger/
 **/target/
 target/
 
-# Allow CMakeLists (explicitly)
+# Allow CMakeLists and cmake/ directory helper files (explicitly)
 !CMakeLists.txt
+!cmake/*.cmake
 
 # End of .gitignore
 
