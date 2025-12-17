@@ -180,6 +180,13 @@ message SnapshotTransferRequest {
     // Chunking settings
     uint64 chunk_size_bytes = 10;       // Chunk size (default: 50 MB)
     ChecksumType checksum_type = 11;
+    
+    // Temporal snapshot metadata (NEW - v1.3.0)
+    uint64 snapshot_timestamp_ns = 12;  // Point-in-time when snapshot was created
+    uint64 snapshot_sequence = 13;      // Sequence number for ordering
+    string base_snapshot_id = 14;       // For incremental: ID of base snapshot
+    SnapshotIsolation isolation_level = 15;  // Consistency guarantee
+    bool allow_dirty_reads = 16;        // Allow reading uncommitted data (faster but inconsistent)
 }
 
 message SnapshotChunk {
@@ -238,6 +245,19 @@ message BlobTransferRequest {
     map<string, string> metadata = 10;   // Custom metadata (model_name, version, etc.)
     bool enable_resume = 11;             // Support resume on failure
     string resume_token = 12;            // Token for resuming transfer
+    
+    // Differential transfer mode (NEW)
+    bool enable_differential = 13;       // Enable delta transfer
+    DifferentialMode diff_mode = 14;     // Delta algorithm
+    repeated ChunkManifest local_chunks = 15;  // Chunks already at target
+    
+    // Temporal snapshot information (NEW - v1.3.0)
+    uint64 snapshot_timestamp_ns = 16;   // When snapshot was taken (nanoseconds since epoch)
+    string snapshot_id = 17;             // Unique snapshot identifier (UUID)
+    uint64 snapshot_sequence = 18;       // Monotonically increasing sequence number
+    string base_version = 19;            // Base version this snapshot is built upon
+    bool is_immutable = 20;              // True if source won't change during transfer
+    SnapshotIsolation isolation_level = 21;  // Isolation level guarantee
 }
 
 message BlobChunk {
@@ -272,4 +292,29 @@ message BlobVerifyResponse {
     uint64 total_bytes_received = 5;
     uint64 total_bytes_uncompressed = 6;
     double compression_ratio = 7;        // Uncompressed / Compressed
+}
+
+// Snapshot isolation levels
+enum SnapshotIsolation {
+    SNAPSHOT_NONE = 0;                   // No isolation guarantee
+    SNAPSHOT_CONSISTENT = 1;             // Snapshot is consistent at point-in-time
+    SNAPSHOT_SERIALIZABLE = 2;           // Serializable snapshot isolation
+    SNAPSHOT_MVCC = 3;                   // Multi-Version Concurrency Control
+}
+
+// Differential update mode
+enum DifferentialMode {
+    DIFFERENTIAL_NONE = 0;               // Full transfer (default)
+    DIFFERENTIAL_CDC = 1;                // Content-Defined Chunking (rsync-like)
+    DIFFERENTIAL_FIXED_BLOCK = 2;        // Fixed-size block diff (simple)
+    DIFFERENTIAL_BSDIFF = 3;             // Binary diff (for small changes)
+}
+
+// Chunk manifest for deduplication
+message ChunkManifest {
+    string chunk_hash = 1;               // SHA256 of chunk
+    uint64 chunk_size = 2;               // Chunk size in bytes
+    uint32 chunk_index = 3;              // Chunk index in file
+    uint64 offset = 4;                   // Offset in file (for CDC)
+    uint64 snapshot_sequence = 5;        // Snapshot when chunk was created
 }
