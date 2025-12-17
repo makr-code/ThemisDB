@@ -1,0 +1,235 @@
+# LLM Code Translator Configuration
+
+# LLM Service Configuration
+llm:
+  # LLM API endpoint (vLLM, OpenAI, or compatible API)
+  endpoint: "http://localhost:8000"
+  
+  # Model to use for code generation
+  # Options: 
+  #   - codellama/CodeLlama-13b-Instruct-hf (recommended for on-premise)
+  #   - codellama/CodeLlama-34b-Instruct-hf (better quality, needs more VRAM)
+  #   - deepseek-ai/deepseek-coder-33b-instruct (excellent for code)
+  #   - gpt-4 (requires OpenAI API key, cloud-based)
+  model: "codellama/CodeLlama-13b-Instruct-hf"
+  
+  # API key (if using cloud services like OpenAI)
+  api_key: ""
+  
+  # Temperature for generation (0.0-1.0)
+  # Lower = more deterministic, higher = more creative
+  # Recommended: 0.1-0.2 for code generation
+  temperature: 0.2
+  
+  # Maximum tokens to generate
+  max_tokens: 4096
+  
+  # Top-p sampling (nucleus sampling)
+  top_p: 0.95
+  
+  # Frequency penalty (discourage repetition)
+  frequency_penalty: 0.0
+  
+  # Presence penalty (encourage diversity)
+  presence_penalty: 0.0
+
+# Security Configuration
+security:
+  # Enable automatic security review before execution
+  enable_security_review: true
+  
+  # Enable automatic code execution (DANGEROUS if disabled)
+  # Recommended: false (require manual approval)
+  enable_auto_execution: false
+  
+  # Maximum input length (characters)
+  max_input_length: 10000
+  
+  # Patterns to reject in user input (potential injection attacks)
+  dangerous_patterns:
+    - "DROP TABLE"
+    - "DELETE FROM"
+    - "'; --"
+    - "UNION SELECT"
+    - "system("
+    - "exec("
+    - "eval("
+    - "__import__"
+    - "subprocess"
+  
+  # Minimum quality score to approve code (0.0-1.0)
+  min_quality_score: 0.7
+
+# Execution Limits (Sandboxing)
+execution:
+  # Maximum execution time (milliseconds)
+  max_execution_time_ms: 30000  # 30 seconds
+  
+  # Maximum memory usage (MB)
+  max_memory_mb: 512
+  
+  # Maximum CPU usage (percent)
+  max_cpu_percent: 80
+  
+  # Allow network access during execution
+  allow_network: false
+  
+  # Allow file system writes during execution
+  allow_file_writes: false
+  
+  # Allowed syscalls (whitelist)
+  allowed_syscalls:
+    - "read"
+    - "write"
+    - "open"
+    - "close"
+    - "mmap"
+    - "munmap"
+    - "brk"
+
+# Logging Configuration
+logging:
+  # Log all code generations to ThemisDB
+  log_all_generations: true
+  
+  # Log successful executions only
+  log_successful_only: false
+  
+  # Log level (DEBUG, INFO, WARN, ERROR)
+  log_level: "INFO"
+  
+  # Include generated code in logs
+  include_code_in_logs: true
+  
+  # Include execution results in logs
+  include_results_in_logs: true
+
+# ThemisDB Configuration
+themisdb:
+  # ThemisDB API endpoint
+  api_endpoint: "http://localhost:8765"
+  
+  # Database path (for direct access)
+  db_path: "./data/themis_server"
+  
+  # Column family for LLM interactions
+  llm_cf: "llm_interactions"
+
+# Prompt Templates
+templates:
+  # Directory containing custom prompt templates
+  template_dir: "./config/templates"
+  
+  # Default template for each language
+  default_templates:
+    aql: "aql_query_generation"
+    python: "python_script_generation"
+    cpp: "cpp_handler_generation"
+    sql: "sql_query_generation"
+
+# Caching Configuration
+cache:
+  # Enable caching of LLM responses
+  enable: true
+  
+  # Cache TTL (seconds)
+  ttl_seconds: 3600  # 1 hour
+  
+  # Maximum cache size (entries)
+  max_size: 1000
+  
+  # Cache eviction policy (LRU, LFU, FIFO)
+  eviction_policy: "LRU"
+
+# Monitoring Configuration
+monitoring:
+  # Enable telemetry
+  enable_telemetry: true
+  
+  # Prometheus metrics endpoint
+  metrics_endpoint: "/metrics"
+  
+  # Metrics to track
+  metrics:
+    - "generation_count"
+    - "generation_success_rate"
+    - "avg_quality_score"
+    - "security_rejection_rate"
+    - "avg_generation_time_ms"
+    - "language_distribution"
+
+# Language-Specific Settings
+languages:
+  aql:
+    # Enable AQL-specific optimizations
+    enable_optimizations: true
+    
+    # Maximum query complexity
+    max_complexity: 10
+    
+    # Enable index hints
+    enable_index_hints: true
+  
+  python:
+    # Python version to target
+    target_version: "3.10"
+    
+    # Enable type hints
+    enable_type_hints: true
+    
+    # PEP 8 compliance
+    enforce_pep8: true
+  
+  cpp:
+    # C++ standard to target
+    target_standard: "c++20"
+    
+    # Enable modern C++ features
+    enable_modern_features: true
+    
+    # Compiler to use for syntax checking
+    compiler: "g++"
+
+# Quality Control
+quality:
+  # Minimum code quality thresholds
+  thresholds:
+    syntax_correctness: 1.0      # Must compile/parse
+    functional_correctness: 0.8  # Should work correctly
+    security_score: 0.9          # High security standard
+    performance_score: 0.7       # Reasonable performance
+    readability_score: 0.8       # Well-documented
+  
+  # Enable automatic quality improvement
+  enable_auto_improve: true
+  
+  # Maximum improvement iterations
+  max_improvement_iterations: 3
+
+# Rate Limiting
+rate_limiting:
+  # Enable rate limiting
+  enable: true
+  
+  # Maximum requests per minute (per user)
+  max_requests_per_minute: 10
+  
+  # Maximum requests per hour (per user)
+  max_requests_per_hour: 100
+  
+  # Maximum concurrent requests
+  max_concurrent_requests: 5
+
+# Development Settings
+development:
+  # Enable debug mode
+  debug: false
+  
+  # Enable verbose logging
+  verbose: false
+  
+  # Save generated prompts for inspection
+  save_prompts: false
+  
+  # Prompt save directory
+  prompt_save_dir: "./debug/prompts"
