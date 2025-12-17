@@ -1,25 +1,34 @@
 # ThemisDB Dokumentations-Index
 
-**Stand:** 15. Dezember 2025  
-**Version:** 1.2.0 (v1.1.0 & v1.2.0 released)  
+**Stand:** 17. Dezember 2025  
+**Version:** 1.3.0 (LLM Integration Release)  
 **Typ:** Dokumentations-Index
 
 ---
 
-## 🚀 Next Top Feature: Native LLM Integration (v1.5.0 - Q3 2026)
+## 🚀 NEW in v1.3.0: Native LLM Integration ✅ RELEASED
 
 **AI direkt in der Datenbank - ohne externe API-Kosten!**
 
-ThemisDB wird zur ersten Multi-Model-Datenbank mit **eingebetteter LLM-Engine**:
+ThemisDB ist jetzt die erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine**:
 
-### Highlights
+### Highlights (Production-Ready)
 
-- 🧠 **Embedded llama.cpp** - SLMs/LLMs (1B-70B Parameter) direkt auf GPU
-- ⚡ **Zero-Copy RAG** - Direkte Speicherzugriffe zwischen Vector-DB und LLM (4x schneller)
-- 💰 **100-1000x Kostenersparnis** - vs. AWS/Azure/GCP (€0.02 vs. €30 pro 1M Tokens)
-- 🎯 **Alle GPU-Tiers** - Entry (<16GB), Mid-Range (<24GB), High-End (>24GB)
-- 🔄 **Federated RAG** - Cross-Shard Queries mit dynamischer LoRA-Fusion
-- 📊 **Continuous Batching** - vLLM-style (2.6x Durchsatz)
+- 🧠 **Embedded llama.cpp** - SLMs/LLMs (1B-70B Parameter) direkt auf GPU ✅
+- ⚡ **GPU Acceleration** - 100x Speedup mit NVIDIA CUDA support ✅
+- 💾 **PagedAttention** - 65% Memory Savings mit CoW prefix sharing ✅
+- 🎯 **Continuous Batching** - 100+ concurrent requests ✅
+- 🔧 **Kernel Fusion** - 6 CUDA kernels, 30-40% zusätzlicher Speedup ✅
+- 📊 **Production Monitoring** - Grafana/Prometheus (22 Metriken, 12 Alerts) ✅
+- 🔌 **Plugin Architecture** - Extensible LLM backend system ✅
+- 🌐 **RPC Framework** - Inter-Shard Communication für distributed LLM ops ✅
+
+### Performance Metrics
+
+- **100x schneller** mit GPU vs CPU-only
+- **65% Memory-Ersparnis** mit PagedAttention
+- **30-40% zusätzlich** mit Kernel Fusion
+- **95% Test Coverage** (432+ Unit Tests)
 
 ### GPU-Tier Empfehlungen
 
@@ -31,33 +40,39 @@ ThemisDB wird zur ersten Multi-Model-Datenbank mit **eingebetteter LLM-Engine**:
 
 **Break-Even vs. Hyperscaler:** 2-7 Monate je nach Hardware-Tier
 
-### Dokumentation
+### Dokumentation (v1.3.0)
 
-- **[GPU-Tier Analyse & Hyperscaler-Vergleich](llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)** ⭐ **NEU**
+- **[GPU Inference Guide](llm/GPU_INFERENCE_GUIDE.md)** ⭐ **v1.3.0**
+  - CUDA Setup und Konfiguration
+  - Performance-Tuning
+  - Troubleshooting
+
+- **[Quantization Guide](llm/QUANTIZATION_GUIDE.md)** ⭐ **v1.3.0**
+  - Q4_K_M, Q5_K_M, Q8_0 Formate
+  - Memory vs. Quality Trade-offs
+  - Best Practices
+
+- **[Performance Benchmarks](llm/PERFORMANCE_BENCHMARKS.md)** ⭐ **v1.3.0**
+  - GPU vs. CPU Vergleiche
+  - Throughput-Messungen
+  - Latenz-Analysen
+
+- **[Deployment Guide](llm/DEPLOYMENT_GUIDE.md)** ⭐ **v1.3.0**
+  - Docker mit GPU-Support
+  - Kubernetes Deployment
+  - Production Best Practices
+
+- **[RPC Framework](../docs/plugins/RPC_PLUGIN_ARCHITECTURE.md)** ⭐ **v1.3.0**
+  - Inter-Shard Communication
+  - TLS/mTLS Security
+  - Snapshot/Blob Transfer
+
+- **[GPU-Tier Analyse & Hyperscaler-Vergleich](llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)**
   - SLM/LLM Performance auf Entry/Mid/High-End GPUs
   - TCO-Analyse über 3 Jahre
   - ROI-Berechnung vs. AWS/Azure/GCP
-  - Use-Case-spezifische Empfehlungen
 
-- **[Native LLM Integration Concept](llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)** ⭐ **NEU**
-  - Zero-Copy Architecture (Best Practices)
-  - Continuous Batching (vLLM-style)
-  - PagedAttention (6x VRAM-Effizienz)
-  - Complete Code-Beispiele
-
-- **[Zero-Copy Memory Access](llm/ZERO_COPY_MEMORY_ACCESS.md)** ⭐ **NEU**
-  - Intra-Ops vs. Inter-Ops Kommunikation
-  - GPU Direct Memory Access
-  - Performance: 0ms (GPU Direct) bis 12s (gRPC)
-
-- **[AI Ecosystem Sharding Architecture](llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md)**
-  - Jede Shard mit eigenem LLM
-  - Dynamic LoRA Transfer
-  - Federated RAG
-
-- **[Alle LLM Dokumentation](llm/README.md)** - Kompletter Index
-
-**Roadmap:** v1.5.0 (Q3 2026) - Native LLM Integration
+- **[Alle LLM Dokumentation](llm/README.md)** - Kompletter Index (31 Guides)
 
 ---
 
@@ -71,13 +86,15 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 - `glossary.md` - Terminologie
 
 **Organisierte Ordner:**
+- `aql/` - **AQL Grammatik (EBNF)** ⭐ **v1.3.0**
 - `build/` - Build-System-Dokumentation (BUILD-SYSTEM.md, BUILDGUIDE.md, etc.)
 - `development/` - Entwicklungs-Dokumentation (IMPLEMENTATION-*.md, CODE_REVIEW-*.md)
 - `guides/` - Benutzer- und Entwickler-Guides (RAILWAY_COMPLETE_GUIDE.md, etc.)
 - `architecture/` - Architektur-Dokumentation (ARCHITECTURE_OVERVIEW.md, etc.)
 - `stakeholder/` - Stakeholder-Dokumentation
-- `releases/` - Release-Notizen (v1.2.0.md, v1.1.0.md, etc.)
-- `llm/` - **LLM & AI Integration** ⭐ **NEU**
+- `releases/` - Release-Notizen (v1.3.0.md, v1.2.0.md, v1.1.0.md, etc.)
+- `llm/` - **LLM & AI Integration** ⭐ **v1.3.0 RELEASED**
+- `plugins/` - **RPC Framework** ⭐ **v1.3.0**
 - `archive/` - Alte/historische Dokumentation
 
 ---

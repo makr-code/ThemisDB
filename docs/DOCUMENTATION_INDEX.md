@@ -1,7 +1,7 @@
 # ThemisDB Dokumentations-Index
 
-**Letzte Aktualisierung:** 5. Dezember 2025
-**Version:** 1.0.0
+**Letzte Aktualisierung:** 17. Dezember 2025
+**Version:** 1.3.0 (LLM Integration Release)
 
 ## 🎯 Schnelleinstieg nach Rolle
 
@@ -30,13 +30,17 @@
 ```
 /
 ├── README.md                        # Projektübersicht & Quick Start
-├── features/features_overview.md                      # Feature-Liste mit Status
+├── aql/                             # ⭐ AQL EBNF Grammatik (v1.3.0)
+│   ├── AQL_GRAMMAR.ebnf             # Vollständige formale Grammatik
+│   └── README.md                    # AQL Übersicht
+├── features/features_overview.md    # Feature-Liste mit Status
 ├── ROADMAP.md                       # Entwicklungs-Roadmap
 ├── CHANGELOG.md                     # Änderungshistorie
-├── guides/guides_build_strategy.md                # Build-Toolchain & Strategie
+├── guides/guides_build_strategy.md  # Build-Toolchain & Strategie
 ├── INTEGRATION_ANALYSIS.md          # Enterprise Integration Analysis
 ├── TEST_REPORT.md                   # Vollständiger Test-Report
 ├── DEVELOPMENT_AUDITLOG.md          # Entwicklungsstand & Audit
+├── DOCKER_DEPLOYMENT.md             # Docker Deployment Guide (v1.3.0)
 └── CONTRIBUTING.md                  # Contribution Guidelines
 ```
 
