@@ -6,7 +6,11 @@ This directory contains thematic Grafana dashboard definitions (JSON files) for 
 
 These dashboards provide comprehensive monitoring and visualization of ThemisDB's various subsystems and operations. All dashboards are designed to work with Prometheus as the data source and use the metrics exposed by ThemisDB's `/metrics` endpoint.
 
+**Note:** This collection has been expanded to cover all major ThemisDB subsystems with appropriate metrics instrumentation.
+
 ## Available Dashboards
+
+### Core Operations (8 dashboards)
 
 ### 1. System Overview (`system-overview.json`)
 **UID:** `themisdb-system-overview`
@@ -115,6 +119,45 @@ Monitors peer-to-peer communication and distributed coordination:
 
 **Best for:** Network debugging, distributed query optimization, and multi-datacenter deployment monitoring.
 
+### Extended Capabilities (3 dashboards)
+
+### 9. Replication & High Availability (`replication-ha.json`)
+**UID:** `themisdb-replication-ha`
+
+Monitors replication health and failover operations:
+- **Replication Lag**: Per-replica lag in milliseconds with thresholds
+- **Replica Sync Status**: Current synchronization state of each replica
+- **WAL Operations**: Write-Ahead Log write rates and latency
+- **Replication Streams**: Throughput per replica in bytes/sec
+- **Failover Events**: Automatic leader election and failover tracking
+
+**Best for:** High availability monitoring, replication performance, and disaster recovery readiness.
+
+### 10. Storage & Backup (`storage-backup.json`)
+**UID:** `themisdb-storage-backup`
+
+Tracks storage operations and backup health:
+- **Backup Operations**: Success/failure rates by type (full, incremental)
+- **Backup Duration**: Time taken for backup operations
+- **Backup Sizes**: Current backup sizes by type
+- **Blob Storage**: Multi-backend operations (S3, Azure, Filesystem, WebDAV)
+- **RocksDB Compactions**: Compaction rates and throughput
+
+**Best for:** Storage capacity planning, backup monitoring, and blob storage performance optimization.
+
+### 11. Advanced Features (`advanced-features.json`)
+**UID:** `themisdb-advanced-features`
+
+Comprehensive monitoring for advanced ThemisDB capabilities:
+- **Advanced Indexing**: Spatial query rates, vector search performance
+- **LLM & AI Operations**: LLM request rates, token consumption, embedding generation
+- **Transactions & Locking**: Transaction rates by isolation level, deadlock detection, lock wait times
+- **CDC (Change Data Capture)**: Event rates, subscriber lag
+- **Analytics**: OLAP query performance, CEP rule evaluations
+- **Network Resilience**: Circuit breaker states, retry attempts, connection pool health
+
+**Best for:** AI/ML workload monitoring, transaction debugging, CDC stream health, and resilience engineering.
+
 ## Installation
 
 ### Option 1: Manual Import
@@ -191,6 +234,14 @@ ThemisDB follows Prometheus naming best practices:
 - `content_*`, `chunks_*`, `embeddings_*`: Content processing metrics
 - `auth_*`, `policy_*`, `encryption_*`: Security metrics
 - `themis_gossip_*`, `themis_cross_*`: Network and gossip protocol metrics
+- `replication_*`, `wal_*`, `replica_*`, `failover_*`: Replication and HA metrics
+- `backup_*`, `restore_*`, `blob_storage_*`, `rocksdb_*`: Storage and backup metrics
+- `spatial_*`, `vector_*`, `index_rebuild_*`: Advanced indexing metrics
+- `llm_*`, `vector_embedding_*`, `rag_*`: LLM and AI operations metrics
+- `transactions_*`, `lock_*`, `deadlocks_*`: Transaction and locking metrics
+- `cdc_*`: Change Data Capture metrics
+- `analytics_*`, `olap_*`, `cep_*`: Analytics and CEP metrics
+- `circuit_breaker_*`, `retry_*`, `connection_pool_*`: Network resilience metrics
 
 ## Troubleshooting
 
@@ -205,18 +256,38 @@ Some metrics may only appear when specific features are used:
 - Content processing metrics require active content imports
 - Sharding metrics require a multi-node deployment
 - Gossip metrics require cluster mode operation
+- Replication metrics require replication to be enabled
+- LLM metrics require AI/ML features to be active
+- CDC metrics require Change Data Capture to be configured
+- Transaction metrics require transactional operations
 
 ## Tags
 
 Each dashboard is tagged for easy discovery:
 - `themisdb`: Common tag for all ThemisDB dashboards
-- Specific tags: `system`, `timeseries`, `queries`, `cache`, `sharding`, `content`, `security`, `gossip`, `network`
+- Specific tags: `system`, `timeseries`, `queries`, `cache`, `sharding`, `content`, `security`, `gossip`, `network`, `replication`, `ha`, `wal`, `storage`, `backup`, `rocksdb`, `advanced`, `indexing`, `llm`, `transactions`, `cdc`, `resilience`
 
 ## Version
 
-Dashboard Version: 1.0
+Dashboard Version: 2.0 (Extended)
 Schema Version: 38
 Compatible with: Grafana 9.0+
+Total Dashboards: 11
+
+## Recent Updates
+
+**Version 2.0** - Added extensive metrics coverage:
+- **New Dashboards**: Replication & HA, Storage & Backup, Advanced Features
+- **New Metrics**: 50+ additional metric recording methods covering:
+  - Replication lag, WAL operations, failover events
+  - Backup operations, blob storage backends, RocksDB compactions
+  - Advanced indexing (spatial, vector)
+  - LLM/AI operations and token tracking
+  - Transaction isolation levels, locking, deadlock detection
+  - CDC event streams and subscriber lag
+  - Analytics queries, OLAP aggregations, CEP rules
+  - Circuit breakers, retry logic, connection pools
+- **Improved Coverage**: All major ThemisDB subsystems now have metrics instrumentation
 
 ## License
 
