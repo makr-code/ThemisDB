@@ -1,0 +1,261 @@
+# ThemisDB LLM Plugin Configuration Example
+# Version: 1.3.0
+#
+# This file shows how to configure LLM plugins for ThemisDB
+# Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md design
+
+# ═══════════════════════════════════════════════════════════
+# Global LLM Settings
+# ═══════════════════════════════════════════════════════════
+llm:
+  # Enable LLM functionality
+  enabled: true
+  
+  # Default plugin to use
+  default_plugin: "llamacpp"
+  
+  # Plugin discovery paths
+  plugin_paths:
+    - "/usr/local/lib/themis/plugins"
+    - "./plugins"
+    - "/opt/themis/plugins"
+  
+  # Auto-load plugins at startup
+  auto_load: true
+
+# ═══════════════════════════════════════════════════════════
+# llama.cpp Plugin Configuration
+# ═══════════════════════════════════════════════════════════
+llm_plugins:
+  llamacpp:
+    # Plugin type
+    type: "llama.cpp"
+    
+    # Enable this plugin
+    enabled: true
+    
+    # Model configuration
+    model:
+      # Path to GGUF model file
+      path: "/models/mistral-7b-instruct-v0.2.Q4_K_M.gguf"
+      
+      # Auto-load model at startup
+      auto_load: true
+    
+    # GPU acceleration
+    gpu:
+      # Number of layers to offload to GPU (0 = CPU only)
+      n_layers: 32
+      
+      # Use CUDA if available
+      use_cuda: true
+      
+      # Use Metal (macOS) if available
+      use_metal: true
+      
+      # Use Vulkan if available
+      use_vulkan: false
+      
+      # Maximum VRAM usage in MB (14GB for Mistral-7B Q4)
+      max_vram_mb: 14336
+      
+      # Use CUDA unified memory
+      unified_memory: false
+    
+    # Context and processing
+    context:
+      # Maximum context length (tokens)
+      n_ctx: 4096
+      
+      # Batch size for prompt processing
+      n_batch: 512
+      
+      # CPU threads (for layers not on GPU)
+      n_threads: 8
+    
+    # Memory management
+    memory:
+      # Memory-map model file
+      use_mmap: true
+      
+      # Lock memory (prevent swapping)
+      use_mlock: false
+    
+    # LoRA configuration
+    lora:
+      # Number of LoRA adapter cache slots
+      cache_slots: 8
+      
+      # VRAM reserved for LoRA cache (MB)
+      cache_vram_mb: 512
+      
+      # Pre-load these LoRA adapters at startup
+      preload:
+        - id: "legal-qa-v1"
+          path: "/loras/legal-qa-v1.bin"
+          scale: 1.0
+        
+        - id: "medical-diagnosis-v1"
+          path: "/loras/medical-diagnosis-v1.bin"
+          scale: 1.0
+    
+    # Inference defaults
+    inference:
+      # Default generation parameters
+      max_tokens: 512
+      temperature: 0.7
+      top_p: 0.9
+      top_k: 40
+      repetition_penalty: 1.1
+      
+      # Stop sequences
+      stop_sequences:
+        - "</s>"
+        - "<|endoftext|>"
+
+# ═══════════════════════════════════════════════════════════
+# Distributed Sharding Configuration (v1.3.0+)
+# See: AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md
+# ═══════════════════════════════════════════════════════════
+sharding:
+  # Enable distributed LLM sharding
+  enabled: false
+  
+  # This shard's configuration
+  shard:
+    # Unique shard identifier
+    id: "shard-1-legal"
+    
+    # Domain specialization
+    domain: "legal"
+    
+    # URN prefix for routing
+    urn_prefix: "urn:themis:document:legal"
+  
+  # LoRA registry (etcd-based)
+  lora_registry:
+    # etcd endpoints for coordination
+    etcd_endpoints:
+      - "http://etcd-1:2379"
+      - "http://etcd-2:2379"
+      - "http://etcd-3:2379"
+    
+    # Cluster ID
+    cluster_id: "themis-ai-cluster"
+  
+  # Cross-shard LoRA transfer
+  lora_transfer:
+    # gRPC port for LoRA transfer service
+    grpc_port: 50051
+    
+    # Enable mTLS for secure transfer
+    use_mtls: true
+    
+    # TLS certificates
+    tls:
+      cert_path: "/certs/shard-1.crt"
+      key_path: "/certs/shard-1.key"
+      ca_cert_path: "/certs/ca.crt"
+    
+    # Transfer chunk size (1 MB)
+    chunk_size_bytes: 1048576
+  
+  # Federated RAG
+  federated_rag:
+    # Enable cross-shard queries
+    enabled: true
+    
+    # Timeout for remote queries
+    timeout_ms: 5000
+    
+    # Maximum parallel shard queries
+    max_parallel_shards: 5
+
+# ═══════════════════════════════════════════════════════════
+# RAG (Retrieval-Augmented Generation) Configuration
+# ═══════════════════════════════════════════════════════════
+rag:
+  # Enable RAG
+  enabled: true
+  
+  # Context assembly
+  context:
+    # Maximum tokens for context
+    max_tokens: 4096
+    
+    # Number of documents to retrieve (top-k)
+    top_k: 10
+    
+    # Minimum relevance score
+    min_relevance: 0.5
+  
+  # Prompt templates
+  templates:
+    # Default RAG template
+    default: |
+      Context:
+      {context}
+      
+      Question: {query}
+      
+      Answer based on the context provided above:
+
+# ═══════════════════════════════════════════════════════════
+# Performance and Monitoring
+# ═══════════════════════════════════════════════════════════
+performance:
+  # Enable performance statistics
+  enable_stats: true
+  
+  # Log inference times
+  log_inference: true
+  
+  # Statistics interval (seconds)
+  stats_interval: 60
+  
+  # Enable Prometheus metrics
+  prometheus:
+    enabled: true
+    port: 9090
+
+# ═══════════════════════════════════════════════════════════
+# Example: Multi-Plugin Configuration
+# ═══════════════════════════════════════════════════════════
+
+# Uncomment to enable vLLM plugin alongside llama.cpp
+# llm_plugins:
+#   vllm:
+#     type: "vllm"
+#     enabled: false
+#     
+#     # vLLM server connection
+#     server:
+#       host: "localhost"
+#       port: 8000
+#       api_key: ""  # Optional API key
+#     
+#     # Model on vLLM server
+#     model:
+#       name: "mistralai/Mistral-7B-Instruct-v0.2"
+#     
+#     # LoRA adapters (served by vLLM)
+#     lora:
+#       adapters:
+#         - name: "legal-qa-v1"
+#           path: "s3://my-bucket/loras/legal-qa-v1"
+
+# ═══════════════════════════════════════════════════════════
+# Testing and Development
+# ═══════════════════════════════════════════════════════════
+development:
+  # Enable debug logging
+  debug: false
+  
+  # Use smaller models for testing
+  use_test_models: false
+  
+  # Test model path
+  test_model_path: "/models/phi-2-q4.gguf"
+  
+  # Disable GPU for CI/testing
+  force_cpu: false

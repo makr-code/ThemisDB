@@ -70,6 +70,9 @@ if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core for QNAP/static builds" FORCE)
 endif()
 
+# LLM Support (v1.3.0+)
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
+
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
@@ -372,6 +375,57 @@ include_directories(
 # running tests via CTest/gtest_discover_tests). This is safe and cheap.
 if(EXISTS "${CMAKE_SOURCE_DIR}/config")
     file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
+endif()
+
+# ═══════════════════════════════════════════════════════════
+# llama.cpp Integration (v1.3.0+)
+# ═══════════════════════════════════════════════════════════
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "LLM support enabled - integrating llama.cpp")
+    
+    # Check if llama.cpp submodule exists
+    if(NOT EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+        message(FATAL_ERROR 
+            "llama.cpp submodule not found!\n"
+            "Please run: bash scripts/setup-llamacpp.sh\n"
+            "Or manually: git submodule update --init --recursive external/llama.cpp")
+    endif()
+    
+    # Configure llama.cpp build options
+    set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
+    set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
+    set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
+    set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
+    
+    # GPU acceleration options
+    if(THEMIS_ENABLE_CUDA)
+        message(STATUS "  Enabling CUDA support in llama.cpp")
+        set(LLAMA_CUDA ON CACHE BOOL "Enable CUDA in llama.cpp" FORCE)
+        set(LLAMA_CUDA_F16 ON CACHE BOOL "Enable FP16 in CUDA" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_METAL)
+        message(STATUS "  Enabling Metal support in llama.cpp")
+        set(LLAMA_METAL ON CACHE BOOL "Enable Metal in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_VULKAN)
+        message(STATUS "  Enabling Vulkan support in llama.cpp")
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_HIP OR THEMIS_ENABLE_ROCM)
+        message(STATUS "  Enabling HIP/ROCm support in llama.cpp")
+        set(LLAMA_HIPBLAS ON CACHE BOOL "Enable hipBLAS in llama.cpp" FORCE)
+    endif()
+    
+    # Add llama.cpp subdirectory
+    add_subdirectory(external/llama.cpp EXCLUDE_FROM_ALL)
+    
+    # Define LLM enabled for ThemisDB code
+    add_compile_definitions(THEMIS_LLM_ENABLED)
+    
+    message(STATUS "  llama.cpp configured successfully")
 endif()
 
 # Core library sources
@@ -744,6 +798,26 @@ if(THEMIS_VLLM_COLOCATION)
         THEMIS_RAM_GB_ALLOCATED=200        # 200 of 256 GB
     )
     message(STATUS "vLLM Co-Location: Resource limits configured")
+endif()
+
+# v1.3.0: LLM Plugin Support with llama.cpp
+if(THEMIS_ENABLE_LLM)
+    # Add LLM plugin source files
+    target_sources(themis_core PRIVATE
+        src/llm/llamacpp_plugin.cpp
+        src/llm/llm_plugin_manager.cpp
+    )
+    
+    # Link llama.cpp library
+    if(TARGET llama)
+        target_link_libraries(themis_core PRIVATE llama)
+        message(STATUS "LLM Plugin: Linked llama.cpp library")
+    else()
+        message(WARNING "LLM Plugin: llama.cpp target not found - plugin will be built without llama.cpp")
+    endif()
+    
+    # LLM is already defined via THEMIS_LLM_ENABLED in earlier section
+    message(STATUS "LLM Plugin: Source files added to themis_core")
 endif()
 
 
