@@ -901,9 +901,37 @@ Die Nutzung des RPC Frameworks mit mTLS für Inter-Shard Kommunikation bietet si
 
 ---
 
-**Verwandte Dokumentation:**
+## 11. Verwandte Dokumentation
+
 - [RPC Plugin Architecture](RPC_PLUGIN_ARCHITECTURE.md)
+- [Inter-Shard Data Pipeline Analysis](INTER_SHARD_DATA_PIPELINE_ANALYSIS.md) ⭐ NEU
 - [mTLS Client Implementation](../../include/sharding/mtls_client.h)
 - [PKI Shard Certificate](../../include/sharding/pki_shard_certificate.h)
 - [Sharding Architecture](../architecture/sharding_architecture.md)
 - [Security Best Practices](../security/SECURITY_ARCHITECTURE.md)
+
+---
+
+## 12. Updates in v1.3.0
+
+### Neue Features für Inter-Shard Communication
+
+**RocksDB Snapshot Transfer:**
+- Snapshot-basierter Bulk-Transfer für große Shards
+- 10-20x schneller als Record-by-Record
+- Compression mit Zstd (Level 9)
+- Chunking mit CRC32 Checksums
+
+**Blob Transfer für LoRA Adapters:**
+- Dedicated Blob Transfer Service
+- Optimiert für große Binärdateien (100 MB - 10 GB)
+- High Compression (3-6x mit Zstd)
+- Resume Support bei Unterbrechungen
+
+**Enhanced Compression & Chunking:**
+- Konfigurierbare Chunk-Größen (1-100 MB)
+- Multiple Compression Algorithms (LZ4, Zstd, Snappy)
+- Per-Chunk Checksums (CRC32, SHA256, XXH64)
+- End-to-End Integrity Verification
+
+Siehe [Inter-Shard Data Pipeline Analysis](INTER_SHARD_DATA_PIPELINE_ANALYSIS.md) für Details.
