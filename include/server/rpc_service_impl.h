@@ -1,0 +1,146 @@
+#pragma once
+
+#include "plugins/rpc_plugin_interface.h"
+#include <nlohmann/json.hpp>
+#include <string>
+#include <memory>
+#include <functional>
+#include <unordered_map>
+
+/**
+ * @file rpc_service_impl.h
+ * @brief ThemisDB RPC Service Implementation
+ * 
+ * This file contains the service implementation that handles RPC requests
+ * for ThemisDB operations (GET, PUT, DELETE, Query, etc.)
+ */
+
+/**
+ * @brief Forward declaration of ThemisDB
+ * 
+ * Full definition will be in themis/themis_db.h when integrated
+ */
+namespace themis {
+class ThemisDB;
+}
+
+namespace themis {
+namespace server {
+namespace rpc {
+
+using json = nlohmann::json;
+
+/**
+ * @brief Forward declaration of ThemisDB
+ */
+class ThemisDB;
+
+/**
+ * @brief RPC Method Handler for ThemisDB operations
+ */
+class ThemisRPCService {
+public:
+    explicit ThemisRPCService(ThemisDB* db) : db_(db) {}
+    
+    /**
+     * @brief Handle GET operation
+     */
+    json handleGet(const json& params);
+    
+    /**
+     * @brief Handle PUT operation
+     */
+    json handlePut(const json& params);
+    
+    /**
+     * @brief Handle DELETE operation
+     */
+    json handleDelete(const json& params);
+    
+    /**
+     * @brief Handle batch GET operation
+     */
+    json handleBatchGet(const json& params);
+    
+    /**
+     * @brief Handle batch PUT operation
+     */
+    json handleBatchPut(const json& params);
+    
+    /**
+     * @brief Handle AQL query
+     */
+    json handleQuery(const json& params);
+    
+    /**
+     * @brief Handle vector search
+     */
+    json handleVectorSearch(const json& params);
+    
+    /**
+     * @brief Handle graph traversal
+     */
+    json handleGraphTraverse(const json& params);
+    
+    /**
+     * @brief Handle geo query
+     */
+    json handleGeoQuery(const json& params);
+    
+    /**
+     * @brief Handle time series query
+     */
+    json handleTimeSeriesQuery(const json& params);
+    
+    /**
+     * @brief Handle transaction begin
+     */
+    json handleTransactionBegin(const json& params);
+    
+    /**
+     * @brief Handle transaction commit
+     */
+    json handleTransactionCommit(const json& params);
+    
+    /**
+     * @brief Handle transaction abort
+     */
+    json handleTransactionAbort(const json& params);
+    
+    /**
+     * @brief Handle health check
+     */
+    json handleHealthCheck(const json& params);
+    
+    /**
+     * @brief Authenticate user
+     */
+    json handleAuthenticate(const json& params);
+    
+    /**
+     * @brief Dispatch method call
+     */
+    json dispatch(const std::string& method, const json& params, const themis::plugins::rpc::RPCRequestContext& context);
+    
+private:
+    ThemisDB* db_;
+    
+    /**
+     * @brief Verify authentication token from context
+     */
+    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username);
+    
+    /**
+     * @brief Create error response
+     */
+    json createError(themis::plugins::rpc::RPCErrorCode code, const std::string& message);
+    
+    /**
+     * @brief Create success response
+     */
+    json createSuccess(const json& result);
+};
+
+} // namespace rpc
+} // namespace server
+} // namespace themis

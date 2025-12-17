@@ -7,19 +7,34 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using Themis.DocumentManager.Application.Common.Interfaces;
+using Themis.DocumentManager.Features.Dashboard.ViewModels;
+using Themis.DocumentManager.Features.Dashboard.Views;
+using Themis.DocumentManager.Features.DocumentBrowser.Views;
 using Themis.DocumentManager.Infrastructure.Persistence;
 using Themis.DocumentManager.Services;
+using Themis.DocumentManager.Features.Dashboard.Services;
+using Themis.DocumentManager.Features.Geo.Services;
+using Themis.DocumentManager.Features.Geo.ViewModels;
+using Themis.DocumentManager.Features.Graph.Services;
+using Themis.DocumentManager.Features.Graph.ViewModels;
+using Themis.DocumentManager.Features.Gantt.Services;
+using Themis.DocumentManager.Features.Gantt.ViewModels;
+using Themis.DocumentManager.Features.Favorites.ViewModels;
+using Themis.DocumentManager.Features.DocumentBrowser.ViewModels;
+using Themis.DocumentManager.Features.MetadataForm.Services;
+using Themis.DocumentManager.Features.MetadataForm.ViewModels;
+using Themis.DocumentManager.Features.MetadataForm.Views;
+using Themis.DocumentManager.Features.TaskBasket.ViewModels;
+using Themis.DocumentManager.Features.TaskBasket.Views;
+using Themis.DocumentManager.Features.AIChat.Services;
+using Themis.DocumentManager.Features.AIChat.ViewModels;
+using Themis.DocumentManager.Features.AIChat.Views;
+using Themis.DocumentManager.Features.ERDQueryEditor.Services;
+using Themis.DocumentManager.Features.ERDQueryEditor.ViewModels;
+using Themis.DocumentManager.Features.ERDQueryEditor.Views;
 using Themis.DocumentManager.ViewModels;
 using Themis.DocumentManager.ViewModels.Navigation;
-using Themis.DocumentManager.ViewModels.Favorites;
-using Themis.DocumentManager.Views;
-using Themis.DocumentManager.Views.Tasks;
-using Themis.DocumentManager.Views.Inbox;
-using Themis.DocumentManager.Views.Favorites;
-using Themis.DocumentManager.Views.Dashboard;
-using Themis.DocumentManager.Views.Collaboration;
-using Themis.DocumentManager.Views.Navigation;
-using Themis.DocumentManager.Views.Timeline;
+using Themis.DocumentManager.ViewModels;
 
 namespace Themis.DocumentManager;
 
@@ -235,9 +250,15 @@ public partial class App : System.Windows.Application
             services.AddSingleton<ISearchService, SearchService>();
             services.AddSingleton<IMetadataService, MetadataService>();
             services.AddSingleton<IGeoService, GeoService>();
+            services.AddSingleton<IMapConfigurationService, MapConfigurationService>();
+            services.AddSingleton<IGeoLayerService, GeoLayerService>();
+            services.AddSingleton<IGeoFeatureService, GeoFeatureService>();
+            services.AddSingleton<IGeocodingService, GeocodingService>();
+            services.AddSingleton<IGeoDocumentService, GeoDocumentService>();
             services.AddSingleton<ITimelineService, TimelineService>();
             services.AddSingleton<IVectorService, VectorService>();
             services.AddSingleton<IGraphService, GraphService>();
+            services.AddSingleton<IDashboardService, DashboardService>();
             
             // Schema and Query Services (ERM/ERD & Query Editor)
             services.AddSingleton<ISchemaService, SchemaService>();
@@ -290,7 +311,7 @@ public partial class App : System.Windows.Application
             // DISABLED: Stubs only
             // services.AddSingleton<IProcessWatchService, ProcessWatchService>();
             // services.AddSingleton<ITimelineAggregationService, TimelineAggregationService>();
-            // services.AddSingleton<IGanttService, GanttService>();
+            services.AddSingleton<IGanttService, GanttService>();
             
             // Outbox Service
             // DISABLED: Stubs only
@@ -382,6 +403,9 @@ public partial class App : System.Windows.Application
             services.AddSingleton<IProcessLinkingService, ProcessLinkingService>();
             services.AddSingleton<IAuditLoggingService, AuditLoggingService>();
             services.AddSingleton<IMetadataFormGeneratorService, MetadataFormGeneratorService>();
+            services.AddSingleton<IMetadataLayoutService, MetadataLayoutService>();
+            services.AddSingleton<IMetadataBindingService, MetadataBindingService>();
+            services.AddSingleton<ISmartMetadataLayoutEngine, SmartMetadataLayoutEngine>();
             services.AddSingleton<IDialogService, DialogService>();
             
             // AI Assistant Services (VSCode-Style with SSE & MCP)
@@ -420,7 +444,7 @@ public partial class App : System.Windows.Application
             services.AddTransient<InboxViewModel>();
             services.AddTransient<GanttViewModel>();
             services.AddTransient<DocumentPreviewViewModel>();
-            services.AddTransient<Themis.DocumentManager.ViewModels.Favorites.FavoritesViewModel>();
+            services.AddTransient<FavoritesViewModel>();
             services.AddTransient<Themis.DocumentManager.ViewModels.Navigation.IntelligentBreadcrumbViewModel>();
             services.AddTransient<AuditLogViewerViewModel>();
             services.AddTransient<ERDViewModel>();

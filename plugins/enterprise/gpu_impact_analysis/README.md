@@ -221,7 +221,7 @@ Copyright © 2025 ThemisDB
 
 - **Documentation:** [docs/enterprise/](../../docs/enterprise/)
 - **Issues:** [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
-- **Enterprise Support:** enterprise-support@themisdb.com
+- **Enterprise Support:** ma.krueger@outlook.com
 
 ---
 

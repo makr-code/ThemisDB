@@ -1,0 +1,155 @@
+#pragma once
+
+#include <memory>
+#include <string>
+#include <functional>
+#include <vector>
+#include <atomic>
+#include "proto/sharding/shard_rpc.pb.h"
+
+namespace themis {
+namespace rpc {
+
+// Configuration for snapshot transfer
+struct SnapshotConfig {
+    std::string shard_id;
+    std::string snapshot_id;
+    bool is_incremental;
+    std::string base_snapshot_id;  // For incremental snapshots
+    
+    // Compression settings
+    themis::sharding::CompressionType compression_type;
+    int compression_level;  // 1-9 for Zstd, ignored for others
+    
+    // Chunking settings
+    uint32_t chunk_size_mb;  // 1-100 MB
+    themis::sharding::ChecksumType checksum_type;
+    
+    // Snapshot isolation
+    themis::sharding::SnapshotIsolation isolation_level;
+    bool is_immutable;  // True if source is frozen during transfer
+    
+    SnapshotConfig()
+        : is_incremental(false)
+        , compression_type(themis::sharding::COMPRESSION_ZSTD)
+        , compression_level(6)
+        , chunk_size_mb(10)
+        , checksum_type(themis::sharding::CHECKSUM_CRC32)
+        , isolation_level(themis::sharding::SNAPSHOT_MVCC)
+        , is_immutable(false) {}
+};
+
+// Progress information for snapshot transfer
+struct SnapshotProgress {
+    uint64_t total_bytes;
+    uint64_t transferred_bytes;
+    uint32_t total_chunks;
+    uint32_t transferred_chunks;
+    double compression_ratio;
+    uint64_t elapsed_ms;
+    uint64_t estimated_remaining_ms;
+};
+
+// Status codes
+enum class SnapshotStatus {
+    OK = 0,
+    ERROR_SNAPSHOT_NOT_FOUND,
+    ERROR_COMPRESSION_FAILED,
+    ERROR_CHECKSUM_MISMATCH,
+    ERROR_ROCKSDB_ERROR,
+    ERROR_INVALID_CONFIG,
+    ERROR_NETWORK_ERROR
+};
+
+// Callback for chunk streaming
+using ChunkCallback = std::function<void(const themis::sharding::SnapshotChunk&)>;
+
+/**
+ * Handler for RocksDB snapshot transfer operations.
+ * Provides efficient snapshot-based bulk data migration between shards.
+ * 
+ * Features:
+ * - MVCC-aware snapshot creation for consistency
+ * - Chunked transfer with configurable compression
+ * - Incremental and full snapshot support
+ * - Checksum verification for data integrity
+ * - Progress tracking and monitoring
+ */
+class SnapshotTransferHandler {
+public:
+    SnapshotTransferHandler();
+    ~SnapshotTransferHandler();
+    
+    // Non-copyable
+    SnapshotTransferHandler(const SnapshotTransferHandler&) = delete;
+    SnapshotTransferHandler& operator=(const SnapshotTransferHandler&) = delete;
+    
+    /**
+     * Create a snapshot with the specified configuration.
+     * 
+     * For full snapshots: Creates a new RocksDB checkpoint
+     * For incremental: Uses RocksDB WAL and SST deltas since base snapshot
+     * 
+     * @param config Snapshot configuration
+     * @return Status code
+     */
+    SnapshotStatus CreateSnapshot(const SnapshotConfig& config);
+    
+    /**
+     * Stream snapshot chunks to the callback.
+     * 
+     * Each chunk is compressed and checksummed according to config.
+     * Chunks are streamed in order for sequential reconstruction.
+     * 
+     * @param callback Function to receive each chunk
+     * @return Status code
+     */
+    SnapshotStatus StreamChunks(ChunkCallback callback);
+    
+    /**
+     * Verify snapshot integrity after transfer.
+     * 
+     * Validates:
+     * - Per-chunk checksums
+     * - Overall snapshot hash
+     * - Chunk sequence completeness
+     * 
+     * @param expected_hash Expected SHA256 hash of complete snapshot
+     * @return Status code
+     */
+    SnapshotStatus VerifySnapshot(const std::string& expected_hash);
+    
+    /**
+     * Receive and apply snapshot chunks.
+     * 
+     * @param chunk Received snapshot chunk
+     * @return Status code
+     */
+    SnapshotStatus ReceiveChunk(const themis::sharding::SnapshotChunk& chunk);
+    
+    /**
+     * Finalize snapshot after all chunks received.
+     * 
+     * @return Status code
+     */
+    SnapshotStatus FinalizeSnapshot();
+    
+    /**
+     * Get current transfer progress.
+     * 
+     * @return Progress information
+     */
+    SnapshotProgress GetProgress() const;
+    
+    /**
+     * Cancel an in-progress snapshot transfer.
+     */
+    void Cancel();
+
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+} // namespace rpc
+} // namespace themis

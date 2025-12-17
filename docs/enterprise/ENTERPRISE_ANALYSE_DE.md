@@ -245,7 +245,7 @@ public:
 
 #### Reseller Edition
 - **Preis:** Pro-Anwendung-Lizenz (Mengenrabatte verfügbar)
-- **Kontakt Vertrieb:** reseller@themisdb.io
+- **Kontakt Vertrieb:** service@themisdb.org
 - **Anwendungsfall:** Einbettung von ThemisDB in kommerzielle Anwendungen/Produkte
 - **Limits:** 1-3 Nodes pro Anwendungsinstanz, Single-GPU, Basic Sharding (bei 2-3 Nodes)
 - **Support:** E-Mail-Support (Geschäftszeiten), Dokumentation
@@ -257,7 +257,7 @@ public:
 
 #### Enterprise Edition
 - **Preis:** Individuelle Preisgestaltung (Mengenrabatte verfügbar)
-- **Kontakt Vertrieb:** enterprise@themisdb.io
+- **Kontakt Vertrieb:** service@themisdb.org
 - **Anwendungsfall:** Große Deployments, unternehmenskritische Systeme
 - **Limits:** 4-100 Nodes (Standard)
 - **Support:** 24/7 Telefon + E-Mail, dedizierter TAM
@@ -268,7 +268,7 @@ public:
 
 #### Hyperscaler Edition
 - **Preis:** Individuelle Preisgestaltung (Enterprise-Vereinbarungen)
-- **Kontakt Vertrieb:** hyperscaler@themisdb.io
+- **Kontakt Vertrieb:** service@themisdb.org
 - **Anwendungsfall:** Hyperscale-Deployments, Kubernetes-Cluster, Cloud-Native-Architekturen
 - **Limits:** Unbegrenzte Nodes und Shards
 - **Support:** 24/7 Telefon + E-Mail, dediziertes Engineering-Team

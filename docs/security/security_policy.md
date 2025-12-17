@@ -226,7 +226,7 @@ Implementierte Betroffenenrechte:
 ### 8.1 Meldewege
 
 Sicherheitsvorfälle sind zu melden an:
-- **E-Mail:** security@themisdb.io (falls eingerichtet)
+- **E-Mail:** service@themisdb.org
 - **GitHub:** Security Advisories (privat)
 - **SECURITY.md:** Meldeprozess dokumentiert
 
@@ -308,7 +308,7 @@ Diese Politik wird mindestens jährlich überprüft oder bei:
 **Security-Fragen:**
 - GitHub Issues (nicht-vertraulich)
 - Security Advisories (vertraulich)
-- security@themisdb.io (falls eingerichtet)
+- service@themisdb.org
 
 **Dokumentation:**
 - Repository: https://github.com/makr-code/ThemisDB

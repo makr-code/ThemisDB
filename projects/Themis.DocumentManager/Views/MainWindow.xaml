@@ -2,6 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Themis.DocumentManager.Views"
+        xmlns:dashboard="clr-namespace:Themis.DocumentManager.Features.Dashboard.Views"
+        xmlns:docbrowser="clr-namespace:Themis.DocumentManager.Features.DocumentBrowser.Views"
+        xmlns:timeline="clr-namespace:Themis.DocumentManager.Features.Timeline.Views"
+        xmlns:gantt="clr-namespace:Themis.DocumentManager.Features.Gantt.Views"
+        xmlns:erd="clr-namespace:Themis.DocumentManager.Features.ERDQueryEditor.Views"
+        xmlns:favorites="clr-namespace:Themis.DocumentManager.Features.Favorites.Views"
+        xmlns:metadata="clr-namespace:Themis.DocumentManager.Features.MetadataForm.Views"
+        xmlns:ai="clr-namespace:Themis.DocumentManager.Features.AIChat.Views"
+        xmlns:geo="clr-namespace:Themis.DocumentManager.Features.Geo.Views"
+        xmlns:graph="clr-namespace:Themis.DocumentManager.Features.Graph.Views"
         Title="ThemisDB Document Manager" 
         Height="900" Width="1600"
         MinHeight="600" MinWidth="1000"
@@ -87,6 +97,7 @@
                 </TextBox>
                 <Button Content="🔍 Suchen" Command="{Binding SearchCommand}" Padding="10,5" Margin="0,0,5,0"/>
                 <Button Content="⚙️ Einstellungen" Command="{Binding OpenSettingsCommand}" Padding="10,5"/>
+                <ContentControl x:Name="BreadcrumbControl" HorizontalAlignment="Right"/>
             </StackPanel>
         </Border>
 
@@ -109,60 +120,10 @@
                     </StackPanel>
                     <TabControl x:Name="LeftSidebarTabs">
                         <TabItem Header="📂 Explorer">
-                            <Grid Margin="0" x:Name="LeftExplorerPanel">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <!-- Title -->
-                                <TextBlock Text="📂 Dokument-Explorer" Foreground="#334155" Margin="8" FontWeight="Bold" FontSize="12"/>
-                                
-                                <!-- Search & Filter -->
-                                <Grid Grid.Row="1" Margin="8,4,8,4" Background="#f8fafc">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="100"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Name="ExplorerSearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Padding="4" Margin="0,0,4,0" Foreground="#64748b"/>
-                                    <Button Grid.Column="1" Command="{Binding SearchCommand}" Content="🔍" Padding="6,4" Margin="0,0,4,0"/>
-                                    <ComboBox Grid.Column="2" ItemsSource="All|Documents|Files|Filings" SelectedItem="{Binding FilterCategory}" Padding="4"/>
-                                </Grid>
-                                
-                                <!-- Search Results (dynamic) -->
-                                <ListBox Grid.Row="2" ItemsSource="{Binding FilteredResults}" DisplayMemberPath="Name" MaxHeight="100" 
-                                         Background="#f1f5f9" Foreground="#475569" FontSize="11" Margin="8,0,8,4" Padding="4"/>
-                                
-                                <!-- Hierarchical TreeView (hauptsächliche Ansicht) -->
-                                <TreeView Grid.Row="3" ItemsSource="{Binding RootNodes}" Margin="0" Background="White" Foreground="#334155">
-                                    <TreeView.ItemTemplate>
-                                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                            <StackPanel Orientation="Horizontal" Margin="0,2">
-                                                <TextBlock Text="{Binding NodeType, Converter={StaticResource StringToIconConverter}}" Margin="0,0,4,0" FontSize="12"/>
-                                                <TextBlock Text="{Binding Name}" Foreground="#334155" FontSize="11"/>
-                                                <ProgressBar IsIndeterminate="True" Width="20" Height="8" Margin="4,0" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            </StackPanel>
-                                        </HierarchicalDataTemplate>
-                                    </TreeView.ItemTemplate>
-                                </TreeView>
-                                
-                                <!-- Status Bar -->
-                                <TextBlock Grid.Row="4" Text="{Binding isLoading, StringFormat='Loading...'}" Margin="8" Foreground="#94a3b8" FontSize="10"/>
-                            </Grid>
+                            <ContentControl x:Name="LeftExplorerPanel" Content="{Binding}" />
                         </TabItem>
                         <TabItem Header="⭐ Favoriten">
-                            <Grid Margin="8" x:Name="LeftFavoritesPanel">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Favoriten" Foreground="#334155"/>
-                                <ListBox Grid.Row="1" ItemsSource="{Binding AllFavorites}" DisplayMemberPath="EntityName"/>
-                            </Grid>
+                            <ContentControl x:Name="LeftFavoritesPanel" Content="{Binding}" />
                         </TabItem>
                         <TabItem Header="🔗 Prozesse">
                             <Grid Margin="8" x:Name="LeftProcessesPanel">
@@ -175,6 +136,9 @@
                             </Grid>
                         </TabItem>
                     </TabControl>
+                    <!-- Hidden placeholders for legacy bindings -->
+                    <ListBox x:Name="DocumentsList" Visibility="Collapsed" />
+                    <TextBox x:Name="DocumentSearchBox" Visibility="Collapsed" />
                 </DockPanel>
             </Border>
 
@@ -196,27 +160,29 @@
                         </Setter>
                     </Style>
                 </TabControl.ItemContainerStyle>
-                <TabItem Header="📊 Start" x:Name="TabStart" IsSelected="True">
-                     <local:DashboardPreviewView/>
-                </TabItem>
-                <TabItem Header="📑 Documents" x:Name="TabDocuments">
-                     <local:DocumentBrowserSimpleView/>
-                </TabItem>
-                <TabItem Header="🔗 Timeline" x:Name="TabTimeline">
-                     <local:TimelineViewImproved/>
-                </TabItem>
-                <TabItem Header="📊 Gantt" x:Name="TabGantt">
-                     <local:GanttView/>
-                </TabItem>
-                <TabItem Header="📊 Dashboard" x:Name="TabDashboard">
-                     <local:FullDashboardSimpleView/>
-                </TabItem>
-                <TabItem Header="🗂️ ERD" x:Name="TabERD">
-                     <local:ERDView/>
-                </TabItem>
-                <TabItem Header="🔍 Query" x:Name="TabQuery">
-                     <local:QueryEditorView/>
-                </TabItem>
+                 <TabItem Header="📊 Start" x:Name="TabStart" IsSelected="True">
+                     <dashboard:DashboardPreviewView/>
+                 </TabItem>
+                 <TabItem Header="📑 Documents" x:Name="TabDocuments">
+                     <docbrowser:DocumentBrowserSimpleView/>
+                 </TabItem>
+                 <TabItem Header="🔗 Timeline" x:Name="TabTimeline">
+                     <Grid x:Name="TimelineDock">
+                         <timeline:TimelineViewImproved x:Name="TimelineView" />
+                     </Grid>
+                 </TabItem>
+                 <TabItem Header="📊 Gantt" x:Name="TabGantt">
+                     <gantt:GanttView/>
+                 </TabItem>
+                 <TabItem Header="📊 Dashboard" x:Name="TabDashboard">
+                     <dashboard:FullDashboardSimpleView/>
+                 </TabItem>
+                 <TabItem Header="🗂️ ERD" x:Name="TabERD">
+                     <erd:ERDView/>
+                 </TabItem>
+                 <TabItem Header="🔍 Query" x:Name="TabQuery">
+                     <erd:QueryEditorView/>
+                 </TabItem>
             </TabControl>
 
             <!-- Splitter Right -->
@@ -231,12 +197,7 @@
                     </StackPanel>
                     <TabControl x:Name="RightSidebarTabs">
                         <TabItem Header="🏷️ Metadaten" x:Name="RightMetadataTab">
-                            <Grid Margin="8" x:Name="RightMetadataPanel">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                            </Grid>
+                            <metadata:MetadataFormView/>
                         </TabItem>
                         <TabItem Header="🕑 Revisionen" x:Name="RightRevisionTab">
                             <Grid Margin="8" x:Name="RightRevisionPanel">

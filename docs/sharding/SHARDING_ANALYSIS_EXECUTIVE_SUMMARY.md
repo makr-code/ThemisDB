@@ -300,4 +300,4 @@ Umfang: 900+ Zeilen, 13 detaillierte Mitigation-Strategien, Code-Beispiele, Impl
 
 **Kontakt für Rückfragen:**  
 Architecture Review Team  
-Email: architecture@themisdb.io (Beispiel)
+Email: service@themisdb.org

@@ -10,6 +10,7 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="Styles/ControlStyles.xaml"/>
                 <ResourceDictionary Source="Styles/ThemisStyles.xaml"/>
+                <ResourceDictionary Source="Styles/FeatureViewMappings.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Converters -->

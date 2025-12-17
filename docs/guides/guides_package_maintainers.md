@@ -278,7 +278,7 @@ curl -X DELETE http://localhost:8765/entities/test:1
 ## Communication Channels
 
 ### For Package Maintainers
-- **Email**: info@themisdb.org
+- **Email**: service@themisdb.org
 - **GitHub Issues**: Tag issues with `packaging` label
 - **GitHub Discussions**: For general questions
 
@@ -325,7 +325,7 @@ ThemisDB is licensed under the MIT License. See LICENSE file for full text.
 
 If you find any inaccuracies in this document or have questions, please:
 1. Open a GitHub issue with the `packaging` label
-2. Email info@themisdb.org
+2. Email service@themisdb.org
 3. Submit a pull request with corrections
 
 Thank you for helping distribute ThemisDB! 🚀
