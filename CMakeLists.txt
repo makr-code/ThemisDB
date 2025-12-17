@@ -806,6 +806,8 @@ if(THEMIS_ENABLE_LLM)
     target_sources(themis_core PRIVATE
         src/llm/llamacpp_plugin.cpp
         src/llm/llm_plugin_manager.cpp
+        src/llm/model_loader.cpp          # Ollama-style lazy loading
+        src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
     )
     
     # Link llama.cpp library
@@ -818,6 +820,8 @@ if(THEMIS_ENABLE_LLM)
     
     # LLM is already defined via THEMIS_LLM_ENABLED in earlier section
     message(STATUS "LLM Plugin: Source files added to themis_core")
+    message(STATUS "  - Ollama-style lazy model loading enabled")
+    message(STATUS "  - vLLM-style multi-LoRA management enabled")
 endif()
 
 

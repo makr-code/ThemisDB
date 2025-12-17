@@ -104,6 +104,63 @@ cp config/llm_config.example.yaml config/llm_config.yaml
 
 ## 💡 Code Beispiele
 
+### Ollama-Style: Lazy Model Loading
+
+```cpp
+#include "llm/model_loader.h"
+
+// Lazy loader setup
+LazyModelLoader::Config config;
+config.max_models = 3;           // Keep up to 3 models in memory
+config.max_vram_mb = 24576;      // 24 GB budget
+config.model_ttl = std::chrono::seconds(1800);  // 30 min TTL
+
+LazyModelLoader loader(config);
+
+// First request: Loads model lazily (~2-3 seconds)
+auto* model = loader.getOrLoadModel(
+    "mistral-7b",
+    "/models/mistral-7b-instruct-q4.gguf"
+);
+
+// Subsequent requests: Instant (cache hit!)
+auto* same_model = loader.getOrLoadModel("mistral-7b", "");
+// ~0ms!
+
+// Pin important models to prevent eviction
+loader.pinModel("mistral-7b");
+```
+
+### vLLM-Style: Multi-LoRA Management
+
+```cpp
+#include "llm/multi_lora_manager.h"
+
+// Multi-LoRA setup
+MultiLoRAManager::Config config;
+config.max_lora_slots = 16;      // Up to 16 LoRAs
+config.max_lora_vram_mb = 2048;  // 2 GB for LoRAs
+config.enable_multi_lora_batch = true;
+
+MultiLoRAManager lora_mgr(config);
+
+// Load multiple LoRAs for same base model
+lora_mgr.loadLoRA("legal-qa", "/loras/legal-qa-v1.bin", "mistral-7b");
+lora_mgr.loadLoRA("medical-diag", "/loras/medical-v1.bin", "mistral-7b");
+lora_mgr.loadLoRA("code-assist", "/loras/code-v1.bin", "mistral-7b");
+
+// Use different LoRAs per request
+InferenceRequest req1;
+req1.prompt = "Legal question";
+req1.lora_adapter_id = "legal-qa";
+
+InferenceRequest req2;
+req2.prompt = "Medical question";
+req2.lora_adapter_id = "medical-diag";
+
+// Fast LoRA switching (~5ms)
+```
+
 ### Plugin registrieren
 
 ```cpp
@@ -187,6 +244,8 @@ auto response = plugin->generate(request);
 - ✅ RAG Integration
 - ✅ Memory Management & Statistics
 - ✅ Multi-Plugin Support
+- ✅ **Ollama-style Lazy Loading** (v1.3.0)
+- ✅ **vLLM-style Multi-LoRA** (v1.3.0)
 
 ### 🚧 Roadmap (Future)
 
