@@ -1,6 +1,8 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/model_loader.h"
+#include "llm/multi_lora_manager.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -14,6 +16,8 @@
  * - LoRA adapter management
  * - GPU acceleration (CUDA/Metal/Vulkan)
  * - Zero-copy integration with ThemisDB vector storage
+ * - Ollama-style lazy model loading
+ * - vLLM-style multi-LoRA management
  * 
  * Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md v1.3.0 design.
  */
@@ -27,6 +31,9 @@ namespace llm {
  * This is a reference implementation showing how to create
  * an LLM plugin for ThemisDB. It wraps llama.cpp functionality
  * into the ILLMPlugin interface.
+ * 
+ * Uses LazyModelLoader (Ollama-style) and MultiLoRAManager (vLLM-style)
+ * for efficient resource management.
  * 
  * Note: Actual llama.cpp integration will be done in v1.3.0.
  * This provides the plugin structure and API design.
@@ -51,9 +58,11 @@ public:
         size_t max_vram_mb = 14336;   // Max VRAM to use (14GB default)
         bool unified_memory = false;  // Use CUDA unified memory
         
-        // LoRA settings
-        int lora_cache_slots = 8;     // Max cached LoRA adapters
-        size_t lora_cache_vram_mb = 512;
+        // Lazy loading (Ollama-style)
+        LazyModelLoader::Config lazy_loader_config;
+        
+        // Multi-LoRA (vLLM-style)
+        MultiLoRAManager::Config multi_lora_config;
     };
     
     explicit LlamaCppPlugin(const Config& config = Config{});
@@ -129,31 +138,21 @@ public:
 private:
     Config config_;
     
-    // Model state (opaque pointers to llama.cpp structures)
-    // In actual implementation, these would be llama_model*, llama_context*, etc.
-    struct ModelState {
-        void* model_ptr = nullptr;      // llama_model*
-        void* context_ptr = nullptr;    // llama_context*
-        ModelInfo info;
-        bool loaded = false;
-    };
-    ModelState model_state_;
+    // Ollama-style lazy model loader
+    std::unique_ptr<LazyModelLoader> model_loader_;
     
-    // LoRA cache
-    struct LoRACacheEntry {
-        LoRAInfo info;
-        void* adapter_ptr = nullptr;  // llama_lora_adapter*
-        size_t last_used_timestamp = 0;
-    };
-    std::unordered_map<std::string, LoRACacheEntry> lora_cache_;
+    // vLLM-style multi-LoRA manager
+    std::unique_ptr<MultiLoRAManager> lora_manager_;
+    
+    // Current active model
+    std::string current_model_id_;
+    std::string current_model_path_;
     
     // Statistics
     struct Stats {
         size_t total_inferences = 0;
         size_t total_tokens_generated = 0;
         double total_inference_time_ms = 0.0;
-        size_t cache_hits = 0;
-        size_t cache_misses = 0;
     };
     Stats stats_;
     
@@ -168,7 +167,7 @@ private:
     
     void updateStatistics(const InferenceResponse& response);
     
-    void evictLRULoRA();
+    std::string extractModelId(const std::string& model_path);
 };
 
 } // namespace llm

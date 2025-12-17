@@ -236,7 +236,7 @@ bool createLlamaCppPlugin(
         // Create llama.cpp plugin with config
         LlamaCppPlugin::Config plugin_config;
         
-        // Parse configuration
+        // Parse basic configuration
         if (config.contains("n_gpu_layers")) {
             plugin_config.n_gpu_layers = config["n_gpu_layers"].get<int>();
         }
@@ -252,8 +252,39 @@ bool createLlamaCppPlugin(
         if (config.contains("max_vram_mb")) {
             plugin_config.max_vram_mb = config["max_vram_mb"].get<size_t>();
         }
-        if (config.contains("lora_cache_slots")) {
-            plugin_config.lora_cache_slots = config["lora_cache_slots"].get<int>();
+        
+        // Configure lazy model loader (Ollama-style)
+        if (config.contains("lazy_loader")) {
+            auto& ll_cfg = config["lazy_loader"];
+            if (ll_cfg.contains("max_models")) {
+                plugin_config.lazy_loader_config.max_models = ll_cfg["max_models"].get<size_t>();
+            }
+            if (ll_cfg.contains("max_vram_mb")) {
+                plugin_config.lazy_loader_config.max_vram_mb = ll_cfg["max_vram_mb"].get<size_t>();
+            }
+            if (ll_cfg.contains("model_ttl_seconds")) {
+                plugin_config.lazy_loader_config.model_ttl = 
+                    std::chrono::seconds(ll_cfg["model_ttl_seconds"].get<int>());
+            }
+        }
+        
+        // Configure multi-LoRA manager (vLLM-style)
+        if (config.contains("multi_lora")) {
+            auto& ml_cfg = config["multi_lora"];
+            if (ml_cfg.contains("max_lora_slots")) {
+                plugin_config.multi_lora_config.max_lora_slots = ml_cfg["max_lora_slots"].get<size_t>();
+            }
+            if (ml_cfg.contains("max_lora_vram_mb")) {
+                plugin_config.multi_lora_config.max_lora_vram_mb = ml_cfg["max_lora_vram_mb"].get<size_t>();
+            }
+            if (ml_cfg.contains("lora_ttl_seconds")) {
+                plugin_config.multi_lora_config.lora_ttl = 
+                    std::chrono::seconds(ml_cfg["lora_ttl_seconds"].get<int>());
+            }
+            if (ml_cfg.contains("enable_multi_lora_batch")) {
+                plugin_config.multi_lora_config.enable_multi_lora_batch = 
+                    ml_cfg["enable_multi_lora_batch"].get<bool>();
+            }
         }
         
         auto plugin = std::make_unique<LlamaCppPlugin>(plugin_config);
@@ -268,6 +299,8 @@ bool createLlamaCppPlugin(
         
         // Register with manager
         LLMPluginManager::instance().registerPlugin(name, std::move(plugin));
+        
+        spdlog::info("llama.cpp plugin '{}' created with Ollama & vLLM features", name);
         
         return true;
     } catch (const std::exception& e) {
