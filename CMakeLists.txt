@@ -15,6 +15,10 @@ project(Themis VERSION ${_ver} LANGUAGES CXX)
 # Make project version available to all translation units
 add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
 
+# Include modular build configuration (post-v1.3.0 feature)
+# See docs/architecture/MODULARIZATION_PLAN.md for details
+include(cmake/ModularBuild.cmake)
+
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
