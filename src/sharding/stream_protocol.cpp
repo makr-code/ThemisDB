@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <random>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
 
 // Optional: LZ4 compression (conditional compilation)
 #ifdef THEMIS_ENABLE_LZ4
@@ -1036,7 +1038,6 @@ void StreamTransferTask::transferLoop() {
 }
 
 std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index) {
-    // TODO: Implement chunk creation from file
     StreamChunk chunk;
     chunk.chunk_index = chunk_index;
     chunk.file_offset = static_cast<uint64_t>(chunk_index) * config_.chunk_size;
@@ -1047,21 +1048,75 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
 
     chunk.uncompressed_size = static_cast<uint32_t>(
         std::min<uint64_t>(config_.chunk_size, remaining));
-    chunk.compressed_size = chunk.uncompressed_size;
-
-    // No payload in stub implementation
-    chunk.data.clear();
-    chunk.checksum = 0;
 
     if (chunk.uncompressed_size == 0) {
         return std::nullopt;
     }
+
+    // Read data from source file
+    chunk.data.resize(chunk.uncompressed_size);
+    std::ifstream file(file_.source_path, std::ios::binary);
+    if (!file) {
+        std::cerr << "Failed to open file: " << file_.source_path << std::endl;
+        return std::nullopt;
+    }
+
+    file.seekg(chunk.file_offset);
+    file.read(reinterpret_cast<char*>(chunk.data.data()), chunk.uncompressed_size);
+    if (!file) {
+        std::cerr << "Failed to read chunk at offset " << chunk.file_offset << std::endl;
+        return std::nullopt;
+    }
+
+    // Calculate checksum
+    chunk.checksum = calculateCRC32(chunk.data.data(), chunk.uncompressed_size);
+
+    // Compress if enabled
+    if (config_.compression != CompressionType::NONE) {
+        std::vector<uint8_t> compressed_data;
+        if (compressData(chunk.data, compressed_data, config_.compression)) {
+            chunk.compressed_size = static_cast<uint32_t>(compressed_data.size());
+            chunk.data = std::move(compressed_data);
+        } else {
+            // Compression failed, use uncompressed
+            chunk.compressed_size = chunk.uncompressed_size;
+        }
+    } else {
+        chunk.compressed_size = chunk.uncompressed_size;
+    }
+
     return chunk;
 }
 
 bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
-    // TODO: Implement chunk sending via network
-    return true;
+    // Local implementation: write chunk to temporary staging area
+    // In distributed setup, this would send via RPC/network to target shard
+    
+    // Create staging directory if it doesn't exist
+    std::filesystem::path staging_dir = "/tmp/themis_stream_staging";
+    if (!std::filesystem::exists(staging_dir)) {
+        std::filesystem::create_directories(staging_dir);
+    }
+
+    // Write chunk to staging file (simulates network transfer)
+    std::filesystem::path chunk_file = staging_dir / 
+        (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");
+    
+    std::ofstream out(chunk_file, std::ios::binary);
+    if (!out) {
+        std::cerr << "Failed to write chunk file: " << chunk_file << std::endl;
+        return false;
+    }
+
+    // Write chunk metadata and data
+    out.write(reinterpret_cast<const char*>(&chunk.chunk_index), sizeof(chunk.chunk_index));
+    out.write(reinterpret_cast<const char*>(&chunk.file_offset), sizeof(chunk.file_offset));
+    out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
+    out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
+    out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
+    out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
+
+    return out.good();
 }
 
 // ============================================================================
@@ -1149,7 +1204,47 @@ bool StreamReceiveTask::verifyIntegrity() const {
 }
 
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
-    // TODO: Implement actual file writing
+    // Decompress if needed
+    std::vector<uint8_t> write_data;
+    if (chunk.compressed_size < chunk.uncompressed_size) {
+        // Data is compressed, decompress it
+        if (!decompressData(chunk.data, write_data, config_.compression)) {
+            std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
+            return false;
+        }
+    } else {
+        write_data = chunk.data;
+    }
+
+    // Verify checksum
+    uint32_t computed_checksum = calculateCRC32(write_data.data(), write_data.size());
+    if (computed_checksum != chunk.checksum) {
+        std::cerr << "Checksum mismatch for chunk " << chunk.chunk_index 
+                  << " (expected: " << chunk.checksum 
+                  << ", got: " << computed_checksum << ")" << std::endl;
+        return false;
+    }
+
+    // Write to target file
+    std::ofstream file(file_.target_path, std::ios::binary | std::ios::in | std::ios::out);
+    if (!file) {
+        // File doesn't exist, create it
+        file.open(file_.target_path, std::ios::binary | std::ios::out);
+        if (!file) {
+            std::cerr << "Failed to open target file: " << file_.target_path << std::endl;
+            return false;
+        }
+    }
+
+    file.seekp(chunk.file_offset);
+    file.write(reinterpret_cast<const char*>(write_data.data()), write_data.size());
+    
+    if (!file.good()) {
+        std::cerr << "Failed to write chunk " << chunk.chunk_index 
+                  << " to file at offset " << chunk.file_offset << std::endl;
+        return false;
+    }
+
     return true;
 }
 

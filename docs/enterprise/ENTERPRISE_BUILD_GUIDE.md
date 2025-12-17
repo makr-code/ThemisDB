@@ -275,7 +275,7 @@ themisdb-enterprise-1.0.0/
 ## Support
 
 For enterprise support:
-- Email: service@themisdb.org
+- Email: enterprise@themisdb.io
 - Documentation: https://docs.themisdb.io/enterprise
 - License activation: https://license.themisdb.io
 

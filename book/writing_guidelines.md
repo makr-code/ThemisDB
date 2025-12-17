@@ -958,8 +958,8 @@ markdown-link-check kapitel_01.md
 ### C. Kontakt und Support
 
 **Fragen zur Schreibrichtlinie:**
-- Dokumentations-Team: ma.krueger@outlook.com
-- Technical Reviewer: ma.krueger@outlook.com
+- Dokumentations-Team: docs@themisdb.org
+- Technical Reviewer: tech-review@themisdb.org
 
 **Issue Tracking:**
 - GitHub Issues: Technical Inaccuracies

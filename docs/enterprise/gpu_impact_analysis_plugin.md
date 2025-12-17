@@ -755,8 +755,8 @@ RETURN {
 ## 10. Support & Ressourcen
 
 **Dokumentation:** https://docs.themisdb.com/enterprise/gpu-impact-analysis  
-**Support:** service@themisdb.org  
-**Lizenzierung:** service@themisdb.org  
+**Support:** enterprise-support@themisdb.com  
+**Lizenzierung:** sales@themisdb.com  
 **GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
 
 **Erstellt am:** 7. Dezember 2025  

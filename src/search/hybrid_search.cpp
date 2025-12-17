@@ -1,10 +1,33 @@
 #include "search/hybrid_search.h"
 #include "index/secondary_index.h"
-#include "index/vector_index_manager.h"
+#include "index/vector_index.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <unordered_map>
 #include <cmath>
+#include <stdexcept>
+
+namespace {
+    // Helper: Convert vector distance to similarity score based on metric
+    double distanceToSimilarity(float distance, themis::VectorIndexManager::Metric metric) {
+        using Metric = themis::VectorIndexManager::Metric;
+        switch (metric) {
+            case Metric::COSINE:
+                // Cosine: 1 - distance (distance is already cosine distance)
+                return 1.0 - distance;
+            case Metric::DOT:
+                // Dot product: higher is better (already similarity-like)
+                return distance;
+            case Metric::L2:
+                // L2: inverse distance
+                return 1.0 / (1.0 + distance);
+            default:
+                return 1.0 - distance;  // Default to cosine
+        }
+    }
+}
+
+namespace themis {
 
 namespace themis {
 
@@ -27,42 +50,119 @@ std::vector<HybridSearch::Result> HybridSearch::search(
     const float* vector_query,
     size_t vector_dim
 ) {
-    // Stub implementation - would integrate with actual indexes
     std::vector<Result> bm25_results;
     std::vector<Result> vector_results;
     
-    // BM25 search
+    // BM25 fulltext search
     if (!text_query.empty() && fulltext_index_) {
-        // Simulated BM25 search
-        for (size_t i = 0; i < config_.k_bm25 && i < 10; ++i) {
-            Result r;
-            r.document_id = "doc_" + std::to_string(i);
-            r.bm25_score = 1.0 - (i * 0.1);
-            r.bm25_rank = static_cast<int>(i + 1);
-            bm25_results.push_back(r);
+        try {
+            auto [status, ft_results] = fulltext_index_->scanFulltextWithScores(
+                config_.default_table,
+                config_.default_column, 
+                text_query,
+                config_.k_bm25
+            );
+            
+            if (status.ok) {
+                bm25_results.reserve(ft_results.size());
+                for (size_t i = 0; i < ft_results.size(); ++i) {
+                    const auto& ft_result = ft_results[i];
+                    Result r;
+                    r.document_id = ft_result.pk;
+                    r.bm25_score = ft_result.score;
+                    r.bm25_rank = static_cast<int>(i + 1);
+                    bm25_results.push_back(r);
+                }
+                
+                THEMIS_DEBUG("BM25 search returned {} results", bm25_results.size());
+            } else {
+                THEMIS_WARN("BM25 search failed: {}", status.message);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("BM25 search exception: {}", e.what());
         }
     }
     
-    // Vector search
+    // Vector ANN search
     if (vector_query && vector_dim > 0 && vector_index_) {
-        // Simulated vector search
-        for (size_t i = 0; i < config_.k_vector && i < 10; ++i) {
-            Result r;
-            r.document_id = "doc_" + std::to_string(i + 5);
-            r.vector_score = 1.0 - (i * 0.1);
-            r.vector_rank = static_cast<int>(i + 1);
-            vector_results.push_back(r);
+        try {
+            std::vector<float> query_vec(vector_query, vector_query + vector_dim);
+            auto [status, vec_results] = vector_index_->searchKnn(
+                query_vec,
+                config_.k_vector
+            );
+            
+            if (status.ok) {
+                vector_results.reserve(vec_results.size());
+                for (size_t i = 0; i < vec_results.size(); ++i) {
+                    const auto& vec_result = vec_results[i];
+                    Result r;
+                    r.document_id = vec_result.pk;
+                    // Convert distance to similarity based on metric
+                    // Currently assumes COSINE - should be configurable in future versions
+                    // See: HybridSearch::Config::vector_metric (to be added)
+                    r.vector_score = distanceToSimilarity(vec_result.distance, 
+                                                          VectorIndexManager::Metric::COSINE);
+                    r.vector_rank = static_cast<int>(i + 1);
+                    vector_results.push_back(r);
+                }
+                
+                THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
+            } else {
+                THEMIS_WARN("Vector search failed: {}", status.message);
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Vector search exception: {}", e.what());
         }
+    }
+    
+    // Normalize scores if configured
+    if (config_.normalize_scores) {
+        normalizeScores(bm25_results, true);
+        normalizeScores(vector_results, false);
     }
     
     // Fuse results
     if (config_.use_rrf) {
-        return reciprocalRankFusion(bm25_results, vector_results);
+        auto fused = reciprocalRankFusion(bm25_results, vector_results);
+        THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
+                   bm25_results.size(), vector_results.size(), fused.size());
+        return fused;
     } else {
         // Linear combination fallback
+        std::unordered_map<std::string, Result> doc_map;
+        
+        for (const auto& r : bm25_results) {
+            auto& doc = doc_map[r.document_id];
+            doc = r;
+            doc.hybrid_score += config_.bm25_weight * r.bm25_score;
+        }
+        
+        for (const auto& r : vector_results) {
+            auto& doc = doc_map[r.document_id];
+            if (doc.document_id.empty()) doc = r;
+            doc.vector_score = r.vector_score;
+            doc.vector_rank = r.vector_rank;
+            doc.hybrid_score += config_.vector_weight * r.vector_score;
+        }
+        
         std::vector<Result> combined;
-        for (const auto& r : bm25_results) combined.push_back(r);
-        for (const auto& r : vector_results) combined.push_back(r);
+        combined.reserve(doc_map.size());
+        for (const auto& [_, result] : doc_map) {
+            combined.push_back(result);
+        }
+        
+        std::sort(combined.begin(), combined.end(),
+                  [](const Result& a, const Result& b) {
+                      return a.hybrid_score > b.hybrid_score;
+                  });
+        
+        if (combined.size() > config_.k) {
+            combined.resize(config_.k);
+        }
+        
+        THEMIS_INFO("Hybrid search (linear): {} BM25 + {} vector -> {} combined results",
+                   bm25_results.size(), vector_results.size(), combined.size());
         return combined;
     }
 }

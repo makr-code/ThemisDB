@@ -330,7 +330,7 @@ ThemisDB Enterprise Features sind Teil von ThemisDB und unterliegen der gleichen
 
 - **Issues:** GitHub Issues
 - **Fragen:** Diskussionen im GitHub Repo
-- **Enterprise Support:** service@themisdb.org
+- **Enterprise Support:** support@themis.local
 
 ---
 

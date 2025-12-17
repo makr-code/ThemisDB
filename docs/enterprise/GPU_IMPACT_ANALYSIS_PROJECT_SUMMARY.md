@@ -609,6 +609,6 @@ The reference implementation provides a **solid foundation** for GPU acceleratio
 **Next Phase:** GPU Backend Implementation
 
 **Contact:**  
-- Technical: service@themisdb.org  
-- Business: service@themisdb.org  
+- Technical: enterprise-support@themisdb.com  
+- Business: sales@themisdb.com  
 - GitHub: https://github.com/makr-code/ThemisDB

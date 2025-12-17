@@ -173,7 +173,7 @@
 
 ### Reseller Edition
 - **Cost:** Per-application license (volume discounts available)
-- **Contact Sales:** service@themisdb.org
+- **Contact Sales:** reseller@themisdb.io
 - **Use Case:** Embedding ThemisDB in commercial applications/products
 - **Limits:** 1-3 nodes per application instance, single GPU, basic sharding (if 2-3 nodes)
 - **Support:** Email support (business hours), documentation
@@ -185,7 +185,7 @@
 
 ### Enterprise Edition
 - **Cost:** Custom pricing (volume discounts available)
-- **Contact Sales:** service@themisdb.org
+- **Contact Sales:** enterprise@themisdb.io
 - **Use Case:** Large-scale deployments, mission-critical systems
 - **Limits:** 4-100 nodes (default), custom limits available
 - **Support:** 24/7 phone + email, dedicated TAM
@@ -196,7 +196,7 @@
 
 ### Hyperscaler Edition
 - **Cost:** Custom pricing (enterprise agreements)
-- **Contact Sales:** service@themisdb.org
+- **Contact Sales:** hyperscaler@themisdb.io
 - **Use Case:** Hyperscale deployments, Kubernetes clusters, cloud-native architectures
 - **Limits:** Unlimited nodes and shards
 - **Support:** 24/7 phone + email, dedicated engineering team
@@ -254,4 +254,4 @@ Yes, simply remove the license file and enterprise DLLs. Your data remains intac
 
 **Document Version:** 1.0  
 **Last Updated:** December 13, 2025  
-**Contact:** service@themisdb.org
+**Contact:** sales@themisdb.io

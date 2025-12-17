@@ -1,753 +1,467 @@
-# ThemisDB Architecture Overview
+﻿# THEMIS Architecture
 
-**Version:** 1.0.1  
-**Date:** December 2025  
-**Type:** Technical Architecture Documentation
-
----
-
-## 📋 Executive Summary
-
-ThemisDB is a multi-model database system built on an LSM-tree foundation (RocksDB), providing unified access to relational, graph, vector, time-series, and document data models. The architecture emphasizes horizontal scalability, high performance through GPU acceleration, and enterprise-grade security.
-
-### Key Architectural Characteristics
-
-- **Multi-Model Unified Storage:** Single LSM-tree storage layer with specialized indexes
-- **Horizontal Scalability:** VCC-URN based sharding with automatic rebalancing
-- **High Performance:** GPU acceleration (10 backends), SIMD optimizations, query optimization
-- **Enterprise Security:** Field-level encryption, HSM/PKI integration, RBAC, Apache Ranger
-- **ACID Transactions:** MVCC with snapshot isolation, distributed SAGA patterns
-- **Flexible Replication:** Leader-Follower and Multi-Master (CRDT-based)
-
----
-
-## 🏗️ System Architecture
-
-### Layered Architecture
+## System Overview
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Client Layer                            │
-│  REST API │ GraphQL │ gRPC │ Wire Protocol │ Native SDKs   │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                   API & Server Layer                        │
-│  HTTP Server │ Authentication │ Rate Limiting │ Load Shed  │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                    Query Layer                              │
-│  AQL Parser │ Query Optimizer │ Execution Engine           │
-│  Function Libraries │ CTE Cache │ Semantic Cache           │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│              Transaction & Concurrency Layer                │
-│  MVCC │ Transaction Manager │ SAGA Coordinator             │
-│  Deadlock Detection │ WAL Management                       │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                   Index Layer                               │
-│  Vector (HNSW) │ Graph │ Secondary │ Spatial │ Fulltext   │
-│  GPU Acceleration │ SIMD Optimization                      │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│                   Storage Layer                             │
-│  RocksDB (LSM-tree) │ Key Schema │ Compression            │
-│  WAL │ Snapshot Management │ Compaction                   │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│             Cross-Cutting Concerns                          │
-│  Security │ Replication │ Sharding │ Monitoring │ CDC      │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                         HTTP/REST API                            │
+│                      (Boost.Beast - Port 8765)                   │
+└───────────────────────┬─────────────────────────────────────────┘
+                        │
+        ┌───────────────┼───────────────┐
+        │               │               │
+        ▼               ▼               ▼
+┌──────────────┐ ┌────────────┐ ┌─────────────┐
+│   Entity     │ │   Query    │ │   Index     │
+│   Manager    │ │   Engine   │ │   Manager   │
+└──────┬───────┘ └─────┬──────┘ └──────┬──────┘
+       │               │                │
+       │        ┌──────┴──────┐        │
+       │        │             │        │
+       ▼        ▼             ▼        ▼
+┌──────────────────────────────────────────────────────────────┐
+│                     Index Projections                         │
+│  ┌────────────┐ ┌───────────┐ ┌──────────┐ ┌──────────────┐ │
+│  │ Secondary  │ │   Graph   │ │  Vector  │ │   Spatial    │ │
+│  │   Index    │ │   Index   │ │  Index   │ │    Index     │ │
+│  │ (Equality, │ │ (Outdex/  │ │ (HNSW/   │ │ (Geo, R*Tree)│ │
+│  │  Range,    │ │  Indeg)   │ │  Faiss)  │ │              │ │
+│  │ Composite, │ │           │ │          │ │              │ │
+│  │ Fulltext)  │ │           │ │          │ │              │ │
+│  └────────────┘ └───────────┘ └──────────┘ └──────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────────┐
+│                   Base Entity Layer                           │
+│               (Canonical Storage Format)                      │
+│                                                               │
+│  Key Schema: table:primary_key                                │
+│  Value: JSON blob (simdjson deserialization)                  │
+│  Metadata: version, timestamp, blob_size                      │
+└──────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    RocksDB LSM-Tree                           │
+│                                                               │
+│  • Write Buffer: 256 MB memtable                              │
+│  • Block Cache: 1 GB (LRU)                                    │
+│  • Compression: LZ4 (L0-L5), ZSTD (L6 bottommost)             │
+│  • Compaction: Level-based (7 levels)                         │
+│  • Bloom Filters: 10 bits per key                             │
+└──────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+                  ┌─────────┐
+                  │  Disk   │
+                  │ Storage │
+                  └─────────┘
 ```
 
----
+## Data Flow
 
-## 🔑 Core Components
+### Write Path (PUT /entities/table:pk)
 
-### 1. Storage Layer
-
-**Primary Technology:** RocksDB (LSM-tree based key-value store)
-
-**Components:**
-- **RocksDB Wrapper** (`src/storage/rocksdb_wrapper.cpp`)
-  - Configurable LSM-tree parameters
-  - Write-ahead logging (WAL)
-  - Snapshot isolation support
-  - Bloom filters for read optimization
-  - Block cache management
-  - Compaction strategies (level, universal)
-
-**Key Design Decisions:**
-- LSM-tree chosen for write-heavy workloads
-- Hierarchical key schema enables multi-model support
-- Compression (ZSTD, LZ4) reduces storage footprint
-- Memory-mapped files for large datasets
-
-**Performance Characteristics:**
-- Write throughput: ~100K ops/sec (single node)
-- Read latency: <1ms (cached), <10ms (disk)
-- Compression ratio: 3-5x typical
-
----
-
-### 2. Index Layer
-
-**Purpose:** Specialized indexes for different data models and access patterns
-
-#### Vector Index (HNSW)
-**Implementation:** `src/index/vector_index.cpp` (57,750 LOC)
-
-**Architecture:**
-```
-┌──────────────────────────────────────┐
-│         HNSW Graph Structure         │
-│                                      │
-│  Layer 2: ○────○────○                │
-│            │    │    │                │
-│  Layer 1: ○────○────○────○           │
-│           │ \  │  / │    │           │
-│  Layer 0: ○─○─○─○─○─○─○─○─○          │
-│         (Full connectivity)          │
-└──────────────────────────────────────┘
-```
-
-**Features:**
-- Multi-layer hierarchical graph
-- Efficient k-NN search (O(log n) expected)
-- GPU acceleration (10 backends)
-- SIMD distance calculations
-- Incremental index building
-- Persistence to RocksDB
-
-**Distance Metrics:**
-- Cosine similarity
-- Euclidean (L2)
-- Dot product
-- Manhattan (L1)
-- Hamming
-
-**Performance:**
-- Index build: ~10K vectors/sec (CPU), ~100K vectors/sec (GPU)
-- Query latency: <1ms for 1M vectors
-- Recall@10: >95% at ef_search=100
-
-#### Graph Index
-**Implementation:** `src/index/graph_index.cpp` (65,471 LOC)
-
-**Storage Format:**
-```
-Vertex Store:
-  Key: vertex_id
-  Value: {properties, edge_list}
-
-Edge Store:
-  Key: edge_id
-  Value: {source, target, properties}
-
-Index Store (for traversal):
-  Key: vertex_id + edge_type
-  Value: adjacent_vertices
-```
-
-**Algorithms:**
-- BFS, DFS for traversal
-- Dijkstra, A* for shortest path
-- PageRank for importance ranking
-- Louvain for community detection
-- Betweenness centrality
-
-**Optimizations:**
-- Compressed adjacency lists
-- Edge property caching
-- Parallel graph algorithms
-- GPU-accelerated PageRank
-
-#### Secondary Indexes
-**Implementation:** `src/index/secondary_index.cpp` (114,074 LOC)
-
-**Index Types:**
-- B-tree: Range queries, ordered scans
-- Hash: Exact match queries
-- Bitmap: Low-cardinality columns
-- Full-text: BM25 ranking with stemming
-
-**Features:**
-- Composite indexes (multi-column)
-- Partial indexes (WHERE clause)
-- Expression indexes (computed columns)
-- Covering indexes (index-only scans)
-
----
-
-### 3. Query Layer
-
-**Purpose:** Parse, optimize, and execute queries
-
-#### AQL (Advanced Query Language)
-
-**Query Processing Pipeline:**
-```
-AQL Query String
-      ↓
-[Lexer/Parser] → AST
-      ↓
-[Type Checker] → Typed AST
-      ↓
-[Optimizer] → Optimized Plan
-      ↓
-[Code Generator] → Execution Plan
-      ↓
-[Execution Engine] → Results
-```
-
-**Components:**
-
-1. **Parser** (`aql_parser.cpp` - 43,972 LOC)
-   - LL(k) grammar
-   - Error recovery
-   - AST generation
-
-2. **Translator** (`aql_translator.cpp` - 70,388 LOC)
-   - AST transformation
-   - Type inference
-   - Name resolution
-   - Semantic validation
-
-3. **Optimizer** (`query_optimizer.cpp` - 7,234 LOC)
-   - Cost-based optimization
-   - Rule-based transformations
-   - Cardinality estimation
-   - Join reordering
-   - Predicate pushdown
-   - Index selection
-
-4. **Execution Engine** (`query_engine.cpp` - 47,658 LOC)
-   - Volcano-style iterator model
-   - Pipelined execution
-   - Parallel execution (thread pool)
-   - Memory management
-
-**Optimization Techniques:**
-- Predicate pushdown to storage layer
-- Join reordering via dynamic programming
-- Constant folding
-- Common subexpression elimination
-- Index-only scans
-- Aggregate pushdown
-
-**Performance:**
-- Simple queries: <1ms
-- Complex joins: <100ms (1M rows)
-- Aggregations: 10M rows/sec (single core)
-
----
-
-### 4. Transaction Layer
-
-**Purpose:** ACID guarantees with MVCC
-
-#### MVCC Implementation
-
-**Version Chain Structure:**
-```
-Latest Version ← Older ← Oldest
-    (v3)         (v2)    (v1)
-
-Each version contains:
-- Transaction ID (begin_ts, end_ts)
-- Data snapshot
-- Pointer to previous version
-```
-
-**Isolation Levels:**
-- Read Uncommitted
-- Read Committed
-- Repeatable Read
-- Serializable (SSI - Serializable Snapshot Isolation)
-
-**Concurrency Control:**
-- Optimistic concurrency control
-- Write-write conflict detection
-- Deadlock detection (wait-for graph)
-- Lock-free reads
-
-**Write-Ahead Logging (WAL):**
-- ARIES protocol
-- Physiological logging
-- Checkpoint management
-- Log replay for recovery
-
-**Performance:**
-- Transaction throughput: ~50K txn/sec (mixed workload)
-- Commit latency: <5ms (sync WAL)
-- Recovery time: <1 min for 1GB WAL
-
----
-
-### 5. Sharding & Distribution
-
-**Purpose:** Horizontal scalability
-
-#### VCC-URN Sharding
-
-**Architecture:**
 ```
 Client Request
-      ↓
-[Shard Router] → Determines target shard(s)
-      ↓
-[Shard Manager] → Routes to appropriate shard
-      ↓
-[Shard Node 1] [Shard Node 2] ... [Shard Node N]
+     │
+     ├──> 1. HTTP Handler (http_server.cpp)
+     │
+     ├──> 2. Deserialize JSON blob
+     │         └─> Extract indexed fields (_from, _to, columns)
+     │
+     ├──> 3. Base Entity Layer (base_entity.cpp)
+     │         └─> Serialize to RocksDB format (key: table:pk)
+     │
+     ├──> 4. Index Updates (parallel with TBB)
+     │         ├─> Secondary Indexes (equality, range, composite)
+     │         ├─> Graph Indexes (outdex/indeg if _from/_to present)
+     │         └─> Vector Indexes (if embedding present)
+     │
+     └──> 5. RocksDB Write
+               ├─> Write to memtable (in-memory)
+               ├─> Write to WAL (durability)
+               └─> Response to client (async)
 ```
 
-**Sharding Strategy:**
-- Hash-based sharding (consistent hashing)
-- Range-based sharding
-- VCC-URN hierarchical partitioning
-- Virtual nodes for load distribution
+### Read Path (POST /query)
 
-**Components:**
-
-1. **Shard Router** (`shard_router.cpp`)
-   - Request routing
-   - Multi-shard aggregation
-   - Transaction coordination
-
-2. **Shard Manager** (`shard_manager.cpp`)
-   - Shard allocation
-   - Metadata management
-   - Health monitoring
-
-3. **Auto Rebalancer** (`shard_rebalancer.cpp`)
-   - Load detection
-   - Migration planning
-   - Safety mechanisms
-   - Zero-downtime migration
-
-**Rebalancing Algorithm:**
 ```
-1. Monitor shard metrics (load, storage, latency)
-2. Detect imbalance (weighted scoring)
-3. Generate migration plan
-4. Execute migration (copy, sync, switch)
-5. Verify and cleanup
+Client Query
+     │
+     ├──> 1. Query Parser (query_parser.cpp)
+     │         └─> Parse predicates, range, order_by
+     │
+     ├──> 2. Query Optimizer (query_optimizer.cpp)
+     │         ├─> Index selection (selectivity analysis)
+     │         ├─> Predicate reordering (most selective first)
+     │         └─> Execution plan generation
+     │
+     ├──> 3. Query Executor (query_engine.cpp)
+     │         ├─> Parallel index scans (TBB task_group)
+     │         │    └─> For each predicate: index.get(table, column, value)
+     │         │
+     │         ├─> Intersection of candidate sets (sorted merge)
+     │         │    └─> Early termination on empty intermediate results
+     │         │
+     │         └─> Parallel entity loading (batch processing)
+     │              ├─> Batch size: 50 entities
+     │              ├─> Threshold: 100 entities (parallelization overhead)
+     │              └─> TBB task_group for concurrent RocksDB gets
+     │
+     └──> 4. Result Serialization
+               ├─> return: "keys" → JSON array of primary keys
+               └─> return: "entities" → JSON array of blob contents
 ```
 
-#### Gossip Protocol
+### Index Rebuild Flow (POST /index/rebuild)
 
-**Purpose:** Cluster membership and state sync
-
-**Protocol:**
 ```
-Every node periodically:
-1. Select random peer
-2. Exchange state information
-3. Merge states (CRDTs)
-4. Detect failures (timeout)
+Rebuild Request
+     │
+     ├──> 1. Drop existing index keys (range delete in RocksDB)
+     │
+     ├──> 2. Scan all entities in table (prefix scan: table:*)
+     │
+     ├──> 3. Parallel reindexing (batch processing)
+     │         ├─> Batch size: 1000 entities
+     │         ├─> For each batch:
+     │         │    ├─> Deserialize entity
+     │         │    ├─> Extract indexed field value
+     │         │    └─> Write index entry (index:table:column:value -> pk)
+     │         │
+     │         └─> TBB parallel_for across batches
+     │
+     └──> 4. Update metrics
+               ├─> rebuild_count++
+               ├─> rebuild_duration_ms
+               └─> rebuild_entities_processed
 ```
 
-**State Synchronized:**
-- Cluster membership
-- Shard assignments
-- Configuration
-- Health status
+## Thread Model
 
-**Convergence Time:** O(log n) rounds
+### HTTP Server (Boost.Beast)
+
+- **I/O Threads**: 8 threads (configurable)
+- **Accept Loop**: Async accept on main thread
+- **Request Handling**: Each connection handled by worker thread
+- **Connection Pool**: Reused connections (keep-alive)
+
+### Query Engine (Intel TBB)
+
+- **Task Scheduling**: Work-stealing scheduler (automatic load balancing)
+- **Index Scans**: `tbb::task_group` for parallel predicate evaluation
+- **Entity Loading**: Batch-based parallelization (threshold: 100 entities)
+  ```cpp
+  std::vector<std::vector<BaseEntity>> batches;
+  tbb::task_group tg;
+  for (size_t batch_idx = 0; batch_idx < num_batches; ++batch_idx) {
+      tg.run([&, batch_idx]() {
+          // Load entities from RocksDB (batch_size = 50)
+          // Deserialize JSON blobs
+      });
+  }
+  tg.wait(); // Barrier
+  // Merge results
+  ```
+- **Parallelization Benefit**: Up to 3.5x speedup on 8-core systems
+
+### RocksDB Internal Threads
+
+- **Flush Threads**: 2 (memtable → SST files)
+- **Compaction Threads**: 4 (LSM-Tree level compaction)
+- **WAL Sync**: Background thread (fsync batching)
+
+## Memory Hierarchy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  L1: TBB Task Scheduler (per-thread allocation)             │
+│      - Lock-free task queues                                 │
+│      - Work-stealing deques                                  │
+└─────────────────────────────────────────────────────────────┘
+                        │
+┌─────────────────────────────────────────────────────────────┐
+│  L2: RocksDB Memtable (256 MB)                               │
+│      - SkipList structure (sorted by key)                    │
+│      - Write-ahead Log (WAL) for durability                  │
+└─────────────────────────────────────────────────────────────┘
+                        │
+┌─────────────────────────────────────────────────────────────┐
+│  L3: Block Cache (1 GB LRU)                                  │
+│      - Decompressed SST blocks                               │
+│      - Index/filter blocks (pinned)                          │
+│      - Bloom filters (10 bits/key)                           │
+└─────────────────────────────────────────────────────────────┘
+                        │
+┌─────────────────────────────────────────────────────────────┐
+│  L4: Operating System Page Cache                             │
+│      - Memory-mapped SST files                               │
+│      - Kernel read-ahead                                     │
+└─────────────────────────────────────────────────────────────┘
+                        │
+┌─────────────────────────────────────────────────────────────┐
+│  L5: Disk Storage (SSD/NVMe)                                 │
+│      - SST files (2-64 MB per file)                          │
+│      - 7 levels (L0-L6)                                      │
+│      - LZ4 compression (L0-L5), ZSTD (L6)                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Memory Budget (Typical Configuration):**
+- Memtable: 256 MB
+- Block Cache: 1024 MB
+- TBB Scheduler: ~50 MB (8 threads)
+- HTTP Buffers: ~32 MB (8 connections × 4 MB)
+- **Total**: ~1.36 GB RAM
+
+See [memory_tuning.md](memory_tuning.md) for tuning guidelines.
+
+## Index Key Schemas
+
+### Secondary Index (Equality)
+
+```
+Format: index:table:column:value -> primary_key
+Example: index:users:city:Berlin -> alice,bob,charlie
+```
+
+### Range Index
+
+```
+Format: range:table:column:value -> primary_key
+Example: range:products:price:00000999 -> p1,p2
+Note: Values are zero-padded for lexicographic ordering
+```
+
+### Graph Index (Outdex)
+
+```
+Format: outdeg:from_vertex -> to_vertex1,to_vertex2,...
+Example: outdeg:user:alice -> user:bob,user:charlie
+```
+
+### Graph Index (Indeg)
+
+```
+Format: indeg:to_vertex -> from_vertex1,from_vertex2,...
+Example: indeg:user:bob -> user:alice,user:dave
+```
+
+### Composite Index
+
+```
+Format: composite:table:col1:col2:val1:val2 -> primary_key
+Example: composite:orders:customer:status:alice:pending -> o1,o5
+```
+
+## Query Optimization
+
+### Selectivity Estimation
+
+```cpp
+// Index statistics: sample-based cardinality estimation
+struct IndexStats {
+    uint64_t unique_values;    // Distinct values in index
+    uint64_t total_entries;    // Total indexed entities
+    uint64_t sample_size;      // Sample used for estimation
+};
+
+// Selectivity calculation
+double selectivity = unique_values / (double)total_entries;
+uint64_t estimated_results = total_entries * selectivity;
+```
+
+### Predicate Reordering
+
+```
+Input Query:
+  predicates: [
+    {column: "department", value: "Engineering"},  // 1000 results
+    {column: "level", value: "Senior"}             // 50 results
+  ]
+
+After Optimization:
+  execution_order: [
+    {column: "level", value: "Senior"},            // Start with most selective
+    {column: "department", value: "Engineering"}   // Intersect with smaller set
+  ]
+
+Benefit: 50 vs 1000 initial candidates (20x reduction)
+```
+
+### Execution Modes
+
+1. **Index-Accelerated** (predicates with indexes):
+   - Parallel index scans → intersection → entity loading
+   - Typical latency: 0.1-2 ms (depending on result set size)
+
+2. **Range-Aware** (range predicates + ORDER BY):
+   - Direct range scan → sorted results (no intersection)
+   - Typical latency: 0.5-5 ms (depends on range width)
+
+3. **Full-Scan Fallback** (no indexes, allow_full_scan: true):
+   - Sequential table scan → filter in memory
+   - Typical latency: 10-500 ms (depends on table size)
+   - **Warning**: Expensive for large tables (>10K entities)
+
+## Compression Strategy
+
+### Write Amplification vs Storage Savings
+
+```
+Level   | Compression | Write Amp | Use Case
+--------|-------------|-----------|----------------------------------
+L0-L5   | LZ4         | 1.05x     | Hot data (frequent compaction)
+L6      | ZSTD        | 1.15x     | Cold data (infrequent compaction)
+```
+
+**Rationale:**
+- LZ4: Fast compression (33.8 MB/s write throughput, 2.1x ratio)
+- ZSTD: Better ratio (32.3 MB/s, 2.8x ratio) but slower → only for bottommost level
+- Hybrid strategy: Balance performance and storage efficiency
+
+See [memory_tuning.md](memory_tuning.md) for benchmark results.
+
+## Deployment Patterns
+
+### Standalone Server
+
+```
+THEMIS Server (Port 8765)
+     │
+     ├─> Data Directory: ./data/themis_server
+     ├─> Config: ./config/config.json
+     └─> Logs: stdout (spdlog)
+```
+
+### Docker Container
+
+```
+Docker Host
+     │
+     ├─> Container: vccdb:latest
+     │    ├─> Port Mapping: 8765:8765
+     │    ├─> Volume: /data (persistent storage)
+     │    └─> Config Mount: /etc/vccdb/config.json
+     │
+     └─> External Access: http://localhost:8765
+```
+
+### Monitoring Stack (Prometheus + Grafana)
+
+```
+┌────────────┐       ┌─────────────┐       ┌──────────┐
+│   THEMIS    │──────>│ Prometheus  │──────>│ Grafana  │
+│ (Port 8765)│ scrape│ (Port 9090) │ query │ (Port    │
+│  /metrics  │       │             │       │  3000)   │
+└────────────┘       └─────────────┘       └──────────┘
+
+Prometheus Scrape Config:
+  scrape_interval: 15s
+  metrics_path: /metrics
+  targets: ['vccdb:8765']
+
+Grafana Dashboards:
+  - QPS, Error Rate, Latency (p50/p95/p99)
+  - RocksDB: Cache Hit Rate, Compaction Stats, Memtable Size
+  - System: CPU, Memory, Disk I/O
+```
+
+## Performance Tuning
+
+### RocksDB Configuration
+
+**For Write-Heavy Workloads:**
+```json
+{
+  "memtable_size_mb": 512,      // Larger write buffer
+  "max_write_buffer_number": 4,  // More concurrent memtables
+  "compression": "lz4"           // Fast compression
+}
+```
+
+**For Read-Heavy Workloads:**
+```json
+{
+  "block_cache_size_mb": 4096,   // Larger read cache
+  "enable_bloom_filters": true,  // Reduce disk seeks
+  "compression": "zstd"          // Better compression ratio
+}
+```
+
+### Query Engine Tuning
+
+**Batch Processing Thresholds:**
+```cpp
+// Adjust in query_engine.cpp
+constexpr size_t PARALLEL_THRESHOLD = 100;  // Entities before parallelization
+constexpr size_t BATCH_SIZE = 50;           // Entities per batch
+
+// For low-latency use cases:
+PARALLEL_THRESHOLD = 50;   // More aggressive parallelization
+BATCH_SIZE = 25;           // Smaller batches (lower latency variance)
+
+// For high-throughput use cases:
+PARALLEL_THRESHOLD = 200;  // Less overhead
+BATCH_SIZE = 100;          // Larger batches (better CPU utilization)
+```
+
+### Index Maintenance
+
+**Rebuild Strategy:**
+- **Periodic**: Weekly rebuild for active tables (prevents fragmentation)
+- **On-Demand**: After bulk inserts (>10K entities)
+- **Parallel**: Use `bench_index_rebuild` pattern for large tables
+
+**TTL Cleanup:**
+```cpp
+// Automatic expiration (no manual cleanup needed)
+// TTL indexes prune expired entries during range scans
+```
+
+## Observability
+
+### Health Check
+
+```bash
+curl http://localhost:8765/health
+# Response: {"status":"ok","timestamp":"2025-10-28T10:30:00Z"}
+
+**Stand:** 5. Dezember 2025  
+**Version:** 1.0.0  
+**Kategorie:** Architecture
 
 ---
 
-### 6. Replication Layer
-
-**Purpose:** Data redundancy and high availability
-
-#### Replication Modes
-
-**1. Leader-Follower (Async)**
-```
-Leader ──(WAL Stream)──> Follower 1
-       └──(WAL Stream)──> Follower 2
-```
-
-**2. Multi-Master (CRDT)**
-```
-Node 1 ←──(State Sync)──→ Node 2
-   ↕                         ↕
-Node 3 ←──(State Sync)──→ Node 4
-```
-
-**Conflict Resolution:**
-- Last-Write-Wins (LWW) with HLC timestamps
-- CRDTs for commutative operations
-- Application-defined merge functions
-- Manual conflict resolution queue
-
-**Consistency Guarantees:**
-- Leader-Follower: Eventual consistency, read-your-writes (from leader)
-- Multi-Master: Eventual consistency, causal consistency
-
-**Failover:**
-- Automatic leader election (Raft-based)
-- Promotion of follower to leader
-- Split-brain prevention (quorum)
-
----
-
-### 7. Security Layer
-
-**Purpose:** Data protection and access control
-
-#### Encryption
-
-**Field-Level Encryption:**
-```
-Plaintext Data
-      ↓
-[Encryption Key] ← [Key Provider]
-      ↓                (Vault/HSM/PKI)
-AES-256-GCM
-      ↓
-Encrypted Data → Storage
-```
-
-**Key Providers:**
-- HashiCorp Vault (Transit engine)
-- HSM (PKCS#11)
-- PKI (Certificate-based)
-- Local (testing only)
-
-**Features:**
-- Transparent encryption/decryption
-- Key rotation with lazy re-encryption
-- Per-field keys for granularity
-- Deterministic encryption for indexing
-
-#### Access Control
-
-**RBAC (Role-Based Access Control):**
-```
-User ──→ Roles ──→ Permissions ──→ Resources
-```
-
-**Apache Ranger Integration:**
-- Policy synchronization
-- Fine-grained permissions
-- Audit logging
-- Dynamic policy updates
-
-**Authentication:**
-- JWT tokens (RS256, ES256)
-- Multi-tenancy via claims
-- Token expiry and refresh
-
----
-
-### 8. Acceleration Layer
-
-**Purpose:** GPU and CPU acceleration for vector operations
-
-#### GPU Backend Architecture
 
 ```
-┌──────────────────────────────────────┐
-│      Backend Registry                │
-│  (Selects optimal backend)           │
-└──────────────────────────────────────┘
-                 ↓
-    ┌────────────┴────────────┐
-    ↓            ↓            ↓
- [CUDA]      [Vulkan]      [OpenCL]
-    ↓            ↓            ↓
- NVIDIA       Any GPU      Any GPU
+
+### Configuration Inspection
+
+```bash
+curl http://localhost:8765/config | jq .
+# Returns: server config, RocksDB config, runtime stats, metrics
 ```
 
-**Backend Selection:**
-- Runtime detection of available GPUs
-- Capability matching (FP32, FP16, INT8)
-- Fallback chain: GPU → SIMD CPU → Scalar CPU
+### Metrics Export
 
-**Operations Accelerated:**
-- Vector distance calculations
-- Matrix multiplication
-- Index building (HNSW)
-- Aggregations
-- Sorting
-
-**Performance Gains:**
-- Distance calculations: 10-50x speedup
-- HNSW index build: 10x speedup
-- Batch queries: 20-40x speedup
-
----
-
-### 9. Analytics Layer
-
-**Purpose:** OLAP and complex event processing
-
-#### OLAP Engine
-
-**Columnar Storage:**
-```
-Row Store:          Columnar Store:
-┌──┬──┬──┬──┐      ┌────────┐
-│id│a │b │c │      │1│2│3│4 │ (id)
-├──┼──┼──┼──┤      ├────────┤
-│1 │x │y │z │  →   │x│p│m│t │ (a)
-├──┼──┼──┼──┤      ├────────┤
-│2 │p │q │r │      │y│q│n│u │ (b)
-└──┴──┴──┴──┘      └────────┘
+```bash
+curl http://localhost:8765/metrics
+# Prometheus text format with 25+ metrics
 ```
 
-**Query Optimization:**
-- Column pruning
-- Predicate pushdown
-- Late materialization
-- SIMD vectorized scans
+### Statistics Analysis
 
-**Window Functions:**
-- Partitioning
-- Ordering
-- Frame specification (ROWS, RANGE)
-- Aggregates (SUM, AVG, MIN, MAX)
-- Ranking (ROW_NUMBER, RANK, DENSE_RANK)
-- Offset (LAG, LEAD)
-
-#### CEP Engine
-
-**Event Pattern Matching:**
-```
-PATTERN: A → B → C WITHIN 10 seconds
-WHERE A.value > 100 AND C.value < 50
-
-Detection:
-Events: A₁(t₀) → B₁(t₁) → C₁(t₂)
-Match: ✓ (t₂ - t₀ < 10s, conditions met)
+```bash
+curl http://localhost:8765/stats | jq .storage.rocksdb
+# Detailed RocksDB stats: cache hit rate, compaction, files per level
 ```
 
-**Features:**
-- Sliding windows
-- Tumbling windows
-- Session windows
-- Pattern matching (regex-like)
-- Event correlation
+## References
 
----
-
-### 10. Content Processing
-
-**Purpose:** Extract metadata and content from various file formats
-
-#### Processing Pipeline
-
-```
-File Upload
-     ↓
-[MIME Detection]
-     ↓
-[Format Router]
-     ↓
-┌────┴────┬────────┬────────┬────────┐
-│  PDF    │ Office │ Image  │ Video  │
-└────┬────┴────────┴────────┴────────┘
-     ↓
-[Content Extraction]
-     ↓
-[Metadata Extraction]
-     ↓
-[Indexing]
-     ↓
-Storage
-```
-
-**Processors:**
-- PDF: Text, tables, images
-- Office: Word, Excel, PowerPoint
-- Images: EXIF, OCR, thumbnails
-- Video/Audio: Metadata, thumbnails
-- CAD: 3D models, metadata
-- Geo: Shapefiles, GeoJSON
-
-**Plugin System:**
-- Dynamic loading
-- Format extension
-- Custom processors
-
----
-
-## 📊 Performance Characteristics
-
-### Throughput
-
-| Operation | Throughput | Notes |
-|-----------|------------|-------|
-| Writes | 100K ops/sec | Single node, WAL enabled |
-| Reads | 500K ops/sec | Cached data |
-| Vector Search | 10K qps | 1M vectors, k=10 |
-| Graph Traversal | 1M edges/sec | BFS |
-| Transactions | 50K txn/sec | Mixed workload |
-
-### Latency
-
-| Operation | Latency (p50) | Latency (p99) |
-|-----------|---------------|---------------|
-| Point Read | 0.5ms | 2ms |
-| Point Write | 1ms | 5ms |
-| Vector kNN | 2ms | 10ms |
-| Simple Query | 5ms | 20ms |
-| Complex Join | 50ms | 200ms |
-
-### Scalability
-
-| Metric | Single Node | 10 Nodes | 100 Nodes |
-|--------|-------------|----------|-----------|
-| Write Throughput | 100K/s | 900K/s | 8M/s |
-| Data Size | 1TB | 10TB | 100TB |
-| Query Latency | 10ms | 12ms | 15ms |
-
----
-
-## 🔒 Security Architecture
-
-### Defense in Depth
-
-```
-Layer 1: Network (TLS, mTLS)
-Layer 2: Authentication (JWT, PKI)
-Layer 3: Authorization (RBAC, Ranger)
-Layer 4: Encryption (Field-level AES-256)
-Layer 5: Audit (Comprehensive logging)
-```
-
-### Compliance
-
-- **GDPR:** PII detection, pseudonymization, right to erasure
-- **HIPAA:** Encryption at rest/transit, audit logging
-- **SOC 2:** Access controls, monitoring, incident response
-- **eIDAS:** Qualified signatures via PKI
-
----
-
-## 🔍 Monitoring & Observability
-
-### Metrics Collection
-
-**Prometheus Metrics:**
-- Request rates, latencies, errors
-- Resource utilization (CPU, memory, disk)
-- Cache hit rates
-- Transaction throughput
-- Replication lag
-
-**OpenTelemetry Tracing:**
-- Distributed traces across services
-- Query execution breakdown
-- Index operation timing
-- Network latency
-
-**Logging:**
-- Structured JSON logging
-- Log levels: DEBUG, INFO, WARN, ERROR
-- Audit logs for security events
-- Query logs for performance analysis
-
----
-
-## 🚀 Deployment Architecture
-
-### Single Node
-
-```
-┌─────────────────────────┐
-│    ThemisDB Server      │
-│  ┌─────────────────┐    │
-│  │ All Components  │    │
-│  └─────────────────┘    │
-│         Storage         │
-└─────────────────────────┘
-```
-
-**Use Case:** Development, small workloads
-
-### Clustered
-
-```
-┌──────────┐  ┌──────────┐  ┌──────────┐
-│ Shard 1  │  │ Shard 2  │  │ Shard 3  │
-│ (Leader) │  │ (Leader) │  │ (Leader) │
-└────┬─────┘  └────┬─────┘  └────┬─────┘
-     │             │             │
-┌────┴─────┐  ┌────┴─────┐  ┌────┴─────┐
-│Follower 1│  │Follower 2│  │Follower 3│
-└──────────┘  └──────────┘  └──────────┘
-```
-
-**Use Case:** Production, high availability
-
-### Cloud Native
-
-```
-┌──────────────────────────────────┐
-│      Load Balancer               │
-└────────────┬─────────────────────┘
-             ↓
-┌────────────────────────────────┐
-│   Kubernetes Cluster           │
-│  ┌──────┐ ┌──────┐ ┌──────┐   │
-│  │ Pod1 │ │ Pod2 │ │ Pod3 │   │
-│  └──────┘ └──────┘ └──────┘   │
-└────────────────────────────────┘
-             ↓
-┌────────────────────────────────┐
-│   Persistent Storage (EBS/PD)  │
-└────────────────────────────────┘
-```
-
-**Use Case:** Cloud deployments, auto-scaling
-
----
-
-## 📚 Technology Stack
-
-### Core Dependencies
-
-| Component | Technology | Version |
-|-----------|-----------|---------|
-| Storage | RocksDB | 8.x |
-| GPU Compute | CUDA | 12.x |
-| GPU Compute | Vulkan | 1.3 |
-| Networking | Boost.Asio | 1.82 |
-| JSON | nlohmann/json | 3.11 |
-| HTTP | cpp-httplib | 0.14 |
-| Compression | ZSTD | 1.5 |
-| Logging | spdlog | 1.12 |
-
-### Build System
-
-- **CMake** 3.20+
-- **vcpkg** for dependency management
-- **C++20** standard
-- **Compiler:** GCC 11+, MSVC 2022+, Clang 14+
-
----
-
-## 🎯 Design Principles
-
-1. **Performance First:** Optimize hot paths, use zero-copy where possible
-2. **Horizontal Scalability:** Design for distribution from day one
-3. **Operational Simplicity:** Minimize manual intervention, automate operations
-4. **Security by Default:** Encryption, authentication, authorization built-in
-5. **Extensibility:** Plugin system for custom extensions
-6. **Observability:** Comprehensive metrics and tracing
-7. **Fault Tolerance:** Graceful degradation, automatic recovery
-
----
-
-**Document Version:** 1.0.1  
-**Last Updated:** December 9, 2025  
-**Maintained By:** ThemisDB Architecture Team
+- [Base Entity Layer](base_entity.md)
+- [Memory Tuning Guide](memory_tuning.md)
+- [Index Documentation](indexes.md)
+- [OpenAPI Specification](openapi.yaml)

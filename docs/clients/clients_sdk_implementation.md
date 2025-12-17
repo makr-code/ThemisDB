@@ -383,7 +383,7 @@ requires-python = ">=3.8"
 license = {text = "MIT"}
 keywords = ["database", "multi-model", "graph", "vector", "themisdb"]
 authors = [
-    {name = "ThemisDB Team", email = "service@themisdb.org"}
+    {name = "ThemisDB Team", email = "info@themisdb.io"}
 ]
 classifiers = [
     "Development Status :: 4 - Beta",

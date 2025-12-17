@@ -46,19 +46,41 @@ namespace query {
 // Use CTEDefinition from aql_parser.h
 
 /**
- * @brief CTE Evaluator
+ * @brief CTE Evaluator with Recursive CTE Support
+ * 
+ * v1.3.0: Added recursive CTE support with fixpoint iteration
  */
 class CTEEvaluator {
 public:
+    struct RecursiveCTEConfig {
+        size_t max_iterations = 1000;        // Maximum fixpoint iterations
+        bool enable_cycle_detection = true;  // Detect cycles in recursive data
+        size_t max_result_size = 1000000;    // Maximum total result size
+    };
+    
     CTEEvaluator() = default;
+    explicit CTEEvaluator(const RecursiveCTEConfig& config) : recursiveConfig_(config) {}
     
     /**
      * @brief Evaluiert eine CTE und speichert Resultate
      * @param cte Die CTE-Definition
      * @param queryEngine Query Engine für Sub-Query Execution
+     * @param is_recursive true wenn CTE recursive ist
      * @return true wenn erfolgreich
      */
     bool evaluateCTE(
+        const CTEDefinition& cte,
+        class QueryEngine& queryEngine,
+        bool is_recursive = false
+    );
+    
+    /**
+     * @brief Evaluiert eine recursive CTE mit fixpoint iteration
+     * @param cte Die recursive CTE-Definition
+     * @param queryEngine Query Engine für Execution
+     * @return true wenn erfolgreich
+     */
+    bool evaluateRecursiveCTE(
         const CTEDefinition& cte,
         class QueryEngine& queryEngine
     );
@@ -82,9 +104,35 @@ public:
      */
     void clear();
     
+    /**
+     * @brief Setzt Recursive CTE Konfiguration
+     */
+    void setRecursiveConfig(const RecursiveCTEConfig& config) {
+        recursiveConfig_ = config;
+    }
+    
 private:
     // CTE Name → Results (materialized as JSON array)
     std::unordered_map<std::string, std::vector<nlohmann::json>> cteResults_;
+    
+    // Recursive CTE configuration
+    RecursiveCTEConfig recursiveConfig_;
+    
+    /**
+     * @brief Prüft ob zwei Result-Sets identisch sind (für fixpoint check)
+     */
+    bool areResultsEqual(
+        const std::vector<nlohmann::json>& a,
+        const std::vector<nlohmann::json>& b
+    ) const;
+    
+    /**
+     * @brief Erkennt Zyklen in recursive CTEs
+     */
+    bool detectCycle(
+        const std::vector<nlohmann::json>& newResults,
+        const std::vector<std::vector<nlohmann::json>>& history
+    ) const;
 };
 
 /**

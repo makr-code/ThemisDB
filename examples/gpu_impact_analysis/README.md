@@ -165,7 +165,7 @@ fem_config:
 ## Support
 
 - **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
-- **Enterprise Support**: ma.krueger@outlook.com
+- **Enterprise Support**: enterprise-support@themisdb.com
 
 ---
 

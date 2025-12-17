@@ -4,7 +4,7 @@
   "version": "1.1.0",
   "description": "Themis v1.1.0 build manifest with mimalloc optimization",
   "license": "MIT",
-  "builtin-baseline": "bee7b66f0219eeb463dc1ff77ad6ad0211f94f48",
+  "builtin-baseline": "edffab1bcd2cb5b8c17d6ba34d5651ea0bf82979",
   "dependencies": [
     { "name": "openssl" },
     { "name": "rocksdb", "features": ["lz4", "zstd"] },

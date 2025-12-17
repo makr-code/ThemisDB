@@ -337,7 +337,7 @@ VQQIDAdCYXZhcmlhMQ8wDQYDVQQHDAZNdW5pY2gxEjAQBgNVBAoMCVRoZW1pc0RC
     {
       "hash": "a1b2c3d4e5f6...",
       "name": "CUDA Plugin v1.0.0",
-      "added_by": "admin@example.org",
+      "added_by": "admin@themisdb.org",
       "added_date": "2025-11-20",
       "reason": "Official ThemisDB release"
     }
@@ -353,7 +353,7 @@ VQQIDAdCYXZhcmlhMQ8wDQYDVQQHDAZNdW5pY2gxEjAQBgNVBAoMCVRoZW1pc0RC
     {
       "hash": "x9y8z7w6v5u4...",
       "name": "Malicious Plugin",
-      "blocked_by": "security@example.org",
+      "blocked_by": "security@themisdb.org",
       "blocked_date": "2025-11-15",
       "reason": "CVE-2025-12345: Remote Code Execution",
       "severity": "CRITICAL"
@@ -446,7 +446,7 @@ curl -X POST https://splunk.company.com/services/collector \
 1. **Nur offizielle Plugins** - Von vertrauenswürdigen Quellen
 2. **Hash verifizieren** - Mit offiziellen Release-Notes abgleichen
 3. **Updates zeitnah** - Sicherheitsupdates sofort installieren
-4. **Suspicious Activity melden** - An service@themisdb.org
+4. **Suspicious Activity melden** - An security@themisdb.org
 
 ---
 
@@ -507,7 +507,7 @@ curl -X POST https://security.themisdb.org/api/emergency-block \
 
 ---
 
-**Security Contact:** service@themisdb.org  
+**Security Contact:** security@themisdb.org  
 **Version:** 1.0  
 **Last Review:** 20. November 2025  
 **Next Review:** 20. Februar 2026
