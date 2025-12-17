@@ -145,7 +145,7 @@ providers:
 
 ## Prerequisites
 
-- **Grafana**: Version 9.0 or higher recommended
+- **Grafana**: Version 9.0 or higher (tested with schema version 38)
 - **Prometheus**: Configured to scrape ThemisDB metrics endpoint
 - **ThemisDB**: Running with metrics collection enabled
 
@@ -220,7 +220,7 @@ Compatible with: Grafana 9.0+
 
 ## License
 
-These dashboards are part of the ThemisDB project. See the main repository LICENSE file for details.
+These dashboards are part of the ThemisDB project and are distributed under the same license as the main ThemisDB project. See the [LICENSE](../LICENSE) file in the root directory for full license details.
 
 ## Contributing
 
