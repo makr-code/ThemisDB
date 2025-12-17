@@ -122,11 +122,11 @@ TemporalSnapshot TemporalConflictResolver::resolveLastWriteWins(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // Compare HLC timestamps
-    if (remote.hlc > local.hlc) {
-        return remote;
-    } else if (local.hlc > remote.hlc) {
-        return local;
+    // Compare HLC timestamps using operator< and operator==
+    if (local.hlc < remote.hlc) {
+        return remote;  // remote is newer
+    } else if (remote.hlc < local.hlc) {
+        return local;   // local is newer
     } else {
         // HLC timestamps are equal → Use node_id as tiebreaker
         if (remote.hlc.node_id > local.hlc.node_id) {
@@ -141,11 +141,11 @@ TemporalSnapshot TemporalConflictResolver::resolveFirstWriteWins(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // Opposite of Last-Write-Wins
+    // Opposite of Last-Write-Wins - oldest wins
     if (local.hlc < remote.hlc) {
-        return local;
+        return local;   // local is older
     } else if (remote.hlc < local.hlc) {
-        return remote;
+        return remote;  // remote is older
     } else {
         // Use node_id as tiebreaker (favor lower ID)
         if (local.hlc.node_id < remote.hlc.node_id) {
