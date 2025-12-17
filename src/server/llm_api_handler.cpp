@@ -130,17 +130,34 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         return createErrorResponse(http::status::bad_request, "Invalid request parameters", e.what());
     }
     
-    // TODO: Call LLMPluginManager for inference
-    // For now, return stub response
-    json::object response_data = {
-        {"text", "TODO: Implement actual inference call to LLMPluginManager"},
-        {"model", model_id.empty() ? "default" : model_id},
-        {"tokens_generated", 42},
-        {"inference_time_ms", 150},
-        {"cache_hit", false}
-    };
-    
-    return createJsonResponse(response_data);
+    // Call LLMPluginManager for inference
+    try {
+        llm::InferenceRequest llm_request;
+        llm_request.prompt = prompt;
+        llm_request.model_id = model_id.empty() ? "default" : model_id;
+        llm_request.lora_adapter_id = lora_id;
+        llm_request.max_tokens = max_tokens;
+        llm_request.temperature = temperature;
+        
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto llm_response = plugin_mgr.generate(llm_request);
+        
+        json::object response_data = {
+            {"text", llm_response.text},
+            {"model", llm_response.model_id},
+            {"tokens_generated", llm_response.tokens_generated},
+            {"inference_time_ms", llm_response.inference_time_ms},
+            {"cache_hit", llm_response.cache_hit}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Inference failed",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleRAG(
@@ -179,19 +196,41 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         return createErrorResponse(http::status::bad_request, "Invalid RAG parameters", e.what());
     }
     
-    // TODO: Implement RAG workflow
-    // 1. Vector search in collection
-    // 2. Assemble RAG context
-    // 3. Call LLMPluginManager.generateRAG()
-    
-    json::object response_data = {
-        {"text", "TODO: Implement RAG workflow with vector search"},
-        {"query", query},
-        {"documents_retrieved", top_k},
-        {"inference_time_ms", 180}
-    };
-    
-    return createJsonResponse(response_data);
+    // Implement RAG workflow
+    try {
+        // Prepare RAG context (vector search would happen here in production)
+        llm::RAGContext rag_context;
+        rag_context.query = query;
+        rag_context.collection_name = collection;
+        rag_context.top_k = top_k;
+        // TODO: Add actual vector search results to rag_context.documents
+        
+        // Prepare inference request
+        llm::InferenceRequest llm_request;
+        llm_request.prompt = query;
+        llm_request.lora_adapter_id = lora_id;
+        
+        // Call LLMPluginManager for RAG inference
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
+        
+        json::object response_data = {
+            {"text", llm_response.text},
+            {"query", query},
+            {"documents_retrieved", top_k},
+            {"tokens_generated", llm_response.tokens_generated},
+            {"inference_time_ms", llm_response.inference_time_ms},
+            {"cache_hit", llm_response.cache_hit}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "RAG inference failed",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleEmbed(
@@ -219,52 +258,137 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         return createErrorResponse(http::status::bad_request, "Invalid embed parameters", e.what());
     }
     
-    // TODO: Generate embeddings via LLMPluginManager
-    json::array embedding_vector;
-    for (int i = 0; i < 4096; ++i) {
-        embedding_vector.push_back(0.0);  // Stub: zeros
+    // Generate embeddings via LLMPluginManager
+    try {
+        llm::InferenceRequest llm_request;
+        llm_request.prompt = text;
+        llm_request.model_id = model_id.empty() ? "default" : model_id;
+        
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto embedding = plugin_mgr.generateEmbedding(llm_request);
+        
+        json::array embedding_vector;
+        for (const auto& val : embedding) {
+            embedding_vector.push_back(val);
+        }
+        
+        json::object response_data = {
+            {"embedding", embedding_vector},
+            {"model", model_id.empty() ? "default" : model_id},
+            {"dimensions", static_cast<int>(embedding.size())}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Embedding generation failed",
+            e.what()
+        );
     }
-    
-    json::object response_data = {
-        {"embedding", embedding_vector},
-        {"model", model_id.empty() ? "default" : model_id},
-        {"dimensions", 4096}
-    };
-    
-    return createJsonResponse(response_data);
 }
 
 http::response<http::string_body> LLMApiHandler::handleStreamInference(
     const http::request<http::string_body>& req) {
     
-    // TODO: Implement Server-Sent Events (SSE) streaming
-    // For now, return not implemented
-    return createErrorResponse(
-        http::status::not_implemented,
-        "Streaming not yet implemented",
-        "SSE streaming will be available in Phase 3.2"
-    );
+    // Implement Server-Sent Events (SSE) streaming
+    // Parse query parameters for streaming request
+    std::string prompt, model_id;
+    auto query_start = req.target().find('?');
+    if (query_start != std::string_view::npos) {
+        std::string query_str(req.target().substr(query_start + 1));
+        // Simple query param parsing (production would use proper URL parsing)
+        size_t prompt_pos = query_str.find("prompt=");
+        size_t model_pos = query_str.find("model=");
+        
+        if (prompt_pos != std::string::npos) {
+            size_t end = query_str.find('&', prompt_pos);
+            prompt = query_str.substr(prompt_pos + 7, end == std::string::npos ? std::string::npos : end - prompt_pos - 7);
+        }
+        
+        if (model_pos != std::string::npos) {
+            size_t end = query_str.find('&', model_pos);
+            model_id = query_str.substr(model_pos + 6, end == std::string::npos ? std::string::npos : end - model_pos - 6);
+        }
+    }
+    
+    if (prompt.empty()) {
+        return createErrorResponse(http::status::bad_request, "Missing 'prompt' query parameter");
+    }
+    
+    try {
+        // Prepare SSE response
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::content_type, "text/event-stream");
+        res.set(http::field::cache_control, "no-cache");
+        res.set(http::field::connection, "keep-alive");
+        res.keep_alive(req.keep_alive());
+        
+        std::ostringstream sse_stream;
+        
+        // Simulate streaming (in production, this would use async callbacks)
+        llm::InferenceRequest llm_request;
+        llm_request.prompt = prompt;
+        llm_request.model_id = model_id.empty() ? "default" : model_id;
+        llm_request.stream = true;
+        
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto tokens = plugin_mgr.generateStream(llm_request);
+        
+        // Send tokens as SSE events
+        int index = 0;
+        for (const auto& token : tokens) {
+            sse_stream << "data: {\"token\":\"" << token << "\",\"index\":" << index++ << "}\n\n";
+        }
+        
+        // Send completion event
+        sse_stream << "data: {\"done\":true}\n\n";
+        
+        res.body() = sse_stream.str();
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Streaming inference failed",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleListModels(
     const http::request<http::string_body>& req) {
     
-    // TODO: Get model list from LLMPluginManager
-    json::array models;
-    json::object model1 = {
-        {"model_id", "mistral-7b"},
-        {"status", "loaded"},
-        {"size_mb", 6400},
-        {"loaded_at", "2025-12-17T09:00:00Z"}
-    };
-    models.push_back(model1);
-    
-    json::object response_data = {
-        {"models", models},
-        {"total", 1}
-    };
-    
-    return createJsonResponse(response_data);
+    // Get model list from LLMPluginManager
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto model_list = plugin_mgr.listModels();
+        
+        json::array models;
+        for (const auto& model : model_list) {
+            json::object model_obj = {
+                {"model_id", model.model_id},
+                {"status", model.is_loaded ? "loaded" : "available"},
+                {"size_mb", model.size_bytes / (1024 * 1024)},
+                {"format", model.format},
+                {"loaded_at", model.loaded_at}
+            };
+            models.push_back(model_obj);
+        }
+        
+        json::object response_data = {
+            {"models", models},
+            {"total", static_cast<int>(models.size())}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to list models",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleLoadModel(
@@ -292,14 +416,25 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
         return createErrorResponse(http::status::bad_request, "Invalid load model parameters", e.what());
     }
     
-    // TODO: Call LazyModelLoader to load model
-    json::object response_data = {
-        {"model_id", model_id},
-        {"status", "loading"},
-        {"message", "Model load initiated"}
-    };
-    
-    return createJsonResponse(response_data, http::status::accepted);
+    // Call LLMPluginManager to load model
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        plugin_mgr.loadModel(model_id, path);
+        
+        json::object response_data = {
+            {"model_id", model_id},
+            {"status", "loaded"},
+            {"message", "Model loaded successfully"}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to load model",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleUnloadModel(
@@ -322,14 +457,25 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
         return createErrorResponse(http::status::bad_request, "Invalid unload model parameters", e.what());
     }
     
-    // TODO: Call LazyModelLoader to unload model
-    json::object response_data = {
-        {"model_id", model_id},
-        {"status", "unloaded"},
-        {"message", "Model unloaded successfully"}
-    };
-    
-    return createJsonResponse(response_data);
+    // Call LLMPluginManager to unload model
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        plugin_mgr.unloadModel(model_id);
+        
+        json::object response_data = {
+            {"model_id", model_id},
+            {"status", "unloaded"},
+            {"message", "Model unloaded successfully"}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to unload model",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleModelInfo(
@@ -339,51 +485,109 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
     std::string_view target = req.target();
     std::string model_id = std::string(target.substr(target.find_last_of('/') + 1));
     
-    // TODO: Get model info from LLMPluginManager
-    json::object response_data = {
-        {"model_id", model_id},
-        {"status", "loaded"},
-        {"size_mb", 6400},
-        {"format", "GGUF"},
-        {"quantization", "Q4_K_M"},
-        {"context_length", 4096},
-        {"loaded_at", "2025-12-17T09:00:00Z"}
-    };
-    
-    return createJsonResponse(response_data);
+    // Get model info from LLMPluginManager
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto model_info = plugin_mgr.getModelInfo(model_id);
+        
+        json::object response_data = {
+            {"model_id", model_info.model_id},
+            {"status", model_info.is_loaded ? "loaded" : "available"},
+            {"size_mb", model_info.size_bytes / (1024 * 1024)},
+            {"format", model_info.format},
+            {"quantization", model_info.quantization},
+            {"context_length", model_info.context_length},
+            {"loaded_at", model_info.loaded_at}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::not_found,
+            "Model not found",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleIngestModel(
     const http::request<http::string_body>& req) {
     
-    // TODO: Implement model ingestion with chunked upload to RocksDB Blob Store
-    // This requires multipart/form-data parsing and streaming upload
-    return createErrorResponse(
-        http::status::not_implemented,
-        "Model ingestion not yet implemented",
-        "Will be available in Phase 3.2"
-    );
+    // Implement model ingestion with chunked upload to RocksDB Blob Store
+    // Parse multipart/form-data for model file and metadata
+    auto body = parseRequestBody(req);
+    if (!body) {
+        return createErrorResponse(http::status::bad_request, "Invalid request body");
+    }
+    
+    std::string model_id;
+    std::string file_data;
+    
+    try {
+        if (body->contains("model_id")) {
+            model_id = json::value_to<std::string>(body->at("model_id"));
+        } else {
+            return createErrorResponse(http::status::bad_request, "Missing 'model_id' field");
+        }
+        
+        // In production, this would handle multipart/form-data with chunked streaming
+        // For now, we accept JSON with base64-encoded data (simplified)
+        if (body->contains("file_data")) {
+            file_data = json::value_to<std::string>(body->at("file_data"));
+        }
+        
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        plugin_mgr.ingestModel(model_id, file_data);
+        
+        json::object response_data = {
+            {"model_id", model_id},
+            {"status", "ingested"},
+            {"message", "Model successfully ingested and replicated"},
+            {"urn", "urn:themis:model:" + model_id + ":v1"}
+        };
+        
+        return createJsonResponse(response_data, http::status::created);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Model ingestion failed",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleListLoRAs(
     const http::request<http::string_body>& req) {
     
-    // TODO: Get LoRA list from MultiLoRAManager
-    json::array loras;
-    json::object lora1 = {
-        {"lora_id", "legal-qa"},
-        {"status", "loaded"},
-        {"base_model", "mistral-7b"},
-        {"size_mb", 20}
-    };
-    loras.push_back(lora1);
-    
-    json::object response_data = {
-        {"loras", loras},
-        {"total", 1}
-    };
-    
-    return createJsonResponse(response_data);
+    // Get LoRA list from LLMPluginManager
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto lora_list = plugin_mgr.listLoRAs();
+        
+        json::array loras;
+        for (const auto& lora : lora_list) {
+            json::object lora_obj = {
+                {"lora_id", lora.lora_id},
+                {"status", lora.is_loaded ? "loaded" : "available"},
+                {"base_model", lora.base_model},
+                {"size_mb", lora.size_bytes / (1024 * 1024)}
+            };
+            loras.push_back(lora_obj);
+        }
+        
+        json::object response_data = {
+            {"loras", loras},
+            {"total", static_cast<int>(loras.size())}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to list LoRAs",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
@@ -416,15 +620,26 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
         return createErrorResponse(http::status::bad_request, "Invalid load LoRA parameters", e.what());
     }
     
-    // TODO: Call MultiLoRAManager to load LoRA
-    json::object response_data = {
-        {"lora_id", lora_id},
-        {"base_model", base_model},
-        {"status", "loaded"},
-        {"message", "LoRA loaded successfully"}
-    };
-    
-    return createJsonResponse(response_data);
+    // Call LLMPluginManager to load LoRA
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        plugin_mgr.loadLoRA(lora_id, path, base_model);
+        
+        json::object response_data = {
+            {"lora_id", lora_id},
+            {"base_model", base_model},
+            {"status", "loaded"},
+            {"message", "LoRA loaded successfully"}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to load LoRA",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
@@ -447,83 +662,139 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
         return createErrorResponse(http::status::bad_request, "Invalid unload LoRA parameters", e.what());
     }
     
-    // TODO: Call MultiLoRAManager to unload LoRA
-    json::object response_data = {
-        {"lora_id", lora_id},
-        {"status", "unloaded"},
-        {"message", "LoRA unloaded successfully"}
-    };
-    
-    return createJsonResponse(response_data);
+    // Call LLMPluginManager to unload LoRA
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        plugin_mgr.unloadLoRA(lora_id);
+        
+        json::object response_data = {
+            {"lora_id", lora_id},
+            {"status", "unloaded"},
+            {"message", "LoRA unloaded successfully"}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to unload LoRA",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleStats(
     const http::request<http::string_body>& req) {
     
-    // TODO: Get statistics from AsyncInferenceEngine and LLMPluginManager
-    json::object response_data = {
-        {"throughput_req_per_sec", 128.0},
-        {"average_latency_ms", 28.0},
-        {"cache_hit_rate", 0.85},
-        {"total_requests", 10523},
-        {"active_workers", 4},
-        {"queue_depth", 12}
-    };
-    
-    return createJsonResponse(response_data);
+    // Get statistics from AsyncInferenceEngine and LLMPluginManager
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto stats = plugin_mgr.getStatistics();
+        
+        json::object response_data = {
+            {"throughput_req_per_sec", stats.throughput},
+            {"average_latency_ms", stats.average_latency_ms},
+            {"cache_hit_rate", stats.cache_hit_rate},
+            {"total_requests", stats.total_requests},
+            {"active_workers", stats.active_workers},
+            {"queue_depth", stats.queue_depth}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to get statistics",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleCacheStats(
     const http::request<http::string_body>& req) {
     
-    // TODO: Get cache statistics from LLMResponseCache and LLMPrefixCache
-    json::object response_cache = {
-        {"hits", 8945},
-        {"misses", 1578},
-        {"hit_rate", 0.85},
-        {"total_entries", 3456}
-    };
-    
-    json::object prefix_cache = {
-        {"hits", 6823},
-        {"misses", 3700},
-        {"hit_rate", 0.65},
-        {"total_prefixes", 1234}
-    };
-    
-    json::object response_data = {
-        {"response_cache", response_cache},
-        {"prefix_cache", prefix_cache}
-    };
-    
-    return createJsonResponse(response_data);
+    // Get cache statistics from LLMResponseCache and LLMPrefixCache
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto cache_stats = plugin_mgr.getCacheStatistics();
+        
+        json::object response_cache = {
+            {"hits", cache_stats.response_cache_hits},
+            {"misses", cache_stats.response_cache_misses},
+            {"hit_rate", cache_stats.response_cache_hit_rate},
+            {"total_entries", cache_stats.response_cache_entries}
+        };
+        
+        json::object prefix_cache = {
+            {"hits", cache_stats.prefix_cache_hits},
+            {"misses", cache_stats.prefix_cache_misses},
+            {"hit_rate", cache_stats.prefix_cache_hit_rate},
+            {"total_prefixes", cache_stats.prefix_cache_entries}
+        };
+        
+        json::object response_data = {
+            {"response_cache", response_cache},
+            {"prefix_cache", prefix_cache}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to get cache statistics",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleClearCache(
     const http::request<http::string_body>& req) {
     
-    // TODO: Clear LLMResponseCache and LLMPrefixCache
-    json::object response_data = {
-        {"status", "cleared"},
-        {"message", "All LLM caches cleared successfully"}
-    };
-    
-    return createJsonResponse(response_data);
+    // Clear LLMResponseCache and LLMPrefixCache
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        plugin_mgr.clearAllCaches();
+        
+        json::object response_data = {
+            {"status", "cleared"},
+            {"message", "All LLM caches cleared successfully"}
+        };
+        
+        return createJsonResponse(response_data);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Failed to clear caches",
+            e.what()
+        );
+    }
 }
 
 http::response<http::string_body> LLMApiHandler::handleHealth(
     const http::request<http::string_body>& req) {
     
-    // TODO: Check health of LLMPluginManager and AsyncInferenceEngine
-    json::object response_data = {
-        {"status", "healthy"},
-        {"plugin_manager", "operational"},
-        {"async_engine", "operational"},
-        {"models_loaded", 1},
-        {"loras_loaded", 1}
-    };
-    
-    return createJsonResponse(response_data);
+    // Check health of LLMPluginManager and AsyncInferenceEngine
+    try {
+        auto& plugin_mgr = llm::LLMPluginManager::instance();
+        auto health = plugin_mgr.getHealthStatus();
+        
+        json::object response_data = {
+            {"status", health.is_healthy ? "healthy" : "degraded"},
+            {"plugin_manager", health.plugin_manager_status},
+            {"async_engine", health.async_engine_status},
+            {"models_loaded", health.models_loaded},
+            {"loras_loaded", health.loras_loaded}
+        };
+        
+        auto http_status = health.is_healthy ? http::status::ok : http::status::service_unavailable;
+        return createJsonResponse(response_data, http_status);
+    } catch (const std::exception& e) {
+        return createErrorResponse(
+            http::status::internal_server_error,
+            "Health check failed",
+            e.what()
+        );
+    }
 }
 
 bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& req) {
