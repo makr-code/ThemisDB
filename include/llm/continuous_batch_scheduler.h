@@ -3,7 +3,6 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/paged_kv_cache.h"
 #include <vector>
-<vector>
 #include <queue>
 #include <mutex>
 #include <condition_variable>
