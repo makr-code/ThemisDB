@@ -1,0 +1,426 @@
+{
+  "dashboard": {
+    "title": "ThemisDB LLM / llama.cpp Monitoring",
+    "tags": ["themisdb", "llm", "llama.cpp", "inference"],
+    "timezone": "browser",
+    "refresh": "5s",
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "Inference Requests per Second",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_inference_requests_total[1m])",
+            "legendFormat": "{{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "reqps",
+            "label": "Requests/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "alert": {
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [100],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "name": "High Request Rate Alert"
+        }
+      },
+      {
+        "id": 2,
+        "title": "First Token Latency (P50, P95, P99)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(llm_first_token_latency_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p50 {{model_id}}",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(llm_first_token_latency_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p95 {{model_id}}",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(llm_first_token_latency_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p99 {{model_id}}",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": "Latency"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 3,
+        "title": "Throughput (Tokens/sec)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_tokens_generated_total[1m])",
+            "legendFormat": "{{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "Tokens/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "GPU Memory Usage",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_gpu_memory_used_mb",
+            "legendFormat": "Used",
+            "refId": "A"
+          },
+          {
+            "expr": "llm_gpu_memory_total_mb",
+            "legendFormat": "Total",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "mbytes",
+            "label": "Memory (MB)"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 6,
+          "h": 8
+        }
+      },
+      {
+        "id": 5,
+        "title": "GPU Utilization & Temperature",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_gpu_utilization_pct",
+            "legendFormat": "Utilization %",
+            "refId": "A"
+          },
+          {
+            "expr": "llm_gpu_temperature_celsius",
+            "legendFormat": "Temperature °C",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "Utilization"
+          },
+          {
+            "format": "celsius",
+            "label": "Temperature"
+          }
+        ],
+        "gridPos": {
+          "x": 18,
+          "y": 8,
+          "w": 6,
+          "h": 8
+        }
+      },
+      {
+        "id": 6,
+        "title": "Cache Hit Rate",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_cache_hits_total[5m]) / (rate(llm_cache_hits_total[5m]) + rate(llm_cache_misses_total[5m])) * 100",
+            "legendFormat": "{{cache_type}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "label": "Hit Rate %",
+            "max": 100,
+            "min": 0
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 16,
+          "w": 8,
+          "h": 8
+        }
+      },
+      {
+        "id": 7,
+        "title": "Scheduler Queue & Concurrent Requests",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_scheduler_queue_length",
+            "legendFormat": "Queue Length",
+            "refId": "A"
+          },
+          {
+            "expr": "llm_concurrent_requests",
+            "legendFormat": "Concurrent Requests",
+            "refId": "B"
+          },
+          {
+            "expr": "llm_batch_size",
+            "legendFormat": "Batch Size",
+            "refId": "C"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "short",
+            "label": "Count"
+          }
+        ],
+        "gridPos": {
+          "x": 8,
+          "y": 16,
+          "w": 8,
+          "h": 8
+        }
+      },
+      {
+        "id": 8,
+        "title": "Models Loaded",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_models_loaded",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 16,
+          "y": 16,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value_and_name"
+        }
+      },
+      {
+        "id": 9,
+        "title": "Success Rate",
+        "type": "stat",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "(1 - (rate(llm_inference_failures_total[5m]) / rate(llm_inference_requests_total[5m]))) * 100",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "x": 20,
+          "y": 16,
+          "w": 4,
+          "h": 4
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value",
+          "unit": "percent"
+        },
+        "thresholds": {
+          "steps": [
+            {"value": 0, "color": "red"},
+            {"value": 95, "color": "yellow"},
+            {"value": 99, "color": "green"}
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "title": "Error Rate",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_errors_total[5m])",
+            "legendFormat": "{{error_type}} in {{component}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "Errors/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 24,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 11,
+        "title": "Per-Token Latency (P95)",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(llm_per_token_latency_ms_bucket[5m])) by (le, model_id))",
+            "legendFormat": "p95 {{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ms",
+            "label": "Latency (ms)"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 24,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 12,
+        "title": "Model Memory Usage",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "llm_model_memory_mb",
+            "legendFormat": "{{model_id}}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "mbytes",
+            "label": "Memory (MB)"
+          }
+        ],
+        "gridPos": {
+          "x": 0,
+          "y": 32,
+          "w": 12,
+          "h": 8
+        }
+      },
+      {
+        "id": 13,
+        "title": "Preemptions",
+        "type": "graph",
+        "datasource": "Prometheus",
+        "targets": [
+          {
+            "expr": "rate(llm_scheduler_preemptions_total[5m])",
+            "legendFormat": "Preemptions/sec",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "ops",
+            "label": "Preemptions/sec"
+          }
+        ],
+        "gridPos": {
+          "x": 12,
+          "y": 32,
+          "w": 12,
+          "h": 8
+        }
+      }
+    ],
+    "templating": {
+      "list": [
+        {
+          "name": "model",
+          "type": "query",
+          "datasource": "Prometheus",
+          "query": "label_values(llm_inference_requests_total, model_id)",
+          "refresh": 1,
+          "multi": true,
+          "includeAll": true
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "datasource": "Prometheus",
+          "expr": "ALERTS{alertname=~\"LLM.*\"}",
+          "name": "LLM Alerts",
+          "step": "60s",
+          "tagKeys": "alertname,severity",
+          "titleFormat": "Alert",
+          "textFormat": "{{alertname}}: {{description}}"
+        }
+      ]
+    }
+  }
+}
