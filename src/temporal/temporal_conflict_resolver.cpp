@@ -66,6 +66,7 @@ TemporalSnapshot TemporalConflictResolver::resolve(
     // Create conflict record
     ConflictRecord record;
     record.conflict_id = generateConflictId();
+    record.entity_id = local.snapshot_id;  // Use snapshot_id as entity_id
     record.local_version = local;
     record.remote_version = remote;
     record.resolution_policy = active_policy;
@@ -202,6 +203,7 @@ void TemporalConflictResolver::resolveManually(const std::string& conflict_id, c
 }
 
 nlohmann::json TemporalConflictResolver::getStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
     return {
         {"total_conflicts", total_conflicts_.load()},
         {"lww_resolutions", lww_resolutions_.load()},
