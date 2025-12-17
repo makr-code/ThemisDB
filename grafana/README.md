@@ -1,306 +1,366 @@
-# ThemisDB Grafana Dashboards
+# Grafana Integration für ThemisDB LLM/llama.cpp
 
-This directory contains thematic Grafana dashboard definitions (JSON files) for monitoring ThemisDB metrics through Prometheus.
+Umfassendes Monitoring und Visualisierung für das LLM-Subsystem von ThemisDB.
 
-## Overview
+## Übersicht
 
-These dashboards provide comprehensive monitoring and visualization of ThemisDB's various subsystems and operations. All dashboards are designed to work with Prometheus as the data source and use the metrics exposed by ThemisDB's `/metrics` endpoint.
+Diese Grafana-Integration bietet Echtzeit-Monitoring für:
+- **Inference Performance** (Latenz, Throughput, Tokens/sec)
+- **GPU Metriken** (Memory, Utilization, Temperature)
+- **Model Management** (Loaded Models, Memory Usage)
+- **Cache Performance** (Hit Rates, Efficiency)
+- **Scheduler Status** (Queue Length, Batch Size, Preemptions)
+- **Error Tracking** (Fehlerrate, Error Types)
 
-**Note:** This collection has been expanded to cover all major ThemisDB subsystems with appropriate metrics instrumentation.
+## Verzeichnisstruktur
 
-## Available Dashboards
-
-### Core Operations (8 dashboards)
-
-### 1. System Overview (`system-overview.json`)
-**UID:** `themisdb-system-overview`
-
-Monitors core system resources and health metrics:
-- **CPU Usage**: Current and historical CPU utilization with thresholds
-- **Memory Usage**: Memory consumption tracking
-- **Disk I/O Operations**: Read and write operations per second
-
-**Best for:** Infrastructure monitoring, capacity planning, and system health checks.
-
-### 2. Time Series Store (`timeseries-store.json`)
-**UID:** `themisdb-timeseries-store`
-
-Tracks TSStore operations and performance:
-- **Write Rate**: Time series data ingestion rates by metric
-- **Query Rate**: Query operations per second
-- **Write/Query Latency**: Percentile-based latency metrics (p50, p95, p99)
-- **Aggregations**: Aggregation operation rates
-- **Compression**: Compression ratios by type
-- **Batch Sizes**: Write batch size distribution
-
-**Best for:** Optimizing time series ingestion, monitoring query performance, and storage efficiency.
-
-### 3. Query Performance (`query-performance.json`)
-**UID:** `themisdb-query-performance`
-
-Analyzes query engine performance and efficiency:
-- **Query Rate by Type**: Breakdown of different query types
-- **Query Latency Percentiles**: Performance distribution (p50, p95, p99)
-- **Index Scans**: Index usage and efficiency by type
-- **Full Table Scans**: Warning indicator for inefficient queries
-- **Keys Scanned**: Volume of data processed
-- **Result Counts**: Query result sizes
-
-**Best for:** Query optimization, identifying slow queries, and index tuning.
-
-### 4. Cache Performance (`cache-performance.json`)
-**UID:** `themisdb-cache-performance`
-
-Monitors caching subsystem effectiveness:
-- **Overall Cache Hit Rate**: Aggregate cache effectiveness gauge
-- **Hit Rate by Type**: Per-cache-type performance
-- **Cache Hits/Misses**: Operation rates over time
-- **Cache Evictions**: Memory pressure indicators
-- **Cumulative Operations**: Historical cache usage patterns
-
-**Best for:** Tuning cache sizes, identifying cache optimization opportunities.
-
-### 5. Sharding & Distribution (`sharding-distribution.json`)
-**UID:** `themisdb-sharding-distribution`
-
-Tracks distributed system health and operations:
-- **Cluster Size**: Number of active shards
-- **Virtual Nodes**: Consistent hashing configuration
-- **Topology Changes**: Cluster reconfiguration events
-- **Rebalance Progress**: Data migration status
-- **Shard Request Rate**: Per-shard operation distribution
-- **Shard Latency**: Cross-shard operation performance
-- **Routing Distribution**: Local vs. remote vs. scatter-gather routing
-- **Migration Progress**: Records migrated during rebalancing
-
-**Best for:** Distributed system monitoring, load balancing, and cluster health.
-
-### 6. Content Processing (`content-processing.json`)
-**UID:** `themisdb-content-processing`
-
-Monitors content import and processing pipeline:
-- **Import Rate by MIME Type**: Content ingestion breakdown
-- **Import Throughput**: Bytes processed per second
-- **Chunk Creation**: Document chunking rates
-- **Embedding Generation**: Vector embedding creation performance
-- **Embedding Latency**: Processing time distribution
-- **Processor Invocations**: Usage by processor type (PDF, Office, Video, etc.)
-- **Processor Duration**: Processing time per content type
-
-**Best for:** Content pipeline monitoring, RAG system optimization, and processing bottleneck identification.
-
-### 7. Security & Authentication (`security-authentication.json`)
-**UID:** `themisdb-security-auth`
-
-Tracks security-related operations and events:
-- **Successful/Failed Auth Attempts**: Authentication success metrics
-- **Authentication Success Rate**: Security posture indicator
-- **Auth Attempt Rate**: Login activity over time
-- **Policy Evaluations**: Authorization decision rates
-- **Policy Evaluation Latency**: Authorization performance
-- **Encryption Operations**: Cryptographic operation rates by type
-- **Encryption Latency**: Encryption/decryption performance
-
-**Best for:** Security monitoring, detecting authentication anomalies, and access control analysis.
-
-### 8. Gossip Protocol & Network (`gossip-network.json`)
-**UID:** `themisdb-gossip-network`
-
-Monitors peer-to-peer communication and distributed coordination:
-- **Active Gossip Peers**: Cluster membership size
-- **Failed Peer Connections**: Network health indicators
-- **Gossip Message Rate**: Inter-node communication by type
-- **Gossip Round-Trip Latency**: Network performance metrics
-- **Cross-Shard Join Rate**: Distributed query operations
-- **Cross-Shard Join Duration**: Join performance by strategy
-- **Cloud Agent Operations**: Multi-datacenter operations
-- **Datacenter Latency**: Geographic distribution performance
-- **Cross-DC Requests**: Inter-datacenter traffic patterns
-
-**Best for:** Network debugging, distributed query optimization, and multi-datacenter deployment monitoring.
-
-### Extended Capabilities (3 dashboards)
-
-### 9. Replication & High Availability (`replication-ha.json`)
-**UID:** `themisdb-replication-ha`
-
-Monitors replication health and failover operations:
-- **Replication Lag**: Per-replica lag in milliseconds with thresholds
-- **Replica Sync Status**: Current synchronization state of each replica
-- **WAL Operations**: Write-Ahead Log write rates and latency
-- **Replication Streams**: Throughput per replica in bytes/sec
-- **Failover Events**: Automatic leader election and failover tracking
-
-**Best for:** High availability monitoring, replication performance, and disaster recovery readiness.
-
-### 10. Storage & Backup (`storage-backup.json`)
-**UID:** `themisdb-storage-backup`
-
-Tracks storage operations and backup health:
-- **Backup Operations**: Success/failure rates by type (full, incremental)
-- **Backup Duration**: Time taken for backup operations
-- **Backup Sizes**: Current backup sizes by type
-- **Blob Storage**: Multi-backend operations (S3, Azure, Filesystem, WebDAV)
-- **RocksDB Compactions**: Compaction rates and throughput
-
-**Best for:** Storage capacity planning, backup monitoring, and blob storage performance optimization.
-
-### 11. Advanced Features (`advanced-features.json`)
-**UID:** `themisdb-advanced-features`
-
-Comprehensive monitoring for advanced ThemisDB capabilities:
-- **Advanced Indexing**: Spatial query rates, vector search performance
-- **LLM & AI Operations**: LLM request rates, token consumption, embedding generation
-- **Transactions & Locking**: Transaction rates by isolation level, deadlock detection, lock wait times
-- **CDC (Change Data Capture)**: Event rates, subscriber lag
-- **Analytics**: OLAP query performance, CEP rule evaluations
-- **Network Resilience**: Circuit breaker states, retry attempts, connection pool health
-
-**Best for:** AI/ML workload monitoring, transaction debugging, CDC stream health, and resilience engineering.
-
-## Installation
-
-### Option 1: Manual Import
-1. Open Grafana web interface
-2. Navigate to **Dashboards** → **Import**
-3. Click **Upload JSON file**
-4. Select one of the dashboard JSON files from this directory
-5. Configure the Prometheus datasource
-6. Click **Import**
-
-### Option 2: Provisioning
-Add to your Grafana provisioning configuration:
-
-```yaml
-apiVersion: 1
-
-providers:
-  - name: 'ThemisDB'
-    orgId: 1
-    folder: 'ThemisDB'
-    type: file
-    disableDeletion: false
-    updateIntervalSeconds: 10
-    allowUiUpdates: true
-    options:
-      path: /path/to/ThemisDB/grafana
+```
+grafana/
+├── dashboards/
+│   └── themisdb-llm-dashboard.json    # Hauptdashboard
+├── provisioning/
+│   ├── datasources/
+│   │   └── prometheus.yml             # Prometheus Datasource
+│   ├── dashboards/
+│   │   └── dashboards.yml             # Dashboard Provisioning
+│   └── alerts.yml                     # Alert Rules
+├── docker-compose.yml                 # Docker Setup
+└── README.md                          # Diese Datei
 ```
 
-## Prerequisites
+## Quick Start
 
-- **Grafana**: Version 9.0 or higher (tested with schema version 38)
-- **Prometheus**: Configured to scrape ThemisDB metrics endpoint
-- **ThemisDB**: Running with metrics collection enabled
+### Option 1: Docker Compose (Empfohlen)
 
-## Prometheus Configuration
+```bash
+cd grafana
+docker-compose up -d
+```
 
-Ensure your Prometheus instance is configured to scrape ThemisDB metrics:
+Öffne Browser:
+- **Grafana**: http://localhost:3000 (admin/admin)
+- **Prometheus**: http://localhost:9090
+- **ThemisDB Metrics**: http://localhost:9091/metrics
 
-```yaml
+### Option 2: Manuelle Installation
+
+**1. Prometheus Setup**
+
+```bash
+# Download Prometheus
+wget https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz
+tar xvfz prometheus-*.tar.gz
+cd prometheus-*
+
+# Create config
+cat > prometheus.yml <<EOF
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
 scrape_configs:
-  - job_name: 'themisdb'
+  - job_name: 'themisdb-llm'
     static_configs:
-      - targets: ['localhost:8080']  # Adjust to your ThemisDB host:port
+      - targets: ['localhost:9091']
     metrics_path: '/metrics'
-    scrape_interval: 15s
+    
+rule_files:
+  - 'alerts.yml'
+EOF
+
+# Copy alert rules
+cp ../provisioning/alerts.yml .
+
+# Start Prometheus
+./prometheus --config.file=prometheus.yml
 ```
 
-## Dashboard Variables
+**2. Grafana Setup**
 
-All dashboards include a `DS_PROMETHEUS` variable that allows you to select the Prometheus datasource. This variable is automatically populated with available Prometheus datasources in your Grafana instance.
+```bash
+# Install Grafana
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install grafana
 
-## Customization
+# Copy provisioning files
+sudo cp -r provisioning/* /etc/grafana/provisioning/
+sudo cp dashboards/*.json /etc/grafana/provisioning/dashboards/
 
-Each dashboard is fully editable and can be customized to your specific needs:
-- Adjust time ranges and refresh intervals
-- Modify alert thresholds
-- Add or remove panels
-- Change visualization types
-- Apply filters and transformations
+# Start Grafana
+sudo systemctl start grafana-server
+sudo systemctl enable grafana-server
+```
 
-## Metrics Reference
+**3. ThemisDB Metrics aktivieren**
 
-### Metric Naming Convention
-ThemisDB follows Prometheus naming best practices:
-- **Counters**: `*_total` suffix (monotonically increasing)
-- **Gauges**: Current values that can increase or decrease
-- **Histograms**: `*_ms` suffix with quantile labels for latency metrics
+```cpp
+#include "llm/grafana_metrics.h"
 
-### Key Metric Families
-- `tsstore_*`: Time series store operations
-- `cache_*`: Cache subsystem metrics
-- `queries_*`, `index_*`, `full_scans_*`: Query engine metrics
-- `shard_*`, `themis_*`: Sharding and distributed system metrics
-- `content_*`, `chunks_*`, `embeddings_*`: Content processing metrics
-- `auth_*`, `policy_*`, `encryption_*`: Security metrics
-- `themis_gossip_*`, `themis_cross_*`: Network and gossip protocol metrics
-- `replication_*`, `wal_*`, `replica_*`, `failover_*`: Replication and HA metrics
-- `backup_*`, `restore_*`, `blob_storage_*`, `rocksdb_*`: Storage and backup metrics
-- `spatial_*`, `vector_*`, `index_rebuild_*`: Advanced indexing metrics
-- `llm_*`, `vector_embedding_*`, `rag_*`: LLM and AI operations metrics
-- `transactions_*`, `lock_*`, `deadlocks_*`: Transaction and locking metrics
-- `cdc_*`: Change Data Capture metrics
-- `analytics_*`, `olap_*`, `cep_*`: Analytics and CEP metrics
-- `circuit_breaker_*`, `retry_*`, `connection_pool_*`: Network resilience metrics
+using namespace themis::llm::monitoring;
+
+// Initialize
+PrometheusExporter exporter;
+LLMMetricsCollector metrics(&exporter);
+
+// Start Metrics Server
+MetricsServer::ServerConfig config;
+config.port = 9091;  // ThemisDB metrics port
+MetricsServer server(config, &exporter);
+server.start();
+
+// Record metrics
+metrics.recordInferenceRequest("mistral-7b");
+metrics.recordFirstTokenLatency("mistral-7b", 72.5);
+metrics.recordGPUMemoryUsage(4096, 24576);
+```
+
+## Dashboard Import
+
+### Auto-Import (mit Provisioning)
+Dashboard wird automatisch geladen wenn Grafana mit Provisioning-Konfiguration startet.
+
+### Manueller Import
+1. Öffne Grafana (http://localhost:3000)
+2. Login: `admin` / `admin`
+3. Gehe zu **Dashboards → Import**
+4. Lade `dashboards/themisdb-llm-dashboard.json`
+5. Wähle `Prometheus` als Datasource
+6. Klicke **Import**
+
+## Verfügbare Metriken
+
+### Inference Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_inference_requests_total` | Counter | Gesamtzahl Inference Requests | `model_id` |
+| `llm_inference_duration_ms` | Histogram | Inference Dauer in ms | `model_id` |
+| `llm_inference_failures_total` | Counter | Fehlgeschlagene Requests | `model_id`, `error` |
+
+### Latenz Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_first_token_latency_ms` | Histogram | Zeit bis erstes Token | `model_id` |
+| `llm_per_token_latency_ms` | Histogram | Latenz pro Token | `model_id` |
+
+### Throughput Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_tokens_generated_total` | Counter | Generierte Tokens | `model_id` |
+| `llm_batch_size` | Gauge | Aktuelle Batch-Größe | - |
+| `llm_concurrent_requests` | Gauge | Gleichzeitige Requests | - |
+
+### GPU Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_gpu_memory_used_mb` | Gauge | GPU Speicher verwendet (MB) | - |
+| `llm_gpu_memory_total_mb` | Gauge | GPU Speicher gesamt (MB) | - |
+| `llm_gpu_utilization_pct` | Gauge | GPU Auslastung (%) | - |
+| `llm_gpu_temperature_celsius` | Gauge | GPU Temperatur (°C) | - |
+
+### Model Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_models_loaded` | Gauge | Anzahl geladener Modelle | - |
+| `llm_model_memory_mb` | Gauge | Speicher pro Modell (MB) | `model_id` |
+
+### Cache Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_cache_hits_total` | Counter | Cache Hits | `cache_type` |
+| `llm_cache_misses_total` | Counter | Cache Misses | `cache_type` |
+
+### Scheduler Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_scheduler_queue_length` | Gauge | Warteschlangen-Länge | - |
+| `llm_scheduler_preemptions_total` | Counter | Preemptions | - |
+
+### Error Metriken
+| Metrik | Typ | Beschreibung | Labels |
+|--------|-----|--------------|--------|
+| `llm_errors_total` | Counter | Fehler nach Typ | `error_type`, `component` |
+
+## Dashboard Panels
+
+### 1. Inference Requests per Second
+- **Query**: `rate(llm_inference_requests_total[1m])`
+- **Zeigt**: Request-Rate pro Model
+- **Alert**: >100 req/s
+
+### 2. Latency Distribution  
+- **Query**: `histogram_quantile(0.95, llm_first_token_latency_ms_bucket)`
+- **Zeigt**: P50, P95, P99 First Token Latency
+
+### 3. GPU Memory Usage
+- **Query**: `llm_gpu_memory_used_mb / llm_gpu_memory_total_mb * 100`
+- **Zeigt**: GPU Memory % Auslastung
+
+### 4. Throughput
+- **Query**: `rate(llm_tokens_generated_total[1m])`
+- **Zeigt**: Tokens/sec pro Model
+
+### 5. Cache Hit Rate
+- **Query**: `llm_cache_hits / (llm_cache_hits + llm_cache_misses) * 100`
+- **Zeigt**: Cache Effizienz
+
+## PromQL Beispiele
+
+### Durchschnittliche Latenz (5min)
+```promql
+avg(rate(llm_first_token_latency_ms_sum[5m])) 
+  / 
+avg(rate(llm_first_token_latency_ms_count[5m]))
+```
+
+### Erfolgsrate
+```promql
+(1 - (rate(llm_inference_failures_total[5m]) 
+      / 
+      rate(llm_inference_requests_total[5m]))) * 100
+```
+
+### GPU Speicher Auslastung
+```promql
+(llm_gpu_memory_used_mb / llm_gpu_memory_total_mb) * 100
+```
+
+### Tokens pro Request
+```promql
+rate(llm_tokens_generated_total[1m]) 
+  / 
+rate(llm_inference_requests_total[1m])
+```
+
+## Alerts
+
+Vorkonfigurierte Alerts in `provisioning/alerts.yml`:
+
+### Latency Alerts
+- **HighFirstTokenLatency**: P95 > 100ms für 5min (Warning)
+- **CriticalFirstTokenLatency**: P95 > 200ms für 2min (Critical)
+
+### Error Alerts
+- **HighErrorRate**: >5% für 5min (Warning)
+- **CriticalErrorRate**: >10% für 2min (Critical)
+
+### GPU Alerts
+- **GPUMemoryHigh**: >85% für 5min (Warning)
+- **GPUMemoryCritical**: >95% für 2min (Critical)
+- **GPUTemperatureHigh**: >80°C für 5min (Warning)
+- **GPUTemperatureCritical**: >90°C für 1min (Critical)
+
+### System Alerts
+- **LowThroughput**: <100 tokens/sec für 10min (Warning)
+- **HighQueueLength**: >50 requests für 5min (Warning)
+- **NoInferenceRequests**: Keine Requests für 10min (Warning)
+
+## Integration mit Code
+
+### LazyModelLoader
+```cpp
+void LazyModelLoader::loadModelInternal(...) {
+    metrics_->recordModelLoaded(model_id, vram_mb);
+}
+
+void LazyModelLoader::unloadModel(...) {
+    metrics_->recordModelUnloaded(model_id);
+}
+```
+
+### ContinuousBatchScheduler
+```cpp
+void ContinuousBatchScheduler::scheduleNextBatch() {
+    auto start = std::chrono::steady_clock::now();
+    // ... scheduling ...
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start
+    ).count();
+    
+    metrics_->recordSchedulingLatency(duration);
+    metrics_->recordQueueLength(waiting_queue_.size());
+    metrics_->recordBatchSize(batch.size());
+}
+```
+
+### GPU Memory Manager
+```cpp
+void GPUMemoryManager::allocateGPU(...) {
+    // ... allocation ...
+    auto stats = getStats();
+    metrics_->recordGPUMemoryUsage(
+        stats.used_vram_bytes / (1024*1024),
+        stats.total_vram_bytes / (1024*1024)
+    );
+}
+```
 
 ## Troubleshooting
 
-### No Data Displayed
-1. Verify Prometheus datasource is configured correctly
-2. Check that ThemisDB is exposing metrics at `/metrics`
-3. Ensure Prometheus is successfully scraping ThemisDB
-4. Verify the time range matches when data was generated
+### Metriken werden nicht angezeigt
+```bash
+# Check metrics endpoint
+curl http://localhost:9091/metrics
 
-### Missing Metrics
-Some metrics may only appear when specific features are used:
-- Content processing metrics require active content imports
-- Sharding metrics require a multi-node deployment
-- Gossip metrics require cluster mode operation
-- Replication metrics require replication to be enabled
-- LLM metrics require AI/ML features to be active
-- CDC metrics require Change Data Capture to be configured
-- Transaction metrics require transactional operations
+# Check Prometheus targets
+open http://localhost:9090/targets
 
-## Tags
+# Check ThemisDB logs
+docker logs themisdb -f
+```
 
-Each dashboard is tagged for easy discovery:
-- `themisdb`: Common tag for all ThemisDB dashboards
-- Specific tags: `system`, `timeseries`, `queries`, `cache`, `sharding`, `content`, `security`, `gossip`, `network`, `replication`, `ha`, `wal`, `storage`, `backup`, `rocksdb`, `advanced`, `indexing`, `llm`, `transactions`, `cdc`, `resilience`
+### Dashboard zeigt keine Daten
+1. Prüfe Datasource: **Configuration → Data Sources → Prometheus**
+2. Teste Connection: **Save & Test** sollte "Data source is working"
+3. Prüfe Time Range: Letzte 1 Stunde
+4. Prüfe Query in Panel Edit Mode
 
-## Version
+### Alerts feuern nicht
+```bash
+# Check Prometheus rules
+open http://localhost:9090/rules
 
-Dashboard Version: 2.0 (Extended)
-Schema Version: 38
-Compatible with: Grafana 9.0+
-Total Dashboards: 11
+# Check Alertmanager
+open http://localhost:9093
 
-## Recent Updates
+# Validate alert syntax
+promtool check rules provisioning/alerts.yml
+```
 
-**Version 2.0** - Added extensive metrics coverage:
-- **New Dashboards**: Replication & HA, Storage & Backup, Advanced Features
-- **New Metrics**: 50+ additional metric recording methods covering:
-  - Replication lag, WAL operations, failover events
-  - Backup operations, blob storage backends, RocksDB compactions
-  - Advanced indexing (spatial, vector)
-  - LLM/AI operations and token tracking
-  - Transaction isolation levels, locking, deadlock detection
-  - CDC event streams and subscriber lag
-  - Analytics queries, OLAP aggregations, CEP rules
-  - Circuit breakers, retry logic, connection pools
-- **Improved Coverage**: All major ThemisDB subsystems now have metrics instrumentation
+## Best Practices
 
-## License
+### 1. Scrape Interval
+- **Empfohlen**: 5-10 Sekunden
+- **Config**: `scrape_interval: 5s` in `prometheus.yml`
 
-These dashboards are part of the ThemisDB project and are distributed under the same license as the main ThemisDB project. See the [LICENSE](../LICENSE) file in the root directory for full license details.
+### 2. Retention
+- **Empfohlen**: 15 Tage
+- **Config**: `--storage.tsdb.retention.time=15d`
+- **Disk**: ~50 MB/Tag → ~750 MB für 15 Tage
 
-## Contributing
+### 3. Label Cardinality
+- **Limit**: Halte `model_id` unter 100 unique values
+- **Avoid**: Freie Strings als Labels (nutze feste Werte)
 
-To contribute improvements to these dashboards:
-1. Make changes to the JSON files
-2. Test with a live ThemisDB instance
-3. Validate JSON syntax: `python3 -m json.tool dashboard.json`
-4. Submit a pull request with a description of changes
+### 4. Recording Rules
+Für häufige Queries:
+```yaml
+groups:
+  - name: llm_recording_rules
+    interval: 30s
+    rules:
+      - record: llm:inference_rate:1m
+        expr: rate(llm_inference_requests_total[1m])
+      
+      - record: llm:success_rate:5m
+        expr: (1 - (rate(llm_inference_failures_total[5m]) / rate(llm_inference_requests_total[5m]))) * 100
+```
 
 ## Support
 
-For issues or questions about these dashboards, please refer to the main ThemisDB documentation or open an issue in the repository.
+- **GitHub Issues**: https://github.com/makr-code/ThemisDB/issues
+- **Metrics Endpoint**: http://localhost:9091/metrics
+- **Prometheus UI**: http://localhost:9090
+- **Grafana UI**: http://localhost:3000

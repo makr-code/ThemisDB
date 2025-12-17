@@ -70,6 +70,9 @@ if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core for QNAP/static builds" FORCE)
 endif()
 
+# LLM Support (v1.3.0+)
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
+
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
@@ -374,6 +377,57 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/config")
     file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
 endif()
 
+# ═══════════════════════════════════════════════════════════
+# llama.cpp Integration (v1.3.0+)
+# ═══════════════════════════════════════════════════════════
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "LLM support enabled - integrating llama.cpp")
+    
+    # Check if llama.cpp submodule exists
+    if(NOT EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+        message(FATAL_ERROR 
+            "llama.cpp submodule not found!\n"
+            "Please run: bash scripts/setup-llamacpp.sh\n"
+            "Or manually: git submodule update --init --recursive external/llama.cpp")
+    endif()
+    
+    # Configure llama.cpp build options
+    set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
+    set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
+    set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
+    set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
+    
+    # GPU acceleration options
+    if(THEMIS_ENABLE_CUDA)
+        message(STATUS "  Enabling CUDA support in llama.cpp")
+        set(LLAMA_CUDA ON CACHE BOOL "Enable CUDA in llama.cpp" FORCE)
+        set(LLAMA_CUDA_F16 ON CACHE BOOL "Enable FP16 in CUDA" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_METAL)
+        message(STATUS "  Enabling Metal support in llama.cpp")
+        set(LLAMA_METAL ON CACHE BOOL "Enable Metal in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_VULKAN)
+        message(STATUS "  Enabling Vulkan support in llama.cpp")
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_HIP OR THEMIS_ENABLE_ROCM)
+        message(STATUS "  Enabling HIP/ROCm support in llama.cpp")
+        set(LLAMA_HIPBLAS ON CACHE BOOL "Enable hipBLAS in llama.cpp" FORCE)
+    endif()
+    
+    # Add llama.cpp subdirectory
+    add_subdirectory(external/llama.cpp EXCLUDE_FROM_ALL)
+    
+    # Define LLM enabled for ThemisDB code
+    add_compile_definitions(THEMIS_LLM_ENABLED)
+    
+    message(STATUS "  llama.cpp configured successfully")
+endif()
+
 # Core library sources
 set(THEMIS_CORE_SOURCES
     src/storage/rocksdb_wrapper.cpp
@@ -430,6 +484,12 @@ set(THEMIS_CORE_SOURCES
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
+    src/server/llm_api_handler.cpp
+    src/server/llm_grpc_service.cpp
+    src/aql/llm_aql_handler.cpp
+    
+    # gRPC proto files for LLM service
+    proto/llm_service.proto
     src/server/rate_limiter.cpp
     src/server/rate_limiter_v2.cpp
     src/server/load_shedder.cpp
@@ -449,6 +509,8 @@ set(THEMIS_CORE_SOURCES
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
     src/llm/prompt_manager.cpp
+    src/llm/block_table.cpp
+    src/llm/paged_kv_cache.cpp
     src/cdc/changefeed.cpp
     
     # Replication
@@ -746,6 +808,52 @@ if(THEMIS_VLLM_COLOCATION)
     message(STATUS "vLLM Co-Location: Resource limits configured")
 endif()
 
+# v1.3.0: LLM Plugin Support with llama.cpp
+if(THEMIS_ENABLE_LLM)
+    # Add LLM plugin source files
+    target_sources(themis_core PRIVATE
+        src/llm/llamacpp_plugin.cpp
+        src/llm/llm_plugin_manager.cpp
+        src/llm/model_loader.cpp          # Ollama-style lazy loading
+        src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
+        src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        # v1.3.1: Cache Reuse Integration (Phase 2)
+        src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
+        src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
+        src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
+        src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
+        
+        # Phase 4+5 Week 4-6: llama.cpp Integration
+        src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
+        src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+    )
+    
+    # Threading support required for async inference
+    find_package(Threads REQUIRED)
+    target_link_libraries(themis_core PRIVATE Threads::Threads)
+    
+    # Link llama.cpp library
+    if(TARGET llama)
+        target_link_libraries(themis_core PRIVATE llama)
+        message(STATUS "LLM Plugin: Linked llama.cpp library")
+    else()
+        message(WARNING "LLM Plugin: llama.cpp target not found - plugin will be built without llama.cpp")
+    endif()
+    
+    # LLM is already defined via THEMIS_LLM_ENABLED in earlier section
+    message(STATUS "LLM Plugin: Source files added to themis_core")
+    message(STATUS "  - Ollama-style lazy model loading enabled")
+    message(STATUS "  - vLLM-style multi-LoRA management enabled")
+    message(STATUS "  - Async inference engine enabled (independent threading)")
+    message(STATUS "  - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)")
+    message(STATUS "    * ModelMetadataCache (ConcurrentCache)")
+    message(STATUS "    * LoRAMetadataCache (ConcurrentCache)")
+    message(STATUS "    * PagedBlockManager (foundation for PagedAttention v1.4.0)")
+    message(STATUS "    * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)")
+    message(STATUS "    * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)")
+endif()
+
 
 # Propagate Geo feature tiering compile definitions
 if(THEMIS_GEO)
@@ -963,6 +1071,14 @@ if(THEMIS_BUILD_TESTS)
         
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
+        
+        # LLM plugin tests (v1.3.0+)
+        tests/test_llm_plugin.cpp
+        tests/test_llamacpp_integration.cpp  # Phase 4+5 llama.cpp integration tests
+        tests/test_llm_caching.cpp
+        tests/test_kv_cache_buffer.cpp  # Phase 2.2 tests
+        tests/test_llm_response_cache.cpp  # Phase 2.3 tests
+        tests/test_paged_attention.cpp  # Phase 4+5 Week 1-3 tests
     )
     
     target_link_libraries(themis_tests
