@@ -23,7 +23,6 @@ public partial class GraphView3D : UserControl
     private readonly IGraphVisualizationService _graphService;
     
     private Model.Graph? _currentGraph;
-    private LayoutAlgorithm _currentLayoutAlgorithm = LayoutAlgorithm.ForceDirected;
     private bool _isInitialized = false;
     
     private Point _lastMousePosition;

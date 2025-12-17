@@ -15,7 +15,7 @@ namespace Themis.DocumentManager.Features.MetadataForm.Services;
 /// <summary>
 /// Lädt die Metadaten-Layout-Konfiguration aus YAML und baut gruppierte Metadatenfelder.
 /// </summary>
-public class MetadataLayoutService
+public class MetadataLayoutService : IMetadataLayoutService
 {
     private readonly string _configPath;
     private readonly IDeserializer _deserializer;

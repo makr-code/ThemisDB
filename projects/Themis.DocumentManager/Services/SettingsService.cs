@@ -2,152 +2,165 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using Themis.DocumentManager.Models;
 
-namespace Themis.DocumentManager.Services;
-
-/// <summary>
-/// Service für persistente Anwendungseinstellungen.
-/// Phase 28 - Settings & Persistence System.
-/// </summary>
-public class SettingsService : ISettingsService
+namespace Themis.DocumentManager.Services
 {
-    private readonly string _settingsFilePath;
-    private Dictionary<string, object> _settings;
-
-    public SettingsService()
-    {
-        var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var themisPath = Path.Combine(appDataPath, "ThemisDB", "DocumentManager");
-        
-        if (!Directory.Exists(themisPath))
-        {
-            Directory.CreateDirectory(themisPath);
-        }
-
-        _settingsFilePath = Path.Combine(themisPath, "settings.json");
-        _settings = new Dictionary<string, object>();
-        
-        Load();
-    }
-
     /// <summary>
-    /// Lädt Einstellungen von Disk
+    /// Service für persistente Anwendungseinstellungen.
+    /// Phase 28 - Settings & Persistence System.
     /// </summary>
-    public void Load()
+    public class SettingsService : ISettingsService
     {
-        try
+        private readonly string _settingsFilePath;
+        private Dictionary<string, object> _settings;
+
+        public SettingsService()
         {
-            if (File.Exists(_settingsFilePath))
+            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var themisPath = Path.Combine(appDataPath, "ThemisDB", "DocumentManager");
+
+            if (!Directory.Exists(themisPath))
             {
-                var json = File.ReadAllText(_settingsFilePath);
-                _settings = JsonSerializer.Deserialize<Dictionary<string, object>>(json) 
-                           ?? new Dictionary<string, object>();
+                Directory.CreateDirectory(themisPath);
             }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Fehler beim Laden der Einstellungen: {ex.Message}");
+
+            _settingsFilePath = Path.Combine(themisPath, "settings.json");
             _settings = new Dictionary<string, object>();
-        }
-    }
 
-    /// <summary>
-    /// Speichert Einstellungen auf Disk
-    /// </summary>
-    public void Save()
-    {
-        try
-        {
-            var json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions 
-            { 
-                WriteIndented = true 
-            });
-            
-            File.WriteAllText(_settingsFilePath, json);
+            Load();
         }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Fehler beim Speichern der Einstellungen: {ex.Message}");
-        }
-    }
 
-    /// <summary>
-    /// Holt einen Setting-Wert (mit Default)
-    /// </summary>
-    public T GetSetting<T>(string key, T defaultValue)
-    {
-        if (_settings.TryGetValue(key, out var value))
+        /// <summary>
+        /// Lädt Einstellungen von Disk.
+        /// </summary>
+        public void Load()
         {
             try
             {
-                // Handle JsonElement conversion for deserialized values
-                if (value is JsonElement element)
+                if (File.Exists(_settingsFilePath))
                 {
-                    return JsonSerializer.Deserialize<T>(element.GetRawText()) ?? defaultValue;
+                    var json = File.ReadAllText(_settingsFilePath);
+                    _settings = JsonSerializer.Deserialize<Dictionary<string, object>>(json)
+                               ?? new Dictionary<string, object>();
                 }
-                
-                return (T)Convert.ChangeType(value, typeof(T));
             }
-            catch
+            catch (Exception ex)
             {
-                return defaultValue;
+                System.Diagnostics.Debug.WriteLine($"Fehler beim Laden der Einstellungen: {ex.Message}");
+                _settings = new Dictionary<string, object>();
             }
         }
-        
-        return defaultValue;
-    }
 
-    /// <summary>
-    /// Setzt einen Setting-Wert
-    /// </summary>
-    public void SetSetting<T>(string key, T value)
-    {
-        if (value == null)
+        /// <summary>
+        /// Speichert Einstellungen auf Disk.
+        /// </summary>
+        public void Save()
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+
+                File.WriteAllText(_settingsFilePath, json);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Fehler beim Speichern der Einstellungen: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Holt einen Setting-Wert (mit Default).
+        /// </summary>
+        public T GetSetting<T>(string key, T defaultValue)
+        {
+            if (_settings.TryGetValue(key, out var value))
+            {
+                try
+                {
+                    // Handle JsonElement conversion for deserialized values
+                    if (value is JsonElement element)
+                    {
+                        return JsonSerializer.Deserialize<T>(element.GetRawText()) ?? defaultValue;
+                    }
+
+                    return (T)Convert.ChangeType(value, typeof(T));
+                }
+                catch
+                {
+                    return defaultValue;
+                }
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Setzt einen Setting-Wert.
+        /// </summary>
+        public void SetSetting<T>(string key, T value)
+        {
+            if (value == null)
+            {
+                _settings.Remove(key);
+            }
+            else
+            {
+                _settings[key] = value;
+            }
+        }
+
+        /// <summary>
+        /// Prüft, ob ein Setting existiert.
+        /// </summary>
+        public bool HasSetting(string key)
+        {
+            return _settings.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Entfernt ein Setting.
+        /// </summary>
+        public void RemoveSetting(string key)
         {
             _settings.Remove(key);
         }
-        else
+
+        /// <summary>
+        /// Setzt alle Einstellungen zurück.
+        /// </summary>
+        public void Reset()
         {
-            _settings[key] = value;
+            _settings.Clear();
+            Save();
+        }
+
+        public TreeViewSettings? LoadTreeViewSettings()
+        {
+            return GetSetting<TreeViewSettings?>("TreeViewSettings", default);
+        }
+
+        public void SaveTreeViewSettings(TreeViewSettings settings)
+        {
+            SetSetting("TreeViewSettings", settings);
+            Save();
         }
     }
 
-    /// <summary>
-    /// Prüft, ob ein Setting existiert
-    /// </summary>
-    public bool HasSetting(string key)
+    public interface ISettingsService
     {
-        return _settings.ContainsKey(key);
-    }
+        void Load();
+        void Save();
+        T GetSetting<T>(string key, T defaultValue);
+        void SetSetting<T>(string key, T value);
+        bool HasSetting(string key);
+        void RemoveSetting(string key);
+        void Reset();
 
-    /// <summary>
-    /// Entfernt ein Setting
-    /// </summary>
-    public void RemoveSetting(string key)
-    {
-        _settings.Remove(key);
+        TreeViewSettings? LoadTreeViewSettings();
+        void SaveTreeViewSettings(TreeViewSettings settings);
     }
-
-    /// <summary>
-    /// Setzt alle Einstellungen zurück
-    /// </summary>
-    public void Reset()
-    {
-        _settings.Clear();
-        Save();
-    }
-}
-
-/// <summary>
-/// Interface für Settings Service
-/// </summary>
-public interface ISettingsService
-{
-    void Load();
-    void Save();
-    T GetSetting<T>(string key, T defaultValue);
-    void SetSetting<T>(string key, T value);
-    bool HasSetting(string key);
-    void RemoveSetting(string key);
-    void Reset();
 }

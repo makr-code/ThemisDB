@@ -109,7 +109,7 @@ namespace Themis.DocumentManager.Views.Collaboration
 
         private async void OnCommentAddedEvent(object? sender, CommentEventArgs e)
         {
-            if (e.Comment.DocumentId != _currentDocumentId) return;
+            if (e.Comment == null || e.Comment.DocumentId != _currentDocumentId) return;
 
             await Dispatcher.InvokeAsync(async () =>
             {
@@ -119,7 +119,7 @@ namespace Themis.DocumentManager.Views.Collaboration
 
         private async void OnPresenceUpdatedEvent(object? sender, PresenceEventArgs e)
         {
-            if (e.DocumentId != _currentDocumentId) return;
+            if (e.Presence == null || e.DocumentId != _currentDocumentId) return;
 
             await Dispatcher.InvokeAsync(() =>
             {
@@ -137,6 +137,10 @@ namespace Themis.DocumentManager.Views.Collaboration
             if (result.Success && result.Value != null)
             {
                 _currentLock = result.Value;
+            }
+            else
+            {
+                _currentLock = null;
             }
 
             UpdateLockUI();

@@ -47,13 +47,13 @@ namespace Themis.DocumentManager.Services.DirectX
 
         public class CompiledShaderBlob
         {
-            public byte[] ByteCode { get; set; }
+            public byte[] ByteCode { get; set; } = Array.Empty<byte>();
             public string ErrorMessage { get; set; } = "";
             public bool Success { get; set; }
             public double CompileTimeMs { get; set; }
             public int ByteCodeSize { get; set; }
-            public string ShaderProfile { get; set; }
-            public string EntryPoint { get; set; }
+            public string ShaderProfile { get; set; } = string.Empty;
+            public string EntryPoint { get; set; } = string.Empty;
         }
 
         public class ShaderCompilationStats
@@ -130,7 +130,7 @@ namespace Themis.DocumentManager.Services.DirectX
                     if (pErrorMsgs != IntPtr.Zero)
                     {
                         var errorStr = Marshal.PtrToStringAnsi(pErrorMsgs);
-                        blob.ErrorMessage = errorStr;
+                        blob.ErrorMessage = errorStr ?? string.Empty;
                         LocalFree(pErrorMsgs);
                     }
                     blob.Success = false;
@@ -266,7 +266,7 @@ namespace Themis.DocumentManager.Services.DirectX
 
         public class BufferData
         {
-            public byte[] Data { get; set; }
+            public byte[] Data { get; set; } = Array.Empty<byte>();
             public long LastUpdateFrame { get; set; }
             public bool NeedsUpload { get; set; } = true;
             public int UploadCount { get; set; }
@@ -523,7 +523,7 @@ namespace Themis.DocumentManager.Services.DirectX
             public int Width { get; set; }
             public int Height { get; set; }
             public int MipLevels { get; set; }
-            public byte[] Data { get; set; }
+            public byte[] Data { get; set; } = Array.Empty<byte>();
             public string Format { get; set; } = "RGBA8";
         }
 

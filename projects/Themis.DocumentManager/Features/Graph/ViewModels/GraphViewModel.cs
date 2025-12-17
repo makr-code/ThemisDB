@@ -11,6 +11,7 @@ using Themis.DocumentManager.Models;
 using Model = Themis.DocumentManager.Models;
 using Themis.DocumentManager.Services;
 using Themis.DocumentManager.Features.Graph.Services;
+using Themis.DocumentManager.Common;
 
 namespace Themis.DocumentManager.Features.Graph.ViewModels
 {
@@ -471,7 +472,7 @@ namespace Themis.DocumentManager.Features.Graph.ViewModels
         /// <summary>
         /// Select node by ID
         /// </summary>
-        public async Task SelectNodeAsync(string nodeId)
+        public async Task SelectNodeAsync(string? nodeId)
         {
             if (CurrentGraph == null || string.IsNullOrEmpty(nodeId))
                 return;
@@ -485,7 +486,7 @@ namespace Themis.DocumentManager.Features.Graph.ViewModels
         /// <summary>
         /// Select edge by ID
         /// </summary>
-        public async Task SelectEdgeAsync(string edgeId)
+        public async Task SelectEdgeAsync(string? edgeId)
         {
             if (CurrentGraph == null || string.IsNullOrEmpty(edgeId))
                 return;
@@ -499,7 +500,7 @@ namespace Themis.DocumentManager.Features.Graph.ViewModels
         /// <summary>
         /// Add node to graph
         /// </summary>
-        public async Task AddNodeAsync(GraphNode node)
+        public async Task AddNodeAsync(GraphNode? node)
         {
             if (CurrentGraph == null || node == null)
                 return;
@@ -523,7 +524,7 @@ namespace Themis.DocumentManager.Features.Graph.ViewModels
         /// <summary>
         /// Remove node from graph
         /// </summary>
-        public async Task RemoveNodeAsync(GraphNode node)
+        public async Task RemoveNodeAsync(GraphNode? node)
         {
             if (CurrentGraph == null || node == null)
                 return;
@@ -564,7 +565,7 @@ namespace Themis.DocumentManager.Features.Graph.ViewModels
         /// <summary>
         /// Add edge to graph
         /// </summary>
-        public async Task AddEdgeAsync(GraphEdge edge)
+        public async Task AddEdgeAsync(GraphEdge? edge)
         {
             if (CurrentGraph == null || edge == null)
                 return;
@@ -601,7 +602,7 @@ namespace Themis.DocumentManager.Features.Graph.ViewModels
         /// <summary>
         /// Remove edge from graph
         /// </summary>
-        public async Task RemoveEdgeAsync(GraphEdge edge)
+        public async Task RemoveEdgeAsync(GraphEdge? edge)
         {
             if (CurrentGraph == null || edge == null)
                 return;

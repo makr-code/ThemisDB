@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Themis.DocumentManager.Models;
+using Themis.DocumentManager.Features.MetadataForm.Services;
 
 namespace Themis.DocumentManager.Services;
 

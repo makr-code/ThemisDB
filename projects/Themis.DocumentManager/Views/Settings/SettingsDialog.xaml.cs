@@ -157,6 +157,17 @@ public partial class SettingsDialog : Window
         ShowPanel(AccessibilitySettingsPanel);
     }
 
+    private void TreeViewSettings_Click(object sender, RoutedEventArgs e)
+    {
+        ShowPanel(TreeViewSettingsPanel);
+        
+        // Load TreeViewSettingsView into ContentControl if not already loaded
+        if (TreeViewSettingsContent.Content == null)
+        {
+            TreeViewSettingsContent.Content = new TreeViewSettingsView();
+        }
+    }
+
     private void ShowPanel(FrameworkElement targetPanel)
     {
         // Hide all panels
@@ -164,6 +175,7 @@ public partial class SettingsDialog : Window
         GeneralSettingsPanel.Visibility = Visibility.Collapsed;
         PerformanceSettingsPanel.Visibility = Visibility.Collapsed;
         AccessibilitySettingsPanel.Visibility = Visibility.Collapsed;
+        TreeViewSettingsPanel.Visibility = Visibility.Collapsed;
 
         // Show target panel with animation
         targetPanel.Visibility = Visibility.Visible;

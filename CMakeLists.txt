@@ -88,9 +88,12 @@ if(THEMIS_STATIC_BUILD)
         # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
     endif()
     
-    # Prefer static libraries
+    # Prefer static libraries on Linux
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+else()
+    # Windows: Use dynamic linking (exe + DLLs)
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
 endif()
 option(THEMIS_ENABLE_ZLUDA "Enable AMD ZLUDA (CUDA compatibility on AMD)" OFF)
 option(THEMIS_ENABLE_ROCM "Enable AMD ROCm acceleration" OFF)

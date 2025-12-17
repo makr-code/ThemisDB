@@ -120,6 +120,7 @@ public partial class DocumentCollaborationViewModel : ObservableObject
 
     private async void OnCommentAdded(object? sender, CommentEventArgs e)
     {
+        if (e.Comment == null) return;
         if (e.Comment.DocumentId != CurrentDocumentId) return;
         
         await LoadCommentsAsync();
@@ -127,6 +128,7 @@ public partial class DocumentCollaborationViewModel : ObservableObject
 
     private void OnPresenceUpdated(object? sender, PresenceEventArgs e)
     {
+        if (e.Presence == null) return;
         if (e.DocumentId != CurrentDocumentId) return;
         
         UpdateActiveUser(e.Presence);

@@ -15,7 +15,6 @@ namespace Themis.DocumentManager.UI;
 public class MetadataCompactDisplay : UserControl
 {
     private WrapPanel? _badgePanel;
-    private Border? _headerBar;
 
     public static readonly DependencyProperty BadgesProperty =
         DependencyProperty.Register(nameof(Badges), typeof(List<MetadataBadge>),

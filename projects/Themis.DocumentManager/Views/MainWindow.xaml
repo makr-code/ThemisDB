@@ -12,6 +12,7 @@
         xmlns:ai="clr-namespace:Themis.DocumentManager.Features.AIChat.Views"
         xmlns:geo="clr-namespace:Themis.DocumentManager.Features.Geo.Views"
         xmlns:graph="clr-namespace:Themis.DocumentManager.Features.Graph.Views"
+        xmlns:nav="clr-namespace:Themis.DocumentManager.Views.Navigation"
         Title="ThemisDB Document Manager" 
         Height="900" Width="1600"
         MinHeight="600" MinWidth="1000"
@@ -42,6 +43,8 @@
             <!-- Menu Bar -->
             <RowDefinition Height="50"/>
             <!-- Ribbon -->
+            <RowDefinition Height="Auto"/>
+            <!-- Timeline -->
             <RowDefinition Height="*"/>
             <!-- Content Area -->
             <RowDefinition Height="30"/>
@@ -82,27 +85,44 @@
 
         <!-- Ribbon Toolbar -->
         <Border Grid.Row="1" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
-            <StackPanel Orientation="Horizontal" Margin="10,5">
-                <Button Content="📄 Neu" Command="{Binding NewCommand}" Padding="10,5" Margin="0,0,5,0"/>
-                <Button Content="📂 Öffnen" Command="{Binding OpenCommand}" Padding="10,5" Margin="0,0,5,0"/>
-                <Button Content="💾 Speichern" Command="{Binding SaveCommand}" Padding="10,5" Margin="0,0,5,0"/>
-                <Separator Margin="5,0" Background="#e2e8f0" Width="1"/>
-                <TextBox x:Name="SearchBox" Width="240" Height="26" Margin="0,0,5,0"
-                         VerticalAlignment="Center"
-                         Padding="6,2"
-                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}">
-                    <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
-                    </TextBox.InputBindings>
-                </TextBox>
-                <Button Content="🔍 Suchen" Command="{Binding SearchCommand}" Padding="10,5" Margin="0,0,5,0"/>
-                <Button Content="⚙️ Einstellungen" Command="{Binding OpenSettingsCommand}" Padding="10,5"/>
-                <ContentControl x:Name="BreadcrumbControl" HorizontalAlignment="Right"/>
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <!-- Ribbon -->
+                    <RowDefinition Height="60"/>
+                    <!-- Timeline Ruler -->
+                </Grid.RowDefinitions>
+                
+                <!-- Ribbon Buttons -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10,5">
+                    <Button Content="📄 Neu" Command="{Binding NewCommand}" Padding="10,5" Margin="0,0,5,0"/>
+                    <Button Content="📂 Öffnen" Command="{Binding OpenCommand}" Padding="10,5" Margin="0,0,5,0"/>
+                    <Button Content="💾 Speichern" Command="{Binding SaveCommand}" Padding="10,5" Margin="0,0,5,0"/>
+                    <Separator Margin="5,0" Background="#e2e8f0" Width="1"/>
+                    <TextBox x:Name="SearchBox" Width="240" Height="26" Margin="0,0,5,0"
+                             VerticalAlignment="Center"
+                             Padding="6,2"
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Content="🔍 Suchen" Command="{Binding SearchCommand}" Padding="10,5" Margin="0,0,5,0"/>
+                    <Button Content="⚙️ Einstellungen" Command="{Binding OpenSettingsCommand}" Padding="10,5"/>
+                </StackPanel>
+                
+                <!-- Timeline Ruler (like MS Word ruler) -->
+                <nav:TimelineRulerView Grid.Row="1"/>
+            </Grid>
+        </Border>
+
+        <!-- Timeline View (full, under ribbon, over all content) -->
+        <Border Grid.Row="2" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
+            <timeline:TimelineViewImproved/>
         </Border>
 
         <!-- Main Content Area with flexible sidebars and center -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="ColLeft" Width="280"/>
                 <ColumnDefinition Width="6"/>
@@ -111,42 +131,140 @@
                 <ColumnDefinition x:Name="ColRight" Width="320"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Left Sidebar -->
-            <Border Grid.Column="0" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,0,1,0">
-                <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="#f8fafc" Margin="8,6,8,6">
-                        <TextBlock Text="Seitenleiste" Foreground="#64748b"/>
-                        <Button Content="◀" Command="{x:Static local:MainWindow.ToggleLeftSidebarCommand}" Margin="8,0,0,0"/>
-                    </StackPanel>
-                    <TabControl x:Name="LeftSidebarTabs">
-                        <TabItem Header="📂 Explorer">
-                            <ContentControl x:Name="LeftExplorerPanel" Content="{Binding}" />
-                        </TabItem>
-                        <TabItem Header="⭐ Favoriten">
-                            <ContentControl x:Name="LeftFavoritesPanel" Content="{Binding}" />
-                        </TabItem>
-                        <TabItem Header="🔗 Prozesse">
-                            <Grid Margin="8" x:Name="LeftProcessesPanel">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Prozess-Verknüpfungen" Foreground="#334155"/>
-                                <ListBox Grid.Row="1" ItemsSource="{Binding LinkedProcesses}" DisplayMemberPath="ProcessName"/>
-                            </Grid>
-                        </TabItem>
-                    </TabControl>
+            <!-- Left Sidebar mit TreeView Navigation -->
+            <Border Grid.Column="0" Background="{DynamicResource SystemControlBackgroundAltHighBrush}" 
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Tab Headers mit Outlook-Style Unread Count -->
+                    <Border Grid.Row="0" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" 
+                            BorderThickness="0,0,0,1" Background="{DynamicResource SystemControlBackgroundBaseLowBrush}">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton x:Name="SidebarTabNavigation" GroupName="SidebarTabs" 
+                                         IsChecked="True" Style="{StaticResource {x:Type ToggleButton}}" 
+                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click">
+                                <TextBlock Text="Navigation"/>
+                            </RadioButton>
+                            
+                            <RadioButton x:Name="SidebarTabTasks" GroupName="SidebarTabs" 
+                                         Style="{StaticResource {x:Type ToggleButton}}" 
+                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Aufgaben">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontWeight" Value="Normal"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" Value="True">
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <TextBlock Margin="4,0,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundAccentBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding TaskBasketViewModel.HasUnreadTasks}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                        <Run Text="("/><Run Text="{Binding TaskBasketViewModel.UnreadTasksCount, Mode=OneWay}"/><Run Text=")"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </RadioButton>
+                            
+                            <RadioButton x:Name="SidebarTabFavorites" Content="Favoriten" GroupName="SidebarTabs" 
+                                         Style="{StaticResource {x:Type ToggleButton}}" 
+                                         Padding="16,8" FontSize="12" Click="SidebarTab_Click"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Tab Content -->
+                    <Grid Grid.Row="1">
+                        <!-- Navigation Tab mit TreeView -->
+                        <ScrollViewer x:Name="NavigationTabContent" VerticalScrollBarVisibility="Auto" 
+                                      Visibility="Visible" Padding="10">
+                            <TreeView x:Name="NavigationTreeView" 
+                                      PreviewMouseLeftButtonDown="NavigationTreeView_PreviewMouseLeftButtonDown"
+                                      PreviewMouseDoubleClick="NavigationTreeView_PreviewMouseDoubleClick"
+                                      PreviewMouseRightButtonDown="NavigationTreeView_PreviewMouseRightButtonDown">
+                                <TreeView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Öffnen" Click="TreeViewContext_Open"/>
+                                        <MenuItem Header="In neuem Tab öffnen" Click="TreeViewContext_OpenNewTab"/>
+                                        <Separator/>
+                                        <MenuItem Header="Umbenennen" Click="TreeViewContext_Rename"/>
+                                        <MenuItem Header="Kopieren" Click="TreeViewContext_Copy"/>
+                                        <MenuItem Header="Einfügen" Click="TreeViewContext_Paste"/>
+                                        <Separator/>
+                                        <MenuItem Header="Löschen" Click="TreeViewContext_Delete"/>
+                                    </ContextMenu>
+                                </TreeView.ContextMenu>
+                                
+                                <!-- Statische Beispielstruktur -->
+                                <TreeViewItem Header="📊 Dashboard" IsExpanded="False"/>
+                                <TreeViewItem Header="📄 Dokumente" IsExpanded="True">
+                                    <TreeViewItem Header="Meine Dokumente"/>
+                                    <TreeViewItem Header="Zuletzt verwendet"/>
+                                    <TreeViewItem Header="Favoriten"/>
+                                </TreeViewItem>
+                                <TreeViewItem Header="📂 Projekte">
+                                    <TreeViewItem Header="Aktive Projekte"/>
+                                    <TreeViewItem Header="Archivierte Projekte"/>
+                                </TreeViewItem>
+                                <TreeViewItem Header="📥 Posteingang"/>
+                                <TreeViewItem Header="📅 Wiedervorlagen"/>
+                                <TreeViewItem Header="✍️ Mitzeichnungen"/>
+                            </TreeView>
+                        </ScrollViewer>
+                        
+                        <!-- Tasks Tab Content (Task Basket) -->
+                        <ContentControl x:Name="TasksTabContent" Visibility="Collapsed"/>
+                        
+                        <!-- Favorites Tab Content -->
+                        <ContentControl x:Name="FavoritesTabContent" Visibility="Collapsed"/>
+                    </Grid>
+                    
                     <!-- Hidden placeholders for legacy bindings -->
                     <ListBox x:Name="DocumentsList" Visibility="Collapsed" />
                     <TextBox x:Name="DocumentSearchBox" Visibility="Collapsed" />
-                </DockPanel>
+                    <ContentControl x:Name="LeftExplorerPanel" Visibility="Collapsed" />
+                    <ContentControl x:Name="LeftFavoritesPanel" Visibility="Collapsed" />
+                    <Grid x:Name="LeftProcessesPanel" Visibility="Collapsed" />
+                    <TabControl x:Name="LeftSidebarTabs" Visibility="Collapsed" />
+                </Grid>
             </Border>
 
             <!-- Splitter Left -->
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#e2e8f0" ShowsPreview="True"/>
 
-            <!-- Center Content Area with TabControl -->
-            <TabControl x:Name="CenterContent" Grid.Column="2" Background="White">
+            <!-- Center Content Area with Breadcrumb -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Breadcrumb -->
+                    <RowDefinition Height="*"/>
+                    <!-- Content Tabs -->
+                </Grid.RowDefinitions>
+                
+                <!-- Breadcrumb Navigation (only over center content) -->
+                <Border Grid.Row="0" Background="#f8fafc" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
+                    <nav:IntelligentBreadcrumbView x:Name="BreadcrumbControl"/>
+                </Border>
+                
+                <!-- Center TabControl -->
+                <TabControl x:Name="CenterContent" Grid.Row="1" Background="White">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="TabItem">
                         <Setter Property="ContextMenu">
@@ -154,36 +272,31 @@
                                 <ContextMenu>
                                     <MenuItem Header="Tab schließen" Command="{x:Static local:MainWindow.CloseTabCommand}"/>
                                     <MenuItem Header="Tab duplizieren" Command="{x:Static local:MainWindow.DuplicateTabCommand}"/>
-                                    <MenuItem Header="In neuem Fenster öffnen" Click="MenuOpenTabInNewWindow_Click"/>
                                 </ContextMenu>
                             </Setter.Value>
                         </Setter>
                     </Style>
                 </TabControl.ItemContainerStyle>
-                 <TabItem Header="📊 Start" x:Name="TabStart" IsSelected="True">
-                     <dashboard:DashboardPreviewView/>
-                 </TabItem>
-                 <TabItem Header="📑 Documents" x:Name="TabDocuments">
-                     <docbrowser:DocumentBrowserSimpleView/>
-                 </TabItem>
-                 <TabItem Header="🔗 Timeline" x:Name="TabTimeline">
-                     <Grid x:Name="TimelineDock">
-                         <timeline:TimelineViewImproved x:Name="TimelineView" />
-                     </Grid>
-                 </TabItem>
-                 <TabItem Header="📊 Gantt" x:Name="TabGantt">
-                     <gantt:GanttView/>
-                 </TabItem>
-                 <TabItem Header="📊 Dashboard" x:Name="TabDashboard">
-                     <dashboard:FullDashboardSimpleView/>
-                 </TabItem>
-                 <TabItem Header="🗂️ ERD" x:Name="TabERD">
-                     <erd:ERDView/>
-                 </TabItem>
-                 <TabItem Header="🔍 Query" x:Name="TabQuery">
-                     <erd:QueryEditorView/>
-                 </TabItem>
-            </TabControl>
+                <TabItem Header="📊 Start" x:Name="TabStart" IsSelected="True">
+                    <dashboard:DashboardPreviewView/>
+                </TabItem>
+                <TabItem Header="📑 Documents" x:Name="TabDocuments">
+                    <docbrowser:DocumentBrowserSimpleView/>
+                </TabItem>
+                <TabItem Header=" Gantt" x:Name="TabGantt">
+                    <gantt:GanttView/>
+                </TabItem>
+                <TabItem Header="📊 Dashboard" x:Name="TabDashboard">
+                    <dashboard:DashboardView/>
+                </TabItem>
+                <TabItem Header="🗂️ ERD" x:Name="TabERD">
+                    <erd:ERDView/>
+                </TabItem>
+                <TabItem Header="🔍 Query" x:Name="TabQuery">
+                    <erd:QueryEditorView/>
+                </TabItem>
+                </TabControl>
+            </Grid>
 
             <!-- Splitter Right -->
             <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#e2e8f0" ShowsPreview="True"/>
@@ -197,7 +310,7 @@
                     </StackPanel>
                     <TabControl x:Name="RightSidebarTabs">
                         <TabItem Header="🏷️ Metadaten" x:Name="RightMetadataTab">
-                            <metadata:MetadataFormView/>
+                            <metadata:MetadataFormView x:Name="RightMetadataPanel"/>
                         </TabItem>
                         <TabItem Header="🕑 Revisionen" x:Name="RightRevisionTab">
                             <Grid Margin="8" x:Name="RightRevisionPanel">
@@ -221,7 +334,7 @@
         </Grid>
 
         <!-- Status Bar -->
-        <StatusBar Grid.Row="3" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,1,0,0">
+        <StatusBar Grid.Row="4" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,1,0,0">
             <StatusBarItem>
                 <TextBlock x:Name="StatusText" Text="Bereit" Foreground="#64748b"/>
             </StatusBarItem>

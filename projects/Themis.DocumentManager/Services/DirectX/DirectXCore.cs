@@ -21,11 +21,9 @@ public interface IDirectXDevice : IDisposable
 public class DirectXDevice : IDirectXDevice
 {
     private IntPtr _devicePtr = IntPtr.Zero;
-    private bool _isInitialized = false;
 
     public bool Initialize(IntPtr windowHandle, int width, int height)
     {
-        _isInitialized = true;
         System.Diagnostics.Debug.WriteLine($"DirectX Device initialized for window {windowHandle}");
         return true;
     }
@@ -47,7 +45,7 @@ public class DirectXDevice : IDirectXDevice
 
     public void Dispose()
     {
-        _isInitialized = false;
+        // Cleanup
     }
 }
 

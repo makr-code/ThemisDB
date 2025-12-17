@@ -26,10 +26,30 @@ public partial class TimelineViewModel : ObservableObject
     private ObservableCollection<TimelineSegment> _segments = new();
 
     [ObservableProperty]
+    private ObservableCollection<TimeRulerMark> _timeRulerMarks = new();
+
+    [ObservableProperty]
+    private List<TimelineScale> _availableScales = new()
+    {
+        TimelineScale.OneDay,
+        TimelineScale.ThreeDays,
+        TimelineScale.OneWeek,
+        TimelineScale.TwoWeeks,
+        TimelineScale.OneMonth,
+        TimelineScale.ThreeMonths,
+        TimelineScale.SixMonths,
+        TimelineScale.OneYear,
+        TimelineScale.FiveYears
+    };
+
+    [ObservableProperty]
     private TimelineRange _currentRange;
 
     [ObservableProperty]
     private TimelineScale _currentScale = TimelineScale.OneMonth;
+
+    [ObservableProperty]
+    private double _canvasWidth = 2000.0; // Default canvas width for calculations
 
     [ObservableProperty]
     private DateTime _centerDate = DateTime.Now;
@@ -77,6 +97,18 @@ public partial class TimelineViewModel : ObservableObject
 
     [ObservableProperty]
     private Dictionary<TimelineStatus, int> _countByStatus = new();
+
+    [ObservableProperty]
+    private ObservableCollection<TimelineGanttBar> _ganttBars = new();
+
+    [ObservableProperty]
+    private bool _showGanttOverlay = true;
+
+    [ObservableProperty]
+    private bool _showMilestones = true;
+
+    [ObservableProperty]
+    private bool _showPhasesInBars = true;
 
     public TimelineViewModel(ITimelineAggregationService timelineService, INotificationService notificationService)
     {
@@ -156,6 +188,7 @@ public partial class TimelineViewModel : ObservableObject
 
             await ApplyFiltersAsync();
             UpdateSegments();
+            LoadGanttBars();
         }
         catch (Exception ex)
         {
@@ -170,6 +203,11 @@ public partial class TimelineViewModel : ObservableObject
         {
             IsLoading = false;
         }
+    }
+
+    public async Task InitializeAsync()
+    {
+        await LoadItemsAsync();
     }
 
     public async Task ZoomInAsync()
@@ -201,6 +239,20 @@ public partial class TimelineViewModel : ObservableObject
         CurrentRange = TimelineRange.FromScale(CenterDate, scale);
         UpdateSegments();
         await LoadItemsAsync();
+    }
+
+    partial void OnCurrentScaleChanged(TimelineScale value)
+    {
+        CurrentRange = TimelineRange.FromScale(CenterDate, value);
+        UpdateSegments();
+    }
+
+    partial void OnCanvasWidthChanged(double value)
+    {
+        if (value > 0)
+        {
+            UpdateSegments();
+        }
     }
 
     public async Task JumpToTodayAsync()
@@ -290,26 +342,255 @@ public partial class TimelineViewModel : ObservableObject
     private void UpdateSegments()
     {
         Segments.Clear();
+        TimeRulerMarks.Clear();
 
-        var segmentDuration = GetSegmentDuration(CurrentScale);
-        var current = CurrentRange.StartDate;
+        var totalWidth = CanvasWidth > 0 ? CanvasWidth : 2000.0; // Use canvas width or default
 
-        while (current <= CurrentRange.EndDate)
+        // Generate realistic ruler ticks based on scale
+        switch (CurrentScale)
         {
-            var position = (current - CurrentRange.StartDate).TotalMilliseconds / 
-                          CurrentRange.Duration.TotalMilliseconds;
+            case TimelineScale.OneYear:
+                GenerateYearlyRulerMarks(totalWidth);
+                break;
+            case TimelineScale.SixMonths:
+                GenerateSixMonthsRulerMarks(totalWidth);
+                break;
+            case TimelineScale.ThreeMonths:
+                GenerateThreeMonthsRulerMarks(totalWidth);
+                break;
+            case TimelineScale.OneMonth:
+                GenerateMonthlyRulerMarks(totalWidth);
+                break;
+            case TimelineScale.TwoWeeks:
+                GenerateTwoWeeksRulerMarks(totalWidth);
+                break;
+            case TimelineScale.OneWeek:
+                GenerateWeeklyRulerMarks(totalWidth);
+                break;
+            case TimelineScale.ThreeDays:
+                GenerateThreeDaysRulerMarks(totalWidth);
+                break;
+            case TimelineScale.OneDay:
+                GenerateDailyRulerMarks(totalWidth);
+                break;
+            default:
+                GenerateMonthlyRulerMarks(totalWidth);
+                break;
+        }
+    }
 
-            var segment = new TimelineSegment
+    private void GenerateYearlyRulerMarks(double totalWidth)
+    {
+        // For 1 year: 365 day ticks (small) + 12 month ticks (large with labels)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.Date;
+        
+        // Generate daily ticks (small, no labels)
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isMonthStart = current.Day == 1;
+            
+            TimeRulerMarks.Add(new TimeRulerMark
             {
                 Date = current,
-                Label = FormatSegmentLabel(current, CurrentScale),
-                IsMajor = IsMajorSegment(current, CurrentScale),
-                Position = position
-            };
-
-            Segments.Add(segment);
-            current = current.Add(segmentDuration);
+                Label = isMonthStart ? current.ToString("MMM") : string.Empty,
+                PositionX = position,
+                LabelPositionX = position - 12,
+                TickHeight = isMonthStart ? 20 : 5,
+                IsMajor = isMonthStart
+            });
+            
+            current = current.AddDays(1);
         }
+    }
+
+    private void GenerateSixMonthsRulerMarks(double totalWidth)
+    {
+        // For 6 months: weekly ticks (small) + month start ticks (large with labels)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isMonthStart = current.Day == 1;
+            var isWeekStart = current.DayOfWeek == DayOfWeek.Monday;
+            
+            if (isMonthStart || isWeekStart)
+            {
+                TimeRulerMarks.Add(new TimeRulerMark
+                {
+                    Date = current,
+                    Label = isMonthStart ? current.ToString("MMM yy") : string.Empty,
+                    PositionX = position,
+                    LabelPositionX = position - 15,
+                    TickHeight = isMonthStart ? 20 : 8,
+                    IsMajor = isMonthStart
+                });
+            }
+            
+            current = current.AddDays(1);
+        }
+    }
+
+    private void GenerateThreeMonthsRulerMarks(double totalWidth)
+    {
+        // For 3 months: daily ticks (small) + week start ticks (medium) + month ticks (large with labels)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isMonthStart = current.Day == 1;
+            var isWeekStart = current.DayOfWeek == DayOfWeek.Monday;
+            
+            TimeRulerMarks.Add(new TimeRulerMark
+            {
+                Date = current,
+                Label = isMonthStart ? current.ToString("MMM") : (isWeekStart ? $"KW{GetWeekNumber(current)}" : string.Empty),
+                PositionX = position,
+                LabelPositionX = position - 12,
+                TickHeight = isMonthStart ? 20 : (isWeekStart ? 12 : 5),
+                IsMajor = isMonthStart || isWeekStart
+            });
+            
+            current = current.AddDays(1);
+        }
+    }
+
+    private void GenerateMonthlyRulerMarks(double totalWidth)
+    {
+        // For 1 month: daily ticks (small) + week start (medium with label)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isWeekStart = current.DayOfWeek == DayOfWeek.Monday;
+            
+            TimeRulerMarks.Add(new TimeRulerMark
+            {
+                Date = current,
+                Label = isWeekStart ? current.ToString("dd.MM") : string.Empty,
+                PositionX = position,
+                LabelPositionX = position - 15,
+                TickHeight = isWeekStart ? 20 : 8,
+                IsMajor = isWeekStart
+            });
+            
+            current = current.AddDays(1);
+        }
+    }
+
+    private void GenerateTwoWeeksRulerMarks(double totalWidth)
+    {
+        // For 2 weeks: daily ticks (medium with labels)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            
+            TimeRulerMarks.Add(new TimeRulerMark
+            {
+                Date = current,
+                Label = current.ToString("dd.MM"),
+                PositionX = position,
+                LabelPositionX = position - 15,
+                TickHeight = 18,
+                IsMajor = true
+            });
+            
+            current = current.AddDays(1);
+        }
+    }
+
+    private void GenerateWeeklyRulerMarks(double totalWidth)
+    {
+        // For 1 week: hourly ticks (small) + 6-hour ticks (medium) + day start (large with label)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.AddDays(1).Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isDayStart = current.Hour == 0;
+            var isSixHourMark = current.Hour % 6 == 0;
+            
+            TimeRulerMarks.Add(new TimeRulerMark
+            {
+                Date = current,
+                Label = isDayStart ? current.ToString("ddd dd.MM") : (isSixHourMark ? current.ToString("HH:mm") : string.Empty),
+                PositionX = position,
+                LabelPositionX = position - 20,
+                TickHeight = isDayStart ? 20 : (isSixHourMark ? 12 : 5),
+                IsMajor = isDayStart || isSixHourMark
+            });
+            
+            current = current.AddHours(1);
+        }
+    }
+
+    private void GenerateThreeDaysRulerMarks(double totalWidth)
+    {
+        // For 3 days: hourly ticks (small) + 6-hour marks (medium with label) + day start (large with label)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.AddDays(1).Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isDayStart = current.Hour == 0;
+            var isSixHourMark = current.Hour % 6 == 0;
+            
+            TimeRulerMarks.Add(new TimeRulerMark
+            {
+                Date = current,
+                Label = isDayStart ? current.ToString("ddd HH:mm") : (isSixHourMark ? current.ToString("HH:mm") : string.Empty),
+                PositionX = position,
+                LabelPositionX = position - 18,
+                TickHeight = isDayStart ? 20 : (isSixHourMark ? 12 : 6),
+                IsMajor = isDayStart || isSixHourMark
+            });
+            
+            current = current.AddHours(1);
+        }
+    }
+
+    private void GenerateDailyRulerMarks(double totalWidth)
+    {
+        // For 1 day: 15-minute ticks (small) + hourly ticks (large with labels)
+        var current = CurrentRange.StartDate.Date;
+        var endDate = CurrentRange.EndDate.AddDays(1).Date;
+        
+        while (current <= endDate)
+        {
+            var position = CalculatePosition(current, totalWidth);
+            var isHourMark = current.Minute == 0;
+            
+            TimeRulerMarks.Add(new TimeRulerMark
+            {
+                Date = current,
+                Label = isHourMark ? current.ToString("HH:mm") : string.Empty,
+                PositionX = position,
+                LabelPositionX = position - 15,
+                TickHeight = isHourMark ? 20 : 8,
+                IsMajor = isHourMark
+            });
+            
+            current = current.AddMinutes(15);
+        }
+    }
+
+    private double CalculatePosition(DateTime date, double totalWidth)
+    {
+        var position = (date - CurrentRange.StartDate).TotalMilliseconds / 
+                      CurrentRange.Duration.TotalMilliseconds;
+        return position * totalWidth;
     }
 
     private TimeSpan GetSegmentDuration(TimelineScale scale) => scale switch
@@ -372,4 +653,155 @@ public partial class TimelineViewModel : ObservableObject
     {
         _ = LoadItemsAsync();
     }
+
+    private void LoadGanttBars()
+    {
+        GanttBars.Clear();
+
+        // Group items by ProcessId to create Gantt bars
+        var processGroups = Items
+            .Where(i => !string.IsNullOrEmpty(i.ProcessId))
+            .GroupBy(i => i.ProcessId)
+            .ToList();
+
+        int swimlaneIndex = 0;
+        foreach (var group in processGroups)
+        {
+            var processItems = group.OrderBy(i => i.Date).ToList();
+            if (processItems.Count == 0) continue;
+
+            var startDate = processItems.First().Date;
+            var endDate = processItems.Last().Date;
+            
+            // Calculate progress based on completed items
+            var completedCount = processItems.Count(i => i.Status == TimelineStatus.Completed);
+            var progress = processItems.Count > 0 ? (double)completedCount / processItems.Count : 0;
+
+            // Extract milestones
+            var milestones = processItems
+                .Where(i => i.ObjectType == TimelineObjectType.Milestone)
+                .Select(m => new GanttMilestone
+                {
+                    Id = m.Id,
+                    Name = m.Title,
+                    Date = m.Date,
+                    Symbol = m.IconCode,
+                    Color = m.Color,
+                    IsAchieved = m.Status == TimelineStatus.Completed,
+                    Type = m.Priority == TimelinePriority.Urgent ? MilestoneType.Important : MilestoneType.Standard
+                })
+                .ToList();
+
+            // Create phases (group consecutive items into phases)
+            var phases = CreatePhasesFromItems(processItems);
+
+            var ganttBar = new TimelineGanttBar
+            {
+                Id = Guid.NewGuid().ToString(),
+                ProcessId = group.Key ?? string.Empty,
+                ProcessName = processItems.FirstOrDefault()?.Title ?? "Unbekannter Prozess",
+                StartDate = startDate,
+                EndDate = endDate,
+                Progress = progress,
+                Color = GetProcessColor(swimlaneIndex),
+                SwimlaneIndex = swimlaneIndex,
+                Milestones = milestones,
+                Phases = phases,
+                Status = DetermineGanttStatus(processItems),
+                AssignedTo = processItems.FirstOrDefault()?.AssignedTo,
+                Department = processItems.FirstOrDefault()?.Department
+            };
+
+            GanttBars.Add(ganttBar);
+            swimlaneIndex++;
+        }
+    }
+
+    private List<GanttPhase> CreatePhasesFromItems(List<TimelineItem> items)
+    {
+        var phases = new List<GanttPhase>();
+        
+        // Simple phase detection: group by status transitions
+        var statusGroups = new List<(TimelineStatus Status, DateTime Start, DateTime End)>();
+        TimelineStatus? lastStatus = null;
+        DateTime? phaseStart = null;
+
+        foreach (var item in items.OrderBy(i => i.Date))
+        {
+            if (lastStatus != item.Status)
+            {
+                if (phaseStart.HasValue && lastStatus.HasValue)
+                {
+                    statusGroups.Add((lastStatus.Value, phaseStart.Value, item.Date));
+                }
+                lastStatus = item.Status;
+                phaseStart = item.Date;
+            }
+        }
+
+        // Add final phase
+        if (phaseStart.HasValue && lastStatus.HasValue && items.Count > 0)
+        {
+            statusGroups.Add((lastStatus.Value, phaseStart.Value, items.Last().Date));
+        }
+
+        // Convert to GanttPhases
+        foreach (var (status, start, end) in statusGroups)
+        {
+            phases.Add(new GanttPhase
+            {
+                Name = GetPhaseName(status),
+                StartDate = start,
+                EndDate = end,
+                Color = GetPhaseColor(status)
+            });
+        }
+
+        return phases;
+    }
+
+    private GanttBarStatus DetermineGanttStatus(List<TimelineItem> items)
+    {
+        if (items.All(i => i.Status == TimelineStatus.Completed)) return GanttBarStatus.Completed;
+        if (items.Any(i => i.Status == TimelineStatus.Cancelled)) return GanttBarStatus.Cancelled;
+        if (items.Any(i => i.Status == TimelineStatus.Overdue)) return GanttBarStatus.Delayed;
+        if (items.Any(i => i.Status == TimelineStatus.InProgress)) return GanttBarStatus.InProgress;
+        return GanttBarStatus.NotStarted;
+    }
+
+    private string GetProcessColor(int index)
+    {
+        var colors = new[]
+        {
+            "#3b82f6", // Blue
+            "#10b981", // Green
+            "#f59e0b", // Amber
+            "#8b5cf6", // Purple
+            "#ef4444", // Red
+            "#06b6d4", // Cyan
+            "#f97316", // Orange
+            "#ec4899"  // Pink
+        };
+        return colors[index % colors.Length];
+    }
+
+    private string GetPhaseName(TimelineStatus status) => status switch
+    {
+        TimelineStatus.Open => "Offen",
+        TimelineStatus.InProgress => "In Bearbeitung",
+        TimelineStatus.Completed => "Abgeschlossen",
+        TimelineStatus.Overdue => "Überfällig",
+        TimelineStatus.Cancelled => "Abgebrochen",
+        _ => "Unbekannt"
+    };
+
+    private string GetPhaseColor(TimelineStatus status) => status switch
+    {
+        TimelineStatus.Open => "#cbd5e1",
+        TimelineStatus.InProgress => "#60a5fa",
+        TimelineStatus.Completed => "#34d399",
+        TimelineStatus.Overdue => "#f87171",
+        TimelineStatus.Cancelled => "#94a3b8",
+        _ => "#e5e7eb"
+    };
 }

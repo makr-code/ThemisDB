@@ -13,7 +13,7 @@ namespace Themis.DocumentManager.Features.MetadataForm.Services;
 /// Service zum Laden, Speichern und Verwalten von DocumentMetadataBindings
 /// Fungiert als Schnittstelle zur persistenten Metadaten-Speicherung
 /// </summary>
-public class MetadataBindingService
+public class MetadataBindingService : IMetadataBindingService
 {
     private readonly Dictionary<string, DocumentMetadataBinding> _bindingCache = new();
     private readonly object _lockObject = new object();

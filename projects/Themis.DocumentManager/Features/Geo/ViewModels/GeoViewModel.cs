@@ -255,7 +255,7 @@ namespace Themis.DocumentManager.Features.Geo.ViewModels
         /// <summary>
         /// Toggle layer visibility
         /// </summary>
-        public async Task ToggleLayerVisibilityAsync(GeoLayer layer)
+        public async Task ToggleLayerVisibilityAsync(GeoLayer? layer)
         {
             if (layer == null)
                 return;
@@ -497,7 +497,7 @@ namespace Themis.DocumentManager.Features.Geo.ViewModels
             await GenerateMapHtmlAsync();
         }
 
-        private async Task AddFeatureAsync(GeoFeature feature)
+        private async Task AddFeatureAsync(GeoFeature? feature)
         {
             if (feature == null)
                 return;
@@ -508,7 +508,7 @@ namespace Themis.DocumentManager.Features.Geo.ViewModels
             await Task.CompletedTask;
         }
 
-        private async Task RemoveFeatureAsync(GeoFeature feature)
+        private async Task RemoveFeatureAsync(GeoFeature? feature)
         {
             if (feature == null)
                 return;
@@ -529,7 +529,7 @@ namespace Themis.DocumentManager.Features.Geo.ViewModels
             }
         }
 
-        private async Task ZoomToFeatureAsync(GeoFeature feature)
+        private async Task ZoomToFeatureAsync(GeoFeature? feature)
         {
             if (feature == null)
                 return;

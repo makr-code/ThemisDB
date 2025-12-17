@@ -66,6 +66,11 @@
                            Content="♿ Barrierefreiheit"
                            Style="{StaticResource NavigationRadioButtonStyle}"
                            Click="AccessibilitySettings_Click"/>
+                
+                <RadioButton x:Name="TreeViewSettingsButton"
+                           Content="🌳 Navigation TreeView"
+                           Style="{StaticResource NavigationRadioButtonStyle}"
+                           Click="TreeViewSettings_Click"/>
             </StackPanel>
         </Border>
 
@@ -363,6 +368,11 @@
                                    GroupName="FontSize"/>
                     </StackPanel>
                 </StackPanel>
+                
+                <!-- TreeView Settings Panel -->
+                <Grid x:Name="TreeViewSettingsPanel" Visibility="Collapsed">
+                    <ContentControl x:Name="TreeViewSettingsContent"/>
+                </Grid>
             </Grid>
         </ScrollViewer>
 

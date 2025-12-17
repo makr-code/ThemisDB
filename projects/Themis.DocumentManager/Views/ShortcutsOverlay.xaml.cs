@@ -69,7 +69,7 @@ namespace Themis.DocumentManager.Views
 
             ShortcutsContainer.Children.Clear();
             
-            string currentCategory = null;
+            string? currentCategory = null;
             foreach (var item in shortcuts)
             {
                 var category = _categoryMap.ContainsKey(item.Key) ? _categoryMap[item.Key] : "Sonstiges";

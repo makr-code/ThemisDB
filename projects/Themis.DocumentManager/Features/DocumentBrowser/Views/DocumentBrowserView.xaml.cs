@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Themis.DocumentManager.ViewModels;
 using Themis.DocumentManager.Services;
+using Themis.DocumentManager.Features.DocumentBrowser.ViewModels;
 
 namespace Themis.DocumentManager.Features.DocumentBrowser.Views;
 

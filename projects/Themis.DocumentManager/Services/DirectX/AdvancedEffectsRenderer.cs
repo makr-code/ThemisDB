@@ -135,7 +135,7 @@ namespace Themis.DocumentManager.Services.DirectX
             public int TextureId { get; set; }
             public int Width { get; set; }
             public int Height { get; set; }
-            public float[] NormalData { get; set; }  // RGB stored as normals
+            public float[] NormalData { get; set; } = Array.Empty<float>();  // RGB stored as normals
         }
 
         private Dictionary<int, NormalMapData> _normalMaps = new();

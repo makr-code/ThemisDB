@@ -24,6 +24,6 @@ public class Result<T>
 /// </summary>
 public class Result : Result<bool>
 {
-    public new static Result Ok() => new() { Success = true, Value = true };
-    public new static Result Fail(string error) => new() { Success = false, ErrorMessage = error };
+    public static Result Ok() => new() { Success = true, Value = true };
+    public static Result Fail(string error) => new() { Success = false, ErrorMessage = error };
 }

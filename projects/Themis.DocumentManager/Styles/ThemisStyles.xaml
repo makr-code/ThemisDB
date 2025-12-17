@@ -267,7 +267,7 @@
 
     <!-- Dialog Overlay Style -->
     <Style x:Key="DialogOverlayStyle" TargetType="Grid">
-        <Setter Property="Background" Value="#00000099"/>
+        <Setter Property="Background" Value="#99000000"/>
     </Style>
 
     <!-- Dialog Content Style -->

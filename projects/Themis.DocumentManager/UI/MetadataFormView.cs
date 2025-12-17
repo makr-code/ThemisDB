@@ -13,14 +13,13 @@ namespace Themis.DocumentManager.UI;
 /// </summary>
 public class MetadataFormView : UserControl
 {
-    private Grid _mainGrid;
-    private ScrollViewer _scrollViewer;
-    private StackPanel _formPanel;
+    private Grid _mainGrid = null!;
+    private ScrollViewer _scrollViewer = null!;
+    private StackPanel _formPanel = null!;
     private List<MetadataFieldGroup> _groups = new();
     private Dictionary<string, FrameworkElement> _fieldControls = new();
 
     public event EventHandler<FieldEditEventArgs>? FieldValueChanged;
-    public event EventHandler<FieldGroupExpandedEventArgs>? GroupExpanded;
 
     public MetadataFormView()
     {

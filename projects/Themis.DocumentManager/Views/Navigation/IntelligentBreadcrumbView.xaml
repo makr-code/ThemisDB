@@ -73,14 +73,18 @@
                                        Visibility="{Binding Level, Converter={StaticResource BoolToVisibility}}"/>
                             
                             <!-- Breadcrumb Item with Dropdown -->
-                            <Grid>
+                            <Grid x:Name="BreadcrumbItemGrid">
                                 <Button Style="{StaticResource BreadcrumbButtonStyle}"
                                         Command="{Binding DataContext.NavigateToBreadcrumbItemCommand, 
                                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}">
+                                        CommandParameter="{Binding}"
+                                        MouseEnter="BreadcrumbItem_MouseEnter"
+                                        MouseLeave="BreadcrumbItem_MouseLeave">
                                     <Button.ContextMenu>
                                         <ContextMenu ItemsSource="{Binding RelatedEntityGroups}"
-                                                     HasDropShadow="True">
+                                                     HasDropShadow="True"
+                                                     x:Name="HoverContextMenu"
+                                                     StaysOpen="True">
                                             <ContextMenu.ItemContainerStyle>
                                                 <Style TargetType="MenuItem">
                                                     <Setter Property="Header" Value="{Binding GroupName}"/>
@@ -93,34 +97,40 @@
                                                 <HierarchicalDataTemplate>
                                                     <HierarchicalDataTemplate.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                    <ColumnDefinition Width="Auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                
-                                                                <TextBlock Grid.Column="0" Text="{Binding Icon}" 
-                                                                           FontSize="14" Margin="0,0,8,0"/>
-                                                                
-                                                                <StackPanel Grid.Column="1">
-                                                                    <TextBlock Text="{Binding Name}" FontWeight="Normal"/>
-                                                                    <TextBlock Text="{Binding RelevanceReason}" 
-                                                                               FontSize="10" Opacity="0.6"/>
-                                                                </StackPanel>
-                                                                
-                                                                <TextBlock Grid.Column="2" Text="{Binding RelevanceIndicator}" 
-                                                                           FontSize="12" Margin="8,0"/>
-                                                                
-                                                                <Border Grid.Column="3" Background="#22c55e" 
-                                                                        CornerRadius="8" Padding="6,2" Margin="4,0"
-                                                                        Visibility="{Binding IsFrequentlyAccessed, 
-                                                                                   Converter={StaticResource BoolToVisibility}}">
-                                                                    <TextBlock Text="Häufig" FontSize="9" 
-                                                                               Foreground="White" FontWeight="Bold"/>
-                                                                </Border>
-                                                            </Grid>
+                                                            <MenuItem Command="{Binding DataContext.NavigateToEntityCommand,
+                                                                              RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                      CommandParameter="{Binding}">
+                                                                <MenuItem.Header>
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                            <ColumnDefinition Width="*"/>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                            <ColumnDefinition Width="Auto"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        
+                                                                        <TextBlock Grid.Column="0" Text="{Binding Icon}" 
+                                                                                   FontSize="14" Margin="0,0,8,0"/>
+                                                                        
+                                                                        <StackPanel Grid.Column="1">
+                                                                            <TextBlock Text="{Binding Name}" FontWeight="Normal"/>
+                                                                            <TextBlock Text="{Binding RelevanceReason}" 
+                                                                                       FontSize="10" Opacity="0.6"/>
+                                                                        </StackPanel>
+                                                                        
+                                                                        <TextBlock Grid.Column="2" Text="{Binding RelevanceIndicator}" 
+                                                                                   FontSize="12" Margin="8,0"/>
+                                                                        
+                                                                        <Border Grid.Column="3" Background="#22c55e" 
+                                                                                CornerRadius="8" Padding="6,2" Margin="4,0"
+                                                                                Visibility="{Binding IsFrequentlyAccessed, 
+                                                                                           Converter={StaticResource BoolToVisibility}}">
+                                                                            <TextBlock Text="Häufig" FontSize="9" 
+                                                                                       Foreground="White" FontWeight="Bold"/>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                </MenuItem.Header>
+                                                            </MenuItem>
                                                         </DataTemplate>
                                                     </HierarchicalDataTemplate.ItemTemplate>
                                                 </HierarchicalDataTemplate>

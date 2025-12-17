@@ -3,6 +3,7 @@ using Themis.DocumentManager.Application.Common.Interfaces;
 using Themis.DocumentManager.Features.Graph.Services;
 using System.Windows.Controls;
 using Themis.DocumentManager.ViewModels;
+using Themis.DocumentManager.Features.Gantt.ViewModels;
 
 namespace Themis.DocumentManager.Features.Gantt.Views;
 

@@ -34,7 +34,9 @@ using Themis.DocumentManager.Features.ERDQueryEditor.ViewModels;
 using Themis.DocumentManager.Features.ERDQueryEditor.Views;
 using Themis.DocumentManager.ViewModels;
 using Themis.DocumentManager.ViewModels.Navigation;
-using Themis.DocumentManager.ViewModels;
+using Themis.DocumentManager.Views;
+using Themis.DocumentManager.Features.Timeline.Views;
+using Themis.DocumentManager.Features.Gantt.Views;
 
 namespace Themis.DocumentManager;
 

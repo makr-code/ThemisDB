@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Windows;
 using Themis.DocumentManager.ViewModels;
+using Themis.DocumentManager.Features.DocumentBrowser.Views;
+using Themis.DocumentManager.Features.DocumentBrowser.ViewModels;
+using Themis.DocumentManager.Features.Timeline.Views;
+using Themis.DocumentManager.Features.Dashboard.Views;
+using Themis.DocumentManager.Features.Dashboard.ViewModels;
+using Themis.DocumentManager.Features.Gantt.ViewModels;
+using Themis.DocumentManager.Features.MetadataForm.ViewModels;
 using Themis.DocumentManager.Services;
-using Themis.DocumentManager.Views.Dashboard;
 using Themis.DocumentManager.Views.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
-using Themis.DocumentManager.ViewModels.Favorites;
+using Themis.DocumentManager.Features.Favorites.ViewModels;
+using Themis.DocumentManager.ViewModels.Navigation;
+using Themis.DocumentManager.Application.Navigation.Queries.GetNavigationPath;
 using Themis.DocumentManager.Models;
+// Feature view namespaces intentionally not imported to avoid namespace/type collisions
+// Types from feature namespaces are referenced with fully-qualified names where needed.
 
 namespace Themis.DocumentManager.Views;
 
@@ -24,6 +34,7 @@ public partial class MainWindow : Window
     private readonly IThemeService _themeService;
     private readonly ISettingsService _settingsService;
     private readonly IAnimationService _animationService;
+    private readonly Themis.DocumentManager.Features.AIChat.ViewModels.AIChatViewModel _aiChatViewModel;
 
     public MainWindow(
         MainViewModel viewModel,
@@ -31,7 +42,7 @@ public partial class MainWindow : Window
         IThemeService themeService,
         ISettingsService settingsService,
         IAnimationService animationService,
-        AIChatViewModel aiChatViewModel,
+        Themis.DocumentManager.Features.AIChat.ViewModels.AIChatViewModel aiChatViewModel,
         StatusMonitorService statusMonitor,
         IFormTemplateService? formTemplateService = null)
     {
@@ -42,8 +53,29 @@ public partial class MainWindow : Window
             _themeService = themeService;
             _settingsService = settingsService;
             _animationService = animationService;
+            _aiChatViewModel = aiChatViewModel;
             DataContext = _viewModel;
 
+            // Wire Intelligent Breadcrumb ViewModel from DI
+            try
+            {
+                var breadcrumbVm = App.GetService<IntelligentBreadcrumbViewModel>();
+                if (breadcrumbVm != null && BreadcrumbControl != null)
+                {
+                    BreadcrumbControl.DataContext = breadcrumbVm;
+                    // Initial context to populate breadcrumb
+                    var initialContext = new NavigationContext
+                    {
+                        EntityId = "doc001",
+                        EntityType = Themis.DocumentManager.Application.Navigation.Queries.GetNavigationPath.EntityType.Document
+                    };
+                    breadcrumbVm.LoadNavigationPathCommand?.Execute(initialContext);
+                }
+            }
+            catch { }
+
+            // Timeline Ruler is handled by its own ViewModel (no wiring needed)
+            
             // Route VM command to settings dialog
             CommandBindings.Add(new CommandBinding(_viewModel.OpenSettingsCommand, OpenSettingsCommand_Executed));
             CommandBindings.Add(new CommandBinding(_viewModel.NextTabCommand, NextTabCommand_Executed));
@@ -60,6 +92,8 @@ public partial class MainWindow : Window
             Loaded += (_, __) => RestoreSidebarTabs();
             Loaded += async (_, __) => await WireLeftPanelsAsync();
             Loaded += async (_, __) => await WireRightPanelsAsync();
+            Loaded += (_, __) => LoadTreeViewFromSettings();
+
             Closing += (_, __) => SaveTabs();
             Closing += (_, __) => SaveSidebars();
             Closing += (_, __) => SaveSidebarTabs();
@@ -74,6 +108,17 @@ public partial class MainWindow : Window
     {
         try
         {
+            // Inner Documents Panel: bind DocumentBrowserViewModel
+            var docListVm = App.GetService<DocumentBrowserViewModel>();
+            if (docListVm != null && DocumentsList != null)
+            {
+                DocumentsList.ItemsSource = docListVm.Documents;
+                DocumentSearchBox.TextChanged += (s, e) => 
+                {
+                    docListVm.SearchText = DocumentSearchBox.Text;
+                };
+            }
+
             // Explorer: bind DocumentBrowserViewModel
             var docVm = App.GetService<DocumentBrowserViewModel>();
             if (docVm != null)
@@ -84,7 +129,7 @@ public partial class MainWindow : Window
 
             // Favorites: bind FavoritesViewModel
             var favVm = App.GetService<FavoritesViewModel>();
-            if (favVm != null)
+                if (favVm != null)
             {
                 LeftFavoritesPanel.DataContext = favVm;
                 await favVm.LoadFavoritesAsync();
@@ -273,10 +318,10 @@ public partial class MainWindow : Window
     {
         return content switch
         {
-            DocumentBrowserSimpleView => "documents",
-            TimelineSimpleView => "timeline",
-            FullDashboardSimpleView => "dashboard",
-            DashboardPreviewView => "start",
+            Themis.DocumentManager.Features.DocumentBrowser.Views.DocumentBrowserSimpleView => "documents",
+            Themis.DocumentManager.Features.Timeline.Views.TimelineViewImproved => "timeline",
+            Themis.DocumentManager.Views.FullDashboardSimpleView => "dashboard",
+            Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView => "start",
             _ => string.Empty
         };
     }
@@ -285,10 +330,10 @@ public partial class MainWindow : Window
     {
         return id switch
         {
-            "documents" => new DocumentBrowserSimpleView(),
-            "timeline" => new TimelineSimpleView(),
-            "dashboard" => new FullDashboardSimpleView(),
-            "start" => new DashboardPreviewView(),
+            "documents" => new Themis.DocumentManager.Features.DocumentBrowser.Views.DocumentBrowserSimpleView(),
+            "timeline" => new Themis.DocumentManager.Features.Timeline.Views.TimelineViewImproved(),
+            "dashboard" => new Themis.DocumentManager.Views.FullDashboardSimpleView(),
+            "start" => new Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView(),
             _ => null
         };
     }
@@ -619,12 +664,12 @@ public partial class MainWindow : Window
     {
         if (content is DocumentBrowserSimpleView)
             return App.GetService<DocumentBrowserSimpleView>() ?? new DocumentBrowserSimpleView();
-        if (content is TimelineSimpleView)
-            return App.GetService<TimelineSimpleView>() ?? new TimelineSimpleView();
-        if (content is FullDashboardSimpleView)
-            return App.GetService<FullDashboardSimpleView>() ?? new FullDashboardSimpleView();
-        if (content is DashboardPreviewView)
-            return App.GetService<DashboardPreviewView>() ?? new DashboardPreviewView();
+        if (content is TimelineViewImproved)
+            return App.GetService<TimelineViewImproved>() ?? new TimelineViewImproved();
+            if (content is Themis.DocumentManager.Views.FullDashboardSimpleView)
+            return App.GetService<Themis.DocumentManager.Views.FullDashboardSimpleView>() ?? new Themis.DocumentManager.Views.FullDashboardSimpleView();
+        if (content is Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView)
+            return App.GetService<Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView>() ?? new Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView();
         return null;
     }
 
@@ -633,10 +678,262 @@ public partial class MainWindow : Window
         return content switch
         {
             DocumentBrowserSimpleView => App.GetService<DocumentBrowserSimpleView>() ?? new DocumentBrowserSimpleView(),
-            TimelineSimpleView => App.GetService<TimelineSimpleView>() ?? new TimelineSimpleView(),
-            FullDashboardSimpleView => App.GetService<FullDashboardSimpleView>() ?? new FullDashboardSimpleView(),
-            DashboardPreviewView => App.GetService<DashboardPreviewView>() ?? new DashboardPreviewView(),
+            TimelineViewImproved => App.GetService<TimelineViewImproved>() ?? new TimelineViewImproved(),
+            Themis.DocumentManager.Views.FullDashboardSimpleView => App.GetService<Themis.DocumentManager.Views.FullDashboardSimpleView>() ?? new Themis.DocumentManager.Views.FullDashboardSimpleView(),
+            Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView => App.GetService<Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView>() ?? new Themis.DocumentManager.Features.Dashboard.Views.DashboardPreviewView(),
             _ => null
         };
     }
+
+    #region Sidebar Tab Management
+
+    private TreeViewItem? _contextMenuTreeViewItem;
+    private TreeViewItem? _lastClickedTreeViewItem;
+    private DateTime _lastTreeViewClickTime = DateTime.MinValue;
+
+    private void LoadTreeViewFromSettings()
+    {
+        try
+        {
+            var settings = _settingsService?.LoadTreeViewSettings();
+            if (settings != null && settings.RootItems.Count > 0)
+            {
+                NavigationTreeView.Items.Clear();
+                foreach (var item in settings.RootItems)
+                {
+                    NavigationTreeView.Items.Add(CreateTreeViewItem(item, settings));
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Fehler beim Laden der TreeView-Settings: {ex.Message}");
+        }
+    }
+
+    private TreeViewItem CreateTreeViewItem(Models.TreeViewItemConfig config, Models.TreeViewSettings settings)
+    {
+        var item = new TreeViewItem();
+        
+        // Header mit Icon
+        var panel = new System.Windows.Controls.StackPanel
+        {
+            Orientation = System.Windows.Controls.Orientation.Horizontal
+        };
+        
+        if (settings.ShowIcons && !string.IsNullOrEmpty(config.Icon))
+        {
+            panel.Children.Add(new TextBlock
+            {
+                Text = config.Icon,
+                Margin = new Thickness(0, 0, 8, 0),
+                FontSize = 14
+            });
+        }
+        
+        panel.Children.Add(new TextBlock
+        {
+            Text = config.Header
+        });
+        
+        item.Header = panel;
+        item.IsExpanded = config.IsExpanded;
+        item.Tag = config; // Store config for navigation
+
+        // Children rekursiv hinzufügen
+        foreach (var child in config.Children)
+        {
+            item.Items.Add(CreateTreeViewItem(child, settings));
+        }
+
+        return item;
+    }
+
+    private void SidebarTab_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is RadioButton btn)
+        {
+            if (btn.Name == "SidebarTabNavigation")
+            {
+                NavigationTabContent.Visibility = Visibility.Visible;
+                TasksTabContent.Visibility = Visibility.Collapsed;
+                FavoritesTabContent.Visibility = Visibility.Collapsed;
+            }
+            else if (btn.Name == "SidebarTabTasks")
+            {
+                NavigationTabContent.Visibility = Visibility.Collapsed;
+                TasksTabContent.Visibility = Visibility.Visible;
+                FavoritesTabContent.Visibility = Visibility.Collapsed;
+            }
+            else if (btn.Name == "SidebarTabFavorites")
+            {
+                NavigationTabContent.Visibility = Visibility.Collapsed;
+                TasksTabContent.Visibility = Visibility.Collapsed;
+                FavoritesTabContent.Visibility = Visibility.Visible;
+            }
+        }
+    }
+
+    #endregion
+
+    #region TreeView Event Handlers
+
+    private void NavigationTreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var clickedElement = e.OriginalSource as DependencyObject;
+        var treeViewItem = GetTreeViewItemFromPoint(clickedElement);
+        
+        if (treeViewItem != null)
+        {
+            var timeSinceLastClick = DateTime.Now - _lastTreeViewClickTime;
+            if (_lastClickedTreeViewItem == treeViewItem && timeSinceLastClick.TotalMilliseconds < 300)
+            {
+                return;
+            }
+
+            _lastClickedTreeViewItem = treeViewItem;
+            _lastTreeViewClickTime = DateTime.Now;
+            
+            LoadPreviewInCurrentTab(treeViewItem);
+            e.Handled = false;
+        }
+    }
+
+    private void NavigationTreeView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        var clickedElement = e.OriginalSource as DependencyObject;
+        var treeViewItem = GetTreeViewItemFromPoint(clickedElement);
+        
+        if (treeViewItem != null)
+        {
+            LoadPreviewInNewTab(treeViewItem);
+            e.Handled = true;
+        }
+    }
+
+    private void NavigationTreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var clickedElement = e.OriginalSource as DependencyObject;
+        var treeViewItem = GetTreeViewItemFromPoint(clickedElement);
+        
+        if (treeViewItem != null)
+        {
+            _contextMenuTreeViewItem = treeViewItem;
+            treeViewItem.IsSelected = true;
+        }
+    }
+
+    private TreeViewItem? GetTreeViewItemFromPoint(DependencyObject? source)
+    {
+        if (source == null) return null;
+
+        var current = source;
+        while (current != null)
+        {
+            if (current is TreeViewItem item)
+                return item;
+            current = System.Windows.Media.VisualTreeHelper.GetParent(current);
+        }
+        return null;
+    }
+
+    private void LoadPreviewInCurrentTab(TreeViewItem item)
+    {
+        var header = item.Header?.ToString() ?? "";
+        Console.WriteLine($"Preview in current tab: {header}");
+        // TODO: Implementierung für Preview-Loading
+    }
+
+    private void LoadPreviewInNewTab(TreeViewItem item)
+    {
+        var header = item.Header?.ToString() ?? "";
+        Console.WriteLine($"Open in new tab: {header}");
+        // TODO: Implementierung für neuen Tab
+    }
+
+    #endregion
+
+    #region TreeView Context Menu Handlers
+
+    private void TreeViewContext_Open(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem != null)
+        {
+            LoadPreviewInCurrentTab(_contextMenuTreeViewItem);
+        }
+    }
+
+    private void TreeViewContext_OpenNewTab(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem != null)
+        {
+            LoadPreviewInNewTab(_contextMenuTreeViewItem);
+        }
+    }
+
+    private void TreeViewContext_Rename(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+        
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+        var result = Microsoft.VisualBasic.Interaction.InputBox(
+            "Neuer Name:",
+            "Umbenennen",
+            itemHeader);
+        
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            _contextMenuTreeViewItem.Header = result;
+        }
+    }
+
+    private void TreeViewContext_Copy(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+        
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+        Clipboard.SetText(itemHeader);
+        MessageBox.Show($"'{itemHeader}' in Zwischenablage kopiert", "Kopieren", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    private void TreeViewContext_Paste(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        if (Clipboard.ContainsText())
+        {
+            var clipboardData = Clipboard.GetText();
+            MessageBox.Show($"Einfügen unter '{_contextMenuTreeViewItem.Header}':\n{clipboardData}", "Einfügen", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        else
+        {
+            MessageBox.Show("Zwischenablage ist leer", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+    }
+
+    private void TreeViewContext_Delete(object sender, RoutedEventArgs e)
+    {
+        if (_contextMenuTreeViewItem == null) return;
+
+        var itemHeader = _contextMenuTreeViewItem.Header?.ToString() ?? "";
+        var result = MessageBox.Show(
+            $"Möchten Sie '{itemHeader}' wirklich löschen?",
+            "Löschen bestätigen",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+            if (_contextMenuTreeViewItem.Parent is TreeViewItem parentItem)
+            {
+                parentItem.Items.Remove(_contextMenuTreeViewItem);
+            }
+            else if (_contextMenuTreeViewItem.Parent is TreeView treeView)
+            {
+                treeView.Items.Remove(_contextMenuTreeViewItem);
+            }
+        }
+    }
+
+    #endregion
 }

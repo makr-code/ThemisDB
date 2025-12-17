@@ -1,4 +1,4 @@
-﻿#include "storage/rocksdb_wrapper.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
@@ -17,6 +17,8 @@
 #include <unordered_map>
 
 namespace themis {
+
+using json = nlohmann::json;
 
 RocksDBWrapper::RocksDBWrapper(const Config& config) : config_(config) {
     options_ = std::make_unique<rocksdb::Options>();

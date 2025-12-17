@@ -123,9 +123,15 @@ public class SignalRService : ISignalRService, IAsyncDisposable
             return;
         }
 
+        if (_connection is null)
+        {
+            _logger.LogWarning("No SignalR connection available when joining document {DocumentId}", documentId);
+            return;
+        }
+
         try
         {
-            await _connection!.InvokeAsync("JoinDocument", documentId);
+            await _connection.InvokeAsync("JoinDocument", documentId);
             _logger.LogInformation("Joined document {DocumentId}", documentId);
 
             // Präsenz registrieren
@@ -135,7 +141,7 @@ public class SignalRService : ISignalRService, IAsyncDisposable
                 UserName = _currentUserName,
                 DocumentId = documentId,
                 Status = PresenceStatus.Viewing,
-                ConnectionId = _connection.ConnectionId
+                ConnectionId = _connection.ConnectionId ?? string.Empty
             };
             _activePresences[documentId] = presence;
         }
@@ -256,7 +262,7 @@ public class SignalRService : ISignalRService, IAsyncDisposable
         _connection.On<string, UserPresence>("OnPresenceUpdated", (documentId, presence) =>
         {
             _logger.LogInformation("Presence updated for user {UserId} in document {DocumentId}", 
-                presence.UserId, documentId);
+                presence?.UserId, documentId);
             PresenceUpdated?.Invoke(this, new PresenceEventArgs(documentId, presence));
         });
 
@@ -307,7 +313,7 @@ public class DocumentLockEventArgs : EventArgs
 public class CommentEventArgs : EventArgs
 {
     public string DocumentId { get; }
-    public Comment Comment { get; }
+    public Comment? Comment { get; }
 
     public CommentEventArgs(string documentId, Comment comment)
     {
@@ -322,9 +328,9 @@ public class CommentEventArgs : EventArgs
 public class PresenceEventArgs : EventArgs
 {
     public string DocumentId { get; }
-    public UserPresence Presence { get; }
+    public UserPresence? Presence { get; }
 
-    public PresenceEventArgs(string documentId, UserPresence presence)
+    public PresenceEventArgs(string documentId, UserPresence? presence)
     {
         DocumentId = documentId;
         Presence = presence;

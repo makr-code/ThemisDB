@@ -4,7 +4,7 @@
                     xmlns:viewDashboard="clr-namespace:Themis.DocumentManager.Features.Dashboard.Views"
                     xmlns:vmDoc="clr-namespace:Themis.DocumentManager.Features.DocumentBrowser.ViewModels"
                     xmlns:viewDoc="clr-namespace:Themis.DocumentManager.Features.DocumentBrowser.Views"
-                    xmlns:vmTimeline="clr-namespace:Themis.DocumentManager.Features.Timeline.ViewModels"
+                    xmlns:vmTimeline="clr-namespace:Themis.DocumentManager.ViewModels"
                     xmlns:viewTimeline="clr-namespace:Themis.DocumentManager.Features.Timeline.Views"
                     xmlns:vmGantt="clr-namespace:Themis.DocumentManager.Features.Gantt.ViewModels"
                     xmlns:viewGantt="clr-namespace:Themis.DocumentManager.Features.Gantt.Views"

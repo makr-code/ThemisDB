@@ -190,6 +190,19 @@ public class TimelineSegment
 }
 
 /// <summary>
+/// Timeline ruler mark for visualization
+/// </summary>
+public class TimeRulerMark
+{
+    public DateTime Date { get; set; }
+    public string Label { get; set; } = string.Empty;
+    public double PositionX { get; set; }
+    public double LabelPositionX { get; set; }
+    public double TickHeight { get; set; } = 10; // Height of tick mark in pixels
+    public bool IsMajor { get; set; } // Major ticks have labels
+}
+
+/// <summary>
 /// Timeline configuration
 /// </summary>
 public class TimelineConfiguration
@@ -234,4 +247,37 @@ public class TimelineGroup
     public TimelineObjectType PrimaryType { get; set; } // Most common type in group
     public string IconCode { get; set; } = "📊";
     public string Color { get; set; } = "#6b7280";
+}
+
+/// <summary>
+/// Gantt bar representing a process duration (for timeline visualization)
+/// </summary>
+public class TimelineGanttBar
+{
+    public string Id { get; set; } = string.Empty;
+    public string ProcessId { get; set; } = string.Empty;
+    public string ProcessName { get; set; } = string.Empty;
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public double Progress { get; set; } // 0-1 (0-100%)
+    public string Color { get; set; } = "#3b82f6";
+    public int SwimlaneIndex { get; set; } // Y-position in swimlanes
+    public List<GanttMilestone> Milestones { get; set; } = new();
+    public List<GanttPhase> Phases { get; set; } = new();
+    public GanttBarStatus Status { get; set; }
+    public string? AssignedTo { get; set; }
+    public string? Department { get; set; }
+}
+
+/// <summary>
+/// Gantt bar status (for timeline)
+/// </summary>
+public enum GanttBarStatus
+{
+    NotStarted,
+    InProgress,
+    OnHold,
+    Completed,
+    Delayed,
+    Cancelled
 }

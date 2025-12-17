@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Themis.DocumentManager.Features.Graph.Services;
 
 namespace Themis.DocumentManager.Services.DirectX;
 

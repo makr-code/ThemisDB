@@ -42,6 +42,7 @@ public class FavoriteItem
     public string TargetId { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public int Order { get; set; }
+    public DateTime LastModifiedAt { get; set; } = DateTime.UtcNow;
 }
 
 public enum FavoriteItemType
@@ -67,6 +68,7 @@ public class QuickAction
     public Dictionary<string, object> Parameters { get; set; } = new();
     public bool IsEnabled { get; set; } = true;
     public int Order { get; set; }
+    public DateTime LastModifiedAt { get; set; } = DateTime.UtcNow;
 }
 
 public enum QuickActionType

@@ -1,7 +1,8 @@
+using System.Windows;
 using System.Windows.Controls;
 using Themis.DocumentManager.ViewModels;
 
-namespace Themis.DocumentManager.Views;
+namespace Themis.DocumentManager.Features.Timeline.Views;
 
 public partial class TimelineViewImproved : UserControl
 {
@@ -14,6 +15,14 @@ public partial class TimelineViewImproved : UserControl
         if (viewModel != null)
         {
             DataContext = viewModel;
+        }
+    }
+
+    private void TimelineRuler_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (DataContext is TimelineViewModel viewModel && e.NewSize.Width > 0)
+        {
+            viewModel.CanvasWidth = e.NewSize.Width;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Themis.DocumentManager.Features.MetadataForm.Services;
 /// Intelligente Metadaten-Layout-Engine
 /// Analysiert Metadaten und erstellt optimale Gruppierungen
 /// </summary>
-public class SmartMetadataLayoutEngine
+public class SmartMetadataLayoutEngine : ISmartMetadataLayoutEngine
 {
     private readonly Dictionary<string, BadgeCategory> _categoryMapping;
     private readonly List<MetadataFieldGroup> _defaultGroups;
