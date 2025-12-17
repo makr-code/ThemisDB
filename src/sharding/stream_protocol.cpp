@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <random>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
 
 // Optional: LZ4 compression (conditional compilation)
 #ifdef THEMIS_ENABLE_LZ4
