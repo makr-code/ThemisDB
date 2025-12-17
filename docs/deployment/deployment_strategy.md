@@ -90,25 +90,35 @@ cmake --build build-full -j$(nproc)
 
 ---
 
-## Build-Plattformen
+## Build-Plattformen (v1.3.0)
 
-| Platform | Triplet | Compiler | Target | CMake Preset | Auto-Cache-Update |
-|----------|---------|----------|--------|--------------|-------------------|
-| **Windows** | x64-windows | MSVC 2022 | Windows 10+ (x64) | default | ✓ x64-windows |
-| **Linux (x64)** | x64-linux | GCC 11.4 | Ubuntu 22.04+ (x64) | linux-gcc | ✓ x64-linux |
-| **Linux (ARM64)** | arm64-linux | GCC 11.4 | Ubuntu 22.04+ (ARM64) | linux-gcc-arm | ✓ arm64-linux |
-| **Docker** | x64-linux / arm64-linux | GCC 11.4 | Docker Multi-Arch | docker-buildx | ✓ Beide |
-| **QNAP NAS** | x64-linux | GCC 11.4 | QNAP x86_64 | linux-gcc | ✓ x64-linux |
+| Platform | Triplet | Compiler | Target | CMake Preset | Feature Flags |
+|----------|---------|----------|--------|--------------|---------------|
+| **Windows** | x64-windows | MSVC 2022 | Windows 10+ (x64) | default | LLM, RPC, GPU |
+| **Linux (x64)** | x64-linux | GCC 11.4 | Ubuntu 22.04+ (x64) | linux-gcc | LLM, RPC, GPU, CUDA |
+| **Linux (ARM64)** | arm64-linux | GCC 11.4 | Ubuntu 22.04+ (ARM64) | linux-gcc-arm | LLM, RPC |
+| **Docker** | x64-linux / arm64-linux | GCC 11.4 | Docker Multi-Arch | docker-buildx | LLM, RPC, GPU, CUDA |
+| **QNAP NAS** | x64-linux | GCC 11.4 | QNAP x86_64 | linux-gcc | Minimal |
 | **macOS** | arm64-osx / x64-osx | Clang | macOS 11+ (x64/ARM) | macos | ⏳ Geplant |
+
+**v1.3.0 Modular Build Matrix:**
+
+| Configuration | ENABLE_LLM | BUILD_RPC | ENABLE_CUDA | ENABLE_GPU | Binary Size | Build Time |
+|---------------|------------|-----------|-------------|------------|-------------|------------|
+| **Minimal** | OFF | OFF | OFF | OFF | ~150 MB | 15-20 min |
+| **LLM** | ON | OFF | OFF | OFF | ~250 MB | 25-30 min |
+| **LLM+GPU** | ON | OFF | ON | ON | ~300 MB | 30-35 min |
+| **LLM+RPC** | ON | ON | OFF | OFF | ~280 MB | 30-35 min |
+| **Full** | ON | ON | ON | ON | ~350 MB | 35-40 min |
 
 ---
 
-## Cache-Architektur (Offline-First)
+## Cache-Architektur (Offline-First, v1.3.0)
 
 ### Speicherstruktur
 
 ```
-.\vcpkg\downloads\              (~2 GB, 119 Source-Archive) ← SINGLE SOURCE OF TRUTH
+.\vcpkg\downloads\              (~2.5 GB, 135+ Source-Archive) ← SINGLE SOURCE OF TRUTH
   ├─ boost_1.89.0/
   ├─ rocksdb-8.x/
   ├─ simdjson-x/
@@ -120,13 +130,22 @@ cmake --build build-full -j$(nproc)
   ├─ fmt-x/
   ├─ nlohmann-json-x/
   ├─ yaml-cpp-x/
+  ├─ grpc-x/                    ← v1.3.0 (RPC)
+  ├─ protobuf-x/                ← v1.3.0 (RPC)
+  ├─ faiss-x/                   ← v1.3.0 (GPU)
   └─ [weitere Archive...]
 
-.\vcpkg\packages\               (~8.9 GB, ephemär)
+.\vcpkg\packages\               (~10 GB, ephemär)
   └─ NICHT in Docker kopiert!
 
-.\vcpkg\buildtrees\             (~2.5 GB, Temp. Build-Artifacts)
+.\vcpkg\buildtrees\             (~3 GB, Temp. Build-Artifacts)
   └─ NICHT in Docker kopiert!
+
+.\src\llm\                      ← v1.3.0 (llama.cpp integration, bundled)
+  ├─ llamacpp_plugin.cpp
+  ├─ gguf_loader.cpp
+  ├─ paged_kv_cache.cpp
+  └─ [96 files total]
 ```
 
 ### Cache-Update-Flow

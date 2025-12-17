@@ -145,6 +145,104 @@ cmake --build --preset linux-ninja-clang-release
 # - THEMIS_ENABLE_HTTP_POOL (immer ON)
 ```
 
+---
+
+## Dependencies & Libraries (v1.3.0)
+
+### Core Dependencies (immer erforderlich)
+
+| Library | Version | Purpose | vcpkg Package |
+|---------|---------|---------|---------------|
+| **RocksDB** | Latest | Storage Engine | `rocksdb[lz4,zstd]` |
+| **OpenSSL** | 3.x | TLS/Encryption | `openssl` |
+| **simdjson** | Latest | Fast JSON parsing | `simdjson` |
+| **TBB** | Latest | Parallel algorithms | `tbb` |
+| **Apache Arrow** | Latest | Columnar data | `arrow[parquet,compute]` |
+| **HNSWlib** | Latest | Vector search | `hnswlib` |
+| **Boost.Asio** | 1.82+ | Async I/O | `boost-asio` |
+| **Boost.Beast** | 1.82+ | HTTP server | `boost-beast` |
+| **spdlog** | Latest | Logging | `spdlog` |
+| **nlohmann-json** | Latest | JSON handling | `nlohmann-json` |
+| **OpenTelemetry** | Latest | Observability | `opentelemetry-cpp[otlp-http]` |
+| **cURL** | Latest | HTTP client | `curl` |
+| **yaml-cpp** | Latest | YAML config | `yaml-cpp` |
+| **zstd** | Latest | Compression | `zstd` |
+| **mimalloc** | Latest | Fast allocator | `mimalloc` |
+| **Google Test** | Latest | Unit testing | `gtest` |
+| **Google Benchmark** | Latest | Performance testing | `benchmark` |
+
+**Total Core Size:** ~150 MB binary
+
+### LLM Dependencies (v1.3.0, optional)
+
+**CMake Flag:** `-DTHEMIS_ENABLE_LLM=ON`
+
+| Component | Purpose | Implementation | Size Impact |
+|-----------|---------|----------------|-------------|
+| **llama.cpp** | LLM inference engine | Bundled (src/llm/) | +50 MB |
+| **GGUF Loader** | Model format support | Custom implementation | Included |
+| **Tokenizer** | Text tokenization | llama.cpp | Included |
+| **KV Cache** | PagedAttention | Custom (paged_kv_cache.h) | Included |
+| **Scheduler** | Continuous batching | Custom (continuous_batch_scheduler.h) | Included |
+
+**Additional Files:** +96 files (24 headers, 23 implementations, 21 tests, 28 docs)
+**Total LLM Build Size:** ~250 MB binary
+
+### RPC Dependencies (v1.3.0, optional)
+
+**CMake Flag:** `-DTHEMIS_BUILD_RPC_FRAMEWORK=ON`
+
+| Library | Purpose | vcpkg Package |
+|---------|---------|---------------|
+| **gRPC** | RPC framework | `grpc` |
+| **Protobuf** | Serialization | `protobuf` |
+
+**Additional Files:** +26 files (6 headers, 4 implementations, 7 docs, 9 proto/config)
+**Size Impact:** +30 MB
+
+### GPU Dependencies (v1.3.0, optional)
+
+#### GPU Vector Search
+
+**CMake Flag:** `-DTHEMIS_ENABLE_GPU=ON`
+
+| Library | Purpose | vcpkg Package |
+|---------|---------|---------------|
+| **FAISS** | GPU vector search | `faiss` |
+
+**Size Impact:** +20 MB
+
+#### CUDA for LLM (requires CUDA Toolkit installed)
+
+**CMake Flag:** `-DTHEMIS_ENABLE_CUDA=ON`
+
+| Component | Purpose | Requirement |
+|-----------|---------|-------------|
+| **CUDA Toolkit** | GPU acceleration | System install (11.x or 12.x) |
+| **cuBLAS** | Matrix operations | Included in CUDA |
+| **Kernel Fusion** | Custom CUDA kernels | src/llm/kernel_fusion.cu |
+
+**Size Impact:** +50 MB (with CUDA runtime)
+
+**Supported GPU Architectures:**
+- Pascal (sm_60, sm_61) - GTX 10xx
+- Volta (sm_70) - Tesla V100
+- Turing (sm_75) - RTX 20xx
+- Ampere (sm_80, sm_86) - RTX 30xx, A100
+- Ada Lovelace (sm_89) - RTX 40xx
+
+### Build Combinations & Sizes
+
+| Configuration | Flags | Size | Use Case |
+|---------------|-------|------|----------|
+| **Minimal** | None | ~150 MB | Basic database only |
+| **LLM** | `ENABLE_LLM=ON` | ~250 MB | With LLM inference (CPU) |
+| **LLM+GPU** | `ENABLE_LLM=ON ENABLE_CUDA=ON` | ~300 MB | LLM with GPU acceleration |
+| **LLM+RPC** | `ENABLE_LLM=ON BUILD_RPC=ON` | ~280 MB | LLM with distributed ops |
+| **Full** | All ON | ~350 MB | All features enabled |
+
+---
+
 ### 2. Docker Builds (Hybrid Pre-built Binary Ansatz)
 
 Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
