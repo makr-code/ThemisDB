@@ -24,6 +24,11 @@ struct ModuleVerificationResult {
     std::string moduleHash;
     std::string modulePath;
     uint64_t verificationTimestamp = 0;
+    
+    // Authenticode information (Windows only)
+    std::string authenticodeSigner;  // Certificate subject (e.g., "CN=ThemisDB GmbH")
+    bool hasAuthenticode = false;
+    int zoneId = -1;  // -1 = no Zone.Identifier, 0-4 = zone
 };
 
 /**
@@ -139,6 +144,41 @@ public:
      * @return true if successful, false otherwise
      */
     bool exportAuditLog(const std::string& outputPath) const;
+    
+#ifdef _WIN32
+    /**
+     * @brief Check if module has Zone.Identifier (downloaded from internet)
+     * @param modulePath Path to module DLL
+     * @return Zone ID (0-4), or -1 if no Zone.Identifier
+     * 
+     * Zone IDs:
+     * - 0 = Local Computer
+     * - 1 = Local Intranet  
+     * - 2 = Trusted Sites
+     * - 3 = Internet (triggers warnings)
+     * - 4 = Restricted Sites
+     */
+    int getZoneIdentifier(const std::string& modulePath) const;
+    
+    /**
+     * @brief Remove Zone.Identifier (unblock file)
+     * @param modulePath Path to module DLL
+     * @return true if successful
+     */
+    bool removeZoneIdentifier(const std::string& modulePath);
+    
+    /**
+     * @brief Verify Authenticode signature (Windows PE signature)
+     * @param modulePath Path to module DLL
+     * @param signerInfo Output: certificate subject if signed
+     * @return true if Authenticode signature valid
+     * 
+     * This verifies the embedded PE signature that Windows checks.
+     * Shows up in file properties "Digital Signatures" tab.
+     */
+    bool verifyAuthenticodeSignature(const std::string& modulePath, 
+                                     std::string& signerInfo) const;
+#endif
     
 private:
     std::vector<LoadedModule> loadedModules_;
