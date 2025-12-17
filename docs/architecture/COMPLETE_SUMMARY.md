@@ -41,18 +41,32 @@ This work addresses the requirements for splitting ThemisDB's monolithic `themis
 | themis_geo | ~2,000 | Geospatial |
 | themis_graph | ~2,000 | Graph analytics |
 
-### 2. DLL Signature Verification System
+### 2. DLL/Shared Library Signature Verification System
 
 **Files Created**:
-- `include/themis/base/module_loader.h` (220 lines)
+- `include/themis/base/module_loader.h` (258 lines)
 - `src/base/module_loader.cpp` (420 lines)
 - `docs/architecture/DLL_SIGNATURE_VERIFICATION.md` (366 lines)
+- `docs/architecture/WINDOWS_AUTHENTICODE.md` (546 lines)
+- `docs/architecture/LINUX_MODULE_SIGNING.md` (550 lines) - **NEW**
 
 **Security Features Implemented**:
 
+#### ✅ Cross-Platform Signature Verification
+
+**Windows**:
+- Authenticode PE signatures (embedded)
+- Zone.Identifier detection for downloads
+- WinVerifyTrust API integration
+
+**Linux**:
+- GPG detached signatures (.asc/.sig files)
+- Extended attributes (xattr) for download tracking
+- ELF metadata (Build ID, .comment section)
+
 #### ✅ SHA-256 Hash Verification
 ```cpp
-std::string hash = verifier->calculateFileHash("themis_storage.dll");
+std::string hash = verifier->calculateFileHash("themis_storage.so");
 if (hash != expectedHash) {
     // REJECT: File corrupted or tampered
 }

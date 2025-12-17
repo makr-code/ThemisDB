@@ -179,6 +179,40 @@ public:
     bool verifyAuthenticodeSignature(const std::string& modulePath, 
                                      std::string& signerInfo) const;
 #endif
+
+#ifdef __linux__
+    /**
+     * @brief Verify GPG signature of module (Linux)
+     * @param modulePath Path to .so file
+     * @param signaturePath Path to .sig/.asc file (optional, auto-detected)
+     * @return true if GPG signature valid
+     * 
+     * Checks for detached GPG signatures (.asc or .sig files).
+     * Equivalent to Windows Authenticode but uses separate signature files.
+     */
+    bool verifyGPGSignature(const std::string& modulePath,
+                           const std::string& signaturePath = "") const;
+    
+    /**
+     * @brief Check extended attributes (download marker)
+     * @param modulePath Path to .so file
+     * @return Map of attribute name → value
+     * 
+     * Reads extended attributes (xattr), similar to Zone.Identifier on Windows.
+     * Attributes like user.download.source indicate internet downloads.
+     */
+    std::map<std::string, std::string> getExtendedAttributes(const std::string& modulePath) const;
+    
+    /**
+     * @brief Read ELF metadata (Build ID, version info)
+     * @param modulePath Path to .so file
+     * @return Metadata string (Build ID, .comment section)
+     * 
+     * Extracts metadata from ELF notes and sections.
+     * Similar to PE version resources on Windows.
+     */
+    std::string readELFMetadata(const std::string& modulePath) const;
+#endif
     
 private:
     std::vector<LoadedModule> loadedModules_;
