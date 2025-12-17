@@ -1,21 +1,28 @@
 # ThemisDB Build & Deployment Strategy
 
-**Version:** 2.0.0  
-**Last Updated:** 12. Dezember 2025  
+**Version:** 3.0.0 (v1.3.0 LLM Integration)  
+**Last Updated:** 17. Dezember 2025  
 **Status:** Production-Ready  
-**Architecture:** Unified Build System mit Offline-First Caching
+**Architecture:** Unified Build System with Modular Features
 
 ---
 
 ## Overview
 
-ThemisDB v1.0.1 verwendet ein **konsolidiertes, cache-gesteuertes Build-System** mit automatischer Abhängigkeitsverteilung vor jedem Build:
+ThemisDB v1.3.0 verwendet ein **modulares, cache-gesteuertes Build-System** mit optionalen Features:
 
 1. **Zentrale Build-Orchestrierung:** `.\scripts\build.ps1` (Cross-Platform Entry Point)
-2. **Automatisches Cache-Management:** `.\scripts\update-vcpkg-cache.ps1` (präventiv vor jedem Build)
-3. **Platform-spezifische Builds:** Windows (MSVC), Linux (GCC), Docker (multi-arch amd64/arm64)
-4. **Offline-First Architektur:** vcpkg\downloads/ (~2GB) als Single Source of Truth
-5. **Distribution:** Docker Hub, GitHub Releases, Debian/RPM Repositories
+2. **Modulare Features:** LLM, RPC, GPU können unabhängig aktiviert werden
+3. **Automatisches Cache-Management:** `.\scripts\update-vcpkg-cache.ps1` (präventiv vor jedem Build)
+4. **Platform-spezifische Builds:** Windows (MSVC), Linux (GCC), Docker (multi-arch amd64/arm64)
+5. **Offline-First Architektur:** vcpkg\downloads/ (~2GB) als Single Source of Truth
+6. **Distribution:** Docker Hub, GitHub Releases, Debian/RPM Repositories
+
+**NEU in v1.3.0:**
+- ✅ LLM Integration mit llama.cpp (optional: +96 files)
+- ✅ RPC Framework mit gRPC (optional: +26 files)
+- ✅ GPU/CUDA Support für LLM (optional)
+- ✅ Modular Build Flags für flexible Deployments
 
 ---
 
@@ -44,10 +51,37 @@ ThemisDB v1.0.1 verwendet ein **konsolidiertes, cache-gesteuertes Build-System**
 .\scripts\build.ps1 -Target all
 
 # Docker mit Push zu Registry
-.\scripts\build.ps1 -Target docker -Push -Tag v1.0.1
+.\scripts\build.ps1 -Target docker -Push -Tag v1.3.0
 ```
 
-### Option 3: Manueller Cache-Update (Optional)
+### Option 3: v1.3.0 Feature Builds
+
+```bash
+# Minimal Build (Core nur, ~150 MB)
+cmake -S . -B build \
+  -DTHEMIS_ENABLE_LLM=OFF \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
+  -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j$(nproc)
+
+# LLM Build mit GPU (Core + LLM + CUDA, ~250 MB)
+cmake -S . -B build-llm \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_CUDA=ON \
+  -DCMAKE_BUILD_TYPE=Release
+cmake --build build-llm -j$(nproc)
+
+# Full Build (Core + LLM + RPC + GPU, ~300 MB)
+cmake -S . -B build-full \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_CUDA=ON \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DCMAKE_BUILD_TYPE=Release
+cmake --build build-full -j$(nproc)
+```
+
+### Option 4: Manueller Cache-Update (Optional)
 
 ```powershell
 # Cache-Update ohne Build (z.B. für Offline-Szenarios vorbereiten)

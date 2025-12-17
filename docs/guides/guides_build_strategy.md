@@ -1,14 +1,16 @@
 # ThemisDB Build, Packaging & Deployment Strategy
 
-**Stand:** 7. Dezember 2025  
-**Version:** 2.0.0 (GPU Acceleration & Multi-Backend Support)  
+**Stand:** 17. Dezember 2025  
+**Version:** 3.0.0 (v1.3.0 LLM Integration & RPC Framework)  
 **Kategorie:** Guides
 
-**WICHTIG - NEU in Version 2.0:**
+**WICHTIG - NEU in Version 3.0 (v1.3.0):**
+- ✅ **LLM Integration**: llama.cpp, GPU/CUDA, PagedAttention, Continuous Batching
+- ✅ **RPC Framework**: gRPC plugin, Inter-Shard Communication, TLS/mTLS
+- ✅ **New Dependencies**: gRPC, Protobuf, CUDA Toolkit (optional)
 - ✅ GPU Acceleration mit 10 Backends (CUDA, Vulkan, HIP, DirectX, OpenCL, OneAPI, ZLUDA, Faiss)
 - ✅ 7 Client SDKs Build-Integration (Python, JS, Rust, Go, Java, C#, Swift)
-- ✅ Horizontale Skalierung Build-Optionen
-- ✅ CEP & OLAP Analytics Build-Flags
+- ✅ Modular Build-Matrix: LLM, RPC, GPU können unabhängig aktiviert werden
 
 ---
 
@@ -320,6 +322,130 @@ Dockerfile.qnap nutzt 20.04 und SSE4.2 Basis.
 # Auf Ubuntu 24.04 für Ubuntu 20.04 kompilieren
 docker run -v $(pwd):/src ubuntu:20.04 bash -c "cd /src && ./build.sh"
 ```
+
+## v1.3.0 Modular Build-Matrix (NEU - Dezember 2025)
+
+### Übersicht
+
+ThemisDB v1.3.0 bietet eine **modulare Build-Architektur** mit unabhängig aktivierbaren Features:
+
+| Feature | Build-Flag | Dependencies | Status | Impact |
+|---------|-----------|--------------|--------|--------|
+| **Core Database** | *(immer aktiv)* | RocksDB, TBB, OpenSSL | ✅ Stable | Base |
+| **LLM Integration** | `THEMIS_ENABLE_LLM=ON` | llama.cpp, CUDA* | ✅ v1.3.0 | +96 files |
+| **RPC Framework** | `THEMIS_BUILD_RPC_FRAMEWORK=ON` | gRPC, Protobuf | ✅ v1.3.0 | +26 files |
+| **GPU/CUDA** | `THEMIS_ENABLE_CUDA=ON` | CUDA Toolkit 11+ | ✅ v1.3.0 | Optional |
+| **Vector Search** | `THEMIS_ENABLE_GPU=ON` | Faiss, HNSWLIB | ✅ Stable | Performance |
+| **Monitoring** | `THEMIS_ENABLE_TRACING=ON` | OpenTelemetry | ✅ Stable | Observability |
+| **Content Processors** | `THEMIS_ENABLE_CONTENT_PROCESSORS=ON` | LibAV, GDAL | ⚠️ Optional | Heavy deps |
+| **Enterprise** | `THEMIS_BUILD_ENTERPRISE=ON` | - | ⚠️ Optional | Enterprise-only |
+
+**\* CUDA ist optional** - LLM funktioniert auch mit CPU (100x langsamer)
+
+### Build-Konfigurationen
+
+#### 1. Minimal Build (Core nur)
+```bash
+cmake -S . -B build-minimal \
+  -DTHEMIS_ENABLE_LLM=OFF \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
+  -DTHEMIS_ENABLE_CUDA=OFF \
+  -DCMAKE_BUILD_TYPE=Release
+
+# Binary Size: ~150 MB
+# Dependencies: 16 libraries (RocksDB, TBB, OpenSSL, etc.)
+```
+
+#### 2. Standard Build (Core + Vector)
+```bash
+cmake -S . -B build-standard \
+  -DTHEMIS_ENABLE_LLM=OFF \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
+  -DTHEMIS_ENABLE_CUDA=OFF \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DCMAKE_BUILD_TYPE=Release
+
+# Binary Size: ~180 MB
+# Dependencies: +2 (Faiss, HNSWLIB)
+```
+
+#### 3. LLM Build (Core + LLM + GPU)
+```bash
+cmake -S . -B build-llm \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_CUDA=ON \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
+  -DCMAKE_BUILD_TYPE=Release
+
+# Binary Size: ~250 MB
+# Dependencies: +2 (CUDA Toolkit, llama.cpp wird inline gebaut)
+```
+
+#### 4. Full Build (Core + LLM + RPC + GPU)
+```bash
+cmake -S . -B build-full \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_CUDA=ON \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_TRACING=ON \
+  -DCMAKE_BUILD_TYPE=Release
+
+# Binary Size: ~300 MB
+# Dependencies: +4 (CUDA, gRPC, Protobuf, OpenTelemetry)
+```
+
+#### 5. Enterprise Build (All Features)
+```bash
+cmake -S . -B build-enterprise \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_CUDA=ON \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_TRACING=ON \
+  -DTHEMIS_BUILD_ENTERPRISE=ON \
+  -DTHEMIS_ENABLE_CONTENT_PROCESSORS=ON \
+  -DCMAKE_BUILD_TYPE=Release
+
+# Binary Size: ~400 MB
+# Dependencies: +8 (LibAV, GDAL, CAD libs, etc.)
+```
+
+### Dependencies Matrix (v1.3.0)
+
+#### Core Dependencies (Required)
+- OpenSSL 3.0+
+- RocksDB 8.x (with LZ4, ZSTD)
+- simdjson
+- TBB (Threading Building Blocks)
+- Boost (ASIO, Beast)
+- spdlog
+- fmt
+- nlohmann-json
+- yaml-cpp
+- zstd
+- mimalloc (optional, 20-40% memory boost)
+
+#### LLM Dependencies (THEMIS_ENABLE_LLM=ON)
+- **llama.cpp** (embedded, built from source)
+- **CUDA Toolkit 11.0+** (optional, for GPU acceleration)
+  - Compute Capability 7.0+ (Volta/Turing/Ampere/Ada/Hopper)
+  - Minimum 8GB VRAM (recommended 16GB+)
+
+#### RPC Dependencies (THEMIS_BUILD_RPC_FRAMEWORK=ON)
+- **gRPC 1.50+**
+- **Protobuf 3.21+**
+
+#### Vector Search Dependencies (THEMIS_ENABLE_GPU=ON)
+- **Faiss** (with GPU support if CUDA enabled)
+- **HNSWLIB**
+
+#### Monitoring Dependencies (THEMIS_ENABLE_TRACING=ON)
+- **OpenTelemetry C++** (OTLP HTTP exporter)
+
+#### Testing Dependencies (THEMIS_BUILD_TESTS=ON)
+- **Google Test**
+- **Google Benchmark**
 
 ## GPU Acceleration Build Options (NEU - Dezember 2025)
 
