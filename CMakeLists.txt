@@ -485,6 +485,10 @@ set(THEMIS_CORE_SOURCES
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
     src/server/llm_api_handler.cpp
+    src/server/llm_grpc_service.cpp
+    
+    # gRPC proto files for LLM service
+    proto/llm_service.proto
     src/server/rate_limiter.cpp
     src/server/rate_limiter_v2.cpp
     src/server/load_shedder.cpp

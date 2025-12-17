@@ -1,0 +1,292 @@
+syntax = "proto3";
+
+package themis.llm;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+// Main LLM Service - provides all LLM inference and management capabilities
+service LLMService {
+  // Inference operations
+  rpc Inference(InferenceRequest) returns (InferenceResponse);
+  rpc RAGInference(RAGRequest) returns (InferenceResponse);
+  rpc GenerateEmbedding(EmbeddingRequest) returns (EmbeddingResponse);
+  rpc StreamInference(InferenceRequest) returns (stream TokenResponse);
+  
+  // Model management
+  rpc ListModels(ListModelsRequest) returns (ModelListResponse);
+  rpc LoadModel(ModelLoadRequest) returns (ModelOperationResponse);
+  rpc UnloadModel(ModelUnloadRequest) returns (ModelOperationResponse);
+  rpc GetModelInfo(ModelInfoRequest) returns (ModelInfo);
+  rpc IngestModel(stream ModelChunk) returns (ModelOperationResponse);
+  
+  // LoRA adapter management
+  rpc ListLoRAs(ListLoRAsRequest) returns (LoRAListResponse);
+  rpc LoadLoRA(LoRALoadRequest) returns (LoRAOperationResponse);
+  rpc UnloadLoRA(LoRAUnloadRequest) returns (LoRAOperationResponse);
+  
+  // Statistics and health
+  rpc GetStatistics(StatisticsRequest) returns (StatisticsResponse);
+  rpc GetCacheStatistics(CacheStatisticsRequest) returns (CacheStatisticsResponse);
+  rpc ClearCache(ClearCacheRequest) returns (ClearCacheResponse);
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+  
+  // Distributed operations
+  rpc ExportLoRA(LoRAExportRequest) returns (stream LoRAChunk);
+  rpc ImportLoRA(stream LoRAChunk) returns (LoRAOperationResponse);
+}
+
+// Inference request and response
+message InferenceRequest {
+  string prompt = 1;
+  string model_id = 2;
+  string lora_adapter_id = 3;
+  int32 max_tokens = 4;
+  double temperature = 5;
+  double top_p = 6;
+  int32 top_k = 7;
+  repeated string stop_sequences = 8;
+  map<string, string> metadata = 9;
+}
+
+message InferenceResponse {
+  string text = 1;
+  string model_id = 2;
+  int32 tokens_generated = 3;
+  int64 inference_time_ms = 4;
+  bool cache_hit = 5;
+  int32 prompt_tokens = 6;
+  map<string, string> metadata = 7;
+}
+
+message TokenResponse {
+  string token = 1;
+  int32 index = 2;
+  bool done = 3;
+  double probability = 4;
+}
+
+// RAG request
+message RAGRequest {
+  string query = 1;
+  string collection = 2;
+  int32 top_k = 3;
+  string lora_adapter_id = 4;
+  int32 max_tokens = 5;
+  double temperature = 6;
+  repeated Document documents = 7;
+}
+
+message Document {
+  string id = 1;
+  string content = 2;
+  double relevance_score = 3;
+  map<string, string> metadata = 4;
+}
+
+// Embedding
+message EmbeddingRequest {
+  string text = 1;
+  string model_id = 2;
+}
+
+message EmbeddingResponse {
+  repeated float embedding = 1;
+  int32 dimensions = 2;
+  string model_id = 3;
+}
+
+// Model management
+message ListModelsRequest {
+  bool include_details = 1;
+}
+
+message ModelListResponse {
+  repeated ModelInfo models = 1;
+}
+
+message ModelInfo {
+  string model_id = 1;
+  string path = 2;
+  int64 size_bytes = 3;
+  string format = 4;
+  bool loaded = 5;
+  int32 n_layers = 6;
+  int32 n_ctx = 7;
+  int32 n_gpu_layers = 8;
+  string quantization = 9;
+  int64 loaded_timestamp = 10;
+  map<string, string> metadata = 11;
+}
+
+message ModelLoadRequest {
+  string model_id = 1;
+  string path = 2;
+  int32 n_gpu_layers = 3;
+  int32 n_ctx = 4;
+  map<string, string> config = 5;
+}
+
+message ModelUnloadRequest {
+  string model_id = 1;
+}
+
+message ModelOperationResponse {
+  bool success = 1;
+  string message = 2;
+  string model_id = 3;
+}
+
+message ModelInfoRequest {
+  string model_id = 1;
+}
+
+message ModelChunk {
+  string model_id = 1;
+  bytes data = 2;
+  int64 offset = 3;
+  int64 total_size = 4;
+  bool is_final = 5;
+  string checksum = 6;
+}
+
+// LoRA management
+message ListLoRAsRequest {
+  string model_id = 1;
+}
+
+message LoRAListResponse {
+  repeated LoRAInfo loras = 1;
+}
+
+message LoRAInfo {
+  string lora_id = 1;
+  string path = 2;
+  string base_model_id = 3;
+  int64 size_bytes = 4;
+  bool loaded = 5;
+  double scale = 6;
+  int64 loaded_timestamp = 7;
+  map<string, string> metadata = 8;
+}
+
+message LoRALoadRequest {
+  string lora_id = 1;
+  string path = 2;
+  string model_id = 3;
+  double scale = 4;
+}
+
+message LoRAUnloadRequest {
+  string lora_id = 1;
+}
+
+message LoRAOperationResponse {
+  bool success = 1;
+  string message = 2;
+  string lora_id = 3;
+}
+
+message LoRAExportRequest {
+  string lora_id = 1;
+}
+
+message LoRAChunk {
+  string lora_id = 1;
+  bytes data = 2;
+  int64 offset = 3;
+  int64 total_size = 4;
+  bool is_final = 5;
+}
+
+// Statistics
+message StatisticsRequest {}
+
+message StatisticsResponse {
+  InferenceStatistics inference_stats = 1;
+  ModelStatistics model_stats = 2;
+  CacheStatistics cache_stats = 3;
+  ResourceStatistics resource_stats = 4;
+}
+
+message InferenceStatistics {
+  int64 total_requests = 1;
+  int64 successful_requests = 2;
+  int64 failed_requests = 3;
+  double avg_latency_ms = 4;
+  double p50_latency_ms = 5;
+  double p95_latency_ms = 6;
+  double p99_latency_ms = 7;
+  double requests_per_second = 8;
+  int64 total_tokens_generated = 9;
+}
+
+message ModelStatistics {
+  int32 models_loaded = 1;
+  int32 total_models = 2;
+  int64 total_vram_mb = 3;
+  int64 used_vram_mb = 4;
+  map<string, ModelUsageStats> model_usage = 5;
+}
+
+message ModelUsageStats {
+  int64 request_count = 1;
+  int64 last_used_timestamp = 2;
+  int64 vram_mb = 3;
+}
+
+message CacheStatistics {
+  int64 response_cache_hits = 1;
+  int64 response_cache_misses = 2;
+  int64 prefix_cache_hits = 3;
+  int64 prefix_cache_misses = 4;
+  double cache_hit_rate = 5;
+  int64 cache_size_bytes = 6;
+  int64 cache_entries = 7;
+}
+
+message ResourceStatistics {
+  double cpu_usage_percent = 1;
+  int64 memory_used_mb = 2;
+  int64 memory_total_mb = 3;
+  double gpu_utilization_percent = 4;
+  int64 gpu_memory_used_mb = 5;
+  int64 gpu_memory_total_mb = 6;
+}
+
+message CacheStatisticsRequest {}
+
+message CacheStatisticsResponse {
+  CacheStatistics cache_stats = 1;
+}
+
+message ClearCacheRequest {
+  enum CacheType {
+    ALL = 0;
+    RESPONSE = 1;
+    PREFIX = 2;
+    METADATA = 3;
+  }
+  CacheType cache_type = 1;
+}
+
+message ClearCacheResponse {
+  bool success = 1;
+  string message = 2;
+  int64 entries_cleared = 3;
+}
+
+// Health
+message HealthCheckRequest {}
+
+message HealthCheckResponse {
+  enum Status {
+    HEALTHY = 0;
+    DEGRADED = 1;
+    UNHEALTHY = 2;
+  }
+  Status status = 1;
+  string message = 2;
+  int64 uptime_seconds = 3;
+  map<string, string> details = 4;
+}
