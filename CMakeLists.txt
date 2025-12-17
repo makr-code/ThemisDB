@@ -509,6 +509,8 @@ set(THEMIS_CORE_SOURCES
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
     src/llm/prompt_manager.cpp
+    src/llm/block_table.cpp
+    src/llm/paged_kv_cache.cpp
     src/cdc/changefeed.cpp
     
     # Replication
@@ -1071,6 +1073,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_llm_caching.cpp
         tests/test_kv_cache_buffer.cpp  # Phase 2.2 tests
         tests/test_llm_response_cache.cpp  # Phase 2.3 tests
+        tests/test_paged_attention.cpp  # Phase 4+5 Week 1-3 tests
     )
     
     target_link_libraries(themis_tests
