@@ -252,13 +252,13 @@ namespace {
         return parentContext;
     }
     
-    // Helper: Convert entity to JSON (simplified)
-    // TODO: Use entity.toJSON() when available
+    // Helper: Convert entity to JSON
     nlohmann::json entityToJSON(const BaseEntity& entity) {
-        nlohmann::json j;
+        // Use BaseEntity's toJson() method to get all fields
+        std::string json_str = entity.toJson();
+        nlohmann::json j = nlohmann::json::parse(json_str);
+        // Ensure _key is present (primary key)
         j["_key"] = entity.getPrimaryKey();
-        // Note: This is a simplified conversion
-        // Ideally we would extract all fields via entity.toJSON()
         return j;
     }
 }
