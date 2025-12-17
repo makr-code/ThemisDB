@@ -814,6 +814,7 @@ if(THEMIS_ENABLE_LLM)
         src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
         src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
+        src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
     )
     
     # Threading support required for async inference
@@ -833,11 +834,12 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "  - Ollama-style lazy model loading enabled")
     message(STATUS "  - vLLM-style multi-LoRA management enabled")
     message(STATUS "  - Async inference engine enabled (independent threading)")
-    message(STATUS "  - ThemisDB cache reuse integration enabled (Phase 2.1, 2.2)")
+    message(STATUS "  - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)")
     message(STATUS "    * ModelMetadataCache (ConcurrentCache)")
     message(STATUS "    * LoRAMetadataCache (ConcurrentCache)")
     message(STATUS "    * PagedBlockManager (foundation for PagedAttention v1.4.0)")
     message(STATUS "    * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)")
+    message(STATUS "    * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)")
 endif()
 
 
@@ -1062,6 +1064,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_llm_plugin.cpp
         tests/test_llm_caching.cpp
         tests/test_kv_cache_buffer.cpp  # Phase 2.2 tests
+        tests/test_llm_response_cache.cpp  # Phase 2.3 tests
     )
     
     target_link_libraries(themis_tests
