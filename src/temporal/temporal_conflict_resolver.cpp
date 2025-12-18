@@ -1,0 +1,234 @@
+/**
+ * ThemisDB Temporal Conflict Resolver Implementation
+ * 
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "temporal/temporal_conflict_resolver.h"
+#include <sstream>
+#include <iomanip>
+#include <random>
+
+namespace themisdb {
+namespace temporal {
+
+// ============================================================================
+// TemporalSnapshot Implementation
+// ============================================================================
+
+nlohmann::json TemporalSnapshot::toJson() const {
+    return {
+        {"snapshot_id", snapshot_id},
+        {"hlc", {
+            {"physical", hlc.physical},
+            {"logical", hlc.logical},
+            {"node_id", hlc.node_id}
+        }},
+        {"source_node_id", source_node_id},
+        {"data", data},
+        {"checksum", checksum}
+    };
+}
+
+std::optional<TemporalSnapshot> TemporalSnapshot::fromJson(const nlohmann::json& j) {
+    try {
+        TemporalSnapshot snapshot;
+        snapshot.snapshot_id = j.at("snapshot_id").get<std::string>();
+        snapshot.hlc.physical = j.at("hlc").at("physical").get<uint64_t>();
+        snapshot.hlc.logical = j.at("hlc").at("logical").get<uint32_t>();
+        snapshot.hlc.node_id = j.at("hlc").at("node_id").get<std::string>();
+        snapshot.source_node_id = j.at("source_node_id").get<std::string>();
+        snapshot.data = j.at("data");
+        snapshot.checksum = j.at("checksum").get<std::string>();
+        return snapshot;
+    } catch (const nlohmann::json::exception&) {
+        return std::nullopt;
+    }
+}
+
+// ============================================================================
+// TemporalConflictResolver Implementation
+// ============================================================================
+
+TemporalConflictResolver::TemporalConflictResolver(ConflictPolicy default_policy)
+    : default_policy_(default_policy) {}
+
+TemporalSnapshot TemporalConflictResolver::resolve(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote,
+    std::optional<ConflictPolicy> policy
+) {
+    total_conflicts_.fetch_add(1, std::memory_order_relaxed);
+    
+    ConflictPolicy active_policy = policy.value_or(default_policy_);
+    
+    // Create conflict record
+    ConflictRecord record;
+    record.conflict_id = generateConflictId();
+    record.entity_id = local.snapshot_id;  // Use snapshot_id as entity_id
+    record.local_version = local;
+    record.remote_version = remote;
+    record.resolution_policy = active_policy;
+    record.detected_at = std::chrono::system_clock::now();
+    record.resolved = false;
+    
+    TemporalSnapshot winner;
+    
+    switch (active_policy) {
+        case ConflictPolicy::LAST_WRITE_WINS:
+            winner = resolveLastWriteWins(local, remote);
+            record.winner = (winner.hlc == local.hlc) ? "local" : "remote";
+            lww_resolutions_.fetch_add(1, std::memory_order_relaxed);
+            record.resolved = true;
+            break;
+            
+        case ConflictPolicy::FIRST_WRITE_WINS:
+            winner = resolveFirstWriteWins(local, remote);
+            record.winner = (winner.hlc == local.hlc) ? "local" : "remote";
+            fww_resolutions_.fetch_add(1, std::memory_order_relaxed);
+            record.resolved = true;
+            break;
+            
+        case ConflictPolicy::NODE_PRIORITY:
+            winner = resolveNodePriority(local, remote);
+            record.winner = (winner.hlc == local.hlc) ? "local" : "remote";
+            record.resolved = true;
+            break;
+            
+        case ConflictPolicy::CRDT_MERGE:
+            winner = resolveCRDT(local, remote);
+            record.winner = "merged";
+            crdt_merges_.fetch_add(1, std::memory_order_relaxed);
+            record.resolved = true;
+            break;
+            
+        case ConflictPolicy::MANUAL:
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                unresolved_conflicts_[record.conflict_id] = record;
+            }
+            return local;  // Keep local until manual resolution
+    }
+    
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        conflict_history_.push_back(record);
+    }
+    
+    return winner;
+}
+
+TemporalSnapshot TemporalConflictResolver::resolveLastWriteWins(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // Compare HLC timestamps using operator< and operator==
+    if (local.hlc < remote.hlc) {
+        return remote;  // remote is newer
+    } else if (remote.hlc < local.hlc) {
+        return local;   // local is newer
+    } else {
+        // HLC timestamps are equal → Use node_id as tiebreaker
+        if (remote.hlc.node_id > local.hlc.node_id) {
+            return remote;
+        } else {
+            return local;
+        }
+    }
+}
+
+TemporalSnapshot TemporalConflictResolver::resolveFirstWriteWins(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // Opposite of Last-Write-Wins - oldest wins
+    if (local.hlc < remote.hlc) {
+        return local;   // local is older
+    } else if (remote.hlc < local.hlc) {
+        return remote;  // remote is older
+    } else {
+        // Use node_id as tiebreaker (favor lower ID)
+        if (local.hlc.node_id < remote.hlc.node_id) {
+            return local;
+        } else {
+            return remote;
+        }
+    }
+}
+
+TemporalSnapshot TemporalConflictResolver::resolveNodePriority(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // Node priority based on node_id lexicographic order
+    // Can be extended with configuration-based priority mapping
+    if (local.source_node_id < remote.source_node_id) {
+        return local;
+    } else {
+        return remote;
+    }
+}
+
+TemporalSnapshot TemporalConflictResolver::resolveCRDT(
+    const TemporalSnapshot& local,
+    const TemporalSnapshot& remote
+) {
+    // TODO: Implement CRDT merge logic
+    // For now, fallback to Last-Write-Wins
+    return resolveLastWriteWins(local, remote);
+}
+
+std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ConflictRecord> result;
+    result.reserve(unresolved_conflicts_.size());
+    for (const auto& [id, record] : unresolved_conflicts_) {
+        result.push_back(record);
+    }
+    return result;
+}
+
+void TemporalConflictResolver::resolveManually(const std::string& conflict_id, const std::string& winner) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = unresolved_conflicts_.find(conflict_id);
+    if (it != unresolved_conflicts_.end()) {
+        it->second.winner = winner;
+        it->second.resolved = true;
+        conflict_history_.push_back(it->second);
+        unresolved_conflicts_.erase(it);
+        manual_resolutions_.fetch_add(1, std::memory_order_relaxed);
+    }
+}
+
+nlohmann::json TemporalConflictResolver::getStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return {
+        {"total_conflicts", total_conflicts_.load()},
+        {"lww_resolutions", lww_resolutions_.load()},
+        {"fww_resolutions", fww_resolutions_.load()},
+        {"manual_resolutions", manual_resolutions_.load()},
+        {"crdt_merges", crdt_merges_.load()},
+        {"unresolved_conflicts", unresolved_conflicts_.size()}
+    };
+}
+
+std::string TemporalConflictResolver::generateConflictId() const {
+    // Generate a unique conflict ID based on timestamp and random number
+    auto now = std::chrono::system_clock::now();
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+    ).count();
+    
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<uint32_t> dist;
+    
+    std::ostringstream oss;
+    oss << "conflict_" << now_ms << "_" << dist(gen);
+    return oss.str();
+}
+
+} // namespace temporal
+} // namespace themisdb

@@ -457,6 +457,9 @@ set(THEMIS_CORE_SOURCES
     # Replication
     src/replication/replication_manager.cpp
     
+    # Temporal conflict resolution
+    src/temporal/temporal_conflict_resolver.cpp
+    
     src/timeseries/timeseries.cpp
     src/timeseries/tsstore.cpp
     src/timeseries/gorilla.cpp
@@ -905,6 +908,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_temporal_graph.cpp
         tests/test_temporal_aggregation.cpp
     tests/test_temporal_aggregation_property.cpp
+        tests/temporal/test_temporal_conflict_resolver.cpp
         tests/test_recursive_path_query.cpp
         tests/test_timerange_query.cpp
         tests/test_property_graph.cpp
