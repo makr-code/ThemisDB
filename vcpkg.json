@@ -39,6 +39,25 @@
         "nghttp3",
         { "name": "ngtcp2", "features": ["openssl"] }
       ]
+    },
+    "grpc": {
+      "description": "Enable gRPC protocol support",
+      "dependencies": [
+        "grpc",
+        "protobuf"
+      ]
+    },
+    "websocket": {
+      "description": "Enable WebSocket protocol support (uses Boost.Beast)",
+      "dependencies": []
+    },
+    "mqtt": {
+      "description": "Enable MQTT protocol support for IoT deployments",
+      "dependencies": ["paho-mqttpp3"]
+    },
+    "postgres-wire": {
+      "description": "Enable PostgreSQL Wire Protocol support for SQL tool compatibility",
+      "dependencies": []
     }
   }
 }

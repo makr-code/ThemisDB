@@ -115,9 +115,17 @@ option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP workloads" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant (reduced dependencies)" OFF)
 option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location (AI/ML workloads)" OFF)
 
-# HTTP Protocol Support Options
+# Network Protocol Support Options
+# Security: All protocols are opt-in (OFF by default) except HTTP/1.1 and protocols already in production
+# Note: HTTP/1.1 is always enabled as the base protocol and cannot be disabled
 option(THEMIS_ENABLE_HTTP2 "Enable HTTP/2 protocol support" OFF)
 option(THEMIS_ENABLE_HTTP3 "Enable HTTP/3 (QUIC) protocol support" OFF)
+option(THEMIS_ENABLE_GRPC "Enable gRPC protocol support (inter-shard communication)" ON)  # Already implemented in v1.3.0
+option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket protocol support" OFF)
+option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL API support" ON)  # Already implemented
+option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Already implemented
+option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
+option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
 
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
@@ -454,7 +462,7 @@ set(THEMIS_CORE_SOURCES
     src/query/functions/function_registry.cpp
     
     src/server/http_server.cpp
-    src/server/sse_connection_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SSE}>:src/server/sse_connection_manager.cpp>
     src/server/audit_api_handler.cpp
     src/server/pki_api_handler.cpp
     src/server/saga_api_handler.cpp
@@ -608,8 +616,8 @@ set(THEMIS_CORE_SOURCES
     # Observability
     src/observability/metrics_collector.cpp
     
-    # GraphQL API
-    src/api/graphql.cpp
+    # GraphQL API (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:src/api/graphql.cpp>
     
     # Exporters and Importers
     src/exporters/jsonl_llm_exporter.cpp
@@ -786,6 +794,47 @@ if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
     target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
     message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# GraphQL Protocol Support
+if(THEMIS_ENABLE_GRAPHQL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRAPHQL)
+    message(STATUS "GraphQL API support enabled")
+endif()
+
+# SSE (Server-Sent Events) Support
+if(THEMIS_ENABLE_SSE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SSE)
+    message(STATUS "Server-Sent Events (SSE) support enabled")
+endif()
+
+# gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
+if(THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
+    message(STATUS "gRPC support enabled (inter-shard communication)")
+    # Note: gRPC dependencies may already be linked via sharding modules
+    # TODO: Verify gRPC linking in sharding components
+endif()
+
+# WebSocket Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_WEBSOCKET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WEBSOCKET)
+    message(STATUS "WebSocket support enabled (Boost.Beast has native support)")
+    # Note: Boost.Beast already provides WebSocket support, just needs integration
+endif()
+
+# MQTT Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_MQTT)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
+    message(STATUS "MQTT support enabled (stub - full implementation pending)")
+    # TODO: Add MQTT dependencies when implemented
+    # find_package(PahoMqttCpp CONFIG)
+endif()
+
+# PostgreSQL Wire Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
+    message(STATUS "PostgreSQL Wire Protocol support enabled (stub - full implementation pending)")
 endif()
 
 # v1.1.0: vLLM Co-Location compile definitions
