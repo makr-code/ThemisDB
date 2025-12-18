@@ -172,6 +172,9 @@ public:
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
     }
 
+    // Friend classes for protocol handlers
+    friend class Http2Session;
+
 private:
     // Session class for handling individual connections
     class Session : public std::enable_shared_from_this<Session> {

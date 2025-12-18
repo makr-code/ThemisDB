@@ -91,6 +91,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 
+#ifdef THEMIS_ENABLE_HTTP2
+#include "server/http2_session.h"
+#endif
+
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/aql_parser.h"
@@ -705,6 +709,14 @@ HttpServer::HttpServer(
                 THEMIS_INFO("mTLS: client certificate verification disabled (one-way TLS)");
             }
 
+#ifdef THEMIS_ENABLE_HTTP2
+            // Configure ALPN for HTTP/2 protocol negotiation
+            if (config_.enable_http2) {
+                Http2Handler::configureAlpn(*ssl_ctx_);
+                THEMIS_INFO("HTTP/2: ALPN configured for protocol negotiation (h2, http/1.1)");
+            }
+#endif
+
             THEMIS_INFO("HTTPS server enabled (TLS configured successfully)");
         } catch (const std::exception& e) {
             THEMIS_ERROR("Failed to initialize TLS: {}", e.what());
@@ -844,10 +856,29 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection (SSL or plain based on config)
+        // Create new session for this connection
         if (config_.enable_tls && ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
+            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
+            if (config_.enable_http2) {
+                std::make_shared<Http2Session>(
+                    std::move(socket),
+                    *ssl_ctx_,
+                    this,
+                    config_.http2_max_concurrent_streams,
+                    config_.http2_initial_window_size
+                )->start();
+            } else {
+                // TLS without HTTP/2
+                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+            }
+#else
+            // TLS without HTTP/2 support
             std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
         } else {
+            // Plain HTTP/1.1 without TLS
             std::make_shared<Session>(std::move(socket), this)->start();
         }
     }
@@ -10221,6 +10252,23 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
             THEMIS_ERROR("mTLS: failed to extract client certificate info: {}", e.what());
         }
     }
+
+#ifdef THEMIS_ENABLE_HTTP2
+    // Check if HTTP/2 was negotiated via ALPN
+    if (server_->config_.enable_http2 && Http2Handler::isHttp2Negotiated(stream_.native_handle())) {
+        THEMIS_INFO("HTTP/2 negotiated via ALPN, creating HTTP/2 session");
+        
+        // Create HTTP/2 session and transfer ownership of the socket
+        // Note: We need to extract the socket from the stream
+        // For now, we'll need to create a new Http2Session with a fresh connection
+        // This is a limitation - we'd ideally reuse the handshaked connection
+        // TODO: Refactor to allow socket transfer after handshake
+        
+        // For now, continue with HTTP/1.1 but log that HTTP/2 was negotiated
+        THEMIS_WARN("HTTP/2 was negotiated but socket transfer not yet implemented, falling back to HTTP/1.1");
+        THEMIS_WARN("TODO: Implement socket transfer from SslSession to Http2Session");
+    }
+#endif
 
     doRead();
 }

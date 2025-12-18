@@ -3,11 +3,15 @@
 #include "server/http2_session.h"
 #include "server/http_server.h"
 #include "utils/logger.h"
+#include <boost/beast/http.hpp>
 #include <openssl/ssl.h>
 #include <cstring>
 
 namespace themis {
 namespace server {
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 
 // ALPN protocol list for HTTP/2
 static const unsigned char alpn_proto_list[] = "\x02h2\x08http/1.1";
@@ -300,12 +304,60 @@ void Http2Session::processStream(int32_t stream_id) {
     
     auto& stream = it->second;
     
-    // TODO: Convert HTTP/2 request to HttpServer's internal format
-    // For now, send a simple response
     THEMIS_INFO("HTTP/2 Processing: {} {}", stream.method, stream.path);
     
-    std::string response_body = R"({"status":"ok","message":"HTTP/2 request received","protocol":"h2"})";
-    sendResponse(stream_id, 200, response_body, {{"content-type", "application/json"}});
+    // Convert HTTP/2 request to Boost.Beast HTTP/1.1 request format
+    // This allows us to reuse all existing HttpServer handlers
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    
+    // Set method
+    if (stream.method == "GET") {
+        req.method(boost::beast::http::verb::get);
+    } else if (stream.method == "POST") {
+        req.method(boost::beast::http::verb::post);
+    } else if (stream.method == "PUT") {
+        req.method(boost::beast::http::verb::put);
+    } else if (stream.method == "DELETE") {
+        req.method(boost::beast::http::verb::delete_);
+    } else if (stream.method == "PATCH") {
+        req.method(boost::beast::http::verb::patch);
+    } else if (stream.method == "HEAD") {
+        req.method(boost::beast::http::verb::head);
+    } else if (stream.method == "OPTIONS") {
+        req.method(boost::beast::http::verb::options);
+    } else {
+        THEMIS_WARN("HTTP/2 unsupported method: {}", stream.method);
+        sendResponse(stream_id, 405, R"({"error":"Method not allowed"})", 
+                    {{"content-type", "application/json"}});
+        return;
+    }
+    
+    // Set target (path)
+    req.target(stream.path);
+    
+    // Set HTTP version (doesn't matter for routing, but set it correctly)
+    req.version(11); // HTTP/1.1
+    
+    // Copy headers
+    for (const auto& [name, value] : stream.headers) {
+        req.set(name, value);
+    }
+    
+    // Set body
+    req.body() = stream.body;
+    req.prepare_payload();
+    
+    // Route the request using HttpServer's existing routing logic
+    auto response = server_->routeRequest(req);
+    
+    // Convert response headers to HTTP/2 format
+    std::unordered_map<std::string, std::string> response_headers;
+    for (const auto& header : response) {
+        response_headers[std::string(header.name_string())] = std::string(header.value());
+    }
+    
+    // Send HTTP/2 response
+    sendResponse(stream_id, response.result_int(), response.body(), response_headers);
 }
 
 void Http2Session::sendResponse(int32_t stream_id, int status,
