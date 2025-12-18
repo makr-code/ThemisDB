@@ -4,11 +4,22 @@
 
 > *"ThemisDB keeps its own llamas."* – Run LLaMA, Mistral, Phi-3 directly in your database, no API calls needed.
 
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-[![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
-[![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.2.0)
+[![Release](https://github.com/makr-code/ThemisDB/actions/workflows/release.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/release.yml)
+[![Version](https://img.shields.io/github/v/release/makr-code/ThemisDB?include_prereleases)](https://github.com/makr-code/ThemisDB/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![C++](https://img.shields.io/badge/C++-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey)](https://github.com/makr-code/ThemisDB)
+
+[![GitHub Stars](https://img.shields.io/github/stars/makr-code/ThemisDB?style=social)](https://github.com/makr-code/ThemisDB/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/makr-code/ThemisDB?style=social)](https://github.com/makr-code/ThemisDB/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/pulls)
+[![Contributors](https://img.shields.io/github/contributors/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/graphs/contributors)
+[![Last Commit](https://img.shields.io/github/last-commit/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/commits/main)
+
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-blue)](https://makr-code.github.io/ThemisDB/)
+[![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue)](https://hub.docker.com/r/themisdb/themisdb)
+[![Downloads](https://img.shields.io/github/downloads/makr-code/ThemisDB/total)](https://github.com/makr-code/ThemisDB/releases)
 
 ---
 
