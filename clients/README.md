@@ -24,10 +24,22 @@ This directory contains official client SDKs for ThemisDB in multiple programmin
 - **Documentation:** [JavaScript SDK Quickstart](../docs/clients/javascript_sdk_quickstart.md)
 - **Status:** Production-ready
 
+### PHP
+- **Path:** `php/`
+- **Documentation:** [PHP SDK README](php/README.md)
+- **Status:** Production-ready
+- **Package:** `composer require themisdb/themisdb-php`
+
 ### Python
 - **Path:** `python/`
 - **Documentation:** [Python SDK Quickstart](../docs/clients/python_sdk_quickstart.md)
 - **Status:** Production-ready
+
+### Ruby
+- **Path:** `ruby/`
+- **Documentation:** [Ruby SDK README](ruby/README.md)
+- **Status:** Production-ready
+- **Package:** `gem install themisdb`
 
 ### Rust
 - **Path:** `rust/`
@@ -47,23 +59,23 @@ Each SDK directory contains its own README with language-specific installation a
 
 All SDKs now support the same feature set (as of December 2025):
 
-| Feature | Python | JavaScript | Go | Rust | Java | C# | Swift |
-|---------|--------|------------|----|----|------|----|----|
-| CRUD Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| AQL Queries | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Transactions | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Graph API** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| - `traverse()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| - `shortestPath()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| - `neighbors()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Vector API** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| - `vectorSearch()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| - `vectorUpsert()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| - `vectorDelete()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Batch Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ |
-| TLS/mTLS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Feature | Python | JavaScript | Go | Rust | Java | C# | Swift | PHP | Ruby |
+|---------|--------|------------|----|----|------|----|----|-----|------|
+| CRUD Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| AQL Queries | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Transactions | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Graph API** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `traverse()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `shortestPath()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `neighbors()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Vector API** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `vectorSearch()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `vectorUpsert()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| - `vectorDelete()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Batch Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ | N/A | N/A |
+| TLS/mTLS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 
 ## Documentation
 
