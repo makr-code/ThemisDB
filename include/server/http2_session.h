@@ -9,6 +9,8 @@
 #include <string>
 #include <functional>
 #include <unordered_map>
+#include <set>
+#include <mutex>
 
 namespace themis {
 namespace server {
@@ -79,12 +81,21 @@ private:
         std::unordered_map<std::string, std::string> headers;
         std::string body;
         bool headers_complete = false;
+        bool cdc_subscribed = false;
+        uint64_t cdc_last_sequence = 0;
     };
     
     void processStream(int32_t stream_id);
     void sendResponse(int32_t stream_id, int status, 
                       const std::string& body,
                       const std::unordered_map<std::string, std::string>& headers = {});
+    
+    // HTTP/2 Server Push for CDC
+    void sendServerPush(int32_t stream_id, const std::string& push_path, 
+                        const std::string& body,
+                        const std::unordered_map<std::string, std::string>& headers = {});
+    void subscribeToCDC(int32_t stream_id);
+    void broadcastCDCEvent(const std::string& event_data);
     
     // Members
     boost::beast::ssl_stream<tcp::socket> stream_;
@@ -97,6 +108,11 @@ private:
     
     uint32_t max_concurrent_streams_;
     uint32_t initial_window_size_;
+    
+    // Server Push state
+    int32_t next_push_stream_id_;
+    std::set<int32_t> cdc_subscribed_streams_;
+    mutable std::mutex push_mutex_;
 };
 
 /**

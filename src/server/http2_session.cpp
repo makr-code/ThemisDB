@@ -77,6 +77,7 @@ Http2Session::Http2Session(
     , ng2_session_(nullptr)
     , max_concurrent_streams_(max_concurrent_streams)
     , initial_window_size_(initial_window_size)
+    , next_push_stream_id_(2) // Server push streams start at 2 (even numbers)
 {
 }
 
@@ -255,6 +256,12 @@ int Http2Session::onStreamCloseCallback(nghttp2_session* /*session*/, int32_t st
                                         uint32_t /*error_code*/, void* user_data) {
     auto* self = static_cast<Http2Session*>(user_data);
     
+    // Remove from CDC subscription if subscribed
+    {
+        std::lock_guard<std::mutex> lock(self->push_mutex_);
+        self->cdc_subscribed_streams_.erase(stream_id);
+    }
+    
     // Process complete request
     self->processStream(stream_id);
     self->streams_.erase(stream_id);
@@ -347,6 +354,14 @@ void Http2Session::processStream(int32_t stream_id) {
     req.body() = stream.body;
     req.prepare_payload();
     
+    // Check if this is a CDC subscription request
+    if (stream.path == "/cdc/subscribe" || stream.path == "/api/v1/cdc/subscribe") {
+        subscribeToCDC(stream_id);
+        sendResponse(stream_id, 200, R"({"status":"subscribed","message":"HTTP/2 Server Push enabled for CDC events"})", 
+                    {{"content-type", "application/json"}});
+        return;
+    }
+    
     // Route the request using HttpServer's existing routing logic
     auto response = server_->routeRequest(req);
     
@@ -424,6 +439,179 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
     }
     
     doWrite();
+}
+
+// ============================================================================
+// HTTP/2 Server Push for CDC
+// ============================================================================
+
+void Http2Session::sendServerPush(int32_t stream_id, const std::string& push_path,
+                                  const std::string& body,
+                                  const std::unordered_map<std::string, std::string>& headers) {
+    std::lock_guard<std::mutex> lock(push_mutex_);
+    
+    // Create push promise headers
+    std::vector<nghttp2_nv> nva;
+    
+    // Required pseudo-headers for push promise
+    nva.push_back({
+        (uint8_t*)":method",
+        (uint8_t*)"GET",
+        7,
+        3,
+        NGHTTP2_NV_FLAG_NONE
+    });
+    
+    nva.push_back({
+        (uint8_t*)":path",
+        (uint8_t*)push_path.c_str(),
+        5,
+        push_path.size(),
+        NGHTTP2_NV_FLAG_NONE
+    });
+    
+    nva.push_back({
+        (uint8_t*)":scheme",
+        (uint8_t*)"https",
+        7,
+        5,
+        NGHTTP2_NV_FLAG_NONE
+    });
+    
+    nva.push_back({
+        (uint8_t*)":authority",
+        (uint8_t*)"localhost",
+        10,
+        9,
+        NGHTTP2_NV_FLAG_NONE
+    });
+    
+    // Submit push promise
+    int32_t promised_stream_id = -1;
+    int rv = nghttp2_submit_push_promise(ng2_session_, NGHTTP2_FLAG_NONE, stream_id,
+                                         nva.data(), nva.size(), &promised_stream_id);
+    
+    if (rv != 0) {
+        THEMIS_ERROR("nghttp2_submit_push_promise failed: {}", nghttp2_strerror(rv));
+        return;
+    }
+    
+    THEMIS_DEBUG("HTTP/2 Server Push promise created for stream {}, promised stream {}", stream_id, promised_stream_id);
+    
+    // Now send the actual pushed response
+    std::vector<nghttp2_nv> response_nva;
+    
+    // Status header
+    response_nva.push_back({
+        (uint8_t*)":status",
+        (uint8_t*)"200",
+        7,
+        3,
+        NGHTTP2_NV_FLAG_NONE
+    });
+    
+    // Content-Type header (default to application/json for CDC events)
+    std::string content_type = "application/json";
+    auto it = headers.find("content-type");
+    if (it != headers.end()) {
+        content_type = it->second;
+    }
+    
+    response_nva.push_back({
+        (uint8_t*)"content-type",
+        (uint8_t*)content_type.c_str(),
+        12,
+        content_type.size(),
+        NGHTTP2_NV_FLAG_NONE
+    });
+    
+    // Additional custom headers
+    for (const auto& [name, value] : headers) {
+        if (name != "content-type") {
+            response_nva.push_back({
+                (uint8_t*)name.c_str(),
+                (uint8_t*)value.c_str(),
+                name.size(),
+                value.size(),
+                NGHTTP2_NV_FLAG_NONE
+            });
+        }
+    }
+    
+    // Create data provider for push response body
+    struct ResponseBuffer {
+        std::string data;
+        size_t offset = 0;
+    };
+    
+    auto* resp_buffer = new ResponseBuffer{body, 0};
+    
+    nghttp2_data_provider data_prd;
+    data_prd.source.ptr = resp_buffer;
+    data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
+                                 uint8_t* buf, size_t length, uint32_t* data_flags,
+                                 nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
+        auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
+        size_t remaining = buffer->data.size() - buffer->offset;
+        size_t to_copy = std::min(length, remaining);
+        
+        if (to_copy > 0) {
+            std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
+            buffer->offset += to_copy;
+        }
+        
+        if (buffer->offset >= buffer->data.size()) {
+            *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+            delete buffer; // Clean up when done
+        }
+        
+        return to_copy;
+    };
+    
+    rv = nghttp2_submit_response(ng2_session_, promised_stream_id, response_nva.data(), 
+                                  response_nva.size(), &data_prd);
+    if (rv != 0) {
+        THEMIS_ERROR("nghttp2_submit_response for push failed: {}", nghttp2_strerror(rv));
+        delete resp_buffer; // Clean up on error
+        return;
+    }
+    
+    doWrite();
+}
+
+void Http2Session::subscribeToCDC(int32_t stream_id) {
+    std::lock_guard<std::mutex> lock(push_mutex_);
+    cdc_subscribed_streams_.insert(stream_id);
+    
+    auto& stream = streams_[stream_id];
+    stream.cdc_subscribed = true;
+    stream.cdc_last_sequence = 0;
+    
+    THEMIS_INFO("HTTP/2 stream {} subscribed to CDC with Server Push", stream_id);
+}
+
+void Http2Session::broadcastCDCEvent(const std::string& event_data) {
+    std::lock_guard<std::mutex> lock(push_mutex_);
+    
+    // Push to all subscribed streams
+    for (int32_t stream_id : cdc_subscribed_streams_) {
+        auto it = streams_.find(stream_id);
+        if (it != streams_.end()) {
+            // Increment sequence for tracking
+            it->second.cdc_last_sequence++;
+            
+            // Create unique push path for each CDC event
+            std::string push_path = "/cdc/event/" + std::to_string(it->second.cdc_last_sequence);
+            
+            // Send Server Push with CDC event data
+            sendServerPush(stream_id, push_path, event_data, 
+                          {{"content-type", "application/json"},
+                           {"x-cdc-sequence", std::to_string(it->second.cdc_last_sequence)}});
+            
+            THEMIS_DEBUG("HTTP/2 Server Push sent CDC event to stream {}, sequence {}", 
+                        stream_id, it->second.cdc_last_sequence);
+        }
+    }
 }
 
 } // namespace server
