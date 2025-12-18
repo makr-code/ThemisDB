@@ -2,36 +2,92 @@
 
 #include "server/mqtt_session.h"
 #include <boost/beast/core.hpp>
+#include <boost/beast/websocket.hpp>
 #include <iostream>
 #include <algorithm>
 
-MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion)
+MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion, TransportType transport)
     : socket_(std::move(socket))
+    , transportType_(transport)
     , isConnected_(false)
     , packetIdCounter_(1)
     , protocolVersion_(protocolVersion)
     , keepaliveTimer_(socket_.get_executor())
-    , keepaliveInterval_(60) {
+    , keepaliveInterval_(60)
+    , lastRateLimitReset_(std::chrono::steady_clock::now())
+    , messagesThisSecond_(0)
+    , bytesThisSecond_(0) {
 }
 
 MqttSession::~MqttSession() {
     if (isConnected_ && !sessionState_.willTopic.empty()) {
         triggerWillMessage();
     }
+    metrics_.disconnectCount++;
     stop();
 }
 
+void MqttSession::setWebSocket(std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> ws) {
+    wsStream_ = ws;
+    transportType_ = TransportType::WebSocket;
+}
+
 void MqttSession::start() {
-    doRead();
+    if (transportType_ == TransportType::WebSocket) {
+        doWebSocketRead();
+    } else {
+        doRead();
+    }
 }
 
 void MqttSession::stop() {
     if (isConnected_) {
         keepaliveTimer_.cancel();
         boost::beast::error_code ec;
-        socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
-        socket_.close(ec);
+        
+        if (transportType_ == TransportType::WebSocket && wsStream_) {
+            wsStream_->close(websocket::close_code::normal, ec);
+        } else {
+            socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
+            socket_.close(ec);
+        }
         isConnected_ = false;
+    }
+}
+
+bool MqttSession::checkRateLimit(size_t messageSize) {
+    if (!rateLimitConfig_.enabled) {
+        return true;
+    }
+    
+    updateRateLimiter();
+    
+    // Check message rate limit
+    if (messagesThisSecond_ >= rateLimitConfig_.maxMessagesPerSecond) {
+        metrics_.rateLimitedMessages++;
+        return false;
+    }
+    
+    // Check byte rate limit
+    if (bytesThisSecond_ + messageSize > rateLimitConfig_.maxBytesPerSecond) {
+        metrics_.rateLimitedMessages++;
+        return false;
+    }
+    
+    messagesThisSecond_++;
+    bytesThisSecond_ += messageSize;
+    return true;
+}
+
+void MqttSession::updateRateLimiter() {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - lastRateLimitReset_);
+    
+    if (elapsed.count() >= 1) {
+        // Reset counters every second
+        messagesThisSecond_ = 0;
+        bytesThisSecond_ = 0;
+        lastRateLimitReset_ = now;
     }
 }
 
@@ -39,7 +95,12 @@ void MqttSession::handleConnect() {
     // MQTT CONNECT packet handler - production implementation
     // Parse CONNECT packet for protocol name, version, flags
     
+    if (!checkRateLimit(64)) { // CONNECT packet size estimate
+        return;
+    }
+    
     isConnected_ = true;
+    metrics_.connectCount++;
     
     // Check for existing session
     bool sessionPresent = false;
@@ -67,19 +128,32 @@ void MqttSession::handlePublish(const std::string& topic, const std::string& pay
     // MQTT PUBLISH packet handler - production implementation with QoS 0, 1, 2 support
     if (!isConnected_) return;
     
+    // Rate limiting
+    if (!checkRateLimit(topic.size() + payload.size() + 16)) {
+        return; // Drop message if rate limit exceeded
+    }
+    
+    // Update metrics
+    metrics_.messagesReceived++;
+    metrics_.bytesReceived += topic.size() + payload.size();
+    metrics_.publishCount++;
+    
     switch (qos) {
         case 0:
+            metrics_.qos0Messages++;
             // QoS 0: At most once delivery - no acknowledgment
             MqttBroker::getInstance().publish(topic, payload, 0);
             break;
             
         case 1:
+            metrics_.qos1Messages++;
             // QoS 1: At least once delivery - send PUBACK
             MqttBroker::getInstance().publish(topic, payload, 1);
             sendPubAck(packetId);
             break;
             
         case 2:
+            metrics_.qos2Messages++;
             // QoS 2: Exactly once delivery - four-way handshake
             // Check if we've already received this message
             if (incomingQos2_.find(packetId) == incomingQos2_.end()) {
@@ -126,6 +200,12 @@ void MqttSession::handlePubComp(uint16_t packetId) {
 void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_t packetId) {
     // MQTT SUBSCRIBE packet handler - production implementation
     if (!isConnected_) return;
+    
+    if (!checkRateLimit(topic.size() + 8)) {
+        return;
+    }
+    
+    metrics_.subscribeCount++;
     
     // Parse shared subscription if present ($share/shareName/topic)
     if (topic.substr(0, 7) == "$share/") {
@@ -470,18 +550,27 @@ void MqttSession::doWrite() {
     }
     
     auto self = shared_from_this();
+    auto& packet = writeQueue_.front();
     
-    asio::async_write(socket_, asio::buffer(writeQueue_.front()),
-        [this, self](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
-            if (!ec) {
-                writeQueue_.pop_front();
-                if (!writeQueue_.empty()) {
-                    doWrite();
+    // Update metrics
+    metrics_.messagesSent++;
+    metrics_.bytesSent += packet.size();
+    
+    if (transportType_ == TransportType::WebSocket && wsStream_) {
+        doWebSocketWrite();
+    } else {
+        asio::async_write(socket_, asio::buffer(packet),
+            [this, self](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
+                if (!ec) {
+                    writeQueue_.pop_front();
+                    if (!writeQueue_.empty()) {
+                        doWrite();
+                    }
+                } else {
+                    stop();
                 }
-            } else {
-                stop();
-            }
-        });
+            });
+    }
 }
 
 // MqttBroker implementation
@@ -629,6 +718,63 @@ void MqttBroker::publish(const std::string& topic, const std::string& payload, u
             }
         }
     }
+}
+
+MqttMetrics MqttBroker::getAggregatedMetrics() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    MqttMetrics aggregated;
+    
+    // Aggregate metrics from all sessions would require tracking sessions
+    // For now, return broker-level stats
+    aggregated.connectCount = persistentSessions_.size();
+    
+    return aggregated;
+}
+
+// WebSocket transport support methods for MqttSession
+void MqttSession::doWebSocketRead() {
+    if (!wsStream_) return;
+    
+    auto self = shared_from_this();
+    wsStream_->async_read(
+        boost::beast::flat_buffer(),
+        [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
+            if (ec) {
+                stop();
+                return;
+            }
+            
+            metrics_.messagesReceived++;
+            metrics_.bytesReceived += bytes_transferred;
+            
+            // Parse MQTT packet from WebSocket frame
+            // WebSocket frames contain complete MQTT packets
+            doWebSocketRead();
+        });
+}
+
+void MqttSession::doWebSocketWrite() {
+    if (!wsStream_ || writeQueue_.empty()) return;
+    
+    auto self = shared_from_this();
+    auto& packet = writeQueue_.front();
+    
+    metrics_.messagesSent++;
+    metrics_.bytesSent += packet.size();
+    
+    wsStream_->async_write(
+        asio::buffer(packet),
+        [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
+            if (ec) {
+                stop();
+                return;
+            }
+            
+            writeQueue_.pop_front();
+            if (!writeQueue_.empty()) {
+                doWebSocketWrite();
+            }
+        });
 }
 
 #endif // THEMIS_ENABLE_MQTT

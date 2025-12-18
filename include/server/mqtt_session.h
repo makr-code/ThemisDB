@@ -3,6 +3,7 @@
 #ifdef THEMIS_ENABLE_MQTT
 
 #include <boost/asio.hpp>
+#include <boost/beast/websocket.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -12,8 +13,10 @@
 #include <array>
 #include <unordered_map>
 #include <chrono>
+#include <atomic>
 
 namespace asio = boost::asio;
+namespace websocket = boost::beast::websocket;
 
 // MQTT 5.0 Property types
 struct MqttProperties {
@@ -22,6 +25,58 @@ struct MqttProperties {
     std::vector<std::pair<std::string, std::string>> userProperties;
     uint16_t topicAlias = 0;
     uint32_t messageExpiryInterval = 0;
+};
+
+// MQTT Metrics for monitoring
+struct MqttMetrics {
+    std::atomic<uint64_t> messagesReceived{0};
+    std::atomic<uint64_t> messagesSent{0};
+    std::atomic<uint64_t> bytesReceived{0};
+    std::atomic<uint64_t> bytesSent{0};
+    std::atomic<uint64_t> connectCount{0};
+    std::atomic<uint64_t> disconnectCount{0};
+    std::atomic<uint64_t> subscribeCount{0};
+    std::atomic<uint64_t> publishCount{0};
+    std::atomic<uint64_t> qos0Messages{0};
+    std::atomic<uint64_t> qos1Messages{0};
+    std::atomic<uint64_t> qos2Messages{0};
+    std::atomic<uint64_t> rateLimitedMessages{0};
+    std::chrono::steady_clock::time_point startTime;
+    
+    MqttMetrics() : startTime(std::chrono::steady_clock::now()) {}
+    
+    void reset() {
+        messagesReceived = 0;
+        messagesSent = 0;
+        bytesReceived = 0;
+        bytesSent = 0;
+        connectCount = 0;
+        disconnectCount = 0;
+        subscribeCount = 0;
+        publishCount = 0;
+        qos0Messages = 0;
+        qos1Messages = 0;
+        qos2Messages = 0;
+        rateLimitedMessages = 0;
+        startTime = std::chrono::steady_clock::now();
+    }
+};
+
+// Rate limiter configuration
+struct MqttRateLimitConfig {
+    uint32_t maxMessagesPerSecond = 1000;  // Per client
+    uint32_t maxBytesPerSecond = 1048576;   // 1MB per second per client
+    uint32_t burstSize = 100;                // Allow bursts
+    bool enabled = true;
+};
+
+// Connection retry configuration
+struct MqttRetryConfig {
+    uint32_t maxRetries = 3;
+    uint32_t initialRetryDelayMs = 1000;
+    uint32_t maxRetryDelayMs = 60000;
+    float backoffMultiplier = 2.0f;
+    bool exponentialBackoff = true;
 };
 
 // QoS 2 state tracking
@@ -52,11 +107,21 @@ struct MqttSessionState {
 
 class MqttSession : public std::enable_shared_from_this<MqttSession> {
 public:
-    explicit MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion = 4);
+    enum class TransportType {
+        TCP,
+        WebSocket
+    };
+    
+    explicit MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion = 4, 
+                        TransportType transport = TransportType::TCP);
     ~MqttSession();
 
     void start();
     void stop();
+    
+    // WebSocket support
+    void setWebSocket(std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> ws);
+    bool isWebSocketTransport() const { return transportType_ == TransportType::WebSocket; }
 
     // MQTT packet handlers
     void handleConnect();
@@ -87,14 +152,27 @@ public:
     std::string getClientId() const { return sessionState_.clientId; }
     void restoreSession(const MqttSessionState& state);
     MqttSessionState getSessionState() const { return sessionState_; }
+    
+    // Rate limiting
+    void setRateLimitConfig(const MqttRateLimitConfig& config) { rateLimitConfig_ = config; }
+    bool checkRateLimit(size_t messageSize);
+    
+    // Metrics
+    const MqttMetrics& getMetrics() const { return metrics_; }
+    void resetMetrics() { metrics_.reset(); }
 
 private:
     void doRead();
     void doWrite();
+    void doWebSocketRead();
+    void doWebSocketWrite();
     void processQos2Timeouts();
     void triggerWillMessage();
+    void updateRateLimiter();
     
     asio::ip::tcp::socket socket_;
+    std::shared_ptr<websocket::stream<asio::ip::tcp::socket>> wsStream_;
+    TransportType transportType_;
     std::array<char, 8192> buffer_;
     bool isConnected_;
     uint16_t packetIdCounter_;
@@ -114,6 +192,15 @@ private:
     // Keepalive timer
     asio::steady_timer keepaliveTimer_;
     std::chrono::seconds keepaliveInterval_;
+    
+    // Rate limiting
+    MqttRateLimitConfig rateLimitConfig_;
+    std::chrono::steady_clock::time_point lastRateLimitReset_;
+    uint32_t messagesThisSecond_;
+    uint64_t bytesThisSecond_;
+    
+    // Metrics
+    MqttMetrics metrics_;
 };
 
 // Retained message storage
@@ -146,6 +233,15 @@ public:
     std::vector<RetainedMessage> getRetainedMessages(const std::string& topicFilter);
     void clearRetainedMessage(const std::string& topic);
     
+    // Metrics & monitoring
+    MqttMetrics getAggregatedMetrics();
+    void setRateLimitConfig(const MqttRateLimitConfig& config) { rateLimitConfig_ = config; }
+    const MqttRateLimitConfig& getRateLimitConfig() const { return rateLimitConfig_; }
+    
+    // Connection retry
+    void setRetryConfig(const MqttRetryConfig& config) { retryConfig_ = config; }
+    const MqttRetryConfig& getRetryConfig() const { return retryConfig_; }
+    
 private:
     MqttBroker() = default;
     bool topicMatches(const std::string& filter, const std::string& topic);
@@ -154,6 +250,8 @@ private:
     std::map<std::string, std::map<std::string, std::vector<std::weak_ptr<MqttSession>>>> sharedSubscriptions_; // shareName -> topic -> sessions
     std::map<std::string, MqttSessionState> persistentSessions_;
     std::map<std::string, RetainedMessage> retainedMessages_;
+    MqttRateLimitConfig rateLimitConfig_;
+    MqttRetryConfig retryConfig_;
     std::mutex mutex_;
 };
 
