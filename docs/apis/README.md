@@ -22,8 +22,8 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 | WebSocket | ✅ Production-Ready | **OFF** | Bidirektionale Real-time Kommunikation + CDC (opt-in) |
 | MCP | 📋 Planned | **OFF** | Model Context Protocol für LLM-Integration (opt-in) |
 | REST (HTTP/3) | 📋 Planned | **OFF** | HTTP/3 (QUIC) für Mobile/Edge (opt-in) |
-| MQTT | 📋 Planned | **OFF** | IoT Message Broker |
-| PostgreSQL Wire | 📋 Planned | **OFF** | PostgreSQL-Tool-Kompatibilität |
+| MQTT | 📋 Implemented (Stub) | **OFF** | IoT Message Broker - siehe OPTIONAL_PROTOCOLS.md |
+| PostgreSQL Wire | 📋 Implemented (Stub) | **OFF** | PostgreSQL-Tool-Kompatibilität - siehe OPTIONAL_PROTOCOLS.md |
 | OpenAPI | ✅ Production | - | OpenAPI 3.0 Spec |
 
 **Hinweis:** Alle Protokolle können über Build-Schalter aktiviert/deaktiviert werden. Siehe [PROTOCOL_BUILD_SWITCHES.md](PROTOCOL_BUILD_SWITCHES.md) für Details.
@@ -36,7 +36,9 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 | [PROTOCOL_BUILD_SWITCHES.md](PROTOCOL_BUILD_SWITCHES.md) | **Netzwerk-Protokoll Build-Schalter und Übersicht** |
 | [HTTP2_HTTP3_PROTOCOL_SUPPORT.md](HTTP2_HTTP3_PROTOCOL_SUPPORT.md) | **HTTP/2 und HTTP/3 Support - Vor- und Nachteile** |
 | [HTTP2_HTTP3_USAGE_GUIDE.md](HTTP2_HTTP3_USAGE_GUIDE.md) | **HTTP/2 und HTTP/3 Benutzerhandbuch** |
+| [HTTP2_HTTP3_IMPLEMENTATION_SUMMARY.md](HTTP2_HTTP3_IMPLEMENTATION_SUMMARY.md) | **HTTP/2 und HTTP/3 Implementierung - Technische Details** |
 | [ADDITIONAL_PROTOCOLS.md](ADDITIONAL_PROTOCOLS.md) | **Weitere Protokolle (gRPC, WebSocket, MQTT, PostgreSQL Wire)** |
+| [OPTIONAL_PROTOCOLS.md](OPTIONAL_PROTOCOLS.md) | **🆕 Optional Protocols - MQTT und PostgreSQL Wire Implementierung** |
 | [MCP_PROTOCOL_SUPPORT.md](MCP_PROTOCOL_SUPPORT.md) | **MCP (Model Context Protocol) Support für LLM-Integration** |
 | [MCP_OFFICE_PLUGINS.md](MCP_OFFICE_PLUGINS.md) | **MCP Integration mit Office Plugins (Word, Excel, Outlook)** |
 | [apis_contentfs.md](apis_contentfs.md) | ContentFS API |

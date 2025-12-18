@@ -484,6 +484,8 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:src/server/websocket_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:src/server/postgres_session.cpp>
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
@@ -814,6 +816,24 @@ endif()
 if(THEMIS_ENABLE_WEBSOCKET)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WEBSOCKET)
     message(STATUS "WebSocket protocol support enabled")
+endif()
+
+# MCP (Model Context Protocol) Support
+if(THEMIS_ENABLE_MCP)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
+    message(STATUS "Model Context Protocol (MCP) support enabled")
+endif()
+
+# MQTT Protocol Support
+if(THEMIS_ENABLE_MQTT)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
+    message(STATUS "MQTT protocol support enabled")
+endif()
+
+# PostgreSQL Wire Protocol Support
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
+    message(STATUS "PostgreSQL Wire Protocol support enabled")
 endif()
 
 # gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
