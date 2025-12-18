@@ -79,6 +79,20 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
+**Optional Protocol Support (Security: Opt-In by Default):**
+
+```bash
+# Enable HTTP/2 (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP2=ON
+
+# Enable HTTP/3 (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP3=ON
+
+# Default build only includes HTTP/1.1 (minimal attack surface)
+```
+
+See [HTTP/2 and HTTP/3 Documentation](docs/apis/HTTP2_HTTP3_USAGE_GUIDE.md) for details.
+
 ### Package Managers
 
 **Linux (Debian/Ubuntu):**

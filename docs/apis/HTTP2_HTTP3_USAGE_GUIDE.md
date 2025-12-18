@@ -14,6 +14,17 @@ ThemisDB unterstützt moderne HTTP-Protokolle für verbesserte Performance und E
 - **HTTP/2** 🚧 In Development (nghttp2, optional)
 - **HTTP/3** 📋 Planned (nghttp3 + ngtcp2, optional)
 
+### 🔒 Sicherheitshinweis
+
+**Alle erweiterten Protokolle sind standardmäßig DEAKTIVIERT** aus Sicherheitsgründen:
+
+- HTTP/2 und HTTP/3 müssen **explizit** via Build-Schalter aktiviert werden (`THEMIS_ENABLE_HTTP2=ON`, `THEMIS_ENABLE_HTTP3=ON`)
+- Opt-In Design: Kein Protokoll wird automatisch aktiviert
+- Jedes Protokoll kann unabhängig aktiviert/deaktiviert werden
+- Nur aktivierte Protokolle werden kompiliert und in die Binary eingebunden
+
+**Grund:** Neue Protokolle bringen zusätzliche Attack-Surface. Administratoren müssen bewusst entscheiden, welche Protokolle aktiviert werden.
+
 ---
 
 ## HTTP/2 Support
@@ -21,6 +32,8 @@ ThemisDB unterstützt moderne HTTP-Protokolle für verbesserte Performance und E
 ### Build-Konfiguration
 
 #### 1. Dependencies installieren
+
+**Wichtig:** HTTP/2 Support ist standardmäßig DEAKTIVIERT. Sie müssen ihn explizit aktivieren.
 
 ```bash
 # Via vcpkg
@@ -30,17 +43,22 @@ vcpkg install nghttp2
 vcpkg install themis-qnap[http2]
 ```
 
-#### 2. Build mit HTTP/2
+#### 2. Build mit HTTP/2 (explizit aktivieren)
 
 ```bash
-# CMake konfigurieren mit HTTP/2 Support
+# CMake konfigurieren mit HTTP/2 Support (EXPLIZIT aktivieren!)
 cmake -B build -S . \
   -DTHEMIS_ENABLE_HTTP2=ON \
   -DCMAKE_BUILD_TYPE=Release
 
 # Build
 cmake --build build --config Release -j8
+
+# Verifizieren, dass HTTP/2 aktiviert ist
+grep "HTTP/2 support enabled" build/CMakeCache.txt
 ```
+
+**Standard (ohne -DTHEMIS_ENABLE_HTTP2=ON):** HTTP/2 ist NICHT verfügbar (sicher by default)
 
 ### Server-Konfiguration
 
@@ -203,6 +221,8 @@ THEMIS_DEBUG("HTTP/2 HPACK compression ratio: 0.35");
 
 ### Build-Konfiguration
 
+**Wichtig:** HTTP/3 Support ist standardmäßig DEAKTIVIERT. Sie müssen ihn explizit aktivieren.
+
 ```bash
 # Via vcpkg (wenn verfügbar)
 vcpkg install nghttp3 ngtcp2[openssl]
@@ -210,11 +230,13 @@ vcpkg install nghttp3 ngtcp2[openssl]
 # Oder mit Feature Flag
 vcpkg install themis-qnap[http3]
 
-# CMake konfigurieren
+# CMake konfigurieren (EXPLIZIT aktivieren!)
 cmake -B build -S . \
   -DTHEMIS_ENABLE_HTTP3=ON \
   -DCMAKE_BUILD_TYPE=Release
 ```
+
+**Standard (ohne -DTHEMIS_ENABLE_HTTP3=ON):** HTTP/3 ist NICHT verfügbar (sicher by default)
 
 ### Server-Konfiguration
 
@@ -418,6 +440,27 @@ Basierend auf Monitoring-Daten:
 ---
 
 ## Sicherheit
+
+### 🔒 Opt-In Security Model
+
+**Wichtiger Sicherheitsaspekt:** Alle erweiterten HTTP-Protokolle folgen einem expliziten Opt-In Model:
+
+1. **Standardmäßig deaktiviert**
+   - HTTP/2: `THEMIS_ENABLE_HTTP2=OFF` (default)
+   - HTTP/3: `THEMIS_ENABLE_HTTP3=OFF` (default)
+   - Nur HTTP/1.1 ist standardmäßig verfügbar
+
+2. **Explizite Aktivierung erforderlich**
+   - Administratoren müssen bewusst entscheiden, welche Protokolle aktiviert werden
+   - Jedes Protokoll bringt zusätzliche Attack-Surface
+   - Granulare Kontrolle: Jedes Protokoll unabhängig aktivierbar
+
+3. **Build-Zeit Isolation**
+   - Deaktivierte Protokolle werden NICHT in die Binary kompiliert
+   - Keine toten Code-Pfade, keine ungenutzten Dependencies
+   - Minimale Attack-Surface
+
+**Empfehlung:** Nur Protokolle aktivieren, die wirklich benötigt werden.
 
 ### TLS-Konfiguration für HTTP/2
 

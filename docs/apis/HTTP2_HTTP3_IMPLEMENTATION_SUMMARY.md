@@ -10,6 +10,18 @@
 
 Dieses PR fügt die **Infrastruktur und Dokumentation** für HTTP/2 und HTTP/3 Protokoll-Unterstützung in die ThemisDB REST API ein.
 
+### 🔒 Sicherheits-Design: Explizites Opt-In
+
+**Alle erweiterten Protokolle sind standardmäßig DEAKTIVIERT:**
+
+- ✅ HTTP/2: `THEMIS_ENABLE_HTTP2=OFF` (default)
+- ✅ HTTP/3: `THEMIS_ENABLE_HTTP3=OFF` (default)
+- ✅ Jedes Protokoll muss explizit aktiviert werden
+- ✅ Deaktivierte Protokolle werden nicht kompiliert (minimale Attack-Surface)
+- ✅ Granulare Kontrolle pro Protokoll
+
+**Grund:** Sicherheitsbedenken - neue Protokolle bringen zusätzliche Attack-Surface. Administratoren entscheiden bewusst, welche Protokolle aktiviert werden.
+
 ### ✅ Vollständig implementiert
 
 1. **Build-System und Dependencies**
@@ -316,6 +328,41 @@ auto* resp_buffer = new ResponseBuffer{body, 0};
 ✅ **CodeQL:** Keine neuen Sicherheitsprobleme erkannt
 
 Grund: Stub-Implementationen haben noch keine aktiven Codepfade
+
+### Sicherheits-Architektur
+
+**Explizites Opt-In Model (Security by Default):**
+
+```cmake
+# Standard-Build (SICHER)
+cmake -B build -S .
+# → Nur HTTP/1.1 verfügbar
+# → HTTP/2 Code wird NICHT kompiliert
+# → HTTP/3 Code wird NICHT kompiliert
+
+# Mit HTTP/2 (EXPLIZIT)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP2=ON
+# → HTTP/1.1 + HTTP/2 verfügbar
+# → HTTP/3 Code wird NICHT kompiliert
+
+# Mit HTTP/3 (EXPLIZIT)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP3=ON
+# → HTTP/1.1 + HTTP/3 verfügbar
+# → HTTP/2 Code wird NICHT kompiliert
+```
+
+**Sicherheits-Features:**
+
+1. ✅ **Build-Zeit Isolation**: Deaktivierte Protokolle werden nicht kompiliert
+2. ✅ **Granulare Kontrolle**: Jedes Protokoll unabhängig aktivierbar
+3. ✅ **Minimale Attack-Surface**: Nur gewünschte Protokolle in Binary
+4. ✅ **Explizite Entscheidung**: Administrator muss bewusst aktivieren
+5. ✅ **#ifdef Guards**: Code-Pfade komplett entfernt wenn deaktiviert
+
+**Warum wichtig?**
+- Neue Protokolle = neue Attack-Vectors (Stream-Multiplexing DoS, QUIC Amplification)
+- HTTP/2 HPACK-Bomb, HTTP/3 Connection Migration Exploits
+- Nur aktivieren, was wirklich benötigt wird
 
 ---
 
