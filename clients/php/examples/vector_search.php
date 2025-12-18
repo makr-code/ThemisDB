@@ -86,7 +86,7 @@ $queryEmbedding = generateMockEmbedding($query);
 
 $results = $client->vectorSearch($queryEmbedding, 3);  // Top 3 results
 
-echo "   Found {count($results['results'])} results:\n";
+echo "   Found " . count($results['results']) . " results:\n";
 foreach ($results['results'] as $i => $result) {
     $docId = $result['id'];
     $score = $result['score'] ?? $result['distance'] ?? 0;

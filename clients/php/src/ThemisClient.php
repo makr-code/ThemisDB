@@ -464,9 +464,10 @@ class ThemisClient
             return $responses[0];
         }
 
-        // Merge and sort results from multiple shards
+        # Merge and sort results from multiple shards
         $mergedHits = [];
         foreach ($responses as $response) {
+            // Support both 'results' (vector search) and 'items' (cursor-based) formats
             if (isset($response['results'])) {
                 $mergedHits = array_merge($mergedHits, $response['results']);
             } elseif (isset($response['items'])) {

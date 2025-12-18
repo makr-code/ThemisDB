@@ -449,10 +449,8 @@ module ThemisDB
     end
 
     def stable_hash(value)
+      # Use custom FNV implementation defined below
       Digest::FNV.fnv1a_32(value)
-    rescue NameError
-      # Fallback if FNV not available
-      value.hash.abs
     end
 
     def single_shard_query?(aql)
@@ -569,14 +567,14 @@ module ThemisDB
 
     def commit
       ensure_active
-      endpoint = @client.instance_variable_get(:@endpoints)[0]
+      endpoint = @client.endpoints[0]
       tx_request(:post, "#{endpoint}/transaction/commit", transaction_id: @transaction_id)
       @committed = true
     end
 
     def rollback
       ensure_active
-      endpoint = @client.instance_variable_get(:@endpoints)[0]
+      endpoint = @client.endpoints[0]
       tx_request(:post, "#{endpoint}/transaction/rollback", transaction_id: @transaction_id)
       @rolled_back = true
     end
