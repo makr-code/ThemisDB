@@ -235,8 +235,19 @@ HttpServer::HttpServer(
 #ifdef THEMIS_ENABLE_WEBSOCKET
     // Initialize WebSocket Manager
     if (config_.enable_websocket) {
-        websocket_manager_ = std::make_shared<WebSocketManager>();
-        THEMIS_INFO("WebSocket Connection Manager initialized");
+        // Pass changefeed for CDC support with configurable poll interval
+        websocket_manager_ = std::make_shared<WebSocketManager>(
+            changefeed_.get(), 
+            config_.websocket_cdc_poll_interval_ms
+        );
+        THEMIS_INFO("WebSocket Connection Manager initialized with CDC support");
+        
+        // Start CDC polling if changefeed is available
+        if (changefeed_) {
+            websocket_manager_->startCDCPolling(ioc_, config_.websocket_cdc_poll_interval_ms);
+            THEMIS_INFO("CDC polling started for WebSocket connections (interval={}ms)", 
+                       config_.websocket_cdc_poll_interval_ms);
+        }
     }
 #endif
 

@@ -13,6 +13,10 @@
 #include <functional>
 
 namespace themis {
+
+// Forward declaration
+class Changefeed;
+
 namespace server {
 
 namespace beast = boost::beast;
@@ -80,6 +84,36 @@ public:
      * @brief Get session ID
      */
     std::string getSessionId() const { return session_id_; }
+    
+    /**
+     * @brief Subscribe to CDC changefeed
+     */
+    void subscribeToCDC(uint64_t from_sequence = 0, const std::string& key_prefix = "");
+    
+    /**
+     * @brief Unsubscribe from CDC changefeed
+     */
+    void unsubscribeFromCDC();
+    
+    /**
+     * @brief Check if subscribed to CDC
+     */
+    bool isSubscribedToCDC() const { return cdc_subscribed_; }
+    
+    /**
+     * @brief Update CDC last sent sequence
+     */
+    void updateCDCLastSentSequence(uint64_t sequence);
+    
+    /**
+     * @brief Get CDC subscription details
+     */
+    struct CDCSubscription {
+        uint64_t from_sequence;
+        std::string key_prefix;
+        uint64_t last_sent_sequence;
+    };
+    CDCSubscription getCDCSubscription() const;
 
 private:
     void onAccept(beast::error_code ec);
@@ -103,15 +137,42 @@ private:
     std::queue<std::string> write_queue_;
     std::mutex write_mutex_;
     bool writing_;
+    
+    // CDC subscription state
+    bool cdc_subscribed_;
+    uint64_t cdc_from_sequence_;
+    uint64_t cdc_last_sent_sequence_;
+    std::string cdc_key_prefix_;
+    mutable std::mutex cdc_mutex_;
 };
 
 /**
  * @brief WebSocket Connection Manager
  * 
- * Manages all active WebSocket connections and supports broadcasting
+ * Manages all active WebSocket connections and supports broadcasting.
+ * Includes CDC/Changefeed integration for real-time data change notifications.
  */
 class WebSocketManager {
 public:
+    /**
+     * @brief Constructor
+     * @param changefeed Optional Changefeed instance for CDC support
+     * @param cdc_poll_interval_ms CDC polling interval in milliseconds (default: 500ms)
+     */
+    explicit WebSocketManager(Changefeed* changefeed = nullptr, uint32_t cdc_poll_interval_ms = 500);
+    
+    ~WebSocketManager();
+    
+    /**
+     * @brief Start background CDC polling (if changefeed is set)
+     */
+    void startCDCPolling(net::io_context& ioc, uint32_t interval_ms = 500);
+    
+    /**
+     * @brief Stop background CDC polling
+     */
+    void stopCDCPolling();
+    
     /**
      * @brief Add a new WebSocket session
      */
@@ -141,10 +202,23 @@ public:
      * @brief Close all sessions
      */
     void closeAll();
+    
+    /**
+     * @brief Get all sessions subscribed to CDC
+     */
+    std::vector<std::shared_ptr<WebSocketSession>> getCDCSubscribedSessions() const;
 
 private:
+    void pollCDCEvents();
+    
     std::unordered_map<std::string, std::shared_ptr<WebSocketSession>> sessions_;
     mutable std::mutex sessions_mutex_;
+    
+    // CDC integration
+    Changefeed* changefeed_;
+    std::unique_ptr<net::steady_timer> cdc_poll_timer_;
+    std::atomic<bool> cdc_polling_active_;
+    uint32_t cdc_poll_interval_ms_;
 };
 
 } // namespace server

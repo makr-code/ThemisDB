@@ -2,6 +2,7 @@
 
 #include "server/websocket_session.h"
 #include "server/http_server.h"
+#include "cdc/changefeed.h"
 #include "utils/logger.h"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
@@ -20,6 +21,9 @@ WebSocketSession::WebSocketSession(tcp::socket socket, HttpServer* server)
     , active_(false)
     , is_tls_(false)
     , writing_(false)
+    , cdc_subscribed_(false)
+    , cdc_from_sequence_(0)
+    , cdc_last_sent_sequence_(0)
 {
     ws_plain_ = std::make_unique<websocket::stream<beast::tcp_stream>>(std::move(socket));
     
@@ -35,6 +39,9 @@ WebSocketSession::WebSocketSession(beast::ssl_stream<beast::tcp_stream> stream, 
     , active_(false)
     , is_tls_(true)
     , writing_(false)
+    , cdc_subscribed_(false)
+    , cdc_from_sequence_(0)
+    , cdc_last_sent_sequence_(0)
 {
     ws_tls_ = std::make_unique<websocket::stream<beast::ssl_stream<beast::tcp_stream>>>(std::move(stream));
     
@@ -164,17 +171,38 @@ void WebSocketSession::processMessage(const std::string& message) {
             std::string channel = msg.value("channel", "");
             THEMIS_INFO("WebSocket subscribe request ({}) to channel: {}", session_id_, channel);
             
-            json response = {
-                {"type", "subscribed"},
-                {"channel", channel},
-                {"status", "ok"}
-            };
-            send(response.dump());
+            if (channel == "cdc" || channel == "changefeed") {
+                // Subscribe to CDC changefeed
+                uint64_t from_seq = msg.value("from_sequence", 0);
+                std::string key_prefix = msg.value("key_prefix", "");
+                
+                subscribeToCDC(from_seq, key_prefix);
+                
+                json response = {
+                    {"type", "subscribed"},
+                    {"channel", channel},
+                    {"status", "ok"},
+                    {"from_sequence", from_seq},
+                    {"key_prefix", key_prefix}
+                };
+                send(response.dump());
+            } else {
+                json response = {
+                    {"type", "subscribed"},
+                    {"channel", channel},
+                    {"status", "ok"}
+                };
+                send(response.dump());
+            }
         }
         else if (type == "unsubscribe") {
             // Handle unsubscription
             std::string channel = msg.value("channel", "");
             THEMIS_INFO("WebSocket unsubscribe request ({}) from channel: {}", session_id_, channel);
+            
+            if (channel == "cdc" || channel == "changefeed") {
+                unsubscribeFromCDC();
+            }
             
             json response = {
                 {"type", "unsubscribed"},
@@ -306,6 +334,7 @@ void WebSocketSession::close() {
     }
     
     active_ = false;
+    unsubscribeFromCDC(); // Clean up CDC subscription
     doClose();
 }
 
@@ -325,7 +354,174 @@ void WebSocketSession::doClose() {
     }
 }
 
+void WebSocketSession::subscribeToCDC(uint64_t from_sequence, const std::string& key_prefix) {
+    std::lock_guard<std::mutex> lock(cdc_mutex_);
+    cdc_subscribed_ = true;
+    cdc_from_sequence_ = from_sequence;
+    // Set last_sent to from_sequence - 1 so first poll gets events > from_sequence
+    cdc_last_sent_sequence_ = (from_sequence > 0) ? (from_sequence - 1) : 0;
+    cdc_key_prefix_ = key_prefix;
+    
+    THEMIS_INFO("WebSocket session {} subscribed to CDC (from_seq={}, last_sent={}, prefix='{}')", 
+                session_id_, from_sequence, cdc_last_sent_sequence_, key_prefix);
+}
+
+void WebSocketSession::unsubscribeFromCDC() {
+    std::lock_guard<std::mutex> lock(cdc_mutex_);
+    if (cdc_subscribed_) {
+        cdc_subscribed_ = false;
+        THEMIS_INFO("WebSocket session {} unsubscribed from CDC", session_id_);
+    }
+}
+
+void WebSocketSession::updateCDCLastSentSequence(uint64_t sequence) {
+    std::lock_guard<std::mutex> lock(cdc_mutex_);
+    cdc_last_sent_sequence_ = sequence;
+}
+
+WebSocketSession::CDCSubscription WebSocketSession::getCDCSubscription() const {
+    std::lock_guard<std::mutex> lock(cdc_mutex_);
+    return CDCSubscription{
+        cdc_from_sequence_,
+        cdc_key_prefix_,
+        cdc_last_sent_sequence_
+    };
+}
+
 // WebSocketManager implementation
+
+WebSocketManager::WebSocketManager(Changefeed* changefeed, uint32_t cdc_poll_interval_ms)
+    : changefeed_(changefeed)
+    , cdc_polling_active_(false)
+    , cdc_poll_interval_ms_(cdc_poll_interval_ms)
+{
+    THEMIS_INFO("WebSocketManager created with CDC support: {}, poll_interval={}ms", 
+                changefeed != nullptr, cdc_poll_interval_ms);
+}
+
+WebSocketManager::~WebSocketManager() {
+    stopCDCPolling();
+    closeAll();
+}
+
+void WebSocketManager::startCDCPolling(net::io_context& ioc, uint32_t interval_ms) {
+    if (!changefeed_) {
+        THEMIS_WARN("Cannot start CDC polling: no changefeed configured");
+        return;
+    }
+    
+    if (cdc_polling_active_.load()) {
+        THEMIS_WARN("CDC polling already active");
+        return;
+    }
+    
+    cdc_poll_interval_ms_ = interval_ms;
+    cdc_polling_active_ = true;
+    cdc_poll_timer_ = std::make_unique<net::steady_timer>(ioc);
+    
+    THEMIS_INFO("Starting CDC polling for WebSocket (interval={}ms)", interval_ms);
+    pollCDCEvents();
+}
+
+void WebSocketManager::stopCDCPolling() {
+    if (cdc_polling_active_.load()) {
+        cdc_polling_active_ = false;
+        if (cdc_poll_timer_) {
+            cdc_poll_timer_->cancel();
+            cdc_poll_timer_.reset();
+        }
+        THEMIS_INFO("CDC polling stopped for WebSocket");
+    }
+}
+
+void WebSocketManager::pollCDCEvents() {
+    if (!cdc_polling_active_.load() || !cdc_poll_timer_) {
+        return;
+    }
+    
+    // Get all CDC-subscribed sessions
+    auto cdc_sessions = getCDCSubscribedSessions();
+    
+    if (!cdc_sessions.empty()) {
+        // Poll changefeed for each subscribed session
+        for (auto& session : cdc_sessions) {
+            if (!session->isActive()) {
+                continue;
+            }
+            
+            auto sub = session->getCDCSubscription();
+            
+            // Get new events since last sent sequence (use last_sent + 1 to avoid re-sending)
+            Changefeed::ListOptions options;
+            options.from_sequence = sub.last_sent_sequence;  // ListOptions already excludes from_sequence
+            options.limit = 100;
+            options.long_poll_ms = 0; // No blocking
+            if (!sub.key_prefix.empty()) {
+                options.key_prefix = sub.key_prefix;
+            }
+            
+            try {
+                auto events = changefeed_->listEvents(options);
+                
+                // Reuse JSON object for better performance
+                json cdc_message;
+                cdc_message["type"] = "cdc_event";
+                
+                for (const auto& event : events) {
+                    cdc_message["sequence"] = event.sequence;
+                    cdc_message["event_type"] = static_cast<int>(event.type);
+                    cdc_message["key"] = event.key;
+                    cdc_message["timestamp_ms"] = event.timestamp_ms;
+                    
+                    if (event.value.has_value()) {
+                        cdc_message["value"] = event.value.value();
+                    } else {
+                        cdc_message.erase("value");
+                    }
+                    
+                    if (!event.metadata.empty()) {
+                        cdc_message["metadata"] = event.metadata;
+                    } else {
+                        cdc_message.erase("metadata");
+                    }
+                    
+                    session->send(cdc_message.dump());
+                }
+                
+                // Always update last sent sequence after polling (even if empty)
+                if (!events.empty()) {
+                    session->updateCDCLastSentSequence(events.back().sequence);
+                    
+                    THEMIS_DEBUG("Sent {} CDC events to WebSocket session {}", 
+                                events.size(), session->getSessionId());
+                }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Error polling CDC for WebSocket session {}: {}", 
+                            session->getSessionId(), e.what());
+            }
+        }
+    }
+    
+    // Schedule next poll
+    cdc_poll_timer_->expires_after(std::chrono::milliseconds(cdc_poll_interval_ms_));
+    cdc_poll_timer_->async_wait([this](beast::error_code ec) {
+        if (!ec && cdc_polling_active_.load()) {
+            pollCDCEvents();
+        }
+    });
+}
+
+std::vector<std::shared_ptr<WebSocketSession>> WebSocketManager::getCDCSubscribedSessions() const {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    
+    std::vector<std::shared_ptr<WebSocketSession>> cdc_sessions;
+    for (const auto& [id, session] : sessions_) {
+        if (session->isActive() && session->isSubscribedToCDC()) {
+            cdc_sessions.push_back(session);
+        }
+    }
+    return cdc_sessions;
+}
 
 void WebSocketManager::addSession(std::shared_ptr<WebSocketSession> session) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);

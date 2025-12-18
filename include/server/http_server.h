@@ -131,6 +131,7 @@ public:
         uint32_t http3_max_idle_timeout_ms = 30000; // HTTP/3 connection idle timeout
         uint32_t websocket_max_message_size = 1048576; // WebSocket max message size (1MB default)
         uint32_t websocket_ping_interval_ms = 30000; // WebSocket ping interval (30s default)
+        uint32_t websocket_cdc_poll_interval_ms = 500; // WebSocket CDC polling interval (500ms default)
         
         Config() = default;
         Config(std::string h, uint16_t p, size_t threads = 0) 
