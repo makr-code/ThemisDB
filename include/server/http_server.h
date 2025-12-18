@@ -118,6 +118,14 @@ public:
         std::string tls_min_version = "TLSv1.3"; // Minimum TLS version (TLSv1.2 or TLSv1.3)
         std::string tls_cipher_list; // OpenSSL cipher list (empty = secure defaults)
         
+        // HTTP Protocol Configuration
+        bool enable_http2 = false; // Enable HTTP/2 protocol (requires TLS with ALPN)
+        bool enable_http3 = false; // Enable HTTP/3 (QUIC) protocol
+        uint16_t http3_port = 0; // HTTP/3 UDP port (default: same as main port)
+        uint32_t http2_max_concurrent_streams = 100; // Max concurrent streams per HTTP/2 connection
+        uint32_t http2_initial_window_size = 65535; // HTTP/2 flow control window size
+        uint32_t http3_max_idle_timeout_ms = 30000; // HTTP/3 connection idle timeout
+        
         Config() = default;
         Config(std::string h, uint16_t p, size_t threads = 0) 
             : host(std::move(h)), port(p) {

@@ -472,6 +472,8 @@ set(THEMIS_CORE_SOURCES
     src/server/update_api_handler.cpp
     src/server/hot_reload_api_handler.cpp
     src/server/export_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:src/server/http2_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:src/server/http3_session.cpp>
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
