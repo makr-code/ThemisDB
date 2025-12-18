@@ -217,8 +217,12 @@ void Http3Session::handlePacket(const uint8_t* data, size_t len, const udp::endp
 }
 
 bool Http3Session::isActive() const {
-    // Check if session is still active
-    // For stub: always return false after timeout
+    // TODO: Implement proper activity check
+    // Should check:
+    // - QUIC connection state (not closed)
+    // - Idle timeout not expired
+    // - Handshake completed successfully
+    // For stub implementation, always return false to avoid keeping dead sessions
     return false;
 }
 

@@ -196,17 +196,18 @@ void Http2Session::doWrite() {
     boost::asio::async_write(
         stream_,
         boost::asio::buffer(write_buffer_),
-        [this, self](boost::system::error_code ec, std::size_t /*bytes_transferred*/) {
-            onWrite(ec, 0);
+        [this, self](boost::system::error_code ec, std::size_t bytes_transferred) {
+            onWrite(ec, bytes_transferred);
         }
     );
 }
 
-void Http2Session::onWrite(boost::system::error_code ec, std::size_t /*bytes_transferred*/) {
+void Http2Session::onWrite(boost::system::error_code ec, std::size_t bytes_transferred) {
     if (ec) {
         THEMIS_ERROR("HTTP/2 write error: {}", ec.message());
         return;
     }
+    THEMIS_DEBUG("HTTP/2 wrote {} bytes", bytes_transferred);
 }
 
 // ============================================================================
@@ -333,22 +334,41 @@ void Http2Session::sendResponse(int32_t stream_id, int status,
         });
     }
     
+    // Store response body in class member to ensure lifetime during async operation
+    // TODO: Use proper buffer management for production
+    struct ResponseBuffer {
+        std::string data;
+        size_t offset = 0;
+    };
+    
+    auto* resp_buffer = new ResponseBuffer{body, 0};
+    
     nghttp2_data_provider data_prd;
-    data_prd.source.ptr = (void*)body.c_str();
+    data_prd.source.ptr = resp_buffer;
     data_prd.read_callback = [](nghttp2_session* /*session*/, int32_t /*stream_id*/,
                                  uint8_t* buf, size_t length, uint32_t* data_flags,
                                  nghttp2_data_source* source, void* /*user_data*/) -> ssize_t {
-        const char* data = static_cast<const char*>(source->ptr);
-        size_t len = std::strlen(data);
-        size_t to_copy = std::min(length, len);
-        std::memcpy(buf, data, to_copy);
-        *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+        auto* buffer = static_cast<ResponseBuffer*>(source->ptr);
+        size_t remaining = buffer->data.size() - buffer->offset;
+        size_t to_copy = std::min(length, remaining);
+        
+        if (to_copy > 0) {
+            std::memcpy(buf, buffer->data.data() + buffer->offset, to_copy);
+            buffer->offset += to_copy;
+        }
+        
+        if (buffer->offset >= buffer->data.size()) {
+            *data_flags |= NGHTTP2_DATA_FLAG_EOF;
+            delete buffer; // Clean up when done
+        }
+        
         return to_copy;
     };
     
     int rv = nghttp2_submit_response(ng2_session_, stream_id, nva.data(), nva.size(), &data_prd);
     if (rv != 0) {
         THEMIS_ERROR("nghttp2_submit_response failed: {}", nghttp2_strerror(rv));
+        delete resp_buffer; // Clean up on error
     }
     
     doWrite();
