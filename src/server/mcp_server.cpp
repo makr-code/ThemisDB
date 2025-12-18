@@ -28,7 +28,7 @@ void McpServer::start() {
         return;
     }
 
-    spdlog::info("Starting MCP Server '{}'  version {}", config_.server_name, config_.server_version);
+    spdlog::info("Starting MCP Server '{}' version {}", config_.server_name, config_.server_version);
 
     // Register default tools, resources, and prompts
     registerDefaultTools();
@@ -370,6 +370,17 @@ void McpServer::registerDefaultTools() {
     registerTool("get_stats", "Get database statistics",
         {{"type", "object"}, {"properties", {}}},
         [this](const json& args) { return toolGetStats(args); });
+
+    registerTool("create_index", "Create a database index",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"label", {{"type", "string"}}},
+                {"property", {{"type", "string"}}}
+            }},
+            {"required", {"label", "property"}}
+        },
+        [this](const json& args) { return toolCreateIndex(args); });
 }
 
 json McpServer::toolQuery(const json& args) {
@@ -534,6 +545,16 @@ void McpServer::registerDefaultPrompts() {
             }}
         },
         [this](const std::string& name, const json& args) { return promptComplexQuery(name, args); });
+
+    registerPrompt("entity_operation", "Generate entity operation prompt",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"operation", {{"type", "string"}, {"enum", {"create", "update", "delete"}}}},
+                {"entity_type", {{"type", "string"}}}
+            }}
+        },
+        [this](const std::string& name, const json& args) { return promptEntityOperation(name, args); });
 }
 
 json McpServer::promptSimpleQuery(const std::string& name, const json& args) {
@@ -612,8 +633,10 @@ void StdioTransport::start() {
     if (is_running_) return;
     is_running_ = true;
     spdlog::info("MCP stdio transport started");
-    // Note: Actual stdin reading would be implemented with asio::posix::stream_descriptor
-    // This is a stub for the base implementation
+    // Note: Actual stdin reading requires platform-specific implementation:
+    // - POSIX: asio::posix::stream_descriptor
+    // - Windows: asio::windows::stream_handle or custom implementation
+    // This is a stub for the base implementation pending platform abstraction
 }
 
 void StdioTransport::stop() {

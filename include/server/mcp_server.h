@@ -30,7 +30,7 @@ class HttpServer;
  * - Resources: Read-only context (schema, stats, metadata)
  * - Prompts: Query templates for common operations
  * 
- * @see docs/apis/MCP_PROTOCOL_SUPPORT.md for full protocol specification
+ * @see MCP_PROTOCOL_SUPPORT.md (path relative to project root: docs/apis/MCP_PROTOCOL_SUPPORT.md)
  */
 class McpServer : public std::enable_shared_from_this<McpServer> {
 public:
