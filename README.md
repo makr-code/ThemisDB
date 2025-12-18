@@ -43,6 +43,7 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
 - 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **native LLM engine** (v1.5.0)
+- 🌐 **Modern Protocols** - HTTP/1.1, HTTP/2 🚧 (in development), HTTP/3 📋 (planned), gRPC 📋 (planned)
 
 ---
 
