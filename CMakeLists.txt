@@ -486,6 +486,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:src/server/websocket_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_MQTT}>:src/server/mqtt_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:src/server/postgres_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MCP}>:src/server/mcp_server.cpp>
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
@@ -822,6 +823,8 @@ endif()
 if(THEMIS_ENABLE_MCP)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
     message(STATUS "Model Context Protocol (MCP) support enabled")
+    message(STATUS "  MCP Transports: stdio, SSE, WebSocket")
+    message(STATUS "  MCP Components: Tools, Resources, Prompts")
 endif()
 
 # MQTT Protocol Support
