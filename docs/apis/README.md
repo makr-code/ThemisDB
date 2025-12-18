@@ -29,6 +29,7 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 |-------|--------------|
 | [HTTP_API_REFERENCE.md](HTTP_API_REFERENCE.md) | **Vollständige HTTP API Referenz** |
 | [HTTP2_HTTP3_PROTOCOL_SUPPORT.md](HTTP2_HTTP3_PROTOCOL_SUPPORT.md) | **HTTP/2 und HTTP/3 Support - Vor- und Nachteile** |
+| [HTTP2_HTTP3_USAGE_GUIDE.md](HTTP2_HTTP3_USAGE_GUIDE.md) | **HTTP/2 und HTTP/3 Benutzerhandbuch** |
 | [ADDITIONAL_PROTOCOLS.md](ADDITIONAL_PROTOCOLS.md) | **Weitere Protokolle (gRPC, WebSocket, MQTT, PostgreSQL Wire)** |
 | [apis_contentfs.md](apis_contentfs.md) | ContentFS API |
 | [apis_graphql.md](apis_graphql.md) | GraphQL API |
