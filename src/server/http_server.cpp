@@ -10253,23 +10253,8 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
         }
     }
 
-#ifdef THEMIS_ENABLE_HTTP2
-    // Check if HTTP/2 was negotiated via ALPN
-    if (server_->config_.enable_http2 && Http2Handler::isHttp2Negotiated(stream_.native_handle())) {
-        THEMIS_INFO("HTTP/2 negotiated via ALPN, creating HTTP/2 session");
-        
-        // Create HTTP/2 session and transfer ownership of the socket
-        // Note: We need to extract the socket from the stream
-        // For now, we'll need to create a new Http2Session with a fresh connection
-        // This is a limitation - we'd ideally reuse the handshaked connection
-        // TODO: Refactor to allow socket transfer after handshake
-        
-        // For now, continue with HTTP/1.1 but log that HTTP/2 was negotiated
-        THEMIS_WARN("HTTP/2 was negotiated but socket transfer not yet implemented, falling back to HTTP/1.1");
-        THEMIS_WARN("TODO: Implement socket transfer from SslSession to Http2Session");
-    }
-#endif
-
+    // Note: HTTP/2 ALPN negotiation is handled in onAccept() by creating Http2Session
+    // This SslSession is only used for HTTP/1.1 over TLS
     doRead();
 }
 

@@ -353,7 +353,7 @@ void Http2Session::processStream(int32_t stream_id) {
     // Convert response headers to HTTP/2 format
     std::unordered_map<std::string, std::string> response_headers;
     for (const auto& header : response) {
-        response_headers[std::string(header.name_string())] = std::string(header.value());
+        response_headers[header.name_string()] = header.value();
     }
     
     // Send HTTP/2 response
