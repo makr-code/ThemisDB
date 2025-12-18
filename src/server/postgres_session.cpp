@@ -2,6 +2,7 @@
 
 #include "server/postgres_session.h"
 #include <boost/beast/core.hpp>
+#include <algorithm>
 #include <iostream>
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
@@ -56,25 +57,47 @@ void PostgresSession::handleStartupMessage(int32_t protocolVersion,
 }
 
 void PostgresSession::handleQuery(const std::string& query) {
-    // PostgreSQL simple query handler (stub)
-    // TODO: Parse PostgreSQL SQL
-    // TODO: Translate to ThemisDB query (Cypher/SQL)
-    // TODO: Execute and return results
+    // Handle schema queries (pg_catalog, information_schema) for BI tool compatibility
+    if (isSchemaQuery(query)) {
+        handleSchemaQuery(query);
+        sendReadyForQuery('I');
+        return;
+    }
     
-    std::string themisQuery = translateQuery(query);
-    
-    // Example: Mock result for "SELECT version()"
-    if (query.find("SELECT version()") != std::string::npos) {
+    // Handle special PostgreSQL functions
+    if (query.find("SELECT version()") != std::string::npos ||
+        query.find("select version()") != std::string::npos) {
         std::vector<FieldDescription> fields = {
             {"version", 0, 0, 25, -1, -1, 0} // text type
         };
         sendRowDescription(fields);
         sendDataRow({"PostgreSQL 14.0 (ThemisDB 1.2.0 compatibility mode)"});
         sendCommandComplete("SELECT 1");
+        sendReadyForQuery('I');
+        return;
     }
-    else {
-        // TODO: Execute actual query
+    
+    if (query.find("SELECT current_database()") != std::string::npos ||
+        query.find("select current_database()") != std::string::npos) {
+        std::vector<FieldDescription> fields = {
+            {"current_database", 0, 0, 19, -1, -1, 0}
+        };
+        sendRowDescription(fields);
+        sendDataRow({databaseName_.empty() ? "themisdb" : databaseName_});
+        sendCommandComplete("SELECT 1");
+        sendReadyForQuery('I');
+        return;
+    }
+    
+    // Translate SQL to Cypher for regular queries
+    try {
+        std::string cypherQuery = translateQuery(query);
+        
+        // TODO: Execute Cypher query against ThemisDB
+        // For now, send mock response to indicate successful translation
         sendCommandComplete("SELECT 0");
+    } catch (const std::exception& e) {
+        sendErrorResponse("ERROR", "42601", std::string("Query translation failed: ") + e.what());
     }
     
     sendReadyForQuery('I');
@@ -422,15 +445,358 @@ void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payloa
     doWrite();
 }
 
-std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
-    // TODO: Implement PostgreSQL SQL to ThemisDB query translation
-    // This is a complex mapping that would need:
-    // 1. SQL parser for PostgreSQL dialect
-    // 2. Query planner/optimizer
-    // 3. Translation to Cypher or ThemisDB SQL
-    // 4. Schema mapping
+bool PostgresSession::isSchemaQuery(const std::string& query) {
+    std::string lowerQuery = query;
+    std::transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
     
-    return postgresQuery; // Stub: return as-is
+    return lowerQuery.find("pg_catalog") != std::string::npos ||
+           lowerQuery.find("information_schema") != std::string::npos ||
+           lowerQuery.find("pg_type") != std::string::npos ||
+           lowerQuery.find("pg_class") != std::string::npos ||
+           lowerQuery.find("pg_namespace") != std::string::npos ||
+           lowerQuery.find("pg_attribute") != std::string::npos ||
+           lowerQuery.find("pg_database") != std::string::npos;
+}
+
+void PostgresSession::handleSchemaQuery(const std::string& query) {
+    std::string lowerQuery = query;
+    std::transform(lowerQuery.begin(), lowerQuery.end(), lowerQuery.begin(), ::tolower);
+    
+    // Handle common BI tool schema introspection queries
+    if (lowerQuery.find("pg_catalog.pg_type") != std::string::npos) {
+        // Return mock type information for common types
+        std::vector<FieldDescription> fields = {
+            {"oid", 0, 0, 26, 4, -1, 0},
+            {"typname", 0, 0, 19, 64, -1, 0},
+            {"typlen", 0, 0, 21, 2, -1, 0}
+        };
+        sendRowDescription(fields);
+        // Common PostgreSQL types
+        sendDataRow({"16", "bool", "1"});
+        sendDataRow({"20", "int8", "8"});
+        sendDataRow({"21", "int2", "2"});
+        sendDataRow({"23", "int4", "4"});
+        sendDataRow({"25", "text", "-1"});
+        sendDataRow({"1043", "varchar", "-1"});
+        sendCommandComplete("SELECT 6");
+    } else if (lowerQuery.find("pg_catalog.pg_namespace") != std::string::npos) {
+        // Return schema/namespace information
+        std::vector<FieldDescription> fields = {
+            {"oid", 0, 0, 26, 4, -1, 0},
+            {"nspname", 0, 0, 19, 64, -1, 0}
+        };
+        sendRowDescription(fields);
+        sendDataRow({"2200", "public"});
+        sendDataRow({"11", "pg_catalog"});
+        sendDataRow({"99", "pg_toast"});
+        sendCommandComplete("SELECT 3");
+    } else if (lowerQuery.find("pg_catalog.pg_class") != std::string::npos) {
+        // Return table information (mock: users, orders as examples)
+        std::vector<FieldDescription> fields = {
+            {"oid", 0, 0, 26, 4, -1, 0},
+            {"relname", 0, 0, 19, 64, -1, 0},
+            {"relkind", 0, 0, 18, 1, -1, 0},
+            {"relnamespace", 0, 0, 26, 4, -1, 0}
+        };
+        sendRowDescription(fields);
+        sendDataRow({"16384", "users", "r", "2200"});
+        sendDataRow({"16385", "orders", "r", "2200"});
+        sendDataRow({"16386", "products", "r", "2200"});
+        sendCommandComplete("SELECT 3");
+    } else if (lowerQuery.find("pg_catalog.pg_attribute") != std::string::npos) {
+        // Return column information
+        std::vector<FieldDescription> fields = {
+            {"attrelid", 0, 0, 26, 4, -1, 0},
+            {"attname", 0, 0, 19, 64, -1, 0},
+            {"atttypid", 0, 0, 26, 4, -1, 0},
+            {"attnum", 0, 0, 21, 2, -1, 0}
+        };
+        sendRowDescription(fields);
+        // Example columns for 'users' table
+        sendDataRow({"16384", "id", "23", "1"});
+        sendDataRow({"16384", "name", "25", "2"});
+        sendDataRow({"16384", "email", "25", "3"});
+        sendCommandComplete("SELECT 3");
+    } else if (lowerQuery.find("information_schema.tables") != std::string::npos) {
+        // INFORMATION_SCHEMA.TABLES
+        std::vector<FieldDescription> fields = {
+            {"table_catalog", 0, 0, 19, 64, -1, 0},
+            {"table_schema", 0, 0, 19, 64, -1, 0},
+            {"table_name", 0, 0, 19, 64, -1, 0},
+            {"table_type", 0, 0, 19, 64, -1, 0}
+        };
+        sendRowDescription(fields);
+        sendDataRow({"themisdb", "public", "users", "BASE TABLE"});
+        sendDataRow({"themisdb", "public", "orders", "BASE TABLE"});
+        sendDataRow({"themisdb", "public", "products", "BASE TABLE"});
+        sendCommandComplete("SELECT 3");
+    } else if (lowerQuery.find("information_schema.columns") != std::string::npos) {
+        // INFORMATION_SCHEMA.COLUMNS
+        std::vector<FieldDescription> fields = {
+            {"table_name", 0, 0, 19, 64, -1, 0},
+            {"column_name", 0, 0, 19, 64, -1, 0},
+            {"data_type", 0, 0, 19, 64, -1, 0},
+            {"ordinal_position", 0, 0, 23, 4, -1, 0}
+        };
+        sendRowDescription(fields);
+        sendDataRow({"users", "id", "integer", "1"});
+        sendDataRow({"users", "name", "text", "2"});
+        sendDataRow({"users", "email", "text", "3"});
+        sendCommandComplete("SELECT 3");
+    } else {
+        // Generic schema query - return empty result
+        sendCommandComplete("SELECT 0");
+    }
+}
+
+PostgresSession::QueryInfo PostgresSession::parseSelectQuery(const std::string& query) {
+    QueryInfo info;
+    info.type = "SELECT";
+    
+    std::string upperQuery = query;
+    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    
+    // Find SELECT clause
+    size_t selectPos = upperQuery.find("SELECT");
+    size_t fromPos = upperQuery.find("FROM");
+    
+    if (selectPos == std::string::npos || fromPos == std::string::npos) {
+        throw std::runtime_error("Invalid SELECT query");
+    }
+    
+    // Extract columns
+    std::string columnsStr = query.substr(selectPos + 6, fromPos - selectPos - 6);
+    // Trim whitespace
+    columnsStr.erase(0, columnsStr.find_first_not_of(" \t\n\r"));
+    columnsStr.erase(columnsStr.find_last_not_of(" \t\n\r") + 1);
+    
+    // Simple column parsing (split by comma)
+    size_t start = 0;
+    size_t end = columnsStr.find(',');
+    while (end != std::string::npos) {
+        std::string col = columnsStr.substr(start, end - start);
+        col.erase(0, col.find_first_not_of(" \t\n\r"));
+        col.erase(col.find_last_not_of(" \t\n\r") + 1);
+        
+        // Check for aggregates
+        if (col.find("COUNT(") != std::string::npos || col.find("count(") != std::string::npos ||
+            col.find("SUM(") != std::string::npos || col.find("sum(") != std::string::npos ||
+            col.find("AVG(") != std::string::npos || col.find("avg(") != std::string::npos ||
+            col.find("MIN(") != std::string::npos || col.find("min(") != std::string::npos ||
+            col.find("MAX(") != std::string::npos || col.find("max(") != std::string::npos) {
+            info.aggregates.push_back(col);
+        }
+        info.selectColumns.push_back(col);
+        
+        start = end + 1;
+        end = columnsStr.find(',', start);
+    }
+    // Last column
+    std::string col = columnsStr.substr(start);
+    col.erase(0, col.find_first_not_of(" \t\n\r"));
+    col.erase(col.find_last_not_of(" \t\n\r") + 1);
+    if (col.find("COUNT(") != std::string::npos || col.find("count(") != std::string::npos ||
+        col.find("SUM(") != std::string::npos || col.find("sum(") != std::string::npos ||
+        col.find("AVG(") != std::string::npos || col.find("avg(") != std::string::npos ||
+        col.find("MIN(") != std::string::npos || col.find("min(") != std::string::npos ||
+        col.find("MAX(") != std::string::npos || col.find("max(") != std::string::npos) {
+        info.aggregates.push_back(col);
+    }
+    info.selectColumns.push_back(col);
+    
+    // Extract table name
+    size_t wherePos = upperQuery.find("WHERE", fromPos);
+    size_t orderPos = upperQuery.find("ORDER BY", fromPos);
+    size_t groupPos = upperQuery.find("GROUP BY", fromPos);
+    size_t limitPos = upperQuery.find("LIMIT", fromPos);
+    size_t joinPos = upperQuery.find("JOIN", fromPos);
+    
+    size_t tableEnd = std::string::npos;
+    if (wherePos != std::string::npos) tableEnd = wherePos;
+    else if (joinPos != std::string::npos) tableEnd = joinPos;
+    else if (groupPos != std::string::npos) tableEnd = groupPos;
+    else if (orderPos != std::string::npos) tableEnd = orderPos;
+    else if (limitPos != std::string::npos) tableEnd = limitPos;
+    else tableEnd = query.size();
+    
+    std::string tableName = query.substr(fromPos + 4, tableEnd - fromPos - 4);
+    tableName.erase(0, tableName.find_first_not_of(" \t\n\r"));
+    tableName.erase(tableName.find_last_not_of(" \t\n\r") + 1);
+    info.tableName = tableName;
+    
+    // Extract WHERE clause
+    if (wherePos != std::string::npos) {
+        size_t whereEnd = std::string::npos;
+        if (groupPos != std::string::npos && groupPos > wherePos) whereEnd = groupPos;
+        else if (orderPos != std::string::npos && orderPos > wherePos) whereEnd = orderPos;
+        else if (limitPos != std::string::npos && limitPos > wherePos) whereEnd = limitPos;
+        else whereEnd = query.size();
+        
+        info.whereClause = query.substr(wherePos + 5, whereEnd - wherePos - 5);
+        info.whereClause.erase(0, info.whereClause.find_first_not_of(" \t\n\r"));
+        info.whereClause.erase(info.whereClause.find_last_not_of(" \t\n\r") + 1);
+    }
+    
+    // Extract ORDER BY
+    if (orderPos != std::string::npos) {
+        size_t orderEnd = limitPos != std::string::npos ? limitPos : query.size();
+        info.orderBy = query.substr(orderPos + 8, orderEnd - orderPos - 8);
+        info.orderBy.erase(0, info.orderBy.find_first_not_of(" \t\n\r"));
+        info.orderBy.erase(info.orderBy.find_last_not_of(" \t\n\r") + 1);
+    }
+    
+    // Extract GROUP BY
+    if (groupPos != std::string::npos) {
+        size_t groupEnd = std::string::npos;
+        if (orderPos != std::string::npos && orderPos > groupPos) groupEnd = orderPos;
+        else if (limitPos != std::string::npos && limitPos > groupPos) groupEnd = limitPos;
+        else groupEnd = query.size();
+        
+        info.groupBy = query.substr(groupPos + 8, groupEnd - groupPos - 8);
+        info.groupBy.erase(0, info.groupBy.find_first_not_of(" \t\n\r"));
+        info.groupBy.erase(info.groupBy.find_last_not_of(" \t\n\r") + 1);
+    }
+    
+    // Extract LIMIT
+    if (limitPos != std::string::npos) {
+        std::string limitStr = query.substr(limitPos + 5);
+        limitStr.erase(0, limitStr.find_first_not_of(" \t\n\r"));
+        info.limit = std::stoi(limitStr);
+    }
+    
+    // Extract JOIN
+    if (joinPos != std::string::npos) {
+        size_t joinEnd = wherePos != std::string::npos ? wherePos : query.size();
+        std::string joinClause = query.substr(joinPos, joinEnd - joinPos);
+        // TODO: Parse JOIN properly (INNER JOIN table ON condition)
+        info.joinTable = ""; // Placeholder
+    }
+    
+    return info;
+}
+
+std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
+    std::string cypher = "MATCH (n:" + info.tableName + ")";
+    
+    // Add WHERE clause
+    if (!info.whereClause.empty()) {
+        // Simple WHERE translation: convert SQL comparisons to Cypher property access
+        std::string whereClause = info.whereClause;
+        
+        // Replace table.column with n.column
+        size_t pos = 0;
+        while ((pos = whereClause.find(info.tableName + ".", pos)) != std::string::npos) {
+            whereClause.replace(pos, info.tableName.length() + 1, "n.");
+            pos += 2;
+        }
+        
+        cypher += " WHERE " + whereClause;
+    }
+    
+    // Build RETURN clause
+    cypher += " RETURN ";
+    
+    if (!info.aggregates.empty()) {
+        // Handle aggregates
+        for (size_t i = 0; i < info.aggregates.size(); ++i) {
+            if (i > 0) cypher += ", ";
+            
+            std::string agg = info.aggregates[i];
+            // Convert SQL aggregate to Cypher (e.g., COUNT(*) -> count(n))
+            if (agg.find("COUNT(*)") != std::string::npos || agg.find("count(*)") != std::string::npos) {
+                cypher += "count(n)";
+            } else if (agg.find("COUNT(") != std::string::npos || agg.find("count(") != std::string::npos) {
+                // Extract column name
+                size_t start = agg.find('(') + 1;
+                size_t end = agg.find(')');
+                std::string col = agg.substr(start, end - start);
+                cypher += "count(n." + col + ")";
+            } else if (agg.find("SUM(") != std::string::npos || agg.find("sum(") != std::string::npos) {
+                size_t start = agg.find('(') + 1;
+                size_t end = agg.find(')');
+                std::string col = agg.substr(start, end - start);
+                cypher += "sum(n." + col + ")";
+            } else if (agg.find("AVG(") != std::string::npos || agg.find("avg(") != std::string::npos) {
+                size_t start = agg.find('(') + 1;
+                size_t end = agg.find(')');
+                std::string col = agg.substr(start, end - start);
+                cypher += "avg(n." + col + ")";
+            } else if (agg.find("MIN(") != std::string::npos || agg.find("min(") != std::string::npos) {
+                size_t start = agg.find('(') + 1;
+                size_t end = agg.find(')');
+                std::string col = agg.substr(start, end - start);
+                cypher += "min(n." + col + ")";
+            } else if (agg.find("MAX(") != std::string::npos || agg.find("max(") != std::string::npos) {
+                size_t start = agg.find('(') + 1;
+                size_t end = agg.find(')');
+                std::string col = agg.substr(start, end - start);
+                cypher += "max(n." + col + ")";
+            }
+        }
+    } else if (info.selectColumns.size() == 1 && info.selectColumns[0] == "*") {
+        cypher += "n";
+    } else {
+        // Regular columns
+        for (size_t i = 0; i < info.selectColumns.size(); ++i) {
+            if (i > 0) cypher += ", ";
+            std::string col = info.selectColumns[i];
+            if (col == "*") {
+                cypher += "n";
+            } else {
+                cypher += "n." + col;
+            }
+        }
+    }
+    
+    // Add ORDER BY
+    if (!info.orderBy.empty()) {
+        std::string orderBy = info.orderBy;
+        // Replace column references with n.column
+        size_t pos = 0;
+        while ((pos = orderBy.find(info.tableName + ".", pos)) != std::string::npos) {
+            orderBy.replace(pos, info.tableName.length() + 1, "n.");
+            pos += 2;
+        }
+        cypher += " ORDER BY " + orderBy;
+    }
+    
+    // Add LIMIT
+    if (info.limit > 0) {
+        cypher += " LIMIT " + std::to_string(info.limit);
+    }
+    
+    return cypher;
+}
+
+std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
+    // Trim and convert to uppercase for parsing
+    std::string query = postgresQuery;
+    query.erase(0, query.find_first_not_of(" \t\n\r"));
+    query.erase(query.find_last_not_of(" \t\n\r;") + 1);
+    
+    std::string upperQuery = query;
+    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    
+    // Handle different SQL statement types
+    if (upperQuery.find("SELECT") == 0) {
+        QueryInfo info = parseSelectQuery(query);
+        return buildCypherFromSelect(info);
+    } else if (upperQuery.find("INSERT INTO") == 0) {
+        // TODO: Parse INSERT and convert to Cypher CREATE
+        throw std::runtime_error("INSERT not yet implemented");
+    } else if (upperQuery.find("UPDATE") == 0) {
+        // TODO: Parse UPDATE and convert to Cypher MATCH...SET
+        throw std::runtime_error("UPDATE not yet implemented");
+    } else if (upperQuery.find("DELETE") == 0) {
+        // TODO: Parse DELETE and convert to Cypher MATCH...DELETE
+        throw std::runtime_error("DELETE not yet implemented");
+    } else if (upperQuery.find("BEGIN") == 0 || upperQuery.find("COMMIT") == 0 || 
+               upperQuery.find("ROLLBACK") == 0) {
+        // Transaction commands - accept but don't execute (no ACID guarantees yet)
+        return "// Transaction: " + query;
+    } else {
+        throw std::runtime_error("Unsupported SQL statement type");
+    }
 }
 
 #endif // THEMIS_ENABLE_POSTGRES_WIRE

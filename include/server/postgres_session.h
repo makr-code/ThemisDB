@@ -60,7 +60,27 @@ private:
     void doWrite();
     void writeMessage(char type, const std::vector<uint8_t>& payload);
     
+    // SQL to Cypher translation for BI tools
     std::string translateQuery(const std::string& postgresQuery);
+    bool isSchemaQuery(const std::string& query);
+    void handleSchemaQuery(const std::string& query);
+    
+    struct QueryInfo {
+        std::string type; // SELECT, INSERT, UPDATE, DELETE
+        std::vector<std::string> selectColumns;
+        std::string tableName;
+        std::string whereClause;
+        std::string orderBy;
+        std::string groupBy;
+        std::vector<std::string> aggregates;
+        int limit = -1;
+        int offset = -1;
+        std::string joinTable;
+        std::string joinCondition;
+    };
+    
+    QueryInfo parseSelectQuery(const std::string& query);
+    std::string buildCypherFromSelect(const QueryInfo& info);
     
     asio::ip::tcp::socket socket_;
     std::array<char, 8192> buffer_;
