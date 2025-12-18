@@ -1,0 +1,62 @@
+{
+    "name": "themisdb/themisdb-php",
+    "description": "Official PHP client SDK for ThemisDB - A high-performance multi-model database with native LLM integration",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "themisdb",
+        "database",
+        "multi-model",
+        "graph",
+        "vector",
+        "llm",
+        "ai",
+        "rest-api",
+        "client"
+    ],
+    "authors": [
+        {
+            "name": "ThemisDB Contributors",
+            "homepage": "https://github.com/makr-code/ThemisDB"
+        }
+    ],
+    "homepage": "https://github.com/makr-code/ThemisDB",
+    "support": {
+        "issues": "https://github.com/makr-code/ThemisDB/issues",
+        "source": "https://github.com/makr-code/ThemisDB",
+        "docs": "https://makr-code.github.io/ThemisDB/"
+    },
+    "require": {
+        "php": ">=7.4",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0|^10.0",
+        "phpstan/phpstan": "^1.0",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "ThemisDB\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ThemisDB\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpstan": "phpstan analyse src tests",
+        "cs-check": "phpcs --standard=PSR12 src tests",
+        "cs-fix": "phpcbf --standard=PSR12 src tests"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
