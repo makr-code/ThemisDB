@@ -95,10 +95,13 @@ ThemisDB validiert **JSON Web Tokens (JWT)** mit RS256-Signatur gegen einen **JW
 
 ```bash
 # JWT Provider URL
+# Hinweis: Keycloak 17+ nutzt /realms/ statt /auth/realms/
 export THEMIS_JWT_JWKS_URL="https://keycloak.example.com/auth/realms/themis/protocol/openid-connect/certs"
+# Für Keycloak 17+: https://keycloak.example.com/realms/themis/protocol/openid-connect/certs
 
 # Erwartete Claims
 export THEMIS_JWT_ISSUER="https://keycloak.example.com/auth/realms/themis"
+# Für Keycloak 17+: https://keycloak.example.com/realms/themis
 export THEMIS_JWT_AUDIENCE="themisdb-api"
 
 # Cache & Toleranzen
@@ -114,6 +117,8 @@ export THEMIS_JWT_SCOPE_CLAIM="roles"   # oder "groups" oder "scopes"
 ```yaml
 jwt:
   enabled: true
+  # Keycloak 16 und früher: /auth/realms/
+  # Keycloak 17+: /realms/ (ohne /auth)
   jwks_url: "https://keycloak.example.com/auth/realms/themis/protocol/openid-connect/certs"
   expected_issuer: "https://keycloak.example.com/auth/realms/themis"
   expected_audience: "themisdb-api"
@@ -150,10 +155,17 @@ Beispiel-JWT Payload:
 
 ```bash
 # 1. Token vom IdP holen
+# Keycloak 16 und früher:
 TOKEN=$(curl -X POST https://keycloak.example.com/auth/realms/themis/protocol/openid-connect/token \
   -d "client_id=themisdb-client" \
   -d "client_secret=secret123" \
   -d "grant_type=client_credentials" | jq -r .access_token)
+
+# Keycloak 17+:
+# TOKEN=$(curl -X POST https://keycloak.example.com/realms/themis/protocol/openid-connect/token \
+#   -d "client_id=themisdb-client" \
+#   -d "client_secret=secret123" \
+#   -d "grant_type=client_credentials" | jq -r .access_token)
 
 # 2. ThemisDB API mit Token aufrufen
 curl -H "Authorization: Bearer $TOKEN" \
