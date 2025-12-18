@@ -5,6 +5,11 @@
 #include <boost/asio.hpp>
 #include <memory>
 #include <string>
+#include <vector>
+#include <map>
+#include <mutex>
+#include <deque>
+#include <array>
 
 namespace asio = boost::asio;
 
@@ -38,6 +43,8 @@ private:
     std::array<char, 8192> buffer_;
     std::string clientId_;
     bool isConnected_;
+    uint16_t packetIdCounter_;
+    std::deque<std::vector<uint8_t>> writeQueue_;
 };
 
 class MqttBroker {
@@ -50,6 +57,8 @@ public:
     
 private:
     MqttBroker() = default;
+    bool topicMatches(const std::string& filter, const std::string& topic);
+    
     std::map<std::string, std::vector<std::weak_ptr<MqttSession>>> subscriptions_;
     std::mutex mutex_;
 };

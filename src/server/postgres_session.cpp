@@ -269,21 +269,156 @@ void PostgresSession::sendErrorResponse(const std::string& severity, const std::
 }
 
 void PostgresSession::doRead() {
-    // TODO: Implement PostgreSQL protocol message reading
-    // 1. Read message type (1 byte) - skip for startup
-    // 2. Read message length (4 bytes, big-endian, includes length itself)
-    // 3. Read message payload
-    // 4. Dispatch to appropriate handler
+    auto self = shared_from_this();
+    
+    socket_.async_read_some(asio::buffer(buffer_),
+        [this, self](boost::beast::error_code ec, std::size_t bytes_transferred) {
+            if (ec) {
+                stop();
+                return;
+            }
+            
+            if (bytes_transferred < 5) {
+                doRead(); // Need more data
+                return;
+            }
+            
+            size_t offset = 0;
+            
+            if (inStartup_) {
+                // Startup message has no type byte, just length
+                int32_t length = (buffer_[0] << 24) | (buffer_[1] << 16) |
+                               (buffer_[2] << 8) | buffer_[3];
+                
+                if (bytes_transferred < static_cast<size_t>(length)) {
+                    doRead(); // Need more data
+                    return;
+                }
+                
+                int32_t protocolVersion = (buffer_[4] << 24) | (buffer_[5] << 16) |
+                                         (buffer_[6] << 8) | buffer_[7];
+                
+                // Parse parameters (null-terminated strings)
+                std::map<std::string, std::string> params;
+                offset = 8;
+                while (offset < static_cast<size_t>(length) && buffer_[offset] != 0) {
+                    std::string key(buffer_.data() + offset);
+                    offset += key.size() + 1;
+                    if (offset >= static_cast<size_t>(length)) break;
+                    std::string value(buffer_.data() + offset);
+                    offset += value.size() + 1;
+                    params[key] = value;
+                }
+                
+                handleStartupMessage(protocolVersion, params);
+            } else {
+                // Regular messages have type byte + length
+                char messageType = buffer_[0];
+                int32_t length = (buffer_[1] << 24) | (buffer_[2] << 16) |
+                               (buffer_[3] << 8) | buffer_[4];
+                
+                if (bytes_transferred < static_cast<size_t>(length) + 1) {
+                    doRead(); // Need more data
+                    return;
+                }
+                
+                offset = 5; // Skip type and length
+                
+                switch (messageType) {
+                    case 'Q': { // Simple Query
+                        std::string query(buffer_.data() + offset);
+                        handleQuery(query);
+                        break;
+                    }
+                    case 'P': { // Parse
+                        std::string stmtName(buffer_.data() + offset);
+                        offset += stmtName.size() + 1;
+                        std::string query(buffer_.data() + offset);
+                        offset += query.size() + 1;
+                        // Parameter types would follow
+                        handleParse(stmtName, query, {});
+                        break;
+                    }
+                    case 'B': { // Bind
+                        std::string portalName(buffer_.data() + offset);
+                        offset += portalName.size() + 1;
+                        std::string stmtName(buffer_.data() + offset);
+                        // Parameters would follow
+                        handleBind(portalName, stmtName, {});
+                        break;
+                    }
+                    case 'E': { // Execute
+                        std::string portalName(buffer_.data() + offset);
+                        offset += portalName.size() + 1;
+                        int32_t maxRows = (buffer_[offset] << 24) | (buffer_[offset+1] << 16) |
+                                        (buffer_[offset+2] << 8) | buffer_[offset+3];
+                        handleExecute(portalName, maxRows);
+                        break;
+                    }
+                    case 'D': { // Describe
+                        char descType = buffer_[offset];
+                        std::string name(buffer_.data() + offset + 1);
+                        handleDescribe(descType, name);
+                        break;
+                    }
+                    case 'C': { // Close
+                        char closeType = buffer_[offset];
+                        std::string name(buffer_.data() + offset + 1);
+                        handleClose(closeType, name);
+                        break;
+                    }
+                    case 'S': // Sync
+                        handleSync();
+                        break;
+                    case 'X': // Terminate
+                        handleTerminate();
+                        return;
+                    default:
+                        break;
+                }
+            }
+            
+            doRead(); // Continue reading
+        });
 }
 
 void PostgresSession::doWrite() {
-    // TODO: Implement async write with queue
+    if (writeQueue_.empty()) {
+        return;
+    }
+    
+    auto self = shared_from_this();
+    
+    asio::async_write(socket_, asio::buffer(writeQueue_.front()),
+        [this, self](boost::beast::error_code ec, std::size_t /*bytes_transferred*/) {
+            if (!ec) {
+                writeQueue_.pop_front();
+                if (!writeQueue_.empty()) {
+                    doWrite();
+                }
+            } else {
+                stop();
+            }
+        });
 }
 
 void PostgresSession::writeMessage(char type, const std::vector<uint8_t>& payload) {
-    // TODO: Format PostgreSQL wire protocol message
+    // Format PostgreSQL wire protocol message
     // Format: [Type(1 byte), Length(4 bytes, big-endian), Payload]
     // Length includes the 4 bytes of the length field itself
+    
+    std::vector<uint8_t> message;
+    message.push_back(type);
+    
+    int32_t length = payload.size() + 4;
+    message.push_back((length >> 24) & 0xFF);
+    message.push_back((length >> 16) & 0xFF);
+    message.push_back((length >> 8) & 0xFF);
+    message.push_back(length & 0xFF);
+    
+    message.insert(message.end(), payload.begin(), payload.end());
+    
+    writeQueue_.push_back(std::move(message));
     doWrite();
 }
 

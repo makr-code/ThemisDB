@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <deque>
+#include <array>
 
 namespace asio = boost::asio;
 
@@ -66,6 +68,7 @@ private:
     std::string userName_;
     bool isAuthenticated_;
     bool inStartup_;
+    std::deque<std::vector<uint8_t>> writeQueue_;
     
     // Prepared statements and portals
     struct PreparedStatement {
