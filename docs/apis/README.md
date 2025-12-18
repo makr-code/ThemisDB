@@ -18,9 +18,10 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 | GraphQL | ✅ Production | **ON** | GraphQL Schema |
 | SSE | ✅ Production | **ON** | Server-Sent Events für CDC/Live-Updates |
 | gRPC | ✅ Production | **ON** | Inter-Shard Kommunikation (v1.3.0) |
-| REST (HTTP/2) | 🚧 In Development | **OFF** | HTTP/2 Support (opt-in) |
+| REST (HTTP/2) | ✅ Production-Ready | **OFF** | HTTP/2 Support mit ALPN (opt-in) |
+| WebSocket | ✅ Production-Ready | **OFF** | Bidirektionale Real-time Kommunikation + CDC (opt-in) |
+| MCP | 📋 Planned | **OFF** | Model Context Protocol für LLM-Integration (opt-in) |
 | REST (HTTP/3) | 📋 Planned | **OFF** | HTTP/3 (QUIC) für Mobile/Edge (opt-in) |
-| WebSocket | 📋 Planned | **OFF** | Bidirektionale Real-time Kommunikation |
 | MQTT | 📋 Planned | **OFF** | IoT Message Broker |
 | PostgreSQL Wire | 📋 Planned | **OFF** | PostgreSQL-Tool-Kompatibilität |
 | OpenAPI | ✅ Production | - | OpenAPI 3.0 Spec |
@@ -36,6 +37,8 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 | [HTTP2_HTTP3_PROTOCOL_SUPPORT.md](HTTP2_HTTP3_PROTOCOL_SUPPORT.md) | **HTTP/2 und HTTP/3 Support - Vor- und Nachteile** |
 | [HTTP2_HTTP3_USAGE_GUIDE.md](HTTP2_HTTP3_USAGE_GUIDE.md) | **HTTP/2 und HTTP/3 Benutzerhandbuch** |
 | [ADDITIONAL_PROTOCOLS.md](ADDITIONAL_PROTOCOLS.md) | **Weitere Protokolle (gRPC, WebSocket, MQTT, PostgreSQL Wire)** |
+| [MCP_PROTOCOL_SUPPORT.md](MCP_PROTOCOL_SUPPORT.md) | **MCP (Model Context Protocol) Support für LLM-Integration** |
+| [MCP_OFFICE_PLUGINS.md](MCP_OFFICE_PLUGINS.md) | **MCP Integration mit Office Plugins (Word, Excel, Outlook)** |
 | [apis_contentfs.md](apis_contentfs.md) | ContentFS API |
 | [apis_graphql.md](apis_graphql.md) | GraphQL API |
 | [apis_hot_reload.md](apis_hot_reload.md) | Hot Reload API |

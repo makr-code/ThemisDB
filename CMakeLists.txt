@@ -124,6 +124,7 @@ option(THEMIS_ENABLE_GRPC "Enable gRPC protocol support (inter-shard communicati
 option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket protocol support" OFF)
 option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL API support" ON)  # Already implemented
 option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Already implemented
+option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM integration" OFF)
 option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
 option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
 
