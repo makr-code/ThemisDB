@@ -5,13 +5,19 @@
 #include <iostream>
 #include <algorithm>
 
-MqttSession::MqttSession(asio::ip::tcp::socket socket)
+MqttSession::MqttSession(asio::ip::tcp::socket socket, uint8_t protocolVersion)
     : socket_(std::move(socket))
     , isConnected_(false)
-    , packetIdCounter_(1) {
+    , packetIdCounter_(1)
+    , protocolVersion_(protocolVersion)
+    , keepaliveTimer_(socket_.get_executor())
+    , keepaliveInterval_(60) {
 }
 
 MqttSession::~MqttSession() {
+    if (isConnected_ && !sessionState_.willTopic.empty()) {
+        triggerWillMessage();
+    }
     stop();
 }
 
@@ -21,6 +27,7 @@ void MqttSession::start() {
 
 void MqttSession::stop() {
     if (isConnected_) {
+        keepaliveTimer_.cancel();
         boost::beast::error_code ec;
         socket_.shutdown(asio::ip::tcp::socket::shutdown_both, ec);
         socket_.close(ec);
@@ -29,31 +36,121 @@ void MqttSession::stop() {
 }
 
 void MqttSession::handleConnect() {
-    // MQTT CONNECT packet handler - base implementation
+    // MQTT CONNECT packet handler - production implementation
     // Parse CONNECT packet for protocol name, version, flags
     
     isConnected_ = true;
-    sendConnAck(false, 0); // Session not present, connection accepted
+    
+    // Check for existing session
+    bool sessionPresent = false;
+    if (!sessionState_.cleanSession) {
+        MqttSessionState existingState;
+        if (MqttBroker::getInstance().loadSession(sessionState_.clientId, existingState)) {
+            sessionPresent = true;
+            restoreSession(existingState);
+        }
+    }
+    
+    sendConnAck(sessionPresent, 0); // Connection accepted
+    
+    // Start keepalive timer
+    keepaliveTimer_.expires_after(keepaliveInterval_ * 1.5);
+    keepaliveTimer_.async_wait([this, self = shared_from_this()](boost::beast::error_code ec) {
+        if (!ec) {
+            // Keepalive timeout - disconnect
+            stop();
+        }
+    });
 }
 
-void MqttSession::handlePublish(const std::string& topic, const std::string& payload) {
-    // MQTT PUBLISH packet handler - base implementation
-    // Validate topic and publish to broker
-    
+void MqttSession::handlePublish(const std::string& topic, const std::string& payload, uint8_t qos, uint16_t packetId) {
+    // MQTT PUBLISH packet handler - production implementation with QoS 0, 1, 2 support
     if (!isConnected_) return;
     
-    MqttBroker::getInstance().publish(topic, payload, 0);
+    switch (qos) {
+        case 0:
+            // QoS 0: At most once delivery - no acknowledgment
+            MqttBroker::getInstance().publish(topic, payload, 0);
+            break;
+            
+        case 1:
+            // QoS 1: At least once delivery - send PUBACK
+            MqttBroker::getInstance().publish(topic, payload, 1);
+            sendPubAck(packetId);
+            break;
+            
+        case 2:
+            // QoS 2: Exactly once delivery - four-way handshake
+            // Check if we've already received this message
+            if (incomingQos2_.find(packetId) == incomingQos2_.end()) {
+                // First time receiving - store and send PUBREC
+                Qos2Message msg;
+                msg.packetId = packetId;
+                msg.topic = topic;
+                msg.payload = payload;
+                msg.state = Qos2State::WaitingForPubRec;
+                msg.timestamp = std::chrono::steady_clock::now();
+                incomingQos2_[packetId] = msg;
+            }
+            sendPubRec(packetId);
+            break;
+    }
 }
 
-void MqttSession::handleSubscribe(const std::string& topic) {
-    // MQTT SUBSCRIBE packet handler - base implementation
+void MqttSession::handlePubRec(uint16_t packetId) {
+    // QoS 2 step 2: Received PUBREC, send PUBREL
+    auto it = outgoingQos2_.find(packetId);
+    if (it != outgoingQos2_.end()) {
+        it->second.state = Qos2State::WaitingForPubComp;
+        it->second.timestamp = std::chrono::steady_clock::now();
+        sendPubRel(packetId);
+    }
+}
+
+void MqttSession::handlePubRel(uint16_t packetId) {
+    // QoS 2 step 3: Received PUBREL, publish message and send PUBCOMP
+    auto it = incomingQos2_.find(packetId);
+    if (it != incomingQos2_.end()) {
+        // Now we can actually publish the message
+        MqttBroker::getInstance().publish(it->second.topic, it->second.payload, 2);
+        sendPubComp(packetId);
+        incomingQos2_.erase(it);
+    }
+}
+
+void MqttSession::handlePubComp(uint16_t packetId) {
+    // QoS 2 step 4: Received PUBCOMP, complete delivery
+    outgoingQos2_.erase(packetId);
+}
+
+void MqttSession::handleSubscribe(const std::string& topic, uint8_t qos, uint16_t packetId) {
+    // MQTT SUBSCRIBE packet handler - production implementation
     if (!isConnected_) return;
     
-    MqttBroker::getInstance().subscribe(topic, shared_from_this());
+    // Parse shared subscription if present ($share/shareName/topic)
+    if (topic.substr(0, 7) == "$share/") {
+        size_t slashPos = topic.find('/', 7);
+        if (slashPos != std::string::npos) {
+            std::string shareName = topic.substr(7, slashPos - 7);
+            std::string actualTopic = topic.substr(slashPos + 1);
+            MqttBroker::getInstance().subscribeShared(shareName, actualTopic, shared_from_this(), qos);
+        }
+    } else {
+        MqttBroker::getInstance().subscribe(topic, shared_from_this(), qos);
+    }
     
-    // Send SUBACK
-    std::vector<uint8_t> returnCodes = {0}; // QoS 0 granted
-    sendSubAck(packetIdCounter_++, returnCodes);
+    // Store subscription in session state
+    sessionState_.subscriptions[topic] = qos;
+    
+    // Send retained messages matching this topic
+    auto retainedMsgs = MqttBroker::getInstance().getRetainedMessages(topic);
+    for (const auto& msg : retainedMsgs) {
+        sendPublish(msg.topic, msg.payload, msg.qos, true);
+    }
+    
+    // Send SUBACK with granted QoS
+    std::vector<uint8_t> returnCodes = {qos}; // Grant requested QoS
+    sendSubAck(packetId, returnCodes);
 }
 
 void MqttSession::handleUnsubscribe(const std::string& topic) {
@@ -61,40 +158,96 @@ void MqttSession::handleUnsubscribe(const std::string& topic) {
     if (!isConnected_) return;
     
     MqttBroker::getInstance().unsubscribe(topic, shared_from_this());
+    sessionState_.subscriptions.erase(topic);
 }
 
 void MqttSession::handlePingReq() {
     // MQTT PINGREQ packet handler
+    // Reset keepalive timer
+    keepaliveTimer_.expires_after(keepaliveInterval_ * 1.5);
     sendPingResp();
 }
 
 void MqttSession::handleDisconnect() {
     // MQTT DISCONNECT packet handler
+    // Clean disconnect - don't send will message
+    sessionState_.willTopic.clear();
+    
+    // Save session if not clean session
+    if (!sessionState_.cleanSession) {
+        MqttBroker::getInstance().saveSession(sessionState_.clientId, sessionState_);
+    }
+    
     stop();
+}
+
+void MqttSession::triggerWillMessage() {
+    // Send will message on abnormal disconnect
+    if (!sessionState_.willTopic.empty()) {
+        MqttBroker::getInstance().publish(sessionState_.willTopic, sessionState_.willMessage, 
+                                         sessionState_.willQos, sessionState_.willRetain);
+    }
+}
+
+void MqttSession::restoreSession(const MqttSessionState& state) {
+    sessionState_ = state;
+    
+    // Restore subscriptions
+    for (const auto& [topic, qos] : state.subscriptions) {
+        MqttBroker::getInstance().subscribe(topic, shared_from_this(), qos);
+    }
+    
+    // Restore QoS 2 messages
+    outgoingQos2_ = state.qos2Messages;
 }
 
 void MqttSession::sendConnAck(bool sessionPresent, uint8_t returnCode) {
     // Build MQTT CONNACK packet
-    // Format: [Type(0x20), RemainingLength(2), SessionPresent, ReturnCode]
+    // Format: [Type(0x20), RemainingLength, SessionPresent, ReturnCode]
     std::vector<uint8_t> packet;
     packet.push_back(0x20); // CONNACK packet type
-    packet.push_back(2);    // Remaining length
-    packet.push_back(sessionPresent ? 1 : 0);
-    packet.push_back(returnCode);
+    
+    if (protocolVersion_ == 5) {
+        // MQTT 5.0: Add properties length (0 for now)
+        packet.push_back(3);    // Remaining length
+        packet.push_back(sessionPresent ? 1 : 0);
+        packet.push_back(returnCode);
+        packet.push_back(0);    // Properties length
+    } else {
+        packet.push_back(2);    // Remaining length
+        packet.push_back(sessionPresent ? 1 : 0);
+        packet.push_back(returnCode);
+    }
     
     writeQueue_.push_back(std::move(packet));
     doWrite();
 }
 
-void MqttSession::sendPublish(const std::string& topic, const std::string& payload, uint8_t qos) {
+void MqttSession::sendPublish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {
     // Build MQTT PUBLISH packet
-    // Format: [Type(0x30 + flags), RemainingLength, TopicLength(2), Topic, Payload]
     std::vector<uint8_t> packet;
-    packet.push_back(0x30 | (qos << 1)); // PUBLISH with QoS
+    uint8_t flags = (qos << 1);
+    if (retain) flags |= 0x01;
+    packet.push_back(0x30 | flags); // PUBLISH with QoS and retain
     
     // Calculate remaining length
     uint32_t remainingLength = 2 + topic.size() + payload.size();
-    if (qos > 0) remainingLength += 2; // Packet ID for QoS 1 or 2
+    uint16_t packetId = 0;
+    if (qos > 0) {
+        remainingLength += 2; // Packet ID for QoS 1 or 2
+        packetId = packetIdCounter_++;
+        
+        // Track QoS 2 messages
+        if (qos == 2) {
+            Qos2Message msg;
+            msg.packetId = packetId;
+            msg.topic = topic;
+            msg.payload = payload;
+            msg.state = Qos2State::WaitingForPubRec;
+            msg.timestamp = std::chrono::steady_clock::now();
+            outgoingQos2_[packetId] = msg;
+        }
+    }
     
     // Encode remaining length (variable length)
     do {
@@ -116,7 +269,6 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     
     // Packet ID for QoS > 0
     if (qos > 0) {
-        uint16_t packetId = packetIdCounter_++;
         packet.push_back((packetId >> 8) & 0xFF);
         packet.push_back(packetId & 0xFF);
     }
@@ -124,6 +276,42 @@ void MqttSession::sendPublish(const std::string& topic, const std::string& paylo
     // Payload
     packet.insert(packet.end(), payload.begin(), payload.end());
     
+    writeQueue_.push_back(std::move(packet));
+    doWrite();
+}
+
+void MqttSession::sendPubAck(uint16_t packetId) {
+    // Build MQTT PUBACK packet (QoS 1 acknowledgment)
+    std::vector<uint8_t> packet = {0x40, 0x02};
+    packet.push_back((packetId >> 8) & 0xFF);
+    packet.push_back(packetId & 0xFF);
+    writeQueue_.push_back(std::move(packet));
+    doWrite();
+}
+
+void MqttSession::sendPubRec(uint16_t packetId) {
+    // Build MQTT PUBREC packet (QoS 2 step 1)
+    std::vector<uint8_t> packet = {0x50, 0x02};
+    packet.push_back((packetId >> 8) & 0xFF);
+    packet.push_back(packetId & 0xFF);
+    writeQueue_.push_back(std::move(packet));
+    doWrite();
+}
+
+void MqttSession::sendPubRel(uint16_t packetId) {
+    // Build MQTT PUBREL packet (QoS 2 step 2)
+    std::vector<uint8_t> packet = {0x62, 0x02}; // QoS 1 for PUBREL
+    packet.push_back((packetId >> 8) & 0xFF);
+    packet.push_back(packetId & 0xFF);
+    writeQueue_.push_back(std::move(packet));
+    doWrite();
+}
+
+void MqttSession::sendPubComp(uint16_t packetId) {
+    // Build MQTT PUBCOMP packet (QoS 2 step 3)
+    std::vector<uint8_t> packet = {0x70, 0x02};
+    packet.push_back((packetId >> 8) & 0xFF);
+    packet.push_back(packetId & 0xFF);
     writeQueue_.push_back(std::move(packet));
     doWrite();
 }
@@ -198,20 +386,61 @@ void MqttSession::doRead() {
                     break;
                 case 3: // PUBLISH
                     if (bytes_transferred >= headerSize + 2) {
+                        // Extract QoS and packet ID if present
+                        uint8_t qos = (packetType >> 1) & 0x03;
+                        
                         // Extract topic name
                         uint16_t topicLen = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
                         std::string topic(buffer_.data() + headerSize + 2, topicLen);
-                        std::string payload(buffer_.data() + headerSize + 2 + topicLen, 
-                                          remainingLength - 2 - topicLen);
-                        handlePublish(topic, payload);
+                        
+                        uint16_t packetId = 0;
+                        size_t payloadOffset = headerSize + 2 + topicLen;
+                        
+                        if (qos > 0) {
+                            // Read packet ID (2 bytes)
+                            packetId = (buffer_[payloadOffset] << 8) | buffer_[payloadOffset + 1];
+                            payloadOffset += 2;
+                        }
+                        
+                        std::string payload(buffer_.data() + payloadOffset, 
+                                          remainingLength - 2 - topicLen - (qos > 0 ? 2 : 0));
+                        handlePublish(topic, payload, qos, packetId);
+                    }
+                    break;
+                case 4: // PUBACK (QoS 1 acknowledgment)
+                    if (bytes_transferred >= headerSize + 2) {
+                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        // QoS 1 complete - no further action needed
+                    }
+                    break;
+                case 5: // PUBREC (QoS 2 step 1)
+                    if (bytes_transferred >= headerSize + 2) {
+                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        handlePubRec(packetId);
+                    }
+                    break;
+                case 6: // PUBREL (QoS 2 step 2)
+                    if (bytes_transferred >= headerSize + 2) {
+                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        handlePubRel(packetId);
+                    }
+                    break;
+                case 7: // PUBCOMP (QoS 2 step 3)
+                    if (bytes_transferred >= headerSize + 2) {
+                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        handlePubComp(packetId);
                     }
                     break;
                 case 8: // SUBSCRIBE
                     if (bytes_transferred >= headerSize + 4) {
-                        // Skip packet ID (2 bytes)
+                        // Read packet ID (2 bytes)
+                        uint16_t packetId = (buffer_[headerSize] << 8) | buffer_[headerSize + 1];
+                        // Read topic length
                         uint16_t topicLen = (buffer_[headerSize + 2] << 8) | buffer_[headerSize + 3];
                         std::string topic(buffer_.data() + headerSize + 4, topicLen);
-                        handleSubscribe(topic);
+                        // Read QoS
+                        uint8_t qos = buffer_[headerSize + 4 + topicLen];
+                        handleSubscribe(topic, qos, packetId);
                     }
                     break;
                 case 10: // UNSUBSCRIBE
@@ -262,7 +491,7 @@ MqttBroker& MqttBroker::getInstance() {
     return instance;
 }
 
-void MqttBroker::subscribe(const std::string& topic, std::shared_ptr<MqttSession> session) {
+void MqttBroker::subscribe(const std::string& topic, std::shared_ptr<MqttSession> session, uint8_t qos) {
     std::lock_guard<std::mutex> lock(mutex_);
     subscriptions_[topic].push_back(session);
 }
@@ -278,6 +507,65 @@ void MqttBroker::unsubscribe(const std::string& topic, std::shared_ptr<MqttSessi
             sessions.end()
         );
     }
+}
+
+void MqttBroker::subscribeShared(const std::string& shareName, const std::string& topic, 
+                                 std::shared_ptr<MqttSession> session, uint8_t qos) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    sharedSubscriptions_[shareName][topic].push_back(session);
+}
+
+void MqttBroker::saveSession(const std::string& clientId, const MqttSessionState& state) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    persistentSessions_[clientId] = state;
+}
+
+bool MqttBroker::loadSession(const std::string& clientId, MqttSessionState& state) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = persistentSessions_.find(clientId);
+    if (it != persistentSessions_.end()) {
+        state = it->second;
+        return true;
+    }
+    return false;
+}
+
+void MqttBroker::deleteSession(const std::string& clientId) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    persistentSessions_.erase(clientId);
+}
+
+void MqttBroker::setRetainedMessage(const std::string& topic, const std::string& payload, uint8_t qos) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (payload.empty()) {
+        // Empty payload clears retained message
+        retainedMessages_.erase(topic);
+    } else {
+        RetainedMessage msg;
+        msg.topic = topic;
+        msg.payload = payload;
+        msg.qos = qos;
+        msg.timestamp = std::chrono::steady_clock::now();
+        retainedMessages_[topic] = msg;
+    }
+}
+
+std::vector<RetainedMessage> MqttBroker::getRetainedMessages(const std::string& topicFilter) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<RetainedMessage> results;
+    
+    for (const auto& [topic, msg] : retainedMessages_) {
+        if (topicMatches(topicFilter, topic)) {
+            results.push_back(msg);
+        }
+    }
+    
+    return results;
+}
+
+void MqttBroker::clearRetainedMessage(const std::string& topic) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    retainedMessages_.erase(topic);
 }
 
 bool MqttBroker::topicMatches(const std::string& filter, const std::string& topic) {
@@ -307,15 +595,36 @@ bool MqttBroker::topicMatches(const std::string& filter, const std::string& topi
     return filterPos == filter.size() && topicPos == topic.size();
 }
 
-void MqttBroker::publish(const std::string& topic, const std::string& payload, uint8_t qos) {
+void MqttBroker::publish(const std::string& topic, const std::string& payload, uint8_t qos, bool retain) {
     std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Handle retained messages
+    if (retain) {
+        setRetainedMessage(topic, payload, qos);
+    }
     
     // Match topic against all subscription filters
     for (const auto& [filter, sessions] : subscriptions_) {
         if (topicMatches(filter, topic)) {
             for (auto& sessionWeak : sessions) {
                 if (auto session = sessionWeak.lock()) {
-                    session->sendPublish(topic, payload, qos);
+                    session->sendPublish(topic, payload, qos, retain);
+                }
+            }
+        }
+    }
+    
+    // Handle shared subscriptions (load balancing across subscribers)
+    for (const auto& [shareName, topics] : sharedSubscriptions_) {
+        for (const auto& [filter, sessions] : topics) {
+            if (topicMatches(filter, topic)) {
+                // Round-robin delivery to one session in the group
+                static size_t roundRobinIndex = 0;
+                if (!sessions.empty()) {
+                    size_t idx = roundRobinIndex++ % sessions.size();
+                    if (auto session = sessions[idx].lock()) {
+                        session->sendPublish(topic, payload, qos, retain);
+                    }
                 }
             }
         }
