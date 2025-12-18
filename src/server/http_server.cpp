@@ -95,6 +95,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/http2_session.h"
 #endif
 
+#ifdef THEMIS_ENABLE_WEBSOCKET
+#include "server/websocket_session.h"
+#endif
+
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/aql_parser.h"
@@ -227,6 +231,14 @@ HttpServer::HttpServer(
         );
         THEMIS_INFO("SSE Connection Manager initialized");
     }
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    // Initialize WebSocket Manager
+    if (config_.enable_websocket) {
+        websocket_manager_ = std::make_shared<WebSocketManager>();
+        THEMIS_INFO("WebSocket Connection Manager initialized");
+    }
+#endif
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
@@ -10154,6 +10166,31 @@ void HttpServer::Session::onRead(
 
 void HttpServer::Session::processRequest() {
     try {
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        // Check for WebSocket upgrade request
+        if (server_->config_.enable_websocket && 
+            websocket::is_upgrade(request_)) {
+            THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
+            
+            // Create WebSocket session and transfer socket ownership
+            auto ws_session = std::make_shared<WebSocketSession>(
+                std::move(socket_),
+                server_
+            );
+            
+            // Add to manager
+            if (server_->websocket_manager_) {
+                server_->websocket_manager_->addSession(ws_session);
+            }
+            
+            // Start WebSocket session
+            ws_session->run(std::move(request_));
+            
+            // Session transferred to WebSocket, don't continue HTTP processing
+            return;
+        }
+#endif
+        
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -10290,6 +10327,31 @@ void HttpServer::SslSession::onRead(
 
 void HttpServer::SslSession::processRequest() {
     try {
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        // Check for WebSocket upgrade request
+        if (server_->config_.enable_websocket && 
+            websocket::is_upgrade(request_)) {
+            THEMIS_INFO("WebSocket upgrade requested from HTTPS");
+            
+            // Create WebSocket session and transfer SSL stream ownership
+            auto ws_session = std::make_shared<WebSocketSession>(
+                std::move(stream_),
+                server_
+            );
+            
+            // Add to manager
+            if (server_->websocket_manager_) {
+                server_->websocket_manager_->addSession(ws_session);
+            }
+            
+            // Start WebSocket session
+            ws_session->run(std::move(request_));
+            
+            // Session transferred to WebSocket, don't continue HTTP processing
+            return;
+        }
+#endif
+        
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         
