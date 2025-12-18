@@ -14,15 +14,22 @@ API-Spezifikationen und -Dokumentation für ThemisDB.
 
 | API | Status | Beschreibung |
 |-----|--------|--------------|
-| REST | ✅ Production | HTTP/JSON API |
+| REST (HTTP/1.1) | ✅ Production | HTTP/JSON API |
+| REST (HTTP/2) | 🚧 In Development | HTTP/2 Support für bessere Performance |
+| REST (HTTP/3) | 📋 Planned | HTTP/3 (QUIC) für Mobile/Edge Use Cases |
 | GraphQL | ✅ Production | GraphQL Schema |
 | OpenAPI | ✅ Production | OpenAPI 3.0 Spec |
+| gRPC | 📋 Planned Q1 2025 | High-Performance RPC für Microservices |
+| WebSocket | 📋 Planned Q1 2025 | Bidirektionale Real-time Kommunikation |
+| PostgreSQL Wire | 📋 Planned Q3 2025 | PostgreSQL-Tool-Kompatibilität |
 
 ## Dokumentation in diesem Ordner
 
 | Datei | Beschreibung |
 |-------|--------------|
 | [HTTP_API_REFERENCE.md](HTTP_API_REFERENCE.md) | **Vollständige HTTP API Referenz** |
+| [HTTP2_HTTP3_PROTOCOL_SUPPORT.md](HTTP2_HTTP3_PROTOCOL_SUPPORT.md) | **HTTP/2 und HTTP/3 Support - Vor- und Nachteile** |
+| [ADDITIONAL_PROTOCOLS.md](ADDITIONAL_PROTOCOLS.md) | **Weitere Protokolle (gRPC, WebSocket, MQTT, PostgreSQL Wire)** |
 | [apis_contentfs.md](apis_contentfs.md) | ContentFS API |
 | [apis_graphql.md](apis_graphql.md) | GraphQL API |
 | [apis_hot_reload.md](apis_hot_reload.md) | Hot Reload API |
