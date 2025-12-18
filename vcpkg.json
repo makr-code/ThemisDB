@@ -28,6 +28,17 @@
     "gpu": {
       "description": "Enable GPU acceleration for vector search (not recommended for QNAP NAS)",
       "dependencies": ["faiss"]
+    },
+    "http2": {
+      "description": "Enable HTTP/2 protocol support",
+      "dependencies": ["nghttp2"]
+    },
+    "http3": {
+      "description": "Enable HTTP/3 (QUIC) protocol support",
+      "dependencies": [
+        "nghttp3",
+        { "name": "ngtcp2", "features": ["openssl"] }
+      ]
     }
   }
 }

@@ -115,6 +115,10 @@ option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP workloads" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant (reduced dependencies)" OFF)
 option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location (AI/ML workloads)" OFF)
 
+# HTTP Protocol Support Options
+option(THEMIS_ENABLE_HTTP2 "Enable HTTP/2 protocol support" OFF)
+option(THEMIS_ENABLE_HTTP3 "Enable HTTP/3 (QUIC) protocol support" OFF)
+
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
     set(THEMIS_ENABLE_CUDA ON CACHE BOOL "Force CUDA for vLLM co-location" FORCE)
@@ -361,6 +365,35 @@ if(THEMIS_USE_MIMALLOC)
     else()
         message(WARNING "mimalloc not found - falling back to system allocator. Install with: vcpkg install mimalloc")
         set(THEMIS_USE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
+    endif()
+endif()
+
+# HTTP/2 Protocol Support
+if(THEMIS_ENABLE_HTTP2)
+    find_package(nghttp2 CONFIG)
+    if(nghttp2_FOUND)
+        message(STATUS "nghttp2 found - HTTP/2 protocol support enabled")
+    else()
+        message(WARNING "nghttp2 not found - disabling HTTP/2 support. Install with: vcpkg install nghttp2")
+        set(THEMIS_ENABLE_HTTP2 OFF CACHE BOOL "nghttp2 not available" FORCE)
+    endif()
+endif()
+
+# HTTP/3 Protocol Support (requires both nghttp3 and ngtcp2)
+if(THEMIS_ENABLE_HTTP3)
+    find_package(nghttp3 CONFIG)
+    find_package(ngtcp2 CONFIG)
+    if(nghttp3_FOUND AND ngtcp2_FOUND)
+        message(STATUS "nghttp3 and ngtcp2 found - HTTP/3 (QUIC) protocol support enabled")
+    else()
+        if(NOT nghttp3_FOUND)
+            message(WARNING "nghttp3 not found - Install with: vcpkg install nghttp3")
+        endif()
+        if(NOT ngtcp2_FOUND)
+            message(WARNING "ngtcp2 not found - Install with: vcpkg install ngtcp2[openssl]")
+        endif()
+        message(WARNING "Disabling HTTP/3 support due to missing dependencies")
+        set(THEMIS_ENABLE_HTTP3 OFF CACHE BOOL "nghttp3/ngtcp2 not available" FORCE)
     endif()
 endif()
 
@@ -737,6 +770,20 @@ if(THEMIS_USE_MIMALLOC AND mimalloc_FOUND)
     target_link_libraries(themis_core PUBLIC mimalloc-static)
     target_compile_definitions(themis_core PUBLIC THEMIS_USE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# HTTP/2 Protocol Support
+if(THEMIS_ENABLE_HTTP2 AND nghttp2_FOUND)
+    target_link_libraries(themis_core PUBLIC nghttp2::nghttp2)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP2)
+    message(STATUS "HTTP/2 support enabled and linked to themis_core")
+endif()
+
+# HTTP/3 Protocol Support
+if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
+    target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
+    message(STATUS "HTTP/3 support enabled and linked to themis_core")
 endif()
 
 # v1.1.0: vLLM Co-Location compile definitions
