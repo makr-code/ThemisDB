@@ -157,10 +157,112 @@ wobei B ∈ ℝᵈˣʳ, A ∈ ℝʳˣᵏ, r ≪ min(d,k)
 3. **Tokenizer:** Verschiedene Vocabulary-Sizes
 4. **Semantik:** Weight-Space ist nicht aligned zwischen Models
 
-**Best Practice:**
-- Ein Base-Model wählen und dabei bleiben
-- Mehrere LoRAs für verschiedene Domänen auf GLEICHEM Base-Model
-- Base-Model Wechsel erfordert Re-Training aller Adapter
+**❓ Wie macht vLLM das, dass Adapter mit "allen Modellen" funktionieren?**
+
+**Klärung:** vLLM macht Adapter **NICHT** modellübergreifend kompatibel. vLLM erlaubt:
+
+1. **Multi-LoRA Serving auf EINEM Base-Model:**
+   ```
+   vLLM Server
+   ├─ Base Model: Mistral-7B (geladen in VRAM)
+   └─ Adapter Pool:
+      ├─ legal-qa-v1 → NUR für Mistral-7B ✓
+      ├─ medical-v1 → NUR für Mistral-7B ✓
+      └─ code-gen-v1 → NUR für Mistral-7B ✓
+   ```
+
+2. **Dynamische Adapter-Auswahl pro Request:**
+   ```python
+   # Request 1: Legal query
+   client.completions.create(
+       model="mistralai/Mistral-7B-v0.1",
+       prompt="Legal question...",
+       extra_body={"lora_name": "legal-qa-v1"}  # Wählt Adapter aus Pool
+   )
+   
+   # Request 2: Medical query (GLEICHES Base-Model!)
+   client.completions.create(
+       model="mistralai/Mistral-7B-v0.1",
+       prompt="Medical question...",
+       extra_body={"lora_name": "medical-v1"}  # Anderer Adapter, GLEICHES Model
+   )
+   ```
+
+3. **Effiziente Batching:**
+   - vLLM kann Requests mit verschiedenen Adaptern im gleichen Batch verarbeiten
+   - PagedAttention ermöglicht Sharing des Base-Model KV-Cache
+   - Adapter-spezifische Gewichte werden nur für betroffene Tokens geladen
+
+**vLLM's Strategie für "Universalität":**
+
+| Aspekt | vLLM Ansatz | Limitation |
+|--------|-------------|------------|
+| **Multi-Base-Model Support** | Kann verschiedene Base-Models hosten (Llama, Mistral, GPT-J) | Jedes Base-Model braucht eigene Adapter |
+| **Multi-Adapter auf 1 Base-Model** | ✅ Ja, unbegrenzt viele Adapter pro Base-Model | Adapter sind an Base-Model gebunden |
+| **Cross-Model Adapter Sharing** | ❌ Nicht möglich | Dimensionen inkompatibel |
+| **Dynamic Adapter Loading** | ✅ Ja, Adapter können zur Laufzeit ge-/entladen werden | Nur für kompatibles Base-Model |
+
+**Was vLLM NICHT kann:**
+```python
+# ❌ FEHLER: Llama LoRA auf Mistral Base-Model
+client.completions.create(
+    model="mistralai/Mistral-7B",
+    extra_body={"lora_name": "llama-legal-adapter"}  # ← Inkompatibel!
+)
+# → Dimension mismatch: Llama LoRA (4096) ≠ Mistral (4096 aber andere Architektur)
+```
+
+**Verbesserungsvorschläge für ThemisDB Strategie:**
+
+1. **Multi-Base-Model Registry:** 
+   ```cpp
+   struct AdapterRegistry {
+       map<string, vector<AdapterInfo>> adapters_by_base_model;
+       // Gruppierung: "mistral-7b" → [legal-v1, medical-v1]
+       //              "llama-3-8b" → [code-v1, chat-v1]
+   };
+   ```
+
+2. **Automatische Base-Model Erkennung:**
+   ```cpp
+   // Verhindert falsche Adapter-Zuordnung
+   bool validateAdapterCompatibility(
+       const string& adapter_id,
+       const string& base_model_id
+   ) {
+       auto adapter_meta = registry.getAdapter(adapter_id);
+       if (adapter_meta.base_model_name != base_model_id) {
+           throw IncompatibleAdapterException(
+               "Adapter " + adapter_id + " requires " + 
+               adapter_meta.base_model_name + " but got " + base_model_id
+           );
+       }
+       return true;
+   }
+   ```
+
+3. **Fallback-Strategie für Model-Migration:**
+   ```cpp
+   // Wenn Base-Model gewechselt wird
+   struct ModelMigrationPlan {
+       string old_base_model;     // "mistral-7b"
+       string new_base_model;     // "llama-3-8b"
+       
+       // Adapter müssen re-trainiert werden
+       vector<AdapterRetrainingTask> adapter_tasks;
+       
+       // Aber: Training-Daten können wiederverwendet werden
+       bool reuse_training_data = true;
+       bool reuse_hyperparameters = true;  // LoRA rank, alpha, etc.
+   };
+   ```
+
+**Best Practice (korrigiert):**
+- ✅ Ein Base-Model wählen und dabei bleiben
+- ✅ Mehrere LoRAs für verschiedene Domänen auf GLEICHEM Base-Model
+- ✅ Bei Base-Model Wechsel: **Alle Adapter re-trainieren** (aber Training-Daten wiederverwenden)
+- ✅ vLLM für **Multi-Adapter auf 1 Base-Model**, **NICHT** für Cross-Model Adapter
+- ✅ Separate vLLM-Instanzen für verschiedene Base-Models (z.B. eine für Mistral, eine für Llama)
 
 **Eigenschaften:**
 - ✅ Trainiert nur ~0.1-1% der Parameter (z.B. 4M statt 7B)
@@ -1989,6 +2091,398 @@ void handleShardFailure(const std::string& failed_shard) {
     // 5. Log & alert
     logger_.warn("Shard {} failed, training continues with {} shards",
                  failed_shard, active_shards_.size());
+}
+```
+
+---
+
+## 6.8 Adapter Compatibility Validation & Error Prevention
+
+**Problem:** Verhindern, dass inkompatible Adapter auf falschen Base-Models geladen werden.
+
+### 6.8.1 Compatibility Checking Strategy
+
+```cpp
+// include/llm/adapter_compatibility_validator.h
+namespace themis::llm {
+
+class AdapterCompatibilityValidator {
+public:
+    // Validation result
+    struct ValidationResult {
+        bool is_compatible;
+        std::string error_message;
+        std::vector<std::string> warnings;
+        
+        // Detailed mismatch info
+        struct Mismatch {
+            std::string field;
+            std::string expected;
+            std::string actual;
+        };
+        std::vector<Mismatch> mismatches;
+    };
+    
+    // Validate adapter against base model
+    ValidationResult validate(
+        const AdapterMetadata& adapter,
+        const ModelMetadata& base_model
+    ) {
+        ValidationResult result;
+        result.is_compatible = true;
+        
+        // 1. Check model name match
+        if (adapter.base_model_name != base_model.model_name) {
+            result.is_compatible = false;
+            result.mismatches.push_back({
+                "base_model_name",
+                adapter.base_model_name,
+                base_model.model_name
+            });
+            result.error_message = fmt::format(
+                "Adapter '{}' requires base model '{}' but got '{}'",
+                adapter.adapter_id,
+                adapter.base_model_name,
+                base_model.model_name
+            );
+        }
+        
+        // 2. Check architecture compatibility
+        if (!checkArchitectureCompatibility(adapter, base_model)) {
+            result.is_compatible = false;
+            result.error_message += "\nArchitecture mismatch detected.";
+        }
+        
+        // 3. Check dimension compatibility
+        if (!checkDimensionCompatibility(adapter, base_model)) {
+            result.is_compatible = false;
+            result.error_message += "\nDimension mismatch detected.";
+        }
+        
+        // 4. Check tokenizer compatibility
+        if (adapter.tokenizer_hash != base_model.tokenizer_hash) {
+            result.warnings.push_back(
+                "Tokenizer mismatch - inference may produce unexpected results"
+            );
+        }
+        
+        return result;
+    }
+    
+private:
+    bool checkArchitectureCompatibility(
+        const AdapterMetadata& adapter,
+        const ModelMetadata& base_model
+    ) {
+        // Verify target modules exist in base model
+        for (const auto& module : adapter.training_config.target_modules) {
+            if (!base_model.hasModule(module)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    bool checkDimensionCompatibility(
+        const AdapterMetadata& adapter,
+        const ModelMetadata& base_model
+    ) {
+        // Check LoRA dimensions match model dimensions
+        for (const auto& [layer_name, dimensions] : adapter.layer_dimensions) {
+            auto model_dims = base_model.getLayerDimensions(layer_name);
+            if (dimensions.d != model_dims.d || dimensions.k != model_dims.k) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+} // namespace themis::llm
+```
+
+### 6.8.2 Runtime Validation in Deployment
+
+```cpp
+// Automatic validation before adapter deployment
+class SafeAdapterDeploymentManager : public AdapterDeploymentManager {
+public:
+    void deployAdapter(
+        const std::string& adapter_id,
+        const std::string& adapter_path,
+        const std::string& target_shard
+    ) override {
+        // 1. Load adapter metadata
+        auto adapter_meta = loadAdapterMetadata(adapter_path);
+        
+        // 2. Get base model info from target shard
+        auto base_model_info = executor_.execute(target_shard, {
+            {"command", "get_model_info"}
+        });
+        
+        // 3. Validate compatibility
+        AdapterCompatibilityValidator validator;
+        auto validation = validator.validate(adapter_meta, base_model_info);
+        
+        if (!validation.is_compatible) {
+            throw IncompatibleAdapterException(
+                validation.error_message
+            );
+        }
+        
+        // 4. Log warnings
+        for (const auto& warning : validation.warnings) {
+            logger_.warn("Adapter deployment warning: {}", warning);
+        }
+        
+        // 5. Proceed with deployment
+        AdapterDeploymentManager::deployAdapter(
+            adapter_id, adapter_path, target_shard
+        );
+        
+        // 6. Register deployment with validation info
+        registry_.registerValidatedDeployment(
+            adapter_id,
+            target_shard,
+            validation
+        );
+    }
+};
+```
+
+### 6.8.3 AQL-Level Validation
+
+```sql
+-- Automatic validation in AQL DEPLOY statement
+DEPLOY ADAPTER legal_qa_v1
+  TO SHARD 'shard_legal'
+  WITH strategy = 'CO_LOCATED',
+       validate_compatibility = TRUE;  -- Default: TRUE
+
+-- Output bei Fehler:
+-- ERROR: Adapter 'legal_qa_v1' incompatible with base model
+-- Expected: mistralai/Mistral-7B-v0.1
+-- Found: meta-llama/Llama-2-7b-hf
+-- Suggestion: Re-train adapter on Llama-2-7b or deploy to Mistral shard
+```
+
+### 6.8.4 Adapter Registry with Base Model Grouping
+
+```cpp
+// Gruppierung von Adapters nach Base-Model
+class BaseModelAwareAdapterRegistry {
+public:
+    struct BaseModelGroup {
+        std::string base_model_name;
+        std::string base_model_version;
+        std::vector<AdapterInfo> adapters;
+        std::vector<std::string> deployed_shards;
+    };
+    
+    // Get all adapters for a specific base model
+    std::vector<AdapterInfo> getAdaptersForBaseModel(
+        const std::string& base_model_name
+    ) {
+        return base_model_groups_[base_model_name].adapters;
+    }
+    
+    // List all base models with their adapter counts
+    std::map<std::string, size_t> listBaseModels() {
+        std::map<std::string, size_t> result;
+        for (const auto& [model_name, group] : base_model_groups_) {
+            result[model_name] = group.adapters.size();
+        }
+        return result;
+    }
+    
+    // Register adapter with automatic grouping
+    void registerAdapter(const AdapterMetadata& metadata) {
+        auto& group = base_model_groups_[metadata.base_model_name];
+        group.base_model_name = metadata.base_model_name;
+        group.adapters.push_back(AdapterInfo::from(metadata));
+    }
+    
+private:
+    std::map<std::string, BaseModelGroup> base_model_groups_;
+};
+```
+
+### 6.8.5 Query-Time Validation
+
+```cpp
+// Validate adapter before query execution
+std::string queryWithValidation(
+    const std::string& query,
+    const std::string& adapter_id
+) {
+    // 1. Get adapter info
+    auto adapter_info = registry_.getAdapter(adapter_id);
+    
+    // 2. Find shard with adapter
+    auto candidate_shards = registry_.getShardsForAdapter(adapter_id);
+    
+    for (const auto& shard_id : candidate_shards) {
+        // 3. Verify base model compatibility
+        auto shard_model = topology_.getBaseModel(shard_id);
+        
+        if (shard_model != adapter_info.base_model_name) {
+            logger_.error(
+                "Shard {} has wrong base model for adapter {}. "
+                "Expected: {}, Got: {}",
+                shard_id,
+                adapter_id,
+                adapter_info.base_model_name,
+                shard_model
+            );
+            continue;  // Try next shard
+        }
+        
+        // 4. Execute query on validated shard
+        try {
+            return executor_.execute(shard_id, {
+                {"command", "llm_generate"},
+                {"query", query},
+                {"adapter_id", adapter_id}
+            }).text;
+        } catch (const ShardException& e) {
+            continue;  // Failover to next shard
+        }
+    }
+    
+    throw NoCompatibleShardException(
+        "No shard with compatible base model found for adapter " + adapter_id
+    );
+}
+```
+
+### 6.8.6 Migration Assistant für Base-Model Wechsel
+
+```cpp
+// Tool für Base-Model Migration
+class BaseModelMigrationAssistant {
+public:
+    struct MigrationPlan {
+        std::string old_base_model;
+        std::string new_base_model;
+        
+        struct AdapterMigration {
+            std::string adapter_id;
+            std::string training_data_path;  // Kann wiederverwendet werden
+            LoRAConfig lora_config;          // Kann wiederverwendet werden
+            bool requires_retraining = true;
+        };
+        std::vector<AdapterMigration> adapters;
+        
+        // Estimated effort
+        size_t total_samples_to_retrain;
+        double estimated_training_hours;
+    };
+    
+    // Create migration plan
+    MigrationPlan planMigration(
+        const std::string& from_model,
+        const std::string& to_model
+    ) {
+        MigrationPlan plan;
+        plan.old_base_model = from_model;
+        plan.new_base_model = to_model;
+        
+        // Get all adapters for old model
+        auto adapters = registry_.getAdaptersForBaseModel(from_model);
+        
+        for (const auto& adapter : adapters) {
+            AdapterMigration migration;
+            migration.adapter_id = adapter.adapter_id;
+            migration.training_data_path = adapter.data_source_uri;
+            migration.lora_config = adapter.training_config;
+            migration.requires_retraining = true;
+            
+            plan.adapters.push_back(migration);
+            plan.total_samples_to_retrain += adapter.num_training_samples;
+        }
+        
+        // Estimate training time
+        plan.estimated_training_hours = 
+            estimateTrainingTime(plan.total_samples_to_retrain, to_model);
+        
+        return plan;
+    }
+    
+    // Execute migration (re-train all adapters)
+    void executeMigration(const MigrationPlan& plan) {
+        for (const auto& adapter : plan.adapters) {
+            logger_.info("Re-training adapter {} on new base model {}",
+                        adapter.adapter_id, plan.new_base_model);
+            
+            // Create new adapter ID
+            std::string new_adapter_id = adapter.adapter_id + "_" + 
+                                        sanitize(plan.new_base_model);
+            
+            // Re-train using existing training data
+            TrainingPlan training_plan;
+            training_plan.adapter_id = new_adapter_id;
+            training_plan.base_model = plan.new_base_model;
+            training_plan.lora_config = adapter.lora_config;
+            training_plan.training_data_source = adapter.training_data_path;
+            
+            trainer_.train(training_plan);
+        }
+    }
+};
+```
+
+### 6.8.7 Best Practices für Fehlerprävention
+
+**1. Strikte Naming Convention:**
+```cpp
+// Adapter ID enthält Base-Model Info
+std::string generateAdapterID(
+    const std::string& domain,
+    const std::string& base_model,
+    const std::string& version
+) {
+    // Format: {domain}_{base_model_short}_{version}
+    // Beispiel: legal_mistral7b_v1
+    std::string model_short = shortenModelName(base_model);
+    return fmt::format("{}_{}_v{}", domain, model_short, version);
+}
+```
+
+**2. Metadata Checksums:**
+```cpp
+// Verify adapter integrity
+struct AdapterChecksum {
+    std::string base_model_hash;  // SHA256 of model architecture
+    std::string weights_hash;     // SHA256 of adapter weights
+    std::string config_hash;      // SHA256 of LoRA config
+};
+
+bool verifyAdapterIntegrity(
+    const std::string& adapter_path,
+    const AdapterChecksum& expected
+) {
+    auto actual = computeAdapterChecksum(adapter_path);
+    return actual.base_model_hash == expected.base_model_hash &&
+           actual.weights_hash == expected.weights_hash;
+}
+```
+
+**3. Automatic Testing:**
+```cpp
+// Test adapter compatibility during CI/CD
+void testAdapterCompatibility(const std::string& adapter_path) {
+    auto adapter_meta = loadAdapterMetadata(adapter_path);
+    auto base_model = loadBaseModel(adapter_meta.base_model_name);
+    
+    // Try to load adapter
+    auto model_with_adapter = base_model.loadAdapter(adapter_path);
+    
+    // Test inference
+    auto test_input = "Test query";
+    auto output = model_with_adapter.generate(test_input);
+    
+    // Verify output shape
+    ASSERT_EQ(output.shape(), expected_shape);
 }
 ```
 
