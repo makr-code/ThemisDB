@@ -263,6 +263,10 @@ bool MTLSClient::verifyPeerCertificate(bool preverified, void* ctx) {
 
 std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string& endpoint) {
     // Parse endpoint: "https://host:port" or "host:port"
+    // Supports both IPv4 and IPv6 addresses
+    // IPv6 format: [2001:db8::1]:8080 or 2001:db8::1 (without port)
+    // IPv4 format: 192.168.1.1:8080 or example.com:8080
+    
     std::string host;
     std::string port = "8080"; // Default port
     
@@ -274,13 +278,41 @@ std::pair<std::string, std::string> MTLSClient::parseEndpoint(const std::string&
         url = url.substr(proto_pos + 3);
     }
     
-    // Split host and port
-    size_t colon_pos = url.find_last_of(':');
-    if (colon_pos != std::string::npos) {
-        host = url.substr(0, colon_pos);
-        port = url.substr(colon_pos + 1);
+    // Check for IPv6 address (enclosed in brackets)
+    if (!url.empty() && url[0] == '[') {
+        // IPv6 format: [host]:port or [host]
+        size_t bracket_close = url.find(']');
+        if (bracket_close != std::string::npos) {
+            // Extract host (without brackets)
+            host = url.substr(1, bracket_close - 1);
+            
+            // Check if port is specified after the bracket
+            if (bracket_close + 1 < url.size() && url[bracket_close + 1] == ':') {
+                port = url.substr(bracket_close + 2);
+            }
+        } else {
+            // Malformed IPv6 address, treat entire string as host
+            host = url;
+        }
     } else {
-        host = url;
+        // IPv4 or hostname: find the last colon for port separation
+        size_t colon_pos = url.find_last_of(':');
+        if (colon_pos != std::string::npos) {
+            // Check if this might be an IPv6 address without brackets
+            // (contains multiple colons but no brackets)
+            size_t first_colon = url.find(':');
+            if (first_colon != colon_pos) {
+                // Multiple colons found - likely IPv6 without port
+                host = url;
+            } else {
+                // Single colon - IPv4/hostname with port
+                host = url.substr(0, colon_pos);
+                port = url.substr(colon_pos + 1);
+            }
+        } else {
+            // No colon - just a host
+            host = url;
+        }
     }
     
     return {host, port};
