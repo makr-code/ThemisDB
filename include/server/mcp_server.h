@@ -18,6 +18,7 @@ namespace asio = boost::asio;
 // Forward declarations
 class McpTransport;
 class HttpServer;
+class RocksDBWrapper;
 
 /**
  * @brief MCP (Model Context Protocol) Server Implementation
@@ -95,6 +96,7 @@ public:
 
     // Transport management
     void attachHttpServer(std::shared_ptr<HttpServer> http_server);
+    void attachDatabase(std::shared_ptr<RocksDBWrapper> db);
     std::shared_ptr<McpTransport> getStdioTransport() const { return stdio_transport_; }
     std::shared_ptr<McpTransport> getSseTransport() const { return sse_transport_; }
     std::shared_ptr<McpTransport> getWebSocketTransport() const { return ws_transport_; }
@@ -175,6 +177,9 @@ private:
 
     // HTTP server reference (for SSE and WebSocket)
     std::weak_ptr<HttpServer> http_server_;
+
+    // Database reference
+    std::shared_ptr<RocksDBWrapper> db_;
 
     // Session state
     bool initialized_ = false;
