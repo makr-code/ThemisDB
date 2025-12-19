@@ -169,12 +169,54 @@ wobei B ∈ ℝᵈˣʳ, A ∈ ℝʳˣᵏ, r ≪ min(d,k)
 auto mistral_model = llama_load_model("mistral-7b.gguf");  // ✓
 auto llama_model = llama_load_model("llama-2-7b.gguf");    // ✓
 
-// Aber LoRA-Adapter sind modellspezifisch:
+// Und LoRA-Adapter für jedes Modell:
 llama_load_lora(mistral_model, "legal-qa-mistral.gguf");   // ✓ Passt
-llama_load_lora(mistral_model, "legal-qa-llama.gguf");     // ❌ FEHLER!
 llama_load_lora(llama_model, "legal-qa-llama.gguf");       // ✓ Passt
+
+// ABER: Cross-Model funktioniert NICHT:
+llama_load_lora(mistral_model, "legal-qa-llama.gguf");     // ❌ FEHLER!
 llama_load_lora(llama_model, "legal-qa-mistral.gguf");     // ❌ FEHLER!
 ```
+
+**❓ Warum kann llama.cpp Mistral LoRA NICHT laden?**
+
+**Antwort:** llama.cpp KAN Mistral-LoRA laden, ABER **nur mit Mistral Base-Model**!
+
+```cpp
+// RICHTIG: Mistral-Model + Mistral-LoRA
+auto mistral = llama_load_model("mistral-7b.gguf");
+llama_load_lora(mistral, "mistral-legal.gguf");  // ✓ Funktioniert perfekt!
+
+// FALSCH: Llama-Model + Mistral-LoRA  
+auto llama = llama_load_model("llama-2-7b.gguf");
+llama_load_lora(llama, "mistral-legal.gguf");    // ❌ Dimension Mismatch Error!
+```
+
+**Das Mismatch ist beim Training UND Inference:**
+
+1. **Training-Mismatch:**
+   ```python
+   # ❌ FEHLER: Llama-Daten auf Mistral trainieren
+   base_model = AutoModel.from_pretrained("mistralai/Mistral-7B")
+   training_data = load_data_for_llama()  # Llama-spezifische Tokenisierung
+   # → Tokenizer-Mismatch, schlechte Results
+   ```
+
+2. **Inference-Mismatch:**
+   ```cpp
+   // ❌ FEHLER: Falsches Base-Model für Adapter
+   auto model = llama_load_model("mistral-7b.gguf");
+   llama_load_lora(model, "llama-legal.gguf");
+   // → Runtime Error: Layer dimensions don't match
+   //    Expected: Mistral layers (FFN=14336)
+   //    Got: Llama LoRA (FFN=11008)
+   ```
+
+**Zusammenfassung:**
+- llama.cpp = Universal Engine ✓
+- Mistral-Model laden ✓
+- Mistral-LoRA mit Mistral-Model laden ✓
+- Mistral-LoRA mit Llama-Model laden ❌ (Dimension Error)
 
 **Gründe für Inkompatibilität:**
 1. **Dimensionen:** Jedes Model hat unterschiedliche Layer-Größen (d, k)
@@ -3539,7 +3581,519 @@ public:
 };
 ```
 
-### 8.4 Zusammenfassung der Verbesserungen
+**Strategische Entscheidungen:**
+1. ✅ Ed25519 für Signaturen (schnell, sicher)
+2. ✅ SHA-256 für Content Hashing
+3. ✅ Semantic Versioning (SemVer)
+4. ✅ Manifest-basierte Provenance
+5. ✅ Chain of Trust für incremental training
+6. ✅ PKI-basiertes Key Management
+7. ✅ Immutable Audit Trail
+8. ✅ Compliance-aware Deployment
+
+---
+
+### 8.8 ThemisDB Extended GGUF Format (GGUF-ST)
+
+**Anforderung:** GGUF als Basis-Format, aber mit eingebetteten SafeTensors für bessere Interoperabilität und Sicherheit.
+
+**Ziel:** 
+- ✅ llama.cpp Kompatibilität (GGUF)
+- ✅ SafeTensors Vorteile (Sicherheit, Inspection)
+- ✅ Erweiterbar für ThemisDB-spezifische Metadata
+
+#### 8.8.1 Format-Spezifikation: GGUF-ST
+
+**GGUF-ST = GGUF + Embedded SafeTensors + ThemisDB Extensions**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│              GGUF-ST File Structure                      │
+└─────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────┐
+│ GGUF Header (Original)                   │
+│ - Magic: GGUF                            │
+│ - Version: 3                             │
+│ - Tensor Count: N                        │
+│ - Metadata Count: M                      │
+└──────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│ GGUF Metadata (Extended)                 │
+│                                          │
+│ Standard GGUF Keys:                      │
+│ - general.architecture                   │
+│ - general.name                           │
+│ - llama.context_length                   │
+│                                          │
+│ ThemisDB Extensions: ⭐ NEW              │
+│ - themisdb.version = "1.0"               │
+│ - themisdb.format = "GGUF-ST"            │
+│ - themisdb.safetensors_offset = <offset> │
+│ - themisdb.safetensors_size = <size>     │
+│ - themisdb.signature_offset = <offset>   │
+│ - themisdb.manifest_offset = <offset>    │
+│ - themisdb.adapter_id = "legal-qa-v1"    │
+│ - themisdb.adapter_version = "1.2.3"     │
+└──────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│ GGUF Tensor Info (Original)              │
+│ - Tensor name                            │
+│ - Dimensions                             │
+│ - Type (F32, F16, Q4_K, etc.)            │
+│ - Offset                                 │
+└──────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│ GGUF Tensor Data (Quantized)             │
+│ - LoRA A matrices (quantized)            │
+│ - LoRA B matrices (quantized)            │
+│ - Scaling factors                        │
+└──────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│ ⭐ Embedded SafeTensors Section (NEW)    │
+│                                          │
+│ SafeTensors Header:                      │
+│ - Magic: 0x00000000000000XX              │
+│ - Metadata JSON                          │
+│                                          │
+│ SafeTensors Data:                        │
+│ - Same tensors in FP16/FP32 (unquantized)│
+│ - For verification & conversion          │
+│ - Optional: Can be omitted for size      │
+└──────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│ ⭐ ThemisDB Signature Section (NEW)      │
+│                                          │
+│ Signature Header:                        │
+│ - Magic: "THMSSIG"                       │
+│ - Version: 1                             │
+│                                          │
+│ Signature Data:                          │
+│ - Content Hash (SHA-256)                 │
+│ - Metadata Hash (SHA-256)                │
+│ - Digital Signature (Ed25519)            │
+│ - Signing Key ID                         │
+│ - Timestamp                              │
+└──────────────────────────────────────────┘
+                 │
+                 ▼
+┌──────────────────────────────────────────┐
+│ ⭐ ThemisDB Manifest Section (NEW)       │
+│                                          │
+│ Manifest Header:                         │
+│ - Magic: "THMSMAN"                       │
+│ - Version: 1                             │
+│ - Format: JSON/CBOR                      │
+│                                          │
+│ Manifest Data:                           │
+│ - Adapter Provenance                     │
+│ - Training Config                        │
+│ - Compliance Info                        │
+│ - Dependencies                           │
+│ - Full AdapterManifest (siehe 8.5.3)     │
+└──────────────────────────────────────────┘
+```
+
+#### 8.8.2 C++ Implementation
+
+```cpp
+// include/llm/gguf_st_format.h
+namespace themis::llm {
+
+// GGUF-ST = GGUF + SafeTensors + ThemisDB Extensions
+class GGUFSTAdapter {
+public:
+    struct GGUFSTHeader {
+        // Standard GGUF
+        uint32_t magic;              // 'GGUF'
+        uint32_t version;            // 3
+        uint64_t tensor_count;
+        uint64_t metadata_count;
+        
+        // ThemisDB Extensions
+        struct ThemisDBExtension {
+            uint64_t safetensors_offset;
+            uint64_t safetensors_size;
+            uint64_t signature_offset;
+            uint64_t signature_size;
+            uint64_t manifest_offset;
+            uint64_t manifest_size;
+            
+            std::string themisdb_version;  // "1.0"
+            std::string format_version;    // "GGUF-ST-1.0"
+        } themisdb_ext;
+    };
+    
+    // Write GGUF-ST format
+    void write(
+        const std::string& output_path,
+        const LoRAWeights& weights,
+        const AdapterManifest& manifest,
+        const AdapterSignature& signature
+    ) {
+        std::ofstream out(output_path, std::ios::binary);
+        
+        // 1. Write standard GGUF header + metadata
+        writeGGUFHeader(out, weights);
+        writeGGUFMetadata(out, weights, manifest);
+        
+        // 2. Write GGUF tensor info
+        writeGGUFTensorInfo(out, weights);
+        
+        // 3. Write GGUF tensor data (quantized)
+        auto gguf_data_offset = out.tellp();
+        writeGGUFTensorData(out, weights);
+        
+        // 4. Write embedded SafeTensors (optional, for verification)
+        auto safetensors_offset = out.tellp();
+        writeSafeTensors(out, weights);
+        auto safetensors_size = (uint64_t)out.tellp() - safetensors_offset;
+        
+        // 5. Write ThemisDB signature
+        auto signature_offset = out.tellp();
+        writeSignature(out, signature);
+        auto signature_size = (uint64_t)out.tellp() - signature_offset;
+        
+        // 6. Write ThemisDB manifest
+        auto manifest_offset = out.tellp();
+        writeManifest(out, manifest);
+        auto manifest_size = (uint64_t)out.tellp() - manifest_offset;
+        
+        // 7. Update header with offsets
+        out.seekp(0);
+        GGUFSTHeader header;
+        header.themisdb_ext.safetensors_offset = safetensors_offset;
+        header.themisdb_ext.safetensors_size = safetensors_size;
+        header.themisdb_ext.signature_offset = signature_offset;
+        header.themisdb_ext.signature_size = signature_size;
+        header.themisdb_ext.manifest_offset = manifest_offset;
+        header.themisdb_ext.manifest_size = manifest_size;
+        
+        writeGGUFSTHeader(out, header);
+        out.close();
+    }
+    
+    // Read GGUF-ST format
+    struct LoadedAdapter {
+        LoRAWeights weights_quantized;  // From GGUF
+        LoRAWeights weights_fp16;       // From embedded SafeTensors
+        AdapterManifest manifest;
+        AdapterSignature signature;
+        bool signature_valid;
+    };
+    
+    LoadedAdapter read(const std::string& path) {
+        LoadedAdapter result;
+        std::ifstream in(path, std::ios::binary);
+        
+        // 1. Read GGUF-ST header
+        auto header = readGGUFSTHeader(in);
+        
+        // 2. Read GGUF tensors (quantized)
+        result.weights_quantized = readGGUFTensors(in, header);
+        
+        // 3. Read embedded SafeTensors (if present)
+        if (header.themisdb_ext.safetensors_size > 0) {
+            in.seekg(header.themisdb_ext.safetensors_offset);
+            result.weights_fp16 = readSafeTensors(in);
+        }
+        
+        // 4. Read signature
+        in.seekg(header.themisdb_ext.signature_offset);
+        result.signature = readSignature(in);
+        
+        // 5. Read manifest
+        in.seekg(header.themisdb_ext.manifest_offset);
+        result.manifest = readManifest(in);
+        
+        // 6. Verify signature
+        result.signature_valid = verifySignature(
+            path,
+            result.signature,
+            public_key_
+        );
+        
+        return result;
+    }
+    
+private:
+    void writeSafeTensors(
+        std::ofstream& out,
+        const LoRAWeights& weights
+    ) {
+        // SafeTensors format:
+        // 1. 8-byte header size (little-endian)
+        // 2. JSON metadata
+        // 3. Tensor data
+        
+        nlohmann::json metadata;
+        std::vector<uint8_t> tensor_data;
+        
+        size_t offset = 0;
+        for (const auto& [name, tensor] : weights.tensors) {
+            metadata[name] = {
+                {"dtype", "F16"},
+                {"shape", tensor.shape},
+                {"data_offsets", {offset, offset + tensor.size_bytes()}}
+            };
+            
+            // Append tensor data
+            tensor_data.insert(
+                tensor_data.end(),
+                tensor.data(),
+                tensor.data() + tensor.size_bytes()
+            );
+            
+            offset += tensor.size_bytes();
+        }
+        
+        // Write SafeTensors
+        std::string metadata_json = metadata.dump();
+        uint64_t header_size = metadata_json.size();
+        
+        out.write(reinterpret_cast<const char*>(&header_size), 8);
+        out.write(metadata_json.data(), metadata_json.size());
+        out.write(reinterpret_cast<const char*>(tensor_data.data()),
+                 tensor_data.size());
+    }
+    
+    void writeSignature(
+        std::ofstream& out,
+        const AdapterSignature& signature
+    ) {
+        // ThemisDB Signature Section
+        out.write("THMSSIG", 7);
+        uint8_t version = 1;
+        out.write(reinterpret_cast<const char*>(&version), 1);
+        
+        // Serialize signature as CBOR (compact)
+        auto cbor_data = serializeToCBOR(signature);
+        uint64_t size = cbor_data.size();
+        out.write(reinterpret_cast<const char*>(&size), 8);
+        out.write(cbor_data.data(), size);
+    }
+    
+    void writeManifest(
+        std::ofstream& out,
+        const AdapterManifest& manifest
+    ) {
+        // ThemisDB Manifest Section
+        out.write("THMSMAN", 7);
+        uint8_t version = 1;
+        out.write(reinterpret_cast<const char*>(&version), 1);
+        
+        // Serialize manifest as CBOR
+        auto cbor_data = serializeToCBOR(manifest);
+        uint64_t size = cbor_data.size();
+        out.write(reinterpret_cast<const char*>(&size), 8);
+        out.write(cbor_data.data(), size);
+    }
+};
+
+} // namespace themis::llm
+```
+
+#### 8.8.3 Vorteile von GGUF-ST
+
+**1. llama.cpp Kompatibilität:**
+```cpp
+// Standard llama.cpp kann GGUF-ST lesen (ignoriert ThemisDB Sections)
+auto model = llama_load_model("mistral-7b.gguf");
+auto lora = llama_load_lora("legal-qa-v1.gguf-st");  // ✓ Funktioniert!
+// llama.cpp liest nur GGUF-Teil, ignoriert SafeTensors/Signature/Manifest
+```
+
+**2. SafeTensors Vorteile:**
+```python
+# Python kann SafeTensors extrahieren
+from themisdb_tools import GGUFSTReader
+
+adapter = GGUFSTReader("legal-qa-v1.gguf-st")
+
+# Extract SafeTensors for inspection/conversion
+safetensors = adapter.extract_safetensors()
+# → Kann mit HuggingFace PEFT verwendet werden
+
+# Verify without loading full model
+if adapter.verify_signature():
+    print("Adapter integrity verified!")
+```
+
+**3. Verifikation ohne vollständiges Laden:**
+```cpp
+// Nur Signature/Manifest lesen (schnell)
+GGUFSTAdapter reader;
+auto header = reader.readHeader("legal-qa-v1.gguf-st");
+
+// Signature prüfen ohne tensors zu laden
+if (reader.verifySignatureOnly(header)) {
+    // OK, dann erst laden
+    auto adapter = reader.read("legal-qa-v1.gguf-st");
+}
+```
+
+**4. Konvertierung:**
+```cpp
+class GGUFSTConverter {
+public:
+    // SafeTensors → GGUF-ST
+    void safetensorsToGGUFST(
+        const std::string& safetensors_path,
+        const std::string& gguf_st_path,
+        const AdapterManifest& manifest
+    ) {
+        // 1. Load SafeTensors
+        auto weights_fp16 = loadSafeTensors(safetensors_path);
+        
+        // 2. Quantize to Q4_K_M
+        auto weights_q4 = quantize(weights_fp16, QuantType::Q4_K_M);
+        
+        // 3. Sign
+        auto signature = signer_.signAdapter(weights_q4, manifest);
+        
+        // 4. Write GGUF-ST (with both quantized + original)
+        GGUFSTAdapter writer;
+        writer.write(gguf_st_path, weights_q4, manifest, signature);
+    }
+    
+    // GGUF-ST → SafeTensors (extract)
+    void ggufstToSafeTensors(
+        const std::string& gguf_st_path,
+        const std::string& safetensors_path
+    ) {
+        GGUFSTAdapter reader;
+        auto adapter = reader.read(gguf_st_path);
+        
+        if (!adapter.signature_valid) {
+            throw SecurityException("Signature invalid!");
+        }
+        
+        // Extract embedded SafeTensors
+        writeSafeTensors(safetensors_path, adapter.weights_fp16);
+    }
+};
+```
+
+#### 8.8.4 Dateigröße-Optimierung
+
+**Problem:** Embedding SafeTensors verdoppelt fast die Dateigröße.
+
+**Lösung: Optionale SafeTensors:**
+
+```cpp
+struct GGUFSTOptions {
+    bool embed_safetensors = true;   // Default: Ja
+    bool compress_safetensors = true; // ZSTD compression
+    
+    // Size modes
+    enum class SizeMode {
+        FULL,          // GGUF + SafeTensors (beide vorhanden)
+        COMPACT,       // Nur GGUF (SafeTensors optional entfernt)
+        SIGNATURE_ONLY // Nur Signature + Manifest (kein Tensor-Data)
+    } size_mode = SizeMode::FULL;
+};
+
+// Beispiel Größen:
+// legal-qa-v1.gguf-st (FULL):          20 MB (GGUF: 16MB + ST: 4MB)
+// legal-qa-v1.gguf-st (COMPACT):       16 MB (nur GGUF)
+// legal-qa-v1.gguf-st (SIGNATURE):    100 KB (nur Metadata)
+```
+
+**3-Tier Deployment:**
+```cpp
+// Production: Compact (nur GGUF)
+deploy("legal-qa-v1.gguf-st", SizeMode::COMPACT);
+
+// Development: Full (mit SafeTensors für debugging)
+deploy("legal-qa-v1.gguf-st", SizeMode::FULL);
+
+// Registry: Signature-only (für Katalog)
+register("legal-qa-v1.gguf-st", SizeMode::SIGNATURE_ONLY);
+```
+
+#### 8.8.5 AQL Integration
+
+```sql
+-- Create adapter in GGUF-ST format
+TRAIN ADAPTER legal_qa_v1
+  FROM documents
+  WHERE category = 'Rechtssprechung'
+  WITH
+    base_model = 'mistral-7b',
+    lora_rank = 8,
+    output_format = 'GGUF-ST',           -- ⭐ NEW
+    embed_safetensors = TRUE,            -- ⭐ NEW
+    compress_safetensors = TRUE,         -- ⭐ NEW
+    sign_adapter = TRUE;                 -- ⭐ NEW
+
+-- Convert existing adapter
+CONVERT ADAPTER legal_qa_v1
+  FROM 'safetensors'
+  TO 'GGUF-ST'
+  WITH
+    quantization = 'Q4_K_M',
+    embed_original = TRUE,
+    sign = TRUE;
+
+-- Verify adapter
+VERIFY ADAPTER legal_qa_v1
+  CHECK signature,
+        manifest,
+        safetensors_match;  -- Verify quantized matches original
+```
+
+#### 8.8.6 Migration Path
+
+**Existing Adapters → GGUF-ST:**
+
+```cpp
+class AdapterMigrationTool {
+public:
+    // Migrate all adapters to GGUF-ST
+    void migrateToGGUFST(
+        const std::vector<std::string>& adapter_ids
+    ) {
+        for (const auto& adapter_id : adapter_ids) {
+            auto adapter_info = registry_.getAdapter(adapter_id);
+            
+            if (adapter_info.format == "safetensors") {
+                // SafeTensors → GGUF-ST
+                converter_.safetensorsToGGUFST(
+                    adapter_info.path,
+                    adapter_info.path + ".gguf-st",
+                    adapter_info.manifest
+                );
+            }
+            else if (adapter_info.format == "gguf") {
+                // Pure GGUF → GGUF-ST (add signature + manifest)
+                upgradeToGGUFST(
+                    adapter_info.path,
+                    adapter_info.manifest
+                );
+            }
+            
+            // Update registry
+            adapter_info.format = "GGUF-ST";
+            adapter_info.path += ".gguf-st";
+            registry_.update(adapter_id, adapter_info);
+        }
+    }
+};
+```
+
+---
+
+### 8.9 Zusammenfassung der Verbesserungen
 
 **Implementiert in diesem Commit:**
 
