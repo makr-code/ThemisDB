@@ -207,10 +207,10 @@ private:
     std::vector<uint8_t> serializeSignature(const AdapterSignature& signature);
     std::optional<AdapterSignature> deserializeSignature(const std::vector<uint8_t>& data);
     
-    // Section magic constants
-    static constexpr char SAFETENSORS_MAGIC[4] = {'S', 'T', 'N', 'S'};
-    static constexpr char SIGNATURE_MAGIC[4] = {'T', 'S', 'G', 'N'};
-    static constexpr char MANIFEST_MAGIC[4] = {'T', 'M', 'F', 'T'};
+    // Section magic constants (4 bytes, not null-terminated)
+    static constexpr uint8_t SAFETENSORS_MAGIC[4] = {'S', 'T', 'N', 'S'};
+    static constexpr uint8_t SIGNATURE_MAGIC[4] = {'T', 'S', 'G', 'N'};
+    static constexpr uint8_t MANIFEST_MAGIC[4] = {'T', 'M', 'F', 'T'};
     static constexpr uint32_t SECTION_VERSION = 1;
     
     // Compression flags

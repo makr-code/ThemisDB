@@ -12,7 +12,7 @@ namespace themis {
 namespace llm {
 
 /// Training data iterator with zero-copy streaming from RocksDB
-/// Extends JSONLLLMExporter for data export functionality
+/// Extends JSONLLMExporter for data export functionality
 class TrainingDataIterator {
 public:
     /// Configuration for training data iteration
@@ -26,8 +26,8 @@ public:
         bool shuffle_data = true;
         uint64_t random_seed = 42;
         
-        // Quality filtering (reuse from JSONLLLMExporter)
-        exporters::JSONLLLMConfig::QualityFilter quality_filter;
+        // Quality filtering (reuse from JSONLLMExporter)
+        exporters::JSONLLMConfig::QualityFilter quality_filter;
         
         // Multi-model enrichment
         bool enable_graph_context = false;
@@ -68,7 +68,7 @@ public:
     
     explicit TrainingDataIterator(
         std::shared_ptr<storage::RocksDBWrapper> db,
-        std::shared_ptr<exporters::JSONLLLMExporter> exporter,
+        std::shared_ptr<exporters::JSONLLMExporter> exporter,
         const Config& config = {}
     );
     
@@ -125,7 +125,7 @@ public:
     
 private:
     std::shared_ptr<storage::RocksDBWrapper> db_;
-    std::shared_ptr<exporters::JSONLLLMExporter> exporter_;
+    std::shared_ptr<exporters::JSONLLMExporter> exporter_;
     Config config_;
     
     // Iterator state
