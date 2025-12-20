@@ -59,6 +59,10 @@ public:
         // Write buffer tuning
         int max_write_buffer_number = 3;
         int min_write_buffer_number_to_merge = 1;
+        bool allow_concurrent_memtable_write = false;  // Allow parallel writes to different memtables
+        bool enable_pipelined_write = false;           // Pipeline writes for better parallelism
+        bool allow_unordered_write = false;            // Allow unordered writes (better concurrency)
+        bool disable_wal_for_benchmark = false;        // WriteOptions::disableWAL for benchmark mode (NO fsync on writes!)
 
         // I/O
         bool use_direct_reads = false;
@@ -75,6 +79,16 @@ public:
         // v1.1.0: TTL (Time-To-Live) support
         bool enable_ttl = false;         // Enable TTL for automatic data expiration
         int32_t ttl_seconds = 0;         // TTL in seconds (0 = disabled)
+
+        // TransactionDB write policy (performance tuning)
+        enum class WritePolicy {
+            WriteCommitted,
+            WritePrepared,
+            WriteUnprepared
+        };
+        WritePolicy write_policy = WritePolicy::WriteCommitted;
+        bool two_write_queues = false;          // Enable dual write queues (prepare/commit)
+        uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -164,6 +178,9 @@ public:
         
         /// Rollback the transaction
         void rollback();
+
+        /// Prepare the transaction (for WritePrepared policy)
+        bool prepare();
         
         /// Check if transaction is still active
         bool isActive() const { return active_; }
@@ -175,6 +192,7 @@ public:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::Transaction> txn_;
         bool active_ = true;
+        bool prepared_ = false;
         friend class RocksDBWrapper;
     };
     

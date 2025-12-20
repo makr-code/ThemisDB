@@ -70,6 +70,9 @@ public:
      * @return std::vector<int> Block IDs (empty if allocation failed)
      */
     std::vector<int> allocateBlocks(int num_blocks);
+
+    // Convenience single-block allocate (v1.3.0 callers)
+    int allocate();
     
     /**
      * @brief Free blocks
@@ -77,6 +80,9 @@ public:
      * @param block_ids Block IDs to free
      */
     void freeBlocks(const std::vector<int>& block_ids);
+
+    // Convenience single-block free (v1.3.0 callers)
+    void deallocate(int block_id);
     
     /**
      * @brief Get block metadata (lock-free read)

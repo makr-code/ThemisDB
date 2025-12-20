@@ -56,6 +56,7 @@ private:
     int fd_;  // File descriptor for mmap
     void* mmap_base_;
     size_t mmap_size_;
+    std::vector<uint8_t> file_buffer_; // Windows fallback buffer
     
     // Internal parsing helpers
     bool parseHeader();

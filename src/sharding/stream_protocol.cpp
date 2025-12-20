@@ -1071,14 +1071,14 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
     // Calculate checksum
     chunk.checksum = calculateCRC32(chunk.data.data(), chunk.uncompressed_size);
 
-    // Compress if enabled
-    if (config_.compression != CompressionType::NONE) {
-        std::vector<uint8_t> compressed_data;
-        if (compressData(chunk.data, compressed_data, config_.compression)) {
-            chunk.compressed_size = static_cast<uint32_t>(compressed_data.size());
-            chunk.data = std::move(compressed_data);
+    // Compress if enabled; only keep compressed if it's smaller
+    if (config_.compression != CompressionAlgorithm::NONE) {
+        auto compressed = StreamCompressor::compress(
+            chunk.data, config_.compression, config_.compression_level);
+        if (compressed.size() < chunk.uncompressed_size) {
+            chunk.compressed_size = static_cast<uint32_t>(compressed.size());
+            chunk.data = std::move(compressed);
         } else {
-            // Compression failed, use uncompressed
             chunk.compressed_size = chunk.uncompressed_size;
         }
     } else {
@@ -1221,7 +1221,9 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
     std::vector<uint8_t> write_data;
     if (chunk.compressed_size < chunk.uncompressed_size) {
         // Data is compressed, decompress it
-        if (!decompressData(chunk.data, write_data, config_.compression)) {
+        write_data = StreamCompressor::decompress(
+            chunk.data, config_.compression, chunk.uncompressed_size);
+        if (write_data.empty() && chunk.uncompressed_size > 0) {
             std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
             return false;
         }

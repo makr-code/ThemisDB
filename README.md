@@ -89,6 +89,8 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
+**[→ Comprehensive Build Documentation](docs/build/README.md)** | Build-Varianten, Plattformen, Troubleshooting
+
 ### Package Managers
 
 **Linux (Debian/Ubuntu):**

@@ -1,10 +1,12 @@
 #pragma once
 
-#include "core/vector_auto_buffer.h"
+#include "index/vector_auto_buffer.h"
 #include <vector>
 #include <memory>
 #include <mutex>
 #include <chrono>
+#include <unordered_map>
+#include <functional>
 
 namespace themis {
 namespace llm {

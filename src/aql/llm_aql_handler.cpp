@@ -1,7 +1,7 @@
 #include "aql/llm_aql_handler.h"
 #include "llm/llm_plugin_manager.h"
 #include <stdexcept>
-<parameter name="sstream">
+#include <sstream>
 
 namespace themis {
 namespace aql {
@@ -46,7 +46,7 @@ std::string LLMAQLHandler::executeInfer(
         }
         
         auto response = plugin_mgr.generate(request);
-        return response.generated_text;
+        return response.text;
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -85,7 +85,7 @@ std::string LLMAQLHandler::executeRAG(
         }
         
         auto response = plugin_mgr.generateRAG(context, request);
-        return response.generated_text;
+        return response.text;
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -100,13 +100,8 @@ std::vector<float> LLMAQLHandler::executeEmbed(
 ) {
     try {
         auto& plugin_mgr = impl_->getPluginManager();
-        
-        llm::EmbeddingRequest request;
-        request.text = text;
-        request.model_id = model_id.empty() ? "default" : model_id;
-        
-        auto response = plugin_mgr.generateEmbedding(request);
-        return response.embedding;
+        (void)model_id;
+        return plugin_mgr.embed(text);
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -157,12 +152,7 @@ void LLMAQLHandler::executeModelIngest(
 ) {
     try {
         auto& plugin_mgr = impl_->getPluginManager();
-        
-        llm::ModelIngestionRequest request;
-        request.model_id = model_id;
-        request.source_urn = blob_urn;
-        
-        plugin_mgr.ingestModel(request);
+        plugin_mgr.loadModel(model_id, blob_urn);
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("LLM MODEL INGEST failed: ") + e.what()
@@ -198,7 +188,11 @@ void LLMAQLHandler::executeLoRAUnload(const std::string& lora_id) {
 std::vector<std::string> LLMAQLHandler::executeLoRAList() {
     try {
         auto& plugin_mgr = impl_->getPluginManager();
-        return plugin_mgr.listLoRAs();
+        std::vector<std::string> ids;
+        for (const auto& lora : plugin_mgr.listLoRAs()) {
+            ids.push_back(lora.lora_id.empty() ? lora.id : lora.lora_id);
+        }
+        return ids;
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("LLM LORA LIST failed: ") + e.what()
@@ -216,8 +210,8 @@ std::string LLMAQLHandler::executeStats() {
         oss << "  Models loaded: " << stats.models_loaded << "\n";
         oss << "  LoRAs loaded: " << stats.loras_loaded << "\n";
         oss << "  Total requests: " << stats.total_requests << "\n";
-        oss << "  Average latency: " << stats.avg_latency_ms << " ms\n";
-        oss << "  Throughput: " << stats.throughput_rps << " req/s\n";
+        oss << "  Average latency: " << stats.average_latency_ms << " ms\n";
+        oss << "  Throughput: " << stats.throughput << " req/s\n";
         
         return oss.str();
     } catch (const std::exception& e) {
@@ -236,9 +230,12 @@ std::string LLMAQLHandler::executeCacheStats() {
         oss << "LLM Cache Statistics:\n";
         oss << "  Response cache hits: " << stats.response_cache_hits << "\n";
         oss << "  Response cache misses: " << stats.response_cache_misses << "\n";
+        oss << "  Response cache entries: " << stats.response_cache_entries << "\n";
+        oss << "  Response cache hit rate: " << stats.response_cache_hit_rate << "\n";
         oss << "  Prefix cache hits: " << stats.prefix_cache_hits << "\n";
         oss << "  Prefix cache misses: " << stats.prefix_cache_misses << "\n";
-        oss << "  Cache hit rate: " << stats.cache_hit_rate << "%\n";
+        oss << "  Prefix cache entries: " << stats.prefix_cache_entries << "\n";
+        oss << "  Prefix cache hit rate: " << stats.prefix_cache_hit_rate << "\n";
         
         return oss.str();
     } catch (const std::exception& e) {
@@ -282,7 +279,7 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
             }
             
             auto response = plugin_mgr.generate(inf_req);
-            results.push_back(response.generated_text);
+            results.push_back(response.text);
         }
         
         return results;

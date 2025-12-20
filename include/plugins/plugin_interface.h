@@ -20,6 +20,7 @@
  */
 
 // Platform-specific export macros
+#ifndef THEMIS_PLUGIN_EXPORT
 #ifdef _WIN32
     #ifdef THEMIS_PLUGIN_EXPORTS
         #define THEMIS_PLUGIN_EXPORT __declspec(dllexport)
@@ -28,6 +29,7 @@
     #endif
 #else
     #define THEMIS_PLUGIN_EXPORT __attribute__((visibility("default")))
+#endif
 #endif
 
 namespace themis {

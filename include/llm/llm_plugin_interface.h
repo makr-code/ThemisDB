@@ -66,6 +66,11 @@ struct ModelInfo {
     std::string path;              // Path to model file
     std::string format;            // e.g., "gguf", "safetensors"
     std::string architecture;      // e.g., "llama", "mistral", "gpt"
+    std::string model_id;          // Logical id
+    bool is_loaded = false;        // Load state
+    size_t size_bytes = 0;
+    std::string quantization;      // e.g., q4_0
+    std::string loaded_at;         // Timestamp string
     
     size_t parameter_count = 0;    // Model size (e.g., 7B, 13B)
     size_t context_length = 0;     // Max context tokens
@@ -85,6 +90,8 @@ struct LoRAInfo {
     std::string name;              // Human-readable name
     std::string path;              // Path to LoRA weights
     std::string base_model;        // Compatible base model
+    std::string lora_id;           // Alias
+    bool is_loaded = false;
     
     size_t size_bytes = 0;
     float scale = 1.0f;            // LoRA scaling factor
@@ -97,6 +104,7 @@ struct LoRAInfo {
  */
 struct InferenceRequest {
     std::string prompt;
+    std::string model_id = "default";
     
     // Generation parameters
     int max_tokens = 512;
@@ -126,6 +134,8 @@ struct InferenceRequest {
  */
 struct InferenceResponse {
     std::string text;              // Generated text
+    std::string model_id;          // Model identifier used
+    bool cache_hit = false;        // Whether response came from cache
     
     // Statistics
     int tokens_generated = 0;
@@ -149,6 +159,8 @@ struct InferenceResponse {
  */
 struct RAGContext {
     std::string query;             // User query
+    std::string collection_name;
+    int top_k = 0;
     
     // Retrieved documents/chunks
     struct Document {

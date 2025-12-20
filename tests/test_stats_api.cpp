@@ -108,9 +108,11 @@ public:
         if (!server_running_) return;
         
         #ifdef _WIN32
-        std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");
+        int stop_rc = std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");
+        (void)stop_rc; // best effort cleanup
         #else
-        std::system("pkill -9 themis_server");
+        int stop_rc = std::system("pkill -9 themis_server");
+        (void)stop_rc; // best effort cleanup
         #endif
         
         server_running_ = false;

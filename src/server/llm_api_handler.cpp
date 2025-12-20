@@ -2,13 +2,19 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
-#include <boost/json/src.hpp>
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
+#include <iostream>
 
 namespace themis::server {
 
 namespace {
+    template <typename T>
+    T json_value_to(const json& value) {
+        return value.get<T>();
+    }
+
     // Helper to extract JWT token from Authorization header
     std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
         auto it = req.find(http::field::authorization);
@@ -106,25 +112,25 @@ http::response<http::string_body> LLMApiHandler::handleInference(
     
     try {
         if (body->contains("prompt")) {
-            prompt = json::value_to<std::string>(body->at("prompt"));
+            prompt = json_value_to<std::string>(body->at("prompt"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'prompt' field");
         }
         
         if (body->contains("model")) {
-            model_id = json::value_to<std::string>(body->at("model"));
+            model_id = json_value_to<std::string>(body->at("model"));
         }
         
         if (body->contains("lora_adapter")) {
-            lora_id = json::value_to<std::string>(body->at("lora_adapter"));
+            lora_id = json_value_to<std::string>(body->at("lora_adapter"));
         }
         
         if (body->contains("max_tokens")) {
-            max_tokens = json::value_to<int>(body->at("max_tokens"));
+            max_tokens = json_value_to<int>(body->at("max_tokens"));
         }
         
         if (body->contains("temperature")) {
-            temperature = json::value_to<double>(body->at("temperature"));
+            temperature = json_value_to<double>(body->at("temperature"));
         }
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid request parameters", e.what());
@@ -142,7 +148,7 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto llm_response = plugin_mgr.generate(llm_request);
         
-        json::object response_data = {
+        json response_data = {
             {"text", llm_response.text},
             {"model", llm_response.model_id},
             {"tokens_generated", llm_response.tokens_generated},
@@ -176,21 +182,21 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
     
     try {
         if (body->contains("query")) {
-            query = json::value_to<std::string>(body->at("query"));
+            query = json_value_to<std::string>(body->at("query"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'query' field");
         }
         
         if (body->contains("collection")) {
-            collection = json::value_to<std::string>(body->at("collection"));
+            collection = json_value_to<std::string>(body->at("collection"));
         }
         
         if (body->contains("top_k")) {
-            top_k = json::value_to<int>(body->at("top_k"));
+            top_k = json_value_to<int>(body->at("top_k"));
         }
         
         if (body->contains("lora_adapter")) {
-            lora_id = json::value_to<std::string>(body->at("lora_adapter"));
+            lora_id = json_value_to<std::string>(body->at("lora_adapter"));
         }
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid RAG parameters", e.what());
@@ -214,7 +220,7 @@ http::response<http::string_body> LLMApiHandler::handleRAG(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto llm_response = plugin_mgr.generateRAG(rag_context, llm_request);
         
-        json::object response_data = {
+        json response_data = {
             {"text", llm_response.text},
             {"query", query},
             {"documents_retrieved", top_k},
@@ -246,13 +252,13 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
     
     try {
         if (body->contains("text")) {
-            text = json::value_to<std::string>(body->at("text"));
+            text = json_value_to<std::string>(body->at("text"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'text' field");
         }
         
         if (body->contains("model")) {
-            model_id = json::value_to<std::string>(body->at("model"));
+            model_id = json_value_to<std::string>(body->at("model"));
         }
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid embed parameters", e.what());
@@ -260,19 +266,15 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
     
     // Generate embeddings via LLMPluginManager
     try {
-        llm::InferenceRequest llm_request;
-        llm_request.prompt = text;
-        llm_request.model_id = model_id.empty() ? "default" : model_id;
-        
         auto& plugin_mgr = llm::LLMPluginManager::instance();
-        auto embedding = plugin_mgr.generateEmbedding(llm_request);
+        auto embedding = plugin_mgr.embed(text);
         
-        json::array embedding_vector;
+        json embedding_vector = json::array();
         for (const auto& val : embedding) {
             embedding_vector.push_back(val);
         }
         
-        json::object response_data = {
+        json response_data = {
             {"embedding", embedding_vector},
             {"model", model_id.empty() ? "default" : model_id},
             {"dimensions", static_cast<int>(embedding.size())}
@@ -290,70 +292,8 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
 
 http::response<http::string_body> LLMApiHandler::handleStreamInference(
     const http::request<http::string_body>& req) {
-    
-    // Implement Server-Sent Events (SSE) streaming
-    // Parse query parameters for streaming request
-    std::string prompt, model_id;
-    auto query_start = req.target().find('?');
-    if (query_start != std::string_view::npos) {
-        std::string query_str(req.target().substr(query_start + 1));
-        // Simple query param parsing (production would use proper URL parsing)
-        size_t prompt_pos = query_str.find("prompt=");
-        size_t model_pos = query_str.find("model=");
-        
-        if (prompt_pos != std::string::npos) {
-            size_t end = query_str.find('&', prompt_pos);
-            prompt = query_str.substr(prompt_pos + 7, end == std::string::npos ? std::string::npos : end - prompt_pos - 7);
-        }
-        
-        if (model_pos != std::string::npos) {
-            size_t end = query_str.find('&', model_pos);
-            model_id = query_str.substr(model_pos + 6, end == std::string::npos ? std::string::npos : end - model_pos - 6);
-        }
-    }
-    
-    if (prompt.empty()) {
-        return createErrorResponse(http::status::bad_request, "Missing 'prompt' query parameter");
-    }
-    
-    try {
-        // Prepare SSE response
-        http::response<http::string_body> res{http::status::ok, req.version()};
-        res.set(http::field::content_type, "text/event-stream");
-        res.set(http::field::cache_control, "no-cache");
-        res.set(http::field::connection, "keep-alive");
-        res.keep_alive(req.keep_alive());
-        
-        std::ostringstream sse_stream;
-        
-        // Simulate streaming (in production, this would use async callbacks)
-        llm::InferenceRequest llm_request;
-        llm_request.prompt = prompt;
-        llm_request.model_id = model_id.empty() ? "default" : model_id;
-        llm_request.stream = true;
-        
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
-        auto tokens = plugin_mgr.generateStream(llm_request);
-        
-        // Send tokens as SSE events
-        int index = 0;
-        for (const auto& token : tokens) {
-            sse_stream << "data: {\"token\":\"" << token << "\",\"index\":" << index++ << "}\n\n";
-        }
-        
-        // Send completion event
-        sse_stream << "data: {\"done\":true}\n\n";
-        
-        res.body() = sse_stream.str();
-        res.prepare_payload();
-        return res;
-    } catch (const std::exception& e) {
-        return createErrorResponse(
-            http::status::internal_server_error,
-            "Streaming inference failed",
-            e.what()
-        );
-    }
+    (void)req;
+    return createErrorResponse(http::status::not_implemented, "Streaming not supported in this build");
 }
 
 http::response<http::string_body> LLMApiHandler::handleListModels(
@@ -364,19 +304,12 @@ http::response<http::string_body> LLMApiHandler::handleListModels(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto model_list = plugin_mgr.listModels();
         
-        json::array models;
-        for (const auto& model : model_list) {
-            json::object model_obj = {
-                {"model_id", model.model_id},
-                {"status", model.is_loaded ? "loaded" : "available"},
-                {"size_mb", model.size_bytes / (1024 * 1024)},
-                {"format", model.format},
-                {"loaded_at", model.loaded_at}
-            };
-            models.push_back(model_obj);
+        json models = json::array();
+        for (const auto& model_id : model_list) {
+            models.push_back(json{{"model_id", model_id}});
         }
         
-        json::object response_data = {
+        json response_data = {
             {"models", models},
             {"total", static_cast<int>(models.size())}
         };
@@ -404,13 +337,13 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
     
     try {
         if (body->contains("model_id")) {
-            model_id = json::value_to<std::string>(body->at("model_id"));
+            model_id = json_value_to<std::string>(body->at("model_id"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'model_id' field");
         }
         
         if (body->contains("path")) {
-            path = json::value_to<std::string>(body->at("path"));
+            path = json_value_to<std::string>(body->at("path"));
         }
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid load model parameters", e.what());
@@ -421,7 +354,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadModel(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         plugin_mgr.loadModel(model_id, path);
         
-        json::object response_data = {
+        json response_data = {
             {"model_id", model_id},
             {"status", "loaded"},
             {"message", "Model loaded successfully"}
@@ -449,7 +382,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
     
     try {
         if (body->contains("model_id")) {
-            model_id = json::value_to<std::string>(body->at("model_id"));
+            model_id = json_value_to<std::string>(body->at("model_id"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'model_id' field");
         }
@@ -462,7 +395,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadModel(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         plugin_mgr.unloadModel(model_id);
         
-        json::object response_data = {
+        json response_data = {
             {"model_id", model_id},
             {"status", "unloaded"},
             {"message", "Model unloaded successfully"}
@@ -489,15 +422,22 @@ http::response<http::string_body> LLMApiHandler::handleModelInfo(
     try {
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto model_info = plugin_mgr.getModelInfo(model_id);
+        if (!model_info) {
+            return createErrorResponse(
+                http::status::not_found,
+                "Model not found",
+                "Unknown model_id"
+            );
+        }
         
-        json::object response_data = {
-            {"model_id", model_info.model_id},
-            {"status", model_info.is_loaded ? "loaded" : "available"},
-            {"size_mb", model_info.size_bytes / (1024 * 1024)},
-            {"format", model_info.format},
-            {"quantization", model_info.quantization},
-            {"context_length", model_info.context_length},
-            {"loaded_at", model_info.loaded_at}
+        json response_data = {
+            {"model_id", model_info->model_id.empty() ? model_id : model_info->model_id},
+            {"status", model_info->is_loaded ? "loaded" : "available"},
+            {"size_mb", model_info->size_bytes / (1024 * 1024)},
+            {"format", model_info->format},
+            {"quantization", model_info->quantization},
+            {"context_length", model_info->context_length},
+            {"loaded_at", model_info->loaded_at}
         };
         
         return createJsonResponse(response_data);
@@ -525,7 +465,7 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
     
     try {
         if (body->contains("model_id")) {
-            model_id = json::value_to<std::string>(body->at("model_id"));
+            model_id = json_value_to<std::string>(body->at("model_id"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'model_id' field");
         }
@@ -533,13 +473,13 @@ http::response<http::string_body> LLMApiHandler::handleIngestModel(
         // In production, this would handle multipart/form-data with chunked streaming
         // For now, we accept JSON with base64-encoded data (simplified)
         if (body->contains("file_data")) {
-            file_data = json::value_to<std::string>(body->at("file_data"));
+            file_data = json_value_to<std::string>(body->at("file_data"));
         }
         
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         plugin_mgr.ingestModel(model_id, file_data);
         
-        json::object response_data = {
+        json response_data = {
             {"model_id", model_id},
             {"status", "ingested"},
             {"message", "Model successfully ingested and replicated"},
@@ -564,10 +504,10 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto lora_list = plugin_mgr.listLoRAs();
         
-        json::array loras;
+        json loras = json::array();
         for (const auto& lora : lora_list) {
-            json::object lora_obj = {
-                {"lora_id", lora.lora_id},
+            json lora_obj = {
+                {"lora_id", lora.lora_id.empty() ? lora.id : lora.lora_id},
                 {"status", lora.is_loaded ? "loaded" : "available"},
                 {"base_model", lora.base_model},
                 {"size_mb", lora.size_bytes / (1024 * 1024)}
@@ -575,7 +515,7 @@ http::response<http::string_body> LLMApiHandler::handleListLoRAs(
             loras.push_back(lora_obj);
         }
         
-        json::object response_data = {
+        json response_data = {
             {"loras", loras},
             {"total", static_cast<int>(loras.size())}
         };
@@ -604,17 +544,17 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
     
     try {
         if (body->contains("lora_id")) {
-            lora_id = json::value_to<std::string>(body->at("lora_id"));
+            lora_id = json_value_to<std::string>(body->at("lora_id"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'lora_id' field");
         }
         
         if (body->contains("path")) {
-            path = json::value_to<std::string>(body->at("path"));
+            path = json_value_to<std::string>(body->at("path"));
         }
         
         if (body->contains("base_model")) {
-            base_model = json::value_to<std::string>(body->at("base_model"));
+            base_model = json_value_to<std::string>(body->at("base_model"));
         }
     } catch (const std::exception& e) {
         return createErrorResponse(http::status::bad_request, "Invalid load LoRA parameters", e.what());
@@ -625,7 +565,7 @@ http::response<http::string_body> LLMApiHandler::handleLoadLoRA(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         plugin_mgr.loadLoRA(lora_id, path, base_model);
         
-        json::object response_data = {
+        json response_data = {
             {"lora_id", lora_id},
             {"base_model", base_model},
             {"status", "loaded"},
@@ -654,7 +594,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
     
     try {
         if (body->contains("lora_id")) {
-            lora_id = json::value_to<std::string>(body->at("lora_id"));
+            lora_id = json_value_to<std::string>(body->at("lora_id"));
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'lora_id' field");
         }
@@ -667,7 +607,7 @@ http::response<http::string_body> LLMApiHandler::handleUnloadLoRA(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         plugin_mgr.unloadLoRA(lora_id);
         
-        json::object response_data = {
+        json response_data = {
             {"lora_id", lora_id},
             {"status", "unloaded"},
             {"message", "LoRA unloaded successfully"}
@@ -691,7 +631,7 @@ http::response<http::string_body> LLMApiHandler::handleStats(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto stats = plugin_mgr.getStatistics();
         
-        json::object response_data = {
+        json response_data = {
             {"throughput_req_per_sec", stats.throughput},
             {"average_latency_ms", stats.average_latency_ms},
             {"cache_hit_rate", stats.cache_hit_rate},
@@ -718,21 +658,21 @@ http::response<http::string_body> LLMApiHandler::handleCacheStats(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto cache_stats = plugin_mgr.getCacheStatistics();
         
-        json::object response_cache = {
+        json response_cache = {
             {"hits", cache_stats.response_cache_hits},
             {"misses", cache_stats.response_cache_misses},
             {"hit_rate", cache_stats.response_cache_hit_rate},
             {"total_entries", cache_stats.response_cache_entries}
         };
         
-        json::object prefix_cache = {
+        json prefix_cache = {
             {"hits", cache_stats.prefix_cache_hits},
             {"misses", cache_stats.prefix_cache_misses},
             {"hit_rate", cache_stats.prefix_cache_hit_rate},
             {"total_prefixes", cache_stats.prefix_cache_entries}
         };
         
-        json::object response_data = {
+        json response_data = {
             {"response_cache", response_cache},
             {"prefix_cache", prefix_cache}
         };
@@ -755,7 +695,7 @@ http::response<http::string_body> LLMApiHandler::handleClearCache(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         plugin_mgr.clearAllCaches();
         
-        json::object response_data = {
+        json response_data = {
             {"status", "cleared"},
             {"message", "All LLM caches cleared successfully"}
         };
@@ -778,7 +718,7 @@ http::response<http::string_body> LLMApiHandler::handleHealth(
         auto& plugin_mgr = llm::LLMPluginManager::instance();
         auto health = plugin_mgr.getHealthStatus();
         
-        json::object response_data = {
+        json response_data = {
             {"status", health.is_healthy ? "healthy" : "degraded"},
             {"plugin_manager", health.plugin_manager_status},
             {"async_engine", health.async_engine_status},
@@ -835,9 +775,7 @@ http::response<http::string_body> LLMApiHandler::createErrorResponse(
     std::string_view error,
     std::string_view details) {
     
-    json::object error_obj = {
-        {"error", std::string(error)}
-    };
+    json error_obj = json::object({{"error", std::string(error)}});
     
     if (!details.empty()) {
         error_obj["details"] = std::string(details);
@@ -848,30 +786,30 @@ http::response<http::string_body> LLMApiHandler::createErrorResponse(
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
     res.set(http::field::server, "ThemisDB-LLM/1.3.0");
-    res.body() = json::serialize(error_obj);
+    res.body() = error_obj.dump();
     res.prepare_payload();
     return res;
 }
 
 http::response<http::string_body> LLMApiHandler::createJsonResponse(
-    const json::object& data,
+    const json& data,
     http::status status) {
     
     http::response<http::string_body> res{status, 11};
     res.set(http::field::content_type, "application/json");
     res.set(http::field::server, "ThemisDB-LLM/1.3.0");
-    res.body() = json::serialize(data);
+    res.body() = data.dump();
     res.prepare_payload();
     return res;
 }
 
-std::optional<json::object> LLMApiHandler::parseRequestBody(
+std::optional<json> LLMApiHandler::parseRequestBody(
     const http::request<http::string_body>& req) {
     
     try {
         auto parsed = json::parse(req.body());
         if (parsed.is_object()) {
-            return parsed.as_object();
+            return parsed;
         }
     } catch (const std::exception&) {
         return std::nullopt;

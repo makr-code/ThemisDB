@@ -38,7 +38,10 @@ public:
         if (!ok) throw std::runtime_error("Failed to start server process");
         CloseHandle(pi.hThread); CloseHandle(pi.hProcess);
 #else
-        std::system("nohup ./build/Release/themis_server > /dev/null 2>&1 &");
+        int start_rc = std::system("nohup ./build/Release/themis_server > /dev/null 2>&1 &");
+        if (start_rc != 0) {
+            throw std::runtime_error("Failed to start server process (nohup)");
+        }
 #endif
         server_running_ = true;
         bool ready=false;
@@ -49,9 +52,11 @@ public:
     void stopServer() {
         if (!server_running_) return;
 #ifdef _WIN32
-        std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");
+        int stop_rc = std::system("powershell -NoProfile -Command \"Get-Process themis_server -ErrorAction SilentlyContinue | Stop-Process -Force\"");
+        (void)stop_rc; // best effort
 #else
-        std::system("pkill -9 themis_server");
+        int stop_rc = std::system("pkill -9 themis_server");
+        (void)stop_rc; // best effort
 #endif
         server_running_ = false;
         std::this_thread::sleep_for(std::chrono::milliseconds(300));

@@ -1,8 +1,12 @@
 #include "llm/gguf_loader.h"
+#ifndef _WIN32
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#else
+#include <fstream>
+#endif
 #include <cstring>
 #include <stdexcept>
 #include <fstream>
@@ -15,24 +19,23 @@ GGUFLoader::GGUFLoader()
 }
 
 GGUFLoader::~GGUFLoader() {
+#ifndef _WIN32
     if (mmap_base_ != nullptr) {
         munmap(mmap_base_, mmap_size_);
     }
     if (fd_ >= 0) {
         close(fd_);
     }
+#endif
 }
 
 bool GGUFLoader::parseFile(const std::string& filepath) {
     filepath_ = filepath;
-    
-    // Open file for reading
+#ifndef _WIN32
     fd_ = open(filepath.c_str(), O_RDONLY);
     if (fd_ < 0) {
         return false;
     }
-    
-    // Get file size
     struct stat st;
     if (fstat(fd_, &st) < 0) {
         close(fd_);
@@ -40,8 +43,6 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
         return false;
     }
     mmap_size_ = st.st_size;
-    
-    // Memory map the entire file
     mmap_base_ = mmap(nullptr, mmap_size_, PROT_READ, MAP_PRIVATE, fd_, 0);
     if (mmap_base_ == MAP_FAILED) {
         close(fd_);
@@ -49,6 +50,24 @@ bool GGUFLoader::parseFile(const std::string& filepath) {
         mmap_base_ = nullptr;
         return false;
     }
+#else
+    std::ifstream file(filepath, std::ios::binary | std::ios::ate);
+    if (!file) {
+        return false;
+    }
+    std::streamsize size = file.tellg();
+    if (size <= 0) {
+        return false;
+    }
+    file.seekg(0, std::ios::beg);
+    file_buffer_.resize(static_cast<size_t>(size));
+    if (!file.read(reinterpret_cast<char*>(file_buffer_.data()), size)) {
+        file_buffer_.clear();
+        return false;
+    }
+    mmap_size_ = static_cast<size_t>(size);
+    mmap_base_ = file_buffer_.data();
+#endif
     
     // Parse GGUF structure
     if (!parseHeader()) {

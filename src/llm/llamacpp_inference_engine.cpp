@@ -81,7 +81,8 @@ InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request
     }
     
     InferenceResponse response;
-    response.request_id = request.request_id;
+    response.model_id = request.model_id;
+    response.metadata["request_id"] = request.metadata.value("request_id", "");
     
     // Simplified inference pipeline (stub)
     // In real implementation:
@@ -95,11 +96,12 @@ InferenceResponse LlamaCppInferenceEngine::infer(const InferenceRequest& request
     response.text = "[Generated response from " + current_model_name_ + 
                     " for: " + request.prompt + "]";
     response.tokens_generated = 50;
-    response.latency_ms = 150.0;
+    response.inference_time_ms = 150.0f;
+    response.tokens_per_second = response.tokens_generated / (response.inference_time_ms / 1000.0f);
     
     // Update stats
     stats_.total_tokens_processed += response.tokens_generated;
-    stats_.avg_latency_ms = (stats_.avg_latency_ms + response.latency_ms) / 2.0;
+    stats_.avg_latency_ms = (stats_.avg_latency_ms + response.inference_time_ms) / 2.0;
     
     return response;
 }

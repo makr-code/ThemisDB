@@ -3,6 +3,9 @@
 #include <string>
 #include <optional>
 #include <chrono>
+#include <unordered_map>
+#include <mutex>
+#include <string>
 #include "llm_plugin_interface.h"
 
 namespace themis {
@@ -98,7 +101,7 @@ private:
     // TODO: v1.3.0 - Replace with actual SemanticCache integration
     // For now, use std::unordered_map as stub
     std::unordered_map<std::string, CachedEntry> cache_store_;
-    std::mutex cache_mutex_;
+    mutable std::mutex cache_mutex_;
 
     /**
      * @brief Calculate semantic similarity between two prompts

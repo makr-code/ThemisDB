@@ -1,6 +1,7 @@
 ﻿// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
 #ifdef THEMIS_USE_MIMALLOC
-    #include <mimalloc-override.h> // Automatic override of malloc
+    // Use C++ new/delete override to avoid macro rewrites of aligned_alloc/free
+    #include <mimalloc-new-delete.h>
 #endif
 
 #include "utils/logger.h"

@@ -3,7 +3,6 @@
 #include <string>
 #include <memory>
 #include <nlohmann/json.hpp>
-#include "storage/status.h"
 
 namespace themis::sharding {
 

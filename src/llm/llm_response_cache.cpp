@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <regex>
 #include <cmath>
+#include <unordered_set>
+#include <cctype>
 
 namespace themis {
 namespace llm {

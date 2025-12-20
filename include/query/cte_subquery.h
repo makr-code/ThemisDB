@@ -8,6 +8,7 @@
 #include "query/aql_parser.h"
 
 namespace themis {
+class QueryEngine; // forward declaration in outer namespace
 namespace query {
 
 /**
@@ -70,7 +71,7 @@ public:
      */
     bool evaluateCTE(
         const CTEDefinition& cte,
-        class QueryEngine& queryEngine,
+        ::themis::QueryEngine& queryEngine,
         bool is_recursive = false
     );
     
@@ -82,7 +83,7 @@ public:
      */
     bool evaluateRecursiveCTE(
         const CTEDefinition& cte,
-        class QueryEngine& queryEngine
+        ::themis::QueryEngine& queryEngine
     );
     
     /**
@@ -180,7 +181,7 @@ public:
      */
     nlohmann::json evaluateSubquery(
         const query::SubqueryExpr& subquery,
-        class QueryEngine& queryEngine,
+        ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow = nlohmann::json()
     );
     
@@ -193,7 +194,7 @@ public:
      */
     nlohmann::json evaluateScalarSubquery(
         const std::shared_ptr<query::Query>& query,
-        class QueryEngine& queryEngine,
+        ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     
@@ -208,7 +209,7 @@ public:
     bool evaluateInSubquery(
         const nlohmann::json& value,
         const std::shared_ptr<query::Query>& query,
-        class QueryEngine& queryEngine,
+        ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     
@@ -221,7 +222,7 @@ public:
      */
     bool evaluateExistsSubquery(
         const std::shared_ptr<query::Query>& query,
-        class QueryEngine& queryEngine,
+        ::themis::QueryEngine& queryEngine,
         const nlohmann::json& outerRow
     );
     

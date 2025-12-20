@@ -13,13 +13,17 @@ CTestTestfile.cmake
 Makefile
 *.cmake
 
-# vcpkg (local installs - 163k+ files!)
+# vcpkg - Offline-First Strategy (v4.0.0)
+# Keep: vcpkg/downloads/ (~2.5 GB source archives for offline builds)
+# Ignore: build artifacts and installed packages (~15 GB)
 vcpkg_installed/
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/installed/
 .vcpkg/
-vcpkg/
-packages/
-downloads/
-buildtrees/
+
+# IMPORTANT: vcpkg/downloads/ is NOT ignored (needed for offline builds)
+# Exception managed via: !vcpkg/downloads/
 
 # Distribution artifacts (not needed in repo)
 dist/
@@ -92,22 +96,20 @@ docker/tmp/
 # Logs and runtime files
 logs/
 *.log
-server.pid
-server.err
-server.out
-server_err.log
-server_out.log
-themis_server.log
-vccdb.log
-vccdb_server.log
-testsserver_start.log
-build_log.txt
-build_final.txt
-build_output.log
-docker-build.log
-docker_build.log
-docker_build_*.log
-tidy_full.log
+*.pid
+*.err
+*.out
+
+# Build logs (alle Varianten)
+build*.log
+build*.txt
+docker-build*.log
+docker_build*.log
+msbuild*.txt
+msvc_build*.txt
+cmake*.log
+vcpkg*.log
+tidy*.log
 
 # Local data directories (development/testing only)
 data/
@@ -122,7 +124,6 @@ test_*.txt
 CTempmetrics_from_test.txt
 diff_aql.txt
 geo-aql-todo
-test_geo_integration_db/
 
 # Test outputs and integration scripts (moved to tests/)
 tests/outputs/
@@ -154,7 +155,6 @@ env/
 ENV/
 pip-wheel-metadata/
 *.egg-info/
-dist/
 build/
 __pycache__/
 *.py[cod]
@@ -165,7 +165,6 @@ npm-debug.log*
 yarn-error.log*
 
 # Documentation build artifacts
-site/
 wiki-temp/
 wiki/
 *.wiki/
@@ -192,16 +191,23 @@ target/
 # Allow CMakeLists (explicitly)
 !CMakeLists.txt
 
-# End of .gitignore
+# vcpkg offline cache exception (WICHTIG für offline builds!)
+!vcpkg/
+!vcpkg/downloads/
+!vcpkg/downloads/**
+!vcpkg/scripts/
+!vcpkg/scripts/**
+!vcpkg/.vcpkg-root
+!vcpkg/bootstrap-vcpkg.sh
+!vcpkg/bootstrap-vcpkg.bat
+!vcpkg/vcpkg
+!vcpkg/vcpkg.exe
 
-# Additional ignores for generated build artifacts and logs applied during stash restore
-dist/
-dist/**
-docker-qnap-build-*.log.err
-themis_server_qnap
-tmp_*.json
+# Build tool outputs
 tools/*/obj/
 tools/*/bin/
 **/obj/
 **/bin/
 tools/**/PublishOutputs.*
+
+# End of .gitignore

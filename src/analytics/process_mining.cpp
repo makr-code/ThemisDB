@@ -1,3 +1,179 @@
+#if defined(_WIN32)
+#include "analytics/process_mining.h"
+#include "utils/logger.h"
+
+namespace themis {
+namespace {
+inline ProcessMining::Status unsupported() {
+    return ProcessMining::Status::Error("Process mining is not supported on Windows builds");
+}
+} // namespace
+
+ProcessMining::ProcessMining(RocksDBWrapper& db) : db_(db) {}
+
+std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(
+    std::string_view /*collection*/,
+    const EventLogConfig& /*config*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGraph(
+    std::string_view /*edge_collection*/,
+    std::string_view /*case_id_field*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromReferences(
+    std::string_view /*start_collection*/,
+    const std::vector<std::string>& /*reference_fields*/,
+    std::string_view /*activity_field*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, DirectlyFollowsGraph> ProcessMining::createDFG(
+    const EventLog& /*log*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProcess(
+    const EventLog& /*log*/,
+    const MiningConfig& /*config*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProcessFromCollection(
+    std::string_view /*collection*/,
+    const EventLogConfig& /*log_config*/,
+    const MiningConfig& /*mining_config*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, std::vector<ProcessMining::VariantInfo>> ProcessMining::analyzeVariants(
+    const EventLog& /*log*/,
+    int /*top_n*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, std::map<int, std::vector<int>>> ProcessMining::clusterVariants(
+    const EventLog& /*log*/,
+    int /*num_clusters*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, ProcessMining::ConformanceResult> ProcessMining::checkConformance(
+    const EventLog& /*log*/,
+    const DiscoveredProcess& /*model*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, ProcessMining::AlignmentResult> ProcessMining::computeAlignment(
+    const EventLog& /*log*/,
+    const DiscoveredProcess& /*model*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, ProcessMining::EnhancedProcess> ProcessMining::enhanceWithPerformance(
+    const DiscoveredProcess& /*model*/,
+    const EventLog& /*log*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, std::vector<std::string>> ProcessMining::detectBottlenecks(
+    const EnhancedProcess& /*process*/,
+    double /*threshold_percentile*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, std::string> ProcessMining::exportToBPMN(
+    const DiscoveredProcess& /*model*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, std::string> ProcessMining::exportToPNML(
+    const DiscoveredProcess& /*model*/
+) {
+    return {unsupported(), {}};
+}
+
+ProcessMining::Status ProcessMining::saveAsProcessDefinition(
+    const DiscoveredProcess& /*model*/,
+    std::string_view /*process_id*/
+) {
+    return unsupported();
+}
+
+std::pair<ProcessMining::Status, std::vector<ProcessMining::SimilarFragment>> ProcessMining::findSimilarPatterns(
+    const std::vector<std::string>& /*pattern*/,
+    const EventLog& /*log*/,
+    int /*k*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, std::vector<ProcessMining::GeoProcessCluster>> ProcessMining::discoverGeoVariants(
+    const EventLog& /*log*/,
+    double /*cluster_radius_km*/
+) {
+    return {unsupported(), {}};
+}
+
+std::pair<ProcessMining::Status, ProcessMining::ProcessEvolution> ProcessMining::analyzeEvolution(
+    const EventLog& /*log*/,
+    int /*num_periods*/
+) {
+    return {unsupported(), {}};
+}
+
+DiscoveredProcess ProcessMining::runAlphaMiner(
+    const EventLog& /*log*/,
+    const MiningConfig& /*config*/
+) {
+    return {};
+}
+
+DiscoveredProcess ProcessMining::runHeuristicMiner(
+    const EventLog& /*log*/,
+    const MiningConfig& /*config*/
+) {
+    return {};
+}
+
+DiscoveredProcess ProcessMining::runInductiveMiner(
+    const EventLog& /*log*/,
+    const MiningConfig& /*config*/
+) {
+    return {};
+}
+
+std::string ProcessMining::computeVariantSignature(const std::vector<std::string>& /*activities*/) {
+    return {};
+}
+
+std::vector<float> ProcessMining::embedActivities(const std::vector<std::string>& /*activities*/) {
+    return {};
+}
+
+namespace ProcessMiningFunctions {
+void registerFunctions() {}
+} // namespace ProcessMiningFunctions
+
+} // namespace themis
+
+#else
+
 // Process Mining Implementation
 
 #include "analytics/process_mining.h"
@@ -14,6 +190,8 @@
 #include <functional>
 
 namespace themis {
+
+using Trace = ProcessTrace;
 
 // ============================================================================
 // ProcessMining Implementation
@@ -38,7 +216,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLog(
     std::set<std::string> activities;
     
     std::string prefix = std::string(collection) + ":";
-    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         try {
             // Parse document
             std::string keyStr(key);
@@ -190,7 +368,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     std::set<std::string> activities;
     
     std::string prefix = std::string(edge_collection) + ":";
-    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         try {
             BaseEntity::Blob blob(value.begin(), value.end());
             std::string keyStr(key);
@@ -202,7 +380,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
             
             // Extract case ID from edge properties
             std::string caseId = entity.getFieldString(std::string(case_id_field));
-            if (caseId.empty()) return;
+            if (caseId.empty()) return true;
             
             // Extract activity from edge properties or use edge label
             std::string activity = entity.getFieldString("activity");
@@ -230,7 +408,9 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
             
         } catch (...) {
             // Skip invalid entities
+            return true;
         }
+        return true;
     });
     
     // Sort events within each case by timestamp
@@ -250,7 +430,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromGra
     log.unique_cases = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-        [](int sum, const Trace& t) { return sum + t.events.size(); });
+        [](int sum, const Trace& t) { return sum + static_cast<int>(t.events.size()); });
     
     THEMIS_INFO("Extracted event log from graph: {} events, {} cases, {} activities",
                 log.total_events, log.unique_cases, log.unique_activities);
@@ -278,7 +458,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromRef
     
     // Scan starting collection
     std::string prefix = std::string(start_collection) + ":";
-    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+    db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
         try {
             BaseEntity::Blob blob(value.begin(), value.end());
             std::string keyStr(key);
@@ -340,7 +520,9 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromRef
             
         } catch (...) {
             // Skip invalid entities
+            return true;
         }
+        return true;
     });
     
     // Build traces
@@ -361,7 +543,7 @@ std::pair<ProcessMining::Status, EventLog> ProcessMining::extractEventLogFromRef
     log.unique_cases = log.traces.size();
     log.unique_activities = activities.size();
     log.total_events = std::accumulate(log.traces.begin(), log.traces.end(), 0,
-        [](int sum, const Trace& t) { return sum + t.events.size(); });
+        [](int sum, const Trace& t) { return sum + static_cast<int>(t.events.size()); });
     
     THEMIS_INFO("Extracted event log from references: {} events, {} cases, {} activities",
                 log.total_events, log.unique_cases, log.unique_activities);
@@ -464,6 +646,7 @@ std::pair<ProcessMining::Status, DiscoveredProcess> ProcessMining::discoverProce
 // ===== Mining Algorithms =====
 
 DiscoveredProcess ProcessMining::runAlphaMiner(const EventLog& log, const MiningConfig& config) {
+    (void)config;
     DiscoveredProcess process;
     process.name = "Alpha Miner Result";
     
@@ -1378,6 +1561,7 @@ ProcessMining::findSimilarPatterns(const std::vector<std::string>& pattern, cons
 
 std::pair<ProcessMining::Status, std::vector<ProcessMining::GeoProcessCluster>>
 ProcessMining::discoverGeoVariants(const EventLog& log, double cluster_radius_km) {
+    (void)cluster_radius_km;
     std::vector<GeoProcessCluster> clusters;
     std::set<std::string> processed_variants;
     
@@ -1470,3 +1654,5 @@ void registerFunctions() {
 } // namespace ProcessMiningFunctions
 
 } // namespace themis
+
+#endif // _WIN32

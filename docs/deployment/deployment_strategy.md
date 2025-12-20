@@ -1,91 +1,121 @@
 # ThemisDB Build & Deployment Strategy
 
-**Version:** 3.0.0 (v1.3.0 LLM Integration)  
-**Last Updated:** 17. Dezember 2025  
+**Version:** 4.0.0 (v1.3.0+ Offline-First vcpkg)  
+**Last Updated:** 18. Dezember 2025  
 **Status:** Production-Ready  
-**Architecture:** Unified Build System with Modular Features
+**Architecture:** Offline-First vcpkg Build System
 
 ---
 
-## Overview
+## 🎯 Kernprinzip: Offline-First vcpkg Strategy
 
-ThemisDB v1.3.0 verwendet ein **modulares, cache-gesteuertes Build-System** mit optionalen Features:
+ThemisDB nutzt eine **vcpkg Offline-First Architektur** für reproduzierbare, netzwerk-unabhängige Builds auf allen Plattformen:
 
-1. **Zentrale Build-Orchestrierung:** `.\scripts\build.ps1` (Cross-Platform Entry Point)
-2. **Modulare Features:** LLM, RPC, GPU können unabhängig aktiviert werden
-3. **Automatisches Cache-Management:** `.\scripts\update-vcpkg-cache.ps1` (präventiv vor jedem Build)
-4. **Platform-spezifische Builds:** Windows (MSVC), Linux (GCC), Docker (multi-arch amd64/arm64)
-5. **Offline-First Architektur:** vcpkg\downloads/ (~2GB) als Single Source of Truth
-6. **Distribution:** Docker Hub, GitHub Releases, Debian/RPM Repositories
+### Vorteile
+✅ **Offline-fähig:** Builds ohne Internetzugang nach initialem Download  
+✅ **Reproduzierbar:** Identische Builds durch versionierte vcpkg baseline  
+✅ **Schnell:** Keine wiederholten Downloads, ~50% schnellere Builds  
+✅ **CI/CD-optimiert:** Cache kann zwischen Build-Agents geteilt werden  
+✅ **Air-Gapped:** Perfekt für Enterprise/Government Deployments  
 
-**NEU in v1.3.0:**
-- ✅ LLM Integration mit llama.cpp (optional: +96 files)
-- ✅ RPC Framework mit gRPC (optional: +26 files)
-- ✅ GPU/CUDA Support für LLM (optional)
-- ✅ Modular Build Flags für flexible Deployments
+### Architektur
+
+```
+vcpkg/
+├── downloads/           ← ~2.5 GB - SINGLE SOURCE OF TRUTH (alle Source-Archive)
+│   ├── openssl-*.tar.gz
+│   ├── rocksdb-*.tar.gz  
+│   ├── boost_*.tar.gz
+│   └── [135+ packages]
+│
+├── buildtrees/         ← ~3 GB - Temporäre Build-Artefakte (nicht versioniert)
+├── packages/           ← ~10 GB - Installierte Packages (nicht versioniert)
+└── scripts/
+    └── buildsystems/
+        └── vcpkg.cmake  ← CMake Integration
+```
+
+**NEU in v4.0.0:**
+- ✅ Unified vcpkg offline cache für Windows, Linux, Docker, ARM
+- ✅ Automatisches Cache-Management via `scripts/update-vcpkg-cache.ps1`
+- ✅ CI/CD-ready vcpkg binary cache (~600 MB komprimiert)
+- ✅ Docker multi-stage builds mit vcpkg cache layer
+- ✅ Raspberry Pi / ARM offline build support
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
-### Option 1: Schnellbuild (Minimal)
+### 1. vcpkg Cache Setup (Einmalig)
+
+**Wichtig:** Zuerst vcpkg cache initialisieren für offline builds:
 
 ```powershell
-# Windows MSVC Release-Build mit automatischem Cache-Update
+# Windows
+.\scripts\setup-vcpkg-offline.ps1
+
+# Linux/macOS
+./scripts/setup-vcpkg-offline.sh
+```
+
+Dies lädt ~2.5 GB an Source-Archiven herunter in `vcpkg/downloads/`.  
+**Einmalig erforderlich**, danach sind alle Builds offline-fähig.
+
+### 2. Platform-Spezifischer Build
+
+#### Windows (MSVC 2022)
+```powershell
+# Schnellbuild mit allen Features
 .\quick-build.ps1
+
+# Oder manuell mit CMake
+cmake -B build-msvc -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_CORE_SHARED=OFF `  # Statisch wegen DLL export limit
+  -DTHEMIS_ENABLE_LLM=ON
+cmake --build build-msvc --config Release -- /m:8
 ```
 
-### Option 2: Gezielte Builds
-
-```powershell
-# Nur Windows
-.\scripts\build.ps1 -Target windows
-
-# Nur Linux (GCC)
-.\scripts\build.ps1 -Target linux
-
-# Nur Docker (Multi-Arch amd64 + arm64)
-.\scripts\build.ps1 -Target docker
-
-# Alle Plattformen
-.\scripts\build.ps1 -Target all
-
-# Docker mit Push zu Registry
-.\scripts\build.ps1 -Target docker -Push -Tag v1.3.0
+#### Linux (GCC/Clang)
+```bash
+# Ubuntu/Debian
+cmake -B build-linux -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+  -DTHEMIS_ENABLE_LLM=ON
+cmake --build build-linux -j$(nproc)
 ```
 
-### Option 3: v1.3.0 Feature Builds
+#### Raspberry Pi / ARM64
+```bash
+# Nach vcpkg offline setup
+cmake -B build-arm -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+  -DTHEMIS_QNAP_BUILD=ON \  # Baseline x86-64, kein AVX
+  -DTHEMIS_ENABLE_LLM=OFF   # Optional: LLM auf ARM
+cmake --build build-arm -j4
+```
+
+#### Docker (Multi-Arch)
+```bash
+# Nutzt vcpkg cache layer automatisch
+docker build -t themisdb:latest .
+
+# Oder mit buildx für multi-arch
+docker buildx build --platform linux/amd64,linux/arm64 \
+  -t themisdb:latest --push .
+```
+
+### 3. Optional: Feature-Builds
 
 ```bash
 # Minimal Build (Core nur, ~150 MB)
-cmake -S . -B build \
-  -DTHEMIS_ENABLE_LLM=OFF \
-  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
-  -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j$(nproc)
+cmake -B build -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF
 
-# LLM Build mit GPU (Core + LLM + CUDA, ~250 MB)
-cmake -S . -B build-llm \
-  -DTHEMIS_ENABLE_LLM=ON \
-  -DTHEMIS_ENABLE_CUDA=ON \
-  -DCMAKE_BUILD_TYPE=Release
-cmake --build build-llm -j$(nproc)
+# LLM Build (Core + llama.cpp, ~250 MB)
+cmake -B build -DTHEMIS_ENABLE_LLM=ON
 
-# Full Build (Core + LLM + RPC + GPU, ~300 MB)
-cmake -S . -B build-full \
-  -DTHEMIS_ENABLE_LLM=ON \
-  -DTHEMIS_ENABLE_CUDA=ON \
-  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
-  -DTHEMIS_ENABLE_GPU=ON \
-  -DCMAKE_BUILD_TYPE=Release
-cmake --build build-full -j$(nproc)
-```
-
-### Option 4: Manueller Cache-Update (Optional)
-
-```powershell
-# Cache-Update ohne Build (z.B. für Offline-Szenarios vorbereiten)
-.\scripts\update-vcpkg-cache.ps1 -Triplet x64-windows, x64-linux, arm64-linux
+# Full Build (Core + LLM + RPC + GPU, ~350 MB)
+cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_ENABLE_GPU=ON
 ```
 
 ---

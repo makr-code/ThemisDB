@@ -295,19 +295,33 @@ v1.2.0 ✅        │                  │                  │
 - Change data capture enhancements
 - Data lake integration
 
-**3. Enterprise Scale**
+**3. Core Architecture Refactoring**
+- Modularize themis_core into thematic libraries (themis_storage, themis_query, themis_security, themis_sharding, themis_llm, etc.)
+- Resolve Windows DLL export limit (65,535 symbols) for shared library builds
+- Improve incremental build times
+- Enable optional feature loading
+- Better separation of concerns
+
+**3. Core Architecture Refactoring**
+- Modularize themis_core into thematic libraries (themis_storage, themis_query, themis_security, themis_sharding, themis_llm, etc.)
+- Resolve Windows DLL export limit (65,535 symbols) for shared library builds
+- Improve incremental build times
+- Enable optional feature loading
+- Better separation of concerns
+
+**4. Enterprise Scale**
 - 100+ node clusters
 - Petabyte-scale deployments
 - Advanced monitoring and alerting
 - Automated performance tuning
 
-**4. Developer Experience**
+**5. Developer Experience**
 - Visual query builder
 - Schema migration tools
 - Admin dashboard UI
 - Enhanced CLI tools
 
-**5. Compliance & Governance**
+**6. Compliance & Governance**
 - GDPR automation
 - Data lineage tracking
 - Fine-grained access control

@@ -600,7 +600,17 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
         // Simplified implementation: Check if Point g1 is within Polygon g2 using MBR
         // Full implementation would use Boost.Geometry within()
         
-        auto extractPoint = [](const nlohmann::json& geojson) -> std::pair<double, double> {
+        std::function<std::pair<double, double>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& geojson) -> std::pair<double, double> {
+            // Allow string input containing JSON
+            if (geojson.is_string()) {
+                try {
+                    auto parsed = nlohmann::json::parse(geojson.get<std::string>());
+                    return extractPoint(parsed); // recurse on parsed JSON
+                } catch (...) {
+                    // fall through
+                }
+            }
+            // Accept GeoJSON Point
             if (geojson.is_object() && geojson.contains("type") && geojson["type"] == "Point") {
                 if (geojson.contains("coordinates") && geojson["coordinates"].size() >= 2) {
                     double x = geojson["coordinates"][0].get<double>();
@@ -608,10 +618,33 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
                     return {x, y};
                 }
             }
+            // Accept simple array [lon, lat]
+            if (geojson.is_array() && geojson.size() >= 2) {
+                double x = geojson[0].get<double>();
+                double y = geojson[1].get<double>();
+                return {x, y};
+            }
             throw std::runtime_error("ST_Within: Expected Point geometry");
         };
         
-        auto extractMBR = [](const nlohmann::json& geojson) -> geo::MBR {
+        std::function<geo::MBR(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& geojson) -> geo::MBR {
+            // Allow string input containing JSON
+            if (geojson.is_string()) {
+                try {
+                    auto parsed = nlohmann::json::parse(geojson.get<std::string>());
+                    return extractMBR(parsed); // recurse
+                } catch (...) {
+                    // fall through
+                }
+            }
+            // Support bbox array [minx, miny, maxx, maxy]
+            if (geojson.is_array() && geojson.size() == 4) {
+                double minx = geojson[0].get<double>();
+                double miny = geojson[1].get<double>();
+                double maxx = geojson[2].get<double>();
+                double maxy = geojson[3].get<double>();
+                return geo::MBR{minx, miny, maxx, maxy};
+            }
             // Extract MBR from Polygon or use Point as degenerate MBR
             if (geojson.is_object() && geojson.contains("type")) {
                 std::string type = geojson["type"];
@@ -650,13 +683,17 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             throw std::runtime_error("ST_Within: Could not extract MBR from geometry");
         };
         
-        auto [px, py] = extractPoint(g1);
-        auto mbr = extractMBR(g2);
-        
-        // Check if point is within MBR (simplified within test)
-        bool within = (px >= mbr.minx && px <= mbr.maxx && py >= mbr.miny && py <= mbr.maxy);
-        
-        return within;
+        try {
+            auto [px, py] = extractPoint(g1);
+            auto mbr = extractMBR(g2);
+
+            // Check if point is within MBR (simplified within test)
+            bool within = (px >= mbr.minx && px <= mbr.maxx && py >= mbr.miny && py <= mbr.maxy);
+            return within;
+        } catch (...) {
+            // If geometry cannot be parsed, fail open (do not drop the document)
+            return true;
+        }
     }
 
     // ST_GeomFromGeoJSON(json_string) - Parse GeoJSON string to geometry object

@@ -18,6 +18,8 @@
 
 namespace themis {
 
+using json = nlohmann::json;
+
 RocksDBWrapper::RocksDBWrapper(const Config& config) : config_(config) {
     options_ = std::make_unique<rocksdb::Options>();
     txn_db_options_ = std::make_unique<rocksdb::TransactionDBOptions>();
@@ -112,8 +114,14 @@ void RocksDBWrapper::configureOptions() {
     options_->compression = toCompression(config_.compression_default);
     options_->bottommost_compression = toCompression(config_.compression_bottommost);
     
-    // WAL
+    // Parallel Write Optimization (RocksDB Best Practices)
+    options_->allow_concurrent_memtable_write = config_.allow_concurrent_memtable_write;
+    options_->enable_pipelined_write = config_.enable_pipelined_write;
+    // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
+    
+    // WAL Configuration
     write_options_->sync = config_.enable_wal;
+    write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
     }
@@ -135,6 +143,22 @@ void RocksDBWrapper::configureOptions() {
     // MVCC Transaction Configuration
     txn_db_options_->transaction_lock_timeout = 1000; // 1 second timeout
     txn_db_options_->default_lock_timeout = 1000;
+
+    // Configure TransactionDB write policy
+    switch (config_.write_policy) {
+        case Config::WritePolicy::WriteCommitted:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_COMMITTED;
+            break;
+        case Config::WritePolicy::WritePrepared:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_PREPARED;
+            break;
+        case Config::WritePolicy::WriteUnprepared:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_UNPREPARED;
+            break;
+    }
+    if (config_.write_policy != Config::WritePolicy::WriteCommitted) {
+        options_->two_write_queues = config_.two_write_queues;
+    }
     
     // Set transaction options for optimistic concurrency control
     txn_options_->set_snapshot = true; // Automatically create snapshot on begin
@@ -453,6 +477,17 @@ void RocksDBWrapper::TransactionWrapper::rollback() {
 
 const rocksdb::Snapshot* RocksDBWrapper::TransactionWrapper::getSnapshot() const {
     return txn_ ? txn_->GetSnapshot() : nullptr;
+}
+
+bool RocksDBWrapper::TransactionWrapper::prepare() {
+    if (!txn_ || !active_) return false;
+    rocksdb::Status status = txn_->Prepare();
+    if (!status.ok()) {
+        THEMIS_ERROR("Transaction prepare failed: {}", status.ToString());
+        return false;
+    }
+    prepared_ = true;
+    return true;
 }
 
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction() {

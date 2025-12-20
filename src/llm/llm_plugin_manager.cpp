@@ -2,6 +2,7 @@
 #include "llm/llamacpp_plugin.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
+#include <sstream>
 
 namespace themis {
 namespace llm {
@@ -221,6 +222,136 @@ std::vector<float> LLMPluginManager::embed(const std::string& text) {
     }
     
     return plugin->embed(text);
+}
+
+bool LLMPluginManager::loadModel(const std::string& /*model_id*/, const std::string& path) {
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        throw std::runtime_error("No default LLM plugin available");
+    }
+    return plugin->loadModel(path);
+}
+
+void LLMPluginManager::unloadModel(const std::string& /*model_id*/) {
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        throw std::runtime_error("No default LLM plugin available");
+    }
+    plugin->unloadModel();
+}
+
+std::vector<std::string> LLMPluginManager::listModels() const {
+    std::vector<std::string> models;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (const auto& [name, entry] : plugins_) {
+        if (auto info = entry.plugin->getModelInfo()) {
+            models.push_back(info->name);
+        } else {
+            models.push_back(name);
+        }
+    }
+    return models;
+}
+
+bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model) {
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        throw std::runtime_error("No default LLM plugin available");
+    }
+    (void)base_model;
+    return plugin->loadLoRA(lora_id, path, 1.0f);
+}
+
+bool LLMPluginManager::unloadLoRA(const std::string& lora_id) {
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        throw std::runtime_error("No default LLM plugin available");
+    }
+    return plugin->unloadLoRA(lora_id);
+}
+
+std::vector<LoRAInfo> LLMPluginManager::listLoRAs() const {
+    std::vector<LoRAInfo> loras;
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        return loras;
+    }
+    for (auto lora : plugin->listLoRAs()) {
+        lora.lora_id = lora.id;
+        lora.is_loaded = true;
+        loras.push_back(std::move(lora));
+    }
+    return loras;
+}
+
+std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest& request) {
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        throw std::runtime_error("No default LLM plugin available");
+    }
+    // If backend lacks streaming, degrade to single generate and split tokens
+    auto response = plugin->generate(request);
+    std::vector<std::string> tokens;
+    std::istringstream iss(response.text);
+    std::string token;
+    while (iss >> token) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+bool LLMPluginManager::ingestModel(const std::string& model_id, const std::string& data) {
+    (void)data;
+    return loadModel(model_id, model_id);
+}
+
+std::optional<ModelInfo> LLMPluginManager::getModelInfo(const std::string& model_id) const {
+    auto* plugin = getDefaultPlugin();
+    if (!plugin) {
+        return std::nullopt;
+    }
+    auto info = plugin->getModelInfo();
+    if (info) {
+        if (info->model_id.empty()) info->model_id = model_id;
+        info->is_loaded = plugin->isModelLoaded();
+    }
+    return info;
+}
+
+LLMPluginManager::PluginStatistics LLMPluginManager::getStatistics() const {
+    PluginStatistics stats;
+    auto* plugin = getDefaultPlugin();
+    if (plugin) {
+        auto perf = plugin->getPerformanceStats();
+        if (perf.contains("total_requests")) {
+            stats.total_requests = perf["total_requests"].get<uint64_t>();
+        }
+        if (perf.contains("avg_latency_ms")) {
+            stats.average_latency_ms = perf["avg_latency_ms"].get<double>();
+        }
+        if (perf.contains("throughput_rps")) {
+            stats.throughput = perf["throughput_rps"].get<double>();
+        }
+    }
+    stats.models_loaded = static_cast<int>(listModels().size());
+    stats.loras_loaded = static_cast<int>(listLoRAs().size());
+    return stats;
+}
+
+LLMPluginManager::CacheStatistics LLMPluginManager::getCacheStatistics() const {
+    CacheStatistics stats;
+    return stats;
+}
+
+LLMPluginManager::HealthStatus LLMPluginManager::getHealthStatus() const {
+    HealthStatus health;
+    health.models_loaded = static_cast<int>(listModels().size());
+    health.loras_loaded = static_cast<int>(listLoRAs().size());
+    return health;
+}
+
+void LLMPluginManager::clearAllCaches() {
+    // TODO: integrate with actual cache implementations when available
 }
 
 // ═══════════════════════════════════════════════════════════

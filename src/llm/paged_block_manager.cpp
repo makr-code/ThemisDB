@@ -59,6 +59,11 @@ std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
     return allocated_ids;
 }
 
+int PagedBlockManager::allocate() {
+    auto blocks = allocateBlocks(1);
+    return blocks.empty() ? -1 : blocks.front();
+}
+
 void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     
@@ -75,6 +80,10 @@ void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
             free_list_.push(block_id);
         }
     }
+}
+
+void PagedBlockManager::deallocate(int block_id) {
+    freeBlocks({block_id});
 }
 
 PagedBlockManager::Block* PagedBlockManager::getBlock(int block_id) {

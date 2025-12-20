@@ -257,8 +257,8 @@ private:
     // Generate unique request ID
     std::string generateRequestId();
     
-    // Handle backpressure
-    bool handleBackpressure();
+    // Handle backpressure (expects queue_mutex_ locked)
+    bool handleBackpressure(std::unique_lock<std::mutex>& lock);
 };
 
 } // namespace llm

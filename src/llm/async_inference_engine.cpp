@@ -66,7 +66,7 @@ InferenceHandle AsyncInferenceEngine::submit(
         
         // Check queue size and handle backpressure
         if (request_queue_.size() >= config_.max_queue_size) {
-            if (!handleBackpressure()) {
+            if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
                 throw std::runtime_error("Request queue full, request rejected");
             }
@@ -116,7 +116,7 @@ std::string AsyncInferenceEngine::submitAsync(
         
         // Check queue size
         if (request_queue_.size() >= config_.max_queue_size) {
-            if (!handleBackpressure()) {
+            if (!handleBackpressure(lock)) {
                 stats_.total_rejected++;
                 throw std::runtime_error("Request queue full");
             }
@@ -397,13 +397,13 @@ std::string AsyncInferenceEngine::generateRequestId() {
     return oss.str();
 }
 
-bool AsyncInferenceEngine::handleBackpressure() {
+bool AsyncInferenceEngine::handleBackpressure(std::unique_lock<std::mutex>& lock) {
     // Already have lock on queue_mutex_
     
     switch (config_.backpressure) {
         case Config::BackpressurePolicy::BLOCK:
             // Wait for space (releases lock while waiting)
-            queue_cv_.wait(queue_mutex_, [this] {
+            queue_cv_.wait(lock, [this] {
                 return request_queue_.size() < config_.max_queue_size ||
                        !running_.load();
             });

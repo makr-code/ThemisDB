@@ -123,6 +123,56 @@ public:
      * @brief Embed text using default plugin
      */
     std::vector<float> embed(const std::string& text);
+
+    // Convenience wrappers for model management
+    bool loadModel(const std::string& model_id, const std::string& path);
+    void unloadModel(const std::string& model_id);
+    std::vector<std::string> listModels() const;
+
+    // Convenience wrappers for LoRA management
+    bool loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model);
+    bool unloadLoRA(const std::string& lora_id);
+    std::vector<LoRAInfo> listLoRAs() const;
+
+    // Streaming and ingestion helpers
+    std::vector<std::string> generateStream(const InferenceRequest& request);
+    bool ingestModel(const std::string& model_id, const std::string& data);
+    std::optional<ModelInfo> getModelInfo(const std::string& model_id) const;
+
+    struct PluginStatistics {
+        int models_loaded = 0;
+        int loras_loaded = 0;
+        uint64_t total_requests = 0;
+        double throughput = 0.0;
+        double average_latency_ms = 0.0;
+        double cache_hit_rate = 0.0;
+        int active_workers = 0;
+        int queue_depth = 0;
+    };
+
+    struct CacheStatistics {
+        size_t response_cache_hits = 0;
+        size_t response_cache_misses = 0;
+        size_t response_cache_entries = 0;
+        double response_cache_hit_rate = 0.0;
+        size_t prefix_cache_hits = 0;
+        size_t prefix_cache_misses = 0;
+        size_t prefix_cache_entries = 0;
+        double prefix_cache_hit_rate = 0.0;
+    };
+
+    struct HealthStatus {
+        bool is_healthy = true;
+        std::string plugin_manager_status = "ok";
+        std::string async_engine_status = "ok";
+        int models_loaded = 0;
+        int loras_loaded = 0;
+    };
+
+    PluginStatistics getStatistics() const;
+    CacheStatistics getCacheStatistics() const;
+    HealthStatus getHealthStatus() const;
+    void clearAllCaches();
     
 private:
     struct PluginEntry {

@@ -75,6 +75,8 @@ public:
         uint64_t commit_timeout_ms = 10000;    // Timeout for commit phase
         uint64_t max_concurrent_txns = 1000;   // Max concurrent transactions
         bool enable_read_only_opt = true;      // Enable read-only optimization
+        uint64_t rpc_timeout_ms = 5000;        // RPC timeout per shard call
+        uint32_t max_retries = 3;              // RPC retry attempts
     };
     
     /**

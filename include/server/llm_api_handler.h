@@ -1,11 +1,11 @@
 #pragma once
 
 #include <boost/beast.hpp>
-#include <boost/json.hpp>
 #include <memory>
 #include <string>
 #include <string_view>
 #include <optional>
+#include <nlohmann/json.hpp>
 
 // Forward declarations for LLM components
 namespace themis {
@@ -20,7 +20,7 @@ namespace themis::server {
 
 namespace beast = boost::beast;
 namespace http = beast::http;
-namespace json = boost::json;
+using json = nlohmann::json;
 
 /**
  * @brief LLM API Handler for ThemisDB HTTP Server
@@ -127,10 +127,10 @@ private:
         std::string_view details = "");
     
     http::response<http::string_body> createJsonResponse(
-        const json::object& data,
+        const json& data,
         http::status status = http::status::ok);
     
-    std::optional<json::object> parseRequestBody(
+    std::optional<json> parseRequestBody(
         const http::request<http::string_body>& req);
     
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;

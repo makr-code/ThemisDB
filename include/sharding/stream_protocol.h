@@ -207,6 +207,10 @@ struct StreamMessageHeader {
 struct StreamFileInfo {
     std::string collection_name;
     std::string file_id;
+    // Optional: absolute/relative paths for sender/receiver
+    // These are used by local transfer tasks; RPC implementations may ignore them
+    std::string source_path;   // path to read from on sender
+    std::string target_path;   // path to write to on receiver
     uint64_t file_size;
     uint64_t num_documents;
     uint64_t token_range_start;

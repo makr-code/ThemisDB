@@ -2,6 +2,7 @@
 #include "query/query_engine.h"
 #include "query/aql_translator.h"
 #include "utils/logger.h"
+#include "storage/base_entity.h"
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4100)  // unreferenced formal parameter
@@ -21,7 +22,7 @@ namespace query {
 
 bool CTEEvaluator::evaluateCTE(
     const CTEDefinition& cte,
-    QueryEngine& queryEngine,
+    ::themis::QueryEngine& queryEngine,
     bool is_recursive
 ) {
     if (is_recursive) {
@@ -35,13 +36,13 @@ bool CTEEvaluator::evaluateCTE(
     
     try {
         // Create CTESpec for QueryEngine execution
-        QueryEngine::CTESpec spec;
+        ::themis::QueryEngine::CTESpec spec;
         spec.name = cte.name;
         spec.subquery = cte.subquery;
         spec.should_materialize = true;
         
         // Create evaluation context for CTE execution
-        QueryEngine::EvaluationContext context;
+        ::themis::QueryEngine::EvaluationContext context;
         
         // Copy previously evaluated CTEs to context so they can be referenced
         context.cte_results = cteResults_;
@@ -74,7 +75,7 @@ bool CTEEvaluator::evaluateCTE(
 
 bool CTEEvaluator::evaluateRecursiveCTE(
     const CTEDefinition& cte,
-    QueryEngine& queryEngine
+    ::themis::QueryEngine& queryEngine
 ) {
     if (!cte.subquery) {
         THEMIS_ERROR("Recursive CTE '{}' has null subquery", cte.name);
@@ -103,13 +104,13 @@ bool CTEEvaluator::evaluateRecursiveCTE(
             cteResults_[cte.name] = workingSet;
             
             // Create CTESpec for this iteration
-            QueryEngine::CTESpec spec;
+            ::themis::QueryEngine::CTESpec spec;
             spec.name = cte.name;
             spec.subquery = cte.subquery;
             spec.should_materialize = true;
             
             // Create evaluation context with previous results
-            QueryEngine::EvaluationContext context;
+            ::themis::QueryEngine::EvaluationContext context;
             context.cte_results = cteResults_;
             
             // Execute CTE query
@@ -242,8 +243,8 @@ void CTEEvaluator::clear() {
 
 namespace {
     // Helper: Create parent context with outer row bindings for correlated subqueries
-    QueryEngine::EvaluationContext createParentContext(const nlohmann::json& outerRow) {
-        QueryEngine::EvaluationContext parentContext;
+    ::themis::QueryEngine::EvaluationContext createParentContext(const nlohmann::json& outerRow) {
+        ::themis::QueryEngine::EvaluationContext parentContext;
         if (!outerRow.empty() && outerRow.is_object()) {
             for (auto& [key, value] : outerRow.items()) {
                 parentContext.bind(key, value);
@@ -269,7 +270,7 @@ namespace {
 
 nlohmann::json SubqueryEvaluator::evaluateSubquery(
     const query::SubqueryExpr& subquery,
-    QueryEngine& queryEngine,
+    ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
     // Phase 1 stub: treat as scalar subquery; real behavior handled elsewhere
@@ -278,7 +279,7 @@ nlohmann::json SubqueryEvaluator::evaluateSubquery(
 
 nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
     const std::shared_ptr<query::Query>& query,
-    QueryEngine& queryEngine,
+    ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
     if (!query) {
@@ -295,8 +296,8 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
         }
         
         // Create evaluation context
-        QueryEngine::EvaluationContext context;
-        QueryEngine::EvaluationContext parentContext;
+        ::themis::QueryEngine::EvaluationContext context;
+        ::themis::QueryEngine::EvaluationContext parentContext;
         
         // Bind outer variables if correlated subquery
         if (!outerRow.empty()) {
@@ -365,7 +366,7 @@ nlohmann::json SubqueryEvaluator::evaluateScalarSubquery(
 bool SubqueryEvaluator::evaluateInSubquery(
     const nlohmann::json& value,
     const std::shared_ptr<query::Query>& query,
-    QueryEngine& queryEngine,
+    ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
     if (!query) {
@@ -382,8 +383,8 @@ bool SubqueryEvaluator::evaluateInSubquery(
         }
         
         // Create evaluation context
-        QueryEngine::EvaluationContext context;
-        QueryEngine::EvaluationContext parentContext;
+        ::themis::QueryEngine::EvaluationContext context;
+        ::themis::QueryEngine::EvaluationContext parentContext;
         
         // Bind outer variables if correlated
         if (!outerRow.empty()) {
@@ -441,7 +442,7 @@ bool SubqueryEvaluator::evaluateInSubquery(
 
 bool SubqueryEvaluator::evaluateExistsSubquery(
     const std::shared_ptr<query::Query>& query,
-    QueryEngine& queryEngine,
+    ::themis::QueryEngine& queryEngine,
     const nlohmann::json& outerRow
 ) {
     if (!query) {
@@ -456,9 +457,7 @@ bool SubqueryEvaluator::evaluateExistsSubquery(
         // v1.3.0 Performance Optimization: Add LIMIT 1 for EXISTS queries
         // EXISTS only needs to check if at least one row exists
         if (!optimizedQuery->limit) {
-            optimizedQuery->limit = std::make_shared<query::LimitNode>();
-            optimizedQuery->limit->offset = 0;
-            optimizedQuery->limit->count = 1;
+            optimizedQuery->limit = std::make_shared<query::LimitNode>(0, 1);
             THEMIS_DEBUG("EXISTS subquery: injected LIMIT 1 optimization");
         } else if (optimizedQuery->limit->count > 1) {
             // Reduce existing limit to 1
@@ -474,8 +473,8 @@ bool SubqueryEvaluator::evaluateExistsSubquery(
         }
         
         // Create evaluation context
-        QueryEngine::EvaluationContext context;
-        QueryEngine::EvaluationContext parentContext;
+        ::themis::QueryEngine::EvaluationContext context;
+        ::themis::QueryEngine::EvaluationContext parentContext;
         
         // Bind outer variables if correlated
         if (!outerRow.empty()) {

@@ -39,7 +39,10 @@ endif()
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
 # Dependencies
-find_package(OpenSSL REQUIRED)
+find_package(OpenSSL CONFIG)
+if(NOT OpenSSL_FOUND)
+    find_package(OpenSSL REQUIRED)
+endif()
 
 # Make CURL optional: some environments (CI/dev) may not have dev package installed.
 # If found, create CURL::libcurl target; otherwise provide a fallback and continue.
@@ -62,12 +65,14 @@ option(THEMIS_ENABLE_AVX2 "Enable AVX2/FMA for SIMD kernels in Release builds (M
 option(THEMIS_QNAP_BUILD "Build for QNAP NAS with baseline x86-64 (no AVX)" OFF)
 option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stub if OFF)" OFF)
 option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
-option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" ON)
+option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors (audio/image/video/geo/cad) in core" OFF)
 
 # For QNAP or fully static builds, force static core library
 if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core for QNAP/static builds" FORCE)
+    # FORCE STATIC BUILD FOR WINDOWS (LNK1189 Export Limit Workaround - v1.3.0+)
+    set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core to avoid Windows DLL export limit (LNK1189)" FORCE)
 endif()
 
 # LLM Support (v1.3.0+)
@@ -252,15 +257,15 @@ endfunction()
 find_package(RocksDB CONFIG)
 
 # Select appropriate RocksDB target based on build type
-# THEMIS_CORE_SHARED=ON requires rocksdb-shared (DLL) to avoid linker issues with huge static .lib
-# THEMIS_CORE_SHARED=OFF can use the static rocksdb library
-set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
-if(TARGET RocksDB::rocksdb-shared AND THEMIS_CORE_SHARED)
-    # Use shared library for Windows DLL build (avoids "unrecognized file format" linker error)
+# Note: vcpkg's rocksdb-shared only exports the C API, so linking the C++ wrapper
+# requires the static library even when themis_core is built as a DLL.
+set(THEMIS_ROCKSDB_TARGET "")
+if(TARGET RocksDB::rocksdb)
+    set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
+    message(STATUS "RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage")
+elseif(TARGET RocksDB::rocksdb-shared)
     set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb-shared")
-    message(STATUS "RocksDB: Using shared library (rocksdb-shared.dll) for THEMIS_CORE_SHARED=ON")
-elseif(TARGET RocksDB::rocksdb)
-    message(STATUS "RocksDB: Using static library (rocksdb.lib)")
+    message(STATUS "RocksDB: Using shared C API library (rocksdb-shared.dll)")
 endif()
 
 # Fallback: locate system RocksDB if vcpkg didn't provide it
@@ -484,12 +489,8 @@ set(THEMIS_CORE_SOURCES
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
-    src/server/llm_api_handler.cpp
-    src/server/llm_grpc_service.cpp
-    src/aql/llm_aql_handler.cpp
     
-    # gRPC proto files for LLM service
-    proto/llm_service.proto
+    # LLM integration (server/API/grpc) is added conditionally below
     src/server/rate_limiter.cpp
     src/server/rate_limiter_v2.cpp
     src/server/load_shedder.cpp
@@ -507,10 +508,7 @@ set(THEMIS_CORE_SOURCES
     src/content/version_manager.cpp
     
     src/cache/semantic_cache.cpp
-    src/llm/llm_interaction_store.cpp
-    src/llm/prompt_manager.cpp
-    src/llm/block_table.cpp
-    src/llm/paged_kv_cache.cpp
+    # LLM core components are added conditionally below
     src/cdc/changefeed.cpp
     
     # Replication
@@ -588,6 +586,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/mtls_client.cpp
     src/sharding/signed_request.cpp
     src/sharding/remote_executor.cpp
+    src/sharding/shard_rpc_client.cpp
     src/sharding/shard_router.cpp
     src/sharding/rebalance_operation.cpp
     src/sharding/data_migrator.cpp
@@ -641,6 +640,48 @@ set(THEMIS_CORE_SOURCES
     src/analytics/process_mining.cpp
 )
 
+# Conditionally add LLM sources (v1.3.0+) only when enabled
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
+    list(APPEND THEMIS_CORE_SOURCES
+        # Server/API (HTTP + optional gRPC)
+        src/server/llm_api_handler.cpp
+        src/aql/llm_aql_handler.cpp
+
+        # Optional: gRPC service and generated proto headers (guarded by gRPC)
+        # Only add when gRPC is available, otherwise skip to prevent missing headers
+    )
+
+    find_package(gRPC CONFIG QUIET)
+    if(gRPC_FOUND)
+        message(STATUS "gRPC found - enabling LLM gRPC service")
+        list(APPEND THEMIS_CORE_SOURCES
+            src/server/llm_grpc_service.cpp
+            proto/llm_service.proto
+        )
+        # Note: Proto generation should be configured in a separate section when needed
+    else()
+        message(STATUS "gRPC not found - disabling LLM gRPC service and proto generation")
+    endif()
+
+    # LLM core components
+    list(APPEND THEMIS_CORE_SOURCES
+        src/llm/llm_interaction_store.cpp
+        src/llm/prompt_manager.cpp
+        src/llm/block_table.cpp
+        src/llm/paged_kv_cache.cpp
+    )
+endif()
+
+# Ensure minimal LLM components are available when referenced from http_server.
+# These have lightweight dependencies and avoid undefined references if LLM is disabled.
+if(NOT THEMIS_ENABLE_LLM)
+    list(APPEND THEMIS_CORE_SOURCES
+        src/llm/llm_interaction_store.cpp
+        src/llm/prompt_manager.cpp
+    )
+endif()
+
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
 if(THEMIS_CORE_SHARED)
@@ -650,7 +691,22 @@ add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
 if(MSVC AND THEMIS_CORE_SHARED)
-    set_target_properties(themis_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    # Auto-export needs normal COFF objects; disable /GL (IPO) so __create_def can read symbols
+    set_target_properties(themis_core PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON
+        INTERPROCEDURAL_OPTIMIZATION FALSE
+        VS_GLOBAL_WholeProgramOptimization "false"
+    )
+    target_compile_options(themis_core PRIVATE
+        $<$<CONFIG:Release>:/GL->
+        $<$<CONFIG:RelWithDebInfo>:/GL->
+        $<$<CONFIG:MinSizeRel>:/GL->
+    )
+    target_link_options(themis_core PRIVATE
+        $<$<CONFIG:Release>:/LTCG:OFF>
+        $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+        $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+    )
 endif()
 
 # Add hardware acceleration backends based on build options
@@ -734,8 +790,34 @@ if(TARGET Arrow::arrow_shared)
     set(THEMIS_ARROW_TARGET Arrow::arrow_shared)
 elseif(TARGET Arrow::arrow_static)
     set(THEMIS_ARROW_TARGET Arrow::arrow_static)
+elseif(TARGET arrow_shared)
+    set(THEMIS_ARROW_TARGET arrow_shared)
+elseif(TARGET arrow_static)
+    set(THEMIS_ARROW_TARGET arrow_static)
 else()
     set(THEMIS_ARROW_TARGET "")
+endif()
+
+# Parquet target (for Arrow parquet writer)
+find_package(Parquet CONFIG QUIET)
+set(THEMIS_PARQUET_TARGET "")
+if(Parquet_FOUND)
+    if(TARGET Parquet::parquet_shared)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet_shared)
+    elseif(TARGET Parquet::parquet_static)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet_static)
+    elseif(TARGET Parquet::parquet)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet)
+    endif()
+else()
+    # Fallbacks some package layouts expose
+    if(TARGET parquet)
+        set(THEMIS_PARQUET_TARGET parquet)
+    elseif(TARGET parquet_static)
+        set(THEMIS_PARQUET_TARGET parquet_static)
+    elseif(TARGET parquet_shared)
+        set(THEMIS_PARQUET_TARGET parquet_shared)
+    endif()
 endif()
 
 # v1.1.0: Define ARROW_ENABLED if Arrow is available
@@ -750,6 +832,7 @@ target_link_libraries(themis_core
         simdjson::simdjson
         TBB::tbb
         ${THEMIS_ARROW_TARGET}
+        ${THEMIS_PARQUET_TARGET}
         fmt::fmt
         spdlog::spdlog
         Boost::system
@@ -1072,13 +1155,7 @@ if(THEMIS_BUILD_TESTS)
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
         
-        # LLM plugin tests (v1.3.0+)
-        tests/test_llm_plugin.cpp
-        tests/test_llamacpp_integration.cpp  # Phase 4+5 llama.cpp integration tests
-        tests/test_llm_caching.cpp
-        tests/test_kv_cache_buffer.cpp  # Phase 2.2 tests
-        tests/test_llm_response_cache.cpp  # Phase 2.3 tests
-        tests/test_paged_attention.cpp  # Phase 4+5 Week 1-3 tests
+        # LLM plugin tests (v1.3.0+) are added conditionally below
     )
     
     target_link_libraries(themis_tests
@@ -1088,6 +1165,18 @@ if(THEMIS_BUILD_TESTS)
             GTest::gtest_main
             Boost::system
     )
+
+    # Conditionally add LLM tests only when LLM is enabled
+    if(THEMIS_ENABLE_LLM)
+        target_sources(themis_tests PRIVATE
+            tests/test_llm_plugin.cpp
+            tests/test_llamacpp_integration.cpp
+            tests/test_llm_caching.cpp
+            tests/test_kv_cache_buffer.cpp
+            tests/test_llm_response_cache.cpp
+            tests/test_paged_attention.cpp
+        )
+    endif()
 
     # Discover individual GoogleTest tests for better CTest integration
     include(GoogleTest)
@@ -1113,6 +1202,42 @@ endif()
 # Benchmarks
 if(THEMIS_BUILD_BENCHMARKS)
     find_package(benchmark CONFIG REQUIRED)
+    
+    # Modern performance benchmarks (all core areas)
+    add_executable(bench_core_performance
+        benchmarks/bench_core_performance.cpp
+    )
+    
+    target_link_libraries(bench_core_performance
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Comprehensive benchmark suite (simple/complex, LLM, AQL, binary, stress tests)
+    add_executable(bench_comprehensive
+        benchmarks/bench_comprehensive.cpp
+    )
+    
+    target_link_libraries(bench_comprehensive
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
+    add_executable(bench_advanced_patterns
+        benchmarks/bench_advanced_patterns.cpp
+    )
+    
+    target_link_libraries(bench_advanced_patterns
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
     
     add_executable(themis_benchmarks
         benchmarks/bench_crud.cpp
