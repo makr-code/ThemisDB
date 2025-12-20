@@ -37,8 +37,8 @@ vcpkg/
 - **Lines 106-120**: Added intelligent offline/online mode detection
 
 ```dockerfile
-# Check if cache has content beyond .gitkeep
-CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' | wc -l)
+# Check if cache has actual content (excluding placeholder files)
+CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' ! -name 'README.md' | wc -l)
 if [ "$CACHE_FILES" -gt 0 ]; then
     echo "==> Using OFFLINE mode with cached downloads"
     export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"

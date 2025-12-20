@@ -105,8 +105,8 @@ RUN mkdir -p /root/.cache/vcpkg/archives && chmod -R 755 /root/.cache/vcpkg
 
 # Install dependencies via vcpkg - will use cache if available, download if needed
 RUN . /etc/profile.d/vcpkg.sh && \
-    # Check if cache has content beyond .gitkeep
-    CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' | wc -l) && \
+    # Check if cache has actual content (excluding placeholder files)
+    CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' ! -name 'README.md' | wc -l) && \
     if [ "$CACHE_FILES" -gt 0 ]; then \
         echo "==> Using OFFLINE mode with cached downloads ($CACHE_FILES files)"; \
         export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"; \
