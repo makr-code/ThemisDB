@@ -314,14 +314,17 @@ PyTorch hat eine der **besten Patent-Schutz-Klauseln** im ML-Bereich, ähnlich A
 
 Diese Bibliotheken sollten als **Kern-Dependencies** integriert werden:
 
-1. **ONNX Runtime** (MIT)
-   - ✅ Identische Lizenz wie ThemisDB
-   - ✅ Beste Cross-Platform-Unterstützung
-   - ✅ Keine rechtlichen Bedenken
-
-2. **llama.cpp Vision** (MIT)
+1. **llama.cpp Vision** (MIT) ← **PRIMARY CHOICE**
    - ✅ Identische Lizenz wie ThemisDB
    - ✅ Nahtlose LLM+Vision Integration
+   - ✅ Gemeinsame Memory-Infrastruktur
+   - ✅ Keine rechtlichen Bedenken
+   - ✅ **Bevorzugte Wahl** für Unified Architecture
+
+2. **ONNX Runtime** (MIT)
+   - ✅ Identische Lizenz wie ThemisDB
+   - ✅ Beste Cross-Platform-Unterstützung
+   - ✅ Ergänzung für dedizierte Bildanalyse
    - ✅ Keine rechtlichen Bedenken
 
 3. **OpenCV DNN** (Apache 2.0)

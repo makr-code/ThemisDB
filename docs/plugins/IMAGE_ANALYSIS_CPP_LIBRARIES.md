@@ -13,74 +13,81 @@ Dieses Dokument evaluiert verfügbare C++ Projekte und Bibliotheken für die Int
 
 ---
 
-## 1. ONNX Runtime (Empfehlung: ⭐⭐⭐⭐⭐)
+## 1. llama.cpp (Vision Branch) (Empfehlung: ⭐⭐⭐⭐⭐)
 
 ### Beschreibung
-Cross-platform, hochperformante Inference-Engine für ONNX-Modelle. Unterstützt Stable Diffusion, CLIP, Vision Transformers und weitere.
+Erweiterte Version von llama.cpp mit Unterstützung für Vision-Language Modelle (LLaVA, MiniGPT-4, etc.).
 
 ### Lizenz
 **MIT License** ✅ **KOMPATIBEL mit ThemisDB**
 
-- **Quelle**: https://github.com/microsoft/onnxruntime/blob/main/LICENSE
+- **Quelle**: https://github.com/ggerganov/llama.cpp/blob/master/LICENSE
 - **Typ**: Permissive Open Source
 - **Kompatibilität**: ✅ Vollständig kompatibel mit ThemisDB MIT + Government Clause
 - **Kommerzielle Nutzung**: ✅ Erlaubt
 - **Weitergabe**: ✅ Ohne Einschränkungen
-- **Patent Grant**: ✅ Ja (Microsoft gewährt Patent-Rechte)
+- **Patent Grant**: ⚠️ Keine explizite Patent-Klausel (aber MIT-typisch)
+- **Besonderheit**: GGML (ggerganov's ML library) ebenfalls MIT
 
 ### Vorteile
-- ✅ **Breite Modellunterstützung**: Stable Diffusion, CLIP, ResNet, ViT, etc.
-- ✅ **Cross-Platform**: Windows, Linux, macOS
-- ✅ **Multi-Backend**: CPU, CUDA, DirectML, TensorRT, OpenVINO
-- ✅ **Produktionsreif**: Von Microsoft entwickelt und maintained
-- ✅ **GGML-kompatibel**: Kann mit llama.cpp-ähnlichen Modellen arbeiten
-- ✅ **Quantisierung**: INT8, FP16 für reduzierte Speichernutzung
-- ✅ **Lizenzsicher**: MIT License, öffentlicher Sektor bedenkenlos nutzbar
+- ✅ **Unified LLM+Vision**: Ein Framework für Text und Vision
+- ✅ **GGML Quantisierung**: Extrem speichereffizient (4-bit, 5-bit, 8-bit)
+- ✅ **CPU-optimiert**: Läuft gut auf CPU
+- ✅ **Kleines Footprint**: Minimale Dependencies
+- ✅ **Integration mit LLM**: Nahtlose Integration mit bestehendem LLM-System
+- ✅ **Lizenzsicher**: MIT License, identisch mit ThemisDB-Basis
+- ✅ **Einheitliche Architektur**: Gemeinsame Memory-Infrastruktur mit LLM
 
 ### Nachteile
-- ❌ Etwas größere Binärgröße (~50MB)
-- ❌ Modelle müssen zu ONNX konvertiert werden
+- ❌ **Begrenzte Modelle**: Nur Vision-Language Modelle (LLaVA, etc.)
+- ❌ **Experimentell**: Vision Support noch in Entwicklung
+- ❌ **Kein reines Bildgeneration**: Fokus auf Image Understanding
 
 ### Integration in ThemisDB
 ```cpp
-#include <onnxruntime_cxx_api.h>
+#include "llama.h"
+#include "clip.h"
 
-class ONNXImageAnalysisBackend : public IImageAnalysisBackend {
+class LlamaCppVisionBackend : public IImageAnalysisBackend {
 private:
-    Ort::Env env_;
-    std::unique_ptr<Ort::Session> clip_session_;
-    std::unique_ptr<Ort::Session> sd_session_;
+    llama_model* llm_model_;
+    clip_ctx* clip_ctx_;
     
 public:
-    std::vector<float> generateEmbedding(const std::vector<uint8_t>& image_data) override;
-    std::string generateCaption(const std::vector<uint8_t>& image_data) override;
-    std::vector<uint8_t> generateImage(const std::string& prompt) override;
+    std::string generateCaption(const std::vector<uint8_t>& image_data) override {
+        // Load image into CLIP
+        clip_image_u8 img = load_image_from_bytes(image_data);
+        
+        // Encode image
+        float* image_embd = clip_encode_image(clip_ctx_, img);
+        
+        // Generate caption with LLM
+        return llama_generate_with_image(llm_model_, image_embd);
+    }
 };
 ```
 
 ### Verfügbare Modelle
-- **CLIP**: `openai/clip-vit-base-patch32.onnx`
-- **Stable Diffusion**: `stable-diffusion-v1-5.onnx`
-- **ResNet**: `resnet50-v2-7.onnx`
-- **Vision Transformer**: `vit-base-patch16-224.onnx`
+- **LLaVA 1.5**: 7B, 13B (image understanding)
+- **LLaVA 1.6**: Improved version
+- **MiniGPT-4**: Visual question answering
+- **CogVLM**: Chinese vision-language model
 
-### vcpkg Integration
-```json
-{
-  "name": "onnxruntime",
-  "version": "1.17.0",
-  "features": ["cuda", "tensorrt"]
-}
+### Integration
+```bash
+git submodule add https://github.com/ggerganov/llama.cpp.git third_party/llama.cpp
+cd third_party/llama.cpp
+git checkout vision-support
 ```
 
 ### Performance
-- **Inferenz**: ~50-200ms für CLIP embedding (GPU)
-- **GPU-Speicher**: 2-8GB je nach Modell
-- **CPU-Fallback**: 2-10x langsamer
+- **Inferenz**: ~500-2000ms (CPU 7B model)
+- **RAM**: 4-16GB je nach Quantisierung
+- **GPU-Beschleunigung**: Über CUDA/Metal/Vulkan
 
 ---
 
-## 2. OpenCV DNN Module (Empfehlung: ⭐⭐⭐⭐)
+## 3. OpenCV DNN Module (Empfehlung: ⭐⭐⭐⭐)
 
 ### Beschreibung
 Deep Learning Modul in OpenCV. Unterstützt verschiedene Frameworks (TensorFlow, PyTorch, Caffe, ONNX).
@@ -150,76 +157,70 @@ public:
 
 ---
 
-## 3. llama.cpp (Vision Branch) (Empfehlung: ⭐⭐⭐⭐⭐)
+## 2. ONNX Runtime (Empfehlung: ⭐⭐⭐⭐)
 
 ### Beschreibung
-Erweiterte Version von llama.cpp mit Unterstützung für Vision-Language Modelle (LLaVA, MiniGPT-4, etc.).
+Cross-platform, hochperformante Inference-Engine für ONNX-Modelle. Unterstützt Stable Diffusion, CLIP, Vision Transformers und weitere.
 
 ### Lizenz
 **MIT License** ✅ **KOMPATIBEL mit ThemisDB**
 
-- **Quelle**: https://github.com/ggerganov/llama.cpp/blob/master/LICENSE
+- **Quelle**: https://github.com/microsoft/onnxruntime/blob/main/LICENSE
 - **Typ**: Permissive Open Source
 - **Kompatibilität**: ✅ Vollständig kompatibel mit ThemisDB MIT + Government Clause
 - **Kommerzielle Nutzung**: ✅ Erlaubt
 - **Weitergabe**: ✅ Ohne Einschränkungen
-- **Patent Grant**: ⚠️ Keine explizite Patent-Klausel (aber MIT-typisch)
-- **Besonderheit**: GGML (ggerganov's ML library) ebenfalls MIT
+- **Patent Grant**: ✅ Ja (Microsoft gewährt Patent-Rechte)
 
 ### Vorteile
-- ✅ **Unified LLM+Vision**: Ein Framework für Text und Vision
-- ✅ **GGML Quantisierung**: Extrem speichereffizient (4-bit, 5-bit, 8-bit)
-- ✅ **CPU-optimiert**: Läuft gut auf CPU
-- ✅ **Kleines Footprint**: Minimale Dependencies
-- ✅ **Integration mit LLM**: Nahtlose Integration mit bestehendem LLM-System
-- ✅ **Lizenzsicher**: MIT License, identisch mit ThemisDB-Basis
+- ✅ **Breite Modellunterstützung**: Stable Diffusion, CLIP, ResNet, ViT, etc.
+- ✅ **Cross-Platform**: Windows, Linux, macOS
+- ✅ **Multi-Backend**: CPU, CUDA, DirectML, TensorRT, OpenVINO
+- ✅ **Produktionsreif**: Von Microsoft entwickelt und maintained
+- ✅ **GGML-kompatibel**: Kann mit llama.cpp-ähnlichen Modellen arbeiten
+- ✅ **Quantisierung**: INT8, FP16 für reduzierte Speichernutzung
+- ✅ **Lizenzsicher**: MIT License, öffentlicher Sektor bedenkenlos nutzbar
 
 ### Nachteile
-- ❌ **Begrenzte Modelle**: Nur Vision-Language Modelle (LLaVA, etc.)
-- ❌ **Experimentell**: Vision Support noch in Entwicklung
-- ❌ **Kein reines Bildgeneration**: Fokus auf Image Understanding
+- ❌ Etwas größere Binärgröße (~50MB)
+- ❌ Modelle müssen zu ONNX konvertiert werden
 
 ### Integration in ThemisDB
 ```cpp
-#include "llama.h"
-#include "clip.h"
+#include <onnxruntime_cxx_api.h>
 
-class LlamaCppVisionBackend : public IImageAnalysisBackend {
+class ONNXImageAnalysisBackend : public IImageAnalysisBackend {
 private:
-    llama_model* llm_model_;
-    clip_ctx* clip_ctx_;
+    Ort::Env env_;
+    std::unique_ptr<Ort::Session> clip_session_;
+    std::unique_ptr<Ort::Session> sd_session_;
     
 public:
-    std::string generateCaption(const std::vector<uint8_t>& image_data) override {
-        // Load image into CLIP
-        clip_image_u8 img = load_image_from_bytes(image_data);
-        
-        // Encode image
-        float* image_embd = clip_encode_image(clip_ctx_, img);
-        
-        // Generate caption with LLM
-        return llama_generate_with_image(llm_model_, image_embd);
-    }
+    std::vector<float> generateEmbedding(const std::vector<uint8_t>& image_data) override;
+    std::string generateCaption(const std::vector<uint8_t>& image_data) override;
+    std::vector<uint8_t> generateImage(const std::string& prompt) override;
 };
 ```
 
 ### Verfügbare Modelle
-- **LLaVA 1.5**: 7B, 13B (image understanding)
-- **LLaVA 1.6**: Improved version
-- **MiniGPT-4**: Visual question answering
-- **CogVLM**: Chinese vision-language model
+- **CLIP**: `openai/clip-vit-base-patch32.onnx`
+- **Stable Diffusion**: `stable-diffusion-v1-5.onnx`
+- **ResNet**: `resnet50-v2-7.onnx`
+- **Vision Transformer**: `vit-base-patch16-224.onnx`
 
-### Integration
-```bash
-git submodule add https://github.com/ggerganov/llama.cpp.git third_party/llama.cpp
-cd third_party/llama.cpp
-git checkout vision-support
+### vcpkg Integration
+```json
+{
+  "name": "onnxruntime",
+  "version": "1.17.0",
+  "features": ["cuda", "tensorrt"]
+}
 ```
 
 ### Performance
-- **Inferenz**: ~500-2000ms (CPU 7B model)
-- **RAM**: 4-16GB je nach Quantisierung
-- **GPU-Beschleunigung**: Über CUDA/Metal/Vulkan
+- **Inferenz**: ~50-200ms für CLIP embedding (GPU)
+- **GPU-Speicher**: 2-8GB je nach Modell
+- **CPU-Fallback**: 2-10x langsamer
 
 ---
 
@@ -502,8 +503,8 @@ wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-de
 
 | Bibliothek | Performance | Modellauswahl | Integration | Speicher | GPU-Support | Lizenz | Empfehlung |
 |------------|-------------|---------------|-------------|----------|-------------|--------|------------|
-| **ONNX Runtime** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ MIT | **Best Overall** |
-| **llama.cpp Vision** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ MIT | **Best LLM Integration** |
+| **llama.cpp Vision** | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ✅ MIT | **Best Overall + LLM Integration** |
+| **ONNX Runtime** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ✅ MIT | **Best Flexibility** |
 | **OpenCV DNN** | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ✅ Apache 2.0 | **Best Simplicity** |
 | **TensorRT** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⚠️ Proprietary | **Best NVIDIA Performance** |
 | **OpenVINO** | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ✅ Apache 2.0 | **Best Intel Performance** |
@@ -518,16 +519,16 @@ wget https://download.pytorch.org/libtorch/cpu/libtorch-cxx11-abi-shared-with-de
 
 Diese Bibliotheken sind **ohne Einschränkungen** mit ThemisDB MIT + Government Clause kompatibel:
 
-1. **ONNX Runtime** - MIT License
+1. **llama.cpp (Vision)** - MIT License
+   - ✅ Identische Lizenz wie ThemisDB
+   - ✅ Nahtlose Integration möglich
+   - ✅ **EMPFOHLEN** für LLM+Vision Unified Architecture (PRIMARY CHOICE)
+
+2. **ONNX Runtime** - MIT License
    - ✅ Identische Lizenz-Philosophie wie ThemisDB
    - ✅ Patent Grant von Microsoft
    - ✅ Keine Trademark-Einschränkungen
-   - ✅ **EMPFOHLEN** für Produktion
-
-2. **llama.cpp (Vision)** - MIT License
-   - ✅ Identische Lizenz wie ThemisDB
-   - ✅ Nahtlose Integration möglich
-   - ✅ **EMPFOHLEN** für LLM+Vision Unified Architecture
+   - ✅ **EMPFOHLEN** für dedizierte Bildanalyse
 
 3. **OpenCV** - Apache 2.0 License
    - ✅ Sehr permissiv, kompatibel mit MIT
@@ -587,18 +588,21 @@ Diese Bibliotheken sind **ohne Einschränkungen** mit ThemisDB MIT + Government 
 
 ## Empfehlung für ThemisDB
 
-### Primärer Ansatz: **ONNX Runtime + llama.cpp Vision**
+### Primärer Ansatz: **llama.cpp Vision + ONNX Runtime**
 
 **Begründung:**
-1. **ONNX Runtime** für dedizierte Bildanalyse (CLIP, Stable Diffusion)
-   - Beste Cross-Platform-Unterstützung
-   - Breite Hardware-Backend-Auswahl (CPU, CUDA, DirectML, TensorRT)
-   - Produktionsreif und gut maintained
-
-2. **llama.cpp Vision** für Vision-Language Modelle
+1. **llama.cpp Vision** als primäres Backend (Vision-Language Modelle)
    - Nahtlose Integration mit bestehendem LLM-System
    - Gemeinsame Memory-Infrastruktur
    - Speichereffizient durch GGML Quantisierung
+   - Einheitliche Architektur für Text und Vision
+   - **Identische Lizenz** wie ThemisDB Core
+
+2. **ONNX Runtime** für dedizierte Bildanalyse (CLIP, Stable Diffusion)
+   - Beste Cross-Platform-Unterstützung
+   - Breite Hardware-Backend-Auswahl (CPU, CUDA, DirectML, TensorRT)
+   - Produktionsreif und gut maintained
+   - Zusätzlich für reine Bildverarbeitung
 
 3. **OpenCV DNN** als CPU-Fallback
    - Minimale Dependencies
@@ -619,9 +623,10 @@ Diese Bibliotheken sind **ohne Einschränkungen** mit ThemisDB MIT + Government 
 │  └────┬───────┬───────┬──────────┬────────────┘    │
 │       │       │       │          │                  │
 │  ┌────▼──┐ ┌─▼────┐ ┌▼──────┐ ┌─▼────────┐        │
-│  │ ONNX  │ │llama │ │OpenCV │ │TensorRT  │        │
-│  │Runtime│ │.cpp  │ │ DNN   │ │(optional)│        │
-│  │Plugin │ │Vision│ │Plugin │ │  Plugin  │        │
+│  │llama  │ │ ONNX │ │OpenCV │ │TensorRT  │        │
+│  │.cpp   │ │Runtime│ │ DNN   │ │(optional)│        │
+│  │Vision │ │Plugin │ │Plugin │ │  Plugin  │        │
+│  │(PRIMARY)│       │        │          │           │
 │  └───────┘ └──────┘ └───────┘ └──────────┘        │
 │                                                      │
 │  ┌──────────────────────────────────────────┐      │
@@ -636,15 +641,16 @@ Diese Bibliotheken sind **ohne Einschränkungen** mit ThemisDB MIT + Government 
    - `IImageAnalysisBackend` interface
    - Standard Operationen: embedding, caption, detect, generate
 
-2. **Phase 2**: ONNX Runtime Backend
-   - CLIP Embeddings
-   - Image Classification
-   - Object Detection
-
-3. **Phase 3**: llama.cpp Vision Backend
+2. **Phase 2**: llama.cpp Vision Backend (PRIMARY)
    - LLaVA Integration
    - Image Captioning
    - Visual Question Answering
+   - Unified Memory mit LLM
+
+3. **Phase 3**: ONNX Runtime Backend (SECONDARY)
+   - CLIP Embeddings
+   - Image Classification
+   - Object Detection
 
 4. **Phase 4**: Advanced Features
    - Stable Diffusion Image Generation

@@ -9,7 +9,7 @@ image_analysis:
   auto_load: true
   
   # Default plugin for operations when not explicitly specified
-  default_plugin: "onnx_clip"
+  default_plugin: "llamacpp_vision"
   
   # Parallel execution with LLM
   enable_parallel_execution: true
@@ -29,10 +29,37 @@ image_analysis:
 
 # Plugin-specific configurations
 plugins:
-  # ONNX CLIP Plugin - Primary backend for image embeddings
+  # llama.cpp Vision Plugin - PRIMARY backend for vision-language models
+  - name: llamacpp_vision
+    enabled: true
+    priority: 110  # Highest priority = preferred
+    
+    config:
+      # Model files
+      llm_model_path: "./models/llava-v1.5-7b-q4_0.gguf"
+      clip_model_path: "./models/mmproj-model-f16.gguf"
+      
+      # Backend
+      backend: "AUTO"  # AUTO, CPU, CUDA, METAL, VULKAN
+      
+      # Quantization (GGML)
+      quantization: "Q4_0"  # Q4_0, Q5_0, Q8_0, F16, F32
+      
+      # Context size
+      context_size: 2048
+      
+      # Generation parameters
+      temperature: 0.7
+      top_p: 0.9
+      max_tokens: 128
+      
+      # GPU layers (0 = CPU only)
+      gpu_layers: 35  # Adjust based on VRAM
+
+  # ONNX CLIP Plugin - Secondary backend for dedicated image embeddings
   - name: onnx_clip
     enabled: true
-    priority: 100  # Higher priority = preferred
+    priority: 100  # Lower priority than llama.cpp Vision
     
     config:
       # Model configuration
@@ -70,8 +97,8 @@ plugins:
   
   # llama.cpp Vision Plugin - For vision-language models (LLaVA)
   - name: llamacpp_vision
-    enabled: false  # Enable manually if needed
-    priority: 90
+    enabled: true  # Enable as primary
+    priority: 110
     
     config:
       # Model files
