@@ -1440,6 +1440,414 @@ BENCHMARK_F(RocksDBRaw_Txn10, RocksRawTxn10_32Threads) (benchmark::State& state)
     state.SetItemsProcessed(state.iterations() * 100);
 }
 
+// ============================================================================
+// THEMIS NoPipelined BASELINES (pipelined_write=false)
+// ============================================================================
+// Zum Vergleich mit Raw RocksDB Baselines ohne pipelined_write
+
+class ThemisNoPipe_NonTxn : public benchmark::Fixture {
+protected:
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sim_;
+    std::string db_path_;
+
+    void SetUp(const benchmark::State&) override {
+        RocksDBWrapper::Config cfg;
+        db_path_ = "C:\\tmp\\bench_themis_npipe_ntx_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        fs::remove_all(db_path_);
+        fs::create_directories(db_path_);
+        cfg.db_path = db_path_;
+
+        cfg.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+        cfg.two_write_queues = false;
+        cfg.disable_wal_for_benchmark = false;
+        cfg.enable_wal = false;
+        cfg.allow_concurrent_memtable_write = true;
+        cfg.enable_pipelined_write = false;  // disabled for raw comparison
+
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        db_->open();
+        sim_ = std::make_unique<SecondaryIndexManager>(*db_);
+        sim_->createIndex("themis_npipe_ntx", "id");
+    }
+
+    void TearDown(const benchmark::State&) override {
+        sim_.reset();
+        db_.reset();
+        fs::remove_all(db_path_);
+    }
+};
+
+BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_1Thread) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(1);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 100; ++i) {
+                BaseEntity e("entity_thnpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 100 + i)}});
+                sim_->put("themis_npipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_4Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(4);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 25; ++i) {
+                BaseEntity e("entity_thnpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 25 + i)}});
+                sim_->put("themis_npipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_8Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(8);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 12; ++i) {
+                BaseEntity e("entity_thnpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 12 + i)}});
+                sim_->put("themis_npipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_16Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(16);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 6; ++i) {
+                BaseEntity e("entity_thnpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 6 + i)}});
+                sim_->put("themis_npipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_NonTxn, ThemisNoPipe_NTX_32Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(32);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 3; ++i) {
+                BaseEntity e("entity_thnpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 3 + i)}});
+                sim_->put("themis_npipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+class ThemisNoPipe_Txn10 : public benchmark::Fixture {
+protected:
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sim_;
+    std::string db_path_;
+
+    void SetUp(const benchmark::State&) override {
+        RocksDBWrapper::Config cfg;
+        db_path_ = "C:\\tmp\\bench_themis_npipe_txn10_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        fs::remove_all(db_path_);
+        fs::create_directories(db_path_);
+        cfg.db_path = db_path_;
+
+        cfg.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+        cfg.two_write_queues = false;
+        cfg.enable_wal = true;
+        cfg.disable_wal_for_benchmark = false;
+        cfg.allow_concurrent_memtable_write = true;
+        cfg.enable_pipelined_write = false;
+
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        db_->open();
+        sim_ = std::make_unique<SecondaryIndexManager>(*db_);
+        sim_->createIndex("themis_npipe_txn10", "id");
+    }
+
+    void TearDown(const benchmark::State&) override {
+        sim_.reset();
+        db_.reset();
+        fs::remove_all(db_path_);
+    }
+
+    void doTxnChunked(int thread_id, int total_records, int chunk) {
+        int produced = 0;
+        while (produced < total_records) {
+            int batch = std::min(chunk, total_records - produced);
+            auto txn = db_->beginTransaction();
+            for (int i = 0; i < batch; ++i) {
+                int idx = produced + i;
+                BaseEntity e(std::string("entity_thnpipetxn10_") + std::to_string(thread_id) + "_" + std::to_string(idx),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(thread_id * total_records + idx)}});
+                sim_->put("themis_npipe_txn10", e, *txn);
+            }
+            txn->prepare();
+            txn->commit();
+            produced += batch;
+        }
+    }
+};
+
+BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_1Thread) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(1);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 100, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_4Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(4);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 25, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_8Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(8);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 12, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_16Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(16);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 6, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisNoPipe_Txn10, ThemisNoPipe_Txn10_32Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(32);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 3, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// ============================================================================
+// THEMIS WITH PIPELINED WRITE (pipelined_write=true)
+// ============================================================================
+// Zum Vergleich des Pipelined-Write-Effekts auf Themis
+
+class ThemisWithPipe_NonTxn : public benchmark::Fixture {
+protected:
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sim_;
+    std::string db_path_;
+
+    void SetUp(const benchmark::State&) override {
+        RocksDBWrapper::Config cfg;
+        db_path_ = "C:\\tmp\\bench_themis_pipe_ntx_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        fs::remove_all(db_path_);
+        fs::create_directories(db_path_);
+        cfg.db_path = db_path_;
+
+        cfg.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+        cfg.two_write_queues = false;
+        cfg.disable_wal_for_benchmark = false;
+        cfg.enable_wal = false;
+        cfg.allow_concurrent_memtable_write = true;
+        cfg.enable_pipelined_write = true;  // ENABLED
+
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        db_->open();
+        sim_ = std::make_unique<SecondaryIndexManager>(*db_);
+        sim_->createIndex("themis_pipe_ntx", "id");
+    }
+
+    void TearDown(const benchmark::State&) override {
+        sim_.reset();
+        db_.reset();
+        fs::remove_all(db_path_);
+    }
+};
+
+BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_1Thread) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(1);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 100; ++i) {
+                BaseEntity e("entity_thpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 100 + i)}});
+                sim_->put("themis_pipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_4Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(4);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 25; ++i) {
+                BaseEntity e("entity_thpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 25 + i)}});
+                sim_->put("themis_pipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_8Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(8);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 12; ++i) {
+                BaseEntity e("entity_thpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 12 + i)}});
+                sim_->put("themis_pipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_16Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(16);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 6; ++i) {
+                BaseEntity e("entity_thpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 6 + i)}});
+                sim_->put("themis_pipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_NonTxn, ThemisWithPipe_NTX_32Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(32);
+        executor.execute([this](int work_id) {
+            for (int i = 0; i < 3; ++i) {
+                BaseEntity e("entity_thpipentx_" + std::to_string(work_id) + "_" + std::to_string(i),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(work_id * 3 + i)}});
+                sim_->put("themis_pipe_ntx", e);
+            }
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+class ThemisWithPipe_Txn10 : public benchmark::Fixture {
+protected:
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sim_;
+    std::string db_path_;
+
+    void SetUp(const benchmark::State&) override {
+        RocksDBWrapper::Config cfg;
+        db_path_ = "C:\\tmp\\bench_themis_pipe_txn10_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        fs::remove_all(db_path_);
+        fs::create_directories(db_path_);
+        cfg.db_path = db_path_;
+
+        cfg.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+        cfg.two_write_queues = false;
+        cfg.enable_wal = true;
+        cfg.disable_wal_for_benchmark = false;
+        cfg.allow_concurrent_memtable_write = true;
+        cfg.enable_pipelined_write = true;  // ENABLED
+
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        db_->open();
+        sim_ = std::make_unique<SecondaryIndexManager>(*db_);
+        sim_->createIndex("themis_pipe_txn10", "id");
+    }
+
+    void TearDown(const benchmark::State&) override {
+        sim_.reset();
+        db_.reset();
+        fs::remove_all(db_path_);
+    }
+
+    void doTxnChunked(int thread_id, int total_records, int chunk) {
+        int produced = 0;
+        while (produced < total_records) {
+            int batch = std::min(chunk, total_records - produced);
+            auto txn = db_->beginTransaction();
+            for (int i = 0; i < batch; ++i) {
+                int idx = produced + i;
+                BaseEntity e(std::string("entity_thpipetxn10_") + std::to_string(thread_id) + "_" + std::to_string(idx),
+                           BaseEntity::FieldMap{{"data", RandomGenerator::instance().randStr(100)},
+                                              {"value", static_cast<double>(thread_id * total_records + idx)}});
+                sim_->put("themis_pipe_txn10", e, *txn);
+            }
+            txn->prepare();
+            txn->commit();
+            produced += batch;
+        }
+    }
+};
+
+BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_1Thread) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(1);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 100, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_4Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(4);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 25, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_8Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(8);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 12, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_16Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(16);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 6, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+BENCHMARK_F(ThemisWithPipe_Txn10, ThemisWithPipe_Txn10_32Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(32);
+        executor.execute([this](int work_id) { doTxnChunked(work_id, 3, 10); }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
 // READ/WRITE RATIO BENCHMARKS
 // ============================================================================
 
