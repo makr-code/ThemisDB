@@ -6,6 +6,8 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <queue>
+#include <mutex>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 
@@ -243,14 +245,17 @@ public:
 
     void addClient(const std::string& client_id);
     void removeClient(const std::string& client_id);
+    std::string getClientData(const std::string& client_id);
 
 private:
     void sendKeepalive();
+    void scheduleKeepalive();
 
 private:
     asio::io_context& io_context_;
     int keepalive_ms_;
     std::unordered_map<std::string, std::string> clients_; // client_id -> pending_data
+    std::mutex clients_mutex_;
     asio::steady_timer keepalive_timer_;
     bool is_running_ = false;
 };
@@ -266,18 +271,28 @@ public:
     void start() override;
     void stop() override;
     void send(const json& message) override;
+    
+    void sendToSession(const std::string& session_id, const json& message);
 
     void addSession(const std::string& session_id);
     void removeSession(const std::string& session_id);
     void handleMessage(const std::string& session_id, const std::string& message);
+    std::vector<std::string> getPendingMessages(const std::string& session_id);
 
 private:
     void sendPing();
+    void schedulePing();
+    
+    struct SessionData {
+        bool is_active;
+        std::queue<std::string> pending_messages;
+    };
 
 private:
     asio::io_context& io_context_;
     int ping_interval_ms_;
-    std::unordered_map<std::string, bool> sessions_; // session_id -> is_active
+    std::unordered_map<std::string, SessionData> sessions_; // session_id -> session_data
+    std::mutex sessions_mutex_;
     asio::steady_timer ping_timer_;
     bool is_running_ = false;
 };

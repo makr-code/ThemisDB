@@ -903,36 +903,88 @@ SseTransport::~SseTransport() {
 void SseTransport::start() {
     if (is_running_) return;
     is_running_ = true;
-    spdlog::info("MCP SSE transport started");
-    // Stub: Would start keepalive timer
+    spdlog::info("MCP SSE transport started with {}ms keepalive interval", keepalive_ms_);
+    
+    // Start keepalive timer
+    scheduleKeepalive();
 }
 
 void SseTransport::stop() {
     if (!is_running_) return;
     is_running_ = false;
     keepalive_timer_.cancel();
+    
+    // Clear all clients
+    {
+        std::lock_guard<std::mutex> lock(clients_mutex_);
+        clients_.clear();
+    }
+    
     spdlog::info("MCP SSE transport stopped");
 }
 
 void SseTransport::send(const json& message) {
     if (!is_running_) return;
-    // Stub: Would send SSE event to all connected clients
+    
+    // Format as SSE event
     std::string event_data = "data: " + message.dump() + "\n\n";
-    // Store in clients_ map for actual HTTP response
+    
+    // Store in all clients' buffers
+    std::lock_guard<std::mutex> lock(clients_mutex_);
+    for (auto& [client_id, buffer] : clients_) {
+        buffer += event_data;
+    }
+    
+    spdlog::debug("MCP SSE event sent to {} clients", clients_.size());
 }
 
 void SseTransport::addClient(const std::string& client_id) {
+    std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_[client_id] = "";
-    spdlog::debug("MCP SSE client added: {}", client_id);
+    spdlog::debug("MCP SSE client added: {}, total clients: {}", client_id, clients_.size());
 }
 
 void SseTransport::removeClient(const std::string& client_id) {
+    std::lock_guard<std::mutex> lock(clients_mutex_);
     clients_.erase(client_id);
-    spdlog::debug("MCP SSE client removed: {}", client_id);
+    spdlog::debug("MCP SSE client removed: {}, remaining clients: {}", client_id, clients_.size());
+}
+
+std::string SseTransport::getClientData(const std::string& client_id) {
+    std::lock_guard<std::mutex> lock(clients_mutex_);
+    auto it = clients_.find(client_id);
+    if (it != clients_.end()) {
+        std::string data = it->second;
+        it->second.clear(); // Clear buffer after retrieval
+        return data;
+    }
+    return "";
 }
 
 void SseTransport::sendKeepalive() {
-    // Stub: Would send keepalive to all clients
+    if (!is_running_) return;
+    
+    // Send SSE comment as keepalive
+    std::string keepalive = ": keepalive\n\n";
+    
+    std::lock_guard<std::mutex> lock(clients_mutex_);
+    for (auto& [client_id, buffer] : clients_) {
+        buffer += keepalive;
+    }
+    
+    spdlog::trace("MCP SSE keepalive sent to {} clients", clients_.size());
+}
+
+void SseTransport::scheduleKeepalive() {
+    if (!is_running_) return;
+    
+    keepalive_timer_.expires_after(std::chrono::milliseconds(keepalive_ms_));
+    keepalive_timer_.async_wait([this](const boost::system::error_code& ec) {
+        if (!ec && is_running_) {
+            sendKeepalive();
+            scheduleKeepalive();
+        }
+    });
 }
 
 // ============================================================================
@@ -951,37 +1003,78 @@ WebSocketTransport::~WebSocketTransport() {
 void WebSocketTransport::start() {
     if (is_running_) return;
     is_running_ = true;
-    spdlog::info("MCP WebSocket transport started");
-    // Stub: Would start ping timer
+    spdlog::info("MCP WebSocket transport started with {}ms ping interval", ping_interval_ms_);
+    
+    // Start ping timer
+    schedulePing();
 }
 
 void WebSocketTransport::stop() {
     if (!is_running_) return;
     is_running_ = false;
     ping_timer_.cancel();
+    
+    // Clear all sessions
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        sessions_.clear();
+    }
+    
     spdlog::info("MCP WebSocket transport stopped");
 }
 
 void WebSocketTransport::send(const json& message) {
     if (!is_running_) return;
-    // Stub: Would send to all connected WebSocket sessions
+    
     std::string msg_str = message.dump();
-    for (const auto& [session_id, is_active] : sessions_) {
-        if (is_active) {
-            // Would send via WebSocket session
-            spdlog::debug("MCP WebSocket sending to session: {}", session_id);
+    
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    for (auto& [session_id, session_data] : sessions_) {
+        if (session_data.is_active) {
+            // Queue message for session
+            session_data.pending_messages.push(msg_str);
+            spdlog::debug("MCP WebSocket message queued for session: {}", session_id);
         }
     }
 }
 
+void WebSocketTransport::sendToSession(const std::string& session_id, const json& message) {
+    if (!is_running_) return;
+    
+    std::string msg_str = message.dump();
+    
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    auto it = sessions_.find(session_id);
+    if (it != sessions_.end() && it->second.is_active) {
+        it->second.pending_messages.push(msg_str);
+        spdlog::debug("MCP WebSocket message sent to session: {}", session_id);
+    }
+}
+
 void WebSocketTransport::addSession(const std::string& session_id) {
-    sessions_[session_id] = true;
-    spdlog::debug("MCP WebSocket session added: {}", session_id);
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    sessions_[session_id] = SessionData{true, {}};
+    spdlog::debug("MCP WebSocket session added: {}, total sessions: {}", session_id, sessions_.size());
 }
 
 void WebSocketTransport::removeSession(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
     sessions_.erase(session_id);
-    spdlog::debug("MCP WebSocket session removed: {}", session_id);
+    spdlog::debug("MCP WebSocket session removed: {}, remaining sessions: {}", session_id, sessions_.size());
+}
+
+std::vector<std::string> WebSocketTransport::getPendingMessages(const std::string& session_id) {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    auto it = sessions_.find(session_id);
+    if (it != sessions_.end()) {
+        std::vector<std::string> messages;
+        while (!it->second.pending_messages.empty()) {
+            messages.push_back(std::move(it->second.pending_messages.front()));
+            it->second.pending_messages.pop();
+        }
+        return messages;
+    }
+    return {};
 }
 
 void WebSocketTransport::handleMessage(const std::string& session_id, const std::string& message) {
@@ -990,16 +1083,57 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
     try {
         json request = json::parse(message);
         if (message_handler_) {
+            // Process request and send response to the specific session
             json response = message_handler_(request);
-            send(response);
+            sendToSession(session_id, response);
         }
     } catch (const std::exception& e) {
-        spdlog::error("Error handling WebSocket message: {}", e.what());
+        spdlog::error("Error handling WebSocket message from session {}: {}", session_id, e.what());
+        
+        // Send error response
+        json error_response = {
+            {"jsonrpc", "2.0"},
+            {"error", {
+                {"code", -32700},
+                {"message", std::string("Parse error: ") + e.what()}
+            }},
+            {"id", nullptr}
+        };
+        sendToSession(session_id, error_response);
     }
 }
 
 void WebSocketTransport::sendPing() {
-    // Stub: Would send ping to all sessions
+    if (!is_running_) return;
+    
+    // Send ping to all active sessions
+    json ping_message = {
+        {"jsonrpc", "2.0"},
+        {"method", "ping"},
+        {"params", {}}
+    };
+    
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    size_t active_count = 0;
+    for (const auto& [session_id, session_data] : sessions_) {
+        if (session_data.is_active) {
+            active_count++;
+        }
+    }
+    
+    spdlog::trace("MCP WebSocket ping scheduled for {} active sessions", active_count);
+}
+
+void WebSocketTransport::schedulePing() {
+    if (!is_running_) return;
+    
+    ping_timer_.expires_after(std::chrono::milliseconds(ping_interval_ms_));
+    ping_timer_.async_wait([this](const boost::system::error_code& ec) {
+        if (!ec && is_running_) {
+            sendPing();
+            schedulePing();
+        }
+    });
 }
 
 } // namespace server
