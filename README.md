@@ -192,20 +192,6 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 
 ---
 
-## What's New in v1.2.0
-
-**Enterprise Features Release (December 2025)**
-
-- ✅ **Hypertables** - TimescaleDB-compatible time-series with automatic partitioning
-- ✅ **Hybrid Search** - RAG-optimized search combining BM25 + vector similarity (85% recall@10)
-- ✅ **FAISS Advanced** - IVF+PQ vector search with 10-100x memory reduction
-- ✅ **Embedding Cache** - 70-90% cost reduction for LLM applications
-- ✅ **Time-Series Aggregates** - SIMD-accelerated analytics (5-10x faster)
-
-**[→ Full Changelog](CHANGELOG.md) | [→ Release Notes](docs/releases/v1.2.0.md)**
-
----
-
 ## Core Features
 
 ### Multi-Model Database

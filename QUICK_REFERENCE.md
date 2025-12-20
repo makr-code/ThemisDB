@@ -1,5 +1,10 @@
 # ⚡ Quick Reference - Themis Optimization Project
 
+> **⚠️ ARCHIVED DOCUMENT**: This document describes historical optimization work.
+> - This optimization project was completed in an earlier version
+> - For current performance benchmarks, see [BENCHMARK_DETAILED_RESULTS.md](benchmarks/BENCHMARK_DETAILED_RESULTS.md)
+> - For current optimization status, see [CHANGELOG.md](CHANGELOG.md)
+
 ---
 
 ## 🎯 In 30 Seconds

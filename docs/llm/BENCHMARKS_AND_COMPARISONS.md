@@ -1,33 +1,34 @@
 # ThemisDB LLM Integration: Benchmarks & Competitive Analysis
 
-**Version**: 1.3.0 ✅ **RELEASED**  
+**Version**: 1.3.0 ✅ **RELEASED** (Optional Feature)  
 **Date**: 17. Dezember 2025  
 **Status**: Production (v1.3.0) + Roadmap (v1.4.0-v2.0.0)
 
+> **Important Disclaimer**: This document contains **target performance metrics** and **competitive analysis projections**. 
+> - LLM integration is **OPTIONAL** (requires `-DTHEMIS_ENABLE_LLM=ON`)
+> - Performance numbers are **theoretical targets** based on llama.cpp benchmarks
+> - Actual performance varies significantly based on hardware, model size, and workload
+> - Requires external llama.cpp clone and appropriate GPU hardware
+> - For actual measured database performance, see [BENCHMARK_DETAILED_RESULTS.md](../../benchmarks/BENCHMARK_DETAILED_RESULTS.md)
+
 ## Executive Summary
 
-ThemisDB v1.3.0 mit llama.cpp Integration liefert **erstklassige Performance** mit **drastischen Kostenvorteilen** gegenüber Cloud-Anbietern und **einzigartigen architektonischen Vorteilen** durch unified graph+vector+LLM stack.
+ThemisDB v1.3.0 mit optionaler llama.cpp Integration kann **erstklassige Performance** mit **drastischen Kostenvorteilen** gegenüber Cloud-Anbietern liefern, wenn entsprechende Hardware verfügbar ist.
 
-**✅ v1.3.0 Production Metrics:**
-- **Average Latency**: 28ms (100+ req/s with continuous batching)
-- **GPU Speedup**: 100x faster than CPU
-- **Memory Savings**: 65% reduction with PagedAttention
-- **Throughput**: 100+ req/s (single A100 GPU, 7B model)
-- **Cache Hit Rate**: 70-90% (production workloads)
-- **Cost**: $1,200/month (on-prem) vs $45,000-$60,000 (cloud providers)
-- **Savings**: 97-98% cost reduction
+**✅ v1.3.0 Target Performance Metrics (Hardware-Dependent):**
+- **Average Latency**: 28ms target (with GPU acceleration)
+- **GPU Speedup**: 10-100x faster than CPU (varies by model and hardware)
+- **Memory Savings**: Up to 65% reduction with PagedAttention (theoretical)
+- **Throughput**: 100+ req/s possible (single high-end GPU, 7B model)
+- **Cache Hit Rate**: 70-90% target (production workloads)
+- **Cost**: Significantly lower than cloud (on-premises deployment)
 
-**Competitive Position (v1.3.0 ACTUAL):**
-- **vs vLLM**: 70-85% throughput (acceptable), better integration, lower overhead
-- **vs Ollama**: 40-60% faster, production-grade features
-- **vs Cloud (Azure/AWS/Google)**: 5-10x faster (RAG), 97-98% cheaper, better privacy
-
-**NEW in v1.3.0:**
-- ✅ GPU/CUDA Support (100x speedup)
-- ✅ PagedAttention (65% memory savings)
-- ✅ Continuous Batching (100+ concurrent requests)
-- ✅ Kernel Fusion (30-40% additional speedup)
-- ✅ Multi-LoRA (8-16 adapters)
+**Implementation Status:**
+- ✅ GPU/CUDA Support (optional build)
+- ✅ PagedAttention architecture
+- ✅ Continuous Batching support
+- ✅ Kernel Fusion capabilities
+- ✅ Multi-LoRA management
 - ✅ Quantization (Q4_K_M, Q5_K_M, Q8_0)
 
 ---
