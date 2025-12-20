@@ -143,6 +143,22 @@ public:
      * Close all connections and reset connection pool
      */
     void reset();
+    
+    /**
+     * Parse endpoint into host and port
+     * Supports both IPv4 and IPv6 addresses
+     * 
+     * Examples:
+     *   - IPv4: "192.168.1.1:8080" -> ("192.168.1.1", "8080")
+     *   - IPv6 with port: "[2001:db8::1]:8080" -> ("2001:db8::1", "8080")
+     *   - IPv6 without port: "2001:db8::1" -> ("2001:db8::1", "8080")
+     *   - Hostname: "example.com:9090" -> ("example.com", "9090")
+     *   - With protocol: "https://[::1]:8080" -> ("::1", "8080")
+     * 
+     * @param endpoint Endpoint string to parse
+     * @return Pair of (host, port)
+     */
+    static std::pair<std::string, std::string> parseEndpoint(const std::string& endpoint);
 
 private:
     Config config_;
@@ -168,11 +184,6 @@ private:
      * Verify peer certificate (called during TLS handshake)
      */
     bool verifyPeerCertificate(bool preverified, void* ctx);
-    
-    /**
-     * Parse endpoint into host and port
-     */
-    static std::pair<std::string, std::string> parseEndpoint(const std::string& endpoint);
 };
 
 } // namespace themis::sharding

@@ -1,7 +1,7 @@
 # Sharding & Horizontal Scaling Documentation
 
-**Stand:** 8. Dezember 2025  
-**Version:** 1.1.0  
+**Stand:** 19. Dezember 2025  
+**Version:** 1.2.0  
 **Kategorie:** Sharding
 
 ---
@@ -14,8 +14,11 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 - **[SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md](SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md)** - 📊 **Executive Summary** für Management/Stakeholder
 - **[SHARDING_COMPLEXITY_ANALYSIS.md](SHARDING_COMPLEXITY_ANALYSIS.md)** - 🔬 **Vollständige technische Analyse** (1,449 Zeilen)
 - **[P0_IMPLEMENTATION_SUMMARY.md](P0_IMPLEMENTATION_SUMMARY.md)** - 🛠️ **P0 Implementierungsdetails** (Circuit Breaker + Idempotent Migration)
+- **[ipv6_support.md](ipv6_support.md)** - 🌐 **IPv6 Support** in URN System (NEU)
 
 > **Analyse & Implementierung (8. Dez 2025):** Umfassende Bewertung der Sharding-Komplexität mit 6 Risikobereichen, 13 Mitigation-Strategien und **vollständige Implementierung von P0 + P1.1 + P1.2** für enterprise-ready Sharding mit automatischem Failover.
+
+> **IPv6 Support (19. Dez 2025):** Vollständige IPv6-Kompatibilität im URN System mit RFC 3986-konformer Endpoint-Parsing. Unterstützt IPv6, IPv4 und Hostnamen in allen Formaten mit vollständiger Rückwärtskompatibilität.
 
 ## Contents
 
@@ -24,6 +27,7 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 ### Hauptdokumentation
 - **[sharding_overview.md](sharding_overview.md)** - **Autoritative Quelle** für Implementierungsstand (Phase 1-6)
 - **[sharding_strategy.md](sharding_strategy.md)** - Vollständige Implementierungsstrategie mit PKI-Integration
+- **[ipv6_support.md](ipv6_support.md)** - IPv6-Kompatibilität und Deployment-Guide
 
 ### Archivierte Dokumente (historisch)
 - **implementation_summary.md** - Phase 1 Zusammenfassung (veraltet, siehe Overview)
@@ -43,6 +47,7 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 - Consistent hashing for shard assignment
 - PKI-based mutual TLS authentication
 - Cross-shard query execution
+- **IPv6 endpoint support** (NEU - 19. Dez 2025)
 
 ✅ **Phase 2-3: Auto-Rebalancing** (Completed)
 - Multi-criteria load detection (Storage, Request, Latency, Resource)
@@ -91,6 +96,37 @@ Documentation for ThemisDB's sharding and horizontal scaling capabilities.
 - Membership Changes - Dynamic cluster scaling (joint consensus)
 - WAL Integration - Quorum-based writes with automatic failover
 - 62+ comprehensive tests
+
+## IPv6 Support
+
+ThemisDB now fully supports IPv6 addresses for shard endpoints:
+
+### Supported Formats
+
+```yaml
+# IPv6 with brackets and port (RFC 3986)
+primary_endpoint: "[2001:db8::1]:8080"
+
+# IPv6 localhost
+primary_endpoint: "[::1]:8080"
+
+# IPv4 (backward compatible)
+primary_endpoint: "192.168.1.1:8080"
+
+# Hostname (backward compatible)
+primary_endpoint: "shard-001.dc1.example.com:8080"
+```
+
+### Key Features
+
+- ✅ RFC 3986 compliant endpoint parsing
+- ✅ IPv6 bracket notation support
+- ✅ Full backward compatibility with IPv4 and hostnames
+- ✅ Protocol prefix handling (`https://[::1]:8080`)
+- ✅ Default port support (8080)
+- ✅ 20+ comprehensive tests
+
+**See:** [ipv6_support.md](ipv6_support.md) for complete documentation
 
 ## Cloud Agent
 
