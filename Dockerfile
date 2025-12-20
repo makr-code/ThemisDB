@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.6
 # Multi-stage Docker build for ThemisDB
 # Uses vcpkg for complete dependency management
 
@@ -118,6 +119,23 @@ COPY VERSION ./
 COPY include ./include
 COPY src ./src
 
+# Optional: enable embedded LLM via llama.cpp
+ARG ENABLE_LLM=OFF
+ARG LLAMA_GIT_REF=master
+
+# Use local llama.cpp via BuildKit additional context "llama" if provided; else clone via git
+RUN --mount=type=bind,from=llama,src=/,target=/tmp/llama-src \
+    if [ "${ENABLE_LLM}" = "ON" ]; then \
+      if [ -d "/tmp/llama-src" ] && [ "$(ls -A /tmp/llama-src)" ]; then \
+        echo "Using local llama.cpp from additional build context"; \
+        cp -a /tmp/llama-src /src/llama.cpp; \
+      else \
+        echo "Cloning llama.cpp (${LLAMA_GIT_REF})"; \
+        git clone --depth=1 https://github.com/ggerganov/llama.cpp.git /src/llama.cpp && \
+        (cd /src/llama.cpp && git fetch --depth=1 origin ${LLAMA_GIT_REF} || true && git checkout ${LLAMA_GIT_REF} || true); \
+      fi; \
+    fi
+
 # All vcpkg manifest dependencies are installed above (with retries)
 
 # Build argument for QNAP compatibility (older CPUs without AVX)
@@ -141,7 +159,8 @@ RUN . /etc/profile.d/vcpkg.sh && \
         -DTHEMIS_BUILD_BENCHMARKS=OFF \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
-        -DTHEMIS_STATIC_BUILD=OFF 2>&1 | tee /tmp/cmake_config.log && \
+        -DTHEMIS_STATIC_BUILD=OFF \
+        -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} 2>&1 | tee /tmp/cmake_config.log && \
     ninja -C build 2>&1 | tee /tmp/cmake_build.log && \
     ls -lh /src/build/themis_server
 

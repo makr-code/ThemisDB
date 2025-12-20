@@ -93,6 +93,9 @@ Thumbs.db
 .docker/
 docker/tmp/
 
+# Local LLM source (ignored; use root clone at ./llama.cpp)
+llama.cpp/
+
 # Logs and runtime files
 logs/
 *.log
@@ -211,3 +214,6 @@ tools/*/bin/
 tools/**/PublishOutputs.*
 
 # End of .gitignore
+ 
+# Local LLM source (not tracked)
+llama.cpp/

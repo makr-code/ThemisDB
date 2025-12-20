@@ -1,14 +1,7 @@
-[submodule "external/llama.cpp"]
-	path = external/llama.cpp
-	url = https://github.com/ggerganov/llama.cpp.git
-
 [submodule "docker/tmp/openssl"]
 	path = docker/tmp/openssl
 	url = https://github.com/openssl/openssl.git
 
-[submodule "external/vcpkg"]
-	path = external/vcpkg
-	url = https://github.com/microsoft/vcpkg.git
 
 [submodule "vcpkg"]
 	path = vcpkg

@@ -3,6 +3,7 @@
 #include <chrono>
 #include <sstream>
 #include <filesystem>
+#include <llama.h>
 
 namespace themis {
 namespace llm {
@@ -152,50 +153,122 @@ InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
                   request.prompt.substr(0, 50), request.max_tokens);
     
     // Ensure model is loaded (lazy loading trigger)
-    auto* model = model_loader_->getOrLoadModel(
+    auto* cached = model_loader_->getOrLoadModel(
         current_model_id_,
         current_model_path_
     );
-    
-    if (!model) {
+    if (!cached) {
         throw std::runtime_error("Model failed to load");
     }
-    
-    // Apply LoRA if specified (vLLM-style)
-    if (request.lora_adapter_id) {
-        auto* lora = lora_manager_->getLoRA(*request.lora_adapter_id);
-        if (lora) {
-            lora_manager_->applyLoRA(*request.lora_adapter_id, model->context_handle);
-        } else {
-            spdlog::warn("LoRA not found: {}", *request.lora_adapter_id);
+
+    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    if (!lmodel || !lctx) {
+        throw std::runtime_error("Invalid llama.cpp handles");
+    }
+
+    // Tokenize prompt
+    std::vector<llama_token> prompt_tokens;
+    prompt_tokens.resize(4096);
+    int n_prompt = llama_tokenize(
+        lmodel,
+        request.prompt.c_str(),
+        request.prompt.size(),
+        prompt_tokens.data(),
+        prompt_tokens.size(),
+        true,
+        false
+    );
+    if (n_prompt < 0) {
+        throw std::runtime_error("Prompt tokenization failed");
+    }
+    prompt_tokens.resize(static_cast<size_t>(n_prompt));
+
+    // Evaluate prompt
+    int n_threads = std::max(1, config_.n_threads);
+    if (llama_eval(lctx, prompt_tokens.data(), n_prompt, 0, n_threads) != 0) {
+        throw std::runtime_error("llama_eval failed");
+    }
+
+    // Sampling parameters
+    float temperature = request.temperature;
+    float top_p = request.top_p;
+    int32_t top_k = request.top_k;
+    float repeat_penalty = request.repeat_penalty;
+
+    std::vector<llama_token> generated;
+    generated.reserve(request.max_tokens);
+
+    // Simple generation loop
+    for (int i = 0; i < request.max_tokens; ++i) {
+        // Get logits for last token
+        const float* logits = llama_get_logits(lctx);
+        if (!logits) {
+            break;
+        }
+
+        // Sample next token
+        llama_token token = 0;
+        // Basic greedy/top-k/top-p sampling using helpers
+        std::vector<llama_token_data> candidates;
+        candidates.reserve(llama_n_vocab(lmodel));
+        const int n_vocab = llama_n_vocab(lmodel);
+        for (int t = 0; t < n_vocab; ++t) {
+            candidates.emplace_back(llama_token_data{(llama_token)t, logits[t], 0.0f});
+        }
+        llama_token_data_array arr = { candidates.data(), candidates.size(), false };
+
+        if (repeat_penalty != 1.0f && !generated.empty()) {
+            llama_sample_repetition_penalty(lctx, &arr, generated.data(), generated.size(), repeat_penalty);
+        }
+        if (top_k > 0) {
+            llama_sample_top_k(lctx, &arr, top_k, 1);
+        }
+        if (top_p < 1.0f) {
+            llama_sample_top_p(lctx, &arr, top_p, 1);
+        }
+        if (temperature != 0.0f && temperature != 1.0f) {
+            llama_sample_temperature(lctx, &arr, temperature);
+        }
+        token = llama_sample_token(lctx, &arr);
+
+        // Stop conditions
+        if (token == llama_token_eos(lmodel)) {
+            break;
+        }
+
+        generated.push_back(token);
+
+        // Decode token (feed back)
+        if (llama_eval(lctx, &token, 1, prompt_tokens.size() + generated.size() - 1, n_threads) != 0) {
+            break;
         }
     }
-    
-    // TODO: Actual inference implementation in v1.3.0
-    // This is a stub showing the structure
-    
+
+    // Detokenize to string
+    std::string output;
+    output.reserve(generated.size() * 4);
+    for (auto tk : generated) {
+        const char* piece = llama_token_to_piece(lmodel, tk);
+        if (piece) {
+            output.append(piece);
+        }
+    }
+
     InferenceResponse response;
-    response.text = "This is a placeholder response. Actual llama.cpp integration "
-                    "will be implemented in v1.3.0. Model and LoRA are managed via "
-                    "LazyModelLoader (Ollama-style) and MultiLoRAManager (vLLM-style).";
+    response.text = output;
     response.model_used = current_model_id_;
-    
     if (request.lora_adapter_id) {
         response.lora_used = *request.lora_adapter_id;
     }
-    
-    // Simulate token generation
-    response.tokens_prompt = static_cast<int>(request.prompt.size() / 4);
-    response.tokens_generated = 20;
-    
+    response.tokens_prompt = n_prompt;
+    response.tokens_generated = static_cast<int>(generated.size());
+
     auto end_time = std::chrono::high_resolution_clock::now();
-    response.inference_time_ms = std::chrono::duration<float, std::milli>(
-        end_time - start_time).count();
-    response.tokens_per_second = response.tokens_generated / 
-                                 (response.inference_time_ms / 1000.0f);
-    
+    response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
+    response.tokens_per_second = response.tokens_generated / (response.inference_time_ms / 1000.0f);
+
     updateStatistics(response);
-    
     return response;
 }
 

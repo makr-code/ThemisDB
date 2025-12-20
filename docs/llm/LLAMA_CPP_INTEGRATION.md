@@ -20,12 +20,13 @@ llama.cpp ist die primäre LLM-Engine für ThemisDB v1.3.0. Diese Dokumentation 
 
 **Status:** llama.cpp ist NICHT standardmäßig in vcpkg verfügbar, aber wir können einen Custom Port erstellen.
 
-### Option 2: Git Submodule (Empfohlen für Entwicklung)
+### Option 2: Lokaler Clone (Empfohlen für Entwicklung)
 
 **Vorteile:**
 - Direkte Kontrolle über llama.cpp Version
 - Einfache Updates
 - Zugriff auf neueste Features
+- Keine Commits im Repo (per .gitignore/.dockerignore ausgeschlossen)
 
 **Implementierung:** Siehe unten
 
@@ -40,24 +41,23 @@ llama.cpp ist die primäre LLM-Engine für ThemisDB v1.3.0. Diese Dokumentation 
 
 ---
 
-## Implementierung: Git Submodule
+## Implementierung: Lokaler Clone (nicht committen)
 
-### 1. llama.cpp als Submodule hinzufügen
+### 1. llama.cpp lokal klonen
 
 ```bash
-# Im ThemisDB Root-Verzeichnis
 cd /path/to/ThemisDB
 
-# llama.cpp als Submodule hinzufügen
-git submodule add https://github.com/ggerganov/llama.cpp.git external/llama.cpp
-git submodule update --init --recursive
+# Lokaler Clone (Root-Verzeichnis):
+git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
 
-# Auf spezifische Version festlegen (optional)
-cd external/llama.cpp
+# Optional: auf spezifischen Tag wechseln
+cd llama.cpp
 git checkout b1696  # Beispiel: Stabiler Release Tag
-cd ../..
-git add external/llama.cpp
-git commit -m "Add llama.cpp as submodule for v1.3.0 LLM integration"
+cd ..
+
+# Hinweis: ./llama.cpp ist per .gitignore/.dockerignore ausgeschlossen
+# (wird nicht committed oder in Docker builds kopiert)
 ```
 
 ### 2. CMakeLists.txt Integration
@@ -90,8 +90,8 @@ if(THEMIS_ENABLE_LLM)
         set(LLAMA_VULKAN ON CACHE BOOL "" FORCE)
     endif()
     
-    # Add llama.cpp subdirectory
-    add_subdirectory(external/llama.cpp)
+    # Add llama.cpp subdirectory (Root-Verzeichnis)
+    add_subdirectory(llama.cpp)
     
     # Define LLM enabled
     add_compile_definitions(THEMIS_LLM_ENABLED)
@@ -116,7 +116,7 @@ if(THEMIS_ENABLE_LLM)
     )
     
     target_include_directories(themis_core PRIVATE
-        ${CMAKE_SOURCE_DIR}/external/llama.cpp/include
+        ${CMAKE_SOURCE_DIR}/llama.cpp/include
     )
 endif()
 ```
@@ -334,8 +334,11 @@ TEST(LlamaIntegration, BasicInference) {
 
 **Problem:** `llama.h not found`
 ```bash
-# Stelle sicher, dass Submodule initialisiert ist
-git submodule update --init --recursive
+# Stelle sicher, dass der lokale Clone existiert (Projekt-Root)
+ls -la ./llama.cpp
+
+# Falls nicht vorhanden: lokalen Clone erstellen (nicht committen)
+git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
 ```
 
 **Problem:** CUDA not found
@@ -358,6 +361,23 @@ cmake -B build -DTHEMIS_ENABLE_CUDA=ON
 - Reduziere `n_ctx` wenn möglich
 
 ---
+
+## Windows/MSVC Build (empfohlen)
+
+Für Windows (Visual Studio 2022, x64) steht ein robuster Build-Skript zur Verfügung, das die LLM-Integration aktiviert und die korrekten Generator-/Architektur-Flags setzt.
+
+```powershell
+# LLM-Build und Link mit MSVC (Release)
+powershell -File scripts/build-themis-server-llm.ps1
+
+# Optional: Hilfe ausgeben
+./build-msvc/bin/themis_server.exe --help
+```
+
+Hinweise:
+- Das Skript setzt `-G "Visual Studio 17 2022" -A x64` und integriert vcpkg (`CMAKE_TOOLCHAIN_FILE`).
+- Zur Vermeidung von MSVC-spezifischen `char8_t`-Fehlern wird dem `llama`-Target der Compiler-Schalter `/Zc:char8_t-` hinzugefügt.
+- `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen.
 
 ## Referenzen
 

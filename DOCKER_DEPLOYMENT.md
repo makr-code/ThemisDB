@@ -105,6 +105,7 @@ VCPKG_ENABLE_ONLINE=OFF          # No internet access during build
 VCPKG_TRIPLET=x64-linux          # For amd64
 VCPKG_TRIPLET=arm64-linux        # For arm64
 ```
+**Hinweis:** Die lokale Quelle `llama.cpp/` im Projekt‑Root ist per `.dockerignore` ausgeschlossen und wird nicht in das Build‑Context kopiert. Die LLM‑Funktionalität wird über die kompilierten Artefakte (ggml/llama) bereitgestellt; Modelle sollten als Volume (`/models`) gemountet werden.
 
 ---
 

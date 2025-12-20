@@ -39,13 +39,13 @@ COPY include/ ./include/
 COPY src/ ./src/
 COPY vcpkg.json ./
 
-# Clone and bootstrap vcpkg
-RUN git clone https://github.com/Microsoft/vcpkg.git external/vcpkg && \
-    cd external/vcpkg && \
+# Clone and bootstrap vcpkg (root-level)
+RUN git clone https://github.com/Microsoft/vcpkg.git vcpkg && \
+    cd vcpkg && \
     ./bootstrap-vcpkg.sh -disableMetrics && \
     cd /build
 
-ENV VCPKG_ROOT=/build/external/vcpkg
+ENV VCPKG_ROOT=/build/vcpkg
 
 # Build themis_server with Wire Protocol enabled
 RUN \

@@ -48,6 +48,9 @@ vcpkg/installed/
 !vcpkg/vcpkg.json
 !vcpkg-configuration.json
 
+# --- Exclude local LLM source (not needed in Docker context) --------------
+llama.cpp/
+
 # --- Development & Testing (nicht f??r Production) --------------------------
 tests/
 benchmarks/

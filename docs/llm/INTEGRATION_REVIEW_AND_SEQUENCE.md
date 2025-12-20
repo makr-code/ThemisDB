@@ -102,8 +102,8 @@ if(THEMIS_ENABLE_LLM)
         set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan in llama.cpp" FORCE)
     endif()
     
-    # Add llama.cpp subdirectory
-    add_subdirectory(external/llama.cpp)
+   # Add llama.cpp subdirectory (Root-Verzeichnis bevorzugt)
+   add_subdirectory(llama.cpp)
     
     # Define LLM enabled flag
     target_compile_definitions(themis_core PRIVATE THEMIS_LLM_ENABLED)

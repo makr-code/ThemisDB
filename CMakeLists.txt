@@ -387,15 +387,23 @@ endif()
 # ═══════════════════════════════════════════════════════════
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
-    
-    # Check if llama.cpp submodule exists
-    if(NOT EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
-        message(FATAL_ERROR 
-            "llama.cpp submodule not found!\n"
-            "Please run: bash scripts/setup-llamacpp.sh\n"
-            "Or manually: git submodule update --init --recursive external/llama.cpp")
+
+    # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
+    # Fallback to legacy path external/llama.cpp if present
+    set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
+    if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
+        if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+            set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
+            message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
+        else()
+            message(FATAL_ERROR
+                "llama.cpp source not found!\n"
+                "Clone locally (ignored by Git/Docker):\n"
+                "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
+                "Or run: bash scripts/setup-llamacpp.sh")
+        endif()
     endif()
-    
+
     # Configure llama.cpp build options
     set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
     set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
@@ -424,8 +432,13 @@ if(THEMIS_ENABLE_LLM)
         set(LLAMA_HIPBLAS ON CACHE BOOL "Enable hipBLAS in llama.cpp" FORCE)
     endif()
     
-    # Add llama.cpp subdirectory
-    add_subdirectory(external/llama.cpp EXCLUDE_FROM_ALL)
+    # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
+    add_subdirectory(${LLAMA_SRC_DIR} EXCLUDE_FROM_ALL)
+    
+    # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
+    if(MSVC AND TARGET llama)
+        target_compile_options(llama PRIVATE /Zc:char8_t-)
+    endif()
     
     # Define LLM enabled for ThemisDB code
     add_compile_definitions(THEMIS_LLM_ENABLED)
@@ -919,6 +932,10 @@ if(THEMIS_ENABLE_LLM)
     # Link llama.cpp library
     if(TARGET llama)
         target_link_libraries(themis_core PRIVATE llama)
+        # Include headers for llama.cpp
+        if(DEFINED LLAMA_SRC_DIR)
+            target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/include)
+        endif()
         message(STATUS "LLM Plugin: Linked llama.cpp library")
     else()
         message(WARNING "LLM Plugin: llama.cpp target not found - plugin will be built without llama.cpp")

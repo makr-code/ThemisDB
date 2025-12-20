@@ -1,6 +1,7 @@
 #include "llm/model_loader.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <llama.h>
 
 namespace themis {
 namespace llm {
@@ -20,7 +21,16 @@ LazyModelLoader::~LazyModelLoader() {
     // Unload all models
     for (auto& [id, model] : models_) {
         spdlog::info("Unloading model: {}", id);
-        // TODO: Actual cleanup in v1.3.0
+        auto* lctx = reinterpret_cast<llama_context*>(model->context_handle);
+        auto* lmodel = reinterpret_cast<llama_model*>(model->model_handle);
+        if (lctx) {
+            llama_free(lctx);
+            model->context_handle = nullptr;
+        }
+        if (lmodel) {
+            llama_free_model(lmodel);
+            model->model_handle = nullptr;
+        }
     }
     models_.clear();
 }
@@ -85,12 +95,24 @@ bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     }
     
     spdlog::info("Unloading model: {}", model_id);
-    
+
+    // Free llama.cpp resources
+    if (it->second->context_handle || it->second->model_handle) {
+        auto* lctx = reinterpret_cast<llama_context*>(it->second->context_handle);
+        auto* lmodel = reinterpret_cast<llama_model*>(it->second->model_handle);
+        if (lctx) {
+            llama_free(lctx);
+            it->second->context_handle = nullptr;
+        }
+        if (lmodel) {
+            llama_free_model(lmodel);
+            it->second->model_handle = nullptr;
+        }
+    }
+
     // Update memory usage
     total_vram_mb_ -= it->second->vram_mb;
     total_ram_mb_ -= it->second->ram_mb;
-    
-    // TODO: Actual model cleanup in v1.3.0
     
     models_.erase(it);
     return true;
@@ -260,40 +282,65 @@ CachedModel* LazyModelLoader::loadModelInternal(
     const json& config
 ) {
     // Already locked by caller
-    
     spdlog::info("Loading model: {} from {}", model_id, model_path);
-    
+
     auto model = std::make_unique<CachedModel>();
     model->model_id = model_id;
     model->model_path = model_path;
     model->loaded_at = std::chrono::system_clock::now();
     model->last_used = std::chrono::system_clock::now();
     model->use_count = 1;
-    
-    // TODO: Actual model loading in v1.3.0
-    // For now, populate with dummy data
+
+    // Initialize backend once per process
+    static bool backend_initialized = false;
+    if (!backend_initialized) {
+        llama_backend_init();
+        backend_initialized = true;
+    }
+
+    // Prepare llama.cpp model params
+    llama_model_params mp = llama_model_default_params();
+    mp.n_gpu_layers = config_.default_n_gpu_layers;
+    mp.use_mmap = config_.use_mmap;
+
+    // Load model
+    llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), mp);
+    if (!lmodel) {
+        spdlog::error("llama.cpp failed to load model: {}", model_path);
+        return nullptr;
+    }
+
+    // Create context
+    llama_context_params cp = llama_context_default_params();
+    cp.n_ctx = config_.default_n_ctx;
+    cp.n_batch = std::max(1, config.value("n_batch", 512));
+    cp.seed = config.value("seed", 0);
+
+    llama_context* lctx = llama_new_context_with_model(lmodel, cp);
+    if (!lctx) {
+        spdlog::error("llama.cpp failed to create context");
+        llama_free_model(lmodel);
+        return nullptr;
+    }
+
+    model->model_handle = reinterpret_cast<void*>(lmodel);
+    model->context_handle = reinterpret_cast<void*>(lctx);
+
+    // Populate info (basic)
     model->info.name = model_id;
     model->info.path = model_path;
     model->info.format = "gguf";
     model->info.architecture = "llama";
-    model->info.parameter_count = 7000000000;
-    model->info.context_length = config_.default_n_ctx;
-    
-    // Estimate memory usage (placeholder)
-    model->vram_mb = 4096;  // 4 GB for Q4 model
-    model->ram_mb = 1024;   // 1 GB
-    model->info.vram_required_mb = model->vram_mb;
-    
-    // Update totals
-    total_vram_mb_ += model->vram_mb;
-    total_ram_mb_ += model->ram_mb;
-    
+    model->info.context_length = cp.n_ctx;
+
+    // Memory usage estimates are model-dependent; leave unset
+    model->vram_mb = 0;
+    model->ram_mb = 0;
+
     auto* result = model.get();
     models_[model_id] = std::move(model);
-    
-    spdlog::info("Model loaded successfully: {} ({} MB VRAM)", 
-                 model_id, result->vram_mb);
-    
+
+    spdlog::info("Model loaded successfully: {}", model_id);
     return result;
 }
 

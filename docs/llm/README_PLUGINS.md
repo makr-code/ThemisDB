@@ -10,11 +10,11 @@
 ### 1. llama.cpp einrichten
 
 ```bash
-# Automatisches Setup
+# Automatisches Setup (lokaler Clone, nicht committen)
 bash scripts/setup-llamacpp.sh
 
-# Oder manuell
-git submodule update --init --recursive external/llama.cpp
+# Oder manuell (Root-Verzeichnis)
+git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
 ```
 
 ### 2. Build mit LLM Support
@@ -329,13 +329,29 @@ n_ctx: 4096  # → 2048
 ### Build Fehler
 
 ```bash
-# llama.cpp Submodule fehlt?
-git submodule update --init --recursive
+# llama.cpp lokaler Clone fehlt?
+ls -la ./llama.cpp
+# Falls nicht vorhanden: lokalen Clone erstellen (nicht committen)
+git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
 
 # CUDA nicht gefunden?
 export CUDA_PATH=/usr/local/cuda
 cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_ENABLE_CUDA=ON
 ```
+
+### Windows/MSVC Build mit LLM
+
+```powershell
+# Empfohlen: Skript für MSVC Release-Build mit LLM
+powershell -File scripts/build-themis-server-llm.ps1
+
+# Sanity-Check
+./build-msvc/bin/themis_server.exe --help
+```
+
+Hinweise:
+- Das Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und x64 Architektur (`-A x64`).
+- vcpkg-Toolchain wird eingebunden; `llama.cpp/` ist lokaler Clone und per `.gitignore`/`.dockerignore` ausgeschlossen.
 
 ---
 
