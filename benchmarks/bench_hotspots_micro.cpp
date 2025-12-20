@@ -5,8 +5,10 @@
 #include <thread>
 #include <atomic>
 #include <random>
+#include <chrono>
 
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 
 namespace fs = std::filesystem;

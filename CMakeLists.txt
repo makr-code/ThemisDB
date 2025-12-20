@@ -1015,6 +1015,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_env.cpp
         tests/test_base_entity.cpp
         tests/test_rocksdb_high_parallel_tuning.cpp
+        tests/test_rocksdb_stats_json.cpp
         tests/test_secondary_index.cpp
         tests/test_composite_index.cpp
         tests/test_unique_index.cpp
@@ -1245,6 +1246,26 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     target_link_libraries(bench_hotspots_micro
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_lock_contention
+        benchmarks/bench_lock_contention.cpp
+    )
+    target_link_libraries(bench_lock_contention
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_wal_stress
+        benchmarks/bench_wal_stress.cpp
+    )
+    target_link_libraries(bench_wal_stress
         PRIVATE
             themis_core
             benchmark::benchmark

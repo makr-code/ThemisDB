@@ -43,6 +43,16 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - Hybrid-tuning A/B (enable_high_parallel_tuning)
 - Mixed read/write and SecondaryIndex write stress
 
+### 🧪 Lock Contention (NEW)
+→ [`bench_lock_contention.cpp`](bench_lock_contention.cpp)
+- TransactionDB lock contention: overlapping vs disjoint keys
+- Highlights effects of 16 lock stripes under high concurrency
+
+### 📄 WAL Stress (NEW)
+→ [`bench_wal_stress.cpp`](bench_wal_stress.cpp)
+- WAL sync vs no-sync across thread counts and batch sizes
+- Observes write stall behavior and fsync overhead
+
 ### 📖 Detailed Reference
 → [`DOCKER_COMPARATIVE_BENCHMARKS_README.md`](DOCKER_COMPARATIVE_BENCHMARKS_README.md)
 - Comprehensive documentation
