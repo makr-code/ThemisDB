@@ -430,6 +430,7 @@ set(THEMIS_CORE_SOURCES
     src/server/keys_api_handler.cpp
     src/server/classification_api_handler.cpp
     src/server/reports_api_handler.cpp
+    src/server/multi_agent_api_handler.cpp
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
@@ -452,6 +453,11 @@ set(THEMIS_CORE_SOURCES
     src/cache/semantic_cache.cpp
     src/llm/llm_interaction_store.cpp
     src/llm/prompt_manager.cpp
+    src/llm/multi_agent_orchestrator.cpp
+    src/llm/llm_agent.cpp
+    src/llm/agent_role_registry.cpp
+    src/llm/consensus_builder.cpp
+    src/llm/lora_registry.cpp
     src/cdc/changefeed.cpp
     
     # Replication
