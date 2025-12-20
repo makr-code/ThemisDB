@@ -27,14 +27,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
     && cmake --version \
     && rm -rf /var/lib/apt/lists/*
 
-# Bootstrap vcpkg - use stable 2024.10.21 release
+# Bootstrap vcpkg - use stable 2024.10.21 release (pinned for reproducibility)
 ENV VCPKG_ROOT=/opt/vcpkg
 # Required on non-amd64 platforms when building under emulation (ARM, s390x, ppc64le, riscv)
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_USE_ARIA2=1
 # Build argument to enable online mode if cache is not available
 ARG VCPKG_ENABLE_ONLINE=ON
+# Asset source URL for online downloads (can be overridden for mirrors)
+ARG VCPKG_ASSET_URL=https://vcpkg.io/assets
 # Configure vcpkg sources: prefer local cache, fallback to online if needed
+# Note: VCPKG_ASSET_SOURCES is configured dynamically based on cache detection (see vcpkg install step)
 ENV VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite;files,/opt/vcpkg/downloads,readwrite"
 ENV VCPKG_KEEP_ENV_VARS=HTTPS_PROXY,HTTP_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_ONLINE
 
@@ -104,6 +107,7 @@ ENV VCPKG_INSTALLED_DIR=/src/vcpkg_installed
 RUN mkdir -p /root/.cache/vcpkg/archives && chmod -R 755 /root/.cache/vcpkg
 
 # Install dependencies via vcpkg - will use cache if available, download if needed
+# Uses build arg VCPKG_ASSET_URL for asset source (default: https://vcpkg.io/assets)
 RUN . /etc/profile.d/vcpkg.sh && \
     # Check if cache has actual content (excluding placeholder files)
     CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' ! -name 'README.md' | wc -l) && \
@@ -112,7 +116,9 @@ RUN . /etc/profile.d/vcpkg.sh && \
         export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"; \
     else \
         echo "==> Using ONLINE mode (no cache found, will download packages)"; \
-        export VCPKG_ASSET_SOURCES="x-azurl,https://vcpkg.io/assets,readwrite;x-block-origin"; \
+        ASSET_URL=${VCPKG_ASSET_URL:-https://vcpkg.io/assets}; \
+        export VCPKG_ASSET_SOURCES="x-azurl,$ASSET_URL,readwrite;x-block-origin"; \
+        echo "Asset source: $ASSET_URL"; \
     fi && \
     echo "Installing dependencies for ${VCPKG_TRIPLET}..." && \
     set -eux; \
