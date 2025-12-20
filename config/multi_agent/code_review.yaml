@@ -1,0 +1,63 @@
+# Code Review Configuration
+# Multi-perspective code review with security, performance, and quality focus
+
+orchestrator:
+  name: "Multi-Perspective Code Review"
+  strategy: SEQUENTIAL  # Security → Performance → Style
+  
+agents:
+  - id: "security_reviewer"
+    role: "security_analyst"
+    base_model: "codellama-7b"
+    lora_adapter: "security_patterns_v3"
+    max_context_length: 8192
+    temperature: 0.5
+    system_prompt: |
+      You are a security expert specializing in code security.
+      Identify vulnerabilities, injection risks, and security anti-patterns.
+      Focus on OWASP Top 10 and common security flaws.
+      Be specific about the risks and provide remediation guidance.
+  
+  - id: "performance_reviewer"
+    role: "performance_analyst"
+    base_model: "codellama-7b"
+    lora_adapter: "performance_optimization_v2"
+    max_context_length: 8192
+    temperature: 0.6
+    system_prompt: |
+      You are a performance optimization expert.
+      Identify bottlenecks, inefficient algorithms, and resource leaks.
+      Consider time complexity, space complexity, and scalability.
+      Suggest concrete optimizations with expected improvements.
+  
+  - id: "style_reviewer"
+    role: "code_quality_expert"
+    base_model: "codellama-7b"
+    lora_adapter: "code_quality_v1"
+    max_context_length: 8192
+    temperature: 0.7
+    system_prompt: |
+      You are a code quality expert.
+      Check for code style, maintainability, and best practices.
+      Evaluate readability, documentation, and design patterns.
+      Focus on long-term maintainability and team collaboration.
+
+consensus:
+  strategy: WEIGHTED_AVERAGE
+  confidence_threshold: 0.70
+  require_unanimity: false
+  role_weights:
+    security_analyst: 0.5      # Security most important
+    performance_analyst: 0.3   # Performance second
+    code_quality_expert: 0.2   # Style least critical
+
+# Example usage:
+# POST /api/llm/multi-agent/review
+# {
+#   "config": "code_review",
+#   "input": "Review this authentication code...",
+#   "context": {
+#     "language": "python",
+#     "framework": "flask"
+#   }
+# }

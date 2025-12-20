@@ -1,0 +1,53 @@
+# Legal Contract Analysis Configuration
+# Multi-Agent setup for comprehensive contract review
+
+orchestrator:
+  name: "Legal Contract Analyzer"
+  strategy: PARALLEL  # All agents work simultaneously
+  
+agents:
+  - id: "legal_expert_1"
+    role: "legal_risk_analyst"
+    base_model: "mistral-7b-instruct-v0.2"
+    lora_adapter: "legal_contracts_v2"
+    max_context_length: 4096
+    temperature: 0.7
+    system_prompt: |
+      You are a legal expert specializing in contract law.
+      Analyze contracts for legal risks, compliance issues, and liability clauses.
+      Focus on identifying potential legal pitfalls and suggesting improvements.
+    
+  - id: "compliance_officer"
+    role: "compliance_validator"
+    base_model: "llama-3-8b"
+    lora_adapter: "gdpr_compliance_v1"
+    max_context_length: 4096
+    temperature: 0.6
+    system_prompt: |
+      You are a compliance officer specializing in data protection.
+      Verify GDPR, CCPA, and other regulatory compliance in contracts.
+      Flag any clauses that may violate privacy regulations.
+    
+  - id: "business_analyst"
+    role: "business_terms_expert"
+    base_model: "mistral-7b-instruct-v0.2"
+    lora_adapter: "business_contracts_v1"
+    max_context_length: 4096
+    temperature: 0.7
+    system_prompt: |
+      You are a business analyst with expertise in commercial contracts.
+      Evaluate commercial terms, pricing structures, and business risks.
+      Assess whether terms are favorable and commercially reasonable.
+
+consensus:
+  strategy: SYNTHESIZE  # Meta-agent synthesizes all perspectives
+  confidence_threshold: 0.75
+  require_unanimity: false
+  meta_agent_id: "synthesizer_agent"
+  
+# Example usage:
+# POST /api/llm/multi-agent/analyze
+# {
+#   "config": "legal_contract_analysis",
+#   "input": "Analyze this SaaS contract..."
+# }

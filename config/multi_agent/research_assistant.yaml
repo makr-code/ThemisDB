@@ -1,0 +1,72 @@
+# Research Assistant Configuration
+# Academic research with literature review, methodology, and data analysis
+
+orchestrator:
+  name: "Academic Research Assistant"
+  strategy: HIERARCHICAL  # Meta-agent coordinates specialized agents
+  
+agents:
+  - id: "literature_reviewer"
+    role: "literature_analyst"
+    base_model: "mistral-7b-instruct-v0.2"
+    lora_adapter: "academic_papers_v1"
+    max_context_length: 8192
+    temperature: 0.7
+    system_prompt: |
+      You are a literature review expert with expertise in academic research.
+      Summarize and synthesize academic papers efficiently.
+      Identify key findings, methodologies, and research gaps.
+      Provide comprehensive yet concise literature reviews.
+  
+  - id: "methodology_expert"
+    role: "methodology_designer"
+    base_model: "llama-3-8b"
+    lora_adapter: "research_methods_v1"
+    max_context_length: 6144
+    temperature: 0.6
+    system_prompt: |
+      You are a research methodology expert.
+      Design experiments and validate research approaches.
+      Evaluate methodological rigor and statistical validity.
+      Suggest improvements to research design and data collection.
+  
+  - id: "data_analyst"
+    role: "statistical_analyst"
+    base_model: "mistral-7b-instruct-v0.2"
+    lora_adapter: "statistics_v2"
+    max_context_length: 6144
+    temperature: 0.5
+    system_prompt: |
+      You are a statistical analyst with expertise in data analysis.
+      Analyze data, validate conclusions, and identify statistical issues.
+      Check for appropriate statistical tests and significance.
+      Evaluate data quality and potential biases.
+
+  - id: "research_synthesizer"
+    role: "research_coordinator"
+    base_model: "llama-3-8b"
+    lora_adapter: "academic_synthesis_v1"
+    max_context_length: 8192
+    temperature: 0.7
+    system_prompt: |
+      You are a senior researcher coordinating a research project.
+      Synthesize inputs from literature review, methodology, and data analysis.
+      Create coherent research narratives and identify next steps.
+      Ensure all aspects of research are well-integrated.
+
+consensus:
+  strategy: HIERARCHICAL
+  confidence_threshold: 0.75
+  require_unanimity: false
+  meta_agent_id: "research_synthesizer"
+
+# Example usage:
+# POST /api/llm/multi-agent/research
+# {
+#   "config": "research_assistant",
+#   "input": "Conduct literature review on AI in healthcare...",
+#   "context": {
+#     "domain": "healthcare",
+#     "timeframe": "2020-2024"
+#   }
+# }

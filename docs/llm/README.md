@@ -1,7 +1,7 @@
 # LLM & AI Integration Documentation
 
-**Stand:** 15. Dezember 2025  
-**Version:** 1.2.0 (v1.5.0 Native LLM Integration planned for Q3 2026)  
+**Stand:** 20. Dezember 2025  
+**Version:** 1.2.0 (v1.4.0 Multi-Agent LLM, v1.5.0 Native LLM Integration)  
 **Kategorie:** LLM & Distributed AI
 
 ---
@@ -10,7 +10,20 @@
 
 ThemisDB entwickelt sich zur ersten Multi-Model-Datenbank mit **eingebetteter LLM-Engine** und **verteiltem Reasoning**. Das LLM-Modul bietet Speicherung und Verwaltung von LLM-Interaktionen, Prompt-Templates und Chain-of-Thought (CoT) Reasoning.
 
-**Neue Fähigkeiten in v1.5.0:**
+**Roadmap-Update:**
+- ✅ **v1.3.0** (Q1 2026) - Embedded LLM Engine (vorverlegt von v1.5.0)
+- 🆕 **v1.4.0** (Q2 2026) - **Multi-Agent LLM Reasoning** (NEU!)
+- 🔜 **v1.5.0** (Q3 2026) - Erweiterte LLM-Integration & Optimierungen
+
+**Neue Fähigkeiten in v1.4.0 (Multi-Agent):**
+- 👥 **Multi-Agent Orchestration** - Mehrere kleinere LLMs arbeiten kollaborativ
+- 🧠 **Multi-Perspective Reasoning** - Verschiedene Sichtweisen durch LoRA-Adapter
+- 🔄 **Task Decomposition** - Komplexe Probleme automatisch zerlegen
+- 🤝 **Consensus Building** - Intelligente Fusion von Agent-Antworten
+- ⚡ **3-5x schneller** - bei komplexen Multi-Step-Tasks durch Parallelisierung
+- 💰 **Cost Efficient** - Kleinere Modelle (7B-13B) statt große (70B+)
+
+**Kommende Fähigkeiten in v1.5.0:**
 - 🧠 **Embedded llama.cpp** - Native LLM-Engine ohne externe APIs
 - ⚡ **Zero-Copy RAG** - Direkte Speicherzugriffe (4x schneller)
 - 🔄 **Distributed Reasoning** - Multi-Shard Collaboration wie im Gehirn
@@ -23,8 +36,13 @@ ThemisDB entwickelt sich zur ersten Multi-Model-Datenbank mit **eingebetteter LL
 |------------|--------|--------|--------------|
 | LLMInteractionStore | `llm_interaction_store.h` | `llm_interaction_store.cpp` | Interaction Storage |
 | PromptManager | `prompt_manager.h` | `prompt_manager.cpp` | Prompt Templates |
+| **MultiAgentOrchestrator** | `multi_agent_orchestrator.h` | `multi_agent_orchestrator.cpp` | **Multi-Agent Coordination (v1.4.0)** |
+| **LLMAgent** | `llm_agent.h` | `llm_agent.cpp` | **Individual Agent Logic (v1.4.0)** |
+| **AgentRoleRegistry** | `agent_role_registry.h` | - | **Role Management (v1.4.0)** |
+| **ConsensusBuilder** | `consensus_builder.h` | `consensus_builder.cpp` | **Result Fusion (v1.4.0)** |
+| **LoRARegistry** | `lora_registry.h` | - | **LoRA Adapter Management (v1.4.0)** |
 
-**Gesamt:** 2 Header, 2 Source-Dateien, ~700 LOC
+**Gesamt:** 7 Header, 5 Source-Dateien, ~2,500 LOC (inkl. v1.4.0)
 
 ## Implementierte Klassen
 
@@ -202,6 +220,17 @@ Kombiniert DB-Abfragen mit LLM-Kontext für KI-gestützte Anwendungen.
 **Siehe:** [LLM Integration Benefits Analysis](../enterprise/LLM_INTEGRATION_BENEFITS_ANALYSIS.md)
 
 ## Verwandte Dokumentation
+
+### Multi-Agent LLM Reasoning (v1.4.0)
+
+- [**Multi-Agent Reasoning Concept**](./MULTI_AGENT_REASONING_CONCEPT.md) ⭐ **NEU:** Vollständiges Konzept für v1.4.0
+  - **Best Practices:** AutoGen, LangGraph, MetaGPT, Mixture of Agents
+  - **Architektur:** MultiAgentOrchestrator, LLMAgent, ConsensusBuilder, LoRARegistry
+  - **Use Cases:** Legal Contract Analysis, Code Review, Research Assistant
+  - **Patterns:** Parallel Multi-Perspective, Iterative Refinement, Hierarchical Decomposition
+  - **Performance:** 3-5x schneller bei komplexen Tasks durch Parallelisierung
+  - **Cost Efficiency:** Kleinere Modelle (7B-13B) statt 70B+
+  - **Example Configs:** Legal, Code Review, Research (siehe `config/multi_agent/`)
 
 ### LLM Integration & Distributed Reasoning
 
