@@ -13,7 +13,7 @@
 > **Wichtig**: LLM-Integration ist ein **optionales Feature** in v1.3.0:
 > - Erfordert Build-Flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - Benötigt externe Abhängigkeit: llama.cpp (separat klonen)
-> - Siehe [Build Guide](build/README.md) für Setup-Anweisungen
+> - Siehe [Build Guide](guides/guides_build_strategy.md) für Setup-Anweisungen
 
 ThemisDB kann als erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine** erweitert werden:
 
@@ -426,6 +426,6 @@ Dokumentation wird automatisch zu GitHub Pages deployt bei Merge zu main.
 
 ---
 
-**Version:** 1.0.1  
-**Last Updated:** 9. Dezember 2025  
+**Version:** 1.3.0  
+**Last Updated:** 20. Dezember 2025  
 **License:** See [LICENSE](../LICENSE)

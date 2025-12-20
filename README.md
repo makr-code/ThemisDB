@@ -112,7 +112,7 @@ Hinweise:
 - `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen (wird nicht committed oder in Docker kopiert)
 - Der Build-Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und `-A x64`, bindet die vcpkg-Toolchain ein und behebt MSVC‑spezifische `char8_t`‑Fehler am `llama`‑Target
 
-**[→ Comprehensive Build Documentation](docs/build/README.md)** | Build-Varianten, Plattformen, Troubleshooting
+**[→ Comprehensive Build Documentation](docs/guides/guides_build_strategy.md)** | Build-Varianten, Plattformen, Troubleshooting
 
 ### Package Managers
 

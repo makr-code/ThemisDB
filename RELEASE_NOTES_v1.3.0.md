@@ -310,7 +310,7 @@ curl -X POST http://localhost:8765/api/llm/generate \
 - **Architecture Review**: [docs/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md](docs/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md)
 - **HTTP API Spec**: [docs/llm/HTTP_API_SPECIFICATION.md](docs/llm/HTTP_API_SPECIFICATION.md)
 - **Docker Deployment**: [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
-- **Build Guide**: [docs/build/README.md](docs/build/README.md)
+- **Build Guide**: [docs/guides/guides_build_strategy.md](docs/guides/guides_build_strategy.md)
 
 ---
 
