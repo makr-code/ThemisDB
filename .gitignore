@@ -17,6 +17,10 @@ Makefile
 vcpkg_installed/
 .vcpkg/
 vcpkg/
+# But allow vcpkg/downloads structure for offline builds (with placeholder files)
+!vcpkg/downloads/
+!vcpkg/downloads/.gitkeep
+!vcpkg/downloads/README.md
 packages/
 downloads/
 buildtrees/
