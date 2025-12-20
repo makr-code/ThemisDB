@@ -27,15 +27,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3-pip \
     && cmake --version \
     && rm -rf /var/lib/apt/lists/*
 
-# Bootstrap vcpkg - use stable 2024.12.16 release
+# Bootstrap vcpkg - use stable 2024.10.21 release
 ENV VCPKG_ROOT=/opt/vcpkg
 # Required on non-amd64 platforms when building under emulation (ARM, s390x, ppc64le, riscv)
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_USE_ARIA2=1
-# Offline-first: use local caches for binaries and assets; allow opt-in online fetch
-ARG VCPKG_ENABLE_ONLINE=OFF
+# Build argument to enable online mode if cache is not available
+ARG VCPKG_ENABLE_ONLINE=ON
+# Configure vcpkg sources: prefer local cache, fallback to online if needed
 ENV VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite;files,/opt/vcpkg/downloads,readwrite"
-ENV VCPKG_ASSET_SOURCES="clear;files,/opt/vcpkg/downloads,readwrite"
 ENV VCPKG_KEEP_ENV_VARS=HTTPS_PROXY,HTTP_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_ONLINE
 
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
@@ -48,7 +48,10 @@ RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} \
 
 # Pre-seed vcpkg downloads cache with source archives from local cache (OFFLINE build)
 # This contains all previously downloaded source packages (~2GB)
-COPY vcpkg/downloads/ ${VCPKG_ROOT}/downloads/
+# Best practice: Create empty directory if cache doesn't exist, vcpkg will download on demand
+RUN mkdir -p ${VCPKG_ROOT}/downloads
+# Copy cache if available (will copy .gitkeep if directory is empty, that's fine)
+COPY --chown=root:root vcpkg/downloads/ ${VCPKG_ROOT}/downloads/
 
 # Set up environment
 ENV CC=/usr/bin/gcc
@@ -100,11 +103,19 @@ ENV VCPKG_INSTALLED_DIR=/src/vcpkg_installed
 # Local binary cache directory for faster multi-arch builds
 RUN mkdir -p /root/.cache/vcpkg/archives && chmod -R 755 /root/.cache/vcpkg
 
-# All dependencies are pre-downloaded in downloads/ - NO NETWORK ACCESS NEEDED
+# Install dependencies via vcpkg - will use cache if available, download if needed
 RUN . /etc/profile.d/vcpkg.sh && \
-    echo "Installing dependencies for ${VCPKG_TRIPLET} (OFFLINE build from local cache)" && \
+    # Check if cache has content beyond .gitkeep
+    CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' | wc -l) && \
+    if [ "$CACHE_FILES" -gt 0 ]; then \
+        echo "==> Using OFFLINE mode with cached downloads ($CACHE_FILES files)"; \
+        export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"; \
+    else \
+        echo "==> Using ONLINE mode (no cache found, will download packages)"; \
+        export VCPKG_ASSET_SOURCES="x-azurl,https://vcpkg.io/assets,readwrite;x-block-origin"; \
+    fi && \
+    echo "Installing dependencies for ${VCPKG_TRIPLET}..." && \
     set -eux; \
-    export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"; \
     export VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite;files,/opt/vcpkg/downloads,readwrite"; \
     ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} 2>&1 | tee /tmp/vcpkg_install.log || ( \
         echo "vcpkg install failed; tail of log:"; \
