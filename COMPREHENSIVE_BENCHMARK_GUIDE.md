@@ -1,8 +1,52 @@
 # 📊 Comprehensive Benchmark Suite - Overview
 
-## What Was Created
+## Executive Summary
 
-A **massive, production-grade benchmark suite** with **25 different benchmark scenarios** covering all major ThemisDB subsystems:
+A **production-grade benchmark suite** with **25 different benchmark scenarios** covering all major ThemisDB subsystems, executed on Windows x64 (20 CPU cores @ 3696 MHz) in Release mode.
+
+## Quick Results
+
+**Execution Date**: 2025-12-18 21:13:51 UTC+1  
+**Platform**: Windows x64, MSVC 14.44.35207  
+**Build Type**: Release with optimizations
+
+### Top Performers
+| Benchmark | Throughput | Category |
+|-----------|-----------|----------|
+| RGB Vector Search (KNN) | 59.7M queries/s | Vector |
+| Binary Blob Retrieval | 49.0M lookups/s | Storage |
+| AQL Join Operations | 10.2M ops/s | Query |
+| Graph BFS Traversal | 9.56M traversals/s | Graph |
+| Graph Neighbor Query | 8.96M queries/s | Graph |
+| RAG Search (Top-50) | 7.17M queries/s | LLM/Vector |
+
+### Performance Tiers
+
+**🏆 Exceptional (>5M ops/s)**
+- RGB Vector Search: 59.7M ops/s
+- Binary Blob Retrieval: 49.0M ops/s
+- AQL Join Operations: 10.2M ops/s
+- Graph BFS Traversal: 9.56M ops/s
+- Graph Neighbor Query: 8.96M ops/s
+- RAG Search: 7.17M ops/s
+
+**✅ Excellent (1M - 5M ops/s)**
+- Simple AQL WHERE: 3.43M queries/s
+- Complex AQL WHERE: 3.35M queries/s
+- Large Index Lookup: 3.12M ops/s
+- Multi-Query Expansion: 2.80M ops/s
+- Composite Index Query: 2.40M ops/s
+- RGB Vector Insert: 1.83M vectors/s
+
+**⚠️ Good (100k - 1M ops/s)**
+- 384D Vector Insert: 411k vectors/s
+- Thumbnail Storage (10KB): 388k ops/s
+- 1536D Batch Insert: 125k vectors/s
+
+**🔴 Needs Optimization (<100k ops/s)**
+- 1MB Blob Storage: 741 docs/s (identified bottleneck)
+
+## Benchmark Results Overview
 
 ### Benchmark Categories
 

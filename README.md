@@ -12,31 +12,34 @@
 
 ---
 
-## 🚀 NEW in v1.3.0: Native LLM Integration with llama.cpp
+## 🚀 NEW in v1.3.0: Native LLM Integration with llama.cpp (Optional)
 
 **"ThemisDB keeps its own llamas."** – Run AI/LLM workloads directly in your database - no external API costs!
 
-### Key Features
+> **Note**: LLM integration is an **optional feature** that requires:
+> - Build flag: `-DTHEMIS_ENABLE_LLM=ON`
+> - External dependency: llama.cpp (clone separately)
+> - See [Build Guide](docs/build/README.md) for setup instructions
 
-- 🧠 **Embedded LLM Engine** - llama.cpp integrated, run LLaMA/Mistral/Phi-3 (1B-70B params)
-- ⚡ **GPU Acceleration** - NVIDIA CUDA support with 100x speedup vs CPU
-- 💾 **PagedAttention** - Advanced memory management with 65% memory savings
-- 🎯 **Continuous Batching** - Handle 100+ concurrent inference requests
+### Key Features (When LLM Support Enabled)
+
+- 🧠 **Embedded LLM Engine** - llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params)
+- ⚡ **GPU Acceleration** - NVIDIA CUDA support with significant speedup vs CPU
+- 💾 **PagedAttention** - Advanced memory management with memory savings
+- 🎯 **Continuous Batching** - Handle concurrent inference requests
 - 🔧 **Quantization Support** - Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage
-- 📊 **Production Monitoring** - Grafana dashboards with 22 metrics, 12 alert rules
+- 📊 **Production Monitoring** - Grafana dashboards with metrics and alert rules
 - 🔌 **Plugin Architecture** - Extensible LLM backend system
 - 🌐 **Distributed RPC Framework** - Inter-shard communication for distributed LLM operations
 
-### Performance Highlights
+### Performance Highlights (GPU Acceleration)
 
-- **100x faster** inference with GPU acceleration vs CPU
-- **65% memory savings** with PagedAttention and prefix caching
-- **30-40% additional speedup** with kernel fusion
-- **95% test coverage** with 432+ unit tests
+- **Significant speedup** with GPU acceleration vs CPU
+- **Memory savings** with PagedAttention and prefix caching
+- **Kernel fusion** for additional performance gains
+- **Comprehensive test coverage** with unit tests
 
-**[→ See GPU Inference Guide](docs/llm/GPU_INFERENCE_GUIDE.md)**  
-**[→ See Quantization Guide](docs/llm/QUANTIZATION_GUIDE.md)**  
-**[→ See Performance Benchmarks](docs/llm/PERFORMANCE_BENCHMARKS.md)**  
+**[→ See LLM Integration Guide](docs/llm/LLAMA_CPP_INTEGRATION.md)**  
 **[→ See Complete LLM Documentation](docs/llm/README.md)**
 
 ---
@@ -53,7 +56,7 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **native LLM engine with llama.cpp** (v1.3.0+)
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+)
 
 ---
 
@@ -89,12 +92,12 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
-### Windows: Build mit LLM (llama.cpp)
+### Windows: Build mit LLM (llama.cpp) - Optional
 
 ```powershell
-# Sicherstellen: lokaler Clone von llama.cpp im Projekt-Root (nicht committen)
-if (!(Test-Path "C:\VCC\themis\llama.cpp")) {
-  git clone https://github.com/ggerganov/llama.cpp.git C:\VCC\themis\llama.cpp
+# OPTIONAL: Für LLM-Unterstützung - lokaler Clone von llama.cpp erforderlich
+if (!(Test-Path "llama.cpp")) {
+  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
 }
 
 # MSVC Release-Build mit LLM-Unterstützung
@@ -105,8 +108,9 @@ powershell -File scripts/build-themis-server-llm.ps1
 ```
 
 Hinweise:
-- `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen (wird nicht committed oder in Docker kopiert).
-- Der Build-Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und `-A x64`, bindet die vcpkg-Toolchain ein und behebt MSVC‑spezifische `char8_t`‑Fehler am `llama`‑Target.
+- LLM-Unterstützung ist **optional** und erfordert `-DTHEMIS_ENABLE_LLM=ON` beim Build
+- `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen (wird nicht committed oder in Docker kopiert)
+- Der Build-Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und `-A x64`, bindet die vcpkg-Toolchain ein und behebt MSVC‑spezifische `char8_t`‑Fehler am `llama`‑Target
 
 **[→ Comprehensive Build Documentation](docs/build/README.md)** | Build-Varianten, Plattformen, Troubleshooting
 
@@ -310,17 +314,26 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 
 ## Performance
 
-**Benchmark Results** (Release build, i7-12700K):
+**Benchmark Results** (Release build, Windows x64, 20 cores @ 3696 MHz):
 
-| Operation | Throughput | Latency (p50) | Latency (p99) |
-|-----------|------------|---------------|---------------|
-| Entity PUT | 45,000 ops/s | 0.02 ms | 0.15 ms |
-| Entity GET | 120,000 ops/s | 0.008 ms | 0.05 ms |
-| Indexed Query | 8,500 queries/s | 0.12 ms | 0.85 ms |
-| Graph Traverse (depth=3) | 3,200 ops/s | 0.31 ms | 1.2 ms |
-| Vector ANN (k=10) | 1,800 queries/s | 0.55 ms | 2.1 ms |
+| Operation | Throughput | Latency (avg) | Notes |
+|-----------|------------|---------------|-------|
+| Entity PUT | 45,000 ops/s | 0.02 ms | Write throughput |
+| Entity GET | 120,000 ops/s | 0.008 ms | Read throughput |
+| Indexed Query | 3.4M queries/s | 0.29 μs | AQL WHERE clause |
+| Graph Traverse (depth=3) | 9.56M ops/s | 0.105 μs | BFS traversal |
+| Vector Search (RGB) | 59.7M queries/s | 0.017 μs | Simple 3D vectors |
+| Vector Insert (384D) | 411k vectors/s | 2.44 μs | Typical embeddings |
+| RAG Search (Top-50) | 7.17M queries/s | 0.14 μs | LLM retrieval |
 
-**[→ Detailed Benchmarks](benchmarks/README.md)**
+> **Note**: These benchmarks represent optimal conditions. Actual performance varies based on:
+> - Hardware configuration (CPU, RAM, storage)
+> - Data size and complexity
+> - Concurrent workload patterns
+> - Build configuration and optimizations
+
+**[→ Detailed Benchmarks](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**  
+**[→ Benchmark Suite Documentation](COMPREHENSIVE_BENCHMARK_GUIDE.md)**
 
 ---
 
