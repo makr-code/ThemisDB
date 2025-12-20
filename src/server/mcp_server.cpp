@@ -5,8 +5,13 @@
 #include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
-#ifdef __unix__
+#if defined(_WIN32)
+#include <windows.h>
+#include <conio.h>  // For _kbhit() if needed
+#elif defined(__unix__) || defined(__APPLE__)
 #include <unistd.h>
 #include <sys/select.h>
 #endif
@@ -816,11 +821,11 @@ void StdioTransport::start() {
     is_running_ = true;
     spdlog::info("MCP stdio transport started");
     
-#ifdef __unix__
-    // Start async stdin reading on POSIX systems
+#if defined(_WIN32) || defined(__unix__) || defined(__APPLE__)
+    // Start async stdin reading
     readStdin();
 #else
-    spdlog::warn("MCP stdio transport: Non-POSIX system detected, stdin reading not implemented");
+    spdlog::warn("MCP stdio transport: Unsupported platform, stdin reading not implemented");
 #endif
 }
 
@@ -836,8 +841,103 @@ void StdioTransport::send(const json& message) {
 }
 
 void StdioTransport::readStdin() {
-#ifdef __unix__
-    // Post async read task
+#if defined(_WIN32)
+    // Windows implementation using PeekNamedPipe for non-blocking stdin
+    asio::post(io_context_, [this]() {
+        HANDLE h_stdin = GetStdHandle(STD_INPUT_HANDLE);
+        if (h_stdin == INVALID_HANDLE_VALUE) {
+            spdlog::error("Failed to get stdin handle");
+            return;
+        }
+
+        while (is_running_) {
+            // Check if data is available
+            DWORD bytes_available = 0;
+            BOOL peek_result = PeekNamedPipe(h_stdin, NULL, 0, NULL, &bytes_available, NULL);
+            
+            if (!peek_result) {
+                // PeekNamedPipe fails on console handles, use alternative approach
+                // Use _kbhit() for console or just do blocking read with timeout via thread
+                DWORD bytes_read = 0;
+                char buffer[4096];
+                
+                // Set read to timeout by using asynchronous pattern
+                DWORD mode = 0;
+                GetConsoleMode(h_stdin, &mode);
+                
+                if (ReadFile(h_stdin, buffer, 1, &bytes_read, NULL) && bytes_read > 0) {
+                    // Read rest of line
+                    std::string line;
+                    line += buffer[0];
+                    
+                    while (std::cin.peek() != '\n' && std::cin.peek() != EOF) {
+                        char ch;
+                        if (std::cin.get(ch)) {
+                            line += ch;
+                        } else {
+                            break;
+                        }
+                    }
+                    
+                    // Consume the newline
+                    if (std::cin.peek() == '\n') {
+                        std::cin.get();
+                    }
+                    
+                    partial_message_ += line;
+                    
+                    // Try to parse as JSON
+                    try {
+                        json request = json::parse(partial_message_);
+                        
+                        // Call message handler
+                        if (message_handler_) {
+                            json response = message_handler_(request);
+                            send(response);
+                        }
+                        
+                        // Clear partial message
+                        partial_message_.clear();
+                    } catch (const json::parse_error&) {
+                        // Incomplete JSON, wait for more input
+                    }
+                } else if (!is_running_) {
+                    break;
+                }
+            } else if (bytes_available > 0) {
+                // Data available, read it
+                std::string line;
+                if (std::getline(std::cin, line)) {
+                    partial_message_ += line;
+                    
+                    // Try to parse as JSON
+                    try {
+                        json request = json::parse(partial_message_);
+                        
+                        // Call message handler
+                        if (message_handler_) {
+                            json response = message_handler_(request);
+                            send(response);
+                        }
+                        
+                        // Clear partial message
+                        partial_message_.clear();
+                    } catch (const json::parse_error&) {
+                        // Incomplete JSON, wait for more input
+                    }
+                } else {
+                    // EOF on stdin
+                    is_running_ = false;
+                    break;
+                }
+            } else {
+                // No data, sleep briefly
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+        }
+    });
+#elif defined(__unix__) || defined(__APPLE__)
+    // POSIX implementation using select()
     asio::post(io_context_, [this]() {
         while (is_running_) {
             // Use select to check if stdin has data with timeout
@@ -880,6 +980,8 @@ void StdioTransport::readStdin() {
             }
         }
     });
+#else
+    spdlog::warn("MCP stdio transport not supported on this platform");
 #endif
 }
 
