@@ -8,7 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- **Multi-Agent LLM Reasoning Framework (v1.4.0)** - Collaborative AI problem-solving
+  - MultiAgentOrchestrator for task decomposition and coordination
+  - LLMAgent with role-based specialization and LoRA adapters
+  - AgentRoleRegistry for managing agent roles and capabilities
+  - ConsensusBuilder with 5 strategies (MAJORITY_VOTE, WEIGHTED_AVERAGE, BEST_RESPONSE, SYNTHESIZE, HIERARCHICAL)
+  - LoRARegistry for dynamic LoRA adapter management
+  - 3 execution patterns: PARALLEL, SEQUENTIAL, HIERARCHICAL
+  - Example configurations: Legal Contract Analysis, Code Review, Research Assistant
+  - Based on state-of-the-art research: AutoGen, LangGraph, MetaGPT, Mixture of Agents
+  - 3-5x faster for complex multi-step tasks through parallelization
+  - Cost efficient: Use smaller models (7B-13B) instead of large (70B+)
+  - Comprehensive 600+ line concept document with best practices
+
 ### Changed
+
+- **Roadmap Update** - v1.5.0 Embedded LLM moved to v1.3.0, v1.4.0 now Multi-Agent Reasoning
+- Updated LLM documentation to reflect new roadmap and v1.4.0 features
+
 ### Deprecated
 ### Removed
 ### Fixed
