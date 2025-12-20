@@ -111,3 +111,41 @@ Phase 2H was a valuable learning experience:
 
 **Final recommendation: Deploy Phase 2G (NoPipe Txn10) configuration.**
 
+## Fresh Bottleneck Probes (2025-12-20)
+
+Quick MSVC/Release microbench runs (JSON outputs: [build-msvc/Release/bench_lock_contention.json](build-msvc/Release/bench_lock_contention.json), [build-msvc/Release/bench_wal_stress.json](build-msvc/Release/bench_wal_stress.json), [build-msvc/Release/bench_hotspots_micro.json](build-msvc/Release/bench_hotspots_micro.json)). Throughput = items/s.
+
+Lock contention (TransactionDB pessimistic, WritePrepared):
+
+| Threads | Disjoint keys | Overlapping keys |
+|---------|---------------|------------------|
+| 1       | 20,018        | 20,746           |
+| 4       | 41,407        | 962              |
+| 8       | 76,180        | 169              |
+| 16      | 149,037       | 777              |
+| 32      | 214,651       | 405              |
+
+- Disjoint scales linearly; overlapping collapses (lock stripe contention dominates). Action: increase lock striping or reduce overlapping hot keys before enabling Phase 2H.
+
+WAL stress (64-byte payloads):
+
+| Threads | WAL sync | WAL no-sync |
+|---------|----------|-------------|
+| 1       | 349      | 149,082     |
+| 4       | 770      | 335,610     |
+| 8       | 1,451    | 442,731     |
+| 16      | 2,716    | 455,106     |
+
+- Sync fsync dominates; no-sync unlocks two to three orders of magnitude. Action: keep sync for correctness; for perf tests use no-sync as an upper bound and quantify WAL stall impact.
+
+Hotspot raw writes (same workload, WAL on/off, hybrid tuned matches Phase 2H presets):
+
+| Threads | WAL on | WAL off |
+|---------|--------|---------|
+| 1       | 312    | 135,133 |
+| 4       | 735    | 333,583 |
+| 8       | 1,439  | 434,808 |
+| 16      | 2,789  | 428,167 |
+
+- WAL overhead dwarfs compaction effects; hybrid vs baseline difference is in the noise at this scale. Focus: WAL path and lock striping before further compaction tweaks.
+
