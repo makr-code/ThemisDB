@@ -19,7 +19,7 @@
 > **Note**: LLM integration is an **optional feature** that requires:
 > - Build flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - External dependency: llama.cpp (clone separately)
-> - See [Build Guide](docs/build/README.md) for setup instructions
+> - See [Build Guide](docs/guides/guides_build_strategy.md) for setup instructions
 
 ### Key Features (When LLM Support Enabled)
 
