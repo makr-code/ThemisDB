@@ -7,26 +7,37 @@
 [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
 [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
 [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.2.0)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
 
-## 🚀 Next Top Feature: Native LLM Integration (v1.5.0 - Q3 2026)
+## 🚀 NEW in v1.3.0: Native LLM Integration with llama.cpp
 
 **"ThemisDB keeps its own llamas."** – Run AI/LLM workloads directly in your database - no external API costs!
 
-- 🧠 **Embedded LLM Engine** - llama.cpp integrated, run LLaMA/Mistral/Phi-3 (1B-70B params) on GPU
-- ⚡ **Zero-Copy RAG** - Direct memory access between vector DB and LLM (4x faster, 0ms transfer)
-- 💰 **100-1000x Cost Reduction** - vs. AWS/Azure/GCP APIs (€0.02 vs. €30 per 1M tokens)
-- 🎯 **All GPU Tiers Supported** - Entry (<16GB), Mid-Range (<24GB), High-End (>24GB)
-- 🔄 **Distributed Reasoning** - Brain-inspired multi-shard collaboration (3.6x faster complex tasks)
-- 📊 **Continuous Batching** - vLLM-style optimization (2.6x throughput)
-- 🐳 **Docker/VM Ready** - Full testing possible without GPU (CPU fallback mode)
+### Key Features
 
-**[→ See GPU-Tier Analysis & Hyperscaler Comparison](docs/llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)**  
-**[→ See Native LLM Integration Concept](docs/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)**  
-**[→ See Complete Documentation](docs/llm/README.md)**
+- 🧠 **Embedded LLM Engine** - llama.cpp integrated, run LLaMA/Mistral/Phi-3 (1B-70B params)
+- ⚡ **GPU Acceleration** - NVIDIA CUDA support with 100x speedup vs CPU
+- 💾 **PagedAttention** - Advanced memory management with 65% memory savings
+- 🎯 **Continuous Batching** - Handle 100+ concurrent inference requests
+- 🔧 **Quantization Support** - Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage
+- 📊 **Production Monitoring** - Grafana dashboards with 22 metrics, 12 alert rules
+- 🔌 **Plugin Architecture** - Extensible LLM backend system
+- 🌐 **Distributed RPC Framework** - Inter-shard communication for distributed LLM operations
+
+### Performance Highlights
+
+- **100x faster** inference with GPU acceleration vs CPU
+- **65% memory savings** with PagedAttention and prefix caching
+- **30-40% additional speedup** with kernel fusion
+- **95% test coverage** with 432+ unit tests
+
+**[→ See GPU Inference Guide](docs/llm/GPU_INFERENCE_GUIDE.md)**  
+**[→ See Quantization Guide](docs/llm/QUANTIZATION_GUIDE.md)**  
+**[→ See Performance Benchmarks](docs/llm/PERFORMANCE_BENCHMARKS.md)**  
+**[→ See Complete LLM Documentation](docs/llm/README.md)**
 
 ---
 
@@ -42,7 +53,7 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **native LLM engine** (v1.5.0)
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **native LLM engine with llama.cpp** (v1.3.0+)
 
 ---
 
@@ -78,12 +89,33 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
+### Windows: Build mit LLM (llama.cpp)
+
+```powershell
+# Sicherstellen: lokaler Clone von llama.cpp im Projekt-Root (nicht committen)
+if (!(Test-Path "C:\VCC\themis\llama.cpp")) {
+  git clone https://github.com/ggerganov/llama.cpp.git C:\VCC\themis\llama.cpp
+}
+
+# MSVC Release-Build mit LLM-Unterstützung
+powershell -File scripts/build-themis-server-llm.ps1
+
+# Sanity-Check
+./build-msvc/bin/themis_server.exe --help
+```
+
+Hinweise:
+- `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen (wird nicht committed oder in Docker kopiert).
+- Der Build-Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und `-A x64`, bindet die vcpkg-Toolchain ein und behebt MSVC‑spezifische `char8_t`‑Fehler am `llama`‑Target.
+
+**[→ Comprehensive Build Documentation](docs/build/README.md)** | Build-Varianten, Plattformen, Troubleshooting
+
 ### Package Managers
 
 **Linux (Debian/Ubuntu):**
 ```bash
-wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.2.0-1_amd64.deb
-sudo apt install ./themisdb_1.2.0-1_amd64.deb
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.3.0-1_amd64.deb
+sudo apt install ./themisdb_1.3.0-1_amd64.deb
 sudo systemctl start themisdb
 ```
 

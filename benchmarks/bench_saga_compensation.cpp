@@ -138,7 +138,7 @@ BENCHMARK_DEFINE_F(SagaBenchmarkFixture, DatabaseWriteCompensation)(benchmark::S
             saga.addStep(
                 "write_" + key,
                 [this, key]() {
-                    secondary_index_->del("saga_test", key);
+                    secondary_index_->remove("saga_test", key);
                 }
             );
         }

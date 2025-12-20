@@ -86,6 +86,16 @@ std::optional<Value> BaseEntity::getField(std::string_view field_name) const {
     return std::nullopt;
 }
 
+std::string BaseEntity::getFieldString(std::string_view field_name) const {
+    auto val = getFieldAsString(field_name);
+    return val.value_or(std::string());
+}
+
+int64_t BaseEntity::getFieldInt(std::string_view field_name) const {
+    auto val = getFieldAsInt(field_name);
+    return val.value_or(0);
+}
+
 std::optional<std::string> BaseEntity::getFieldAsString(std::string_view field_name) const {
     auto value = getField(field_name);
     if (!value) return std::nullopt;

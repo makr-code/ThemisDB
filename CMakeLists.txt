@@ -39,7 +39,10 @@ endif()
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
 # Dependencies
-find_package(OpenSSL REQUIRED)
+find_package(OpenSSL CONFIG)
+if(NOT OpenSSL_FOUND)
+    find_package(OpenSSL REQUIRED)
+endif()
 
 # Make CURL optional: some environments (CI/dev) may not have dev package installed.
 # If found, create CURL::libcurl target; otherwise provide a fallback and continue.
@@ -62,13 +65,18 @@ option(THEMIS_ENABLE_AVX2 "Enable AVX2/FMA for SIMD kernels in Release builds (M
 option(THEMIS_QNAP_BUILD "Build for QNAP NAS with baseline x86-64 (no AVX)" OFF)
 option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stub if OFF)" OFF)
 option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
-option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" ON)
+option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors (audio/image/video/geo/cad) in core" OFF)
 
 # For QNAP or fully static builds, force static core library
 if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core for QNAP/static builds" FORCE)
+    # FORCE STATIC BUILD FOR WINDOWS (LNK1189 Export Limit Workaround - v1.3.0+)
+    set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core to avoid Windows DLL export limit (LNK1189)" FORCE)
 endif()
+
+# LLM Support (v1.3.0+)
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
 
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
@@ -252,15 +260,15 @@ endfunction()
 find_package(RocksDB CONFIG)
 
 # Select appropriate RocksDB target based on build type
-# THEMIS_CORE_SHARED=ON requires rocksdb-shared (DLL) to avoid linker issues with huge static .lib
-# THEMIS_CORE_SHARED=OFF can use the static rocksdb library
-set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
-if(TARGET RocksDB::rocksdb-shared AND THEMIS_CORE_SHARED)
-    # Use shared library for Windows DLL build (avoids "unrecognized file format" linker error)
+# Note: vcpkg's rocksdb-shared only exports the C API, so linking the C++ wrapper
+# requires the static library even when themis_core is built as a DLL.
+set(THEMIS_ROCKSDB_TARGET "")
+if(TARGET RocksDB::rocksdb)
+    set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
+    message(STATUS "RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage")
+elseif(TARGET RocksDB::rocksdb-shared)
     set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb-shared")
-    message(STATUS "RocksDB: Using shared library (rocksdb-shared.dll) for THEMIS_CORE_SHARED=ON")
-elseif(TARGET RocksDB::rocksdb)
-    message(STATUS "RocksDB: Using static library (rocksdb.lib)")
+    message(STATUS "RocksDB: Using shared C API library (rocksdb-shared.dll)")
 endif()
 
 # Fallback: locate system RocksDB if vcpkg didn't provide it
@@ -377,6 +385,70 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/config")
     file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
 endif()
 
+# ═══════════════════════════════════════════════════════════
+# llama.cpp Integration (v1.3.0+)
+# ═══════════════════════════════════════════════════════════
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "LLM support enabled - integrating llama.cpp")
+
+    # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
+    # Fallback to legacy path external/llama.cpp if present
+    set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
+    if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
+        if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+            set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
+            message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
+        else()
+            message(FATAL_ERROR
+                "llama.cpp source not found!\n"
+                "Clone locally (ignored by Git/Docker):\n"
+                "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
+                "Or run: bash scripts/setup-llamacpp.sh")
+        endif()
+    endif()
+
+    # Configure llama.cpp build options
+    set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
+    set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
+    set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
+    set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
+    
+    # GPU acceleration options
+    if(THEMIS_ENABLE_CUDA)
+        message(STATUS "  Enabling CUDA support in llama.cpp")
+        set(LLAMA_CUDA ON CACHE BOOL "Enable CUDA in llama.cpp" FORCE)
+        set(LLAMA_CUDA_F16 ON CACHE BOOL "Enable FP16 in CUDA" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_METAL)
+        message(STATUS "  Enabling Metal support in llama.cpp")
+        set(LLAMA_METAL ON CACHE BOOL "Enable Metal in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_VULKAN)
+        message(STATUS "  Enabling Vulkan support in llama.cpp")
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_HIP OR THEMIS_ENABLE_ROCM)
+        message(STATUS "  Enabling HIP/ROCm support in llama.cpp")
+        set(LLAMA_HIPBLAS ON CACHE BOOL "Enable hipBLAS in llama.cpp" FORCE)
+    endif()
+    
+    # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
+    add_subdirectory(${LLAMA_SRC_DIR} EXCLUDE_FROM_ALL)
+    
+    # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
+    if(MSVC AND TARGET llama)
+        target_compile_options(llama PRIVATE /Zc:char8_t-)
+    endif()
+    
+    # Define LLM enabled for ThemisDB code
+    add_compile_definitions(THEMIS_LLM_ENABLED)
+    
+    message(STATUS "  llama.cpp configured successfully")
+endif()
+
 # Core library sources
 set(THEMIS_CORE_SOURCES
     src/storage/rocksdb_wrapper.cpp
@@ -433,6 +505,8 @@ set(THEMIS_CORE_SOURCES
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
+    
+    # LLM integration (server/API/grpc) is added conditionally below
     src/server/rate_limiter.cpp
     src/server/rate_limiter_v2.cpp
     src/server/load_shedder.cpp
@@ -450,8 +524,7 @@ set(THEMIS_CORE_SOURCES
     src/content/version_manager.cpp
     
     src/cache/semantic_cache.cpp
-    src/llm/llm_interaction_store.cpp
-    src/llm/prompt_manager.cpp
+    # LLM core components are added conditionally below
     src/cdc/changefeed.cpp
     
     # Replication
@@ -532,6 +605,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/mtls_client.cpp
     src/sharding/signed_request.cpp
     src/sharding/remote_executor.cpp
+    src/sharding/shard_rpc_client.cpp
     src/sharding/shard_router.cpp
     src/sharding/rebalance_operation.cpp
     src/sharding/data_migrator.cpp
@@ -585,6 +659,48 @@ set(THEMIS_CORE_SOURCES
     src/analytics/process_mining.cpp
 )
 
+# Conditionally add LLM sources (v1.3.0+) only when enabled
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
+    list(APPEND THEMIS_CORE_SOURCES
+        # Server/API (HTTP + optional gRPC)
+        src/server/llm_api_handler.cpp
+        src/aql/llm_aql_handler.cpp
+
+        # Optional: gRPC service and generated proto headers (guarded by gRPC)
+        # Only add when gRPC is available, otherwise skip to prevent missing headers
+    )
+
+    find_package(gRPC CONFIG QUIET)
+    if(gRPC_FOUND)
+        message(STATUS "gRPC found - enabling LLM gRPC service")
+        list(APPEND THEMIS_CORE_SOURCES
+            src/server/llm_grpc_service.cpp
+            proto/llm_service.proto
+        )
+        # Note: Proto generation should be configured in a separate section when needed
+    else()
+        message(STATUS "gRPC not found - disabling LLM gRPC service and proto generation")
+    endif()
+
+    # LLM core components
+    list(APPEND THEMIS_CORE_SOURCES
+        src/llm/llm_interaction_store.cpp
+        src/llm/prompt_manager.cpp
+        src/llm/block_table.cpp
+        src/llm/paged_kv_cache.cpp
+    )
+endif()
+
+# Ensure minimal LLM components are available when referenced from http_server.
+# These have lightweight dependencies and avoid undefined references if LLM is disabled.
+if(NOT THEMIS_ENABLE_LLM)
+    list(APPEND THEMIS_CORE_SOURCES
+        src/llm/llm_interaction_store.cpp
+        src/llm/prompt_manager.cpp
+    )
+endif()
+
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
 if(THEMIS_CORE_SHARED)
@@ -594,7 +710,22 @@ add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
 if(MSVC AND THEMIS_CORE_SHARED)
-    set_target_properties(themis_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    # Auto-export needs normal COFF objects; disable /GL (IPO) so __create_def can read symbols
+    set_target_properties(themis_core PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON
+        INTERPROCEDURAL_OPTIMIZATION FALSE
+        VS_GLOBAL_WholeProgramOptimization "false"
+    )
+    target_compile_options(themis_core PRIVATE
+        $<$<CONFIG:Release>:/GL->
+        $<$<CONFIG:RelWithDebInfo>:/GL->
+        $<$<CONFIG:MinSizeRel>:/GL->
+    )
+    target_link_options(themis_core PRIVATE
+        $<$<CONFIG:Release>:/LTCG:OFF>
+        $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+        $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+    )
 endif()
 
 # Add hardware acceleration backends based on build options
@@ -678,8 +809,34 @@ if(TARGET Arrow::arrow_shared)
     set(THEMIS_ARROW_TARGET Arrow::arrow_shared)
 elseif(TARGET Arrow::arrow_static)
     set(THEMIS_ARROW_TARGET Arrow::arrow_static)
+elseif(TARGET arrow_shared)
+    set(THEMIS_ARROW_TARGET arrow_shared)
+elseif(TARGET arrow_static)
+    set(THEMIS_ARROW_TARGET arrow_static)
 else()
     set(THEMIS_ARROW_TARGET "")
+endif()
+
+# Parquet target (for Arrow parquet writer)
+find_package(Parquet CONFIG QUIET)
+set(THEMIS_PARQUET_TARGET "")
+if(Parquet_FOUND)
+    if(TARGET Parquet::parquet_shared)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet_shared)
+    elseif(TARGET Parquet::parquet_static)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet_static)
+    elseif(TARGET Parquet::parquet)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet)
+    endif()
+else()
+    # Fallbacks some package layouts expose
+    if(TARGET parquet)
+        set(THEMIS_PARQUET_TARGET parquet)
+    elseif(TARGET parquet_static)
+        set(THEMIS_PARQUET_TARGET parquet_static)
+    elseif(TARGET parquet_shared)
+        set(THEMIS_PARQUET_TARGET parquet_shared)
+    endif()
 endif()
 
 # v1.1.0: Define ARROW_ENABLED if Arrow is available
@@ -694,6 +851,7 @@ target_link_libraries(themis_core
         simdjson::simdjson
         TBB::tbb
         ${THEMIS_ARROW_TARGET}
+        ${THEMIS_PARQUET_TARGET}
         fmt::fmt
         spdlog::spdlog
         Boost::system
@@ -750,6 +908,56 @@ if(THEMIS_VLLM_COLOCATION)
         THEMIS_RAM_GB_ALLOCATED=200        # 200 of 256 GB
     )
     message(STATUS "vLLM Co-Location: Resource limits configured")
+endif()
+
+# v1.3.0: LLM Plugin Support with llama.cpp
+if(THEMIS_ENABLE_LLM)
+    # Add LLM plugin source files
+    target_sources(themis_core PRIVATE
+        src/llm/llamacpp_plugin.cpp
+        src/llm/llm_plugin_manager.cpp
+        src/llm/model_loader.cpp          # Ollama-style lazy loading
+        src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
+        src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        # v1.3.1: Cache Reuse Integration (Phase 2)
+        src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
+        src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
+        src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
+        src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
+        
+        # Phase 4+5 Week 4-6: llama.cpp Integration
+        src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
+        src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+    )
+    
+    # Threading support required for async inference
+    find_package(Threads REQUIRED)
+    target_link_libraries(themis_core PRIVATE Threads::Threads)
+    
+    # Link llama.cpp library
+    if(TARGET llama)
+        target_link_libraries(themis_core PRIVATE llama)
+        # Include headers for llama.cpp
+        if(DEFINED LLAMA_SRC_DIR)
+            target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/include)
+        endif()
+        message(STATUS "LLM Plugin: Linked llama.cpp library")
+    else()
+        message(WARNING "LLM Plugin: llama.cpp target not found - plugin will be built without llama.cpp")
+    endif()
+    
+    # LLM is already defined via THEMIS_LLM_ENABLED in earlier section
+    message(STATUS "LLM Plugin: Source files added to themis_core")
+    message(STATUS "  - Ollama-style lazy model loading enabled")
+    message(STATUS "  - vLLM-style multi-LoRA management enabled")
+    message(STATUS "  - Async inference engine enabled (independent threading)")
+    message(STATUS "  - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)")
+    message(STATUS "    * ModelMetadataCache (ConcurrentCache)")
+    message(STATUS "    * LoRAMetadataCache (ConcurrentCache)")
+    message(STATUS "    * PagedBlockManager (foundation for PagedAttention v1.4.0)")
+    message(STATUS "    * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)")
+    message(STATUS "    * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)")
 endif()
 
 
@@ -829,6 +1037,8 @@ if(THEMIS_BUILD_TESTS)
     add_executable(themis_tests
         tests/test_env.cpp
         tests/test_base_entity.cpp
+        tests/test_rocksdb_high_parallel_tuning.cpp
+        tests/test_rocksdb_stats_json.cpp
         tests/test_secondary_index.cpp
         tests/test_composite_index.cpp
         tests/test_unique_index.cpp
@@ -970,6 +1180,8 @@ if(THEMIS_BUILD_TESTS)
         
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
+        
+        # LLM plugin tests (v1.3.0+) are added conditionally below
     )
     
     target_link_libraries(themis_tests
@@ -979,6 +1191,18 @@ if(THEMIS_BUILD_TESTS)
             GTest::gtest_main
             Boost::system
     )
+
+    # Conditionally add LLM tests only when LLM is enabled
+    if(THEMIS_ENABLE_LLM)
+        target_sources(themis_tests PRIVATE
+            tests/test_llm_plugin.cpp
+            tests/test_llamacpp_integration.cpp
+            tests/test_llm_caching.cpp
+            tests/test_kv_cache_buffer.cpp
+            tests/test_llm_response_cache.cpp
+            tests/test_paged_attention.cpp
+        )
+    endif()
 
     # Discover individual GoogleTest tests for better CTest integration
     include(GoogleTest)
@@ -1004,6 +1228,73 @@ endif()
 # Benchmarks
 if(THEMIS_BUILD_BENCHMARKS)
     find_package(benchmark CONFIG REQUIRED)
+    
+    # Modern performance benchmarks (all core areas)
+    add_executable(bench_core_performance
+        benchmarks/bench_core_performance.cpp
+    )
+    
+    target_link_libraries(bench_core_performance
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Comprehensive benchmark suite (simple/complex, LLM, AQL, binary, stress tests)
+    add_executable(bench_comprehensive
+        benchmarks/bench_comprehensive.cpp
+    )
+    
+    target_link_libraries(bench_comprehensive
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
+    add_executable(bench_advanced_patterns
+        benchmarks/bench_advanced_patterns.cpp
+    )
+    
+    target_link_libraries(bench_advanced_patterns
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_hotspots_micro
+        benchmarks/bench_hotspots_micro.cpp
+    )
+
+    target_link_libraries(bench_hotspots_micro
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_lock_contention
+        benchmarks/bench_lock_contention.cpp
+    )
+    target_link_libraries(bench_lock_contention
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_wal_stress
+        benchmarks/bench_wal_stress.cpp
+    )
+    target_link_libraries(bench_wal_stress
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
     
     add_executable(themis_benchmarks
         benchmarks/bench_crud.cpp

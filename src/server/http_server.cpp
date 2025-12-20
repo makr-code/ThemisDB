@@ -2893,17 +2893,17 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         out += "# TYPE process_uptime_seconds gauge\n";
         out += "process_uptime_seconds " + std::to_string(uptime_seconds) + "\n";
 
-        out += "# HELP themis_requests_total Total HTTP requests handled\n";
-        out += "# TYPE themis_requests_total counter\n";
-        out += "themis_requests_total " + std::to_string(total_requests) + "\n";
+        out += "# HELP vccdb_requests_total Total HTTP requests handled\n";
+        out += "# TYPE vccdb_requests_total counter\n";
+        out += "vccdb_requests_total " + std::to_string(total_requests) + "\n";
 
-        out += "# HELP themis_errors_total Total HTTP errors returned\n";
-        out += "# TYPE themis_errors_total counter\n";
-        out += "themis_errors_total " + std::to_string(total_errors) + "\n";
+        out += "# HELP vccdb_errors_total Total HTTP errors returned\n";
+        out += "# TYPE vccdb_errors_total counter\n";
+        out += "vccdb_errors_total " + std::to_string(total_errors) + "\n";
 
-    out += "# HELP themis_qps Queries per second (approx)\n";
-        out += "# TYPE themis_qps gauge\n";
-        out += "themis_qps " + std::to_string(qps) + "\n";
+    out += "# HELP vccdb_qps Queries per second (approx)\n";
+        out += "# TYPE vccdb_qps gauge\n";
+        out += "vccdb_qps " + std::to_string(qps) + "\n";
         // Auth metrics (if enabled)
         if (auth_ && auth_->isEnabled()) {
             const auto& m = auth_->getMetrics();
@@ -2987,17 +2987,17 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
             auto emit = [&](const char* name, uint64_t value){ out += std::string(name) + " " + std::to_string(value) + "\n"; };
 
             const char* names[] = {
-                "themis_latency_bucket_microseconds{le=\"100\"}",
-                "themis_latency_bucket_microseconds{le=\"500\"}",
-                "themis_latency_bucket_microseconds{le=\"1000\"}",
-                "themis_latency_bucket_microseconds{le=\"5000\"}",
-                "themis_latency_bucket_microseconds{le=\"10000\"}",
-                "themis_latency_bucket_microseconds{le=\"50000\"}",
-                "themis_latency_bucket_microseconds{le=\"100000\"}",
-                "themis_latency_bucket_microseconds{le=\"500000\"}",
-                "themis_latency_bucket_microseconds{le=\"1000000\"}",
-                "themis_latency_bucket_microseconds{le=\"5000000\"}",
-                "themis_latency_bucket_microseconds{le=\"+Inf\"}"
+                "vccdb_latency_bucket_microseconds{le=\"100\"}",
+                "vccdb_latency_bucket_microseconds{le=\"500\"}",
+                "vccdb_latency_bucket_microseconds{le=\"1000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"5000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"10000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"50000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"100000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"500000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"1000000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"5000000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"+Inf\"}"
             };
 
             for (size_t i = 0; i < raw.size(); ++i) {
@@ -3015,12 +3015,12 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         // Sum + count for histogram
         uint64_t total_latency_us = latency_sum_us_.load(std::memory_order_relaxed);
         uint64_t total_count = latency_bucket_inf_.load(std::memory_order_relaxed);
-        out += "# HELP themis_latency_sum_microseconds Total request latency in microseconds\n";
-        out += "# TYPE themis_latency_sum_microseconds counter\n";
-        out += "themis_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
-        out += "# HELP themis_latency_count Total recorded requests for latency histogram\n";
-        out += "# TYPE themis_latency_count counter\n";
-        out += "themis_latency_count " + std::to_string(total_count) + "\n";
+        out += "# HELP vccdb_latency_sum_microseconds Total request latency in microseconds\n";
+        out += "# TYPE vccdb_latency_sum_microseconds counter\n";
+        out += "vccdb_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
+        out += "# HELP vccdb_latency_count Total recorded requests for latency histogram\n";
+        out += "# TYPE vccdb_latency_count counter\n";
+        out += "vccdb_latency_count " + std::to_string(total_count) + "\n";
 
     // Index rebuild metrics
         auto& rebuild_metrics = secondary_index_->getRebuildMetrics();

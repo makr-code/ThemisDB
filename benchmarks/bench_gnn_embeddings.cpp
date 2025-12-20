@@ -76,7 +76,8 @@ public:
             node.setField("age", static_cast<int>(age_dist(rng)));
             node.setField("followers", rng() % 10000);
             
-            property_graph_->addVertex("social", node);
+            // Note: addVertex is not needed in current PropertyGraphManager API
+            // Vertices are created implicitly when edges reference them
         }
         
         // Create edges (follows relationships)
@@ -89,10 +90,12 @@ public:
                     std::string edge_id = "follows_" + std::to_string(i) + "_" + std::to_string(target);
                     
                     BaseEntity edge(edge_id);
+                    edge.setField("_from", node_ids_[i]);
+                    edge.setField("_to", node_ids_[target]);
                     edge.setField("type", "FOLLOWS");
                     edge.setField("since", 2020 + (rng() % 5));
                     
-                    property_graph_->addEdge("social", node_ids_[i], node_ids_[target], edge);
+                    property_graph_->addEdge(edge);
                 }
             }
         }
@@ -304,7 +307,8 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
         
         BaseEntity node(node_id);
         node.setField("label", "Test");
-        property_graph->addVertex("test", node);
+        // Note: addVertex is not needed in current PropertyGraphManager API
+        // Vertices are created implicitly when edges reference them
     }
     
     const int embedding_dim = state.range(0);

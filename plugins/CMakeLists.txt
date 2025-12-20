@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.20)
 # Options for enterprise plugins
 option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
 option(THEMIS_BUILD_GPU_IMPACT_PLUGIN "Build GPU Impact Analysis Plugin" ON)
+option(THEMIS_BUILD_RPC_FRAMEWORK "Build RPC Framework plugins" ON)
 
 if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     message(STATUS "Building ThemisDB Enterprise Plugins")
@@ -17,4 +18,13 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     # Future enterprise plugins can be added here
     # add_subdirectory(enterprise/other_plugin)
     
+endif()
+
+# RPC Framework plugins (v1.3.0+)
+if(THEMIS_BUILD_RPC_FRAMEWORK)
+    message(STATUS "Building RPC Framework Plugins")
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/grpc")
+        message(STATUS "  - gRPC Plugin")
+        add_subdirectory(rpc/grpc)
+    endif()
 endif()

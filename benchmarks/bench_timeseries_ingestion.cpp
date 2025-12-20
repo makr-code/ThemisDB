@@ -29,7 +29,6 @@ public:
         config.db_path = test_db_path_;
         config.memtable_size_mb = 256;
         config.block_cache_size_mb = 512;
-        config.write_buffer_size = 256 * 1024 * 1024;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
         if (!db_->open()) {
@@ -37,7 +36,7 @@ public:
         }
         
         // Create timeseries store
-        ts_store_ = std::make_unique<TimeSeriesStore>(db_->getDB(), nullptr);
+        ts_store_ = std::make_unique<TimeSeriesStore>(*db_, nullptr);
     }
     
     void TearDown(const ::benchmark::State& /*state*/) override {
@@ -214,7 +213,7 @@ static void BM_GorillaCompression(benchmark::State& state) {
         
         // Compress data
         for (size_t i = 0; i < values.size(); i++) {
-            encoder.addPoint(timestamps[i], values[i]);
+            encoder.add(timestamps[i], values[i]);
         }
         
         auto compressed = encoder.finish();
@@ -259,7 +258,7 @@ static void BM_GorillaDecompression(benchmark::State& state) {
     for (int i = 0; i < num_points; i++) {
         value += change_dist(rng);
         timestamp += 1000;
-        encoder.addPoint(timestamp, value);
+        encoder.add(timestamp, value);
     }
     
     auto compressed = encoder.finish();
@@ -270,9 +269,8 @@ static void BM_GorillaDecompression(benchmark::State& state) {
         std::vector<std::pair<int64_t, double>> decompressed;
         decompressed.reserve(num_points);
         
-        while (decoder.hasNext()) {
-            auto point = decoder.next();
-            decompressed.push_back(point);
+        while (auto point = decoder.next()) {
+            decompressed.push_back(*point);
         }
         
         benchmark::DoNotOptimize(decompressed);

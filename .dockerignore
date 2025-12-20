@@ -1,12 +1,16 @@
 # ============================================================================
 # .dockerignore - Docker Build Context Optimization
 # ============================================================================
-# Reduziert Build-Context von ~200k+ auf ~500 Dateien
-# Spart ~1-2 GB Upload-Zeit zum Docker-Daemon
+# Version: 2.0.0 (vcpkg Offline-First)
+# Last Updated: 18. Dezember 2025
+#
+# Reduziert Build-Context von ~200k+ auf ~2k Dateien
+# WICHTIG: vcpkg/downloads/ (~2.5 GB) wird inkludiert für offline builds
+# Spart dennoch ~15 GB durch Exclusion von vcpkg/packages & buildtrees
 
-# --- Build Artifacts (nicht f??r Docker-Build n??tig) ------------------------
+# --- Build Artifacts (nicht für Docker-Build nötig) ------------------------
+# Alle lokalen Build-Verzeichnisse ausschließen
 build/
-!build/themis_server
 build-*/
 out/
 bin/
@@ -17,15 +21,35 @@ CMakeFiles/
 CMakeCache.txt
 *.cmake
 
-# --- vcpkg (wird im Docker neu gebaut - 163k+ Dateien!) --------------------
-vcpkg_installed/
-vcpkg/
+# Build logs (alle Varianten)
+*.log
+build*.txt
+docker-build*.log
+msbuild*.txt
+msvc_build*.txt
 
-# Allow vcpkg/downloads for offline builds (~2GB source archives)
-!vcpkg/downloads/**
+# --- vcpkg Offline-First Strategy (v4.0.0) ---------------------------------
+# Include: vcpkg/downloads/ (~2.5 GB) for offline builds
+# Exclude: build artifacts (~15 GB) - werden im Docker neu gebaut
+vcpkg_installed/
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/installed/
 .vcpkg/
-packages/
-buildtrees/
+
+# INCLUDE vcpkg essentials for offline builds
+!vcpkg/
+!vcpkg/downloads/
+!vcpkg/downloads/**
+!vcpkg/scripts/
+!vcpkg/scripts/**
+!vcpkg/.vcpkg-root
+!vcpkg/bootstrap-vcpkg.sh
+!vcpkg/vcpkg.json
+!vcpkg-configuration.json
+
+# --- Exclude local LLM source (not needed in Docker context) --------------
+llama.cpp/
 
 # --- Development & Testing (nicht f??r Production) --------------------------
 tests/
@@ -170,8 +194,7 @@ PKGBUILD
 # Explizit einbeziehen (??berschreibt obige Regeln)
 # ============================================================================
 !CMakeLists.txt
-!vcpkg.json
-!vcpkg-configuration.json
+
 !Dockerfile
 !docker-compose*.yml
 !setup.sh

@@ -32,18 +32,17 @@ COPY src/ ./src/
 COPY tests/ ./tests/
 COPY vcpkg.json ./
 COPY .gitmodules ./
-COPY external/ ./external/
 
 # Initialize and download vcpkg
 RUN git init && \
-    git submodule update --init --recursive external/vcpkg 2>/dev/null || \
-    (mkdir -p external/vcpkg && \
-     git clone https://github.com/Microsoft/vcpkg.git external/vcpkg && \
-     cd external/vcpkg && \
+    git submodule update --init --recursive vcpkg 2>/dev/null || \
+    (mkdir -p vcpkg && \
+     git clone https://github.com/Microsoft/vcpkg.git vcpkg && \
+     cd vcpkg && \
      git checkout ${VCPKG_VERSION} && \
      ./bootstrap-vcpkg.sh)
 
-ENV VCPKG_ROOT=/build/external/vcpkg
+ENV VCPKG_ROOT=/build/vcpkg
 
 # Build themis_server with Wire Protocol enabled
 RUN \

@@ -1,6 +1,7 @@
 ﻿// v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
 #ifdef THEMIS_USE_MIMALLOC
-    #include <mimalloc-override.h> // Automatic override of malloc
+    // Use C++ new/delete override to avoid macro rewrites of aligned_alloc/free
+    #include <mimalloc-new-delete.h>
 #endif
 
 // Windows headers must come before Boost.Asio on Windows
@@ -181,6 +182,8 @@ int main(int argc, char* argv[]) {
                 if (s.contains("memtable_size_mb")) db_config.memtable_size_mb = s["memtable_size_mb"].get<size_t>();
                 if (s.contains("block_cache_size_mb")) db_config.block_cache_size_mb = s["block_cache_size_mb"].get<size_t>();
                 if (s.contains("enable_blobdb")) db_config.enable_blobdb = s["enable_blobdb"].get<bool>();
+                if (s.contains("enable_high_parallel_tuning")) db_config.enable_high_parallel_tuning = s["enable_high_parallel_tuning"].get<bool>();
+                if (s.contains("high_parallel_thread_threshold")) db_config.high_parallel_thread_threshold = s["high_parallel_thread_threshold"].get<int>();
                 if (s.contains("compression")) {
                     const auto& c = s["compression"];
                     if (c.contains("default")) db_config.compression_default = c["default"].get<std::string>();
@@ -200,6 +203,12 @@ int main(int argc, char* argv[]) {
                 // values read later into server_config
                 (void)f; // placeholder to avoid unused warnings
             }
+        }
+
+        // Enable high-parallel tuning automatically based on worker_threads if not explicitly set
+        if (!db_config.enable_high_parallel_tuning && num_threads >= static_cast<size_t>(db_config.high_parallel_thread_threshold)) {
+            db_config.enable_high_parallel_tuning = true;
+            THEMIS_INFO("Enabling high-parallel RocksDB tuning (workers: {}, threshold: {})", num_threads, db_config.high_parallel_thread_threshold);
         }
         
         // Create database wrapper

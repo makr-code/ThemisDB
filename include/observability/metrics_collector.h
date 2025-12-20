@@ -65,52 +65,6 @@ public:
     void recordCPUUsage(double percent);
     void recordDiskIOps(size_t read_ops, size_t write_ops);
     
-    // Replication Metrics
-    void recordReplicationLag(const std::string& replica_id, double lag_ms);
-    void recordWALWrite(size_t bytes, double latency_ms);
-    void recordReplicationStreamBytes(const std::string& replica_id, size_t bytes);
-    void recordFailoverEvent(const std::string& old_leader, const std::string& new_leader);
-    void recordReplicaSyncStatus(const std::string& replica_id, bool in_sync);
-    
-    // Storage Metrics
-    void recordBackupOperation(const std::string& backup_type, bool success, double duration_ms);
-    void recordBackupSize(const std::string& backup_type, size_t size_bytes);
-    void recordRestoreOperation(bool success, double duration_ms);
-    void recordBlobStorageOperation(const std::string& backend, const std::string& operation, size_t bytes, double latency_ms);
-    void recordRocksDBCompaction(size_t bytes_read, size_t bytes_written, double duration_ms);
-    
-    // Index Metrics
-    void recordIndexRebuild(const std::string& index_type, size_t entities_processed, double duration_ms);
-    void recordIndexLookup(const std::string& index_type, bool hit, double latency_ms);
-    void recordSpatialQuery(const std::string& query_type, size_t candidates, size_t results, double latency_ms);
-    void recordVectorSearch(const std::string& index_type, size_t dimension, size_t k, double latency_ms);
-    
-    // Network & Resilience Metrics
-    void recordCircuitBreakerState(const std::string& service, const std::string& state);
-    void recordCircuitBreakerTrip(const std::string& service, const std::string& reason);
-    void recordRetryAttempt(const std::string& operation, int attempt_number, bool success);
-    void recordConnectionPoolStats(const std::string& pool_name, size_t active, size_t idle, size_t waiting);
-    
-    // CDC (Change Data Capture) Metrics
-    void recordCDCEvent(const std::string& event_type, const std::string& collection);
-    void recordCDCLag(const std::string& subscriber, double lag_ms);
-    void recordCDCThroughput(size_t events_per_second);
-    
-    // Analytics Metrics
-    void recordAnalyticsQuery(const std::string& query_type, double latency_ms, size_t rows_processed);
-    void recordOLAPAggregation(const std::string& operation, size_t input_rows, double latency_ms);
-    void recordCEPRuleEvaluation(const std::string& rule_id, bool triggered, double latency_ms);
-    
-    // LLM & AI Metrics
-    void recordLLMRequest(const std::string& model, size_t input_tokens, size_t output_tokens, double latency_ms);
-    void recordVectorEmbeddingGeneration(const std::string& model, size_t count, double latency_ms);
-    void recordRAGRetrieval(size_t chunks_retrieved, double latency_ms);
-    
-    // Transaction Metrics
-    void recordTransaction(const std::string& isolation_level, bool committed, double duration_ms);
-    void recordLockAcquisition(const std::string& lock_type, bool success, double wait_time_ms);
-    void recordDeadlock(const std::string& transaction_id);
-    
     // Get metrics in Prometheus text format
     std::string getPrometheusMetrics() const;
     

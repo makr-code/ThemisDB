@@ -1,0 +1,161 @@
+#include "llm/paged_block_manager.h"
+#include <algorithm>
+
+namespace themis {
+namespace llm {
+
+PagedBlockManager::PagedBlockManager(const Config& config)
+    : config_(config) {
+    initializeFreeList();
+}
+
+void PagedBlockManager::initializeFreeList() {
+    std::lock_guard<std::mutex> lock(free_list_mutex_);
+    
+    // Initialize all blocks as free
+    for (int i = 0; i < config_.max_blocks; i++) {
+        Block block;
+        block.block_id = i;
+        block.physical_address = i * config_.block_size_tokens;
+        block.is_free = true;
+        block.memory_bytes = config_.block_size_tokens * config_.token_size_bytes;
+        block.ref_count = 0;
+        
+        // Store in cache (lock-free access)
+        blocks_.insert(i, block);
+        
+        // Add to free list
+        free_list_.push(i);
+    }
+}
+
+std::vector<int> PagedBlockManager::allocateBlocks(int num_blocks) {
+    std::vector<int> allocated_ids;
+    allocated_ids.reserve(num_blocks);
+    
+    std::lock_guard<std::mutex> lock(free_list_mutex_);
+    
+    // Check if enough free blocks
+    if (static_cast<int>(free_list_.size()) < num_blocks) {
+        return {};  // Allocation failed
+    }
+    
+    // Allocate blocks
+    for (int i = 0; i < num_blocks; i++) {
+        int block_id = free_list_.front();
+        free_list_.pop();
+        allocated_ids.push_back(block_id);
+        
+        // Update block state (lock-free via ConcurrentCache)
+        auto block = blocks_.get(block_id);
+        if (block) {
+            block->is_free = false;
+            block->ref_count = 1;
+            block->tokens.clear();
+            blocks_.insert(block_id, *block);
+        }
+    }
+    
+    return allocated_ids;
+}
+
+int PagedBlockManager::allocate() {
+    auto blocks = allocateBlocks(1);
+    return blocks.empty() ? -1 : blocks.front();
+}
+
+void PagedBlockManager::freeBlocks(const std::vector<int>& block_ids) {
+    std::lock_guard<std::mutex> lock(free_list_mutex_);
+    
+    for (int block_id : block_ids) {
+        // Update block state
+        auto block = blocks_.get(block_id);
+        if (block && !block->is_free) {
+            block->is_free = true;
+            block->ref_count = 0;
+            block->tokens.clear();
+            blocks_.insert(block_id, *block);
+            
+            // Return to free list
+            free_list_.push(block_id);
+        }
+    }
+}
+
+void PagedBlockManager::deallocate(int block_id) {
+    freeBlocks({block_id});
+}
+
+PagedBlockManager::Block* PagedBlockManager::getBlock(int block_id) {
+    auto block_opt = blocks_.get(block_id);
+    if (block_opt) {
+        // Warning: Returning pointer to temporary is unsafe
+        // This is a stub implementation
+        // TODO: v1.3.1 - Use accessor pattern for safe block access
+        static thread_local Block temp_block;
+        temp_block = *block_opt;
+        return &temp_block;
+    }
+    return nullptr;
+}
+
+const PagedBlockManager::Block* PagedBlockManager::getBlock(int block_id) const {
+    auto block_opt = blocks_.get(block_id);
+    if (block_opt) {
+        // Warning: Returning pointer to temporary is unsafe
+        // This is a stub implementation
+        // TODO: v1.3.1 - Use accessor pattern for safe block access
+        static thread_local Block temp_block;
+        temp_block = *block_opt;
+        return &temp_block;
+    }
+    return nullptr;
+}
+
+PagedBlockManager::Stats PagedBlockManager::getStats() const {
+    Stats stats{};
+    stats.num_blocks = config_.max_blocks;
+    stats.total_memory_bytes = config_.max_blocks * 
+                               config_.block_size_tokens * 
+                               config_.token_size_bytes;
+    
+    // Count free blocks
+    {
+        std::lock_guard<std::mutex> lock(free_list_mutex_);
+        stats.num_free_blocks = static_cast<int>(free_list_.size());
+    }
+    
+    stats.num_allocated_blocks = stats.num_blocks - stats.num_free_blocks;
+    stats.used_memory_bytes = stats.num_allocated_blocks * 
+                              config_.block_size_tokens * 
+                              config_.token_size_bytes;
+    
+    // Calculate fragmentation (simple metric)
+    if (stats.num_blocks > 0) {
+        stats.fragmentation_ratio = 
+            static_cast<double>(stats.num_allocated_blocks) / stats.num_blocks;
+    } else {
+        stats.fragmentation_ratio = 0.0;
+    }
+    
+    return stats;
+}
+
+int PagedBlockManager::getNumFreeBlocks() const {
+    std::lock_guard<std::mutex> lock(free_list_mutex_);
+    return static_cast<int>(free_list_.size());
+}
+
+void PagedBlockManager::reset() {
+    blocks_.clear();
+    
+    std::lock_guard<std::mutex> lock(free_list_mutex_);
+    while (!free_list_.empty()) {
+        free_list_.pop();
+    }
+    
+    initializeFreeList();
+}
+
+} // namespace llm
+} // namespace themis
