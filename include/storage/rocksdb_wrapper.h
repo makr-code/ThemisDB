@@ -40,6 +40,7 @@ public:
 
         size_t memtable_size_mb = 256;
         size_t block_cache_size_mb = 1024;
+        int block_cache_shard_bits = -1;  // -1 = auto, 4 = 16 shards, 6 = 64 shards (better for 8+ threads)
         bool cache_index_and_filter_blocks = true;
         bool pin_l0_filter_and_index_blocks_in_cache = true;
         bool partition_filters = true;
@@ -50,6 +51,15 @@ public:
         size_t blob_size_threshold = 4096;  // Files > 4KB go to BlobDB
         int max_background_jobs = 4;
         
+        // Phase 2H: Granular background thread control for high parallelism
+        int max_background_compactions = -1;  // -1 = use max_background_jobs (auto)
+        int max_background_flushes = -1;      // -1 = use max_background_jobs (auto)
+        int max_subcompactions = 1;           // Parallel sub-compactions per compaction
+        int background_threads_high = 2;      // Flush thread pool size
+        int background_threads_low = 2;       // Compaction thread pool size
+        bool enable_high_parallel_tuning = false;  // Hybrid flag: apply Phase 2H presets automatically
+        int high_parallel_thread_threshold = 16;   // Turn on tuning at/above this concurrency
+        
         // Compaction
         bool use_universal_compaction = false;
         bool dynamic_level_bytes = true;
@@ -59,6 +69,13 @@ public:
         // Write buffer tuning
         int max_write_buffer_number = 3;
         int min_write_buffer_number_to_merge = 1;
+        size_t db_write_buffer_size_mb = 0;  // Total memtable memory limit across all CFs (0 = unlimited)
+        
+        // Phase 2H: Level0 file control to prevent write stalls
+        int level0_file_num_compaction_trigger = 4;  // Start L0->L1 compaction
+        int level0_slowdown_writes_trigger = 20;     // Slow down writes
+        int level0_stop_writes_trigger = 36;         // Stop writes completely
+        
         bool allow_concurrent_memtable_write = false;  // Allow parallel writes to different memtables
         bool enable_pipelined_write = false;           // Pipeline writes for better parallelism
         bool allow_unordered_write = false;            // Allow unordered writes (better concurrency)
@@ -108,7 +125,7 @@ public:
     
     /// Check if database is open
     bool isOpen() const;
-    
+
     // ===== CRUD Operations =====
     
     /// Get value by key

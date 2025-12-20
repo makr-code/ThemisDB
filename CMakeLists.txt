@@ -1014,6 +1014,7 @@ if(THEMIS_BUILD_TESTS)
     add_executable(themis_tests
         tests/test_env.cpp
         tests/test_base_entity.cpp
+        tests/test_rocksdb_high_parallel_tuning.cpp
         tests/test_secondary_index.cpp
         tests/test_composite_index.cpp
         tests/test_unique_index.cpp
@@ -1233,6 +1234,17 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_advanced_patterns
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_hotspots_micro
+        benchmarks/bench_hotspots_micro.cpp
+    )
+
+    target_link_libraries(bench_hotspots_micro
         PRIVATE
             themis_core
             benchmark::benchmark

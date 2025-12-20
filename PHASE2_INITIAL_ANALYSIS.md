@@ -119,10 +119,10 @@ cfg.disable_wal_for_benchmark = true;  // ← NEW, causes regression
 ## Recommendation
 
 ### ❌ DO NOT DEPLOY Phase 2F
-- Causes 40% regression
-- Breaks transaction semantics in TransactionDB
-- Not worth the risk
 
+Phase 2H: Hintergrund-Thread-Optimierungen und Compaction-Tuning sind als Hybrid-Option integrierbar.
+– Neues Flag in RocksDBWrapper::Config: `enable_high_parallel_tuning` (Schwellwert `high_parallel_thread_threshold`, default 16).
+– main_server schaltet automatisch ein, wenn worker_threads ≥ Schwelle; per config.* überschreibbar.
 ### ✅ STICK WITH Phase 1F
 - Use current configuration (best practices)
 - 596k @ 8T is good performance

@@ -37,6 +37,12 @@ python3 docker_benchmarks_unified.py --workload all --duration 120
 - Performance metrics
 - CI/CD integration
 
+### 🔥 Hotspot Microbenchmarks (NEW)
+→ [`bench_hotspots_micro.cpp`](bench_hotspots_micro.cpp)
+- Raw RocksDB put throughput (WAL on/off)
+- Hybrid-tuning A/B (enable_high_parallel_tuning)
+- Mixed read/write and SecondaryIndex write stress
+
 ### 📖 Detailed Reference
 → [`DOCKER_COMPARATIVE_BENCHMARKS_README.md`](DOCKER_COMPARATIVE_BENCHMARKS_README.md)
 - Comprehensive documentation

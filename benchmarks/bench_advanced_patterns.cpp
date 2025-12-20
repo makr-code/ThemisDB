@@ -471,6 +471,127 @@ protected:
     }
 };
 
+// ============================================================================
+// PHASE 2G+2H: Same workload as Phase 2G, but with Phase 2H background tuning
+// ============================================================================
+
+class ParallelityBenchPhase2G_2H : public benchmark::Fixture {
+protected:
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sim_;
+    std::string db_path_;
+
+    void SetUp(const benchmark::State&) override {
+        RocksDBWrapper::Config cfg;
+        db_path_ = "C:\\tmp\\bench_phase2g2h_wp_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        fs::remove_all(db_path_);
+        fs::create_directories(db_path_);
+        cfg.db_path = db_path_;
+
+        // WritePrepared policy (keep WAL enabled); same as Phase 2G
+        cfg.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+        cfg.two_write_queues = false;
+        cfg.enable_wal = true;
+        cfg.disable_wal_for_benchmark = false;
+        cfg.allow_concurrent_memtable_write = true;
+        cfg.enable_pipelined_write = true;
+
+        // Phase 2H background & L0 tuning (A/B against Phase 2G)
+        cfg.max_background_compactions = 8;
+        cfg.max_background_flushes = 2;
+        cfg.background_threads_low = 8;
+        cfg.background_threads_high = 2;
+        cfg.max_subcompactions = 2;
+        cfg.level0_file_num_compaction_trigger = 2;
+        cfg.level0_slowdown_writes_trigger = 8;
+        cfg.level0_stop_writes_trigger = 16;
+        cfg.block_cache_shard_bits = 6;           // 64 shards
+        cfg.db_write_buffer_size_mb = 512;        // total memtable cap
+
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        db_->open();
+        sim_ = std::make_unique<SecondaryIndexManager>(*db_);
+        sim_->createIndex("parallel_p2g2h", "id");
+    }
+
+    void TearDown(const benchmark::State&) override {
+        sim_.reset();
+        db_.reset();
+        fs::remove_all(db_path_);
+    }
+
+    void doTxnWrites(int thread_id, int records) {
+        auto txn = db_->beginTransaction();
+        for (int i = 0; i < records; ++i) {
+            BaseEntity e(
+                std::string("entity_p2g2h_") + std::to_string(thread_id) + "_" + std::to_string(i),
+                BaseEntity::FieldMap{
+                    {"data", RandomGenerator::instance().randStr(100)},
+                    {"value", static_cast<double>(thread_id * records + i)}
+                }
+            );
+            sim_->put("parallel_p2g2h", e, *txn);
+        }
+        txn->prepare();
+        txn->commit();
+    }
+};
+
+// Phase 2G+2H: 1 thread
+BENCHMARK_F(ParallelityBenchPhase2G_2H, Phase2G2H_1Thread) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(1);
+        executor.execute([this](int work_id) {
+            doTxnWrites(work_id, 100);
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// Phase 2G+2H: 4 threads
+BENCHMARK_F(ParallelityBenchPhase2G_2H, Phase2G2H_4Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(4);
+        executor.execute([this](int work_id) {
+            doTxnWrites(work_id, 25);
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// Phase 2G+2H: 8 threads
+BENCHMARK_F(ParallelityBenchPhase2G_2H, Phase2G2H_8Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(8);
+        executor.execute([this](int work_id) {
+            doTxnWrites(work_id, 12);
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// Phase 2G+2H: 16 threads
+BENCHMARK_F(ParallelityBenchPhase2G_2H, Phase2G2H_16Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(16);
+        executor.execute([this](int work_id) {
+            doTxnWrites(work_id, 6);
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
+// Phase 2G+2H: 32 threads
+BENCHMARK_F(ParallelityBenchPhase2G_2H, Phase2G2H_32Threads) (benchmark::State& state) {
+    for (auto _ : state) {
+        ParallelExecutor executor(32);
+        executor.execute([this](int work_id) {
+            doTxnWrites(work_id, 3);
+        }, 1);
+    }
+    state.SetItemsProcessed(state.iterations() * 100);
+}
+
 // Phase 2G: 1 thread
 BENCHMARK_F(ParallelityBenchPhase2G, Phase2G_1Thread) (benchmark::State& state) {
     for (auto _ : state) {
@@ -3006,5 +3127,185 @@ BENCHMARK_F(GapAnalysisBench, Gap_IndexCreation_NewIndexCost)
     }
     state.SetItemsProcessed(state.iterations());
 }
+
+// ============================================================================
+// PHASE 2H: BACKGROUND THREAD OPTIMIZATIONS (Simple Write Test)
+// Testing impact of max_background_compactions on high parallelism workloads
+// ============================================================================
+
+static void BM_Phase2H_BgThreads(benchmark::State& state) {
+    int num_threads = state.range(0);
+    int bg_compactions = state.range(1);
+    
+    std::string path = "C:\\tmp\\bench_phase2h_bgthreads_" + std::to_string(num_threads) + "_" + std::to_string(bg_compactions);
+    fs::remove_all(path);
+    fs::create_directories(path);
+    
+    RocksDBWrapper::Config config;
+    config.db_path = path;
+    config.memtable_size_mb = 128;
+    config.block_cache_size_mb = 512;
+    config.max_write_buffer_number = 4;
+    config.db_write_buffer_size_mb = 512;
+    
+    config.max_background_compactions = bg_compactions;
+    config.max_background_flushes = std::max(1, bg_compactions / 2);
+    config.background_threads_low = bg_compactions;
+    config.background_threads_high = std::max(1, bg_compactions / 2);
+    config.max_subcompactions = std::max(1, bg_compactions / 2);
+    
+    config.allow_concurrent_memtable_write = true;
+    config.enable_pipelined_write = false;
+    config.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+    
+    auto db = std::make_unique<RocksDBWrapper>(config);
+    if (!db->open()) {
+        state.SkipWithError("Failed to open DB");
+        return;
+    }
+    
+    auto sim = std::make_unique<SecondaryIndexManager>(*db);
+    sim->createIndex("phase2h_test", "id");
+    
+    std::atomic<int64_t> work_counter{0};
+    
+    for (auto _ : state) {
+        state.PauseTiming();
+        std::vector<std::thread> threads;
+        std::atomic<bool> failed{false};
+        state.ResumeTiming();
+        
+        for (int t = 0; t < num_threads; ++t) {
+            threads.emplace_back([&, t]() {
+                try {
+                    for (int i = 0; i < 10; ++i) {
+                        int64_t work_id = work_counter.fetch_add(1, std::memory_order_relaxed);
+                        BaseEntity e("key_" + std::to_string(work_id), BaseEntity::FieldMap{
+                            {"data", "value_" + std::to_string(work_id)},
+                            {"value", static_cast<double>(work_id)}
+                        });
+                        sim->put("phase2h_test", e);
+                    }
+                } catch (...) {
+                    failed.store(true);
+                }
+            });
+        }
+        
+        for (auto& t : threads) {
+            t.join();
+        }
+        
+        if (failed.load()) {
+            state.SkipWithError("Thread failed");
+        }
+    }
+    
+    sim.reset();
+    db->close();
+    
+    state.SetItemsProcessed(state.iterations() * num_threads * 10);
+}
+
+BENCHMARK(BM_Phase2H_BgThreads)
+    ->Args({1, 1})->Args({4, 1})->Args({8, 1})->Args({16, 1})
+    ->Args({1, 2})->Args({4, 2})->Args({8, 2})->Args({16, 2})
+    ->Args({1, 4})->Args({4, 4})->Args({8, 4})->Args({16, 4})
+    ->Args({1, 8})->Args({4, 8})->Args({8, 8})->Args({16, 8})
+    ->Unit(benchmark::kMillisecond)->UseRealTime();
+
+// ============================================================================
+// PHASE 2H: FULL OPTIMIZED CONFIG
+// All optimizations combined for best high-parallelism performance
+// ============================================================================
+
+static void BM_Phase2H_FullOptimized(benchmark::State& state) {
+    int num_threads = state.range(0);
+    
+    std::string path = "C:\\tmp\\bench_phase2h_full_" + std::to_string(num_threads);
+    fs::remove_all(path);
+    fs::create_directories(path);
+    
+    RocksDBWrapper::Config config;
+    config.db_path = path;
+    
+    // Write buffer optimizations
+    config.memtable_size_mb = 128;
+    config.max_write_buffer_number = 4;
+    config.db_write_buffer_size_mb = 512;
+    
+    // Cache optimizations
+    config.block_cache_size_mb = 512;
+    config.block_cache_shard_bits = 6;  // 64 shards
+    
+    // Background thread optimizations
+    config.max_background_compactions = 8;
+    config.max_background_flushes = 2;
+    config.background_threads_low = 8;
+    config.background_threads_high = 2;
+    config.max_subcompactions = 4;
+    
+    // Level0 optimizations
+    config.level0_file_num_compaction_trigger = 2;
+    config.level0_slowdown_writes_trigger = 8;
+    config.level0_stop_writes_trigger = 16;
+    
+    // Parallel write optimizations
+    config.allow_concurrent_memtable_write = true;
+    config.enable_pipelined_write = false;
+    config.write_policy = RocksDBWrapper::Config::WritePolicy::WritePrepared;
+    
+    auto db = std::make_unique<RocksDBWrapper>(config);
+    if (!db->open()) {
+        state.SkipWithError("Failed to open DB");
+        return;
+    }
+    
+    auto sim = std::make_unique<SecondaryIndexManager>(*db);
+    sim->createIndex("phase2h_full", "id");
+    
+    std::atomic<int64_t> work_counter{0};
+    
+    for (auto _ : state) {
+        state.PauseTiming();
+        std::vector<std::thread> threads;
+        std::atomic<bool> failed{false};
+        state.ResumeTiming();
+        
+        for (int t = 0; t < num_threads; ++t) {
+            threads.emplace_back([&, t]() {
+                try {
+                    for (int i = 0; i < 10; ++i) {
+                        int64_t work_id = work_counter.fetch_add(1, std::memory_order_relaxed);
+                        BaseEntity e("key_" + std::to_string(work_id), BaseEntity::FieldMap{
+                            {"data", "value_" + std::to_string(work_id)},
+                            {"value", static_cast<double>(work_id)}
+                        });
+                        sim->put("phase2h_full", e);
+                    }
+                } catch (...) {
+                    failed.store(true);
+                }
+            });
+        }
+        
+        for (auto& t : threads) {
+            t.join();
+        }
+        
+        if (failed.load()) {
+            state.SkipWithError("Thread failed");
+        }
+    }
+    
+    sim.reset();
+    db->close();
+    
+    state.SetItemsProcessed(state.iterations() * num_threads * 10);
+}
+
+BENCHMARK(BM_Phase2H_FullOptimized)
+    ->Arg(1)->Arg(4)->Arg(8)->Arg(16)->Arg(32)
+    ->Unit(benchmark::kMillisecond)->UseRealTime();
 
 BENCHMARK_MAIN();

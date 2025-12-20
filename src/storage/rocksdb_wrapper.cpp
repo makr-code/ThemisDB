@@ -59,6 +59,19 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
 }
 
 void RocksDBWrapper::configureOptions() {
+    // Optional: auto-apply Phase 2H tuning for high concurrency when enabled
+    if (config_.enable_high_parallel_tuning) {
+        if (config_.max_background_compactions <= 0) config_.max_background_compactions = 8;
+        if (config_.max_background_flushes <= 0) config_.max_background_flushes = 2;
+        if (config_.background_threads_low <= 0) config_.background_threads_low = 8;
+        if (config_.background_threads_high <= 0) config_.background_threads_high = 2;
+        if (config_.max_subcompactions <= 1) config_.max_subcompactions = 2;
+        if (config_.level0_file_num_compaction_trigger <= 0) config_.level0_file_num_compaction_trigger = 2;
+        if (config_.level0_slowdown_writes_trigger <= 0) config_.level0_slowdown_writes_trigger = 8;
+        if (config_.level0_stop_writes_trigger <= 0) config_.level0_stop_writes_trigger = 16;
+        if (config_.block_cache_shard_bits < 0) config_.block_cache_shard_bits = 6; // 64 shards
+        if (config_.db_write_buffer_size_mb == 0) config_.db_write_buffer_size_mb = 512;
+    }
     // Create DB if missing
     options_->create_if_missing = true;
     
@@ -75,7 +88,7 @@ void RocksDBWrapper::configureOptions() {
     rocksdb::BlockBasedTableOptions table_options;
     table_options.block_cache = rocksdb::NewLRUCache(
         config_.block_cache_size_mb * 1024 * 1024, // capacity
-        -1,                                         // num_shard_bits (auto)
+        config_.block_cache_shard_bits,             // num_shard_bits (-1 = auto, 6 = 64 shards for 8+ threads)
         false,                                      // strict_capacity_limit
         config_.high_pri_pool_ratio                 // high_pri_pool_ratio
     );
@@ -87,8 +100,29 @@ void RocksDBWrapper::configureOptions() {
     table_options.filter_policy.reset(rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false));
     options_->table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
     
+    // Phase 2H: Configure background thread pools for high parallelism
+    // Set flush thread pool (HIGH priority)
+    if (config_.background_threads_high > 0) {
+        options_->env->SetBackgroundThreads(config_.background_threads_high, rocksdb::Env::Priority::HIGH);
+    }
+    // Set compaction thread pool (LOW priority)
+    if (config_.background_threads_low > 0) {
+        options_->env->SetBackgroundThreads(config_.background_threads_low, rocksdb::Env::Priority::LOW);
+    }
+    
     // Compaction
     options_->max_background_jobs = config_.max_background_jobs;
+    
+    // Phase 2H: Granular background operation control
+    if (config_.max_background_compactions > 0) {
+        options_->max_background_compactions = config_.max_background_compactions;
+    }
+    if (config_.max_background_flushes > 0) {
+        options_->max_background_flushes = config_.max_background_flushes;
+    }
+    if (config_.max_subcompactions > 0) {
+        options_->max_subcompactions = config_.max_subcompactions;
+    }
     if (config_.use_universal_compaction) {
         options_->compaction_style = rocksdb::kCompactionStyleUniversal;
     } else {
@@ -97,6 +131,16 @@ void RocksDBWrapper::configureOptions() {
     options_->level_compaction_dynamic_level_bytes = config_.dynamic_level_bytes;
     options_->target_file_size_base = config_.target_file_size_base_mb * 1024ull * 1024ull;
     options_->max_bytes_for_level_base = config_.max_bytes_for_level_base_mb * 1024ull * 1024ull;
+    
+    // Phase 2H: Level0 file control to prevent write stalls
+    options_->level0_file_num_compaction_trigger = config_.level0_file_num_compaction_trigger;
+    options_->level0_slowdown_writes_trigger = config_.level0_slowdown_writes_trigger;
+    options_->level0_stop_writes_trigger = config_.level0_stop_writes_trigger;
+    
+    // Phase 2H: Total write buffer size limit
+    if (config_.db_write_buffer_size_mb > 0) {
+        options_->db_write_buffer_size = config_.db_write_buffer_size_mb * 1024ull * 1024ull;
+    }
 
     // Compression preferences (best-effort; depends on build of RocksDB)
     auto toCompression = [](const std::string& s) {
