@@ -903,6 +903,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_text_processor.cpp
     tests/test_prompt_manager.cpp
     tests/test_mock_clip.cpp
+        tests/test_image_analysis_interface.cpp
         tests/test_backup_restore.cpp
         tests/test_cursor.cpp
         tests/test_temporal_graph.cpp
@@ -1227,6 +1228,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_policy_evaluation
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Image Analysis Plugin Benchmark
+    add_executable(benchmark_image_analysis
+        benchmarks/benchmark_image_analysis.cpp
+    )
+    
+    target_link_libraries(benchmark_image_analysis
         PRIVATE
             themis_core
             benchmark::benchmark
