@@ -117,7 +117,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
     else \
         echo "==> Using ONLINE mode (no cache found, will download packages)"; \
         ASSET_URL=${VCPKG_ASSET_URL:-https://vcpkg.io/assets}; \
-        export VCPKG_ASSET_SOURCES="x-azurl,$ASSET_URL,readwrite;x-block-origin"; \
+        export VCPKG_ASSET_SOURCES="x-azurl,$ASSET_URL,readwrite"; \
         echo "Asset source: $ASSET_URL"; \
     fi && \
     echo "Installing dependencies for ${VCPKG_TRIPLET}..." && \

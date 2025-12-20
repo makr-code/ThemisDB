@@ -44,7 +44,8 @@ if [ "$CACHE_FILES" -gt 0 ]; then
     export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"
 else
     echo "==> Using ONLINE mode (no cache, will download)"
-    export VCPKG_ASSET_SOURCES="x-azurl,https://vcpkg.io/assets,readwrite"
+    # Uses x-azurl for vcpkg.io (works with Azure CDN and compatible mirrors)
+    export VCPKG_ASSET_SOURCES="x-azurl,${VCPKG_ASSET_URL:-https://vcpkg.io/assets},readwrite"
 fi
 ```
 
