@@ -303,9 +303,11 @@ Die folgenden Features sind **exklusive Eigenentwicklungen von ThemisDB** und ni
 - ✅ **Query Language (AQL):** Einheitliche Syntax für alle Datenmodelle
 - ✅ **Cross-Model Queries:** SQL JOINs mit Graph Traversals und Vector Search kombinierbar
 
-**Beispiel:**
+**Beispiel (konzeptionelle AQL-Syntax):**
 ```sql
 -- AQL Query: Kombiniert Graph + Vector + Relational
+-- Hinweis: Dies zeigt das konzeptionelle Design; die genaue Syntax kann variieren.
+-- Siehe docs/aql/aql_syntax.md für die aktuelle API-Dokumentation.
 FOR user IN users
   FILTER user.age > 25
   LET similar_docs = VECTOR_SEARCH(user.embedding, k=10)
@@ -471,7 +473,7 @@ ThemisDB wurde inspiriert von:
 
 ## 📄 Lizenzen
 
-ThemisDB selbst ist unter der **MIT License with Government Clause** lizenziert.
+ThemisDB selbst ist unter der **MIT License with Government Clause** lizenziert (siehe [LICENSE](LICENSE) für den vollständigen Lizenztext).
 
 Alle verwendeten Third-Party-Bibliotheken sind unter permissive Open-Source-Lizenzen verfügbar:
 - Apache 2.0 (RocksDB, FAISS, Arrow, TBB, OpenTelemetry, simdjson, Google Benchmark)
