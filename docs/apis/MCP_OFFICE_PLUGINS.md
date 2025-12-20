@@ -290,10 +290,11 @@ async function getCustomerContext() {
   const item = Office.context.mailbox.item;
   const senderEmail = item.from.emailAddress;
   
-  // Query customer data via MCP
+  // Query customer data via MCP using parameterized query to prevent injection
   const result = await mcpClient.callTool('query', {
-    query: `MATCH (c:Customer {email: "${senderEmail}"}) RETURN c.name, c.total_purchases, c.last_interaction, c.status`,
-    language: 'cypher'
+    query: 'MATCH (c:Customer {email: $email}) RETURN c.name, c.total_purchases, c.last_interaction, c.status',
+    language: 'cypher',
+    parameters: { email: senderEmail }
   });
   
   // Display customer context in task pane
