@@ -229,10 +229,12 @@ curl -X POST http://localhost:8765/api/llm/generate \
 | Inference Latency | 0.1-2s | Depends on model and prompt |
 | Memory Savings (Caching) | 30-70% | With prefix/KV cache |
 
-**Hardware Requirements for LLM:**
-- **Minimum**: 8GB RAM, modern CPU (LLM disabled or CPU-only)
-- **Recommended**: 16GB+ RAM, NVIDIA GPU with 8GB+ VRAM
-- **Optimal**: 32GB+ RAM, NVIDIA GPU with 24GB+ VRAM
+**Hardware Requirements (When LLM Features Enabled):**
+- **Minimum**: 8GB RAM, modern CPU (CPU-only LLM inference)
+- **Recommended**: 16GB+ RAM, NVIDIA GPU with 8GB+ VRAM (GPU-accelerated)
+- **Optimal**: 32GB+ RAM, NVIDIA GPU with 24GB+ VRAM (maximum performance)
+
+> **Note**: These requirements apply only when building with `-DTHEMIS_ENABLE_LLM=ON`. Core database features work without LLM and have lower requirements.
 
 > **Important**: Performance claims are targets and may vary significantly based on hardware and workload.
 
