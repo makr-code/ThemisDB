@@ -317,6 +317,8 @@ ThemisDB is inspired by and builds upon the ideas from:
 - **RocksDB** - High-performance LSM-Tree storage
 - **FAISS** - Efficient similarity search
 
+**For a complete list of third-party libraries and feature attributions, see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).**
+
 ---
 
 **Built with ❤️ for the database community**
