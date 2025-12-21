@@ -27,7 +27,8 @@ echo "Output to: $OUTPUT_PDF"
 
 # Create PDF with outline (bookmarks) and local file access
 # Note: --outline may be ignored if using unpatched Qt
-# Network errors (missing fonts, badges) are ignored as they don't prevent PDF generation
+# wkhtmltopdf may exit with code 1 due to network errors (missing fonts, badges)
+# but still produces a valid PDF. We check if the PDF file was created instead of exit code.
 wkhtmltopdf \
     --enable-local-file-access \
     --outline \
@@ -38,13 +39,13 @@ wkhtmltopdf \
     --margin-left 15mm \
     --margin-right 15mm \
     "$SOURCE_HTML" \
-    "$OUTPUT_PDF" || true
+    "$OUTPUT_PDF" 2>&1 | grep -v "Failed to load https://" | grep -v "ContentNotFoundError" || true
 
 # Check if PDF was created (even with warnings/errors)
-if [ -f "$OUTPUT_PDF" ]; then
+if [ -f "$OUTPUT_PDF" ] && [ -s "$OUTPUT_PDF" ]; then
     echo "✅ PDF created: $OUTPUT_PDF"
     ls -lh "$OUTPUT_PDF"
 else
-    echo "❌ PDF creation failed"
+    echo "❌ PDF creation failed - file not created or empty"
     exit 1
 fi

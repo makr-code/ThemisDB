@@ -57,8 +57,9 @@ jobs:
       
       - name: Generate PDF from print page
         run: |
-          # wkhtmltopdf may show network errors for external resources (fonts, badges)
-          # but will still generate the PDF successfully. We ignore exit codes and check if PDF exists.
+          # wkhtmltopdf may exit with code 1 due to network errors for external resources 
+          # (fonts, badges) but still generates a valid PDF. We verify the PDF exists and 
+          # has content rather than checking exit codes.
           wkhtmltopdf \
             --enable-local-file-access \
             --outline \
@@ -69,13 +70,15 @@ jobs:
             --margin-left 15mm \
             --margin-right 15mm \
             site/print_page/index.html \
-            site/ThemisDB-Documentation.pdf || true
+            site/ThemisDB-Documentation.pdf 2>&1 | grep -v "Failed to load https://" | grep -v "ContentNotFoundError" || true
           
-          # Verify PDF was created
-          if [ ! -f "site/ThemisDB-Documentation.pdf" ]; then
-            echo "Error: PDF generation failed"
+          # Verify PDF was created and has content
+          if [ ! -f "site/ThemisDB-Documentation.pdf" ] || [ ! -s "site/ThemisDB-Documentation.pdf" ]; then
+            echo "Error: PDF generation failed - file not created or empty"
             exit 1
           fi
+          echo "PDF generated successfully"
+          ls -lh site/ThemisDB-Documentation.pdf
       
       - name: Copy PDF to docs directory
         run: |

@@ -44,7 +44,8 @@ if ($LASTEXITCODE -ne 0) {
 
 # Generate PDF if not skipped
 if (-not $SkipPdf) {
-    $wkhtmlPath = "C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
+    # Path consistent with export_pdf_wkhtml.ps1
+    $wkhtmlPath = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
     
     if (Test-Path $wkhtmlPath) {
         Write-Host "Generating PDF..." -ForegroundColor Green
