@@ -1287,7 +1287,8 @@ if(THEMIS_BUILD_TESTS)
     tests/test_cms_signing.cpp
         tests/test_keyprovider_signing.cpp
     tests/test_vault_signing_provider.cpp
-        tests/test_enterprise_scalability.cpp
+        # Enterprise tests (only if enterprise source is available)
+        $<$<AND:$<BOOL:${THEMIS_BUILD_ENTERPRISE}>,$<TARGET_EXISTS:themis_enterprise_common>>:tests/test_enterprise_scalability.cpp>
         tests/test_http_policies_export.cpp
         tests/test_pii_soft_delete.cpp
         tests/test_http_pii_lazy_init.cpp
@@ -1709,7 +1710,12 @@ endif()
 # Enterprise Modules (new modular DLL architecture)
 option(THEMIS_BUILD_ENTERPRISE "Enable enterprise module builds" OFF)
 if(THEMIS_BUILD_ENTERPRISE)
-    add_subdirectory(src/enterprise)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/enterprise")
+        add_subdirectory(src/enterprise)
+    else()
+        message(WARNING "Enterprise source code not found. Enterprise features require a commercial license. Contact sales@themisdb.com")
+        set(THEMIS_BUILD_ENTERPRISE OFF CACHE BOOL "Enterprise source not available" FORCE)
+    endif()
 endif()
 
 # Installation

@@ -50,14 +50,20 @@
 
 ThemisDB is a production-ready multi-model database that combines relational, graph, vector, and document models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
 
+**Available in two editions:**
+- **Community Edition** (Free, Open Source): Full-featured single-node database with all core capabilities
+- **Enterprise Edition** (Commercial License): Adds horizontal scaling, advanced analytics, HA/replication, and more
+
+**[→ See Enterprise Edition Details](ENTERPRISE.md)**
+
 **Key Features:**
 
 - 🔒 **ACID Transactions** - Full snapshot isolation with MVCC
 - 🔍 **Multi-Model** - Relational, Graph, Vector, Document in one database
 - 🚀 **High Performance** - 45K writes/s, 120K reads/s, GPU-accelerated vector search
-- 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
-- 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
-- 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
+- 🛡️ **Security** - TLS 1.3, RBAC, field-level encryption, audit logging (Enterprise: HSM integration)
+- 📊 **Analytics** - Time-series, aggregations (Enterprise: OLAP, CEP, materialized views)
+- 🌐 **Distribution** - Single-node optimized (Enterprise: horizontal sharding, replication, Kubernetes)
 - 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+), **image analysis AI plugins** (v1.3.0+)
 - 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
 - 📚 **Transparent Attribution** - Clear documentation of third-party dependencies vs ThemisDB innovations (see [ATTRIBUTIONS.md](ATTRIBUTIONS.md))
@@ -368,7 +374,11 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 
 ## License
 
-ThemisDB is released under the [MIT License](LICENSE).
+**Community Edition**: ThemisDB Community Edition is released under the [MIT License](LICENSE).
+
+**Enterprise Edition**: Enterprise features (horizontal sharding, advanced analytics, HA/replication, etc.) are available under a commercial license. See [ENTERPRISE.md](ENTERPRISE.md) for details.
+
+For enterprise licensing inquiries, contact sales@themisdb.com
 
 ---
 
