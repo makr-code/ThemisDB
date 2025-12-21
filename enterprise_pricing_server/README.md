@@ -2,6 +2,8 @@
 
 Ein umfassendes Python/FastAPI-basiertes Abonnement- und Zahlungsverwaltungssystem für ThemisDB Enterprise und Hyperscaler Editionen.
 
+**🌐 Production Deployment:** `https://service.themisdb.org:6734`
+
 ## Features
 
 ### 🔐 Kundenverwaltung (CRUD)
@@ -27,6 +29,13 @@ Ein umfassendes Python/FastAPI-basiertes Abonnement- und Zahlungsverwaltungssyst
 - Automatische Abonnement-Aktivierung nach erfolgreicher Zahlung
 - Transaktions-Tracking und -Historie
 
+### 🔑 Lizenzvalidierung für ThemisDB Instanzen
+- **Validierungs-API**: ThemisDB Server können ihre Lizenzen validieren
+- **REST-Endpunkte**: `/license/validate`, `/license/info`, `/license/check-limits`
+- **Automatische Prüfung**: Bei Server-Start und periodisch
+- **Offline-Modus**: Caching für Air-Gapped Deployments
+- **Limits-Überwachung**: Prüfung von Nodes, Cores, Storage gegen Lizenzlimits
+
 ### 🖥️ Tkinter Admin UI
 - Grafische Benutzeroberfläche für Verwaltungsaufgaben
 - Kundenregistrierung und -anmeldung
@@ -35,6 +44,29 @@ Ein umfassendes Python/FastAPI-basiertes Abonnement- und Zahlungsverwaltungssyst
 - Preisübersicht
 
 ## Installation
+
+### Production Deployment
+
+Für Production-Deployment auf `https://service.themisdb.org:6734`:
+
+1. **Setup PostgreSQL Datenbank:**
+```bash
+sudo -u postgres psql < setup_database.sql
+```
+
+2. **Konfiguration anpassen:**
+```bash
+cp config.yaml /opt/themisdb/enterprise_pricing_server/
+# Bearbeite config.yaml mit Produktion-Settings
+```
+
+3. **Service starten:**
+```bash
+sudo systemctl enable themisdb-pricing
+sudo systemctl start themisdb-pricing
+```
+
+Vollständige Anleitung: [DEPLOYMENT.md](DEPLOYMENT.md)
 
 ### Voraussetzungen
 
@@ -127,6 +159,14 @@ python tkinter_admin.py
 - `GET /payments/{id}` - Zahlung nach ID abrufen
 - `POST /payments/{id}/verify` - Zahlung manuell verifizieren
 - `POST /payments/webhook` - Webhook für Zahlungsbenachrichtigungen
+
+### Lizenzvalidierung (für ThemisDB Instanzen)
+
+- `POST /license/validate` - Lizenz validieren (mit Server-Info)
+- `GET /license/validate/{license_key}` - Lizenz validieren (einfach)
+- `GET /license/info/{license_key}` - Lizenz-Informationen abrufen
+- `POST /license/check-limits` - Ressourcen-Limits prüfen
+- `GET /license/health` - Health Check für Lizenzservice
 
 ### Sonstiges
 

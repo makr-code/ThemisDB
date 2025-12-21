@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 
 from config import settings
 from utils.database import init_db
-from routers import auth, customers, subscriptions, payments
+from routers import auth, customers, subscriptions, payments, license
 
 
 @asynccontextmanager
@@ -56,6 +56,7 @@ app.include_router(auth.router)
 app.include_router(customers.router)
 app.include_router(subscriptions.router)
 app.include_router(payments.router)
+app.include_router(license.router)
 
 
 @app.get("/")
