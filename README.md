@@ -70,13 +70,19 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 ### Docker (Recommended)
 
 ```bash
-# Pull and run the latest version
+# Pull and run the latest stable version
 docker pull themisdb/themisdb:latest
 docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb:latest
+
+# Or use nightly builds (latest development version)
+docker pull themisdb/server:nightly
+docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/server:nightly
 
 # Or use Docker Compose
 docker compose up -d
 ```
+
+> **Nightly Builds**: Automated overnight builds are available at `themisdb/server:nightly` with the latest development features. See [Nightly Builds Documentation](docs/deployment/deployment_nightly_builds.md) for details.
 
 ### From Source
 
