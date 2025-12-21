@@ -1984,7 +1984,7 @@ ThemisDB is open source under the [MIT License](https://github.com/makr-code/The
 
 ### Für Stakeholder
 1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
-2. [THEMIS_PROJECT_VALUATION.md](reports/reports_project_valuation.md) - Wirtschaftliche Bewertung
+2. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
 3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
 4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
 

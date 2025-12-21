@@ -68,7 +68,7 @@
 | 12 | **Change Management Policy** | `docs/policies/policies_change_management.md` | 450 Zeilen | ✅ |
 | 13 | **Data Classification Policy** | `docs/policies/policies_data_classification.md` | 500 Zeilen | ✅ |
 | 14 | **Encryption & Key Management** | `docs/policies/policies_encryption_key.md` | 750 Zeilen | ✅ |
-| 15 | **Projektkostenschätzung** | `docs/reports/reports_project_valuation.md` | 300 Zeilen | ✅ |
+| 15 | **Project Valuation** | 🔒 Confidential | N/A | 🔒 |
 
 ### Fuzzing-Infrastruktur (AFL++)
 

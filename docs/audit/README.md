@@ -69,34 +69,12 @@ Detailed comparison of ThemisDB vs. market leaders including traditional databas
 
 ### 3. Cost & Value Analysis
 
-**File:** [`COST_VALUE_ANALYSIS.md`](COST_VALUE_ANALYSIS.md)
+**Status:** 🔒 **Confidential** - Available only to licensed customers and partners
 
 **Summary:**
-Economic analysis covering Total Cost of Ownership (TCO), business value, ROI calculations, and value segmentation across different use cases.
+Economic analysis covering Total Cost of Ownership (TCO), business value, ROI calculations, and value segmentation across different use cases. This document contains sensitive business information and pricing strategies.
 
-**Key Metrics:**
-- **3-Year TCO:** $167K-$193K (self-hosted/cloud)
-- **3-Year Value:** $350K-$500K
-- **Net Value:** $182K-$333K
-- **ROI:** 107% (average)
-- **Payback Period:** 18-24 months
-
-**Cost Savings:**
-- vs. AWS: 46% ($137K over 3 years)
-- vs. PostgreSQL: 30% ($69K over 3 years)
-- Embedding cache: 70-90% API cost reduction
-- Infrastructure consolidation: 52-76% savings
-
-**Sections:**
-1. Total Cost of Ownership (TCO) Analysis
-2. Business Value Analysis
-3. Value Segmentation (v1.0, v1.1.0, v1.2.0)
-4. ROI Analysis
-5. Value by Use Case (RAG, IoT, Multi-Model)
-6. Cost Comparison Summary
-7. Strategic Value
-8. Recommendations
-9. Conclusion
+**Note:** For general information about ThemisDB's value proposition, see [ENTERPRISE.md](../../ENTERPRISE.md) in the root directory.
 
 ---
 

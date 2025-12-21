@@ -39,7 +39,7 @@
 - wire_protocol_v1.md
 
 ### Move to stakeholder/
-- STAKEHOLDER_VALUE_PROPOSITION.md
+- ~~STAKEHOLDER_VALUE_PROPOSITION.md~~ - 🔒 Confidential (removed from public repository)
 
 ### Archive (lowercase, to be removed/renamed)
 - changelog.md (duplicate of ../CHANGELOG.md)
