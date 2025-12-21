@@ -1,150 +1,165 @@
 # ThemisDB - Official Docker Image
 
-[![Docker Hub](https://img.shields.io/docker/pulls/themisdb/themisdb.svg)](https://hub.docker.com/r/themisdb/themisdb)
-[![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest)](https://hub.docker.com/r/themisdb/themisdb)
-[![Docker Image Version](https://img.shields.io/docker/v/themisdb/themisdb/latest)](https://hub.docker.com/r/themisdb/themisdb)
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/makr-code/ThemisDB?include_prereleases&sort=semver&color=blue)](https://github.com/makr-code/ThemisDB/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
-[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
+[![Platform](https://img.shields.io/badge/platform-linux%2Famd64%20%7C%20linux%2Farm64-brightgreen)](https://github.com/makr-code/ThemisDB)
+[![Build](https://img.shields.io/badge/build-multi--stage--docker-success)](https://github.com/makr-code/ThemisDB/blob/main/Dockerfile)
+[![Docker](https://img.shields.io/badge/Docker-✓-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
 [![GitHub Stars](https://img.shields.io/github/stars/makr-code/ThemisDB?style=social)](https://github.com/makr-code/ThemisDB)
-[![GitHub Issues](https://img.shields.io/github/issues/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/issues)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/commits/main)
 
-ThemisDB is a high-performance, multi-model database system built on LSM Tree architecture with native support for vector search, graph operations, geospatial queries, and full-text search.
+ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM-Tree-Architektur mit nativer Unterstützung für Vektorsuche, Graphoperationen, Geospatial-Abfragen und Volltextsuche.
 
-**NEW in v1.3.0:** Optional native LLM integration with llama.cpp - Run AI/LLM workloads directly in your database!
+**✨ NEU in v1.3.0:** Optionale native LLM-Integration mit llama.cpp - Führen Sie AI/LLM-Workloads direkt in Ihrer Datenbank aus!
 
-**Current Version:** v1.3.0 (December 2025)  
-**Registry:** `docker.io/themisdb/themisdb`
+**Aktuelle Version:** v1.3.0 (Dezember 2025)  
+**Registry:** `docker.io/themisdb/themisdb`  
+**Build-Status:** ✅ Erfolgreich (21.12.2025)
 
 ---
 
 ## Quick Start
 
 ```bash
-# Pull the latest image
-docker pull themisdb/themisdb:latest
+# Image herunterladen
+docker pull themisdb/themisdb:1.3.0
 
-# Run ThemisDB
+# ThemisDB starten
 docker run -d \
   --name themis \
   -p 8080:8080 \
-  -p 18765:18765 \
+  -p 8765:8765 \
+  -p 4318:4318 \
   -v themis_data:/data \
-  themisdb/themisdb:latest
+  themisdb/themisdb:1.3.0
 
-# Verify it's running
-curl http://localhost:18765/health
+# Verifyieren Sie den Start
+curl http://localhost:8080/health
 ```
 
 **Ports:**
-- `8080` - REST API & Web UI
-- `18765` - Binary protocol
+- `8080` - REST API & GraphQL Interface (HTTP)
+- `8765` - Binary Protocol (gRPC, Wire Protocol)
+- `4318` - OpenTelemetry/Prometheus Metrics (OTLP)
 
 **Volume:**
-- `/data` - Database storage (persist this!)
+- `/data` - Datenbankdateien (müssen persistent sein!)
+
+**Schnelle Überprüfung:**
+```bash
+docker logs themis        # Logs anschauen
+docker ps | grep themis   # Container-Status prüfen
+curl http://localhost:8080/health
+```
 
 ---
 
-## Supported Tags
+## Verfügbare Tags
 
-| Tag | Architecture | Base Image | Use Case |
-|-----|--------------|------------|----------|
-| `latest` | amd64, arm64 | Ubuntu 22.04 | **Recommended** - Always latest stable |
-| `v1.3.0` | amd64, arm64 | Ubuntu 22.04 | Stable release (Dec 2025) - LLM support |
-| `v1.3` | amd64, arm64 | Ubuntu 22.04 | Minor version track |
-| `v1.2.0` | amd64, arm64 | Ubuntu 22.04 | Previous stable release |
-| `v1.0.2` | amd64, arm64 | Ubuntu 22.04 | Legacy stable release |
-| `qnap` | amd64 | Ubuntu 20.04 | **QNAP NAS** optimized (SSE4.2 baseline) |
-| `v1.3.0-qnap` | amd64 | Ubuntu 20.04 | QNAP v1.3.0 release |
+| Tag | Architektur | Base Image | Einsatz |
+|-----|-------------|------------|---------|
+| `latest` | amd64, arm64 | Ubuntu 22.04 | **Empfohlen** - Neueste stabile Version |
+| `1.3.0` | amd64, arm64 | Ubuntu 22.04 | Stabile Release (Dez 2025) - LLM-Support |
+| `1.3` | amd64, arm64 | Ubuntu 22.04 | Minor Version Track |
+| `1.2.0` | amd64, arm64 | Ubuntu 22.04 | Vorherige stabile Version |
+| `qnap` | amd64 | Ubuntu 20.04 | **QNAP NAS** optimiert (SSE4.2 Baseline) |
+| `1.3.0-qnap` | amd64 | Ubuntu 20.04 | QNAP v1.3.0 Release |
 
-**Multi-Architecture Support:**
-- `linux/amd64` - Intel/AMD x64 processors
+**Multi-Architektur-Unterstützung:**
+- `linux/amd64` - Intel/AMD x64 Prozessoren
 - `linux/arm64` - ARM v8 (Raspberry Pi, Apple Silicon, AWS Graviton)
 
-Docker automatically selects the correct architecture for your platform.
+Docker wählt automatisch die passende Architektur für Ihre Plattform.
 
 ---
 
 ## Features
 
-✅ **Multi-Model Database**
+✅ **Multi-Modell Datenbank**
 - Key-Value Store
-- Document Store (JSON)
-- Vector Search (embeddings, similarity)
-- Graph Database (vertices, edges, traversal)
-- Geospatial (points, polygons, spatial queries)
-- Full-Text Search
-- **NEW: Optional LLM Integration** (v1.3.0) - Native AI inference with llama.cpp
+- Document Store (JSON, BSON)
+- Vector Search (Embeddings, Ähnlichkeitssuche mit HNSW)
+- Graph Database (Vertices, Edges, Traversals)
+- Geospatial (Points, Polygons, Spatial Indexes)
+- Full-Text Search (Tokenization, Stemming, Ranking)
+- **NEU: Optional LLM Integration** (v1.3.0) - Native AI Inference mit llama.cpp
 
 ✅ **Enterprise Features**
-- ACID transactions
-- Horizontal scaling & sharding
-- Multi-master replication
-- GPU acceleration (CUDA, Vulkan, ROCm)
-- Real-time analytics (CEP, OLAP)
+- ACID-Transaktionen mit Snapshot Isolation
+- Horizontale Skalierung & Sharding
+- Multi-Master Replication
+- GPU-Beschleunigung (CUDA, Vulkan, ROCm)
+- Real-Time Analytics (Complex Event Processing, OLAP)
 - Client SDKs (Python, JavaScript, Rust, Go, Java, C#, Swift)
-- **NEW: Protocol Support** (v1.3.0) - HTTP/2, WebSocket, MQTT, PostgreSQL Wire, MCP
+- **NEU: Protocol Support** (v1.3.0) - HTTP/2, WebSocket, MQTT, PostgreSQL Wire, MCP
 
 ✅ **Production-Ready**
-- ~150MB compressed image size
-- Health checks built-in
-- OpenTelemetry instrumentation
-- DSGVO/GDPR compliance features
-- Automated backups & recovery
+- ~3.8 GB Docker Image (komprimiert ~150 MB)
+- Integrierte Health-Checks
+- OpenTelemetry Instrumentation
+- DSGVO/GDPR Compliance Features
+- Automatisierte Backups & Recovery
+- Non-Root Container Security
 
 ---
 
 ## Docker Compose
 
-### Basic Setup
+### Basis-Setup
 
 ```yaml
 version: '3.8'
 
 services:
   themis:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:1.3.0
     container_name: themis
     ports:
-      - "8080:8080"
-      - "18765:18765"
+      - "8080:8080"      # HTTP REST API
+      - "8765:8765"      # Binary Protocol (Wire Protocol, gRPC)
+      - "4318:4318"      # OpenTelemetry OTLP (Prometheus)
     volumes:
       - themis_data:/data
       - ./config.json:/etc/themis/config.json:ro
     environment:
-      THEMIS_PORT: 18765
-      THEMIS_CONFIG_PATH: /etc/themis/config.json
+      THEMIS_PORT: "8765"
+      THEMIS_CONFIG_PATH: "/etc/themis/config.json"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:18765/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 5s
       retries: 3
+      start_period: 10s
 
 volumes:
   themis_data:
+    driver: local
 ```
 
-**Start:**
+**Starten:**
 ```bash
 docker-compose up -d
 docker-compose logs -f themis
 ```
 
-### Production Setup with Monitoring
+### Production-Setup mit Monitoring
 
 ```yaml
 version: '3.8'
 
 services:
   themis:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:1.3.0
     ports:
-      - "8080:8080"
-      - "18765:18765"
+      - "8080:8080"      # HTTP REST API
+      - "8765:8765"      # Binary Protocol (Wire Protocol, gRPC)
+      - "4318:4318"      # OpenTelemetry OTLP
     volumes:
       - themis_data:/data
+      - ./config.json:/etc/themis/config.json:ro
+    environment:
+      THEMIS_PORT: "8765"
+      THEMIS_CONFIG_PATH: "/etc/themis/config.json"
     deploy:
       resources:
         limits:
@@ -160,12 +175,29 @@ services:
   prometheus:
     image: prom/prometheus:latest
     ports:
-      - "9090:9090"
+      - "9090:9090"      # Prometheus UI & API
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
     networks:
       - themis_net
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"      # Grafana UI
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+      GF_INSTALL_PLUGINS: "grafana-clock-panel,grafana-simple-json-datasource"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - themis_net
+    restart: unless-stopped
 
 networks:
   themis_net:
@@ -173,87 +205,111 @@ networks:
 
 volumes:
   themis_data:
+    driver: local
   prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
 ```
 
 ---
 
-## Configuration
+## Konfiguration
 
-### Environment Variables
+### Umgebungsvariablen
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `THEMIS_CONFIG_PATH` | `/etc/themis/config.json` | Configuration file path |
-| `THEMIS_PORT` | `18765` | Internal server port |
-| `LD_LIBRARY_PATH` | `/usr/local/lib/themisdb:/usr/local/lib` | Runtime library path |
+| Variable | Standard | Beschreibung |
+|----------|----------|--------------|
+| `THEMIS_CONFIG_PATH` | `/etc/themis/config.json` | Pfad zur Konfigurationsdatei |
+| `THEMIS_PORT` | `8765` | Interner Server-Port (Binary Protocol) |
+| `LD_LIBRARY_PATH` | `/usr/local/lib/themisdb:/usr/local/lib` | Pfad für Runtime-Bibliotheken |
 
 ### Custom Configuration
 
 ```bash
-# Mount your own config
+# Eigene Konfiguration einbinden
 docker run -d \
   -v /path/to/config.json:/etc/themis/config.json:ro \
-  themisdb/themisdb:latest
+  themisdb/themisdb:1.3.0
 ```
 
-**Config Example:**
+**Konfiguration Beispiel:**
 ```json
 {
   "server": {
-    "port": 18765,
-    "max_connections": 1000
+    "port": 8765,
+    "max_connections": 1000,
+    "thread_pool_size": 8,
+    "host": "0.0.0.0"
   },
   "storage": {
     "data_dir": "/data",
-    "cache_size_mb": 512
+    "cache_size_mb": 512,
+    "compression": "zstd"
+  },
+  "tracing": {
+    "enabled": true,
+    "service_name": "themis-server",
+    "otlp_endpoint": "http://localhost:4318"
   },
   "features": {
     "vector_search": true,
     "graph_engine": true,
-    "geo_spatial": true
+    "geo_spatial": true,
+    "llm_engine": false
   }
 }
 ```
 
 ---
 
-## Platform-Specific Usage
+## Plattform-spezifische Verwendung
 
 ### QNAP NAS
 
 ```bash
-# Pull QNAP-optimized image
+# QNAP-optimiertes Image herunterladen
 docker pull themisdb/themisdb:qnap
 
-# Run (using QNAP default port 18765)
+# Starten (mit Port 8765)
 docker run -d \
   --name themis \
-  -p 18765:18765 \
+  -p 8765:8765 \
   -v /share/Container/themis/data:/data \
   themisdb/themisdb:qnap
 ```
 
-**QNAP Notes:**
-- Uses Ubuntu 20.04 base (GLIBC 2.31)
-- SSE4.2 CPU baseline (broader compatibility)
-- Optimized for x86_64 QNAP NAS devices
-- Requires QTS 5.0+ or QuTS hero h5.0+
+**QNAP Hinweise:**
+- Ubuntu 20.04 Base (GLIBC 2.31)
+- SSE4.2 CPU Baseline (erweiterte Kompatibilität)
+- Optimiert für x86_64 QNAP NAS-Geräte
+- Erfordert QTS 5.0+ oder QuTS hero h5.0+
 
 ### Raspberry Pi / ARM
 
 ```bash
-# Auto-selects ARM64 image
-docker pull themisdb/themisdb:latest
-docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb:latest
+# Wählt automatisch ARM64 Image aus
+docker pull themisdb/themisdb:1.3.0
+docker run -d \
+  --name themis \
+  -p 8080:8080 \
+  -p 8765:8765 \
+  -p 4318:4318 \
+  -v themis_data:/data \
+  themisdb/themisdb:1.3.0
 ```
 
 ### macOS (Docker Desktop)
 
 ```bash
-# Works on both Intel and Apple Silicon
-docker pull themisdb/themisdb:latest
-docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb:latest
+# Funktioniert auf Intel und Apple Silicon
+docker pull themisdb/themisdb:1.3.0
+docker run -d \
+  -p 8080:8080 \
+  -p 8765:8765 \
+  -p 4318:4318 \
+  -v themis_data:/data \
+  themisdb/themisdb:1.3.0
 ```
 
 ---
@@ -263,24 +319,24 @@ docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb
 ### Data Volume
 
 ```bash
-# Create named volume
+# Named Volume erstellen
 docker volume create themis_data
 
-# Run with volume
-docker run -d -v themis_data:/data themisdb/themisdb:latest
+# Mit Volume starten
+docker run -d -v themis_data:/data themisdb/themisdb:1.3.0
 
-# Backup volume
+# Volume sichern
 docker run --rm -v themis_data:/data -v $(pwd):/backup \
   ubuntu tar czf /backup/themis_backup.tar.gz /data
 ```
 
-### Important Directories
+### Wichtige Verzeichnisse
 
-| Path | Purpose | Mount |
-|------|---------|-------|
-| `/data` | Database files | ✅ Required |
-| `/etc/themis` | Configuration | Optional |
-| `/var/log/themis` | Application logs | Optional |
+| Pfad | Zweck | Mount |
+|------|-------|--------|
+| `/data` | Datenbankdateien | ✅ Erforderlich |
+| `/etc/themis` | Konfiguration | Optional |
+| `/var/log/themis` | Anwendungs-Logs | Optional |
 
 ---
 
@@ -289,27 +345,27 @@ docker run --rm -v themis_data:/data -v $(pwd):/backup \
 ### Built-in Health Check
 
 ```bash
-# Check container health
+# Container-Zustand prüfen
 docker inspect --format='{{.State.Health.Status}}' themis
 
-# View health logs
+# Health Logs anschauen
 docker inspect --format='{{json .State.Health}}' themis | jq
 ```
 
 ### Health Endpoint
 
 ```bash
-curl http://localhost:18765/health
+curl http://localhost:8080/health
 # Response: {"status":"ok","uptime":3600,"version":"1.3.0"}
 ```
 
-### Resource Monitoring
+### Ressourcen-Monitoring
 
 ```bash
-# Live stats
+# Live Statistiken
 docker stats themis
 
-# Detailed resource usage
+# Detaillierte Ressourcennutzung
 docker inspect themis | jq '.[0].HostConfig.Memory'
 ```
 
@@ -317,48 +373,48 @@ docker inspect themis | jq '.[0].HostConfig.Memory'
 
 ## Troubleshooting
 
-### Container Won't Start
+### Container startet nicht
 
 ```bash
-# Check logs
+# Logs anschauen
 docker logs themis
 
-# Common fixes:
-# 1. Port conflict - change port mapping
+# Häufige Lösungen:
+# 1. Port-Konflikt - Port-Mapping ändern
 docker run -p 8081:8080 -p 18766:18765 ...
 
-# 2. Permission issue - check volume permissions
-docker run --user 0 ...  # Run as root temporarily
+# 2. Berechtigungsproblem - Volume-Berechtigungen prüfen
+docker run --user 0 ...  # Temporär als root starten
 
-# 3. Resource limits - increase memory
+# 3. Ressourcen-Limit - Memory erhöhen
 docker run --memory 4g ...
 ```
 
-### Performance Issues
+### Performance-Probleme
 
 ```bash
-# Increase resources
+# Ressourcen erhöhen
 docker update --memory 8g --cpus 4 themis
 docker restart themis
 
-# Check resource usage
+# Ressourcennutzung prüfen
 docker stats themis
 
-# Optimize for production
+# Für Production optimieren
 docker run -d \
   --cpus="4" \
   --memory="8g" \
   --memory-swap="10g" \
-  themisdb/themisdb:latest
+  themisdb/themisdb:1.3.0
 ```
 
-### Library Path Issues
+### Library Path Probleme
 
 ```bash
-# Verify libraries
+# Bibliotheken überprüfen
 docker exec themis ldd /usr/local/bin/themis_server
 
-# Check environment
+# Umgebungsvariablen prüfen
 docker exec themis printenv LD_LIBRARY_PATH
 ```
 
@@ -366,110 +422,128 @@ docker exec themis printenv LD_LIBRARY_PATH
 
 ## Advanced Usage
 
-### Resource Limits
+### Ressourcen Limits
 
 ```bash
 docker run -d \
-  --cpus="4" \              # 4 CPU cores
+  --cpus="4" \              # 4 CPU Cores
   --memory="8g" \           # 8GB RAM
-  --memory-swap="10g" \     # 10GB total with swap
-  --pids-limit=1000 \       # Process limit
-  themisdb/themisdb:latest
+  --memory-swap="10g" \     # 10GB insgesamt mit Swap
+  --pids-limit=1000 \       # Prozess-Limit
+  themisdb/themisdb:1.3.0
 ```
 
-### Logging Configuration
+### Logging Konfiguration
 
 ```bash
-# JSON file driver with rotation
+# JSON file driver mit Rotation
 docker run -d \
   --log-driver json-file \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
-  themisdb/themisdb:latest
+  themisdb/themisdb:1.3.0
 
 # Syslog driver
 docker run -d \
   --log-driver syslog \
   --log-opt syslog-address=udp://localhost:514 \
-  themisdb/themisdb:latest
+  themisdb/themisdb:1.3.0
 ```
 
-### Network Modes
+### Netzwerk Modi
 
 ```bash
-# Host network (better performance, less isolation)
-docker run -d --network host themisdb/themisdb:latest
+# Host network (bessere Performance, weniger Isolation)
+docker run -d --network host themisdb/themisdb:1.3.0
 
 # Custom bridge network
 docker network create themis_net
-docker run -d --network themis_net themisdb/themisdb:latest
+docker run -d --network themis_net themisdb/themisdb:1.3.0
 ```
 
 ---
 
-## Build Your Own Image
+## Eigenes Image bauen
 
 ```bash
-# Clone repository
+# Repository klonen
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
-# Build standard image
+# Standard Image bauen
 docker build -t themis:custom .
 
-# Build QNAP-optimized image
+# QNAP-optimiertes Image bauen
 docker build -f docker/Dockerfile.qnap -t themis:qnap .
 
-# Multi-architecture build (requires buildx)
+# Multi-Architektur Build (erfordert buildx)
 docker buildx build \
   --platform linux/amd64,linux/arm64 \
   -t themis:multiarch \
   --push .
+
+# Mit lokaler LLM-Integration (llama.cpp)
+docker build \
+  --build-arg ENABLE_LLM=ON \
+  --build-context llama=llama.cpp \
+  -t themis:llm .
 ```
 
 ---
 
-## Support & Resources
+## Support & Ressourcen
 
-**Documentation:**
-- [Full Documentation](https://github.com/makr-code/ThemisDB)
+**Dokumentation:**
+- [ThemisDB GitHub](https://github.com/makr-code/ThemisDB)
 - [Docker Deployment Guide](https://github.com/makr-code/ThemisDB/blob/main/docs/deployment/DOCKER_DEPLOYMENT.md)
 - [API Reference](https://github.com/makr-code/ThemisDB/tree/main/openapi)
 
-**Get Help:**
+**Hilfe bekommen:**
 - GitHub Issues: https://github.com/makr-code/ThemisDB/issues
 - GitHub Discussions: https://github.com/makr-code/ThemisDB/discussions
 
-**Source Code:**
+**Quellcode:**
 - Repository: https://github.com/makr-code/ThemisDB
-- License: [See LICENSE](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
+- Lizenz: [Siehe LICENSE](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
 
 ---
 
 ## Image Details
 
-**Image Size:** ~150MB (compressed), ~400MB (uncompressed)
+**Image Größe:** 
+- Komprimiert: ~150 MB
+- Unkomprimiert: ~400 MB
+- Docker Umgebung: ~3.8 GB
 
 **Build Info:**
-- Builder: Docker Buildx (multi-stage)
+- Builder: Docker Buildx (Multi-Stage)
 - Compiler: GCC 11+ / Clang 14+
 - C++ Standard: C++20
-- vcpkg: Package manager for dependencies
+- vcpkg: Package Manager für Dependencies
 
-**Security:**
-- Non-root user by default
-- Minimal attack surface
-- Regular security updates
-- SBOM (Software Bill of Materials) provided
+**Sicherheit:**
+- Non-Root User standardmäßig
+- Minimale Angriffsfläche
+- Regelmäßige Security Updates
+- SBOM (Software Bill of Materials) vorhanden
+
+**Inhalte der Runtime Image:**
+- `themis_server` Binary (30 MB)
+- Runtime-Bibliotheken (vcpkg Dependencies)
+- Konfigurationen & Schemas
+- Dokumentation & OpenAPI Specs
+- Client SDKs & Beispiele
+- Plugin-Signer Tools
 
 ---
 
-## License
+## Lizenz
 
-ThemisDB is released under the terms specified in the [LICENSE](https://github.com/makr-code/ThemisDB/blob/main/LICENSE) file.
+ThemisDB ist unter den Bedingungen der [LICENSE](https://github.com/makr-code/ThemisDB/blob/main/LICENSE) Datei lizenziert.
 
 ---
 
-**Last Updated:** December 21, 2025  
-**Maintainer:** ThemisDB Team  
-**Docker Hub:** https://hub.docker.com/r/themisdb/themisdb
+**Letztes Update:** 21. Dezember 2025  
+**Betreuer:** ThemisDB Team  
+**Docker Hub:** https://hub.docker.com/r/themisdb/themisdb  
+**GitHub:** https://github.com/makr-code/ThemisDB
