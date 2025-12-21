@@ -230,6 +230,7 @@ docker build -f Dockerfile.community -t themisdb:1.3.0-community .
 ✅ Time-Series Support
 ✅ JSON/Blob Storage
 ✅ Content Processing
+✅ LLM Integration (llama.cpp - Embedding, Similarity, Inference)
 ```
 
 ---

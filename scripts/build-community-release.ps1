@@ -1,7 +1,7 @@
 # Build ThemisDB Community Edition v1.3.5
 # ========================================
 # Builds the free, open-source Community Edition for multiple platforms.
-# Edition constraints: 24GB GPU VRAM, single-node only, no enterprise plugins.
+# Edition features: 24GB GPU VRAM, single-node, LLM core features (Embedding, Similarity, Inference), no enterprise plugins.
 
 param(
     [ValidateSet("windows", "docker", "all")]
@@ -24,7 +24,7 @@ Write-Host "Building ThemisDB v$Version - COMMUNITY Edition" -ForegroundColor Cy
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Platform: $Platform"
 Write-Host "Configuration: $Configuration"
-Write-Host "Edition: COMMUNITY (GPU: 24GB, Nodes: 1, Plugins: No)"
+Write-Host "Edition: COMMUNITY (GPU: 24GB, Nodes: 1, Plugins: No, LLM: Yes)"
 Write-Host ""
 
 # Function: Configure CMake with edition settings
@@ -137,6 +137,7 @@ Edition: COMMUNITY
 GPU VRAM Limit: 24 GB
 Sharding: Single-node only
 Enterprise Plugins: Disabled
+LLM Features: Enabled (llama.cpp - Embedding, Similarity, Inference)
 
 Release Notes: See RELEASE_NOTES_v$Version.md
 "@

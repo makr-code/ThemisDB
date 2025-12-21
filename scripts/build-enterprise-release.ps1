@@ -57,6 +57,7 @@ function Configure-CMake-Enterprise {
             -DTHEMIS_BUILD_BENCHMARKS=ON `
             -DTHEMIS_ENABLE_GPU=ON `
             -DTHEMIS_ENABLE_TRACING=ON `
+            -DTHEMIS_ENABLE_LLM=ON `
             -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON `
             -DTHEMIS_ENABLE_MULTI_MASTER=ON `
             -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON `

@@ -80,6 +80,8 @@ if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
 endif()
 
 # LLM Support (v1.3.0+)
+# Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
+# Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
 option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
 
 # Hardware acceleration backend options
@@ -186,7 +188,8 @@ if(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
     set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
     set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node only")
+    set(THEMIS_ENABLE_LLM ON CACHE INTERNAL "LLM core feature enabled in Community Edition")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM enabled")
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
