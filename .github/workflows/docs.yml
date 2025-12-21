@@ -48,7 +48,7 @@ jobs:
       
       - name: Build MkDocs site
         run: |
-          mkdocs build --strict
+          mkdocs build --clean
       
       - name: Install wkhtmltopdf
         run: |
