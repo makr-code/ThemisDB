@@ -23,10 +23,15 @@ on:
           - linux/amd64
           - linux/amd64,linux/arm64
         default: 'linux/amd64'
+      enable_llm:
+        description: 'Enable LLM support (llama.cpp)'
+        required: false
+        type: boolean
+        default: false
 
 # Prevent concurrent builds
 concurrency:
-  group: nightly-build-${{ github.ref }}
+  group: nightly-build
   cancel-in-progress: false
 
 env:
@@ -135,13 +140,14 @@ jobs:
       
       - name: Configure CMake
         run: |
+          ENABLE_LLM="${{ github.event.inputs.enable_llm || 'false' }}"
           cmake -S . -B build -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
             -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_STATIC_BUILD=OFF \
-            -DTHEMIS_ENABLE_LLM=OFF
+            -DTHEMIS_ENABLE_LLM=$([ "$ENABLE_LLM" = "true" ] && echo "ON" || echo "OFF")
       
       - name: Build ThemisDB
         run: |
