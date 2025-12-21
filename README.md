@@ -289,12 +289,14 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 - 🚧 Production hardening
 
 **Planned (v1.4+ - 2026):**
+- 📋 **Modular Architecture** - Split monolithic core into 11 focused libraries (post-v1.3.0)
 - 📋 Real-time materialized views
 - 📋 Cross-region replication
 - 📋 Advanced security compliance (SOC 2, HIPAA)
 - 📋 Cloud-native optimizations
 
-**[→ Detailed Roadmap](docs/roadmap/ROADMAP.md)**
+**[→ Detailed Roadmap](docs/roadmap/ROADMAP.md)**  
+**[→ Modularization Plan](docs/architecture/MODULARIZATION_PLAN.md)** (post-v1.3.0)
 
 ---
 
