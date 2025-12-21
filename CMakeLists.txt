@@ -1247,6 +1247,7 @@ if(THEMIS_BUILD_TESTS)
     tests/test_prompt_manager.cpp
     tests/test_mock_clip.cpp
         tests/test_image_analysis_interface.cpp
+        tests/test_image_analysis_quality.cpp
         tests/test_backup_restore.cpp
         tests/test_cursor.cpp
         tests/test_temporal_graph.cpp
@@ -1641,6 +1642,28 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_text_extraction
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    add_executable(bench_image_analysis
+        benchmarks/bench_image_analysis.cpp
+    )
+    
+    target_link_libraries(bench_image_analysis
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    add_executable(bench_image_analysis_latency
+        benchmarks/bench_image_analysis_latency.cpp
+    )
+    
+    target_link_libraries(bench_image_analysis_latency
         PRIVATE
             themis_core
             benchmark::benchmark
