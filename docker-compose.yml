@@ -1,15 +1,19 @@
 version: "3.8"
 services:
-  vccdb:
-    build: .
-    image: vccdb:latest
+  themisdb:
+    image: themisdb:1.3.0
+    container_name: themisdb-server
     ports:
-      - "8080:8765"
+      - "8080:8080"
+      - "18765:18765"
     volumes:
       - ./data:/data
-      - ./config/config.json:/etc/vccdb/config.json:ro
+      - ./config/config.json:/etc/themis/config.json:ro
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_CONFIG_PATH: "/etc/themis/config.json"
     healthcheck:
-      test: ["CMD-SHELL", "curl -fsS http://localhost:8765/health || exit 1"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 10

@@ -134,6 +134,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
 COPY CMakeLists.txt ./
 COPY VERSION ./
 COPY include ./include
+COPY cmake ./cmake
 COPY src ./src
 
 # Optional: enable embedded LLM via llama.cpp
