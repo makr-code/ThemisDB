@@ -1647,6 +1647,17 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark_main
     )
     
+    add_executable(bench_image_analysis
+        benchmarks/bench_image_analysis.cpp
+    )
+    
+    target_link_libraries(bench_image_analysis
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
     add_executable(bench_policy_evaluation
         benchmarks/bench_policy_evaluation.cpp
     )
