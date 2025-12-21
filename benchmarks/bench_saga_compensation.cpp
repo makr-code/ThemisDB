@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <atomic>
 #include <chrono>
+#include <thread>
 
 using namespace themis;
 
@@ -138,7 +139,7 @@ BENCHMARK_DEFINE_F(SagaBenchmarkFixture, DatabaseWriteCompensation)(benchmark::S
             saga.addStep(
                 "write_" + key,
                 [this, key]() {
-                    secondary_index_->remove("saga_test", key);
+                    secondary_index_->erase("saga_test", key);
                 }
             );
         }

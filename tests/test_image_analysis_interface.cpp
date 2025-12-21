@@ -14,6 +14,7 @@
 #include <vector>
 #include <memory>
 #include <chrono>
+#include <future>
 
 using namespace themis::plugins::image;
 
@@ -70,7 +71,7 @@ public:
     
     EmbeddingResult generateEmbedding(
         const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata
+        const ImageMetadata* metadata = nullptr
     ) override {
         EmbeddingResult result;
         result.success = true;
@@ -92,8 +93,8 @@ public:
     
     CaptionResult generateCaption(
         const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata,
-        int max_length
+        const ImageMetadata* metadata = nullptr,
+        int max_length = 50
     ) override {
         CaptionResult result;
         result.success = true;
@@ -379,11 +380,4 @@ TEST_F(ImageAnalysisInterfaceTest, ConcurrentAccess) {
     }
 }
 
-// ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Note: No custom main here; linked with GTest::gtest_main

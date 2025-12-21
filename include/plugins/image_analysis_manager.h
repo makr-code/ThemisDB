@@ -19,6 +19,7 @@
 #include <mutex>
 #include <optional>
 #include <functional>
+#include <future>
 
 namespace themis {
 namespace plugins {

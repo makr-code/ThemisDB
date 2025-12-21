@@ -90,12 +90,16 @@ public:
                     std::string edge_id = "follows_" + std::to_string(i) + "_" + std::to_string(target);
                     
                     BaseEntity edge(edge_id);
+                    edge.setField("id", edge_id);
                     edge.setField("_from", node_ids_[i]);
                     edge.setField("_to", node_ids_[target]);
-                    edge.setField("type", "FOLLOWS");
+                    edge.setField("_type", "FOLLOWS");
                     edge.setField("since", 2020 + (rng() % 5));
-                    
-                    property_graph_->addEdge(edge);
+
+                    auto st = property_graph_->addEdge(edge, "social");
+                    if (!st.ok) {
+                        throw std::runtime_error("Failed to add edge: " + st.message);
+                    }
                 }
             }
         }
@@ -153,7 +157,7 @@ BENCHMARK_DEFINE_F(GNNEmbeddingsBenchmarkFixture, BatchEmbeddingGeneration)(benc
             size_t end = std::min(i + batch_size, node_ids_.size());
             std::vector<std::string> batch(node_ids_.begin() + i, node_ids_.begin() + end);
             
-            auto status = gnn_manager_->generateNodeEmbeddingsBatch("social", batch, model_name);
+            auto status = gnn_manager_->generateNodeEmbeddingsBatch(batch, "social", model_name, static_cast<size_t>(batch_size));
             
             if (!status.ok) {
                 state.SkipWithError("Batch embedding failed");
@@ -194,7 +198,7 @@ BENCHMARK_DEFINE_F(GNNEmbeddingsBenchmarkFixture, SimilaritySearch)(benchmark::S
         // Pick random node and find similar
         std::string query_node = node_ids_[node_dist(rng)];
         
-        auto [status, similar] = gnn_manager_->findSimilarNodes(query_node, "social", k);
+        auto [status, similar] = gnn_manager_->findSimilarNodes(query_node, "social", k, model_name);
         
         if (!status.ok) {
             state.SkipWithError("Similarity search failed");
