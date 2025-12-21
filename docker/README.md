@@ -3,10 +3,18 @@
 [![Docker Hub](https://img.shields.io/docker/pulls/themisdb/themisdb.svg)](https://hub.docker.com/r/themisdb/themisdb)
 [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest)](https://hub.docker.com/r/themisdb/themisdb)
 [![Docker Image Version](https://img.shields.io/docker/v/themisdb/themisdb/latest)](https://hub.docker.com/r/themisdb/themisdb)
+[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
+[![GitHub Stars](https://img.shields.io/github/stars/makr-code/ThemisDB?style=social)](https://github.com/makr-code/ThemisDB)
+[![GitHub Issues](https://img.shields.io/github/issues/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/issues)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/commits/main)
 
 ThemisDB is a high-performance, multi-model database system built on LSM Tree architecture with native support for vector search, graph operations, geospatial queries, and full-text search.
 
-**Current Version:** v1.0.2 (December 2025)  
+**NEW in v1.3.0:** Optional native LLM integration with llama.cpp - Run AI/LLM workloads directly in your database!
+
+**Current Version:** v1.3.0 (December 2025)  
 **Registry:** `docker.io/themisdb/themisdb`
 
 ---
@@ -43,10 +51,12 @@ curl http://localhost:18765/health
 | Tag | Architecture | Base Image | Use Case |
 |-----|--------------|------------|----------|
 | `latest` | amd64, arm64 | Ubuntu 22.04 | **Recommended** - Always latest stable |
-| `v1.0.2` | amd64, arm64 | Ubuntu 22.04 | Stable patch release (Dec 2025) |
-| `v1.0` | amd64, arm64 | Ubuntu 22.04 | Minor version track |
+| `v1.3.0` | amd64, arm64 | Ubuntu 22.04 | Stable release (Dec 2025) - LLM support |
+| `v1.3` | amd64, arm64 | Ubuntu 22.04 | Minor version track |
+| `v1.2.0` | amd64, arm64 | Ubuntu 22.04 | Previous stable release |
+| `v1.0.2` | amd64, arm64 | Ubuntu 22.04 | Legacy stable release |
 | `qnap` | amd64 | Ubuntu 20.04 | **QNAP NAS** optimized (SSE4.2 baseline) |
-| `v1.0.2-qnap` | amd64 | Ubuntu 20.04 | QNAP v1.0.2 release |
+| `v1.3.0-qnap` | amd64 | Ubuntu 20.04 | QNAP v1.3.0 release |
 
 **Multi-Architecture Support:**
 - `linux/amd64` - Intel/AMD x64 processors
@@ -65,6 +75,7 @@ Docker automatically selects the correct architecture for your platform.
 - Graph Database (vertices, edges, traversal)
 - Geospatial (points, polygons, spatial queries)
 - Full-Text Search
+- **NEW: Optional LLM Integration** (v1.3.0) - Native AI inference with llama.cpp
 
 ✅ **Enterprise Features**
 - ACID transactions
@@ -73,6 +84,7 @@ Docker automatically selects the correct architecture for your platform.
 - GPU acceleration (CUDA, Vulkan, ROCm)
 - Real-time analytics (CEP, OLAP)
 - Client SDKs (Python, JavaScript, Rust, Go, Java, C#, Swift)
+- **NEW: Protocol Support** (v1.3.0) - HTTP/2, WebSocket, MQTT, PostgreSQL Wire, MCP
 
 ✅ **Production-Ready**
 - ~150MB compressed image size
@@ -288,7 +300,7 @@ docker inspect --format='{{json .State.Health}}' themis | jq
 
 ```bash
 curl http://localhost:18765/health
-# Response: {"status":"ok","uptime":3600,"version":"1.0.2"}
+# Response: {"status":"ok","uptime":3600,"version":"1.3.0"}
 ```
 
 ### Resource Monitoring
@@ -458,6 +470,6 @@ ThemisDB is released under the terms specified in the [LICENSE](https://github.c
 
 ---
 
-**Last Updated:** December 14, 2025  
+**Last Updated:** December 21, 2025  
 **Maintainer:** ThemisDB Team  
 **Docker Hub:** https://hub.docker.com/r/themisdb/themisdb
