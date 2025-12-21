@@ -27,6 +27,16 @@ ThemisDB kann als erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine** e
 - 📊 **Production Monitoring** - Grafana/Prometheus Integration ✅
 - 🔌 **Plugin Architecture** - Extensible LLM backend system ✅
 - 🌐 **RPC Framework** - Inter-Shard Communication für distributed LLM ops ✅
+- 🖼️ **Image Analysis Plugins** - Multi-backend AI (llama.cpp Vision, ONNX CLIP, OpenCV DNN) ✅
+
+### Network Protocol Enhancements (v1.3.0)
+
+- 🌐 **HTTP/2 with Server Push** - CDC/Changefeed mit proaktiver Event-Delivery (~0ms Latenz) ✅
+- 🔌 **WebSocket Support** - CDC streaming mit bidirektionaler Echtzeit-Kommunikation ✅
+- 📡 **MQTT Broker** - WebSocket transport, Rate limiting, Monitoring-Metriken ✅
+- 🚀 **HTTP/3 Base** - QUIC-basierte Implementierung (ngtcp2 + nghttp3) 🚧
+- 🐘 **PostgreSQL Wire Protocol** - SQL-to-Cypher Translation für BI-Tool Kompatibilität ✅
+- 🤖 **MCP Server** - Model Context Protocol mit cross-platform Support ✅
 
 ### Performance Metrics (mit GPU)
 

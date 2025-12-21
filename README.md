@@ -24,12 +24,13 @@
 ### Key Features (When LLM Support Enabled)
 
 - 🧠 **Embedded LLM Engine** - llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params)
+- 🖼️ **Image Analysis AI Plugins** - llama.cpp Vision (primary), ONNX CLIP, OpenCV DNN for image embeddings, captioning, detection
 - ⚡ **GPU Acceleration** - NVIDIA CUDA support with significant speedup vs CPU
 - 💾 **PagedAttention** - Advanced memory management with memory savings
 - 🎯 **Continuous Batching** - Handle concurrent inference requests
 - 🔧 **Quantization Support** - Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage
 - 📊 **Production Monitoring** - Grafana dashboards with metrics and alert rules
-- 🔌 **Plugin Architecture** - Extensible LLM backend system
+- 🔌 **Plugin Architecture** - Extensible LLM and image analysis backend system
 - 🌐 **Distributed RPC Framework** - Inter-shard communication for distributed LLM operations
 
 ### Performance Highlights (GPU Acceleration)
@@ -40,7 +41,8 @@
 - **Comprehensive test coverage** with unit tests
 
 **[→ See LLM Integration Guide](docs/llm/LLAMA_CPP_INTEGRATION.md)**  
-**[→ See Complete LLM Documentation](docs/llm/README.md)**
+**[→ See Complete LLM Documentation](docs/llm/README.md)**  
+**[→ See Image Analysis Plugin Documentation](docs/plugins/)**
 
 ---
 
@@ -56,8 +58,10 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+)
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+), **image analysis AI plugins** (v1.3.0+)
 - 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
+- 📚 **Transparent Attribution** - Clear documentation of third-party dependencies vs ThemisDB innovations (see [ATTRIBUTIONS.md](ATTRIBUTIONS.md))
+- 🖼️ **Image Analysis** - Multi-backend AI plugin architecture (llama.cpp Vision, ONNX CLIP, OpenCV DNN)
 
 ---
 

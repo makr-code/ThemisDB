@@ -65,6 +65,39 @@ cd build
 ctest --output-on-failure
 ```
 
+**5. Optional Features (v1.3.0+):**
+
+ThemisDB has optional features that require specific build flags:
+
+```bash
+# Build with LLM support (requires llama.cpp)
+cmake -B build -DTHEMIS_ENABLE_LLM=ON
+git clone https://github.com/ggerganov/llama.cpp.git
+
+# Build with HTTP/2 support
+cmake -B build -DTHEMIS_ENABLE_HTTP2=ON
+
+# Build with WebSocket support
+cmake -B build -DTHEMIS_ENABLE_WEBSOCKET=ON
+
+# Build with MQTT support
+cmake -B build -DTHEMIS_ENABLE_MQTT=ON
+
+# Build with PostgreSQL Wire Protocol
+cmake -B build -DTHEMIS_ENABLE_POSTGRES_WIRE=ON
+
+# Build with MCP Server support
+cmake -B build -DTHEMIS_ENABLE_MCP=ON
+
+# Build with Image Analysis plugins
+cmake -B build -DTHEMIS_ENABLE_IMAGE_ANALYSIS=ON
+
+# Build with all optional features
+cmake -B build -DTHEMIS_ENABLE_ALL_PROTOCOLS=ON
+```
+
+See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for third-party dependency information.
+
 **Running tests under Windows / WSL (developer tips)**
 
 - If you build under WSL the default build output used by repository helper scripts is `build-wsl/` (e.g. `build-wsl/themis_tests` and `build-wsl/themis_server`). Helper scripts (such as `.tools/vault_dev_run.ps1`) rely on this layout.
