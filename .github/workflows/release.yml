@@ -44,7 +44,7 @@ jobs:
           if [ -z "$VERSION" ]; then
             # For scheduled/night builds, read from VERSION file
             if [ -f "VERSION" ]; then
-              VERSION=$(cat VERSION | tr -d '\n\r')
+              VERSION=$(head -n1 VERSION | tr -d '\n\r')
             else
               echo "Error: VERSION file not found and no version input provided"
               exit 1
