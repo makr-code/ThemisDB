@@ -25,6 +25,9 @@ packages/
 downloads/
 buildtrees/
 
+# external/vcpkg - deprecated, use root ./vcpkg instead (v1.3.0+)
+external/vcpkg/
+
 # Distribution artifacts (not needed in repo)
 dist/
 *.tar.gz
