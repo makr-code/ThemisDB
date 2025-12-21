@@ -124,7 +124,8 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 |----------|-------------|
 | [Changelog](../CHANGELOG.md) | Version history and changes |
 | [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
-| [v1.2.0 Release](releases/v1.2.0.md) | Latest release notes |
+| [v1.3.0 Release](../RELEASE_NOTES_v1.3.0.md) | Latest release notes |
+| [v1.2.0 Release](releases/v1.2.0.md) | Previous release |
 | [v1.1.0 Release](releases/v1.1.0.md) | Previous release |
 | [Migration Guides](guides/MIGRATION.md) | Upgrade between versions |
 
@@ -194,6 +195,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - No marker: Available in all versions
 - (v1.1+): Available from version 1.1.0 onwards
 - (v1.2+): Available from version 1.2.0 onwards
+- (v1.3+): Available from version 1.3.0 onwards
 - 🚧 Experimental: Not production-ready
 - 📋 Planned: Future feature
 

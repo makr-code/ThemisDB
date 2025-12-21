@@ -19,10 +19,10 @@
 
 **v1.3.0 Implementierte Features:**
 - Multi-LoRA Management → ✅ **PRODUKTIV** (`MultiLoRAManager`)
-- Continuous Batching → ✅ **PRODUKTIV** (100+ concurrent requests)
-- PagedAttention → ✅ **PRODUKTIV** (65% memory savings)
-- Kernel Fusion → ✅ **PRODUKTIV** (6 CUDA kernels, 30-40% speedup)
-- GPU/CUDA → ✅ **PRODUKTIV** (100x faster vs CPU)
+- Continuous Batching → ✅ **PRODUKTIV** (concurrent request handling)
+- PagedAttention → ✅ **PRODUKTIV** (memory optimization)
+- Kernel Fusion → ✅ **PRODUKTIV** (CUDA kernels for performance)
+- GPU/CUDA → ✅ **PRODUKTIV** (significant speedup vs CPU, hardware-dependent)
 
 ---
 
