@@ -1,6 +1,6 @@
 # ThemisDB Dokumentations-Index
 
-**Letzte Aktualisierung:** 17. Dezember 2025
+**Letzte Aktualisierung:** 20. Dezember 2025
 **Version:** 1.3.0 (LLM Integration Release)
 
 ## 🎯 Schnelleinstieg nach Rolle
