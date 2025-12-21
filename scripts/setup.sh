@@ -7,7 +7,6 @@ set -euo pipefail
 # Detect or install vcpkg
 if [[ -z "${VCPKG_ROOT:-}" ]]; then
   echo "VCPKG_ROOT not set. Installing vcpkg locally to ./vcpkg ..."
-  mkdir -p external
   if [[ ! -d vcpkg ]]; then
     git clone https://github.com/microsoft/vcpkg.git vcpkg
   fi
