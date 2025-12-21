@@ -1,6 +1,6 @@
 """Data models for the pricing server."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from enum import Enum
 from pydantic import BaseModel, EmailStr, Field
@@ -50,8 +50,8 @@ class Customer(Base):
     phone = Column(String, nullable=True)
     country = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     subscriptions = relationship("Subscription", back_populates="customer")
@@ -73,8 +73,8 @@ class Subscription(Base):
     price_per_month = Column(Float, nullable=False)
     start_date = Column(DateTime, nullable=True)
     end_date = Column(DateTime, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     customer = relationship("Customer", back_populates="subscriptions")
@@ -94,8 +94,8 @@ class Payment(Base):
     payment_method = Column(String, nullable=True)
     transaction_id = Column(String, unique=True, index=True, nullable=True)
     external_payment_id = Column(String, nullable=True)  # Stripe, bank reference
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     
     # Relationships
     customer = relationship("Customer", back_populates="payments")

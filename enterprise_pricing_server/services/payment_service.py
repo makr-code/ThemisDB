@@ -1,6 +1,6 @@
 """Payment processing service with banking interface."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Dict, Any
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -38,7 +38,7 @@ class BankingInterface:
                 "status": "completed",
                 "amount": 5000.0,
                 "currency": "EUR",
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat()
             }
         
         # Real implementation would call banking API
@@ -77,7 +77,7 @@ class BankingInterface:
                 "success": True,
                 "transaction_id": transaction_id,
                 "payment_url": f"https://payment.example.com/pay/{transaction_id}",
-                "expires_at": (datetime.utcnow().timestamp() + 3600)
+                "expires_at": (datetime.now(timezone.utc).timestamp() + 3600)
             }
         
         # Real implementation would call banking API

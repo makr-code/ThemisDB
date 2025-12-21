@@ -1,6 +1,6 @@
 """Subscription management service."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -121,8 +121,8 @@ class SubscriptionService:
             return None
         
         subscription.status = SubscriptionStatus.ACTIVE
-        subscription.start_date = datetime.utcnow()
-        subscription.end_date = datetime.utcnow() + timedelta(days=30 * duration_months)
+        subscription.start_date = datetime.now(timezone.utc)
+        subscription.end_date = datetime.now(timezone.utc) + timedelta(days=30 * duration_months)
         
         await db.flush()
         await db.refresh(subscription)
@@ -152,7 +152,7 @@ class SubscriptionService:
         if not subscription or not subscription.end_date:
             return False
         
-        if datetime.utcnow() > subscription.end_date and subscription.status == SubscriptionStatus.ACTIVE:
+        if datetime.now(timezone.utc) > subscription.end_date and subscription.status == SubscriptionStatus.ACTIVE:
             subscription.status = SubscriptionStatus.EXPIRED
             await db.flush()
             return True

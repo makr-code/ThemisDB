@@ -33,9 +33,10 @@ def test_registration_and_login():
     """Test customer registration and login."""
     print("\nTesting customer registration...")
     
-    # Register
+    # Register - use timestamp for unique email
+    import time
     customer_data = {
-        "email": f"test{int(sleep(0.1) or 1)}@example.com",
+        "email": f"test{int(time.time())}@example.com",
         "password": "TestPassword123!",
         "organization_name": "Test Organization",
         "contact_name": "Test User"

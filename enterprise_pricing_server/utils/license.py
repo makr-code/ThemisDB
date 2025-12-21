@@ -2,7 +2,7 @@
 
 import secrets
 import hashlib
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def generate_license_key(customer_email: str, tier: str) -> str:
@@ -12,7 +12,7 @@ def generate_license_key(customer_email: str, tier: str) -> str:
     Example: THEMIS-ENT-A1B2C3D4-E5F6G7H8
     """
     # Create a hash of customer email + tier + timestamp
-    timestamp = datetime.utcnow().isoformat()
+    timestamp = datetime.now(timezone.utc).isoformat()
     data = f"{customer_email}:{tier}:{timestamp}"
     hash_digest = hashlib.sha256(data.encode()).hexdigest()[:8].upper()
     

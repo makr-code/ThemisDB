@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     database_url: str = "sqlite+aiosqlite:///./pricing_server.db"
     
     # Security
+    # SECURITY WARNING: Change this secret key in production!
+    # Generate with: openssl rand -hex 32
     secret_key: str = "CHANGE-THIS-SECRET-KEY-IN-PRODUCTION"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 24  # 24 hours
