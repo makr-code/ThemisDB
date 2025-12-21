@@ -421,7 +421,7 @@ docker buildx build \
 
 **Documentation:**
 - [Full Documentation](https://github.com/makr-code/ThemisDB)
-- [Docker Deployment Guide](https://github.com/makr-code/ThemisDB/blob/main/DOCKER_DEPLOYMENT.md)
+- [Docker Deployment Guide](https://github.com/makr-code/ThemisDB/blob/main/docs/deployment/DOCKER_DEPLOYMENT.md)
 - [API Reference](https://github.com/makr-code/ThemisDB/tree/main/openapi)
 
 **Get Help:**

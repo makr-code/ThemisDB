@@ -352,7 +352,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Build time: ~3.8 hours for both architectures
   
 - **Docker Deployment Documentation**
-  - New file: `DOCKER_DEPLOYMENT.md`
+  - New file: `docs/deployment/DOCKER_DEPLOYMENT.md`
   - Quick start with `docker pull` and `docker run`
   - Configuration reference (environment variables, ports)
   - Volume management and data persistence

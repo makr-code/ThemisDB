@@ -90,7 +90,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | Document | Description |
 |----------|-------------|
 | [Deployment Guide](operations/DEPLOYMENT.md) | Production deployment strategies |
-| [Docker Deployment](../DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
+| [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
 | [Configuration](operations/CONFIGURATION.md) | Configuration reference |
 | [Monitoring](operations/MONITORING.md) | Prometheus metrics and alerting |
 | [Backup & Recovery](operations/BACKUP.md) | Backup strategies and disaster recovery |
@@ -153,7 +153,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ### By Technology
 
 **Docker/Kubernetes:**
-- [Docker Deployment](../DOCKER_DEPLOYMENT.md)
+- [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md)
 - [Kubernetes Guide](deployment/deployment_kubernetes.md)
 - [Helm Charts](../helm/README.md)
 
