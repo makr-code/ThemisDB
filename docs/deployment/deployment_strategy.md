@@ -63,18 +63,27 @@ Dies lädt ~2.5 GB an Source-Archiven herunter in `vcpkg/downloads/`.
 
 ### 2. Platform-Spezifischer Build
 
-#### Windows (MSVC 2022)
+#### Windows (MSVC 2022) - **EMPFOHLEN**
 ```powershell
-# Schnellbuild mit allen Features
+# Option 1: Schnellbuild mit allen Features (empfohlen für Deployment)
 .\quick-build.ps1
 
-# Oder manuell mit CMake
+# Option 2: Manuell mit VS 2022 Generator Preset (neu v4.0.0+)
+$env:VCPKG_ROOT = "C:\VCC\themis\vcpkg"
+cmake --preset windows-vs2022-release
+cmake --build --preset windows-vs2022-release --parallel 8
+
+# Option 3: Manuell mit CMake (Legacy)
 cmake -B build-msvc -G "Visual Studio 17 2022" -A x64 `
   -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
-  -DTHEMIS_CORE_SHARED=OFF `  # Statisch wegen DLL export limit
-  -DTHEMIS_ENABLE_LLM=ON
-cmake --build build-msvc --config Release -- /m:8
+  -DTHEMIS_CORE_SHARED=OFF `
+  -DTHEMIS_ENABLE_LLM=OFF
+cmake --build build-msvc --config Release --parallel 8
 ```
+
+**Output:** `build-msvc/Release/themis_server.exe`  
+**Zeit:** 25-35 min (erste Build), 5-10 min (inkrementell)  
+**CMake Preset:** `windows-vs2022-release` (✨ neu, automatisch konfiguriert)
 
 #### Linux (GCC/Clang)
 ```bash
@@ -120,16 +129,16 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 
 ---
 
-## Build-Plattformen (v1.3.0)
+## Build-Plattformen (v1.3.0) - **Stand: 21. Dezember 2025**
 
-| Platform | Triplet | Compiler | Target | CMake Preset | Feature Flags |
-|----------|---------|----------|--------|--------------|---------------|
-| **Windows** | x64-windows | MSVC 2022 | Windows 10+ (x64) | default | LLM, RPC, GPU |
-| **Linux (x64)** | x64-linux | GCC 11.4 | Ubuntu 22.04+ (x64) | linux-gcc | LLM, RPC, GPU, CUDA |
-| **Linux (ARM64)** | arm64-linux | GCC 11.4 | Ubuntu 22.04+ (ARM64) | linux-gcc-arm | LLM, RPC |
-| **Docker** | x64-linux / arm64-linux | GCC 11.4 | Docker Multi-Arch | docker-buildx | LLM, RPC, GPU, CUDA |
-| **QNAP NAS** | x64-linux | GCC 11.4 | QNAP x86_64 | linux-gcc | Minimal |
-| **macOS** | arm64-osx / x64-osx | Clang | macOS 11+ (x64/ARM) | macos | ⏳ Geplant |
+| Platform | Triplet | Compiler | Target | Binary Size | Package Size | Status |
+|----------|---------|----------|--------|-------------|--------------|--------|
+| **Windows** | x64-windows | MSVC 2022 (17.14) | Windows 10+ (x64) | 32 MB | 23 MB | ✅ Produktiv |
+| **Linux (x64)** | x64-linux | GCC 13.3 | Ubuntu 22.04+ (x64) | 32 MB | 29 MB | ✅ Produktiv |
+| **Linux (ARM64)** | arm64-linux | GCC 11.4 | Ubuntu 22.04+ (ARM64) | ~35 MB | ~30 MB | 🧪 Beta |
+| **Docker** | x64-linux / arm64-linux | GCC 11.4 | Docker Multi-Arch | Varies | ~150 MB | ✅ Produktiv |
+| **QNAP NAS** | x64-linux | GCC 11.4 | QNAP x86_64 | ~30 MB | ~28 MB | 🧪 Beta |
+| **macOS** | arm64-osx / x64-osx | Clang | macOS 11+ (x64/ARM) | TBD | TBD | ⏳ Geplant |
 
 **v1.3.0 Modular Build Matrix:**
 
@@ -210,72 +219,89 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 
 ## Build Process (Konsolidiert)
 
-### Windows Build (MSVC 2022)
+### Windows Build (MSVC 2022) - **✅ PRODUKTIONSREIF**
 
-**Script:** `.\scripts\build-windows.ps1`
+**Scripts:** 
+- `.\quick-build.ps1` (automatisch)
+- `.\scripts\build-windows.ps1` (manuell)
+
+**Methode 1: Manuell mit VS 2022 Generator (EMPFOHLEN)**
 
 ```powershell
-# 1. Automatischer Cache-Update (x64-windows)
-.\scripts\update-vcpkg-cache.ps1 -Triplet x64-windows
+# 1. VCPKG_ROOT setzen
+$env:VCPKG_ROOT = "C:\VCC\themis\vcpkg"
 
-# 2. CMake Configuration (Release)
-cmake -B build-msvc `
-  -G "Visual Studio 17 2022" -A x64 `
+# 2. CMake Konfiguration
+cmake -B build-msvc -G "Visual Studio 17 2022" -A x64 `
   -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
-  -DCMAKE_BUILD_TYPE=Release `
-   # Hinweis: Version wird automatisch aus der Datei `VERSION` gelesen
+  -DTHEMIS_BUILD_TESTS=OFF `
+  -DTHEMIS_BUILD_BENCHMARKS=OFF `
+  -DTHEMIS_ENABLE_TRACING=OFF
 
-# 3. Compilation & Linking
-cmake --build build-msvc --config Release -j 4
+# 3. Kompilierung (Release)
+cmake --build build-msvc --config Release --parallel 8
 
-# 4. Binary Output
-#    ✓ build-msvc\Release\themis_server.exe
-#    ✓ build-msvc\Release\themis_cli.exe (falls vorhanden)
-
-# 5. Time Estimate: 25-35 min (erste Build), 5-10 min (inkrementell)
+# 4. Packaging
+.\scripts\package-release-v1.3.0.ps1
 ```
 
-**Abhängigkeiten (vcpkg x64-windows):**
-- rocksdb[lz4,zstd], simdjson, tbb, hnswlib
-- boost-{system,asio,beast,optional}
-- fmt, spdlog, nlohmann-json, curl, yaml-cpp
+**Bekannte Probleme & Lösungen:**
+- ⚠️ **Thrift Build-Fehler** (Zugriff verweigert): Arrow-Dependency, wird durch vcpkg binary cache gelöst
+- ⚠️ **HybridLogicalClock nicht gefunden**: Include `replication/multi_master_replication.h` in `replication_manager.cpp` (bereits gefixt)
 
 **Output:**
-- `build-msvc\Release\themis_server.exe` (Hauptdatei)
-- Statisch gelinkte Dependencies (eingebettet)
+- `build-msvc\Release\themis_server.exe` (~32 MB Binary)
+- `release\themisdb-v1.3.0-windows-x64.zip` (~23 MB Package mit DLLs)
+- Statisch gelinkte Dependencies + vcpkg DLLs
 
-### Linux Build (GCC 11.4)
+**Time Estimate:** 
+- CMake Konfiguration: ~13 Minuten (vcpkg install)
+- Kompilierung: ~2-5 Minuten
+- Packaging: ~30 Sekunden (eingebettet)
+
+### Linux Build (GCC 13.3) - **✅ PRODUKTIONSREIF**
 
 **Script:** `.\scripts\build-linux.sh` (oder WSL-Integration)
 
-```bash
-# 1. Cache-Update (x64-linux)
-./scripts/update-vcpkg-cache.ps1 -Triplet x64-linux
+**Via WSL (empfohlen für Windows-Entwickler):**
 
-# 2. CMake Configuration
-cmake -B build-linux \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
-  -DVCPKG_TARGET_TRIPLET=x64-linux \
-  -DCMAKE_C_COMPILER=gcc \
-  -DCMAKE_CXX_COMPILER=g++
+```powershell
+# 1. CMake Konfiguration (in WSL)
+wsl bash -c "cd /mnt/c/VCC/themis && \
+  export VCPKG_ROOT=/mnt/c/VCC/themis/vcpkg && \
+  cmake -B build-wsl -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_TOOLCHAIN_FILE=/mnt/c/VCC/themis/vcpkg/scripts/buildsystems/vcpkg.cmake \
+    -DTHEMIS_BUILD_TESTS=OFF \
+    -DTHEMIS_BUILD_BENCHMARKS=OFF \
+    -DTHEMIS_ENABLE_TRACING=OFF"
 
-# 3. Compilation
-cmake --build build-linux --parallel 4
+# 2. Kompilierung
+wsl bash -c "cd /mnt/c/VCC/themis/build-wsl && cmake --build . --config Release -j8"
 
-# 4. Output
-#    ✓ build-linux/themis_server
-#    ✓ build-linux/themis_cli (falls vorhanden)
-
-# 5. Time Estimate: 30-40 min (erste Build), 8-12 min (inkrementell)
+# 3. Packaging
+wsl bash -c "cd /mnt/c/VCC/themis && \
+  tar -czf release/themisdb-v1.3.0-linux-x64.tar.gz \
+    -C build-wsl themis_server themis_demo themis_demo_encryption \
+    --transform 's|^|themisdb-1.3.0/bin/|'"
 ```
 
-**Abhängigkeiten (vcpkg x64-linux):**
-- Identisch zu Windows, aber für Linux kompiliert
-- Systemlibraries: libssl-dev, libcurl4-openssl-dev, zlib1g-dev (optional)
+**Native Linux:**
+
+```bash
+# Identisch, aber ohne wsl prefix und /mnt/c Pfade
+cmake -B build-linux -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+cmake --build build-linux -j$(nproc)
+```
 
 **Output:**
-- `build-linux/themis_server` (Hauptdatei, ELF x86_64)
+- `build-wsl/themis_server` (32 MB Binary, ELF x86_64)
+- `release/themisdb-v1.3.0-linux-x64.tar.gz` (29 MB Package)
+
+**Time Estimate:** 
+- CMake Konfiguration: ~38 Minuten (vcpkg install)
+- Kompilierung: ~5-10 Minuten
+- Packaging: ~10 Sekunden
 
 ### Linkage-Varianten (monolithisch vs. DLL/.so)
 
