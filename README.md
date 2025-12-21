@@ -78,11 +78,26 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 ```bash
 # Pull and run the latest version
 docker pull themisdb/themisdb:latest
-docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/themisdb:latest
+docker run -d \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -p 4318:4318 \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
 
 # Or use Docker Compose
 docker compose up -d
+
+# Check health
+curl http://localhost:8080/health
 ```
+
+**Default Ports:**
+- `8080` - HTTP/REST API, GraphQL
+- `18765` - Binary Wire Protocol, gRPC
+- `4318` - OpenTelemetry/Prometheus metrics
+
+**📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](docs/deployment/PORT_REFERENCE.md) for all ports including optional protocols (MQTT, PostgreSQL Wire, MCP).
 
 ### From Source
 
