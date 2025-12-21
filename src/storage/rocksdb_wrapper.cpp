@@ -59,6 +59,19 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
 }
 
 void RocksDBWrapper::configureOptions() {
+    // Optional: auto-apply Phase 2H tuning for high concurrency when enabled
+    if (config_.enable_high_parallel_tuning) {
+        if (config_.max_background_compactions <= 0) config_.max_background_compactions = 8;
+        if (config_.max_background_flushes <= 0) config_.max_background_flushes = 2;
+        if (config_.background_threads_low <= 0) config_.background_threads_low = 8;
+        if (config_.background_threads_high <= 0) config_.background_threads_high = 2;
+        if (config_.max_subcompactions <= 1) config_.max_subcompactions = 2;
+        if (config_.level0_file_num_compaction_trigger <= 0) config_.level0_file_num_compaction_trigger = 2;
+        if (config_.level0_slowdown_writes_trigger <= 0) config_.level0_slowdown_writes_trigger = 8;
+        if (config_.level0_stop_writes_trigger <= 0) config_.level0_stop_writes_trigger = 16;
+        if (config_.block_cache_shard_bits < 0) config_.block_cache_shard_bits = 6; // 64 shards
+        if (config_.db_write_buffer_size_mb == 0) config_.db_write_buffer_size_mb = 512;
+    }
     // Create DB if missing
     options_->create_if_missing = true;
     
@@ -75,7 +88,7 @@ void RocksDBWrapper::configureOptions() {
     rocksdb::BlockBasedTableOptions table_options;
     table_options.block_cache = rocksdb::NewLRUCache(
         config_.block_cache_size_mb * 1024 * 1024, // capacity
-        -1,                                         // num_shard_bits (auto)
+        config_.block_cache_shard_bits,             // num_shard_bits (-1 = auto, 6 = 64 shards for 8+ threads)
         false,                                      // strict_capacity_limit
         config_.high_pri_pool_ratio                 // high_pri_pool_ratio
     );
@@ -87,8 +100,29 @@ void RocksDBWrapper::configureOptions() {
     table_options.filter_policy.reset(rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false));
     options_->table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
     
+    // Phase 2H: Configure background thread pools for high parallelism
+    // Set flush thread pool (HIGH priority)
+    if (config_.background_threads_high > 0) {
+        options_->env->SetBackgroundThreads(config_.background_threads_high, rocksdb::Env::Priority::HIGH);
+    }
+    // Set compaction thread pool (LOW priority)
+    if (config_.background_threads_low > 0) {
+        options_->env->SetBackgroundThreads(config_.background_threads_low, rocksdb::Env::Priority::LOW);
+    }
+    
     // Compaction
     options_->max_background_jobs = config_.max_background_jobs;
+    
+    // Phase 2H: Granular background operation control
+    if (config_.max_background_compactions > 0) {
+        options_->max_background_compactions = config_.max_background_compactions;
+    }
+    if (config_.max_background_flushes > 0) {
+        options_->max_background_flushes = config_.max_background_flushes;
+    }
+    if (config_.max_subcompactions > 0) {
+        options_->max_subcompactions = config_.max_subcompactions;
+    }
     if (config_.use_universal_compaction) {
         options_->compaction_style = rocksdb::kCompactionStyleUniversal;
     } else {
@@ -97,6 +131,16 @@ void RocksDBWrapper::configureOptions() {
     options_->level_compaction_dynamic_level_bytes = config_.dynamic_level_bytes;
     options_->target_file_size_base = config_.target_file_size_base_mb * 1024ull * 1024ull;
     options_->max_bytes_for_level_base = config_.max_bytes_for_level_base_mb * 1024ull * 1024ull;
+    
+    // Phase 2H: Level0 file control to prevent write stalls
+    options_->level0_file_num_compaction_trigger = config_.level0_file_num_compaction_trigger;
+    options_->level0_slowdown_writes_trigger = config_.level0_slowdown_writes_trigger;
+    options_->level0_stop_writes_trigger = config_.level0_stop_writes_trigger;
+    
+    // Phase 2H: Total write buffer size limit
+    if (config_.db_write_buffer_size_mb > 0) {
+        options_->db_write_buffer_size = config_.db_write_buffer_size_mb * 1024ull * 1024ull;
+    }
 
     // Compression preferences (best-effort; depends on build of RocksDB)
     auto toCompression = [](const std::string& s) {
@@ -114,8 +158,14 @@ void RocksDBWrapper::configureOptions() {
     options_->compression = toCompression(config_.compression_default);
     options_->bottommost_compression = toCompression(config_.compression_bottommost);
     
-    // WAL
+    // Parallel Write Optimization (RocksDB Best Practices)
+    options_->allow_concurrent_memtable_write = config_.allow_concurrent_memtable_write;
+    options_->enable_pipelined_write = config_.enable_pipelined_write;
+    // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
+    
+    // WAL Configuration
     write_options_->sync = config_.enable_wal;
+    write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
     }
@@ -137,6 +187,22 @@ void RocksDBWrapper::configureOptions() {
     // MVCC Transaction Configuration
     txn_db_options_->transaction_lock_timeout = 1000; // 1 second timeout
     txn_db_options_->default_lock_timeout = 1000;
+
+    // Configure TransactionDB write policy
+    switch (config_.write_policy) {
+        case Config::WritePolicy::WriteCommitted:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_COMMITTED;
+            break;
+        case Config::WritePolicy::WritePrepared:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_PREPARED;
+            break;
+        case Config::WritePolicy::WriteUnprepared:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_UNPREPARED;
+            break;
+    }
+    if (config_.write_policy != Config::WritePolicy::WriteCommitted) {
+        options_->two_write_queues = config_.two_write_queues;
+    }
     
     // Set transaction options for optimistic concurrency control
     txn_options_->set_snapshot = true; // Automatically create snapshot on begin
@@ -455,6 +521,17 @@ void RocksDBWrapper::TransactionWrapper::rollback() {
 
 const rocksdb::Snapshot* RocksDBWrapper::TransactionWrapper::getSnapshot() const {
     return txn_ ? txn_->GetSnapshot() : nullptr;
+}
+
+bool RocksDBWrapper::TransactionWrapper::prepare() {
+    if (!txn_ || !active_) return false;
+    rocksdb::Status status = txn_->Prepare();
+    if (!status.ok()) {
+        THEMIS_ERROR("Transaction prepare failed: {}", status.ToString());
+        return false;
+    }
+    prepared_ = true;
+    return true;
 }
 
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction() {

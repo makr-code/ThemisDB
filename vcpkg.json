@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "themis-qnap",
-  "version": "1.1.0",
-  "description": "Themis v1.1.0 build manifest with mimalloc optimization",
+  "name": "themisdb",
+  "version": "1.3.0",
+  "description": "ThemisDB v1.3.0 - Multi-model database with native LLM integration",
   "license": "MIT",
   "builtin-baseline": "bee7b66f0219eeb463dc1ff77ad6ad0211f94f48",
   "dependencies": [
@@ -26,11 +26,26 @@
   ],
   "features": {
     "gpu": {
-      "description": "Enable GPU acceleration for vector search (not recommended for QNAP NAS)",
+      "description": "Enable GPU acceleration for vector search",
       "dependencies": ["faiss"]
     },
+    "llm": {
+      "description": "Enable LLM integration with llama.cpp (v1.3.0+)",
+      "dependencies": []
+    },
+    "rpc": {
+      "description": "Enable RPC framework with gRPC (v1.3.0+)",
+      "dependencies": [
+        "grpc",
+        "protobuf"
+      ]
+    },
+    "cuda": {
+      "description": "Enable NVIDIA CUDA support for GPU acceleration (requires CUDA Toolkit installed separately)",
+      "dependencies": []
+    },
     "http2": {
-      "description": "Enable HTTP/2 protocol support",
+      "description": "Enable HTTP/2 protocol support with Server Push",
       "dependencies": ["nghttp2"]
     },
     "http3": {
@@ -48,7 +63,7 @@
       ]
     },
     "websocket": {
-      "description": "Enable WebSocket protocol support (uses Boost.Beast)",
+      "description": "Enable WebSocket protocol support with CDC (uses Boost.Beast)",
       "dependencies": []
     },
     "mcp": {

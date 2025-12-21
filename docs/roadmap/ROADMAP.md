@@ -1,46 +1,35 @@
 # ThemisDB Roadmap
 
-**Current Version:** 1.2.0  
-**Last Updated:** December 15, 2025  
+**Current Version:** 1.3.0  
+**Last Updated:** December 20, 2025  
 **Status:** Active Development
 
 ---
 
-## 🚀 Next Top Feature: Native LLM Integration (v1.5.0 - Q3 2026)
+## ✅ Latest Release: v1.3.0 - LLM Integration (December 2025)
 
 **AI/LLM directly in your database - no external API costs!**
 
-ThemisDB wird zur ersten Multi-Model-Datenbank mit eingebetteter LLM-Engine:
+ThemisDB v1.3.0 introduces **optional** native LLM integration with embedded llama.cpp:
 
-### Key Features
+### Key Features (Optional - requires `-DTHEMIS_ENABLE_LLM=ON`)
 - 🧠 Embedded llama.cpp - Run SLMs/LLMs (1B-70B params) on GPU
-- ⚡ Zero-Copy RAG - 4x faster, direct memory access
-- 💰 100-1000x cost reduction vs. AWS/Azure/GCP
-- 🎯 All GPU tiers supported (Entry <16GB, Mid <24GB, High-End >24GB)
-- 🔄 Federated RAG with dynamic LoRA fusion
-- 📊 Continuous batching (2.6x throughput)
-
-### ROI & Cost Comparison
-
-| GPU Tier | Hardware | Model | Cost/1M Tokens | vs. GPT-4 | Break-Even |
-|----------|----------|-------|----------------|-----------|------------|
-| Entry | RTX 4060 Ti (€500) | Phi-3-Mini | €0.02 | 1500x cheaper | 2.3 months |
-| Mid-Range | RTX 4090 (€1,800) | Mistral-7B | €0.05 | 600x cheaper | 2.3 months |
-| High-End | A100 (€10,000) | Llama-3-70B | €0.15 | 200x cheaper | 6.5 months |
-
-**3-Year TCO:** €9,801 (RTX 4090) vs. €835,200 (Azure) = **99% savings**
+- ⚡ GPU Acceleration - CUDA support with significant performance gains
+- 💾 PagedAttention - Memory optimization for LLM workloads
+- 🎯 Multi-LoRA Manager - Support for multiple LoRA adapters
+- 🔄 Continuous Batching - Concurrent request handling
+- 📊 Production Monitoring - Grafana/Prometheus integration
 
 ### Documentation
-- [GPU-Tier Analysis & Hyperscaler Comparison](../llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md) ⭐ **NEW**
-- [Native LLM Integration Concept](../llm/NATIVE_LLM_INTEGRATION_CONCEPT.md) ⭐ **NEW**
-- [Zero-Copy Memory Access](../llm/ZERO_COPY_MEMORY_ACCESS.md) ⭐ **NEW**
-- [Complete LLM Documentation](../llm/README.md)
+- [LLM Integration Guide](../llm/README.md)
+- [Release Notes v1.3.0](../../RELEASE_NOTES_v1.3.0.md)
+- [GPU-Tier Analysis](../llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)
 
 ---
 
 ## Vision
 
-ThemisDB aims to be the **leading open-source multi-model database** that combines the simplicity of traditional databases with the power of modern data platforms—supporting relational, graph, vector, and document models with enterprise-grade security and compliance **plus native AI/LLM capabilities**.
+ThemisDB aims to be the **leading open-source multi-model database** that combines the simplicity of traditional databases with the power of modern data platforms—supporting relational, graph, vector, and document models with enterprise-grade security and compliance **plus optional native AI/LLM capabilities**.
 
 **Core Principles:**
 - **Unified Storage:** Single database for all data models
@@ -48,18 +37,19 @@ ThemisDB aims to be the **leading open-source multi-model database** that combin
 - **Performance First:** Optimized for real-world workloads
 - **Security by Design:** Enterprise-ready security and compliance
 - **Developer Experience:** Simple APIs, comprehensive SDKs
-- **AI-First:** Native LLM integration, no external dependencies (v1.5.0+)
+- **AI-Ready:** Optional native LLM integration (v1.3.0+)
 
 ---
 
 ## Release Timeline
 
 ```
-2025 Q4          │  2026 Q1         │  2026 Q2         │  2026 Q3-Q4
+2025 Q4          │  2026 Q1         │  2026 Q2-Q3      │  2026 Q4+
 ═════════════════╪═════════════════╪═════════════════╪══════════════
-v1.0.0 ✅        │  v1.3.0 🚧       │  v1.4.0 📋       │  v2.0.0 📋
+v1.0.0 ✅        │  v1.4.0 📋       │  v1.5.0 📋       │  v2.0.0 📋
 v1.1.0 ✅        │                  │                  │
 v1.2.0 ✅        │                  │                  │
+v1.3.0 ✅        │                  │                  │
 ```
 
 **Legend:** ✅ Released | 🚧 In Progress | 📋 Planned
@@ -67,6 +57,38 @@ v1.2.0 ✅        │                  │                  │
 ---
 
 ## Completed Milestones
+
+### v1.3.0 - LLM Integration (December 2025) ✅
+
+**Theme:** Optional Native LLM Support
+
+**Key Achievements:**
+- ✅ llama.cpp integration (optional build)
+- ✅ GPU acceleration with CUDA
+- ✅ PagedAttention memory optimization
+- ✅ Multi-LoRA manager
+- ✅ Continuous batching
+- ✅ Production monitoring
+
+### v1.2.0 - Enterprise Features (December 2025) ✅
+
+**Theme:** Advanced Analytics and Search
+
+**Key Achievements:**
+- ✅ Hypertables (TimescaleDB compatibility)
+- ✅ Hybrid Search (RAG optimization)
+- ✅ FAISS Advanced (IVF+PQ)
+- ✅ Embedding Cache
+- ✅ Time-Series Aggregates
+
+### v1.1.0 - Optimization (December 2025) ✅
+
+**Theme:** Performance and Stability
+
+**Key Achievements:**
+- ✅ Query optimization improvements
+- ✅ Memory management enhancements
+- ✅ Stability and reliability fixes
 
 ### v1.0.0 - Foundation (December 2025) ✅
 
@@ -125,17 +147,90 @@ v1.2.0 ✅        │                  │                  │
 
 ---
 
-## Current Focus
+## Future Milestones
 
-### v1.3.0 - Query Optimizer & Production Hardening (Q1 2026) 🚧
+### v1.4.0 - Production Hardening (Q1 2026) 📋
 
-**Theme:** Performance Optimization & Reliability
+**Theme:** Reliability, Performance, and Scale
 
-**Status:** In Development
-
-**Goals:**
-- 🚧 **Query Optimizer v2**
+**Planned Features:**
+- 📋 **Query Optimizer v2**
   - Cost-based optimization
+  - Join order optimization
+  - Advanced index selection
+- 📋 **Multi-Datacenter Support**
+  - Cross-region replication
+  - Geo-distribution capabilities
+  - Conflict resolution
+- 📋 **Performance Tuning**
+  - Memory optimizations
+  - Query execution improvements
+  - Enhanced caching
+- 📋 **Production Monitoring**
+  - Advanced metrics and observability
+  - Performance profiling tools
+  - Enhanced alerting
+- 📋 **SDK Publishing & Testing**
+  - Comprehensive SDK testing
+  - Security hardening (Pen-Test Phase 1)
+  - Production documentation
+
+**Target:**
+- Production-grade reliability
+- Enhanced scalability
+- Improved observability
+
+### v1.5.0 - Advanced Features (Q2-Q3 2026) 📋
+
+**Theme:** Innovation and Advanced Capabilities
+
+**Planned Features:**
+- 📋 **Advanced ML/GNN**
+  - Graph neural network support
+  - Machine learning integration
+- 📋 **Real-time Materialized Views**
+  - Incremental view maintenance
+  - Fast query responses
+- 📋 **Query Optimizer v3**
+  - Advanced optimization strategies
+  - Adaptive query execution
+- 📋 **GPU Performance Tuning**
+  - Enhanced GPU utilization
+  - Multi-GPU support
+- 📋 **Cross-Region Replication**
+  - Active-active multi-region
+  - Conflict-free replicated data types (CRDTs)
+
+**Target:**
+- Advanced analytics capabilities
+- Enhanced AI/ML features
+- Global scale support
+
+### v2.0.0 - Enterprise Scale (Q4 2026+) 📋
+
+**Theme:** Cloud-Native Enterprise Platform
+
+**Planned Features:**
+- 📋 **Multi-DC Production**
+  - Global deployment
+  - Active-active configuration
+- 📋 **K8s Operator Controller**
+  - Advanced orchestration
+  - Auto-scaling and healing
+- 📋 **SOC 2, HIPAA Compliance**
+  - Enterprise compliance certifications
+  - Advanced audit trails
+- 📋 **Cloud-Native Optimizations**
+  - Serverless integration
+  - Cloud-specific features
+- 📋 **Advanced Security**
+  - Enhanced encryption
+  - Zero-trust architecture
+
+**Target:**
+- Enterprise-grade scale
+- Global deployment readiness
+- Full compliance suite
   - Advanced statistics collection
   - Adaptive query execution
   - Join order optimization
@@ -295,19 +390,33 @@ v1.2.0 ✅        │                  │                  │
 - Change data capture enhancements
 - Data lake integration
 
-**3. Enterprise Scale**
+**3. Core Architecture Refactoring**
+- Modularize themis_core into thematic libraries (themis_storage, themis_query, themis_security, themis_sharding, themis_llm, etc.)
+- Resolve Windows DLL export limit (65,535 symbols) for shared library builds
+- Improve incremental build times
+- Enable optional feature loading
+- Better separation of concerns
+
+**3. Core Architecture Refactoring**
+- Modularize themis_core into thematic libraries (themis_storage, themis_query, themis_security, themis_sharding, themis_llm, etc.)
+- Resolve Windows DLL export limit (65,535 symbols) for shared library builds
+- Improve incremental build times
+- Enable optional feature loading
+- Better separation of concerns
+
+**4. Enterprise Scale**
 - 100+ node clusters
 - Petabyte-scale deployments
 - Advanced monitoring and alerting
 - Automated performance tuning
 
-**4. Developer Experience**
+**5. Developer Experience**
 - Visual query builder
 - Schema migration tools
 - Admin dashboard UI
 - Enhanced CLI tools
 
-**5. Compliance & Governance**
+**6. Compliance & Governance**
 - GDPR automation
 - Data lineage tracking
 - Fine-grained access control

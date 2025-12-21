@@ -1,27 +1,105 @@
-# Deployment Documentation
+# ThemisDB Deployment Documentation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Deployment
+**Version:** 2.0.0 (Offline-First vcpkg)  
+**Last Updated:** 18. Dezember 2025  
+**Status:** Production-Ready
 
 ---
 
-## Übersicht
+## 📋 Übersicht
 
-ThemisDB unterstützt Multi-Architektur-Deployment (x86_64, ARM64) mit Docker und nativen Binaries.
+ThemisDB nutzt eine **Offline-First vcpkg Build-Strategie** für reproduzierbare Deployments auf allen Plattformen.
 
-## Unterstützte Plattformen
+### Kern-Dokumente
 
-| Platform | Architecture | Status | Docker |
-|----------|--------------|--------|--------|
-| Linux (Ubuntu) | x86_64 | ✅ Production | ✅ |
-| Linux (Ubuntu) | ARM64 | ✅ Production | ✅ |
-| macOS | ARM64 (M1/M2) | ✅ Production | ❌ |
-| Windows | x86_64 | ✅ Production | ❌ |
-| Raspberry Pi 4/5 | ARM64 | ✅ Supported | ✅ |
-| QNAP NAS | ARM64 | ✅ Supported | ✅ |
+1. **[Deployment Strategy](deployment_strategy.md)** - Übergeordnete Build & Deployment Strategie
+2. **[vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md)** ⭐ **NEU** - Offline-First Build-System
+3. **[Docker Build](docker_build.md)** - Container-basiertes Deployment
+4. **[ARM/Raspberry Pi Build](deployment_arm_build.md)** - ARM64/ARMv7 Builds
 
-## Docker Deployment
+---
+
+## 🚀 Quick Start
+
+### Option 1: Docker (Empfohlen)
+
+```bash
+# Pull latest multi-arch image (amd64/arm64)
+docker pull themisdb/themisdb:latest
+
+# Run with data volume
+docker run -d \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+```
+
+### Option 2: From Source (Offline-First)
+
+```bash
+# 1. vcpkg cache setup (einmalig)
+./scripts/setup-vcpkg-offline.sh
+
+# 2. Build
+cmake -B build -DCMAKE_TOOLCHAIN_FILE=vcpkg/scripts/buildsystems/vcpkg.cmake
+cmake --build build -j$(nproc)
+
+# 3. Install
+sudo cmake --install build
+```
+
+**Siehe:** [vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md) für Details
+
+---
+
+## 🌍 Unterstützte Plattformen
+
+| Platform | Architecture | Status | Docker | vcpkg Offline | Guide |
+|----------|--------------|--------|--------|---------------|-------|
+| **Windows 10/11** | x64 | ✅ Production | ❌ | ✅ | [Build Guide](../build/README.md) |
+| **Linux (Ubuntu)** | x64 | ✅ Production | ✅ | ✅ | [Deployment Strategy](deployment_strategy.md) |
+| **Linux (Ubuntu)** | ARM64 | ✅ Production | ✅ | ✅ | [ARM Build](deployment_arm_build.md) |
+| **Raspberry Pi 4/5** | ARM64 | ✅ Supported | ✅ | ✅ | [ARM Build](deployment_arm_build.md) |
+| **QNAP NAS** | x64 | ✅ Supported | ✅ | ✅ | [QNAP Deployment](deployment_qnap.md) |
+| **macOS** | ARM64 (M1/M2) | 🚧 Planned | ❌ | ✅ | TBD |
+
+---
+
+## 📦 Build-Varianten
+
+ThemisDB bietet verschiedene Build-Konfigurationen für unterschiedliche Use-Cases:
+
+### Minimal Build (~150 MB)
+```bash
+cmake -B build \
+  -DTHEMIS_ENABLE_LLM=OFF \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
+  -DCMAKE_BUILD_TYPE=Release
+```
+
+### LLM Build (~250 MB)
+```bash
+cmake -B build \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_CORE_SHARED=OFF \
+  -DCMAKE_BUILD_TYPE=Release
+```
+
+### Full Build (~350 MB)
+```bash
+cmake -B build \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DCMAKE_BUILD_TYPE=Release
+```
+
+**Siehe:** [Deployment Strategy](deployment_strategy.md#build-varianten) für alle Optionen
+
+---
+
+## 🐳 Docker Deployment
 
 ```bash
 # Pull latest image

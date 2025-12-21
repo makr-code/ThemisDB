@@ -72,10 +72,12 @@ private:
 using CreatePluginFunc = BackendPlugin* (*)();
 
 // Helper macro for plugin exports
+#ifndef THEMIS_PLUGIN_EXPORT
 #ifdef _WIN32
     #define THEMIS_PLUGIN_EXPORT __declspec(dllexport)
 #else
     #define THEMIS_PLUGIN_EXPORT __attribute__((visibility("default")))
+#endif
 #endif
 
 // Macro to define a plugin entry point

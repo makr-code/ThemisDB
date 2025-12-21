@@ -380,7 +380,8 @@ public:
      * @brief Token-Replay Conformance
      */
     struct ConformanceResult {
-        double fitness;                         ///< 0.0 - 1.0
+        double fitness = 0.0;                   ///< 0.0 - 1.0
+        double precision = 0.0;                 ///< Approximation of precision
         int consumed_tokens = 0;
         int produced_tokens = 0;
         int missing_tokens = 0;

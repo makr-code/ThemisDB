@@ -92,3 +92,125 @@ TEST(MTLSClientTest, ConnectionPoolingConfig) {
     EXPECT_EQ(config.max_connections, 20u);
     EXPECT_EQ(config.idle_timeout_ms, 120000u);
 }
+
+// ===========================================================================
+// IPv6 Endpoint Parsing Tests
+// ===========================================================================
+
+TEST(MTLSClientTest, ParseEndpoint_IPv4_WithPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("192.168.1.1:8080");
+    EXPECT_EQ(host, "192.168.1.1");
+    EXPECT_EQ(port, "8080");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv4_WithoutPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("192.168.1.1");
+    EXPECT_EQ(host, "192.168.1.1");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv4_WithProtocol) {
+    auto [host, port] = MTLSClient::parseEndpoint("https://192.168.1.1:9090");
+    EXPECT_EQ(host, "192.168.1.1");
+    EXPECT_EQ(port, "9090");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_WithBracketsAndPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("[2001:db8::1]:8080");
+    EXPECT_EQ(host, "2001:db8::1");
+    EXPECT_EQ(port, "8080");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_WithBracketsWithoutPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("[2001:db8::1]");
+    EXPECT_EQ(host, "2001:db8::1");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_WithoutBracketsWithoutPort) {
+    // IPv6 without brackets and without port (multiple colons)
+    auto [host, port] = MTLSClient::parseEndpoint("2001:db8::1");
+    EXPECT_EQ(host, "2001:db8::1");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_WithProtocolAndPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("https://[2001:db8::1]:9090");
+    EXPECT_EQ(host, "2001:db8::1");
+    EXPECT_EQ(port, "9090");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_Localhost) {
+    auto [host, port] = MTLSClient::parseEndpoint("[::1]:8080");
+    EXPECT_EQ(host, "::1");
+    EXPECT_EQ(port, "8080");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_LocalhostWithoutPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("::1");
+    EXPECT_EQ(host, "::1");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_FullAddress) {
+    auto [host, port] = MTLSClient::parseEndpoint("[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:443");
+    EXPECT_EQ(host, "2001:0db8:85a3:0000:0000:8a2e:0370:7334");
+    EXPECT_EQ(port, "443");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_CompressedZeros) {
+    auto [host, port] = MTLSClient::parseEndpoint("[fe80::1]:8080");
+    EXPECT_EQ(host, "fe80::1");
+    EXPECT_EQ(port, "8080");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_Hostname_WithPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("shard-001.dc1.example.com:8080");
+    EXPECT_EQ(host, "shard-001.dc1.example.com");
+    EXPECT_EQ(port, "8080");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_Hostname_WithoutPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("shard-001.dc1.example.com");
+    EXPECT_EQ(host, "shard-001.dc1.example.com");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_Hostname_WithProtocol) {
+    auto [host, port] = MTLSClient::parseEndpoint("https://shard-001.dc1.example.com:9090");
+    EXPECT_EQ(host, "shard-001.dc1.example.com");
+    EXPECT_EQ(port, "9090");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_Localhost_WithPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("localhost:8765");
+    EXPECT_EQ(host, "localhost");
+    EXPECT_EQ(port, "8765");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_Localhost_WithoutPort) {
+    auto [host, port] = MTLSClient::parseEndpoint("localhost");
+    EXPECT_EQ(host, "localhost");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_MalformedBrackets) {
+    // Malformed: missing closing bracket
+    auto [host, port] = MTLSClient::parseEndpoint("[2001:db8::1");
+    // Should treat entire string as host
+    EXPECT_EQ(host, "[2001:db8::1");
+    EXPECT_EQ(port, "8080");  // Default port
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_LinkLocal) {
+    auto [host, port] = MTLSClient::parseEndpoint("[fe80::a00:27ff:fe4e:66a1]:8080");
+    EXPECT_EQ(host, "fe80::a00:27ff:fe4e:66a1");
+    EXPECT_EQ(port, "8080");
+}
+
+TEST(MTLSClientTest, ParseEndpoint_IPv6_AllZeros) {
+    auto [host, port] = MTLSClient::parseEndpoint("[::]:8080");
+    EXPECT_EQ(host, "::");
+    EXPECT_EQ(port, "8080");
+}
+

@@ -140,6 +140,7 @@ nav:
       - Policies (MVP): security/policies.md
       - Authentication:
           - JWT: auth/jwt.md
+          - Benutzerverwaltung (Admin): guides/guides_user_management.md
       - Schlüsselverwaltung: security/key_management.md
       - Verschlüsselung:
           - Verschlüsselungsstrategie: encryption_strategy.md

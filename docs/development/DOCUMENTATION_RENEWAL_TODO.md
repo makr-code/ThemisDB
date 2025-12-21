@@ -1,8 +1,19 @@
 # ThemisDB Dokumentations-Erneuerungs-TODO
 
+> **📌 STATUS UPDATE (20. Dezember 2025):**
+> Diese TODO-Liste wurde durch die systematische Dokumentations-Konsolidierung vom 20. Dezember 2025 weitgehend abgearbeitet.
+> - ✅ Version-Updates auf v1.3.0 durchgeführt
+> - ✅ Duplikate entfernt (home.md, index.md)
+> - ✅ Roadmap-Dateien aktualisiert
+> - ✅ LLM-Dokumentation als optional gekennzeichnet
+> - ✅ Performance-Claims korrigiert
+> - ✅ Broken Links repariert
+> 
+> Siehe PR: "Align documentation with implementation: Clarify LLM as optional, integrate actual benchmarks, consolidate and sync wiki"
+
 **Version:** 2.0  
 **Erstellt:** 2. Dezember 2025  
-**Aktualisiert:** 5. Dezember 2025  
+**Aktualisiert:** 20. Dezember 2025  
 **Zweck:** Systematische Überprüfung und Aktualisierung der gesamten ThemisDB-Dokumentation  
 **Ausgelöst durch:** Issue zu STREAMING_ARCHITECTURE.md - Dokumentation entspricht nicht mehr dem aktuellen Stand
 

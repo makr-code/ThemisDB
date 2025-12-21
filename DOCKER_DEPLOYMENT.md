@@ -1,7 +1,7 @@
 # ThemisDB Docker Deployment Guide
 
-**Version:** 1.0.2  
-**Last Updated:** 14. Dezember 2025  
+**Version:** 1.3.0  
+**Last Updated:** 17. Dezember 2025  
 **Status:** Production-Ready
 
 ## Quick Start
@@ -18,15 +18,45 @@ docker run -d \
   -v themis_data:/data \
   themisdb/themisdb:latest
 
-# Specific version (v1.0.2)
-docker pull themisdb/themisdb:v1.0.2
+# Specific version (v1.3.0 - LLM Integration)
+docker pull themisdb/themisdb:v1.3.0
 docker run -d \
   --name themis \
   -p 8080:8080 \
   -p 18765:18765 \
   -v themis_data:/data \
-  themisdb/themisdb:v1.0.2
+  themisdb/themisdb:v1.3.0
 ```
+
+### Quick Start with GPU Support (v1.3.0+)
+
+**NEW in v1.3.0:** Native LLM inference with GPU acceleration
+
+```bash
+# Pull GPU-enabled image
+docker pull themisdb/themisdb:v1.3.0-gpu
+
+# Run with NVIDIA GPU support
+docker run -d \
+  --name themis-gpu \
+  --gpus all \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -v themis_data:/data \
+  -v themis_models:/models \
+  themisdb/themisdb:v1.3.0-gpu
+
+# Verify GPU access
+docker exec themis-gpu nvidia-smi
+```
+
+**Requirements:**
+- NVIDIA GPU with CUDA support
+- [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker) installed
+- Docker 19.03+ with GPU support
+
+**Performance:** 100x faster inference vs CPU-only mode
+
 
 ### Verify Running
 
@@ -50,11 +80,12 @@ docker logs -f themis
 
 | Tag | Architecture | Status | Use Case |
 |-----|--------------|--------|----------|
-| `latest` | amd64 + arm64 | ✅ Production | Recommended for most users |
+| `latest` | amd64 + arm64 | ✅ Production | Recommended for most users (v1.3.0) |
+| `v1.3.0` | amd64 + arm64 | ✅ Production | LLM Integration Release (December 2025) |
+| `v1.3.0-gpu` | amd64 | ✅ Production | With CUDA support for GPU acceleration |
 | `qnap` | amd64 | ✅ Production | QNAP NAS optimized (Ubuntu 20.04, SSE4.2 baseline) |
-| `v1.0.2` | amd64 + arm64 | ✅ Production | Stable release (December 2025) |
-| `v1.0.2-qnap` | amd64 | ✅ Production | QNAP v1.0.2 release |
-| `v1.0` | amd64 + arm64 | ✅ Production | Minor version track |
+| `v1.2.0` | amd64 + arm64 | ✅ Production | Previous stable release |
+| `v1.0.2` | amd64 + arm64 | ✅ Production | Legacy stable release |
 | `v1` | amd64 + arm64 | ✅ Production | Major version track |
 
 ### Image Specs
@@ -74,6 +105,7 @@ VCPKG_ENABLE_ONLINE=OFF          # No internet access during build
 VCPKG_TRIPLET=x64-linux          # For amd64
 VCPKG_TRIPLET=arm64-linux        # For arm64
 ```
+**Hinweis:** Die lokale Quelle `llama.cpp/` im Projekt‑Root ist per `.dockerignore` ausgeschlossen und wird nicht in das Build‑Context kopiert. Die LLM‑Funktionalität wird über die kompilierten Artefakte (ggml/llama) bereitgestellt; Modelle sollten als Volume (`/models`) gemountet werden.
 
 ---
 

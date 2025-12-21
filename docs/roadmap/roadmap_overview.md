@@ -1,10 +1,13 @@
 # ThemisDB - Entwicklungs-Roadmap
 
-**Version:** 5.1  
-**Stand:** 14. Dezember 2025  
+**Version:** 6.0  
+**Stand:** 20. Dezember 2025  
 **Typ:** Konsolidierte Gesamt-Roadmap
 
-> **📌 Status Update Dezember 2025 - ROADMAP 2026 VOLLSTÄNDIG ABGESCHLOSSEN:**
+> **📌 Status Update Dezember 2025 - v1.3.0 RELEASED:**
+> - ✅ **v1.3.0 (Dezember 2025)** - LLM Integration mit llama.cpp (optional)
+> - ✅ **v1.2.0 (Dezember 2025)** - Enterprise Features (Hypertables, Hybrid Search, FAISS)
+> - ✅ **v1.1.0 (Dezember 2025)** - Optimization Release
 > - ✅ Horizontale Skalierung (Phase 1-6) **100% abgeschlossen**
 > - ✅ Replication (Leader-Follower + Multi-Master) **100% abgeschlossen**
 > - ✅ RAID-like Redundanz (MIRROR, STRIPE, PARITY, GEO) **100% abgeschlossen**
@@ -17,16 +20,11 @@
 > - ✅ P2P Gossip Protocol **100% abgeschlossen**
 > - ✅ Auto-Rebalancing & Cloud Agent **100% abgeschlossen**
 
-> **🆕 v1.1.0 ANSTEHEND (Q1 2026) - Optimierungs-Release:**
-> - 🔧 **Fokus:** Bestehende Libraries besser nutzen (RocksDB, TBB, Arrow, CUDA)
-> - 🔧 **Strategie:** Varianten-basierte Builds (OLTP, OLAP, vLLM Co-Location)
-> - 🔧 **CUDA als Kernbestand** (nicht Enterprise) - wenn GPU verfügbar
-> - 🔧 **ThemisDB + vLLM Synergie** - Optimierte Ressourcen-Koordination
-> - 🔧 **Nur 1 neue Dependency:** mimalloc (20-40% Memory Boost)
-> - 🔧 **Engineering Effort:** 9-11 Wochen
-> - 📊 **Erwarteter Impact:** 3-10x Performance bei bestehenden Features
-> 
-> **Details:** [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md)
+> **🆕 v1.4.0 GEPLANT (Q1 2026) - Production Hardening:**
+> - 🔧 **Fokus:** Query Optimizer v2, Performance Tuning, Production Readiness
+> - 🔧 **Features:** Advanced ML/GNN, Multi-datacenter, Real-time Materialized Views
+> - 🔧 **Engineering Effort:** 12-16 Wochen
+> - 📊 **Impact:** Production-grade reliability and scale
 
 ---
 
@@ -35,118 +33,127 @@
 ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** mit GPU-Beschleunigung und erweiterten Analytics-Funktionen.
 
 **Erreichte Kernziele (Q4 2025):**
-1. **Horizontal Scaling** - Multi-Node Sharding & Replication ✅ 100%
-2. **Replication** - Leader-Follower + Multi-Master ✅ 100%
-3. **RAID-like Redundancy** - Enterprise-grade Data Protection ✅ 100%
-4. **GPU Acceleration** - 10 Backends (CUDA/Vulkan/HIP/etc.) ✅ 100%
-5. **Streaming Analytics** - CEP Engine mit EPL ✅ 100%
-6. **OLAP Analytics** - CUBE, ROLLUP, Window Functions ✅ 100%
-7. **Enterprise Features** - Multi-Tenancy, Compliance ✅ 100%
-8. **Client SDKs** - 7 Sprachen mit Feature-Parität ✅ 100%
+1. **v1.3.0 - LLM Integration** - Optional llama.cpp Integration ✅
+2. **v1.2.0 - Enterprise Features** - Hypertables, Hybrid Search, FAISS ✅
+3. **v1.1.0 - Optimization** - Performance improvements ✅
+4. **Horizontal Scaling** - Multi-Node Sharding & Replication ✅ 100%
+5. **Replication** - Leader-Follower + Multi-Master ✅ 100%
+6. **RAID-like Redundancy** - Enterprise-grade Data Protection ✅ 100%
+7. **GPU Acceleration** - 10 Backends (CUDA/Vulkan/HIP/etc.) ✅ 100%
+8. **Streaming Analytics** - CEP Engine mit EPL ✅ 100%
+9. **OLAP Analytics** - CUBE, ROLLUP, Window Functions ✅ 100%
+10. **Enterprise Features** - Multi-Tenancy, Compliance ✅ 100%
+11. **Client SDKs** - 7 Sprachen mit Feature-Parität ✅ 100%
 
-**🆕 Nächste Ziele (Q1 2026 - v1.1.0):**
-1. **Library Optimization** - RocksDB TTL, TBB Concurrent Containers, Arrow Parquet
-2. **CUDA Integration** - Als Kernbestand (nicht Enterprise), adaptive GPU-Nutzung
-3. **vLLM Co-Location** - Optimierte Ressourcen-Koordination für AI/ML Workloads
-4. **Memory Performance** - mimalloc Integration (20-40% Boost)
+**🆕 Nächste Ziele (Q1 2026 - v1.4.0):**
+1. **Query Optimizer v2** - Advanced optimization and execution strategies
+2. **Production Hardening** - Stability, reliability, and scale improvements
+3. **Multi-Datacenter** - Cross-region replication and deployment
+4. **Advanced ML/GNN** - Machine learning and graph neural network features
 
 ---
 
 ## Roadmap-Übersicht (Aktualisiert Dezember 2025)
 
 ```
-2025 (✅ ABGESCHLOSSEN)    2026 Q1 (🔧 v1.1.0)      2026 Q2-Q3 (🚀 v1.2.0)     2026 Q4+ (🌟 v1.3.0+)
+2025 (✅ RELEASED)         2026 Q1 (🚀 v1.4.0)      2026 Q2-Q3 (🌟 v1.5.0)     2026 Q4+ (🔮 v2.0.0)
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 │                             │                        │                          │
-│ ✅ VOLLSTÄNDIG              │ 🔧 v1.1.0 Optimization │ 🚀 v1.2.0+ Innovation    │ 🌟 Enterprise Scale
-│   (100%, Nov-Dez 2025)      │   (Q1 2026, 9-11 W)    │   (Q2-Q3 2026)           │   (Q4 2026+)
+│ ✅ v1.3.0, v1.2.0, v1.1.0   │ 🚀 v1.4.0 Hardening    │ 🌟 v1.5.0 Advanced       │ 🔮 v2.0 Enterprise
+│   (Released Dez 2025)       │   (Q1 2026, 12-16 W)   │   (Q2-Q3 2026)           │   (Q4 2026+)
 │                             │                        │                          │
-│ ✅ ACID Transactions        │ • RocksDB Features     │ • RE2 Security           │ • Multi-DC Production
-│ ✅ Multi-Model (100%)       │   (TTL, Backup, Stats) │ • TBB Flow Graph         │ • K8s Operator Controller
-│ ✅ Security Stack (100%)    │ • TBB Parallel Algs    │ • DuckDB OLAP (opt)      │ • Advanced ML/GNN
-│ ✅ Sharding (100%)          │ • Arrow Parquet        │ • Query Optimizer v2     │ • Multi-vLLM LB
-│ ✅ Replication (100%)       │ • CUDA Kernbestand     │ • GPU Performance Tuning │
-│ ✅ GPU Acceleration (100%)  │ • vLLM Co-Location     │                          │
-│ ✅ CEP Engine (100%)        │ • mimalloc (1:1 swap)  │                          │
+│ ✅ ACID Transactions        │ • Query Optimizer v2   │ • Advanced ML/GNN        │ • Multi-DC Production
+│ ✅ Multi-Model (100%)       │ • Performance Tuning   │ • Real-time Mat. Views   │ • K8s Operator Controller
+│ ✅ Security Stack (100%)    │ • Production Hardening │ • Cross-Region Repl.     │ • SOC 2, HIPAA Compliance
+│ ✅ Sharding (100%)          │ • Multi-Datacenter     │ • Query Optimizer v3     │ • Cloud-Native Optim.
+│ ✅ Replication (100%)       │ • Monitoring++         │ • GPU Tuning++           │
+│ ✅ GPU Acceleration (100%)  │ • SDK Publishing       │                          │
+│ ✅ CEP Engine (100%)        │ • Documentation++      │                          │
 │ ✅ OLAP Analytics (100%)    │                        │                          │
-│ ✅ 7 SDKs (100%)            │ • SDK Publishing       │ • Production Hardening   │
-│ ✅ K8s CRDs (100%)          │ • Pen-Test Phase 1     │ • Pen-Test Phase 2       │
+│ ✅ 7 SDKs (100%)            │ • Pen-Test Phase 1     │ • Pen-Test Phase 2       │
+│ ✅ K8s CRDs (100%)          │                        │                          │
+│ ✅ LLM Integration (opt)    │                        │                          │
 │                             │                        │                          │
 └─────────────────────────────┴────────────────────────┴──────────────────────────┴──────────────────────
 ```
 
 ---
 
-## 🔧 Anstehend: Q1 2026 - v1.1.0 Optimization Release
+## ✅ Released: v1.3.0 - LLM Integration (Dezember 2025)
 
-> **Philosophie:** "Bestehende Libraries ausreizen, bevor neue hinzufügen"
+**Optional Feature:** Native LLM integration mit llama.cpp
 
-### v1.1.0 Kern-Features (9 Wochen)
+### v1.3.0 Features
+- ✅ **llama.cpp Integration** - Optional native LLM engine (requires `-DTHEMIS_ENABLE_LLM=ON`)
+- ✅ **GPU Acceleration** - CUDA support with significant performance gains
+- ✅ **PagedAttention** - Memory optimization for LLM workloads
+- ✅ **Continuous Batching** - Concurrent request handling
+- ✅ **Multi-LoRA Manager** - Multiple LoRA adapter support
+- ✅ **Plugin Architecture** - Extensible LLM backend system
 
-**1. RocksDB Advanced Features (3 Wochen)**
-- ✅ TTL (Time-To-Live) für automatische Data Retention
-- ✅ Incremental Backups (platzsparend, DSGVO-konform)
-- ✅ Statistics Export zu OpenTelemetry
-
-**2. TBB Parallel Features (3 Wochen)**
-- ✅ Parallel Sort (2-4x Speedup bei großen Resultsets)
-- ✅ Concurrent Containers (Lock-free Caches)
-- ✅ Parallel Algorithms (bereits in Library!)
-
-**3. Arrow Data Lake Integration (2 Wochen)**
-- ✅ Parquet Export für Data Warehouses
-- ✅ Compute Kernels für SIMD Aggregationen (optional)
-
-**4. CUDA als Kernbestand (1 Woche)**
-- ✅ **WICHTIG:** CUDA ist KEIN Enterprise-Feature!
-- ✅ Automatische Aktivierung wenn GPU verfügbar
-- ✅ CUDA Streams für Vector Search
-- ✅ Adaptive GPU-Nutzung (vLLM-aware)
-
-**5. 🆕 vLLM Co-Location (1 Woche)**
-- ✅ CPU/RAM Ressourcen-Koordination (50 Cores, 200 GB)
-- ✅ GPU-Sharing mit Priorität (ThemisDB < 20% GPU wenn vLLM aktiv)
-- ✅ Hybrid CPU/GPU Vector Search
-- ✅ RAG-optimierte Prefetching
-
-**6. Memory Performance (1 Tag)**
-- ✅ mimalloc Integration (einzige neue Dependency!)
-- ✅ 20-40% Memory Throughput Boost
-- ✅ Drop-in Replacement (kein Code-Change)
-
-### v1.1.0 Build-Varianten
-
-**Standard (OLTP):** 16 deps (+1 mimalloc)
-- Fokus: Transaktionale Workloads, Point Lookups
-- CUDA: Optional (automatisch wenn GPU verfügbar)
-
-**OLAP:** 17 deps (+2 mit DuckDB)
-- Fokus: Analytics, Reporting, Data Warehouse
-- Optional Build Flag: `THEMIS_ENABLE_OLAP_VARIANT=ON`
-
-**vLLM Co-Location (🆕 EMPFOHLEN für AI/ML):** 16 deps
-- Fokus: RAG, Semantic Search, AI Workloads
-- CUDA: IMMER aktiviert (Kernbestand!)
-- Build Flag: `THEMIS_VLLM_COLOCATION=ON`
-
-**Embedded:** 12 deps (-3 lightweight)
-- Fokus: IoT, Edge Devices
-- CUDA: Deaktiviert
-
-### v1.1.0 Ressourcen
-
-**Engineering Effort:** 9-11 Wochen
-**Neue Dependencies:** 1 (nur mimalloc)
-**Erwartete Performance:** 3-10x bei bestehenden Features
-
-**Dokumentation:**
-- 📖 [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md) - Detaillierte Strategie
-- 📖 [External Libraries Analysis](../analysis/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md) - Feature-Inventar
-- 📖 [Library Interactions](../analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md) - Wechselwirkungen
+**Documentation:**
+- 📖 [LLM Integration Guide](../llm/README.md)
+- 📖 [Release Notes v1.3.0](../../RELEASE_NOTES_v1.3.0.md)
 
 ---
 
-## 🚀 Geplant: Q2 2026 - v1.2.0 Enterprise Features Release
+## ✅ Released: v1.2.0 - Enterprise Features (Dezember 2025)
+
+### v1.2.0 Features
+- ✅ **Hypertables** - TimescaleDB-compatible time-series
+- ✅ **Hybrid Search** - RAG-optimized BM25 + vector search
+- ✅ **FAISS Advanced** - IVF+PQ vector search with memory optimization
+- ✅ **Embedding Cache** - Cost reduction for LLM applications
+- ✅ **Time-Series Aggregates** - SIMD-accelerated analytics
+
+**Documentation:**
+- 📖 [v1.2.0 Release Notes](../releases/v1.2.0.md)
+
+---
+
+## ✅ Released: v1.1.0 - Optimization Release (Dezember 2025)
+
+### v1.1.0 Features
+- ✅ **Performance Optimizations** - Improved query execution
+- ✅ **Memory Improvements** - Better memory management
+- ✅ **Stability Enhancements** - Bug fixes and reliability improvements
+
+**Documentation:**
+- 📖 [v1.1.0 Release Notes](../releases/v1.1.0.md)
+
+---
+
+## 🚀 Geplant: Q1 2026 - v1.4.0 Production Hardening
+
+> **Philosophie:** "Production-ready reliability and scale"
+
+### v1.4.0 Kern-Features (12-16 Wochen)
+
+**1. Query Optimizer v2 (4 Wochen)**
+- ✅ Advanced query optimization strategies
+- ✅ Cost-based optimization
+- ✅ Join order optimization
+- ✅ Index selection improvements
+
+**2. Production Monitoring (3 Wochen)**
+- ✅ Enhanced metrics and observability
+- ✅ Performance profiling tools
+- ✅ Advanced alerting
+
+**3. Multi-Datacenter Support (4 Wochen)**
+- ✅ Cross-region replication
+- ✅ Geo-distribution capabilities
+- ✅ Conflict resolution strategies
+
+**4. Performance Tuning (3 Wochen)**
+- ✅ Memory optimizations
+- ✅ Query execution improvements
+- ✅ Caching enhancements
+
+**5. Documentation & Testing (2 Wochen)**
+- ✅ SDK publishing
+- ✅ Comprehensive testing
+- ✅ Security hardening (Pen-Test Phase 1)
 
 > **Philosophie:** "Smart combination of existing libs + targeted new libs for compatibility"
 

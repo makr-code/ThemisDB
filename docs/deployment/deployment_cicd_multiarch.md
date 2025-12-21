@@ -1,7 +1,7 @@
 # CI/CD for ARM and Multi-Architecture Builds
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 17. Dezember 2025  
+**Version:** 1.3.0 (LLM Integration & RPC Framework)  
 **Kategorie:** Deployment
 
 ---
@@ -58,43 +58,71 @@ ThemisDB uses GitHub Actions for automated building and testing across multiple 
 - Pull requests to `main` or `develop`
 - Manual workflow dispatch with optional ARM build toggle
 
-**Build Matrix:**
+**Build Matrix (v1.3.0):**
 
-| OS | Architecture | Config | Preset |
-|----|--------------|--------|--------|
-| Ubuntu 22.04 | x64 | Release | linux-ninja-clang-release |
-| Ubuntu 22.04 | x64 | Debug | linux-ninja-clang-debug |
-| Ubuntu 22.04 | arm64 | Release | linux-arm64-gcc-release |
+| OS | Architecture | Config | Preset | LLM | RPC | GPU/CUDA |
+|----|--------------|--------|--------|-----|-----|----------|
+| Ubuntu 22.04 | x64 | Release Minimal | linux-ninja-clang-release | OFF | OFF | OFF |
+| Ubuntu 22.04 | x64 | Release LLM | linux-llm-release | ON | OFF | OFF |
+| Ubuntu 22.04 | x64 | Release LLM+GPU | linux-llm-gpu-release | ON | OFF | ON |
+| Ubuntu 22.04 | x64 | Release Full | linux-full-release | ON | ON | ON |
+| Ubuntu 22.04 | x64 | Debug | linux-ninja-clang-debug | OFF | OFF | OFF |
+| Ubuntu 22.04 | arm64 | Release | linux-arm64-gcc-release | OFF | OFF | OFF |
+| Ubuntu 22.04 | arm64 | Release LLM | linux-arm64-llm-release | ON | OFF | OFF |
+
+**Modular Build Flags (v1.3.0):**
+- `THEMIS_ENABLE_LLM=ON/OFF` - Enable llama.cpp LLM integration (+96 files)
+- `THEMIS_BUILD_RPC_FRAMEWORK=ON/OFF` - Enable gRPC RPC framework (+26 files)
+- `THEMIS_ENABLE_CUDA=ON/OFF` - Enable NVIDIA CUDA GPU acceleration
+- `THEMIS_ENABLE_GPU=ON/OFF` - Enable GPU vector search (FAISS)
 
 **Features:**
 - vcpkg caching for faster builds
 - Artifact upload for built binaries
 - Docker multi-arch builds with QEMU
 - Automatic push to GitHub Container Registry (on main branch)
+- Modular feature matrix for flexible deployments
 
 **Docker Platforms:**
 - `linux/amd64` (x86_64)
 - `linux/arm64` (ARM64/AArch64)
 - `linux/arm/v7` (ARMv7)
 
-## Build Artifacts
+## Build Artifacts (v1.3.0)
 
 Successful builds produce the following artifacts:
 
-- `themisdb-ubuntu-22.04-x64-Release` - Linux x86_64 binaries
+**Core Builds:**
+- `themisdb-ubuntu-22.04-x64-Release` - Linux x86_64 binaries (minimal)
 - `themisdb-ubuntu-22.04-x64-Debug` - Linux x86_64 debug binaries
-- `themisdb-ubuntu-22.04-arm64-Release` - Linux ARM64 binaries
+- `themisdb-ubuntu-22.04-arm64-Release` - Linux ARM64 binaries (minimal)
+
+**Feature Builds (v1.3.0):**
+- `themisdb-ubuntu-22.04-x64-llm-Release` - With LLM integration
+- `themisdb-ubuntu-22.04-x64-llm-gpu-Release` - With LLM + CUDA
+- `themisdb-ubuntu-22.04-x64-full-Release` - With LLM + RPC + GPU
+- `themisdb-ubuntu-22.04-arm64-llm-Release` - ARM64 with LLM
 
 Artifacts are retained for 7 days.
 
-## Docker Images
+## Docker Images (v1.3.0)
 
 Multi-architecture Docker images are automatically built and optionally pushed to:
 
 **GitHub Container Registry:**
-- `ghcr.io/makr-code/themisdb:main` - Latest main branch build
+- `ghcr.io/makr-code/themisdb:main` - Latest main branch build (minimal)
+- `ghcr.io/makr-code/themisdb:main-llm` - Latest with LLM
+- `ghcr.io/makr-code/themisdb:main-llm-gpu` - Latest with LLM + GPU
+- `ghcr.io/makr-code/themisdb:main-full` - Latest with all features
 - `ghcr.io/makr-code/themisdb:develop` - Latest develop branch build
 - `ghcr.io/makr-code/themisdb:<branch>-<sha>` - Branch builds with commit SHA
+
+**Docker Hub (Public):**
+- `themisdb/themisdb:latest` - Latest stable (minimal, ~150 MB)
+- `themisdb/themisdb:v1.3.0` - Version 1.3.0 (minimal)
+- `themisdb/themisdb:v1.3.0-llm` - Version 1.3.0 with LLM (~250 MB)
+- `themisdb/themisdb:v1.3.0-gpu` - Version 1.3.0 with LLM + GPU (~300 MB)
+- `themisdb/themisdb:v1.3.0-full` - Version 1.3.0 with all features (~350 MB)
 
 **Supported Platforms per Image:**
 - `linux/amd64`

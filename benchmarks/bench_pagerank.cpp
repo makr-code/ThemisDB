@@ -67,11 +67,8 @@ public:
             std::string node_id = "page_" + std::to_string(i);
             node_ids_.push_back(node_id);
             
-            BaseEntity node(node_id);
-            node.setField("url", "http://example.com/page" + std::to_string(i));
-            node.setField("index", static_cast<int64_t>(i));
-            
-            graph_mgr_->addVertex("web_graph", node);
+            // Note: addVertex is not needed in current GraphIndexManager API
+            // Vertices are created implicitly when edges reference them
         }
         
         // Create edges (links between pages)
@@ -98,9 +95,11 @@ public:
                     std::string edge_id = "link_" + std::to_string(i) + "_" + std::to_string(target);
                     
                     BaseEntity edge(edge_id);
+                    edge.setField("_from", node_ids_[i]);
+                    edge.setField("_to", node_ids_[target]);
                     edge.setField("type", "hyperlink");
                     
-                    graph_mgr_->addEdge("web_graph", node_ids_[i], node_ids_[target], edge);
+                    graph_mgr_->addEdge(edge);
                 }
             }
         }
@@ -215,9 +214,8 @@ static void BM_PageRankDampingFactors(benchmark::State& state) {
         std::string node_id = "node_" + std::to_string(i);
         node_ids.push_back(node_id);
         
-        BaseEntity node(node_id);
-        node.setField("index", static_cast<int64_t>(i));
-        graph_mgr->addVertex("test", node);
+        // Note: addVertex is not needed in current GraphIndexManager API
+        // Vertices are created implicitly when edges reference them
     }
     
     for (int i = 0; i < num_nodes; i++) {
@@ -226,7 +224,9 @@ static void BM_PageRankDampingFactors(benchmark::State& state) {
             if (target != i) {
                 std::string edge_id = "e_" + std::to_string(i) + "_" + std::to_string(target);
                 BaseEntity edge(edge_id);
-                graph_mgr->addEdge("test", node_ids[i], node_ids[target], edge);
+                edge.setField("_from", node_ids[i]);
+                edge.setField("_to", node_ids[target]);
+                graph_mgr->addEdge(edge);
             }
         }
     }

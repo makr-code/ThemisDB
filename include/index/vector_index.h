@@ -222,6 +222,9 @@ public:
     void setHnswEncryptionEnabled(bool enabled);
     std::string getHnswKeyId() const { return hnswKeyId_; }
     void setHnswKeyId(const std::string& keyId) { hnswKeyId_ = keyId; }
+    
+    // Flush pending encrypted writes (Phase 1 batching)
+    void flushEncryptedWrites() const;
 
 private:
     RocksDBWrapper& db_;
@@ -268,6 +271,12 @@ private:
     // Interne Suche
     std::vector<Result> bruteForceSearch_(const std::vector<float>& query, size_t k,
                                           const std::vector<std::string>* whitelist) const;
+
+    // Encryption insert batching (Phase 1): reduce per-vector DB commit overhead
+    std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> encBatch_;
+    size_t encBatchCount_ = 0;
+    size_t encBatchSize_ = 256; // commit every N encrypted inserts
+    void flushEncBatch() const;
 };
 
 } // namespace themis

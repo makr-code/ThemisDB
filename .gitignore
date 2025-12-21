@@ -17,6 +17,10 @@ Makefile
 vcpkg_installed/
 .vcpkg/
 vcpkg/
+# But allow vcpkg/downloads structure for offline builds (with placeholder files)
+!vcpkg/downloads/
+!vcpkg/downloads/.gitkeep
+!vcpkg/downloads/README.md
 packages/
 downloads/
 buildtrees/
@@ -189,8 +193,9 @@ tools/jaeger/
 **/target/
 target/
 
-# Allow CMakeLists (explicitly)
+# Allow CMakeLists and cmake/ directory helper files (explicitly)
 !CMakeLists.txt
+!cmake/*.cmake
 
 # End of .gitignore
 

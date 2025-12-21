@@ -1,0 +1,8 @@
+[submodule "docker/tmp/openssl"]
+	path = docker/tmp/openssl
+	url = https://github.com/openssl/openssl.git
+
+
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg.git

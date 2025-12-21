@@ -7,26 +7,40 @@
 [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
 [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
 [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.2.0)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
 
-## 🚀 Next Top Feature: Native LLM Integration (v1.5.0 - Q3 2026)
+## 🚀 NEW in v1.3.0: Native LLM Integration with llama.cpp (Optional)
 
 **"ThemisDB keeps its own llamas."** – Run AI/LLM workloads directly in your database - no external API costs!
 
-- 🧠 **Embedded LLM Engine** - llama.cpp integrated, run LLaMA/Mistral/Phi-3 (1B-70B params) on GPU
-- ⚡ **Zero-Copy RAG** - Direct memory access between vector DB and LLM (4x faster, 0ms transfer)
-- 💰 **100-1000x Cost Reduction** - vs. AWS/Azure/GCP APIs (€0.02 vs. €30 per 1M tokens)
-- 🎯 **All GPU Tiers Supported** - Entry (<16GB), Mid-Range (<24GB), High-End (>24GB)
-- 🔄 **Distributed Reasoning** - Brain-inspired multi-shard collaboration (3.6x faster complex tasks)
-- 📊 **Continuous Batching** - vLLM-style optimization (2.6x throughput)
-- 🐳 **Docker/VM Ready** - Full testing possible without GPU (CPU fallback mode)
+> **Note**: LLM integration is an **optional feature** that requires:
+> - Build flag: `-DTHEMIS_ENABLE_LLM=ON`
+> - External dependency: llama.cpp (clone separately)
+> - See [Build Guide](docs/guides/guides_build_strategy.md) for setup instructions
 
-**[→ See GPU-Tier Analysis & Hyperscaler Comparison](docs/llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)**  
-**[→ See Native LLM Integration Concept](docs/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)**  
-**[→ See Complete Documentation](docs/llm/README.md)**
+### Key Features (When LLM Support Enabled)
+
+- 🧠 **Embedded LLM Engine** - llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params)
+- ⚡ **GPU Acceleration** - NVIDIA CUDA support with significant speedup vs CPU
+- 💾 **PagedAttention** - Advanced memory management with memory savings
+- 🎯 **Continuous Batching** - Handle concurrent inference requests
+- 🔧 **Quantization Support** - Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage
+- 📊 **Production Monitoring** - Grafana dashboards with metrics and alert rules
+- 🔌 **Plugin Architecture** - Extensible LLM backend system
+- 🌐 **Distributed RPC Framework** - Inter-shard communication for distributed LLM operations
+
+### Performance Highlights (GPU Acceleration)
+
+- **Significant speedup** with GPU acceleration vs CPU
+- **Memory savings** with PagedAttention and prefix caching
+- **Kernel fusion** for additional performance gains
+- **Comprehensive test coverage** with unit tests
+
+**[→ See LLM Integration Guide](docs/llm/LLAMA_CPP_INTEGRATION.md)**  
+**[→ See Complete LLM Documentation](docs/llm/README.md)**
 
 ---
 
@@ -42,8 +56,8 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **native LLM engine** (v1.5.0)
-- 🌐 **Modern Protocols** - HTTP/1.1, HTTP/2 🚧 (in development), HTTP/3 📋 (planned), gRPC 📋 (planned)
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+)
+- 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
 
 ---
 
@@ -82,23 +96,57 @@ cd ThemisDB
 **Optional Protocol Support (Security: Opt-In by Default):**
 
 ```bash
-# Enable HTTP/2 (explicit opt-in for security)
+# Enable HTTP/2 with Server Push (explicit opt-in for security)
 cmake -B build -S . -DTHEMIS_ENABLE_HTTP2=ON
+
+# Enable WebSocket with CDC (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_WEBSOCKET=ON
+
+# Enable MQTT broker (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_MQTT=ON
+
+# Enable PostgreSQL Wire Protocol (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_POSTGRES_WIRE=ON
+
+# Enable MCP for LLM integration (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_MCP=ON
 
 # Enable HTTP/3 (explicit opt-in for security)
 cmake -B build -S . -DTHEMIS_ENABLE_HTTP3=ON
 
-# Default build only includes HTTP/1.1 (minimal attack surface)
+# Default build only includes HTTP/1.1, GraphQL, SSE, gRPC (minimal attack surface)
 ```
 
-See [HTTP/2 and HTTP/3 Documentation](docs/apis/HTTP2_HTTP3_USAGE_GUIDE.md) for details.
+See [Protocol Documentation](docs/apis/) for details.
+
+### Windows: Build mit LLM (llama.cpp) - Optional
+
+```powershell
+# OPTIONAL: Für LLM-Unterstützung - lokaler Clone von llama.cpp erforderlich
+if (!(Test-Path "llama.cpp")) {
+  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp
+}
+
+# MSVC Release-Build mit LLM-Unterstützung
+powershell -File scripts/build-themis-server-llm.ps1
+
+# Sanity-Check
+./build-msvc/bin/themis_server.exe --help
+```
+
+Hinweise:
+- LLM-Unterstützung ist **optional** und erfordert `-DTHEMIS_ENABLE_LLM=ON` beim Build
+- `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen (wird nicht committed oder in Docker kopiert)
+- Der Build-Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und `-A x64`, bindet die vcpkg-Toolchain ein und behebt MSVC‑spezifische `char8_t`‑Fehler am `llama`‑Target
+
+**[→ Comprehensive Build Documentation](docs/guides/guides_build_strategy.md)** | Build-Varianten, Plattformen, Troubleshooting
 
 ### Package Managers
 
 **Linux (Debian/Ubuntu):**
 ```bash
-wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.2.0-1_amd64.deb
-sudo apt install ./themisdb_1.2.0-1_amd64.deb
+wget https://github.com/makr-code/ThemisDB/releases/latest/download/themisdb_1.3.0-1_amd64.deb
+sudo apt install ./themisdb_1.3.0-1_amd64.deb
 sudo systemctl start themisdb
 ```
 
@@ -168,20 +216,6 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 - **Observability**: Prometheus metrics, OpenTelemetry tracing
 
 **[→ Full Architecture Documentation](docs/architecture/ARCHITECTURE_OVERVIEW.md)**
-
----
-
-## What's New in v1.2.0
-
-**Enterprise Features Release (December 2025)**
-
-- ✅ **Hypertables** - TimescaleDB-compatible time-series with automatic partitioning
-- ✅ **Hybrid Search** - RAG-optimized search combining BM25 + vector similarity (85% recall@10)
-- ✅ **FAISS Advanced** - IVF+PQ vector search with 10-100x memory reduction
-- ✅ **Embedding Cache** - 70-90% cost reduction for LLM applications
-- ✅ **Time-Series Aggregates** - SIMD-accelerated analytics (5-10x faster)
-
-**[→ Full Changelog](CHANGELOG.md) | [→ Release Notes](docs/releases/v1.2.0.md)**
 
 ---
 
@@ -282,28 +316,39 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 - 🚧 Production hardening
 
 **Planned (v1.4+ - 2026):**
+- 📋 **Modular Architecture** - Split monolithic core into 11 focused libraries (post-v1.3.0)
 - 📋 Real-time materialized views
 - 📋 Cross-region replication
 - 📋 Advanced security compliance (SOC 2, HIPAA)
 - 📋 Cloud-native optimizations
 
-**[→ Detailed Roadmap](docs/roadmap/ROADMAP.md)**
+**[→ Detailed Roadmap](docs/roadmap/ROADMAP.md)**  
+**[→ Modularization Plan](docs/architecture/MODULARIZATION_PLAN.md)** (post-v1.3.0)
 
 ---
 
 ## Performance
 
-**Benchmark Results** (Release build, i7-12700K):
+**Benchmark Results** (Release build, Windows x64, 20 cores @ 3696 MHz):
 
-| Operation | Throughput | Latency (p50) | Latency (p99) |
-|-----------|------------|---------------|---------------|
-| Entity PUT | 45,000 ops/s | 0.02 ms | 0.15 ms |
-| Entity GET | 120,000 ops/s | 0.008 ms | 0.05 ms |
-| Indexed Query | 8,500 queries/s | 0.12 ms | 0.85 ms |
-| Graph Traverse (depth=3) | 3,200 ops/s | 0.31 ms | 1.2 ms |
-| Vector ANN (k=10) | 1,800 queries/s | 0.55 ms | 2.1 ms |
+| Operation | Throughput | Latency (avg) | Notes |
+|-----------|------------|---------------|-------|
+| Entity PUT | 45,000 ops/s | 0.02 ms | Write throughput |
+| Entity GET | 120,000 ops/s | 0.008 ms | Read throughput |
+| Indexed Query | 3.4M queries/s | 0.29 μs | AQL WHERE clause |
+| Graph Traverse (depth=3) | 9.56M ops/s | 0.105 μs | BFS traversal |
+| Vector Search (RGB) | 59.7M queries/s | 0.017 μs | Simple 3D vectors |
+| Vector Insert (384D) | 411k vectors/s | 2.44 μs | Typical embeddings |
+| RAG Search (Top-50) | 7.17M queries/s | 0.14 μs | LLM retrieval |
 
-**[→ Detailed Benchmarks](benchmarks/README.md)**
+> **Note**: These benchmarks represent optimal conditions. Actual performance varies based on:
+> - Hardware configuration (CPU, RAM, storage)
+> - Data size and complexity
+> - Concurrent workload patterns
+> - Build configuration and optimizations
+
+**[→ Detailed Benchmarks](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**  
+**[→ Benchmark Suite Documentation](COMPREHENSIVE_BENCHMARK_GUIDE.md)**
 
 ---
 
@@ -331,6 +376,8 @@ ThemisDB is inspired by and builds upon the ideas from:
 - **Azure Cosmos DB** - Multi-model with unified API
 - **RocksDB** - High-performance LSM-Tree storage
 - **FAISS** - Efficient similarity search
+
+**For a complete list of third-party libraries and feature attributions, see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).**
 
 ---
 

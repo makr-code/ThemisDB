@@ -29,8 +29,8 @@ if (-not (Test-Path $vsdev)) {
 
 Write-Host "Found VsDevCmd: $vsdev"
 
-# Determine vcpkg toolchain path: prefer VCPKG_ROOT env var, fallback to external/vcpkg
-$vcpkgToolchain = 'external/vcpkg/scripts/buildsystems/vcpkg.cmake'
+# Determine vcpkg toolchain path: prefer VCPKG_ROOT env var, fallback to repo ./vcpkg
+$vcpkgToolchain = 'vcpkg/scripts/buildsystems/vcpkg.cmake'
 if ($env:VCPKG_ROOT) {
     $vcpkgToolchain = Join-Path $env:VCPKG_ROOT 'scripts\buildsystems\vcpkg.cmake'
 }

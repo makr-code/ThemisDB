@@ -1,4 +1,4 @@
-package themis
+package themisdb
 
 import (
 	"bytes"
@@ -187,7 +187,8 @@ func FromBytes(data []byte, offset int) (*WireFrame, error) {
 }
 
 // Client represents ThemisDB connection
-type Client struct {
+// WireClient represents a ThemisDB native wire protocol client
+type WireClient struct {
 	conn              net.Conn
 	host              string
 	port              int
@@ -206,9 +207,9 @@ type Client struct {
 	connectionTimeout time.Duration
 }
 
-// NewClient creates new ThemisDB client
-func NewClient(host string, port int, username, password string) *Client {
-	return &Client{
+// NewWireClient creates new ThemisDB wire protocol client
+func NewWireClient(host string, port int, username, password string) *WireClient {
+	return &WireClient{
 		host:              host,
 		port:              port,
 		username:          username,
@@ -225,7 +226,7 @@ func NewClient(host string, port int, username, password string) *Client {
 }
 
 // Connect establishes connection to ThemisDB
-func (c *Client) Connect() error {
+func (c *WireClient) Connect() error {
 	var dialer net.Dialer
 	dialer.Timeout = c.connectionTimeout
 	conn, err := dialer.Dial("tcp", fmt.Sprintf("%s:%d", c.host, c.port))
@@ -244,7 +245,7 @@ func (c *Client) Connect() error {
 }
 
 // Disconnect closes connection
-func (c *Client) Disconnect() {
+func (c *WireClient) Disconnect() {
 	c.running = false
 	if c.conn != nil {
 		c.conn.Close()
@@ -253,7 +254,7 @@ func (c *Client) Disconnect() {
 }
 
 // authenticate performs server authentication
-func (c *Client) authenticate() error {
+func (c *WireClient) authenticate() error {
 	// Send HELLO
 	helloPayload := []byte("ThemisDB/1.0")
 	helloFrame := &WireFrame{
@@ -287,7 +288,7 @@ func (c *Client) authenticate() error {
 }
 
 // Get retrieves document by key
-func (c *Client) Get(key string) (map[string]interface{}, error) {
+func (c *WireClient) Get(key string) (map[string]interface{}, error) {
 	payload := map[string]string{"key": key}
 	payloadJSON, _ := json.Marshal(payload)
 
@@ -310,7 +311,7 @@ func (c *Client) Get(key string) (map[string]interface{}, error) {
 }
 
 // Put stores document
-func (c *Client) Put(key string, value interface{}) error {
+func (c *WireClient) Put(key string, value interface{}) error {
 	payload := map[string]interface{}{
 		"key":   key,
 		"value": value,
@@ -330,7 +331,7 @@ func (c *Client) Put(key string, value interface{}) error {
 }
 
 // Delete removes document
-func (c *Client) Delete(key string) error {
+func (c *WireClient) Delete(key string) error {
 	payload := map[string]string{"key": key}
 	payloadJSON, _ := json.Marshal(payload)
 
@@ -347,7 +348,7 @@ func (c *Client) Delete(key string) error {
 }
 
 // Query executes AQL query
-func (c *Client) Query(aql string, options map[string]interface{}) ([]map[string]interface{}, error) {
+func (c *WireClient) Query(aql string, options map[string]interface{}) ([]map[string]interface{}, error) {
 	payload := map[string]interface{}{
 		"aql":     aql,
 		"options": options,
@@ -373,7 +374,7 @@ func (c *Client) Query(aql string, options map[string]interface{}) ([]map[string
 }
 
 // VectorSearch performs vector similarity search
-func (c *Client) VectorSearch(collection string, vector []float64, options map[string]interface{}) ([]map[string]interface{}, error) {
+func (c *WireClient) VectorSearch(collection string, vector []float64, options map[string]interface{}) ([]map[string]interface{}, error) {
 	if options == nil {
 		options = make(map[string]interface{})
 	}
@@ -410,7 +411,7 @@ func (c *Client) VectorSearch(collection string, vector []float64, options map[s
 }
 
 // GeoQuery performs geospatial search
-func (c *Client) GeoQuery(collection string, lat, lon, radiusKm float64, options map[string]interface{}) ([]map[string]interface{}, error) {
+func (c *WireClient) GeoQuery(collection string, lat, lon, radiusKm float64, options map[string]interface{}) ([]map[string]interface{}, error) {
 	payload := map[string]interface{}{
 		"collection": collection,
 		"lat":        lat,
@@ -439,7 +440,7 @@ func (c *Client) GeoQuery(collection string, lat, lon, radiusKm float64, options
 }
 
 // TimeseriesQuery performs time-series aggregation
-func (c *Client) TimeseriesQuery(collection, startTime, endTime string, options map[string]interface{}) ([]map[string]interface{}, error) {
+func (c *WireClient) TimeseriesQuery(collection, startTime, endTime string, options map[string]interface{}) ([]map[string]interface{}, error) {
 	payload := map[string]interface{}{
 		"collection": collection,
 		"start_time": startTime,
@@ -468,14 +469,14 @@ func (c *Client) TimeseriesQuery(collection, startTime, endTime string, options 
 
 // Helper methods
 
-func (c *Client) nextSequence() uint32 {
+func (c *WireClient) nextSequence() uint32 {
 	c.sequenceMu.Lock()
 	defer c.sequenceMu.Unlock()
 	c.sequence++
 	return c.sequence
 }
 
-func (c *Client) sendFrame(frame *WireFrame) error {
+func (c *WireClient) sendFrame(frame *WireFrame) error {
 	data, err := frame.ToBytes()
 	if err != nil {
 		return err
@@ -485,7 +486,7 @@ func (c *Client) sendFrame(frame *WireFrame) error {
 	return err
 }
 
-func (c *Client) sendAndWait(frame *WireFrame) (*WireFrame, error) {
+func (c *WireClient) sendAndWait(frame *WireFrame) (*WireFrame, error) {
 	responseChan := make(chan *WireFrame, 1)
 	
 	c.pendingMu.Lock()
@@ -510,7 +511,7 @@ func (c *Client) sendAndWait(frame *WireFrame) (*WireFrame, error) {
 	}
 }
 
-func (c *Client) receiveLoop() {
+func (c *WireClient) receiveLoop() {
 	buffer := make([]byte, 1024*1024)
 
 	for c.running {

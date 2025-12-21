@@ -1,21 +1,31 @@
 # LLM & AI Integration Documentation
 
-**Stand:** 15. Dezember 2025  
-**Version:** 1.2.0 (v1.5.0 Native LLM Integration planned for Q3 2026)  
+**Stand:** 20. Dezember 2025  
+**Version:** 1.3.0 (Native LLM Integration mit llama.cpp - Optional)  
 **Kategorie:** LLM & Distributed AI
 
 ---
 
 ## 🚀 Übersicht
 
-ThemisDB entwickelt sich zur ersten Multi-Model-Datenbank mit **eingebetteter LLM-Engine** und **verteiltem Reasoning**. Das LLM-Modul bietet Speicherung und Verwaltung von LLM-Interaktionen, Prompt-Templates und Chain-of-Thought (CoT) Reasoning.
+ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis von **llama.cpp** sowie Grundlagen für **verteiltes Reasoning**. Das LLM-Modul umfasst Plugin-Architektur, Lazy Model Loading, Multi‑LoRA und RAG-Integration.
 
-**Neue Fähigkeiten in v1.5.0:**
-- 🧠 **Embedded llama.cpp** - Native LLM-Engine ohne externe APIs
-- ⚡ **Zero-Copy RAG** - Direkte Speicherzugriffe (4x schneller)
-- 🔄 **Distributed Reasoning** - Multi-Shard Collaboration wie im Gehirn
-- 💰 **100-1000x Kostenersparnis** - vs. AWS/Azure/GCP APIs
-- 🎯 **Alle GPU-Tiers** - Entry (<16GB), Mid (<24GB), High-End (>24GB)
+> **Wichtiger Hinweis**: LLM-Integration ist ein **optionales Feature**:
+> - Erfordert Build-Flag: `-DTHEMIS_ENABLE_LLM=ON`
+> - Benötigt externe Abhängigkeit: llama.cpp (separat klonen)
+> - Nicht standardmäßig aktiviert
+
+**Implementiert in v1.3.0:**
+- 🧠 **Embedded llama.cpp** – Native LLM-Inferenz ohne externe APIs (optional)
+- ⚡ **GPU-Beschleunigung** (CUDA/Metal/Vulkan) für hohe Durchsätze
+- 🧩 **Plugin-Architektur** mit `LlamaCppPlugin`
+- 🗃️ **Lazy Model Loading** (Ollama‑Style)
+- 🔀 **Multi‑LoRA Management** (vLLM‑Style)
+
+**Quicklinks:**
+- [LLAMA_CPP_INTEGRATION.md](./LLAMA_CPP_INTEGRATION.md) – Einbindung & Build
+- [README_PLUGINS.md](./README_PLUGINS.md) – Schnellstart & Beispiele
+- [INTEGRATION_REVIEW_AND_SEQUENCE.md](./INTEGRATION_REVIEW_AND_SEQUENCE.md) – Architektur & Sequenzen
 
 ## Source-Code Referenz
 
