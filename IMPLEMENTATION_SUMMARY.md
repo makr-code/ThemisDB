@@ -92,7 +92,7 @@ Comprehensive documentation covering:
 **Files Retained (High-level documentation):**
 - `docs/enterprise/EDITION_COMPARISON.md`
 - `docs/enterprise/ENTERPRISE_FEATURE_ANALYSIS.md`
-- `docs/enterprise/ENTERPRISE_ANALYSE_DE.md`
+- ~~`docs/enterprise/ENTERPRISE_ANALYSE_DE.md`~~ - 🔒 Moved to confidential
 - `docs/enterprise/README.md`
 - `docs/enterprise/ARCHITECTURE_BOUNDARY.svg`
 
