@@ -36,7 +36,7 @@ if (Test-Path "site") {
 
 # Build MkDocs site
 Write-Host "Building MkDocs site..." -ForegroundColor Green
-mkdocs build --clean
+& $pythonCmd -m mkdocs build --clean
 if ($LASTEXITCODE -ne 0) {
     Write-Error "MkDocs build failed"
     exit 1
