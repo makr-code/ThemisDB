@@ -22,6 +22,15 @@
 using namespace themis::plugins::image;
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+constexpr int EMBEDDING_DIMENSION = 512;
+constexpr size_t HASH_SAMPLE_SIZE = 1000;
+constexpr int HASH_MULTIPLIER = 31;
+constexpr int EMBEDDING_VALUE_RANGE = 1000;
+
+// ============================================================================
 // Test Utilities
 // ============================================================================
 
@@ -149,18 +158,19 @@ public:
     ) override {
         EmbeddingResult result;
         result.success = true;
-        result.dimension = 512;
-        result.embedding.resize(512);
+        result.dimension = EMBEDDING_DIMENSION;
+        result.embedding.resize(EMBEDDING_DIMENSION);
         
         // Generate deterministic embedding based on image statistics
         uint64_t hash = 0;
-        for (size_t i = 0; i < std::min(image_data.size(), size_t(1000)); i += 10) {
-            hash = hash * 31 + image_data[i];
+        for (size_t i = 0; i < std::min(image_data.size(), HASH_SAMPLE_SIZE); i += 10) {
+            hash = hash * HASH_MULTIPLIER + image_data[i];
         }
         
         // Use hash to seed embedding generation
-        for (size_t i = 0; i < 512; ++i) {
-            result.embedding[i] = static_cast<float>((hash + i) % 1000) / 1000.0f - 0.5f;
+        for (size_t i = 0; i < EMBEDDING_DIMENSION; ++i) {
+            result.embedding[i] = static_cast<float>((hash + i) % EMBEDDING_VALUE_RANGE) / 
+                                 static_cast<float>(EMBEDDING_VALUE_RANGE) - 0.5f;
         }
         
         // Normalize to unit length

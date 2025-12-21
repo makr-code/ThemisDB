@@ -21,6 +21,39 @@
 using namespace themis::plugins::image;
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+constexpr int EMBEDDING_DIMENSION = 512;
+constexpr size_t HASH_SAMPLE_SIZE = 1000;
+constexpr int HASH_MULTIPLIER = 31;
+constexpr int EMBEDDING_VALUE_RANGE = 1000;
+
+// GPU performance multiplier vs CPU
+constexpr int GPU_SPEEDUP_FACTOR = 10;
+constexpr int COLD_START_MULTIPLIER = 2;
+
+// Industry Performance Targets (documented in BENCHMARK_ANALYSIS_AI_IMAGERY.md)
+// Embedding (224×224): P50<20ms (GPU), P50<180ms (CPU), P95<35ms (GPU), P95<320ms (CPU), P99<50ms (GPU), P99<450ms (CPU)
+// Caption: P50<100ms (GPU), P95<160ms (GPU), P99<220ms (GPU)
+// Batch 32 (GPU): 80-200ms total, 2.5-6.25ms per image
+// Performance degradation target: <5% over sustained load
+
+// ============================================================================
+// Utility Functions
+// ============================================================================
+
+/**
+ * @brief Simulate computation work for realistic latency
+ */
+inline void simulate_computation(size_t work_units) {
+    volatile double dummy = 0.0;
+    for (size_t i = 0; i < work_units; ++i) {
+        dummy += std::sqrt(static_cast<double>(i)) * std::sin(static_cast<double>(i));
+    }
+}
+
+// ============================================================================
 // Test Data Generation
 // ============================================================================
 
@@ -98,37 +131,35 @@ public:
     ) override {
         EmbeddingResult result;
         result.success = true;
-        result.dimension = 512;
-        result.embedding.resize(512);
+        result.dimension = EMBEDDING_DIMENSION;
+        result.embedding.resize(EMBEDDING_DIMENSION);
         
         // Simulate realistic computation with latency variation
         size_t work_units = image_data.size() / 1024;
         
         // Add extra latency for cold start
         if (!warmup_done_) {
-            work_units *= 2;
+            work_units *= COLD_START_MULTIPLIER;
             warmup_done_ = true;
         }
         
         // Simulate GPU vs CPU latency difference
         if (backend_ == BackendType::CUDA) {
-            work_units /= 10;  // GPU is ~10x faster
+            work_units /= GPU_SPEEDUP_FACTOR;
         }
         
-        // Actual computation
-        volatile double dummy = 0.0;
-        for (size_t i = 0; i < work_units; ++i) {
-            dummy += std::sqrt(static_cast<double>(i)) * std::sin(static_cast<double>(i));
-        }
+        // Actual computation simulation
+        simulate_computation(work_units);
         
         // Generate embedding
         uint64_t hash = 0;
-        for (size_t i = 0; i < std::min(image_data.size(), size_t(1000)); i += 10) {
-            hash = hash * 31 + image_data[i];
+        for (size_t i = 0; i < std::min(image_data.size(), HASH_SAMPLE_SIZE); i += 10) {
+            hash = hash * HASH_MULTIPLIER + image_data[i];
         }
         
-        for (size_t i = 0; i < 512; ++i) {
-            result.embedding[i] = static_cast<float>((hash + i) % 1000) / 1000.0f - 0.5f;
+        for (size_t i = 0; i < EMBEDDING_DIMENSION; ++i) {
+            result.embedding[i] = static_cast<float>((hash + i) % EMBEDDING_VALUE_RANGE) / 
+                                 static_cast<float>(EMBEDDING_VALUE_RANGE) - 0.5f;
         }
         
         // Normalize
@@ -162,18 +193,15 @@ public:
         size_t work_units = (image_data.size() / 512) * max_length;
         
         if (!warmup_done_) {
-            work_units *= 2;
+            work_units *= COLD_START_MULTIPLIER;
             warmup_done_ = true;
         }
         
         if (backend_ == BackendType::CUDA) {
-            work_units /= 10;
+            work_units /= GPU_SPEEDUP_FACTOR;
         }
         
-        volatile double dummy = 0.0;
-        for (size_t i = 0; i < work_units; ++i) {
-            dummy += std::sqrt(static_cast<double>(i)) * std::sin(static_cast<double>(i));
-        }
+        simulate_computation(work_units);
         
         result.caption = "A realistic test image for latency benchmarking";
         result.confidence = 0.88f;
