@@ -87,8 +87,8 @@ cd vccdb
 # Linux/macOS (Bash)
 git clone https://github.com/<org>/vccdb.git
 cd vccdb
-./setup.sh       # Install dependencies
-./build.sh       # Build Release binaries
+./scripts/setup.sh       # Install dependencies
+./scripts/build.sh       # Build Release binaries
 ```
 
 ## Configuration
