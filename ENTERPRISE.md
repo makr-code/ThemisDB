@@ -84,12 +84,47 @@ The Enterprise Edition adds advanced features for production deployments:
 
 ### Enterprise Source Code
 
-The enterprise source code is **not included** in the public GitHub repository. To access enterprise features:
+The enterprise source code is **not included** in the public GitHub repository. This follows industry best practices used by GitLab, MongoDB, and other commercial open-source projects.
+
+#### Why Separate Distribution?
+
+1. **Protects Intellectual Property** - Enterprise features represent significant R&D investment
+2. **License Compliance** - Ensures only licensed customers access enterprise code
+3. **Professional Support** - Customers receive dedicated support and updates
+4. **Quality Assurance** - Enterprise releases undergo additional testing and validation
+
+#### Distribution Methods
+
+**For Licensed Customers:**
+
+**Option 1: Enterprise Source Package (Recommended)**
+```bash
+# Receive enterprise source as versioned package
+themisdb-enterprise-v1.3.0.tar.gz
+
+# Extract and integrate with community edition
+tar -xzf themisdb-enterprise-v1.3.0.tar.gz
+cp -r themisdb-enterprise-v1.3.0/src/enterprise ThemisDB/src/
+cp -r themisdb-enterprise-v1.3.0/include/enterprise ThemisDB/include/
+```
+
+**Option 2: Private Repository Access**
+- Access to private ThemisDB-Enterprise repository
+- Pull updates via git
+- Version controlled integration
+
+**Option 3: Binary Distribution**
+- Pre-compiled enterprise DLLs
+- Fastest deployment
+- No build required
+
+#### How to Obtain Access
 
 1. **Contact Sales**: Email sales@themisdb.com or visit https://themisdb.com/enterprise
 2. **License Agreement**: Sign a commercial license agreement
-3. **Access Grant**: Receive access to the enterprise source repository or binary distributions
-4. **Support**: Get enterprise support and documentation
+3. **Access Grant**: Receive access credentials and enterprise package
+4. **Integration Support**: Follow provided integration documentation
+5. **Ongoing Support**: Access enterprise support portal and updates
 
 ### Pricing Tiers
 
@@ -209,6 +244,44 @@ A: No, GPU acceleration is available in Community Edition. Enterprise Edition ad
 - **Enterprise Edition**: Commercial License (proprietary)
 
 See [LICENSE](LICENSE) for Community Edition terms.
+
+---
+
+## Best Practices & Architecture
+
+### Why Separate Repositories?
+
+ThemisDB follows the industry-standard "GitLab model" for commercial open-source projects:
+
+**✅ Benefits:**
+- **Community Edition** is fully functional and self-contained
+- **Enterprise code** is protected and only available to licensed customers
+- **Clear separation** makes licensing and support straightforward
+- **No destructive updates** - existing installations keep working
+
+**📚 Used by:**
+- GitLab (Community vs Enterprise Edition)
+- MongoDB (Community vs Enterprise Server)
+- Grafana (OSS vs Enterprise)
+- Redis (OSS vs Enterprise)
+
+### Distribution Model
+
+**Public Repository (GitHub):**
+- Full Community Edition source code
+- High-level enterprise feature documentation
+- Plugin interfaces and APIs
+- Build system with optional enterprise support
+
+**Private Distribution (Licensed Customers Only):**
+- Enterprise implementation source code
+- Detailed integration documentation
+- Enterprise examples and tests
+- Priority support and updates
+
+For detailed technical information, see:
+- [Distribution Best Practices](docs/enterprise/DISTRIBUTION_BEST_PRACTICES.md)
+- [Implementation Summary](IMPLEMENTATION_SUMMARY.md)
 
 ---
 
