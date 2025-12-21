@@ -1,6 +1,6 @@
 ## ThemisDB Wiki
 
-**Version:** 1.2.0 | **Updated:** December 2025
+**Version:** 1.3.0 | **Updated:** December 2025
 
 ---
 
@@ -28,13 +28,10 @@
 - [Graph Operations](features-features_graph)
 - [Time-Series](features-features_time_series)
 - [Document Store](features-features_document)
-
-**v1.2.0 New Features:**
 - [Hypertables](features-features_hypertables)
 - [Hybrid Search (RAG)](features-features_hybrid_search)
 - [Embedding Cache](features-features_embedding_cache)
 - [FAISS Advanced](features-features_faiss)
-- [Time-Series Aggregates](features-features_aggregates)
 
 **Analytics:**
 - [CEP Engine](analytics-CEP_STREAMING_ANALYTICS)

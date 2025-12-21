@@ -1,34 +1,39 @@
 # ThemisDB Dokumentations-Index
 
-**Stand:** 17. Dezember 2025  
+**Stand:** 20. Dezember 2025  
 **Version:** 1.3.0 (LLM Integration Release)  
 **Typ:** Dokumentations-Index
 
 ---
 
-## 🚀 NEW in v1.3.0: Native LLM Integration ✅ RELEASED
+## 🚀 NEW in v1.3.0: Native LLM Integration (Optional Feature) ✅
 
 **AI direkt in der Datenbank - ohne externe API-Kosten!**
 
-ThemisDB ist jetzt die erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine**:
+> **Wichtig**: LLM-Integration ist ein **optionales Feature** in v1.3.0:
+> - Erfordert Build-Flag: `-DTHEMIS_ENABLE_LLM=ON`
+> - Benötigt externe Abhängigkeit: llama.cpp (separat klonen)
+> - Siehe [Build Guide](guides/guides_build_strategy.md) für Setup-Anweisungen
 
-### Highlights (Production-Ready)
+ThemisDB kann als erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine** erweitert werden:
+
+### Highlights (Production-Ready, wenn aktiviert)
 
 - 🧠 **Embedded llama.cpp** - SLMs/LLMs (1B-70B Parameter) direkt auf GPU ✅
-- ⚡ **GPU Acceleration** - 100x Speedup mit NVIDIA CUDA support ✅
-- 💾 **PagedAttention** - 65% Memory Savings mit CoW prefix sharing ✅
-- 🎯 **Continuous Batching** - 100+ concurrent requests ✅
-- 🔧 **Kernel Fusion** - 6 CUDA kernels, 30-40% zusätzlicher Speedup ✅
-- 📊 **Production Monitoring** - Grafana/Prometheus (22 Metriken, 12 Alerts) ✅
+- ⚡ **GPU Acceleration** - Signifikanter Speedup mit NVIDIA CUDA support ✅
+- 💾 **PagedAttention** - Optimierte Memory-Verwaltung ✅
+- 🎯 **Continuous Batching** - Mehrere concurrent requests ✅
+- 🔧 **Kernel Fusion** - CUDA kernels für zusätzlichen Speedup ✅
+- 📊 **Production Monitoring** - Grafana/Prometheus Integration ✅
 - 🔌 **Plugin Architecture** - Extensible LLM backend system ✅
 - 🌐 **RPC Framework** - Inter-Shard Communication für distributed LLM ops ✅
 
-### Performance Metrics
+### Performance Metrics (mit GPU)
 
-- **100x schneller** mit GPU vs CPU-only
-- **65% Memory-Ersparnis** mit PagedAttention
-- **30-40% zusätzlich** mit Kernel Fusion
-- **95% Test Coverage** (432+ Unit Tests)
+- **Signifikanter Speedup** mit GPU vs CPU-only
+- **Memory-Ersparnis** mit PagedAttention
+- **Zusätzliche Optimierung** mit Kernel Fusion
+- **Umfassende Test Coverage** mit Unit Tests
 
 ### GPU-Tier Empfehlungen
 
@@ -421,6 +426,6 @@ Dokumentation wird automatisch zu GitHub Pages deployt bei Merge zu main.
 
 ---
 
-**Version:** 1.0.1  
-**Last Updated:** 9. Dezember 2025  
+**Version:** 1.3.0  
+**Last Updated:** 20. Dezember 2025  
 **License:** See [LICENSE](../LICENSE)

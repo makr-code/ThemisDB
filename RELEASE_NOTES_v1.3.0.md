@@ -1,4 +1,4 @@
-# ThemisDB v1.3.0 - Native LLM Integration
+# ThemisDB v1.3.0 - Native LLM Integration (Optional Feature)
 
 **Release Date:** 20. Dezember 2025  
 **Code Name:** "Keep Your Own Llamas"
@@ -7,22 +7,27 @@
 
 ## 🎉 Overview
 
-ThemisDB v1.3.0 brings **native LLM integration** with embedded llama.cpp, enabling you to run AI/LLM workloads directly in your database without external API dependencies. This release introduces a complete plugin architecture, GPU acceleration, and enterprise-grade caching for production LLM deployments.
+ThemisDB v1.3.0 introduces **optional native LLM integration** with embedded llama.cpp, enabling you to run AI/LLM workloads directly in your database without external API dependencies. This release includes a complete plugin architecture, GPU acceleration support, and enterprise-grade caching for production LLM deployments.
 
 **"ThemisDB keeps its own llamas."** – Run LLaMA, Mistral, Phi-3 models (1B-70B params) directly in your database.
+
+> **Important**: LLM integration is an **optional feature** that requires:
+> - Build flag: `-DTHEMIS_ENABLE_LLM=ON`
+> - External dependency: llama.cpp (must be cloned separately)
+> - See installation instructions below
 
 ---
 
 ## 🚀 Major Features
 
-### 🧠 Embedded LLM Engine (llama.cpp)
-- **Native Integration**: llama.cpp embedded as local clone (not committed to repo)
+### 🧠 Embedded LLM Engine (llama.cpp) - Optional
+- **Native Integration**: llama.cpp support when built with `-DTHEMIS_ENABLE_LLM=ON`
 - **Model Support**: GGUF format models (LLaMA 3, Mistral, Phi-3, etc.)
 - **Inference Engine**: Full tokenization, evaluation, sampling, and detokenization pipeline
 - **Memory Management**: Lazy model loading with configurable VRAM budgets
 
-### ⚡ GPU Acceleration
-- **CUDA Support**: NVIDIA GPU acceleration with 100x speedup vs CPU
+### ⚡ GPU Acceleration (When LLM Enabled)
+- **CUDA Support**: NVIDIA GPU acceleration with significant speedup vs CPU
 - **Metal Support**: Apple Silicon optimization
 - **Vulkan Support**: Cross-platform GPU backend
 - **Automatic Fallback**: Graceful degradation to CPU when GPU unavailable
@@ -33,17 +38,17 @@ ThemisDB v1.3.0 brings **native LLM integration** with embedded llama.cpp, enabl
 - **Plugin Manager**: Centralized management with lifecycle control
 - **Hot-Swappable**: Load/unload models and LoRA adapters dynamically
 
-### 🗃️ Advanced Model Management
-- **Lazy Loading**: Ollama-style on-demand model loading (2-3s first load, instant cache hits)
-- **Multi-LoRA Manager**: vLLM-style support for up to 16 concurrent LoRA adapters
+### 🗃️ Advanced Model Management (When LLM Enabled)
+- **Lazy Loading**: Ollama-style on-demand model loading
+- **Multi-LoRA Manager**: vLLM-style support for concurrent LoRA adapters
 - **Model Pinning**: Prevent eviction of critical models from memory
-- **TTL Management**: Automatic model eviction after configurable idle time (default: 30 min)
+- **TTL Management**: Automatic model eviction after configurable idle time
 
 ### 💾 Enterprise Caching
-- **Response Cache**: Semantic caching for identical queries (70-90% cost reduction)
+- **Response Cache**: Semantic caching for identical queries
 - **Prefix Cache**: Reuse common prompt prefixes across requests
-- **Model Metadata Cache**: TBB lock-free cache for 10x faster metadata access
-- **KV Cache Buffer**: Shared read-only buffers for 70% memory savings
+- **Model Metadata Cache**: TBB lock-free cache for faster metadata access
+- **KV Cache Buffer**: Shared read-only buffers for memory optimization
 
 ### 🔧 Build & Deployment
 - **Windows/MSVC Support**: PowerShell build script with Visual Studio 2022
@@ -193,20 +198,45 @@ curl -X POST http://localhost:8765/api/llm/generate \
 
 ## 🎯 Performance Benchmarks
 
-### GPU vs CPU (Mistral-7B Q4, RTX 4090)
-| Operation | CPU (20 cores) | GPU (CUDA) | Speedup |
-|-----------|----------------|------------|---------|
-| Model Load | 2.8s | 2.1s | 1.3x |
-| Inference (512 tokens) | 32s | 0.3s | **107x** |
-| Throughput | 16 tok/s | 1,700 tok/s | **106x** |
+### Core Database Performance (Windows x64, 20 cores @ 3696 MHz)
 
-### Memory Usage (with Caching)
-| Feature | Memory | Savings |
-|---------|--------|---------|
-| Base Model (Mistral-7B Q4) | 4.2 GB | - |
-| + Response Cache | 4.5 GB | 85% query cost |
-| + Prefix Cache | 4.6 GB | 40% latency |
-| + KV Cache Sharing | 3.1 GB | **70% memory** |
+**Comprehensive Benchmark Suite Results:**
+
+| Operation | Throughput | Category |
+|-----------|-----------|----------|
+| RGB Vector Search (KNN) | 59.7M queries/s | Vector Operations |
+| Binary Blob Retrieval | 49.0M lookups/s | Storage Layer |
+| AQL Join Operations | 10.2M ops/s | Query Engine |
+| Graph BFS Traversal | 9.56M traversals/s | Graph Operations |
+| RAG Search (Top-50) | 7.17M queries/s | LLM/Vector |
+| Simple AQL WHERE | 3.43M queries/s | Query Engine |
+| 384D Vector Insert | 411k vectors/s | Vector Operations |
+
+> **Full benchmark results**: See [BENCHMARK_DETAILED_RESULTS.md](benchmarks/BENCHMARK_DETAILED_RESULTS.md)
+
+### LLM Performance (When Enabled with GPU)
+
+**Note**: These are reference performance targets. Actual performance depends on:
+- GPU hardware (model, VRAM)
+- Model size and quantization
+- Batch size and concurrent requests
+- System configuration
+
+| Metric | Approximate Range | Notes |
+|--------|------------------|-------|
+| GPU Speedup vs CPU | 10-100x | Varies by model size |
+| Model Load Time | 2-5s | First load (lazy loading) |
+| Inference Latency | 0.1-2s | Depends on model and prompt |
+| Memory Savings (Caching) | 30-70% | With prefix/KV cache |
+
+**Hardware Requirements (When LLM Features Enabled):**
+- **Minimum**: 8GB RAM, modern CPU (CPU-only LLM inference)
+- **Recommended**: 16GB+ RAM, NVIDIA GPU with 8GB+ VRAM (GPU-accelerated)
+- **Optimal**: 32GB+ RAM, NVIDIA GPU with 24GB+ VRAM (maximum performance)
+
+> **Note**: These requirements apply only when building with `-DTHEMIS_ENABLE_LLM=ON`. Core database features work without LLM and have lower requirements.
+
+> **Important**: Performance claims are targets and may vary significantly based on hardware and workload.
 
 ### Lazy Loading Impact
 | Scenario | Cold Start | Warm Cache | Benefit |
@@ -282,7 +312,7 @@ curl -X POST http://localhost:8765/api/llm/generate \
 - **Architecture Review**: [docs/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md](docs/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md)
 - **HTTP API Spec**: [docs/llm/HTTP_API_SPECIFICATION.md](docs/llm/HTTP_API_SPECIFICATION.md)
 - **Docker Deployment**: [DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)
-- **Build Guide**: [docs/build/README.md](docs/build/README.md)
+- **Build Guide**: [docs/guides/guides_build_strategy.md](docs/guides/guides_build_strategy.md)
 
 ---
 

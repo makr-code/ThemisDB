@@ -1,17 +1,22 @@
 # LLM & AI Integration Documentation
 
 **Stand:** 20. Dezember 2025  
-**Version:** 1.3.0 (Native LLM Integration mit llama.cpp)  
+**Version:** 1.3.0 (Native LLM Integration mit llama.cpp - Optional)  
 **Kategorie:** LLM & Distributed AI
 
 ---
 
 ## 🚀 Übersicht
 
-ThemisDB bietet ab v1.3.0 eine **eingebettete LLM-Engine** auf Basis von **llama.cpp** sowie Grundlagen für **verteiltes Reasoning**. Das LLM-Modul umfasst Plugin-Architektur, Lazy Model Loading, Multi‑LoRA und RAG-Integration.
+ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis von **llama.cpp** sowie Grundlagen für **verteiltes Reasoning**. Das LLM-Modul umfasst Plugin-Architektur, Lazy Model Loading, Multi‑LoRA und RAG-Integration.
 
-**Neu in v1.3.0:**
-- 🧠 **Embedded llama.cpp** – Native LLM-Inferenz ohne externe APIs
+> **Wichtiger Hinweis**: LLM-Integration ist ein **optionales Feature**:
+> - Erfordert Build-Flag: `-DTHEMIS_ENABLE_LLM=ON`
+> - Benötigt externe Abhängigkeit: llama.cpp (separat klonen)
+> - Nicht standardmäßig aktiviert
+
+**Implementiert in v1.3.0:**
+- 🧠 **Embedded llama.cpp** – Native LLM-Inferenz ohne externe APIs (optional)
 - ⚡ **GPU-Beschleunigung** (CUDA/Metal/Vulkan) für hohe Durchsätze
 - 🧩 **Plugin-Architektur** mit `LlamaCppPlugin`
 - 🗃️ **Lazy Model Loading** (Ollama‑Style)

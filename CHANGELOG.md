@@ -18,24 +18,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0] - 2025-12-17
 
-### Added - LLM Integration (PRIMARY FEATURE)
+### Added - LLM Integration (PRIMARY FEATURE - OPTIONAL)
 
-- **llama.cpp Integration** - Native LLM inference engine
+- **llama.cpp Integration** - Optional native LLM inference engine (requires `-DTHEMIS_ENABLE_LLM=ON`)
   - Complete plugin-based architecture (ILLMPlugin, LLMPluginManager)
   - GGUF model loader with Blob Store integration
   - Asynchronous inference engine for non-blocking operations
   - Support for LLaMA, Mistral, Phi-3 models (1B-70B parameters)
   - Quantization support: Q4_K_M, Q5_K_M, Q8_0
+  - Requires external llama.cpp clone (not included in repository)
 
-- **GPU Acceleration & Performance**
+- **GPU Acceleration & Performance** (when LLM enabled)
   - NVIDIA CUDA support with automatic detection and graceful CPU fallback
-  - 100x speedup vs CPU-only inference
-  - PagedAttention with BlockTable and Copy-on-Write prefix sharing (65% memory savings)
-  - Continuous Batch Scheduler supporting 100+ concurrent requests
-  - Kernel Fusion with 6 fused CUDA kernels (30-40% additional speedup)
+  - Significant speedup vs CPU-only inference (hardware dependent)
+  - PagedAttention with BlockTable and Copy-on-Write prefix sharing
+  - Continuous Batch Scheduler supporting concurrent requests
+  - Kernel Fusion with fused CUDA kernels for additional performance
   - Multi-compute capability support (Pascal to Ada architectures)
 
-- **Advanced LLM Features**
+- **Advanced LLM Features** (when LLM enabled)
   - Ollama-style lazy model loading
   - vLLM-style multi-LoRA management
   - Prefix caching for repeated prompts
@@ -43,23 +44,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Model metadata caching
 
 - **Monitoring & Observability**
-  - Grafana/Prometheus integration with 22 metrics
-  - 13 dashboard panels for LLM performance monitoring
-  - 12 alert rules for production deployment
+  - Grafana/Prometheus integration with metrics
+  - Dashboard panels for LLM performance monitoring
+  - Alert rules for production deployment
   - Docker Compose deployment stack
 
 - **Testing & Quality**
-  - 432 unit tests (317 core + 115 advanced)
-  - 14 integration tests
-  - 8 end-to-end scenarios
-  - 12 benchmark scenarios
-  - 95% test coverage
+  - Comprehensive unit tests for LLM functionality
+  - Integration tests
+  - End-to-end scenarios
+  - Benchmark scenarios
+  - High test coverage
 
-- **LLM Documentation** (795 KB, 33 guides)
-  - GPU_INFERENCE_GUIDE.md (24.8 KB)
-  - QUANTIZATION_GUIDE.md (21.3 KB)
-  - PERFORMANCE_BENCHMARKS.md (26.4 KB)
-  - DEPLOYMENT_GUIDE.md (28.7 KB)
+- **LLM Documentation** (33 guides)
+  - GPU integration guide
+  - Quantization guide
+  - Performance benchmarks
+  - Deployment guide
   - Complete API documentation (HTTP, gRPC, AQL extensions)
 
 ### Added - RPC Framework (SUPPORTING INFRASTRUCTURE)
