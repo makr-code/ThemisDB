@@ -8,6 +8,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- **Network Protocol Enhancements** (PR #111 - 2025-12-21)
+  - HTTP/2 with Server Push for CDC/Changefeed (proactive event delivery, ~0ms latency)
+  - WebSocket support with CDC streaming (bidirectional real-time communication)
+  - MQTT broker with WebSocket transport, rate limiting, and monitoring metrics
+  - HTTP/3 base implementation with QUIC (ngtcp2 + nghttp3)
+  - PostgreSQL Wire Protocol with SQL-to-Cypher translation for BI tool compatibility
+  - MCP Server (Model Context Protocol) with cross-platform stdio/SSE/WebSocket transports
+  - Production-ready security: explicit opt-in build switches, TLS/mTLS support
+  - Comprehensive testing with Google Test framework (HTTP/2, WebSocket CDC, MQTT, PostgreSQL Wire)
+
+- **Third-Party Attribution Documentation** (PR #119 - 2025-12-20)
+  - Added `ATTRIBUTIONS.md` documenting 15+ core dependencies
+  - Documented ThemisDB's 12 unique innovations vs third-party features
+  - Clear attribution for RocksDB, FAISS, hnswlib, simdjson, Arrow, TBB, Boost, OpenSSL, etc.
+  - Documented exact usage and ThemisDB extensions for each library
+  - License information and repository links for all dependencies
+
+- **Image Analysis AI Plugin Architecture** (PR #118 - 2025-12-21)
+  - Plugin architecture for image analysis AI (Stable Diffusion/CLIP) running parallel with LLM
+  - Multi-backend support: llama.cpp Vision (primary), ONNX Runtime, OpenCV DNN, OpenVINO, ncnn
+  - Complete license compatibility analysis (all MIT/Apache 2.0/BSD compatible)
+  - Plugin interfaces: `IImageAnalysisBackend`, `ImageAnalysisManager`
+  - Comprehensive documentation: 7 C++ libraries evaluated, benchmarks, optimization guide
+  - Example ONNX CLIP plugin implementation
+  - Configuration templates for plugin management
+  - Comprehensive unit tests (15+ test cases) and benchmarks (11+ categories)
+
 ### Changed
 ### Deprecated
 ### Removed
