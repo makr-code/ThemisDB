@@ -24,27 +24,35 @@ The nightly build is configured in `.github/workflows/nightly-build.yml`
    - Skips build if no changes detected (scheduled runs only)
    - Manual triggers can force build even without changes
 
-2. **Setup Phase**
+2. **Changelog Generation Phase**
+   - Automatically analyzes all changes since last build
+   - Documents commits, changed files, and categories
+   - Generates `NIGHTLY_CHANGELOG_YYYY-MM-DD.md` in `nightly-changelogs/` directory
+   - Commits changelog to repository for historical tracking
+   - Uploads changelog as workflow artifact
+
+3. **Setup Phase**
    - Determines version from `VERSION` file
    - Generates build date (YYYYMMDD format)
    - Configures push strategy
 
-3. **Binary Build Phase**
+4. **Binary Build Phase**
    - Cleans up disk space on the runner
    - Uses vcpkg for dependency management
    - Builds ThemisDB server binary with CMake/Ninja
    - Caches build artifacts for faster subsequent builds
    - Uploads binary artifact for Docker build
 
-4. **Docker Build Phase**
+5. **Docker Build Phase**
    - Downloads the pre-built binary
    - Sets up multi-platform support (QEMU + Buildx)
    - Builds Docker image using `Dockerfile.simple`
    - Pushes to DockerHub with multiple tags
    - Generates build summary report
 
-5. **Notification Phase**
+6. **Notification Phase**
    - Reports build status or skip reason
+   - Confirms changelog generation
    - Provides pull commands for the new image
 
 ## Docker Image Tags
@@ -54,6 +62,87 @@ Each nightly build produces three Docker tags:
 - `themisdb/server:nightly` - Always points to the latest nightly build
 - `themisdb/server:nightly-YYYYMMDD` - Date-specific nightly build (e.g., `nightly-20231221`)
 - `themisdb/server:VERSION-nightly` - Version-specific nightly (e.g., `1.3.0-nightly`)
+
+## Automatic Changelog Generation
+
+Each nightly build automatically generates a detailed changelog documenting all changes since the last build.
+
+### What's Included
+
+The nightly changelog contains:
+
+- **Build metadata**: Date, time, and version information
+- **Commit list**: All commits with authors and hashes
+- **Changed files**: Complete list of modified files with change types (Modified, Added, Deleted)
+- **File statistics**: Count of changed files by type (C++, Python, Markdown, YAML, etc.)
+- **Change categories**: Automatic categorization of commits:
+  - Features (commits starting with "feat", "feature", "add")
+  - Bug fixes (commits starting with "fix", "bugfix")
+  - Documentation (commits starting with "docs", "doc", "documentation")
+  - Refactoring (commits starting with "refactor", "refact")
+- **Docker tags**: List of available Docker image tags for the build
+
+### Location
+
+Changelogs are stored in the `nightly-changelogs/` directory with the naming pattern:
+```
+nightly-changelogs/NIGHTLY_CHANGELOG_YYYY-MM-DD.md
+```
+
+Example: `nightly-changelogs/NIGHTLY_CHANGELOG_2025-12-21.md`
+
+### Accessing Changelogs
+
+**View latest nightly changelog**:
+```bash
+# Clone repository
+git clone https://github.com/makr-code/ThemisDB.git
+cd ThemisDB
+
+# View most recent changelog
+ls -t nightly-changelogs/*.md | head -1 | xargs cat
+```
+
+**View specific date**:
+```bash
+cat nightly-changelogs/NIGHTLY_CHANGELOG_2025-12-21.md
+```
+
+**Download from workflow artifacts**:
+Changelogs are also available as workflow artifacts for 30 days after each build. Go to the Actions tab → Select workflow run → Download "nightly-changelog" artifact.
+
+### Example Changelog
+
+```markdown
+# Nightly Build Changelog - 2025-12-21
+
+**Build Time**: 2025-12-21 02:00:15 UTC
+**Version**: 1.3.0
+
+## Changes Since Last Build
+
+### Commits
+
+- Add feature X (abc123) - John Doe
+- Fix bug Y (def456) - Jane Smith
+
+### Changed Files
+
+\`\`\`
+M    src/core/database.cpp
+A    src/features/new_feature.cpp
+\`\`\`
+
+### File Statistics
+
+- C++ files: 15
+- Python files: 3
+
+### Change Categories
+
+- Features: 5 commits
+- Bug Fixes: 2 commits
+```
 
 ## Usage
 

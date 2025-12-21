@@ -17,34 +17,41 @@ Die Builds werden **automatisch jeden Tag um 2:00 Uhr UTC** ausgeführt:
 
 ### 2. Build-Prozess
 
-Der Overnight-Build durchläuft fünf Hauptphasen:
+Der Overnight-Build durchläuft sechs Hauptphasen:
 
 #### Phase 0: Änderungserkennung
 - Prüft auf Commits in den letzten 24 Stunden
 - Überspringt Build bei geplanten Ausführungen ohne Änderungen
 - Manuelle Ausführungen können Build auch ohne Änderungen erzwingen
 
-#### Phase 1: Setup
+#### Phase 1: Automatische Changelog-Generierung
+- Analysiert automatisch alle Änderungen seit dem letzten Build
+- Dokumentiert Commits, geänderte Dateien und Kategorien
+- Erstellt `NIGHTLY_CHANGELOG_YYYY-MM-DD.md` im `nightly-changelogs/` Verzeichnis
+- Committed Changelog ins Repository für historische Nachverfolgung
+- Lädt Changelog als Workflow-Artifact hoch
+
+#### Phase 2: Setup
 - Liest die Version aus der `VERSION`-Datei (aktuell: 1.3.0)
 - Generiert Build-Datum (Format: YYYYMMDD)
 - Bestimmt, ob zu DockerHub gepusht werden soll
 
-#### Phase 2: Binary-Erstellung
+#### Phase 3: Binary-Erstellung
 - Räumt Festplattenspeicher auf (entfernt .NET, Android SDKs, etc.)
 - Verwendet vcpkg für Dependency-Management
 - Kompiliert ThemisDB mit CMake und Ninja
 - Erstellt `themis_server` Binary
 - Lädt Binary als Artifact hoch (7 Tage Aufbewahrung)
 
-#### Phase 3: Docker-Image-Erstellung
+#### Phase 4: Docker-Image-Erstellung
 - Lädt das kompilierte Binary herunter
 - Baut Docker-Image mit `docker/Dockerfile.simple`
 - Pusht zu DockerHub mit mehreren Tags
 - Nutzt Layer-Caching für schnellere Builds
 
-#### Phase 4: Benachrichtigung
-- Meldet Build-Status
-- Generiert Build-Zusammenfassung
+#### Phase 5: Benachrichtigung
+- Meldet Build-Status oder Überspring-Grund
+- Bestätigt Changelog-Generierung
 - Stellt Pull-Befehle bereit
 
 ### 3. Docker-Tags
@@ -54,6 +61,87 @@ Jeder nächtliche Build erzeugt drei Docker-Tags:
 - **`themisdb/server:nightly`** - Zeigt immer auf den neuesten nächtlichen Build
 - **`themisdb/server:nightly-YYYYMMDD`** - Datumsspezifischer Build (z.B. `nightly-20231221`)
 - **`themisdb/server:VERSION-nightly`** - Versionsspezifischer nächtlicher Build (z.B. `1.3.0-nightly`)
+
+### 4. Automatische Changelog-Generierung
+
+Jeder nächtliche Build generiert automatisch ein detailliertes Changelog, das alle Änderungen seit dem letzten Build dokumentiert.
+
+#### Was ist enthalten
+
+Das nightly changelog enthält:
+
+- **Build-Metadaten**: Datum, Uhrzeit und Versionsinformationen
+- **Commit-Liste**: Alle Commits mit Autoren und Hashes
+- **Geänderte Dateien**: Vollständige Liste der modifizierten Dateien mit Änderungstypen (Modified, Added, Deleted)
+- **Datei-Statistiken**: Anzahl der geänderten Dateien nach Typ (C++, Python, Markdown, YAML, etc.)
+- **Änderungs-Kategorien**: Automatische Kategorisierung von Commits:
+  - Features (Commits beginnend mit "feat", "feature", "add")
+  - Bug-Fixes (Commits beginnend mit "fix", "bugfix")
+  - Dokumentation (Commits beginnend mit "docs", "doc", "documentation")
+  - Refactoring (Commits beginnend mit "refactor", "refact")
+- **Docker-Tags**: Liste der verfügbaren Docker-Image-Tags für den Build
+
+#### Speicherort
+
+Changelogs werden im `nightly-changelogs/` Verzeichnis gespeichert mit dem Namensschema:
+```
+nightly-changelogs/NIGHTLY_CHANGELOG_YYYY-MM-DD.md
+```
+
+Beispiel: `nightly-changelogs/NIGHTLY_CHANGELOG_2025-12-21.md`
+
+#### Zugriff auf Changelogs
+
+**Neuestes nightly changelog anzeigen**:
+```bash
+# Repository klonen
+git clone https://github.com/makr-code/ThemisDB.git
+cd ThemisDB
+
+# Aktuellstes Changelog anzeigen
+ls -t nightly-changelogs/*.md | head -1 | xargs cat
+```
+
+**Spezifisches Datum anzeigen**:
+```bash
+cat nightly-changelogs/NIGHTLY_CHANGELOG_2025-12-21.md
+```
+
+**Von Workflow-Artifacts herunterladen**:
+Changelogs sind auch als Workflow-Artifacts für 30 Tage nach jedem Build verfügbar. Gehe zum Actions Tab → Wähle Workflow-Ausführung → Lade "nightly-changelog" Artifact herunter.
+
+#### Beispiel Changelog
+
+```markdown
+# Nightly Build Changelog - 2025-12-21
+
+**Build Time**: 2025-12-21 02:00:15 UTC
+**Version**: 1.3.0
+
+## Changes Since Last Build
+
+### Commits
+
+- Add feature X (abc123) - John Doe
+- Fix bug Y (def456) - Jane Smith
+
+### Changed Files
+
+\`\`\`
+M    src/core/database.cpp
+A    src/features/new_feature.cpp
+\`\`\`
+
+### File Statistics
+
+- C++ files: 15
+- Python files: 3
+
+### Change Categories
+
+- Features: 5 commits
+- Bug Fixes: 2 commits
+```
 
 ## Verwendung der Nightly Builds
 

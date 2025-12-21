@@ -82,7 +82,7 @@ docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/server:n
 docker compose up -d
 ```
 
-> **Nightly Builds**: Automated overnight builds are available at `themisdb/server:nightly` with the latest development features. See [Nightly Builds Documentation](docs/deployment/deployment_nightly_builds.md) for details.
+> **Nightly Builds**: Automated overnight builds are available at `themisdb/server:nightly` with the latest development features. Each build includes an automatically generated changelog documenting all changes. See [Nightly Builds Documentation](docs/deployment/deployment_nightly_builds.md) and [Nightly Changelogs](nightly-changelogs/) for details.
 
 ### From Source
 

@@ -109,11 +109,145 @@ jobs:
             echo "✅ Unknown trigger - will build"
           fi
 
+  # Generate nightly changelog
+  generate-changelog:
+    name: Generate Nightly Changelog
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: needs.check-changes.outputs.should_build == 'true'
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for changelog generation
+      
+      - name: Generate changelog from recent changes
+        id: changelog
+        run: |
+          BUILD_DATE=$(date -u +'%Y-%m-%d')
+          BUILD_TIME=$(date -u +'%Y-%m-%d %H:%M:%S UTC')
+          
+          # Get commits from last 24 hours
+          SINCE_TIME=$(date -u -d '24 hours ago' '+%Y-%m-%d %H:%M:%S')
+          
+          # Create nightly changelog file
+          CHANGELOG_FILE="NIGHTLY_CHANGELOG_${BUILD_DATE}.md"
+          
+          echo "# Nightly Build Changelog - $BUILD_DATE" > $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "**Build Time**: $BUILD_TIME" >> $CHANGELOG_FILE
+          echo "**Version**: $(cat VERSION 2>/dev/null || echo 'dev')" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "## Changes Since Last Build" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          # Get list of commits
+          COMMITS=$(git log --since="$SINCE_TIME" --pretty=format:"- %s (%h) - %an" --no-merges)
+          
+          if [ -n "$COMMITS" ]; then
+            echo "### Commits" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            echo "$COMMITS" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+          fi
+          
+          # Get changed files with stats
+          echo "### Changed Files" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          CHANGED_FILES=$(git diff --name-status HEAD@{24.hours.ago}..HEAD 2>/dev/null || git log --since="$SINCE_TIME" --name-status --pretty=format: | sort -u)
+          
+          if [ -n "$CHANGED_FILES" ]; then
+            echo '```' >> $CHANGELOG_FILE
+            echo "$CHANGED_FILES" | head -50 >> $CHANGELOG_FILE
+            echo '```' >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            
+            # Count file types
+            echo "### File Statistics" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            
+            CPP_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(cpp|cc|cxx|hpp|h)$' | wc -l)
+            PY_FILES=$(echo "$CHANGED_FILES" | grep '\.py$' | wc -l)
+            MD_FILES=$(echo "$CHANGED_FILES" | grep '\.md$' | wc -l)
+            YML_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(yml|yaml)$' | wc -l)
+            
+            echo "- C++ files: $CPP_FILES" >> $CHANGELOG_FILE
+            echo "- Python files: $PY_FILES" >> $CHANGELOG_FILE
+            echo "- Markdown files: $MD_FILES" >> $CHANGELOG_FILE
+            echo "- YAML files: $YML_FILES" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+          fi
+          
+          # Analyze commit messages for categories
+          echo "### Change Categories" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          FEAT_COUNT=$(git log --since="$SINCE_TIME" --pretty=format:"%s" --no-merges | grep -iE '^(feat|feature|add)' | wc -l)
+          FIX_COUNT=$(git log --since="$SINCE_TIME" --pretty=format:"%s" --no-merges | grep -iE '^(fix|bugfix)' | wc -l)
+          DOCS_COUNT=$(git log --since="$SINCE_TIME" --pretty=format:"%s" --no-merges | grep -iE '^(docs|doc|documentation)' | wc -l)
+          REFACTOR_COUNT=$(git log --since="$SINCE_TIME" --pretty=format:"%s" --no-merges | grep -iE '^(refactor|refact)' | wc -l)
+          
+          echo "- Features: $FEAT_COUNT commits" >> $CHANGELOG_FILE
+          echo "- Bug Fixes: $FIX_COUNT commits" >> $CHANGELOG_FILE
+          echo "- Documentation: $DOCS_COUNT commits" >> $CHANGELOG_FILE
+          echo "- Refactoring: $REFACTOR_COUNT commits" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          # Add footer
+          echo "---" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "**Docker Tags Available**:" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:nightly\`" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:nightly-$(date -u +'%Y%m%d')\`" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:$(cat VERSION 2>/dev/null || echo 'dev')-nightly\`" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          # Output for artifact upload
+          echo "changelog_file=$CHANGELOG_FILE" >> $GITHUB_OUTPUT
+          
+          # Display changelog
+          echo "Generated changelog:"
+          cat $CHANGELOG_FILE
+      
+      - name: Upload changelog as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-changelog
+          path: NIGHTLY_CHANGELOG_*.md
+          retention-days: 30
+      
+      - name: Commit changelog to repository
+        run: |
+          BUILD_DATE=$(date -u +'%Y-%m-%d')
+          CHANGELOG_FILE="NIGHTLY_CHANGELOG_${BUILD_DATE}.md"
+          
+          # Configure git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Create nightly-changelogs directory if it doesn't exist
+          mkdir -p nightly-changelogs
+          mv $CHANGELOG_FILE nightly-changelogs/
+          
+          # Add and commit
+          git add nightly-changelogs/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add nightly changelog for $BUILD_DATE [automated]"
+            git push
+          fi
+
   # Determine version and build metadata
   setup:
     name: Setup Build
     runs-on: ubuntu-latest
-    needs: check-changes
+    needs: [check-changes, generate-changelog]
     if: needs.check-changes.outputs.should_build == 'true'
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -336,6 +470,7 @@ jobs:
             echo "✅ Nightly build completed successfully"
             echo "Version: ${{ needs.setup.outputs.version }}"
             echo "Date: ${{ needs.setup.outputs.build_date }}"
+            echo "📝 Nightly changelog generated and committed"
             if [ "${{ needs.setup.outputs.should_push }}" = "true" ]; then
               echo "Docker image pushed to: ${{ env.IMAGE_NAME }}:nightly"
             fi
