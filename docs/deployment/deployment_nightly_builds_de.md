@@ -12,10 +12,17 @@ Die Builds werden **automatisch jeden Tag um 2:00 Uhr UTC** ausgeführt:
 - Keine manuelle Intervention erforderlich
 - Läuft im Hintergrund über GitHub Actions
 - Dauert ca. 30-60 Minuten (abhängig von Cache-Verfügbarkeit)
+- **Intelligente Erkennung**: Build wird nur gestartet, wenn Änderungen in den letzten 24 Stunden erkannt wurden
+- Spart Ressourcen durch Überspringen unnötiger Builds
 
 ### 2. Build-Prozess
 
-Der Overnight-Build durchläuft vier Hauptphasen:
+Der Overnight-Build durchläuft fünf Hauptphasen:
+
+#### Phase 0: Änderungserkennung
+- Prüft auf Commits in den letzten 24 Stunden
+- Überspringt Build bei geplanten Ausführungen ohne Änderungen
+- Manuelle Ausführungen können Build auch ohne Änderungen erzwingen
 
 #### Phase 1: Setup
 - Liest die Version aus der `VERSION`-Datei (aktuell: 1.3.0)
@@ -91,6 +98,8 @@ Der Workflow kann auch manuell über GitHub Actions ausgelöst werden:
 4. Optionen konfigurieren:
    - **Push to DockerHub**: Push zu DockerHub aktivieren/deaktivieren
    - **Build platforms**: `linux/amd64` (schneller) oder `linux/amd64,linux/arm64` (Multi-Arch) wählen
+   - **Enable LLM support**: Build mit llama.cpp Integration
+   - **Force build**: Build erzwingen, auch wenn keine Änderungen in den letzten 24 Stunden erkannt wurden
 
 ## Erforderliche Konfiguration
 

@@ -6,9 +6,10 @@ ThemisDB implements automated overnight (nightly) builds that compile the latest
 
 ## Build Schedule
 
-- **Trigger**: Automatically runs every day at **2:00 AM UTC**
+- **Trigger**: Automatically runs every day at **2:00 AM UTC** (only if changes detected in last 24 hours)
 - **Duration**: Approximately 30-60 minutes (depending on cache availability)
 - **Output**: Docker images tagged as `nightly` on DockerHub
+- **Smart Build**: Skips build if no code changes detected, saving resources
 
 ## Workflow Details
 
@@ -18,27 +19,32 @@ The nightly build is configured in `.github/workflows/nightly-build.yml`
 
 ### Build Process
 
-1. **Setup Phase**
+1. **Change Detection Phase**
+   - Checks for commits in the last 24 hours
+   - Skips build if no changes detected (scheduled runs only)
+   - Manual triggers can force build even without changes
+
+2. **Setup Phase**
    - Determines version from `VERSION` file
    - Generates build date (YYYYMMDD format)
    - Configures push strategy
 
-2. **Binary Build Phase**
+3. **Binary Build Phase**
    - Cleans up disk space on the runner
    - Uses vcpkg for dependency management
    - Builds ThemisDB server binary with CMake/Ninja
    - Caches build artifacts for faster subsequent builds
    - Uploads binary artifact for Docker build
 
-3. **Docker Build Phase**
+4. **Docker Build Phase**
    - Downloads the pre-built binary
    - Sets up multi-platform support (QEMU + Buildx)
    - Builds Docker image using `Dockerfile.simple`
    - Pushes to DockerHub with multiple tags
    - Generates build summary report
 
-4. **Notification Phase**
-   - Reports build status
+5. **Notification Phase**
+   - Reports build status or skip reason
    - Provides pull commands for the new image
 
 ## Docker Image Tags
@@ -92,6 +98,8 @@ The workflow can also be triggered manually via GitHub Actions:
 4. Configure options:
    - **Push to DockerHub**: Enable/disable pushing to DockerHub
    - **Build platforms**: Choose `linux/amd64` (faster) or `linux/amd64,linux/arm64` (multi-arch)
+   - **Enable LLM support**: Build with llama.cpp integration
+   - **Force build**: Force build even if no changes detected in last 24 hours
 
 ## Configuration Requirements
 

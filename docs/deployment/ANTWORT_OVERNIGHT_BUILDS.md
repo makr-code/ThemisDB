@@ -4,10 +4,11 @@
 
 Die overnight builds für ThemisDB funktionieren automatisch über GitHub Actions:
 
-1. **Jeden Tag um 2:00 Uhr UTC** wird automatisch ein Build gestartet
-2. ThemisDB wird **von Grund auf kompiliert** (inkl. aller Dependencies via vcpkg)
-3. Ein **Docker-Image wird erstellt** mit dem neuen Binary
-4. Das Image wird automatisch **zu DockerHub hochgeladen** mit drei Tags:
+1. **Jeden Tag um 2:00 Uhr UTC** wird geprüft, ob es Änderungen gab
+2. **Nur bei Änderungen** wird automatisch ein Build gestartet (spart Ressourcen)
+3. ThemisDB wird **von Grund auf kompiliert** (inkl. aller Dependencies via vcpkg)
+4. Ein **Docker-Image wird erstellt** mit dem neuen Binary
+5. Das Image wird automatisch **zu DockerHub hochgeladen** mit drei Tags:
    - `themisdb/server:nightly` (immer aktuellste)
    - `themisdb/server:nightly-20231221` (datumsspezifisch)
    - `themisdb/server:1.3.0-nightly` (versionsspezifisch)
@@ -21,9 +22,15 @@ schedule:
   - cron: '0 2 * * *'  # Täglich um 2:00 Uhr UTC
 ```
 
-Der Build läuft vollautomatisch ohne manuelle Eingriffe.
+**Wichtig**: Der Build läuft vollautomatisch, aber **nur wenn Änderungen** im Repository in den letzten 24 Stunden erkannt wurden. Dies spart Ressourcen und GitHub Actions Minuten.
 
-### 2. Build-Prozess (4 Phasen)
+### 2. Build-Prozess (5 Phasen)
+
+#### Phase 0: Änderungserkennung (~1 Minute)
+- Prüft auf Commits in den letzten 24 Stunden
+- Bei Änderungen: Build wird gestartet
+- Ohne Änderungen: Build wird übersprungen
+- Manuelle Ausführung kann Build erzwingen
 
 #### Phase 1: Setup (~2 Minuten)
 - Liest Version aus `VERSION` Datei (aktuell: 1.3.0)
