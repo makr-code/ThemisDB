@@ -13,7 +13,7 @@ Write-Host "║    ThemisDB Quick Build                ║" -ForegroundColor Gre
 Write-Host "╚════════════════════════════════════════╝" -ForegroundColor Green
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$scriptPath = Join-Path $scriptDir "scripts\build.ps1"
+$scriptPath = Join-Path $scriptDir "build.ps1"
 
 if (-not (Test-Path $scriptPath)) {
     Write-Host "`n✗ Error: Build-Skript nicht gefunden" -ForegroundColor Red

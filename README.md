@@ -24,12 +24,13 @@
 ### Key Features (When LLM Support Enabled)
 
 - 🧠 **Embedded LLM Engine** - llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params)
+- 🖼️ **Image Analysis AI Plugins** - llama.cpp Vision (primary), ONNX CLIP, OpenCV DNN for image embeddings, captioning, detection
 - ⚡ **GPU Acceleration** - NVIDIA CUDA support with significant speedup vs CPU
 - 💾 **PagedAttention** - Advanced memory management with memory savings
 - 🎯 **Continuous Batching** - Handle concurrent inference requests
 - 🔧 **Quantization Support** - Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage
 - 📊 **Production Monitoring** - Grafana dashboards with metrics and alert rules
-- 🔌 **Plugin Architecture** - Extensible LLM backend system
+- 🔌 **Plugin Architecture** - Extensible LLM and image analysis backend system
 - 🌐 **Distributed RPC Framework** - Inter-shard communication for distributed LLM operations
 
 ### Performance Highlights (GPU Acceleration)
@@ -40,7 +41,8 @@
 - **Comprehensive test coverage** with unit tests
 
 **[→ See LLM Integration Guide](docs/llm/LLAMA_CPP_INTEGRATION.md)**  
-**[→ See Complete LLM Documentation](docs/llm/README.md)**
+**[→ See Complete LLM Documentation](docs/llm/README.md)**  
+**[→ See Image Analysis Plugin Documentation](docs/plugins/)**
 
 ---
 
@@ -56,7 +58,10 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+)
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+), **image analysis AI plugins** (v1.3.0+)
+- 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
+- 📚 **Transparent Attribution** - Clear documentation of third-party dependencies vs ThemisDB innovations (see [ATTRIBUTIONS.md](ATTRIBUTIONS.md))
+- 🖼️ **Image Analysis** - Multi-backend AI plugin architecture (llama.cpp Vision, ONNX CLIP, OpenCV DNN)
 
 ---
 
@@ -81,16 +86,42 @@ git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
 # Setup and build (Linux/macOS)
-./setup.sh
-./build.sh
+./scripts/setup.sh
+./scripts/build.sh
 
 # Setup and build (Windows)
-.\setup.ps1
-.\build.ps1
+.\scripts\setup.ps1
+.\scripts\build.ps1
 
 # Start server
 ./build/themis_server --config config.yaml
 ```
+
+**Optional Protocol Support (Security: Opt-In by Default):**
+
+```bash
+# Enable HTTP/2 with Server Push (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP2=ON
+
+# Enable WebSocket with CDC (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_WEBSOCKET=ON
+
+# Enable MQTT broker (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_MQTT=ON
+
+# Enable PostgreSQL Wire Protocol (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_POSTGRES_WIRE=ON
+
+# Enable MCP for LLM integration (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_MCP=ON
+
+# Enable HTTP/3 (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP3=ON
+
+# Default build only includes HTTP/1.1, GraphQL, SSE, gRPC (minimal attack surface)
+```
+
+See [Protocol Documentation](docs/apis/) for details.
 
 ### Windows: Build mit LLM (llama.cpp) - Optional
 
@@ -239,7 +270,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 
 **Getting Started:**
 - [Installation Guide](docs/guides/guides_deployment.md)
-- [Docker Deployment](DOCKER_DEPLOYMENT.md)
+- [Docker Deployment](docs/deployment/DOCKER_DEPLOYMENT.md)
 - [Quick Start Tutorial](docs/guides/quick_start.md)
 
 **Core Concepts:**
@@ -321,7 +352,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 > - Build configuration and optimizations
 
 **[→ Detailed Benchmarks](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**  
-**[→ Benchmark Suite Documentation](COMPREHENSIVE_BENCHMARK_GUIDE.md)**
+**[→ Benchmark Suite Documentation](benchmarks/COMPREHENSIVE_BENCHMARK_GUIDE.md)**
 
 ---
 

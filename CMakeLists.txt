@@ -127,6 +127,19 @@ option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP workloads" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant (reduced dependencies)" OFF)
 option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location (AI/ML workloads)" OFF)
 
+# Network Protocol Support Options
+# Security: All protocols are opt-in (OFF by default) except HTTP/1.1 and protocols already in production
+# Note: HTTP/1.1 is always enabled as the base protocol and cannot be disabled
+option(THEMIS_ENABLE_HTTP2 "Enable HTTP/2 protocol support" OFF)
+option(THEMIS_ENABLE_HTTP3 "Enable HTTP/3 (QUIC) protocol support" OFF)
+option(THEMIS_ENABLE_GRPC "Enable gRPC protocol support (inter-shard communication)" ON)  # Already implemented in v1.3.0
+option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket protocol support" OFF)
+option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL API support" ON)  # Already implemented
+option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Already implemented
+option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM integration" OFF)
+option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
+option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
+
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
     set(THEMIS_ENABLE_CUDA ON CACHE BOOL "Force CUDA for vLLM co-location" FORCE)
@@ -376,6 +389,35 @@ if(THEMIS_USE_MIMALLOC)
     endif()
 endif()
 
+# HTTP/2 Protocol Support
+if(THEMIS_ENABLE_HTTP2)
+    find_package(nghttp2 CONFIG)
+    if(nghttp2_FOUND)
+        message(STATUS "nghttp2 found - HTTP/2 protocol support enabled")
+    else()
+        message(WARNING "nghttp2 not found - disabling HTTP/2 support. Install with: vcpkg install nghttp2")
+        set(THEMIS_ENABLE_HTTP2 OFF CACHE BOOL "nghttp2 not available" FORCE)
+    endif()
+endif()
+
+# HTTP/3 Protocol Support (requires both nghttp3 and ngtcp2)
+if(THEMIS_ENABLE_HTTP3)
+    find_package(nghttp3 CONFIG)
+    find_package(ngtcp2 CONFIG)
+    if(nghttp3_FOUND AND ngtcp2_FOUND)
+        message(STATUS "nghttp3 and ngtcp2 found - HTTP/3 (QUIC) protocol support enabled")
+    else()
+        if(NOT nghttp3_FOUND)
+            message(WARNING "nghttp3 not found - Install with: vcpkg install nghttp3")
+        endif()
+        if(NOT ngtcp2_FOUND)
+            message(WARNING "ngtcp2 not found - Install with: vcpkg install ngtcp2[openssl]")
+        endif()
+        message(WARNING "Disabling HTTP/3 support due to missing dependencies")
+        set(THEMIS_ENABLE_HTTP3 OFF CACHE BOOL "nghttp3/ngtcp2 not available" FORCE)
+    endif()
+endif()
+
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -497,7 +539,7 @@ set(THEMIS_CORE_SOURCES
     src/query/functions/function_registry.cpp
     
     src/server/http_server.cpp
-    src/server/sse_connection_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SSE}>:src/server/sse_connection_manager.cpp>
     src/server/audit_api_handler.cpp
     src/server/pki_api_handler.cpp
     src/server/saga_api_handler.cpp
@@ -517,6 +559,12 @@ set(THEMIS_CORE_SOURCES
     src/server/update_api_handler.cpp
     src/server/hot_reload_api_handler.cpp
     src/server/export_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:src/server/http2_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:src/server/websocket_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:src/server/postgres_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MCP}>:src/server/mcp_server.cpp>
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
@@ -651,8 +699,8 @@ set(THEMIS_CORE_SOURCES
     # Observability
     src/observability/metrics_collector.cpp
     
-    # GraphQL API
-    src/api/graphql.cpp
+    # GraphQL API (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:src/api/graphql.cpp>
     
     # Exporters and Importers
     src/exporters/jsonl_llm_exporter.cpp
@@ -901,6 +949,87 @@ if(THEMIS_USE_MIMALLOC AND mimalloc_FOUND)
     message(STATUS "mimalloc linked to themis_core")
 endif()
 
+# HTTP/2 Protocol Support
+if(THEMIS_ENABLE_HTTP2 AND nghttp2_FOUND)
+    target_link_libraries(themis_core PUBLIC nghttp2::nghttp2)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP2)
+    message(STATUS "HTTP/2 support enabled and linked to themis_core")
+endif()
+
+# HTTP/3 Protocol Support
+if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
+    target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
+    message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# GraphQL Protocol Support
+if(THEMIS_ENABLE_GRAPHQL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRAPHQL)
+    message(STATUS "GraphQL API support enabled")
+endif()
+
+# SSE (Server-Sent Events) Support
+if(THEMIS_ENABLE_SSE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SSE)
+    message(STATUS "Server-Sent Events (SSE) support enabled")
+endif()
+
+# WebSocket Protocol Support
+if(THEMIS_ENABLE_WEBSOCKET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WEBSOCKET)
+    message(STATUS "WebSocket protocol support enabled")
+endif()
+
+# MCP (Model Context Protocol) Support
+if(THEMIS_ENABLE_MCP)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
+    message(STATUS "Model Context Protocol (MCP) support enabled")
+    message(STATUS "  MCP Transports: stdio, SSE, WebSocket")
+    message(STATUS "  MCP Components: Tools, Resources, Prompts")
+endif()
+
+# MQTT Protocol Support
+if(THEMIS_ENABLE_MQTT)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
+    message(STATUS "MQTT protocol support enabled")
+endif()
+
+# PostgreSQL Wire Protocol Support
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
+    message(STATUS "PostgreSQL Wire Protocol support enabled")
+endif()
+
+# gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
+if(THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
+    message(STATUS "gRPC support enabled (inter-shard communication)")
+    # Note: gRPC dependencies may already be linked via sharding modules
+    # TODO: Verify gRPC linking in sharding components
+endif()
+
+# WebSocket Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_WEBSOCKET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WEBSOCKET)
+    message(STATUS "WebSocket support enabled (Boost.Beast has native support)")
+    # Note: Boost.Beast already provides WebSocket support, just needs integration
+endif()
+
+# MQTT Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_MQTT)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
+    message(STATUS "MQTT support enabled (stub - full implementation pending)")
+    # TODO: Add MQTT dependencies when implemented
+    # find_package(PahoMqttCpp CONFIG)
+endif()
+
+# PostgreSQL Wire Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
+    message(STATUS "PostgreSQL Wire Protocol support enabled (stub - full implementation pending)")
+endif()
+
 # v1.1.0: vLLM Co-Location compile definitions
 if(THEMIS_VLLM_COLOCATION)
     target_compile_definitions(themis_core PRIVATE
@@ -1117,6 +1246,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_text_processor.cpp
     tests/test_prompt_manager.cpp
     tests/test_mock_clip.cpp
+        tests/test_image_analysis_interface.cpp
         tests/test_backup_restore.cpp
         tests/test_cursor.cpp
         tests/test_temporal_graph.cpp
@@ -1522,6 +1652,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_policy_evaluation
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Image Analysis Plugin Benchmark
+    add_executable(benchmark_image_analysis
+        benchmarks/benchmark_image_analysis.cpp
+    )
+    
+    target_link_libraries(benchmark_image_analysis
         PRIVATE
             themis_core
             benchmark::benchmark

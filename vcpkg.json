@@ -43,6 +43,40 @@
     "cuda": {
       "description": "Enable NVIDIA CUDA support for GPU acceleration (requires CUDA Toolkit installed separately)",
       "dependencies": []
+    },
+    "http2": {
+      "description": "Enable HTTP/2 protocol support with Server Push",
+      "dependencies": ["nghttp2"]
+    },
+    "http3": {
+      "description": "Enable HTTP/3 (QUIC) protocol support",
+      "dependencies": [
+        "nghttp3",
+        { "name": "ngtcp2", "features": ["openssl"] }
+      ]
+    },
+    "grpc": {
+      "description": "Enable gRPC protocol support",
+      "dependencies": [
+        "grpc",
+        "protobuf"
+      ]
+    },
+    "websocket": {
+      "description": "Enable WebSocket protocol support with CDC (uses Boost.Beast)",
+      "dependencies": []
+    },
+    "mcp": {
+      "description": "Enable Model Context Protocol (MCP) for LLM integration",
+      "dependencies": []
+    },
+    "mqtt": {
+      "description": "Enable MQTT protocol support for IoT deployments",
+      "dependencies": ["paho-mqttpp3"]
+    },
+    "postgres-wire": {
+      "description": "Enable PostgreSQL Wire Protocol support for SQL tool compatibility",
+      "dependencies": []
     }
   }
 }
