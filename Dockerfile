@@ -265,7 +265,19 @@ ENV THEMIS_PORT=18765
 ENV LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib
 
 VOLUME ["/data"]
-EXPOSE 8080 18765
+
+# Port mappings for all interfaces (optional ones require explicit build flags)
+# Core ports (always available):
+EXPOSE 8080   # HTTP/1.1 REST API, GraphQL, HTTP/2 (if enabled with -DTHEMIS_ENABLE_HTTP2=ON)
+EXPOSE 18765  # Binary Wire Protocol, gRPC
+EXPOSE 4318   # OpenTelemetry/Prometheus metrics (OTLP)
+
+# Optional protocol ports (require explicit build flags):
+# EXPOSE 1883   # MQTT plain (requires -DTHEMIS_ENABLE_MQTT=ON)
+# EXPOSE 8883   # MQTT over TLS (requires -DTHEMIS_ENABLE_MQTT=ON)
+# EXPOSE 8083   # MQTT over WebSocket (requires -DTHEMIS_ENABLE_MQTT=ON)
+# EXPOSE 5432   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
+# EXPOSE 3000   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
 
 ENTRYPOINT ["/usr/local/bin/themis_server"]
 CMD ["--config", "/etc/themis/config.json"]

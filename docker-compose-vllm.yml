@@ -42,8 +42,12 @@ services:
       - THEMIS_USE_MIMALLOC=1
     
     ports:
-      - "8080:8080"     # HTTP API
-      - "18765:18765"   # Wire Protocol
+      - "8080:8080"     # HTTP API (REST, GraphQL)
+      - "18765:18765"   # Wire Protocol (binary, gRPC)
+      - "4318:4318"     # OpenTelemetry/Prometheus metrics
+      
+      # Optional protocol ports (uncomment when build flags are enabled):
+      # - "3000:3000"   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
     
     volumes:
       - themis_data:/data

@@ -4,8 +4,17 @@ services:
     image: themisdb:1.3.0
     container_name: themisdb-server
     ports:
-      - "8080:8080"
-      - "18765:18765"
+      # Core ports (always available)
+      - "8080:8080"     # HTTP/1.1 REST API, GraphQL, HTTP/2 (if enabled)
+      - "18765:18765"   # Binary Wire Protocol, gRPC
+      - "4318:4318"     # OpenTelemetry/Prometheus metrics (OTLP)
+      
+      # Optional protocol ports (uncomment when build flags are enabled):
+      # - "1883:1883"   # MQTT plain (requires -DTHEMIS_ENABLE_MQTT=ON)
+      # - "8883:8883"   # MQTT over TLS (requires -DTHEMIS_ENABLE_MQTT=ON)
+      # - "8083:8083"   # MQTT over WebSocket (requires -DTHEMIS_ENABLE_MQTT=ON)
+      # - "5432:5432"   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
+      # - "3000:3000"   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
     volumes:
       - ./data:/data
       - ./config/config.json:/etc/themis/config.json:ro
