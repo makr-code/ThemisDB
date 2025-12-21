@@ -5,14 +5,14 @@ from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from enterprise_pricing_server.models import (
+from models import (
     Subscription,
     SubscriptionCreate,
     SubscriptionStatus,
     PricingTier
 )
-from enterprise_pricing_server.config import settings
-from enterprise_pricing_server.utils.license import generate_license_key
+from config import settings
+from utils.license import generate_license_key
 
 
 class SubscriptionService:

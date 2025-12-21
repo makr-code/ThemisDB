@@ -4,8 +4,8 @@ from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from enterprise_pricing_server.models import Customer, CustomerCreate, CustomerResponse
-from enterprise_pricing_server.utils.security import get_password_hash, verify_password
+from models import Customer, CustomerCreate, CustomerResponse
+from utils.security import get_password_hash, verify_password
 
 
 class CustomerService:

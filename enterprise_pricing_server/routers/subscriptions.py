@@ -4,14 +4,14 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from enterprise_pricing_server.models import (
+from models import (
     SubscriptionCreate,
     SubscriptionResponse,
     Customer
 )
-from enterprise_pricing_server.services import SubscriptionService
-from enterprise_pricing_server.utils import get_db
-from enterprise_pricing_server.routers.auth import get_current_customer
+from services import SubscriptionService
+from utils import get_db
+from routers.auth import get_current_customer
 
 router = APIRouter(prefix="/subscriptions", tags=["Subscriptions"])
 

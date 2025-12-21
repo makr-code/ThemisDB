@@ -4,9 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from enterprise_pricing_server.config import settings
-from enterprise_pricing_server.utils.database import init_db
-from enterprise_pricing_server.routers import auth, customers, subscriptions, payments
+from config import settings
+from utils.database import init_db
+from routers import auth, customers, subscriptions, payments
 
 
 @asynccontextmanager

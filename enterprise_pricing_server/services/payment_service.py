@@ -7,14 +7,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import httpx
 import secrets
 
-from enterprise_pricing_server.models import (
+from models import (
     Payment,
     PaymentCreate,
     PaymentStatus,
     Subscription
 )
-from enterprise_pricing_server.config import settings
-from enterprise_pricing_server.services.subscription_service import SubscriptionService
+from config import settings
+from services.subscription_service import SubscriptionService
 
 
 class BankingInterface:

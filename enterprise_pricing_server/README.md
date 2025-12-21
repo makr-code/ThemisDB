@@ -72,11 +72,13 @@ cp .env.example .env
 ### FastAPI Server starten
 
 ```bash
-# Entwicklungsmodus mit Auto-Reload
-python -m uvicorn enterprise_pricing_server.app:app --reload --host 0.0.0.0 --port 8000
+# Mit dem mitgelieferten Script
+cd enterprise_pricing_server
+python run_server.py
 
-# Oder direkt über app.py
-python enterprise_pricing_server/app.py
+# Oder mit uvicorn direkt (Auto-Reload für Entwicklung)
+cd enterprise_pricing_server
+python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Der Server läuft dann unter: http://localhost:8000
@@ -89,7 +91,8 @@ Der Server läuft dann unter: http://localhost:8000
 ### Tkinter Admin UI starten
 
 ```bash
-python enterprise_pricing_server/tkinter_admin.py
+cd enterprise_pricing_server
+python tkinter_admin.py
 ```
 
 ## API-Endpunkte

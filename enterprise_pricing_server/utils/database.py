@@ -4,8 +4,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from typing import AsyncGenerator
 
-from enterprise_pricing_server.config import settings
-from enterprise_pricing_server.models import Base
+from config import settings
+from models import Base
 
 # Create async engine
 engine = create_async_engine(

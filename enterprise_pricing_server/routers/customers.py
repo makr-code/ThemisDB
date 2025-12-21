@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel
 
-from enterprise_pricing_server.models import CustomerResponse, Customer
-from enterprise_pricing_server.services import CustomerService
-from enterprise_pricing_server.utils import get_db
-from enterprise_pricing_server.routers.auth import get_current_customer
+from models import CustomerResponse, Customer
+from services import CustomerService
+from utils import get_db
+from routers.auth import get_current_customer
 
 router = APIRouter(prefix="/customers", tags=["Customers"])
 
