@@ -79,8 +79,8 @@ docker logs -f vccdb
 # Windows (PowerShell)
 git clone https://github.com/<org>/vccdb.git
 cd vccdb
-.\setup.ps1      # Install vcpkg dependencies
-.\build.ps1      # Build Release binaries
+.\scripts\setup.ps1      # Setup development environment (vcpkg + dependencies)
+.\scripts\build.ps1      # Build Release binaries
 ```
 
 ```bash
