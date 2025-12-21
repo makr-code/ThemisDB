@@ -1,8 +1,33 @@
 # Optional Protocols Implementation Guide
 
-**Stand:** 18. Dezember 2024  
-**Version:** 1.2.0  
+**Stand:** 21. Dezember 2024  
+**Version:** 1.3.0  
 **Status:** Production-Ready (MQTT, PostgreSQL Wire Protocol stub implementations)
+
+---
+
+## Port-Übersicht
+
+**📖 Vollständige Port-Referenz:** [PORT_REFERENCE.md](../deployment/PORT_REFERENCE.md)
+
+| Port  | Protokoll | Status | Build Flag |
+|-------|-----------|--------|------------|
+| 1883  | MQTT (plain) | Optional | `-DTHEMIS_ENABLE_MQTT=ON` |
+| 8883  | MQTT over TLS | Optional | `-DTHEMIS_ENABLE_MQTT=ON` |
+| 8083  | MQTT over WebSocket | Optional | `-DTHEMIS_ENABLE_MQTT=ON` |
+| 5432  | PostgreSQL Wire Protocol | Optional | `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` |
+| 3000  | MCP (Model Context Protocol) | Optional | `-DTHEMIS_ENABLE_MCP=ON` |
+
+**Docker Port Mapping:**
+```yaml
+ports:
+  # Optional protocol ports (uncomment when enabled):
+  # - "1883:1883"   # MQTT plain
+  # - "8883:8883"   # MQTT TLS
+  # - "8083:8083"   # MQTT WebSocket
+  # - "5432:5432"   # PostgreSQL Wire
+  # - "3000:3000"   # MCP
+```
 
 ---
 
