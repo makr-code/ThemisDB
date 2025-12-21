@@ -86,12 +86,12 @@ git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
 # Setup and build (Linux/macOS)
-./setup.sh
-./build.sh
+./scripts/setup.sh
+./scripts/build.sh
 
 # Setup and build (Windows)
-.\setup.ps1
-.\build.ps1
+.\scripts\setup.ps1
+.\scripts\build.ps1
 
 # Start server
 ./build/themis_server --config config.yaml
@@ -270,7 +270,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 
 **Getting Started:**
 - [Installation Guide](docs/guides/guides_deployment.md)
-- [Docker Deployment](DOCKER_DEPLOYMENT.md)
+- [Docker Deployment](docs/deployment/DOCKER_DEPLOYMENT.md)
 - [Quick Start Tutorial](docs/guides/quick_start.md)
 
 **Core Concepts:**
@@ -352,7 +352,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 > - Build configuration and optimizations
 
 **[→ Detailed Benchmarks](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**  
-**[→ Benchmark Suite Documentation](COMPREHENSIVE_BENCHMARK_GUIDE.md)**
+**[→ Benchmark Suite Documentation](benchmarks/COMPREHENSIVE_BENCHMARK_GUIDE.md)**
 
 ---
 

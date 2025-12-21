@@ -34,10 +34,10 @@ Setup (aus dem Repo‑Root):
 
 ```powershell
 # Dependencies und Toolchain einrichten
-./setup.ps1
+.\scripts\setup.ps1
 
 # Build (Release)
-./build.ps1
+.\scripts\build.ps1
 ```
 
 Optional: Manuelles CMake

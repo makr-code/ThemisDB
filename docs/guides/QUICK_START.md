@@ -68,11 +68,11 @@ git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
 # Linux/macOS
-./setup.sh
-./build.sh
+./scripts/setup.sh
+./scripts/build.sh
 
 # Windows
-.\setup.ps1
+.\scripts\setup.ps1
 .\build.ps1
 
 # Start server
