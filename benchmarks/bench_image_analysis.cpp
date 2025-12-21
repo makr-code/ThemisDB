@@ -174,6 +174,11 @@ private:
 // Test Data Generation
 // ============================================================================
 
+// Image format constants
+constexpr uint8_t JPEG_SOI_MARKER_1 = 0xFF;
+constexpr uint8_t JPEG_SOI_MARKER_2 = 0xD8;
+constexpr uint8_t JPEG_PSEUDO_COMPRESSION_SEED = 37;
+
 /**
  * @brief Generate mock image data of specified size
  * 
@@ -210,12 +215,12 @@ std::vector<uint8_t> generate_mock_jpeg(size_t width, size_t height) {
     std::vector<uint8_t> jpeg_data(compressed_size);
     
     // Add JPEG header markers
-    jpeg_data[0] = 0xFF;
-    jpeg_data[1] = 0xD8;  // SOI marker
+    jpeg_data[0] = JPEG_SOI_MARKER_1;
+    jpeg_data[1] = JPEG_SOI_MARKER_2;  // SOI marker
     
     // Fill with pseudo-compressed data
     for (size_t i = 2; i < compressed_size; ++i) {
-        jpeg_data[i] = static_cast<uint8_t>((i * 37) % 256);
+        jpeg_data[i] = static_cast<uint8_t>((i * JPEG_PSEUDO_COMPRESSION_SEED) % 256);
     }
     
     return jpeg_data;
