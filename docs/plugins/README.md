@@ -1,7 +1,7 @@
 # Plugins Documentation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
+**Stand:** 21. Dezember 2025  
+**Version:** 1.3.0  
 **Kategorie:** Plugins
 
 ---
@@ -16,7 +16,26 @@ ThemisDB unterstützt ein Plugin-System für Erweiterungen.
 |---------|--------|--------------|---------|
 | Manifest Signatures | ✅ Production | Plugin Verification | v1.0.0 |
 | Plugin Migration | ✅ Production | Migration Support | v1.0.0 |
-| RPC Framework | 📋 Design | RPC Plugin-Architektur | v1.3.0 |
+| RPC Framework | ✅ Production | RPC Plugin-Architektur | v1.3.0 |
+| Image Analysis Plugins | ✅ Production | Multi-backend AI für Bildanalyse | v1.3.0 |
+
+## Image Analysis Plugin Architecture (v1.3.0)
+
+ThemisDB unterstützt jetzt eine erweiterbare Plugin-Architektur für Bildanalyse-AI:
+
+### Unterstützte Backends
+
+- **llama.cpp Vision** (Primary) - Integriert mit LLM-Engine
+- **ONNX Runtime** - CLIP und andere ONNX-Modelle
+- **OpenCV DNN** - Leichtgewichtige Inferenz
+- **OpenVINO** - Intel-Hardware-Optimierung
+- **ncnn** - Mobile und Edge-Deployment
+
+### Dokumentation
+
+- [Image Analysis Plugin Guide](../llm/IMAGE_ANALYSIS_PLUGINS.md) - Vollständige Plugin-Dokumentation
+- [Multi-Backend Support](../llm/IMAGE_ANALYSIS_BACKENDS.md) - Backend-Vergleiche und Setup
+- [Plugin Development](../llm/README_PLUGINS.md) - Eigene Plugins entwickeln
 
 ## Source-Code Referenz
 

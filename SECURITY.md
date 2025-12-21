@@ -52,6 +52,14 @@ ThemisDB implements the following security measures:
 - Token-based API authentication
 - HashiCorp Vault integration for secrets management
 
+### Network Protocol Security (v1.3.0+)
+- **HTTP/2 with Server Push**: TLS 1.3 required, configurable opt-in
+- **WebSocket**: WSS (WebSocket Secure) with TLS support
+- **MQTT**: TLS/mTLS support, authentication required
+- **PostgreSQL Wire Protocol**: SSL/TLS encryption, role-based access
+- **MCP Server**: Cross-platform transport security (stdio/SSE/WebSocket)
+- **Production-ready security**: Explicit opt-in build switches for all protocols
+
 ### Encryption
 - **Data-at-Rest:** AES-256-GCM encryption
 - **Data-in-Transit:** TLS 1.3 (TLS 1.2 fallback)

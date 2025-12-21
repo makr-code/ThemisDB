@@ -170,15 +170,22 @@ docker run -d \
 
 ```bash
 docker run -d \
-  -p 8080:8080 \                # REST API (HTTP)
+  -p 8080:8080 \                # REST API (HTTP/HTTP/2)
   -p 18765:18765 \              # Internal protocol
+  -p 9090:9090 \                # WebSocket
+  -p 1883:1883 \                # MQTT
+  -p 5432:5432 \                # PostgreSQL Wire Protocol
   themisdb/themisdb:latest
 ```
 
-| Port | Protocol | Purpose | Default |
-|------|----------|---------|---------|
-| `8080` | HTTP | REST API, Web UI | Required |
-| `18765` | Custom | Binary protocol | Required |
+| Port | Protocol | Purpose | Default | Version |
+|------|----------|---------|---------|---------|
+| `8080` | HTTP/HTTP/2 | REST API, Web UI, Server Push | Required | v1.0+ |
+| `18765` | Custom | Binary protocol | Required | v1.0+ |
+| `9090` | WebSocket | Real-time CDC streaming | Optional | v1.3.0+ |
+| `1883` | MQTT | Broker with WebSocket transport | Optional | v1.3.0+ |
+| `5432` | PostgreSQL | Wire Protocol (SQL-to-Cypher) | Optional | v1.3.0+ |
+| `3000` | MCP | Model Context Protocol | Optional | v1.3.0+ |
 
 ### Network Modes
 
