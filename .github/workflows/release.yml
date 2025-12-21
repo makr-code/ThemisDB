@@ -1,6 +1,7 @@
 name: Release - Enterprise Pipeline
 
 on:
+  # Manual trigger
   workflow_dispatch:
     inputs:
       version:
@@ -17,10 +18,9 @@ on:
           - publish
           - verify
         default: 'full'
-  
-  push:
-    tags:
-      - 'v*'
+  # Night build (runs at 2 AM UTC)
+  schedule:
+    - cron: '0 2 * * *'
 
 env:
   RELEASE_DIR: 'release'
@@ -42,7 +42,13 @@ jobs:
         run: |
           VERSION=${{ github.event.inputs.version }}
           if [ -z "$VERSION" ]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
+            # For scheduled/night builds, read from VERSION file
+            if [ -f "VERSION" ]; then
+              VERSION=$(cat VERSION | tr -d '\n\r')
+            else
+              echo "Error: VERSION file not found and no version input provided"
+              exit 1
+            fi
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Release Version: $VERSION"

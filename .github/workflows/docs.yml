@@ -1,24 +1,11 @@
 name: Documentation Build & Deploy
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'requirements-docs.txt'
-      - '.github/workflows/docs.yml'
-  pull_request:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'requirements-docs.txt'
+  # Manual trigger
   workflow_dispatch:
+  # Night build (runs at 2 AM UTC)
+  schedule:
+    - cron: '0 2 * * *'
 
 permissions:
   contents: write
@@ -105,7 +92,7 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
     
     environment:
       name: github-pages
