@@ -160,6 +160,62 @@ option(THEMIS_GEO_GPU "Enable GPU backend for Geo (enterprise add-in)" OFF)
 option(THEMIS_GEO_H3 "Enable H3 integration (enterprise add-in)" OFF)
 option(THEMIS_GEO_GEOS_PLUGIN "Enable GEOS prepared geometries plugin (enterprise add-in)" OFF)
 option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
+# Multi-Edition Support (v1.3.5+)
+# THEMIS_EDITION: One of COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
+# This setting determines feature availability, licensing limits, and hardware constraints
+set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: COMMUNITY, ENTERPRISE, or HYPERSCALER")
+set_property(CACHE THEMIS_EDITION PROPERTY STRINGS COMMUNITY ENTERPRISE HYPERSCALER)
+
+# Validate edition selection
+if(NOT THEMIS_EDITION MATCHES "^(COMMUNITY|ENTERPRISE|HYPERSCALER)$")
+    message(FATAL_ERROR "THEMIS_EDITION must be COMMUNITY, ENTERPRISE, or HYPERSCALER (got: ${THEMIS_EDITION})")
+endif()
+
+# Edition feature configuration (compile-time feature flags)
+# These determine which functionality is available at build time
+
+# GPU Memory Limits: Edition-specific VRAM constraints
+# COMMUNITY: 24 GB (typical gaming GPU, consumer hardware)
+# ENTERPRISE: 256 GB (data center grade A100/H100)
+# HYPERSCALER: Unlimited (custom, OEM deployments)
+if(THEMIS_EDITION STREQUAL "COMMUNITY")
+    set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
+    set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Max sharding nodes for Community Edition")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
+    set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
+    set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
+    set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node only")
+
+elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
+    set(THEMIS_SHARDING_MAX_NODES 100 CACHE INTERNAL "Max sharding nodes for Enterprise Edition")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
+    set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
+    set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
+    set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    message(STATUS "Edition: ENTERPRISE - GPU up to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
+
+elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    set(THEMIS_GPU_MAX_VRAM_GB 999999 CACHE INTERNAL "Max GPU VRAM for Hyperscaler Edition (unlimited)")
+    set(THEMIS_SHARDING_MAX_NODES 999999 CACHE INTERNAL "Max sharding nodes for Hyperscaler Edition (unlimited)")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
+    set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
+    set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
+    set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    message(STATUS "Edition: HYPERSCALER - Unlimited GPU VRAM, unlimited nodes, full custom capabilities")
+
+endif()
+
+# Compile-time edition identifier for runtime checks and telemetry
+add_compile_definitions(
+    "THEMIS_EDITION_STRING=\"${THEMIS_EDITION}\""
+    "THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB}"
+    "THEMIS_SHARDING_MAX_NODES=${THEMIS_SHARDING_MAX_NODES}"
+)
 
 # Detect target architecture
 set(THEMIS_TARGET_ARCH "unknown")
