@@ -1,6 +1,6 @@
 # ThemisDB Dokumentations-Index
 
-**Stand:** 17. Dezember 2025  
+**Stand:** 20. Dezember 2025  
 **Version:** 1.3.0 (LLM Integration Release)  
 **Typ:** Dokumentations-Index
 
