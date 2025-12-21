@@ -238,5 +238,14 @@ docs/enterprise/enterprise_analytics.md
 docs/enterprise/enterprise_http_pool.md
 docs/enterprise/enterprise_scalability.md
 
-# Internal confidential docs (excluded from VCS)
+# Internal confidential docs (excluded from VCS - v1.3.5+)
 internal/
+
+# --- Sensitive Business/Strategic Documents (confidential, not for competitors) ---
+# Market analysis, pricing, revenue projections, and strategic planning documents
+# Note: Also covered by internal/ exclusion above for future content
+docs/analysis/MARKET_POTENTIAL_ANALYSIS.md
+docs/audit/COST_VALUE_ANALYSIS.md
+docs/reports/reports_project_valuation.md
+docs/enterprise/ENTERPRISE_ANALYSE_DE.md
+docs/stakeholder/STAKEHOLDER_VALUE_PROPOSITION.md

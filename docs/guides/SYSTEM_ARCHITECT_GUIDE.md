@@ -466,6 +466,6 @@ themisdb-admin replica add \
 - **Production-ready** (9.3/10 audit rating)
 
 **Next Steps:**
-- Review [Cost & Value Analysis](../audit/COST_VALUE_ANALYSIS.md) for detailed economics
-- Read [Stakeholder Value Proposition](../STAKEHOLDER_VALUE_PROPOSITION.md) for business case
-- Check [Market Potential Analysis](../analysis/MARKET_POTENTIAL_ANALYSIS.md) for growth opportunity
+- Review [Enterprise Edition Features](../../ENTERPRISE.md) for commercial offerings
+- Read [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md) for technical details
+- Check [Roadmap](../roadmap/ROADMAP.md) for future development plans

@@ -37,9 +37,20 @@ curl http://localhost:8080/health
 ```
 
 **Ports:**
-- `8080` - REST API & GraphQL Interface (HTTP)
-- `8765` - Binary Protocol (gRPC, Wire Protocol)
+
+**Core Ports (Always Available):**
+- `8080` - REST API & GraphQL Interface (HTTP/1.1, HTTP/2 if enabled)
+- `18765` - Binary Protocol (gRPC, Wire Protocol) - Updated from 8765 for consistency
 - `4318` - OpenTelemetry/Prometheus Metrics (OTLP)
+
+**Optional Protocol Ports (Require Build Flags):**
+- `1883` - MQTT (plain) - Requires `-DTHEMIS_ENABLE_MQTT=ON`
+- `8883` - MQTT over TLS - Requires `-DTHEMIS_ENABLE_MQTT=ON`
+- `8083` - MQTT over WebSocket - Requires `-DTHEMIS_ENABLE_MQTT=ON`
+- `5432` - PostgreSQL Wire Protocol - Requires `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON`
+- `3000` - MCP (Model Context Protocol) - Requires `-DTHEMIS_ENABLE_MCP=ON`
+
+**📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](../docs/deployment/PORT_REFERENCE.md) for detailed documentation.
 
 **Volume:**
 - `/data` - Datenbankdateien (müssen persistent sein!)
@@ -114,14 +125,22 @@ services:
     image: themisdb/themisdb:1.3.0
     container_name: themis
     ports:
-      - "8080:8080"      # HTTP REST API
-      - "8765:8765"      # Binary Protocol (Wire Protocol, gRPC)
-      - "4318:4318"      # OpenTelemetry OTLP (Prometheus)
+      # Core ports (always available)
+      - "8080:8080"      # HTTP REST API, GraphQL, HTTP/2 (if enabled)
+      - "18765:18765"    # Binary Protocol (Wire Protocol, gRPC)
+      - "4318:4318"      # OpenTelemetry OTLP (Prometheus metrics)
+      
+      # Optional protocol ports (uncomment when build flags are enabled):
+      # - "1883:1883"    # MQTT plain (requires -DTHEMIS_ENABLE_MQTT=ON)
+      # - "8883:8883"    # MQTT over TLS (requires -DTHEMIS_ENABLE_MQTT=ON)
+      # - "8083:8083"    # MQTT over WebSocket (requires -DTHEMIS_ENABLE_MQTT=ON)
+      # - "5432:5432"    # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
+      # - "3000:3000"    # MCP server (requires -DTHEMIS_ENABLE_MCP=ON)
     volumes:
       - themis_data:/data
       - ./config.json:/etc/themis/config.json:ro
     environment:
-      THEMIS_PORT: "8765"
+      THEMIS_PORT: "18765"
       THEMIS_CONFIG_PATH: "/etc/themis/config.json"
     restart: unless-stopped
     healthcheck:
