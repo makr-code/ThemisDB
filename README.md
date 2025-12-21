@@ -57,6 +57,7 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 📊 **Advanced Analytics** - Complex Event Processing (CEP), OLAP, Time-series
 - 🌐 **Distributed** - Horizontal sharding, replication, Kubernetes-ready
 - 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+)
+- 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
 
 ---
 
@@ -91,6 +92,32 @@ cd ThemisDB
 # Start server
 ./build/themis_server --config config.yaml
 ```
+
+**Optional Protocol Support (Security: Opt-In by Default):**
+
+```bash
+# Enable HTTP/2 with Server Push (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP2=ON
+
+# Enable WebSocket with CDC (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_WEBSOCKET=ON
+
+# Enable MQTT broker (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_MQTT=ON
+
+# Enable PostgreSQL Wire Protocol (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_POSTGRES_WIRE=ON
+
+# Enable MCP for LLM integration (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_MCP=ON
+
+# Enable HTTP/3 (explicit opt-in for security)
+cmake -B build -S . -DTHEMIS_ENABLE_HTTP3=ON
+
+# Default build only includes HTTP/1.1, GraphQL, SSE, gRPC (minimal attack surface)
+```
+
+See [Protocol Documentation](docs/apis/) for details.
 
 ### Windows: Build mit LLM (llama.cpp) - Optional
 

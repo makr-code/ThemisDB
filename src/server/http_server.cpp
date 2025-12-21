@@ -91,6 +91,14 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 
+#ifdef THEMIS_ENABLE_HTTP2
+#include "server/http2_session.h"
+#endif
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+#include "server/websocket_session.h"
+#endif
+
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/aql_parser.h"
@@ -223,6 +231,25 @@ HttpServer::HttpServer(
         );
         THEMIS_INFO("SSE Connection Manager initialized");
     }
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    // Initialize WebSocket Manager
+    if (config_.enable_websocket) {
+        // Pass changefeed for CDC support with configurable poll interval
+        websocket_manager_ = std::make_shared<WebSocketManager>(
+            changefeed_.get(), 
+            config_.websocket_cdc_poll_interval_ms
+        );
+        THEMIS_INFO("WebSocket Connection Manager initialized with CDC support");
+        
+        // Start CDC polling if changefeed is available
+        if (changefeed_) {
+            websocket_manager_->startCDCPolling(ioc_, config_.websocket_cdc_poll_interval_ms);
+            THEMIS_INFO("CDC polling started for WebSocket connections (interval={}ms)", 
+                       config_.websocket_cdc_poll_interval_ms);
+        }
+    }
+#endif
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
@@ -705,6 +732,14 @@ HttpServer::HttpServer(
                 THEMIS_INFO("mTLS: client certificate verification disabled (one-way TLS)");
             }
 
+#ifdef THEMIS_ENABLE_HTTP2
+            // Configure ALPN for HTTP/2 protocol negotiation
+            if (config_.enable_http2) {
+                Http2Handler::configureAlpn(*ssl_ctx_);
+                THEMIS_INFO("HTTP/2: ALPN configured for protocol negotiation (h2, http/1.1)");
+            }
+#endif
+
             THEMIS_INFO("HTTPS server enabled (TLS configured successfully)");
         } catch (const std::exception& e) {
             THEMIS_ERROR("Failed to initialize TLS: {}", e.what());
@@ -844,10 +879,29 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection (SSL or plain based on config)
+        // Create new session for this connection
         if (config_.enable_tls && ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
+            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
+            if (config_.enable_http2) {
+                std::make_shared<Http2Session>(
+                    std::move(socket),
+                    *ssl_ctx_,
+                    this,
+                    config_.http2_max_concurrent_streams,
+                    config_.http2_initial_window_size
+                )->start();
+            } else {
+                // TLS without HTTP/2
+                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+            }
+#else
+            // TLS without HTTP/2 support
             std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
         } else {
+            // Plain HTTP/1.1 without TLS
             std::make_shared<Session>(std::move(socket), this)->start();
         }
     }
@@ -10123,6 +10177,31 @@ void HttpServer::Session::onRead(
 
 void HttpServer::Session::processRequest() {
     try {
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        // Check for WebSocket upgrade request
+        if (server_->config_.enable_websocket && 
+            websocket::is_upgrade(request_)) {
+            THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
+            
+            // Create WebSocket session and transfer socket ownership
+            auto ws_session = std::make_shared<WebSocketSession>(
+                std::move(socket_),
+                server_
+            );
+            
+            // Add to manager
+            if (server_->websocket_manager_) {
+                server_->websocket_manager_->addSession(ws_session);
+            }
+            
+            // Start WebSocket session
+            ws_session->run(std::move(request_));
+            
+            // Session transferred to WebSocket, don't continue HTTP processing
+            return;
+        }
+#endif
+        
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -10222,6 +10301,8 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
         }
     }
 
+    // Note: HTTP/2 ALPN negotiation is handled in onAccept() by creating Http2Session
+    // This SslSession is only used for HTTP/1.1 over TLS
     doRead();
 }
 
@@ -10257,6 +10338,31 @@ void HttpServer::SslSession::onRead(
 
 void HttpServer::SslSession::processRequest() {
     try {
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        // Check for WebSocket upgrade request
+        if (server_->config_.enable_websocket && 
+            websocket::is_upgrade(request_)) {
+            THEMIS_INFO("WebSocket upgrade requested from HTTPS");
+            
+            // Create WebSocket session and transfer SSL stream ownership
+            auto ws_session = std::make_shared<WebSocketSession>(
+                std::move(stream_),
+                server_
+            );
+            
+            // Add to manager
+            if (server_->websocket_manager_) {
+                server_->websocket_manager_->addSession(ws_session);
+            }
+            
+            // Start WebSocket session
+            ws_session->run(std::move(request_));
+            
+            // Session transferred to WebSocket, don't continue HTTP processing
+            return;
+        }
+#endif
+        
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         
