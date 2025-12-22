@@ -1270,6 +1270,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_http_vector.cpp
         tests/test_http_vector_largescale.cpp
         tests/test_http_content.cpp
+        tests/test_video_processor_extended.cpp
         tests/test_http_changefeed.cpp
         tests/test_http_changefeed_sse.cpp
         tests/test_http_timeseries.cpp
@@ -1557,6 +1558,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_olap_analytics
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Video Processor benchmark (v1.3.0 Phase 2)
+    add_executable(bench_video_processor
+        benchmarks/bench_video_processor.cpp
+    )
+    
+    target_link_libraries(bench_video_processor
         PRIVATE
             themis_core
             benchmark::benchmark
