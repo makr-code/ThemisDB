@@ -199,6 +199,12 @@ void RocksDBWrapper::configureOptions() {
     txn_db_options_->transaction_lock_timeout = 1000; // 1 second timeout
     txn_db_options_->default_lock_timeout = 1000;
 
+    // v1.3.0 Phase 2: Enable Per-Key Point Lock Manager (RocksDB 10.6+)
+    // Improves efficiency under high write contention with FIFO ordering
+    // Expected improvement: +100-200% for write contention workloads
+    txn_db_options_->use_per_key_point_lock_mgr = true;
+    txn_db_options_->deadlock_timeout_us = 0;  // Immediate deadlock detection
+
     // Configure TransactionDB write policy
     switch (config_.write_policy) {
         case Config::WritePolicy::WriteCommitted:
