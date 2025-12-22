@@ -1375,6 +1375,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_graphql.cpp
         tests/test_olap.cpp
         tests/test_olap_extended.cpp
+        tests/test_process_mining_extended.cpp
         
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
@@ -1583,6 +1584,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_stream_protocol
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Process Mining benchmark (v1.3.0 Phase 2)
+    add_executable(bench_process_mining
+        benchmarks/bench_process_mining.cpp
+    )
+    
+    target_link_libraries(bench_process_mining
         PRIVATE
             themis_core
             benchmark::benchmark
