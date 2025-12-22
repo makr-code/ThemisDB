@@ -1,0 +1,7 @@
+-r ../requirements-common.txt
+
+# Data visualization
+matplotlib>=3.5.0
+
+# For scheduling
+schedule>=1.1.0

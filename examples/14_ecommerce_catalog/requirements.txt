@@ -1,0 +1,7 @@
+-r ../requirements-common.txt
+
+# Data visualization
+matplotlib>=3.5.0
+
+# For similarity calculations
+scikit-learn>=1.0.0

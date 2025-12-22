@@ -1,0 +1,4 @@
+-r ../requirements-common.txt
+
+# Image handling (for recipe photos)
+Pillow>=9.0.0
