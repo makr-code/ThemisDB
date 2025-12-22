@@ -11,25 +11,25 @@
 ## 🎯 Quick Start by Role
 
 ### For Developers
-1. [README.md](../README.md) - Project Overview & Quick Start
-2. [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build Toolchain (Windows/Linux/Docker)
-3. [docs/guides/guides_build.md](guides/guides_build.md) - Detailed Build Instructions
-4. [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Current Development Status
+1. [README.md](README.md) - Project Overview & Quick Start
+2. [Build Strategy](guides/guides_build_strategy.md) - Build Toolchain (Windows/Linux/Docker)
+3. [Build Guide](guides/guides_build.md) - Detailed Build Instructions
+4. [Development Summary](development/DEVELOPMENT_SUMMARY.md) - Current Development Status
 5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
 
 ### For Stakeholders
-1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
+1. [Themis Status Report 2025](reports/themis_sachstandsbericht_2025.md) - Executive Summary
 2. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
-3. [features/features_overview.md](features/features_overview.md) - Feature Overview with Status
-4. [ROADMAP.md](roadmap/roadmap_overview.md) - Development Roadmap
+3. [Feature Overview](features/features_overview.md) - Feature Overview with Status
+4. [Roadmap](roadmap/roadmap_overview.md) - Development Roadmap
 
 ### For Compliance & Audits
-1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary
-2. [compliance/compliance_full_checklist.md](compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, GDPR, eIDAS, SOC 2
-3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Results
-4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
-5. [legal/LICENSE_COMPATIBILITY_ANALYSIS.md](legal/LICENSE_COMPATIBILITY_ANALYSIS.md) - ⭐ License Compatibility (v1.3.0)
-6. [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
+1. [Compliance Dashboard](compliance/compliance_dashboard.md) - Executive Compliance Summary
+2. [Compliance Checklist](compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, GDPR, eIDAS, SOC 2
+3. [Security Audit Report](security/security_audit_report.md) - Security Audit Results
+4. [Security Policy](../SECURITY.md) - Vulnerability Disclosure Policy
+5. [License Compatibility](legal/LICENSE_COMPATIBILITY_ANALYSIS.md) - ⭐ License Compatibility (v1.3.0)
+6. [Third-Party Licenses](../THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
 
 ## 📚 Documentation Structure
 

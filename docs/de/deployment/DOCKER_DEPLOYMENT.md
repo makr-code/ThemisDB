@@ -550,7 +550,7 @@ docker push themisdb/themisdb:qnap
 
 **GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
 
-**Deployment Strategy:** [Full Deployment Strategy](docs/deployment/deployment_strategy.md)
+**Deployment Strategy:** [Full Deployment Strategy](deployment_strategy.md)
 
 ---
 

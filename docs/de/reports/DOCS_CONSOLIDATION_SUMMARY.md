@@ -144,7 +144,7 @@ nav:
 ### README.md
 ```markdown
 **Enterprise Features:**
-- [Enterprise Features Übersicht](docs/enterprise/README.md)
+- [Enterprise Features Übersicht](../enterprise/README.md)
 - [Build Strategy](BUILD_STRATEGY.md)
 - [Integration Analysis](INTEGRATION_ANALYSIS.md)
 ```
@@ -152,17 +152,17 @@ nav:
 ## 🔗 Wichtigste Links
 
 ### Für Entwickler
-- **Enterprise Overview:** [docs/enterprise/README.md](docs/enterprise/README.md)
+- **Enterprise Overview:** [enterprise/README.md](../enterprise/README.md)
 - **Build Guide:** [BUILD_STRATEGY.md](BUILD_STRATEGY.md)
-- **Doku-Index:** [docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)
+- **Doku-Index:** [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
 
 ### Für Management
 - **Quick Ref:** [DOCS_QUICKREF.md](DOCS_QUICKREF.md)
-- **Sachstandsbericht:** [docs/THEMIS_SACHSTANDSBERICHT_2025.md](docs/THEMIS_SACHSTANDSBERICHT_2025.md)
+- **Sachstandsbericht:** [themis_sachstandsbericht_2025.md](themis_sachstandsbericht_2025.md)
 
 ### Für Compliance
-- **Compliance Dashboard:** [docs/COMPLIANCE_DASHBOARD.md](docs/COMPLIANCE_DASHBOARD.md)
-- **Audit Checklist:** [docs/FULL_AUDIT_CHECKLIST.md](docs/FULL_AUDIT_CHECKLIST.md)
+- **Compliance Dashboard:** [compliance_dashboard.md](../compliance/compliance_dashboard.md)
+- **Audit Checklist:** [compliance_full_checklist.md](../compliance/compliance_full_checklist.md)
 
 ## ✅ Abnahme-Checkliste
 

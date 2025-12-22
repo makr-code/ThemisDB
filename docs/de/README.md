@@ -82,7 +82,7 @@ ThemisDB kann als erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine** e
   - Kubernetes Deployment
   - Production Best Practices
 
-- **[RPC Framework](../docs/plugins/RPC_PLUGIN_ARCHITECTURE.md)** ⭐ **v1.3.0**
+- **[RPC Framework](plugins/RPC_PLUGIN_ARCHITECTURE.md)** ⭐ **v1.3.0**
   - Inter-Shard Communication
   - TLS/mTLS Security
   - Snapshot/Blob Transfer

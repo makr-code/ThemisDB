@@ -307,12 +307,12 @@ curl -X POST http://localhost:8765/api/llm/generate \
 
 ## 📚 Documentation
 
-- **LLM Integration Guide**: [docs/llm/LLAMA_CPP_INTEGRATION.md](docs/llm/LLAMA_CPP_INTEGRATION.md)
-- **Plugin Development**: [docs/llm/README_PLUGINS.md](docs/llm/README_PLUGINS.md)
-- **Architecture Review**: [docs/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md](docs/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md)
-- **HTTP API Spec**: [docs/llm/HTTP_API_SPECIFICATION.md](docs/llm/HTTP_API_SPECIFICATION.md)
+- **LLM Integration Guide**: [LLAMA_CPP_INTEGRATION.md](../llm/LLAMA_CPP_INTEGRATION.md)
+- **Plugin Development**: [README_PLUGINS.md](../llm/README_PLUGINS.md)
+- **Architecture Review**: [INTEGRATION_REVIEW_AND_SEQUENCE.md](../llm/INTEGRATION_REVIEW_AND_SEQUENCE.md)
+- **HTTP API Spec**: [HTTP_API_SPECIFICATION.md](../llm/HTTP_API_SPECIFICATION.md)
 - **Docker Deployment**: [../deployment/DOCKER_DEPLOYMENT.md](../deployment/DOCKER_DEPLOYMENT.md)
-- **Build Guide**: [docs/guides/guides_build_strategy.md](docs/guides/guides_build_strategy.md)
+- **Build Guide**: [guides_build_strategy.md](../guides/guides_build_strategy.md)
 
 ---
 

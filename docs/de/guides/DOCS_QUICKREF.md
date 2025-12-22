@@ -24,10 +24,10 @@
 ### Für Compliance
 | Was | Wo |
 |-----|-----|
-| **Compliance Dashboard** | [docs/COMPLIANCE_DASHBOARD.md](docs/COMPLIANCE_DASHBOARD.md) |
-| **Audit Checklist** | [docs/FULL_AUDIT_CHECKLIST.md](docs/FULL_AUDIT_CHECKLIST.md) |
-| **Security Audit** | [docs/security/SECURITY_AUDIT_REPORT.md](docs/security/SECURITY_AUDIT_REPORT.md) |
-| **DPIA** | [docs/compliance/DPIA.md](docs/compliance/DPIA.md) |
+| **Compliance Dashboard** | [compliance_dashboard.md](../compliance/compliance_dashboard.md) |
+| **Audit Checklist** | [compliance_full_checklist.md](../compliance/compliance_full_checklist.md) |
+| **Security Audit** | [security_audit_report.md](../security/security_audit_report.md) |
+| **DPIA** | [compliance_dpia.md](../compliance/compliance_dpia.md) |
 
 ## 📋 Dokumentations-Typen
 

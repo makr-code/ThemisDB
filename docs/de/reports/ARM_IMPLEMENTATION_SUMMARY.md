@@ -243,14 +243,14 @@ The implementation maintains full backward compatibility with x86_64 while addin
    - `build-multiarch.yml`: Multi-architecture build matrix
    - Automated testing on every commit
    - Docker multi-arch image publishing
-   - See [CI/CD documentation](docs/CI_CD_MULTIARCH.md)
+   - See [CI/CD documentation](../deployment/deployment_cicd_multiarch.md)
 
 2. ✅ **Benchmarks:** ARM-specific benchmark suite
    - `bench_arm_simd.cpp`: SIMD performance testing (NEON vs scalar)
    - `bench_arm_memory.cpp`: Memory access pattern analysis
    - `run-arm-benchmarks.sh`: Automated benchmark runner
    - Platform-specific optimization guidance
-   - See [ARM Benchmarks documentation](docs/ARM_BENCHMARKS.md)
+   - See [ARM Benchmarks documentation](../deployment/deployment_arm_benchmarks.md)
 
 3. ✅ **Packages:** Pre-built ARM64/ARMv7 binaries/packages
    - `build-arm-packages.yml`: Automated package building workflow
@@ -258,7 +258,7 @@ The implementation maintains full backward compatibility with x86_64 while addin
    - RPM packages for RHEL/Fedora/Rocky Linux (ARM64)
    - Arch Linux packages (ARM64)
    - `build-arm-packages.sh`: Local package building script
-   - See [ARM Packages documentation](docs/ARM_PACKAGES.md)
+   - See [ARM Packages documentation](../deployment/deployment_arm_packages.md)
 
 4. ✅ **Tuning:** Raspberry Pi-specific optimizations
    - `config.rpi3.json`: Optimized config for Raspberry Pi 3 (2GB RAM)
@@ -266,7 +266,7 @@ The implementation maintains full backward compatibility with x86_64 while addin
    - `config.rpi5.json`: Optimized config for Raspberry Pi 5 (8GB RAM)
    - `optimize-rpi.sh`: Automated system tuning script
    - CPU governor, THP, swap, network optimizations
-   - See [Raspberry Pi Tuning Guide](docs/RASPBERRY_PI_TUNING.md)
+   - See [Raspberry Pi Tuning Guide](../deployment/deployment_raspberry_tuning.md)
 
 ## Future Enhancements (Optional)
 
