@@ -8,18 +8,19 @@
 
 ## Executive Summary
 
-| Aspekt | v1.3.0 (Aktuell) | v1.3.1 (Proposal) | Änderung |
-|--------|------------------|-------------------|----------|
-| **Reservierte Keywords** | 72 | 127 (oder 81 minimal) | +55 (+76%) |
+| Aspekt | v1.3.0 (Aktuell) | v1.3.1 (Final) | Änderung |
+|--------|------------------|----------------|----------|
+| **Reservierte Keywords** | 72 | **119** | **+47 (+65%)** |
 | **Eingebaute Funktionen** | ~360 | ~360 (unverändert) | 0 |
-| **Gesamt-Sprachumfang** | **432** | **487** (oder 441 minimal) | **+55 (+13%)** |
+| **Gesamt-Sprachumfang** | **432** | **479** | **+47 (+11%)** |
 
 ### Wichtige Erkenntnis
 
-Der **Gesamt-Sprachumfang wächst nur um 13%** (von 432 auf 487), da:
-- Die 55 neuen Keywords hauptsächlich **Sprachkonstrukte** sind (TYPE, FUNCTION, CLASS, etc.)
+Der **Gesamt-Sprachumfang wächst nur um 11%** (von 432 auf 479), da:
+- Die 47 neuen Keywords hauptsächlich **Sprachkonstrukte** sind (TYPE, FUNCTION, CLASS, etc.)
 - Die **~360 Funktionen bleiben unverändert** (keine neuen Funktionen in v1.3.1)
 - v1.3.1 fokussiert auf **strukturelle Features** (OOP), nicht neue Funktionen
+- **Detection Types als Strings** (objects, text, faces, landmarks) → -8 Keywords
 
 ---
 
@@ -291,7 +292,7 @@ DOTTED_CHART, SOCIAL_NETWORK
 
 ## Detaillierte Kalkulation v1.3.1 Proposal
 
-### 1. Neue Keywords (+55)
+### 1. Neue Keywords (+47) ✅ FINAL
 
 #### OOP Extensions (18)
 ```
@@ -315,14 +316,18 @@ MATCH, WHEN
 ASYNC, AWAIT, PARALLEL, TIMEOUT
 ```
 
-#### Vision Extensions (17)
+#### Vision Extensions (9) ✅ OPTIMIERT
 ```
 VISION, ANALYZE, DETECT, QUESTION, ABOUT, IMAGE, IMAGES,
-TRANSFORM, COMPARE, BATCH, OPERATIONS, OUTPUT, METRIC,
-objects, text, faces, landmarks
+TRANSFORM, COMPARE, BATCH, OPERATIONS, OUTPUT, METRIC
 ```
 
-**Hinweis:** Detection types (objects, text, faces, landmarks) können auch als String-Konstanten statt Keywords behandelt werden → Einsparung von 8 Keywords möglich.
+**✅ Detection Types als Strings:**
+```aql
+-- Statt Keywords: DETECT [objects, text, faces]
+-- Jetzt Strings: DETECT ['objects', 'text', 'faces']
+```
+**Einsparung:** -8 Keywords (objects, text, faces, landmarks, emotions, brands, celebrities, scenes)
 
 #### Type Keywords (3)
 ```
@@ -334,9 +339,9 @@ Array, Map, Result
 MACRO
 ```
 
-**Summe neue Keywords: +55**
+**Summe neue Keywords: +47** (statt +55)
 
-**Gesamt Keywords v1.3.1: 127**  
+**Gesamt Keywords v1.3.1: 119** ✅ FINAL  
 **Gesamt Keywords v1.3.1 (minimal): 81** (ohne optionale Features)
 
 ---
@@ -363,16 +368,16 @@ Funktionen: 360
 Gesamt:     432
 ```
 
-### v1.3.1 - Vollständiger Sprachumfang (Full Proposal)
+### v1.3.1 - Vollständiger Sprachumfang ✅ FINAL
 
 ```
-Keywords:    127  (+55, +76%)
+Keywords:    119  (+47, +65%)
 Funktionen:  360  (+0, +0%)
 ─────────────────────────────
-Gesamt:      487  (+55, +13%)
+Gesamt:      479  (+47, +11%)
 ```
 
-### v1.3.1 - Vollständiger Sprachumfang (Minimal)
+### v1.3.1 - Vollständiger Sprachumfang (Minimal, falls gewünscht)
 
 ```
 Keywords:     81  (+9, +13%)
@@ -380,6 +385,8 @@ Funktionen:  360  (+0, +0%)
 ─────────────────────────────
 Gesamt:      441  (+9, +2%)
 ```
+
+**Entscheidung:** Die finale Version v1.3.1 verwendet **119 Keywords** durch Optimierung der Detection Types als Strings.
 
 ---
 
@@ -400,7 +407,7 @@ Gesamt:      441  (+9, +2%)
 **Aufwand:** 8-12 Wochen (unverändert)
 
 **Grund:**
-- Parser muss **55 neue Keywords** erkennen
+- Parser muss **47 neue Keywords** erkennen (statt 55 durch Optimierung)
 - **Neue Grammatik-Regeln** für OOP-Konstrukte
 - **Type-Checker** für User-Defined Types
 - **Code-Generator** für neue Konstrukte
@@ -436,7 +443,7 @@ Gesamt:      441  (+9, +2%)
 | Datenbank | Keywords | Funktionen | Gesamt | Multimodal |
 |-----------|----------|------------|--------|------------|
 | **ThemisDB v1.3.0** | 72 | ~360 | 432 | ✅ Vollständig |
-| **ThemisDB v1.3.1** | 127 | ~360 | 487 | ✅ Erweitert |
+| **ThemisDB v1.3.1** ✅ | **119** | ~360 | **479** | ✅ Erweitert |
 | PostgreSQL | ~450 | ~300 | 750 | ❌ SQL only |
 | MongoDB | ~80 | ~200 | 280 | ❌ Document only |
 | Neo4j (Cypher) | ~120 | ~180 | 300 | ❌ Graph only |
@@ -447,9 +454,9 @@ Gesamt:      441  (+9, +2%)
 
 1. **ThemisDB v1.3.0** hat bereits einen **kompakten Sprachumfang** (432) mit vollständiger Multi-Model-Unterstützung
 
-2. **ThemisDB v1.3.1** wächst moderat auf 487 (+13%), bleibt aber **deutlich unter PostgreSQL** (750)
+2. **ThemisDB v1.3.1** wächst moderat auf **479 (+11%)** ✅, bleibt aber **deutlich unter PostgreSQL** (750)
 
-3. **Strategie erfolgreich:** Wenige Keywords (127), viele Funktionen (360) ermöglicht:
+3. **Strategie erfolgreich:** Wenige Keywords (119) ✅, viele Funktionen (360) ermöglicht:
    - Kompakte Sprachdefinition
    - Einfache Erweiterbarkeit
    - Geringer Parser-Aufwand
@@ -459,7 +466,7 @@ Gesamt:      441  (+9, +2%)
 
 ## Optimierungspotenzial
 
-### Option 1: Detection Types als Strings (Empfohlen)
+### ✅ UMGESETZT: Detection Types als Strings
 
 **Einsparung:** -8 Keywords
 
@@ -467,16 +474,16 @@ Gesamt:      441  (+9, +2%)
 -- Statt Keywords
 DETECT [objects, text, faces]
 
--- Als Strings
+-- Als Strings (FINALE LÖSUNG)
 DETECT ['objects', 'text', 'faces']
 ```
 
-**Neue Zahlen:**
-- Keywords v1.3.1: 119 (statt 127)
-- Gesamt v1.3.1: 479 (statt 487)
-- Änderung: +47 (+11%)
+**✅ Finale Zahlen v1.3.1:**
+- Keywords: **119** (statt 127)
+- Gesamt: **479** (statt 487)
+- Änderung: **+47 (+11%)**
 
-### Option 2: Minimal-Version v1.3.1
+### Alternative: Minimal-Version v1.3.1 (falls später gewünscht)
 
 **Nur kritische Features:**
 - Namespace, Import (2)
@@ -505,14 +512,16 @@ DETECT ['objects', 'text', 'faces']
 
 ## Zusammenfassung für Entscheidungsfindung
 
-### Zahlen auf einen Blick
+### Zahlen auf einen Blick ✅ FINAL
 
-| Metrik | v1.3.0 | v1.3.1 (Full) | v1.3.1 (Minimal) | PostgreSQL |
-|--------|--------|---------------|------------------|------------|
-| **Keywords** | 72 | 127 (+76%) | 81 (+13%) | ~450 |
+| Metrik | v1.3.0 | v1.3.1 (Final) | v1.3.1 (Minimal) | PostgreSQL |
+|--------|--------|----------------|------------------|------------|
+| **Keywords** | 72 | **119 (+65%)** ✅ | 81 (+13%) | ~450 |
 | **Funktionen** | 360 | 360 (+0%) | 360 (+0%) | ~300 |
-| **Gesamt** | **432** | **487 (+13%)** | **441 (+2%)** | **750** |
+| **Gesamt** | **432** | **479 (+11%)** ✅ | **441 (+2%)** | **750** |
 | **Aufwand** | - | 13-20 Wochen | 7-10 Wochen | - |
+
+**Entscheidung:** v1.3.1 Final mit **119 Keywords** und **479 Gesamt-Sprachumfang** (+11%)
 
 ### Empfehlung
 

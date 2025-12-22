@@ -11,14 +11,16 @@
 | Version | Reservierte Wörter | Neue Wörter | Änderung |
 |---------|-------------------|-------------|----------|
 | **v1.3.0 (Aktuell)** | **72** | - | Baseline |
-| **v1.3.1 (Proposal)** | **127** | **+55** | +76% |
+| **v1.3.1 (Final)** ✅ | **119** | **+47** | **+65%** |
 
 ### Kategorisierung der Änderung
 
 - **Core Language Extensions**: +28 Wörter (OOP, Control Flow)
-- **Vision Extensions**: +17 Wörter (Vision-spezifische Befehle)
+- **Vision Extensions**: +9 Wörter (optimiert, Detection Types als Strings)
 - **Type System**: +6 Wörter (Primitive Typen)
 - **Async/Macros**: +4 Wörter (Future Features)
+
+**✅ Optimierung umgesetzt:** Detection Types (objects, text, faces, landmarks, emotions, brands, celebrities, scenes) werden als **String-Konstanten** statt Keywords implementiert → **-8 Keywords**
 
 ---
 
@@ -87,7 +89,7 @@ null, true, false
 
 ---
 
-### v1.3.1 - Neue Reservierte Wörter (55 Neue)
+### v1.3.1 - Neue Reservierte Wörter (47 Neue) ✅ FINAL
 
 #### 1. OOP - Namespace System (2 Wörter)
 ```
@@ -125,17 +127,23 @@ MATCH, WHEN
 ASYNC, AWAIT, PARALLEL, TIMEOUT
 ```
 
-#### 8. Vision-Specific Commands (17 Wörter)
+#### 8. Vision-Specific Commands (9 Wörter) ✅ OPTIMIERT
 ```
 VISION, ANALYZE, DETECT, QUESTION, ABOUT, IMAGE, IMAGES,
-TRANSFORM, COMPARE, BATCH, OPERATIONS, OUTPUT, METRIC,
-objects, text, faces, landmarks
+TRANSFORM, COMPARE, BATCH, OPERATIONS, OUTPUT, METRIC
 ```
-**Hinweis:** Die Detection Types (objects, text, faces, landmarks, emotions, brands, celebrities, scenes) könnten auch als String-Konstanten statt Schlüsselwörter behandelt werden, was 8 Wörter einsparen würde.
+
+**✅ OPTIMIERUNG UMGESETZT:**
+Detection Types (objects, text, faces, landmarks, emotions, brands, celebrities, scenes) werden als **String-Konstanten** behandelt:
+```aql
+-- Statt Keywords: DETECT [objects, text, faces]
+-- Als Strings: DETECT ['objects', 'text', 'faces']
+```
+**Einsparung: -8 Keywords**
 
 #### 9. Additional Type Keywords (4 Wörter)
 ```
-Array, Map, Result, Object (bereits teilweise vorhanden)
+Array, Map, Result, Object
 ```
 
 #### 10. Macro System (1 Wort)
@@ -143,9 +151,9 @@ Array, Map, Result, Object (bereits teilweise vorhanden)
 MACRO
 ```
 
-**Gesamt v1.3.1 Neu: +55 Wörter**
+**Gesamt v1.3.1 Neu: +47 Wörter** ✅ FINAL (statt +55)
 
-**Gesamt v1.3.1: 127 Reservierte Wörter**
+**Gesamt v1.3.1: 119 Reservierte Wörter** ✅ FINAL
 
 ---
 
@@ -362,7 +370,7 @@ Implementiere Features in 4 Phasen über 12 Monate, um:
 
 ## Anhang: Vollständige Keyword-Liste v1.3.1
 
-### Alphabetisch sortiert (127 Wörter)
+### Alphabetisch sortiert (119 Wörter) ✅ FINAL
 
 ```
 ALL, ANALYZE, AND, ANY, Array, AS, ASC, ASYNC, AWAIT, AVG,
@@ -390,7 +398,7 @@ MACRO, MAP, MATCH, MAX, METHOD, METRIC, MIN, MODEL,
 
 NAMESPACE, NEW, NOT,
 
-Object, objects (optional), OPERATIONS, OPTIONS, OR, OUTBOUND, OUTPUT,
+Object, OPERATIONS, OPTIONS, OR, OUTBOUND, OUTPUT,
 
 PARALLEL, PERSISTENT, PIN, PREFIX, PRIVATE, PUBLIC,
 
@@ -400,8 +408,7 @@ RAG, REMOVE, REPLACE, REPLICATE, RESPONSE, Result, RETURN,
 
 SCALE, SELF, SHORTEST_PATH, SKIPLIST, SORT, STATS, STDDEV, String, SUM,
 
-text (optional), THEN, THIS, THROW, TIMEOUT, TO, TOP, TRANSFORM, 
-TRY, TTL, TYPE,
+THEN, THIS, THROW, TIMEOUT, TO, TOP, TRANSFORM, TRY, TTL, TYPE,
 
 UNLOAD, UNIQUE, UPDATE, UPSERT, USING,
 
@@ -411,6 +418,8 @@ WHEN, WHERE, WITH,
 
 false, null, true
 ```
+
+**Hinweis:** Detection Types (objects, text, faces, landmarks, emotions, brands, celebrities, scenes) sind **NICHT** in dieser Liste, da sie als String-Konstanten implementiert werden.
 
 ---
 
