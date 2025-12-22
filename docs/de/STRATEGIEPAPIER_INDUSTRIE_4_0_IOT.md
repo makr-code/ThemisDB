@@ -12,6 +12,49 @@ In der Ära von Industrie 4.0 und dem Internet of Things (IoT) stehen Unternehme
 
 **Kernbotschaft:** ThemisDB ist die ideale Datenplattform für Industrie 4.0, die Zeitreihen-Analytics, Graph-basierte Beziehungsmodelle, Vektorspeicherung für KI-gestützte Analysen und dokumentenorientierte Flexibilität in einer einzigen, hochperformanten Lösung integriert.
 
+### Quantifizierte Vorteile auf einen Blick
+
+| Kategorie | Metrik | Wert | Vergleich |
+|-----------|--------|------|-----------|
+| **Kosten** | TCO-Reduktion | 55% | vs. Multi-System-Stack |
+| **ROI** | Return on Investment | 2.662% | Jahr 1 (Automotive) |
+| **Amortisation** | Payback Period | 1,3 Monate | Durchschnitt |
+| **Performance** | Sensor-Ingestion | 100.000 ops/s | Time-Series Write |
+| **Performance** | Graph-Traversierung | 9,56M ops/s | Supply Chain-Analyse |
+| **Performance** | Vector Search | 7,17M queries/s | Anomalie-Erkennung |
+| **Effizienz** | Datenkompression | 10-20x | Gorilla-Algorithmus |
+| **Verfügbarkeit** | Downtime-Reduktion | 40% | Predictive Maintenance |
+| **Qualität** | Defekt-Reduktion | 2-5% | KI-gestützte Kontrolle |
+| **Produktivität** | Output-Steigerung | 5-10% | Prozess-Optimierung |
+
+### Industrie-4.0-Readiness: ThemisDB Scorecard
+
+```
+Datenhaltung             ████████████████████ 100%
+  ├─ Time-Series         ████████████████████ Native Support
+  ├─ Graph-Relationen    ████████████████████ Native Support  
+  ├─ Vector/Embeddings   ████████████████████ Native Support
+  └─ Flexible Schemas    ████████████████████ Multi-Model
+
+IoT-Integration          ████████████████████ 100%
+  ├─ MQTT-Broker         ████████████████████ Native Support
+  ├─ Edge-Deployment     ████████████████████ <512MB RAM
+  ├─ Offline-Fähigkeit   ████████████████████ Sync on Reconnect
+  └─ Protokoll-Vielfalt  ████████████████████ 8+ Protokolle
+
+Analytics & KI           ███████████████████░  95%
+  ├─ CEP/Streaming       ████████████████████ Enterprise
+  ├─ OLAP/Aggregation    ████████████████████ Native Support
+  ├─ ML/Embeddings       ████████████████████ Native Support
+  └─ LLM-Integration     ███████████████░░░░░ Optional Feature
+
+Enterprise-Grade         ████████████████████ 100%
+  ├─ ACID-Transaktionen  ████████████████████ MVCC
+  ├─ Hochverfügbarkeit   ████████████████████ Enterprise
+  ├─ Security/Compliance ████████████████████ TLS, RBAC, HSM
+  └─ Horizontal Scaling  ████████████████████ Enterprise
+```
+
 ---
 
 ## 1. Die Herausforderungen von Industrie 4.0 und IoT
@@ -63,6 +106,167 @@ Die vierte industrielle Revolution stellt neuartige Anforderungen an Datenbanksy
 - Zustandsüberwachung und Wartungsplanung
 - Lebenszyklus-Management von Anlagen
 - Compliance-Dokumentation
+
+### 1.3 Industrie-4.0-Reifegrade und Datenbank-Anforderungen
+
+Die Implementierung von Industrie 4.0 erfolgt typischerweise in mehreren Stufen, wobei jede Stufe spezifische Anforderungen an die Dateninfrastruktur stellt:
+
+#### Reifegrad 1: Digitale Transparenz (Basics)
+```yaml
+Fokus: Erfassung und Visualisierung von Produktionsdaten
+
+Datenbank-Anforderungen:
+  ✓ Sensor-Daten-Erfassung (Time-Series)
+  ✓ Echtzeit-Dashboards
+  ✓ Historische Datenabfragen
+  ✓ Basis-Reporting
+
+ThemisDB-Features:
+  → Time-Series Store mit Gorilla-Kompression
+  → REST API für Dashboard-Integration
+  → AQL für flexible Abfragen
+  → Prometheus/Grafana-Integration
+
+Typische Metriken:
+  - OEE (Overall Equipment Effectiveness)
+  - Taktzeiten und Durchsatz
+  - Energie-Verbrauch
+  - Basis-Verfügbarkeit
+```
+
+#### Reifegrad 2: Datenanalyse und Optimierung
+```yaml
+Fokus: Analytische Auswertung zur Prozessoptimierung
+
+Datenbank-Anforderungen:
+  ✓ Aggregationen und OLAP
+  ✓ Trend-Analysen
+  ✓ KPI-Berechnungen
+  ✓ Korrelations-Analysen
+
+ThemisDB-Features:
+  → Continuous Aggregates (automatisch)
+  → Window Functions und OLAP (Enterprise)
+  → Multi-Dimensional Queries
+  → Export zu BI-Tools (Parquet, PostgreSQL Wire)
+
+Typische Analysen:
+  - Durchsatz-Optimierung pro Produktionslinie
+  - Energie-Effizienz-Analysen
+  - Rüstzeit-Minimierung
+  - Quality-Rate-Verbesserung
+```
+
+#### Reifegrad 3: Predictive Analytics
+```yaml
+Fokus: Vorhersagemodelle für proaktive Steuerung
+
+Datenbank-Anforderungen:
+  ✓ ML-Feature-Store
+  ✓ Vector-Embeddings
+  ✓ Anomalie-Erkennung
+  ✓ Pattern Matching
+
+ThemisDB-Features:
+  → Vector Store (HNSW, FAISS)
+  → Similarity Search (GPU-beschleunigt)
+  → Embedding Cache
+  → CEP Engine (Enterprise)
+
+Typische Use Cases:
+  - Predictive Maintenance (Mean Time To Failure)
+  - Qualitäts-Vorhersage (Defect Prediction)
+  - Demand Forecasting
+  - Anomalie-Erkennung in Echtzeit
+```
+
+#### Reifegrad 4: Autonome Systeme
+```yaml
+Fokus: Selbststeuernde und selbstoptimierende Produktion
+
+Datenbank-Anforderungen:
+  ✓ Echtzeit-Entscheidungs-Engine
+  ✓ Graph-basierte Prozess-Modelle
+  ✓ Reinforcement Learning Data
+  ✓ Distributed Transactions
+
+ThemisDB-Features:
+  → Graph-Engine (BFS, Dijkstra, A*)
+  → ACID-Transaktionen über alle Modelle
+  → Sub-Millisecond Latencies
+  → Native LLM für Natural Language Control
+
+Typische Szenarien:
+  - Autonome Werkzeug-Wechsel bei Verschleiß
+  - Self-Healing-Systeme
+  - Dynamische Produktions-Planung
+  - Collaborative Robot Coordination
+```
+
+### 1.4 Datenvolumen-Szenarien: Von Pilot bis Enterprise
+
+#### Pilot-Projekt (1-3 Monate)
+```
+Umfang:
+├─ 1 Produktionslinie oder Bereich
+├─ 50-200 Sensoren
+├─ 500-2.000 Datenpunkte/Sekunde
+└─ 1-10 GB Rohdaten/Tag
+
+ThemisDB Community Edition:
+├─ Single-Node Deployment
+├─ 8 vCPU, 32 GB RAM, 500 GB SSD
+├─ Kosten: ~5.000 € Hardware + 0 € Lizenz
+└─ Operations: 0,2 FTE
+
+Ergebnis nach 3 Monaten:
+✓ Proof of Concept validiert
+✓ 5-10 konkrete Use Cases identifiziert
+✓ ROI-Kalkulation basierend auf echten Daten
+✓ Go/No-Go Entscheidung für Rollout
+```
+
+#### Fabrik-Rollout (6-12 Monate)
+```
+Umfang:
+├─ 1 vollständige Fabrik
+├─ 1.000-5.000 Sensoren
+├─ 10.000-50.000 Datenpunkte/Sekunde
+└─ 100-500 GB Rohdaten/Tag
+
+ThemisDB Enterprise Edition:
+├─ 3-Node Cluster (HA-Setup)
+├─ 16 vCPU, 64 GB RAM, 2 TB NVMe pro Node
+├─ Kosten: ~50.000 € Hardware + 100.000 € Lizenz/Jahr
+└─ Operations: 1 FTE
+
+Ergebnis nach 12 Monaten:
+✓ 20-50 Use Cases in Production
+✓ Messbare KPI-Verbesserungen
+✓ Integration in bestehende IT-Landschaft
+✓ Template für weitere Standorte
+```
+
+#### Enterprise-Rollout (12-24 Monate)
+```
+Umfang:
+├─ 5-20 Fabriken weltweit
+├─ 10.000-100.000 Sensoren
+├─ 100.000-1M Datenpunkte/Sekunde
+└─ 1-10 TB Rohdaten/Tag
+
+ThemisDB Enterprise Edition:
+├─ Multi-Site Cluster (9-27 Nodes)
+├─ Geo-Replication über Kontinente
+├─ Kosten: ~500.000 € Infrastructure + 500.000 € Lizenz/Jahr
+└─ Operations: 3-5 FTE (dediziertes Platform-Team)
+
+Ergebnis nach 24 Monaten:
+✓ Unternehmensweite Datenplattform
+✓ 100+ Use Cases über alle Standorte
+✓ Self-Service Analytics für Business-User
+✓ Strategischer Wettbewerbsvorteil
+```
 
 ---
 
@@ -160,6 +364,53 @@ Vorteile:
 ✅ Referentielle Integrität
 ```
 
+**Detaillierte Technische Spezifikationen:**
+
+```yaml
+Time-Series Performance:
+  Write-Throughput: 100.000 ops/s (Single-Node)
+  Read-Throughput: 500.000 ops/s (komprimiert)
+  Latenz (P50): <1ms (Indexed Queries)
+  Latenz (P99): <10ms (Indexed Queries)
+  Kompression: 10-20x mit Gorilla
+  Retention: Konfigurierbar (Tage bis Jahre)
+  Aggregation: O(n) Single-Pass
+  Bucket-Größen: 1s, 1m, 5m, 1h, 1d, 1w, 1M
+
+Graph Performance:
+  Traversal: 9.56M ops/s (BFS, depth=3)
+  Shortest Path: <1ms (Dijkstra, 1000 Knoten)
+  Pattern Matching: 3.4M queries/s
+  Max Graph Size: Milliarden Knoten (Enterprise)
+  Algorithmen: BFS, DFS, Dijkstra, A*, Bellman-Ford
+  Index: Adjacency Lists + Compressed Bitmap
+
+Vector Performance:
+  Insert: 411K vectors/s (384D embeddings)
+  Search (Top-50): 7.17M queries/s (GPU)
+  Search (Top-50): 150K queries/s (CPU)
+  Dimensionen: 1-4096D
+  Distanz-Metriken: L2, Cosine, Inner Product
+  Index: HNSW (M=16, efConstruction=200)
+  GPU-Backends: CUDA, Vulkan, HIP, OpenCL, DirectX
+
+Document Performance:
+  Read: 120.000 ops/s
+  Write: 45.000 ops/s
+  Index: B-Tree + Fulltext (Inverted Index)
+  Max Document Size: 16 MB
+  Compression: Snappy, LZ4, ZSTD
+  Query: JSONPath, XPath-ähnlich
+
+Relational Performance:
+  Simple Query: 3.4M queries/s
+  Join (2 Tables): 150K queries/s
+  Aggregation: 1.2M queries/s
+  Index: B-Tree, Hash, Composite
+  Constraints: NOT NULL, UNIQUE, FOREIGN KEY
+  Transactions: Snapshot Isolation (MVCC)
+```
+
 ### 2.2 Technologische Vorsprünge
 
 #### Native MQTT-Integration
@@ -172,6 +423,22 @@ Vorteile:
 - QoS-Level 0, 1, 2 für garantierte Zustellung
 - Niedrige Latenz und minimaler Overhead
 - SSL/TLS-Verschlüsselung für sichere Verbindungen
+
+Technische Details:
+  Protokoll: MQTT 3.1.1 und 5.0
+  Transport: TCP, WebSocket, TLS
+  Port: 1883 (Plain), 8883 (TLS)
+  Max Connections: 10.000+ (Single-Node)
+  Max Message Size: 256 MB
+  Retained Messages: Ja
+  Last Will and Testament: Ja
+  Session Persistence: Ja
+  
+Performance:
+  Throughput: 100.000 messages/s
+  Latency: <5ms (P99)
+  Connection Time: <100ms
+  Keep-Alive: 30-3600s konfigurierbar
 ```
 
 **Architektur:**
@@ -183,6 +450,29 @@ ThemisDB MQTT Broker (Port 1883/8883)
 Time-Series Storage + CEP Engine
        ↓
 Real-Time Dashboards (WebSocket)
+```
+
+**Erweiterte MQTT-Features:**
+```cpp
+// MQTT Topic-Hierarchie für strukturierte Daten
+topics:
+  ├─ factory/{site}/{line}/{machine}/sensor/{type}
+  ├─ factory/+/+/press_001/sensor/temperature      // Wildcard
+  └─ factory/#                                       // Multi-level Wildcard
+
+// Automatisches Mapping zu Time-Series
+mqtt://factory/munich/line1/press_001/sensor/temperature
+  → ts.put("machine_temp", "munich:line1:press_001", timestamp, value)
+
+// Quality of Service
+QoS 0: At most once  (Fire-and-Forget, <1ms latency)
+QoS 1: At least once (Acknowledged, <5ms latency)
+QoS 2: Exactly once  (Guaranteed, <10ms latency)
+
+// Retained Messages für Device Status
+Topic: factory/munich/line1/press_001/status
+Payload: {"state": "running", "uptime": 86400}
+→ Neue Clients erhalten sofort aktuellen Status
 ```
 
 #### Complex Event Processing (CEP) - Enterprise Edition
@@ -208,6 +498,74 @@ HAVING avg_temp > 90
 EMIT WHEN temp_rising_fast()
 ```
 
+**Erweiterte CEP-Pattern für Industrie 4.0:**
+```sql
+-- Pattern 1: Maschinenverschleiß-Erkennung
+-- Erkenne kontinuierlichen Anstieg der Vibration über 30 Minuten
+PATTERN vibration_increase {
+    (sensor_event WHERE vibration > baseline + 0.01)
+        FOLLOWED BY
+    (sensor_event WHERE vibration > baseline + 0.02)
+        FOLLOWED BY
+    (sensor_event WHERE vibration > baseline + 0.03)
+    WITHIN 30 MINUTES
+}
+ACTION: CREATE_MAINTENANCE_TICKET(machine_id, "Vibration Increase", priority=HIGH)
+
+-- Pattern 2: Lieferketten-Störung
+-- Erkenne verspätete Lieferungen mit Kaskadeneffekt
+PATTERN supply_chain_disruption {
+    (delivery_event WHERE delay > 2 hours AND supplier_type = "critical")
+        FOLLOWED BY
+    (production_event WHERE status = "material_shortage")
+        WITHIN 4 HOURS
+}
+ACTION: ALERT_SUPPLY_CHAIN_MANAGER() AND TRIGGER_ALTERNATIVE_SOURCING()
+
+-- Pattern 3: Qualitäts-Abweichung-Sequenz
+-- Erkenne 3 von 5 Teilen mit Qualitätsmängeln
+PATTERN quality_degradation {
+    COUNT(defect_event WHERE severity >= MEDIUM) >= 3
+    WITHIN 5 CONSECUTIVE production_events
+}
+ACTION: PAUSE_PRODUCTION_LINE() AND NOTIFY_QUALITY_TEAM()
+
+-- Pattern 4: Energie-Spike-Korrelation
+-- Erkenne ungewöhnlichen Energieverbrauch korreliert mit Prozess-Anomalie
+PATTERN energy_anomaly {
+    (power_event WHERE consumption > threshold * 1.5)
+        CO-OCCURS WITH
+    (process_event WHERE cycle_time > normal * 1.3)
+    WITHIN 1 MINUTE
+}
+ACTION: LOG_ANOMALY() AND CHECK_EQUIPMENT_STATUS()
+```
+
+**CEP Performance-Charakteristika:**
+```yaml
+Latenz:
+  Pattern Detection: <1ms (einfache Patterns)
+  Pattern Detection: <10ms (komplexe Patterns mit 5+ Events)
+  Action Trigger: <5ms
+  End-to-End (Event → Action): <20ms
+
+Durchsatz:
+  Events/s: 100.000+ (Single-Node)
+  Events/s: 1.000.000+ (Cluster, Enterprise)
+  Concurrent Patterns: 1.000+ aktive Patterns
+  
+Fenster-Typen:
+  Sliding Window: Kontinuierlich gleitend
+  Tumbling Window: Nicht-überlappend
+  Session Window: Basierend auf Event-Gaps
+  Global Window: Unbegrenzt (mit Trigger)
+
+State Management:
+  In-Memory: Für Low-Latency
+  Persistent: Checkpoint zu RocksDB
+  Distributed: Sharded State (Enterprise)
+```
+
 #### Native LLM-Integration (llama.cpp)
 ThemisDB kann **LLM-Modelle direkt in der Datenbank ausführen**:
 
@@ -226,6 +584,37 @@ Vorteile:
 - Conversational Analytics für Business Users
 - Anomalie-Erklärungen in natürlicher Sprache
 
+**Detaillierte LLM-Spezifikationen:**
+```yaml
+Unterstützte Modelle:
+  Phi-3-Mini: 3.8B Parameter, 2.3GB VRAM (Q4), ~20 tokens/s (RTX 4060 Ti)
+  Mistral-7B: 7B Parameter, 4.1GB VRAM (Q4), ~15 tokens/s (RTX 4090)
+  Llama-3-8B: 8B Parameter, 4.7GB VRAM (Q4), ~12 tokens/s (RTX 4090)
+  Llama-3-70B: 70B Parameter, 40GB VRAM (Q4), ~5 tokens/s (A100 80GB)
+
+Quantisierung:
+  Q4_K_M: 4-bit, 50% kleiner, 95% Qualität
+  Q5_K_M: 5-bit, 40% kleiner, 97% Qualität
+  Q8_0: 8-bit, 20% kleiner, 99% Qualität
+  F16: 16-bit, Original-Qualität
+
+Inferenz-Modi:
+  Batch: Mehrere Queries gleichzeitig (höherer Durchsatz)
+  Streaming: Token-by-Token (niedrigere Latenz)
+  Continuous Batching: Dynamisches Request-Batching
+
+Kosten-Vergleich (1M Tokens):
+  GPT-4o: ~30 €
+  Claude 3.5 Sonnet: ~15 €
+  Phi-3-Mini (ThemisDB): ~0,02 € (Strom @ 300W GPU)
+  → 1.500x günstiger als GPT-4o!
+
+ROI Break-Even:
+  RTX 4060 Ti (500 €): 17 Tage vs. GPT-4o
+  RTX 4090 (1.800 €): 60 Tage vs. GPT-4o
+  A100 (10.000 €): 333 Tage vs. GPT-4o
+```
+
 #### Edge-Computing-Fähigkeiten
 ```yaml
 Deployment-Optionen:
@@ -234,6 +623,47 @@ Deployment-Optionen:
 ✅ Single-Binary Deployment
 ✅ Ressourcen-effizient (<512MB RAM)
 ✅ Offline-fähig (lokale Speicherung)
+
+Edge-Hardware-Profile:
+  Minimal (ARM Cortex-A53):
+    CPU: 4 Cores @ 1.2 GHz
+    RAM: 2 GB
+    Storage: 32 GB eMMC
+    Use Case: Basic Sensor Aggregation
+    Throughput: 1.000 events/s
+    Cost: ~100 € (Raspberry Pi 4)
+    
+  Standard (ARM Cortex-A72):
+    CPU: 8 Cores @ 2.0 GHz
+    RAM: 8 GB
+    Storage: 256 GB NVMe
+    Use Case: Edge Analytics + Local CEP
+    Throughput: 10.000 events/s
+    Cost: ~500 € (Jetson Nano/Xavier NX)
+    
+  Advanced (x86_64 Industrial PC):
+    CPU: Intel i5, 4 Cores @ 2.5 GHz
+    RAM: 16 GB
+    Storage: 512 GB NVMe
+    Use Case: Full Analytics + Local ML
+    Throughput: 50.000 events/s
+    Cost: ~1.500 € (Industrial PC)
+    
+  Premium (Edge Server mit GPU):
+    CPU: Intel Xeon, 8 Cores @ 3.0 GHz
+    GPU: NVIDIA T4 (16GB)
+    RAM: 32 GB
+    Storage: 1 TB NVMe
+    Use Case: Local LLM + Advanced Analytics
+    Throughput: 100.000 events/s
+    Cost: ~5.000 € (Edge Server)
+
+Offline-Fähigkeiten:
+  ✓ Lokale Datenspeicherung (bis X Tage konfigurierbar)
+  ✓ Automatische Sync bei Wiederverbindung
+  ✓ Conflict Resolution (Last-Write-Wins oder Custom)
+  ✓ Lokale Analytics während Offline-Zeit
+  ✓ Queue für ausgehende Events (bis 10GB)
 ```
 
 ### 2.3 Performance & Skalierbarkeit
@@ -262,6 +692,210 @@ High Availability:
 - Multi-Master mit CRDTs
 - Automatisches Failover
 - Geo-Replication für globale Deployments
+```
+
+### 2.4 Branchen-spezifische Implementierungs-Patterns
+
+#### Automotive & Discrete Manufacturing
+```yaml
+Typische Datenquellen:
+  Sensoren:
+    - Temperatur, Druck, Vibration (100-1000 Hz)
+    - Drehmom ent, Kraft, Position (100-500 Hz)
+    - Strom, Spannung, Leistung (50 Hz)
+  Roboter: Status, Position, Geschwindigkeit (10-50 Hz)
+  Vision-Systeme: Bildanalyse, Defekt-Erkennung (1-10 Hz)
+  MES-Systeme: Aufträge, Chargen, Qualität (Event-basiert)
+  ERP-Systeme: Material, Personal, Planung (Batch-Updates)
+
+ThemisDB-Architektur:
+  Time-Series (80%):
+    → Sensor-Rohdaten mit Gorilla-Kompression
+    → Continuous Aggregates (1m, 5m, 1h)
+    → Retention: 7d Hot, 90d Warm, 7y Cold
+    
+  Graph (10%):
+    → Produktionslinie-Topologie (Maschinen, Förderbänder)
+    → Bill-of-Materials (Teile-Hierarchie)
+    → Materialfluss und Rückverfolgbarkeit
+    
+  Vector (5%):
+    → Bildanalyse-Embeddings (Qualitätskontrolle)
+    → Vibrations-Muster (Predictive Maintenance)
+    → Prozess-Fingerprints (Anomalie-Erkennung)
+    
+  Document (4%):
+    → Wartungsprotokolle, Störungsberichte
+    → Konfigurationen, Rezepte
+    → Qualitätsprüfberichte
+    
+  Relational (1%):
+    → Stammdaten (Mitarbeiter, Schichten, Materialien)
+    → Planungsdaten (Aufträge, Ressourcen)
+
+KPIs & Metriken:
+  OEE (Overall Equipment Effectiveness):
+    = Verfügbarkeit × Leistung × Qualität
+    Berechnung: Real-Time via Continuous Aggregates
+    Ziel: >85% (World-Class: >90%)
+    
+  MTBF/MTTR (Mean Time Between/To Failure/Repair):
+    Berechnung: Event-Pattern-Analyse via CEP
+    Ziel: MTBF >500h, MTTR <2h
+    
+  First Pass Yield:
+    Berechnung: Defekte pro produzierte Teile
+    Ziel: >98% (World-Class: >99%)
+```
+
+#### Process Manufacturing (Chemie, Pharma, Food & Beverage)
+```yaml
+Typische Datenquellen:
+  Prozess-Sensoren:
+    - Temperatur, Druck (1-10 Hz)
+    - pH-Wert, Leitfähigkeit (0,1-1 Hz)
+    - Durchfluss, Füllstand (1-10 Hz)
+  Labor-Systeme: Qualitätsparameter (Batch)
+  SCADA: Ventile, Pumpen, Mischer (Event-basiert)
+  Batch-Management: Rezepte, Chargen (Event-basiert)
+
+ThemisDB-Architektur:
+  Time-Series (90%):
+    → Prozessparameter mit Down-Sampling
+    → Batch-Records (Charge-basiert)
+    → Retention: Chargen-basiert + regulatorisch (21 CFR Part 11)
+    
+  Graph (5%):
+    → P&ID (Piping & Instrumentation Diagrams)
+    → Rezept-Hierarchien
+    → Material-Genealogie (Track & Trace)
+    
+  Document (4%):
+    → Batch-Reports (elektronische Batch-Records)
+    → Abweichungs-Berichte (Deviation Reports)
+    → SOP (Standard Operating Procedures)
+    
+  Relational (1%):
+    → Master-Data (Rohstoffe, Produkte)
+    → Qualitäts-Spezifikationen
+
+Compliance & Regulierung:
+  FDA 21 CFR Part 11:
+    ✓ Electronic Signatures (RBAC + Audit Log)
+    ✓ Audit Trail (Unveränderliche Logs)
+    ✓ Data Integrity (ALCOA+: Attributable, Legible, ...)
+    ✓ System Validation (IQ/OQ/PQ Dokumentation)
+    
+  EU GMP Annex 11:
+    ✓ Data Integrity Controls
+    ✓ Electronic Records Management
+    ✓ Backup & Disaster Recovery
+    ✓ Change Control
+```
+
+#### Energy & Utilities
+```yaml
+Typische Datenquellen:
+  Smart Meters:
+    - Strom, Gas, Wasser (15-min Intervall)
+    - Zählerstand, Leistung, Spannung
+  Netz-Sensoren:
+    - Frequenz, Spannung, Phasenwinkel (1-50 Hz)
+    - Lastfluss, Blindleistung
+  Wetter-Daten:
+    - Solar-Einstrahlung, Wind, Temperatur (5-min)
+  Assets:
+    - Transformatoren, Schalter, Leitungen (Zustand)
+
+ThemisDB-Architektur:
+  Time-Series (95%):
+    → Smart-Meter-Daten (100K+ Meter)
+    → Netz-Parameter (Sub-Second)
+    → Wetter-Forecasts
+    → Retention: 1d Hot, 1y Warm, 10y Cold (regulatorisch)
+    
+  Graph (3%):
+    → Netz-Topologie (Knoten, Kanten)
+    → Asset-Hierarchie (Umspannwerke, Leitungen)
+    → Lastfluss-Modell
+    
+  Vector (1%):
+    → Lastprofil-Clustering (Kundengruppen)
+    → Anomalie-Erkennung (Manipulation, Fehler)
+    
+  Document (1%):
+    → Wartungsprotokolle
+    → Störungsberichte
+    → GIS-Daten (Geo-Referenzierung)
+
+Use Cases:
+  Load Forecasting:
+    → Time-Series-Analyse + ML-Modell
+    → Input: Historische Last + Wetter + Kalender
+    → Output: 24h-48h Vorhersage (15-min Auflösung)
+    → Genauigkeit: MAPE <5%
+    
+  Outage Management:
+    → Graph-Analyse für betroffene Kunden
+    → Event-Korrelation via CEP
+    → Automatische Crew-Dispatch
+    → Ziel: SAIDI <60 min/year, SAIFI <1.0
+```
+
+#### Logistics & Transportation
+```yaml
+Typische Datenquellen:
+  Telematik:
+    - GPS-Position (10-30s)
+    - Geschwindigkeit, Kurs, Höhe (10-30s)
+    - CAN-Bus-Daten (Verbrauch, Fehler) (1s)
+  Sensoren:
+    - Temperatur (Kühlkette) (1-5 min)
+    - Tür-Status, Ladung (Event-basiert)
+  Warehouse-Systeme:
+    - Bestandsbewegungen (Event-basiert)
+    - Kommissionierung (Event-basiert)
+  TMS (Transport Management):
+    - Aufträge, Routen, Delivery
+
+ThemisDB-Architektur:
+  Time-Series (70%):
+    → GPS-Tracks (5K+ Fahrzeuge)
+    → Sensor-Daten (Temp, Fuel, etc.)
+    → Retention: 30d Hot, 1y Warm, 7y Cold
+    
+  Graph (20%):
+    → Straßennetz (5M+ Knoten Europa)
+    → Lager-Layout (Regale, Gänge)
+    → Auftrags-Abhängigkeiten
+    
+  Geo-Spatial (5%):
+    → Geo-Fencing (Zonen, Depots)
+    → Route-Korridore
+    → Kundenstandorte
+    
+  Document (4%):
+    → Lieferscheine, CMR-Frachtbriefe
+    → Schadensmeldungen
+    → Zolldokumente
+    
+  Relational (1%):
+    → Stammdaten (Fahrzeuge, Fahrer, Kunden)
+    → Tarife, Verträge
+
+Use Cases:
+  Dynamic Route Optimization:
+    → Graph-Algorithmen (Dijkstra, A*)
+    → Real-Time Traffic Integration
+    → Constraint Solving (Lieferzeitfenster, Ladekapazität)
+    → Update-Frequenz: 5-15 min
+    → Ziel: 10-15% Fuel Savings
+    
+  Geo-Fence-basierte Automation:
+    → Automatische Check-In/Out bei Depot
+    → Temperatur-Alerts bei Kühlkette-Bruch
+    → ETA-Updates für Kunden
+    → SMS/Push-Notifications
 ```
 
 ---
