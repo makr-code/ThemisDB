@@ -45,6 +45,19 @@ docs/
 │   └── README.md
 │
 └── [root level files]      # Language-agnostic files and infrastructure
+
+## Root File Language Mapping
+
+| Root File | Language | Current State | Target Location |
+|-----------|:--------:|---------------|-----------------|
+| `README.md` | Neutral stub | Links to de/en | `docs/de/README.md` (primary), `docs/en/README.md` |
+| `DOCUMENTATION_INDEX.md` | Neutral stub | Links to de/en | `docs/de/DOCUMENTATION_INDEX.md`, `docs/en/DOCUMENTATION_INDEX.md` |
+| `INDEX.md` | Neutral stub | Links to de/en | `docs/de/INDEX.md`, `docs/en/INDEX.md` |
+| `Home.md` | Neutral stub | Links to de/en | `docs/de/Home.md`, `docs/en/Home.md` |
+| `glossary.md` | German | Moved to de | `docs/de/glossary.md` (authoritative), EN pending |
+| `README-DOCUMENTATION.md` | English | Moved to en | `docs/en/README-DOCUMENTATION.md`, DE pending |
+| `QUICK_REFERENCE.md` | English (archived) | Moved to en | `docs/en/QUICK_REFERENCE.md`, DE pending |
+
 ```
 
 ## Key Principles

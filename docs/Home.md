@@ -1,15 +1,16 @@
-# Welcome to ThemisDB
+<div align="center">
 
-**A high-performance multi-model database with ACID guarantees**
+# ThemisDB Documentation Home (Language Selector)
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
+</div>
 
----
+This page is now language-neutral. Please choose your language:
 
-## Overview
+- 🇩🇪 Deutsch (primär): [de/Home.md](de/Home.md)
+- 🇬🇧 English: [en/Home.md](en/Home.md)
 
+> [!NOTE]
+> German docs are authoritative; translations may lag.
 ThemisDB is a production-ready multi-model database that combines **relational, graph, vector, and document** models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
 
 **Key Capabilities:**

@@ -1,18 +1,9 @@
-# Glossar
+# Glossar (umgezogen)
 
-**Stand:** 20. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Glossary.Md
+Dieses Glossar wurde in die deutsche Primärdokumentation verschoben.
 
----
+- 🇩🇪 Deutsch (autoritative Quelle): [de/glossary.md](de/glossary.md)
+- 🇬🇧 English: Translation pending
 
-
-- AQL: Abfragesprache von ThemisDB (ähnlich JSON-basiert)
-- Entity: Knoten-Element (Dokument) im Graph-/Dokumentenmodell
-- Edge: Beziehung zwischen Entities
-- MVCC: Multi-Version Concurrency Control (Nebenläufigkeitskontrolle)
-- WAL: Write-Ahead Log von RocksDB
-- TSStore: Zeitreihen-Speicherkomponente von ThemisDB
-- HNSW: Graph-basierter Algorithmus für Vektor-NN-Suche
-- PII: Personally Identifiable Information (personenbeziehbare Daten)
-- OpenAPI: Spezifikation der HTTP-REST-APIs
+> [!NOTE]
+> Deutsch bleibt die maßgebliche Quelle; Übersetzungen können nachhängen.

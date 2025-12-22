@@ -1,14 +1,16 @@
-# ThemisDB Documentation
+<div align="center">
 
-**Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+# ThemisDB Documentation Index (Language Selector)
 
-Welcome to the ThemisDB documentation! This guide will help you find the information you need.
+</div>
 
----
+This file is now language-neutral. Please choose your language:
 
-## 📚 Quick Navigation
+- 🇩🇪 Deutsch (primär): [de/INDEX.md](de/INDEX.md)
+- 🇬🇧 English: [en/INDEX.md](en/INDEX.md)
 
+> [!NOTE]
+> German docs are authoritative; translations may lag.
 **New to ThemisDB?**
 - [Quick Start Guide](guides/QUICK_START.md) - Get up and running in 5 minutes
 - [Installation Guide](guides/INSTALLATION.md) - Complete installation instructions

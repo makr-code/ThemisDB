@@ -1,33 +1,16 @@
-# ThemisDB Dokumentations-Index
+<div align="center">
 
-**Letzte Aktualisierung:** 20. Dezember 2025
-**Version:** 1.3.0 (LLM Integration Release)
+# ThemisDB Documentation Index (Language Selector)
 
-## 🎯 Schnelleinstieg nach Rolle
+</div>
 
-### Für Entwickler
-1. [README.md](../README.md) - Projektübersicht & Quick Start
-2. [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Toolchain (Windows/Linux/Docker)
-3. [docs/guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
-4. [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Aktueller Entwicklungsstand
-5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
+Diese Datei ist jetzt sprachneutral. Bitte wähle die Sprachversion:
 
-### Für Stakeholder
-1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
-2. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
-3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
-4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
+- 🇩🇪 Deutsch (Primär): [de/DOCUMENTATION_INDEX.md](de/DOCUMENTATION_INDEX.md)
+- 🇬🇧 English: [en/DOCUMENTATION_INDEX.md](en/DOCUMENTATION_INDEX.md)
 
-### Für Compliance & Audits
-1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary
-2. [compliance/compliance_full_checklist.md](compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
-3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Ergebnisse
-4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
-5. [legal/LICENSE_COMPATIBILITY_ANALYSIS.md](legal/LICENSE_COMPATIBILITY_ANALYSIS.md) - ⭐ License Compatibility (v1.3.0)
-6. [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
-
-## 📚 Dokumentationsstruktur
-
+> [!NOTE]
+> Die deutschsprachige Version ist die maßgebliche Quelle. Übersetzungen können nachhängen.
 ### Root-Level Dokumente
 ```
 /
