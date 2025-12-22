@@ -1,4 +1,37 @@
-(* EBNF Grammar for LLM Extensions to ThemisDB AQL *)
+(* ============================================================================
+   📚 LLM_GRAMMAR.ebnf - EBNF Grammar for LLM Extensions to ThemisDB AQL
+   
+   Category:     📚 References
+   Version:      v1.3.0
+   Status:       ✅ Complete
+   Datum:        22. Dezember 2025
+   
+   Description:  Extended Backus-Naur Form (EBNF) grammar definition for
+                 Large Language Model (LLM) extensions in ThemisDB AQL.
+                 Covers inference, RAG, embeddings, model management,
+                 LoRA adapters, statistics, and caching.
+   ============================================================================ *)
+
+(* 
+   📑 TABLE OF CONTENTS
+   --------------------
+   1. LLM Statement Types
+   2. LLM Inference
+   3. LLM RAG (Retrieval-Augmented Generation)
+   4. LLM Embeddings
+   5. LLM Model Management
+   6. LLM LoRA Adapters
+   7. LLM Statistics & Cache
+   
+   See Also:
+   - docs/de/aql/README.md - AQL Overview
+   - docs/de/aql/aql_functions_reference.md - Function Reference
+   - docs/de/llm/ - LLM Integration Documentation
+*)
+
+(* ============================================================================
+   1. LLM STATEMENT TYPES
+   ============================================================================ *)
 
 llm_statement ::= 
     llm_infer_stmt

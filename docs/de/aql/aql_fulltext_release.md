@@ -1,16 +1,29 @@
-# Release Notes - AQL Fulltext Integration (v1.2)
+# ⚙️ Release Notes - AQL Fulltext Integration
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** ⚙️ Features & Operations  
+**Version:** v1.3.0  
+**Status:** ✅ Released (v1.2)  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-**Datum:** 03. November 2025  
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+**Release:** 03. November 2025  
 **Feature:** BM25-basierte Fulltext-Suche in AQL
-
-## Übersicht
 
 Die Fulltext-Suche ist jetzt vollständig in die AQL-Query-Language integriert. Entwickler können BM25-gerankte Volltextsuchen direkt in AQL-Queries verwenden, ohne auf separate HTTP-Endpoints zurückgreifen zu müssen.
 
@@ -91,9 +104,26 @@ FOR doc IN documents
   RETURN doc.title
 ```
 
-## Einschränkungen (v1.2)
+---
 
-### Aktuell nicht unterstützt:
+## 📚 Siehe auch
+
+- [AQL Syntax](aql_syntax.md) - FULLTEXT() Syntax-Details
+- [Fulltext API](../search/fulltext_api.md) - Index-Erstellung und Konfiguration
+- [Hybrid Queries](aql_hybrid_queries.md) - Content+Geo Kombinationen
+- [Functions Reference](aql_functions_reference.md) - Alle Volltext-Funktionen
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+
+### v1.2 - 03. November 2025
+- Initial Release mit BM25-basierter Fulltext-Suche
+- 10/10 Tests passed
 - ❌ Kombination mit AND/OR (in Entwicklung)
   ```aql
   // Wird noch nicht unterstützt:

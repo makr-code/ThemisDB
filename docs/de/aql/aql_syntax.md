@@ -1,26 +1,102 @@
-﻿# AQL - THEMIS Query Language
+﻿# 🔍 AQL - ThemisDB Query Language
 
-**Version:** 1.0  
-**Datum:** 30. Oktober 2025  
+**Category:** 🔍 Core AQL  
+**Version:** v1.3.0  
+**Status:** ✅ Production Ready  
+**Datum:** 22. Dezember 2025
+
 **Inspiriert von:** ArangoDB AQL, mit Fokus auf Multi-Modell-Queries
 
 ---
 
-## �berblick
+## 📑 Inhaltsverzeichnis
 
-**AQL (Advanced Query Language)** ist eine deklarative SQL-�hnliche Sprache f�r THEMIS, optimiert f�r hybride Queries �ber relationale, Graph-, Vektor- und Dokument-Daten.
-
-**Design-Prinzipien:**
-- ? **Einfach:** SQL-�hnliche Syntax f�r schnelle Adoption
-- ? **M�chtig:** Multi-Modell-Support (Relational, Graph, Vector)
-- ? **Optimierbar:** Automatische Index-Auswahl via Optimizer
-- ? **Erweiterbar:** Schrittweise Erweiterung (Aggregationen, Joins, Subqueries)
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+  - [Syntax-Überblick](#syntax-überblick)
+  - [Kern-Klauseln](#kern-klauseln)
+  - [Operatoren](#operatoren)
+  - [Joins & Multi-FOR](#joins--multi-for)
+  - [Graph-Traversierung](#graph-traversierung)
+  - [Aggregation & Gruppierung](#aggregation--gruppierung)
+  - [Subqueries & CTEs](#subqueries--ctes)
+  - [Window Functions](#window-functions)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
-## Syntax-�bersicht
+## 📋 Überblick
 
-### Grundstruktur
+**AQL (Advanced Query Language)** ist eine deklarative SQL-ähnliche Sprache für ThemisDB, optimiert für hybride Queries über relationale, Graph-, Vektor- und Dokument-Daten.
+
+---
+
+## ✨ Features & Highlights
+
+### 🎯 Design-Prinzipien
+
+- ✅ **Einfach:** SQL-ähnliche Syntax für schnelle Adoption
+- ✅ **Mächtig:** Multi-Modell-Support (Relational, Graph, Vector)
+- ✅ **Optimierbar:** Automatische Index-Auswahl via Optimizer
+- ✅ **Erweiterbar:** Schrittweise Erweiterung (Aggregationen, Joins, Subqueries)
+
+### 🚀 Kern-Features
+
+- **Multi-Model:** Relationale, Graph-, Vektor- und Volltext-Queries vereint
+- **Index-Optimierung:** Automatische Auswahl des besten Index-Plans
+- **BM25 Volltext:** Native FULLTEXT() mit Stemming und Ranking
+- **Graph-Traversierung:** OUTBOUND/INBOUND/ANY mit BFS/Dijkstra
+- **Vector-Similarity:** SIMILARITY() mit HNSW-Integration
+- **Subqueries & CTEs:** WITH-Klauseln und verschachtelte Queries
+- **Window Functions:** ROW_NUMBER, RANK, LAG, LEAD, etc.
+- **OR-Support:** DNF-Konvertierung für komplexe Prädikate
+
+---
+
+## 🚀 Schnellstart
+
+### Basis-Query
+
+```aql
+FOR doc IN users
+  FILTER doc.age > 18
+  SORT doc.name ASC
+  LIMIT 0, 10
+  RETURN doc
+```
+
+### Mit Funktionen
+
+```aql
+FOR doc IN products
+  FILTER doc.category == "electronics"
+  LET discount = doc.price * 0.15
+  RETURN {
+    name: UPPER(doc.name),
+    finalPrice: ROUND(doc.price - discount, 2)
+  }
+```
+
+### Graph-Traversierung
+
+```aql
+FOR v IN 1..3 OUTBOUND 'user/alice' GRAPH 'social'
+  FILTER v.active == true
+  RETURN v.name
+```
+
+---
+
+## 📖 Detaillierte Dokumentation
+
+### Syntax-Überblick
+
+**Grundstruktur:**
 
 ```aql
 FOR variable IN collection
@@ -32,26 +108,28 @@ FOR variable IN collection
 ```
 
 **Execution-Reihenfolge:**
-1. `FOR` - Iteration �ber Collection/Index
-2. `FILTER` - Pr�dikat-Evaluation (mit Index-Nutzung)
-3. `SORT` - Sortierung (mit Index-Nutzung wenn m�glich)
+1. `FOR` - Iteration über Collection/Index
+2. `FILTER` - Prädikat-Evaluation (mit Index-Nutzung)
+3. `SORT` - Sortierung (mit Index-Nutzung wenn möglich)
 4. `LIMIT` - Pagination/Offset
 5. `RETURN` - Projektion (Felder/Objekte/Arrays)
 
 ---
 
-## MVP-Einschr�nkungen und Hinweise
+### ⚠️ MVP-Einschränkungen und Hinweise
 
 Damit Erwartungen klar sind, hier die wichtigsten Begrenzungen des aktuellen MVP:
 
-- OR-Operator: Vollst�ndig unterst�tzt �ber DNF-Konvertierung. FULLTEXT kann in OR-Ausdr�cken verwendet werden.
-- Feld-zu-Feld Vergleiche (z. B. `u.city == o.city`) sind im Translator nicht allgemein erlaubt. Ein spezieller Join-Pfad erlaubt jedoch Gleichheits-Joins �ber genau zwei FOR-Klauseln (siehe Abschnitt �Einfache Joins (MVP)�).
-- LET in FILTER: Falls einfache LET-Bindungen in FILTER vorkommen, werden diese vor der �bersetzung extrahiert (�pre-extracted�). Bei `explain: true` signalisiert der Plan dies mit `plan.let_pre_extracted = true`.
-- Subqueries, OR, komplexe Ausdr�cke/Funktionen sind (noch) eingeschr�nkt und werden iterativ erweitert.
+- **OR-Operator:** Vollständig unterstützt über DNF-Konvertierung. FULLTEXT kann in OR-Ausdrücken verwendet werden.
+- **Feld-zu-Feld Vergleiche** (z. B. `u.city == o.city`) sind im Translator nicht allgemein erlaubt. Ein spezieller Join-Pfad erlaubt jedoch Gleichheits-Joins über genau zwei FOR-Klauseln (siehe Abschnitt "Einfache Joins (MVP)").
+- **LET in FILTER:** Falls einfache LET-Bindungen in FILTER vorkommen, werden diese vor der Übersetzung extrahiert ("pre-extracted"). Bei `explain: true` signalisiert der Plan dies mit `plan.let_pre_extracted = true`.
+- Subqueries, OR, komplexe Ausdrücke/Funktionen werden iterativ erweitert.
 
-## Kern-Klauseln
+---
 
-### 1. FOR - Collection Iteration
+### Kern-Klauseln
+
+#### 1. FOR - Collection Iteration
 
 ```aql
 FOR doc IN users

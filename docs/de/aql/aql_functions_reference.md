@@ -1,15 +1,18 @@
-# AQL Functions Reference - Complete Documentation
+# 📚 AQL Functions Reference - Complete Documentation
+
+**Category:** 📚 References  
+**Version:** v1.3.0  
+**Status:** ✅ Complete (355+ Functions)  
+**Datum:** 22. Dezember 2025
 
 > **ThemisDB Query Language (AQL)** - Die einzige Abfragesprache, die Graph, Vector, Relational, Geo und File in einer einheitlichen Syntax vereint.
 
-**Version:** 1.3  
-**Stand:** Dezember 2024  
 **Funktionen:** ~355  
 **Kategorien:** 13
 
 ---
 
-## Inhaltsverzeichnis
+## 📑 Inhaltsverzeichnis
 
 ### Grundlagen
 1. [Alleinstellungsmerkmale](#alleinstellungsmerkmale)

@@ -1,20 +1,31 @@
-# Subquery & CTE Implementation Summary
+# 🔎 Subquery & CTE Implementation Summary
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** 🔎 Advanced Queries  
+**Version:** v1.3.0  
+**Status:** ✅ Complete  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
 
 **Feature:** Full Subquery and Common Table Expression (CTE) Support  
 **Branch:** `feature/aql-st-functions`  
 **Completion Date:** 17. November 2025  
 **Total Effort:** ~28 Stunden (Phase 3: 14h + Phase 4: 14h)
-
----
-
-## Overview
 
 ThemisDB unterstützt jetzt vollständig:
 
@@ -84,9 +95,29 @@ ThemisDB unterstützt jetzt vollständig:
 - `include/query/query_engine.h` - executeCTEs declaration, parent_context param
 - `src/query/query_engine.cpp` - executeCTEs, SubqueryExpr, CTE iteration logic
 
-### 4. Memory Management (Phase 4.4)
+---
 
-**CTECache Design:**
+## 📚 Siehe auch
+
+- [Subquery Reference](aql_subquery_reference.md) - Syntax-Schnellreferenz
+- [AQL Syntax](aql_syntax.md) - WITH-Klausel Details
+- [Query Engine](aql_query_engine.md) - Execution-Architektur
+- [CTE Cache](aql_subquery_implementation.md#memory-management) - Spill-to-Disk Details
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+
+### v1.0 - 17. November 2025
+- Full Subquery & CTE Support
+- WITH-Klausel implementiert
+- Scalar & Correlated Subqueries
+- ANY/ALL Quantifiers
+- Automatic Memory Management mit Spill-to-Disk
 - In-memory cache with configurable limit (default 100MB)
 - Automatic spill-to-disk when threshold exceeded
 - Sample-based size estimation (first 10 elements → extrapolate)

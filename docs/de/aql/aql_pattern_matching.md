@@ -1,18 +1,29 @@
-# AQL Pattern Matching - Implementation Guide
+# 🔎 AQL Pattern Matching - Implementation Guide
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
-
----
-
-
-**Datum:** 19. November 2025  
-**Status:** Design Complete - Nutzt existierende AQL-Syntax
+**Category:** 🔎 Advanced Queries  
+**Version:** v1.3.0  
+**Status:** 🚧 Design Complete  
+**Datum:** 22. Dezember 2025
 
 ---
 
-## Konzept: Pattern-Matching ohne neue Syntax
+## 📑 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+**Design-Datum:** 19. November 2025  
+**Konzept:** Pattern-Matching ohne neue Syntax
 
 **Philosophie:** Cypher-ähnliche Pattern-Matching-Queries können **vollständig** mit existierender AQL-Syntax ausgedrückt werden durch:
 1. Verschachtelte `FOR`-Loops für Multi-Hop-Traversals
@@ -89,9 +100,26 @@ FOR b IN 1..3 OUTBOUND "persons/Alice" TYPE "KNOWS" GRAPH "social"
 
 ---
 
-### 4. Komplexes Pattern mit Constraints
+---
 
-**Cypher-Style:**
+## 📚 Siehe auch
+
+- [AQL Syntax](aql_syntax.md) - FOR und FILTER Syntax
+- [Graph Traversierung](aql_syntax.md#graph-traversierung) - OUTBOUND/INBOUND Details
+- [Neo4j Cypher](https://neo4j.com/docs/cypher-manual/current/) - Pattern-Matching Vergleich
+- [Query Engine](aql_query_engine.md) - Graph-Traversierungs-Implementierung
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+
+### v1.0 - 19. November 2025
+- Design Complete: Pattern-Matching ohne neue Syntax
+- Cypher-Äquivalente mit existierender AQL-Syntax
 ```cypher
 MATCH (a:Person)-[r1:FOLLOWS]->(b:Person)-[r2:LIKES]->(c:Product)
 WHERE a.name == "Alice" 

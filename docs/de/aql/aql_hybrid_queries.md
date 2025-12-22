@@ -1,22 +1,92 @@
-# AQL Hybrid Queries Guide (Phase 2 + 2.5)
+# 🔎 AQL Hybrid Queries Guide (Phase 2 + 2.5)
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** 🔎 Advanced Queries  
+**Version:** v1.3.0  
+**Status:** ✅ Production Ready  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-Dieses Dokument fasst die Syntax-Zucker für Hybrid Queries zusammen und zeigt Best Practices.
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+  - [Vector+Geo (SIMILARITY)](#vectorgeo-similarity)
+  - [Content+Geo (PROXIMITY)](#contentgeo-proximity)
+  - [Graph+Geo (SHORTEST_PATH)](#graphgeo-shortest_path)
+  - [Performance & Kostenmodell](#performance--kostenmodell)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
-## Übersicht
-- `SIMILARITY(field, [vector], k?)` für Vector+Geo Ranking
-- `PROXIMITY(geoField, [lon, lat])` für Content+Geo Distanz-basierte Re-Ranking (mit `FULLTEXT` Filter)
-- `SHORTEST_PATH TO "vertexKey"` für kürzeste Pfad Abfragen in Graphen mit optionalen Spatial Constraints
-- LET-Unterstützung für SIMILARITY/PROXIMITY (Phase 2.5)
+---
 
-## Beispiele
+## 📋 Übersicht
+Dieses Dokument beschreibt die **Hybrid Query Syntax** für ThemisDB AQL, die mehrere Datenmodelle in einer Query kombiniert.
+
+---
+
+## ✨ Features & Highlights
+
+### 🎯 Unterstützte Hybrid-Typen
+
+- **`SIMILARITY(field, [vector], k?)`** für Vector+Geo Ranking
+- **`PROXIMITY(geoField, [lon, lat])`** für Content+Geo Distanz-basiertes Re-Ranking (mit `FULLTEXT` Filter)
+- **`SHORTEST_PATH TO "vertexKey"`** für kürzeste Pfad-Abfragen in Graphen mit optionalen Spatial Constraints
+- **LET-Unterstützung** für SIMILARITY/PROXIMITY (Phase 2.5)
+
+### 🚀 Kern-Features
+
+- **Kostenbasierte Optimierung:** Automatische Wahl zwischen Spatial-first vs Vector-first
+- **Index-Prefilter:** Equality/Range/Composite-Indizes für hohe Selektivität
+- **HNSW Integration:** Effiziente k-NN-Suche mit räumlichen Constraints
+- **BM25 Fulltext:** Volltext-Suche kombiniert mit Geo-Proximity
+- **Observability:** Tracer-Attribute für Plan-Analyse
+
+---
+
+## 🚀 Schnellstart
+
 ### Vector+Geo (Direktes Sorting)
+
+```aql
+FOR doc IN hotels
+  FILTER ST_Within(doc.location, [13.4,52.5,13.6,52.7])
+  SORT SIMILARITY(doc.embedding, [0.12,0.08,0.33], 10) DESC
+  LIMIT 10
+  RETURN doc
+```
+
+### Content+Geo (Fulltext + Nähe)
+
+```aql
+FOR doc IN places
+  FILTER FULLTEXT(doc.description, "coffee", 200)
+  FILTER ST_Within(doc.location, [13.4,52.5,13.6,52.7])
+  SORT PROXIMITY(doc.location, [13.5,52.55]) ASC
+  LIMIT 20
+  RETURN doc
+```
+
+### Graph+Geo Shortest Path
+
+```aql
+FOR v, e, p IN 1..6 OUTBOUND "city:berlin" edges
+  FILTER ST_Within(v.location, @boundary)
+  SHORTEST_PATH TO "city:dresden"
+  RETURN p
+```
+
+---
+
+## 📖 Detaillierte Dokumentation
+
+### Vector+Geo (SIMILARITY)
+
+#### Beispiele
 ```aql
 FOR doc IN hotels
   FILTER ST_Within(doc.location, [13.4,52.5,13.6,52.7])
@@ -149,5 +219,114 @@ FOR doc IN hotels
 auto [st, json] = executeAql(q, engine);
 ```
 
-## Lizenz / Kompatibilität
-Alle Phase 2 Erweiterungen sind rückwärtskompatibel; ältere AQL Queries laufen unverändert.
+---
+
+## 💡 Best Practices
+
+### ✅ DO: Räumliche Filter früh anwenden
+
+```aql
+-- ✅ GUT: Bounding-Box Filter reduziert Kandidaten
+FOR doc IN hotels
+  FILTER ST_Within(doc.location, [13.4,52.5,13.6,52.7])
+  SORT SIMILARITY(doc.embedding, @vec, 10) DESC
+  RETURN doc
+```
+
+### ✅ DO: Equality-Prädikate für hohe Selektivität
+
+```aql
+-- ✅ GUT: city-Index reduziert Kandidaten massiv
+FOR doc IN hotels
+  FILTER doc.city == "Berlin"
+  FILTER ST_Within(doc.location, @bbox)
+  SORT SIMILARITY(doc.embedding, @vec, 10) DESC
+  RETURN doc
+```
+
+### ⚠️ VORSICHT: Zu große Bounding-Box
+
+```aql
+-- ⚠️ SUBOPTIMAL: Große Bbox → viele Kandidaten
+FOR doc IN hotels
+  FILTER ST_Within(doc.location, [0,0,180,90])  -- Halber Planet!
+  SORT SIMILARITY(doc.embedding, @vec, 100) DESC
+  RETURN doc
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### Query liefert keine Ergebnisse
+
+**Problem:** Vector+Geo Query gibt leere Menge zurück
+
+**Lösung:**
+1. Teste Spatial-Filter separat: `FOR doc IN hotels FILTER ST_Within(...) RETURN COUNT(doc)`
+2. Prüfe Vector-Dimensionen: Müssen exakt zur Index-Dimension passen
+3. Erhöhe k-Parameter in SIMILARITY: `SIMILARITY(field, vec, 50)` statt `10`
+
+### Unerwartete Sortierung
+
+**Problem:** Ergebnisse haben nicht die erwartete Reihenfolge
+
+**Lösung:**
+- Bei Vector+Geo: Sortierung ist nach Vector-Distance (L2/Cosine)
+- Bei Content+Geo: Sortierung ist nach BM25-Score oder Geo-Distanz
+- Nutze `explain: true` um zu sehen welcher Plan gewählt wurde
+
+### Performance-Probleme
+
+**Problem:** Query dauert > 1 Sekunde
+
+**Lösung:**
+1. Prüfe `optimizer.cost_spatial_first` vs `optimizer.cost_vector_first` in Metrics
+2. Erstelle fehlende Indizes (Spatial, Vector, Secondary)
+3. Reduziere Bounding-Box oder erhöhe Selektivität durch zusätzliche Filter
+4. Bei Composite-Indizes: Stelle sicher dass alle Filter-Spalten im Index sind
+
+---
+
+## 📚 Siehe auch
+
+### 📘 Kern-Dokumentation
+
+- [AQL Syntax](aql_syntax.md) - SIMILARITY() und PROXIMITY() Syntax
+- [Query Engine](aql_query_engine.md) - Hybrid Query Execution
+- [Query Optimizer](aql_query_engine.md#query-optimizer) - Kostenbasierte Planwahl
+
+### 🔎 Erweiterte Features
+
+- [Hybrid Queries Phase 1.5](aql_hybrid_queries_phase15.md) - Implementierungsdetails
+- [Vector Index](../features/vector_index.md) - HNSW-Index Details
+- [Spatial Index](../features/spatial_index.md) - R-Tree Details
+- [Fulltext API](../search/fulltext_api.md) - BM25-Index Konfiguration
+
+### ⚙️ Performance
+
+- [EXPLAIN & PROFILE](aql_explain_profile.md) - Query-Analyse
+- [Benchmarks](../../benchmarks/ADVANCED_BENCHMARKS_GUIDE.md) - Performance-Messungen
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+- ✅ **Navigation:** Verbesserte interne Verlinkungen
+
+### Phase 2.5 - 5. Dezember 2025
+- LET-Unterstützung für SIMILARITY() und PROXIMITY()
+- Erweiterte Beispiele mit LET-Bindings
+
+### Phase 2 - 17. November 2025
+- SIMILARITY() Syntax Sugar
+- PROXIMITY() Syntax Sugar
+- SHORTEST_PATH TO für Graph+Geo
+
+### Phase 1 - Initial Release
+- Vector+Geo Hybrid Queries
+- Content+Geo Hybrid Queries
+- Kostenmodell-getriebene Planwahl

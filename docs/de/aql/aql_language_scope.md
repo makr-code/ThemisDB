@@ -1,13 +1,26 @@
-# ThemisDB AQL Sprachumfang - Analyse und Erweiterungen
+# 🔍 ThemisDB AQL Sprachumfang - Analyse und Erweiterungen
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** 🔍 Core AQL  
+**Version:** v1.3.0  
+**Status:** 🚧 Analysis Document  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-## Übersicht
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
 
 Dieses Dokument analysiert den AQL-Sprachumfang von ThemisDB im Vergleich zu führenden 
 Abfragesprachen und identifiziert notwendige Erweiterungen für vollständige Multi-Model-Unterstützung.
@@ -86,9 +99,26 @@ Abfragesprachen und identifiziert notwendige Erweiterungen für vollständige Mu
 
 ---
 
-## 🔍 WICHTIGER HINWEIS: Tatsächlicher Implementierungsstatus
+---
 
-**Analysedatum:** 8. Dezember 2024 (Aktualisiert nach Code-Review)
+## 📚 Siehe auch
+
+- [AQL Syntax](aql_syntax.md) - Vollständige Sprachdefinition
+- [Functions Reference](aql_functions_reference.md) - Alle 355+ Funktionen
+- [Implementation Status](IMPLEMENTATION_STATUS_ANALYSIS.md) - Was ist implementiert?
+- [Query Engine](aql_query_engine.md) - Architektur-Übersicht
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+- ✅ **Korrektur:** Hinweis auf parallele Funktionsimplementierung (Registry-System)
+
+### v1.0.0 - 5. Dezember 2025
+- Initial Release mit Feature-Vergleich
 
 ### 🎯 WICHTIGE ENTDECKUNG: Parallele Funktionsimplementierung!
 

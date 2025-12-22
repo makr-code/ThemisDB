@@ -1,14 +1,40 @@
-# Query Engine & AQL – THEMIS
+# 🔍 Query Engine & AQL – ThemisDB
 
-**Version:** 2.0  
-**Status:** Implementiert (MVP)  
-**Letzte Aktualisierung:** 2. November 2025
+**Category:** 🔍 Core AQL  
+**Version:** v1.3.0  
+**Status:** ✅ Production Ready  
+**Datum:** 22. Dezember 2025
 
 ---
 
-## Überblick
+## 📑 Inhaltsverzeichnis
 
-Das **Query Engine & AQL**-System von THEMIS besteht aus mehreren Komponenten, die zusammen eine effiziente Ausführung von Multi-Modell-Queries ermöglichen:
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+  - [AQL Design-Prinzipien](#aql-design-prinzipien)
+  - [Query-Typen](#query-typen)
+  - [AQL Parser](#aql-parser)
+  - [AQL Translator](#aql-translator)
+  - [Query Optimizer](#query-optimizer)
+  - [Query Engine Execution](#query-engine-execution)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Überblick
+
+Das **Query Engine & AQL**-System von ThemisDB besteht aus mehreren Komponenten, die zusammen eine effiziente Ausführung von Multi-Modell-Queries ermöglichen.
+
+---
+
+## ✨ Features & Highlights
+
+### 🎯 Komponenten-Übersicht
 
 1. **AQL (Advanced Query Language)** – SQL-ähnliche deklarative Query-Sprache
 2. **AQL Parser** – Lexer & Parser für AQL → AST
@@ -16,11 +42,50 @@ Das **Query Engine & AQL**-System von THEMIS besteht aus mehreren Komponenten, d
 4. **Query Optimizer** – Kardinalitätsschätzung & Index-Auswahl
 5. **Query Engine** – Ausführung mit Index-/Full-Scan-Support
 
+### 🚀 Kern-Features
+
+- **Multi-Model-Support:** Relational, Graph, Vector, Fulltext in einer Query
+- **Intelligente Optimierung:** Kostenbasierte Index-Auswahl
+- **BFS/Dijkstra Graph:** Effiziente Traversierung mit Pruning
+- **HNSW Vector Search:** k-NN mit räumlichen Constraints
+- **BM25 Volltext:** Ranked Fulltext-Suche
+- **Subquery & CTE:** Materialisierung mit Spill-to-Disk
+- **Window Functions:** ROW_NUMBER, RANK, LAG, LEAD
+
 ---
 
-## 1. AQL – Advanced Query Language
+## 🚀 Schnellstart
 
-### 1.1 Design-Prinzipien
+### Basis-Query ausführen
+
+```cpp
+#include "query/query_engine.h"
+
+QueryEngine engine(storage, vectorIdx, fulltext);
+auto result = engine.executeAQL("FOR u IN users FILTER u.age > 18 RETURN u");
+
+for (const auto& entity : result.entities) {
+    std::cout << entity.toJson().dump() << std::endl;
+}
+```
+
+### Mit explain=true
+
+```cpp
+auto result = engine.executeAQL(
+    "FOR u IN users FILTER u.city == 'Berlin' RETURN u",
+    nlohmann::json{{"explain", true}}
+);
+
+std::cout << "Plan: " << result.plan.dump() << std::endl;
+std::cout << "Metrics: " << result.metrics.dump() << std::endl;
+```
+
+---
+
+## 📖 Detaillierte Dokumentation
+
+### AQL Design-Prinzipien
 
 - ✅ **Einfach:** SQL-ähnliche Syntax (FOR, FILTER, SORT, LIMIT, RETURN)
 - ✅ **Mächtig:** Multi-Modell-Support (Relational, Graph, Vector)

@@ -1,12 +1,26 @@
-# AQL EXPLAIN & PROFILE
+# ⚙️ AQL EXPLAIN & PROFILE
 
-**Version:** 1.0  
-**Datum:** 28. Oktober 2025  
-**Zweck:** Dokumentation der Query-Analyse und Performance-Metriken
+**Category:** ⚙️ Features & Operations  
+**Version:** v1.3.0  
+**Status:** ✅ Production Ready  
+**Datum:** 22. Dezember 2025
 
 ---
 
-## Überblick
+## 📑 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
 
 THEMIS bietet `explain=true` zur Abfrage von Query-Plänen und Performance-Metriken für AQL-Queries. Dies ist nützlich für:
 

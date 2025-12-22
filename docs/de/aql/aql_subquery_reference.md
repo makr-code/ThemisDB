@@ -1,13 +1,32 @@
-# Subquery & CTE Quick Reference
+# 📚 Subquery & CTE Quick Reference
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** 📚 References  
+**Version:** v1.3.0  
+**Status:** ✅ Complete  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-## Syntax Examples
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+Diese Seite bietet eine Schnellreferenz für Subquery & CTE Syntax in ThemisDB AQL.
+
+---
+
+## 🚀 Schnellstart - Syntax Examples
 
 ### Basic CTE
 ```aql
@@ -93,9 +112,26 @@ Default: 100MB in-memory cache, automatic spill to `./themis_cte_spill/`
 
 Future: Configurable via QueryEngine constructor or config file
 
-## Performance Tips
+---
 
-**Use CTEs when:**
+## 📚 Siehe auch
+
+- [Subquery Implementation](aql_subquery_implementation.md) - Implementierungsdetails
+- [AQL Syntax](aql_syntax.md) - WITH-Klausel Syntax
+- [Query Engine](aql_query_engine.md) - CTE Execution
+- [Best Practices](aql_subquery_reference.md#performance-tips) - Wann CTEs nutzen
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+
+### v1.0 - 17. November 2025
+- Initial Release mit Subquery & CTE Quick Reference
+- Syntax-Beispiele für alle Subquery-Typen
 - Multiple references to same subquery
 - Complex filtering that should be materialized
 - Improving query readability

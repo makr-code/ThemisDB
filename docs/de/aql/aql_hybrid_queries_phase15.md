@@ -1,17 +1,29 @@
-# Hybrid Query Performance Optimizations (Phase 1.5) & Phase 2 Syntax Sugar (SIMILARITY / PROXIMITY)
+# 🔎 Hybrid Query Performance Optimizations (Phase 1.5 & 2)
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** 🔎 Advanced Queries  
+**Version:** v1.3.0  
+**Status:** ✅ Phase 1.5 & 2 Complete  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-**Status:** ✅ Phase 1.5 implementiert • Phase 2 (Syntax-Zucker) teilweise aktiv (SIMILARITY, PROXIMITY Basis)  
-**Datum:** 17. November 2025  
-**Branch:** `feature/aql-st-functions`
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
-## Übersicht
+---
+
+## 📋 Übersicht
+
+**Branch:** `feature/aql-st-functions`  
+**Released:** 17. November 2025
 Phase 1.5 optimiert die in Phase 1 implementierten Hybrid Queries durch Integration existierender Index-Strukturen. Alle Optimierungen nutzen **bereits vorhandene APIs** ohne Breaking Changes.
 
 Phase 2 startet mit **AQL Syntax Sugar** für Hybrid Queries:
@@ -75,9 +87,32 @@ if (vectorIdx_) {
 
 ---
 
-## Phase 2: AQL Syntax Sugar (Fortschritt)
+---
 
-### SIMILARITY() (Vector Similarity + optional Spatial + Extra Predicates)
+## 📚 Siehe auch
+
+- [Hybrid Queries Guide](aql_hybrid_queries.md) - Benutzer-Dokumentation
+- [AQL Query Engine](aql_query_engine.md) - Query Engine Architektur
+- [Vector Index](../features/vector_index.md) - HNSW-Index Details
+- [Query Optimizer](aql_query_engine.md#query-optimizer) - Kostenbasierte Planwahl
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+
+### Phase 2 - 17. November 2025
+- SIMILARITY() und PROXIMITY() Syntax Sugar
+- LET-Unterstützung für Hybrid Queries
+
+### Phase 1.5 - 17. November 2025
+- HNSW Integration für Vector+Geo
+- R-Tree Integration für Content+Geo
+- Composite Index Support
+- Kostenmodell-getriebene Planwahl
 
 **Beispiel:**
 ```aql

@@ -1,13 +1,26 @@
-# AQL Prompt Engineering Guide für LLM-basierte Datenrecherche
+# ⚙️ AQL Prompt Engineering Guide für LLM-basierte Datenrecherche
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Aql
+**Category:** ⚙️ Features & Operations  
+**Version:** v1.3.0  
+**Status:** ✅ Production Ready  
+**Datum:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-## Übersicht
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
 
 Dieses Dokument beschreibt, wie Large Language Models (LLMs) effektiv mit ThemisDB AQL für Datenrecherche eingesetzt werden können. Es ist speziell für die Integration mit dem VCC-Veritas Agenten-Framework konzipiert.
 
@@ -32,9 +45,27 @@ Dieses Dokument beschreibt, wie Large Language Models (LLMs) effektiv mit Themis
 
 ThemisDB verwendet ein **wissenschaftliches Prompting-Paradigma**, das komplexe Fragestellungen systematisch in lösbare Teilprobleme zerlegt.
 
-### Das Wissenschaftliche Modell
+---
 
-```
+## 📚 Siehe auch
+
+- [AQL Syntax](aql_syntax.md) - Vollständige Sprachreferenz
+- [Functions Reference](aql_functions_reference.md) - Alle Built-in Functions
+- [VCC-Veritas Framework](../../../adapters/vcc_veritas/README.md) - Agenten-Integration
+- [Query Optimizer](aql_query_engine.md#query-optimizer) - Kostenbasierte Planung
+
+---
+
+## 📝 Changelog
+
+### v1.3.0 - 22. Dezember 2025
+- ✅ **Template-Update:** Standardisierung auf v1.3.0 Dokumentationsformat
+- ✅ **Struktur:** 8-Abschnitte-Format mit Emojis und TOC
+
+### v1.0.0 - 5. Dezember 2025
+- Initial Release mit wissenschaftlichem Prompting-Paradigma
+- Chain-of-Thought Beispiele
+- VCC-Veritas Integration
 ┌─────────────────────────────────────────────────────────────────┐
 │                    WISSENSCHAFTLICHER ZYKLUS                    │
 │                                                                 │
