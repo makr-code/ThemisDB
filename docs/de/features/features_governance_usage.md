@@ -1,17 +1,36 @@
-# Governance Policy Engine - Usage Examples
+---
+category: "🛡️ Security/Compliance"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Features
+# 🎛️ Governance Policy Engine
+
+YAML-basierte Governance-Policy-Engine mit Klassifizierung, Zugriffskontrolle und Retention-Policies.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
-This document demonstrates how to use the YAML-based governance policy engine in Themis.
+Die Governance Policy Engine stellt YAML-basierte Konfiguration für umfassende Governance-Anforderungen bereit:
 
-## Overview
-
-The Governance Policy Engine provides:
+- **Klassifizierung**: Daten-Klassifizierungssystem (offen, vs-nfd, geheim, streng-geheim)
+- **Zugriffskontrolle**: Fine-grained access control (ANN, export, cache)
+- **Retention-Policies**: Aufbewahrungsrichtlinien per Klassifizierung
+- **Encrypt-then-Sign**: Log-Handling mit PKI-Signierung
+- **Observe/Enforce Modes**: Graduelle Rollout-Unterstützung für Policies
 - **Classification-based data protection** (offen, vs-nfd, geheim, streng-geheim)
 - **Fine-grained access control** (ANN, export, cache)
 - **Retention policies** per classification

@@ -1,15 +1,36 @@
-# Government & Institutional Network Model - ThemisDB
+---
+category: "🛡️ Security/Compliance"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Version:** 1.0  
-**Datum:** 20. November 2025  
-**Status:** Design & Implementation  
-**Use Case:** Multi-Level Government Networks (Global → National → Federal → Institutional)
+# 🏛️ Government Network Model
+
+Hierarchisches Netzwerk-Modell für Government- und Institutionen-Strukturen mit Multi-Level-Föderationen.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
-## Executive Summary
+## 📋 Übersicht
 
-Hierarchisches Netzwerk-Modell für Government- und Institutionen-Strukturen mit Multi-Level-Föderationen.
+Hierarchisches Netzwerk-Modell für Government- und Institutionen-Strukturen mit Multi-Level-Föderationen:
+
+- **Global Layer**: Internationale Organisationen (UN, NATO, EU, WHO)
+- **National Layer**: Nationalstaaten und Regierungen
+- **Federal Layer**: Bundesländer, Provinzen, States  
+- **Institutional Layer**: Behörden, Ministerien, Ämter
+- **Hierarchische Beziehungen**: Mit Vererbung und Cross-Level Queries
 
 **Kernkonzepte:**
 - **Global Layer:** Internationale Organisationen (UN, NATO, EU, WHO)

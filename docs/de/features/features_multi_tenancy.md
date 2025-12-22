@@ -1,14 +1,36 @@
-# Multi-Tenancy Support
+---
+category: "⚙️ Infrastructure"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Status:** ✅ Implementiert  
-**Version:** 1.0  
-**Datum:** 30. November 2025
+# 🏢 Multi-Tenancy Support
+
+Isolierte Mandanten-Umgebungen mit Ressourcen-Quotas, Feature-Flags und Verschlüsselungsschlüsseln.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
-## Übersicht
+## 📋 Übersicht
 
-ThemisDB unterstützt Multi-Tenancy für isolierte Mandanten-Umgebungen. Jeder Tenant hat eigene Ressourcen-Quotas, Feature-Flags und Verschlüsselungsschlüssel.
+ThemisDB unterstützt Multi-Tenancy für isolierte Mandanten-Umgebungen mit vollständiger Ressourcen- und Konfigurationstrennung:
+
+- **Tenant Lifecycle Management**: Erstellen, aktualisieren, löschen und aktivieren/deaktivieren
+- **Tenant-Identifikation**: Header-basiert, Pfad-basiert oder Default-Tenant
+- **Ressourcen-Quotas**: Storage, Dokumenten, Collections, Queries und Verbindungen
+- **Rate Limiting**: Requests pro Sekunde mit Token-Bucket-Algorithmus
+- **Feature-Flags**: GPU, Vector Search, Graph Queries, Timeseries, Geo und Full-Text
 
 ## Features
 

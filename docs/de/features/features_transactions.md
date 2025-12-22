@@ -1,11 +1,36 @@
-﻿# Transaction Management in THEMIS
+﻿---
+category: "⚙️ Infrastructure"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Version:** 1.1  
-**Datum:** 2. November 2025
+# 🔄 Transaction Management
 
-## Überblick
+ACID-konforme Transaktionen über alle Index-Typen mit MVCC, Snapshot-Isolation und Konflikterkennung.
 
-THEMIS bietet ACID-konforme Transaktionen über alle Index-Typen hinweg (Relational, Graph, Vector). Transaktionen basieren auf MVCC mit Snapshot-Isolation und Konflikterkennung; Updates über Sekundär-, Graph- und Vektorindizes erfolgen atomar innerhalb der Transaktion.
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+THEMIS bietet ACID-konforme Transaktionen mit umfassender Unterstützung für alle Index-Typen:
+
+- **Atomicity**: All-or-nothing Ausführung aller Operationen
+- **MVCC & Isolation**: ReadCommitted und Snapshot-Isolation mit konsistentem Sichtfenster
+- **Konflikterkennung**: Automatische Write-Write-Konflikt-Erkennung
+- **Session-Management**: Eindeutige Transaction-IDs und Session-Tracking
+- **Multi-Index Support**: Konsistente Updates über Secondary, Graph und Vector-Indizes
 
 ### Kernfeatures
 
