@@ -1,96 +1,127 @@
-# Architecture Documentation
+# Transaction Module
 
 **Stand:** 5. Dezember 2025  
 **Version:** 1.0.0  
-**Kategorie:** Architecture
+**Kategorie:** Transaction
 
 ---
 
 ## Übersicht
 
-ThemisDB ist eine Multi-Model-Datenbank basierend auf RocksDB (LSM-Tree) mit ACID-Garantien und umfassender Security-Architektur.
+Das Transaction-Modul implementiert vollständige ACID-Transaktionen mit MVCC (Multi-Version Concurrency Control) für ThemisDB.
 
-## Source-Code Basis
+## Source-Code Referenz
 
-| Komponente | Headers | Sources | LOC | Beschreibung |
-|------------|---------|---------|-----|--------------|
-| server | 20 | 20 | 18,282 | HTTP Server, REST API |
-| index | 12 | 11 | 14,629 | Secondary, Vector, Graph |
-| query | 12 | 12 | 12,560 | AQL Parser, Optimizer |
-| sharding | 21 | 19 | 12,278 | Horizontal Scaling |
-| content | 16 | 15 | 9,091 | Content Pipeline |
-| security | 16 | 16 | 8,138 | Encryption, RBAC |
-| storage | 9 | 10 | 4,591 | RocksDB, Entities |
-| analytics | 3 | 2 | 3,742 | OLAP, CEP |
-| timeseries | 7 | 8 | 2,767 | Gorilla, Retention |
-| replication | 2 | 1 | 1,612 | Multi-Master, CRDTs |
+| Komponente | Header | Source | Beschreibung |
+|------------|--------|--------|--------------|
+| TransactionManager | `transaction_manager.h` | `transaction_manager.cpp` | MVCC Manager |
+| Transaction | `transaction_manager.h` | `transaction_manager.cpp` | Transaktions-Handle |
+| Saga | `saga.h` | `saga.cpp` | Distributed Transactions |
 
-**Gesamt:** 132 Header, 124 Sources, ~91,000 LOC
+**Gesamt:** 2 Header, 2 Source-Dateien, ~900 LOC
 
-## Kern-Architektur
+## Implementierte Klassen
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      HTTP Server                             │
-│  (Boost.Beast, REST API, Rate Limiting, Auth Middleware)    │
-├─────────────────────────────────────────────────────────────┤
-│                      Query Layer                             │
-│  (AQL Parser, Optimizer, Execution Engine, Semantic Cache)  │
-├──────────────┬──────────────┬──────────────┬────────────────┤
-│  Secondary   │   Vector     │    Graph     │   Fulltext     │
-│   Index      │   Index      │   Index      │    Index       │
-│  (B-Tree)    │  (HNSW)      │ (Adjacency)  │ (Inverted)     │
-├──────────────┴──────────────┴──────────────┴────────────────┤
-│                   Transaction Manager                        │
-│  (MVCC, Snapshot Isolation, Write-Write Conflict Detection) │
-├─────────────────────────────────────────────────────────────┤
-│                    RocksDB Wrapper                           │
-│  (LSM-Tree, WAL, BlobDB, Column Families, Compression)      │
-└─────────────────────────────────────────────────────────────┘
+### TransactionManager
+
+```cpp
+class TransactionManager {
+    using TransactionId = uint64_t;
+    
+    struct Status {
+        bool ok;
+        std::string message;
+        static Status OK();
+        static Status Error(std::string msg);
+    };
+    
+    // Begin Transaction
+    Transaction begin(IsolationLevel level = IsolationLevel::ReadCommitted);
+    
+    // Statistics
+    size_t activeTransactionCount() const;
+};
 ```
 
-## Multi-Model Support
+### Transaction
 
-| Modell | Logical Entity | Physical Storage | Key Format |
-|--------|----------------|------------------|------------|
-| Relational | Row | (PK, Blob) | `table:pk` |
-| Document | JSON Document | (PK, Blob) | `collection:pk` |
-| Graph Node | Vertex | (PK, Blob) | `node:pk` |
-| Graph Edge | Edge | (PK, Blob) | `edge:pk` |
-| Vector | Embedding | (PK, Blob) | `object:pk` |
-| TimeSeries | DataPoint | (TS Key, Value) | `ts:metric:entity:timestamp` |
+```cpp
+class Transaction {
+    // Metadata
+    TransactionId getId() const;
+    IsolationLevel getIsolationLevel() const;
+    std::chrono::system_clock::time_point getStartTime() const;
+    uint64_t getDurationMs() const;
+    bool isFinished() const;
+    
+    // Relational Operations
+    Status putEntity(std::string_view table, const BaseEntity& entity);
+    Status eraseEntity(std::string_view table, std::string_view pk);
+    
+    // Graph Operations
+    Status addEdge(const BaseEntity& edgeEntity);
+    Status deleteEdge(std::string_view edgeId);
+    
+    // Vector Operations
+    Status addVector(const BaseEntity& entity, vectorField = "embedding");
+    Status updateVector(const BaseEntity& entity, vectorField = "embedding");
+    Status removeVector(std::string_view pk);
+    
+    // Commit/Rollback
+    Status commit();
+    Status rollback();
+};
+```
 
-## Dokumentation in diesem Ordner
+### Isolation Levels
 
-### Core Architecture
-| Datei | Beschreibung |
-|-------|--------------|
-| [architecture_overview.md](architecture_overview.md) | System-Architektur Übersicht |
-| [architecture_multi_model.md](architecture_multi_model.md) | Multi-Model Design |
-| [architecture_ecosystem.md](architecture_ecosystem.md) | Ecosystem Overview |
+```cpp
+enum class IsolationLevel {
+    ReadCommitted,  // Default: nur committed data sichtbar
+    Snapshot        // Snapshot Isolation (point-in-time consistency)
+};
+```
 
-### Storage
-| Datei | Beschreibung |
-|-------|--------------|
-| [architecture_base_entity.md](architecture_base_entity.md) | BaseEntity Storage |
-| [architecture_mvcc.md](architecture_mvcc.md) | MVCC Transaction Design |
+## Beispiel
 
-### Content Pipeline
-| Datei | Beschreibung |
-|-------|--------------|
-| [architecture_content.md](architecture_content.md) | Content Management |
-| [architecture_content_pipeline.md](architecture_content_pipeline.md) | Processing Pipeline |
+```cpp
+TransactionManager tm(db, secIdx, graphIdx, vecIdx);
 
-### Caching
-| Datei | Beschreibung |
-|-------|--------------|
-| [architecture_cache_invalidation.md](architecture_cache_invalidation.md) | Cache Invalidation |
-| [architecture_caching_patterns.md](architecture_caching_patterns.md) | Lookup Patterns |
-| [architecture_caching_structures.md](architecture_caching_structures.md) | Data Structures |
+// Begin Transaction
+auto txn = tm.begin(IsolationLevel::Snapshot);
+
+// Multi-Model Operations
+txn.putEntity("users", userEntity);
+txn.addEdge(followsEdge);
+txn.addVector(embeddingEntity);
+
+// Commit
+auto status = txn.commit();
+if (!status.ok) {
+    // Automatic rollback on error
+    std::cerr << status.message << std::endl;
+}
+```
+
+## ACID-Garantien
+
+| Property | Implementation |
+|----------|----------------|
+| **Atomicity** | RocksDB WriteBatch (alle oder keine) |
+| **Consistency** | Index-Updates in gleicher Batch |
+| **Isolation** | MVCC mit Snapshot Isolation |
+| **Durability** | WAL (Write-Ahead Log) |
+
+## Write-Write Conflict Detection
+
+```cpp
+// Bei Konflikt:
+// - Transaction A: UPDATE users SET name='Alice' WHERE id=1
+// - Transaction B: UPDATE users SET name='Bob' WHERE id=1
+// → Transaction B wird mit CONFLICT abgebrochen wenn A zuerst committed
+```
 
 ## Verwandte Dokumentation
 
-- [Storage Module](../storage/README.md) - RocksDB Wrapper Details
-- [Index Module](../search/README.md) - Index Implementations
-- [Query Module](../query/README.md) - Query Engine
-- [Features Overview](../features/features_overview.md) - Feature-Liste
+- [Features: Transactions](../features/features_transactions.md) - Feature-Details
+- [Architecture: MVCC](../architecture/architecture_mvcc.md) - MVCC-Architektur

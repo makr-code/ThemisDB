@@ -211,7 +211,7 @@ docs/
 | sharding | [docs/sharding/README.md](sharding/README.md) | 19 | 21 | 12,278 |
 | storage | [docs/storage/README.md](storage/README.md) | 10 | 9 | 4,591 |
 | timeseries | [docs/timeseries/README.md](timeseries/README.md) | 8 | 7 | 2,767 |
-| transaction | [docs/transaction/README.md](transaction/README.md) | 2 | 2 | 895 |
+| transaction | [docs/architecture/README.md](architecture/README.md) | 2 | 2 | 895 |
 
 **Gesamt:** 124 Source-Dateien, 132 Header-Dateien, 90,829 LOC
 

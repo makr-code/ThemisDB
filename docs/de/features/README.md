@@ -1,56 +1,163 @@
-# Features Documentation
+# CDC Module (Change Data Capture)
 
 **Stand:** 5. Dezember 2025  
 **Version:** 1.0.0  
-**Kategorie:** Features
+**Kategorie:** CDC
 
 ---
 
+## Übersicht
 
-Documentation for ThemisDB features and capabilities.
+Das CDC-Modul implementiert Change Data Capture für ThemisDB mit Sequence-basiertem Event-Tracking und Long-Polling.
 
-## Contents
+## Source-Code Referenz
 
-### Compliance & Governance
-- **compliance.md** - Compliance features overview
-- **compliance_audit.md** - Compliance auditing
-- **compliance_governance_strategy.md** - Governance strategy
-- **extended_compliance.md** - Extended compliance features
-- **governance_usage.md** - Using governance features
+| Komponente | Header | Source | Beschreibung |
+|------------|--------|--------|--------------|
+| Changefeed | `changefeed.h` | `changefeed.cpp` | CDC Implementation |
 
-### Data Processing & Ingestion
-- **enterprise_ingestion.md** - Enterprise ingestion interface
-- **audit_logging.md** - Audit logging capabilities
+**Gesamt:** 1 Header, 1 Source-Datei, ~510 LOC
 
-### Time Series & Temporal
-- **cdc.md** - Change Data Capture
-- **change_data_capture.md** - Detailed CDC documentation
-- **temporal_graphs.md** - Temporal graph features
-- **temporal_time_range_queries.md** - Time range queries
-- **time_series.md** - Time series data management
+## Implementierte Klassen
 
-### Graph & Indexing
-- **gnn_embeddings.md** - Graph Neural Network embeddings
-- **hnsw_persistence.md** - HNSW index persistence
-- **indexes.md** - Index overview
-- **property_graph_model.md** - Property graph model
-- **recursive_path_queries.md** - Recursive path traversal
-- **vector_ops.md** - Vector operations
-- **index_stats_maintenance.md** - Index statistics and maintenance
-- **index_backup.md** - Index backup strategies
+### Changefeed
 
-### Advanced Features
-- **semantic_cache.md** - Semantic query caching
-- **chain_of_thought_storage.md** - Chain-of-thought LLM storage
-- **cursor_pagination.md** - Cursor-based pagination
-- **government_network_model.md** - Government network modeling
-- **hierarchy_configurable_model.md** - Configurable hierarchy models
-- **hierarchy_urn_integration.md** - URN-based hierarchy integration
-- **path_constraints.md** - Path constraint features
-- **transactions.md** - Transaction management
+```cpp
+class Changefeed {
+    // Key format: "changefeed:{sequence_number}"
+    
+    enum class ChangeEventType {
+        EVENT_PUT,
+        EVENT_DELETE,
+        EVENT_TRANSACTION_COMMIT,
+        EVENT_TRANSACTION_ROLLBACK
+    };
+    
+    struct ChangeEvent {
+        uint64_t sequence;                // Monotonic sequence number
+        ChangeEventType type;             // Event type
+        std::string key;                  // Affected key
+        std::optional<std::string> value; // Value (nullopt for DELETE)
+        int64_t timestamp_ms;             // Event timestamp
+        nlohmann::json metadata;          // tx_id, user, etc.
+    };
+    
+    struct ListOptions {
+        uint64_t from_sequence = 0;       // Start after sequence
+        size_t limit = 100;
+        uint32_t long_poll_ms = 0;        // Long-poll timeout
+        std::optional<std::string> key_prefix;
+        std::optional<ChangeEventType> event_type;
+    };
+    
+    struct Stats {
+        uint64_t total_events;
+        uint64_t latest_sequence;
+        size_t total_size_bytes;
+    };
+    
+    // API
+    ChangeEvent publish(ChangeEventType type, key, value, metadata);
+    std::vector<ChangeEvent> subscribe(ListOptions);
+    Stats getStats();
+};
+```
 
-## See Also
+## Features
 
-- [AQL Documentation](../aql/)
-- [Security Features](../security/)
-- [Query Features](../query/)
+### Event Types
+
+| Type | Beschreibung |
+|------|--------------|
+| `EVENT_PUT` | Key-Value wurde eingefügt/aktualisiert |
+| `EVENT_DELETE` | Key wurde gelöscht |
+| `EVENT_TRANSACTION_COMMIT` | Transaktion committed |
+| `EVENT_TRANSACTION_ROLLBACK` | Transaktion zurückgerollt |
+
+### Long-Polling
+
+```cpp
+// Client wartet max 30 Sekunden auf neue Events
+auto events = changefeed.subscribe({
+    .from_sequence = last_seen_sequence,
+    .limit = 100,
+    .long_poll_ms = 30000
+});
+```
+
+### Key-Prefix Filter
+
+```cpp
+// Nur Events für "users:" Keys
+auto events = changefeed.subscribe({
+    .key_prefix = "users:"
+});
+```
+
+## HTTP API
+
+### GET /api/cdc/events?from_sequence=100&limit=50
+
+```json
+{
+  "events": [
+    {
+      "sequence": 101,
+      "type": "PUT",
+      "key": "users:123",
+      "value": "{\"name\":\"Alice\"}",
+      "timestamp_ms": 1733385600000,
+      "metadata": {"tx_id": "txn-456"}
+    }
+  ],
+  "next_sequence": 102
+}
+```
+
+### GET /api/cdc/stats
+
+```json
+{
+  "total_events": 10500,
+  "latest_sequence": 10500,
+  "total_size_bytes": 2097152
+}
+```
+
+## Server-Sent Events (SSE)
+
+```
+GET /api/cdc/stream
+Accept: text/event-stream
+
+data: {"sequence":101,"type":"PUT","key":"users:123",...}
+
+data: {"sequence":102,"type":"DELETE","key":"users:456",...}
+```
+
+## Beispiel
+
+```cpp
+Changefeed cdc(db);
+
+// Event publizieren (automatisch bei DB-Operationen)
+cdc.publish(ChangeEventType::EVENT_PUT, "users:123", user_json, {
+    {"tx_id", "txn-456"},
+    {"user", "admin"}
+});
+
+// Events abonnieren
+auto events = cdc.subscribe({
+    .from_sequence = 0,
+    .limit = 100
+});
+
+for (const auto& event : events) {
+    process(event);
+}
+```
+
+## Verwandte Dokumentation
+
+- [Features: CDC](../features/features_cdc.md) - Feature-Details
+- [Features: Change Data Capture](../features/features_change_data_capture.md) - Konzept

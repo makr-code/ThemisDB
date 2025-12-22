@@ -212,7 +212,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ### Distribution & Scaling Layer
 - **[Sharding Module](sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
 - **[Replication Module](storage/README.md)** - Leader-Follower, Multi-Master CRDTs (12K LOC)
-- **[Transaction Module](transaction/README.md)** - MVCC, SAGA Patterns (42K LOC)
+- **[Transaction Module](architecture/README.md)** - MVCC, SAGA Patterns (42K LOC)
 
 ### Acceleration Layer
 - **[GPU Acceleration Plan](performance/GPU_ACCELERATION_PLAN.md)** - 10 GPU Backends (173K LOC)
@@ -220,7 +220,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 ### Content & Data Processing
 - **[Content Module](content/README.md)** - 15 File Format Processors (256K LOC)
-- **[CDC Module](cdc/README.md)** - Change Data Capture, Changefeed
+- **[CDC Module](features/README.md)** - Change Data Capture, Changefeed
 - **[Geo Module](geo/README.md)** - Spatial Operations, Plugin System
 
 ### Server & API Layer

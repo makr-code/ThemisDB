@@ -21,7 +21,7 @@ Dieses Verzeichnis enthält veraltete oder ersetzte Dokumentation, die zu Refere
 
 Diese Dokumente werden nicht mehr aktiv gepflegt. Für aktuelle Informationen siehe die jeweiligen aktuellen Module:
 
-- [CDC Modul](../cdc/README.md) - Change Data Capture
+- [CDC Modul](../features/README.md) - Change Data Capture
 - [Content Modul](../content/README.md) - Content Processing
 
 ---
