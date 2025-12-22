@@ -768,6 +768,222 @@ std::string PostgresSession::buildCypherFromSelect(const QueryInfo& info) {
     return cypher;
 }
 
+// Parse INSERT INTO statement
+std::string PostgresSession::parseInsertQuery(const std::string& query) {
+    // INSERT INTO table (col1, col2, ...) VALUES (val1, val2, ...)
+    std::string upperQuery = query;
+    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    
+    size_t intoPos = upperQuery.find("INTO");
+    if (intoPos == std::string::npos) {
+        throw std::runtime_error("Invalid INSERT statement: missing INTO");
+    }
+    
+    // Extract table name
+    size_t tableStart = intoPos + 4;
+    while (tableStart < query.size() && std::isspace(query[tableStart])) tableStart++;
+    
+    size_t tableEnd = tableStart;
+    while (tableEnd < query.size() && !std::isspace(query[tableEnd]) && query[tableEnd] != '(') tableEnd++;
+    
+    std::string tableName = query.substr(tableStart, tableEnd - tableStart);
+    
+    // Extract columns
+    size_t colsStart = query.find('(', tableEnd);
+    size_t colsEnd = query.find(')', colsStart);
+    if (colsStart == std::string::npos || colsEnd == std::string::npos) {
+        throw std::runtime_error("Invalid INSERT statement: missing column list");
+    }
+    
+    std::string colsList = query.substr(colsStart + 1, colsEnd - colsStart - 1);
+    std::vector<std::string> columns;
+    size_t pos = 0;
+    while (pos < colsList.size()) {
+        size_t commaPos = colsList.find(',', pos);
+        if (commaPos == std::string::npos) commaPos = colsList.size();
+        
+        std::string col = colsList.substr(pos, commaPos - pos);
+        col.erase(0, col.find_first_not_of(" \t"));
+        col.erase(col.find_last_not_of(" \t") + 1);
+        columns.push_back(col);
+        
+        pos = commaPos + 1;
+    }
+    
+    // Extract values
+    size_t valuesPos = upperQuery.find("VALUES", colsEnd);
+    if (valuesPos == std::string::npos) {
+        throw std::runtime_error("Invalid INSERT statement: missing VALUES");
+    }
+    
+    size_t valsStart = query.find('(', valuesPos);
+    size_t valsEnd = query.find(')', valsStart);
+    if (valsStart == std::string::npos || valsEnd == std::string::npos) {
+        throw std::runtime_error("Invalid INSERT statement: missing values list");
+    }
+    
+    std::string valsList = query.substr(valsStart + 1, valsEnd - valsStart - 1);
+    std::vector<std::string> values;
+    pos = 0;
+    bool inQuote = false;
+    std::string currentValue;
+    
+    for (char c : valsList) {
+        if (c == '\'' && (currentValue.empty() || currentValue.back() != '\\')) {
+            inQuote = !inQuote;
+            currentValue += c;
+        } else if (c == ',' && !inQuote) {
+            currentValue.erase(0, currentValue.find_first_not_of(" \t"));
+            currentValue.erase(currentValue.find_last_not_of(" \t") + 1);
+            values.push_back(currentValue);
+            currentValue.clear();
+        } else {
+            currentValue += c;
+        }
+    }
+    if (!currentValue.empty()) {
+        currentValue.erase(0, currentValue.find_first_not_of(" \t"));
+        currentValue.erase(currentValue.find_last_not_of(" \t") + 1);
+        values.push_back(currentValue);
+    }
+    
+    // Build Cypher CREATE statement
+    std::string cypher = "CREATE (n:" + tableName + " {";
+    for (size_t i = 0; i < columns.size() && i < values.size(); ++i) {
+        if (i > 0) cypher += ", ";
+        cypher += columns[i] + ": " + values[i];
+    }
+    cypher += "})";
+    
+    return cypher;
+}
+
+// Parse UPDATE statement
+std::string PostgresSession::parseUpdateQuery(const std::string& query) {
+    // UPDATE table SET col1=val1, col2=val2 WHERE condition
+    std::string upperQuery = query;
+    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    
+    size_t updatePos = upperQuery.find("UPDATE");
+    size_t setPos = upperQuery.find("SET", updatePos);
+    size_t wherePos = upperQuery.find("WHERE", setPos);
+    
+    if (setPos == std::string::npos) {
+        throw std::runtime_error("Invalid UPDATE statement: missing SET");
+    }
+    
+    // Extract table name
+    std::string tableName = query.substr(updatePos + 6, setPos - updatePos - 6);
+    tableName.erase(0, tableName.find_first_not_of(" \t\n\r"));
+    tableName.erase(tableName.find_last_not_of(" \t\n\r") + 1);
+    
+    // Extract SET clause
+    size_t setEnd = (wherePos != std::string::npos) ? wherePos : query.size();
+    std::string setClause = query.substr(setPos + 3, setEnd - setPos - 3);
+    setClause.erase(0, setClause.find_first_not_of(" \t\n\r"));
+    setClause.erase(setClause.find_last_not_of(" \t\n\r") + 1);
+    
+    // Build Cypher MATCH...SET statement
+    std::string cypher = "MATCH (n:" + tableName + ")";
+    
+    // Add WHERE clause if present
+    if (wherePos != std::string::npos) {
+        std::string whereClause = query.substr(wherePos + 5);
+        whereClause.erase(0, whereClause.find_first_not_of(" \t\n\r"));
+        whereClause.erase(whereClause.find_last_not_of(" \t\n\r;") + 1);
+        
+        // Replace table.column with n.column
+        size_t pos = 0;
+        while ((pos = whereClause.find(tableName + ".", pos)) != std::string::npos) {
+            whereClause.replace(pos, tableName.length() + 1, "n.");
+            pos += 2;
+        }
+        
+        cypher += " WHERE " + whereClause;
+    }
+    
+    // Add SET clause (convert column references to n.column)
+    std::string cypherSetClause = setClause;
+    size_t pos = 0;
+    while ((pos = cypherSetClause.find(tableName + ".", pos)) != std::string::npos) {
+        cypherSetClause.replace(pos, tableName.length() + 1, "n.");
+        pos += 2;
+    }
+    // Also handle bare column names (col = value)
+    pos = 0;
+    while (pos < cypherSetClause.size()) {
+        if (!std::isspace(cypherSetClause[pos]) && cypherSetClause[pos] != ',' && 
+            cypherSetClause[pos] != '=' && cypherSetClause[pos] != '\'' && cypherSetClause[pos] != '"') {
+            size_t nameEnd = pos;
+            while (nameEnd < cypherSetClause.size() && 
+                   (std::isalnum(cypherSetClause[nameEnd]) || cypherSetClause[nameEnd] == '_')) {
+                nameEnd++;
+            }
+            if (nameEnd < cypherSetClause.size() && 
+                (cypherSetClause[nameEnd] == '=' || std::isspace(cypherSetClause[nameEnd]))) {
+                std::string colName = cypherSetClause.substr(pos, nameEnd - pos);
+                if (colName.find("n.") != 0) {
+                    cypherSetClause.insert(pos, "n.");
+                    pos += 2;
+                }
+            }
+            pos = nameEnd;
+        }
+        pos++;
+    }
+    
+    cypher += " SET " + cypherSetClause;
+    
+    return cypher;
+}
+
+// Parse DELETE statement
+std::string PostgresSession::parseDeleteQuery(const std::string& query) {
+    // DELETE FROM table WHERE condition
+    std::string upperQuery = query;
+    std::transform(upperQuery.begin(), upperQuery.end(), upperQuery.begin(), ::toupper);
+    
+    size_t deletePos = upperQuery.find("DELETE");
+    size_t fromPos = upperQuery.find("FROM", deletePos);
+    size_t wherePos = upperQuery.find("WHERE", fromPos);
+    
+    if (fromPos == std::string::npos) {
+        throw std::runtime_error("Invalid DELETE statement: missing FROM");
+    }
+    
+    // Extract table name
+    size_t tableStart = fromPos + 4;
+    while (tableStart < query.size() && std::isspace(query[tableStart])) tableStart++;
+    
+    size_t tableEnd = (wherePos != std::string::npos) ? wherePos : query.size();
+    std::string tableName = query.substr(tableStart, tableEnd - tableStart);
+    tableName.erase(0, tableName.find_first_not_of(" \t\n\r"));
+    tableName.erase(tableName.find_last_not_of(" \t\n\r;") + 1);
+    
+    // Build Cypher MATCH...DELETE statement
+    std::string cypher = "MATCH (n:" + tableName + ")";
+    
+    // Add WHERE clause if present
+    if (wherePos != std::string::npos) {
+        std::string whereClause = query.substr(wherePos + 5);
+        whereClause.erase(0, whereClause.find_first_not_of(" \t\n\r"));
+        whereClause.erase(whereClause.find_last_not_of(" \t\n\r;") + 1);
+        
+        // Replace table.column with n.column
+        size_t pos = 0;
+        while ((pos = whereClause.find(tableName + ".", pos)) != std::string::npos) {
+            whereClause.replace(pos, tableName.length() + 1, "n.");
+            pos += 2;
+        }
+        
+        cypher += " WHERE " + whereClause;
+    }
+    
+    cypher += " DELETE n";
+    
+    return cypher;
+}
+
 std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
     // Trim and convert to uppercase for parsing
     std::string query = postgresQuery;
@@ -782,14 +998,11 @@ std::string PostgresSession::translateQuery(const std::string& postgresQuery) {
         QueryInfo info = parseSelectQuery(query);
         return buildCypherFromSelect(info);
     } else if (upperQuery.find("INSERT INTO") == 0) {
-        // TODO: Parse INSERT and convert to Cypher CREATE
-        throw std::runtime_error("INSERT not yet implemented");
+        return parseInsertQuery(query);
     } else if (upperQuery.find("UPDATE") == 0) {
-        // TODO: Parse UPDATE and convert to Cypher MATCH...SET
-        throw std::runtime_error("UPDATE not yet implemented");
+        return parseUpdateQuery(query);
     } else if (upperQuery.find("DELETE") == 0) {
-        // TODO: Parse DELETE and convert to Cypher MATCH...DELETE
-        throw std::runtime_error("DELETE not yet implemented");
+        return parseDeleteQuery(query);
     } else if (upperQuery.find("BEGIN") == 0 || upperQuery.find("COMMIT") == 0 || 
                upperQuery.find("ROLLBACK") == 0) {
         // Transaction commands - accept but don't execute (no ACID guarantees yet)
