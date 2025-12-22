@@ -1,8 +1,16 @@
 # Sharding & Horizontal Scaling Documentation
 
-**Stand:** 19. Dezember 2025  
-**Version:** 1.2.0  
-**Kategorie:** Sharding
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔀 Sharding
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Wichtige Dokumente](#-wichtige-dokumente)
+- [Implementierung](#implementierung)
+- [Strategie](#strategie)
 
 ---
 

@@ -1,8 +1,16 @@
 # Replication Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Replication
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 💾 Storage & Replication
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Replication Strategien](#replication-strategien)
+- [Source-Code Referenz](#source-code-referenz)
 
 ---
 

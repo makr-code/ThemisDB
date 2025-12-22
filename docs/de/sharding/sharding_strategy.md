@@ -1,9 +1,18 @@
 # Horizontale Skalierung: Vollständige Implementierungsstrategie
 
-**Version:** 2.0  
-**Erstellt:** 20. November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔀 Sharding  
 **Fokus:** Sharding-basierte horizontale Skalierung mit VCC-PKI als Skalierungswerkzeug  
 **Status:** ✨ **NEU** - Erweitert Infrastructure Roadmap mit PKI-Integration
+
+---
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [PKI Integration](#pki-integration)
+- [Implementation](#implementation)
 
 ---
 

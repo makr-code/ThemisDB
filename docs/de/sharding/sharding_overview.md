@@ -1,8 +1,17 @@
 # ThemisDB Sharding - Unified Documentation
 
-**Version:** 4.0  
-**Letzte Aktualisierung:** 8. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔀 Sharding  
 **Status:** Phase 1-6 Abgeschlossen ✅, P0+P1.1+P1.2 Implementiert ✅
+
+---
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [Implementation Status](#implementation-status)
+- [Architecture](#architecture)
 
 ---
 

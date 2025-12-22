@@ -1,8 +1,16 @@
 # Plugins Documentation
 
-**Stand:** 21. Dezember 2025  
-**Version:** 1.3.0  
-**Kategorie:** Plugins
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔌 Plugins
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Features](#features)
+- [Dokumentation](#dokumentation)
 
 ---
 
