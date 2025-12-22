@@ -1,8 +1,28 @@
 # Security Signatures System
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Problem: Henne-Ei bei In-File-Hash](#problem-henne-ei-bei-in-file-hash)
+- [Lösung: Externe Signatur-Datenbank](#lösung-externe-signatur-datenbank)
+- [Entity: SecuritySignature](#entity-securitysignature)
+- [RocksDB Storage](#rocksdb-storage)
+- [SecuritySignatureManager API](#securitysignaturemanager-api)
+- [MimeDetector Integration](#mimedetector-integration)
+- [HTTP Server CRUD API](#http-server-crud-api)
+- [CLI Tool: init_mime_signature.py](#cli-tool-init_mime_signaturepy)
+- [Bedrohungsmodell](#bedrohungsmodell)
+- [Policies (Konfigurierbar)](#policies-konfigurierbar)
+- [Erweiterungen](#erweiterungen)
+- [Implementation Details](#implementation-details)
+- [Security Best Practices](#security-best-practices)
+- [Workflow: Config-Update](#workflow-config-update)
+- [Fazit](#fazit)
 
 ---
 
