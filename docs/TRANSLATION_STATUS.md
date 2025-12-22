@@ -73,10 +73,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ## Next Up
 
-1. Translate `/docs/DOCUMENTATION_INDEX.md` to English
-2. Begin translating LLM documentation (/docs/llm/*.md)
-3. Begin translating API documentation (/docs/api/*.md and /docs/apis/*.md)
-4. Begin translating guides (/docs/guides/*.md)
+1. Begin translating LLM documentation (/docs/llm/*.md) - Priority 2A
+2. Begin translating API documentation (/docs/api/*.md and /docs/apis/*.md)
+3. Begin translating guides (/docs/guides/*.md)
 
 ## Translation Notes
 

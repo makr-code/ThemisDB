@@ -77,7 +77,7 @@ ThemisDB can be extended as the first multi-model database with an **embedded LL
   - Kubernetes deployment
   - Production best practices
 
-- **[RPC Framework](../docs/plugins/RPC_PLUGIN_ARCHITECTURE.md)** ⭐ **v1.3.0**
+- **[RPC Framework](plugins/RPC_PLUGIN_ARCHITECTURE.md)** ⭐ **v1.3.0**
   - Inter-shard communication
   - TLS/mTLS security
   - Snapshot/blob transfer
