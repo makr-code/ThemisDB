@@ -1376,6 +1376,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_olap.cpp
         tests/test_olap_extended.cpp
         tests/test_process_mining_extended.cpp
+        tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
@@ -1596,6 +1597,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_process_mining
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Async I/O MultiScan benchmark (v1.3.0 Phase 2)
+    add_executable(bench_async_io_multiscan
+        benchmarks/bench_async_io_multiscan.cpp
+    )
+    
+    target_link_libraries(bench_async_io_multiscan
         PRIVATE
             themis_core
             benchmark::benchmark

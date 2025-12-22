@@ -1061,4 +1061,226 @@ uint64_t RocksDBWrapper::getStatistic(const std::string& ticker_name) const {
     return 0;
 }
 
+// v1.3.0 Phase 2: Async I/O MultiScan Implementation
+
+std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWithAsyncIO(
+    std::string_view prefix, int limit) {
+    
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("scanWithAsyncIO: database not open");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Create iterator
+    std::unique_ptr<rocksdb::Iterator> it(db_->GetBaseDB()->NewIterator(read_opts));
+    
+    // Seek to prefix or start of database
+    if (prefix.empty()) {
+        it->SeekToFirst();
+    } else {
+        it->Seek(prefix);
+    }
+    
+    // Collect results up to limit
+    int count = 0;
+    while (it->Valid() && count < limit) {
+        std::string key = it->key().ToString();
+        
+        // Check prefix match
+        if (!prefix.empty() && !key.starts_with(prefix)) {
+            break;
+        }
+        
+        std::vector<uint8_t> value(it->value().data(), 
+                                   it->value().data() + it->value().size());
+        results.emplace_back(std::move(key), std::move(value));
+        
+        it->Next();
+        count++;
+    }
+    
+    if (!it->status().ok()) {
+        THEMIS_ERROR("scanWithAsyncIO iterator error: {}", it->status().ToString());
+    }
+    
+    return results;
+}
+
+std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQueryWithAsyncIO(
+    std::string_view start_key, std::string_view end_key) {
+    
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO: database not open");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Create iterator
+    std::unique_ptr<rocksdb::Iterator> it(db_->GetBaseDB()->NewIterator(read_opts));
+    
+    // Seek to start key
+    it->Seek(start_key);
+    
+    // Collect results in range
+    while (it->Valid()) {
+        std::string key = it->key().ToString();
+        
+        // Check if we've exceeded end_key
+        if (key > end_key) {
+            break;
+        }
+        
+        std::vector<uint8_t> value(it->value().data(), 
+                                   it->value().data() + it->value().size());
+        results.emplace_back(std::move(key), std::move(value));
+        
+        it->Next();
+    }
+    
+    if (!it->status().ok()) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO iterator error: {}", it->status().ToString());
+    }
+    
+    return results;
+}
+
+std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::reverseScanWithAsyncIO(
+    std::string_view start_key, int limit) {
+    
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("reverseScanWithAsyncIO: database not open");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Create iterator
+    std::unique_ptr<rocksdb::Iterator> it(db_->GetBaseDB()->NewIterator(read_opts));
+    
+    // Seek to start key or last if empty
+    if (start_key.empty()) {
+        it->SeekToLast();
+    } else {
+        it->Seek(start_key);
+        if (!it->Valid()) {
+            it->SeekToLast();
+        }
+    }
+    
+    // Collect results in reverse order up to limit
+    int count = 0;
+    while (it->Valid() && count < limit) {
+        std::string key = it->key().ToString();
+        std::vector<uint8_t> value(it->value().data(), 
+                                   it->value().data() + it->value().size());
+        results.emplace_back(std::move(key), std::move(value));
+        
+        it->Prev();
+        count++;
+    }
+    
+    if (!it->status().ok()) {
+        THEMIS_ERROR("reverseScanWithAsyncIO iterator error: {}", it->status().ToString());
+    }
+    
+    return results;
+}
+
+std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsyncIO(
+    const std::vector<std::string>& keys) {
+    
+    std::vector<std::optional<std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("multiGetWithAsyncIO: database not open");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Prepare keys for RocksDB MultiGet
+    std::vector<rocksdb::Slice> rock_keys;
+    rock_keys.reserve(keys.size());
+    for (const auto& key : keys) {
+        rock_keys.emplace_back(key);
+    }
+    
+    // Perform MultiGet
+    std::vector<std::string> values;
+    std::vector<rocksdb::Status> statuses = 
+        db_->GetBaseDB()->MultiGet(read_opts, rock_keys, &values);
+    
+    // Process results
+    results.reserve(keys.size());
+    for (size_t i = 0; i < keys.size(); ++i) {
+        if (statuses[i].ok()) {
+            std::vector<uint8_t> value(values[i].begin(), values[i].end());
+            results.emplace_back(std::move(value));
+        } else if (statuses[i].IsNotFound()) {
+            results.emplace_back(std::nullopt);
+        } else {
+            THEMIS_ERROR("multiGetWithAsyncIO error for key {}: {}", 
+                        keys[i], statuses[i].ToString());
+            results.emplace_back(std::nullopt);
+        }
+    }
+    
+    return results;
+}
+
+std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newAsyncIterator() {
+    if (!db_) {
+        THEMIS_ERROR("newAsyncIterator: database not open");
+        return nullptr;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    return std::unique_ptr<rocksdb::Iterator>(db_->GetBaseDB()->NewIterator(read_opts));
+}
+
+std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
+    if (!db_) {
+        THEMIS_ERROR("newIterator: database not open");
+        return nullptr;
+    }
+    
+    rocksdb::ReadOptions read_opts;
+    return std::unique_ptr<rocksdb::Iterator>(db_->GetBaseDB()->NewIterator(read_opts));
+}
+
 } // namespace themis
