@@ -222,7 +222,7 @@ public:
     ) override {
         std::vector<EmbeddingResult> results;
         for (const auto& img : images) {
-            results.push_back(generateEmbedding(img));
+            results.push_back(generateEmbedding(img, nullptr));
         }
         return results;
     }
@@ -266,8 +266,8 @@ protected:
 TEST_F(ImageAnalysisQualityTest, EmbeddingReproducibility) {
     auto image = generate_pattern_image(224, 224, "gradient");
     
-    auto result1 = plugin_->generateEmbedding(image);
-    auto result2 = plugin_->generateEmbedding(image);
+    auto result1 = plugin_->generateEmbedding(image, nullptr);
+    auto result2 = plugin_->generateEmbedding(image, nullptr);
     
     ASSERT_TRUE(result1.success);
     ASSERT_TRUE(result2.success);
@@ -283,8 +283,8 @@ TEST_F(ImageAnalysisQualityTest, EmbeddingReproducibility) {
 TEST_F(ImageAnalysisQualityTest, DuplicateDetectionHighSimilarity) {
     auto image = generate_pattern_image(224, 224, "gradient");
     
-    auto result1 = plugin_->generateEmbedding(image);
-    auto result2 = plugin_->generateEmbedding(image);
+    auto result1 = plugin_->generateEmbedding(image, nullptr);
+    auto result2 = plugin_->generateEmbedding(image, nullptr);
     
     float similarity = cosine_similarity(result1.embedding, result2.embedding);
     
@@ -298,8 +298,8 @@ TEST_F(ImageAnalysisQualityTest, SimilarImageDetectionModerateSimilarity) {
     auto image1 = generate_pattern_image(224, 224, "gradient");
     auto image2 = generate_pattern_image(224, 224, "checkerboard");
     
-    auto result1 = plugin_->generateEmbedding(image1);
-    auto result2 = plugin_->generateEmbedding(image2);
+    auto result1 = plugin_->generateEmbedding(image1, nullptr);
+    auto result2 = plugin_->generateEmbedding(image2, nullptr);
     
     float similarity = cosine_similarity(result1.embedding, result2.embedding);
     
@@ -312,8 +312,8 @@ TEST_F(ImageAnalysisQualityTest, DissimilarImageDetectionLowSimilarity) {
     auto image1 = generate_pattern_image(224, 224, "gradient");
     auto image2 = generate_pattern_image(224, 224, "solid");
     
-    auto result1 = plugin_->generateEmbedding(image1);
-    auto result2 = plugin_->generateEmbedding(image2);
+    auto result1 = plugin_->generateEmbedding(image1, nullptr);
+    auto result2 = plugin_->generateEmbedding(image2, nullptr);
     
     float similarity = cosine_similarity(result1.embedding, result2.embedding);
     
@@ -324,7 +324,7 @@ TEST_F(ImageAnalysisQualityTest, DissimilarImageDetectionLowSimilarity) {
 // Test: Embedding Normalization
 TEST_F(ImageAnalysisQualityTest, EmbeddingNormalization) {
     auto image = generate_pattern_image(224, 224, "gradient");
-    auto result = plugin_->generateEmbedding(image);
+    auto result = plugin_->generateEmbedding(image, nullptr);
     
     ASSERT_TRUE(result.success);
     
@@ -348,7 +348,7 @@ TEST_F(ImageAnalysisQualityTest, EmbeddingDimensionConsistency) {
     
     std::vector<int> dimensions;
     for (const auto& img : images) {
-        auto result = plugin_->generateEmbedding(img);
+        auto result = plugin_->generateEmbedding(img, nullptr);
         ASSERT_TRUE(result.success);
         dimensions.push_back(result.dimension);
     }
@@ -364,7 +364,7 @@ TEST_F(ImageAnalysisQualityTest, BatchEmbeddingConsistency) {
     auto image = generate_pattern_image(224, 224, "gradient");
     
     // Generate individual embedding
-    auto individual_result = plugin_->generateEmbedding(image);
+    auto individual_result = plugin_->generateEmbedding(image, nullptr);
     
     // Generate batch embedding with same image
     std::vector<std::vector<uint8_t>> batch = {image};
@@ -383,7 +383,7 @@ TEST_F(ImageAnalysisQualityTest, BatchEmbeddingConsistency) {
 // Test: Caption Quality Metrics
 TEST_F(ImageAnalysisQualityTest, CaptionQualityMetrics) {
     auto image = generate_pattern_image(512, 512, "gradient");
-    auto result = plugin_->generateCaption(image);
+    auto result = plugin_->generateCaption(image, nullptr, 50);
     
     ASSERT_TRUE(result.success);
     EXPECT_FALSE(result.caption.empty()) << "Caption should not be empty";
@@ -402,8 +402,8 @@ TEST_F(ImageAnalysisQualityTest, CaptionQualityMetrics) {
 TEST_F(ImageAnalysisQualityTest, CaptionConsistency) {
     auto image = generate_pattern_image(224, 224, "gradient");
     
-    auto result1 = plugin_->generateCaption(image);
-    auto result2 = plugin_->generateCaption(image);
+    auto result1 = plugin_->generateCaption(image, nullptr, 50);
+    auto result2 = plugin_->generateCaption(image, nullptr, 50);
     
     ASSERT_TRUE(result1.success);
     ASSERT_TRUE(result2.success);
@@ -418,8 +418,8 @@ TEST_F(ImageAnalysisQualityTest, EmbeddingDistanceMetrics) {
     auto image1 = generate_pattern_image(224, 224, "gradient");
     auto image2 = generate_pattern_image(224, 224, "checkerboard");
     
-    auto result1 = plugin_->generateEmbedding(image1);
-    auto result2 = plugin_->generateEmbedding(image2);
+    auto result1 = plugin_->generateEmbedding(image1, nullptr);
+    auto result2 = plugin_->generateEmbedding(image2, nullptr);
     
     float cosine_sim = cosine_similarity(result1.embedding, result2.embedding);
     float l2_dist = l2_distance(result1.embedding, result2.embedding);
@@ -443,7 +443,7 @@ TEST_F(ImageAnalysisQualityTest, PerformanceQualityTradeoff) {
         auto image = generate_pattern_image(size, size, "gradient");
         
         auto start = std::chrono::high_resolution_clock::now();
-        auto result = plugin_->generateEmbedding(image);
+        auto result = plugin_->generateEmbedding(image, nullptr);
         auto end = std::chrono::high_resolution_clock::now();
         
         auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -500,7 +500,7 @@ TEST_F(ImageAnalysisQualityTest, BatchProcessingQuality) {
 // Test: Statistical Properties of Embeddings
 TEST_F(ImageAnalysisQualityTest, EmbeddingStatisticalProperties) {
     auto image = generate_pattern_image(224, 224, "gradient");
-    auto result = plugin_->generateEmbedding(image);
+    auto result = plugin_->generateEmbedding(image, nullptr);
     
     ASSERT_TRUE(result.success);
     
@@ -524,11 +524,4 @@ TEST_F(ImageAnalysisQualityTest, EmbeddingStatisticalProperties) {
     EXPECT_LT(std_dev, 1.0f) << "Standard deviation should not be too large";
 }
 
-// ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// No custom main; we use gtest_main provided by build

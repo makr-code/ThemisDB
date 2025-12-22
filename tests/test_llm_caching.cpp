@@ -341,7 +341,4 @@ TEST(LLMCachingIntegrationTest, HighConcurrency) {
     EXPECT_GT(mgr.getNumFreeBlocks(), 9000);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// No custom main; gtest_main provides the entry point

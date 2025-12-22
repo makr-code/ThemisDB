@@ -276,6 +276,16 @@ json LazyModelLoader::getCacheStats() const {
     return stats;
 }
 
+LazyModelLoader::Stats LazyModelLoader::getStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    Stats s;
+    s.cache_hits = cache_hits_;
+    s.cache_misses = cache_misses_;
+    s.evictions = evictions_;
+    s.models_loaded = models_.size();
+    return s;
+}
+
 CachedModel* LazyModelLoader::loadModelInternal(
     const std::string& model_id,
     const std::string& model_path,
@@ -314,7 +324,6 @@ CachedModel* LazyModelLoader::loadModelInternal(
     llama_context_params cp = llama_context_default_params();
     cp.n_ctx = config_.default_n_ctx;
     cp.n_batch = std::max(1, config.value("n_batch", 512));
-    cp.seed = config.value("seed", 0);
 
     llama_context* lctx = llama_new_context_with_model(lmodel, cp);
     if (!lctx) {

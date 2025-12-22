@@ -197,6 +197,16 @@ public:
      * @brief List all loaded LoRAs
      */
     std::vector<LoRAInfo> listLoRAs() const;
+
+    /**
+     * @brief List loaded LoRAs filtered by base model id
+     */
+    std::vector<LoRAInfo> listLoRAs(const std::string& base_model_id) const;
+
+    /**
+     * @brief Get LoRA info by id
+     */
+    std::optional<LoRAInfo> getLoRAInfo(const std::string& lora_id) const;
     
     /**
      * @brief Evict least recently used LoRA(s)
@@ -222,6 +232,17 @@ public:
      * @brief Get LoRA cache statistics
      */
     json getCacheStats() const;
+
+    // Compact typed statistics API for tests
+    struct Stats {
+        size_t total_loras_loaded = 0;
+        size_t cache_hits = 0;
+        size_t cache_misses = 0;
+        size_t evictions = 0;
+        size_t switches = 0;
+    };
+
+    Stats getStatistics() const;
     
     /**
      * @brief Export LoRA for cross-shard transfer

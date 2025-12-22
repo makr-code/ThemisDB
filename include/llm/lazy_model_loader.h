@@ -1,25 +1,6 @@
 #pragma once
 
-#include <string>
-#include <chrono>
+// Unify LazyModelLoader by delegating to the full implementation.
+// Tests and plugins should include this header, which forwards to model_loader.h.
 
-namespace themis {
-namespace llm {
-
-struct LazyModelLoaderConfig {
-    size_t max_models = 1;
-    size_t max_vram_mb = 0;
-    std::chrono::seconds model_ttl{0};
-};
-
-class LazyModelLoader {
-public:
-    using Config = LazyModelLoaderConfig;
-
-    explicit LazyModelLoader(const Config& = {}) {}
-    bool loadModel(const std::string&, const std::string&) { return true; }
-    void unloadModel(const std::string&) {}
-};
-
-} // namespace llm
-} // namespace themis
+#include "llm/model_loader.h"

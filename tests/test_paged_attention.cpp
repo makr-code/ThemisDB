@@ -3,6 +3,7 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/paged_block_manager.h"
 #include <memory>
+#include <chrono>
 
 using namespace themis::llm;
 
@@ -191,7 +192,4 @@ TEST(PagedKVCacheBenchmark, PrefixSharingOverhead) {
     EXPECT_LT(duration.count(), 100);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// No custom main; gtest_main provides the entry point

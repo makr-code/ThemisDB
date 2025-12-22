@@ -2,6 +2,7 @@
 #include "llm/gguf_loader.h"
 #include "llm/llamacpp_inference_engine.h"
 #include <fstream>
+#include <chrono>
 
 using namespace themis::llm;
 
@@ -215,7 +216,4 @@ TEST(GGUFLoaderBenchmark, ParsePerformance) {
     std::remove(test_file.c_str());
 }
 
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// No custom main; gtest_main provides the entry point

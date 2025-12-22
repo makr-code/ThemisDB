@@ -41,6 +41,22 @@ AsyncInferenceEngine::AsyncInferenceEngine(
     spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
 }
 
+AsyncInferenceEngine::AsyncInferenceEngine(
+    std::shared_ptr<ILLMPlugin> plugin,
+    const Config& config
+) : config_(config), plugin_(plugin.get()), owned_plugin_(std::move(plugin)) {
+    if (!plugin_) {
+        throw std::invalid_argument("Plugin cannot be null");
+    }
+    spdlog::info("AsyncInferenceEngine starting with {} worker threads",
+                 config_.num_worker_threads);
+    workers_.reserve(config_.num_worker_threads);
+    for (size_t i = 0; i < config_.num_worker_threads; ++i) {
+        workers_.emplace_back(&AsyncInferenceEngine::workerLoop, this, i);
+    }
+    spdlog::info("AsyncInferenceEngine started - inference runs independently from DB operations");
+}
+
 AsyncInferenceEngine::~AsyncInferenceEngine() {
     shutdown();
 }
