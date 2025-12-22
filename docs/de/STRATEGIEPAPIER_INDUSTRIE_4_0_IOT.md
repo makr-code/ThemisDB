@@ -701,7 +701,7 @@ High Availability:
 Typische Datenquellen:
   Sensoren:
     - Temperatur, Druck, Vibration (100-1000 Hz)
-    - Drehmom ent, Kraft, Position (100-500 Hz)
+    - Drehmoment, Kraft, Position (100-500 Hz)
     - Strom, Spannung, Leistung (50 Hz)
   Roboter: Status, Position, Geschwindigkeit (10-50 Hz)
   Vision-Systeme: Bildanalyse, Defekt-Erkennung (1-10 Hz)
