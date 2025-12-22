@@ -7,11 +7,13 @@
 #include <unordered_map>
 #include <optional>
 #include <utility>
+#include <memory>
 
 namespace themis {
 
 class BaseEntity;
 class SecondaryIndexManager;
+class ProductQuantizer;
 
 /// VectorIndexManager
 /// - Optional HNSWlib-Unterstützung (compile-time)
@@ -200,6 +202,30 @@ public:
     /// Returns PKs of vectors with distance > threshold * std_dev from centroid
     std::pair<Status, std::vector<std::string>> findOutliers(float threshold = 3.0f) const;
 
+    // ===== Vector Quantization (Feature #7) =====
+    
+    /// Enable/disable product quantization for memory compression
+    /// Must be called before adding vectors or after training
+    Status enableQuantization(bool enable, int num_subquantizers = 8);
+    
+    /// Train quantizer with existing vectors or provided training set
+    /// If training_vectors is empty, uses existing vectors from cache
+    Status trainQuantizer(const std::vector<std::vector<float>>& training_vectors = {});
+    
+    /// Check if quantization is enabled and trained
+    bool isQuantizationEnabled() const { return quantization_enabled_; }
+    bool isQuantizerTrained() const;
+    
+    /// Get quantization statistics
+    struct QuantizationStats {
+        bool enabled = false;
+        bool trained = false;
+        int num_subquantizers = 0;
+        float compression_ratio = 0.0f;
+        size_t memory_usage_bytes = 0;
+    };
+    QuantizationStats getQuantizationStats() const;
+
     // Getter für Konfiguration & Statistiken
     std::string getObjectName() const { return objectName_; }
     int getDimension() const { return dim_; }
@@ -247,6 +273,11 @@ private:
     mutable std::unordered_map<std::string, size_t> pkToId_;
     mutable std::vector<std::string> idToPk_;
     mutable std::unordered_map<std::string, std::vector<float>> cache_; // für Fallback/Whitelist
+
+    // Product Quantization (Feature #7)
+    bool quantization_enabled_ = false;
+    std::unique_ptr<ProductQuantizer> quantizer_;
+    mutable std::unordered_map<std::string, std::vector<uint8_t>> quantized_cache_;  // PK -> codes
 
     // HNSWlib Index (wenn verfügbar)
 #ifdef THEMIS_HNSW_ENABLED
