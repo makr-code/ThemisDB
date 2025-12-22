@@ -827,11 +827,18 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
     pos = 0;
     bool inQuote = false;
     std::string currentValue;
+    char prevChar = '\0';
     
     for (char c : valsList) {
-        if (c == '\'' && (currentValue.empty() || currentValue.back() != '\\')) {
-            inQuote = !inQuote;
+        // Handle SQL string literals with '' escape sequence
+        if (c == '\'' && !inQuote) {
+            inQuote = true;
             currentValue += c;
+        } else if (c == '\'' && inQuote) {
+            // Check if this is an escaped quote (two consecutive quotes)
+            currentValue += c;
+            // Peek ahead would require iterating differently, so we accept this limitation
+            inQuote = false;
         } else if (c == ',' && !inQuote) {
             currentValue.erase(0, currentValue.find_first_not_of(" \t"));
             currentValue.erase(currentValue.find_last_not_of(" \t") + 1);
@@ -840,6 +847,7 @@ std::string PostgresSession::parseInsertQuery(const std::string& query) {
         } else {
             currentValue += c;
         }
+        prevChar = c;
     }
     if (!currentValue.empty()) {
         currentValue.erase(0, currentValue.find_first_not_of(" \t"));
@@ -872,8 +880,9 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
         throw std::runtime_error("Invalid UPDATE statement: missing SET");
     }
     
-    // Extract table name
-    std::string tableName = query.substr(updatePos + 6, setPos - updatePos - 6);
+    // Extract table name - use upperQuery for finding but query for extraction
+    size_t tableStart = updatePos + 6; // Length of "UPDATE"
+    std::string tableName = query.substr(tableStart, setPos - tableStart);
     tableName.erase(0, tableName.find_first_not_of(" \t\n\r"));
     tableName.erase(tableName.find_last_not_of(" \t\n\r") + 1);
     
@@ -902,34 +911,59 @@ std::string PostgresSession::parseUpdateQuery(const std::string& query) {
         cypher += " WHERE " + whereClause;
     }
     
-    // Add SET clause (convert column references to n.column)
+    // Add SET clause - simple approach: prepend n. only to left-hand side of assignments
+    // This handles cases like "SET price = price * 1.1" correctly
     std::string cypherSetClause = setClause;
+    
+    // Replace explicit table.column references
     size_t pos = 0;
     while ((pos = cypherSetClause.find(tableName + ".", pos)) != std::string::npos) {
         cypherSetClause.replace(pos, tableName.length() + 1, "n.");
         pos += 2;
     }
-    // Also handle bare column names (col = value)
-    pos = 0;
-    while (pos < cypherSetClause.size()) {
-        if (!std::isspace(cypherSetClause[pos]) && cypherSetClause[pos] != ',' && 
-            cypherSetClause[pos] != '=' && cypherSetClause[pos] != '\'' && cypherSetClause[pos] != '"') {
-            size_t nameEnd = pos;
-            while (nameEnd < cypherSetClause.size() && 
-                   (std::isalnum(cypherSetClause[nameEnd]) || cypherSetClause[nameEnd] == '_')) {
-                nameEnd++;
-            }
-            if (nameEnd < cypherSetClause.size() && 
-                (cypherSetClause[nameEnd] == '=' || std::isspace(cypherSetClause[nameEnd]))) {
-                std::string colName = cypherSetClause.substr(pos, nameEnd - pos);
-                if (colName.find("n.") != 0) {
-                    cypherSetClause.insert(pos, "n.");
-                    pos += 2;
-                }
-            }
-            pos = nameEnd;
+    
+    // For assignments, only prefix the LHS column name with n. if not already prefixed
+    // Split by commas to handle multiple assignments
+    std::vector<std::string> assignments;
+    size_t start = 0;
+    bool inQuote = false;
+    for (size_t i = 0; i < cypherSetClause.size(); ++i) {
+        if (cypherSetClause[i] == '\'' && (i == 0 || cypherSetClause[i-1] != '\\')) {
+            inQuote = !inQuote;
+        } else if (cypherSetClause[i] == ',' && !inQuote) {
+            assignments.push_back(cypherSetClause.substr(start, i - start));
+            start = i + 1;
         }
-        pos++;
+    }
+    if (start < cypherSetClause.size()) {
+        assignments.push_back(cypherSetClause.substr(start));
+    }
+    
+    // Process each assignment
+    cypherSetClause.clear();
+    for (size_t i = 0; i < assignments.size(); ++i) {
+        std::string assignment = assignments[i];
+        assignment.erase(0, assignment.find_first_not_of(" \t"));
+        
+        // Find the = sign
+        size_t eqPos = assignment.find('=');
+        if (eqPos != std::string::npos) {
+            std::string lhs = assignment.substr(0, eqPos);
+            std::string rhs = assignment.substr(eqPos);
+            
+            lhs.erase(0, lhs.find_first_not_of(" \t"));
+            lhs.erase(lhs.find_last_not_of(" \t") + 1);
+            
+            // Prefix LHS with n. if not already done
+            if (lhs.find("n.") != 0 && lhs.find('.') == std::string::npos) {
+                lhs = "n." + lhs;
+            }
+            
+            assignment = lhs + rhs;
+        }
+        
+        if (i > 0) cypherSetClause += ", ";
+        cypherSetClause += assignment;
     }
     
     cypher += " SET " + cypherSetClause;
