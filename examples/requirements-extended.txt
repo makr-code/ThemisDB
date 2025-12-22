@@ -1,0 +1,27 @@
+# Extended dependencies for advanced ThemisDB examples
+# Install with: pip install -r requirements-extended.txt
+
+# Includes common requirements
+-r requirements-common.txt
+
+# Data Visualization
+matplotlib>=3.5.0
+seaborn>=0.12.0
+
+# Graph Processing
+networkx>=2.6.0
+
+# Image Processing
+pillow>=9.0.0
+opencv-python>=4.5.0
+
+# Machine Learning & Embeddings
+sentence-transformers>=2.2.0
+scikit-learn>=1.0.0
+numpy>=1.21.0
+
+# IoT and Messaging
+paho-mqtt>=1.6.0
+
+# Additional utilities
+tqdm>=4.64.0

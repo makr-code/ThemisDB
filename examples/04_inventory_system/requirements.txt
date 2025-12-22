@@ -1,0 +1,5 @@
+-r ../requirements-common.txt
+
+# Additional dependencies for Inventory System
+matplotlib>=3.5.0
+

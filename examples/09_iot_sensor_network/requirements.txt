@@ -1,0 +1,5 @@
+-r ../requirements-extended.txt
+
+# Additional dependencies for IoT Sensor Network
+# All required dependencies are in requirements-extended.txt
+
