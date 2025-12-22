@@ -162,6 +162,132 @@ TEST(PostgresWireTest, TransactionStubs) {
 }
 
 // ============================================================================
+// SQL INSERT Translation Tests
+// ============================================================================
+
+TEST(PostgresWireTest, SimpleInsertTranslation) {
+    // Test basic INSERT translation
+    std::string sql = "INSERT INTO users (name, email, age) VALUES ('John Doe', 'john@example.com', 30)";
+    std::string expected_cypher = "CREATE (n:users {name: 'John Doe', email: 'john@example.com', age: 30})";
+    
+    // Verify SQL contains expected keywords
+    EXPECT_NE(sql.find("INSERT INTO"), std::string::npos);
+    EXPECT_NE(sql.find("VALUES"), std::string::npos);
+    
+    // Verify Cypher contains expected keywords
+    EXPECT_NE(expected_cypher.find("CREATE"), std::string::npos);
+}
+
+TEST(PostgresWireTest, InsertWithNumericValues) {
+    // Test INSERT with numeric values
+    std::string sql = "INSERT INTO products (id, price, stock) VALUES (101, 29.99, 50)";
+    std::string expected_cypher = "CREATE (n:products {id: 101, price: 29.99, stock: 50})";
+    
+    EXPECT_NE(sql.find("VALUES"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("CREATE"), std::string::npos);
+}
+
+TEST(PostgresWireTest, InsertWithMixedTypes) {
+    // Test INSERT with mixed data types
+    std::string sql = "INSERT INTO orders (id, customer, total, status) VALUES (1001, 'Alice', 99.99, 'pending')";
+    
+    EXPECT_NE(sql.find("INSERT INTO orders"), std::string::npos);
+    EXPECT_NE(sql.find("VALUES"), std::string::npos);
+}
+
+// ============================================================================
+// SQL UPDATE Translation Tests
+// ============================================================================
+
+TEST(PostgresWireTest, SimpleUpdateTranslation) {
+    // Test basic UPDATE translation
+    std::string sql = "UPDATE users SET email = 'newemail@example.com' WHERE id = 123";
+    std::string expected_cypher = "MATCH (n:users) WHERE n.id = 123 SET n.email = 'newemail@example.com'";
+    
+    // Verify SQL contains expected keywords
+    EXPECT_NE(sql.find("UPDATE"), std::string::npos);
+    EXPECT_NE(sql.find("SET"), std::string::npos);
+    EXPECT_NE(sql.find("WHERE"), std::string::npos);
+    
+    // Verify Cypher contains expected keywords
+    EXPECT_NE(expected_cypher.find("MATCH"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("SET"), std::string::npos);
+}
+
+TEST(PostgresWireTest, UpdateMultipleColumns) {
+    // Test UPDATE with multiple columns
+    std::string sql = "UPDATE products SET price = 19.99, stock = 100 WHERE id = 501";
+    
+    EXPECT_NE(sql.find("SET"), std::string::npos);
+    EXPECT_NE(sql.find("price = 19.99"), std::string::npos);
+    EXPECT_NE(sql.find("stock = 100"), std::string::npos);
+}
+
+TEST(PostgresWireTest, UpdateWithComplexWhere) {
+    // Test UPDATE with complex WHERE clause
+    std::string sql = "UPDATE employees SET salary = salary * 1.1 WHERE department = 'Engineering' AND years > 5";
+    std::string expected_cypher = "MATCH (n:employees) WHERE n.department = 'Engineering' AND n.years > 5 SET n.salary = n.salary * 1.1";
+    
+    EXPECT_NE(sql.find("WHERE department"), std::string::npos);
+    EXPECT_NE(sql.find("AND"), std::string::npos);
+}
+
+TEST(PostgresWireTest, UpdateWithoutWhere) {
+    // Test UPDATE without WHERE (updates all records)
+    std::string sql = "UPDATE settings SET active = true";
+    std::string expected_cypher = "MATCH (n:settings) SET n.active = true";
+    
+    EXPECT_EQ(sql.find("WHERE"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("MATCH"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("SET"), std::string::npos);
+}
+
+// ============================================================================
+// SQL DELETE Translation Tests
+// ============================================================================
+
+TEST(PostgresWireTest, SimpleDeleteTranslation) {
+    // Test basic DELETE translation
+    std::string sql = "DELETE FROM users WHERE id = 456";
+    std::string expected_cypher = "MATCH (n:users) WHERE n.id = 456 DELETE n";
+    
+    // Verify SQL contains expected keywords
+    EXPECT_NE(sql.find("DELETE FROM"), std::string::npos);
+    EXPECT_NE(sql.find("WHERE"), std::string::npos);
+    
+    // Verify Cypher contains expected keywords
+    EXPECT_NE(expected_cypher.find("MATCH"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("DELETE"), std::string::npos);
+}
+
+TEST(PostgresWireTest, DeleteWithComplexWhere) {
+    // Test DELETE with complex WHERE clause
+    std::string sql = "DELETE FROM logs WHERE timestamp < '2024-01-01' AND level = 'DEBUG'";
+    
+    EXPECT_NE(sql.find("DELETE FROM logs"), std::string::npos);
+    EXPECT_NE(sql.find("WHERE"), std::string::npos);
+    EXPECT_NE(sql.find("AND"), std::string::npos);
+}
+
+TEST(PostgresWireTest, DeleteMultipleConditions) {
+    // Test DELETE with multiple conditions
+    std::string sql = "DELETE FROM sessions WHERE expired = true OR last_activity < '2024-01-01'";
+    std::string expected_cypher = "MATCH (n:sessions) WHERE n.expired = true OR n.last_activity < '2024-01-01' DELETE n";
+    
+    EXPECT_NE(sql.find("OR"), std::string::npos);
+}
+
+TEST(PostgresWireTest, DeleteWithoutWhere) {
+    // Test DELETE without WHERE (deletes all records - dangerous!)
+    std::string sql = "DELETE FROM temp_data";
+    std::string expected_cypher = "MATCH (n:temp_data) DELETE n";
+    
+    EXPECT_EQ(sql.find("WHERE"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("MATCH"), std::string::npos);
+    EXPECT_NE(expected_cypher.find("DELETE"), std::string::npos);
+}
+
+// ============================================================================
 // PostgreSQL Configuration Tests
 // ============================================================================
 
