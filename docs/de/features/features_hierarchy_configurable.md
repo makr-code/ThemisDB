@@ -1,8 +1,26 @@
-# Hierarchical Network Model - Configuration-Driven Architecture
+---
+category: "📈 Graph Features"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Version:** 2.0 (Flexible)  
-**Datum:** 20. November 2025  
-**Status:** Design - Configuration-Driven  
+# ⚙️ Configurable Hierarchy
+
+Flexible Hierarchie-Konfiguration mit Configuration-Driven Architektur.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 **Typ:** Abstract Hierarchical Networks via YAML/VCC_VPB
 
 ---

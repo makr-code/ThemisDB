@@ -1,8 +1,26 @@
-# Recursive Path Queries & Multi-Hop Reasoning
+---
+category: "📈 Graph Features"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Features
+# 🔄 Recursive Path Queries
+
+Rekursive Pfad-Abfragen mit Variable Length für Multi-Hop Reasoning.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 ---
 

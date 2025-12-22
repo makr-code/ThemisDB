@@ -1,4 +1,26 @@
-﻿# Indexe – Überblick und Verwendung
+﻿---
+category: "🔄 Data Operations"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
+
+# 🔍 Indexes
+
+Sekundär-Indizes mit Range, Geo, Full-Text und TTL-Support.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 Dieser Leitfaden beschreibt die in THEMIS verfügbaren Indexe (Sekundär-, Range-, Geo-, TTL-, Fulltext-, Graph- und Vektorindizes), ihre Key-Schemata und die korrekte Verwendung im Code.
 

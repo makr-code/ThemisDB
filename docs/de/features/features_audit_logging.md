@@ -1,8 +1,26 @@
-# Audit Logging - Security Events, Hash Chain & SIEM Integration
+---
+category: "🛡️ Security/Compliance"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Features
+# 🔔 Audit Logging
+
+Audit-Logs aller Datenänderungen mit Hash Chain und SIEM Integration.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 ---
 

@@ -1,8 +1,28 @@
 ---
 
-# Change Data Capture (CDC)
+---
+category: "🔄 Data Operations"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
+# 📊 CDC Module
+
+Change Data Capture Implementation mit Sequence-tracking.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 **Version:** 1.0.0  
 **Kategorie:** Features
 

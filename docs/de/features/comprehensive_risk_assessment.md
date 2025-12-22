@@ -1,6 +1,26 @@
-# Environmental and Facility Risk Assessment - Comprehensive Guide (Enterprise Features)
+---
+category: "🛡️ Security/Compliance"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-## Übersicht
+# 📊 Comprehensive Risk Assessment
+
+Umfassende Risiko-Bewertung für Umwelt- und Anlagenrisiken.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 ThemisDB bietet umfassende Risikobewertungsmodelle für Umweltrisiken und Anlagenrisiken, die vollständig mit deutschen Umwelt- und Sicherheitsvorschriften konform sind.
 

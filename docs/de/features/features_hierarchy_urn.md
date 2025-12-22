@@ -1,8 +1,26 @@
-# Hierarchical Network Model + VCC-URN Integration
+---
+category: "📈 Graph Features"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Version:** 2.0  
-**Datum:** 20. November 2025  
-**Status:** Design - URN-basierte Hierarchie-Adressierung
+# 🌳 URN Hierarchy
+
+Hierarchische Strukturen mit URN-basierter Adressierung.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 ---
 

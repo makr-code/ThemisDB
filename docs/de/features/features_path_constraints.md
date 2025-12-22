@@ -1,8 +1,26 @@
-# Graph Traversal Path Constraints
+---
+category: "📈 Graph Features"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Version:** 1.0 Draft  
-**Datum:** 28. Oktober 2025  
-**Status:** Konzept – Noch nicht implementiert
+# 🛣️ Graph Traversal Path Constraints
+
+Constraints für Graph-Pfade und Traversals.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 ---
 

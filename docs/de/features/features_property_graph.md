@@ -1,19 +1,26 @@
-# Property Graph Model & Multi-Graph Federation
-
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Features
-
+---
+category: "📈 Graph Features"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
 ---
 
+# 📈 Property Graph Model & Multi-Graph Federation
 
-**Status:** ✅ Implemented & Tested (13/13 tests passing)  
-**Feature:** Property Graph Model with Node Labels, Relationship Types, and Multi-Graph Federation  
-**Date:** 2025-01-15
+Vollständige Implementierung des Property Graph Modells mit Labels, Relationship-Types und Multi-Graph Unterstützung.
 
----
+## 📋 Inhaltsverzeichnis
 
-## Overview
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 
 This feature extends Themis's graph capabilities with **Property Graph Model** semantics and **Multi-Graph Federation**. You can now:
 
@@ -800,9 +807,27 @@ auto [st, result] = pgm.executeCypher(cypher, "social");
 
 ---
 
-## See Also
+## 📚 Siehe auch
 
-- [Graph Index](./indexes.md#graph-index) - Base graph adjacency index
-- [Temporal Graphs](./temporal_time_range_queries.md) - Time-window queries
-- [Recursive Path Queries](./recursive_path_queries.md) - Multi-hop traversal
-- [Base Entity](./base_entity.md) - Flexible schema-less storage
+- [Graph Index](features_indexes.md#graph-index) - Base graph adjacency index
+- [Temporal Graphs](features_temporal_graphs.md) - Time-window queries
+- [Recursive Path Queries](features_recursive_path.md) - Multi-hop traversal
+
+## 📝 Changelog
+
+### Version 1.3.0 (22. Dezember 2025)
+
+- ✨ Standardisiertes v1.3.0 Template
+- 📋 Struktur mit TOC und Standardabschnitten
+- 🔗 Relative Links aktualisiert
+- ✅ Alle Inhalte beibehalten
+
+### Version 1.0.0 (5. Dezember 2025)
+
+- 🚀 Initial Implementation
+- 🏷️ Node Labels & Relationship Types
+- 🔄 Multi-Graph Federation
+
+---
+
+**Stand:** 22. Dezember 2025 | **Status:** ✅ Production-Ready

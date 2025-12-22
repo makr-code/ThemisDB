@@ -1,8 +1,26 @@
-# GNN Embeddings
+---
+category: "🔍 Search & Vector"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Status:** ✅ COMPLETE  
-**Version:** 1.0  
-**Date:** 31. Oktober 2025  
+# 🧠 GNN Embeddings
+
+Graph Neural Networks für Embeddings und Knoten-Repräsentationen.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
 **Tests:** 13/13 Passing  
 
 ## Overview

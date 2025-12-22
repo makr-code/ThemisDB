@@ -1,163 +1,193 @@
-# CDC Module (Change Data Capture)
+---
+category: "✨ Features"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** CDC
+# ✨ ThemisDB Features - Katalog & Übersicht
+
+Vollständiger Katalog aller Features und Funktionalitäten in ThemisDB mit Kategorisierung und direkten Links zur Dokumentation.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Feature-Kategorien](#-feature-kategorien)
+- [🔍 Nach Kategorie](#-nach-kategorie)
+- [📚 Dokumentation](#-dokumentation)
+- [📝 Changelog](#-changelog)
+
+## 📋 Übersicht
+
+ThemisDB ist eine **Multi-Model Datenbank** mit ACID-Garantien, die relationale, Graph-, Vektor- und Dokument-Datenmodelle in einem einheitlichen System vereint. Dieser Katalog organisiert alle Features in 6 Hauptkategorien:
+
+- 📊 **Data Features** - Zeitreihen, OLAP, Temporal, Pagination
+- 🔍 **Search & Vector** - HNSW, GNN, Semantic Cache, Vector Ops
+- 📈 **Graph Features** - Property Graphs, Hierarchies, Paths, Geospatial
+- 🛡️ **Security/Compliance** - Audit, Governance, Risk Assessment
+- 🔄 **Data Operations** - CDC, Ingestion, Indexing, Backups
+- ⚙️ **Infrastructure** - Multi-Tenancy, Transactions, Priorities
 
 ---
 
-## Übersicht
+## ✨ Feature-Kategorien
 
-Das CDC-Modul implementiert Change Data Capture für ThemisDB mit Sequence-basiertem Event-Tracking und Long-Polling.
+### 📊 Data Features (7 Features)
 
-## Source-Code Referenz
+Daten-Speicherung und analytische Funktionalitäten.
 
-| Komponente | Header | Source | Beschreibung |
-|------------|--------|--------|--------------|
-| Changefeed | `changefeed.h` | `changefeed.cpp` | CDC Implementation |
+| Feature | Status | Beschreibung |
+|---------|--------|-------------|
+| [⏱️ Time-Series](features_time_series.md) | ✅ | Zeitreihendaten mit Aggregationen, Retention & Gorilla-Kompression |
+| [📊 OLAP Analytics](features_olap_analytics.md) | ✅ | Column-store Analytics für große Datenmengen |
+| [🕰️ Temporal Graphs](features_temporal_graphs.md) | ✅ | Zeitabhängige Graph-Traversals mit Zeitfiltern |
+| [🕐 Temporal Queries](features_temporal_queries.md) | ✅ | Point-in-Time Queries und Temporal Joins |
+| [📄 Cursor Pagination](features_cursor_pagination.md) | ✅ | Effiziente Pagination mit Cursors für große Ergebnismengen |
+| [💾 Change Data Capture](features_change_data_capture.md) | ✅ | Event-Stream für Datenänderungen |
+| [🔔 CDC Audit Logging](features_audit_logging.md) | ✅ | Audit-Logs aller Datenänderungen |
 
-**Gesamt:** 1 Header, 1 Source-Datei, ~510 LOC
+### 🔍 Search & Vector (4 Features)
 
-## Implementierte Klassen
+Vektor-Search und semantische Suche.
 
-### Changefeed
+| Feature | Status | Beschreibung |
+|---------|--------|-------------|
+| [🔬 HNSW Persistence](features_hnsw_persistence.md) | ✅ | Persistente HNSW-Indizes mit Warmstart |
+| [🧠 GNN Embeddings](features_gnn_embeddings.md) | ✅ | Graph Neural Networks für Embeddings |
+| [🎯 Semantic Cache](features_semantic_cache.md) | ✅ | Cache für ähnliche Vektor-Queries |
+| [➕ Vector Operations](features_vector_ops.md) | ✅ | Vector Algebra & Distance Metrics |
 
-```cpp
-class Changefeed {
-    // Key format: "changefeed:{sequence_number}"
-    
-    enum class ChangeEventType {
-        EVENT_PUT,
-        EVENT_DELETE,
-        EVENT_TRANSACTION_COMMIT,
-        EVENT_TRANSACTION_ROLLBACK
-    };
-    
-    struct ChangeEvent {
-        uint64_t sequence;                // Monotonic sequence number
-        ChangeEventType type;             // Event type
-        std::string key;                  // Affected key
-        std::optional<std::string> value; // Value (nullopt for DELETE)
-        int64_t timestamp_ms;             // Event timestamp
-        nlohmann::json metadata;          // tx_id, user, etc.
-    };
-    
-    struct ListOptions {
-        uint64_t from_sequence = 0;       // Start after sequence
-        size_t limit = 100;
-        uint32_t long_poll_ms = 0;        // Long-poll timeout
-        std::optional<std::string> key_prefix;
-        std::optional<ChangeEventType> event_type;
-    };
-    
-    struct Stats {
-        uint64_t total_events;
-        uint64_t latest_sequence;
-        size_t total_size_bytes;
-    };
-    
-    // API
-    ChangeEvent publish(ChangeEventType type, key, value, metadata);
-    std::vector<ChangeEvent> subscribe(ListOptions);
-    Stats getStats();
-};
-```
+### 📈 Graph Features (7 Features)
 
-## Features
+Graph-Datenmodelle und Traversals.
 
-### Event Types
+| Feature | Status | Beschreibung |
+|---------|--------|-------------|
+| [🕸️ Property Graph](features_property_graph.md) | ✅ | Property Graph Model mit Labels & Types |
+| [🌳 URN Hierarchy](features_hierarchy_urn.md) | ✅ | Hierarchische Strukturen mit URN-Keys |
+| [⚙️ Configurable Hierarchy](features_hierarchy_configurable.md) | ✅ | Flexible Hierarchie-Konfiguration |
+| [🛣️ Path Constraints](features_path_constraints.md) | ✅ | Constraints für Graph-Pfade |
+| [🔄 Recursive Paths](features_recursive_path.md) | ✅ | Rekursive Pfad-Abfragen mit Variable Length |
+| [🌐 3D Geospatial](geospatial_3d_implementation.md) | ✅ | 3D-Geografische Indizes & Queries |
+| [📖 Features Overview](features_overview.md) | ✅ | Überblick aller Graph-Funktionen |
 
-| Type | Beschreibung |
-|------|--------------|
-| `EVENT_PUT` | Key-Value wurde eingefügt/aktualisiert |
-| `EVENT_DELETE` | Key wurde gelöscht |
-| `EVENT_TRANSACTION_COMMIT` | Transaktion committed |
-| `EVENT_TRANSACTION_ROLLBACK` | Transaktion zurückgerollt |
+### 🛡️ Security & Compliance (8 Features)
 
-### Long-Polling
+Sicherheit, Audit und Compliance-Funktionen.
 
-```cpp
-// Client wartet max 30 Sekunden auf neue Events
-auto events = changefeed.subscribe({
-    .from_sequence = last_seen_sequence,
-    .limit = 100,
-    .long_poll_ms = 30000
-});
-```
+| Feature | Status | Beschreibung |
+|---------|--------|-------------|
+| [🔐 Compliance](features_compliance.md) | ✅ | GDPR, HIPAA, SOC2 Compliance |
+| [📋 Compliance Audit](features_compliance_audit.md) | ✅ | Audit-Trail für Compliance |
+| [🏛️ Governance](features_compliance_governance.md) | ✅ | Policy-Engine für Governance |
+| [🔗 Integration](features_compliance_integration.md) | ✅ | External Integration & Webhooks |
+| [⚖️ Extended Compliance](features_extended_compliance.md) | ✅ | Zusätzliche Compliance-Features |
+| [📊 Risk Assessment](comprehensive_risk_assessment.md) | ✅ | Umfassende Risiko-Bewertung |
+| [🏢 Governance Usage](features_governance_usage.md) | ✅ | Governance Best Practices |
+| [🇺🇸 Government Network](features_government_network.md) | ✅ | Government-Netzwerk Integration |
 
-### Key-Prefix Filter
+### 🔄 Data Operations (6 Features)
 
-```cpp
-// Nur Events für "users:" Keys
-auto events = changefeed.subscribe({
-    .key_prefix = "users:"
-});
-```
+Daten-Import, Indexing und Maintenance.
 
-## HTTP API
+| Feature | Status | Beschreibung |
+|---------|--------|-------------|
+| [📥 Enterprise Ingestion](features_enterprise_ingestion.md) | ✅ | Batch & Real-Time Daten-Import |
+| [🔍 Indexes](features_indexes.md) | ✅ | Sekundär-Indizes (Range, Geo, Full-Text) |
+| [💾 Index Backup](features_index_backup.md) | ✅ | Backup und Recovery von Indizes |
+| [🔧 Index Maintenance](features_index_maintenance.md) | ✅ | Index-Defragmentation & Rebuild |
+| [📊 CDC Module](features_cdc.md) | ✅ | Change Data Capture Implementation |
+| [🎯 Chain of Thought](features_chain_of_thought.md) | ✅ | Reasoning-Chain für Queries |
 
-### GET /api/cdc/events?from_sequence=100&limit=50
+### ⚙️ Infrastructure (3 Features)
 
-```json
-{
-  "events": [
-    {
-      "sequence": 101,
-      "type": "PUT",
-      "key": "users:123",
-      "value": "{\"name\":\"Alice\"}",
-      "timestamp_ms": 1733385600000,
-      "metadata": {"tx_id": "txn-456"}
-    }
-  ],
-  "next_sequence": 102
-}
-```
+Infrastruktur und Systemverhalten.
 
-### GET /api/cdc/stats
+| Feature | Status | Beschreibung |
+|---------|--------|-------------|
+| [🏢 Multi-Tenancy](features_multi_tenancy.md) | ✅ | Sichere Mehrmieter-Isolation |
+| [💳 Transactions](features_transactions.md) | ✅ | ACID-Transaktionen mit MVCC |
+| [⭐ Priorities](features_priorities.md) | ✅ | Query Priority & QoS Management |
 
-```json
-{
-  "total_events": 10500,
-  "latest_sequence": 10500,
-  "total_size_bytes": 2097152
-}
-```
+---
 
-## Server-Sent Events (SSE)
+## 🔍 Nach Kategorie
+
+### Alle Features A-Z
 
 ```
-GET /api/cdc/stream
-Accept: text/event-stream
-
-data: {"sequence":101,"type":"PUT","key":"users:123",...}
-
-data: {"sequence":102,"type":"DELETE","key":"users:456",...}
+🔔 audit_logging.md
+🎯 chain_of_thought.md
+📊 cdc.md
+🔐 compliance.md
+📋 compliance_audit.md
+🏛️ compliance_governance.md
+🔗 compliance_integration.md
+📄 cursor_pagination.md
+🌐 geospatial_3d_implementation.md
+🧠 gnn_embeddings.md
+🏢 governance_usage.md
+🇺🇸 government_network.md
+⚙️ hierarchy_configurable.md
+🌳 hierarchy_urn.md
+🔬 hnsw_persistence.md
+🔍 indexes.md
+💾 index_backup.md
+🔧 index_maintenance.md
+📥 enterprise_ingestion.md
+⚖️ extended_compliance.md
+🏢 multi_tenancy.md
+📊 olap_analytics.md
+🕸️ property_graph.md
+🛣️ path_constraints.md
+⭐ priorities.md
+🔄 recursive_path.md
+📊 risk_assessment.md
+🎯 semantic_cache.md
+⏱️ time_series.md
+🕰️ temporal_graphs.md
+🕐 temporal_queries.md
+💳 transactions.md
+➕ vector_ops.md
 ```
 
-## Beispiel
+---
 
-```cpp
-Changefeed cdc(db);
+## 📚 Dokumentation
 
-// Event publizieren (automatisch bei DB-Operationen)
-cdc.publish(ChangeEventType::EVENT_PUT, "users:123", user_json, {
-    {"tx_id", "txn-456"},
-    {"user", "admin"}
-});
+### Navigation
 
-// Events abonnieren
-auto events = cdc.subscribe({
-    .from_sequence = 0,
-    .limit = 100
-});
+- [🏠 Dokumentations-Übersicht](../README.md)
+- [📖 Guides](../guides/)
+- [🔌 APIs](../apis/)
 
-for (const auto& event : events) {
-    process(event);
-}
-```
+### Verwandte Dokumentation
 
-## Verwandte Dokumentation
+- [Architecture Overview](../architecture/)
+- [Security Implementation](../security/)
+- [Performance Benchmarks](../../benchmarks/)
 
-- [Features: CDC](../features/features_cdc.md) - Feature-Details
-- [Features: Change Data Capture](../features/features_change_data_capture.md) - Konzept
+---
+
+## 📝 Changelog
+
+### Version 1.3.0 (22. Dezember 2025)
+
+- ✨ Neues Template-Format für alle Features
+- 📋 Standardisierte TOC mit Emojis
+- 🏷️ Kategorisierung in 6 Hauptgruppen
+- 🔗 Relative Links für alle Dateien
+- 📊 Kategorieübersicht mit Status-Tabellen
+- ✅ All 36 Features dokumentiert
+
+### Version 1.0.0 (5. Dezember 2025)
+
+- 🚀 Initial Features Release
+- 📦 Core Data Features
+- 🔍 Search & Vector Support
+- 📈 Graph Features
+- 🛡️ Security & Compliance
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025 | **Status:** ✅ Produktionsreife
