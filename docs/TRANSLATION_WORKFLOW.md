@@ -65,8 +65,9 @@ These are the most critical documents that users interact with first:
 
 ### Approach
 1. **Bilingual Structure**: Keep both German and English versions
-   - German files remain in their current locations
-   - English files will use `_en` suffix or separate `/en/` subdirectories
+   - German files in `docs/de/` directory
+   - English files in `docs/en/` directory
+   - Root level docs remain for backward compatibility
 
 2. **Incremental Translation**: Translate documents in priority order
    - Start with Priority 1 (Core User-Facing)
@@ -83,15 +84,15 @@ These are the most critical documents that users interact with first:
 
 ## File Naming Convention
 
-### Option 1: Suffix-based (Recommended)
-- German: `filename.md` (original)
-- English: `filename_en.md` (translated)
-
-### Option 2: Directory-based
+### Directory-based Structure (Implemented)
 - German: `docs/de/filename.md`
 - English: `docs/en/filename.md`
 
-**Decision**: Use Option 1 (Suffix-based) for easier migration and maintenance.
+**Benefits:**
+- Clear language separation
+- Easier to maintain separate language versions
+- Standard approach for multi-language documentation
+- Simpler for automation and tooling
 
 ## Translation Progress Tracking
 

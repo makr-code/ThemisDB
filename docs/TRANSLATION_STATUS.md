@@ -79,11 +79,11 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ## Translation Notes
 
-- Using suffix-based naming: `filename.md` (German), `filename_en.md` (English)
-- Original German files remain unchanged
-- English translations are added alongside
+- Using directory-based structure: `de/filename.md` (German), `en/filename.md` (English)
+- Root-level files maintained for backward compatibility
 - Code examples and commands remain unchanged
 - Technical terms follow consistent glossary
+- Structure: `docs/en/` for English, `docs/de/` for German
 
 ## Blockers / Issues
 
