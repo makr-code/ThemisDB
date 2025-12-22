@@ -1,9 +1,21 @@
 # ThemisDB Core Modularization Plan (Post v1.3.0)
 
-**Status**: Planned for implementation after v1.3.0 release  
-**Current Version**: 1.2.0  
-**Target Version**: 1.4.0+  
-**Estimated Effort**: 2-4 weeks
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture  
+**Status:** Planned for implementation after v1.3.0 release  
+**Target Version:** 1.4.0+  
+**Estimated Effort:** 2-4 weeks
+
+---
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [Current Architecture Issues](#current-architecture-issues)
+- [Proposed Modular Architecture](#proposed-modular-architecture)
+- [Benefits](#benefits)
+- [Challenges & Solutions](#challenges--solutions)
 
 ## Executive Summary
 

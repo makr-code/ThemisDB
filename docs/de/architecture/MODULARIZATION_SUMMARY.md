@@ -1,5 +1,19 @@
 # Summary: ThemisDB Modularization Planning (Post-v1.3.0)
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Current Version Status](#current-version-status)
+- [What Was Accomplished](#what-was-accomplished)
+- [Proposed Module Structure](#proposed-module-structure)
+- [Safety Mechanisms](#safety-mechanisms)
+
 ## Overview
 
 This work addresses the problem statement about splitting `themis_core` into modular libraries to solve the Windows COFF symbol limit issue (69,000+ exports vs. 65,535 limit). 

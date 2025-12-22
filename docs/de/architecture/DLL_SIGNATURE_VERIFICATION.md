@@ -1,6 +1,19 @@
 # DLL Signature Verification for Modular ThemisDB
 
-## Overview
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [The Problem](#the-problem)
+- [The Solution](#the-solution-moduleloader-with-security-verification)
+- [Architecture](#architecture)
+- [Key Components](#key-components)
+- [Security Features](#security-features)
 
 To prevent corrupted or malicious DLL loading in the modular architecture, ThemisDB implements a comprehensive security verification system for all `themis_*` modules.
 

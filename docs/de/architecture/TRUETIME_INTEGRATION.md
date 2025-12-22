@@ -1,5 +1,20 @@
 # TrueTime Integration for ThemisDB Sharding
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Components](#components)
+    - [TrueTime Clock](#1-truetime-clock-truetimeh--truetimecpp)
+    - [Distributed Transaction Coordinator](#2-distributed-transaction-coordinator-distributed_transactionh--distributed_transactioncpp)
+    - [ShardRouter Integration](#3-shardrouter-integration-shard_routerh--shard_routercpp)
+    - [RaftLog with Timestamps](#4-raftlog-with-timestamps-raft_logh)
+
 This document describes the TrueTime-inspired clock synchronization and distributed transaction coordination implemented for ThemisDB's sharding system.
 
 ## Overview

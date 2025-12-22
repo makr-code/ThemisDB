@@ -1,5 +1,20 @@
 # ThemisDB Modularisierung - Entscheidung und Zeitplan
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Zusammenfassung](#zusammenfassung)
+- [Hintergrund](#hintergrund)
+- [Vorteile](#vorteile)
+- [Herausforderungen](#herausforderungen)
+- [Zeitplan](#zeitplan)
+- [Aktueller Status](#aktueller-status-v120)
+
 ## Zusammenfassung
 
 Die Modularisierung von `themis_core` in separate Bibliotheken ist eine wichtige architektonische Verbesserung, die **erst nach der v1.3.0 Release** implementiert wird.

@@ -1,6 +1,17 @@
 # Complete Summary: ThemisDB Modularization with DLL Security
 
-## Executive Summary
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [What Was Accomplished](#what-was-accomplished)
+- [DLL/Shared Library Signature Verification System](#2-dllshared-library-signature-verification-system)
+- [CMake Infrastructure](#3-cmake-infrastructure)
 
 This work addresses the requirements for splitting ThemisDB's monolithic `themis_core` library into modular libraries and implementing DLL signature verification to prevent corrupted DLL loading.
 

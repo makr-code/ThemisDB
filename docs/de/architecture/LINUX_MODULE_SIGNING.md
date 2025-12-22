@@ -1,6 +1,17 @@
 # Linux Shared Library Signing & Verification
 
-## Overview
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Overview](#overview)
+- [Linux Trust Mechanisms](#linux-trust-mechanisms)
+- [ELF Signing Methods](#1-elf-signing-methods)
+- [Extended Attributes](#2-extended-attributes-ähnlich-zu-zoneidentifier)
 
 Linux has mehrere Mechanismen für Signierung und Verifikation von shared libraries (.so), die ähnlich zu Windows Authenticode funktionieren, aber anders implementiert sind.
 

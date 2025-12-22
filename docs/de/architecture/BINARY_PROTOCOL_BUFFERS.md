@@ -1,5 +1,17 @@
 # Binary Protocol Extensions for AutoBuffer Operations
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Protocol Specification](#protocol-specification)
+- [Operation Details](#operation-details)
+
 ## Overview
 
 This document describes the binary protocol extensions for ThemisDB's AutoBuffer operations. These extensions enable efficient, low-overhead buffered operations for time series data, vector indices, and property graphs using the MessagePack serialization format.

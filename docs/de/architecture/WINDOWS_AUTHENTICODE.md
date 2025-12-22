@@ -1,6 +1,17 @@
 # Windows Authenticode Signing & Manufacturer Information
 
-## Overview
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Windows Trust Mechanisms](#windows-trust-mechanisms)
+- [Implementation for ThemisDB Modules](#implementation-for-themisdb-modules)
+- [Authenticode Signing Process](#1-authenticode-signing-process)
 
 Windows uses several mechanisms to identify and trust executable files:
 

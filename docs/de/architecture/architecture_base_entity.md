@@ -1,10 +1,18 @@
 ﻿# Basismodell der Datenbank
 
-**Version:** 1.1  
-**Status:** Implementiert  
-**Letzte Aktualisierung:** 28. Oktober 2025
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture  
+**Status:** Implementiert
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Überblick](#überblick)
+- [BaseEntity – Die Speichereinheit](#1-baseentity-–-die-speichereinheit)
+- [Value-Typsystem](#12-value-typsystem)
+- [Key Schema – Namespacing & Hierarchie](#2-key-schema-–-namespacing--hierarchie)
 
 ## Überblick
 

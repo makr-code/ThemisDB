@@ -1,8 +1,18 @@
 # Content Manager Architektur
 
-**Version:** 1.0  
-**Datum:** 28. Oktober 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture  
 **Status:** Design Phase
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Überblick](#1-überblick)
+- [Core Components](#2-core-components)
+- [ContentTypeRegistry](#21-contenttyperegistry)
+- [IContentProcessor](#22-icontentprocessor-plugin-interface)
 
 ## 1. Überblick
 

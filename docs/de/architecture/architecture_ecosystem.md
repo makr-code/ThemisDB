@@ -1,9 +1,17 @@
 # ThemisDB Ecosystem Overview
 
-**Stand:** 17. November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture  
 **Zweck:** Zentrale Übersicht über alle ThemisDB-Komponenten, APIs, Tools und SDKs
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Core Database](#1-core-database-themis_server)
+- [Client SDKs](#2-client-sdks)
 
 ## Übersicht
 
