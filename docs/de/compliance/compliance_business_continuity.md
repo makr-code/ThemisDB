@@ -1,10 +1,19 @@
 # ThemisDB - Business Continuity Plan (BCP) & Disaster Recovery Plan (DRP)
 
-**Version:** 1.0  
-**Stand:** Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  
 **BSI C5 Referenz:** SIM-05, SIM-06, SIM-07  
 **ISO 22301 Konformität:** Ja
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Einleitung](#1-einleitung)
+- [Business Impact Analysis](#2-business-impact-analysis-bia)
+- [Recovery Strategien](#recovery-strategien)
 
 ---
 

@@ -1,11 +1,17 @@
 # Metrics & Histograms
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Observability
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔍 Observability
 
 ---
 
+## 📑 Table of Contents
+
+- [Prometheus Histograms](#prometheus-histograms)
+- [Bucket Semantics](#bucket-semantics)
+- [Testing](#testing)
+- [Examples](#examples)
 
 Prometheus histograms exported by Themis follow the Prometheus cumulative-bucket semantics.
 

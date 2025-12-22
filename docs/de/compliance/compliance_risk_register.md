@@ -1,9 +1,18 @@
 # ThemisDB – Risk Register
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  
 **Basis:** ISO 31000, ISO 27005, BSI Standard 200-3, NIST RMF
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#-übersicht)
+- [Risiko-Kategorien](#1-risiko-kategorien)
+- [Bewertungsmethodik](#2-risiko-bewertungsmethodik)
 
 ---
 

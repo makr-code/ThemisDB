@@ -1,9 +1,18 @@
 # Datenschutz-Folgenabschätzung (DPIA) - ThemisDB
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  
 **Basis:** DSGVO Art. 35, ISO 27701, BSI Standard 200-3
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#-übersicht)
+- [Beschreibung der Verarbeitung](#1-beschreibung-der-verarbeitung)
+- [Risikoanalyse](#risikoanalyse)
 
 ---
 

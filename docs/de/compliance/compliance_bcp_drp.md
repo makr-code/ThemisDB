@@ -1,9 +1,18 @@
 # Business Continuity & Disaster Recovery Plan (BCP/DRP) - ThemisDB
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  
 **Basis:** BSI C5 (SIM-05/06), ISO 22301, ISO 27001 (A.17), NIS2 Art. 21(2)(c)
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#-executive-summary)
+- [Zielsetzung](#1-zielsetzung-und-geltungsbereich)
+- [Business Impact](#2-business-impact-analysis-bia)
 
 ---
 

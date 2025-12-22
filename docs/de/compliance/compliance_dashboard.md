@@ -1,8 +1,16 @@
 # ThemisDB – Compliance Dashboard
 
-**Version:** 1.1  
-**Stand:** Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Compliance  
 **Typ:** Executive Summary & Status-Übersicht
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Compliance Status](#-compliance-status-übersicht)
+- [Standards Matrix](#-standards-compliance-matrix)
 
 ---
 

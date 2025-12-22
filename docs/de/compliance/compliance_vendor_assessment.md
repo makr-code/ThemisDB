@@ -1,9 +1,18 @@
 # ThemisDB – Third-Party & Vendor Security Assessment
 
-**Version:** 1.0  
-**Stand:** November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Compliance  
 **Klassifizierung:** Vertraulich  
 **Basis:** ISO 27001 (A.15), BSI C5 (SSO), NIS2, SOC 2
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#-übersicht)
+- [Anwendungsbereich](#1-anwendungsbereich)
+- [Software-Abhängigkeiten](#2-software-abhängigkeiten-sbom)
 
 ---
 
