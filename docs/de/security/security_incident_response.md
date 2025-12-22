@@ -1,9 +1,19 @@
 # ThemisDB – Incident Response Plan (IRP)
 
-**Version:** 1.0  
+**Version:** v1.3.0  
 **Stand:** November 2025  
 **Klassifizierung:** Intern / VS-NfD  
-**Typ:** Sicherheits-Notfallplan nach BSI IT-Grundschutz & NIST CSF
+**Typ:** Sicherheits-Notfallplan nach BSI IT-Grundschutz & NIST CSF  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [🚨 Incident-Klassifizierung](#-incident-klassifizierung)
+- [👥 Incident Response Team (IRT)](#-incident-response-team-irt)
+- [📊 Incident Response Phasen](#-incident-response-phasen)
 
 ---
 

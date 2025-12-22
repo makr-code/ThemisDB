@@ -1,11 +1,22 @@
 # Audit & Retention
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [Überblick](#überblick)
+- [Changefeed (Audit‑Trail)](#changefeed-audittrail)
+- [Retention‑Policies](#retentionpolicies)
+- [Empfehlungen](#empfehlungen)
+- [Weiterlesen](#weiterlesen)
+
+---
+
+## Überblick
 
 Audit-Trails und Datenaufbewahrung sind Kernbausteine der Sicherheit & Compliance.
 
@@ -30,6 +41,7 @@ Details: siehe docs/change_data_capture.md
 - Automatisierte Bereinigung (Cron/Jobs) etablieren; Metriken überwachen
 - Export/Archivierung vor Löschung (WORM‑Storage optional)
 
-Weiterlesen:
+## Weiterlesen
+
 - change_data_capture.md
 - compliance_audit.md, compliance_governance_strategy.md

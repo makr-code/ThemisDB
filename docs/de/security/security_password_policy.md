@@ -1,9 +1,23 @@
 # ThemisDB - Passwortrichtlinie
 
-**Version:** 1.0  
+**Version:** v1.3.0  
 **Stand:** Dezember 2025  
 **Klassifizierung:** Intern  
-**BSI C5 Referenz:** IDM-06
+**BSI C5 Referenz:** IDM-06  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [1. Zweck](#1-zweck)
+- [2. Geltungsbereich](#2-geltungsbereich)
+- [3. Passwortanforderungen](#3-passwortanforderungen)
+- [4. Passwortlebenszyklus](#4-passwortlebenszyklus)
+- [5. Kontosperrung](#5-kontosperrung)
+- [6. Sichere Speicherung](#6-sichere-speicherung)
+- [7. API-Keys und Tokens](#7-api-keys-und-tokens)
+- [8. Verschlüsselungspassphrasen](#8-verschlüsselungspassphrasen)
 
 ---
 

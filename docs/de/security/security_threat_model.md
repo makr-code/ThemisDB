@@ -1,8 +1,20 @@
 # Threat Model (light)
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Assets](#assets)
+- [Akteure](#akteure)
+- [Vertrauensgrenzen](#vertrauensgrenzen)
+- [Hauptrisiken (Auszug)](#hauptrisiken-auszug)
+- [Gegenmaßnahmen](#gegenmaßnahmen)
+- [Beobachtbarkeit](#beobachtbarkeit)
+- [Weiterlesen](#weiterlesen)
 
 ---
 

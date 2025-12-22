@@ -1,10 +1,21 @@
 # ThemisDB - Risikomanagement-Framework
 
-**Version:** 1.0  
+**Version:** v1.3.0  
 **Stand:** Dezember 2025  
 **Klassifizierung:** Intern  
 **BSI C5 Referenz:** OIS-03  
-**ISO 27001 Referenz:** 6.1, 8.2
+**ISO 27001 Referenz:** 6.1, 8.2  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [1. Einleitung](#1-einleitung)
+- [2. Risikomanagement-Prozess](#2-risikomanagement-prozess)
+- [3. Risiko-Identifikation](#3-risiko-identifikation)
+- [4. Risiko-Analyse](#4-risiko-analyse)
+- [5. Risikobewertung](#5-risikobewertung)
 
 ---
 

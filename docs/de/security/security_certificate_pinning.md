@@ -1,8 +1,19 @@
 # Certificate Pinning - HSM/TSA TLS Hardening
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Funktionsweise](#funktionsweise)
+- [Konfiguration](#konfiguration)
+- [Fingerprint-Generierung](#fingerprint-generierung)
+- [Verwendungsszenarien](#verwendungsszenarien)
+- [Leaf vs. Chain Pinning](#leaf-vs-chain-pinning)
 
 ---
 

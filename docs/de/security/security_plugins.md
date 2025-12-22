@@ -1,9 +1,20 @@
 # Plugin Security - ThemisDB
 
-**Version:** 1.0  
+**Version:** v1.3.0  
 **Status:** Production  
 **Last Updated:** 20. November 2025  
-**Sicherheitsstufe:** KRITISCH
+**Sicherheitsstufe:** KRITISCH  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [Sicherheitsarchitektur](#sicherheitsarchitektur)
+- [Security Policy](#security-policy)
+- [Plugin Metadata Format](#plugin-metadata-format)
+- [Plugin Signierung](#plugin-signierung)
 
 ---
 
