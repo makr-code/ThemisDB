@@ -448,7 +448,7 @@ Daten-Granularität:
 - Millisekunden für Signal- und Weichen-Zustände
 ```
 
-**Siehe:** `docs/de/projects/RAILWAY_MONITORING.md`
+**Siehe:** [Railway Monitoring Documentation](projects/RAILWAY_MONITORING.md)
 
 ---
 
@@ -1136,10 +1136,10 @@ Community Forum: https://github.com/makr-code/ThemisDB/discussions
 Docker Hub: https://hub.docker.com/r/themisdb/themisdb
 
 Beispiel-Code:
-- IoT Time-Series: /examples/iot-timeseries/
-- Smart Factory: /examples/smart-factory/
-- Fleet Management: /examples/fleet-management/
-- Railway Monitoring: /docs/de/projects/RAILWAY_MONITORING.md
+- Railway Monitoring: /examples/railway/
+- Image Analysis: /examples/image_analysis/
+- Geo-Spatial: /examples/geo/
+- Railway Documentation: docs/de/projects/RAILWAY_MONITORING.md
 ```
 
 #### Support & Training
