@@ -8,6 +8,7 @@
 #include <rocksdb/iterator.h>
 #include <rocksdb/table.h>
 #include <rocksdb/filter_policy.h>
+#include <rocksdb/cache.h>
 #include <rocksdb/advanced_options.h>
 #include <rocksdb/statistics.h>
 #include <rocksdb/utilities/checkpoint.h>
@@ -85,12 +86,13 @@ void RocksDBWrapper::configureOptions() {
     options_->min_write_buffer_number_to_merge = config_.min_write_buffer_number_to_merge;
     
     // Block cache (read cache) configuration
+    // v1.3.0 Phase 2: Use HyperClockCache instead of LRUCache (RocksDB 10.7+)
+    // HyperClockCache provides better scalability at 16+ threads with lock-free reads
+    // Expected improvement: +5-10% single-thread, +30-50% multi-thread (16+)
     rocksdb::BlockBasedTableOptions table_options;
-    table_options.block_cache = rocksdb::NewLRUCache(
-        config_.block_cache_size_mb * 1024 * 1024, // capacity
-        config_.block_cache_shard_bits,             // num_shard_bits (-1 = auto, 6 = 64 shards for 8+ threads)
-        false,                                      // strict_capacity_limit
-        config_.high_pri_pool_ratio                 // high_pri_pool_ratio
+    table_options.block_cache = rocksdb::NewHyperClockCache(
+        config_.block_cache_size_mb * 1024 * 1024  // capacity
+        // estimated_entry_charge = nullptr (auto) - RocksDB will manage automatically
     );
     table_options.cache_index_and_filter_blocks = config_.cache_index_and_filter_blocks;
     table_options.pin_l0_filter_and_index_blocks_in_cache = config_.pin_l0_filter_and_index_blocks_in_cache;
