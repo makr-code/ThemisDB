@@ -1,0 +1,287 @@
+syntax = "proto3";
+
+package themis.core;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+// Main ThemisDB Core Service - provides CRUD, Transactions, and Query operations
+service ThemisCoreService {
+  // CRUD operations
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Read(ReadRequest) returns (ReadResponse);
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+  
+  // Batch operations
+  rpc BatchCreate(BatchCreateRequest) returns (BatchCreateResponse);
+  rpc BatchRead(BatchReadRequest) returns (BatchReadResponse);
+  rpc BatchUpdate(BatchUpdateRequest) returns (BatchUpdateResponse);
+  rpc BatchDelete(BatchDeleteRequest) returns (BatchDeleteResponse);
+  
+  // Transaction operations
+  rpc BeginTransaction(BeginTransactionRequest) returns (BeginTransactionResponse);
+  rpc CommitTransaction(CommitTransactionRequest) returns (CommitTransactionResponse);
+  rpc RollbackTransaction(RollbackTransactionRequest) returns (RollbackTransactionResponse);
+  
+  // Query operations
+  rpc ExecuteAQL(AQLRequest) returns (AQLResponse);
+  rpc StreamQuery(AQLRequest) returns (stream QueryResult);
+  
+  // Scan operations (bidirectional streaming)
+  rpc ScanCollection(ScanRequest) returns (stream ScanResult);
+  
+  // Health and status
+  rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse);
+  rpc GetStatus(StatusRequest) returns (StatusResponse);
+}
+
+// Common types
+message Document {
+  string collection = 1;
+  string key = 2;
+  bytes data = 3;  // JSON or binary serialized data
+  map<string, string> metadata = 4;
+}
+
+message ErrorInfo {
+  int32 code = 1;
+  string message = 2;
+  string details = 3;
+}
+
+// CRUD Messages
+message CreateRequest {
+  string collection = 1;
+  string key = 2;
+  bytes data = 3;
+  map<string, string> metadata = 4;
+  string transaction_id = 5;  // Optional, for transactional operations
+}
+
+message CreateResponse {
+  bool success = 1;
+  string key = 2;
+  ErrorInfo error = 3;
+  int64 timestamp = 4;
+}
+
+message ReadRequest {
+  string collection = 1;
+  string key = 2;
+  string transaction_id = 3;  // Optional
+  bool include_metadata = 4;
+}
+
+message ReadResponse {
+  bool success = 1;
+  Document document = 2;
+  ErrorInfo error = 3;
+}
+
+message UpdateRequest {
+  string collection = 1;
+  string key = 2;
+  bytes data = 3;
+  map<string, string> metadata = 4;
+  string transaction_id = 5;  // Optional
+  bool create_if_missing = 6;
+}
+
+message UpdateResponse {
+  bool success = 1;
+  string key = 2;
+  ErrorInfo error = 3;
+  int64 timestamp = 4;
+}
+
+message DeleteRequest {
+  string collection = 1;
+  string key = 2;
+  string transaction_id = 3;  // Optional
+}
+
+message DeleteResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+}
+
+// Batch Operations
+message BatchCreateRequest {
+  string collection = 1;
+  repeated Document documents = 2;
+  string transaction_id = 3;  // Optional
+}
+
+message BatchCreateResponse {
+  bool success = 1;
+  int32 created_count = 2;
+  repeated string keys = 3;
+  ErrorInfo error = 4;
+}
+
+message BatchReadRequest {
+  string collection = 1;
+  repeated string keys = 2;
+  string transaction_id = 3;  // Optional
+}
+
+message BatchReadResponse {
+  bool success = 1;
+  repeated Document documents = 2;
+  ErrorInfo error = 3;
+}
+
+message BatchUpdateRequest {
+  string collection = 1;
+  repeated Document documents = 2;
+  string transaction_id = 3;  // Optional
+}
+
+message BatchUpdateResponse {
+  bool success = 1;
+  int32 updated_count = 2;
+  ErrorInfo error = 3;
+}
+
+message BatchDeleteRequest {
+  string collection = 1;
+  repeated string keys = 2;
+  string transaction_id = 3;  // Optional
+}
+
+message BatchDeleteResponse {
+  bool success = 1;
+  int32 deleted_count = 2;
+  ErrorInfo error = 3;
+}
+
+// Transaction Messages
+message BeginTransactionRequest {
+  enum IsolationLevel {
+    READ_UNCOMMITTED = 0;
+    READ_COMMITTED = 1;
+    REPEATABLE_READ = 2;
+    SERIALIZABLE = 3;
+  }
+  
+  IsolationLevel isolation_level = 1;
+  int32 timeout_ms = 2;
+  map<string, string> options = 3;
+}
+
+message BeginTransactionResponse {
+  bool success = 1;
+  string transaction_id = 2;
+  ErrorInfo error = 3;
+}
+
+message CommitTransactionRequest {
+  string transaction_id = 1;
+}
+
+message CommitTransactionResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+  int64 commit_timestamp = 3;
+}
+
+message RollbackTransactionRequest {
+  string transaction_id = 1;
+}
+
+message RollbackTransactionResponse {
+  bool success = 1;
+  ErrorInfo error = 2;
+}
+
+// Query Messages
+message AQLRequest {
+  string query = 1;
+  map<string, string> bind_vars = 2;
+  string transaction_id = 3;  // Optional
+  QueryOptions options = 4;
+}
+
+message QueryOptions {
+  int32 max_results = 1;
+  int32 batch_size = 2;
+  int32 timeout_ms = 3;
+  bool full_count = 4;
+  map<string, string> optimizer_rules = 5;
+}
+
+message AQLResponse {
+  bool success = 1;
+  repeated QueryResult results = 2;
+  ErrorInfo error = 3;
+  QueryStats stats = 4;
+}
+
+message QueryResult {
+  bytes data = 1;  // JSON serialized result
+  bool has_more = 2;
+  string cursor_id = 3;
+}
+
+message QueryStats {
+  int64 execution_time_ms = 1;
+  int64 scanned_count = 2;
+  int64 filtered_count = 3;
+  int64 result_count = 4;
+  double peak_memory_mb = 5;
+}
+
+// Scan Messages
+message ScanRequest {
+  string collection = 1;
+  string start_key = 2;
+  string end_key = 3;
+  int32 batch_size = 4;
+  string transaction_id = 5;  // Optional
+  map<string, string> filters = 6;
+}
+
+message ScanResult {
+  Document document = 1;
+  bool has_more = 2;
+  string continuation_token = 3;
+}
+
+// Health and Status
+message HealthCheckRequest {
+  bool include_details = 1;
+}
+
+message HealthCheckResponse {
+  enum Status {
+    HEALTHY = 0;
+    DEGRADED = 1;
+    UNHEALTHY = 2;
+  }
+  
+  Status status = 1;
+  string message = 2;
+  int64 uptime_seconds = 3;
+  map<string, string> details = 4;
+}
+
+message StatusRequest {
+  bool include_stats = 1;
+}
+
+message StatusResponse {
+  string version = 1;
+  int64 uptime_seconds = 2;
+  DatabaseStats stats = 3;
+  map<string, string> config = 4;
+}
+
+message DatabaseStats {
+  int64 total_documents = 1;
+  int64 total_collections = 2;
+  double storage_size_mb = 3;
+  double memory_usage_mb = 4;
+  int64 transactions_per_second = 5;
+  int64 queries_per_second = 6;
+}

@@ -1,6 +1,7 @@
 ﻿// Vector ANN index implementation
 
 #include "index/vector_index.h"
+#include "index/product_quantizer.h"
 #include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
@@ -2129,6 +2130,119 @@ VectorIndexManager::findOutliers(float threshold) const {
 	}
 
 	return {Status::OK(), outliers};
+}
+
+// ===== Vector Quantization Implementation (Feature #7) =====
+
+VectorIndexManager::Status VectorIndexManager::enableQuantization(bool enable, int num_subquantizers) {
+	if (enable) {
+		if (dim_ <= 0) {
+			return Status::Error("Cannot enable quantization: index not initialized");
+		}
+		
+		if (dim_ % num_subquantizers != 0) {
+			return Status::Error("Dimension must be divisible by num_subquantizers");
+		}
+		
+		try {
+			ProductQuantizer::Config config;
+			config.num_subquantizers = num_subquantizers;
+			quantizer_ = std::make_unique<ProductQuantizer>(dim_, config);
+			quantization_enabled_ = true;
+			
+			THEMIS_INFO("VectorIndexManager::enableQuantization - Enabled with {} subquantizers", 
+			           num_subquantizers);
+			return Status::OK();
+		} catch (const std::exception& e) {
+			return Status::Error(std::string("Failed to enable quantization: ") + e.what());
+		}
+	} else {
+		quantization_enabled_ = false;
+		quantizer_.reset();
+		quantized_cache_.clear();
+		
+		THEMIS_INFO("VectorIndexManager::enableQuantization - Disabled");
+		return Status::OK();
+	}
+}
+
+VectorIndexManager::Status VectorIndexManager::trainQuantizer(
+	const std::vector<std::vector<float>>& training_vectors) {
+	
+	if (!quantization_enabled_ || !quantizer_) {
+		return Status::Error("Quantization not enabled");
+	}
+	
+	std::vector<std::vector<float>> train_data;
+	
+	if (training_vectors.empty()) {
+		// Use existing vectors from cache
+		if (cache_.empty()) {
+			return Status::Error("No training data available");
+		}
+		
+		train_data.reserve(cache_.size());
+		for (const auto& [pk, vec] : cache_) {
+			if (vec.size() == static_cast<size_t>(dim_)) {
+				train_data.push_back(vec);
+			}
+		}
+		
+		THEMIS_INFO("VectorIndexManager::trainQuantizer - Using {} cached vectors for training",
+		           train_data.size());
+	} else {
+		train_data = training_vectors;
+		THEMIS_INFO("VectorIndexManager::trainQuantizer - Using {} provided vectors for training",
+		           train_data.size());
+	}
+	
+	if (train_data.empty()) {
+		return Status::Error("No valid training data");
+	}
+	
+	// Train the quantizer
+	auto status = quantizer_->train(train_data);
+	if (!status.ok) {
+		return Status::Error(std::string("Quantizer training failed: ") + status.message);
+	}
+	
+	// Quantize existing cached vectors
+	if (!cache_.empty()) {
+		THEMIS_INFO("VectorIndexManager::trainQuantizer - Quantizing {} cached vectors",
+		           cache_.size());
+		
+		for (const auto& [pk, vec] : cache_) {
+			if (vec.size() == static_cast<size_t>(dim_)) {
+				auto codes = quantizer_->encode(vec);
+				if (!codes.empty()) {
+					quantized_cache_[pk] = std::move(codes);
+				}
+			}
+		}
+	}
+	
+	THEMIS_INFO("VectorIndexManager::trainQuantizer - Training complete. Compression: {:.1f}x",
+	           quantizer_->getCompressionRatio());
+	
+	return Status::OK();
+}
+
+bool VectorIndexManager::isQuantizerTrained() const {
+	return quantization_enabled_ && quantizer_ && quantizer_->isTrained();
+}
+
+VectorIndexManager::QuantizationStats VectorIndexManager::getQuantizationStats() const {
+	QuantizationStats stats;
+	stats.enabled = quantization_enabled_;
+	
+	if (quantizer_) {
+		stats.trained = quantizer_->isTrained();
+		stats.num_subquantizers = quantizer_->getNumSubquantizers();
+		stats.compression_ratio = quantizer_->getCompressionRatio();
+		stats.memory_usage_bytes = quantizer_->getMemoryUsage();
+	}
+	
+	return stats;
 }
 
 } // namespace themis
