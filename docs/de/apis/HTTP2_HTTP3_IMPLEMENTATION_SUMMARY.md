@@ -76,20 +76,21 @@ Dieses PR fuegt die Infrastruktur und Dokumentation fuer HTTP/2 und HTTP/3 Proto
    - [x] TLS 1.3 Anforderungen getestet
    - [x] 0-RTT und Connection Migration Konzepte getestet
 
+3. **HTTP/2 Integration** ✅
+   - [x] HttpServer::start() erweitert um HTTP/2 Session-Erstellung (Zeile 887-896 in http_server.cpp)
+   - [x] ALPN-Negotiation in TLS-Handshake eingebaut (http2_session.cpp, Zeilen 32-36, 111-114)
+   - [x] HTTP/2 Requests zu internen HttpServer-Handlern gemappt (http2_session.cpp, Zeile 366: `server_->routeRequest(req)`)
+   - **Status:** Vollständig implementiert und produktionsbereit für HTTP/2
+
 ### 🚧 In Arbeit (Zukünftige Erweiterungen)
 
-1. **HTTP/2 Integration (Optional)**
-   - [ ] HttpServer::start() erweitern um HTTP/2 Session-Erstellung
-   - [ ] ALPN-Negotiation in TLS-Handshake einbauen
-   - [ ] HTTP/2 Requests zu internen HttpServer-Handlern mappen
-   - **Hinweis:** Basis-Implementation und Tests sind vorhanden. Diese Punkte betreffen die tiefere Integration in den HttpServer.
-
-2. **HTTP/3 Vollständige Implementation (Experimental → Production)**
+1. **HTTP/3 Vollständige Implementation (Experimental → Production)**
    - [ ] QUIC Connection Management produktionsreif machen
    - [ ] ngtcp2 Callbacks für alle Edge-Cases implementieren
    - [ ] nghttp3 HTTP-Framing optimieren
    - [ ] 0-RTT Connection Resumption Logic implementieren
    - [ ] Connection Migration State Management implementieren
+   - [ ] HTTP/3 Request-Routing zu HttpServer-Handlern (analog zu HTTP/2)
    - **Hinweis:** Basis-Implementation und umfassende Tests sind vorhanden. Status: Experimental.
 
 ---

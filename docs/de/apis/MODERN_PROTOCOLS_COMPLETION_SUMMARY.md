@@ -320,11 +320,19 @@ ctest --test-dir build -R "MCP|HTTP3|Postgres" --output-on-failure
 
 ## Performance Characteristics
 
+### HTTP/2
+- **Multiplexing**: Multiple concurrent streams over a single connection
+- **Server Push**: Proactive event delivery with CDC integration
+- **Header Compression**: HPACK for reduced overhead
+- **Request-Response Routing**: Full integration with HttpServer handlers
+- **Status**: Production-ready ✅
+
 ### HTTP/3
 - **Multiplexing**: True multiplexing without head-of-line blocking
 - **Connection Migration**: Seamless IP address changes
 - **0-RTT**: Fast connection resumption
 - **QUIC**: UDP-based transport with built-in encryption
+- **Status**: Experimental 🚧
 
 ### PostgreSQL Wire Protocol
 - **SQL-to-Cypher Translation**: Minimal overhead
@@ -340,11 +348,18 @@ ctest --test-dir build -R "MCP|HTTP3|Postgres" --output-on-failure
 
 ## Known Limitations
 
+### HTTP/2
+- **TLS Required**: HTTP/2 requires TLS with ALPN negotiation
+- **Build Flag**: Must be enabled with `-DTHEMIS_ENABLE_HTTP2=ON`
+- **Dependencies**: Requires nghttp2 library
+- **Status**: Production-ready ✅
+
 ### HTTP/3
 - **Status**: Experimental
 - **Dependencies**: Requires ngtcp2 and nghttp3 libraries
 - **Platform**: Best support on Linux, macOS
 - **Production**: Recommended for testing environments only
+- **Request Routing**: Not yet integrated with HttpServer handlers (planned)
 
 ### PostgreSQL Wire Protocol
 - **Transaction Support**: Limited (BEGIN/COMMIT/ROLLBACK are stubs)
@@ -361,10 +376,19 @@ ctest --test-dir build -R "MCP|HTTP3|Postgres" --output-on-failure
 
 ## Future Enhancements
 
+### HTTP/2
+- [x] Complete integration with HttpServer ✅
+- [x] ALPN negotiation ✅
+- [x] Request routing ✅
+- [x] Server Push CDC ✅
+- [ ] HTTP/2 PUSH_PROMISE optimization (optional enhancement)
+- [ ] Advanced flow control tuning (optional enhancement)
+
 ### HTTP/3
 - [ ] Complete ngtcp2 callback implementations
 - [ ] 0-RTT connection resumption logic
 - [ ] Connection migration state management
+- [ ] Request routing to HttpServer handlers
 - [ ] Performance optimization and tuning
 - [ ] Production-ready status
 
