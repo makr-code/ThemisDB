@@ -1136,10 +1136,10 @@ Community Forum: https://github.com/makr-code/ThemisDB/discussions
 Docker Hub: https://hub.docker.com/r/themisdb/themisdb
 
 Beispiel-Code:
-- Railway Monitoring: /examples/railway/
-- Image Analysis: /examples/image_analysis/
-- Geo-Spatial: /examples/geo/
-- Railway Documentation: docs/de/projects/RAILWAY_MONITORING.md
+- Railway Monitoring: examples/railway/
+- Image Analysis: examples/image_analysis/
+- Geo-Spatial: examples/geo/
+- Railway Documentation: projects/RAILWAY_MONITORING.md
 ```
 
 #### Support & Training
@@ -1192,11 +1192,11 @@ Webinars:
 - "The Total Economic Impact™ Of Multi-Model Databases" - Forrester
 
 #### ThemisDB Documentation
-- Architecture Overview: `/docs/architecture/ARCHITECTURE_OVERVIEW.md`
-- Multi-Model Design: `/docs/architecture/architecture_base_entity.md`
-- Time-Series Features: `/docs/features/features_time_series.md`
-- Enterprise Edition: `ENTERPRISE.md`
-- Railway Monitoring Project: `/docs/de/projects/RAILWAY_MONITORING.md`
+- Architecture Overview: `architecture/ARCHITECTURE_OVERVIEW.md`
+- Multi-Model Design: `architecture/architecture_base_entity.md`
+- Time-Series Features: `features/features_time_series.md`
+- Enterprise Edition: `../../ENTERPRISE.md`
+- Railway Monitoring Project: `projects/RAILWAY_MONITORING.md`
 
 ### 10.3 Änderungshistorie
 
