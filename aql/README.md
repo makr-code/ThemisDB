@@ -5,6 +5,8 @@ Dieses Verzeichnis enthält die formale Grammatikdefinition von ThemisDB's AQL i
 ## Dateien
 
 - **AQL_GRAMMAR.ebnf** - Vollständige EBNF-Grammatik für AQL (v1.3.0)
+- **AQL_GRAMMAR_EXTENDED_v1.3.1.ebnf** - 📋 PROPOSAL: Erweiterte Grammatik mit OOP-Features (v1.3.1)
+- **examples/vision_analysis_oop.aql** - 📋 PROPOSAL: Beispiele für Vision-Analyse mit OOP
 
 ## AQL Übersicht
 
@@ -50,6 +52,24 @@ AQL ist ThemisDB's deklarative Abfragesprache für Multi-Model-Datenbank-Operati
 - `LLM LORA` - LoRA-Adapter-Verwaltung
 - `LLM STATS` - Statistiken
 - `LLM CACHE` - Cache-Verwaltung
+
+### 📋 Proposed OOP Extensions (v1.3.1)
+- `NAMESPACE` - Hierarchische Organisation von Code
+- `TYPE` - User-Defined Types für Typsicherheit
+- `FUNCTION` - Wiederverwendbare User-Defined Functions
+- `CLASS` - Objektorientierte Workflows mit State Management
+- `TRY/CATCH` - Strukturierte Fehlerbehandlung
+- `MATCH` - Pattern Matching für komplexe Datenstrukturen
+- `ASYNC/AWAIT` - Asynchrone LLM-Operationen
+- Pipeline Operator `|>` - Method Chaining für bessere Lesbarkeit
+
+### 📋 Proposed Vision Extensions (v1.3.1)
+- `LLM VISION ANALYZE` - Strukturierte Bildanalyse mit Objekterkennung
+- `LLM VISION BATCH` - Batch-Verarbeitung mehrerer Bilder
+- `LLM VISION QUESTION` - Visual Question Answering (VQA)
+- `LLM VISION COMPARE` - Bildvergleich und Ähnlichkeitsanalyse
+- `LLM VISION TRANSFORM` - Bildtransformationen
+- `LLM VISION RAG` - Multimodales RAG mit Bildern und Text
 
 ## Beispiel-Queries
 
@@ -112,12 +132,24 @@ LLM RAG "What are the key features of ThemisDB?"
 
 ## Weitere Dokumentation
 
-- **Syntax-Guide**: `../docs/aql/aql_syntax.md`
-- **Funktions-Referenz**: `../docs/aql/aql_functions_reference.md`
-- **Query Engine**: `../docs/aql/aql_query_engine.md`
-- **Subqueries**: `../docs/aql/aql_subquery_reference.md`
-- **Hybrid Queries**: `../docs/aql/aql_hybrid_queries.md`
-- **LLM-Erweiterungen**: `../docs/aql/LLM_GRAMMAR.ebnf`
+- **Syntax-Guide**: `../docs/de/aql/aql_syntax.md`
+- **Funktions-Referenz**: `../docs/de/aql/aql_functions_reference.md`
+- **Query Engine**: `../docs/de/aql/aql_query_engine.md`
+- **Subqueries**: `../docs/de/aql/aql_subquery_reference.md`
+- **Hybrid Queries**: `../docs/de/aql/aql_hybrid_queries.md`
+- **LLM-Erweiterungen**: `../docs/de/aql/LLM_GRAMMAR.ebnf`
+- **📋 OOP Extension Proposal**: `../docs/de/aql/AQL_OOP_EXTENSION_PROPOSAL.md` (NEU)
+
+## 📋 Vorschlag: OOP & Vision Extensions (v1.3.1)
+
+Siehe detaillierten Vorschlag in `../docs/de/aql/AQL_OOP_EXTENSION_PROPOSAL.md`
+
+Diese Erweiterungen zielen darauf ab:
+1. **Modularität** durch Namespaces zu verbessern
+2. **Wiederverwendbarkeit** mit User-Defined Functions und Types
+3. **Ausdruckskraft** durch Classes und Pattern Matching
+4. **Vision-Integration** für llama.cpp vision und multimodale RAG
+5. **Best Practices** für Enterprise-Anwendungen zu etablieren
 
 ## EBNF-Notation
 
@@ -136,9 +168,10 @@ Die Grammatik verwendet Standard-EBNF-Notation:
 
 ## Version
 
-- **Version**: 1.3.0
-- **Datum**: 17. Dezember 2025
-- **Status**: Production-Ready
+- **Version**: 1.3.0 (Aktuell Production-Ready)
+- **Version**: 1.3.1 (📋 Vorschlag für OOP & Vision Extensions)
+- **Datum**: 22. Dezember 2025
+- **Status**: Siehe Proposal-Dokumente für Details
 
 ## Lizenz
 
