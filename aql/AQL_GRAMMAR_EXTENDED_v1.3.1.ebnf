@@ -1,0 +1,878 @@
+(* ========================================================================= *)
+(* ThemisDB AQL (Advanced Query Language) - Extended EBNF Grammar          *)
+(* Version: 1.3.1 (Proposal)                                                *)
+(* Date: 22. Dezember 2025                                                  *)
+(* Status: Proposal for OOP Extensions                                      *)
+(* Based on: v1.3.0 with OOP, Vision, and Best Practice Enhancements       *)
+(* ========================================================================= *)
+
+(* Main Query Structure *)
+query ::= 
+    (namespace_decl | import_stmt | type_definition | function_definition | class_definition)*
+    statement_list
+  ;
+
+statement_list ::= 
+    statement (";" statement)*
+  ;
+
+statement ::= 
+    data_query
+  | ddl_statement
+  | dml_statement
+  | llm_statement
+  | control_flow_stmt
+  | assignment_stmt
+  ;
+
+(* ========================================================================= *)
+(* NAMESPACE SYSTEM (NEW in v1.3.1)                                         *)
+(* ========================================================================= *)
+
+namespace_decl ::=
+    "NAMESPACE" qualified_identifier ";"
+  ;
+
+import_stmt ::=
+    "IMPORT" qualified_identifier ("." "*")? ";"
+  ;
+
+qualified_identifier ::=
+    identifier ("." identifier)*
+  ;
+
+(* ========================================================================= *)
+(* TYPE SYSTEM (NEW in v1.3.1)                                              *)
+(* ========================================================================= *)
+
+type_definition ::=
+    "TYPE" identifier "{" field_list "}"
+  ;
+
+field_list ::=
+    field_decl ("," field_decl)*
+  ;
+
+field_decl ::=
+    identifier ":" type_spec ("?")?  (* ? marks optional field *)
+  ;
+
+type_spec ::=
+    primitive_type
+  | "Array" "<" type_spec ">"
+  | "Map" "<" type_spec "," type_spec ">"
+  | "Result" "<" type_spec "," type_spec ">"  (* Result<T, Error> *)
+  | qualified_identifier  (* User-defined type *)
+  ;
+
+primitive_type ::=
+    "String" | "Int" | "Float" | "Bool" | "Object" | "Any"
+  ;
+
+(* ========================================================================= *)
+(* USER-DEFINED FUNCTIONS (NEW in v1.3.1)                                   *)
+(* ========================================================================= *)
+
+function_definition ::=
+    ("ASYNC")? "FUNCTION" identifier "(" parameter_list? ")" "->" type_spec
+    "{" function_body "}"
+  ;
+
+parameter_list ::=
+    parameter ("," parameter)*
+  ;
+
+parameter ::=
+    identifier ":" type_spec ("=" expression)?  (* Default value *)
+  ;
+
+function_body ::=
+    statement_list
+    ("RETURN" expression)?
+  ;
+
+(* ========================================================================= *)
+(* CLASS SYSTEM (NEW in v1.3.1)                                             *)
+(* ========================================================================= *)
+
+class_definition ::=
+    "CLASS" identifier ("EXTENDS" qualified_identifier)? "{" class_body "}"
+  ;
+
+class_body ::=
+    (property_decl | constructor_decl | method_decl)*
+  ;
+
+property_decl ::=
+    ("PUBLIC" | "PRIVATE") identifier ":" type_spec ("=" expression)? ";"
+  ;
+
+constructor_decl ::=
+    "CONSTRUCTOR" "(" parameter_list? ")" "{" statement_list "}"
+  ;
+
+method_decl ::=
+    ("PUBLIC" | "PRIVATE") ("ASYNC")? "METHOD" identifier 
+    "(" parameter_list? ")" "->" type_spec
+    "{" function_body "}"
+  ;
+
+(* ========================================================================= *)
+(* CONTROL FLOW (NEW in v1.3.1)                                             *)
+(* ========================================================================= *)
+
+control_flow_stmt ::=
+    if_stmt
+  | try_catch_stmt
+  | match_stmt
+  ;
+
+if_stmt ::=
+    "IF" expression "THEN" statement_list
+    ("ELSEIF" expression "THEN" statement_list)*
+    ("ELSE" statement_list)?
+    "ENDIF"
+  ;
+
+try_catch_stmt ::=
+    "TRY" "{" statement_list "}"
+    "CATCH" "(" identifier ")" "{" catch_body "}"
+  ;
+
+catch_body ::=
+    case_stmt | statement_list
+  ;
+
+case_stmt ::=
+    "CASE" expression
+    ("WHEN" expression "THEN" statement_list)+
+    ("ELSE" statement_list)?
+    "END"
+  ;
+
+match_stmt ::=
+    "MATCH" expression
+    ("WHEN" pattern "THEN" expression)+
+    ("ELSE" expression)?
+    "END"
+  ;
+
+pattern ::=
+    regex_pattern
+  | structural_pattern
+  | type_pattern
+  | guard_pattern
+  | wildcard_pattern
+  ;
+
+regex_pattern ::=
+    "/" regex_body "/"
+  ;
+
+structural_pattern ::=
+    object_pattern | array_pattern
+  ;
+
+object_pattern ::=
+    "{" (identifier ":" pattern ("," identifier ":" pattern)*)? ("," "..." identifier)? "}"
+  ;
+
+array_pattern ::=
+    "[" (pattern ("," pattern)*)? ("," "..." identifier)? "]"
+  ;
+
+type_pattern ::=
+    type_spec identifier
+  ;
+
+guard_pattern ::=
+    pattern ("WHERE" | "IF") expression
+  ;
+
+wildcard_pattern ::=
+    "_"
+  ;
+
+(* ========================================================================= *)
+(* ASYNC/AWAIT (NEW in v1.3.1)                                              *)
+(* ========================================================================= *)
+
+await_expr ::=
+    "AWAIT" expression
+  | "AWAIT" "ALL" array_expr
+  | "AWAIT" "TIMEOUT" "(" integer_literal ")" expression ("OR" expression)?
+  | "AWAIT" "PARALLEL" ("LIMIT" integer_literal)? expression
+  ;
+
+async_block ::=
+    "ASYNC" "{" statement_list "}"
+  ;
+
+(* ========================================================================= *)
+(* MACRO SYSTEM (NEW in v1.3.1)                                             *)
+(* ========================================================================= *)
+
+macro_definition ::=
+    "MACRO" identifier "(" parameter_list? ")" "{" macro_body "}"
+  ;
+
+macro_body ::=
+    (statement | macro_variable_ref)*
+  ;
+
+macro_variable_ref ::=
+    "$" identifier
+  ;
+
+macro_invocation ::=
+    identifier "!" "(" argument_list? ")"
+  ;
+
+conditional_compilation ::=
+    "#IF" identifier
+    statement_list
+    ("#ELSEIF" identifier statement_list)*
+    ("#ELSE" statement_list)?
+    "#ENDIF"
+  ;
+
+(* ========================================================================= *)
+(* Data Query Language (DQL) - Core AQL                                     *)
+(* ========================================================================= *)
+
+data_query ::= 
+    for_clause+
+    (let_clause)*
+    (filter_clause)*
+    (collect_clause)?
+    (sort_clause)?
+    (limit_clause)?
+    return_clause
+  ;
+
+(* FOR Clause - Collection Iteration *)
+for_clause ::= 
+    "FOR" variable "IN" (
+        collection_ref
+      | range_expr
+      | graph_traversal
+      | subquery
+      | expression  (* Can now iterate over any expression *)
+    )
+  ;
+
+collection_ref ::= qualified_identifier ;
+
+range_expr ::= expression ".." expression ;
+
+(* Graph Traversal *)
+graph_traversal ::= 
+    min_depth ".." max_depth 
+    ("OUTBOUND" | "INBOUND" | "ANY")
+    start_vertex
+    edge_collection+
+    (graph_options)?
+  ;
+
+min_depth ::= integer_literal ;
+max_depth ::= integer_literal ;
+start_vertex ::= expression ;
+edge_collection ::= qualified_identifier ;
+
+graph_options ::= 
+    "OPTIONS" object_literal
+  ;
+
+(* LET Clause - Variable Binding *)
+let_clause ::= 
+    "LET" variable "=" expression
+  ;
+
+(* FILTER Clause - Predicates *)
+filter_clause ::= 
+    "FILTER" expression
+  ;
+
+(* COLLECT Clause - Grouping and Aggregation *)
+collect_clause ::= 
+    "COLLECT" 
+    (collect_group)?
+    (aggregate_clause)?
+    (collect_options)?
+  ;
+
+collect_group ::= 
+    collect_expr ("," collect_expr)*
+  ;
+
+collect_expr ::= 
+    variable "=" expression
+  ;
+
+aggregate_clause ::= 
+    "AGGREGATE" aggregate_expr ("," aggregate_expr)*
+  ;
+
+aggregate_expr ::= 
+    variable "=" aggregate_function
+  ;
+
+aggregate_function ::= 
+    ("COUNT" "(" ")")
+  | ("SUM" "(" expression ")")
+  | ("AVG" "(" expression ")")
+  | ("MIN" "(" expression ")")
+  | ("MAX" "(" expression ")")
+  | ("VARIANCE" "(" expression ")")
+  | ("STDDEV" "(" expression ")")
+  | ("UNIQUE" "(" expression ")")
+  | ("SORTED_UNIQUE" "(" expression ")")
+  ;
+
+collect_options ::= 
+    "OPTIONS" object_literal
+  ;
+
+(* SORT Clause - Ordering *)
+sort_clause ::= 
+    "SORT" sort_expr ("," sort_expr)*
+  ;
+
+sort_expr ::= 
+    expression ("ASC" | "DESC")?
+  ;
+
+(* LIMIT Clause - Pagination *)
+limit_clause ::= 
+    "LIMIT" (offset ",")? count
+  ;
+
+offset ::= expression ;
+count ::= expression ;
+
+(* RETURN Clause - Projection *)
+return_clause ::= 
+    "RETURN" ("DISTINCT")? expression
+  ;
+
+(* Subquery *)
+subquery ::= 
+    "(" data_query ")"
+  ;
+
+(* ========================================================================= *)
+(* DDL Statements - Data Definition Language                                *)
+(* ========================================================================= *)
+
+ddl_statement ::= 
+    create_collection
+  | drop_collection
+  | create_index
+  | drop_index
+  | create_view
+  | drop_view
+  ;
+
+create_collection ::= 
+    "CREATE" "COLLECTION" qualified_identifier (collection_options)?
+  ;
+
+drop_collection ::= 
+    "DROP" "COLLECTION" qualified_identifier
+  ;
+
+create_index ::= 
+    "CREATE" index_type "INDEX" identifier
+    "ON" collection_ref
+    "(" field_list_simple ")"
+    (index_options)?
+  ;
+
+index_type ::= 
+    "HASH" | "SKIPLIST" | "FULLTEXT" | "GEO" | "PERSISTENT" | "TTL" | "VECTOR"
+  ;
+
+drop_index ::= 
+    "DROP" "INDEX" identifier "ON" collection_ref
+  ;
+
+create_view ::= 
+    "CREATE" "VIEW" qualified_identifier "AS" data_query
+  ;
+
+drop_view ::= 
+    "DROP" "VIEW" qualified_identifier
+  ;
+
+field_list_simple ::= 
+    identifier ("," identifier)*
+  ;
+
+collection_options ::= 
+    "OPTIONS" object_literal
+  ;
+
+index_options ::= 
+    "OPTIONS" object_literal
+  ;
+
+(* ========================================================================= *)
+(* DML Statements - Data Manipulation Language                              *)
+(* ========================================================================= *)
+
+dml_statement ::= 
+    insert_statement
+  | update_statement
+  | replace_statement
+  | remove_statement
+  | upsert_statement
+  ;
+
+insert_statement ::= 
+    "INSERT" expression "INTO" collection_ref (return_clause)?
+  ;
+
+update_statement ::= 
+    "UPDATE" expression ("WITH" expression)? "IN" collection_ref (return_clause)?
+  ;
+
+replace_statement ::= 
+    "REPLACE" expression ("WITH" expression)? "IN" collection_ref (return_clause)?
+  ;
+
+remove_statement ::= 
+    "REMOVE" expression "IN" collection_ref (return_clause)?
+  ;
+
+upsert_statement ::= 
+    "UPSERT" expression 
+    "INSERT" expression 
+    ("UPDATE" | "REPLACE") expression 
+    "IN" collection_ref
+    (return_clause)?
+  ;
+
+(* ========================================================================= *)
+(* LLM Extensions (v1.3.0) + Vision Extensions (v1.3.1)                     *)
+(* ========================================================================= *)
+
+llm_statement ::= 
+    llm_infer_stmt
+  | llm_rag_stmt
+  | llm_embed_stmt
+  | llm_model_stmt
+  | llm_lora_stmt
+  | llm_stats_stmt
+  | llm_cache_stmt
+  | llm_vision_stmt  (* NEW in v1.3.1 *)
+  ;
+
+llm_infer_stmt ::= 
+    "LLM" "INFER" string_literal
+    ("USING" "MODEL" string_literal)?
+    ("WITH" "LORA" string_literal)?
+    ("OPTIONS" object_literal)?
+  ;
+
+llm_rag_stmt ::= 
+    "LLM" "RAG" string_literal
+    "FROM" ("COLLECTION" qualified_identifier | "CONTEXT" expression)
+    ("TOP" integer_literal)?
+    ("USING" "LORA" string_literal)?
+    ("OPTIONS" object_literal)?
+  ;
+
+llm_embed_stmt ::= 
+    "LLM" "EMBED" string_literal
+    ("USING" "MODEL" string_literal)?
+    ("RETURN" "VECTOR")?
+  ;
+
+llm_model_stmt ::= 
+    "LLM" "MODEL" (
+        "LOAD" string_literal "FROM" string_literal ("OPTIONS" object_literal)? ("PIN")?
+      | "UNLOAD" string_literal
+      | "LIST" ("WHERE" expression)?
+      | "INGEST" string_literal "FROM" "BLOB" string_literal ("VERSION" string_literal)? ("REPLICATE" "TO" replication_target)?
+    )
+  ;
+
+replication_target ::=
+    "ALL" | "(" string_literal ("," string_literal)* ")"
+  ;
+
+llm_lora_stmt ::= 
+    "LLM" "LORA" (
+        "LOAD" string_literal "FOR" "MODEL" string_literal "FROM" string_literal ("SCALE" float_literal)?
+      | "UNLOAD" string_literal "FOR" "MODEL" string_literal
+      | "LIST" ("FOR" "MODEL" string_literal)? ("WHERE" expression)?
+    )
+  ;
+
+llm_stats_stmt ::= 
+    "LLM" "STATS" ("RETURN" field_list_simple)?
+  ;
+
+llm_cache_stmt ::= 
+    "LLM" "CACHE" (
+        "STATS" ("RETURN" field_list_simple)?
+      | "CLEAR" ("RESPONSE" | "PREFIX" | "ALL")?
+    )
+  ;
+
+(* ========================================================================= *)
+(* LLM Vision Extensions (NEW in v1.3.1)                                    *)
+(* ========================================================================= *)
+
+llm_vision_stmt ::=
+    llm_vision_analyze
+  | llm_vision_batch
+  | llm_vision_transform
+  | llm_vision_question
+  | llm_vision_compare
+  | llm_vision_rag
+  ;
+
+llm_vision_analyze ::=
+    "LLM" "VISION" "ANALYZE" string_literal
+    "USING" "MODEL" string_literal
+    ("DETECT" "[" detection_list "]")?
+    ("OPTIONS" object_literal)?
+    ("RETURN" "AS" type_spec)?
+  ;
+
+detection_list ::=
+    detection_type ("," detection_type)*
+  ;
+
+detection_type ::=
+    "objects" | "text" | "faces" | "landmarks" | 
+    "emotions" | "brands" | "celebrities" | "scenes"
+  ;
+
+llm_vision_batch ::=
+    "LLM" "VISION" "BATCH" "ANALYZE"
+    for_clause
+    "DETECT" detection_list
+    "USING" "MODEL" string_literal
+    ("OPTIONS" object_literal)?
+    return_clause
+  ;
+
+llm_vision_transform ::=
+    "LLM" "VISION" "TRANSFORM" string_literal
+    "USING" "MODEL" string_literal
+    "OPERATIONS" array_literal
+    ("OUTPUT" "TO" string_literal)?
+  ;
+
+llm_vision_question ::=
+    "LLM" "VISION" "QUESTION" string_literal
+    "ABOUT" "IMAGE" string_literal
+    "USING" "MODEL" string_literal
+    ("OPTIONS" object_literal)?
+  ;
+
+llm_vision_compare ::=
+    "LLM" "VISION" "COMPARE"
+    "IMAGES" array_literal
+    "USING" "MODEL" string_literal
+    ("METRIC" string_literal)?
+    ("OPTIONS" object_literal)?
+  ;
+
+llm_vision_rag ::=
+    "LLM" "VISION" "RAG" string_literal
+    "FROM" "COLLECTION" qualified_identifier
+    ("WHERE" expression)?
+    ("WITH" "IMAGE" string_literal)?
+    ("TOP" integer_literal)?
+    "USING" "MODEL" string_literal
+    ("WITH" "LORA" string_literal)?
+    ("OPTIONS" object_literal)?
+  ;
+
+(* ========================================================================= *)
+(* Expressions                                                               *)
+(* ========================================================================= *)
+
+expression ::= 
+    pipeline_expr  (* NEW: Pipeline has highest precedence *)
+  ;
+
+pipeline_expr ::=
+    logical_or_expr ("|>" pipeline_stage)*
+  ;
+
+pipeline_stage ::=
+    function_call
+  | method_call
+  | llm_operation
+  | "_"  (* Placeholder for piped value *)
+  ;
+
+logical_or_expr ::= 
+    logical_and_expr ("OR" logical_and_expr)*
+  ;
+
+logical_and_expr ::= 
+    logical_not_expr ("AND" logical_not_expr)*
+  ;
+
+logical_not_expr ::= 
+    ("NOT")? comparison_expr
+  ;
+
+comparison_expr ::= 
+    additive_expr (comparison_op additive_expr)?
+  ;
+
+comparison_op ::= 
+    "==" | "!=" | "<" | "<=" | ">" | ">=" | "IN" | "NOT" "IN" | "LIKE" | "=~" | "!~"
+  ;
+
+additive_expr ::= 
+    multiplicative_expr (("+"|"-") multiplicative_expr)*
+  ;
+
+multiplicative_expr ::= 
+    unary_expr (("*"|"/"|"%") unary_expr)*
+  ;
+
+unary_expr ::= 
+    ("+"|"-")? postfix_expr
+  ;
+
+postfix_expr ::=
+    primary_expr (postfix_op)*
+  ;
+
+postfix_op ::=
+    member_access
+  | optional_chaining
+  | array_access
+  | method_call
+  | type_cast
+  ;
+
+primary_expr ::= 
+    literal
+  | variable
+  | function_call
+  | array_literal
+  | object_literal
+  | ternary_expr
+  | await_expr
+  | async_block
+  | match_stmt
+  | object_instantiation
+  | this_reference
+  | self_reference
+  | "(" expression ")"
+  | range_expr
+  ;
+
+(* Member Access *)
+member_access ::= 
+    "." identifier
+  ;
+
+(* Optional Chaining (NEW in v1.3.1) *)
+optional_chaining ::=
+    ("?." identifier)+
+    ("??" expression)?  (* Null coalescing *)
+  ;
+
+(* Array Access *)
+array_access ::= 
+    "[" expression "]"
+  ;
+
+(* Method Call (NEW in v1.3.1) *)
+method_call ::=
+    "." identifier "(" argument_list? ")"
+  ;
+
+(* Type Cast (NEW in v1.3.1) *)
+type_cast ::=
+    "AS" type_spec
+  ;
+
+(* Ternary Expression *)
+ternary_expr ::= 
+    expression "?" expression ":" expression
+  ;
+
+(* Object Instantiation (NEW in v1.3.1) *)
+object_instantiation ::=
+    "NEW" qualified_identifier "(" argument_list? ")"
+  ;
+
+(* This and Self References (NEW in v1.3.1) *)
+this_reference ::= "THIS" ;
+self_reference ::= "SELF" ;
+
+(* ========================================================================= *)
+(* Function Calls                                                            *)
+(* ========================================================================= *)
+
+function_call ::= 
+    function_name "(" (argument_list)? ")"
+  ;
+
+function_name ::= 
+    qualified_identifier  (* Now supports namespaces *)
+  ;
+
+argument_list ::= 
+    argument ("," argument)*
+  ;
+
+argument ::=
+    (identifier ":")? expression  (* Named arguments *)
+  ;
+
+llm_operation ::=
+    llm_infer_stmt
+  | llm_rag_stmt
+  | llm_embed_stmt
+  | llm_vision_analyze
+  | llm_vision_question
+  ;
+
+(* Built-in Functions - Categories *)
+(* String Functions: LENGTH, CONCAT, SUBSTRING, UPPER, LOWER, TRIM, etc. *)
+(* Math Functions: ABS, CEIL, FLOOR, ROUND, SQRT, POW, MIN, MAX, etc. *)
+(* Array Functions: PUSH, POP, SHIFT, UNSHIFT, FLATTEN, UNIQUE, MAP, FILTER, REDUCE, etc. *)
+(* Geo Functions: ST_Point, ST_Distance, ST_Within, ST_Contains, etc. *)
+(* Vector Functions: SIMILARITY, COSINE_SIMILARITY, DOT_PRODUCT, etc. *)
+(* Date Functions: DATE_NOW, DATE_FORMAT, DATE_DIFF, etc. *)
+(* Type Functions: TO_STRING, TO_NUMBER, TO_BOOL, IS_NULL, etc. *)
+
+(* ========================================================================= *)
+(* Literals and Variables                                                    *)
+(* ========================================================================= *)
+
+literal ::= 
+    null_literal
+  | boolean_literal
+  | integer_literal
+  | float_literal
+  | string_literal
+  | array_literal
+  | object_literal
+  ;
+
+null_literal ::= "null" ;
+
+boolean_literal ::= "true" | "false" ;
+
+integer_literal ::= 
+    digit+
+  ;
+
+float_literal ::= 
+    digit+ "." digit+ (exponent)?
+  | digit+ exponent
+  ;
+
+exponent ::= 
+    ("E"|"e") ("+"|"-")? digit+
+  ;
+
+string_literal ::= 
+    '"' (string_char | escape_sequence)* '"'
+  | "'" (string_char | escape_sequence)* "'"
+  ;
+
+string_char ::= 
+    ? any Unicode character except '"', "'", '\' ?
+  ;
+
+escape_sequence ::= 
+    "\\" ("n" | "t" | "r" | "b" | "f" | "\\" | '"' | "'" | "u" hex_digit hex_digit hex_digit hex_digit)
+  ;
+
+array_literal ::= 
+    "[" (expression ("," expression)*)? "]"
+  ;
+
+object_literal ::= 
+    "{" (key_value_pair ("," key_value_pair)*)? "}"
+  ;
+
+key_value_pair ::= 
+    (identifier | string_literal) ":" expression
+  ;
+
+variable ::= 
+    identifier
+  ;
+
+identifier ::= 
+    letter (letter | digit | "_")*
+  | "`" (letter | digit | "_" | "-" | "." | " ")+ "`"
+  ;
+
+assignment_stmt ::=
+    variable "=" expression
+  ;
+
+(* ========================================================================= *)
+(* Lexical Elements                                                          *)
+(* ========================================================================= *)
+
+digit ::= 
+    "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+  ;
+
+hex_digit ::= 
+    digit | "a" | "b" | "c" | "d" | "e" | "f" | "A" | "B" | "C" | "D" | "E" | "F"
+  ;
+
+letter ::= 
+    "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m"
+  | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+  | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M"
+  | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+  ;
+
+regex_body ::=
+    ? any valid regular expression ?
+  ;
+
+(* ========================================================================= *)
+(* Comments (Not part of formal grammar but recognized by lexer)            *)
+(* ========================================================================= *)
+
+(* Single-line comment: // ... *)
+(* Multi-line comment: /* ... */ *)
+(* Documentation comment: /** ... */ *)
+
+(* ========================================================================= *)
+(* Reserved Keywords                                                         *)
+(* ========================================================================= *)
+
+(* Core: FOR, IN, LET, FILTER, COLLECT, SORT, LIMIT, RETURN *)
+(* Logical: AND, OR, NOT *)
+(* Comparison: IN, LIKE *)
+(* Aggregation: COUNT, SUM, AVG, MIN, MAX, VARIANCE, STDDEV, UNIQUE *)
+(* Graph: OUTBOUND, INBOUND, ANY, SHORTEST_PATH *)
+(* DDL: CREATE, DROP, COLLECTION, INDEX, VIEW *)
+(* DML: INSERT, UPDATE, REPLACE, REMOVE, UPSERT, INTO, WITH *)
+(* LLM: LLM, INFER, RAG, EMBED, MODEL, LORA, STATS, CACHE, LOAD, UNLOAD, LIST, INGEST, BLOB *)
+(* Vision: VISION, ANALYZE, DETECT, TRANSFORM, QUESTION, COMPARE, ABOUT, IMAGE, IMAGES *)
+(* Index Types: HASH, SKIPLIST, FULLTEXT, GEO, PERSISTENT, TTL, VECTOR *)
+(* Options: OPTIONS, DISTINCT, ASC, DESC, FROM, TO, TOP, USING, PIN *)
+(* Literals: null, true, false *)
+(* OOP (NEW): NAMESPACE, IMPORT, TYPE, FUNCTION, CLASS, PUBLIC, PRIVATE, *)
+(*            CONSTRUCTOR, METHOD, THIS, SELF, NEW, EXTENDS *)
+(* Control Flow (NEW): IF, THEN, ELSE, ELSEIF, ENDIF, TRY, CATCH, THROW, *)
+(*                     MATCH, WHEN, CASE, END, WHERE *)
+(* Async (NEW): ASYNC, AWAIT, ALL, TIMEOUT, PARALLEL *)
+(* Types (NEW): String, Int, Float, Bool, Object, Any, Array, Map, Result *)
+(* Macros (NEW): MACRO *)
+
+(* ========================================================================= *)
+(* End of Grammar                                                            *)
+(* ========================================================================= *)
