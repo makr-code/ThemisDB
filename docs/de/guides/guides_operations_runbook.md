@@ -1,15 +1,48 @@
-# Operations Runbook
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ Operations Runbook
+
+Essential operations and emergency procedures guide.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Checks](#-quick-checks)
+- [📖 Operational Procedures](#-operational-procedures)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 Dieses Runbook fasst die wichtigsten Betriebsaufgaben und Notfallmaßnahmen für THEMIS zusammen. Es richtet sich an On-Call/Operations und beschreibt Checks, Standardprozeduren und Playbooks.
 
-## 1) Quick Checks (60 Sekunden)
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
+
+---
+
+## ✨ Features
+
+- ⏱️ **60-Second Checks** - Health, metrics, config validation
+- 🔄 **Start/Stop/Restart** - systemd, Docker, and manual procedures
+- 📊 **Monitoring** - Prometheus metrics and alerting
+- 🆘 **Emergency Procedures** - Failover and recovery playbooks
+- 🔐 **Security** - Audit and access control
+
+---
+
+## 🚀 Quick Checks (60 Sekunden)
 
 - Health: GET /health
 - Version: GET /version (falls aktiviert) oder Server-Logs

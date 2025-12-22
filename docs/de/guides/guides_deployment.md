@@ -1,6 +1,48 @@
-﻿# THEMIS Deployment Guide
+﻿---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-## Table of Contents
+# 🔨 THEMIS Deployment Guide
+
+Complete guide to deploying ThemisDB across platforms and environments.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Installation Methods](#-installation-methods)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+Deployment guide for installing and running ThemisDB in production environments.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- 📦 **Multiple Installation Methods** - Binary, Docker, from source
+- ☸️ **Kubernetes Ready** - StatefulSet deployments
+- 📊 **Multi-Platform** - Windows, Linux, macOS, Docker
+- 🔐 **Security** - TLS/mTLS, authentication, encryption
+- 📈 **Scalability** - Horizontal and vertical scaling support
+
+---
+
+## 🚀 Quick Start
 
 1. [System Requirements](#system-requirements)
 2. [Installation Methods](#installation-methods)

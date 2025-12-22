@@ -1,4 +1,40 @@
-# RocksDB Windows Build Issues - Knowledge Base
+---
+category: "🛠️ Developer/Technical"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
+
+# 🛠️ RocksDB Windows Build Issues - Knowledge Base
+
+Knowledge base for RocksDB-related build issues on Windows.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Common Issues](#-common-issues)
+- [🚀 Solutions](#-solutions)
+- [📖 Root Cause Analysis](#-root-cause-analysis)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+Comprehensive knowledge base for RocksDB build issues on Windows platforms.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🛠️ Developer/Technical
+
+---
+
+## ✨ Common Issues
+
+---
 
 ## Problem: "unrecognized file format in rocksdb_wrapper.obj"
 

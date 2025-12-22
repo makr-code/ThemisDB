@@ -1,32 +1,75 @@
-# Railway Monitoring System - Complete Implementation Guide
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-## 🎯 Overview
+# 🔨 Railway Monitoring System - Complete Implementation Guide
+
+Complete implementation guide for Railway monitoring system with ThemisDB.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 System Components](#-system-components)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
 
 Vollständiges Echtzeit-Überwachungssystem für Zugverkehr der Deutschen Bahn mit ThemisDB als Backend. Das System umfasst IoT-Zeitreihenanalyse, Energie-Management, Asset-Tracking und KI-gestützte Analysen.
 
-## 📦 Komponenten
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
 
-### 1. Backend (ThemisDB)
+---
+
+## ✨ Features
+
+- 🚂 **Real-Time Tracking** - 40,000+ trains per day
+- 📊 **Multi-Model DB** - Graph, Time-Series, Document, Geo-Spatial
+- ⚡ **CEP Engine** - Complex Event Processing for anomaly detection
+- 🤖 **AI Analytics** - Ollama LLM integration
+- 🗺️ **Live Maps** - OpenStreetMap with real-time train positions
+- ⚡ **Energy Dashboard** - Power plant control and consumption analysis
+
+---
+
+## 🚀 Quick Start
+
+### Komponenten
+
+#### 1. Backend (ThemisDB)
 - **Multi-Model Database**: Graph, Time-Series, Document, Geo-Spatial
 - **CEP Engine**: Complex Event Processing für Anomalie-Erkennung
 - **REST API**: Für Client-Zugriff
 
-### 2. Simulation & Data Generation
+#### 2. Simulation & Data Generation
 - **C++ Generator**: Erstellt realistische Streckennetz-Daten
 - **Python Simulator**: Simuliert 40.000 Züge/Tag mit realistischen Bewegungen
 - **DB API Integration**: Echte Daten von Deutsche Bahn APIs
 
-### 3. Desktop Client (WPF .NET 8.0)
+#### 3. Desktop Client (WPF .NET 8.0)
 - **Live-Karte**: OpenStreetMap mit Echtzeit-Zugpositionen
 - **Energie-Dashboard**: Kraftwerkssteuerung und Verbrauchsanalyse
 - **KI-Analysen**: Ollama LLM Integration
 - **Material Design UI**: Moderne, professionelle Benutzeroberfläche
 
-### 4. Web Client (HTML5)
+#### 4. Web Client (HTML5)
 - **Live-Karte**: Leaflet.js mit OSM
 - **Echtzeit-Updates**: WebSocket-basiert
 
-## 🚀 Quick Start
+---
+
+## 🎯 Overview
 
 ### Voraussetzungen
 

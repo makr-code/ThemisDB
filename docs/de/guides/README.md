@@ -1,6 +1,22 @@
-# Troubleshooting Guide - ThemisDB
+---
+category: "🛠️ Developer/Technical"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
+
+# 🛠️ Troubleshooting Guide - ThemisDB
 
 Schnelle Hilfe bei häufigen Build- und Runtime-Problemen.
+
+## 📋 Inhaltsverzeichnis
+
+- [🔧 Build-Probleme](#-build-probleme)
+- [🐳 Docker-Probleme](#-docker-probleme)
+- [⚡ Runtime-Probleme](#-runtime-probleme)
+- [🔍 Debugging Tools](#-debugging-tools)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [🆘 Support](#-support)
 
 ## 🔧 Build-Probleme
 

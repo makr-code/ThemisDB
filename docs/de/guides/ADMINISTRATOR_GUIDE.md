@@ -1,38 +1,51 @@
-# ThemisDB Administrator Guide
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+audience: "DevOps engineers, SREs, database administrators"
+---
+
+# ⚙️ ThemisDB Administrator Guide
+
+Operational guide for running ThemisDB in production.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Installation & Deployment](#-installation--deployment)
+- [📖 Konfiguration & Betrieb](#-konfiguration--betrieb)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+Operational guide for DevOps engineers and database administrators covering deployment, monitoring, security, and maintenance.
 
 **Target Audience:** DevOps engineers, SREs, database administrators
 
-**Version:** 1.2.0  
+**Version:** 1.3.0  
 **Last Updated:** December 2025
 
-## Table of Contents
+---
 
-1. [Introduction](#introduction)
-2. [Installation & Deployment](#installation--deployment)
-3. [Configuration Management](#configuration-management)
-4. [Backup & Recovery](#backup--recovery)
-5. [Monitoring & Alerting](#monitoring--alerting)
-6. [Security Hardening](#security-hardening)
-7. [Resource Management](#resource-management)
-8. [High Availability](#high-availability)
-9. [Disaster Recovery](#disaster-recovery)
-10. [Performance Tuning](#performance-tuning)
-11. [Troubleshooting](#troubleshooting)
-12. [Maintenance Tasks](#maintenance-tasks)
+## ✨ Features & Highlights
 
-## Introduction
+- 🏗️ **4 Build-Varianten** - Standard, OLAP, Embedded, vLLM
+- 💾 **Inkrementelle Backups** - 80-90% Speicherersparnis
+- 📊 **OpenTelemetry** - Vollständiges Monitoring
+- 🔐 **PKI/mTLS** - Enterprise Security
+- 🤖 **vLLM Co-Location** - AI/ML Workloads
+- ☸️ **Kubernetes Ready** - StatefulSet deployment
 
-This guide covers operational aspects of running ThemisDB in production environments, including deployment, monitoring, security, and maintenance.
+---
 
-**Key Topics:**
-- 4 build variants for different use cases
-- Incremental backups (80-90% storage reduction)
-- OpenTelemetry monitoring integration
-- PKI certificate management with mTLS
-- vLLM co-location for AI/ML workloads
-- Docker Compose and Kubernetes deployment
-
-## Installation & Deployment
+## 🚀 Installation & Deployment
 
 ### Build Variants
 

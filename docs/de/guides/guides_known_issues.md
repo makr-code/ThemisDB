@@ -1,11 +1,38 @@
-# Known Issues
+---
+category: "🛠️ Developer/Technical"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🛠️ Known Issues
+
+Tracking and documentation of known issues and workarounds.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Active Issues](#-active-issues)
+- [🚀 Workarounds](#-workarounds)
+- [📖 Issue Tracking](#-issue-tracking)
+- [💡 Reporting Issues](#-reporting-issues)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
+
+Documentation of known issues in ThemisDB with tracking status and workarounds.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🛠️ Developer/Technical
+
+---
+
+## ✨ Active Issues
 
 Datum: 19. Nov 2025
 

@@ -1,11 +1,50 @@
-# TLS/SSL Setup Guide for ThemisDB
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ TLS/SSL Setup Guide for ThemisDB
+
+Complete guide to configuring TLS and mutual TLS for secure communication.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Certificate Generation](#-certificate-generation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
+
+ThemisDB supports both HTTP and HTTPS modes with optional mutual TLS (mTLS) for enhanced security. This guide covers certificate generation, configuration, and testing.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
+
+---
+
+## ✨ Features
+
+- 🔒 **TLS 1.3 Support** - Modern protocol with perfect forward secrecy
+- 🔐 **Mutual TLS (mTLS)** - Client certificate verification
+- 🛡️ **Strong Ciphers** - ECDHE-RSA-AES256-GCM-SHA384 and more
+- 📋 **Security Headers** - HSTS, X-Frame-Options, CSP
+- ✅ **Certificate Chain Validation** - Full chain verification
+
+---
+
+## 🚀 Quick Start
+
+---
 
 ## Overview
 

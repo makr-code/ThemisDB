@@ -1,11 +1,49 @@
-# Enterprise Scalability - Build & Deployment Guide
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🔨 Enterprise Scalability - Build & Deployment Guide
+
+Guide for building and deploying ThemisDB at enterprise scale.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Enterprise Build](#-enterprise-build)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
+
+Build and deployment guidance for enterprise environments with special focus on scalability features.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- 🏢 **Enterprise Features** - Sharding, Replication, Distributed Transactions
+- 🔒 **Security** - mTLS, RBAC, encryption at rest
+- 📊 **Scalability** - Horizontal scaling with Raft consensus
+- ⚡ **Performance** - Multi-shard query optimization
+
+---
+
+## 🚀 Quick Start
+
+---
 
 ## Status
 

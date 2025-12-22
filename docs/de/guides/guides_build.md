@@ -1,13 +1,49 @@
-# ThemisDB Build Toolchain
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🔨 ThemisDB Build Toolchain
+
+Comprehensive guide to building ThemisDB across all platforms.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Build Strategien](#-build-strategien)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
-## Quick Start
+Complete guide for compiling ThemisDB across Windows, Linux, Docker, and ARM64 platforms.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- 🪟 **Windows (MSVC/Clang)** - VS 2022 generator
+- 🐧 **Linux** - GCC/Clang with preset configs
+- 🐳 **Docker** - Multi-stage builds, quick & full
+- 🦾 **ARM64** - Raspberry Pi & IoT devices
+- ⚡ **Parallel** - Multi-core compilation
+- 📦 **Release Automation** - Version management & tagging
+
+---
+
+## 🚀 Quick Start
 
 ### Windows
 ```powershell

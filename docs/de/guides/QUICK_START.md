@@ -1,19 +1,44 @@
-# Quick Start Guide
+---
+category: "📋 Guides"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Get ThemisDB up and running in 5 minutes**
+# 📋 Quick Start Guide
 
-This guide will help you install ThemisDB, start the server, and run your first queries.
+Get ThemisDB up and running in 5 minutes
+
+## 📋 Inhaltsverzeichnis
+
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Installation & Setup](#-installation--setup)
+- [💡 Erste Schritte](#-erste-schritte)
+- [🔧 Konfiguration](#-konfiguration)
+- [🛠️ Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
-## Prerequisites
+## ✨ Features & Highlights
 
-- **Docker** (recommended) OR
-- **Linux/macOS/Windows** with build tools
+ThemisDB bietet:
+- 🐳 **Docker-Support** - Schnellste Installation
+- 📦 **Multi-Plattform** - Windows, Linux, macOS
+- ⚡ **Zero-Config** - Start in seconds
+- 🔗 **REST API** - Einfache Integration
+- 📊 **Multi-Model** - Relational, Document, Graph, Vector
 
 ---
 
-## Installation
+## 🚀 Schnellstart (5 Minuten)
+
+### Voraussetzungen
+
+- **Docker** (empfohlen) ODER
+- **Linux/macOS/Windows** mit Build-Tools
 
 ### Option 1: Docker (Recommended)
 

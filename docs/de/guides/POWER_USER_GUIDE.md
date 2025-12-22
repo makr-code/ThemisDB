@@ -1,29 +1,50 @@
-# ThemisDB Power User Guide
+---
+category: "📋 Guides"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+audience: "Senior engineers, performance engineers, data architects"
+---
+
+# 📋 ThemisDB Power User Guide
+
+Advanced optimization and performance tuning guide for power users.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Advanced Optimization](#-advanced-optimization)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+This guide covers advanced techniques for optimizing ThemisDB performance, tuning complex queries, and leveraging all unique selling propositions.
 
 **Target Audience:** Senior engineers, performance engineers, data architects
 
-**Version:** 1.2.0  
+**Version:** 1.3.0  
 **Last Updated:** December 2025
 
-## Table of Contents
+---
 
-1. [Introduction](#introduction)
-2. [Advanced Query Optimization](#advanced-query-optimization)
-3. [Multi-Model Advanced Patterns](#multi-model-advanced-patterns)
-4. [Performance Tuning](#performance-tuning)
-5. [Advanced Vector Search](#advanced-vector-search)
-6. [Embedding Cache Strategies](#embedding-cache-strategies)
-7. [Hybrid Search Tuning](#hybrid-search-tuning)
-8. [SIMD Time-Series Aggregates](#simd-time-series-aggregates)
-9. [Batch Operations & Bulk Loading](#batch-operations--bulk-loading)
-10. [Custom Indexes & Data Structures](#custom-indexes--data-structures)
-11. [Monitoring & Profiling](#monitoring--profiling)
-12. [Advanced Security](#advanced-security)
-13. [Performance Benchmarks](#performance-benchmarks)
+## ✨ Features
 
-## Introduction
+- ⚡ **3-10x Performance** - Advanced query optimization techniques
+- 🔍 **Vector Search** - Billion-scale search with FAISS IVF+PQ
+- 📊 **SIMD Aggregation** - Time-series acceleration
+- 🏗️ **Enterprise Sharding** - Raft + TrueTime consensus
+- 💰 **Cost Optimization** - 70-90% API cost savings
 
-This guide covers advanced techniques for optimizing ThemisDB performance, tuning complex queries, and leveraging all 12 unique selling propositions for maximum value extraction.
+---
+
+## 🚀 Quick Start
 
 **Prerequisites:**
 - Completed [User Guide](USER_GUIDE.md)
@@ -38,46 +59,13 @@ This guide covers advanced techniques for optimizing ThemisDB performance, tunin
 - Enterprise sharding with Raft + TrueTime
 - Cost optimization (70-90% API savings)
 
+---
+
 ## Advanced Query Optimization
 
 ### Query Plan Analysis
 
-```cpp
-// Enable query plan output
-db.setConfig("query.explain", true);
-
-auto result = db.execute(R"(
-    FOR doc IN documents
-        FILTER doc.category == 'ai'
-        SORT doc.created_at DESC
-        LIMIT 100
-        RETURN doc
-)");
-
-// View execution plan
-std::cout << result.getExecutionPlan() << std::endl;
-```
-
-**Optimization Tips:**
-- Use indexes for filters (2-100x speedup)
-- Push filters before sorts
-- Limit early when possible
-- Avoid full collection scans
-
-### Index Selection Strategies
-
-```cpp
-// Create composite index for frequent query pattern
-db.createIndex("documents", {"category", "created_at"}, {
-    .type = IndexType::BTREE,
-    .unique = false,
-    .sparse = false
-});
-
-// Create covering index
-db.createIndex("documents", {"category", "title", "created_at"}, {
-    .covering = {"category", "title", "created_at", "id"}
-});
+Based on:**
 ```
 
 **Performance Impact:**

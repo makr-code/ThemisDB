@@ -1,8 +1,49 @@
-# Styleguide & Konventionen – THEMIS
+---
+category: "🛠️ Developer/Technical"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
+
+# 🛠️ Styleguide & Konventionen – THEMIS
+
+Comprehensive coding standards and conventions guide.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Coding Standards](#-coding-standards)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+Dieser Styleguide definiert Coding-Standards, Namenskonventionen, Error Handling und Logging-Richtlinien für das THEMIS-Projekt. Ziel ist Konsistenz, Wartbarkeit und Qualität über alle C++-Module hinweg.
 
 **Version:** 2.0  
 **Status:** Implementiert  
-**Letzte Aktualisierung:** 2. November 2025
+**Letzte Aktualisierung:** 22.12.2025
+
+---
+
+## ✨ Features
+
+- 🔧 **C++17 Standards** - Modern C++ best practices
+- 📝 **Naming Conventions** - Consistent naming across codebase
+- 🛡️ **Error Handling** - Exception-safe code patterns
+- 📋 **Logging Guidelines** - Structured logging standards
+- 📚 **Documentation** - Code comment conventions
+- 🎯 **Code Organization** - Module structure and dependencies
+
+---
+
+## 🚀 Quick Start
 
 ---
 

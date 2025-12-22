@@ -1,13 +1,52 @@
-# ThemisDB Package Maintainer Quick Reference
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🔨 ThemisDB Package Maintainer Quick Reference
+
+Quick reference guide for package maintainers across all distributions.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Checklists & Commands](#-checklists--commands)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
-This is a quick reference guide for package maintainers. For detailed instructions, see [packaging.md](packaging.md).
+This is a quick reference guide for package maintainers.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- ✅ **Release Checklist** - One-command version updates
+- 🔧 **Build Commands** - Quick reference for all platforms
+- 📦 **Package Quick Ref** - Debian, RPM, PKGBUILD, Chocolatey, WinGet, Homebrew
+- 🔄 **Version Sync** - Automated version management across all files
+- 📋 **Testing Commands** - Installation and verification procedures
+
+---
+
+## 🚀 Quick Start
+
+For detailed instructions, see [packaging.md](packaging.md).
+
+---
 
 ## Version Update Checklist
 

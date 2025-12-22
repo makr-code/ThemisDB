@@ -1,12 +1,28 @@
-# Benutzerverwaltung für Administratoren
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 18. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ Benutzerverwaltung für Administratoren
+
+Comprehensive user management guide using external authentication systems.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Authentication & Integration](#-authentication--integration)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
-## Übersicht
+## 📋 Übersicht
 
 **Wichtig:** ThemisDB besitzt **keine eigene Benutzerverwaltung**. Die Authentifizierung und Autorisierung erfolgt ausschließlich über **externe Systeme** wie:
 
@@ -15,11 +31,28 @@
 - **Active Directory / LDAP** (über JWT-Integration)
 - **OpenID Connect (OIDC)** Provider
 
-Dieser Guide erklärt, wie Administratoren die Benutzerverwaltung über diese externen Systeme konfigurieren und betreiben.
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
 
 ---
 
-## Inhaltsverzeichnis
+## ✨ Features
+
+- 🔐 **JWT-Based Auth** - Keycloak, Auth0, Azure AD, AWS Cognito
+- 🏢 **Enterprise Integration** - Active Directory, LDAP via OIDC
+- 📋 **Apache Ranger** - Policy-based access control
+- 👥 **Multi-Provider** - Support for multiple authentication sources
+- 🔄 **Token Management** - JWT validation, rotation, expiration
+- 📊 **Audit Logging** - Track all authentication events
+
+---
+
+## 🚀 Quick Start
+
+---
+
+## Übersicht
 
 1. [Architektur-Überblick](#architektur-überblick)
 2. [JWT-basierte Authentifizierung](#jwt-basierte-authentifizierung)

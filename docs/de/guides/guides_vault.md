@@ -1,21 +1,58 @@
-weiter ```markdown
-# Vault integration (developer notes)
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ Vault Integration Guide
+
+Guide to integrating and testing HashiCorp Vault with ThemisDB.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Vault Integration](#-vault-integration)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 This document explains how to run the Vault developer helper and the repository's Vault integration tests locally.
 
-Prerequisites
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
+
+---
+
+## ✨ Features
+
+- 🔐 **Secrets Management** - HashiCorp Vault integration
+- 🔑 **Key Provider** - Vault-based key management
+- 🧪 **Local Testing** - Vault dev helper scripts
+- 🐳 **Docker Support** - Containerized Vault setup
+- 📋 **KV v2 Mount** - Key-value secrets engine
+- 🔄 **Rotation Support** - Key rotation capabilities
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
 - Docker (local, able to run Linux containers)
 - WSL (Windows Subsystem for Linux) if you intend to run the test binary from WSL
 - A repository build producing `build-wsl/themis_tests` or `build-wsl/themis_server`
 
-Helper script
+---
+
+## Vault integration (developer notes)
 - `.tools/vault_dev_run.ps1` is a PowerShell helper that:
   - starts a Vault dev container (`hashicorp/vault`), exposing it on `127.0.0.1:8200`
   - enables KV v2 at the mount `themis/`

@@ -1,13 +1,54 @@
-# Publikation & Ablage
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🔨 Publikation & Ablage
+
+Guide to building and publishing documentation.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Local & Deployment](#-local--deployment)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 Diese Seite beschreibt den Build der Dokumentation, die Veröffentlichung auf GitHub Pages und einen optionalen PDF-Export für Offline-Nutzung.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- 🏗️ **Local Building** - mkdocs serve for development
+- 🌐 **GitHub Pages** - Automated CI deployment
+- 📄 **PDF Export** - Print-optimized documentation
+- 📱 **Responsive Design** - Material theme for all devices
+- 🔄 **Auto-Deployment** - GitHub Actions workflow included
+
+---
+
+## 🚀 Quick Start
+
+1. [Lokaler Docs-Build](#1-lokaler-docs-build)
+2. [GitHub Pages Deployment (CI)](#2-github-pages-deployment-ci)
+3. [Gesamt-PDF / Druckansicht (empfohlen)](#3-gesamt-pdf--druckansicht-empfohlen)
+
+---
 
 ## 1) Lokaler Docs-Build
 

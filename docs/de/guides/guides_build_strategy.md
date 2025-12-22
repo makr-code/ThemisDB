@@ -1,10 +1,50 @@
-# ThemisDB Build, Packaging & Deployment Strategy
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 17. Dezember 2025  
-**Version:** 3.0.0 (v1.3.0 LLM Integration & RPC Framework)  
-**Kategorie:** Guides
+# 🔨 ThemisDB Build, Packaging & Deployment Strategy
 
-**WICHTIG - NEU in Version 3.0 (v1.3.0):**
+Comprehensive build strategy across all platforms and deployment scenarios.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Build-Strategien](#-build-strategien)
+- [📖 Versionierung & Packaging](#-versionierung--packaging)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+Konsistente Build-Toolchain für alle Plattformen mit eindeutiger Versionierung und abgestimmtem Packaging/CI-CD.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- 🏗️ **Multi-Plattform** - Windows, Linux, Docker, ARM64
+- 📦 **Versionierung** - Semantic Versioning, Git Tags, Docker Tags
+- 🔐 **LLM Integration** - llama.cpp, GPU/CUDA, Continuous Batching
+- 🔌 **RPC Framework** - gRPC plugin, Inter-Shard Communication
+- 🎯 **Modular Builds** - LLM, RPC, GPU können unabhängig aktiviert werden
+
+---
+
+## 🚀 Build-Strategien nach Plattform
+
+**WICHTIG - NEU in Version 1.3.0 (v1.3.0):**
 - ✅ **LLM Integration**: llama.cpp, GPU/CUDA, PagedAttention, Continuous Batching
 - ✅ **RPC Framework**: gRPC plugin, Inter-Shard Communication, TLS/mTLS
 - ✅ **New Dependencies**: gRPC, Protobuf, CUDA Toolkit (optional)

@@ -1,13 +1,55 @@
-# RBAC & ABAC Authorization
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ RBAC & ABAC Authorization
+
+Advanced authorization with role-based and attribute-based access control.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Authorization Models](#-authorization-models)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 Diese Seite beschreibt die vollständige Zugriffskontrolle in ThemisDB mit zweistufigem Sicherheitsmodell:
+1. **Token-basierte Authentifizierung** mit Scopes (RBAC-Ebene)
+2. **Policy Engine** mit Attribute-Based Access Control (ABAC, Ranger-kompatibel)
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
+
+---
+
+## ✨ Features
+
+- 🔐 **Two-Layer Security** - Token-based + Policy Engine
+- 👤 **Scope-Based RBAC** - Admin, config, data, metrics, CDC, PII scopes
+- 📋 **ABAC Policies** - Ranger-compatible attribute-based control
+- 🌐 **IP Filtering** - IP-prefix based access restrictions
+- 📊 **Audit Logging** - All authorization decisions logged
+- 📈 **Prometheus Metrics** - Authorization result tracking
+
+---
+
+## 🚀 Quick Start
+
+---
+
+## Konzept
 1. **Token-basierte Authentifizierung** mit Scopes (RBAC-Ebene)
 2. **Policy Engine** mit Attribute-Based Access Control (ABAC, Ranger-kompatibel)
 

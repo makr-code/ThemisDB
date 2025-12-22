@@ -1,13 +1,51 @@
-# Automatic Update Check
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ Automatic Update Check
+
+Guide to automatic version checking and update notifications.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Manual & Automatic Checks](#-manual--automatic-checks)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 ThemisDB supports automatic version checking to notify administrators when new updates are available.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
+
+---
+
+## ✨ Features
+
+- 🔄 **Automatic Checks** - Periodic update polling
+- 📱 **Version Notifications** - Alert admins of new releases
+- 🔒 **Security Updates** - Prioritized security release detection
+- 🔗 **Download Links** - Direct links to latest releases
+- 📊 **Version Comparison** - Track current vs latest version
+- ⚙️ **Configurable** - Customize check frequency
+
+---
+
+## 🚀 Quick Start
+
+---
 
 ## Overview
 

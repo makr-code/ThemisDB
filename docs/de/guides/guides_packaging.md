@@ -1,15 +1,50 @@
-# ThemisDB Packaging Guide
+---
+category: "🔨 Build/Deployment"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🔨 ThemisDB Packaging Guide
+
+Guide to building and distributing packages across platforms.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Linux Distributions](#-linux-distributions)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 This document describes how to build and publish ThemisDB packages for various operating systems and package managers.
 
-## Table of Contents
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🔨 Build/Deployment
+
+---
+
+## ✨ Features
+
+- 🐧 **Linux Support** - Debian/Ubuntu (.deb), Fedora/RHEL (.rpm), Arch Linux
+- 🪟 **Windows Support** - Chocolatey, WinGet
+- 🍎 **macOS Support** - Homebrew
+- 📦 **Multi-Package** - Support for various package managers
+- 🔄 **Distribution Submission** - Publishing to official repositories
+
+---
+
+## 🚀 Quick Start
+
+### Table of Contents
 
 - [Linux Distributions](#linux-distributions)
   - [Debian/Ubuntu (.deb)](#debianubuntu-deb)

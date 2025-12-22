@@ -1,24 +1,47 @@
-# Code Quality Pipeline
+---
+category: "🛠️ Developer/Technical"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# 🛠️ Code Quality Pipeline
+
+Comprehensive code quality and testing infrastructure.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Quality Checks](#-quality-checks)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 ThemisDB uses a comprehensive code quality pipeline to ensure high standards across the codebase.
 
-## Overview
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** 🛠️ Developer/Technical
 
-The CI pipeline includes:
+---
 
-- **Static Analysis** (clang-tidy): Detects bugs, code smells, and enforces modern C++17 best practices
-- **Linting** (cppcheck): Additional C++ linting for potential issues
-- **Code Coverage** (gcov/lcov): Measures test coverage and generates reports
-- **Secret Scanning** (Gitleaks): Prevents accidental commits of API keys, passwords, and secrets
+## ✨ Features
 
-## Quick Start
+- 🔍 **Static Analysis** - clang-tidy for C++17 best practices
+- 🧹 **Linting** - cppcheck for additional validation
+- 📊 **Coverage** - gcov/lcov code coverage measurement
+- 🔐 **Secret Scanning** - Gitleaks prevents credential leaks
+
+---
+
+## 🚀 Quick Start
 
 ### Local Testing
 

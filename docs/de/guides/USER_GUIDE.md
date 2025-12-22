@@ -1,25 +1,53 @@
-# ThemisDB User Guide
+---
+category: "📋 Guides"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+audience: "Application developers, data engineers, AI/ML engineers"
+---
 
-**Target Audience:** Application developers, data engineers, AI/ML engineers  
-**Version:** 1.2.0  
-**Last Updated:** December 2025
+# 📋 ThemisDB User Guide
 
-## Table of Contents
+Comprehensive guide for application developers and data engineers.
 
-1. [Quick Start](#quick-start)
-2. [Multi-Model Data Operations](#multi-model-data-operations)
-3. [RAG Application Patterns](#rag-application-patterns)
-4. [Vector Search](#vector-search)
-5. [Time-Series Data](#time-series-data)
-6. [Authentication & Authorization](#authentication--authorization)
-7. [Best Practices](#best-practices)
-8. [Troubleshooting](#troubleshooting)
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features & Highlights](#-features--highlights)
+- [🚀 Schnellstart](#-schnellstart)
+- [📖 Multi-Model Daten](#-multi-model-daten)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+- [📝 Changelog](#-changelog)
 
 ---
 
-## Quick Start
+## 📋 Übersicht
 
-### 5-Minute Setup
+ThemisDB ist eine Multi-Model Datenbank für moderne Anwendungen mit:
+- 6 integrierten Datenmodellen
+- Unternehmens-Features wie Transaktionen & Sicherheit
+- RAG (Retrieval-Augmented Generation) für AI/ML
+- GPU-Beschleunigung für Vector Search
+
+**Target Audience:** Application developers, data engineers, AI/ML engineers  
+**Version:** 1.3.0  
+**Last Updated:** December 2025
+
+---
+
+## ✨ Features & Highlights
+
+- 🚀 **Multi-Model** - Relational, Document, Graph, Vector, Time-Series, Spatial
+- 🔐 **Enterprise** - ACID-Transaktionen, RBAC, TLS/mTLS
+- 🎯 **RAG-Ready** - Hybrid Search (BM25 + Vector), Embedding Cache
+- ⚡ **High-Performance** - SIMD-optimiert, GPU-unterstützt
+- 📊 **Monitoring** - OpenTelemetry, Prometheus metrics
+
+---
+
+## 🚀 Schnellstart (5 Minuten)
 
 ```bash
 # 1. Pull Docker image

@@ -1,13 +1,50 @@
-# ThemisDB System Architect Guide
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+audience: "System architects, principal engineers, CTOs"
+---
+
+# ⚙️ ThemisDB System Architect Guide
+
+Comprehensive architecture guide for enterprise-scale deployment.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 Architecture & Design](#-architecture--design)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
+
+---
+
+## 📋 Übersicht
+
+ThemisDB provides enterprise-grade horizontal sharding with Raft consensus and Google Spanner-inspired TrueTime for strong consistency across distributed deployments.
 
 **Target Audience:** System architects, principal engineers, CTOs
 
-**Version:** 1.2.0  
+**Version:** 1.3.0  
 **Last Updated:** December 2025
 
-## Executive Summary
+---
 
-ThemisDB provides enterprise-grade horizontal sharding with Raft consensus and Google Spanner-inspired TrueTime for strong consistency across distributed deployments. This guide covers architecture, migration strategies from hyperscalers, and capacity planning.
+## ✨ Features
+
+- 🔀 **Horizontal Sharding** - Raft + TrueTime (only open-source implementation)
+- 📈 **Billion-Scale** - Migration playbooks from hyperscalers
+- 💰 **46% Cost Savings** - vs. AWS complete stack
+- 🌍 **Distributed Transactions** - SAGA pattern support
+- 🔐 **Enterprise Security** - mTLS, RBAC, encryption
+
+---
+
+## 🚀 Quick Start
 
 **Key Topics:**
 - Horizontal sharding with Raft + TrueTime (only open-source implementation)
@@ -16,7 +53,9 @@ ThemisDB provides enterprise-grade horizontal sharding with Raft consensus and G
 - Capacity planning for billion-scale deployments
 - Distributed transactions with SAGA pattern
 
-## Table of Contents
+---
+
+## Executive Summary
 
 1. [Horizontal Sharding Architecture](#horizontal-sharding-architecture)
 2. [Sharding Strategy & Design](#sharding-strategy--design)

@@ -1,13 +1,51 @@
-# RBAC - Role-Based Access Control
+---
+category: "⚙️ Operations/Admin"
+version: "v1.3.0"
+status: "✅"
+date: "22.12.2025"
+---
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Guides
+# ⚙️ RBAC - Role-Based Access Control
+
+Comprehensive role-based access control system with hierarchies and fine-grained permissions.
+
+## 📋 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✨ Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📖 RBAC Concepts](#-rbac-concepts)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Weitere Ressourcen](#-weitere-ressourcen)
+- [📝 Changelog](#-changelog)
 
 ---
 
+## 📋 Übersicht
 
 Umfassende rollenbasierte Zugriffskontrolle mit Hierarchien, Vererbung und feingranularen Berechtigungen.
+
+**Stand:** 22. Dezember 2025  
+**Version:** 1.3.0  
+**Kategorie:** ⚙️ Operations/Admin
+
+---
+
+## ✨ Features
+
+- 👥 **Role-Based Control** - Admin, Operator, Analyst, Readonly (erweiterbar)
+- 🏗️ **Role Hierarchy** - Inheritance of permissions (Admin → Operator → Analyst → Readonly)
+- 🔐 **Fine-Grained Permissions** - Resource and action-based access control
+- ⚡ **Wildcard Support** - `*` for all resources or actions
+- 📝 **Flexible Config** - JSON/YAML role definitions
+- 👤 **User Management** - User to role mapping
+
+---
+
+## 🚀 Quick Start
+
+---
 
 ## Übersicht
 
