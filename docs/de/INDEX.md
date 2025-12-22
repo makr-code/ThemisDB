@@ -85,6 +85,14 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | [Audit Logging](features/features_audit_logging.md) | Security event logging |
 | [Compliance](compliance/compliance_dashboard.md) | GDPR, SOC 2, HIPAA compliance |
 
+### Enterprise & Governance
+
+| Document | Description |
+|----------|-------------|
+| [CMS Strategy Paper](governance/CMS_STRATEGY_PAPER.md) | ThemisDB für Content Management (Government & Enterprise) |
+| [Enterprise Edition](enterprise/README.md) | Enterprise features and licensing |
+| [Governance Overview](governance/README.md) | Data governance and policies |
+
 ### Operations
 
 | Document | Description |
