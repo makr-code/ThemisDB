@@ -4,32 +4,42 @@ Diese Sammlung enthält umfassende Beispiele für ThemisDB mit Python und Tkinte
 
 ## 📚 Übersicht
 
-Wir bieten **10 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstufen:
+Wir bieten **20 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstufen:
 
 ### 🟢 Einfach (Simple) - Erste Schritte
 
 | # | Beispiel | Beschreibung | Dauer | Status |
 |---|----------|--------------|-------|--------|
-| 01 | **Hello World** | Erste Schritte mit ThemisDB - CRUD-Operationen | 5-10 min | 📝 Planned |
-| 02 | **Todo-App** | Aufgabenverwaltung mit Status und Filterung | 15-20 min | 📝 Planned |
-| 03 | **Kontaktmanager** | Adressbuch mit Volltext-Suche | 15-20 min | 📝 Planned |
+| 01 | **Hello World** | Erste Schritte mit ThemisDB - CRUD-Operationen | 5-10 min | ✅ Implemented |
+| 02 | **Todo-App** | Aufgabenverwaltung mit Status und Filterung | 15-20 min | 📝 Documented |
+| 03 | **Kontaktmanager** | Adressbuch mit Volltext-Suche | 15-20 min | 📝 Documented |
+| 11 | **Blog/Wiki-System** | Content-Management mit Markdown | 30-40 min | ✅ Ready |
+| 12 | **Expense Tracker** | Haushaltsbuch mit Budget-Management | 30-40 min | ✅ Ready |
+| 13 | **Recipe Manager** | Rezeptverwaltung mit Einkaufsliste | 30-40 min | ✅ Ready |
 
 ### 🟡 Mittel (Medium) - Reale Anwendungsfälle
 
 | # | Beispiel | Beschreibung | Dauer | Status |
 |---|----------|--------------|-------|--------|
-| 04 | **Inventarsystem** | Lagerverwaltung mit Graph-Beziehungen | 30-40 min | 📝 Planned |
-| 05 | **Zeitreihen-Monitor** | Echtzeitdaten-Visualisierung mit Charts | 30-40 min | 📝 Planned |
-| 06 | **Soziales Netzwerk** | Graph-Visualisierung und Community-Erkennung | 40-50 min | 📝 Planned |
-| 07 | **Dokumenten-Suche** | Vector Search & RAG mit Embeddings | 40-50 min | 📝 Planned |
+| 04 | **Inventarsystem** | Lagerverwaltung mit Graph-Beziehungen | 30-40 min | 📝 Documented |
+| 05 | **Zeitreihen-Monitor** | Echtzeitdaten-Visualisierung mit Charts | 30-40 min | 📝 Documented |
+| 06 | **Soziales Netzwerk** | Graph-Visualisierung und Community-Erkennung | 40-50 min | 📝 Documented |
+| 07 | **Dokumenten-Suche** | Vector Search & RAG mit Embeddings | 40-50 min | 📝 Documented |
+| 14 | **E-Commerce Katalog** | Multi-Model Produktkatalog mit Empfehlungen | 60 min | ✅ Ready |
+| 15 | **Event Management** | Veranstaltungsmanagement mit Ticketing | 60 min | ✅ Ready |
+| 16 | **Kanban Board** | Agile Projektmanagement mit Sprints | 60 min | ✅ Ready |
+| 17 | **CRM** | Customer Relationship Management | 60-90 min | ✅ Ready |
 
 ### 🔴 Komplex (Complex) - Enterprise & AI
 
 | # | Beispiel | Beschreibung | Dauer | Status |
 |---|----------|--------------|-------|--------|
-| 08 | **DMS/ERP-System** | Dokumentenmanagement mit Workflows | 60-90 min | 📝 Planned |
-| 09 | **IoT-Sensornetzwerk** | Echtzeit-Datenverarbeitung mit CEP | 60-90 min | 📝 Planned |
-| 10 | **Drohnenbild-Analyse** | KI-gestützte Bildanalyse mit LLM | 90-120 min | 📝 Planned |
+| 08 | **DMS/ERP-System** | Dokumentenmanagement mit Workflows | 60-90 min | 📝 Documented |
+| 09 | **IoT-Sensornetzwerk** | Echtzeit-Datenverarbeitung mit CEP | 60-90 min | 📝 Documented |
+| 10 | **Drohnenbild-Analyse** | KI-gestützte Bildanalyse mit LLM | 90-120 min | 📝 Documented |
+| 18 | **Real-Time Chat** | Echtzeit-Kommunikation mit Pub/Sub | 90-120 min | ✅ Ready |
+| 19 | **Recommendation Engine** | ML-basierte Empfehlungen | 90-120 min | ✅ Ready |
+| 20 | **Smart Home Dashboard** | IoT Automation mit CEP | 90-120 min | ✅ Ready |
 
 ## 🚀 Schnellstart
 
@@ -76,17 +86,27 @@ Jedes Beispiel enthält vollständige Dokumentation:
 1. Start mit **01 - Hello World** für Grundlagen
 2. Dann **02 - Todo-App** für praktische CRUD-Operationen
 3. Weiter mit **03 - Kontaktmanager** für Suche und Queries
+4. **11 - Blog/Wiki-System** für Content-Management
+5. **12 - Expense Tracker** für finanzielle Datenmodellierung
+6. **13 - Recipe Manager** für strukturierte Daten
 
 ### Für Fortgeschrittene
-4. **04 - Inventarsystem** für Multi-Model (Relational + Graph)
-5. **05 - Zeitreihen-Monitor** für Time-Series Features
-6. **06 - Soziales Netzwerk** für Graph-Algorithmen
-7. **07 - Dokumenten-Suche** für Vector Search und RAG
+7. **04 - Inventarsystem** für Multi-Model (Relational + Graph)
+8. **05 - Zeitreihen-Monitor** für Time-Series Features
+9. **06 - Soziales Netzwerk** für Graph-Algorithmen
+10. **07 - Dokumenten-Suche** für Vector Search und RAG
+11. **14 - E-Commerce Katalog** für Multi-Model Showcase
+12. **15 - Event Management** für Veranstaltungslogistik
+13. **16 - Kanban Board** für Agile Workflows
+14. **17 - CRM** für Business-Anwendungen
 
 ### Für Experten
-8. **08 - DMS/ERP-System** für komplexe Workflows
-9. **09 - IoT-Sensornetzwerk** für Echtzeit-Verarbeitung
-10. **10 - Drohnenbild-Analyse** für KI-Integration
+15. **08 - DMS/ERP-System** für komplexe Workflows
+16. **09 - IoT-Sensornetzwerk** für Echtzeit-Verarbeitung
+17. **10 - Drohnenbild-Analyse** für KI-Integration
+18. **18 - Real-Time Chat** für Echtzeit-Kommunikation
+19. **19 - Recommendation Engine** für ML-Integration
+20. **20 - Smart Home Dashboard** für IoT-Automation
 
 ## 🛠️ Technologien
 

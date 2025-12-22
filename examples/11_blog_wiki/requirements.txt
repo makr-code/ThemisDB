@@ -1,0 +1,7 @@
+-r ../requirements-common.txt
+
+# Markdown rendering and parsing
+markdown>=3.4.0
+
+# UI enhancements
+tkhtmlview>=0.1.0  # For rendering Markdown in Tkinter
