@@ -4,7 +4,16 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Überblick](#security--compliance-review)
+- [🎯 Geltungsbereich](#geltungsbereich)
+- [📚 Referenz-Dokumente](#referenz-dokumente)
+- [🧾 Audit-Checkliste](#audit-checkliste-kernpunkte)
+- [✅ Verifikation](#verifikation-stichproben)
+- [⚠️ Offene Punkte](#offene-punkte--empfehlungen)
+- [📝 Änderungsverlauf](#änderungsverlauf)
 
 
 Dieses Dokument fasst den Sicherheits- und Compliance-Status von ThemisDB zusammen, verlinkt die relevanten Detaildokumente und enthält eine überprüfbare Checkliste für Audits.

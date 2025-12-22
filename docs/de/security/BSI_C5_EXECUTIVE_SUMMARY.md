@@ -5,7 +5,15 @@
 **Prepared by:** Security Analysis Team  
 **Status:** Analysis Complete, Implementation Roadmap Defined
 
----
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [Compliance Score](#compliance-score)
+- [Key Findings](#key-findings)
+- [Regulatory Compliance Impact](#regulatory-compliance-impact)
+- [Implementation Roadmap](#implementation-roadmap)
+- [Risk Assessment](#risk-assessment)
 
 ## Executive Summary
 

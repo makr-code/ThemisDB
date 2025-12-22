@@ -4,7 +4,17 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Überblick](#themis--security-hardening-guide)
+- [✅ Implementierter Security Stack](#-implementierter-security-stack-stand-2025-11-17)
+- [🛠️ Server-Härtung](#server-härtung)
+- [🌐 Netzwerkebene](#netzwerkebene)
+- [🖥️ Betriebssystem](#betriebssystem)
+- [⚙️ Systemd Service](#systemd-service)
+- [📚 Siehe auch](#siehe-auch)
+- [📝 Changelog](#änderungsverlauf)
 
 
 Umfassender Praxisleitfaden zur Härtung von Themis-Server mit vollständiger Security-Implementation.

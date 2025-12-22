@@ -4,7 +4,18 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Executive Summary](#executive-summary)
+- [🏗️ Architektur-Übersicht](#1-architektur-übersicht)
+- [🔑 PKI-Integration](#2-pki-integration-vcc-pki)
+- [👤 User-Context](#3-user-context-integration-vcc-user)
+- [💾 Datenmodell-Verschlüsselung](#4-datenmodell-spezifische-verschlüsselung)
+- [💡 Best Practices](#best-practices)
+- [🔧 Troubleshooting](#troubleshooting)
+- [📚 Siehe auch](#siehe-auch)
+- [📝 Changelog](#änderungsverlauf)
 
 
 ## Executive Summary

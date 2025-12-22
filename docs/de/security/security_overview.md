@@ -4,6 +4,14 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [✅ Implementierungsstatus](#-implementierungsstatus-dezember-2025)
+- [🧩 Kernbereiche](#kernbereiche)
+- [📚 Weiterlesen](#weiterlesen)
+
 ---
 
 

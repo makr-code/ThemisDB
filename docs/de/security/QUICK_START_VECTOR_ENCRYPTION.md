@@ -4,7 +4,13 @@
 **Date:** December 15, 2025  
 **Status:** Production Ready
 
----
+
+## 📑 Table of Contents
+
+- [TL;DR](#tldr---get-started-in-5-minutes)
+- [Quick Reference](#quick-reference)
+- [Common Scenarios](#common-scenarios)
+- [Security Checklist](#security-checklist)
 
 ## TL;DR - Get Started in 5 Minutes
 

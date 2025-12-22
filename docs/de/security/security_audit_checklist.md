@@ -4,7 +4,23 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Überblick](#themis--sicherheits-audit-checkliste)
+- [🧱 Architektur & Threat Modeling](#1-architektur--threat-modeling)
+- [🔍 Vulnerability-Scan](#2-abhängigkeiten--vulnerability-scan)
+- [🛡️ Malware-Schutz](#2a-malware-schutz-bsi-c5-ops-05-)
+- [🧰 Build/Compiler-Härtung](#3-buildcompiler-härtung)
+- [🔐 Authentifizierung & Autorisierung](#4-authentifizierung--autorisierung)
+- [🔒 Transport-Sicherheit](#5-transport-sicherheit)
+- [🧼 Input-Validierung](#6-input-validierung--serialisierung)
+- [⏱️ Ratenbegrenzung](#7-ratenbegrenzung--ressourcen-schutz)
+- [📝 Logging & Audit](#8-logging--audit)
+- [🔑 Secrets & Konfiguration](#9-secrets--konfiguration)
+- [🛡️ Privacy & Compliance](#10-privacy--compliance)
+- [🧪 Testen & Review](#11-testen--review)
+- [🚀 Release-Gates](#12-release-gates)
 
 
 Diese Checkliste unterstützt ein wiederholbares Sicherheits-Audit für Themis-Server und Admin-Tools.
