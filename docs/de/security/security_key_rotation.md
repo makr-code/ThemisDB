@@ -4,6 +4,15 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
+
+## 📑 Inhaltsverzeichnis
+
+- [1. Übersicht](#1-übersicht)
+- [2. Vorhandene Infrastruktur](#2-vorhandene-infrastruktur)
+- [3. Lazy Re-Encryption](#3-lazy-re-encryption-write-back-on-read)
+- [4. Group-DEK Rotation](#4-group-dek-rotation)
+- [5. Best Practices](#5-best-practices)
+
 ---
 
 

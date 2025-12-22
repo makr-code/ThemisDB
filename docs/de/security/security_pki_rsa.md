@@ -4,6 +4,16 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
+
+## 📑 Inhaltsverzeichnis
+
+- [Anforderungen](#anforderungen)
+- [API](#api-bleibt-stabil)
+- [Konfiguration](#konfiguration-env-mvp)
+- [Implementierungs-Skizze](#implementierungs-skizze)
+- [Sicherheitsaspekte](#sicherheitsaspekte)
+- [Status](#status)
+
 ---
 
 

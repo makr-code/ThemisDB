@@ -4,8 +4,18 @@
 **Version:** 1.0 (November 2025)  
 **Compliance:** eIDAS-ready, FIPS 140-2 compatible
 
----
 
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Installation & Setup](#installation--setup)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Troubleshooting](#troubleshooting)
+- [Best Practices](#best-practices)
+
+---
 ## Overview
 
 ThemisDB supports Hardware Security Modules (HSMs) for secure cryptographic key storage and signing operations. HSM integration ensures that private keys never leave the secure hardware, providing the highest level of security for PKI operations.

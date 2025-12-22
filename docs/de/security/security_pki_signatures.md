@@ -4,8 +4,16 @@
 **Version:** 1.0 (November 2025)  
 **Compliance:** eIDAS Art. 26-35, DSGVO Art. 32
 
----
 
+## 📑 Inhaltsverzeichnis
+
+- [Überblick](#überblick)
+- [Signatur-Algorithmen](#signatur-algorithmen)
+- [Signatur-Workflow](#signatur-workflow)
+- [Integrationspunkte](#)
+- [Sicherheit & Compliance](#)
+
+---
 ## Überblick
 
 Die PKI-Signatur-Implementierung in ThemisDB ermöglicht **kryptographisch sichere digitale Signaturen** für:

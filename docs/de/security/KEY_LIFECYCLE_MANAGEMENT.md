@@ -6,6 +6,15 @@
 **Referenz:** CRYPTOGRAPHY_POLICY.md Abschnitt 3  
 **BSI C5:** CRY-02 (Schlüsselmanagement)
 
+
+## 📑 Inhaltsverzeichnis
+
+- [1. Übersicht](#1-übersicht)
+- [1.1 Lifecycle-Phasen](#11-lifecycle-phasen)
+- [1.2 Schlüsseltypen](#12-schlüsseltypen)
+- [2. Phase 1: Schlüsselerzeugung](#2-phase-1-schlüsselerzeugung)
+- [Weitere Phasen](#)
+
 ---
 
 ## 1. Übersicht

@@ -4,8 +4,16 @@
 **Version:** 1.0 (November 2025)  
 **Compliance:** eIDAS-konform, DSGVO Art. 32, HGB § 257
 
----
 
+## 📑 Inhaltsverzeichnis
+
+- [Überblick](#überblick)
+- [Architektur-Komponenten](#architektur-komponenten)
+- [Core Components](#core-components)
+- [Konfiguration](#)
+- [Sicherheit](#)
+
+---
 ## Überblick
 
 ThemisDB integriert eine **Public Key Infrastructure (PKI)** für kryptographische Signaturen und Zertifikats-basiertes Key-Management. Die Implementierung erfüllt **eIDAS-Anforderungen** für qualifizierte elektronische Signaturen und unterstützt **Encrypt-then-Sign**-Workflows für Audit-Logs und SAGA-Transaktionen.
