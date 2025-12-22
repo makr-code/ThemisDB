@@ -2,7 +2,16 @@
 
 **Date:** December 15, 2025  
 **Status:** Future Enhancements  
-**Priority:** P2 (Optional)
+**Priority:** P2 (Optional)  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Phase 2 (HNSW Index Encryption) Optimizations](#phase-2-hnsw-index-encryption-optimizations)
 
 ---
 

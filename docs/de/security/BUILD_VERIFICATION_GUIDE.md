@@ -1,7 +1,18 @@
 # Build & Test Verification Guide
 
 **Date:** December 15, 2025  
-**Purpose:** Verify vector encryption implementation builds and tests correctly
+**Purpose:** Verify vector encryption implementation builds and tests correctly  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Quick Build & Test](#quick-build--test)
+- [Detailed Verification Steps](#detailed-verification-steps)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
