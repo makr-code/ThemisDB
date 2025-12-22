@@ -1,6 +1,6 @@
 # Kontaktmanager - Adressbuch mit ThemisDB
 
-![Status](https://img.shields.io/badge/status-planned-yellow)
+![Status](https://img.shields.io/badge/status-ready-brightgreen)
 ![Difficulty](https://img.shields.io/badge/difficulty-easy-green)
 ![Duration](https://img.shields.io/badge/duration-15--20%20min-blue)
 
@@ -86,4 +86,4 @@ Siehe [HOW_TO.md](HOW_TO.md) für detaillierte Anleitungen.
 
 ---
 
-**Status**: Geplant | Implementierung steht bevor
+**Status**: ✅ Implementiert | Voll funktionsfähig
