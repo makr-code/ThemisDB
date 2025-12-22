@@ -10,6 +10,15 @@
 
 Das Governance-Modul implementiert Datenklassifizierung, Policy-Enforcement und Compliance-Kontrollen für ThemisDB.
 
+## Strategische Dokumente
+
+- **[CMS Strategy Paper](./CMS_STRATEGY_PAPER.md)** - Strategiepapier: ThemisDB für Content Management Systeme in Government und Enterprise
+  - Multi-Model Architektur für CMS
+  - Native AI/LLM Integration
+  - Enterprise-Grade Sicherheit und Compliance
+  - Wettbewerbsvergleich und TCO-Analyse
+  - Implementierungs-Empfehlungen
+
 ## Source-Code Referenz
 
 | Komponente | Header | Source | Beschreibung |
