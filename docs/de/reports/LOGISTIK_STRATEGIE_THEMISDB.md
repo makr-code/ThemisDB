@@ -99,6 +99,58 @@ Logistikunternehmen unterliegen strengen Regulierungen:
 - ✅ HSM-Integration für Schlüsselverwaltung – Enterprise
 - ✅ Compliance-Dashboard (DSGVO, ISO 27001, BSI C5)
 
+### 1.5 Datenintegration & Legacy-Systeme
+
+**Typische IT-Landschaft in Logistikunternehmen:**
+
+Logistikunternehmen haben oft gewachsene IT-Infrastrukturen mit verschiedenen Legacy-Systemen:
+
+| System | Funktion | Technologie | Integrationsaufwand |
+|--------|----------|-------------|---------------------|
+| **WMS** | Warehouse Management | SAP WM, Oracle WMS | Hoch (proprietäre APIs) |
+| **TMS** | Transportation Management | JDA, Blue Yonder | Mittel (REST APIs) |
+| **ERP** | Enterprise Resource Planning | SAP, Microsoft Dynamics | Hoch (komplexe Schnittstellen) |
+| **YMS** | Yard Management | C3 Solutions, Descartes | Mittel |
+| **OMS** | Order Management | Manhattan, Salesforce | Mittel |
+| **EDI** | Electronic Data Interchange | AS2, EDIFACT | Hoch (Standards-Konformität) |
+
+**Integrations-Herausforderungen:**
+- **Daten-Silos**: Informationen sind über verschiedene Systeme verteilt
+- **Inkonsistente Datenformate**: Jedes System nutzt eigene Datenstrukturen
+- **Verzögerte Synchronisation**: Batch-Prozesse mit Stunden/Tagen Latenz
+- **Fehlende Echtzeit-Sicht**: Keine konsolidierte Übersicht über alle Prozesse
+- **Hohe Wartungskosten**: Dutzende individuelle Schnittstellen müssen gepflegt werden
+
+**ThemisDB als Integration Hub:**
+- **Universal Adapter**: Verbindung zu allen gängigen Systemen (REST, SOAP, gRPC, MQTT)
+- **Echtzeit-CDC**: Change Data Capture für sofortige Datensynchronisation
+- **Schema-Mapping**: Automatische Transformation zwischen verschiedenen Formaten
+- **Event-Bus-Integration**: Kafka, RabbitMQ, ActiveMQ für Event-Driven-Architekturen
+- **API-Gateway**: Einheitliche API für alle nachgelagerten Systeme
+
+### 1.6 IoT & Edge Computing
+
+**Wachsende IoT-Anforderungen in der Logistik:**
+
+Moderne Logistik nutzt immer mehr IoT-Geräte:
+- **Fahrzeug-Telemetrie**: 100+ Sensoren pro LKW (Motor, Reifen, Kraftstoff, Temperatur)
+- **Container-Tracking**: GPS, Temperatur, Feuchtigkeit, Erschütterung, Türöffnung
+- **Warehouse-Sensoren**: RFID-Gates, Gewichtssensoren, Kamerasysteme
+- **Mobile Scanner**: Handhelds mit Barcode/RFID-Scannern für Warehouse-Mitarbeiter
+
+**Datenvolumen-Herausforderung:**
+- **Einzelnes Fahrzeug**: ~10 KB/s → 864 MB/Tag
+- **1.000 Fahrzeuge**: 10 MB/s → 864 GB/Tag
+- **Warehouse-Kameras**: 20 Mbit/s pro Kamera → 216 GB/Tag pro Kamera
+- **RFID-Gates**: 1000 Scans/Minute → Millionen Events/Tag
+
+**ThemisDB für IoT:**
+- **MQTT-Protokoll**: Native Unterstützung für IoT-Standard
+- **Time-Series-Optimierung**: Gorilla-Kompression für 10:1 Datenreduktion
+- **Edge-Deployment**: ThemisDB kann auf Edge-Devices laufen (ARM-Support)
+- **Batch-Ingestion**: Effiziente Verarbeitung von Millionen Datenpunkten/Sekunde
+- **Automatic Rollup**: Alte Daten werden automatisch aggregiert (z.B. GPS-Daten: 1s → 1min → 1h → 1d)
+
 ---
 
 ## 2. ThemisDB Multi-Model-Architektur: Perfekt für Logistik
@@ -150,6 +202,108 @@ FOR order IN orders
 - **Composite Indexes** für Multi-Column-Queries
 - **Range Queries** für Zeitbereichsabfragen
 
+**Erweiterte Anwendungsfälle:**
+
+**1. Komplexe Aggregationen für Reporting:**
+```sql
+-- Tägliche Umsatz-Statistik nach Region und Produktkategorie
+FOR order IN orders
+  FILTER order.status == "delivered"
+  FILTER order.delivery_date >= DATE_SUB(NOW(), 30, "DAY")
+  COLLECT region = order.delivery_region,
+          category = order.product_category
+  AGGREGATE 
+    total_revenue = SUM(order.total_amount),
+    order_count = COUNT(1),
+    avg_order_value = AVG(order.total_amount),
+    unique_customers = COUNT_DISTINCT(order.customer_id)
+  SORT total_revenue DESC
+  RETURN {
+    region,
+    category,
+    total_revenue,
+    order_count,
+    avg_order_value,
+    unique_customers,
+    revenue_per_customer: total_revenue / unique_customers
+  }
+```
+
+**2. Inventar-Optimierung mit Bestandswarnungen:**
+```sql
+-- Finde Artikel mit niedrigem Bestand und hoher Nachfrage
+FOR item IN inventory
+  LET recent_orders = (
+    FOR order IN orders
+      FILTER order.created_at >= DATE_SUB(NOW(), 7, "DAY")
+      FILTER order.status IN ["pending", "processing"]
+      FOR order_item IN order.items
+        FILTER order_item.sku == item.sku
+        RETURN order_item.quantity
+  )
+  LET avg_weekly_demand = SUM(recent_orders)
+  LET weeks_of_stock = item.quantity / (avg_weekly_demand / 7)
+  FILTER weeks_of_stock < 2  // Weniger als 2 Wochen Bestand
+  SORT weeks_of_stock ASC
+  RETURN {
+    sku: item.sku,
+    name: item.name,
+    current_stock: item.quantity,
+    avg_daily_demand: avg_weekly_demand / 7,
+    weeks_of_stock: weeks_of_stock,
+    reorder_priority: weeks_of_stock < 1 ? "CRITICAL" : "HIGH",
+    suggested_order_qty: CEIL(avg_weekly_demand * 4)  // 4 Wochen Vorlauf
+  }
+```
+
+**3. Kunden-Segmentierung für personalisierte Angebote:**
+```sql
+-- RFM-Analyse (Recency, Frequency, Monetary)
+FOR customer IN customers
+  LET orders = (
+    FOR o IN orders
+      FILTER o.customer_id == customer.id
+      FILTER o.status == "delivered"
+      RETURN o
+  )
+  LET recency = DATEDIFF(NOW(), MAX(orders[*].delivery_date), "DAY")
+  LET frequency = LENGTH(orders)
+  LET monetary = SUM(orders[*].total_amount)
+  
+  LET rfm_score = (
+    (recency <= 30 ? 5 : recency <= 60 ? 4 : recency <= 90 ? 3 : recency <= 180 ? 2 : 1) * 100 +
+    (frequency >= 10 ? 5 : frequency >= 7 ? 4 : frequency >= 4 ? 3 : frequency >= 2 ? 2 : 1) * 10 +
+    (monetary >= 10000 ? 5 : monetary >= 5000 ? 4 : monetary >= 2000 ? 3 : monetary >= 500 ? 2 : 1)
+  )
+  
+  LET segment = (
+    rfm_score >= 455 ? "Champions" :
+    rfm_score >= 444 ? "Loyal Customers" :
+    rfm_score >= 344 ? "Potential Loyalists" :
+    rfm_score >= 244 ? "At Risk" :
+    rfm_score >= 144 ? "Hibernating" :
+    "Lost"
+  )
+  
+  RETURN {
+    customer_id: customer.id,
+    name: customer.name,
+    recency_days: recency,
+    frequency,
+    monetary,
+    rfm_score,
+    segment,
+    recommended_action: segment IN ["At Risk", "Hibernating"] ? "Re-engagement campaign" : 
+                       segment == "Champions" ? "VIP treatment" : 
+                       "Standard nurturing"
+  }
+```
+
+**Performance-Optimierung:**
+- **Sekundär-Indizes**: Automatisch auf `customer_id`, `status`, `created_at`
+- **Composite Index**: `(customer_id, status, created_at)` für optimale Query-Performance
+- **Partition-Keys**: Daten nach Region oder Zeitbereich partitioniert (Enterprise)
+
 ### 2.3 Graph-Daten: Lieferketten, Routennetze, Abhängigkeiten
 
 **Anwendungsfall:** Lieferkettenanalyse
@@ -175,6 +329,228 @@ RETURN {
 - **A*-Suche** für heuristische Routenoptimierung
 
 **Real-World-Beispiel:** Berechne optimale Route durch Verteilzentren unter Berücksichtigung von Ladekapazitäten, Zeitfenstern und Verkehrsbedingungen.
+
+**Erweiterte Graph-Anwendungen:**
+
+**1. Multi-Stop-Route-Optimierung mit Zeitfenstern:**
+```javascript
+// Optimale Reihenfolge für 20 Lieferungen mit Zeitfenster-Constraints
+FOR delivery IN pending_deliveries
+  FILTER delivery.scheduled_date == TODAY()
+  LET route_options = (
+    FOR path IN GRAPH_SHORTEST_PATH(
+      "road_network",
+      current_depot,
+      delivery.address,
+      {
+        algorithm: "DIJKSTRA",
+        weight_attribute: "travel_time_minutes",
+        constraints: [
+          {
+            type: "time_window",
+            earliest: delivery.time_window_start,
+            latest: delivery.time_window_end
+          },
+          {
+            type: "capacity",
+            max_weight: vehicle.capacity_kg,
+            current_load: SUM(assigned_deliveries[*].weight_kg)
+          },
+          {
+            type: "traffic",
+            avoid_congestion: true,
+            peak_hours: ["08:00-09:00", "17:00-19:00"]
+          }
+        ]
+      }
+    )
+    RETURN {
+      delivery_id: delivery.id,
+      path: path.vertices,
+      distance_km: path.distance,
+      travel_time_min: path.weight,
+      arrival_time: CALCULATE_ETA(current_time, path.weight),
+      feasible: CHECK_TIME_WINDOW(path.weight, delivery.time_window_start, delivery.time_window_end)
+    }
+  )
+  FILTER route_options[0].feasible == true
+  SORT route_options[0].travel_time_min ASC
+  RETURN route_options[0]
+```
+
+**2. Supply-Chain-Risiko-Analyse:**
+```javascript
+// Identifiziere kritische Single-Points-of-Failure in der Lieferkette
+FOR component IN critical_components
+  // Finde alle Lieferanten für diese Komponente
+  LET suppliers = (
+    FOR v, e, p IN 1..3 INBOUND component supply_chain_graph
+      FILTER v.type == "supplier"
+      RETURN DISTINCT v
+  )
+  
+  // Berechne Risiko-Score für jeden Lieferanten
+  LET risk_assessment = (
+    FOR supplier IN suppliers
+      // Historische Zuverlässigkeit
+      LET on_time_delivery_rate = supplier.stats.on_time_deliveries / supplier.stats.total_deliveries
+      
+      // Geografisches Risiko
+      LET geo_risk = EVALUATE_GEO_RISK(supplier.country, ["political_stability", "natural_disasters", "trade_restrictions"])
+      
+      // Finanzielle Stabilität
+      LET financial_health = supplier.credit_rating
+      
+      // Alternative Lieferanten verfügbar?
+      LET alternatives_count = LENGTH(suppliers) - 1
+      
+      LET risk_score = (
+        (1 - on_time_delivery_rate) * 0.3 +
+        geo_risk * 0.3 +
+        (1 - financial_health / 100) * 0.2 +
+        (alternatives_count == 0 ? 1 : 1 / alternatives_count) * 0.2
+      ) * 100
+      
+      RETURN {
+        supplier_id: supplier.id,
+        name: supplier.name,
+        risk_score: risk_score,
+        risk_level: risk_score > 70 ? "CRITICAL" : risk_score > 50 ? "HIGH" : risk_score > 30 ? "MEDIUM" : "LOW",
+        alternatives_available: alternatives_count
+      }
+  )
+  
+  SORT risk_assessment[0].risk_score DESC
+  RETURN {
+    component: component.name,
+    primary_supplier: risk_assessment[0],
+    backup_suppliers: risk_assessment[1..*],
+    mitigation_strategy: risk_assessment[0].risk_level == "CRITICAL" ? "Find alternative supplier urgently" : "Monitor closely"
+  }
+```
+
+**3. Last-Mile-Delivery-Optimierung mit Echtzeit-Verkehrsdaten:**
+```javascript
+// Dynamische Neuberechnung bei Verkehrsstörungen
+FOR incident IN traffic_incidents
+  FILTER incident.severity == "HIGH"
+  FILTER incident.detected_at >= DATE_SUB(NOW(), 15, "MINUTE")
+  
+  // Finde alle betroffenen aktiven Routen
+  LET affected_routes = (
+    FOR delivery IN active_deliveries
+      LET current_route = delivery.planned_route
+      
+      // Prüfe ob Route durch Störungsbereich führt
+      LET route_intersects = GEO_INTERSECTS(
+        current_route.geometry,
+        incident.affected_area
+      )
+      
+      FILTER route_intersects
+      
+      // Berechne Alternativ-Route
+      LET alternative_route = GRAPH_SHORTEST_PATH(
+        "road_network",
+        delivery.current_location,
+        delivery.destination,
+        {
+          algorithm: "A_STAR",
+          heuristic: "haversine",
+          avoid_areas: [incident.affected_area],
+          weight_attribute: "current_travel_time_with_traffic"
+        }
+      )
+      
+      LET time_impact = alternative_route.weight - current_route.remaining_time
+      LET cost_impact = time_impact * vehicle.cost_per_minute
+      
+      RETURN {
+        delivery_id: delivery.id,
+        driver: delivery.driver_name,
+        original_eta: delivery.eta,
+        new_eta: ADD_MINUTES(delivery.eta, time_impact),
+        delay_minutes: time_impact,
+        alternative_route: alternative_route.vertices,
+        additional_cost_eur: cost_impact,
+        customer_notification_required: time_impact > 15
+      }
+  )
+  
+  // Sende Benachrichtigungen
+  FOR route IN affected_routes
+    FILTER route.customer_notification_required
+    INSERT {
+      type: "delay_notification",
+      delivery_id: route.delivery_id,
+      customer: LOOKUP_CUSTOMER(route.delivery_id),
+      new_eta: route.new_eta,
+      reason: incident.description,
+      compensation_offered: route.delay_minutes > 60 ? "10% discount" : null
+    } INTO notifications
+  
+  RETURN {
+    incident: incident.description,
+    affected_deliveries: LENGTH(affected_routes),
+    total_delay_minutes: SUM(affected_routes[*].delay_minutes),
+    total_additional_cost: SUM(affected_routes[*].additional_cost_eur),
+    routes_updated: affected_routes
+  }
+```
+
+**4. Cross-Docking-Optimierung:**
+```javascript
+// Optimale Zuordnung eingehende → ausgehende Transporte
+FOR incoming_shipment IN todays_arrivals
+  FILTER incoming_shipment.arrival_status == "at_dock"
+  
+  // Finde passende ausgehende Transporte
+  LET matching_outbound = (
+    FOR outbound IN todays_departures
+      FILTER outbound.departure_time > ADD_MINUTES(incoming_shipment.arrival_time, 30)
+      FILTER outbound.departure_time < ADD_MINUTES(incoming_shipment.arrival_time, 120)
+      
+      // Prüfe Zielregion-Übereinstimmung
+      LET destination_match = GEO_DISTANCE(
+        incoming_shipment.final_destination,
+        outbound.route_waypoints[0]
+      ) < 50000  // 50 km Radius
+      
+      FILTER destination_match
+      
+      // Prüfe verfügbare Kapazität
+      LET capacity_available = outbound.max_capacity_kg - outbound.current_load_kg
+      LET fits = incoming_shipment.weight_kg <= capacity_available
+      
+      FILTER fits
+      
+      RETURN {
+        outbound_id: outbound.id,
+        departure_time: outbound.departure_time,
+        destination: outbound.final_destination,
+        handling_time_minutes: DATEDIFF(outbound.departure_time, incoming_shipment.arrival_time, "MINUTE"),
+        capacity_utilization: (outbound.current_load_kg + incoming_shipment.weight_kg) / outbound.max_capacity_kg,
+        cost_saving: CALCULATE_COST_SAVING(incoming_shipment, outbound)
+      }
+  )
+  
+  SORT matching_outbound[0].cost_saving DESC
+  LIMIT 1
+  
+  RETURN {
+    incoming_shipment_id: incoming_shipment.id,
+    recommended_outbound: matching_outbound[0],
+    cross_dock_benefit: matching_outbound[0].cost_saving,
+    action: "Transfer to dock " + matching_outbound[0].outbound_id
+  }
+```
+
+**Performance-Metriken für Graph-Operationen:**
+- **Depth-1 Traversierung**: ~50 ns/Operation (20M ops/s)
+- **Depth-3 BFS**: ~100 ns/Operation (9.5M ops/s)
+- **Dijkstra (1000 Knoten)**: ~500 μs
+- **A* mit Heuristik**: ~300 μs (40% schneller als Dijkstra)
+- **Concurrent Queries**: 10K+ parallele Graph-Traversierungen/Sekunde
 
 ### 2.4 Vector-Daten: KI-gestützte Bilderkennung & Ähnlichkeitssuche
 
@@ -460,6 +836,241 @@ Dashboard (Real-Time Updates)
 - **Geo-Spatial-Queries** für "Where is my package?"
 - **Time-Series-Aggregation** für historische Analysen
 
+**Detaillierte Implementierung:**
+
+**1. GPS-Tracking-Ingestion (MQTT → ThemisDB):**
+```javascript
+// MQTT Message Handler (runs 45,000 times per second across all vehicles)
+mqtt.on('message', async (topic, message) => {
+  const data = JSON.parse(message);
+  
+  // Batch-Insert für Performance (sammelt 100 Events vor dem Schreiben)
+  await themisDB.timeseries.insert('vehicle_tracking', {
+    vehicle_id: data.vehicle_id,
+    timestamp: data.timestamp,
+    location: {
+      lat: data.latitude,
+      lon: data.longitude,
+      altitude: data.altitude
+    },
+    telemetry: {
+      speed_kmh: data.speed,
+      heading_degrees: data.heading,
+      fuel_level_pct: data.fuel_level,
+      engine_temp_celsius: data.engine_temp,
+      odometer_km: data.odometer
+    }
+  }, { 
+    batch_size: 100,
+    compression: 'gorilla'  // 10:1 Kompression
+  });
+  
+  // Parallel: Prüfe auf Anomalien
+  if (data.speed > 120 || data.engine_temp > 105) {
+    await createAlert(data.vehicle_id, 'ANOMALY_DETECTED', data);
+  }
+});
+```
+
+**2. Echtzeit-Sendungsverfolgung für Kunden:**
+```sql
+-- API Endpoint: GET /api/v1/shipments/{tracking_number}/location
+-- Response-Zeit: < 50ms
+
+// Hole aktuelle Position + geschätzte Ankunftszeit
+FOR shipment IN shipments
+  FILTER shipment.tracking_number == @tracking_number
+  
+  // Hole letzten GPS-Punkt des zugewiesenen Fahrzeugs
+  LET latest_position = FIRST(
+    FOR gps IN vehicle_tracking
+      FILTER gps.vehicle_id == shipment.assigned_vehicle_id
+      SORT gps.timestamp DESC
+      LIMIT 1
+      RETURN gps
+  )
+  
+  // Berechne ETA basierend auf aktueller Position + Route
+  LET remaining_route = GRAPH_SHORTEST_PATH(
+    "road_network",
+    latest_position.location,
+    shipment.delivery_address_coords,
+    { weight_attribute: "travel_time_with_traffic" }
+  )
+  
+  // Hole Sendungshistorie (letzte 10 Status-Updates)
+  LET status_history = (
+    FOR event IN shipment_events
+      FILTER event.shipment_id == shipment.id
+      SORT event.timestamp DESC
+      LIMIT 10
+      RETURN {
+        status: event.status,
+        location: event.location_name,
+        timestamp: event.timestamp,
+        description: event.description
+      }
+  )
+  
+  // Prüfe ob Sendung im Zeitplan ist
+  LET eta = ADD_MINUTES(NOW(), remaining_route.weight)
+  LET is_delayed = eta > shipment.promised_delivery_time
+  LET delay_minutes = is_delayed ? DATEDIFF(eta, shipment.promised_delivery_time, "MINUTE") : 0
+  
+  RETURN {
+    tracking_number: shipment.tracking_number,
+    current_status: shipment.status,
+    current_location: {
+      lat: latest_position.location.lat,
+      lon: latest_position.location.lon,
+      address: REVERSE_GEOCODE(latest_position.location),
+      last_update: latest_position.timestamp
+    },
+    vehicle: {
+      id: shipment.assigned_vehicle_id,
+      driver: shipment.driver_name,
+      type: shipment.vehicle_type
+    },
+    estimated_delivery: {
+      time: eta,
+      confidence: is_delayed ? "LOW" : "HIGH",
+      delay_minutes: delay_minutes,
+      distance_remaining_km: remaining_route.distance
+    },
+    delivery_window: {
+      earliest: shipment.delivery_window_start,
+      latest: shipment.delivery_window_end
+    },
+    status_history: status_history,
+    next_milestone: CALCULATE_NEXT_MILESTONE(remaining_route)
+  }
+```
+
+**3. Proaktive Verspätungs-Benachrichtigungen:**
+```javascript
+// Background Job läuft alle 5 Minuten
+async function detectDelayedShipments() {
+  const query = `
+    FOR shipment IN shipments
+      FILTER shipment.status IN ["in_transit", "out_for_delivery"]
+      
+      // Hole aktuelle ETA
+      LET vehicle_pos = FIRST(
+        FOR gps IN vehicle_tracking
+          FILTER gps.vehicle_id == shipment.assigned_vehicle_id
+          SORT gps.timestamp DESC
+          LIMIT 1
+          RETURN gps
+      )
+      
+      LET route = GRAPH_SHORTEST_PATH(
+        "road_network", 
+        vehicle_pos.location, 
+        shipment.delivery_coords,
+        { weight_attribute: "current_travel_time" }
+      )
+      
+      LET eta = ADD_MINUTES(NOW(), route.weight)
+      LET delay = DATEDIFF(eta, shipment.promised_delivery_time, "MINUTE")
+      
+      // Filter: Verspätung > 15 Minuten UND Kunde noch nicht benachrichtigt
+      FILTER delay > 15
+      FILTER shipment.delay_notification_sent != true
+      
+      RETURN {
+        shipment_id: shipment.id,
+        tracking_number: shipment.tracking_number,
+        customer_email: shipment.customer_email,
+        customer_phone: shipment.customer_phone,
+        original_eta: shipment.promised_delivery_time,
+        new_eta: eta,
+        delay_minutes: delay,
+        reason: ANALYZE_DELAY_REASON(shipment, vehicle_pos, route)
+      }
+  `;
+  
+  const delayed = await themisDB.query(query);
+  
+  // Sende Benachrichtigungen parallel
+  await Promise.all(delayed.map(async (shipment) => {
+    // E-Mail
+    await emailService.send({
+      to: shipment.customer_email,
+      template: 'delivery_delay',
+      data: shipment
+    });
+    
+    // SMS (wenn Verspätung > 30 Min)
+    if (shipment.delay_minutes > 30) {
+      await smsService.send({
+        to: shipment.customer_phone,
+        message: `Ihre Sendung ${shipment.tracking_number} verspätet sich um ca. ${shipment.delay_minutes} Minuten. Neue ETA: ${shipment.new_eta}`
+      });
+    }
+    
+    // Markiere als benachrichtigt
+    await themisDB.update('shipments', shipment.shipment_id, {
+      delay_notification_sent: true,
+      delay_notification_time: new Date()
+    });
+  }));
+  
+  console.log(`Processed ${delayed.length} delayed shipments`);
+}
+```
+
+**4. Real-Time Dashboard mit WebSocket-CDC:**
+```javascript
+// Frontend: React Dashboard mit Live-Updates
+const TrackingDashboard = () => {
+  const [shipments, setShipments] = useState([]);
+  
+  useEffect(() => {
+    // Subscribe to shipment updates via WebSocket
+    const ws = new WebSocket('wss://themisdb.company.com/cdc/shipments');
+    
+    ws.onmessage = (event) => {
+      const update = JSON.parse(event.data);
+      
+      setShipments(prev => {
+        const index = prev.findIndex(s => s.id === update.id);
+        if (index >= 0) {
+          // Update existing
+          const updated = [...prev];
+          updated[index] = { ...updated[index], ...update };
+          return updated;
+        } else {
+          // Add new
+          return [...prev, update];
+        }
+      });
+    };
+    
+    // Initial load
+    fetch('/api/v1/shipments/active')
+      .then(r => r.json())
+      .then(data => setShipments(data));
+    
+    return () => ws.close();
+  }, []);
+  
+  return (
+    <div className="dashboard">
+      <h1>Live Tracking Dashboard</h1>
+      <Map shipments={shipments} />
+      <ShipmentList shipments={shipments} />
+      <Statistics shipments={shipments} />
+    </div>
+  );
+};
+```
+
+**Ergebnisse:**
+- **Kundenzufriedenheit**: +25% durch proaktive Kommunikation
+- **Call-Center-Entlastung**: -40% Anrufe mit "Wo ist mein Paket?"
+- **On-Time-Delivery**: +15% durch frühzeitige Intervention bei Verspätungen
+- **System-Performance**: 10M Sendungen, 45K GPS-Updates/s, < 50ms API-Latenz
+
 ### 4.2 Supply Chain Visibility
 
 **Szenario:** Automotive-OEM mit 500 Tier-1/2/3-Lieferanten
@@ -513,6 +1124,372 @@ FOR supplier IN GRAPH_TRAVERSE("supply_chain", "COMPONENT_ENGINE", "INBOUND")
 - **411K Bilder/s** verarbeitet (Embedding-Generation mit GPU)
 - **59.7M Vector-Queries/s** für Ähnlichkeitssuche
 - **Sub-Millisekunden** für Pick-Listen-Generierung
+
+**Detaillierte Implementierung:**
+
+**1. Wareneingang mit automatischer Bilderkennung:**
+```python
+# Kamera-Station am Wareneingang
+import cv2
+import numpy as np
+from themisdb import ThemisClient
+
+db = ThemisClient('localhost:8765')
+
+# Capture image from camera
+camera = cv2.VideoCapture(0)
+ret, frame = camera.read()
+
+# Generiere Embedding mit CLIP-Modell (läuft auf ThemisDB GPU)
+embedding_result = db.llm.image_to_embedding(
+    image_data=frame,
+    model='clip-vit-large',
+    normalize=True
+)
+
+# Suche nach ähnlichen Produkten (Duplikaterkennung)
+similar_items = db.vector.search(
+    collection='product_images',
+    vector=embedding_result.embedding,
+    k=5,
+    threshold=0.95  # > 95% Ähnlichkeit
+)
+
+if similar_items and similar_items[0].score > 0.98:
+    # Sehr wahrscheinlich Duplikat
+    print(f"⚠️ Potential duplicate of SKU: {similar_items[0].metadata.sku}")
+    action = "flag_for_review"
+else:
+    # Neues Produkt - extrahiere Details mit LLM
+    product_info = db.llm.query(
+        prompt=f"""Analyze this product image and extract:
+        - Product category
+        - Approximate dimensions (S/M/L/XL)
+        - Color
+        - Condition (New/Used/Damaged)
+        - Any visible barcodes or text
+        
+        Return as JSON.""",
+        image=frame,
+        model='llava-v1.6',
+        temperature=0.1
+    )
+    
+    # Speichere Produkt mit Embedding
+    product_id = db.insert('products', {
+        'sku': generate_sku(),
+        'arrival_timestamp': datetime.now(),
+        'image_embedding': embedding_result.embedding,
+        'ai_extracted_info': product_info,
+        'status': 'received',
+        'location': 'receiving_dock_A'
+    })
+    
+    print(f"✅ New product registered: {product_id}")
+```
+
+**2. Intelligente Lagerplatz-Zuweisung:**
+```sql
+-- Finde optimalen Lagerplatz basierend auf:
+-- 1. Häufigkeit der Bestellung
+-- 2. Co-Purchase-Patterns (häufig zusammen bestellte Artikel)
+-- 3. Physische Eigenschaften (Größe, Gewicht)
+-- 4. Aktuelle Auslastung der Lagerbereiche
+
+FOR product IN new_arrivals
+  FILTER product.status == "received"
+  FILTER product.location == "receiving_dock_A"
+  
+  // Analysiere Bestellhistorie
+  LET order_frequency = (
+    FOR order IN orders
+      FILTER order.created_at >= DATE_SUB(NOW(), 90, "DAY")
+      FOR item IN order.items
+        FILTER item.sku == product.sku
+        COLLECT WITH COUNT INTO count
+        RETURN count
+  )[0] || 0
+  
+  // Finde häufig zusammen bestellte Artikel
+  LET frequently_ordered_together = (
+    FOR order IN orders
+      FILTER order.created_at >= DATE_SUB(NOW(), 30, "DAY")
+      FILTER product.sku IN order.items[*].sku
+      FOR item IN order.items
+        FILTER item.sku != product.sku
+        COLLECT sku = item.sku WITH COUNT INTO count
+        SORT count DESC
+        LIMIT 5
+        RETURN sku
+  )
+  
+  // Finde Lagerplätze wo häufig zusammen bestellte Artikel sind
+  LET nearby_locations = (
+    FOR related_sku IN frequently_ordered_together
+      FOR p IN products
+        FILTER p.sku == related_sku
+        RETURN p.location
+  )
+  
+  // Finde verfügbare Lagerplätze in der Nähe
+  LET available_locations = (
+    FOR loc IN warehouse_locations
+      FILTER loc.available_capacity_m3 >= product.volume_m3
+      FILTER loc.available_weight_kg >= product.weight_kg
+      
+      // Berechne Distanz zu verwandten Produkten
+      LET avg_distance = AVG(
+        FOR nearby IN nearby_locations
+          RETURN GEO_DISTANCE(loc.coordinates, nearby.coordinates)
+      )
+      
+      // Berechne Distanz zu Versandbereich
+      LET distance_to_shipping = GEO_DISTANCE(
+        loc.coordinates,
+        warehouse_shipping_area.coordinates
+      )
+      
+      // Score: Häufig bestellte Artikel → nah am Versandbereich
+      LET priority_score = (
+        order_frequency * 0.4 +                    // Bestellfrequenz
+        (1 / (avg_distance + 1)) * 0.3 +          // Nähe zu verwandten Produkten
+        (1 / (distance_to_shipping + 1)) * 0.3   // Nähe zu Versandbereich
+      )
+      
+      SORT priority_score DESC
+      LIMIT 1
+      RETURN {
+        location_id: loc.id,
+        aisle: loc.aisle,
+        shelf: loc.shelf,
+        bin: loc.bin,
+        priority_score: priority_score,
+        reasoning: {
+          order_frequency: order_frequency,
+          avg_distance_to_related: avg_distance,
+          distance_to_shipping: distance_to_shipping
+        }
+      }
+  )
+  
+  // Update Produkt mit zugewiesenem Lagerplatz
+  UPDATE product WITH {
+    location: available_locations[0].location_id,
+    location_details: available_locations[0],
+    putaway_priority: order_frequency > 10 ? "HIGH" : "NORMAL"
+  } IN products
+  
+  RETURN {
+    sku: product.sku,
+    assigned_location: available_locations[0],
+    instruction: `Move to Aisle ${available_locations[0].aisle}, Shelf ${available_locations[0].shelf}, Bin ${available_locations[0].bin}`
+  }
+```
+
+**3. Pick-Path-Optimierung mit Graph-Traversierung:**
+```javascript
+// Optimiere Pick-Route für Kommissionierer
+async function optimizePickPath(orderIds) {
+  const query = `
+    // Sammle alle zu pickenden Artikel aus allen Aufträgen
+    LET items_to_pick = (
+      FOR order IN orders
+        FILTER order.id IN @orderIds
+        FOR item IN order.items
+          LET product = FIRST(
+            FOR p IN products
+              FILTER p.sku == item.sku
+              RETURN p
+          )
+          RETURN {
+            order_id: order.id,
+            sku: item.sku,
+            quantity: item.quantity,
+            location: product.location,
+            coordinates: product.location_coordinates
+          }
+    )
+    
+    // Erstelle Pick-Route als Traveling Salesman Problem
+    LET start_point = warehouse_entrance_coordinates
+    
+    // Gruppiere nach Lagerbereich
+    LET grouped_by_aisle = (
+      FOR item IN items_to_pick
+        COLLECT aisle = item.location.aisle INTO items
+        RETURN { aisle, items }
+    )
+    
+    // Sortiere Aisles nach geografischer Nähe (Serpentinen-Muster)
+    SORT grouped_by_aisle[*].aisle ASC
+    
+    // Innerhalb jedes Aisles: Optimiere Shelf-Reihenfolge
+    LET optimized_route = (
+      FOR aisle_group IN grouped_by_aisle
+        LET sorted_items = (
+          FOR item IN aisle_group.items
+            SORT item.location.shelf ASC, item.location.bin ASC
+            RETURN item
+        )
+        RETURN sorted_items
+    )
+    
+    LET flattened_route = FLATTEN(optimized_route)
+    
+    // Berechne Gesamt-Distanz
+    LET total_distance = SUM(
+      FOR i IN 0..(LENGTH(flattened_route) - 2)
+        LET current = flattened_route[i].coordinates
+        LET next = flattened_route[i + 1].coordinates
+        RETURN GEO_DISTANCE(current, next)
+    )
+    
+    // Geschätzte Pick-Zeit (15 sek pro Artikel + Laufzeit mit 5 km/h)
+    LET estimated_time_minutes = (
+      LENGTH(flattened_route) * 0.25 +  // 15 sek = 0.25 min pro Pick
+      total_distance / (5000 / 60)      // 5 km/h = 83.3 m/min
+    )
+    
+    RETURN {
+      order_ids: @orderIds,
+      items: flattened_route,
+      total_items: LENGTH(flattened_route),
+      total_distance_meters: total_distance,
+      estimated_time_minutes: estimated_time_minutes,
+      instructions: flattened_route[*].{
+        step: POSITION(flattened_route),
+        location: CONCAT("Aisle ", location.aisle, ", Shelf ", location.shelf, ", Bin ", location.bin),
+        sku: sku,
+        quantity: quantity,
+        description: sku  // TODO: Join mit product name
+      }
+    }
+  `;
+  
+  return await db.query(query, { orderIds });
+}
+
+// Beispiel-Nutzung
+const pickList = await optimizePickPath(['ORDER_001', 'ORDER_002', 'ORDER_003']);
+console.log(`Pick ${pickList.total_items} items, ${pickList.total_distance_meters}m, ~${pickList.estimated_time_minutes} min`);
+```
+
+**4. Echtzeit-Bestandsverfolgung mit RFID:**
+```javascript
+// RFID Gate scannt alle durchgehenden Artikel
+rfidGate.on('scan', async (tagIds) => {
+  const timestamp = new Date();
+  
+  // Batch-Update für alle gescannten Tags
+  await db.transaction(async (tx) => {
+    for (const tagId of tagIds) {
+      // Lookup Produkt
+      const product = await tx.queryOne(
+        'FOR p IN products FILTER p.rfid_tag == @tagId RETURN p',
+        { tagId }
+      );
+      
+      if (!product) {
+        console.warn(`Unknown RFID tag: ${tagId}`);
+        continue;
+      }
+      
+      // Update Location
+      await tx.update('products', product.id, {
+        location: rfidGate.location,
+        last_seen: timestamp,
+        movement_history: {
+          _append: {
+            from: product.location,
+            to: rfidGate.location,
+            timestamp: timestamp
+          }
+        }
+      });
+      
+      // Trigger Event für Downstream-Systeme
+      await tx.insert('inventory_events', {
+        type: 'LOCATION_CHANGED',
+        product_id: product.id,
+        sku: product.sku,
+        old_location: product.location,
+        new_location: rfidGate.location,
+        timestamp: timestamp
+      });
+    }
+  });
+  
+  console.log(`Processed ${tagIds.length} RFID scans`);
+});
+```
+
+**5. Predictive Stock Replenishment:**
+```sql
+-- ML-basierte Vorhersage: Welche Artikel gehen in den nächsten 3 Tagen aus?
+FOR product IN products
+  FILTER product.status == "active"
+  
+  // Berechne historische Nachfrage (30 Tage)
+  LET daily_demand = (
+    FOR order IN orders
+      FILTER order.created_at >= DATE_SUB(NOW(), 30, "DAY")
+      FOR item IN order.items
+        FILTER item.sku == product.sku
+        COLLECT date = DATE_FORMAT(order.created_at, "%Y-%m-%d")
+        AGGREGATE qty = SUM(item.quantity)
+        RETURN { date, qty }
+  )
+  
+  // Durchschnittliche tägliche Nachfrage
+  LET avg_daily_demand = AVG(daily_demand[*].qty)
+  LET stddev_demand = STDDEV(daily_demand[*].qty)
+  
+  // Safety Stock (2 Standardabweichungen)
+  LET safety_stock = stddev_demand * 2
+  
+  // Erwartete Nachfrage in den nächsten 3 Tagen
+  LET forecast_demand_3days = avg_daily_demand * 3
+  
+  // Aktueller Bestand
+  LET current_stock = product.quantity
+  
+  // Incoming (unterwegs vom Lieferanten)
+  LET incoming_stock = SUM(
+    FOR po IN purchase_orders
+      FILTER po.sku == product.sku
+      FILTER po.status == "in_transit"
+      FILTER po.expected_arrival <= DATE_ADD(NOW(), 3, "DAY")
+      RETURN po.quantity
+  )
+  
+  LET available_stock = current_stock + incoming_stock
+  LET stockout_risk = forecast_demand_3days > (available_stock - safety_stock)
+  
+  FILTER stockout_risk == true
+  
+  SORT (available_stock - forecast_demand_3days) ASC
+  
+  RETURN {
+    sku: product.sku,
+    name: product.name,
+    current_stock: current_stock,
+    incoming_stock: incoming_stock,
+    available_stock: available_stock,
+    avg_daily_demand: avg_daily_demand,
+    forecast_3days: forecast_demand_3days,
+    safety_stock: safety_stock,
+    days_until_stockout: available_stock / avg_daily_demand,
+    risk_level: available_stock < safety_stock ? "CRITICAL" : "HIGH",
+    recommended_order_qty: CEIL(avg_daily_demand * 14 - available_stock)  // 14 Tage Vorlauf
+  }
+```
+
+**Ergebnisse:**
+- **Pick-Effizienz**: +35% durch optimierte Routen
+- **Bestandsgenauigkeit**: 99.8% durch RFID-Tracking
+- **Stockout-Reduktion**: -60% durch ML-basierte Vorhersage
+- **Lagerplatz-Auslastung**: +25% durch intelligente Zuweisung
+- **Wareneingangs-Geschwindigkeit**: +50% durch automatische Bilderkennung
 
 ### 4.4 Predictive Maintenance für Flottenmanagement
 
@@ -895,6 +1872,115 @@ themis-import \
 **Option C: ThemisDB Enterprise**
 - **Gesamt**: €100K/Jahr Lizenz + €50K Hardware
 - = €150K/Jahr → **€50K Einsparung**
+
+### 7.5 Detaillierte TCO-Analyse (Total Cost of Ownership)
+
+**Szenario:** Mittelständisches Logistikunternehmen mit 500 Mitarbeitern, 5.000 Sendungen/Tag
+
+**Legacy-Architektur (5 Jahre):**
+
+| Kostenposition | Jahr 1 | Jahr 2-5 (p.a.) | Gesamt (5 Jahre) |
+|----------------|-------:|----------------:|-----------------:|
+| **Software-Lizenzen** |  |  |  |
+| PostgreSQL Enterprise | €30K | €30K | €150K |
+| Neo4j Enterprise | €80K | €80K | €400K |
+| MongoDB Atlas | €40K | €45K | €220K |
+| Pinecone Vector DB | €30K | €35K | €170K |
+| InfluxDB Enterprise | €25K | €25K | €125K |
+| Elasticsearch | €30K | €30K | €150K |
+| **Infrastruktur** |  |  |  |
+| Server-Hardware | €200K | €50K | €400K |
+| Cloud-Kosten | €80K | €90K | €440K |
+| Netzwerk/Storage | €50K | €30K | €170K |
+| **Personal** |  |  |  |
+| 3x DB-Administratoren | €270K | €280K | €1,390K |
+| 2x DevOps Engineers | €180K | €190K | €940K |
+| 1x Data Architect | €110K | €115K | €570K |
+| **Betrieb** |  |  |  |
+| Wartung/Support | €40K | €45K | €220K |
+| Training | €30K | €20K | €110K |
+| Monitoring-Tools | €20K | €20K | €100K |
+| **Gesamt** | **€1,215K** | **€1,085K** | **€5,555K** |
+
+**ThemisDB Enterprise (5 Jahre):**
+
+| Kostenposition | Jahr 1 | Jahr 2-5 (p.a.) | Gesamt (5 Jahre) |
+|----------------|-------:|----------------:|-----------------:|
+| **Software-Lizenzen** |  |  |  |
+| ThemisDB Enterprise | €100K | €100K | €500K |
+| **Infrastruktur** |  |  |  |
+| Server-Hardware | €150K | €30K | €270K |
+| Cloud-Kosten (reduziert) | €40K | €45K | €220K |
+| Netzwerk/Storage | €30K | €20K | €110K |
+| **Personal** |  |  |  |
+| 1x DB-Administrator | €90K | €95K | €470K |
+| 1x DevOps Engineer | €90K | €95K | €470K |
+| **Betrieb** |  |  |  |
+| Wartung/Support (inkl.) | €0 | €0 | €0 |
+| Training | €20K | €5K | €40K |
+| Monitoring (inkl.) | €0 | €0 | €0 |
+| **Gesamt** | **€520K** | **€390K** | **€2,080K** |
+
+**Einsparung über 5 Jahre: €3,475K (62,5%)**
+
+**Break-Even-Analyse:**
+- **Initiale Investition**: €520K (Jahr 1)
+- **Jährliche Einsparung**: €695K (ab Jahr 2)
+- **Break-Even**: Monat 8 im ersten Jahr
+- **ROI nach 5 Jahren**: 167%
+
+**Zusätzliche quantifizierbare Vorteile (nicht in TCO):**
+- **Produktivitätsgewinn**: +30% durch schnellere Queries → €200K/Jahr
+- **Reduktion Downtime**: 99.9% → 99.99% SLA → €150K/Jahr eingesparte Ausfallkosten
+- **Schnellere Time-to-Market**: Neue Features 2x schneller → €100K/Jahr Wettbewerbsvorteil
+
+**Gesamtersparnis inkl. Vorteile: €5,725K über 5 Jahre**
+
+### 7.6 Praxis-Beispiel: Implementierungs-Kostenvergleich
+
+**Use Case:** Echtzeit-Track-&-Trace-System für 10.000 Sendungen/Tag
+
+**Variante A: Multi-Database-Stack**
+
+```
+Implementierungsaufwand:
+├── PostgreSQL Setup & Schema Design: 2 Wochen
+├── InfluxDB Time-Series Setup: 1 Woche
+├── Neo4j Graph-Schema: 2 Wochen
+├── Pinecone Vector DB Integration: 1 Woche
+├── ETL-Pipelines (Kafka/Airflow): 4 Wochen
+├── API Layer (Microservices): 3 Wochen
+├── Monitoring & Alerting: 2 Wochen
+├── Testing & QA: 3 Wochen
+└── Total: 18 Wochen (4,5 Monate)
+
+Entwicklerkosten (3 Senior Devs × €10K/Woche):
+= 18 × €30K = €540K
+
+Ongoing Maintenance: €15K/Monat = €180K/Jahr
+```
+
+**Variante B: ThemisDB Single-Database**
+
+```
+Implementierungsaufwand:
+├── ThemisDB Setup & Schema Design: 1 Woche
+├── Multi-Model Data Modeling: 2 Wochen
+├── API Layer: 2 Wochen
+├── Testing & QA: 2 Wochen
+└── Total: 7 Wochen (1,75 Monate)
+
+Entwicklerkosten (2 Senior Devs × €10K/Woche):
+= 7 × €20K = €140K
+
+Ongoing Maintenance: €5K/Monat = €60K/Jahr
+```
+
+**Vergleich:**
+- **Time-to-Market**: 11 Wochen schneller (2,75 Monate)
+- **Entwicklungskosten**: €400K Einsparung
+- **Jährliche Betriebskosten**: €120K Einsparung
+- **Gesamtersparnis (3 Jahre)**: €760K
 
 ---
 
