@@ -1372,6 +1372,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_tenant_manager.cpp
         tests/test_graphql.cpp
         tests/test_olap.cpp
+        tests/test_olap_extended.cpp
         
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
@@ -1544,6 +1545,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_encryption
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # OLAP Analytics benchmark (v1.3.0 Phase 2)
+    add_executable(bench_olap_analytics
+        benchmarks/bench_olap_analytics.cpp
+    )
+    
+    target_link_libraries(bench_olap_analytics
         PRIVATE
             themis_core
             benchmark::benchmark
