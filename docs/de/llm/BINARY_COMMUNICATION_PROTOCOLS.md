@@ -636,7 +636,7 @@ std::memcpy(shm_buffer->encrypted_data, encrypted.data(), encrypted.size());
 
 **Siehe auch:**
 - [LLM Loader Guide](./LLM_LOADER_GUIDE.md) - Vollständiger Implementierungsleitfaden
-- [vLLM Multi-LoRA Integration](../exporters/VLLM_MULTI_LORA_INTEGRATION.md)
+- [vLLM Multi-LoRA Integration](../connectors/VLLM_MULTI_LORA_INTEGRATION.md)
 - [Performance Tuning](../performance/performance_memory.md)
 
 **Erstellt:** Dezember 2025  

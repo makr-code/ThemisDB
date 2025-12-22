@@ -199,6 +199,6 @@ client.close()
 ## See Also
 
 - [TSAutoBuffer Documentation](../timeseries/AUTO_BUFFER.md)
-- [VectorAutoBuffer Documentation](../index/VECTOR_AUTO_BUFFER.md)
-- [HTTP REST API Documentation](../api/BUFFER_API.md)
+- [VectorAutoBuffer Documentation](../search/VECTOR_AUTO_BUFFER.md)
+- [HTTP REST API Documentation](../apis/BUFFER_API.md)
 - [Client Implementation Roadmap](../roadmap/CLIENT_IMPLEMENTATION_ROADMAP.md)

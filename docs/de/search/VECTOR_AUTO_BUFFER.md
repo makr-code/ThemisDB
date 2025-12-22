@@ -550,7 +550,7 @@ image_buffer.stop();
 ## Siehe auch
 
 - [TSAutoBuffer](../timeseries/AUTO_BUFFER.md) - Time-Series Auto-Batching
-- [Batch Processing Opportunities](../analysis/BATCH_PROCESSING_OPPORTUNITIES.md) - Übersicht
+- [Batch Processing Opportunities](../reports/BATCH_PROCESSING_OPPORTUNITIES.md) - Übersicht
 - [Vector Index](../../include/index/vector_index.h) - VectorIndexManager API
 - [HNSW Documentation](https://github.com/nmslib/hnswlib) - HNSW Algorithm
 

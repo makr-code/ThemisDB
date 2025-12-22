@@ -405,7 +405,7 @@ docker run -v themis_data:/data themisdb/themisdb:latest
 - **[Installation Guide](INSTALLATION.md)** - Detailed installation instructions
 - **[Configuration Guide](../operations/CONFIGURATION.md)** - All configuration options
 - **[AQL Documentation](../aql/aql_syntax.md)** - Learn the query language
-- **[REST API Reference](../api/REST_API.md)** - Complete API documentation
+- **[REST API Reference](../apis/REST_API.md)** - Complete API documentation
 - **[Client SDKs](../../clients/README.md)** - Use ThemisDB from your favorite language
 
 ---

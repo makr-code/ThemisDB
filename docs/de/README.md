@@ -131,7 +131,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 > - ✅ mimalloc (einzige neue Dependency, 20-40% Memory Boost)
 > 
 > **Engineering:** 9-11 Wochen | **Impact:** 3-10x Performance  
-> **Details:** [v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)
+> **Details:** [v1.1.0 Variant Strategy](reports/VARIANT_STRATEGY_v1.1.0.md)
 
 > **🚀 PLANNED - v1.2.0 Enterprise Features (Q2 2026):**
 > 
@@ -144,7 +144,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 > - ✅ **cuSpatial** - GPU Geo Ops (optional, nutzt Arrow + CUDA)
 > 
 > **Engineering:** 12-16 Wochen | **Impact:** PostGIS + LoRA + TimescaleDB Compatibility  
-> **Details:** [Enterprise Features Strategy](analysis/ENTERPRISE_FEATURES_STRATEGY.md)
+> **Details:** [Enterprise Features Strategy](reports/ENTERPRISE_FEATURES_STRATEGY.md)
 
 ---
 
@@ -163,16 +163,16 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 ### Für Stakeholder & Management
 - **[Themis Sachstandsbericht 2025](reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
-- **[🆕 v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
-- **[🆕 v1.2.0 Enterprise Features](analysis/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
+- **[🆕 v1.1.0 Variant Strategy](reports/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
+- **[🆕 v1.2.0 Enterprise Features](reports/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
 - ~~Projektkostenschätzung & Gesamtwert~~ - 🔒 Confidential (available to licensed customers only)
 - **[Release Strategy Audit](../RELEASE_STRATEGY_AUDIT.md)** - SLSA Compliance, SBOM (8.5/10 Rating)
 - **[Release & Benchmarking Summary](../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - v1.0.1 Session Report
 
 ### Für Entwickler
 - **[Development Summary](development/DEVELOPMENT_SUMMARY.md)** - Entwicklungsstand v1.0.1
-- **[🆕 External Libraries Analysis](analysis/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
-- **[🆕 Library Interactions](analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
+- **[🆕 External Libraries Analysis](reports/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
+- **[🆕 Library Interactions](reports/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
 - **[Source Code Audit](development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
 - **[Documentation Index](DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
 - **[Documentation Verification](reports/documentation_verification_report.md)** - Verifizierung Dokumentation ↔ Code
@@ -200,18 +200,18 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ### Query & Analytics Layer
 - **[AQL Documentation](aql/README.md)** - Advanced Query Language (Parser, Optimizer, 240K LOC)
 - **[Query Module](query/README.md)** - Query Engine, Execution
-- **[Analytics Module](analytics/README.md)** - OLAP Engine (CUBE, ROLLUP), CEP, Process Mining (57K LOC)
+- **[Analytics Module](observability/README.md)** - OLAP Engine (CUBE, ROLLUP), CEP, Process Mining (57K LOC)
 - **[Search Documentation](search/README.md)** - Fulltext (BM25), Vector, Hybrid Search
 
 ### Storage & Index Layer
 - **[Storage Module](storage/README.md)** - RocksDB Wrapper, LSM-Tree, MVCC (76K LOC)
-- **[Index Module](index/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
-- **[Cache Module](cache/README.md)** - Semantic Cache, Result Cache
+- **[Index Module](search/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
+- **[Cache Module](storage/README.md)** - Semantic Cache, Result Cache
 - **[Timeseries Module](timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
 
 ### Distribution & Scaling Layer
 - **[Sharding Module](sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
-- **[Replication Module](replication/README.md)** - Leader-Follower, Multi-Master CRDTs (12K LOC)
+- **[Replication Module](storage/README.md)** - Leader-Follower, Multi-Master CRDTs (12K LOC)
 - **[Transaction Module](transaction/README.md)** - MVCC, SAGA Patterns (42K LOC)
 
 ### Acceleration Layer
@@ -226,7 +226,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ### Server & API Layer
 - **[Server Module](server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
 - **[HTTP API Referenz](apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
-- **[API Documentation](api/README.md)** - REST API Übersicht
+- **[API Documentation](apis/README.md)** - REST API Übersicht
 - **[LLM Module](llm/README.md)** - LLM Interaction Store, Prompt Manager
 
 ### Security & Governance Layer
@@ -264,10 +264,10 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 - **[Swift SDK](clients/swift_sdk_quickstart.md)** - iOS/macOS Client
 
 ### Data Import/Export
-- **[Exporters](exporters/README.md)** - Data Export
-  - **[JSONL LLM Exporter](exporters/JSONL_LLM_EXPORTER.md)** - LLM Training Data Export
-- **[Importers](importers/README.md)** - Data Import
-  - **[PostgreSQL Importer](importers/POSTGRES_IMPORTER.md)** - PostgreSQL Migration
+- **[Exporters](connectors/README.md)** - Data Export
+  - **[JSONL LLM Exporter](connectors/JSONL_LLM_EXPORTER.md)** - LLM Training Data Export
+- **[Importers](connectors/README.md)** - Data Import
+  - **[PostgreSQL Importer](connectors/POSTGRES_IMPORTER.md)** - PostgreSQL Migration
 
 ### Plugin Development
 - **[Plugins](plugins/README.md)** - Plugin System

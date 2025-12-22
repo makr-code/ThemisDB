@@ -19,4 +19,4 @@ Projekt-spezifische Dokumentation und Use Cases für ThemisDB.
 ## Verwandte Dokumentation
 
 - [LLM Module](../llm/README.md) - LLM Integration
-- [Exporters](../exporters/README.md) - LLM Training Export
+- [Exporters](../connectors/README.md) - LLM Training Export

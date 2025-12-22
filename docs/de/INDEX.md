@@ -16,7 +16,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 **Using ThemisDB:**
 - [AQL Query Language](aql/aql_syntax.md) - Learn the query language
-- [REST API Reference](api/REST_API.md) - HTTP API documentation
+- [REST API Reference](apis/REST_API.md) - HTTP API documentation
 - [Client SDKs](../clients/README.md) - SDK documentation for 7 languages
 
 **Operating ThemisDB:**
@@ -56,7 +56,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | [Time-Series](features/features_time_series.md) | Time-series data and compression |
 | [Hypertables](features/features_hypertables.md) | TimescaleDB-compatible time-series (v1.2+) |
 | [Hybrid Search](features/features_hybrid_search.md) | RAG-optimized BM25+Vector search (v1.2+) |
-| [Analytics](analytics/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
+| [Analytics](observability/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
 
 ### Query Language (AQL)
 
@@ -70,8 +70,8 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [REST API](api/REST_API.md) | HTTP API endpoints |
-| [GraphQL API](api/api_graphql.md) | GraphQL interface |
+| [REST API](apis/REST_API.md) | HTTP API endpoints |
+| [GraphQL API](apis/api_graphql.md) | GraphQL interface |
 | [Client SDKs](../clients/README.md) | SDKs for Python, JS, Rust, Go, Java, C#, Swift |
 
 ### Security & Compliance
@@ -115,7 +115,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | [Sharding](sharding/sharding_overview.md) | Horizontal sharding and routing |
 | [Replication](sharding/sharding_replication.md) | Leader-follower and multi-master |
 | [GPU Acceleration](performance/performance_gpu_plan.md) | CUDA, Vulkan, HIP backends |
-| [vLLM Co-Location](analysis/VARIANT_STRATEGY_v1.1.0.md) | AI/ML workload optimization |
+| [vLLM Co-Location](reports/VARIANT_STRATEGY_v1.1.0.md) | AI/ML workload optimization |
 | [Content Processing](content/content_architecture.md) | Process PDFs, images, videos, etc. |
 
 ### Release Notes
@@ -136,10 +136,10 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ### By Use Case
 
 **Building an Application:**
-- [Quick Start](guides/QUICK_START.md) → [REST API](api/REST_API.md) → [Client SDKs](../clients/README.md)
+- [Quick Start](guides/QUICK_START.md) → [REST API](apis/REST_API.md) → [Client SDKs](../clients/README.md)
 
 **Analytics & BI:**
-- [OLAP Features](analytics/OLAP.md) → [Parquet Export](analytics/olap.md) → [Time-Series](features/features_time_series.md)
+- [OLAP Features](observability/OLAP.md) → [Parquet Export](observability/olap.md) → [Time-Series](features/features_time_series.md)
 
 **AI/ML Applications:**
 - [Vector Search](features/features_vector_ops.md) → [Hybrid Search](features/features_hybrid_search.md) → [Embedding Cache](features/features_embedding_cache.md)

@@ -152,4 +152,4 @@ tar -xzf themis-linux-x86_64.tar.gz
 
 - [Guides: Deployment](../guides/guides_deployment.md) - Deployment Guide
 - [Guides: Build Strategy](../guides/guides_build_strategy.md) - Build Toolchain
-- [CI/CD](../cicd/README.md) - CI/CD Workflows
+- [CI/CD](../build/README.md) - CI/CD Workflows

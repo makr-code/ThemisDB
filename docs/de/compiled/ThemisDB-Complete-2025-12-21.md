@@ -309,7 +309,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 **Development:**
 - [Build Guide](docs/guides/guides_build_strategy.md)
 - [Contributing](CONTRIBUTING.md)
-- [API Reference](docs/api/api_reference.md)
+- [API Reference](docs/apis/api_reference.md)
 - [Client SDKs](clients/README.md)
 
 **Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
@@ -1550,7 +1550,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 **Using ThemisDB:**
 - [AQL Query Language](aql/aql_syntax.md) - Learn the query language
-- [REST API Reference](api/REST_API.md) - HTTP API documentation
+- [REST API Reference](apis/REST_API.md) - HTTP API documentation
 - [Client SDKs](../clients/README.md) - SDK documentation for 7 languages
 
 **Operating ThemisDB:**
@@ -1590,7 +1590,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | [Time-Series](features/features_time_series.md) | Time-series data and compression |
 | [Hypertables](features/features_hypertables.md) | TimescaleDB-compatible time-series (v1.2+) |
 | [Hybrid Search](features/features_hybrid_search.md) | RAG-optimized BM25+Vector search (v1.2+) |
-| [Analytics](analytics/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
+| [Analytics](observability/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
 
 ### Query Language (AQL)
 
@@ -1604,8 +1604,8 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [REST API](api/REST_API.md) | HTTP API endpoints |
-| [GraphQL API](api/api_graphql.md) | GraphQL interface |
+| [REST API](apis/REST_API.md) | HTTP API endpoints |
+| [GraphQL API](apis/api_graphql.md) | GraphQL interface |
 | [Client SDKs](../clients/README.md) | SDKs for Python, JS, Rust, Go, Java, C#, Swift |
 
 ### Security & Compliance
@@ -1649,7 +1649,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | [Sharding](sharding/sharding_overview.md) | Horizontal sharding and routing |
 | [Replication](sharding/sharding_replication.md) | Leader-follower and multi-master |
 | [GPU Acceleration](performance/performance_gpu_plan.md) | CUDA, Vulkan, HIP backends |
-| [vLLM Co-Location](analysis/VARIANT_STRATEGY_v1.1.0.md) | AI/ML workload optimization |
+| [vLLM Co-Location](reports/VARIANT_STRATEGY_v1.1.0.md) | AI/ML workload optimization |
 | [Content Processing](content/content_architecture.md) | Process PDFs, images, videos, etc. |
 
 ### Release Notes
@@ -1670,10 +1670,10 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ### By Use Case
 
 **Building an Application:**
-- [Quick Start](guides/QUICK_START.md) → [REST API](api/REST_API.md) → [Client SDKs](../clients/README.md)
+- [Quick Start](guides/QUICK_START.md) → [REST API](apis/REST_API.md) → [Client SDKs](../clients/README.md)
 
 **Analytics & BI:**
-- [OLAP Features](analytics/OLAP.md) → [Parquet Export](analytics/olap.md) → [Time-Series](features/features_time_series.md)
+- [OLAP Features](observability/OLAP.md) → [Parquet Export](observability/olap.md) → [Time-Series](features/features_time_series.md)
 
 **AI/ML Applications:**
 - [Vector Search](features/features_vector_ops.md) → [Hybrid Search](features/features_hybrid_search.md) → [Embedding Cache](features/features_embedding_cache.md)
@@ -2166,16 +2166,16 @@ docs/
 
 | Modul | README | Source | Headers | LOC |
 |-------|--------|--------|---------|-----|
-| analytics | [docs/analytics/README.md](analytics/README.md) | 2 | 3 | 3,742 |
-| cache | [docs/cache/README.md](cache/README.md) | 1 | 6 | 492 |
+| analytics | [docs/observability/README.md](observability/README.md) | 2 | 3 | 3,742 |
+| cache | [docs/storage/README.md](storage/README.md) | 1 | 6 | 492 |
 | cdc | [docs/cdc/README.md](cdc/README.md) | 1 | 1 | 510 |
 | content | [docs/content/README.md](content/README.md) | 15 | 16 | 9,091 |
 | geo | [docs/geo/README.md](geo/README.md) | 3 | 2 | 304 |
 | governance | [docs/governance/README.md](governance/README.md) | 1 | 1 | 259 |
-| index | [docs/index/README.md](index/README.md) | 11 | 12 | 14,629 |
+| index | [docs/search/README.md](search/README.md) | 11 | 12 | 14,629 |
 | llm | [docs/llm/README.md](llm/README.md) | 2 | 2 | 679 |
 | query | [docs/query/README.md](query/README.md) | 12 | 12 | 12,560 |
-| replication | [docs/replication/README.md](replication/README.md) | 1 | 2 | 1,612 |
+| replication | [docs/storage/README.md](storage/README.md) | 1 | 2 | 1,612 |
 | security | [docs/security/README.md](security/README.md) | 16 | 16 | 8,138 |
 | server | [docs/server/README.md](server/README.md) | 20 | 20 | 18,282 |
 | sharding | [docs/sharding/README.md](sharding/README.md) | 19 | 21 | 12,278 |
@@ -2188,7 +2188,7 @@ docs/
 **Audit-Report:** [SOURCE_CODE_AUDIT.md](development/SOURCE_CODE_AUDIT.md)
 
 ### Multi-Model Features
-- **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
+- **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/search/graph_index.cpp.md)
 - **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
 - **Time-Series:** [time_series.md](features/features_time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
 - **Document:** [content_pipeline.md](architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
@@ -2203,7 +2203,7 @@ docs/
 ### Search & Indexing
 - **Fulltext:** [search/fulltext_api.md](search/fulltext_api.md), [search/stemming.md](search/stemming.md)
 - **Hybrid Search:** [search/hybrid_search_design.md](search/hybrid_search_design.md)
-- **Vector Search:** [vector_ops.md](features/features_vector_ops.md), [index/vector_index.cpp.md](src/index/vector_index.cpp.md)
+- **Vector Search:** [vector_ops.md](features/features_vector_ops.md), [index/vector_index.cpp.md](src/search/vector_index.cpp.md)
 - **Geo Indexing:** [geo/cpu_backend.cpp.md](src/geo/cpu_backend.cpp.md)
 
 ### Governance & PII
@@ -2216,7 +2216,7 @@ docs/
 
 Veraltete oder abgelöste Dokumentation:
 - [archive/](archive/) - Archivierte Dokumente
-- [merge_reports/](merge_reports/) - Git Merge Reports
+- [reports/](reports/) - Git Merge Reports
 
 ## 🔄 Synchronisation
 
@@ -2658,7 +2658,7 @@ docker run -v themis_data:/data themisdb/themisdb:latest
 - **[Installation Guide](INSTALLATION.md)** - Detailed installation instructions
 - **[Configuration Guide](../operations/CONFIGURATION.md)** - All configuration options
 - **[AQL Documentation](../aql/aql_syntax.md)** - Learn the query language
-- **[REST API Reference](../api/REST_API.md)** - Complete API documentation
+- **[REST API Reference](../apis/REST_API.md)** - Complete API documentation
 - **[Client SDKs](../../clients/README.md)** - Use ThemisDB from your favorite language
 
 ---

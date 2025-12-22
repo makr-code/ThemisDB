@@ -30,4 +30,4 @@ ThemisDB bietet Export-Funktionen für LLM-Training und Multi-LoRA-Integration.
 ## Verwandte Dokumentation
 
 - [LLM Module](../llm/README.md) - LLM Integration
-- [API Documentation](../api/README.md) - Export APIs
+- [API Documentation](../apis/README.md) - Export APIs

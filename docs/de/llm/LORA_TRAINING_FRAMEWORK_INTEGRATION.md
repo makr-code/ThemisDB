@@ -5146,10 +5146,10 @@ class AllReduceGradientAggregator {
 - [LLaMA Factory](https://github.com/hiyouga/LLaMA-Factory) - Multi-Backend Training Platform
 
 ### ThemisDB Dokumentation
-- [vLLM Multi-LoRA Integration](../exporters/VLLM_MULTI_LORA_INTEGRATION.md)
-- [JSONL LLM Exporter](../exporters/JSONL_LLM_EXPORTER.md)
-- [Streaming JSONL Training API](../api/STREAMING_JSONL_TRAINING.md)
-- [LoRA Adapter Metadata](../exporters/LORA_ADAPTER_METADATA.md)
+- [vLLM Multi-LoRA Integration](../connectors/VLLM_MULTI_LORA_INTEGRATION.md)
+- [JSONL LLM Exporter](../connectors/JSONL_LLM_EXPORTER.md)
+- [Streaming JSONL Training API](../apis/STREAMING_JSONL_TRAINING.md)
+- [LoRA Adapter Metadata](../connectors/LORA_ADAPTER_METADATA.md)
 
 ### Best Practices
 - [HuggingFace Fine-Tuning Guide](https://huggingface.co/docs/transformers/training)

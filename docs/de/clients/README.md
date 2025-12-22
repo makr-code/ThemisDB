@@ -70,5 +70,5 @@ let result = db.query("FOR doc IN users RETURN doc")?;
 
 ## Verwandte Dokumentation
 
-- [API Documentation](../api/README.md) - REST API
+- [API Documentation](../apis/README.md) - REST API
 - [AQL Documentation](../aql/README.md) - Query Language

@@ -1,136 +1,146 @@
-# Storage Module
+# Replication Module
 
 **Stand:** 5. Dezember 2025  
 **Version:** 1.0.0  
-**Kategorie:** Storage
+**Kategorie:** Replication
 
 ---
 
 ## Übersicht
 
-Das Storage-Modul bildet das Fundament von ThemisDB und bietet eine hochperformante Abstraktionsschicht über RocksDB mit ACID-Transaktionen (MVCC), Kompression und BlobDB-Unterstützung.
+Das Replication-Modul bietet verteilte Datenkonsistenz für ThemisDB mit zwei Hauptstrategien:
+1. **Leader-Follower Replication** - WAL-basiert mit automatischem Failover
+2. **Multi-Master Replication** - Schreiben auf jedem Knoten mit CRDT-Konfliktlösung
 
 ## Source-Code Referenz
 
-| Komponente | Header | Source | LOC | Beschreibung |
-|------------|--------|--------|-----|--------------|
-| RocksDBWrapper | `rocksdb_wrapper.h` | `rocksdb_wrapper.cpp` | ~1,600 | RocksDB Abstraction |
-| BaseEntity | `base_entity.h` | `base_entity.cpp` | ~800 | Entity Storage |
-| BlobRedundancyManager | `blob_redundancy_manager.h` | `blob_redundancy_manager.cpp` | ~700 | RAID-like Redundanz |
-| KeySchema | `key_schema.h` | `key_schema.cpp` | ~400 | Key-Format-Definition |
+| Komponente | Header | Source | LOC |
+|------------|--------|--------|-----|
+| ReplicationManager | `replication_manager.h` | `replication_manager.cpp` | ~500 |
+| MultiMasterReplication | `multi_master_replication.h` | - | ~900 |
 
-**Gesamt:** 9 Header, 10 Source-Dateien, ~4,600 LOC
+**Gesamt:** 2 Header, 1 Source-Datei, ~1,600 LOC
 
-## RocksDBWrapper
+## Implementierte Klassen
 
-### Konfiguration
+### Leader-Follower Replication
 
 ```cpp
-RocksDBWrapper::Config config;
-config.db_path = "./data/rocksdb";
-config.memtable_size_mb = 256;
-config.block_cache_size_mb = 1024;
-config.enable_wal = true;
-config.enable_blobdb = true;
-config.blob_size_threshold = 4096;  // >4KB → BlobDB
-config.compression_default = "lz4";
-config.compression_bottommost = "zstd";
-```
+// replication_manager.h
+enum class ReplicationRole { LEADER, FOLLOWER, CANDIDATE };
+enum class ReplicationMode { SYNC, ASYNC, SEMI_SYNC };
 
-### Features
+class ReplicationManager {
+    void start();
+    void stop();
+    void promoteToLeader();
+    void demoteToFollower();
+    void appendEntry(const WALEntry& entry);
+    ReplicationStatus getStatus();
+};
 
-- **MVCC Transactions:** Snapshot Isolation via RocksDB TransactionDB
-- **LSM-Tree Tuning:** Konfigurierbare Memtable, Block Cache, Bloom Filter
-- **WAL:** Write-Ahead Log für Durability
-- **BlobDB:** Separate Speicherung großer Objekte (>4KB default)
-- **Kompression:** LZ4 (Level 0-5), ZSTD (Bottommost Level)
-- **Multi-Path:** Mehrere NVMe-Mounts für SSTable-Distribution
+class WALManager {
+    uint64_t append(const WALEntry& entry);
+    std::vector<WALEntry> readSince(uint64_t lsn);
+    void checkpoint();
+};
 
-### Kompression
-
-| Algorithmus | Kompressionsrate | Write Speed | Read Speed | Empfehlung |
-|-------------|------------------|-------------|------------|------------|
-| **None** | 1.0x | ⚡ Schnell | ⚡ Schnell | Nur Entwicklung |
-| **LZ4** | 2-3x | ⚡ Schnell | ⚡ Schnell | ✅ Level 0-5 |
-| **ZSTD** | 3-5x | Mittel | Schnell | ✅ Bottommost |
-| **Snappy** | 2-2.5x | Schnell | Schnell | Alternative |
-
-### API
-
-```cpp
-RocksDBWrapper db(config);
-
-// Transaction API
-auto txn = db.beginTransaction();
-txn->put("key1", "value1");
-txn->put("key2", "value2");
-txn->commit();
-
-// Snapshot Read
-auto snapshot = db.getSnapshot();
-auto value = db.get("key1", snapshot);
-
-// WriteBatch (Atomic multi-put)
-auto batch = db.createWriteBatch();
-batch.put("k1", "v1");
-batch.put("k2", "v2");
-db.write(batch);
-
-// Backup
-db.createCheckpoint("/backup/path");
-db.restoreFromCheckpoint("/backup/path");
-```
-
-## BaseEntity
-
-Unified Entity Storage für alle Datenmodelle:
-
-```cpp
-struct BaseEntity {
-    std::string pk;          // Primary Key (collection:uuid)
-    uint64_t version;        // Optimistic Locking Version
-    std::string hash;        // Content Hash
-    json data;               // Entity Data (JSON)
-    std::vector<uint8_t> binary_blob;  // Optional Binary
+class LeaderElection {
+    void startElection();
+    void vote(const std::string& candidate_id);
+    std::string getLeader();
 };
 ```
 
-### Key Format
-
-| Modell | Key Format | Beispiel |
-|--------|------------|----------|
-| Relational | `table:pk` | `users:12345` |
-| Document | `collection:pk` | `orders:abc-123` |
-| Graph Node | `node:pk` | `node:person-1` |
-| Graph Edge | `edge:pk` | `edge:follows-1` |
-| Vector | `object:pk` | `object:embedding-1` |
-
-## BlobRedundancyManager
-
-RAID-ähnliche Redundanz für große Objekte:
+### Multi-Master Replication
 
 ```cpp
-BlobRedundancyManager::Config config;
-config.redundancy_mode = RedundancyMode::MIRROR;  // oder STRIPE, PARITY, GEO_MIRROR
-config.storage_paths = {"/data/nvme1", "/data/nvme2"};
+// multi_master_replication.h
+enum class MMNodeState { ACTIVE, SYNCING, PARTITIONED, RECOVERING, OFFLINE };
+enum class ConflictType { CONCURRENT_UPDATE, DELETE_UPDATE, SCHEMA_CONFLICT, CONSTRAINT_VIOLATION };
 
-BlobRedundancyManager mgr(config);
-mgr.store("blob-id", data);
-auto retrieved = mgr.retrieve("blob-id");
+class VectorClock {
+    void increment(const std::string& node_id);
+    void merge(const VectorClock& other);
+    bool happensBefore(const VectorClock& other) const;
+    bool isConcurrent(const VectorClock& other) const;
+};
+
+class HybridLogicalClock {
+    Timestamp now();
+    Timestamp receive(const Timestamp& received);
+};
+
+class ConflictResolver {
+    virtual MMWriteEntry resolve(const MMWriteEntry& local, const MMWriteEntry& remote) = 0;
+};
+
+class LastWriteWinsResolver : public ConflictResolver { ... };
+class CRDTMergeResolver : public ConflictResolver { ... };
+class CustomResolver : public ConflictResolver { ... };
+
+class MultiMasterReplicationManager {
+    void start();
+    void stop();
+    void write(const MMWriteEntry& entry);
+    void syncWithPeer(const std::string& peer_id);
+    void resolveConflicts();
+};
 ```
 
-### Redundanz-Modi
+## Features
 
-| Modus | Beschreibung | Speichereffizienz |
-|-------|--------------|-------------------|
-| **NONE** | Keine Redundanz | 100% |
-| **MIRROR** | Vollständige Kopie | 50% |
-| **STRIPE** | Striping ohne Parität | 100% |
-| **PARITY** | RAID-5-ähnlich | ~75% |
-| **GEO_MIRROR** | Geo-Replikation | 50% |
+### Vector Clocks
+- Kausalitätsverfolgung zwischen Knoten
+- `happensBefore()` Ordnung
+- Concurrent-Write-Erkennung
+
+### Hybrid Logical Clocks (HLC)
+- Kombination aus physischer Zeit und logischen Zählern
+- Paper: "Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases"
+- Millisekunden-Auflösung mit logischem Counter
+
+### Konfliktlösung
+
+| Strategie | Beschreibung | Use Case |
+|-----------|--------------|----------|
+| **Last-Write-Wins** | Neuester Timestamp gewinnt | Einfache Daten |
+| **CRDT Merge** | G-Counter, PN-Counter, LWW-Register, OR-Set | Komplexe Daten |
+| **Custom** | Anwendungsspezifische Logik | Domain-spezifisch |
+
+### CRDT-Typen
+
+```cpp
+enum class CRDTType {
+    G_COUNTER,      // Grow-only Counter
+    PN_COUNTER,     // Positive-Negative Counter
+    LWW_REGISTER,   // Last-Writer-Wins Register
+    MV_REGISTER,    // Multi-Value Register
+    G_SET,          // Grow-only Set
+    OR_SET,         // Observed-Remove Set
+    LWW_MAP         // Last-Writer-Wins Map
+};
+```
+
+## Konfiguration
+
+```yaml
+replication:
+  mode: multi_master  # leader_follower, multi_master
+  
+  leader_follower:
+    sync_mode: semi_sync
+    min_replicas: 2
+    failover_timeout_ms: 5000
+    
+  multi_master:
+    conflict_resolution: crdt_merge  # lww, crdt_merge, custom
+    anti_entropy_interval_ms: 1000
+    vector_clock_prune_interval_ms: 60000
+```
 
 ## Verwandte Dokumentation
 
-- [storage_rocksdb.md](storage_rocksdb.md) - RocksDB Tuning
-- [storage_cloud_backends.md](storage_cloud_backends.md) - Cloud Storage Backends
-- [storage_blob_redundancy.md](storage_blob_redundancy.md) - Blob Redundanz Details
+- [Sharding: Redundancy Architecture](../sharding/sharding_redundancy.md) - RAID-like Redundanz
+- [Sharding: Streaming Protocol](../sharding/sharding_streaming.md) - Streaming-Architektur
+- [Features: Transactions](../features/features_transactions.md) - Transaktions-Semantik

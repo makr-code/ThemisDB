@@ -445,7 +445,7 @@ wal_shipper_replica_healthy{replica_id="replica-1"} 1
 - [WAL Manager](../../include/sharding/wal_manager.h) - WAL Management
 - [WAL Applier](../../include/sharding/wal_applier.h) - WAL Application
 - [Zstd Codec](../../include/utils/zstd_codec.h) - Compression Utilities
-- [Batch Processing Opportunities](../analysis/BATCH_PROCESSING_OPPORTUNITIES.md) - Übersicht
+- [Batch Processing Opportunities](../reports/BATCH_PROCESSING_OPPORTUNITIES.md) - Übersicht
 
 ## Referenzen
 

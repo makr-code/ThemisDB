@@ -91,6 +91,6 @@ ThemisDB ist eine Multi-Model-Datenbank basierend auf RocksDB (LSM-Tree) mit ACI
 ## Verwandte Dokumentation
 
 - [Storage Module](../storage/README.md) - RocksDB Wrapper Details
-- [Index Module](../index/README.md) - Index Implementations
+- [Index Module](../search/README.md) - Index Implementations
 - [Query Module](../query/README.md) - Query Engine
 - [Features Overview](../features/features_overview.md) - Feature-Liste

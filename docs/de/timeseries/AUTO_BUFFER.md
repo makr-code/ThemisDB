@@ -459,5 +459,5 @@ Die Implementierung nutzt **bestehende ThemisDB-Patterns**:
 
 - [Time-Series Storage Methods](./STORAGE_METHODS.md)
 - [Time-Series Engine (TSStore)](../features/features_time_series.md)
-- [CEP Engine Documentation](../analytics/CEP_STREAMING_ANALYTICS.md)
+- [CEP Engine Documentation](../observability/CEP_STREAMING_ANALYTICS.md)
 - [Backpressure Protocol](../sharding/backpressure_protocol.md)

@@ -1,65 +1,83 @@
-# Observability Documentation
+# Analytics Module
 
 **Stand:** 5. Dezember 2025  
 **Version:** 1.0.0  
-**Kategorie:** Observability
+**Kategorie:** Analytics
 
 ---
 
 ## Übersicht
 
-ThemisDB bietet umfassende Observability mit Metrics, Tracing und Logging.
-
-## Features
-
-| Feature | Implementierung | Status |
-|---------|-----------------|--------|
-| **Metrics** | Prometheus | ✅ Production |
-| **Tracing** | OpenTelemetry | ✅ Production |
-| **Logging** | spdlog | ✅ Production |
-| **Health Checks** | `/health` Endpoint | ✅ Production |
-
-## Prometheus Metrics
-
-```
-# HELP themisdb_requests_total Total number of requests
-# TYPE themisdb_requests_total counter
-themisdb_requests_total{method="GET",endpoint="/api/query"} 12345
-
-# HELP themisdb_request_duration_seconds Request duration
-# TYPE themisdb_request_duration_seconds histogram
-themisdb_request_duration_seconds_bucket{le="0.1"} 9876
-```
-
-## OpenTelemetry Tracing
-
-```cpp
-#include "utils/tracing.h"
-
-auto span = tracer->StartSpan("query_execute");
-span->SetAttribute("aql.query", query);
-// ... execute query ...
-span->End();
-```
+Das Analytics-Modul bietet erweiterte OLAP-Funktionen (Online Analytical Processing) und Complex Event Processing (CEP) für ThemisDB.
 
 ## Source-Code Referenz
 
-| Komponente | Header | Source |
-|------------|--------|--------|
-| Metrics | `include/utils/metrics.h` | `src/utils/metrics.cpp` |
-| Tracing | `include/utils/tracing.h` | `src/utils/tracing.cpp` |
-| Logger | `include/utils/logger.h` | `src/utils/logger.cpp` |
+| Komponente | Header | Source | LOC |
+|------------|--------|--------|-----|
+| OLAP Engine | `include/analytics/olap.h` | `src/analytics/olap.cpp` | ~2,000 |
+| CEP Engine | `include/analytics/cep.h` | `src/analytics/cep.cpp` | ~1,700 |
 
-## Dokumentation in diesem Ordner
+## Implementierte Klassen
 
-| Datei | Beschreibung |
-|-------|--------------|
-| [observability_metrics.md](observability_metrics.md) | Metrics Overview |
-| [observability_prometheus.md](observability_prometheus.md) | Prometheus Integration |
-| [observability_tracing.md](observability_tracing.md) | OpenTelemetry Tracing |
-| [observability_phase6_complete.md](observability_phase6_complete.md) | Phase 6 Status |
+### OLAPEngine
+
+Die OLAP Engine unterstützt:
+
+**Aggregationsfunktionen:**
+- `COUNT`, `SUM`, `AVG`, `MIN`, `MAX`
+- `STDDEV`, `VARIANCE`, `MEDIAN`
+- `PERCENTILE`, `COUNT_DISTINCT`
+- `FIRST`, `LAST`
+
+**Grouping Operators:**
+- `CUBE` - Alle Kombinationen von Dimensionen
+- `ROLLUP` - Hierarchische Aggregation
+- `GROUPING SETS` - Benutzerdefinierte Gruppierungen
+
+**Filter Operators:**
+- `Eq`, `Ne`, `Lt`, `Le`, `Gt`, `Ge`, `In`, `Between`, `Like`, `IsNull`
+
+### ColumnarStore
+
+Vektorisierte spaltenbasierte Speicherung für analytische Workloads:
+- Apache Arrow Integration
+- SIMD-optimierte Scans
+- Batch-Verarbeitung
+
+### CEPEngine (Complex Event Processing)
+
+Echtzeit-Streaming-Analytics mit:
+- Event Pattern Language (EPL)
+- Pattern Matching (Sequence, Any, All)
+- Window Operations (Tumbling, Sliding, Session)
+- Event Correlation
+
+## API Beispiele
+
+### OLAP Query
+```cpp
+OLAPQuery query;
+query.dimensions = {{"region", ""}, {"product", ""}};
+query.measures = {{"revenue", "amount", Measure::Function::Sum}};
+query.grouping_mode = GroupingMode::Cube;
+
+auto results = olap_engine->execute(query);
+```
+
+### CEP Pattern
+```cpp
+cep_engine->registerPattern("high_value_sequence", R"(
+    SELECT * FROM orders
+    MATCH_RECOGNIZE (
+        PARTITION BY customer_id
+        MEASURES A.amount as first_amount, B.amount as second_amount
+        PATTERN (A B)
+        DEFINE A AS amount > 1000, B AS amount > 1000
+    )
+)");
+```
 
 ## Verwandte Dokumentation
 
-- [Server Module](../server/README.md) - HTTP Server
-- [Enterprise Features](../enterprise/README.md) - Enterprise Monitoring
+- [CEP Streaming Analytics](CEP_STREAMING_ANALYTICS.md) - Detaillierte CEP-Dokumentation
+- [Features OLAP Analytics](../features/features_olap_analytics.md) - Feature-Übersicht

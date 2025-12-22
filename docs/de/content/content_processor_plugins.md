@@ -1184,4 +1184,4 @@ Bestehende Content Processors (`text_processor.cpp`, etc.) werden in Plugins umg
 **Weitere Informationen:**
 - [Plugin Development Guide](../development/plugin_development.md)
 - [Security: Plugin Signing](../security/PLUGIN_SECURITY.md)
-- [API Reference](../api/content_api.md)
+- [API Reference](../apis/content_api.md)

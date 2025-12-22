@@ -179,8 +179,8 @@ Economic analysis covering Total Cost of Ownership (TCO), business value, ROI ca
 - [`CHANGELOG.md`](../releases/CHANGELOG.md) - Version history
 
 **Strategy Documents:**
-- [`VARIANT_STRATEGY_v1.1.0.md`](../analysis/VARIANT_STRATEGY_v1.1.0.md) - v1.1.0 strategy
-- [`ENTERPRISE_FEATURES_STRATEGY.md`](../analysis/ENTERPRISE_FEATURES_STRATEGY.md) - v1.2.0 strategy
+- [`VARIANT_STRATEGY_v1.1.0.md`](../reports/VARIANT_STRATEGY_v1.1.0.md) - v1.1.0 strategy
+- [`ENTERPRISE_FEATURES_STRATEGY.md`](../reports/ENTERPRISE_FEATURES_STRATEGY.md) - v1.2.0 strategy
 
 ---
 

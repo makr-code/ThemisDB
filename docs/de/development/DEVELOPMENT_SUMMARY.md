@@ -120,7 +120,7 @@ ThemisDB v1.0.0 was released on November 30, 2025 with all major features comple
 - [Encryption Strategy](../security/security_encryption_strategy.md)
 - [Time Series](../features/features_time_series.md)
 - [Sharding Overview](../sharding/sharding_overview.md)
-- [Replication](../replication/README.md)
+- [Replication](../storage/README.md)
 
 ### Reports
 - [Development Audit Log](auditlog.md) - Complete development history

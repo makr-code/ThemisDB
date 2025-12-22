@@ -249,3 +249,8 @@ docs/audit/COST_VALUE_ANALYSIS.md
 docs/reports/reports_project_valuation.md
 docs/enterprise/ENTERPRISE_ANALYSE_DE.md
 docs/stakeholder/STAKEHOLDER_VALUE_PROPOSITION.md
+
+# --- Confidential Documentation (German language-specific, v1.3.6+) ---
+# Business secrets, internal strategies, pricing models, and confidential analysis
+docs/de/confidencial/
+docs/en/confidential/

@@ -1708,7 +1708,7 @@ CROW_ROUTE(app, "/api/llm/inference")
 
 ### ThemisDB Documentation
 - [ThemisDB LLM Module](./README.md)
-- [vLLM Multi-LoRA Integration](../exporters/VLLM_MULTI_LORA_INTEGRATION.md)
+- [vLLM Multi-LoRA Integration](../connectors/VLLM_MULTI_LORA_INTEGRATION.md)
 - [Plugin Loader Architecture](../../include/acceleration/plugin_loader.h)
 - [Semantic Cache](../features/features_semantic_cache.md)
 

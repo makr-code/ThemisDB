@@ -26,4 +26,4 @@ Daten-Ingestion und Import-Dokumentation für ThemisDB.
 ## Verwandte Dokumentation
 
 - [Content Module](../content/README.md) - Content Pipeline
-- [API Documentation](../api/README.md) - Ingestion APIs
+- [API Documentation](../apis/README.md) - Ingestion APIs

@@ -222,9 +222,9 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 - **IoT/Timescale:** TimescaleDB-kompatible Hypertables, 5-10x Aggregation Performance
 
 **Dokumentation:**
-- 📖 [Enterprise Features Strategy](../analysis/ENTERPRISE_FEATURES_STRATEGY.md) - Detaillierte v1.2.0 Strategie
-- 📖 [v1.1.0 Variant Strategy](../analysis/VARIANT_STRATEGY_v1.1.0.md) - Basis für v1.2.0
-- 📖 [Library Interactions](../analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md) - Wechselwirkungen
+- 📖 [Enterprise Features Strategy](../reports/ENTERPRISE_FEATURES_STRATEGY.md) - Detaillierte v1.2.0 Strategie
+- 📖 [v1.1.0 Variant Strategy](../reports/VARIANT_STRATEGY_v1.1.0.md) - Basis für v1.2.0
+- 📖 [Library Interactions](../reports/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md) - Wechselwirkungen
 
 **Wechselwirkungen:**
 - **LoRA Manager:** RocksDB (Storage) + TBB (Parallel Loading) + vLLM (gRPC)
