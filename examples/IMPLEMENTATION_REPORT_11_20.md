@@ -273,9 +273,7 @@ Jedes Beispiel enthält:
 **Ausstehend**:
 - Vollständige Code-Implementation für Examples 12-20
 - Zusätzliche Guides (RECOMMENDATION_ALGORITHM.md, etc.)
-- Screenshot
-
-s
+- Screenshots
 
 ## Nächste Schritte
 
