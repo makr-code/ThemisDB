@@ -31,7 +31,34 @@ Alle erweiterten Compliance-Features sind **implementiert und validiert**, mit a
 - **Batch-Verarbeitung**: Optimierte Log-Batching für Performance
 - **Verifikation & Decryption**: Integritätsprüfung mit Authentifizierung
 
+## ✨ Features
+
+| Feature | Beschreibung | Status |
+|---------|--------------|--------|
+| **SAGA-Log PKI-Signierung** | Manipulationsschutz für Transaktionslogs | ✅ Implementiert |
+| **Encrypt-then-Sign** | AES-256-GCM + RSA-SHA256 Signatur | ✅ Implementiert |
+| **LEK Manager** | Tägliche Schlüssel-Rotation | ✅ Implementiert |
+| **Batch-Verarbeitung** | Optimierte Log-Batching | ✅ Implementiert |
+| **eIDAS-Konformität** | Langzeitarchivierung und Nachweisbarkeit | ✅ Implementiert |
+
+## 🚀 Schnellstart
+
+```bash
+# 1. SAGA-Logging aktivieren
+export THEMIS_SAGA_LOGGING_ENABLED=true
+export THEMIS_SAGA_BATCH_SIZE=1000
+
+# 2. PKI-Integration konfigurieren
+export THEMIS_PKI_PRIVATE_KEY=/path/to/private.key
+export THEMIS_PKI_CERTIFICATE=/path/to/certificate.pem
+
+# 3. Server starten
+./themis_server --config config.json
+```
+
 ---
+
+## 📖 Detaillierte Dokumentation
 
 ## ✅ Implementierte Features
 
@@ -418,3 +445,70 @@ endif()
 **Version**: 0.2.0-alpha  
 **Datum**: 1. November 2025  
 **Maintainer**: Themis Extended Compliance Team
+
+## ?? Best Practices
+
+| ? Empfohlen | ? Vermeiden |
+|--------------|--------------|
+| Dokumentierte Best Practices | Anti-Patterns ignorieren |
+| Regelm��iges Testing | Deployment ohne Tests |
+| Monitoring aktivieren | Blind Deployments |
+
+## ? Troubleshooting
+
+<details>
+<summary><b>H�ufige Probleme</b></summary>
+
+Siehe Logs f�r Details.
+
+</details>
+
+##  Siehe auch
+
+- [Security Best Practices](../security/best_practices.md)
+- [Architecture Guide](../architecture/overview.md)
+
+##  Changelog
+
+| Version | Datum | �nderungen |
+|---------|-------|-----------|
+| v1.3.0 | 2025-12-22 | Template-Aktualisierung f�r v1.3.0 Standard |
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025  
+**Autor:** ThemisDB Team  
+**Status:**  Produktiv
+## 💡 Best Practices
+
+| ✅ Empfohlen | ❌ Vermeiden |
+|--------------|--------------|
+| Dokumentierte Best Practices | Anti-Patterns ignorieren |
+| Regelmäßiges Testing | Deployment ohne Tests |
+| Monitoring aktivieren | Blind Deployments |
+
+## 🔧 Troubleshooting
+
+<details>
+<summary><b>Häufige Probleme</b></summary>
+
+Siehe Logs für Details.
+
+</details>
+
+## 📚 Siehe auch
+
+- [Security Best Practices](../security/best_practices.md)
+- [Architecture Guide](../architecture/overview.md)
+
+## 📝 Changelog
+
+| Version | Datum | Änderungen |
+|---------|-------|-----------|
+| v1.3.0 | 2025-12-22 | Template-Aktualisierung für v1.3.0 Standard |
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025  
+**Autor:** ThemisDB Team  
+**Status:** ✅ Produktiv

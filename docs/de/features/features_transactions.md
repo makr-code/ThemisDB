@@ -1,65 +1,92 @@
-﻿---
-category: "⚙️ Infrastructure"
+---
+category: "?? Infrastructure"
 version: "v1.3.0"
-status: "✅"
+status: "?"
 date: "22.12.2025"
 ---
 
-# 🔄 Transaction Management
+# ?? Transaction Management
 
-ACID-konforme Transaktionen über alle Index-Typen mit MVCC, Snapshot-Isolation und Konflikterkennung.
+ACID-konforme Transaktionen �ber alle Index-Typen mit MVCC, Snapshot-Isolation und Konflikterkennung.
 
-## 📋 Inhaltsverzeichnis
+## ?? Inhaltsverzeichnis
 
-- [📋 Übersicht](#-übersicht)
-- [✨ Features](#-features)
-- [🚀 Schnellstart](#-schnellstart)
-- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
-- [💡 Best Practices](#-best-practices)
-- [🔧 Troubleshooting](#-troubleshooting)
-- [📚 Siehe auch](#-siehe-auch)
-- [📝 Changelog](#-changelog)
+- [?? �bersicht](#-�bersicht)
+- [? Features](#-features)
+- [?? Schnellstart](#-schnellstart)
+- [?? Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [?? Best Practices](#-best-practices)
+- [?? Troubleshooting](#-troubleshooting)
+- [?? Siehe auch](#-siehe-auch)
+- [?? Changelog](#-changelog)
 
 ---
 
-## 📋 Übersicht
+## ?? �bersicht
 
-THEMIS bietet ACID-konforme Transaktionen mit umfassender Unterstützung für alle Index-Typen:
+THEMIS bietet ACID-konforme Transaktionen mit umfassender Unterst�tzung f�r alle Index-Typen:
 
-- **Atomicity**: All-or-nothing Ausführung aller Operationen
+- **Atomicity**: All-or-nothing Ausf�hrung aller Operationen
 - **MVCC & Isolation**: ReadCommitted und Snapshot-Isolation mit konsistentem Sichtfenster
 - **Konflikterkennung**: Automatische Write-Write-Konflikt-Erkennung
 - **Session-Management**: Eindeutige Transaction-IDs und Session-Tracking
-- **Multi-Index Support**: Konsistente Updates über Secondary, Graph und Vector-Indizes
+- **Multi-Index Support**: Konsistente Updates �ber Secondary, Graph und Vector-Indizes
 
 ### Kernfeatures
 
-- **Atomicity**: Alle Operationen innerhalb einer Transaktion werden atomar ausgeführt (all-or-nothing)
+- **Atomicity**: Alle Operationen innerhalb einer Transaktion werden atomar ausgef�hrt (all-or-nothing)
 - **MVCC & Isolation**: ReadCommitted (default) und Snapshot-Isolation mit konsistentem Sichtfenster
-- **Konflikterkennung**: Write-Write-Konflikte werden beim Commit/Put erkannt und führen zu Fehlern/Abbrüchen
-- **Session-Management**: Transaktionen sind über eindeutige Transaction-IDs identifizierbar
+- **Konflikterkennung**: Write-Write-Konflikte werden beim Commit/Put erkannt und f�hren zu Fehlern/Abbr�chen
+- **Session-Management**: Transaktionen sind �ber eindeutige Transaction-IDs identifizierbar
 - **Statistics Tracking**: Umfassende Metriken (begun, committed, aborted, durations, success rate)
-- **Auto-Rollback**: RAII-Pattern für automatisches Rollback bei Exception/Destruktion
-- **Multi-Index Support**: Konsistente Updates über Secondary, Graph und Vector-Indizes
+- **Auto-Rollback**: RAII-Pattern f�r automatisches Rollback bei Exception/Destruktion
+- **Multi-Index Support**: Konsistente Updates �ber Secondary, Graph und Vector-Indizes
+
+## ? Features
+
+| Feature | Beschreibung | Status |
+|---------|--------------|--------|
+| **ACID-Transaktionen** | Vollst�ndig ACID-konform �ber alle Index-Typen | ? Implementiert |
+| **MVCC** | Multi-Version Concurrency Control | ? Implementiert |
+| **Snapshot-Isolation** | Konsistente Snapshot-Sichtfenster | ? Implementiert |
+| **Konflikterkennung** | Automatische Write-Write-Erkennung | ? Implementiert |
+| **Statistics Tracking** | Metriken f�r Monitoring | ? Implementiert |
+| **Auto-Rollback** | RAII-Pattern f�r automatisches Rollback | ? Implementiert |
+
+## ?? Schnellstart
+
+```bash
+# 1. Server starten
+./themis_server --config config.json
+
+# 2. Transaktion starten und committen
+curl -X POST http://localhost:8080/api/transactions \
+  -d '{"isolation_level": "snapshot_isolation"}'
+
+# 3. Operationen durchf�hren und commit
+curl -X PUT http://localhost:8080/api/transactions/{tx_id}/commit
+```
 
 ---
+
+## ?? Detaillierte Dokumentation
 
 ## Architektur
 
 ### TransactionManager
 
-Zentrale Komponente für Session-basiertes Transaction-Management:
+Zentrale Komponente f�r Session-basiertes Transaction-Management:
 
 ```cpp
 class TransactionManager {
 public:
-    // Session-based API (empfohlen für HTTP/Multi-Client)
+    // Session-based API (empfohlen f�r HTTP/Multi-Client)
     TransactionId beginTransaction(IsolationLevel isolation = IsolationLevel::ReadCommitted);
     Status commitTransaction(TransactionId id);
     void rollbackTransaction(TransactionId id);
     std::shared_ptr<Transaction> getTransaction(TransactionId id);
     
-    // Direct API (für Single-Threaded/Embedded)
+    // Direct API (f�r Single-Threaded/Embedded)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);
     
     // Statistics
@@ -104,14 +131,14 @@ public:
 #### ReadCommitted (Default)
 - Lesezugriffe sehen nur committed data
 - Keine Dirty Reads
-- Non-Repeatable Reads möglich
-- Geeignet für: Standard OLTP-Workloads
+- Non-Repeatable Reads m�glich
+- Geeignet f�r: Standard OLTP-Workloads
 
 #### Snapshot
 - Point-in-time Konsistenz (Sichtfenster fixiert beim Begin)
 - Repeatable Reads innerhalb der Transaktion
-- Höhere Isolation, potenziell höherer Overhead
-- Geeignet für: Analytische Queries, konsistente Reports
+- H�here Isolation, potenziell h�herer Overhead
+- Geeignet f�r: Analytische Queries, konsistente Reports
 
 ---
 
@@ -186,7 +213,7 @@ curl -X POST http://localhost:8080/transaction/commit \
 
 ### POST /transaction/rollback
 
-Rollt eine Transaktion zurück.
+Rollt eine Transaktion zur�ck.
 
 **Request:**
 ```json
@@ -215,7 +242,7 @@ curl -X POST http://localhost:8080/transaction/rollback \
 
 ### GET /transaction/stats
 
-Liefert Statistiken über alle Transaktionen.
+Liefert Statistiken �ber alle Transaktionen.
 
 **Response:**
 ```json
@@ -241,9 +268,9 @@ curl http://localhost:8080/transaction/stats
 
 ### 1. Atomares Multi-Entity Update
 
-**Problem:** Mehrere Entities mit verschiedenen Indizes müssen atomar gespeichert werden.
+**Problem:** Mehrere Entities mit verschiedenen Indizes m�ssen atomar gespeichert werden.
 
-**Lösung:**
+**L�sung:**
 ```bash
 # Begin transaction
 TXN_ID=$(curl -s -X POST http://localhost:8080/transaction/begin | jq -r '.transaction_id')
@@ -274,7 +301,7 @@ curl -X POST http://localhost:8080/transaction/commit \
 
 ### 2. Graph-Operationen mit Rollback
 
-**Problem:** Mehrere Graph-Edges sollen atomar hinzugefügt werden, bei Fehler Rollback.
+**Problem:** Mehrere Graph-Edges sollen atomar hinzugef�gt werden, bei Fehler Rollback.
 
 **C++ Beispiel:**
 ```cpp
@@ -349,14 +376,14 @@ return tx_manager->commitTransaction(txn_id);
 
 ### 4. Long-Running Transactions & Cleanup
 
-**Problem:** Vergessene/abgestürzte Clients hinterlassen offene Transaktionen.
+**Problem:** Vergessene/abgest�rzte Clients hinterlassen offene Transaktionen.
 
 **Best Practice:**
 ```cpp
 // Periodischer Cleanup (z.B. via Cronjob oder Background-Thread)
 tx_manager->cleanupOldTransactions(std::chrono::hours(1));
 
-// Metriken überwachen
+// Metriken �berwachen
 auto stats = tx_manager->getStats();
 if (stats.active_count > 100) {
     THEMIS_WARN("High number of active transactions: {}", stats.active_count);
@@ -376,12 +403,12 @@ fi
 
 ---
 
-## Performance-Überlegungen
+## Performance-�berlegungen
 
 ### MVCC Overhead
 
-- Snapshot-Verwaltung und Konflikterkennung erzeugen geringen Overhead gegenüber einfachen Writes
-- Benefit: Korrektheit unter Parallelität (kein Last-Write-Wins), konsistente Sicht
+- Snapshot-Verwaltung und Konflikterkennung erzeugen geringen Overhead gegen�ber einfachen Writes
+- Benefit: Korrektheit unter Parallelit�t (kein Last-Write-Wins), konsistente Sicht
 
 ### Isolation Level Trade-offs
 
@@ -394,20 +421,20 @@ fi
 
 - **Secondary Index**: ~0.05ms pro Index-Entry (Put/Delete)
 - **Graph Index**: ~0.1ms pro Edge (2x Index-Entries: out + in)
-- **Vector Index**: ~0.5-2ms (abhängig von HNSW-Parametern, Dimension)
+- **Vector Index**: ~0.5-2ms (abh�ngig von HNSW-Parametern, Dimension)
 
 ---
 
-## Bekannte Einschränkungen
+## Bekannte Einschr�nkungen
 
 ### 1. Vector Index In-Memory Cache
 
 **Problem:**  
-Der Vector-Index hält einen In-Memory Cache (HNSW-Struktur, `cache_` map). Bei Rollback werden RocksDB-Änderungen rückgängig gemacht, aber der Cache bleibt inkonsistent.
+Der Vector-Index h�lt einen In-Memory Cache (HNSW-Struktur, `cache_` map). Bei Rollback werden RocksDB-�nderungen r�ckg�ngig gemacht, aber der Cache bleibt inkonsistent.
 
 **Auswirkung:**
-- Nach Rollback können Vector-Searches falsch-positive Ergebnisse liefern
-- Cache enthält Vektoren, die in RocksDB nicht existieren
+- Nach Rollback k�nnen Vector-Searches falsch-positive Ergebnisse liefern
+- Cache enth�lt Vektoren, die in RocksDB nicht existieren
 
 **Workaround:**
 ```cpp
@@ -415,26 +442,26 @@ Der Vector-Index hält einen In-Memory Cache (HNSW-Struktur, `cache_` map). Bei 
 vector_index->rebuildFromStorage();
 ```
 
-**Zukünftige Verbesserung:**  
-Callback-Mechanismus für commit/rollback, um Cache synchron zu halten.
+**Zuk�nftige Verbesserung:**  
+Callback-Mechanismus f�r commit/rollback, um Cache synchron zu halten.
 
 ---
 
-### 2. Konflikte unter Parallelität
+### 2. Konflikte unter Parallelit�t
 
 **Verhalten:**  
-Write-Write-Konflikte werden erkannt und führen zu Fehlern beim Commit/Put. Clients sollten Retry-Logik mit Backoff implementieren, wenn eine Transaktion aufgrund eines Konflikts abgelehnt wird.
+Write-Write-Konflikte werden erkannt und f�hren zu Fehlern beim Commit/Put. Clients sollten Retry-Logik mit Backoff implementieren, wenn eine Transaktion aufgrund eines Konflikts abgelehnt wird.
 
 ---
 
 ### 3. Transaction Timeout
 
 **Limitation:**  
-Keine automatischen Timeouts für aktive Transaktionen implementiert.
+Keine automatischen Timeouts f�r aktive Transaktionen implementiert.
 
 **Empfehlung:**
 ```cpp
-// Client-seitig: Timeout überwachen
+// Client-seitig: Timeout �berwachen
 auto start = std::chrono::system_clock::now();
 auto txn_id = tx_manager->beginTransaction();
 
@@ -456,7 +483,7 @@ if (duration > std::chrono::seconds(30)) {
 ```cpp
 auto status = tx_manager->commitTransaction(txn_id);
 if (!status.ok) {
-    // Mögliche Ursachen:
+    // M�gliche Ursachen:
     // - Transaction nicht gefunden
     // - Bereits committed/rolled back
     // - RocksDB Write-Fehler (Disk-Full, Permissions)
@@ -502,7 +529,7 @@ done
 
 ### Prometheus-Integration
 
-Transaction-Statistiken sind via `/metrics` Endpoint verfügbar:
+Transaction-Statistiken sind via `/metrics` Endpoint verf�gbar:
 
 ```
 # TYPE vccdb_transactions_begun_total counter
@@ -555,17 +582,17 @@ txn->putEntity("users", user);
 tx_manager->commitTransaction(txn_id);
 ```
 
-**Vorteil:** Transaction-ID kann über HTTP/Network übertragen werden.
+**Vorteil:** Transaction-ID kann �ber HTTP/Network �bertragen werden.
 
 ---
 
-## Weiterführende Dokumentation
+## Weiterf�hrende Dokumentation
 
 - [Architecture Overview](architecture.md) - Systemarchitektur
-- [MVCC Design](mvcc_design.md) - Hintergründe & Optionen
+- [MVCC Design](mvcc_design.md) - Hintergr�nde & Optionen
 - [RocksDB Storage](storage/rocksdb_layout.md) - WAL/Snapshots/Compaction
 - [Deployment Guide](deployment.md) - Production Setup
-- [OpenAPI Specification](openapi.yaml) - Vollständige API-Referenz
+- [OpenAPI Specification](openapi.yaml) - Vollst�ndige API-Referenz
 - [Base Entity Documentation](base_entity.md) - Entity-Serialisierung
 
 ---
@@ -580,3 +607,70 @@ tx_manager->commitTransaction(txn_id);
 - HTTP REST API: begin, commit, rollback, stats
 - Comprehensive Statistics & Monitoring
 - 23 Unit-Tests (100% Pass-Rate)
+
+## ?? Best Practices
+
+| ? Empfohlen | ? Vermeiden |
+|--------------|--------------|
+| Dokumentierte Best Practices | Anti-Patterns ignorieren |
+| Regelm��iges Testing | Deployment ohne Tests |
+| Monitoring aktivieren | Blind Deployments |
+
+## ? Troubleshooting
+
+<details>
+<summary><b>H�ufige Probleme</b></summary>
+
+Siehe Logs f�r Details.
+
+</details>
+
+##  Siehe auch
+
+- [Security Best Practices](../security/best_practices.md)
+- [Architecture Guide](../architecture/overview.md)
+
+##  Changelog
+
+| Version | Datum | �nderungen |
+|---------|-------|-----------|
+| v1.3.0 | 2025-12-22 | Template-Aktualisierung f�r v1.3.0 Standard |
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025  
+**Autor:** ThemisDB Team  
+**Status:**  Produktiv
+## 💡 Best Practices
+
+| ✅ Empfohlen | ❌ Vermeiden |
+|--------------|--------------|
+| Dokumentierte Best Practices | Anti-Patterns ignorieren |
+| Regelmäßiges Testing | Deployment ohne Tests |
+| Monitoring aktivieren | Blind Deployments |
+
+## 🔧 Troubleshooting
+
+<details>
+<summary><b>Häufige Probleme</b></summary>
+
+Siehe Logs für Details.
+
+</details>
+
+## 📚 Siehe auch
+
+- [Security Best Practices](../security/best_practices.md)
+- [Architecture Guide](../architecture/overview.md)
+
+## 📝 Changelog
+
+| Version | Datum | Änderungen |
+|---------|-------|-----------|
+| v1.3.0 | 2025-12-22 | Template-Aktualisierung für v1.3.0 Standard |
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025  
+**Autor:** ThemisDB Team  
+**Status:** ✅ Produktiv

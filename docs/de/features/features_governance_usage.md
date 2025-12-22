@@ -37,6 +37,38 @@ Die Governance Policy Engine stellt YAML-basierte Konfiguration für umfassende 
 - **Encrypt-then-Sign** log handling
 - **Observe/Enforce modes** for gradual rollout
 
+---
+
+## ✨ Features
+
+| Feature | Beschreibung | Status |
+|---------|--------------|--------|
+| **YAML-Konfiguration** | Governance-Policies in YAML-Format | ✅ Implementiert |
+| **Klassifizierung** | 4-Ebenen Datenklassifizierung (offen-streng-geheim) | ✅ Implementiert |
+| **Zugriffskontrolle** | Fine-grained ACL (ANN, Export, Cache) | ✅ Implementiert |
+| **Retention-Policies** | Automatische Aufbewahrungsrichtlinien | ✅ Implementiert |
+| **Observe/Enforce Modes** | Graduelle Policy-Rollout-Unterstützung | ✅ Implementiert |
+
+## 🚀 Schnellstart
+
+```bash
+# 1. Governance-Policies laden
+cp config/governance.yaml.example config/governance.yaml
+
+# 2. Server mit Governance-Engine starten
+export THEMIS_GOVERNANCE_MODE=enforce
+./themis_server --config config.json
+
+# 3. Test: Klassifizierung setzen
+curl -X POST http://localhost:8080/api/data \
+  -H "X-Data-Classification: geheim" \
+  -d '{"data": "sensitive"}'
+```
+
+---
+
+## 📖 Detaillierte Dokumentation
+
 ## Configuration
 
 Governance policies are defined in `config/governance.yaml`:
@@ -364,3 +396,70 @@ Planned features:
 - Audit trail for policy violations
 - Automated compliance reports
 - Field-level encryption based on classification
+
+## ?? Best Practices
+
+| ? Empfohlen | ? Vermeiden |
+|--------------|--------------|
+| Dokumentierte Best Practices | Anti-Patterns ignorieren |
+| Regelm��iges Testing | Deployment ohne Tests |
+| Monitoring aktivieren | Blind Deployments |
+
+## ? Troubleshooting
+
+<details>
+<summary><b>H�ufige Probleme</b></summary>
+
+Siehe Logs f�r Details.
+
+</details>
+
+##  Siehe auch
+
+- [Security Best Practices](../security/best_practices.md)
+- [Architecture Guide](../architecture/overview.md)
+
+##  Changelog
+
+| Version | Datum | �nderungen |
+|---------|-------|-----------|
+| v1.3.0 | 2025-12-22 | Template-Aktualisierung f�r v1.3.0 Standard |
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025  
+**Autor:** ThemisDB Team  
+**Status:**  Produktiv
+## 💡 Best Practices
+
+| ✅ Empfohlen | ❌ Vermeiden |
+|--------------|--------------|
+| Dokumentierte Best Practices | Anti-Patterns ignorieren |
+| Regelmäßiges Testing | Deployment ohne Tests |
+| Monitoring aktivieren | Blind Deployments |
+
+## 🔧 Troubleshooting
+
+<details>
+<summary><b>Häufige Probleme</b></summary>
+
+Siehe Logs für Details.
+
+</details>
+
+## 📚 Siehe auch
+
+- [Security Best Practices](../security/best_practices.md)
+- [Architecture Guide](../architecture/overview.md)
+
+## 📝 Changelog
+
+| Version | Datum | Änderungen |
+|---------|-------|-----------|
+| v1.3.0 | 2025-12-22 | Template-Aktualisierung für v1.3.0 Standard |
+
+---
+
+**Letzte Aktualisierung:** 22. Dezember 2025  
+**Autor:** ThemisDB Team  
+**Status:** ✅ Produktiv
