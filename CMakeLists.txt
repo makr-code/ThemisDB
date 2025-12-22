@@ -1360,6 +1360,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
+        tests/test_stream_protocol_extended.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
         tests/test_mtls_client.cpp
@@ -1570,6 +1571,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_video_processor
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Stream Protocol benchmark (v1.3.0 Phase 2)
+    add_executable(bench_stream_protocol
+        benchmarks/bench_stream_protocol.cpp
+    )
+    
+    target_link_libraries(bench_stream_protocol
         PRIVATE
             themis_core
             benchmark::benchmark
