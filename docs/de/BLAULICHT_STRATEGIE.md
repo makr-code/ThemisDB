@@ -466,7 +466,7 @@ def analyze_call_realtime(transcript_stream):
             hints = db.llm_query(
                 prompt=f"""Notruf-Kontext (letzten 3 Aussagen):
                 
-                {chr(10).join(context[-3:])}
+                {'\n'.join(context[-3:])}
                 
                 Gib dem Disponenten:
                 1. Kritische Nachfragen
@@ -698,7 +698,7 @@ audio_integration:
 | Komponente | Latenz | Throughput | Hardware |
 |------------|:------:|:----------:|----------|
 | **STT (Deutsch)** | < 200 ms | 50 Anrufe parallel | GPU: NVIDIA RTX 4090 |
-| **STT (Fremdsprache)** | < 300 ms | 30 Anrufe parallel | GPU: NVIDIA A40 |
+| **STT (Fremdsprache)** | < 300 ms | 30 Anrufe parallel | GPU: NVIDIA RTX 4090 (mehr VRAM für Multiling.) |
 | **LLM (Keywords)** | < 500 ms | 100 Anfragen/s | GPU oder CPU |
 | **TTS (Ansage)** | < 100 ms | Unbegrenzt | CPU ausreichend |
 | **Übersetzung** | < 400 ms | 50 Anfragen/s | GPU empfohlen |
