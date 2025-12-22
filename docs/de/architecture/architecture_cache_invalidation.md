@@ -1,10 +1,19 @@
 # Cache-Invalidierungsstrategie
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Architecture
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Events](#events)
+- [Versionierung](#versionierung)
+- [Negative Caching](#negative-caching)
+- [Replikationsbewusstsein](#replikationsbewusstsein)
+- [Batch-Invalidierung](#batch-invalidierung)
+- [Sicherheit](#sicherheit)
 
 
 Ziel: Korrekte Freshness trotz Replikation/Rebalancing.

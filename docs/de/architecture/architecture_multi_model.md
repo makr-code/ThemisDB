@@ -1,10 +1,17 @@
 # ThemisDB: Integrierte Multi-Model Architektur
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Architecture
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Design-Prinzipien](#design-prinzipien)
+- [Prozess-Collections](#prozess-collections)
+- [Integrierte Multi-Model-Abfragen](#integrierte-multi-model-abfragen)
 
 
 ## Übersicht

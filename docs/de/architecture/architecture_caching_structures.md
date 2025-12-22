@@ -1,10 +1,20 @@
 # Caching – Datenstrukturen (Skizze)
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Architecture
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [L1 In-Process Cache](#l1-in-process-cache)
+- [L2 Shard-Lokaler Cache](#l2-shard-lokaler-cache)
+- [Request Coalescing](#request-coalescing)
+- [Result Cache (AQL)](#result-cache-aql)
+- [Shard Directory Cache](#shard-directory-cache)
+- [Nächste Schritte](#nächste-schritte)
+
 
 
 Dieser Entwurf konkretisiert die in `docs/infrastructure_roadmap.md` (Abschnitt 2.5) beschriebenen Strukturen.

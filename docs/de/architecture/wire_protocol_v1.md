@@ -1,10 +1,20 @@
 # ThemisDB Wire Protocol v1 Specification
 
-**Version**: 1.0.0  
-**Date**: December 4, 2025  
-**Status**: Draft - Implementation in Progress
+**Stand:** 5. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Connection Lifecycle](#connection-lifecycle)
+- [Message Framing](#message-framing)
+- [OpCodes](#opcodes)
+- [Message Payloads](#message-payloads-protocol-buffers)
+
+**Status**: Draft - Implementation in Progress
 
 ## Overview
 

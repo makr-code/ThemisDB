@@ -1,10 +1,20 @@
 # Lookup-Pattern Katalog – Caching & Parallelisierung
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Architecture
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [GET by PK (URN)](#1-get-by-pk-urn)
+- [BATCH GET (URN[])](#2-batch-get-urn)
+- [RANGE SCAN (Index)](#3-range-scan-index)
+- [VECTOR SEARCH](#4-vector-search)
+- [GRAPH TRAVERSE](#5-graph-traverse)
+- [Parallelisierung](#parallelisierung)
+- [Metriken](#metriken)
 
 
 Dieser Katalog beschreibt Standard-Pfade und zugehörige Caching-Hooks.

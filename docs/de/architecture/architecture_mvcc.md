@@ -1,8 +1,22 @@
 ﻿# MVCC Design für THEMIS
 
-## ✅ IMPLEMENTIERUNGSSTATUS: PRODUKTIONSREIF
+**Stand:** 5. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
-**Stand: 2. November 2025**
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Implementierte Lösung](#implementierte-lösung-engine-gestützte-mvcc)
+- [Architektur](#architektur)
+- [Indexe mit MVCC](#indexe-mit-mvcc)
+- [Aktuelle Situation vs. MVCC](#aktuelle-situation-vs-mvcc)
+- [Kernkomponenten](#kernkomponenten-skizze)
+- [Originales Design](#originales-design-archiv---nicht-implementiert)
+
+## ✅ IMPLEMENTIERUNGSSTATUS: PRODUKTIONSREIF
 
 MVCC ist implementiert (Snapshot-Isolation, Konflikterkennung). Die aktuell produktive Variante entspricht der in „Option 1“ beschriebenen Engine-gestützten Lösung. Details zum physischen Layout und zu WAL/Snapshots siehe „RocksDB Storage“.
 

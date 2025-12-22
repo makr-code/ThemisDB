@@ -1,10 +1,20 @@
 # Content Pipeline
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Architecture
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Überblick](#überblick)
+- [Content-Type-System](#1-content-type-system)
+    - [ContentCategory](#11-contentcategory)
+    - [ContentTypeRegistry](#12-contenttyperegistry)
+- [Content-Prozessoren](#2-content-prozessoren)
+    - [IContentProcessor Interface](#21-icontentprocessor-interface)
+    - [TextProcessor](#22-textprocessor)
 
 
 ## Überblick
