@@ -466,9 +466,14 @@ Für zukünftige Erweiterung mit gewichteten Freundschaften:
 ```python
 import heapq
 
-def dijkstra(graph, start, target):
-    """Kürzester Pfad in gewichtetem Graph"""
-    distances = {node: float('inf') for node in graph.keys()}
+def dijkstra(weighted_graph, start, target):
+    """
+    Kürzester Pfad in gewichtetem Graph
+    
+    weighted_graph Format: {node: [(neighbor, weight), ...]}
+    Beispiel: {'A': [('B', 5), ('C', 3)], 'B': [('A', 5), ('D', 2)]}
+    """
+    distances = {node: float('inf') for node in weighted_graph.keys()}
     distances[start] = 0
     previous = {}
     pq = [(0, start)]
@@ -482,7 +487,7 @@ def dijkstra(graph, start, target):
         if current_distance > distances[current_node]:
             continue
         
-        for neighbor, weight in graph.get(current_node, []):
+        for neighbor, weight in weighted_graph.get(current_node, []):
             distance = current_distance + weight
             
             if distance < distances[neighbor]:

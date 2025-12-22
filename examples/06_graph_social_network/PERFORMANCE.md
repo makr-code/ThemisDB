@@ -333,6 +333,8 @@ class MaterializedGraph:
 
 **Für häufige Zugriffe**:
 ```python
+from datetime import datetime, timedelta
+
 class InMemoryGraph:
     def __init__(self, client):
         self.client = client

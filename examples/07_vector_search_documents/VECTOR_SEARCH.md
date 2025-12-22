@@ -433,16 +433,15 @@ Alternativen:"""
     return [query] + alternatives[:3]
 
 # Multi-Query RAG
+from collections import defaultdict
+
 def multi_query_rag(queries, vector_search, top_k=5):
-    all_results = {}
+    all_results = defaultdict(float)
     
     for query in queries:
         results = vector_search.search(query, top_k=top_k)
         for doc_id, score in results:
-            if doc_id in all_results:
-                all_results[doc_id] = max(all_results[doc_id], score)
-            else:
-                all_results[doc_id] = score
+            all_results[doc_id] = max(all_results[doc_id], score)
     
     return sorted(all_results.items(), key=lambda x: x[1], reverse=True)[:top_k]
 ```
