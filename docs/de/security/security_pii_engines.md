@@ -1,8 +1,17 @@
 # PII Detection Engine Extensions
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Overview](#overview)
+- [Current Status](#current-status)
+- [Future Engine: NER (Named Entity Recognition)](#future-engine-ner-named-entity-recognition)
+- [Future Engine: Embeddings (Semantic Similarity)](#future-engine-embeddings-semantic-similarity)
 
 ---
 

@@ -1,9 +1,22 @@
 # ThemisDB - Informationssicherheitspolitik
 
-**Version:** 1.0  
+**Version:** v1.3.0  
 **Stand:** Dezember 2025  
 **Klassifizierung:** Intern  
-**Genehmigt durch:** ThemisDB Security Team
+**Genehmigt durch:** ThemisDB Security Team  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [1. Zweck und Geltungsbereich](#1-zweck-und-geltungsbereich)
+- [2. Grundsätze der Informationssicherheit](#2-grundsätze-der-informationssicherheit)
+- [3. Organisatorische Sicherheit](#3-organisatorische-sicherheit)
+- [4. Zugriffskontrolle](#4-zugriffskontrolle)
+- [5. Kryptographie](#5-kryptographie)
+- [6. Datenschutz](#6-datenschutz)
+- [7. Betriebssicherheit](#7-betriebssicherheit)
 
 ---
 

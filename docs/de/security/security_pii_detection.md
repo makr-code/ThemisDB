@@ -1,8 +1,17 @@
 # PII‑Erkennung & Klassifizierung
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Komponenten](#komponenten)
+- [Server‑APIs](#server‑apis)
+- [Grenzen & Hinweise](#grenzen--hinweise)
+- [Weiterlesen](#weiterlesen)
 
 ---
 

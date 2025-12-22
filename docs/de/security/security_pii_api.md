@@ -1,8 +1,17 @@
 # PII API
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Ziel](#ziel)
+- [Endpunkte](#endpunkte)
+- [Implementierung](#implementierung)
+- [Hinweise](#hinweise)
 
 ---
 

@@ -1,8 +1,20 @@
 # PII Detection Engine Signing
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Overview](#overview)
+- [Security Architecture](#security-architecture)
+- [Quick Start](#quick-start)
+- [Production Deployment](#production-deployment)
+- [CI/CD Integration](#cicd-integration)
+- [Signature Format](#signature-format)
+- [Security Considerations](#security-considerations)
 
 ---
 

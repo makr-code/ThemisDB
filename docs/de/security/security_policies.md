@@ -1,8 +1,20 @@
 # Policy Engine (Ranger-inspiriert)
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Aktivierung & Laden](#aktivierung--laden)
+- [Schema (MVP)](#schema-mvp)
+- [Action-Mapping (Server)](#action-mapping-server)
+- [Metriken](#metriken)
+- [Start-Policies (Baseline)](#start-policies-baseline)
+- [Tokens (Beispiel)](#tokens-beispiel)
+- [Apache Ranger Integration ✅ Implementiert](#apache-ranger-integration--implementiert)
 
 ---
 

@@ -1,8 +1,21 @@
 # SBOM (Software Bill of Materials) - ThemisDB
 
-**Version:** 1.0  
+**Version:** v1.3.0  
 **Stand:** November 2025  
-**Format:** SPDX 2.3 & CycloneDX 1.5
+**Format:** SPDX 2.3 & CycloneDX 1.5  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [📋 Übersicht](#-übersicht)
+- [🔧 SBOM-Generierung](#-sbom-generierung)
+- [📦 Hauptabhängigkeiten](#-hauptabhängigkeiten)
+- [🔍 Vulnerability Scanning](#-vulnerability-scanning)
+- [📊 SBOM-Formate](#-sbom-formate)
+- [🔐 Signierung (Optional)](#-signierung-optional)
+- [📋 Lizenz-Übersicht](#-lizenz-übersicht)
 
 ---
 
