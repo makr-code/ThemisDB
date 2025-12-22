@@ -1,0 +1,16 @@
+# Common dependencies for all ThemisDB examples
+# Install with: pip install -r requirements-common.txt
+
+# ThemisDB Client
+# Note: Use actual client when available, for now using requests
+requests>=2.28.0
+httpx>=0.24.0
+
+# UI Framework (Tkinter is built-in)
+# No additional installation needed for tkinter
+
+# Data handling
+python-dateutil>=2.8.0
+
+# Logging and configuration
+pyyaml>=6.0
