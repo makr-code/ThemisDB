@@ -5,7 +5,14 @@
 **Kontext:** Analyse der Sicherheitsimplikationen beim Speichern von HNSW-Indizes auf Disk  
 **Anforderung:** "Wir müssen darauf achten, dass der HNSW auch auf der Festplatte für 'warm-start' gespeichert wird."
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [1. Bestehende Implementierung](#1-bestehende-hnsw-persistenz-implementierung)
+- [2. Angriffsvektoren](#2-angriffsvektoren)
+- [3. Lösungsansätze](#3-lösungsansätze)
+- [4. Empfehlung & Roadmap](#4-empfehlung--roadmap)
 
 ## Executive Summary
 

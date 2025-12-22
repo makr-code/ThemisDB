@@ -5,7 +5,15 @@
 **Kontext:** Sicherheitsanalyse - Können Embeddings zu Originaltext rekonstruiert werden?  
 **Kritikalität:** 🔴 HOCH (Privacy & Compliance)
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [1. Technischer Hintergrund](#1-technischer-hintergrund)
+- [2. Rekonstruktions-Angriffe](#2-rekonstruktions-angriffe-embedding-inversion)
+- [3. Risiken & Compliance](#3-risiken--compliance)
+- [4. Gegenmaßnahmen](#4-gegenmaßnahmen)
+- [5. Empfehlungen](#5-empfehlungen)
 
 ## Executive Summary
 

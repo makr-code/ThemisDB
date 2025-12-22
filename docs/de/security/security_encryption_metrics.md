@@ -4,7 +4,17 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [Overview](#overview)
+- [Metrics Structure](#metrics-structure)
+- [Operation Counters](#operation-counters)
+- [Error Counters](#error-counters)
+- [Performance Metrics](#performance-metrics)
+- [Data Volume Metrics](#data-volume-metrics)
+- [Key Rotation Metrics](#key-rotation-metrics)
+- [Access via HTTP API](#access-via-http-api)
 
 
 ## Overview

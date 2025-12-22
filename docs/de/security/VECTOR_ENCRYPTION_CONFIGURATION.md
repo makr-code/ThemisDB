@@ -4,7 +4,20 @@
 
 This guide explains how to configure and use vector encryption in ThemisDB.
 
+
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security  
+**Status:** ✅ Production Ready
+
 ---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Migration](#migration)
 
 ## Overview
 

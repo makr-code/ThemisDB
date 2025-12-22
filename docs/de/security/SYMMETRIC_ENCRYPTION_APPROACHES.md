@@ -5,7 +5,16 @@
 **Kontext:** Untersuchung verschiedener Ansätze für symmetrische Verschlüsselung von Vektordaten  
 **Ziel:** Optimale Balance zwischen Sicherheit, Performance und Funktionalität
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [1. Ansatz 1: Individuelle Verschlüsselung](#1-ansatz-1-individuelle-vektor-verschlüsselung)
+- [2. Ansatz 2: Batch-Verschlüsselung](#2-ansatz-2-batch-verschlüsselung)
+- [3. Ansatz 3: DB-weite Verschlüsselung](#3-ansatz-3-datenbank-weite-verschlüsselung)
+- [4. Ansatz 4: Layer-basiert](#4-ansatz-4-layer-basierte-verschlüsselung)
+- [5. Ansatz 5: Hybrid](#5-hybrid-ansätze)
+- [6. Bewertung & Empfehlung](#6-bewertung--empfehlung)
 
 ## Executive Summary
 

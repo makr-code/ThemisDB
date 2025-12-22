@@ -4,6 +4,17 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
+
+## 📑 Inhaltsverzeichnis
+
+- [1. Überblick](#1-überblick)
+- [2. Threat Model](#2-threat-model)
+- [3. Architektur](#3-architektur)
+- [4. Implementierungsdetails](#4-implementierungsdetails)
+- [5. Best Practices](#5-best-practices)
+- [6. Troubleshooting](#6-troubleshooting)
+- [7. Siehe auch](#7-siehe-auch)
+
 ---
 
 

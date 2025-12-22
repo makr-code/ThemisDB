@@ -5,7 +5,13 @@
 **Kontext:** Technische Klärung zur Durchsuchbarkeit von verschlüsselten HNSW-Indizes  
 **Frage:** "Wäre ein symmetrisch verschlüsselter HNSW wie ein plain HNSW durchsuchbar?"
 
----
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [1. Warum nicht durchsuchbar](#1-warum-verschlüsselte-vektoren-nicht-durchsuchbar-sind)
+- [2. Alternativen](#2-alternativen-für-durchsuchbare-verschlüsselung)
+- [3. Empfehlung](#3-empfehlung)
 
 ## Executive Summary
 

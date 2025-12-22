@@ -4,7 +4,13 @@
 **Date:** December 15, 2025  
 **Ticket:** Ticket 3 (P1) - HNSW index file encryption
 
----
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [File Structure](#file-structure)
 
 ## Overview
 

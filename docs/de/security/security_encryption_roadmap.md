@@ -4,6 +4,14 @@
 **Version:** 1.0.0  
 **Kategorie:** Security
 
+
+## 📑 Inhaltsverzeichnis
+
+- [Zusammenfassung](#zusammenfassung-der-implementierung)
+- [Abgeschlossene Features](#abgeschlossene-features)
+- [Neue Features Details](#neue-features-details)
+- [Validierung & Testing](#validierung--testing)
+
 ---
 
 
