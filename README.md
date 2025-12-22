@@ -47,6 +47,7 @@
 - ✅ **Comprehensive test coverage** with unit tests
 
 **📚 Documentation:**
+- [🧠 LLM Complete Setup Guide (DE)](docs/de/guides/LLM_COMPLETE_SETUP_GUIDE.md) - Vollständiger Guide für LLM-Setup und Inferencing
 - [🎯 Overview
 
 ThemisDB is a **production-ready multi-model database** that combines relational, graph, vector, and document models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
