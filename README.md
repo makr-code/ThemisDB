@@ -1,61 +1,152 @@
-# ThemisDB
-
-**A high-performance multi-model database with ACID guarantees + Native AI/LLM Integration**
-
-> *"ThemisDB keeps its own llamas."* – Run LLaMA, Mistral, Phi-3 directly in your database, no API calls needed.
-
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-[![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
-[![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+<div align="center">
+  <h1>🗄️ ThemisDB</h1>
+  <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
+  
+  > *"ThemisDB keeps its own llamas."* – Run LLaMA, Mistral, Phi-3 directly in your database, no API calls needed.
+  
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+  [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
+  [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
+  [![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
+  [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+</div>
 
 ---
 
-## 🚀 NEW in v1.3.0: Native LLM Integration with llama.cpp (Optional)
+## 🎉 What's New in v1.3.0
+
+<details open>
+<summary><b>🧠 Native LLM Integration with llama.cpp (Optional)</b></summary>
 
 **"ThemisDB keeps its own llamas."** – Run AI/LLM workloads directly in your database - no external API costs!
 
-> **Note**: LLM integration is an **optional feature** that requires:
-> - Build flag: `-DTHEMIS_ENABLE_LLM=ON`
-> - External dependency: llama.cpp (clone separately)
-> - See [Build Guide](docs/guides/guides_build_strategy.md) for setup instructions
+> [!NOTE]
+> LLM integration is an **optional feature** that requires:
+> -# LLM Features (When Enabled)
 
-### Key Features (When LLM Support Enabled)
+| Feature | Description | Status |
+|---------|-------------|--------|
+| 🧠 **Embedded LLM Engine** | llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params) | ✅ |
+| 🖼️ **Image Analysis AI** | Multi-backend plugins (llama.cpp Vision, ONNX CLIP, OpenCV DNN) | ✅ |
+| ⚡ **GPU Acceleration** | NVIDIA CUDA support with significant speedup | ✅ |
+| 💾 **PagedAttention** | Advanced memory management | ✅ |
+| 🎯 **Continuous Batching** | Handle concurrent inference requests | ✅ |
+| 🔧 **Quantization** | Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage | ✅ |
+| 📊 **Monitoring** | Grafana dashboards with metrics and alerts | ✅ |
+| 🔌 **Plugin Architecture** | Extensible LLM and image analysis backends | ✅ |
+| 🌐 **Distributed RPC** | Inter-shard communication for distributed LLM ops | ✅ |
 
-- 🧠 **Embedded LLM Engine** - llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params)
-- 🖼️ **Image Analysis AI Plugins** - llama.cpp Vision (primary), ONNX CLIP, OpenCV DNN for image embeddings, captioning, detection
-- ⚡ **GPU Acceleration** - NVIDIA CUDA support with significant speedup vs CPU
-- 💾 **PagedAttention** - Advanced memory management with memory savings
-- 🎯 **Continuous Batching** - Handle concurrent inference requests
-- 🔧 **Quantization Support** - Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage
-- 📊 **Production Monitoring** - Grafana dashboards with metrics and alert rules
-- 🔌 **Plugin Architecture** - Extensible LLM and image analysis backend system
-- 🌐 **Distributed RPC Framework** - Inter-shard communication for distributed LLM operations
+#### Performance Highlights
 
-### Performance Highlights (GPU Acceleration)
+> [!TIP]
+> GPU acceleration provides significant speedup over CPU with PagedAttention memory savings.
 
-- **Significant speedup** with GPU acceleration vs CPU
-- **Memory savings** with PagedAttention and prefix caching
-- **Kernel fusion** for additional performance gains
-- **Comprehensive test coverage** with unit tests
+- ⚡ **Significant speedup** with GPU acceleration vs CPU
+- 💾 **Memory savings** with PagedAttention and prefix caching
+- 🚀 **Kernel fusion** for additional performance gains
+- ✅ **Comprehensive test coverage** with unit tests
 
-**[→ See LLM Integration Guide](docs/llm/LLAMA_CPP_INTEGRATION.md)**  
-**[→ See Complete LLM Documentation](docs/llm/README.md)**  
-**[→ See Image Analysis Plugin Documentation](docs/plugins/)**
+**📚 Documentation:**
+- [🎯 Overview
 
----
+ThemisDB is a **production-ready multi-model database** that combines relational, graph, vector, and document models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
 
-## Overview
+### 📦 Editions
 
-ThemisDB is a production-ready multi-model database that combines relational, graph, vector, and document models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
+<details open>
+<summary><b>Available Editions</b></summary>
 
-**Available in two editions:**
-- **Community Edition** (Free, Open Source): Full-featured single-node database with all core capabilities
-- **Enterprise Edition** (Commercial License): Adds horizontal scaling, advanced analytics, HA/replication, and more
+| Edition | License | Features |
+|---------|---------|----------|
+| 🆓 **Community** | Open Source (MIT) | Full-featured single-node database with all core capabilities |
+| 🔒 **Enterprise** | Commercial | + Horizontal scaling, advanced analytics, HA/replication, and more |
 
 **[→ See Enterprise Edition Details](ENTERPRISE.md)**
 
+</details>
+
+---
+
+## ✨ Features
+
+### 🔑 Core Features
+
+<details open>
+<summary><b>Database Capabilities</b></summary>
+
+| Feature | Description | Community | Enterprise |
+|---------|-------------|:---------:|:----------:|
+| 🚀 Quick Start
+
+### 🐳 Docker (Recommended)
+
+```bash
+# Pull and run the latest version
+docker pull themisdb/themisdb:latest
+
+# Run with Docker
+docker run -d \
+  --name themis \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -p 4318:4318 \
+  -v themis_data:/data \
+  themisdb/themisdb:latest
+
+# Or use Docker Compose
+docker compose up -d
+
+# Verify installation
+curl http://localhost:8080/health
+```
+
+> [!TIP]
+> Use Docker Compose for production deployments with proper configuration.
+
+### 📡 Default Ports
+
+| Port | Protocol | Description |
+|------|----------|-------------|
+| `8080` | HTTP/1.1 | REST API, GraphQL |
+| `18765` | Binary | Wire Protocol, gRPC |
+| `4318` | HTTP | OpenTelemetry/Prometheus |
+
+> [!NOTE]
+> **Complete Port Reference:** See [v1.3.0+)
+- ✅ **Image Analysis** - Multi-backend AI plugins (v1.3.0+)
+- ✅ **GNN Embeddings** - Graph Neural Network support
+
+</details>
+
+<details>
+<summary><b>🌐 Modern Protocols</b></summary>
+
+| Protocol | Status | Description |
+|----------|--------|-------------|
+| HTTP/1.1 | ✅ | REST API, GraphQL |
+| HTTP/2 | ✅ | Server Push for CDC |
+| HTTP/3 | 🚧 | QUIC (experimental) |
+| WebSocket | ✅ | Bidirectional streaming |
+| gRPC | ✅ | Binary RPC |
+| MQTT | ✅ | IoT messaging |
+| PostgreSQL Wire | ✅ | BI tool compatibility |
+| MCP | ✅ | Model Context Protocol |
+| SSE | ✅ | Server-Sent Events |
+
+</details>
+
+<details>
+<summary><b>📚 Transparency & Attribution</b></summary>
+
+ThemisDB is built on proven open-source foundations with clear attribution:
+
+- ✅ **Transparent Attribution** - Clear documentation of all dependencies
+- ✅ **Innovation Documentation** - ThemisDB's unique contributions vs third-party features
+- ✅ **License Compliance** - Full license information for all components
+
+**[→ See Complete Attribution](ATTRIBUTIONS.md)**
+
+</details>
 **Key Features:**
 
 - 🔒 **ACID Transactions** - Full snapshot isolation with MVCC
@@ -290,42 +381,83 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 ## Documentation
 
 **Getting Started:**
-- [Installation Guide](docs/guides/guides_deployment.md)
-- [Docker Deployment](docs/deployment/DOCKER_DEPLOYMENT.md)
-- [Quick Start Tutorial](docs/guides/quick_start.md)
 
 **Core Concepts:**
-- [Architecture Overview](docs/architecture/ARCHITECTURE_OVERVIEW.md)
-- [Multi-Model Design](docs/architecture/architecture_base_entity.md)
-- [Transaction Management](docs/features/features_transactions.md)
-- [AQL Query Language](docs/aql/aql_syntax.md)
 
 **Features:**
-- [Vector Search](docs/features/features_vector_ops.md)
-- [Graph Operations](docs/features/features_graph.md)
-- [Time-Series Engine](docs/features/features_time_series.md)
-- [Security & Compliance](docs/security/security_implementation.md)
-- [Feature Overview](docs/features/features_overview.md)
 
 **Operations:**
-- [Configuration Guide](docs/guides/guides_configuration.md)
-- [Monitoring & Metrics](docs/observability/observability_prometheus.md)
-- [Backup & Recovery](docs/guides/guides_deployment.md#backup--recovery)
-- [Performance Tuning](docs/performance/performance_memory.md)
 
 **Development:**
-- [Build Guide](docs/guides/guides_build_strategy.md)
-- [Contributing](CONTRIBUTING.md)
-- [API Reference](docs/api/api_reference.md)
-- [Client SDKs](clients/README.md)
 
 **Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
+---
+
+## 📚 Documentation
+
+<details>
+<summary><b>Getting Started</b></summary>
+
+- 🚀 [Quick Start](#quick-start)
+- 📖 [5-Minute Tutorial](#5-minute-tutorial)
+- 🐳 [Docker Deployment](docs/deployment/DOCKER_DEPLOYMENT.md)
+- 🔧 [Building from Source](docs/guides/guides_build_strategy.md)
+
+</details>
+
+<details>
+<summary><b>Core Concepts</b></summary>
+
+- 🏗️ [Architecture Overview](docs/architecture/ARCHITECTURE_OVERVIEW.md)
+- 💾 [Multi-Model Design](docs/architecture/architecture_base_entity.md)
+- 🔄 [Transaction Management](docs/features/features_transactions.md)
+- 🔍 [AQL Query Language](docs/aql/aql_syntax.md)
+
+</details>
+
+<details>
+<summary><b>Features</b></summary>
+
+- 🎯 [Vector Search](docs/features/features_vector_ops.md)
+- 🕸️ [Graph Operations](docs/features/features_graph.md)
+- 📈 [Time-Series Engine](docs/features/features_time_series.md)
+- 🔐 [Security & Compliance](docs/security/security_implementation.md)
+- ⚡ [Feature Overview](docs/features/features_overview.md)
+
+</details>
+
+<details>
+<summary><b>Operations</b></summary>
+
+- ⚙️ [Configuration Guide](docs/guides/guides_configuration.md)
+- 📊 [Monitoring & Metrics](docs/observability/observability_prometheus.md)
+- 💾 [Backup & Recovery](docs/guides/guides_deployment.md#backup--recovery)
+- ⚡ [Performance Tuning](docs/performance/performance_memory.md)
+
+</details>
+
+<details>
+<summary><b>Development</b></summary>
+
+- 🔨 [Build Guide](docs/guides/guides_build_strategy.md)
+- 🤝 [Contributing](CONTRIBUTING.md)
+- 📖 [API Reference](docs/api/api_reference.md)
+- 📦 [Client SDKs](clients/README.md)
+
+</details>
+
+> [!NOTE]
+> **Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 
 ---
 
-## Roadmap
+## 🗺️ Roadmap
 
-**Completed (v1.0 - v1.2):**
+### ✅ Completed (v1.0 - v1.3)
+
+<details>
+<summary><b>Production-Ready Features</b></summary>
+
 - ✅ ACID transactions with MVCC
 - ✅ Multi-model support (relational, graph, vector, document)
 - ✅ Horizontal sharding and replication
@@ -333,80 +465,120 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 - ✅ Enterprise security features
 - ✅ Client SDKs (7 languages)
 - ✅ Kubernetes operator
+- ✅ Native LLM integration (optional)
+- ✅ Modern protocol support (HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, MCP)
 
-**In Progress (v1.3 - Q1 2026):**
-- 🚧 Query optimizer enhancements
-- 🚧 Multi-datacenter deployment
-- 🚧 Advanced ML/GNN features
-- 🚧 Production hardening
+</details>
 
-**Planned (v1.4+ - 2026):**
-- 📋 **Modular Architecture** - Split monolithic core into 11 focused libraries (post-v1.3.0)
-- 📋 Real-time materialized views
-- 📋 Cross-region replication
-- 📋 Advanced security compliance (SOC 2, HIPAA)
-- 📋 Cloud-native optimizations
+### 🚧 In Progress (v1.4 - Q1 2026)
 
-**[→ Detailed Roadmap](docs/roadmap/ROADMAP.md)**  
-**[→ Modularization Plan](docs/architecture/MODULARIZATION_PLAN.md)** (post-v1.3.0)
+- 🚧 **Query Optimizer** - Advanced query optimization and execution plans
+- 🚧 **Multi-Datacenter** - Cross-region deployment support
+- 🚧 **Advanced ML/GNN** - Enhanced machine learning features
+- 🚧 **Production Hardening** - Additional stability and performance improvements
+
+### 📋 Planned (v1.5+ - 2026)
+
+- 📋 **Modular Architecture** - Split monolithic core into 11 focused libraries
+- 📋 **Real-Time Views** - Materialized views with automatic updates
+- 📋 **Cross-Region Replication** - Global data distribution
+- 📋 **Advanced Compliance** - SOC 2, HIPAA certification
+- 📋 **Cloud-Native Optimizations** - Enhanced cloud provider integrations
+
+**📚 Detailed Planning:**
+- [Complete Roadmap](docs/roadmap/ROADMAP.md)
+- [Modularization Plan](docs/architecture/MODULARIZATION_PLAN.md)
 
 ---
 
-## Performance
+## ⚡ Performance
 
-**Benchmark Results** (Release build, Windows x64, 20 cores @ 3696 MHz):
+### Benchmark Results
+
+> **Test Environment:** Release build, Windows x64, 20 cores @ 3696 MHz
 
 | Operation | Throughput | Latency (avg) | Notes |
-|-----------|------------|---------------|-------|
-| Entity PUT | 45,000 ops/s | 0.02 ms | Write throughput |
-| Entity GET | 120,000 ops/s | 0.008 ms | Read throughput |
-| Indexed Query | 3.4M queries/s | 0.29 μs | AQL WHERE clause |
-| Graph Traverse (depth=3) | 9.56M ops/s | 0.105 μs | BFS traversal |
-| Vector Search (RGB) | 59.7M queries/s | 0.017 μs | Simple 3D vectors |
-| Vector Insert (384D) | 411k vectors/s | 2.44 μs | Typical embeddings |
-| RAG Search (Top-50) | 7.17M queries/s | 0.14 μs | LLM retrieval |
+|-----------|:----------:|:-------------:|-------|
+| 📝 Entity PUT | 45,000 ops/s | 0.02 ms | Write throughput |
+| 📖 Entity GET | 120,000 ops/s | 0.008 ms | Read throughput |
+| 🔍 Indexed Query | 3.4M queries/s | 0.29 μs | AQL WHERE clause |
+| 🕸️ Graph Traverse | 9.56M ops/s | 0.105 μs | BFS (depth=3) |
+| 🎯 Vector Search (RGB) | 59.7M queries/s | 0.017 μs | Simple 3D vectors |
+| 📊 Vector Insert (384D) | 411k vectors/s | 2.44 μs | Typical embeddings |
+| 🧠 RAG Search (Top-50) | 7.17M queries/s | 0.14 μs | LLM retrieval |
 
-> **Note**: These benchmarks represent optimal conditions. Actual performance varies based on:
+> [!IMPORTANT]
+> **Performance Disclaimer:** Benchmarks represent optimal conditions. Actual performance varies based on:
 > - Hardware configuration (CPU, RAM, storage)
 > - Data size and complexity
 > - Concurrent workload patterns
 > - Build configuration and optimizations
 
-**[→ Detailed Benchmarks](benchmarks/BENCHMARK_DETAILED_RESULTS.md)**  
-**[→ Benchmark Suite Documentation](benchmarks/COMPREHENSIVE_BENCHMARK_GUIDE.md)**
+**📊 Detailed Analysis:**
+- [Complete Benchmark Results](benchmarks/BENCHMARK_DETAILED_RESULTS.md)
+- [🤝 Community & Support
+
+| Resource | Description | Link |
+|----------|-------------|------|
+| 📚 **Documentation** | Complete guides and API reference | [Docs Site](https://makr-code.github.io/ThemisDB/) |
+| 🐛 **Issues** | Report bugs or request features | [GitHub Issues](https://github.com/makr-code/ThemisDB/issues) |
+| 💬 **Discussions** | Community Q&A and discussions | [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) |
+| 🤝 **Contributing** | How to contribute to ThemisDB | [Contributing Guide](CONTRIBUTING.md) |
+| 🔒 **Security** | Responsible disclosure policy | [Security Policy](SECURITY.md) |
 
 ---
 
-## Community & Support
+## 📄 License
 
-- **Documentation**: [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
-- **GitHub Issues**: [Report bugs or request features](https://github.com/makr-code/ThemisDB/issues)
-- **Discussions**: [Community discussions](https://github.com/makr-code/ThemisDB/discussions)
-- **Contributing**: [Contributing guidelines](CONTRIBUTING.md)
-- **Security**: [Security policy](SECURITY.md)
+<details open>
+<summary><b>License Information</b></summary>
+
+### Community Edition
+**ThemisDB Community Edition** is released under the [MIT License](LICENSE).
+- ✅ Free to use, modify, and distribute
+- ✅ Commercial use allowed
+- ✅ Full feature set for single-node deployments
+
+### Enterprise Edition
+**ThemisDB Enterprise Edition** features (horizontal sharding, advanced analytics, HA/replication, etc.) are available under a commercial license.
+
+**Enterprise Inquiries:** sales@themisdb.com
+
+**[→ See Enterprise Features](ENTERPRISE.md)**
+
+</details>
 
 ---
 
-## License
+## 🙏 Acknowledgments
 
-**Community Edition**: ThemisDB Community Edition is released under the [MIT License](LICENSE).
+ThemisDB builds upon and is inspired by these excellent projects:
 
-**Enterprise Edition**: Enterprise features (horizontal sharding, advanced analytics, HA/replication, etc.) are available under a commercial license. See [ENTERPRISE.md](ENTERPRISE.md) for details.
+<details>
+<summary><b>Inspirations & Foundations</b></summary>
 
-For enterprise licensing inquiries, contact sales@themisdb.com
+| Project | Influence | Area |
+|---------|-----------|------|
+| **ArangoDB** | Multi-model architecture | Design Philosophy |
+| **CozoDB** | Hybrid relational-graph-vector | Data Models |
+| **Azure Cosmos DB** | Multi-model with unified API | API Design |
+| **RocksDB** | High-performance LSM-Tree storage | Storage Engine |
+| **FAISS** | Efficient similarity search | Vector Search |
+
+</details>
+
+> [!NOTE]
+> **For a complete list of third-party libraries and detailed feature attributions, see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).**
 
 ---
 
-## Acknowledgments
+<div align="center">
+  
+**Built with ❤️ for the database community**
 
-ThemisDB is inspired by and builds upon the ideas from:
-- **ArangoDB** - Multi-model architecture
-- **CozoDB** - Hybrid relational-graph-vector design
-- **Azure Cosmos DB** - Multi-model with unified API
-- **RocksDB** - High-performance LSM-Tree storage
-- **FAISS** - Efficient similarity search
+[⭐ Star us on GitHub](https://github.com/makr-code/ThemisDB) · [📖 Read the Docs](https://makr-code.github.io/ThemisDB/) · [🤝 Contribute](CONTRIBUTING.md)
 
-**For a complete list of third-party libraries and feature attributions, see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).**
+</div>es and feature attributions, see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).**
 
 ---
 
