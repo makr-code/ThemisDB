@@ -1,8 +1,18 @@
 # eIDAS Qualified Electronic Signatures
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Overview](#overview)
+- [What is eIDAS?](#what-is-eidas)
+- [Architecture](#architecture)
+- [Components](#components)
+- [API Usage](#api-usage)
 
 ---
 

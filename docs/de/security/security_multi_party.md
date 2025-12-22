@@ -1,8 +1,16 @@
 # Multi-Party-Verschlüsselung für ThemisDB
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Security
+**Version:** v1.3.0  
+**Kategorie:** 🔒 Security
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Problem Statement](#problem-statement)
+- [Lösung 1: Gruppenbasierte Schlüssel (Group-KEK)](#lösung-1-gruppenbasierte-schlüssel-group-kek)
+- [Lösung 2: Envelope-Encryption (Multi-Recipient)](#lösung-2-envelope-encryption-multi-recipient)
 
 ---
 
