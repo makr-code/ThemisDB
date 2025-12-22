@@ -3,6 +3,8 @@
 #include "transaction/transaction_manager.h"
 #include "query/aql_engine.h"
 #include "utils/logger.h"
+#include <atomic>
+#include <chrono>
 
 // Note: This file provides stub implementation for ThemisCoreServiceImpl
 // The actual gRPC service methods will be implemented once protobuf
