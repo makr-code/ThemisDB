@@ -1,8 +1,27 @@
-# HTTP/2 Server Push for CDC/Changefeed
+# HTTP/2 Server Push fuer CDC/Changefeed
 
-## Overview
+> **Kategorie:** Enterprise Feature  
+> **Seit Version:** 1.3.0  
+> **Status:** Beta  
+> **Aktualisiert:** 22. Dezember 2025
 
-HTTP/2 Server Push enables **proactive delivery** of CDC (Change Data Capture) events to clients without polling. This significantly reduces latency and bandwidth compared to traditional polling-based approaches.
+---
+
+## Inhaltsverzeichnis
+
+- [Ueberblick](#ueberblick)
+- [Architektur](#architektur)
+- [Erste Schritte](#erste-schritte)
+- [Detaillierte Dokumentation](#detaillierte-dokumentation)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
+
+## Ueberblick
+
+HTTP/2 Server Push ermoglicht die proaktive Lieferung von CDC (Change Data Capture) Events zu Clients ohne Polling. Dies reduziert erheblich die Latenz und Bandbreite im Vergleich zu traditionellen Polling-basierten Ansaetzen.
 
 ## Architecture
 

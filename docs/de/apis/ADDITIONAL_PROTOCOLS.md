@@ -1,8 +1,21 @@
-# Weitere relevante Netzwerk-Protokolle für ThemisDB
+# Weitere Netzwerk-Protokolle fuer ThemisDB
 
-**Stand:** 18. Dezember 2024  
-**Version:** 1.2.0  
-**Kategorie:** APIs, Netzwerk, Architektur
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** Reference  
+> **Aktualisiert:** 22. Dezember 2025
+
+---
+
+## Inhaltsverzeichnis
+
+- [Ueberblick](#ueberblick)
+- [Protokoll-Uebersicht](#protokoll-uebersicht)
+- [Erste Schritte](#erste-schritte)
+- [Detaillierte Analyse](#detaillierte-analyse)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
 
 ---
 

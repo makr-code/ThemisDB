@@ -1,8 +1,27 @@
 # MCP Transport Layer Implementation
 
-## Overview
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
-ThemisDB's MCP (Model Context Protocol) server supports three transport mechanisms for LLM integration:
+---
+
+## Inhaltsverzeichnis
+
+- [Ueberblick](#ueberblick)
+- [Transport-Vergleich](#transport-vergleich)
+- [Erste Schritte](#erste-schritte)
+- [Detaillierte Implementierung](#detaillierte-implementierung)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
+
+## Ueberblick
+
+ThemisDB's MCP (Model Context Protocol) Server unterstützt drei Transport-Mechanismen fuer LLM-Integration:
 
 1. **stdio** - Standard input/output for Claude Desktop (Linux/macOS)
 2. **SSE (Server-Sent Events)** - HTTP-based unidirectional streaming

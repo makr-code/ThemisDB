@@ -1,11 +1,31 @@
-# OpenAPI & Endpunkte
+# 📝 OpenAPI & Endpunkte
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Apis
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** ✅ Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
+## 📋 Inhaltsverzeichnis
+
+- [🎯 Übersicht](#-übersicht)
+- [📊 Spezifikationsdateien](#-spezifikationsdateien)
+- [� SSE-Streaming](#-sse-streaming-changefeed)
+- [🚀 Erste Schritte](#-erste-schritte)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+
+---
+
+## 🚀 Erste Schritte
+
+Zum Starten mit der OpenAPI-Spezifikation:
+
+---
+
+## 🎯 Übersicht
 
 Die vollständige API-Spezifikation liegt als YAML vor:
 

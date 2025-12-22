@@ -1,8 +1,27 @@
-# MCP (Model Context Protocol) Support for ThemisDB
+# 🔗 Model Context Protocol (MCP) Support
 
-## Overview
+> **Kategorie:** Enterprise Feature  
+> **Seit Version:** 1.3.0  
+> **Status:** ✅ Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
-The **Model Context Protocol (MCP)** is an open protocol that enables seamless integration between LLM applications and external data sources. ThemisDB implements MCP to provide AI-powered database interactions, natural language queries, and context-aware responses.
+---
+
+## 📋 Inhaltsverzeichnis
+
+- [🎯 Übersicht](#-übersicht)
+- [📊 MCP Architektur](#-mcp-architektur)
+- [🚀 Erste Schritte](#-erste-schritte)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+
+---
+
+## 🎯 Übersicht
+
+Das **Model Context Protocol (MCP)** ist ein offenes Protokoll, das eine nahtlose Integration zwischen LLM-Anwendungen und externen Datenquellen ermöglicht. ThemisDB implementiert MCP, um KI-gesteuerte Datenbankinteraktionen bereitzustellen.
 
 ## What is MCP?
 

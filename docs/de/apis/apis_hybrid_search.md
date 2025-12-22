@@ -1,11 +1,25 @@
-# Hybrid & Fusion Search API
+# 🔍 Hybrid & Fusion Search API
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Apis
+> **Kategorie:** Feature API  
+> **Seit Version:** 1.3.0  
+> **Status:** ✅ Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
+## 📋 Inhaltsverzeichnis
+
+- [🎯 Übersicht](#-übersicht)
+- [📊 API-Endpunkte](#-api-endpunkte)
+- [🚀 Erste Schritte](#-erste-schritte)
+- [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+
+---
+
+## 🎯 Übersicht
 
 Diese Seite beschreibt die allgemeinen Suchendpunkte, die Vektor- und Volltextsuche kombinieren.
 

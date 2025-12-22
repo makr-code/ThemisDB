@@ -1,14 +1,27 @@
-# Ingestion Documentation
+# 🔌 API & Ingestion Dokumentation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Ingestion
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** ✅ Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
-## Übersicht
+## 📋 Inhaltsverzeichnis
 
-Daten-Ingestion und Import-Dokumentation für ThemisDB.
+- [🎯 Übersicht](#-übersicht)
+- [📊 Verfügbare APIs](#-verfügbare-apis)
+- [🚀 Erste Schritte](#-erste-schritte)
+- [📖 API-Dokumentation](#-api-dokumentation)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+
+---
+
+## 🎯 Übersicht
+
+Daten-Ingestion, Abfragen und API-Dokumentation für ThemisDB. Diese Dokumentation deckt alle HTTP-APIs, GraphQL, OpenAPI und weitere Protokolle ab.
 
 ## Source-Code Referenz
 

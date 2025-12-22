@@ -1,14 +1,27 @@
 # Netzwerk-Protokoll Übersicht und Build-Schalter
 
-**Stand:** 18. Dezember 2024  
-**Version:** 1.2.0  
-**Kategorie:** Build, Konfiguration, Sicherheit
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
-## Übersicht
+## Inhaltsverzeichnis
 
-ThemisDB unterstützt mehrere Netzwerk-Protokolle für verschiedene Use Cases. Aus Sicherheitsgründen kann jedes Protokoll über Build-Schalter **explizit aktiviert oder deaktiviert** werden.
+- [Ueberblick](#ueberblick)
+- [Protokoll-Status und Build-Schalter](#protokoll-status-und-build-schalter)
+- [Erste Schritte](#erste-schritte)
+- [Detaillierte Konfiguration](#detaillierte-konfiguration)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
+
+## Ueberblick
+
+ThemisDB unterstützt mehrere Netzwerk-Protokolle fuer verschiedene Use Cases. Aus Sicherheitsgruenden kann jedes Protokoll ueber Build-Schalter explizit aktiviert oder deaktiviert werden.
 
 ---
 

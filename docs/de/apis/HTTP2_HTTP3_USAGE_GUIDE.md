@@ -1,8 +1,21 @@
 # HTTP/2 und HTTP/3 Support - Benutzerhandbuch
 
-**Stand:** 18. Dezember 2024  
-**Version:** 1.2.0  
-**Status:** 🚧 In Development (HTTP/2), 📋 Planned (HTTP/3)
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** Beta  
+> **Aktualisiert:** 22. Dezember 2025
+
+---
+
+## Inhaltsverzeichnis
+
+- [Ueberblick](#ueberblick)
+- [HTTP/2 Support](#http2-support)
+- [HTTP/3 Support](#http3-support)
+- [Erste Schritte](#erste-schritte)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
 
 ---
 

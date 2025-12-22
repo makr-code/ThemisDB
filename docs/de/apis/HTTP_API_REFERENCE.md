@@ -1,8 +1,9 @@
-# HTTP API Referenz
+# 🌐 HTTP API Referenz
 
-**Stand:** 10. Dezember 2025  
-**Version:** 1.0.1  
-**Kategorie:** APIs
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** ✅ Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 

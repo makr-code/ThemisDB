@@ -1,12 +1,25 @@
-# GraphQL API
+# 🔷 GraphQL API
 
-**Status:** ✅ Implementiert  
-**Version:** 1.0  
-**Datum:** 30. November 2025
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** ✅ Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
-## Übersicht
+## 📋 Inhaltsverzeichnis
+
+- [🎯 Übersicht](#-übersicht)
+- [📊 Features](#-features)
+- [🚀 Erste Schritte](#-erste-schritte)
+- [📖 GraphQL Schema](#-graphql-schema)
+- [💡 Best Practices](#-best-practices)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [📚 Siehe auch](#-siehe-auch)
+
+---
+
+## 🎯 Übersicht
 
 ThemisDB bietet eine GraphQL API als Alternative zur REST API. GraphQL ermöglicht flexible Abfragen mit exakter Feldauswahl und effizienter Datenabfrage.
 

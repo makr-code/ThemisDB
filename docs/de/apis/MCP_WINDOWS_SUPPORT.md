@@ -1,8 +1,27 @@
-# MCP Windows Support
+# MCP Windows-Unterstuetzung
 
-## Overview
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
-ThemisDB MCP (Model Context Protocol) server now includes full cross-platform support for stdio transport on Windows, Linux, and macOS. The implementation uses platform-specific APIs for efficient non-blocking I/O.
+---
+
+## Inhaltsverzeichnis
+
+- [Ueberblick](#ueberblick)
+- [Plattform-Unterstuetzung](#plattform-unterstuetzung)
+- [Erste Schritte](#erste-schritte)
+- [Windows-Implementierung](#windows-implementierung)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
+
+## Ueberblick
+
+ThemisDB MCP (Model Context Protocol) Server umfasst jetzt vollständige plattformunabhaengige Unterstuetzung fuer stdio Transport auf Windows, Linux und macOS.
 
 ## Platform Support
 

@@ -1,13 +1,27 @@
 # VCC-Clara JSONL Export API (Enhanced with vLLM Support)
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Api
+> **Kategorie:** Enterprise Feature  
+> **Seit Version:** 1.3.0  
+> **Status:** Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
+## Inhaltsverzeichnis
 
-REST API endpoint for VCC-Clara integration to export thematically and temporally filtered training data in JSONL format for LLM fine-tuning with **vLLM multi-LoRA serving**.
+- [Ueberblick](#ueberblick)
+- [Erste Schritte](#erste-schritte)
+- [Use Cases](#use-cases)
+- [Detaillierte API-Referenz](#detaillierte-api-referenz)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
+
+## Ueberblick
+
+REST API endpoint fuer VCC-Clara Integration zum Export thematisch und zeitlich gefilterte Trainingsdaten im JSONL-Format fuer LLM Fine-Tuning mit vLLM Multi-LoRA Serving.
 
 ## Overview
 

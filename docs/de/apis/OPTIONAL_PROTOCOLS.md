@@ -1,12 +1,22 @@
 # Optional Protocols Implementation Guide
 
-**Stand:** 21. Dezember 2024  
-**Version:** 1.3.0  
-**Status:** Production-Ready (MQTT, PostgreSQL Wire Protocol stub implementations)
+> **Kategorie:** Core API  
+> **Seit Version:** 1.3.0  
+> **Status:** Production-Ready  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
-## Port-Übersicht
+## Inhaltsverzeichnis
+
+- [Port-Uebersicht](#port-uebersicht)
+- [Erste Schritte](#erste-schritte)
+- [Detaillierte Implementierung](#detaillierte-implementierung)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
 
 **📖 Vollständige Port-Referenz:** [PORT_REFERENCE.md](../deployment/PORT_REFERENCE.md)
 

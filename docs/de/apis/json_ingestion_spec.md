@@ -1,15 +1,27 @@
-# JSON Ingestion Spezifikation (Post-Go-Live)
+# JSON Ingestion Spezifikation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Ingestion
+> **Kategorie:** Feature API  
+> **Seit Version:** 1.3.0  
+> **Status:** Stable  
+> **Aktualisiert:** 22. Dezember 2025
 
 ---
 
+## Inhaltsverzeichnis
 
-Ziel dieses Dokuments ist, den standardisierten JSON-gestützten Ingestion-Prozess (ETL) zu definieren, damit strukturierte, Geo- und Textdaten aus heterogenen Quellen konsistent, abfragefreundlich und revisionssicher in die Kerndatenbank übernommen werden.
+- [Zweck & Scope](#zweck--scope)
+- [Erste Schritte](#erste-schritte)
+- [Mini-Contract](#mini-contract)
+- [Detaillierte Spezifikation](#detaillierte-spezifikation)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+- [Siehe auch](#siehe-auch)
+
+---
 
 ## Zweck & Scope
+
+Ziel dieses Dokuments ist, den standardisierten JSON-gestützten Ingestion-Prozess (ETL) zu definieren, damit strukturierte, Geo- und Textdaten aus heterogenen Quellen konsistent, abfragefreundlich und revisionssicher in die Kerndatenbank uebernommen werden.
 - Einheitlicher Contract für alle Quellen (GeoJSON, GPX, CSV, proprietär, Text/Binary mit Metadaten)
 - Abfragefähigkeit entlang dreier Achsen: Relational (Attribute/Begriffe), Räumlich (Punkt/Linie/Polygon), Semantisch (Vektor)
 - Qualität, Idempotenz, Deduplikation, Lineage/Audit als First-Class-Bestandteile
