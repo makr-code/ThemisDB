@@ -1,6 +1,6 @@
 # Zeitreihen-Monitor - Echtzeitdaten-Visualisierung
 
-![Status](https://img.shields.io/badge/status-planned-yellow)
+![Status](https://img.shields.io/badge/status-ready-brightgreen)
 ![Difficulty](https://img.shields.io/badge/difficulty-medium-orange)
 ![Duration](https://img.shields.io/badge/duration-30--40%20min-blue)
 
