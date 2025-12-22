@@ -1470,26 +1470,10 @@ ThemisDB bietet der **Blaulichtfamilie** eine zukunftssichere, sichere und leist
 | 1.0 | 22.12.2025 | Initiale Version | ThemisDB Solutions Team |
 | 1.1 | 22.12.2025 | STT/TTS-Sektion hinzugefügt | ThemisDB Solutions Team |
 | 1.2 | 22.12.2025 | Verfeinerungen: Executive Summary, Architektur-Diagramme, Competitive Analysis | ThemisDB Solutions Team |
-| **INPOL** | Informationssystem der Polizei |
-| **BSI** | Bundesamt für Sicherheit in der Informationstechnik |
-
-### D. Kontakt und Support
-
-**ThemisDB Community Edition:**
-- GitHub: https://github.com/makr-code/ThemisDB
-- Dokumentation: https://makr-code.github.io/ThemisDB/
-- Forum: https://github.com/makr-code/ThemisDB/discussions
-
-**ThemisDB Enterprise Edition:**
-- Vertrieb: sales@themisdb.com
-- Support (24/7): support@themisdb.com
-
-**Spezialisierte BOS-Beratung:**
-- Anfragen: bos-solutions@themisdb.com
 
 ---
 
-**Dokument-Version:** 1.0  
+**Dokument-Version:** 1.2  
 **Letzte Aktualisierung:** 22. Dezember 2025  
 **Autor:** ThemisDB Solutions Team  
 **Vertraulichkeit:** Öffentlich (für Behörden und Entscheider)
