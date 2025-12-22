@@ -85,6 +85,12 @@ public:
         bool use_direct_reads = false;
         bool use_direct_io_for_flush_and_compaction = false;
 
+        // v1.3.0 Phase 2: Async I/O with Prefetching
+        bool enable_async_io = false;                    // Enable async I/O for scans
+        size_t async_io_readahead_size_mb = 64;         // Prefetch buffer size (MB)
+        int async_io_multiget_batch_size = 100;         // MultiGet batch size
+        int async_io_num_threads = 4;                   // Async I/O thread pool size
+
         // Compression (best-effort; depends on RocksDB build)
         // Values: "none", "lz4", "zstd", "snappy", "zlib", "bzip2", "lz4hc"
         std::string compression_default = "none";
@@ -226,6 +232,33 @@ public:
     
     /// Full scan (use sparingly!)
     void scanAll(ScanCallback callback);
+    
+    // v1.3.0 Phase 2: Async I/O Scan Operations
+    
+    /// Scan with async I/O and prefetching (prefix-based)
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> scanWithAsyncIO(
+        std::string_view prefix, int limit = 1000);
+    
+    /// Range query with async I/O
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> rangeQueryWithAsyncIO(
+        std::string_view start_key, std::string_view end_key);
+    
+    /// Reverse scan with async I/O
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> reverseScanWithAsyncIO(
+        std::string_view start_key, int limit = 1000);
+    
+    /// MultiGet with async I/O optimization
+    std::vector<std::optional<std::vector<uint8_t>>> multiGetWithAsyncIO(
+        const std::vector<std::string>& keys);
+    
+    /// Create async iterator with prefetching
+    std::unique_ptr<rocksdb::Iterator> newAsyncIterator();
+    
+    /// Create standard iterator (for comparison)
+    std::unique_ptr<rocksdb::Iterator> newIterator();
+    
+    /// Check if async I/O is enabled
+    bool isAsyncIOEnabled() const { return config_.enable_async_io; }
     
     // ===== Statistics & Maintenance =====
     

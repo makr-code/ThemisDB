@@ -1270,6 +1270,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_http_vector.cpp
         tests/test_http_vector_largescale.cpp
         tests/test_http_content.cpp
+        tests/test_video_processor_extended.cpp
         tests/test_http_changefeed.cpp
         tests/test_http_changefeed_sse.cpp
         tests/test_http_timeseries.cpp
@@ -1359,6 +1360,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
+        tests/test_stream_protocol_extended.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
         tests/test_mtls_client.cpp
@@ -1372,6 +1374,9 @@ if(THEMIS_BUILD_TESTS)
         tests/test_tenant_manager.cpp
         tests/test_graphql.cpp
         tests/test_olap.cpp
+        tests/test_olap_extended.cpp
+        tests/test_process_mining_extended.cpp
+        tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
@@ -1553,6 +1558,66 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_encryption
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # OLAP Analytics benchmark (v1.3.0 Phase 2)
+    add_executable(bench_olap_analytics
+        benchmarks/bench_olap_analytics.cpp
+    )
+    
+    target_link_libraries(bench_olap_analytics
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Video Processor benchmark (v1.3.0 Phase 2)
+    add_executable(bench_video_processor
+        benchmarks/bench_video_processor.cpp
+    )
+    
+    target_link_libraries(bench_video_processor
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Stream Protocol benchmark (v1.3.0 Phase 2)
+    add_executable(bench_stream_protocol
+        benchmarks/bench_stream_protocol.cpp
+    )
+    
+    target_link_libraries(bench_stream_protocol
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Process Mining benchmark (v1.3.0 Phase 2)
+    add_executable(bench_process_mining
+        benchmarks/bench_process_mining.cpp
+    )
+    
+    target_link_libraries(bench_process_mining
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Async I/O MultiScan benchmark (v1.3.0 Phase 2)
+    add_executable(bench_async_io_multiscan
+        benchmarks/bench_async_io_multiscan.cpp
+    )
+    
+    target_link_libraries(bench_async_io_multiscan
         PRIVATE
             themis_core
             benchmark::benchmark

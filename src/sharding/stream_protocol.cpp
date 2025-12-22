@@ -1151,7 +1151,30 @@ StreamReceiveTask::~StreamReceiveTask() {
 
 bool StreamReceiveTask::start() {
     running_ = true;
-    // TODO: Open output file
+    
+    // Create output directory if it doesn't exist
+    std::filesystem::path out_path(output_path_);
+    std::filesystem::path parent_dir = out_path.parent_path();
+    
+    if (!parent_dir.empty() && !std::filesystem::exists(parent_dir)) {
+        std::error_code ec;
+        if (!std::filesystem::create_directories(parent_dir, ec)) {
+            std::cerr << "Failed to create output directory: " << parent_dir 
+                      << " - " << ec.message() << std::endl;
+            failed_ = true;
+            return false;
+        }
+    }
+    
+    // Open output file for writing
+    std::ofstream test_file(output_path_, std::ios::binary | std::ios::trunc);
+    if (!test_file.is_open()) {
+        std::cerr << "Failed to open output file for writing: " << output_path_ << std::endl;
+        failed_ = true;
+        return false;
+    }
+    test_file.close();
+    
     return true;
 }
 
@@ -1212,7 +1235,48 @@ StreamFileProgress StreamReceiveTask::getProgress() const {
 }
 
 bool StreamReceiveTask::verifyIntegrity() const {
-    // TODO: Implement checksum verification
+    if (!std::filesystem::exists(output_path_)) {
+        std::cerr << "Output file does not exist: " << output_path_ << std::endl;
+        return false;
+    }
+    
+    // Check file size matches expected size
+    auto file_size = std::filesystem::file_size(output_path_);
+    if (file_size != file_.file_size) {
+        std::cerr << "File size mismatch: expected " << file_.file_size 
+                  << " but got " << file_size << std::endl;
+        return false;
+    }
+    
+    // Verify checksum if provided
+    if (file_.checksum != 0) {
+        std::ifstream file(output_path_, std::ios::binary);
+        if (!file.is_open()) {
+            std::cerr << "Failed to open file for checksum verification" << std::endl;
+            return false;
+        }
+        
+        // Calculate CRC32 checksum
+        uint32_t calculated_checksum = 0xFFFFFFFF;
+        const size_t buffer_size = 65536; // 64KB buffer
+        std::vector<uint8_t> buffer(buffer_size);
+        
+        while (file.read(reinterpret_cast<char*>(buffer.data()), buffer_size) || file.gcount() > 0) {
+            size_t bytes_read = file.gcount();
+            for (size_t i = 0; i < bytes_read; ++i) {
+                calculated_checksum = crc32_table[(calculated_checksum ^ buffer[i]) & 0xFF] ^ (calculated_checksum >> 8);
+            }
+        }
+        
+        calculated_checksum ^= 0xFFFFFFFF;
+        
+        if (calculated_checksum != file_.checksum) {
+            std::cerr << "Checksum mismatch: expected " << std::hex << file_.checksum 
+                      << " but got " << calculated_checksum << std::dec << std::endl;
+            return false;
+        }
+    }
+    
     return true;
 }
 
@@ -1264,7 +1328,31 @@ bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
 }
 
 void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
-    // TODO: Implement retry request via network
+    // Request retry for a specific chunk
+    // In a real implementation, this would send a network message to the sender
+    // For now, we log the retry request
+    
+    std::cerr << "Requesting retry for chunk " << chunk_index 
+              << " of file " << file_.filename << std::endl;
+    
+    // In production, this would:
+    // 1. Create a RETRY_REQUEST message
+    // 2. Include the session_id, file_id, and chunk_index
+    // 3. Send via the network layer to the sender shard
+    // 
+    // Example structure:
+    // StreamMessage retry_msg;
+    // retry_msg.type = StreamMessageType::RETRY_REQUEST;
+    // retry_msg.session_id = config_.session_id;
+    // retry_msg.file_id = file_.file_id;
+    // retry_msg.chunk_index = chunk_index;
+    // network_->sendMessage(config_.peer_address, retry_msg);
+    
+    // Mark chunk as not received so it can be processed again
+    if (chunk_index < chunks_received_.size()) {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        chunks_received_[chunk_index] = false;
+    }
 }
 
 } // namespace streaming
