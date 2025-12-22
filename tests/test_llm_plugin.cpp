@@ -182,12 +182,8 @@ TEST_F(LLMPluginTest, MultiLoRAManager_BasicLoading) {
     createDummyLoRA("legal.bin", 20);
     std::string lora_path = test_lora_dir + "/legal.bin";
     
-    json lora_config = {
-        {"scale", 1.0}
-    };
-    
-    // Load LoRA
-    bool loaded = manager.loadLoRA("legal-qa", lora_path, "model1", lora_config);
+    // Load LoRA with scale factor
+    bool loaded = manager.loadLoRA("legal-qa", lora_path, "model1", 1.0f);
     EXPECT_TRUE(loaded);
     
     // Check if loaded
@@ -211,12 +207,10 @@ TEST_F(LLMPluginTest, MultiLoRAManager_MultipleLoRAs) {
     createDummyLoRA("medical.bin", 20);
     createDummyLoRA("finance.bin", 20);
     
-    json lora_config = {{"scale", 1.0}};
-    
-    // Load multiple LoRAs
-    EXPECT_TRUE(manager.loadLoRA("legal", test_lora_dir + "/legal.bin", "model1", lora_config));
-    EXPECT_TRUE(manager.loadLoRA("medical", test_lora_dir + "/medical.bin", "model1", lora_config));
-    EXPECT_TRUE(manager.loadLoRA("finance", test_lora_dir + "/finance.bin", "model1", lora_config));
+    // Load multiple LoRAs with scale factor
+    EXPECT_TRUE(manager.loadLoRA("legal", test_lora_dir + "/legal.bin", "model1", 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("medical", test_lora_dir + "/medical.bin", "model1", 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("finance", test_lora_dir + "/finance.bin", "model1", 1.0f));
     
     // All should be loaded
     EXPECT_TRUE(manager.isLoRALoaded("legal"));
@@ -240,19 +234,17 @@ TEST_F(LLMPluginTest, MultiLoRAManager_SlotLimit) {
     createDummyLoRA("lora3.bin", 10);
     createDummyLoRA("lora4.bin", 10);
     
-    json lora_config = {{"scale", 1.0}};
-    
     // Load 3 LoRAs - should succeed
-    EXPECT_TRUE(manager.loadLoRA("lora1", test_lora_dir + "/lora1.bin", "model1", lora_config));
-    EXPECT_TRUE(manager.loadLoRA("lora2", test_lora_dir + "/lora2.bin", "model1", lora_config));
-    EXPECT_TRUE(manager.loadLoRA("lora3", test_lora_dir + "/lora3.bin", "model1", lora_config));
+    EXPECT_TRUE(manager.loadLoRA("lora1", test_lora_dir + "/lora1.bin", "model1", 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("lora2", test_lora_dir + "/lora2.bin", "model1", 1.0f));
+    EXPECT_TRUE(manager.loadLoRA("lora3", test_lora_dir + "/lora3.bin", "model1", 1.0f));
     
     // Load 4th LoRA - should evict LRU
-    EXPECT_TRUE(manager.loadLoRA("lora4", test_lora_dir + "/lora4.bin", "model1", lora_config));
+    EXPECT_TRUE(manager.loadLoRA("lora4", test_lora_dir + "/lora4.bin", "model1", 1.0f));
     
-    // Check stats
+    // Check stats - should have evictions count
     auto stats = manager.getStatistics();
-    EXPECT_GT(stats.total_loras_loaded, 3);  // More than 3 total (due to eviction)
+    EXPECT_GE(stats.evictions, 1);  // At least 1 eviction occurred
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -311,8 +303,7 @@ TEST_F(LLMPluginTest, LlamaCppPlugin_LoRAManagement) {
     plugin.loadModel(test_model_dir + "/mistral.gguf", {});
     
     // Load LoRA
-    json lora_config = {{"scale", 1.0}};
-    bool loaded = plugin.loadLoRA("legal-qa", test_lora_dir + "/legal.bin", lora_config);
+    bool loaded = plugin.loadLoRA("legal-qa", test_lora_dir + "/legal.bin", 1.0f);
     EXPECT_TRUE(loaded);
     
     // List LoRAs

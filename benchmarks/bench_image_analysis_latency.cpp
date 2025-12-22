@@ -218,7 +218,7 @@ public:
         results.reserve(images.size());
         
         for (const auto& img : images) {
-            results.push_back(generateEmbedding(img));
+            results.push_back(generateEmbedding(img, nullptr));
         }
         
         return results;
@@ -238,7 +238,7 @@ public:
     
     void warmup() override {
         std::vector<uint8_t> dummy_image = generate_test_image(224, 224);
-        generateEmbedding(dummy_image);
+        generateEmbedding(dummy_image, nullptr);
         warmup_done_ = true;
     }
     
@@ -267,7 +267,7 @@ static void BM_Embedding_ColdStartVsWarm(benchmark::State& state) {
     auto image = generate_test_image(224, 224);
     
     for (auto _ : state) {
-        auto result = plugin.generateEmbedding(image);
+        auto result = plugin.generateEmbedding(image, nullptr);
         benchmark::DoNotOptimize(result);
         
         // Reinitialize for cold start test
@@ -298,7 +298,7 @@ static void BM_Embedding_LatencyDistribution_224(benchmark::State& state) {
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
-        auto result = plugin.generateEmbedding(image);
+        auto result = plugin.generateEmbedding(image, nullptr);
         auto end = std::chrono::high_resolution_clock::now();
         
         benchmark::DoNotOptimize(result);
@@ -344,7 +344,7 @@ static void BM_Embedding_GPUvsCPU_Latency(benchmark::State& state) {
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
-        auto result = plugin.generateEmbedding(image);
+        auto result = plugin.generateEmbedding(image, nullptr);
         auto end = std::chrono::high_resolution_clock::now();
         
         benchmark::DoNotOptimize(result);
@@ -382,7 +382,7 @@ static void BM_Caption_LatencyDistribution(benchmark::State& state) {
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
-        auto result = plugin.generateCaption(image);
+        auto result = plugin.generateCaption(image, nullptr, 50);
         auto end = std::chrono::high_resolution_clock::now();
         
         benchmark::DoNotOptimize(result);
@@ -472,7 +472,7 @@ static void BM_ImageSize_LatencyImpact(benchmark::State& state) {
     
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
-        auto result = plugin.generateEmbedding(image);
+        auto result = plugin.generateEmbedding(image, nullptr);
         auto end = std::chrono::high_resolution_clock::now();
         
         benchmark::DoNotOptimize(result);
@@ -512,7 +512,7 @@ static void BM_SustainedLoad_LatencyStability(benchmark::State& state) {
     size_t iteration = 0;
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
-        auto result = plugin.generateEmbedding(image);
+        auto result = plugin.generateEmbedding(image, nullptr);
         auto end = std::chrono::high_resolution_clock::now();
         
         benchmark::DoNotOptimize(result);

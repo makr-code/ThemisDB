@@ -139,7 +139,7 @@ public:
         
         // Batch processing is more efficient than individual calls
         for (const auto& img : images) {
-            results.push_back(generateEmbedding(img));
+            results.push_back(generateEmbedding(img, nullptr));
         }
         
         return results;
@@ -159,7 +159,7 @@ public:
     
     void warmup() override {
         std::vector<uint8_t> dummy_image(1024, 128);
-        generateEmbedding(dummy_image);
+        generateEmbedding(dummy_image, nullptr);
     }
     
     size_t getInferenceCount() const { return inference_count_; }
@@ -240,7 +240,7 @@ static void BM_ImageEmbedding_SingleImage(benchmark::State& state) {
     auto image_data = generate_mock_jpeg(image_size, image_size);
     
     for (auto _ : state) {
-        auto result = plugin.generateEmbedding(image_data);
+        auto result = plugin.generateEmbedding(image_data, nullptr);
         benchmark::DoNotOptimize(result);
     }
     
@@ -346,7 +346,7 @@ static void BM_ImageEmbedding_RawVsCompressed(benchmark::State& state) {
         : generate_mock_image(image_size, image_size, 3);
     
     for (auto _ : state) {
-        auto result = plugin.generateEmbedding(image_data);
+        auto result = plugin.generateEmbedding(image_data, nullptr);
         benchmark::DoNotOptimize(result);
     }
     
@@ -373,7 +373,7 @@ static void BM_ImageEmbedding_BackendComparison(benchmark::State& state) {
     auto image_data = generate_mock_jpeg(image_size, image_size);
     
     for (auto _ : state) {
-        auto result = plugin.generateEmbedding(image_data);
+        auto result = plugin.generateEmbedding(image_data, nullptr);
         benchmark::DoNotOptimize(result);
     }
     
@@ -399,7 +399,7 @@ static void BM_ImageEmbedding_Concurrent(benchmark::State& state) {
     auto image_data = generate_mock_jpeg(image_size, image_size);
     
     for (auto _ : state) {
-        auto result = plugin.generateEmbedding(image_data);
+        auto result = plugin.generateEmbedding(image_data, nullptr);
         benchmark::DoNotOptimize(result);
     }
     
@@ -454,7 +454,7 @@ static void BM_ImageEmbedding_MemoryAllocation(benchmark::State& state) {
     for (auto _ : state) {
         // Generate new image data each iteration to test allocation
         auto image_data = generate_mock_jpeg(image_size, image_size);
-        auto result = plugin.generateEmbedding(image_data);
+        auto result = plugin.generateEmbedding(image_data, nullptr);
         benchmark::DoNotOptimize(result);
     }
     
@@ -533,7 +533,7 @@ static void BM_Plugin_GetStatistics(benchmark::State& state) {
     
     // Generate some activity
     auto image_data = generate_mock_jpeg(224, 224);
-    plugin.generateEmbedding(image_data);
+    plugin.generateEmbedding(image_data, nullptr);
     
     for (auto _ : state) {
         auto stats = plugin.getStatistics();
