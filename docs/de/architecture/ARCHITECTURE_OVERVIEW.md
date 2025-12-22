@@ -1,8 +1,17 @@
 # ThemisDB Architecture Overview
 
-**Version:** 1.0.1  
+**Version:** v1.3.0  
 **Date:** December 2025  
-**Type:** Technical Architecture Documentation
+**Type:** Technical Architecture Documentation  
+**Kategorie:** 🧩 Architecture
+
+---
+
+## 📑 Table of Contents
+
+- [📋 Executive Summary](#-executive-summary)
+- [🏗️ System Architecture](#️-system-architecture)
+- [🔑 Core Components](#-core-components)
 
 ---
 

@@ -1,8 +1,18 @@
 # ThemisDB Server Architecture - Security & Performance Design
 
-**Version**: 1.0  
+**Version**: v1.3.0  
 **Date**: 4. Dezember 2025  
-**Status**: Production Architecture
+**Status**: Production Architecture  
+**Kategorie**: 🧩 Architecture
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [Architektur-Übersicht](#architektur-übersicht)
+- [Warum KEINE separaten Prozesse?](#warum-keine-separaten-prozesse)
+- [Isolation & Sicherheit](#isolation--sicherheit)
 
 ---
 

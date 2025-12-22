@@ -1,10 +1,20 @@
 # Transaction Module
 
 **Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Transaction
+**Version:** v1.3.0  
+**Kategorie:** 🧩 Architecture
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Source-Code Referenz](#source-code-referenz)
+- [Implementierte Klassen](#implementierte-klassen)
+- [Beispiel](#beispiel)
+- [ACID-Garantien](#acid-garantien)
+- [Write-Write Conflict Detection](#write-write-conflict-detection)
+- [Verwandte Dokumentation](#verwandte-dokumentation)
 
 ## Übersicht
 
