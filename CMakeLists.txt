@@ -1373,6 +1373,15 @@ if(THEMIS_BUILD_TESTS)
         tests/test_graphql.cpp
         tests/test_olap.cpp
         
+        # Protocol tests (conditional based on build flags)
+        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_server_push.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:tests/test_http3_protocol.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:tests/test_websocket_cdc.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_MQTT}>:tests/test_mqtt_protocol.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:tests/test_postgres_wire.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_MCP}>:tests/test_mcp_protocol.cpp>
+        
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
         
