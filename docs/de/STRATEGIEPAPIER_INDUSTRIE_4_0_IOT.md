@@ -586,7 +586,7 @@ Vorteile:
 
 **Detaillierte LLM-Spezifikationen:**
 ```yaml
-Unterstützte Modelle:
+Unterstützte Modelle (Beispiele, Stand: Q4 2025):
   Phi-3-Mini: 3.8B Parameter, 2.3GB VRAM (Q4), ~20 tokens/s (RTX 4060 Ti)
   Mistral-7B: 7B Parameter, 4.1GB VRAM (Q4), ~15 tokens/s (RTX 4090)
   Llama-3-8B: 8B Parameter, 4.7GB VRAM (Q4), ~12 tokens/s (RTX 4090)
@@ -603,16 +603,19 @@ Inferenz-Modi:
   Streaming: Token-by-Token (niedrigere Latenz)
   Continuous Batching: Dynamisches Request-Batching
 
-Kosten-Vergleich (1M Tokens):
-  GPT-4o: ~30 €
-  Claude 3.5 Sonnet: ~15 €
-  Phi-3-Mini (ThemisDB): ~0,02 € (Strom @ 300W GPU)
+Kosten-Vergleich (1M Tokens, Stand: Dezember 2025):
+  GPT-4o: ~30 € (API-Kosten)
+  Claude 3.5 Sonnet: ~15 € (API-Kosten)
+  Phi-3-Mini (ThemisDB): ~0,02 € (Strom @ 300W GPU, 0,30 €/kWh)
   → 1.500x günstiger als GPT-4o!
+  
+  Hinweis: API-Preise können variieren. On-Premise LLMs bieten
+  vorhersehbare Kosten und keine Daten-Externalisierung.
 
-ROI Break-Even:
-  RTX 4060 Ti (500 €): 17 Tage vs. GPT-4o
-  RTX 4090 (1.800 €): 60 Tage vs. GPT-4o
-  A100 (10.000 €): 333 Tage vs. GPT-4o
+ROI Break-Even (bei 1M Tokens/Tag vs. GPT-4o):
+  RTX 4060 Ti (500 €): 17 Tage
+  RTX 4090 (1.800 €): 60 Tage
+  A100 (10.000 €): 333 Tage
 ```
 
 #### Edge-Computing-Fähigkeiten
