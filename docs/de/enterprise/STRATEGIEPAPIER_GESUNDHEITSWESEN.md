@@ -872,6 +872,12 @@ Phase 4: Decommission Legacy
 - **ThemisDB-adressierbarer Anteil:** ~400-600 Mio. € (mittlere bis große Institutionen)
 - **Realistisches Marktpotenzial (5 Jahre):** 50-80 Mio. € Umsatz
 
+> *Annahme: 12-13% Marktpenetration innerhalb 5 Jahre. Dies ist konservativ kalkuliert und berücksichtigt:*
+> - *Aufbau von Markenbekanntheit (neue Lösung im etablierten Markt)*
+> - *Lange Verkaufszyklen im Healthcare-Sektor (12-24 Monate)*
+> - *Notwendigkeit von Zertifizierungen und Referenzkunden*
+> - *Wettbewerb durch etablierte Anbieter (Oracle, Microsoft, IBM)*
+
 ### 7.2 Wettbewerbslandschaft
 
 **Direkte Wettbewerber:**
@@ -1062,7 +1068,8 @@ Phase 4: Decommission Legacy
 
 **Enterprise-Lizenzen:**
 - 📧 Sales: sales@themisdb.com
-- 📞 Telefon: +49 (0)30 1234567 (Beispiel)
+- 🌐 Website: https://makr-code.github.io/ThemisDB/
+- 📋 Enterprise-Details: [ENTERPRISE.md](../../../ENTERPRISE.md)
 
 ---
 
@@ -1148,8 +1155,12 @@ Phase 4: Decommission Legacy
 
 ### 📞 Nächster Schritt
 
-**Kontakt:** sales@themisdb.com | +49 (0)30 1234567 (Beispiel)  
-**Angebot:** Kostenloser PoC-Workshop (2 Tage vor Ort)
+**Kontakt ThemisDB:**  
+- 📧 E-Mail: sales@themisdb.com
+- 💬 GitHub Discussions: https://github.com/makr-code/ThemisDB/discussions
+- 📚 Dokumentation: https://makr-code.github.io/ThemisDB/
+
+**Angebot:** Kostenloser PoC-Workshop (2 Tage vor Ort oder remote)
 
 ---
 
