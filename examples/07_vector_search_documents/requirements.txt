@@ -1,0 +1,6 @@
+-r ../requirements-common.txt
+
+# Additional dependencies for Vector Search Documents
+sentence-transformers>=2.2.0
+pillow>=9.0.0
+
