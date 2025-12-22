@@ -10,6 +10,11 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 
+# Configuration constants
+DEFAULT_TIMEOUT = 10  # seconds
+DEFAULT_RETRY_COUNT = 3
+
+
 class ThemisDBClient:
     """
     Einfacher Client für ThemisDB.
@@ -17,9 +22,16 @@ class ThemisDBClient:
     Attributes:
         base_url (str): Basis-URL für ThemisDB API
         session (requests.Session): HTTP-Session mit Retry-Logik
+        timeout (int): Default timeout für Requests in Sekunden
     """
     
-    def __init__(self, host: str = "localhost", port: int = 8080, protocol: str = "http"):
+    def __init__(
+        self,
+        host: str = "localhost",
+        port: int = 8080,
+        protocol: str = "http",
+        timeout: int = DEFAULT_TIMEOUT
+    ):
         """
         Initialisiert den ThemisDB Client.
         
@@ -27,8 +39,10 @@ class ThemisDBClient:
             host: ThemisDB Server Hostname
             port: ThemisDB Server Port
             protocol: Protokoll (http oder https)
+            timeout: Default timeout für Requests in Sekunden
         """
         self.base_url = f"{protocol}://{host}:{port}"
+        self.timeout = timeout
         self.session = self._create_session()
     
     def _create_session(self) -> requests.Session:
@@ -42,7 +56,7 @@ class ThemisDBClient:
         
         # Retry-Strategie: 3 Versuche mit Backoff
         retry_strategy = Retry(
-            total=3,
+            total=DEFAULT_RETRY_COUNT,
             backoff_factor=0.5,
             status_forcelist=[429, 500, 502, 503, 504],
         )
@@ -63,7 +77,7 @@ class ThemisDBClient:
         try:
             response = self.session.get(
                 f"{self.base_url}/health",
-                timeout=5
+                timeout=5  # Shorter timeout for health checks
             )
             return response.status_code == 200
         except Exception:
@@ -99,7 +113,7 @@ class ThemisDBClient:
                 f"{self.base_url}/entities/{entity_key}",
                 json=payload,
                 headers={"Content-Type": "application/json"},
-                timeout=10
+                timeout=self.timeout
             )
             response.raise_for_status()
             
@@ -128,7 +142,7 @@ class ThemisDBClient:
         try:
             response = self.session.get(
                 f"{self.base_url}/entities/{entity_key}",
-                timeout=10
+                timeout=self.timeout
             )
             
             if response.status_code == 404:
@@ -184,7 +198,7 @@ class ThemisDBClient:
         try:
             response = self.session.delete(
                 f"{self.base_url}/entities/{entity_key}",
-                timeout=10
+                timeout=self.timeout
             )
             
             # 200 oder 204 = erfolgreich gelöscht

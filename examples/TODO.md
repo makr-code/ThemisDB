@@ -17,7 +17,7 @@ Dieses Dokument beschreibt die geplanten Beispiele für ThemisDB, die die Fähig
 ### 🟢 Einfache Beispiele (Simple)
 
 #### ✅ 01. Hello World - Erste Schritte mit ThemisDB
-**Status**: TODO  
+**Status**: ✅ IMPLEMENTED  
 **Schwierigkeit**: Einfach  
 **Dauer**: 5-10 Minuten  
 
@@ -431,7 +431,7 @@ paho-mqtt>=1.6.0           # MQTT für IoT
 
 ## Fortschritt
 
-- [ ] **01. Hello World** - TODO
+- [x] **01. Hello World** - ✅ IMPLEMENTED
 - [ ] **02. Todo-App** - TODO
 - [ ] **03. Kontaktmanager** - TODO
 - [ ] **04. Inventarsystem** - TODO
