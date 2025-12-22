@@ -172,7 +172,7 @@ RETURN {
 **Graph-Performance:**
 - **9.56M Graph-Operationen/s** (BFS mit Depth=3)
 - **Dijkstra-Algorithmus** für kürzeste Routen
-- **A\*-Suche** für heuristische Routenoptimierung
+- **A*-Suche** für heuristische Routenoptimierung
 
 **Real-World-Beispiel:** Berechne optimale Route durch Verteilzentren unter Berücksichtigung von Ladekapazitäten, Zeitfenstern und Verkehrsbedingungen.
 
@@ -237,7 +237,7 @@ PUT /documents/bill_of_lading/BOL_2025_12345
 **Vorteile:**
 - **Flexible Schema** für unterschiedliche Dokumenttypen
 - **JSON-Indizierung** für schnelle Suche
-- **Volltextsuche** über Dokumentinhalte (geplant v1.4)
+- **Volltextsuche** über Dokumentinhalte (in Planung)
 
 ### 2.6 Time-Series-Daten: GPS-Tracking, Sensoren, Telemetrie
 
@@ -712,7 +712,7 @@ DEFINE PATTERN delayed_shipments AS
 - ✅ SOC 2 Type II (Trust Service Criteria)
 - ✅ BSI C5 (Cloud Computing Compliance Controls Catalogue)
 - ✅ DSGVO-konform (EU GDPR)
-- 🚧 HIPAA (für Pharma-Logistik, geplant)
+- ⏳ HIPAA (für Pharma-Logistik, in Planung)
 
 ### 5.5 Kubernetes-Operator & Cloud-Native
 
