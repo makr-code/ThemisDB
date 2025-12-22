@@ -135,10 +135,16 @@ class DroneImage:
     
     @staticmethod
     def from_dict(data):
+        try:
+            timestamp = datetime.fromisoformat(data['timestamp'])
+        except (ValueError, AttributeError):
+            # Fallback für ältere Python-Versionen oder ungültige Formate
+            timestamp = datetime.now()
+        
         return DroneImage(
             id=data['id'],
             drone_id=data['drone_id'],
-            timestamp=datetime.fromisoformat(data['timestamp']),
+            timestamp=timestamp,
             location=Location.from_dict(data['location']),
             image_path=data['image_path'],
             thumbnail_path=data['thumbnail_path'],
@@ -234,13 +240,19 @@ class TimeSeriesEvent:
     
     @staticmethod
     def from_dict(data):
+        try:
+            detected_at = datetime.fromisoformat(data['detected_at'])
+        except (ValueError, AttributeError):
+            # Fallback für ältere Python-Versionen oder ungültige Formate
+            detected_at = datetime.now()
+        
         return TimeSeriesEvent(
             id=data['id'],
             location=Location.from_dict(data['location']),
             event_type=data['event_type'],
             description=data['description'],
             images=data['images'],
-            detected_at=datetime.fromisoformat(data['detected_at']),
+            detected_at=detected_at,
             confidence=data['confidence']
         )
 

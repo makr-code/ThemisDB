@@ -10,9 +10,12 @@ Dieser Client bietet Operationen für:
 """
 
 import requests
-from typing import List, Optional, Dict, Any
-from models import DroneImage, ImageAnalysis, TimeSeriesEvent, DetectedObject
 import time
+from typing import List, Optional, Dict, Any
+from models import (
+    DroneImage, ImageAnalysis, TimeSeriesEvent, DetectedObject,
+    ImageProcessor, LLMIntegration
+)
 
 
 class DroneAnalysisClient:
@@ -39,7 +42,7 @@ class DroneAnalysisClient:
                 timeout=5
             )
             return response.status_code == 200
-        except:
+        except Exception:
             return False
     
     # === Drohnenbild Operationen ===
@@ -306,8 +309,6 @@ class AnalysisProcessor:
         Returns:
             Liste von Analysen
         """
-        from models import ImageProcessor, LLMIntegration
-        
         analyses = []
         total = len(images)
         
