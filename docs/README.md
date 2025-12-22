@@ -23,19 +23,19 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 ## 🎯 Nach Zielgruppe
 
 ### Für Stakeholder & Management
-- **[Themis Sachstandsbericht 2025](reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
-- **[🆕 v1.1.0 Variant Strategy](analysis/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
-- **[🆕 v1.2.0 Enterprise Features](analysis/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
+- **[Themis Sachstandsbericht 2025](de/reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
+- **[🆕 v1.1.0 Variant Strategy](de/reports/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
+- **[🆕 v1.2.0 Enterprise Features](de/reports/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
 - ~~Projektkostenschätzung & Gesamtwert~~ - 🔒 Confidential (available to licensed customers only)
 - **[Release Strategy Audit](../RELEASE_STRATEGY_AUDIT.md)** - SLSA Compliance, SBOM (8.5/10 Rating)
 - **[Release & Benchmarking Summary](../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - v1.0.1 Session Report
 
 ### Für Entwickler
-- **[Development Summary](development/DEVELOPMENT_SUMMARY.md)** - Entwicklungsstand v1.0.1
-- **[🆕 External Libraries Analysis](analysis/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
-- **[🆕 Library Interactions](analysis/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
-- **[Source Code Audit](development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
-- **[Documentation Index](DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
+- **[Development Summary](de/development/DEVELOPMENT_SUMMARY.md)** - Entwicklungsstand v1.0.1
+- **[🆕 External Libraries Analysis](de/reports/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md)** - **NEU:** Feature-Gap-Analyse (RocksDB, TBB, CUDA, Arrow)
+- **[🆕 Library Interactions](de/reports/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md)** - **NEU:** Wechselwirkungen & zusätzliche Libraries
+- **[Source Code Audit](de/development/SOURCE_CODE_AUDIT.md)** - Code-Analyse (132 Header, 124 Sources, 90.829 LOC)
+- **[Documentation Index](de/DOCUMENTATION_INDEX.md)** - Vollständiger Dokumentations-Index mit Modul-Mapping
 - **[Documentation Verification](reports/documentation_verification_report.md)** - Verifizierung Dokumentation ↔ Code
 
 ### Für DevOps & Operations
@@ -59,41 +59,41 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 ## 🏗️ Nach Architektur-Ebene
 
 ### Query & Analytics Layer
-- **[AQL Documentation](aql/README.md)** - Advanced Query Language (Parser, Optimizer, 240K LOC)
-- **[Query Module](query/README.md)** - Query Engine, Execution
-- **[Analytics Module](analytics/README.md)** - OLAP Engine (CUBE, ROLLUP), CEP, Process Mining (57K LOC)
-- **[Search Documentation](search/README.md)** - Fulltext (BM25), Vector, Hybrid Search
+- **[AQL Documentation](de/aql/README.md)** - Advanced Query Language (Parser, Optimizer, 240K LOC)
+- **[Query Module](de/query/README.md)** - Query Engine, Execution
+- **[Analytics Module](de/observability/README.md)** - OLAP Engine (CUBE, ROLLUP), CEP, Process Mining (57K LOC)
+- **[Search Documentation](de/search/README.md)** - Fulltext (BM25), Vector, Hybrid Search
 
 ### Storage & Index Layer
-- **[Storage Module](storage/README.md)** - RocksDB Wrapper, LSM-Tree, MVCC (76K LOC)
-- **[Index Module](index/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
-- **[Cache Module](cache/README.md)** - Semantic Cache, Result Cache
-- **[Timeseries Module](timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
+- **[Storage Module](de/storage/README.md)** - RocksDB Wrapper, LSM-Tree, MVCC (76K LOC)
+- **[Index Module](de/search/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
+- **[Cache Module](de/storage/README.md)** - Semantic Cache, Result Cache
+- **[Timeseries Module](de/timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
 
 ### Distribution & Scaling Layer
-- **[Sharding Module](sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
-- **[Replication Module](replication/README.md)** - Leader-Follower, Multi-Master CRDTs (12K LOC)
-- **[Transaction Module](transaction/README.md)** - MVCC, SAGA Patterns (42K LOC)
+- **[Sharding Module](de/sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
+- **[Replication Module](de/storage/README.md)** - Leader-Follower, Multi-Master CRDTs (12K LOC)
+- **[Transaction Module](de/architecture/README.md)** - MVCC, SAGA Patterns (42K LOC)
 
 ### Acceleration Layer
 - **[GPU Acceleration Plan](performance/GPU_ACCELERATION_PLAN.md)** - 10 GPU Backends (173K LOC)
   - CUDA, Vulkan, FAISS, DirectX, HIP, OpenCL, OneAPI, ZLUDA
 
 ### Content & Data Processing
-- **[Content Module](content/README.md)** - 15 File Format Processors (256K LOC)
-- **[CDC Module](cdc/README.md)** - Change Data Capture, Changefeed
-- **[Geo Module](geo/README.md)** - Spatial Operations, Plugin System
+- **[Content Module](de/content/README.md)** - 15 File Format Processors (256K LOC)
+- **[CDC Module](de/features/README.md)** - Change Data Capture, Changefeed
+- **[Geo Module](de/geo/README.md)** - Spatial Operations, Plugin System
 
 ### Server & API Layer
-- **[Server Module](server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
-- **[HTTP API Referenz](apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
-- **[API Documentation](api/README.md)** - REST API Übersicht
-- **[LLM Module](llm/README.md)** - LLM Interaction Store, Prompt Manager
+- **[Server Module](de/server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
+- **[HTTP API Referenz](de/apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
+- **[API Documentation](de/apis/README.md)** - REST API Übersicht
+- **[LLM Module](de/llm/README.md)** - LLM Interaction Store, Prompt Manager
 
 ### Security & Governance Layer
-- **[Security Module](security/README.md)** - Field Encryption, HSM/PKI, RBAC, Ranger (187K LOC)
-- **[Governance Module](governance/README.md)** - Policy Engine, Data Classification
-- **[Auth Module](auth/README.md)** - JWT Validation, Multi-Tenancy
+- **[Security Module](de/security/README.md)** - Field Encryption, HSM/PKI, RBAC, Ranger (187K LOC)
+- **[Governance Module](de/governance/README.md)** - Policy Engine, Data Classification
+- **[Auth Module](de/auth/README.md)** - JWT Validation, Multi-Tenancy
 
 ---
 
@@ -106,29 +106,28 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[QNAP Quickstart](../QNAP_QUICKSTART.md)** - ARM-Deployment
 
 ### Getting Started
-- **[Architecture Overview](ARCHITECTURE_OVERVIEW.md)** - System-Architektur verstehen
-- **[Features Overview](features/features_overview.md)** - Verfügbare Features
-- **[AQL Tutorial](aql/README.md)** - Query Language lernen
+- **[Architecture Overview](de/architecture/README.md)** - System-Architektur verstehen
+- **[Features Overview](de/features/features_overview.md)** - Verfügbare Features
+- **[AQL Tutorial](de/aql/README.md)** - Query Language lernen
 
 ---
 
 ## 📖 Referenz-Dokumentation
 
 ### Client SDKs
-- **[SDK Audit](clients/clients_sdk_audit.md)** - Übersicht aller 7 SDKs
-- **[Python SDK](clients/python_sdk_quickstart.md)** - Python Client
-- **[JavaScript SDK](clients/javascript_sdk_quickstart.md)** - Node.js/Browser Client
-- **[Rust SDK](clients/rust_sdk_quickstart.md)** - Rust Client
-- **[Go SDK](clients/go_sdk_quickstart.md)** - Go Client
-- **[Java SDK](clients/java_sdk_quickstart.md)** - Java Client
-- **[C# SDK](clients/csharp_sdk_quickstart.md)** - .NET Client
-- **[Swift SDK](clients/swift_sdk_quickstart.md)** - iOS/macOS Client
+- **[SDK Audit](de/clients/clients_sdk_audit.md)** - Übersicht aller 7 SDKs
+- **[Python SDK](de/clients/python_sdk_quickstart.md)** - Python Client
+- **[JavaScript SDK](de/clients/javascript_sdk_quickstart.md)** - Node.js/Browser Client
+- **[Rust SDK](de/clients/rust_sdk_quickstart.md)** - Rust Client
+- **[Go SDK](de/clients/go_sdk_quickstart.md)** - Go Client
+- **[Java SDK](de/clients/java_sdk_quickstart.md)** - Java Client
+- **[C# SDK](de/clients/csharp_sdk_quickstart.md)** - .NET Client
+- **[Swift SDK](de/clients/swift_sdk_quickstart.md)** - iOS/macOS Client
 
 ### Data Import/Export
-- **[Exporters](exporters/README.md)** - Data Export
-  - **[JSONL LLM Exporter](exporters/JSONL_LLM_EXPORTER.md)** - LLM Training Data Export
-- **[Importers](importers/README.md)** - Data Import
-  - **[PostgreSQL Importer](importers/POSTGRES_IMPORTER.md)** - PostgreSQL Migration
+- **[Connectors](de/connectors/README.md)** - Data Import/Export
+  - **[JSONL LLM Exporter](de/connectors/JSONL_LLM_EXPORTER.md)** - LLM Training Data Export
+  - **[PostgreSQL Importer](de/connectors/POSTGRES_IMPORTER.md)** - PostgreSQL Migration
 
 ### Plugin Development
 - **[Plugins](plugins/README.md)** - Plugin System
@@ -140,65 +139,65 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 ## 🔧 Administration & Operations
 
 ### Admin Tools
-- **[Admin Tools](admin_tools/README.md)** - 7 WPF Administration Tools
-- **[User Guide](admin_tools/user_guide.md)** - Benutzerhandbuch
-- **[Admin Guide](admin_tools/admin_guide.md)** - Administrator-Handbuch
-- **[Feature Matrix](admin_tools/feature_matrix.md)** - Tool-Übersicht
+- **[Admin Tools](de/admin_tools/README.md)** - 7 WPF Administration Tools
+- **[User Guide](de/admin_tools/user_guide.md)** - Benutzerhandbuch
+- **[Admin Guide](de/admin_tools/admin_guide.md)** - Administrator-Handbuch
+- **[Feature Matrix](de/admin_tools/feature_matrix.md)** - Tool-Übersicht
 
 ### Operations Guides
-- **[Operations Runbook](guides/guides_operations_runbook.md)** - Tägliche Operationen
-- **[TLS Setup](guides/tls_setup.md)** - TLS/mTLS Konfiguration
-- **[Vault Integration](guides/vault.md)** - HashiCorp Vault Setup
-- **[RBAC Setup](guides/rbac.md)** - Access Control Configuration
-- **[Code Quality](guides/code_quality.md)** - Code Quality Tools
+- **[Operations Runbook](de/guides/guides_operations_runbook.md)** - Tägliche Operationen
+- **[TLS Setup](de/guides/tls_setup.md)** - TLS/mTLS Konfiguration
+- **[Vault Integration](de/guides/vault.md)** - HashiCorp Vault Setup
+- **[RBAC Setup](de/guides/rbac.md)** - Access Control Configuration
+- **[Code Quality](de/guides/code_quality.md)** - Code Quality Tools
 
 ### Performance & Monitoring
-- **[Performance Tuning](performance/README.md)** - Performance-Optimierung
-- **[Benchmarks](performance/benchmarks.md)** - Performance-Benchmarks
-- **[Memory Tuning](performance/memory_tuning.md)** - Speicher-Optimierung
-- **[Observability](observability/README.md)** - Monitoring & Metrics
+- **[Performance Tuning](de/performance/README.md)** - Performance-Optimierung
+- **[Benchmarks](de/performance/benchmarks.md)** - Performance-Benchmarks
+- **[Memory Tuning](de/performance/memory_tuning.md)** - Speicher-Optimierung
+- **[Observability](de/observability/README.md)** - Monitoring & Metrics
 
 ---
 
 ## 📊 Reports & Status
 
 ### Development Reports
-- **[Development Summary](development/DEVELOPMENT_SUMMARY.md)** - Aktueller Entwicklungsstand v1.0.1
-- **[Audit Log](development/auditlog.md)** - Entwicklungs-Audit-Log
-- **[Implementation Status](development/implementation_status.md)** - Implementierungsstatus
-- **[Priorities](development/priorities.md)** - Entwicklungs-Prioritäten
+- **[Development Summary](de/development/DEVELOPMENT_SUMMARY.md)** - Aktueller Entwicklungsstand v1.0.1
+- **[Audit Log](de/development/auditlog.md)** - Entwicklungs-Audit-Log
+- **[Implementation Status](de/development/implementation_status.md)** - Implementierungsstatus
+- **[Priorities](de/development/priorities.md)** - Entwicklungs-Prioritäten
 
 ### Status Reports
-- **[Themis Sachstandsbericht](reports/themis_sachstandsbericht_2025.md)** - Haupt-Statusbericht v1.5
-- **[Documentation Summary](reports/DOCUMENTATION_SUMMARY.md)** - Dokumentations-Übersicht
-- **[Benchmark Audit](reports/BENCHMARK_AND_TEST_AUDIT.md)** - Test & Benchmark Status
-- **[Security Audit](reports/SECURITY_AUDIT_REPORT.md)** - Security Audit Ergebnisse
+- **[Themis Sachstandsbericht](de/reports/themis_sachstandsbericht_2025.md)** - Haupt-Statusbericht v1.5
+- **[Documentation Summary](de/reports/DOCUMENTATION_SUMMARY.md)** - Dokumentations-Übersicht
+- **[Benchmark Audit](de/reports/BENCHMARK_AND_TEST_AUDIT.md)** - Test & Benchmark Status
+- **[Security Audit](de/reports/SECURITY_AUDIT_REPORT.md)** - Security Audit Ergebnisse
 
 ### Roadmap & Planning
-- **[Roadmap Overview](roadmap/roadmap_overview.md)** - Entwicklungs-Roadmap (2026 komplett!)
-- **[Features Priorities](features/features_priorities.md)** - Q1 2026 Prioritäten
-- **[Database Capabilities](reports/database_capabilities_roadmap.md)** - Capabilities Roadmap
+- **[Roadmap Overview](de/roadmap/roadmap_overview.md)** - Entwicklungs-Roadmap (2026 komplett!)
+- **[Features Priorities](de/features/features_priorities.md)** - Q1 2026 Prioritäten
+- **[Database Capabilities](de/reports/database_capabilities_roadmap.md)** - Capabilities Roadmap
 
 ---
 
 ## 📦 Integration & Ingestion
 
 ### Data Ingestion
-- **[Ingestion](ingestion/README.md)** - Data Ingestion Patterns
+- **[Ingestion](de/apis/README.md)** - Data Ingestion Patterns
 - **[VCC CLARA](../adapters/vcc_clara_ingestion/README.md)** - CLARA Adapter
 - **[VCC VERITAS](../adapters/vcc_veritas/README.md)** - VERITAS Adapter
 - **[VCC Base](../adapters/vcc_base/README.md)** - Base Adapter Framework
 
 ### Enterprise Integration
-- **[Enterprise Features](enterprise/README.md)** - Rate Limiting, Load Shedding
-- **[Integration Analysis](reports/INTEGRATION_ANALYSIS.md)** - Legacy-Code Integration
+- **[Enterprise Features](de/enterprise/README.md)** - Rate Limiting, Load Shedding
+- **[Integration Analysis](de/reports/INTEGRATION_ANALYSIS.md)** - Legacy-Code Integration
 
 ---
 
 ## 🔍 Source Code Dokumentation
 
 ### Module Documentation (src/)
-Alle 26 Module mit detaillierter Dokumentation in [src/](src/README.md):
+Alle 26 Module mit detaillierter Dokumentation in [de/src/](de/src/README.md):
 
 - **Acceleration** - GPU/CPU Backends (173K LOC)
 - **Analytics** - OLAP, CEP (57K LOC)
