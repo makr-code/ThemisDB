@@ -425,10 +425,9 @@ gRPC unterstützt mehrere Authentifizierungsmechanismen:
 
 ### Referenzen
 
-- **Product Quantization Paper:** "Product Quantization for Nearest Neighbor Search" (PAMI 2011)
-  - URL: https://hal.inria.fr/inria-00514462
-- **FAISS PQ:** https://github.com/facebookresearch/faiss/wiki/Faiss-indexes#pq
-- **gRPC Documentation:** https://grpc.io/docs/
+- **Product Quantization Paper:** ["Product Quantization for Nearest Neighbor Search" (PAMI 2011)](https://hal.inria.fr/inria-00514462)
+- **FAISS PQ:** [Product Quantization in FAISS](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes#pq)
+- **gRPC Documentation:** [gRPC Official Documentation](https://grpc.io/docs/)
 
 ---
 

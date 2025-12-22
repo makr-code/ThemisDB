@@ -114,27 +114,27 @@ static void BM_PQ_Training(benchmark::State& state) {
     const int num_training = static_cast<int>(state.range(1));
     const int num_subq = static_cast<int>(state.range(2));
     
+    // Pre-generate training data outside the timing loop
     VectorGenerator gen(42);
     auto training_data = gen.generateDataset(num_training, dim);
     
+    ProductQuantizer::Config config;
+    config.num_subquantizers = num_subq;
+    config.max_iterations = 25;
+    
     for (auto _ : state) {
-        ProductQuantizer::Config config;
-        config.num_subquantizers = num_subq;
-        config.max_iterations = 25;
-        
+        // Pause timing for setup
+        state.PauseTiming();
         ProductQuantizer pq(dim, config);
+        state.ResumeTiming();
         
-        auto start = std::chrono::high_resolution_clock::now();
+        // Measure only the training operation
         auto status = pq.train(training_data);
-        auto end = std::chrono::high_resolution_clock::now();
         
         if (!status.ok) {
             state.SkipWithError(status.message.c_str());
             break;
         }
-        
-        auto elapsed = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);
-        state.SetIterationTime(elapsed.count());
     }
     
     state.counters["dimension"] = dim;
@@ -489,8 +489,7 @@ BENCHMARK(BM_PQ_Training)
     ->Args({768, 5000, 8})    // Medium: 768D, 5K training, 8 subq
     ->Args({1536, 10000, 8})  // Large: 1536D (OpenAI), 10K training, 8 subq
     ->Args({1536, 10000, 16}) // Large: 1536D, 10K training, 16 subq (higher compression)
-    ->Unit(benchmark::kMillisecond)
-    ->UseManualTime();
+    ->Unit(benchmark::kMillisecond);
 
 // Encode benchmarks
 BENCHMARK(BM_PQ_Encode)
