@@ -1,12 +1,20 @@
-```markdown
 # Development Documentation — Struktur
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Development
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🛠️ Development
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Struktur](#struktur)
+- [Unterordner](#unterordner)
+
+---
+
+## Übersicht
 
 Ziel: Bessere Übersicht durch thematische Gruppierung der Entwicklungsdokumente.
 

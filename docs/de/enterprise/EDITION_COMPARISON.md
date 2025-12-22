@@ -1,7 +1,16 @@
 # ThemisDB Edition Comparison
 
-**Version:** 1.0.0  
-**Last Updated:** December 2025
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🏢 Enterprise
+
+---
+
+## 📑 Table of Contents
+
+- [Quick Comparison](#quick-comparison)
+- [Features](#features)
+- [Pricing](#pricing)
 
 ---
 

@@ -1,11 +1,18 @@
 # Glossar
 
-**Stand:** 20. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Glossary.Md
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 📖 Glossar
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [Begriffe](#begriffe)
+
+---
+
+## Begriffe
 
 - AQL: Abfragesprache von ThemisDB (ähnlich JSON-basiert)
 - Entity: Knoten-Element (Dokument) im Graph-/Dokumentenmodell

@@ -1,8 +1,16 @@
 # ThemisDB Enterprise Features
 
-**Stand:** 13. Dezember 2025  
-**Version:** 1.0.1  
-**Kategorie:** Enterprise
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🏢 Enterprise
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Quick Links](#-quick-links)
+- [Features](#features)
+- [Editions](#editions)
 
 ---
 

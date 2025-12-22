@@ -1,8 +1,17 @@
 # Enterprise Source Code Distribution - Best Practices
 
-**Version:** 1.0  
-**Date:** December 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🏢 Enterprise  
 **Purpose:** Document best practices for distributing enterprise source code
+
+---
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [Distribution Models](#distribution-models)
+- [Best Practices](#best-practices)
 
 ---
 
