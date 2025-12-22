@@ -63,7 +63,7 @@ Die **Blaulichtfamilie** – Rettungsdienst, Feuerwehr und Polizei – steht vor
 - Graph-Analysen für Organisierte Kriminalität
 - Zeitreihen für Kriminalstatistiken
 - Bilderkennung (Kennzeichen, Gesichter)
-- Sprachanalyse für Notrufe
+- Echtzeit-Sprachverarbeitung für Notrufe (STT/TTS)
 
 ### 1.4 Gemeinsame Anforderungen
 
@@ -383,6 +383,378 @@ summary = db.llm_query(
 )
 ```
 
+### 4.5 Echtzeit-Sprachverarbeitung für Notrufzentralen (STT/TTS)
+
+**Szenario:** Notruf-Verarbeitung mit automatischer Transkription und Übersetzung
+
+#### 4.5.1 Speech-to-Text (STT) - Live-Transkription
+
+**Anwendungsfall:** Notrufe automatisch mitschreiben und analysieren
+
+```python
+# Echtzeit-Transkription eines eingehenden Notrufs
+call_session = db.audio_stream.create_session(
+    call_id="NOTRUF-112-20251222-1015",
+    language="de-DE",
+    speaker_separation=True,  # Disponent vs. Anrufer trennen
+    live_transcription=True
+)
+
+# Audio-Stream vom Telefonsystem (z.B. TETRA, Asterisk)
+for audio_chunk in pbx_stream:
+    transcript = db.audio_stream.transcribe(
+        session=call_session,
+        audio_data=audio_chunk,
+        format="pcm_16khz",
+        real_time=True
+    )
+    
+    # Echtzeit-Ausgabe für Disponenten
+    if transcript.is_final:
+        print(f"[{transcript.speaker}] {transcript.text}")
+        
+        # Automatische Keyword-Erkennung
+        keywords = db.llm_query(
+            prompt=f"""Extrahiere Einsatzstichworte aus Notruf:
+            
+            Text: "{transcript.text}"
+            
+            Gib zurück: Einsatzart, Adresse, Anzahl Verletzte, Besondere Gefahren""",
+            model="mistral-7b-instruct",
+            temperature=0.1,  # Deterministisch
+            max_tokens=150
+        )
+        
+        # Einsatzstichworte anzeigen
+        display_to_dispatcher(keywords)
+```
+
+**Ausgabe-Beispiel:**
+```json
+{
+    "call_id": "NOTRUF-112-20251222-1015",
+    "duration_seconds": 45,
+    "transcript": [
+        {"speaker": "caller", "time": "00:05", "text": "Hilfe! Es brennt im dritten Stock!"},
+        {"speaker": "dispatcher", "time": "00:08", "text": "Wo genau befinden Sie sich?"},
+        {"speaker": "caller", "time": "00:10", "text": "Müllerstraße 23, Berlin-Wedding"}
+    ],
+    "extracted_keywords": {
+        "einsatzart": "Brand in Wohngebäude",
+        "adresse": "Müllerstraße 23, 13353 Berlin",
+        "etage": "3. OG",
+        "gefahren": "Personen in Gefahr",
+        "priority": "H1 - Höchste Dringlichkeit"
+    }
+}
+```
+
+#### 4.5.2 Echtzeit-Hinweise für Disponenten
+
+**Intelligente Vorschläge während des Gesprächs:**
+
+```python
+# Kontinuierliche Analyse während des Notrufs
+def analyze_call_realtime(transcript_stream):
+    context = []
+    
+    for segment in transcript_stream:
+        context.append(segment.text)
+        
+        # Alle 3 Sätze: Kontextuelle Hinweise generieren
+        if len(context) >= 3:
+            hints = db.llm_query(
+                prompt=f"""Notruf-Kontext (letzten 3 Aussagen):
+                
+                {chr(10).join(context[-3:])}
+                
+                Gib dem Disponenten:
+                1. Kritische Nachfragen
+                2. Empfohlene Fahrzeuge
+                3. Besondere Hinweise/Gefahren
+                
+                Kurz und präzise!""",
+                model="phi-3-mini",  # Schnelles Modell für Echtzeit
+                temperature=0.2,
+                max_tokens=200
+            )
+            
+            # Hinweise im Leitstellen-UI anzeigen
+            ui.display_hints(hints, priority="high")
+```
+
+**UI-Anzeige:**
+```
+┌─────────────────────────────────────────────────────┐
+│ 🔴 LIVE-NOTRUF: 112 - Eingehend seit 00:45         │
+├─────────────────────────────────────────────────────┤
+│ 📝 Transkript:                                      │
+│ [Anrufer] "Es brennt im dritten Stock, Rauch..."   │
+│ [Disponent] "Sind noch Personen im Gebäude?"       │
+│ [Anrufer] "Ja, meine Nachbarin kann nicht raus!"   │
+├─────────────────────────────────────────────────────┤
+│ 💡 KI-HINWEISE:                                     │
+│ ✅ Frage nach: Anzahl Personen, Alter, Mobilität   │
+│ 🚒 Empfohlen: HLF + DLK + RTW + NEF                │
+│ ⚠️  Gefahren: Personen eingeschlossen, Rauchentw.  │
+│ 📍 Gebäude: Müllerstr. 23 - Altbau 1925, 5 Etagen │
+└─────────────────────────────────────────────────────┘
+```
+
+#### 4.5.3 Simultane Fremdsprachen-Übersetzung
+
+**Mehrsprachige Notrufe in Echtzeit übersetzen:**
+
+```python
+# Multi-Language STT mit automatischer Spracherkennung
+call_session = db.audio_stream.create_session(
+    call_id="NOTRUF-112-20251222-1045",
+    auto_detect_language=True,  # Automatische Erkennung
+    translate_to="de-DE",        # Zielsprache: Deutsch
+    preserve_original=True       # Original + Übersetzung
+)
+
+# Beispiel: Anrufer spricht Arabisch
+for audio_chunk in pbx_stream:
+    result = db.audio_stream.transcribe_and_translate(
+        session=call_session,
+        audio_data=audio_chunk
+    )
+    
+    if result.is_final:
+        # Beide Versionen anzeigen
+        ui.display_transcript(
+            original=f"[AR] {result.original_text}",
+            translated=f"[DE] {result.translated_text}",
+            confidence=result.confidence
+        )
+```
+
+**Ausgabe-Beispiel:**
+```
+┌─────────────────────────────────────────────────────┐
+│ 🌐 MEHRSPRACHIGER NOTRUF (Arabisch → Deutsch)      │
+├─────────────────────────────────────────────────────┤
+│ [AR] "أنا في شارع موللرشتراسه، منزلي يحترق!"       │
+│ [DE] "Ich bin in der Müllerstraße, mein Haus       │
+│       brennt!"                                      │
+│ 📊 Konfidenz: 95% | Sprache: Arabisch erkannt      │
+└─────────────────────────────────────────────────────┘
+```
+
+**Unterstützte Sprachen:**
+- Deutsch, Englisch, Französisch, Italienisch, Spanisch
+- Polnisch, Tschechisch, Russisch
+- Türkisch, Arabisch, Farsi
+- Ukrainisch (aktuelle Relevanz)
+
+#### 4.5.4 Text-to-Speech (TTS) - Sprachausgabe
+
+**Automatische Ansagen und Rückrufe:**
+
+```python
+# TTS für standardisierte Ansagen
+tts_message = db.audio_stream.synthesize(
+    text="""Guten Tag, hier spricht die Feuerwehr Berlin.
+    
+    Wir haben Ihren Notruf erhalten. Die Einsatzkräfte sind 
+    in 6 Minuten bei Ihnen. Bitte verlassen Sie das Gebäude 
+    über das Treppenhaus und warten Sie vor dem Haus.
+    
+    Bleiben Sie ruhig. Hilfe ist unterwegs.""",
+    language="de-DE",
+    voice="female",  # Weibliche Stimme für Beruhigung
+    speed=0.9,       # Leicht verlangsamt für Verständlichkeit
+    format="pcm_8khz"  # Telefonqualität
+)
+
+# TTS über Telefonsystem abspielen
+pbx_system.play_audio(
+    phone_number=caller_id,
+    audio_data=tts_message
+)
+```
+
+**Mehrsprachige Ansagen:**
+```python
+# Automatische Übersetzung + TTS
+languages = ["de", "en", "ar", "uk"]
+
+for lang in languages:
+    translated = db.llm_query(
+        prompt=f"Übersetze nach {lang}: 'Die Feuerwehr ist in 5 Minuten da.'",
+        model="mistral-7b-instruct"
+    )
+    
+    tts_audio = db.audio_stream.synthesize(
+        text=translated,
+        language=lang,
+        voice="neural"  # Hochwertige Neural-TTS
+    )
+    
+    # Speichern für Ansageautomaten
+    db.store_audio(f"announcement_{lang}.wav", tts_audio)
+```
+
+#### 4.5.5 Rechtssichere Speicherung
+
+**Compliance-konforme Aufzeichnung aller Notrufe:**
+
+```python
+# Notruf-Archivierung mit Verschlüsselung
+call_record = {
+    "call_id": "NOTRUF-112-20251222-1015",
+    "timestamp": "2025-12-22T10:15:00Z",
+    "duration_seconds": 180,
+    "caller": {
+        "phone": "+49301234567",
+        "location": {"lat": 52.520, "lon": 13.405},
+        "anonymized": False  # Identität bekannt
+    },
+    "audio": {
+        "original_file": "encrypted://notruf_audio/2025/12/22/1015.enc",
+        "encryption": "AES-256-GCM",
+        "checksum": "sha256:abc123...",
+        "format": "wav_16khz_mono"
+    },
+    "transcript": {
+        "full_text": "...",
+        "speakers": ["caller", "dispatcher"],
+        "language": "de-DE",
+        "confidence_avg": 0.94
+    },
+    "metadata": {
+        "incident_id": "E-2025-12-22-1234",
+        "dispatcher": "ID-4567",
+        "outcome": "dispatched",
+        "vehicles": ["HLF 20/1", "DLK 23/12"]
+    },
+    "legal": {
+        "retention_years": 10,  # Gesetzliche Aufbewahrungsfrist
+        "accessed_by": [],      # Audit-Trail
+        "signed": True,         # Qualifizierte Signatur
+        "signature_timestamp": "2025-12-22T10:18:00Z"
+    }
+}
+
+# In verschlüsselter Datenbank speichern
+db.create_entity("emergency_calls", call_record, encrypted=True)
+```
+
+**Rechtliche Anforderungen erfüllt:**
+
+| Anforderung | Umsetzung | Status |
+|-------------|-----------|:------:|
+| **10-jährige Aufbewahrung** | Automatische Retention Policy | ✅ |
+| **Verschlüsselte Speicherung** | AES-256-GCM + HSM | ✅ |
+| **Zugriffs-Protokollierung** | Audit-Log mit Zeitstempel | ✅ |
+| **Unveränderbarkeit** | Qualifizierte elektronische Signatur | ✅ |
+| **DSGVO-Konformität** | Anonymisierung nach Frist möglich | ✅ |
+| **Beweismitteltauglichkeit** | Chain of Custody dokumentiert | ✅ |
+
+#### 4.5.6 Integration in Leitstellensysteme
+
+**Schnittstellen zu bestehenden Systemen:**
+
+```yaml
+# Konfiguration für Leitstellenanbindung
+audio_integration:
+  pbx_system:
+    type: "Asterisk"  # Oder: TETRA, OCASAL, COBRA
+    connection: "SIP/TLS"
+    codec: "G.711"
+    
+  stt_engine:
+    provider: "local"  # Keine Cloud!
+    model: "whisper-large-v3"  # OpenAI Whisper (lokal)
+    languages: ["de", "en", "ar", "tr", "uk"]
+    
+  tts_engine:
+    provider: "local"
+    model: "coqui-tts"  # Open-Source TTS
+    voices: 
+      - name: "Julia"
+        language: "de-DE"
+        gender: "female"
+      - name: "Max"
+        language: "de-DE"
+        gender: "male"
+  
+  storage:
+    audio_archive: "/data/emergency_calls/"
+    encryption: "AES-256-GCM"
+    compression: "FLAC"  # Verlustfreie Kompression
+    
+  compliance:
+    retention_days: 3650  # 10 Jahre
+    auto_anonymize_after_days: 3650
+    signature_required: true
+```
+
+#### 4.5.7 Performance und Latenz
+
+**Echtzeit-Anforderungen für Notrufzentralen:**
+
+| Komponente | Latenz | Throughput | Hardware |
+|------------|:------:|:----------:|----------|
+| **STT (Deutsch)** | < 200 ms | 50 Anrufe parallel | GPU: NVIDIA RTX 4090 |
+| **STT (Fremdsprache)** | < 300 ms | 30 Anrufe parallel | GPU: NVIDIA A40 |
+| **LLM (Keywords)** | < 500 ms | 100 Anfragen/s | GPU oder CPU |
+| **TTS (Ansage)** | < 100 ms | Unbegrenzt | CPU ausreichend |
+| **Übersetzung** | < 400 ms | 50 Anfragen/s | GPU empfohlen |
+
+**Minimal-Hardware für Leitstelle (< 200.000 Einwohner):**
+```yaml
+Server-Spezifikation:
+  CPU: 16 Cores (z.B. AMD EPYC 7343)
+  RAM: 64 GB
+  GPU: NVIDIA RTX 4070 Ti (12 GB VRAM)
+  Storage: 2 TB NVMe SSD (Audio-Archiv)
+  
+Erwartete Last:
+  - 10 Notrufe gleichzeitig
+  - 500 Anrufe/Tag
+  - 180.000 Anrufe/Jahr
+  - Audio-Archiv: ~5 TB/Jahr (komprimiert)
+```
+
+#### 4.5.8 Vorteile für BOS
+
+**Zusammenfassung der Mehrwerte:**
+
+✅ **Zeitersparnis:**
+- Disponenten müssen nicht mehr mitschreiben (Transkription automatisch)
+- Einsatzstichworte werden automatisch extrahiert
+- **Geschätzt: 30-60 Sekunden pro Notruf gespart**
+
+✅ **Qualitätsverbesserung:**
+- Keine verpassten Details (vollständige Transkription)
+- Standardisierte Einsatzstichworte
+- Mehrsprachige Notrufe verständlich
+
+✅ **Rechtssicherheit:**
+- Lückenlose Dokumentation
+- Unveränderbare Aufzeichnungen
+- 10-jährige Archivierung gesetzeskonform
+
+✅ **Barrierefreiheit:**
+- Hörgeschädigte Disponenten können Transkript lesen
+- Fremdsprachige Anrufer werden verstanden
+- TTS für standardisierte Ansagen
+
+✅ **Schulung und Qualitätskontrolle:**
+- Notrufe können nachträglich analysiert werden
+- Feedback für Disponenten-Schulung
+- Statistiken über Anrufdauer, Sprachqualität
+
+**Kosteneinsparung:**
+```
+Zeitersparnis pro Notruf: 45 Sekunden
+Notrufe pro Jahr: 50.000 (Großstadt)
+Gesamte Zeitersparnis: 625 Stunden/Jahr
+Kosten: 625 h × 50 €/h = 31.250 € Einsparung/Jahr
+```
+
 ---
 
 ## 5. Wirtschaftlichkeit
@@ -529,8 +901,10 @@ Software:
    - Föderation über Landesgrenzen
 
 2. **Erweiterte KI-Features**
-   - Predictive Analytics
-   - Sprach-zu-Text für Notrufe
+   - Predictive Analytics (Auslastungs-Prognosen)
+   - Echtzeit-STT/TTS für Notrufe mit Fremdsprachen-Übersetzung
+   - Automatische Einsatzwort-Kategorisierung
+   - Anomalie-Erkennung in Einsatzmustern
 
 3. **Bundesweite Integration**
    - INPOL, IVENA, deNIS
