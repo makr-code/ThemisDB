@@ -446,6 +446,15 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 
 </details>
 
+<details>
+<summary><b>Enterprise & Strategy</b></summary>
+
+- 🏛️ [CMS Strategy Paper (DE)](docs/de/governance/CMS_STRATEGY_PAPER.md) - ThemisDB für Content Management in Government und Enterprise
+- 💼 [Enterprise Edition](ENTERPRISE.md) - Enterprise features and licensing
+- 📊 [Governance](docs/de/governance/README.md) - Data governance and policies
+
+</details>
+
 > [!NOTE]
 > **Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 
