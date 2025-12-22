@@ -14,6 +14,9 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - [Installation Guide](guides/INSTALLATION.md) - Complete installation instructions
 - [Architecture Overview](architecture/OVERVIEW.md) - Understand how ThemisDB works
 
+**Business & Strategy:**
+- [Strategiepapier: Industrie 4.0 & IoT](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
+
 **Using ThemisDB:**
 - [AQL Query Language](aql/aql_syntax.md) - Learn the query language
 - [REST API Reference](apis/HTTP_API_REFERENCE.md) - HTTP API documentation

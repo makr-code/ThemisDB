@@ -13,10 +13,11 @@
 5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
 
 ### Für Stakeholder
-1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
-2. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
-3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
-4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
+1. [STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ⭐ **NEU:** Industrie 4.0 & IoT Strategie
+2. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
+3. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
+4. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
+5. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
 
 ### Für Compliance & Audits
 1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary

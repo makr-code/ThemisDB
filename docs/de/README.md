@@ -162,6 +162,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 🎯 Nach Zielgruppe
 
 ### Für Stakeholder & Management
+- **[⭐ Strategiepapier: Industrie 4.0 & IoT](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md)** - **NEU:** ThemisDB für Smart Manufacturing & IoT-Anwendungen
 - **[Themis Sachstandsbericht 2025](reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
 - **[🆕 v1.1.0 Variant Strategy](reports/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
 - **[🆕 v1.2.0 Enterprise Features](reports/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
