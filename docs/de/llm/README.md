@@ -23,6 +23,7 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 - 🔀 **Multi‑LoRA Management** (vLLM‑Style)
 
 **Quicklinks:**
+- [🧠 **LLM Complete Setup Guide**](../guides/LLM_COMPLETE_SETUP_GUIDE.md) – **NEU** Vollständiger Guide für Setup & Inferencing
 - [LLAMA_CPP_INTEGRATION.md](./LLAMA_CPP_INTEGRATION.md) – Einbindung & Build
 - [README_PLUGINS.md](./README_PLUGINS.md) – Schnellstart & Beispiele
 - [INTEGRATION_REVIEW_AND_SEQUENCE.md](./INTEGRATION_REVIEW_AND_SEQUENCE.md) – Architektur & Sequenzen

@@ -67,6 +67,9 @@ Jedes Beispiel enthält vollständige Dokumentation:
 - **HOW_TO.md** - Schritt-für-Schritt-Anleitung zur Bedienung
 - **Zusätzliche Guides** - Je nach Komplexität (ARCHITECTURE.md, DATA_MODEL.md, etc.)
 
+**Für LLM-Integration:**
+- [🧠 LLM Complete Setup Guide](../docs/de/guides/LLM_COMPLETE_SETUP_GUIDE.md) - Vollständiger Guide für LLM-Setup und Inferencing mit ThemisDB
+
 ## 🎯 Lernpfade
 
 ### Für Einsteiger

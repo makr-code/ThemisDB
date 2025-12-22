@@ -13,6 +13,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - [Quick Start Guide](guides/QUICK_START.md) - Get up and running in 5 minutes
 - [Installation Guide](guides/INSTALLATION.md) - Complete installation instructions
 - [Architecture Overview](architecture/OVERVIEW.md) - Understand how ThemisDB works
+- [🧠 LLM Complete Setup Guide](guides/LLM_COMPLETE_SETUP_GUIDE.md) - **NEU** Vollständiger Guide für LLM-Setup und Inferencing
 
 **Business & Strategy:**
 - [Strategiepapier: Industrie 4.0 & IoT](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
