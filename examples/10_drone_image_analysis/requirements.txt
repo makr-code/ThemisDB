@@ -1,0 +1,8 @@
+-r ../requirements-extended.txt
+
+# Additional dependencies for Drone Image Analysis
+torch>=2.0.0
+torchvision>=0.15.0
+ultralytics>=8.0.0  # YOLO
+transformers>=4.30.0  # For CLIP and other models
+

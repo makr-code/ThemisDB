@@ -1,0 +1,5 @@
+-r ../requirements-common.txt
+
+# Additional dependencies for Time Series Monitor
+matplotlib>=3.5.0
+
