@@ -95,7 +95,7 @@ nav:
       - Content Pipeline: content_pipeline.md
       - Architektur-Details: content_architecture.md
       - Ingestion: content/ingestion.md
-      - JSON Ingestion Spec: ingestion/json_ingestion_spec.md
+      - JSON Ingestion Spec: apis/json_ingestion_spec.md
       - Enterprise Ingestion Interface: ENTERPRISE_INGESTION_INTERFACE.md
       - Geo-Processor Design: content/geo_processor_design.md
       - Image-Processor Design: content/image_processor_design.md
@@ -123,7 +123,7 @@ nav:
       - Final Report: ENTERPRISE_FINAL_REPORT.md
       - Integration Analysis: reports/INTEGRATION_ANALYSIS.md
       - Enterprise Strategy: performance/ENTERPRISE_SCALABILITY_STRATEGY.md
-  - Qualitätssicherung: quality_assurance.md
+  - Quality Assurance: quality_assurance.md
   - Vektor & GNN:
       - Vektor-Operationen: vector_ops.md
       - GNN Embeddings: gnn_embeddings.md
@@ -247,10 +247,10 @@ nav:
       - Suche/Sortierung/Filter: admin_tools_search_sort_filter.md
       - Demo-Script: admin_tools_demo_script.md
   - APIs:
-      - OpenAPI & Endpunkte: apis/openapi.md
-      - SSE-Streaming (Changefeed): apis/openapi.md
-      - ContentFS API: apis/contentfs_api.md
-      - Hybrid Search API: apis/hybrid_search_api.md
+      - OpenAPI & Endpunkte: apis/apis_openapi.md
+      - SSE-Streaming (Changefeed): apis/apis_openapi.md
+      - ContentFS API: apis/apis_contentfs.md
+      - Hybrid Search API: apis/apis_hybrid_search.md
   - Client SDKs:
       - JavaScript SDK Quickstart: clients/javascript_sdk_quickstart.md
       - Python SDK Quickstart: clients/python_sdk_quickstart.md
@@ -276,7 +276,7 @@ nav:
       - Documentation Cleanup Validation Report: DOCUMENTATION_CLEANUP_VALIDATION_REPORT.md
   - Release Notes:
       - AQL Fulltext: RELEASE_NOTES_AQL_FULLTEXT.md
-      - Temporal Aggregation (2025-11-11): release_notes/2025-11-11-temporal-aggregation.md
+      - Temporal Aggregation (2025-11-11): releases/2025-11-11-temporal-aggregation.md
   - Styleguide & Glossar:
       - Styleguide: styleguide.md
       - Glossar: glossary.md
@@ -401,5 +401,5 @@ nav:
       - Path Constraints Concept: archive/path_constraints_concept.md
       - Release Scope Core Draft: archive/release_scope_core_draft.md
       - Merge Reports:
-          - Feature Complete Database Capabilities Conflicts: merge_reports/feature_complete-database-capabilities-conflicts.md
+          - Feature Complete Database Capabilities Conflicts: reports/feature_complete-database-capabilities-conflicts.md
 

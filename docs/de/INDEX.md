@@ -16,8 +16,8 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 **Using ThemisDB:**
 - [AQL Query Language](aql/aql_syntax.md) - Learn the query language
-- [REST API Reference](apis/REST_API.md) - HTTP API documentation
-- [Client SDKs](../clients/README.md) - SDK documentation for 7 languages
+- [REST API Reference](apis/HTTP_API_REFERENCE.md) - HTTP API documentation
+- [Client SDKs](clients/README.md) - SDK documentation for 7 languages
 
 **Operating ThemisDB:**
 - [Configuration](operations/CONFIGURATION.md) - Configure your database
@@ -55,7 +55,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | [Graph Operations](features/features_graph.md) | Graph traversal and pathfinding |
 | [Time-Series](features/features_time_series.md) | Time-series data and compression |
 | [Hypertables](features/features_hypertables.md) | TimescaleDB-compatible time-series (v1.2+) |
-| [Hybrid Search](features/features_hybrid_search.md) | RAG-optimized BM25+Vector search (v1.2+) |
+| [Hybrid Search](search/hybrid_search_design.md) | RAG-optimized BM25+Vector search (v1.2+) |
 | [Analytics](observability/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
 
 ### Query Language (AQL)
@@ -70,9 +70,9 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [REST API](apis/REST_API.md) | HTTP API endpoints |
-| [GraphQL API](apis/api_graphql.md) | GraphQL interface |
-| [Client SDKs](../clients/README.md) | SDKs for Python, JS, Rust, Go, Java, C#, Swift |
+| [REST API](apis/HTTP_API_REFERENCE.md) | HTTP API endpoints |
+| [GraphQL API](apis/apis_graphql.md) | GraphQL interface |
+| [Client SDKs](clients/README.md) | SDKs for Python, JS, Rust, Go, Java, C#, Swift |
 
 ### Security & Compliance
 
@@ -89,7 +89,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [Deployment Guide](operations/DEPLOYMENT.md) | Production deployment strategies |
+| [Deployment Guide](deployment/README.md) | Production deployment strategies |
 | [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
 | [Configuration](operations/CONFIGURATION.md) | Configuration reference |
 | [Monitoring](operations/MONITORING.md) | Prometheus metrics and alerting |
@@ -136,46 +136,43 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ### By Use Case
 
 **Building an Application:**
-- [Quick Start](guides/QUICK_START.md) → [REST API](apis/REST_API.md) → [Client SDKs](../clients/README.md)
+- [Quick Start](guides/QUICK_START.md) → [REST API](apis/HTTP_API_REFERENCE.md) → [Client SDKs](clients/README.md)
 
 **Analytics & BI:**
-- [OLAP Features](observability/OLAP.md) → [Parquet Export](observability/olap.md) → [Time-Series](features/features_time_series.md)
+- [OLAP Features](observability/README.md) → [Parquet Export](observability/README.md) → [Time-Series](timeseries/README.md)
 
 **AI/ML Applications:**
-- [Vector Search](features/features_vector_ops.md) → [Hybrid Search](features/features_hybrid_search.md) → [Embedding Cache](features/features_embedding_cache.md)
+- [Vector Search](search/README.md) → [Hybrid Search](search/hybrid_search_design.md) → [Embedding Cache](storage/README.md)
 
 **Graph Applications:**
-- [Graph Operations](features/features_graph.md) → [AQL Graph Queries](aql/aql_syntax.md#graph-traversals) → [Path Algorithms](features/features_graph.md#algorithms)
+- [Graph Operations](features/README.md) → [AQL Graph Queries](aql/README.md) → [Path Algorithms](features/README.md)
 
 **Production Deployment:**
-- [Deployment Guide](operations/DEPLOYMENT.md) → [Monitoring](operations/MONITORING.md) → [Backup](operations/BACKUP.md) → [Security](security/security_implementation.md)
+- [Deployment Guide](deployment/README.md) → [Monitoring](observability/README.md) → [Backup](deployment/README.md) → [Security](security/README.md)
 
 ### By Technology
 
 **Docker/Kubernetes:**
 - [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md)
-- [Kubernetes Guide](deployment/deployment_kubernetes.md)
+- [Kubernetes Guide](deployment/README.md)
 - [Helm Charts](../helm/README.md)
 
 **Cloud Platforms:**
-- [AWS Deployment](deployment/deployment_aws.md)
-- [Azure Deployment](deployment/deployment_azure.md)
-- [GCP Deployment](deployment/deployment_gcp.md)
+- [AWS/Azure/GCP Deployment](deployment/README.md)
 
 **ARM/Raspberry Pi:**
-- [ARM Build Guide](deployment/deployment_arm_build.md)
-- [ARM Packages](deployment/deployment_arm_packages.md)
-- [Raspberry Pi Optimization](deployment/deployment_rpi.md)
+- [ARM Build Guide](build/README.md)
+- [ARM Deployment](deployment/README.md)
 
 ---
 
 ## 📊 Performance & Benchmarks
 
-- [Performance Overview](performance/performance_overview.md)
+- [Performance Overview](performance/README.md)
 - [Benchmarking Guide](../benchmarks/README.md)
-- [Memory Tuning](performance/performance_memory.md)
-- [GPU Performance](performance/performance_gpu_plan.md)
-- [Query Optimization](performance/performance_query.md)
+- [Memory Tuning](performance/README.md)
+- [GPU Performance](performance/GPU_ACCELERATION_PLAN.md)
+- [Query Optimization](performance/README.md)
 
 ---
 
