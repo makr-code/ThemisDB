@@ -1,8 +1,13 @@
 # ThemisDB Documentation Index
 
+> **📝 Note on Documentation Language**  
+> This is a translation of the ThemisDB documentation. The **authoritative and most up-to-date documentation is maintained in German** (`docs/de/`).  
+> Translations may lag behind the German version. For the latest information, please refer to the [German documentation](../de/README.md).
+
 **Last Updated:** December 20, 2025  
 **Version:** 1.3.0 (LLM Integration Release)  
-**Type:** Documentation Index
+**Type:** Documentation Index  
+**Language:** English (Translation)
 
 ---
 

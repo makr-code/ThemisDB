@@ -1,7 +1,12 @@
 # ThemisDB Documentation Index
 
-**Last Updated:** December 20, 2025
-**Version:** 1.3.0 (LLM Integration Release)
+> **📝 Translation Notice**  
+> The authoritative documentation is in German. This is a community translation.  
+> See [German docs](../de/DOCUMENTATION_INDEX.md) for the most current version.
+
+**Last Updated:** December 20, 2025  
+**Version:** 1.3.0 (LLM Integration Release)  
+**Language:** English
 
 ## 🎯 Quick Start by Role
 

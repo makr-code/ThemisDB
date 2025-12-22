@@ -1,8 +1,13 @@
 # ThemisDB Dokumentations-Index
 
+> **📝 Hinweis zur Dokumentationssprache**  
+> Dies ist die **maßgebliche und aktuellste Dokumentation** von ThemisDB.  
+> Übersetzungen sind in anderen Sprachen verfügbar: [English](../en/README.md) | [Français](../fr/README.md) | [Español](../es/README.md) | [日本語](../ja/README.md)
+
 **Stand:** 20. Dezember 2025  
 **Version:** 1.3.0 (LLM Integration Release)  
-**Typ:** Dokumentations-Index
+**Typ:** Dokumentations-Index  
+**Sprache:** Deutsch (Hauptdokumentation)
 
 ---
 
