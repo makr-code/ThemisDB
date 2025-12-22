@@ -1,11 +1,17 @@
 # ARM-Specific Benchmark Suite
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Deployment
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
 
 ---
 
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Benchmark Programs](#benchmark-programs)
+- [SIMD Performance](#1-bench_arm_simd---simd-performance-testing)
+- [Memory Access](#2-bench_arm_memory---memory-access-pattern-testing)
 
 This document describes the ARM-specific benchmark suite for ThemisDB, designed to measure and optimize performance on ARM architectures including Raspberry Pi.
 

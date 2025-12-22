@@ -1,7 +1,17 @@
 # Port Standardization Summary
 
-**Date:** December 21, 2024  
-**Version:** 1.3.0
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Standard Port Mapping](#standard-port-mapping)
+- [Migration](#migration-from-previous-versions)
+- [Implementation Status](#implementation-status)
 
 ## Overview
 

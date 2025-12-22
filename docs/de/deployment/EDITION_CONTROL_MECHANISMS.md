@@ -1,8 +1,17 @@
 # ThemisDB Edition Control & Differentiation Strategy
 
-**Version:** 1.0.0 (Edition Gating Mechanisms)  
-**Last Updated:** 21. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Focus:** Key differentiators between editions
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Three Core Control Mechanisms](#-three-core-control-mechanisms)
+- [VRAM Limit](#1️⃣-vram-limit---gpu-acceleration-control)
+- [Sharding Node Limit](#sharding-node-limit)
 
 ---
 

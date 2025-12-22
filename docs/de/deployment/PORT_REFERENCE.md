@@ -1,7 +1,16 @@
 # ThemisDB Port Reference Guide
 
-**Version:** 1.3.0  
-**Last Updated:** December 21, 2024
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Port Summary Table](#port-summary-table)
+- [Core Ports](#core-ports-always-enabled)
 
 This document provides a comprehensive reference for all ports used by ThemisDB and its optional protocol interfaces.
 

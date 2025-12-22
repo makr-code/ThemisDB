@@ -1,11 +1,16 @@
 # Docker Build - Status und nächste Schritte
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Deployment
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [Problem](#problem)
+- [Durchgeführte Ansätze](#durchgeführte-ansätze)
+- [Alternative Lösungen](#alternative-lösungen)
 
 ## Problem
 

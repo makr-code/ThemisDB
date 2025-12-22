@@ -1,8 +1,17 @@
 # ThemisDB "80% Coverage" Edition Strategy
 
-**Version:** 1.0.0 (Community-First Approach)  
-**Last Updated:** 21. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Goal:** Satisfy 80% of deployment use cases with Community Edition
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Vision](#-vision)
+- [Market Analysis](#-market-analysis-typische-deployment-szenarien-80)
+- [Tier 1-4](#tier-1-kleine-bis-mittlere-datenmengen-40)
 
 ---
 

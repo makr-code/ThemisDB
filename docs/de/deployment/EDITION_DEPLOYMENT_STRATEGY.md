@@ -1,9 +1,18 @@
 # ThemisDB Edition Deployment Strategy
 
-**Version:** 1.0.0 (Multi-Edition Release)  
-**Last Updated:** 21. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Status:** Under Development  
 **Scope:** Community, Enterprise, Hyperscaler Editions
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#-übersicht)
+- [Build-Architektur](#️-build-architektur)
+- [CMake Edition](#cmake-edition-configuration)
 
 ---
 

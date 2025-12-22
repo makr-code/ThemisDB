@@ -1,11 +1,18 @@
 # Pre-built ARM Packages for ThemisDB
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Deployment
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
 
 ---
 
+## 📑 Table of Contents
+
+- [Supported Platforms](#supported-platforms)
+- [Installation](#installation)
+- [Debian/Ubuntu](#debianubunturaspberry-pi-os-arm64)
+- [Raspberry Pi OS ARMv7](#raspberry-pi-os-armv7-32-bit)
+- [RHEL/Fedora](#rhelfedorarocky-linux-arm64)
 
 This guide explains how to install and use pre-built ThemisDB packages for ARM architectures.
 

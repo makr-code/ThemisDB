@@ -1,5 +1,18 @@
 # ThemisDB v1.3.5 — Einfaches Abo- und Preismodell
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Editionsüberblick](#editionsüberblick)
+- [Preismodell](#preismodell-vereinfacht)
+- [Enterprise](#enterprise-flat-jahresabo)
+- [Hyperscaler](#hyperscaler-oem)
+
 Ziel: „Weniger ist mehr“ — ein schlankes, leicht administrierbares Modell ohne komplexe Staffelungen.
 
 ## Editionsüberblick
