@@ -91,7 +91,9 @@ table_options.block_cache = rocksdb::NewHyperClockCache(
 | Verbesserung | Status | Commit | Datum |
 |--------------|--------|--------|-------|
 | HyperClockCache | ✅ Implementiert | dde2718 | 2025-12-22 |
-| Parallel Compression | ✅ Implementiert | TBD | 2025-12-22 |
+| Parallel Compression | ✅ Implementiert | ef006a7 | 2025-12-22 |
+| Blob Storage (BlobDB) | ✅ Implementiert | TBD | 2025-12-22 |
+| Write Buffer Opt | ✅ Dokumentiert | TBD | 2025-12-22 |
 | Per-Key Lock Manager | ⏳ Geplant | - | - |
 | Parallel Compression | ⏳ Geplant | - | - |
 | Async I/O | ⏳ Geplant | - | - |
@@ -135,4 +137,66 @@ options_->compression_opts.max_dict_bytes = 16 * 1024;  // 16KB dictionary
 ### Referenzen
 - https://github.com/facebook/rocksdb/wiki/Compression
 - https://github.com/facebook/rocksdb/blob/main/HISTORY.md#1060-08222025
+
+
+---
+
+## ✅ Verbesserung 3: Blob Storage (BlobDB) für große Werte
+
+### Status: IMPLEMENTIERT
+
+### Änderung
+**Datei:** `src/storage/rocksdb_wrapper.cpp`
+
+**Hinzugefügt:**
+```cpp
+options_->enable_blob_files = true;
+options_->min_blob_size = 1024;  // 1KB threshold
+options_->blob_compression_type = options_->compression;
+options_->enable_blob_garbage_collection = true;
+options_->blob_garbage_collection_age_cutoff = 0.25;  // 25% garbage threshold
+```
+
+### Erwarteter Nutzen
+- **1MB+ Blobs:** +1350-6650% Performance
+- **Write Amplification:** -60-80% Reduktion
+- **Compaction Speed:** +100-200%
+- **Disk Space:** Bessere Ausnutzung durch GC
+
+### Wissenschaftliche Grundlage
+- "WiscKey: Separating Keys from Values in SSD-conscious Storage" (FAST 2016)
+- RocksDB BlobDB: Separate storage für large values
+- Key-Value separation for LSM-Trees
+- Reduced compaction overhead für große Werte
+
+### Referenzen
+- https://github.com/facebook/rocksdb/wiki/BlobDB
+- https://www.usenix.org/conference/fast16/technical-sessions/presentation/lu
+
+---
+
+## ✅ Verbesserung 4: Write Buffer Optimization
+
+### Status: DOKUMENTIERT (bereits konfigurierbar)
+
+### Änderung
+**Datei:** `src/storage/rocksdb_wrapper.cpp`
+
+**Hinzugefügte Dokumentation:**
+- Optimierte Write Buffer Settings für high throughput
+- Empfohlene Werte: write_buffer_size=256MB, max_write_buffer_number=6
+- min_write_buffer_number_to_merge=2 für Parallelität
+
+### Erwarteter Nutzen
+- **Write Performance:** +20-40% mit optimaler Konfiguration
+- **Memory Usage:** Besser kontrolliert
+- **Flush/Compaction:** Optimiert für Parallelität
+
+### Wissenschaftliche Grundlage
+- RocksDB Tuning Guide
+- Größere Memtables → weniger Flushes
+- Mehr Write Buffers → bessere Parallelität
+
+### Referenzen
+- https://github.com/facebook/rocksdb/wiki/RocksDB-Tuning-Guide
 
