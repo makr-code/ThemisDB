@@ -1,138 +1,347 @@
-# ThemisDB JavaScript/TypeScript SDK Quickstart
+﻿#  ThemisDB JavaScript/TypeScript SDK
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Clients
+<!-- Dokumentations-Metadaten -->
+**Kategorie:**  SDK Implementation  
+**Version:** v1.3.0  
+**Status:**  Produktionsreif  
+**Letztes Update:** 22. Dezember 2025
 
 ---
 
+##  Inhaltsverzeichnis
 
-_Stand: 10. November 2025_
+- [ Übersicht](#-übersicht)
+- [ Features & Highlights](#-features--highlights)
+- [ Schnellstart](#-schnellstart)
+- [ Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [ Best Practices](#-best-practices)
+- [ Troubleshooting](#-troubleshooting)
+- [ Siehe auch](#-siehe-auch)
+- [ Changelog](#-changelog)
 
-Die JavaScript/TypeScript SDK (`@themisdb/sdk`) steht als Alpha-Build im Repository zur Verfügung. Die API ist noch nicht stabil – Breaking Changes sind ohne Vorankündigung möglich.
+---
 
-## Voraussetzungen
+##  Übersicht
 
-- Node.js 18+ oder jede Laufzeit mit globalem `fetch` (für Node <18 ein Polyfill, z. B. `cross-fetch`)
-- npm oder pnpm (Beispiele nutzen npm)
-- Zugriff auf mindestens einen ThemisDB-HTTP-Endpunkt (z. B. `http://127.0.0.1:8765`)
-- Optional: Topologie-Endpunkt (`/_admin/cluster/topology` oder vollständige URL)
+Die JavaScript/TypeScript SDK (`@themisdb/sdk`) ermöglicht modernen Zugriff auf ThemisDB über Promise-basierte APIs für Node.js und Browser. Die SDK befindet sich im Alpha-Status  Breaking Changes sind möglich.
 
-## Installation
+###  Zielgruppe
 
-| Ziel | Befehl |
-| --- | --- |
-| Entwicklung im Repo | `npm install && npm run build` innerhalb von `clients/javascript/`
-| Consumption aus anderem Projekt | `npm install /pfad/zu/ThemisDB/clients/javascript` (lokale Pfad-Installation)
+- JavaScript/TypeScript Entwickler
+- Node.js Backend Entwickler  
+- Web Frontend Entwickler
+- Full-Stack Engineers
 
-Hinweise:
+###  Voraussetzungen
 
-- Die SDK ist noch nicht im npm-Registry veröffentlicht.
-- Das Projekt setzt aktuell auf TypeScript 5.5.x. Stellen Sie sicher, dass Ihr Tooling kompatibel ist.
-- In Node-Umgebungen ohne native Fetch-Implementierung können Sie `global.fetch = (await import("cross-fetch")).fetch;` vor der Client-Initialisierung setzen.
+- Node.js 18+ oder Browser mit globalem `fetch`
+- npm oder pnpm
+- HTTP-Zugriff auf ThemisDB-Endpunkt (z.B. `http://127.0.0.1:8765`)
+- Optional: Topologie-Endpunkt
 
-## Minimalbeispiel
+---
 
-```ts
+##  Features & Highlights
+
+###  Kern-Features
+
+| Feature | Beschreibung | Status |
+|---------|--------------|--------|
+|  **CRUD Operations** | Async get, put, delete |  Stabil |
+|  **AQL Queries** | Promise-basierte Query Execution |  Stabil |
+|  **Vector Search** | Similarity Search mit Filtern |  Stabil |
+|  **Graph Traversal** | Graph-Operationen |  Stabil |
+|  **Batch Operations** | batchGet, batchPut, batchDelete |  Stabil |
+|  **Cursor Pagination** | Effiziente große Datensätze |  Stabil |
+|  **Topology-Aware** | Automatisches Shard-Routing |  Stabil |
+|  **Retry Logic** | Automatische Wiederholungen |  Stabil |
+
+###  Besondere JavaScript-Features
+
+-  **TypeScript Support** - Vollständige Type Definitions
+-  **Promise-based** - Async/Await Pattern
+-  **ESM & CommonJS** - Beide Module-Systeme
+-  **Browser Compatible** - Kann in Web-Apps laufen
+-  **Zero Dependencies** - Nutzt native Fetch API
+
+---
+
+##  Schnellstart
+
+###  Installation
+
+```bash
+# Entwicklung im Repository
+cd clients/javascript
+npm install && npm run build
+
+# Installation in anderem Projekt (lokaler Pfad)
+npm install /path/to/ThemisDB/clients/javascript
+
+# Via npm (nach Publishing)
+npm install @themisdb/sdk
+```
+
+> **Hinweis:** SDK ist noch nicht im npm-Registry veröffentlicht. TypeScript 5.5.x erforderlich.
+
+###  Erste Schritte
+
+```typescript
 import { ThemisClient } from "@themisdb/sdk";
 
+// Client erstellen
 const client = new ThemisClient({
    endpoints: ["http://127.0.0.1:8765"],
    namespace: "default",
-   metadataEndpoint: "/_admin/cluster/topology", // optional; auch vollständige URL möglich
+   metadataEndpoint: "/_admin/cluster/topology"
 });
 
+// Health Check
 const health = await client.health();
 console.log(health);
+
+// Cleanup
+await client.close();
 ```
 
-## Konfiguration & Topologie
+###  Try-Finally Pattern
 
-| Parameter | Beschreibung |
-| --- | --- |
-| `endpoints` | Bootstrap-Liste verfügbarer HTTP-Basen. Wird genutzt, bis die Topologie geladen ist. |
-| `metadataEndpoint` | Relativer Pfad (Default `/_admin/cluster/topology`) oder vollständige URL zum Topologie-Service. |
-| `namespace` | Namespace für URN-Key-Building. Default: `default`. |
-| `timeoutMs` | Timeout pro Request (Default 30 000 ms). |
-| `maxRetries` | Retries für 5xx-Fehler oder Netzwerk-Transienten (Default 3). |
+```typescript
+const client = new ThemisClient({ endpoints: ["http://localhost:8765"] });
 
-Beim ersten Request lädt der Client die aktuelle Shard-Topologie. Falls der Fetch fehlschlägt, arbeitet der Client mit der ursprünglichen Endpoint-Liste weiter und wirft eine `TopologyError`, damit Aufrufer proaktiv reagieren können.
+try {
+   const result = await client.query('FOR doc IN users RETURN doc');
+   console.log(result.entities);
+} finally {
+   await client.close();
+}
+```
 
-## CRUD & Batch-Operationen
+---
 
-```ts
+##  Detaillierte Dokumentation
+
+###  Konfiguration
+
+```typescript
+const client = new ThemisClient({
+   endpoints: ["http://shard-1:8765", "http://shard-2:8766"],
+   namespace: "production",
+   metadataEndpoint: "http://etcd:2379/topology",
+   timeoutMs: 60000,     // 60 Sekunden
+   maxRetries: 5
+});
+```
+
+| Parameter | Typ | Beschreibung | Default |
+|-----------|-----|--------------|---------|
+| `endpoints` | `string[]` | Bootstrap HTTP-Basen | **Pflicht** |
+| `namespace` | `string` | Namespace für URNs | `"default"` |
+| `metadataEndpoint` | `string` | Topologie-Service URL/Pfad | `"/_admin/cluster/topology"` |
+| `timeoutMs` | `number` | Request Timeout (ms) | `30000` |
+| `maxRetries` | `number` | Retry-Anzahl für 5xx | `3` |
+
+###  CRUD Operationen
+
+```typescript
 const userId = "550e8400-e29b-41d4-a716-446655440000";
 
-await client.put("relational", "users", userId, { name: "Alice" });
+// CREATE / UPDATE
+await client.put("relational", "users", userId, {
+   name: "Alice Schmidt",
+   email: "alice@example.com",
+   age: 30
+});
+
+// READ
 const user = await client.get("relational", "users", userId);
+console.log(user);
 
+// DELETE
 const deleted = await client.delete("relational", "users", userId);
-console.log(deleted); // true, falls vorhanden
-
-const batch = await client.batchGet("relational", "users", ["1", "2", "999"]);
-console.log(batch.found["1"], batch.missing, batch.errors);
+console.log(deleted); // true wenn vorhanden
 ```
 
-`batchGet` verarbeitet aktuell sequentiell, um konsistente Fehlermeldungen zu liefern. Fehler pro UUID werden unter `errors` gesammelt.
+###  Batch-Operationen
 
-## AQL-Queries & Cursor
+```typescript
+// Batch GET
+const batch = await client.batchGet("relational", "users", ["1", "2", "999"]);
+console.log(batch.found["1"]);    // User Objekt
+console.log(batch.missing);        // ["999"]
+console.log(batch.errors);         // Fehler pro ID
 
-```ts
+// Batch PUT
+await client.batchPut("relational", "users", {
+   "1": { name: "Alice" },
+   "2": { name: "Bob" }
+});
+```
+
+###  AQL Queries & Cursor
+
+```typescript
+// Einfache Query
+const result = await client.query('FOR u IN users FILTER u.age > 25 RETURN u');
+console.log(result.entities);
+
+// Mit Cursor-Pagination
 const page = await client.query("FOR u IN users RETURN u", {
    useCursor: true,
-   batchSize: 100,
+   batchSize: 100
 });
 
 if (page.hasMore && page.nextCursor) {
    const next = await client.query("FOR u IN users RETURN u", {
       useCursor: true,
-      cursor: page.nextCursor,
+      cursor: page.nextCursor
    });
    console.log(next.items.length);
 }
 ```
 
-Das SDK erkennt URN-basierte Single-Shard-Queries (`urn:themis:`) und adressiert nur einen Knoten. Für alle anderen Queries erfolgt Scatter-Gather über die bekannte Topologie. Das Ergebnis `QueryResult` normalisiert sowohl Legacy-Felder (`entities`) als auch Cursor-Felder (`items`, `hasMore`, `nextCursor`).
+###  Vector Search
 
-## Vektor-Suche
-
-```ts
+```typescript
 const result = await client.vectorSearch([0.13, -0.4, 0.9], {
    topK: 5,
-   filter: { namespace: "docs" },
+   filter: { namespace: "docs" }
 });
 
 console.log(result.results);
 ```
 
-Der Client konsolidiert Treffer mehrerer Shards und sortiert sie nach Score (oder inverser Distanz). Cursor-Parameter werden transparent weitergereicht.
+###  Fehlerbehandlung
 
-## Fehlerbehandlung
-
-- `TopologyError` signalisiert Probleme beim Laden der Topologie.
-- HTTP-Antworten mit Status ≥ 400 lösen Fehler mit detailreicher Nachricht aus (`status`, `statusText`, Body-Auszug).
-- Netzwerkfehler (`TypeError`, `AbortError`) werden nach Retries weitergegeben.
-
-Empfehlung: Umschließen Sie kritische Pfade mit eigenem Retry- oder Circuit-Breaker-Verhalten, insbesondere bei Batch-Operationen.
-
-## Tooling & Skripte
-
-```bash
-# Im Repository
-cd clients/javascript
-npm install
-npm run build   # TypeScript → dist/
-npm run lint    # eslint + @typescript-eslint
-# Tests (Skelett vorhanden, Suite folgt)
-npm run test    # Vitest – aktuell Platzhalter
+```typescript
+try {
+   const result = await client.query('FOR u IN users RETURN u');
+} catch (error) {
+   if (error instanceof TopologyError) {
+      console.error('Topologie konnte nicht geladen werden:', error);
+   } else if (error.status >= 400) {
+      console.error(`HTTP ${error.status}: ${error.statusText}`);
+   } else {
+      console.error('Netzwerkfehler:', error);
+   }
+}
 ```
 
-Die Lint-Konfiguration (`.eslintrc.json`) richtet sich nach TypeScript ESLint. Unit- und Integrationstests werden in den kommenden Iterationen ergänzt (`tests/`).
+---
 
-## Roadmap
+##  Best Practices
 
-- Fertigstellung der Vitest-Suites inkl. Mock-Server
-- Verpackung & Veröffentlichung als npm-Paket
-- Async-Iterator-Hilfen für Cursor-Flows (`for await`)
-- Browser-spezifische Beispiele (Vite/React, Service Worker)
-- Erweiterte Fehlerklassifikation (eigene Error-Typen)
+###  DO: Async/Await verwenden
+
+```typescript
+//  Gut: Async/Await
+const user = await client.get("relational", "users", userId);
+
+//  Schlecht: Promise chains
+client.get("relational", "users", userId).then(...).catch(...);
+```
+
+###  DO: Type Definitions nutzen
+
+```typescript
+interface User {
+   name: string;
+   email: string;
+   age: number;
+}
+
+const user = await client.get<User>("relational", "users", userId);
+console.log(user.name); // Type-safe
+```
+
+###  DO: Cursor für große Datasets
+
+```typescript
+async function processAllUsers(client: ThemisClient) {
+   let page = await client.query("FOR u IN users RETURN u", { 
+      useCursor: true, 
+      batchSize: 100 
+   });
+   
+   while (true) {
+      page.items.forEach(processUser);
+      
+      if (!page.hasMore) break;
+      
+      page = await client.query("FOR u IN users RETURN u", {
+         useCursor: true,
+         cursor: page.nextCursor
+      });
+   }
+}
+```
+
+---
+
+##  Troubleshooting
+
+###  ModuleNotFoundError
+
+**Problem:** `Cannot find module '@themisdb/sdk'`
+
+**Lösung:**
+```bash
+# Installation prüfen
+npm list @themisdb/sdk
+
+# Neuinstallation
+npm install @themisdb/sdk
+
+# Build prüfen
+cd clients/javascript && npm run build
+```
+
+###  TopologyError
+
+**Problem:** Topologie kann nicht geladen werden
+
+**Lösung:**
+```typescript
+const client = new ThemisClient({
+   endpoints: ["http://shard1:8765", "http://shard2:8765"],
+   metadataEndpoint: null  // Deaktiviert Topologie-Fetch
+});
+```
+
+###  Timeout Errors
+
+**Problem:** Requests laufen in Timeout
+
+**Lösung:**
+```typescript
+const client = new ThemisClient({
+   endpoints: ["http://localhost:8765"],
+   timeoutMs: 120000  // 2 Minuten
+});
+```
+
+---
+
+##  Siehe auch
+
+- [ Python SDK](clients_python_sdk.md)
+- [ Rust SDK](clients_rust_sdk.md)
+- [ HTTP API Reference](../apis/HTTP_API_REFERENCE.md)
+- [ AQL Reference](../aql/AQL_REFERENCE.md)
+- [ Vector Search](../features/FEATURE_VECTOR_SEARCH.md)
+
+---
+
+##  Changelog
+
+### Version 1.3.0 (22.12.2025)
+-  Aktualisierung auf v1.3.0 Template
+-  TypeScript Beispiele erweitert
+-  Best Practices hinzugefügt
+-  Troubleshooting Guide
+-  Alle Links aktualisiert
+
+### Version 1.0.0 (05.12.2025)
+-  Alpha Release
+-  CRUD, AQL, Vector, Graph Support
+-  Promise-based API

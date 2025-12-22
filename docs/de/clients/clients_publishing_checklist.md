@@ -1,45 +1,66 @@
-# ThemisDB SDK Publishing Checklist
+﻿#  ThemisDB SDK Publishing Checklist
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Clients
+<!-- Dokumentations-Metadaten -->
+**Kategorie:**  SDK Publishing  
+**Version:** v1.3.0  
+**Status:**  Produktionsreif  
+**Letztes Update:** 22. Dezember 2025
 
 ---
 
+## 📑 Inhaltsverzeichnis
 
-## Pre-Publishing Requirements
+- [📋 Übersicht](#-übersicht)
+- [✨ Pre-Publishing Requirements](#-pre-publishing-requirements)
+- [ SDK-Spezifische Checklists](#-sdk-spezifische-checklists)
+- [ Post-Publishing](#-post-publishing)
+- [ Best Practices](#-best-practices)
+- [ Troubleshooting](#-troubleshooting)
+- [ Siehe auch](#-siehe-auch)
+- [ Changelog](#-changelog)
 
-### 1. Version Control
-- [ ] All changes committed to main branch
-- [ ] Version number updated in VERSION file
-- [ ] CHANGELOG.md updated with release notes
-- [ ] Git tag created (e.g., `v1.0.0`)
+---
 
-### 2. Testing
-- [ ] All unit tests passing
-- [ ] Integration tests passing
-- [ ] SDK examples verified working
-- [ ] Cross-platform builds verified
+##  Übersicht
 
-### 3. Documentation
-- [ ] API documentation up to date
-- [ ] README.md reviewed and updated
-- [ ] Migration guide (if breaking changes)
-- [ ] Example code tested
+Vollständige Checkliste für das Publishing aller ThemisDB Client SDKs zu Package Registries (npm, PyPI, crates.io, Maven Central, NuGet).
 
-## SDK-Specific Checklists
+---
 
-### JavaScript/TypeScript (@themisdb/client → NPM)
+##  Pre-Publishing Requirements
+
+### 1 Version Control
+
+- [ ] Alle Änderungen committed
+- [ ] VERSION file aktualisiert
+- [ ] CHANGELOG.md mit Release Notes
+- [ ] Git tag erstellt (z.B. `v1.0.0`)
+- [ ] Branch bereit für Merge
+
+### 2 Testing
+
+- [ ] Alle Unit Tests passing
+- [ ] Integration Tests passing  
+- [ ] SDK Beispiele funktionieren
+- [ ] Cross-platform Builds verifiziert
+
+### 3 Dokumentation
+
+- [ ] API Dokumentation aktuell
+- [ ] README.md reviewed
+- [ ] Migration Guide (bei Breaking Changes)
+- [ ] Code-Beispiele getestet
+
+---
+
+##  SDK-Spezifische Checklists
+
+###  JavaScript/TypeScript (@themisdb/client  NPM)
 
 **Prerequisites:**
-- [ ] Node.js 18+ installed
-- [ ] NPM account with publishing rights
-- [ ] `NPM_TOKEN` environment variable set
-
-**Files to verify:**
-- [ ] `clients/javascript/package.json` - version, dependencies
-- [ ] `clients/javascript/tsconfig.json` - compilation settings
-- [ ] `clients/javascript/README.md` - npm-specific docs
+- [ ] Node.js 18+ installiert
+- [ ] NPM account mit Publishing-Rechten
+- [ ] `NPM_TOKEN` environment variable
 
 **Build & Test:**
 ```bash
@@ -47,33 +68,30 @@ cd clients/javascript
 npm ci
 npm run build
 npm test
-npm pack --dry-run  # Verify package contents
+npm pack --dry-run  # Package-Inhalt prüfen
 ```
 
 **Publish:**
 ```bash
 npm publish --access public
+# Oder Beta:
+npm publish --tag beta --access public
 ```
 
 ---
 
-### Python (themisdb → PyPI)
+###  Python (themisdb  PyPI)
 
 **Prerequisites:**
-- [ ] Python 3.9+ installed
-- [ ] PyPI account with publishing rights
-- [ ] `PYPI_TOKEN` environment variable set
-
-**Files to verify:**
-- [ ] `clients/python/pyproject.toml` - version, dependencies
-- [ ] `clients/python/setup.cfg` - metadata
-- [ ] `clients/python/README.md` - PyPI-specific docs
+- [ ] Python 3.9+ installiert
+- [ ] PyPI account mit Publishing-Rechten
+- [ ] `PYPI_TOKEN` environment variable
 
 **Build & Test:**
 ```bash
 cd clients/python
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 pytest
 python -m build
@@ -83,247 +101,206 @@ twine check dist/*
 **Publish:**
 ```bash
 twine upload dist/* -u __token__ -p $PYPI_TOKEN
+
+# Oder zu TestPyPI:
+twine upload --repository testpypi dist/*
 ```
 
 ---
 
-### C# (ThemisDB.Client → NuGet)
+###  Rust (themisdb  crates.io)
 
 **Prerequisites:**
-- [ ] .NET 6.0+ SDK installed
-- [ ] NuGet account with publishing rights
-- [ ] `NUGET_API_KEY` environment variable set
+- [ ] Rust stable toolchain
+- [ ] crates.io account
+- [ ] `cargo login` durchgeführt
 
-**Files to verify:**
-- [ ] `clients/csharp/ThemisDB.Client/ThemisDB.Client.csproj` - version, metadata
-- [ ] `clients/csharp/README.md` - NuGet-specific docs
+**Build & Test:**
+```bash
+cd clients/rust
+cargo fmt -- --check
+cargo clippy -- -D warnings
+cargo test
+cargo package --list  # Package-Inhalt prüfen
+```
+
+**Publish:**
+```bash
+cargo publish
+
+# Oder Dry-Run:
+cargo publish --dry-run
+```
+
+---
+
+###  Java (themisdb  Maven Central)
+
+**Prerequisites:**
+- [ ] Maven/Gradle installiert
+- [ ] Sonatype account
+- [ ] GPG key für Signing
+
+**Build & Test:**
+```bash
+cd clients/java
+mvn clean test
+mvn package
+mvn verify
+```
+
+**Publish:**
+```bash
+mvn deploy
+
+# Oder zu Sonatype Staging:
+mvn clean deploy -P release
+```
+
+---
+
+###  C# (ThemisDB.Client  NuGet)
+
+**Prerequisites:**
+- [ ] .NET 6.0+ SDK
+- [ ] NuGet account
+- [ ] `NUGET_API_KEY` environment variable
 
 **Build & Test:**
 ```bash
 cd clients/csharp
 dotnet restore
 dotnet build -c Release
-dotnet test -c Release
-dotnet pack -c Release -o ./nupkg
+dotnet test
+dotnet pack -c Release
 ```
 
 **Publish:**
 ```bash
-dotnet nuget push ./nupkg/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
+dotnet nuget push ThemisDB.Client.*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json
 ```
 
 ---
 
-### Java (io.themisdb:client → Maven Central)
+##  Post-Publishing
 
-**Prerequisites:**
-- [ ] JDK 11+ installed
-- [ ] Maven 3.8+ installed
-- [ ] Sonatype OSSRH account
-- [ ] GPG key for signing
-- [ ] `MAVEN_USERNAME`, `MAVEN_PASSWORD`, `GPG_PASSPHRASE` set
+###  Verification Steps
 
-**Files to verify:**
-- [ ] `clients/java/pom.xml` - version, groupId, artifactId
-- [ ] `clients/java/README.md` - Maven-specific docs
+- [ ] Package auf Registry sichtbar
+- [ ] Installation mit Package Manager getestet
+- [ ] README auf Registry-Seite korrekt
+- [ ] Version number korrekt angezeigt
+- [ ] Download funktioniert
 
-**Build & Test:**
-```bash
-cd clients/java
-mvn clean verify
-mvn source:jar javadoc:jar
+###  Announcements
+
+- [ ] GitHub Release erstellt
+- [ ] CHANGELOG aktualisiert
+- [ ] Documentation Website aktualisiert
+- [ ] Community benachrichtigt (Discord, Twitter, etc.)
+
+---
+
+##  Best Practices
+
+###  DO: Semantic Versioning
+
+```
+1.0.0  Major.Minor.Patch
+
+Major: Breaking changes
+Minor: New features (backwards compatible)
+Patch: Bug fixes
 ```
 
-**Publish:**
+###  DO: Pre-Release Tags
+
 ```bash
-mvn deploy -Dgpg.passphrase=$GPG_PASSPHRASE
+# Alpha
+npm publish --tag alpha
+pip install themisdb==1.0.0a1
+
+# Beta
+npm publish --tag beta
+pip install themisdb==1.0.0b1
+
+# Release Candidate
+npm publish --tag rc
+pip install themisdb==1.0.0rc1
+```
+
+###  DO: Changelog pflegen
+
+```markdown
+## [1.0.0] - 2025-12-22
+
+### Added
+- Transaction support with ACID guarantees
+- Vector search with filters
+
+### Changed
+- Updated API response format
+
+### Fixed
+- Connection timeout handling
 ```
 
 ---
 
-### Rust (themisdb → Crates.io)
+##  Troubleshooting
 
-**Prerequisites:**
-- [ ] Rust 1.70+ installed
-- [ ] Crates.io account
-- [ ] `CARGO_TOKEN` environment variable set
+###  Publishing Fehlgeschlagen
 
-**Files to verify:**
-- [ ] `clients/rust/Cargo.toml` - version, metadata
-- [ ] `clients/rust/README.md` - Crates.io-specific docs
+**Problem:** Authentication error
 
-**Build & Test:**
+**Lösung:**
 ```bash
-cd clients/rust
-cargo fmt --check
-cargo clippy -- -D warnings
-cargo test
-cargo package --list
+# NPM
+npm login
+npm whoami
+
+# PyPI
+twine upload --verbose dist/*
+
+# Crates.io
+cargo login <token>
+
+# NuGet
+dotnet nuget list source
 ```
 
-**Publish:**
+###  Package bereits existiert
+
+**Problem:** Version already published
+
+**Lösung:**
 ```bash
-cargo login $CARGO_TOKEN
-cargo publish
-```
+# Version number erhöhen
+# package.json, pyproject.toml, Cargo.toml, etc.
 
----
-
-### Go (github.com/themisdb/go-client)
-
-**Prerequisites:**
-- [ ] Go 1.21+ installed
-- [ ] GitHub repository access
-
-**Files to verify:**
-- [ ] `clients/go/go.mod` - module path, Go version
-- [ ] `clients/go/README.md` - Go-specific docs
-
-**Build & Test:**
-```bash
-cd clients/go
-go mod tidy
-go build ./...
-go test ./...
-```
-
-**Publish:**
-```bash
-git tag clients/go/v1.0.0
-git push origin clients/go/v1.0.0
+# Dann neu publishen
 ```
 
 ---
 
-### Swift (ThemisDB → Swift Package Manager)
+##  Siehe auch
 
-**Prerequisites:**
-- [ ] Xcode 14+ installed (macOS)
-- [ ] GitHub repository access
-
-**Files to verify:**
-- [ ] `clients/swift/Package.swift` - version, dependencies
-- [ ] `clients/swift/README.md` - Swift-specific docs
-
-**Build & Test:**
-```bash
-cd clients/swift
-swift build
-swift test
-```
-
-**Publish:**
-```bash
-git tag clients/swift/1.0.0
-git push origin clients/swift/1.0.0
-```
+- [ Publishing Guide](clients_publishing_guide.md) - Detaillierter Guide
+- [ SDK Implementation](clients_sdk_implementation.md) - Development Guide
+- [ SDK Analysis](clients_sdk_analysis.md) - Sprach-Prioritäten
+- [ SDK Audit](clients_sdk_audit.md) - Status Overview
 
 ---
 
-## Post-Publishing Verification
+##  Changelog
 
-### For Each SDK:
-- [ ] Package visible in registry
-- [ ] Version number correct
-- [ ] Dependencies resolved correctly
-- [ ] README rendered properly
-- [ ] License displayed
-- [ ] Installation command works
+### Version 1.3.0 (22.12.2025)
+-  Aktualisierung auf v1.3.0 Template
+-  Alle SDK Checklists erweitert
+-  Post-Publishing Schritte hinzugefügt
+-  Best Practices Sektion
+-  Alle Links aktualisiert
 
-### Integration Test:
-```bash
-# Create fresh project and test installation
-mkdir test-themisdb && cd test-themisdb
-
-# JavaScript
-npm init -y && npm install @themisdb/client
-
-# Python
-python -m venv venv && source venv/bin/activate && pip install themisdb
-
-# C#
-dotnet new console && dotnet add package ThemisDB.Client
-
-# Java
-mvn archetype:generate ... && add dependency to pom.xml
-
-# Rust
-cargo new test-themisdb && add to Cargo.toml
-
-# Go
-go mod init test && go get github.com/themisdb/go-client
-```
-
-## Rollback Procedure
-
-If issues are discovered after publishing:
-
-### NPM
-```bash
-npm unpublish @themisdb/client@1.0.0  # Within 72 hours only
-# OR deprecate
-npm deprecate @themisdb/client@1.0.0 "Critical bug, use 1.0.1"
-```
-
-### PyPI
-```bash
-# Cannot unpublish - publish new version instead
-# Can yank to prevent new installs
-pip install twine
-twine yank themisdb 1.0.0
-```
-
-### NuGet
-```bash
-# Unlist (doesn't delete)
-dotnet nuget delete ThemisDB.Client 1.0.0 --source https://api.nuget.org/v3/index.json
-```
-
-### Maven Central
-- Cannot delete - publish new version
-- Can close/drop staging repository before release
-
-### Crates.io
-```bash
-cargo yank --vers 1.0.0
-```
-
-### Go
-```bash
-# Retract in go.mod
-retract v1.0.0
-```
-
-## Security Checklist
-
-- [ ] No secrets in published packages
-- [ ] No test credentials in code
-- [ ] Dependencies scanned for vulnerabilities
-- [ ] SBOM generated and attached to release
-- [ ] Signed releases where supported
-
-## Automation
-
-Use the master publish script:
-```bash
-./scripts/sdk-publish/publish-all.sh --version 1.0.0
-```
-
-Or publish individual SDKs:
-```bash
-./scripts/sdk-publish/publish-npm.sh --version 1.0.0
-./scripts/sdk-publish/publish-pypi.sh --version 1.0.0
-# etc.
-```
-
-## Registry URLs
-
-| SDK | Registry | URL |
-|-----|----------|-----|
-| JavaScript | NPM | https://www.npmjs.com/package/@themisdb/client |
-| Python | PyPI | https://pypi.org/project/themisdb/ |
-| C# | NuGet | https://www.nuget.org/packages/ThemisDB.Client |
-| Java | Maven | https://search.maven.org/artifact/io.themisdb/client |
-| Rust | Crates.io | https://crates.io/crates/themisdb |
-| Go | pkg.go.dev | https://pkg.go.dev/github.com/themisdb/go-client |
-| Swift | GitHub | https://github.com/themisdb/swift-client |
+### Version 1.0.0 (05.12.2025)
+-  Initial Publishing Checklist
+-  NPM, PyPI, crates.io Support

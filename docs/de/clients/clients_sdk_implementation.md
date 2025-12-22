@@ -1,782 +1,315 @@
-# ThemisDB SDK Implementation Plan
+﻿# 🔧 ThemisDB SDK Implementation Guide
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Clients
-
----
-
-
-**Datum:** 20. November 2025  
-**Branch:** sdk-beta-release  
-**Status:** Phase 1 - ✅ COMPLETE | Phase 2 - 🚧 IN PROGRESS (Go ✅, Java ✅, C# ✅)
+<!-- Dokumentations-Metadaten -->
+**Kategorie:** � SDK Analysis  
+**Version:** v1.3.0  
+**Status:**  In Arbeit  
+**Letztes Update:** 22. Dezember 2025
 
 ---
 
-## Phase 1: Bestehende SDKs Finalisieren ✅ COMPLETE
+##  Inhaltsverzeichnis
 
-### Timeline: 2-3 Wochen → **Actual: 1 Day**
+- [ Übersicht](#-übersicht)
+- [ Features & Highlights](#-features--highlights)
+- [ Schnellstart](#-schnellstart)
+- [ Detaillierte Dokumentation](#-detaillierte-dokumentation)
+- [ Best Practices](#-best-practices)
+- [ Troubleshooting](#-troubleshooting)
+- [ Siehe auch](#-siehe-auch)
+- [ Changelog](#-changelog)
 
-### ✅ COMPLETED: JavaScript Transaction Support (2025-11-20)
+---
 
-**Status:** ✅ DONE - Proof-of-Concept implementiert  
-**Commit:** 189353b  
-**Time:** ~4 hours
+##  Übersicht
+
+Vollständiger Implementation Plan für alle ThemisDB Client SDKs. Dokumentiert Status, Roadmap und technische Details aller SDK-Sprachen.
+
+**Branch:** `sdk-beta-release`  
+**Status:** Phase 1  Complete | Phase 2  In Progress
+
+---
+
+##  Features & Highlights
+
+### Phase 1: Bestehende SDKs Finalisieren  COMPLETE
+
+####  JavaScript Transaction Support (2025-11-20)
+
+**Status:**  DONE - Proof-of-Concept implementiert  
+**Zeit:** ~4 Stunden
 
 **Implemented:**
-- ✅ Transaction class mit BEGIN/COMMIT/ROLLBACK
-- ✅ Isolation level support (READ_COMMITTED, SNAPSHOT)
-- ✅ All CRUD operations (get, put, delete, query)
-- ✅ State management (isActive, transactionId)
-- ✅ Error handling (TransactionError)
-- ✅ Tests (7 passing tests)
-- ✅ Documentation (README update)
-- ✅ Package version bump (0.1.0-beta.1)
+-  Transaction class mit BEGIN/COMMIT/ROLLBACK
+-  Isolation level support (READ_COMMITTED, SNAPSHOT)
+-  All CRUD operations (get, put, delete, query)
+-  State management (isActive, transactionId)
+-  Error handling (TransactionError)
+-  Tests (7 passing tests)
+-  Package version bump (0.1.0-beta.1)
 
-**Files Changed:**
-- `clients/javascript/src/index.ts` (+220 lines)
-- `clients/javascript/tests/transaction.spec.ts` (new, +137 lines)
-- `clients/javascript/tests/client.spec.ts` (updated)
-- `clients/javascript/README.md` (comprehensive update)
-- `clients/javascript/package.json` (version bump)
+####  Python Transaction Support (2025-11-20)
 
----
-
-### ✅ COMPLETED: Python Transaction Support (2025-11-20)
-
-**Status:** ✅ DONE - Full implementation with context manager  
-**Commit:** ca694fc  
-**Time:** ~4 hours
+**Status:**  DONE - Full implementation mit context manager  
+**Zeit:** ~4 Stunden
 
 **Implemented:**
-- ✅ Transaction class mit BEGIN/COMMIT/ROLLBACK
-- ✅ Context manager support (`with` statement)
-- ✅ Isolation level support (READ_COMMITTED, SNAPSHOT)
-- ✅ All CRUD operations (get, put, delete, query)
-- ✅ State management (is_active, transaction_id)
-- ✅ Error handling (TransactionError)
-- ✅ Full type hints (PEP 484)
-- ✅ Tests (9 passing tests + 5 integration placeholders)
-- ✅ Documentation (README update with examples)
-- ✅ Package version bump (0.1.0b1)
+-  Transaction class mit BEGIN/COMMIT/ROLLBACK
+-  Context manager support (`with` statement)
+-  Isolation level support
+-  Full type hints (PEP 484)
+-  Tests (9 passing tests)
+-  Package version bump (0.1.0b1)
 
-**Files Changed:**
-- `clients/python/themis/__init__.py` (+260 lines)
-- `clients/python/tests/test_transaction.py` (new, +224 lines)
-- `clients/python/README.md` (comprehensive update)
-- `clients/python/pyproject.toml` (version bump, dev dependencies)
+####  Rust Transaction Support (2025-11-20)
 
----
-
-### ✅ COMPLETED: Rust Transaction Support (2025-11-20)
-
-**Status:** ✅ DONE - Full async/await implementation  
-**Commit:** (this commit)  
-**Time:** ~4 hours
+**Status:**  DONE - Full async/await implementation  
+**Zeit:** ~4 Stunden
 
 **Implemented:**
-- ✅ Transaction struct mit BEGIN/COMMIT/ROLLBACK
-- ✅ Async/await pattern using Tokio
-- ✅ Isolation level support (READ_COMMITTED, SNAPSHOT)
-- ✅ All CRUD operations (get, put, delete, query)
-- ✅ State management (is_active, transaction_id)
-- ✅ Error handling (Transaction variant)
-- ✅ Type safety with generics
-- ✅ Tests (5 passing unit tests + 3 integration placeholders)
-- ✅ Documentation (comprehensive 9KB README)
-- ✅ Package version bump (0.1.0-beta.1)
+-  Transaction struct mit BEGIN/COMMIT/ROLLBACK
+-  Async/await pattern using Tokio
+-  Isolation level support
+-  Type safety with generics
+-  Tests (5 passing unit tests)
+-  Package version bump (0.1.0-beta.1)
 
-**Files Changed:**
-- `clients/rust/src/lib.rs` (+280 lines)
-- `clients/rust/tests/test_transaction.rs` (new, 8 tests)
-- `clients/rust/README.md` (new, comprehensive documentation)
-- `clients/rust/Cargo.toml` (version bump, keywords, categories)
+### Phase 1 Summary 
 
----
+**Achievement:** Alle drei SDKs haben vollständige ACID Transaction Support
 
-## Phase 1 Summary ✅
-
-**Achievement:** All three SDKs (JavaScript, Python, Rust) now have full ACID transaction support
-
-**Total Time:** ~12 hours (vs. estimated 2-3 weeks)
+**Total Time:** ~12 Stunden (vs. estimated 2-3 weeks)
 
 **Coverage:**
-- ✅ BEGIN/COMMIT/ROLLBACK in all SDKs
-- ✅ Isolation level configuration
-- ✅ Transaction state management
-- ✅ Comprehensive test suites
-- ✅ Production-ready documentation
-- ✅ Beta version numbers
-- ✅ Language-specific features:
+-  BEGIN/COMMIT/ROLLBACK in all SDKs
+-  Isolation level configuration
+-  Transaction state management
+-  Comprehensive test suites
+-  Production-ready documentation
+-  Language-specific features:
   - JavaScript: Promise-based async
-  - Python: Context manager (`with` statement)
+  - Python: Context manager (`with`)
   - Rust: Async/await with Tokio
 
-**Remaining Phase 1 Tasks:**
-- ⏳ Python AsyncClient (fully async with httpx.AsyncClient)
-- ⏳ Batch operations (batchPut, batchDelete) for JavaScript
-- ⏳ Graph operations for Rust (graph_traverse)
-- ⏳ Package publishing (NPM, PyPI, Crates.io)
-- ⏳ End-to-end integration tests (requires running server)
-
 ---
 
-## JavaScript/TypeScript SDK Finalisierung
+##  Schnellstart
 
-**Ziel:** Alpha → Beta Release
+### JavaScript/TypeScript SDK
 
-### 1.1 Transaction Support ⭐ KRITISCH - ✅ DONE
-**Aufwand:** 2-3 Tage → **Actual: 4 hours**
-
-**Neue Klassen/Methods:**
 ```typescript
-export interface TransactionOptions {
-  isolationLevel?: 'READ_COMMITTED' | 'REPEATABLE_READ' | 'SERIALIZABLE';
-  timeout?: number;
-}
+import { ThemisClient } from '@themisdb/sdk';
 
-export class Transaction {
-  private txId: string;
-  private client: ThemisClient;
-  
-  async get<T>(model: string, collection: string, uuid: string): Promise<T | null>;
-  async put(model: string, collection: string, uuid: string, data: unknown): Promise<boolean>;
-  async delete(model: string, collection: string, uuid: string): Promise<boolean>;
-  async query<T>(aql: string, options?: QueryOptions): Promise<QueryResult<T>>;
-  async commit(): Promise<void>;
-  async rollback(): Promise<void>;
-}
+const client = new ThemisClient({
+  endpoints: ['http://localhost:8765']
+});
 
-// Client method
-async beginTransaction(options?: TransactionOptions): Promise<Transaction>;
+// Mit Transaction
+const tx = await client.beginTransaction();
+await tx.put('relational', 'users', '123', { name: 'Alice' });
+await tx.commit();
 ```
 
-**HTTP Endpoints (bereits im Server):**
-- `POST /transaction/begin` → returns `{ transaction_id: string }`
-- `POST /transaction/commit` → body: `{ transaction_id: string }`
-- `POST /transaction/rollback` → body: `{ transaction_id: string }`
-- Alle CRUD operations mit Header: `X-Transaction-Id: <txId>`
+### Python SDK
 
-**Tests:**
-- Unit tests für Transaction class
-- Integration tests für ACID properties
-- Rollback scenarios
-- Timeout handling
-
----
-
-### 1.2 Batch Operations Vervollständigen
-**Aufwand:** 1 Tag
-
-**Fehlende Methods:**
-```typescript
-async batchPut(
-  model: string,
-  collection: string,
-  items: Record<string, unknown>
-): Promise<{ succeeded: string[]; failed: Record<string, string> }>;
-
-async batchDelete(
-  model: string,
-  collection: string,
-  uuids: string[]
-): Promise<{ succeeded: string[]; failed: Record<string, string> }>;
-```
-
-**Tests:**
-- Batch put mit 100+ items
-- Error handling
-- Partial failures
-
----
-
-### 1.3 NPM Package Vorbereitung
-**Aufwand:** 1 Tag
-
-**package.json Updates:**
-```json
-{
-  "name": "@themisdb/client",
-  "version": "0.1.0-beta.1",
-  "description": "Official JavaScript/TypeScript client for ThemisDB",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": ["dist", "README.md", "LICENSE"],
-  "keywords": ["database", "multi-model", "graph", "vector", "themisdb"],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/makr-code/ThemisDB.git",
-    "directory": "clients/javascript"
-  }
-}
-```
-
-**Build Process:**
-- TypeScript compilation
-- .d.ts generation
-- Bundle mit Rollup/ESBuild
-- NPM publish --tag beta
-
----
-
-### 1.4 Dokumentation
-**Aufwand:** 2 Tage
-
-**Neue Dateien:**
-- `clients/javascript/README.md` - Quick Start
-- `docs/sdk_quickstart_js.md` - Ausführliche Anleitung
-- Code Examples (10+ Beispiele)
-
----
-
-## Python SDK Finalisierung
-
-**Ziel:** Alpha → Beta Release
-
-### 2.1 Transaction Support ⭐ KRITISCH
-**Aufwand:** 2-3 Tage
-
-**Neue Klassen:**
 ```python
-from typing import Optional, Any, Dict, List
-from enum import Enum
+from themis import ThemisClient
 
-class IsolationLevel(Enum):
-    READ_COMMITTED = "READ_COMMITTED"
-    REPEATABLE_READ = "REPEATABLE_READ"
-    SERIALIZABLE = "SERIALIZABLE"
+client = ThemisClient(endpoints=["http://localhost:8765"])
 
-class Transaction:
-    def __init__(self, client: ThemisClient, tx_id: str):
-        self._client = client
-        self._tx_id = tx_id
-        self._committed = False
-        self._rolled_back = False
-    
-    def get(self, model: str, collection: str, uuid: str) -> Optional[Any]:
-        """Get entity within transaction"""
-        
-    def put(self, model: str, collection: str, uuid: str, data: Any) -> bool:
-        """Put entity within transaction"""
-        
-    def delete(self, model: str, collection: str, uuid: str) -> bool:
-        """Delete entity within transaction"""
-        
-    def query(self, aql: str, **kwargs) -> QueryResult:
-        """Execute query within transaction"""
-        
-    def commit(self) -> None:
-        """Commit transaction"""
-        
-    def rollback(self) -> None:
-        """Rollback transaction"""
-        
-    def __enter__(self):
-        return self
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if exc_type is None and not self._committed:
-            self.commit()
-        elif not self._rolled_back:
-            self.rollback()
-
-# Client method
-def begin_transaction(
-    self, 
-    isolation_level: IsolationLevel = IsolationLevel.READ_COMMITTED,
-    timeout: float = 30.0
-) -> Transaction:
-    """Begin a new transaction"""
-```
-
-**Context Manager Support:**
-```python
+# Mit Context Manager
 with client.begin_transaction() as tx:
     tx.put("relational", "users", "123", {"name": "Alice"})
-    tx.put("relational", "users", "456", {"name": "Bob"})
-    # Auto-commit on success, auto-rollback on exception
+    # Auto-commit on success
 ```
 
-**Tests:**
-- Unit tests für Transaction class
-- Integration tests mit Context Manager
-- ACID properties verification
-- Exception handling
+### Rust SDK
 
----
-
-### 2.2 Async Client ⭐ KRITISCH
-**Aufwand:** 3-4 Tage
-
-**Neue Klasse:**
-```python
-import httpx
-import asyncio
-
-class AsyncThemisClient:
-    """Async version of ThemisClient using httpx.AsyncClient"""
-    
-    def __init__(self, endpoints: List[str], **kwargs):
-        self._http_client = httpx.AsyncClient(...)
-    
-    async def get(self, model: str, collection: str, uuid: str) -> Optional[Any]:
-        """Async get operation"""
-        
-    async def put(self, model: str, collection: str, uuid: str, data: Any) -> bool:
-        """Async put operation"""
-        
-    async def delete(self, model: str, collection: str, uuid: str) -> bool:
-        """Async delete operation"""
-        
-    async def query(self, aql: str, **kwargs) -> QueryResult:
-        """Async query operation"""
-        
-    async def begin_transaction(self, **kwargs) -> AsyncTransaction:
-        """Begin async transaction"""
-        
-    async def __aenter__(self):
-        return self
-    
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self.close()
-        
-    async def close(self):
-        await self._http_client.aclose()
-```
-
-**Usage:**
-```python
-async with AsyncThemisClient(["http://localhost:8080"]) as client:
-    result = await client.query("FOR doc IN users RETURN doc")
-```
-
-**Tests:**
-- Async unit tests (pytest-asyncio)
-- Concurrent operations
-- Connection pooling
-- Error handling
-
----
-
-### 2.3 Type Hints Vervollständigen
-**Aufwand:** 1 Tag
-
-**Vollständige PEP 484 Compliance:**
-- Alle Methoden mit Type Hints
-- Generic types für QueryResult, BatchGetResult
-- py.typed marker file
-- mypy validation
-
----
-
-### 2.4 PyPI Package Vorbereitung
-**Aufwand:** 1 Tag
-
-**pyproject.toml Updates:**
-```toml
-[project]
-name = "themisdb-client"
-version = "0.1.0b1"
-description = "Official Python client for ThemisDB"
-readme = "README.md"
-requires-python = ">=3.8"
-license = {text = "MIT"}
-keywords = ["database", "multi-model", "graph", "vector", "themisdb"]
-authors = [
-    {name = "ThemisDB Team", email = "service@themisdb.org"}
-]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-]
-dependencies = [
-    "httpx>=0.27.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-asyncio>=0.21",
-    "mypy>=1.0",
-]
-
-[project.urls]
-Homepage = "https://github.com/makr-code/ThemisDB"
-Documentation = "https://makr-code.github.io/ThemisDB/"
-Repository = "https://github.com/makr-code/ThemisDB"
-```
-
-**Build & Publish:**
-```bash
-python -m build
-twine check dist/*
-twine upload --repository pypi dist/*
-```
-
----
-
-### 2.5 Dokumentation
-**Aufwand:** 2 Tage
-
-**Neue Dateien:**
-- `clients/python/README.md` - Quick Start
-- `docs/sdk_quickstart_python.md` - Ausführliche Anleitung
-- Code Examples (10+ Beispiele, sync + async)
-
----
-
-## Rust SDK Finalisierung
-
-**Ziel:** Alpha → Beta Release
-
-### 3.1 Transaction Support ⭐ KRITISCH
-**Aufwand:** 2-3 Tage
-
-**Neue Structs:**
 ```rust
-pub struct TransactionOptions {
-    pub isolation_level: IsolationLevel,
-    pub timeout: Duration,
-}
+use themisdb_sdk::ThemisClient;
 
-pub enum IsolationLevel {
-    ReadCommitted,
-    RepeatableRead,
-    Serializable,
-}
+let client = ThemisClient::new(config)?;
 
-pub struct Transaction {
-    client: Arc<ThemisClient>,
-    tx_id: String,
-    committed: bool,
-    rolled_back: bool,
-}
-
-impl Transaction {
-    pub async fn get<T>(&self, model: &str, collection: &str, uuid: &str) -> Result<Option<T>>
-    where
-        T: DeserializeOwned,
-    {
-        // Implementation with X-Transaction-Id header
-    }
-    
-    pub async fn put<T>(&self, model: &str, collection: &str, uuid: &str, data: &T) -> Result<()>
-    where
-        T: Serialize,
-    {
-        // Implementation
-    }
-    
-    pub async fn delete(&self, model: &str, collection: &str, uuid: &str) -> Result<bool> {
-        // Implementation
-    }
-    
-    pub async fn query<T>(&self, aql: &str, options: QueryOptions) -> Result<QueryResult<T>>
-    where
-        T: DeserializeOwned,
-    {
-        // Implementation
-    }
-    
-    pub async fn commit(mut self) -> Result<()> {
-        // Implementation
-    }
-    
-    pub async fn rollback(mut self) -> Result<()> {
-        // Implementation
-    }
-}
-
-impl ThemisClient {
-    pub async fn begin_transaction(&self, options: TransactionOptions) -> Result<Transaction> {
-        // Implementation
-    }
-}
-```
-
-**Tests:**
-- Unit tests
-- Integration tests
-- ACID compliance
-- Drop behavior (auto-rollback)
-
----
-
-### 3.2 Batch/Graph Operations
-**Aufwand:** 2 Tage
-
-**Fehlende Methods:**
-```rust
-pub async fn batch_put<T>(
-    &self,
-    model: &str,
-    collection: &str,
-    items: HashMap<String, T>,
-) -> Result<BatchWriteResult>
-where
-    T: Serialize,
-{
-    // Implementation
-}
-
-pub async fn batch_delete(
-    &self,
-    model: &str,
-    collection: &str,
-    uuids: &[String],
-) -> Result<BatchWriteResult> {
-    // Implementation
-}
-
-pub async fn graph_traverse(
-    &self,
-    start_node: &str,
-    max_depth: u32,
-    edge_type: Option<&str>,
-) -> Result<Vec<String>> {
-    // Implementation
-}
-```
-
-**Tests:**
-- Batch operations
-- Graph traversal
-- Error handling
-
----
-
-### 3.3 Crates.io Package Vorbereitung
-**Aufwand:** 1 Tag
-
-**Cargo.toml Updates:**
-```toml
-[package]
-name = "themisdb-client"
-version = "0.1.0-beta.1"
-edition = "2021"
-authors = ["ThemisDB Team"]
-description = "Official Rust client for ThemisDB"
-readme = "README.md"
-homepage = "https://github.com/makr-code/ThemisDB"
-repository = "https://github.com/makr-code/ThemisDB"
-license = "MIT"
-keywords = ["database", "multi-model", "graph", "vector", "themisdb"]
-categories = ["database"]
-
-[dependencies]
-reqwest = { version = "0.12", features = ["json"] }
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "2.0"
-tokio = { version = "1.42", features = ["full"] }
-
-[dev-dependencies]
-tokio-test = "0.4"
-```
-
-**Publish:**
-```bash
-cargo test --all-features
-cargo doc --no-deps
-cargo publish --dry-run
-cargo publish
+// Mit Transaction
+let mut tx = client.begin_transaction().await?;
+tx.put("relational", "users", "123", &user_data).await?;
+tx.commit().await?;
 ```
 
 ---
 
-### 3.4 Dokumentation
-**Aufwand:** 2 Tage
+##  Detaillierte Dokumentation
 
-**Neue Dateien:**
-- `clients/rust/README.md` - Quick Start
-- `docs/sdk_quickstart_rust.md` - Ausführliche Anleitung
-- Rustdoc examples
-- Code Examples (10+ Beispiele)
+### Phase 2: Zusätzliche SDK-Sprachen (In Progress)
 
----
+####  Go (Golang) - HÖCHSTE PRIORITÄT
 
-## Phase 1 Timeline (Gesamt: 2-3 Wochen)
+**Status:**  Basic Implementation vorhanden  
+**Aufwand:** 1-2 Wochen  
+**Priority:**  MUST-HAVE
 
-### Woche 1: Transaction Support
-- **Tag 1-2:** JavaScript Transaction implementieren + tests
-- **Tag 3-4:** Python Transaction implementieren + tests
-- **Tag 5-7:** Rust Transaction implementieren + tests
+**Use Cases:**
+- Kubernetes Operators
+- API Gateways
+- Microservices
+- DevOps Tools
 
-### Woche 2: Fehlende Features & Async
-- **Tag 1:** JavaScript batch operations
-- **Tag 2-4:** Python AsyncClient implementieren
-- **Tag 5:** Python type hints vervollständigen
-- **Tag 6-7:** Rust batch/graph operations
+**Fehlende Features:**
+-  Transaction Support
+-  BatchPut/BatchDelete
+-  Graph-Traverse methods
 
-### Woche 3: Package Publishing & Dokumentation
-- **Tag 1:** Package configs (package.json, pyproject.toml, Cargo.toml)
-- **Tag 2-3:** Dokumentation schreiben (alle SDKs)
-- **Tag 4:** NPM publish (Beta)
-- **Tag 5:** PyPI publish (Beta)
-- **Tag 6:** Crates.io publish (Beta)
-- **Tag 7:** Final testing & README updates
+####  Java - ENTERPRISE STANDARD
 
----
+**Status:**  Beta mit Transaction Support  
+**Aufwand:** 2-3 Wochen (inkl. Maven Central)  
+**Priority:**  MUST-HAVE
 
-## Phase 2: Neue SDKs
-
-### ✅ COMPLETED: Go SDK (2025-11-20)
-
-**Status:** ✅ DONE - Full implementation with transaction support  
-**Commit:** (this commit)  
-**Time:** ~4 hours  
-**Priority:** ⭐⭐⭐⭐⭐ HÖCHSTE
+**Use Cases:**
+- Enterprise Applications
+- Spring Boot Microservices
+- Android Apps
+- Financial Services
 
 **Implemented:**
-- ✅ Client with full CRUD operations
-- ✅ Transaction support (BEGIN/COMMIT/ROLLBACK)
-- ✅ Context.Context integration throughout
-- ✅ Isolation level support (READ_COMMITTED, SNAPSHOT)
-- ✅ Concurrent-safe operations (sync.RWMutex)
-- ✅ Idiomatic Go patterns
-- ✅ Transaction state management
-- ✅ Error handling with standard errors
-- ✅ Tests (6 passing unit tests + 3 integration placeholders)
-- ✅ Comprehensive 11KB README with examples
-- ✅ Go module configuration (go.mod)
+-  Transaction Support vorhanden
+-  Basic CRUD
+-  Vector Search
 
-**Files Changed:**
-- `clients/go/client.go` (new, 8.7KB, full implementation)
-- `clients/go/client_test.go` (new, 5.2KB, 9 tests)
-- `clients/go/README.md` (new, 11.6KB, comprehensive documentation)
-- `clients/go/go.mod` (new, Go 1.21+)
+####  C# (.NET) - MICROSOFT ECOSYSTEM
 
-**Package:** `github.com/makr-code/ThemisDB/clients/go`
+**Status:**  Alpha vorhanden  
+**Aufwand:** 2-3 Wochen (inkl. NuGet)  
+**Priority:**  SEHR WICHTIG
 
-**Go-Specific Features:**
-- Context support for all operations
-- Goroutine-safe with mutex protection
-- Standard library http.Client
-- Defer-based transaction cleanup patterns
-- Type-safe interfaces with generics
-- Integration test build tags
+**Use Cases:**
+- Azure Cloud Applications
+- Enterprise .NET Apps
+- Unity Game Development
+- ASP.NET Core APIs
 
----
+### SDK Feature Matrix (Aktuell)
 
-### ✅ COMPLETED: Java SDK (2025-11-20)
-
-**Status:** ✅ DONE - Full implementation with transaction support  
-**Commit:** (this commit)  
-**Time:** ~4 hours  
-**Priority:** ⭐⭐⭐⭐⭐ SEHR WICHTIG
-
-**Implemented:**
-- ✅ Client with full CRUD operations
-- ✅ Transaction support (BEGIN/COMMIT/ROLLBACK)
-- ✅ Isolation level support (READ_COMMITTED, SNAPSHOT)
-- ✅ Thread-safe operations (ReadWriteLock)
-- ✅ Try-with-resources support (AutoCloseable)
-- ✅ Generic type-safe methods
-- ✅ Transaction state management
-- ✅ Error handling with standard exceptions
-- ✅ Tests (9 passing unit tests + 3 integration placeholders)
-- ✅ Comprehensive 11KB README with examples
-- ✅ Maven configuration (pom.xml)
-
-**Files Changed:**
-- `clients/java/src/main/java/com/themisdb/client/ThemisClient.java` (new, 8.7KB)
-- `clients/java/src/main/java/com/themisdb/client/Transaction.java` (new, 10KB)
-- `clients/java/src/main/java/com/themisdb/client/IsolationLevel.java` (new)
-- `clients/java/src/main/java/com/themisdb/client/TransactionOptions.java` (new, 2KB)
-- `clients/java/src/test/java/com/themisdb/client/ThemisClientTest.java` (new, 5.4KB, 9 tests)
-- `clients/java/README.md` (new, 11KB, comprehensive documentation)
-- `clients/java/pom.xml` (new, Maven project config)
-
-**Package:** `com.themisdb:themisdb-client:0.1.0-beta.1` (Maven Central ready)
-
-**Java-Specific Features:**
-- Java 11+ compatibility
-- java.net.http.HttpClient (modern HTTP)
-- Try-with-resources for automatic transaction cleanup
-- Generic methods with type safety
-- Thread-safe with ReentrantReadWriteLock
-- Gson for JSON serialization
-- JUnit 5 for testing
-- Spring Boot compatible
+| SDK | CRUD | AQL | Vector | Graph | Batch | Transaction | Status |
+|-----|------|-----|--------|-------|-------|-------------|--------|
+| **JavaScript** |  |  |  |  |  |  | Beta |
+| **Python** |  |  |  |  |  |  | Beta |
+| **Rust** |  |  |  |  |  |  | Beta |
+| **Go** |  |  |  |  |  |  | Alpha |
+| **Java** |  |  |  |  |  |  | Beta |
+| **C#** |  |  |  |  |  |  | Alpha |
 
 ---
 
-### C# SDK (Q3 2026)
-**Priorität:** ⭐⭐⭐⭐ WICHTIG  
-**Aufwand:** 2-3 Wochen  
-**Begründung:** Microsoft Ecosystem, Azure, Unity
+##  Best Practices
 
-**Features:**
-- .NET 6/7/8 support
-- Async/await native
-- LINQ integration
-- Unity compatibility
-- Transaction support
+###  DO: Feature Parity beibehalten
 
-**Package:** `ThemisDB.Client` (NuGet)
+Alle SDKs sollten dieselben Features unterstützen:
+- CRUD Operations
+- AQL Queries
+- Transactions (ACID)
+- Vector Search
+- Graph Traversal
+- Batch Operations
 
----
+###  DO: Idiomatischen Code schreiben
 
-### Swift SDK (Q4 2026)
-**Priorität:** ⭐⭐⭐ MOBILE  
-**Aufwand:** 2 Wochen  
-**Begründung:** iOS/macOS Native
+```python
+# Python: Context Manager
+with client.begin_transaction() as tx:
+    tx.put("relational", "users", "123", data)
+```
 
-**Features:**
-- Swift 5.9+
-- Async/await (Swift Concurrency)
-- Combine framework integration
-- iOS/macOS support
-- Transaction support
+```javascript
+// JavaScript: Promise-based
+const tx = await client.beginTransaction();
+await tx.put('relational', 'users', '123', data);
+await tx.commit();
+```
 
-**Package:** Swift Package Manager
+```rust
+// Rust: Result<T, E> Pattern
+let tx = client.begin_transaction().await?;
+tx.put("relational", "users", "123", &data).await?;
+tx.commit().await?;
+```
 
----
+###  DO: Comprehensive Testing
 
-## Erfolgskriterien Phase 1
-
-### JavaScript SDK ✓
-- [ ] Transaction support implementiert
-- [ ] Batch operations vollständig
-- [ ] NPM package published (@themisdb/client@0.1.0-beta.1)
-- [ ] Dokumentation vollständig
-- [ ] Alle Tests bestehen (>80% coverage)
-
-### Python SDK ✓
-- [ ] Transaction support implementiert
-- [ ] AsyncThemisClient implementiert
-- [ ] Type hints vollständig (PEP 484)
-- [ ] PyPI package published (themisdb-client==0.1.0b1)
-- [ ] Dokumentation vollständig
-- [ ] Alle Tests bestehen (>80% coverage)
-
-### Rust SDK ✓
-- [ ] Transaction support implementiert
-- [ ] Batch/Graph operations vollständig
-- [ ] Crates.io package published (themisdb-client@0.1.0-beta.1)
-- [ ] Dokumentation vollständig
-- [ ] Alle Tests bestehen (>80% coverage)
-
-### Qualität ✓
-- [ ] Code Review abgeschlossen (0 CRITICAL/HIGH Issues)
-- [ ] Security Scan bestanden (CodeQL)
-- [ ] Performance Tests bestanden
-- [ ] Alle Packages veröffentlicht
+Jedes SDK benötigt:
+- Unit Tests
+- Integration Tests  
+- Transaction Tests
+- Error Handling Tests
+- Performance Benchmarks
 
 ---
 
-**Nächste Schritte:**
-1. Transaction Support in allen 3 SDKs implementieren
-2. Fehlende Features ergänzen
-3. Package Publishing vorbereiten
-4. Dokumentation vervollständigen
-5. Beta Release!
+##  Troubleshooting
 
-**Letzte Aktualisierung:** 20. November 2025  
-**Status:** Bereit für Implementation
+###  Transaction Support fehlt
+
+**Problem:** SDK hat keine Transaction-Klasse
+
+**Lösung:** Implementiere nach Phase 1 Pattern:
+1. Transaction class/struct erstellen
+2. BEGIN/COMMIT/ROLLBACK endpoints
+3. State management
+4. Tests schreiben
+
+###  Tests schlagen fehl
+
+**Problem:** Integration tests benötigen laufenden Server
+
+**Lösung:**
+```bash
+# Start ThemisDB via Docker
+docker-compose up -d
+
+# Run SDK tests
+pytest clients/python/tests      # Python
+npm test                         # JavaScript
+cargo test                       # Rust
+```
+
+---
+
+##  Siehe auch
+
+###  SDK Dokumentation
+
+- [ Python SDK](clients_python_sdk.md)
+- [ JavaScript SDK](clients_javascript_sdk.md)
+- [ Rust SDK](clients_rust_sdk.md)
+- [ Publishing Checklist](clients_publishing_checklist.md)
+- [ Publishing Guide](clients_publishing_guide.md)
+
+###  Analysis & Audit
+
+- [ SDK Analysis](clients_sdk_analysis.md) - Sprach-Prioritäten
+- [ SDK Audit](clients_sdk_audit.md) - Status aller SDKs
+
+###  API Referenzen
+
+- [ HTTP API](../apis/HTTP_API_REFERENCE.md)
+- [ AQL Reference](../aql/AQL_REFERENCE.md)
+- [ Transaction API](../apis/TRANSACTION_API.md)
+
+---
+
+##  Changelog
+
+### Version 1.3.0 (22.12.2025)
+-  Aktualisierung auf v1.3.0 Template
+-  Feature Matrix aktualisiert
+-  Phase 1 & 2 Status dokumentiert
+-  Alle Links zu docs/de/ aktualisiert
+-  Best Practices erweitert
+
+### Version 1.0.0 (20.11.2025)
+-  Initial Implementation Plan
+-  JavaScript Transaction Support
+-  Python Transaction Support
+-  Rust Transaction Support
+-  Phase 1 Complete
