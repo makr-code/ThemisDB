@@ -1,9 +1,18 @@
 # GPU Acceleration Plan - ThemisDB
 
-**Version:** 1.0  
-**Datum:** 20. November 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance  
 **Status:** Planning Phase  
 **Priorität:** P0 (Q2 2026)
+
+---
+
+## 📑 Table of Contents
+
+- [Executive Summary](#executive-summary)
+- [Backends](#gpu-backends)
+- [Roadmap](#implementation-roadmap)
 
 ---
 

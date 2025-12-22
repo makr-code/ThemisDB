@@ -1,11 +1,18 @@
 # Multi-CPU Support Implementation for ThemisDB
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Performance
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
 
 ---
 
+## 📑 Table of Contents
+
+- [Current State](#current-state-analysis)
+- [Architecture](#architecture)
+- [Implementation](#implementation)
+
+---
 
 ## Current State Analysis
 

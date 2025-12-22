@@ -1,5 +1,19 @@
 ﻿# Speicherhierarchie-Optimierung & RocksDB Tuning
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [RocksDB Kompression](#rocksdb-kompression)
+- [Speicherhierarchie](#speicherhierarchie)
+- [Tuning](#tuning-empfehlungen)
+
+---
+
 Dieser Leitfaden beschreibt, wie du die Speicherhierarchie für THEMIS mit RocksDB effektiv konfigurierst.
 
 ## RocksDB Kompression

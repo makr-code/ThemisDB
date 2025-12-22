@@ -1,8 +1,17 @@
 # Hardware Acceleration Support - ThemisDB
 
-**Version:** 1.0  
-**Status:** Implementation Phase  
-**Last Updated:** 20. November 2025
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance  
+**Status:** Implementation Phase
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Hardware Support](#hardware-support)
+- [Optimierung](#optimierung)
 
 ---
 

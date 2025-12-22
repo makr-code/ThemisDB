@@ -1,5 +1,19 @@
 # ThemisDB Performance Optimization Quick-Wins
 
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
+
+---
+
+## 📑 Table of Contents
+
+- [Summary](#summary)
+- [Optimizations](#optimizations)
+- [Results](#results)
+
+---
+
 This document describes two key performance optimizations implemented in ThemisDB that deliver measurable improvements with minimal code changes.
 
 ## Summary

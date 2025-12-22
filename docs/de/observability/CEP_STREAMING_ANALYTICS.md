@@ -1,11 +1,18 @@
 # ThemisDB Complex Event Processing (CEP) - Streaming Analytics
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Analytics
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🔍 Observability
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Architecture](#architecture)
+- [Implementation](#implementation)
+
+---
 
 ## Übersicht
 

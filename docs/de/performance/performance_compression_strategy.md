@@ -1,11 +1,18 @@
 # Komprimierungsstrategie für ThemisDB
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Performance
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
 
 ---
 
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [Strategien](#strategien)
+- [Empfehlungen](#empfehlungen)
+
+---
 
 ## Executive Summary
 

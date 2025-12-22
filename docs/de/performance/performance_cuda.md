@@ -1,11 +1,19 @@
 # CUDA Backend Implementation
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Performance
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
 
 ---
 
+## 📑 Table of Contents
+
+- [Status](#status--implemented-functional)
+- [Features](#features)
+- [Implementation](#implementation-details)
+- [Performance](#performance-results)
+
+---
 
 ## Status: ✅ Implemented (Functional)
 

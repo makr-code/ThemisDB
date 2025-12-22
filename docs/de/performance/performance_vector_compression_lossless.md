@@ -1,9 +1,17 @@
 # Verlustfreie Komprimierung großer Vektoren: Methoden und interdisziplinäre Ansätze
 
-**Stand:** 8. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Performance, Research  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance  
 **Autor:** ThemisDB Research Team
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Executive Summary](#executive-summary)
+- [Methoden](#methoden)
+- [Ergebnisse](#ergebnisse)
 
 ---
 

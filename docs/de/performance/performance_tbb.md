@@ -1,11 +1,18 @@
 # Intel TBB Integration for Multi-CPU Backend
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Performance
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
 
 ---
 
+## 📑 Table of Contents
+
+- [Current State](#current-state)
+- [Integration](#tbb-integration)
+- [Performance](#performance-results)
+
+---
 
 ## Current State
 
