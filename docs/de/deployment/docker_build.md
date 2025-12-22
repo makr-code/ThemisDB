@@ -1,10 +1,19 @@
 # ThemisDB Docker Build und Deployment
 
-**Stand:** 6. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Deployment
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Build-Strategie](#build-strategie-hybrid-pre-built-binary-monolithisch)
+- [Build Scripts](#unified-docker-build-scripts)
+- [Unterstützte Plattformen](#unterstützte-plattformen)
+- [Docker Tags](#docker-tags)
+- [Voraussetzungen](#voraussetzungen)
+- [Container starten](#container-starten)
 
 ## Build-Strategie: Hybrid Pre-built Binary (Monolithisch)
 

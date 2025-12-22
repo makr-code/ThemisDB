@@ -1,11 +1,18 @@
 # ThemisDB Build & Deployment Strategy
 
-**Version:** 4.0.0 (v1.3.0+ Offline-First vcpkg)  
-**Last Updated:** 18. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready  
 **Architecture:** Offline-First vcpkg Build System
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Kernprinzip](#-kernprinzip-offline-first-vcpkg-strategy)
+- [Quick Start](#-quick-start)
+- [Plattform-Builds](#2-platform-spezifischer-build)
 
 ## 🎯 Kernprinzip: Offline-First vcpkg Strategy
 

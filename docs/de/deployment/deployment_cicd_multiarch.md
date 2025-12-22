@@ -1,10 +1,17 @@
 # CI/CD for ARM and Multi-Architecture Builds
 
-**Stand:** 17. Dezember 2025  
-**Version:** 1.3.0 (LLM Integration & RPC Framework)  
-**Kategorie:** Deployment
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
 
 ---
+
+## 📑 Table of Contents
+
+- [Overview](#this-document-describes-the-continuous-integration-and-deployment-setup-for-themisdbs-multi-architecture-builds-including-arm-support)
+- [GitHub Actions Workflows](#github-actions-workflows)
+- [Build Artifacts](#build-artifacts-v130)
+- [Docker Images](#docker-images-v130)
 
 
 This document describes the continuous integration and deployment setup for ThemisDB's multi-architecture builds, including ARM support.

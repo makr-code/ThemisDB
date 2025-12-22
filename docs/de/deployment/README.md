@@ -1,10 +1,18 @@
 # ThemisDB Deployment Documentation
 
-**Version:** 2.0.0 (Offline-First vcpkg)  
-**Last Updated:** 18. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#-übersicht)
+- [Quick Start](#-quick-start)
+- [Unterstützte Plattformen](#-unterstützte-plattformen)
+- [Build-Varianten](#-build-varianten)
 
 ## 📋 Übersicht
 

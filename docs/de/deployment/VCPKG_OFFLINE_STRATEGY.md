@@ -1,10 +1,17 @@
 # vcpkg Offline Build Strategy
 
-**Version:** 1.0.0  
-**Erstellt:** 18. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Plattformen:** Windows, Linux, Docker, ARM/Raspberry Pi
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#-übersicht)
+- [Cache-Architektur](#-cache-architektur)
+- [Setup-Prozess](#-setup-prozess)
 
 ## 🎯 Übersicht
 

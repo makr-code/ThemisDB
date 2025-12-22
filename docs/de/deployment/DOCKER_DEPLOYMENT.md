@@ -1,8 +1,18 @@
 # ThemisDB Docker Deployment Guide
 
-**Version:** 1.3.0  
-**Last Updated:** 17. Dezember 2025  
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Quick Start](#quick-start)
+- [GPU Support](#quick-start-with-gpu-support-v130)
+- [Verify Running](#verify-running)
+- [Docker Images](#docker-images)
 
 ## Quick Start
 

@@ -1,10 +1,19 @@
 # ThemisDB Multi-Architecture Docker Build-Strategie
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Deployment
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** 🚀 Deployment
 
 ---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Build-Strategie](#build-strategie)
+- [Dockerfile Multi-Arch](#2-dockerfile-multi-arch-support)
+- [vcpkg Dependency](#3-vcpkg-dependency-management)
+- [Raspberry Pi ARM](#4-raspberry-pi-arm-spezifika)
+- [Multi-Arch Build](#5-multi-arch-image-build)
 
 
 ## Übersicht
