@@ -6,8 +6,8 @@
 ## Vue d'ensemble
 
 - **Total de documents** : 696 fichiers markdown en allemand
-- **Documents traduits** : 11
-- **Pourcentage de traduction** : 1.58%
+- **Documents traduits** : 12
+- **Pourcentage de traduction** : 1.72%
 - **Objectif** : Documentation trilingue (Allemand, Anglais, Français)
 
 ## Stratégie de traduction
@@ -87,6 +87,7 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 9. **aql/README.md** - Module AQL et langage de requête (320 lignes) - 23 décembre 2025
 10. **apis/README.md** - Aperçu des APIs et ingestion (148 lignes) - 23 décembre 2025
 11. **llm/README.md** - Documentation intégration LLM & IA (302 lignes) - 23 décembre 2025
+12. **OVERVIEW.md** - Vue d'ensemble de la documentation française (215 lignes) - 23 décembre 2025
 
 ## Prochaines étapes
 
