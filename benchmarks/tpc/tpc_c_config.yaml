@@ -1,0 +1,190 @@
+# TPC-C Benchmark Configuration for ThemisDB
+
+# Database Connection
+database:
+  host: localhost
+  port: 8765
+  protocol: direct  # Options: direct, http, https, grpc, wire
+  database_name: tpcc
+  username: admin
+  password: ""  # Empty for no authentication
+  connection_timeout_seconds: 30
+  query_timeout_seconds: 300
+
+# Benchmark Parameters
+benchmark:
+  # Number of warehouses (1 warehouse ≈ 100MB)
+  # More warehouses = larger database, more parallelism
+  warehouses: 10
+  
+  # Benchmark duration in seconds
+  duration_seconds: 300  # 5 minutes
+  
+  # Ramp-up time before measurement starts (seconds)
+  # Allows system to warm up caches
+  ramp_up_seconds: 30
+  
+  # Number of worker threads
+  # Recommendation: 1-2x number of warehouses for best results
+  threads: 16
+  
+  # Think time between transactions (milliseconds)
+  # 0 = maximum throughput test
+  # >0 = more realistic user behavior
+  think_time_ms: 0
+  
+  # Transaction mix (must sum to 100)
+  transaction_mix:
+    new_order: 45      # 45% - Most critical transaction
+    payment: 43        # 43% - Second most frequent
+    order_status: 4    # 4% - Read-only query
+    delivery: 4        # 4% - Batch processing
+    stock_level: 4     # 4% - Inventory query
+
+# Data Generation
+data_generation:
+  # Use realistic data generation (slower but more accurate)
+  realistic_names: true
+  
+  # Use variable-length strings (more realistic)
+  variable_length_strings: true
+  
+  # Random seed for reproducibility (null = random)
+  random_seed: 42
+  
+  # Generate ORIGINAL string in 10% of items/stocks (TPC-C requirement)
+  include_original_string: true
+
+# Performance Tuning
+performance:
+  # Batch size for bulk inserts during data loading
+  bulk_insert_batch_size: 1000
+  
+  # Use prepared statements (faster)
+  use_prepared_statements: true
+  
+  # Connection pooling
+  connection_pool_size: 20
+  connection_pool_max_overflow: 10
+  
+  # Enable query result caching (not TPC-C compliant, for testing only)
+  enable_result_cache: false
+
+# Reporting
+reporting:
+  # Output directory for results
+  output_dir: ./results
+  
+  # Output formats
+  output_formats:
+    - json
+    - markdown
+    - csv
+  
+  # Include detailed percentile statistics
+  include_percentiles:
+    - 50
+    - 90
+    - 95
+    - 99
+    - 99.9
+  
+  # Generate charts (requires matplotlib)
+  generate_charts: true
+  
+  # Chart types
+  chart_types:
+    - throughput_over_time
+    - latency_distribution
+    - transaction_mix
+    - response_time_percentiles
+  
+  # Real-time progress updates (seconds)
+  progress_update_interval: 10
+  
+  # Include system metrics (CPU, memory, I/O)
+  include_system_metrics: true
+
+# Validation
+validation:
+  # Perform consistency checks after benchmark
+  # (Verify data integrity according to TPC-C spec)
+  perform_consistency_checks: true
+  
+  # Consistency check types
+  consistency_checks:
+    - warehouse_ytd
+    - district_ytd
+    - customer_balance
+    - order_line_amounts
+    - stock_quantities
+  
+  # Maximum acceptable error rate (%)
+  max_error_rate_percent: 0.1
+  
+  # Verify response time requirements
+  # TPC-C requires: mean < 5s, p90 < 80s
+  verify_response_times: true
+
+# Advanced Options
+advanced:
+  # Enable debug logging
+  debug_mode: false
+  
+  # Log every N transactions
+  log_transaction_sample_rate: 1000
+  
+  # Measure individual query execution times
+  measure_query_times: true
+  
+  # Collect execution plans for slow queries
+  collect_execution_plans: false
+  slow_query_threshold_ms: 1000
+  
+  # Retry failed transactions
+  retry_failed_transactions: true
+  max_retries: 3
+  retry_delay_ms: 100
+
+# Hardware Configuration
+# (Used for performance target calculations)
+hardware:
+  cpu_cores: 8
+  memory_gb: 32
+  storage_type: nvme  # Options: hdd, ssd, nvme
+  network_latency_ms: 0.1  # For distributed setups
+
+# Performance Targets
+# (Based on research in ADVANCED_BENCHMARK_RESEARCH.md)
+targets:
+  # Target transactions per minute C (tpmC)
+  # PostgreSQL baseline: ~200,000 tpmC (8-core, 32GB)
+  # ThemisDB target: 80-100% of PostgreSQL
+  target_tpmc_min: 150000
+  target_tpmc_ideal: 200000
+  
+  # Response time targets (milliseconds)
+  target_response_time_mean_ms: 5000
+  target_response_time_p90_ms: 80000
+  
+  # Error rate target (percentage)
+  target_error_rate_percent: 0.01
+
+# Comparison Databases
+# (For competitive benchmarking)
+comparison:
+  enable_comparison: false
+  
+  # List of databases to compare against
+  databases:
+    - name: PostgreSQL
+      baseline_tpmc: 200000
+      configuration: "8-core, 32GB RAM, NVMe"
+    
+    - name: MySQL
+      baseline_tpmc: 180000
+      configuration: "8-core, 32GB RAM, NVMe"
+    
+    - name: CockroachDB
+      baseline_tpmc: 150000
+      configuration: "8-core, 32GB RAM, NVMe"
