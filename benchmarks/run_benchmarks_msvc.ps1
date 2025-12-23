@@ -49,7 +49,10 @@ foreach ($exe in $exeList) {
     $csvOut  = Join-Path $OutDir ("$name.csv")
     $args = @("--benchmark_counters_tabular=true", "--benchmark_out=$jsonOut", "--benchmark_out_format=json")
     & $exe @args
-    if ($LASTEXITCODE -ne 0) { throw "Benchmark $name exited with code $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) {
+        Write-Warning ("Benchmark {0} exited with code {1}. Skipping JSON parse." -f $name, $LASTEXITCODE)
+        continue
+    }
 
     # Convert JSON to CSV summary
     try {
@@ -71,7 +74,7 @@ foreach ($exe in $exeList) {
         $rows | Export-Csv -LiteralPath $csvOut -NoTypeInformation -Encoding UTF8
         $ran += [PSCustomObject]@{ Name = $name; Json = $jsonOut; Csv = $csvOut }
     } catch {
-        Write-Warning "Failed to parse JSON for $name: $_"
+        Write-Warning ("Failed to parse JSON for {0}: {1}" -f $name, $_)
     }
 }
 

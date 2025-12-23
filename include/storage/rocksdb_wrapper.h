@@ -76,8 +76,8 @@ public:
         int level0_slowdown_writes_trigger = 20;     // Slow down writes
         int level0_stop_writes_trigger = 36;         // Stop writes completely
         
-        bool allow_concurrent_memtable_write = false;  // Allow parallel writes to different memtables
-        bool enable_pipelined_write = false;           // Pipeline writes for better parallelism
+        bool allow_concurrent_memtable_write = true;   // v1.3.0: Allow parallel writes to different memtables
+        bool enable_pipelined_write = true;            // v1.3.0: Pipeline writes for better parallelism
         bool allow_unordered_write = false;            // Allow unordered writes (better concurrency)
         bool disable_wal_for_benchmark = false;        // WriteOptions::disableWAL for benchmark mode (NO fsync on writes!)
 
@@ -109,8 +109,8 @@ public:
             WritePrepared,
             WriteUnprepared
         };
-        WritePolicy write_policy = WritePolicy::WriteCommitted;
-        bool two_write_queues = false;          // Enable dual write queues (prepare/commit)
+        WritePolicy write_policy = WritePolicy::WritePrepared;  // v1.3.0: Default for better lock granularity
+        bool two_write_queues = true;           // Enable dual write queues (prepare/commit) - reduces lock contention
         uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
     };
     

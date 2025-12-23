@@ -169,7 +169,14 @@ void RocksDBWrapper::configureOptions() {
     options_->compression_opts.max_dict_bytes = 16 * 1024;  // 16KB dictionary for better compression
     
     // Parallel Write Optimization (RocksDB Best Practices)
-    options_->allow_concurrent_memtable_write = config_.allow_concurrent_memtable_write;
+    // v1.3.0 Lock Optimization: WRITE_PREPARED policy allows concurrent memtable writes
+    // This significantly improves write throughput with many threads (>16)
+    if (config_.write_policy != Config::WritePolicy::WriteCommitted) {
+        options_->allow_concurrent_memtable_write = config_.allow_concurrent_memtable_write;
+    } else {
+        // WRITE_COMMITTED requires this to be disabled for correctness
+        options_->allow_concurrent_memtable_write = false;
+    }
     options_->enable_pipelined_write = config_.enable_pipelined_write;
     // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
     
