@@ -1827,6 +1827,43 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+
+    # Scientific Standard Benchmarks (Phase 2-4)
+    # TPC-C: OLTP benchmark (Transaction Processing Council Standard)
+    add_executable(bench_tpcc
+        benchmarks/bench_tpcc.cpp
+    )
+    
+    target_link_libraries(bench_tpcc
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # YCSB: Yahoo Cloud Serving Benchmark (Workloads A-F)
+    add_executable(bench_ycsb
+        benchmarks/bench_ycsb.cpp
+    )
+    
+    target_link_libraries(bench_ycsb
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # MMDB-E: Multi-Modal Database Benchmark with Embeddings (Industry-First)
+    add_executable(bench_mmdb
+        benchmarks/bench_mmdb.cpp
+    )
+    
+    target_link_libraries(bench_mmdb
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
 endif()
 
 # Admin Tools (.NET)
