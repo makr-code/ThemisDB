@@ -6,8 +6,8 @@
 ## Vue d'ensemble
 
 - **Total de documents** : 696 fichiers markdown en allemand
-- **Documents traduits** : 7
-- **Pourcentage de traduction** : 1.00%
+- **Documents traduits** : 8
+- **Pourcentage de traduction** : 1.15%
 - **Objectif** : Documentation trilingue (Allemand, Anglais, Français)
 
 ## Stratégie de traduction
@@ -37,11 +37,11 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 ### Priorité 2 : Guides de démarrage ⏳ En cours
 - [x] `/docs/fr/guides/QUICK_START.md` (Guide de démarrage rapide) - ✅ Complété
 - [x] `/docs/fr/guides/README.md` (Guide de dépannage) - ✅ Complété
-- [ ] `/docs/fr/guides/USER_GUIDE.md` (Guide utilisateur)
+- [x] `/docs/fr/guides/USER_GUIDE.md` (Guide utilisateur) - ✅ Complété
 - [ ] `/docs/fr/guides/ADMINISTRATOR_GUIDE.md` (Guide administrateur)
 - [ ] `/docs/fr/guides/LLM_COMPLETE_SETUP_GUIDE.md` (Guide complet LLM)
 
-**État** : 2/5 complété (40%)
+**État** : 3/5 complété (60%)
 
 ### Priorité 3 : Documentation API et requêtes ⏳ En attente
 **État** : 0/~50 complété (0%)
@@ -73,6 +73,7 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 5. **glossary.md** - Glossaire des termes techniques (26 lignes) - 23 décembre 2025
 6. **guides/QUICK_START.md** - Guide de démarrage rapide (151 lignes) - 23 décembre 2025
 7. **guides/README.md** - Guide de dépannage (78 lignes) - 23 décembre 2025
+8. **guides/USER_GUIDE.md** - Guide utilisateur complet (287 lignes) - 23 décembre 2025
 
 ## Prochaines étapes
 
