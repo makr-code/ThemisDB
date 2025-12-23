@@ -6,8 +6,8 @@
 ## Overall Progress
 
 - **Total Documents**: 696 markdown files (in docs/de/)
-- **Documents Translated**: 11
-- **Translation Percentage**: 1.6%
+- **Documents Translated**: 12
+- **Translation Percentage**: 1.7%
 - **Target**: Bilingual documentation (German + English)
 
 ## Translation Strategy
@@ -46,7 +46,8 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ### Priority 3: API & Query Documentation ⏳ In Progress
 - [x] `/docs/en/apis/README.md` - API & ingestion overview translated
-**Status**: 1/~50 complete (2%)
+- [x] `/docs/en/aql/README.md` - AQL query language overview translated
+**Status**: 2/~50 complete (4%)
 
 ### Priority 4: Architecture & Core Concepts ⏳ Pending
 **Status**: 0/~70 complete (0%)
@@ -75,6 +76,7 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 2. **docs/en/apis/README.md** - API & ingestion documentation overview (320 lines)
 3. **docs/en/llm/README.md** - LLM & AI integration overview (420 lines)
 4. **docs/en/guides/ADMINISTRATOR_GUIDE.md** - Complete administrator operations guide (520 lines)
+5. **docs/en/aql/README.md** - **NEW** AQL query language overview (330 lines)
 
 ### December 22, 2025
 1. **TRANSLATION_WORKFLOW.md** - Created English translation workflow document
