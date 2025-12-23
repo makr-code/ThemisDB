@@ -21,6 +21,7 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 | [**WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md**](WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md) | 🇩🇪 DE | Umfassende Zusammenfassung wissenschaftlicher Papers und Forschungsergebnisse zur Performance-Verbesserung (Vollversion mit Code-Beispielen) | ✅ Complete |
 | [**SCIENTIFIC_PERFORMANCE_OPTIMIZATIONS_EN.md**](SCIENTIFIC_PERFORMANCE_OPTIMIZATIONS_EN.md) | 🇬🇧 EN | English executive summary with key findings and roadmap | ✅ Complete |
 | [**IMPLEMENTATION_VALIDATION_GUIDE.md**](IMPLEMENTATION_VALIDATION_GUIDE.md) | 🇩🇪 DE | **Implementierungs- und Test-Guide:** Feature Flags, Benchmark-Verfahren, Rollback-Strategien | ✅ Complete |
+| [**ADDITIONAL_SOURCES.md**](ADDITIONAL_SOURCES.md) | 🇩🇪 DE | **Erweiterte Quellen:** Weitere Konferenzen, Usability-Optimierungen, Online-Ressourcen, Open-Source Projekte | ✅ Complete |
 
 **Inhalt:**
 - 25+ Research Papers aus SIGMOD, VLDB, OSDI, NeurIPS
@@ -29,6 +30,10 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 - 4-Phasen Roadmap mit erwarteten Performance-Gewinnen
 - **NEU:** Vollständiger Implementierungs-Workflow mit Benchmark-Validierung
 - **NEU:** 3-Stufen Rollback-Strategie für jede Optimierung
+- **NEU:** Zusätzliche Konferenzen (EuroSys, SOSP, NSDI, CIDR, EDBT)
+- **NEU:** Usability & Developer Experience Optimierungen
+- **NEU:** Observability, Security, ML Integration
+- **NEU:** Open-Source Projekte und Online-Ressourcen zum Lernen
 - Vollständige Referenzen und Zitationen
 
 ---
