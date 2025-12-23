@@ -20,12 +20,15 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 |----------|---------|--------------|--------|
 | [**WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md**](WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md) | 🇩🇪 DE | Umfassende Zusammenfassung wissenschaftlicher Papers und Forschungsergebnisse zur Performance-Verbesserung (Vollversion mit Code-Beispielen) | ✅ Complete |
 | [**SCIENTIFIC_PERFORMANCE_OPTIMIZATIONS_EN.md**](SCIENTIFIC_PERFORMANCE_OPTIMIZATIONS_EN.md) | 🇬🇧 EN | English executive summary with key findings and roadmap | ✅ Complete |
+| [**IMPLEMENTATION_VALIDATION_GUIDE.md**](IMPLEMENTATION_VALIDATION_GUIDE.md) | 🇩🇪 DE | **Implementierungs- und Test-Guide:** Feature Flags, Benchmark-Verfahren, Rollback-Strategien | ✅ Complete |
 
 **Inhalt:**
 - 25+ Research Papers aus SIGMOD, VLDB, OSDI, NeurIPS
 - 10 Optimierungsbereiche (LSM-Trees, Vector Search, Graph Processing, etc.)
 - Konkrete Implementation-Beispiele mit Code (DE version)
 - 4-Phasen Roadmap mit erwarteten Performance-Gewinnen
+- **NEU:** Vollständiger Implementierungs-Workflow mit Benchmark-Validierung
+- **NEU:** 3-Stufen Rollback-Strategie für jede Optimierung
 - Vollständige Referenzen und Zitationen
 
 ---
