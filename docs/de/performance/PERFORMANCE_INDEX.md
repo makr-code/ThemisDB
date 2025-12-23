@@ -39,6 +39,14 @@
 | [performance_gpu_plan.md](performance_gpu_plan.md) | GPU roadmap & planning |
 | [performance_enterprise_strategy.md](performance_enterprise_strategy.md) | Enterprise deployment |
 
+### Research & Scientific Findings
+
+| Document | Purpose |
+|:---|:---|
+| [🔬 **Wissenschaftliche Performance-Optimierungen**](../research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md) | **NEW** - Research-based optimization strategies from top conferences (SIGMOD, VLDB, OSDI) |
+
+> **NEW:** Umfassende Analyse von 25+ wissenschaftlichen Papers mit konkreten Implementierungs-Empfehlungen für ThemisDB. Erwartete Performance-Gewinne: +50-500% je nach Workload und Implementierungs-Phase.
+
 ---
 
 ## 📊 Current Benchmark Summary
