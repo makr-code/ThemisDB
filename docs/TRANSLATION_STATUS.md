@@ -6,8 +6,8 @@
 ## Overall Progress
 
 - **Total Documents**: 696 markdown files (in docs/de/)
-- **Documents Translated**: 12
-- **Translation Percentage**: 1.7%
+- **Documents Translated**: 14
+- **Translation Percentage**: 2.0%
 - **Target**: Bilingual documentation (German + English)
 
 ## Translation Strategy
@@ -36,21 +36,22 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ### Priority 2: Getting Started & Guides ⏳ In Progress
 - [x] `/docs/en/guides/ADMINISTRATOR_GUIDE.md` - Administrator guide for operations
+- [x] `/docs/en/deployment/README.md` - **NEW** Deployment overview translated
 - [ ] `/docs/guides/guides_quick_start.md`
 - [ ] `/docs/guides/guides_installation.md`
 - [ ] `/docs/guides/guides_build.md`
 - [ ] `/docs/guides/guides_build_strategy.md`
-- [ ] `/docs/deployment/deployment_overview.md`
 
-**Status**: 1/18 complete (5.6%)
+**Status**: 2/18 complete (11.1%)
 
 ### Priority 3: API & Query Documentation ⏳ In Progress
 - [x] `/docs/en/apis/README.md` - API & ingestion overview translated
 - [x] `/docs/en/aql/README.md` - AQL query language overview translated
 **Status**: 2/~50 complete (4%)
 
-### Priority 4: Architecture & Core Concepts ⏳ Pending
-**Status**: 0/~70 complete (0%)
+### Priority 4: Architecture & Core Concepts ⏳ In Progress
+- [x] `/docs/en/architecture/README.md` - **NEW** Transaction module overview translated
+**Status**: 1/~70 complete (1.4%)
 
 ### Priority 5: Security & Compliance ⏳ In Progress
 - [x] `/docs/en/security/README.md` - Security module overview translated
@@ -76,7 +77,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 2. **docs/en/apis/README.md** - API & ingestion documentation overview (320 lines)
 3. **docs/en/llm/README.md** - LLM & AI integration overview (420 lines)
 4. **docs/en/guides/ADMINISTRATOR_GUIDE.md** - Complete administrator operations guide (520 lines)
-5. **docs/en/aql/README.md** - **NEW** AQL query language overview (330 lines)
+5. **docs/en/aql/README.md** - AQL query language overview (330 lines)
+6. **docs/en/architecture/README.md** - **NEW** Transaction module & ACID guarantees (130 lines)
+7. **docs/en/deployment/README.md** - **NEW** Deployment platforms & strategies (185 lines)
 
 ### December 22, 2025
 1. **TRANSLATION_WORKFLOW.md** - Created English translation workflow document
