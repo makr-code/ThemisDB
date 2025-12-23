@@ -6,8 +6,8 @@
 ## Overall Progress
 
 - **Total Documents**: 696 markdown files (in docs/de/)
-- **Documents Translated**: 8
-- **Translation Percentage**: 1.1%
+- **Documents Translated**: 10
+- **Translation Percentage**: 1.4%
 - **Target**: Bilingual documentation (German + English)
 
 ## Translation Strategy
@@ -43,8 +43,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 **Status**: 0/5 complete (0%)
 
-### Priority 3: API & Query Documentation ⏳ Pending
-**Status**: 0/~50 complete (0%)
+### Priority 3: API & Query Documentation ⏳ In Progress
+- [x] `/docs/en/apis/README.md` - API & ingestion overview translated
+**Status**: 1/~50 complete (2%)
 
 ### Priority 4: Architecture & Core Concepts ⏳ Pending
 **Status**: 0/~70 complete (0%)
@@ -53,8 +54,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 - [x] `/docs/en/security/README.md` - Security module overview translated
 **Status**: 1/~60 complete (1.7%)
 
-### Priority 6: Features & LLM Integration ⏳ Pending
-**Status**: 0/~80 complete (0%)
+### Priority 6: Features & LLM Integration ⏳ In Progress
+- [x] `/docs/en/llm/README.md` - LLM & AI integration overview translated
+**Status**: 1/~80 complete (1.25%)
 
 ### Priority 7: Enterprise & Performance ⏳ Pending
 **Status**: 0/~40 complete (0%)
@@ -69,6 +71,8 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ### December 23, 2025
 1. **docs/en/security/README.md** - Security module main overview (380 lines)
+2. **docs/en/apis/README.md** - API & ingestion documentation overview (320 lines)
+3. **docs/en/llm/README.md** - LLM & AI integration overview (420 lines)
 
 ### December 22, 2025
 1. **TRANSLATION_WORKFLOW.md** - Created English translation workflow document
