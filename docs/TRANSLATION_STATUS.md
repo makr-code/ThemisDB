@@ -6,8 +6,8 @@
 ## Overall Progress
 
 - **Total Documents**: 696 markdown files (in docs/de/)
-- **Documents Translated**: 18
-- **Translation Percentage**: 2.6%
+- **Documents Translated**: 19
+- **Translation Percentage**: 2.7%
 - **Target**: Bilingual documentation (German + English)
 
 ## Translation Strategy
@@ -48,8 +48,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ### Priority 3: API & Query Documentation ⏳ In Progress
 - [x] `/docs/en/apis/README.md` - API & ingestion overview translated
+- [x] `/docs/en/apis/HTTP_API_REFERENCE.md` - **NEW** HTTP API reference translated
 - [x] `/docs/en/aql/README.md` - AQL query language overview translated
-**Status**: 2/~50 complete (4%)
+**Status**: 3/~50 complete (6%)
 
 ### Priority 4: Architecture & Core Concepts ⏳ In Progress
 - [x] `/docs/en/architecture/README.md` - Transaction module overview translated
@@ -87,7 +88,8 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 8. **docs/en/storage/README.md** - Replication strategies & CRDT conflict resolution (155 lines)
 9. **docs/en/features/README.md** - Complete features catalog with 36 features across 6 categories (260 lines)
 10. **docs/en/guides/QUICK_START.md** - Quick start guide with 10-step tutorial (255 lines)
-11. **docs/en/guides/USER_GUIDE.md** - **NEW** Complete user guide covering multi-model operations, RAG patterns, best practices (385 lines)
+11. **docs/en/guides/USER_GUIDE.md** - Complete user guide covering multi-model operations, RAG patterns, best practices (385 lines)
+12. **docs/en/apis/HTTP_API_REFERENCE.md** - **NEW** Complete HTTP API reference with all endpoints (505 lines)
 
 ### December 22, 2025
 1. **TRANSLATION_WORKFLOW.md** - Created English translation workflow document
