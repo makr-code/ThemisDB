@@ -6,8 +6,8 @@
 ## Overall Progress
 
 - **Total Documents**: 696 markdown files (in docs/de/)
-- **Documents Translated**: 14
-- **Translation Percentage**: 2.0%
+- **Documents Translated**: 16
+- **Translation Percentage**: 2.3%
 - **Target**: Bilingual documentation (German + English)
 
 ## Translation Strategy
@@ -50,8 +50,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 **Status**: 2/~50 complete (4%)
 
 ### Priority 4: Architecture & Core Concepts ⏳ In Progress
-- [x] `/docs/en/architecture/README.md` - **NEW** Transaction module overview translated
-**Status**: 1/~70 complete (1.4%)
+- [x] `/docs/en/architecture/README.md` - Transaction module overview translated
+- [x] `/docs/en/storage/README.md` - **NEW** Replication & storage overview translated
+**Status**: 2/~70 complete (2.9%)
 
 ### Priority 5: Security & Compliance ⏳ In Progress
 - [x] `/docs/en/security/README.md` - Security module overview translated
@@ -59,7 +60,8 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ### Priority 6: Features & LLM Integration ⏳ In Progress
 - [x] `/docs/en/llm/README.md` - LLM & AI integration overview translated
-**Status**: 1/~80 complete (1.25%)
+- [x] `/docs/en/features/README.md` - **NEW** Features catalog overview translated
+**Status**: 2/~80 complete (2.5%)
 
 ### Priority 7: Enterprise & Performance ⏳ Pending
 **Status**: 0/~40 complete (0%)
@@ -78,8 +80,10 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 3. **docs/en/llm/README.md** - LLM & AI integration overview (420 lines)
 4. **docs/en/guides/ADMINISTRATOR_GUIDE.md** - Complete administrator operations guide (520 lines)
 5. **docs/en/aql/README.md** - AQL query language overview (330 lines)
-6. **docs/en/architecture/README.md** - **NEW** Transaction module & ACID guarantees (130 lines)
-7. **docs/en/deployment/README.md** - **NEW** Deployment platforms & strategies (185 lines)
+6. **docs/en/architecture/README.md** - Transaction module & ACID guarantees (130 lines)
+7. **docs/en/deployment/README.md** - Deployment platforms & strategies (185 lines)
+8. **docs/en/storage/README.md** - **NEW** Replication strategies & CRDT conflict resolution (155 lines)
+9. **docs/en/features/README.md** - **NEW** Complete features catalog with 36 features across 6 categories (260 lines)
 
 ### December 22, 2025
 1. **TRANSLATION_WORKFLOW.md** - Created English translation workflow document
