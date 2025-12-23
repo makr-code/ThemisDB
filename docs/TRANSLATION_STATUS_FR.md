@@ -6,8 +6,8 @@
 ## Vue d'ensemble
 
 - **Total de documents** : 696 fichiers markdown en allemand
-- **Documents traduits** : 10
-- **Pourcentage de traduction** : 1.44%
+- **Documents traduits** : 11
+- **Pourcentage de traduction** : 1.58%
 - **Objectif** : Documentation trilingue (Allemand, Anglais, Français)
 
 ## Stratégie de traduction
@@ -57,7 +57,12 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 ### Priorité 5 : Sécurité et conformité ⏳ En attente
 **État** : 0/~60 complété (0%)
 
-### Priorité 6 : Fonctionnalités et intégration LLM ⏳ En attente
+### Priorité 6 : Fonctionnalités et intégration LLM ⏳ En cours
+- [x] `/docs/fr/llm/README.md` (Documentation intégration LLM & IA) - ✅ Complété
+- [ ] `/docs/fr/llm/LLAMA_CPP_INTEGRATION.md` (Intégration llama.cpp)
+- [ ] `/docs/fr/features/features_overview.md` (Aperçu des fonctionnalités)
+
+**État** : 1/~80 complété (1%)
 **État** : 0/~80 complété (0%)
 
 ### Priorité 7 : Entreprise et performance ⏳ En attente
@@ -81,6 +86,7 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 8. **guides/USER_GUIDE.md** - Guide utilisateur complet (287 lignes) - 23 décembre 2025
 9. **aql/README.md** - Module AQL et langage de requête (320 lignes) - 23 décembre 2025
 10. **apis/README.md** - Aperçu des APIs et ingestion (148 lignes) - 23 décembre 2025
+11. **llm/README.md** - Documentation intégration LLM & IA (302 lignes) - 23 décembre 2025
 
 ## Prochaines étapes
 
