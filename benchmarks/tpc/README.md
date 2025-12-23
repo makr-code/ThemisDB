@@ -2,13 +2,13 @@
 
 ## Overview
 
-This directory contains implementations of Transaction Processing Performance Council (TPC) benchmarks for ThemisDB.
+This directory contains implementations of Transaction Processing Performance Council (TPC) benchmarks for ThemisDB using **Google Benchmark** framework in **C++**.
 
 ## Benchmarks
 
 ### TPC-C (Online Transaction Processing)
 
-**Status:** 🚧 In Progress
+**Status:** ✅ Implemented
 
 TPC-C is an OLTP benchmark that simulates a wholesale supplier managing orders with warehouses, districts, customers, and orders.
 
@@ -24,12 +24,9 @@ TPC-C is an OLTP benchmark that simulates a wholesale supplier managing orders w
 - Delivery (4%): Batch delivery processing
 - Stock Level (4%): Warehouse inventory check
 
-**Files:**
-- `tpc_c_schema.py` - Database schema definition
-- `tpc_c_data_generator.py` - Test data generation
-- `tpc_c_transactions.py` - Transaction implementations
-- `tpc_c_runner.py` - Benchmark orchestration
-- `tpc_c_config.yaml` - Configuration file
+**Implementation:**
+- `../bench_tpcc.cpp` - Complete TPC-C benchmark using Google Benchmark
+- `tpc_c_config.yaml` - Configuration file (for reference)
 
 ### TPC-H (Decision Support)
 
@@ -47,11 +44,7 @@ TPC-H is a decision support benchmark featuring 22 complex analytical queries ag
 - SF10: 10GB
 - SF100: 100GB
 
-**Files:**
-- `tpc_h_schema.py` - Database schema definition
-- `tpc_h_data_generator.py` - Test data generation
-- `tpc_h_queries.sql` - 22 query templates
-- `tpc_h_runner.py` - Benchmark orchestration
+**Implementation:** Will be added in future phase
 
 ## Performance Targets
 
@@ -67,61 +60,72 @@ Based on research in `../ADVANCED_BENCHMARK_RESEARCH.md`:
 
 ## Usage
 
-### TPC-C Benchmark
+### Building
 
 ```bash
-# Generate test data (1 warehouse = ~100MB)
-python3 tpc_c_data_generator.py --warehouses 10 --output /tmp/tpc_c_data
-
-# Run benchmark
-python3 tpc_c_runner.py \
-  --warehouses 10 \
-  --duration 300 \
-  --threads 8 \
-  --output-dir ./results
-
-# View results
-cat ./results/tpc_c_report.md
+# From ThemisDB root directory
+mkdir -p build && cd build
+cmake ..
+make bench_tpcc
 ```
 
-### TPC-H Benchmark
+### Running TPC-C Benchmark
 
 ```bash
-# Generate test data (SF10 = 10GB)
-python3 tpc_h_data_generator.py --scale-factor 10 --output /tmp/tpc_h_data
+# Run all TPC-C benchmarks
+./build/bench_tpcc
 
-# Run benchmark
-python3 tpc_h_runner.py \
-  --scale-factor 10 \
-  --database-url themisdb://localhost:8765 \
-  --output-dir ./results
+# Run specific transaction
+./build/bench_tpcc --benchmark_filter=NewOrderTransaction
 
-# View results
-cat ./results/tpc_h_report.md
+# Run with custom iterations
+./build/bench_tpcc --benchmark_min_time=10
+
+# Export results to JSON
+./build/bench_tpcc --benchmark_out=tpcc_results.json --benchmark_out_format=json
+
+# Export results to CSV
+./build/bench_tpcc --benchmark_out=tpcc_results.csv --benchmark_out_format=csv
+```
+
+### Benchmark Parameters
+
+The TPC-C benchmark accepts warehouse count as a parameter:
+- `Arg(1)`: 1 warehouse (~100MB data)
+- `Arg(10)`: 10 warehouses (~1GB data)
+- `Arg(100)`: 100 warehouses (~10GB data)
+
+Example with multiple warehouse configurations:
+```cpp
+BENCHMARK_REGISTER_F(TPCCFixture, NewOrderTransaction)
+    ->Arg(1)
+    ->Arg(10)
+    ->Arg(100)
+    ->Unit(benchmark::kMillisecond);
 ```
 
 ## Configuration
 
-Both benchmarks use YAML configuration files:
+Configuration is done via Google Benchmark command-line flags:
 
-```yaml
-# tpc_c_config.yaml
-database:
-  host: localhost
-  port: 8765
-  protocol: direct  # or http, grpc, wire
+```bash
+# Run for specific time
+./build/bench_tpcc --benchmark_min_time=60
 
-benchmark:
-  warehouses: 10
-  duration_seconds: 300
-  ramp_up_seconds: 30
-  think_time_ms: 0  # For maximum throughput
-  threads: 8
+# Filter specific benchmarks
+./build/bench_tpcc --benchmark_filter="Payment|NewOrder"
 
-reporting:
-  output_format: ["json", "markdown", "csv"]
-  include_percentiles: [50, 95, 99, 99.9]
+# Control repetitions
+./build/bench_tpcc --benchmark_repetitions=10
+
+# Display statistics
+./build/bench_tpcc --benchmark_report_aggregates_only=true
+
+# Verbose output
+./build/bench_tpcc -v
 ```
+
+The `tpc_c_config.yaml` file is kept for reference but not used by the C++ implementation.
 
 ## References
 
@@ -132,16 +136,13 @@ reporting:
 ## Development Status
 
 - [x] Research and documentation (Phase 1)
-- [ ] TPC-C schema implementation
-- [ ] TPC-C data generator
-- [ ] TPC-C transaction implementations
-- [ ] TPC-C benchmark runner
-- [ ] TPC-H schema implementation
-- [ ] TPC-H data generator
-- [ ] TPC-H query implementations
-- [ ] TPC-H benchmark runner
+- [x] TPC-C schema implementation (C++)
+- [x] TPC-C transaction implementations (5 transactions)
+- [x] TPC-C benchmark runner (Google Benchmark)
+- [x] Mixed workload simulation
+- [ ] TPC-H implementation (planned)
 - [ ] Validation against published results
 
-**Current Phase:** Phase 2 - TPC-C Implementation  
-**Estimated Completion:** 3 weeks from start  
-**Started:** 2025-12-23
+**Current Phase:** Phase 2 - TPC-C Complete  
+**Implementation:** C++ with Google Benchmark  
+**Completed:** 2025-12-23
