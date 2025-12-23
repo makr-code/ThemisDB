@@ -1,0 +1,624 @@
+#include "scheduler/task_scheduler.h"
+#include "query/query_engine.h"
+#include "query/aql_runner.h"
+#include "utils/logger.h"
+#include "utils/tracing.h"
+#include <sstream>
+#include <fstream>
+#include <iomanip>
+#include <algorithm>
+
+// ⚠️ SECURITY WARNING: This implementation executes arbitrary AQL queries and functions.
+// Production deployments MUST implement proper security controls:
+// - Authentication and authorization for all task operations
+// - Input validation and query sanitization
+// - Resource limits and quotas per task
+// - Comprehensive audit logging
+// - Secure task definition storage (encryption at rest)
+// - Sandboxed execution environments
+
+namespace themis {
+
+// ===== TaskScheduler Implementation =====
+
+TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config)
+    : query_engine_(query_engine), config_(config) {
+    if (!query_engine_) {
+        throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
+    }
+    
+    if (config_.persist_tasks) {
+        loadTasks();
+    }
+}
+
+TaskScheduler::~TaskScheduler() {
+    stop();
+}
+
+// ===== Lifecycle =====
+
+void TaskScheduler::start() {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    if (running_.load()) {
+        THEMIS_WARN("TaskScheduler already running");
+        return;
+    }
+    
+    running_.store(true);
+    scheduler_thread_ = std::thread(&TaskScheduler::schedulerLoop, this);
+    
+    THEMIS_INFO("TaskScheduler started with {} tasks, check interval: {}s",
+                tasks_.size(), 
+                config_.check_interval.count() / 1000);
+}
+
+void TaskScheduler::stop() {
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        if (!running_.load()) {
+            return;
+        }
+        running_.store(false);
+    }
+    
+    cv_.notify_all();
+    
+    if (scheduler_thread_.joinable()) {
+        scheduler_thread_.join();
+    }
+    
+    // Wait for running tasks to complete (with timeout)
+    auto timeout = std::chrono::seconds(30);
+    auto start = std::chrono::steady_clock::now();
+    
+    while (true) {
+        {
+            std::lock_guard<std::mutex> lock(running_mutex_);
+            if (running_task_threads_.empty()) {
+                break;
+            }
+        }
+        
+        if (std::chrono::steady_clock::now() - start > timeout) {
+            THEMIS_WARN("TaskScheduler: Timeout waiting for tasks to complete");
+            break;
+        }
+        
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    
+    // Join remaining threads
+    {
+        std::lock_guard<std::mutex> lock(running_mutex_);
+        for (auto& [id, thread] : running_task_threads_) {
+            if (thread.joinable()) {
+                thread.join();
+            }
+        }
+        running_task_threads_.clear();
+    }
+    
+    if (config_.persist_tasks) {
+        saveTasks();
+    }
+    
+    THEMIS_INFO("TaskScheduler stopped. Total executions: {}, Failed: {}",
+                total_executions_.load(), failed_executions_.load());
+}
+
+// ===== Task Management =====
+
+std::string TaskScheduler::registerTask(const ScheduledTask& task) {
+    // ⚠️ SECURITY: In production, add authentication/authorization checks here
+    // TODO: Validate task.aql_query for SQL injection patterns
+    // TODO: Check user permissions for task registration
+    // TODO: Validate resource limits (timeout, max_retries)
+    // TODO: Sanitize task parameters
+    
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    std::string id = task.id;
+    if (id.empty()) {
+        id = generateTaskId(task);
+    }
+    
+    auto task_ptr = std::make_shared<ScheduledTask>(task);
+    task_ptr->id = id;
+    
+    // Initialize next_run if not set
+    if (task_ptr->next_run == std::chrono::system_clock::time_point{}) {
+        task_ptr->next_run = std::chrono::system_clock::now() + task_ptr->interval;
+    }
+    
+    tasks_[id] = task_ptr;
+    
+    THEMIS_INFO("Registered task: {} (name={}, type={}, interval={}ms)",
+                id, task.name, 
+                task.type == ScheduledTask::TaskType::AQL_QUERY ? "AQL" : "FUNCTION",
+                task.interval.count());
+    
+    if (config_.persist_tasks) {
+        saveTasks();
+    }
+    
+    return id;
+}
+
+void TaskScheduler::unregisterTask(const std::string& task_id) {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    auto it = tasks_.find(task_id);
+    if (it != tasks_.end()) {
+        THEMIS_INFO("Unregistered task: {}", task_id);
+        tasks_.erase(it);
+        
+        if (config_.persist_tasks) {
+            saveTasks();
+        }
+    }
+}
+
+void TaskScheduler::enableTask(const std::string& task_id) {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    auto it = tasks_.find(task_id);
+    if (it != tasks_.end()) {
+        it->second->enabled = true;
+        THEMIS_INFO("Enabled task: {}", task_id);
+        
+        if (config_.persist_tasks) {
+            saveTasks();
+        }
+    }
+}
+
+void TaskScheduler::disableTask(const std::string& task_id) {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    auto it = tasks_.find(task_id);
+    if (it != tasks_.end()) {
+        it->second->enabled = false;
+        THEMIS_INFO("Disabled task: {}", task_id);
+        
+        if (config_.persist_tasks) {
+            saveTasks();
+        }
+    }
+}
+
+void TaskScheduler::updateTask(const ScheduledTask& task) {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    auto it = tasks_.find(task.id);
+    if (it != tasks_.end()) {
+        // Keep statistics and state
+        auto old_stats = *it->second;
+        *it->second = task;
+        it->second->total_executions = old_stats.total_executions;
+        it->second->successful_executions = old_stats.successful_executions;
+        it->second->failed_executions = old_stats.failed_executions;
+        it->second->avg_execution_time_ms = old_stats.avg_execution_time_ms;
+        it->second->last_run_ms = old_stats.last_run_ms;
+        it->second->running = old_stats.running;
+        
+        THEMIS_INFO("Updated task: {}", task.id);
+        
+        if (config_.persist_tasks) {
+            saveTasks();
+        }
+    }
+}
+
+// ===== Manual Execution =====
+
+nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
+    // ⚠️ SECURITY: In production, add authentication/authorization checks here
+    // TODO: Verify user has permission to execute this task
+    // TODO: Log execution attempt for audit trail
+    // TODO: Implement rate limiting to prevent abuse
+    
+    auto span = Tracer::startSpan("TaskScheduler.executeTaskNow");
+    span.setAttribute("task_id", task_id);
+    
+    std::shared_ptr<ScheduledTask> task;
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        auto it = tasks_.find(task_id);
+        if (it == tasks_.end()) {
+            THEMIS_WARN("Cannot execute unknown task: {}", task_id);
+            return nlohmann::json{{"error", "Task not found"}};
+        }
+        task = it->second;
+    }
+    
+    // Execute synchronously
+    nlohmann::json result;
+    try {
+        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+            result = executeAqlQuery(task->aql_query);
+        } else {
+            result = executeFunction(task->function_name, task->parameters);
+        }
+        
+        task->successful_executions++;
+        task->last_success_time = std::chrono::system_clock::now();
+        
+        if (task->on_success) {
+            task->on_success(task_id, result);
+        }
+    } catch (const std::exception& e) {
+        result = nlohmann::json{{"error", e.what()}};
+        task->failed_executions++;
+        task->last_error = e.what();
+        task->last_failure_time = std::chrono::system_clock::now();
+        
+        if (task->on_failure) {
+            task->on_failure(task_id, e.what());
+        }
+        
+        span.recordError(e.what());
+    }
+    
+    task->total_executions++;
+    total_executions_++;
+    
+    return result;
+}
+
+// ===== Function Registration =====
+
+void TaskScheduler::registerFunction(const std::string& name, TaskFunction func) {
+    // ⚠️ SECURITY CRITICAL: This allows arbitrary code execution
+    // TODO: Implement strict access controls - only system admins should call this
+    // TODO: Audit log all function registrations
+    // TODO: Consider sandboxing function execution
+    
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    functions_[name] = func;
+    THEMIS_INFO("Registered task function: {}", name);
+}
+
+void TaskScheduler::unregisterFunction(const std::string& name) {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    functions_.erase(name);
+    THEMIS_INFO("Unregistered task function: {}", name);
+}
+
+// ===== Statistics =====
+
+TaskScheduler::Stats TaskScheduler::getStats() const {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    Stats stats;
+    stats.registered_tasks = tasks_.size();
+    stats.active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+        [](const auto& pair) { return pair.second->enabled; });
+    
+    {
+        std::lock_guard<std::mutex> running_lock(running_mutex_);
+        stats.running_tasks = running_task_threads_.size();
+    }
+    
+    stats.total_executions = total_executions_.load();
+    stats.failed_executions = failed_executions_.load();
+    stats.last_run = last_run_;
+    
+    // Find next scheduled run
+    auto next = std::chrono::system_clock::time_point::max();
+    for (const auto& [id, task] : tasks_) {
+        if (task->enabled && task->next_run < next) {
+            next = task->next_run;
+        }
+    }
+    stats.next_run = next;
+    
+    return stats;
+}
+
+std::vector<ScheduledTask> TaskScheduler::listTasks() const {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    std::vector<ScheduledTask> result;
+    result.reserve(tasks_.size());
+    
+    for (const auto& [id, task] : tasks_) {
+        result.push_back(*task);
+    }
+    
+    return result;
+}
+
+std::shared_ptr<ScheduledTask> TaskScheduler::getTask(const std::string& task_id) const {
+    std::lock_guard<std::mutex> lock(tasks_mutex_);
+    
+    auto it = tasks_.find(task_id);
+    if (it != tasks_.end()) {
+        return it->second;
+    }
+    
+    return nullptr;
+}
+
+// ===== Scheduler Loop =====
+
+void TaskScheduler::schedulerLoop() {
+    THEMIS_INFO("TaskScheduler loop started");
+    
+    while (running_.load()) {
+        auto span = Tracer::startSpan("TaskScheduler.tick");
+        auto now = std::chrono::system_clock::now();
+        
+        std::vector<std::shared_ptr<ScheduledTask>> tasks_to_execute;
+        
+        {
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            last_run_ = now;
+            
+            for (auto& [id, task] : tasks_) {
+                if (!task->enabled || task->running) {
+                    continue;
+                }
+                
+                if (shouldExecute(*task, now)) {
+                    // Check concurrent task limit
+                    size_t running_count = 0;
+                    {
+                        std::lock_guard<std::mutex> running_lock(running_mutex_);
+                        running_count = running_task_threads_.size();
+                    }
+                    
+                    if (running_count >= config_.max_concurrent_tasks) {
+                        THEMIS_DEBUG("Max concurrent tasks reached ({}), delaying task {}",
+                                    config_.max_concurrent_tasks, id);
+                        continue;
+                    }
+                    
+                    tasks_to_execute.push_back(task);
+                }
+            }
+        }
+        
+        // Execute tasks outside the lock
+        for (auto& task : tasks_to_execute) {
+            task->running = true;
+            
+            // Launch task in separate thread
+            std::thread task_thread([this, task]() {
+                executeTask(task);
+                
+                // Remove from running threads
+                {
+                    std::lock_guard<std::mutex> lock(running_mutex_);
+                    running_task_threads_.erase(task->id);
+                }
+            });
+            
+            // Store thread for cleanup
+            {
+                std::lock_guard<std::mutex> lock(running_mutex_);
+                running_task_threads_[task->id] = std::move(task_thread);
+            }
+        }
+        
+        span.setAttribute("tasks_executed", static_cast<int64_t>(tasks_to_execute.size()));
+        
+        // Wait for next check interval or shutdown signal
+        std::unique_lock<std::mutex> lock(tasks_mutex_);
+        cv_.wait_for(lock, config_.check_interval, [this] { return !running_.load(); });
+    }
+    
+    THEMIS_INFO("TaskScheduler loop stopped");
+}
+
+void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
+    auto span = Tracer::startSpan("TaskScheduler.executeTask");
+    span.setAttribute("task_id", task->id);
+    span.setAttribute("task_name", task->name);
+    
+    auto start = std::chrono::steady_clock::now();
+    
+    try {
+        nlohmann::json result;
+        
+        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+            span.setAttribute("task_type", "aql");
+            result = executeAqlQuery(task->aql_query);
+        } else {
+            span.setAttribute("task_type", "function");
+            result = executeFunction(task->function_name, task->parameters);
+        }
+        
+        auto end = std::chrono::steady_clock::now();
+        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        
+        // Update statistics
+        task->last_run_ms = getCurrentTimeMs();
+        task->total_executions++;
+        task->successful_executions++;
+        task->last_success_time = std::chrono::system_clock::now();
+        
+        // Update moving average of execution time
+        task->avg_execution_time_ms = 
+            (task->avg_execution_time_ms * (task->total_executions - 1) + elapsed_ms) 
+            / task->total_executions;
+        
+        updateNextRun(*task);
+        
+        total_executions_++;
+        
+        span.setAttribute("execution_time_ms", elapsed_ms);
+        
+        THEMIS_DEBUG("Executed task {} ({}): {:.2f}ms",
+                     task->id, task->name, elapsed_ms);
+        
+        if (task->on_success) {
+            task->on_success(task->id, result);
+        }
+        
+    } catch (const std::exception& e) {
+        task->failed_executions++;
+        task->last_error = e.what();
+        task->last_failure_time = std::chrono::system_clock::now();
+        failed_executions_++;
+        
+        updateNextRun(*task);
+        
+        span.recordError(e.what());
+        THEMIS_ERROR("Failed to execute task {}: {}", task->id, e.what());
+        
+        if (task->on_failure) {
+            task->on_failure(task->id, e.what());
+        }
+    }
+    
+    task->running = false;
+}
+
+nlohmann::json TaskScheduler::executeAqlQuery(const std::string& aql) {
+    // ⚠️ SECURITY: AQL queries can read/write any data
+    // TODO: Implement query validation and sanitization
+    // TODO: Enforce query complexity limits
+    // TODO: Apply row/resource limits to prevent DoS
+    
+    auto span = Tracer::startSpan("TaskScheduler.executeAqlQuery");
+    span.setAttribute("aql", aql);
+    
+    auto [status, result] = executeAql(aql, *query_engine_);
+    
+    if (!status.ok()) {
+        throw std::runtime_error("AQL query failed: " + status.message());
+    }
+    
+    return result;
+}
+
+nlohmann::json TaskScheduler::executeFunction(const std::string& name, const nlohmann::json& params) {
+    auto span = Tracer::startSpan("TaskScheduler.executeFunction");
+    span.setAttribute("function_name", name);
+    
+    auto it = functions_.find(name);
+    if (it == functions_.end()) {
+        throw std::runtime_error("Function not found: " + name);
+    }
+    
+    return it->second(params);
+}
+
+// ===== Scheduling Logic =====
+
+bool TaskScheduler::shouldExecute(const ScheduledTask& task, 
+                                   const std::chrono::system_clock::time_point& now) const {
+    if (task.running && !config_.allow_task_overlap) {
+        return false;  // Task already running
+    }
+    
+    return now >= task.next_run;
+}
+
+void TaskScheduler::updateNextRun(ScheduledTask& task) {
+    task.next_run = std::chrono::system_clock::now() + task.interval;
+}
+
+// ===== Persistence =====
+
+void TaskScheduler::saveTasks() {
+    // ⚠️ SECURITY: Task definitions may contain sensitive data (queries, parameters)
+    // TODO: Encrypt task definitions at rest
+    // TODO: Set proper file permissions (600 or 400)
+    // TODO: Consider using a secure key-value store instead of plain JSON files
+    
+    // Simple JSON-based persistence
+    nlohmann::json tasks_json = nlohmann::json::array();
+    
+    for (const auto& [id, task] : tasks_) {
+        nlohmann::json task_json;
+        task_json["id"] = task->id;
+        task_json["name"] = task->name;
+        task_json["description"] = task->description;
+        task_json["type"] = task->type == ScheduledTask::TaskType::AQL_QUERY ? "aql" : "function";
+        task_json["aql_query"] = task->aql_query;
+        task_json["function_name"] = task->function_name;
+        task_json["parameters"] = task->parameters;
+        task_json["interval_ms"] = task->interval.count();
+        task_json["enabled"] = task->enabled;
+        
+        tasks_json.push_back(task_json);
+    }
+    
+    try {
+        std::ofstream file(config_.persistence_path + "/tasks.json");
+        file << tasks_json.dump(2);
+        THEMIS_DEBUG("Saved {} tasks to disk", tasks_.size());
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to save tasks: {}", e.what());
+    }
+}
+
+void TaskScheduler::loadTasks() {
+    try {
+        std::ifstream file(config_.persistence_path + "/tasks.json");
+        if (!file.good()) {
+            THEMIS_DEBUG("No persisted tasks found");
+            return;
+        }
+        
+        nlohmann::json tasks_json;
+        file >> tasks_json;
+        
+        for (const auto& task_json : tasks_json) {
+            ScheduledTask task;
+            task.id = task_json.value("id", "");
+            task.name = task_json.value("name", "");
+            task.description = task_json.value("description", "");
+            
+            std::string type_str = task_json.value("type", "aql");
+            task.type = (type_str == "aql") ? ScheduledTask::TaskType::AQL_QUERY 
+                                            : ScheduledTask::TaskType::FUNCTION;
+            
+            task.aql_query = task_json.value("aql_query", "");
+            task.function_name = task_json.value("function_name", "");
+            task.parameters = task_json.value("parameters", nlohmann::json::object());
+            task.interval = std::chrono::milliseconds(task_json.value("interval_ms", 300000));
+            task.enabled = task_json.value("enabled", true);
+            
+            registerTask(task);
+        }
+        
+        THEMIS_INFO("Loaded {} tasks from disk", tasks_.size());
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Failed to load tasks: {}", e.what());
+    }
+}
+
+// ===== Helpers =====
+
+int64_t TaskScheduler::getCurrentTimeMs() const {
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+}
+
+std::string TaskScheduler::generateTaskId(const ScheduledTask& task) const {
+    std::ostringstream oss;
+    
+    if (!task.name.empty()) {
+        // Use name as base
+        oss << task.name;
+        // Replace spaces with underscores
+        std::string id = oss.str();
+        std::replace(id.begin(), id.end(), ' ', '_');
+        return id;
+    } else if (!task.aql_query.empty()) {
+        // Use hash of AQL query
+        oss << "aql_task_" << std::hash<std::string>{}(task.aql_query);
+        return oss.str();
+    } else {
+        // Use function name
+        oss << "func_" << task.function_name;
+        return oss.str();
+    }
+}
+
+} // namespace themis
