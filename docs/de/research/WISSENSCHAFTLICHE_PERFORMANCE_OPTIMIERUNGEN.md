@@ -181,7 +181,7 @@ ThemisDB verwendet HNSW und FAISS für Vector Search. Folgende Forschungsergebni
 ```cpp
 // DiskANN Integration
 class DiskANNIndex {
-    // Vemeto Graph auf SSD
+    // Vantage-Point Graph auf SSD
     std::unique_ptr<GraphIndex> ssd_graph_;
     
     // Hot-Data im RAM-Cache
