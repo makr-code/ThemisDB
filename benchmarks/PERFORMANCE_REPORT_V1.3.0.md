@@ -118,13 +118,18 @@ if (config_.write_policy != Config::WritePolicy::WriteCommitted) {
 **Symptom**: Throughput fällt auf 98k ops/s bei 32 Threads (vs. 3M ops/s single-thread).
 
 **Ursachen**:
-1. RocksDB TransactionDB nutzt globale Lock-Tabelle
-2. Kein Per-Key Point Lock Manager verfügbar (RocksDB 10.6+)
-3. WRITE_COMMITTED hat höheren Synchronisations-Overhead als WRITE_PREPARED
+1. RocksDB TransactionDB nutzt globale Lock-Tabelle (v10.6)
+2. Kein Per-Key Point Lock Manager verfügbar (erst ab RocksDB 10.7+)
 
-**Mitigation (kurzfristig)**:
-- Verwende `WRITE_PREPARED` statt `WRITE_COMMITTED` (–50% Lock-Overhead)
-- Aktiviere `two_write_queues=true` für bessere Parallelität
+**Lösung (V1.3.0 Final) ✅**:
+- **WRITE_PREPARED Policy** aktiviert (bessere Lock-Granularität)
+- **two_write_queues=true** für separate Prepare/Commit Queues
+- **allow_concurrent_memtable_write=true** für parallele Memtable-Writes
+- **enable_pipelined_write=true** für Write-Pipelining
+
+**Ergebnis**: 32-Thread-Performance +59-65%
+- Phase2G: 98k ops/s → **155.8k ops/s** (+59%)
+- Phase2G_Txn10: **162.2k ops/s** (+65%)
 
 **Langfristig (V1.4.0)**:
 - Upgrade auf RocksDB 10.7+ → `use_per_key_point_lock_mgr=true`
@@ -160,7 +165,10 @@ config.background_threads_low = 8;
 config.background_threads_high = 2;
 config.level0_file_num_compaction_trigger = 2;  // Frühe Compaction
 config.enable_blobdb = true;                // Für Values >1KB
-config.write_policy = WritePolicy::WritePrepared;  // Bessere Parallelität
+config.write_policy = WritePolicy::WritePrepared;  // V1.3.0 Default (Lock-Optimierung)
+config.two_write_queues = true;             // V1.3.0: Dual Queues
+config.allow_concurrent_memtable_write = true;  // V1.3.0: Parallele Writes
+config.enable_pipelined_write = true;       // V1.3.0: Write-Pipelining
 ```
 
 ### Read-Heavy Workloads
@@ -172,9 +180,9 @@ config.use_direct_reads = true;             // Bypass OS-Cache
 
 ### Write-Heavy Workloads
 ```cpp
-config.allow_concurrent_memtable_write = true;  // Nur mit WRITE_PREPARED
-config.enable_pipelined_write = true;
-config.disable_wal_for_benchmark = true;    // Benchmark-Only!
+config.disable_wal_for_benchmark = true;    // Benchmark-Only! (Kein fsync)
+// V1.3.0: concurrent_memtable_write, pipelined_write, two_write_queues
+// sind jetzt per Default aktiviert
 ```
 
 ---
@@ -203,11 +211,11 @@ Dieser Overhead ist **akzeptabel** für eine vollständige Multi-Model-Datenbank
 ### Kritische Fixes vor Release ✅ (Erledigt)
 - [x] PageRank O(n²) → O(n·log n) Batching
 - [x] Changefeed WRITE_COMMITTED Konflikt
+- [x] Lock-Contention bei >16 Threads (WRITE_PREPARED + two_write_queues)
 
 ### Performance Tuning (Optional)
-- [ ] Lock-Contention bei >16 Threads (WRITE_PREPARED)
 - [ ] BlobDB Write Amplification (Tuning min_blob_size)
-- [ ] Batch-Write-Optimierung (500k → 1M ops/s @ 32T)
+- [ ] Batch-Write-Optimierung (experimentell)
 
 ### Known Issues
 1. **bench_stream_protocol**: Compiler-Fehler (`StreamEncryptor` nicht gefunden)
@@ -234,7 +242,7 @@ Dieser Overhead ist **akzeptabel** für eine vollständige Multi-Model-Datenbank
 
 **Nicht empfohlen für**:
 1. **Extreme Write-Heavy** (>80% Writes) → MongoDB/Cassandra besser
-2. **Massive Parallelität** (>16 Threads) → Warten auf V1.4.0 Lock-Optimierungen
+2. **Sehr hohe Parallelität** (>32 Threads) → V1.4.0 Lock-Sharding abwarten
 
 ---
 
