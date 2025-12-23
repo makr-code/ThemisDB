@@ -12,6 +12,7 @@ Based on:
 
 import asyncio
 import json
+import sys
 import time
 import psutil
 import subprocess
@@ -73,7 +74,7 @@ def detect_storage_type() -> str:
             return "SSD"
         elif "1" in output:
             return "HDD"
-    except:
+    except (subprocess.SubprocessError, OSError, subprocess.TimeoutExpired):
         pass
     
     # Windows: use wmic (simplified)
@@ -85,7 +86,7 @@ def detect_storage_type() -> str:
         output = result.stdout.lower()
         if "ssd" in output or "solid state" in output:
             return "SSD"
-    except:
+    except (subprocess.SubprocessError, OSError, subprocess.TimeoutExpired):
         pass
     
     return "Unknown"
@@ -100,7 +101,7 @@ def detect_numa_nodes() -> int:
         for line in result.stdout.split('\n'):
             if "available:" in line:
                 return int(line.split()[1])
-    except:
+    except (subprocess.SubprocessError, OSError, subprocess.TimeoutExpired, ValueError, IndexError):
         pass
     return 1
 
@@ -221,10 +222,13 @@ class HardwareScalingBenchmark:
             if output:
                 bench_data = json.loads(output)
             else:
-                print(f"Warning: Empty output. stderr: {stderr.decode()}")
+                print(f"Warning: Empty output. stderr: {stderr.decode()}", file=sys.stderr)
                 bench_data = {}
+        except json.JSONDecodeError as e:
+            print(f"Error parsing benchmark output: {e}", file=sys.stderr)
+            bench_data = {"error": f"JSON parsing error: {str(e)}"}
         except Exception as e:
-            print(f"Error running benchmark: {e}")
+            print(f"Error running benchmark: {e}", file=sys.stderr)
             bench_data = {"error": str(e)}
         
         # Extract metrics
