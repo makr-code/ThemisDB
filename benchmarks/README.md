@@ -127,13 +127,13 @@ make bench_tpcc bench_ycsb bench_mmdb
 
 | Phase | Benchmark | Standard | Duration | Status |
 |-------|-----------|----------|----------|--------|
-| 2 | **TPC-H** (OLAP) | 22 analytical queries | 3 weeks | 📋 Planned |
-| 4 | **LDBC** Social Network | Graph database standard | 3 weeks | 📋 Planned |
-| 4 | **ANN-Benchmarks** | Vector search (SIFT1M, Deep1B) | 3 weeks | 📋 Planned |
+| 5 | **TPC-H** (OLAP) | 22 analytical queries | 3 weeks | 📋 Planned |
+| 5 | **LDBC** Social Network | Graph database standard | 3 weeks | 📋 Planned |
+| 5 | **ANN-Benchmarks** | Vector search (SIFT1M, Deep1B) | 3 weeks | 📋 Planned |
 | 5 | **Advanced Hardware** | Thread, memory, NUMA | 2 weeks | 🚧 Partial |
 | 6 | **Reporting & Viz** | Dashboard, recommendations | 2 weeks | 📋 Planned |
 
-**Total Timeline:** 14 weeks | **Current:** Week 2 (Phase 1 Complete)
+**Total Timeline:** 14 weeks | **Current:** Week 8 (Phases 1-4 Complete) | **Status:** Ahead of Schedule
 
 See [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) for detailed roadmap.
 
