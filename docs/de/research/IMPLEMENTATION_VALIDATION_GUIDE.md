@@ -74,12 +74,14 @@ cd benchmarks
 python themis_complete_with_constraints.py --mode full --output baseline_before_mimalloc.json
 
 # Wichtig: Hardware-Info dokumentieren
-python -c "import json; import platform; print(json.dumps({
-    'cpu': platform.processor(),
-    'cores': $(nproc),
-    'ram_gb': $(free -g | awk '/^Mem:/{print $2}'),
-    'os': '$(uname -a)'
-}))" > baseline_hardware.json
+cat > baseline_hardware.json << EOF
+{
+  "cpu": "$(lscpu | grep 'Model name' | cut -d':' -f2 | xargs)",
+  "cores": $(nproc),
+  "ram_gb": $(free -g | awk '/^Mem:/{print $2}'),
+  "os": "$(uname -s -r)"
+}
+EOF
 ```
 
 ### 3. Implementation mit Feature Flag
@@ -218,7 +220,7 @@ def benchmark_mimalloc(enabled: bool, iterations: int = 10):
         'mean_ops_per_sec': statistics.mean([r['ops_per_sec'] for r in results]),
         'stddev': statistics.stdev([r['ops_per_sec'] for r in results]),
         'p50_latency_us': statistics.median([r['latency_us'] for r in results]),
-        'p99_latency_us': percentile([r['latency_us'] for r in results], 99)
+        'p99_latency_us': statistics.quantiles([r['latency_us'] for r in results], n=100)[98]
     }
 
 def validate_improvement(baseline, optimized, min_improvement_pct=10):
