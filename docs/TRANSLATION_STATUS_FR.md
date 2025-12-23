@@ -6,8 +6,8 @@
 ## Vue d'ensemble
 
 - **Total de documents** : 696 fichiers markdown en allemand
-- **Documents traduits** : 8
-- **Pourcentage de traduction** : 1.15%
+- **Documents traduits** : 9
+- **Pourcentage de traduction** : 1.29%
 - **Objectif** : Documentation trilingue (Allemand, Anglais, Français)
 
 ## Stratégie de traduction
@@ -43,8 +43,13 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 
 **État** : 3/5 complété (60%)
 
-### Priorité 3 : Documentation API et requêtes ⏳ En attente
-**État** : 0/~50 complété (0%)
+### Priorité 3 : Documentation API et requêtes ⏳ En cours
+- [x] `/docs/fr/aql/README.md` (Aperçu du langage de requête AQL) - ✅ Complété
+- [ ] `/docs/fr/aql/aql_syntax.md` (Référence de syntaxe AQL)
+- [ ] `/docs/fr/apis/HTTP_API_REFERENCE.md` (Référence API HTTP)
+- [ ] `/docs/fr/apis/README.md` (Aperçu des APIs)
+
+**État** : 1/~50 complété (2%)
 
 ### Priorité 4 : Architecture et concepts de base ⏳ En attente
 **État** : 0/~70 complété (0%)
@@ -74,6 +79,7 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 6. **guides/QUICK_START.md** - Guide de démarrage rapide (151 lignes) - 23 décembre 2025
 7. **guides/README.md** - Guide de dépannage (78 lignes) - 23 décembre 2025
 8. **guides/USER_GUIDE.md** - Guide utilisateur complet (287 lignes) - 23 décembre 2025
+9. **aql/README.md** - Module AQL et langage de requête (320 lignes) - 23 décembre 2025
 
 ## Prochaines étapes
 
