@@ -1864,6 +1864,18 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+
+    # TPC-H: Decision Support (OLAP) Benchmark - 22 Analytical Queries
+    add_executable(bench_tpch
+        benchmarks/bench_tpch.cpp
+    )
+    
+    target_link_libraries(bench_tpch
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
 endif()
 
 # Admin Tools (.NET)
