@@ -79,7 +79,6 @@ public:
             info.primary_endpoint = "http://localhost:" + std::to_string(8080 + i);
             info.datacenter = "dc" + std::to_string(i % 3); // 3 datacenters
             info.rack = "rack" + std::to_string(i % 5);
-            info.region = "region" + std::to_string(i % 2);
             info.token_start = 0;
             info.token_end = 0;
             info.is_healthy = true;
@@ -148,11 +147,10 @@ BENCHMARK_DEFINE_F(ScatterGatherFixture, ScatterGatherLatency)(benchmark::State&
         // Route each URN (simulates scatter)
         std::vector<std::string> target_shards;
         for (const auto& urn : query_urns) {
-            auto result = resolver_->resolve(urn);
-            if (result.is_local) {
-                target_shards.push_back(local_shard_id_);
-            } else {
-                target_shards.push_back(result.shard_id);
+            auto result = resolver_->resolvePrimary(urn);
+            if (result.has_value()) {
+                const auto& shard_info = result.value();
+                target_shards.push_back(shard_info.shard_id);
             }
         }
         
@@ -600,7 +598,6 @@ public:
                 info.shard_id = shard_id;
                 info.primary_endpoint = "http://dc" + std::to_string(dc) + "-node" + std::to_string(s) + ":8080";
                 info.datacenter = "dc" + std::to_string(dc);
-                info.region = dc < num_dcs_ / 2 ? "us-east" : "eu-west";
                 info.rack = "rack" + std::to_string(s % 3);
                 info.is_healthy = true;
                 info.capabilities = {"read", "write"};

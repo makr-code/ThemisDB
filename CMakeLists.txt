@@ -636,6 +636,7 @@ set(THEMIS_CORE_SOURCES
     src/content/version_manager.cpp
     
     src/cache/semantic_cache.cpp
+    src/cache/embedding_cache.cpp
     # LLM core components are added conditionally below
     src/cdc/changefeed.cpp
     
@@ -689,6 +690,9 @@ set(THEMIS_CORE_SOURCES
     
     # Spatial index
     src/index/spatial_index.cpp
+    
+    # Hybrid search (BM25 + Vector)
+    src/search/hybrid_search.cpp
     src/security/pki_key_provider.cpp
     src/security/cms_signing.cpp
     src/security/rbac.cpp
@@ -1876,6 +1880,105 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+
+    # V1.3.0 Additional Benchmarks (previously missing)
+    
+    # AQL Functions Benchmark
+    add_executable(bench_aql_functions
+        benchmarks/bench_aql_functions.cpp
+    )
+    target_link_libraries(bench_aql_functions PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # ARM Memory Benchmark
+    add_executable(bench_arm_memory
+        benchmarks/bench_arm_memory.cpp
+    )
+    target_link_libraries(bench_arm_memory PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # ARM SIMD Benchmark
+    add_executable(bench_arm_simd
+        benchmarks/bench_arm_simd.cpp
+    )
+    target_link_libraries(bench_arm_simd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Auto Buffers Benchmark
+    add_executable(bench_auto_buffers
+        benchmarks/bench_auto_buffers.cpp
+    )
+    target_link_libraries(bench_auto_buffers PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Blob ZSTD Compression Benchmark
+    add_executable(bench_blob_zstd
+        benchmarks/bench_blob_zstd.cpp
+    )
+    target_link_libraries(bench_blob_zstd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # HNSW Prefilter Minimal Benchmark
+    add_executable(bench_hnsw_prefilter_minimal
+        benchmarks/bench_hnsw_prefilter_minimal.cpp
+    )
+    target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Hybrid Vector+Geo Benchmark
+    add_executable(bench_hybrid_vector_geo
+        benchmarks/bench_hybrid_vector_geo.cpp
+    )
+    target_link_libraries(bench_hybrid_vector_geo PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Lossy vs Lossless Compression Benchmark
+    add_executable(bench_lossy_vs_lossless
+        benchmarks/bench_lossy_vs_lossless.cpp
+    )
+    target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Product Quantization Benchmark
+    add_executable(bench_product_quantization
+        benchmarks/bench_product_quantization.cpp
+    )
+    target_link_libraries(bench_product_quantization PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Sanity Tests Benchmark
+    add_executable(bench_sanity
+        benchmarks/bench_sanity.cpp
+    )
+    target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Sharding Performance Benchmark
+    add_executable(bench_sharding_performance
+        benchmarks/bench_sharding_performance.cpp
+    )
+    target_link_libraries(bench_sharding_performance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # SIMD Distance Benchmark
+    add_executable(bench_simd_distance
+        benchmarks/bench_simd_distance.cpp
+    )
+    target_link_libraries(bench_simd_distance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Spatial Index Benchmark
+    add_executable(bench_spatial_index
+        benchmarks/bench_spatial_index.cpp
+    )
+    target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # V1.3.0 Features Benchmark (Critical for Release Testing)
+    add_executable(bench_v1_3_0_features
+        benchmarks/bench_v1_3_0_features.cpp
+    )
+    target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Vector Compression Lossless Benchmark
+    add_executable(bench_vector_compression_lossless
+        benchmarks/bench_vector_compression_lossless.cpp
+    )
+    target_link_libraries(bench_vector_compression_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Vector Prefilter Benchmark
+    add_executable(bench_vector_prefilter
+        benchmarks/bench_vector_prefilter.cpp
+    )
+    target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
 endif()
 
 # Admin Tools (.NET)

@@ -41,7 +41,7 @@ EmbeddingCache::EmbeddingCache(const Config& config)
             // Use configurable cache directory
             impl_->cache_dir = config_.cache_dir;
             RocksDBWrapper::Config db_config;
-            db_config.path = impl_->cache_dir;
+            db_config.db_path = impl_->cache_dir;
             db_config.create_if_missing = true;
             
             impl_->db = std::make_unique<RocksDBWrapper>(db_config);
@@ -259,10 +259,10 @@ bool EmbeddingCache::store(
     // Add to vector index if available
     if (impl_->vector_index) {
         BaseEntity entity;
-        entity.set("pk", pk);
-        entity.set("query_text", query_text);
-        entity.set("metadata", metadata);
-        entity.set("timestamp_ms", entry.timestamp_ms);
+        entity.setPrimaryKey(pk);
+        entity.setField("query_text", Value{std::string(query_text)});
+        entity.setField("metadata", Value{std::string(metadata)});
+        entity.setField("timestamp_ms", Value{static_cast<int64_t>(entry.timestamp_ms)});
         // Store embedding as vector<float>
         entity.setField("embedding", Value{embedding});
         
