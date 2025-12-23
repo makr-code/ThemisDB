@@ -6,8 +6,8 @@
 ## Vue d'ensemble
 
 - **Total de documents** : 696 fichiers markdown en allemand
-- **Documents traduits** : 5
-- **Pourcentage de traduction** : 0.72%
+- **Documents traduits** : 7
+- **Pourcentage de traduction** : 1.00%
 - **Objectif** : Documentation trilingue (Allemand, Anglais, Français)
 
 ## Stratégie de traduction
@@ -34,14 +34,14 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 
 **État** : 5/5 complété (100%) ✅
 
-### Priorité 2 : Guides de démarrage ⏳ En attente
-- [ ] `/docs/fr/guides/guides_quick_start.md`
-- [ ] `/docs/fr/guides/guides_installation.md`
-- [ ] `/docs/fr/guides/guides_build.md`
-- [ ] `/docs/fr/guides/guides_build_strategy.md`
-- [ ] `/docs/fr/deployment/deployment_overview.md`
+### Priorité 2 : Guides de démarrage ⏳ En cours
+- [x] `/docs/fr/guides/QUICK_START.md` (Guide de démarrage rapide) - ✅ Complété
+- [x] `/docs/fr/guides/README.md` (Guide de dépannage) - ✅ Complété
+- [ ] `/docs/fr/guides/USER_GUIDE.md` (Guide utilisateur)
+- [ ] `/docs/fr/guides/ADMINISTRATOR_GUIDE.md` (Guide administrateur)
+- [ ] `/docs/fr/guides/LLM_COMPLETE_SETUP_GUIDE.md` (Guide complet LLM)
 
-**État** : 0/5 complété (0%)
+**État** : 2/5 complété (40%)
 
 ### Priorité 3 : Documentation API et requêtes ⏳ En attente
 **État** : 0/~50 complété (0%)
@@ -71,6 +71,8 @@ Approche basée sur les priorités comme défini dans le flux de travail :
 3. **INDEX.md** - Page d'index de la documentation (233 lignes) - 23 décembre 2025
 4. **Home.md** - Page d'accueil (200 lignes) - 23 décembre 2025
 5. **glossary.md** - Glossaire des termes techniques (26 lignes) - 23 décembre 2025
+6. **guides/QUICK_START.md** - Guide de démarrage rapide (151 lignes) - 23 décembre 2025
+7. **guides/README.md** - Guide de dépannage (78 lignes) - 23 décembre 2025
 
 ## Prochaines étapes
 
