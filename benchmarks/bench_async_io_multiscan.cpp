@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <filesystem>
+#include <future>
 
 using namespace themis;
 

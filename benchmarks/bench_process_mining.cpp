@@ -52,7 +52,6 @@ static EventLog createSyntheticEventLog(size_t num_cases, size_t events_per_case
             event.resource = (j % 2 == 0) ? "Alice" : "Bob";
             
             trace.events.push_back(event);
-            log.events.push_back(event);
         }
         
         log.traces.push_back(trace);
@@ -86,7 +85,8 @@ static void BM_ProcessMining_AlphaMiner(benchmark::State& state) {
     ProcessMining mining(*db);
     
     for (auto _ : state) {
-        auto model = mining.discoverProcess(log, MiningAlgorithm::ALPHA);
+        MiningConfig cfg; cfg.algorithm = MiningAlgorithm::ALPHA;
+        auto model = mining.discoverProcess(log, cfg);
         benchmark::DoNotOptimize(model);
     }
     
@@ -111,7 +111,8 @@ static void BM_ProcessMining_HeuristicMiner(benchmark::State& state) {
     ProcessMining mining(*db);
     
     for (auto _ : state) {
-        auto model = mining.discoverProcess(log, MiningAlgorithm::HEURISTIC);
+        MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
+        auto model = mining.discoverProcess(log, cfg);
         benchmark::DoNotOptimize(model);
     }
     
@@ -136,7 +137,8 @@ static void BM_ProcessMining_InductiveMiner(benchmark::State& state) {
     ProcessMining mining(*db);
     
     for (auto _ : state) {
-        auto model = mining.discoverProcess(log, MiningAlgorithm::INDUCTIVE);
+        MiningConfig cfg; cfg.algorithm = MiningAlgorithm::INDUCTIVE;
+        auto model = mining.discoverProcess(log, cfg);
         benchmark::DoNotOptimize(model);
     }
     
@@ -336,7 +338,12 @@ static void BM_ProcessMining_ConformanceChecking(benchmark::State& state) {
     auto db = setupDatabase("/tmp/bench_pm_conformance");
     ProcessMining mining(*db);
     
-    auto model = mining.discoverProcess(log, MiningAlgorithm::HEURISTIC);
+    {
+        MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
+        auto tmp = mining.discoverProcess(log, cfg);
+        (void)tmp;
+    }
+    auto model = mining.discoverProcess(log).second;
     
     for (auto _ : state) {
         auto conformance = mining.checkConformance(log, model);
@@ -366,7 +373,12 @@ static void BM_ProcessMining_BPMNExport(benchmark::State& state) {
     auto db = setupDatabase("/tmp/bench_pm_bpmn");
     ProcessMining mining(*db);
     
-    auto model = mining.discoverProcess(log, MiningAlgorithm::HEURISTIC);
+    {
+        MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
+        auto tmp = mining.discoverProcess(log, cfg);
+        (void)tmp;
+    }
+    auto model = mining.discoverProcess(log).second;
     
     for (auto _ : state) {
         auto bpmn = mining.exportToBPMN(model);
@@ -397,53 +409,13 @@ static void BM_ProcessMining_PNMLExport(benchmark::State& state) {
 }
 BENCHMARK(BM_ProcessMining_PNMLExport)->Unit(benchmark::kMicrosecond);
 
-/**
- * @benchmark JSON export performance
- */
-static void BM_ProcessMining_JSONExport(benchmark::State& state) {
-    auto log = createSyntheticEventLog(100, 10);
-    
-    auto db = setupDatabase("/tmp/bench_pm_json");
-    ProcessMining mining(*db);
-    
-    auto model = mining.discoverProcess(log, MiningAlgorithm::HEURISTIC);
-    
-    for (auto _ : state) {
-        auto json = mining.exportToJSON(model);
-        benchmark::DoNotOptimize(json);
-    }
-    
-    std::filesystem::remove_all("/tmp/bench_pm_json");
-}
-BENCHMARK(BM_ProcessMining_JSONExport)->Unit(benchmark::kMicrosecond);
+// JSON-Export nicht verfügbar – Benchmark entfernt
 
 // ============================================================================
 // Social Network Mining Benchmarks
 // ============================================================================
 
-/**
- * @benchmark Social network extraction performance
- */
-static void BM_ProcessMining_SocialNetworkExtraction(benchmark::State& state) {
-    auto log = createSyntheticEventLog(state.range(0), 10);
-    
-    auto db = setupDatabase("/tmp/bench_pm_social");
-    ProcessMining mining(*db);
-    
-    for (auto _ : state) {
-        auto social_network = mining.extractSocialNetwork(log);
-        benchmark::DoNotOptimize(social_network);
-    }
-    
-    state.SetItemsProcessed(state.iterations() * log.traces.size());
-    
-    std::filesystem::remove_all("/tmp/bench_pm_social");
-}
-BENCHMARK(BM_ProcessMining_SocialNetworkExtraction)
-    ->Arg(100)
-    ->Arg(500)
-    ->Arg(1000)
-    ->Unit(benchmark::kMillisecond);
+// Social-Network-Extraktion aktuell nicht Teil der API – Benchmark entfernt
 
 // Main function for Google Benchmark
 BENCHMARK_MAIN();

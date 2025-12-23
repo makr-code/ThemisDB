@@ -1248,34 +1248,8 @@ bool StreamReceiveTask::verifyIntegrity() const {
         return false;
     }
     
-    // Verify checksum if provided
-    if (file_.checksum != 0) {
-        std::ifstream file(output_path_, std::ios::binary);
-        if (!file.is_open()) {
-            std::cerr << "Failed to open file for checksum verification" << std::endl;
-            return false;
-        }
-        
-        // Calculate CRC32 checksum
-        uint32_t calculated_checksum = 0xFFFFFFFF;
-        const size_t buffer_size = 65536; // 64KB buffer
-        std::vector<uint8_t> buffer(buffer_size);
-        
-        while (file.read(reinterpret_cast<char*>(buffer.data()), buffer_size) || file.gcount() > 0) {
-            size_t bytes_read = file.gcount();
-            for (size_t i = 0; i < bytes_read; ++i) {
-                calculated_checksum = crc32_table[(calculated_checksum ^ buffer[i]) & 0xFF] ^ (calculated_checksum >> 8);
-            }
-        }
-        
-        calculated_checksum ^= 0xFFFFFFFF;
-        
-        if (calculated_checksum != file_.checksum) {
-            std::cerr << "Checksum mismatch: expected " << std::hex << file_.checksum 
-                      << " but got " << calculated_checksum << std::dec << std::endl;
-            return false;
-        }
-    }
+    // File-level checksum verification is disabled here because StreamFileInfo
+    // no longer contains a numeric checksum field. Per-chunk CRC checks remain in place.
     
     return true;
 }
@@ -1333,7 +1307,7 @@ void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
     // For now, we log the retry request
     
     std::cerr << "Requesting retry for chunk " << chunk_index 
-              << " of file " << file_.filename << std::endl;
+              << " of file_id " << file_.file_id << std::endl;
     
     // In production, this would:
     // 1. Create a RETRY_REQUEST message

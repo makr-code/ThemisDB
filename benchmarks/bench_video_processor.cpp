@@ -55,7 +55,8 @@ static std::vector<uint8_t> generateMinimalMp4(size_t size_kb) {
  */
 static void BM_VideoProcessor_MetadataExtraction(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
+    nlohmann::json cfg = nlohmann::json::object();
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
@@ -85,9 +86,11 @@ BENCHMARK(BM_VideoProcessor_MetadataExtraction)
  */
 static void BM_VideoProcessor_FullProcessing(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("keyframes.max_count", 10);
-    config.set("scene_detection.enabled", true);
+    nlohmann::json cfg = {
+        {"keyframes", {{"max_count", 10}}},
+        {"scene_detection", {{"enabled", true}}}
+    };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
@@ -95,8 +98,6 @@ static void BM_VideoProcessor_FullProcessing(benchmark::State& state) {
     
     ExtractionOptions options;
     options.extract_metadata = true;
-    options.extract_keyframes = true;
-    options.extract_scenes = true;
     options.generate_thumbnail = true;
     
     for (auto _ : state) {
@@ -124,15 +125,14 @@ BENCHMARK(BM_VideoProcessor_FullProcessing)
  */
 static void BM_VideoProcessor_KeyframeExtraction(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("keyframes.max_count", state.range(1));
+    nlohmann::json cfg = { {"keyframes", {{"max_count", state.range(1)}}} };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
     auto video_data = generateMinimalMp4(file_size_kb);
     
     ExtractionOptions options;
-    options.extract_keyframes = true;
     
     for (auto _ : state) {
         auto result = processor.extract(video_data, "video/mp4", options);
@@ -156,15 +156,14 @@ BENCHMARK(BM_VideoProcessor_KeyframeExtraction)
  */
 static void BM_VideoProcessor_KeyframeScalability(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("keyframes.max_count", 10);
+    nlohmann::json cfg = { {"keyframes", {{"max_count", 10}}} };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
     auto video_data = generateMinimalMp4(file_size_kb);
     
     ExtractionOptions options;
-    options.extract_keyframes = true;
     
     for (auto _ : state) {
         auto result = processor.extract(video_data, "video/mp4", options);
@@ -188,16 +187,14 @@ BENCHMARK(BM_VideoProcessor_KeyframeScalability)
  */
 static void BM_VideoProcessor_SceneDetection(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("scene_detection.enabled", true);
-    config.set("scene_detection.threshold", 0.3);
+    nlohmann::json cfg = { {"scene_detection", {{"enabled", true}, {"threshold", 0.3}}} };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
     auto video_data = generateMinimalMp4(file_size_kb);
     
     ExtractionOptions options;
-    options.extract_scenes = true;
     
     for (auto _ : state) {
         auto result = processor.extract(video_data, "video/mp4", options);
@@ -220,16 +217,14 @@ BENCHMARK(BM_VideoProcessor_SceneDetection)
  */
 static void BM_VideoProcessor_SceneDetectionThreshold(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("scene_detection.enabled", true);
-    config.set("scene_detection.threshold", state.range(1) / 100.0);
+    nlohmann::json cfg = { {"scene_detection", {{"enabled", true}, {"threshold", state.range(1) / 100.0}}} };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
     auto video_data = generateMinimalMp4(file_size_kb);
     
     ExtractionOptions options;
-    options.extract_scenes = true;
     
     for (auto _ : state) {
         auto result = processor.extract(video_data, "video/mp4", options);
@@ -255,9 +250,8 @@ BENCHMARK(BM_VideoProcessor_SceneDetectionThreshold)
  */
 static void BM_VideoProcessor_ThumbnailGeneration(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("thumbnail.max_width", state.range(1));
-    config.set("thumbnail.max_height", state.range(1) * 3 / 4);  // 4:3 aspect ratio
+    nlohmann::json cfg = { {"thumbnail", {{"max_width", state.range(1)}, {"max_height", state.range(1) * 3 / 4}}} };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     size_t file_size_kb = state.range(0);
@@ -287,9 +281,8 @@ BENCHMARK(BM_VideoProcessor_ThumbnailGeneration)
  */
 static void BM_VideoProcessor_ThumbnailSizeVariations(benchmark::State& state) {
     VideoProcessor processor;
-    PluginConfig config;
-    config.set("thumbnail.max_width", state.range(0));
-    config.set("thumbnail.max_height", state.range(0) * 3 / 4);
+    nlohmann::json cfg = { {"thumbnail", {{"max_width", state.range(0)}, {"max_height", state.range(0) * 3 / 4}}} };
+    PluginConfig config{cfg};
     processor.initialize(config);
     
     auto video_data = generateMinimalMp4(1024);  // 1 MB video

@@ -89,13 +89,12 @@ void RocksDBWrapper::configureOptions() {
     options_->min_write_buffer_number_to_merge = config_.min_write_buffer_number_to_merge;
     
     // Block cache (read cache) configuration
-    // v1.3.0 Phase 2: Use HyperClockCache instead of LRUCache (RocksDB 10.7+)
-    // HyperClockCache provides better scalability at 16+ threads with lock-free reads
-    // Expected improvement: +5-10% single-thread, +30-50% multi-thread (16+)
+    // Prefer HyperClockCache if available; fallback to LRUCache for compatibility
     rocksdb::BlockBasedTableOptions table_options;
-    table_options.block_cache = rocksdb::NewHyperClockCache(
-        config_.block_cache_size_mb * 1024 * 1024  // capacity
-        // estimated_entry_charge = nullptr (auto) - RocksDB will manage automatically
+    // Some RocksDB builds (e.g., via vcpkg) do not expose NewHyperClockCache.
+    // Use LRU cache universally for maximum compatibility.
+    table_options.block_cache = rocksdb::NewLRUCache(
+        static_cast<size_t>(config_.block_cache_size_mb) * 1024ull * 1024ull
     );
     table_options.cache_index_and_filter_blocks = config_.cache_index_and_filter_blocks;
     table_options.pin_l0_filter_and_index_blocks_in_cache = config_.pin_l0_filter_and_index_blocks_in_cache;
@@ -199,11 +198,8 @@ void RocksDBWrapper::configureOptions() {
     txn_db_options_->transaction_lock_timeout = 1000; // 1 second timeout
     txn_db_options_->default_lock_timeout = 1000;
 
-    // v1.3.0 Phase 2: Enable Per-Key Point Lock Manager (RocksDB 10.6+)
-    // Improves efficiency under high write contention with FIFO ordering
-    // Expected improvement: +100-200% for write contention workloads
-    txn_db_options_->use_per_key_point_lock_mgr = true;
-    txn_db_options_->deadlock_timeout_us = 0;  // Immediate deadlock detection
+    // Per-Key Point Lock Manager options are not available in all RocksDB versions.
+    // Skip setting unavailable TransactionDBOptions fields to preserve compatibility.
 
     // Configure TransactionDB write policy
     switch (config_.write_policy) {
