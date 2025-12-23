@@ -2,7 +2,51 @@
 
 This directory contains performance benchmarks and testing utilities for ThemisDB.
 
-## Comparative Benchmark Suite (NEW)
+## 🎯 NEW: Advanced Scientific Benchmark Suite
+
+**Status:** ✅ Research Complete, Implementation Ready
+
+Based on scientific and industrial standards (TPC, YCSB, LDBC, ANN-Benchmarks), we now provide:
+
+### 📚 Comprehensive Research & Implementation Guides
+
+- **[ADVANCED_BENCHMARK_RESEARCH.md](ADVANCED_BENCHMARK_RESEARCH.md)** - Complete research on scientific benchmark standards including TPC-C/TPC-H, YCSB, LDBC, ANN-Benchmarks, and RAG workflows
+- **[HARDWARE_CONFIGURATION_BENCHMARK_SUITE.md](HARDWARE_CONFIGURATION_BENCHMARK_SUITE.md)** - Detailed guide for testing across diverse hardware configurations (cores, threads, memory, storage, NUMA)
+- **[INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md)** - How to use the new benchmarks and integrate with existing infrastructure
+
+### 🚀 Hardware Scaling Benchmark (Implemented)
+
+**Script:** [`hardware_scaling_benchmark.py`](hardware_scaling_benchmark.py)
+
+Automated hardware configuration testing:
+- **Core count scaling** (1, 2, 4, 8, 16, 32, 64 cores)
+- **Auto-detection** of CPU, memory, storage, NUMA
+- **Scaling efficiency analysis** with performance grading (A+ to F)
+- **JSON and Markdown reports** for CI/CD integration
+
+```bash
+# Quick start
+python3 hardware_scaling_benchmark.py --core-counts "1,2,4,8,16"
+
+# See INTEGRATION_GUIDE.md for full usage
+```
+
+### 📋 Planned Implementations
+
+Based on scientific standards documented in research:
+
+1. **TPC-C Benchmark** (OLTP) - Industry standard transaction processing
+2. **TPC-H Benchmark** (OLAP) - Decision support with 22 analytical queries
+3. **YCSB Workloads** (A-F) - Cloud serving benchmark with multiple scenarios
+4. **LDBC Social Network** - Graph database benchmark
+5. **ANN-Benchmarks** - Vector database standard (SIFT1M, Deep1B)
+6. **RAG Workflows** - Retrieval Augmented Generation for LLM applications
+
+See [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md) for implementation roadmap and timeline.
+
+---
+
+## Comparative Benchmark Suite (EXISTING)
 
 **Directory:** [`comparative/`](comparative/)
 
