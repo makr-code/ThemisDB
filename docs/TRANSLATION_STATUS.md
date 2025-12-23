@@ -6,8 +6,8 @@
 ## Overall Progress
 
 - **Total Documents**: 696 markdown files (in docs/de/)
-- **Documents Translated**: 16
-- **Translation Percentage**: 2.3%
+- **Documents Translated**: 17
+- **Translation Percentage**: 2.4%
 - **Target**: Bilingual documentation (German + English)
 
 ## Translation Strategy
@@ -36,13 +36,14 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 
 ### Priority 2: Getting Started & Guides ⏳ In Progress
 - [x] `/docs/en/guides/ADMINISTRATOR_GUIDE.md` - Administrator guide for operations
-- [x] `/docs/en/deployment/README.md` - **NEW** Deployment overview translated
+- [x] `/docs/en/deployment/README.md` - Deployment overview translated
+- [x] `/docs/en/guides/QUICK_START.md` - **NEW** Quick start guide translated
 - [ ] `/docs/guides/guides_quick_start.md`
 - [ ] `/docs/guides/guides_installation.md`
 - [ ] `/docs/guides/guides_build.md`
 - [ ] `/docs/guides/guides_build_strategy.md`
 
-**Status**: 2/18 complete (11.1%)
+**Status**: 3/18 complete (16.7%)
 
 ### Priority 3: API & Query Documentation ⏳ In Progress
 - [x] `/docs/en/apis/README.md` - API & ingestion overview translated
@@ -82,8 +83,9 @@ Following priority-based translation approach as defined in [TRANSLATION_WORKFLO
 5. **docs/en/aql/README.md** - AQL query language overview (330 lines)
 6. **docs/en/architecture/README.md** - Transaction module & ACID guarantees (130 lines)
 7. **docs/en/deployment/README.md** - Deployment platforms & strategies (185 lines)
-8. **docs/en/storage/README.md** - **NEW** Replication strategies & CRDT conflict resolution (155 lines)
-9. **docs/en/features/README.md** - **NEW** Complete features catalog with 36 features across 6 categories (260 lines)
+8. **docs/en/storage/README.md** - Replication strategies & CRDT conflict resolution (155 lines)
+9. **docs/en/features/README.md** - Complete features catalog with 36 features across 6 categories (260 lines)
+10. **docs/en/guides/QUICK_START.md** - **NEW** Quick start guide with 10-step tutorial (255 lines)
 
 ### December 22, 2025
 1. **TRANSLATION_WORKFLOW.md** - Created English translation workflow document
