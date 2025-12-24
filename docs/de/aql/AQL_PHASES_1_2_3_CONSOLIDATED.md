@@ -1,7 +1,7 @@
 # 🔎 ThemisDB AQL - Phases 1-3 Consolidated Guide
 
 **Category:** 🔎 Advanced Queries  
-**Version:** v1.3.0  
+**Version:** v1.3.1 (alpha)  
 **Status:** ✅ Production Ready  
 **Datum:** 24. Dezember 2025
 
@@ -25,7 +25,7 @@
 
 ## 📋 Executive Summary
 
-Dieses Dokument konsolidiert die Implementierung und Dokumentation der **AQL-Erweiterungen Phases 1-3** für ThemisDB v1.3.0. Diese drei Phasen bilden zusammen ein umfassendes System für fortgeschrittene Multi-Model-Queries mit optimaler Performance.
+Dieses Dokument konsolidiert die Implementierung und Dokumentation der **AQL-Erweiterungen Phases 1-3** für ThemisDB v1.3.1 (alpha). Diese drei Phasen bilden zusammen ein umfassendes System für fortgeschrittene Multi-Model-Queries mit optimaler Performance.
 
 ### 🎉 Achievements Across All Phases
 
@@ -748,6 +748,14 @@ For detailed implementation information on each phase:
 
 ## 📝 Changelog
 
+### v1.3.1 (alpha) - December 24, 2025
+
+**Consolidated Documentation Release**
+- ✅ Combined Phase 1, 2, and 3 documentation into unified guide
+- ✅ Cross-referenced all individual phase documents
+- ✅ Added comprehensive combined examples
+- ✅ Updated navigation and indexing
+
 ### v1.3.0 - December 24, 2025
 
 **Phase 1 & 1.5: Hybrid Query Optimizations**
@@ -780,7 +788,7 @@ For detailed implementation information on each phase:
 
 ---
 
-**Version:** v1.3.0  
+**Version:** v1.3.1 (alpha)  
 **Status:** ✅ Production Ready  
 **Total Lines of Code:** ~8,500  
 **Total Tests:** 62+  
