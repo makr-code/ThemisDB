@@ -3,9 +3,11 @@
 # Process models for customer service and support workflows
 # Based on customer service best practices
 #
-# Version: 1.0
+# Version: 1.1
 # Date: 2025-12-24
-# Status: Initial Release
+# Status: Enhanced with LLM Support
+#
+# LLM Integration: See LLM_INTEGRATION_GUIDE.md for framework details
 
 customer_service_models:
   
@@ -460,3 +462,67 @@ metadata:
     - name: "BGB (Bürgerliches Gesetzbuch)"
       description: "German Civil Code - Consumer rights and warranties"
       url: "https://www.gesetze-im-internet.de/bgb/"
+
+# =============================================================================
+# LLM Integration for Customer Service Processes
+# =============================================================================
+
+llm_integration:
+  complaint_handling:
+    llm_prompts:
+      - task: "analyze_sentiment"
+        prompt: |
+          Analysiere die Beschwerde auf Stimmung und Dringlichkeit:
+          
+          Beschwerdetext: {complaint_text}
+          Kategorie: {category}
+          
+          Bewerte:
+          1. Sentiment (positiv/neutral/negativ/sehr negativ)
+          2. Dringlichkeitsstufe (niedrig/mittel/hoch/kritisch)
+          3. Eskalationsrisiko
+          4. Empfohlene Reaktionszeit
+      
+      - task: "recommend_solution"
+        prompt: |
+          Basierend auf ähnlichen Beschwerden, empfehle eine Lösung:
+          
+          Beschwerde: {complaint}
+          Kategorie: {category}
+          Ähnliche gelöste Fälle: {similar_cases}
+          
+          Gib zurück:
+          1. Top 3 Lösungsvorschläge
+          2. Geschätzte Zufriedenheit für jede Lösung
+          3. Implementierungsschritte
+    
+    llm_test_cases:
+      - name: "High priority complaint"
+        input:
+          sentiment: "very_negative"
+          urgency: "high"
+        expected_behavior:
+          escalation_recommended: true
+          response_time_hours: "<= 4"
+  
+  order_processing:
+    llm_prompts:
+      - task: "predict_delivery_issues"
+        prompt: |
+          Sage potenzielle Lieferprobleme vorher:
+          
+          Bestellung: {order_id}
+          Zieladresse: {address}
+          Wetter: {weather_data}
+          Carrier-Performance: {carrier_stats}
+          
+          Risikoanalyse für:
+          1. Verspätung
+          2. Beschädigung
+          3. Zustellprobleme
+
+llm_benchmarks:
+  accuracy_requirements:
+    sentiment_analysis: ">= 0.85"
+    urgency_classification: ">= 0.80"
+    solution_recommendation_relevance: ">= 0.75"

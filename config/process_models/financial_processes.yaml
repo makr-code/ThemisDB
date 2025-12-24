@@ -3,9 +3,11 @@
 # Process models for financial and accounting workflows
 # Based on financial best practices and regulatory requirements
 #
-# Version: 1.0
+# Version: 1.1
 # Date: 2025-12-24
-# Status: Initial Release
+# Status: Enhanced with LLM Support
+#
+# LLM Integration: See LLM_INTEGRATION_GUIDE.md for framework details
 
 financial_models:
   
@@ -466,3 +468,110 @@ metadata:
     - name: "UStG (Umsatzsteuergesetz)"
       description: "German VAT Act"
       url: "https://www.gesetze-im-internet.de/ustg_1980/"
+
+# =============================================================================
+# LLM Integration for Financial Processes
+# =============================================================================
+
+llm_integration:
+  invoice_processing:
+    llm_prompts:
+      - task: "extract_invoice_data"
+        prompt: |
+          Extrahiere strukturierte Daten aus dieser Rechnung:
+          
+          Rechnungstext/OCR: {invoice_text}
+          
+          Extrahiere:
+          1. Rechnungsnummer
+          2. Datum
+          3. Lieferant
+          4. Beträge (netto, Steuer, brutto)
+          5. Kostenstellen
+          6. Pflichtangaben nach §14 UStG vorhanden?
+      
+      - task: "detect_fraud"
+        prompt: |
+          Prüfe diese Rechnung auf Anomalien und Betrugsrisiken:
+          
+          Rechnung: {invoice_data}
+          Lieferant: {vendor}
+          Historische Daten: {historical_invoices}
+          
+          Suche nach:
+          1. Ungewöhnliche Beträge
+          2. Duplikate
+          3. Lieferant nicht verifiziert
+          4. Abweichungen von Bestellungen
+        expected_output:
+          schema:
+            type: "object"
+            required: ["fraud_risk_score", "anomalies"]
+            properties:
+              fraud_risk_score: {type: "number", minimum: 0, maximum: 1}
+              anomalies: {type: "array"}
+              requires_manual_review: {type: "boolean"}
+    
+    llm_test_cases:
+      - name: "Valid invoice with all requirements"
+        input:
+          has_all_fields: true
+          paragraph_14_compliant: true
+          matches_purchase_order: true
+        expected_behavior:
+          fraud_risk_score: "< 0.1"
+          anomalies_count: 0
+          requires_manual_review: false
+      
+      - name: "Duplicate invoice detected"
+        input:
+          invoice_number: "INV-12345"
+          already_processed: true
+        expected_behavior:
+          fraud_risk_score: "> 0.8"
+          anomaly_type: "duplicate"
+          requires_manual_review: true
+  
+  expense_claims:
+    llm_prompts:
+      - task: "verify_policy_compliance"
+        prompt: |
+          Prüfe Reisekosten gegen Firmenrichtlinie:
+          
+          Spesen: {expenses}
+          Richtlinie: {policy}
+          
+          Prüfe:
+          1. Beträge innerhalb Limits?
+          2. Belege vollständig?
+          3. Plausibilität der Ausgaben
+          4. Steuerliche Korrektheit
+  
+  month_end_closing:
+    llm_prompts:
+      - task: "validate_closing_checklist"
+        prompt: |
+          Prüfe Vollständigkeit des Monatsabschlusses:
+          
+          Checkliste: {checklist}
+          Durchgeführte Schritte: {completed_steps}
+          
+          Verifiziere:
+          1. Alle Konten abgestimmt?
+          2. Abgrenzungen gebucht?
+          3. Abschreibungen berücksichtigt?
+          4. GoB und HGB eingehalten?
+
+llm_benchmarks:
+  accuracy_requirements:
+    invoice_data_extraction: ">= 0.95"
+    fraud_detection: ">= 0.90"
+    policy_compliance_check: ">= 0.92"
+    gob_compliance_verification: ">= 0.95"
+  
+  performance_requirements:
+    max_response_time_seconds: 5
+  
+  quality_requirements:
+    false_positive_fraud: "< 0.05"
+    extraction_accuracy_mandatory_fields: ">= 0.98"

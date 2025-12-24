@@ -1,6 +1,13 @@
 # Process Models Directory
 
-This directory contains predefined process models for various business domains that can be used with ThemisDB's Process Mining functionality.
+This directory contains predefined process models for various business domains that can be used with ThemisDB's Process Mining functionality, **enhanced with LLM (Large Language Model) support** for intelligent process analysis.
+
+## Key Features
+
+✅ **17 Process Models** across 5 domains  
+✅ **LLM Integration** - AI-powered process analysis, conformance checking, predictions  
+✅ **Automated Testing** - Validate LLM behavior with test cases  
+✅ **Benchmarks** - Measure LLM accuracy and performance  
 
 ## Available Process Model Files
 
@@ -163,12 +170,100 @@ metadata:
 
 ---
 
+## LLM Integration 🤖
+
+All process models now include **LLM (Large Language Model) support** for intelligent analysis:
+
+### LLM Capabilities
+
+1. **Process Analysis** - Automated conformance checking and deviation detection
+2. **Predictions** - Predict next activities, durations, and risks
+3. **Recommendations** - Suggest optimizations and improvements
+4. **Compliance Verification** - Automated regulatory compliance checking
+5. **Anomaly Detection** - Identify fraud, safety issues, and violations
+
+### LLM Prompts
+
+Each process model includes:
+- **Task-specific prompts** for different analysis types
+- **Expected output schemas** (JSON with validation)
+- **Test cases** to validate LLM behavior
+- **Benchmark criteria** for accuracy and performance
+
+### Example: LLM-Assisted Analysis
+
+```aql
+-- Use LLM to analyze building permit process
+LET model = PM_LOAD_ADMIN_MODEL("bauantrag_standard")
+
+-- Get LLM analysis
+LET analysis = LLM_ANALYZE_PROCESS({
+  trace: case.activities,
+  model: model,
+  task: "analyze_process"
+})
+
+-- Filter cases with compliance issues
+FILTER analysis.compliance_issues_count > 0
+
+RETURN {
+  case_id: case.id,
+  conformance_score: analysis.conformance_score,
+  violations: analysis.compliance_issues,
+  recommendations: analysis.recommendations
+}
+```
+
+### LLM Testing & Benchmarks
+
+Each model includes test cases to validate LLM behavior:
+
+```yaml
+llm_test_cases:
+  - name: "Standard conformant process"
+    input_trace: ["activity1", "activity2", "activity3"]
+    expected_behavior:
+      conformance_score: ">= 0.95"
+      deviations_count: "== 0"
+      compliance_issues_count: "== 0"
+  
+  - name: "Process with SLA violation"
+    input_trace: ["activity1", "activity2"]
+    duration_days: 120
+    expected_behavior:
+      sla_violation_detected: true
+      violated_rule: "§34 BauO"
+```
+
+### Benchmark Requirements
+
+Performance targets for LLM integration:
+
+| Domain | Accuracy | Response Time | False Positive Rate |
+|--------|----------|---------------|---------------------|
+| **Administrative** | ≥ 90% | < 5s | < 10% |
+| **IT Service** | ≥ 85% | < 5s | < 10% |
+| **Healthcare** | ≥ 98% | < 3s | < 2% |
+| **Customer Service** | ≥ 85% | < 5s | < 10% |
+| **Financial** | ≥ 95% | < 5s | < 5% |
+
+*Healthcare has highest requirements due to patient safety criticality*
+
+### LLM Integration Guide
+
+For detailed information on LLM integration framework, see:
+📖 **[LLM_INTEGRATION_GUIDE.md](LLM_INTEGRATION_GUIDE.md)**
+
+---
+
 ## Total Statistics
 
 - **Process Models:** 17 predefined models
 - **Domains:** 5 (Administrative, IT, Healthcare, Customer Service, Finance)
 - **Activities:** 150+ predefined activities
 - **Compliance Frameworks:** 25+ regulations and standards
+- **LLM Prompts:** 30+ task-specific prompts
+- **LLM Test Cases:** 20+ automated test scenarios
 - **Languages:** German (primary), English (secondary)
 
 ---
@@ -204,6 +299,7 @@ Example filename: `your_domain_processes.yaml`
 
 ## Version History
 
+- **v1.1** (2025-12-24) - Added LLM integration with prompts, test cases, and benchmarks
 - **v1.0** (2025-12-24) - Initial release with 17 process models across 5 domains
 
 ---
