@@ -1,0 +1,442 @@
+# IT Service Process Models
+# =========================
+# Process models for IT service management and digital workflows
+# Based on ITIL v4 and best practices
+#
+# Version: 1.0
+# Date: 2025-12-24
+# Status: Initial Release
+
+it_service_models:
+  
+  # =========================================================================
+  # Incident Management (ITIL)
+  # =========================================================================
+  
+  - id: incident_management_standard
+    name: "Incident Management (ITIL v4)"
+    name_en: "Incident Management (ITIL v4)"
+    domain: "IT Service Management"
+    domain_en: "IT Service Management"
+    description: "Standard-Incident-Management nach ITIL v4"
+    description_en: "Standard incident management process according to ITIL v4"
+    
+    activities:
+      - id: "incident_detection"
+        name: "Störungserkennung"
+        name_en: "Incident Detection"
+        type: "start"
+        description: "Erkennung und Meldung einer Störung"
+        sla_hours: 0
+        
+      - id: "incident_logging"
+        name: "Störungserfassung"
+        name_en: "Incident Logging"
+        type: "task"
+        description: "Erfassung der Störung im System"
+        sla_hours: 0.25  # 15 Minuten
+        responsible_role: "Service Desk"
+        
+      - id: "incident_categorization"
+        name: "Kategorisierung"
+        name_en: "Categorization"
+        type: "task"
+        description: "Kategorisierung und Priorisierung der Störung"
+        sla_hours: 0.5  # 30 Minuten
+        responsible_role: "Service Desk"
+        
+      - id: "initial_diagnosis"
+        name: "Erste Diagnose"
+        name_en: "Initial Diagnosis"
+        type: "task"
+        description: "Erste Fehlerdiagnose und -analyse"
+        sla_hours: 1
+        responsible_role: "Service Desk"
+        
+      - id: "escalation_l2"
+        name: "Eskalation Level 2"
+        name_en: "Escalation L2"
+        type: "task"
+        description: "Eskalation an Second-Level-Support"
+        sla_hours: 2
+        responsible_role: "L2 Support"
+        optional: true
+        
+      - id: "escalation_l3"
+        name: "Eskalation Level 3"
+        name_en: "Escalation L3"
+        type: "task"
+        description: "Eskalation an Third-Level-Support / Entwicklung"
+        sla_hours: 8
+        responsible_role: "L3 Support"
+        optional: true
+        
+      - id: "resolution"
+        name: "Lösung implementieren"
+        name_en: "Resolution"
+        type: "task"
+        description: "Implementierung der Lösung"
+        sla_hours: 4
+        responsible_role: "Support Team"
+        
+      - id: "verification"
+        name: "Verifizierung"
+        name_en: "Verification"
+        type: "task"
+        description: "Überprüfung der Lösung mit Nutzer"
+        sla_hours: 1
+        responsible_role: "Service Desk"
+        
+      - id: "closure"
+        name: "Abschluss"
+        name_en: "Closure"
+        type: "end"
+        description: "Abschluss der Störung"
+        sla_hours: 0.5
+        responsible_role: "Service Desk"
+    
+    edges:
+      - from: "incident_detection"
+        to: "incident_logging"
+      - from: "incident_logging"
+        to: "incident_categorization"
+      - from: "incident_categorization"
+        to: "initial_diagnosis"
+      - from: "initial_diagnosis"
+        to: "escalation_l2"
+        type: "conditional"
+        condition: "requires_escalation"
+      - from: "initial_diagnosis"
+        to: "resolution"
+        type: "conditional"
+        condition: "can_resolve"
+      - from: "escalation_l2"
+        to: "escalation_l3"
+        type: "conditional"
+        condition: "requires_further_escalation"
+      - from: "escalation_l2"
+        to: "resolution"
+        type: "conditional"
+        condition: "can_resolve"
+      - from: "escalation_l3"
+        to: "resolution"
+      - from: "resolution"
+        to: "verification"
+      - from: "verification"
+        to: "closure"
+    
+    priorities:
+      - level: "Critical"
+        sla_resolution_hours: 4
+        description: "Systemausfall, kritischer Business-Impact"
+        
+      - level: "High"
+        sla_resolution_hours: 8
+        description: "Schwerwiegender Fehler, hoher Business-Impact"
+        
+      - level: "Medium"
+        sla_resolution_hours: 24
+        description: "Moderater Fehler, mittlerer Business-Impact"
+        
+      - level: "Low"
+        sla_resolution_hours: 72
+        description: "Geringer Fehler, niedriger Business-Impact"
+    
+    compliance:
+      - rule: "ITIL v4"
+        description: "Incident Management nach ITIL Framework"
+        check_type: "process_framework"
+        
+      - rule: "ISO 20000"
+        description: "IT Service Management Standard"
+        check_type: "iso_standard"
+    
+    semantic_tags:
+      - "ITIL"
+      - "Incident Management"
+      - "Service Desk"
+      - "IT Support"
+      - "SLA Management"
+  
+  # =========================================================================
+  # Change Management
+  # =========================================================================
+  
+  - id: change_management_standard
+    name: "Change Management (ITIL v4)"
+    name_en: "Change Management (ITIL v4)"
+    domain: "IT Service Management"
+    domain_en: "IT Service Management"
+    description: "Change-Management-Prozess nach ITIL v4"
+    
+    activities:
+      - id: "change_request"
+        name: "Change Request erstellen"
+        name_en: "Create Change Request"
+        type: "start"
+        description: "Erstellung eines Change Requests"
+        sla_hours: 0
+        
+      - id: "change_assessment"
+        name: "Change-Bewertung"
+        name_en: "Change Assessment"
+        type: "task"
+        description: "Bewertung von Risiken und Auswirkungen"
+        sla_hours: 8
+        responsible_role: "Change Manager"
+        
+      - id: "change_authorization"
+        name: "Change-Genehmigung"
+        name_en: "Change Authorization"
+        type: "task"
+        description: "Genehmigung durch Change Advisory Board"
+        sla_hours: 24
+        responsible_role: "CAB"
+        
+      - id: "change_planning"
+        name: "Change-Planung"
+        name_en: "Change Planning"
+        type: "task"
+        description: "Detaillierte Planung der Umsetzung"
+        sla_hours: 16
+        responsible_role: "Change Manager"
+        
+      - id: "change_implementation"
+        name: "Change-Umsetzung"
+        name_en: "Change Implementation"
+        type: "task"
+        description: "Durchführung der Änderung"
+        sla_hours: 8
+        responsible_role: "Technical Team"
+        
+      - id: "change_verification"
+        name: "Change-Überprüfung"
+        name_en: "Change Verification"
+        type: "task"
+        description: "Überprüfung der erfolgreichen Umsetzung"
+        sla_hours: 4
+        responsible_role: "Change Manager"
+        
+      - id: "change_review"
+        name: "Post-Implementation Review"
+        name_en: "Post-Implementation Review"
+        type: "task"
+        description: "Review nach der Umsetzung"
+        sla_hours: 24
+        responsible_role: "CAB"
+        
+      - id: "change_closure"
+        name: "Change-Abschluss"
+        name_en: "Change Closure"
+        type: "end"
+        description: "Abschluss des Change Requests"
+        sla_hours: 2
+        responsible_role: "Change Manager"
+    
+    edges:
+      - from: "change_request"
+        to: "change_assessment"
+      - from: "change_assessment"
+        to: "change_authorization"
+      - from: "change_authorization"
+        to: "change_planning"
+      - from: "change_planning"
+        to: "change_implementation"
+      - from: "change_implementation"
+        to: "change_verification"
+      - from: "change_verification"
+        to: "change_review"
+      - from: "change_review"
+        to: "change_closure"
+    
+    change_types:
+      - type: "Standard"
+        approval_required: false
+        description: "Vordefinierte, risikoarme Änderungen"
+        
+      - type: "Normal"
+        approval_required: true
+        description: "Reguläre Änderungen mit CAB-Genehmigung"
+        
+      - type: "Emergency"
+        approval_required: true
+        description: "Notfall-Änderungen mit verkürztem Prozess"
+    
+    compliance:
+      - rule: "ITIL v4 Change Management"
+        description: "Change Management nach ITIL Framework"
+        
+      - rule: "Separation of Duties"
+        description: "Antragsteller und Genehmiger sind verschiedene Personen"
+        check_type: "separation_of_duties"
+    
+    semantic_tags:
+      - "ITIL"
+      - "Change Management"
+      - "CAB"
+      - "Release Management"
+  
+  # =========================================================================
+  # Software Development Lifecycle
+  # =========================================================================
+  
+  - id: sdlc_agile_scrum
+    name: "Agile Development (Scrum)"
+    name_en: "Agile Development (Scrum)"
+    domain: "Software Engineering"
+    domain_en: "Software Engineering"
+    description: "Agiler Entwicklungsprozess nach Scrum Framework"
+    
+    activities:
+      - id: "product_backlog_creation"
+        name: "Product Backlog erstellen"
+        name_en: "Create Product Backlog"
+        type: "start"
+        description: "Erstellung und Priorisierung des Product Backlogs"
+        sla_hours: 0
+        responsible_role: "Product Owner"
+        
+      - id: "sprint_planning"
+        name: "Sprint Planning"
+        name_en: "Sprint Planning"
+        type: "task"
+        description: "Planung des kommenden Sprints"
+        sla_hours: 4
+        responsible_role: "Scrum Team"
+        
+      - id: "daily_standup"
+        name: "Daily Standup"
+        name_en: "Daily Standup"
+        type: "task"
+        description: "Tägliches Synchronisationstreffen (15 Min.)"
+        sla_hours: 0.25
+        responsible_role: "Scrum Team"
+        recurring: true
+        
+      - id: "development"
+        name: "Entwicklung"
+        name_en: "Development"
+        type: "task"
+        description: "Implementierung der User Stories"
+        sla_hours: 160  # 2 Wochen Sprint
+        responsible_role: "Development Team"
+        
+      - id: "code_review"
+        name: "Code Review"
+        name_en: "Code Review"
+        type: "task"
+        description: "Peer Review des entwickelten Codes"
+        sla_hours: 4
+        responsible_role: "Development Team"
+        
+      - id: "testing"
+        name: "Testing"
+        name_en: "Testing"
+        type: "task"
+        description: "Unit-, Integration- und Akzeptanztests"
+        sla_hours: 16
+        responsible_role: "QA Team"
+        
+      - id: "sprint_review"
+        name: "Sprint Review"
+        name_en: "Sprint Review"
+        type: "task"
+        description: "Vorstellung der Ergebnisse an Stakeholder"
+        sla_hours: 2
+        responsible_role: "Scrum Team"
+        
+      - id: "sprint_retrospective"
+        name: "Sprint Retrospektive"
+        name_en: "Sprint Retrospective"
+        type: "task"
+        description: "Reflexion und Verbesserung des Prozesses"
+        sla_hours: 1.5
+        responsible_role: "Scrum Team"
+        
+      - id: "deployment"
+        name: "Deployment"
+        name_en: "Deployment"
+        type: "end"
+        description: "Auslieferung in Produktion"
+        sla_hours: 4
+        responsible_role: "DevOps Team"
+    
+    edges:
+      - from: "product_backlog_creation"
+        to: "sprint_planning"
+      - from: "sprint_planning"
+        to: "daily_standup"
+      - from: "daily_standup"
+        to: "development"
+      - from: "development"
+        to: "code_review"
+      - from: "code_review"
+        to: "testing"
+      - from: "testing"
+        to: "sprint_review"
+      - from: "sprint_review"
+        to: "sprint_retrospective"
+      - from: "sprint_retrospective"
+        to: "deployment"
+      - from: "deployment"
+        to: "sprint_planning"
+        type: "loop"
+    
+    scrum_artifacts:
+      - name: "Product Backlog"
+        description: "Priorisierte Liste aller Anforderungen"
+        
+      - name: "Sprint Backlog"
+        description: "Für den Sprint ausgewählte Items"
+        
+      - name: "Increment"
+        description: "Potenziell auslieferbares Produktinkrement"
+    
+    compliance:
+      - rule: "Scrum Guide"
+        description: "Prozess folgt dem offiziellen Scrum Framework"
+        
+      - rule: "Definition of Done"
+        description: "Alle Items erfüllen die Definition of Done"
+    
+    semantic_tags:
+      - "Agile"
+      - "Scrum"
+      - "Software Development"
+      - "DevOps"
+      - "Sprint"
+
+# =============================================================================
+# Model Metadata
+# =============================================================================
+
+metadata:
+  version: "1.0"
+  last_updated: "2025-12-24"
+  author: "ThemisDB Team"
+  license: "MIT"
+  language: "de-DE"
+  
+  categories:
+    - id: "itsm"
+      name: "IT Service Management"
+      name_en: "IT Service Management"
+      models: ["incident_management_standard", "change_management_standard"]
+      
+    - id: "software_engineering"
+      name: "Software Engineering"
+      name_en: "Software Engineering"
+      models: ["sdlc_agile_scrum"]
+  
+  frameworks:
+    - name: "ITIL v4"
+      description: "IT Infrastructure Library Version 4"
+      url: "https://www.axelos.com/certifications/itil-service-management"
+      
+    - name: "ISO 20000"
+      description: "IT Service Management System Standard"
+      url: "https://www.iso.org/standard/70636.html"
+      
+    - name: "Scrum Guide"
+      description: "The Definitive Guide to Scrum"
+      url: "https://scrumguides.org/"
