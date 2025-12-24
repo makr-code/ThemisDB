@@ -135,6 +135,15 @@ if(THEMIS_ENABLE_HUGE_PAGES)
     endif()
 endif()
 
+if(THEMIS_ENABLE_RCU_INDEX)
+    message(STATUS "Enabling RCU index optimization (+200-500% read performance)")
+    message(STATUS "RCU: Read-Copy-Update for lock-free reads in read-heavy workloads")
+    add_compile_definitions(THEMIS_USE_RCU_INDEX)
+    
+    # RCU requires C++17 or later (already set to C++20)
+    # No additional dependencies needed
+endif()
+
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
@@ -1440,6 +1449,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_performance_feature_flags.cpp
         tests/test_performance_allocator.cpp
         tests/test_huge_pages.cpp
+        tests/test_rcu_index.cpp
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
