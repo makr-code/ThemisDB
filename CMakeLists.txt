@@ -830,7 +830,7 @@ list(APPEND THEMIS_CORE_SOURCES
 
 if(THEMIS_ENABLE_DISKANN)
     message(STATUS "Including DiskANN billion-scale vector search (THEMIS_ENABLE_DISKANN=ON)")
-    # Note: DiskANN implementation requires additional work - placeholder for now
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/diskann.cpp)
 endif()
 
 if(THEMIS_ENABLE_BWTREE)
