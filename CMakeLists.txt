@@ -840,7 +840,7 @@ endif()
 
 if(THEMIS_ENABLE_SPLINTERDB)
     message(STATUS "Including SplinterDB concurrent compaction (THEMIS_ENABLE_SPLINTERDB=ON)")
-    # Note: SplinterDB implementation requires additional work - placeholder for now
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/splinterdb.cpp)
 endif()
 
 if(THEMIS_ENABLE_GUNROCK)
