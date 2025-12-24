@@ -103,6 +103,9 @@ option(THEMIS_ENABLE_CICADA_CC "Use Cicada optimistic concurrency control (+100-
 option(THEMIS_ENABLE_DISKANN "Use DiskANN for billion-scale vector search (+300-400% throughput)" OFF)
 option(THEMIS_ENABLE_BW_TREE "Use Bw-Tree lock-free index (+100-200% index updates)" OFF)
 
+# Build options
+option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
+
 # Performance Optimization Dependencies
 if(THEMIS_ENABLE_MIMALLOC)
     message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
@@ -2082,3 +2085,9 @@ install(TARGETS themis_server themis_core
 install(DIRECTORY include/
     DESTINATION include
 )
+
+# Performance Optimization Benchmarks
+if(THEMIS_BUILD_BENCHMARKS)
+    add_subdirectory(benchmarks/performance_optimizations)
+endif()
+
