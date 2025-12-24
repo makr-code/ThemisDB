@@ -88,6 +88,21 @@ option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OF
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 
+# Performance Optimization Options (Research-based, see docs/de/research/)
+# Phase 1: Quick Wins - Low effort, high impact optimizations
+option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
+option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
+option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
+option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
+
+# Phase 2: Medium-Term - Higher impact, medium effort optimizations
+option(THEMIS_ENABLE_WISCKEY "Enable WiscKey value separation for +40-60% write throughput" OFF)
+option(THEMIS_ENABLE_CICADA_CC "Use Cicada optimistic concurrency control (+100-150% TX throughput)" OFF)
+
+# Phase 3: Long-Term - Very high impact, high effort optimizations
+option(THEMIS_ENABLE_DISKANN "Use DiskANN for billion-scale vector search (+300-400% throughput)" OFF)
+option(THEMIS_ENABLE_BW_TREE "Use Bw-Tree lock-free index (+100-200% index updates)" OFF)
+
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
