@@ -88,6 +88,14 @@ option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OF
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 
+# Phase 2 Performance Optimizations (from PR #156/#157 research)
+# Medium-term optimizations (3-6 months effort, +100-200% overall performance)
+option(THEMIS_ENABLE_WISCKEY "Enable WiscKey key/value separation (+40-60% writes)" OFF)
+option(THEMIS_ENABLE_DOSTOEVSKY "Enable Dostoevsky adaptive LSM (+25-35% mixed)" OFF)
+option(THEMIS_ENABLE_CICADA "Enable Cicada optimistic CC (+100-150% transactions)" OFF)
+option(THEMIS_ENABLE_LIGRA "Enable Ligra graph processing (+200-300% graph)" OFF)
+option(THEMIS_ENABLE_RABITQ "Enable RaBitQ vector quantization (16x memory reduction)" OFF)
+
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
@@ -775,6 +783,37 @@ set(THEMIS_CORE_SOURCES
     src/analytics/process_mining.cpp
 )
 
+# Phase 2 Performance Optimizations (PR #156/#157)
+# Conditionally add Phase 2 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    src/performance/phase2_feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_WISCKEY)
+    message(STATUS "Including WiscKey key/value separation (THEMIS_ENABLE_WISCKEY=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/wisckey.cpp)
+endif()
+
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    message(STATUS "Including Dostoevsky adaptive LSM (THEMIS_ENABLE_DOSTOEVSKY=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/dostoevsky.cpp)
+endif()
+
+if(THEMIS_ENABLE_CICADA)
+    message(STATUS "Including Cicada optimistic CC (THEMIS_ENABLE_CICADA=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/cicada.cpp)
+endif()
+
+if(THEMIS_ENABLE_LIGRA)
+    message(STATUS "Including Ligra graph processing (THEMIS_ENABLE_LIGRA=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/ligra.cpp)
+endif()
+
+if(THEMIS_ENABLE_RABITQ)
+    message(STATUS "Including RaBitQ vector quantization (THEMIS_ENABLE_RABITQ=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/rabitq.cpp)
+endif()
+
 # Conditionally add LLM sources (v1.3.0+) only when enabled
 if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
@@ -997,6 +1036,23 @@ target_compile_definitions(themis_core PUBLIC
     THEMIS_VERSION_PATCH=${PROJECT_VERSION_PATCH}
     THEMIS_VERSION_STRING="${PROJECT_VERSION}"
 )
+
+# Phase 2 Performance Optimizations compile definitions
+if(THEMIS_ENABLE_WISCKEY)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WISCKEY)
+endif()
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DOSTOEVSKY)
+endif()
+if(THEMIS_ENABLE_CICADA)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CICADA)
+endif()
+if(THEMIS_ENABLE_LIGRA)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_LIGRA)
+endif()
+if(THEMIS_ENABLE_RABITQ)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_RABITQ)
+endif()
 
 if(THEMIS_ENABLE_GPU)
     target_link_libraries(themis_core PUBLIC faiss)
