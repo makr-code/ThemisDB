@@ -1439,6 +1439,9 @@ if(THEMIS_BUILD_TESTS)
         tests/test_process_mining_extended.cpp
         tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
+        # Phase 2 Performance Optimization Tests
+        tests/test_phase2_optimizations.cpp
+        
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_server_push.cpp>
@@ -2034,6 +2037,12 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_vector_prefilter.cpp
     )
     target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Phase 2 Performance Optimization Benchmarks
+    add_executable(bench_phase2
+        benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
+    )
+    target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
 endif()
 
