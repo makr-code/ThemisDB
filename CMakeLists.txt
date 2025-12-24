@@ -835,7 +835,7 @@ endif()
 
 if(THEMIS_ENABLE_BWTREE)
     message(STATUS "Including Bw-Tree lock-free index (THEMIS_ENABLE_BWTREE=ON)")
-    # Note: Bw-Tree implementation requires additional work - placeholder for now
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bwtree.cpp)
 endif()
 
 if(THEMIS_ENABLE_SPLINTERDB)
