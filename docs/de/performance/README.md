@@ -37,6 +37,7 @@ Performance-Benchmarks und Optimierungs-Strategien für ThemisDB.
 
 | Datei | Beschreibung |
 |-------|--------------|
+| [PERFORMANCE_INDEX.md](PERFORMANCE_INDEX.md) | 📊 **Hauptindex** - Vollständige Übersicht |
 | [performance_benchmarks.md](performance_benchmarks.md) | Benchmark-Ergebnisse |
 | [performance_compression_benchmarks.md](performance_compression_benchmarks.md) | Kompression Benchmarks |
 | [performance_compression_strategy.md](performance_compression_strategy.md) | Kompression Strategie |
@@ -48,7 +49,21 @@ Performance-Benchmarks und Optimierungs-Strategien für ThemisDB.
 | [performance_multi_cpu.md](performance_multi_cpu.md) | Multi-CPU Scaling |
 | [performance_tbb.md](performance_tbb.md) | Intel TBB Integration |
 
+## 🔬 Wissenschaftliche Research
+
+| Datei | Beschreibung |
+|-------|--------------|
+| [🔬 **Wissenschaftliche Performance-Optimierungen**](../research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md) | **NEW** - Research-basierte Optimierungs-Strategien aus 25+ Papers (SIGMOD, VLDB, OSDI, NeurIPS) mit konkreten Implementierungs-Empfehlungen |
+
+**Highlights:**
+- ⚡ **Phase 1 (Quick Wins):** +50-100% bei Read-Heavy Workloads (1-3 Monate)
+- 🚀 **Phase 2 (Medium-Term):** +100-200% Overall Performance (3-6 Monate)
+- 🎯 **Phase 3 (Long-Term):** +200-500% Domain-Specific (6-12 Monate)
+
+**Bereiche:** LSM-Trees, Vector Search, Graph Processing, GPU Acceleration, MVCC, Query Optimization, Memory Management, Concurrency Control, Compression, Caching
+
 ## Verwandte Dokumentation
 
+- [🔬 Research Documentation](../research/README.md) - Wissenschaftliche Erkenntnisse
 - [Enterprise Features](../enterprise/README.md) - Enterprise Scalability
 - [Storage Module](../storage/README.md) - Storage Performance
