@@ -7,24 +7,33 @@ namespace performance {
 
 ValueLog::ValueLog(const std::string& log_path) 
     : log_path_(log_path), current_offset_(0) {
-    log_file_ = std::make_unique<std::fstream>(
-        log_path_, std::ios::in | std::ios::out | std::ios::binary | std::ios::app
-    );
+    // Open existing file or create new one
+    std::ifstream test(log_path_, std::ios::binary);
+    bool file_exists = test.good();
+    test.close();
     
-    if (!log_file_->is_open()) {
+    if (file_exists) {
+        // Open existing file in read/write mode (not append)
+        log_file_ = std::make_unique<std::fstream>(
+            log_path_, std::ios::in | std::ios::out | std::ios::binary
+        );
+        
+        // Get current file size
+        log_file_->seekg(0, std::ios::end);
+        current_offset_ = log_file_->tellg();
+    } else {
         // Create new file
         log_file_ = std::make_unique<std::fstream>(
             log_path_, std::ios::out | std::ios::binary
         );
         log_file_->close();
+        
+        // Reopen in read/write mode
         log_file_ = std::make_unique<std::fstream>(
             log_path_, std::ios::in | std::ios::out | std::ios::binary
         );
+        current_offset_ = 0;
     }
-    
-    // Get current file size
-    log_file_->seekg(0, std::ios::end);
-    current_offset_ = log_file_->tellg();
 }
 
 ValueLog::~ValueLog() {

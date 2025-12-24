@@ -80,7 +80,7 @@ TEST_F(Phase2Test, WiscKeyLargeValuesSeparated) {
     
     // Large value should be separated (stored in value log)
     EXPECT_TRUE(WiscKeyStorage::is_separated(encoded));
-    EXPECT_EQ(encoded.size(), 12u);  // Value address is 12 bytes
+    EXPECT_EQ(encoded.size(), ValueAddress::ENCODED_SIZE);  // Value address size
     
     auto retrieved = storage.get(key, encoded);
     ASSERT_TRUE(retrieved.has_value());

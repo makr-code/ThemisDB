@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <queue>
+#include <stdexcept>
 
 namespace themis {
 namespace performance {
@@ -139,27 +141,38 @@ std::vector<RaBitQIndex::SearchResult> RaBitQIndex::search(const std::vector<flo
 }
 
 std::vector<RaBitQIndex::SearchResult> RaBitQIndex::linear_scan(const std::vector<float>& query, int k) const {
-    std::vector<SearchResult> results;
-    results.reserve(vectors_.size());
+    if (vectors_.empty()) {
+        return {};
+    }
+    
+    // Use min-heap to keep only top-k results (more efficient than sorting all)
+    auto cmp = [](const SearchResult& a, const SearchResult& b) {
+        return a.distance < b.distance;  // Max heap (largest distance on top)
+    };
+    std::priority_queue<SearchResult, std::vector<SearchResult>, decltype(cmp)> heap(cmp);
     
     // Compute distances to all vectors
     for (size_t i = 0; i < vectors_.size(); i++) {
         float dist = encoder_->asymmetric_distance(query, vectors_[i]);
-        results.push_back({ids_[i], dist});
+        
+        if (heap.size() < static_cast<size_t>(k)) {
+            heap.push({ids_[i], dist});
+        } else if (dist < heap.top().distance) {
+            heap.pop();
+            heap.push({ids_[i], dist});
+        }
     }
     
-    // Sort by distance and return top-k
-    std::partial_sort(results.begin(), 
-                     results.begin() + std::min(static_cast<size_t>(k), results.size()),
-                     results.end(),
-                     [](const SearchResult& a, const SearchResult& b) {
-                         return a.distance < b.distance;
-                     });
-    
-    if (results.size() > static_cast<size_t>(k)) {
-        results.resize(k);
+    // Extract results and sort by distance
+    std::vector<SearchResult> results;
+    results.reserve(heap.size());
+    while (!heap.empty()) {
+        results.push_back(heap.top());
+        heap.pop();
     }
     
+    // Reverse to get ascending order
+    std::reverse(results.begin(), results.end());
     return results;
 }
 
@@ -178,7 +191,14 @@ RaBitQIndex::MemoryStats RaBitQIndex::get_memory_stats() const {
 ProductQuantizer::ProductQuantizer(size_t dimension, size_t num_subvectors)
     : dimension_(dimension), 
       num_subvectors_(num_subvectors),
-      subvector_dimension_(dimension / num_subvectors) {}
+      subvector_dimension_(dimension / num_subvectors) {
+    // Validate that dimension is evenly divisible by num_subvectors
+    if (dimension % num_subvectors != 0) {
+        throw std::invalid_argument(
+            "Dimension must be evenly divisible by num_subvectors"
+        );
+    }
+}
 
 std::vector<std::vector<float>> ProductQuantizer::split_vector(const std::vector<float>& vec) const {
     std::vector<std::vector<float>> subvectors(num_subvectors_);

@@ -19,10 +19,11 @@ namespace performance {
 
 /// Cicada versioned record with optimistic locking
 /// Uses a single 64-bit word for version + write lock
+/// Bit layout: [63: write lock] [62-0: version number]
 class CicadaRecord {
 public:
-    static constexpr uint64_t WRITE_LOCK_BIT = 1ULL << 63;
-    static constexpr uint64_t VERSION_MASK = ~WRITE_LOCK_BIT;
+    static constexpr uint64_t WRITE_LOCK_BIT = 1ULL << 63;  // Bit 63 is write lock
+    static constexpr uint64_t VERSION_MASK = ~WRITE_LOCK_BIT;  // Bits 0-62 are version
     
     CicadaRecord() : version_and_lock_(0) {}
     

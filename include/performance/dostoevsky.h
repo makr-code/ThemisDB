@@ -12,6 +12,7 @@
 #include <vector>
 #include <atomic>
 #include <chrono>
+#include <mutex>
 
 namespace themis {
 namespace performance {

@@ -21,12 +21,15 @@ namespace performance {
 
 /// Value address in the value log
 struct ValueAddress {
+    static constexpr size_t ENCODED_SIZE = 12;  // 8 bytes offset + 4 bytes size
+    
     uint64_t offset;      // Offset in value log file
     uint32_t size;        // Size of value in bytes
     
     // Encode as 12-byte blob for storage in LSM tree
+    // Note: Uses little-endian byte order
     std::string encode() const {
-        std::string result(12, '\0');
+        std::string result(ENCODED_SIZE, '\0');
         *reinterpret_cast<uint64_t*>(result.data()) = offset;
         *reinterpret_cast<uint32_t*>(result.data() + 8) = size;
         return result;
@@ -86,7 +89,7 @@ public:
     
     // Check if value is separated
     static bool is_separated(const std::string& encoded_value) {
-        return encoded_value.size() == 12; // Value address is exactly 12 bytes
+        return encoded_value.size() == ValueAddress::ENCODED_SIZE;
     }
     
     // Get statistics

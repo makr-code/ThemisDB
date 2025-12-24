@@ -68,7 +68,8 @@ bool WorkloadMonitor::should_update_policies() const {
 
 void WorkloadMonitor::reset_window() {
     window_start_ = std::chrono::steady_clock::now();
-    current_stats_.reset();
+    // Thread-safe reset of statistics
+    current_stats_ = WorkloadStats();
 }
 
 } // namespace performance

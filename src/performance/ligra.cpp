@@ -10,6 +10,9 @@ LigraProcessor::LigraProcessor(size_t num_vertices, size_t num_threads)
     : num_vertices_(num_vertices) {
     if (num_threads == 0) {
         num_threads_ = std::thread::hardware_concurrency();
+        if (num_threads_ == 0) {
+            num_threads_ = 1;  // Fallback to single thread if hardware_concurrency returns 0
+        }
     } else {
         num_threads_ = num_threads;
     }
