@@ -103,6 +103,20 @@ option(THEMIS_ENABLE_CICADA_CC "Use Cicada optimistic concurrency control (+100-
 option(THEMIS_ENABLE_DISKANN "Use DiskANN for billion-scale vector search (+300-400% throughput)" OFF)
 option(THEMIS_ENABLE_BW_TREE "Use Bw-Tree lock-free index (+100-200% index updates)" OFF)
 
+# Performance Optimization Dependencies
+if(THEMIS_ENABLE_MIMALLOC)
+    message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
+    find_package(mimalloc CONFIG)
+    if(NOT mimalloc_FOUND)
+        message(WARNING "mimalloc not found via vcpkg. Install with: vcpkg install mimalloc")
+        message(WARNING "Building without mimalloc. Performance optimization disabled.")
+        set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
+    else()
+        message(STATUS "Found mimalloc: ${mimalloc_DIR}")
+        add_compile_definitions(THEMIS_USE_MIMALLOC)
+    endif()
+endif()
+
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
@@ -1241,6 +1255,12 @@ target_link_libraries(themis_server
         themis_core
 )
 
+# Link performance optimization libraries
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    target_link_libraries(themis_server PRIVATE mimalloc)
+    message(STATUS "Linking themis_server with mimalloc")
+endif()
+
 # Tests
 if(THEMIS_BUILD_TESTS)
     enable_testing()
@@ -1397,6 +1417,10 @@ if(THEMIS_BUILD_TESTS)
         tests/test_olap_extended.cpp
         tests/test_process_mining_extended.cpp
         tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
+        
+        # Performance optimization tests
+        tests/test_performance_feature_flags.cpp
+        tests/test_performance_allocator.cpp
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
