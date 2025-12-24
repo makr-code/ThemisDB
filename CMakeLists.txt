@@ -845,7 +845,7 @@ endif()
 
 if(THEMIS_ENABLE_GUNROCK)
     message(STATUS "Including Gunrock GPU graph analytics (THEMIS_ENABLE_GUNROCK=ON)")
-    # Note: Gunrock implementation requires CUDA - placeholder for now
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/gunrock.cpp)
 endif()
 
 if(THEMIS_ENABLE_BAO)
@@ -1552,6 +1552,92 @@ if(THEMIS_BUILD_TESTS)
     # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
     # the full suite a second time and can make CI appear to hang on the last
     # test (previously "Test #619: ThemisTests").
+    
+    # Phase 3 Performance Optimization Tests (separate executables)
+    if(THEMIS_ENABLE_DISKANN)
+        add_executable(test_diskann
+            tests/performance/phase3/test_diskann.cpp
+        )
+        target_link_libraries(test_diskann
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_diskann
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_BWTREE)
+        add_executable(test_bwtree
+            tests/performance/phase3/test_bwtree.cpp
+        )
+        target_link_libraries(test_bwtree
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_bwtree
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_SPLINTERDB)
+        add_executable(test_splinterdb
+            tests/performance/phase3/test_splinterdb.cpp
+        )
+        target_link_libraries(test_splinterdb
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_splinterdb
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_GUNROCK)
+        add_executable(test_gunrock
+            tests/performance/phase3/test_gunrock.cpp
+        )
+        target_link_libraries(test_gunrock
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gunrock
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_BAO)
+        add_executable(test_bao
+            tests/performance/phase3/test_bao.cpp
+        )
+        target_link_libraries(test_bao
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_bao
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endif()
 
 # Benchmarks
