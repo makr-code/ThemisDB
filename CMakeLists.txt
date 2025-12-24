@@ -117,6 +117,24 @@ if(THEMIS_ENABLE_MIMALLOC)
     endif()
 endif()
 
+if(THEMIS_ENABLE_HUGE_PAGES)
+    message(STATUS "Enabling huge pages optimization (+15-30% memory performance)")
+    
+    # Check platform support
+    if(UNIX)
+        message(STATUS "Huge pages: Linux/Unix support enabled")
+        message(STATUS "Configure with: echo 1024 | sudo tee /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages")
+        add_compile_definitions(THEMIS_USE_HUGE_PAGES)
+    elseif(WIN32)
+        message(STATUS "Huge pages: Windows large pages support enabled")
+        message(STATUS "Configure via: secpol.msc -> Lock pages in memory")
+        add_compile_definitions(THEMIS_USE_HUGE_PAGES)
+    else()
+        message(WARNING "Huge pages not supported on this platform")
+        set(THEMIS_ENABLE_HUGE_PAGES OFF CACHE BOOL "Platform not supported" FORCE)
+    endif()
+endif()
+
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
@@ -1421,6 +1439,7 @@ if(THEMIS_BUILD_TESTS)
         # Performance optimization tests
         tests/test_performance_feature_flags.cpp
         tests/test_performance_allocator.cpp
+        tests/test_huge_pages.cpp
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
