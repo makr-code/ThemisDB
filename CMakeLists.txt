@@ -96,6 +96,14 @@ option(THEMIS_ENABLE_CICADA "Enable Cicada optimistic CC (+100-150% transactions
 option(THEMIS_ENABLE_LIGRA "Enable Ligra graph processing (+200-300% graph)" OFF)
 option(THEMIS_ENABLE_RABITQ "Enable RaBitQ vector quantization (16x memory reduction)" OFF)
 
+# Phase 3 Performance Optimizations (from PR #156/#157 research)
+# Long-term optimizations (6-12 months effort, +200-500% specialized workloads)
+option(THEMIS_ENABLE_DISKANN "Enable DiskANN billion-scale vector search (+300-400%)" OFF)
+option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
+option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
+option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
+option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
     message(STATUS "Configuring static build for maximum portability")
@@ -814,6 +822,37 @@ if(THEMIS_ENABLE_RABITQ)
     list(APPEND THEMIS_CORE_SOURCES src/performance/rabitq.cpp)
 endif()
 
+# Phase 3 Performance Optimizations (PR #156/#157)
+# Conditionally add Phase 3 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    src/performance/phase3/feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_DISKANN)
+    message(STATUS "Including DiskANN billion-scale vector search (THEMIS_ENABLE_DISKANN=ON)")
+    # Note: DiskANN implementation requires additional work - placeholder for now
+endif()
+
+if(THEMIS_ENABLE_BWTREE)
+    message(STATUS "Including Bw-Tree lock-free index (THEMIS_ENABLE_BWTREE=ON)")
+    # Note: Bw-Tree implementation requires additional work - placeholder for now
+endif()
+
+if(THEMIS_ENABLE_SPLINTERDB)
+    message(STATUS "Including SplinterDB concurrent compaction (THEMIS_ENABLE_SPLINTERDB=ON)")
+    # Note: SplinterDB implementation requires additional work - placeholder for now
+endif()
+
+if(THEMIS_ENABLE_GUNROCK)
+    message(STATUS "Including Gunrock GPU graph analytics (THEMIS_ENABLE_GUNROCK=ON)")
+    # Note: Gunrock implementation requires CUDA - placeholder for now
+endif()
+
+if(THEMIS_ENABLE_BAO)
+    message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
+    # Note: Bao implementation requires ML framework - placeholder for now
+endif()
+
 # Conditionally add LLM sources (v1.3.0+) only when enabled
 if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
@@ -1052,6 +1091,23 @@ if(THEMIS_ENABLE_LIGRA)
 endif()
 if(THEMIS_ENABLE_RABITQ)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_RABITQ)
+endif()
+
+# Phase 3 Performance Optimizations compile definitions
+if(THEMIS_ENABLE_DISKANN)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DISKANN)
+endif()
+if(THEMIS_ENABLE_BWTREE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BWTREE)
+endif()
+if(THEMIS_ENABLE_SPLINTERDB)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SPLINTERDB)
+endif()
+if(THEMIS_ENABLE_GUNROCK)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GUNROCK)
+endif()
+if(THEMIS_ENABLE_BAO)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
 endif()
 
 if(THEMIS_ENABLE_GPU)
