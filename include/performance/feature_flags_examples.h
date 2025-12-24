@@ -12,6 +12,10 @@
 #include <memory>
 #include <cstdlib>
 
+#ifdef THEMIS_ENABLE_MIMALLOC
+#include <mimalloc.h>
+#endif
+
 namespace themis {
 namespace examples {
 
@@ -23,7 +27,6 @@ public:
         if (THEMIS_PERF_MIMALLOC_ENABLED()) {
             // Use mimalloc if enabled
             #ifdef THEMIS_ENABLE_MIMALLOC
-            #include <mimalloc.h>
             return mi_malloc(size);
             #else
             // Fall back to standard malloc if not compiled in
@@ -38,7 +41,6 @@ public:
     static void deallocate(void* ptr) {
         if (THEMIS_PERF_MIMALLOC_ENABLED()) {
             #ifdef THEMIS_ENABLE_MIMALLOC
-            #include <mimalloc.h>
             mi_free(ptr);
             #else
             std::free(ptr);

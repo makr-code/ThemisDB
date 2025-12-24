@@ -4,9 +4,7 @@
   "_documentation": "See docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md",
   
   "performance": {
-    "_phase": "Phase 1 - Quick Wins",
-    "_impact": "+50-100% for read-heavy workloads",
-    "_timeframe": "1-3 months",
+    "_phase1_comment": "Phase 1 - Quick Wins (+50-100% read-heavy, 1-3 months)",
     
     "enable_mimalloc": false,
     "_mimalloc_desc": "Use mimalloc allocator (+10-20% overall performance, ISMM'19)",
@@ -26,13 +24,9 @@
     "enable_lirs_cache": false,
     "_lirs_cache_desc": "LIRS cache replacement (+30-40% hit rate, SIGMETRICS'02)",
     "_lirs_cache_compile": "THEMIS_ENABLE_LIRS_CACHE",
-    "_lirs_cache_effort": "1 week"
-  },
-  
-  "performance_phase2": {
-    "_phase": "Phase 2 - Medium-Term",
-    "_impact": "+100-200% overall performance",
-    "_timeframe": "3-6 months",
+    "_lirs_cache_effort": "1 week",
+    
+    "_phase2_comment": "Phase 2 - Medium-Term (+100-200% overall, 3-6 months)",
     
     "enable_wisckey": false,
     "_wisckey_desc": "Value separation (+40-60% writes for >1KB, FAST'16)",
@@ -42,13 +36,9 @@
     "enable_cicada_cc": false,
     "_cicada_cc_desc": "Optimistic concurrency (+100-150% TX, SIGMOD'17)",
     "_cicada_cc_compile": "THEMIS_ENABLE_CICADA_CC",
-    "_cicada_cc_effort": "6 weeks"
-  },
-  
-  "performance_phase3": {
-    "_phase": "Phase 3 - Long-Term",
-    "_impact": "+200-500% domain-specific",
-    "_timeframe": "6-12 months",
+    "_cicada_cc_effort": "6 weeks",
+    
+    "_phase3_comment": "Phase 3 - Long-Term (+200-500% domain-specific, 6-12 months)",
     
     "enable_diskann": false,
     "_diskann_desc": "Billion-scale vector search (+300-400%, NeurIPS'19)",
