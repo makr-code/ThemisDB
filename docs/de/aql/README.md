@@ -333,7 +333,8 @@ FOR u IN users
 
 ### 🔎 Erweiterte Features
 
-- **[🎯 AQL Phases 1-3 Consolidated Guide](AQL_PHASES_1_2_3_CONSOLIDATED.md)** - **NEU:** Komplette Dokumentation aller Hybrid Query Features, Syntax Sugar und Subqueries in einem Dokument
+- **[🎯 AQL Phases 1-3 Consolidated Guide](AQL_PHASES_1_2_3_CONSOLIDATED.md)** - **NEU:** Komplette Dokumentation 
+  aller Hybrid Query Features, Syntax Sugar und Subqueries in einem Dokument
 - [Hybrid Queries Guide](aql_hybrid_queries.md) - Vector+Geo, Content+Geo (Phase 2)
 - [Hybrid Queries Phase 1.5](aql_hybrid_queries_phase15.md) - Performance Optimizations
 - [Subquery & CTE Reference](aql_subquery_reference.md) - WITH, Scalar Subqueries (Phase 3)
