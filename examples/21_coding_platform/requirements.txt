@@ -1,0 +1,34 @@
+# Core dependencies
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# ThemisDB client (replace with actual client when available)
+# themisdb-client>=1.0.0
+
+# Code analysis
+tree-sitter>=0.20.0
+pygments>=2.16.0
+
+# ML/AI for embeddings
+sentence-transformers>=2.2.2
+torch>=2.0.0
+transformers>=4.35.0
+
+# Web scraping
+PyGithub>=2.1.1
+selenium>=4.15.0
+webdriver-manager>=4.0.1
+
+# GUI
+# tkinter is included in Python standard library
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+tqdm>=4.66.0
+colorama>=0.4.6
+
+# Optional: for advanced features
+# numpy>=1.24.0
+# pandas>=2.0.0
