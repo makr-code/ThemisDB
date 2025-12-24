@@ -850,7 +850,7 @@ endif()
 
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
-    # Note: Bao implementation requires ML framework - placeholder for now
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bao.cpp)
 endif()
 
 # Conditionally add LLM sources (v1.3.0+) only when enabled
