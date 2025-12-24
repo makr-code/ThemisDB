@@ -4,7 +4,7 @@ Diese Sammlung enthält umfassende Beispiele für ThemisDB mit Python und Tkinte
 
 ## 📚 Übersicht
 
-Wir bieten **20 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstufen:
+Wir bieten **21 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstufen:
 
 ### 🟢 Einfach (Simple) - Erste Schritte
 
@@ -40,6 +40,7 @@ Wir bieten **20 vollständig dokumentierte Beispiele** in drei Schwierigkeitsstu
 | 18 | **Real-Time Chat** | Echtzeit-Kommunikation mit Pub/Sub | 90-120 min | ✅ Ready |
 | 19 | **Recommendation Engine** | ML-basierte Empfehlungen | 90-120 min | ✅ Ready |
 | 20 | **Smart Home Dashboard** | IoT Automation mit CEP | 90-120 min | ✅ Ready |
+| 21 | **Coding Platform** | ThemisDB als Coding-Plattform mit VSCode Integration & Web Scraping | 90-120 min | ✅ Ready |
 
 ## 🚀 Schnellstart
 
@@ -107,6 +108,7 @@ Jedes Beispiel enthält vollständige Dokumentation:
 18. **18 - Real-Time Chat** für Echtzeit-Kommunikation
 19. **19 - Recommendation Engine** für ML-Integration
 20. **20 - Smart Home Dashboard** für IoT-Automation
+21. **21 - Coding Platform** für VSCode-Integration und Web Scraping
 
 ## 🛠️ Technologien
 

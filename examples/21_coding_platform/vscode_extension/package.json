@@ -1,0 +1,157 @@
+{
+  "name": "themisdb-snippets",
+  "displayName": "ThemisDB Code Snippets",
+  "description": "ThemisDB integration for VSCode - search and insert code snippets",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Snippets",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:themisdb.searchSnippets",
+    "onCommand:themisdb.insertSnippet",
+    "onCommand:themisdb.saveSnippet",
+    "onCommand:themisdb.findSimilar",
+    "onView:themisdbSnippets"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "themisdb.searchSnippets",
+        "title": "ThemisDB: Search Snippets"
+      },
+      {
+        "command": "themisdb.insertSnippet",
+        "title": "ThemisDB: Insert Snippet"
+      },
+      {
+        "command": "themisdb.saveSnippet",
+        "title": "ThemisDB: Save as Snippet"
+      },
+      {
+        "command": "themisdb.findSimilar",
+        "title": "ThemisDB: Find Similar Code"
+      },
+      {
+        "command": "themisdb.refresh",
+        "title": "ThemisDB: Refresh",
+        "icon": "$(refresh)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "themisdb",
+          "title": "ThemisDB",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "themisdb": [
+        {
+          "id": "themisdbSnippets",
+          "name": "Snippets"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "themisdb.refresh",
+          "when": "view == themisdbSnippets",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "themisdb.saveSnippet",
+          "when": "editorHasSelection",
+          "group": "themisdb"
+        },
+        {
+          "command": "themisdb.findSimilar",
+          "when": "editorHasSelection",
+          "group": "themisdb"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ThemisDB",
+      "properties": {
+        "themisdb.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:8080",
+          "description": "ThemisDB API URL"
+        },
+        "themisdb.apiToken": {
+          "type": "string",
+          "default": "",
+          "description": "API token for authentication (optional)"
+        },
+        "themisdb.autoSync": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically sync snippets on startup"
+        },
+        "themisdb.syncInterval": {
+          "type": "number",
+          "default": 30,
+          "description": "Sync interval in minutes"
+        },
+        "themisdb.suggestOnType": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show snippet suggestions while typing"
+        },
+        "themisdb.minSimilarity": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Minimum similarity score for suggestions"
+        },
+        "themisdb.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable CodeLens provider"
+        },
+        "themisdb.enabledLanguages": {
+          "type": "array",
+          "default": [
+            "python",
+            "javascript",
+            "typescript",
+            "java",
+            "cpp",
+            "go",
+            "rust"
+          ],
+          "description": "Languages enabled for suggestions"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^16.x",
+    "@types/vscode": "^1.80.0",
+    "@vscode/test-electron": "^2.3.0",
+    "typescript": "^5.0.0",
+    "@vscode/vsce": "^2.19.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
