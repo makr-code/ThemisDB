@@ -1,5 +1,8 @@
 # Phase 3: Subqueries & Common Table Expressions (CTEs)
 
+> **📢 HINWEIS:** Diese Phase wurde mit Phase 1 und 2 in einer konsolidierten Dokumentation zusammengefasst.  
+> **Siehe:** [AQL Phases 1-3 Consolidated Guide](../aql/AQL_PHASES_1_2_3_CONSOLIDATED.md)
+
 **Stand:** 5. Dezember 2025  
 **Version:** 1.0.0  
 **Kategorie:** Reports
