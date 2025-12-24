@@ -260,7 +260,7 @@ public:
      * @brief Load administrative process models from config
      * 
      * Loads predefined patterns from:
-     * - config/administrative_process_models.yaml
+     * - config/process_models/administrative_process_models.yaml
      * 
      * Models include:
      * - Bauantragsverfahren (Building Permits)

@@ -179,7 +179,7 @@ class ProcessPatternMatcher {
 
 ## ⚙️ Configuration
 
-### [administrative_process_models.yaml](../../config/administrative_process_models.yaml)
+### [administrative_process_models.yaml](../../config/process_models/administrative_process_models.yaml)
 **Predefined Administrative Process Models**
 
 **5 Models Included**:

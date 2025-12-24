@@ -156,7 +156,7 @@ std::pair<Status, bool> hasPattern(
 - `PM_EXPORT_BPMN(model)` - Export als BPMN 2.0
 
 ### 4. Administrative Models
-**Datei**: `config/administrative_process_models.yaml`
+**Datei**: `config/process_models/administrative_process_models.yaml`
 
 **5 vordefinierte Modelle**:
 
@@ -588,7 +588,7 @@ FOR case IN bauantraege
 - [AQL Functions](../../include/query/functions/process_mining_functions.h)
 
 ### Konfiguration
-- [Administrative Models](../../config/administrative_process_models.yaml)
+- [Administrative Models](../../config/process_models/administrative_process_models.yaml)
 
 ---
 

@@ -386,7 +386,7 @@ private:
 
 #### 4.2.3 AdministrativeModels Library
 
-**Datei:** `config/administrative_process_models.yaml`
+**Datei:** `config/process_models/administrative_process_models.yaml`
 
 ```yaml
 administrative_models:

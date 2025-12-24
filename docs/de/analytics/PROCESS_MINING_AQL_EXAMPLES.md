@@ -701,7 +701,7 @@ LET log = PM_EXTRACT_LOG("my_collection", {
 - [Process Mining Research & Roadmap](./PROCESS_MINING_RESEARCH_AND_ROADMAP.md)
 - [Process Mining Guide](./process_mining_guide.md)
 - [AQL Functions Reference](../aql/aql_functions_reference.md)
-- [Administrative Models Configuration](../../config/administrative_process_models.yaml)
+- [Administrative Models Configuration](../../config/process_models/administrative_process_models.yaml)
 
 ---
 
