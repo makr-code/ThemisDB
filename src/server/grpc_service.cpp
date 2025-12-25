@@ -9,6 +9,20 @@
 namespace themis {
 namespace grpc_service {
 
+// Helper function to generate unique session ID
+static std::string generateSessionId() {
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+    return "session_" + std::to_string(millis) + "_" + std::to_string(rand());
+}
+
+// Helper function to generate unique transaction ID
+static std::string generateTransactionId() {
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+    return "tx_" + std::to_string(millis) + "_" + std::to_string(rand());
+}
+
 ThemisGRPCServiceImpl::ThemisGRPCServiceImpl(
     std::shared_ptr<RocksDBWrapper> db,
     std::shared_ptr<MultiAgentOrchestrator> orchestrator)
@@ -22,7 +36,11 @@ ThemisGRPCServiceImpl::ThemisGRPCServiceImpl(
     themis::wire::v1::HelloAck* response) {
     
     response->set_protocol_version(1);
+#ifdef THEMIS_VERSION_STRING
     response->set_server_version("ThemisDB/" THEMIS_VERSION_STRING);
+#else
+    response->set_server_version("ThemisDB/1.4.0");
+#endif
     response->add_capabilities("compression");
     response->add_capabilities("tls");
     response->add_capabilities("streaming");

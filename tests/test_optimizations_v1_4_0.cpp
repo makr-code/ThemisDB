@@ -259,8 +259,16 @@ TEST_F(ThemisOptimizationTest, GRPC_ServerStartStop) {
     server_manager->start();
     EXPECT_TRUE(server_manager->isRunning());
     
-    // Give server time to start
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    // Poll for server readiness with timeout
+    bool ready = false;
+    for (int i = 0; i < 10 && !ready; ++i) {
+        if (server_manager->isRunning()) {
+            ready = true;
+            break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    EXPECT_TRUE(ready) << "Server should be running after start";
     
     server_manager->stop();
     EXPECT_FALSE(server_manager->isRunning());
