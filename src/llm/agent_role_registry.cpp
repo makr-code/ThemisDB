@@ -45,6 +45,8 @@ AgentRoleRegistry::AgentRoleRegistry(
 
 // Register role
 bool AgentRoleRegistry::registerRole(const RoleDefinition& role) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     // Store in cache
     role_cache_[role.role_id] = role;
     
@@ -56,6 +58,8 @@ bool AgentRoleRegistry::registerRole(const RoleDefinition& role) {
 std::optional<AgentRoleRegistry::RoleDefinition> AgentRoleRegistry::getRole(
     const std::string& role_id
 ) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     // Check cache first
     auto it = role_cache_.find(role_id);
     if (it != role_cache_.end()) {
@@ -70,6 +74,8 @@ std::optional<AgentRoleRegistry::RoleDefinition> AgentRoleRegistry::getRole(
 std::vector<AgentRoleRegistry::RoleDefinition> AgentRoleRegistry::findRolesForTask(
     const std::string& task_description
 ) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     std::vector<RoleDefinition> matching_roles;
     
     // Simple keyword matching (in production, use NLP/embeddings)
@@ -102,6 +108,8 @@ std::vector<AgentRoleRegistry::RoleDefinition> AgentRoleRegistry::findRolesForTa
 
 // List all roles
 std::vector<std::string> AgentRoleRegistry::listAllRoles() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     std::vector<std::string> role_ids;
     for (const auto& [role_id, _] : role_cache_) {
         role_ids.push_back(role_id);
@@ -114,6 +122,8 @@ bool AgentRoleRegistry::updateRole(
     const std::string& role_id,
     const RoleDefinition& role
 ) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     // Update cache
     role_cache_[role_id] = role;
     
@@ -123,6 +133,8 @@ bool AgentRoleRegistry::updateRole(
 
 // Delete role
 bool AgentRoleRegistry::deleteRole(const std::string& role_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     // Remove from cache
     role_cache_.erase(role_id);
     
@@ -138,6 +150,8 @@ bool AgentRoleRegistry::deleteRole(const std::string& role_id) {
 std::vector<AgentRoleRegistry::RoleDefinition> AgentRoleRegistry::getRolesByCapability(
     const std::string& capability
 ) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     std::vector<RoleDefinition> matching_roles;
     
     for (const auto& [role_id, role] : role_cache_) {
@@ -199,12 +213,12 @@ std::optional<AgentRoleRegistry::RoleDefinition> AgentRoleRegistry::loadRole(
     return std::nullopt;
 }
 
-void AgentRoleRegistry::rebuildCache() const {
+void AgentRoleRegistry::rebuildCache() {
     role_cache_.clear();
     
     // Iterate through all agent_role:* keys
     rocksdb::ReadOptions read_options;
-    rocksdb::Iterator* it = db_->NewIterator(read_options, cf_);
+    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_options, cf_));
     
     std::string prefix = "agent_role:";
     for (it->Seek(prefix); it->Valid() && it->key().starts_with(prefix); it->Next()) {
@@ -217,7 +231,10 @@ void AgentRoleRegistry::rebuildCache() const {
         }
     }
     
-    delete it;
+    // Check iterator status
+    if (!it->status().ok()) {
+        // Log error but don't throw - allow partial cache rebuild
+    }
 }
 
 // Built-in roles

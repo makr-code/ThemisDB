@@ -186,16 +186,17 @@ http::response<http::string_body> MultiAgentAPIHandler::handleApplyConfig(
         std::string config_name = body["config_name"].get<std::string>();
         
         // TODO: Load and apply configuration from file
-        // For now, return stub response
+        // For now, return stub response with appropriate status
         
         json response = {
-            {"status", "success"},
-            {"message", "Configuration application is a stub in v1.4.0"},
+            {"status", "not_implemented"},
+            {"message", "Configuration application is not yet implemented in v1.4.0"},
             {"config_name", config_name},
-            {"note", "Full configuration loading will be implemented in v1.5.0"}
+            {"note", "Full configuration loading will be implemented in v1.5.0"},
+            {"stub_mode", true}
         };
         
-        return makeJsonResponse(response);
+        return makeJsonResponse(response, http::status::not_implemented);
         
     } catch (const json::exception& e) {
         return makeErrorResponse(std::string("JSON parsing error: ") + e.what());

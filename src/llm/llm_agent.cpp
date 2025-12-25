@@ -140,20 +140,24 @@ bool LLMAgent::validateResponse(const std::string& response) const {
 
 // Configuration update
 void LLMAgent::updateConfig(const AgentConfig& config) {
+    std::lock_guard<std::mutex> lock(config_mutex_);
     config_ = config;
 }
 
 // Statistics
 nlohmann::json LLMAgent::getStats() const {
-    double avg_latency = total_requests_ > 0 
-        ? static_cast<double>(total_latency_ms_) / total_requests_
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    
+    size_t requests = total_requests_.load();
+    double avg_latency = requests > 0 
+        ? static_cast<double>(total_latency_ms_.load()) / requests
         : 0.0;
     
     return nlohmann::json{
         {"agent_id", config_.agent_id},
         {"role", config_.role},
-        {"total_requests", total_requests_},
-        {"total_tokens", total_tokens_},
+        {"total_requests", requests},
+        {"total_tokens", total_tokens_.load()},
         {"avg_latency_ms", avg_latency},
         {"lora_adapter", config_.lora_adapter_id}
     };

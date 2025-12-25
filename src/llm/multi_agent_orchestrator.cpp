@@ -262,6 +262,8 @@ MultiAgentOrchestrator::OrchestratedResult MultiAgentOrchestrator::synthesizeRes
 
 // Agent management
 void MultiAgentOrchestrator::registerAgent(std::shared_ptr<LLMAgent> agent) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     auto agent_id = agent->getId();
     auto role = agent->getRole();
     
@@ -270,6 +272,8 @@ void MultiAgentOrchestrator::registerAgent(std::shared_ptr<LLMAgent> agent) {
 }
 
 std::shared_ptr<LLMAgent> MultiAgentOrchestrator::getAgent(const std::string& agent_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     auto it = agents_.find(agent_id);
     return (it != agents_.end()) ? it->second : nullptr;
 }
@@ -277,14 +281,16 @@ std::shared_ptr<LLMAgent> MultiAgentOrchestrator::getAgent(const std::string& ag
 std::vector<std::shared_ptr<LLMAgent>> MultiAgentOrchestrator::getAgentsByRole(
     const std::string& role
 ) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     std::vector<std::shared_ptr<LLMAgent>> result;
     
     auto it = role_to_agents_.find(role);
     if (it != role_to_agents_.end()) {
         for (const auto& agent_id : it->second) {
-            auto agent = getAgent(agent_id);
-            if (agent) {
-                result.push_back(agent);
+            auto agents_it = agents_.find(agent_id);
+            if (agents_it != agents_.end()) {
+                result.push_back(agents_it->second);
             }
         }
     }
@@ -293,6 +299,8 @@ std::vector<std::shared_ptr<LLMAgent>> MultiAgentOrchestrator::getAgentsByRole(
 }
 
 std::vector<std::string> MultiAgentOrchestrator::listAgents() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     std::vector<std::string> result;
     for (const auto& [agent_id, _] : agents_) {
         result.push_back(agent_id);

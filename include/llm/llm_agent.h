@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <atomic>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace rocksdb {
@@ -122,10 +124,13 @@ private:
     AgentConfig config_;
     rocksdb::TransactionDB* db_;
     
-    // Statistics
-    size_t total_requests_ = 0;
-    int64_t total_tokens_ = 0;
-    int64_t total_latency_ms_ = 0;
+    // Thread safety mutex for config updates
+    mutable std::mutex config_mutex_;
+    
+    // Statistics (atomic for thread safety)
+    std::atomic<size_t> total_requests_{0};
+    std::atomic<int64_t> total_tokens_{0};
+    std::atomic<int64_t> total_latency_ms_{0};
     
     // Helper methods
     std::string buildSystemPrompt() const;

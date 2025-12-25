@@ -7,6 +7,7 @@
 #include <set>
 #include <optional>
 #include <memory>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace rocksdb {
@@ -162,11 +163,14 @@ private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
     
+    // Thread safety mutex
+    mutable std::mutex mutex_;
+    
     // Loaded adapters in memory
     std::set<std::string> loaded_adapters_;
     
     // Adapter cache: adapter_id -> LoRAAdapter
-    mutable std::map<std::string, LoRAAdapter> adapter_cache_;
+    std::map<std::string, LoRAAdapter> adapter_cache_;
     
     // Last access time: adapter_id -> timestamp
     std::map<std::string, int64_t> last_access_time_;
@@ -175,7 +179,7 @@ private:
     std::string makeKey(const std::string& adapter_id) const;
     bool persistAdapter(const LoRAAdapter& adapter);
     std::optional<LoRAAdapter> loadAdapterMetadata(const std::string& adapter_id) const;
-    void rebuildCache() const;
+    void rebuildCache();
     int64_t getCurrentTimestampMs() const;
 };
 

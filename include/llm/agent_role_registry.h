@@ -6,6 +6,7 @@
 #include <map>
 #include <optional>
 #include <memory>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace rocksdb {
@@ -115,14 +116,17 @@ private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
     
+    // Thread safety mutex
+    mutable std::mutex mutex_;
+    
     // In-memory cache: role_id -> RoleDefinition
-    mutable std::map<std::string, RoleDefinition> role_cache_;
+    std::map<std::string, RoleDefinition> role_cache_;
     
     // Helper methods
     std::string makeKey(const std::string& role_id) const;
     bool persistRole(const RoleDefinition& role);
     std::optional<RoleDefinition> loadRole(const std::string& role_id) const;
-    void rebuildCache() const;
+    void rebuildCache();
     
     // Default role definitions
     static std::vector<RoleDefinition> getBuiltinRoles();

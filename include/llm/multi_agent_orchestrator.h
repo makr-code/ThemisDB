@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace rocksdb {
@@ -143,6 +144,9 @@ private:
     rocksdb::TransactionDB* db_;
     std::shared_ptr<AgentRoleRegistry> role_registry_;
     std::shared_ptr<ConsensusBuilder> consensus_builder_;
+    
+    // Thread safety mutex
+    mutable std::mutex mutex_;
     
     // Agent pool: agent_id -> LLMAgent
     std::map<std::string, std::shared_ptr<LLMAgent>> agents_;
