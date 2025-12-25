@@ -1,0 +1,170 @@
+// DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node
+// Paper: "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node" (NeurIPS'19)
+// Authors: Suhas Jayaram Subramanya et al., Microsoft Research
+//
+// Key idea: SSD-optimized graph-based index for billion-scale vector search
+// Expected gain: +300-400% throughput for >100M vectors
+// Reference: https://papers.nips.cc/paper/2019/hash/09853c7fb1d3f8ee67a61b6bf4a7f8e6-Abstract.html
+
+#pragma once
+
+#include <cstdint>
+#include <vector>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <mutex>
+#include <fstream>
+
+namespace themis {
+namespace performance {
+namespace phase3 {
+
+using VectorID = uint64_t;
+
+/// DiskANN graph node (stored on SSD)
+struct DiskANNNode {
+    VectorID id;
+    std::vector<float> vector;  // Could be stored separately on SSD
+    std::vector<VectorID> neighbors;  // Graph edges
+    
+    // For SSD optimization: sector-aligned I/O
+    static constexpr size_t SECTOR_SIZE = 4096;
+};
+
+/// LRU Cache for hot vectors
+template<typename Key, typename Value>
+class LRUCache {
+public:
+    explicit LRUCache(size_t capacity) : capacity_(capacity) {}
+    
+    bool get(const Key& key, Value& value) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = cache_.find(key);
+        if (it == cache_.end()) {
+            return false;
+        }
+        value = it->second;
+        return true;
+    }
+    
+    void put(const Key& key, const Value& value) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        cache_[key] = value;
+        if (cache_.size() > capacity_) {
+            // Simple eviction: remove first element (not true LRU but simpler)
+            cache_.erase(cache_.begin());
+        }
+    }
+    
+    size_t size() const { 
+        std::lock_guard<std::mutex> lock(mutex_);
+        return cache_.size(); 
+    }
+
+private:
+    size_t capacity_;
+    std::unordered_map<Key, Value> cache_;
+    mutable std::mutex mutex_;
+};
+
+/// DiskANN Index for billion-scale vector search
+class DiskANNIndex {
+public:
+    DiskANNIndex(size_t dimension, const std::string& index_path, size_t cache_size_mb = 1024);
+    ~DiskANNIndex();
+    
+    // Build index from vectors
+    void build(const std::vector<std::pair<VectorID, std::vector<float>>>& vectors);
+    
+    // Add vector to existing index
+    void add(VectorID id, const std::vector<float>& vector);
+    
+    // Greedy search on disk-resident graph
+    struct SearchResult {
+        VectorID id;
+        float distance;
+    };
+    std::vector<SearchResult> search(const std::vector<float>& query, int k, int beam_width = 64);
+    
+    // Get statistics
+    struct Stats {
+        size_t num_vectors;
+        size_t graph_edges;
+        size_t cache_hits;
+        size_t cache_misses;
+        size_t disk_reads;
+    };
+    Stats get_stats() const;
+    
+    // Flush cache to disk
+    void flush();
+
+private:
+    size_t dimension_;
+    std::string index_path_;
+    
+    // In-memory components
+    std::unique_ptr<LRUCache<VectorID, DiskANNNode>> cache_;
+    
+    // Metadata (kept in memory)
+    std::unordered_map<VectorID, uint64_t> vector_offsets_;  // VectorID -> file offset
+    
+    // Statistics
+    mutable std::atomic<size_t> cache_hits_{0};
+    mutable std::atomic<size_t> cache_misses_{0};
+    mutable std::atomic<size_t> disk_reads_{0};
+    
+    // File handle for SSD-resident graph
+    std::unique_ptr<std::fstream> graph_file_;
+    mutable std::mutex file_mutex_;
+    
+    // Helper: Load node from disk
+    DiskANNNode load_node(VectorID id);
+    
+    // Helper: Save node to disk
+    void save_node(const DiskANNNode& node);
+    
+    // Helper: Compute L2 distance
+    float compute_distance(const std::vector<float>& a, const std::vector<float>& b) const;
+    
+    // Helper: Greedy search from entry point
+    std::vector<VectorID> greedy_search_internal(
+        const std::vector<float>& query,
+        VectorID entry_point,
+        int beam_width,
+        int k
+    );
+};
+
+/// Vantage Point Tree for entry point selection
+class VantagePointTree {
+public:
+    VantagePointTree(const std::vector<std::pair<VectorID, std::vector<float>>>& vectors);
+    
+    // Find best entry point for query
+    VectorID find_entry_point(const std::vector<float>& query) const;
+
+private:
+    struct Node {
+        VectorID id;
+        std::vector<float> vector;
+        float threshold;
+        std::unique_ptr<Node> left;
+        std::unique_ptr<Node> right;
+    };
+    
+    std::unique_ptr<Node> root_;
+    
+    std::unique_ptr<Node> build_tree(
+        std::vector<std::pair<VectorID, std::vector<float>>>& vectors,
+        size_t start,
+        size_t end
+    );
+    
+    float compute_distance(const std::vector<float>& a, const std::vector<float>& b) const;
+};
+
+} // namespace phase3
+} // namespace performance
+} // namespace themis

@@ -89,19 +89,27 @@ option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 
 # Performance Optimization Options (Research-based, see docs/de/research/)
-# Phase 1: Quick Wins - Low effort, high impact optimizations
+# Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
 option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
 option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
 option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
 option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
 
-# Phase 2: Medium-Term - Higher impact, medium effort optimizations
-option(THEMIS_ENABLE_WISCKEY "Enable WiscKey value separation for +40-60% write throughput" OFF)
-option(THEMIS_ENABLE_CICADA_CC "Use Cicada optimistic concurrency control (+100-150% TX throughput)" OFF)
+# Phase 2: Medium-Term - Higher impact, medium effort optimizations (from PR #156/#157 research)
+# Medium-term optimizations (3-6 months effort, +100-200% overall performance)
+option(THEMIS_ENABLE_WISCKEY "Enable WiscKey key/value separation (+40-60% writes)" OFF)
+option(THEMIS_ENABLE_DOSTOEVSKY "Enable Dostoevsky adaptive LSM (+25-35% mixed)" OFF)
+option(THEMIS_ENABLE_CICADA "Enable Cicada optimistic CC (+100-150% transactions)" OFF)
+option(THEMIS_ENABLE_LIGRA "Enable Ligra graph processing (+200-300% graph)" OFF)
+option(THEMIS_ENABLE_RABITQ "Enable RaBitQ vector quantization (16x memory reduction)" OFF)
 
-# Phase 3: Long-Term - Very high impact, high effort optimizations
-option(THEMIS_ENABLE_DISKANN "Use DiskANN for billion-scale vector search (+300-400% throughput)" OFF)
-option(THEMIS_ENABLE_BW_TREE "Use Bw-Tree lock-free index (+100-200% index updates)" OFF)
+# Phase 3: Long-Term - Very high impact, high effort optimizations (from PR #156/#157 research)
+# Long-term optimizations (6-12 months effort, +200-500% specialized workloads)
+option(THEMIS_ENABLE_DISKANN "Enable DiskANN billion-scale vector search (+300-400%)" OFF)
+option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
+option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
+option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
+option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
 
 # Build options
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
@@ -843,6 +851,68 @@ set(THEMIS_CORE_SOURCES
     src/analytics/process_mining.cpp
 )
 
+# Phase 2 Performance Optimizations (PR #156/#157)
+# Conditionally add Phase 2 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    src/performance/phase2_feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_WISCKEY)
+    message(STATUS "Including WiscKey key/value separation (THEMIS_ENABLE_WISCKEY=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/wisckey.cpp)
+endif()
+
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    message(STATUS "Including Dostoevsky adaptive LSM (THEMIS_ENABLE_DOSTOEVSKY=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/dostoevsky.cpp)
+endif()
+
+if(THEMIS_ENABLE_CICADA)
+    message(STATUS "Including Cicada optimistic CC (THEMIS_ENABLE_CICADA=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/cicada.cpp)
+endif()
+
+if(THEMIS_ENABLE_LIGRA)
+    message(STATUS "Including Ligra graph processing (THEMIS_ENABLE_LIGRA=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/ligra.cpp)
+endif()
+
+if(THEMIS_ENABLE_RABITQ)
+    message(STATUS "Including RaBitQ vector quantization (THEMIS_ENABLE_RABITQ=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/rabitq.cpp)
+endif()
+
+# Phase 3 Performance Optimizations (PR #156/#157)
+# Conditionally add Phase 3 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    src/performance/phase3/feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_DISKANN)
+    message(STATUS "Including DiskANN billion-scale vector search (THEMIS_ENABLE_DISKANN=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/diskann.cpp)
+endif()
+
+if(THEMIS_ENABLE_BWTREE)
+    message(STATUS "Including Bw-Tree lock-free index (THEMIS_ENABLE_BWTREE=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bwtree.cpp)
+endif()
+
+if(THEMIS_ENABLE_SPLINTERDB)
+    message(STATUS "Including SplinterDB concurrent compaction (THEMIS_ENABLE_SPLINTERDB=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/splinterdb.cpp)
+endif()
+
+if(THEMIS_ENABLE_GUNROCK)
+    message(STATUS "Including Gunrock GPU graph analytics (THEMIS_ENABLE_GUNROCK=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/gunrock.cpp)
+endif()
+
+if(THEMIS_ENABLE_BAO)
+    message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bao.cpp)
+endif()
+
 # Conditionally add LLM sources (v1.3.0+) only when enabled
 if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
@@ -1065,6 +1135,40 @@ target_compile_definitions(themis_core PUBLIC
     THEMIS_VERSION_PATCH=${PROJECT_VERSION_PATCH}
     THEMIS_VERSION_STRING="${PROJECT_VERSION}"
 )
+
+# Phase 2 Performance Optimizations compile definitions
+if(THEMIS_ENABLE_WISCKEY)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WISCKEY)
+endif()
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DOSTOEVSKY)
+endif()
+if(THEMIS_ENABLE_CICADA)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CICADA)
+endif()
+if(THEMIS_ENABLE_LIGRA)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_LIGRA)
+endif()
+if(THEMIS_ENABLE_RABITQ)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_RABITQ)
+endif()
+
+# Phase 3 Performance Optimizations compile definitions
+if(THEMIS_ENABLE_DISKANN)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DISKANN)
+endif()
+if(THEMIS_ENABLE_BWTREE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BWTREE)
+endif()
+if(THEMIS_ENABLE_SPLINTERDB)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SPLINTERDB)
+endif()
+if(THEMIS_ENABLE_GUNROCK)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GUNROCK)
+endif()
+if(THEMIS_ENABLE_BAO)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
+endif()
 
 if(THEMIS_ENABLE_GPU)
     target_link_libraries(themis_core PUBLIC faiss)
@@ -1457,12 +1561,15 @@ if(THEMIS_BUILD_TESTS)
         tests/test_process_mining_extended.cpp
         tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
-        # Performance optimization tests
+        # Phase 1 Performance Optimization Tests (from PR #157)
         tests/test_performance_feature_flags.cpp
         tests/test_performance_allocator.cpp
         tests/test_huge_pages.cpp
         tests/test_rcu_index.cpp
         tests/test_lirs_cache.cpp
+        
+        # Phase 2 Performance Optimization Tests (from this PR)
+        tests/test_phase2_optimizations.cpp
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
@@ -1518,6 +1625,92 @@ if(THEMIS_BUILD_TESTS)
     # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
     # the full suite a second time and can make CI appear to hang on the last
     # test (previously "Test #619: ThemisTests").
+    
+    # Phase 3 Performance Optimization Tests (separate executables)
+    if(THEMIS_ENABLE_DISKANN)
+        add_executable(test_diskann
+            tests/performance/phase3/test_diskann.cpp
+        )
+        target_link_libraries(test_diskann
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_diskann
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_BWTREE)
+        add_executable(test_bwtree
+            tests/performance/phase3/test_bwtree.cpp
+        )
+        target_link_libraries(test_bwtree
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_bwtree
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_SPLINTERDB)
+        add_executable(test_splinterdb
+            tests/performance/phase3/test_splinterdb.cpp
+        )
+        target_link_libraries(test_splinterdb
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_splinterdb
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_GUNROCK)
+        add_executable(test_gunrock
+            tests/performance/phase3/test_gunrock.cpp
+        )
+        target_link_libraries(test_gunrock
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gunrock
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_BAO)
+        add_executable(test_bao
+            tests/performance/phase3/test_bao.cpp
+        )
+        target_link_libraries(test_bao
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_bao
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endif()
 
 # Benchmarks
@@ -2059,6 +2252,12 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_vector_prefilter.cpp
     )
     target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Phase 2 Performance Optimization Benchmarks
+    add_executable(bench_phase2
+        benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
+    )
+    target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
 endif()
 
