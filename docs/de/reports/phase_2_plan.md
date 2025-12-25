@@ -1,5 +1,8 @@
 # Phase 2: AQL Syntax Sugar für Hybrid Queries - Implementation Plan
 
+> **📢 HINWEIS:** Diese Phase wurde mit Phase 1 und 3 in einer konsolidierten Dokumentation zusammengefasst.  
+> **Siehe:** [AQL Phases 1-3 Consolidated Guide](../aql/AQL_PHASES_1_2_3_CONSOLIDATED.md)
+
 **Stand:** 5. Dezember 2025  
 **Version:** 1.0.0  
 **Kategorie:** Reports

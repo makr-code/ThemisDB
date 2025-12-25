@@ -1,5 +1,8 @@
 # 🔎 Hybrid Query Performance Optimizations (Phase 1.5 & 2)
 
+> **📢 EMPFEHLUNG:** Für eine vollständige Übersicht aller Hybrid Query Features inkl. Phase 1, 2 und 3,  
+> siehe: **[AQL Phases 1-3 Consolidated Guide](AQL_PHASES_1_2_3_CONSOLIDATED.md)**
+
 **Category:** 🔎 Advanced Queries  
 **Version:** v1.3.0  
 **Status:** ✅ Phase 1.5 & 2 Complete  

@@ -76,6 +76,7 @@ nav:
   - Query & AQL:
       - Query Engine & AQL: query_engine_aql.md
       - AQL Syntax: aql_syntax.md
+      - '🎯 AQL Phases 1-3 Consolidated': de/aql/AQL_PHASES_1_2_3_CONSOLIDATED.md
       - Explain & Profile: aql_explain_profile.md
       - Rekursive Pfadabfragen: recursive_path_queries.md
       - Temporale Graphen: temporal_graphs.md
