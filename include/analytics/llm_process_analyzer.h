@@ -1,0 +1,224 @@
+#pragma once
+
+#include <string>
+#include <vector>
+#include <map>
+#include <optional>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+
+/**
+ * @brief LLM Integration Layer for Process Mining
+ * 
+ * Provides unified interface for LLM-assisted process analysis:
+ * - Process conformance checking
+ * - Next activity prediction
+ * - Compliance verification (5R Rule, Vier-Augen-Prinzip, etc.)
+ * - Fraud detection
+ * - Sentiment analysis
+ * - Process optimization recommendations
+ */
+
+enum class TaskType {
+    ANALYZE_PROCESS,      // General process analysis & conformance
+    PREDICT_NEXT,         // Next activity prediction
+    VERIFY_5R_RULE,       // Healthcare 5R Rule verification
+    DETECT_FRAUD,         // Financial anomaly/fraud detection
+    CLASSIFY_INCIDENT,    // IT incident categorization
+    SENTIMENT_ANALYSIS,   // Customer service sentiment
+    OPTIMIZE_PROCESS,     // Process optimization recommendations
+    COMPLIANCE_CHECK      // Regulatory compliance verification
+};
+
+enum class LLMProvider {
+    OPENAI,               // OpenAI GPT-4, GPT-3.5
+    ANTHROPIC,            // Claude 3 Opus, Sonnet
+    LOCAL,                // Local models (llama.cpp, ollama)
+    AZURE_OPENAI          // Azure OpenAI Service
+};
+
+struct LLMConfig {
+    LLMProvider provider = LLMProvider::OPENAI;
+    std::string api_key;
+    std::string model_name = "gpt-4";
+    std::string base_url;  // For custom endpoints
+    
+    // Retry configuration
+    int max_retries = 3;
+    int retry_delay_ms = 1000;
+    
+    // Performance
+    bool enable_caching = true;
+    int cache_ttl_seconds = 3600;
+    
+    // Limits
+    int max_tokens = 2000;
+    double temperature = 0.3;  // Lower = more deterministic
+};
+
+struct LLMRequest {
+    TaskType task_type;
+    std::string domain;  // "administrative", "healthcare", "financial", etc.
+    
+    // Process data
+    nlohmann::json process_trace;
+    nlohmann::json ideal_model;
+    nlohmann::json context;  // Additional context
+    
+    // Task-specific parameters
+    std::map<std::string, std::string> parameters;
+};
+
+struct LLMResponse {
+    bool success = false;
+    std::string error_message;
+    
+    // Core metrics
+    double conformance_score = 0.0;  // 0.0 - 1.0
+    
+    // Deviations
+    struct Deviation {
+        std::string activity;
+        std::string type;  // "missing", "extra", "wrong_order", "wrong_resource"
+        std::string severity;  // "critical", "major", "minor"
+        std::string description;
+    };
+    std::vector<Deviation> deviations;
+    
+    // Compliance issues
+    struct ComplianceIssue {
+        std::string rule;  // e.g., "Vier-Augen-Prinzip", "5R Rule"
+        std::string violation;
+        std::string severity;
+        std::string remediation;
+    };
+    std::vector<ComplianceIssue> compliance_issues;
+    
+    // Recommendations
+    struct Recommendation {
+        std::string type;  // "optimization", "compliance", "performance"
+        std::string priority;  // "critical", "high", "medium", "low"
+        std::string description;
+        double potential_improvement = 0.0;  // Estimated impact
+    };
+    std::vector<Recommendation> recommendations;
+    
+    // Predictions (for PREDICT_NEXT task)
+    struct Prediction {
+        std::string activity;
+        double probability = 0.0;
+        std::string reasoning;
+    };
+    std::vector<Prediction> predictions;
+    
+    // Healthcare 5R Rule (for VERIFY_5R_RULE task)
+    struct FiveRCheck {
+        bool right_patient = false;
+        bool right_medication = false;
+        bool right_dose = false;
+        bool right_time = false;
+        bool right_route = false;
+        bool overall_compliance = false;
+        std::string risk_level;  // "low", "medium", "high", "critical"
+        std::vector<std::string> corrective_actions;
+    };
+    std::optional<FiveRCheck> five_rights_check;
+    
+    // Fraud detection (for DETECT_FRAUD task)
+    struct FraudAnalysis {
+        double risk_score = 0.0;  // 0.0 - 1.0
+        std::vector<std::string> detected_anomalies;
+        struct Flags {
+            bool duplicate = false;
+            bool unusual_amount = false;
+            bool vendor_not_verified = false;
+            bool missing_documentation = false;
+        } flags;
+        std::string recommended_action;
+    };
+    std::optional<FraudAnalysis> fraud_analysis;
+    
+    // Full response JSON (for advanced parsing)
+    nlohmann::json raw_response;
+    
+    // Metadata
+    int64_t response_time_ms = 0;
+    int tokens_used = 0;
+    bool from_cache = false;
+};
+
+class LLMProcessAnalyzer {
+public:
+    explicit LLMProcessAnalyzer(const LLMConfig& config);
+    ~LLMProcessAnalyzer();
+    
+    /**
+     * @brief Analyze process with LLM
+     * 
+     * Main entry point for LLM-assisted analysis.
+     * 
+     * @param request The analysis request
+     * @return Status and LLMResponse with analysis results
+     */
+    std::pair<bool, LLMResponse> analyze(const LLMRequest& request);
+    
+    /**
+     * @brief Generate prompt for specific task
+     * 
+     * Creates task-specific prompts with proper formatting.
+     * 
+     * @param task_type Type of analysis task
+     * @param data Input data (trace, model, etc.)
+     * @param domain Domain context
+     * @return Formatted prompt string
+     */
+    std::string generatePrompt(
+        TaskType task_type,
+        const nlohmann::json& data,
+        const std::string& domain
+    ) const;
+    
+    /**
+     * @brief Validate LLM response against schema
+     * 
+     * Ensures response conforms to expected structure.
+     * 
+     * @param response Raw LLM response
+     * @param task_type Expected task type
+     * @return true if valid, false otherwise
+     */
+    bool validateResponse(
+        const nlohmann::json& response,
+        TaskType task_type
+    ) const;
+    
+    /**
+     * @brief Get cache statistics
+     */
+    struct CacheStats {
+        size_t hits = 0;
+        size_t misses = 0;
+        size_t evictions = 0;
+        double hit_rate() const {
+            return (hits + misses) > 0 ? static_cast<double>(hits) / (hits + misses) : 0.0;
+        }
+    };
+    CacheStats getCacheStats() const;
+    
+    /**
+     * @brief Clear response cache
+     */
+    void clearCache();
+    
+private:
+    struct Impl;
+    std::unique_ptr<Impl> pImpl;
+    
+    // Internal helpers
+    std::string callLLM(const std::string& prompt, const std::map<std::string, std::string>& params);
+    nlohmann::json parseResponse(const std::string& raw_response, TaskType task_type);
+    std::string getCacheKey(const LLMRequest& request) const;
+};
+
+} // namespace themis
