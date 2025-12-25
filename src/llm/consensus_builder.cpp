@@ -313,11 +313,8 @@ float ConsensusBuilder::calculateSimilarity(const std::string& a, const std::str
             if (a[i - 1] == b[j - 1]) {
                 costs[j] = prev_diag;
             } else {
-                costs[j] = 1 + std::min({
-                    costs[j],      // deletion
-                    costs[j - 1],  // insertion
-                    prev_diag      // substitution
-                });
+                // Use explicit min for better performance in hot path
+                costs[j] = 1 + std::min(std::min(costs[j], costs[j - 1]), prev_diag);
             }
             
             prev_diag = prev_costs_j;
