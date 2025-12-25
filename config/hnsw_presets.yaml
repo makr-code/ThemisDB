@@ -1,0 +1,196 @@
+# ThemisDB HNSW Parameter Presets
+# Based on THEMISDB_OPTIMIZATION_IMPACT_ANALYSIS_SUMMARY.md recommendations
+# Date: December 25, 2024
+
+# HNSW Parameter Selection Guide:
+# 
+# M (connections per node):
+#   - Lower M (8-12): Faster builds, less memory, slightly lower recall
+#   - Medium M (16-24): Balanced performance and quality
+#   - Higher M (32-48): Better recall, slower builds, more memory
+#
+# ef_construction (build-time search width):
+#   - Lower (100-200): Faster index building
+#   - Medium (200-400): Balanced
+#   - Higher (400-800): Better index quality, slower builds
+#
+# ef_search (query-time search width):
+#   - Lower (16-32): Fastest queries, lower recall
+#   - Medium (64-128): Balanced
+#   - Higher (128-512): Best recall, slower queries
+
+presets:
+  # Speed-Optimized: Maximum query throughput
+  # Use case: Real-time search, high QPS requirements, acceptable 90-95% recall
+  speed:
+    hnsw_m: 12
+    hnsw_ef_construction: 100
+    ef_search: 32
+    description: "Optimized for speed - 2× faster queries, 90-95% recall"
+    recommended_for:
+      - "Real-time semantic search with high QPS (>10k/s)"
+      - "Low-latency RAG applications"
+      - "Interactive search experiences"
+    performance_estimates:
+      query_latency_ms: 0.5
+      build_time_relative: 0.6
+      memory_mb_per_1m_vectors: 2800
+      recall_at_10: 0.93
+
+  # Balanced: Production default (current)
+  # Use case: General purpose vector search with good performance and quality
+  balanced:
+    hnsw_m: 16
+    hnsw_ef_construction: 200
+    ef_search: 64
+    description: "Balanced speed and quality - production default"
+    recommended_for:
+      - "General purpose vector search"
+      - "Document similarity and classification"
+      - "Standard RAG pipelines"
+    performance_estimates:
+      query_latency_ms: 1.0
+      build_time_relative: 1.0
+      memory_mb_per_1m_vectors: 3500
+      recall_at_10: 0.96
+
+  # Quality-Optimized: Maximum recall
+  # Use case: Critical applications where accuracy is paramount
+  quality:
+    hnsw_m: 32
+    hnsw_ef_construction: 400
+    ef_search: 128
+    description: "Optimized for quality - 98-99% recall"
+    recommended_for:
+      - "Scientific search and discovery"
+      - "Legal document retrieval"
+      - "Medical diagnosis support"
+    performance_estimates:
+      query_latency_ms: 2.5
+      build_time_relative: 2.5
+      memory_mb_per_1m_vectors: 5600
+      recall_at_10: 0.99
+
+  # Production: Recommended for most production deployments
+  # Use case: Balance between speed, quality, and resource usage
+  production:
+    hnsw_m: 24
+    hnsw_ef_construction: 300
+    ef_search: 96
+    description: "Recommended for production - optimal trade-off"
+    recommended_for:
+      - "Production RAG systems"
+      - "Enterprise search platforms"
+      - "Multi-tenant vector databases"
+    performance_estimates:
+      query_latency_ms: 1.5
+      build_time_relative: 1.8
+      memory_mb_per_1m_vectors: 4500
+      recall_at_10: 0.97
+
+  # Memory-Optimized: Minimum memory footprint
+  # Use case: Resource-constrained environments
+  memory:
+    hnsw_m: 8
+    hnsw_ef_construction: 100
+    ef_search: 32
+    description: "Minimum memory footprint - embedded systems"
+    recommended_for:
+      - "Edge devices and IoT"
+      - "Memory-constrained environments"
+      - "Cost-optimized cloud deployments"
+    performance_estimates:
+      query_latency_ms: 0.8
+      build_time_relative: 0.5
+      memory_mb_per_1m_vectors: 2000
+      recall_at_10: 0.91
+
+# Multi-Agent LLM specific recommendations
+multi_agent_recommendations:
+  # For agent role selection (fast, approximate)
+  agent_role_matching:
+    hnsw_m: 12
+    hnsw_ef_construction: 100
+    ef_search: 32
+    rationale: "Fast role matching doesn't require perfect recall"
+
+  # For document retrieval in agent context
+  agent_document_retrieval:
+    hnsw_m: 24
+    hnsw_ef_construction: 300
+    ef_search: 96
+    rationale: "Agents need high-quality document context"
+
+  # For embedding cache lookups
+  embedding_cache:
+    hnsw_m: 16
+    hnsw_ef_construction: 200
+    ef_search: 48
+    rationale: "Balanced performance for cache hits"
+
+# Performance comparison matrix
+# Based on 1M vectors, 384 dimensions, YCSB-like workload
+performance_matrix:
+  - preset: speed
+    qps_estimate: 15000
+    p99_latency_ms: 2.0
+    recall_at_10: 0.93
+    memory_gb: 2.8
+    build_time_min: 12
+    
+  - preset: balanced
+    qps_estimate: 10000
+    p99_latency_ms: 3.5
+    recall_at_10: 0.96
+    memory_gb: 3.5
+    build_time_min: 20
+    
+  - preset: production
+    qps_estimate: 7500
+    p99_latency_ms: 5.0
+    recall_at_10: 0.97
+    memory_gb: 4.5
+    build_time_min: 36
+    
+  - preset: quality
+    qps_estimate: 5000
+    p99_latency_ms: 8.0
+    recall_at_10: 0.99
+    memory_gb: 5.6
+    build_time_min: 50
+    
+  - preset: memory
+    qps_estimate: 12000
+    p99_latency_ms: 3.0
+    recall_at_10: 0.91
+    memory_gb: 2.0
+    build_time_min: 10
+
+# Migration guide
+migration:
+  from_default_to_production:
+    steps:
+      - "Update config.json: hnsw_m=24, hnsw_ef_construction=300, ef_search=96"
+      - "Rebuild vector indexes (or they will use old parameters)"
+      - "Monitor recall and latency metrics"
+      - "Fine-tune ef_search based on actual workload"
+    expected_changes:
+      latency: "+50% (1.0ms → 1.5ms)"
+      recall: "+1% (96% → 97%)"
+      memory: "+29% (3.5GB → 4.5GB)"
+
+  dynamic_ef_search_adjustment:
+    description: "ef_search can be adjusted at runtime without rebuild"
+    command: "POST /api/vector/config {\"ef_search\": 128}"
+    use_cases:
+      - "Increase during low-traffic periods for better quality"
+      - "Decrease during high-traffic periods for better throughput"
+      - "A/B testing different quality/speed trade-offs"
+
+# Sources and references
+references:
+  - "THEMISDB_OPTIMIZATION_IMPACT_ANALYSIS_SUMMARY.md"
+  - "ANN-Benchmarks: https://ann-benchmarks.com/"
+  - "HNSW paper: Malkov & Yashunin, TPAMI 2018"
+  - "Milvus HNSW tuning guide"
+  - "Qdrant performance optimization guide"

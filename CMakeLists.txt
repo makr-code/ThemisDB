@@ -1005,6 +1005,24 @@ if(THEMIS_BUILD_TESTS)
     # an extra `add_test(NAME ThemisTests COMMAND themis_tests ...)` would run
     # the full suite a second time and can make CI appear to hang on the last
     # test (previously "Test #619: ThemisTests").
+    
+    # Optimization tests (v1.4.0) - HNSW, WriteBatch, gRPC
+    add_executable(test_optimizations_v1_4_0
+        tests/test_optimizations_v1_4_0.cpp
+    )
+    
+    target_link_libraries(test_optimizations_v1_4_0
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+    )
+    
+    gtest_discover_tests(test_optimizations_v1_4_0
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY ${_gtest_workdir}
+        EXTRA_ARGS --gtest_color=yes
+    )
 endif()
 
 # Benchmarks
@@ -1018,6 +1036,18 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(themis_benchmarks
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Optimization benchmarks (v1.4.0) - HNSW, WriteBatch, gRPC
+    add_executable(bench_optimizations_v1_4_0
+        benchmarks/bench_optimizations_v1_4_0.cpp
+    )
+    
+    target_link_libraries(bench_optimizations_v1_4_0
         PRIVATE
             themis_core
             benchmark::benchmark
