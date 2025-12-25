@@ -283,15 +283,52 @@ ConsensusBuilder::ConsensusResult ConsensusBuilder::buildHierarchical(
 
 // Helper methods
 float ConsensusBuilder::calculateSimilarity(const std::string& a, const std::string& b) const {
-    // Stub implementation: simple length-based similarity
-    // In production, use embedding-based similarity or edit distance
+    // Use normalized Levenshtein distance for better similarity detection
+    // This handles different string lengths and whitespace variations correctly
     
+    if (a.empty() && b.empty()) return 1.0f;
     if (a.empty() || b.empty()) return 0.0f;
+    if (a == b) return 1.0f;
     
-    size_t min_len = std::min(a.length(), b.length());
-    size_t max_len = std::max(a.length(), b.length());
+    // Levenshtein distance calculation
+    const size_t len_a = a.length();
+    const size_t len_b = b.length();
     
-    return static_cast<float>(min_len) / max_len;
+    // Use single vector for space optimization
+    std::vector<size_t> costs(len_b + 1);
+    
+    // Initialize first row
+    for (size_t j = 0; j <= len_b; ++j) {
+        costs[j] = j;
+    }
+    
+    // Calculate edit distance
+    for (size_t i = 1; i <= len_a; ++i) {
+        costs[0] = i;
+        size_t prev_diag = i - 1;
+        
+        for (size_t j = 1; j <= len_b; ++j) {
+            size_t prev_costs_j = costs[j];
+            
+            if (a[i - 1] == b[j - 1]) {
+                costs[j] = prev_diag;
+            } else {
+                costs[j] = 1 + std::min({
+                    costs[j],      // deletion
+                    costs[j - 1],  // insertion
+                    prev_diag      // substitution
+                });
+            }
+            
+            prev_diag = prev_costs_j;
+        }
+    }
+    
+    // Normalize to [0, 1] range
+    size_t edit_distance = costs[len_b];
+    size_t max_len = std::max(len_a, len_b);
+    
+    return 1.0f - (static_cast<float>(edit_distance) / max_len);
 }
 
 std::map<std::string, size_t> ConsensusBuilder::groupSimilarResponses(

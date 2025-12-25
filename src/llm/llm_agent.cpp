@@ -121,7 +121,9 @@ LLMAgent::AgentResult LLMAgent::processRequest(const AgentRequest& request) {
         {"agent_id", config_.agent_id},
         {"role", config_.role},
         {"lora_adapter", config_.lora_adapter_id},
-        {"timestamp_ms", getCurrentTimestampMs()}
+        {"timestamp_ms", getCurrentTimestampMs()},
+        {"stub_mode", true},  // v1.4.0: Stub responses, full LLM in v1.5.0
+        {"version", "v1.4.0"}
     };
     
     return result;
