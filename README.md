@@ -210,6 +210,9 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
+> [!TIP]
+> **Configuration:** See [`config/config.yaml`](config/config.yaml) for complete configuration reference with all available options, or check the [Configuration Guide](docs/en/guides/guides_configuration.md) | [Tuning Guide (DE)](docs/de/guides/CONFIGURATION_TUNING_GUIDE.md) for detailed tuning recommendations.
+
 **Optional Protocol Support (Security: Opt-In by Default):**
 
 ```bash
@@ -430,7 +433,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 <details>
 <summary><b>Operations</b></summary>
 
-- ⚙️ [Configuration Guide](docs/guides/guides_configuration.md)
+- ⚙️ [Configuration Guide](docs/en/guides/guides_configuration.md) | [Tuning Guide (DE)](docs/de/guides/CONFIGURATION_TUNING_GUIDE.md)
 - 📊 [Monitoring & Metrics](docs/observability/observability_prometheus.md)
 - 💾 [Backup & Recovery](docs/guides/guides_deployment.md#backup--recovery)
 - ⚡ [Performance Tuning](docs/performance/performance_memory.md)
