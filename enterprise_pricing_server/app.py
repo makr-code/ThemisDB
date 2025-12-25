@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 
 from config import settings
 from utils.database import init_db
-from routers import auth, customers, subscriptions, payments, license
+from routers import auth, customers, subscriptions, payments, license, telemetry
 
 
 @asynccontextmanager
@@ -35,6 +35,7 @@ app = FastAPI(
     - Payment verification with banking interface
     - Automatic subscription activation on payment
     - Webhook support for payment notifications
+    - Global telemetry collection from ThemisDB instances
     """,
     lifespan=lifespan,
     docs_url="/docs",
@@ -57,6 +58,7 @@ app.include_router(customers.router)
 app.include_router(subscriptions.router)
 app.include_router(payments.router)
 app.include_router(license.router)
+app.include_router(telemetry.router)
 
 
 @app.get("/")

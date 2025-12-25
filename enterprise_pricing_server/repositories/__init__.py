@@ -3,12 +3,14 @@
 from repositories.interfaces import (
     ICustomerRepository,
     ISubscriptionRepository,
-    IPaymentRepository
+    IPaymentRepository,
+    ITelemetryRepository
 )
 from repositories.implementations import (
     CustomerRepository,
     SubscriptionRepository,
-    PaymentRepository
+    PaymentRepository,
+    TelemetryRepository
 )
 
 __all__ = [
@@ -16,8 +18,10 @@ __all__ = [
     "ICustomerRepository",
     "ISubscriptionRepository",
     "IPaymentRepository",
+    "ITelemetryRepository",
     # Implementations
     "CustomerRepository",
     "SubscriptionRepository",
-    "PaymentRepository"
+    "PaymentRepository",
+    "TelemetryRepository"
 ]

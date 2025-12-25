@@ -103,6 +103,42 @@ CREATE INDEX idx_payments_subscription_id ON payments(subscription_id);
 CREATE INDEX idx_payments_transaction_id ON payments(transaction_id);
 CREATE INDEX idx_payments_status ON payments(status);
 
+-- Instance Telemetry table
+CREATE TABLE IF NOT EXISTS instance_telemetry (
+    id SERIAL PRIMARY KEY,
+    license_key VARCHAR(255) NOT NULL REFERENCES subscriptions(license_key) ON DELETE CASCADE,
+    instance_id VARCHAR(255) NOT NULL UNIQUE,
+    hostname VARCHAR(255),
+    version VARCHAR(50) NOT NULL,
+    
+    -- Metrics
+    nodes_count INTEGER DEFAULT 1,
+    total_cores INTEGER DEFAULT 0,
+    used_storage_tb DECIMAL(10, 2) DEFAULT 0.0,
+    uptime_seconds INTEGER DEFAULT 0,
+    query_count_24h INTEGER DEFAULT 0,
+    
+    -- Geolocation
+    country VARCHAR(2),
+    region VARCHAR(100),
+    
+    -- Timestamps
+    first_seen TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    last_seen TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    report_count INTEGER DEFAULT 1,
+    
+    -- User agent and IP
+    user_agent TEXT,
+    ip_address VARCHAR(45)
+);
+
+-- Create indexes for telemetry
+CREATE INDEX idx_telemetry_license_key ON instance_telemetry(license_key);
+CREATE INDEX idx_telemetry_instance_id ON instance_telemetry(instance_id);
+CREATE INDEX idx_telemetry_last_seen ON instance_telemetry(last_seen);
+CREATE INDEX idx_telemetry_version ON instance_telemetry(version);
+CREATE INDEX idx_telemetry_country ON instance_telemetry(country);
+
 -- =============================================================================
 -- 4. TRIGGERS FOR UPDATED_AT
 -- =============================================================================

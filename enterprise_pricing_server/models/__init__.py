@@ -204,3 +204,77 @@ class PaymentWebhook(BaseModel):
     currency: str
     external_payment_id: Optional[str] = None
     metadata: Optional[dict] = None
+
+
+# Telemetry Models
+
+class InstanceTelemetry(Base):
+    """Instance telemetry database model."""
+    __tablename__ = "instance_telemetry"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    license_key = Column(String, ForeignKey("subscriptions.license_key"), index=True, nullable=False)
+    instance_id = Column(String, index=True, nullable=False)  # Unique identifier for the instance
+    hostname = Column(String, nullable=True)
+    version = Column(String, nullable=False)
+    
+    # Metrics
+    nodes_count = Column(Integer, default=1)
+    total_cores = Column(Integer, default=0)
+    used_storage_tb = Column(Float, default=0.0)
+    uptime_seconds = Column(Integer, default=0)
+    query_count_24h = Column(Integer, default=0)
+    
+    # Geolocation (optional)
+    country = Column(String, nullable=True)
+    region = Column(String, nullable=True)
+    
+    # Timestamps
+    first_seen = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    last_seen = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+    report_count = Column(Integer, default=1)  # Number of times this instance reported
+    
+    # User agent and IP (for debugging)
+    user_agent = Column(String, nullable=True)
+    ip_address = Column(String, nullable=True)
+
+
+# Pydantic Models for Telemetry API
+
+class TelemetryMetrics(BaseModel):
+    """Telemetry metrics model."""
+    nodes: int = Field(default=1, ge=1, description="Number of active nodes")
+    total_cores: int = Field(default=0, ge=0, description="Total CPU cores")
+    used_storage_tb: float = Field(default=0.0, ge=0.0, description="Used storage in TB")
+    uptime_seconds: int = Field(default=0, ge=0, description="Instance uptime in seconds")
+    query_count_24h: int = Field(default=0, ge=0, description="Query count in last 24h")
+
+
+class TelemetryHeartbeat(BaseModel):
+    """Telemetry heartbeat model from ThemisDB instances."""
+    license_key: str = Field(..., description="License key for validation")
+    instance_id: str = Field(..., description="Unique instance identifier (UUID recommended)")
+    hostname: Optional[str] = Field(None, description="Instance hostname")
+    version: str = Field(..., description="ThemisDB version (e.g., '1.5.0')")
+    metrics: TelemetryMetrics = Field(..., description="Instance metrics")
+    country: Optional[str] = Field(None, description="Country code (e.g., 'DE')")
+    region: Optional[str] = Field(None, description="Region (e.g., 'eu-west-1')")
+
+
+class TelemetryResponse(BaseModel):
+    """Telemetry heartbeat response."""
+    success: bool
+    message: str
+    instance_count: Optional[int] = None  # Total instances for this license
+
+
+class TelemetryStats(BaseModel):
+    """Telemetry statistics response."""
+    total_instances: int
+    active_instances_24h: int
+    total_nodes: int
+    total_cores: int
+    total_storage_tb: float
+    versions: dict  # version -> count mapping
+    countries: dict  # country -> count mapping
+    by_tier: dict  # tier -> instance count mapping
