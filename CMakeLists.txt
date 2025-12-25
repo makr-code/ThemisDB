@@ -88,7 +88,14 @@ option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OF
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 
-# Phase 2 Performance Optimizations (from PR #156/#157 research)
+# Performance Optimization Options (Research-based, see docs/de/research/)
+# Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
+option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
+option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
+option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
+option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
+
+# Phase 2: Medium-Term - Higher impact, medium effort optimizations (from PR #156/#157 research)
 # Medium-term optimizations (3-6 months effort, +100-200% overall performance)
 option(THEMIS_ENABLE_WISCKEY "Enable WiscKey key/value separation (+40-60% writes)" OFF)
 option(THEMIS_ENABLE_DOSTOEVSKY "Enable Dostoevsky adaptive LSM (+25-35% mixed)" OFF)
@@ -96,13 +103,66 @@ option(THEMIS_ENABLE_CICADA "Enable Cicada optimistic CC (+100-150% transactions
 option(THEMIS_ENABLE_LIGRA "Enable Ligra graph processing (+200-300% graph)" OFF)
 option(THEMIS_ENABLE_RABITQ "Enable RaBitQ vector quantization (16x memory reduction)" OFF)
 
-# Phase 3 Performance Optimizations (from PR #156/#157 research)
+# Phase 3: Long-Term - Very high impact, high effort optimizations (from PR #156/#157 research)
 # Long-term optimizations (6-12 months effort, +200-500% specialized workloads)
 option(THEMIS_ENABLE_DISKANN "Enable DiskANN billion-scale vector search (+300-400%)" OFF)
 option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
 option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
 option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
 option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+
+# Build options
+option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
+
+# Performance Optimization Dependencies
+if(THEMIS_ENABLE_MIMALLOC)
+    message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
+    find_package(mimalloc CONFIG)
+    if(NOT mimalloc_FOUND)
+        message(WARNING "mimalloc not found via vcpkg. Install with: vcpkg install mimalloc")
+        message(WARNING "Building without mimalloc. Performance optimization disabled.")
+        set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
+    else()
+        message(STATUS "Found mimalloc: ${mimalloc_DIR}")
+        add_compile_definitions(THEMIS_USE_MIMALLOC)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_HUGE_PAGES)
+    message(STATUS "Enabling huge pages optimization (+15-30% memory performance)")
+    
+    # Check platform support
+    if(UNIX)
+        message(STATUS "Huge pages: Linux/Unix support enabled")
+        message(STATUS "Configure with: echo 1024 | sudo tee /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages")
+        add_compile_definitions(THEMIS_USE_HUGE_PAGES)
+    elseif(WIN32)
+        message(STATUS "Huge pages: Windows large pages support enabled")
+        message(STATUS "Configure via: secpol.msc -> Lock pages in memory")
+        add_compile_definitions(THEMIS_USE_HUGE_PAGES)
+    else()
+        message(WARNING "Huge pages not supported on this platform")
+        set(THEMIS_ENABLE_HUGE_PAGES OFF CACHE BOOL "Platform not supported" FORCE)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_RCU_INDEX)
+    message(STATUS "Enabling RCU index optimization (+200-500% read performance)")
+    message(STATUS "RCU: Read-Copy-Update for lock-free reads in read-heavy workloads")
+    add_compile_definitions(THEMIS_USE_RCU_INDEX)
+    
+    # RCU requires C++17 or later (already set to C++20)
+    # No additional dependencies needed
+endif()
+
+if(THEMIS_ENABLE_LIRS_CACHE)
+    message(STATUS "Enabling LIRS cache optimization (+30-40% cache hit rate)")
+    message(STATUS "LIRS: Low Inter-reference Recency Set for scan-resistant caching")
+    add_compile_definitions(THEMIS_USE_LIRS_CACHE)
+    
+    # LIRS requires C++17 or later (already set to C++20)
+    # No additional dependencies needed
+endif()
 
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
@@ -1338,6 +1398,12 @@ target_link_libraries(themis_server
         themis_core
 )
 
+# Link performance optimization libraries
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    target_link_libraries(themis_server PRIVATE mimalloc)
+    message(STATUS "Linking themis_server with mimalloc")
+endif()
+
 # Tests
 if(THEMIS_BUILD_TESTS)
     enable_testing()
@@ -1495,7 +1561,14 @@ if(THEMIS_BUILD_TESTS)
         tests/test_process_mining_extended.cpp
         tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
-        # Phase 2 Performance Optimization Tests
+        # Phase 1 Performance Optimization Tests (from PR #157)
+        tests/test_performance_feature_flags.cpp
+        tests/test_performance_allocator.cpp
+        tests/test_huge_pages.cpp
+        tests/test_rcu_index.cpp
+        tests/test_lirs_cache.cpp
+        
+        # Phase 2 Performance Optimization Tests (from this PR)
         tests/test_phase2_optimizations.cpp
         
         # Protocol tests (conditional based on build flags)
@@ -2221,3 +2294,9 @@ install(TARGETS themis_server themis_core
 install(DIRECTORY include/
     DESTINATION include
 )
+
+# Performance Optimization Benchmarks
+if(THEMIS_BUILD_BENCHMARKS)
+    add_subdirectory(benchmarks/performance_optimizations)
+endif()
+
