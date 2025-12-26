@@ -118,7 +118,8 @@ tidy_full.log
 
 # Local data directories (development/testing only)
 data/
-models/
+models/*
+!models/.gitkeep
 test_geo_integration_db/
 Testing/
 
