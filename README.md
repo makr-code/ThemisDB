@@ -7,15 +7,36 @@
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-  [![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.0)
+  [![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
 ---
 
-## 🎉 What's New in v1.3.0
+## 🎉 What's New
 
-<details open>
+### v1.3.3 - Network Protocol Enhancements (2025-12-21)
+- 🌐 **HTTP/2 with Server Push** for CDC/Changefeed with ~0ms latency
+- 📡 **WebSocket support** with CDC streaming for real-time communication
+- 📬 **MQTT broker** with WebSocket transport and monitoring
+- ⚡ **HTTP/3 base implementation** with QUIC protocol
+- 🐘 **PostgreSQL Wire Protocol** for BI tool compatibility
+- 🔌 **MCP Server** (Model Context Protocol) support
+
+### v1.3.2 - Image Analysis AI Plugin (2025-12-21)
+- 🖼️ **Image Analysis AI Plugin Architecture** running parallel with LLM
+- 🔧 **Multi-backend support:** llama.cpp Vision, ONNX Runtime, OpenCV DNN, OpenVINO, ncnn
+- 🛠️ Plugin interfaces: `IImageAnalysisBackend`, `ImageAnalysisManager`
+- 🧪 Comprehensive unit tests (15+ test cases) and benchmarks
+
+### v1.3.1 - Third-Party Attribution (2025-12-20)
+- 📄 Added `ATTRIBUTIONS.md` documenting 15+ core dependencies
+- 🏆 Documented ThemisDB's **12 unique innovations**
+- ✅ Clear attribution for all major dependencies
+
+### v1.3.0 - LLM Integration (2025-12-17)
+
+<details>
 <summary><b>🧠 Native LLM Integration with llama.cpp (Optional)</b></summary>
 
 **"ThemisDB keeps its own llamas."** – Run AI/LLM workloads directly in your database - no external API costs!

@@ -4,7 +4,7 @@
 
 **ThemisDB Release History**
 
-[![Version](https://img.shields.io/badge/version-1.3.0-blue)](https://github.com/makr-code/ThemisDB/releases)
+[![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases)
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-v1.0.0-orange)](https://keepachangelog.com/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-v2.0.0-green)](https://semver.org/)
 
@@ -21,8 +21,18 @@
 
 ### ✨ Added
 
+- Future features and improvements will be listed here
+
+---
+
+## 🎉 [1.3.3] - 2025-12-21
+
+> **🌐 FOCUS:** Network Protocol Enhancements
+
+### ✨ Added
+
 <details>
-<summary><b>Network Protocol Enhancements</b> (PR #111 - 2025-12-21)</summary>
+<summary><b>Network Protocol Enhancements</b> (PR #111)</summary>
 
 - 🌐 **HTTP/2 with Server Push** for CDC/Changefeed (proactive event delivery, ~0ms latency)
 - 📡 **WebSocket support** with CDC streaming (bidirectional real-time communication)
@@ -35,18 +45,16 @@
 
 </details>
 
-<details>
-<summary><b>Third-Party Attribution Documentation</b> (PR #119 - 2025-12-20)</summary>
+---
 
-- 📄 Added `ATTRIBUTIONS.md` documenting 15+ core dependencies
-- 🏆 Documented ThemisDB's **12 unique innovations** vs third-party features
-- ✅ Clear attribution for RocksDB, FAISS, hnswlib, simdjson, Arrow, TBB, Boost, OpenSSL
-- 📜 License information and repository links for all dependencies
+## 🎉 [1.3.2] - 2025-12-21
 
-</details>
+> **🖼️ FOCUS:** Image Analysis AI Plugin Architecture
+
+### ✨ Added
 
 <details>
-<summary><b>Image Analysis AI Plugin Architecture</b> (PR #118 - 2025-12-21)</summary>
+<summary><b>Image Analysis AI Plugin Architecture</b> (PR #118)</summary>
 
 - 🖼️ **Plugin architecture** for image analysis AI (Stable Diffusion/CLIP) running parallel with LLM
 - 🔧 **Multi-backend support:** llama.cpp Vision (primary), ONNX Runtime, OpenCV DNN, OpenVINO, ncnn
@@ -56,6 +64,24 @@
 - 📦 Example ONNX CLIP plugin implementation
 - ⚙️ Configuration templates for plugin management
 - 🧪 Comprehensive unit tests (15+ test cases) and benchmarks (11+ categories)
+
+</details>
+
+---
+
+## 🎉 [1.3.1] - 2025-12-20
+
+> **📄 FOCUS:** Third-Party Attribution Documentation
+
+### ✨ Added
+
+<details>
+<summary><b>Third-Party Attribution Documentation</b> (PR #119)</summary>
+
+- 📄 Added `ATTRIBUTIONS.md` documenting 15+ core dependencies
+- 🏆 Documented ThemisDB's **12 unique innovations** vs third-party features
+- ✅ Clear attribution for RocksDB, FAISS, hnswlib, simdjson, Arrow, TBB, Boost, OpenSSL
+- 📜 License information and repository links for all dependencies
 
 </details>
 
