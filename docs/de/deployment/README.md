@@ -169,7 +169,7 @@ tar -xzf themis-linux-x86_64.tar.gz
 | **[BIBLIOTHEKEN_UBERSICHT.md](BIBLIOTHEKEN_UBERSICHT.md)** | **Alle Dependencies** mit Vendor-Links | ⭐ NEU |
 | **[BUILD_OPTIONEN_REFERENZ.md](BUILD_OPTIONEN_REFERENZ.md)** | **Alle 61 CMake Schalter** mit Beispielen | ⭐ NEU |
 | **[VCPKG_OFFLINE_STRATEGY.md](VCPKG_OFFLINE_STRATEGY.md)** | Offline-First Build System | ✅ Aktuell |
-| **[DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)** | Docker Container Deployment | ✅ Aktuell |
+| **[DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)** | **Konsolidierter** Docker Container Deployment Guide | ✅ Aktuell, Konsolidiert |
 
 ### Plattform-Spezifisch
 
@@ -182,14 +182,12 @@ tar -xzf themis-linux-x86_64.tar.gz
 | [deployment_raspberry_tuning.md](deployment_raspberry_tuning.md) | Raspberry Pi Performance Tuning | ✅ Aktuell |
 | [QNAP_CPU_COMPATIBILITY.md](QNAP_CPU_COMPATIBILITY.md) | QNAP CPU Support Matrix | ✅ Aktuell |
 
-### CI/CD & Multi-Arch
+### CI/CD & Docker
 
 | Datei | Beschreibung | Status |
 |-------|--------------|--------|
-| [deployment_docker_multiarch.md](deployment_docker_multiarch.md) | Multi-Arch Docker Builds | ✅ Aktuell |
+| [deployment_docker_multiarch.md](deployment_docker_multiarch.md) | Multi-Arch Docker Builds (Details) | ✅ Aktuell |
 | [deployment_cicd_multiarch.md](deployment_cicd_multiarch.md) | CI/CD Pipeline-Konfiguration | ✅ Aktuell |
-| [docker_build.md](docker_build.md) | Docker Build Details | ✅ Aktuell |
-| [docker_status.md](docker_status.md) | Docker Implementation Status | ✅ Aktuell |
 
 ### Edition & Strategie
 
@@ -210,7 +208,9 @@ tar -xzf themis-linux-x86_64.tar.gz
 
 ### Archivierte Dokumente
 
-Historische Dokumentation (v1.3.0 Implementation Reports) befindet sich in [archive/](archive/).
+Historische Dokumentation (v1.3.0 Implementation Reports, konsolidierte Docker Docs) befindet sich in [archive/](archive/).
+
+**Konsolidiert:** docker_build.md und docker_status.md wurden in DOCKER_DEPLOYMENT.md zusammengeführt.
 
 ---
 
@@ -234,7 +234,16 @@ Die Deployment-Dokumentation für ThemisDB v1.3.1 bietet:
 ✅ **Multi-Plattform Support** (Windows, Linux, Docker, ARM, QNAP)  
 ✅ **Vendor-Dokumentation verlinkt** für alle Dependencies  
 ✅ **Best Practices** für Production, Development, Performance, IoT  
+✅ **Konsolidierte Docker-Dokumentation** für einfachere Navigation  
+✅ **Edition-spezifische Build-Strategien** (Community, Enterprise, Hyperscaler)  
 ✅ **Historische Dokumente archiviert** für saubere Struktur  
+
+### Letzte Konsolidierung (v1.3.1)
+
+**26. Dezember 2025:** Docker-Dokumentation konsolidiert
+- `docker_build.md` → archiviert (Inhalte in DOCKER_DEPLOYMENT.md integriert)
+- `docker_status.md` → archiviert (Historischer Status-Report)
+- `DOCKER_DEPLOYMENT.md` → Erweitert mit Build-Strategien und Multi-Arch-Details
 
 **Letzte Aktualisierung:** 26. Dezember 2025  
 **Version:** v1.3.1  

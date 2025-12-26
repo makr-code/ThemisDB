@@ -10,9 +10,14 @@
 ## 📑 Inhaltsverzeichnis
 
 - [Quick Start](#quick-start)
-- [GPU Support](#quick-start-with-gpu-support-v130)
-- [Verify Running](#verify-running)
 - [Docker Images](#docker-images)
+- [Build Strategies](#build-strategies)
+- [Configuration](#configuration)
+- [Docker Compose](#docker-compose)
+- [Production Deployment](#production-deployment)
+- [Platform-Specific](#platform-specific-deployment)
+- [Troubleshooting](#troubleshooting)
+- [Related Documentation](#related-documentation)
 
 ## Quick Start
 
@@ -116,6 +121,61 @@ VCPKG_TRIPLET=x64-linux          # For amd64
 VCPKG_TRIPLET=arm64-linux        # For arm64
 ```
 **Hinweis:** Die lokale Quelle `llama.cpp/` im Projekt‑Root ist per `.dockerignore` ausgeschlossen und wird nicht in das Build‑Context kopiert. Die LLM‑Funktionalität wird über die kompilierten Artefakte (ggml/llama) bereitgestellt; Modelle sollten als Volume (`/models`) gemountet werden.
+
+---
+
+## Build Strategies
+
+ThemisDB verwendet einen **Hybrid Pre-built Binary** Workflow für Docker-Builds:
+
+### Empfohlene Strategie: Pre-Built Binaries
+
+1. **Binary lokal bauen** (einmalig, ~30-40 Minuten mit vcpkg)
+2. **Docker-Image erstellen** mit `Dockerfile.simple` (schnell, ~30 Sekunden)
+3. **Ergebnis**: Kleine Images (~100-200 MB), 100% offline-fähig
+
+**Vorteile:**
+- ✅ Schnelle Build-Zeiten (Sekunden statt Minuten)
+- ✅ Kleine Image-Größe (~150 MB komprimiert)
+- ✅ 100% Offline-fähig nach initialem Setup
+- ✅ Monolithische Binary (keine Library-Abhängigkeiten)
+- ✅ Health-Check für Container-Orchestrierung
+
+### Multi-Architecture Support
+
+ThemisDB bietet native Unterstützung für mehrere Architekturen:
+
+| Plattform | Architektur | vcpkg Triplet | Primärer Use Case |
+|-----------|-------------|---------------|-------------------|
+| **AMD64** | x86_64 | `x64-linux` | Server, Cloud (AWS/Azure/GCP) |
+| **ARM64** | aarch64 | `arm64-linux` | Raspberry Pi 4/5, ARM-Server (Graviton) |
+| **QNAP** | x86_64 | `x64-linux` | QNAP NAS (optimiert für ältere CPUs) |
+
+**Details:** Siehe [Multi-Arch Build Strategy](deployment_docker_multiarch.md)
+
+### Build Scripts
+
+```powershell
+# Windows: Docker Build
+.\docker-build.ps1
+
+# Mit Binary-Build
+.\docker-build.ps1 -BuildBinary
+
+# QNAP-Variante
+.\docker-build.ps1 -Variant qnap
+
+# Build und Push
+.\docker-build.ps1 -Push
+```
+
+```bash
+# Linux/macOS: Docker Build
+./scripts/docker-build.sh
+
+# Multi-arch build
+docker buildx build --platform linux/amd64,linux/arm64 -t themisdb:latest .
+```
 
 ---
 
@@ -566,7 +626,13 @@ docker push themisdb/themisdb:qnap
 
 ## Related Documentation
 
-- [README.md](README.md) - Main documentation
-- [CHANGELOG.md](CHANGELOG.md) - Release notes
-- [BUILD_ORGANIZATION.md](BUILD_ORGANIZATION.md) - Build system
-- [Dockerfile](Dockerfile) - Build definition
+- [Deployment Strategy](deployment_strategy.md) - Overall build & deployment strategy
+- [Multi-Arch Docker Strategy](deployment_docker_multiarch.md) - Detailed multi-architecture build guide
+- [vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md) - Offline-first dependency management
+- [QNAP Deployment](deployment_qnap.md) - QNAP NAS specific deployment
+- [ARM/Raspberry Pi Build](deployment_arm_build.md) - ARM-specific build instructions
+- [README.md](README.md) - Main deployment documentation index
+
+### Archived Documentation
+
+Historical Docker build documentation (status reports, alternative approaches) available in [archive/](archive/).
