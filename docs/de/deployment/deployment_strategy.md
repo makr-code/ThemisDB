@@ -1,7 +1,7 @@
 # ThemisDB Build & Deployment Strategy
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 26. Dezember 2025  
+**Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready  
 **Architecture:** Offline-First vcpkg Build System
@@ -13,6 +13,9 @@
 - [Kernprinzip](#-kernprinzip-offline-first-vcpkg-strategy)
 - [Quick Start](#-quick-start)
 - [Plattform-Builds](#2-platform-spezifischer-build)
+- [Edition-spezifische Build-Strategie](#-edition-spezifische-build-strategie)
+- [Build-Dokumentation](#-build-dokumentation)
+- [Verwandte Dokumentation](#-verwandte-dokumentation)
 
 ## 🎯 Kernprinzip: Offline-First vcpkg Strategy
 
@@ -136,7 +139,7 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 
 ---
 
-## Build-Plattformen (v1.3.0) - **Stand: 21. Dezember 2025**
+## Build-Plattformen (v1.3.1) - **Stand: 26. Dezember 2025**
 
 | Platform | Triplet | Compiler | Target | Binary Size | Package Size | Status |
 |----------|---------|----------|--------|-------------|--------------|--------|
@@ -147,7 +150,7 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 | **QNAP NAS** | x64-linux | GCC 11.4 | QNAP x86_64 | ~30 MB | ~28 MB | 🧪 Beta |
 | **macOS** | arm64-osx / x64-osx | Clang | macOS 11+ (x64/ARM) | TBD | TBD | ⏳ Geplant |
 
-**v1.3.0 Modular Build Matrix:**
+**v1.3.1 Modular Build Matrix:**
 
 | Configuration | ENABLE_LLM | BUILD_RPC | ENABLE_CUDA | ENABLE_GPU | Binary Size | Build Time |
 |---------------|------------|-----------|-------------|------------|-------------|------------|
@@ -156,6 +159,329 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 | **LLM+GPU** | ON | OFF | ON | ON | ~300 MB | 30-35 min |
 | **LLM+RPC** | ON | ON | OFF | OFF | ~280 MB | 30-35 min |
 | **Full** | ON | ON | ON | ON | ~350 MB | 35-40 min |
+
+---
+
+## 🏢 Edition-spezifische Build-Strategie
+
+ThemisDB bietet **drei Editions-Modelle** mit unterschiedlichen Features, Lizenzmodellen und Build-Konfigurationen:
+
+### Edition-Übersicht
+
+| Edition | Lizenz | GPU VRAM Limit | Max. Nodes | Plugins | LLM Features | Build Script |
+|---------|--------|----------------|------------|---------|--------------|--------------|
+| **Community** | MIT (Open Source) | 24 GB | 1 (Single-Node) | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
+| **Enterprise** | Commercial Subscription | 256 GB | 100 (Sharding) | Enterprise Add-Ons | + Fine-Tuning, Model Management | `build-enterprise-release.ps1` |
+| **Hyperscaler** | Custom OEM/Cloud | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
+
+### Community Edition Build
+
+**Zielgruppe:** Open Source Community, Startups, Entwicklung
+
+```powershell
+# Windows - Community Edition
+.\scripts\build-community-release.ps1 -Platform all -Configuration Release
+
+# Oder manuell mit CMake
+cmake -B build-community -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_EDITION=COMMUNITY `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_BUILD_TESTS=ON `
+  -DTHEMIS_BUILD_BENCHMARKS=ON `
+  -DTHEMIS_ENABLE_GPU=ON `
+  -DTHEMIS_ENABLE_TRACING=ON
+
+cmake --build build-community --config Release --parallel 8
+```
+
+**Linux - Community Edition:**
+```bash
+cmake -B build-community \
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+  -DTHEMIS_EDITION=COMMUNITY \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_LLM=ON
+
+cmake --build build-community -j$(nproc)
+```
+
+**Features (Community Edition):**
+- ✅ Kern-Datenbankfunktionalität (JSON, Graph, Vector, Time-Series)
+- ✅ LLM Core Features (Embedding, Similarity Search, Inference)
+- ✅ GPU Acceleration (bis 24 GB VRAM)
+- ✅ Basic Monitoring & Metrics (Prometheus/Grafana)
+- ❌ Keine Enterprise Plugins
+- ❌ Kein Sharding/Multi-Master
+- ❌ Kein RBAC/Field-Encryption
+
+### Enterprise Edition Build
+
+**Zielgruppe:** Mittlere bis große Unternehmen, Production Deployments
+
+**⚠️ LIZENZ ERFORDERLICH:** Enterprise Edition benötigt gültige Lizenz-Datei
+
+```powershell
+# Windows - Enterprise Edition
+.\scripts\build-enterprise-release.ps1 -Environment production -Configuration Release
+
+# Oder manuell mit CMake
+cmake -B build-enterprise -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_EDITION=ENTERPRISE `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_BUILD_TESTS=ON `
+  -DTHEMIS_BUILD_BENCHMARKS=ON `
+  -DTHEMIS_ENABLE_GPU=ON `
+  -DTHEMIS_ENABLE_TRACING=ON `
+  -DTHEMIS_ENABLE_LLM=ON `
+  -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON `
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON `
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON `
+  -DTHEMIS_ENABLE_RBAC=ON `
+  -DTHEMIS_ENABLE_HSM=ON
+
+cmake --build build-enterprise --config Release --parallel 8
+```
+
+**Linux - Enterprise Edition:**
+```bash
+cmake -B build-enterprise \
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON \
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON \
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON \
+  -DTHEMIS_ENABLE_RBAC=ON \
+  -DTHEMIS_ENABLE_HSM=ON
+
+cmake --build build-enterprise -j$(nproc)
+```
+
+**Features (Enterprise Edition):**
+- ✅ Alle Community Features
+- ✅ Sharding & Horizontal Skalierung (bis 100 Nodes)
+- ✅ Multi-Master Replication
+- ✅ RBAC (Role-Based Access Control)
+- ✅ Field-Level Encryption
+- ✅ HSM Integration (Hardware Security Module)
+- ✅ Enterprise Plugins (GPU Backends, Advanced Search)
+- ✅ Advanced LLM Features (Fine-Tuning, Model Management)
+- ✅ Advanced Monitoring & Metrics (Custom Dashboards, Alerting)
+- ✅ Premium Support (SLA, 24/5)
+
+**Lizenz-Konfiguration:**
+```bash
+# Lizenz-Datei bereitstellen
+export THEMIS_LICENSE_FILE=/path/to/enterprise-license.lic
+
+# Oder in config.yaml
+license:
+  file: /etc/themis/enterprise-license.lic
+  type: enterprise
+  validation: strict
+```
+
+### Hyperscaler Edition Build
+
+**Zielgruppe:** Cloud Provider (AWS, Azure, GCP), Massive Scale Deployments
+
+**⚠️ CUSTOM LIZENZ:** Hyperscaler Edition nur über OEM/Cloud-Partnerschaften
+
+```powershell
+# Windows - Hyperscaler Edition
+.\scripts\build-hyperscaler-release.ps1 -Environment production -Configuration Release
+
+# Oder manuell mit CMake
+cmake -B build-hyperscaler -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_EDITION=HYPERSCALER `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_BUILD_TESTS=ON `
+  -DTHEMIS_BUILD_BENCHMARKS=ON `
+  -DTHEMIS_ENABLE_GPU=ON `
+  -DTHEMIS_ENABLE_TRACING=ON `
+  -DTHEMIS_ENABLE_LLM=ON `
+  -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON `
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON `
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON `
+  -DTHEMIS_ENABLE_RBAC=ON `
+  -DTHEMIS_ENABLE_HSM=ON `
+  -DTHEMIS_ENABLE_HYPERSCALER_OPTIMIZATION=ON `
+  -DTHEMIS_ENABLE_ADVANCED_CDC=ON `
+  -DTHEMIS_ENABLE_GPU_CLUSTER=ON
+
+cmake --build build-hyperscaler --config Release --parallel 8
+```
+
+**Features (Hyperscaler Edition):**
+- ✅ Alle Enterprise Features
+- ✅ Unbegrenzte GPU VRAM (Multi-GPU Cluster)
+- ✅ Unbegrenzte Nodes (1000+ Nodes)
+- ✅ GPU-optimierte Queries (Distributed GPU Processing)
+- ✅ Advanced CDC (Real-time Sync, Auto-Rebalancing)
+- ✅ Hyperscaler-spezifische Optimierungen
+- ✅ Custom Plugin System
+- ✅ White-Label Support
+- ✅ Dedicated Support (SLA, 24/7)
+
+### Edition Metriken & Monitoring
+
+Alle Editions unterstützen **Prometheus-Metriken**, aber mit unterschiedlichem Umfang:
+
+#### Community Edition Metriken
+```yaml
+# Basis-Metriken (Community)
+metrics:
+  enabled: true
+  exporter: prometheus
+  port: 9090
+  
+  # Verfügbare Metriken
+  basic_metrics:
+    - http_requests_total
+    - http_request_duration_seconds
+    - database_queries_total
+    - database_query_duration_seconds
+    - memory_usage_bytes
+    - cpu_usage_percent
+```
+
+#### Enterprise Edition Metriken
+```yaml
+# Erweiterte Metriken (Enterprise)
+metrics:
+  enabled: true
+  exporter: prometheus
+  port: 9090
+  
+  # Zusätzliche Enterprise-Metriken
+  enterprise_metrics:
+    - sharding_node_health
+    - replication_lag_seconds
+    - rbac_authorization_checks_total
+    - field_encryption_operations_total
+    - hsm_operations_total
+    - cache_hit_ratio
+    - query_plan_optimization_duration
+    
+  # Custom Dashboards
+  dashboards:
+    - grafana_enterprise_overview
+    - grafana_security_audit
+    - grafana_performance_deep_dive
+```
+
+#### Hyperscaler Edition Metriken
+```yaml
+# Vollständige Metriken (Hyperscaler)
+metrics:
+  enabled: true
+  exporter: prometheus
+  port: 9090
+  
+  # Alle Metriken + Hyperscaler-spezifisch
+  hyperscaler_metrics:
+    - gpu_cluster_utilization
+    - distributed_query_coordination
+    - cdc_replication_throughput
+    - auto_rebalancing_events
+    - cross_region_latency
+    - multi_tenant_isolation_score
+    
+  # Advanced Monitoring
+  telemetry:
+    opentelemetry: true
+    distributed_tracing: true
+    custom_exporters: ["datadog", "newrelic", "splunk"]
+```
+
+### Lizenz-Validierung zur Build-Zeit
+
+```cmake
+# CMakeLists.txt - Edition Validation
+if(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    # Prüfe Enterprise Lizenz zur Build-Zeit (optional)
+    if(DEFINED ENV{THEMIS_BUILD_LICENSE_KEY})
+        message(STATUS "Enterprise Build License: Verified")
+    else()
+        message(WARNING "No Enterprise Build License found. Runtime license required.")
+    endif()
+    
+    add_compile_definitions(
+        THEMIS_EDITION_ENTERPRISE=1
+        THEMIS_GPU_MAX_VRAM_GB=256
+        THEMIS_SHARDING_MAX_NODES=100
+    )
+    
+elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    # Hyperscaler benötigt spezielle Build-Lizenz
+    if(NOT DEFINED ENV{THEMIS_HYPERSCALER_BUILD_KEY})
+        message(FATAL_ERROR "Hyperscaler Edition requires THEMIS_HYPERSCALER_BUILD_KEY")
+    endif()
+    
+    add_compile_definitions(
+        THEMIS_EDITION_HYPERSCALER=1
+        THEMIS_GPU_MAX_VRAM_GB=0  # Unlimited
+        THEMIS_SHARDING_MAX_NODES=0  # Unlimited
+    )
+endif()
+```
+
+### Runtime Lizenz-Prüfung
+
+```cpp
+// src/license/license_validator.cpp
+/**
+ * LicenseValidator - Validates ThemisDB edition licenses at runtime
+ * 
+ * Reads and validates license files to ensure the binary edition matches
+ * the license edition and checks signature, expiry, and feature flags.
+ * 
+ * @throws LicenseException if validation fails (invalid signature, expired, edition mismatch)
+ */
+class LicenseValidator {
+public:
+    /**
+     * Validates a license file and returns the licensed edition
+     * 
+     * @param licensePath Full path to the license file
+     * @return EditionType The edition specified in the valid license
+     * @throws LicenseException on validation failure
+     */
+    static EditionType validateLicense(const std::string& licensePath) {
+        // Lese und validiere Lizenz-Datei
+        auto license = parseLicenseFile(licensePath);
+        
+        // Prüfe Signatur und Gültigkeit
+        if (!verifySignature(license)) {
+            throw LicenseException("Invalid license signature");
+        }
+        
+        if (license.expiryDate < getCurrentDate()) {
+            throw LicenseException("License expired");
+        }
+        
+        // Prüfe Edition-Match
+        #ifdef THEMIS_EDITION_ENTERPRISE
+            if (license.edition != Edition::ENTERPRISE) {
+                throw LicenseException("Enterprise binary requires Enterprise license");
+            }
+        #endif
+        
+        return license.edition;
+    }
+};
+```
+
+**Siehe auch:**
+- [EDITION_DEPLOYMENT_STRATEGY.md](EDITION_DEPLOYMENT_STRATEGY.md) - Vollständige Edition-Architektur
+- [EDITION_CONTROL_MECHANISMS.md](EDITION_CONTROL_MECHANISMS.md) - Technische Implementierung
+- [PRICING_MODEL_v1.3.5.md](PRICING_MODEL_v1.3.5.md) - Lizenzmodelle & Preise
 
 ---
 
@@ -834,6 +1160,10 @@ ThemisDB enthält Subsystem zur Versions-Überprüfung:
 
 ### Related Documentation
 
+- [Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md) - Alle verwendeten Libraries mit Vendor-Dokumentation
+- [Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md) - Alle CMake Schalter (61 Optionen)
+- [vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md) - Offline Build System Details
+- [Docker Deployment](DOCKER_DEPLOYMENT.md) - Container Deployment Guide
 - [Build Guide](../build/BUILDGUIDE.md) - Detaillierte Build-Anleitung
 - [Build System](../build/BUILD-SYSTEM.md) - Architektur-Übersicht
 - [Implementation Summary](../development/IMPLEMENTATION-SUMMARY.md) - Was/Warum/Wie
@@ -856,6 +1186,6 @@ ThemisDB enthält Subsystem zur Versions-Überprüfung:
 
 ---
 
-**Letzte Aktualisierung:** 12. Dezember 2025  
+**Letzte Aktualisierung:** 26. Dezember 2025  
 **Autor:** Build System v2.0 Implementation Team  
 **Status:** Production-Ready ✓
