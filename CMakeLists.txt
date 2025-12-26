@@ -1604,6 +1604,25 @@ if(THEMIS_BUILD_TESTS)
             tests/test_llm_response_cache.cpp
             tests/test_paged_attention.cpp
         )
+
+        # Lightweight LLM-only test target to avoid unrelated suite breakages
+        add_executable(themis_llm_tests
+            tests/test_llamacpp_integration.cpp
+        )
+        target_link_libraries(themis_llm_tests
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+                Boost::system
+        )
+            include(GoogleTest)
+        gtest_discover_tests(themis_llm_tests
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
     endif()
 
     # Discover individual GoogleTest tests for better CTest integration
