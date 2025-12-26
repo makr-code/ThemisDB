@@ -1,7 +1,7 @@
 # ThemisDB Build & Deployment Strategy
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 26. Dezember 2025  
+**Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready  
 **Architecture:** Offline-First vcpkg Build System
@@ -13,6 +13,8 @@
 - [Kernprinzip](#-kernprinzip-offline-first-vcpkg-strategy)
 - [Quick Start](#-quick-start)
 - [Plattform-Builds](#2-platform-spezifischer-build)
+- [Build-Dokumentation](#-build-dokumentation)
+- [Verwandte Dokumentation](#-verwandte-dokumentation)
 
 ## 🎯 Kernprinzip: Offline-First vcpkg Strategy
 
@@ -136,7 +138,7 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 
 ---
 
-## Build-Plattformen (v1.3.0) - **Stand: 21. Dezember 2025**
+## Build-Plattformen (v1.3.1) - **Stand: 26. Dezember 2025**
 
 | Platform | Triplet | Compiler | Target | Binary Size | Package Size | Status |
 |----------|---------|----------|--------|-------------|--------------|--------|
@@ -147,7 +149,7 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 | **QNAP NAS** | x64-linux | GCC 11.4 | QNAP x86_64 | ~30 MB | ~28 MB | 🧪 Beta |
 | **macOS** | arm64-osx / x64-osx | Clang | macOS 11+ (x64/ARM) | TBD | TBD | ⏳ Geplant |
 
-**v1.3.0 Modular Build Matrix:**
+**v1.3.1 Modular Build Matrix:**
 
 | Configuration | ENABLE_LLM | BUILD_RPC | ENABLE_CUDA | ENABLE_GPU | Binary Size | Build Time |
 |---------------|------------|-----------|-------------|------------|-------------|------------|
@@ -834,6 +836,10 @@ ThemisDB enthält Subsystem zur Versions-Überprüfung:
 
 ### Related Documentation
 
+- [Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md) - Alle verwendeten Libraries mit Vendor-Dokumentation
+- [Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md) - Alle CMake Schalter (61 Optionen)
+- [vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md) - Offline Build System Details
+- [Docker Deployment](DOCKER_DEPLOYMENT.md) - Container Deployment Guide
 - [Build Guide](../build/BUILDGUIDE.md) - Detaillierte Build-Anleitung
 - [Build System](../build/BUILD-SYSTEM.md) - Architektur-Übersicht
 - [Implementation Summary](../development/IMPLEMENTATION-SUMMARY.md) - Was/Warum/Wie
@@ -856,6 +862,6 @@ ThemisDB enthält Subsystem zur Versions-Überprüfung:
 
 ---
 
-**Letzte Aktualisierung:** 12. Dezember 2025  
+**Letzte Aktualisierung:** 26. Dezember 2025  
 **Autor:** Build System v2.0 Implementation Team  
 **Status:** Production-Ready ✓
