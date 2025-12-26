@@ -280,6 +280,51 @@ cmake --build build
 - [Deployment Strategy](deployment_strategy.md) - Build & Deployment
 - [vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md) - Offline Build System
 - [Docker Deployment](DOCKER_DEPLOYMENT.md) - Container Images
+- [README](README.md) - Deployment Dokumentations-Übersicht
+
+---
+
+## 🚀 Quick Reference
+
+### Häufig verwendete vcpkg Features
+
+```bash
+# LLM Support aktivieren
+cmake -B build -DTHEMIS_ENABLE_LLM=ON
+
+# GPU Support aktivieren (benötigt FAISS)
+cmake -B build -DTHEMIS_ENABLE_GPU=ON
+# vcpkg.json Feature: "gpu"
+
+# gRPC Support aktivieren
+cmake -B build -DTHEMIS_ENABLE_GRPC=ON
+# vcpkg.json Feature: "grpc"
+
+# HTTP/2 Support aktivieren
+cmake -B build -DTHEMIS_ENABLE_HTTP2=ON
+# vcpkg.json Feature: "http2"
+
+# HTTP/3 (QUIC) Support aktivieren
+cmake -B build -DTHEMIS_ENABLE_HTTP3=ON
+# vcpkg.json Feature: "http3"
+
+# MQTT Support aktivieren
+cmake -B build -DTHEMIS_ENABLE_MQTT=ON
+# vcpkg.json Feature: "mqtt"
+```
+
+### vcpkg.json Features nutzen
+
+```bash
+# Feature bei vcpkg install angeben
+vcpkg install themisdb[gpu,llm,grpc]
+
+# Oder in CMake über Feature-Flag
+cmake -B build \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_GRPC=ON
+```
 
 ---
 

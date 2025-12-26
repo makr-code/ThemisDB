@@ -663,3 +663,54 @@ cmake -B build \
   -DTHEMIS_BUILD_TESTS=OFF \
   -DTHEMIS_BUILD_BENCHMARKS=OFF
 ```
+
+---
+
+## 📖 Siehe auch
+
+- [Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md) - Alle Dependencies mit Vendor-Links
+- [Deployment Strategy](deployment_strategy.md) - Build & Deployment Prozesse
+- [vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md) - Dependency Management
+- [Docker Deployment](DOCKER_DEPLOYMENT.md) - Container Deployment
+- [README](README.md) - Deployment Dokumentations-Übersicht
+
+---
+
+## 📋 Option Index
+
+Schnellzugriff auf häufig genutzte Optionen:
+
+**Build-Typen:**
+- `THEMIS_BUILD_TESTS` - Unit Tests
+- `THEMIS_BUILD_BENCHMARKS` - Performance Tests
+- `THEMIS_EMBEDDED` - Lightweight Build
+- `THEMIS_STATIC_BUILD` - Static Linking
+- `THEMIS_QNAP_BUILD` - QNAP NAS
+
+**Performance:**
+- `THEMIS_ENABLE_MIMALLOC` - Fast Allocator (+10-20%)
+- `THEMIS_ENABLE_HUGE_PAGES` - Large Pages (+15-30%)
+- `THEMIS_ENABLE_RCU_INDEX` - Lock-Free Reads (+200-500%)
+- `THEMIS_ENABLE_LIRS_CACHE` - Better Cache (+30-40%)
+
+**Features:**
+- `THEMIS_ENABLE_LLM` - LLM Integration (llama.cpp)
+- `THEMIS_ENABLE_GPU` - GPU Acceleration (FAISS)
+- `THEMIS_ENABLE_CUDA` - NVIDIA CUDA
+- `THEMIS_ENABLE_GRPC` - gRPC Protocol
+
+**Protokolle:**
+- `THEMIS_ENABLE_HTTP2` - HTTP/2
+- `THEMIS_ENABLE_HTTP3` - HTTP/3 (QUIC)
+- `THEMIS_ENABLE_WEBSOCKET` - WebSocket
+- `THEMIS_ENABLE_MQTT` - MQTT (IoT)
+- `THEMIS_ENABLE_POSTGRES_WIRE` - PostgreSQL Wire Protocol
+
+**Editionen:**
+- `THEMIS_EDITION` - COMMUNITY | ENTERPRISE | HYPERSCALER
+- `THEMIS_ENTERPRISE` - Enterprise Bundle
+
+---
+
+**Letzte Aktualisierung:** 26. Dezember 2025  
+**Version:** v1.3.1
