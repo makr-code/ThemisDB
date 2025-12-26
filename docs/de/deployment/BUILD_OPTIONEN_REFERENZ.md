@@ -442,27 +442,125 @@ cmake -B build -DTHEMIS_ENABLE_CUDA=ON
 - **Standard:** COMMUNITY
 - **Werte:** `COMMUNITY`, `ENTERPRISE`, `HYPERSCALER`
 - **Beschreibung:** Compile-Time Edition Selection (v1.3.5+)
+- **Lizenz:** Enterprise/Hyperscaler benötigen gültige Lizenz
 
 ```bash
-# Community Edition (Standard)
+# Community Edition (Standard, Open Source)
 cmake -B build -DTHEMIS_EDITION=COMMUNITY
 
-# Enterprise Edition
+# Enterprise Edition (Commercial License erforderlich)
 cmake -B build -DTHEMIS_EDITION=ENTERPRISE
 
-# Hyperscaler Edition
+# Hyperscaler Edition (OEM/Cloud Partnership erforderlich)
 cmake -B build -DTHEMIS_EDITION=HYPERSCALER
 ```
+
+**Edition-Limits:**
+| Edition | GPU VRAM | Max Nodes | Lizenz |
+|---------|----------|-----------|--------|
+| COMMUNITY | 24 GB | 1 | MIT (Open Source) |
+| ENTERPRISE | 256 GB | 100 | Commercial Subscription |
+| HYPERSCALER | Unlimited | Unlimited | Custom OEM |
+
+**Build Scripts:**
+- `scripts/build-community-release.ps1` - Community Edition
+- `scripts/build-enterprise-release.ps1` - Enterprise Edition
+- `scripts/build-hyperscaler-release.ps1` - Hyperscaler Edition
+
+**Dokumentation:** [Edition Deployment Strategy](EDITION_DEPLOYMENT_STRATEGY.md)
 
 ### THEMIS_ENTERPRISE
 - **Typ:** BOOL
 - **Standard:** OFF
 - **Beschreibung:** Enterprise Capabilities Bundle
+- **Automatisch gesetzt:** Wenn `THEMIS_EDITION=ENTERPRISE`
 
 ### THEMIS_BUILD_ENTERPRISE_PLUGINS
 - **Typ:** BOOL
 - **Standard:** ON
 - **Beschreibung:** Enterprise Plugins bauen
+- **Enthält:** GPU Backends, Advanced Search, Compliance Audit
+
+### Enterprise-spezifische Optionen
+
+Die folgenden Optionen sind nur in **Enterprise** und **Hyperscaler** Editions verfügbar:
+
+#### THEMIS_ENABLE_MULTI_MASTER
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Enterprise, Hyperscaler
+- **Beschreibung:** Multi-Master Replication für HA
+- **Lizenz:** Enterprise License erforderlich
+
+```bash
+cmake -B build \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON
+```
+
+#### THEMIS_ENABLE_FIELD_ENCRYPTION
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Enterprise, Hyperscaler
+- **Beschreibung:** Field-Level Encryption
+- **Compliance:** GDPR, HIPAA, SOC2
+
+```bash
+cmake -B build \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON
+```
+
+#### THEMIS_ENABLE_RBAC
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Enterprise, Hyperscaler
+- **Beschreibung:** Role-Based Access Control
+- **Features:** Fine-grained Permissions, User Groups, Audit Logging
+
+```bash
+cmake -B build \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DTHEMIS_ENABLE_RBAC=ON
+```
+
+#### THEMIS_ENABLE_HSM
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Enterprise, Hyperscaler
+- **Beschreibung:** Hardware Security Module Integration
+- **Standards:** PKCS#11, FIPS 140-2
+
+```bash
+cmake -B build \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DTHEMIS_ENABLE_HSM=ON
+```
+
+### Hyperscaler-spezifische Optionen
+
+Die folgenden Optionen sind nur in **Hyperscaler** Edition verfügbar:
+
+#### THEMIS_ENABLE_HYPERSCALER_OPTIMIZATION
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Hyperscaler only
+- **Beschreibung:** Massive-Scale Optimierungen
+- **Features:** 1000+ Node Support, Cross-Region Replication
+
+#### THEMIS_ENABLE_ADVANCED_CDC
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Hyperscaler only
+- **Beschreibung:** Advanced Change Data Capture
+- **Features:** Real-time Sync, Auto-Rebalancing
+
+#### THEMIS_ENABLE_GPU_CLUSTER
+- **Typ:** BOOL
+- **Standard:** OFF
+- **Edition:** Hyperscaler only
+- **Beschreibung:** Multi-GPU Cluster Support
+- **Features:** Distributed GPU Processing, Unlimited VRAM
 
 ### THEMIS_ENABLE_LLM
 - **Typ:** BOOL

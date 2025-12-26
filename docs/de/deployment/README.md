@@ -21,8 +21,12 @@ ThemisDB nutzt eine **Offline-First vcpkg Build-Strategie** für reproduzierbare
 ### Kern-Dokumente
 
 1. **[Deployment Strategy](deployment_strategy.md)** - Übergeordnete Build & Deployment Strategie
+   - **NEU:** Edition-spezifische Build-Wege (Community, Enterprise, Hyperscaler)
+   - **NEU:** Lizenz-bedingte Build-Konfigurationen
+   - **NEU:** Edition-spezifische Metriken & Monitoring
 2. **[Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md)** ⭐ **NEU** - Alle Dependencies mit Vendor-Links
 3. **[Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md)** ⭐ **NEU** - Alle 61 CMake Schalter
+   - **NEU:** Enterprise/Hyperscaler-spezifische Optionen
 4. **[vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md)** - Offline-First Build-System
 5. **[Docker Build](DOCKER_DEPLOYMENT.md)** - Container-basiertes Deployment
 6. **[ARM/Raspberry Pi Build](deployment_arm_build.md)** - ARM64/ARMv7 Builds

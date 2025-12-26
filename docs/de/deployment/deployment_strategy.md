@@ -13,6 +13,7 @@
 - [Kernprinzip](#-kernprinzip-offline-first-vcpkg-strategy)
 - [Quick Start](#-quick-start)
 - [Plattform-Builds](#2-platform-spezifischer-build)
+- [Edition-spezifische Build-Strategie](#-edition-spezifische-build-strategie)
 - [Build-Dokumentation](#-build-dokumentation)
 - [Verwandte Dokumentation](#-verwandte-dokumentation)
 
@@ -158,6 +159,314 @@ cmake -B build -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_RPC_FRAMEWORK=ON -DTHEMIS_E
 | **LLM+GPU** | ON | OFF | ON | ON | ~300 MB | 30-35 min |
 | **LLM+RPC** | ON | ON | OFF | OFF | ~280 MB | 30-35 min |
 | **Full** | ON | ON | ON | ON | ~350 MB | 35-40 min |
+
+---
+
+## 🏢 Edition-spezifische Build-Strategie
+
+ThemisDB bietet **drei Editions-Modelle** mit unterschiedlichen Features, Lizenzmodellen und Build-Konfigurationen:
+
+### Edition-Übersicht
+
+| Edition | Lizenz | GPU VRAM Limit | Max. Nodes | Plugins | LLM Features | Build Script |
+|---------|--------|----------------|------------|---------|--------------|--------------|
+| **Community** | MIT (Open Source) | 24 GB | 1 (Single-Node) | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
+| **Enterprise** | Commercial Subscription | 256 GB | 100 (Sharding) | Enterprise Add-Ons | + Fine-Tuning, Model Mgmt | `build-enterprise-release.ps1` |
+| **Hyperscaler** | Custom OEM/Cloud | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
+
+### Community Edition Build
+
+**Zielgruppe:** Open Source Community, Startups, Entwicklung
+
+```powershell
+# Windows - Community Edition
+.\scripts\build-community-release.ps1 -Platform all -Configuration Release
+
+# Oder manuell mit CMake
+cmake -B build-community -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_EDITION=COMMUNITY `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_BUILD_TESTS=ON `
+  -DTHEMIS_BUILD_BENCHMARKS=ON `
+  -DTHEMIS_ENABLE_GPU=ON `
+  -DTHEMIS_ENABLE_TRACING=ON
+
+cmake --build build-community --config Release --parallel 8
+```
+
+**Linux - Community Edition:**
+```bash
+cmake -B build-community \
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+  -DTHEMIS_EDITION=COMMUNITY \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_LLM=ON
+
+cmake --build build-community -j$(nproc)
+```
+
+**Features (Community Edition):**
+- ✅ Kern-Datenbankfunktionalität (JSON, Graph, Vector, Time-Series)
+- ✅ LLM Core Features (Embedding, Similarity Search, Inference)
+- ✅ GPU Acceleration (bis 24 GB VRAM)
+- ✅ Basic Monitoring & Metrics (Prometheus/Grafana)
+- ❌ Keine Enterprise Plugins
+- ❌ Kein Sharding/Multi-Master
+- ❌ Kein RBAC/Field-Encryption
+
+### Enterprise Edition Build
+
+**Zielgruppe:** Mittlere bis große Unternehmen, Production Deployments
+
+**⚠️ LIZENZ ERFORDERLICH:** Enterprise Edition benötigt gültige Lizenz-Datei
+
+```powershell
+# Windows - Enterprise Edition
+.\scripts\build-enterprise-release.ps1 -Environment production -Configuration Release
+
+# Oder manuell mit CMake
+cmake -B build-enterprise -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_EDITION=ENTERPRISE `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_BUILD_TESTS=ON `
+  -DTHEMIS_BUILD_BENCHMARKS=ON `
+  -DTHEMIS_ENABLE_GPU=ON `
+  -DTHEMIS_ENABLE_TRACING=ON `
+  -DTHEMIS_ENABLE_LLM=ON `
+  -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON `
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON `
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON `
+  -DTHEMIS_ENABLE_RBAC=ON `
+  -DTHEMIS_ENABLE_HSM=ON
+
+cmake --build build-enterprise --config Release --parallel 8
+```
+
+**Linux - Enterprise Edition:**
+```bash
+cmake -B build-enterprise \
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" \
+  -DTHEMIS_EDITION=ENTERPRISE \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON \
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON \
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON \
+  -DTHEMIS_ENABLE_RBAC=ON \
+  -DTHEMIS_ENABLE_HSM=ON
+
+cmake --build build-enterprise -j$(nproc)
+```
+
+**Features (Enterprise Edition):**
+- ✅ Alle Community Features
+- ✅ Sharding & Horizontal Skalierung (bis 100 Nodes)
+- ✅ Multi-Master Replication
+- ✅ RBAC (Role-Based Access Control)
+- ✅ Field-Level Encryption
+- ✅ HSM Integration (Hardware Security Module)
+- ✅ Enterprise Plugins (GPU Backends, Advanced Search)
+- ✅ Advanced LLM Features (Fine-Tuning, Model Management)
+- ✅ Advanced Monitoring & Metrics (Custom Dashboards, Alerting)
+- ✅ Premium Support (SLA, 24/5)
+
+**Lizenz-Konfiguration:**
+```bash
+# Lizenz-Datei bereitstellen
+export THEMIS_LICENSE_FILE=/path/to/enterprise-license.lic
+
+# Oder in config.yaml
+license:
+  file: /etc/themis/enterprise-license.lic
+  type: enterprise
+  validation: strict
+```
+
+### Hyperscaler Edition Build
+
+**Zielgruppe:** Cloud Provider (AWS, Azure, GCP), Massive Scale Deployments
+
+**⚠️ CUSTOM LIZENZ:** Hyperscaler Edition nur über OEM/Cloud-Partnerschaften
+
+```powershell
+# Windows - Hyperscaler Edition
+.\scripts\build-hyperscaler-release.ps1 -Environment production -Configuration Release
+
+# Oder manuell mit CMake
+cmake -B build-hyperscaler -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_EDITION=HYPERSCALER `
+  -DCMAKE_BUILD_TYPE=Release `
+  -DTHEMIS_BUILD_TESTS=ON `
+  -DTHEMIS_BUILD_BENCHMARKS=ON `
+  -DTHEMIS_ENABLE_GPU=ON `
+  -DTHEMIS_ENABLE_TRACING=ON `
+  -DTHEMIS_ENABLE_LLM=ON `
+  -DTHEMIS_ENABLE_ENTERPRISE_PLUGINS=ON `
+  -DTHEMIS_ENABLE_MULTI_MASTER=ON `
+  -DTHEMIS_ENABLE_FIELD_ENCRYPTION=ON `
+  -DTHEMIS_ENABLE_RBAC=ON `
+  -DTHEMIS_ENABLE_HSM=ON `
+  -DTHEMIS_ENABLE_HYPERSCALER_OPTIMIZATION=ON `
+  -DTHEMIS_ENABLE_ADVANCED_CDC=ON `
+  -DTHEMIS_ENABLE_GPU_CLUSTER=ON
+
+cmake --build build-hyperscaler --config Release --parallel 8
+```
+
+**Features (Hyperscaler Edition):**
+- ✅ Alle Enterprise Features
+- ✅ Unbegrenzte GPU VRAM (Multi-GPU Cluster)
+- ✅ Unbegrenzte Nodes (1000+ Nodes)
+- ✅ GPU-optimierte Queries (Distributed GPU Processing)
+- ✅ Advanced CDC (Real-time Sync, Auto-Rebalancing)
+- ✅ Hyperscaler-spezifische Optimierungen
+- ✅ Custom Plugin System
+- ✅ White-Label Support
+- ✅ Dedicated Support (SLA, 24/7)
+
+### Edition Metriken & Monitoring
+
+Alle Editions unterstützen **Prometheus-Metriken**, aber mit unterschiedlichem Umfang:
+
+#### Community Edition Metriken
+```yaml
+# Basis-Metriken (Community)
+metrics:
+  enabled: true
+  exporter: prometheus
+  port: 9090
+  
+  # Verfügbare Metriken
+  basic_metrics:
+    - http_requests_total
+    - http_request_duration_seconds
+    - database_queries_total
+    - database_query_duration_seconds
+    - memory_usage_bytes
+    - cpu_usage_percent
+```
+
+#### Enterprise Edition Metriken
+```yaml
+# Erweiterte Metriken (Enterprise)
+metrics:
+  enabled: true
+  exporter: prometheus
+  port: 9090
+  
+  # Zusätzliche Enterprise-Metriken
+  enterprise_metrics:
+    - sharding_node_health
+    - replication_lag_seconds
+    - rbac_authorization_checks_total
+    - field_encryption_operations_total
+    - hsm_operations_total
+    - cache_hit_ratio
+    - query_plan_optimization_duration
+    
+  # Custom Dashboards
+  dashboards:
+    - grafana_enterprise_overview
+    - grafana_security_audit
+    - grafana_performance_deep_dive
+```
+
+#### Hyperscaler Edition Metriken
+```yaml
+# Vollständige Metriken (Hyperscaler)
+metrics:
+  enabled: true
+  exporter: prometheus
+  port: 9090
+  
+  # Alle Metriken + Hyperscaler-spezifisch
+  hyperscaler_metrics:
+    - gpu_cluster_utilization
+    - distributed_query_coordination
+    - cdc_replication_throughput
+    - auto_rebalancing_events
+    - cross_region_latency
+    - multi_tenant_isolation_score
+    
+  # Advanced Monitoring
+  telemetry:
+    opentelemetry: true
+    distributed_tracing: true
+    custom_exporters: ["datadog", "newrelic", "splunk"]
+```
+
+### Lizenz-Validierung zur Build-Zeit
+
+```cmake
+# CMakeLists.txt - Edition Validation
+if(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    # Prüfe Enterprise Lizenz zur Build-Zeit (optional)
+    if(DEFINED ENV{THEMIS_BUILD_LICENSE_KEY})
+        message(STATUS "Enterprise Build License: Verified")
+    else()
+        message(WARNING "No Enterprise Build License found. Runtime license required.")
+    endif()
+    
+    add_compile_definitions(
+        THEMIS_EDITION_ENTERPRISE=1
+        THEMIS_GPU_MAX_VRAM_GB=256
+        THEMIS_SHARDING_MAX_NODES=100
+    )
+    
+elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    # Hyperscaler benötigt spezielle Build-Lizenz
+    if(NOT DEFINED ENV{THEMIS_HYPERSCALER_BUILD_KEY})
+        message(FATAL_ERROR "Hyperscaler Edition requires THEMIS_HYPERSCALER_BUILD_KEY")
+    endif()
+    
+    add_compile_definitions(
+        THEMIS_EDITION_HYPERSCALER=1
+        THEMIS_GPU_MAX_VRAM_GB=0  # Unlimited
+        THEMIS_SHARDING_MAX_NODES=0  # Unlimited
+    )
+endif()
+```
+
+### Runtime Lizenz-Prüfung
+
+```cpp
+// src/license/license_validator.cpp
+class LicenseValidator {
+public:
+    static EditionType validateLicense(const std::string& licensePath) {
+        // Lese und validiere Lizenz-Datei
+        auto license = parseLicenseFile(licensePath);
+        
+        // Prüfe Signatur und Gültigkeit
+        if (!verifySignature(license)) {
+            throw LicenseException("Invalid license signature");
+        }
+        
+        if (license.expiryDate < getCurrentDate()) {
+            throw LicenseException("License expired");
+        }
+        
+        // Prüfe Edition-Match
+        #ifdef THEMIS_EDITION_ENTERPRISE
+            if (license.edition != Edition::ENTERPRISE) {
+                throw LicenseException("Enterprise binary requires Enterprise license");
+            }
+        #endif
+        
+        return license.edition;
+    }
+};
+```
+
+**Siehe auch:**
+- [EDITION_DEPLOYMENT_STRATEGY.md](EDITION_DEPLOYMENT_STRATEGY.md) - Vollständige Edition-Architektur
+- [EDITION_CONTROL_MECHANISMS.md](EDITION_CONTROL_MECHANISMS.md) - Technische Implementierung
+- [PRICING_MODEL_v1.3.5.md](PRICING_MODEL_v1.3.5.md) - Lizenzmodelle & Preise
 
 ---
 
