@@ -456,6 +456,9 @@ cmake -B build -DTHEMIS_EDITION=HYPERSCALER
 ```
 
 **Edition-Limits:**
+
+Siehe [Deployment Strategy - Edition-Übersicht](deployment_strategy.md#edition-übersicht) für vollständige Tabelle.
+
 | Edition | GPU VRAM | Max Nodes | Lizenz |
 |---------|----------|-----------|--------|
 | COMMUNITY | 24 GB | 1 | MIT (Open Source) |

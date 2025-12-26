@@ -171,7 +171,7 @@ ThemisDB bietet **drei Editions-Modelle** mit unterschiedlichen Features, Lizenz
 | Edition | Lizenz | GPU VRAM Limit | Max. Nodes | Plugins | LLM Features | Build Script |
 |---------|--------|----------------|------------|---------|--------------|--------------|
 | **Community** | MIT (Open Source) | 24 GB | 1 (Single-Node) | Core Only | Embedding, Similarity, Inference | `build-community-release.ps1` |
-| **Enterprise** | Commercial Subscription | 256 GB | 100 (Sharding) | Enterprise Add-Ons | + Fine-Tuning, Model Mgmt | `build-enterprise-release.ps1` |
+| **Enterprise** | Commercial Subscription | 256 GB | 100 (Sharding) | Enterprise Add-Ons | + Fine-Tuning, Model Management | `build-enterprise-release.ps1` |
 | **Hyperscaler** | Custom OEM/Cloud | Unlimited | Unlimited (10000+) | All + Custom | Full Advanced Features | `build-hyperscaler-release.ps1` |
 
 ### Community Edition Build
@@ -436,8 +436,23 @@ endif()
 
 ```cpp
 // src/license/license_validator.cpp
+/**
+ * LicenseValidator - Validates ThemisDB edition licenses at runtime
+ * 
+ * Reads and validates license files to ensure the binary edition matches
+ * the license edition and checks signature, expiry, and feature flags.
+ * 
+ * @throws LicenseException if validation fails (invalid signature, expired, edition mismatch)
+ */
 class LicenseValidator {
 public:
+    /**
+     * Validates a license file and returns the licensed edition
+     * 
+     * @param licensePath Full path to the license file
+     * @return EditionType The edition specified in the valid license
+     * @throws LicenseException on validation failure
+     */
     static EditionType validateLicense(const std::string& licensePath) {
         // Lese und validiere Lizenz-Datei
         auto license = parseLicenseFile(licensePath);
