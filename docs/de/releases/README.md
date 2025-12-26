@@ -28,8 +28,9 @@ ThemisDB Release-Dokumentation enthält:
 
 | Version | Datum | Dokumentation |
 |---------|-------|---------------|
-| v1.2.0 | Q2 2026 (geplant) | [Release Notes](./v1.2.0.md) |
-| v1.1.0 | Q1 2026 (geplant) | [Release Notes](./v1.1.0.md) |
+| v1.2.0 | 28.11.2025 | [Release Notes](./v1.2.0.md) |
+| v1.1.0 | 15.10.2025 | [Release Notes](./v1.1.0.md) |
+| v1.0.0 | 01.09.2025 | - |
 
 ## 📋 Release Notes
 
