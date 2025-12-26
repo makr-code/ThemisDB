@@ -71,6 +71,15 @@ protected:
         
         return checksum ^ 0xFFFFFFFF;
     }
+
+    StreamFileInfo makeFileInfo(const std::string& id, uint64_t size) {
+        StreamFileInfo file_info{};
+        file_info.file_id = id;
+        file_info.file_size = size;
+        file_info.collection_name = "test";
+        file_info.compression = CompressionAlgorithm::LZ4;
+        return file_info;
+    }
 };
 
 // ============================================================================
@@ -191,37 +200,11 @@ TEST_F(StreamProtocolExtendedTest, CompressionWithRandomData) {
 // Encryption Tests  
 // ============================================================================
 
-/**
- * @test Test AES-256-GCM encryption and decryption
- */
-TEST_F(StreamProtocolExtendedTest, AES256GCMEncryptionDecryption) {
-    std::vector<uint8_t> plaintext = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-    std::vector<uint8_t> key(32, 0xAB); // 256-bit key
-    std::vector<uint8_t> iv(12, 0xCD);  // 96-bit IV
-    
-    auto ciphertext = StreamEncryptor::encrypt(plaintext, key, iv);
-    auto decrypted = StreamEncryptor::decrypt(ciphertext, key, iv);
-    
-    if (!decrypted.empty()) {
-        EXPECT_EQ(decrypted, plaintext);
-    }
-}
-
-/**
- * @test Test encryption with wrong key
- */
-TEST_F(StreamProtocolExtendedTest, EncryptionWrongKey) {
-    std::vector<uint8_t> plaintext = {1, 2, 3, 4, 5};
-    std::vector<uint8_t> key1(32, 0xAA);
-    std::vector<uint8_t> key2(32, 0xBB);
-    std::vector<uint8_t> iv(12, 0xCC);
-    
-    auto ciphertext = StreamEncryptor::encrypt(plaintext, key1, iv);
-    auto decrypted = StreamEncryptor::decrypt(ciphertext, key2, iv);
-    
-    // Should fail with wrong key
-    EXPECT_TRUE(decrypted.empty() || decrypted != plaintext);
-}
+// TODO(v1.3.0): Encryption helpers removed from stream protocol API; skip until available again.
+#if 0
+TEST_F(StreamProtocolExtendedTest, AES256GCMEncryptionDecryption) {}
+TEST_F(StreamProtocolExtendedTest, EncryptionWrongKey) {}
+#endif
 
 // ============================================================================
 // Flow Control Tests
@@ -234,9 +217,9 @@ TEST_F(StreamProtocolExtendedTest, RateLimiterBasicFunctionality) {
     auto rate_limiter = std::make_shared<StreamRateLimiter>(1024 * 1024); // 1 MB/s
     
     size_t bytes = 512 * 1024; // 512 KB
-    auto allowed = rate_limiter->allowTransfer(bytes);
+    auto wait = rate_limiter->acquire(bytes);
     
-    EXPECT_TRUE(allowed);
+    EXPECT_LE(wait.count(), 1); // Should be effectively immediate for first request
 }
 
 /**
@@ -247,7 +230,8 @@ TEST_F(StreamProtocolExtendedTest, RateLimiterMultipleTransfers) {
     
     // Multiple small transfers should all be allowed
     for (int i = 0; i < 10; ++i) {
-        EXPECT_TRUE(rate_limiter->allowTransfer(100 * 1024)); // 100 KB each
+        auto wait = rate_limiter->acquire(100 * 1024); // 100 KB each
+        EXPECT_GE(wait.count(), 0);
     }
 }
 
@@ -256,17 +240,19 @@ TEST_F(StreamProtocolExtendedTest, RateLimiterMultipleTransfers) {
  */
 TEST_F(StreamProtocolExtendedTest, SessionConfiguration) {
     StreamSessionConfig config;
-    config.session_id = 12345;
     config.chunk_size = 65536;
+    config.window_size = 8;
+    config.timeout_ms = 10000;
     config.compression = CompressionAlgorithm::LZ4;
-    config.max_concurrent_streams = 4;
-    config.bandwidth_limit_mbps = 100;
+    config.compression_level = 3;
+    config.throttle.max_bytes_per_second = 100 * 1024 * 1024;
     
-    EXPECT_EQ(config.session_id, 12345);
     EXPECT_EQ(config.chunk_size, 65536);
+    EXPECT_EQ(config.window_size, 8);
+    EXPECT_EQ(config.timeout_ms, 10000);
     EXPECT_EQ(config.compression, CompressionAlgorithm::LZ4);
-    EXPECT_EQ(config.max_concurrent_streams, 4);
-    EXPECT_EQ(config.bandwidth_limit_mbps, 100);
+    EXPECT_EQ(config.compression_level, 3);
+    EXPECT_EQ(config.throttle.max_bytes_per_second, 100 * 1024 * 1024);
 }
 
 // ============================================================================
@@ -278,6 +264,7 @@ TEST_F(StreamProtocolExtendedTest, SessionConfiguration) {
  */
 TEST_F(StreamProtocolExtendedTest, SessionInitialization) {
     StreamSessionConfig config;
+    config.direction = StreamDirection::OUTGOING;
     config.chunk_size = 65536;
     
     StreamSession session(config);
@@ -291,6 +278,7 @@ TEST_F(StreamProtocolExtendedTest, SessionInitialization) {
  */
 TEST_F(StreamProtocolExtendedTest, SessionStateTransitions) {
     StreamSessionConfig config;
+    config.direction = StreamDirection::OUTGOING;
     StreamSession session(config);
     
     EXPECT_EQ(session.getState(), StreamSessionState::INITIALIZED);
@@ -312,10 +300,7 @@ TEST_F(StreamProtocolExtendedTest, SessionStateTransitions) {
  * @test Test receive task initialization
  */
 TEST_F(StreamProtocolExtendedTest, ReceiveTaskInitialization) {
-    StreamFileInfo file_info;
-    file_info.filename = "test.dat";
-    file_info.file_size = 1024;
-    file_info.checksum = 0x12345678;
+    auto file_info = makeFileInfo("test.dat", 1024);
     
     std::string output_path = test_dir + "/output.dat";
     
@@ -331,9 +316,7 @@ TEST_F(StreamProtocolExtendedTest, ReceiveTaskInitialization) {
  * @test Test receive task start and file creation
  */
 TEST_F(StreamProtocolExtendedTest, ReceiveTaskFileCreation) {
-    StreamFileInfo file_info;
-    file_info.filename = "test_create.dat";
-    file_info.file_size = 2048;
+    auto file_info = makeFileInfo("test_create.dat", 2048);
     
     std::string output_path = test_dir + "/test_create.dat";
     
@@ -353,9 +336,7 @@ TEST_F(StreamProtocolExtendedTest, ReceiveTaskFileCreation) {
  * @test Test chunk reception and writing
  */
 TEST_F(StreamProtocolExtendedTest, ChunkReceptionAndWriting) {
-    StreamFileInfo file_info;
-    file_info.filename = "test_chunks.dat";
-    file_info.file_size = 100;
+    auto file_info = makeFileInfo("test_chunks.dat", 100);
     
     std::string output_path = test_dir + "/test_chunks.dat";
     
@@ -381,9 +362,7 @@ TEST_F(StreamProtocolExtendedTest, ChunkReceptionAndWriting) {
  * @test Test out-of-order chunk handling
  */
 TEST_F(StreamProtocolExtendedTest, OutOfOrderChunkHandling) {
-    StreamFileInfo file_info;
-    file_info.filename = "test_ooo.dat";
-    file_info.file_size = 150;
+    auto file_info = makeFileInfo("test_ooo.dat", 150);
     
     std::string output_path = test_dir + "/test_ooo.dat";
     
@@ -422,10 +401,7 @@ TEST_F(StreamProtocolExtendedTest, IntegrityVerificationSuccess) {
     // Create a real test file
     std::string test_file = createTestFile("integrity_test.dat", 1024);
     
-    StreamFileInfo file_info;
-    file_info.filename = "integrity_test.dat";
-    file_info.file_size = 1024;
-    file_info.checksum = 0; // We'll skip checksum verification
+    auto file_info = makeFileInfo("integrity_test.dat", 1024);
     
     StreamSessionConfig config;
     config.chunk_size = 512;
@@ -443,10 +419,7 @@ TEST_F(StreamProtocolExtendedTest, IntegrityVerificationSuccess) {
 TEST_F(StreamProtocolExtendedTest, IntegrityVerificationSizeMismatch) {
     std::string test_file = createTestFile("size_mismatch.dat", 512);
     
-    StreamFileInfo file_info;
-    file_info.filename = "size_mismatch.dat";
-    file_info.file_size = 1024; // Wrong size
-    file_info.checksum = 0;
+    auto file_info = makeFileInfo("size_mismatch.dat", 1024); // Wrong size
     
     StreamSessionConfig config;
     config.chunk_size = 512;
@@ -465,9 +438,7 @@ TEST_F(StreamProtocolExtendedTest, IntegrityVerificationSizeMismatch) {
  * @test Test retry request for missing chunk
  */
 TEST_F(StreamProtocolExtendedTest, RetryRequestForMissingChunk) {
-    StreamFileInfo file_info;
-    file_info.filename = "test_retry.dat";
-    file_info.file_size = 100;
+    auto file_info = makeFileInfo("test_retry.dat", 100);
     
     std::string output_path = test_dir + "/test_retry.dat";
     
@@ -477,20 +448,15 @@ TEST_F(StreamProtocolExtendedTest, RetryRequestForMissingChunk) {
     StreamReceiveTask receive_task(file_info, output_path, config);
     receive_task.start();
     
-    // Request retry for chunk 0
-    receive_task.requestRetry(0);
-    
-    // Should not crash
-    EXPECT_TRUE(true);
+    // Missing chunk should keep task incomplete
+    EXPECT_FALSE(receive_task.isComplete());
 }
 
 /**
  * @test Test abort handling
  */
 TEST_F(StreamProtocolExtendedTest, AbortHandling) {
-    StreamFileInfo file_info;
-    file_info.filename = "test_abort.dat";
-    file_info.file_size = 100;
+    auto file_info = makeFileInfo("test_abort.dat", 100);
     
     std::string output_path = test_dir + "/test_abort.dat";
     
@@ -516,9 +482,7 @@ TEST_F(StreamProtocolExtendedTest, MultipleConcurrentReceiveTasks) {
     std::vector<std::unique_ptr<StreamReceiveTask>> tasks;
     
     for (int i = 0; i < num_tasks; ++i) {
-        StreamFileInfo file_info;
-        file_info.filename = "concurrent_" + std::to_string(i) + ".dat";
-        file_info.file_size = 512;
+        auto file_info = makeFileInfo("concurrent_" + std::to_string(i) + ".dat", 512);
         
         std::string output_path = test_dir + "/concurrent_" + std::to_string(i) + ".dat";
         

@@ -190,6 +190,52 @@ TEST_F(LlamaCppInferenceEngineTest, UnloadModel) {
     std::remove(test_file.c_str());
 }
 
+TEST_F(LlamaCppInferenceEngineTest, InferenceRuntimeBudget) {
+    // Ensure inference and initial GPU upload (when applicable) stay within expected budgets
+    std::string test_file = "/tmp/test_model_runtime.gguf";
+    std::ofstream file(test_file, std::ios::binary);
+    file.write("GGUF", 4);
+    uint32_t version = 3;
+    file.write(reinterpret_cast<const char*>(&version), sizeof(version));
+    std::vector<char> dummy(2048, 0);
+    file.write(dummy.data(), dummy.size());
+    file.close();
+
+    LlamaCppInferenceEngine engine(config_);
+
+    auto load_start = std::chrono::steady_clock::now();
+    ASSERT_TRUE(engine.loadModel(test_file, "runtime-model"));
+    auto load_end = std::chrono::steady_clock::now();
+    auto load_ms = std::chrono::duration_cast<std::chrono::milliseconds>(load_end - load_start).count();
+
+    // Loading may include VRAM upload; allow a more generous budget for that path
+    EXPECT_LT(load_ms, 2000);
+
+    InferenceRequest request;
+    request.request_id = "runtime-1";
+    request.prompt = "Say hello";
+    request.max_tokens = 32;
+
+    // Warm-up once to ensure caches and GPU residency where applicable
+    (void)engine.infer(request);
+
+    auto start = std::chrono::steady_clock::now();
+    InferenceResponse response = engine.infer(request);
+    auto end = std::chrono::steady_clock::now();
+    auto latency_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+    EXPECT_EQ(response.request_id, "runtime-1");
+    EXPECT_FALSE(response.text.empty());
+    EXPECT_GT(response.tokens_generated, 0);
+    EXPECT_GE(response.latency_ms, 0);
+
+    // Guardrail: steady-state inference should be fast (< 500ms)
+    EXPECT_LT(latency_ms, 500);
+
+    engine.unloadModel();
+    std::remove(test_file.c_str());
+}
+
 // Benchmark tests
 TEST(GGUFLoaderBenchmark, ParsePerformance) {
     // Simple performance test
