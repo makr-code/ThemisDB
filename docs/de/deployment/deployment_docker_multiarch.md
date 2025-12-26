@@ -1,7 +1,7 @@
 # ThemisDB Multi-Architecture Docker Build-Strategie
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 26. Dezember 2025  
+**Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment
 
 ---

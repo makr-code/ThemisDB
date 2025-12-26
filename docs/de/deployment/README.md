@@ -1,7 +1,7 @@
 # ThemisDB Deployment Documentation
 
-**Stand:** 22. Dezember 2025  
-**Version:** v1.3.0  
+**Stand:** 26. Dezember 2025  
+**Version:** v1.3.1  
 **Kategorie:** 🚀 Deployment  
 **Status:** Production-Ready
 
@@ -21,9 +21,15 @@ ThemisDB nutzt eine **Offline-First vcpkg Build-Strategie** für reproduzierbare
 ### Kern-Dokumente
 
 1. **[Deployment Strategy](deployment_strategy.md)** - Übergeordnete Build & Deployment Strategie
-2. **[vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md)** ⭐ **NEU** - Offline-First Build-System
-3. **[Docker Build](docker_build.md)** - Container-basiertes Deployment
-4. **[ARM/Raspberry Pi Build](deployment_arm_build.md)** - ARM64/ARMv7 Builds
+   - **NEU:** Edition-spezifische Build-Wege (Community, Enterprise, Hyperscaler)
+   - **NEU:** Lizenz-bedingte Build-Konfigurationen
+   - **NEU:** Edition-spezifische Metriken & Monitoring
+2. **[Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md)** ⭐ **NEU** - Alle Dependencies mit Vendor-Links
+3. **[Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md)** ⭐ **NEU** - Alle 61 CMake Schalter
+   - **NEU:** Enterprise/Hyperscaler-spezifische Optionen
+4. **[vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md)** - Offline-First Build-System
+5. **[Docker Build](DOCKER_DEPLOYMENT.md)** - Container-basiertes Deployment
+6. **[ARM/Raspberry Pi Build](deployment_arm_build.md)** - ARM64/ARMv7 Builds
 
 ---
 
@@ -76,17 +82,19 @@ sudo cmake --install build
 
 ## 📦 Build-Varianten
 
-ThemisDB bietet verschiedene Build-Konfigurationen für unterschiedliche Use-Cases:
+ThemisDB bietet verschiedene Build-Konfigurationen für unterschiedliche Use-Cases.
+
+**Siehe:** [Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md) für alle 61 CMake Schalter
 
 ### Minimal Build (~150 MB)
 ```bash
 cmake -B build \
   -DTHEMIS_ENABLE_LLM=OFF \
-  -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF \
+  -DTHEMIS_ENABLE_GRPC=OFF \
   -DCMAKE_BUILD_TYPE=Release
 ```
 
-### LLM Build (~250 MB)
+### Standard Build mit LLM (~250 MB)
 ```bash
 cmake -B build \
   -DTHEMIS_ENABLE_LLM=ON \
@@ -94,12 +102,23 @@ cmake -B build \
   -DCMAKE_BUILD_TYPE=Release
 ```
 
+### Performance-Optimiert
+```bash
+cmake -B build \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_MIMALLOC=ON \
+  -DTHEMIS_ENABLE_HUGE_PAGES=ON \
+  -DTHEMIS_ENABLE_RCU_INDEX=ON \
+  -DCMAKE_BUILD_TYPE=Release
+```
+
 ### Full Build (~350 MB)
 ```bash
 cmake -B build \
   -DTHEMIS_ENABLE_LLM=ON \
-  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
+  -DTHEMIS_ENABLE_GRPC=ON \
   -DTHEMIS_ENABLE_GPU=ON \
+  -DTHEMIS_ENABLE_HTTP2=ON \
   -DCMAKE_BUILD_TYPE=Release
 ```
 
@@ -142,22 +161,90 @@ tar -xzf themis-linux-x86_64.tar.gz
 
 ## Dokumentation in diesem Ordner
 
-| Datei | Beschreibung |
-|-------|--------------|
-| [deployment_strategy.md](deployment_strategy.md) | Deployment-Strategie |
-| [deployment_arm_build.md](deployment_arm_build.md) | ARM Build-Anleitung |
-| [deployment_arm_benchmarks.md](deployment_arm_benchmarks.md) | ARM Performance |
-| [deployment_arm_packages.md](deployment_arm_packages.md) | ARM Packages |
-| [deployment_docker_multiarch.md](deployment_docker_multiarch.md) | Multi-Arch Docker |
-| [deployment_cicd_multiarch.md](deployment_cicd_multiarch.md) | CI/CD Pipelines |
-| [deployment_qnap.md](deployment_qnap.md) | QNAP NAS Deployment |
-| [deployment_raspberry_tuning.md](deployment_raspberry_tuning.md) | Raspberry Pi Tuning |
-| [docker_build.md](docker_build.md) | Docker Build Guide |
-| [docker_status.md](docker_status.md) | Docker Status |
-| [QNAP_CPU_COMPATIBILITY.md](QNAP_CPU_COMPATIBILITY.md) | QNAP CPU Support |
+### Kern-Dokumentation (v1.3.1)
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| **[deployment_strategy.md](deployment_strategy.md)** | **Hauptdokument:** Build & Deployment Strategie | ✅ Aktuell |
+| **[BIBLIOTHEKEN_UBERSICHT.md](BIBLIOTHEKEN_UBERSICHT.md)** | **Alle Dependencies** mit Vendor-Links | ⭐ NEU |
+| **[BUILD_OPTIONEN_REFERENZ.md](BUILD_OPTIONEN_REFERENZ.md)** | **Alle 61 CMake Schalter** mit Beispielen | ⭐ NEU |
+| **[VCPKG_OFFLINE_STRATEGY.md](VCPKG_OFFLINE_STRATEGY.md)** | Offline-First Build System | ✅ Aktuell |
+| **[DOCKER_DEPLOYMENT.md](DOCKER_DEPLOYMENT.md)** | **Konsolidierter** Docker Container Deployment Guide | ✅ Aktuell, Konsolidiert |
+
+### Plattform-Spezifisch
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| [deployment_arm_build.md](deployment_arm_build.md) | ARM64/ARMv7 Build-Anleitung | ✅ Aktuell |
+| [deployment_arm_benchmarks.md](deployment_arm_benchmarks.md) | ARM Performance-Daten | ✅ Aktuell |
+| [deployment_arm_packages.md](deployment_arm_packages.md) | ARM Package-Management | ✅ Aktuell |
+| [deployment_qnap.md](deployment_qnap.md) | QNAP NAS Deployment | ✅ Aktuell |
+| [deployment_raspberry_tuning.md](deployment_raspberry_tuning.md) | Raspberry Pi Performance Tuning | ✅ Aktuell |
+| [QNAP_CPU_COMPATIBILITY.md](QNAP_CPU_COMPATIBILITY.md) | QNAP CPU Support Matrix | ✅ Aktuell |
+
+### CI/CD & Docker
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| [deployment_docker_multiarch.md](deployment_docker_multiarch.md) | Multi-Arch Docker Builds (Details) | ✅ Aktuell |
+| [deployment_cicd_multiarch.md](deployment_cicd_multiarch.md) | CI/CD Pipeline-Konfiguration | ✅ Aktuell |
+
+### Edition & Strategie
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| [EDITION_DEPLOYMENT_STRATEGY.md](EDITION_DEPLOYMENT_STRATEGY.md) | Multi-Edition Deployment | ✅ Aktuell |
+| [EDITION_CONTROL_MECHANISMS.md](EDITION_CONTROL_MECHANISMS.md) | Edition Control Implementation | ✅ Aktuell |
+| [v1.3.5_RELEASE_BUILD_STRATEGY.md](v1.3.5_RELEASE_BUILD_STRATEGY.md) | v1.3.5 Release-Planung | 📋 Geplant |
+| [80PERCENT_COVERAGE_STRATEGY.md](80PERCENT_COVERAGE_STRATEGY.md) | Community Edition Strategie | ✅ Aktuell |
+| [PRICING_MODEL_v1.3.5.md](PRICING_MODEL_v1.3.5.md) | Pricing Model | ✅ Aktuell |
+
+### Implementierungs-Reports
+
+| Datei | Beschreibung | Status |
+|-------|--------------|--------|
+| [PORT_REFERENCE.md](PORT_REFERENCE.md) | Port-Mapping Referenz | ✅ Aktuell |
+| [PORT_STANDARDIZATION.md](PORT_STANDARDIZATION.md) | Port-Standardisierung | ✅ Aktuell |
+
+### Archivierte Dokumente
+
+Historische Dokumentation (v1.3.0 Implementation Reports, konsolidierte Docker Docs) befindet sich in [archive/](archive/).
+
+**Konsolidiert:** docker_build.md und docker_status.md wurden in DOCKER_DEPLOYMENT.md zusammengeführt.
+
+---
 
 ## Verwandte Dokumentation
 
 - [Guides: Deployment](../guides/guides_deployment.md) - Deployment Guide
 - [Guides: Build Strategy](../guides/guides_build_strategy.md) - Build Toolchain
 - [CI/CD](../build/README.md) - CI/CD Workflows
+- [Architecture](../architecture/) - System Architecture Dokumentation
+- [Performance](../performance/) - Performance Optimierungen
+
+---
+
+## 🎯 Zusammenfassung
+
+Die Deployment-Dokumentation für ThemisDB v1.3.1 bietet:
+
+✅ **Vollständige Library-Übersicht** mit 17 Kern-Dependencies + optionale Features  
+✅ **61 CMake Build-Optionen** vollständig dokumentiert  
+✅ **Offline-First vcpkg Strategie** für reproduzierbare Builds  
+✅ **Multi-Plattform Support** (Windows, Linux, Docker, ARM, QNAP)  
+✅ **Vendor-Dokumentation verlinkt** für alle Dependencies  
+✅ **Best Practices** für Production, Development, Performance, IoT  
+✅ **Konsolidierte Docker-Dokumentation** für einfachere Navigation  
+✅ **Edition-spezifische Build-Strategien** (Community, Enterprise, Hyperscaler)  
+✅ **Historische Dokumente archiviert** für saubere Struktur  
+
+### Letzte Konsolidierung (v1.3.1)
+
+**26. Dezember 2025:** Docker-Dokumentation konsolidiert
+- `docker_build.md` → archiviert (Inhalte in DOCKER_DEPLOYMENT.md integriert)
+- `docker_status.md` → archiviert (Historischer Status-Report)
+- `DOCKER_DEPLOYMENT.md` → Erweitert mit Build-Strategien und Multi-Arch-Details
+
+**Letzte Aktualisierung:** 26. Dezember 2025  
+**Version:** v1.3.1  
+**Status:** Production-Ready ✅
