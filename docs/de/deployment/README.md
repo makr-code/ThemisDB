@@ -201,10 +201,14 @@ tar -xzf themis-linux-x86_64.tar.gz
 
 | Datei | Beschreibung | Status |
 |-------|--------------|--------|
-| [EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md) | Executive Summary v1.3.0 | ✅ Archiviert |
-| [IMPLEMENTATION_COMPLETED.md](IMPLEMENTATION_COMPLETED.md) | Implementation Status | ✅ Archiviert |
 | [PORT_REFERENCE.md](PORT_REFERENCE.md) | Port-Mapping Referenz | ✅ Aktuell |
 | [PORT_STANDARDIZATION.md](PORT_STANDARDIZATION.md) | Port-Standardisierung | ✅ Aktuell |
+
+### Archivierte Dokumente
+
+Historische Dokumentation (v1.3.0 Implementation Reports) befindet sich in [archive/](archive/).
+
+---
 
 ## Verwandte Dokumentation
 
