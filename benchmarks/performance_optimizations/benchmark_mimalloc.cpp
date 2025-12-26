@@ -5,6 +5,7 @@
 #include <performance/allocator.h>
 #include <vector>
 #include <random>
+#include <iostream>
 
 using namespace themis::memory;
 

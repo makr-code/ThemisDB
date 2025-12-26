@@ -6,6 +6,7 @@
 #include <vector>
 #include <random>
 #include <cstring>
+#include <iostream>
 
 using namespace themis::memory;
 

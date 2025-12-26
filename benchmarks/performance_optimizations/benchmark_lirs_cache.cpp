@@ -2,6 +2,7 @@
 #include <performance/lirs_cache.h>
 #include <random>
 #include <string>
+#include <iostream>
 
 using namespace themis::performance;
 

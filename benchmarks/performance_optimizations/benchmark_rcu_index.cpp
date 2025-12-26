@@ -7,6 +7,7 @@
 #include <vector>
 #include <random>
 #include <thread>
+#include <iostream>
 
 using namespace themis::rcu;
 
