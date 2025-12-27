@@ -1419,6 +1419,8 @@ if(THEMIS_BUILD_TESTS)
         tests/test_lib_openssl_integration.cpp
         tests/test_lib_json_integration.cpp
         tests/test_lib_hnsw_integration.cpp
+        tests/test_lib_boost_integration.cpp
+        tests/test_lib_tbb_integration.cpp
         tests/test_secondary_index.cpp
         tests/test_composite_index.cpp
         tests/test_unique_index.cpp
