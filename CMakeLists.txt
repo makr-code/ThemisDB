@@ -1414,6 +1414,11 @@ if(THEMIS_BUILD_TESTS)
         tests/test_base_entity.cpp
         tests/test_rocksdb_high_parallel_tuning.cpp
         tests/test_rocksdb_stats_json.cpp
+        # Library integration tests (systematic coverage)
+        tests/test_lib_rocksdb_integration.cpp
+        tests/test_lib_openssl_integration.cpp
+        tests/test_lib_json_integration.cpp
+        tests/test_lib_hnsw_integration.cpp
         tests/test_secondary_index.cpp
         tests/test_composite_index.cpp
         tests/test_unique_index.cpp
