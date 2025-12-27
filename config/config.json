@@ -1,6 +1,6 @@
 {
   "storage": {
-  "rocksdb_path": "C:\\VCC\\themis\\data\\themis_server",
+    "rocksdb_path": "/var/lib/themisdb/data",
     "memtable_size_mb": 256,
     "block_cache_size_mb": 1024,
     "enable_blobdb": true,
@@ -24,7 +24,7 @@
     "ef_search": 64,
     "use_gpu": false,
     "auto_save": true,
-    "save_path": "C:\\VCC\\themis\\data\\vector_indexes",
+    "save_path": "/var/lib/themisdb/vector_indexes",
     "save_on_shutdown": true,
     "load_on_startup": true
   },

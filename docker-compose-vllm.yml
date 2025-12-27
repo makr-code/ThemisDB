@@ -50,7 +50,7 @@ services:
       # - "3000:3000"   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
     
     volumes:
-      - themis_data:/data
+      - themis_data:/var/lib/themisdb
       - ./config:/app/config:ro
     
     networks:
