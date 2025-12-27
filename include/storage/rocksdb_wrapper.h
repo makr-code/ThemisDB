@@ -77,7 +77,7 @@ public:
         int level0_stop_writes_trigger = 36;         // Stop writes completely
         
         bool allow_concurrent_memtable_write = true;   // v1.3.0: Allow parallel writes to different memtables
-        bool enable_pipelined_write = true;            // v1.3.0: Pipeline writes for better parallelism
+        bool enable_pipelined_write = false;           // v1.3.0: Disabled for TransactionDB - pipelined_writes incompatible with concurrent prepares
         bool allow_unordered_write = false;            // Allow unordered writes (better concurrency)
         bool disable_wal_for_benchmark = false;        // WriteOptions::disableWAL for benchmark mode (NO fsync on writes!)
 
@@ -109,7 +109,7 @@ public:
             WritePrepared,
             WriteUnprepared
         };
-        WritePolicy write_policy = WritePolicy::WritePrepared;  // v1.3.0: Default for better lock granularity
+        WritePolicy write_policy = WritePolicy::WriteUnprepared;  // v1.3.0: Use WriteUnprepared for safe Snapshot Isolation + skip_prepare compatibility
         bool two_write_queues = true;           // Enable dual write queues (prepare/commit) - reduces lock contention
         uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
     };

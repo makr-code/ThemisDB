@@ -16,6 +16,7 @@
 #include <filesystem>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
+#include <iostream> // For debugging
 
 namespace themis {
 
@@ -177,7 +178,11 @@ void RocksDBWrapper::configureOptions() {
         // WRITE_COMMITTED requires this to be disabled for correctness
         options_->allow_concurrent_memtable_write = false;
     }
-    options_->enable_pipelined_write = config_.enable_pipelined_write;
+    // Pipelined writes sind mit Prepare/Concurrent Prepares in TransactionDB
+    // grundsätzlich inkompatibel. Da ThemisDB MVCC/Transaktionen auch für
+    // mehrstufige Updates (CFs, Indizes) nutzt, deaktivieren wir sie global.
+    // Siehe RocksDB: "pipelined_writes is not compatible with concurrent prepares".
+    options_->enable_pipelined_write = false;
     // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
     
     // WAL Configuration
@@ -226,6 +231,8 @@ void RocksDBWrapper::configureOptions() {
     
     // Set transaction options for optimistic concurrency control
     txn_options_->set_snapshot = true; // Automatically create snapshot on begin
+    // Use single-phase commit; do not require Prepare() for Commit
+    txn_options_->skip_prepare = true;
     
     // v1.3.0 Phase 2: Configure BlobDB for large values (>1KB)
     // BlobDB separates keys from values, reducing write amplification for large blobs
@@ -398,30 +405,44 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
 }
 
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
+    std::cout << "[DEBUG] RocksDBWrapper::put called with key: " << std::string(key) << std::endl;
+    
     if (!db_) {
+        std::cout << "[DEBUG] RocksDBWrapper::put: db_ is null" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put: db_ is null");
         return false;
     }
+    
+    std::cout << "[DEBUG] RocksDBWrapper::put: calling beginTransaction()" << std::endl;
     
     // TransactionDB requires all writes to go through transactions for MVCC semantics
     // Always use transaction-based writes for consistency and correctness
     auto txn = beginTransaction();
     if (!txn) {
+        std::cout << "[DEBUG] RocksDBWrapper::put: beginTransaction() returned nullptr" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put: failed to begin transaction");
         return false;
     }
     
+    std::cout << "[DEBUG] RocksDBWrapper::put: calling txn->put()" << std::endl;
+    
     if (!txn->put(key, value)) {
+        std::cout << "[DEBUG] RocksDBWrapper::put: txn->put() returned false" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put (transaction): put failed");
         txn->rollback();
         return false;
     }
     
+    std::cout << "[DEBUG] RocksDBWrapper::put: calling txn->commit()" << std::endl;
+    
     if (!txn->commit()) {
+        std::cout << "[DEBUG] RocksDBWrapper::put: txn->commit() returned false" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put (transaction): commit failed");
         txn->rollback();
         return false;
     }
+    
+    std::cout << "[DEBUG] RocksDBWrapper::put: SUCCESS" << std::endl;
     
     return true;
 }
@@ -578,7 +599,25 @@ bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
 }
 
 bool RocksDBWrapper::TransactionWrapper::commit() {
-    if (!txn_ || !active_) return false;
+    if (!txn_ || !active_) {
+        std::cout << "[DEBUG] TransactionWrapper::commit: txn_ null or inactive" << std::endl;
+        return false;
+    }
+    // If WritePrepared is active or skip_prepare is false, ensure Prepare() is called
+    bool require_prepare = false;
+    if (db_) {
+        // Only require prepare when skip_prepare is explicitly disabled
+        require_prepare = (db_->txn_options_ && !db_->txn_options_->skip_prepare);
+    }
+    if (require_prepare && !prepared_) {
+        rocksdb::Status prep_st = txn_->Prepare();
+        if (!prep_st.ok()) {
+            THEMIS_ERROR("Transaction prepare failed before commit: {}", prep_st.ToString());
+            std::cout << "[DEBUG] TransactionWrapper::commit: Prepare failed: " << prep_st.ToString() << std::endl;
+            return false;
+        }
+        prepared_ = true;
+    }
     
     rocksdb::Status status = txn_->Commit();
     active_ = false;
@@ -586,13 +625,16 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
     if (!status.ok()) {
         if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
             THEMIS_WARN("MVCC Conflict detected: {} - Transaction must be retried", status.ToString());
+            std::cout << "[DEBUG] TransactionWrapper::commit: conflict: " << status.ToString() << std::endl;
         } else {
             THEMIS_ERROR("Transaction commit failed: {}", status.ToString());
+            std::cout << "[DEBUG] TransactionWrapper::commit: failed: " << status.ToString() << std::endl;
         }
         return false;
     }
     
     THEMIS_DEBUG("MVCC Transaction committed successfully");
+    std::cout << "[DEBUG] TransactionWrapper::commit: SUCCESS" << std::endl;
     return true;
 }
 

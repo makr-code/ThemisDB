@@ -1621,6 +1621,25 @@ if(THEMIS_BUILD_TESTS)
             Boost::system
     )
 
+    # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
+    add_executable(themis_secidx_tests
+        tests/test_secondary_index.cpp
+    )
+    target_link_libraries(themis_secidx_tests
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+            Boost::system
+    )
+    include(GoogleTest)
+    gtest_discover_tests(themis_secidx_tests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
     # Conditionally add LLM tests only when LLM is enabled
     if(THEMIS_ENABLE_LLM)
         target_sources(themis_tests PRIVATE
