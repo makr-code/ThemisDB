@@ -38,14 +38,22 @@ echo "[entrypoint] Config path: ${TARGET_CONFIG}"
 echo "[entrypoint] Server: ${HOST}:${PORT}"
 
 # Ensure persistent directories exist with proper ownership
-mkdir -p "${DATA_DIR}" "${ROCKSDB_PATH}" "${VECTOR_INDEX_PATH}" "${LOG_DIR}" || true
-chmod 755 "${DATA_DIR}" "${ROCKSDB_PATH}" "${VECTOR_INDEX_PATH}" "${LOG_DIR}" || true
+if ! mkdir -p "${DATA_DIR}" "${ROCKSDB_PATH}" "${VECTOR_INDEX_PATH}" "${LOG_DIR}"; then
+  echo "[entrypoint] Error: Failed to create data directories" >&2
+  exit 1
+fi
+
+if ! chmod 755 "${DATA_DIR}" "${ROCKSDB_PATH}" "${VECTOR_INDEX_PATH}" "${LOG_DIR}"; then
+  echo "[entrypoint] Warning: Failed to set permissions on data directories" >&2
+fi
 
 # Set ownership to themis user if running as root
 if [ "$(id -u)" = "0" ]; then
   if id -u themis >/dev/null 2>&1; then
     echo "[entrypoint] Setting ownership to themis user..."
-    chown -R themis:themis "${DATA_DIR}" "${LOG_DIR}" 2>/dev/null || true
+    if ! chown -R themis:themis "${DATA_DIR}" "${LOG_DIR}" 2>/dev/null; then
+      echo "[entrypoint] Warning: Failed to change ownership (may not be mounted with correct permissions)" >&2
+    fi
   fi
 fi
 
@@ -143,7 +151,7 @@ if [ "$(id -u)" = "0" ]; then
     exec runuser -u themis -- /usr/local/bin/themis_server --config "$TARGET_CONFIG" "$@"
   elif command -v su >/dev/null 2>&1 && id -u themis >/dev/null 2>&1; then
     echo "[entrypoint] Switching to themis user (using su)..."
-    exec su -s /bin/sh themis -c "exec /usr/local/bin/themis_server --config '$TARGET_CONFIG' $*"
+    exec su -s /bin/sh themis -c "exec /usr/local/bin/themis_server --config '$TARGET_CONFIG' \"\$@\"" -- "$@"
   else
     echo "[entrypoint] Warning: cannot drop privileges to 'themis' user. Running as root." >&2
     exec /usr/local/bin/themis_server --config "$TARGET_CONFIG" "$@"
