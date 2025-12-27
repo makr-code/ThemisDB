@@ -159,9 +159,12 @@ RUN --mount=type=bind,from=llama,src=/,target=/tmp/llama-src \
 # Build argument for QNAP compatibility (older CPUs without AVX)
 ARG QNAP_BUILD=OFF
 
+# Build argument for ThemisDB Edition: COMMUNITY (default), ENTERPRISE, or HYPERSCALER
+ARG THEMIS_EDITION=COMMUNITY
+
 # Build ThemisDB with optimized triplet detection
 RUN . /etc/profile.d/vcpkg.sh && \
-    echo "=== Building for ${VCPKG_TRIPLET:-x64-linux} ===" && \
+    echo "=== Building ThemisDB ${THEMIS_EDITION} Edition for ${VCPKG_TRIPLET:-x64-linux} ===" && \
     cmake -S . -B build -G Ninja \
         -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja \
         -DCMAKE_C_COMPILER=/usr/bin/gcc \
@@ -178,6 +181,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
         -DTHEMIS_STATIC_BUILD=OFF \
+        -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} 2>&1 | tee /tmp/cmake_config.log && \
     ninja -C build 2>&1 | tee /tmp/cmake_build.log && \
     ls -lh /src/build/themis_server
@@ -188,9 +192,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Image metadata
 ARG THEMIS_VERSION
-LABEL org.opencontainers.image.title="ThemisDB" \
-    org.opencontainers.image.description="ThemisDB server image" \
-    org.opencontainers.image.version="$THEMIS_VERSION"
+ARG THEMIS_EDITION=COMMUNITY
+LABEL org.opencontainers.image.title="ThemisDB ${THEMIS_EDITION} Edition" \
+    org.opencontainers.image.description="ThemisDB ${THEMIS_EDITION} Edition server image" \
+    org.opencontainers.image.version="$THEMIS_VERSION" \
+    org.opencontainers.image.edition="$THEMIS_EDITION"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates curl libstdc++6 jq \
@@ -279,6 +285,7 @@ ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
 ENV THEMIS_DATA_DIR=/var/lib/themisdb
 ENV THEMIS_PORT=18765
 ENV THEMIS_HOST=0.0.0.0
+ENV THEMIS_EDITION=${THEMIS_EDITION}
 
 # Storage configuration
 ENV THEMIS_ROCKSDB_PATH=/var/lib/themisdb/data

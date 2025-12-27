@@ -107,14 +107,25 @@ docker run -d \
 
 ## Verfügbare Tags
 
-| Tag | Architektur | Base Image | Einsatz |
-|-----|-------------|------------|---------|
-| `latest` | amd64, arm64 | Ubuntu 22.04 | **Empfohlen** - Neueste stabile Version |
-| `1.3.0` | amd64, arm64 | Ubuntu 22.04 | Stabile Release (Dez 2025) - LLM-Support |
-| `1.3` | amd64, arm64 | Ubuntu 22.04 | Minor Version Track |
-| `1.2.0` | amd64, arm64 | Ubuntu 22.04 | Vorherige stabile Version |
-| `qnap` | amd64 | Ubuntu 20.04 | **QNAP NAS** optimiert (SSE4.2 Baseline) |
-| `1.3.0-qnap` | amd64 | Ubuntu 20.04 | QNAP v1.3.0 Release |
+### Editionen
+
+ThemisDB ist in 3 Editionen verfügbar:
+- **Community** (Standard) - Open Source Edition
+- **Enterprise** - Erweiterte Features für Unternehmen
+- **Hyperscaler** - Cloud-optimierte Edition
+
+| Tag | Edition | Architektur | Base Image | Einsatz |
+|-----|---------|-------------|------------|---------|
+| `latest` | Community | amd64, arm64 | Ubuntu 22.04 | **Empfohlen** - Neueste Community Version |
+| `1.3.0-community` | Community | amd64, arm64 | Ubuntu 22.04 | Stabile Community Release (Dez 2025) |
+| `1.3.0-enterprise` | Enterprise | amd64, arm64 | Ubuntu 22.04 | Enterprise Edition mit Advanced Features |
+| `1.3.0-hyperscaler` | Hyperscaler | amd64, arm64 | Ubuntu 22.04 | Cloud-optimierte Edition |
+| `1.3.0-community-llm` | Community + LLM | amd64, arm64 | Ubuntu 22.04 | Mit llama.cpp Integration |
+| `1.3.0-enterprise-llm` | Enterprise + LLM | amd64, arm64 | Ubuntu 22.04 | Enterprise + LLM Support |
+| `1.3` | Community | amd64, arm64 | Ubuntu 22.04 | Minor Version Track |
+| `1.2.0` | Community | amd64, arm64 | Ubuntu 22.04 | Vorherige stabile Version |
+| `qnap` | Community | amd64 | Ubuntu 20.04 | **QNAP NAS** optimiert (SSE4.2 Baseline) |
+| `1.3.0-qnap` | Community | amd64 | Ubuntu 20.04 | QNAP v1.3.0 Release |
 
 **Multi-Architektur-Unterstützung:**
 - `linux/amd64` - Intel/AMD x64 Prozessoren
@@ -594,6 +605,46 @@ docker build \
 - Dokumentation & OpenAPI Specs
 - Client SDKs & Beispiele
 - Plugin-Signer Tools
+
+---
+
+## Eigene Builds - Multi-Edition
+
+### Build-Argumente
+
+```bash
+# Standard Community Build
+docker build -t themisdb:custom .
+
+# Enterprise Edition
+docker build -t themisdb:enterprise \
+  --build-arg THEMIS_EDITION=ENTERPRISE .
+
+# Hyperscaler Edition
+docker build -t themisdb:hyperscaler \
+  --build-arg THEMIS_EDITION=HYPERSCALER .
+
+# Mit LLM Support (llama.cpp)
+docker build -t themisdb:community-llm \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --build-arg ENABLE_LLM=ON .
+```
+
+### Multi-Architektur Builds
+
+```bash
+# Setup (einmalig)
+docker buildx create --name multiarch --use
+
+# Build für AMD64 + ARM64
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t themisdb:1.3.0-community \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --push .
+```
+
+**📖 Vollständige Build-Anleitung:** Siehe [../docs/DOCKER_MULTI_EDITION_BUILD.md](../docs/DOCKER_MULTI_EDITION_BUILD.md)
 
 ---
 
