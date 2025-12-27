@@ -3,6 +3,7 @@ services:
   themisdb:
     image: themisdb:1.3.0
     container_name: themisdb-server
+    restart: unless-stopped
     ports:
       # Core ports (always available)
       - "8080:8080"     # HTTP/1.1 REST API, GraphQL, HTTP/2 (if enabled)
@@ -22,6 +23,20 @@ services:
       THEMIS_PORT: "18765"
       THEMIS_CONFIG_PATH: "/etc/themis/config.json"
       THEMIS_DATA_DIR: "/var/lib/themisdb"
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+        labels: "production"
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
       interval: 10s

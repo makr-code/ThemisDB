@@ -329,6 +329,10 @@ EXPOSE 4318   # OpenTelemetry/Prometheus metrics (OTLP)
 # EXPOSE 5432   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
 # EXPOSE 3000   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
 
+# Health check for container orchestration
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
 # Note: Container starts as root, entrypoint.sh will switch to themis user after setup
 # This allows proper directory creation and ownership setup on first run
 
