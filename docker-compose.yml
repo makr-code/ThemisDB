@@ -3,6 +3,7 @@ services:
   themisdb:
     image: themisdb:1.3.0
     container_name: themisdb-server
+    restart: unless-stopped
     ports:
       # Core ports (always available)
       - "8080:8080"     # HTTP/1.1 REST API, GraphQL, HTTP/2 (if enabled)
@@ -16,14 +17,34 @@ services:
       # - "5432:5432"   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
       # - "3000:3000"   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
     volumes:
-      - ./data:/data
+      - themisdb_data:/var/lib/themisdb
       - ./config/config.json:/etc/themis/config.json:ro
     environment:
       THEMIS_PORT: "18765"
       THEMIS_CONFIG_PATH: "/etc/themis/config.json"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+        labels: "production"
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:8080/health || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 10
       start_period: 10s
+
+# Named volumes for persistent data (PostgreSQL-style best practice)
+volumes:
+  themisdb_data:
+    driver: local

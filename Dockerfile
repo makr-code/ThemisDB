@@ -159,9 +159,12 @@ RUN --mount=type=bind,from=llama,src=/,target=/tmp/llama-src \
 # Build argument for QNAP compatibility (older CPUs without AVX)
 ARG QNAP_BUILD=OFF
 
+# Build argument for ThemisDB Edition: COMMUNITY (default), ENTERPRISE, or HYPERSCALER
+ARG THEMIS_EDITION=COMMUNITY
+
 # Build ThemisDB with optimized triplet detection
 RUN . /etc/profile.d/vcpkg.sh && \
-    echo "=== Building for ${VCPKG_TRIPLET:-x64-linux} ===" && \
+    echo "=== Building ThemisDB ${THEMIS_EDITION} Edition for ${VCPKG_TRIPLET:-x64-linux} ===" && \
     cmake -S . -B build -G Ninja \
         -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja \
         -DCMAKE_C_COMPILER=/usr/bin/gcc \
@@ -178,6 +181,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_QNAP_BUILD=${QNAP_BUILD} \
         -DTHEMIS_STATIC_BUILD=OFF \
+        -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} 2>&1 | tee /tmp/cmake_config.log && \
     ninja -C build 2>&1 | tee /tmp/cmake_build.log && \
     ls -lh /src/build/themis_server
@@ -188,16 +192,26 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Image metadata
 ARG THEMIS_VERSION
-LABEL org.opencontainers.image.title="ThemisDB" \
-    org.opencontainers.image.description="ThemisDB server image" \
-    org.opencontainers.image.version="$THEMIS_VERSION"
+ARG THEMIS_EDITION=COMMUNITY
+LABEL org.opencontainers.image.title="ThemisDB ${THEMIS_EDITION} Edition" \
+    org.opencontainers.image.description="ThemisDB ${THEMIS_EDITION} Edition server image" \
+    org.opencontainers.image.version="$THEMIS_VERSION" \
+    org.opencontainers.image.edition="$THEMIS_EDITION"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl libstdc++6 \
+    ca-certificates curl libstdc++6 jq \
     && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user 'themis' (following PostgreSQL best practice: postgres user with uid 999)
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis --uid=999 --home-dir=/var/lib/themisdb --shell=/bin/bash themis
 
 # Copy built binary
 COPY --from=build /src/build/themis_server /usr/local/bin/themis_server
+
+# Copy entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy configuration files
 COPY config/config.json /etc/themis/config.json
@@ -205,6 +219,10 @@ COPY config/*.yaml /etc/themis/
 COPY config/policies.json /etc/themis/
 COPY config/processors /etc/themis/processors
 COPY config/schemas /etc/themis/schemas
+
+# Ensure config files are readable by themis user
+RUN chown -R themis:themis /etc/themis && \
+    chmod -R 755 /etc/themis
 
 # Copy documentation
 COPY README.md LICENSE CHANGELOG.md SECURITY.md /usr/local/share/themis/docs/
@@ -254,17 +272,49 @@ RUN VCPKG_TRIPLET_COPY="${VCPKG_TRIPLET:-x64-linux}"; \
 # Setup runtime environment
 RUN mkdir -p /etc/themis /usr/local/share/themis
 
-# Setup runtime environment
-RUN mkdir -p /data /var/log/themis && \
+# Setup data directories with proper ownership (PostgreSQL-style: /var/lib/postgresql/data -> /var/lib/themisdb)
+RUN mkdir -p /var/lib/themisdb /var/lib/themisdb/data /var/lib/themisdb/vector_indexes /var/log/themis && \
+    chown -R themis:themis /var/lib/themisdb /var/log/themis && \
+    chmod 755 /var/lib/themisdb /var/log/themis && \
     chmod +x /usr/local/bin/themis_server && \
     ldconfig
 
+# Preconfigured environment variables (can be overridden at runtime)
+# Core configuration
 ENV THEMIS_CONFIG_PATH=/etc/themis/config.json
+ENV THEMIS_DATA_DIR=/var/lib/themisdb
 ENV THEMIS_PORT=18765
+ENV THEMIS_HOST=0.0.0.0
+ENV THEMIS_EDITION=${THEMIS_EDITION}
+
+# Storage configuration
+ENV THEMIS_ROCKSDB_PATH=/var/lib/themisdb/data
+ENV THEMIS_VECTOR_INDEX_PATH=/var/lib/themisdb/vector_indexes
+ENV THEMIS_MEMTABLE_SIZE_MB=256
+ENV THEMIS_BLOCK_CACHE_SIZE_MB=1024
+
+# Server configuration
+ENV THEMIS_WORKER_THREADS=8
+
+# Logging configuration
+ENV THEMIS_LOG_LEVEL=info
+ENV THEMIS_LOG_DIR=/var/log/themis
+
+# Feature flags
+ENV THEMIS_ENABLE_TRACING=false
+ENV THEMIS_ENABLE_SEMANTIC_CACHE=true
+ENV THEMIS_ENABLE_LLM_STORE=true
+ENV THEMIS_ENABLE_CDC=true
+ENV THEMIS_ENABLE_TIMESERIES=true
+
+# OpenTelemetry/Metrics
+ENV THEMIS_OTLP_ENDPOINT=http://localhost:4318
+ENV THEMIS_SERVICE_NAME=themis-server
+
 # Ensure runtime libraries are discoverable without relying on pre-set LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH=/usr/local/lib/themisdb:/usr/local/lib
 
-VOLUME ["/data"]
+VOLUME ["/var/lib/themisdb"]
 
 # Port mappings for all interfaces (optional ones require explicit build flags)
 # Core ports (always available):
@@ -279,5 +329,12 @@ EXPOSE 4318   # OpenTelemetry/Prometheus metrics (OTLP)
 # EXPOSE 5432   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
 # EXPOSE 3000   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
 
-ENTRYPOINT ["/usr/local/bin/themis_server"]
-CMD ["--config", "/etc/themis/config.json"]
+# Health check for container orchestration
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+# Note: Container starts as root, entrypoint.sh will switch to themis user after setup
+# This allows proper directory creation and ownership setup on first run
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD []

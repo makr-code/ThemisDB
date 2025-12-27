@@ -23,13 +23,13 @@ ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM
 # Image herunterladen
 docker pull themisdb/themisdb:1.3.0
 
-# ThemisDB starten
+# ThemisDB starten (mit Named Volume - Best Practice)
 docker run -d \
   --name themis \
   -p 8080:8080 \
-  -p 8765:8765 \
+  -p 18765:18765 \
   -p 4318:4318 \
-  -v themis_data:/data \
+  -v themisdb_data:/var/lib/themisdb \
   themisdb/themisdb:1.3.0
 
 # Verifyieren Sie den Start
@@ -53,7 +53,7 @@ curl http://localhost:8080/health
 **📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](../docs/deployment/PORT_REFERENCE.md) for detailed documentation.
 
 **Volume:**
-- `/data` - Datenbankdateien (müssen persistent sein!)
+- `/var/lib/themisdb` - Datenbankdateien (PostgreSQL-Style: persistent und als Named Volume!)
 
 **Schnelle Überprüfung:**
 ```bash
@@ -64,16 +64,68 @@ curl http://localhost:8080/health
 
 ---
 
+## Umgebungsvariablen (Environment Variables)
+
+ThemisDB unterstützt umfangreiche Konfiguration über Umgebungsvariablen (PostgreSQL-Style):
+
+### Core Configuration
+- `THEMIS_DATA_DIR` - Hauptdatenverzeichnis (default: `/var/lib/themisdb`, ähnlich wie `PGDATA`)
+- `THEMIS_PORT` - Server Port (default: `18765`)
+- `THEMIS_HOST` - Server Host (default: `0.0.0.0`)
+- `THEMIS_WORKER_THREADS` - Worker Threads (default: `8`)
+
+### Storage Configuration
+- `THEMIS_ROCKSDB_PATH` - RocksDB Pfad (default: `${THEMIS_DATA_DIR}/data`)
+- `THEMIS_VECTOR_INDEX_PATH` - Vektorindex Pfad (default: `${THEMIS_DATA_DIR}/vector_indexes`)
+- `THEMIS_MEMTABLE_SIZE_MB` - Memtable Größe (default: `256`)
+- `THEMIS_BLOCK_CACHE_SIZE_MB` - Block Cache Größe (default: `1024`)
+
+### Feature Flags
+- `THEMIS_ENABLE_TRACING` - OpenTelemetry Tracing (default: `false`)
+- `THEMIS_ENABLE_SEMANTIC_CACHE` - Semantic Cache (default: `true`)
+- `THEMIS_ENABLE_LLM_STORE` - LLM Store (default: `true`)
+- `THEMIS_ENABLE_CDC` - Change Data Capture (default: `true`)
+- `THEMIS_ENABLE_TIMESERIES` - Timeseries Support (default: `true`)
+
+**📖 Vollständige ENV-Referenz:** Siehe [../docs/DOCKER_ENV_VARIABLES.md](../docs/DOCKER_ENV_VARIABLES.md)
+
+### Beispiel mit ENV-Variablen
+```bash
+docker run -d \
+  --name themis \
+  -p 8080:8080 \
+  -p 18765:18765 \
+  -e THEMIS_WORKER_THREADS=16 \
+  -e THEMIS_MEMTABLE_SIZE_MB=512 \
+  -e THEMIS_ENABLE_TRACING=true \
+  -e THEMIS_OTLP_ENDPOINT=http://jaeger:4318 \
+  -v themisdb_data:/var/lib/themisdb \
+  themisdb/themisdb:1.3.0
+```
+
+---
+
 ## Verfügbare Tags
 
-| Tag | Architektur | Base Image | Einsatz |
-|-----|-------------|------------|---------|
-| `latest` | amd64, arm64 | Ubuntu 22.04 | **Empfohlen** - Neueste stabile Version |
-| `1.3.0` | amd64, arm64 | Ubuntu 22.04 | Stabile Release (Dez 2025) - LLM-Support |
-| `1.3` | amd64, arm64 | Ubuntu 22.04 | Minor Version Track |
-| `1.2.0` | amd64, arm64 | Ubuntu 22.04 | Vorherige stabile Version |
-| `qnap` | amd64 | Ubuntu 20.04 | **QNAP NAS** optimiert (SSE4.2 Baseline) |
-| `1.3.0-qnap` | amd64 | Ubuntu 20.04 | QNAP v1.3.0 Release |
+### Editionen
+
+ThemisDB ist in 3 Editionen verfügbar:
+- **Community** (Standard) - Open Source Edition
+- **Enterprise** - Erweiterte Features für Unternehmen
+- **Hyperscaler** - Cloud-optimierte Edition
+
+| Tag | Edition | Architektur | Base Image | Einsatz |
+|-----|---------|-------------|------------|---------|
+| `latest` | Community | amd64, arm64 | Ubuntu 22.04 | **Empfohlen** - Neueste Community Version |
+| `1.3.0-community` | Community | amd64, arm64 | Ubuntu 22.04 | Stabile Community Release (Dez 2025) |
+| `1.3.0-enterprise` | Enterprise | amd64, arm64 | Ubuntu 22.04 | Enterprise Edition mit Advanced Features |
+| `1.3.0-hyperscaler` | Hyperscaler | amd64, arm64 | Ubuntu 22.04 | Cloud-optimierte Edition |
+| `1.3.0-community-llm` | Community + LLM | amd64, arm64 | Ubuntu 22.04 | Mit llama.cpp Integration |
+| `1.3.0-enterprise-llm` | Enterprise + LLM | amd64, arm64 | Ubuntu 22.04 | Enterprise + LLM Support |
+| `1.3` | Community | amd64, arm64 | Ubuntu 22.04 | Minor Version Track |
+| `1.2.0` | Community | amd64, arm64 | Ubuntu 22.04 | Vorherige stabile Version |
+| `qnap` | Community | amd64 | Ubuntu 20.04 | **QNAP NAS** optimiert (SSE4.2 Baseline) |
+| `1.3.0-qnap` | Community | amd64 | Ubuntu 20.04 | QNAP v1.3.0 Release |
 
 **Multi-Architektur-Unterstützung:**
 - `linux/amd64` - Intel/AMD x64 Prozessoren
@@ -553,6 +605,46 @@ docker build \
 - Dokumentation & OpenAPI Specs
 - Client SDKs & Beispiele
 - Plugin-Signer Tools
+
+---
+
+## Eigene Builds - Multi-Edition
+
+### Build-Argumente
+
+```bash
+# Standard Community Build
+docker build -t themisdb:custom .
+
+# Enterprise Edition
+docker build -t themisdb:enterprise \
+  --build-arg THEMIS_EDITION=ENTERPRISE .
+
+# Hyperscaler Edition
+docker build -t themisdb:hyperscaler \
+  --build-arg THEMIS_EDITION=HYPERSCALER .
+
+# Mit LLM Support (llama.cpp)
+docker build -t themisdb:community-llm \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --build-arg ENABLE_LLM=ON .
+```
+
+### Multi-Architektur Builds
+
+```bash
+# Setup (einmalig)
+docker buildx create --name multiarch --use
+
+# Build für AMD64 + ARM64
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t themisdb:1.3.0-community \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --push .
+```
+
+**📖 Vollständige Build-Anleitung:** Siehe [../docs/DOCKER_MULTI_EDITION_BUILD.md](../docs/DOCKER_MULTI_EDITION_BUILD.md)
 
 ---
 
