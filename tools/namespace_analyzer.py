@@ -15,7 +15,7 @@ Usage:
 
 Options:
     --output-dir DIR    Output directory for reports (default: ./namespace_analysis)
-    --format FORMAT     Output format: json, markdown, csv, html, all (default: all)
+    --format FORMAT     Output format: json, markdown, csv, all (default: all)
     --include-git       Include git metadata (timestamps, authors)
     --verbose           Enable verbose output
 """
@@ -216,7 +216,16 @@ class NamespaceAnalyzer:
         return hierarchy
     
     def parse_class_declaration(self, line: str, lines: List[str], line_idx: int) -> Optional[Tuple[str, str, List[str], bool, List[str]]]:
-        """Parse class/struct/enum declaration"""
+        """Parse class/struct/enum declaration
+        
+        This regex pattern matches C++ class/struct/enum declarations with:
+        - Optional template parameters: template<typename T>
+        - Class type: class, struct, enum, enum class
+        - Optional attributes: __attribute__((...))
+        - Class name
+        - Optional inheritance: : public Base, protected Base2
+        - Opening brace or semicolon
+        """
         # Match class/struct/enum declarations
         class_match = re.match(
             r'^\s*(?:template\s*<([^>]+)>\s*)?(class|struct|enum(?:\s+class)?)\s+(?:__attribute__\(\([^)]+\)\)\s+)?(?:\w+\s+)?(\w+)(?:\s*:\s*(.+?))?(?:\s*\{|;)',
@@ -246,12 +255,22 @@ class NamespaceAnalyzer:
         return class_name, class_type, base_classes, is_template, template_params
     
     def parse_function_declaration(self, line: str) -> Optional[Tuple[str, str, str, bool, bool, bool, bool, List[str]]]:
-        """Parse function declaration"""
+        """Parse function declaration
+        
+        This regex pattern matches C++ function declarations with:
+        - Optional template parameters
+        - Optional modifiers: virtual, static, inline, constexpr, explicit
+        - Return type (with pointers/references)
+        - Function name
+        - Parameters in parentheses
+        - Optional const qualifier
+        - Optional trailing specifiers: override, final, noexcept, = default/delete/0
+        """
         # Skip preprocessor directives, comments, and non-function lines
         if line.strip().startswith('#') or '//' in line or line.strip().startswith('/*'):
             return None
         
-        # Match function declarations (simplified)
+        # Match function declarations
         func_match = re.match(
             r'^\s*(?:template\s*<[^>]+>\s*)?((?:virtual|static|inline|constexpr|explicit)\s+)*([a-zA-Z_][\w:<>]*(?:\s*\*|\s*&)?)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*(const)?\s*(?:override|final|noexcept|=\s*(?:0|default|delete))?',
             line
@@ -481,7 +500,6 @@ class NamespaceAnalyzer:
             
             for cls in ns.classes:
                 cls_dict = asdict(cls)
-                cls_dict['files'] = [cls.file_path]
                 ns_dict['classes'].append(cls_dict)
             
             for func in ns.functions:
