@@ -398,25 +398,62 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
 }
 
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
-    if (!db_) return false;
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::put: db_ is null");
+        return false;
+    }
     
-    rocksdb::Status status = db_->Put(
-        *write_options_,
-        rocksdb::Slice(key.data(), key.size()),
-        rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
-    );
+    // TransactionDB requires all writes to go through transactions for MVCC semantics
+    // Always use transaction-based writes for consistency and correctness
+    auto txn = beginTransaction();
+    if (!txn) {
+        themis::utils::Logger::error("RocksDBWrapper::put: failed to begin transaction");
+        return false;
+    }
     
-    return status.ok();
+    if (!txn->put(key, value)) {
+        themis::utils::Logger::error("RocksDBWrapper::put (transaction): put failed");
+        txn->rollback();
+        return false;
+    }
+    
+    if (!txn->commit()) {
+        themis::utils::Logger::error("RocksDBWrapper::put (transaction): commit failed");
+        txn->rollback();
+        return false;
+    }
+    
+    return true;
 }
 
 bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
-    if (!db_) return false;
-    rocksdb::Status status = db_->Put(
-        *write_options_,
-        rocksdb::Slice(key.data(), key.size()),
-        rocksdb::Slice(value.data(), value.size())
-    );
-    return status.ok();
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view): db_ is null");
+        return false;
+    }
+    
+    // TransactionDB requires all writes to go through transactions for MVCC semantics
+    auto txn = beginTransaction();
+    if (!txn) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view): failed to begin transaction");
+        return false;
+    }
+    
+    // Convert string_view to vector for transaction API
+    std::vector<uint8_t> val_vec(value.begin(), value.end());
+    if (!txn->put(key, val_vec)) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view, transaction): put failed");
+        txn->rollback();
+        return false;
+    }
+    
+    if (!txn->commit()) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view, transaction): commit failed");
+        txn->rollback();
+        return false;
+    }
+    
+    return true;
 }
 
 bool RocksDBWrapper::del(std::string_view key) {
@@ -476,7 +513,15 @@ RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db)
     : db_(db) {
     if (db_->db_) {
         txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
-        THEMIS_DEBUG("MVCC Transaction started with snapshot");
+        if (txn_) {
+            THEMIS_DEBUG("MVCC Transaction started with snapshot");
+        } else {
+            THEMIS_ERROR("MVCC Transaction: BeginTransaction returned nullptr");
+            active_ = false;
+        }
+    } else {
+        THEMIS_ERROR("MVCC Transaction: db_ is nullptr");
+        active_ = false;
     }
 }
 
@@ -504,12 +549,23 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
 }
 
 bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
-    if (!txn_ || !active_) return false;
+    if (!txn_) {
+        THEMIS_ERROR("TransactionWrapper::put: txn_ is nullptr");
+        return false;
+    }
+    if (!active_) {
+        THEMIS_ERROR("TransactionWrapper::put: transaction not active");
+        return false;
+    }
     
     rocksdb::Status status = txn_->Put(
         rocksdb::Slice(key.data(), key.size()),
         rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
     );
+    
+    if (!status.ok()) {
+        THEMIS_ERROR("TransactionWrapper::put: Put() failed: " + status.ToString());
+    }
     
     return status.ok();
 }

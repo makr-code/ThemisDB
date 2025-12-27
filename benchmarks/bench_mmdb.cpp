@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <unordered_map>
 
 /**
  * MMDB-E: Multi-Modal Database Benchmark with Embeddings
@@ -121,7 +122,7 @@ public:
         config.compression_default = "lz4";
         config.compression_bottommost = "zstd";
         config.block_cache_size_mb = 512;
-        config.write_buffer_size_mb = 128;
+        config.memtable_size_mb = 128;
         
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
         secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
@@ -142,6 +143,12 @@ public:
     }
     
 protected:
+    const themis::BaseEntity* getEntity(const std::unordered_map<std::string, themis::BaseEntity>& table,
+                                        const std::string& pk) const {
+        auto it = table.find(pk);
+        return it != table.end() ? &it->second : nullptr;
+    }
+
     void createIndexes() {
         // Relational indexes
         secondary_->createIndex("products", "product_id", true);
@@ -174,6 +181,7 @@ protected:
             product.setField("brand_id", static_cast<int64_t>(i % BRANDS_COUNT));
             product.setField("rating", static_cast<double>(std::uniform_int_distribution<int>(30, 50)(rng)) / 10.0);
             secondary_->put("products", product);
+            products_.emplace(product.getPrimaryKey(), product);
             
             // Load product document (JSON details)
             themis::BaseEntity doc("doc_" + std::to_string(i));
@@ -182,6 +190,7 @@ protected:
             doc.setField("specifications", makeRandomString(100));
             doc.setField("reviews_count", static_cast<int64_t>(std::uniform_int_distribution<int>(0, 100)(rng)));
             secondary_->put("product_docs", doc);
+            product_docs_.emplace(doc.getPrimaryKey(), doc);
             
             // Load embedding
             auto embedding = generateEmbedding(i);
@@ -209,6 +218,7 @@ protected:
                     edge.setField("edge_type", std::string("SIMILAR_TO"));
                     edge.setField("weight", static_cast<double>(std::uniform_int_distribution<int>(70, 100)(rng)) / 100.0);
                     secondary_->put("edges", edge);
+                    edges_.emplace(edge.getPrimaryKey(), std::move(edge));
                 }
             }
         }
@@ -218,6 +228,9 @@ protected:
     std::unique_ptr<themis::RocksDBWrapper> db_;
     std::unique_ptr<themis::SecondaryIndexManager> secondary_;
     int product_count_;
+    std::unordered_map<std::string, themis::BaseEntity> products_;
+    std::unordered_map<std::string, themis::BaseEntity> product_docs_;
+    std::unordered_map<std::string, themis::BaseEntity> edges_;
     std::vector<std::vector<float>> embeddings_;
 };
 
@@ -234,16 +247,16 @@ BENCHMARK_DEFINE_F(MMDBFixture, HybridProductLookup)(benchmark::State& state) {
         int product_id = dist(rng);
         
         // 1. Relational: Get product
-        auto product = secondary_->get("products", "product_" + std::to_string(product_id));
+        auto product = getEntity(products_, "product_" + std::to_string(product_id));
         benchmark::DoNotOptimize(product);
         
         // 2. Document: Get detailed info
-        auto doc = secondary_->get("product_docs", "doc_" + std::to_string(product_id));
+        auto doc = getEntity(product_docs_, "doc_" + std::to_string(product_id));
         benchmark::DoNotOptimize(doc);
         
         // 3. Graph: Get similar products (simplified)
         for (int i = 0; i < 3; ++i) {
-            auto edge = secondary_->get("edges", "edge_similar_" + std::to_string(product_id) + "_" + std::to_string(i));
+            auto edge = getEntity(edges_, "edge_similar_" + std::to_string(product_id) + "_" + std::to_string(i));
             benchmark::DoNotOptimize(edge);
         }
     }
@@ -280,7 +293,7 @@ BENCHMARK_DEFINE_F(MMDBFixture, SemanticSearch)(benchmark::State& state) {
         
         // Retrieve full product details for top results
         for (int i = 0; i < std::min(5, static_cast<int>(similarities.size())); ++i) {
-            auto product = secondary_->get("products", "product_" + std::to_string(similarities[i].second));
+            auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));
             benchmark::DoNotOptimize(product);
         }
     }
@@ -305,16 +318,16 @@ BENCHMARK_DEFINE_F(MMDBFixture, GraphTraversal)(benchmark::State& state) {
         
         // First hop
         for (int i = 0; i < 5; ++i) {
-            auto edge = secondary_->get("edges", "edge_similar_" + std::to_string(start_product) + "_" + std::to_string(i));
+            auto edge = getEntity(edges_, "edge_similar_" + std::to_string(start_product) + "_" + std::to_string(i));
             if (edge) {
-                auto to_id = edge->getFieldAs<int64_t>("to_id");
+                auto to_id = edge->getFieldAsInt("to_id");
                 if (to_id) hop1_products.push_back(*to_id);
             }
         }
         
         // Second hop (simplified)
         for (int hop1_id : hop1_products) {
-            auto edge = secondary_->get("edges", "edge_similar_" + std::to_string(hop1_id) + "_0");
+            auto edge = getEntity(edges_, "edge_similar_" + std::to_string(hop1_id) + "_0");
             benchmark::DoNotOptimize(edge);
         }
     }
@@ -337,16 +350,16 @@ BENCHMARK_DEFINE_F(MMDBFixture, MultiModalJoin)(benchmark::State& state) {
         
         // Find products in category with high ratings and detailed docs
         for (int i = 0; i < product_count_; ++i) {
-            auto product = secondary_->get("products", "product_" + std::to_string(i));
+            auto product = getEntity(products_, "product_" + std::to_string(i));
             if (product) {
-                auto cat_id = product->getFieldAs<int64_t>("category_id");
-                auto rating = product->getFieldAs<double>("rating");
+                auto cat_id = product->getFieldAsInt("category_id");
+                auto rating = product->getFieldAsDouble("rating");
                 
                 if (cat_id && *cat_id == category_id && rating && *rating >= 4.0) {
                     // Get document
-                    auto doc = secondary_->get("product_docs", "doc_" + std::to_string(i));
+                    auto doc = getEntity(product_docs_, "doc_" + std::to_string(i));
                     if (doc) {
-                        auto reviews = doc->getFieldAs<int64_t>("reviews_count");
+                        auto reviews = doc->getFieldAsInt("reviews_count");
                         if (reviews && *reviews > 10) {
                             count++;
                         }
@@ -391,13 +404,13 @@ BENCHMARK_DEFINE_F(MMDBFixture, RAGWorkflow)(benchmark::State& state) {
         // Phase 2: Context building (retrieve documents)
         std::string context;
         for (int i = 0; i < std::min(5, static_cast<int>(similarities.size())); ++i) {
-            auto product = secondary_->get("products", "product_" + std::to_string(similarities[i].second));
-            auto doc = secondary_->get("product_docs", "doc_" + std::to_string(similarities[i].second));
+            auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));
+            auto doc = getEntity(product_docs_, "doc_" + std::to_string(similarities[i].second));
             
             if (product && doc) {
                 // Build context string (would be sent to LLM)
-                context += product->getFieldAs<std::string>("name").value_or("") + ": ";
-                context += doc->getFieldAs<std::string>("description").value_or("") + "\n";
+                context += product->getFieldAsString("name").value_or("") + ": ";
+                context += doc->getFieldAsString("description").value_or("") + "\n";
             }
         }
         

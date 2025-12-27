@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.20)
+project(test_rocksdb_debug)
+
+set(CMAKE_CXX_STANDARD 20)
+
+# Find required packages
+find_package(RocksDB CONFIG REQUIRED)
+
+# Include directories
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/build-msvc/vcpkg_installed/x64-windows/include
+)
+
+# Link directories
+link_directories(
+    ${CMAKE_SOURCE_DIR}/build-msvc/Release
+    ${CMAKE_SOURCE_DIR}/build-msvc/vcpkg_installed/x64-windows/lib
+)
+
+# Create executable
+add_executable(test_debug test_debug.cpp)
+
+# Link libraries
+target_link_libraries(test_debug 
+    themis_core
+    RocksDB::rocksdb
+)

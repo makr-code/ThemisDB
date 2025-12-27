@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <cstring>
+#include <chrono>
 
 using namespace themis::memory;
 

@@ -55,7 +55,10 @@ static EventLog createSyntheticEventLog(size_t num_cases, size_t events_per_case
         }
         
         log.traces.push_back(trace);
+        log.total_events += trace.events.size();
     }
+    log.unique_cases = log.traces.size();
+    log.unique_activities = activities.size();
     
     return log;
 }
@@ -172,7 +175,7 @@ static void BM_ProcessMining_EventLogExtraction(benchmark::State& state) {
             {"activity", "Activity A"},
             {"timestamp", int64_t(1000 + i * 1000)}
         });
-        db->put("event_log", event.id(), event.serialize());
+        db->put("event_log:" + event.getPrimaryKey(), event.serialize());
     }
     
     EventLogConfig config;
@@ -204,12 +207,13 @@ static void BM_ProcessMining_LargeLogProcessing(benchmark::State& state) {
     auto db = setupDatabase("/tmp/bench_pm_large");
     ProcessMining mining(*db);
     
+    MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
     for (auto _ : state) {
-        auto model = mining.discoverProcess(log, MiningAlgorithm::HEURISTIC);
+        auto model = mining.discoverProcess(log, cfg);
         benchmark::DoNotOptimize(model);
     }
     
-    state.SetItemsProcessed(state.iterations() * log.events.size());
+    state.SetItemsProcessed(state.iterations() * log.total_events);
     
     std::filesystem::remove_all("/tmp/bench_pm_large");
 }
@@ -258,7 +262,7 @@ static void BM_ProcessMining_DFGWithPerformance(benchmark::State& state) {
     ProcessMining mining(*db);
     
     for (auto _ : state) {
-        auto dfg = mining.createDFG(log, true); // Include performance metrics
+        auto dfg = mining.createDFG(log); // Current API returns DFG only
         benchmark::DoNotOptimize(dfg);
     }
     
@@ -398,7 +402,8 @@ static void BM_ProcessMining_PNMLExport(benchmark::State& state) {
     auto db = setupDatabase("/tmp/bench_pm_pnml");
     ProcessMining mining(*db);
     
-    auto model = mining.discoverProcess(log, MiningAlgorithm::HEURISTIC);
+    MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
+    auto model = mining.discoverProcess(log, cfg).second;
     
     for (auto _ : state) {
         auto pnml = mining.exportToPNML(model);

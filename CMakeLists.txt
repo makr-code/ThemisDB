@@ -501,6 +501,23 @@ find_package(hnswlib CONFIG)
 
 # Optional: Faiss for GPU support (graceful degradation if not found)
 if(THEMIS_ENABLE_GPU)
+    # Hint CMake's FindBLAS towards OpenBLAS on Windows to avoid vendor auto-detection issues
+    set(BLA_VENDOR OpenBLAS CACHE STRING "Preferred BLAS vendor for Windows" FORCE)
+
+    # Try to locate OpenBLAS/LAPACK provided by vcpkg (CONFIG mode)
+    find_package(OpenBLAS CONFIG QUIET)
+    if(OpenBLAS_FOUND)
+        message(STATUS "OpenBLAS gefunden – BLAS-Unterstützung aktiv")
+    else()
+        message(WARNING "OpenBLAS nicht gefunden – installieren mit: vcpkg install openblas")
+    endif()
+
+    find_package(LAPACK CONFIG QUIET)
+    if(LAPACK_FOUND)
+        message(STATUS "LAPACK gefunden")
+    endif()
+
+    # FAISS (CONFIG mode via vcpkg). If missing, gracefully disable GPU.
     find_package(faiss CONFIG)
     if(NOT faiss_FOUND)
         message(WARNING "Faiss nicht gefunden – GPU-Unterstützung wird automatisch deaktiviert.")
@@ -928,14 +945,17 @@ if(THEMIS_ENABLE_LLM)
     find_package(gRPC CONFIG QUIET)
     if(gRPC_FOUND)
         message(STATUS "gRPC found - enabling LLM gRPC service")
-        list(APPEND THEMIS_CORE_SOURCES
-            src/server/llm_grpc_service.cpp
-            proto/llm_service.proto
-        )
+            # TEMP: gRPC proto generation not yet configured - comment out until ready
+            # list(APPEND THEMIS_CORE_SOURCES
+            #     src/server/llm_grpc_service.cpp
+            #     proto/llm_service.proto
+            # )
         # Note: Proto generation should be configured in a separate section when needed
     else()
         message(STATUS "gRPC not found - disabling LLM gRPC service and proto generation")
     endif()
+        # TEMP: Disable llm_grpc_service until proto generation is configured
+        # list(REMOVE_ITEM THEMIS_CORE_SOURCES src/server/llm_grpc_service.cpp)
 
     # LLM core components
     list(APPEND THEMIS_CORE_SOURCES

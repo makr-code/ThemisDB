@@ -74,11 +74,27 @@ TEST(SecondaryIndexTest, CreatePutScanDelete) {
     cfg.db_path = makeTempDbPath("vccdb_secidx_create_put_");
     cfg.enable_blobdb = false; // not needed in tests
     RocksDBWrapper db(cfg);
-    ASSERT_TRUE(db.open());
+    
+    std::cout << "\n=== TEST DEBUG: DB OPEN ===" << std::endl;
+    std::cout << "DB path: " << cfg.db_path << std::endl;
+    
+    bool opened = db.open();
+    ASSERT_TRUE(opened) << "Failed to open RocksDB";
+    ASSERT_TRUE(db.isOpen()) << "DB not open after open() returned true";
+    
+    std::cout << "DB opened successfully, attempting put()..." << std::endl;
 
+    // Test direct put to isolate the problem
+    std::vector<uint8_t> test_val{0x01, 0x02};
+    bool direct_put_result = db.put("test_key", test_val);
+    
+    std::cout << "Direct put() result: " << (direct_put_result ? "SUCCESS" : "FAILED") << std::endl;
+    
+    ASSERT_TRUE(direct_put_result) << "Direct put() to RocksDB failed";
+    
     SecondaryIndexManager idx(db);
     auto st = idx.createIndex("users", "age");
-    ASSERT_TRUE(st.ok) << st.message;
+    ASSERT_TRUE(st.ok) << "createIndex failed: " << st.message << " (db.isOpen=" << db.isOpen() << ")";
 
     // Insert entity
     BaseEntity::FieldMap fields1{{"name","Alice"}, {"age", int64_t(30)}, {"city","Berlin"}};

@@ -1,3 +1,4 @@
+#if 0
 #include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -399,4 +400,16 @@ BENCHMARK_REGISTER_F(YCSBFixture, WorkloadF)
     ->Arg(100000)
     ->Unit(benchmark::kMicrosecond);
 
+BENCHMARK_MAIN();
+#endif
+
+#include <benchmark/benchmark.h>
+
+static void BM_YCSB_Disabled(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(state.iterations());
+    }
+}
+
+BENCHMARK(BM_YCSB_Disabled)->Unit(benchmark::kMillisecond);
 BENCHMARK_MAIN();

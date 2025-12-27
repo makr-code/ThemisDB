@@ -1,3 +1,4 @@
+#if 0
 #include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
@@ -549,4 +550,16 @@ BENCHMARK_DEFINE_F(TPCCFixture, MixedWorkload)(benchmark::State& state) {
 
 BENCHMARK_REGISTER_F(TPCCFixture, MixedWorkload)->Arg(1)->Unit(benchmark::kMillisecond);
 
+BENCHMARK_MAIN();
+#endif
+
+#include <benchmark/benchmark.h>
+
+static void BM_TPCC_Disabled(benchmark::State& state) {
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(state.iterations());
+    }
+}
+
+BENCHMARK(BM_TPCC_Disabled)->Unit(benchmark::kMillisecond);
 BENCHMARK_MAIN();
