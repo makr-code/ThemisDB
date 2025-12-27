@@ -138,6 +138,12 @@ else
   echo "  Data: ${ROCKSDB_PATH}"
 fi
 
+# Validate that themis_server binary exists and is executable
+if [ ! -x "/usr/local/bin/themis_server" ]; then
+  echo "[entrypoint] ERROR: themis_server binary not found or not executable" >&2
+  exit 1
+fi
+
 # Change to data directory
 cd "${DATA_DIR}" || true
 

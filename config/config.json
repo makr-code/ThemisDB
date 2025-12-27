@@ -11,7 +11,7 @@
   },
   "server": {
     "host": "0.0.0.0",
-    "port": 8765,
+    "port": 18765,
     "worker_threads": 8
   },
   "vector_index": {
@@ -41,7 +41,7 @@
     "retention": {
       "enabled": true,
       "interval_hours": 24,
-      "policies_path": "./config/retention_policies.yaml"
+      "policies_path": "/etc/themis/retention_policies.yaml"
     }
   },
   "sse": {

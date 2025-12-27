@@ -214,6 +214,10 @@ COPY config/policies.json /etc/themis/
 COPY config/processors /etc/themis/processors
 COPY config/schemas /etc/themis/schemas
 
+# Ensure config files are readable by themis user
+RUN chown -R themis:themis /etc/themis && \
+    chmod -R 755 /etc/themis
+
 # Copy documentation
 COPY README.md LICENSE CHANGELOG.md SECURITY.md /usr/local/share/themis/docs/
 
@@ -318,8 +322,8 @@ EXPOSE 4318   # OpenTelemetry/Prometheus metrics (OTLP)
 # EXPOSE 5432   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
 # EXPOSE 3000   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
 
-# Switch to themis user for runtime (non-root best practice)
-USER themis
+# Note: Container starts as root, entrypoint.sh will switch to themis user after setup
+# This allows proper directory creation and ownership setup on first run
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD []
