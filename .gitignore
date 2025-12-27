@@ -147,6 +147,9 @@ site/
 !docker/CHANGELOG.md
 !docker/ROADMAP.md
 
+# Namespace analysis reports (generated)
+namespace_analysis/
+
 # Test / coverage / profiling
 .pytest_cache/
 coverage/
