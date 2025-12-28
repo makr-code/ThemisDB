@@ -60,13 +60,14 @@ docs/compendium/
 
 **Teil IV - Erweiterte Features (IN ARBEIT):**
 - **Kapitel 13:** Volltext-Suche & NLP (1.350 Zeilen, ~10.300 Wörter)
-- **Teil IV Gesamt:** 🚧 **25% KOMPLETT** (1/4 Kapitel, 1.350 Zeilen, ~10.300 Wörter)
+- **Kapitel 14:** Geo-Spatial Features (1.420 Zeilen, ~10.900 Wörter)
+- **Teil IV Gesamt:** 🚧 **50% KOMPLETT** (2/4 Kapitel, 2.770 Zeilen, ~21.200 Wörter)
 
-**Gesamtfortschritt:** 13/30 Kapitel (43%), 14.555 Zeilen, ~123.100 Wörter
+**Gesamtfortschritt:** 14/30 Kapitel (47%), 15.975 Zeilen, ~134.000 Wörter
 
 ### 🚧 In Arbeit
 
-- Teil IV: Kapitel 14-16 (Geo-Spatial, Analytics, ML)
+- Teil IV: Kapitel 15-16 (Analytics, ML)
 - Teile V-VIII: Kapitel 17-30
 - Anhänge A-D
 
