@@ -2355,6 +2355,24 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
+    # v1.3.4 Optimization Benchmarks
+    add_executable(bench_v1_3_4_optimizations
+        benchmarks/bench_v1_3_4_optimizations.cpp
+    )
+    target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # v1.3.4 Batch Insert Benchmark
+    add_executable(bench_batch_insert
+        benchmarks/bench_batch_insert.cpp
+    )
+    target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Simple insert test for debugging
+    add_executable(bench_simple_insert_test
+        benchmarks/bench_simple_insert_test.cpp
+    )
+    target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
 endif()
 
 # Admin Tools (.NET)

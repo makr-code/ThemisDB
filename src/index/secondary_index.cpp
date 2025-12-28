@@ -2,6 +2,7 @@
 // Secondary index implementation
 
 #include "index/secondary_index.h"
+#include "index/secondary_index_metadata_cache.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -285,6 +286,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::createIndex(std::string_vie
 	if (!db_.put(metaKey, marker)) {
 		return Status::Error("createIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
+	
+	// v1.3.4: Invalidate cache when index structure changes
+	SecondaryIndexMetadataCache::instance().invalidate(table);
+	
 	THEMIS_INFO("Index erstellt: {}.{} (unique={})", table, column, unique);
 	return Status::OK();
 }
@@ -325,6 +330,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropIndex(std::string_view 
 	if (!db_.del(metaKey)) {
 		return Status::Error("dropIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
+	
+	// v1.3.4: Invalidate cache when index structure changes
+	SecondaryIndexMetadataCache::instance().invalidate(table);
+	
 	THEMIS_INFO("Index gelöscht: {}.{}", table, column);
 	return Status::OK();
 }
@@ -337,6 +346,10 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropCompositeIndex(std::str
 	if (!db_.del(metaKey)) {
 		return Status::Error("dropCompositeIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
+	
+	// v1.3.4: Invalidate cache when index structure changes
+	SecondaryIndexMetadataCache::instance().invalidate(table);
+	
 	std::string colList;
 	for (size_t i = 0; i < columns.size(); ++i) {
 		if (i > 0) colList += ", ";
@@ -364,6 +377,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createRangeIndex(std::strin
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
 	std::vector<uint8_t> marker = {1};
 	if (!db_.put(metaKey, marker)) return Status::Error("createRangeIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Range Index erstellt: {}.{}", table, column);
 	return Status::OK();
 }
@@ -372,6 +386,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropRangeIndex(std::string_
 	if (table.empty() || column.empty()) return Status::Error("dropRangeIndex: table/column darf nicht leer sein");
 	std::string metaKey = makeRangeIndexMetaKey(table, column);
 	if (!db_.del(metaKey)) return Status::Error("dropRangeIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Range Index gelöscht: {}.{}", table, column);
 	return Status::OK();
 }
@@ -394,6 +409,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createSparseIndex(std::stri
 	std::string marker = unique ? "unique" : "";
 	std::vector<uint8_t> markerBytes(marker.begin(), marker.end());
 	if (!db_.put(metaKey, markerBytes)) return Status::Error("createSparseIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Sparse Index erstellt: {}.{} (unique={})", table, column, unique);
 	return Status::OK();
 }
@@ -402,6 +418,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropSparseIndex(std::string
 	if (table.empty() || column.empty()) return Status::Error("dropSparseIndex: table/column darf nicht leer sein");
 	std::string metaKey = makeSparseIndexMetaKey(table, column);
 	if (!db_.del(metaKey)) return Status::Error("dropSparseIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Sparse Index gelöscht: {}.{}", table, column);
 	return Status::OK();
 }
@@ -424,6 +441,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createGeoIndex(std::string_
 	std::string marker = "geo";
 	std::vector<uint8_t> markerBytes(marker.begin(), marker.end());
 	if (!db_.put(metaKey, markerBytes)) return Status::Error("createGeoIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Geo Index erstellt: {}.{}", table, column);
 	return Status::OK();
 }
@@ -432,6 +450,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropGeoIndex(std::string_vi
 	if (table.empty() || column.empty()) return Status::Error("dropGeoIndex: table/column darf nicht leer sein");
 	std::string metaKey = makeGeoIndexMetaKey(table, column);
 	if (!db_.del(metaKey)) return Status::Error("dropGeoIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Geo Index gelöscht: {}.{}", table, column);
 	return Status::OK();
 }
@@ -455,6 +474,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::createTTLIndex(std::string_
 	std::string ttlValue = std::to_string(ttl_seconds);
 	std::vector<uint8_t> ttlBytes(ttlValue.begin(), ttlValue.end());
 	if (!db_.put(metaKey, ttlBytes)) return Status::Error("createTTLIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("TTL Index erstellt: {}.{} (TTL={}s)", table, column, ttl_seconds);
 	return Status::OK();
 }
@@ -463,6 +483,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropTTLIndex(std::string_vi
 	if (table.empty() || column.empty()) return Status::Error("dropTTLIndex: table/column darf nicht leer sein");
 	std::string metaKey = makeTTLIndexMetaKey(table, column);
 	if (!db_.del(metaKey)) return Status::Error("dropTTLIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("TTL Index gelöscht: {}.{}", table, column);
 	return Status::OK();
 }
@@ -503,6 +524,8 @@ SecondaryIndexManager::Status SecondaryIndexManager::createFulltextIndex(
 		return Status::Error("createFulltextIndex: Schreiben des Metaschlüssels fehlgeschlagen: " + metaKey);
 	}
 	
+	SecondaryIndexMetadataCache::instance().invalidate(table);
+	
 		THEMIS_INFO("Fulltext Index erstellt: {}.{} (stemming={}, lang={}, stopwords_enabled={}, stopwords={}, normalize_umlauts={})", 
 			table, column, config.stemming_enabled, config.language, config.stopwords_enabled, config.stopwords.size(), config.normalize_umlauts);
 	return Status::OK();
@@ -517,6 +540,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::dropFulltextIndex(std::stri
 	if (table.empty() || column.empty()) return Status::Error("dropFulltextIndex: table/column darf nicht leer sein");
 	std::string metaKey = makeFulltextIndexMetaKey(table, column);
 	if (!db_.del(metaKey)) return Status::Error("dropFulltextIndex: Löschen des Metaschlüssels fehlgeschlagen: " + metaKey);
+	SecondaryIndexMetadataCache::instance().invalidate(table);
 	THEMIS_INFO("Fulltext Index gelöscht: {}.{}", table, column);
 	return Status::OK();
 }
@@ -750,14 +774,101 @@ SecondaryIndexManager::Status SecondaryIndexManager::erase(std::string_view tabl
 	return updateIndexesForDelete_(table, pk, oldEntity.get(), batch);
 }
 
+// v1.3.4: Batch Insert API - all entities in one WriteBatch = one commit
+SecondaryIndexManager::Status SecondaryIndexManager::putBatch(std::string_view table, const std::vector<BaseEntity>& entities) {
+	if (table.empty()) return Status::Error("putBatch: table darf nicht leer sein");
+	if (entities.empty()) return Status::OK(); // Nothing to do
+	if (!db_.isOpen()) return Status::Error("putBatch: Datenbank ist nicht geöffnet");
+
+	auto batch = db_.createWriteBatch();
+	if (!batch) return Status::Error("putBatch: Konnte WriteBatch nicht erstellen");
+	
+	for (const auto& entity : entities) {
+		std::string pk = entity.getPrimaryKey();
+		if (pk.empty()) {
+			batch->rollback();
+			return Status::Error("putBatch: Entity ohne Primary Key gefunden");
+		}
+
+		const std::string relKey = KeySchema::makeRelationalKey(table, pk);
+		
+		// Load old entity for index cleanup (if exists)
+		std::optional<std::vector<uint8_t>> oldBlob = db_.get(relKey);
+		std::unique_ptr<BaseEntity> oldEntity;
+		if (oldBlob) {
+			try { 
+				oldEntity = std::make_unique<BaseEntity>(BaseEntity::deserialize(pk, *oldBlob)); 
+			}
+			catch (...) { 
+				THEMIS_WARN("putBatch: alte Entity für PK={} nicht deserialisierbar", pk); 
+			}
+		}
+
+		// Write entity
+		batch->put(relKey, entity.serialize());
+
+		// Update indexes
+		if (oldEntity) {
+			auto st = updateIndexesForDelete_(table, pk, oldEntity.get(), *batch);
+			if (!st.ok) { batch->rollback(); return st; }
+		}
+		
+		auto st = updateIndexesForPut_(table, pk, entity, *batch);
+		if (!st.ok) { batch->rollback(); return st; }
+	}
+
+	// Single commit for all entities
+	if (!batch->commit()) {
+		return Status::Error("putBatch: WriteBatch commit fehlgeschlagen");
+	}
+
+	return Status::OK();
+}
+
 SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::string_view table,
 																		  std::string_view pk,
 																		  const BaseEntity& newEntity,
 																		  RocksDBWrapper::WriteBatchWrapper& batch) {
-	// Alle für diese Tabelle vorhandenen Indexspalten laden (Single + Composite)
-	auto indexedCols = loadIndexedColumns_(table);
-	// Zusätzlich: Range-Index-Spalten laden (können unabhängig von Equality-Indizes existieren)
-	auto rangeCols = loadRangeIndexedColumns_(table);
+	// v1.3.4 OPTIMIZATION: Use metadata cache to avoid repeated DB scans
+	auto& cache = SecondaryIndexMetadataCache::instance();
+	auto cachedMetadata = cache.get(table);
+	
+	std::unordered_set<std::string> indexedCols;
+	std::unordered_set<std::string> rangeCols;
+	
+	if (cachedMetadata) {
+		// Cache hit! Convert to unordered_set
+		for (const auto& col : cachedMetadata->regular_indexes) {
+			indexedCols.insert(col);
+		}
+		for (const auto& col : cachedMetadata->range_indexes) {
+			rangeCols.insert(col);
+		}
+	} else {
+		// Cache miss - load from DB and populate cache
+		indexedCols = loadIndexedColumns_(table);
+		rangeCols = loadRangeIndexedColumns_(table);
+		
+		// Populate cache for next time
+		SecondaryIndexMetadataCache::IndexMetadata metadata;
+		metadata.regular_indexes = std::vector<std::string>(indexedCols.begin(), indexedCols.end());
+		metadata.range_indexes = std::vector<std::string>(rangeCols.begin(), rangeCols.end());
+		
+		// Load other index types too
+		auto sparseCols = loadSparseIndexedColumns_(table);
+		metadata.sparse_indexes = std::vector<std::string>(sparseCols.begin(), sparseCols.end());
+		auto geoCols = loadGeoIndexedColumns_(table);
+		metadata.geo_indexes = std::vector<std::string>(geoCols.begin(), geoCols.end());
+		auto ttlCols = loadTTLIndexedColumns_(table);
+		metadata.ttl_indexes = std::vector<std::string>(ttlCols.begin(), ttlCols.end());
+		auto ftCols = loadFulltextIndexedColumns_(table);
+		metadata.fulltext_indexes = std::vector<std::string>(ftCols.begin(), ftCols.end());
+		
+		cache.set(table, metadata);
+	}
+
+	// Micro-Optimization: compute PK bytes once and reuse
+	std::vector<uint8_t> pkBytes = toBytes(pk);
 
 	// Trennen: Single-Column vs. Composite (enthält '+')
 	for (const auto& col : indexedCols) {
@@ -790,7 +901,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			}
 			
 			const std::string idxKey = KeySchema::makeSecondaryIndexKey(table, col, encodedVal, pk);
-			std::vector<uint8_t> pkBytes = toBytes(pk);
 			batch.put(idxKey, pkBytes);
 			
 			// Falls Range-Index für diese Spalte existiert, ebenfalls pflegen
@@ -802,6 +912,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			// Composite: col = "col1+col2+..."
 			// Parse columns
 			std::vector<std::string> columns;
+			columns.reserve(std::count(col.begin(), col.end(), '+') + 1);
 			size_t start = 0;
 			while (start < col.size()) {
 				size_t pos = col.find('+', start);
@@ -856,7 +967,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			}
 			
 			const std::string idxKey = makeCompositeIndexKey(table, columns, values, pk);
-			std::vector<uint8_t> pkBytes = toBytes(pk);
 			batch.put(idxKey, pkBytes);
 		}
 	}
@@ -868,13 +978,19 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		// Nur Single-Column Range-Indizes unterstützen (Composite-Range-Indizes sind nicht implementiert)
 		auto maybe = newEntity.extractField(rcol);
 		if (!maybe) continue;
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		const std::string rkey = makeRangeIndexKey(table, rcol, *maybe, pk);
 		batch.put(rkey, pkBytes);
 	}
 
-	// Sparse-Indizes pflegen
-	auto sparseCols = loadSparseIndexedColumns_(table);
+	// Sparse-Indizes pflegen (v1.3.4: use cache)
+	std::vector<std::string> sparseCols;
+	if (cachedMetadata) {
+		sparseCols = cachedMetadata->sparse_indexes;
+	} else {
+		auto tmp = loadSparseIndexedColumns_(table);
+		sparseCols.assign(tmp.begin(), tmp.end());
+	}
+	
 	for (const auto& scol : sparseCols) {
 		auto maybe = newEntity.extractField(scol);
 		if (!maybe || isNullOrEmpty_(*maybe)) continue; // Skip NULL/empty values
@@ -902,12 +1018,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 		
 		const std::string sidxKey = makeSparseIndexKey(table, scol, encodedVal, pk);
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		batch.put(sidxKey, pkBytes);
 	}
 
-	// Geo-Indizes pflegen
-	auto geoCols = loadGeoIndexedColumns_(table);
+	// Geo-Indizes pflegen (v1.3.4: use cache)
+	std::vector<std::string> geoCols;
+	if (cachedMetadata) {
+		geoCols = cachedMetadata->geo_indexes;
+	} else {
+		auto tmp = loadGeoIndexedColumns_(table);
+		geoCols.assign(tmp.begin(), tmp.end());
+	}
+	
 	for (const auto& gcol : geoCols) {
 		// Geo-Index erwartet zwei Felder: gcol_lat und gcol_lon (oder einfach lat/lon)
 		// Konvention: Spaltenname ist z.B. "location", dann Felder "location_lat" und "location_lon"
@@ -925,7 +1047,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			
 			std::string geohash = encodeGeohash(lat, lon);
 			const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
-			std::vector<uint8_t> pkBytes = toBytes(pk);
 			batch.put(gidxKey, pkBytes);
 		} catch (...) {
 			THEMIS_WARN("updateIndexesForPut_: Ungültige Geo-Koordinaten für {}.{}: lat={}, lon={}", 
@@ -934,27 +1055,38 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		}
 	}
 
-	// TTL-Indizes pflegen
-	auto ttlCols = loadTTLIndexedColumns_(table);
+	// TTL-Indizes pflegen (use cache and reuse current timestamp)
+	std::vector<std::string> ttlCols;
+	if (cachedMetadata) {
+		ttlCols = cachedMetadata->ttl_indexes;
+	} else {
+		auto tmp = loadTTLIndexedColumns_(table);
+		ttlCols.assign(tmp.begin(), tmp.end());
+	}
+	// Calculate current timestamp once
+	auto now = std::chrono::system_clock::now();
+	auto epoch = now.time_since_epoch();
+	int64_t currentTimestamp = std::chrono::duration_cast<std::chrono::seconds>(epoch).count();
+
 	for (const auto& tcol : ttlCols) {
 		auto maybeValue = newEntity.extractField(tcol);
 		if (!maybeValue) continue;
-		
-		// Calculate expire timestamp: now + TTL seconds
-		auto now = std::chrono::system_clock::now();
-		auto epoch = now.time_since_epoch();
-		int64_t currentTimestamp = std::chrono::duration_cast<std::chrono::seconds>(epoch).count();
 		int64_t ttlSeconds = getTTLSeconds_(table, tcol);
 		if (ttlSeconds <= 0) continue;
 		
 		int64_t expireTimestamp = currentTimestamp + ttlSeconds;
 		const std::string ttlKey = makeTTLIndexKey(table, tcol, expireTimestamp, pk);
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		batch.put(ttlKey, pkBytes);
 	}
 
-	// Fulltext-Indizes pflegen
-	auto fulltextCols = loadFulltextIndexedColumns_(table);
+	// Fulltext-Indizes pflegen (use cache)
+	std::vector<std::string> fulltextCols;
+	if (cachedMetadata) {
+		fulltextCols = cachedMetadata->fulltext_indexes;
+	} else {
+		auto tmp = loadFulltextIndexedColumns_(table);
+		fulltextCols.assign(tmp.begin(), tmp.end());
+	}
 	for (const auto& fcol : fulltextCols) {
 		auto maybeText = newEntity.extractField(fcol);
 		if (!maybeText || isNullOrEmpty_(maybeText)) continue;
@@ -964,6 +1096,7 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 		auto tokens = tokenize(*maybeText, config);
 		
 		std::unordered_map<std::string, uint32_t> tf;
+		tf.reserve(tokens.size());
 		for (const auto& t : tokens) { if (!t.empty()) tf[t]++; }
 		const std::string dkey = makeFulltextDocLenKey(table, fcol, pk);
 		{
@@ -971,7 +1104,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(std::s
 			std::vector<uint8_t> val(s.begin(), s.end());
 			batch.put(dkey, val);
 		}
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		for (const auto& [token, count] : tf) {
 			const std::string ftKey = makeFulltextIndexKey(table, fcol, token, pk);
 			batch.put(ftKey, pkBytes);
@@ -2619,11 +2751,45 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 	std::string_view pk,
 	const BaseEntity& newEntity,
 	RocksDBWrapper::TransactionWrapper& txn) {
-	
-	// Alle für diese Tabelle vorhandenen Indexspalten laden (Single + Composite)
-	auto indexedCols = loadIndexedColumns_(table);
-	// Zusätzlich: Range-Index-Spalten laden (können unabhängig von Equality-Indizes existieren)
-	auto rangeCols = loadRangeIndexedColumns_(table);
+    
+	// v1.3.4 OPTIMIZATION: Use metadata cache to avoid repeated DB scans
+	auto& cache = SecondaryIndexMetadataCache::instance();
+	auto cachedMetadata = cache.get(table);
+    
+	std::unordered_set<std::string> indexedCols;
+	std::unordered_set<std::string> rangeCols;
+
+	if (cachedMetadata) {
+		for (const auto& col : cachedMetadata->regular_indexes) {
+			indexedCols.insert(col);
+		}
+		for (const auto& col : cachedMetadata->range_indexes) {
+			rangeCols.insert(col);
+		}
+	} else {
+		// Cache miss - load from DB and populate cache
+		indexedCols = loadIndexedColumns_(table);
+		rangeCols = loadRangeIndexedColumns_(table);
+
+		SecondaryIndexMetadataCache::IndexMetadata metadata;
+		metadata.regular_indexes = std::vector<std::string>(indexedCols.begin(), indexedCols.end());
+		metadata.range_indexes   = std::vector<std::string>(rangeCols.begin(), rangeCols.end());
+
+		// Load other index types too for future calls
+		auto sparseColsLoad = loadSparseIndexedColumns_(table);
+		metadata.sparse_indexes = std::vector<std::string>(sparseColsLoad.begin(), sparseColsLoad.end());
+		auto geoColsLoad = loadGeoIndexedColumns_(table);
+		metadata.geo_indexes = std::vector<std::string>(geoColsLoad.begin(), geoColsLoad.end());
+		auto ttlColsLoad = loadTTLIndexedColumns_(table);
+		metadata.ttl_indexes = std::vector<std::string>(ttlColsLoad.begin(), ttlColsLoad.end());
+		auto ftColsLoad = loadFulltextIndexedColumns_(table);
+		metadata.fulltext_indexes = std::vector<std::string>(ftColsLoad.begin(), ftColsLoad.end());
+
+		cache.set(table, metadata);
+	}
+
+	// Micro-Optimization: compute PK bytes once and reuse
+	std::vector<uint8_t> pkBytes = toBytes(pk);
 
 	// Trennen: Single-Column vs. Composite (enthält '+')
 	for (const auto& col : indexedCols) {
@@ -2656,7 +2822,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			}
 			
 			const std::string idxKey = KeySchema::makeSecondaryIndexKey(table, col, encodedVal, pk);
-			std::vector<uint8_t> pkBytes = toBytes(pk);
 			txn.put(idxKey, pkBytes);
 			
 			// Falls Range-Index für diese Spalte existiert, ebenfalls pflegen
@@ -2722,7 +2887,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			}
 			
 			const std::string idxKey = makeCompositeIndexKey(table, columns, values, pk);
-			std::vector<uint8_t> pkBytes = toBytes(pk);
 			txn.put(idxKey, pkBytes);
 		}
 	}
@@ -2734,13 +2898,19 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		// Nur Single-Column Range-Indizes unterstützen (Composite-Range-Indizes sind nicht implementiert)
 		auto maybe = newEntity.extractField(rcol);
 		if (!maybe) continue;
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		const std::string rkey = makeRangeIndexKey(table, rcol, *maybe, pk);
 		txn.put(rkey, pkBytes);
 	}
 
-	// Sparse-Indizes pflegen
-	auto sparseCols = loadSparseIndexedColumns_(table);
+	// Sparse-Indizes pflegen (v1.3.4: use cache)
+	std::unordered_set<std::string> sparseCols;
+	if (cachedMetadata) {
+		for (const auto& col : cachedMetadata->sparse_indexes) {
+			sparseCols.insert(col);
+		}
+	} else {
+		sparseCols = loadSparseIndexedColumns_(table);
+	}
 	for (const auto& scol : sparseCols) {
 		auto maybe = newEntity.extractField(scol);
 		if (!maybe || isNullOrEmpty_(*maybe)) continue; // Skip NULL/empty values
@@ -2768,12 +2938,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 		
 		const std::string sidxKey = makeSparseIndexKey(table, scol, encodedVal, pk);
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		txn.put(sidxKey, pkBytes);
 	}
 
-	// Geo-Indizes pflegen
-	auto geoCols = loadGeoIndexedColumns_(table);
+	// Geo-Indizes pflegen (v1.3.4: use cache)
+	std::unordered_set<std::string> geoCols;
+	if (cachedMetadata) {
+		for (const auto& col : cachedMetadata->geo_indexes) {
+			geoCols.insert(col);
+		}
+	} else {
+		geoCols = loadGeoIndexedColumns_(table);
+	}
 	for (const auto& gcol : geoCols) {
 		// Geo-Index erwartet zwei Felder: gcol_lat und gcol_lon (oder einfach lat/lon)
 		// Konvention: Spaltenname ist z.B. "location", dann Felder "location_lat" und "location_lon"
@@ -2791,7 +2967,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			
 			std::string geohash = encodeGeohash(lat, lon);
 			const std::string gidxKey = makeGeoIndexKey(table, gcol, geohash, pk);
-			std::vector<uint8_t> pkBytes = toBytes(pk);
 			txn.put(gidxKey, pkBytes);
 		} catch (...) {
 			THEMIS_WARN("updateIndexesForPut_(mvcc): Ungültige Geo-Koordinaten für {}.{}: lat={}, lon={}", 
@@ -2800,8 +2975,15 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		}
 	}
 
-	// TTL-Indizes pflegen
-	auto ttlCols = loadTTLIndexedColumns_(table);
+	// TTL-Indizes pflegen (v1.3.4: use cache)
+	std::unordered_set<std::string> ttlCols;
+	if (cachedMetadata) {
+		for (const auto& col : cachedMetadata->ttl_indexes) {
+			ttlCols.insert(col);
+		}
+	} else {
+		ttlCols = loadTTLIndexedColumns_(table);
+	}
 	for (const auto& tcol : ttlCols) {
 		auto maybeValue = newEntity.extractField(tcol);
 		if (!maybeValue) continue;
@@ -2815,12 +2997,18 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 		
 		int64_t expireTimestamp = currentTimestamp + ttlSeconds;
 		const std::string ttlKey = makeTTLIndexKey(table, tcol, expireTimestamp, pk);
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		txn.put(ttlKey, pkBytes);
 	}
 
-	// Fulltext-Indizes pflegen
-	auto fulltextCols = loadFulltextIndexedColumns_(table);
+	// Fulltext-Indizes pflegen (v1.3.4: use cache)
+	std::unordered_set<std::string> fulltextCols;
+	if (cachedMetadata) {
+		for (const auto& col : cachedMetadata->fulltext_indexes) {
+			fulltextCols.insert(col);
+		}
+	} else {
+		fulltextCols = loadFulltextIndexedColumns_(table);
+	}
 	for (const auto& fcol : fulltextCols) {
 		auto maybeText = newEntity.extractField(fcol);
 		if (!maybeText || isNullOrEmpty_(maybeText)) continue;
@@ -2837,7 +3025,6 @@ SecondaryIndexManager::Status SecondaryIndexManager::updateIndexesForPut_(
 			std::vector<uint8_t> val(s.begin(), s.end());
 			txn.put(dkey, val);
 		}
-		std::vector<uint8_t> pkBytes = toBytes(pk);
 		for (const auto& [token, count] : tf) {
 			const std::string ftKey = makeFulltextIndexKey(table, fcol, token, pk);
 			txn.put(ftKey, pkBytes);
