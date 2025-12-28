@@ -51,18 +51,23 @@ docs/compendium/
 - **Kapitel 8:** Vektor-Suche (1.240 Zeilen, ~10.000 Wörter)
 - **Teil II Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 4.920 Zeilen, ~38.800 Wörter)
 
-**Teil III - Spezialanwendungen (IN ARBEIT):**
+**Teil III - Spezialanwendungen (KOMPLETT):**
 - **Kapitel 9:** Zeit-Reihen & IoT (1.185 Zeilen, ~9.300 Wörter)
 - **Kapitel 10:** Enterprise-Anwendungen (1.320 Zeilen, ~10.500 Wörter)
 - **Kapitel 11:** Realtime-Anwendungen (1.460 Zeilen, ~11.500 Wörter)
-- **Teil III Gesamt:** 🚧 **75% KOMPLETT** (3/4 Kapitel, 3.965 Zeilen, ~31.300 Wörter)
+- **Kapitel 12:** Computer Vision (1.580 Zeilen, ~12.200 Wörter)
+- **Teil III Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 5.545 Zeilen, ~43.500 Wörter)
 
-**Gesamtfortschritt:** 11/30 Kapitel (37%), 11.625 Zeilen, ~99.800 Wörter
+**Teil IV - Erweiterte Features (IN ARBEIT):**
+- **Kapitel 13:** Volltext-Suche & NLP (1.350 Zeilen, ~10.300 Wörter)
+- **Teil IV Gesamt:** 🚧 **25% KOMPLETT** (1/4 Kapitel, 1.350 Zeilen, ~10.300 Wörter)
+
+**Gesamtfortschritt:** 13/30 Kapitel (43%), 14.555 Zeilen, ~123.100 Wörter
 
 ### 🚧 In Arbeit
 
-- Teil III: Kapitel 12 (Computer Vision) - 75% komplett
-- Teile IV-VIII: Kapitel 13-30
+- Teil IV: Kapitel 14-16 (Geo-Spatial, Analytics, ML)
+- Teile V-VIII: Kapitel 17-30
 - Anhänge A-D
 
 ### 📅 Zeitplan
@@ -128,7 +133,13 @@ mkdocs serve -f mkdocs-compendium.yml
 - Kapitel 9: Zeit-Reihen & IoT ✅
 - Kapitel 10: Enterprise-Anwendungen ✅
 - Kapitel 11: Realtime-Anwendungen ✅
-- Kapitel 12: Computer Vision 🚧
+- Kapitel 12: Computer Vision ✅
+
+### Teil IV: Erweiterte Features (140 Seiten)
+- Kapitel 13: Volltext-Suche & NLP ✅
+- Kapitel 14: Geo-Spatial Features 🚧
+- Kapitel 15: Analytics & Reporting 🚧
+- Kapitel 16: Machine Learning Integration 🚧
 
 ### Teil IV-VIII: ... (siehe STRATEGY_WITH_EXAMPLES.md)
 

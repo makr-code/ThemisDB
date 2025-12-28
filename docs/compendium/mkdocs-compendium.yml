@@ -114,10 +114,10 @@ nav:
     - Kapitel 12 - Computer Vision: chapter_12_computervision.md
   
   - Teil IV - Erweiterte Features:
-    - Kapitel 13 - AQL Mastery: chapter_13_aql.md
-    - Kapitel 14 - Events: chapter_14_events.md
-    - Kapitel 15 - Storage: chapter_15_storage.md
-    - Kapitel 16 - Transaktionen: chapter_16_transactions.md
+    - Kapitel 13 - Volltext-Suche & NLP: chapter_13_fulltext.md
+    - Kapitel 14 - Geo-Spatial Features: chapter_14_geospatial.md
+    - Kapitel 15 - Analytics & Reporting: chapter_15_analytics.md
+    - Kapitel 16 - Machine Learning Integration: chapter_16_ml.md
   
   - Teil V - Skalierung:
     - Kapitel 17 - Horizontal Scaling: chapter_17_scaling.md
