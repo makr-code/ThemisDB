@@ -44,18 +44,19 @@ docs/compendium/
 - **Kapitel 4:** Installation & Setup (753 Zeilen, ~6.500 Wörter)
 - **Teil I Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 2.740 Zeilen, ~29.700 Wörter)
 
-**Teil II - Datenmodelle (Fast fertig):**
+**Teil II - Datenmodelle (KOMPLETT):**
 - **Kapitel 5:** Relationale Daten (1.223 Zeilen, ~9.500 Wörter)
 - **Kapitel 6:** Graph-Datenbanken (1.247 Zeilen, ~10.100 Wörter)
 - **Kapitel 7:** Dokument-Speicherung (1.210 Zeilen, ~9.200 Wörter)
-- **Teil II Gesamt:** 🎉 **3/4 Kapitel - 75% KOMPLETT** (3.680 Zeilen, ~28.800 Wörter)
+- **Kapitel 8:** Vektor-Suche (1.240 Zeilen, ~10.000 Wörter)
+- **Teil II Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 4.920 Zeilen, ~38.800 Wörter)
 
-**Gesamtfortschritt:** 6/30 Kapitel (20%), 5.210 Zeilen, ~49.300 Wörter
+**Gesamtfortschritt:** 8/30 Kapitel (27%), 7.660 Zeilen, ~68.500 Wörter
 
 ### 🚧 In Arbeit
 
-- Teil II: Kapitel 7-8 (Dokument, Vektor)
-- Teile III-VIII: Kapitel 9-30
+- Teil III: Kapitel 9-12 (Time-Series, Enterprise, Realtime, Computer Vision)
+- Teile IV-VIII: Kapitel 13-30
 - Anhänge A-D
 
 ### 📅 Zeitplan
@@ -107,15 +108,15 @@ mkdocs serve -f mkdocs-compendium.yml
 
 ### Teil I: Grundlagen (100 Seiten)
 - Kapitel 1: Einführung ✅
-- Kapitel 2: Architektur 🚧
-- Kapitel 3: Multi-Model 🚧
-- Kapitel 4: Installation 🚧
+- Kapitel 2: Architektur ✅
+- Kapitel 3: Multi-Model ✅
+- Kapitel 4: Installation ✅
 
 ### Teil II: Datenmodelle (140 Seiten)
-- Kapitel 5: Relational 🚧
-- Kapitel 6: Graph 🚧
-- Kapitel 7: Dokumente 🚧
-- Kapitel 8: Vektoren 🚧
+- Kapitel 5: Relational ✅
+- Kapitel 6: Graph ✅
+- Kapitel 7: Dokumente ✅
+- Kapitel 8: Vektoren ✅
 
 ### Teil III-VIII: ... (siehe STRATEGY_WITH_EXAMPLES.md)
 
@@ -126,8 +127,16 @@ mkdocs serve -f mkdocs-compendium.yml
 Alle 21 Examples sind auf Kapitel verteilt:
 
 - **01_hello_world** → Kapitel 1 ✅
-- **02_todo_app** → Kapitel 2
-- **06_graph_social_network** → Kapitel 6
+- **02_todo_app** → Kapitel 2 ✅
+- **03_contact_manager** → Kapitel 3 ✅
+- **04_inventory_system** → Kapitel 5 ✅
+- **06_graph_social_network** → Kapitel 6 ✅
+- **07_vector_search_documents** → Kapitel 8 ✅
+- **11_blog_wiki** → Kapitel 7 ✅
+- **12_expense_tracker** → Kapitel 5 ✅
+- **13_recipe_manager** → Kapitel 7 ✅
+- **14_ecommerce_catalog** → Kapitel 8 ✅
+- **19_recommendation_engine** → Kapitel 6 ✅
 - **09_iot_sensor_network** → Kapitel 9
 - ... (siehe Strategie für vollständiges Mapping)
 
