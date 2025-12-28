@@ -68,7 +68,7 @@ public:
     explicit HybridSearch(
         SecondaryIndexManager* fulltext_index,
         VectorIndexManager* vector_index,
-        const Config& config = Config{}
+        const Config& config
     );
     ~HybridSearch();
     

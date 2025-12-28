@@ -62,7 +62,7 @@ public:
         double cost_savings_usd = 0.0; // Estimated cost savings
     };
     
-    explicit EmbeddingCache(const Config& config = Config{});
+    explicit EmbeddingCache(const Config& config);
     ~EmbeddingCache();
     
     EmbeddingCache(const EmbeddingCache&) = delete;

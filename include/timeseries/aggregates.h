@@ -58,7 +58,7 @@ public:
         size_t count = 0;                    // Number of windows
     };
     
-    explicit TimeSeriesAggregates(const Config& config = Config{});
+    explicit TimeSeriesAggregates(const Config& config);
     ~TimeSeriesAggregates();
     
     TimeSeriesAggregates(const TimeSeriesAggregates&) = delete;

@@ -77,7 +77,7 @@ public:
         int max_tokens = 2048;
     };
 
-    explicit PromptToExecutionPlan(const Config& config = Config{});
+    explicit PromptToExecutionPlan(const Config& config);
 
     /**
      * @brief Translate user prompt to execution plan
@@ -274,7 +274,7 @@ public:
      */
     explicit DirectExecutionEngine(
         rocksdb::TransactionDB* db,
-        const Config& config = Config{}
+        const Config& config
     );
 
     ~DirectExecutionEngine() = default;

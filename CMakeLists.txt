@@ -987,9 +987,11 @@ if(THEMIS_CORE_SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
-# Per-file compile options for heavy AQL parser translation units
-set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
-set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+# Per-file compile options for heavy AQL parser translation units (MSVC-only)
+if(MSVC)
+    set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
+    set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+endif()
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
 if(MSVC AND THEMIS_CORE_SHARED)

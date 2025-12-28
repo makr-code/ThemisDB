@@ -122,8 +122,8 @@ public:
      * @param plugin LLM plugin to use for inference
      * @param config Configuration
      */
-    AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config = Config{});
-    AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config = Config{});
+    AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config);
+    AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config);
     
     ~AsyncInferenceEngine();
     

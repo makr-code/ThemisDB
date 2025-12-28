@@ -6,6 +6,7 @@
 #include <chrono>
 #include <shared_mutex>
 #include <optional>
+#include <mutex>
 
 namespace themis {
 

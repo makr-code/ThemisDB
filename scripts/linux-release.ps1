@@ -26,7 +26,7 @@ if (-not $SkipBuild) {
     
     Write-Host "`n[2/6] Building Release (Linux)..." -ForegroundColor Green
     
-    $buildCmd = "cd $RootDir && export VCPKG_ROOT=$RootDir/vcpkg && cmake --build build-wsl --config Release --parallel 8"
+    $buildCmd = "cd $RootDir && export VCPKG_ROOT=$RootDir/vcpkg && cmake --build build-wsl --target themis_core -j8"
     wsl bash -c $buildCmd
     
     if ($LASTEXITCODE -ne 0) {

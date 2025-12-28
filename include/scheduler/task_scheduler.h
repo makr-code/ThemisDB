@@ -164,7 +164,7 @@ public:
      * @param query_engine Query engine for executing AQL queries
      * @param config Scheduler configuration
      */
-    explicit TaskScheduler(QueryEngine* query_engine, const Config& config = Config{});
+    explicit TaskScheduler(QueryEngine* query_engine, const Config& config);
     ~TaskScheduler();
     
     // Lifecycle management

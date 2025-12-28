@@ -127,7 +127,7 @@ public:
      */
     explicit LLMCodeTranslator(
         rocksdb::TransactionDB* db,
-        const Config& config = Config{}
+        const Config& config
     );
 
     ~LLMCodeTranslator() = default;

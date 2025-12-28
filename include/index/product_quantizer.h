@@ -47,7 +47,7 @@ public:
      * @param dimension Vector dimension (must be divisible by num_subquantizers)
      * @param config Configuration parameters
      */
-    explicit ProductQuantizer(int dimension, const Config& config = Config{});
+    explicit ProductQuantizer(int dimension, const Config& config);
 
     /**
      * @brief Train quantizer using K-means on training vectors
