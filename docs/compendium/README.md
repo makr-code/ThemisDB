@@ -35,20 +35,24 @@ docs/compendium/
 
 ## Status
 
-### ✅ Fertiggestellt (Teil I - Grundlagen KOMPLETT)
+### ✅ Fertiggestellt
 
-- **Strategie-Dokument:** Vollständiger Plan (881 Zeilen)
-- **MkDocs-Konfiguration:** Build-System bereit
-- **Index & Vorwort:** Einführung und Navigation
+**Teil I - Grundlagen (KOMPLETT):**
 - **Kapitel 1:** Einführung (504 Zeilen, ~7.200 Wörter)
 - **Kapitel 2:** Architektur (723 Zeilen, ~8.500 Wörter)
 - **Kapitel 3:** Multi-Model (760 Zeilen, ~7.500 Wörter)
 - **Kapitel 4:** Installation & Setup (753 Zeilen, ~6.500 Wörter)
-- **Teil I (Grundlagen):** ✅ **KOMPLETT** (4/4 Kapitel, 2.740 Zeilen, ~29.700 Wörter)
+- **Teil I Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 2.740 Zeilen, ~29.700 Wörter)
+
+**Teil II - Datenmodelle (In Arbeit):**
+- **Kapitel 5:** Relationale Daten (1.223 Zeilen, ~9.500 Wörter)
+- **Teil II Gesamt:** 🚧 **1/4 Kapitel** (1.223 Zeilen, ~9.500 Wörter)
+
+**Gesamtfortschritt:** 5/30 Kapitel (17%), 3.963 Zeilen, ~39.200 Wörter
 
 ### 🚧 In Arbeit
 
-- Teil II: Kapitel 5-8 (Datenmodelle)
+- Teil II: Kapitel 6-8 (Graph, Dokument, Vektor)
 - Teile III-VIII: Kapitel 9-30
 - Anhänge A-D
 
