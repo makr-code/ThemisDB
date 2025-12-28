@@ -51,11 +51,16 @@ docs/compendium/
 - **Kapitel 8:** Vektor-Suche (1.240 Zeilen, ~10.000 Wörter)
 - **Teil II Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 4.920 Zeilen, ~38.800 Wörter)
 
-**Gesamtfortschritt:** 8/30 Kapitel (27%), 7.660 Zeilen, ~68.500 Wörter
+**Teil III - Spezialanwendungen (IN ARBEIT):**
+- **Kapitel 9:** Zeit-Reihen & IoT (1.185 Zeilen, ~9.300 Wörter)
+- **Kapitel 10:** Enterprise-Anwendungen (1.320 Zeilen, ~10.500 Wörter)
+- **Teil III Gesamt:** 🚧 **50% KOMPLETT** (2/4 Kapitel, 2.505 Zeilen, ~19.800 Wörter)
+
+**Gesamtfortschritt:** 10/30 Kapitel (33%), 10.085 Zeilen, ~88.300 Wörter
 
 ### 🚧 In Arbeit
 
-- Teil III: Kapitel 9-12 (Time-Series, Enterprise, Realtime, Computer Vision)
+- Teil III: Kapitel 11-12 (Realtime, Computer Vision) - 50% komplett
 - Teile IV-VIII: Kapitel 13-30
 - Anhänge A-D
 
@@ -118,7 +123,13 @@ mkdocs serve -f mkdocs-compendium.yml
 - Kapitel 7: Dokumente ✅
 - Kapitel 8: Vektoren ✅
 
-### Teil III-VIII: ... (siehe STRATEGY_WITH_EXAMPLES.md)
+### Teil III: Spezialanwendungen (140 Seiten)
+- Kapitel 9: Zeit-Reihen & IoT ✅
+- Kapitel 10: Enterprise-Anwendungen ✅
+- Kapitel 11: Realtime 🚧
+- Kapitel 12: Computer Vision 🚧
+
+### Teil IV-VIII: ... (siehe STRATEGY_WITH_EXAMPLES.md)
 
 ---
 
@@ -137,7 +148,10 @@ Alle 21 Examples sind auf Kapitel verteilt:
 - **13_recipe_manager** → Kapitel 7 ✅
 - **14_ecommerce_catalog** → Kapitel 8 ✅
 - **19_recommendation_engine** → Kapitel 6 ✅
-- **09_iot_sensor_network** → Kapitel 9
+- **08_dms_erp_system** → Kapitel 10 ✅
+- **09_iot_sensor_network** → Kapitel 9 ✅
+- **10_smart_home_control** → Kapitel 9 ✅
+- **17_crm** → Kapitel 10 ✅
 - ... (siehe Strategie für vollständiges Mapping)
 
 ---
