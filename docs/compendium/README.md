@@ -46,13 +46,14 @@ docs/compendium/
 
 **Teil II - Datenmodelle (In Arbeit):**
 - **Kapitel 5:** Relationale Daten (1.223 Zeilen, ~9.500 Wörter)
-- **Teil II Gesamt:** 🚧 **1/4 Kapitel** (1.223 Zeilen, ~9.500 Wörter)
+- **Kapitel 6:** Graph-Datenbanken (1.247 Zeilen, ~10.100 Wörter)
+- **Teil II Gesamt:** 🚧 **2/4 Kapitel** (2.470 Zeilen, ~19.600 Wörter)
 
-**Gesamtfortschritt:** 5/30 Kapitel (17%), 3.963 Zeilen, ~39.200 Wörter
+**Gesamtfortschritt:** 6/30 Kapitel (20%), 5.210 Zeilen, ~49.300 Wörter
 
 ### 🚧 In Arbeit
 
-- Teil II: Kapitel 6-8 (Graph, Dokument, Vektor)
+- Teil II: Kapitel 7-8 (Dokument, Vektor)
 - Teile III-VIII: Kapitel 9-30
 - Anhänge A-D
 
