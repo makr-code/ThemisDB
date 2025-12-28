@@ -32,8 +32,8 @@ protected:
     std::unique_ptr<RocksDBWrapper> db; std::unique_ptr<SecondaryIndexManager> sec; std::unique_ptr<QueryEngine> engine;
 };
 
-// Disabled: Test hangs after SIMILARITY detection fix - likely query execution issue
-TEST_F(AQLSimilarityDispatchTest, DISABLED_ExecuteSimilarityVectorGeoFallback) {
+// Previously disabled on MSVC; now stable after RocksDB env isolation
+TEST_F(AQLSimilarityDispatchTest, ExecuteSimilarityVectorGeoFallback) {
     // Test SIMILARITY syntax in SORT clause (without complex spatial filter)
     std::string aql = R"(
         FOR doc IN hotels

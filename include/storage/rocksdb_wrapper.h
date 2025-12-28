@@ -12,6 +12,7 @@ namespace rocksdb {
     class TransactionDB;
     class Transaction;
     class WriteBatch;
+    class WriteBatchWithIndex;
     class Iterator;
     class Options;
     class ReadOptions;
@@ -48,6 +49,7 @@ public:
         int bloom_bits_per_key = 10;
         bool enable_wal = true;
         bool enable_blobdb = true;
+        bool enable_statistics = true;          // allow disabling stats in microbenchmarks
         size_t blob_size_threshold = 4096;  // Files > 4KB go to BlobDB
         int max_background_jobs = 4;
         
@@ -178,6 +180,37 @@ public:
     };
     
     std::unique_ptr<WriteBatchWrapper> createWriteBatch();
+    
+    /// Create a write batch with index for fast reads from the batch (WBWI = Write Batch With Index)
+    /// Useful for Read-Modify-Write workloads where you need to read recently written data
+    /// before committing the batch. GetFromBatchAndDB will first check the batch before hitting DB.
+    class WriteBatchWithIndexWrapper {
+    public:
+        explicit WriteBatchWithIndexWrapper(RocksDBWrapper* db, bool overwrite_key = true);
+        ~WriteBatchWithIndexWrapper();
+        
+        void put(std::string_view key, const std::vector<uint8_t>& value);
+        void del(std::string_view key);
+        
+        /// Get from batch only (very fast)
+        std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key);
+        
+        /// Get from batch first, then DB if not found (Read-Your-Own-Writes)
+        std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key);
+        
+        /// Commit the batch atomically
+        bool commit();
+        
+        /// Rollback (discard) the batch
+        void rollback();
+        
+    private:
+        RocksDBWrapper* db_;
+        std::unique_ptr<rocksdb::WriteBatchWithIndex> batch_;
+        friend class RocksDBWrapper;
+    };
+    
+    std::unique_ptr<WriteBatchWithIndexWrapper> createWriteBatchWithIndex(bool overwrite_key = true);
     
     // ===== MVCC Transaction Operations =====
     

@@ -3,6 +3,7 @@
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <rocksdb/utilities/write_batch_with_index.h>
 #include <rocksdb/options.h>
 #include <rocksdb/write_batch.h>
 #include <rocksdb/iterator.h>
@@ -77,9 +78,11 @@ void RocksDBWrapper::configureOptions() {
     // Create DB if missing
     options_->create_if_missing = true;
     
-    // Enable statistics for monitoring
-    options_->statistics = rocksdb::CreateDBStatistics();
-    options_->statistics->set_stats_level(rocksdb::kExceptHistogramOrTimers);
+    // Enable statistics for monitoring (can be disabled for microbenchmarks)
+    if (config_.enable_statistics) {
+        options_->statistics = rocksdb::CreateDBStatistics();
+        options_->statistics->set_stats_level(rocksdb::kExceptHistogramOrTimers);
+    }
     
     // Memtable (write buffer) configuration
     // v1.3.0 Phase 2: Optimized write buffer settings for high throughput
@@ -163,10 +166,10 @@ void RocksDBWrapper::configureOptions() {
     options_->compression = toCompression(config_.compression_default);
     options_->bottommost_compression = toCompression(config_.compression_bottommost);
     
-    // v1.3.0 Phase 2: Enable Parallel Compression (RocksDB 10.6+)
-    // Parallel compression is production-ready and provides significant speedup
-    // Expected improvement: +100-300% write throughput, +200-400% compaction speed
-    options_->compression_opts.parallel_threads = 8;  // Use 8 threads for compression
+    // v1.3.0 Phase 2: Parallel Compression (RocksDB 10.6+)
+    // Use threads only when compression is enabled to avoid extra scheduling
+    const bool compression_enabled = options_->compression != rocksdb::kNoCompression;
+    options_->compression_opts.parallel_threads = compression_enabled ? 8 : 0;
     options_->compression_opts.max_dict_bytes = 16 * 1024;  // 16KB dictionary for better compression
     
     // Parallel Write Optimization (RocksDB Best Practices)
@@ -235,9 +238,8 @@ void RocksDBWrapper::configureOptions() {
     txn_options_->skip_prepare = true;
     
     // v1.3.0 Phase 2: Configure BlobDB for large values (>1KB)
-    // BlobDB separates keys from values, reducing write amplification for large blobs
-    // Expected improvement: +1350-6650% for 1MB+ blobs, -60-80% write amplification
-    if (config_.enable_blobdb || config_.memtable_size_mb >= 256) {
+    // Allow explicit disable even when memtables are large to avoid overhead for tiny values
+    if (config_.enable_blobdb) {
         options_->enable_blob_files = true;
         options_->min_blob_size = 1024;  // 1KB threshold - values larger than this go to blob files
         options_->blob_compression_type = options_->compression;  // Use same compression as main DB
@@ -405,44 +407,30 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
 }
 
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
-    std::cout << "[DEBUG] RocksDBWrapper::put called with key: " << std::string(key) << std::endl;
-    
     if (!db_) {
-        std::cout << "[DEBUG] RocksDBWrapper::put: db_ is null" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put: db_ is null");
         return false;
     }
-    
-    std::cout << "[DEBUG] RocksDBWrapper::put: calling beginTransaction()" << std::endl;
     
     // TransactionDB requires all writes to go through transactions for MVCC semantics
     // Always use transaction-based writes for consistency and correctness
     auto txn = beginTransaction();
     if (!txn) {
-        std::cout << "[DEBUG] RocksDBWrapper::put: beginTransaction() returned nullptr" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put: failed to begin transaction");
         return false;
     }
     
-    std::cout << "[DEBUG] RocksDBWrapper::put: calling txn->put()" << std::endl;
-    
     if (!txn->put(key, value)) {
-        std::cout << "[DEBUG] RocksDBWrapper::put: txn->put() returned false" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put (transaction): put failed");
         txn->rollback();
         return false;
     }
     
-    std::cout << "[DEBUG] RocksDBWrapper::put: calling txn->commit()" << std::endl;
-    
     if (!txn->commit()) {
-        std::cout << "[DEBUG] RocksDBWrapper::put: txn->commit() returned false" << std::endl;
         themis::utils::Logger::error("RocksDBWrapper::put (transaction): commit failed");
         txn->rollback();
         return false;
     }
-    
-    std::cout << "[DEBUG] RocksDBWrapper::put: SUCCESS" << std::endl;
     
     return true;
 }
@@ -528,6 +516,76 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> RocksDBWrapper::createWriteBa
     return std::make_unique<WriteBatchWrapper>(this);
 }
 
+// WriteBatchWithIndexWrapper implementation
+
+RocksDBWrapper::WriteBatchWithIndexWrapper::WriteBatchWithIndexWrapper(RocksDBWrapper* db, bool overwrite_key)
+    : db_(db) {
+    batch_ = std::make_unique<rocksdb::WriteBatchWithIndex>(nullptr, overwrite_key);
+}
+
+RocksDBWrapper::WriteBatchWithIndexWrapper::~WriteBatchWithIndexWrapper() = default;
+
+void RocksDBWrapper::WriteBatchWithIndexWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
+    batch_->Put(
+        rocksdb::Slice(key.data(), key.size()),
+        rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
+    );
+}
+
+void RocksDBWrapper::WriteBatchWithIndexWrapper::del(std::string_view key) {
+    batch_->Delete(rocksdb::Slice(key.data(), key.size()));
+}
+
+std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatch(std::string_view key) {
+    if (!db_) return std::nullopt;
+    
+    std::string value;
+    rocksdb::Status status = batch_->GetFromBatch(
+        *db_->options_,
+        rocksdb::Slice(key.data(), key.size()),
+        &value
+    );
+    
+    if (status.ok()) {
+        return std::vector<uint8_t>(value.begin(), value.end());
+    }
+    return std::nullopt;
+}
+
+std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatchAndDB(std::string_view key) {
+    if (!db_ || !db_->db_) return std::nullopt;
+    
+    std::string value;
+    rocksdb::Status status = batch_->GetFromBatchAndDB(
+        db_->db_.get(),
+        *db_->read_options_,
+        rocksdb::Slice(key.data(), key.size()),
+        &value
+    );
+    
+    if (status.ok()) {
+        return std::vector<uint8_t>(value.begin(), value.end());
+    }
+    return std::nullopt;
+}
+
+bool RocksDBWrapper::WriteBatchWithIndexWrapper::commit() {
+    if (!db_ || !batch_) return false;
+    // WriteBatchWithIndex inherits from WriteBatch - cast to parent
+    rocksdb::WriteBatch* wb = dynamic_cast<rocksdb::WriteBatch*>(batch_.get());
+    if (!wb) return false;
+    rocksdb::Status status = db_->db_->Write(*db_->write_options_, wb);
+    return status.ok();
+}
+
+void RocksDBWrapper::WriteBatchWithIndexWrapper::rollback() {
+    batch_->Clear();
+}
+
+std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex(bool overwrite_key) {
+    return std::make_unique<WriteBatchWithIndexWrapper>(this, overwrite_key);
+}
+
 // TransactionWrapper implementation (MVCC)
 
 RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db)
@@ -600,7 +658,6 @@ bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
 
 bool RocksDBWrapper::TransactionWrapper::commit() {
     if (!txn_ || !active_) {
-        std::cout << "[DEBUG] TransactionWrapper::commit: txn_ null or inactive" << std::endl;
         return false;
     }
     // If WritePrepared is active or skip_prepare is false, ensure Prepare() is called
@@ -613,7 +670,6 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
         rocksdb::Status prep_st = txn_->Prepare();
         if (!prep_st.ok()) {
             THEMIS_ERROR("Transaction prepare failed before commit: {}", prep_st.ToString());
-            std::cout << "[DEBUG] TransactionWrapper::commit: Prepare failed: " << prep_st.ToString() << std::endl;
             return false;
         }
         prepared_ = true;
@@ -625,16 +681,13 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
     if (!status.ok()) {
         if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
             THEMIS_WARN("MVCC Conflict detected: {} - Transaction must be retried", status.ToString());
-            std::cout << "[DEBUG] TransactionWrapper::commit: conflict: " << status.ToString() << std::endl;
         } else {
             THEMIS_ERROR("Transaction commit failed: {}", status.ToString());
-            std::cout << "[DEBUG] TransactionWrapper::commit: failed: " << status.ToString() << std::endl;
         }
         return false;
     }
     
     THEMIS_DEBUG("MVCC Transaction committed successfully");
-    std::cout << "[DEBUG] TransactionWrapper::commit: SUCCESS" << std::endl;
     return true;
 }
 
