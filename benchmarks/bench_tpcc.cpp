@@ -130,6 +130,7 @@ public:
         config.max_write_buffer_number = 3;
         
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
         
         // Number of warehouses from benchmark parameter (default: 1)

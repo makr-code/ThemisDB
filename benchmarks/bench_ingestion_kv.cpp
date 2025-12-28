@@ -25,6 +25,7 @@ public:
         cfg.enable_high_parallel_tuning = true;
         cfg.max_background_jobs = 8;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open RocksDB for ingestion benchmark");
         }

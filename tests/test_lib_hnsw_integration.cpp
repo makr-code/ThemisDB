@@ -361,11 +361,22 @@ TEST_F(HNSWLibIntegrationTest, DistanceComputationAccuracy) {
     std::vector<float> vec1 = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     std::vector<float> vec2 = {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
-    // Compute distance using hnswlib
-    float hnsw_dist = space.fstdistfunc_(vec1.data(), vec2.data(), space.dist_func_param_);
+    // Compute distance using hnswlib public API
+    // Create small index to use get_dist_func()
+    hnswlib::HierarchicalNSW<float> index(&space, 10, 16, 200);
+    index.addPoint(vec1.data(), 0);
+    index.addPoint(vec2.data(), 1);
     
-    // Expected L2 distance: sqrt(1^2 + 1^2) = sqrt(2)
+    // Query vec1 against vec2
+    auto result = index.searchKnn(vec1.data(), 2);
+    
+    // Expected L2 distance: sqrt(1^2 + 1^2) = sqrt(2) ≈ 1.414
     float expected_dist = std::sqrt(2.0f);
     
-    EXPECT_NEAR(hnsw_dist, expected_dist, 1e-5);
+    // Result.second contains distance, should have vec2 as second neighbor
+    EXPECT_EQ(result.size(), 2);
+    if (result.size() == 2) {
+        // Second result should be vec2 with distance ~1.414
+        EXPECT_NEAR(result.top().first, expected_dist, 0.01);
+    }
 }

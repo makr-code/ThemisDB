@@ -57,6 +57,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+    if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
     }
     
     void TearDown(const ::benchmark::State& state) override {
@@ -128,6 +129,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+    if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
     }
     
     void TearDown(const ::benchmark::State& state) override {
@@ -193,6 +195,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+    if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
     }
     
     void TearDown(const ::benchmark::State& state) override {
@@ -289,7 +292,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
-        
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         idx_mgr_ = std::make_unique<SecondaryIndexManager>(*db_);
         idx_mgr_->createIndex("users", "country");
         idx_mgr_->createIndex("users", "age");
@@ -361,7 +364,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
-        
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         gim_ = std::make_unique<GraphIndexManager>(*db_);
         sim_ = std::make_unique<SecondaryIndexManager>(*db_);
         sim_->createIndex("posts", "author_id");
@@ -426,6 +429,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+    if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
     }
     
     void TearDown(const ::benchmark::State& state) override {
@@ -506,6 +510,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         gim_ = std::make_unique<GraphIndexManager>(*db_);
     }
     
@@ -594,6 +599,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         sim_ = std::make_unique<SecondaryIndexManager>(*db_);
     }
     
@@ -698,6 +704,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         vim_ = std::make_unique<VectorIndexManager>(*db_);
     }
     
@@ -770,6 +777,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         vim_ = std::make_unique<VectorIndexManager>(*db_);
         sim_ = std::make_unique<SecondaryIndexManager>(*db_);
         sim_->createIndex("stress", "key");

@@ -264,8 +264,9 @@ if(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
     set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
     set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
-    set(THEMIS_ENABLE_LLM ON CACHE INTERNAL "LLM core feature enabled in Community Edition")
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM enabled")
+    # TEMPORARY: LLM disabled for testing to avoid llama.cpp hang
+    set(THEMIS_ENABLE_LLM OFF CACHE INTERNAL "LLM temporarily disabled for testing")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM DISABLED FOR TESTING")
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
@@ -681,12 +682,16 @@ set(THEMIS_CORE_SOURCES
     src/query/query_engine.cpp
     src/query/query_optimizer.cpp
     src/query/aql_parser.cpp
+    src/query/aql_parser_json.cpp
     src/query/aql_translator.cpp
     src/query/aql_runner.cpp
     src/query/let_evaluator.cpp
     src/query/window_evaluator.cpp
     src/query/cte_subquery.cpp
     src/query/cte_cache.cpp
+
+    
+    
     src/query/statistical_aggregator.cpp
     src/query/semantic_cache.cpp
     src/query/functions/function_registry.cpp
@@ -981,6 +986,10 @@ if(THEMIS_CORE_SHARED)
     set(_THEMIS_CORE_LIBTYPE SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
+
+# Per-file compile options for heavy AQL parser translation units
+set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
+set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
 if(MSVC AND THEMIS_CORE_SHARED)
@@ -1636,6 +1645,28 @@ if(THEMIS_BUILD_TESTS)
     gtest_discover_tests(themis_secidx_tests
         DISCOVERY_MODE PRE_TEST
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # CRITICAL TESTS ONLY (for fast validation)
+    add_executable(themis_tests_critical
+        tests/test_lib_rocksdb_integration.cpp
+        tests/test_lib_hnsw_integration.cpp
+        tests/test_lib_boost_integration.cpp
+        tests/test_secondary_index.cpp
+    )
+    target_link_libraries(themis_tests_critical
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+            Boost::system
+    )
+    include(GoogleTest)
+    gtest_discover_tests(themis_tests_critical
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
         EXTRA_ARGS --gtest_color=yes
         CONFIGURATIONS Release Debug
     )

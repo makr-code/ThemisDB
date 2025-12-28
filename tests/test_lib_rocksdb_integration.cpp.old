@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 VCC ThemisDB Contributors
+// Copyright (c) 2025 VCC ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 //
 // RocksDB Library Integration Tests (Updated for v1.3.5+)
@@ -239,12 +239,11 @@ TEST_F(RocksDBLibIntegrationTest, PrefixScan) {
     EXPECT_TRUE(wrapper.put("prefix_b_1", "value_b1"));
     EXPECT_TRUE(wrapper.put("prefix_c_1", "value_c1"));
     
-    // Scan with prefix "prefix_a" (callback must return bool)
+    // Scan with prefix "prefix_a"
     int count = 0;
-    wrapper.scanPrefix("prefix_a", [&count](std::string_view key, std::string_view value) -> bool {
+    wrapper.scanPrefix("prefix_a", [&count](std::string_view key, std::string_view value) {
         count++;
         EXPECT_TRUE(key.starts_with("prefix_a"));
-        return true;  // Continue scanning
     });
     
     EXPECT_EQ(count, 2); // Should find prefix_a_1 and prefix_a_2

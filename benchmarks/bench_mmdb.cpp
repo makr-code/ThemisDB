@@ -125,6 +125,7 @@ public:
         config.memtable_size_mb = 128;
         
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
         
         product_count_ = state.range(0);

@@ -45,7 +45,7 @@ TEST_F(BoostLibIntegrationTest, SystemErrorCode) {
 TEST_F(BoostLibIntegrationTest, IoContextBasicOperations) {
     bool handler_called = false;
     
-    io_context_.post([&handler_called]() {
+    boost::asio::post(io_context_, [&handler_called]() {
         handler_called = true;
     });
     

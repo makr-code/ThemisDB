@@ -102,33 +102,63 @@ ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
 ENV VCPKG_USE_ARIA2=1
 ENV VCPKG_DOWNLOADER=aria2
+ENV VCPKG_DOWNLOAD_TOOL=aria2
 ENV VCPKG_MAX_CONCURRENCY=4
+ENV VCPKG_BUILD_TYPE=release
 ENV VCPKG_INSTALLED_DIR=/src/vcpkg_installed
 # Local binary cache directory for faster multi-arch builds
 RUN mkdir -p /root/.cache/vcpkg/archives && chmod -R 755 /root/.cache/vcpkg
 
-# Install dependencies via vcpkg - will use cache if available, download if needed
+# Install dependencies via vcpkg - use cache as fallback, but allow online downloads
 # Uses build arg VCPKG_ASSET_URL for asset source (default: https://vcpkg.io/assets)
+RUN set -eux; \
+    export VCPKG_DOWNLOAD_TOOL=aria2; export VCPKG_USE_ARIA2=1; export VCPKG_DOWNLOADER=aria2; \
+    BOOST_PKGS="algorithm align array asio assert atomic beast bind chrono concept-check config container container-hash context conversion core coroutine date_time describe detail dynamic-bitset endian exception filesystem function function-types functional fusion integer intrusive io iterator lexical_cast locale logic math move mp11 mpl multiprecision numeric-conversion optional pool predef preprocessor random range ratio regex scope scope-exit smart-ptr static-assert static-string system thread throw-exception tokenizer tuple type-index type-traits typeof unordered utility variant2 winapi"; \
+    for pkg in $BOOST_PKGS; do \
+      repo_slug=$(echo "$pkg" | tr '-' '_'); \
+      file=boostorg-${repo_slug}-boost-1.86.0.tar.gz; \
+      if [ -f /opt/vcpkg/downloads/$file ]; then \
+        echo "Using cached $file"; \
+        continue; \
+      fi; \
+      for attempt in 1 2 3 4 5; do \
+        echo "Downloading $file (attempt ${attempt}/5)"; \
+        if aria2c --retry-wait=5 --max-tries=5 --timeout=30 --dir=/opt/vcpkg/downloads --out=$file \
+             https://github.com/boostorg/${repo_slug}/archive/boost-1.86.0.tar.gz; then \
+          break; \
+        fi; \
+        if [ "$attempt" -eq 5 ]; then \
+          echo "Download $file failed after 5 attempts"; \
+          exit 1; \
+        fi; \
+        sleep 10; \
+      done; \
+    done
+
 RUN . /etc/profile.d/vcpkg.sh && \
     # Check if cache has actual content (excluding placeholder files)
     CACHE_FILES=$(find ${VCPKG_ROOT}/downloads -type f ! -name '.gitkeep' ! -name 'README.md' | wc -l) && \
-    if [ "$CACHE_FILES" -gt 0 ]; then \
-        echo "==> Using OFFLINE mode with cached downloads ($CACHE_FILES files)"; \
-        export VCPKG_ASSET_SOURCES="files,/opt/vcpkg/downloads,readwrite"; \
-    else \
-        echo "==> Using ONLINE mode (no cache found, will download packages)"; \
-        ASSET_URL=${VCPKG_ASSET_URL:-https://vcpkg.io/assets}; \
-        export VCPKG_ASSET_SOURCES="x-azurl,$ASSET_URL,readwrite"; \
-        echo "Asset source: $ASSET_URL"; \
-    fi && \
+    echo "==> Found $CACHE_FILES cached download files" && \
+    echo "==> Using HYBRID mode: cache first, online fallback for missing packages" && \
+    # Use local cache first, then fall back to online downloads if files are missing
+    export VCPKG_ASSET_SOURCES="clear;files,/opt/vcpkg/downloads,readwrite;x-azurl,https://vcpkg.io/assets,readwrite" && \
     echo "Installing dependencies for ${VCPKG_TRIPLET}..." && \
     set -eux; \
     export VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite;files,/opt/vcpkg/downloads,readwrite"; \
-    ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} 2>&1 | tee /tmp/vcpkg_install.log || ( \
-        echo "vcpkg install failed; tail of log:"; \
-        tail -n 100 /tmp/vcpkg_install.log; \
-        exit 1 \
-    )
+    export VCPKG_DOWNLOAD_TOOL=aria2; export VCPKG_USE_ARIA2=1; export VCPKG_DOWNLOADER=aria2; \
+    for attempt in 1 2 3; do \
+        echo "vcpkg install attempt ${attempt}/3"; \
+        if ${VCPKG_ROOT}/vcpkg install --triplet=${VCPKG_TRIPLET} 2>&1 | tee /tmp/vcpkg_install.log; then \
+            break; \
+        fi; \
+        if [ "$attempt" -eq 3 ]; then \
+            echo "vcpkg install failed after 3 attempts; tail of log:"; \
+            tail -n 200 /tmp/vcpkg_install.log; \
+            exit 1; \
+        fi; \
+        echo "vcpkg install failed; retrying in 15s..."; \
+        sleep 15; \
+    done
 
 # Copy source code
 COPY CMakeLists.txt ./
@@ -137,22 +167,14 @@ COPY include ./include
 COPY cmake ./cmake
 COPY src ./src
 
-# Optional: enable embedded LLM via llama.cpp
-ARG ENABLE_LLM=OFF
+# Enable embedded LLM via llama.cpp (always ON)
+ARG ENABLE_LLM=ON
 ARG LLAMA_GIT_REF=master
 
-# Use local llama.cpp via BuildKit additional context "llama" if provided; else clone via git
-RUN --mount=type=bind,from=llama,src=/,target=/tmp/llama-src \
-    if [ "${ENABLE_LLM}" = "ON" ]; then \
-      if [ -d "/tmp/llama-src" ] && [ "$(ls -A /tmp/llama-src)" ]; then \
-        echo "Using local llama.cpp from additional build context"; \
-        cp -a /tmp/llama-src /src/llama.cpp; \
-      else \
-        echo "Cloning llama.cpp (${LLAMA_GIT_REF})"; \
-        git clone --depth=1 https://github.com/ggerganov/llama.cpp.git /src/llama.cpp && \
-        (cd /src/llama.cpp && git fetch --depth=1 origin ${LLAMA_GIT_REF} || true && git checkout ${LLAMA_GIT_REF} || true); \
-      fi; \
-    fi
+# Clone llama.cpp for embedded LLM support
+RUN echo "Cloning llama.cpp (${LLAMA_GIT_REF}) - LLM support enabled"; \
+    git clone --depth=1 https://github.com/ggerganov/llama.cpp.git /src/llama.cpp && \
+    (cd /src/llama.cpp && git fetch --depth=1 origin ${LLAMA_GIT_REF} || true && git checkout ${LLAMA_GIT_REF} || true)
 
 # All vcpkg manifest dependencies are installed above (with retries)
 
@@ -318,16 +340,19 @@ VOLUME ["/var/lib/themisdb"]
 
 # Port mappings for all interfaces (optional ones require explicit build flags)
 # Core ports (always available):
-EXPOSE 8080   # HTTP/1.1 REST API, GraphQL, HTTP/2 (if enabled with -DTHEMIS_ENABLE_HTTP2=ON)
-EXPOSE 18765  # Binary Wire Protocol, gRPC
-EXPOSE 4318   # OpenTelemetry/Prometheus metrics (OTLP)
+# - 8080: HTTP/1.1 REST API, GraphQL, HTTP/2 (if enabled with -DTHEMIS_ENABLE_HTTP2=ON)
+# - 18765: Binary Wire Protocol, gRPC
+# - 4318: OpenTelemetry/Prometheus metrics (OTLP)
+EXPOSE 8080
+EXPOSE 18765
+EXPOSE 4318
 
 # Optional protocol ports (require explicit build flags):
-# EXPOSE 1883   # MQTT plain (requires -DTHEMIS_ENABLE_MQTT=ON)
-# EXPOSE 8883   # MQTT over TLS (requires -DTHEMIS_ENABLE_MQTT=ON)
-# EXPOSE 8083   # MQTT over WebSocket (requires -DTHEMIS_ENABLE_MQTT=ON)
-# EXPOSE 5432   # PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
-# EXPOSE 3000   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
+# - 1883: MQTT plain (requires -DTHEMIS_ENABLE_MQTT=ON)
+# - 8883: MQTT over TLS (requires -DTHEMIS_ENABLE_MQTT=ON)
+# - 8083: MQTT over WebSocket (requires -DTHEMIS_ENABLE_MQTT=ON)
+# - 5432: PostgreSQL Wire Protocol (requires -DTHEMIS_ENABLE_POSTGRES_WIRE=ON)
+# - 3000: MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
 
 # Health check for container orchestration
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \

@@ -117,6 +117,7 @@ public:
         config.write_buffer_size_mb = 64;
         
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
         
         // Record count from benchmark parameter (default: 10000)

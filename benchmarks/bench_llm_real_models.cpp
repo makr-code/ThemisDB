@@ -69,7 +69,7 @@ public:
         RocksDBWrapper::Config cfg;
         cfg.db_path = db_path_;
         db_ = std::make_unique<RocksDBWrapper>(cfg);
-        
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         // Initialize LLM Plugin Manager
         auto& manager = llm::LLMPluginManager::getInstance();
         
