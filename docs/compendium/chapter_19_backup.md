@@ -109,7 +109,7 @@ def logical_backup(client, backup_file):
     import json
     
     backup_data = {
-        'version': '1.3.5',
+        'version': '1.3.4',
         'timestamp': datetime.now().isoformat(),
         'collections': {}
     }

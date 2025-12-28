@@ -98,7 +98,7 @@ docker run -d \
 curl http://localhost:8765/health
 
 # Output:
-# {"status":"ok","version":"1.3.5","uptime":2.5}
+# {"status":"ok","version":"1.3.4","uptime":2.5}
 ```
 
 **Fertig!** ThemisDB läuft jetzt.
@@ -111,7 +111,7 @@ docker run -d \
   --name themisdb \
   -p 8765:8765 \
   -v themisdb_data:/data \
-  themisdb/themisdb:1.3.5  # Fixe Version
+  themisdb/themisdb:1.3.4  # Fixe Version
 ```
 
 **Best Practice:** Verwende in Production immer eine fixe Version, nicht `latest`.
@@ -141,7 +141,7 @@ docker run -d \
   -v themisdb_data:/data \
   -v themisdb_logs:/logs \
   -v $(pwd)/themisdb.yaml:/etc/themisdb/config.yaml \
-  themisdb/themisdb:1.3.5 \
+  themisdb/themisdb:1.3.4 \
   --config /etc/themisdb/config.yaml
 ```
 
@@ -155,7 +155,7 @@ version: '3.8'
 
 services:
   themisdb:
-    image: themisdb/themisdb:1.3.5
+    image: themisdb/themisdb:1.3.4
     container_name: themisdb
     ports:
       - "8765:8765"
@@ -200,11 +200,11 @@ docker-compose up -d
 ```bash
 # Linux (x86_64)
 curl -L -o themisdb.tar.gz \
-  https://github.com/makr-code/ThemisDB/releases/download/v1.3.5/themisdb-linux-x86_64.tar.gz
+  https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-linux-x86_64.tar.gz
 
 # macOS (Apple Silicon)
 curl -L -o themisdb.tar.gz \
-  https://github.com/makr-code/ThemisDB/releases/download/v1.3.5/themisdb-darwin-arm64.tar.gz
+  https://github.com/makr-code/ThemisDB/releases/download/v1.3.4/themisdb-darwin-arm64.tar.gz
 
 # Entpacken
 tar xzf themisdb.tar.gz
@@ -661,7 +661,7 @@ server:
 **Docker:**
 ```bash
 # 1. Pull neue Version
-docker pull themisdb/themisdb:1.3.5
+docker pull themisdb/themisdb:1.3.4
 
 # 2. Stoppe alten Container
 docker stop themisdb
@@ -671,7 +671,7 @@ docker run -d \
   --name themisdb \
   -p 8765:8765 \
   -v themisdb_data:/data \
-  themisdb/themisdb:1.3.5
+  themisdb/themisdb:1.3.4
 
 # 4. Alte Version entfernen
 docker rm themisdb-old
@@ -699,13 +699,13 @@ Für Cluster-Setups:
 
 ```bash
 # 1. Update Node 2
-kubectl set image deployment/themisdb-node2 themisdb=themisdb:1.3.5
+kubectl set image deployment/themisdb-node2 themisdb=themisdb:1.3.4
 
 # 2. Warte auf Ready
 kubectl wait --for=condition=ready pod -l app=themisdb-node2
 
 # 3. Update Node 1
-kubectl set image deployment/themisdb-node1 themisdb=themisdb:1.3.5
+kubectl set image deployment/themisdb-node1 themisdb=themisdb:1.3.4
 
 # → Keine Downtime!
 ```

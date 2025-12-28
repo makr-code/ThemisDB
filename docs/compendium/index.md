@@ -1,6 +1,6 @@
 # ThemisDB: Das vollständige Handbuch
 
-**Version 1.3.5** | **Dezember 2025**
+**Version 1.3.4** | **Dezember 2025**
 
 ---
 
@@ -74,7 +74,7 @@ Referenzen, Glossar, alle Examples im Detail.
 
 ## Downloads
 
-- **[PDF Version](../ThemisDB-Kompendium-v1.3.5.pdf)** - Vollständiges Handbuch (ca. 880 Seiten)
+- **[PDF Version](../ThemisDB-Kompendium-v1.3.4.pdf)** - Vollständiges Handbuch (ca. 880 Seiten)
 - **[Examples Repository](https://github.com/makr-code/ThemisDB/tree/main/examples)** - Alle Code-Beispiele
 - **[Referenzdokumentation](../de/README.md)** - Einzeldokumente zum Nachschlagen
 

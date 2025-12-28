@@ -353,7 +353,7 @@ await db.collection('users').insertOne({
 </html>
 ```
 
-### 21.3.5 React Integration
+### 21.3.4 React Integration
 
 ```jsx
 import React, { useState, useEffect } from 'react';
@@ -387,14 +387,14 @@ function UserList() {
 <dependency>
     <groupId>io.themisdb</groupId>
     <artifactId>themisdb-java</artifactId>
-    <version>1.3.5</version>
+    <version>1.3.4</version>
 </dependency>
 
 <!-- JDBC Driver -->
 <dependency>
     <groupId>io.themisdb</groupId>
     <artifactId>themisdb-jdbc</artifactId>
-    <version>1.3.5</version>
+    <version>1.3.4</version>
 </dependency>
 ```
 

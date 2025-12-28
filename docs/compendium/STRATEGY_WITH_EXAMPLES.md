@@ -1,6 +1,6 @@
 # ThemisDB Kompendium: Umfassende Strategie mit Examples-Integration
 
-**Version:** 1.3.5  
+**Version:** 1.3.4  
 **Datum:** 28. Dezember 2025  
 **Anforderungen:**  
 1. ✅ Ausformulierte Texte statt Referenzen
@@ -424,7 +424,7 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # ThemisDB starten (Docker)
-docker run -d -p 8765:8765 themisdb/themisdb:1.3.5
+docker run -d -p 8765:8765 themisdb/themisdb:1.3.4
 
 # Warten auf Server-Start
 sleep 5

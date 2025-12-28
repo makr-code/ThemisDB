@@ -1,6 +1,6 @@
 # ThemisDB Kompendium
 
-**Das vollständige Handbuch für ThemisDB v1.3.5**
+**Das vollständige Handbuch für ThemisDB v1.3.4**
 
 ---
 
@@ -104,7 +104,7 @@ export ENABLE_PDF_EXPORT=1
 mkdocs build -f mkdocs-compendium.yml
 ```
 
-Output: `../ThemisDB-Kompendium-v1.3.5.pdf`
+Output: `../ThemisDB-Kompendium-v1.3.4.pdf`
 
 ### Development Server
 
@@ -236,6 +236,6 @@ Alle 21 Examples sind auf Kapitel verteilt:
 
 ---
 
-**Version:** 1.3.5  
+**Version:** 1.3.4  
 **Status:** Pilot Phase  
 **Letzte Aktualisierung:** 28. Dezember 2025

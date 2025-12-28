@@ -4,7 +4,7 @@
 
 **ThemisDB Release History**
 
-[![Version](https://img.shields.io/badge/version-1.3.5-blue)](https://github.com/makr-code/ThemisDB/releases)
+[![Version](https://img.shields.io/badge/version-1.3.4-blue)](https://github.com/makr-code/ThemisDB/releases)
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-v1.0.0-orange)](https://keepachangelog.com/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-v2.0.0-green)](https://semver.org/)
 
@@ -25,7 +25,7 @@
 
 ---
 
-## 🎉 [1.3.5] - 2025-12-28
+## 🎉 [1.3.4] - 2025-12-28
 
 > **📚 FOCUS:** Documentation Update & Build System
 
@@ -49,8 +49,8 @@
 <details>
 <summary><b>Version & Documentation Updates</b></summary>
 
-- 📌 **Version Updated** to 1.3.5 across all documentation files
-- 📝 **Release Notes** added for v1.3.5
+- 📌 **Version Updated** to 1.3.4 across all documentation files
+- 📝 **Release Notes** added for v1.3.4
 - 🔄 **Cross-References** improved throughout documentation
 - 📚 **German Documentation** fully updated in docs/de/
 

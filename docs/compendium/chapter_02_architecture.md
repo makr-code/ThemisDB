@@ -418,7 +418,7 @@ class Task:
 
 ```bash
 # ThemisDB starten (Docker)
-docker run -d -p 8765:8765 themisdb/themisdb:1.3.5
+docker run -d -p 8765:8765 themisdb/themisdb:1.3.4
 
 # Todo-App installieren
 cd examples/02_todo_app

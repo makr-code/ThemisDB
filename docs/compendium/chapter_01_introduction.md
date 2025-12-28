@@ -302,7 +302,7 @@ Der schnellste Weg, ThemisDB zu starten:
 
 ```bash
 # ThemisDB mit Docker starten
-docker run -d -p 8765:8765 themisdb/themisdb:1.3.5
+docker run -d -p 8765:8765 themisdb/themisdb:1.3.4
 
 # Warten bis Server bereit ist
 sleep 5
@@ -315,7 +315,7 @@ curl http://localhost:8765/health
 ```json
 {
   "status": "ok",
-  "version": "1.3.5",
+  "version": "1.3.4",
   "uptime": 5.2
 }
 ```
