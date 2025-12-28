@@ -4,7 +4,7 @@
 
 **ThemisDB Release History**
 
-[![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases)
+[![Version](https://img.shields.io/badge/version-1.3.5-blue)](https://github.com/makr-code/ThemisDB/releases)
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-v1.0.0-orange)](https://keepachangelog.com/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-v2.0.0-green)](https://semver.org/)
 
@@ -22,6 +22,39 @@
 ### ✨ Added
 
 - Future features and improvements will be listed here
+
+---
+
+## 🎉 [1.3.5] - 2025-12-28
+
+> **📚 FOCUS:** Documentation Update & Build System
+
+### ✨ Added
+
+<details>
+<summary><b>Documentation System Enhancement</b></summary>
+
+- 📚 **MkDocs Integration** with Material theme for modern documentation
+- 📄 **PDF Export** capability using mkdocs-with-pdf and print-site plugins
+- 🌐 **GitHub Wiki Generation** from docs/de/ directory
+- 🔍 **Full-text Search** across all documentation
+- 📖 **Enhanced Navigation** with tabs, instant loading, and code copy
+- 📑 **Print-Friendly Output** with single-page HTML for easy printing
+- 🔖 **Hierarchical TOC** with bookmarks for PDF output
+
+</details>
+
+### 🔧 Changed
+
+<details>
+<summary><b>Version & Documentation Updates</b></summary>
+
+- 📌 **Version Updated** to 1.3.5 across all documentation files
+- 📝 **Release Notes** added for v1.3.5
+- 🔄 **Cross-References** improved throughout documentation
+- 📚 **German Documentation** fully updated in docs/de/
+
+</details>
 
 ---
 
