@@ -44,10 +44,11 @@ docs/compendium/
 - **Kapitel 4:** Installation & Setup (753 Zeilen, ~6.500 Wörter)
 - **Teil I Gesamt:** ✅ **KOMPLETT** (4/4 Kapitel, 2.740 Zeilen, ~29.700 Wörter)
 
-**Teil II - Datenmodelle (In Arbeit):**
+**Teil II - Datenmodelle (Fast fertig):**
 - **Kapitel 5:** Relationale Daten (1.223 Zeilen, ~9.500 Wörter)
 - **Kapitel 6:** Graph-Datenbanken (1.247 Zeilen, ~10.100 Wörter)
-- **Teil II Gesamt:** 🚧 **2/4 Kapitel** (2.470 Zeilen, ~19.600 Wörter)
+- **Kapitel 7:** Dokument-Speicherung (1.210 Zeilen, ~9.200 Wörter)
+- **Teil II Gesamt:** 🎉 **3/4 Kapitel - 75% KOMPLETT** (3.680 Zeilen, ~28.800 Wörter)
 
 **Gesamtfortschritt:** 6/30 Kapitel (20%), 5.210 Zeilen, ~49.300 Wörter
 

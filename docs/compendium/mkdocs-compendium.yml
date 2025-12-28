@@ -104,7 +104,7 @@ nav:
   - Teil II - Datenmodelle:
     - Kapitel 5 - Relational: chapter_05_relational.md
     - Kapitel 6 - Graph: chapter_06_graph.md
-    - Kapitel 7 - Dokumente: chapter_07_documents.md
+    - Kapitel 7 - Dokumente: chapter_07_document.md
     - Kapitel 8 - Vektoren: chapter_08_vectors.md
   
   - Teil III - Spezialanwendungen:
