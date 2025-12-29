@@ -13,6 +13,15 @@ on:
         description: 'Release version (e.g., 1.3.1)'
         required: false
         type: string
+      edition:
+        description: 'Deployment edition/strategy'
+        required: true
+        type: choice
+        options:
+          - community
+          - enterprise
+          - hyperscaler
+        default: 'community'
       push_to_dockerhub:
         description: 'Push to DockerHub'
         required: true
@@ -60,6 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
+      edition: ${{ steps.edition.outputs.edition }}
       should_push: ${{ steps.push.outputs.should_push }}
       should_build_docs: ${{ steps.docs.outputs.should_build }}
     
@@ -79,6 +89,19 @@ jobs:
           else
             VERSION="dev"
           fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Release Version: $VERSION"
+      
+      - name: Determine edition
+        id: edition
+        run: |
+          if [ -n "${{ github.event.inputs.edition }}" ]; then
+            EDITION="${{ github.event.inputs.edition }}"
+          else
+            EDITION="community"
+          fi
+          echo "edition=$EDITION" >> $GITHUB_OUTPUT
+          echo "Edition: $EDITION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Release Version: $VERSION"
       
@@ -225,11 +248,18 @@ jobs:
           echo "---" >> $CHANGELOG_FILE
           echo "" >> $CHANGELOG_FILE
           echo "**Docker Images Available**:" >> $CHANGELOG_FILE
-          echo "- \`themisdb/server:$VERSION\`" >> $CHANGELOG_FILE
-          echo "- \`themisdb/server:latest\`" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:$VERSION-${{ needs.setup.outputs.edition }}\` (Edition-specific)" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:$VERSION\` (Default)" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:latest-${{ needs.setup.outputs.edition }}\` (Latest for edition)" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:latest\` (Latest default)" >> $CHANGELOG_FILE
           echo "" >> $CHANGELOG_FILE
           echo "**Installation**:" >> $CHANGELOG_FILE
           echo '```bash' >> $CHANGELOG_FILE
+          echo "# Install specific edition" >> $CHANGELOG_FILE
+          echo "docker pull themisdb/server:$VERSION-${{ needs.setup.outputs.edition }}" >> $CHANGELOG_FILE
+          echo "docker run -d -p 18765:18765 -v themisdb-data:/data themisdb/server:$VERSION-${{ needs.setup.outputs.edition }}" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "# Or install default" >> $CHANGELOG_FILE
           echo "docker pull themisdb/server:$VERSION" >> $CHANGELOG_FILE
           echo "docker run -d -p 18765:18765 -v themisdb-data:/data themisdb/server:$VERSION" >> $CHANGELOG_FILE
           echo '```' >> $CHANGELOG_FILE
@@ -383,6 +413,10 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
+            type=semver,pattern={{version}},value=${{ needs.setup.outputs.version }},suffix=-${{ needs.setup.outputs.edition }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.setup.outputs.version }},suffix=-${{ needs.setup.outputs.edition }}
+            type=semver,pattern={{major}},value=${{ needs.setup.outputs.version }},suffix=-${{ needs.setup.outputs.edition }}
+            type=raw,value=latest-${{ needs.setup.outputs.edition }},enable={{is_default_branch}}
             type=semver,pattern={{version}},value=${{ needs.setup.outputs.version }}
             type=semver,pattern={{major}}.{{minor}},value=${{ needs.setup.outputs.version }}
             type=semver,pattern={{major}},value=${{ needs.setup.outputs.version }}
@@ -399,6 +433,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            EDITION=${{ needs.setup.outputs.edition }}
       
       - name: Generate build summary
         run: |
@@ -406,6 +442,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Build Information" >> $GITHUB_STEP_SUMMARY
           echo "- **Version**: ${{ needs.setup.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Edition**: ${{ needs.setup.outputs.edition }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Build Time**: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
           echo "- **Platform**: ${{ github.event.inputs.build_platforms || 'linux/amd64,linux/arm64' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
@@ -419,6 +456,9 @@ jobs:
             echo "✅ **Image pushed to Docker Hub**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### Pull Command" >> $GITHUB_STEP_SUMMARY
+            echo '```bash' >> $GITHUB_STEP_SUMMARY
+            echo "docker pull ${{ env.IMAGE_NAME }}:${{ needs.setup.outputs.version }}-${{ needs.setup.outputs.edition }}" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
             echo '```bash' >> $GITHUB_STEP_SUMMARY
             echo "docker pull ${{ env.IMAGE_NAME }}:${{ needs.setup.outputs.version }}" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY

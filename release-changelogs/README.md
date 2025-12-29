@@ -119,15 +119,69 @@ D    old_file.cpp
 ---
 
 **Docker Images Available**:
-- \`themisdb/server:1.3.1\`
-- \`themisdb/server:latest\`
+- `themisdb/server:1.3.1-community` (Community Edition)
+- `themisdb/server:1.3.1-enterprise` (Enterprise Edition)
+- `themisdb/server:1.3.1-hyperscaler` (Hyperscaler Edition)
+- `themisdb/server:1.3.1` (Default)
+- `themisdb/server:latest-community` (Latest Community)
+- `themisdb/server:latest-enterprise` (Latest Enterprise)
+- `themisdb/server:latest-hyperscaler` (Latest Hyperscaler)
+- `themisdb/server:latest` (Latest Default)
 
 **Installation**:
 \`\`\`bash
+# Install specific edition
+docker pull themisdb/server:1.3.1-community
+docker run -d -p 18765:18765 -v themisdb-data:/data themisdb/server:1.3.1-community
+
+# Or install default
 docker pull themisdb/server:1.3.1
 docker run -d -p 18765:18765 -v themisdb-data:/data themisdb/server:1.3.1
 \`\`\`
 ```
+
+## Docker Edition Tags
+
+ThemisDB releases are available in multiple editions with corresponding Docker tags:
+
+### Edition Types
+
+1. **Community Edition** (`-community` suffix)
+   - Open-source features
+   - Community support
+   - Suitable for development and small deployments
+
+2. **Enterprise Edition** (`-enterprise` suffix)
+   - Advanced features for business
+   - Enterprise support
+   - Enhanced security and compliance
+
+3. **Hyperscaler Edition** (`-hyperscaler` suffix)
+   - Optimized for cloud-scale deployments
+   - Maximum performance and scalability
+   - Cloud-native features
+
+### Tag Structure
+
+Each release produces tags with and without edition suffixes:
+
+- `themisdb/server:VERSION-EDITION` - Specific version with edition (e.g., `1.3.1-community`)
+- `themisdb/server:VERSION` - Specific version without edition (defaults to community)
+- `themisdb/server:MAJOR.MINOR-EDITION` - Minor version with edition (e.g., `1.3-enterprise`)
+- `themisdb/server:MAJOR-EDITION` - Major version with edition (e.g., `1-hyperscaler`)
+- `themisdb/server:latest-EDITION` - Latest release for specific edition
+- `themisdb/server:latest` - Latest release (default edition)
+
+### Selecting an Edition
+
+When running the release build workflow manually, you can choose the edition:
+
+```yaml
+Actions → Release Build & Deploy → Run workflow
+  Edition: community / enterprise / hyperscaler
+```
+
+For tag-based releases, the default edition is `community`.
 
 ## Difference from Nightly Changelogs
 
