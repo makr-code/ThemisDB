@@ -1,0 +1,561 @@
+name: Release Build & Deploy
+
+# Release builds for ThemisDB triggered by version tags
+# Builds Docker images, generates changelog, builds documentation
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.3.1)'
+        required: false
+        type: string
+      push_to_dockerhub:
+        description: 'Push to DockerHub'
+        required: true
+        type: boolean
+        default: true
+      build_platforms:
+        description: 'Build platforms'
+        required: true
+        type: choice
+        options:
+          - linux/amd64
+          - linux/amd64,linux/arm64
+        default: 'linux/amd64,linux/arm64'
+      enable_llm:
+        description: 'Enable LLM support (llama.cpp)'
+        required: false
+        type: boolean
+        default: false
+      build_docs:
+        description: 'Build and deploy documentation'
+        required: false
+        type: boolean
+        default: true
+
+# Prevent concurrent builds
+concurrency:
+  group: release-build-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: themisdb/server
+  BUILD_TYPE: Release
+
+permissions:
+  contents: write
+  packages: write
+  pages: write
+  id-token: write
+
+jobs:
+  # Extract version and setup
+  setup:
+    name: Setup Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      should_push: ${{ steps.push.outputs.should_push }}
+      should_build_docs: ${{ steps.docs.outputs.should_build }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Extract version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          elif [ "${{ github.event_name }}" = "push" ] && [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          elif [ -f VERSION ]; then
+            VERSION=$(cat VERSION | tr -d '[:space:]')
+          else
+            VERSION="dev"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Release Version: $VERSION"
+      
+      - name: Determine push strategy
+        id: push
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "should_push=true" >> $GITHUB_OUTPUT
+            echo "Tag push - will push to DockerHub"
+          elif [ "${{ github.event.inputs.push_to_dockerhub }}" = "true" ]; then
+            echo "should_push=true" >> $GITHUB_OUTPUT
+            echo "Manual trigger with push enabled"
+          else
+            echo "should_push=false" >> $GITHUB_OUTPUT
+            echo "Manual trigger without push"
+          fi
+      
+      - name: Determine documentation build
+        id: docs
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
+            echo "Tag push - will build documentation"
+          elif [ "${{ github.event.inputs.build_docs }}" = "true" ]; then
+            echo "should_build=true" >> $GITHUB_OUTPUT
+            echo "Manual trigger with docs build enabled"
+          else
+            echo "should_build=false" >> $GITHUB_OUTPUT
+            echo "Manual trigger without docs build"
+          fi
+
+  # Generate release changelog
+  generate-changelog:
+    name: Generate Release Changelog
+    runs-on: ubuntu-latest
+    needs: setup
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for changelog generation
+      
+      - name: Generate changelog from release changes
+        id: changelog
+        run: |
+          VERSION="${{ needs.setup.outputs.version }}"
+          BUILD_DATE=$(date -u +'%Y-%m-%d')
+          BUILD_TIME=$(date -u +'%Y-%m-%d %H:%M:%S UTC')
+          
+          # Get previous tag
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "First release, using all history"
+            SINCE_REF=$(git rev-list --max-parents=0 HEAD)
+          else
+            echo "Previous tag: $PREVIOUS_TAG"
+            SINCE_REF="$PREVIOUS_TAG"
+          fi
+          
+          # Create release changelog file
+          CHANGELOG_FILE="RELEASE_CHANGELOG_v${VERSION}.md"
+          
+          echo "# Release Changelog - v$VERSION" > $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "**Release Date**: $BUILD_TIME" >> $CHANGELOG_FILE
+          echo "**Version**: $VERSION" >> $CHANGELOG_FILE
+          if [ -n "$PREVIOUS_TAG" ]; then
+            echo "**Previous Version**: $PREVIOUS_TAG" >> $CHANGELOG_FILE
+          fi
+          echo "" >> $CHANGELOG_FILE
+          echo "## Changes Since Last Release" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          # Get list of commits
+          COMMITS=$(git log ${SINCE_REF}..HEAD --pretty=format:"- %s (%h) - %an" --no-merges)
+          
+          if [ -n "$COMMITS" ]; then
+            echo "### Commits" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            echo "$COMMITS" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+          fi
+          
+          # Get changed files with stats
+          echo "### Changed Files" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          CHANGED_FILES=$(git diff --name-status ${SINCE_REF}..HEAD | sort -u)
+          
+          if [ -n "$CHANGED_FILES" ]; then
+            TOTAL_FILES=$(echo "$CHANGED_FILES" | wc -l)
+            echo "Total files changed: $TOTAL_FILES" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            echo '<details>' >> $CHANGELOG_FILE
+            echo '<summary>View changed files</summary>' >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            echo '```' >> $CHANGELOG_FILE
+            echo "$CHANGED_FILES" | head -200 >> $CHANGELOG_FILE
+            if [ "$TOTAL_FILES" -gt 200 ]; then
+              echo "... and $((TOTAL_FILES - 200)) more files" >> $CHANGELOG_FILE
+            fi
+            echo '```' >> $CHANGELOG_FILE
+            echo '</details>' >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            
+            # Count file types
+            echo "### File Statistics" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+            
+            CPP_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(cpp|cc|cxx|hpp|h)$' | wc -l)
+            PY_FILES=$(echo "$CHANGED_FILES" | grep '\.py$' | wc -l)
+            MD_FILES=$(echo "$CHANGED_FILES" | grep '\.md$' | wc -l)
+            YML_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(yml|yaml)$' | wc -l)
+            JS_FILES=$(echo "$CHANGED_FILES" | grep -E '\.(js|ts)$' | wc -l)
+            
+            echo "- C++ files: $CPP_FILES" >> $CHANGELOG_FILE
+            echo "- Python files: $PY_FILES" >> $CHANGELOG_FILE
+            echo "- Markdown files: $MD_FILES" >> $CHANGELOG_FILE
+            echo "- YAML files: $YML_FILES" >> $CHANGELOG_FILE
+            echo "- JavaScript/TypeScript files: $JS_FILES" >> $CHANGELOG_FILE
+            echo "" >> $CHANGELOG_FILE
+          fi
+          
+          # Analyze commit messages for categories
+          echo "### Change Categories" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          FEAT_COUNT=$(git log ${SINCE_REF}..HEAD --pretty=format:"%s" --no-merges | grep -iE '^(feat|feature|add)' | wc -l)
+          FIX_COUNT=$(git log ${SINCE_REF}..HEAD --pretty=format:"%s" --no-merges | grep -iE '^(fix|bugfix)' | wc -l)
+          DOCS_COUNT=$(git log ${SINCE_REF}..HEAD --pretty=format:"%s" --no-merges | grep -iE '^(docs|doc|documentation)' | wc -l)
+          REFACTOR_COUNT=$(git log ${SINCE_REF}..HEAD --pretty=format:"%s" --no-merges | grep -iE '^(refactor|refact)' | wc -l)
+          
+          echo "- Features: $FEAT_COUNT commits" >> $CHANGELOG_FILE
+          echo "- Bug Fixes: $FIX_COUNT commits" >> $CHANGELOG_FILE
+          echo "- Documentation: $DOCS_COUNT commits" >> $CHANGELOG_FILE
+          echo "- Refactoring: $REFACTOR_COUNT commits" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          
+          # Add footer
+          echo "---" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "**Docker Images Available**:" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:$VERSION\`" >> $CHANGELOG_FILE
+          echo "- \`themisdb/server:latest\`" >> $CHANGELOG_FILE
+          echo "" >> $CHANGELOG_FILE
+          echo "**Installation**:" >> $CHANGELOG_FILE
+          echo '```bash' >> $CHANGELOG_FILE
+          echo "docker pull themisdb/server:$VERSION" >> $CHANGELOG_FILE
+          echo "docker run -d -p 18765:18765 -v themisdb-data:/data themisdb/server:$VERSION" >> $CHANGELOG_FILE
+          echo '```' >> $CHANGELOG_FILE
+          
+          # Display changelog
+          echo "Generated changelog:"
+          cat $CHANGELOG_FILE
+      
+      - name: Upload changelog as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-changelog
+          path: RELEASE_CHANGELOG_*.md
+          retention-days: 90
+      
+      - name: Commit changelog to repository
+        run: |
+          VERSION="${{ needs.setup.outputs.version }}"
+          CHANGELOG_FILE="RELEASE_CHANGELOG_v${VERSION}.md"
+          
+          # Configure git
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Create release-changelogs directory if it doesn't exist
+          mkdir -p release-changelogs
+          mv $CHANGELOG_FILE release-changelogs/
+          
+          # Add and commit
+          git add release-changelogs/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add release changelog for v$VERSION [automated]"
+            git push
+          fi
+
+  # Build ThemisDB binary
+  build-binary:
+    name: Build ThemisDB Binary
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    needs: setup
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Free up disk space
+        run: |
+          echo "Disk space before cleanup:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          echo "Disk space after cleanup:"
+          df -h
+      
+      - name: Setup vcpkg cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ github.workspace }}/vcpkg-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: vcpkg-release-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            vcpkg-release-
+            vcpkg-
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build \
+            git curl zip unzip tar pkg-config \
+            autoconf automake libtool
+      
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          vcpkgGitCommitId: '2024.10.21'
+      
+      - name: Configure CMake
+        run: |
+          ENABLE_LLM="${{ github.event.inputs.enable_llm || 'false' }}"
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_STATIC_BUILD=OFF \
+            -DTHEMIS_ENABLE_LLM=$([ "$ENABLE_LLM" = "true" ] && echo "ON" || echo "OFF")
+      
+      - name: Build ThemisDB
+        run: |
+          cmake --build build --target themis_server -j $(nproc)
+          ls -lh build/themis_server
+          file build/themis_server
+      
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: themis_server_release_${{ needs.setup.outputs.version }}
+          path: build/themis_server
+          retention-days: 30
+
+  # Build and push Docker image
+  build-docker:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [setup, build-binary]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Download binary artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: themis_server_release_${{ needs.setup.outputs.version }}
+          path: build
+      
+      - name: Make binary executable
+        run: chmod +x build/themis_server
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ github.event.inputs.build_platforms || 'linux/amd64,linux/arm64' }}
+      
+      - name: Login to Docker Hub
+        if: needs.setup.outputs.should_push == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+      
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}},value=${{ needs.setup.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.setup.outputs.version }}
+            type=semver,pattern={{major}},value=${{ needs.setup.outputs.version }}
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile.simple
+          platforms: ${{ github.event.inputs.build_platforms || 'linux/amd64,linux/arm64' }}
+          push: ${{ needs.setup.outputs.should_push == 'true' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Generate build summary
+        run: |
+          echo "## Release Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Build Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ needs.setup.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time**: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Platform**: ${{ github.event.inputs.build_platforms || 'linux/amd64,linux/arm64' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Docker Tags" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.meta.outputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ needs.setup.outputs.should_push }}" = "true" ]; then
+            echo "✅ **Image pushed to Docker Hub**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Pull Command" >> $GITHUB_STEP_SUMMARY
+            echo '```bash' >> $GITHUB_STEP_SUMMARY
+            echo "docker pull ${{ env.IMAGE_NAME }}:${{ needs.setup.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **Image built locally (not pushed)**" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # Build documentation
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    needs: setup
+    if: needs.setup.outputs.should_build_docs == 'true'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-docs.txt
+      
+      - name: Build MkDocs site
+        run: |
+          mkdocs build --clean
+      
+      - name: Install wkhtmltopdf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wkhtmltopdf
+      
+      - name: Generate PDF from print page
+        run: |
+          wkhtmltopdf \
+            --enable-local-file-access \
+            --outline \
+            --zoom 1.0 \
+            --page-size A4 \
+            --margin-top 20mm \
+            --margin-bottom 20mm \
+            --margin-left 15mm \
+            --margin-right 15mm \
+            site/print_page/index.html \
+            site/ThemisDB-Documentation.pdf 2>&1 | grep -v "Failed to load https://" | grep -v "ContentNotFoundError" || true
+          
+          if [ ! -f "site/ThemisDB-Documentation.pdf" ] || [ ! -s "site/ThemisDB-Documentation.pdf" ]; then
+            echo "Error: PDF generation failed"
+            exit 1
+          fi
+          ls -lh site/ThemisDB-Documentation.pdf
+      
+      - name: Copy PDF to docs directory
+        run: |
+          cp site/ThemisDB-Documentation.pdf docs/ThemisDB-Documentation.pdf
+      
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-site
+          path: site/
+      
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-pdf
+          path: docs/ThemisDB-Documentation.pdf
+
+  # Deploy documentation to GitHub Pages
+  deploy-docs:
+    name: Deploy Documentation
+    needs: [setup, build-docs]
+    runs-on: ubuntu-latest
+    if: needs.setup.outputs.should_build_docs == 'true'
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+      - name: Download documentation artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: documentation-site
+          path: site
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Post-build notification
+  notify:
+    name: Release Notification
+    runs-on: ubuntu-latest
+    needs: [setup, generate-changelog, build-docker, build-docs]
+    if: always()
+    
+    steps:
+      - name: Check build status
+        run: |
+          echo "## Release Build Status" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ needs.build-docker.result }}" = "success" ]; then
+            echo "✅ **Docker build completed successfully**" >> $GITHUB_STEP_SUMMARY
+            echo "Version: v${{ needs.setup.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            echo "📝 Release changelog generated and committed" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ needs.setup.outputs.should_push }}" = "true" ]; then
+              echo "🐳 Docker image pushed to: ${{ env.IMAGE_NAME }}:${{ needs.setup.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+            fi
+            
+            if [ "${{ needs.build-docs.result }}" = "success" ]; then
+              echo "📚 Documentation built and deployed" >> $GITHUB_STEP_SUMMARY
+            elif [ "${{ needs.build-docs.result }}" = "skipped" ]; then
+              echo "⏭️ Documentation build skipped" >> $GITHUB_STEP_SUMMARY
+            fi
+            
+            exit 0
+          elif [ "${{ needs.build-docker.result }}" = "skipped" ]; then
+            echo "⏭️ Build was skipped" >> $GITHUB_STEP_SUMMARY
+            exit 0
+          else
+            echo "❌ Release build failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
