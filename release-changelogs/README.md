@@ -10,7 +10,12 @@ When a new version tag is pushed (e.g., `v1.3.1`, `v1.4.0`), the release build w
 2. Identifies changed files and their types
 3. Categorizes changes (features, bug fixes, documentation, refactoring)
 4. Generates a detailed changelog document
-5. Commits the changelog to this directory
+5. **Generates SBOM (Software Bill of Materials)** in CycloneDX format
+6. **Creates SHA256 checksums** for all artifacts
+7. **Signs artifacts** with HMAC and optionally GPG
+8. **Produces SLSA provenance** documentation
+9. **Creates compliance report** for enterprise requirements
+10. Commits the changelog to this directory
 
 ## Changelog Format
 
@@ -22,6 +27,44 @@ Each changelog file is named `RELEASE_CHANGELOG_vX.Y.Z.md` and contains:
 - **File statistics**: Count of changed files by type (C++, Python, Markdown, YAML, JS/TS)
 - **Change categories**: Count of features, bug fixes, documentation, and refactoring commits
 - **Docker images**: Available Docker image tags and pull commands
+
+## Security & Compliance Artifacts
+
+Each release also produces enterprise-grade security artifacts:
+
+### SBOM (Software Bill of Materials)
+- **Format**: CycloneDX 1.4 JSON
+- **File**: `SBOM_vX.Y.Z_EDITION.json`
+- **Contents**: Components, dependencies, build metadata, edition information
+- **Retention**: 365 days as workflow artifact
+
+### Checksums
+- **Algorithm**: SHA256
+- **File**: `SHA256SUMS_vX.Y.Z_EDITION.txt`
+- **Purpose**: Verify binary integrity
+
+### Signatures
+- **Types**: HMAC (always) + GPG (optional, if configured)
+- **File**: `SIGNATURES_vX.Y.Z_EDITION.txt`
+- **GPG Files**: `*.asc` (if GPG keys configured)
+- **Purpose**: Verify artifact authenticity
+
+### SLSA Provenance
+- **Format**: SLSA v1 JSON
+- **File**: `provenance_vX.Y.Z_EDITION.json`
+- **Contents**: Build metadata, materials, builder info, parameters
+- **Purpose**: Supply chain security and reproducibility
+
+### Compliance Report
+- **File**: `RELEASE_COMPLIANCE_REPORT_vX.Y.Z_EDITION.md`
+- **Contents**: 
+  - Build summary
+  - Security checklist
+  - SBOM status
+  - Signature verification commands
+  - Docker pull commands
+  - Compliance status
+- **Purpose**: Enterprise audit and verification
 
 ## Usage
 
@@ -37,6 +80,28 @@ ls -t release-changelogs/ | head -1 | xargs -I {} cat release-changelogs/{}
 ```bash
 # View changelog for a specific version
 cat release-changelogs/RELEASE_CHANGELOG_v1.3.0.md
+```
+
+### Verify Release Artifacts
+
+```bash
+# Download artifacts from GitHub Actions
+# Navigate to Actions → Release Build & Deploy → Latest run → Artifacts
+
+# Verify checksums
+sha256sum -c SHA256SUMS_v1.3.0_community.txt
+
+# Verify GPG signature (if available)
+gpg --verify SHA256SUMS_v1.3.0_community.txt.asc SHA256SUMS_v1.3.0_community.txt
+
+# View SBOM
+cat SBOM_v1.3.0_community.json | jq
+
+# View provenance
+cat provenance_v1.3.0_community.json | jq
+
+# View compliance report
+cat RELEASE_COMPLIANCE_REPORT_v1.3.0_community.md
 ```
 
 ### List All Releases
