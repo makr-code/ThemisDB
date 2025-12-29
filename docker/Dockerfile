@@ -123,7 +123,7 @@ RUN set -eux; \
       fi; \
       for attempt in 1 2 3 4 5; do \
         echo "Downloading $file (attempt ${attempt}/5)"; \
-        if aria2c --retry-wait=5 --max-tries=5 --timeout=30 --dir=/opt/vcpkg/downloads --out=$file \
+        if aria2c --retry-wait=10 --max-tries=5 --timeout=120 --connect-timeout=60 --dir=/opt/vcpkg/downloads --out=$file \
              https://github.com/boostorg/${repo_slug}/archive/boost-1.86.0.tar.gz; then \
           break; \
         fi; \
@@ -131,7 +131,7 @@ RUN set -eux; \
           echo "Download $file failed after 5 attempts"; \
           exit 1; \
         fi; \
-        sleep 10; \
+        sleep 20; \
       done; \
     done
 
@@ -232,7 +232,7 @@ RUN groupadd -r themis --gid=999 && \
 COPY --from=build /src/build/themis_server /usr/local/bin/themis_server
 
 # Copy entrypoint script
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy configuration files

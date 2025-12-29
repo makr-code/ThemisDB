@@ -39,8 +39,7 @@ vcpkg/packages/
 vcpkg/installed/
 .vcpkg/
 
-# INCLUDE vcpkg essentials for offline builds
-!vcpkg/
+# INCLUDE vcpkg essentials for offline builds (only specific subpaths)
 !vcpkg/downloads/
 !vcpkg/downloads/**
 !vcpkg/scripts/

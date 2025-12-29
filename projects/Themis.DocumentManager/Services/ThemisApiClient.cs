@@ -66,10 +66,19 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken);
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            // Log error
-            Console.WriteLine($"GET request failed: {ex.Message}");
+            // Server connection error - silent fail
+            return default;
+        }
+        catch (TaskCanceledException)
+        {
+            // Timeout - silent fail
+            return default;
+        }
+        catch (Exception)
+        {
+            // Other errors
             return default;
         }
     }
@@ -90,9 +99,19 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
             
             return await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: cancellationToken);
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            Console.WriteLine($"POST request failed: {ex.Message}");
+            // Server connection error - silent fail for optional operations
+            return default;
+        }
+        catch (TaskCanceledException)
+        {
+            // Timeout - silent fail for optional operations
+            return default;
+        }
+        catch (Exception)
+        {
+            // Other errors (parse, serialize, etc.)
             return default;
         }
     }
@@ -109,9 +128,19 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
             
             return await response.Content.ReadFromJsonAsync<TResponse>(cancellationToken: cancellationToken);
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            Console.WriteLine($"PUT request failed: {ex.Message}");
+            // Server connection error
+            return default;
+        }
+        catch (TaskCanceledException)
+        {
+            // Timeout
+            return default;
+        }
+        catch (Exception)
+        {
+            // Other errors
             return default;
         }
     }
@@ -127,9 +156,19 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
             var response = await _httpClient.SendAsync(request, cancellationToken);
             return response.IsSuccessStatusCode;
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            Console.WriteLine($"DELETE request failed: {ex.Message}");
+            // Server connection error
+            return false;
+        }
+        catch (TaskCanceledException)
+        {
+            // Timeout
+            return false;
+        }
+        catch (Exception)
+        {
+            // Other errors
             return false;
         }
     }
@@ -163,9 +202,19 @@ public class ThemisApiClient : IThemisApiClient, IDisposable
             
             return resultList;
         }
-        catch (Exception ex)
+        catch (HttpRequestException)
         {
-            Console.WriteLine($"AQL query execution failed: {ex.Message}");
+            // Server connection error
+            return new List<T>();
+        }
+        catch (TaskCanceledException)
+        {
+            // Timeout
+            return new List<T>();
+        }
+        catch (Exception)
+        {
+            // Parse or serialize errors
             return new List<T>();
         }
     }

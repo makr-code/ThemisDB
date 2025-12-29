@@ -49,9 +49,9 @@ Write-Host "Invoking Docker build script..." -ForegroundColor Cyan
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
-    Write-Host "✅ Docker deployment completed successfully!" -ForegroundColor Green
+    Write-Host "[OK] Docker deployment completed successfully!" -ForegroundColor Green
 } else {
     Write-Host ""
-    Write-Host "❌ Docker deployment failed!" -ForegroundColor Red
+    Write-Host "[ERROR] Docker deployment failed!" -ForegroundColor Red
     exit 1
 }
