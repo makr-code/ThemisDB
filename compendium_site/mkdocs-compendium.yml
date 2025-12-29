@@ -52,6 +52,9 @@ plugins:
       toc_level: 3
       two_columns_level: 3
       enabled_if_env: ENABLE_PDF_EXPORT
+      # PDF Optimization: reduce file size by hiding decorative elements
+      custom_template_path: .
+      # Note: styles_pdf_optimization.scss will be automatically picked up
 
 markdown_extensions:
   - admonition
