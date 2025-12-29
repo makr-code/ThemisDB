@@ -3,6 +3,9 @@
  * 
  * This stylesheet hides unnecessary decorative elements
  * to reduce PDF file size while maintaining readability.
+ * 
+ * NOTE: This is a copy of docs/compendium/styles_pdf_optimization.scss
+ * Keep these files in sync!
  */
 
 /* Hide navigation elements that are not useful in PDF */
@@ -16,11 +19,11 @@
     display: none !important;
 }
 
-/* Hide decorative icons and badges */
+/* Hide decorative icons and badges - exclude Mermaid diagrams */
 .md-icon,
 .md-badge,
 .twemoji,
-svg:not(.mermaid svg) {
+svg:not([class*='mermaid']) {
     display: none !important;
 }
 

@@ -27,10 +27,10 @@ def verify_pdf(pdf_path):
         page_count = len(reader.pages)
         print(f"✓ PDF has {page_count} pages")
         
-        # Check bookmarks
+        # Check bookmarks (counts only top-level, nested structure may contain more)
         if reader.outline:
             bookmark_count = len(reader.outline) if isinstance(reader.outline, list) else 0
-            print(f"✓ PDF has {bookmark_count} top-level bookmarks")
+            print(f"✓ PDF has {bookmark_count}+ top-level bookmarks")
         else:
             print("⚠️  Warning: No bookmarks found")
         
