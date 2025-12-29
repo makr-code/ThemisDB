@@ -1,6 +1,6 @@
-site_name: ThemisDB Docs
-site_description: Offizielle Dokumentation für ThemisDB (Architektur, Storage, Query/AQL, Sicherheit, APIs und Betrieb)
-site_url: https://example.local/themisdb/docs/
+site_name: ThemisDB Dokumentation
+site_description: Offizielle Dokumentation für ThemisDB v1.3.5 (Architektur, Storage, Query/AQL, Sicherheit, APIs und Betrieb)
+site_url: https://makr-code.github.io/ThemisDB/
 repo_name: makr-code/ThemisDB
 repo_url: https://github.com/makr-code/ThemisDB
 edit_uri: ''
@@ -11,10 +11,29 @@ theme:
   features:
     - navigation.tabs
     - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
     - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
 plugins:
-    - search
+    - search:
+        lang: de
     - print-site:
             add_to_navigation: true
             print_page_title: 'Gesamte Dokumentation (Druckansicht)'
@@ -28,379 +47,823 @@ plugins:
             add_full_urls: false
             add_cover_page: true
             cover_page_template: "docs/print-cover.html"
-    # PDF export mit mkdocs-with-pdf deaktiviert (WeasyPrint GTK-Abhängigkeiten)
-    # Verwende stattdessen wkhtmltopdf über build-docs.ps1 Script
-    # - with-pdf:
-    #         output_path: docs/ThemisDB-Documentation.pdf
-    #         cover_title: "ThemisDB Dokumentation"
-    #         cover_subtitle: "Version 1.0.0"
-    #         toc_title: "Inhaltsverzeichnis"
-    #         toc_depth: 3
-    #         enabled_if_env: MKDOCS_PDF_EXPORT
+    - with-pdf:
+            output_path: docs/ThemisDB-Documentation-v1.3.5.pdf
+            cover_title: "ThemisDB Dokumentation"
+            cover_subtitle: "Version 1.3.5"
+            toc_title: "Inhaltsverzeichnis"
+            toc_depth: 3
+            enabled_if_env: ENABLE_PDF_EXPORT
 
 markdown_extensions:
   - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html
   - toc:
       permalink: true
+      toc_depth: 3
 
 nav:
-  - Übersicht: index.md
-  - Home: home.md
-  - '📋 Dokumentations-Index': DOCUMENTATION_INDEX.md
-  - '📋 Quick Reference': DOCS_QUICKREF.md
-  - '📊 Sachstandsbericht 2025': THEMIS_SACHSTANDSBERICHT_2025.md
-  - '🚀 Features': FEATURES.md
-  - '🗺️ Roadmap': ROADMAP.md
-  - Ecosystem Overview: ECOSYSTEM_OVERVIEW.md
-  - Strategische Übersicht: STRATEGIC_OVERVIEW.md
-  - Architektur: 
-      - Überblick: architecture.md
-      - Geo-Architektur: GEO_ARCHITECTURE.md
-  - Basismodell:
-      - Base Entity & Keys: base_entity.md
-      - Pfad-Constraints: path_constraints.md
-      - Property Graph Modell: property_graph_model.md
-  - Storage & MVCC:
-      - Storage-Layout (Geo/Relational): storage/geo_relational_schema.md
-      - RocksDB Storage: storage/rocksdb_layout.md
-      - MVCC-Design: mvcc_design.md
-      - Transaktionen: transactions.md
-      - Time-Series Überblick: time_series.md
-      - Memory Tuning: memory_tuning.md
-      - Chain of Thought Storage: chain_of_thought_storage.md
-  - Indexe & Statistiken:
-      - Indexe: indexes.md
-      - Index-Statistiken & Wartung: index_stats_maintenance.md
-      - Index Backup: index_backup.md
-      - Cursor/Pagination: cursor_pagination.md
-  - Query & AQL:
-      - Query Engine & AQL: query_engine_aql.md
-      - AQL Syntax: aql_syntax.md
-      - '🎯 AQL Phases 1-3 Consolidated': de/aql/AQL_PHASES_1_2_3_CONSOLIDATED.md
-      - Explain & Profile: aql_explain_profile.md
-      - Rekursive Pfadabfragen: recursive_path_queries.md
-      - Temporale Graphen: temporal_graphs.md
-      - Zeitbereichs-Abfragen: temporal_time_range_queries.md
-      - Semantischer Cache: semantic_cache.md
-      - Hybrid Queries (Phase 1.5): hybrid-queries-phase1.5.md
-      - AQL Hybrid Queries: aql-hybrid-queries.md
-      - Hybrid Queries README: HYBRID_QUERIES_README.md
-      - Hybrid Query Benchmarks: HYBRID_QUERY_BENCHMARKS.md
-      - Subquery Quick Reference: SUBQUERY_QUICK_REFERENCE.md
-      - Subquery Implementation Summary: SUBQUERY_IMPLEMENTATION_SUMMARY.md
-  - Caching:
-      - Cache Invalidation Strategy: cache_invalidation_strategy.md
-      - Caching Data Structures: caching_data_structures.md
-      - Caching Lookup Patterns: caching_lookup_patterns.md
-  - Content Pipeline:
-      - Content Pipeline: content_pipeline.md
-      - Architektur-Details: content_architecture.md
-      - Ingestion: content/ingestion.md
-      - JSON Ingestion Spec: apis/json_ingestion_spec.md
-      - Enterprise Ingestion Interface: ENTERPRISE_INGESTION_INTERFACE.md
-      - Geo-Processor Design: content/geo_processor_design.md
-      - Image-Processor Design: content/image_processor_design.md
-  - Suche:
-      - Hybrid Search Design: search/hybrid_search_design.md
-      - Fulltext API: search/fulltext_api.md
-      - Hybrid Fusion API: search/hybrid_fusion_api.md
-      - Stemming: search/stemming.md
-      - Performance Tuning: search/performance_tuning.md
-      - Migration Guide: search/migration_guide.md
-      - Future Work: search/future_work.md
-      - Pagination Benchmarks: search/pagination_benchmarks.md
-  - Performance & Benchmarks:
-      - Überblick & Tuning: performance_benchmarks.md
-      - Kompression Benchmarks: compression_benchmarks.md
-      - Kompression Strategie: compression_strategy.md
-      - Encryption Metrics: encryption_metrics.md
-      - Pagination: search/pagination_benchmarks.md
-  - Enterprise Features:
-      - Übersicht: enterprise/README.md
-      - Scalability Features: ENTERPRISE_SCALABILITY.md
-      - HTTP Client Pool: HTTP_CLIENT_POOL_COMPLETE.md
-      - Build Guide: ENTERPRISE_BUILD_GUIDE.md
-      - Implementierungs-Status: ENTERPRISE_IMPLEMENTATION_STATUS.md
-      - Final Report: ENTERPRISE_FINAL_REPORT.md
-      - Integration Analysis: reports/INTEGRATION_ANALYSIS.md
-      - Enterprise Strategy: performance/ENTERPRISE_SCALABILITY_STRATEGY.md
-  - Quality Assurance: quality_assurance.md
-  - Vektor & GNN:
-      - Vektor-Operationen: vector_ops.md
-      - GNN Embeddings: gnn_embeddings.md
-      - HNSW Persistenz & Warmstart: hnsw_persistence.md
-  - Geo Features:
-      - Geo 3D Games Acceleration: geo_acceleration_3d_games.md
-      - Geo Execution Plan over Blob: geo_execution_plan_over_blob.md
-      - Geo Feature Tiering: geo_feature_tiering.md
-      - Geo Research Report MVP: research_postgis_opensearch_h3s2_mvp.md
-  - Sicherheit & Governance:
-      - Überblick: security/overview.md
-      - RBAC & Authorization: rbac_authorization.md
-      - RBAC: RBAC.md
-      - Policies (MVP): security/policies.md
-      - Authentication:
-          - JWT: auth/jwt.md
-          - Benutzerverwaltung (Admin): guides/guides_user_management.md
-      - Schlüsselverwaltung: security/key_management.md
-      - Verschlüsselung:
-          - Verschlüsselungsstrategie: encryption_strategy.md
-          - Verschlüsselungsdeployment: encryption_deployment.md
-          - Spaltenverschlüsselung: column_encryption.md
-          - Encryption Next Steps: encryption_next_steps.md
-          - Multi-Party Encryption: multi_party_encryption.md
-          - Key Rotation Strategy: key_rotation_strategy.md
-          - Security Encryption Gap Analysis: security_encryption_gap_analysis.md
-      - TLS & Certificates:
-          - TLS Setup: TLS_SETUP.md
-          - Certificate Pinning: CERTIFICATE_PINNING.md
-      - PKI & Signatures:
-          - PKI Integration Architecture: pki_integration_architecture.md
-          - PKI Signatures: pki_signatures.md
-          - PKI RSA Integration: security/pki_rsa_integration.md
-          - eIDAS Qualified Signatures: eidas_qualified_signatures.md
-      - PII Detection:
-          - PII-Detection (Überblick): security/pii_detection.md
-          - PII-Detection Engines: pii_detection_engines.md
-          - PII Engine Signing: pii_engine_signing.md
-          - PII API: pii_api.md
-      - Vault & HSM:
-          - Vault: VAULT.md
-          - HSM Integration: hsm_integration.md
-      - Audit & Compliance:
-          - Audit Logging: AUDIT_LOGGING.md
-          - Audit & Retention: security/audit_and_retention.md
-          - Compliance Audit: compliance_audit.md
-          - Compliance: compliance.md
-          - Extended Compliance Features: EXTENDED_COMPLIANCE_FEATURES.md
-          - Governance-Strategie: compliance_governance_strategy.md
-          - Compliance-Integration: compliance_integration.md
-          - Governance Usage: governance_usage.md
-          - Security/Compliance Review: security/security_compliance_review.md
-      - Security Audits & Hardening:
-          - Threat Model: security/threat_model.md
-          - Security Hardening Guide: security_hardening_guide.md
-          - Security Audit Checklist: security_audit_checklist.md
-          - Security Audit Report: security_audit_report.md
-          - Security Implementation Summary: SECURITY_IMPLEMENTATION_SUMMARY.md
-      - Competitive Gap Analysis: competitive_gap_analysis.md
-  - Deployment & Betrieb:
-      - Deployment: deployment.md
-      - Docker:
-          - Docker Build: DOCKER_BUILD.md
-          - Docker Status: DOCKER_STATUS.md
-          - QNAP Deployment: QNAP_DEPLOYMENT.md
-      - Tracing & Observability: tracing.md
-      - Observability:
-          - Prometheus Metrics: observability/prometheus_metrics.md
-          - Metrics: observability/metrics.md
-      - Change Data Capture:
-          - Change Data Capture (CDC): change_data_capture.md
-          - CDC: cdc.md
-      - Operations Runbook: operations_runbook.md
-      - Infrastructure Roadmap: infrastructure_roadmap.md
-      - Horizontal Scaling Implementation Strategy: horizontal_scaling_implementation_strategy.md
-  - Entwicklung:
-      - Übersicht: development/README.md
-      - Code Quality Pipeline: code_quality.md
-      - Developers Guide: development/developers.md
-      - Cost Models: development/cost-models.md
-      - Todo Liste: development/todo.md
-      - Tool Todo: development/tool_todo.md
-      - Core Feature Todo: development/core_feature_todo.md
-      - Priorities: development/priorities.md
-      - Implementation Status: development/implementation_status.md
-      - Roadmap: development/roadmap.md
-      - Future Work: development/future_work.md
-      - Next Steps Analysis: development/NEXT_STEPS_ANALYSIS.md
-      - AQL LET Implementation Guide: development/aql_let_implementation_guide.md
-      - Development Audit: DEVELOPMENT_AUDIT.md
-      - Sprint Summary (2025-11-17): development/sprint_summary_2025-11-17.md
-      - WAL Archiving: development/wal-archiving.md
-      - Search Gap Analysis: development/search_gap_analysis.md
-      - Source Documentation Plan: development/src_documentation_plan.md
-      - API Implementations:
-          - Audit API Implementation: development/audit_api_implementation.md
-          - SAGA API Implementation: development/saga_api_implementation.md
-          - Code Audit Mockups/Stubs: development/code_audit_mockups_stubs.md
-      - Changefeed:
-          - Changefeed README: development/changefeed/README.md
-          - Changefeed CMake Patch: development/changefeed/changefeed_cmake_patch.md
-          - Changefeed OpenAPI: development/changefeed/changefeed_openapi.md
-          - Changefeed OpenAPI Auth: development/changefeed/changefeed_openapi_auth.md
-          - Changefeed SSE Examples: development/changefeed/changefeed_sse_examples.md
-          - Changefeed Test Harness: development/changefeed/changefeed_test_harness.md
-          - Changefeed Tests: development/changefeed/changefeed_tests.md
-      - Security Development:
-          - Security README: development/security/README.md
-          - Content ZSTD HKDF: development/security/content_zstd_hkdf.md
-          - PKI-eIDAS: development/pki-eidas.md
-      - Development Overviews:
-          - Overview README: development/overviews/README.md
-          - Consolidated Development Overview: development/overviews/consolidated_development_overview.md
-          - Feature Status (Changefeed & Encryption): development/overviews/feature_status_changefeed_encryption.md
-          - Verification by Area: development/overviews/verification_by_area.md
-  - Publikation & Ablage: publishing.md
-  - Admin-Tools:
-      - Admin Guide: admin_tools_admin_guide.md
-      - User Guide: admin_tools_user_guide.md
-      - Feature Matrix: admin_tools_feature_matrix.md
-      - Suche/Sortierung/Filter: admin_tools_search_sort_filter.md
-      - Demo-Script: admin_tools_demo_script.md
-  - APIs:
-      - OpenAPI & Endpunkte: apis/apis_openapi.md
-      - SSE-Streaming (Changefeed): apis/apis_openapi.md
-      - ContentFS API: apis/apis_contentfs.md
-      - Hybrid Search API: apis/apis_hybrid_search.md
-  - Client SDKs:
-      - JavaScript SDK Quickstart: clients/javascript_sdk_quickstart.md
-      - Python SDK Quickstart: clients/python_sdk_quickstart.md
-      - Rust SDK Quickstart: clients/rust_sdk_quickstart.md
-  - Implementierungs-Zusammenfassungen:
-      - ThemisDB Implementation Summary: THEMIS_IMPLEMENTATION_SUMMARY.md
-      - Database Capabilities Roadmap: DATABASE_CAPABILITIES_ROADMAP.md
-      - Release Scope Core: release_scope_core.md
-  - Planung & Reports:
-      - Phase 1.5 Completion Report: PHASE_1.5_COMPLETION_REPORT.md
-      - Phase 2 Plan: PHASE_2_PLAN.md
-      - Phase 3 Plan: PHASE_3_PLAN.md
-      - Phase 4 Plan: PHASE_4_PLAN.md
-      - Sprint A Plan: sprint_a_plan.md
-  - Dokumentation:
-      - Dokumentations-Inventar: _inventory.md
-      - Documentation Summary: DOCUMENTATION_SUMMARY.md
-      - Documentation TODO: DOCUMENTATION_TODO.md
-      - Documentation Gap Analysis: DOCUMENTATION_GAP_ANALYSIS.md
-      - Documentation Consolidation Plan: DOCUMENTATION_CONSOLIDATION_PLAN.md
-      - Documentation Final Status: DOCUMENTATION_FINAL_STATUS.md
-      - Documentation Phase 3 Report: DOCUMENTATION_PHASE3_REPORT.md
-      - Documentation Cleanup Validation Report: DOCUMENTATION_CLEANUP_VALIDATION_REPORT.md
-  - Release Notes:
-      - AQL Fulltext: RELEASE_NOTES_AQL_FULLTEXT.md
-      - Temporal Aggregation (2025-11-11): releases/2025-11-11-temporal-aggregation.md
-  - Styleguide & Glossar:
-      - Styleguide: styleguide.md
-      - Glossar: glossary.md
-  - Roadmap: roadmap.md
-  - Changelog: changelog.md
-  - Source Code Documentation:
-      - Übersicht: src/root_README.md
-      - Source Documentation: src/README.md
-      - Main: src/main.cpp.md
-      - Main (Detailed): src/main.cpp/main.cpp.md
-      - Main Server: src/main_server.cpp.md
-      - Main Server (Detailed): src/main_server.cpp/main_server.cpp.md
-      - Demo Encryption: src/demo_encryption.cpp.md
-      - Demo Encryption (Detailed): src/demo_encryption.cpp/demo_encryption.cpp.md
-      - API:
-          - API README: src/api/README.md
-          - HTTP Server: src/api/http_server.cpp.md
-      - Authentication:
-          - Auth README: src/auth/README.md
-          - JWT Validator: src/auth/jwt_validator.cpp.md
-      - Cache:
-          - Cache README: src/cache/README.md
-          - Semantic Cache: src/cache/semantic_cache.cpp.md
-      - CDC:
-          - CDC README: src/cdc/README.md
-          - Changefeed: src/cdc/changefeed.cpp.md
-      - Content:
-          - Content README: src/content/README.md
-          - Content Manager: src/content/content_manager.cpp.md
-          - Content Type: src/content/content_type.cpp.md
-          - Text Processor: src/content/text_processor.cpp.md
-      - Geo:
-          - Geo README: src/geo/README.md
-          - CPU Backend: src/geo/cpu_backend.cpp.md
-          - GPU Backend Stub: src/geo/gpu_backend_stub.cpp.md
-      - Governance:
-          - Governance README: src/governance/README.md
-          - Policy Engine: src/governance/policy_engine.cpp.md
-      - Index:
-          - Index README: src/index/README.md
-          - Adaptive Index: src/index/adaptive_index.cpp.md
-          - GNN Embeddings: src/index/gnn_embeddings.cpp.md
-          - Graph Index: src/index/graph_index.cpp.md
-          - Property Graph: src/index/property_graph.cpp.md
-          - Secondary Index: src/index/secondary_index.cpp.md
-          - Vector Index: src/index/vector_index.cpp.md
-      - LLM:
-          - LLM README: src/llm/README.md
-          - LLM Interaction Store: src/llm/llm_interaction_store.cpp.md
-      - Query:
-          - Query README: src/query/README.md
-          - AQL Parser: src/query/aql_parser.cpp.md
-          - AQL Translator: src/query/aql_translator.cpp.md
-          - Query Engine: src/query/query_engine.cpp.md
-          - Query Optimizer: src/query/query_optimizer.cpp.md
-          - Query Parser: src/query/query_parser.cpp.md
-          - Semantic Cache: src/query/semantic_cache.cpp.md
-      - Security:
-          - Security README: src/security/README.md
-          - Encrypted Field: src/security/encrypted_field.cpp.md
-          - Field Encryption: src/security/field_encryption.cpp.md
-          - Key Cache: src/security/key_cache.cpp.md
-          - Mock Key Provider: src/security/mock_key_provider.cpp.md
-          - PKI Key Provider: src/security/pki_key_provider.cpp.md
-          - Vault Key Provider: src/security/vault_key_provider.cpp.md
-      - Server:
-          - Server README: src/server/README.md
-          - VCCDB Design: src/server/VCCDB Design.md.md
-          - Audit API Handler: src/server/audit_api_handler.cpp.md
-          - Auth Middleware: src/server/auth_middleware.cpp.md
-          - Classification API Handler: src/server/classification_api_handler.cpp.md
-          - HTTP Server: src/server/http_server.cpp.md
-          - Keys API Handler: src/server/keys_api_handler.cpp.md
-          - PII API Handler: src/server/pii_api_handler.cpp.md
-          - Policy Engine: src/server/policy_engine.cpp.md
-          - Ranger Adapter: src/server/ranger_adapter.cpp.md
-          - Reports API Handler: src/server/reports_api_handler.cpp.md
-          - Retention API Handler: src/server/retention_api_handler.cpp.md
-          - SAGA API Handler: src/server/saga_api_handler.cpp.md
-          - SSE Connection Manager: src/server/sse_connection_manager.cpp.md
-      - Storage:
-          - Storage README: src/storage/README.md
-          - Base Entity: src/storage/base_entity.cpp.md
-          - Key Schema: src/storage/key_schema.cpp.md
-          - RocksDB Wrapper: src/storage/rocksdb_wrapper.cpp.md
-      - Time Series:
-          - Time Series README: src/timeseries/README.md
-          - Continuous Aggregation: src/timeseries/continuous_agg.cpp.md
-          - Gorilla Compression: src/timeseries/gorilla.cpp.md
-          - Retention: src/timeseries/retention.cpp.md
-          - Time Series: src/timeseries/timeseries.cpp.md
-          - TS Store: src/timeseries/tsstore.cpp.md
-      - Transaction:
-          - Transaction README: src/transaction/README.md
-          - SAGA: src/transaction/saga.cpp.md
-          - Transaction Manager: src/transaction/transaction_manager.cpp.md
-      - Utils:
-          - Utils README: src/utils/README.md
-          - Audit Logger: src/utils/audit_logger.cpp.md
-          - Cursor: src/utils/cursor.cpp.md
-          - HKDF Helper: src/utils/hkdf_helper.cpp.md
-          - LEK Manager: src/utils/lek_manager.cpp.md
-          - Logger: src/utils/logger.cpp.md
-          - Normalizer: src/utils/normalizer.cpp.md
-          - PII Detection Engine: src/utils/pii_detection_engine.cpp.md
-          - PII Detector: src/utils/pii_detector.cpp.md
-          - PII Detector (Old): src/utils/pii_detector.cpp.old.md
-          - PII Pseudonymizer: src/utils/pii_pseudonymizer.cpp.md
-          - PKI Client: src/utils/pki_client.cpp.md
-          - Regex Detection Engine: src/utils/regex_detection_engine.cpp.md
-          - Retention Manager: src/utils/retention_manager.cpp.md
-          - SAGA Logger: src/utils/saga_logger.cpp.md
-          - Serialization: src/utils/serialization.cpp.md
-          - Stemmer: src/utils/stemmer.cpp.md
-          - Stopwords: src/utils/stopwords.cpp.md
-          - Tracing: src/utils/tracing.cpp.md
-          - ZSTD Codec: src/utils/zstd_codec.cpp.md
+- Übersicht: de/README.md
+- BLAULICHT STRATEGIE: de/BLAULICHT_STRATEGIE.md
+- DOCUMENTATION INDEX: de/DOCUMENTATION_INDEX.md
+- DOCUMENTATION UPDATE PLAN: de/DOCUMENTATION_UPDATE_PLAN.md
+- FINAL IMPLEMENTATION SUMMARY V1.3.0: de/FINAL_IMPLEMENTATION_SUMMARY_V1.3.0.md
+- Home: de/Home.md
+- INDEX: de/INDEX.md
+- PHASE 2 COMPLETION SUMMARY: de/PHASE_2_COMPLETION_SUMMARY.md
+- STRUCTURE: de/STRUCTURE.md
+- glossary: de/glossary.md
+- Admin Tools:
+  - Übersicht: de/admin_tools/README.md
+  - admin guide: de/admin_tools/admin_guide.md
+  - demo script: de/admin_tools/demo_script.md
+  - feature matrix: de/admin_tools/feature_matrix.md
+  - search sort filter: de/admin_tools/search_sort_filter.md
+  - user guide: de/admin_tools/user_guide.md
+- Analytics:
+  - PROCESS MINING AQL EXAMPLES: de/analytics/PROCESS_MINING_AQL_EXAMPLES.md
+  - PROCESS MINING RESEARCH AND ROADMAP: de/analytics/PROCESS_MINING_RESEARCH_AND_ROADMAP.md
+  - PROCESS MINING SUMMARY: de/analytics/PROCESS_MINING_SUMMARY.md
+  - README PROCESS MINING: de/analytics/README_PROCESS_MINING.md
+  - olap guide: de/analytics/olap_guide.md
+  - process mining guide: de/analytics/process_mining_guide.md
+- Apis:
+  - Übersicht: de/apis/README.md
+  - ACTUALIZATION SUMMARY: de/apis/ACTUALIZATION_SUMMARY.md
+  - ADDITIONAL PROTOCOLS: de/apis/ADDITIONAL_PROTOCOLS.md
+  - HTTP2 HTTP3 IMPLEMENTATION SUMMARY: de/apis/HTTP2_HTTP3_IMPLEMENTATION_SUMMARY.md
+  - HTTP2 HTTP3 PROTOCOL SUPPORT: de/apis/HTTP2_HTTP3_PROTOCOL_SUPPORT.md
+  - HTTP2 HTTP3 USAGE GUIDE: de/apis/HTTP2_HTTP3_USAGE_GUIDE.md
+  - HTTP2 SERVER PUSH CDC: de/apis/HTTP2_SERVER_PUSH_CDC.md
+  - HTTP API REFERENCE: de/apis/HTTP_API_REFERENCE.md
+  - MCP MINIMAL INTEGRATION: de/apis/MCP_MINIMAL_INTEGRATION.md
+  - MCP OFFICE PLUGINS: de/apis/MCP_OFFICE_PLUGINS.md
+  - MCP PROTOCOL SUPPORT: de/apis/MCP_PROTOCOL_SUPPORT.md
+  - MCP TRANSPORTS: de/apis/MCP_TRANSPORTS.md
+  - MCP WINDOWS SUPPORT: de/apis/MCP_WINDOWS_SUPPORT.md
+  - MODERN PROTOCOLS COMPLETION SUMMARY: de/apis/MODERN_PROTOCOLS_COMPLETION_SUMMARY.md
+  - OPTIONAL PROTOCOLS: de/apis/OPTIONAL_PROTOCOLS.md
+  - PROTOCOL BUILD SWITCHES: de/apis/PROTOCOL_BUILD_SWITCHES.md
+  - STREAMING JSONL TRAINING: de/apis/STREAMING_JSONL_TRAINING.md
+  - VCC CLARA EXPORT API: de/apis/VCC_CLARA_EXPORT_API.md
+  - apis contentfs: de/apis/apis_contentfs.md
+  - apis graphql: de/apis/apis_graphql.md
+  - apis hot reload: de/apis/apis_hot_reload.md
+  - apis hybrid search: de/apis/apis_hybrid_search.md
+  - apis openapi: de/apis/apis_openapi.md
+  - json ingestion spec: de/apis/json_ingestion_spec.md
+- Aql:
+  - Übersicht: de/aql/README.md
+  - AQL COMPLETE LANGUAGE SCOPE: de/aql/AQL_COMPLETE_LANGUAGE_SCOPE.md
+  - AQL EXCEL FUNCTIONS STATUS: de/aql/AQL_EXCEL_FUNCTIONS_STATUS.md
+  - AQL EXTENSION EXECUTIVE SUMMARY: de/aql/AQL_EXTENSION_EXECUTIVE_SUMMARY.md
+  - AQL IMPLEMENTATION GUIDE v1.3.1: de/aql/AQL_IMPLEMENTATION_GUIDE_v1.3.1.md
+  - AQL OOP EXTENSION PROPOSAL: de/aql/AQL_OOP_EXTENSION_PROPOSAL.md
+  - AQL PHASES 1 2 3 CONSOLIDATED: de/aql/AQL_PHASES_1_2_3_CONSOLIDATED.md
+  - AQL RESERVED WORDS ANALYSIS: de/aql/AQL_RESERVED_WORDS_ANALYSIS.md
+  - AQL TIME FUNCTIONS OVERVIEW: de/aql/AQL_TIME_FUNCTIONS_OVERVIEW.md
+  - IMPLEMENTATION STATUS ANALYSIS: de/aql/IMPLEMENTATION_STATUS_ANALYSIS.md
+  - aql explain profile: de/aql/aql_explain_profile.md
+  - aql fulltext release: de/aql/aql_fulltext_release.md
+  - aql functions reference: de/aql/aql_functions_reference.md
+  - aql hybrid queries: de/aql/aql_hybrid_queries.md
+  - aql hybrid queries phase15: de/aql/aql_hybrid_queries_phase15.md
+  - aql language scope: de/aql/aql_language_scope.md
+  - aql pattern matching: de/aql/aql_pattern_matching.md
+  - aql prompt engineering: de/aql/aql_prompt_engineering.md
+  - aql query engine: de/aql/aql_query_engine.md
+  - aql subquery implementation: de/aql/aql_subquery_implementation.md
+  - aql subquery reference: de/aql/aql_subquery_reference.md
+  - aql syntax: de/aql/aql_syntax.md
+- Architecture:
+  - Übersicht: de/architecture/README.md
+  - ARCHITECTURE OVERVIEW: de/architecture/ARCHITECTURE_OVERVIEW.md
+  - BINARY PROTOCOL BUFFERS: de/architecture/BINARY_PROTOCOL_BUFFERS.md
+  - COMPLETE SUMMARY: de/architecture/COMPLETE_SUMMARY.md
+  - DLL SIGNATURE VERIFICATION: de/architecture/DLL_SIGNATURE_VERIFICATION.md
+  - LINUX MODULE SIGNING: de/architecture/LINUX_MODULE_SIGNING.md
+  - MODULARIZATION DECISION.de: de/architecture/MODULARIZATION_DECISION.de.md
+  - MODULARIZATION PLAN: de/architecture/MODULARIZATION_PLAN.md
+  - MODULARIZATION SUMMARY: de/architecture/MODULARIZATION_SUMMARY.md
+  - SECURITY ARCHITECTURE: de/architecture/SECURITY_ARCHITECTURE.md
+  - TRUETIME INTEGRATION: de/architecture/TRUETIME_INTEGRATION.md
+  - WINDOWS AUTHENTICODE: de/architecture/WINDOWS_AUTHENTICODE.md
+  - architecture base entity: de/architecture/architecture_base_entity.md
+  - architecture cache invalidation: de/architecture/architecture_cache_invalidation.md
+  - architecture caching patterns: de/architecture/architecture_caching_patterns.md
+  - architecture caching structures: de/architecture/architecture_caching_structures.md
+  - architecture content: de/architecture/architecture_content.md
+  - architecture content pipeline: de/architecture/architecture_content_pipeline.md
+  - architecture ecosystem: de/architecture/architecture_ecosystem.md
+  - architecture multi model: de/architecture/architecture_multi_model.md
+  - architecture mvcc: de/architecture/architecture_mvcc.md
+  - architecture strategic: de/architecture/architecture_strategic.md
+  - wire protocol v1: de/architecture/wire_protocol_v1.md
+- Archive:
+  - Übersicht: de/archive/README.md
+  - BUGFIX BATCH ROUTING 20251210: de/archive/BUGFIX_BATCH_ROUTING_20251210.md
+  - BUGFIX SUMMARY: de/archive/BUGFIX_SUMMARY.md
+  - DOCKER WIRE PROTOCOL GUIDE: de/archive/DOCKER_WIRE_PROTOCOL_GUIDE.md
+  - LOCAL CI TESTING: de/archive/LOCAL_CI_TESTING.md
+  - NATIVE CLIENTS SUMMARY: de/archive/NATIVE_CLIENTS_SUMMARY.md
+  - QNAP QUICKSTART: de/archive/QNAP_QUICKSTART.md
+  - README.docker: de/archive/README.docker.md
+  - RELEASE AND BENCHMARKING SESSION SUMMARY: de/archive/RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md
+  - RELEASE IMPROVEMENTS SUMMARY: de/archive/RELEASE_IMPROVEMENTS_SUMMARY.md
+  - RELEASE NOTES v1.0.0: de/archive/RELEASE_NOTES_v1.0.0.md
+  - RELEASE PACKAGE STRUCTURE: de/archive/RELEASE_PACKAGE_STRUCTURE.md
+  - RELEASE STRATEGY AUDIT: de/archive/RELEASE_STRATEGY_AUDIT.md
+  - RELEASE v1.0.1 EXECUTIVE SUMMARY: de/archive/RELEASE_v1.0.1_EXECUTIVE_SUMMARY.md
+  - V1.0.1 EXECUTION PLAYBOOK: de/archive/V1.0.1_EXECUTION_PLAYBOOK.md
+  - WIRE PROTOCOL BUG FIX: de/archive/WIRE_PROTOCOL_BUG_FIX.md
+  - cdc legacy: de/archive/cdc_legacy.md
+  - geo research report mvp: de/archive/geo_research_report_mvp.md
+  - mime detector deprecated: de/archive/mime_detector_deprecated.md
+  - old changelog: de/archive/old_changelog.md
+  - path constraints concept: de/archive/path_constraints_concept.md
+  - release scope core draft: de/archive/release_scope_core_draft.md
+- Audit:
+  - Übersicht: de/audit/README.md
+  - CAPABILITY COMPARISON: de/audit/CAPABILITY_COMPARISON.md
+  - IMPLEMENTATION AUDIT v1.2.0: de/audit/IMPLEMENTATION_AUDIT_v1.2.0.md
+- Auth:
+  - Übersicht: de/auth/README.md
+  - jwt: de/auth/jwt.md
+- Clients:
+  - Übersicht: de/clients/README.md
+  - clients javascript sdk: de/clients/clients_javascript_sdk.md
+  - clients publishing checklist: de/clients/clients_publishing_checklist.md
+  - clients publishing guide: de/clients/clients_publishing_guide.md
+  - clients python sdk: de/clients/clients_python_sdk.md
+  - clients rust sdk: de/clients/clients_rust_sdk.md
+  - clients sdk analysis: de/clients/clients_sdk_analysis.md
+  - clients sdk audit: de/clients/clients_sdk_audit.md
+  - clients sdk implementation: de/clients/clients_sdk_implementation.md
+- Compiled:
+  - ThemisDB Complete 2025 12 21: de/compiled/ThemisDB-Complete-2025-12-21.md
+- Compliance:
+  - Übersicht: de/compliance/README.md
+  - compliance audit todo: de/compliance/compliance_audit_todo.md
+  - compliance bcp drp: de/compliance/compliance_bcp_drp.md
+  - compliance business continuity: de/compliance/compliance_business_continuity.md
+  - compliance dashboard: de/compliance/compliance_dashboard.md
+  - compliance dpia: de/compliance/compliance_dpia.md
+  - compliance full checklist: de/compliance/compliance_full_checklist.md
+  - compliance risk register: de/compliance/compliance_risk_register.md
+  - compliance vendor assessment: de/compliance/compliance_vendor_assessment.md
+- Connectors:
+  - Übersicht: de/connectors/README.md
+  - IMPLEMENTATION SUMMARY: de/connectors/IMPLEMENTATION_SUMMARY.md
+  - JSONL LLM EXPORTER: de/connectors/JSONL_LLM_EXPORTER.md
+  - LORA ADAPTER METADATA: de/connectors/LORA_ADAPTER_METADATA.md
+  - POSTGRES IMPORTER: de/connectors/POSTGRES_IMPORTER.md
+  - VLLM MULTI LORA INTEGRATION: de/connectors/VLLM_MULTI_LORA_INTEGRATION.md
+- Content:
+  - Übersicht: de/content/README.md
+  - content filesystem api: de/content/content_filesystem_api.md
+  - content geo processor: de/content/content_geo_processor.md
+  - content image processor: de/content/content_image_processor.md
+  - content ingestion: de/content/content_ingestion.md
+  - content policy implementation: de/content/content_policy_implementation.md
+  - content policy summary: de/content/content_policy_summary.md
+  - content processor plugins: de/content/content_processor_plugins.md
+  - content search api: de/content/content_search_api.md
+  - content test report: de/content/content_test_report.md
+  - video processing guide: de/content/video_processing_guide.md
+- Deployment:
+  - Übersicht: de/deployment/README.md
+  - 80PERCENT COVERAGE STRATEGY: de/deployment/80PERCENT_COVERAGE_STRATEGY.md
+  - BIBLIOTHEKEN UBERSICHT: de/deployment/BIBLIOTHEKEN_UBERSICHT.md
+  - BUILD OPTIONEN REFERENZ: de/deployment/BUILD_OPTIONEN_REFERENZ.md
+  - CMAKE DOCUMENTATION OVERVIEW: de/deployment/CMAKE_DOCUMENTATION_OVERVIEW.md
+  - CMAKE FIND PACKAGE SOLUTIONS: de/deployment/CMAKE_FIND_PACKAGE_SOLUTIONS.md
+  - DOCKER DEPLOYMENT: de/deployment/DOCKER_DEPLOYMENT.md
+  - EDITION CONTROL MECHANISMS: de/deployment/EDITION_CONTROL_MECHANISMS.md
+  - EDITION DEPLOYMENT STRATEGY: de/deployment/EDITION_DEPLOYMENT_STRATEGY.md
+  - EXECUTIVE SUMMARY: de/deployment/EXECUTIVE_SUMMARY.md
+  - EXPECTED OUTPUT REFERENCE: de/deployment/EXPECTED_OUTPUT_REFERENCE.md
+  - GITHUB ISSUES REFERENCE: de/deployment/GITHUB_ISSUES_REFERENCE.md
+  - IMPLEMENTATION CHECKLIST: de/deployment/IMPLEMENTATION_CHECKLIST.md
+  - INDEX CMAKE DOCUMENTATION: de/deployment/INDEX_CMAKE_DOCUMENTATION.md
+  - MASTER INDEX: de/deployment/MASTER_INDEX.md
+  - PORT REFERENCE: de/deployment/PORT_REFERENCE.md
+  - PORT STANDARDIZATION: de/deployment/PORT_STANDARDIZATION.md
+  - PRICING MODEL v1.3.5: de/deployment/PRICING_MODEL_v1.3.5.md
+  - QNAP CPU COMPATIBILITY: de/deployment/QNAP_CPU_COMPATIBILITY.md
+  - QUICK REFERENCE: de/deployment/QUICK_REFERENCE.md
+  - README CMAKE FIX: de/deployment/README_CMAKE_FIX.md
+  - RESEARCH RESULTS SUMMARY: de/deployment/RESEARCH_RESULTS_SUMMARY.md
+  - VCPKG OFFLINE STRATEGY: de/deployment/VCPKG_OFFLINE_STRATEGY.md
+  - deployment arm benchmarks: de/deployment/deployment_arm_benchmarks.md
+  - deployment arm build: de/deployment/deployment_arm_build.md
+  - deployment arm packages: de/deployment/deployment_arm_packages.md
+  - deployment cicd multiarch: de/deployment/deployment_cicd_multiarch.md
+  - deployment docker multiarch: de/deployment/deployment_docker_multiarch.md
+  - deployment qnap: de/deployment/deployment_qnap.md
+  - deployment raspberry tuning: de/deployment/deployment_raspberry_tuning.md
+  - deployment strategy: de/deployment/deployment_strategy.md
+  - v1.3.5 RELEASE BUILD STRATEGY: de/deployment/v1.3.5_RELEASE_BUILD_STRATEGY.md
   - Archive:
-      - Archive README: archive/README.md
-      - CDC Legacy: archive/cdc_legacy.md
-      - Geo Research Report MVP: archive/geo_research_report_mvp.md
-      - Path Constraints Concept: archive/path_constraints_concept.md
-      - Release Scope Core Draft: archive/release_scope_core_draft.md
-      - Merge Reports:
-          - Feature Complete Database Capabilities Conflicts: reports/feature_complete-database-capabilities-conflicts.md
-
+    - Übersicht: de/deployment/archive/README.md
+    - EXECUTIVE SUMMARY: de/deployment/archive/EXECUTIVE_SUMMARY.md
+    - IMPLEMENTATION COMPLETED: de/deployment/archive/IMPLEMENTATION_COMPLETED.md
+    - docker build: de/deployment/archive/docker_build.md
+    - docker status: de/deployment/archive/docker_status.md
+- Development:
+  - Übersicht: de/development/README.md
+  - CODE AUDIT FRAMEWORK: de/development/CODE_AUDIT_FRAMEWORK.md
+  - CODE REVIEW 2025 12: de/development/CODE_REVIEW_2025-12.md
+  - CODE REVIEW v1.1.0 v1.2.0: de/development/CODE_REVIEW_v1.1.0_v1.2.0.md
+  - CTE IMPLEMENTATION PLAN: de/development/CTE_IMPLEMENTATION_PLAN.md
+  - DEVELOPMENT SUMMARY: de/development/DEVELOPMENT_SUMMARY.md
+  - DOCUMENTATION NAMING CONVENTION: de/development/DOCUMENTATION_NAMING_CONVENTION.md
+  - DOCUMENTATION RENEWAL TODO: de/development/DOCUMENTATION_RENEWAL_TODO.md
+  - FUNCTION DEPENDENCY GRAPH: de/development/FUNCTION_DEPENDENCY_GRAPH.md
+  - GAPS STUBS SUMMARY: de/development/GAPS_STUBS_SUMMARY.md
+  - GIT CLEANUP GUIDE: de/development/GIT_CLEANUP_GUIDE.md
+  - GOOGLE TEST COMPLIANCE: de/development/GOOGLE_TEST_COMPLIANCE.md
+  - IMPLEMENTATION SUMMARY: de/development/IMPLEMENTATION-SUMMARY.md
+  - IMPLEMENTATION COMPLETE: de/development/IMPLEMENTATION_COMPLETE.md
+  - IMPLEMENTATION PLAN: de/development/IMPLEMENTATION_PLAN.md
+  - NEXT STEPS ANALYSIS: de/development/NEXT_STEPS_ANALYSIS.md
+  - RPC PLUGIN ARCHITECTURE: de/development/RPC_PLUGIN_ARCHITECTURE.md
+  - SOURCE CODE AUDIT: de/development/SOURCE_CODE_AUDIT.md
+  - SOURCE CODE CHANGES v1.0: de/development/SOURCE_CODE_CHANGES_v1.0.md
+  - STUB REPLACEMENT DOCUMENTATION: de/development/STUB_REPLACEMENT_DOCUMENTATION.md
+  - aql let implementation guide: de/development/aql_let_implementation_guide.md
+  - audit api implementation: de/development/audit_api_implementation.md
+  - audit summary: de/development/audit_summary.md
+  - auditlog: de/development/auditlog.md
+  - build acceleration: de/development/build_acceleration.md
+  - code audit mockups stubs: de/development/code_audit_mockups_stubs.md
+  - core feature todo: de/development/core_feature_todo.md
+  - cost models: de/development/cost-models.md
+  - developers: de/development/developers.md
+  - future work: de/development/future_work.md
+  - implementation status: de/development/implementation_status.md
+  - pki eidas: de/development/pki-eidas.md
+  - priorities: de/development/priorities.md
+  - roadmap: de/development/roadmap.md
+  - saga api implementation: de/development/saga_api_implementation.md
+  - search gap analysis: de/development/search_gap_analysis.md
+  - sprint summary 2025 11 17: de/development/sprint_summary_2025-11-17.md
+  - src documentation plan: de/development/src_documentation_plan.md
+  - stub simulation audit 2025 11: de/development/stub_simulation_audit_2025-11.md
+  - todo: de/development/todo.md
+  - tool todo: de/development/tool_todo.md
+  - v1.3.0 ALL FEATURES COMPLETE: de/development/v1.3.0_ALL_FEATURES_COMPLETE.md
+  - v1.3.0 COMPLETE: de/development/v1.3.0_COMPLETE.md
+  - v1.3.0 FINAL SUMMARY: de/development/v1.3.0_FINAL_SUMMARY.md
+  - v1.3.0 IMPLEMENTATION REPORT: de/development/v1.3.0_IMPLEMENTATION_REPORT.md
+  - v1.3.0 TEST SUITE: de/development/v1.3.0_TEST_SUITE.md
+  - v1.3.0 UNIFIED ROADMAP: de/development/v1.3.0_UNIFIED_ROADMAP.md
+  - v1.4.0 IMPLEMENTATION ROADMAP: de/development/v1.4.0_IMPLEMENTATION_ROADMAP.md
+  - v1.4.0 RAPID COMPLETION PLAN: de/development/v1.4.0_RAPID_COMPLETION_PLAN.md
+  - wal archiving: de/development/wal-archiving.md
+  - Changefeed:
+    - Übersicht: de/development/changefeed/README.md
+    - changefeed cmake patch: de/development/changefeed/changefeed_cmake_patch.md
+    - changefeed openapi: de/development/changefeed/changefeed_openapi.md
+    - changefeed openapi auth: de/development/changefeed/changefeed_openapi_auth.md
+    - changefeed sse examples: de/development/changefeed/changefeed_sse_examples.md
+    - changefeed test harness: de/development/changefeed/changefeed_test_harness.md
+    - changefeed tests: de/development/changefeed/changefeed_tests.md
+  - Overviews:
+    - Übersicht: de/development/overviews/README.md
+    - consolidated development overview: de/development/overviews/consolidated_development_overview.md
+    - feature status changefeed encryption: de/development/overviews/feature_status_changefeed_encryption.md
+    - verification by area: de/development/overviews/verification_by_area.md
+  - Security:
+    - Übersicht: de/development/security/README.md
+    - content zstd hkdf: de/development/security/content_zstd_hkdf.md
+- Enterprise:
+  - Übersicht: de/enterprise/README.md
+  - DISTRIBUTION BEST PRACTICES: de/enterprise/DISTRIBUTION_BEST_PRACTICES.md
+  - EDITION COMPARISON: de/enterprise/EDITION_COMPARISON.md
+  - ENTERPRISE FEATURE ANALYSIS: de/enterprise/ENTERPRISE_FEATURE_ANALYSIS.md
+- Features:
+  - Übersicht: de/features/README.md
+  - comprehensive risk assessment: de/features/comprehensive_risk_assessment.md
+  - features audit logging: de/features/features_audit_logging.md
+  - features cdc: de/features/features_cdc.md
+  - features chain of thought: de/features/features_chain_of_thought.md
+  - features change data capture: de/features/features_change_data_capture.md
+  - features compliance: de/features/features_compliance.md
+  - features compliance audit: de/features/features_compliance_audit.md
+  - features compliance governance: de/features/features_compliance_governance.md
+  - features compliance integration: de/features/features_compliance_integration.md
+  - features cursor pagination: de/features/features_cursor_pagination.md
+  - features enterprise ingestion: de/features/features_enterprise_ingestion.md
+  - features extended compliance: de/features/features_extended_compliance.md
+  - features gnn embeddings: de/features/features_gnn_embeddings.md
+  - features governance usage: de/features/features_governance_usage.md
+  - features government network: de/features/features_government_network.md
+  - features hierarchy configurable: de/features/features_hierarchy_configurable.md
+  - features hierarchy urn: de/features/features_hierarchy_urn.md
+  - features hnsw persistence: de/features/features_hnsw_persistence.md
+  - features index backup: de/features/features_index_backup.md
+  - features index maintenance: de/features/features_index_maintenance.md
+  - features indexes: de/features/features_indexes.md
+  - features multi tenancy: de/features/features_multi_tenancy.md
+  - features olap analytics: de/features/features_olap_analytics.md
+  - features overview: de/features/features_overview.md
+  - features path constraints: de/features/features_path_constraints.md
+  - features priorities: de/features/features_priorities.md
+  - features property graph: de/features/features_property_graph.md
+  - features recursive path: de/features/features_recursive_path.md
+  - features semantic cache: de/features/features_semantic_cache.md
+  - features temporal graphs: de/features/features_temporal_graphs.md
+  - features temporal queries: de/features/features_temporal_queries.md
+  - features time series: de/features/features_time_series.md
+  - features transactions: de/features/features_transactions.md
+  - features vector ops: de/features/features_vector_ops.md
+  - geospatial 3d implementation: de/features/geospatial_3d_implementation.md
+- Geo:
+  - Übersicht: de/geo/README.md
+  - geo acceleration 3d games: de/geo/geo_acceleration_3d_games.md
+  - geo architecture: de/geo/geo_architecture.md
+  - geo execution plan: de/geo/geo_execution_plan.md
+  - geo feature tiering: de/geo/geo_feature_tiering.md
+  - geo g3 phase2 status: de/geo/geo_g3_phase2_status.md
+  - geo g5 implementation: de/geo/geo_g5_implementation.md
+  - geo integration: de/geo/geo_integration.md
+- Governance:
+  - Übersicht: de/governance/README.md
+- Guides:
+  - Übersicht: de/guides/README.md
+  - ADMINISTRATOR GUIDE: de/guides/ADMINISTRATOR_GUIDE.md
+  - CONFIGURATION TUNING GUIDE: de/guides/CONFIGURATION_TUNING_GUIDE.md
+  - DOCS QUICKREF: de/guides/DOCS_QUICKREF.md
+  - LLM COMPLETE SETUP GUIDE: de/guides/LLM_COMPLETE_SETUP_GUIDE.md
+  - POWER USER GUIDE: de/guides/POWER_USER_GUIDE.md
+  - QUICK START: de/guides/QUICK_START.md
+  - RAILWAY COMPLETE GUIDE: de/guides/RAILWAY_COMPLETE_GUIDE.md
+  - SYSTEM ARCHITECT GUIDE: de/guides/SYSTEM_ARCHITECT_GUIDE.md
+  - USER GUIDE: de/guides/USER_GUIDE.md
+  - VECTOR QUANTIZATION GRPC GUIDE: de/guides/VECTOR_QUANTIZATION_GRPC_GUIDE.md
+  - guides build: de/guides/guides_build.md
+  - guides build strategy: de/guides/guides_build_strategy.md
+  - guides code quality: de/guides/guides_code_quality.md
+  - guides deployment: de/guides/guides_deployment.md
+  - guides enterprise build: de/guides/guides_enterprise_build.md
+  - guides known issues: de/guides/guides_known_issues.md
+  - guides operations runbook: de/guides/guides_operations_runbook.md
+  - guides package maintainers: de/guides/guides_package_maintainers.md
+  - guides packaging: de/guides/guides_packaging.md
+  - guides packaging quickref: de/guides/guides_packaging_quickref.md
+  - guides publishing: de/guides/guides_publishing.md
+  - guides qa: de/guides/guides_qa.md
+  - guides rbac: de/guides/guides_rbac.md
+  - guides rbac authorization: de/guides/guides_rbac_authorization.md
+  - guides styleguide: de/guides/guides_styleguide.md
+  - guides tls setup: de/guides/guides_tls_setup.md
+  - guides update check: de/guides/guides_update_check.md
+  - guides user management: de/guides/guides_user_management.md
+  - guides vault: de/guides/guides_vault.md
+  - rocksdb windows build issues: de/guides/rocksdb-windows-build-issues.md
+- Integrations:
+  - arcgis data provider: de/integrations/arcgis_data_provider.md
+- Legal:
+  - ATTRIBUTIONS: de/legal/ATTRIBUTIONS.md
+  - LICENSE COMPATIBILITY ANALYSIS: de/legal/LICENSE_COMPATIBILITY_ANALYSIS.md
+  - THIRD PARTY LICENSES: de/legal/THIRD_PARTY_LICENSES.md
+  - license: de/legal/license.md
+- Llm:
+  - Übersicht: de/llm/README.md
+  - AI ECOSYSTEM SHARDING ARCHITECTURE: de/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md
+  - AQL LANGUAGE EXTENSION: de/llm/AQL_LANGUAGE_EXTENSION.md
+  - ASYNC INFERENCE ARCHITECTURE: de/llm/ASYNC_INFERENCE_ARCHITECTURE.md
+  - BENCHMARKS AND COMPARISONS: de/llm/BENCHMARKS_AND_COMPARISONS.md
+  - BEST PRACTICES AND DESIGN PATTERNS: de/llm/BEST_PRACTICES_AND_DESIGN_PATTERNS.md
+  - BINARY COMMUNICATION PROTOCOLS: de/llm/BINARY_COMMUNICATION_PROTOCOLS.md
+  - BINARY PROTOCOL SPECIFICATION: de/llm/BINARY_PROTOCOL_SPECIFICATION.md
+  - CLIENT SDK GUIDE: de/llm/CLIENT_SDK_GUIDE.md
+  - COMPLETE IMPLEMENTATION GUIDE: de/llm/COMPLETE_IMPLEMENTATION_GUIDE.md
+  - DISTRIBUTED REASONING ARCHITECTURE: de/llm/DISTRIBUTED_REASONING_ARCHITECTURE.md
+  - DOCKER VM DEPLOYMENT GUIDE: de/llm/DOCKER_VM_DEPLOYMENT_GUIDE.md
+  - ENTERPRISE VRAM LICENSING: de/llm/ENTERPRISE_VRAM_LICENSING.md
+  - GERMAN ADMINISTRATIVE USE CASES: de/llm/GERMAN_ADMINISTRATIVE_USE_CASES.md
+  - GPU REFERENCING CAPABILITIES: de/llm/GPU_REFERENCING_CAPABILITIES.md
+  - GPU TIER ANALYSIS HYPERSCALER COMPARISON: de/llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md
+  - HTTP API SPECIFICATION: de/llm/HTTP_API_SPECIFICATION.md
+  - INFERENCE ENGINE COMPARISON: de/llm/INFERENCE_ENGINE_COMPARISON.md
+  - INTEGRATION REVIEW AND SEQUENCE: de/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md
+  - LLAMA CPP INTEGRATION: de/llm/LLAMA_CPP_INTEGRATION.md
+  - LLM FEEDBACK ENTERPRISE: de/llm/LLM_FEEDBACK_ENTERPRISE.md
+  - LLM LOADER GUIDE: de/llm/LLM_LOADER_GUIDE.md
+  - LLM PLUGIN DEVELOPMENT GUIDE: de/llm/LLM_PLUGIN_DEVELOPMENT_GUIDE.md
+  - LORA TRAINING FRAMEWORK INTEGRATION: de/llm/LORA_TRAINING_FRAMEWORK_INTEGRATION.md
+  - MILITARY BATTLEFIELD ANALYSIS USE CASE: de/llm/MILITARY_BATTLEFIELD_ANALYSIS_USE_CASE.md
+  - MODEL INGESTION ARCHITECTURE: de/llm/MODEL_INGESTION_ARCHITECTURE.md
+  - MONITORING TESTING STRATEGY: de/llm/MONITORING_TESTING_STRATEGY.md
+  - NATIVE LLM INTEGRATION CONCEPT: de/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md
+  - OLLAMA VLLM FEATURES: de/llm/OLLAMA_VLLM_FEATURES.md
+  - PAGED ATTENTION INTEGRATION: de/llm/PAGED_ATTENTION_INTEGRATION.md
+  - README PLUGINS: de/llm/README_PLUGINS.md
+  - REUSING THEMIS CACHING: de/llm/REUSING_THEMIS_CACHING.md
+  - THREAD SAFETY AND SHARING: de/llm/THREAD_SAFETY_AND_SHARING.md
+  - WEEK 4 6 IMPLEMENTATION PLAN: de/llm/WEEK_4_6_IMPLEMENTATION_PLAN.md
+  - ZERO COPY MEMORY ACCESS: de/llm/ZERO_COPY_MEMORY_ACCESS.md
+- Observability:
+  - Übersicht: de/observability/README.md
+  - CEP STREAMING ANALYTICS: de/observability/CEP_STREAMING_ANALYTICS.md
+  - observability metrics: de/observability/observability_metrics.md
+  - observability phase6 complete: de/observability/observability_phase6_complete.md
+  - observability prometheus: de/observability/observability_prometheus.md
+  - observability tracing: de/observability/observability_tracing.md
+- Performance:
+  - Übersicht: de/performance/README.md
+  - BENCHMARK RESULTS COMPLETE 2025: de/performance/BENCHMARK_RESULTS_COMPLETE_2025.md
+  - CODE VALIDATION REPORT: de/performance/CODE_VALIDATION_REPORT.md
+  - INGESTION ARCHITECTURE: de/performance/INGESTION_ARCHITECTURE.md
+  - INGESTION OPTIMIZATION IDEAS: de/performance/INGESTION_OPTIMIZATION_IDEAS.md
+  - INGESTION OPTIMIZATION SUMMARY: de/performance/INGESTION_OPTIMIZATION_SUMMARY.md
+  - OPTIMIZATION QUICK WINS: de/performance/OPTIMIZATION_QUICK_WINS.md
+  - OPTIMIZATION SUMMARY: de/performance/OPTIMIZATION_SUMMARY.md
+  - PERFORMANCE IMPROVEMENTS V1.3.0: de/performance/PERFORMANCE_IMPROVEMENTS_V1.3.0.md
+  - PERFORMANCE INDEX: de/performance/PERFORMANCE_INDEX.md
+  - README INGESTION: de/performance/README_INGESTION.md
+  - REMAINING IMPROVEMENTS GUIDE: de/performance/REMAINING_IMPROVEMENTS_GUIDE.md
+  - async io multiscan guide: de/performance/async_io_multiscan_guide.md
+  - performance benchmarks: de/performance/performance_benchmarks.md
+  - performance compression benchmarks: de/performance/performance_compression_benchmarks.md
+  - performance compression strategy: de/performance/performance_compression_strategy.md
+  - performance cuda: de/performance/performance_cuda.md
+  - performance enterprise strategy: de/performance/performance_enterprise_strategy.md
+  - performance gpu plan: de/performance/performance_gpu_plan.md
+  - performance hardware: de/performance/performance_hardware.md
+  - performance memory: de/performance/performance_memory.md
+  - performance multi cpu: de/performance/performance_multi_cpu.md
+  - performance tbb: de/performance/performance_tbb.md
+  - performance vector compression lossless: de/performance/performance_vector_compression_lossless.md
+  - performance vulkan: de/performance/performance_vulkan.md
+  - performance vulkan impl: de/performance/performance_vulkan_impl.md
+- Plugins:
+  - Übersicht: de/plugins/README.md
+  - DIFFERENTIAL UPDATE MODE: de/plugins/DIFFERENTIAL_UPDATE_MODE.md
+  - IMAGE ANALYSIS BENCHMARKS: de/plugins/IMAGE_ANALYSIS_BENCHMARKS.md
+  - IMAGE ANALYSIS CPP LIBRARIES: de/plugins/IMAGE_ANALYSIS_CPP_LIBRARIES.md
+  - IMAGE ANALYSIS LICENSE COMPATIBILITY: de/plugins/IMAGE_ANALYSIS_LICENSE_COMPATIBILITY.md
+  - IMAGE ANALYSIS OPTIMIZATION: de/plugins/IMAGE_ANALYSIS_OPTIMIZATION.md
+  - INTER SHARD DATA PIPELINE ANALYSIS: de/plugins/INTER_SHARD_DATA_PIPELINE_ANALYSIS.md
+  - MANIFEST SIGNATURES: de/plugins/MANIFEST_SIGNATURES.md
+  - PLUGIN MIGRATION: de/plugins/PLUGIN_MIGRATION.md
+  - RPC MTLS INTER SHARD: de/plugins/RPC_MTLS_INTER_SHARD.md
+  - RPC PLUGIN ARCHITECTURE: de/plugins/RPC_PLUGIN_ARCHITECTURE.md
+  - TEMPORAL SNAPSHOTS CONSISTENCY: de/plugins/TEMPORAL_SNAPSHOTS_CONSISTENCY.md
+- Policies:
+  - Übersicht: de/policies/README.md
+  - policies access control: de/policies/policies_access_control.md
+  - policies change management: de/policies/policies_change_management.md
+  - policies data classification: de/policies/policies_data_classification.md
+  - policies encryption key: de/policies/policies_encryption_key.md
+- Projects:
+  - Übersicht: de/projects/README.md
+  - RAG LLM PROGRAMMIERHILFE: de/projects/RAG_LLM_PROGRAMMIERHILFE.md
+  - RAILWAY AQL QUERIES: de/projects/RAILWAY_AQL_QUERIES.md
+  - RAILWAY ASSET MANAGEMENT: de/projects/RAILWAY_ASSET_MANAGEMENT.md
+  - RAILWAY ENERGY MANAGEMENT: de/projects/RAILWAY_ENERGY_MANAGEMENT.md
+  - RAILWAY MONITORING: de/projects/RAILWAY_MONITORING.md
+  - RAILWAY PROJECT SUMMARY: de/projects/RAILWAY_PROJECT_SUMMARY.md
+  - RAILWAY REAL DATA: de/projects/RAILWAY_REAL_DATA.md
+  - RAILWAY SYSTEM REVIEW: de/projects/RAILWAY_SYSTEM_REVIEW.md
+  - RAILWAY TRAIN DATA MODEL: de/projects/RAILWAY_TRAIN_DATA_MODEL.md
+- Query:
+  - Übersicht: de/query/README.md
+  - query filtered vector: de/query/query_filtered_vector.md
+  - query hybrid benchmarks: de/query/query_hybrid_benchmarks.md
+  - query hybrid overview: de/query/query_hybrid_overview.md
+  - query vector hybrid: de/query/query_vector_hybrid.md
+- Releases:
+  - Übersicht: de/releases/README.md
+  - 2025 11 11 temporal aggregation: de/releases/2025-11-11-temporal-aggregation.md
+  - CHANGELOG: de/releases/CHANGELOG.md
+  - RELEASE NOTES v1.3.0: de/releases/RELEASE_NOTES_v1.3.0.md
+  - RELEASE NOTES v1.3.1: de/releases/RELEASE_NOTES_v1.3.1.md
+  - RELEASE NOTES v1.3.2: de/releases/RELEASE_NOTES_v1.3.2.md
+  - RELEASE NOTES v1.3.3: de/releases/RELEASE_NOTES_v1.3.3.md
+  - RELEASE NOTES v1.3.5: de/releases/RELEASE_NOTES_v1.3.5.md
+  - updates checker: de/releases/updates_checker.md
+  - updates distribution strategy: de/releases/updates_distribution_strategy.md
+  - updates encrypted manifests: de/releases/updates_encrypted_manifests.md
+  - updates konzept: de/releases/updates_konzept.md
+  - updates manifest encryption: de/releases/updates_manifest_encryption.md
+  - updates manifest security: de/releases/updates_manifest_security.md
+  - updates release manifest: de/releases/updates_release_manifest.md
+  - updates security summary: de/releases/updates_security_summary.md
+  - v1.1.0: de/releases/v1.1.0.md
+  - v1.2.0: de/releases/v1.2.0.md
+  - v1.3.0 rpc framework: de/releases/v1.3.0-rpc-framework.md
+- Reports:
+  - Übersicht: de/reports/README.md
+  - ARM IMPLEMENTATION SUMMARY: de/reports/ARM_IMPLEMENTATION_SUMMARY.md
+  - BATCH PROCESSING OPPORTUNITIES: de/reports/BATCH_PROCESSING_OPPORTUNITIES.md
+  - BENCHMARK AND TEST AUDIT: de/reports/BENCHMARK_AND_TEST_AUDIT.md
+  - BUILD SUCCESS REPORT: de/reports/BUILD_SUCCESS_REPORT.md
+  - DOCS CONSOLIDATION SUMMARY: de/reports/DOCS_CONSOLIDATION_SUMMARY.md
+  - DOCUMENTATION CLEANUP VALIDATION REPORT: de/reports/DOCUMENTATION_CLEANUP_VALIDATION_REPORT.md
+  - DOCUMENTATION CONSOLIDATION PLAN: de/reports/DOCUMENTATION_CONSOLIDATION_PLAN.md
+  - DOCUMENTATION CONSOLIDATION REPORT: de/reports/DOCUMENTATION_CONSOLIDATION_REPORT.md
+  - DOCUMENTATION FINAL STATUS: de/reports/DOCUMENTATION_FINAL_STATUS.md
+  - DOCUMENTATION GAP ANALYSIS: de/reports/DOCUMENTATION_GAP_ANALYSIS.md
+  - DOCUMENTATION PHASE3 REPORT: de/reports/DOCUMENTATION_PHASE3_REPORT.md
+  - DOCUMENTATION SUMMARY: de/reports/DOCUMENTATION_SUMMARY.md
+  - DOCUMENTATION TODO: de/reports/DOCUMENTATION_TODO.md
+  - ENTERPRISE FEATURES STRATEGY: de/reports/ENTERPRISE_FEATURES_STRATEGY.md
+  - EXTERNAL LIBRARIES FEATURES ANALYSIS: de/reports/EXTERNAL_LIBRARIES_FEATURES_ANALYSIS.md
+  - FEM FLOW ANALYSIS: de/reports/FEM_FLOW_ANALYSIS.md
+  - FINAL CLEANUP REPORT: de/reports/FINAL_CLEANUP_REPORT.md
+  - GPU CROSS DOMAIN METHODS: de/reports/GPU_CROSS_DOMAIN_METHODS.md
+  - HOMEPAGE PDF UPDATE: de/reports/HOMEPAGE_PDF_UPDATE.md
+  - IGNORE FILES OPTIMIZATION: de/reports/IGNORE_FILES_OPTIMIZATION.md
+  - IMPLEMENTATION SUMMARY: de/reports/IMPLEMENTATION_SUMMARY.md
+  - INTEGRATION ANALYSIS: de/reports/INTEGRATION_ANALYSIS.md
+  - LIBRARY INTERACTIONS AND EXTENSIONS: de/reports/LIBRARY_INTERACTIONS_AND_EXTENSIONS.md
+  - LOGISTIK STRATEGIE THEMISDB: de/reports/LOGISTIK_STRATEGIE_THEMISDB.md
+  - OBSERVABILITY TRACING IMPLEMENTATION: de/reports/OBSERVABILITY_TRACING_IMPLEMENTATION.md
+  - ROOT CLEANUP REPORT: de/reports/ROOT_CLEANUP_REPORT.md
+  - SECURITY AUDIT REPORT: de/reports/SECURITY_AUDIT_REPORT.md
+  - SHARDING AUTO REBALANCING: de/reports/SHARDING_AUTO_REBALANCING.md
+  - TEST REPORT: de/reports/TEST_REPORT.md
+  - TSSTORE STABILIZATION: de/reports/TSSTORE_STABILIZATION.md
+  - VARIANT STRATEGY v1.1.0: de/reports/VARIANT_STRATEGY_v1.1.0.md
+  - WIKI SIDEBAR RESTRUCTURE: de/reports/WIKI_SIDEBAR_RESTRUCTURE.md
+  - competitive gap analysis: de/reports/competitive_gap_analysis.md
+  - database capabilities roadmap: de/reports/database_capabilities_roadmap.md
+  - development audit: de/reports/development_audit.md
+  - documentation inventory: de/reports/documentation_inventory.md
+  - documentation verification report: de/reports/documentation_verification_report.md
+  - dokumentations audit zusammenfassung: de/reports/dokumentations_audit_zusammenfassung.md
+  - feature complete database capabilities conflicts: de/reports/feature_complete-database-capabilities-conflicts.md
+  - infrastructure roadmap: de/reports/infrastructure_roadmap.md
+  - phase 1.5 completion: de/reports/phase_1.5_completion.md
+  - phase 2 plan: de/reports/phase_2_plan.md
+  - phase 3 plan: de/reports/phase_3_plan.md
+  - phase 4 plan: de/reports/phase_4_plan.md
+  - release scope core: de/reports/release_scope_core.md
+  - reports sachstandsbericht 2025: de/reports/reports_sachstandsbericht_2025.md
+  - research postgis opensearch h3s2 mvp: de/reports/research_postgis_opensearch_h3s2_mvp.md
+  - sprint a plan: de/reports/sprint_a_plan.md
+  - themis implementation summary: de/reports/themis_implementation_summary.md
+  - themis sachstandsbericht 2025: de/reports/themis_sachstandsbericht_2025.md
+- Research:
+  - Übersicht: de/research/README.md
+  - ADDITIONAL SOURCES: de/research/ADDITIONAL_SOURCES.md
+  - IMPLEMENTATION VALIDATION GUIDE: de/research/IMPLEMENTATION_VALIDATION_GUIDE.md
+  - SCIENTIFIC PERFORMANCE OPTIMIZATIONS EN: de/research/SCIENTIFIC_PERFORMANCE_OPTIMIZATIONS_EN.md
+  - WISSENSCHAFTLICHE PERFORMANCE OPTIMIERUNGEN: de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md
+- Roadmap:
+  - Übersicht: de/roadmap/README.md
+  - CLIENT IMPLEMENTATION ROADMAP: de/roadmap/CLIENT_IMPLEMENTATION_ROADMAP.md
+  - ROADMAP: de/roadmap/ROADMAP.md
+  - roadmap overview: de/roadmap/roadmap_overview.md
+- Scheduler:
+  - ADAPTIVE VS TIME BASED RETENTION: de/scheduler/ADAPTIVE_VS_TIME_BASED_RETENTION.md
+  - AQL RETENTION EXTENSIONS: de/scheduler/AQL_RETENTION_EXTENSIONS.md
+  - DATA RETENTION DOWNSAMPLING: de/scheduler/DATA_RETENTION_DOWNSAMPLING.md
+  - HYBRID RETENTION MANAGER: de/scheduler/HYBRID_RETENTION_MANAGER.md
+  - IMPLEMENTATION SUMMARY: de/scheduler/IMPLEMENTATION_SUMMARY.md
+  - SYSTEM IMPACT ANALYSIS: de/scheduler/SYSTEM_IMPACT_ANALYSIS.md
+  - TASK SCHEDULER: de/scheduler/TASK_SCHEDULER.md
+- Search:
+  - Übersicht: de/search/README.md
+  - VECTOR AUTO BUFFER: de/search/VECTOR_AUTO_BUFFER.md
+  - content search summary: de/search/content_search_summary.md
+  - fulltext api: de/search/fulltext_api.md
+  - future work: de/search/future_work.md
+  - hybrid fusion api: de/search/hybrid_fusion_api.md
+  - hybrid search design: de/search/hybrid_search_design.md
+  - migration guide: de/search/migration_guide.md
+  - pagination benchmarks: de/search/pagination_benchmarks.md
+  - performance tuning: de/search/performance_tuning.md
+  - stemming: de/search/stemming.md
+- Security:
+  - Übersicht: de/security/README.md
+  - BSI C5 COLUMN ENCRYPTION COMPLIANCE: de/security/BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md
+  - BSI C5 EXECUTIVE SUMMARY: de/security/BSI_C5_EXECUTIVE_SUMMARY.md
+  - BSI C5 MULTI MODEL ENCRYPTION ANALYSIS: de/security/BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md
+  - BSI C5 ZUSAMMENFASSUNG: de/security/BSI_C5_ZUSAMMENFASSUNG.md
+  - BUILD VERIFICATION GUIDE: de/security/BUILD_VERIFICATION_GUIDE.md
+  - COMPLETE IMPLEMENTATION SUMMARY: de/security/COMPLETE_IMPLEMENTATION_SUMMARY.md
+  - CRYPTOGRAPHY POLICY: de/security/CRYPTOGRAPHY_POLICY.md
+  - EMBEDDING REVERSIBILITY ANALYSIS: de/security/EMBEDDING_REVERSIBILITY_ANALYSIS.md
+  - ENCRYPTED HNSW SEARCHABILITY: de/security/ENCRYPTED_HNSW_SEARCHABILITY.md
+  - HNSW ENCRYPTION CONFIGURATION: de/security/HNSW_ENCRYPTION_CONFIGURATION.md
+  - HNSW PERSISTENCE ENCRYPTION ANALYSIS: de/security/HNSW_PERSISTENCE_ENCRYPTION_ANALYSIS.md
+  - KEY LIFECYCLE MANAGEMENT: de/security/KEY_LIFECYCLE_MANAGEMENT.md
+  - PERFORMANCE OPTIMIZATION NOTES: de/security/PERFORMANCE_OPTIMIZATION_NOTES.md
+  - PHASE1 FINAL REPORT: de/security/PHASE1_FINAL_REPORT.md
+  - PHASE1 IMPLEMENTATION PLAN: de/security/PHASE1_IMPLEMENTATION_PLAN.md
+  - PHASE1 STATUS AND NEXT STEPS: de/security/PHASE1_STATUS_AND_NEXT_STEPS.md
+  - PHASE2 IMPLEMENTATION REPORT: de/security/PHASE2_IMPLEMENTATION_REPORT.md
+  - QUICK START VECTOR ENCRYPTION: de/security/QUICK_START_VECTOR_ENCRYPTION.md
+  - SYMMETRIC ENCRYPTION APPROACHES: de/security/SYMMETRIC_ENCRYPTION_APPROACHES.md
+  - VECTOR ENCRYPTION CONFIGURATION: de/security/VECTOR_ENCRYPTION_CONFIGURATION.md
+  - VECTOR ENCRYPTION IMPLEMENTATION SUMMARY: de/security/VECTOR_ENCRYPTION_IMPLEMENTATION_SUMMARY.md
+  - security audit checklist: de/security/security_audit_checklist.md
+  - security audit report: de/security/security_audit_report.md
+  - security audit retention: de/security/security_audit_retention.md
+  - security certificate pinning: de/security/security_certificate_pinning.md
+  - security column encryption: de/security/security_column_encryption.md
+  - security compliance: de/security/security_compliance.md
+  - security eidas: de/security/security_eidas.md
+  - security encryption deployment: de/security/security_encryption_deployment.md
+  - security encryption gaps: de/security/security_encryption_gaps.md
+  - security encryption metrics: de/security/security_encryption_metrics.md
+  - security encryption roadmap: de/security/security_encryption_roadmap.md
+  - security encryption strategy: de/security/security_encryption_strategy.md
+  - security hardening: de/security/security_hardening.md
+  - security hsm: de/security/security_hsm.md
+  - security implementation: de/security/security_implementation.md
+  - security incident response: de/security/security_incident_response.md
+  - security key management: de/security/security_key_management.md
+  - security key rotation: de/security/security_key_rotation.md
+  - security malware scanner: de/security/security_malware_scanner.md
+  - security multi party: de/security/security_multi_party.md
+  - security opensource best practice: de/security/security_opensource_best_practice.md
+  - security overview: de/security/security_overview.md
+  - security password policy: de/security/security_password_policy.md
+  - security pentest guide: de/security/security_pentest_guide.md
+  - security pii api: de/security/security_pii_api.md
+  - security pii detection: de/security/security_pii_detection.md
+  - security pii engines: de/security/security_pii_engines.md
+  - security pii signing: de/security/security_pii_signing.md
+  - security pki architecture: de/security/security_pki_architecture.md
+  - security pki rsa: de/security/security_pki_rsa.md
+  - security pki signatures: de/security/security_pki_signatures.md
+  - security plugins: de/security/security_plugins.md
+  - security policies: de/security/security_policies.md
+  - security policy: de/security/security_policy.md
+  - security risk management: de/security/security_risk_management.md
+  - security sbom: de/security/security_sbom.md
+  - security signatures: de/security/security_signatures.md
+  - security sprint summary: de/security/security_sprint_summary.md
+  - security threat model: de/security/security_threat_model.md
+- Server:
+  - Übersicht: de/server/README.md
+- Sharding:
+  - Übersicht: de/sharding/README.md
+  - COMPRESSED WAL SHIPPING: de/sharding/COMPRESSED_WAL_SHIPPING.md
+  - IPv6 IMPLEMENTATION SUMMARY: de/sharding/IPv6_IMPLEMENTATION_SUMMARY.md
+  - P0 IMPLEMENTATION SUMMARY: de/sharding/P0_IMPLEMENTATION_SUMMARY.md
+  - PHASE6 IMPLEMENTATION COMPLETE: de/sharding/PHASE6_IMPLEMENTATION_COMPLETE.md
+  - SHARDING ANALYSIS EXECUTIVE SUMMARY: de/sharding/SHARDING_ANALYSIS_EXECUTIVE_SUMMARY.md
+  - SHARDING COMPLEXITY ANALYSIS: de/sharding/SHARDING_COMPLEXITY_ANALYSIS.md
+  - ipv6 support: de/sharding/ipv6_support.md
+  - sharding implementation: de/sharding/sharding_implementation.md
+  - sharding overview: de/sharding/sharding_overview.md
+  - sharding phase1 report: de/sharding/sharding_phase1_report.md
+  - sharding phases summary: de/sharding/sharding_phases_summary.md
+  - sharding redundancy: de/sharding/sharding_redundancy.md
+  - sharding scaling todo: de/sharding/sharding_scaling_todo.md
+  - sharding strategy: de/sharding/sharding_strategy.md
+  - sharding streaming: de/sharding/sharding_streaming.md
+  - stream protocol guide: de/sharding/stream_protocol_guide.md
+- Src:
+  - Übersicht: de/src/README.md
+  - demo encryption.cpp: de/src/demo_encryption.cpp.md
+  - main.cpp: de/src/main.cpp.md
+  - main server.cpp: de/src/main_server.cpp.md
+  - root README: de/src/root_README.md
+  - Api:
+    - Übersicht: de/src/api/README.md
+    - http server.cpp: de/src/api/http_server.cpp.md
+  - Auth:
+    - Übersicht: de/src/auth/README.md
+    - jwt validator.cpp: de/src/auth/jwt_validator.cpp.md
+  - Cache:
+    - Übersicht: de/src/cache/README.md
+    - semantic cache.cpp: de/src/cache/semantic_cache.cpp.md
+  - Cdc:
+    - Übersicht: de/src/cdc/README.md
+    - changefeed.cpp: de/src/cdc/changefeed.cpp.md
+  - Content:
+    - Übersicht: de/src/content/README.md
+    - content manager.cpp: de/src/content/content_manager.cpp.md
+    - content type.cpp: de/src/content/content_type.cpp.md
+    - text processor.cpp: de/src/content/text_processor.cpp.md
+  - Demo Encryption.Cpp:
+    - Übersicht: de/src/demo_encryption.cpp/README.md
+    - demo encryption.cpp: de/src/demo_encryption.cpp/demo_encryption.cpp.md
+  - Geo:
+    - Übersicht: de/src/geo/README.md
+    - cpu backend.cpp: de/src/geo/cpu_backend.cpp.md
+    - gpu backend stub.cpp: de/src/geo/gpu_backend_stub.cpp.md
+  - Governance:
+    - Übersicht: de/src/governance/README.md
+    - policy engine.cpp: de/src/governance/policy_engine.cpp.md
+  - Index:
+    - Übersicht: de/src/index/README.md
+    - adaptive index.cpp: de/src/index/adaptive_index.cpp.md
+    - gnn embeddings.cpp: de/src/index/gnn_embeddings.cpp.md
+    - graph index.cpp: de/src/index/graph_index.cpp.md
+    - property graph.cpp: de/src/index/property_graph.cpp.md
+    - secondary index.cpp: de/src/index/secondary_index.cpp.md
+    - vector index.cpp: de/src/index/vector_index.cpp.md
+  - Llm:
+    - Übersicht: de/src/llm/README.md
+    - llm interaction store.cpp: de/src/llm/llm_interaction_store.cpp.md
+  - Main.Cpp:
+    - Übersicht: de/src/main.cpp/README.md
+    - main.cpp: de/src/main.cpp/main.cpp.md
+  - Main Server.Cpp:
+    - Übersicht: de/src/main_server.cpp/README.md
+    - main server.cpp: de/src/main_server.cpp/main_server.cpp.md
+  - Query:
+    - Übersicht: de/src/query/README.md
+    - aql parser.cpp: de/src/query/aql_parser.cpp.md
+    - aql translator.cpp: de/src/query/aql_translator.cpp.md
+    - query engine.cpp: de/src/query/query_engine.cpp.md
+    - query optimizer.cpp: de/src/query/query_optimizer.cpp.md
+    - query parser.cpp: de/src/query/query_parser.cpp.md
+    - semantic cache.cpp: de/src/query/semantic_cache.cpp.md
+  - Security:
+    - Übersicht: de/src/security/README.md
+    - encrypted field.cpp: de/src/security/encrypted_field.cpp.md
+    - field encryption.cpp: de/src/security/field_encryption.cpp.md
+    - key cache.cpp: de/src/security/key_cache.cpp.md
+    - mock key provider.cpp: de/src/security/mock_key_provider.cpp.md
+    - pki key provider.cpp: de/src/security/pki_key_provider.cpp.md
+    - vault key provider.cpp: de/src/security/vault_key_provider.cpp.md
+  - Server:
+    - Übersicht: de/src/server/README.md
+    - VCCDB Design: de/src/server/VCCDB Design.md.md
+    - audit api handler.cpp: de/src/server/audit_api_handler.cpp.md
+    - auth middleware.cpp: de/src/server/auth_middleware.cpp.md
+    - classification api handler.cpp: de/src/server/classification_api_handler.cpp.md
+    - http server.cpp: de/src/server/http_server.cpp.md
+    - keys api handler.cpp: de/src/server/keys_api_handler.cpp.md
+    - pii api handler.cpp: de/src/server/pii_api_handler.cpp.md
+    - policy engine.cpp: de/src/server/policy_engine.cpp.md
+    - ranger adapter.cpp: de/src/server/ranger_adapter.cpp.md
+    - reports api handler.cpp: de/src/server/reports_api_handler.cpp.md
+    - retention api handler.cpp: de/src/server/retention_api_handler.cpp.md
+    - saga api handler.cpp: de/src/server/saga_api_handler.cpp.md
+    - sse connection manager.cpp: de/src/server/sse_connection_manager.cpp.md
+  - Storage:
+    - Übersicht: de/src/storage/README.md
+    - base entity.cpp: de/src/storage/base_entity.cpp.md
+    - key schema.cpp: de/src/storage/key_schema.cpp.md
+    - rocksdb wrapper.cpp: de/src/storage/rocksdb_wrapper.cpp.md
+  - Timeseries:
+    - Übersicht: de/src/timeseries/README.md
+    - continuous agg.cpp: de/src/timeseries/continuous_agg.cpp.md
+    - gorilla.cpp: de/src/timeseries/gorilla.cpp.md
+    - retention.cpp: de/src/timeseries/retention.cpp.md
+    - timeseries.cpp: de/src/timeseries/timeseries.cpp.md
+    - tsstore.cpp: de/src/timeseries/tsstore.cpp.md
+  - Transaction:
+    - Übersicht: de/src/transaction/README.md
+    - saga.cpp: de/src/transaction/saga.cpp.md
+    - transaction manager.cpp: de/src/transaction/transaction_manager.cpp.md
+  - Utils:
+    - Übersicht: de/src/utils/README.md
+    - audit logger.cpp: de/src/utils/audit_logger.cpp.md
+    - cursor.cpp: de/src/utils/cursor.cpp.md
+    - hkdf helper.cpp: de/src/utils/hkdf_helper.cpp.md
+    - lek manager.cpp: de/src/utils/lek_manager.cpp.md
+    - logger.cpp: de/src/utils/logger.cpp.md
+    - normalizer.cpp: de/src/utils/normalizer.cpp.md
+    - pii detection engine.cpp: de/src/utils/pii_detection_engine.cpp.md
+    - pii detector.cpp: de/src/utils/pii_detector.cpp.md
+    - pii detector.cpp.old: de/src/utils/pii_detector.cpp.old.md
+    - pii pseudonymizer.cpp: de/src/utils/pii_pseudonymizer.cpp.md
+    - pki client.cpp: de/src/utils/pki_client.cpp.md
+    - regex detection engine.cpp: de/src/utils/regex_detection_engine.cpp.md
+    - retention manager.cpp: de/src/utils/retention_manager.cpp.md
+    - saga logger.cpp: de/src/utils/saga_logger.cpp.md
+    - serialization.cpp: de/src/utils/serialization.cpp.md
+    - stemmer.cpp: de/src/utils/stemmer.cpp.md
+    - stopwords.cpp: de/src/utils/stopwords.cpp.md
+    - tracing.cpp: de/src/utils/tracing.cpp.md
+    - zstd codec.cpp: de/src/utils/zstd_codec.cpp.md
+- Storage:
+  - Übersicht: de/storage/README.md
+  - storage blob redundancy: de/storage/storage_blob_redundancy.md
+  - storage cloud backends: de/storage/storage_cloud_backends.md
+  - storage external analysis: de/storage/storage_external_analysis.md
+  - storage geo schema: de/storage/storage_geo_schema.md
+  - storage rocksdb: de/storage/storage_rocksdb.md
+- Strategie:
+  - CMS STRATEGY PAPER: de/strategie/CMS_STRATEGY_PAPER.md
+  - STRATEGIEPAPIER GESUNDHEITSWESEN: de/strategie/STRATEGIEPAPIER_GESUNDHEITSWESEN.md
+  - STRATEGIEPAPIER INDUSTRIE 4 0 IOT: de/strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md
+- Timeseries:
+  - Übersicht: de/timeseries/README.md
+  - AUTO BUFFER: de/timeseries/AUTO_BUFFER.md
+  - STORAGE METHODS: de/timeseries/STORAGE_METHODS.md
+- Tools:
+  - GIS VIEWER 3D IMPORT: de/tools/GIS_VIEWER_3D_IMPORT.md
+  - GIS VIEWER CONCEPT: de/tools/GIS_VIEWER_CONCEPT.md
+  - GIS VIEWER ROADMAP: de/tools/GIS_VIEWER_ROADMAP.md
+  - GIS VIEWER STATUS: de/tools/GIS_VIEWER_STATUS.md
+  - GIS VIEWER WFS WMS: de/tools/GIS_VIEWER_WFS_WMS.md

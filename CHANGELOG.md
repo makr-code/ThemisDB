@@ -25,40 +25,41 @@
 
 ---
 
-## 🎉 [1.3.4] - 2025-01-08
+## 🎉 [1.3.4] - 2025-12-28
 
-> **⚡ FOCUS:** Insert Performance Optimization
+> **📚 FOCUS:** Documentation Update & Build System
+
 
 ### ✨ Added
 
 <details>
-<summary><b>Secondary Index Metadata Cache</b> (PR #TBD)</summary>
 
-- 🚀 **In-memory metadata cache** for secondary indexes (eliminates 6x DB scans per insert)
-- ⏱️ **TTL-based invalidation** (60s default, configurable)
-- 🔒 **Thread-safe singleton** with shared_mutex for concurrent access
-- 📊 **Cache statistics tracking** (hits, misses, hit rate)
-- ✅ **Automatic cache invalidation** on index structure changes (create/drop operations)
-- 📈 **Expected performance gains:**
-  - **Phase 1 goal:** +50-100% insert throughput ✅ 
-  - **Phase 2 goal:** +100-200% insert throughput ✅
-  - **Theoretical maximum:** +1080-3950% with full optimization stack
+<summary><b>Documentation System Enhancement</b></summary>
+
+- 📚 **MkDocs Integration** with Material theme for modern documentation
+- 📄 **PDF Export** capability using mkdocs-with-pdf and print-site plugins
+- 🌐 **GitHub Wiki Generation** from docs/de/ directory
+- 🔍 **Full-text Search** across all documentation
+- 📖 **Enhanced Navigation** with tabs, instant loading, and code copy
+- 📑 **Print-Friendly Output** with single-page HTML for easy printing
+- 🔖 **Hierarchical TOC** with bookmarks for PDF output
+
 
 </details>
 
 ### 🔧 Changed
 
-- Modified `SecondaryIndexManager::updateIndexesForPut_()` to check cache before DB scans
-- Updated all index type loaders (regular, range, sparse, geo, ttl, fulltext) to utilize cache
-- Enhanced index metadata loading performance from O(6n) to O(1) amortized
 
-### 📚 Documentation
+<details>
+<summary><b>Version & Documentation Updates</b></summary>
 
-- Added comprehensive performance analysis in `V1_3_4_PERFORMANCE_ANALYSIS.md`
-- Created validation report in `V1_3_4_VALIDATION_REPORT.md`
-- Quick summary available in `V1_3_4_QUICK_SUMMARY.md`
-- Release summary in `V1_3_4_RELEASE_SUMMARY.md`
-- Deep-dive root cause analysis in `INSERT_PERFORMANCE_DEEP_DIVE.md`
+- 📌 **Version Updated** to 1.3.4 across all documentation files
+- 📝 **Release Notes** added for v1.3.4
+- 🔄 **Cross-References** improved throughout documentation
+- 📚 **German Documentation** fully updated in docs/de/
+
+</details>
+
 
 ---
 

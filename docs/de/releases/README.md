@@ -1,7 +1,7 @@
 # Releases & Updates Dokumentation
 
-**Stand:** 26. Dezember 2025  
-**Aktuelle Version:** 1.3.3  
+**Stand:** 28. Dezember 2025  
+**Aktuelle Version:** 1.3.5  
 **Kategorie:** Releases & Updates
 
 ---
@@ -19,6 +19,7 @@ ThemisDB Release-Dokumentation enthält:
 
 | Version | Datum | Fokus | Dokumentation |
 |---------|-------|-------|---------------|
+| **v1.3.5** | 28.12.2025 | Documentation Update & Build | [Release Notes](./RELEASE_NOTES_v1.3.5.md) |
 | **v1.3.3** | 21.12.2025 | Network Protocol Enhancements | [Release Notes](./RELEASE_NOTES_v1.3.3.md) |
 | **v1.3.2** | 21.12.2025 | Image Analysis AI Plugin | [Release Notes](./RELEASE_NOTES_v1.3.2.md) |
 | **v1.3.1** | 20.12.2025 | Third-Party Attribution | [Release Notes](./RELEASE_NOTES_v1.3.1.md) |
@@ -33,6 +34,13 @@ ThemisDB Release-Dokumentation enthält:
 | v1.0.0 | 01.09.2025 | - |
 
 ## 📋 Release Notes
+
+### Version 1.3.5 - Documentation Update & Build
+- 📚 MkDocs Integration mit Material Theme
+- 📄 PDF-Export und GitHub Wiki Generation
+- 🔧 Verbesserte Build-Pipeline für Dokumentation
+- 📖 Vollständige deutsche Dokumentation in docs/de/
+- 🔄 Versionsverwaltung und Cross-Referenzen
 
 ### Version 1.3.3 - Network Protocol Enhancements
 - 🌐 HTTP/2 mit Server Push für CDC/Changefeed
