@@ -70,7 +70,7 @@ connection_test() {
     done
     
     local avg_time=$(($total_time / $iterations))
-    echo "  $name: ${avg_time}μs average (${iterations} connections)"
+    echo "  $name: ${avg_time}Î¼s average (${iterations} connections)"
     echo "$name,$avg_time" >> "$RESULTS_DIR/connection_times.csv"
 }
 
@@ -127,8 +127,8 @@ query_latency_test() {
     
     echo ""
     echo "  $name:"
-    echo "    Average: ${avg_latency}μs"
-    echo "    Est. P99: ${p99_latency}μs"
+    echo "    Average: ${avg_latency}Î¼s"
+    echo "    Est. P99: ${p99_latency}Î¼s"
     echo "    Throughput: $(($iterations * 1000000 / $total_time)) ops/sec"
     
     echo "$name,$avg_latency,$p99_latency" >> "$RESULTS_DIR/query_latency.csv"
@@ -151,7 +151,7 @@ throughput_test() {
     local operations_per_client=100
     local total_ops=$(($concurrent_clients * $operations_per_client))
     
-    echo "  $name: $concurrent_clients clients × $operations_per_client ops = $total_ops total"
+    echo "  $name: $concurrent_clients clients Ã— $operations_per_client ops = $total_ops total"
     
     local start=$(date +%s%N)
     
@@ -232,9 +232,9 @@ echo ""
 echo -e "${YELLOW}Generating Summary Report${NC}"
 
 cat > "$RESULTS_DIR/BENCHMARK_REPORT.txt" << 'EOF'
-╔════════════════════════════════════════════════════════════════════════════╗
-║         ThemisDB Wire Protocol vs PostgreSQL vs MongoDB Benchmarks         ║
-╚════════════════════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+â•‘         ThemisDB Wire Protocol vs PostgreSQL vs MongoDB Benchmarks         â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Test Date: $(date)
 Themis Version: 1.0.0
@@ -245,48 +245,48 @@ Test Results Summary
 ========================================
 
 1. CONNECTION ESTABLISHMENT TIME
-   ├─ ThemisDB HTTP:    Sub-millisecond
-   ├─ ThemisDB Wire:    Native TCP (extremely fast)
-   ├─ PostgreSQL:       Network overhead
-   └─ MongoDB:          Network overhead
+   â”œâ”€ ThemisDB HTTP:    Sub-millisecond
+   â”œâ”€ ThemisDB Wire:    Native TCP (extremely fast)
+   â”œâ”€ PostgreSQL:       Network overhead
+   â””â”€ MongoDB:          Network overhead
 
 2. QUERY LATENCY (Single Operations)
-   ├─ ThemisDB HTTP:    Low latency REST API
-   ├─ PostgreSQL:       Database latency
-   └─ MongoDB:          Document database latency
+   â”œâ”€ ThemisDB HTTP:    Low latency REST API
+   â”œâ”€ PostgreSQL:       Database latency
+   â””â”€ MongoDB:          Document database latency
 
 3. THROUGHPUT (Concurrent Operations)
-   ├─ ThemisDB HTTP:    High throughput
-   ├─ PostgreSQL:       Connection pool limited
-   └─ MongoDB:          Cluster dependent
+   â”œâ”€ ThemisDB HTTP:    High throughput
+   â”œâ”€ PostgreSQL:       Connection pool limited
+   â””â”€ MongoDB:          Cluster dependent
 
 4. MEMORY USAGE
-   ├─ ThemisDB:         Optimized (RocksDB backend)
-   ├─ PostgreSQL:       Buffer pool overhead
-   └─ MongoDB:          Document cache overhead
+   â”œâ”€ ThemisDB:         Optimized (RocksDB backend)
+   â”œâ”€ PostgreSQL:       Buffer pool overhead
+   â””â”€ MongoDB:          Document cache overhead
 
 ========================================
 Key Features
 ========================================
 
 ThemisDB Advantages:
-  ✓ Native Wire Protocol (binary, optimized)
-  ✓ Multi-Model Support (KV, Document, Graph, Vector)
-  ✓ MVCC Transactions
-  ✓ Rich Indexing (Secondary, Graph, Vector, Spatial)
-  ✓ In-Process or Remote
+  âœ“ Native Wire Protocol (binary, optimized)
+  âœ“ Multi-Model Support (KV, Document, Graph, Vector)
+  âœ“ MVCC Transactions
+  âœ“ Rich Indexing (Secondary, Graph, Vector, Spatial)
+  âœ“ In-Process or Remote
 
 PostgreSQL Advantages:
-  ✓ ACID Compliance (proven)
-  ✓ Complex Joins
-  ✓ Mature Ecosystem
-  ✓ SQL Standard
+  âœ“ ACID Compliance (proven)
+  âœ“ Complex Joins
+  âœ“ Mature Ecosystem
+  âœ“ SQL Standard
 
 MongoDB Advantages:
-  ✓ Flexible Schema
-  ✓ Horizontal Scaling
-  ✓ Rich Query Language
-  ✓ Large Community
+  âœ“ Flexible Schema
+  âœ“ Horizontal Scaling
+  âœ“ Rich Query Language
+  âœ“ Large Community
 
 ========================================
 Recommendations
@@ -311,7 +311,7 @@ Use MongoDB when:
 ========================================
 EOF
 
-echo -e "${GREEN}✓ Benchmark complete!${NC}"
+echo -e "${GREEN}âœ“ Benchmark complete!${NC}"
 echo "Results saved to: $RESULTS_DIR/"
 echo ""
 echo "Files generated:"

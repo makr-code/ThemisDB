@@ -1,0 +1,13 @@
+﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
+"CompressionFixture/SequentialWrite/0/512","30","25,2475466618004","ms","20,8333333333333","24576000","48000",
+"CompressionFixture/SequentialWrite/1/512","32","25,9361656299006","ms","23,92578125","21399510,2040816","41795,9183673469",
+"CompressionFixture/SequentialWrite/2/512","24","26,2493083258353","ms","23,4375","21845333,3333333","42666,6666666667",
+"CompressionFixture/SequentialWrite/0/4096","22","33,3160863691856","ms","28,4090909090909","144179200","35200",
+"CompressionFixture/SequentialWrite/1/4096","26","32,8869461529673","ms","28,8461538461538","141994666,666667","34666,6666666667",
+"CompressionFixture/SequentialWrite/2/4096","21","32,6294809651916","ms","29,0178571428571","141154461,538462","34461,5384615385",
+"CompressionFixture/SequentialWrite/0/16384","18","45,8400166696972","ms","41,6666666666667","393216000","24000",
+"CompressionFixture/SequentialWrite/1/16384","15","47,0150666583019","ms","43,75","374491428,571429","22857,1428571429",
+"CompressionFixture/SequentialWrite/2/16384","16","45,5827374971705","ms","44,921875","364722086,956522","22260,8695652174",
+"CompressionFixture/RandomRead/0/4096","448000","1,4907696427794","us","1,49972098214286",,"666790,697674419",
+"CompressionFixture/RandomRead/1/4096","448000","1,45933392858361","us","1,42996651785714",,"699317,073170732",
+"CompressionFixture/RandomRead/2/4096","497778","1,48325257449258","us","1,47530626102399",,"677825,361702128",

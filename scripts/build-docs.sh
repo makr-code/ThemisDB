@@ -29,12 +29,12 @@ if command -v wkhtmltopdf &> /dev/null; then
     echo "Generating PDF..."
     ./scripts/export_pdf_wkhtml.sh
 else
-    echo "⚠️  wkhtmltopdf not found. Skipping PDF generation."
+    echo "âš ï¸  wkhtmltopdf not found. Skipping PDF generation."
     echo "   Install with: sudo apt-get install wkhtmltopdf (Debian/Ubuntu)"
     echo "             or: brew install wkhtmltopdf (macOS)"
 fi
 
-echo "✅ Documentation build complete!"
+echo "âœ… Documentation build complete!"
 echo "   Static site: ./site/"
 if [ -f "docs/ThemisDB-Documentation.pdf" ]; then
     echo "   PDF: ./docs/ThemisDB-Documentation.pdf"

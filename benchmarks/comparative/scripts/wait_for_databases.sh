@@ -19,7 +19,7 @@ check_service() {
     local check_cmd=$4
     
     if eval "$check_cmd" &>/dev/null; then
-        echo "✓ $name is ready"
+        echo "âœ“ $name is ready"
         return 0
     else
         return 1

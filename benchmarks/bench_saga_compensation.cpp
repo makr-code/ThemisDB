@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <atomic>
 #include <chrono>
+#include <thread>
 
 using namespace themis;
 
@@ -34,6 +35,7 @@ public:
         config.block_cache_size_mb = 256;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -138,7 +140,7 @@ BENCHMARK_DEFINE_F(SagaBenchmarkFixture, DatabaseWriteCompensation)(benchmark::S
             saga.addStep(
                 "write_" + key,
                 [this, key]() {
-                    secondary_index_->remove("saga_test", key);
+                    secondary_index_->erase("saga_test", key);
                 }
             );
         }

@@ -55,7 +55,7 @@ public:
     
     EmbeddingResult generateEmbedding(
         const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata
+        const ImageMetadata* metadata = nullptr
     ) override {
         EmbeddingResult result;
         result.success = true;
@@ -81,8 +81,8 @@ public:
     
     CaptionResult generateCaption(
         const std::vector<uint8_t>& image_data,
-        const ImageMetadata* metadata,
-        int max_length
+        const ImageMetadata* metadata = nullptr,
+        int max_length = 50
     ) override {
         CaptionResult result;
         result.success = true;

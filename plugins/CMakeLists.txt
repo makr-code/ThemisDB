@@ -11,8 +11,12 @@ if(THEMIS_BUILD_ENTERPRISE_PLUGINS)
     
     # GPU Impact Analysis Plugin
     if(THEMIS_BUILD_GPU_IMPACT_PLUGIN)
-        message(STATUS "  - GPU Impact Analysis Plugin")
-        add_subdirectory(enterprise/gpu_impact_analysis)
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/enterprise/gpu_impact_analysis/CMakeLists.txt")
+            message(STATUS "  - GPU Impact Analysis Plugin")
+            add_subdirectory(enterprise/gpu_impact_analysis)
+        else()
+            message(WARNING "GPU Impact Analysis Plugin source not found at enterprise/gpu_impact_analysis")
+        endif()
     endif()
     
     # Future enterprise plugins can be added here

@@ -113,6 +113,11 @@ public:
         }
         
         db_ = std::make_unique<RocksDBWrapper>(cfg);
+        
+        // CRITICAL FIX: Must call open() after construction
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open RocksDB in DatabaseFixture");
+        }
     }
     
     ~DatabaseFixture() {
@@ -314,6 +319,9 @@ protected:
         fs::create_directories(cfg.db_path);
         
         fixture_phase2_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!fixture_phase2_->open()) {
+            throw std::runtime_error("Failed to open RocksDB in Phase2Fixture");
+        }
         fixture_phase2_->open();
         
         sim_ = std::make_unique<SecondaryIndexManager>(*fixture_phase2_);

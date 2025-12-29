@@ -31,12 +31,13 @@ public:
         config.block_cache_size_mb = 512;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
         
         // Create timeseries store
-        ts_store_ = std::make_unique<TimeSeriesStore>(*db_, nullptr);
+        ts_store_ = std::make_unique<TimeSeriesStore>(db_->getRawDB(), nullptr);
     }
     
     void TearDown(const ::benchmark::State& /*state*/) override {
@@ -87,8 +88,8 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, RawDataIngestion)(benchmark::Stat
     
     state.SetItemsProcessed(state.iterations());
     state.counters["points_per_sec"] = benchmark::Counter(
-        state.iterations(), benchmark::Counter::kIsRate);
-    state.counters["total_points"] = points_written;
+        static_cast<double>(state.iterations()), benchmark::Counter::kIsRate);
+    state.counters["total_points"] = static_cast<double>(points_written);
 }
 
 BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, RawDataIngestion)
@@ -130,9 +131,9 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, BatchIngestion)(benchmark::State&
     }
     
     state.SetItemsProcessed(state.iterations() * batch_size);
-    state.counters["batch_size"] = batch_size;
+    state.counters["batch_size"] = static_cast<double>(batch_size);
     state.counters["points_per_sec"] = benchmark::Counter(
-        state.iterations() * batch_size, benchmark::Counter::kIsRate);
+        static_cast<double>(state.iterations() * batch_size), benchmark::Counter::kIsRate);
 }
 
 BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, BatchIngestion)
@@ -173,8 +174,8 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, MultipleMetrics)(benchmark::State
     }
     
     state.SetItemsProcessed(state.iterations());
-    state.counters["num_entities"] = num_entities;
-    state.counters["num_metrics"] = metrics.size();
+    state.counters["num_entities"] = static_cast<double>(num_entities);
+    state.counters["num_metrics"] = static_cast<double>(metrics.size());
 }
 
 BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, MultipleMetrics)
@@ -209,7 +210,7 @@ static void BM_GorillaCompression(benchmark::State& state) {
     }
     
     for (auto _ : state) {
-        timeseries::GorillaEncoder encoder;
+        GorillaEncoder encoder;
         
         // Compress data
         for (size_t i = 0; i < values.size(); i++) {
@@ -224,14 +225,14 @@ static void BM_GorillaCompression(benchmark::State& state) {
         size_t compressed_size = compressed.size();
         double compression_ratio = static_cast<double>(raw_size) / compressed_size;
         
-        state.counters["raw_bytes"] = raw_size;
-        state.counters["compressed_bytes"] = compressed_size;
+        state.counters["raw_bytes"] = static_cast<double>(raw_size);
+        state.counters["compressed_bytes"] = static_cast<double>(compressed_size);
         state.counters["compression_ratio"] = compression_ratio;
     }
     
     state.SetItemsProcessed(state.iterations() * num_points);
     state.counters["points_per_sec"] = benchmark::Counter(
-        state.iterations() * num_points, benchmark::Counter::kIsRate);
+        static_cast<double>(state.iterations() * num_points), benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_GorillaCompression)
@@ -248,7 +249,7 @@ static void BM_GorillaDecompression(benchmark::State& state) {
     const int num_points = state.range(0);
     
     // Generate and compress data first
-    timeseries::GorillaEncoder encoder;
+    GorillaEncoder encoder;
     int64_t timestamp = 1700000000000;
     double value = 20.0;
     
@@ -264,7 +265,7 @@ static void BM_GorillaDecompression(benchmark::State& state) {
     auto compressed = encoder.finish();
     
     for (auto _ : state) {
-        timeseries::GorillaDecoder decoder(compressed);
+        GorillaDecoder decoder(compressed);
         
         std::vector<std::pair<int64_t, double>> decompressed;
         decompressed.reserve(num_points);
@@ -282,7 +283,7 @@ static void BM_GorillaDecompression(benchmark::State& state) {
     
     state.SetItemsProcessed(state.iterations() * num_points);
     state.counters["points_per_sec"] = benchmark::Counter(
-        state.iterations() * num_points, benchmark::Counter::kIsRate);
+        static_cast<double>(state.iterations() * num_points), benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_GorillaDecompression)
@@ -320,12 +321,15 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, TimeRangeQuery)(benchmark::State&
         int64_t start_time = base_timestamp;
         int64_t end_time = start_time + (range_size * 1000);
         
-        auto results = ts_store_->query(metric, entity, start_time, end_time);
+        TimeSeriesStore::RangeQuery rq;
+        rq.from_ms = start_time;
+        rq.to_ms = end_time;
+        auto results = ts_store_->query(metric, entity, rq);
         benchmark::DoNotOptimize(results);
     }
     
     state.SetItemsProcessed(state.iterations());
-    state.counters["range_seconds"] = range_size;
+    state.counters["range_seconds"] = static_cast<double>(range_size);
 }
 
 BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, TimeRangeQuery)
@@ -363,15 +367,17 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, Downsampling)(benchmark::State& s
         int64_t start_time = base_timestamp;
         int64_t end_time = base_timestamp + (3600 * 1000);
         
-        // Aggregate into intervals
-        auto aggregated = ts_store_->aggregate(
-            metric, entity, start_time, end_time, downsample_interval * 1000);
+        // Aggregate over the requested time range
+        TimeSeriesStore::RangeQuery rq;
+        rq.from_ms = start_time;
+        rq.to_ms = end_time;
+        auto aggregated = ts_store_->aggregate(metric, entity, rq);
         
         benchmark::DoNotOptimize(aggregated);
     }
     
     state.SetItemsProcessed(state.iterations());
-    state.counters["downsample_interval_sec"] = downsample_interval;
+    state.counters["downsample_interval_sec"] = static_cast<double>(downsample_interval);
 }
 
 BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, Downsampling)
@@ -407,7 +413,7 @@ BENCHMARK_DEFINE_F(TimeseriesBenchmarkFixture, OutOfOrderWrites)(benchmark::Stat
     
     state.SetItemsProcessed(state.iterations());
     state.counters["points_per_sec"] = benchmark::Counter(
-        state.iterations(), benchmark::Counter::kIsRate);
+        static_cast<double>(state.iterations()), benchmark::Counter::kIsRate);
 }
 
 BENCHMARK_REGISTER_F(TimeseriesBenchmarkFixture, OutOfOrderWrites)

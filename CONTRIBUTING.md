@@ -4,13 +4,43 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 
 ## Table of Contents
 
-- [Code of Conduct](#code-of-conduct)
-- [Getting Started](#getting-started)
-- [Development Workflow](#development-workflow)
-- [Code Quality Standards](#code-quality-standards)
-- [Pull Request Process](#pull-request-process)
-- [Reporting Bugs](#reporting-bugs)
-- [Feature Requests](#feature-requests)
+<div align="center">
+
+# 🤝 Contributing to ThemisDB
+
+**Thank you for your interest in making ThemisDB better!**
+
+[![Contributors](https://img.shields.io/github/contributors/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/graphs/contributors)
+[![Pull Requests](https://img.shields.io/github/issues-pr/makr-code/ThemisDB)](https://github.com/makr-code/ThemisDB/pulls)
+[![Good First Issues](https://img.shields.io/github/issues/makr-code/ThemisDB/good%20first%20issue)](https://github.com/makr-code/ThemisDB/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+| Section | Description |
+|---------|-------------|
+| [🤝 Code of Conduct](#-code-of-conduct) | Community guidelines |
+| [🚀 Getting Started](#-getting-started) | Set up development environment |
+| [💻 Development Workflow](#-development-workflow) | Branching and committing |
+| [✅ Code Quality Standards](#-code-quality-standards) | Enforced quality checks |
+| [🔄 Pull Request Process](#-pull-request-process) | Submitting changes |
+| [🐛 Reporting Bugs](#-reporting-bugs) | Bug report guidelines |
+| [💡 Feature Requests](#-feature-requests) | Suggesting enhancements |
+| [📦 Package Maintenance](#-package-maintenance) | Platform packaging |
+
+---
+
+## 🤝 Code of Conduct
+
+> [!IMPORTANT]
+> This project adheres to a code of conduct. By participating, you are expected to:
+> - **Be respectful** and constructive in all interactions
+> - **Welcome newcomers** and help them get started
+> - **Assume good intentions** in discussions
+> - **Focus on what is best** for the community and project
 
 ## Code of Conduct
 
@@ -20,10 +50,6 @@ This project adheres to a code of conduct. By participating, you are expected to
 
 ### Prerequisites
 
-- **C++ Compiler**: GCC 10+, Clang 12+, or MSVC 2019+
-- **CMake**: 3.20 or higher
-- **vcpkg**: Package manager for dependencies
-- **Git**: For version control
 
 ### Development Environment Setup
 
@@ -95,6 +121,108 @@ cmake -B build -DTHEMIS_ENABLE_IMAGE_ANALYSIS=ON
 # Build with all optional features
 cmake -B build -DTHEMIS_ENABLE_ALL_PROTOCOLS=ON
 ```
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+| Tool | Minimum Version | Purpose |
+|------|:---------------:|---------|
+| **C++ Compiler** | GCC 10+ / Clang 12+ / MSVC 2019+ | Core compilation |
+| **CMake** | 3.20+ | Build system |
+| **vcpkg** | Latest | Dependency management |
+| **Git** | 2.x | Version control |
+
+### Development Environment Setup
+
+<details open>
+<summary><b>1️⃣ Clone the Repository</b></summary>
+
+```bash
+git clone https://github.com/makr-code/ThemisDB.git
+cd ThemisDB
+```
+
+</details>
+
+<details>
+<summary><b>2️⃣ Install Dependencies</b></summary>
+
+**Linux/macOS:**
+```bash
+./setup.sh
+```
+
+**Windows:**
+```powershell
+.\setup.ps1
+```
+
+> [!TIP]
+> The setup script automatically installs vcpkg and all required dependencies.
+
+</details>
+
+<details>
+<summary><b>3️⃣ Build the Project</b></summary>
+
+**Linux/macOS:**
+```bash
+./build.sh
+```
+
+**Windows:**
+```powershell
+.\build.ps1
+```
+
+> [!NOTE]
+> First build may take 10-15 minutes as vcpkg compiles dependencies from source.
+
+</details>
+
+<details>
+<summary><b>4️⃣ Run Tests</b></summary>
+
+```bash
+cd build
+ctest --output-on-failure
+```
+
+**Expected result:** All tests should pass ✅
+
+</details>
+
+<details>
+<summary><b>5️⃣ Optional Features (v1.3.0+)</b></summary>
+
+ThemisDB supports optional protocol and AI integrations:
+
+| Feature | CMake Flag | Dependencies |
+|---------|------------|--------------|
+| 🤖 **LLM Support** | `-DTHEMIS_ENABLE_LLM=ON` | llama.cpp |
+| 🌐 **HTTP/2** | `-DTHEMIS_ENABLE_HTTP2=ON` | nghttp2 |
+| 📡 **WebSocket** | `-DTHEMIS_ENABLE_WEBSOCKET=ON` | uWebSockets |
+| 📬 **MQTT** | `-DTHEMIS_ENABLE_MQTT=ON` | mosquitto |
+| 🐘 **PostgreSQL Wire** | `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` | libpq |
+| 🔌 **MCP Server** | `-DTHEMIS_ENABLE_MCP=ON` | - |
+| 🖼️ **Image Analysis** | `-DTHEMIS_ENABLE_IMAGE_ANALYSIS=ON` | OpenCV |
+
+**Build with LLM support:**
+```bash
+cmake -B build -DTHEMIS_ENABLE_LLM=ON
+git clone https://github.com/ggerganov/llama.cpp.git
+cmake --build build
+```
+
+**Build with all protocols:**
+```bash
+cmake -B build -DTHEMIS_ENABLE_ALL_PROTOCOLS=ON
+cmake --build build
+```
+
+</details>
 
 See [ATTRIBUTIONS.md](ATTRIBUTIONS.md) for third-party dependency information.
 
@@ -146,19 +274,9 @@ git checkout -b fix/bug-description
 ```
 
 **Branch naming conventions:**
-- `feature/` - New features
-- `fix/` - Bug fixes
-- `docs/` - Documentation updates
-- `refactor/` - Code refactoring
-- `test/` - Test additions/improvements
-- `perf/` - Performance improvements
 
 ### 2. Make Your Changes
 
-- Write clean, maintainable code following C++17 best practices
-- Add tests for new functionality
-- Update documentation as needed
-- Keep commits focused and atomic
 
 ### 3. Run Code Quality Checks
 
@@ -199,10 +317,6 @@ git checkout -b fix/bug-description
 ```
 feat(storage): Add checkpoint-based incremental backups
 
-- Implement RocksDB checkpoint API integration
-- Add WAL archiving with retention policies
-- Create cross-platform backup scripts (PowerShell + Bash)
-- Add systemd and Kubernetes automation examples
 
 Closes #123
 ```
@@ -217,14 +331,6 @@ Fixes #456
 ```
 
 **Commit types:**
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation changes
-- `style` - Code style changes (formatting, no logic change)
-- `refactor` - Code refactoring
-- `perf` - Performance improvements
-- `test` - Test additions/improvements
-- `chore` - Build/tooling changes
 
 ### 5. Push and Create Pull Request
 
@@ -233,6 +339,136 @@ git push origin feature/your-feature-name
 ```
 
 Then create a pull request on GitHub.
+---
+
+## 💻 Development Workflow
+
+### 1️⃣ Create a Feature Branch
+
+```bash
+git checkout -b feature/your-feature-name
+# OR for bug fixes
+git checkout -b fix/bug-description
+```
+
+**Branch Naming Conventions:**
+
+| Prefix | Purpose | Example |
+|--------|---------|---------|
+| `feature/` | 🎉 New features | `feature/vector-search-optimization` |
+| `fix/` | 🐛 Bug fixes | `fix/connection-leak-in-pool` |
+| `docs/` | 📖 Documentation | `docs/improve-api-examples` |
+| `refactor/` | ♻️ Code refactoring | `refactor/extract-storage-interface` |
+| `test/` | 🧪 Test improvements | `test/add-transaction-edge-cases` |
+| `perf/` | ⚡ Performance | `perf/optimize-index-lookup` |
+
+### 2️⃣ Make Your Changes
+
+> [!IMPORTANT]
+> **Best Practices:**
+> - ✅ Write clean, maintainable code following **C++17** standards
+> - ✅ Add **unit tests** for new functionality
+> - ✅ Update **documentation** as needed
+> - ✅ Keep commits **focused and atomic**
+
+### 3️⃣ Run Code Quality Checks
+
+**Before committing, run local quality checks:**
+
+<details>
+<summary><b>Linux/macOS</b></summary>
+
+```bash
+# Run all checks
+./scripts/check-quality.sh
+
+# Auto-fix issues
+./scripts/check-quality.sh --fix
+```
+
+</details>
+
+<details>
+<summary><b>Windows</b></summary>
+
+```powershell
+# Run all checks
+.\scripts\check-quality.ps1
+
+# Auto-fix issues
+.\scripts\check-quality.ps1 -Fix
+```
+
+</details>
+
+> [!TIP]
+> Use `--fix` to automatically resolve formatting and minor issues.
+
+### 4️⃣ Commit Your Changes
+
+**Commit Message Format:**
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Example Commits:**
+
+<details>
+<summary><b>Feature Commit</b></summary>
+
+```
+feat(storage): Add checkpoint-based incremental backups
+
+- Implement RocksDB checkpoint API integration
+- Add WAL archiving with retention policies
+- Create cross-platform backup scripts (PowerShell + Bash)
+- Add systemd and Kubernetes automation examples
+
+Closes #123
+```
+
+</details>
+
+<details>
+<summary><b>Bug Fix Commit</b></summary>
+
+```
+fix(query): Correct off-by-one error in pagination
+
+The cursor offset calculation was incorrect for empty result sets,
+causing the next page to skip the first result.
+
+Fixes #456
+```
+
+</details>
+
+**Commit Types:**
+
+| Type | Emoji | Description |
+|------|:-----:|-------------|
+| `feat` | ✨ | New feature |
+| `fix` | 🐛 | Bug fix |
+| `docs` | 📝 | Documentation changes |
+| `style` | 💄 | Code style (no logic change) |
+| `refactor` | ♻️ | Code refactoring |
+| `perf` | ⚡ | Performance improvements |
+| `test` | ✅ | Test additions/improvements |
+| `chore` | 🔧 | Build/tooling changes |
+
+### 5️⃣ Push and Create Pull Request
+
+```bash
+git push origin feature/your-feature-name
+```
+
+> [!NOTE]
+> GitHub will automatically prompt you to create a pull request after pushing.
 
 ## Code Quality Standards
 
@@ -240,26 +476,14 @@ ThemisDB enforces strict code quality standards through automated CI checks:
 
 ### Static Analysis (clang-tidy)
 
-- **Enabled checks**: `bugprone-*`, `clang-analyzer-*`, `cppcoreguidelines-*`, `modernize-*`, `performance-*`, `readability-*`
-- **Configuration**: `.clang-tidy`
-- **Fix automatically**: `./scripts/check-quality.sh --fix`
 
 **Common issues to avoid:**
-- Magic numbers (use named constants)
-- Unnecessary copies (use `const&` or `std::move`)
-- Missing `override` on virtual methods
-- C-style casts (use `static_cast`, `dynamic_cast`)
 
 ### Linting (cppcheck)
 
-- **Enabled checks**: All (with suppressions for known false positives)
-- **Configuration**: `.cppcheck-suppressions`
 
 ### Code Coverage
 
-- **Target**: 80%+ line coverage overall
-- **Critical paths**: 90%+ coverage (storage, transactions, query engine)
-- **Tool**: gcov/lcov
 
 **Generate local coverage report:**
 
@@ -279,40 +503,155 @@ start coverage/html/index.html     # Windows
 
 ### Secret Scanning (Gitleaks)
 
-- **Tool**: Gitleaks
-- **Configuration**: `.gitleaks.toml`
-- **Enforcement**: CI fails if secrets detected
 
 **Avoid committing:**
+
+**Use instead:**
+
+### Code Style
+
+**Naming conventions:**
+
+**File structure:**
+
+**Comments:**
+---
+
+## ✅ Code Quality Standards
+
+> [!IMPORTANT]
+> ThemisDB enforces **strict code quality standards** through automated CI checks.  
+> All PRs must pass these checks before merging.
+
+### 🔍 Static Analysis (clang-tidy)
+
+<details>
+<summary><b>Configuration Details</b></summary>
+
+**Enabled Checks:**
+- `bugprone-*` - Detect potential bugs
+- `clang-analyzer-*` - Deep code analysis
+- `cppcoreguidelines-*` - C++ Core Guidelines compliance
+- `modernize-*` - Modern C++ features
+- `performance-*` - Performance optimizations
+- `readability-*` - Code readability
+
+**Configuration File:** `.clang-tidy`
+
+**Auto-fix:**
+```bash
+./scripts/check-quality.sh --fix  # Linux/macOS
+.\scripts\check-quality.ps1 -Fix  # Windows
+```
+
+</details>
+
+> [!WARNING]
+> **Common Issues to Avoid:**
+> - ❌ Magic numbers → Use named constants
+> - ❌ Unnecessary copies → Use `const&` or `std::move`
+> - ❌ Missing `override` keyword
+> - ❌ C-style casts → Use `static_cast`/`dynamic_cast`
+
+### 🧪 Linting (cppcheck)
+
+- **Enabled Checks:** All (with suppressions for known false positives)
+- **Configuration:** `.cppcheck-suppressions`
+- **Purpose:** Catch memory leaks, null pointer dereferences, undefined behavior
+
+### 📊 Code Coverage
+
+| Component | Target | Critical Path |
+|-----------|:------:|:-------------:|
+| Overall | **80%+** | - |
+| Storage Engine | - | **90%+** |
+| Transaction Manager | - | **90%+** |
+| Query Engine | - | **90%+** |
+
+<details>
+<summary><b>Generate Local Coverage Report</b></summary>
+
+```bash
+# After running tests with coverage
+mkdir -p coverage
+lcov --capture --directory build --output-file coverage/coverage.info
+lcov --remove coverage/coverage.info '/usr/*' '*/vcpkg_installed/*' '*/tests/*' \
+   --output-file coverage/coverage-filtered.info
+genhtml coverage/coverage-filtered.info --output-directory coverage/html
+
+# Open report
+xdg-open coverage/html/index.html  # Linux
+open coverage/html/index.html      # macOS
+start coverage/html/index.html     # Windows
+```
+
+</details>
+
+### 🔐 Secret Scanning (Gitleaks)
+
+> [!CAUTION]
+> **CI fails immediately if secrets are detected!**
+
+- **Tool:** Gitleaks
+- **Configuration:** `.gitleaks.toml`
+
+**❌ Never Commit:**
 - API keys
 - Passwords
 - Private keys
 - Database credentials
 
-**Use instead:**
+**✅ Use Instead:**
 - Environment variables
-- `.env.example` templates (not `.env`)
-- Configuration placeholders
+- `.env.example` templates (never `.env`)
+- Configuration placeholders (`YOUR_API_KEY_HERE`)
 
-### Code Style
+### 🎨 Code Style
 
-**Naming conventions:**
-- **Namespaces**: `lower_case` (e.g., `vccdb`, `themis`)
-- **Classes/Structs**: `CamelCase` (e.g., `StorageEngine`, `HttpServer`)
-- **Functions**: `camelCase` (e.g., `getValue`, `processQuery`)
-- **Variables**: `lower_case` (e.g., `table_name`, `max_size`)
-- **Private members**: `lower_case_` (e.g., `db_path_`, `cache_size_`)
-- **Constants**: `UPPER_CASE` (e.g., `MAX_CONNECTIONS`, `DEFAULT_PORT`)
+<details>
+<summary><b>Naming Conventions</b></summary>
 
-**File structure:**
-- Header files: `include/<module>/<name>.h`
-- Source files: `src/<module>/<name>.cpp`
-- Tests: `tests/test_<module>_<feature>.cpp`
+| Element | Convention | Example |
+|---------|-----------|---------|
+| **Namespaces** | `lower_case` | `vccdb`, `themis` |
+| **Classes/Structs** | `CamelCase` | `StorageEngine`, `HttpServer` |
+| **Functions** | `camelCase` | `getValue`, `processQuery` |
+| **Variables** | `lower_case` | `table_name`, `max_size` |
+| **Private Members** | `lower_case_` | `db_path_`, `cache_size_` |
+| **Constants** | `UPPER_CASE` | `MAX_CONNECTIONS`, `DEFAULT_PORT` |
 
-**Comments:**
+</details>
+
+<details>
+<summary><b>File Structure</b></summary>
+
+```
+include/<module>/<name>.h     # Header files
+src/<module>/<name>.cpp       # Implementation files
+tests/test_<module>_<feature>.cpp  # Test files
+```
+
+</details>
+
+<details>
+<summary><b>Comment Guidelines</b></summary>
+
 - Use `//` for single-line comments
-- Use `/** ... */` for documentation comments (Doxygen style)
+- Use `/** ... */` for documentation (Doxygen style)
 - Explain **why**, not **what** (code should be self-documenting)
+
+**Example:**
+```cpp
+// Good: Explains WHY
+// Use exponential backoff to prevent thundering herd
+std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+
+// Bad: Explains WHAT (obvious from code)
+// Sleep for delay milliseconds
+std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+```
+
+</details>
 
 ## Pull Request Process
 
@@ -346,8 +685,75 @@ start coverage/html/index.html     # Windows
 Brief description of changes
 
 ## Type of Change
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
+---
+
+## 🔄 Pull Request Process
+
+### Before Submitting
+
+> [!IMPORTANT]
+> **Pre-submission Checklist:**
+> - ✅ All quality checks pass locally
+> - ✅ All tests pass
+> - ✅ Documentation updated
+> - ✅ Tests added for new functionality
+
+<details open>
+<summary><b>1️⃣ Run All Checks Locally</b></summary>
+
+```bash
+./scripts/check-quality.sh  # Linux/macOS
+.\scripts\check-quality.ps1  # Windows
+```
+
+**This runs:**
+- clang-tidy (static analysis)
+- cppcheck (linting)
+- Gitleaks (secret scanning)
+
+</details>
+
+<details>
+<summary><b>2️⃣ Ensure All Tests Pass</b></summary>
+
+```bash
+cd build
+ctest --output-on-failure
+```
+
+**Expected:** All tests should pass ✅
+
+</details>
+
+<details>
+<summary><b>3️⃣ Update Documentation</b></summary>
+
+- 📝 Add/update relevant `.md` files in `docs/`
+- 📖 Update `README.md` if needed
+- 💬 Add docstrings for new public APIs (Doxygen format)
+
+</details>
+
+<details>
+<summary><b>4️⃣ Add Tests</b></summary>
+
+| Test Type | Purpose | Example |
+|-----------|---------|---------|
+| **Unit Tests** | Test individual functions/classes | `test_vector_search.cpp` |
+| **Integration Tests** | Test feature workflows | `test_backup_restore.cpp` |
+| **Regression Tests** | Ensure bugs stay fixed | `test_issue_456_pagination.cpp` |
+
+</details>
+
+### PR Description Template
+
+```markdown
+## 📋 Description
+Brief description of changes
+
+## 🔖 Type of Change
+- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
+- [ ] ✨ New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update
 
@@ -490,9 +896,6 @@ We welcome package maintainers for all platforms! To become a maintainer:
 ### Supported Platforms
 
 We currently support packaging for:
-- **Linux**: Debian/Ubuntu (.deb), Fedora/RHEL/CentOS (.rpm), Arch Linux (PKGBUILD)
-- **Windows**: Chocolatey, WinGet
-- **macOS**: Homebrew
 
 ### Automation Tools
 
@@ -510,21 +913,112 @@ These scripts automatically update version numbers across all packaging files.
 
 ### Package Maintainer Benefits
 
-- Listed as package maintainer in README
-- Early access to release candidates for testing
-- Direct communication channel with core team
-- Recognition in release notes
 
 ## Questions?
 
-- **GitHub Discussions**: For general questions and discussions
-- **GitHub Issues**: For bug reports and feature requests
-- **Documentation**: Check `docs/` for detailed guides
 
 ## License
 
 By contributing to ThemisDB, you agree that your contributions will be licensed under the MIT License.
 
----
 
 Thank you for contributing to ThemisDB! 🚀
+---
+
+## 📦 Package Maintenance
+
+> **Interested in maintaining ThemisDB packages for your platform?**  
+> We welcome package maintainers for all distributions!
+
+### Becoming a Package Maintainer
+
+<details>
+<summary><b>1️⃣ Review Packaging Documentation</b></summary>
+
+- 📖 Read [docs/packaging.md](docs/packaging.md) for detailed instructions
+- 📄 Check [docs/PACKAGING-QUICKREF.md](docs/PACKAGING-QUICKREF.md) for quick reference
+
+</details>
+
+<details>
+<summary><b>2️⃣ Test Package Build</b></summary>
+
+- 🔨 Build the package for your target platform
+- 🧪 Install and test in a **clean environment**
+- ✅ Verify all functionality works as expected
+
+</details>
+
+<details>
+<summary><b>3️⃣ Submit to Distribution Repositories</b></summary>
+
+- 📝 Follow platform-specific guidelines
+- 📤 Submit package to appropriate repository (PPA, AUR, Copr, etc.)
+- 📣 Notify us via GitHub issue when package is published
+
+</details>
+
+<details>
+<summary><b>4️⃣ Keep Packages Updated</b></summary>
+
+- 👀 Monitor releases and security updates
+- ⚡ Update packages within **1-2 weeks** of new releases
+- 🤝 Coordinate with core team for pre-release testing
+
+</details>
+
+### Supported Platforms
+
+| Platform | Package Format | Repository |
+|----------|---------------|------------|
+| 🐧 **Linux** | `.deb`, `.rpm`, `PKGBUILD` | Debian/Ubuntu, Fedora/RHEL, Arch |
+| 🪟 **Windows** | Chocolatey, WinGet | [chocolatey.org](https://chocolatey.org/) |
+| 🍎 **macOS** | Homebrew Formula | [brew.sh](https://brew.sh/) |
+
+### Automation Tools
+
+Use provided scripts to prepare new releases:
+
+```bash
+# Linux/macOS
+./scripts/prepare-release.sh 1.0.1
+
+# Windows
+.\scripts\prepare-release.ps1 -Version 1.0.1
+```
+
+> [!NOTE]
+> These scripts automatically update version numbers across **all** packaging files.
+
+### Package Maintainer Benefits
+
+- 🏆 Listed as package maintainer in README
+- 🚀 Early access to release candidates for testing
+- 💬 Direct communication channel with core team
+- 🎉 Recognition in release notes
+
+---
+
+## ❓ Questions?
+
+| Resource | Purpose | Link |
+|----------|---------|------|
+| 💬 **GitHub Discussions** | General questions | [Discussions](https://github.com/makr-code/ThemisDB/discussions) |
+| 🐛 **GitHub Issues** | Bug reports & features | [Issues](https://github.com/makr-code/ThemisDB/issues) |
+| 📚 **Documentation** | Detailed guides | [docs/](docs/) |
+
+---
+
+## 📄 License
+
+> By contributing to ThemisDB, you agree that your contributions will be licensed under the **MIT License**.
+
+---
+
+<div align="center">
+
+**🙏 Thank you for contributing to ThemisDB!**
+
+[⭐ Star us on GitHub](https://github.com/makr-code/ThemisDB) · [📖 Read the Docs](https://makr-code.github.io/ThemisDB/) · [💬 Join Discussions](https://github.com/makr-code/ThemisDB/discussions)
+
+</div>

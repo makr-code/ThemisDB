@@ -1,0 +1,7 @@
+-r ../requirements-common.txt
+
+# Data visualization
+matplotlib>=3.5.0
+
+# Date handling
+python-dateutil>=2.8.0

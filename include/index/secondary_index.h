@@ -155,6 +155,10 @@ public:
     Status put(std::string_view table, const BaseEntity& entity);
     Status erase(std::string_view table, std::string_view pk);
 
+    // v1.3.4: Batch Insert API - reduces commit overhead by batching multiple inserts into one WriteBatch
+    // Expected performance: 10-100x faster for bulk inserts (single commit for all entities)
+    Status putBatch(std::string_view table, const std::vector<BaseEntity>& entities);
+
     // Varianten für Transaktionen: nutzen bestehende WriteBatch
     Status put(std::string_view table, const BaseEntity& entity, RocksDBWrapper::WriteBatchWrapper& batch);
     Status erase(std::string_view table, std::string_view pk, RocksDBWrapper::WriteBatchWrapper& batch);

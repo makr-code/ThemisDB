@@ -29,8 +29,6 @@ namespace {
 
 namespace themis {
 
-namespace themis {
-
 HybridSearch::HybridSearch(
     SecondaryIndexManager* fulltext_index,
     VectorIndexManager* vector_index,

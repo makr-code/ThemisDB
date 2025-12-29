@@ -1,4 +1,4 @@
-﻿#include <benchmark/benchmark.h>
+#include <benchmark/benchmark.h>
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -48,6 +48,7 @@ public:
         config.max_write_buffer_number = 4;
 
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
+        if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         secondary_ = std::make_unique<themis::SecondaryIndexManager>(*db_);
 
         std::cout << "Creating " << NUM_ENTITIES << " entities with 7 index types...\n";

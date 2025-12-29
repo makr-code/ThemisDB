@@ -1,0 +1,97 @@
+(* ============================================================================
+   📚 LLM_GRAMMAR.ebnf - EBNF Grammar for LLM Extensions to ThemisDB AQL
+   
+   Category:     📚 References
+   Version:      v1.3.0
+   Status:       ✅ Complete
+   Datum:        22. Dezember 2025
+   
+   Description:  Extended Backus-Naur Form (EBNF) grammar definition for
+                 Large Language Model (LLM) extensions in ThemisDB AQL.
+                 Covers inference, RAG, embeddings, model management,
+                 LoRA adapters, statistics, and caching.
+   ============================================================================ *)
+
+(* 
+   📑 TABLE OF CONTENTS
+   --------------------
+   1. LLM Statement Types
+   2. LLM Inference
+   3. LLM RAG (Retrieval-Augmented Generation)
+   4. LLM Embeddings
+   5. LLM Model Management
+   6. LLM LoRA Adapters
+   7. LLM Statistics & Cache
+   
+   See Also:
+   - docs/de/aql/README.md - AQL Overview
+   - docs/de/aql/aql_functions_reference.md - Function Reference
+   - docs/de/llm/ - LLM Integration Documentation
+*)
+
+(* ============================================================================
+   1. LLM STATEMENT TYPES
+   ============================================================================ *)
+
+llm_statement ::= 
+    llm_infer_stmt
+  | llm_rag_stmt
+  | llm_embed_stmt
+  | llm_model_stmt
+  | llm_lora_stmt
+  | llm_stats_stmt
+  | llm_cache_stmt
+  ;
+
+llm_infer_stmt ::= 
+  "LLM" "INFER" string_literal
+  ("USING" "MODEL" string_literal)?
+  ("WITH" "LORA" string_literal)?
+  ("OPTIONS" object_literal)?
+  ;
+
+llm_rag_stmt ::= 
+  "LLM" "RAG" string_literal
+  "FROM" "COLLECTION" identifier
+  ("TOP" integer_literal)?
+  ("USING" "LORA" string_literal)?
+  ("OPTIONS" object_literal)?
+  ;
+
+llm_embed_stmt ::= 
+  "LLM" "EMBED" string_literal
+  ("USING" "MODEL" string_literal)?
+  ("RETURN" "VECTOR")?
+  ;
+
+llm_model_stmt ::= 
+  "LLM" "MODEL" (
+      "LOAD" string_literal "FROM" string_literal
+    | "UNLOAD" string_literal
+    | "LIST"
+    | "INGEST" string_literal "FROM" "BLOB" string_literal
+  )
+  ;
+
+llm_lora_stmt ::= 
+  "LLM" "LORA" (
+      "LOAD" string_literal "FROM" string_literal
+    | "UNLOAD" string_literal
+    | "LIST"
+  )
+  ;
+
+llm_stats_stmt ::= "LLM" "STATS" ;
+
+llm_cache_stmt ::= "LLM" "CACHE" ("STATS" | "CLEAR") ;
+
+(* Terminal symbols *)
+string_literal ::= '"' (any_char - '"')* '"' | "'" (any_char - "'")* "'" ;
+integer_literal ::= digit+ ;
+identifier ::= letter (letter | digit | "_")* ;
+object_literal ::= "{" key_value_pair ("," key_value_pair)* "}" ;
+key_value_pair ::= string_literal ":" (string_literal | integer_literal | boolean_literal) ;
+boolean_literal ::= "true" | "false" ;
+digit ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+letter ::= "a" | "b" | "c" | ... | "z" | "A" | "B" | "C" | ... | "Z" ;
+any_char ::= ? any Unicode character ? ;

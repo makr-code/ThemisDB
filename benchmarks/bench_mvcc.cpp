@@ -1,4 +1,4 @@
-﻿// MVCC Performance Benchmarks
+// MVCC Performance Benchmarks
 // Vergleicht MVCC TransactionWrapper vs. WriteBatch Performance
 
 #include <benchmark/benchmark.h>
@@ -21,6 +21,7 @@ public:
         config.block_cache_size_mb = 256;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         db_->open();
         
         secIdx_ = std::make_unique<SecondaryIndexManager>(*db_);

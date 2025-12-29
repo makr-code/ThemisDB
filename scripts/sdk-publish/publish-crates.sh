@@ -19,16 +19,16 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "📦 Crates.io Publishing for themisdb"
+echo "ðŸ“¦ Crates.io Publishing for themisdb"
 
 # Check prerequisites
 if ! command -v cargo &> /dev/null; then
-    echo "❌ cargo not found"
+    echo "âŒ cargo not found"
     exit 1
 fi
 
 if [[ -z "${CARGO_TOKEN:-}" ]] && [[ "$DRY_RUN" == "false" ]]; then
-    echo "❌ CARGO_TOKEN environment variable not set"
+    echo "âŒ CARGO_TOKEN environment variable not set"
     exit 1
 fi
 
@@ -40,29 +40,29 @@ if [[ -n "$VERSION" ]]; then
 fi
 
 # Check formatting
-echo "🔍 Checking format..."
+echo "ðŸ” Checking format..."
 cargo fmt --check || echo "Format check skipped"
 
 # Lint
-echo "🔍 Running clippy..."
+echo "ðŸ” Running clippy..."
 cargo clippy -- -D warnings || echo "Clippy check skipped"
 
 # Build
-echo "🔨 Building..."
+echo "ðŸ”¨ Building..."
 cargo build --release
 
 # Run tests
-echo "🧪 Running tests..."
+echo "ðŸ§ª Running tests..."
 cargo test || echo "No tests found or tests skipped"
 
 # Publish
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo "🔍 Dry run - would publish:"
+    echo "ðŸ” Dry run - would publish:"
     cargo package --list
 else
-    echo "🚀 Publishing to Crates.io..."
+    echo "ðŸš€ Publishing to Crates.io..."
     cargo login "$CARGO_TOKEN"
     cargo publish
 fi
 
-echo "✅ Crates.io publishing complete"
+echo "âœ… Crates.io publishing complete"

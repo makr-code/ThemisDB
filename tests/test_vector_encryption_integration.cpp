@@ -385,7 +385,4 @@ TEST_F(VectorEncryptionIntegrationTest, AutoSave_OnShutdown) {
     EXPECT_TRUE(fs::exists(test_hnsw_path_ + "/index.bin.encrypted"));
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Note: No custom main here; linked with GTest::gtest_main

@@ -81,6 +81,9 @@ private:
     
     QueryInfo parseSelectQuery(const std::string& query);
     std::string buildCypherFromSelect(const QueryInfo& info);
+    std::string parseInsertQuery(const std::string& query);
+    std::string parseUpdateQuery(const std::string& query);
+    std::string parseDeleteQuery(const std::string& query);
     
     asio::ip::tcp::socket socket_;
     std::array<char, 8192> buffer_;

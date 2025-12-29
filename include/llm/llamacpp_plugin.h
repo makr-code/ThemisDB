@@ -65,7 +65,7 @@ public:
         MultiLoRAManager::Config multi_lora_config;
     };
     
-    explicit LlamaCppPlugin(const Config& config = Config{});
+    explicit LlamaCppPlugin(const Config& config);
     ~LlamaCppPlugin() override;
     
     // Prevent copying
@@ -134,6 +134,9 @@ public:
         const std::string& lora_id,
         const std::vector<uint8_t>& data
     ) override;
+
+    // Non-ILLMPlugin convenience method for tests
+    std::string getName() const { return "llamacpp"; }
     
 private:
     Config config_;

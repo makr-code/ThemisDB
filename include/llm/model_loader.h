@@ -181,6 +181,16 @@ public:
      * @brief Get cache statistics
      */
     json getCacheStats() const;
+
+    // Compact typed statistics API for tests
+    struct Stats {
+        size_t cache_hits = 0;
+        size_t cache_misses = 0;
+        size_t evictions = 0;
+        size_t models_loaded = 0;
+    };
+
+    Stats getStatistics() const;
     
 private:
     Config config_;
@@ -194,6 +204,7 @@ private:
     size_t cache_hits_ = 0;
     size_t cache_misses_ = 0;
     size_t evictions_ = 0;
+    size_t models_loaded_ = 0;
     
     // Internal helpers
     CachedModel* loadModelInternal(

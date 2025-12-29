@@ -27,7 +27,7 @@ run_check() {
     local skip_var=$3
     
     if [ "${!skip_var}" = "1" ]; then
-        echo -e "${YELLOW}⊘ Skipping $name${NC}"
+        echo -e "${YELLOW}âŠ˜ Skipping $name${NC}"
         return 0
     fi
     
@@ -37,10 +37,10 @@ run_check() {
     echo "========================================"
     
     if eval "$cmd"; then
-        echo -e "${GREEN}✓ $name passed${NC}"
+        echo -e "${GREEN}âœ“ $name passed${NC}"
         return 0
     else
-        echo -e "${RED}✗ $name failed${NC}"
+        echo -e "${RED}âœ— $name failed${NC}"
         return 1
     fi
 }
@@ -87,22 +87,22 @@ echo "Checking prerequisites..."
 MISSING_TOOLS=0
 
 if ! command_exists cmake; then
-    echo -e "${RED}✗ cmake not found${NC}"
+    echo -e "${RED}âœ— cmake not found${NC}"
     MISSING_TOOLS=1
 fi
 
 if ! command_exists clang-tidy && [ "$SKIP_TIDY" != "1" ]; then
-    echo -e "${YELLOW}⊘ clang-tidy not found (will skip)${NC}"
+    echo -e "${YELLOW}âŠ˜ clang-tidy not found (will skip)${NC}"
     SKIP_TIDY=1
 fi
 
 if ! command_exists cppcheck && [ "$SKIP_CPPCHECK" != "1" ]; then
-    echo -e "${YELLOW}⊘ cppcheck not found (will skip)${NC}"
+    echo -e "${YELLOW}âŠ˜ cppcheck not found (will skip)${NC}"
     SKIP_CPPCHECK=1
 fi
 
 if ! command_exists gitleaks && [ "$SKIP_GITLEAKS" != "1" ]; then
-    echo -e "${YELLOW}⊘ gitleaks not found (will skip)${NC}"
+    echo -e "${YELLOW}âŠ˜ gitleaks not found (will skip)${NC}"
     SKIP_GITLEAKS=1
 fi
 

@@ -22,7 +22,7 @@ public:
 
     BlockTable(std::shared_ptr<PagedBlockManager> block_manager, 
                uint64_t sequence_id, 
-               const Config& config = Config());
+               const Config& config);
     
     ~BlockTable();
 

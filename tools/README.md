@@ -2,9 +2,39 @@
 
 ## Übersicht
 
-Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen zur Verwaltung, Überwachung und Compliance-Prüfung der ThemisDB-Datenbank.
+Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen und Python-Tools zur Verwaltung, Überwachung, Analyse und Compliance-Prüfung der ThemisDB-Datenbank.
 
-## Projekte
+## Python-Tools
+
+### Namespace Analyzer (`namespace_analyzer.py`)
+
+Ein Python-Tool zur umfassenden Analyse der ThemisDB-Codebasis. Extrahiert und dokumentiert:
+- Namespaces und ihre Hierarchien
+- Klassen, Structs und Enums innerhalb jeder Namespace
+- Funktionen und ihre Signaturen
+- Variablen und Konstanten
+- Zeitliche Informationen (wann jede Entität eingeführt/geändert wurde) via Git-Metadaten
+
+**Verwendung:**
+```bash
+# Grundlegende Analyse (alle Formate)
+python3 tools/namespace_analyzer.py
+
+# Mit Git-Metadaten (langsamer)
+python3 tools/namespace_analyzer.py --include-git
+
+# Nur Markdown-Bericht
+python3 tools/namespace_analyzer.py --format markdown
+```
+
+**Ausgabeformate:**
+- JSON (`namespace_analysis.json`) - Strukturierte Daten für maschinelle Verarbeitung
+- Markdown (`namespace_analysis.md`) - Menschenlesbarer Bericht
+- CSV (`namespaces.csv`, `classes.csv`, `functions.csv`) - Tabellarische Daten
+
+**Dokumentation:** Siehe [NAMESPACE_ANALYZER_README.md](NAMESPACE_ANALYZER_README.md)
+
+## .NET Desktop-Anwendungen
 
 ### Themis.AdminTools.Shared
 Gemeinsam genutzte Bibliothek mit:

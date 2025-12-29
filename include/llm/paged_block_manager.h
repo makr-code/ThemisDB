@@ -41,6 +41,8 @@ public:
     
     struct Config {
         int max_blocks = 1024;
+        // Backward-compat alias expected by tests
+        int total_blocks = 0;
         size_t block_size_tokens = 128;  // Tokens per block
         size_t token_size_bytes = 4;     // Bytes per token
     };
@@ -54,7 +56,7 @@ public:
         double fragmentation_ratio;
     };
     
-    explicit PagedBlockManager(const Config& config = Config{});
+    explicit PagedBlockManager(const Config& config);
     ~PagedBlockManager() = default;
     
     // Disable copy, allow move

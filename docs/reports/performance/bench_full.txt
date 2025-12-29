@@ -1,0 +1,44 @@
+﻿themis_benchmarks.exe : 2025-12-28T14:18:11+01:00
+In Zeile:1 Zeichen:51
++ ... c\Release"; & ".\themis_benchmarks.exe" --benchmark_filter=".*" 
+--ben ...
++                 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2025-12-28T14:18:11+01:00:St 
+   ring) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Running C:\VCC\themis\build-msvc\Release\themis_benchmarks.exe
+Run on (20 X 3696 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x10)
+  L1 Instruction 32 KiB (x10)
+  L2 Unified 256 KiB (x10)
+  L3 Unified 20480 KiB (x1)
+---------------------------------------------------------------------------------------------
+Benchmark                                   Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------
+CRUDFixture/InsertWithAllIndexes         2.90 ms        0.105 ms          448 items_per_second=9.55733k/s
+CRUDFixture/LookupBySecondaryIndex       3.37 us         3.49 us        44800 items_per_second=286.72k/s
+CRUDFixture/RangeScanAge                 6.22 us         6.28 us        22400 items_per_second=159.289k/s
+CRUDFixture/FulltextSearch               11.9 us         10.9 us        10000 items_per_second=91.4286k/s
+BM_VectorSearch_efSearch/32/10          0.022 ms        0.021 ms         8028 efSearch=32 k=10 queries=8.028k vectors=20k
+BM_VectorSearch_efSearch/64/10          0.041 ms        0.042 ms         4480 efSearch=64 k=10 queries=4.48k vectors=20k
+BM_VectorSearch_efSearch/128/10         0.068 ms        0.070 ms         2676 efSearch=128 k=10 queries=2.676k vectors=20k
+BM_VectorSearch_efSearch/256/10         0.091 ms        0.093 ms         2007 efSearch=256 k=10 queries=2.007k vectors=20k
+BM_VectorInsert_Batch100/64              7.49 ms         4.97 ms           22 inserted=2.2k
+BM_VectorInsert_Batch100/128             12.8 ms         10.9 ms           10 inserted=1k
+-- LOG(0): Value passed to --benchmark_min_time should have a suffix. 
+Eg., `30s` for 30-seconds.-- LOG(0): Value passed to --benchmark_min_time 
+should have a suffix. Eg., `30s` for 30-seconds.-- LOG(0): Value passed 
+to --benchmark_min_time should have a suffix. Eg., `30s` for 
+30-seconds.-- LOG(0): Value passed to --benchmark_min_time should have a 
+suffix. Eg., `30s` for 30-seconds.-- LOG(0): Value passed to 
+--benchmark_min_time should have a suffix. Eg., `30s` for 30-seconds.-- 
+LOG(0): Value passed to --benchmark_min_time should have a suffix. Eg., 
+`30s` for 30-seconds.-- LOG(0): Value passed to --benchmark_min_time 
+should have a suffix. Eg., `30s` for 30-seconds.-- LOG(0): Value passed 
+to --benchmark_min_time should have a suffix. Eg., `30s` for 
+30-seconds.-- LOG(0): Value passed to --benchmark_min_time should have a 
+suffix. Eg., `30s` for 30-seconds.-- LOG(0): Value passed to 
+--benchmark_min_time should have a suffix. Eg., `30s` for 30-seconds.

@@ -16,7 +16,7 @@
 #include "query/functions/vector_functions.h"
 #include "query/functions/graph_functions.h"
 #include "query/functions/collection_functions.h"
-#include "query/functions/excel_functions.h"
+// #include "query/functions/excel_functions.h"  // v1.4.0: Not yet available
 
 using namespace themis::query::functions;
 

@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
+#include <string>
 
 using namespace themis;
 
@@ -12,7 +13,8 @@ class IndexStatsTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Erstelle einen temporären DB-Pfad für jeden Test
-        dbPath_ = "./data/themis_index_stats_test";
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        dbPath_ = (std::filesystem::temp_directory_path() / ("themis_index_stats_test_" + std::to_string(now))).string();
         
         // Lösche existierendes Testverzeichnis
         std::filesystem::remove_all(dbPath_);

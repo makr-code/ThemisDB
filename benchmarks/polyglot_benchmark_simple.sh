@@ -7,9 +7,9 @@ set -e
 RESULTS_DIR="polyglot_5gb_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$RESULTS_DIR"
 
-echo "╔════════════════════════════════════════════════════════════╗"
-echo "║   ThemisDB 5GB Polyglot Benchmark - Simplified Version      ║"
-echo "╚════════════════════════════════════════════════════════════╝"
+echo "â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
+echo "â•‘   ThemisDB 5GB Polyglot Benchmark - Simplified Version      â•‘"
+echo "â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo ""
 
 # Generate quick test data (500MB sample)
@@ -38,7 +38,7 @@ mkdir -p "$TESTDATA_DIR"
     echo "]"
 } > "$TESTDATA_DIR/sample_5gb.json"
 
-echo "  ✓ Sample data: $(ls -lh "$TESTDATA_DIR/sample_5gb.json" | awk '{print $5}')"
+echo "  âœ“ Sample data: $(ls -lh "$TESTDATA_DIR/sample_5gb.json" | awk '{print $5}')"
 echo ""
 
 # Test 1: ThemisDB HTTP Ingestion
@@ -89,79 +89,79 @@ echo ""
 
 # Save Results
 cat > "$RESULTS_DIR/POLYGLOT_BENCHMARK_RESULTS.txt" << EOF
-╔════════════════════════════════════════════════════════════════════════════╗
-║            ThemisDB 5GB Polyglot Benchmark Results                         ║
-║                      (Sample-based Extrapolation)                          ║
-╚════════════════════════════════════════════════════════════════════════════╝
+â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
+â•‘            ThemisDB 5GB Polyglot Benchmark Results                         â•‘
+â•‘                      (Sample-based Extrapolation)                          â•‘
+â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 TEST DATE: $(date)
 SYSTEM: ThemisDB 1.0.0
 TEST SIZE: 500MB sample (extrapolated from 5GB)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 1. INGESTION PERFORMANCE (HTTP REST)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 Sample Data (Actual):       ${HTTP_MB}MB in ${HTTP_TIME}s
 Measured Throughput:        ${HTTP_THROUGHPUT} MB/s
 Extrapolated to 5GB:        ~$((HTTP_TIME * 10))s (~$(echo "scale=1; 5000 / ${HTTP_THROUGHPUT}" | bc)s for 5GB)
 
-Performance Tier:           ⭐⭐⭐⭐⭐ EXCELLENT
+Performance Tier:           â­â­â­â­â­ EXCELLENT
   - Linear scalability
   - Multi-model data handling
   - Single API surface
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 2. QUERY PERFORMANCE (POST-INGESTION)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 Queries Executed:           100
 Total Time:                 ${QUERY_TIME}ms
 Average Latency:            ${AVG_LATENCY}ms
 Throughput:                 $(( 100000 / QUERY_TIME )) queries/sec
 
-Performance Tier:           ⭐⭐⭐⭐⭐ EXCELLENT
+Performance Tier:           â­â­â­â­â­ EXCELLENT
   - Consistent low latency
   - Sub-millisecond responses
   - Wire Protocol ready
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 3. CONNECTION PERFORMANCE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 Connections Tested:         1000 concurrent
 Total Time:                 ${CONN_TIME}s
 Throughput:                 $(( 1000 / CONN_TIME )) connections/sec
-Per-connection Overhead:    $((CONN_TIME * 1000000 / 1000))μs
+Per-connection Overhead:    $((CONN_TIME * 1000000 / 1000))Î¼s
 
-Performance Tier:           ⭐⭐⭐⭐⭐ EXCELLENT
+Performance Tier:           â­â­â­â­â­ EXCELLENT
   - Handles high concurrency
   - Low connection overhead
   - Asio-powered efficiency
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 COMPARISON VS POLYGLOT STACK
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 Scenario: Large-scale document ingestion + complex queries
 
 ThemisDB Unified Approach:
-  ✓ Single system deployment
-  ✓ No polyglot complexity
-  ✓ Unified transaction model
-  ✓ Multi-model native support
-  ✓ Measured throughput: ${HTTP_THROUGHPUT} MB/s
-  ✓ Operational overhead: MINIMAL
+  âœ“ Single system deployment
+  âœ“ No polyglot complexity
+  âœ“ Unified transaction model
+  âœ“ Multi-model native support
+  âœ“ Measured throughput: ${HTTP_THROUGHPUT} MB/s
+  âœ“ Operational overhead: MINIMAL
 
 Traditional Polyglot Stack (PostgreSQL + MongoDB + Redis + ElasticSearch):
-  • PostgreSQL: Optimized for ACID/RDBMS
-  • MongoDB: Document-centric operations
-  • Redis: Cache/session management
-  • ElasticSearch: Full-text search
-  × Cross-system coordination overhead
-  × Data duplication/sync issues
-  × Operational complexity (5 systems)
-  × Higher latency (cross-service calls)
+  â€¢ PostgreSQL: Optimized for ACID/RDBMS
+  â€¢ MongoDB: Document-centric operations
+  â€¢ Redis: Cache/session management
+  â€¢ ElasticSearch: Full-text search
+  Ã— Cross-system coordination overhead
+  Ã— Data duplication/sync issues
+  Ã— Operational complexity (5 systems)
+  Ã— Higher latency (cross-service calls)
 
 Performance Extrapolation (5GB dataset):
   ThemisDB:     ~$((HTTP_TIME * 10))s (linear)
@@ -169,23 +169,23 @@ Performance Extrapolation (5GB dataset):
   MongoDB:      ~$((HTTP_TIME * 15))s (with replication)
   Polyglot:     ~$((HTTP_TIME * 60))s+ (coordination overhead)
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 OPERATIONAL EFFICIENCY SCORECARD
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 Metric                  ThemisDB    Polyglot Stack    Winner
-─────────────────────────────────────────────────────────────
-Deployment Complexity   ⭐ (1 system)   ⭐⭐⭐⭐⭐ (5 systems)   ✓ ThemisDB
-Operational Load        ⭐ (unified)     ⭐⭐⭐⭐ (distributed)   ✓ ThemisDB
-Consistency Model       ⭐⭐⭐⭐⭐ (MVCC)    ⭐⭐ (eventual)      ✓ ThemisDB
-Query Performance       ⭐⭐⭐⭐⭐ (native)  ⭐⭐⭐ (cross-system)  ✓ ThemisDB
-Data Model Flexibility  ⭐⭐⭐⭐⭐ (multi)    ⭐⭐ (specialized)    ✓ ThemisDB
-Scaling (vertical)      ⭐⭐⭐⭐⭐ (efficient)  ⭐⭐⭐ (coordination)   ✓ ThemisDB
-Cost per TB             $LOWER          $HIGHER         ✓ ThemisDB
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+Deployment Complexity   â­ (1 system)   â­â­â­â­â­ (5 systems)   âœ“ ThemisDB
+Operational Load        â­ (unified)     â­â­â­â­ (distributed)   âœ“ ThemisDB
+Consistency Model       â­â­â­â­â­ (MVCC)    â­â­ (eventual)      âœ“ ThemisDB
+Query Performance       â­â­â­â­â­ (native)  â­â­â­ (cross-system)  âœ“ ThemisDB
+Data Model Flexibility  â­â­â­â­â­ (multi)    â­â­ (specialized)    âœ“ ThemisDB
+Scaling (vertical)      â­â­â­â­â­ (efficient)  â­â­â­ (coordination)   âœ“ ThemisDB
+Cost per TB             $LOWER          $HIGHER         âœ“ ThemisDB
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 KEY FINDINGS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 1. PERFORMANCE EQUIVALENCE
    ThemisDB Wire Protocol matches or exceeds specialized databases
@@ -207,24 +207,24 @@ KEY FINDINGS
    Unified architecture scales better with emerging demands
    (AI/ML, complex analytics, real-time processing).
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 RECOMMENDATIONS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
-✓ ADOPT ThemisDB WHEN:
-  • Simplicity and operational efficiency are priorities
-  • Multi-model queries are frequent
-  • ACID guarantees are essential
-  • Cost control is important
-  • Rapid deployment needed
+âœ“ ADOPT ThemisDB WHEN:
+  â€¢ Simplicity and operational efficiency are priorities
+  â€¢ Multi-model queries are frequent
+  â€¢ ACID guarantees are essential
+  â€¢ Cost control is important
+  â€¢ Rapid deployment needed
 
-✓ CONSIDER Polyglot ONLY WHEN:
-  • Extreme specialization required (rare)
-  • Independent horizontal scaling essential
-  • Team expertise favors specific technologies
-  • Legacy systems must be integrated
+âœ“ CONSIDER Polyglot ONLY WHEN:
+  â€¢ Extreme specialization required (rare)
+  â€¢ Independent horizontal scaling essential
+  â€¢ Team expertise favors specific technologies
+  â€¢ Legacy systems must be integrated
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 Generated: $(date)
 Version: ThemisDB 1.0.0 Wire Protocol
@@ -232,9 +232,9 @@ Test System: $HOSTNAME
 
 EOF
 
-echo "═══════════════════════════════════════════════════════════════════════════"
-echo "✓ BENCHMARK COMPLETE!"
-echo "═══════════════════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+echo "âœ“ BENCHMARK COMPLETE!"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo ""
 echo "Results saved to: $RESULTS_DIR"
 echo ""

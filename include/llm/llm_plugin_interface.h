@@ -91,6 +91,8 @@ struct LoRAInfo {
     std::string path;              // Path to LoRA weights
     std::string base_model;        // Compatible base model
     std::string lora_id;           // Alias
+    std::string adapter_id;        // Test-facing adapter id (alias of id)
+    std::string base_model_id;     // Test-facing base model id (alias of base_model)
     bool is_loaded = false;
     
     size_t size_bytes = 0;
@@ -105,6 +107,7 @@ struct LoRAInfo {
 struct InferenceRequest {
     std::string prompt;
     std::string model_id = "default";
+    std::string request_id;      // Optional request identifier for tracing
     
     // Generation parameters
     int max_tokens = 512;
@@ -133,6 +136,7 @@ struct InferenceRequest {
  * @brief Inference response
  */
 struct InferenceResponse {
+    std::string request_id;      // Mirrors request id if provided
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
     bool cache_hit = false;        // Whether response came from cache
@@ -142,6 +146,7 @@ struct InferenceResponse {
     int tokens_prompt = 0;
     float inference_time_ms = 0.0f;
     float tokens_per_second = 0.0f;
+    int64_t latency_ms = 0;        // Wall-clock latency in milliseconds
     
     // Model information
     std::string model_used;

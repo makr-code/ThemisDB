@@ -18,7 +18,7 @@
         MinHeight="600" MinWidth="1000"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Background="#f8fafc">
+        Background="#FFF8FAFC">
 
     <!-- Tastaturkürzel auf zentrale Toolbar-Kommandos routen -->
     <Window.InputBindings>
@@ -52,7 +52,7 @@
         </Grid.RowDefinitions>
 
         <!-- Menu Bar -->
-        <Menu Grid.Row="0" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
+        <Menu Grid.Row="0" Background="#FFFFFFFF" BorderBrush="#FFE2E8F0" BorderThickness="0,0,0,1">
             <MenuItem Header="Datei">
                 <MenuItem Header="Neu" Command="{Binding NewCommand}"/>
                 <MenuItem Header="Öffnen" Command="{Binding OpenCommand}"/>
@@ -84,7 +84,7 @@
         </Menu>
 
         <!-- Ribbon Toolbar -->
-        <Border Grid.Row="1" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
+        <Border Grid.Row="1" Background="#FFFFFFFF" BorderBrush="#FFE2E8F0" BorderThickness="0,0,0,1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -98,7 +98,7 @@
                     <Button Content="📄 Neu" Command="{Binding NewCommand}" Padding="10,5" Margin="0,0,5,0"/>
                     <Button Content="📂 Öffnen" Command="{Binding OpenCommand}" Padding="10,5" Margin="0,0,5,0"/>
                     <Button Content="💾 Speichern" Command="{Binding SaveCommand}" Padding="10,5" Margin="0,0,5,0"/>
-                    <Separator Margin="5,0" Background="#e2e8f0" Width="1"/>
+                    <Separator Margin="5,0" Background="#FFE2E8F0" Width="1"/>
                     <TextBox x:Name="SearchBox" Width="240" Height="26" Margin="0,0,5,0"
                              VerticalAlignment="Center"
                              Padding="6,2"
@@ -117,7 +117,7 @@
         </Border>
 
         <!-- Timeline View (full, under ribbon, over all content) -->
-        <Border Grid.Row="2" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
+        <Border Grid.Row="2" Background="#FFFFFFFF" BorderBrush="#FFE2E8F0" BorderThickness="0,0,0,1">
             <timeline:TimelineViewImproved/>
         </Border>
 
@@ -247,7 +247,7 @@
             </Border>
 
             <!-- Splitter Left -->
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#e2e8f0" ShowsPreview="True"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFE2E8F0" ShowsPreview="True"/>
 
             <!-- Center Content Area with Breadcrumb -->
             <Grid Grid.Column="2">
@@ -259,7 +259,7 @@
                 </Grid.RowDefinitions>
                 
                 <!-- Breadcrumb Navigation (only over center content) -->
-                <Border Grid.Row="0" Background="#f8fafc" BorderBrush="#e2e8f0" BorderThickness="0,0,0,1">
+                <Border Grid.Row="0" Background="#FFF8FAFC" BorderBrush="#FFE2E8F0" BorderThickness="0,0,0,1">
                     <nav:IntelligentBreadcrumbView x:Name="BreadcrumbControl"/>
                 </Border>
                 
@@ -299,13 +299,13 @@
             </Grid>
 
             <!-- Splitter Right -->
-            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#e2e8f0" ShowsPreview="True"/>
+            <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFE2E8F0" ShowsPreview="True"/>
 
             <!-- Right Sidebar -->
-            <Border Grid.Column="4" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="1,0,0,0">
+            <Border Grid.Column="4" Background="#FFFFFFFF" BorderBrush="#FFE2E8F0" BorderThickness="1,0,0,0">
                 <DockPanel>
-                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="#f8fafc" Margin="8,6,8,6">
-                        <TextBlock Text="Details" Foreground="#64748b"/>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="#FFF8FAFC" Margin="8,6,8,6">
+                        <TextBlock Text="Details" Foreground="#FF64748B"/>
                         <Button Content="▶" Command="{x:Static local:MainWindow.ToggleRightSidebarCommand}" Margin="8,0,0,0"/>
                     </StackPanel>
                     <TabControl x:Name="RightSidebarTabs">
@@ -334,9 +334,9 @@
         </Grid>
 
         <!-- Status Bar -->
-        <StatusBar Grid.Row="4" Background="#ffffff" BorderBrush="#e2e8f0" BorderThickness="0,1,0,0">
+        <StatusBar Grid.Row="4" Background="#FFFFFFFF" BorderBrush="#FFE2E8F0" BorderThickness="0,1,0,0">
             <StatusBarItem>
-                <TextBlock x:Name="StatusText" Text="Bereit" Foreground="#64748b"/>
+                <TextBlock x:Name="StatusText" Text="Bereit" Foreground="#FF64748B"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

@@ -25,6 +25,9 @@ packages/
 downloads/
 buildtrees/
 
+# external/vcpkg - deprecated, use root ./vcpkg instead (v1.3.0+)
+external/vcpkg/
+
 # Distribution artifacts (not needed in repo)
 dist/
 *.tar.gz
@@ -115,6 +118,8 @@ tidy_full.log
 
 # Local data directories (development/testing only)
 data/
+models/*
+!models/.gitkeep
 test_geo_integration_db/
 Testing/
 
@@ -141,6 +146,9 @@ site/
 !docker/README.md
 !docker/CHANGELOG.md
 !docker/ROADMAP.md
+
+# Namespace analysis reports (generated)
+namespace_analysis/
 
 # Test / coverage / profiling
 .pytest_cache/
@@ -210,3 +218,44 @@ tools/*/bin/
 **/obj/
 **/bin/
 tools/**/PublishOutputs.*
+
+# --- Enterprise Source Code (not included in public repository) ---
+# Enterprise modules are available only under commercial license
+src/enterprise/
+include/enterprise/
+plugins/enterprise/
+examples/gpu_impact_analysis/
+tests/test_enterprise_*.cpp
+tests/test_gpu_impact_analysis_plugin.cpp
+benchmarks/bench_gpu_impact_analysis.cpp
+benchmarks/run_enterprise_benchmarks.py
+
+# Enterprise documentation (implementation details only, feature docs remain)
+docs/enterprise/gpu_impact_analysis_*.md
+docs/enterprise/ENTERPRISE_BUILD_GUIDE.md
+docs/enterprise/enterprise_implementation.md
+docs/enterprise/enterprise_final_report.md
+docs/enterprise/GPU_IMPACT_ANALYSIS_PROJECT_SUMMARY.md
+docs/enterprise/PROJEKTZUSAMMENFASSUNG.md
+docs/enterprise/SECURITY_NOTES.md
+docs/enterprise/LLM_INTEGRATION_BENEFITS_ANALYSIS.md
+docs/enterprise/enterprise_analytics.md
+docs/enterprise/enterprise_http_pool.md
+docs/enterprise/enterprise_scalability.md
+
+# Internal confidential docs (excluded from VCS - v1.3.5+)
+internal/
+
+# --- Sensitive Business/Strategic Documents (confidential, not for competitors) ---
+# Market analysis, pricing, revenue projections, and strategic planning documents
+# Note: Also covered by internal/ exclusion above for future content
+docs/analysis/MARKET_POTENTIAL_ANALYSIS.md
+docs/audit/COST_VALUE_ANALYSIS.md
+docs/reports/reports_project_valuation.md
+docs/enterprise/ENTERPRISE_ANALYSE_DE.md
+docs/stakeholder/STAKEHOLDER_VALUE_PROPOSITION.md
+
+# --- Confidential Documentation (German language-specific, v1.3.6+) ---
+# Business secrets, internal strategies, pricing models, and confidential analysis
+docs/de/confidencial/
+docs/en/confidential/

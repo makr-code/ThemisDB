@@ -1,0 +1,409 @@
+-- =========================================================================
+-- ThemisDB AQL Examples - Vision Analysis with OOP Extensions (v1.3.1)
+-- =========================================================================
+-- Demonstrates: Namespaces, UDTs, UDFs, Classes, Vision Extensions
+-- =========================================================================
+
+-- Define namespace for vision operations
+NAMESPACE themis.vision.analysis;
+
+-- Import required modules
+IMPORT themis.llm.*;
+IMPORT themis.vector.*;
+
+-- =========================================================================
+-- USER-DEFINED TYPES
+-- =========================================================================
+
+TYPE DetectedObject {
+  label: String,
+  confidence: Float,
+  bbox: BoundingBox,
+  attributes: Map<String, String>?
+}
+
+TYPE BoundingBox {
+  x: Int,
+  y: Int,
+  width: Int,
+  height: Int
+}
+
+TYPE VisionAnalysis {
+  image_path: String,
+  objects: Array<DetectedObject>,
+  scene_description: String,
+  text_content: Array<String>,
+  overall_confidence: Float,
+  embedding: Array<Float>,
+  timestamp: String
+}
+
+TYPE ImageClassification {
+  primary_category: String,
+  confidence: Float,
+  secondary_categories: Array<String>,
+  tags: Array<String>
+}
+
+-- =========================================================================
+-- USER-DEFINED FUNCTIONS
+-- =========================================================================
+
+/**
+ * Extracts and structures bounding box from raw detection data
+ */
+FUNCTION extract_bbox(raw_bbox: Object) -> BoundingBox {
+  RETURN BoundingBox {
+    x: TO_INT(raw_bbox.x),
+    y: TO_INT(raw_bbox.y),
+    width: TO_INT(raw_bbox.width),
+    height: TO_INT(raw_bbox.height)
+  }
+}
+
+/**
+ * Converts raw LLM vision output to structured DetectedObject
+ */
+FUNCTION parse_detection(detection: Object) -> DetectedObject {
+  RETURN DetectedObject {
+    label: detection.label,
+    confidence: TO_FLOAT(detection.confidence),
+    bbox: extract_bbox(detection.bbox),
+    attributes: detection.attributes
+  }
+}
+
+/**
+ * Analyzes a single image with structured output
+ */
+FUNCTION analyze_image_structured(
+  image_path: String,
+  model: String = 'llava-7b',
+  detail_level: String = 'high'
+) -> VisionAnalysis {
+  
+  -- Perform vision analysis
+  LET raw_analysis = LLM VISION ANALYZE image_path
+    USING MODEL model
+    DETECT [objects, text, scenes]
+    OPTIONS {
+      detail: detail_level,
+      language: 'de'
+    };
+  
+  -- Generate embedding for similarity search
+  LET embedding = LLM VISION ANALYZE image_path
+    USING MODEL 'clip'
+    OPTIONS { return_embedding: true };
+  
+  -- Structure the response
+  RETURN VisionAnalysis {
+    image_path: image_path,
+    objects: raw_analysis.objects MAP parse_detection(_),
+    scene_description: raw_analysis.scene_type,
+    text_content: raw_analysis.text_detections,
+    overall_confidence: raw_analysis.confidence,
+    embedding: embedding.embedding,
+    timestamp: DATE_NOW()
+  }
+}
+
+/**
+ * Batch processes multiple images with parallelization
+ */
+ASYNC FUNCTION analyze_images_batch(
+  image_paths: Array<String>,
+  model: String = 'llava-7b'
+) -> Array<VisionAnalysis> {
+  
+  -- Process images in parallel with limit
+  LET results = AWAIT PARALLEL LIMIT 10 {
+    FOR path IN image_paths
+      RETURN analyze_image_structured(path, model, 'medium')
+  };
+  
+  RETURN results
+}
+
+-- =========================================================================
+-- CLASS-BASED VISION PIPELINE
+-- =========================================================================
+
+CLASS MultimodalRAGPipeline {
+  
+  -- Private properties
+  PRIVATE collection: String;
+  PRIVATE vision_model: String;
+  PRIVATE text_model: String;
+  PRIVATE lora_adapter: String?;
+  PRIVATE embedding_cache: Map<String, Array<Float>>;
+  
+  -- Constructor
+  CONSTRUCTOR(
+    collection: String,
+    vision_model: String = 'llava-7b',
+    text_model: String = 'mistral-7b'
+  ) {
+    THIS.collection = collection;
+    THIS.vision_model = vision_model;
+    THIS.text_model = text_model;
+    THIS.embedding_cache = {};
+  }
+  
+  -- Public methods
+  PUBLIC METHOD setLoRA(lora_id: String) -> SELF {
+    THIS.lora_adapter = lora_id;
+    RETURN SELF;  -- Enable method chaining
+  }
+  
+  PUBLIC METHOD analyzeImage(image_path: String) -> VisionAnalysis {
+    RETURN analyze_image_structured(image_path, THIS.vision_model, 'high');
+  }
+  
+  PUBLIC METHOD findSimilarImages(
+    query_embedding: Array<Float>,
+    top_k: Int = 10,
+    min_similarity: Float = 0.7
+  ) -> Array<Object> {
+    
+    FOR doc IN THIS.collection
+      LET similarity = COSINE_SIMILARITY(doc.embedding, query_embedding)
+      FILTER similarity >= min_similarity
+      SORT similarity DESC
+      LIMIT top_k
+      RETURN {
+        doc: doc,
+        similarity: similarity
+      }
+  }
+  
+  PUBLIC METHOD executeVisualRAG(
+    query: String,
+    query_image: String?,
+    top_k: Int = 5
+  ) -> String {
+    
+    TRY {
+      -- Generate query context from image if provided
+      LET image_context = IF query_image THEN
+        LET vision_result = THIS.analyzeImage(query_image);
+        LET similar_images = THIS.findSimilarImages(
+          vision_result.embedding,
+          top_k,
+          0.75
+        );
+        CONCAT(
+          'Image Analysis: ', vision_result.scene_description, '\n',
+          'Detected Objects: ', JOIN(vision_result.objects[*].label, ', '), '\n\n',
+          'Similar Images Context:\n',
+          JOIN(similar_images[*].doc.description, '\n\n')
+        )
+      ELSE
+        -- Text-only query
+        LET query_emb = LLM EMBED query USING MODEL THIS.text_model;
+        LET similar = THIS.findSimilarImages(query_emb, top_k, 0.7);
+        JOIN(similar[*].doc.content, '\n\n')
+      ENDIF;
+      
+      -- Generate answer using LLM
+      LET answer = LLM INFER CONCAT(
+        'Context:\n', image_context, '\n\n',
+        'Question: ', query, '\n\n',
+        'Please provide a detailed answer based on the context.'
+      )
+      USING MODEL THIS.text_model
+      WITH LORA THIS.lora_adapter
+      OPTIONS { max_tokens: 500, temperature: 0.7 };
+      
+      RETURN answer
+      
+    } CATCH (error) {
+      CASE error.type
+        WHEN 'LLM_MODEL_NOT_FOUND' THEN
+          RETURN 'Error: Vision model not available'
+        WHEN 'LLM_TIMEOUT' THEN
+          RETURN 'Error: Request timed out, please try again'
+        ELSE
+          RETURN 'Error: ' + error.message
+      END
+    }
+  }
+  
+  PUBLIC METHOD batchAnalyzeAndStore(
+    image_paths: Array<String>
+  ) -> Object {
+    
+    -- Analyze all images in parallel
+    LET analyses = AWAIT analyze_images_batch(image_paths, THIS.vision_model);
+    
+    -- Store results in collection
+    LET inserted = FOR analysis IN analyses
+      INSERT {
+        image_path: analysis.image_path,
+        scene: analysis.scene_description,
+        objects: analysis.objects,
+        embedding: analysis.embedding,
+        analyzed_at: analysis.timestamp,
+        model: THIS.vision_model
+      } INTO THIS.collection
+      RETURN NEW;
+    
+    RETURN {
+      processed: LENGTH(analyses),
+      stored: LENGTH(inserted),
+      timestamp: DATE_NOW()
+    }
+  }
+}
+
+-- =========================================================================
+-- PIPELINE-STYLE QUERIES (Method Chaining)
+-- =========================================================================
+
+-- Example 1: Image analysis pipeline
+LET analysis = '/data/images/drone_photo.jpg'
+  |> analyze_image_structured(_, 'llava-7b', 'high')
+  |> _.scene_description
+  |> UPPER(_)
+  |> CONCAT('Scene Type: ', _);
+
+-- Example 2: Batch processing with transformation
+LET image_summaries = [
+  '/images/img1.jpg',
+  '/images/img2.jpg',
+  '/images/img3.jpg'
+]
+  |> FOR path IN _
+       RETURN analyze_image_structured(path, 'llava-7b', 'medium')
+  |> MAP(_, analysis -> {
+       path: analysis.image_path,
+       summary: analysis.scene_description,
+       object_count: LENGTH(analysis.objects)
+     });
+
+-- =========================================================================
+-- PATTERN MATCHING FOR VISION RESULTS
+-- =========================================================================
+
+FUNCTION classify_scene(analysis: VisionAnalysis) -> String {
+  MATCH analysis
+    WHEN { objects: [{ label: 'person', confidence: > 0.9 }, ...rest] } THEN
+      'High confidence person detection'
+    WHEN { scene_description: /outdoor|landscape/i } THEN
+      'Outdoor/Landscape scene'
+    WHEN { objects: [...objects], object_count: > 10 } WHERE LENGTH(objects) > 10 THEN
+      'Complex scene with many objects'
+    WHEN { text_content: [...text] } WHERE LENGTH(text) > 0 THEN
+      'Scene contains text: ' + JOIN(text, ', ')
+    ELSE
+      'Generic scene'
+  END
+}
+
+-- =========================================================================
+-- PRACTICAL USAGE EXAMPLES
+-- =========================================================================
+
+-- Example 1: Initialize pipeline and process query
+LET pipeline = NEW themis.vision.analysis::MultimodalRAGPipeline(
+  'drone_images',
+  'llava-7b',
+  'mistral-7b'
+).setLoRA('aerial-analysis');
+
+LET answer = pipeline.executeVisualRAG(
+  'What infrastructure can you see in this aerial image?',
+  '/data/drone_images/city_overview.jpg',
+  5
+);
+
+RETURN answer;
+
+-- Example 2: Batch process and store drone images
+LET batch_result = pipeline.batchAnalyzeAndStore([
+  '/data/drone_images/photo1.jpg',
+  '/data/drone_images/photo2.jpg',
+  '/data/drone_images/photo3.jpg',
+  '/data/drone_images/photo4.jpg',
+  '/data/drone_images/photo5.jpg'
+]);
+
+RETURN {
+  processed: batch_result.processed,
+  stored: batch_result.stored,
+  message: 'Batch processing complete'
+};
+
+-- Example 3: Find similar images based on visual content
+LET query_analysis = analyze_image_structured(
+  '/data/query_image.jpg',
+  'llava-7b',
+  'high'
+);
+
+LET similar_images = pipeline.findSimilarImages(
+  query_analysis.embedding,
+  10,
+  0.8
+);
+
+FOR img IN similar_images
+  RETURN {
+    image_path: img.doc.image_path,
+    scene: img.doc.scene,
+    similarity: img.similarity,
+    objects: img.doc.objects[*].label
+  };
+
+-- Example 4: Visual Question Answering
+LET vqa_result = LLM VISION QUESTION 'How many people are in this image?'
+  ABOUT IMAGE '/data/crowd_photo.jpg'
+  USING MODEL 'llava-7b'
+  OPTIONS { format: 'structured' };
+
+RETURN vqa_result;
+
+-- Example 5: Image comparison
+LET comparison = LLM VISION COMPARE
+  IMAGES [
+    '/data/before.jpg',
+    '/data/after.jpg'
+  ]
+  USING MODEL 'clip'
+  METRIC 'structural_similarity'
+  OPTIONS { highlight_differences: true };
+
+RETURN {
+  similarity_score: comparison.similarity,
+  differences: comparison.diff_areas,
+  summary: comparison.description
+};
+
+-- =========================================================================
+-- ADVANCED: Conditional compilation for feature flags
+-- =========================================================================
+
+#IF FEATURE_VISION_HD
+  -- Use high-detail vision model
+  LET model_config = {
+    model: 'llava-34b',
+    detail: 'ultra',
+    resolution: '2048x2048'
+  };
+#ELSE
+  -- Use standard model
+  LET model_config = {
+    model: 'llava-7b',
+    detail: 'high',
+    resolution: '1024x1024'
+  };
+#ENDIF
+
+LET result = analyze_image_structured(
+  '/data/test_image.jpg',
+  model_config.model,
+  model_config.detail
+);
+
+RETURN result;

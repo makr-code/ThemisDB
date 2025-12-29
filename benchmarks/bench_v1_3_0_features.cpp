@@ -3,6 +3,7 @@
 #include "search/hybrid_search.h"
 #include "query/cte_subquery.h"
 #include "sharding/distributed_transaction.h"
+#include <nlohmann/json.hpp>
 #include <random>
 #include <vector>
 
@@ -13,9 +14,9 @@ using namespace themis;
 // ============================================================================
 
 static void BM_EmbeddingCache_Store(benchmark::State& state) {
-    cache::EmbeddingCache::Config config;
+    EmbeddingCache::Config config;
     config.max_entries = 10000;
-    cache::EmbeddingCache cache(config);
+    EmbeddingCache cache(config);
     
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -37,10 +38,10 @@ static void BM_EmbeddingCache_Store(benchmark::State& state) {
 BENCHMARK(BM_EmbeddingCache_Store)->Arg(384)->Arg(768)->Arg(1536)->Arg(3072);
 
 static void BM_EmbeddingCache_Query_Hit(benchmark::State& state) {
-    cache::EmbeddingCache::Config config;
+    EmbeddingCache::Config config;
     config.max_entries = 10000;
     config.similarity_threshold = 0.95f;
-    cache::EmbeddingCache cache(config);
+    EmbeddingCache cache(config);
     
     const int dim = state.range(0);
     const int num_entries = 1000;
@@ -72,9 +73,9 @@ static void BM_EmbeddingCache_Query_Hit(benchmark::State& state) {
 BENCHMARK(BM_EmbeddingCache_Query_Hit)->Arg(384)->Arg(768)->Arg(1536)->Arg(3072);
 
 static void BM_EmbeddingCache_Query_Miss(benchmark::State& state) {
-    cache::EmbeddingCache::Config config;
+    EmbeddingCache::Config config;
     config.max_entries = 10000;
-    cache::EmbeddingCache cache(config);
+    EmbeddingCache cache(config);
     
     const int dim = state.range(0);
     
@@ -97,9 +98,9 @@ static void BM_EmbeddingCache_Query_Miss(benchmark::State& state) {
 BENCHMARK(BM_EmbeddingCache_Query_Miss)->Arg(384)->Arg(768)->Arg(1536)->Arg(3072);
 
 static void BM_EmbeddingCache_CostSavings(benchmark::State& state) {
-    cache::EmbeddingCache::Config config;
+    EmbeddingCache::Config config;
     config.max_entries = 10000;
-    cache::EmbeddingCache cache(config);
+    EmbeddingCache cache(config);
     
     const int dim = 1536; // GPT-3 embedding size
     std::vector<float> embedding(dim, 0.5f);
@@ -112,9 +113,9 @@ static void BM_EmbeddingCache_CostSavings(benchmark::State& state) {
         benchmark::DoNotOptimize(result);
     }
     
-    auto stats = cache.getStatistics();
+    auto stats = cache.getStats();
     state.counters["HitRate"] = stats.hit_rate;
-    state.counters["CostSavings"] = stats.cost_savings;
+    state.counters["CostSavingsUSD"] = stats.cost_savings_usd;
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_EmbeddingCache_CostSavings);
@@ -124,22 +125,22 @@ BENCHMARK(BM_EmbeddingCache_CostSavings);
 // ============================================================================
 
 static void BM_HybridSearch_RRF(benchmark::State& state) {
-    // Mock index managers
-    index::SecondaryIndexManager mock_fulltext;
-    index::VectorIndexManager mock_vector;
-    
-    search::HybridSearch::Config config;
-    config.bm25_weight = 0.5f;
-    config.vector_weight = 0.5f;
-    config.fusion_strategy = search::HybridSearch::FusionStrategy::RRF;
-    
-    search::HybridSearch hybrid(&mock_fulltext, &mock_vector);
+    // Use null managers (benchmarking API surface only)
+    SecondaryIndexManager* fulltext = nullptr;
+    VectorIndexManager* vector = nullptr;
+
+    HybridSearch::Config config;
+    config.bm25_weight = 0.5;
+    config.vector_weight = 0.5;
+    config.use_rrf = true;
+
+    HybridSearch hybrid(fulltext, vector, config);
     
     const int dim = state.range(0);
     std::vector<float> query_vector(dim, 0.5f);
     
     for (auto _ : state) {
-        auto results = hybrid.search("machine learning", query_vector, dim);
+        auto results = hybrid.search("machine learning", query_vector.data(), dim);
         benchmark::DoNotOptimize(results);
     }
     
@@ -148,21 +149,21 @@ static void BM_HybridSearch_RRF(benchmark::State& state) {
 BENCHMARK(BM_HybridSearch_RRF)->Arg(384)->Arg(768)->Arg(1536);
 
 static void BM_HybridSearch_LinearCombination(benchmark::State& state) {
-    index::SecondaryIndexManager mock_fulltext;
-    index::VectorIndexManager mock_vector;
-    
-    search::HybridSearch::Config config;
-    config.bm25_weight = 0.3f;
-    config.vector_weight = 0.7f;
-    config.fusion_strategy = search::HybridSearch::FusionStrategy::LINEAR_COMBINATION;
-    
-    search::HybridSearch hybrid(&mock_fulltext, &mock_vector);
+    SecondaryIndexManager* fulltext = nullptr;
+    VectorIndexManager* vector = nullptr;
+
+    HybridSearch::Config config;
+    config.bm25_weight = 0.3;
+    config.vector_weight = 0.7;
+    config.use_rrf = false; // linear combination fallback
+
+    HybridSearch hybrid(fulltext, vector, config);
     
     const int dim = 1536;
     std::vector<float> query_vector(dim, 0.5f);
     
     for (auto _ : state) {
-        auto results = hybrid.search("database query", query_vector, dim);
+        auto results = hybrid.search("database query", query_vector.data(), dim);
         benchmark::DoNotOptimize(results);
     }
     
@@ -171,22 +172,22 @@ static void BM_HybridSearch_LinearCombination(benchmark::State& state) {
 BENCHMARK(BM_HybridSearch_LinearCombination);
 
 static void BM_HybridSearch_VaryingWeights(benchmark::State& state) {
-    index::SecondaryIndexManager mock_fulltext;
-    index::VectorIndexManager mock_vector;
+    SecondaryIndexManager* fulltext = nullptr;
+    VectorIndexManager* vector = nullptr;
     
     const float bm25_weight = state.range(0) / 100.0f;
     const float vector_weight = 1.0f - bm25_weight;
     
-    search::HybridSearch::Config config;
+    HybridSearch::Config config;
     config.bm25_weight = bm25_weight;
     config.vector_weight = vector_weight;
-    
-    search::HybridSearch hybrid(&mock_fulltext, &mock_vector);
+
+    HybridSearch hybrid(fulltext, vector, config);
     
     std::vector<float> query_vector(1536, 0.5f);
     
     for (auto _ : state) {
-        auto results = hybrid.search("test query", query_vector, 1536);
+        auto results = hybrid.search("test query", query_vector.data(), 1536);
         benchmark::DoNotOptimize(results);
     }
     
@@ -201,8 +202,7 @@ BENCHMARK(BM_HybridSearch_VaryingWeights)->Arg(0)->Arg(25)->Arg(50)->Arg(75)->Ar
 // ============================================================================
 
 static void BM_CTE_NonRecursive_Simple(benchmark::State& state) {
-    // Mock query engine
-    query::QueryEngine mock_engine;
+    // CTE evaluator only (no real QueryEngine needed for this micro-benchmark)
     query::CTEEvaluator evaluator;
     
     const int num_ctes = state.range(0);
@@ -241,7 +241,7 @@ BENCHMARK(BM_CTE_Recursive_Depth)->Arg(10)->Arg(50)->Arg(100)->Arg(1000);
 
 static void BM_CTE_CycleDetection(benchmark::State& state) {
     query::CTEEvaluator::RecursiveCTEConfig config;
-    config.detect_cycles = true;
+    config.enable_cycle_detection = true;
     config.max_iterations = 1000;
     
     const int data_size = state.range(0);
@@ -301,8 +301,10 @@ BENCHMARK(BM_Subquery_EXISTS_WithoutLIMIT1)->Arg(100)->Arg(1000)->Arg(10000)->Ar
 // ============================================================================
 
 static void BM_DistributedTxn_2PC_Latency(benchmark::State& state) {
-    time::TrueTime truetime;
-    sharding::DistributedTransactionCoordinator coordinator(truetime);
+    themis::sharding::TrueTime::Config tt_cfg;
+    auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+    themis::sharding::DistributedTransactionCoordinator::Config ccfg;
+    sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
     
     const int num_shards = state.range(0);
     std::vector<std::string> shards;
@@ -328,8 +330,10 @@ static void BM_DistributedTxn_2PC_Latency(benchmark::State& state) {
 BENCHMARK(BM_DistributedTxn_2PC_Latency)->Arg(2)->Arg(4)->Arg(8)->Arg(16);
 
 static void BM_DistributedTxn_Throughput(benchmark::State& state) {
-    time::TrueTime truetime;
-    sharding::DistributedTransactionCoordinator coordinator(truetime);
+    themis::sharding::TrueTime::Config tt_cfg;
+    auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+    themis::sharding::DistributedTransactionCoordinator::Config ccfg;
+    sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
     
     std::vector<std::string> shards = {"shard1", "shard2"};
     
@@ -349,8 +353,10 @@ static void BM_DistributedTxn_Throughput(benchmark::State& state) {
 BENCHMARK(BM_DistributedTxn_Throughput);
 
 static void BM_DistributedTxn_SnapshotRead(benchmark::State& state) {
-    time::TrueTime truetime;
-    sharding::DistributedTransactionCoordinator coordinator(truetime);
+    themis::sharding::TrueTime::Config tt_cfg;
+    auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+    themis::sharding::DistributedTransactionCoordinator::Config ccfg;
+    sharding::DistributedTransactionCoordinator coordinator(truetime, ccfg);
     
     const int num_shards = state.range(0);
     std::vector<std::string> shards;
@@ -359,7 +365,8 @@ static void BM_DistributedTxn_SnapshotRead(benchmark::State& state) {
     }
     
     for (auto _ : state) {
-        auto results = coordinator.snapshotRead(shards);
+        nlohmann::json ops = nlohmann::json::array({ { {"type", "read"} } });
+        auto results = coordinator.executeReadOnly(shards, ops);
         benchmark::DoNotOptimize(results);
     }
     
@@ -368,36 +375,22 @@ static void BM_DistributedTxn_SnapshotRead(benchmark::State& state) {
 }
 BENCHMARK(BM_DistributedTxn_SnapshotRead)->Arg(2)->Arg(4)->Arg(8)->Arg(16);
 
-static void BM_ShardRPC_RoundTrip(benchmark::State& state) {
-    sharding::ShardRPCClient client;
-    sharding::ShardRPCClient::Config config;
-    config.timeout_ms = 5000;
-    config.max_retries = 1;
-    
-    nlohmann::json request;
-    request["operation"] = "ping";
-    
-    for (auto _ : state) {
-        auto result = client.sendRequest("shard1", request, config);
-        benchmark::DoNotOptimize(result);
-    }
-    
-    state.SetItemsProcessed(state.iterations());
-}
-BENCHMARK(BM_ShardRPC_RoundTrip);
+// Removed ShardRPCClient benchmark (API not present in current version)
 
 // ============================================================================
 // Combined Feature Benchmarks
 // ============================================================================
 
 static void BM_Combined_LLM_RAG_Pipeline(benchmark::State& state) {
-    // Simulate complete LLM RAG pipeline with all features
-    cache::EmbeddingCache::Config cache_config;
-    cache::EmbeddingCache emb_cache(cache_config);
-    
-    index::SecondaryIndexManager mock_fulltext;
-    index::VectorIndexManager mock_vector;
-    search::HybridSearch hybrid(&mock_fulltext, &mock_vector);
+    // Simulate complete LLM RAG pipeline with all features (API surface only)
+    EmbeddingCache::Config cache_config;
+    EmbeddingCache emb_cache(cache_config);
+
+    SecondaryIndexManager* fulltext = nullptr;
+    VectorIndexManager* vector = nullptr;
+    HybridSearch::Config hs_cfg;
+    hs_cfg.use_rrf = true;
+    HybridSearch hybrid(fulltext, vector, hs_cfg);
     
     std::vector<float> query_embedding(1536, 0.5f);
     
@@ -406,7 +399,7 @@ static void BM_Combined_LLM_RAG_Pipeline(benchmark::State& state) {
         auto cached = emb_cache.query(query_embedding);
         if (!cached) {
             // 2. Cache miss - perform hybrid search
-            auto results = hybrid.search("test query", query_embedding, 1536);
+            auto results = hybrid.search("test query", query_embedding.data(), 1536);
             benchmark::DoNotOptimize(results);
             
             // 3. Store in cache for next time
@@ -414,7 +407,7 @@ static void BM_Combined_LLM_RAG_Pipeline(benchmark::State& state) {
         }
     }
     
-    auto stats = emb_cache.getStatistics();
+    auto stats = emb_cache.getStats();
     state.counters["CacheHitRate"] = stats.hit_rate;
     state.SetItemsProcessed(state.iterations());
 }

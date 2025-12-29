@@ -122,7 +122,8 @@ public:
      * @param plugin LLM plugin to use for inference
      * @param config Configuration
      */
-    AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config = Config{});
+    AsyncInferenceEngine(ILLMPlugin* plugin, const Config& config);
+    AsyncInferenceEngine(std::shared_ptr<ILLMPlugin> plugin, const Config& config);
     
     ~AsyncInferenceEngine();
     
@@ -209,6 +210,7 @@ public:
 private:
     Config config_;
     ILLMPlugin* plugin_;
+    std::shared_ptr<ILLMPlugin> owned_plugin_;
     
     // Worker threads
     std::vector<std::thread> workers_;

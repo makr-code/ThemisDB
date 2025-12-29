@@ -2,7 +2,6 @@
 // Compares CUDA, HIP, Metal, Vulkan, DirectX, and other acceleration backends
 
 #include "acceleration/compute_backend.h"
-#include "acceleration/backend_registry.h"
 #include "acceleration/cpu_backend.h"
 #ifdef THEMIS_ENABLE_CUDA
 #include "acceleration/cuda_backend.h"
@@ -24,6 +23,8 @@
 #include <random>
 #include <memory>
 #include <vector>
+#include <chrono>
+#include <cmath>
 
 using namespace themis::acceleration;
 
@@ -92,7 +93,7 @@ static void BM_CPUBackend_DistanceComputation(benchmark::State& state) {
     
     BenchmarkData data(num_queries, num_vectors, dim);
     
-    auto backend = std::make_unique<CPUBackend>();
+    auto backend = std::make_unique<CPUVectorBackend>();
     if (!backend->initialize() || !backend->isAvailable()) {
         state.SkipWithError("CPU backend not available");
         return;
@@ -367,7 +368,7 @@ static void BM_BackendComparison_VaryingDimensions(benchmark::State& state) {
     BenchmarkData data(num_queries, num_vectors, dim);
     
     // Use CPU backend for comparison
-    auto backend = std::make_unique<CPUBackend>();
+    auto backend = std::make_unique<CPUVectorBackend>();
     if (!backend->initialize() || !backend->isAvailable()) {
         state.SkipWithError("Backend not available");
         return;
@@ -413,7 +414,7 @@ static void BM_BackendInitializationOverhead(benchmark::State& state) {
         
         switch (static_cast<BackendType>(backend_type)) {
             case BackendType::CPU:
-                backend = std::make_unique<CPUBackend>();
+                backend = std::make_unique<CPUVectorBackend>();
                 break;
 #ifdef THEMIS_ENABLE_CUDA
             case BackendType::CUDA:
@@ -460,7 +461,7 @@ static void BM_ThroughputComparison(benchmark::State& state) {
     
     BenchmarkData data(num_queries, num_vectors, dim);
     
-    auto backend = std::make_unique<CPUBackend>();
+    auto backend = std::make_unique<CPUVectorBackend>();
     if (!backend->initialize() || !backend->isAvailable()) {
         state.SkipWithError("Backend not available");
         return;

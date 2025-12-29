@@ -219,12 +219,50 @@ std::vector<LoRAInfo> MultiLoRAManager::listLoRAs() const {
         info.name = id;
         info.path = slot->path;
         info.base_model = slot->base_model_id;
+        info.adapter_id = id;
+        info.base_model_id = slot->base_model_id;
         info.size_bytes = slot->vram_bytes;
         info.scale = slot->scale;
         result.push_back(info);
     }
     
     return result;
+}
+
+std::vector<LoRAInfo> MultiLoRAManager::listLoRAs(const std::string& base_model_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<LoRAInfo> result;
+    for (const auto& [id, slot] : loras_) {
+        if (slot->base_model_id == base_model_id) {
+            LoRAInfo info;
+            info.id = id;
+            info.name = id;
+            info.path = slot->path;
+            info.base_model = slot->base_model_id;
+            info.adapter_id = id;
+            info.base_model_id = slot->base_model_id;
+            info.size_bytes = slot->vram_bytes;
+            info.scale = slot->scale;
+            result.push_back(info);
+        }
+    }
+    return result;
+}
+
+std::optional<LoRAInfo> MultiLoRAManager::getLoRAInfo(const std::string& lora_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = loras_.find(lora_id);
+    if (it == loras_.end()) return std::nullopt;
+    LoRAInfo info;
+    info.id = it->first;
+    info.name = it->first;
+    info.path = it->second->path;
+    info.base_model = it->second->base_model_id;
+    info.adapter_id = it->first;
+    info.base_model_id = it->second->base_model_id;
+    info.size_bytes = it->second->vram_bytes;
+    info.scale = it->second->scale;
+    return info;
 }
 
 size_t MultiLoRAManager::evictLRU(size_t target_vram_mb) {
@@ -333,6 +371,17 @@ json MultiLoRAManager::getCacheStats() const {
     }
     
     return stats;
+}
+
+MultiLoRAManager::Stats MultiLoRAManager::getStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    Stats s;
+    s.total_loras_loaded = loras_.size();
+    s.cache_hits = cache_hits_;
+    s.cache_misses = cache_misses_;
+    s.evictions = evictions_;
+    s.switches = switches_;
+    return s;
 }
 
 std::vector<uint8_t> MultiLoRAManager::exportLoRA(const std::string& lora_id) {

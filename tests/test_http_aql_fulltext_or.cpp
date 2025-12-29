@@ -3,6 +3,9 @@
 #include <thread>
 #include <chrono>
 #include <filesystem>
+#include <algorithm>
+#include <string>
+#include <cctype>
 
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
@@ -18,11 +21,15 @@ using json = nlohmann::json;
 class HttpAqlFulltextOrTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        const std::string db_path = "data/themis_http_aql_fulltext_or_test";
-        if (std::filesystem::exists(db_path)) {
-            std::filesystem::remove_all(db_path);
-        }
-        themis::RocksDBWrapper::Config cfg; cfg.db_path = db_path; cfg.memtable_size_mb = 64; cfg.block_cache_size_mb = 128;
+        auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
+        std::string suffix = info ? std::string(info->test_suite_name()) + "_" + info->name() : "default";
+        std::replace_if(suffix.begin(), suffix.end(), [](unsigned char c) { return !std::isalnum(c); }, '_');
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+        db_path_ = std::filesystem::temp_directory_path() / ("themis_http_aql_fulltext_or_" + suffix + "_" + std::to_string(now));
+        std::filesystem::create_directories(db_path_);
+
+        themis::RocksDBWrapper::Config cfg; cfg.db_path = db_path_.string(); cfg.memtable_size_mb = 64; cfg.block_cache_size_mb = 128;
         storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
         ASSERT_TRUE(storage_->open());
         secondary_index_ = std::make_shared<themis::SecondaryIndexManager>(*storage_);
@@ -31,7 +38,8 @@ protected:
         tx_manager_ = std::make_shared<themis::TransactionManager>(*storage_, *secondary_index_, *graph_index_, *vector_index_);
 
         // HTTP server
-        themis::server::HttpServer::Config scfg; scfg.host = "127.0.0.1"; scfg.port = 18085; scfg.num_threads = 2;
+        port_ = static_cast<uint16_t>(20000 + (now % 10000));
+        themis::server::HttpServer::Config scfg; scfg.host = "127.0.0.1"; scfg.port = port_; scfg.num_threads = 2;
         server_ = std::make_unique<themis::server::HttpServer>(scfg, storage_, secondary_index_, graph_index_, vector_index_, tx_manager_);
         server_->start();
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -56,8 +64,15 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        storage_->close();
+        if (server_) {
+            server_->stop();
+        }
+        if (storage_) {
+            storage_->close();
+        }
+        if (!db_path_.empty()) {
+            std::filesystem::remove_all(db_path_);
+        }
     }
 
     json executeAQL(const std::string& query) {
@@ -66,7 +81,7 @@ protected:
             tcp::resolver resolver(ioc);
             beast::tcp_stream stream(ioc);
 
-            auto const results = resolver.resolve("127.0.0.1", "18085");
+            auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
             stream.connect(results);
 
             json body = {{"query", query}};
@@ -104,6 +119,8 @@ protected:
     std::shared_ptr<themis::VectorIndexManager> vector_index_;
     std::shared_ptr<themis::TransactionManager> tx_manager_;
     std::unique_ptr<themis::server::HttpServer> server_;
+    std::filesystem::path db_path_;
+    uint16_t port_{0};
 };
 
 // Test 1: FULLTEXT OR structural condition (year)

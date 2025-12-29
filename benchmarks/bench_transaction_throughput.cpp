@@ -35,6 +35,7 @@ public:
         config.max_write_buffer_number = 3; // entfernt: write_buffer_size (nicht mehr vorhanden)
         
         db_ = std::make_unique<RocksDBWrapper>(config);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -329,6 +330,7 @@ static void BM_TransactionContention(benchmark::State& state) {
     // All threads contend on same key
     const std::string contended_key = "contended_resource";
     
+    uint64_t conflicts = 0;
     for (auto _ : state) {
         auto txn_id = tx_manager->beginTransaction();
         auto txn = tx_manager->getTransaction(txn_id);
@@ -343,8 +345,8 @@ static void BM_TransactionContention(benchmark::State& state) {
         // Try to commit (may fail due to contention)
         auto commit_status = tx_manager->commitTransaction(txn_id);
         if (!commit_status.ok) {
-            // Retry on conflict
-            state.counters["conflicts"]++;
+            // Track conflicts as a numeric counter
+            ++conflicts;
         }
     }
     
@@ -361,6 +363,8 @@ static void BM_TransactionContention(benchmark::State& state) {
     }
     
     state.SetItemsProcessed(state.iterations());
+    // Report total conflicts encountered during the benchmark
+    state.counters["conflicts"] = benchmark::Counter(static_cast<double>(conflicts));
 }
 
 BENCHMARK(BM_TransactionContention)

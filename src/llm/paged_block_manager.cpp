@@ -12,8 +12,16 @@ PagedBlockManager::PagedBlockManager(const Config& config)
 void PagedBlockManager::initializeFreeList() {
     std::lock_guard<std::mutex> lock(free_list_mutex_);
     
+    // Resolve number of blocks (support legacy total_blocks alias)
+    int num_blocks = config_.max_blocks;
+    if (config_.total_blocks > 0) {
+        num_blocks = config_.total_blocks;
+        // Keep max_blocks consistent for stats
+        const_cast<Config&>(config_).max_blocks = num_blocks;
+    }
+
     // Initialize all blocks as free
-    for (int i = 0; i < config_.max_blocks; i++) {
+    for (int i = 0; i < num_blocks; i++) {
         Block block;
         block.block_id = i;
         block.physical_address = i * config_.block_size_tokens;

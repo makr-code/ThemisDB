@@ -100,8 +100,8 @@ TEST_F(STFunctionsTest, ST_GeomFromGeoJSON_LineString) {
     EXPECT_DOUBLE_EQ(result["coordinates"][2][1], 1.0);
 }
 
-// Disabled: Hangs on MSVC - possibly nlohmann::json::parse() issue with invalid input
-TEST_F(STFunctionsTest, DISABLED_ST_GeomFromGeoJSON_InvalidJSON) {
+// Previously disabled on MSVC; covers invalid GeoJSON handling
+TEST_F(STFunctionsTest, ST_GeomFromGeoJSON_InvalidJSON) {
     std::string invalid = "not a json";
     json result = callFunction("ST_GeomFromGeoJSON", {invalid});
     

@@ -1,28 +1,16 @@
-# ThemisDB Documentation
+<div align="center">
 
-**Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+# ThemisDB Documentation Index (Language Selector)
 
-Welcome to the ThemisDB documentation! This guide will help you find the information you need.
+</div>
 
----
+This file is now language-neutral. Please choose your language:
 
-## 📚 Quick Navigation
+- 🇩🇪 Deutsch (primär): [de/INDEX.md](de/INDEX.md)
+- 🇬🇧 English: [en/INDEX.md](en/INDEX.md)
 
-**New to ThemisDB?**
-- [Quick Start Guide](guides/QUICK_START.md) - Get up and running in 5 minutes
-- [Installation Guide](guides/INSTALLATION.md) - Complete installation instructions
-- [Architecture Overview](architecture/OVERVIEW.md) - Understand how ThemisDB works
-
-**Using ThemisDB:**
-- [AQL Query Language](aql/aql_syntax.md) - Learn the query language
-- [REST API Reference](api/REST_API.md) - HTTP API documentation
-- [Client SDKs](../clients/README.md) - SDK documentation for 7 languages
-
-**Operating ThemisDB:**
-- [Configuration](operations/CONFIGURATION.md) - Configure your database
-- [Monitoring](operations/MONITORING.md) - Monitor performance and health
-- [Backup & Recovery](operations/BACKUP.md) - Protect your data
+> [!NOTE]
+> German docs are authoritative; translations may lag.
 
 ---
 
@@ -32,70 +20,69 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [Quick Start](guides/QUICK_START.md) | 5-minute tutorial to get started |
-| [Installation](guides/INSTALLATION.md) | Installation on Linux, Windows, macOS, Docker |
-| [Configuration](operations/CONFIGURATION.md) | Configure ThemisDB for your needs |
-| [First Query](guides/FIRST_QUERY.md) | Write your first AQL query |
+| [Quick Start](de/guides/QUICK_START.md) | 5-minute tutorial to get started |
+| [Installation](de/guides/guides_build_strategy.md) | Installation on Linux, Windows, macOS, Docker |
+| [Configuration](de/deployment/README.md) | Configure ThemisDB for your needs |
+| [First Query](de/guides/QUICK_START.md) | Write your first AQL query |
 
 ### Core Concepts
 
 | Document | Description |
 |----------|-------------|
-| [Architecture Overview](architecture/OVERVIEW.md) | High-level system architecture |
-| [Multi-Model Design](architecture/architecture_base_entity.md) | How ThemisDB handles multiple data models |
-| [Transaction Model](features/features_transactions.md) | ACID transactions with MVCC |
-| [Storage Layer](architecture/architecture_storage.md) | RocksDB LSM-Tree storage |
+| [Architecture Overview](de/architecture/README.md) | High-level system architecture |
+| [Multi-Model Design](de/architecture/README.md) | How ThemisDB handles multiple data models |
+| [Transaction Model](de/architecture/README.md) | ACID transactions with MVCC |
+| [Storage Layer](de/storage/README.md) | RocksDB LSM-Tree storage |
 
 ### Features
 
 | Document | Description |
 |----------|-------------|
-| [Feature Overview](features/features_overview.md) | Complete feature catalog |
-| [Vector Search](features/features_vector_ops.md) | Similarity search with HNSW/FAISS |
-| [Graph Operations](features/features_graph.md) | Graph traversal and pathfinding |
-| [Time-Series](features/features_time_series.md) | Time-series data and compression |
-| [Hypertables](features/features_hypertables.md) | TimescaleDB-compatible time-series (v1.2+) |
-| [Hybrid Search](features/features_hybrid_search.md) | RAG-optimized BM25+Vector search (v1.2+) |
-| [Analytics](analytics/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
+| [Feature Overview](de/features/features_overview.md) | Complete feature catalog |
+| [Vector Search](de/search/README.md) | Similarity search with HNSW/FAISS |
+| [Graph Operations](de/features/README.md) | Graph traversal and pathfinding |
+| [Time-Series](de/timeseries/README.md) | Time-series data and compression |
+| [Hybrid Search](de/search/hybrid_search_design.md) | RAG-optimized BM25+Vector search (v1.2+) |
+| [Analytics](de/observability/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
 
 ### Query Language (AQL)
 
 | Document | Description |
 |----------|-------------|
-| [AQL Syntax](aql/aql_syntax.md) | Complete AQL language reference |
-| [AQL Examples](aql/aql_examples.md) | Common query patterns |
-| [Query Optimization](aql/aql_explain_profile.md) | EXPLAIN and PROFILE commands |
+| [AQL Syntax](de/aql/README.md) | Complete AQL language reference |
+| [AQL Examples](de/aql/README.md) | Common query patterns |
+| [Query Optimization](de/query/README.md) | EXPLAIN and PROFILE commands |
 
 ### API Reference
 
 | Document | Description |
 |----------|-------------|
-| [REST API](api/REST_API.md) | HTTP API endpoints |
-| [GraphQL API](api/api_graphql.md) | GraphQL interface |
-| [Client SDKs](../clients/README.md) | SDKs for Python, JS, Rust, Go, Java, C#, Swift |
+| [REST API](de/apis/HTTP_API_REFERENCE.md) | HTTP API endpoints |
+| [GraphQL API](de/apis/apis_graphql.md) | GraphQL interface |
+| [Client SDKs](de/clients/README.md) | SDKs for Python, JS, Rust, Go, Java, C#, Swift |
 
 ### Security & Compliance
 
 | Document | Description |
 |----------|-------------|
-| [Security Overview](security/security_implementation.md) | Enterprise security features |
-| [TLS Setup](guides/guides_tls_setup.md) | Configure TLS 1.3 and mTLS |
-| [RBAC Configuration](guides/guides_rbac.md) | Role-based access control |
-| [Encryption](security/security_encryption_strategy.md) | Data encryption at rest and in transit |
-| [Audit Logging](features/features_audit_logging.md) | Security event logging |
-| [Compliance](compliance/compliance_dashboard.md) | GDPR, SOC 2, HIPAA compliance |
+| [Security Overview](de/security/README.md) | Enterprise security features |
+| [TLS Setup](de/guides/guides_tls_setup.md) | Configure TLS 1.3 and mTLS |
+| [RBAC Configuration](de/guides/guides_rbac.md) | Role-based access control |
+| [Encryption](de/security/security_encryption_strategy.md) | Data encryption at rest and in transit |
+| [Audit Logging](de/security/SECURITY_AUDIT_REPORT.md) | Security event logging |
+| [Compliance](de/compliance/compliance_dashboard.md) | GDPR, SOC 2, HIPAA compliance |
 
 ### Operations
 
 | Document | Description |
 |----------|-------------|
-| [Deployment Guide](operations/DEPLOYMENT.md) | Production deployment strategies |
-| [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
-| [Configuration](operations/CONFIGURATION.md) | Configuration reference |
-| [Monitoring](operations/MONITORING.md) | Prometheus metrics and alerting |
-| [Backup & Recovery](operations/BACKUP.md) | Backup strategies and disaster recovery |
-| [Troubleshooting](operations/TROUBLESHOOTING.md) | Common issues and solutions |
-| [Performance Tuning](performance/performance_memory.md) | Optimize for your workload |
+| [Deployment Guide](de/deployment/README.md) | Production deployment strategies |
+| [Docker Deployment](de/deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
+| [Configuration](de/deployment/README.md) | Configuration reference |
+| [Monitoring](de/observability/README.md) | Prometheus metrics and alerting |
+| [Backup & Recovery](de/deployment/README.md) | Backup strategies and disaster recovery |
+| [Troubleshooting](de/guides/rocksdb-windows-build-issues.md) | Common issues and solutions |
+| [Performance Tuning](de/performance/README.md) | Optimize for your workload |
 
 ### Development
 

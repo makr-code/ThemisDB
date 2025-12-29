@@ -267,7 +267,4 @@ TEST_F(LLMResponseCacheTest, RealisticWorkflow) {
     EXPECT_NEAR(stats.getHitRate(), 0.5, 0.01);
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// No custom main; gtest_main provides the entry point

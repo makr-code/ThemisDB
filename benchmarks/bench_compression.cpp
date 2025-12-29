@@ -1,4 +1,4 @@
-﻿// Compression validation & microbenchmarks
+// Compression validation & microbenchmarks
 // Compares none vs lz4 vs zstd for CRUD operations and write amplification
 
 #include "storage/rocksdb_wrapper.h"
@@ -56,6 +56,7 @@ public:
         config.enable_wal = false; // Disable WAL for cleaner measurement
         
         db_ = std::make_unique<RocksDBWrapper>(config);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open RocksDB for benchmark");
         }

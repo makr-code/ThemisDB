@@ -207,6 +207,7 @@ PluginCapabilities GRPCPlugin::getCapabilities() const {
 }
 
 bool GRPCPlugin::initialize(const char* config_json) {
+    (void)config_json; // unused
     // Parse config if needed
     // For now, just mark as initialized
     initialized_ = true;
@@ -248,11 +249,13 @@ const char* GRPCPlugin::getProtocolDescription() const {
 
 extern "C" {
 
-THEMIS_PLUGIN_EXPORT themis::plugins::IThemisPlugin* createPlugin() {
+// Export helpers are intentionally left un-annotated to avoid dllimport/dllexport
+// conflicts in this build configuration.
+themis::plugins::IThemisPlugin* createPlugin() {
     return new themis::plugins::rpc::grpc_plugin::GRPCPlugin();
 }
 
-THEMIS_PLUGIN_EXPORT void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
+void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
     delete plugin;
 }
 

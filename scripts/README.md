@@ -21,6 +21,24 @@ Build and development automation scripts are located in the project root:
 - `setup.sh` / `setup.ps1` - Development environment setup
 - `sync-wiki.ps1` - Wiki synchronization
 
+### LLM & Benchmarking Scripts (New in v1.3.0+)
+Scripts for managing LLM models and running inferencing benchmarks:
+- `download-ollama-models.ps1` - Download models from Ollama and convert to GGUF
+- `run-llm-benchmarks.ps1` - Execute LLM inferencing benchmarks
+- `setup-llm-benchmarks.ps1` - Complete workflow: download + build + benchmark
+
+**Quick Start:**
+```powershell
+# Download models and run benchmarks (all-in-one)
+.\scripts\setup-llm-benchmarks.ps1
+
+# Or step by step:
+.\scripts\download-ollama-models.ps1 -ModelNames @("llama3.2:1b", "phi3:mini")
+.\scripts\run-llm-benchmarks.ps1
+```
+
+See [LLM Benchmarking Guide](../docs/LLM_BENCHMARKING_GUIDE.md) for details.
+
 ## Usage
 
 Each script includes documentation in the header comments. Run scripts with `-h` or `--help` for usage information where applicable.

@@ -10,6 +10,7 @@
 #include <random>
 #include <queue>
 #include <stack>
+#include <set>
 
 using namespace themis;
 
@@ -33,6 +34,7 @@ public:
         config.block_cache_size_mb = 512;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
+       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -63,16 +65,10 @@ public:
     void buildTestGraph(int num_nodes, int avg_degree) {
         std::mt19937 rng(42);
         
-        // Create nodes
+        // Create node ids (nodes are implicit via edges)
         for (int i = 0; i < num_nodes; i++) {
             std::string node_id = "node_" + std::to_string(i);
             node_ids_.push_back(node_id);
-            
-            BaseEntity node(node_id);
-            node.setField("label", "TestNode");
-            node.setField("index", static_cast<int64_t>(i));
-            
-            graph_mgr_->addVertex("test_graph", node);
         }
         
         // Create edges (directed graph)
@@ -87,9 +83,16 @@ public:
                     std::string edge_id = "edge_" + std::to_string(i) + "_" + std::to_string(target);
                     
                     BaseEntity edge(edge_id);
-                    edge.setField("weight", 1.0 + (rng() % 10));
-                    
-                    graph_mgr_->addEdge("test_graph", node_ids_[i], node_ids_[target], edge);
+                    edge.setField("id", edge_id);
+                    edge.setField("_from", node_ids_[i]);
+                    edge.setField("_to", node_ids_[target]);
+                    edge.setField("_graph", "test_graph");
+                    edge.setField("_weight", 1.0 + (rng() % 10));
+
+                    auto st = graph_mgr_->addEdge(edge);
+                    if (!st.ok) {
+                        throw std::runtime_error("Failed to add edge: " + st.message);
+                    }
                 }
             }
         }
