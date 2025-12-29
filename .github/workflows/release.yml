@@ -1,7 +1,10 @@
 name: Release - Enterprise Pipeline
 
 on:
-  # Manual trigger
+  # Only run on releases and manual trigger
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
     inputs:
       version:
@@ -18,9 +21,6 @@ on:
           - publish
           - verify
         default: 'full'
-  # Night build (runs at 2 AM UTC)
-  schedule:
-    - cron: '0 2 * * *'
 
 env:
   RELEASE_DIR: 'release'

@@ -1,11 +1,11 @@
 name: Documentation Build & Deploy
 
 on:
-  # Manual trigger
+  # Only run on releases and manual trigger
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
-  # Night build (runs at 2 AM UTC)
-  schedule:
-    - cron: '0 2 * * *'
 
 permissions:
   contents: write
