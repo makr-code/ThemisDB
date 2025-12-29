@@ -17,9 +17,9 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${YELLOW}════════════════════════════════════════════════════════════${NC}"
+echo -e "${YELLOW}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo -e "${YELLOW}  ThemisDB Stress Test: Wire Protocol vs HTTP REST${NC}"
-echo -e "${YELLOW}════════════════════════════════════════════════════════════${NC}"
+echo -e "${YELLOW}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo ""
 
 # ============================================================================
@@ -83,12 +83,12 @@ run_load_test() {
     echo "  Requests: $request_count"
     echo "  Duration: ${total_time}s"
     echo "  Throughput: $throughput req/s"
-    echo "  Min latency: ${min_latency}μs"
-    echo "  Avg latency: ${avg_latency}μs"
-    echo "  P50 latency: ${p50}μs"
-    echo "  P95 latency: ${p95}μs"
-    echo "  P99 latency: ${p99}μs"
-    echo "  Max latency: ${max_latency}μs"
+    echo "  Min latency: ${min_latency}Î¼s"
+    echo "  Avg latency: ${avg_latency}Î¼s"
+    echo "  P50 latency: ${p50}Î¼s"
+    echo "  P95 latency: ${p95}Î¼s"
+    echo "  P99 latency: ${p99}Î¼s"
+    echo "  Max latency: ${max_latency}Î¼s"
     echo ""
     
     echo "$protocol,$clients,$request_count,$throughput,$min_latency,$avg_latency,$p50,$p95,$p99,$max_latency" >> "$RESULTS_DIR/stress_test_results.csv"
@@ -141,23 +141,23 @@ and peak load across both Wire Protocol and HTTP REST API.
 
 | Clients | Throughput | Avg Latency | P99 Latency | Max Latency |
 |---------|-----------|------------|------------|------------|
-| 1       | - req/s   | - μs       | - μs       | - μs        |
-| 5       | - req/s   | - μs       | - μs       | - μs        |
-| 10      | - req/s   | - μs       | - μs       | - μs        |
-| 50      | - req/s   | - μs       | - μs       | - μs        |
-| 100     | - req/s   | - μs       | - μs       | - μs        |
-| 500     | - req/s   | - μs       | - μs       | - μs        |
+| 1       | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 5       | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 10      | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 50      | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 100     | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 500     | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
 
 ### Wire Protocol (TCP)
 
 | Clients | Throughput | Avg Latency | P99 Latency | Max Latency |
 |---------|-----------|------------|------------|------------|
-| 1       | - req/s   | - μs       | - μs       | - μs        |
-| 5       | - req/s   | - μs       | - μs       | - μs        |
-| 10      | - req/s   | - μs       | - μs       | - μs        |
-| 50      | - req/s   | - μs       | - μs       | - μs        |
-| 100     | - req/s   | - μs       | - μs       | - μs        |
-| 500     | - req/s   | - μs       | - μs       | - μs        |
+| 1       | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 5       | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 10      | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 50      | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 100     | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
+| 500     | - req/s   | - Î¼s       | - Î¼s       | - Î¼s        |
 
 ## Analysis
 
@@ -197,7 +197,7 @@ EOF
 # ============================================================================
 # Final Summary
 # ============================================================================
-echo -e "${GREEN}✓ Stress test complete!${NC}"
+echo -e "${GREEN}âœ“ Stress test complete!${NC}"
 echo ""
 echo "Results saved to: $RESULTS_DIR"
 echo ""

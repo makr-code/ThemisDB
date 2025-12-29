@@ -43,9 +43,9 @@ wkhtmltopdf \
 
 # Check if PDF was created (even with warnings/errors)
 if [ -f "$OUTPUT_PDF" ] && [ -s "$OUTPUT_PDF" ]; then
-    echo "✅ PDF created: $OUTPUT_PDF"
+    echo "âœ… PDF created: $OUTPUT_PDF"
     ls -lh "$OUTPUT_PDF"
 else
-    echo "❌ PDF creation failed - file not created or empty"
+    echo "âŒ PDF creation failed - file not created or empty"
     exit 1
 fi

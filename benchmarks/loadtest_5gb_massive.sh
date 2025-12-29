@@ -33,9 +33,9 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${YELLOW}════════════════════════════════════════════════════════════${NC}"
+echo -e "${YELLOW}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo -e "${YELLOW}  ThemisDB vs Polyglot Stack - 5GB Massive Load Test${NC}"
-echo -e "${YELLOW}════════════════════════════════════════════════════════════${NC}"
+echo -e "${YELLOW}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo ""
 echo "Results directory: $RESULTS_DIR"
 echo "Testdata directory: $TESTDATA_DIR"
@@ -43,7 +43,7 @@ echo ""
 
 # Validate testdata exists
 if [ ! -f "$JSON_FILE" ] || [ ! -f "$CSV_FILE" ]; then
-    echo -e "${RED}✗ Error: Testdata files not found${NC}"
+    echo -e "${RED}âœ— Error: Testdata files not found${NC}"
     echo "  Missing: $JSON_FILE or $CSV_FILE"
     exit 1
 fi
@@ -80,10 +80,10 @@ themis_http_ingest() {
     local mb_size=$((file_size / 1024 / 1024))
     local mb_per_sec=$((mb_size * 1000 / elapsed_ms))
     
-    echo "  ✓ Status: $http_code"
-    echo "  ✓ Time: ${elapsed_sec}s"
-    echo "  ✓ Size: ${mb_size}MB"
-    echo "  ✓ Throughput: ${mb_per_sec} MB/s"
+    echo "  âœ“ Status: $http_code"
+    echo "  âœ“ Time: ${elapsed_sec}s"
+    echo "  âœ“ Size: ${mb_size}MB"
+    echo "  âœ“ Throughput: ${mb_per_sec} MB/s"
     echo ""
     
     echo "themis_http,$mb_size,$elapsed_sec,$mb_per_sec" >> "$RESULTS_DIR/ingestion_results.csv"
@@ -132,9 +132,9 @@ SQL
     local mb_size=$((file_size / 1024 / 1024))
     local mb_per_sec=$((mb_size * 1000 / (elapsed_ns / 1000000)))
     
-    echo "  ✓ Time: ${elapsed_sec}s"
-    echo "  ✓ Size: ${mb_size}MB"
-    echo "  ✓ Throughput: ${mb_per_sec} MB/s"
+    echo "  âœ“ Time: ${elapsed_sec}s"
+    echo "  âœ“ Size: ${mb_size}MB"
+    echo "  âœ“ Throughput: ${mb_per_sec} MB/s"
     echo ""
     
     echo "postgres,$mb_size,$elapsed_sec,$mb_per_sec" >> "$RESULTS_DIR/ingestion_results.csv"
@@ -168,9 +168,9 @@ mongodb_ingest() {
     local mb_size=$((file_size / 1024 / 1024))
     local mb_per_sec=$((mb_size * 1000 / (elapsed_ns / 1000000)))
     
-    echo "  ✓ Time: ${elapsed_sec}s"
-    echo "  ✓ Size: ${mb_size}MB"
-    echo "  ✓ Throughput: ${mb_per_sec} MB/s"
+    echo "  âœ“ Time: ${elapsed_sec}s"
+    echo "  âœ“ Size: ${mb_size}MB"
+    echo "  âœ“ Throughput: ${mb_per_sec} MB/s"
     echo ""
     
     echo "mongodb,$mb_size,$elapsed_sec,$mb_per_sec" >> "$RESULTS_DIR/ingestion_results.csv"
@@ -219,7 +219,7 @@ query_performance() {
     local avg_latency=$(($total_time / $iterations))
     echo ""
     echo "  $name:"
-    echo "    Average latency: ${avg_latency}μs"
+    echo "    Average latency: ${avg_latency}Î¼s"
     echo "    Throughput: $(($iterations * 1000000 / $total_time)) queries/sec"
     echo ""
     
@@ -305,9 +305,9 @@ This benchmark compares **ThemisDB unified database** against a **polyglot stack
 
 | Database | Avg Latency | P99 Latency | Throughput |
 |----------|-------------|------------|------------|
-| ThemisDB | - μs | - μs | - queries/sec |
-| PostgreSQL | - μs | - μs | - queries/sec |
-| MongoDB | - μs | - μs | - queries/sec |
+| ThemisDB | - Î¼s | - Î¼s | - queries/sec |
+| PostgreSQL | - Î¼s | - Î¼s | - queries/sec |
+| MongoDB | - Î¼s | - Î¼s | - queries/sec |
 
 ### 3. Memory Usage
 
@@ -356,13 +356,13 @@ This benchmark compares **ThemisDB unified database** against a **polyglot stack
 
 ## Recommendations
 
-✓ Choose ThemisDB when:
+âœ“ Choose ThemisDB when:
   - Multi-model data is common
   - Operational simplicity is priority
   - Mixed query patterns
   - Wire Protocol efficiency matters
 
-✓ Choose Polyglot when:
+âœ“ Choose Polyglot when:
   - Extreme specialization needed
   - Independent scaling required
   - Complex analytical queries
@@ -384,7 +384,7 @@ EOF
 # ============================================================================
 # Final Summary
 # ============================================================================
-echo -e "${GREEN}✓ Load test complete!${NC}"
+echo -e "${GREEN}âœ“ Load test complete!${NC}"
 echo ""
 echo "Results saved to: $RESULTS_DIR"
 echo ""

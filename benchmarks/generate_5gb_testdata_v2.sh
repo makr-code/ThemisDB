@@ -74,7 +74,7 @@ JSONEOF
         echo "]"
     } > "$output_file"
     
-    echo "  ✓ JSON generated: $(ls -lh "$output_file" | awk '{print $5}') ($record_count records)"
+    echo "  âœ“ JSON generated: $(ls -lh "$output_file" | awk '{print $5}') ($record_count records)"
 }
 
 generate_json $((2 * 1024 * 1024 * 1024)) "$OUTPUT_DIR/data_documents.json"
@@ -111,7 +111,7 @@ generate_csv() {
         done
     } > "$output_file"
     
-    echo "  ✓ CSV generated: $(ls -lh "$output_file" | awk '{print $5}') ($record_count records)"
+    echo "  âœ“ CSV generated: $(ls -lh "$output_file" | awk '{print $5}') ($record_count records)"
 }
 
 generate_csv $((1500 * 1024 * 1024)) "$OUTPUT_DIR/data_relational.csv"
@@ -136,7 +136,7 @@ generate_binary() {
         fi
     done
     
-    echo "  ✓ Binary generated: $(ls -lh "$output_file" | awk '{print $5}')"
+    echo "  âœ“ Binary generated: $(ls -lh "$output_file" | awk '{print $5}')"
 }
 
 generate_binary $((1500 * 1024 * 1024)) "$OUTPUT_DIR/data_binary.bin"
@@ -148,27 +148,27 @@ echo ""
 echo "4. Generating metadata..."
 
 cat > "$OUTPUT_DIR/TESTDATA_INFO.txt" << 'INFOEOF'
-═══════════════════════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
         ThemisDB 5GB Testdata Package - Polyglot Comparison
-═══════════════════════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 Dataset Overview:
-─────────────────
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Total Size: 5GB
 Components:
-  • data_documents.json   - 2GB  (Unstructured documents, 1M+ records)
-  • data_relational.csv   - 1.5GB (Tabular data, 5M+ records)
-  • data_binary.bin       - 1.5GB (Raw binary/blob data)
+  â€¢ data_documents.json   - 2GB  (Unstructured documents, 1M+ records)
+  â€¢ data_relational.csv   - 1.5GB (Tabular data, 5M+ records)
+  â€¢ data_binary.bin       - 1.5GB (Raw binary/blob data)
 
 Data Characteristics:
-───────────────────
-• Nested structures (4-level deep objects)
-• Time-series data (timestamps, metrics)
-• Multiple data types (strings, numbers, arrays)
-• Real-world scale (millions of records)
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+â€¢ Nested structures (4-level deep objects)
+â€¢ Time-series data (timestamps, metrics)
+â€¢ Multiple data types (strings, numbers, arrays)
+â€¢ Real-world scale (millions of records)
 
 Use Cases:
-──────────
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 1. Document Database Testing (MongoDB, ThemisDB)
    - Complex nested queries
    - Full-text search simulation
@@ -184,14 +184,14 @@ Use Cases:
    - Compression efficiency
    - Stream processing
 
-═══════════════════════════════════════════════════════════════
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 INFOEOF
 
 # ============================================================================
 # Final Summary
 # ============================================================================
 echo ""
-echo "✓ Testdata generation complete!"
+echo "âœ“ Testdata generation complete!"
 echo ""
 echo "Generated files in: $OUTPUT_DIR"
 ls -lh "$OUTPUT_DIR/"

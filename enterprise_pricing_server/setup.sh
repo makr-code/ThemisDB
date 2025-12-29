@@ -10,7 +10,7 @@ echo ""
 
 # Check Python version
 python_version=$(python3 --version 2>&1 | awk '{print $2}')
-echo "✓ Python version: $python_version"
+echo "âœ“ Python version: $python_version"
 
 # Create virtual environment if not exists
 if [ ! -d "venv" ]; then
@@ -31,11 +31,11 @@ pip install -q -r requirements.txt
 if [ ! -f ".env" ]; then
     echo "Creating .env file from template..."
     cp .env.example .env
-    echo "⚠️  Please edit .env and update SECRET_KEY and other settings!"
+    echo "âš ï¸  Please edit .env and update SECRET_KEY and other settings!"
 fi
 
 echo ""
-echo "✓ Setup complete!"
+echo "âœ“ Setup complete!"
 echo ""
 echo "To start the server:"
 echo "  1. Activate venv: source venv/bin/activate"

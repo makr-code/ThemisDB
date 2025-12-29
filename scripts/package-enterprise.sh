@@ -17,12 +17,12 @@ echo ""
 
 # Check if enterprise directories exist
 if [ ! -d "src/enterprise" ]; then
-    echo "❌ Error: src/enterprise/ directory not found"
+    echo "âŒ Error: src/enterprise/ directory not found"
     echo "   Enterprise source code is not available in this clone."
     exit 1
 fi
 
-echo "✓ Enterprise source directories found"
+echo "âœ“ Enterprise source directories found"
 echo ""
 
 # Create package directory
@@ -109,20 +109,20 @@ cat > "${PACKAGE_DIR}/INTEGRATION.md" << 'EOF'
 
 ```
 themisdb-enterprise-VERSION/
-├── src/enterprise/           # Enterprise implementation source
-│   ├── analytics/           # OLAP/CEP analytics engine
-│   ├── sharding/            # Horizontal sharding
-│   ├── replication/         # HA and replication
-│   ├── security/            # HSM and advanced security
-│   ├── management/          # Enterprise management APIs
-│   └── common/              # Shared enterprise utilities
-├── include/enterprise/       # Enterprise headers
-├── plugins/enterprise/       # Enterprise plugins
-├── examples/                 # Enterprise examples
-├── tests/                    # Enterprise tests
-├── LICENSE-ENTERPRISE.txt    # Commercial license
-├── INTEGRATION.md           # This file
-└── README-ENTERPRISE.md     # Enterprise feature documentation
+â”œâ”€â”€ src/enterprise/           # Enterprise implementation source
+â”‚   â”œâ”€â”€ analytics/           # OLAP/CEP analytics engine
+â”‚   â”œâ”€â”€ sharding/            # Horizontal sharding
+â”‚   â”œâ”€â”€ replication/         # HA and replication
+â”‚   â”œâ”€â”€ security/            # HSM and advanced security
+â”‚   â”œâ”€â”€ management/          # Enterprise management APIs
+â”‚   â””â”€â”€ common/              # Shared enterprise utilities
+â”œâ”€â”€ include/enterprise/       # Enterprise headers
+â”œâ”€â”€ plugins/enterprise/       # Enterprise plugins
+â”œâ”€â”€ examples/                 # Enterprise examples
+â”œâ”€â”€ tests/                    # Enterprise tests
+â”œâ”€â”€ LICENSE-ENTERPRISE.txt    # Commercial license
+â”œâ”€â”€ INTEGRATION.md           # This file
+â””â”€â”€ README-ENTERPRISE.md     # Enterprise feature documentation
 ```
 
 ## Available Enterprise Modules
@@ -294,7 +294,7 @@ fi
 # Generate summary
 echo ""
 echo "================================================"
-echo "✓ Package created successfully!"
+echo "âœ“ Package created successfully!"
 echo "================================================"
 echo ""
 echo "Package: dist/${ARCHIVE_NAME}"

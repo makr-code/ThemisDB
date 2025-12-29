@@ -6,10 +6,10 @@
 
 set -e
 
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo "   Railway Monitoring System - Quick Start"
 echo "   Deutsche Bahn IoT & Energie-Management mit ThemisDB"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo ""
 
 # Colors
@@ -23,24 +23,24 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}[1/6]${NC} Checking prerequisites..."
 
 if ! command -v docker &> /dev/null; then
-    echo -e "${RED}❌ Docker not found. Please install Docker first.${NC}"
+    echo -e "${RED}âŒ Docker not found. Please install Docker first.${NC}"
     exit 1
 fi
 
 if ! command -v docker-compose &> /dev/null; then
-    echo -e "${RED}❌ Docker Compose not found. Please install Docker Compose first.${NC}"
+    echo -e "${RED}âŒ Docker Compose not found. Please install Docker Compose first.${NC}"
     exit 1
 fi
 
-echo -e "${GREEN}✓ Docker and Docker Compose found${NC}"
+echo -e "${GREEN}âœ“ Docker and Docker Compose found${NC}"
 
 # Check if C++ compiler is available (optional)
 if command -v g++ &> /dev/null; then
     HAS_CPP=true
-    echo -e "${GREEN}✓ C++ compiler found (g++)${NC}"
+    echo -e "${GREEN}âœ“ C++ compiler found (g++)${NC}"
 else
     HAS_CPP=false
-    echo -e "${YELLOW}⚠ C++ compiler not found - will use pre-generated data${NC}"
+    echo -e "${YELLOW}âš  C++ compiler not found - will use pre-generated data${NC}"
 fi
 
 # Generate network data
@@ -54,9 +54,9 @@ if [ "$HAS_CPP" = true ]; then
     if [ $? -eq 0 ]; then
         echo "   Generating network data (15 stations, ~400 segments)..."
         ./railway_generator
-        echo -e "${GREEN}✓ Network data generated${NC}"
+        echo -e "${GREEN}âœ“ Network data generated${NC}"
     else
-        echo -e "${YELLOW}⚠ Compilation failed, using fallback data${NC}"
+        echo -e "${YELLOW}âš  Compilation failed, using fallback data${NC}"
         HAS_CPP=false
     fi
 fi
@@ -82,7 +82,7 @@ if [ "$HAS_CPP" = false ]; then
   ]
 }
 EOF
-    echo -e "${GREEN}✓ Sample network data created${NC}"
+    echo -e "${GREEN}âœ“ Sample network data created${NC}"
 fi
 
 # Start Docker services
@@ -97,7 +97,7 @@ echo ""
 
 docker-compose -f docker-compose.railway.yml up -d
 
-echo -e "${GREEN}✓ Docker services started${NC}"
+echo -e "${GREEN}âœ“ Docker services started${NC}"
 
 # Wait for services
 echo ""
@@ -109,7 +109,7 @@ ELAPSED=0
 
 while [ $ELAPSED -lt $MAX_WAIT ]; do
     if curl -s http://localhost:8765/health > /dev/null 2>&1; then
-        echo -e "${GREEN}✓ ThemisDB ready${NC}"
+        echo -e "${GREEN}âœ“ ThemisDB ready${NC}"
         break
     fi
     sleep 5
@@ -118,7 +118,7 @@ while [ $ELAPSED -lt $MAX_WAIT ]; do
 done
 
 if [ $ELAPSED -ge $MAX_WAIT ]; then
-    echo -e "${RED}❌ Timeout waiting for ThemisDB${NC}"
+    echo -e "${RED}âŒ Timeout waiting for ThemisDB${NC}"
     echo "Check logs: docker-compose -f docker-compose.railway.yml logs themisdb"
     exit 1
 fi
@@ -131,9 +131,9 @@ cd ../../scripts/railway
 python3 import_railway_network.py ../../data/railway_network_base_germany.json
 
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✓ Network data imported${NC}"
+    echo -e "${GREEN}âœ“ Network data imported${NC}"
 else
-    echo -e "${YELLOW}⚠ Import had issues, but continuing...${NC}"
+    echo -e "${YELLOW}âš  Import had issues, but continuing...${NC}"
 fi
 
 cd ../../examples/railway
@@ -141,25 +141,25 @@ cd ../../examples/railway
 # Show status
 echo ""
 echo -e "${BLUE}[6/6]${NC} System Status"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 
 docker-compose -f docker-compose.railway.yml ps
 
 echo ""
-echo "═══════════════════════════════════════════════════════════════"
-echo -e "${GREEN}✓ Railway Monitoring System is running!${NC}"
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
+echo -e "${GREEN}âœ“ Railway Monitoring System is running!${NC}"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
 echo ""
 echo "Access Points:"
-echo "  🌐 Web UI:        http://localhost:8080"
-echo "  🗄️  ThemisDB API:  http://localhost:8765"
-echo "  🤖 Ollama LLM:    http://localhost:11434"
+echo "  ðŸŒ Web UI:        http://localhost:8080"
+echo "  ðŸ—„ï¸  ThemisDB API:  http://localhost:8765"
+echo "  ðŸ¤– Ollama LLM:    http://localhost:11434"
 echo ""
 echo "Quick Commands:"
-echo "  📊 View logs:     docker-compose -f docker-compose.railway.yml logs -f"
-echo "  📈 Simulator:     docker-compose -f docker-compose.railway.yml logs -f train-simulator"
-echo "  🛑 Stop system:   docker-compose -f docker-compose.railway.yml down"
-echo "  🗑️  Clean data:    docker-compose -f docker-compose.railway.yml down -v"
+echo "  ðŸ“Š View logs:     docker-compose -f docker-compose.railway.yml logs -f"
+echo "  ðŸ“ˆ Simulator:     docker-compose -f docker-compose.railway.yml logs -f train-simulator"
+echo "  ðŸ›‘ Stop system:   docker-compose -f docker-compose.railway.yml down"
+echo "  ðŸ—‘ï¸  Clean data:    docker-compose -f docker-compose.railway.yml down -v"
 echo ""
 echo "Next Steps:"
 echo "  1. Open http://localhost:8080 to see live train map"
@@ -168,7 +168,7 @@ echo "  3. Query API: curl http://localhost:8765/api/trains"
 echo "  4. Run WPF client (Windows): cd ../../clients/RailwayMonitor.WPF && dotnet run"
 echo ""
 echo "Documentation:"
-echo "  📖 Complete Guide: ../../RAILWAY_COMPLETE_GUIDE.md"
-echo "  📖 API Docs:       ../../docs/projects/RAILWAY_MONITORING.md"
+echo "  ðŸ“– Complete Guide: ../../RAILWAY_COMPLETE_GUIDE.md"
+echo "  ðŸ“– API Docs:       ../../docs/projects/RAILWAY_MONITORING.md"
 echo ""
-echo "═══════════════════════════════════════════════════════════════"
+echo "â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"

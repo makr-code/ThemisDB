@@ -62,8 +62,13 @@ foreach ($t in $targets) {
     if (-not (Test-Path $proj)) {
         continue
     }
-    cmake --build $build --config Release --target $($t.Name) --parallel 4
-    $builtTargets += $t
+    try {
+        cmake --build $build --config Release --target $($t.Name) --parallel 4
+        $builtTargets += $t
+    }
+    catch {
+        Write-Warning "Skipping $($t.Name) due to build failure: $_"
+    }
 }
 
 $rel = Join-Path $build 'Release'

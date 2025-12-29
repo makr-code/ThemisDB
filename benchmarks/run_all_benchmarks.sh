@@ -1,6 +1,6 @@
 #!/bin/bash
 # Master Benchmark Coordinator - Orchestrates all 5GB load tests
-# Sequences: Datagen → Ingestion → Queries → Stress test → Reports
+# Sequences: Datagen â†’ Ingestion â†’ Queries â†’ Stress test â†’ Reports
 
 set -e
 
@@ -15,22 +15,22 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 log_section() {
-    echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
     echo -e "${BLUE}  $1${NC}"
-    echo -e "${BLUE}═══════════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
     echo ""
 }
 
 log_step() {
-    echo -e "${YELLOW}[$(date '+%H:%M:%S')] ⟳ $1${NC}"
+    echo -e "${YELLOW}[$(date '+%H:%M:%S')] âŸ³ $1${NC}"
 }
 
 log_success() {
-    echo -e "${GREEN}[$(date '+%H:%M:%S')] ✓ $1${NC}"
+    echo -e "${GREEN}[$(date '+%H:%M:%S')] âœ“ $1${NC}"
 }
 
 log_error() {
-    echo -e "${RED}[$(date '+%H:%M:%S')] ✗ $1${NC}"
+    echo -e "${RED}[$(date '+%H:%M:%S')] âœ— $1${NC}"
 }
 
 # ============================================================================
@@ -119,7 +119,7 @@ if [ -f "$STRESS_DIR/stress_test_results.csv" ]; then
     log_success "Stress test complete"
     echo "  Summary:"
     tail -6 "$STRESS_DIR/stress_test_results.csv" | \
-        awk -F',' '{printf "    %-8s %3d clients: %5d req/s, avg latency %6.0f μs, p99 %6.0f μs\n", $1, $2, $4, $6, $9}'
+        awk -F',' '{printf "    %-8s %3d clients: %5d req/s, avg latency %6.0f Î¼s, p99 %6.0f Î¼s\n", $1, $2, $4, $6, $9}'
 else
     log_error "Stress test failed"
 fi
@@ -145,29 +145,29 @@ cat > "$RESULTS_HOME/BENCHMARK_SUMMARY.md" << 'SUMMARYEOF'
 
 ## Test Phases Completed
 
-### Phase 1: Prerequisites ✓
+### Phase 1: Prerequisites âœ“
 - Docker running
 - ThemisDB container active
 - HTTP API responding (200 OK)
 - Wire Protocol listening (port 8766)
 
-### Phase 2: Data Generation ✓
+### Phase 2: Data Generation âœ“
 - 2GB JSON documents (1M+ records)
 - 1.5GB CSV tabular data (5M+ records)
 - 1.5GB binary blob data
 
-### Phase 3: Ingestion Tests ✓
+### Phase 3: Ingestion Tests âœ“
 - ThemisDB HTTP REST ingestion
 - ThemisDB Wire Protocol ingestion
 - PostgreSQL CSV ingestion (if available)
 - MongoDB JSON ingestion (if available)
 
-### Phase 4: Query Performance ✓
+### Phase 4: Query Performance âœ“
 - Post-ingestion query latency
 - Throughput under sustained load
 - Comparison across systems
 
-### Phase 5: Stress Tests ✓
+### Phase 5: Stress Tests âœ“
 - HTTP REST API stress test
 - Wire Protocol stress test
 - Concurrency: 1, 5, 10, 50, 100, 500 clients
@@ -193,13 +193,13 @@ cat > "$RESULTS_HOME/BENCHMARK_SUMMARY.md" << 'SUMMARYEOF'
 
 ## Recommendations
 
-✓ **Use ThemisDB when:**
+âœ“ **Use ThemisDB when:**
   - Multi-model data is important
   - Simple operational deployment needed
   - Wire Protocol efficiency desired
   - Unified transaction semantics required
 
-✓ **Use Polyglot Stack when:**
+âœ“ **Use Polyglot Stack when:**
   - Extreme specialization necessary
   - Independent scaling required
   - Complex analytical workloads
@@ -247,6 +247,6 @@ echo "  1. Review: cat $RESULTS_HOME/BENCHMARK_SUMMARY.md"
 echo "  2. Analyze ingestion: cat $LOADTEST_DIR/LOADTEST_RESULTS.md"
 echo "  3. Compare stress: cat $STRESS_DIR/STRESS_TEST_REPORT.md"
 echo ""
-echo -e "${GREEN}═══════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo -e "${GREEN}  All benchmarks completed! Review results above.${NC}"
-echo -e "${GREEN}═══════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"

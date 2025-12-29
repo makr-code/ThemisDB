@@ -19,23 +19,23 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "📦 PyPI Publishing for themisdb"
+echo "ðŸ“¦ PyPI Publishing for themisdb"
 
 # Check prerequisites
 if ! command -v python3 &> /dev/null; then
-    echo "❌ python3 not found"
+    echo "âŒ python3 not found"
     exit 1
 fi
 
 if [[ -z "${PYPI_TOKEN:-}" ]] && [[ "$DRY_RUN" == "false" ]]; then
-    echo "❌ PYPI_TOKEN environment variable not set"
+    echo "âŒ PYPI_TOKEN environment variable not set"
     exit 1
 fi
 
 cd "$CLIENT_DIR"
 
 # Create virtual environment
-echo "📦 Setting up virtual environment..."
+echo "ðŸ“¦ Setting up virtual environment..."
 python3 -m venv .venv
 source .venv/bin/activate
 
@@ -50,21 +50,21 @@ if [[ -n "$VERSION" ]]; then
 fi
 
 # Build
-echo "🔨 Building..."
+echo "ðŸ”¨ Building..."
 python -m build
 
 # Run tests
-echo "🧪 Running tests..."
+echo "ðŸ§ª Running tests..."
 pip install -e ".[dev]" || pip install -e .
 pytest tests/ -v || echo "No tests found or tests skipped"
 
 # Publish
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo "🔍 Dry run - would publish:"
+    echo "ðŸ” Dry run - would publish:"
     ls -la dist/
     twine check dist/*
 else
-    echo "🚀 Publishing to PyPI..."
+    echo "ðŸš€ Publishing to PyPI..."
     twine upload dist/* -u __token__ -p "$PYPI_TOKEN"
 fi
 
@@ -72,4 +72,4 @@ fi
 deactivate
 rm -rf .venv dist *.egg-info
 
-echo "✅ PyPI publishing complete"
+echo "âœ… PyPI publishing complete"
