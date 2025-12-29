@@ -12,6 +12,8 @@ This directory contains CI/CD workflows for building, testing, and publishing Th
 |----------|------|---------|--------|
 | **CI** | `ci.yml` | C++ build, unit tests, code quality | 🔶 Dry-Run |
 | **Docker Build** | `docker-build-test.yml` | Multi-arch Docker image build | 🔶 Dry-Run |
+| **Nightly Build** | `nightly-build.yml` | Overnight builds with DockerHub push | ✅ Active |
+| **Release** | `release.yml` | Production release pipeline | ✅ Active |
 | **Python SDK** | `python-sdk-test.yml` | Python SDK tests and package build | 🔶 Dry-Run |
 | **Java SDK** | `java-sdk-test.yml` | Java SDK tests and JAR build | 🔶 Dry-Run |
 | **C# SDK** | `csharp-sdk-test.yml` | .NET SDK tests and NuGet package | 🔶 Dry-Run |
@@ -159,18 +161,20 @@ push: true
 
 ## Required Secrets
 
-For production releases, configure these repository secrets:
+For production releases and nightly builds, configure these repository secrets:
 
-| Secret | Purpose |
-|--------|---------|
-| `GITHUB_TOKEN` | Automatically provided by GitHub Actions |
-| `DOCKERHUB_USERNAME` | Docker Hub username |
-| `DOCKERHUB_TOKEN` | Docker Hub access token |
-| `PYPI_API_TOKEN` | PyPI API token |
-| `MAVEN_USERNAME` | Maven Central username |
-| `MAVEN_PASSWORD` | Maven Central password |
-| `GPG_PASSPHRASE` | GPG signing passphrase |
-| `NUGET_API_KEY` | NuGet.org API key |
+| Secret | Purpose | Used By |
+|--------|---------|---------|
+| `GITHUB_TOKEN` | Automatically provided by GitHub Actions | All workflows |
+| `DOCKER_USERNAME` | Docker Hub username | Nightly builds, Docker builds |
+| `DOCKER_TOKEN` | Docker Hub access token | Nightly builds, Docker builds |
+| `DOCKERHUB_USERNAME` | Docker Hub username (legacy) | Legacy workflows |
+| `DOCKERHUB_TOKEN` | Docker Hub access token (legacy) | Legacy workflows |
+| `PYPI_API_TOKEN` | PyPI API token | Python SDK releases |
+| `MAVEN_USERNAME` | Maven Central username | Java SDK releases |
+| `MAVEN_PASSWORD` | Maven Central password | Java SDK releases |
+| `GPG_PASSPHRASE` | GPG signing passphrase | Release signing |
+| `NUGET_API_KEY` | NuGet.org API key | C# SDK releases |
 
 ## Workflow Triggers
 
@@ -184,6 +188,21 @@ SDK workflows additionally filter by path:
 - Java: `clients/java/**`
 - C#: `clients/csharp/**`
 - Helm: `helm/**`
+
+### Nightly Build Schedule
+
+The **Nightly Build** workflow runs automatically:
+- **Schedule**: Every day at 2:00 AM UTC
+- **Purpose**: Build and push latest development snapshots to DockerHub
+- **Output**: Docker images tagged as `nightly`, `nightly-YYYYMMDD`, and `VERSION-nightly`
+- **Documentation**: See [Nightly Builds Guide](../../docs/deployment/deployment_nightly_builds.md)
+
+To trigger manually:
+```bash
+# Via GitHub UI: Actions > Nightly Build & DockerHub Push > Run workflow
+# Or use GitHub CLI:
+gh workflow run nightly-build.yml
+```
 
 ## Troubleshooting
 

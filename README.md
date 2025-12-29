@@ -189,7 +189,7 @@ ThemisDB is built on proven open-source foundations with clear attribution:
 ### Docker (Recommended)
 
 ```bash
-# Pull and run the latest version
+# Pull and run the latest stable version
 docker pull themisdb/themisdb:latest
 docker run -d \
   -p 8080:8080 \
@@ -197,6 +197,10 @@ docker run -d \
   -p 4318:4318 \
   -v themis_data:/data \
   themisdb/themisdb:latest
+
+# Or use nightly builds (latest development version)
+docker pull themisdb/server:nightly
+docker run -d -p 8080:8080 -p 18765:18765 -v themis_data:/data themisdb/server:nightly
 
 # Or use Docker Compose
 docker compose up -d
@@ -211,6 +215,8 @@ curl http://localhost:8080/health
 - `4318` - OpenTelemetry/Prometheus metrics
 
 **📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](docs/deployment/PORT_REFERENCE.md) for all ports including optional protocols (MQTT, PostgreSQL Wire, MCP).
+
+> **Release Builds**: Automated release builds with edition support (community/enterprise/hyperscaler) are available on DockerHub. Each release includes automatically generated changelogs and enterprise security artifacts (SBOM, signatures, SLSA provenance). See [Release Build Documentation](docs/de/deployment/deployment_nightly_builds.md) and [Release Changelogs](release-changelogs/) for details.
 
 ### From Source
 
