@@ -304,7 +304,7 @@ public:
     
     explicit AdaptiveJITEngine(
         rocksdb::TransactionDB* db,
-        const Config& config = Config{}
+        const Config& config
     );
     
     /**
@@ -365,7 +365,7 @@ public:
     
     explicit JITDirectExecutionEngine(
         rocksdb::TransactionDB* db,
-        const Config& config = Config{}
+        const Config& config
     );
     
     /**

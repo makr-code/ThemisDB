@@ -65,7 +65,7 @@ public:
         MultiLoRAManager::Config multi_lora_config;
     };
     
-    explicit LlamaCppPlugin(const Config& config = Config{});
+    explicit LlamaCppPlugin(const Config& config);
     ~LlamaCppPlugin() override;
     
     // Prevent copying

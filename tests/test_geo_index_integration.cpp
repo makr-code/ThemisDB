@@ -74,8 +74,8 @@ TEST_F(GeoIndexIntegrationTest, InsertPolygonTriggersIndexUpdate) {
     EXPECT_EQ(results[0].primary_key, "poly1");
 }
 
-// Disabled due to hang on MSVC - exact backend checks causing issues
-TEST_F(GeoIndexIntegrationTest, DISABLED_SearchIntersectsWithExactCheck) {
+// Previously disabled on MSVC; passing with isolated RocksDB env
+TEST_F(GeoIndexIntegrationTest, SearchIntersectsWithExactCheck) {
     // Set up exact backend if available
     auto* boost_backend = geo::getBoostCpuBackend();
     if (boost_backend && boost_backend->isAvailable()) {
@@ -135,8 +135,7 @@ TEST_F(GeoIndexIntegrationTest, DISABLED_SearchIntersectsWithExactCheck) {
 }
 
 // Test: Delete entity removes from spatial index
-// Disabled due to hang on MSVC
-TEST_F(GeoIndexIntegrationTest, DISABLED_DeleteEntityRemovesFromIndex) {
+TEST_F(GeoIndexIntegrationTest, DeleteEntityRemovesFromIndex) {
     // Insert polygon
     json entity;
     entity["id"] = "poly1";
@@ -172,8 +171,7 @@ TEST_F(GeoIndexIntegrationTest, DISABLED_DeleteEntityRemovesFromIndex) {
 }
 
 // Test: Insert point geometry
-// Disabled due to hang on MSVC
-TEST_F(GeoIndexIntegrationTest, DISABLED_InsertPointGeometry) {
+TEST_F(GeoIndexIntegrationTest, InsertPointGeometry) {
     json entity;
     entity["id"] = "point1";
     entity["geometry"] = {
@@ -195,8 +193,7 @@ TEST_F(GeoIndexIntegrationTest, DISABLED_InsertPointGeometry) {
 }
 
 // Test: Hook handles missing geometry gracefully
-// Disabled due to hang on MSVC
-TEST_F(GeoIndexIntegrationTest, DISABLED_HandlesMissingGeometry) {
+TEST_F(GeoIndexIntegrationTest, HandlesMissingGeometry) {
     json entity;
     entity["id"] = "no_geom";
     entity["name"] = "Entity without geometry";
@@ -216,8 +213,7 @@ TEST_F(GeoIndexIntegrationTest, DISABLED_HandlesMissingGeometry) {
 }
 
 // Test: Hook handles invalid JSON gracefully
-// Disabled due to hang on MSVC
-TEST_F(GeoIndexIntegrationTest, DISABLED_HandlesInvalidJSON) {
+TEST_F(GeoIndexIntegrationTest, HandlesInvalidJSON) {
     std::string invalid_json = "{invalid json";
     std::vector<uint8_t> blob(invalid_json.begin(), invalid_json.end());
     
@@ -228,8 +224,7 @@ TEST_F(GeoIndexIntegrationTest, DISABLED_HandlesInvalidJSON) {
 }
 
 // Test: Hook works with null spatial manager (geo disabled)
-// Disabled due to hang on MSVC
-TEST_F(GeoIndexIntegrationTest, DISABLED_HandlesNullSpatialManager) {
+TEST_F(GeoIndexIntegrationTest, HandlesNullSpatialManager) {
     json entity;
     entity["id"] = "test";
     entity["geometry"] = {

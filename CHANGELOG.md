@@ -29,9 +29,11 @@
 
 > **📚 FOCUS:** Documentation Update & Build System
 
+
 ### ✨ Added
 
 <details>
+
 <summary><b>Documentation System Enhancement</b></summary>
 
 - 📚 **MkDocs Integration** with Material theme for modern documentation
@@ -42,9 +44,11 @@
 - 📑 **Print-Friendly Output** with single-page HTML for easy printing
 - 🔖 **Hierarchical TOC** with bookmarks for PDF output
 
+
 </details>
 
 ### 🔧 Changed
+
 
 <details>
 <summary><b>Version & Documentation Updates</b></summary>
@@ -55,6 +59,7 @@
 - 📚 **German Documentation** fully updated in docs/de/
 
 </details>
+
 
 ---
 

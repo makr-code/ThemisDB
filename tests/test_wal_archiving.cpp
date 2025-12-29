@@ -2,6 +2,6 @@
 
 // TODO: Implement incremental backup + WAL archiving tests.
 
-TEST(WALArchiving, DISABLED_Placeholder) {
-    SUCCEED();
+TEST(WALArchiving, Placeholder) {
+    GTEST_SKIP() << "WAL archiving tests not implemented yet";
 }

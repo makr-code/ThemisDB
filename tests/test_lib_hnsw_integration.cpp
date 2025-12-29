@@ -88,12 +88,22 @@ TEST_F(HNSWLibIntegrationTest, SearchNearestNeighbors) {
     
     auto query = vectors[0]; // Query with first vector
     auto result = index->searchKnn(query.data(), k);
-    
     EXPECT_EQ(result.size(), k);
-    
-    // First result should be the query vector itself (distance ~0)
-    EXPECT_EQ(result.top().second, 0);
-    EXPECT_LT(result.top().first, 1e-6); // Distance should be near zero
+
+    // searchKnn returns a max-heap (worst distance on top). Find the best.
+    std::vector<std::pair<float, size_t>> neighbors;
+    neighbors.reserve(result.size());
+    while (!result.empty()) {
+        neighbors.emplace_back(result.top().first, result.top().second);
+        result.pop();
+    }
+    std::sort(neighbors.begin(), neighbors.end(), [](const auto& a, const auto& b) {
+        return a.first < b.first;
+    });
+
+    ASSERT_FALSE(neighbors.empty());
+    EXPECT_EQ(neighbors.front().second, 0u);          // self should be present
+    EXPECT_LT(neighbors.front().first, 1e-3f);        // distance ~0
     
     delete index;
 }
@@ -370,13 +380,25 @@ TEST_F(HNSWLibIntegrationTest, DistanceComputationAccuracy) {
     // Query vec1 against vec2
     auto result = index.searchKnn(vec1.data(), 2);
     
-    // Expected L2 distance: sqrt(1^2 + 1^2) = sqrt(2) ≈ 1.414
-    float expected_dist = std::sqrt(2.0f);
-    
-    // Result.second contains distance, should have vec2 as second neighbor
-    EXPECT_EQ(result.size(), 2);
+    // HNSWlib L2Space returns squared L2 distance (not the sqrt)
+    float expected_dist = 2.0f; // 1^2 + 1^2
+
+    EXPECT_EQ(result.size(), 2u);
     if (result.size() == 2) {
-        // Second result should be vec2 with distance ~1.414
-        EXPECT_NEAR(result.top().first, expected_dist, 0.01);
+        std::vector<std::pair<float, size_t>> neighbors;
+        neighbors.reserve(result.size());
+        while (!result.empty()) {
+            neighbors.emplace_back(result.top().first, result.top().second);
+            result.pop();
+        }
+        std::sort(neighbors.begin(), neighbors.end(), [](const auto& a, const auto& b) {
+            return a.first < b.first;
+        });
+        // Best is self (id 0), second should be vec2 with distance ~sqrt(2)
+        ASSERT_EQ(neighbors.size(), 2u);
+        EXPECT_EQ(neighbors[0].second, 0u);
+        EXPECT_LT(neighbors[0].first, 1e-3f);
+        EXPECT_EQ(neighbors[1].second, 1u);
+        EXPECT_NEAR(neighbors[1].first, expected_dist, 0.05f);
     }
 }

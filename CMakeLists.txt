@@ -987,9 +987,11 @@ if(THEMIS_CORE_SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
-# Per-file compile options for heavy AQL parser translation units
-set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
-set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+# Per-file compile options for heavy AQL parser translation units (MSVC-only)
+if(MSVC)
+    set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
+    set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+endif()
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
 if(MSVC AND THEMIS_CORE_SHARED)
@@ -2354,6 +2356,24 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
     )
     target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # v1.3.4 Optimization Benchmarks
+    add_executable(bench_v1_3_4_optimizations
+        benchmarks/bench_v1_3_4_optimizations.cpp
+    )
+    target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # v1.3.4 Batch Insert Benchmark
+    add_executable(bench_batch_insert
+        benchmarks/bench_batch_insert.cpp
+    )
+    target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Simple insert test for debugging
+    add_executable(bench_simple_insert_test
+        benchmarks/bench_simple_insert_test.cpp
+    )
+    target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
 endif()
 

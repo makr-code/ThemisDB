@@ -28,6 +28,11 @@ docker-build*.log
 msbuild*.txt
 msvc_build*.txt
 
+# Allow release archives
+!release/v*/themis-v*.tar.gz
+!release/v*/themis-v*.zip
+!themis-linux.tar.gz
+
 # --- vcpkg Offline-First Strategy (v4.0.0) ---------------------------------
 # Include: vcpkg/downloads/ (~2.5 GB) for offline builds
 # Exclude: build artifacts (~15 GB) - werden im Docker neu gebaut
@@ -170,6 +175,8 @@ Thumbs.db
 *.deb
 *.rpm
 *.tgz
+# BUT allow release archives
+!themis-linux.tar.gz
 
 # --- Python (falls vorhanden) ----------------------------------------------
 __pycache__/

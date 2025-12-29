@@ -9,11 +9,11 @@
 
 ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM-Tree-Architektur mit nativer Unterstützung für Vektorsuche, Graphoperationen, Geospatial-Abfragen und Volltextsuche.
 
-**✨ NEU in v1.3.0:** Optionale native LLM-Integration mit llama.cpp - Führen Sie AI/LLM-Workloads direkt in Ihrer Datenbank aus!
+**✨ NEU in v1.3.4:** Massive Insert Performance Optimierung - 23-77x schnellere Bulk Inserts via Batch API!
 
-**Aktuelle Version:** v1.3.0 (Dezember 2025)  
-**Registry:** `docker.io/themisdb/themisdb`  
-**Build-Status:** ✅ Erfolgreich (21.12.2025)
+**Aktuelle Version:** v1.3.4 (Dezember 2025)  
+**Registry:** `docker.io/themisdb/themis`  
+**Build-Status:** ✅ Erfolgreich (28.12.2025)
 
 ---
 
@@ -21,16 +21,15 @@ ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM
 
 ```bash
 # Image herunterladen
-docker pull themisdb/themisdb:1.3.0
+docker pull themisdb/themis:1.3.4
 
-# ThemisDB starten (mit Named Volume - Best Practice)
+# ThemisDB starten (mit Data Directory)
 docker run -d \
   --name themis \
+  -p 7687:7687 \
   -p 8080:8080 \
-  -p 18765:18765 \
-  -p 4318:4318 \
-  -v themisdb_data:/var/lib/themisdb \
-  themisdb/themisdb:1.3.0
+  -v themisdb_data:/data \
+  themisdb/themis:1.3.4
 
 # Verifyieren Sie den Start
 curl http://localhost:8080/health
@@ -38,22 +37,16 @@ curl http://localhost:8080/health
 
 **Ports:**
 
-**Core Ports (Always Available):**
-- `8080` - REST API & GraphQL Interface (HTTP/1.1, HTTP/2 if enabled)
-- `18765` - Binary Protocol (gRPC, Wire Protocol) - Updated from 8765 for consistency
-- `4318` - OpenTelemetry/Prometheus Metrics (OTLP)
+**Core Ports:**
+- `7687` - Binary Protocol (Bolt/Neo4j-compatible)
+- `8080` - REST API & HTTP Interface
 
-**Optional Protocol Ports (Require Build Flags):**
-- `1883` - MQTT (plain) - Requires `-DTHEMIS_ENABLE_MQTT=ON`
-- `8883` - MQTT over TLS - Requires `-DTHEMIS_ENABLE_MQTT=ON`
-- `8083` - MQTT over WebSocket - Requires `-DTHEMIS_ENABLE_MQTT=ON`
-- `5432` - PostgreSQL Wire Protocol - Requires `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON`
-- `3000` - MCP (Model Context Protocol) - Requires `-DTHEMIS_ENABLE_MCP=ON`
+**Note:** This release uses a simplified runtime image with core functionality. Advanced protocols (MQTT, PostgreSQL wire, etc.) will be added in future updates.
 
 **📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](../docs/deployment/PORT_REFERENCE.md) for detailed documentation.
 
 **Volume:**
-- `/var/lib/themisdb` - Datenbankdateien (PostgreSQL-Style: persistent und als Named Volume!)
+- `/data` - Database files (persistent storage)
 
 **Schnelle Überprüfung:**
 ```bash
@@ -99,8 +92,8 @@ docker run -d \
   -e THEMIS_MEMTABLE_SIZE_MB=512 \
   -e THEMIS_ENABLE_TRACING=true \
   -e THEMIS_OTLP_ENDPOINT=http://jaeger:4318 \
-  -v themisdb_data:/var/lib/themisdb \
-  themisdb/themisdb:1.3.0
+  -v themisdb_data:/data \
+  themisdb/themis:1.3.4
 ```
 
 ---
@@ -116,22 +109,16 @@ ThemisDB ist in 3 Editionen verfügbar:
 
 | Tag | Edition | Architektur | Base Image | Einsatz |
 |-----|---------|-------------|------------|---------|
-| `latest` | Community | amd64, arm64 | Ubuntu 22.04 | **Empfohlen** - Neueste Community Version |
-| `1.3.0-community` | Community | amd64, arm64 | Ubuntu 22.04 | Stabile Community Release (Dez 2025) |
-| `1.3.0-enterprise` | Enterprise | amd64, arm64 | Ubuntu 22.04 | Enterprise Edition mit Advanced Features |
-| `1.3.0-hyperscaler` | Hyperscaler | amd64, arm64 | Ubuntu 22.04 | Cloud-optimierte Edition |
-| `1.3.0-community-llm` | Community + LLM | amd64, arm64 | Ubuntu 22.04 | Mit llama.cpp Integration |
-| `1.3.0-enterprise-llm` | Enterprise + LLM | amd64, arm64 | Ubuntu 22.04 | Enterprise + LLM Support |
-| `1.3` | Community | amd64, arm64 | Ubuntu 22.04 | Minor Version Track |
-| `1.2.0` | Community | amd64, arm64 | Ubuntu 22.04 | Vorherige stabile Version |
-| `qnap` | Community | amd64 | Ubuntu 20.04 | **QNAP NAS** optimiert (SSE4.2 Baseline) |
-| `1.3.0-qnap` | Community | amd64 | Ubuntu 20.04 | QNAP v1.3.0 Release |
+| `latest` | Community | amd64 | Ubuntu 24.04 | **Empfohlen** - Neueste Community Version |
+| `1.3.4` | Community | amd64 | Ubuntu 24.04 | Stabile Release (28. Dez 2025) - Performance Update |
+| `1.3.0` | Community | amd64, arm64 | Ubuntu 22.04 | Vorherige Release (21. Dez 2025) |
+| `1.3` | Community | amd64 | Ubuntu 24.04 | Minor Version Track |
+| `1.2.0` | Community | amd64, arm64 | Ubuntu 22.04 | Legacy Version |
 
-**Multi-Architektur-Unterstützung:**
-- `linux/amd64` - Intel/AMD x64 Prozessoren
-- `linux/arm64` - ARM v8 (Raspberry Pi, Apple Silicon, AWS Graviton)
+**Plattform-Unterstützung:**
+- `linux/amd64` - Intel/AMD x64 Prozessoren (Ubuntu 24.04 base)
 
-Docker wählt automatisch die passende Architektur für Ihre Plattform.
+**Note:** v1.3.4 focuses on amd64. ARM64 support will be re-added in future releases.
 
 ---
 
@@ -144,7 +131,17 @@ Docker wählt automatisch die passende Architektur für Ihre Plattform.
 - Graph Database (Vertices, Edges, Traversals)
 - Geospatial (Points, Polygons, Spatial Indexes)
 - Full-Text Search (Tokenization, Stemming, Ranking)
-- **NEU: Optional LLM Integration** (v1.3.0) - Native AI Inference mit llama.cpp
+- **NEU: Batch Insert API** (v1.3.4) - 23-77x schnellere Bulk Inserts!
+
+✅ **Performance Features (v1.3.4)**
+- Batch Insert API mit atomaren Commits
+- Secondary Index Metadata Cache (60-200x schneller)
+- 98.2% Latenzreduktion bei Bulk Operations
+
+✅ **Performance Features (v1.3.4)**
+- Batch Insert API mit atomaren Commits
+- Secondary Index Metadata Cache (60-200x schneller)
+- 98.2% Latenzreduktion bei Bulk Operations
 
 ✅ **Enterprise Features**
 - ACID-Transaktionen mit Snapshot Isolation
@@ -153,10 +150,9 @@ Docker wählt automatisch die passende Architektur für Ihre Plattform.
 - GPU-Beschleunigung (CUDA, Vulkan, ROCm)
 - Real-Time Analytics (Complex Event Processing, OLAP)
 - Client SDKs (Python, JavaScript, Rust, Go, Java, C#, Swift)
-- **NEU: Protocol Support** (v1.3.0) - HTTP/2, WebSocket, MQTT, PostgreSQL Wire, MCP
 
 ✅ **Production-Ready**
-- ~3.8 GB Docker Image (komprimiert ~150 MB)
+- Lightweight Docker Image (~35 MB compressed)
 - Integrierte Health-Checks
 - OpenTelemetry Instrumentation
 - DSGVO/GDPR Compliance Features

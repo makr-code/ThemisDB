@@ -67,7 +67,7 @@ public:
         bool enable_kv_caching = true;       // Precompute KV cache
     };
     
-    explicit LLMPrefixCache(const std::string& cache_name, const Config& config = Config{});
+    explicit LLMPrefixCache(const std::string& cache_name, const Config& config);
     ~LLMPrefixCache() = default;
     
     /**

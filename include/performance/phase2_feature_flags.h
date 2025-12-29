@@ -9,6 +9,7 @@
 
 #include <atomic>
 #include <mutex>
+#include <string>
 
 namespace themis {
 namespace performance {

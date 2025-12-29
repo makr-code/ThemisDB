@@ -117,7 +117,8 @@ protected:
     std::unique_ptr<HttpQueryRangeFixture> server_;
 };
 
-TEST_F(HttpQueryRangeTest, DISABLED_CreateRangeIndex_AndQueryWithRange) {
+// Previously disabled due to flaky server startup on Windows; runs stable now
+TEST_F(HttpQueryRangeTest, CreateRangeIndex_AndQueryWithRange) {
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
     // Create range index
@@ -152,7 +153,7 @@ TEST_F(HttpQueryRangeTest, DISABLED_CreateRangeIndex_AndQueryWithRange) {
     // Expect user25, user30, user35
 }
 
-TEST_F(HttpQueryRangeTest, DISABLED_QueryWithOrderBy) {
+TEST_F(HttpQueryRangeTest, QueryWithOrderBy) {
     // Create range index
     auto r1 = server_->post("/index/create", {{"table","products"},{"column","price"},{"type","range"}});
     ASSERT_EQ(r1.result(), http::status::ok);
@@ -182,7 +183,7 @@ TEST_F(HttpQueryRangeTest, DISABLED_QueryWithOrderBy) {
     EXPECT_EQ(keys[1].get<std::string>(), "prod150");
 }
 
-TEST_F(HttpQueryRangeTest, DISABLED_CombineRangeAndOrderBy) {
+TEST_F(HttpQueryRangeTest, CombineRangeAndOrderBy) {
     // Create range index
     auto r1 = server_->post("/index/create", {{"table","events"},{"column","timestamp"},{"type","range"}});
     ASSERT_EQ(r1.result(), http::status::ok);

@@ -4,13 +4,16 @@
 #include "storage/base_entity.h"
 #include <filesystem>
 #include <cmath>
+#include <string>
+#include <chrono>
 
 namespace fs = std::filesystem;
 
 class VectorIndexTest : public ::testing::Test {
 protected:
     void SetUp() override {
-    test_db_path_ = "./data/themis_vector_index_test";
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+        test_db_path_ = (fs::temp_directory_path() / ("themis_vector_index_test_" + std::to_string(now))).string();
         fs::remove_all(test_db_path_);
         
         themis::RocksDBWrapper::Config config;

@@ -56,7 +56,7 @@ public:
         double fragmentation_ratio;
     };
     
-    explicit PagedBlockManager(const Config& config = Config{});
+    explicit PagedBlockManager(const Config& config);
     ~PagedBlockManager() = default;
     
     // Disable copy, allow move

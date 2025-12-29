@@ -1,0 +1,49 @@
+# ThemisDB v1.3.4 Runtime Image - Using Release Archive
+# Uses pre-built binaries from Linux release
+
+FROM ubuntu:24.04
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libssl3 \
+    libstdc++6 \
+    libc6 \
+    libzstd1 \
+    libbrotli1 \
+    libcurl4 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create themis user
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis -u 999 -m -d /home/themis -s /bin/bash themis
+
+# Create application directory
+WORKDIR /app
+
+# Copy and extract release archive
+COPY themis-linux.tar.gz /tmp/
+RUN tar -xzf /tmp/themis-linux.tar.gz -C /tmp && \
+    cp /tmp/linux-x64/bin/themis_server /app/ && \
+    cp /tmp/linux-x64/bin/themis_demo /app/ && \
+    rm -rf /tmp/themis-linux.tar.gz /tmp/linux-x64
+
+# Make binaries executable
+RUN chmod +x /app/themis_server /app/themis_demo
+
+# Create data and config directories
+RUN mkdir -p /data /etc/themis && \
+    chown -R themis:themis /data /etc/themis /app
+
+# Switch to themis user
+USER themis
+
+# Expose ports
+EXPOSE 7687 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD ps aux | grep [t]hemis_server || exit 1
+
+# Run server
+CMD ["/app/themis_server", "--data-dir", "/data"]
