@@ -158,6 +158,7 @@ plugins:
 # Python script to verify PDF
 python3 << 'EOF'
 from pypdf import PdfReader
+import os
 
 reader = PdfReader("ThemisDB-Kompendium-v1.3.4.pdf")
 

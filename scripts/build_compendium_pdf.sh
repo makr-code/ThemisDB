@@ -84,42 +84,4 @@ ls -lh "$PDF_FILE"
 # Verify PDF has bookmarks
 echo ""
 echo "Verifying PDF structure..."
-python3 << 'EOF'
-try:
-    from pypdf import PdfReader
-    import sys
-    import os
-    
-    pdf_path = sys.argv[1] if len(sys.argv) > 1 else None
-    if not pdf_path or not os.path.exists(pdf_path):
-        print("Error: PDF file not found for verification")
-        sys.exit(1)
-        
-    reader = PdfReader(pdf_path)
-    print(f"✓ PDF has {len(reader.pages)} pages")
-    
-    if reader.outline:
-        bookmark_count = len(reader.outline) if isinstance(reader.outline, list) else 0
-        print(f"✓ PDF has {bookmark_count} top-level bookmarks")
-    else:
-        print("⚠️  Warning: No bookmarks found")
-        
-    # Check for internal links
-    links_found = False
-    for i, page in enumerate(reader.pages[:5]):
-        if '/Annots' in page and page['/Annots']:
-            links_found = True
-            break
-    
-    if links_found:
-        print("✓ PDF has internal links")
-    else:
-        print("⚠️  Warning: No internal links found in first 5 pages")
-        
-    print("\n✅ PDF verification complete")
-except ImportError:
-    print("⚠️  pypdf not available for verification")
-except Exception as e:
-    print(f"⚠️  Verification error: {e}")
-EOF
-python3 -c "import sys; sys.argv.append('$PDF_FILE')" 2>/dev/null || true
+"$SCRIPT_DIR/verify_pdf.py" "$PDF_FILE" || echo "⚠️  Verification skipped"

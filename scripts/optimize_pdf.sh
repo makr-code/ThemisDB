@@ -87,8 +87,12 @@ echo "  Before: $(du -h "$INPUT_PDF" | cut -f1)"
 echo "  After:  $(du -h "$OUTPUT_PDF" | cut -f1)"
 
 # Calculate size reduction
-BEFORE=$(stat -c%s "$INPUT_PDF" 2>/dev/null || stat -f%z "$INPUT_PDF")
-AFTER=$(stat -c%s "$OUTPUT_PDF" 2>/dev/null || stat -f%z "$OUTPUT_PDF")
-REDUCTION=$((100 - (AFTER * 100 / BEFORE)))
+BEFORE=$(stat -c%s "$INPUT_PDF" 2>/dev/null || stat -f%z "$INPUT_PDF" 2>/dev/null)
+AFTER=$(stat -c%s "$OUTPUT_PDF" 2>/dev/null || stat -f%z "$OUTPUT_PDF" 2>/dev/null)
 
-echo "  Reduction: ${REDUCTION}%"
+if [ -n "$BEFORE" ] && [ -n "$AFTER" ] && [ "$BEFORE" -gt 0 ]; then
+    REDUCTION=$((100 - (AFTER * 100 / BEFORE)))
+    echo "  Reduction: ${REDUCTION}%"
+else
+    echo "  Reduction: Unable to calculate"
+fi
