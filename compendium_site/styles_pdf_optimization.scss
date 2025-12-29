@@ -1,0 +1,72 @@
+/**
+ * PDF Optimization Styles for ThemisDB Compendium
+ * 
+ * This stylesheet hides unnecessary decorative elements
+ * to reduce PDF file size while maintaining readability.
+ */
+
+/* Hide navigation elements that are not useful in PDF */
+.md-header,
+.md-tabs,
+.md-sidebar,
+.md-footer,
+.md-source,
+.md-search,
+.md-dialog {
+    display: none !important;
+}
+
+/* Hide decorative icons and badges */
+.md-icon,
+.md-badge,
+.twemoji,
+svg:not(.mermaid svg) {
+    display: none !important;
+}
+
+/* Hide social links and other interactive elements */
+.md-footer__link,
+.md-footer__social,
+.md-content__button,
+.md-top {
+    display: none !important;
+}
+
+/* Simplify admonitions - keep content but remove decorative elements */
+.admonition-title::before,
+.md-typeset .admonition-title::before {
+    display: none !important;
+}
+
+/* Hide code copy buttons */
+.md-clipboard {
+    display: none !important;
+}
+
+/* Optimize tables for print */
+.md-typeset table:not([class]) {
+    font-size: 0.9em;
+}
+
+/* Simplify heading styles to reduce overhead */
+.md-typeset h1::before,
+.md-typeset h2::before,
+.md-typeset h3::before,
+.md-typeset h4::before {
+    content: "" !important;
+}
+
+/* Remove anchor links in headings */
+.headerlink {
+    display: none !important;
+}
+
+/* Optimize code blocks */
+.md-typeset pre > code {
+    box-shadow: none;
+}
+
+/* Hide navigation chips */
+.md-tags {
+    display: none !important;
+}
