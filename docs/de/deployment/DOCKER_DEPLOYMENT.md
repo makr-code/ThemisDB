@@ -273,7 +273,7 @@ docker run --network themis_net themisdb/themisdb:latest
 
 ---
 
-## Docker Compose
+## Docker Compose (Dateien unter `docker/compose/`)
 
 ### Basic Setup
 
@@ -306,10 +306,10 @@ volumes:
     driver: local
 ```
 
-**Start:**
+**Start (Repo-Path beachten):**
 ```bash
-docker-compose up -d
-docker-compose logs -f
+docker compose -f docker/compose/docker-compose.yml up -d
+docker compose -f docker/compose/docker-compose.yml logs -f
 ```
 
 ### Multi-Service Stack

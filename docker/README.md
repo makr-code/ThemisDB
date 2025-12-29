@@ -537,20 +537,22 @@ docker run -d --network themis_net themisdb/themisdb:1.3.0
 git clone https://github.com/makr-code/ThemisDB.git
 cd ThemisDB
 
-# Standard Image bauen
-docker build -t themis:custom .
+# Runtime-Image aus Release-Archiv (Multi-Arch)
+docker buildx build \
+  -f docker/Dockerfile.release \
+  --platform linux/amd64,linux/arm64 \
+  -t themis:release \
+  --push .
+
+# Standard Build aus Source (Dockerfile liegt unter docker/)
+docker build -f docker/Dockerfile -t themis:custom .
 
 # QNAP-optimiertes Image bauen
 docker build -f docker/Dockerfile.qnap -t themis:qnap .
 
-# Multi-Architektur Build (erfordert buildx)
-docker buildx build \
-  --platform linux/amd64,linux/arm64 \
-  -t themis:multiarch \
-  --push .
-
 # Mit lokaler LLM-Integration (llama.cpp)
 docker build \
+  -f docker/Dockerfile \
   --build-arg ENABLE_LLM=ON \
   --build-context llama=llama.cpp \
   -t themis:llm .

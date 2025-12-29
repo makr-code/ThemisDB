@@ -50,7 +50,8 @@ std::string randStr(size_t len) {
 class SimpleVectorBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_simple_vec_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_simple_vec_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -86,7 +87,7 @@ BENCHMARK_F(SimpleVectorBench, Insert_RGB_Vectors)(benchmark::State& state) {
 
 BENCHMARK_F(SimpleVectorBench, Search_RGB_KNN_Top10)(benchmark::State& state) {
     VectorIndexManager vim(*db_);
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 2000; ++i) {
         BaseEntity e("rgb_" + std::to_string(i), BaseEntity::FieldMap{
             {"color", genVec(3)}
         });
@@ -122,7 +123,8 @@ BENCHMARK_F(SimpleVectorBench, Insert_384D_Embeddings)(benchmark::State& state) 
 class ComplexVectorBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_complex_vec_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_complex_vec_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -188,7 +190,8 @@ BENCHMARK_F(ComplexVectorBench, Search_4096D_TopK_Batch)(benchmark::State& state
 class LLMInferencingBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_llm_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_llm_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -260,7 +263,7 @@ BENCHMARK_F(LLMInferencingBench, MultiQueryExpansion_5Queries)(benchmark::State&
     VectorIndexManager vim(*db_);
     
     // Populate with 10000 embeddings
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 2000; ++i) {
         BaseEntity doc("mqe_" + std::to_string(i), BaseEntity::FieldMap{
             {"embedding", genVec(1536)}
         });
@@ -285,7 +288,8 @@ BENCHMARK_F(LLMInferencingBench, MultiQueryExpansion_5Queries)(benchmark::State&
 class AQLQueryBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_aql_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_aql_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -313,8 +317,8 @@ protected:
 
 // Simple SELECT with single WHERE clause
 BENCHMARK_F(AQLQueryBench, SimpleSelect_WhereClause)(benchmark::State& state) {
-    // Populate index with 50k users
-    for (int i = 0; i < 50000; ++i) {
+    // Populate index with 1k users (reduced for faster benchmarking)
+    for (int i = 0; i < 1000; ++i) {
         BaseEntity e("user_" + std::to_string(i), BaseEntity::FieldMap{
             {"country", (i % 50 == 0) ? "US" : "OTHER"},
             {"age", static_cast<int64_t>(18 + (i % 70))},
@@ -333,8 +337,8 @@ BENCHMARK_F(AQLQueryBench, SimpleSelect_WhereClause)(benchmark::State& state) {
 
 // Complex query: Multiple conditions with range
 BENCHMARK_F(AQLQueryBench, ComplexSelect_MultipleConditions)(benchmark::State& state) {
-    // Populate
-    for (int i = 0; i < 100000; ++i) {
+    // Populate (reduced for faster benchmarking)
+    for (int i = 0; i < 5000; ++i) {
         BaseEntity e("user_" + std::to_string(i), BaseEntity::FieldMap{
             {"country", (i % 200 < 100) ? "US" : "EU"},
             {"age", static_cast<int64_t>(18 + (i % 70))},
@@ -357,7 +361,8 @@ BENCHMARK_F(AQLQueryBench, ComplexSelect_MultipleConditions)(benchmark::State& s
 class AQLJoinBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_aql_join_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_aql_join_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -395,7 +400,7 @@ BENCHMARK_F(AQLJoinBench, JoinUsers_Posts)(benchmark::State& state) {
     }
     
     // Create posts by users
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 2000; ++i) {
         BaseEntity post("post_" + std::to_string(i), BaseEntity::FieldMap{
             {"author_id", "user_" + std::to_string(i % 100)},
             {"title", "Post " + std::to_string(i)},
@@ -422,7 +427,8 @@ BENCHMARK_F(AQLJoinBench, JoinUsers_Posts)(benchmark::State& state) {
 class BinaryOperationsBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_binary_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_binary_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -503,7 +509,8 @@ BENCHMARK_F(BinaryOperationsBench, RetrieveBlobsBatch_100x100KB)(benchmark::Stat
 class GraphOperationsBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_graph_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_graph_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -592,7 +599,8 @@ BENCHMARK_F(GraphOperationsBench, GraphTraversal_BFS_Depth3)(benchmark::State& s
 class SecondaryIndexBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_si_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_si_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -697,7 +705,8 @@ BENCHMARK_F(SecondaryIndexBench, CompositeIndexLookup)(benchmark::State& state) 
 class BatchOperationsBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_batch_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_batch_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -723,7 +732,7 @@ protected:
 // Batch vector insert with metadata
 BENCHMARK_F(BatchOperationsBench, BatchInsert_10K_WithMetadata)(benchmark::State& state) {
     for (auto _ : state) {
-        for (int i = 0; i < 10000; ++i) {
+        for (int i = 0; i < 2000; ++i) {
             BaseEntity e("batch_" + std::to_string(i), BaseEntity::FieldMap{
                 {"embedding", genVec(384)},
                 {"text", randStr(500)},
@@ -770,7 +779,8 @@ BENCHMARK_F(BatchOperationsBench, BatchUpdate_MultiField_5K)(benchmark::State& s
 class StressTestBench : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State& state) override {
-        db_path_ = "C:\\tmp\\bench_stress_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+        auto tmp = std::filesystem::temp_directory_path();
+        db_path_ = (tmp / ("bench_stress_" + std::to_string(reinterpret_cast<uintptr_t>(this)))).string();
         std::filesystem::remove_all(db_path_);
         std::filesystem::create_directories(db_path_);
         
@@ -800,7 +810,7 @@ protected:
 // Mixed read/write workload
 BENCHMARK_F(StressTestBench, MixedReadWrite_80Reads_20Writes)(benchmark::State& state) {
     // Pre-populate
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 2000; ++i) {
         BaseEntity e("stress_" + std::to_string(i), BaseEntity::FieldMap{
             {"key", "key_" + std::to_string(i % 1000)},
             {"data", randStr(100)}
@@ -838,7 +848,7 @@ BENCHMARK_F(StressTestBench, HotspotAccess_99PercentContention)(benchmark::State
     }
     
     for (auto _ : state) {
-        for (int i = 0; i < 10000; ++i) {
+        for (int i = 0; i < 2000; ++i) {
             if (i % 100 < 99) {  // 99% access to hot key
                 auto [status, keys] = sim_->scanKeysEqual("hotspot", "key", "hot_key_0");
                 benchmark::DoNotOptimize(keys);

@@ -26,54 +26,157 @@ Testing & CI:
 
 ---
 
-## Build-Strategie nach Plattform
+## ThemisDB Build-System Übersicht
 
-### Linking-Strategie
+### Kernprinzip: vcpkg Offline-First Architecture
 
-| Plattform | Linking | CMake-Flag |
-|-----------|---------|------------|
-| **Docker/QNAP** | **Monolithisch (Statisch)** | `-DTHEMIS_STATIC_BUILD=ON` |
-| **Windows** | **Dynamisch (DLL)** | `-DTHEMIS_STATIC_BUILD=OFF` |
+ThemisDB nutzt eine **vcpkg Offline-First Architektur** für reproduzierbare, netzwerk-unabhängige Builds:
 
-### Docker Build: Hybrid Pre-built Binary
-
-Der empfohlene Ansatz für Docker-Builds ist der **Hybrid Pre-built Binary** Workflow:
-
-### Unified Docker Build Script
-- `docker-build.ps1` - PowerShell (Windows/WSL)
-
-### Workflow
-1. Binary **monolithisch** mit vcpkg bauen: `cmake -DTHEMIS_STATIC_BUILD=ON ...`
-2. Docker-Image mit `Dockerfile.simple` erstellen (schnell)
-3. Ergebnis: Kleine Images (~100-200 MB), 100% offline-fähig
-
-### Verwendung
-```powershell
-# Standard Build
-.\docker-build.ps1
-
-# Mit Binary-Build in WSL
-.\docker-build.ps1 -BuildBinary
-
-# QNAP Variante
-.\docker-build.ps1 -Variant qnap
-
-# Push zu Registry
-.\docker-build.ps1 -Push
+**vcpkg Cache Struktur:**
+```
+vcpkg/
+├── downloads/          ← ~2.5 GB - Source Archives (alle Packages)
+├── buildtrees/         ← ~3 GB - Temporäre Build-Artefakte
+├── packages/           ← ~10 GB - Installierte Packages
+└── scripts/buildsystems/vcpkg.cmake  ← CMake Integration
 ```
 
-### Unterstützte Plattformen
-| Plattform | Architektur | Linking | Use Case |
-|-----------|-------------|---------|----------|
-| `linux/amd64` | x86_64 | Statisch | Server, Desktop, QNAP NAS |
-| `linux/arm64` | ARM64 | Statisch | Raspberry Pi 4/5, ARM Server |
+**Einmalig erforderlich:**
+```powershell
+# Windows
+.\scripts\setup-vcpkg-offline.ps1
 
-### Entfernte/Ersetzte Skripte
-Die folgenden Skripte wurden durch `docker-build.ps1` ersetzt:
-- ~~`build-docker-qnap.ps1`~~ → `docker-build.ps1 -Variant qnap`
-- ~~`build-docker-simple.ps1`~~ → `docker-build.ps1 -BuildBinary`
-- ~~`build-rpi.ps1`~~ / ~~`build-rpi.sh`~~ → Lokal mit `-DTHEMIS_STATIC_BUILD=ON` bauen
-- ~~`docker-build-push.ps1`~~ → `docker-build.ps1 -Push`
+# Linux/WSL
+./scripts/setup-vcpkg-offline.sh
+```
+
+### Build-Plattformen & Triplets
+
+| Plattform | Triplet | Build-Verzeichnis | Empfohlener Generator |
+|-----------|---------|-------------------|---------------------|
+| **Windows MSVC** | x64-windows | `build-msvc` | Visual Studio 17 2022 |
+| **Linux/WSL x64** | x64-linux | `build-wsl` oder `build-linux` | Ninja |
+| **Linux ARM64** | arm64-linux | `build-arm` | Ninja |
+| **Docker Multi-Arch** | x64-linux, arm64-linux | Container | Multi-stage |
+| **QNAP NAS** | x64-linux | `build-qnap` | Ninja |
+
+### Quick Start Build-Commands
+
+#### Windows (MSVC 2022) - Empfohlen
+```powershell
+# CMake Preset (v4.0.0+)
+$env:VCPKG_ROOT = "C:\VCC\themis\vcpkg"
+cmake --preset windows-vs2022-release
+cmake --build --preset windows-vs2022-release --parallel 8
+
+# Oder manuell
+cmake -B build-msvc -G "Visual Studio 17 2022" -A x64 `
+  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
+  -DTHEMIS_CORE_SHARED=OFF `
+  -DTHEMIS_ENABLE_LLM=OFF
+cmake --build build-msvc --config Release --parallel 8
+```
+
+**Output:** `build-msvc/Release/themis_server.exe` (~32 MB)  
+**Dauer:** 25-35 min (erste Build), 5-10 min (inkrementell)
+
+#### Linux/WSL (GCC/Clang)
+```bash
+# Konfiguration
+export VCPKG_ROOT=/mnt/c/VCC/themis/vcpkg  # WSL Pfad
+cmake -B build-wsl -G Ninja -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+  -DTHEMIS_ENABLE_LLM=OFF
+
+# Build
+cmake --build build-wsl --config Release -j$(nproc)
+```
+
+**Output:** `build-wsl/themis_server` (~32 MB)  
+**Dauer:** 20-30 min (erste Build)
+
+#### ARM64 (Raspberry Pi / Linux ARM)
+```bash
+# Native auf ARM
+cmake -B build-arm -G Ninja -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+  -DTHEMIS_QNAP_BUILD=ON \  # Baseline x86-64, kein AVX
+  -DTHEMIS_ENABLE_LLM=OFF
+cmake --build build-arm -j4
+```
+
+**Performance:** ARM NEON SIMD automatisch aktiviert
+
+### Docker Artefakte & Compose-Pfade
+- Dockerfiles liegen unter `docker/` (Build: `docker/Dockerfile`, Runtime: `docker/Dockerfile.release`)
+- Release-Archiv für Docker-Images: `docker/themis-linux.tar.gz` (aus `release/v1.3.4` gespiegelt)
+- Compose-Files: `docker/compose/docker-compose.yml` und `docker/compose/docker-compose-vllm.yml`
+- Build (Release Image): `docker buildx build -f docker/Dockerfile.release --platform linux/amd64,linux/arm64 -t <tag> --push .`
+
+### Edition-spezifische Builds
+
+| Edition | Script | CMake Flag | Features |
+|---------|--------|-----------|----------|
+| **Community** (Open Source) | `build-community-release.ps1` | `-DTHEMIS_EDITION=COMMUNITY` | Core, 24GB GPU, Single-Node |
+| **Enterprise** | `build-enterprise-release.ps1` | `-DTHEMIS_EDITION=ENTERPRISE` | + Sharding, 256GB GPU, 100 Nodes |
+| **Hyperscaler** | `build-hyperscaler-release.ps1` | `-DTHEMIS_EDITION=HYPERSCALER` | Unlimited |
+
+### Feature Flags
+
+```bash
+# Minimal Build (Core only, ~150 MB)
+cmake -B build -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_BUILD_RPC_FRAMEWORK=OFF
+
+# LLM Build (Core + llama.cpp, ~250 MB)
+cmake -B build -DTHEMIS_ENABLE_LLM=ON
+
+# Full Build (Core + LLM + RPC + GPU, ~350 MB)
+cmake -B build -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_BUILD_RPC_FRAMEWORK=ON \
+  -DTHEMIS_ENABLE_GPU=ON
+```
+
+### Wichtige CMake-Optionen
+
+| Option | Default | Beschreibung |
+|--------|---------|-------------|
+| `THEMIS_CORE_SHARED` | OFF | Build themis_core als DLL/SO statt statisch |
+| `THEMIS_STATIC_BUILD` | OFF | Vollständig statisches Binary (Docker/QNAP) |
+| `THEMIS_ENABLE_LLM` | OFF | llama.cpp Integration |
+| `THEMIS_ENABLE_GPU` | OFF | CUDA/Vulkan/ROCm Support |
+| `THEMIS_BUILD_TESTS` | ON | Google Test Suite |
+| `THEMIS_BUILD_BENCHMARKS` | ON | Google Benchmark Suite |
+| `THEMIS_QNAP_BUILD` | OFF | QNAP NAS Optimierungen (SSE4.2 baseline) |
+
+### Troubleshooting
+
+**CMake find_package Probleme (FAISS/gRPC):**
+```powershell
+# Quick Fix
+.\scripts\fix-cmake-prefix-path.ps1 -Action build -EnableGPU $true
+
+# Oder manuell CMAKE_PREFIX_PATH setzen
+$VCPKG = "C:\VCC\themis\vcpkg_installed\x64-windows"
+cmake -DCMAKE_PREFIX_PATH="$VCPKG;$VCPKG\share" ...
+```
+
+**WSL Build-Fehler (MSVC Flags auf Linux):**
+- Problem: `/O1`, `/bigobj`, `/Bt+` auf Linux
+- Fix: In CMakeLists.txt mit `if(MSVC)` gaten
+
+**Docker Build-Context Probleme:**
+- Problem: vcpkg/buildtrees zu groß
+- Fix: .dockerignore aktualisieren, nur downloads/ inkludieren
+
+---
+
+## Build-Dokumentation
+
+Weitere Details in:
+- `docs/de/deployment/deployment_strategy.md` - Gesamtstrategie
+- `docs/de/deployment/deployment_arm_build.md` - ARM/Raspberry Pi Builds
+- `docs/de/deployment/BUILD_OPTIONEN_REFERENZ.md` - Alle CMake Flags
+- `docs/de/deployment/QUICK_REFERENCE.md` - CMake find_package Fixes
 
 ---
 

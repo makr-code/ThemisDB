@@ -1,3 +1,6 @@
+// CLI entrypoint is unused in WPF app; suppress compiler warning.
+#pragma warning disable CS8892
+
 using System;
 using System.Threading.Tasks;
 using Themis.DocumentManager.Services;

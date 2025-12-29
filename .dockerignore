@@ -28,10 +28,7 @@ docker-build*.log
 msbuild*.txt
 msvc_build*.txt
 
-# Allow release archives
-!release/v*/themis-v*.tar.gz
-!release/v*/themis-v*.zip
-!themis-linux.tar.gz
+# (Release assets re-included below after release/ exclusion)
 
 # --- vcpkg Offline-First Strategy (v4.0.0) ---------------------------------
 # Include: vcpkg/downloads/ (~2.5 GB) for offline builds
@@ -69,6 +66,11 @@ adapters/
 
 # --- Release packages (not needed in Docker builds) -----------------------
 release/
+
+# Allow selected release artifacts for Docker builds
+!release/v*/themis-v*.tar.gz
+!release/v*/themis-v*.zip
+!docker/themis-linux.tar.gz
 
 # --- Documentation (nicht f??r Runtime) ----------------------------------------
 # docs/ - Some docs needed for packages (openapi, deployment guides)

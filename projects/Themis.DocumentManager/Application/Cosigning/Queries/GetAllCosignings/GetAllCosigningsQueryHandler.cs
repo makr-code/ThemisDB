@@ -8,19 +8,11 @@ namespace Themis.DocumentManager.Application.Cosigning.Queries.GetAllCosignings;
 
 public class GetAllCosigningsQueryHandler : IRequestHandler<GetAllCosigningsQuery, Result<PagedResult<CosigningDto>>>
 {
-    private static readonly Dictionary<string, object> _cosignings = CreateCosigningCommandHandler_GetStorage();
-
-    private static Dictionary<string, object> CreateCosigningCommandHandler_GetStorage()
-    {
-        var field = typeof(CreateCosigningCommandHandler).GetField("_cosignings", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-        return (Dictionary<string, object>)field!.GetValue(null)!;
-    }
+    private static readonly Dictionary<string, CreateCosigningCommandHandler.CosigningItem> _cosignings = CreateCosigningCommandHandler.Cosignings;
 
     public async Task<Result<PagedResult<CosigningDto>>> Handle(GetAllCosigningsQuery request, CancellationToken cancellationToken)
     {
-        var allItems = _cosignings.Values.Select(x => (CosigningItem)x).ToList();
-        var query = allItems.AsQueryable();
+        var query = _cosignings.Values.AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(request.DocumentId))
             query = query.Where(c => c.DocumentId == request.DocumentId);
@@ -45,11 +37,11 @@ public class GetAllCosigningsQueryHandler : IRequestHandler<GetAllCosigningsQuer
             .Take(request.PageSize)
             .Select(c => new CosigningDto
             {
-                Id = c.Id,
-                DocumentId = c.DocumentId,
-                DocumentName = c.DocumentName,
-                SignerId = c.SignerId,
-                SignerName = c.SignerName,
+                Id = c.Id ?? string.Empty,
+                DocumentId = c.DocumentId ?? string.Empty,
+                DocumentName = c.DocumentName ?? string.Empty,
+                SignerId = c.SignerId ?? string.Empty,
+                SignerName = c.SignerName ?? string.Empty,
                 SignerEmail = c.SignerEmail,
                 Status = c.Status,
                 SignOrder = c.SignOrder,
@@ -61,11 +53,11 @@ public class GetAllCosigningsQueryHandler : IRequestHandler<GetAllCosigningsQuer
                 RejectionReason = c.RejectionReason,
                 RequiresComment = c.RequiresComment,
                 Type = c.Type,
-                Metadata = c.Metadata,
+                Metadata = c.Metadata ?? new(),
                 CreatedAt = c.CreatedAt,
-                CreatedBy = c.CreatedBy,
-                UpdatedAt = c.UpdatedAt!,
-                UpdatedBy = c.UpdatedBy
+                CreatedBy = c.CreatedBy ?? "System",
+                UpdatedAt = c.UpdatedAt ?? c.CreatedAt,
+                UpdatedBy = c.UpdatedBy ?? c.CreatedBy ?? "System"
             })
             .ToList();
 
@@ -78,30 +70,5 @@ public class GetAllCosigningsQueryHandler : IRequestHandler<GetAllCosigningsQuer
         };
 
         return await Task.FromResult(Result<PagedResult<CosigningDto>>.Ok(result));
-    }
-
-    private class CosigningItem
-    {
-        public string Id { get; set; } = string.Empty;
-        public string DocumentId { get; set; } = string.Empty;
-        public string DocumentName { get; set; } = string.Empty;
-        public string SignerId { get; set; } = string.Empty;
-        public string SignerName { get; set; } = string.Empty;
-        public string? SignerEmail { get; set; }
-        public CosigningStatus Status { get; set; }
-        public int SignOrder { get; set; }
-        public string? SignatureData { get; set; }
-        public DateTime? SignedAt { get; set; }
-        public DateTime? RequestedAt { get; set; }
-        public DateTime? ReminderSentAt { get; set; }
-        public string? Comment { get; set; }
-        public string? RejectionReason { get; set; }
-        public bool RequiresComment { get; set; }
-        public CosigningType Type { get; set; }
-        public Dictionary<string, object> Metadata { get; set; } = new();
-        public DateTime CreatedAt { get; set; }
-        public string? CreatedBy { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public string? UpdatedBy { get; set; }
     }
 }

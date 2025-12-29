@@ -19,7 +19,8 @@ protected:
 };
 
 TEST_F(BlockTableTest, AllocateBlocks) {
-    BlockTable table(block_manager, 1);
+    BlockTable::Config config;
+    BlockTable table(block_manager, 1, config);
     
     auto blocks = table.allocateBlocks(10);
     EXPECT_EQ(blocks.size(), 10);
@@ -29,7 +30,8 @@ TEST_F(BlockTableTest, AllocateBlocks) {
 }
 
 TEST_F(BlockTableTest, ReleaseBlocks) {
-    BlockTable table(block_manager, 1);
+    BlockTable::Config config;
+    BlockTable table(block_manager, 1, config);
     
     table.allocateBlocks(10);
     table.releaseBlocks();
@@ -52,7 +54,8 @@ TEST_F(BlockTableTest, SharePrefix) {
 }
 
 TEST_F(BlockTableTest, GetStats) {
-    BlockTable table(block_manager, 1);
+    BlockTable::Config config;
+    BlockTable table(block_manager, 1, config);
     table.allocateBlocks(10);
     
     auto stats = table.getStats();
@@ -151,7 +154,8 @@ TEST(PagedKVCacheBenchmark, BlockAllocationLatency) {
     bm_config.total_blocks = 10000;
     auto block_manager = std::make_shared<PagedBlockManager>(bm_config);
     
-    BlockTable table(block_manager, 1);
+    BlockTable::Config config;
+    BlockTable table(block_manager, 1, config);
     
     auto start = std::chrono::high_resolution_clock::now();
     table.allocateBlocks(1000);

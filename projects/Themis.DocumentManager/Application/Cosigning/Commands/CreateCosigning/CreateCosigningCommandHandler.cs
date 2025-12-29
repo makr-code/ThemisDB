@@ -6,7 +6,7 @@ namespace Themis.DocumentManager.Application.Cosigning.Commands.CreateCosigning;
 
 public class CreateCosigningCommandHandler : IRequestHandler<CreateCosigningCommand, Result<CosigningDto>>
 {
-    private static readonly Dictionary<string, CosigningItem> _cosignings = new();
+    internal static readonly Dictionary<string, CosigningItem> Cosignings = new();
 
     public async Task<Result<CosigningDto>> Handle(CreateCosigningCommand request, CancellationToken cancellationToken)
     {
@@ -31,7 +31,7 @@ public class CreateCosigningCommandHandler : IRequestHandler<CreateCosigningComm
             CreatedBy = "System"
         };
 
-        _cosignings[id] = cosigning;
+        Cosignings[id] = cosigning;
 
         var dto = new CosigningDto
         {
@@ -61,7 +61,7 @@ public class CreateCosigningCommandHandler : IRequestHandler<CreateCosigningComm
         return await Task.FromResult(Result<CosigningDto>.Ok(dto));
     }
 
-    private class CosigningItem
+    internal class CosigningItem
     {
         public string Id { get; set; } = string.Empty;
         public string DocumentId { get; set; } = string.Empty;

@@ -47,7 +47,7 @@ public:
         }
     };
 
-    explicit LLMResponseCache(const std::string& cache_name, const Config& config = {});
+    explicit LLMResponseCache(const std::string& cache_name, const Config& config);
     ~LLMResponseCache() = default;
 
     // Non-copyable, moveable

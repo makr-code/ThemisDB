@@ -75,7 +75,7 @@ public:
             node.setField("label", "Person");
             node.setField("name", "User " + std::to_string(i));
             node.setField("age", static_cast<int>(age_dist(rng)));
-            node.setField("followers", rng() % 10000);
+            node.setField("followers", static_cast<int64_t>(rng() % 10000));
             
             // Note: addVertex is not needed in current PropertyGraphManager API
             // Vertices are created implicitly when edges reference them
@@ -95,7 +95,7 @@ public:
                     edge.setField("_from", node_ids_[i]);
                     edge.setField("_to", node_ids_[target]);
                     edge.setField("_type", "FOLLOWS");
-                    edge.setField("since", 2020 + (rng() % 5));
+                    edge.setField("since", static_cast<int64_t>(2020 + (rng() % 5)));
 
                     auto st = property_graph_->addEdge(edge, "social");
                     if (!st.ok) {
