@@ -155,26 +155,54 @@ ThemisDB bietet native Unterstützung für mehrere Architekturen:
 
 ### Build Scripts
 
+#### Schnellstart (Empfohlen)
+
 ```powershell
-# Windows: Docker Build
-.\docker-build.ps1
+# Windows: Schnelles Build & Push
+.\scripts\quick-docker-deploy.ps1
 
-# Mit Binary-Build
-.\docker-build.ps1 -BuildBinary
+# Mit Binär-Rebuild
+.\scripts\quick-docker-deploy.ps1 -BuildBinary -Push
 
-# QNAP-Variante
-.\docker-build.ps1 -Variant qnap
+# Spezifische Version
+.\scripts\quick-docker-deploy.ps1 -Tag "1.3.4" -Push
+```
 
-# Build und Push
-.\docker-build.ps1 -Push
+#### Detailliertes Docker Build
+
+```powershell
+# Windows: Standard Docker Build
+.\scripts\build-docker.ps1 -Tag "1.3.4"
+
+# Mit Binary-Build (vollständig)
+.\scripts\build-docker.ps1 -BuildBinary -Tag "1.3.4"
+
+# Multi-Arch Build & Push zu Docker Hub
+.\scripts\build-docker.ps1 -Platforms "linux/amd64,linux/arm64" -Tag "1.3.4" -Push
+
+# Mit vorgebautem Dockerfile (schneller)
+.\scripts\build-docker.ps1 -Dockerfile "Dockerfile.simple" -Tag "1.3.4" -Push
 ```
 
 ```bash
 # Linux/macOS: Docker Build
-./scripts/docker-build.sh
+TAG=1.3.4 ./scripts/build-docker.sh
 
-# Multi-arch build
-docker buildx build --platform linux/amd64,linux/arm64 -t themisdb:latest .
+# Mit Binary-Build
+TAG=1.3.4 BUILD_BINARY=true ./scripts/build-docker.sh
+
+# Multi-arch + Push
+TAG=1.3.4 PLATFORMS="linux/amd64,linux/arm64" PUSH=true ./scripts/build-docker.sh
+```
+
+#### Vollständiger Release-Pipeline
+
+```powershell
+# Alle Plattformen bauen (Windows, Linux, Docker)
+.\scripts\build.ps1 -Target all -Push
+
+# Nur Docker
+.\scripts\build.ps1 -Target docker -Push -Platforms "linux/amd64,linux/arm64"
 ```
 
 ---
