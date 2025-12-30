@@ -1117,23 +1117,43 @@ class KanbanService:
         with db.transaction():
             # Position am Ende der Spalte
             position = db.query("""
-                SELECT COALESCE(MAX(position), -1) + 1 as pos
-                FROM cards WHERE column_id = ?
-            """, [column_id])[0]['pos']
+                FOR card IN cards 
+                  FILTER card.column_id == @column_id
+                  COLLECT AGGREGATE max_pos = MAX(card.position)
+                  RETURN COALESCE(max_pos, -1) + 1
+            """, {"column_id": column_id})[0]
             
             result = db.execute("""
-                INSERT INTO cards (board_id, column_id, title, description, assigned_to, position, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                RETURNING *
-            """, [board_id, column_id, title, description, assigned_to, position, request.user_id])
+                INSERT {
+                  board_id: @board_id,
+                  column_id: @column_id,
+                  title: @title,
+                  description: @description,
+                  assigned_to: @assigned_to,
+                  position: @position,
+                  created_by: @created_by
+                } INTO cards
+                RETURN NEW
+            """, {
+                "board_id": board_id,
+                "column_id": column_id,
+                "title": title,
+                "description": description,
+                "assigned_to": assigned_to,
+                "position": position,
+                "created_by": request.user_id
+            })
             
             card = result[0]
             
             # Activity
             db.execute("""
-                INSERT INTO card_activities (card_id, user_id, action_type)
-                VALUES (?, ?, 'created')
-            """, [card['id'], request.user_id])
+                INSERT {
+                  card_id: @card_id,
+                  user_id: @user_id,
+                  action_type: 'created'
+                } INTO card_activities
+            """, {"card_id": card['id'], "user_id": request.user_id})
             
             return card
     
