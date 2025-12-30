@@ -26,6 +26,54 @@ Testing & CI:
 
 ---
 
+## Git Branching Strategy (Git Flow)
+
+ThemisDB folgt einer **Git Flow Branching Strategy**:
+
+### Branch-Struktur
+
+| Branch | Zweck | Schutz | Merges von |
+|--------|-------|--------|------------|
+| **`main`** | Production-ready releases (Tagged: v1.4.0, etc.) | 🔒 Vollständig geschützt | `release/*`, `hotfix/*` |
+| **`develop`** | Aktive Entwicklung und Integration | 🔒 Geschützt | `feature/*`, `bugfix/*`, `release/*` |
+| **`feature/*`** | Neue Features entwickeln | - | - |
+| **`bugfix/*`** | Bugfixes für develop | - | - |
+| **`hotfix/*`** | Kritische Production-Fixes | - | - |
+| **`release/*`** | Release-Vorbereitung | - | - |
+
+### Workflow für Copilot
+
+**Bei neuen Features:**
+```bash
+# Immer von develop branchen
+git checkout develop
+git pull origin develop
+git checkout -b feature/xyz
+```
+
+**Bei PRs:**
+- **Target Branch**: `develop` (NICHT `main`!)
+- **Ausnahme**: Hotfixes targeten `main`
+
+**Bei Release-Vorbereitung:**
+```bash
+# Von develop zu release branch
+git checkout -b release/1.4.0 develop
+# Nach Testing: Merge zu main + Tag + Merge zurück zu develop
+```
+
+### Wichtige Regeln
+
+- ✅ Feature-Branches immer von `develop` erstellen
+- ✅ PRs standardmäßig zu `develop` erstellen
+- ✅ `main` Branch ist NUR für Production Releases
+- ❌ Nie direkt auf `main` oder `develop` committen
+- ❌ Keine Feature-PRs direkt zu `main`
+
+**Dokumentation**: Siehe `BRANCHING_STRATEGY.md` für Details
+
+---
+
 ## ThemisDB Build-System Übersicht
 
 ### Kernprinzip: vcpkg Offline-First Architecture
