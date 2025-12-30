@@ -265,12 +265,23 @@ choco install llvm cppcheck gitleaks
 
 ## Development Workflow
 
+> [!IMPORTANT]
+> **ThemisDB uses a Git Flow branching strategy:**
+> - `main` = Production-ready release branch (protected)
+> - `develop` = Active development branch (integration)
+> - All features branch from `develop` and merge back to `develop`
+> - See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete details
+
 ### 1. Create a Feature Branch
 
 ```bash
+# IMPORTANT: Always branch from develop (not main)
+git checkout develop
+git pull origin develop
 git checkout -b feature/your-feature-name
+
 # OR for bug fixes
-git checkout -b fix/bug-description
+git checkout -b bugfix/bug-description
 ```
 
 **Branch naming conventions:**
@@ -338,17 +349,35 @@ Fixes #456
 git push origin feature/your-feature-name
 ```
 
-Then create a pull request on GitHub.
+**Create Pull Request:**
+- **Base Branch**: `develop` (not `main`!)
+- **Compare Branch**: `feature/your-feature-name`
+- Add clear description of changes
+- Link related issues
+
+> [!NOTE]
+> Pull requests should target the `develop` branch unless you are working on a hotfix for production.
 ---
 
 ## 💻 Development Workflow
 
+> [!IMPORTANT]
+> **ThemisDB uses a Git Flow branching strategy:**
+> - 🎯 `main` = Production-ready release branch (protected)
+> - 🚧 `develop` = Active development branch (integration)  
+> - 🌿 All features branch from `develop` and merge back to `develop`
+> - 📖 See [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) for complete details
+
 ### 1️⃣ Create a Feature Branch
 
 ```bash
+# IMPORTANT: Always branch from develop (not main)
+git checkout develop
+git pull origin develop
 git checkout -b feature/your-feature-name
+
 # OR for bug fixes
-git checkout -b fix/bug-description
+git checkout -b bugfix/bug-description
 ```
 
 **Branch Naming Conventions:**
@@ -468,7 +497,14 @@ git push origin feature/your-feature-name
 ```
 
 > [!NOTE]
-> GitHub will automatically prompt you to create a pull request after pushing.
+> **Target Branch**: Pull requests should target the `develop` branch (not `main`!) unless you are working on a hotfix for production.
+
+**When creating your PR:**
+1. Set **Base** to `develop`
+2. Set **Compare** to your feature branch
+3. Add clear description of changes
+4. Link related issues with `Closes #123`
+5. Add appropriate labels
 
 ## Code Quality Standards
 

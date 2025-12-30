@@ -471,6 +471,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 <summary><b>Development</b></summary>
 
 - 🔨 [Build Guide](docs/guides/guides_build_strategy.md)
+- 🌿 [Branching Strategy](BRANCHING_STRATEGY.md) | [EN](BRANCHING_STRATEGY_EN.md)
 - 🤝 [Contributing](CONTRIBUTING.md)
 - 📖 [API Reference](docs/api/api_reference.md)
 - 📦 [Client SDKs](clients/README.md)
@@ -564,6 +565,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 | 🐛 **Issues** | Report bugs or request features | [GitHub Issues](https://github.com/makr-code/ThemisDB/issues) |
 | 💬 **Discussions** | Community Q&A and discussions | [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) |
 | 🤝 **Contributing** | How to contribute to ThemisDB | [Contributing Guide](CONTRIBUTING.md) |
+| 🌿 **Branching Strategy** | Git Flow workflow (main = release, develop = dev) | [Branching Strategy](BRANCHING_STRATEGY.md) |
 | 🔒 **Security** | Responsible disclosure policy | [Security Policy](SECURITY.md) |
 
 ---
