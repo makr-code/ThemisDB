@@ -38,9 +38,6 @@ FOR article IN articles
   LET score = FULLTEXT_SCORE(article)
   SORT score DESC
   RETURN {article, score}
-FROM articles
-WHERE FULLTEXT_MATCH(articles, 'database')
-ORDER BY score DESC;
 ```
 
 Vorteile:
@@ -191,21 +188,24 @@ ON articles (
 **Einfache Suche:**
 
 ```aql
-SELECT * FROM articles
-WHERE FULLTEXT_MATCH(articles, 'database systems');
+FOR article IN articles
+  FILTER FULLTEXT(article, 'database systems')
+  RETURN article
 ```
 
 **Mit Relevanz-Score:**
 
 ```aql
-SELECT 
-  id, 
-  title, 
-  FULLTEXT_SCORE(articles) as relevance
-FROM articles
-WHERE FULLTEXT_MATCH(articles, 'database systems')
-ORDER BY relevance DESC
-LIMIT 10;
+FOR article IN articles
+  FILTER FULLTEXT(article, 'database systems')
+  LET relevance = FULLTEXT_SCORE(article)
+  SORT relevance DESC
+  LIMIT 10
+  RETURN {
+    id: article.id,
+    title: article.title,
+    relevance
+  }
 ```
 
 **Mehrere Begriffe (AND):**
@@ -255,16 +255,18 @@ WHERE FULLTEXT_MATCH(articles, 'databse~');  -- Findet "database" trotz Fehler
 **Nur in bestimmten Feldern suchen:**
 
 ```aql
-SELECT * FROM articles
-WHERE FULLTEXT_MATCH(articles, 'title:database AND content:nosql');
+FOR article IN articles
+  FILTER FULLTEXT(article.title, 'database') AND FULLTEXT(article.content, 'nosql')
+  RETURN article
 ```
 
 **Kombinierte Suche:**
 
 ```aql
-SELECT * FROM articles
-WHERE FULLTEXT_MATCH(articles, 'title:"multi-model" OR content:vector')
-  AND category = 'technology';  -- Zusätzliche Filter kombinierbar
+FOR article IN articles
+  FILTER (FULLTEXT(article.title, 'multi-model') OR FULLTEXT(article.content, 'vector'))
+    AND article.category == 'technology'  -- Zusätzliche Filter kombinierbar
+  RETURN article
 ```
 
 ---
@@ -276,13 +278,14 @@ WHERE FULLTEXT_MATCH(articles, 'title:"multi-model" OR content:vector')
 Markiert Suchbegriffe in Ergebnissen:
 
 ```aql
-SELECT 
-  id,
-  title,
-  FULLTEXT_HIGHLIGHT(content, 'database', '<mark>', '</mark>') as snippet
-FROM articles
-WHERE FULLTEXT_MATCH(articles, 'database')
-LIMIT 10;
+FOR article IN articles
+  FILTER FULLTEXT(article, 'database')
+  LIMIT 10
+  RETURN {
+    id: article.id,
+    title: article.title,
+    snippet: FULLTEXT_HIGHLIGHT(article.content, 'database', '<mark>', '</mark>')
+  }
 ```
 
 Ergebnis:
@@ -293,12 +296,13 @@ Ergebnis:
 **Snippet-Extraktion:**
 
 ```aql
-SELECT 
-  id,
-  title,
-  FULLTEXT_SNIPPET(content, 'database', 50, 200) as snippet
-FROM articles
-WHERE FULLTEXT_MATCH(articles, 'database');
+FOR article IN articles
+  FILTER FULLTEXT(article, 'database')
+  RETURN {
+    id: article.id,
+    title: article.title,
+    snippet: FULLTEXT_SNIPPET(article.content, 'database', 50, 200)
+  }
 ```
 
 Extrahiert 200 Zeichen um den Suchbegriff herum (50 Zeichen vor, 150 nach).
@@ -309,10 +313,11 @@ Extrahiert 200 Zeichen um den Suchbegriff herum (50 Zeichen vor, 150 nach).
 
 ```aql
 -- Findet alle Artikel, die mit "dat" beginnen
-SELECT DISTINCT 
-  FULLTEXT_TERMS(articles, 'dat*') as suggestion
-FROM articles
-LIMIT 10;
+FOR article IN articles
+  LET suggestion = FULLTEXT_TERMS(article, 'dat*')
+  FILTER suggestion != null
+  LIMIT 10
+  RETURN DISTINCT suggestion
 ```
 
 Ergebnis:
@@ -323,16 +328,14 @@ Ergebnis:
 **Häufigkeits-basierte Vorschläge:**
 
 ```aql
-SELECT 
-  term,
-  COUNT(*) as frequency
-FROM (
-  SELECT FULLTEXT_TERMS(articles, 'dat*') as term
-  FROM articles
-) 
-GROUP BY term
-ORDER BY frequency DESC
-LIMIT 10;
+FOR article IN articles
+  LET term = FULLTEXT_TERMS(article, 'dat*')
+  FILTER term != null
+  COLLECT termValue = term
+  AGGREGATE frequency = COUNT()
+  SORT frequency DESC
+  LIMIT 10
+  RETURN {term: termValue, frequency}
 ```
 
 ### Faceted Search
@@ -340,12 +343,11 @@ LIMIT 10;
 Kombiniert Volltext mit Facetten:
 
 ```aql
-SELECT 
-  category,
-  COUNT(*) as count
-FROM articles
-WHERE FULLTEXT_MATCH(articles, 'database')
-GROUP BY category;
+FOR article IN articles
+  FILTER FULLTEXT(article, 'database')
+  COLLECT category = article.category
+  AGGREGATE count = COUNT()
+  RETURN {category, count}
 ```
 
 Ergebnis:
@@ -360,9 +362,13 @@ Business        | 12
 **Komplexe Facetten-Abfrage:**
 
 ```aql
-WITH results AS (
-  SELECT *
-  FROM articles
+LET results = (
+  FOR article IN articles
+    FILTER FULLTEXT(article, 'database')
+    RETURN article
+)
+
+FOR r IN results
   WHERE FULLTEXT_MATCH(articles, 'database')
 )
 SELECT 
@@ -391,7 +397,10 @@ from textblob import TextBlob
 db = ThemisDB()
 
 # Reviews aus Datenbank laden
-reviews = db.query("SELECT id, text FROM product_reviews")
+reviews = db.query("""
+    FOR review IN product_reviews
+      RETURN {id: review.id, text: review.text}
+""")
 
 for review in reviews:
     # Sentiment-Analyse
@@ -400,19 +409,19 @@ for review in reviews:
     
     # Sentiment in DB speichern
     db.query("""
-        UPDATE product_reviews
-        SET sentiment_score = ?
-        WHERE id = ?
-    """, [sentiment, review['id']])
+        FOR review IN product_reviews
+          FILTER review.id == @review_id
+          UPDATE review WITH {sentiment_score: @sentiment} IN product_reviews
+    """, {"sentiment": sentiment, "review_id": review['id']})
 
 # Aggregierte Sentiment-Analyse
 avg_sentiment = db.query("""
-    SELECT 
-        product_id,
-        AVG(sentiment_score) as avg_sentiment,
-        COUNT(*) as review_count
-    FROM product_reviews
-    GROUP BY product_id
+    FOR review IN product_reviews
+      COLLECT product_id = review.product_id
+      AGGREGATE 
+        avg_sentiment = AVG(review.sentiment_score),
+        review_count = COUNT()
+      RETURN {product_id, avg_sentiment, review_count}
     HAVING review_count >= 10
     ORDER BY avg_sentiment DESC
 """)
