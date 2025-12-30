@@ -404,9 +404,11 @@ class Document:
             # 6. Vector Embedding
             embedding = generate_embedding(text)  # sentence-transformers
             self.db.execute("""
-                INSERT INTO document_embeddings (document_id, embedding)
-                VALUES (?, ?)
-            """, (doc_id, embedding))
+                INSERT {
+                  document_id: @doc_id,
+                  embedding: @embedding
+                } INTO document_embeddings
+            """, {"doc_id": doc_id, "embedding": embedding})
             
             # 7. Audit-Log
             log_action("CREATE", "document", doc_id, None, {"title": title, "type": doc_type})
@@ -442,9 +444,18 @@ class Document:
             
             # Text und Embedding neu generieren
             text = extract_text(file_path)
-            self.db.execute("UPDATE document_text SET content = ? WHERE document_id = ?", (text, document_id))
+            self.db.execute("""
+                FOR doc_text IN document_text
+                  FILTER doc_text.document_id == @document_id
+                  UPDATE doc_text WITH {content: @text} IN document_text
+            """, {"document_id": document_id, "text": text})
+            
             embedding = generate_embedding(text)
-            self.db.execute("UPDATE document_embeddings SET embedding = ? WHERE document_id = ?", (embedding, document_id))
+            self.db.execute("""
+                FOR doc_emb IN document_embeddings
+                  FILTER doc_emb.document_id == @document_id
+                  UPDATE doc_emb WITH {embedding: @embedding} IN document_embeddings
+            """, {"document_id": document_id, "embedding": embedding})
             
             log_action("VERSION_ADD", "document", document_id, None, {"version": new_version})
         
