@@ -215,7 +215,302 @@ activity = db.execute("""
 """, {"user_id": user_id})
 ```
 
-## 10.2 DMS/ERP-System (Example 08)
+---
+
+## 10.2 Native Security-Stack: Production-Ready Sicherheit
+
+ThemisDB v1.3.0 bietet einen vollständig nativen, in C++ implementierten Security-Stack, der BSI C5-konform ist und keine externen Abhängigkeiten (wie Apache Ranger) für die Kern-Sicherheitsfunktionen benötigt.
+
+### 10.2.1 Implementierungsstatus (Dezember 2025)
+
+| Komponente | Status | Implementierung | Beschreibung |
+|------------|--------|-----------------|--------------|
+| **RBAC/ABAC Policy Engine** | ✅ Produktionsreif | `src/security/rbac.cpp` | Role-Based & Attribute-Based Access Control |
+| **Apache Ranger Integration** | ✅ Produktionsreif | `src/server/ranger_adapter.cpp` | Optional: Enterprise Policy Management |
+| **Field-Level Encryption** | ✅ Produktionsreif | `src/security/encryption.cpp` | AES-256-GCM, transparent |
+| **Column Encryption** | ✅ Produktionsreif | BSI C5 konform | Spalten-basierte Verschlüsselung |
+| **Vector Encryption** | ✅ Produktionsreif | Phase 1+2 komplett | HNSW-Index + RocksDB Vektoren |
+| **PKI Integration** | ✅ Produktionsreif | `src/security/pki_key_provider.cpp` | X.509 Zertifikat-basiert |
+| **HSM Support** | ✅ Produktionsreif | `src/security/hsm_provider_pkcs11.cpp` | PKCS#11 Hardware Security Modules |
+| **Audit Logging** | ✅ Produktionsreif | `src/utils/audit_logger.cpp` | Tamper-Proof mit Hash-Chains |
+| **Malware Scanner** | ✅ Produktionsreif | `src/security/malware_scanner.cpp` | Content Security |
+| **CMS Signing** | ✅ Produktionsreif | `src/security/cms_signing.cpp` | Cryptographic Message Syntax |
+| **RFC 3161 TSA** | ✅ Produktionsreif | `src/security/timestamp_authority.cpp` | Qualified Timestamps |
+
+**Gesamt:** 16 Header-Dateien, 16 Source-Dateien, ~8.100 LOC
+
+### 10.2.2 RBAC-Implementierung im C++ Core
+
+ThemisDB implementiert RBAC direkt im C++ Kern, nicht als Add-on-Layer:
+
+**Architektur:**
+```cpp
+// Native RBAC Integration (src/security/rbac.h)
+class RBACManager {
+public:
+    // Role Management
+    Status createRole(const std::string& roleName, 
+                     const std::vector<std::string>& permissions);
+    Status assignRole(const std::string& userId, 
+                     const std::string& roleName);
+    
+    // Permission Check (optimiert für Performance)
+    bool hasPermission(const std::string& userId,
+                      const std::string& resource,
+                      const std::string& action) const;
+    
+    // Attribute-Based (ABAC) Extension
+    bool checkPolicy(const PolicyContext& ctx) const;
+};
+```
+
+**Performance-Optimierung:**
+- Permission-Checks gecacht im RAM (TBB concurrent_hash_map)
+- Sub-Millisekunden Latenz für Permission-Checks
+- Keine Netzwerk-Latenz (im Gegensatz zu externen Policy-Servern)
+
+**Verwendung in AQL:**
+```aql
+// Automatischer Permission-Check bei Query-Ausführung
+FOR doc IN documents
+    // RBAC-Filter wird automatisch eingefügt basierend auf User-Kontext
+    FILTER HAS_PERMISSION(CURRENT_USER(), doc._id, 'read')
+    RETURN doc
+```
+
+### 10.2.3 Tamper-Proof Audit Logging mit Hash-Chains
+
+Das Audit-System von ThemisDB verhindert nachträgliche Manipulation durch **kryptografische Hash-Chains**:
+
+**Funktionsweise:**
+```cpp
+// src/utils/audit_logger.cpp
+class AuditLogger {
+    struct AuditEntry {
+        uint64_t sequence_number;
+        int64_t timestamp_ms;
+        std::string user_id;
+        std::string action;
+        std::string resource_id;
+        std::string details;
+        std::string previous_hash;  // Hash des vorherigen Eintrags
+        std::string current_hash;   // SHA-256 über alle Felder
+    };
+    
+    // Verkettung erzwingt chronologische Integrität
+    std::string computeHash(const AuditEntry& entry) {
+        std::string data = std::to_string(entry.sequence_number) +
+                          std::to_string(entry.timestamp_ms) +
+                          entry.user_id + entry.action + 
+                          entry.resource_id + entry.details +
+                          entry.previous_hash;
+        return SHA256(data);  // OpenSSL
+    }
+};
+```
+
+**Garantien:**
+- ✅ **Unveränderbarkeit:** Jede Änderung bricht die Hash-Chain
+- ✅ **Lückenlosigkeit:** Fehlende Einträge sind sofort erkennbar
+- ✅ **Zeitstempel-Authentizität:** Integration mit RFC 3161 Timestamp Authority
+- ✅ **Revisionssicher:** BSI-konform, DSGVO Art. 32
+
+**Verifikation:**
+```aql
+// Audit-Log-Integrität prüfen
+FOR entry IN audit_log
+    SORT entry.sequence_number ASC
+    LET expected_hash = SHA256(
+        CONCAT(
+            entry.sequence_number,
+            entry.timestamp_ms,
+            entry.user_id,
+            entry.action,
+            entry.resource_id,
+            entry.details,
+            entry.previous_hash
+        )
+    )
+    FILTER entry.current_hash != expected_hash
+    RETURN {
+        error: "Audit log integrity violation",
+        sequence: entry.sequence_number
+    }
+```
+
+### 10.2.4 HashiCorp Vault Integration
+
+Für Enterprise-Key-Management integriert ThemisDB mit HashiCorp Vault:
+
+**Konfiguration:**
+```cpp
+// src/security/vault_key_provider.cpp
+VaultKeyProvider::Config vault_config;
+vault_config.vault_addr = "https://vault.company.com:8200";
+vault_config.token = std::getenv("VAULT_TOKEN");
+vault_config.mount_path = "themisdb";
+vault_config.key_name = "database-master-key";
+
+auto key_provider = std::make_shared<VaultKeyProvider>(vault_config);
+FieldEncryption encryption(key_provider);
+```
+
+**Features:**
+- ✅ Automatische Key-Rotation
+- ✅ Audit Trail für Key-Access
+- ✅ High Availability (Vault Cluster)
+- ✅ Disaster Recovery (Sealed/Unsealed State)
+
+**Alternative Key Provider:**
+- `MockKeyProvider`: Für Testing/Development
+- `PKIKeyProvider`: Zertifikat-basiert für PKI-Infrastrukturen
+- `HSMProvider`: PKCS#11 für Hardware Security Modules (Luna, Thales)
+
+### 10.2.5 BSI C5 Compliance: Kryptographie
+
+ThemisDB erreicht **100% BSI C5 Compliance** für Kryptographie-Anforderungen (CRY-01 bis CRY-06):
+
+| Anforderung | Umsetzung | Dokument |
+|-------------|-----------|----------|
+| **CRY-01**: Kryptographie-Policy | ✅ Formale Policy dokumentiert | `CRYPTOGRAPHY_POLICY.md` |
+| **CRY-02**: Key Lifecycle | ✅ Vollständiger Lebenszyklus | `KEY_LIFECYCLE_MANAGEMENT.md` |
+| **CRY-03**: At-Rest Encryption | ✅ AES-256-GCM für alle Daten | Column + Vector Encryption |
+| **CRY-04**: In-Transit Encryption | ✅ TLS 1.3 mandatory | Wire Protocol + HTTP/2 |
+| **CRY-05**: Key Storage | ✅ HSM/Vault Integration | `VaultKeyProvider` + `HSMProvider` |
+| **CRY-06**: Algorithm Strength | ✅ BSI TR-02102-1 konform | AES-256, RSA-2048+, SHA-256 |
+
+**Besonderheit: Multi-Model Encryption Consistency**
+
+ThemisDB's Unified Storage Architecture garantiert konsistente Verschlüsselung über alle Datenmodelle:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│           Application Layer (AQL Queries)                │
+├─────────────────────────────────────────────────────────┤
+│  Relational  │  Graph  │  Vector  │  Document  │  Geo   │
+│  Projection  │  Proj.  │  Proj.   │  Proj.     │  Proj. │
+└──────────────┴─────────┴──────────┴────────────┴────────┘
+                         │
+                         ▼
+        ┌────────────────────────────────────────┐
+        │   Encryption Layer (AES-256-GCM)       │ ◄── Einheitlich!
+        └────────────────────────────────────────┘
+                         │
+                         ▼
+        ┌────────────────────────────────────────┐
+        │  Base Entity Storage (RocksDB)         │
+        │  • Alle Daten verschlüsselt            │
+        │  • Keine Encryption Gaps               │
+        └────────────────────────────────────────┘
+```
+
+**Vorteil:** Im Gegensatz zu Polyglot-Systemen, wo jede Datenbank eigene Encryption benötigt, ist in ThemisDB alles einheitlich verschlüsselt – kein Modell kann "vergessen" werden.
+
+### 10.2.6 DSGVO "By Design" Features
+
+ThemisDB implementiert DSGVO-Anforderungen technisch:
+
+**1. Auto-Purge nach Retention-Period (Art. 17 - Recht auf Löschung):**
+```cpp
+// src/utils/retention_manager.cpp
+RetentionManager::Config retention;
+retention.enable_auto_purge = true;
+retention.default_retention_days = 2555;  // 7 Jahre (§ 147 AO)
+retention.purge_schedule_cron = "0 2 * * 0";  // Sonntags 2 Uhr
+
+// Anwendung auf Collection
+db.execute("""
+    CREATE COLLECTION customer_data WITH {
+        retention_days: 2555,
+        auto_purge: true
+    }
+""");
+```
+
+**2. PII Detection und Redaction (Art. 32 - Datensicherheit):**
+```cpp
+// src/utils/pii_detector.cpp
+PIIDetector detector;
+detector.addPattern("email", R"([\w\.-]+@[\w\.-]+\.\w+)");
+detector.addPattern("iban", R"(DE\d{20})");
+detector.addPattern("ssn", R"(\d{3}-\d{2}-\d{4})");
+
+// Automatische Redaction bei Logging
+std::string safe_text = detector.redact(user_input);
+// Output: "Contact: ***@***.com, IBAN: DE********************"
+```
+
+**3. Encrypt-then-Sign für Log-Integrität:**
+```cpp
+// src/security/cms_signing.cpp
+CMSSigning signer(private_key, certificate);
+
+// Audit-Log Entry signieren
+std::string signed_entry = signer.sign(
+    audit_entry_json,
+    true  // include_timestamp (RFC 3161)
+);
+
+// Später: Verifizierung
+bool valid = signer.verify(signed_entry, public_cert);
+```
+
+**4. Granulare Retention Policies:**
+```aql
+-- Unterschiedliche Aufbewahrungsfristen pro Datentyp
+CREATE COLLECTION invoices WITH { retention_days: 3650 };  -- 10 Jahre
+CREATE COLLECTION marketing_consents WITH { retention_days: 730 };  -- 2 Jahre
+CREATE COLLECTION session_logs WITH { retention_days: 90 };  -- 90 Tage
+```
+
+### 10.2.7 Code-Beispiel: Vollständige Enterprise-Security
+
+```python
+from themisdb import Client, SecurityContext
+
+# 1. Client mit Security-Kontext
+client = Client("localhost", 8765)
+
+# 2. Authentifizierung (PKI-basiert oder Token)
+auth_token = client.authenticate(
+    cert_file="user.crt",
+    key_file="user.key"
+)
+
+# 3. Security Context für alle Operationen
+sec_ctx = SecurityContext(
+    user_id="alice@company.com",
+    roles=["data_analyst", "auditor"],
+    tenant_id="acme_corp"
+)
+
+# 4. Query mit automatischem RBAC + Audit
+with client.transaction(sec_ctx) as tx:
+    # Permission-Check + Audit-Log-Eintrag automatisch
+    results = tx.query("""
+        FOR doc IN sensitive_documents
+            FILTER doc.classification <= @max_clearance
+            RETURN doc
+    """, {"max_clearance": sec_ctx.get_clearance_level()})
+    
+    # Alle Aktionen werden geloggt:
+    # - Wer (alice@company.com)
+    # - Was (SELECT sensitive_documents)
+    # - Wann (2025-12-30T15:00:00Z)
+    # - Ergebnis (5 rows returned)
+    # - Hash (SHA-256 chain)
+
+# 5. Compliance-Report abrufen
+audit_report = client.get_audit_report(
+    start_date="2025-01-01",
+    end_date="2025-12-31",
+    user_id="alice@company.com"
+)
+```
+
+---
+
+## 10.3 DMS/ERP-System (Example 08)
 
 Ein vollständiges Document Management System mit ERP-Features.
 
@@ -928,7 +1223,7 @@ def perform_ocr(file_path):
         return pytesseract.image_to_string(img, lang='deu')
 ```
 
-## 10.3 CRM-System (Example 17)
+## 10.4 CRM-System (Example 17)
 
 Customer Relationship Management komplett in ThemisDB.
 
@@ -1314,7 +1609,7 @@ class CRMDashboard:
         """, (start_date, end_date))
 ```
 
-## 10.4 Best Practices für Enterprise-Anwendungen
+## 10.5 Best Practices für Enterprise-Anwendungen
 
 ### 1. Performance bei großen Datenmengen
 
@@ -1439,7 +1734,7 @@ def health():
         return jsonify({'status': 'unhealthy'}), 500
 ```
 
-## 10.5 Zusammenfassung
+## 10.6 Zusammenfassung
 
 In diesem Kapitel haben Sie gelernt:
 

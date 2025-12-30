@@ -208,7 +208,88 @@ FOR product IN products
 
 ---
 
-## 3.2 Entscheidungskriterien
+## 3.2 Native Multi-Model vs. Polyglot Persistence
+
+### Das Problem polyglotter Persistenz
+
+Viele Unternehmen verfolgen einen "Polyglot Persistence"-Ansatz [33]: Sie kombinieren mehrere spezialisierte Datenbanken (z.B. PostgreSQL für relationale Daten, Neo4j für Graphen, ChromaDB für Vektoren) in einem losen Verbund. Dieser Ansatz scheint flexibel, führt aber zu fundamentalen Problemen [1]:
+
+**Technische Herausforderungen:**
+
+1. **Eventual Consistency statt ACID:**
+   - Daten sind über mehrere, physisch getrennte Systeme verteilt [33]
+   - Atomare Transaktionen über alle Systeme hinweg sind unmöglich [1]
+   - Man muss auf das "Saga-Pattern" [17] mit kompensierenden Transaktionen zurückgreifen
+   - Resultat: "Eventual Consistency" (BASE) [18] statt starker ACID-Garantien [16]
+
+2. **Post-Filtering-Problem bei RAG-Workloads:**
+   ```
+   # Polyglot-Ansatz (ineffizient):
+   1. Vektor-DB: Finde 1000 ähnliche Dokumente
+   2. Graph-DB: Hole alle Prozesse für Landkreis Havelland
+   3. Relational-DB: Hole alle Akten aus 2024
+   4. Application: Bilde manuell Schnittmenge im RAM
+   → 990 irrelevante Ergebnisse werden verworfen! [2], [5]
+   ```
+
+3. **Operativer Overhead:**
+   - 3+ unterschiedliche APIs zu lernen und warten
+   - 3+ Backup-Strategien zu implementieren
+   - 3+ Monitoring-Systeme zu konfigurieren
+   - 3+ Security-Konfigurationen abzustimmen
+   - Team benötigt Expertise in mehreren Datenbanken
+
+### ThemisDB's Native Multi-Model-Lösung
+
+ThemisDB verfolgt einen fundamentals anderen Ansatz [3], [11]: **Alle Datenmodelle teilen sich eine einzige, transaktionale Speicherschicht** (siehe Kapitel 2.4 - Base Entity Paradigma).
+
+**Architektonische Vorteile:**
+
+1. **Starke ACID-Transaktionen über alle Modelle:**
+   - Eine Operation kann atomar Graph, Vector und Relational ändern [1], [20]
+   - Kein Saga-Pattern nötig für Datenbankintegrität [3]
+   - Konsistenz ist "by Design", nicht ein fehleranfälliger Applikationsprozess
+
+2. **Pre-Filtering statt Post-Filtering:**
+   ```aql
+   -- Native Multi-Model ermöglicht Pre-Filtering:
+   FOR doc IN documents
+     FILTER doc.year == 2024                    // Relational Filter ZUERST
+     FILTER doc.region == "Havelland"           // Graph Context
+     LET similarity = COSINE(doc.vector, @query)  // Vector Search auf Subset
+     FILTER similarity > 0.8
+     SORT similarity DESC
+     LIMIT 10
+   ```
+   - Query-Engine nutzt ZUERST den relationalen Index (Jahr=2024)
+   - Erstellt eine hochselektive Kandidatenliste
+   - Vektorsuche (rechenintensiv) läuft NUR auf erlaubter Teilmenge
+   - **Resultat:** Um Größenordnungen performanter als Post-Filtering
+
+3. **Vereinfachte Operations:**
+   - Eine API (AQL) für alle Modelle
+   - Eine Backup-Strategie
+   - Ein Monitoring-System
+   - Eine Security-Konfiguration
+
+### Wann welcher Ansatz?
+
+**Polyglot Persistence verwenden wenn:**
+- ✓ Sie bereits mehrere spezialisierte Datenbanken im Einsatz haben
+- ✓ Eventual Consistency für Ihren Use Case akzeptabel ist
+- ✓ Sie Best-of-Breed-Tools für jeden Use Case wollen
+- ✓ Sie ein großes Ops-Team haben
+
+**Native Multi-Model (ThemisDB) verwenden wenn:**
+- ✓ ACID-Garantien über alle Datenmodelle kritisch sind
+- ✓ Sie hybride Queries (Graph + Vector + Relational) benötigen
+- ✓ RAG-Workloads mit komplexen Filtern zentral sind
+- ✓ Sie operationale Komplexität reduzieren wollen
+- ✓ Ein kleineres Team die Infrastruktur betreiben soll
+
+---
+
+## 3.3 Entscheidungskriterien
 
 ### Die 5 Fragen-Methode
 
@@ -262,7 +343,7 @@ Weniger wichtig → Dokument
 
 ---
 
-## 3.3 Praxis: Kontaktmanager
+## 3.4 Praxis: Kontaktmanager
 
 Jetzt bauen wir einen vollständigen Kontaktmanager, der zeigt, wie man Modelle kombiniert. Basis ist `examples/03_contact_manager`.
 

@@ -287,6 +287,134 @@ db->Put(cf_vectors, "prod_123", embedding);
 - Graph: Weniger Compression, mehr Cache
 - Vectors: Spezielle Bloom Filters
 
+### Das Base Entity Paradigma: Einheitlicher Multi-Modell-Speicher
+
+ThemisDB nutzt ein kanonisches Speicherformat, das als "Base Entity" bezeichnet wird [3], [4]. Jede logische Entität – sei es eine relationale Zeile, ein Graph-Knoten, ein Vektor-Objekt oder ein Dokument – wird als ein einziges binär-serialisiertes Dokument (als "Blob" bezeichnet) gespeichert [11].
+
+Diese Architekturentscheidung ist fundamental für die Multi-Modell-Fähigkeit von ThemisDB:
+
+**Multi-Modell-Datenabbildung auf physischer Ebene:**
+
+| Logisches Modell | Physischer Speicher | Key-Format | Value-Format |
+|-----------------|---------------------|------------|--------------|
+| **Relational** | (PK, Blob) | `"table_name:pk_value"` | VelocyPack/Bincode |
+| **Dokument** | (PK, Blob) | `"collection:pk_value"` | VelocyPack/Bincode |
+| **Graph (Knoten)** | (PK, Blob) | `"node:pk_value"` | VelocyPack/Bincode |
+| **Graph (Kante)** | (PK, Blob) | `"edge:pk_value"` | VelocyPack (inkl. _from/_to) |
+| **Vektor** | (PK, Blob) | `"object:pk_value"` | VelocyPack (inkl. Vektor-Array) |
+
+**Wie funktioniert das Base Entity Pattern?**
+
+Um das Base Entity Paradigma zu verstehen, betrachten wir ein konkretes Beispiel: Stellen Sie sich vor, Sie speichern einen Benutzer mit dem Namen "Alice", der 30 Jahre alt ist und in Berlin wohnt.
+
+**Im traditionellen Ansatz (z.B. PostgreSQL):**
+```sql
+-- Relationale Tabelle mit festen Spalten
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    name TEXT,
+    age INTEGER,
+    city TEXT
+);
+
+INSERT INTO users VALUES ('uuid-123', 'Alice', 30, 'Berlin');
+```
+
+**Im ThemisDB Base Entity Ansatz:**
+
+Zunächst wird das logische Objekt in ein einheitliches Binärformat serialisiert:
+
+```cpp
+// 1. Logisches Objekt (Application Layer)
+User alice = {
+    id: "uuid-123",
+    name: "Alice",
+    age: 30,
+    city: "Berlin"
+};
+
+// 2. Serialisierung zu VelocyPack (binäres JSON-ähnliches Format)
+// VelocyPack ist optimiert für schnelles Parsing und kompakte Speicherung
+std::vector<uint8_t> blob = VelocyPack::serialize(alice);
+// Resultat: ~40 Bytes binäre Daten statt ~80 Bytes ASCII-JSON
+
+// 3. Speicherung in RocksDB
+std::string key = "users:uuid-123";  // Namespace + Primary Key
+db->Put(key, blob);
+```
+
+Dieser Blob ist das "Base Entity" – die kanonische Speicherform für alle Datenmodelle. **Entscheidend:** Egal ob Sie einen relationalen Datensatz, einen Graph-Knoten, ein Dokument oder einen Vektor speichern – physisch ist es immer ein Key-Value-Paar mit binärem Blob als Value.
+
+**Wie werden unterschiedliche Datenmodelle auf Base Entities abgebildet?**
+
+1. **Relational (Tabellenzeile):**
+   ```cpp
+   // Key: "table_name:primary_key"
+   // Value: Binär-serialisierte Zeile mit allen Spalten
+   Key: "users:uuid-123"
+   Value: VelocyPack({id, name, age, city})
+   ```
+
+2. **Graph-Knoten:**
+   ```cpp
+   // Key: "node:node_id"
+   // Value: Knoten-Eigenschaften + Metadaten
+   Key: "nodes:alice"
+   Value: VelocyPack({_id, label: "Person", properties: {name, age}})
+   ```
+
+3. **Graph-Kante:**
+   ```cpp
+   // Key: "edge:edge_id"
+   // Value: Kante mit _from, _to, Gewicht, Eigenschaften
+   Key: "edges:knows-123"
+   Value: VelocyPack({_from: "alice", _to: "bob", _weight: 1.0, since: "2020"})
+   ```
+
+4. **Vektor-Objekt:**
+   ```cpp
+   // Key: "vector:object_id"
+   // Value: Objekt-Metadaten + Embedding-Array
+   Key: "vectors:doc-456"
+   Value: VelocyPack({id, metadata: {...}, embedding: [0.1, 0.2, ..., 0.9]})
+   ```
+
+**Warum ist das ein Durchbruch?**
+
+**Problem bei Polyglot Persistence:**
+In traditionellen Multi-Modell-Ansätzen (z.B. PostgreSQL + Neo4j + ChromaDB) müssen Sie denselben Datenpunkt in mehreren Datenbanken speichern:
+- PostgreSQL: Metadaten (Name, Alter)
+- Neo4j: Graph-Beziehungen  
+- ChromaDB: Vektor-Embedding
+
+**Resultat:** Datenkonsistenz ist unmöglich zu garantieren, weil atomare Transaktionen über drei separate Systeme nicht möglich sind.
+
+**Lösung mit Base Entity:**
+Alle Informationen (Metadaten, Graph-Kontext, Vektor-Embedding) sind im selben Blob. Eine RocksDB-Transaktion kann atomar:
+- Den Base Entity-Blob aktualisieren
+- Sekundärindizes aktualisieren (relationaler Index, Graph-Adjazenz, HNSW-Vector-Index)
+- Alles oder nichts (ACID)
+
+**Vorteile dieses Ansatzes:**
+
+1. **Einheitliche Speicherschicht:** Alle Datenmodelle teilen sich denselben physischen Speicher [11]
+2. **ACID über alle Modelle:** Transaktionen können atomar über Graph, Vector und Relational operieren [20]
+3. **Effiziente Serialisierung:** Binärformate wie VelocyPack [41] sind 4x schneller als Standard-JSON-Parser [40]
+
+### RocksDB TransactionDB: ACID-Garantien
+
+ThemisDB nutzt nicht Standard-RocksDB, sondern die **RocksDB TransactionDB**-Variante [3], [46]. Diese bietet:
+
+1. **Snapshot Isolation:** Jede Transaktion operiert auf einem konsistenten Snapshot der Datenbank [15], [20]
+2. **Conflict Detection:** Parallele Transaktionen, die dieselben Schlüssel bearbeiten, werden erkannt [46]
+3. **Atomare Rollbacks:** Fehlschlagende Transaktionen werden vollständig zurückgerollt [16]
+
+Dies ist entscheidend: Die Aktualisierung einer einzelnen logischen Entität (z.B. `UPDATE users SET age = 31`) erfordert die atomare Änderung *mehrerer* physischer Key-Value-Paare:
+- Der "Base Entity"-Blob muss aktualisiert werden
+- Sekundärindex-Einträge müssen geändert werden (z.B. Löschen von `idx:age:30`, Einfügen von `idx:age:31`)
+
+Ohne TransactionDB wäre diese Konsistenz zwischen Base Entity-Blobs und Index-Projektionen nicht garantiert.
+
 ### Write-Ahead Log (WAL)
 
 Jede Write-Operation wird erst in ein Log geschrieben:
@@ -304,6 +432,253 @@ Jede Write-Operation wird erst in ein Log geschrieben:
 - MemTable (RAM) ist verloren
 - WAL (Disk) ist da
 - Beim Restart: WAL replay → MemTable rebuild → Normal operations
+
+**Wie funktioniert der WAL-Mechanismus im Detail?**
+
+Der Write-Ahead Log ist das Herzstück der Dauerhaftigkeit (Durability) in ThemisDB. Lassen Sie uns den Ablauf Schritt für Schritt nachvollziehen:
+
+**Schritt 1 - Client sendet Write-Operation:**
+Ein Client möchte den Benutzer "Alice" aktualisieren. Die Operation wird an den ThemisDB-Server gesendet:
+```cpp
+client.update("users", "uuid-123", {age: 31});
+```
+
+**Schritt 2 - WAL Write (kritisch für Durability):**
+*Bevor* irgendetwas im Hauptspeicher geändert wird, schreibt ThemisDB die Operation in das Write-Ahead Log auf der Festplatte. Dieser Schritt ist **synchron** – der Server wartet, bis die Daten physisch auf die Disk geschrieben sind (fsync):
+
+```cpp
+// Pseudo-Code der WAL-Implementation
+WALEntry entry = {
+    sequence_number: next_seq++,
+    timestamp: now(),
+    operation: "UPDATE",
+    key: "users:uuid-123",
+    value: serialize({age: 31})
+};
+
+// Kritisch: sync=true erzwingt fsync() - Daten MÜSSEN auf Disk sein
+wal_file.append(entry, sync=true);  
+// Erst wenn fsync() zurückkehrt, sind Daten dauerhaft gespeichert
+```
+
+**Warum ist sync=true wichtig?**
+Ohne `fsync()` würden Daten nur im Betriebssystem-Cache liegen. Bei einem Stromausfall wären sie verloren. Mit `fsync()` garantiert das OS, dass Daten auf physischen Plattern (oder SSD) sind.
+
+**Schritt 3 - MemTable Update (In-Memory):**
+Erst *nachdem* der WAL-Eintrag sicher auf Disk ist, wird die Änderung im MemTable (RAM-Struktur) vorgenommen:
+
+```cpp
+// MemTable ist eine sortierte In-Memory-Map (z.B. Skip List)
+memtable.put("users:uuid-123", {age: 31});
+```
+
+Das MemTable ist schnell (O(log n) für Inserts), aber flüchtig. Bei einem Crash ist es weg.
+
+**Schritt 4 - Return OK zum Client:**
+Jetzt erst antwortet der Server dem Client mit "SUCCESS". Der Client hat die Garantie:
+- Daten sind dauerhaft (WAL auf Disk)
+- Selbst bei sofortigem Crash sind Daten nicht verloren
+
+**Schritt 5 - Background Compaction (asynchron):**
+Im Hintergrund, ohne den Client zu blockieren, werden MemTables periodisch auf Disk geschrieben als SSTable-Dateien:
+
+```cpp
+// Wenn MemTable voll ist (z.B. 256 MB)
+if (memtable.size() > 256MB) {
+    SSTable* sstable = memtable.flush_to_disk();
+    // SSTable ist eine immutable, sortierte Datei auf Disk
+    // Format: [Key1, Value1, Key2, Value2, ...]
+}
+```
+
+**Crash Recovery - Warum WAL lebensrettend ist:**
+
+Szenario: Server crashed nach Schritt 4, aber vor Schritt 5. Das MemTable (RAM) ist verloren, aber der WAL (Disk) ist da.
+
+**Beim Server-Restart:**
+```cpp
+// 1. WAL lesen und replay
+for (entry in wal_file) {
+    memtable.put(entry.key, entry.value);
+}
+// → MemTable ist rekonstruiert!
+
+// 2. Normale Operationen fortsetzen
+server.start();
+```
+
+**Resultat:** Kein Datenverlust. Alle committed Transaktionen sind wiederhergestellt.
+
+**Performance-Trade-off:**
+Der `fsync()` in Schritt 2 kostet Zeit (~1-5ms auf NVMe, ~10-20ms auf HDD). Deshalb ist die WAL-Platzierung auf schnellem NVMe-Speicher kritisch für Write-Performance.
+
+### LSM-Tree Performance-Charakteristiken
+
+Die Entscheidung für eine LSM-Tree-Architektur [12] hat spezifische Performance-Implikationen:
+
+**Schreiboptimierung (Create/Update/Delete):**
+- LSM-Trees sind inhärent schreiboptimiert [12], [14]
+- Jede C/U/D-Operation ist ein extrem schneller, sequentieller "Append-Only"-Vorgang in eine In-Memory-Struktur (das Memtable)
+- Benchmarks zeigen ca. **45.000 Writes pro Sekunde** Durchsatz [3], [5]
+- Ideal für die Ingestion-Pipeline (Covina) mit hohem Schreibdurchsatz
+
+**Lese-Performance-Optimierung:**
+- Ein Punktabruf über den Primärschlüssel (Get(PK)) ist schnell
+- Attribut-basierte Abfragen (z.B. `SELECT * WHERE age > 30`) würden ohne Indizes einen Full-Scan aller Blobs erfordern [4]
+- Dies erzwingt architektonisch die Notwendigkeit der "Layer" (Sekundärindizes) für optimale Leseleistung [3]
+
+**Speicherhierarchie:**
+ThemisDB implementiert eine ausgefeilte Speicherhierarchie [5]:
+- **Heiße Daten:** Residieren im Block Cache (RAM, standardmäßig 1 GB) und in den oberen Levels des LSM-Trees (L0-L5)
+- **Kompression:** Obere Levels mit schnellem LZ4-Algorithmus [37] komprimiert (33,8 MB/s Throughput)
+- **Kalte Daten:** Wandern in das unterste Level (L6) mit ZSTD-Kompression [38] für maximale Speicherdichte (2,8x Ratio)
+- **Automatische Optimierung:** Background Compaction verschiebt Daten zwischen Levels [12]
+
+### Speicherhierarchie: Von VRAM bis HDD
+
+Die Performance von ThemisDB hängt entscheidend davon ab, **wo** Daten gespeichert werden. Moderne Computer haben eine ausgefeilte Speicherhierarchie mit dramatischen Geschwindigkeitsunterschieden:
+
+**Die Speicherpyramide (von schnell nach langsam):**
+
+```
+                    ╔═══════════════════╗
+                    ║  CPU L1 Cache     ║  < 1 ns   (4-64 KB)
+                    ╠═══════════════════╣
+                    ║  CPU L2 Cache     ║  ~3 ns    (256 KB - 1 MB)
+                    ╠═══════════════════╣
+                    ║  CPU L3 Cache     ║  ~10 ns   (8-64 MB, shared)
+                    ╠═══════════════════╣
+                    ║  RAM (DDR4/DDR5)  ║  ~100 ns  (16-512 GB)
+                    ╠═══════════════════╣
+           ┌────────╨───────────────────╨────────┐
+           │       NUMA Boundary (~200-300ns)     │
+           └────────┬───────────────────┬────────┘
+                    ╠═══════════════════╣
+                    ║  NVMe SSD (PCIe4) ║  ~10 μs   (1-8 TB)
+                    ╠═══════════════════╣
+                    ║  SATA SSD         ║  ~50 μs   (256 GB - 4 TB)
+                    ╠═══════════════════╣
+                    ║  HDD (7200 RPM)   ║  ~5 ms    (4-20 TB)
+                    ╚═══════════════════╝
+```
+
+**Faktor zwischen schnellstem und langsamstem:** ~5.000.000x (!)
+
+**Wie nutzt ThemisDB diese Hierarchie optimal?**
+
+**1. Heiße Daten im RAM (Block Cache):**
+
+ThemisDB konfiguriert RocksDB mit einem großen Block Cache (standardmäßig 1-4 GB, konfigurierbar bis 128 GB+):
+
+```cpp
+// Aus docs/de/performance/performance_memory.md
+RocksDBWrapper::Config config;
+config.block_cache_size_mb = 4096;  // 4 GB Block Cache
+config.cache_index_and_filter_blocks = true;
+config.pin_l0_filter_and_index_blocks_in_cache = true;
+config.high_pri_pool_ratio = 0.5;  // 50% für Index/Filter
+```
+
+**Was wird gecacht?**
+- **Data Blocks:** Die eigentlichen Key-Value-Paare (50% des Cache)
+- **Index Blocks:** Index-Strukturen für schnelles Suchen (25% des Cache, High-Priority)
+- **Filter Blocks:** Bloom-Filter zur Vermeidung unnötiger Disk-Reads (25% des Cache, High-Priority)
+
+**Wirkung:**
+Ein Cache-Hit (Daten sind im RAM) hat ~100ns Latenz. Ein Cache-Miss (Disk-Read nötig) hat ~10μs Latenz auf NVMe. **Faktor 100x schneller!**
+
+**2. Write-Ahead Log auf schnellstem Medium (NVMe):**
+
+Das WAL ist write-kritisch. Jede Schreiboperation wartet auf einen `fsync()`. Deshalb sollte das WAL auf dem schnellsten verfügbaren Medium liegen:
+
+```cpp
+// Separates WAL-Verzeichnis auf dedizierter NVMe
+config.db_path = "/data/rocksdb";        // Haupt-DB (kann langsamer sein)
+config.wal_dir = "/nvme/fast/wal";       // WAL auf schnellster NVMe
+```
+
+**Performance-Gewinn:**
+- NVMe (PCIe4): ~10μs fsync → **45.000 Writes/Sekunde** [3], [5]
+- SATA SSD: ~50μs fsync → 20.000 Writes/Sekunde
+- HDD: ~5ms fsync → 200 Writes/Sekunde
+
+**Faktor 225x zwischen NVMe und HDD!**
+
+**3. LSM-Tree Levels mit gestufter Kompression:**
+
+ThemisDB nutzt unterschiedliche Kompression für verschiedene LSM-Tree Levels:
+
+```cpp
+config.compression_default = "lz4";       // Level 0-5 (heiß)
+config.compression_bottommost = "zstd";   // Level 6+ (kalt)
+```
+
+**Warum?**
+
+- **L0-L5 (heiße Daten):** Werden häufig gelesen → LZ4 (33.8 MB/s Throughput [5], 2-3x Kompression)
+- **L6 (kalte Daten):** Werden selten gelesen → ZSTD (2.8x Kompression [5], aber langsamer)
+
+**Speicher-Trade-off visualisiert:**
+
+```
+Level 0 (RAM): MemTable            → 256 MB, unkomprimiert
+               ↓ flush
+Level 1 (NVMe): Junge SSTables     → ~512 MB, LZ4-komprimiert
+               ↓ compaction
+Level 2 (NVMe): Ältere SSTables    → ~2 GB, LZ4-komprimiert
+               ↓ compaction
+Level 3-5 (NVMe/SATA): Alte Daten  → ~20 GB, LZ4-komprimiert
+               ↓ compaction
+Level 6 (SATA/HDD): Kalte Daten    → ~200 GB, ZSTD-komprimiert (max. Dichte)
+```
+
+**Automatische Datenmigration:**
+
+ThemisDB verschiebt Daten automatisch "nach unten":
+1. Neue Writes → MemTable (RAM, ultra-schnell)
+2. MemTable voll → Flush zu L1 (NVMe, schnell)
+3. Compaction → Daten wandern zu L2, L3, ... (progressiv langsamer)
+4. Kalte Daten → L6 (maximal komprimiert, platzsparend)
+
+**Resultat:** Häufig zugegriffene Daten bleiben "oben" (schnell), selten genutzte Daten wandern "nach unten" (langsam aber platzsparend).
+
+**4. GPU-VRAM für HNSW-Index (optional, für Vektor-Suche):**
+
+Für sehr große Vektor-Datenbanken (>100M Embeddings) kann der HNSW-Index auf GPU-VRAM gemappt werden:
+
+```cpp
+// GPU-Beschleunigung für Vektor-Ähnlichkeitssuche
+HNSWConfig hnsw_config;
+hnsw_config.use_gpu = true;
+hnsw_config.gpu_device = 0;  // CUDA device 0
+// VRAM: ~1-5 ns Latenz, aber begrenzte Größe (8-80 GB)
+```
+
+**Trade-off:** VRAM ist noch schneller als RAM (~1-5ns vs ~100ns), aber extrem begrenzt (8-24 GB typisch).
+
+**Zusammenfassung: Speicherhierarchie-Strategie:**
+
+| Datentyp | Optimal Platziert | Latenz | Begründung |
+|----------|-------------------|--------|------------|
+| **MemTable** | RAM | ~100 ns | Aktive Writes, ändert sich ständig |
+| **WAL** | NVMe (PCIe4) | ~10 μs | Write-kritisch, sync-Operationen |
+| **Block Cache** | RAM | ~100 ns | Häufig gelesene Blöcke |
+| **L0-L5 SSTables** | NVMe | ~10 μs | Heiße Daten, häufig gelesen |
+| **L6 SSTables** | SATA SSD/HDD | ~50 μs - 5 ms | Kalte Daten, selten gelesen |
+| **HNSW-Index** | RAM (oder GPU-VRAM) | ~100 ns (~5ns GPU) | Vektor-Suche, latenz-kritisch |
+| **Backups** | HDD/Tape/S3 | Sekunden | Langzeit-Archivierung |
+
+**Best Practice für Production:**
+```bash
+# NVMe PCIe4 für WAL und L0-L3
+/nvme/fast/ → 2 TB NVMe PCIe4 für WAL + Hot SSTables
+
+# SATA SSD für L4-L6
+/ssd/bulk/ → 8 TB SATA SSD für Cold SSTables
+
+# HDD für Backups
+/backup/ → 40 TB HDD Array für Point-in-Time Snapshots
+```
 
 ---
 
