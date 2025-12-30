@@ -502,8 +502,9 @@ class BlogWiki:
         results = self.db.query("""
             FOR article IN articles
               FILTER article.status == 'published'
-              AND metadata.featured = true
-            ORDER BY metadata.published_at DESC
+                AND article.metadata.featured == true
+              SORT article.metadata.published_at DESC
+              RETURN article
         """)
         return results
     
@@ -934,10 +935,9 @@ class RecipeManager:
         return self.db.query("""
             FOR recipe IN recipes
               FILTER (recipe.prep_time + recipe.cook_time) <= @max_minutes
+              SORT (recipe.prep_time + recipe.cook_time) ASC
               RETURN recipe
         """, {"max_minutes": max_minutes})
-            ORDER BY (prep_time + cook_time) ASC
-        """, [max_minutes])
 ```
 
 ### Praktische Anwendung

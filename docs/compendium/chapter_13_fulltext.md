@@ -369,15 +369,17 @@ LET results = (
 )
 
 FOR r IN results
-  WHERE FULLTEXT_MATCH(articles, 'database')
+    FILTER FULLTEXT(r, 'database')
+    RETURN r
 )
-SELECT 
-  category,
-  COUNT(*) as count,
-  AVG(FULLTEXT_SCORE(articles)) as avg_relevance
-FROM results
-GROUP BY category
-ORDER BY count DESC;
+
+FOR result IN results
+  COLLECT category = result.category
+  AGGREGATE 
+    count = COUNT(),
+    avg_relevance = AVG(FULLTEXT_SCORE(result))
+  SORT count DESC
+  RETURN {category, count, avg_relevance}
 ```
 
 ---
@@ -421,9 +423,9 @@ avg_sentiment = db.query("""
       AGGREGATE 
         avg_sentiment = AVG(review.sentiment_score),
         review_count = COUNT()
+      FILTER review_count >= 10
+      SORT avg_sentiment DESC
       RETURN {product_id, avg_sentiment, review_count}
-    HAVING review_count >= 10
-    ORDER BY avg_sentiment DESC
 """)
 ```
 

@@ -77,20 +77,26 @@ FOR order IN orders
 ```aql
 -- Umsatz nach Produktkategorie und Monat
 LET pivot_data = (
-    SELECT 
-        DATE_TRUNC('month', order_date) AS month,
-        category,
-        SUM(amount) AS revenue
-    FROM order_items oi
-    JOIN products p ON oi.product_id = p.id
-    GROUP BY month, category
-) 
-PIVOT (
-    SUM(revenue)
-    FOR category IN (
-        'Electronics', 'Clothing', 'Books', 'Home', 'Sports'
-    )
-);
+  FOR order_item IN order_items
+    FOR product IN products
+      FILTER order_item.product_id == product.id
+      COLLECT 
+        month = DATE_TRUNC('month', order_item.order_date),
+        category = product.category
+      AGGREGATE revenue = SUM(order_item.amount)
+      RETURN {month, category, revenue}
+)
+
+// PIVOT operation (manual transformation)
+FOR data IN pivot_data
+  COLLECT month = data.month
+  AGGREGATE
+    electronics = SUM(data.category == 'Electronics' ? data.revenue : 0),
+    clothing = SUM(data.category == 'Clothing' ? data.revenue : 0),
+    books = SUM(data.category == 'Books' ? data.revenue : 0),
+    home = SUM(data.category == 'Home' ? data.revenue : 0),
+    sports = SUM(data.category == 'Sports' ? data.revenue : 0)
+  RETURN {month, electronics, clothing, books, home, sports}
 ```
 
 ## 15.3 Erweiterte Aggregationen mit AQL
