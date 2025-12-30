@@ -1075,8 +1075,11 @@ class KanbanService:
         with db.transaction():
             # Aktuelle Position
             current = db.query("""
-                SELECT column_id, position FROM cards WHERE id = ?
-            """, [card_id])[0]
+                FOR card IN cards 
+                  FILTER card.id == @card_id 
+                  LIMIT 1 
+                  RETURN {column_id: card.column_id, position: card.position}
+            """, {"card_id": card_id})[0]
             
             from_column_id = current['column_id']
             from_position = current['position']
@@ -1173,9 +1176,13 @@ class KanbanService:
         
         # Activity
         db.execute("""
-            INSERT INTO card_activities (card_id, user_id, action_type, details)
-            VALUES (?, ?, 'updated', ?)
-        """, [card_id, request.user_id, json.dumps(updates)])
+            INSERT {
+              card_id: @card_id,
+              user_id: @user_id,
+              action_type: 'updated',
+              details: @details
+            } INTO card_activities
+        """, {"card_id": card_id, "user_id": request.user_id, "details": json.dumps(updates)})
 
 # WebSocket-Handler
 @socketio.on('join_board')
@@ -1478,9 +1485,12 @@ class EventBus:
     def publish(self, event_type: str, data: dict):
         """Event publishen"""
         self.db.execute("""
-            INSERT INTO events (event_type, data, created_at)
-            VALUES (?, ?, CURRENT_TIMESTAMP)
-        """, [event_type, json.dumps(data)])
+            INSERT {
+              event_type: @event_type,
+              data: @data,
+              created_at: DATE_NOW()
+            } INTO events
+        """, {"event_type": event_type, "data": json.dumps(data)})
     
     def start(self):
         """Event-Processing starten"""
@@ -1549,17 +1559,29 @@ class OrderService:
         with self.db.transaction():
             # Order erstellen
             order_id = self.db.execute("""
-                INSERT INTO orders (user_id, status, created_at)
-                VALUES (?, 'pending', CURRENT_TIMESTAMP)
-                RETURNING id
-            """, [user_id])[0]['id']
+                INSERT {
+                  user_id: @user_id,
+                  status: 'pending',
+                  created_at: DATE_NOW()
+                } INTO orders
+                RETURN NEW.id
+            """, {"user_id": user_id})[0]
             
             # Items
             for item in items:
                 self.db.execute("""
-                    INSERT INTO order_items (order_id, product_id, quantity, price)
-                    VALUES (?, ?, ?, ?)
-                """, [order_id, item['product_id'], item['quantity'], item['price']])
+                    INSERT {
+                      order_id: @order_id,
+                      product_id: @product_id,
+                      quantity: @quantity,
+                      price: @price
+                    } INTO order_items
+                """, {
+                    "order_id": order_id,
+                    "product_id": item['product_id'],
+                    "quantity": item['quantity'],
+                    "price": item['price']
+                })
             
             # Event publishen
             self.event_bus.publish('order_placed', {
