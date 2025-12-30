@@ -115,7 +115,8 @@ std::vector<ContentChunk> TTSProcessor::chunk(
 }
 
 bool TTSProcessor::healthCheck() const {
-    return initialized_ && tts_ctx_ != nullptr;
+    // TTS model not loaded yet, return false
+    return false;
 }
 
 json TTSProcessor::getStatistics() const {
@@ -208,9 +209,9 @@ std::vector<std::string> TTSProcessor::getSupportedLanguages() const {
 
 bool TTSProcessor::loadTTSModel() {
     // Real implementation would load TTS model (e.g., Piper, Coqui TTS, etc.)
-    // For now, create a placeholder context
-    tts_ctx_ = reinterpret_cast<void*>(0x1);  // Placeholder
-    return true;
+    // For now, use nullptr to indicate model not loaded
+    tts_ctx_ = nullptr;
+    return false;  // Model not actually loaded
 }
 
 void TTSProcessor::unloadTTSModel() {

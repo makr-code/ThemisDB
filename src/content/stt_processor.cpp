@@ -425,17 +425,17 @@ TranscriptionResult STTProcessor::transcribeInternal(
     
     // Placeholder implementation
     result.success = true;
-    result.full_text = "[Transcription placeholder - Whisper.cpp integration pending]";
+    result.full_text = "[Transcription requires Whisper.cpp model - not yet loaded]";
     result.detected_language = "en";
-    result.average_confidence = 0.95f;
+    result.average_confidence = 0.0f;
     result.audio_duration_ms = static_cast<int64_t>(pcm_data.size() / 16.0);  // 16kHz sample rate
     
-    // Create placeholder segment
+    // Create placeholder segment with clear indication that model is not loaded
     TranscriptionSegment segment;
     segment.text = result.full_text;
     segment.start_ms = 0;
     segment.end_ms = result.audio_duration_ms;
-    segment.confidence = 0.95f;
+    segment.confidence = 0.0f;
     result.segments.push_back(segment);
     
     auto end = std::chrono::steady_clock::now();

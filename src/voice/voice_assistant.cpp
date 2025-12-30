@@ -135,8 +135,11 @@ std::vector<uint8_t> VoiceAssistant::processVoiceCommand(
     // Add to conversation history
     session.history.push_back("Assistant: " + llm_response);
     
-    // Update session
-    updateSession(session_id, session.context);
+    // Update session - persist changes
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        sessions_[session_id] = session;
+    }
     
     // Synthesize response
     content::TTSOptions tts_options;
@@ -169,8 +172,11 @@ std::string VoiceAssistant::processTextCommand(
     // Add to conversation history
     session.history.push_back("Assistant: " + llm_response);
     
-    // Update session
-    updateSession(session_id, session.context);
+    // Update session - persist changes
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        sessions_[session_id] = session;
+    }
     
     return llm_response;
 }
@@ -373,6 +379,9 @@ void VoiceAssistant::updateSession(const std::string& session_id, const json& co
     if (it != sessions_.end()) {
         it->second.context = context;
         it->second.last_activity = std::chrono::system_clock::now().time_since_epoch().count();
+    } else {
+        // Log warning: attempting to update non-existent session
+        // In production, this should be logged properly
     }
 }
 

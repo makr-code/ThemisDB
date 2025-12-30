@@ -498,14 +498,16 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 }
 
 std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
-    // Real implementation would decode base64
-    // For now, return empty vector
+    // TODO: Implement base64 decoding
+    // For now, return empty vector to avoid crashes
+    // Real implementation should use a base64 library (e.g., Boost.Beast base64)
     return std::vector<uint8_t>();
 }
 
 std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
-    // Real implementation would encode to base64
-    // For now, return empty string
+    // TODO: Implement base64 encoding
+    // For now, return empty string to avoid crashes
+    // Real implementation should use a base64 library (e.g., Boost.Beast base64)
     return "";
 }
 
