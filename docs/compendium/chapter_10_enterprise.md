@@ -430,16 +430,37 @@ class Document:
         with self.db.transaction():
             # Version speichern
             self.db.execute("""
-                INSERT INTO document_versions (id, document_id, version, file_path, file_size, checksum, created_by, change_note)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (version_id, document_id, new_version, file_path, os.path.getsize(file_path), 
-                  calculate_checksum(file_path), get_current_user_id(), change_note))
+                INSERT {
+                  id: @version_id,
+                  document_id: @document_id,
+                  version: @new_version,
+                  file_path: @file_path,
+                  file_size: @file_size,
+                  checksum: @checksum,
+                  created_by: @created_by,
+                  change_note: @change_note
+                } INTO document_versions
+            """, {
+                "version_id": version_id,
+                "document_id": document_id,
+                "new_version": new_version,
+                "file_path": file_path,
+                "file_size": os.path.getsize(file_path),
+                "checksum": calculate_checksum(file_path),
+                "created_by": get_current_user_id(),
+                "change_note": change_note
+            })
             
             # Dokument aktualisieren
             self.db.execute("""
-                UPDATE documents 
-                SET version = ?, current_version_id = ?, updated_at = CURRENT_TIMESTAMP
-                WHERE id = ?
+                FOR doc IN documents
+                  FILTER doc.id == @document_id
+                  UPDATE doc WITH {
+                    version: @new_version,
+                    current_version_id: @version_id,
+                    updated_at: DATE_NOW()
+                  } IN documents
+            """, {"document_id": document_id, "new_version": new_version, "version_id": version_id})
             """, (new_version, version_id, document_id))
             
             # Text und Embedding neu generieren
@@ -596,25 +617,43 @@ class WorkflowEngine:
         workflow_id = uuid.uuid4()
         
         with self.db.transaction():
-            self.db.execute("INSERT INTO workflows (id, name, description) VALUES (?, ?, ?)", 
-                          (workflow_id, name, description))
+            self.db.execute("""
+                INSERT {
+                  id: @workflow_id,
+                  name: @name,
+                  description: @description
+                } INTO workflows
+            """, {"workflow_id": workflow_id, "name": name, "description": description})
             
             # Nodes erstellen
             node_ids = []
             for step in steps:
                 node_id = uuid.uuid4()
                 self.db.execute("""
-                    INSERT INTO workflow_nodes (id, workflow_id, name, node_type, role_required)
-                    VALUES (?, ?, ?, ?, ?)
-                """, (node_id, workflow_id, step['name'], step['type'], step.get('role')))
+                    INSERT {
+                      id: @node_id,
+                      workflow_id: @workflow_id,
+                      name: @name,
+                      node_type: @node_type,
+                      role_required: @role_required
+                    } INTO workflow_nodes
+                """, {
+                    "node_id": node_id,
+                    "workflow_id": workflow_id,
+                    "name": step['name'],
+                    "node_type": step['type'],
+                    "role_required": step.get('role')
+                })
                 node_ids.append(node_id)
             
             # Edges erstellen (linearer Flow)
             for i in range(len(node_ids) - 1):
                 self.db.execute("""
-                    INSERT INTO workflow_edges (from_node, to_node)
-                    VALUES (?, ?)
-                """, (node_ids[i], node_ids[i+1]))
+                    INSERT {
+                      from_node: @from_node,
+                      to_node: @to_node
+                    } INTO workflow_edges
+                """, {"from_node": node_ids[i], "to_node": node_ids[i+1]})
         
         return workflow_id
 
