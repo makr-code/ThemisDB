@@ -205,7 +205,6 @@ activity = db.execute("""
       SORT log.timestamp DESC
       RETURN log
 """, {"user_id": user_id})
-""", (user_id,))
 ```
 
 ## 10.2 DMS/ERP-System (Example 08)

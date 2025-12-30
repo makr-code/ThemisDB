@@ -548,7 +548,7 @@ def evaluate_rules():
                   LIMIT 1
                   RETURN state
             )[0]
-            RETURN {{{rule.condition}}} AS met
+            RETURN {{rule.condition}} AS met
         """)
         
         if condition_met['met']:

@@ -320,12 +320,17 @@ def assign_nearest_driver(order_id):
     # Finde nächsten verfügbaren Fahrer
     driver = conn.query("""
         FOR driver IN drivers
-               ST_Distance(current_location, POINT(?, ?)) as distance_m
-        FROM drivers
-        WHERE status = 'available'
-        ORDER BY distance_m
-        LIMIT 1
-    """, [delivery_loc[0], delivery_loc[1]])
+          FILTER driver.status == 'available'
+          LET distance_m = ST_Distance(driver.current_location, POINT(@lon, @lat))
+          SORT distance_m ASC
+          LIMIT 1
+          RETURN {
+            id: driver.id,
+            name: driver.name,
+            current_location: driver.current_location,
+            distance_m
+          }
+    """, {"lon": delivery_loc[0], "lat": delivery_loc[1]})
     
     if not driver:
         raise ValueError("Kein Fahrer verfügbar")
