@@ -65,7 +65,11 @@ class TenantContext:
 
 # Verwendung
 tenant = TenantContext(db, "acme_corp")
-docs = tenant.query("SELECT * FROM documents WHERE type = ?", ("invoice",))
+docs = tenant.query("""
+    FOR doc IN documents 
+      FILTER doc.type == @type 
+      RETURN doc
+""", {"type": "invoice"})
 ```
 
 ### Rollen-basierte Zugriffskontrolle (RBAC)
@@ -95,11 +99,14 @@ db.execute("""
 # Permission Check
 def has_permission(user_id, permission):
     result = db.execute("""
-        SELECT COUNT(*) as count FROM user_roles ur
-        JOIN roles r ON ur.role_id = r.id
-        WHERE ur.user_id = ? AND ? = ANY(r.permissions)
-    """, (user_id, permission))
-    return result[0]['count'] > 0
+        FOR user_role IN user_roles
+          FILTER user_role.user_id == @user_id
+          FOR role IN roles
+            FILTER user_role.role_id == role.id AND @permission IN role.permissions
+            LIMIT 1
+            RETURN 1
+    """, {"user_id": user_id, "permission": permission})
+    return len(result) > 0
 
 # Dekorator für API-Endpoints
 def requires_permission(permission):
@@ -158,9 +165,26 @@ def log_action(action, resource_type, resource_id, old_value=None, new_value=Non
     ))
 
 # Verwendung
-old_doc = db.execute("SELECT * FROM documents WHERE id = ?", (doc_id,))[0]
-db.execute("UPDATE documents SET title = ? WHERE id = ?", (new_title, doc_id))
-new_doc = db.execute("SELECT * FROM documents WHERE id = ?", (doc_id,))[0]
+old_doc = db.execute("""
+    FOR doc IN documents 
+      FILTER doc.id == @doc_id 
+      LIMIT 1 
+      RETURN doc
+""", {"doc_id": doc_id})[0]
+
+db.execute("""
+    FOR doc IN documents 
+      FILTER doc.id == @doc_id 
+      UPDATE doc WITH {title: @new_title} IN documents
+""", {"doc_id": doc_id, "new_title": new_title})
+
+new_doc = db.execute("""
+    FOR doc IN documents 
+      FILTER doc.id == @doc_id 
+      LIMIT 1 
+      RETURN doc
+""", {"doc_id": doc_id})[0]
+
 log_action("UPDATE", "document", doc_id, old_doc, new_doc)
 ```
 
@@ -168,16 +192,19 @@ log_action("UPDATE", "document", doc_id, old_doc, new_doc)
 ```python
 # Wer hat Dokument X geändert?
 changes = db.execute("""
-    SELECT * FROM audit_log 
-    WHERE resource_type = 'document' AND resource_id = ?
-    ORDER BY timestamp DESC
-""", (doc_id,))
+    FOR log IN audit_log 
+      FILTER log.resource_type == 'document' AND log.resource_id == @doc_id
+      SORT log.timestamp DESC
+      RETURN log
+""", {"doc_id": doc_id})
 
 # Was hat User Y in den letzten 7 Tagen gemacht?
 activity = db.execute("""
-    SELECT * FROM audit_log
-    WHERE user_id = ? AND timestamp > NOW() - INTERVAL '7 days'
-    ORDER BY timestamp DESC
+    FOR log IN audit_log
+      FILTER log.user_id == @user_id AND log.timestamp > DATE_NOW() - INTERVAL('7 days')
+      SORT log.timestamp DESC
+      RETURN log
+""", {"user_id": user_id})
 """, (user_id,))
 ```
 
@@ -342,8 +369,13 @@ class Document:
     def add_version(self, document_id, file_path, change_note=""):
         """Neue Version hinzufügen"""
         # Aktuelle Version ermitteln
-        current = self.db.execute("SELECT version FROM documents WHERE id = ?", (document_id,))[0]
-        new_version = current['version'] + 1
+        current = self.db.execute("""
+            FOR doc IN documents 
+              FILTER doc.id == @document_id 
+              LIMIT 1 
+              RETURN doc.version
+        """, {"document_id": document_id})[0]
+        new_version = current + 1
         version_id = uuid.uuid4()
         
         with self.db.transaction():

@@ -73,10 +73,12 @@ stream = db.cdc.create_stream(
     table="orders",
     transform=lambda event: {
         **event,
-        "customer_name": db.query(
-            "SELECT name FROM customers WHERE id = ?",
-            [event.data["customer_id"]]
-        )[0]["name"]
+        "customer_name": db.query("""
+            FOR customer IN customers 
+              FILTER customer.id == @customer_id 
+              LIMIT 1 
+              RETURN customer.name
+        """, {"customer_id": event.data["customer_id"]})[0]
     }
 )
 ```
