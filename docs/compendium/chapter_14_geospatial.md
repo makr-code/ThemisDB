@@ -66,8 +66,9 @@ R-Trees sind die effizienteste Indexstruktur für räumliche Daten:
 CREATE INDEX idx_locations_geo ON locations USING RTREE(coordinates);
 
 -- Automatische Nutzung bei räumlichen Queries
-SELECT * FROM locations 
-WHERE ST_Distance(coordinates, POINT(13.405, 52.520)) < 5000;
+FOR location IN locations 
+  FILTER ST_Distance(location.coordinates, POINT(13.405, 52.520)) < 5000
+  RETURN location
 -- Index wird automatisch genutzt!
 ```
 
@@ -122,10 +123,11 @@ min_lon, max_lon = 13.35, 13.45
 min_lat, max_lat = 52.50, 52.55
 
 pois = conn.query("""
-    SELECT * FROM points_of_interest
-    WHERE ST_Within(coordinates, 
-                    BBOX(?, ?, ?, ?))
-""", [min_lon, min_lat, max_lon, max_lat])
+    FOR poi IN points_of_interest
+      FILTER ST_Within(poi.coordinates, 
+                      BBOX(@min_lon, @min_lat, @max_lon, @max_lat))
+      RETURN poi
+""", {"min_lon": min_lon, "min_lat": min_lat, "max_lon": max_lon, "max_lat": max_lat})
 ```
 
 ### Polygon Queries
@@ -307,14 +309,17 @@ def assign_nearest_driver(order_id):
     
     # Hole Bestelladresse
     order = conn.query("""
-        SELECT delivery_address FROM orders WHERE id = ?
-    """, [order_id])[0]
+        FOR order IN orders 
+          FILTER order.id == @order_id 
+          LIMIT 1 
+          RETURN order.delivery_address
+    """, {"order_id": order_id})[0]
     
-    delivery_loc = order['delivery_address']
+    delivery_loc = order
     
     # Finde nächsten verfügbaren Fahrer
     driver = conn.query("""
-        SELECT id, name, current_location,
+        FOR driver IN drivers
                ST_Distance(current_location, POINT(?, ?)) as distance_m
         FROM drivers
         WHERE status = 'available'

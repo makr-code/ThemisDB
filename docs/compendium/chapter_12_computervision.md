@@ -714,11 +714,16 @@ def generate_thumbnail(image_path, size=(256, 256)):
 CREATE OR REPLACE FUNCTION ensure_features(p_image_id UUID)
 RETURNS BOOLEAN AS $$
 BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM image_features WHERE image_id = p_image_id
-    ) THEN
+    LET feature_exists = (
+        FOR feature IN image_features 
+          FILTER feature.image_id == p_image_id 
+          LIMIT 1 
+          RETURN 1
+    )
+    
+    IF LENGTH(feature_exists) == 0 THEN
         -- Trigger Feature-Extraktion
-        INSERT INTO feature_extraction_queue (image_id) VALUES (p_image_id);
+        INSERT {image_id: p_image_id} INTO feature_extraction_queue;
         RETURN FALSE;
     END IF;
     RETURN TRUE;

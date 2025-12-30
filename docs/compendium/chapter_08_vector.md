@@ -615,10 +615,12 @@ class ProductCatalogClient:
         cursor = self.conn.cursor()
         
         # Hole Embedding des Referenz-Produkts
-        cursor.execute(
-            "SELECT text_embedding FROM products WHERE id = ?", 
-            (product_id,)
-        )
+        cursor.execute("""
+            FOR product IN products 
+              FILTER product.id == @product_id 
+              LIMIT 1 
+              RETURN product.text_embedding
+        """, {"product_id": product_id})
         ref_embedding = cursor.fetchone()[0]
         
         # Finde ähnliche Produkte
