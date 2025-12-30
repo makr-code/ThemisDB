@@ -714,6 +714,23 @@ wget https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin \
 
 ---
 
+## License Information
+
+All core libraries used in the Voice Assistant are **open-source with MIT License**:
+
+- **Whisper.cpp** (STT) - MIT License
+- **Piper TTS** (TTS) - MIT License  
+- **llama.cpp** (LLM) - MIT License
+- **ONNX Runtime** - MIT License
+
+✅ **Suitable for commercial and on-premise use**  
+✅ **No external API dependencies**  
+✅ **Privacy-preserving (all processing local)**
+
+**[→ Complete License Documentation](voice_assistant_licenses.md)**
+
+---
+
 ## Support
 
 For issues or questions:

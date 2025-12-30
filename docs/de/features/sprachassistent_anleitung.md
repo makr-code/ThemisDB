@@ -378,6 +378,23 @@ Alle Sprachoperationen werden protokolliert:
 
 ---
 
+## Lizenzinformationen
+
+Alle Kernbibliotheken des Sprachassistenten sind **Open-Source mit MIT-Lizenz**:
+
+- **Whisper.cpp** (STT) - MIT-Lizenz
+- **Piper TTS** (TTS) - MIT-Lizenz
+- **llama.cpp** (LLM) - MIT-Lizenz
+- **ONNX Runtime** - MIT-Lizenz
+
+✅ **Geeignet für kommerzielle und On-Premise-Nutzung**  
+✅ **Keine externen API-Abhängigkeiten**  
+✅ **Datenschutzfreundlich (alle Verarbeitung lokal)**
+
+**[→ Vollständige Lizenzdokumentation](sprachassistent_lizenzen.md)**
+
+---
+
 ## Support
 
 Bei Fragen oder Problemen:
