@@ -306,7 +306,7 @@ RETURN {
 
 **Das Post-Filtering-Problem in Polyglot-Systemen:**
 
-In traditionellen RAG-Systemen, die auf Polyglot Persistence basieren (separate Vektor-DB, Graph-DB, Relational-DB), müssen Sie typischerweise "Post-Filtering" verwenden:
+In traditionellen RAG-Systemen [29], die auf Polyglot Persistence basieren (separate Vektor-DB, Graph-DB, Relational-DB), müssen Sie typischerweise "Post-Filtering" verwenden [2], [5]:
 
 ```python
 # Traditioneller Ansatz (ineffizient):
@@ -325,14 +325,14 @@ final_results = intersect(vector_results, allowed_docs, filtered_docs)
 ```
 
 **Warum ist das ineffizient?**
-- Die Vektorsuche liefert initial 1000 Ergebnisse, von denen 990 irrelevant sind
-- Verschwendet Rechenleistung für Vektor-Ähnlichkeitsberechnungen
+- Die Vektorsuche liefert initial 1000 Ergebnisse, von denen 990 irrelevant sind [5]
+- Verschwendet Rechenleistung für Vektor-Ähnlichkeitsberechnungen [2]
 - Erhöht Latenz signifikant
 - Skaliert schlecht bei großen Datenmengen
 
 **ThemisDB's Pre-Filtering-Architektur:**
 
-Dank der nativen Multi-Model-Architektur (siehe Kapitel 3.2) kann ThemisDB die Query-Ausführung umkehren:
+Dank der nativen Multi-Model-Architektur [3], [11] (siehe Kapitel 3.2) kann ThemisDB die Query-Ausführung umkehren [2]:
 
 ```aql
 -- Pre-Filtering in ThemisDB (hochperformant):
@@ -360,16 +360,16 @@ FOR doc IN documents
 **Wie funktioniert Pre-Filtering intern?**
 
 1. **Phase 1 (Relationaler Filter):** 
-   - Query-Engine nutzt schnelle Sekundärindizes (z.B. Index für `year=2024`)
+   - Query-Engine nutzt schnelle Sekundärindizes (z.B. Index für `year=2024`) [2], [3]
    - Erstellt eine hochselektive Kandidatenliste (z.B. ein Bitset mit 50 erlaubten IDs)
 
 2. **Phase 2 (Graph-Filter):**
-   - Graph-Traversierung auf dieser reduzierten Menge
+   - Graph-Traversierung [22] auf dieser reduzierten Menge
    - Weitere Einschränkung basierend auf Zugriffsrechten
 
 3. **Phase 3 (Vektorsuche):**
-   - Die rechenintensive HNSW-Vektorsuche läuft NUR auf den 50 erlaubten Dokumenten
-   - Statt 1000 Vektor-Vergleiche nur 50 notwendig
+   - Die rechenintensive HNSW-Vektorsuche [25] läuft NUR auf den 50 erlaubten Dokumenten
+   - Statt 1000 Vektor-Vergleiche nur 50 notwendig [2]
 
 **Performance-Vergleich:**
 
@@ -423,12 +423,12 @@ FOR doc IN legal_documents
 
 **Architektonischer Vorteil:**
 
-Die Query-Engine von ThemisDB hat Zugriff auf alle Index-Projektionen (relational, graph, vector) im selben RocksDB-Backend. Sie kann einen kostenbasierten Optimizer verwenden, um den effizientesten Ausführungsplan zu wählen:
+Die Query-Engine von ThemisDB hat Zugriff auf alle Index-Projektionen (relational, graph, vector) im selben RocksDB-Backend [3], [13]. Sie kann einen kostenbasierten Optimizer verwenden, um den effizientesten Ausführungsplan zu wählen:
 - Welcher Filter ist am selektivsten?
 - In welcher Reihenfolge sollten Filter angewendet werden?
 - Wann lohnt sich der Übergang von Index-Scan zu Vektor-Suche?
 
-Dies ist in Polyglot-Systemen unmöglich, da jede Datenbank isoliert operiert.
+Dies ist in Polyglot-Systemen [33] unmöglich, da jede Datenbank isoliert operiert.
 
 ## 17.4 Prompt Engineering Best Practices
 

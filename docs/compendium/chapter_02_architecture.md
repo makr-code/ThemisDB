@@ -289,7 +289,7 @@ db->Put(cf_vectors, "prod_123", embedding);
 
 ### Das Base Entity Paradigma: Einheitlicher Multi-Modell-Speicher
 
-ThemisDB nutzt ein kanonisches Speicherformat, das als "Base Entity" bezeichnet wird. Jede logische Entität – sei es eine relationale Zeile, ein Graph-Knoten, ein Vektor-Objekt oder ein Dokument – wird als ein einziges binär-serialisiertes Dokument (als "Blob" bezeichnet) gespeichert.
+ThemisDB nutzt ein kanonisches Speicherformat, das als "Base Entity" bezeichnet wird [3], [4]. Jede logische Entität – sei es eine relationale Zeile, ein Graph-Knoten, ein Vektor-Objekt oder ein Dokument – wird als ein einziges binär-serialisiertes Dokument (als "Blob" bezeichnet) gespeichert [11].
 
 Diese Architekturentscheidung ist fundamental für die Multi-Modell-Fähigkeit von ThemisDB:
 
@@ -305,17 +305,17 @@ Diese Architekturentscheidung ist fundamental für die Multi-Modell-Fähigkeit v
 
 **Vorteile dieses Ansatzes:**
 
-1. **Einheitliche Speicherschicht:** Alle Datenmodelle teilen sich denselben physischen Speicher
-2. **ACID über alle Modelle:** Transaktionen können atomar über Graph, Vector und Relational operieren
-3. **Effiziente Serialisierung:** Binärformate wie VelocyPack sind 4x schneller als Standard-JSON-Parser
+1. **Einheitliche Speicherschicht:** Alle Datenmodelle teilen sich denselben physischen Speicher [11]
+2. **ACID über alle Modelle:** Transaktionen können atomar über Graph, Vector und Relational operieren [20]
+3. **Effiziente Serialisierung:** Binärformate wie VelocyPack [41] sind 4x schneller als Standard-JSON-Parser [40]
 
 ### RocksDB TransactionDB: ACID-Garantien
 
-ThemisDB nutzt nicht Standard-RocksDB, sondern die **RocksDB TransactionDB**-Variante. Diese bietet:
+ThemisDB nutzt nicht Standard-RocksDB, sondern die **RocksDB TransactionDB**-Variante [3], [46]. Diese bietet:
 
-1. **Snapshot Isolation:** Jede Transaktion operiert auf einem konsistenten Snapshot der Datenbank
-2. **Conflict Detection:** Parallele Transaktionen, die dieselben Schlüssel bearbeiten, werden erkannt
-3. **Atomare Rollbacks:** Fehlschlagende Transaktionen werden vollständig zurückgerollt
+1. **Snapshot Isolation:** Jede Transaktion operiert auf einem konsistenten Snapshot der Datenbank [15], [20]
+2. **Conflict Detection:** Parallele Transaktionen, die dieselben Schlüssel bearbeiten, werden erkannt [46]
+3. **Atomare Rollbacks:** Fehlschlagende Transaktionen werden vollständig zurückgerollt [16]
 
 Dies ist entscheidend: Die Aktualisierung einer einzelnen logischen Entität (z.B. `UPDATE users SET age = 31`) erfordert die atomare Änderung *mehrerer* physischer Key-Value-Paare:
 - Der "Base Entity"-Blob muss aktualisiert werden
@@ -343,25 +343,25 @@ Jede Write-Operation wird erst in ein Log geschrieben:
 
 ### LSM-Tree Performance-Charakteristiken
 
-Die Entscheidung für eine LSM-Tree-Architektur hat spezifische Performance-Implikationen:
+Die Entscheidung für eine LSM-Tree-Architektur [12] hat spezifische Performance-Implikationen:
 
 **Schreiboptimierung (Create/Update/Delete):**
-- LSM-Trees sind inhärent schreiboptimiert
+- LSM-Trees sind inhärent schreiboptimiert [12], [14]
 - Jede C/U/D-Operation ist ein extrem schneller, sequentieller "Append-Only"-Vorgang in eine In-Memory-Struktur (das Memtable)
-- Benchmarks zeigen ca. **45.000 Writes pro Sekunde** Durchsatz
+- Benchmarks zeigen ca. **45.000 Writes pro Sekunde** Durchsatz [3], [5]
 - Ideal für die Ingestion-Pipeline (Covina) mit hohem Schreibdurchsatz
 
 **Lese-Performance-Optimierung:**
 - Ein Punktabruf über den Primärschlüssel (Get(PK)) ist schnell
-- Attribut-basierte Abfragen (z.B. `SELECT * WHERE age > 30`) würden ohne Indizes einen Full-Scan aller Blobs erfordern
-- Dies erzwingt architektonisch die Notwendigkeit der "Layer" (Sekundärindizes) für optimale Leseleistung
+- Attribut-basierte Abfragen (z.B. `SELECT * WHERE age > 30`) würden ohne Indizes einen Full-Scan aller Blobs erfordern [4]
+- Dies erzwingt architektonisch die Notwendigkeit der "Layer" (Sekundärindizes) für optimale Leseleistung [3]
 
 **Speicherhierarchie:**
-ThemisDB implementiert eine ausgefeilte Speicherhierarchie:
+ThemisDB implementiert eine ausgefeilte Speicherhierarchie [5]:
 - **Heiße Daten:** Residieren im Block Cache (RAM, standardmäßig 1 GB) und in den oberen Levels des LSM-Trees (L0-L5)
-- **Kompression:** Obere Levels mit schnellem LZ4-Algorithmus komprimiert (33,8 MB/s Throughput)
-- **Kalte Daten:** Wandern in das unterste Level (L6) mit ZSTD-Kompression für maximale Speicherdichte (2,8x Ratio)
-- **Automatische Optimierung:** Background Compaction verschiebt Daten zwischen Levels
+- **Kompression:** Obere Levels mit schnellem LZ4-Algorithmus [37] komprimiert (33,8 MB/s Throughput)
+- **Kalte Daten:** Wandern in das unterste Level (L6) mit ZSTD-Kompression [38] für maximale Speicherdichte (2,8x Ratio)
+- **Automatische Optimierung:** Background Compaction verschiebt Daten zwischen Levels [12]
 
 ---
 

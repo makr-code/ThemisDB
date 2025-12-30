@@ -212,15 +212,15 @@ FOR product IN products
 
 ### Das Problem polyglotter Persistenz
 
-Viele Unternehmen verfolgen einen "Polyglot Persistence"-Ansatz: Sie kombinieren mehrere spezialisierte Datenbanken (z.B. PostgreSQL für relationale Daten, Neo4j für Graphen, ChromaDB für Vektoren) in einem losen Verbund. Dieser Ansatz scheint flexibel, führt aber zu fundamentalen Problemen:
+Viele Unternehmen verfolgen einen "Polyglot Persistence"-Ansatz [33]: Sie kombinieren mehrere spezialisierte Datenbanken (z.B. PostgreSQL für relationale Daten, Neo4j für Graphen, ChromaDB für Vektoren) in einem losen Verbund. Dieser Ansatz scheint flexibel, führt aber zu fundamentalen Problemen [1]:
 
 **Technische Herausforderungen:**
 
 1. **Eventual Consistency statt ACID:**
-   - Daten sind über mehrere, physisch getrennte Systeme verteilt
-   - Atomare Transaktionen über alle Systeme hinweg sind unmöglich
-   - Man muss auf das "Saga-Pattern" mit kompensierenden Transaktionen zurückgreifen
-   - Resultat: "Eventual Consistency" (BASE) statt starker ACID-Garantien
+   - Daten sind über mehrere, physisch getrennte Systeme verteilt [33]
+   - Atomare Transaktionen über alle Systeme hinweg sind unmöglich [1]
+   - Man muss auf das "Saga-Pattern" [17] mit kompensierenden Transaktionen zurückgreifen
+   - Resultat: "Eventual Consistency" (BASE) [18] statt starker ACID-Garantien [16]
 
 2. **Post-Filtering-Problem bei RAG-Workloads:**
    ```
@@ -229,7 +229,7 @@ Viele Unternehmen verfolgen einen "Polyglot Persistence"-Ansatz: Sie kombinieren
    2. Graph-DB: Hole alle Prozesse für Landkreis Havelland
    3. Relational-DB: Hole alle Akten aus 2024
    4. Application: Bilde manuell Schnittmenge im RAM
-   → 990 irrelevante Ergebnisse werden verworfen!
+   → 990 irrelevante Ergebnisse werden verworfen! [2], [5]
    ```
 
 3. **Operativer Overhead:**
@@ -241,13 +241,13 @@ Viele Unternehmen verfolgen einen "Polyglot Persistence"-Ansatz: Sie kombinieren
 
 ### ThemisDB's Native Multi-Model-Lösung
 
-ThemisDB verfolgt einen fundamentals anderen Ansatz: **Alle Datenmodelle teilen sich eine einzige, transaktionale Speicherschicht** (siehe Kapitel 2.4 - Base Entity Paradigma).
+ThemisDB verfolgt einen fundamentals anderen Ansatz [3], [11]: **Alle Datenmodelle teilen sich eine einzige, transaktionale Speicherschicht** (siehe Kapitel 2.4 - Base Entity Paradigma).
 
 **Architektonische Vorteile:**
 
 1. **Starke ACID-Transaktionen über alle Modelle:**
-   - Eine Operation kann atomar Graph, Vector und Relational ändern
-   - Kein Saga-Pattern nötig für Datenbankintegrität
+   - Eine Operation kann atomar Graph, Vector und Relational ändern [1], [20]
+   - Kein Saga-Pattern nötig für Datenbankintegrität [3]
    - Konsistenz ist "by Design", nicht ein fehleranfälliger Applikationsprozess
 
 2. **Pre-Filtering statt Post-Filtering:**
