@@ -27,18 +27,18 @@ ThemisDB unterstützt alle Standard-AQL-Aggregationsfunktionen:
 
 ```aql
 -- Verkaufsstatistiken
-SELECT 
-    DATE_TRUNC('month', order_date) AS month,
-    COUNT(*) AS total_orders,
-    SUM(total_amount) AS revenue,
-    AVG(total_amount) AS avg_order_value,
-    MIN(total_amount) AS min_order,
-    MAX(total_amount) AS max_order,
-    STDDEV(total_amount) AS order_stddev
-FROM orders
-WHERE order_date >= '2024-01-01'
-GROUP BY DATE_TRUNC('month', order_date)
-ORDER BY month;
+FOR order IN orders
+  FILTER order.order_date >= '2024-01-01'
+  COLLECT month = DATE_TRUNC('month', order.order_date)
+  AGGREGATE 
+    total_orders = COUNT(),
+    revenue = SUM(order.total_amount),
+    avg_order_value = AVG(order.total_amount),
+    min_order = MIN(order.total_amount),
+    max_order = MAX(order.total_amount),
+    order_stddev = STDDEV(order.total_amount)
+  SORT month
+  RETURN {month, total_orders, revenue, avg_order_value, min_order, max_order, order_stddev}
 ```
 
 **Ausgabe:**
@@ -53,31 +53,30 @@ month       | total_orders | revenue   | avg_order_value | min_order | max_order
 
 ```aql
 -- Umsatztrend mit gleitendem Durchschnitt
-SELECT 
-    order_date,
-    total_amount,
-    AVG(total_amount) OVER (
-        ORDER BY order_date 
-        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-    ) AS moving_avg_7day,
-    SUM(total_amount) OVER (
-        PARTITION BY DATE_TRUNC('month', order_date)
-        ORDER BY order_date
-    ) AS month_cumulative,
-    RANK() OVER (
-        PARTITION BY DATE_TRUNC('month', order_date)
-        ORDER BY total_amount DESC
-    ) AS rank_in_month
-FROM orders
-ORDER BY order_date DESC
-LIMIT 30;
+FOR order IN orders
+  SORT order.order_date DESC
+  LIMIT 30
+  LET moving_avg_7day = AVG_WINDOW(order.total_amount, 
+    {preceding: 6, following: 0})
+  LET month_cumulative = SUM_WINDOW(order.total_amount, 
+    {partition: DATE_TRUNC('month', order.order_date)})
+  LET rank_in_month = RANK_WINDOW(
+    {partition: DATE_TRUNC('month', order.order_date), 
+     order: order.total_amount DESC})
+  RETURN {
+    order_date: order.order_date,
+    total_amount: order.total_amount,
+    moving_avg_7day,
+    month_cumulative,
+    rank_in_month
+  }
 ```
 
 ### 15.2.3 PIVOT-Operationen
 
 ```aql
 -- Umsatz nach Produktkategorie und Monat
-SELECT * FROM (
+LET pivot_data = (
     SELECT 
         DATE_TRUNC('month', order_date) AS month,
         category,
