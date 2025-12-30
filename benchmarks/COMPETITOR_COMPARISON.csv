@@ -1,0 +1,6 @@
+Category,Metric,Themis_v1_3_4,Best_Competitor,Competitor_Score,Themis_Position,Improvement_Needed
+Query Engine (OLAP),items/sec,814.5M,ClickHouse,1200M,2nd (Excellent),-47%
+Vector Insert,items/sec,351.4k,FAISS,600k,3rd (Competitive),-71%
+Embedding Cache Hit,items/sec,155.8M,In-Memory Cache,1000M,2nd (Very Good),Acceptable
+2PC Throughput,items/sec,6.4k,TiDB 7.0,15k,3rd (Solid),-134%
+Hybrid Search,queries/sec,450,Weaviate,500,2nd (Strong),-10%

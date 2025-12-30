@@ -1,0 +1,6 @@
+Version,Release Date,Query Engine (M items/sec),Vector Insert (k items/sec),Index Insert (k items/sec),Embedding Cache,2PC Throughput,Total Benchmarks,Notes
+v1.3.0,2025-09-15,700,280,180,N/A,N/A,450,Initial Release
+v1.3.1,2025-09-29,750,300,190,N/A,N/A,480,Query Optimizer Improvements
+v1.3.2,2025-10-31,800,330,210,N/A,N/A,520,SIMD Vectorization + Compression
+v1.3.3,2025-11-30,800,340,215,N/A,N/A,780,Parallelization + Advanced Patterns
+v1.3.4,2025-12-29,814.5,351.4,217.2,155800,6400,1078,"New: Cache, 2PC, Hybrid Search"
