@@ -196,8 +196,9 @@ SET avg_temperature = EXCLUDED.avg_temperature,
 
 ```aql
 -- Lösche Rohdaten älter als 30 Tage
-DELETE FROM sensor_readings
-WHERE timestamp < NOW() - INTERVAL '30 days';
+FOR reading IN sensor_readings
+  FILTER reading.timestamp < DATE_NOW() - INTERVAL('30 days')
+  REMOVE reading IN sensor_readings
 
 -- Oder: Drop alte Partitionen (viel schneller!)
 DROP TABLE IF EXISTS sensor_readings_2023_01;
@@ -541,9 +542,13 @@ def evaluate_rules():
     for rule in rules:
         # Check condition
         condition_met = themis.query_one(f"""
-            SELECT {rule.condition} as met
-            FROM device_states
-            WHERE timestamp = (SELECT MAX(timestamp) FROM device_states)
+            LET latest = (
+                FOR state IN device_states
+                  SORT state.timestamp DESC
+                  LIMIT 1
+                  RETURN state
+            )[0]
+            RETURN {{{rule.condition}}} AS met
         """)
         
         if condition_met['met']:
@@ -558,12 +563,12 @@ def evaluate_rules():
 ```python
 # Statt 1000 einzelne INSERTs...
 for reading in readings:
-    themis.execute("INSERT INTO sensor_readings (...) VALUES (?)", reading)
+    themis.execute("INSERT @reading INTO sensor_readings", {"reading": reading})
 
 # ...nutze Batch-Insert (100x schneller!)
 themis.execute_batch(
-    "INSERT INTO sensor_readings (...) VALUES (?)", 
-    readings,
+    "INSERT @reading INTO sensor_readings", 
+    [{"reading": r} for r in readings],
     batch_size=1000
 )
 ```
