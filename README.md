@@ -15,6 +15,15 @@
 
 ## 🎉 What's New
 
+### 🌿 Git Flow Branching Strategy (2025-12-30)
+- 🎯 **Git Flow Implementation** - `main` as production release branch, `develop` as integration branch
+- 📚 **Comprehensive Documentation** - Bilingual guides (DE/EN), visual workflows, quick reference cards
+- 🚀 **Branch-Based CI/CD** - Fast builds on `develop` (~5-10 min), production builds on `main` (~30-40 min)
+- 🔄 **Migration Guide** - Step-by-step transition for existing contributors
+- 🛡️ **Branch Protection Setup** - GitHub configuration with automated scripts
+
+**Quick Links:** [Branching Strategy (DE)](BRANCHING_STRATEGY.md) | [Branching Strategy (EN)](BRANCHING_STRATEGY_EN.md) | [Quick Reference](BRANCHING_QUICK_REF.md) | [Documentation Hub](BRANCHING_DOCS_INDEX.md)
+
 ### v1.3.3 - Network Protocol Enhancements (2025-12-21)
 - 🌐 **HTTP/2 with Server Push** for CDC/Changefeed with ~0ms latency
 - 📡 **WebSocket support** with CDC streaming for real-time communication
@@ -471,6 +480,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 <summary><b>Development</b></summary>
 
 - 🔨 [Build Guide](docs/guides/guides_build_strategy.md)
+- 🌿 [Branching Strategy](BRANCHING_STRATEGY.md) | [EN](BRANCHING_STRATEGY_EN.md)
 - 🤝 [Contributing](CONTRIBUTING.md)
 - 📖 [API Reference](docs/api/api_reference.md)
 - 📦 [Client SDKs](clients/README.md)
@@ -564,6 +574,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 | 🐛 **Issues** | Report bugs or request features | [GitHub Issues](https://github.com/makr-code/ThemisDB/issues) |
 | 💬 **Discussions** | Community Q&A and discussions | [GitHub Discussions](https://github.com/makr-code/ThemisDB/discussions) |
 | 🤝 **Contributing** | How to contribute to ThemisDB | [Contributing Guide](CONTRIBUTING.md) |
+| 🌿 **Branching Strategy** | Git Flow workflow (main = release, develop = dev) | [Branching Strategy](BRANCHING_STRATEGY.md) |
 | 🔒 **Security** | Responsible disclosure policy | [Security Policy](SECURITY.md) |
 
 ---
