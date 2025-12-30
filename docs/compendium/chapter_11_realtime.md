@@ -1,52 +1,88 @@
-# Kapitel 11: Realtime-Anwendungen
+# Chapter 11: Realtime Data Streaming mit Change Data Capture
 
-## Einführung
+## 11.1 Einführung: Die Streaming-Architektur
 
-Moderne Anwendungen erfordern zunehmend Echtzeit-Funktionalität: Chat-Nachrichten müssen sofort erscheinen, Kanban-Boards müssen sich automatisch aktualisieren, und Nutzer erwarten, dass Änderungen anderer sofort sichtbar sind. In diesem Kapitel lernen Sie, wie Sie mit ThemisDB vollwertige Realtime-Anwendungen bauen, die auf Datenänderungen reagieren und Nutzer in Echtzeit synchronisiert halten.
+Change Data Capture (CDC) ist eine kritische Komponente moderner Datenarchitekturen, die Echtzeit-Datenströme ermöglicht. ThemisDB implementiert CDC als natives Feature, das automatisch alle Mutationen (CREATE, UPDATE, DELETE) in einem append-only Event Log aufzeichnet. Dies ist ein fundamentaler Unterschied zu polyglot Systemen, die externe Tools wie Debezium benötigen, um Änderungen aus dem Write-Ahead Log (WAL) zu extrahieren.
 
-ThemisDB bietet verschiedene Mechanismen für Realtime-Funktionalität:
+### Warum CDC in ThemisDB?
 
-1. **Change Data Capture (CDC)**: Verfolgen Sie alle Änderungen an Daten
-2. **Server-Sent Events (SSE)**: Pushen Sie Updates an Clients
-3. **WebSocket-Integration**: Bidirektionale Kommunikation
-4. **Event-Driven Architecture**: Reagieren Sie auf Datenänderungen
+**Architektonischer Vorteil:** Da ThemisDB alle Datenmodelle (relational, graph, document, vector) in einem einheitlichen "Base Entity"-Format speichert (siehe Chapter 2), kann ein einzelner CDC-Stream **alle** Datentypen erfassen. In einem Polyglot-Setup müsste man separate CDC-Pipelines für PostgreSQL, Neo4j und ChromaDB betreiben, was die Komplexität vervielfacht und die Konsistenz gefährdet.
 
-### Realtime-Anforderungen
+**Use Cases:**
+1. **Real-Time Analytics:** Streaming von Datenänderungen in ein OLAP-System (z.B. ClickHouse)
+2. **Event Sourcing:** Rekonstruktion des Anwendungszustands aus dem Event Log
+3. **Materialized Views:** Automatische Aktualisierung von Aggregationen
+4. **Audit Trails:** BSI-konforme Nachvollziehbarkeit aller Datenänderungen
+5. **Cross-System Sync:** Spiegelung von Daten in externe Systeme (Elasticsearch, Redis Cache)
+6. **Kafka Integration:** Streaming in ein zentrales Event-Bus-System
 
-Typische Szenarien für Realtime-Anwendungen:
+## 11.2 CDC-Architektur und Datenmodell
 
-- **Collaboration Tools**: Mehrere Nutzer arbeiten gleichzeitig an Dokumenten
-- **Chat-Systeme**: Sofortige Nachrichtenzustellung
-- **Dashboards**: Live-Updates von Metriken und KPIs
-- **Gaming**: Spielzustand synchronisiert zwischen Spielern
-- **Trading-Plattformen**: Echtzeitkurse und Order-Updates
-- **IoT-Monitoring**: Sensor-Daten werden live visualisiert
+### 11.2.1 Event-Struktur
 
-## Change Data Capture (CDC)
+Jedes CDC-Event in ThemisDB folgt einem standardisierten Schema, das maximale Flexibilität bietet:
 
-ThemisDB's CDC-System erlaubt es, auf jede Datenänderung zu reagieren.
-
-### CDC-Grundlagen
-
-```python
-from themisdb import ThemisDB
-
-db = ThemisDB(host="localhost", port=7687)
-
-# CDC-Stream erstellen
-stream = db.cdc.create_stream(
-    name="chat_messages_stream",
-    table="messages",
-    operations=["INSERT", "UPDATE", "DELETE"]
-)
-
-# Änderungen konsumieren
-for event in stream:
-    print(f"Operation: {event.operation}")
-    print(f"Before: {event.before}")
-    print(f"After: {event.after}")
-    print(f"Timestamp: {event.timestamp}")
+```json
+{
+  "sequence": 42,
+  "type": "PUT",
+  "key": "user:alice",
+  "value": "{\"name\":\"Alice\",\"email\":\"alice@example.com\"}",
+  "timestamp_ms": 1730294567123,
+  "metadata": {
+    "table": "user",
+    "pk": "alice",
+    "operation_type": "update",
+    "user_id": "admin@example.com"
+  }
+}
 ```
+
+**Feld-Semantik:**
+
+- **sequence** (uint64): Monoton steigende ID, die **strikte Ordnung** garantiert. Diese Eigenschaft ist kritisch für die Konsistenz: Consumer können sicher sein, dass Event N vor Event N+1 aufgetreten ist. Die Sequence-Nummer wird atomar in RocksDB verwaltet (`changefeed_sequence`-Schlüssel) und nutzt RocksDB's MVCC-Garantien.
+
+- **type** (enum): `PUT` (Create/Update) oder `DELETE`. Zukünftige Erweiterungen könnten `TRANSACTION_COMMIT`/`TRANSACTION_ROLLBACK` für Transaktionsgrenzen hinzufügen, was Event Sourcing-Patterns vereinfachen würde.
+
+- **key** (string): Vollständiger Entitätsschlüssel im Format `collection:primary_key`. Dies ermöglicht effiziente Filterung nach Präfixen (z.B. alle User-Events via `user:`-Filter).
+
+- **value** (string|null): Bei PUT: JSON-serialisierte Entität. Bei DELETE: `null`. Die Speicherung als String (nicht als natives JSON-Objekt) minimiert den Serialisierungsaufwand im Hot Path. Consumer können mit simdjson/serde_json parsen.
+
+- **timestamp_ms** (uint64): Millisekunden seit Unix Epoch. Wichtig: Dieser Timestamp basiert auf der Serverzeit zum Zeitpunkt des Commits, nicht auf Client-Zeit. Für verteilte Systeme sollte NTP-Synchronisation sichergestellt sein.
+
+- **metadata** (JSON object): Frei erweiterbar. Standardfelder (`table`, `pk`) werden automatisch gesetzt. Anwendungen können zusätzliche Kontextinformationen hinzufügen (z.B. `user_id` für Audit-Trails, `source_ip` für Sicherheitsanalysen).
+
+### 11.2.2 Physische Speicherung
+
+CDC-Events werden im selben RocksDB-Backend wie die Base Entities gespeichert, jedoch in einem separaten Schlüsselraum:
+
+**Key-Format:** `changefeed:{sequence_number}`
+
+Die Sequence-Nummer wird Zero-padded (z.B. `changefeed:0000000000000042`), um lexikographische Sortierung zu garantieren. Dies ist kritisch für die Scan-Performance: Ein RocksDB-Iterator kann effizient von `changefeed:{from_seq}` bis `changefeed:{to_seq}` iterieren, ohne die Daten neu sortieren zu müssen.
+
+**Column Family Strategy:**
+
+- **Default:** Events werden in der Default Column Family gespeichert. Vorteil: Atomare Transaktionen mit den Base Entities sind trivial (ein RocksDB WriteBatch kann beide aktualisieren). Nachteil: Events und Entitäten konkurrieren um den Block Cache.
+
+- **Dedicated CF (zukünftig):** Eine separate Column Family (`cf_changefeed`) würde isolierte Tuning-Parameter erlauben (z.B. aggressivere Compaction für Events, da sie nie aktualisiert werden).
+
+### 11.2.3 Sequence-Management
+
+Die atomare Sequenzvergabe ist der kritische Pfad für CDC-Schreiboperationen:
+
+```cpp
+// Pseudo-Code: Atomare Sequence-Vergabe
+rocksdb::WriteBatch batch;
+uint64_t seq = increment_sequence_counter(batch); // Atomic increment
+std::string event_key = format("changefeed:{:020d}", seq);
+batch.Put(event_key, serialize_event(event));
+db->Write(batch);  // ACID: Sequence & Event atomar committed
+```
+
+**Performance-Trade-off:** Die zentrale Sequenzvergabe ist ein Bottleneck bei hohen Schreibraten (>100K writes/sec). Zukünftige Optimierungen:
+
+1. **Batch Allocation:** Reserviere Sequence-Blöcke (z.B. 1.000 Sequences auf einmal), reduziere Contentions um Faktor 1000.
+2. **Sharded Sequences:** In Sharding-Setups (Chapter 16) kann jeder Shard eigene Sequences verwalten. Globale Ordnung wird via `(shard_id, local_sequence)` Tupel erreicht.
 
 ### CDC-Optionen
 
