@@ -151,13 +151,21 @@ db.execute("CREATE INDEX idx_audit_user ON audit_log(user_id, timestamp)")
 
 def log_action(action, resource_type, resource_id, old_value=None, new_value=None):
     db.execute("""
-        INSERT INTO audit_log (id, user_id, action, resource_type, resource_id, old_value, new_value, ip_address)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        uuid.uuid4(),
-        get_current_user_id(),
-        action,
-        resource_type,
+        INSERT {
+          id: @id,
+          user_id: @user_id,
+          action: @action,
+          resource_type: @resource_type,
+          resource_id: @resource_id,
+          old_value: @old_value,
+          new_value: @new_value,
+          ip_address: @ip_address
+        } INTO audit_log
+    """, {
+        "id": uuid.uuid4(),
+        "user_id": get_current_user_id(),
+        "action": action,
+        "resource_type": resource_type,
         resource_id,
         json.dumps(old_value) if old_value else None,
         json.dumps(new_value) if new_value else None,
@@ -322,36 +330,76 @@ class Document:
         with self.db.transaction():
             # 1. Haupt-Eintrag
             self.db.execute("""
-                INSERT INTO documents (id, tenant_id, title, type, current_version_id, owner_id)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (doc_id, get_current_tenant_id(), title, doc_type, version_id, owner_id or get_current_user_id()))
+                INSERT {
+                  id: @doc_id,
+                  tenant_id: @tenant_id,
+                  title: @title,
+                  type: @doc_type,
+                  current_version_id: @version_id,
+                  owner_id: @owner_id
+                } INTO documents
+            """, {
+                "doc_id": doc_id,
+                "tenant_id": get_current_tenant_id(),
+                "title": title,
+                "doc_type": doc_type,
+                "version_id": version_id,
+                "owner_id": owner_id or get_current_user_id()
+            })
             
             # 2. Erste Version
             file_size = os.path.getsize(file_path)
             checksum = calculate_checksum(file_path)
             self.db.execute("""
-                INSERT INTO document_versions (id, document_id, version, file_path, file_size, checksum, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (version_id, doc_id, 1, file_path, file_size, checksum, get_current_user_id()))
+                INSERT {
+                  id: @version_id,
+                  document_id: @doc_id,
+                  version: 1,
+                  file_path: @file_path,
+                  file_size: @file_size,
+                  checksum: @checksum,
+                  created_by: @created_by
+                } INTO document_versions
+            """, {
+                "version_id": version_id,
+                "doc_id": doc_id,
+                "file_path": file_path,
+                "file_size": file_size,
+                "checksum": checksum,
+                "created_by": get_current_user_id()
+            })
             
             # 3. Metadaten
             if metadata:
                 self.db.execute("""
-                    INSERT INTO document_metadata (document_id, metadata, tags)
-                    VALUES (?, ?, ?)
-                """, (doc_id, json.dumps(metadata), metadata.get('tags', [])))
+                    INSERT {
+                      document_id: @doc_id,
+                      metadata: @metadata,
+                      tags: @tags
+                    } INTO document_metadata
+                """, {
+                    "doc_id": doc_id,
+                    "metadata": json.dumps(metadata),
+                    "tags": metadata.get('tags', [])
+                })
             
             # 4. Text-Extraktion (asynchron in der Praxis)
             text = extract_text(file_path)  # PDF, DOCX, etc.
             self.db.execute("""
-                INSERT INTO document_text (document_id, content)
-                VALUES (?, ?)
-            """, (doc_id, text))
+                INSERT {
+                  document_id: @doc_id,
+                  content: @content
+                } INTO document_text
+            """, {"doc_id": doc_id, "content": text})
             
             # 5. OCR für Bilder (wenn nötig)
             if doc_type in ('scan', 'image'):
                 ocr_text = perform_ocr(file_path)
-                self.db.execute("UPDATE document_text SET ocr_content = ? WHERE document_id = ?", (ocr_text, doc_id))
+                self.db.execute("""
+                    FOR doc_text IN document_text
+                      FILTER doc_text.document_id == @doc_id
+                      UPDATE doc_text WITH {ocr_content: @ocr_text} IN document_text
+                """, {"doc_id": doc_id, "ocr_text": ocr_text})
             
             # 6. Vector Embedding
             embedding = generate_embedding(text)  # sentence-transformers
