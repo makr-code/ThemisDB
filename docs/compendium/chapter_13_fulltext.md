@@ -18,8 +18,9 @@ In diesem Kapitel behandeln wir:
 
 ```aql
 -- Ineffizient: Keine Relevanz, langsam bei großen Datensätzen
-SELECT * FROM articles 
-WHERE title LIKE '%database%' OR content LIKE '%database%';
+FOR article IN articles
+  FILTER LIKE(article.title, '%database%') OR LIKE(article.content, '%database%')
+  RETURN article
 ```
 
 Probleme:
@@ -32,7 +33,11 @@ Probleme:
 
 ```aql
 -- Schnell, relevant, sprachlich intelligent
-SELECT *, FULLTEXT_SCORE(articles) as score
+FOR article IN articles
+  FILTER FULLTEXT(article.title, 'database') OR FULLTEXT(article.content, 'database')
+  LET score = FULLTEXT_SCORE(article)
+  SORT score DESC
+  RETURN {article, score}
 FROM articles
 WHERE FULLTEXT_MATCH(articles, 'database')
 ORDER BY score DESC;
