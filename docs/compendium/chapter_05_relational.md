@@ -1265,7 +1265,366 @@ WHERE o.created_at > '2025-01-01';
 
 ---
 
-## 5.11 Zusammenfassung
+## 5.11 Erweiterte AQL-Optimierungen: Query-Plan und Performance-Tuning
+
+### 5.11.1 Der Query-Optimizer: Kostenbasierte Umordnung
+
+ThemisDB verwendet einen kostenbasierten Query-Optimizer [13], der den effizientesten Ausführungsplan für komplexe Queries automatisch wählt. Dies ist besonders wichtig bei Multi-Model-Queries, die relationale, graph- und vektor-basierte Operationen kombinieren.
+
+**Wie funktioniert der Optimizer?**
+
+```cpp
+// Pseudo-Code des ThemisDB Query Optimizers
+class QueryOptimizer {
+    // Kostenmodell für verschiedene Operationen
+    map<OperationType, double> cost_estimates = {
+        {INDEX_SCAN, 0.1},        // O(log n) - sehr schnell
+        {HASH_JOIN, 1.0},          // O(n + m) - schnell für Equi-Joins
+        {NESTED_LOOP_JOIN, 10.0},  // O(n * m) - langsam, aber flexibel
+        {FULL_TABLE_SCAN, 100.0},  // O(n) - teuer für große Tabellen
+        {SORT, 5.0},               // O(n log n) - mittel
+        {AGGREGATE, 2.0}           // O(n) - linear
+    };
+    
+    ExecutionPlan optimize(Query query) {
+        // 1. Erzeuge alle möglichen Ausführungspläne
+        vector<ExecutionPlan> candidates = generatePlans(query);
+        
+        // 2. Schätze Kosten für jeden Plan
+        for (auto& plan : candidates) {
+            plan.estimated_cost = estimateCost(plan);
+        }
+        
+        // 3. Wähle Plan mit niedrigsten Kosten
+        return *min_element(candidates.begin(), candidates.end(),
+            [](auto& a, auto& b) { return a.estimated_cost < b.estimated_cost; }
+        );
+    }
+};
+```
+
+**Beispiel: Join-Reihenfolge-Optimierung**
+
+```aql
+-- Diese Query hat mehrere mögliche Ausführungspläne:
+FOR order IN orders
+    FILTER order.status == "pending"
+    FOR customer IN customers
+        FILTER customer._id == order.customer_id
+        FILTER customer.country == "DE"
+        FOR product IN products
+            FILTER product._id == order.product_id
+            FILTER product.category == "electronics"
+            RETURN {
+                order: order,
+                customer: customer.name,
+                product: product.name
+            }
+```
+
+**Plan A: Naive Reihenfolge (schlecht)**
+```
+1. Scan orders (1M rows) → 1M candidates
+2. For each: Lookup customer → 1M lookups
+3. Filter country="DE" → 100K candidates
+4. For each: Lookup product → 100K lookups
+5. Filter category → 10K final results
+
+Total Cost: 1M + 1M + 100K + 100K = ~2.2M operations
+```
+
+**Plan B: Optimizer-Reihenfolge (optimal)**
+```
+1. Index scan: customers WHERE country="DE" → 100K candidates
+2. Index scan: products WHERE category="electronics" → 50K candidates
+3. Hash join: orders WHERE status="pending" (200K) with customers → 20K matches
+4. Hash join: result with products → 10K final results
+
+Total Cost: 100K + 50K + 200K + 20K = ~370K operations (6x schneller!)
+```
+
+**Wie wird der optimale Plan gewählt?**
+
+Der Optimizer verwendet **Statistiken** über die Daten:
+
+```aql
+-- Statistiken für Optimizer sammeln
+ANALYZE TABLE orders;
+ANALYZE TABLE customers;
+ANALYZE TABLE products;
+
+-- Zeigt: 
+-- - Anzahl Zeilen pro Tabelle
+-- - Kardinalität von Indizes
+-- - Häufigkeitsverteilung von Werten
+-- - Größe der Tabellen auf Disk
+```
+
+### 5.11.2 Index-Only-Scans: Minimale Disk-I/O
+
+Ein **Index-Only-Scan** ist möglich, wenn alle benötigten Spalten bereits im Index enthalten sind, ohne dass die eigentliche Tabelle gelesen werden muss [2], [3].
+
+**Beispiel ohne Index-Only-Scan:**
+
+```aql
+CREATE INDEX idx_orders_customer ON orders (customer_id);
+
+-- Diese Query MUSS die orders-Tabelle lesen:
+FOR order IN orders
+    FILTER order.customer_id == "customer_123"
+    RETURN {
+        id: order._id,
+        total: order.total_amount,    -- Nicht im Index!
+        date: order.created_at         -- Nicht im Index!
+    }
+```
+
+**Ausführungsplan:**
+```
+1. Index Scan: idx_orders_customer → Findet 50 order_ids
+2. Table Lookup: orders → Liest 50 volle Dokumente (Disk I/O!)
+```
+
+**Optimiert mit Composite Index:**
+
+```aql
+-- Composite Index mit allen benötigten Spalten
+CREATE INDEX idx_orders_customer_covering 
+    ON orders (customer_id, total_amount, created_at);
+
+-- Jetzt: Index-Only-Scan möglich!
+FOR order IN orders
+    FILTER order.customer_id == "customer_123"
+    RETURN {
+        id: order._id,
+        total: order.total_amount,     -- Im Index!
+        date: order.created_at          -- Im Index!
+    }
+```
+
+**Ausführungsplan:**
+```
+1. Index-Only Scan: idx_orders_customer_covering → Liest nur Index
+2. Keine Table Lookups nötig → 10x schneller!
+```
+
+**Performance-Vergleich:**
+
+| Ansatz | Disk I/O | Latenz | Durchsatz |
+|--------|----------|--------|-----------|
+| Ohne Index | 50 random reads | 50ms | 1000 queries/sec |
+| Mit Index (nicht covering) | 50 index reads + 50 table reads | 25ms | 2000 queries/sec |
+| Mit Covering Index | 50 index reads | 5ms | 10000 queries/sec |
+
+### 5.11.3 Partielle Indizes: Selektive Indexierung
+
+Wenn nur ein Teil der Daten häufig abgefragt wird, kann ein **partieller Index** Speicherplatz und Schreibperformance sparen:
+
+```aql
+-- Indexiere nur aktive Orders
+CREATE INDEX idx_active_orders 
+    ON orders (customer_id, created_at)
+    WHERE status IN ['pending', 'processing'];
+
+-- Dieser Index ist viel kleiner als ein voller Index,
+-- da er nur ~10% der orders enthält (die aktiven)
+```
+
+**Wann wird der partielle Index verwendet?**
+
+```aql
+-- ✅ Optimizer nutzt partiellen Index:
+FOR order IN orders
+    FILTER order.status == "pending"
+    FILTER order.customer_id == "customer_123"
+    RETURN order
+
+-- ❌ Optimizer nutzt NICHT den partiellen Index:
+FOR order IN orders
+    FILTER order.status == "completed"    -- Nicht im Index!
+    FILTER order.customer_id == "customer_123"
+    RETURN order
+```
+
+### 5.11.4 Materialized Views für komplexe Aggregationen
+
+Für häufig ausgeführte, teure Aggregationen bietet ThemisDB **Materialized Views**:
+
+```aql
+-- Teure Aggregation (läuft jedes Mal 5 Sekunden):
+FOR order IN orders
+    FILTER order.created_at >= DATE_SUBTRACT(DATE_NOW(), 30, 'day')
+    COLLECT 
+        customer = order.customer_id,
+        date = DATE_TRUNC(order.created_at, 'day')
+    AGGREGATE 
+        revenue = SUM(order.total_amount),
+        order_count = COUNT(1)
+    RETURN {customer, date, revenue, order_count}
+```
+
+**Lösung: Materialized View**
+
+```aql
+-- Erstelle Materialized View (einmalig):
+CREATE MATERIALIZED VIEW daily_revenue AS
+    FOR order IN orders
+        COLLECT 
+            customer = order.customer_id,
+            date = DATE_TRUNC(order.created_at, 'day')
+        AGGREGATE 
+            revenue = SUM(order.total_amount),
+            order_count = COUNT(1)
+        RETURN {customer, date, revenue, order_count}
+    OPTIONS {refresh: 'incremental', interval: '5 minutes'}
+
+-- Abfrage der View (instant!):
+FOR row IN daily_revenue
+    FILTER row.date >= DATE_SUBTRACT(DATE_NOW(), 30, 'day')
+    RETURN row
+```
+
+**Refresh-Strategien:**
+
+- **`refresh: 'immediate'`** - Nach jeder Änderung aktualisieren (langsam)
+- **`refresh: 'incremental'`** - Nur geänderte Daten neu berechnen (empfohlen)
+- **`refresh: 'full'`** - Komplette Neuberechnung (für kleine Views)
+
+### 5.11.5 Query-Hints: Manuelle Optimizer-Steuerung
+
+In seltenen Fällen weiß der Entwickler mehr als der Optimizer. Dann können **Query-Hints** helfen:
+
+```aql
+-- Force Index Scan (statt Full Table Scan):
+FOR order IN orders
+    OPTIONS {indexHint: 'idx_orders_customer'}
+    FILTER order.customer_id == "customer_123"
+    RETURN order
+
+-- Force Hash Join (statt Nested Loop):
+FOR order IN orders
+    FOR customer IN customers
+        OPTIONS {joinStrategy: 'hash'}
+        FILTER customer._id == order.customer_id
+        RETURN {order, customer}
+
+-- Disable Index für Debugging:
+FOR order IN orders
+    OPTIONS {forceTableScan: true}
+    FILTER order.customer_id == "customer_123"
+    RETURN order
+```
+
+**Wann Query-Hints verwenden?**
+
+✅ **Sinnvoll:**
+- Temporär zum Debugging
+- Wenn Statistiken veraltet sind
+- Für extrem spezifische Workloads
+
+❌ **Vermeiden:**
+- Als Standard (Optimizer ist meist besser)
+- Wenn Datenvolumen sich ändert
+- In produktivem Code ohne Dokumentation
+
+### 5.11.6 Batch-Operations für hohen Durchsatz
+
+Für Massen-Inserts oder Updates bietet ThemisDB Batch-Operations:
+
+```aql
+-- ❌ Langsam: 10.000 einzelne Inserts
+FOR i IN 1..10000
+    INSERT {
+        name: CONCAT("Product ", i),
+        price: RAND() * 1000,
+        category: ["Electronics", "Clothing", "Food"][FLOOR(RAND() * 3)]
+    } INTO products
+
+-- ✅ Schnell: Batch-Insert
+LET batch = (
+    FOR i IN 1..10000
+        RETURN {
+            name: CONCAT("Product ", i),
+            price: RAND() * 1000,
+            category: ["Electronics", "Clothing", "Food"][FLOOR(RAND() * 3)]
+        }
+)
+INSERT batch INTO products
+
+-- Performance: 100x schneller!
+-- Einzeln: ~50 inserts/sec (10.000 inserts = 200 Sekunden)
+-- Batch: ~50.000 inserts/sec (10.000 inserts = 0.2 Sekunden)
+```
+
+**Warum ist Batch schneller?**
+
+1. **Weniger Transaktionen:** 1 statt 10.000 Transaktions-Overheads
+2. **Batch-Writes:** RocksDB kann Writes zusammenfassen
+3. **Weniger Netzwerk-RTTs:** 1 Request statt 10.000
+
+### 5.11.7 Performance-Monitoring mit EXPLAIN
+
+Verwenden Sie immer `EXPLAIN`, um langsame Queries zu debuggen:
+
+```aql
+-- Detaillierter Execution Plan:
+EXPLAIN 
+    FOR order IN orders
+        FILTER order.status == "pending"
+        FOR customer IN customers
+            FILTER customer._id == order.customer_id
+            FILTER customer.country == "DE"
+            RETURN {order, customer}
+```
+
+**Output:**
+```json
+{
+  "plan": {
+    "nodes": [
+      {
+        "type": "IndexNode",
+        "index": "idx_orders_status",
+        "condition": "status == 'pending'",
+        "estimated_items": 200000,
+        "estimated_cost": 1000
+      },
+      {
+        "type": "IndexNode",
+        "index": "idx_customers_pk",
+        "condition": "customer._id == order.customer_id",
+        "estimated_items": 1,
+        "estimated_cost": 10
+      },
+      {
+        "type": "FilterNode",
+        "condition": "customer.country == 'DE'",
+        "estimated_items": 20000,
+        "estimated_cost": 200
+      }
+    ],
+    "total_estimated_cost": 1210,
+    "total_estimated_items": 20000
+  },
+  "stats": {
+    "execution_time": "125ms",
+    "items_scanned": 200000,
+    "items_returned": 20000,
+    "index_hits": 200001,
+    "index_misses": 0
+  }
+}
+```
+
+**Key Metrics:**
+- **estimated_cost**: Optimizer's Kostenschätzung
+- **estimated_items**: Erwartete Anzahl Ergebnisse
+- **execution_time**: Tatsächliche Laufzeit
+- **index_hits/misses**: Index-Effizienz
+
+---
+
+## 5.12 Zusammenfassung
 
 In diesem Kapitel haben Sie gelernt:
 
@@ -1276,6 +1635,7 @@ In diesem Kapitel haben Sie gelernt:
 ✅ **Transaktionen:** ACID, Isolation, Commit/Rollback  
 ✅ **Normalisierung:** 1NF, 2NF, 3NF, Denormalisierung  
 ✅ **Indexes:** B-Tree, Unique, Composite, Performance  
+✅ **Erweiterte Optimierungen:** Query Optimizer, Index-Only-Scans, Materialized Views  
 ✅ **Praxis:** Inventory System & Expense Tracker  
 
 ### Key Takeaways
@@ -1286,6 +1646,8 @@ In diesem Kapitel haben Sie gelernt:
 4. **Denormalisierung kann Performance verbessern**
 5. **Indexes sind essentiell für Query-Performance**
 6. **Transaktionen garantieren Konsistenz**
+7. **Der Query-Optimizer wählt automatisch den besten Ausführungsplan**
+8. **Covering Indexes ermöglichen Index-Only-Scans für maximale Performance**
 
 ### Nächster Schritt
 
@@ -1305,4 +1667,4 @@ Sie verstehen jetzt relationale Daten in ThemisDB. Im nächsten Kapitel lernen S
 
 ---
 
-**Kapitel 5 von 30** | **Teil II: Datenmodelle** | **~9.500 Wörter**
+**Kapitel 5 von 30** | **Teil II: Datenmodelle** | **~12.200 Wörter**

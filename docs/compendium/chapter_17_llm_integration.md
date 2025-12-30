@@ -302,7 +302,48 @@ RETURN {
 }
 ```
 
-### 17.3.3 ThemisDB's Pre-Filtering-Vorteil für RAG
+### 17.3.3 Architektur-Vergleich: ThemisDB vs. Hyperscaler für RAG
+
+Ein direkter Vergleich der Architekturparadigmen offenbart, warum ThemisDB für den spezifischen Anwendungsfall "Souveräne KI" und RAG-Systeme den Marktstandards überlegen ist.
+
+**Architektonische Paradigmen im Vergleich:**
+
+| Merkmal | AWS (Polyglot Persistence) | Azure Cosmos DB (Managed MMDBMS) | ThemisDB (Native MMDBMS) |
+|---------|----------------------------|----------------------------------|--------------------------|
+| **Architektur-Prinzip** | **Föderiert:** Lose Kopplung spezialisierter Dienste (RDS + Neptune + OpenSearch) | **Abstrahiert:** Einheitlicher Kern (ARS), aber Zugriff über siloartige APIs (SQL, Gremlin, Mongo) | **Integriert:** Einheitlicher Kern ("Base Entity") mit direkten C++-Projektionen |
+| **Konsistenz** | **Eventual (BASE):** Konsistenz muss durch Anwendungslogik (Saga-Pattern/Lambda) erzwungen werden. Fehleranfällig. | **Konfigurierbar:** Wählbar von "Strong" bis "Eventual", aber oft Latenz-Tradeoff bei Strong Consistency | **Strikt (ACID):** MVCC garantiert atomare Transaktionen über alle Modelle hinweg ohne Performance-Einbußen im Single-Node |
+| **Performance-Modell** | **Additiv:** Latenz ist die Summe der Netzwerkhops zwischen den DBs + "Klebstoff"-Code | **Black Box:** Abrechnung nach "Request Units" (RUs). Performance ist abstrahiert und schwer vorhersagbar | **Hardware-Aware:** Direkte Kontrolle über RAM, NVMe und CPU-Caches. Vorhersagbare "Bare-Metal"-Leistung |
+| **RAG-Eignung** | **Niedrig (Post-Filtering):** Daten müssen aus verschiedenen DBs geholt und in der App gefiltert werden | **Mittel:** Integrierte Vektorsuche, aber oft Einschränkungen bei komplexen Graph-Joins | **Hoch (Pre-Filtering):** Relationale Indizes beschneiden den Suchraum *bevor* die Vektorsuche startet |
+| **Revisionssicherheit** | **Problematisch:** Zeitgleiche Schnappschüsse über 3 DBs hinweg sind fast unmöglich | **Gut:** Change Feed vorhanden, aber volle Historisierung (Time Travel) ist komplex | **Exzellent:** Temporale Graphen (bfsAtTime) erlauben Abfragen zu exakten historischen Zeitpunkten |
+| **Daten-Souveränität** | **Niedrig:** Cloud-Vendor-Lock-in, Daten in US-Jurisdiktion | **Mittel:** European Sovereign Cloud angekündigt, aber proprietär | **Hoch:** Open Source MIT, vollständige Kontrolle, On-Premise |
+| **Operationale Komplexität** | **Hoch:** Management von 3+ separaten Diensten, Orchestrierung nötig | **Mittel:** Managed Service vereinfacht Betrieb, aber abstrakte APIs | **Niedrig:** Single-Binary Deployment, direkte Kontrolle |
+
+**Befund:** Die Hyperscaler optimieren auf **horizontale Skalierbarkeit** und **Entwickler-Komfort** (Managed Services). ThemisDB optimiert auf **Datenintegrität**, **Konsistenz** und **maximale Effizienz** auf definierter Hardware. Für rechts sichere Verwaltungsanwendungen und RAG-Systeme mit komplexen Zugriffskontrollgraphen ist letzteres entscheidend.
+
+**Warum ist Konsistenz für RAG kritisch?**
+
+In einem RAG-System für die öffentliche Verwaltung können inkonsistente Daten zu rechtlichen Problemen führen:
+
+```
+Beispiel-Szenario: BImSchG-Gutachten-RAG
+
+Fehlerfall in Polyglot-System (BASE):
+1. Gutachten wird im Relational-Store als "valid" markiert
+2. Netzwerkfehler → Graph-Update für Zugriffsberechtigung schlägt fehl
+3. Vector-Embedding wird asynchron aktualisiert (Eventual Consistency)
+4. RAG-Abfrage findet Gutachten in Vektorsuche
+5. Graph-Check schlägt fehl → Gutachten sollte nicht zugreifbar sein
+6. Aber: Relational-Metadaten zeigen "valid"
+7. → Inkonsistenter Zustand: Verschiedene Systeme widersprechen sich
+
+ThemisDB mit ACID:
+1. ALLE Updates (Relational + Graph + Vector) sind EINE Transaktion
+2. Entweder ALLES committed oder NICHTS
+3. Keine temporäre Inkonsistenz möglich
+4. RAG-Abfrage sieht garantiert konsistenten Zustand
+```
+
+### 17.3.4 ThemisDB's Pre-Filtering-Vorteil für RAG
 
 **Das Post-Filtering-Problem in Polyglot-Systemen:**
 
