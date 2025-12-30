@@ -6,6 +6,36 @@
 
 ---
 
+## 🌿 GIT FLOW BRANCHING STRATEGY (NEU - 2025-12-30)
+
+### Branching-Konzept Implementation
+
+ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
+- **`main`** = Production Release Branch (geschützt, nur Tagged Releases)
+- **`develop`** = Integration Branch (geschützt, Feature-Merges)
+- **`feature/*`**, **`bugfix/*`**, **`release/*`**, **`hotfix/*`** = Supporting Branches
+
+**Dokumentation:**
+- [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) - Vollständiger Guide (Deutsch)
+- [BRANCHING_STRATEGY_EN.md](BRANCHING_STRATEGY_EN.md) - Complete Guide (English)
+- [BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md) - Schnellreferenz (Command Cheat Sheet)
+- [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) - Visuelle Workflows & Diagramme
+- [BRANCHING_DOCS_INDEX.md](BRANCHING_DOCS_INDEX.md) - Dokumentations-Hub (Start hier!)
+- [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Migrations-Anleitung für Contributors
+- [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) - GitHub Configuration Guide
+
+**Integration:**
+- [.github/COPILOT_INSTRUCTIONS.md](.github/COPILOT_INSTRUCTIONS.md) - Git Flow Regeln für Copilot
+- [.github/BUILD_STRATEGIES.md](.github/BUILD_STRATEGIES.md) - Branch-basierte Build & Deployment Strategie
+
+**Key Features:**
+- ✅ Klare Trennung: Development (`develop`) vs. Production (`main`)
+- ✅ Branch-basierte CI/CD: Fast builds auf `develop`, Full builds auf `main`
+- ✅ Semantic Versioning & Conventional Commits
+- ✅ Bilingual (DE/EN) mit ~125 KB Dokumentation
+
+---
+
 ## 📋 DOKUMENTATIONS-ÜBERSICHT
 
 ### PHASE 1: ANALYSE & RESEARCH (Steps 1-3)

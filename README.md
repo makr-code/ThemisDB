@@ -15,6 +15,15 @@
 
 ## 🎉 What's New
 
+### 🌿 Git Flow Branching Strategy (2025-12-30)
+- 🎯 **Git Flow Implementation** - `main` as production release branch, `develop` as integration branch
+- 📚 **Comprehensive Documentation** - Bilingual guides (DE/EN), visual workflows, quick reference cards
+- 🚀 **Branch-Based CI/CD** - Fast builds on `develop` (~5-10 min), production builds on `main` (~30-40 min)
+- 🔄 **Migration Guide** - Step-by-step transition for existing contributors
+- 🛡️ **Branch Protection Setup** - GitHub configuration with automated scripts
+
+**Quick Links:** [Branching Strategy (DE)](BRANCHING_STRATEGY.md) | [Branching Strategy (EN)](BRANCHING_STRATEGY_EN.md) | [Quick Reference](BRANCHING_QUICK_REF.md) | [Documentation Hub](BRANCHING_DOCS_INDEX.md)
+
 ### v1.3.3 - Network Protocol Enhancements (2025-12-21)
 - 🌐 **HTTP/2 with Server Push** for CDC/Changefeed with ~0ms latency
 - 📡 **WebSocket support** with CDC streaming for real-time communication
