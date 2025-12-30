@@ -430,6 +430,308 @@ Die Query-Engine von ThemisDB hat Zugriff auf alle Index-Projektionen (relationa
 
 Dies ist in Polyglot-Systemen [33] unmöglich, da jede Datenbank isoliert operiert.
 
+---
+
+### 17.3.4 Hybrid Search Implementation: Unter der Haube
+
+Um zu verstehen, wie ThemisDB Pre-Filtering technisch umsetzt, müssen wir den Query-Execution-Plan betrachten. Lassen Sie uns eine typische RAG-Query Schritt-für-Schritt durchgehen.
+
+**Die Beispiel-Query:**
+
+```aql
+FOR doc IN legal_documents
+    FILTER doc.law_area == "BImSchG"              -- Relational Filter
+    FILTER doc.region IN ["Havelland", "Potsdam"] -- Relational Filter
+    FILTER doc._id IN (                            -- Graph Filter
+        FOR v IN 1..2 OUTBOUND "users/alice" access_graph
+            RETURN v._id
+    )
+    LET similarity = COSINE(doc.embedding, @query_vec)  -- Vector Similarity
+    FILTER similarity > 0.7
+    SORT similarity DESC
+    LIMIT 5
+    RETURN {doc: doc, score: similarity}
+```
+
+**Wie führt ThemisDB diese Query aus?**
+
+**Schritt 1: Query Parsing und AST-Erstellung**
+
+Der AQL-Parser erstellt einen Abstract Syntax Tree (AST):
+
+```
+FOR doc IN legal_documents
+  ├─ FILTER (doc.law_area == "BImSchG")
+  ├─ FILTER (doc.region IN ["Havelland", "Potsdam"])
+  ├─ FILTER (doc._id IN [subquery...])
+  ├─ LET similarity = COSINE(...)
+  ├─ FILTER (similarity > 0.7)
+  ├─ SORT similarity DESC
+  ├─ LIMIT 5
+  └─ RETURN {...}
+```
+
+**Schritt 2: Query Optimizer - Kostenbasierte Umordnung**
+
+Der Query Optimizer analysiert den AST und ordnet Operations basierend auf **geschätzten Kosten** um [13]:
+
+```cpp
+// Pseudo-Code des Optimizers
+OptimizerPass::reorderFilters(ASTNode* node) {
+    // Kostenmodell für verschiedene Filter-Typen
+    map<FilterType, double> cost_estimates = {
+        {INDEX_SCAN, 0.1},        // Sehr billig (O(log n))
+        {GRAPH_TRAVERSAL, 10.0},  // Mittel (O(edges))
+        {VECTOR_SIMILARITY, 100.0} // Teuer (O(dimensions))
+    };
+    
+    // Sortiere Filter nach aufsteigenden Kosten
+    sort(node->filters, [&](Filter a, Filter b) {
+        return cost_estimates[a.type] < cost_estimates[b.type];
+    });
+    
+    // Ergebnis: Index-Scans zuerst, dann Graph, dann Vektor
+}
+```
+
+**Optimierte Ausführungsreihenfolge:**
+
+```
+1. INDEX_SCAN (law_area == "BImSchG")          → Kandidaten: 50.000
+2. INDEX_SCAN (region IN ["Havelland"...])     → Kandidaten: 12.000
+3. GRAPH_TRAVERSAL (access_rights subquery)    → Kandidaten: 1.500
+4. VECTOR_SIMILARITY (COSINE > 0.7)            → Kandidaten: 150
+5. SORT (similarity DESC)                      → Kandidaten: 150
+6. LIMIT 5                                     → Kandidaten: 5
+```
+
+**Warum ist diese Reihenfolge optimal?**
+
+Jeder Schritt reduziert die Kandidatenmenge, sodass teure Operationen (Vektor-Similarity) nur auf einer kleinen Menge ausgeführt werden müssen.
+
+**Schritt 3: Index-Scan mit Bitset-Konstruktion**
+
+ThemisDB verwendet **Bitsets** für effiziente Kandidatenverwaltung:
+
+```cpp
+// Simplified C++ Implementation
+std::vector<bool> candidates(total_docs, false);  // Bitset für alle Docs
+
+// Phase 1: Relational Index Scan (law_area == "BImSchG")
+for (auto doc_id : index_scan("law_area", "BImSchG")) {
+    candidates[doc_id] = true;  // Markiere als Kandidat
+}
+// Resultat: 50.000 bits set
+
+// Phase 2: Intersection mit region-Index
+std::vector<bool> region_matches(total_docs, false);
+for (auto region : {"Havelland", "Potsdam"}) {
+    for (auto doc_id : index_scan("region", region)) {
+        region_matches[doc_id] = true;
+    }
+}
+
+// Bitwise AND für Intersection (sehr schnell!)
+for (size_t i = 0; i < total_docs; ++i) {
+    candidates[i] = candidates[i] && region_matches[i];
+}
+// Resultat: 12.000 bits set
+```
+
+**Warum Bitsets?**
+
+- **Speicher-effizient:** 1 Million Dokumente = nur 125 KB (1 bit pro Dokument)
+- **Blitzschnelle Operationen:** Bitwise AND/OR mit CPU-native Instructions
+- **Cache-freundlich:** Bitsets passen in L1/L2 Cache
+
+**Schritt 4: Graph-Traversal auf reduzierter Menge**
+
+Jetzt wird die Graph-Subquery ausgeführt, aber nur für die 12.000 Kandidaten:
+
+```cpp
+// Graph Subquery: Welche Dokumente darf "alice" sehen?
+std::unordered_set<std::string> accessible_docs;
+
+// BFS im Access-Graph (max depth = 2)
+bfs("users/alice", max_depth=2, [&](Node* node) {
+    if (node->type == "document" && candidates[node->id]) {
+        // Nur Kandidaten aus vorherigen Filtern prüfen!
+        accessible_docs.insert(node->id);
+    }
+});
+
+// Update Bitset mit Graph-Resultaten
+for (size_t i = 0; i < total_docs; ++i) {
+    if (candidates[i] && accessible_docs.count(doc_ids[i]) == 0) {
+        candidates[i] = false;  // Kein Zugriff → entfernen
+    }
+}
+// Resultat: 1.500 bits set
+```
+
+**Key Insight:** Die Graph-Traversal muss nur 12.000 Dokumente prüfen, nicht 1 Million!
+
+**Schritt 5: Vektor-Similarity nur auf finale Kandidaten**
+
+Jetzt kommt die teuerste Operation – aber nur für 1.500 Dokumente:
+
+```cpp
+// Vektor-Similarity-Berechnung
+std::vector<std::pair<doc_id, double>> scored_docs;
+
+for (size_t i = 0; i < total_docs; ++i) {
+    if (!candidates[i]) continue;  // Überspringen wenn nicht Kandidat
+    
+    // COSINE-Similarity (rechenintensiv!)
+    double similarity = cosine_similarity(
+        docs[i].embedding,    // 1536 Dimensionen
+        query_embedding       // 1536 Dimensionen
+    );
+    
+    if (similarity > 0.7) {
+        scored_docs.push_back({i, similarity});
+    }
+}
+
+// Sortieren nach Similarity
+std::sort(scored_docs.begin(), scored_docs.end(),
+    [](auto& a, auto& b) { return a.second > b.second; }
+);
+
+// Top 5 zurückgeben
+return scored_docs | std::views::take(5);
+```
+
+**Performance-Vergleich:**
+
+```
+Post-Filtering (Polyglot):
+  1.000.000 Vektor-Ops × 100μs = 100.000ms (100 Sekunden!)
+
+Pre-Filtering (ThemisDB):
+  1.500 Vektor-Ops × 100μs = 150ms (0.15 Sekunden)
+
+→ 666x schneller!
+```
+
+**Schritt 6: Score-Fusion (optional, für Hybrid Search)**
+
+Wenn Sie BM25 (Keyword-Suche) + Vektor-Similarity kombinieren möchten, verwendet ThemisDB **Reciprocal Rank Fusion** (RRF) [22]:
+
+```cpp
+// RRF-Formel: Kombiniert Rankings aus mehreren Quellen
+double compute_rrf_score(doc_id, rank_bm25, rank_vector, k = 60) {
+    double rrf = 0.0;
+    
+    // BM25-Beitrag
+    if (rank_bm25 > 0) {
+        rrf += 1.0 / (k + rank_bm25);
+    }
+    
+    // Vektor-Beitrag
+    if (rank_vector > 0) {
+        rrf += 1.0 / (k + rank_vector);
+    }
+    
+    return rrf;
+}
+
+// Beispiel: Dokument auf Platz 5 in BM25, Platz 3 in Vektor
+double score = compute_rrf_score(doc_id, 5, 3, 60);
+// score = 1/(60+5) + 1/(60+3) = 0.0154 + 0.0159 = 0.0313
+```
+
+**Warum RRF statt gewichteter Durchschnitt?**
+
+- **Skalierungsinvariant:** BM25-Scores und Cosine-Similarity haben unterschiedliche Skalen
+- **Robust:** Funktioniert gut auch wenn ein Signal schwach ist
+- **Einfach:** Keine Hyperparameter-Tuning nötig
+
+**Visualisierung des gesamten Query-Execution-Plans:**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  1. Collection Scan: legal_documents (1M docs)              │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  2. Index Scan: law_area == "BImSchG"                       │
+│     → Bitset with 50K bits set                              │
+│     Latenz: ~1ms (Index-Lookup)                             │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  3. Index Scan: region IN ["Havelland", "Potsdam"]         │
+│     → Bitset AND: 50K → 12K bits set                        │
+│     Latenz: ~1ms                                            │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  4. Graph Traversal (BFS depth=2) auf 12K Kandidaten        │
+│     → Bitset AND: 12K → 1.5K bits set                       │
+│     Latenz: ~50ms (Graph-Scan)                              │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  5. Vector Similarity (COSINE) auf 1.5K Kandidaten          │
+│     → 1.500 × 100μs = 150ms                                 │
+│     → Filter: similarity > 0.7 → 150 docs                   │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  6. Sort by similarity DESC                                 │
+│     → 150 docs sortiert                                     │
+│     Latenz: <1ms                                            │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  7. Limit 5                                                 │
+│     → Top 5 Results                                         │
+└─────────────────────────────────────────────────────────────┘
+
+Gesamt-Latenz: 1ms + 1ms + 50ms + 150ms + 1ms = ~203ms
+```
+
+**Vergleich: Post-Filtering in Polyglot-Systemen:**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  1. Vector DB: Get top 1000 similar docs                    │
+│     → 1.000.000 × 100μs = 100.000ms (!!)                    │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  2. Graph DB: Get accessible docs for user (separate query) │
+│     → Network latency + query time: ~500ms                  │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  3. Relational DB: Get metadata filters (separate query)    │
+│     → Network latency + query time: ~200ms                  │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│  4. Application Code: Intersection of 3 result sets         │
+│     → 1000 docs in-memory filtering: ~10ms                  │
+│     → Discard 990 irrelevant docs                           │
+└─────────────────────────────────────────────────────────────┘
+
+Gesamt-Latenz: 100.000ms + 500ms + 200ms + 10ms = ~100.710ms
+```
+
+**Fazit: ThemisDB ist ~500x schneller** für diese RAG-Query!
+
+---
+
 ## 17.4 Prompt Engineering Best Practices
 
 ### 17.4.1 Chain-of-Thought Prompting
