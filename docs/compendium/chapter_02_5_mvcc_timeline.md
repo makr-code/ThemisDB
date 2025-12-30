@@ -40,38 +40,43 @@ txn_options.set_snapshot = true;
 
 ```aql
 -- Aktueller Stand
-SELECT * FROM orders WHERE customer_id = 123;
+FOR order IN orders
+  FILTER order.customer_id == 123
+  RETURN order
 
--- Stand von gestern 18:00 Uhr
-SELECT * FROM orders 
+-- Stand von gestern 18:00 Uhr (Temporal Query)
+FOR order IN orders
 AS OF SYSTEM TIME '2024-01-14 18:00:00'
-WHERE customer_id = 123;
+  FILTER order.customer_id == 123
+  RETURN order
 
 -- Stand vor 7 Tagen
-SELECT * FROM orders 
+FOR order IN orders
 AS OF SYSTEM TIME NOW() - INTERVAL '7 days'
-WHERE customer_id = 123;
+  FILTER order.customer_id == 123
+  RETURN order
 ```
 
 ### Version History Navigation
 
 ```aql
 -- Alle Versionen eines bestimmten Datensatzes
-SELECT 
-    *,
-    system_time_start,
-    system_time_end
-FROM orders 
+FOR order IN orders
 FOR SYSTEM_TIME ALL
-WHERE order_id = 'ORD-12345'
-ORDER BY system_time_start;
+  FILTER order.order_id == 'ORD-12345'
+  SORT order.system_time_start
+  RETURN {
+    order: order,
+    system_time_start: order.system_time_start,
+    system_time_end: order.system_time_end
+  }
 
 -- Nur Änderungen in einem Zeitfenster
-SELECT *
-FROM orders 
+FOR order IN orders
 FOR SYSTEM_TIME BETWEEN 
     '2024-01-01 00:00:00' AND '2024-01-31 23:59:59'
-WHERE order_id = 'ORD-12345';
+  FILTER order.order_id == 'ORD-12345'
+  RETURN order
 ```
 
 ### Point-in-Time Recovery
@@ -85,18 +90,22 @@ def restore_to_timestamp(table_name, target_timestamp):
     # 1. Sichere aktuellen Stand
     themis.execute(f"""
         CREATE TABLE {table_name}_backup AS 
-        SELECT * FROM {table_name}
+        FOR doc IN {table_name}
+          RETURN doc
     """)
     
     # 2. Lösche aktuelle Daten
-    themis.execute(f"DELETE FROM {table_name}")
+    themis.execute(f"""
+        FOR doc IN {table_name}
+          REMOVE doc IN {table_name}
+    """)
     
     # 3. Restore von Snapshot
     themis.execute(f"""
-        INSERT INTO {table_name}
-        SELECT * FROM {table_name}
-        AS OF SYSTEM TIME ?
-    """, (target_timestamp,))
+        FOR doc IN {table_name}
+        AS OF SYSTEM TIME @timestamp
+          INSERT doc INTO {table_name}
+    """, {"timestamp": target_timestamp})
     
     print(f"✅ Restored {table_name} to {target_timestamp}")
 
@@ -143,8 +152,13 @@ class TransactionManager {
 -- Explizite Transaction mit Isolation Level
 BEGIN TRANSACTION ISOLATION LEVEL SNAPSHOT;
 
-UPDATE orders SET status = 'shipped' WHERE order_id = 123;
-UPDATE inventory SET quantity = quantity - 1 WHERE product_id = 456;
+FOR order IN orders
+  FILTER order.order_id == 123
+  UPDATE order WITH {status: 'shipped'} IN orders
+
+FOR product IN inventory
+  FILTER product.product_id == 456
+  UPDATE product WITH {quantity: product.quantity - 1} IN inventory
 
 COMMIT;
 ```
@@ -204,31 +218,46 @@ CREATE INDEX idx_transitions_to ON workflow_transitions (to_state_id);
 
 ```aql
 -- States definieren
-INSERT INTO workflow_states (state_id, workflow_type, state_name, is_terminal) VALUES
-(gen_random_uuid(), 'leave_request', 'draft', FALSE),
-(gen_random_uuid(), 'leave_request', 'submitted', FALSE),
-(gen_random_uuid(), 'leave_request', 'manager_review', FALSE),
-(gen_random_uuid(), 'leave_request', 'hr_review', FALSE),
-(gen_random_uuid(), 'leave_request', 'approved', TRUE),
-(gen_random_uuid(), 'leave_request', 'rejected', TRUE);
+INSERT [
+  {state_id: gen_random_uuid(), workflow_type: 'leave_request', state_name: 'draft', is_terminal: false},
+  {state_id: gen_random_uuid(), workflow_type: 'leave_request', state_name: 'submitted', is_terminal: false},
+  {state_id: gen_random_uuid(), workflow_type: 'leave_request', state_name: 'manager_review', is_terminal: false},
+  {state_id: gen_random_uuid(), workflow_type: 'leave_request', state_name: 'hr_review', is_terminal: false},
+  {state_id: gen_random_uuid(), workflow_type: 'leave_request', state_name: 'approved', is_terminal: true},
+  {state_id: gen_random_uuid(), workflow_type: 'leave_request', state_name: 'rejected', is_terminal: true}
+] INTO workflow_states
 
 -- Transitionen definieren
-INSERT INTO workflow_transitions (from_state_id, to_state_id, transition_name, required_role)
-SELECT 
-    (SELECT state_id FROM workflow_states WHERE state_name = 'draft'),
-    (SELECT state_id FROM workflow_states WHERE state_name = 'submitted'),
-    'submit',
-    'employee'
-UNION ALL
-SELECT 
-    (SELECT state_id FROM workflow_states WHERE state_name = 'submitted'),
-    (SELECT state_id FROM workflow_states WHERE state_name = 'manager_review'),
-    'forward_to_manager',
-    'system'
-UNION ALL
-SELECT 
-    (SELECT state_id FROM workflow_states WHERE state_name = 'manager_review'),
-    (SELECT state_id FROM workflow_states WHERE state_name = 'approved'),
+LET draft_state = (
+  FOR state IN workflow_states
+    FILTER state.state_name == 'draft'
+    RETURN state.state_id
+)[0]
+
+LET submitted_state = (
+  FOR state IN workflow_states
+    FILTER state.state_name == 'submitted'
+    RETURN state.state_id
+)[0]
+
+LET manager_review_state = (
+  FOR state IN workflow_states
+    FILTER state.state_name == 'manager_review'
+    RETURN state.state_id
+)[0]
+
+LET approved_state = (
+  FOR state IN workflow_states
+    FILTER state.state_name == 'approved'
+    RETURN state.state_id
+)[0]
+
+INSERT [
+  {from_state_id: draft_state, to_state_id: submitted_state, transition_name: 'submit', required_role: 'employee'},
+  {from_state_id: submitted_state, to_state_id: manager_review_state, transition_name: 'forward_to_manager', required_role: 'system'},
+  {from_state_id: manager_review_state, to_state_id: approved_state, transition_name: 'approve', required_role: 'manager'}
+] INTO workflow_transitions
+```
     'approve',
     'manager';
 ```
