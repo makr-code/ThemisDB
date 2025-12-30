@@ -333,7 +333,7 @@ Institutionelles, öffentliches Gemeingut
 
 **Status:**
 - 🟢 **Production-Ready** für Single-Node (< 10 TB)
-- 🟡 **In Entwicklung:** Horizontal Scaling (Sharding)
+- 🟢 **Production-Ready:** Horizontal Scaling (Sharding, 2-8 Nodes)
 - 🟢 **Open Source:** MIT + Government-Klausel
 - 🟡 **Wissenschaftliche Validierung:** Angestrebt durch akademische Partner
 
@@ -357,7 +357,7 @@ Hyperscaler (AWS/Azure)   │ ThemisDB (Sovereign)
 - Community-Building (Developer Relations)
 
 **Mittelfristig (Q2-Q4 2026):**
-- Horizontal Scaling (Sharding-Implementierung)
+- Sharding-Skalierung auf 16+ Nodes
 - Multi-Datacenter-Replication
 - BSI-Zertifizierung anstreben
 
