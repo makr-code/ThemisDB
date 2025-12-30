@@ -622,8 +622,8 @@ FOR location IN locations
 ```python
 # Wenn nur Top-N benötigt:
 FOR location IN locations
-  FILTER ST_Distance(location.coordinates, POINT(@lon, @lat)) < 5000
   LET dist = ST_Distance(location.coordinates, POINT(@lon, @lat))
+  FILTER dist < 5000
   SORT dist ASC
   LIMIT 10  -- Stoppt nach 10 Ergebnissen
   RETURN location
