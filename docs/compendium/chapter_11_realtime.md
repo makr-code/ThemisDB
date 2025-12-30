@@ -212,9 +212,13 @@ def handle_message(data):
     
     # In DB schreiben
     db.execute("""
-        INSERT INTO messages (channel, username, content, timestamp)
-        VALUES (?, ?, ?, ?)
-    """, [channel, username, data['content'], time.time()])
+        INSERT {
+          channel: @channel,
+          username: @username,
+          content: @content,
+          timestamp: @timestamp
+        } INTO messages
+    """, {"channel": channel, "username": username, "content": data['content'], "timestamp": time.time()})
     
     # CDC wird automatisch notifizieren
 ```
@@ -391,18 +395,23 @@ class ChatService:
         """Nachricht senden"""
         with db.transaction():
             result = db.execute("""
-                INSERT INTO messages (channel_id, user_id, content, reply_to)
-                VALUES (?, ?, ?, ?)
-                RETURNING *
-            """, [channel_id, user_id, content, reply_to])
+                INSERT {
+                  channel_id: @channel_id,
+                  user_id: @user_id,
+                  content: @content,
+                  reply_to: @reply_to
+                } INTO messages
+                RETURN NEW
+            """, {"channel_id": channel_id, "user_id": user_id, "content": content, "reply_to": reply_to})
             
             message = result[0]
             
             # Typing-Indikator löschen
             db.execute("""
-                DELETE FROM typing_indicators 
-                WHERE channel_id = ? AND user_id = ?
-            """, [channel_id, user_id])
+                FOR indicator IN typing_indicators 
+                  FILTER indicator.channel_id == @channel_id AND indicator.user_id == @user_id
+                  REMOVE indicator IN typing_indicators
+            """, {"channel_id": channel_id, "user_id": user_id})
             
             return message
     
@@ -425,18 +434,22 @@ class ChatService:
     def delete_message(message_id, user_id):
         """Nachricht löschen"""
         db.execute("""
-            DELETE FROM messages 
-            WHERE id = ? AND user_id = ?
-        """, [message_id, user_id])
+            FOR message IN messages 
+              FILTER message.id == @message_id AND message.user_id == @user_id
+              REMOVE message IN messages
+        """, {"message_id": message_id, "user_id": user_id})
     
     @staticmethod
     def add_reaction(message_id, user_id, emoji):
         """Reaktion hinzufügen"""
         try:
             db.execute("""
-                INSERT INTO reactions (message_id, user_id, emoji)
-                VALUES (?, ?, ?)
-            """, [message_id, user_id, emoji])
+                INSERT {
+                  message_id: @message_id,
+                  user_id: @user_id,
+                  emoji: @emoji
+                } INTO reactions
+            """, {"message_id": message_id, "user_id": user_id, "emoji": emoji})
             return True
         except:  # Already exists
             return False
@@ -1755,8 +1768,10 @@ cache = CachedQuery(ttl=30)
 
 def get_channel_members(channel_id):
     return cache.get("""
-        SELECT * FROM channel_members WHERE channel_id = ?
-    """, [channel_id])
+        FOR member IN channel_members 
+          FILTER member.channel_id == @channel_id 
+          RETURN member
+    """, {"channel_id": channel_id})
 ```
 
 ## Zusammenfassung
