@@ -52,11 +52,12 @@ CHAPTERS=(
     "chapter_13_fulltext.md"
     "chapter_14_geospatial.md"
     "chapter_15_analytics.md"
-    "chapter_16_ml.md"
-    "chapter_18_monitoring.md"
-    "chapter_19_backup.md"
-    "chapter_20_performance.md"
-    "chapter_21_clients.md"
+    "chapter_17_llm_integration.md"
+    "chapter_18_ml.md"
+    "chapter_19_monitoring.md"
+    "chapter_20_backup.md"
+    "chapter_21_performance.md"
+    "chapter_22_clients.md"
 )
 
 # Check which files exist
