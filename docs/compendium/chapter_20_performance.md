@@ -11,12 +11,13 @@ Performance-Optimierung ist entscheidend für produktive ThemisDB-Deployments. D
 **EXPLAIN ANALYZE:**
 ```aql
 EXPLAIN ANALYZE
-SELECT o.*, c.name
-FROM orders o
-JOIN customers c ON o.customer_id = c.id
-WHERE o.order_date > '2023-01-01'
-ORDER BY o.total_amount DESC
-LIMIT 100;
+FOR order IN orders
+  FILTER order.order_date > '2023-01-01'
+  FOR customer IN customers
+    FILTER order.customer_id == customer.id
+    SORT order.total_amount DESC
+    LIMIT 100
+    RETURN {order, customer_name: customer.name}
 ```
 
 **Ausgabe-Interpretation:**
@@ -56,8 +57,10 @@ def profile_query(func):
 @profile_query
 def get_customer_orders(customer_id):
     return client.query("""
-        SELECT * FROM orders WHERE customer_id = ?
-    """, [customer_id])
+        FOR order IN orders
+          FILTER order.customer_id == @customer_id
+          RETURN order
+    """, {"customer_id": customer_id})
 ```
 
 ### 20.1.3 System-Ressourcen-Monitoring
@@ -161,26 +164,45 @@ def maintain_indexes(table_name):
 **Subquery vs JOIN:**
 ```aql
 -- Langsam: Correlated Subquery
-SELECT c.name, 
-       (SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.id) as order_count
-FROM customers c;
+FOR customer IN customers
+  LET order_count = (
+    FOR order IN orders
+      FILTER order.customer_id == customer.id
+      RETURN 1
+  )
+  RETURN {name: customer.name, order_count: LENGTH(order_count)}
 
--- Schneller: JOIN mit GROUP BY
-SELECT c.name, COUNT(o.id) as order_count
-FROM customers c
-LEFT JOIN orders o ON o.customer_id = c.id
-GROUP BY c.id, c.name;
+-- Schneller: Multi-FOR mit COLLECT
+FOR customer IN customers
+  FOR order IN orders
+    FILTER order.customer_id == customer.id
+    COLLECT c_id = customer.id, c_name = customer.name
+    AGGREGATE order_count = COUNT()
+    RETURN {name: c_name, order_count}
 ```
 
 **IN vs EXISTS:**
 ```aql
 -- Langsam für große Datasets
-SELECT * FROM customers 
-WHERE id IN (SELECT customer_id FROM orders WHERE status = 'completed');
+LET completed_customers = (
+  FOR order IN orders
+    FILTER order.status == 'completed'
+    RETURN DISTINCT order.customer_id
+)
+FOR customer IN customers
+  FILTER customer.id IN completed_customers
+  RETURN customer
 
--- Schneller
-SELECT * FROM customers c
-WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id AND o.status = 'completed');
+-- Schneller: Direkte Filterung
+FOR customer IN customers
+  LET has_completed = (
+    FOR order IN orders
+      FILTER order.customer_id == customer.id AND order.status == 'completed'
+      LIMIT 1
+      RETURN 1
+  )
+  FILTER LENGTH(has_completed) > 0
+  RETURN customer
 ```
 
 ### 20.3.2 Batch Operations
@@ -273,7 +295,11 @@ class QueryCache:
 
 # Verwendung
 cache = QueryCache(max_size=1000, ttl=300)
-result = cache.query("SELECT * FROM products WHERE category = ?", ['electronics'])
+result = cache.query("""
+    FOR product IN products 
+      FILTER product.category == @category 
+      RETURN product
+""", {"category": 'electronics'})
 ```
 
 ## 20.4 Connection Pooling
@@ -324,7 +350,10 @@ class SafeConnection:
 
 # Verwendung
 with SafeConnection(pool) as conn:
-    result = conn.query("SELECT * FROM orders")
+    result = conn.query("""
+        FOR order IN orders
+          RETURN order
+    """)
 ```
 
 ## 20.5 RocksDB-Tuning
@@ -567,7 +596,11 @@ class PerformanceBenchmark:
         """Read-Performance testen"""
         def single_query():
             start = time.time()
-            self.client.query("SELECT * FROM products LIMIT 100")
+            self.client.query("""
+                FOR product IN products
+                  LIMIT 100
+                  RETURN product
+            """)
             return time.time() - start
         
         with concurrent.futures.ThreadPoolExecutor(max_workers=concurrency) as executor:
@@ -622,9 +655,9 @@ def stress_test(duration_seconds=60, target_qps=1000):
     interval = 1.0 / target_qps
     
     queries = [
-        "SELECT * FROM products WHERE category = ?",
-        "SELECT COUNT(*) FROM orders WHERE status = ?",
-        "SELECT * FROM customers WHERE email = ?"
+        "FOR p IN products FILTER p.category == @cat RETURN p",
+        "FOR o IN orders FILTER o.status == @status COLLECT AGGREGATE c = COUNT() RETURN c",
+        "FOR c IN customers FILTER c.email == @email RETURN c"
     ]
     
     while time.time() - start_time < duration_seconds:
