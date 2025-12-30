@@ -302,6 +302,134 @@ RETURN {
 }
 ```
 
+### 17.3.3 ThemisDB's Pre-Filtering-Vorteil für RAG
+
+**Das Post-Filtering-Problem in Polyglot-Systemen:**
+
+In traditionellen RAG-Systemen, die auf Polyglot Persistence basieren (separate Vektor-DB, Graph-DB, Relational-DB), müssen Sie typischerweise "Post-Filtering" verwenden:
+
+```python
+# Traditioneller Ansatz (ineffizient):
+# 1. Vektor-DB: Hole 1000 ähnliche Dokumente
+vector_results = vector_db.search(query_embedding, k=1000)
+
+# 2. Graph-DB: Hole erlaubte Dokumente basierend auf Graph-Kontext
+allowed_docs = graph_db.query("MATCH (user)-[:CAN_ACCESS]->(doc)")
+
+# 3. Relational-DB: Hole Metadaten-Filter (z.B. Jahr=2024)
+filtered_docs = relational_db.query("SELECT id WHERE year=2024")
+
+# 4. Manuelle Schnittmengenbildung im Application-Code
+final_results = intersect(vector_results, allowed_docs, filtered_docs)
+# → Problem: 990 von 1000 Ergebnissen werden verworfen!
+```
+
+**Warum ist das ineffizient?**
+- Die Vektorsuche liefert initial 1000 Ergebnisse, von denen 990 irrelevant sind
+- Verschwendet Rechenleistung für Vektor-Ähnlichkeitsberechnungen
+- Erhöht Latenz signifikant
+- Skaliert schlecht bei großen Datenmengen
+
+**ThemisDB's Pre-Filtering-Architektur:**
+
+Dank der nativen Multi-Model-Architektur (siehe Kapitel 3.2) kann ThemisDB die Query-Ausführung umkehren:
+
+```aql
+-- Pre-Filtering in ThemisDB (hochperformant):
+FOR doc IN documents
+  -- Phase 1: ZUERST relationale Filter (schneller Index-Zugriff)
+  FILTER doc.year == 2024
+  FILTER doc.department == "IT"
+  FILTER doc.confidentiality <= @user_clearance_level
+  
+  -- Phase 2: Graph-Kontext-Filter
+  FILTER doc._id IN (
+    FOR v, e IN 1..2 OUTBOUND @user_id access_rights
+      RETURN v._id
+  )
+  
+  -- Phase 3: Vektorsuche NUR auf erlaubter Teilmenge
+  LET similarity = COSINE_SIMILARITY(doc.embedding, @query_embedding)
+  FILTER similarity > 0.7
+  
+  SORT similarity DESC
+  LIMIT 10
+  RETURN doc
+```
+
+**Wie funktioniert Pre-Filtering intern?**
+
+1. **Phase 1 (Relationaler Filter):** 
+   - Query-Engine nutzt schnelle Sekundärindizes (z.B. Index für `year=2024`)
+   - Erstellt eine hochselektive Kandidatenliste (z.B. ein Bitset mit 50 erlaubten IDs)
+
+2. **Phase 2 (Graph-Filter):**
+   - Graph-Traversierung auf dieser reduzierten Menge
+   - Weitere Einschränkung basierend auf Zugriffsrechten
+
+3. **Phase 3 (Vektorsuche):**
+   - Die rechenintensive HNSW-Vektorsuche läuft NUR auf den 50 erlaubten Dokumenten
+   - Statt 1000 Vektor-Vergleiche nur 50 notwendig
+
+**Performance-Vergleich:**
+
+| Ansatz | Vektor-Operationen | Latenz | Skalierung |
+|--------|-------------------|--------|------------|
+| **Post-Filtering (Polyglot)** | 1000 (dann 990 verwerfen) | 500-1000ms | Schlecht |
+| **Pre-Filtering (ThemisDB)** | 50 (nur relevante) | 50-100ms | Gut |
+| **Performance-Gewinn** | 20x weniger | 10x schneller | Linear |
+
+**Praktisches Beispiel - Verwaltungs-RAG:**
+
+```aql
+-- Finde relevante BImSchG-Gutachten für Bürgeranfrage
+LET user_query = "Lärmschutz Windkraftanlage Havelland"
+LET query_embedding = EMBED('text-embedding-3-small', user_query)
+
+FOR doc IN legal_documents
+  -- Pre-Filter 1: Nur relevante Rechtsgebiete (Relational)
+  FILTER doc.legal_area == "BImSchG"
+  FILTER doc.topic IN ["Lärmschutz", "Windenergie"]
+  
+  -- Pre-Filter 2: Nur Dokumente für Region (Graph)
+  FILTER doc.region IN (
+    FOR r IN regions
+      FILTER r.name == "Havelland" OR r.parent_region == "Havelland"
+      RETURN r._id
+  )
+  
+  -- Pre-Filter 3: Nur aktuelle, gültige Gutachten (Relational)
+  FILTER doc.status == "valid"
+  FILTER doc.valid_until > DATE_NOW()
+  
+  -- ERST JETZT: Vektorsuche auf stark reduzierter Menge
+  LET similarity = COSINE_SIMILARITY(doc.embedding, query_embedding)
+  FILTER similarity > 0.75
+  
+  SORT similarity DESC
+  LIMIT 5
+  
+  RETURN {
+    title: doc.title,
+    similarity: similarity,
+    metadata: {
+      case_number: doc.case_number,
+      date: doc.issue_date,
+      region: doc.region
+    },
+    excerpt: SUBSTRING(doc.content, 0, 300)
+  }
+```
+
+**Architektonischer Vorteil:**
+
+Die Query-Engine von ThemisDB hat Zugriff auf alle Index-Projektionen (relational, graph, vector) im selben RocksDB-Backend. Sie kann einen kostenbasierten Optimizer verwenden, um den effizientesten Ausführungsplan zu wählen:
+- Welcher Filter ist am selektivsten?
+- In welcher Reihenfolge sollten Filter angewendet werden?
+- Wann lohnt sich der Übergang von Index-Scan zu Vektor-Suche?
+
+Dies ist in Polyglot-Systemen unmöglich, da jede Datenbank isoliert operiert.
+
 ## 17.4 Prompt Engineering Best Practices
 
 ### 17.4.1 Chain-of-Thought Prompting

@@ -47,6 +47,37 @@ Team-Expertise nötig:      6 × Spezialisten
 
 **Das Resultat:** Hohe Komplexität, teure Wartung, schwierige Debugging-Sessions, und Datenkonsistenz über Systemgrenzen ist nahezu unmöglich.
 
+### Der fundamentale Fehler: Eventual Consistency
+
+Das kritischste Problem polyglotter Persistenz ist nicht die operationale Komplexität, sondern die **unmögliche Datenkonsistenz:**
+
+**Warum Polyglot Persistence ACID unmöglich macht:**
+
+```python
+# Szenario: Lösche einen Benutzer und alle zugehörigen Daten
+# Daten verteilt über: PostgreSQL, Neo4j, ChromaDB
+
+try:
+    # Schritt 1: Lösche aus PostgreSQL
+    postgres.execute("DELETE FROM users WHERE id = 123")
+    
+    # Schritt 2: Lösche aus Neo4j
+    neo4j.execute("MATCH (u:User {id: 123}) DETACH DELETE u")
+    
+    # Schritt 3: Lösche aus ChromaDB
+    chromadb.delete(collection="user_embeddings", ids=["123"])
+    
+    # Problem: Was wenn Schritt 3 fehlschlägt?
+    # → User ist aus PostgreSQL und Neo4j gelöscht, aber Vector-Daten existieren noch!
+    # → System ist inkonsistent
+except Exception:
+    # Rollback? Unmöglich über 3 separate Datenbanken!
+    # Saga-Pattern nötig: Komplexe kompensierende Transaktionen
+    pass
+```
+
+Polyglot Persistence erzwingt systemisch **"Eventual Consistency" (BASE)** statt starker ACID-Garantien. Für viele Anwendungsfälle – insbesondere im behördlichen Kontext, Financial Services oder Healthcare – ist ein Zustand "eventueller Konsistenz" operativ und rechtlich untragbar.
+
 ### Der Multi-Model-Ansatz
 
 ThemisDB nimmt einen anderen Weg. Anstatt spezialisierte Datenbanken zu kombinieren, bieten wir **vier Datenmodelle in einem System:**
@@ -67,7 +98,34 @@ Eine berechtigte Frage. Die traditionelle Weisheit sagt: "Jack of all trades, ma
 - **Dokumentsuche:** Elasticsearch-ähnliche Performance durch invertierte Indizes
 - **Vektor-Search:** State-of-the-art HNSW-Algorithmus für ANN-Queries
 
-**Das Geheimnis:** ThemisDB speichert nicht "alles in einem Topf", sondern verwendet spezialisierte Storage-Engines pro Modell, orchestriert durch eine gemeinsame Transaction Layer.
+**Das Geheimnis: Native Multi-Model-Architektur**
+
+ThemisDB speichert nicht "alles in einem Topf", sondern verwendet ein kanonisches **"Base Entity"-Speicherformat**:
+
+1. **Einheitliche Speicherschicht:** Alle Datenmodelle (Relational, Graph, Dokument, Vektor) werden als binär-serialisierte "Blobs" in RocksDB gespeichert
+2. **Spezialisierte Projektionen:** Leseoptimierte Index-Projektionen pro Modell (relationaler Index, Graph-Adjazenz, HNSW-Vector-Index)
+3. **Gemeinsame Transaction Layer:** RocksDB TransactionDB garantiert ACID über alle Modelle hinweg
+
+**Der entscheidende Unterschied zu Polyglot Persistence:**
+
+```python
+# ThemisDB: Eine atomare Transaktion über alle Modelle
+with themis_db.transaction() as tx:
+    # Relationale Daten aktualisieren
+    tx.update_table("users", user_id, {"name": "Alice", "age": 30})
+    
+    # Graph-Kante erstellen
+    tx.create_edge("friends", from_id=user_id, to_id=friend_id)
+    
+    # Vektor-Embedding speichern
+    tx.update_vector("user_embeddings", user_id, embedding)
+    
+    # ENTWEDER: Alle 3 Operationen erfolgreich
+    # ODER: Alle 3 werden zurückgerollt (atomarer Rollback)
+    tx.commit()  # ACID-garantiert!
+```
+
+Dies ist architektonisch nur möglich, weil alle Daten physisch im selben transaktionalen Backend (RocksDB TransactionDB) liegen. Siehe Kapitel 2.4 für technische Details.
 
 ---
 
