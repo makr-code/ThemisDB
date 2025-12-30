@@ -331,6 +331,373 @@ bridges = [k for k, v in centrality.items() if v > 0.5]
 - Wichtige Vermittler finden
 - Kritische Infrastruktur-Knoten
 
+---
+
+## 6.4A Temporale Graph-Queries: Zeitreisen im Wissensgraph
+
+Eine der mächtigsten Features von ThemisDB ist die Fähigkeit, **zeitabhängige Graph-Traversals** durchzuführen. Dies ist besonders wichtig für Anwendungen, die historische Zustände nachvollziehen müssen – etwa für Compliance, Audit, oder rechtssichere Dokumentation.
+
+### Das Problem: Wie sah der Graph *damals* aus?
+
+Stellen Sie sich folgende Szenarien vor:
+
+**Szenario 1 - Compliance-Anfrage:**
+> "Welche Zugriffsrechte hatte Benutzer X am 15. März 2024 um 14:30 Uhr?"
+
+**Szenario 2 - Verwaltungsakt:**
+> "Auf welcher Datengrundlage basierte der Bescheid vom 10. Januar 2024? Welche Dokumente waren zu diesem Zeitpunkt verknüpft?"
+
+**Szenario 3 - Betrugserkennung:**
+> "Zu welchen verdächtigen Konten hatte Account Y Verbindungen in der Woche vor der Sperrung?"
+
+In traditionellen Graph-Datenbanken müssten Sie entweder:
+1. **Alle Änderungen manuell versionieren** (aufwändig, fehleranfällig)
+2. **Snapshot-Backups** erstellen (speicherintensiv, grobe Granularität)
+3. **Audit-Logs parsen** (langsam, komplex)
+
+### Die Lösung: Temporale Kanten mit valid_from/valid_to
+
+ThemisDB erlaubt es, Kanten mit Gültigkeitszeiträumen zu versehen:
+
+```python
+# Kante mit temporalen Feldern erstellen
+db.create_edge(
+    from_node="users/alice",
+    to_node="departments/engineering",
+    edge_type="WORKS_IN",
+    properties={
+        "role": "Senior Engineer",
+        "valid_from": 1640995200000,  # 2022-01-01 00:00:00 UTC (ms)
+        "valid_to": 1704067200000     # 2024-01-01 00:00:00 UTC (ms)
+    }
+)
+
+# Neue Kante für neue Abteilung
+db.create_edge(
+    from_node="users/alice",
+    to_node="departments/research",
+    edge_type="WORKS_IN",
+    properties={
+        "role": "Lead Researcher",
+        "valid_from": 1704067200000,  # 2024-01-01 00:00:00 UTC (ms)
+        "valid_to": None              # Aktuell gültig (kein Enddatum)
+    }
+)
+```
+
+**Semantik der temporalen Felder:**
+
+- `valid_from = null`: Kante gilt seit Anbeginn der Zeit
+- `valid_to = null`: Kante gilt unbegrenzt in die Zukunft
+- `valid_from = T1, valid_to = T2`: Kante galt im Intervall [T1, T2]
+- Beide `null`: Kante ist zeitlos (eternal)
+
+### Point-in-Time Queries: Graph-Zustand zu einem Zeitpunkt
+
+**API: bfsAtTime() - Breadth-First Search mit Zeitfilter**
+
+```cpp
+// C++ API Signatur
+std::pair<Status, std::vector<std::string>> bfsAtTime(
+    std::string_view startPk,      // Startknoten
+    int64_t timestamp_ms,           // Zeitpunkt (ms seit Epoch)
+    int maxDepth = 3                // Maximale Traversierungstiefe
+) const;
+```
+
+**Wie es funktioniert:**
+
+Die `bfsAtTime()`-Funktion durchläuft den Graphen wie eine normale BFS, aber mit einem entscheidenden Unterschied: **Jede Kante wird vor der Traversierung auf Gültigkeit geprüft**.
+
+**Der Algorithmus Schritt-für-Schritt:**
+
+```cpp
+// Pseudo-Code der temporalen BFS-Implementation
+bool isValidAtTime(Edge edge, int64_t query_time) {
+    // Fall 1: Kante noch nicht gültig
+    if (edge.valid_from.has_value() && query_time < edge.valid_from) {
+        return false;  // Zu früh!
+    }
+    
+    // Fall 2: Kante nicht mehr gültig
+    if (edge.valid_to.has_value() && query_time > edge.valid_to) {
+        return false;  // Zu spät!
+    }
+    
+    // Fall 3: Kante war zum Query-Zeitpunkt gültig
+    return true;
+}
+
+std::vector<std::string> bfsAtTime(string start, int64_t timestamp, int maxDepth) {
+    queue<Node> frontier;
+    set<string> visited;
+    vector<string> result;
+    
+    frontier.push({start, 0});  // {node_id, depth}
+    visited.insert(start);
+    
+    while (!frontier.empty()) {
+        auto [current_node, depth] = frontier.front();
+        frontier.pop();
+        
+        if (depth > maxDepth) continue;
+        
+        result.push_back(current_node);
+        
+        // Hole alle ausgehenden Kanten
+        for (auto& edge : getOutgoingEdges(current_node)) {
+            // KRITISCH: Temporaler Filter!
+            if (!isValidAtTime(edge, timestamp)) {
+                continue;  // Kante überspringen
+            }
+            
+            if (visited.count(edge.to) == 0) {
+                visited.insert(edge.to);
+                frontier.push({edge.to, depth + 1});
+            }
+        }
+    }
+    
+    return result;
+}
+```
+
+**Der entscheidende Unterschied:** Die Zeile `if (!isValidAtTime(edge, timestamp)) continue;` filtert historisch ungültige Kanten **vor** der Traversierung. Dadurch sieht die BFS exakt den Graph-Zustand, wie er zum Query-Zeitpunkt existierte.
+
+**Praktisches Beispiel:**
+
+```python
+# Frage: Welche Abteilungen konnte Alice am 1. Juli 2023 erreichen?
+timestamp = datetime(2023, 7, 1).timestamp() * 1000  # In Millisekunden
+
+result = db.graph.bfsAtTime(
+    start="users/alice",
+    timestamp_ms=int(timestamp),
+    max_depth=3
+)
+
+print(f"Erreichbare Knoten am 1. Juli 2023: {result}")
+# Output: ['users/alice', 'departments/engineering', 'projects/project-x']
+# → 'departments/research' fehlt, weil Alice erst 2024 dorthin wechselte!
+```
+
+### Shortest Path mit Zeitfilter: dijkstraAtTime()
+
+Für gewichtete Graphen unterstützt ThemisDB auch temporale Kürzeste-Pfad-Suche:
+
+```cpp
+// C++ API Signatur
+std::pair<Status, PathResult> dijkstraAtTime(
+    std::string_view startPk,
+    std::string_view targetPk,
+    int64_t timestamp_ms
+) const;
+
+// PathResult enthält:
+struct PathResult {
+    std::vector<std::string> path;  // Knoten vom Start zum Ziel
+    double totalCost;                // Gesamtkosten des Pfades
+};
+```
+
+**Use Case: Organisationshierarchie zum Zeitpunkt eines Bescheids**
+
+```python
+# Frage: Wer war am 10. Januar 2024 der kürzeste Eskalationspfad
+# von einem Sachbearbeiter zu einem Abteilungsleiter?
+
+timestamp = datetime(2024, 1, 10, 14, 30).timestamp() * 1000
+
+path_result = db.graph.dijkstraAtTime(
+    start="users/sachbearbeiter-123",
+    target="users/abteilungsleiter-456",
+    timestamp_ms=int(timestamp)
+)
+
+if path_result.status.ok:
+    print(f"Eskalationspfad am 10.01.2024:")
+    for i, node in enumerate(path_result.path):
+        print(f"  {i}. {node}")
+    print(f"Hierarchie-Distanz: {path_result.totalCost}")
+```
+
+**Ausgabe:**
+```
+Eskalationspfad am 10.01.2024:
+  0. users/sachbearbeiter-123
+  1. users/teamleiter-789
+  2. users/abteilungsleiter-456
+Hierarchie-Distanz: 2.0
+```
+
+**Warum ist das wichtig?**
+
+Wenn später ein Bescheid angefochten wird und die Frage aufkommt: "War die Eskalation regelkonform?", können Sie **exakt nachweisen**, welche Hierarchie zum Zeitpunkt der Entscheidung galt – auch wenn die Organisation sich seitdem umstrukturiert hat.
+
+### Time-Range Queries: Kanten in einem Zeitfenster
+
+Manchmal interessiert nicht ein einzelner Zeitpunkt, sondern ein **Zeitraum**:
+
+> "Welche Zugriffsrechte überlappten mit dem Quartal Q4 2024?"
+
+```cpp
+// C++ API für Time-Range Queries
+struct TimeRangeFilter {
+    int64_t start_ms;  // Fenster-Start
+    int64_t end_ms;    // Fenster-Ende
+    
+    // Prüft ob Kante mit Zeitfenster überlappt
+    bool hasOverlap(optional<int64_t> edge_valid_from,
+                    optional<int64_t> edge_valid_to) const;
+    
+    // Prüft ob Kante vollständig im Fenster enthalten ist
+    bool fullyContains(optional<int64_t> edge_valid_from,
+                       optional<int64_t> edge_valid_to) const;
+};
+
+std::pair<Status, std::vector<EdgeInfo>> getEdgesInTimeRange(
+    int64_t range_start_ms,
+    int64_t range_end_ms,
+    bool require_full_containment = false
+) const;
+```
+
+**Beispiel: Audit-Abfrage für Q4 2024**
+
+```python
+# Zeitfenster definieren
+q4_start = datetime(2024, 10, 1).timestamp() * 1000
+q4_end = datetime(2024, 12, 31, 23, 59, 59).timestamp() * 1000
+
+# Alle Kanten finden, die mit Q4 überlappen
+edges = db.graph.getEdgesInTimeRange(
+    range_start_ms=int(q4_start),
+    range_end_ms=int(q4_end),
+    require_full_containment=False  # Überlappung reicht
+)
+
+print(f"Gefunden: {len(edges)} Kanten mit Überlappung zu Q4 2024")
+
+for edge in edges:
+    print(f"  {edge.from_pk} → {edge.to_pk}")
+    print(f"    Gültig: {edge.valid_from} bis {edge.valid_to}")
+```
+
+**Überlappungs-Logik visualisiert:**
+
+```
+Query-Zeitfenster:     [──────Q4 2024──────]
+                       Oct 1            Dec 31
+
+Kante A: [─────────]                         ✓ Überlappt (vor Q4, endet in Q4)
+Kante B:         [──────────────]            ✓ Überlappt (komplett in Q4)
+Kante C:                    [──────────]     ✓ Überlappt (startet in Q4, endet nach Q4)
+Kante D: [────]                              ✗ Keine Überlappung (endet vor Q4)
+Kante E:                                [──] ✗ Keine Überlappung (startet nach Q4)
+```
+
+### Revisionssicherheit: Verwaltungsakte dokumentieren
+
+**Das Szenario:**
+
+Eine Behörde erstellt einen Bescheid am **15. März 2024**. Dieser Bescheid verweist auf:
+- 3 Gutachten
+- 2 Gesetze  
+- 4 frühere Verwaltungsakte
+
+Sechs Monate später wird der Bescheid angefochten. Die Frage: *"Auf welcher Datengrundlage basierte die Entscheidung?"*
+
+**Die Lösung mit temporalen Graphen:**
+
+```python
+# 1. Beim Erstellen des Bescheids: Graph-Snapshot implizit gespeichert
+bescheid_timestamp = datetime(2024, 3, 15, 10, 30).timestamp() * 1000
+
+# 2. Sechs Monate später: Rekonstruktion der damaligen Datenlage
+verwandte_dokumente = db.graph.bfsAtTime(
+    start=f"bescheide/{bescheid_id}",
+    timestamp_ms=bescheid_timestamp,
+    max_depth=2  # Direkte + indirekte Referenzen
+)
+
+# 3. Für jedes Dokument: Exakte Version zum Zeitpunkt abrufen
+for doc_id in verwandte_dokumente:
+    doc_version = db.get_document_at_time(doc_id, bescheid_timestamp)
+    print(f"Dokument {doc_id} (Stand {bescheid_timestamp}):")
+    print(f"  Titel: {doc_version['title']}")
+    print(f"  Version: {doc_version['version']}")
+    print(f"  Checksum: {doc_version['checksum']}")
+```
+
+**Resultat:** Sie können **beweisen**, dass der Bescheid auf den zum Entscheidungszeitpunkt gültigen Dokumenten basierte – selbst wenn diese Dokumente seitdem aktualisiert wurden.
+
+### Performance-Überlegungen
+
+**Speicher-Overhead:**
+
+Temporale Kanten benötigen 16 zusätzliche Bytes pro Kante (2 × int64 für Timestamps):
+
+```
+Normale Kante:   ~80 Bytes
+Temporale Kante: ~96 Bytes
+→ Overhead: 20%
+```
+
+Bei 10 Millionen Kanten: ~160 MB zusätzlicher Speicher. **Akzeptabel** für die gewonnene Funktionalität.
+
+**Query-Performance:**
+
+Die temporale Filterung ist sehr effizient, da der Check inline während der Traversierung passiert:
+
+```cpp
+// Pro Kante: 2 Integer-Vergleiche (~2 CPU-Zyklen)
+if (edge.valid_from && timestamp < edge.valid_from) return false;
+if (edge.valid_to && timestamp > edge.valid_to) return false;
+```
+
+**Benchmark:** bfsAtTime() ist nur ~5-10% langsamer als normale BFS, da der Overhead durch CPU-Cache-Hits minimiert wird.
+
+### Best Practices
+
+**1. Timestamps immer in Millisekunden (Unix Epoch)**
+
+```python
+# ✅ Richtig: Millisekunden seit 1970-01-01
+timestamp_ms = int(datetime.now().timestamp() * 1000)
+
+# ❌ Falsch: Sekunden (zu grobe Granularität)
+timestamp_s = int(datetime.now().timestamp())
+```
+
+**2. `valid_to = null` für aktuell gültige Beziehungen**
+
+```python
+# ✅ Richtig: Kein Enddatum = unbegrenzt gültig
+edge = {
+    "valid_from": now_ms,
+    "valid_to": None
+}
+
+# ❌ Falsch: Festes Enddatum in ferner Zukunft
+edge = {
+    "valid_from": now_ms,
+    "valid_to": 9999999999999  # Unflexibel!
+}
+```
+
+**3. Indizes auf temporalen Feldern**
+
+```python
+# Index für effiziente temporale Queries
+db.create_index(
+    collection="edges",
+    fields=["valid_from", "valid_to"],
+    index_type="range"
+)
+```
+
+---
+
 ## 6.5 Praxisbeispiel 1: Social Network
 
 Jetzt setzen wir die Theorie in die Praxis um mit einem vollständigen Social Network.
