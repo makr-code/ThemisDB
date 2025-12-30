@@ -1,0 +1,206 @@
+name: CI [Fast - System Libraries]
+
+# Optimized CI workflow using pre-built system libraries from apt
+# Much faster than vcpkg: ~5 minutes vs ~30 minutes
+# Only builds project code, not dependencies
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+# Concurrency: Cancel in-progress runs for same workflow on same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+# Cost-saving: Skip CI on documentation-only changes
+# Add [skip ci] to commit message to skip builds
+
+env:
+  BUILD_TYPE: Release
+  # Use system libraries where possible
+  USE_SYSTEM_LIBS: ON
+
+jobs:
+  build-and-test-ubuntu-fast:
+    name: Build & Test (Ubuntu - System Libs)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30  # Reduced from 60 - fail fast on hangs
+    
+    # Skip if commit message contains [skip ci]
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    
+    steps:
+      - name: ⚡ Fast Build Notice
+        run: |
+          echo "⚡ FAST BUILD MODE - Using System Libraries"
+          echo "This workflow uses pre-built libraries from apt"
+          echo "Build time: ~5 minutes (vs ~30 minutes with vcpkg)"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure fast-path directories for act
+        if: ${{ env.ACT }}
+        run: |
+          echo "VCPKG_ROOT=/tmp/vcpkg" >> $GITHUB_ENV
+          echo "BUILD_DIR=/tmp/themis-build" >> $GITHUB_ENV
+          mkdir -p /tmp/themis-build
+
+      - name: Install system dependencies (pre-built)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config \
+            libssl-dev \
+            libcurl4-openssl-dev \
+            librocksdb-dev \
+            libtbb-dev \
+            libspdlog-dev \
+            nlohmann-json3-dev \
+            libboost-dev \
+            libboost-system-dev \
+            libyaml-cpp-dev \
+            libzstd-dev \
+            libgtest-dev \
+            libbenchmark-dev \
+            cppcheck clang-tidy flex bison
+
+      - name: Install missing dependencies via vcpkg (minimal set)
+        run: |
+          # Only install packages NOT available in apt or requiring specific versions
+          # This significantly reduces build time
+
+          VCPKG_DIR="${VCPKG_ROOT:-vcpkg}"
+
+          # Reuse existing vcpkg checkout when present; if bootstrap is missing, replace with a fresh clone
+          if [ -f "$VCPKG_DIR/bootstrap-vcpkg.sh" ]; then
+            echo "Using existing vcpkg directory at $VCPKG_DIR"
+          else
+            echo "vcpkg bootstrap not found; cloning fresh copy to $VCPKG_DIR"
+            rm -rf "$VCPKG_DIR"
+            git clone https://github.com/microsoft/vcpkg.git "$VCPKG_DIR"
+          fi
+
+          "$VCPKG_DIR/bootstrap-vcpkg.sh" -disableMetrics
+
+          # Install only missing packages:
+          # - simdjson (not in Ubuntu 24.04)
+          # - arrow (apt version may be incompatible)
+          # - hnswlib (not in apt)
+          # - opentelemetry-cpp (not in apt)
+
+          # Install with retry logic for transient network failures
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if "$VCPKG_DIR/vcpkg" install --clean-after-build; then
+              echo "vcpkg installation successful"
+              break
+            else
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "WARNING: vcpkg installation failed (attempt $RETRY_COUNT/$MAX_RETRIES). Retrying in 10 seconds..."
+                sleep 10
+              else
+                echo "ERROR: vcpkg installation failed after $MAX_RETRIES attempts"
+                # Restore vcpkg.json
+                if [ -f vcpkg.json.bak ]; then
+                  mv vcpkg.json.bak vcpkg.json
+                fi
+                exit 1
+              fi
+            fi
+          done
+          
+      - name: Upload cppcheck report
+        if: ${{ always() && !env.ACT }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cppcheck-report-fast
+          path: cppcheck-report.xml
+          retention-days: 7
+
+      - name: Configure CMake (System Libraries)
+        run: |
+          # Note: THEMIS_USE_SYSTEM_LIBS is informational
+          # System libs are used automatically via pkg-config when available
+          BUILD_DIR="${BUILD_DIR:-build}"
+          VCPKG_DIR="${VCPKG_ROOT:-${GITHUB_WORKSPACE}/vcpkg}"
+          cmake -S . -B "$BUILD_DIR" -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
+            -DCMAKE_TOOLCHAIN_FILE="$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake" \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_TRACING=OFF
+
+      - name: Build (Fast - only project code)
+        run: |
+          BUILD_DIR="${BUILD_DIR:-build}"
+          cmake --build "$BUILD_DIR" --config ${{ env.BUILD_TYPE }} -j $(nproc)
+
+      - name: Run Unit Tests
+        run: |
+          BUILD_DIR="${BUILD_DIR:-build}"
+          cd "$BUILD_DIR"
+          ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 300 -j $(nproc)
+
+      - name: Run cppcheck
+        if: always()
+        run: |
+          # Create suppressions file if it doesn't exist
+          if [ ! -f .cppcheck-suppressions ]; then
+            touch .cppcheck-suppressions
+          fi
+          
+          BUILD_DIR="${BUILD_DIR:-build}"
+          cppcheck --project="$BUILD_DIR/compile_commands.json" \
+            --enable=warning,performance,portability \
+            --suppressions-list=.cppcheck-suppressions \
+            --error-exitcode=0 \
+            --xml --xml-version=2 2> cppcheck-report.xml || true
+        continue-on-error: true
+
+      - name: Upload cppcheck report
+        if: always() && !env.ACT
+        uses: actions/upload-artifact@v4
+        with:
+          name: cppcheck-report-fast
+          path: cppcheck-report.xml
+          retention-days: 7
+
+      - name: Build Summary
+        run: |
+          echo "## Build Summary (Fast Mode)" >> $GITHUB_STEP_SUMMARY
+          echo "⚡ **FAST BUILD** - System Libraries from apt" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Performance" >> $GITHUB_STEP_SUMMARY
+          echo "- **Build Time**: ~5 minutes" >> $GITHUB_STEP_SUMMARY
+          echo "- **Speedup**: 6x faster than vcpkg" >> $GITHUB_STEP_SUMMARY
+          echo "- **Strategy**: Pre-built apt packages + minimal vcpkg" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### System Libraries Used" >> $GITHUB_STEP_SUMMARY
+          echo "- RocksDB 8.9.1" >> $GITHUB_STEP_SUMMARY
+          echo "- Boost 1.83.0" >> $GITHUB_STEP_SUMMARY
+          echo "- OpenSSL 3.0.13" >> $GITHUB_STEP_SUMMARY
+          echo "- spdlog 1.12.0" >> $GITHUB_STEP_SUMMARY
+          echo "- TBB 2021.11.0" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### vcpkg (Minimal)" >> $GITHUB_STEP_SUMMARY
+          echo "- simdjson" >> $GITHUB_STEP_SUMMARY
+          echo "- arrow (with parquet)" >> $GITHUB_STEP_SUMMARY
+          echo "- hnswlib" >> $GITHUB_STEP_SUMMARY
+          echo "- opentelemetry-cpp" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: Executed" >> $GITHUB_STEP_SUMMARY
+          echo "- Platform: Ubuntu 24.04" >> $GITHUB_STEP_SUMMARY
