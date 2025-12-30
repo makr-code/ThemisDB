@@ -277,21 +277,21 @@ Ein Abschnitt ist "gut" wenn:
 ## Tracking
 
 ### Fortschritt gesamt
-- Analysiert: 0/21 Kapitel
-- In Bearbeitung: 0/21 Kapitel
+- Analysiert: 3/21 Kapitel (Kapitel 1, 5, 2.5)
+- In Bearbeitung: 2/21 Kapitel (Kapitel 5, 2.5 - AQL-Konvertierung abgeschlossen, narrative Erweiterung ausstehend)
 - Abgeschlossen: 0/21 Kapitel
 
 ### Geschätzter Gesamtaufwand
 - Analyse: ~5-7 Tage
 - Umsetzung: ~15-20 Tage
 - Review: ~3-5 Tage
-- **Gesamt: 23-32 Arbeitstage (4-6 Wochen)**
+- **Gesamt: 23-32 Arbeitstage (ca. 5-6 Wochen bei paralleler Arbeit)**
 
 ---
 
 ## Notizen
 
-- Die AQL-Konvertierung in Kapitel 5 und 2.5 ist bereits erfolgt - diese Kapitel haben hohe Priorität für narrative Erweiterungen
+- Die AQL-Konvertierung in chapter_05_relational.md und chapter_02_5_mvcc_timeline.md ist bereits erfolgt - diese Kapitel haben hohe Priorität für narrative Erweiterungen
 - Fokus sollte zunächst auf den Kern-Kapiteln liegen (1-9)
 - Spezialkapitel (Enterprise, CV, ML) können später erweitert werden
 - Bei jeder Erweiterung sollte auch die Konsistenz mit anderen Kapiteln geprüft werden
