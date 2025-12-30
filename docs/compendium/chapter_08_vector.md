@@ -44,7 +44,7 @@ Ein **Embedding** ist eine hochdimensionale Vektorrepräsentation von Text, Bild
 
 ThemisDB speichert Vektoren als native `VECTOR` Spalten und nutzt **HNSW** (Hierarchical Navigable Small World) für effiziente Suchen:
 
-```sql
+```aql
 -- Dokumente mit Embeddings
 CREATE TABLE documents (
     id UUID PRIMARY KEY,
@@ -68,7 +68,7 @@ WITH (m = 16, ef_construction = 200);
 
 ### Similarity Search Query
 
-```sql
+```aql
 -- Finde ähnliche Dokumente zur Query
 SELECT id, title, 
        1 - (embedding <=> :query_embedding) AS similarity
@@ -86,7 +86,7 @@ LIMIT 10;
 
 Kombiniere semantische und Keyword-Suche:
 
-```sql
+```aql
 WITH vector_results AS (
     SELECT id, 1 - (embedding <=> :query_embedding) AS vec_score
     FROM documents
@@ -217,7 +217,7 @@ class ThemisVectorClient:
         
         cursor = self.conn.cursor()
         
-        # SQL mit optionalem Collection-Filter
+        # AQL mit optionalem Collection-Filter
         sql = """
             SELECT id, title, content, embedding, metadata,
                    1 - (embedding <=> ?) AS similarity
@@ -550,7 +550,7 @@ class Product:
 
 ### ThemisDB Schema
 
-```sql
+```aql
 CREATE TABLE products (
     id UUID PRIMARY KEY,
     name TEXT NOT NULL,
@@ -639,7 +639,7 @@ class ProductCatalogClient:
         """Hybrid Search mit Filtern"""
         query_embedding = self.text_model.encode(query).tolist()
         
-        # Dynamisches SQL mit optionalen Filtern
+        # Dynamisches AQL mit optionalen Filtern
         filters = ["1=1"]
         params = [query_embedding, query_embedding]
         
@@ -909,7 +909,7 @@ class OpenAIEmbeddingClient:
 
 **Schema für OpenAI Embeddings:**
 
-```sql
+```aql
 CREATE TABLE documents_openai (
     id UUID PRIMARY KEY,
     title TEXT,
@@ -957,7 +957,7 @@ class HuggingFaceEmbeddingClient:
 
 ### HNSW Index Tuning
 
-```sql
+```aql
 -- Standard (guter Balance)
 CREATE INDEX idx_standard ON documents 
 USING hnsw (embedding vector_cosine_ops)
@@ -981,7 +981,7 @@ WITH (m = 32, ef_construction = 400);
 
 ### Query-Time Performance
 
-```sql
+```aql
 -- Setze ef_search für Query-Zeit (höher = genauer, langsamer)
 SET hnsw.ef_search = 100;  -- Standard: 40
 
@@ -1122,7 +1122,7 @@ def analyze_search_quality(self, query: str, expected_result_ids: List[str]):
 | **Graph Queries** | ✅ Native | ❌ Nicht verfügbar | ❌ Nicht verfügbar | ❌ Nicht verfügbar |
 | **Fulltext Search** | ✅ Native | 🟡 Limited | ✅ Ja | 🟡 Basic |
 | **ACID Transactions** | ✅ Ja | ❌ Nein | ❌ Nein | ❌ Nein |
-| **Hybrid Search** | ✅ Native SQL | 🟡 API | ✅ GraphQL | 🟡 API |
+| **Hybrid Search** | ✅ Native AQL | 🟡 API | ✅ GraphQL | 🟡 API |
 | **Self-Hosted** | ✅ Ja | ❌ Cloud-only | ✅ Ja | ✅ Ja |
 | **Pricing** | Open Source | $$$$ | Open Source | Open Source |
 | **Best For** | Multi-Model Apps | Pure Vector | ML Pipelines | High Performance |

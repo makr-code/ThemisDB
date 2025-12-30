@@ -39,7 +39,7 @@ Time-Series-Daten sind Messungen, die über die Zeit gesammelt werden. Jeder Dat
 
 ThemisDB nutzt partitionierte Tabellen für effiziente Time-Series-Speicherung:
 
-```sql
+```aql
 -- Sensor-Messungen Tabelle
 CREATE TABLE sensor_readings (
     id UUID DEFAULT gen_random_uuid(),
@@ -68,7 +68,7 @@ CREATE TABLE sensor_readings_2024_02 PARTITION OF sensor_readings
 
 ### Indexes für Time-Series
 
-```sql
+```aql
 -- Index für Zeit-basierte Queries
 CREATE INDEX idx_readings_time ON sensor_readings (timestamp DESC);
 
@@ -84,7 +84,7 @@ WHERE temperature > 30.0;
 
 ### Time-Range Queries
 
-```sql
+```aql
 -- Alle Messungen der letzten Stunde
 SELECT sensor_id, timestamp, temperature, humidity
 FROM sensor_readings
@@ -104,7 +104,7 @@ GROUP BY sensor_id;
 
 ### Window Functions für Rolling Averages
 
-```sql
+```aql
 -- Gleitender Durchschnitt (Moving Average) über 10 Messungen
 SELECT 
     sensor_id,
@@ -134,7 +134,7 @@ WHERE timestamp >= NOW() - INTERVAL '1 hour';
 
 ### Time-Bucket Aggregationen
 
-```sql
+```aql
 -- Aggregiere zu 5-Minuten-Intervallen
 SELECT 
     sensor_id,
@@ -156,7 +156,7 @@ ORDER BY time_bucket DESC;
 
 Speichere hochfrequente Rohdaten nur kurzfristig, langfristig nur Aggregate:
 
-```sql
+```aql
 -- Aggregierte Tabelle für historische Daten (1-Stunden-Aggregate)
 CREATE TABLE sensor_readings_hourly (
     sensor_id VARCHAR(50) NOT NULL,
@@ -194,7 +194,7 @@ SET avg_temperature = EXCLUDED.avg_temperature,
 
 ### Retention Policy Implementation
 
-```sql
+```aql
 -- Lösche Rohdaten älter als 30 Tage
 DELETE FROM sensor_readings
 WHERE timestamp < NOW() - INTERVAL '30 days';
@@ -570,7 +570,7 @@ themis.execute_batch(
 
 ### Partitionierung für schnelle Queries
 
-```sql
+```aql
 -- Automatisches Partition-Management
 CREATE OR REPLACE FUNCTION create_monthly_partition()
 RETURNS void AS $$
@@ -593,7 +593,7 @@ $$ LANGUAGE plpgsql;
 
 ### Materialized Views für Dashboards
 
-```sql
+```aql
 -- Pre-Aggregiere Daten für schnelle Dashboard-Queries
 CREATE MATERIALIZED VIEW sensor_daily_stats AS
 SELECT 
@@ -658,7 +658,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY sensor_daily_stats;
 | Partitioning | ✅ Native | ✅ Automatic | ✅ Hypertables |
 | Continuous Aggregates | ✅ Mat. Views | ✅ Native | ✅ Continuous Aggregates |
 | Retention Policies | ✅ Manual/Triggers | ✅ Automatic | ✅ Automatic |
-| Downsampling | ✅ SQL-based | ✅ Built-in | ✅ Continuous Aggregates |
+| Downsampling | ✅ AQL-based | ✅ Built-in | ✅ Continuous Aggregates |
 | Multi-Model | ✅ Graph, Vector, Doc | ❌ | ❌ |
 | Horizontal Scaling | ✅ Sharding | ✅ Clustering | ✅ Distributed |
 
@@ -666,7 +666,7 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY sensor_daily_stats;
 - ✅ Wenn Time-Series nur ein Teil der Anwendung ist
 - ✅ Wenn komplexe Relationen zu anderen Daten bestehen
 - ✅ Wenn Multi-Model Features (Graph, Vector) benötigt werden
-- ✅ Wenn Standard-SQL Queries ausreichen
+- ✅ Wenn Standard-AQL Queries ausreichen
 
 **Wann Specialized DB wählen:**
 - InfluxDB: Sehr hohe Schreibraten (>1M writes/sec), native Telegraf-Integration

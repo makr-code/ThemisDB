@@ -29,7 +29,7 @@ munich_coordinates = [11.575, 48.137]
 
 ### Geo-Datentypen in ThemisDB
 
-```sql
+```aql
 -- Point: Einzelner Punkt
 CREATE TABLE locations (
     id INTEGER PRIMARY KEY,
@@ -61,7 +61,7 @@ CREATE TABLE delivery_zones (
 
 R-Trees sind die effizienteste Indexstruktur für räumliche Daten:
 
-```sql
+```aql
 -- Geo-Index erstellen
 CREATE INDEX idx_locations_geo ON locations USING RTREE(coordinates);
 
@@ -81,7 +81,7 @@ WHERE ST_Distance(coordinates, POINT(13.405, 52.520)) < 5000;
 
 Für weltweite Abdeckung und Präfix-Suche:
 
-```sql
+```aql
 CREATE INDEX idx_locations_geohash ON locations USING GEOHASH(coordinates);
 
 -- Nützlich für:
@@ -175,7 +175,7 @@ cafes = conn.query("""
 
 ### Distanzberechnung
 
-```sql
+```aql
 -- Haversine-Formel (Kugeloberfläche der Erde)
 ST_Distance(point1, point2) -> meters
 
@@ -189,7 +189,7 @@ SELECT ST_Distance(
 
 ### Bearing (Richtung)
 
-```sql
+```aql
 -- Peilung von A nach B in Grad (0° = Norden)
 ST_Bearing(point1, point2) -> degrees
 
@@ -202,7 +202,7 @@ SELECT ST_Bearing(
 
 ### Bounding Box
 
-```sql
+```aql
 -- Kleinste Box um Geometrie
 ST_Envelope(geometry) -> bbox
 

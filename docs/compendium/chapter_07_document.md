@@ -57,7 +57,7 @@ db.documents.insert("articles", article)
 ### Vergleich: Relational vs. Document
 
 **Relational (starr):**
-```sql
+```aql
 CREATE TABLE articles (
     id INT PRIMARY KEY,
     title TEXT NOT NULL,
@@ -1096,9 +1096,9 @@ print("Migration complete!")
 | MongoDB | ThemisDB | Note |
 |---------|----------|------|
 | `insert_one()` | `documents.insert()` | Single insert |
-| `find()` | `query()` | Use SQL |
+| `find()` | `query()` | Use AQL |
 | `update_one()` | `documents.update()` | Partial update |
-| `aggregate()` | `query()` | SQL GROUP BY |
+| `aggregate()` | `query()` | AQL GROUP BY |
 | `$inc` | `increment()` | Atomic increment |
 | `$push` | `array_append()` | Array operation |
 
@@ -1113,7 +1113,7 @@ with themis.transaction():
 # Beide Erfolg oder beide Rollback
 ```
 
-**2. SQL-Queries:**
+**2. AQL-Queries:**
 ```python
 # MongoDB: Komplex mit aggregation pipeline
 results = collection.aggregate([
@@ -1122,7 +1122,7 @@ results = collection.aggregate([
     {"$sort": {"count": -1}}
 ])
 
-# ThemisDB: Einfaches SQL
+# ThemisDB: Einfaches AQL
 results = themis.query("""
     SELECT author, COUNT(*) as count
     FROM articles

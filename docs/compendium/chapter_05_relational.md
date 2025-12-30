@@ -7,18 +7,18 @@
 
 ## Überblick
 
-Relationale Datenbanken sind das Rückgrat der IT seit über 40 Jahren. In ThemisDB ist das relationale Modell eines von vier gleichberechtigten Datenmodellen - aber mit vollem SQL-Support und ACID-Garantien.
+Relationale Datenbanken sind das Rückgrat der IT seit über 40 Jahren. In ThemisDB ist das relationale Modell eines von vier gleichberechtigten Datenmodellen - aber mit vollem AQL-Support und ACID-Garantien.
 
 **Was Sie in diesem Kapitel lernen werden:**
 - Relationales Datenmodell: Tabellen, Schemas, Constraints
-- SQL in ThemisDB: DDL, DML, Joins, Subqueries
+- AQL in ThemisDB: DDL, DML, Joins, Subqueries
 - Normalisierung vs. Denormalisierung
 - Transaktionen und Integrität
 - Indexes und Performance
 - **Praxisbeispiel 1:** Inventory System (Lagerverwaltung)
 - **Praxisbeispiel 2:** Expense Tracker (Ausgabenverwaltung)
 
-**Voraussetzungen:** SQL-Grundkenntnisse hilfreich, aber nicht notwendig.
+**Voraussetzungen:** AQL-Grundkenntnisse hilfreich, aber nicht notwendig.
 
 ---
 
@@ -52,7 +52,7 @@ products (Tabelle)
 - **Integrität:** Constraints garantieren Datenqualität
 - **Joins:** Verknüpfe Daten aus mehreren Tabellen
 - **ACID:** Transaktionen mit vollständiger Konsistenz
-- **SQL:** Standardisierte, mächtige Abfragesprache
+- **AQL:** Standardisierte, mächtige Abfragesprache
 
 **❌ Nachteile:**
 - Rigid: Schema-Änderungen erfordern Migrations
@@ -81,7 +81,7 @@ products (Tabelle)
 
 ### Tabelle erstellen
 
-```sql
+```aql
 -- Basic Table
 CREATE TABLE products (
   id INT PRIMARY KEY,
@@ -110,7 +110,7 @@ CREATE TABLE products (
 ### Constraints
 
 **Primary Key:**
-```sql
+```aql
 CREATE TABLE customers (
   id INT PRIMARY KEY,
   email VARCHAR(255) UNIQUE NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE customers (
 ```
 
 **Foreign Key:**
-```sql
+```aql
 CREATE TABLE orders (
   id INT PRIMARY KEY,
   customer_id INT NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE orders (
 ```
 
 **Check Constraints:**
-```sql
+```aql
 CREATE TABLE products (
   id INT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE products (
 ```
 
 **Unique Constraints:**
-```sql
+```aql
 CREATE TABLE users (
   id INT PRIMARY KEY,
   username VARCHAR(50) UNIQUE NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE users (
 
 ### Auto-Increment IDs
 
-```sql
+```aql
 CREATE TABLE products (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL
@@ -172,7 +172,7 @@ INSERT INTO products (name) VALUES ('Mouse');
 
 ### INSERT
 
-```sql
+```aql
 -- Single Row
 INSERT INTO products (id, name, price, stock)
 VALUES (1, 'Laptop', 1200.00, 15);
@@ -187,7 +187,7 @@ VALUES
 
 ### UPDATE
 
-```sql
+```aql
 -- Update single row
 UPDATE products
 SET stock = stock - 1
@@ -207,7 +207,7 @@ WHERE oi.product_id = p.id;
 
 ### DELETE
 
-```sql
+```aql
 -- Delete single row
 DELETE FROM products WHERE id = 1;
 
@@ -220,7 +220,7 @@ DELETE FROM products;
 
 ### UPSERT (Insert or Update)
 
-```sql
+```aql
 -- Insert or Update on conflict
 INSERT INTO products (id, name, price, stock)
 VALUES (1, 'Laptop', 1200.00, 15)
@@ -236,7 +236,7 @@ SET
 
 ### SELECT Basics
 
-```sql
+```aql
 -- All columns
 SELECT * FROM products;
 
@@ -261,7 +261,7 @@ GROUP BY category;
 
 ### INNER JOIN
 
-```sql
+```aql
 -- Orders mit Customer-Namen
 SELECT 
   o.id,
@@ -288,7 +288,7 @@ customers           orders
 
 ### LEFT JOIN
 
-```sql
+```aql
 -- Alle Customers, mit/ohne Orders
 SELECT 
   c.name,
@@ -313,7 +313,7 @@ customers           orders
 
 ### Multi-Table JOIN
 
-```sql
+```aql
 -- Orders mit Items und Products
 SELECT 
   o.id AS order_id,
@@ -330,7 +330,7 @@ WHERE o.created_at >= '2025-01-01';
 
 ### Subqueries
 
-```sql
+```aql
 -- Products teurer als Durchschnitt
 SELECT name, price
 FROM products
@@ -471,7 +471,7 @@ orders
 
 **1. Normal Form (1NF):** Atomare Werte, keine Arrays
 
-```sql
+```aql
 -- ❌ Nicht 1NF
 CREATE TABLE orders (
   id INT,
@@ -487,7 +487,7 @@ CREATE TABLE orders (
 
 **2. Normal Form (2NF):** Alle Nicht-Key-Attribute hängen vom ganzen Key ab
 
-```sql
+```aql
 -- ❌ Nicht 2NF
 CREATE TABLE order_items (
   order_id INT,
@@ -514,7 +514,7 @@ CREATE TABLE order_items (
 
 **3. Normal Form (3NF):** Keine transitiven Abhängigkeiten
 
-```sql
+```aql
 -- ❌ Nicht 3NF
 CREATE TABLE products (
   id INT PRIMARY KEY,
@@ -539,7 +539,7 @@ CREATE TABLE products (
 
 Manchmal ist **bewusste** Denormalisierung sinnvoll:
 
-```sql
+```aql
 -- Denormalisiert für schnelle Queries
 CREATE TABLE order_summary (
   order_id INT PRIMARY KEY,
@@ -563,13 +563,13 @@ CREATE TABLE order_summary (
 ### Warum Indexes?
 
 **Ohne Index:**
-```sql
+```aql
 SELECT * FROM products WHERE name = 'Laptop';
 -- → Scannt ALLE Zeilen (Seq Scan): O(n)
 ```
 
 **Mit Index:**
-```sql
+```aql
 CREATE INDEX idx_products_name ON products(name);
 
 SELECT * FROM products WHERE name = 'Laptop';
@@ -583,7 +583,7 @@ SELECT * FROM products WHERE name = 'Laptop';
 ### Index-Arten
 
 **1. B-Tree Index (Standard):**
-```sql
+```aql
 CREATE INDEX idx_products_price ON products(price);
 
 -- Gut für:
@@ -593,7 +593,7 @@ SELECT * FROM products ORDER BY price;
 ```
 
 **2. Unique Index:**
-```sql
+```aql
 CREATE UNIQUE INDEX idx_users_email ON users(email);
 
 -- Verhindert Duplikate automatisch
@@ -602,7 +602,7 @@ INSERT INTO users (email) VALUES ('test@example.com');  -- ERROR!
 ```
 
 **3. Composite Index:**
-```sql
+```aql
 CREATE INDEX idx_orders_cust_date ON orders(customer_id, created_at);
 
 -- Gut für:
@@ -614,7 +614,7 @@ SELECT * FROM orders WHERE created_at > '2025-01-01';  -- Index nicht nutzbar!
 ```
 
 **4. Partial Index:**
-```sql
+```aql
 CREATE INDEX idx_orders_pending ON orders(created_at)
 WHERE status = 'pending';
 
@@ -653,7 +653,7 @@ Ein **Lagerverwaltungssystem** für ein kleines bis mittelgroßes Unternehmen:
 
 ### Datenmodell
 
-```sql
+```aql
 -- Categories
 CREATE TABLE categories (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -827,7 +827,7 @@ def record_purchase(product_id, warehouse_id, quantity, supplier_id, cost):
 
 ### Reporting: Value per Warehouse
 
-```sql
+```aql
 SELECT 
   w.name AS warehouse,
   COUNT(DISTINCT sl.product_id) AS product_count,
@@ -868,7 +868,7 @@ Ein **Ausgabenverwaltungssystem** für persönliche Finanzen oder kleine Teams:
 
 ### Datenmodell
 
-```sql
+```aql
 -- Categories
 CREATE TABLE expense_categories (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -1072,7 +1072,7 @@ def generate_recurring_expenses():
 
 ### Analytics: Monthly Trend
 
-```sql
+```aql
 SELECT 
   DATE_FORMAT(expense_date, '%Y-%m') AS month,
   COUNT(*) AS expense_count,
@@ -1102,7 +1102,7 @@ ORDER BY month;
 
 ### 1. Use Indexes Wisely
 
-```sql
+```aql
 -- ❌ Slow: No index
 SELECT * FROM expenses WHERE expense_date > '2025-01-01';
 
@@ -1113,7 +1113,7 @@ SELECT * FROM expenses WHERE expense_date > '2025-01-01';
 
 ### 2. Avoid SELECT *
 
-```sql
+```aql
 -- ❌ Transfers mehr Daten als nötig
 SELECT * FROM products;
 
@@ -1123,7 +1123,7 @@ SELECT id, name, price FROM products;
 
 ### 3. Use LIMIT für große Result Sets
 
-```sql
+```aql
 -- ❌ Könnte Millionen Rows returnen
 SELECT * FROM orders ORDER BY created_at DESC;
 
@@ -1162,7 +1162,7 @@ tx.commit()
 
 ### 6. Analyze Query Plans
 
-```sql
+```aql
 EXPLAIN SELECT * FROM orders o
 JOIN customers c ON o.customer_id = c.id
 WHERE o.created_at > '2025-01-01';
@@ -1185,8 +1185,8 @@ WHERE o.created_at > '2025-01-01';
 In diesem Kapitel haben Sie gelernt:
 
 ✅ **Relationales Modell:** Tabellen, Schemas, Constraints  
-✅ **SQL DDL:** CREATE TABLE, Datentypen, Constraints  
-✅ **SQL DML:** INSERT, UPDATE, DELETE, UPSERT  
+✅ **AQL DDL:** CREATE TABLE, Datentypen, Constraints  
+✅ **AQL DML:** INSERT, UPDATE, DELETE, UPSERT  
 ✅ **Queries:** SELECT, WHERE, JOIN, Subqueries, Aggregation  
 ✅ **Transaktionen:** ACID, Isolation, Commit/Rollback  
 ✅ **Normalisierung:** 1NF, 2NF, 3NF, Denormalisierung  

@@ -775,7 +775,7 @@ spec:
 
 **EXPLAIN ANALYZE:**
 
-```sql
+```aql
 -- Query Plan analysieren
 EXPLAIN ANALYZE
 SELECT c.name, COUNT(o.id) as order_count

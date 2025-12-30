@@ -98,7 +98,7 @@ Referenzen, Glossar, alle Examples im Detail.
 client = ThemisClient("localhost", 8765)
 ```
 
-```sql
+```aql
 -- AQL Queries so
 FOR user IN users
     RETURN user

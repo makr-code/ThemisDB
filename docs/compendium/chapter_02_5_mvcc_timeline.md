@@ -38,7 +38,7 @@ txn_options.set_snapshot = true;
 
 ### AS OF SYSTEM TIME Syntax
 
-```sql
+```aql
 -- Aktueller Stand
 SELECT * FROM orders WHERE customer_id = 123;
 
@@ -55,7 +55,7 @@ WHERE customer_id = 123;
 
 ### Version History Navigation
 
-```sql
+```aql
 -- Alle Versionen eines bestimmten Datensatzes
 SELECT 
     *,
@@ -139,7 +139,7 @@ class TransactionManager {
 
 **ThemisDB Default: Snapshot Isolation**
 
-```sql
+```aql
 -- Explizite Transaction mit Isolation Level
 BEGIN TRANSACTION ISOLATION LEVEL SNAPSHOT;
 
@@ -174,7 +174,7 @@ ThemisDB erlaubt alle drei Modelle in **einer** Datenbank!
 
 ### Graph-basierte Workflow-States
 
-```sql
+```aql
 -- Workflow-Zustände als Knoten
 CREATE TABLE workflow_states (
     state_id UUID PRIMARY KEY,
@@ -202,7 +202,7 @@ CREATE INDEX idx_transitions_to ON workflow_transitions (to_state_id);
 
 **Beispiel: Urlaubsantrag-Workflow**
 
-```sql
+```aql
 -- States definieren
 INSERT INTO workflow_states (state_id, workflow_type, state_name, is_terminal) VALUES
 (gen_random_uuid(), 'leave_request', 'draft', FALSE),
@@ -235,7 +235,7 @@ SELECT
 
 ### Prozess-Instanzen verwalten
 
-```sql
+```aql
 -- Konkrete Prozess-Instanzen
 CREATE TABLE process_instances (
     instance_id UUID PRIMARY KEY,
@@ -353,7 +353,7 @@ engine.transition(instance_id, 'approve', 'jane.manager', 'Approved')
 
 ### Graph-Queries für Workflow-Analyse
 
-```sql
+```aql
 -- Alle möglichen Pfade von State A zu State B
 WITH RECURSIVE paths AS (
     -- Start
@@ -390,7 +390,7 @@ WHERE to_state_id = :target_state_id;
 
 Nutze Vector-Embeddings um ähnliche Prozesse zu finden:
 
-```sql
+```aql
 -- Speichere Prozess-"Fingerprint" als Vector
 CREATE TABLE process_embeddings (
     instance_id UUID PRIMARY KEY REFERENCES process_instances(instance_id),
@@ -465,7 +465,7 @@ for instance in themis.query("SELECT instance_id FROM process_instances"):
 
 ### Pattern Discovery
 
-```sql
+```aql
 -- Finde ähnliche Prozessverläufe
 SELECT 
     pi.instance_id,
@@ -524,7 +524,7 @@ print(f"Found {len(anomalies)} anomalous processes")
 
 ### Vollständiger Audit Trail
 
-```sql
+```aql
 -- Compliance-View: Alle Änderungen mit Timestamps
 CREATE VIEW audit_trail AS
 SELECT 
@@ -559,7 +559,7 @@ ORDER BY month DESC, workflow_type;
 
 ### Immutable Audit Log mit Blockchain-Konzept
 
-```sql
+```aql
 -- Erweitere History mit Hash-Chain
 ALTER TABLE process_history 
 ADD COLUMN previous_hash VARCHAR(64),

@@ -9,7 +9,7 @@ Performance-Optimierung ist entscheidend für produktive ThemisDB-Deployments. D
 ### 20.1.1 Query-Performance-Messung
 
 **EXPLAIN ANALYZE:**
-```sql
+```aql
 EXPLAIN ANALYZE
 SELECT o.*, c.name
 FROM orders o
@@ -83,7 +83,7 @@ def monitor_resources():
 ### 20.2.1 Index-Typen verstehen
 
 **B-Tree Index (Standard):**
-```sql
+```aql
 -- Für Equality und Range Queries
 CREATE INDEX idx_order_date ON orders(order_date);
 
@@ -92,13 +92,13 @@ CREATE INDEX idx_customer_date ON orders(customer_id, order_date);
 ```
 
 **Hash Index:**
-```sql
+```aql
 -- Nur für Equality Queries
 CREATE INDEX idx_customer_hash ON customers USING HASH(email);
 ```
 
 **Vector Index (HNSW):**
-```sql
+```aql
 -- Für Similarity Search
 CREATE VECTOR INDEX idx_product_embedding 
 ON products(embedding) 
@@ -159,7 +159,7 @@ def maintain_indexes(table_name):
 ### 20.3.1 Query-Rewriting
 
 **Subquery vs JOIN:**
-```sql
+```aql
 -- Langsam: Correlated Subquery
 SELECT c.name, 
        (SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.id) as order_count
@@ -173,7 +173,7 @@ GROUP BY c.id, c.name;
 ```
 
 **IN vs EXISTS:**
-```sql
+```aql
 -- Langsam für große Datasets
 SELECT * FROM customers 
 WHERE id IN (SELECT customer_id FROM orders WHERE status = 'completed');

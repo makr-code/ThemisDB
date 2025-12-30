@@ -329,14 +329,14 @@ examples/21_coding_platform:
 Stellen Sie sich vor, Sie entwickeln ein Social Network. In PostgreSQL 
 würden Sie Tabellen erstellen:
 
-```sql
+```aql
 CREATE TABLE users (id INT, name TEXT);
 CREATE TABLE friendships (user_id INT, friend_id INT);
 ```
 
 Um "Freunde von Freunden" zu finden, brauchen Sie einen rekursiven Join:
 
-```sql
+```aql
 WITH RECURSIVE friend_tree AS (
   SELECT friend_id, 1 as level FROM friendships WHERE user_id = ?
   UNION ALL
@@ -353,7 +353,7 @@ schlecht. Bei 1 Million Nutzern und 3 Hops dauert sie Minuten.
 
 **Graph-Lösung in ThemisDB:**
 
-```sql
+```aql
 FOR friend IN 1..3 OUTBOUND @userId friends
     RETURN DISTINCT friend
 ```

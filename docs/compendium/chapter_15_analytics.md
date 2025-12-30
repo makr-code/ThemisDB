@@ -21,11 +21,11 @@ ThemisDB bietet leistungsstarke Analyse- und Reporting-Funktionen, die es ermög
 
 ## 15.2 Grundlegende Aggregationen
 
-### 15.2.1 Standard SQL-Aggregationen
+### 15.2.1 Standard AQL-Aggregationen
 
-ThemisDB unterstützt alle Standard-SQL-Aggregationsfunktionen:
+ThemisDB unterstützt alle Standard-AQL-Aggregationsfunktionen:
 
-```sql
+```aql
 -- Verkaufsstatistiken
 SELECT 
     DATE_TRUNC('month', order_date) AS month,
@@ -51,7 +51,7 @@ month       | total_orders | revenue   | avg_order_value | min_order | max_order
 
 ### 15.2.2 Window Functions für Trend-Analysen
 
-```sql
+```aql
 -- Umsatztrend mit gleitendem Durchschnitt
 SELECT 
     order_date,
@@ -75,7 +75,7 @@ LIMIT 30;
 
 ### 15.2.3 PIVOT-Operationen
 
-```sql
+```aql
 -- Umsatz nach Produktkategorie und Monat
 SELECT * FROM (
     SELECT 
@@ -358,7 +358,7 @@ FOR transaction IN transactions
 
 ### 15.6.1 Erstellen von Materialized Views
 
-```sql
+```aql
 -- Tägliche Verkaufsübersicht
 CREATE MATERIALIZED VIEW daily_sales_summary AS
 SELECT 
@@ -968,7 +968,7 @@ export_to_csv(db, """
 ### 15.11.1 Performance-Optimierung
 
 **Indexierung:**
-```sql
+```aql
 -- Composite Index für häufige Queries
 CREATE INDEX idx_orders_date_customer ON orders(order_date, customer_id);
 
@@ -1030,7 +1030,7 @@ class AnalyticsGovernance:
 
 ThemisDB bietet umfassende Analytics-Funktionen:
 
-- **SQL-Aggregationen:** Standard- und Window-Functions
+- **AQL-Aggregationen:** Standard- und Window-Functions
 - **AQL-Analytics:** Multi-Level-Aggregationen und COLLECT
 - **Graph-Analytics:** Beziehungsanalysen und Influencer-Detection
 - **Vektor-Analytics:** Clustering und Anomalie-Erkennung

@@ -105,7 +105,7 @@ Springen Sie direkt zu den Themen, die Sie interessieren:
 ### Vorwissen
 
 - **Grundlegende Programmierkenntnisse:** Python, JavaScript oder ähnlich
-- **SQL-Grundlagen:** Hilfreich, aber nicht erforderlich
+- **AQL-Grundlagen:** Hilfreich, aber nicht erforderlich
 - **Docker-Basics:** Für die Examples
 
 ### Software

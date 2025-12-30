@@ -16,7 +16,7 @@ In diesem Kapitel behandeln wir:
 
 **Problem der einfachen String-Suche:**
 
-```sql
+```aql
 -- Ineffizient: Keine Relevanz, langsam bei großen Datensätzen
 SELECT * FROM articles 
 WHERE title LIKE '%database%' OR content LIKE '%database%';
@@ -30,7 +30,7 @@ Probleme:
 
 **Lösung mit Volltext-Index:**
 
-```sql
+```aql
 -- Schnell, relevant, sprachlich intelligent
 SELECT *, FULLTEXT_SCORE(articles) as score
 FROM articles
@@ -150,14 +150,14 @@ Vorteil: Verhindert, dass sehr lange Dokumente überproportional hohe Scores bek
 
 **Einfacher Fulltext-Index:**
 
-```sql
+```aql
 CREATE FULLTEXT INDEX idx_articles_content 
 ON articles (title, content);
 ```
 
 **Mit Konfiguration:**
 
-```sql
+```aql
 CREATE FULLTEXT INDEX idx_articles_content 
 ON articles (title, content)
 WITH (
@@ -172,7 +172,7 @@ WITH (
 
 **Gewichtete Felder:**
 
-```sql
+```aql
 CREATE FULLTEXT INDEX idx_articles_weighted 
 ON articles (
   title WEIGHT 3.0,      -- Titel 3× wichtiger
@@ -185,14 +185,14 @@ ON articles (
 
 **Einfache Suche:**
 
-```sql
+```aql
 SELECT * FROM articles
 WHERE FULLTEXT_MATCH(articles, 'database systems');
 ```
 
 **Mit Relevanz-Score:**
 
-```sql
+```aql
 SELECT 
   id, 
   title, 
@@ -205,42 +205,42 @@ LIMIT 10;
 
 **Mehrere Begriffe (AND):**
 
-```sql
+```aql
 -- Alle Begriffe müssen vorkommen
 WHERE FULLTEXT_MATCH(articles, 'database AND multi-model');
 ```
 
 **Alternative Begriffe (OR):**
 
-```sql
+```aql
 -- Mindestens ein Begriff muss vorkommen
 WHERE FULLTEXT_MATCH(articles, 'database OR nosql');
 ```
 
 **Ausschluss (NOT):**
 
-```sql
+```aql
 -- Enthält "database" aber nicht "relational"
 WHERE FULLTEXT_MATCH(articles, 'database NOT relational');
 ```
 
 **Phrasensuche:**
 
-```sql
+```aql
 -- Exakte Phrase in Anführungszeichen
 WHERE FULLTEXT_MATCH(articles, '"multi-model database"');
 ```
 
 **Wildcard-Suche:**
 
-```sql
+```aql
 -- * für beliebige Zeichen
 WHERE FULLTEXT_MATCH(articles, 'data*');  -- Findet "database", "dataset", etc.
 ```
 
 **Fuzzy-Suche (Rechtschreibfehler):**
 
-```sql
+```aql
 -- ~ für Fuzzy-Match (Levenshtein-Distanz)
 WHERE FULLTEXT_MATCH(articles, 'databse~');  -- Findet "database" trotz Fehler
 ```
@@ -249,14 +249,14 @@ WHERE FULLTEXT_MATCH(articles, 'databse~');  -- Findet "database" trotz Fehler
 
 **Nur in bestimmten Feldern suchen:**
 
-```sql
+```aql
 SELECT * FROM articles
 WHERE FULLTEXT_MATCH(articles, 'title:database AND content:nosql');
 ```
 
 **Kombinierte Suche:**
 
-```sql
+```aql
 SELECT * FROM articles
 WHERE FULLTEXT_MATCH(articles, 'title:"multi-model" OR content:vector')
   AND category = 'technology';  -- Zusätzliche Filter kombinierbar
@@ -270,7 +270,7 @@ WHERE FULLTEXT_MATCH(articles, 'title:"multi-model" OR content:vector')
 
 Markiert Suchbegriffe in Ergebnissen:
 
-```sql
+```aql
 SELECT 
   id,
   title,
@@ -287,7 +287,7 @@ Ergebnis:
 
 **Snippet-Extraktion:**
 
-```sql
+```aql
 SELECT 
   id,
   title,
@@ -302,7 +302,7 @@ Extrahiert 200 Zeichen um den Suchbegriff herum (50 Zeichen vor, 150 nach).
 
 **Präfix-Suche für Auto-Complete:**
 
-```sql
+```aql
 -- Findet alle Artikel, die mit "dat" beginnen
 SELECT DISTINCT 
   FULLTEXT_TERMS(articles, 'dat*') as suggestion
@@ -317,7 +317,7 @@ Ergebnis:
 
 **Häufigkeits-basierte Vorschläge:**
 
-```sql
+```aql
 SELECT 
   term,
   COUNT(*) as frequency
@@ -334,7 +334,7 @@ LIMIT 10;
 
 Kombiniert Volltext mit Facetten:
 
-```sql
+```aql
 SELECT 
   category,
   COUNT(*) as count
@@ -354,7 +354,7 @@ Business        | 12
 
 **Komplexe Facetten-Abfrage:**
 
-```sql
+```aql
 WITH results AS (
   SELECT *
   FROM articles
@@ -639,7 +639,7 @@ for article in articles:
 
 **Separate Indexe pro Sprache:**
 
-```sql
+```aql
 -- Deutscher Index
 CREATE FULLTEXT INDEX idx_articles_de 
 ON articles (content)
@@ -661,7 +661,7 @@ WITH (analyzer = 'french');
 
 **Sprachabhängige Suche:**
 
-```sql
+```aql
 -- Automatische Sprachwahl basierend auf Nutzer-Präferenz
 SELECT * FROM articles
 WHERE language = 'de' 
@@ -716,7 +716,7 @@ results = multilingual_search("Datenbank")
 
 **Analyse der Index-Nutzung:**
 
-```sql
+```aql
 -- Index-Statistiken anzeigen
 SHOW INDEX STATS idx_articles_content;
 ```
@@ -732,7 +732,7 @@ last_update: 2024-12-28 10:30:00
 
 **Selective Indexing:**
 
-```sql
+```aql
 -- Nur wichtige Felder indizieren
 CREATE FULLTEXT INDEX idx_articles_selective 
 ON articles (title, abstract)  -- Nicht "content" für Performance
@@ -741,7 +741,7 @@ WHERE status = 'published';    -- Nur veröffentlichte Artikel
 
 **Partial Index für häufige Queries:**
 
-```sql
+```aql
 -- Index nur für aktuelle Artikel
 CREATE FULLTEXT INDEX idx_articles_recent 
 ON articles (title, content)
@@ -752,7 +752,7 @@ WHERE created_at > NOW() - INTERVAL '30 days';
 
 **Avoid Wildcards am Anfang:**
 
-```sql
+```aql
 -- LANGSAM: Wildcard am Anfang
 WHERE FULLTEXT_MATCH(articles, '*base');
 
@@ -762,7 +762,7 @@ WHERE FULLTEXT_MATCH(articles, 'data*');
 
 **Limit Fuzzy Search:**
 
-```sql
+```aql
 -- LANGSAM: Fuzzy auf allen Begriffen
 WHERE FULLTEXT_MATCH(articles, 'databse~ systm~');
 
@@ -772,7 +772,7 @@ WHERE FULLTEXT_MATCH(articles, 'database systm~');
 
 **Use Score Threshold:**
 
-```sql
+```aql
 -- Filtere irrelevante Ergebnisse
 SELECT * FROM articles
 WHERE FULLTEXT_MATCH(articles, 'database')
@@ -807,7 +807,7 @@ results2 = cached_search("database")  # Aus Cache
 
 **Index-Warm-Up:**
 
-```sql
+```aql
 -- Index vorwärmen nach Restart
 SELECT COUNT(*) FROM articles
 WHERE FULLTEXT_MATCH(articles, 'a');  -- Häufiger Buchstabe

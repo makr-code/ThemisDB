@@ -44,7 +44,7 @@ Traditionelle Datenbanken speichern nur Dateinamen - **Computer Vision Datenbank
 
 ### Schema für Bildmetadaten
 
-```sql
+```aql
 -- Bilder mit vollständigen Metadaten
 CREATE TABLE images (
     image_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -98,7 +98,7 @@ CREATE INDEX idx_images_tags ON images USING GIN(tags);
 
 ### Feature-Extraktion Tabelle
 
-```sql
+```aql
 -- Visuelle Features (z.B. von CNN)
 CREATE TABLE image_features (
     image_id UUID PRIMARY KEY REFERENCES images(image_id),
@@ -124,7 +124,7 @@ WITH (m = 16, ef_construction = 200);
 
 ### Object Detection Results
 
-```sql
+```aql
 -- Erkannte Objekte in Bildern
 CREATE TABLE detected_objects (
     detection_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -320,7 +320,7 @@ def store_detections(image_id, image_path):
 
 ### Content-Based Image Retrieval (CBIR)
 
-```sql
+```aql
 -- Finde visuell ähnliche Bilder
 SELECT 
     i.image_id,
@@ -364,7 +364,7 @@ for img in similar_images:
 
 ### Multi-Modal Search: Visual + Text
 
-```sql
+```aql
 -- Kombiniere Visual Similarity + Text Tags
 WITH visual_matches AS (
     SELECT image_id, 
@@ -396,7 +396,7 @@ LIMIT 20;
 
 ### GPS-basierte Suche
 
-```sql
+```aql
 -- Alle Bilder in einem Radius von 1km
 SELECT 
     image_id,
@@ -709,7 +709,7 @@ def generate_thumbnail(image_path, size=(256, 256)):
 
 ### Lazy Loading von Features
 
-```sql
+```aql
 -- Erstelle Features nur on-demand
 CREATE OR REPLACE FUNCTION ensure_features(p_image_id UUID)
 RETURNS BOOLEAN AS $$
