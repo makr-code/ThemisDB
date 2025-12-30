@@ -132,21 +132,24 @@ Tief in verschachtelten Dokumenten suchen:
 ```python
 # Finde Artikel mit bestimmten Metadaten
 articles = db.query("""
-    SELECT * FROM articles
-    WHERE metadata.published > '2025-01-01'
-      AND metadata.featured = true
+    FOR article IN articles
+      FILTER article.metadata.published > '2025-01-01'
+        AND article.metadata.featured == true
+      RETURN article
 """)
 
 # Array-Operationen
 articles_with_tag = db.query("""
-    SELECT * FROM articles
-    WHERE 'database' IN tags
+    FOR article IN articles
+      FILTER 'database' IN article.tags
+      RETURN article
 """)
 
 # Nested Object Query
 articles_by_bob = db.query("""
-    SELECT * FROM articles
-    WHERE comments.user CONTAINS 'Bob'
+    FOR article IN articles
+      FILTER 'Bob' IN article.comments[*].user
+      RETURN article
 """)
 ```
 
@@ -453,48 +456,52 @@ class BlogWiki:
     def search_articles(self, query: str) -> List[dict]:
         """Fulltext search"""
         results = self.db.query("""
-            SELECT * FROM articles
-            WHERE FULLTEXT(title, content) MATCH ?
-              AND status = 'published'
-            ORDER BY metadata.published_at DESC
-        """, [query])
+            FOR article IN articles
+              FILTER FULLTEXT(article.title, @query) OR FULLTEXT(article.content, @query)
+                AND article.status == 'published'
+              SORT article.metadata.published_at DESC
+              RETURN article
+        """, {"query": query})
         return results
     
     def get_by_tag(self, tag: str) -> List[dict]:
         """Get articles by tag"""
         results = self.db.query("""
-            SELECT * FROM articles
-            WHERE ? IN tags
-              AND status = 'published'
-            ORDER BY metadata.published_at DESC
-        """, [tag])
+            FOR article IN articles
+              FILTER @tag IN article.tags
+                AND article.status == 'published'
+              SORT article.metadata.published_at DESC
+              RETURN article
+        """, {"tag": tag})
         return results
     
     def get_by_category(self, category: str) -> List[dict]:
         """Get articles by category"""
         results = self.db.query("""
-            SELECT * FROM articles
-            WHERE category = ?
-              AND status = 'published'
-            ORDER BY metadata.published_at DESC
-        """, [category])
+            FOR article IN articles
+              FILTER article.category == @category
+                AND article.status == 'published'
+              SORT article.metadata.published_at DESC
+              RETURN article
+        """, {"category": category})
         return results
     
     def get_popular(self, limit: int = 10) -> List[dict]:
         """Get most viewed articles"""
         results = self.db.query("""
-            SELECT * FROM articles
-            WHERE status = 'published'
-            ORDER BY metadata.views DESC
-            LIMIT ?
-        """, [limit])
+            FOR article IN articles
+              FILTER article.status == 'published'
+              SORT article.metadata.views DESC
+              LIMIT @limit
+              RETURN article
+        """, {"limit": limit})
         return results
     
     def get_featured(self) -> List[dict]:
         """Get featured articles"""
         results = self.db.query("""
-            SELECT * FROM articles
-            WHERE status = 'published'
+            FOR article IN articles
+              FILTER article.status == 'published'
               AND metadata.featured = true
             ORDER BY metadata.published_at DESC
         """)
@@ -796,40 +803,43 @@ class RecipeManager:
     def search_recipes(self, query: str) -> List[dict]:
         """Search by title or description"""
         return self.db.query("""
-            SELECT * FROM recipes
-            WHERE FULLTEXT(title, description) MATCH ?
-        """, [query])
+            FOR recipe IN recipes
+              FILTER FULLTEXT(recipe.title, @query) OR FULLTEXT(recipe.description, @query)
+              RETURN recipe
+        """, {"query": query})
     
     def filter_recipes(self, cuisine: Optional[str] = None,
                       difficulty: Optional[str] = None,
                       max_time: Optional[int] = None,
                       tags: Optional[List[str]] = None) -> List[dict]:
         """Filter recipes by criteria"""
-        conditions = []
-        params = []
+        # Build AQL query dynamically
+        filters = []
+        params = {}
         
         if cuisine:
-            conditions.append("cuisine = ?")
-            params.append(cuisine)
+            filters.append("recipe.cuisine == @cuisine")
+            params["cuisine"] = cuisine
         
         if difficulty:
-            conditions.append("difficulty = ?")
-            params.append(difficulty)
+            filters.append("recipe.difficulty == @difficulty")
+            params["difficulty"] = difficulty
         
         if max_time:
-            conditions.append("(prep_time + cook_time) <= ?")
-            params.append(max_time)
+            filters.append("(recipe.prep_time + recipe.cook_time) <= @max_time")
+            params["max_time"] = max_time
         
         if tags:
-            for tag in tags:
-                conditions.append("? IN tags")
-                params.append(tag)
+            for i, tag in enumerate(tags):
+                filters.append(f"@tag{i} IN recipe.tags")
+                params[f"tag{i}"] = tag
         
-        where_clause = " AND ".join(conditions) if conditions else "1=1"
+        filter_clause = " AND ".join(filters) if filters else "true"
         
         return self.db.query(f"""
-            SELECT * FROM recipes
-            WHERE {where_clause}
+            FOR recipe IN recipes
+              FILTER {filter_clause}
+              RETURN recipe
         """, params)
     
     def add_rating(self, recipe_id: str, user: str, 
@@ -901,7 +911,10 @@ class RecipeManager:
     
     def get_top_rated(self, limit: int = 10) -> List[dict]:
         """Get top rated recipes"""
-        recipes = self.db.query("SELECT * FROM recipes")
+        recipes = self.db.query("""
+            FOR recipe IN recipes
+              RETURN recipe
+        """)
         
         # Calculate average ratings
         rated = []
@@ -919,8 +932,10 @@ class RecipeManager:
     def get_quick_recipes(self, max_minutes: int = 30) -> List[dict]:
         """Get recipes that can be made quickly"""
         return self.db.query("""
-            SELECT * FROM recipes
-            WHERE (prep_time + cook_time) <= ?
+            FOR recipe IN recipes
+              FILTER (recipe.prep_time + recipe.cook_time) <= @max_minutes
+              RETURN recipe
+        """, {"max_minutes": max_minutes})
             ORDER BY (prep_time + cook_time) ASC
         """, [max_minutes])
 ```
@@ -1124,11 +1139,12 @@ results = collection.aggregate([
 
 # ThemisDB: Einfaches AQL
 results = themis.query("""
-    SELECT author, COUNT(*) as count
-    FROM articles
-    WHERE status = 'published'
-    GROUP BY author
-    ORDER BY count DESC
+    FOR article IN articles
+      FILTER article.status == 'published'
+      COLLECT author = article.author
+      AGGREGATE count = COUNT()
+      SORT count DESC
+      RETURN {author, count}
 """)
 ```
 
@@ -1136,14 +1152,23 @@ results = themis.query("""
 ```python
 # ThemisDB: Kombiniere Document + Relational + Graph
 results = themis.query("""
-    SELECT 
-        a.title,
-        COUNT(c.id) as comment_count,
-        AVG(r.score) as rating
-    FROM articles a
-    LEFT JOIN comments c ON c.article_id = a.id
-    LEFT JOIN ratings r ON r.article_id = a.id
-    GROUP BY a.id
+    FOR article IN articles
+      LET comment_count = (
+        FOR comment IN comments
+          FILTER comment.article_id == article.id
+          RETURN 1
+      )
+      LET avg_rating = (
+        FOR rating IN ratings
+          FILTER rating.article_id == article.id
+          COLLECT AGGREGATE avg_score = AVG(rating.score)
+          RETURN avg_score
+      )
+      RETURN {
+        title: article.title,
+        comment_count: LENGTH(comment_count),
+        rating: avg_rating[0]
+      }
 """)
 ```
 
@@ -1291,14 +1316,16 @@ Nur benötigte Felder laden:
 ```python
 # Good: Nur Titel und Autor
 results = db.query("""
-    SELECT title, author FROM articles
-    WHERE status = 'published'
+    FOR article IN articles
+      FILTER article.status == 'published'
+      RETURN {title: article.title, author: article.author}
 """)
 
 # Bad: Alle Felder (inkl. großer Content)
 results = db.query("""
-    SELECT * FROM articles
-    WHERE status = 'published'
+    FOR article IN articles
+      FILTER article.status == 'published'
+      RETURN article
 """)
 ```
 
