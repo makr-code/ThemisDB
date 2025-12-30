@@ -296,24 +296,19 @@ Dokumentation:            Gut, aber personengebunden
 → Risiko bei Ausfall:    HOCH
 ```
 
-### Die Lösung: Public-Public-Partnership
+### Die Lösung: Public-Public-Partnership (geplant)
 
-**Die Strategie:** Systematische wissenschaftliche Begleitung [9]:
+**Die Strategie:** Systematische wissenschaftliche Begleitung durch akademische Partner [9]:
 
-**Beteiligte Institutionen:**
-1. **HPI (Hasso-Plattner-Institut):**
-   - Datenbankforschung und Query-Optimierung
-   - Benchmark-Design und Performance-Validation
-   
-2. **Universität Potsdam:**
-   - Formale Verifikation der ACID-Garantien
-   - Theoretische Fundierung der Multi-Model-Architektur
-   
-3. **BTU Cottbus:**
-   - Angewandte Informatik und Verwaltungsdigitalisierung
-   - Praxistransfer und Use-Case-Evaluation
+**Angestrebte Forschungskooperationen:**
 
-**Der Prozess:**
+Die Entwickler streben Partnerschaften mit wissenschaftlichen Einrichtungen an, um verschiedene Aspekte der ThemisDB zu validieren und weiterzuentwickeln:
+
+- **Datenbankforschung:** Query-Optimierung, Benchmark-Design und Performance-Validation
+- **Theoretische Informatik:** Formale Verifikation der ACID-Garantien und theoretische Fundierung der Multi-Model-Architektur
+- **Angewandte Forschung:** Verwaltungsdigitalisierung, Praxistransfer und Use-Case-Evaluation
+
+**Der angestrebte Wissenstransfer-Prozess:**
 ```
 Implizites Expertenwissen (Entwickler)
             ↓
@@ -324,11 +319,11 @@ Peer-Review & Publikationen
 Institutionelles, öffentliches Gemeingut
 ```
 
-**Das Ergebnis:**
-- ✅ Wissenstransfer in die Wissenschaft
-- ✅ Unabhängige Validierung der Architektur
-- ✅ Langfristige Wartbarkeit gesichert
-- ✅ Community-Building durch akademische Partner
+**Potenzielle Vorteile:**
+- Wissenstransfer in die wissenschaftliche Community
+- Unabhängige Validierung der Architektur
+- Langfristige Wartbarkeit durch institutionelle Absicherung
+- Community-Building durch akademische Partner
 
 ---
 
@@ -340,7 +335,7 @@ Institutionelles, öffentliches Gemeingut
 - 🟢 **Production-Ready** für Single-Node (< 10 TB)
 - 🟡 **In Entwicklung:** Horizontal Scaling (Sharding)
 - 🟢 **Open Source:** MIT + Government-Klausel
-- 🟢 **Wissenschaftlich validiert:** HPI, Uni Potsdam, BTU
+- 🟡 **Wissenschaftliche Validierung:** Angestrebt durch akademische Partner
 
 **Marktposition:**
 ```
