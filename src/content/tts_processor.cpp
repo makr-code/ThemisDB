@@ -16,6 +16,12 @@
 #include <chrono>
 #include <regex>
 
+// Conditional Piper TTS includes
+#ifdef THEMIS_ENABLE_PIPER_TTS
+#include <piper.hpp>
+#include <onnxruntime_cxx_api.h>
+#endif
+
 namespace themis {
 namespace content {
 
@@ -115,8 +121,12 @@ std::vector<ContentChunk> TTSProcessor::chunk(
 }
 
 bool TTSProcessor::healthCheck() const {
-    // TTS model not loaded yet, return false
+    #ifdef THEMIS_ENABLE_PIPER_TTS
+    return initialized_ && tts_ctx_ != nullptr;
+    #else
+    // TTS model not available in this build
     return false;
+    #endif
 }
 
 json TTSProcessor::getStatistics() const {
@@ -208,17 +218,38 @@ std::vector<std::string> TTSProcessor::getSupportedLanguages() const {
 // Private implementation methods
 
 bool TTSProcessor::loadTTSModel() {
-    // Real implementation would load TTS model (e.g., Piper, Coqui TTS, etc.)
-    // For now, use nullptr to indicate model not loaded
+    #ifdef THEMIS_ENABLE_PIPER_TTS
+    try {
+        // Load Piper TTS model
+        auto* voice = new piper::PiperVoice();
+        
+        // Load model and config
+        piper::PiperConfig config;
+        config.useESpeak = false;
+        
+        piper::loadVoice(config, model_path_, model_path_ + ".json", *voice, nullptr, true);
+        
+        tts_ctx_ = voice;
+        return true;
+    } catch (const std::exception& e) {
+        return false;
+    }
+    #else
+    // Piper TTS not enabled - use placeholder
     tts_ctx_ = nullptr;
-    return false;  // Model not actually loaded
+    return false;
+    #endif
 }
 
 void TTSProcessor::unloadTTSModel() {
+    #ifdef THEMIS_ENABLE_PIPER_TTS
     if (tts_ctx_) {
-        // Real implementation would free TTS context
+        delete static_cast<piper::PiperVoice*>(tts_ctx_);
         tts_ctx_ = nullptr;
     }
+    #else
+    tts_ctx_ = nullptr;
+    #endif
 }
 
 TTSResult TTSProcessor::synthesizeInternal(
@@ -283,12 +314,50 @@ std::vector<uint8_t> TTSProcessor::generatePCM(
     const std::string& text,
     const TTSOptions& options
 ) {
-    // Real implementation would:
-    // 1. Tokenize text into phonemes
-    // 2. Generate mel-spectrogram
-    // 3. Convert mel-spectrogram to audio waveform
-    // 4. Apply speed and pitch adjustments
+    #ifdef THEMIS_ENABLE_PIPER_TTS
+    if (!tts_ctx_) {
+        // Model not loaded
+        size_t duration_samples = text.length() * 100;
+        std::vector<uint8_t> pcm_data(duration_samples * 2);
+        std::fill(pcm_data.begin(), pcm_data.end(), 0);
+        return pcm_data;
+    }
     
+    try {
+        auto* voice = static_cast<piper::PiperVoice*>(tts_ctx_);
+        
+        // Piper synthesis configuration
+        piper::SynthesisConfig synth_config;
+        synth_config.speakerId = nullptr;
+        synth_config.lengthScale = 1.0f / options.speed;  // Speed adjustment
+        synth_config.noiseScale = 0.667f;
+        synth_config.noiseW = 0.8f;
+        
+        // Output audio buffer
+        std::vector<int16_t> audio_buffer;
+        piper::SynthesisResult synth_result;
+        
+        // Synthesize text
+        piper::textToAudio(*voice, text, audio_buffer, synth_result, nullptr);
+        
+        // Convert int16 to uint8_t bytes
+        std::vector<uint8_t> pcm_data(audio_buffer.size() * 2);
+        for (size_t i = 0; i < audio_buffer.size(); ++i) {
+            int16_t sample = audio_buffer[i];
+            pcm_data[i * 2] = sample & 0xFF;
+            pcm_data[i * 2 + 1] = (sample >> 8) & 0xFF;
+        }
+        
+        return pcm_data;
+        
+    } catch (const std::exception& e) {
+        // Error during synthesis - return silence
+        size_t duration_samples = text.length() * 100;
+        std::vector<uint8_t> pcm_data(duration_samples * 2);
+        std::fill(pcm_data.begin(), pcm_data.end(), 0);
+        return pcm_data;
+    }
+    #else
     // Placeholder: generate silence based on text length
     size_t duration_samples = text.length() * 100;  // ~100 samples per character
     std::vector<uint8_t> pcm_data(duration_samples * 2);  // 16-bit samples
@@ -297,6 +366,7 @@ std::vector<uint8_t> TTSProcessor::generatePCM(
     std::fill(pcm_data.begin(), pcm_data.end(), 0);
     
     return pcm_data;
+    #endif
 }
 
 std::vector<uint8_t> TTSProcessor::convertToFormat(

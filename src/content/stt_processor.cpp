@@ -15,6 +15,13 @@
 #include <sstream>
 #include <chrono>
 
+// Conditional Whisper.cpp include
+#ifdef THEMIS_ENABLE_WHISPER
+extern "C" {
+    #include <whisper.h>
+}
+#endif
+
 namespace themis {
 namespace content {
 
@@ -367,17 +374,44 @@ json STTProcessor::generateMeetingProtocol(
 // Private implementation methods
 
 bool STTProcessor::loadWhisperModel() {
-    // Real implementation would load whisper.cpp model
-    // For now, create a placeholder context
-    whisper_ctx_ = reinterpret_cast<void*>(0x1);  // Placeholder
-    return true;
+    // Real implementation loading Whisper.cpp model
+    #ifdef THEMIS_ENABLE_WHISPER
+    try {
+        // Initialize whisper context from model file
+        struct whisper_context_params cparams = whisper_context_default_params();
+        cparams.use_gpu = false;  // Can be configured
+        
+        whisper_ctx_ = whisper_init_from_file_with_params(model_path_.c_str(), cparams);
+        
+        if (!whisper_ctx_) {
+            return false;
+        }
+        
+        // Verify model is loaded
+        if (!whisper_is_multilingual(static_cast<struct whisper_context*>(whisper_ctx_))) {
+            // Model loaded but only single language
+        }
+        
+        return true;
+    } catch (const std::exception& e) {
+        return false;
+    }
+    #else
+    // Whisper.cpp not enabled in build - use placeholder
+    whisper_ctx_ = nullptr;
+    return false;
+    #endif
 }
 
 void STTProcessor::unloadWhisperModel() {
+    #ifdef THEMIS_ENABLE_WHISPER
     if (whisper_ctx_) {
-        // Real implementation would free whisper context
+        whisper_free(static_cast<struct whisper_context*>(whisper_ctx_));
         whisper_ctx_ = nullptr;
     }
+    #else
+    whisper_ctx_ = nullptr;
+    #endif
 }
 
 std::vector<uint8_t> STTProcessor::convertToWav16kHz(const std::vector<uint8_t>& audio_blob) {
@@ -417,26 +451,113 @@ TranscriptionResult STTProcessor::transcribeInternal(
     
     TranscriptionResult result;
     
-    // Real implementation would:
-    // 1. Call whisper_full() with PCM data
-    // 2. Extract segments with timestamps
-    // 3. Compute confidence scores
-    // 4. Detect language
+    #ifdef THEMIS_ENABLE_WHISPER
+    // Real Whisper.cpp implementation
+    if (!whisper_ctx_) {
+        result.success = false;
+        result.error_message = "Whisper model not loaded";
+        return result;
+    }
     
-    // Placeholder implementation
+    try {
+        auto* ctx = static_cast<struct whisper_context*>(whisper_ctx_);
+        
+        // Setup whisper parameters
+        struct whisper_full_params wparams = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
+        
+        // Configure parameters from options
+        wparams.print_progress = false;
+        wparams.print_timestamps = enable_timestamps_;
+        wparams.print_realtime = false;
+        wparams.print_special = false;
+        wparams.translate = false;
+        wparams.no_context = false;
+        wparams.single_segment = false;
+        wparams.max_len = 0;  // no length limit
+        wparams.split_on_word = true;
+        wparams.audio_ctx = 0;  // use default
+        wparams.speed_up = false;
+        
+        // Language detection or specific language
+        std::string language = options.value("language", default_language_);
+        if (language != "auto") {
+            wparams.language = language.c_str();
+        } else {
+            wparams.language = nullptr;  // auto-detect
+        }
+        
+        // Run transcription
+        int ret = whisper_full(ctx, wparams, pcm_data.data(), static_cast<int>(pcm_data.size()));
+        
+        if (ret != 0) {
+            result.success = false;
+            result.error_message = "Whisper transcription failed";
+            return result;
+        }
+        
+        // Extract results
+        const int n_segments = whisper_full_n_segments(ctx);
+        
+        std::string full_text;
+        float total_confidence = 0.0f;
+        int confidence_count = 0;
+        
+        for (int i = 0; i < n_segments; ++i) {
+            const char* text = whisper_full_get_segment_text(ctx, i);
+            const int64_t t0 = whisper_full_get_segment_t0(ctx, i);
+            const int64_t t1 = whisper_full_get_segment_t1(ctx, i);
+            
+            TranscriptionSegment segment;
+            segment.text = text;
+            segment.start_ms = t0 * 10;  // Convert to milliseconds
+            segment.end_ms = t1 * 10;
+            
+            // Get token-level confidence (average for segment)
+            const int n_tokens = whisper_full_n_tokens(ctx, i);
+            float segment_confidence = 0.0f;
+            for (int j = 0; j < n_tokens; ++j) {
+                const auto token_data = whisper_full_get_token_data(ctx, i, j);
+                segment_confidence += token_data.p;
+            }
+            if (n_tokens > 0) {
+                segment_confidence /= n_tokens;
+            }
+            segment.confidence = segment_confidence;
+            
+            result.segments.push_back(segment);
+            full_text += text;
+            
+            total_confidence += segment_confidence;
+            confidence_count++;
+        }
+        
+        result.success = true;
+        result.full_text = full_text;
+        result.detected_language = whisper_lang_str(whisper_full_lang_id(ctx));
+        result.average_confidence = confidence_count > 0 ? total_confidence / confidence_count : 0.0f;
+        result.audio_duration_ms = static_cast<int64_t>(pcm_data.size() / 16.0);  // 16kHz sample rate
+        
+    } catch (const std::exception& e) {
+        result.success = false;
+        result.error_message = std::string("Whisper transcription error: ") + e.what();
+        return result;
+    }
+    #else
+    // Placeholder implementation when Whisper.cpp is not enabled
     result.success = true;
-    result.full_text = "[Transcription requires Whisper.cpp model - not yet loaded]";
+    result.full_text = "[Transcription requires Whisper.cpp - enable THEMIS_ENABLE_WHISPER in CMake]";
     result.detected_language = "en";
     result.average_confidence = 0.0f;
     result.audio_duration_ms = static_cast<int64_t>(pcm_data.size() / 16.0);  // 16kHz sample rate
     
-    // Create placeholder segment with clear indication that model is not loaded
+    // Create placeholder segment
     TranscriptionSegment segment;
     segment.text = result.full_text;
     segment.start_ms = 0;
     segment.end_ms = result.audio_duration_ms;
     segment.confidence = 0.0f;
     result.segments.push_back(segment);
+    #endif
     
     auto end = std::chrono::steady_clock::now();
     result.processing_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
