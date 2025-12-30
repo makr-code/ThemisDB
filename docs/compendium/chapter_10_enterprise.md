@@ -65,7 +65,11 @@ class TenantContext:
 
 # Verwendung
 tenant = TenantContext(db, "acme_corp")
-docs = tenant.query("SELECT * FROM documents WHERE type = ?", ("invoice",))
+docs = tenant.query("""
+    FOR doc IN documents 
+      FILTER doc.type == @type 
+      RETURN doc
+""", {"type": "invoice"})
 ```
 
 ### Rollen-basierte Zugriffskontrolle (RBAC)
@@ -95,11 +99,14 @@ db.execute("""
 # Permission Check
 def has_permission(user_id, permission):
     result = db.execute("""
-        SELECT COUNT(*) as count FROM user_roles ur
-        JOIN roles r ON ur.role_id = r.id
-        WHERE ur.user_id = ? AND ? = ANY(r.permissions)
-    """, (user_id, permission))
-    return result[0]['count'] > 0
+        FOR user_role IN user_roles
+          FILTER user_role.user_id == @user_id
+          FOR role IN roles
+            FILTER user_role.role_id == role.id AND @permission IN role.permissions
+            LIMIT 1
+            RETURN 1
+    """, {"user_id": user_id, "permission": permission})
+    return len(result) > 0
 
 # Dekorator für API-Endpoints
 def requires_permission(permission):
@@ -144,13 +151,21 @@ db.execute("CREATE INDEX idx_audit_user ON audit_log(user_id, timestamp)")
 
 def log_action(action, resource_type, resource_id, old_value=None, new_value=None):
     db.execute("""
-        INSERT INTO audit_log (id, user_id, action, resource_type, resource_id, old_value, new_value, ip_address)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    """, (
-        uuid.uuid4(),
-        get_current_user_id(),
-        action,
-        resource_type,
+        INSERT {
+          id: @id,
+          user_id: @user_id,
+          action: @action,
+          resource_type: @resource_type,
+          resource_id: @resource_id,
+          old_value: @old_value,
+          new_value: @new_value,
+          ip_address: @ip_address
+        } INTO audit_log
+    """, {
+        "id": uuid.uuid4(),
+        "user_id": get_current_user_id(),
+        "action": action,
+        "resource_type": resource_type,
         resource_id,
         json.dumps(old_value) if old_value else None,
         json.dumps(new_value) if new_value else None,
@@ -158,9 +173,26 @@ def log_action(action, resource_type, resource_id, old_value=None, new_value=Non
     ))
 
 # Verwendung
-old_doc = db.execute("SELECT * FROM documents WHERE id = ?", (doc_id,))[0]
-db.execute("UPDATE documents SET title = ? WHERE id = ?", (new_title, doc_id))
-new_doc = db.execute("SELECT * FROM documents WHERE id = ?", (doc_id,))[0]
+old_doc = db.execute("""
+    FOR doc IN documents 
+      FILTER doc.id == @doc_id 
+      LIMIT 1 
+      RETURN doc
+""", {"doc_id": doc_id})[0]
+
+db.execute("""
+    FOR doc IN documents 
+      FILTER doc.id == @doc_id 
+      UPDATE doc WITH {title: @new_title} IN documents
+""", {"doc_id": doc_id, "new_title": new_title})
+
+new_doc = db.execute("""
+    FOR doc IN documents 
+      FILTER doc.id == @doc_id 
+      LIMIT 1 
+      RETURN doc
+""", {"doc_id": doc_id})[0]
+
 log_action("UPDATE", "document", doc_id, old_doc, new_doc)
 ```
 
@@ -168,17 +200,19 @@ log_action("UPDATE", "document", doc_id, old_doc, new_doc)
 ```python
 # Wer hat Dokument X geändert?
 changes = db.execute("""
-    SELECT * FROM audit_log 
-    WHERE resource_type = 'document' AND resource_id = ?
-    ORDER BY timestamp DESC
-""", (doc_id,))
+    FOR log IN audit_log 
+      FILTER log.resource_type == 'document' AND log.resource_id == @doc_id
+      SORT log.timestamp DESC
+      RETURN log
+""", {"doc_id": doc_id})
 
 # Was hat User Y in den letzten 7 Tagen gemacht?
 activity = db.execute("""
-    SELECT * FROM audit_log
-    WHERE user_id = ? AND timestamp > NOW() - INTERVAL '7 days'
-    ORDER BY timestamp DESC
-""", (user_id,))
+    FOR log IN audit_log
+      FILTER log.user_id == @user_id AND log.timestamp > DATE_NOW() - INTERVAL('7 days')
+      SORT log.timestamp DESC
+      RETURN log
+""", {"user_id": user_id})
 ```
 
 ## 10.2 DMS/ERP-System (Example 08)
@@ -296,43 +330,85 @@ class Document:
         with self.db.transaction():
             # 1. Haupt-Eintrag
             self.db.execute("""
-                INSERT INTO documents (id, tenant_id, title, type, current_version_id, owner_id)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (doc_id, get_current_tenant_id(), title, doc_type, version_id, owner_id or get_current_user_id()))
+                INSERT {
+                  id: @doc_id,
+                  tenant_id: @tenant_id,
+                  title: @title,
+                  type: @doc_type,
+                  current_version_id: @version_id,
+                  owner_id: @owner_id
+                } INTO documents
+            """, {
+                "doc_id": doc_id,
+                "tenant_id": get_current_tenant_id(),
+                "title": title,
+                "doc_type": doc_type,
+                "version_id": version_id,
+                "owner_id": owner_id or get_current_user_id()
+            })
             
             # 2. Erste Version
             file_size = os.path.getsize(file_path)
             checksum = calculate_checksum(file_path)
             self.db.execute("""
-                INSERT INTO document_versions (id, document_id, version, file_path, file_size, checksum, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (version_id, doc_id, 1, file_path, file_size, checksum, get_current_user_id()))
+                INSERT {
+                  id: @version_id,
+                  document_id: @doc_id,
+                  version: 1,
+                  file_path: @file_path,
+                  file_size: @file_size,
+                  checksum: @checksum,
+                  created_by: @created_by
+                } INTO document_versions
+            """, {
+                "version_id": version_id,
+                "doc_id": doc_id,
+                "file_path": file_path,
+                "file_size": file_size,
+                "checksum": checksum,
+                "created_by": get_current_user_id()
+            })
             
             # 3. Metadaten
             if metadata:
                 self.db.execute("""
-                    INSERT INTO document_metadata (document_id, metadata, tags)
-                    VALUES (?, ?, ?)
-                """, (doc_id, json.dumps(metadata), metadata.get('tags', [])))
+                    INSERT {
+                      document_id: @doc_id,
+                      metadata: @metadata,
+                      tags: @tags
+                    } INTO document_metadata
+                """, {
+                    "doc_id": doc_id,
+                    "metadata": json.dumps(metadata),
+                    "tags": metadata.get('tags', [])
+                })
             
             # 4. Text-Extraktion (asynchron in der Praxis)
             text = extract_text(file_path)  # PDF, DOCX, etc.
             self.db.execute("""
-                INSERT INTO document_text (document_id, content)
-                VALUES (?, ?)
-            """, (doc_id, text))
+                INSERT {
+                  document_id: @doc_id,
+                  content: @content
+                } INTO document_text
+            """, {"doc_id": doc_id, "content": text})
             
             # 5. OCR für Bilder (wenn nötig)
             if doc_type in ('scan', 'image'):
                 ocr_text = perform_ocr(file_path)
-                self.db.execute("UPDATE document_text SET ocr_content = ? WHERE document_id = ?", (ocr_text, doc_id))
+                self.db.execute("""
+                    FOR doc_text IN document_text
+                      FILTER doc_text.document_id == @doc_id
+                      UPDATE doc_text WITH {ocr_content: @ocr_text} IN document_text
+                """, {"doc_id": doc_id, "ocr_text": ocr_text})
             
             # 6. Vector Embedding
             embedding = generate_embedding(text)  # sentence-transformers
             self.db.execute("""
-                INSERT INTO document_embeddings (document_id, embedding)
-                VALUES (?, ?)
-            """, (doc_id, embedding))
+                INSERT {
+                  document_id: @doc_id,
+                  embedding: @embedding
+                } INTO document_embeddings
+            """, {"doc_id": doc_id, "embedding": embedding})
             
             # 7. Audit-Log
             log_action("CREATE", "document", doc_id, None, {"title": title, "type": doc_type})
@@ -342,30 +418,65 @@ class Document:
     def add_version(self, document_id, file_path, change_note=""):
         """Neue Version hinzufügen"""
         # Aktuelle Version ermitteln
-        current = self.db.execute("SELECT version FROM documents WHERE id = ?", (document_id,))[0]
-        new_version = current['version'] + 1
+        current = self.db.execute("""
+            FOR doc IN documents 
+              FILTER doc.id == @document_id 
+              LIMIT 1 
+              RETURN doc.version
+        """, {"document_id": document_id})[0]
+        new_version = current + 1
         version_id = uuid.uuid4()
         
         with self.db.transaction():
             # Version speichern
             self.db.execute("""
-                INSERT INTO document_versions (id, document_id, version, file_path, file_size, checksum, created_by, change_note)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """, (version_id, document_id, new_version, file_path, os.path.getsize(file_path), 
-                  calculate_checksum(file_path), get_current_user_id(), change_note))
+                INSERT {
+                  id: @version_id,
+                  document_id: @document_id,
+                  version: @new_version,
+                  file_path: @file_path,
+                  file_size: @file_size,
+                  checksum: @checksum,
+                  created_by: @created_by,
+                  change_note: @change_note
+                } INTO document_versions
+            """, {
+                "version_id": version_id,
+                "document_id": document_id,
+                "new_version": new_version,
+                "file_path": file_path,
+                "file_size": os.path.getsize(file_path),
+                "checksum": calculate_checksum(file_path),
+                "created_by": get_current_user_id(),
+                "change_note": change_note
+            })
             
             # Dokument aktualisieren
             self.db.execute("""
-                UPDATE documents 
-                SET version = ?, current_version_id = ?, updated_at = CURRENT_TIMESTAMP
-                WHERE id = ?
+                FOR doc IN documents
+                  FILTER doc.id == @document_id
+                  UPDATE doc WITH {
+                    version: @new_version,
+                    current_version_id: @version_id,
+                    updated_at: DATE_NOW()
+                  } IN documents
+            """, {"document_id": document_id, "new_version": new_version, "version_id": version_id})
             """, (new_version, version_id, document_id))
             
             # Text und Embedding neu generieren
             text = extract_text(file_path)
-            self.db.execute("UPDATE document_text SET content = ? WHERE document_id = ?", (text, document_id))
+            self.db.execute("""
+                FOR doc_text IN document_text
+                  FILTER doc_text.document_id == @document_id
+                  UPDATE doc_text WITH {content: @text} IN document_text
+            """, {"document_id": document_id, "text": text})
+            
             embedding = generate_embedding(text)
-            self.db.execute("UPDATE document_embeddings SET embedding = ? WHERE document_id = ?", (embedding, document_id))
+            self.db.execute("""
+                FOR doc_emb IN document_embeddings
+                  FILTER doc_emb.document_id == @document_id
+                  UPDATE doc_emb WITH {embedding: @embedding} IN document_embeddings
+            """, {"document_id": document_id, "embedding": embedding})
             
             log_action("VERSION_ADD", "document", document_id, None, {"version": new_version})
         
@@ -506,25 +617,43 @@ class WorkflowEngine:
         workflow_id = uuid.uuid4()
         
         with self.db.transaction():
-            self.db.execute("INSERT INTO workflows (id, name, description) VALUES (?, ?, ?)", 
-                          (workflow_id, name, description))
+            self.db.execute("""
+                INSERT {
+                  id: @workflow_id,
+                  name: @name,
+                  description: @description
+                } INTO workflows
+            """, {"workflow_id": workflow_id, "name": name, "description": description})
             
             # Nodes erstellen
             node_ids = []
             for step in steps:
                 node_id = uuid.uuid4()
                 self.db.execute("""
-                    INSERT INTO workflow_nodes (id, workflow_id, name, node_type, role_required)
-                    VALUES (?, ?, ?, ?, ?)
-                """, (node_id, workflow_id, step['name'], step['type'], step.get('role')))
+                    INSERT {
+                      id: @node_id,
+                      workflow_id: @workflow_id,
+                      name: @name,
+                      node_type: @node_type,
+                      role_required: @role_required
+                    } INTO workflow_nodes
+                """, {
+                    "node_id": node_id,
+                    "workflow_id": workflow_id,
+                    "name": step['name'],
+                    "node_type": step['type'],
+                    "role_required": step.get('role')
+                })
                 node_ids.append(node_id)
             
             # Edges erstellen (linearer Flow)
             for i in range(len(node_ids) - 1):
                 self.db.execute("""
-                    INSERT INTO workflow_edges (from_node, to_node)
-                    VALUES (?, ?)
-                """, (node_ids[i], node_ids[i+1]))
+                    INSERT {
+                      from_node: @from_node,
+                      to_node: @to_node
+                    } INTO workflow_edges
+                """, {"from_node": node_ids[i], "to_node": node_ids[i+1]})
         
         return workflow_id
 

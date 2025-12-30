@@ -16,7 +16,7 @@ Mit relationalen Tabellen benötigen Sie:
 - Performance-Probleme bei mehr als 3-4 Hop-Levels
 - Komplexe Query-Logik, die schwer zu warten ist
 
-```sql
+```aql
 -- Freunde von Freunden (nur 2 Hops!)
 SELECT DISTINCT u3.*
 FROM users u1

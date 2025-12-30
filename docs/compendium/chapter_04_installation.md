@@ -602,7 +602,7 @@ tail -f /var/log/themisdb/themisdb.log | grep "Query execution"
 ```
 
 **Lösung:**
-```sql
+```aql
 -- Prüfe ob Indizes genutzt werden
 EXPLAIN FOR user IN users FILTER user.email == 'test@example.com' RETURN user
 

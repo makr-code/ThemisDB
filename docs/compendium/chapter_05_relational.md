@@ -7,18 +7,18 @@
 
 ## Überblick
 
-Relationale Datenbanken sind das Rückgrat der IT seit über 40 Jahren. In ThemisDB ist das relationale Modell eines von vier gleichberechtigten Datenmodellen - aber mit vollem SQL-Support und ACID-Garantien.
+Relationale Datenbanken sind das Rückgrat der IT seit über 40 Jahren. In ThemisDB ist das relationale Modell eines von vier gleichberechtigten Datenmodellen - aber mit vollem AQL-Support und ACID-Garantien.
 
 **Was Sie in diesem Kapitel lernen werden:**
 - Relationales Datenmodell: Tabellen, Schemas, Constraints
-- SQL in ThemisDB: DDL, DML, Joins, Subqueries
+- AQL in ThemisDB: DDL, DML, Joins, Subqueries
 - Normalisierung vs. Denormalisierung
 - Transaktionen und Integrität
 - Indexes und Performance
 - **Praxisbeispiel 1:** Inventory System (Lagerverwaltung)
 - **Praxisbeispiel 2:** Expense Tracker (Ausgabenverwaltung)
 
-**Voraussetzungen:** SQL-Grundkenntnisse hilfreich, aber nicht notwendig.
+**Voraussetzungen:** AQL-Grundkenntnisse hilfreich, aber nicht notwendig.
 
 ---
 
@@ -52,7 +52,7 @@ products (Tabelle)
 - **Integrität:** Constraints garantieren Datenqualität
 - **Joins:** Verknüpfe Daten aus mehreren Tabellen
 - **ACID:** Transaktionen mit vollständiger Konsistenz
-- **SQL:** Standardisierte, mächtige Abfragesprache
+- **AQL:** Standardisierte, mächtige Abfragesprache
 
 **❌ Nachteile:**
 - Rigid: Schema-Änderungen erfordern Migrations
@@ -81,7 +81,7 @@ products (Tabelle)
 
 ### Tabelle erstellen
 
-```sql
+```aql
 -- Basic Table
 CREATE TABLE products (
   id INT PRIMARY KEY,
@@ -110,7 +110,7 @@ CREATE TABLE products (
 ### Constraints
 
 **Primary Key:**
-```sql
+```aql
 CREATE TABLE customers (
   id INT PRIMARY KEY,
   email VARCHAR(255) UNIQUE NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE customers (
 ```
 
 **Foreign Key:**
-```sql
+```aql
 CREATE TABLE orders (
   id INT PRIMARY KEY,
   customer_id INT NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE orders (
 ```
 
 **Check Constraints:**
-```sql
+```aql
 CREATE TABLE products (
   id INT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE products (
 ```
 
 **Unique Constraints:**
-```sql
+```aql
 CREATE TABLE users (
   id INT PRIMARY KEY,
   username VARCHAR(50) UNIQUE NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE users (
 
 ### Auto-Increment IDs
 
-```sql
+```aql
 CREATE TABLE products (
   id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL
@@ -172,103 +172,135 @@ INSERT INTO products (name) VALUES ('Mouse');
 
 ### INSERT
 
-```sql
--- Single Row
-INSERT INTO products (id, name, price, stock)
-VALUES (1, 'Laptop', 1200.00, 15);
+```aql
+-- Single Document
+INSERT {
+  id: 1,
+  name: 'Laptop',
+  price: 1200.00,
+  stock: 15
+} INTO products
 
--- Multiple Rows
-INSERT INTO products (id, name, price, stock)
-VALUES 
-  (2, 'Mouse', 25.00, 100),
-  (3, 'Keyboard', 80.00, 50),
-  (4, 'Monitor', 350.00, 20);
+-- Multiple Documents
+INSERT [
+  {id: 2, name: 'Mouse', price: 25.00, stock: 100},
+  {id: 3, name: 'Keyboard', price: 80.00, stock: 50},
+  {id: 4, name: 'Monitor', price: 350.00, stock: 20}
+] INTO products
 ```
 
 ### UPDATE
 
-```sql
--- Update single row
-UPDATE products
-SET stock = stock - 1
-WHERE id = 1;
+```aql
+-- Update single document
+UPDATE {id: 1} WITH {stock: stock - 1} IN products
 
--- Update multiple rows
-UPDATE products
-SET price = price * 0.9
-WHERE stock > 50;
+-- Update multiple documents (with FOR loop)
+FOR product IN products
+  FILTER product.stock > 50
+  UPDATE product WITH {
+    price: product.price * 0.9
+  } IN products
 
--- Update with JOIN
-UPDATE order_items oi
-SET oi.price = p.price
-FROM products p
-WHERE oi.product_id = p.id;
+-- Update with join data
+FOR order_item IN order_items
+  FOR product IN products
+    FILTER order_item.product_id == product.id
+    UPDATE order_item WITH {
+      price: product.price
+    } IN order_items
 ```
 
-### DELETE
+### REMOVE (DELETE)
 
-```sql
--- Delete single row
-DELETE FROM products WHERE id = 1;
+```aql
+-- Remove single document
+REMOVE {id: 1} IN products
 
--- Delete multiple rows
-DELETE FROM products WHERE stock = 0;
+-- Remove multiple documents
+FOR product IN products
+  FILTER product.stock == 0
+  REMOVE product IN products
 
--- Delete all (Vorsicht!)
-DELETE FROM products;
+-- Remove all (Vorsicht!)
+FOR product IN products
+  REMOVE product IN products
 ```
 
 ### UPSERT (Insert or Update)
 
-```sql
--- Insert or Update on conflict
-INSERT INTO products (id, name, price, stock)
-VALUES (1, 'Laptop', 1200.00, 15)
-ON CONFLICT (id) DO UPDATE
-SET 
-  price = EXCLUDED.price,
-  stock = EXCLUDED.stock;
+```aql
+-- Insert or Update based on key
+UPSERT {id: 1}
+  INSERT {
+    id: 1,
+    name: 'Laptop',
+    price: 1200.00,
+    stock: 15
+  }
+  UPDATE {
+    price: 1200.00,
+    stock: 15
+  }
+IN products
 ```
 
 ---
 
 ## 5.4 Queries und Joins
 
-### SELECT Basics
+### Query Basics
 
-```sql
+```aql
 -- All columns
-SELECT * FROM products;
+FOR product IN products
+  RETURN product
 
 -- Specific columns
-SELECT name, price FROM products;
+FOR product IN products
+  RETURN {name: product.name, price: product.price}
 
--- With WHERE
-SELECT * FROM products WHERE price > 100;
+-- With FILTER
+FOR product IN products
+  FILTER product.price > 100
+  RETURN product
 
--- With ORDER BY
-SELECT * FROM products ORDER BY price DESC LIMIT 10;
+-- With SORT and LIMIT
+FOR product IN products
+  SORT product.price DESC
+  LIMIT 10
+  RETURN product
 
--- With aggregation
-SELECT AVG(price), MAX(price), MIN(price), COUNT(*)
-FROM products;
+-- With aggregation functions
+FOR product IN products
+  COLLECT AGGREGATE 
+    avgPrice = AVG(product.price),
+    maxPrice = MAX(product.price),
+    minPrice = MIN(product.price),
+    total = COUNT()
+  RETURN {avgPrice, maxPrice, minPrice, total}
 
--- With GROUP BY
-SELECT category, COUNT(*), AVG(price)
-FROM products
-GROUP BY category;
+-- With GROUP BY (COLLECT)
+FOR product IN products
+  COLLECT category = product.category
+  AGGREGATE 
+    count = COUNT(),
+    avgPrice = AVG(product.price)
+  RETURN {category, count, avgPrice}
 ```
 
 ### INNER JOIN
 
-```sql
--- Orders mit Customer-Namen
-SELECT 
-  o.id,
-  o.total,
-  c.name AS customer_name
-FROM orders o
-INNER JOIN customers c ON o.customer_id = c.id;
+```aql
+-- Orders mit Customer-Namen (Multi-FOR Join)
+FOR order IN orders
+  FOR customer IN customers
+    FILTER order.customer_id == customer.id
+    RETURN {
+      id: order.id,
+      total: order.total,
+      customer_name: customer.name
+    }
 ```
 
 **Visualisierung:**
@@ -286,17 +318,21 @@ customers           orders
 +---------+
 ```
 
-### LEFT JOIN
+### LEFT JOIN (Outer Join with COLLECT)
 
-```sql
+```aql
 -- Alle Customers, mit/ohne Orders
-SELECT 
-  c.name,
-  COUNT(o.id) AS order_count,
-  SUM(o.total) AS total_spent
-FROM customers c
-LEFT JOIN orders o ON c.customer_id = o.id
-GROUP BY c.id, c.name;
+FOR customer IN customers
+  LET customer_orders = (
+    FOR order IN orders
+      FILTER order.customer_id == customer.id
+      RETURN order
+  )
+  RETURN {
+    name: customer.name,
+    order_count: LENGTH(customer_orders),
+    total_spent: SUM(customer_orders[*].total)
+  }
 ```
 
 **Visualisierung:**
@@ -313,38 +349,51 @@ customers           orders
 
 ### Multi-Table JOIN
 
-```sql
--- Orders mit Items und Products
-SELECT 
-  o.id AS order_id,
-  c.name AS customer,
-  p.name AS product,
-  oi.quantity,
-  oi.price
-FROM orders o
-JOIN customers c ON o.customer_id = c.id
-JOIN order_items oi ON oi.order_id = o.id
-JOIN products p ON oi.product_id = p.id
-WHERE o.created_at >= '2025-01-01';
+```aql
+-- Orders mit Items und Products (Multi-FOR Join)
+FOR order IN orders
+  FILTER order.created_at >= '2025-01-01'
+  FOR customer IN customers
+    FILTER order.customer_id == customer.id
+    FOR order_item IN order_items
+      FILTER order_item.order_id == order.id
+      FOR product IN products
+        FILTER order_item.product_id == product.id
+        RETURN {
+          order_id: order.id,
+          customer: customer.name,
+          product: product.name,
+          quantity: order_item.quantity,
+          price: order_item.price
+        }
 ```
 
 ### Subqueries
 
-```sql
--- Products teurer als Durchschnitt
-SELECT name, price
-FROM products
-WHERE price > (SELECT AVG(price) FROM products);
+```aql
+-- Products teurer als Durchschnitt (WITH CTE)
+LET avgPrice = (
+  FOR product IN products
+    COLLECT AGGREGATE avg = AVG(product.price)
+    RETURN avg
+)[0]
 
--- Customers mit mehr als 3 Orders
-SELECT name
-FROM customers
-WHERE id IN (
-  SELECT customer_id
-  FROM orders
-  GROUP BY customer_id
-  HAVING COUNT(*) > 3
-);
+FOR product IN products
+  FILTER product.price > avgPrice
+  RETURN {name: product.name, price: product.price}
+
+-- Customers mit mehr als 3 Orders (Subquery)
+LET active_customers = (
+  FOR order IN orders
+    COLLECT customer_id = order.customer_id
+    AGGREGATE order_count = COUNT()
+    FILTER order_count > 3
+    RETURN customer_id
+)
+
+FOR customer IN customers
+  FILTER customer.id IN active_customers
+  RETURN customer.name
 ```
 
 ---
@@ -371,23 +420,27 @@ tx = db.begin_transaction()
 try:
     # 1. Reduce stock
     tx.execute("""
-        UPDATE products
-        SET stock = stock - 1
-        WHERE id = ? AND stock > 0
-    """, [product_id])
+        FOR product IN products
+          FILTER product.id == @product_id AND product.stock > 0
+          UPDATE product WITH {stock: product.stock - 1} IN products
+    """, {"product_id": product_id})
     
     # 2. Create order
     tx.execute("""
-        INSERT INTO orders (customer_id, product_id, quantity, price)
-        VALUES (?, ?, ?, ?)
-    """, [customer_id, product_id, 1, price])
+        INSERT {
+          customer_id: @customer_id,
+          product_id: @product_id,
+          quantity: 1,
+          price: @price
+        } INTO orders
+    """, {"customer_id": customer_id, "product_id": product_id, "price": price})
     
     # 3. Charge customer
     tx.execute("""
-        UPDATE customers
-        SET balance = balance - ?
-        WHERE id = ? AND balance >= ?
-    """, [price, customer_id, price])
+        FOR customer IN customers
+          FILTER customer.id == @customer_id AND customer.balance >= @price
+          UPDATE customer WITH {balance: customer.balance - @price} IN customers
+    """, {"customer_id": customer_id, "price": price})
     
     # All OK → Commit
     tx.commit()
@@ -422,25 +475,25 @@ ThemisDB verwendet **Snapshot Isolation**:
 ```python
 # Transaction 1
 tx1 = db.begin_transaction()
-tx1.execute("UPDATE products SET price = 100 WHERE id = 1")
+tx1.execute("FOR p IN products FILTER p.id == 1 UPDATE p WITH {price: 100} IN products")
 
 # Transaction 2 (parallel)
 tx2 = db.begin_transaction()
-result = tx2.execute("SELECT price FROM products WHERE id = 1")
+result = tx2.execute("FOR p IN products FILTER p.id == 1 RETURN p.price")
 print(result)  # → Alter Wert! (z.B. 90)
 
 # TX1 committed
 tx1.commit()
 
 # TX2 sieht immernoch alten Wert (Snapshot Isolation)
-result = tx2.execute("SELECT price FROM products WHERE id = 1")
+result = tx2.execute("FOR p IN products FILTER p.id == 1 RETURN p.price")
 print(result)  # → Immernoch 90!
 
 tx2.commit()
 
 # Neue Transaction sieht neuen Wert
 tx3 = db.begin_transaction()
-result = tx3.execute("SELECT price FROM products WHERE id = 1")
+result = tx3.execute("FOR p IN products FILTER p.id == 1 RETURN p.price")
 print(result)  # → 100
 ```
 
@@ -471,7 +524,7 @@ orders
 
 **1. Normal Form (1NF):** Atomare Werte, keine Arrays
 
-```sql
+```aql
 -- ❌ Nicht 1NF
 CREATE TABLE orders (
   id INT,
@@ -487,7 +540,7 @@ CREATE TABLE orders (
 
 **2. Normal Form (2NF):** Alle Nicht-Key-Attribute hängen vom ganzen Key ab
 
-```sql
+```aql
 -- ❌ Nicht 2NF
 CREATE TABLE order_items (
   order_id INT,
@@ -514,7 +567,7 @@ CREATE TABLE order_items (
 
 **3. Normal Form (3NF):** Keine transitiven Abhängigkeiten
 
-```sql
+```aql
 -- ❌ Nicht 3NF
 CREATE TABLE products (
   id INT PRIMARY KEY,
@@ -539,7 +592,7 @@ CREATE TABLE products (
 
 Manchmal ist **bewusste** Denormalisierung sinnvoll:
 
-```sql
+```aql
 -- Denormalisiert für schnelle Queries
 CREATE TABLE order_summary (
   order_id INT PRIMARY KEY,
@@ -563,16 +616,20 @@ CREATE TABLE order_summary (
 ### Warum Indexes?
 
 **Ohne Index:**
-```sql
-SELECT * FROM products WHERE name = 'Laptop';
+```aql
+FOR product IN products
+  FILTER product.name == 'Laptop'
+  RETURN product
 -- → Scannt ALLE Zeilen (Seq Scan): O(n)
 ```
 
 **Mit Index:**
-```sql
+```aql
 CREATE INDEX idx_products_name ON products(name);
 
-SELECT * FROM products WHERE name = 'Laptop';
+FOR product IN products
+  FILTER product.name == 'Laptop'
+  RETURN product
 -- → Nutzt Index (Index Scan): O(log n)
 ```
 
@@ -583,43 +640,60 @@ SELECT * FROM products WHERE name = 'Laptop';
 ### Index-Arten
 
 **1. B-Tree Index (Standard):**
-```sql
+```aql
 CREATE INDEX idx_products_price ON products(price);
 
 -- Gut für:
-SELECT * FROM products WHERE price > 100;
-SELECT * FROM products WHERE price BETWEEN 50 AND 150;
-SELECT * FROM products ORDER BY price;
+FOR product IN products
+  FILTER product.price > 100
+  RETURN product
+
+FOR product IN products
+  FILTER product.price >= 50 AND product.price <= 150
+  RETURN product
+
+FOR product IN products
+  SORT product.price
+  RETURN product
 ```
 
 **2. Unique Index:**
-```sql
+```aql
 CREATE UNIQUE INDEX idx_users_email ON users(email);
 
 -- Verhindert Duplikate automatisch
-INSERT INTO users (email) VALUES ('test@example.com');  -- OK
-INSERT INTO users (email) VALUES ('test@example.com');  -- ERROR!
+INSERT {email: 'test@example.com'} INTO users  -- OK
+INSERT {email: 'test@example.com'} INTO users  -- ERROR!
 ```
 
 **3. Composite Index:**
-```sql
+```aql
 CREATE INDEX idx_orders_cust_date ON orders(customer_id, created_at);
 
 -- Gut für:
-SELECT * FROM orders WHERE customer_id = 123 AND created_at > '2025-01-01';
-SELECT * FROM orders WHERE customer_id = 123;  -- Auch OK!
+FOR order IN orders
+  FILTER order.customer_id == 123 AND order.created_at > '2025-01-01'
+  RETURN order
+
+FOR order IN orders
+  FILTER order.customer_id == 123
+  RETURN order  -- Auch OK!
 
 -- Nicht gut für:
-SELECT * FROM orders WHERE created_at > '2025-01-01';  -- Index nicht nutzbar!
+FOR order IN orders
+  FILTER order.created_at > '2025-01-01'
+  RETURN order  -- Index nicht nutzbar!
 ```
 
 **4. Partial Index:**
-```sql
+```aql
 CREATE INDEX idx_orders_pending ON orders(created_at)
 WHERE status = 'pending';
 
 -- Kleiner Index nur für pending orders
-SELECT * FROM orders WHERE status = 'pending' AND created_at > '2025-01-01';
+FOR order IN orders
+  FILTER order.status == 'pending' AND order.created_at > '2025-01-01'
+  RETURN order
 ```
 
 ### Index Best Practices
@@ -653,7 +727,7 @@ Ein **Lagerverwaltungssystem** für ein kleines bis mittelgroßes Unternehmen:
 
 ### Datenmodell
 
-```sql
+```aql
 -- Categories
 CREATE TABLE categories (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -827,7 +901,7 @@ def record_purchase(product_id, warehouse_id, quantity, supplier_id, cost):
 
 ### Reporting: Value per Warehouse
 
-```sql
+```aql
 SELECT 
   w.name AS warehouse,
   COUNT(DISTINCT sl.product_id) AS product_count,
@@ -868,7 +942,7 @@ Ein **Ausgabenverwaltungssystem** für persönliche Finanzen oder kleine Teams:
 
 ### Datenmodell
 
-```sql
+```aql
 -- Categories
 CREATE TABLE expense_categories (
   id INT PRIMARY KEY AUTO_INCREMENT,
@@ -1072,7 +1146,7 @@ def generate_recurring_expenses():
 
 ### Analytics: Monthly Trend
 
-```sql
+```aql
 SELECT 
   DATE_FORMAT(expense_date, '%Y-%m') AS month,
   COUNT(*) AS expense_count,
@@ -1102,33 +1176,44 @@ ORDER BY month;
 
 ### 1. Use Indexes Wisely
 
-```sql
+```aql
 -- ❌ Slow: No index
-SELECT * FROM expenses WHERE expense_date > '2025-01-01';
+FOR expense IN expenses
+  FILTER expense.expense_date > '2025-01-01'
+  RETURN expense
 
 -- ✅ Fast: With index
 CREATE INDEX idx_expenses_date ON expenses(expense_date);
-SELECT * FROM expenses WHERE expense_date > '2025-01-01';
+FOR expense IN expenses
+  FILTER expense.expense_date > '2025-01-01'
+  RETURN expense
 ```
 
-### 2. Avoid SELECT *
+### 2. Avoid Returning All Fields
 
-```sql
+```aql
 -- ❌ Transfers mehr Daten als nötig
-SELECT * FROM products;
+FOR product IN products
+  RETURN product
 
--- ✅ Nur benötigte Spalten
-SELECT id, name, price FROM products;
+-- ✅ Nur benötigte Felder
+FOR product IN products
+  RETURN {id: product.id, name: product.name, price: product.price}
 ```
 
 ### 3. Use LIMIT für große Result Sets
 
-```sql
+```aql
 -- ❌ Könnte Millionen Rows returnen
-SELECT * FROM orders ORDER BY created_at DESC;
+FOR order IN orders
+  SORT order.created_at DESC
+  RETURN order
 
 -- ✅ Pagination
-SELECT * FROM orders ORDER BY created_at DESC LIMIT 50 OFFSET 0;
+FOR order IN orders
+  SORT order.created_at DESC
+  LIMIT 0, 50
+  RETURN order
 ```
 
 ### 4. Batch Inserts
@@ -1162,7 +1247,7 @@ tx.commit()
 
 ### 6. Analyze Query Plans
 
-```sql
+```aql
 EXPLAIN SELECT * FROM orders o
 JOIN customers c ON o.customer_id = c.id
 WHERE o.created_at > '2025-01-01';
@@ -1185,8 +1270,8 @@ WHERE o.created_at > '2025-01-01';
 In diesem Kapitel haben Sie gelernt:
 
 ✅ **Relationales Modell:** Tabellen, Schemas, Constraints  
-✅ **SQL DDL:** CREATE TABLE, Datentypen, Constraints  
-✅ **SQL DML:** INSERT, UPDATE, DELETE, UPSERT  
+✅ **AQL DDL:** CREATE TABLE, Datentypen, Constraints  
+✅ **AQL DML:** INSERT, UPDATE, DELETE, UPSERT  
 ✅ **Queries:** SELECT, WHERE, JOIN, Subqueries, Aggregation  
 ✅ **Transaktionen:** ACID, Isolation, Commit/Rollback  
 ✅ **Normalisierung:** 1NF, 2NF, 3NF, Denormalisierung  

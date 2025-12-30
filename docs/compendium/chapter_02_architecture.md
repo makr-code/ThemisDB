@@ -607,7 +607,7 @@ def update_task_with_retry(self, task: Task, max_retries=3):
 
 Ohne Index: Full Table Scan
 
-```sql
+```aql
 -- Ohne Index: O(n)
 SELECT * FROM tasks WHERE status = 'open'
 -- Muss ALLE Tasks durchgehen: 10.000 Tasks = 10.000 Reads
@@ -615,7 +615,7 @@ SELECT * FROM tasks WHERE status = 'open'
 
 Mit Index: Direkt zum Ergebnis
 
-```sql
+```aql
 -- Mit Index auf status: O(log n + k), k = Anzahl Results
 SELECT * FROM tasks WHERE status = 'open'
 -- B-Tree Lookup: log(10.000) ≈ 13 Reads + nur relevante Tasks

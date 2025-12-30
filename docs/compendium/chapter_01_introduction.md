@@ -100,7 +100,7 @@ Jede Komponente hat eine klar definierte Aufgabe:
 
 Modelle können in einer Query kombiniert werden:
 
-```sql
+```aql
 -- Finde ähnliche Produkte (Vektor)
 -- für Freunde des Nutzers (Graph)
 -- die in Berlin wohnen (Relational)
@@ -139,7 +139,7 @@ ThemisDB nutzt RocksDB als Storage-Engine. Diese Wahl war bewusst:
 
 **Use Case:** Strukturierte Geschäftsdaten
 
-```sql
+```aql
 -- Klassische relationale Query
 INSERT INTO users {
   user_id: "alice",
@@ -165,7 +165,7 @@ FOR order IN orders
 
 **Use Case:** Beziehungsnetzwerke, Recommendations
 
-```sql
+```aql
 -- 3-Hop Traversierung: Freunde von Freunden
 FOR person IN persons
   FILTER person.name == "Alice"
@@ -192,7 +192,7 @@ RETURN path
 
 **Use Case:** Schema-freie, flexible Daten
 
-```sql
+```aql
 -- Beliebige JSON-Strukturen
 INSERT INTO products {
   sku: "LAPTOP-2024",
@@ -223,7 +223,7 @@ FOR product IN products
 
 **Use Case:** AI/ML, Semantic Search, Embeddings
 
-```sql
+```aql
 -- Ähnlichkeitssuche mit Embeddings
 LET query_embedding = EMBED_TEXT("Modern laptop for developers")
 

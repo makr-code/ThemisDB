@@ -73,10 +73,12 @@ stream = db.cdc.create_stream(
     table="orders",
     transform=lambda event: {
         **event,
-        "customer_name": db.query(
-            "SELECT name FROM customers WHERE id = ?",
-            [event.data["customer_id"]]
-        )[0]["name"]
+        "customer_name": db.query("""
+            FOR customer IN customers 
+              FILTER customer.id == @customer_id 
+              LIMIT 1 
+              RETURN customer.name
+        """, {"customer_id": event.data["customer_id"]})[0]
     }
 )
 ```
@@ -210,9 +212,13 @@ def handle_message(data):
     
     # In DB schreiben
     db.execute("""
-        INSERT INTO messages (channel, username, content, timestamp)
-        VALUES (?, ?, ?, ?)
-    """, [channel, username, data['content'], time.time()])
+        INSERT {
+          channel: @channel,
+          username: @username,
+          content: @content,
+          timestamp: @timestamp
+        } INTO messages
+    """, {"channel": channel, "username": username, "content": data['content'], "timestamp": time.time()})
     
     # CDC wird automatisch notifizieren
 ```
@@ -364,16 +370,29 @@ class ChatService:
     def get_channel_messages(channel_id, limit=50, before_id=None):
         """Nachrichten laden (mit Pagination)"""
         query = """
-            SELECT 
-                m.id, m.content, m.message_type, m.reply_to,
-                m.created_at, m.edited_at,
-                u.id as user_id, u.username, u.avatar_url,
-                (SELECT COUNT(*) FROM reactions r WHERE r.message_id = m.id) as reaction_count
-            FROM messages m
-            JOIN users u ON m.user_id = u.id
-            WHERE m.channel_id = ?
+            FOR message IN messages
+              FILTER message.channel_id == @channel_id
+              FOR user IN users
+                FILTER message.user_id == user.id
+                LET reaction_count = LENGTH(
+                  FOR reaction IN reactions
+                    FILTER reaction.message_id == message.id
+                    RETURN 1
+                )
+                RETURN {
+                  id: message.id,
+                  content: message.content,
+                  message_type: message.message_type,
+                  reply_to: message.reply_to,
+                  created_at: message.created_at,
+                  edited_at: message.edited_at,
+                  user_id: user.id,
+                  username: user.username,
+                  avatar_url: user.avatar_url,
+                  reaction_count
+                }
         """
-        params = [channel_id]
+        params = {"channel_id": channel_id}
         
         if before_id:
             query += " AND m.id < ?"
@@ -389,18 +408,23 @@ class ChatService:
         """Nachricht senden"""
         with db.transaction():
             result = db.execute("""
-                INSERT INTO messages (channel_id, user_id, content, reply_to)
-                VALUES (?, ?, ?, ?)
-                RETURNING *
-            """, [channel_id, user_id, content, reply_to])
+                INSERT {
+                  channel_id: @channel_id,
+                  user_id: @user_id,
+                  content: @content,
+                  reply_to: @reply_to
+                } INTO messages
+                RETURN NEW
+            """, {"channel_id": channel_id, "user_id": user_id, "content": content, "reply_to": reply_to})
             
             message = result[0]
             
             # Typing-Indikator löschen
             db.execute("""
-                DELETE FROM typing_indicators 
-                WHERE channel_id = ? AND user_id = ?
-            """, [channel_id, user_id])
+                FOR indicator IN typing_indicators 
+                  FILTER indicator.channel_id == @channel_id AND indicator.user_id == @user_id
+                  REMOVE indicator IN typing_indicators
+            """, {"channel_id": channel_id, "user_id": user_id})
             
             return message
     
@@ -423,18 +447,22 @@ class ChatService:
     def delete_message(message_id, user_id):
         """Nachricht löschen"""
         db.execute("""
-            DELETE FROM messages 
-            WHERE id = ? AND user_id = ?
-        """, [message_id, user_id])
+            FOR message IN messages 
+              FILTER message.id == @message_id AND message.user_id == @user_id
+              REMOVE message IN messages
+        """, {"message_id": message_id, "user_id": user_id})
     
     @staticmethod
     def add_reaction(message_id, user_id, emoji):
         """Reaktion hinzufügen"""
         try:
             db.execute("""
-                INSERT INTO reactions (message_id, user_id, emoji)
-                VALUES (?, ?, ?)
-            """, [message_id, user_id, emoji])
+                INSERT {
+                  message_id: @message_id,
+                  user_id: @user_id,
+                  emoji: @emoji
+                } INTO reactions
+            """, {"message_id": message_id, "user_id": user_id, "emoji": emoji})
             return True
         except:  # Already exists
             return False
@@ -595,9 +623,10 @@ def handle_typing_stop(data):
     channel_id = data['channel_id']
     
     db.execute("""
-        DELETE FROM typing_indicators 
-        WHERE channel_id = ? AND user_id = ?
-    """, [channel_id, conn['user_id']])
+        FOR indicator IN typing_indicators 
+          FILTER indicator.channel_id == @channel_id AND indicator.user_id == @user_id
+          REMOVE indicator IN typing_indicators
+    """, {"channel_id": channel_id, "user_id": conn['user_id']})
     
     emit('user_stopped_typing', {
         'user_id': conn['user_id'],
@@ -1010,23 +1039,32 @@ class KanbanService:
     def get_board(board_id):
         """Board mit allen Spalten und Karten laden"""
         board = db.query("""
-            SELECT * FROM boards WHERE id = ?
-        """, [board_id])[0]
+            FOR board IN boards 
+              FILTER board.id == @board_id 
+              LIMIT 1 
+              RETURN board
+        """, {"board_id": board_id})[0]
         
         columns = db.query("""
-            SELECT * FROM columns 
-            WHERE board_id = ?
-            ORDER BY position
-        """, [board_id])
+            FOR column IN columns 
+              FILTER column.board_id == @board_id
+              SORT column.position ASC
+              RETURN column
+        """, {"board_id": board_id})
         
         for col in columns:
             col['cards'] = db.query("""
-                SELECT c.*, u.username as assigned_to_name
-                FROM cards c
-                LEFT JOIN users u ON c.assigned_to = u.id
-                WHERE c.column_id = ?
-                ORDER BY c.position
-            """, [col['id']])
+                FOR card IN cards
+                  FILTER card.column_id == @column_id
+                  LET assigned_name = (
+                    FOR user IN users
+                      FILTER card.assigned_to == user.id
+                      LIMIT 1
+                      RETURN user.username
+                  )[0]
+                  SORT card.position ASC
+                  RETURN MERGE(card, {assigned_to_name: assigned_name})
+            """, {"column_id": col['id']})
         
         board['columns'] = columns
         return board
@@ -1037,8 +1075,11 @@ class KanbanService:
         with db.transaction():
             # Aktuelle Position
             current = db.query("""
-                SELECT column_id, position FROM cards WHERE id = ?
-            """, [card_id])[0]
+                FOR card IN cards 
+                  FILTER card.id == @card_id 
+                  LIMIT 1 
+                  RETURN {column_id: card.column_id, position: card.position}
+            """, {"card_id": card_id})[0]
             
             from_column_id = current['column_id']
             from_position = current['position']
@@ -1079,23 +1120,43 @@ class KanbanService:
         with db.transaction():
             # Position am Ende der Spalte
             position = db.query("""
-                SELECT COALESCE(MAX(position), -1) + 1 as pos
-                FROM cards WHERE column_id = ?
-            """, [column_id])[0]['pos']
+                FOR card IN cards 
+                  FILTER card.column_id == @column_id
+                  COLLECT AGGREGATE max_pos = MAX(card.position)
+                  RETURN COALESCE(max_pos, -1) + 1
+            """, {"column_id": column_id})[0]
             
             result = db.execute("""
-                INSERT INTO cards (board_id, column_id, title, description, assigned_to, position, created_by)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                RETURNING *
-            """, [board_id, column_id, title, description, assigned_to, position, request.user_id])
+                INSERT {
+                  board_id: @board_id,
+                  column_id: @column_id,
+                  title: @title,
+                  description: @description,
+                  assigned_to: @assigned_to,
+                  position: @position,
+                  created_by: @created_by
+                } INTO cards
+                RETURN NEW
+            """, {
+                "board_id": board_id,
+                "column_id": column_id,
+                "title": title,
+                "description": description,
+                "assigned_to": assigned_to,
+                "position": position,
+                "created_by": request.user_id
+            })
             
             card = result[0]
             
             # Activity
             db.execute("""
-                INSERT INTO card_activities (card_id, user_id, action_type)
-                VALUES (?, ?, 'created')
-            """, [card['id'], request.user_id])
+                INSERT {
+                  card_id: @card_id,
+                  user_id: @user_id,
+                  action_type: 'created'
+                } INTO card_activities
+            """, {"card_id": card['id'], "user_id": request.user_id})
             
             return card
     
@@ -1115,9 +1176,13 @@ class KanbanService:
         
         # Activity
         db.execute("""
-            INSERT INTO card_activities (card_id, user_id, action_type, details)
-            VALUES (?, ?, 'updated', ?)
-        """, [card_id, request.user_id, json.dumps(updates)])
+            INSERT {
+              card_id: @card_id,
+              user_id: @user_id,
+              action_type: 'updated',
+              details: @details
+            } INTO card_activities
+        """, {"card_id": card_id, "user_id": request.user_id, "details": json.dumps(updates)})
 
 # WebSocket-Handler
 @socketio.on('join_board')
@@ -1420,9 +1485,12 @@ class EventBus:
     def publish(self, event_type: str, data: dict):
         """Event publishen"""
         self.db.execute("""
-            INSERT INTO events (event_type, data, created_at)
-            VALUES (?, ?, CURRENT_TIMESTAMP)
-        """, [event_type, json.dumps(data)])
+            INSERT {
+              event_type: @event_type,
+              data: @data,
+              created_at: DATE_NOW()
+            } INTO events
+        """, {"event_type": event_type, "data": json.dumps(data)})
     
     def start(self):
         """Event-Processing starten"""
@@ -1491,17 +1559,29 @@ class OrderService:
         with self.db.transaction():
             # Order erstellen
             order_id = self.db.execute("""
-                INSERT INTO orders (user_id, status, created_at)
-                VALUES (?, 'pending', CURRENT_TIMESTAMP)
-                RETURNING id
-            """, [user_id])[0]['id']
+                INSERT {
+                  user_id: @user_id,
+                  status: 'pending',
+                  created_at: DATE_NOW()
+                } INTO orders
+                RETURN NEW.id
+            """, {"user_id": user_id})[0]
             
             # Items
             for item in items:
                 self.db.execute("""
-                    INSERT INTO order_items (order_id, product_id, quantity, price)
-                    VALUES (?, ?, ?, ?)
-                """, [order_id, item['product_id'], item['quantity'], item['price']])
+                    INSERT {
+                      order_id: @order_id,
+                      product_id: @product_id,
+                      quantity: @quantity,
+                      price: @price
+                    } INTO order_items
+                """, {
+                    "order_id": order_id,
+                    "product_id": item['product_id'],
+                    "quantity": item['quantity'],
+                    "price": item['price']
+                })
             
             # Event publishen
             self.event_bus.publish('order_placed', {
@@ -1753,8 +1833,10 @@ cache = CachedQuery(ttl=30)
 
 def get_channel_members(channel_id):
     return cache.get("""
-        SELECT * FROM channel_members WHERE channel_id = ?
-    """, [channel_id])
+        FOR member IN channel_members 
+          FILTER member.channel_id == @channel_id 
+          RETURN member
+    """, {"channel_id": channel_id})
 ```
 
 ## Zusammenfassung

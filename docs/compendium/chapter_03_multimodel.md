@@ -277,7 +277,7 @@ Kontakte sind ein perfektes Beispiel für das Dokument-Modell:
 4. **Self-Contained:** Alle Infos zu einem Kontakt in einem Dokument
 
 **Alternative wäre Relational:**
-```sql
+```aql
 -- Relational würde benötigen:
 CREATE TABLE contacts (id, name, email, phone);
 CREATE TABLE addresses (id, contact_id, street, city, ...);

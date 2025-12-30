@@ -29,7 +29,7 @@ munich_coordinates = [11.575, 48.137]
 
 ### Geo-Datentypen in ThemisDB
 
-```sql
+```aql
 -- Point: Einzelner Punkt
 CREATE TABLE locations (
     id INTEGER PRIMARY KEY,
@@ -61,13 +61,14 @@ CREATE TABLE delivery_zones (
 
 R-Trees sind die effizienteste Indexstruktur für räumliche Daten:
 
-```sql
+```aql
 -- Geo-Index erstellen
 CREATE INDEX idx_locations_geo ON locations USING RTREE(coordinates);
 
 -- Automatische Nutzung bei räumlichen Queries
-SELECT * FROM locations 
-WHERE ST_Distance(coordinates, POINT(13.405, 52.520)) < 5000;
+FOR location IN locations 
+  FILTER ST_Distance(location.coordinates, POINT(13.405, 52.520)) < 5000
+  RETURN location
 -- Index wird automatisch genutzt!
 ```
 
@@ -81,7 +82,7 @@ WHERE ST_Distance(coordinates, POINT(13.405, 52.520)) < 5000;
 
 Für weltweite Abdeckung und Präfix-Suche:
 
-```sql
+```aql
 CREATE INDEX idx_locations_geohash ON locations USING GEOHASH(coordinates);
 
 -- Nützlich für:
@@ -122,10 +123,11 @@ min_lon, max_lon = 13.35, 13.45
 min_lat, max_lat = 52.50, 52.55
 
 pois = conn.query("""
-    SELECT * FROM points_of_interest
-    WHERE ST_Within(coordinates, 
-                    BBOX(?, ?, ?, ?))
-""", [min_lon, min_lat, max_lon, max_lat])
+    FOR poi IN points_of_interest
+      FILTER ST_Within(poi.coordinates, 
+                      BBOX(@min_lon, @min_lat, @max_lon, @max_lat))
+      RETURN poi
+""", {"min_lon": min_lon, "min_lat": min_lat, "max_lon": max_lon, "max_lat": max_lat})
 ```
 
 ### Polygon Queries
@@ -175,7 +177,7 @@ cafes = conn.query("""
 
 ### Distanzberechnung
 
-```sql
+```aql
 -- Haversine-Formel (Kugeloberfläche der Erde)
 ST_Distance(point1, point2) -> meters
 
@@ -189,7 +191,7 @@ SELECT ST_Distance(
 
 ### Bearing (Richtung)
 
-```sql
+```aql
 -- Peilung von A nach B in Grad (0° = Norden)
 ST_Bearing(point1, point2) -> degrees
 
@@ -202,7 +204,7 @@ SELECT ST_Bearing(
 
 ### Bounding Box
 
-```sql
+```aql
 -- Kleinste Box um Geometrie
 ST_Envelope(geometry) -> bbox
 
@@ -307,20 +309,28 @@ def assign_nearest_driver(order_id):
     
     # Hole Bestelladresse
     order = conn.query("""
-        SELECT delivery_address FROM orders WHERE id = ?
-    """, [order_id])[0]
+        FOR order IN orders 
+          FILTER order.id == @order_id 
+          LIMIT 1 
+          RETURN order.delivery_address
+    """, {"order_id": order_id})[0]
     
-    delivery_loc = order['delivery_address']
+    delivery_loc = order
     
     # Finde nächsten verfügbaren Fahrer
     driver = conn.query("""
-        SELECT id, name, current_location,
-               ST_Distance(current_location, POINT(?, ?)) as distance_m
-        FROM drivers
-        WHERE status = 'available'
-        ORDER BY distance_m
-        LIMIT 1
-    """, [delivery_loc[0], delivery_loc[1]])
+        FOR driver IN drivers
+          FILTER driver.status == 'available'
+          LET distance_m = ST_Distance(driver.current_location, POINT(@lon, @lat))
+          SORT distance_m ASC
+          LIMIT 1
+          RETURN {
+            id: driver.id,
+            name: driver.name,
+            current_location: driver.current_location,
+            distance_m
+          }
+    """, {"lon": delivery_loc[0], "lat": delivery_loc[1]})
     
     if not driver:
         raise ValueError("Kein Fahrer verfügbar")
@@ -499,9 +509,11 @@ def search_near_poi(poi_name, radius_m=1000):
     
     # Finde POI
     poi = conn.query("""
-        SELECT coordinates FROM points_of_interest
-        WHERE name = ?
-    """, [poi_name])
+        FOR poi IN points_of_interest
+          FILTER poi.name == @poi_name
+          LIMIT 1
+          RETURN poi.coordinates
+    """, {"poi_name": poi_name})
     
     if not poi:
         raise ValueError(f"POI '{poi_name}' nicht gefunden")
@@ -544,7 +556,9 @@ CREATE INDEX idx_coords ON locations(coordinates);  # B-Tree, ineffizient!
 WHERE ST_Distance(coordinates, ?) < radius
 
 # ❌ SCHLECHT: Distanz in SELECT ohne Filter
-SELECT *, ST_Distance(coordinates, ?) as dist FROM locations
+FOR location IN locations
+  LET dist = ST_Distance(location.coordinates, @point)
+  RETURN {location, dist}
 -- Keine Index-Nutzung! Alle Rows werden berechnet
 ```
 
@@ -597,19 +611,22 @@ def get_cached_nearby_restaurants(lat, lon, radius):
 
 ```python
 # ✅ EFFIZIENT: Erst grobe Filterung, dann genaue Distanz
-SELECT * FROM locations
-WHERE ST_Within(coordinates, BBOX(?, ?, ?, ?))  -- Schneller R-Tree Lookup
-  AND ST_Distance(coordinates, POINT(?, ?)) < ?  -- Nur für Kandidaten
+FOR location IN locations
+  FILTER ST_Within(location.coordinates, BBOX(@min_lon, @min_lat, @max_lon, @max_lat))  -- Schneller R-Tree Lookup
+    AND ST_Distance(location.coordinates, POINT(@lon, @lat)) < @radius  -- Nur für Kandidaten
+  RETURN location
 ```
 
 ### 2. Limit verwenden
 
 ```python
 # Wenn nur Top-N benötigt:
-SELECT * FROM locations
-WHERE ST_Distance(coordinates, POINT(?, ?)) < 5000
-ORDER BY ST_Distance(coordinates, POINT(?, ?))
-LIMIT 10  -- Stoppt nach 10 Ergebnissen
+FOR location IN locations
+  LET dist = ST_Distance(location.coordinates, POINT(@lon, @lat))
+  FILTER dist < 5000
+  SORT dist ASC
+  LIMIT 10  -- Stoppt nach 10 Ergebnissen
+  RETURN location
 ```
 
 ### 3. Materializedviews für häufige Gebiete
@@ -618,8 +635,9 @@ LIMIT 10  -- Stoppt nach 10 Ergebnissen
 # Erstelle View für "beliebtes Gebiet"
 conn.execute("""
 CREATE MATERIALIZED VIEW berlin_mitte_restaurants AS
-SELECT * FROM restaurants
-WHERE ST_Within(coordinates, BBOX(13.35, 52.50, 13.45, 52.55))
+FOR restaurant IN restaurants
+  FILTER ST_Within(restaurant.coordinates, BBOX(13.35, 52.50, 13.45, 52.55))
+  RETURN restaurant
 """)
 
 # Refresh periodisch (z.B. stündlich)

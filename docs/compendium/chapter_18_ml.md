@@ -1,4 +1,4 @@
-# Kapitel 16: Machine Learning Integration
+# Kapitel 18: Machine Learning Integration
 
 ## Überblick
 
@@ -11,7 +11,7 @@ ThemisDB bietet umfassende Integration mit Machine-Learning-Frameworks und -Work
 
 Die Kombination aus relationalen Daten, Graphen, Dokumenten und Vektoren macht ThemisDB zur idealen Plattform für ML-Pipelines.
 
-## 16.1 ML Feature Store
+## 18.1 ML Feature Store
 
 ### Feature Engineering mit ThemisDB
 
