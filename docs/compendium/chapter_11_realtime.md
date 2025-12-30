@@ -370,16 +370,29 @@ class ChatService:
     def get_channel_messages(channel_id, limit=50, before_id=None):
         """Nachrichten laden (mit Pagination)"""
         query = """
-            SELECT 
-                m.id, m.content, m.message_type, m.reply_to,
-                m.created_at, m.edited_at,
-                u.id as user_id, u.username, u.avatar_url,
-                (SELECT COUNT(*) FROM reactions r WHERE r.message_id = m.id) as reaction_count
-            FROM messages m
-            JOIN users u ON m.user_id = u.id
-            WHERE m.channel_id = ?
+            FOR message IN messages
+              FILTER message.channel_id == @channel_id
+              FOR user IN users
+                FILTER message.user_id == user.id
+                LET reaction_count = LENGTH(
+                  FOR reaction IN reactions
+                    FILTER reaction.message_id == message.id
+                    RETURN 1
+                )
+                RETURN {
+                  id: message.id,
+                  content: message.content,
+                  message_type: message.message_type,
+                  reply_to: message.reply_to,
+                  created_at: message.created_at,
+                  edited_at: message.edited_at,
+                  user_id: user.id,
+                  username: user.username,
+                  avatar_url: user.avatar_url,
+                  reaction_count
+                }
         """
-        params = [channel_id]
+        params = {"channel_id": channel_id}
         
         if before_id:
             query += " AND m.id < ?"
@@ -610,9 +623,10 @@ def handle_typing_stop(data):
     channel_id = data['channel_id']
     
     db.execute("""
-        DELETE FROM typing_indicators 
-        WHERE channel_id = ? AND user_id = ?
-    """, [channel_id, conn['user_id']])
+        FOR indicator IN typing_indicators 
+          FILTER indicator.channel_id == @channel_id AND indicator.user_id == @user_id
+          REMOVE indicator IN typing_indicators
+    """, {"channel_id": channel_id, "user_id": conn['user_id']})
     
     emit('user_stopped_typing', {
         'user_id': conn['user_id'],
@@ -1025,23 +1039,32 @@ class KanbanService:
     def get_board(board_id):
         """Board mit allen Spalten und Karten laden"""
         board = db.query("""
-            SELECT * FROM boards WHERE id = ?
-        """, [board_id])[0]
+            FOR board IN boards 
+              FILTER board.id == @board_id 
+              LIMIT 1 
+              RETURN board
+        """, {"board_id": board_id})[0]
         
         columns = db.query("""
-            SELECT * FROM columns 
-            WHERE board_id = ?
-            ORDER BY position
-        """, [board_id])
+            FOR column IN columns 
+              FILTER column.board_id == @board_id
+              SORT column.position ASC
+              RETURN column
+        """, {"board_id": board_id})
         
         for col in columns:
             col['cards'] = db.query("""
-                SELECT c.*, u.username as assigned_to_name
-                FROM cards c
-                LEFT JOIN users u ON c.assigned_to = u.id
-                WHERE c.column_id = ?
-                ORDER BY c.position
-            """, [col['id']])
+                FOR card IN cards
+                  FILTER card.column_id == @column_id
+                  LET assigned_name = (
+                    FOR user IN users
+                      FILTER card.assigned_to == user.id
+                      LIMIT 1
+                      RETURN user.username
+                  )[0]
+                  SORT card.position ASC
+                  RETURN MERGE(card, {assigned_to_name: assigned_name})
+            """, {"column_id": col['id']})
         
         board['columns'] = columns
         return board
