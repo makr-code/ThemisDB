@@ -1,7 +1,8 @@
 name: CI
 
-# Main CI workflow for C++ build, unit tests and code quality checks
-# Fast build using system libraries from apt + minimal vcpkg for unavailable packages
+# Main CI workflow using pre-built system libraries from apt
+# Fast build: ~5-10 minutes vs 30+ minutes with full vcpkg
+# Strategy: System libraries (apt) + minimal vcpkg for unavailable packages
 
 on:
   push:
@@ -15,19 +16,18 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# Minimal permissions for security
 permissions:
   contents: read
 
 env:
   BUILD_TYPE: Release
-  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/vcpkg-cache
+  USE_SYSTEM_LIBS: ON
 
 jobs:
-  build-and-test-linux:
+  build-and-test-ubuntu:
     name: Build & Test (Ubuntu)
     runs-on: ubuntu-latest
-    timeout-minutes: 45  # System libs + minimal vcpkg: ~2-3min deps, ~5-8min vcpkg, ~8-10min build, ~5-10min tests
+    timeout-minutes: 45
     
     steps:
       - name: Checkout repository
@@ -35,76 +35,101 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install system dependencies (fast-path)
+      - name: Configure fast-path directories for act
+        if: ${{ env.ACT }}
+        run: |
+          echo "VCPKG_ROOT=/tmp/vcpkg" >> $GITHUB_ENV
+          echo "BUILD_DIR=/tmp/themis-build" >> $GITHUB_ENV
+          mkdir -p /tmp/themis-build
+
+      - name: Install system dependencies (pre-built)
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            build-essential cmake ninja-build pkg-config flex bison \
-            libssl-dev libcurl4-openssl-dev \
+            build-essential cmake ninja-build pkg-config \
+            libssl-dev \
+            libcurl4-openssl-dev \
             librocksdb-dev \
-            libboost-dev libboost-system-dev libboost-container-dev libboost-thread-dev \
+            libtbb-dev \
             libspdlog-dev \
             nlohmann-json3-dev \
-            libtbb-dev \
+            libboost-dev \
+            libboost-system-dev \
+            libyaml-cpp-dev \
             libzstd-dev \
             libgtest-dev \
-            cppcheck
+            libbenchmark-dev \
+            cppcheck clang-tidy flex bison
 
-      - name: Setup vcpkg cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ${{ github.workspace }}/vcpkg-cache
-            ${{ github.workspace }}/vcpkg_installed
-          key: vcpkg-ubuntu-minimal-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
-          restore-keys: |
-            vcpkg-ubuntu-minimal-
-
-      - name: Setup vcpkg (manifest mode, minimal packages)
+      - name: Install missing dependencies via vcpkg (minimal set)
         run: |
-          set -e
-          VCPKG_DIR="${{ github.workspace }}/vcpkg"
+          # Only install packages NOT available in apt
+          # This significantly reduces build time
+
+          VCPKG_DIR="${VCPKG_ROOT:-vcpkg}"
+
+          # Reuse existing vcpkg checkout when present; if bootstrap is missing, replace with a fresh clone
           if [ -f "$VCPKG_DIR/bootstrap-vcpkg.sh" ]; then
-            echo "Using existing vcpkg directory"
+            echo "Using existing vcpkg directory at $VCPKG_DIR"
           else
-            echo "Cloning vcpkg..."
-            git clone https://github.com/Microsoft/vcpkg.git "$VCPKG_DIR"
+            echo "vcpkg bootstrap not found; cloning fresh copy to $VCPKG_DIR"
+            rm -rf "$VCPKG_DIR"
+            git clone https://github.com/microsoft/vcpkg.git "$VCPKG_DIR"
           fi
-          cd "$VCPKG_DIR"
-          if [ ! -f vcpkg ]; then
-            ./bootstrap-vcpkg.sh
-          fi
-          echo "$VCPKG_DIR" >> $GITHUB_PATH
 
-      - name: Install vcpkg packages (manifest mode)
-        run: |
-          cd ${{ github.workspace }}
-          ${{ github.workspace }}/vcpkg/vcpkg install --clean-after-build
-        env:
-          VCPKG_FORCE_SYSTEM_BINARIES: 'true'
+          "$VCPKG_DIR/bootstrap-vcpkg.sh" -disableMetrics
 
-      - name: Configure CMake
+          # Install with retry logic for transient network failures
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if "$VCPKG_DIR/vcpkg" install --clean-after-build; then
+              echo "vcpkg installation successful"
+              break
+            else
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                echo "WARNING: vcpkg installation failed (attempt $RETRY_COUNT/$MAX_RETRIES). Retrying in 10 seconds..."
+                sleep 10
+              else
+                echo "ERROR: vcpkg installation failed after $MAX_RETRIES attempts"
+                exit 1
+              fi
+            fi
+          done
+          
+      - name: Configure CMake (System Libraries)
         run: |
-          cmake -S . -B build -G Ninja \
+          BUILD_DIR="${BUILD_DIR:-build}"
+          VCPKG_DIR="${VCPKG_ROOT:-${GITHUB_WORKSPACE}/vcpkg}"
+          cmake -S . -B "$BUILD_DIR" -G Ninja \
             -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} \
-            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE="$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake" \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
             -DTHEMIS_ENABLE_TRACING=OFF
 
       - name: Build
-        run: cmake --build build --config ${{ env.BUILD_TYPE }} -j $(nproc)
+        run: |
+          BUILD_DIR="${BUILD_DIR:-build}"
+          cmake --build "$BUILD_DIR" --config ${{ env.BUILD_TYPE }} -j $(nproc)
 
       - name: Run Unit Tests
         run: |
-          cd build
+          BUILD_DIR="${BUILD_DIR:-build}"
+          cd "$BUILD_DIR"
           ctest -C ${{ env.BUILD_TYPE }} --output-on-failure --timeout 300 -j $(nproc)
 
       - name: Run cppcheck
         if: always()
         run: |
-          cppcheck --project=build/compile_commands.json \
+          if [ ! -f .cppcheck-suppressions ]; then
+            touch .cppcheck-suppressions
+          fi
+          
+          BUILD_DIR="${BUILD_DIR:-build}"
+          cppcheck --project="$BUILD_DIR/compile_commands.json" \
             --enable=warning,performance,portability \
             --suppressions-list=.cppcheck-suppressions \
             --error-exitcode=0 \
@@ -115,16 +140,15 @@ jobs:
         if: always() && !env.ACT
         uses: actions/upload-artifact@v4
         with:
-          name: cppcheck-report-ubuntu
+          name: cppcheck-report
           path: cppcheck-report.xml
           retention-days: 7
 
       - name: Build Summary
         run: |
-          echo "## Build Summary (Ubuntu - Fast Path)" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Fast build using system libraries + minimal vcpkg" >> $GITHUB_STEP_SUMMARY
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Fast CI using system libraries" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Build Type: ${{ env.BUILD_TYPE }}" >> $GITHUB_STEP_SUMMARY
           echo "- Tests: Executed" >> $GITHUB_STEP_SUMMARY
           echo "- Platform: Ubuntu Latest" >> $GITHUB_STEP_SUMMARY
-
