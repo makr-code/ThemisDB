@@ -16,6 +16,29 @@ Change Data Capture (CDC) ist eine kritische Komponente moderner Datenarchitektu
 5. **Cross-System Sync:** Spiegelung von Daten in externe Systeme (Elasticsearch, Redis Cache)
 6. **Kafka Integration:** Streaming in ein zentrales Event-Bus-System
 
+```mermaid
+graph TB
+    subgraph "ThemisDB CDC Architecture"
+        App[Application] -->|Write| DB[(ThemisDB<br/>Multi-Model Storage)]
+        
+        DB -->|Automatically Capture| CDC[CDC Event Log<br/>Append-Only]
+        
+        CDC -->|Stream 1| Analytics[(ClickHouse<br/>OLAP Analytics)]
+        CDC -->|Stream 2| Search[(Elasticsearch<br/>Full-Text Search)]
+        CDC -->|Stream 3| Cache[(Redis<br/>Cache Layer)]
+        CDC -->|Stream 4| Kafka[Kafka<br/>Event Bus]
+        CDC -->|Stream 5| Audit[Audit System<br/>Compliance]
+    end
+    
+    style DB fill:#667eea
+    style CDC fill:#f093fb
+    style Analytics fill:#43e97b
+    style Search fill:#4facfe
+    style Cache fill:#ffd32a
+    style Kafka fill:#ff6348
+    style Audit fill:#95e1d3
+```
+
 ## 11.2 CDC-Architektur und Datenmodell
 
 ### 11.2.1 Event-Struktur
@@ -77,6 +100,36 @@ uint64_t seq = increment_sequence_counter(batch); // Atomic increment
 std::string event_key = format("changefeed:{:020d}", seq);
 batch.Put(event_key, serialize_event(event));
 db->Write(batch);  // ACID: Sequence & Event atomar committed
+```
+
+```mermaid
+sequenceDiagram
+    participant App as Application
+    participant TM as Transaction Manager
+    participant CDC as CDC Logger
+    participant RDB as RocksDB
+    
+    App->>TM: BEGIN TRANSACTION
+    TM->>App: transaction_id
+    
+    App->>TM: UPDATE users SET name='Alice'
+    Note over TM: Sammelt Änderungen
+    
+    App->>TM: INSERT INTO orders ...
+    Note over TM: Sammelt weitere Änderungen
+    
+    App->>TM: COMMIT
+    
+    TM->>CDC: Erstelle CDC Events
+    CDC->>CDC: Generiere Sequence Numbers<br/>(atomar)
+    
+    CDC->>RDB: WriteBatch {<br/>  Base Entity Updates<br/>  CDC Event #42<br/>  CDC Event #43<br/>}
+    
+    RDB-->>CDC: ✓ ATOMIC COMMIT
+    CDC-->>TM: ✓ Events persistent
+    TM-->>App: ✓ COMMIT erfolreich
+    
+    Note over RDB: ALLE Änderungen atomar:<br/>Base Entities + CDC Events
 ```
 
 **Performance-Trade-off:** Die zentrale Sequenzvergabe ist ein Bottleneck bei hohen Schreibraten (>100K writes/sec). Zukünftige Optimierungen:

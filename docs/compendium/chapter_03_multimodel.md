@@ -206,6 +206,42 @@ FOR product IN products
 ✗ Exact matches ausreichend
 ```
 
+```mermaid
+quadrantChart
+    title Datenmodell-Entscheidungsmatrix
+    x-axis Flexible Struktur --> Feste Struktur
+    y-axis Daten-fokussiert --> Beziehungs-fokussiert
+    quadrant-1 Relational<br/>• Geschäftsdaten<br/>• ACID kritisch<br/>• BI/Reporting
+    quadrant-2 Graph<br/>• Social Networks<br/>• Empfehlungen<br/>• Fraud Detection
+    quadrant-3 Dokument<br/>• CMS<br/>• Prototyping<br/>• Logs/Events
+    quadrant-4 Vektor<br/>• Semantic Search<br/>• ML/AI<br/>• Similarity
+```
+
+```mermaid
+flowchart TD
+    Start{Welches Datenmodell?}
+    
+    Start -->|Feste Struktur?| Fixed{Schema stabil?}
+    Start -->|Flexible Struktur?| Flexible{Beziehungen wichtig?}
+    
+    Fixed -->|Ja + Beziehungen| Graph[Graph-Modell<br/>Property Graph]
+    Fixed -->|Ja + Keine Beziehungen| Relational[Relational-Modell<br/>Tabellen & SQL]
+    
+    Flexible -->|Ja| GraphDoc[Graph + Dokument<br/>Hybrid Approach]
+    Flexible -->|Nein| Document[Dokument-Modell<br/>JSON Collections]
+    
+    Start -->|Ähnlichkeitssuche?| Similarity{ML/AI Features?}
+    Similarity -->|Ja| Vector[Vektor-Modell<br/>Embeddings & HNSW]
+    Similarity -->|Nein| Fulltext[Volltext-Suche<br/>Invertierter Index]
+    
+    style Graph fill:#f093fb
+    style Relational fill:#4facfe
+    style Document fill:#43e97b
+    style Vector fill:#fa709a
+    style GraphDoc fill:#fee140
+    style Fulltext fill:#30cfd0
+```
+
 ---
 
 ## 3.2 Native Multi-Model vs. Polyglot Persistence
