@@ -152,9 +152,8 @@ jobs:
         with:
           name: themis-develop-linux
           path: |
-            build/themis*
-            !build/**/*.o
-            !build/**/*.a
+            build/themis
+            build/themis-*
           retention-days: 7
 
   # Code quality and linting
