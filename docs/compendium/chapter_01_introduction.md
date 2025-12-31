@@ -8,7 +8,7 @@
 
 ## Überblick
 
-Willkommen bei ThemisDB, einer modernen Multi-Model-Datenbank, die entwickelt wurde, um die Grenzen traditioneller Datenbankarchitekturen zu überwinden. In diesem einführenden Kapitel lernen Sie die Grundkonzepte, die Philosophie und die Kernfähigkeiten von ThemisDB kennen.
+Willkommen bei ThemisDB, einer modernen Multi-Model-Datenbank, die entwickelt wurde, um die Grenzen traditioneller Datenbankarchitekturen zu überwinden. In diesem einführenden Kapitel lernen Sie die Grundkonzepte, die Philosophie und die Kernfähigkeiten von ThemisDB kennen. Moderne Anwendungen haben komplexe Datenanforderungen, die sich nicht mehr mit einem einzigen Datenmodell abbilden lassen. Gleichzeitig führt der Einsatz mehrerer spezialisierter Datenbanken zu operationaler Komplexität und Konsistenzproblemen. ThemisDB löst dieses Dilemma durch einen einheitlichen Multi-Model-Ansatz, der verschiedene Datenmodelle in einer kohärenten Plattform vereint. Dieses Kapitel zeigt Ihnen, warum dieser Ansatz notwendig ist und wie ThemisDB ihn umsetzt.
 
 **Was Sie in diesem Kapitel lernen werden:**
 - Warum wir ThemisDB entwickelt haben und welche Probleme es löst
@@ -23,9 +23,11 @@ Willkommen bei ThemisDB, einer modernen Multi-Model-Datenbank, die entwickelt wu
 
 ## 1.1 Die Multi-Model-Herausforderung
 
+In der modernen Softwareentwicklung stehen Entwickler vor einem fundamentalen Dilemma: Jede Datenbank-Technologie ist für bestimmte Anwendungsfälle optimiert, aber echte Anwendungen haben vielfältige Anforderungen. Ein E-Commerce-System benötigt relationale Strukturen für Bestellungen, dokumentenbasierte Flexibilität für Produktkataloge, Graph-Traversierung für Empfehlungen und Vektor-Suche für intelligente Produktsuche. Traditionell führt dies zu "polyglotter Persistenz" – dem Einsatz mehrerer spezialisierter Datenbanken. Doch dieser Ansatz schafft mehr Probleme als er löst. ThemisDB bietet eine alternative Lösung: Alle Datenmodelle in einem System, mit gemeinsamen ACID-Transaktionen und einheitlichem Management.
+
 ### Das Problem polyglotter Persistenz
 
-Stellen Sie sich ein modernes E-Commerce-Unternehmen vor. Die Entwickler haben über die Jahre ein komplexes Ökosystem aufgebaut:
+Stellen Sie sich ein modernes E-Commerce-Unternehmen vor, das über die Jahre ein komplexes Ökosystem aus verschiedenen Datenbanktechnologien aufgebaut hat. Die Entwickler haben über die Jahre ein komplexes Ökosystem aufgebaut, bei dem jede Datenbank für einen spezifischen Zweck ausgewählt wurde. Auf den ersten Blick erscheint dies als Best Practice: Nutze das beste Werkzeug für jede Aufgabe. Doch die Realität sieht anders aus. Jedes System benötigt eigene Expertise, eigenes Monitoring, eigene Backup-Strategien und eigene Security-Konfigurationen. Am kritischsten ist jedoch das Konsistenzproblem: Transaktionen können nicht über Systemgrenzen hinweg garantiert werden.
 
 - **PostgreSQL** für Benutzerkonten und Bestellungen
 - **MongoDB** für Produktkataloge und Reviews
@@ -46,6 +48,34 @@ Team-Expertise nötig:      6 × Spezialisten
 ```
 
 **Das Resultat:** Hohe Komplexität, teure Wartung, schwierige Debugging-Sessions, und Datenkonsistenz über Systemgrenzen ist nahezu unmöglich.
+
+```mermaid
+graph TB
+    subgraph "Polyglot Persistence - Komplexität"
+        App[E-Commerce Application]
+        App --> PG[(PostgreSQL<br/>Benutzer & Bestellungen)]
+        App --> MG[(MongoDB<br/>Produktkataloge)]
+        App --> N4[(Neo4j<br/>Empfehlungen)]
+        App --> ES[(Elasticsearch<br/>Suche)]
+        App --> RD[(Redis<br/>Sessions)]
+        App --> IF[(InfluxDB<br/>Metriken)]
+        
+        PG -.-> B1[Backup System 1]
+        MG -.-> B2[Backup System 2]
+        N4 -.-> B3[Backup System 3]
+        ES -.-> B4[Backup System 4]
+        RD -.-> B5[Backup System 5]
+        IF -.-> B6[Backup System 6]
+    end
+    
+    style App fill:#ff6b6b
+    style PG fill:#4ecdc4
+    style MG fill:#95e1d3
+    style N4 fill:#f38181
+    style ES fill:#eaffd0
+    style RD fill:#fce38a
+    style IF fill:#95e1d3
+```
 
 ### Der fundamentale Fehler: Eventual Consistency
 
@@ -78,6 +108,31 @@ except Exception:
 
 Polyglot Persistence erzwingt systemisch **"Eventual Consistency" (BASE)** [18] statt starker ACID-Garantien [16]. Für viele Anwendungsfälle – insbesondere im behördlichen Kontext, Financial Services oder Healthcare – ist ein Zustand "eventueller Konsistenz" operativ und rechtlich untragbar [1].
 
+```mermaid
+sequenceDiagram
+    participant App as Application
+    participant PG as PostgreSQL
+    participant N4 as Neo4j
+    participant CD as ChromaDB
+    
+    Note over App: Lösche Benutzer ID=123
+    
+    App->>PG: DELETE FROM users WHERE id=123
+    PG-->>App: ✓ Erfolg
+    
+    App->>N4: MATCH (u:User {id:123}) DETACH DELETE u
+    N4-->>App: ✓ Erfolg
+    
+    App->>CD: delete(collection="user_embeddings", ids=["123"])
+    CD--xApp: ✗ Fehler (Netzwerkproblem)
+    
+    Note over App,CD: ❌ INKONSISTENTER ZUSTAND!<br/>User aus PG & Neo4j gelöscht,<br/>aber Vektoren existieren noch
+    
+    rect rgb(255, 200, 200)
+    Note over App: Rollback? UNMÖGLICH!<br/>PostgreSQL & Neo4j kennen sich nicht
+    end
+```
+
 ### Der Multi-Model-Ansatz
 
 ThemisDB nimmt einen anderen Weg. Anstatt spezialisierte Datenbanken zu kombinieren, bieten wir **vier Datenmodelle in einem System:**
@@ -88,6 +143,38 @@ ThemisDB nimmt einen anderen Weg. Anstatt spezialisierte Datenbanken zu kombinie
 4. **Vektor:** Embeddings für AI/ML und Ähnlichkeitssuche
 
 **Der Vorteil:** Ein System, eine API, eine Query-Sprache (AQL), ein Backup-Prozess, eine Security-Konfiguration.
+
+```mermaid
+graph TB
+    subgraph "ThemisDB - Multi-Model Architektur"
+        App[Application]
+        App --> AQL[AQL Query Layer]
+        
+        AQL --> TM[Transaction Manager<br/>MVCC & ACID]
+        
+        TM --> RM[Relational<br/>Engine]
+        TM --> GM[Graph<br/>Engine]
+        TM --> DM[Document<br/>Engine]
+        TM --> VM[Vector<br/>Engine]
+        
+        RM --> ST[(RocksDB<br/>Unified Storage)]
+        GM --> ST
+        DM --> ST
+        VM --> ST
+        
+        ST --> B[Single Backup System]
+    end
+    
+    style App fill:#95e1d3
+    style AQL fill:#4ecdc4
+    style TM fill:#38ada9
+    style RM fill:#78e08f
+    style GM fill:#78e08f
+    style DM fill:#78e08f
+    style VM fill:#78e08f
+    style ST fill:#0a3d62
+    style B fill:#079992
+```
 
 ### Ist das nicht nur ein Kompromiss?
 
@@ -125,6 +212,26 @@ with themis_db.transaction() as tx:
     tx.commit()  # ACID-garantiert!
 ```
 
+```mermaid
+flowchart LR
+    Start([Transaction Begin]) --> R[Update Relational]
+    R --> G[Create Graph Edge]
+    G --> V[Update Vector]
+    V --> Check{Alle erfolgreich?}
+    
+    Check -->|Ja| Commit[Commit Transaction<br/>Alle Änderungen persistent]
+    Check -->|Nein| Rollback[Rollback Transaction<br/>Alle Änderungen verworfen]
+    
+    Commit --> End([Transaction Ende])
+    Rollback --> End
+    
+    style Start fill:#95e1d3
+    style Commit fill:#78e08f
+    style Rollback fill:#ff6348
+    style End fill:#95e1d3
+    style Check fill:#ffd32a
+```
+
 Dies ist architektonisch nur möglich, weil alle Daten physisch im selben transaktionalen Backend (RocksDB TransactionDB) liegen. Siehe Kapitel 2.4 für technische Details.
 
 ---
@@ -139,19 +246,44 @@ ThemisDB folgt bewährten Design-Prinzipien:
 
 Jede Komponente hat eine klar definierte Aufgabe:
 
-```
-┌─────────────────────────────────────────┐
-│          Query Layer (AQL)              │
-├─────────────────────────────────────────┤
-│      Transaction Manager (MVCC)         │
-├─────────────────────────────────────────┤
-│  ┌──────────┬──────────┬──────────────┐ │
-│  │ Graph    │ Document │ Vector       │ │
-│  │ Engine   │ Engine   │ Engine       │ │
-│  └──────────┴──────────┴──────────────┘ │
-├─────────────────────────────────────────┤
-│    Storage Layer (RocksDB)              │
-└─────────────────────────────────────────┘
+```mermaid
+graph TB
+    subgraph "ThemisDB Layered Architecture"
+        QL[Query Layer AQL<br/>• Query Parsing & Optimization<br/>• Execution Planning<br/>• Result Formatting]
+        
+        TM[Transaction Manager MVCC<br/>• Snapshot Isolation<br/>• Conflict Detection<br/>• Commit/Rollback]
+        
+        subgraph "Model Engines"
+            GE[Graph Engine]
+            DE[Document Engine]
+            VE[Vector Engine]
+            RE[Relational Engine]
+        end
+        
+        IM[Index Manager<br/>• B-Tree • Hash<br/>• Geo • HNSW<br/>• Fulltext]
+        
+        SL[Storage Layer RocksDB<br/>• LSM-Trees<br/>• WAL<br/>• Compression]
+        
+        QL --> TM
+        TM --> GE
+        TM --> DE
+        TM --> VE
+        TM --> RE
+        GE --> IM
+        DE --> IM
+        VE --> IM
+        RE --> IM
+        IM --> SL
+    end
+    
+    style QL fill:#667eea
+    style TM fill:#764ba2
+    style GE fill:#f093fb
+    style DE fill:#f093fb
+    style VE fill:#f093fb
+    style RE fill:#f093fb
+    style IM fill:#4facfe
+    style SL fill:#00f2fe
 ```
 
 **2. Composability**

@@ -11,6 +11,41 @@ ThemisDB bietet umfassende Integration mit Machine-Learning-Frameworks und -Work
 
 Die Kombination aus relationalen Daten, Graphen, Dokumenten und Vektoren macht ThemisDB zur idealen Plattform für ML-Pipelines.
 
+```mermaid
+graph TB
+    subgraph "ML Pipeline with ThemisDB"
+        Raw[Raw Data<br/>Logs, Events, Transactions]
+        
+        Raw --> FS[Feature Store<br/>Relational Tables]
+        
+        FS --> Train[Training Pipeline]
+        FS --> Inference[Inference Pipeline]
+        
+        Train --> ModelReg[(Model Registry<br/>Document Store)]
+        Train --> ExpTrack[(Experiment Tracking<br/>Metrics & Params)]
+        
+        ModelReg --> Deploy[Model Deployment]
+        
+        Deploy --> Serve[Model Serving<br/>Online Predictions]
+        
+        Inference --> Vec[(Vector Index<br/>Embeddings)]
+        Vec --> SimSearch[Similarity Search<br/>Recommendations]
+        
+        Serve --> Results[Prediction Results<br/>Back to DB]
+        SimSearch --> Results
+        
+        Results --> Monitor[Monitoring<br/>Drift Detection]
+        Monitor -.feedback.-> Train
+    end
+    
+    style Raw fill:#667eea
+    style FS fill:#4facfe
+    style Train fill:#43e97b
+    style ModelReg fill:#f093fb
+    style Vec fill:#ffd32a
+    style Results fill:#95e1d3
+```
+
 ## 18.1 ML Feature Store
 
 ### Feature Engineering mit ThemisDB

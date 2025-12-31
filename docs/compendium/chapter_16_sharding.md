@@ -70,6 +70,32 @@ Ein einzelner ThemisDB-Server kann beeindruckende Mengen an Daten handhaben:
 - ✅ Geografische Verteilung
 - ⚠️ Komplexere Verwaltung
 
+```mermaid
+graph TB
+    subgraph "Replication - Read Scaling"
+        Client1[Client] --> Primary1[(Primary<br/>100% Data)]
+        Primary1 -.sync.-> Replica1A[(Replica 1<br/>100% Data)]
+        Primary1 -.sync.-> Replica1B[(Replica 2<br/>100% Data)]
+        Client1 -.read.-> Replica1A
+        Client1 -.read.-> Replica1B
+    end
+    
+    subgraph "Sharding - Full Scaling"
+        Client2[Client] --> Router[Shard Router<br/>Hash-based]
+        Router --> Shard1[(Shard 1<br/>33% Data)]
+        Router --> Shard2[(Shard 2<br/>33% Data)]
+        Router --> Shard3[(Shard 3<br/>34% Data)]
+    end
+    
+    style Primary1 fill:#667eea
+    style Replica1A fill:#4facfe
+    style Replica1B fill:#4facfe
+    style Router fill:#f093fb
+    style Shard1 fill:#43e97b
+    style Shard2 fill:#43e97b
+    style Shard3 fill:#43e97b
+```
+
 ---
 
 ## 16.2 Sharding-Architektur
@@ -112,6 +138,27 @@ public:
 3. **Hash % N** bestimmt Shard-ID (N = Anzahl Shards)
 4. **Query wird an Shard weitergeleitet**
 5. **Ergebnis zurück zum Client**
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Router as Shard Router
+    participant S1 as Shard 1
+    participant S2 as Shard 2
+    participant S3 as Shard 3
+    
+    Client->>Router: INSERT user_12345 {data}
+    Note over Router: MurmurHash3("user_12345")<br/>= 3847592834<br/>3847592834 % 3 = 2
+    Router->>S2: INSERT {data}
+    S2-->>Router: ✓ Success
+    Router-->>Client: ✓ Inserted
+    
+    Client->>Router: SELECT * WHERE id='user_12345'
+    Note over Router: Hash("user_12345") % 3 = 2
+    Router->>S2: SELECT * WHERE id='user_12345'
+    S2-->>Router: {user data}
+    Router-->>Client: {user data}
+```
 
 **Beispiel:**
 ```python

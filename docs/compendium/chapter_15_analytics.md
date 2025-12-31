@@ -19,6 +19,40 @@ ThemisDB bietet leistungsstarke Analyse- und Reporting-Funktionen, die es ermög
 - Customer 360-Grad-Sicht
 - Operational Analytics
 
+```mermaid
+flowchart TD
+    subgraph "Analytics Pipeline"
+        Raw[(Raw Data<br/>Orders, Products,<br/>Customers, Events)]
+        
+        Raw --> Process{Processing Layer}
+        
+        Process --> Agg[Aggregations<br/>SUM, AVG, COUNT,<br/>GROUP BY]
+        Process --> Window[Window Functions<br/>Moving Averages,<br/>Ranking, Cumulative]
+        Process --> Graph[Graph Analytics<br/>PageRank,<br/>Centrality]
+        Process --> Vector[Vector Similarity<br/>Recommendations,<br/>Clustering]
+        
+        Agg --> Viz[Visualization Layer]
+        Window --> Viz
+        Graph --> Viz
+        Vector --> Viz
+        
+        Viz --> Dashboard[BI Dashboard<br/>Real-time KPIs]
+        Viz --> Report[Reports<br/>Scheduled Exports]
+        Viz --> Alert[Alerts<br/>Threshold Triggers]
+    end
+    
+    style Raw fill:#667eea
+    style Process fill:#f093fb
+    style Agg fill:#43e97b
+    style Window fill:#43e97b
+    style Graph fill:#43e97b
+    style Vector fill:#43e97b
+    style Viz fill:#4facfe
+    style Dashboard fill:#ffd32a
+    style Report fill:#ffd32a
+    style Alert fill:#ff6348
+```
+
 ## 15.2 Grundlegende Aggregationen
 
 ### 15.2.1 Standard AQL-Aggregationen

@@ -23,6 +23,41 @@ Die ThemisDB Client-Architecture basiert auf einem mehrschichtigen Ansatz:
 - **ORM Support:** Object-Relational Mapping für typsichere Datenmodelle
 - **Raw Query:** Direkter Zugriff auf AQL für maximale Flexibilität
 
+```mermaid
+graph TB
+    subgraph "Client Architecture Layers"
+        App[Application Code]
+        
+        App --> API[Client API Layer]
+        
+        API --> QB[Query Builder<br/>Fluent Interface]
+        API --> ORM[ORM Layer<br/>Object Mapping]
+        API --> Raw[Raw Query<br/>Direct AQL]
+        
+        QB --> Conn[Connection Manager]
+        ORM --> Conn
+        Raw --> Conn
+        
+        Conn --> Pool[Connection Pool<br/>Reusable Connections]
+        
+        Pool --> Proto{Protocol Selection}
+        
+        Proto -->|Binary| BP[Binary Protocol<br/>High Performance]
+        Proto -->|HTTP| REST[REST API<br/>HTTP/JSON]
+        Proto -->|WebSocket| WS[WebSocket<br/>Bidirectional]
+        
+        BP --> Server[(ThemisDB Server)]
+        REST --> Server
+        WS --> Server
+    end
+    
+    style App fill:#667eea
+    style API fill:#4facfe
+    style Conn fill:#43e97b
+    style Pool fill:#f093fb
+    style Server fill:#ffd32a
+```
+
 ### 21.1.2 Unterstützte Sprachen
 
 ThemisDB bietet offizielle Clients für:

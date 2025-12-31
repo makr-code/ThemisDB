@@ -73,6 +73,32 @@ Network: 10 Gbps
 
 **ThemisDB Benefit:** Mit NVMe SSD 10-50x schneller als HDD!
 
+```mermaid
+graph TB
+    subgraph "Installation Options"
+        Choice{Choose Installation Method}
+        
+        Choice -->|Fastest & Easiest| Docker[Docker Install<br/>✅ Works out-of-box<br/>✅ Cross-platform<br/>⚡ 5 minutes]
+        
+        Choice -->|Pre-built| Binary[Binary Install<br/>✅ No compilation<br/>✅ Native performance<br/>⚡ 10 minutes]
+        
+        Choice -->|Full Control| Source[Source Build<br/>✅ Custom config<br/>✅ Latest features<br/>⏱️ 30-60 minutes]
+        
+        Docker --> Run1[docker run themisdb]
+        Binary --> Run2[./themisdb-server]
+        Source --> Run3[Build + Configure + Run]
+    end
+    
+    Run1 --> Ready[ThemisDB Running<br/>Port 8765]
+    Run2 --> Ready
+    Run3 --> Ready
+    
+    style Docker fill:#43e97b
+    style Binary fill:#4facfe
+    style Source fill:#f093fb
+    style Ready fill:#ffd32a
+```
+
 ---
 
 ## 4.2 Installation mit Docker (Schnellste Methode)

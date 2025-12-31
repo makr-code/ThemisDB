@@ -61,6 +61,39 @@ ThemisDB implementiert ein umfassendes Production-Grade Monitoring- und Observab
 - **Staging**: Grafana Tempo + Prometheus + Grafana Stack
 - **Production**: Multi-Node Prometheus Federation + Thanos für Long-Term Storage
 
+```mermaid
+graph TB
+    subgraph "ThemisDB Server"
+        HTTP[HTTP Server<br/>/metrics]
+        QE[Query Engine<br/>AQL Execution]
+        RDB[RocksDB<br/>Storage]
+        
+        HTTP --> MC[Metrics Collector]
+        QE --> MC
+        RDB --> MC
+        
+        MC -->|Counters<br/>Gauges<br/>Histograms| Export[/metrics Endpoint]
+    end
+    
+    Export -->|HTTP Scrape<br/>15s interval| Prom[(Prometheus<br/>Time-Series DB)]
+    
+    Prom -->|PromQL| Grafana[Grafana<br/>Dashboards]
+    Prom -->|Alerts| Alert[Alertmanager<br/>Notifications]
+    
+    Grafana --> Dash1[System Metrics<br/>CPU, Memory, Disk]
+    Grafana --> Dash2[Query Performance<br/>Latency, Throughput]
+    Grafana --> Dash3[Storage Metrics<br/>RocksDB, Cache]
+    
+    Alert --> Email[Email]
+    Alert --> Slack[Slack]
+    Alert --> PD[PagerDuty]
+    
+    style Export fill:#667eea
+    style Prom fill:#f093fb
+    style Grafana fill:#43e97b
+    style Alert fill:#ff6348
+```
+
 ---
 
 ## 19.2 Prometheus Metrics

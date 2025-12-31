@@ -40,6 +40,42 @@ Traditionelle Datenbanken speichern nur Dateinamen - **Computer Vision Datenbank
 - Spatial Queries (GPS-basiert)
 - Temporal Queries (Zeitreihen)
 
+```mermaid
+flowchart TD
+    Start[Raw Image] --> Store[(ThemisDB Storage)]
+    
+    Store --> Extract[Feature Extraction]
+    
+    Extract --> CNN[Deep Learning<br/>ResNet/EfficientNet]
+    Extract --> Classic[Classical CV<br/>SIFT/ORB]
+    Extract --> Meta[Metadata<br/>EXIF/GPS]
+    
+    CNN --> VecEmbed[Vector Embeddings<br/>2048-dim]
+    Classic --> KeyPoints[Keypoint Descriptors]
+    Meta --> Structured[Structured Data<br/>Location, Time]
+    
+    VecEmbed --> VecIndex[(Vector Index<br/>HNSW)]
+    KeyPoints --> HashIndex[(Hash Index<br/>LSH)]
+    Structured --> GeoIndex[(Geo Index<br/>R-Tree)]
+    
+    Query[Query Image] --> QExtract[Extract Features]
+    QExtract --> Search{Search Strategy}
+    
+    Search -->|Similarity| VecIndex
+    Search -->|Location| GeoIndex
+    Search -->|Keypoints| HashIndex
+    
+    VecIndex --> Results[Ranked Results]
+    GeoIndex --> Results
+    HashIndex --> Results
+    
+    style Start fill:#667eea
+    style Store fill:#4facfe
+    style VecEmbed fill:#43e97b
+    style VecIndex fill:#f093fb
+    style Results fill:#ffd32a
+```
+
 ## 12.2 Computer Vision Datenmodell
 
 ### Schema für Bildmetadaten

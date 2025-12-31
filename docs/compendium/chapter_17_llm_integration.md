@@ -11,6 +11,38 @@ ThemisDB bietet eine nahtlose Integration von Large Language Models (LLMs) direk
 - **Vector Search Integration** - Kombiniert mit Chapter 8 für Semantic Search
 - **Multi-Model LLM** - Unterstützung für OpenAI, Anthropic, Ollama, lokale Models
 
+```mermaid
+graph TB
+    subgraph "LLM Integration Architecture"
+        App[Application] -->|Natural Language Query| TDB[ThemisDB]
+        
+        TDB -->|AQL with LLM Functions| QE[Query Engine]
+        
+        QE -->|PROMPT| LLM1[OpenAI GPT-4]
+        QE -->|EMBED| LLM2[text-embedding-3-small]
+        QE -->|GENERATE| LLM3[Claude]
+        QE -->|Local| LLM4[Ollama/llama.cpp]
+        
+        LLM1 -->|Generated Text| Result[Query Results]
+        LLM2 -->|Embeddings| Vector[(Vector Index<br/>HNSW)]
+        LLM3 -->|Structured JSON| Result
+        LLM4 -->|Local Inference| Result
+        
+        Vector -->|Semantic Search| Result
+        
+        Result --> App
+    end
+    
+    style TDB fill:#667eea
+    style QE fill:#f093fb
+    style LLM1 fill:#43e97b
+    style LLM2 fill:#4facfe
+    style LLM3 fill:#ffd32a
+    style LLM4 fill:#fa709a
+    style Vector fill:#95e1d3
+    style Result fill:#fee140
+```
+
 ## 17.1 LLM-Funktionen in AQL
 
 ### 17.1.1 PROMPT() - Text-Generierung
@@ -224,6 +256,38 @@ RETURN {
   sources: relevant_docs[*].title,
   source_count: LENGTH(relevant_docs)
 }
+```
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant App as Application
+    participant TDB as ThemisDB
+    participant Vec as Vector Index
+    participant LLM as LLM (GPT-4)
+    
+    User->>App: "Wie funktioniert MVCC?"
+    
+    App->>TDB: EMBED(query)
+    TDB->>LLM: Generate embedding
+    LLM-->>TDB: [0.123, -0.456, ...]
+    TDB-->>App: query_embedding
+    
+    App->>TDB: Vector Search (similarity > 0.7)
+    TDB->>Vec: COSINE_SIMILARITY(docs, query_embedding)
+    Vec-->>TDB: Top 5 relevant docs
+    TDB-->>App: relevant_docs
+    
+    App->>App: Merge contexts
+    
+    App->>TDB: PROMPT(system + context + question)
+    TDB->>LLM: Generate answer with context
+    LLM-->>TDB: Generated answer + citations
+    TDB-->>App: Final answer
+    
+    App-->>User: Answer with sources
+    
+    Note over App,LLM: RAG Pattern:<br/>1. Retrieve relevant docs<br/>2. Augment prompt with context<br/>3. Generate informed answer
 ```
 
 ### 17.3.2 Erweiterte RAG mit Re-Ranking

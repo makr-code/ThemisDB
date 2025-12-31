@@ -33,6 +33,28 @@ Time-Series-Daten sind Messungen, die über die Zeit gesammelt werden. Jeder Dat
 | Log Aggregation | Variabel | 7-30 Tage | Application Logs, Metrics |
 | Smart Home | 1-60 sec | 3-6 Monate | Stromverbrauch, Heizung |
 
+```mermaid
+gantt
+    title Time-Series Data Lifecycle
+    dateFormat YYYY-MM-DD
+    
+    section Raw Data
+    High-Frequency Data (1s)     :active, raw1, 2024-01-01, 7d
+    Retention 7 days              :crit, raw2, 2024-01-08, 1d
+    
+    section 5-Min Aggregates
+    Downsample to 5-min           :done, agg5, 2024-01-02, 30d
+    Retention 30 days             :agg5r, 2024-02-01, 1d
+    
+    section Hourly Aggregates
+    Downsample to hourly          :done, agg60, 2024-01-08, 90d
+    Retention 90 days             :agg60r, 2024-04-08, 1d
+    
+    section Daily Aggregates
+    Downsample to daily           :done, aggd, 2024-02-01, 365d
+    Retention 1 year+             :aggdr, 2025-02-01, 730d
+```
+
 ## 9.2 Time-Series-Datenmodell in ThemisDB
 
 ### Schema-Design für Time-Series
@@ -65,6 +87,31 @@ CREATE TABLE sensor_readings_2024_02 PARTITION OF sensor_readings
 1. **Composite Primary Key**: `(sensor_id, timestamp)` - optimal für Time-Range-Queries
 2. **Partitioning**: Monatliche/tägliche Partitionen für schnelles Pruning
 3. **Index**: B-Tree auf `(timestamp, sensor_id)` für Zeitbereich-Queries
+
+```mermaid
+graph TB
+    subgraph "Time-Series Partitioning Strategy"
+        Table[sensor_readings<br/>Master Table]
+        
+        Table --> P1[Partition 2024-01<br/>Jan 2024]
+        Table --> P2[Partition 2024-02<br/>Feb 2024]
+        Table --> P3[Partition 2024-03<br/>Mar 2024]
+        Table --> P4[Partition 2024-04<br/>Apr 2024]
+        
+        P1 --> Q1{Query:<br/>timestamp >= 2024-02-15}
+        Q1 -.->|Skip| P1
+        Q1 -->|Scan| P2
+        Q1 -->|Scan| P3
+        Q1 -->|Scan| P4
+    end
+    
+    style Table fill:#667eea
+    style P1 fill:#e0e0e0
+    style P2 fill:#4facfe
+    style P3 fill:#43e97b
+    style P4 fill:#f093fb
+    style Q1 fill:#ffd32a
+```
 
 ### Indexes für Time-Series
 
@@ -190,6 +237,33 @@ SET avg_temperature = EXCLUDED.avg_temperature,
     min_temperature = EXCLUDED.min_temperature,
     max_temperature = EXCLUDED.max_temperature,
     sample_count = EXCLUDED.sample_count;
+```
+
+```mermaid
+flowchart TD
+    Start[Raw Sensor Data<br/>1 sample/second] --> Buffer[Write Buffer<br/>High Frequency]
+    
+    Buffer -->|Every 1 min| Raw[(Raw Data Table<br/>Retention: 7 days)]
+    
+    Raw -->|Down-Sample Job<br/>Every 5 min| Agg5[(5-Min Aggregates<br/>Retention: 30 days)]
+    
+    Agg5 -->|Down-Sample Job<br/>Every 1 hour| Agg60[(Hourly Aggregates<br/>Retention: 90 days)]
+    
+    Agg60 -->|Down-Sample Job<br/>Every 1 day| AggD[(Daily Aggregates<br/>Retention: 1+ years)]
+    
+    Raw -.->|Delete after 7 days| Delete1[Deletion Job]
+    Agg5 -.->|Delete after 30 days| Delete2[Deletion Job]
+    Agg60 -.->|Delete after 90 days| Delete3[Deletion Job]
+    
+    style Start fill:#667eea
+    style Buffer fill:#4facfe
+    style Raw fill:#43e97b
+    style Agg5 fill:#f093fb
+    style Agg60 fill:#fa709a
+    style AggD fill:#fee140
+    style Delete1 fill:#ff6348
+    style Delete2 fill:#ff6348
+    style Delete3 fill:#ff6348
 ```
 
 ### Retention Policy Implementation

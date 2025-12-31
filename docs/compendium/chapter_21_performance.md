@@ -31,6 +31,34 @@ Query Plan:
 │        └─ Index Scan on customers (cost=0.00, rows=5000, time=15ms)
 ```
 
+```mermaid
+flowchart TD
+    Start[Query Request] --> Parse[Parse & Validate]
+    Parse --> Optimize[Query Optimizer]
+    
+    Optimize --> Plan{Execution Plan}
+    
+    Plan --> SeqScan[Sequential Scan<br/>orders table<br/>45ms]
+    Plan --> IdxScan[Index Scan<br/>customers<br/>15ms]
+    
+    SeqScan --> Filter[Filter: date > 2023<br/>10,000 → 5,000 rows]
+    IdxScan --> Hash[Build Hash Table<br/>25ms]
+    
+    Filter --> Join[Hash Join<br/>5,000 matches<br/>85ms]
+    Hash --> Join
+    
+    Join --> Sort[Sort by amount<br/>125ms]
+    Sort --> Limit[LIMIT 100]
+    Limit --> Result[Final Results]
+    
+    style Start fill:#667eea
+    style Optimize fill:#f093fb
+    style SeqScan fill:#ff6348
+    style IdxScan fill:#43e97b
+    style Join fill:#4facfe
+    style Result fill:#ffd32a
+```
+
 ### 20.1.2 Python Profiling
 
 **Abfrage-Performance tracken:**

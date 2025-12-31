@@ -25,6 +25,31 @@ Ein **Embedding** ist eine hochdimensionale Vektorrepräsentation von Text, Bild
 
 **Kosinus-Ähnlichkeit** misst, wie ähnlich zwei Vektoren sind (0 = keine Ähnlichkeit, 1 = identisch).
 
+```mermaid
+graph TB
+    subgraph "Embedding Space - Semantic Similarity"
+        V1[Laufschuh<br/>Vector 1]
+        V2[Running Shoe<br/>Vector 2]
+        V3[Marathon-Schuhe<br/>Vector 3]
+        V4[Fahrrad<br/>Vector 4]
+        V5[Bike<br/>Vector 5]
+        
+        V1 -.->|Similarity: 0.95| V2
+        V1 -.->|Similarity: 0.89| V3
+        V2 -.->|Similarity: 0.87| V3
+        
+        V4 -.->|Similarity: 0.92| V5
+        
+        V1 -.->|Similarity: 0.12| V4
+    end
+    
+    style V1 fill:#667eea
+    style V2 fill:#764ba2
+    style V3 fill:#f093fb
+    style V4 fill:#43e97b
+    style V5 fill:#4facfe
+```
+
 ### Vector Search vs. Fulltext Search
 
 | Feature | Fulltext Search | Vector Search |
@@ -65,6 +90,65 @@ WITH (m = 16, ef_construction = 200);
 - `m`: Anzahl Verbindungen (höher = bessere Qualität, langsamer Build)
 - `ef_construction`: Exploration während Index-Build (höher = bessere Qualität)
 - `vector_cosine_ops`: Kosinus-Distanz (alternativ: L2, inner product)
+
+```mermaid
+graph TB
+    subgraph "HNSW - Hierarchical Navigable Small World"
+        subgraph "Layer 2 - Coarse"
+            L2_1((Entry Point))
+            L2_2((Node))
+            L2_1 --- L2_2
+        end
+        
+        subgraph "Layer 1 - Medium"
+            L1_1((Node))
+            L1_2((Node))
+            L1_3((Node))
+            L1_4((Node))
+            L1_1 --- L1_2
+            L1_2 --- L1_3
+            L1_3 --- L1_4
+            L1_1 --- L1_3
+        end
+        
+        subgraph "Layer 0 - Fine (All Vectors)"
+            L0_1((V1))
+            L0_2((V2))
+            L0_3((V3))
+            L0_4((V4))
+            L0_5((V5))
+            L0_6((V6))
+            L0_7((V7))
+            L0_8((V8))
+            
+            L0_1 --- L0_2
+            L0_2 --- L0_3
+            L0_3 --- L0_4
+            L0_4 --- L0_5
+            L0_5 --- L0_6
+            L0_6 --- L0_7
+            L0_7 --- L0_8
+            L0_1 --- L0_4
+            L0_2 --- L0_5
+            L0_3 --- L0_6
+        end
+        
+        L2_1 -.-> L1_1
+        L2_2 -.-> L1_3
+        L1_1 -.-> L0_1
+        L1_2 -.-> L0_3
+        L1_3 -.-> L0_5
+        L1_4 -.-> L0_7
+    end
+    
+    Query[Query Vector] -->|1. Start at top| L2_1
+    L2_1 -->|2. Navigate down| L1_1
+    L1_1 -->|3. Find neighbors| L0_2
+    
+    style Query fill:#ff6348
+    style L2_1 fill:#667eea
+    style L0_2 fill:#43e97b
+```
 
 ### Similarity Search Query
 
@@ -109,6 +193,33 @@ LEFT JOIN fulltext_results f ON d.id = f.id
 WHERE v.id IS NOT NULL OR f.id IS NOT NULL
 ORDER BY combined_score DESC
 LIMIT 20;
+```
+
+```mermaid
+flowchart LR
+    Query[User Query:<br/>"Marathon Laufschuhe"] --> Split{Hybrid Search}
+    
+    Split --> Vec[Vector Search<br/>Semantic Matching]
+    Split --> FT[Fulltext Search<br/>Keyword Matching]
+    
+    Vec --> VecEmbed[Generate Embedding<br/>via sentence-transformers]
+    VecEmbed --> VecDB[(Vector Index<br/>HNSW)]
+    VecDB --> VecResults[Top 50<br/>vec_score: 0.7 weight]
+    
+    FT --> FTTokenize[Tokenize & Stem<br/>German]
+    FTTokenize --> FTDB[(Inverted Index<br/>GIN)]
+    FTDB --> FTResults[Top 50<br/>text_score: 0.3 weight]
+    
+    VecResults --> Merge[Merge & Rank<br/>Combined Score]
+    FTResults --> Merge
+    
+    Merge --> Final[Top 20 Results<br/>Best of both worlds]
+    
+    style Query fill:#667eea
+    style Vec fill:#f093fb
+    style FT fill:#43e97b
+    style Merge fill:#ffd32a
+    style Final fill:#4facfe
 ```
 
 ## 8.3 Example: Dokumenten-Suche (RAG System)

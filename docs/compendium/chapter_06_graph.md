@@ -78,6 +78,31 @@ user_node = {
 }
 ```
 
+```mermaid
+graph LR
+    subgraph "Property Graph Struktur"
+        A((Alice<br/>User<br/>age: 28<br/>city: Berlin))
+        B((Bob<br/>User<br/>age: 32<br/>city: Hamburg))
+        C((Carol<br/>User<br/>age: 25<br/>city: Berlin))
+        P1[Python<br/>Projekt]
+        P2[ML<br/>Workshop]
+        
+        A -->|FRIEND<br/>since: 2023<br/>strength: 0.85| B
+        A -->|FRIEND<br/>since: 2024<br/>strength: 0.92| C
+        B -->|FRIEND<br/>since: 2022<br/>strength: 0.78| C
+        
+        A -.->|WORKS_ON| P1
+        B -.->|WORKS_ON| P1
+        C -.->|ATTENDS| P2
+    end
+    
+    style A fill:#667eea
+    style B fill:#764ba2
+    style C fill:#f093fb
+    style P1 fill:#4facfe
+    style P2 fill:#43e97b
+```
+
 **2. Kanten (Edges/Relationships)**
 - Verbinden zwei Knoten (gerichtet oder ungerichtet)
 - Haben einen Typ (z.B. "FRIEND", "LIKES", "WORKS_AT")
@@ -142,6 +167,29 @@ ThemisDB speichert alle Kanten gerichtet, aber Graph-Queries können beide Richt
 - `INBOUND` - Von B nach A
 - `ANY` - Beide Richtungen (für ungerichtete Graphs)
 
+```mermaid
+graph TB
+    subgraph "Gerichtete Kanten (Directed)"
+        A1((Alice)) -->|FOLLOWS| B1((Bob))
+        B1 -->|FOLLOWS| C1((Carol))
+        Note1[Asymmetrisch:<br/>Alice folgt Bob,<br/>aber nicht umgekehrt]
+    end
+    
+    subgraph "Ungerichtete Kanten (Undirected)"
+        A2((Alice)) <-->|FRIEND| B2((Bob))
+        B2 <-->|FRIEND| C2((Carol))
+        A2 <-->|FRIEND| C2
+        Note2[Symmetrisch:<br/>Beide Richtungen<br/>gleich gewichtet]
+    end
+    
+    style A1 fill:#667eea
+    style B1 fill:#764ba2
+    style C1 fill:#f093fb
+    style A2 fill:#667eea
+    style B2 fill:#764ba2
+    style C2 fill:#f093fb
+```
+
 ## 6.3 Graph-Traversierung
 
 ### Traversierungs-Arten
@@ -181,6 +229,52 @@ FOR v, e, p IN 1..10 OUTBOUND @start_vertex friendships
 # Freunde von Freunden (exakt 2 Hops)
 FOR v IN 2..2 OUTBOUND @my_id friendships
     RETURN v
+```
+
+```mermaid
+graph TD
+    Start((Alice<br/>Start)) -->|Hop 1| F1((Bob<br/>Friend))
+    Start -->|Hop 1| F2((Carol<br/>Friend))
+    Start -->|Hop 1| F3((Dave<br/>Friend))
+    
+    F1 -->|Hop 2| FF1((Eve<br/>Friend of Friend))
+    F1 -->|Hop 2| FF2((Frank<br/>Friend of Friend))
+    
+    F2 -->|Hop 2| FF3((Grace<br/>Friend of Friend))
+    F2 -->|Hop 2| Start
+    
+    F3 -->|Hop 2| FF4((Henry<br/>Friend of Friend))
+    
+    style Start fill:#667eea,stroke:#333,stroke-width:4px
+    style F1 fill:#4facfe
+    style F2 fill:#4facfe
+    style F3 fill:#4facfe
+    style FF1 fill:#43e97b
+    style FF2 fill:#43e97b
+    style FF3 fill:#43e97b
+    style FF4 fill:#43e97b
+```
+
+```mermaid
+flowchart LR
+    subgraph "DFS - Depth First Search"
+        D_Start((1)) --> D_A((2))
+        D_A --> D_AA((3))
+        D_AA --> D_AAA((4))
+        D_A --> D_AB((5))
+        D_Start --> D_B((6))
+    end
+    
+    subgraph "BFS - Breadth First Search"
+        B_Start((1)) --> B_A((2))
+        B_Start --> B_B((3))
+        B_A --> B_AA((4))
+        B_A --> B_AB((5))
+        B_B --> B_BA((6))
+    end
+    
+    style D_Start fill:#667eea
+    style B_Start fill:#667eea
 ```
 
 ### Pattern Matching
