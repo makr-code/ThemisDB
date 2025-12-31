@@ -39,12 +39,12 @@ CHAPTERS = [
 THEMES = {
     "themisdb": {
         "name": "ThemisDB Corporate",
-        "primary": "#7c4dff",  # ThemisDB Purple
-        "secondary": "#43e97b",  # ThemisDB Green
-        "accent": "#4facfe",  # ThemisDB Blue
+        "primary": "#1a4d2e",  # Dark Green
+        "secondary": "#0f3d5c",  # Dark Blue
+        "accent": "#2a7f62",  # Medium Green for accents
         "text": "#2c3e50",
         "background": "#ffffff",
-        "code_bg": "#f5f3ff",  # Light purple tint
+        "code_bg": "#f0f7f4",  # Light green tint
         "heading_font": '"Helvetica Neue", Arial, sans-serif',
         "body_font": 'Georgia, "Times New Roman", serif',
         "code_font": '"Fira Code", "Courier New", monospace'

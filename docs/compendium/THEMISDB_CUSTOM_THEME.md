@@ -9,14 +9,14 @@ Das **ThemisDB Corporate Theme** ist ein custom Material Design-basiertes Theme,
 ### Farbschema
 
 **Primärfarben (aus ThemisDB-Branding):**
-- **Primary:** `#7c4dff` (ThemisDB Purple) - Hauptfarbe für Überschriften, Hervorhebungen
-- **Secondary:** `#43e97b` (ThemisDB Green) - Akzentfarbe für Unterüberschriften
-- **Accent:** `#4facfe` (ThemisDB Blue) - Zusätzliche Akzente, Links
+- **Primary:** `#1a4d2e` (Dark Green) - Hauptfarbe für Überschriften, Hervorhebungen
+- **Secondary:** `#0f3d5c` (Dark Blue) - Akzentfarbe für Unterüberschriften
+- **Accent:** `#2a7f62` (Medium Green) - Zusätzliche Akzente, Links
 
 **Textfarben:**
 - **Text:** `#2c3e50` (Dunkelgrau) - Optimale Lesbarkeit
 - **Background:** `#ffffff` (Weiß) - Sauberer Hintergrund
-- **Code Background:** `#f5f3ff` (Heller Lila-Ton) - Subtile Hervorhebung
+- **Code Background:** `#f0f7f4` (Heller Grün-Ton) - Subtile Hervorhebung
 
 ### Typografie
 
@@ -40,18 +40,18 @@ Das **ThemisDB Corporate Theme** ist ein custom Material Design-basiertes Theme,
    - Professionelle Hierarchie
 
 2. **Mermaid-Diagramme:**
-   - Gradient-Header (Purple → Blue)
-   - Heller lila Hintergrund
+   - Gradient-Header (Dark Green → Dark Blue)
+   - Heller grüner Hintergrund
    - Abgerundete Ecken (8px border-radius)
    - Box-Shadow für Tiefe
 
 3. **Code-Blöcke:**
-   - Lila-getönter Hintergrund
-   - 4px linker Border in Primary-Farbe
+   - Grün-getönter Hintergrund
+   - 4px linker Border in Primary-Farbe (Dark Green)
    - Border-radius für moderne Optik
 
 4. **Tabellen:**
-   - Gradient-Header (Purple → Blue)
+   - Gradient-Header (Dark Green → Dark Blue)
    - Abwechselnde Zeilenfarben
    - Professionelles Layout
 
@@ -59,12 +59,12 @@ Das **ThemisDB Corporate Theme** ist ein custom Material Design-basiertes Theme,
 
 | Eigenschaft | ThemisDB Corporate | Material Standard |
 |-------------|-------------------|-------------------|
-| **Primärfarbe** | `#7c4dff` (ThemisDB Purple) | `#7c4dff` (Gleich) |
-| **Sekundärfarbe** | `#43e97b` (ThemisDB Green) | `#ff4081` (Pink) |
-| **Akzentfarbe** | `#4facfe` (ThemisDB Blue) | `#536dfe` (Indigo) |
-| **Code-Hintergrund** | `#f5f3ff` (Lila-Ton) | `#f5f5f5` (Grau) |
-| **Markenidentität** | ✅ ThemisDB-Branding | ❌ Generisch |
-| **Farbharmonie** | ✅ 3-Farben-Schema | ⚠️ 2-Farben-Schema |
+| **Primärfarbe** | `#1a4d2e` (Dark Green) | `#7c4dff` (Purple) |
+| **Sekundärfarbe** | `#0f3d5c` (Dark Blue) | `#ff4081` (Pink) |
+| **Akzentfarbe** | `#2a7f62` (Medium Green) | `#536dfe` (Indigo) |
+| **Code-Hintergrund** | `#f0f7f4` (Grün-Ton) | `#f5f5f5` (Grau) |
+| **Markenidentität** | ✅ ThemisDB Dark Green/Blue | ❌ Generisch |
+| **Farbharmonie** | ✅ Green-Blue Harmonie | ⚠️ Purple-Pink Kontrast |
 
 ## Verwendung
 
