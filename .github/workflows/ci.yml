@@ -3,10 +3,12 @@ name: CI
 # Main CI workflow using pre-built system libraries from apt
 # Fast build: ~5-10 minutes vs 30+ minutes with full vcpkg
 # Strategy: System libraries (apt) + minimal vcpkg for unavailable packages
+#
+# Note: This workflow is supplementary to the Git Flow specific workflows.
+# Git Flow workflows (feature-ci.yml, develop-ci.yml, etc.) handle branch-specific logic.
+# This workflow provides a general-purpose CI check for all PRs.
 
 on:
-  push:
-    branches: [main, develop]
   pull_request:
     branches: [main, develop]
   workflow_dispatch:

@@ -475,42 +475,44 @@ Examples:
 
 ## CI/CD Integration
 
-### GitHub Actions Triggers
+ThemisDB uses a comprehensive Git Flow CI/CD pipeline with dedicated workflows for each branch type.
 
-**develop Branch:**
-```yaml
-on:
-  push:
-    branches: [develop]
-  pull_request:
-    branches: [develop]
+### Automated Workflows
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run tests
-        run: |
-          ./build.sh
-          cd build && ctest
-```
+**Feature/Bugfix Development:**
+- Workflow: `feature-ci.yml`
+- Triggers: PRs to `develop` from `feature/*` or `bugfix/*`
+- Validates: Branch strategy, build, tests, code quality, security
 
-**main Branch (Release):**
-```yaml
-on:
-  push:
-    branches: [main]
-    tags: ['v*']
+**Develop Branch:**
+- Workflow: `develop-ci.yml`
+- Triggers: Push to `develop`, PRs to `develop`
+- Runs: Full CI suite, integration tests, creates artifacts
 
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build and Deploy
-        run: ./scripts/deploy-release.sh
-```
+**Release Preparation:**
+- Workflow: `release-ci.yml`
+- Triggers: Push to `release/*`, PRs to `main` from `release/*`
+- Validates: Version number, changelog, runs full test suite
+
+**Hotfix:**
+- Workflow: `hotfix-ci.yml`
+- Triggers: PRs to `main` from `hotfix/*`
+- Runs: Accelerated tests, auto-creates PR to sync to `develop`
+
+**Production Deployment:**
+- Workflow: `main-ci.yml`
+- Triggers: Push to `main`, tags `v*`
+- Deploys: Creates releases, publishes Docker images, deploys docs
+
+**For complete workflow documentation, see [CI_CD_WORKFLOWS.md](CI_CD_WORKFLOWS.md)**
+
+### Branch Protection
+
+All workflows integrate with GitHub branch protection rules:
+- `main`: Requires approval + CI checks (release-ci.yml or hotfix-ci.yml)
+- `develop`: Requires approval + CI checks (develop-ci.yml, feature-ci.yml)
+
+See [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md) for configuration.
 
 ## Troubleshooting
 
