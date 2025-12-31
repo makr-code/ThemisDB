@@ -219,9 +219,7 @@ jobs:
           if [ -f "${{ steps.release_notes.outputs.notes_file }}" ]; then
             RELEASE_BODY=$(cat "${{ steps.release_notes.outputs.notes_file }}")
           else
-            RELEASE_BODY="Release version ${VERSION}
-
-See CHANGELOG.md for details."
+            RELEASE_BODY="Release version ${VERSION}. See CHANGELOG.md for details."
           fi
           
           # Create release
