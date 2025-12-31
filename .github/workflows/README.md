@@ -2,22 +2,72 @@
 
 This directory contains CI/CD workflows for building, testing, and publishing ThemisDB components.
 
-## 🔶 Dry-Run Mode
+## 🌊 Git Flow CI/CD Pipeline
 
-**All workflows are currently in DRY-RUN mode.** No actual publishing to external registries occurs until the workflows are verified and explicitly enabled.
+ThemisDB uses a comprehensive Git Flow branching strategy with dedicated workflows for each branch type. See [CI_CD_WORKFLOWS.md](../../CI_CD_WORKFLOWS.md) for complete documentation.
 
-## Workflow Overview
+### Git Flow Workflows (Primary)
+
+| Workflow | File | Triggers | Purpose | Duration |
+|----------|------|----------|---------|----------|
+| **Feature/Bugfix CI** | `feature-ci.yml` | PR to `develop` from `feature/*`, `bugfix/*` | Validate features | ~30-45 min |
+| **Develop CI** | `develop-ci.yml` | Push/PR to `develop` | Integration testing | ~30-45 min |
+| **Release CI** | `release-ci.yml` | Push to `release/*`, PR to `main` | Release preparation | ~45-60 min |
+| **Hotfix CI** | `hotfix-ci.yml` | PR to `main` from `hotfix/*` | Fast-track fixes | ~20-30 min |
+| **Main CI** | `main-ci.yml` | Push to `main`, tags `v*` | Production deployment | ~45-60 min |
+
+### Supporting Workflows
 
 | Workflow | File | Purpose | Status |
 |----------|------|---------|--------|
-| **CI** | `ci.yml` | C++ build, unit tests, code quality | 🔶 Dry-Run |
-| **Docker Build** | `docker-build-test.yml` | Multi-arch Docker image build | 🔶 Dry-Run |
-| **Nightly Build** | `nightly-build.yml` | Overnight builds with DockerHub push | ✅ Active |
-| **Release** | `release.yml` | Production release pipeline | ✅ Active |
-| **Python SDK** | `python-sdk-test.yml` | Python SDK tests and package build | 🔶 Dry-Run |
-| **Java SDK** | `java-sdk-test.yml` | Java SDK tests and JAR build | 🔶 Dry-Run |
-| **C# SDK** | `csharp-sdk-test.yml` | .NET SDK tests and NuGet package | 🔶 Dry-Run |
-| **Helm Chart** | `helm-chart-test.yml` | Helm chart linting and validation | 🔶 Dry-Run |
+| **CI** | `ci.yml` | General CI (supplementary) | ✅ Active |
+| **Security Scan** | `security-scan.yml` | Vulnerability scanning | ✅ Active |
+| **Documentation** | `docs.yml` | Build and deploy docs | ✅ Active |
+| **Python SDK** | `python-sdk-test.yml` | Python SDK tests | ✅ Active |
+| **Java SDK** | `java-sdk-test.yml` | Java SDK tests | ✅ Active |
+| **C# SDK** | `csharp-sdk-test.yml` | .NET SDK tests | ✅ Active |
+| **Helm Chart** | `helm-chart-test.yml` | Helm chart validation | ✅ Active |
+| **Fuzzing** | `fuzzing.yml` | Fuzz testing | ✅ Active |
+| **SBOM** | `sbom.yml` | Software Bill of Materials | ✅ Active |
+
+
+## Git Flow Quick Reference
+
+**Developing a feature?**
+```bash
+git checkout develop
+git checkout -b feature/my-feature
+# ... develop ...
+git push origin feature/my-feature
+# Create PR to develop → Triggers feature-ci.yml
+```
+
+**Preparing a release?**
+```bash
+git checkout develop
+git checkout -b release/1.4.0
+echo "1.4.0" > VERSION
+git commit -am "chore: Prepare release v1.4.0"
+git push origin release/1.4.0
+# Create PR to main → Triggers release-ci.yml
+```
+
+**Hotfixing production?**
+```bash
+git checkout main
+git checkout -b hotfix/1.3.5-critical
+# ... fix ...
+echo "1.3.5" > VERSION
+git commit -am "fix: Critical hotfix"
+git push origin hotfix/1.3.5-critical
+# Create PR to main → Triggers hotfix-ci.yml
+# After merge, auto-creates PR to develop
+```
+
+For complete Git Flow documentation, see:
+- [BRANCHING_STRATEGY.md](../../BRANCHING_STRATEGY.md) - Complete strategy guide
+- [CI_CD_WORKFLOWS.md](../../CI_CD_WORKFLOWS.md) - Workflow documentation
+- [BRANCH_PROTECTION_SETUP.md](../../BRANCH_PROTECTION_SETUP.md) - Protection setup
 
 ## Local Testing with `act`
 
