@@ -37,43 +37,173 @@ CHAPTERS = [
 
 # Theme definitions with CSS
 THEMES = {
+    "themisdb": {
+        "name": "ThemisDB Corporate",
+        "primary": "#7c4dff",  # ThemisDB Purple
+        "secondary": "#43e97b",  # ThemisDB Green
+        "accent": "#4facfe",  # ThemisDB Blue
+        "text": "#2c3e50",
+        "background": "#ffffff",
+        "code_bg": "#f5f3ff",  # Light purple tint
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Fira Code", "Courier New", monospace'
+    },
     "material": {
         "name": "Material Design",
         "primary": "#7c4dff",
         "secondary": "#ff4081",
+        "accent": "#536dfe",
         "text": "#2c3e50",
         "background": "#ffffff",
-        "code_bg": "#f5f5f5"
+        "code_bg": "#f5f5f5",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
     },
     "readthedocs": {
         "name": "Read the Docs",
         "primary": "#2980b9",
         "secondary": "#3498db",
+        "accent": "#27ae60",
         "text": "#404040",
         "background": "#fcfcfc",
-        "code_bg": "#f3f3f3"
+        "code_bg": "#f3f3f3",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
     },
     "github": {
         "name": "GitHub",
         "primary": "#0969da",
         "secondary": "#1f883d",
+        "accent": "#6639ba",
         "text": "#24292f",
         "background": "#ffffff",
-        "code_bg": "#f6f8fa"
+        "code_bg": "#f6f8fa",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
     },
     "dark": {
         "name": "Dark Mode",
         "primary": "#bb86fc",
         "secondary": "#03dac6",
+        "accent": "#cf6679",
         "text": "#e1e1e1",
         "background": "#121212",
-        "code_bg": "#1e1e1e"
+        "code_bg": "#1e1e1e",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "oreilly": {
+        "name": "O'Reilly Book Style",
+        "primary": "#d93b00",
+        "secondary": "#333333",
+        "accent": "#e67e22",
+        "text": "#1a1a1a",
+        "background": "#fdfcf9",
+        "code_bg": "#f5f2ed",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "springer": {
+        "name": "Springer Academic",
+        "primary": "#003d7a",
+        "secondary": "#00629b",
+        "accent": "#0078a8",
+        "text": "#333333",
+        "background": "#ffffff",
+        "code_bg": "#f8f9fa",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "manning": {
+        "name": "Manning Publications",
+        "primary": "#c9302c",
+        "secondary": "#444444",
+        "accent": "#d9534f",
+        "text": "#2a2a2a",
+        "background": "#fffef8",
+        "code_bg": "#f7f5ee",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "pragmatic": {
+        "name": "Pragmatic Bookshelf",
+        "primary": "#e86e00",
+        "secondary": "#1e5b87",
+        "accent": "#f39c12",
+        "text": "#222222",
+        "background": "#fffff5",
+        "code_bg": "#f9f7f0",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "packt": {
+        "name": "Packt Publishing",
+        "primary": "#ff9900",
+        "secondary": "#333333",
+        "accent": "#ffaa33",
+        "text": "#2b2b2b",
+        "background": "#ffffff",
+        "code_bg": "#f7f7f7",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "nostarch": {
+        "name": "No Starch Press",
+        "primary": "#c41e3a",
+        "secondary": "#000000",
+        "accent": "#d62839",
+        "text": "#1a1a1a",
+        "background": "#fffdf7",
+        "code_bg": "#f5f3ed",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "classic": {
+        "name": "Classic Technical Book",
+        "primary": "#2c5f2d",
+        "secondary": "#854442",
+        "accent": "#3d7e40",
+        "text": "#1a1a1a",
+        "background": "#fefef8",
+        "code_bg": "#f5f4ee",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
+    },
+    "modern": {
+        "name": "Modern Technical",
+        "primary": "#0e76a8",
+        "secondary": "#2a9d8f",
+        "accent": "#168aad",
+        "text": "#2d2d2d",
+        "background": "#ffffff",
+        "code_bg": "#f4f6f8",
+        "heading_font": '"Helvetica Neue", Arial, sans-serif',
+        "body_font": 'Georgia, "Times New Roman", serif',
+        "code_font": '"Courier New", monospace'
     }
 }
 
 def get_theme_css(theme_key):
     """Generate CSS for a specific theme"""
     theme = THEMES[theme_key]
+    
+    # Get fonts with defaults
+    heading_font = theme.get('heading_font', '"Helvetica Neue", Arial, sans-serif')
+    body_font = theme.get('body_font', 'Georgia, "Times New Roman", serif')
+    code_font = theme.get('code_font', '"Courier New", monospace')
+    accent = theme.get('accent', theme['secondary'])
     
     return f'''
         @page {{
@@ -84,17 +214,19 @@ def get_theme_css(theme_key):
                 content: "ThemisDB Compendium v1.3.4 - {theme['name']} Theme";
                 font-size: 9pt;
                 color: {theme['text']};
+                font-family: {heading_font};
             }}
             
             @bottom-center {{
                 content: "Seite " counter(page);
                 font-size: 9pt;
                 color: {theme['text']};
+                font-family: {body_font};
             }}
         }}
         
         body {{
-            font-family: Georgia, "Times New Roman", serif;
+            font-family: {body_font};
             font-size: 11pt;
             line-height: 1.65;
             color: {theme['text']};
@@ -111,6 +243,8 @@ def get_theme_css(theme_key):
             font-size: 36pt;
             color: {theme['primary']};
             margin-bottom: 20px;
+            font-family: {heading_font};
+            font-weight: bold;
         }}
         
         .title-page h2 {{
@@ -118,17 +252,19 @@ def get_theme_css(theme_key):
             color: {theme['secondary']};
             font-weight: normal;
             margin-bottom: 30px;
+            font-family: {heading_font};
         }}
         
         .title-page .theme-badge {{
             display: inline-block;
             margin-top: 40px;
             padding: 10px 20px;
-            background: linear-gradient(135deg, {theme['primary']}, {theme['secondary']});
+            background: linear-gradient(135deg, {theme['primary']}, {accent});
             color: white;
             border-radius: 20px;
             font-size: 14pt;
             font-weight: bold;
+            font-family: {heading_font};
         }}
         
         .page-break {{
@@ -138,34 +274,45 @@ def get_theme_css(theme_key):
         h1 {{
             font-size: 28pt;
             color: {theme['primary']};
-            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-family: {heading_font};
             border-bottom: 3px solid {theme['primary']};
             padding-bottom: 10px;
             page-break-before: always;
             margin-top: 0;
+            font-weight: bold;
         }}
         
         h2 {{
             font-size: 20pt;
             color: {theme['secondary']};
-            font-family: "Helvetica Neue", Arial, sans-serif;
-            border-bottom: 1px solid {theme['secondary']};
+            font-family: {heading_font};
+            border-bottom: 2px solid {accent};
             padding-bottom: 5px;
             margin-top: 30px;
+            font-weight: bold;
         }}
         
         h3 {{
             font-size: 16pt;
             color: {theme['primary']};
-            font-family: "Helvetica Neue", Arial, sans-serif;
+            font-family: {heading_font};
             margin-top: 20px;
+            font-weight: bold;
+        }}
+        
+        h4 {{
+            font-size: 14pt;
+            color: {accent};
+            font-family: {heading_font};
+            margin-top: 15px;
+            font-weight: bold;
         }}
         
         code {{
             background-color: {theme['code_bg']};
             padding: 2px 6px;
             border-radius: 3px;
-            font-family: "Courier New", monospace;
+            font-family: {code_font};
             font-size: 10pt;
             color: {theme['primary']};
         }}
@@ -177,6 +324,7 @@ def get_theme_css(theme_key):
             margin: 15px 0;
             overflow-x: auto;
             page-break-inside: avoid;
+            border-radius: 4px;
         }}
         
         pre code {{
@@ -184,6 +332,7 @@ def get_theme_css(theme_key):
             padding: 0;
             color: {theme['text']};
             font-size: 9.5pt;
+            font-family: {code_font};
         }}
         
         table {{
@@ -191,14 +340,16 @@ def get_theme_css(theme_key):
             width: 100%;
             margin: 15px 0;
             page-break-inside: avoid;
+            font-family: {body_font};
         }}
         
         th {{
-            background: linear-gradient(135deg, {theme['primary']}, {theme['secondary']});
+            background: linear-gradient(135deg, {theme['primary']}, {accent});
             color: white;
             padding: 10px;
             text-align: left;
             font-weight: bold;
+            font-family: {heading_font};
         }}
         
         td {{
@@ -221,11 +372,12 @@ def get_theme_css(theme_key):
         }}
         
         .mermaid-header {{
-            background: linear-gradient(135deg, {theme['primary']}, {theme['secondary']});
+            background: linear-gradient(135deg, {theme['primary']}, {accent});
             color: white;
             padding: 12px 20px;
             font-weight: bold;
             font-size: 12pt;
+            font-family: {heading_font};
         }}
         
         .mermaid-content {{
@@ -245,6 +397,8 @@ def get_theme_css(theme_key):
             border-top: 1px solid #e0e0e0;
             font-size: 9pt;
             font-style: italic;
+            font-family: {body_font};
+            color: {theme['secondary']};
         }}
         
         blockquote {{
@@ -253,11 +407,22 @@ def get_theme_css(theme_key):
             margin: 15px 0;
             color: {theme['secondary']};
             font-style: italic;
+            font-family: {body_font};
         }}
         
         a {{
             color: {theme['primary']};
             text-decoration: none;
+        }}
+        
+        strong {{
+            color: {theme['primary']};
+            font-weight: bold;
+        }}
+        
+        em {{
+            color: {accent};
+            font-style: italic;
         }}
     '''
 
