@@ -34,11 +34,11 @@ jobs:
           pip install -r requirements-docs.txt
       
       - name: Build Compendium MkDocs site
-        working-directory: compendium_site_pdf
+        working-directory: scripts/compendium
         env:
           ENABLE_PDF_EXPORT: "1"
         run: |
-          mkdocs build --clean -f mkdocs-compendium.yml --site-dir ../build/compendium-site
+          mkdocs build --clean -f mkdocs-compendium.yml --site-dir ../../build/compendium-site
       
       - name: Verify Compendium PDF
         run: |

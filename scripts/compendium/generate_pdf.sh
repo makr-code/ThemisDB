@@ -15,6 +15,7 @@ echo ""
 
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOCS_DIR="${SCRIPT_DIR}/../../docs/compendium"
 OUTPUT_DIR="${SCRIPT_DIR}/../../pdf_output"
 OUTPUT_FILE="${OUTPUT_DIR}/ThemisDB-Compendium-v1.3.4-$(date +%Y%m%d).pdf"
 TEMP_DIR="/tmp/themis_pdf_build"
@@ -102,7 +103,7 @@ EOF
 
 # Append all chapters
 for chapter in "${CHAPTERS[@]}"; do
-    chapter_file="${SCRIPT_DIR}/${chapter}"
+    chapter_file="${DOCS_DIR}/${chapter}"
     if [ -f "${chapter_file}" ]; then
         echo "  ✓ Adding: ${chapter}"
         echo "" >> "${COMBINED_MD}"
@@ -139,7 +140,7 @@ echo "  ✓ Pandoc found: ${pandoc_version}"
 echo ""
 echo "🎨 Step 3: Applying custom styles..."
 # Copy CSS for reference (Pandoc will use SCSS via variables)
-cp "${SCRIPT_DIR}/styles_modern_book.scss" "${TEMP_DIR}/"
+cp "${DOCS_DIR}/styles_modern_book.scss" "${TEMP_DIR}/"
 
 echo ""
 echo "🔨 Step 4: Generating PDF with Pandoc..."
