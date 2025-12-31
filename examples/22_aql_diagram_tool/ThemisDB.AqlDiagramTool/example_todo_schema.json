@@ -12,7 +12,7 @@
           "type": "string",
           "isKey": true,
           "required": true,
-          "unique": false,
+          "unique": true,
           "description": ""
         },
         {

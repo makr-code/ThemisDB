@@ -140,11 +140,13 @@ RETURN COUNT(
 )");
         
         // Find numeric attributes for aggregation
+        var numericTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "int", "integer", "int32", "int64", "long", "short",
+            "float", "double", "decimal", "number", "numeric"
+        };
         var numericAttrs = entity.Attributes.Where(a => 
-            a.DataType.Contains("int", StringComparison.OrdinalIgnoreCase) || 
-            a.DataType.Contains("float", StringComparison.OrdinalIgnoreCase) ||
-            a.DataType.Contains("double", StringComparison.OrdinalIgnoreCase) ||
-            a.DataType.Contains("decimal", StringComparison.OrdinalIgnoreCase)
+            numericTypes.Contains(a.DataType)
         ).ToList();
         
         if (numericAttrs.Any())

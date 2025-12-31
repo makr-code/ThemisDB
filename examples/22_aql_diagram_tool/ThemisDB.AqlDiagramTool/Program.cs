@@ -259,7 +259,15 @@ class Program
         var schema = new DatabaseSchema("TodoApp", "Simple todo application schema");
         
         var tasks = new Entity("tasks", "Task items");
-        tasks.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        var keyAttr = new Models.Attribute
+        {
+            Name = "_key",
+            DataType = "string",
+            IsKey = true,
+            IsRequired = true,
+            IsUnique = true
+        };
+        tasks.AddAttribute(keyAttr);
         tasks.AddAttribute("title", "string", isRequired: true);
         tasks.AddAttribute("description", "string");
         tasks.AddAttribute("status", "string", isRequired: true);
@@ -276,20 +284,41 @@ class Program
         var schema = new DatabaseSchema("BlogSystem", "Blog with posts and comments");
         
         var users = new Entity("users", "Blog users");
-        users.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        users.AddAttribute(new Models.Attribute 
+        { 
+            Name = "_key", 
+            DataType = "string", 
+            IsKey = true, 
+            IsRequired = true, 
+            IsUnique = true 
+        });
         users.AddAttribute("username", "string", isRequired: true);
         users.AddAttribute("email", "string", isRequired: true);
         users.AddAttribute("created_at", "datetime", isRequired: true);
         
         var posts = new Entity("posts", "Blog posts");
-        posts.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        posts.AddAttribute(new Models.Attribute 
+        { 
+            Name = "_key", 
+            DataType = "string", 
+            IsKey = true, 
+            IsRequired = true, 
+            IsUnique = true 
+        });
         posts.AddAttribute("title", "string", isRequired: true);
         posts.AddAttribute("content", "string", isRequired: true);
         posts.AddAttribute("author_id", "string", isRequired: true);
         posts.AddAttribute("created_at", "datetime", isRequired: true);
         
         var comments = new Entity("comments", "Post comments");
-        comments.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        comments.AddAttribute(new Models.Attribute 
+        { 
+            Name = "_key", 
+            DataType = "string", 
+            IsKey = true, 
+            IsRequired = true, 
+            IsUnique = true 
+        });
         comments.AddAttribute("post_id", "string", isRequired: true);
         comments.AddAttribute("author_id", "string", isRequired: true);
         comments.AddAttribute("content", "string", isRequired: true);
@@ -320,7 +349,14 @@ class Program
         var schema = new DatabaseSchema("EcommerceStore", "E-commerce product catalog");
         
         var products = new Entity("products", "Product catalog");
-        products.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        products.AddAttribute(new Models.Attribute 
+        { 
+            Name = "_key", 
+            DataType = "string", 
+            IsKey = true, 
+            IsRequired = true, 
+            IsUnique = true 
+        });
         products.AddAttribute("name", "string", isRequired: true);
         products.AddAttribute("description", "string");
         products.AddAttribute("price", "decimal", isRequired: true);
@@ -328,12 +364,26 @@ class Program
         products.AddAttribute("stock", "int", isRequired: true);
         
         var categories = new Entity("categories", "Product categories");
-        categories.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        categories.AddAttribute(new Models.Attribute 
+        { 
+            Name = "_key", 
+            DataType = "string", 
+            IsKey = true, 
+            IsRequired = true, 
+            IsUnique = true 
+        });
         categories.AddAttribute("name", "string", isRequired: true);
         categories.AddAttribute("parent_id", "string");
         
         var orders = new Entity("orders", "Customer orders");
-        orders.AddAttribute("_key", "string", isKey: true, isRequired: true);
+        orders.AddAttribute(new Models.Attribute 
+        { 
+            Name = "_key", 
+            DataType = "string", 
+            IsKey = true, 
+            IsRequired = true, 
+            IsUnique = true 
+        });
         orders.AddAttribute("customer_id", "string", isRequired: true);
         orders.AddAttribute("total", "decimal", isRequired: true);
         orders.AddAttribute("status", "string", isRequired: true);
