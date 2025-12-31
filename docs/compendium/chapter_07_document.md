@@ -83,6 +83,35 @@ CREATE TABLE comments (
 }
 ```
 
+```mermaid
+graph TB
+    subgraph "Relational Model - Normalized"
+        Art[articles table<br/>id, title, content]
+        Com[comments table<br/>id, article_id, user, text]
+        Tags[tags table<br/>id, article_id, tag]
+        
+        Art -->|FK: article_id| Com
+        Art -->|FK: article_id| Tags
+    end
+    
+    subgraph "Document Model - Denormalized"
+        Doc[Single Document<br/>{<br/> title: ...<br/> content: ...<br/> comments: [...]<br/> tags: [...]<br/>}]
+    end
+    
+    Pro1[✅ Self-contained<br/>✅ Single read<br/>✅ No JOINs<br/>✅ Flexible schema]
+    Pro2[✅ Data integrity<br/>✅ No duplication<br/>✅ Normalized<br/>✅ ACID across tables]
+    
+    Doc --> Pro1
+    Art --> Pro2
+    
+    style Art fill:#667eea
+    style Com fill:#4facfe
+    style Tags fill:#4facfe
+    style Doc fill:#43e97b
+    style Pro1 fill:#95e1d3
+    style Pro2 fill:#95e1d3
+```
+
 ### Schema Evolution
 
 Neue Felder ohne Migration hinzufügen:
