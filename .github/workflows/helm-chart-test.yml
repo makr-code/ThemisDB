@@ -93,6 +93,7 @@ jobs:
           echo "2. Add `helm push` step to workflow" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload rendered templates
+        if: env.ACT != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: helm-rendered-templates
