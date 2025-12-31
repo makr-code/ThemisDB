@@ -84,6 +84,12 @@ endif()
 # Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
 option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
 
+# Voice Assistant Support (v1.4.0+) - Enterprise Feature
+# Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
+option(THEMIS_ENABLE_VOICE_ASSISTANT "Enable Voice Assistant with STT/TTS/LLM (v1.4.0+)" OFF)
+option(THEMIS_ENABLE_WHISPER "Enable Whisper.cpp for Speech-to-Text" OFF)
+option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
+
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)

@@ -15,6 +15,16 @@
 
 ## 🎉 What's New
 
+### 🎙️ Voice Assistant Integration (2025-12-30) - Enterprise Feature
+- 🗣️ **Natural Language Voice Interaction** - Similar to Alexa/Siri, powered by Whisper.cpp + Piper TTS + llama.cpp
+- 📞 **Phone Call Recording** - Automatic transcription and secure storage with revision control
+- 📝 **Meeting Protocol Generation** - AI-powered meeting minutes, key points, and action items
+- 🎯 **Speaker Diarization** - Identify and label different speakers in recordings
+- 🔒 **Revision-Safe Storage** - All recordings stored securely in ThemisDB with full audit trails
+- 🌐 **Multi-Language Support** - 100+ languages for STT, multiple voices for TTS
+
+**Quick Links:** [Voice Assistant Guide (EN)](docs/en/features/voice_assistant_guide.md) | [Sprachassistent (DE)](docs/de/features/sprachassistent_anleitung.md)
+
 ### 🌿 Git Flow Branching Strategy (2025-12-30)
 - 🎯 **Git Flow Implementation** - `main` as production release branch, `develop` as integration branch
 - 📚 **Comprehensive Documentation** - Bilingual guides (DE/EN), visual workflows, quick reference cards
@@ -57,6 +67,7 @@
 | Feature | Description | Status |
 |---------|-------------|--------|
 | 🧠 **Embedded LLM Engine** | llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params) | ✅ |
+| 🎙️ **Voice Assistant** | STT/TTS/LLM for phone calls, meetings, voice commands (Enterprise) | ✅ |
 | 🖼️ **Image Analysis AI** | Multi-backend plugins (llama.cpp Vision, ONNX CLIP, OpenCV DNN) | ✅ |
 | ⚡ **GPU Acceleration** | NVIDIA CUDA support with significant speedup | ✅ |
 | 💾 **PagedAttention** | Advanced memory management | ✅ |
@@ -186,7 +197,7 @@ ThemisDB is built on proven open-source foundations with clear attribution:
 - 🛡️ **Security** - TLS 1.3, RBAC, field-level encryption, audit logging (Enterprise: HSM integration)
 - 📊 **Analytics** - Time-series, aggregations (Enterprise: OLAP, CEP, materialized views)
 - 🌐 **Distribution** - Single-node optimized (Enterprise: horizontal sharding, replication, Kubernetes)
-- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+), **image analysis AI plugins** (v1.3.0+)
+- 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+), **image analysis AI plugins** (v1.3.0+), **voice assistant with STT/TTS** (v1.4.0+, Enterprise)
 - 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
 - 📚 **Transparent Attribution** - Clear documentation of third-party dependencies vs ThemisDB innovations (see [ATTRIBUTIONS.md](ATTRIBUTIONS.md))
 - 🖼️ **Image Analysis** - Multi-backend AI plugin architecture (llama.cpp Vision, ONNX CLIP, OpenCV DNN)
