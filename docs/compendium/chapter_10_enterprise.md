@@ -48,6 +48,43 @@ db.execute("""
 """)
 ```
 
+```mermaid
+graph TB
+    subgraph "Multi-Tenancy Strategies"
+        subgraph "Strategy 1: Database per Tenant"
+            T1DB[(Tenant 1<br/>Dedicated DB)]
+            T2DB[(Tenant 2<br/>Dedicated DB)]
+            T3DB[(Tenant 3<br/>Dedicated DB)]
+        end
+        
+        subgraph "Strategy 2: Shared DB with Tenant ID"
+            SharedDB[(Shared Database)]
+            SharedDB --> Filter{tenant_id filter}
+            Filter --> T1Data[Tenant 1 Data]
+            Filter --> T2Data[Tenant 2 Data]
+            Filter --> T3Data[Tenant 3 Data]
+        end
+        
+        subgraph "Strategy 3: Row-Level Security"
+            RLSDB[(Database with RLS)]
+            RLSDB --> Policy[Security Policies<br/>Automatic filtering]
+            Policy --> Sec1[Tenant 1 View]
+            Policy --> Sec2[Tenant 2 View]
+            Policy --> Sec3[Tenant 3 View]
+        end
+    end
+    
+    Iso1[✅ Max Isolation<br/>❌ High overhead] -.-> T1DB
+    Iso2[✅ Balance<br/>✅ Efficient] -.-> SharedDB
+    Iso3[✅ Automatic<br/>✅ Secure] -.-> RLSDB
+    
+    style T1DB fill:#667eea
+    style T2DB fill:#667eea
+    style T3DB fill:#667eea
+    style SharedDB fill:#43e97b
+    style RLSDB fill:#f093fb
+```
+
 **Best Practice in ThemisDB:**
 ```python
 class TenantContext:
@@ -107,6 +144,40 @@ def has_permission(user_id, permission):
             RETURN 1
     """, {"user_id": user_id, "permission": permission})
     return len(result) > 0
+```
+
+```mermaid
+graph TB
+    subgraph "RBAC - Role Based Access Control"
+        U1[User: Alice<br/>employee_id: 001]
+        U2[User: Bob<br/>employee_id: 002]
+        U3[User: Carol<br/>employee_id: 003]
+        
+        R1[Role: Admin<br/>All Permissions]
+        R2[Role: Editor<br/>read, write, edit]
+        R3[Role: Viewer<br/>read only]
+        
+        U1 -->|assigned| R1
+        U2 -->|assigned| R2
+        U3 -->|assigned| R3
+        
+        R1 -.->|grants| P1[read:*<br/>write:*<br/>delete:*<br/>admin:*]
+        R2 -.->|grants| P2[read:documents<br/>write:documents<br/>edit:documents]
+        R3 -.->|grants| P3[read:documents]
+        
+        P1 --> Resource[(Protected Resources)]
+        P2 --> Resource
+        P3 --> Resource
+    end
+    
+    style U1 fill:#667eea
+    style U2 fill:#4facfe
+    style U3 fill:#43e97b
+    style R1 fill:#ff6348
+    style R2 fill:#ffd32a
+    style R3 fill:#95e1d3
+    style Resource fill:#f093fb
+```
 
 # Dekorator für API-Endpoints
 def requires_permission(permission):

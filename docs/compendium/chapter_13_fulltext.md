@@ -94,6 +94,34 @@ Reduziert Wörter auf Wortstamm:
 ["datenbank", "datenbank", "datenbankserv"]  # Gemeinsamer Stamm
 ```
 
+```mermaid
+flowchart TD
+    Input[Raw Text:<br/>ThemisDB ist eine Multi-Model Datenbank]
+    
+    Input --> Token[1. Tokenization<br/>Split into words]
+    Token --> Tokens[ThemisDB, ist, eine,<br/>Multi-Model, Datenbank]
+    
+    Tokens --> Norm[2. Normalization<br/>Lowercase, Unicode]
+    Norm --> Normalized[themisdb, ist, eine,<br/>multi-model, datenbank]
+    
+    Normalized --> Stop[3. Stop-Word Filter<br/>Remove common words]
+    Stop --> Filtered[themisdb, multi-model,<br/>datenbank]
+    
+    Filtered --> Stem[4. Stemming<br/>Reduce to root form]
+    Stem --> Stemmed[themisdb, multi-model,<br/>datenbank]
+    
+    Stemmed --> Index[5. Inverted Index<br/>Term → Document IDs]
+    Index --> Final[(Searchable Index<br/>themisdb → [doc1, doc5]<br/>datenbank → [doc1, doc2, doc3])]
+    
+    style Input fill:#667eea
+    style Token fill:#4facfe
+    style Norm fill:#43e97b
+    style Stop fill:#f093fb
+    style Stem fill:#ffd32a
+    style Index fill:#fa709a
+    style Final fill:#95e1d3
+```
+
 **5. Index-Erstellung**
 
 Erstellt inverted index für schnelle Suche:

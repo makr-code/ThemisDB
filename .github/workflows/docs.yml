@@ -72,12 +72,14 @@ jobs:
           cp site/ThemisDB-Documentation.pdf docs/ThemisDB-Documentation.pdf
       
       - name: Upload documentation artifact
+        if: env.ACT != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: documentation-site
           path: site/
       
       - name: Upload PDF artifact
+        if: env.ACT != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: documentation-pdf

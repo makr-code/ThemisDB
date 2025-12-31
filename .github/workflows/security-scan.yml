@@ -39,6 +39,7 @@ jobs:
 
       - name: Upload Gitleaks Report
         if: always()
+        if: env.ACT != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: gitleaks-report
@@ -78,6 +79,7 @@ jobs:
 
       - name: Upload cppcheck Report
         uses: actions/upload-artifact@v4
+        if: env.ACT != 'true'
         with:
           name: cppcheck-report
           path: |
@@ -89,6 +91,7 @@ jobs:
   codeql-analysis:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
+    if: env.ACT != 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -150,6 +153,7 @@ jobs:
 
       - name: Upload Trivy Report
         uses: actions/upload-artifact@v4
+        if: env.ACT != 'true'
         with:
           name: trivy-report
           path: |

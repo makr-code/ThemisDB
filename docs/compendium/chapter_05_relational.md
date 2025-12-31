@@ -298,6 +298,85 @@ FOR order IN orders
     FILTER order.customer_id == customer.id
     RETURN {
       id: order.id,
+      customer_name: customer.name,
+      total: order.total
+    }
+```
+
+```mermaid
+graph LR
+    subgraph "Table: customers"
+        C1[id: 1<br/>name: Alice]
+        C2[id: 2<br/>name: Bob]
+        C3[id: 3<br/>name: Carol]
+    end
+    
+    subgraph "Table: orders"
+        O1[id: 101<br/>customer_id: 1<br/>total: 150]
+        O2[id: 102<br/>customer_id: 2<br/>total: 200]
+        O3[id: 103<br/>customer_id: 1<br/>total: 75]
+    end
+    
+    O1 -.->|FK: customer_id = 1| C1
+    O2 -.->|FK: customer_id = 2| C2
+    O3 -.->|FK: customer_id = 1| C1
+    
+    subgraph "JOIN Result"
+        R1[Alice, 150]
+        R2[Bob, 200]
+        R3[Alice, 75]
+    end
+    
+    O1 --> R1
+    O2 --> R2
+    O3 --> R3
+    
+    style C1 fill:#667eea
+    style C2 fill:#667eea
+    style C3 fill:#667eea
+    style O1 fill:#4facfe
+    style O2 fill:#4facfe
+    style O3 fill:#4facfe
+    style R1 fill:#43e97b
+    style R2 fill:#43e97b
+    style R3 fill:#43e97b
+```
+
+```mermaid
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ ORDER_ITEM : contains
+    ORDER_ITEM }o--|| PRODUCT : references
+    
+    CUSTOMER {
+        int id PK
+        string name
+        string email
+        timestamp created_at
+    }
+    
+    ORDER {
+        int id PK
+        int customer_id FK
+        decimal total
+        timestamp order_date
+    }
+    
+    ORDER_ITEM {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal price
+    }
+    
+    PRODUCT {
+        int id PK
+        string name
+        decimal price
+        int stock
+    }
+```
       total: order.total,
       customer_name: customer.name
     }

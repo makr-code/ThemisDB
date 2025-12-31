@@ -78,6 +78,45 @@ FOR location IN locations
 - Automatische Rebalancierung bei Updates
 - Optimiert für Nearest-Neighbor Queries
 
+```mermaid
+graph TB
+    subgraph "R-Tree Hierarchical Index Structure"
+        Root[Root Node<br/>Global Bounding Box]
+        
+        Root --> L1A[Level 1A<br/>Box: North Region]
+        Root --> L1B[Level 1B<br/>Box: South Region]
+        
+        L1A --> L2A[Level 2A<br/>Box: Northwest]
+        L1A --> L2B[Level 2B<br/>Box: Northeast]
+        
+        L1B --> L2C[Level 2C<br/>Box: Southwest]
+        L1B --> L2D[Level 2D<br/>Box: Southeast]
+        
+        L2A --> P1[Point 1]
+        L2A --> P2[Point 2]
+        L2B --> P3[Point 3]
+        L2B --> P4[Point 4]
+        L2C --> P5[Point 5]
+        L2D --> P6[Point 6]
+        L2D --> P7[Point 7]
+    end
+    
+    style Root fill:#667eea
+    style L1A fill:#4facfe
+    style L1B fill:#4facfe
+    style L2A fill:#43e97b
+    style L2B fill:#43e97b
+    style L2C fill:#43e97b
+    style L2D fill:#43e97b
+    style P1 fill:#f093fb
+    style P2 fill:#f093fb
+    style P3 fill:#f093fb
+    style P4 fill:#f093fb
+    style P5 fill:#f093fb
+    style P6 fill:#f093fb
+    style P7 fill:#f093fb
+```
+
 ### Geo-Hash Index
 
 Für weltweite Abdeckung und Präfix-Suche:
@@ -128,6 +167,46 @@ pois = conn.query("""
                       BBOX(@min_lon, @min_lat, @max_lon, @max_lat))
       RETURN poi
 """, {"min_lon": min_lon, "min_lat": min_lat, "max_lon": max_lon, "max_lat": max_lat})
+```
+
+```mermaid
+graph TB
+    subgraph "Geospatial Query Types"
+        Center((User<br/>Location))
+        
+        subgraph "Radius Query"
+            Center -.->|2km radius| R1[Restaurant 1]
+            Center -.->|1.5km| R2[Restaurant 2]
+            Center -.->|3km| R3[Restaurant 3]
+        end
+        
+        subgraph "Bounding Box Query"
+            BB[Bounding Box<br/>min/max lat/lon]
+            BB --> POI1[POI 1]
+            BB --> POI2[POI 2]
+            BB --> POI3[POI 3]
+        end
+        
+        subgraph "Polygon Query"
+            Poly[Delivery Zone<br/>Polygon]
+            Poly --> A1[Address 1<br/>Inside]
+            Poly --> A2[Address 2<br/>Inside]
+            Outside[Address 3<br/>Outside]
+        end
+    end
+    
+    style Center fill:#667eea
+    style R1 fill:#43e97b
+    style R2 fill:#43e97b
+    style R3 fill:#f093fb
+    style BB fill:#4facfe
+    style POI1 fill:#43e97b
+    style POI2 fill:#43e97b
+    style POI3 fill:#43e97b
+    style Poly fill:#fa709a
+    style A1 fill:#43e97b
+    style A2 fill:#43e97b
+    style Outside fill:#ff6348
 ```
 
 ### Polygon Queries

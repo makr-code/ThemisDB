@@ -61,6 +61,11 @@ jobs:
 
       - name: Run tests
         run: |
+          if [ "${ACT:-false}" = "true" ]; then
+            echo "ACT detected - running import smoke test only"
+            python -c "import themis; print('Import successful')"
+            exit 0
+          fi
           if [ -d "tests" ] && [ -n "$(ls -A tests/)" ]; then
             pytest tests/ -v --tb=short
           else
@@ -69,6 +74,7 @@ jobs:
           fi
 
       - name: Lint with ruff (if available)
+        if: env.ACT != 'true'
         continue-on-error: true
         run: |
           pip install ruff || true
@@ -126,6 +132,7 @@ jobs:
           echo "2. Uncomment the twine upload step" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload build artifacts
+        if: env.ACT != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: python-sdk-dist

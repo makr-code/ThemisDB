@@ -43,6 +43,43 @@ Time-Series Metrics:              ts:<metric>:<timestamp>:<tags>
 - **Prefix-Extraktion:** RocksDB Prefix-Extractor ermöglicht Bloom-Filter auf Collection-Ebene
 - **Co-Location:** Related Data (z.B. alle Indizes einer Tabelle) wird physisch nah gespeichert
 
+```mermaid
+graph TB
+    subgraph "RocksDB LSM-Tree Architecture"
+        Write[Write Operations] --> MemTable[MemTable<br/>In-Memory Buffer]
+        
+        MemTable -->|Flush when full| L0[Level 0<br/>Immutable SSTables<br/>Overlapping Keys]
+        
+        L0 -->|Compaction| L1[Level 1<br/>Sorted SSTables<br/>10 MB each]
+        
+        L1 -->|Compaction| L2[Level 2<br/>Sorted SSTables<br/>100 MB each]
+        
+        L2 -->|Compaction| L3[Level 3<br/>Sorted SSTables<br/>1 GB each]
+        
+        L3 -->|Compaction| L4[Level 4+<br/>Cold Data<br/>10+ GB]
+        
+        Read[Read Operations] --> Cache[Block Cache<br/>Hot Data]
+        Cache -.miss.-> L0
+        Cache -.miss.-> L1
+        Cache -.miss.-> L2
+        Cache -.miss.-> L3
+        
+        subgraph "Key Prefix Schema"
+            Entity[entity:table:pk]
+            Index[idx:table:col:val:pk]
+            Graph[graph:out:from:edge]
+            Vector[vector:table:pk]
+        end
+    end
+    
+    style MemTable fill:#43e97b
+    style L0 fill:#4facfe
+    style L1 fill:#667eea
+    style L2 fill:#764ba2
+    style L3 fill:#f093fb
+    style Cache fill:#ffd32a
+```
+
 **Code-Beispiel: Prefix-Extractor-Konfiguration**
 
 ```cpp

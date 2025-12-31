@@ -129,6 +129,37 @@ transaction2.commit()  # FEHLER: Conflict Detection!
 
 **Vorteil:** Reads blockieren nie Writes, Writes blockieren nie Reads.
 
+```mermaid
+sequenceDiagram
+    participant T1 as Transaction 1
+    participant MVCC as MVCC Manager
+    participant T2 as Transaction 2
+    
+    T1->>MVCC: BEGIN (snapshot_id=100)
+    Note over T1,MVCC: T1 sieht Version 100
+    
+    T2->>MVCC: BEGIN (snapshot_id=100)
+    Note over T2,MVCC: T2 sieht auch Version 100
+    
+    T1->>MVCC: READ(row_id)
+    MVCC-->>T1: Version 100 (age=28)
+    
+    T2->>MVCC: READ(row_id)
+    Note over T2,MVCC: Kein Warten!
+    MVCC-->>T2: Version 100 (age=28)
+    
+    T1->>MVCC: UPDATE(row_id, age=29)
+    Note over MVCC: Erstellt Version 101
+    
+    T1->>MVCC: COMMIT
+    Note over MVCC: Version 101 wird permanent
+    
+    T2->>MVCC: UPDATE(row_id, age=30)
+    T2->>MVCC: COMMIT
+    Note over MVCC: ❌ Conflict Detection!
+    MVCC--xT2: ERROR: Write-Write Conflict
+```
+
 ### Wie funktioniert MVCC intern?
 
 Jede Datenzeile hat nicht nur einen Wert, sondern eine Historie:
@@ -152,6 +183,26 @@ Version 102 (in_progress, transaction_id=555):
 **Snapshot-Reads:** Eine Transaktion mit `snapshot_id=100` sieht nur Versionen ≤ 100, die committed sind.
 
 **Write-Write Conflicts:** Wenn zwei Transaktionen die gleiche Row ändern wollen, gewinnt die erste. Die zweite bekommt einen Conflict Error beim Commit.
+
+```mermaid
+graph LR
+    subgraph "MVCC Version History"
+        V100[Version 100<br/>age: 28<br/>status: committed]
+        V101[Version 101<br/>age: 29<br/>status: committed]
+        V102[Version 102<br/>age: 30<br/>status: in_progress<br/>tx_id: 555]
+        
+        V100 --> V101
+        V101 --> V102
+    end
+    
+    T1[Transaction 1<br/>snapshot_id=100] -.reads.-> V100
+    T2[Transaction 2<br/>snapshot_id=101] -.reads.-> V101
+    T3[Transaction 3<br/>snapshot_id=102] -.reads.-> V102
+    
+    style V100 fill:#95e1d3
+    style V101 fill:#78e08f
+    style V102 fill:#ffd32a
+```
 
 ---
 
@@ -211,6 +262,44 @@ Einmal committed, sind Daten permanent - auch bei Serverausfall.
 transaction.commit()
 # Ab hier garantiert: Daten sind auf Disk!
 # Selbst wenn Server JETZT abstürzt, sind Daten da.
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Begin: transaction.begin()
+    
+    Begin --> Active: Snapshot erstellt
+    
+    Active --> Reading: read()
+    Active --> Writing: write()
+    Active --> Validating: commit() aufgerufen
+    
+    Reading --> Active
+    Writing --> Active
+    
+    Validating --> CheckConflicts: Prüfe Write-Write Conflicts
+    
+    CheckConflicts --> WriteWAL: Keine Konflikte
+    CheckConflicts --> Rollback: Konflikt erkannt
+    
+    WriteWAL --> ApplyChanges: WAL persistent
+    ApplyChanges --> Committed: Änderungen sichtbar
+    
+    Committed --> [*]
+    
+    Active --> Rollback: rollback() oder Fehler
+    Rollback --> [*]
+    
+    note right of WriteWAL
+        Write-Ahead Log (WAL)
+        garantiert Durability
+    end note
+    
+    note right of CheckConflicts
+        MVCC Conflict Detection:
+        Hat andere Transaktion
+        bereits committed?
+    end note
 ```
 
 ### Isolation Levels

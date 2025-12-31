@@ -67,6 +67,59 @@ themisdb-backup --type differential \
   --output /backups/diff_$(date +%Y%m%d).tar.gz
 ```
 
+```mermaid
+gantt
+    title Backup Strategy Timeline
+    dateFormat YYYY-MM-DD
+    
+    section Full Backups
+    Full Backup 1           :done, full1, 2024-01-01, 1d
+    Full Backup 2           :done, full2, 2024-01-08, 1d
+    Full Backup 3           :active, full3, 2024-01-15, 1d
+    
+    section Incremental
+    Incremental Day 2       :done, inc1, 2024-01-02, 1d
+    Incremental Day 3       :done, inc2, 2024-01-03, 1d
+    Incremental Day 4       :done, inc3, 2024-01-04, 1d
+    Incremental Day 5       :done, inc4, 2024-01-05, 1d
+    Incremental Day 6       :done, inc5, 2024-01-06, 1d
+    Incremental Day 7       :done, inc6, 2024-01-07, 1d
+    
+    section Differential
+    Differential Day 2-7    :done, diff1, 2024-01-09, 6d
+```
+
+```mermaid
+flowchart LR
+    subgraph "Backup Flow"
+        Data[(Production Data)] --> Check{Backup Type?}
+        
+        Check -->|Full| Full[Full Backup<br/>All Data]
+        Check -->|Incremental| Inc[Incremental<br/>Changes since last backup]
+        Check -->|Differential| Diff[Differential<br/>Changes since last full]
+        
+        Full --> Compress[Compress<br/>gzip/zstd]
+        Inc --> Compress
+        Diff --> Compress
+        
+        Compress --> Encrypt[Encrypt<br/>AES-256]
+        Encrypt --> Storage[(Backup Storage<br/>S3/Local/Network)]
+        
+        Storage --> Verify[Verify<br/>Checksum]
+        Verify --> Retention{Retention Policy}
+        
+        Retention -->|Keep| Archive[Archive Storage]
+        Retention -->|Delete| Remove[Delete Old Backups]
+    end
+    
+    style Data fill:#667eea
+    style Full fill:#43e97b
+    style Inc fill:#4facfe
+    style Diff fill:#f093fb
+    style Storage fill:#ffd32a
+    style Archive fill:#95e1d3
+```
+
 ## 19.2 Backup-Mechanismen
 
 ### 19.2.1 Physische Backups
