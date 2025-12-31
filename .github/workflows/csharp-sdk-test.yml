@@ -48,7 +48,7 @@ jobs:
       - name: Restore dependencies
         run: |
           if [ -f "ThemisDB.Client/ThemisDB.Client.csproj" ]; then
-            dotnet restore
+            dotnet restore ThemisDB.Client/ThemisDB.Client.csproj
           else
             echo "No C# project found - skipping restore"
           fi
@@ -56,7 +56,7 @@ jobs:
       - name: Build
         run: |
           if [ -f "ThemisDB.Client/ThemisDB.Client.csproj" ]; then
-            dotnet build --configuration Release --no-restore
+            dotnet build ThemisDB.Client/ThemisDB.Client.csproj --configuration Release --no-restore
           else
             echo "No C# project found - skipping build"
           fi
@@ -65,7 +65,7 @@ jobs:
         run: |
           if [ -f "ThemisDB.Client/ThemisDB.Client.csproj" ]; then
             if [ -d "ThemisDB.Client.Tests" ]; then
-              dotnet test ThemisDB.Client.Tests --configuration Release --no-build --verbosity normal
+              dotnet test ThemisDB.Client.Tests/ThemisDB.Client.Tests.csproj --configuration Release --verbosity normal
             else
               echo "No test project found, skipping tests"
             fi
@@ -95,7 +95,7 @@ jobs:
       - name: Restore dependencies
         run: |
           if [ -f "ThemisDB.Client/ThemisDB.Client.csproj" ]; then
-            dotnet restore
+            dotnet restore ThemisDB.Client/ThemisDB.Client.csproj
           else
             echo "No C# project found - skipping restore"
           fi
@@ -103,7 +103,7 @@ jobs:
       - name: Build
         run: |
           if [ -f "ThemisDB.Client/ThemisDB.Client.csproj" ]; then
-            dotnet build --configuration Release --no-restore
+            dotnet build ThemisDB.Client/ThemisDB.Client.csproj --configuration Release --no-restore
           else
             echo "No C# project found - skipping build"
           fi
@@ -111,7 +111,7 @@ jobs:
       - name: Create NuGet package
         run: |
           if [ -f "ThemisDB.Client/ThemisDB.Client.csproj" ]; then
-            dotnet pack ThemisDB.Client --configuration Release --no-build --output ./nupkg
+            dotnet pack ThemisDB.Client/ThemisDB.Client.csproj --configuration Release --no-build --output ./nupkg
           else
             echo "No C# project found - skipping pack"
           fi
