@@ -1,0 +1,149 @@
+{
+  "name": "EcommerceStore",
+  "description": "E-commerce product catalog",
+  "entities": [
+    {
+      "name": "products",
+      "description": "Product catalog",
+      "type": "collection",
+      "attributes": [
+        {
+          "name": "_key",
+          "type": "string",
+          "isKey": true,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "isKey": false,
+          "required": false,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "price",
+          "type": "decimal",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "category_id",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "stock",
+          "type": "int",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "description": "Product categories",
+      "type": "collection",
+      "attributes": [
+        {
+          "name": "_key",
+          "type": "string",
+          "isKey": true,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "parent_id",
+          "type": "string",
+          "isKey": false,
+          "required": false,
+          "unique": false,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "orders",
+      "description": "Customer orders",
+      "type": "collection",
+      "attributes": [
+        {
+          "name": "_key",
+          "type": "string",
+          "isKey": true,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "customer_id",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "total",
+          "type": "decimal",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "belongs_to",
+      "from": "products",
+      "to": "categories",
+      "type": "many-to-one",
+      "description": "",
+      "foreignKey": "category_id"
+    }
+  ]
+}
