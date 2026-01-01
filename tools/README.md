@@ -60,6 +60,36 @@ Das Tool generiert Metadaten im Format, das mit ThemisDB's BaseEntity und Import
 - Optional: `pyyaml` für YAML-Konfiguration (`pip install pyyaml`)
 - Optional: `tqdm` für Progress Bar (`pip install tqdm`)
 
+### Ingestion Tool - C# Version (`Themis.IngestionTool`)
+
+Eine C# .NET Console-Anwendung mit den gleichen Features wie das Python-Tool, aber mit Integration in die Themis.AdminTools.Shared Bibliothek.
+
+**Features:**
+- Alle Features des Python-Tools
+- Integration mit Themis.AdminTools.Shared
+- System.CommandLine für CLI
+- Microsoft.Extensions.Logging für strukturiertes Logging
+- SQLite mit System.Data.SQLite
+- YamlDotNet für YAML-Unterstützung
+
+**Verwendung:**
+```bash
+cd Themis.IngestionTool
+dotnet build
+
+# Grundlegende Verwendung
+dotnet run -- --source /path/to/data
+
+# Mit Optionen
+dotnet run -- --source /path/to/data --output results.json --verbose
+```
+
+**Voraussetzungen:**
+- .NET 8.0 SDK
+- Windows, Linux oder macOS
+
+**Dokumentation:** Siehe [Themis.IngestionTool/README.md](Themis.IngestionTool/README.md)
+
 
 
 ### Namespace Analyzer (`namespace_analyzer.py`)
