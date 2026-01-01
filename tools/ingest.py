@@ -392,7 +392,7 @@ class FileProcessor:
                 result['has_geometry'] = True
                 result['geometry_raw'] = geom
                 # Try to determine format
-                if geom.upper().startswith(('POINT', 'LINESTRING', 'POLYGON', 'MULTIPOINT')):
+                if geom.upper().startswith(('POINT', 'LINESTRING', 'POLYGON', 'MULTIPOINT', 'MULTILINESTRING', 'MULTIPOLYGON')):
                     result['geometry_format'] = 'WKT'
                 elif geom.startswith('{') and 'type' in geom:
                     result['geometry_format'] = 'GeoJSON'
@@ -402,7 +402,8 @@ class FileProcessor:
                 result['geometry_format'] = 'GeoJSON'
         
         # Extract coordinates array [lon, lat] or [[lon, lat], ...]
-        if 'coordinates' in geo_meta:
+        # Only if we don't already have coordinates from lat/lon fields
+        if 'coordinates' in geo_meta and not result.get('coordinate_fields'):
             coords = geo_meta['coordinates']
             if isinstance(coords, (list, tuple)) and len(coords) >= 2:
                 try:

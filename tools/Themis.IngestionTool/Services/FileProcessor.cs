@@ -372,7 +372,10 @@ public class FileProcessor
                 result["geometry_raw"] = geomStr;
                 if (geomStr.StartsWith("POINT", StringComparison.OrdinalIgnoreCase) ||
                     geomStr.StartsWith("LINESTRING", StringComparison.OrdinalIgnoreCase) ||
-                    geomStr.StartsWith("POLYGON", StringComparison.OrdinalIgnoreCase))
+                    geomStr.StartsWith("POLYGON", StringComparison.OrdinalIgnoreCase) ||
+                    geomStr.StartsWith("MULTIPOINT", StringComparison.OrdinalIgnoreCase) ||
+                    geomStr.StartsWith("MULTILINESTRING", StringComparison.OrdinalIgnoreCase) ||
+                    geomStr.StartsWith("MULTIPOLYGON", StringComparison.OrdinalIgnoreCase))
                 {
                     result["geometry_format"] = "WKT";
                 }
@@ -389,8 +392,8 @@ public class FileProcessor
             }
         }
 
-        // Extract coordinates array
-        if (geoMeta.ContainsKey("coordinates") && geoMeta["coordinates"] is JsonElement coordsJson)
+        // Extract coordinates array - only if we don't already have coordinates
+        if (geoMeta.ContainsKey("coordinates") && geoMeta["coordinates"] is JsonElement coordsJson && coordinateFields.Count == 0)
         {
             if (coordsJson.ValueKind == JsonValueKind.Array && coordsJson.GetArrayLength() >= 2)
             {
