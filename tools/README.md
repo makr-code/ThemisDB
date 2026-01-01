@@ -6,6 +6,62 @@ Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen und Pyt
 
 ## Python-Tools
 
+### Ingestion Tool (`ingest.py`)
+
+Ein autonomes Werkzeug zur rekursiven Durchsuchung von Verzeichnissen nach ingestierbaren Dateien und deren Aufbereitung für ThemisDB.
+
+**Features:**
+- Rekursive Verzeichnisdurchsuchung mit konfigurierbaren Filtern
+- Hash-basierte Duplikaterkennung (SHA256) - bereits ingestierte Dateien werden übersprungen
+- Fortschrittsanzeige mit Progress Bar (tqdm)
+- Detailliertes Logging in `ingestion.log`
+- SQLite-Tracking-Datenbank für verarbeitete Dateien
+- Metadatenextraktion für ThemisDB-Modelle:
+  - **Graph**: Entitäten, Beziehungen, Properties
+  - **Vector**: Text-Content für Embeddings, semantische Suche
+  - **Relational**: Schema, Datensätze, Feldtypen
+- Unterstützung für JSON, YAML, CSV, Text-Dateien
+- Konfiguration über YAML/JSON oder Kommandozeile
+
+**Verwendung:**
+```bash
+# Grundlegende Verwendung
+python3 tools/ingest.py --source /path/to/data
+
+# Mit Konfigurationsdatei
+python3 tools/ingest.py --config tools/ingest_config.example.yaml
+
+# Mit benutzerdefinierten Optionen
+python3 tools/ingest.py --source /path/to/data \
+    --output results.json \
+    --include-ext .json .yaml .txt \
+    --max-size 50
+
+# Nur bestimmte Modelle aktivieren
+python3 tools/ingest.py --source /path/to/data --no-relational
+
+# Verbose Modus für detailliertes Logging
+python3 tools/ingest.py --source /path/to/data --verbose
+```
+
+**Ausgaben:**
+- `ingestion_output.json` - Detaillierte Metadaten aller ingestierten Dateien
+- `ingestion_tracker.db` - SQLite-Datenbank mit Hash-Tracking
+- `ingestion.log` - Logdatei mit allen Ereignissen
+
+**Konfigurationsdatei:**
+Siehe `ingest_config.example.yaml` für ein vollständiges Beispiel.
+
+**Integration mit ThemisDB:**
+Das Tool generiert Metadaten im Format, das mit ThemisDB's BaseEntity und Importer Interface kompatibel ist. Die generierten JSON-Daten können direkt in ThemisDB importiert werden.
+
+**Voraussetzungen:**
+- Python 3.8+
+- Optional: `pyyaml` für YAML-Konfiguration (`pip install pyyaml`)
+- Optional: `tqdm` für Progress Bar (`pip install tqdm`)
+
+
+
 ### Namespace Analyzer (`namespace_analyzer.py`)
 
 Ein Python-Tool zur umfassenden Analyse der ThemisDB-Codebasis. Extrahiert und dokumentiert:
