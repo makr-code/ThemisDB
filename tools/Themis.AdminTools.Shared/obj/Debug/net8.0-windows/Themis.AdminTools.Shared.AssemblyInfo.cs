@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Themis.AdminTools.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78d3dc5fa4cb81376ecf8611e8ccf4fb82b008ca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67152819d6423fb0e3d1ed884e0c84a649f40bcb")]
 [assembly: System.Reflection.AssemblyProductAttribute("Themis.AdminTools.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Themis.AdminTools.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
