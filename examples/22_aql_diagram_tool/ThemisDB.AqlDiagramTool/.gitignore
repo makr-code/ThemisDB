@@ -1,0 +1,17 @@
+# Build results
+bin/
+obj/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Generated example outputs (keep schema JSONs)
+erd_output.md
+dfd_output.md
+aql_queries.md
+blog_erd.md
+blog_dfd.md
+blog_queries.md

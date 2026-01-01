@@ -1,0 +1,70 @@
+{
+  "name": "TodoApp",
+  "description": "Simple todo application schema",
+  "entities": [
+    {
+      "name": "tasks",
+      "description": "Task items",
+      "type": "collection",
+      "attributes": [
+        {
+          "name": "_key",
+          "type": "string",
+          "isKey": true,
+          "required": true,
+          "unique": true,
+          "description": ""
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "isKey": false,
+          "required": false,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "priority",
+          "type": "string",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "created_at",
+          "type": "datetime",
+          "isKey": false,
+          "required": true,
+          "unique": false,
+          "description": ""
+        },
+        {
+          "name": "due_date",
+          "type": "datetime",
+          "isKey": false,
+          "required": false,
+          "unique": false,
+          "description": ""
+        }
+      ]
+    }
+  ],
+  "relationships": []
+}
