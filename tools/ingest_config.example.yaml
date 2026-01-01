@@ -1,0 +1,73 @@
+# ThemisDB Ingestion Tool - Example Configuration
+# =================================================
+
+# Source directory to scan for files
+source_dir: "/path/to/your/data"
+
+# Output file for ingestion results (JSON format)
+output_file: "ingestion_output.json"
+
+# SQLite database for tracking ingested files (prevents duplicates)
+db_path: "ingestion_tracker.db"
+
+# File Filters
+# ------------
+
+# Include only these file extensions (empty = all files)
+# Example: [".json", ".yaml", ".txt", ".csv", ".md"]
+include_extensions: []
+
+# Exclude these file extensions
+exclude_extensions:
+  - ".exe"
+  - ".dll"
+  - ".so"
+  - ".dylib"
+  - ".bin"
+  - ".o"
+  - ".a"
+  - ".obj"
+
+# Exclude directories/files matching these patterns
+exclude_patterns:
+  - ".git"
+  - "__pycache__"
+  - "node_modules"
+  - ".venv"
+  - "venv"
+  - "dist"
+  - "build"
+  - ".pytest_cache"
+
+# Processing Options
+# ------------------
+
+# Maximum file size in MB (files larger than this will be skipped)
+max_file_size_mb: 100.0
+
+# Extract text preview for vector embeddings
+extract_text_preview: true
+
+# Length of text preview in characters
+preview_length: 500
+
+# ThemisDB Model Configuration
+# -----------------------------
+
+# Generate metadata for vector model (embeddings, semantic search)
+generate_vector_metadata: true
+
+# Generate metadata for graph model (entities, relationships)
+generate_graph_metadata: true
+
+# Generate metadata for relational model (tables, schemas)
+generate_relational_metadata: true
+
+# Metadata File Patterns
+# -----------------------
+# Look for metadata companion files (e.g., myfile.txt.meta.json)
+
+metadata_file_patterns:
+  - "*.meta.json"
+  - "*.meta.yaml"
+  - "*.meta.yml"
