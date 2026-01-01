@@ -233,6 +233,16 @@ class FileProcessor:
         if self.config.generate_relational_metadata:
             themis_meta['relational'] = self._extract_relational_metadata(file_path, content)
         
+        # Geo/Spatial metadata
+        geo_meta = self._extract_geo_metadata(file_path, content)
+        if geo_meta:
+            themis_meta['geo'] = geo_meta
+        
+        # Process metadata
+        process_meta = self._extract_process_metadata(file_path, content)
+        if process_meta:
+            themis_meta['process'] = process_meta
+        
         return themis_meta
     
     def _extract_graph_metadata(self, file_path: str, content: Any) -> Dict[str, Any]:
@@ -322,6 +332,217 @@ class FileProcessor:
                     relational_meta['record'][key] = value
         
         return relational_meta
+    
+    def _extract_geo_metadata(self, file_path: str, content: Any) -> Optional[Dict[str, Any]]:
+        """Extract geo/spatial metadata"""
+        if not isinstance(content, dict):
+            return None
+        
+        geo_meta = {}
+        
+        # Look for common geo fields
+        geo_fields = {
+            'latitude': ['latitude', 'lat', 'y', 'coord_lat'],
+            'longitude': ['longitude', 'lon', 'lng', 'x', 'coord_lon', 'coord_lng'],
+            'address': ['address', 'addr', 'street_address', 'location'],
+            'city': ['city', 'town', 'municipality'],
+            'postal_code': ['postal_code', 'zip', 'zipcode', 'plz', 'postcode'],
+            'country': ['country', 'nation', 'land'],
+            'geometry': ['geometry', '_geometry', 'geom', 'shape'],
+            'coordinates': ['coordinates', 'coords', 'point']
+        }
+        
+        found_geo = False
+        for field_type, field_names in geo_fields.items():
+            for key, value in content.items():
+                if key.lower() in field_names:
+                    geo_meta[field_type] = value
+                    found_geo = True
+        
+        if not found_geo:
+            return None
+        
+        # Build geo metadata
+        result = {
+            'has_geometry': False,
+            'coordinate_fields': {},
+            'address_fields': {}
+        }
+        
+        # Extract coordinates
+        if 'latitude' in geo_meta and 'longitude' in geo_meta:
+            try:
+                lat = float(geo_meta['latitude'])
+                lon = float(geo_meta['longitude'])
+                result['has_geometry'] = True
+                result['coordinate_fields'] = {
+                    'latitude': lat,
+                    'longitude': lon,
+                    'srid': 4326  # WGS84
+                }
+                # Generate WKT Point
+                result['geometry_wkt'] = f"POINT({lon} {lat})"
+            except (ValueError, TypeError):
+                pass
+        
+        # Extract geometry field (WKT, GeoJSON, EWKB)
+        if 'geometry' in geo_meta:
+            geom = geo_meta['geometry']
+            if isinstance(geom, str):
+                result['has_geometry'] = True
+                result['geometry_raw'] = geom
+                # Try to determine format
+                if geom.upper().startswith(('POINT', 'LINESTRING', 'POLYGON', 'MULTIPOINT')):
+                    result['geometry_format'] = 'WKT'
+                elif geom.startswith('{') and 'type' in geom:
+                    result['geometry_format'] = 'GeoJSON'
+            elif isinstance(geom, dict):
+                result['has_geometry'] = True
+                result['geometry_raw'] = geom
+                result['geometry_format'] = 'GeoJSON'
+        
+        # Extract coordinates array [lon, lat] or [[lon, lat], ...]
+        if 'coordinates' in geo_meta:
+            coords = geo_meta['coordinates']
+            if isinstance(coords, (list, tuple)) and len(coords) >= 2:
+                try:
+                    if isinstance(coords[0], (int, float)):
+                        # Single point [lon, lat]
+                        lon, lat = float(coords[0]), float(coords[1])
+                        result['has_geometry'] = True
+                        result['coordinate_fields'] = {
+                            'longitude': lon,
+                            'latitude': lat,
+                            'srid': 4326
+                        }
+                        result['geometry_wkt'] = f"POINT({lon} {lat})"
+                except (ValueError, TypeError, IndexError):
+                    pass
+        
+        # Extract address information
+        address_components = {}
+        for field in ['address', 'city', 'postal_code', 'country']:
+            if field in geo_meta:
+                address_components[field] = geo_meta[field]
+        
+        if address_components:
+            result['address_fields'] = address_components
+            # Generate full address string
+            address_parts = []
+            if 'address' in address_components:
+                address_parts.append(str(address_components['address']))
+            if 'postal_code' in address_components:
+                address_parts.append(str(address_components['postal_code']))
+            if 'city' in address_components:
+                address_parts.append(str(address_components['city']))
+            if 'country' in address_components:
+                address_parts.append(str(address_components['country']))
+            result['full_address'] = ', '.join(address_parts)
+        
+        # Add spatial index hint
+        if result.get('has_geometry'):
+            result['spatial_index_required'] = True
+            result['index_type'] = 'R-Tree'
+        
+        return result if (result.get('has_geometry') or result.get('address_fields')) else None
+    
+    def _extract_process_metadata(self, file_path: str, content: Any) -> Optional[Dict[str, Any]]:
+        """Extract process-aware metadata (BPMN, workflow, state machine)"""
+        if not isinstance(content, dict):
+            return None
+        
+        process_meta = {}
+        
+        # Check for process-related fields
+        process_indicators = {
+            'state': ['state', 'status', '_state', 'current_state', 'process_state'],
+            'activity': ['activity', 'task', 'action', 'step', 'phase'],
+            'case_id': ['case_id', 'process_id', 'instance_id', 'workflow_id'],
+            'timestamp': ['timestamp', 'time', 'date', 'created_at', 'updated_at'],
+            'resource': ['resource', 'user', 'actor', 'assignee', 'owner'],
+            'variables': ['variables', '_variables', 'data', 'context'],
+            'tokens': ['tokens', '_tokens', 'positions'],
+            'transitions': ['transitions', 'edges', 'flows'],
+            'process_type': ['type', '_type', 'process_type', 'workflow_type']
+        }
+        
+        found_process = False
+        for field_type, field_names in process_indicators.items():
+            for key, value in content.items():
+                if key.lower() in field_names:
+                    process_meta[field_type] = value
+                    found_process = True
+        
+        if not found_process:
+            return None
+        
+        # Build process metadata
+        result = {
+            'is_process_aware': True,
+            'process_fields': {}
+        }
+        
+        # Extract state information
+        if 'state' in process_meta:
+            result['process_fields']['state'] = process_meta['state']
+            result['has_state'] = True
+        
+        # Extract activity/task information
+        if 'activity' in process_meta:
+            result['process_fields']['activity'] = process_meta['activity']
+        
+        # Extract case/instance ID
+        if 'case_id' in process_meta:
+            result['process_fields']['case_id'] = process_meta['case_id']
+            result['is_process_instance'] = True
+        
+        # Extract timestamp
+        if 'timestamp' in process_meta:
+            result['process_fields']['timestamp'] = process_meta['timestamp']
+        
+        # Extract resource/actor
+        if 'resource' in process_meta:
+            result['process_fields']['resource'] = process_meta['resource']
+        
+        # Extract process variables
+        if 'variables' in process_meta:
+            result['process_fields']['variables'] = process_meta['variables']
+            result['has_variables'] = True
+        
+        # Extract tokens (for Petri nets / process execution)
+        if 'tokens' in process_meta:
+            result['process_fields']['tokens'] = process_meta['tokens']
+            result['has_tokens'] = True
+        
+        # Extract process type
+        if 'process_type' in process_meta:
+            result['process_type'] = process_meta['process_type']
+        
+        # Check for BPMN-specific fields
+        bpmn_fields = ['bpmn', 'flowNode', 'sequenceFlow', 'gateway', 'event', 'task']
+        if any(key in content for key in bpmn_fields):
+            result['format'] = 'BPMN'
+            result['is_bpmn'] = True
+        
+        # Check for state machine fields
+        if 'transitions' in process_meta:
+            result['transitions'] = process_meta['transitions']
+            result['is_state_machine'] = True
+        
+        # Add process mining hints
+        result['process_mining_ready'] = bool(
+            'case_id' in process_meta and 
+            'activity' in process_meta and 
+            'timestamp' in process_meta
+        )
+        
+        # Suggest collection names for process storage
+        if result.get('is_process_instance'):
+            result['suggested_collection'] = '_process_instances'
+        elif result.get('is_bpmn'):
+            result['suggested_collection'] = '_process_definitions'
+        
+        return result
     
     def process_file(self, file_path: str) -> Optional[FileMetadata]:
         """Process a single file and extract metadata"""

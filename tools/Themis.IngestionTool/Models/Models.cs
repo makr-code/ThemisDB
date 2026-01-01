@@ -17,13 +17,15 @@ public record FileMetadata
 }
 
 /// <summary>
-/// ThemisDB-spezifische Metadaten (Graph, Vector, Relational)
+/// ThemisDB-spezifische Metadaten (Graph, Vector, Relational, Geo, Process)
 /// </summary>
 public record ThemisMetadata
 {
     public GraphMetadata? Graph { get; init; }
     public VectorMetadata? Vector { get; init; }
     public RelationalMetadata? Relational { get; init; }
+    public GeoMetadata? Geo { get; init; }
+    public ProcessMetadata? Process { get; init; }
 }
 
 /// <summary>
@@ -64,6 +66,42 @@ public record RelationalMetadata
     public string TableName { get; init; } = "ingested_documents";
     public Dictionary<string, string> Schema { get; init; } = new();
     public Dictionary<string, object> Record { get; init; } = new();
+}
+
+/// <summary>
+/// Geo/Spatial Model Metadaten (Koordinaten, Adressen, Geometrien)
+/// </summary>
+public record GeoMetadata
+{
+    public bool HasGeometry { get; init; }
+    public Dictionary<string, object> CoordinateFields { get; init; } = new();
+    public Dictionary<string, object> AddressFields { get; init; } = new();
+    public string? GeometryWkt { get; init; }
+    public string? GeometryFormat { get; init; }
+    public object? GeometryRaw { get; init; }
+    public string? FullAddress { get; init; }
+    public bool SpatialIndexRequired { get; init; }
+    public string? IndexType { get; init; }
+}
+
+/// <summary>
+/// Process-Aware Metadaten (BPMN, Workflows, State Machines)
+/// </summary>
+public record ProcessMetadata
+{
+    public bool IsProcessAware { get; init; }
+    public Dictionary<string, object> ProcessFields { get; init; } = new();
+    public bool HasState { get; init; }
+    public bool HasVariables { get; init; }
+    public bool HasTokens { get; init; }
+    public bool IsProcessInstance { get; init; }
+    public bool IsBpmn { get; init; }
+    public bool IsStateMachine { get; init; }
+    public string? ProcessType { get; init; }
+    public string? Format { get; init; }
+    public bool ProcessMiningReady { get; init; }
+    public string? SuggestedCollection { get; init; }
+    public object? Transitions { get; init; }
 }
 
 /// <summary>
