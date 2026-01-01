@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Themis.AuditLogViewer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+133ee590e0a816cdfff6ea8110830b3f52ce19b7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+aa2c6c12e0b92fa889301c30e464d3b1c7c73136")]
 [assembly: System.Reflection.AssemblyProductAttribute("Themis.AuditLogViewer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Themis.AuditLogViewer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

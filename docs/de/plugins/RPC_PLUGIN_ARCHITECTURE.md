@@ -1700,4 +1700,4 @@ Das RPC Plugin-Framework für ThemisDB bietet:
 - [Wire Protocol v1](../architecture/wire_protocol_v1.md)
 - [Plugin Migration Guide](PLUGIN_MIGRATION.md)
 - [Security Architecture](../architecture/SECURITY_ARCHITECTURE.md)
-- [Performance Benchmarks](../../benchmarks/README.md)
+- [Performance Benchmarks](../README.md)

@@ -116,7 +116,7 @@ Ergebnis: 46 → 41 Verzeichnisse (-30% vs. Start)
 
 **👨‍💻 Entwickler**
 1. Start: [Quick Start](guides/QUICK_START.md)
-2. Build: [Build-Strategie](build/guides_build_strategy.md)
+2. Build: [Build-Strategie](guides/guides_build_strategy.md)
 3. API: [HTTP API Reference](apis/HTTP_API_REFERENCE.md)
 4. Plugins: [Plugin Architecture](plugins/RPC_PLUGIN_ARCHITECTURE.md)
 

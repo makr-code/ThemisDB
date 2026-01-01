@@ -1085,7 +1085,7 @@ Daten-Granularität:
 - Millisekunden für Signal- und Weichen-Zustände
 ```
 
-**Siehe:** [Railway Monitoring Documentation](projects/RAILWAY_MONITORING.md)
+**Siehe:** [Railway Monitoring Documentation](../projects/RAILWAY_MONITORING.md)
 
 ---
 

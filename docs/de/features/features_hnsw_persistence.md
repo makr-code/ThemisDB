@@ -317,5 +317,5 @@ Prometheus `/metrics`:
 
 - [Vector Operations](vector_ops.md)
 - [Indexes](indexes.md#vector-index)
-- [Performance & Benchmarks](performance_benchmarks.md#vector-suche-hnsw-tuning)
+- [Performance & Benchmarks](../performance/performance_benchmarks.md#vector-suche-hnsw-tuning)
 - [Operations Runbook](operations_runbook.md#vector-index-maintenance)

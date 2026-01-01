@@ -16,7 +16,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - [🧠 LLM Complete Setup Guide](guides/LLM_COMPLETE_SETUP_GUIDE.md) - **NEU** Vollständiger Guide für LLM-Setup und Inferencing
 
 **Business & Strategy:**
-- [Strategiepapier: Industrie 4.0 & IoT](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
+- [Strategiepapier: Industrie 4.0 & IoT](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
 
 **Using ThemisDB:**
 - [AQL Query Language](aql/aql_syntax.md) - Learn the query language
@@ -93,7 +93,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [CMS Strategy Paper](governance/CMS_STRATEGY_PAPER.md) | ThemisDB für Content Management (Government & Enterprise) |
+| [CMS Strategy Paper](strategie/CMS_STRATEGY_PAPER.md) | ThemisDB für Content Management (Government & Enterprise) |
 | [Enterprise Edition](enterprise/README.md) | Enterprise features and licensing |
 | [Governance Overview](governance/README.md) | Data governance and policies |
 
@@ -134,9 +134,9 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [Changelog](../CHANGELOG.md) | Version history and changes |
+| [Changelog](releases/CHANGELOG.md) | Version history and changes |
 | [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
-| [v1.3.0 Release](../RELEASE_NOTES_v1.3.0.md) | Latest release notes |
+| [v1.3.0 Release](releases/RELEASE_NOTES_v1.3.0.md) | Latest release notes |
 | [v1.2.0 Release](releases/v1.2.0.md) | Previous release |
 | [v1.1.0 Release](releases/v1.1.0.md) | Previous release |
 | [Migration Guides](guides/MIGRATION.md) | Upgrade between versions |
@@ -167,7 +167,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 **Docker/Kubernetes:**
 - [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md)
 - [Kubernetes Guide](deployment/README.md)
-- [Helm Charts](../helm/README.md)
+- [Helm Charts](README.md)
 
 **Cloud Platforms:**
 - [AWS/Azure/GCP Deployment](deployment/README.md)
@@ -181,7 +181,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ## 📊 Performance & Benchmarks
 
 - [Performance Overview](performance/README.md)
-- [Benchmarking Guide](../benchmarks/README.md)
+- [Benchmarking Guide](README.md)
 - [Memory Tuning](performance/README.md)
 - [GPU Performance](performance/GPU_ACCELERATION_PLAN.md)
 - [Query Optimization](performance/README.md)

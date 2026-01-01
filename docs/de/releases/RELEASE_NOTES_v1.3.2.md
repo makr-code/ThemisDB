@@ -144,5 +144,5 @@ ThemisDB v1.3.2 introduces a comprehensive image analysis AI plugin architecture
 ## 🔗 Links
 
 - [GitHub Release](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.2)
-- [Changelog](../../CHANGELOG.md)
+- [Changelog](CHANGELOG.md)
 - [PR #118](https://github.com/makr-code/ThemisDB/pull/118)

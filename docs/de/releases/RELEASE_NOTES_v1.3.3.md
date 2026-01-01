@@ -183,6 +183,6 @@ New default ports:
 ## 🔗 Links
 
 - [GitHub Release](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)
-- [Changelog](../../CHANGELOG.md)
+- [Changelog](CHANGELOG.md)
 - [PR #111](https://github.com/makr-code/ThemisDB/pull/111)
 - [Protocol Documentation](../apis/OPTIONAL_PROTOCOLS.md)

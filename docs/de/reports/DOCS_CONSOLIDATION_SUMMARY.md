@@ -135,7 +135,7 @@ nav:
 ### Wiki Sidebar
 ```markdown
 ### Enterprise Features
-* [Enterprise Overview](enterprise/README.md)
+* [Enterprise Overview](../README.md)
 * [Scalability Features](ENTERPRISE_SCALABILITY.md)
 * [HTTP Client Pool](HTTP_CLIENT_POOL_COMPLETE.md)
 * [Enterprise Build Guide](ENTERPRISE_BUILD_GUIDE.md)
@@ -157,7 +157,7 @@ nav:
 - **Doku-Index:** [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)
 
 ### Für Management
-- **Quick Ref:** [DOCS_QUICKREF.md](DOCS_QUICKREF.md)
+- **Quick Ref:** [DOCS_QUICKREF.md](../guides/DOCS_QUICKREF.md)
 - **Sachstandsbericht:** [themis_sachstandsbericht_2025.md](themis_sachstandsbericht_2025.md)
 
 ### Für Compliance

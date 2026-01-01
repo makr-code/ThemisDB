@@ -1313,4 +1313,4 @@ Die **Content Pipeline** bietet eine **skalierbare, erweiterbare Architektur** f
 - [Ingestion Guidelines](content/ingestion.md) - Modalitäts-spezifische Vorverarbeitungs-Empfehlungen
 - [Vector Index](indexes.md#vector-index) - HNSW-Algorithmus und Tuning-Parameter
 - [Graph Index](indexes.md#graph-index) - BFS/DFS-Traversierung und Edge-Typen
-- [AQL Syntax](aql_syntax.md) - Hybrid-Queries mit `VECTOR_KNN()` und `GRAPH_EXPAND()`
+- [AQL Syntax](../aql/aql_syntax.md) - Hybrid-Queries mit `VECTOR_KNN()` und `GRAPH_EXPAND()`

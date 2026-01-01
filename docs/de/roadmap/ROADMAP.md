@@ -22,7 +22,7 @@ ThemisDB v1.3.0 introduces **optional** native LLM integration with embedded lla
 
 ### Documentation
 - [LLM Integration Guide](../llm/README.md)
-- [Release Notes v1.3.0](../../RELEASE_NOTES_v1.3.0.md)
+- [Release Notes v1.3.0](../releases/RELEASE_NOTES_v1.3.0.md)
 - [GPU-Tier Analysis](../llm/GPU_TIER_ANALYSIS_HYPERSCALER_COMPARISON.md)
 
 ---
@@ -498,7 +498,7 @@ We welcome feature requests and community feedback!
 ## Stay Updated
 
 - **GitHub Releases:** [https://github.com/makr-code/ThemisDB/releases](https://github.com/makr-code/ThemisDB/releases)
-- **Changelog:** [CHANGELOG.md](../../CHANGELOG.md)
+- **Changelog:** [CHANGELOG.md](../releases/CHANGELOG.md)
 - **Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 - **Discussions:** [https://github.com/makr-code/ThemisDB/discussions](https://github.com/makr-code/ThemisDB/discussions)
 

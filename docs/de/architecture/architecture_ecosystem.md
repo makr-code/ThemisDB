@@ -181,7 +181,7 @@ dotnet run
 ```
 
 **Dokumentation:**
-- [tools/README.md](../tools/README.md) - Vollständiger Guide
+- [tools/README.md](../README.md) - Vollständiger Guide
 - [tools/STATUS.md](../tools/STATUS.md) - Entwicklungsstand
 
 ---
@@ -240,7 +240,7 @@ Invoke-WebRequest -Uri http://127.0.0.1:8001/ingest/file `
 ```
 
 **Dokumentation:**
-- [adapters/covina_fastapi_ingestion/README.md](../adapters/covina_fastapi_ingestion/README.md)
+- [adapters/covina_fastapi_ingestion/README.md](../README.md)
 - [adapters/covina_fastapi_ingestion/MODALITIES.md](../adapters/covina_fastapi_ingestion/MODALITIES.md)
 
 ---
@@ -283,7 +283,7 @@ POST /query
 ```
 
 **Dokumentation:** 
-- [aql_syntax.md](aql_syntax.md)
+- [aql_syntax.md](../aql/aql_syntax.md)
 - [query_engine_aql.md](query_engine_aql.md)
 
 ---
@@ -325,7 +325,7 @@ POST /query
 
 **Dokumentation:** 
 - [deployment.md](deployment.md#backup--recovery)
-- [tools/README.md](../tools/README.md) - Audit API
+- [tools/README.md](../README.md) - Audit API
 
 ---
 
@@ -459,13 +459,13 @@ Siehe Hauptprojekt-Lizenz
 | Komponente | Dokumentation | Status |
 |-----------|---------------|--------|
 | Core Database | [deployment.md](deployment.md) | ✅ Produktiv |
-| Python SDK | [clients/python/README.md](../clients/python/README.md) | ✅ MVP |
-| Admin Tools | [tools/README.md](../tools/README.md) | ✅ MVP |
-| Covina Adapter | [adapters/covina_fastapi_ingestion/README.md](../adapters/covina_fastapi_ingestion/README.md) | ✅ Produktiv |
+| Python SDK | [clients/python/README.md](../README.md) | ✅ MVP |
+| Admin Tools | [tools/README.md](../README.md) | ✅ MVP |
+| Covina Adapter | [adapters/covina_fastapi_ingestion/README.md](../README.md) | ✅ Produktiv |
 | Vector Search | [vector_ops.md](vector_ops.md) | ✅ Produktiv |
 | Time-Series | [time_series.md](time_series.md) | ✅ Produktiv |
 | Prometheus Metrics | [observability/prometheus_metrics.md](observability/prometheus_metrics.md) | ✅ Produktiv |
-| AQL Syntax | [aql_syntax.md](aql_syntax.md) | ✅ Produktiv |
+| AQL Syntax | [aql_syntax.md](../aql/aql_syntax.md) | ✅ Produktiv |
 
 ---
 

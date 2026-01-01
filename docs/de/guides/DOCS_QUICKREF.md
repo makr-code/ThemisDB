@@ -53,7 +53,7 @@ Quick reference guide for all ThemisDB documentation resources.
 |-----|-----|
 | **Quick Start** | [README.md](../README.md) |
 | **Build Guide** | [BUILD_STRATEGY.md](BUILD_STRATEGY.md) |
-| **Enterprise Features** | [docs/enterprise/README.md](enterprise/README.md) |
+| **Enterprise Features** | [docs/enterprise/README.md](../README.md) |
 | **Development Status** | [DEVELOPMENT_AUDITLOG.md](../DEVELOPMENT_AUDITLOG.md) |
 | **API Docs** | [docs/apis/openapi.md](apis/openapi.md) |
 
@@ -62,7 +62,7 @@ Quick reference guide for all ThemisDB documentation resources.
 |-----|-----|
 | **Sachstandsbericht** | [docs/THEMIS_SACHSTANDSBERICHT_2025.md](THEMIS_SACHSTANDSBERICHT_2025.md) |
 | **Projektkostenschätzung** | [docs/THEMIS_PROJECT_VALUATION.md](THEMIS_PROJECT_VALUATION.md) |
-| **Roadmap** | [ROADMAP.md](ROADMAP.md) |
+| **Roadmap** | [ROADMAP.md](../roadmap/ROADMAP.md) |
 | **Features Übersicht** | [FEATURES.md](FEATURES.md) |
 
 ### Für Compliance
@@ -122,14 +122,14 @@ Quick reference guide for all ThemisDB documentation resources.
 - **Vector:** [docs/vector_ops.md](vector_ops.md)
 
 ### Query Language (AQL)
-- **Syntax:** [docs/aql_syntax.md](aql_syntax.md)
+- **Syntax:** [docs/aql_syntax.md](../aql/aql_syntax.md)
 - **Hybrid Queries:** [docs/aql-hybrid-queries.md](aql-hybrid-queries.md)
-- **EXPLAIN:** [docs/aql_explain_profile.md](aql_explain_profile.md)
+- **EXPLAIN:** [docs/aql_explain_profile.md](../aql/aql_explain_profile.md)
 
 ### Storage & Performance
 - **RocksDB Layout:** [docs/storage/rocksdb_layout.md](storage/rocksdb_layout.md)
 - **MVCC:** [docs/mvcc_design.md](mvcc_design.md)
-- **Benchmarks:** [docs/performance_benchmarks.md](performance_benchmarks.md)
+- **Benchmarks:** [docs/performance_benchmarks.md](../performance/performance_benchmarks.md)
 - **Compression:** [docs/compression_strategy.md](compression_strategy.md)
 
 ### Security
@@ -175,4 +175,4 @@ build-msvc-ninja-debug\themis_tests.exe --gtest_filter="*Enterprise*"
 
 ---
 
-**Tipp:** Vollständigen Dokumentations-Index siehe [docs/DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
+**Tipp:** Vollständigen Dokumentations-Index siehe [docs/DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)

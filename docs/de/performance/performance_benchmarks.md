@@ -78,7 +78,7 @@ Weitere Details und Tabellen: siehe [compression_benchmarks.md](compression_benc
 
 ## Pagination: Offset vs Cursor (Anchor)
 
-Quelle: `benchmarks/bench_query.cpp`, Dokumentation: [Pagination Benchmarks](search/pagination_benchmarks.md)
+Quelle: `benchmarks/bench_query.cpp`, Dokumentation: [Pagination Benchmarks](../search/pagination_benchmarks.md)
 
 - Offset: Aufwand wächst linear mit dem Offset (Index traversiert alle Einträge bis zur Seite)
 - Cursor/Anchor: konstante Arbeit pro Seite via start-after `(cursor_value, cursor_pk)` und `LIMIT count+1`
@@ -152,7 +152,7 @@ Optional ausführen (PowerShell):
 ## Referenzen
 
 - [compression_benchmarks.md](compression_benchmarks.md)
-- [search/pagination_benchmarks.md](search/pagination_benchmarks.md)
+- [search/pagination_benchmarks.md](../search/pagination_benchmarks.md)
 - [indexes.md](indexes.md)
 - [index_stats_maintenance.md](index_stats_maintenance.md)
 - [memory_tuning.md](memory_tuning.md)

@@ -369,7 +369,7 @@ Complete usage examples in `examples/hybrid_retention_usage_example.cpp`:
 
 ## Related Documentation
 
-- [TaskScheduler](../../src/scheduler/README.md) - Underlying scheduler
+- [TaskScheduler](../README.md) - Underlying scheduler
 - [Adaptive Retention Analysis](ADAPTIVE_VS_TIME_BASED_RETENTION.md) - Strategy comparison
 - [Data Retention Guide](DATA_RETENTION_DOWNSAMPLING.md) - Retention concepts
 

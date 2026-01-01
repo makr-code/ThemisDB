@@ -141,7 +141,7 @@ for (const auto& entity : entities) {
 
 - [Performance Index](../performance/PERFORMANCE_INDEX.md) - Alle Metriken
 - [Benchmark Results](../performance/BENCHMARK_RESULTS_COMPLETE_2025.md) - Detaillierte Analyse
-- [Git Cleanup Guide](GIT_CLEANUP_GUIDE.md) - Repository-Hygiene
+- [Git Cleanup Guide](../development/GIT_CLEANUP_GUIDE.md) - Repository-Hygiene
 - Validierungs-Report: `benchmarks/validation_results.json`
 
 ---

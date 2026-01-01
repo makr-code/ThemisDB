@@ -908,7 +908,7 @@ Die Nutzung des RPC Frameworks mit mTLS für Inter-Shard Kommunikation bietet si
 - [mTLS Client Implementation](../../include/sharding/mtls_client.h)
 - [PKI Shard Certificate](../../include/sharding/pki_shard_certificate.h)
 - [Sharding Architecture](../architecture/sharding_architecture.md)
-- [Security Best Practices](../security/SECURITY_ARCHITECTURE.md)
+- [Security Best Practices](../architecture/SECURITY_ARCHITECTURE.md)
 
 ---
 

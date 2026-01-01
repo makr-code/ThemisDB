@@ -90,6 +90,6 @@ ThemisDB Release-Dokumentation enthält:
 
 ## 🔗 Verwandte Dokumentation
 
-- [../../CHANGELOG.md](../../CHANGELOG.md) - Vollständiger Changelog
+- [../../CHANGELOG.md](CHANGELOG.md) - Vollständiger Changelog
 - [../deployment/v1.3.5_RELEASE_BUILD_STRATEGY.md](../deployment/v1.3.5_RELEASE_BUILD_STRATEGY.md) - v1.3.5 Build-Strategie
 - [../security/security_encryption_strategy.md](../security/security_encryption_strategy.md) - Verschlüsselungsstrategie

@@ -55,7 +55,7 @@ docker run -d \
   themisdb/themisdb:1.0.0
 ```
 
-For detailed Docker deployment instructions, see [docs/guides/guides_deployment.md](docs/guides/guides_deployment.md).
+For detailed Docker deployment instructions, see [docs/guides/guides_deployment.md](../guides/guides_deployment.md).
 
 ### Binary Packages
 
@@ -270,7 +270,7 @@ See [benchmarks/](benchmarks/) for detailed benchmark results.
 - **Getting Started**: [README.md](README.md)
 - **API Reference**: [docs/API.md](docs/API.md)
 - **Configuration**: [docs/configuration.md](docs/configuration.md)
-- **Docker Deployment**: [docs/guides/guides_deployment.md](docs/guides/guides_deployment.md)
+- **Docker Deployment**: [docs/guides/guides_deployment.md](../guides/guides_deployment.md)
 - **QNAP Setup**: [QNAP_QUICKSTART.md](QNAP_QUICKSTART.md)
 - **Security Guide**: [SECURITY.md](SECURITY.md)
 - **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)

@@ -310,5 +310,5 @@ FOR v IN 1..4 OUTBOUND 'user1' GRAPH 'social'
 ---
 
 **Siehe auch:**
-- [AQL EXPLAIN & PROFILE](aql_explain_profile.md)
-- [BFS Pruning (aktuell)](development/todo.md#performance--planung)
+- [AQL EXPLAIN & PROFILE](../aql/aql_explain_profile.md)
+- [BFS Pruning (aktuell)](../development/todo.md#performance--planung)

@@ -422,7 +422,7 @@ cmake -B build -S . -DTHEMIS_ENABLE_HTTP3=ON
 
 ## Weitere Protokolle (Dokumentiert)
 
-Siehe [ADDITIONAL_PROTOCOLS.md](docs/apis/ADDITIONAL_PROTOCOLS.md) für Details:
+Siehe [ADDITIONAL_PROTOCOLS.md](ADDITIONAL_PROTOCOLS.md) für Details:
 
 | Protokoll | Priorität | Zeitrahmen | ROI |
 |-----------|-----------|------------|-----|

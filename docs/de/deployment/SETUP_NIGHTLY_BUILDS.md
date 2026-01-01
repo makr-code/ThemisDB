@@ -173,7 +173,7 @@ on:
 
 - [Nightly Builds Übersicht (Deutsch)](deployment_nightly_builds_de.md)
 - [Nightly Builds Documentation (English)](deployment_nightly_builds.md)
-- [GitHub Actions Workflows README](../../.github/workflows/README.md)
+- [GitHub Actions Workflows README](../README.md)
 - [DockerHub Access Tokens Guide](https://docs.docker.com/docker-hub/access-tokens/)
 
 ## Support

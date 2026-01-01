@@ -1,4 +1,10 @@
 # --- Repository-wide ignores (best-practice) ------------------------------
+.venv/
+env/
+.venv-*/
+env-*/
+compendium/chrome/
+compendium/temp
 
 # Build directories (CMake, Ninja, MSVC, other build outputs)
 /build/

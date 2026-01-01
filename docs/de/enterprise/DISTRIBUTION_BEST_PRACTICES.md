@@ -459,4 +459,4 @@ bool validateLicense(const std::string& license_key) {
 
 **See Also:**
 - [ENTERPRISE.md](../../ENTERPRISE.md) - Customer-facing documentation
-- [IMPLEMENTATION_SUMMARY.md](../../IMPLEMENTATION_SUMMARY.md) - Technical implementation
+- [IMPLEMENTATION_SUMMARY.md](../reports/IMPLEMENTATION_SUMMARY.md) - Technical implementation

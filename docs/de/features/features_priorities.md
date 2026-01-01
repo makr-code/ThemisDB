@@ -434,9 +434,9 @@ cargo build --release
 
 ## 📎 Referenzen
 
-- **Roadmap:** [ROADMAP.md](ROADMAP.md)
+- **Roadmap:** [ROADMAP.md](../roadmap/ROADMAP.md)
 - **Entwicklungsstand:** [DEVELOPMENT_AUDITLOG.md](DEVELOPMENT_AUDITLOG.md)
-- **Changelog:** [CHANGELOG.md](CHANGELOG.md)
+- **Changelog:** [CHANGELOG.md](../releases/CHANGELOG.md)
 - **Column Encryption (Implementiert):** [docs/column_encryption.md](docs/column_encryption.md)
 - **Encryption Code:** `include/security/encryption.h`, `src/security/field_encryption.cpp`
 - **Window Functions (Implementiert):** `include/query/window_evaluator.h`, `src/query/window_evaluator.cpp`

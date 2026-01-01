@@ -291,7 +291,7 @@
 | Ressource | Link |
 |-----------|------|
 | **Audit-Checkliste** | [FULL_AUDIT_CHECKLIST.md](FULL_AUDIT_CHECKLIST.md) |
-| **Security Report** | [SECURITY_AUDIT_REPORT.md](reports/SECURITY_AUDIT_REPORT.md) |
+| **Security Report** | [SECURITY_AUDIT_REPORT.md](../reports/SECURITY_AUDIT_REPORT.md) |
 | **Security Policy** | [SECURITY.md](../SECURITY.md) |
 | **Incident Response** | [INCIDENT_RESPONSE_PLAN.md](security/INCIDENT_RESPONSE_PLAN.md) |
 | **DPIA** | [DPIA.md](compliance/DPIA.md) |

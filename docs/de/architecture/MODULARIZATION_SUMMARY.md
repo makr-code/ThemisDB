@@ -213,8 +213,8 @@ $ cmake .. -DTHEMIS_BUILD_MODULAR=ON
 
 ## References
 
-- **Main Plan**: [docs/architecture/MODULARIZATION_PLAN.md](docs/architecture/MODULARIZATION_PLAN.md)
-- **Decision Document**: [docs/architecture/MODULARIZATION_DECISION.de.md](docs/architecture/MODULARIZATION_DECISION.de.md)
+- **Main Plan**: [docs/architecture/MODULARIZATION_PLAN.md](MODULARIZATION_PLAN.md)
+- **Decision Document**: [docs/architecture/MODULARIZATION_DECISION.de.md](MODULARIZATION_DECISION.de.md)
 - **CMake Config**: [cmake/ModularBuild.cmake](cmake/ModularBuild.cmake)
 - **Export Headers**: [include/themis/base/export.h](include/themis/base/export.h)
 

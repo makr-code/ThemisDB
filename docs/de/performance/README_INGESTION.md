@@ -346,7 +346,7 @@ alerts:
 ## 📚 Additional Resources
 
 ### Internal Documentation
-- [BATCH_PROCESSING_OPPORTUNITIES.md](../../reports/BATCH_PROCESSING_OPPORTUNITIES.md) - Detailed batch processing analysis
+- [BATCH_PROCESSING_OPPORTUNITIES.md](../reports/BATCH_PROCESSING_OPPORTUNITIES.md) - Detailed batch processing analysis
 - [PERFORMANCE_INDEX.md](PERFORMANCE_INDEX.md) - Complete performance docs index
 - [THEMISDB_IMPACT_ANALYSE_OPTIMIERUNGEN.md](../../../THEMISDB_IMPACT_ANALYSE_OPTIMIERUNGEN.md) - Full impact analysis
 

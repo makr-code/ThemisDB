@@ -12,7 +12,7 @@ Das Governance-Modul implementiert Datenklassifizierung, Policy-Enforcement und 
 
 ## Strategische Dokumente
 
-- **[CMS Strategy Paper](./CMS_STRATEGY_PAPER.md)** - Strategiepapier: ThemisDB für Content Management Systeme in Government und Enterprise
+- **[CMS Strategy Paper](../strategie/CMS_STRATEGY_PAPER.md)** - Strategiepapier: ThemisDB für Content Management Systeme in Government und Enterprise
   - Multi-Model Architektur für CMS
   - Native AI/LLM Integration
   - Enterprise-Grade Sicherheit und Compliance

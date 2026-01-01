@@ -213,6 +213,6 @@ If the cursor was generated for a different collection, the server returns a 400
 
 ## See Also
 
-- [AQL Syntax Guide](aql_syntax.md)
-- [AQL EXPLAIN/PROFILE](aql_explain_profile.md)
+- [AQL Syntax Guide](../aql/aql_syntax.md)
+- [AQL EXPLAIN/PROFILE](../aql/aql_explain_profile.md)
 - [HTTP API Reference](openapi.yaml)

@@ -87,7 +87,7 @@ docs/
 **Neue Sektion hinzugefügt:**
 ```markdown
 **Enterprise Features:**
-- **[Enterprise Features Übersicht](docs/enterprise/README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool
+- **[Enterprise Features Übersicht](../README.md)** - Rate Limiting, Load Shedding, HTTP Client Pool
 - **[Build Strategy](BUILD_STRATEGY.md)** - Build-Toolchain inkl. Enterprise Builds
 - **[Integration Analysis](INTEGRATION_ANALYSIS.md)** - Koexistenz mit Legacy-Code
 ```
@@ -215,7 +215,7 @@ https://github.com/makr-code/ThemisDB/wiki/
 ### Sidebar-Integration
 ```
 ### Enterprise Features
-* [Enterprise Overview](enterprise/README.md)
+* [Enterprise Overview](../README.md)
 * [Scalability Features](ENTERPRISE_SCALABILITY.md)
 * [HTTP Client Pool](HTTP_CLIENT_POOL_COMPLETE.md)
 * [Enterprise Build Guide](ENTERPRISE_BUILD_GUIDE.md)

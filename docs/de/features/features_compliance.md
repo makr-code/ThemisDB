@@ -314,7 +314,7 @@ cfg.encrypt_then_sign = true;  // <- Aktivieren!
 
 - [Compliance Integration Guide](compliance_integration.md)
 - [API-Dokumentation](openapi.yaml)
-- [DSGVO-Checkliste](security_audit_checklist.md)
+- [DSGVO-Checkliste](../security/security_audit_checklist.md)
 - [Retention-Policies](security/audit_and_retention.md)
 
 ## 🤝 Support

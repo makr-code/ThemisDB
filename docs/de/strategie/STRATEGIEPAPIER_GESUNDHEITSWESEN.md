@@ -1078,8 +1078,8 @@ Phase 4: Decommission Legacy
 **ThemisDB-Dokumentation:**
 - [Architecture Overview](https://makr-code.github.io/ThemisDB/architecture/ARCHITECTURE_OVERVIEW.md)
 - [Security Implementation](https://makr-code.github.io/ThemisDB/security/security_implementation.md)
-- [Compliance Checklist](./compliance_full_checklist.md)
-- [Enterprise Features](./ENTERPRISE_FEATURE_ANALYSIS.md)
+- [Compliance Checklist](../compliance/compliance_full_checklist.md)
+- [Enterprise Features](../enterprise/ENTERPRISE_FEATURE_ANALYSIS.md)
 - [LLM Integration](../llm/NATIVE_LLM_INTEGRATION_CONCEPT.md)
 
 **Regulatorische Grundlagen:**

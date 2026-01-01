@@ -1,0 +1,173 @@
+site_name: ThemisDB - Das vollständige Handbuch
+site_description: Umfassendes Kompendium für ThemisDB v1.3.4 - Von Grundlagen bis Mastery
+site_url: https://makr-code.github.io/ThemisDB/compendium/
+repo_name: makr-code/ThemisDB
+repo_url: https://github.com/makr-code/ThemisDB
+edit_uri: ''
+docs_dir: .
+site_dir: site
+
+theme:
+  name: material
+  language: de
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - toc.integrate
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Zu dunklem Modus wechseln
+    - scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Zu hellem Modus wechseln
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: material/book-open-page-variant
+
+plugins:
+  - search:
+      lang: de
+  - with-pdf:
+    output_path: pdf/ThemisDB-Kompendium-v1.3.4.pdf
+      cover_title: "ThemisDB"
+      cover_subtitle: "Das vollständige Handbuch - Version 1.3.4"
+      author: "ThemisDB Team"
+      toc_title: "Inhaltsverzeichnis"
+      heading_shift: false
+      toc_level: 3
+      two_columns_level: 3
+      enabled_if_env: ENABLE_PDF_EXPORT
+      # PDF Optimization: reduce file size by hiding decorative elements
+      custom_template_path: .
+      # Note: styles_pdf_optimization.scss will be automatically picked up
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - attr_list
+  - md_in_html
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/makr-code/ThemisDB
+    - icon: fontawesome/solid/book
+      link: https://makr-code.github.io/ThemisDB/
+
+nav:
+  - Startseite: index.md
+  - Vorwort: preface.md
+  
+  - Teil I - Grundlagen:
+    - Kapitel 1 - Einführung: chapter_01_introduction.md
+    - Kapitel 2 - Architektur: chapter_02_architecture.md
+    - Kapitel 3 - Multi-Model: chapter_03_multimodel.md
+    - Kapitel 4 - Installation: chapter_04_installation.md
+  
+  - Teil II - Datenmodelle:
+    - Kapitel 5 - Relational: chapter_05_relational.md
+    - Kapitel 6 - Graph: chapter_06_graph.md
+    - Kapitel 7 - Dokumente: chapter_07_document.md
+    - Kapitel 8 - Vektoren: chapter_08_vector.md
+  
+  - Teil III - Spezialanwendungen:
+    - Kapitel 9 - Zeit-Reihen & IoT: chapter_09_timeseries.md
+    - Kapitel 10 - Enterprise: chapter_10_enterprise.md
+    - Kapitel 11 - Realtime: chapter_11_realtime.md
+    - Kapitel 12 - Computer Vision: chapter_12_computervision.md
+  
+  - Teil IV - Erweiterte Features:
+    - Kapitel 13 - Volltext-Suche & NLP: chapter_13_fulltext.md
+    - Kapitel 14 - Geo-Spatial Features: chapter_14_geospatial.md
+    - Kapitel 15 - Analytics & Reporting: chapter_15_analytics.md
+    - Kapitel 16 - Machine Learning Integration: chapter_16_ml.md
+  
+  - Teil V - Skalierung:
+    - Kapitel 17 - Horizontal Scaling: chapter_17_scaling.md
+    - Kapitel 18 - Hochverfügbarkeit: chapter_18_ha.md
+    - Kapitel 19 - Monitoring: chapter_19_monitoring.md
+    - Kapitel 20 - Performance: chapter_20_performance.md
+  
+  - Teil VI - Sicherheit:
+    - Kapitel 21 - Authentifizierung: chapter_21_auth.md
+    - Kapitel 22 - Verschlüsselung: chapter_22_encryption.md
+    - Kapitel 23 - Testing & QA: chapter_23_testing_qa.md
+    - Kapitel 24 - AI Ethics: chapter_24_ai_ethics.md
+  
+  - Teil VII - Entwicklung & Ops:
+    - Kapitel 25 - DevOps & Infrastructure: chapter_25_devops_infrastructure.md
+    - Kapitel 26 - Migration & Legacy: chapter_26_migration_legacy.md
+    - Kapitel 27 - Troubleshooting: chapter_27_troubleshooting.md
+    - Kapitel 28 - AQL Vollständige Referenz: chapter_28_aql_reference.md
+    - Kapitel 31 - API-Protokolle: chapter_31_api_protocols.md
+    - Kapitel 32 - AQL OOP Implementierung: chapter_32_aql_oop_implementation.md
+    - Kapitel 33 - Best Practices: chapter_33_best_practices.md
+  
+  - Teil VIII - Advanced Topics:
+    - Kapitel 34 - Query Optimierung: chapter_34_query_optimization.md
+    - Kapitel 35 - Data Modeling Patterns: chapter_35_data_modeling_patterns.md
+    - Kapitel 36 - Security Hardening: chapter_36_security_hardening.md
+    - Kapitel 37 - Ecosystem Integration: chapter_37_ecosystem_integration.md
+
+  - Teil IX - Reliability & Governance:
+    - Kapitel 38 - Observability & SRE: chapter_38_observability_sre.md
+    - Kapitel 39 - Performance Tuning Cookbook: chapter_39_performance_tuning_cookbook.md
+    - Kapitel 40 - Data Governance & Compliance: chapter_40_data_governance_compliance.md
+
+  - Teil X - Hands-on Labs:
+    - Kapitel 41 - Hands-on Labs: chapter_41_hands_on_labs.md
+  
+  - Teil XI - Analytics & Operations:
+    - Kapitel 29 - Analytics & Process Mining: chapter_29_analytics_process_mining.md
+    - Kapitel 30 - Deployment & Operations: chapter_30_deployment_operations.md
+  
+  - Anhänge:
+    - Anhang A - Literatur: appendix_literatur.md
+    - Anhang D - Feature Status: appendix_d_feature_status.md
+    - Anhang E - Incident Response Runbooks: appendix_e_incident_runbooks.md
+    - Anhang F - AQL Cheat Sheet: appendix_f_aql_cheatsheet.md
+    - Anhang G - Configuration Reference: appendix_g_configuration.md
+    - Anhang H - Glossary & Terminology: appendix_h_glossary.md
+    - Anhang I - Troubleshooting Guide: appendix_i_troubleshooting.md

@@ -189,9 +189,9 @@ Throughput:             420k vectors/sec (22% slower, expected)
 
 ### Weitere Ressourcen
 
-- [SHARDING_BENCHMARK_PLAN_v1.4.md](../SHARDING_BENCHMARK_PLAN_v1.4.md) – Detaillierte Test-Spezifikation
+- [SHARDING_BENCHMARK_PLAN_v1.4.md](SHARDING_BENCHMARK_PLAN_v1.4.md) – Detaillierte Test-Spezifikation
 - [SHARDING_BENCHMARKS_GUIDE.md](../tools/SHARDING_BENCHMARKS_GUIDE.md) – Benutzerhandbuch + Troubleshooting
-- [SHARDING_BENCHMARK_REPORT_TEMPLATE.md](../SHARDING_BENCHMARK_REPORT_TEMPLATE.md) – Report-Template
+- [SHARDING_BENCHMARK_REPORT_TEMPLATE.md](SHARDING_BENCHMARK_REPORT_TEMPLATE.md) – Report-Template
 - [config/sharding/shard-router-example.yaml](../config/sharding/shard-router-example.yaml) – Konfigurationsvorlage
 - [.github/workflows/sharding-benchmark.yml](../.github/workflows/sharding-benchmark.yml) – Automated Testing
 

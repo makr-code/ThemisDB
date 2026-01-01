@@ -13,7 +13,7 @@
 5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
 
 ### Für Stakeholder
-1. [STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ⭐ **NEU:** Industrie 4.0 & IoT Strategie
+1. [STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ⭐ **NEU:** Industrie 4.0 & IoT Strategie
 2. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
 3. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
 4. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
@@ -25,7 +25,7 @@
 3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Ergebnisse
 4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
 5. [legal/LICENSE_COMPATIBILITY_ANALYSIS.md](legal/LICENSE_COMPATIBILITY_ANALYSIS.md) - ⭐ License Compatibility (v1.3.0)
-6. [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
+6. [THIRD_PARTY_LICENSES.md](legal/THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
 
 ## 📚 Dokumentationsstruktur
 
@@ -199,7 +199,7 @@ docs/
 |-------|--------|--------|---------|-----|
 | analytics | [docs/observability/README.md](observability/README.md) | 2 | 3 | 3,742 |
 | cache | [docs/storage/README.md](storage/README.md) | 1 | 6 | 492 |
-| cdc | [docs/cdc/README.md](cdc/README.md) | 1 | 1 | 510 |
+| cdc | [docs/cdc/README.md](README.md) | 1 | 1 | 510 |
 | content | [docs/content/README.md](content/README.md) | 15 | 16 | 9,091 |
 | geo | [docs/geo/README.md](geo/README.md) | 3 | 2 | 304 |
 | governance | [docs/governance/README.md](governance/README.md) | 1 | 1 | 259 |
@@ -209,7 +209,7 @@ docs/
 | replication | [docs/storage/README.md](storage/README.md) | 1 | 2 | 1,612 |
 | security | [docs/security/README.md](security/README.md) | 16 | 16 | 8,138 |
 | server | [docs/server/README.md](server/README.md) | 20 | 20 | 18,282 |
-| sharding | [docs/sharding/README.md](sharding/README.md) | 19 | 21 | 12,278 |
+| sharding | [docs/sharding/README.md](README.md) | 19 | 21 | 12,278 |
 | storage | [docs/storage/README.md](storage/README.md) | 10 | 9 | 4,591 |
 | timeseries | [docs/timeseries/README.md](timeseries/README.md) | 8 | 7 | 2,767 |
 | transaction | [docs/architecture/README.md](architecture/README.md) | 2 | 2 | 895 |
@@ -219,7 +219,7 @@ docs/
 **Audit-Report:** [SOURCE_CODE_AUDIT.md](development/SOURCE_CODE_AUDIT.md)
 
 ### Multi-Model Features
-- **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/search/graph_index.cpp.md)
+- **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/index/graph_index.cpp.md)
 - **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
 - **Time-Series:** [time_series.md](features/features_time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
 - **Document:** [content_pipeline.md](architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
@@ -234,7 +234,7 @@ docs/
 ### Search & Indexing
 - **Fulltext:** [search/fulltext_api.md](search/fulltext_api.md), [search/stemming.md](search/stemming.md)
 - **Hybrid Search:** [search/hybrid_search_design.md](search/hybrid_search_design.md)
-- **Vector Search:** [vector_ops.md](features/features_vector_ops.md), [index/vector_index.cpp.md](src/search/vector_index.cpp.md)
+- **Vector Search:** [vector_ops.md](features/features_vector_ops.md), [index/vector_index.cpp.md](src/index/vector_index.cpp.md)
 - **Geo Indexing:** [geo/cpu_backend.cpp.md](src/geo/cpu_backend.cpp.md)
 
 ### Governance & PII

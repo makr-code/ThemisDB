@@ -93,7 +93,7 @@ ThemisDB ist jetzt eine **vollständig verteilte, cloud-native Datenplattform** 
 
 **Documentation:**
 - 📖 [LLM Integration Guide](../llm/README.md)
-- 📖 [Release Notes v1.3.0](../../RELEASE_NOTES_v1.3.0.md)
+- 📖 [Release Notes v1.3.0](../releases/RELEASE_NOTES_v1.3.0.md)
 
 ---
 

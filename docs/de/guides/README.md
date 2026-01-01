@@ -280,10 +280,10 @@ cmake -DTHEMIS_ENABLE_ASAN=ON ...
 ## 📚 Weitere Ressourcen
 
 - **[RocksDB Windows Build Issues](rocksdb-windows-build-issues.md)** - Detaillierte RocksDB-Problemlösung
-- **[Docker Deployment Guide](../DOCKER_DEPLOYMENT.md)** - Docker Setup & Konfiguration
-- **[Build Strategy](../docs/guides/guides_build_strategy.md)** - Build-Prozess-Dokumentation
+- **[Docker Deployment Guide](../deployment/DOCKER_DEPLOYMENT.md)** - Docker Setup & Konfiguration
+- **[Build Strategy](guides_build_strategy.md)** - Build-Prozess-Dokumentation
 - **[Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md)** - System-Architektur
-- **[Changelog](../CHANGELOG.md)** - Known Issues & Fixes
+- **[Changelog](../releases/CHANGELOG.md)** - Known Issues & Fixes
 
 ---
 
@@ -291,7 +291,7 @@ cmake -DTHEMIS_ENABLE_ASAN=ON ...
 
 Wenn die Probleme weiterbestehen:
 
-1. **Check Known Issues**: [CHANGELOG.md](../CHANGELOG.md)
+1. **Check Known Issues**: [CHANGELOG.md](../releases/CHANGELOG.md)
 2. **GitHub Issues**: [github.com/makr-code/ThemisDB/issues](https://github.com/makr-code/ThemisDB/issues)
 3. **Documentation**: [makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 4. **Wiki**: [github.com/makr-code/ThemisDB/wiki](https://github.com/makr-code/ThemisDB/wiki)

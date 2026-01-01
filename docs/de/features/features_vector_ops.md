@@ -421,7 +421,7 @@ print(f"Total results: {len(all_results)}")
 
 ## Siehe auch
 
-- [AQL Syntax](aql_syntax.md) – Hybrid-Queries mit Vektorsuche
+- [AQL Syntax](../aql/aql_syntax.md) – Hybrid-Queries mit Vektorsuche
 - [Indexes](indexes.md) – Sekundär- und Range-Indizes
 - [Deployment](deployment.md) – Production-Setup und Tuning
 - [Tracing](tracing.md) – Performance-Debugging mit OpenTelemetry

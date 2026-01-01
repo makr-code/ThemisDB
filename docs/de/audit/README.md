@@ -171,7 +171,7 @@ Economic analysis covering Total Cost of Ownership (TCO), business value, ROI ca
 ## Related Documentation
 
 **Code Review:**
-- [`CODE_REVIEW_v1.1.0_v1.2.0.md`](../CODE_REVIEW_v1.1.0_v1.2.0.md) - Comprehensive code review (9.5/10)
+- [`CODE_REVIEW_v1.1.0_v1.2.0.md`](../development/CODE_REVIEW_v1.1.0_v1.2.0.md) - Comprehensive code review (9.5/10)
 
 **Release Notes:**
 - [`v1.1.0.md`](../releases/v1.1.0.md) - Optimization release

@@ -55,7 +55,7 @@ ThemisDB v1.3.1 introduces comprehensive third-party attribution documentation, 
 
 ## 📚 Documentation
 
-- [ATTRIBUTIONS.md](../../ATTRIBUTIONS.md) - Complete third-party attribution list
+- [ATTRIBUTIONS.md](../legal/ATTRIBUTIONS.md) - Complete third-party attribution list
 - [LICENSE](../../LICENSE) - ThemisDB MIT License
 
 ---
@@ -78,5 +78,5 @@ No code changes in this release - documentation only. No upgrade steps required.
 ## 🔗 Links
 
 - [GitHub Release](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.1)
-- [Changelog](../../CHANGELOG.md)
+- [Changelog](CHANGELOG.md)
 - [PR #119](https://github.com/makr-code/ThemisDB/pull/119)

@@ -334,5 +334,5 @@ The request appears as a standard HTTP request to GitHub's raw content CDN.
 
 - [Configuration Guide](configuration.md)
 - [Deployment Guide](guides_deployment.md)
-- [Changelog](../CHANGELOG.md)
+- [Changelog](../releases/CHANGELOG.md)
 - [Security Policy](../SECURITY.md)

@@ -817,7 +817,7 @@ docker compose up --build
 ## 🧰 Admin Tools
 
 ### WPF Admin Tools Suite ✅
-**Status:** Production-Ready | **Docs:** [`docs/admin_tools/user_guide.md`](docs/admin_tools/user_guide.md)
+**Status:** Production-Ready | **Docs:** [`docs/admin_tools/user_guide.md`](../admin_tools/user_guide.md)
 
 **Tools (7):**
 1. ✅ **Audit Log Viewer** - Search, filter, export logs
@@ -845,7 +845,7 @@ docker compose up --build
 ## 🔌 Plugin Architecture
 
 ### Plugin System ✅
-**Status:** Production-Ready | **Docs:** [`docs/plugins/PLUGIN_MIGRATION.md`](docs/plugins/PLUGIN_MIGRATION.md)
+**Status:** Production-Ready | **Docs:** [`docs/plugins/PLUGIN_MIGRATION.md`](../plugins/PLUGIN_MIGRATION.md)
 
 **Unified Interface:**
 - ✅ `IPlugin` - Base interface
@@ -887,7 +887,7 @@ docker compose up --build
 - Custom test harnesses
 
 ### Code Quality ✅
-**Status:** Production-Ready | **Docs:** [`docs/development/code_audit_mockups_stubs.md`](docs/development/code_audit_mockups_stubs.md)
+**Status:** Production-Ready | **Docs:** [`docs/development/code_audit_mockups_stubs.md`](../development/code_audit_mockups_stubs.md)
 
 **Static Analysis:**
 - ✅ **clang-tidy** - Modern C++ best practices
@@ -999,7 +999,7 @@ docker compose up --build
 - 📋 **ML Integration** - GNNs, in-database training
 - 📋 **Zero-Copy Transfer** - Advanced streaming optimization
 
-**Siehe auch:** [`ROADMAP.md`](ROADMAP.md) für Details
+**Siehe auch:** [`ROADMAP.md`](../roadmap/ROADMAP.md) für Details
 
 ---
 

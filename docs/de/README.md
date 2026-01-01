@@ -151,7 +151,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 📚 Haupt-Dokumentation
 
 ### Übersichtsdokumente
-- **[Changelog](../CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
+- **[Changelog](releases/CHANGELOG.md)** - Vollständige Versionshistorie (v1.2.0, v1.1.0, v1.0.2, v1.0.1, v1.0.0)
 - **[🆕 Roadmap v1.1.0](roadmap/roadmap_overview.md)** - **AKTUALISIERT:** Q1 2026 Optimization Release
 - **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - Komplette Systemarchitektur mit Diagrammen
 - **[Source Code Changes v1.0](development/SOURCE_CODE_CHANGES_v1.0.md)** - Detaillierte Quellcode-Dokumentation (191 Dateien, 26 Module)
@@ -162,13 +162,13 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 🎯 Nach Zielgruppe
 
 ### Für Stakeholder & Management
-- **[⭐ Strategiepapier: Industrie 4.0 & IoT](STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md)** - **NEU:** ThemisDB für Smart Manufacturing & IoT-Anwendungen
+- **[⭐ Strategiepapier: Industrie 4.0 & IoT](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md)** - **NEU:** ThemisDB für Smart Manufacturing & IoT-Anwendungen
 - **[Themis Sachstandsbericht 2025](reports/themis_sachstandsbericht_2025.md)** - Executive Summary, Status v1.0.1
 - **[🆕 v1.1.0 Variant Strategy](reports/VARIANT_STRATEGY_v1.1.0.md)** - **Q1 2026:** Optimierungs-Strategie mit vLLM Co-Location (9-11 Wochen, 1 neue Lib)
 - **[🆕 v1.2.0 Enterprise Features](reports/ENTERPRISE_FEATURES_STRATEGY.md)** - **Q2 2026:** vLLM AI (LoRA), Geo-Spatial (PostGIS), IoT/Timescale (12-16 Wochen, 3 neue Libs)
 - ~~Projektkostenschätzung & Gesamtwert~~ - 🔒 Confidential (available to licensed customers only)
-- **[Release Strategy Audit](../RELEASE_STRATEGY_AUDIT.md)** - SLSA Compliance, SBOM (8.5/10 Rating)
-- **[Release & Benchmarking Summary](../RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - v1.0.1 Session Report
+- **[Release Strategy Audit](archive/RELEASE_STRATEGY_AUDIT.md)** - SLSA Compliance, SBOM (8.5/10 Rating)
+- **[Release & Benchmarking Summary](archive/RELEASE_AND_BENCHMARKING_SESSION_SUMMARY.md)** - v1.0.1 Session Report
 
 ### Für Entwickler
 - **[Development Summary](development/DEVELOPMENT_SUMMARY.md)** - Entwicklungsstand v1.0.1
@@ -182,7 +182,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 - **[Operations Runbook](guides/guides_operations_runbook.md)** - Tägliche Operationen
 - **[Deployment Guide](deployment/README.md)** - Deployment-Strategien
 - **[Build Strategy](guides/guides_build_strategy.md)** - Build-Toolchain
-- **[Docker Guide](../README.docker.md)** - Container-Deployment
+- **[Docker Guide](archive/README.docker.md)** - Container-Deployment
 
 ### Für Security & Compliance
 - **[Compliance Dashboard](compliance/compliance_dashboard.md)** - Übersicht aller Compliance-Aktivitäten
@@ -211,7 +211,7 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 - **[Timeseries Module](timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
 
 ### Distribution & Scaling Layer
-- **[Sharding Module](sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
+- **[Sharding Module](README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
 - **[Replication Module](storage/README.md)** - Leader-Follower, Multi-Master CRDTs (12K LOC)
 - **[Transaction Module](architecture/README.md)** - MVCC, SAGA Patterns (42K LOC)
 
@@ -242,11 +242,11 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ### Installation & Deployment
 - **[Main README](../README.md)** - Projekt-Übersicht und Quick Start
 - **[Deployment Guide](deployment/README.md)** - Deployment-Optionen
-- **[Docker Guide](../README.docker.md)** - Container-Deployment
-- **[QNAP Quickstart](../QNAP_QUICKSTART.md)** - ARM-Deployment
+- **[Docker Guide](archive/README.docker.md)** - Container-Deployment
+- **[QNAP Quickstart](archive/QNAP_QUICKSTART.md)** - ARM-Deployment
 
 ### Getting Started
-- **[Architecture Overview](ARCHITECTURE_OVERVIEW.md)** - System-Architektur verstehen
+- **[Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)** - System-Architektur verstehen
 - **[Features Overview](features/features_overview.md)** - Verfügbare Features
 - **[AQL Tutorial](aql/README.md)** - Query Language lernen
 
@@ -324,10 +324,10 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 📦 Integration & Ingestion
 
 ### Data Ingestion
-- **[Ingestion](ingestion/README.md)** - Data Ingestion Patterns
-- **[VCC CLARA](../adapters/vcc_clara_ingestion/README.md)** - CLARA Adapter
-- **[VCC VERITAS](../adapters/vcc_veritas/README.md)** - VERITAS Adapter
-- **[VCC Base](../adapters/vcc_base/README.md)** - Base Adapter Framework
+- **[Ingestion](README.md)** - Data Ingestion Patterns
+- **[VCC CLARA](README.md)** - CLARA Adapter
+- **[VCC VERITAS](README.md)** - VERITAS Adapter
+- **[VCC Base](README.md)** - Base Adapter Framework
 
 ### Enterprise Integration
 - **[Enterprise Features](enterprise/README.md)** - Rate Limiting, Load Shedding
@@ -377,14 +377,14 @@ Alle 26 Module mit detaillierter Dokumentation in [src/](src/README.md):
 - **[PDF Documentation](https://makr-code.github.io/ThemisDB/themisdb-docs-complete.pdf)** - Vollständige Doku als PDF
 
 ### Benchmarking & Performance
-- **[Benchmarks Suite](../benchmarks/README.md)** - Benchmark-Framework
+- **[Benchmarks Suite](README.md)** - Benchmark-Framework
 - **[Docker Benchmarks](../benchmarks/DOCKER_COMPARATIVE_BENCHMARKS_README.md)** - Competitive Benchmarks
 - **[Hardware Constraints](../benchmarks/HARDWARE_CONSTRAINTS_README.md)** - Resource-Constraints Testing
 
 ### Release Documentation
-- **[v1.0.1 Release Notes](../CHANGELOG.md#101---2025-12-09)** - Latest Release
-- **[v1.0.0 Release Notes](../RELEASE_NOTES_v1.0.0.md)** - Production Release
-- **[Release Package Structure](../RELEASE_PACKAGE_STRUCTURE.md)** - Package Organization
+- **[v1.0.1 Release Notes](releases/CHANGELOG.md#101---2025-12-09)** - Latest Release
+- **[v1.0.0 Release Notes](archive/RELEASE_NOTES_v1.0.0.md)** - Production Release
+- **[Release Package Structure](archive/RELEASE_PACKAGE_STRUCTURE.md)** - Package Organization
 
 ---
 

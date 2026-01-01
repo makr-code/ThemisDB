@@ -53,7 +53,7 @@ Die Homepage (`docs/index.md`) wurde vollständig überarbeitet und das `sync-wi
 + [FEATURES.md](FEATURES.md)
 
 - siehe „Architektur"
-+ [Architecture Overview](architecture/README.md)
++ [Architecture Overview](../README.md)
 
 - siehe „Query & AQL → AQL Syntax"
 + [AQL Syntax](aql/syntax.md)
@@ -265,8 +265,8 @@ Alle Aufgaben abgeschlossen!
 - 📋 Geplant: GPU Acceleration, Multi-Tenancy, GraphQL API, Advanced Analytics
 
 **Links:**
-- [Roadmap](ROADMAP.md)
-- [Implementation Status](development/implementation_status.md)
+- [Roadmap](../roadmap/ROADMAP.md)
+- [Implementation Status](../development/implementation_status.md)
 
 ## 5. Testing
 

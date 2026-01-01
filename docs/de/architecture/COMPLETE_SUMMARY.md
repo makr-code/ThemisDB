@@ -363,12 +363,12 @@ cmake/ModularBuild.cmake                          (includes module_loader.cpp)
 ## References
 
 **Planning Documents**:
-- [MODULARIZATION_PLAN.md](docs/architecture/MODULARIZATION_PLAN.md) - Main plan
-- [MODULARIZATION_DECISION.de.md](docs/architecture/MODULARIZATION_DECISION.de.md) - German summary
-- [MODULARIZATION_SUMMARY.md](docs/architecture/MODULARIZATION_SUMMARY.md) - Implementation details
+- [MODULARIZATION_PLAN.md](MODULARIZATION_PLAN.md) - Main plan
+- [MODULARIZATION_DECISION.de.md](MODULARIZATION_DECISION.de.md) - German summary
+- [MODULARIZATION_SUMMARY.md](MODULARIZATION_SUMMARY.md) - Implementation details
 
 **Security Documentation**:
-- [DLL_SIGNATURE_VERIFICATION.md](docs/architecture/DLL_SIGNATURE_VERIFICATION.md) - Security system
+- [DLL_SIGNATURE_VERIFICATION.md](DLL_SIGNATURE_VERIFICATION.md) - Security system
 
 **Implementation Files**:
 - [cmake/ModularBuild.cmake](cmake/ModularBuild.cmake) - CMake configuration

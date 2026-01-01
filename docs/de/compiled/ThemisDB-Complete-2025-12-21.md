@@ -27,7 +27,7 @@
 > **Note**: LLM integration is an **optional feature** that requires:
 > - Build flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - External dependency: llama.cpp (clone separately)
-> - See [Build Guide](docs/guides/guides_build_strategy.md) for setup instructions
+> - See [Build Guide](../guides/guides_build_strategy.md) for setup instructions
 
 ### Key Features (When LLM Support Enabled)
 
@@ -48,8 +48,8 @@
 - **Kernel fusion** for additional performance gains
 - **Comprehensive test coverage** with unit tests
 
-**[→ See LLM Integration Guide](docs/llm/LLAMA_CPP_INTEGRATION.md)**  
-**[→ See Complete LLM Documentation](docs/llm/README.md)**  
+**[→ See LLM Integration Guide](../llm/LLAMA_CPP_INTEGRATION.md)**  
+**[→ See Complete LLM Documentation](../README.md)**  
 **[→ See Image Analysis Plugin Documentation](docs/plugins/)**
 
 ---
@@ -74,7 +74,7 @@ ThemisDB is a production-ready multi-model database that combines relational, gr
 - 🌐 **Distribution** - Single-node optimized (Enterprise: horizontal sharding, replication, Kubernetes)
 - 🧠 **AI-Ready** - Hybrid search (RAG), embedding cache, FAISS integration, **optional LLM engine with llama.cpp** (v1.3.0+), **image analysis AI plugins** (v1.3.0+)
 - 🌐 **Modern Protocols** - HTTP/1.1, GraphQL, SSE, gRPC (v1.3.0), **HTTP/2 with Server Push** ✅, **WebSocket** ✅, **MQTT** ✅, **HTTP/3** 🚧, **PostgreSQL Wire** ✅, **MCP** ✅
-- 📚 **Transparent Attribution** - Clear documentation of third-party dependencies vs ThemisDB innovations (see [ATTRIBUTIONS.md](ATTRIBUTIONS.md))
+- 📚 **Transparent Attribution** - Clear documentation of third-party dependencies vs ThemisDB innovations (see [ATTRIBUTIONS.md](../legal/ATTRIBUTIONS.md))
 - 🖼️ **Image Analysis** - Multi-backend AI plugin architecture (llama.cpp Vision, ONNX CLIP, OpenCV DNN)
 
 ---
@@ -157,7 +157,7 @@ Hinweise:
 - `llama.cpp/` liegt als lokaler Clone im Projekt-Root und ist per `.gitignore` und `.dockerignore` ausgeschlossen (wird nicht committed oder in Docker kopiert)
 - Der Build-Skript setzt Visual Studio 2022 (`-G "Visual Studio 17 2022"`) und `-A x64`, bindet die vcpkg-Toolchain ein und behebt MSVC‑spezifische `char8_t`‑Fehler am `llama`‑Target
 
-**[→ Comprehensive Build Documentation](docs/guides/guides_build_strategy.md)** | Build-Varianten, Plattformen, Troubleshooting
+**[→ Comprehensive Build Documentation](../guides/guides_build_strategy.md)** | Build-Varianten, Plattformen, Troubleshooting
 
 ### Package Managers
 
@@ -233,7 +233,7 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 - **Security**: TLS 1.3, RBAC, field encryption, audit logging
 - **Observability**: Prometheus metrics, OpenTelemetry tracing
 
-**[→ Full Architecture Documentation](docs/architecture/ARCHITECTURE_OVERVIEW.md)**
+**[→ Full Architecture Documentation](../architecture/ARCHITECTURE_OVERVIEW.md)**
 
 ---
 
@@ -283,34 +283,34 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 ## Documentation
 
 **Getting Started:**
-- [Installation Guide](docs/guides/guides_deployment.md)
-- [Docker Deployment](docs/deployment/DOCKER_DEPLOYMENT.md)
+- [Installation Guide](../guides/guides_deployment.md)
+- [Docker Deployment](../deployment/DOCKER_DEPLOYMENT.md)
 - [Quick Start Tutorial](docs/guides/quick_start.md)
 
 **Core Concepts:**
-- [Architecture Overview](docs/architecture/ARCHITECTURE_OVERVIEW.md)
-- [Multi-Model Design](docs/architecture/architecture_base_entity.md)
-- [Transaction Management](docs/features/features_transactions.md)
-- [AQL Query Language](docs/aql/aql_syntax.md)
+- [Architecture Overview](../architecture/ARCHITECTURE_OVERVIEW.md)
+- [Multi-Model Design](../architecture/architecture_base_entity.md)
+- [Transaction Management](../features/features_transactions.md)
+- [AQL Query Language](../aql/aql_syntax.md)
 
 **Features:**
-- [Vector Search](docs/features/features_vector_ops.md)
+- [Vector Search](../features/features_vector_ops.md)
 - [Graph Operations](docs/features/features_graph.md)
-- [Time-Series Engine](docs/features/features_time_series.md)
-- [Security & Compliance](docs/security/security_implementation.md)
-- [Feature Overview](docs/features/features_overview.md)
+- [Time-Series Engine](../features/features_time_series.md)
+- [Security & Compliance](../security/security_implementation.md)
+- [Feature Overview](../features/features_overview.md)
 
 **Operations:**
 - [Configuration Guide](docs/guides/guides_configuration.md)
-- [Monitoring & Metrics](docs/observability/observability_prometheus.md)
-- [Backup & Recovery](docs/guides/guides_deployment.md#backup--recovery)
-- [Performance Tuning](docs/performance/performance_memory.md)
+- [Monitoring & Metrics](../observability/observability_prometheus.md)
+- [Backup & Recovery](../guides/guides_deployment.md#backup--recovery)
+- [Performance Tuning](../performance/performance_memory.md)
 
 **Development:**
-- [Build Guide](docs/guides/guides_build_strategy.md)
+- [Build Guide](../guides/guides_build_strategy.md)
 - [Contributing](CONTRIBUTING.md)
 - [API Reference](docs/apis/api_reference.md)
-- [Client SDKs](clients/README.md)
+- [Client SDKs](../README.md)
 
 **Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
 
@@ -340,8 +340,8 @@ ThemisDB uses a unified storage architecture with specialized projection layers:
 - 📋 Advanced security compliance (SOC 2, HIPAA)
 - 📋 Cloud-native optimizations
 
-**[→ Detailed Roadmap](docs/roadmap/ROADMAP.md)**  
-**[→ Modularization Plan](docs/architecture/MODULARIZATION_PLAN.md)** (post-v1.3.0)
+**[→ Detailed Roadmap](../roadmap/ROADMAP.md)**  
+**[→ Modularization Plan](../architecture/MODULARIZATION_PLAN.md)** (post-v1.3.0)
 
 ---
 
@@ -399,7 +399,7 @@ ThemisDB is inspired by and builds upon the ideas from:
 - **RocksDB** - High-performance LSM-Tree storage
 - **FAISS** - Efficient similarity search
 
-**For a complete list of third-party libraries and feature attributions, see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).**
+**For a complete list of third-party libraries and feature attributions, see [ATTRIBUTIONS.md](../legal/ATTRIBUTIONS.md).**
 
 ---
 
@@ -1544,12 +1544,12 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ## 📚 Quick Navigation
 
 **New to ThemisDB?**
-- [Quick Start Guide](guides/QUICK_START.md) - Get up and running in 5 minutes
+- [Quick Start Guide](../guides/QUICK_START.md) - Get up and running in 5 minutes
 - [Installation Guide](guides/INSTALLATION.md) - Complete installation instructions
 - [Architecture Overview](architecture/OVERVIEW.md) - Understand how ThemisDB works
 
 **Using ThemisDB:**
-- [AQL Query Language](aql/aql_syntax.md) - Learn the query language
+- [AQL Query Language](../aql/aql_syntax.md) - Learn the query language
 - [REST API Reference](apis/REST_API.md) - HTTP API documentation
 - [Client SDKs](../clients/README.md) - SDK documentation for 7 languages
 
@@ -1566,7 +1566,7 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [Quick Start](guides/QUICK_START.md) | 5-minute tutorial to get started |
+| [Quick Start](../guides/QUICK_START.md) | 5-minute tutorial to get started |
 | [Installation](guides/INSTALLATION.md) | Installation on Linux, Windows, macOS, Docker |
 | [Configuration](operations/CONFIGURATION.md) | Configure ThemisDB for your needs |
 | [First Query](guides/FIRST_QUERY.md) | Write your first AQL query |
@@ -1576,29 +1576,29 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 | Document | Description |
 |----------|-------------|
 | [Architecture Overview](architecture/OVERVIEW.md) | High-level system architecture |
-| [Multi-Model Design](architecture/architecture_base_entity.md) | How ThemisDB handles multiple data models |
-| [Transaction Model](features/features_transactions.md) | ACID transactions with MVCC |
+| [Multi-Model Design](../architecture/architecture_base_entity.md) | How ThemisDB handles multiple data models |
+| [Transaction Model](../features/features_transactions.md) | ACID transactions with MVCC |
 | [Storage Layer](architecture/architecture_storage.md) | RocksDB LSM-Tree storage |
 
 ### Features
 
 | Document | Description |
 |----------|-------------|
-| [Feature Overview](features/features_overview.md) | Complete feature catalog |
-| [Vector Search](features/features_vector_ops.md) | Similarity search with HNSW/FAISS |
+| [Feature Overview](../features/features_overview.md) | Complete feature catalog |
+| [Vector Search](../features/features_vector_ops.md) | Similarity search with HNSW/FAISS |
 | [Graph Operations](features/features_graph.md) | Graph traversal and pathfinding |
-| [Time-Series](features/features_time_series.md) | Time-series data and compression |
+| [Time-Series](../features/features_time_series.md) | Time-series data and compression |
 | [Hypertables](features/features_hypertables.md) | TimescaleDB-compatible time-series (v1.2+) |
 | [Hybrid Search](features/features_hybrid_search.md) | RAG-optimized BM25+Vector search (v1.2+) |
-| [Analytics](observability/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
+| [Analytics](../observability/CEP_STREAMING_ANALYTICS.md) | CEP and OLAP analytics |
 
 ### Query Language (AQL)
 
 | Document | Description |
 |----------|-------------|
-| [AQL Syntax](aql/aql_syntax.md) | Complete AQL language reference |
+| [AQL Syntax](../aql/aql_syntax.md) | Complete AQL language reference |
 | [AQL Examples](aql/aql_examples.md) | Common query patterns |
-| [Query Optimization](aql/aql_explain_profile.md) | EXPLAIN and PROFILE commands |
+| [Query Optimization](../aql/aql_explain_profile.md) | EXPLAIN and PROFILE commands |
 
 ### API Reference
 
@@ -1612,35 +1612,35 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 
 | Document | Description |
 |----------|-------------|
-| [Security Overview](security/security_implementation.md) | Enterprise security features |
-| [TLS Setup](guides/guides_tls_setup.md) | Configure TLS 1.3 and mTLS |
-| [RBAC Configuration](guides/guides_rbac.md) | Role-based access control |
-| [Encryption](security/security_encryption_strategy.md) | Data encryption at rest and in transit |
-| [Audit Logging](features/features_audit_logging.md) | Security event logging |
-| [Compliance](compliance/compliance_dashboard.md) | GDPR, SOC 2, HIPAA compliance |
+| [Security Overview](../security/security_implementation.md) | Enterprise security features |
+| [TLS Setup](../guides/guides_tls_setup.md) | Configure TLS 1.3 and mTLS |
+| [RBAC Configuration](../guides/guides_rbac.md) | Role-based access control |
+| [Encryption](../security/security_encryption_strategy.md) | Data encryption at rest and in transit |
+| [Audit Logging](../features/features_audit_logging.md) | Security event logging |
+| [Compliance](../compliance/compliance_dashboard.md) | GDPR, SOC 2, HIPAA compliance |
 
 ### Operations
 
 | Document | Description |
 |----------|-------------|
 | [Deployment Guide](operations/DEPLOYMENT.md) | Production deployment strategies |
-| [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
+| [Docker Deployment](../deployment/DOCKER_DEPLOYMENT.md) | Docker and Kubernetes deployment |
 | [Configuration](operations/CONFIGURATION.md) | Configuration reference |
 | [Monitoring](operations/MONITORING.md) | Prometheus metrics and alerting |
 | [Backup & Recovery](operations/BACKUP.md) | Backup strategies and disaster recovery |
 | [Troubleshooting](operations/TROUBLESHOOTING.md) | Common issues and solutions |
-| [Performance Tuning](performance/performance_memory.md) | Optimize for your workload |
+| [Performance Tuning](../performance/performance_memory.md) | Optimize for your workload |
 
 ### Development
 
 | Document | Description |
 |----------|-------------|
 | [Contributing](../CONTRIBUTING.md) | How to contribute to ThemisDB |
-| [Build Guide](guides/guides_build_strategy.md) | Build from source |
+| [Build Guide](../guides/guides_build_strategy.md) | Build from source |
 | [Development Setup](development/SETUP.md) | Setup development environment |
 | [Testing Guide](development/TESTING.md) | Run and write tests |
 | [Code Style](development/CODE_STYLE.md) | Coding standards |
-| [Architecture](architecture/ARCHITECTURE_OVERVIEW.md) | Deep-dive into internals |
+| [Architecture](../architecture/ARCHITECTURE_OVERVIEW.md) | Deep-dive into internals |
 
 ### Advanced Topics
 
@@ -1648,19 +1648,19 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 |----------|-------------|
 | [Sharding](sharding/sharding_overview.md) | Horizontal sharding and routing |
 | [Replication](sharding/sharding_replication.md) | Leader-follower and multi-master |
-| [GPU Acceleration](performance/performance_gpu_plan.md) | CUDA, Vulkan, HIP backends |
-| [vLLM Co-Location](reports/VARIANT_STRATEGY_v1.1.0.md) | AI/ML workload optimization |
+| [GPU Acceleration](../performance/performance_gpu_plan.md) | CUDA, Vulkan, HIP backends |
+| [vLLM Co-Location](../reports/VARIANT_STRATEGY_v1.1.0.md) | AI/ML workload optimization |
 | [Content Processing](content/content_architecture.md) | Process PDFs, images, videos, etc. |
 
 ### Release Notes
 
 | Document | Description |
 |----------|-------------|
-| [Changelog](../CHANGELOG.md) | Version history and changes |
-| [Roadmap](roadmap/ROADMAP.md) | Future plans and features |
-| [v1.3.0 Release](../RELEASE_NOTES_v1.3.0.md) | Latest release notes |
-| [v1.2.0 Release](releases/v1.2.0.md) | Previous release |
-| [v1.1.0 Release](releases/v1.1.0.md) | Previous release |
+| [Changelog](../releases/CHANGELOG.md) | Version history and changes |
+| [Roadmap](../roadmap/ROADMAP.md) | Future plans and features |
+| [v1.3.0 Release](../releases/RELEASE_NOTES_v1.3.0.md) | Latest release notes |
+| [v1.2.0 Release](../releases/v1.2.0.md) | Previous release |
+| [v1.1.0 Release](../releases/v1.1.0.md) | Previous release |
 | [Migration Guides](guides/MIGRATION.md) | Upgrade between versions |
 
 ---
@@ -1670,26 +1670,26 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ### By Use Case
 
 **Building an Application:**
-- [Quick Start](guides/QUICK_START.md) → [REST API](apis/REST_API.md) → [Client SDKs](../clients/README.md)
+- [Quick Start](../guides/QUICK_START.md) → [REST API](apis/REST_API.md) → [Client SDKs](../clients/README.md)
 
 **Analytics & BI:**
-- [OLAP Features](observability/OLAP.md) → [Parquet Export](observability/olap.md) → [Time-Series](features/features_time_series.md)
+- [OLAP Features](observability/OLAP.md) → [Parquet Export](observability/olap.md) → [Time-Series](../features/features_time_series.md)
 
 **AI/ML Applications:**
-- [Vector Search](features/features_vector_ops.md) → [Hybrid Search](features/features_hybrid_search.md) → [Embedding Cache](features/features_embedding_cache.md)
+- [Vector Search](../features/features_vector_ops.md) → [Hybrid Search](features/features_hybrid_search.md) → [Embedding Cache](features/features_embedding_cache.md)
 
 **Graph Applications:**
-- [Graph Operations](features/features_graph.md) → [AQL Graph Queries](aql/aql_syntax.md#graph-traversals) → [Path Algorithms](features/features_graph.md#algorithms)
+- [Graph Operations](features/features_graph.md) → [AQL Graph Queries](../aql/aql_syntax.md#graph-traversals) → [Path Algorithms](features/features_graph.md#algorithms)
 
 **Production Deployment:**
-- [Deployment Guide](operations/DEPLOYMENT.md) → [Monitoring](operations/MONITORING.md) → [Backup](operations/BACKUP.md) → [Security](security/security_implementation.md)
+- [Deployment Guide](operations/DEPLOYMENT.md) → [Monitoring](operations/MONITORING.md) → [Backup](operations/BACKUP.md) → [Security](../security/security_implementation.md)
 
 ### By Technology
 
 **Docker/Kubernetes:**
-- [Docker Deployment](deployment/DOCKER_DEPLOYMENT.md)
+- [Docker Deployment](../deployment/DOCKER_DEPLOYMENT.md)
 - [Kubernetes Guide](deployment/deployment_kubernetes.md)
-- [Helm Charts](../helm/README.md)
+- [Helm Charts](../README.md)
 
 **Cloud Platforms:**
 - [AWS Deployment](deployment/deployment_aws.md)
@@ -1697,8 +1697,8 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - [GCP Deployment](deployment/deployment_gcp.md)
 
 **ARM/Raspberry Pi:**
-- [ARM Build Guide](deployment/deployment_arm_build.md)
-- [ARM Packages](deployment/deployment_arm_packages.md)
+- [ARM Build Guide](../deployment/deployment_arm_build.md)
+- [ARM Packages](../deployment/deployment_arm_packages.md)
 - [Raspberry Pi Optimization](deployment/deployment_rpi.md)
 
 ---
@@ -1706,9 +1706,9 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 ## 📊 Performance & Benchmarks
 
 - [Performance Overview](performance/performance_overview.md)
-- [Benchmarking Guide](../benchmarks/README.md)
-- [Memory Tuning](performance/performance_memory.md)
-- [GPU Performance](performance/performance_gpu_plan.md)
+- [Benchmarking Guide](../README.md)
+- [Memory Tuning](../performance/performance_memory.md)
+- [GPU Performance](../performance/performance_gpu_plan.md)
 - [Query Optimization](performance/performance_query.md)
 
 ---
@@ -1977,24 +1977,24 @@ ThemisDB is open source under the [MIT License](https://github.com/makr-code/The
 
 ### Für Entwickler
 1. [README.md](../README.md) - Projektübersicht & Quick Start
-2. [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Toolchain (Windows/Linux/Docker)
-3. [docs/guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
-4. [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Aktueller Entwicklungsstand
-5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
+2. [guides/guides_build_strategy.md](../guides/guides_build_strategy.md) - Build-Toolchain (Windows/Linux/Docker)
+3. [docs/guides/guides_build.md](../guides/guides_build.md) - Detaillierte Build-Anleitung
+4. [DEVELOPMENT_AUDITLOG.md](../development/DEVELOPMENT_SUMMARY.md) - Aktueller Entwicklungsstand
+5. [Enterprise Features](../README.md) - Enterprise Scalability Features
 
 ### Für Stakeholder
-1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
+1. [THEMIS_SACHSTANDSBERICHT_2025.md](../reports/themis_sachstandsbericht_2025.md) - Executive Summary
 2. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
-3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
-4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
+3. [features/features_overview.md](../features/features_overview.md) - Feature-Übersicht mit Status
+4. [ROADMAP.md](../roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
 
 ### Für Compliance & Audits
-1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary
-2. [compliance/compliance_full_checklist.md](compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
-3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Ergebnisse
+1. [compliance/compliance_dashboard.md](../compliance/compliance_dashboard.md) - Executive Compliance Summary
+2. [compliance/compliance_full_checklist.md](../compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
+3. [security/SECURITY_AUDIT_REPORT.md](../security/security_audit_report.md) - Security Audit Ergebnisse
 4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
-5. [legal/LICENSE_COMPATIBILITY_ANALYSIS.md](legal/LICENSE_COMPATIBILITY_ANALYSIS.md) - ⭐ License Compatibility (v1.3.0)
-6. [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
+5. [legal/LICENSE_COMPATIBILITY_ANALYSIS.md](../legal/LICENSE_COMPATIBILITY_ANALYSIS.md) - ⭐ License Compatibility (v1.3.0)
+6. [THIRD_PARTY_LICENSES.md](../legal/THIRD_PARTY_LICENSES.md) - ⭐ Third-Party License Attribution (v1.3.0)
 
 ## 📚 Dokumentationsstruktur
 
@@ -2038,11 +2038,11 @@ docs/
 ### Dokumentation
 | Dokument | Zweck | Zielgruppe |
 |----------|-------|------------|
-| [enterprise/README.md](enterprise/README.md) | Übersicht & Quick Start | Entwickler, DevOps |
+| [enterprise/README.md](../README.md) | Übersicht & Quick Start | Entwickler, DevOps |
 | [enterprise/enterprise_scalability.md](enterprise/enterprise_scalability.md) | Feature-Details & Code-Beispiele | Entwickler |
 | [enterprise/enterprise_http_pool.md](enterprise/enterprise_http_pool.md) | HTTP Client Implementation | Entwickler |
 | [enterprise/enterprise_final_report.md](enterprise/enterprise_final_report.md) | Implementation Summary | Stakeholder |
-| [INTEGRATION_ANALYSIS.md](reports/INTEGRATION_ANALYSIS.md) | Legacy Integration | Entwickler |
+| [INTEGRATION_ANALYSIS.md](../reports/INTEGRATION_ANALYSIS.md) | Legacy Integration | Entwickler |
 
 ### Status
 - ✅ **Token Bucket Rate Limiter** - Production Ready (5/5 Tests)
@@ -2057,96 +2057,96 @@ docs/
 
 ### Kern-Architektur
 - [architecture.md](architecture/architecture_overview.md) - System-Architektur Übersicht
-- [storage/storage_rocksdb.md](storage/storage_rocksdb.md) - RocksDB Storage Layout
-- [mvcc_design.md](architecture/architecture_mvcc.md) - MVCC Transaction Design
-- [query_engine_aql.md](aql/aql_query_engine.md) - Query Engine & AQL
+- [storage/storage_rocksdb.md](../storage/storage_rocksdb.md) - RocksDB Storage Layout
+- [mvcc_design.md](../architecture/architecture_mvcc.md) - MVCC Transaction Design
+- [query_engine_aql.md](../aql/aql_query_engine.md) - Query Engine & AQL
 
 ### Spezielle Features
-- [geo/GEO_ARCHITECTURE.md](geo/geo_architecture.md) - Geo/Spatial Architecture
-- [vector_ops.md](features/features_vector_ops.md) - Vector Operations & HNSW
-- [content_pipeline.md](architecture/architecture_content_pipeline.md) - Content Processing Pipeline
-- [search/hybrid_search_design.md](search/hybrid_search_design.md) - Hybrid Search
+- [geo/GEO_ARCHITECTURE.md](../geo/geo_architecture.md) - Geo/Spatial Architecture
+- [vector_ops.md](../features/features_vector_ops.md) - Vector Operations & HNSW
+- [content_pipeline.md](../architecture/architecture_content_pipeline.md) - Content Processing Pipeline
+- [search/hybrid_search_design.md](../search/hybrid_search_design.md) - Hybrid Search
 
 ## 🔒 Security & Compliance
 
 ### Security
-- [security/security_overview.md](security/security_overview.md) - Security Übersicht
-- [encryption_strategy.md](security/security_encryption_strategy.md) - Verschlüsselungsstrategie
-- [security/security_key_management.md](security/security_key_management.md) - Key Management
-- [security/security_threat_model.md](security/security_threat_model.md) - Threat Model
-- [security_hardening_guide.md](security/security_hardening.md) - Hardening Guide
+- [security/security_overview.md](../security/security_overview.md) - Security Übersicht
+- [encryption_strategy.md](../security/security_encryption_strategy.md) - Verschlüsselungsstrategie
+- [security/security_key_management.md](../security/security_key_management.md) - Key Management
+- [security/security_threat_model.md](../security/security_threat_model.md) - Threat Model
+- [security_hardening_guide.md](../security/security_hardening.md) - Hardening Guide
 
 ### Compliance
-- [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Dashboard
-- [compliance/compliance_dpia.md](compliance/compliance_dpia.md) - Datenschutz-Folgenabschätzung (DSGVO)
-- [compliance/compliance_bcp_drp.md](compliance/compliance_bcp_drp.md) - Business Continuity & Disaster Recovery
-- [compliance_audit.md](features/features_compliance_audit.md) - Compliance Audit
-- [AUDIT_LOGGING.md](features/features_audit_logging.md) - Audit Logging
+- [compliance/compliance_dashboard.md](../compliance/compliance_dashboard.md) - Executive Dashboard
+- [compliance/compliance_dpia.md](../compliance/compliance_dpia.md) - Datenschutz-Folgenabschätzung (DSGVO)
+- [compliance/compliance_bcp_drp.md](../compliance/compliance_bcp_drp.md) - Business Continuity & Disaster Recovery
+- [compliance_audit.md](../features/features_compliance_audit.md) - Compliance Audit
+- [AUDIT_LOGGING.md](../features/features_audit_logging.md) - Audit Logging
 
 ### PKI & eIDAS
-- [pki_integration_architecture.md](security/security_pki_architecture.md) - PKI Integration
-- [eidas_qualified_signatures.md](security/security_eidas.md) - eIDAS Signaturen
-- [security/pki_rsa_integration.md](security/security_pki_rsa.md) - PKI RSA Integration
+- [pki_integration_architecture.md](../security/security_pki_architecture.md) - PKI Integration
+- [eidas_qualified_signatures.md](../security/security_eidas.md) - eIDAS Signaturen
+- [security/pki_rsa_integration.md](../security/security_pki_rsa.md) - PKI RSA Integration
 
 ## 🛠️ Build & Deployment
 
 ### Build-Dokumentation
-- [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Strategie & Plattformen
-- [guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
+- [guides/guides_build_strategy.md](../guides/guides_build_strategy.md) - Build-Strategie & Plattformen
+- [guides/guides_build.md](../guides/guides_build.md) - Detaillierte Build-Anleitung
 
 ### Deployment
-- [deployment.md](guides/guides_deployment.md) - Deployment-Strategien
-- [DOCKER_MULTI_ARCH_STRATEGY.md](deployment/deployment_docker_multiarch.md) - Multi-Arch Docker
-- [docs/CI_CD_MULTIARCH.md](deployment/deployment_cicd_multiarch.md) - Multi-Arch CI/CD
+- [deployment.md](../guides/guides_deployment.md) - Deployment-Strategien
+- [DOCKER_MULTI_ARCH_STRATEGY.md](../deployment/deployment_docker_multiarch.md) - Multi-Arch Docker
+- [docs/CI_CD_MULTIARCH.md](../deployment/deployment_cicd_multiarch.md) - Multi-Arch CI/CD
 
 ### Platform-Specific
-- [ARM_RASPBERRY_PI_BUILD.md](deployment/deployment_arm_build.md) - Raspberry Pi Build
-- [ARM_BENCHMARKS.md](deployment/deployment_arm_benchmarks.md) - ARM Performance
-- [RASPBERRY_PI_TUNING.md](deployment/deployment_raspberry_tuning.md) - Pi Tuning Guide
+- [ARM_RASPBERRY_PI_BUILD.md](../deployment/deployment_arm_build.md) - Raspberry Pi Build
+- [ARM_BENCHMARKS.md](../deployment/deployment_arm_benchmarks.md) - ARM Performance
+- [RASPBERRY_PI_TUNING.md](../deployment/deployment_raspberry_tuning.md) - Pi Tuning Guide
 
 ## 📊 Performance & Benchmarks
 
-- [performance_benchmarks.md](performance/performance_benchmarks.md) - Performance Übersicht
-- [compression_benchmarks.md](performance/performance_compression_benchmarks.md) - Kompression
-- [encryption_metrics.md](security/security_encryption_metrics.md) - Verschlüsselung Performance
+- [performance_benchmarks.md](../performance/performance_benchmarks.md) - Performance Übersicht
+- [compression_benchmarks.md](../performance/performance_compression_benchmarks.md) - Kompression
+- [encryption_metrics.md](../security/security_encryption_metrics.md) - Verschlüsselung Performance
 - [performance/ENTERPRISE_SCALABILITY_STRATEGY.md](enterprise/enterprise_scalability.md) - Enterprise Strategy
 
 ## 🔍 API & Query Language
 
 ### AQL (Advanced Query Language)
-- [aql_syntax.md](aql/aql_syntax.md) - AQL Syntax
-- [aql-hybrid-queries.md](aql/aql_hybrid_queries.md) - Hybrid Queries
-- [aql_explain_profile.md](aql/aql_explain_profile.md) - EXPLAIN & PROFILE
-- [recursive_path_queries.md](features/features_recursive_path.md) - Rekursive Pfade
-- [temporal_graphs.md](features/features_temporal_graphs.md) - Temporale Graphen
+- [aql_syntax.md](../aql/aql_syntax.md) - AQL Syntax
+- [aql-hybrid-queries.md](../aql/aql_hybrid_queries.md) - Hybrid Queries
+- [aql_explain_profile.md](../aql/aql_explain_profile.md) - EXPLAIN & PROFILE
+- [recursive_path_queries.md](../features/features_recursive_path.md) - Rekursive Pfade
+- [temporal_graphs.md](../features/features_temporal_graphs.md) - Temporale Graphen
 
 ### APIs
-- [apis/openapi.md](apis/apis_openapi.md) - REST API & OpenAPI Spec
-- [apis/contentfs_api.md](apis/apis_contentfs.md) - ContentFS API
-- [apis/hybrid_search_api.md](apis/apis_hybrid_search.md) - Hybrid Search API
+- [apis/openapi.md](../apis/apis_openapi.md) - REST API & OpenAPI Spec
+- [apis/contentfs_api.md](../apis/apis_contentfs.md) - ContentFS API
+- [apis/hybrid_search_api.md](../apis/apis_hybrid_search.md) - Hybrid Search API
 
 ## 👥 Client SDKs
 
-- [clients/javascript_sdk_quickstart.md](clients/clients_javascript_sdk.md) - JavaScript SDK
-- [clients/python_sdk_quickstart.md](clients/clients_python_sdk.md) - Python SDK
-- [clients/rust_sdk_quickstart.md](clients/clients_rust_sdk.md) - Rust SDK
+- [clients/javascript_sdk_quickstart.md](../clients/clients_javascript_sdk.md) - JavaScript SDK
+- [clients/python_sdk_quickstart.md](../clients/clients_python_sdk.md) - Python SDK
+- [clients/rust_sdk_quickstart.md](../clients/clients_rust_sdk.md) - Rust SDK
 
 ## 📝 Development
 
 ### Guidelines
-- [development/developers.md](development/developers.md) - Developer Guide
-- [code_quality.md](guides/guides_code_quality.md) - Code Quality Pipeline
+- [development/developers.md](../development/developers.md) - Developer Guide
+- [code_quality.md](../guides/guides_code_quality.md) - Code Quality Pipeline
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution Guidelines
 
 ### Status & Planning
-- [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Development Audit
-- [development/implementation_status.md](development/implementation_status.md) - Status
-- [development/roadmap.md](development/roadmap.md) - Roadmap
-- [development/priorities.md](development/priorities.md) - Prioritäten
+- [DEVELOPMENT_AUDITLOG.md](../development/DEVELOPMENT_SUMMARY.md) - Development Audit
+- [development/implementation_status.md](../development/implementation_status.md) - Status
+- [development/roadmap.md](../development/roadmap.md) - Roadmap
+- [development/priorities.md](../development/priorities.md) - Prioritäten
 
 ### API Implementations
-- [development/audit_api_implementation.md](development/audit_api_implementation.md) - Audit API
-- [development/saga_api_implementation.md](development/saga_api_implementation.md) - SAGA API
+- [development/audit_api_implementation.md](../development/audit_api_implementation.md) - Audit API
+- [development/saga_api_implementation.md](../development/saga_api_implementation.md) - SAGA API
 
 ## 🔗 External Resources
 
@@ -2166,51 +2166,51 @@ docs/
 
 | Modul | README | Source | Headers | LOC |
 |-------|--------|--------|---------|-----|
-| analytics | [docs/observability/README.md](observability/README.md) | 2 | 3 | 3,742 |
-| cache | [docs/storage/README.md](storage/README.md) | 1 | 6 | 492 |
-| cdc | [docs/features/README.md](features/README.md) | 1 | 1 | 510 |
-| content | [docs/content/README.md](content/README.md) | 15 | 16 | 9,091 |
-| geo | [docs/geo/README.md](geo/README.md) | 3 | 2 | 304 |
-| governance | [docs/governance/README.md](governance/README.md) | 1 | 1 | 259 |
-| index | [docs/search/README.md](search/README.md) | 11 | 12 | 14,629 |
-| llm | [docs/llm/README.md](llm/README.md) | 2 | 2 | 679 |
-| query | [docs/query/README.md](query/README.md) | 12 | 12 | 12,560 |
-| replication | [docs/storage/README.md](storage/README.md) | 1 | 2 | 1,612 |
-| security | [docs/security/README.md](security/README.md) | 16 | 16 | 8,138 |
-| server | [docs/server/README.md](server/README.md) | 20 | 20 | 18,282 |
-| sharding | [docs/sharding/README.md](sharding/README.md) | 19 | 21 | 12,278 |
-| storage | [docs/storage/README.md](storage/README.md) | 10 | 9 | 4,591 |
-| timeseries | [docs/timeseries/README.md](timeseries/README.md) | 8 | 7 | 2,767 |
-| transaction | [docs/architecture/README.md](architecture/README.md) | 2 | 2 | 895 |
+| analytics | [docs/observability/README.md](../README.md) | 2 | 3 | 3,742 |
+| cache | [docs/storage/README.md](../README.md) | 1 | 6 | 492 |
+| cdc | [docs/features/README.md](../README.md) | 1 | 1 | 510 |
+| content | [docs/content/README.md](../README.md) | 15 | 16 | 9,091 |
+| geo | [docs/geo/README.md](../README.md) | 3 | 2 | 304 |
+| governance | [docs/governance/README.md](../README.md) | 1 | 1 | 259 |
+| index | [docs/search/README.md](../README.md) | 11 | 12 | 14,629 |
+| llm | [docs/llm/README.md](../README.md) | 2 | 2 | 679 |
+| query | [docs/query/README.md](../README.md) | 12 | 12 | 12,560 |
+| replication | [docs/storage/README.md](../README.md) | 1 | 2 | 1,612 |
+| security | [docs/security/README.md](../README.md) | 16 | 16 | 8,138 |
+| server | [docs/server/README.md](../README.md) | 20 | 20 | 18,282 |
+| sharding | [docs/sharding/README.md](../README.md) | 19 | 21 | 12,278 |
+| storage | [docs/storage/README.md](../README.md) | 10 | 9 | 4,591 |
+| timeseries | [docs/timeseries/README.md](../README.md) | 8 | 7 | 2,767 |
+| transaction | [docs/architecture/README.md](../README.md) | 2 | 2 | 895 |
 
 **Gesamt:** 124 Source-Dateien, 132 Header-Dateien, 90,829 LOC
 
-**Audit-Report:** [SOURCE_CODE_AUDIT.md](development/SOURCE_CODE_AUDIT.md)
+**Audit-Report:** [SOURCE_CODE_AUDIT.md](../development/SOURCE_CODE_AUDIT.md)
 
 ### Multi-Model Features
-- **Graph:** [property_graph_model.md](features/features_property_graph.md), [graph_index.cpp.md](src/search/graph_index.cpp.md)
-- **Geo/Spatial:** [GEO_ARCHITECTURE.md](geo/geo_architecture.md), [geo_acceleration_3d_games.md](geo/geo_acceleration_3d_games.md)
-- **Time-Series:** [time_series.md](features/features_time_series.md), [timeseries/continuous_agg.cpp.md](src/timeseries/continuous_agg.cpp.md)
-- **Document:** [content_pipeline.md](architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](src/content/content_manager.cpp.md)
-- **Vector/Embedding:** [vector_ops.md](features/features_vector_ops.md), [gnn_embeddings.md](features/features_gnn_embeddings.md)
+- **Graph:** [property_graph_model.md](../features/features_property_graph.md), [graph_index.cpp.md](../src/index/graph_index.cpp.md)
+- **Geo/Spatial:** [GEO_ARCHITECTURE.md](../geo/geo_architecture.md), [geo_acceleration_3d_games.md](../geo/geo_acceleration_3d_games.md)
+- **Time-Series:** [time_series.md](../features/features_time_series.md), [timeseries/continuous_agg.cpp.md](../src/timeseries/continuous_agg.cpp.md)
+- **Document:** [content_pipeline.md](../architecture/architecture_content_pipeline.md), [content/content_manager.cpp.md](../src/content/content_manager.cpp.md)
+- **Vector/Embedding:** [vector_ops.md](../features/features_vector_ops.md), [gnn_embeddings.md](../features/features_gnn_embeddings.md)
 
 ### Storage & Persistence
-- **RocksDB:** [storage/storage_rocksdb.md](storage/storage_rocksdb.md), [storage/rocksdb_wrapper.cpp.md](src/storage/rocksdb_wrapper.cpp.md)
-- **MVCC:** [mvcc_design.md](architecture/architecture_mvcc.md)
-- **Transactions:** [transactions.md](features/features_transactions.md), [transaction/saga.cpp.md](src/transaction/saga.cpp.md)
-- **Compression:** [compression_strategy.md](performance/performance_compression_strategy.md), [timeseries/gorilla.cpp.md](src/timeseries/gorilla.cpp.md)
+- **RocksDB:** [storage/storage_rocksdb.md](../storage/storage_rocksdb.md), [storage/rocksdb_wrapper.cpp.md](../src/storage/rocksdb_wrapper.cpp.md)
+- **MVCC:** [mvcc_design.md](../architecture/architecture_mvcc.md)
+- **Transactions:** [transactions.md](../features/features_transactions.md), [transaction/saga.cpp.md](../src/transaction/saga.cpp.md)
+- **Compression:** [compression_strategy.md](../performance/performance_compression_strategy.md), [timeseries/gorilla.cpp.md](../src/timeseries/gorilla.cpp.md)
 
 ### Search & Indexing
-- **Fulltext:** [search/fulltext_api.md](search/fulltext_api.md), [search/stemming.md](search/stemming.md)
-- **Hybrid Search:** [search/hybrid_search_design.md](search/hybrid_search_design.md)
-- **Vector Search:** [vector_ops.md](features/features_vector_ops.md), [index/vector_index.cpp.md](src/search/vector_index.cpp.md)
-- **Geo Indexing:** [geo/cpu_backend.cpp.md](src/geo/cpu_backend.cpp.md)
+- **Fulltext:** [search/fulltext_api.md](../search/fulltext_api.md), [search/stemming.md](../search/stemming.md)
+- **Hybrid Search:** [search/hybrid_search_design.md](../search/hybrid_search_design.md)
+- **Vector Search:** [vector_ops.md](../features/features_vector_ops.md), [index/vector_index.cpp.md](../src/index/vector_index.cpp.md)
+- **Geo Indexing:** [geo/cpu_backend.cpp.md](../src/geo/cpu_backend.cpp.md)
 
 ### Governance & PII
-- **PII Detection:** [security/pii_detection.md](security/security_pii_detection.md), [pii_api.md](security/security_pii_api.md)
-- **Policies:** [security/security_policies.md](security/security_policies.md), [governance/policy_engine.cpp.md](src/governance/policy_engine.cpp.md)
-- **RBAC:** [rbac_authorization.md](guides/guides_rbac.md), [RBAC.md](guides/guides_rbac.md)
-- **Retention:** [security/audit_and_retention.md](security/security_audit_retention.md)
+- **PII Detection:** [security/pii_detection.md](../security/security_pii_detection.md), [pii_api.md](../security/security_pii_api.md)
+- **Policies:** [security/security_policies.md](../security/security_policies.md), [governance/policy_engine.cpp.md](src/governance/policy_engine.cpp.md)
+- **RBAC:** [rbac_authorization.md](../guides/guides_rbac.md), [RBAC.md](../guides/guides_rbac.md)
+- **Retention:** [security/audit_and_retention.md](../security/security_audit_retention.md)
 
 ## ⚠️ Deprecated / Archive
 
@@ -2659,7 +2659,7 @@ docker run -v themis_data:/data themisdb/themisdb:latest
 - **[Configuration Guide](../operations/CONFIGURATION.md)** - All configuration options
 - **[AQL Documentation](../aql/aql_syntax.md)** - Learn the query language
 - **[REST API Reference](../apis/REST_API.md)** - Complete API documentation
-- **[Client SDKs](../../clients/README.md)** - Use ThemisDB from your favorite language
+- **[Client SDKs](../README.md)** - Use ThemisDB from your favorite language
 
 ---
 
@@ -4629,7 +4629,7 @@ docker compose up --build
 ## 🧰 Admin Tools
 
 ### WPF Admin Tools Suite ✅
-**Status:** Production-Ready | **Docs:** [`docs/admin_tools/user_guide.md`](docs/admin_tools/user_guide.md)
+**Status:** Production-Ready | **Docs:** [`docs/admin_tools/user_guide.md`](../admin_tools/user_guide.md)
 
 **Tools (7):**
 1. ✅ **Audit Log Viewer** - Search, filter, export logs
@@ -4657,7 +4657,7 @@ docker compose up --build
 ## 🔌 Plugin Architecture
 
 ### Plugin System ✅
-**Status:** Production-Ready | **Docs:** [`docs/plugins/PLUGIN_MIGRATION.md`](docs/plugins/PLUGIN_MIGRATION.md)
+**Status:** Production-Ready | **Docs:** [`docs/plugins/PLUGIN_MIGRATION.md`](../plugins/PLUGIN_MIGRATION.md)
 
 **Unified Interface:**
 - ✅ `IPlugin` - Base interface
@@ -4699,7 +4699,7 @@ docker compose up --build
 - Custom test harnesses
 
 ### Code Quality ✅
-**Status:** Production-Ready | **Docs:** [`docs/development/code_audit_mockups_stubs.md`](docs/development/code_audit_mockups_stubs.md)
+**Status:** Production-Ready | **Docs:** [`docs/development/code_audit_mockups_stubs.md`](../development/code_audit_mockups_stubs.md)
 
 **Static Analysis:**
 - ✅ **clang-tidy** - Modern C++ best practices
@@ -4811,7 +4811,7 @@ docker compose up --build
 - 📋 **ML Integration** - GNNs, in-database training
 - 📋 **Zero-Copy Transfer** - Advanced streaming optimization
 
-**Siehe auch:** [`ROADMAP.md`](ROADMAP.md) für Details
+**Siehe auch:** [`ROADMAP.md`](../roadmap/ROADMAP.md) für Details
 
 ---
 
@@ -5481,14 +5481,14 @@ docker push themisdb/themisdb:qnap
 
 **GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
 
-**Deployment Strategy:** [Full Deployment Strategy](docs/deployment/deployment_strategy.md)
+**Deployment Strategy:** [Full Deployment Strategy](../deployment/deployment_strategy.md)
 
 ---
 
 ## Related Documentation
 
-- [README.md](README.md) - Main documentation
-- [CHANGELOG.md](CHANGELOG.md) - Release notes
+- [README.md](../README.md) - Main documentation
+- [CHANGELOG.md](../releases/CHANGELOG.md) - Release notes
 - [BUILD_ORGANIZATION.md](BUILD_ORGANIZATION.md) - Build system
 - [Dockerfile](Dockerfile) - Build definition
 

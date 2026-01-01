@@ -431,7 +431,7 @@ docker run -v themis_data:/data themisdb/themisdb:latest
 - **[Configuration Guide](../operations/CONFIGURATION.md)** - All configuration options
 - **[AQL Documentation](../aql/aql_syntax.md)** - Learn the query language
 - **[REST API Reference](../apis/REST_API.md)** - Complete API documentation
-- **[Client SDKs](../../clients/README.md)** - Use ThemisDB from your favorite language
+- **[Client SDKs](../README.md)** - Use ThemisDB from your favorite language
 
 ---
 

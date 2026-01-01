@@ -117,7 +117,7 @@ mkdocs build --config-file mkdocs.yml
 - [GitHub Repository](https://github.com/makr-code/ThemisDB)
 - [Documentation Site](https://makr-code.github.io/ThemisDB/)
 - [Release on GitHub](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.5)
-- [Full CHANGELOG](../../CHANGELOG.md)
+- [Full CHANGELOG](CHANGELOG.md)
 
 ---
 

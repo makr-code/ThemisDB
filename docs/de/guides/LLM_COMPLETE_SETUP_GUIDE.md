@@ -865,7 +865,7 @@ curl http://localhost:8080/api/llm/metrics
 ### Beispiele
 - 🎓 [Beispiel 07: Vector Search & RAG](../../examples/07_vector_search_documents/) - Vollständiges RAG-Beispiel
 - 🚁 [Beispiel 10: Drohnenbild-Analyse](../../examples/10_drone_image_analysis/) - Komplexes LLM + Vision Beispiel
-- 📚 [Alle Beispiele](../../examples/README.md) - Übersicht
+- 📚 [Alle Beispiele](../README.md) - Übersicht
 
 ### Benchmarks & Testing
 - ⚡ [LLM/NLP Integration Quickstart](../../benchmarks/LLM_NLP_INTEGRATION_QUICKSTART.md) - Performance-Tests

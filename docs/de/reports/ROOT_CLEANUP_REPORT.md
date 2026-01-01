@@ -67,14 +67,14 @@ GitHub-relevante Hauptdokumente:
 - [Features Liste](FEATURES.md)
 + [Features Liste](docs/FEATURES.md)
 
-- [Roadmap](ROADMAP.md)
-+ [Roadmap](docs/ROADMAP.md)
+- [Roadmap](../roadmap/ROADMAP.md)
++ [Roadmap](../roadmap/ROADMAP.md)
 
 - [Build Strategy](BUILD_STRATEGY.md)
 + [Build Strategy](docs/BUILD_STRATEGY.md)
 
 - [Integration Analysis](INTEGRATION_ANALYSIS.md)
-+ [Integration Analysis](docs/reports/INTEGRATION_ANALYSIS.md)
++ [Integration Analysis](INTEGRATION_ANALYSIS.md)
 ```
 
 ### `mkdocs.yml` (4 Änderungen)
@@ -95,16 +95,16 @@ GitHub-relevante Hauptdokumente:
 - [FEATURES.md](../FEATURES.md)
 + [FEATURES.md](FEATURES.md)
 
-- [ROADMAP.md](../ROADMAP.md)
-+ [ROADMAP.md](ROADMAP.md)
+- [ROADMAP.md](../roadmap/ROADMAP.md)
++ [ROADMAP.md](../roadmap/ROADMAP.md)
 
-- [INTEGRATION_ANALYSIS.md](../INTEGRATION_ANALYSIS.md)
-+ [INTEGRATION_ANALYSIS.md](reports/INTEGRATION_ANALYSIS.md)
+- [INTEGRATION_ANALYSIS.md](INTEGRATION_ANALYSIS.md)
++ [INTEGRATION_ANALYSIS.md](INTEGRATION_ANALYSIS.md)
 ```
 
 ### `docs/enterprise/README.md` (2 Änderungen)
 ```diff
-- [Integration Analysis](../INTEGRATION_ANALYSIS.md)
+- [Integration Analysis](INTEGRATION_ANALYSIS.md)
 + [Integration Analysis](../reports/INTEGRATION_ANALYSIS.md)
 ```
 
