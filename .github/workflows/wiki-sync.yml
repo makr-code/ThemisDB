@@ -2,10 +2,8 @@ name: Sync Documentation to GitHub Wiki
 
 on:
   push:
-    branches: [main, master]
-    paths:
-      - 'docs/**'
-      - '.github/workflows/wiki-sync.yml'
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
 
 permissions:

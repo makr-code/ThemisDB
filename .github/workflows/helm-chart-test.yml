@@ -4,16 +4,6 @@ name: Helm Chart [Dry-Run]
 # 🔶 DRY-RUN MODE - Chart is validated but NOT pushed to any OCI registry
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'helm/**'
-      - '.github/workflows/helm-chart-test.yml'
-  pull_request:
-    branches: [main, develop]
-    paths:
-      - 'helm/**'
-      - '.github/workflows/helm-chart-test.yml'
   workflow_dispatch:
 
 # Minimal permissions for security
