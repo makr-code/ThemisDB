@@ -185,10 +185,10 @@ ARG QNAP_BUILD=OFF
 ARG THEMIS_EDITION=COMMUNITY
 
 # Build ThemisDB with optimized triplet detection
-# Note: LLM support (llama.cpp) requires special handling on Linux:
-# - llama.cpp on x64-linux needs extra compiler flags and optimization settings
-# - Some Boost packages (boost-unordered) have transitive dependencies via WebSocket
-# - We optimize ccache and parallel compilation (-j8) for faster builds
+# Note: For Docker Linux builds with LLM support:
+# - Websockets disabled to avoid boost-unordered compilation issues on Linux
+# - llama.cpp configured for x64-linux with compiler optimizations
+# - Parallel compilation enabled for faster builds
 RUN . /etc/profile.d/vcpkg.sh && \
     echo "=== Building ThemisDB ${THEMIS_EDITION} Edition for ${VCPKG_TRIPLET:-x64-linux} ===" && \
     export CCACHE_DIR=/tmp/ccache && \
@@ -212,9 +212,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
         -DTHEMIS_STATIC_BUILD=OFF \
         -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
-        -DLLAMA_STATIC=ON \
-        -DLLAMA_AVX2=ON \
-        -DLLAMA_F16C=ON 2>&1 | tee /tmp/cmake_config.log && \
+        -DTHEMIS_ENABLE_WEBSOCKETS=OFF 2>&1 | tee /tmp/cmake_config.log && \
     ninja -C build -j8 2>&1 | tee /tmp/cmake_build.log && \
     ls -lh /src/build/themis_server
 

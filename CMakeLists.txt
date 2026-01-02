@@ -84,6 +84,7 @@ option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stu
 option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
 option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors (audio/image/video/geo/cad) in core" OFF)
+option(THEMIS_ENABLE_WEBSOCKETS "Enable WebSocket protocol support with CDC (uses Boost.Beast)" ON)
 
 # For QNAP or fully static builds, force static core library
 if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
