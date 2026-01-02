@@ -189,6 +189,7 @@ venv/
 .venv-wsl/
 env/
 env-*/
+compendium/.venv/
 *.egg-info/
 
 # --- Node.js (falls vorhanden) ---------------------------------------------
