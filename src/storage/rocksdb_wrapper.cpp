@@ -106,14 +106,12 @@ void RocksDBWrapper::configureOptions() {
     
     // Bloom filter for faster point lookups
     // CRITICAL FIX: Avoid use-after-free with BlockBasedTableOptions
-    // NewBlockBasedTableFactory makes a copy of the options internally,
-    // but filter_policy handling can be fragile across RocksDB versions.
-    // To ensure safe lifecycle management, create the factory immediately
-    // while table_options is still in scope. The factory will copy all data it needs.
-    std::unique_ptr<rocksdb::FilterPolicy> filter_policy(
+    // NewBlockBasedTableFactory makes a copy of the options internally.
+    // BlockBasedTableOptions::filter_policy is a shared_ptr that manages lifetime.
+    // Directly assign the newly created FilterPolicy pointer.
+    table_options.filter_policy.reset(
         rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false)
     );
-    table_options.filter_policy.reset(filter_policy.release());
     
     // Create BlockBasedTableFactory immediately - it will copy all internal structures
     options_->table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
@@ -265,6 +263,11 @@ void RocksDBWrapper::configureOptions() {
 }
 
 bool RocksDBWrapper::open() {
+    // If already open, close cleanly to avoid stale handles before reopen
+    if (db_) {
+        close();
+    }
+
     // Ensure target directories exist when using relative paths and tests run from build dir
     try {
         std::error_code ec;
@@ -447,7 +450,6 @@ bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value
     
     if (!txn->commit()) {
         themis::utils::Logger::error("RocksDBWrapper::put (transaction): commit failed");
-        txn->rollback();
         return false;
     }
     
@@ -477,7 +479,6 @@ bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
     
     if (!txn->commit()) {
         themis::utils::Logger::error("RocksDBWrapper::put (string_view, transaction): commit failed");
-        txn->rollback();
         return false;
     }
     
@@ -485,23 +486,70 @@ bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
 }
 
 bool RocksDBWrapper::del(std::string_view key) {
-    if (!db_) return false;
-    
-    rocksdb::Status status = db_->Delete(*write_options_, rocksdb::Slice(key.data(), key.size()));
-    return status.ok();
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::del: db_ is null");
+        return false;
+    }
+
+    // Keep write path consistent with MVCC: always go through a transaction
+    auto txn = beginTransaction();
+    if (!txn) {
+        themis::utils::Logger::error("RocksDBWrapper::del: failed to begin transaction");
+        return false;
+    }
+
+    if (!txn->del(key)) {
+        themis::utils::Logger::error("RocksDBWrapper::del (transaction): delete failed");
+        txn->rollback();
+        return false;
+    }
+
+    if (!txn->commit()) {
+        themis::utils::Logger::error("RocksDBWrapper::del (transaction): commit failed");
+        return false;
+    }
+
+    return true;
 }
 
 std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     const std::vector<std::string>& keys
 ) {
     std::vector<std::optional<std::vector<uint8_t>>> results;
-    if (!db_) return results;
-    
-    // TODO: Use RocksDB MultiGet for batch efficiency
-    for (const auto& key : keys) {
-        results.push_back(get(key));
+    if (!db_) {
+        THEMIS_ERROR("multiGet: database not open");
+        return results;
     }
-    
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("multiGet: base DB is null");
+        return results;
+    }
+
+    // Prepare keys for RocksDB MultiGet
+    std::vector<rocksdb::Slice> rock_keys;
+    rock_keys.reserve(keys.size());
+    for (const auto& key : keys) {
+        rock_keys.emplace_back(key);
+    }
+
+    std::vector<std::string> values;
+    std::vector<rocksdb::Status> statuses = base_db->MultiGet(*read_options_, rock_keys, &values);
+
+    results.reserve(keys.size());
+    for (size_t i = 0; i < keys.size(); ++i) {
+        if (statuses[i].ok()) {
+            std::vector<uint8_t> value(values[i].begin(), values[i].end());
+            results.emplace_back(std::move(value));
+        } else if (statuses[i].IsNotFound()) {
+            results.emplace_back(std::nullopt);
+        } else {
+            THEMIS_ERROR("multiGet error for key {}: {}", keys[i], statuses[i].ToString());
+            results.emplace_back(std::nullopt);
+        }
+    }
+
     return results;
 }
 
@@ -609,18 +657,20 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::crea
 
 RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db)
     : db_(db) {
-    if (db_->db_) {
-        txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
-        if (txn_) {
-            THEMIS_DEBUG("MVCC Transaction started with snapshot");
-        } else {
-            THEMIS_ERROR("MVCC Transaction: BeginTransaction returned nullptr");
-            active_ = false;
-        }
-    } else {
+    if (!db_ || !db_->db_) {
         THEMIS_ERROR("MVCC Transaction: db_ is nullptr");
         active_ = false;
+        return;
     }
+
+    txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
+    if (!txn_) {
+        THEMIS_ERROR("MVCC Transaction: BeginTransaction returned nullptr");
+        active_ = false;
+        return;
+    }
+
+    THEMIS_DEBUG("MVCC Transaction started with snapshot");
 }
 
 RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
@@ -632,6 +682,10 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std::string_view key) {
     if (!txn_) return std::nullopt;
+    if (!active_) {
+        THEMIS_ERROR("TransactionWrapper::get: transaction not active");
+        return std::nullopt;
+    }
     
     std::string value;
     rocksdb::ReadOptions read_opts;
@@ -669,9 +723,20 @@ bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::ve
 }
 
 bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
-    if (!txn_ || !active_) return false;
-    
+    if (!txn_) {
+        THEMIS_ERROR("TransactionWrapper::del: txn_ is nullptr");
+        return false;
+    }
+    if (!active_) {
+        THEMIS_ERROR("TransactionWrapper::del: transaction not active");
+        return false;
+    }
+
     rocksdb::Status status = txn_->Delete(rocksdb::Slice(key.data(), key.size()));
+    if (!status.ok()) {
+        THEMIS_ERROR("TransactionWrapper::del: Delete() failed: {}", status.ToString());
+    }
+
     return status.ok();
 }
 
@@ -695,7 +760,6 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
     }
     
     rocksdb::Status status = txn_->Commit();
-    active_ = false;
     
     if (!status.ok()) {
         if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
@@ -705,6 +769,8 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
         }
         return false;
     }
+    
+    active_ = false;
     
     THEMIS_DEBUG("MVCC Transaction committed successfully");
     return true;
@@ -719,7 +785,10 @@ void RocksDBWrapper::TransactionWrapper::rollback() {
 }
 
 const rocksdb::Snapshot* RocksDBWrapper::TransactionWrapper::getSnapshot() const {
-    return txn_ ? txn_->GetSnapshot() : nullptr;
+    if (!txn_ || !active_) {
+        return nullptr;
+    }
+    return txn_->GetSnapshot();
 }
 
 bool RocksDBWrapper::TransactionWrapper::prepare() {
@@ -746,8 +815,14 @@ bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
 
 void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) {
     if (!db_) return;
-    
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(*read_options_));
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanPrefix: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
     rocksdb::Slice prefix_slice(prefix.data(), prefix.size());
     
     for (it->Seek(prefix_slice); it->Valid() && it->key().starts_with(prefix_slice); it->Next()) {
@@ -762,8 +837,14 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
 
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
     if (!db_) return;
-    
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(*read_options_));
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanRange: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
     rocksdb::Slice start_slice(start_key.data(), start_key.size());
     rocksdb::Slice end_slice(end_key.data(), end_key.size());
     
@@ -779,8 +860,14 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
 
 void RocksDBWrapper::scanAll(ScanCallback callback) {
     if (!db_) return;
-    
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(*read_options_));
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanAll: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
     
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         std::string_view key(it->key().data(), it->key().size());
@@ -1044,7 +1131,7 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
     
     // Create new column family with default options
     rocksdb::ColumnFamilyOptions cf_opts;
-    cf_opts.OptimizeForPointLookup(256); // 256MB block cache
+    // Avoid OptimizeForPointLookup because it mutates multiple internals implicitly; stick to defaults
     rocksdb::ColumnFamilyHandle* cf_handle = nullptr;
     rocksdb::Status s = db_->CreateColumnFamily(cf_opts, cf_name, &cf_handle);
     
@@ -1064,6 +1151,12 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
 bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {
     if (!db_) {
         THEMIS_ERROR("createIncrementalBackup failed: database not open");
+        return false;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("createIncrementalBackup failed: base DB is null");
         return false;
     }
     
@@ -1086,7 +1179,7 @@ bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool
         std::unique_ptr<rocksdb::BackupEngine> backup_engine(backup_engine_ptr);
         
         // Create incremental backup (only delta since last backup)
-        s = backup_engine->CreateNewBackup(db_->GetBaseDB(), flush_before_backup);
+        s = backup_engine->CreateNewBackup(base_db, flush_before_backup);
         
         if (!s.ok()) {
             THEMIS_ERROR("Failed to create incremental backup: {}", s.ToString());
@@ -1245,6 +1338,12 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
         THEMIS_ERROR("scanWithAsyncIO: database not open");
         return results;
     }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanWithAsyncIO: base DB is null");
+        return results;
+    }
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
@@ -1254,7 +1353,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWi
     }
     
     // Create iterator
-    std::unique_ptr<rocksdb::Iterator> it(db_->GetBaseDB()->NewIterator(read_opts));
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
     
     // Seek to prefix or start of database
     if (prefix.empty()) {
@@ -1297,6 +1396,12 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQ
         THEMIS_ERROR("rangeQueryWithAsyncIO: database not open");
         return results;
     }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO: base DB is null");
+        return results;
+    }
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
@@ -1306,7 +1411,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQ
     }
     
     // Create iterator
-    std::unique_ptr<rocksdb::Iterator> it(db_->GetBaseDB()->NewIterator(read_opts));
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
     
     // Seek to start key
     it->Seek(start_key);
@@ -1343,6 +1448,12 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
         THEMIS_ERROR("reverseScanWithAsyncIO: database not open");
         return results;
     }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("reverseScanWithAsyncIO: base DB is null");
+        return results;
+    }
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
@@ -1352,7 +1463,7 @@ std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::revers
     }
     
     // Create iterator
-    std::unique_ptr<rocksdb::Iterator> it(db_->GetBaseDB()->NewIterator(read_opts));
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
     
     // Seek to start key or last if empty
     if (start_key.empty()) {
@@ -1392,6 +1503,12 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
         THEMIS_ERROR("multiGetWithAsyncIO: database not open");
         return results;
     }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("multiGetWithAsyncIO: base DB is null");
+        return results;
+    }
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
@@ -1409,8 +1526,7 @@ std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsy
     
     // Perform MultiGet
     std::vector<std::string> values;
-    std::vector<rocksdb::Status> statuses = 
-        db_->GetBaseDB()->MultiGet(read_opts, rock_keys, &values);
+    std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
     
     // Process results
     results.reserve(keys.size());
@@ -1435,6 +1551,12 @@ std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newAsyncIterator() {
         THEMIS_ERROR("newAsyncIterator: database not open");
         return nullptr;
     }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("newAsyncIterator: base DB is null");
+        return nullptr;
+    }
     
     // Configure read options with async I/O if enabled
     rocksdb::ReadOptions read_opts;
@@ -1443,7 +1565,7 @@ std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newAsyncIterator() {
         read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
     }
     
-    return std::unique_ptr<rocksdb::Iterator>(db_->GetBaseDB()->NewIterator(read_opts));
+    return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
 }
 
 std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
@@ -1451,9 +1573,15 @@ std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
         THEMIS_ERROR("newIterator: database not open");
         return nullptr;
     }
-    
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("newIterator: base DB is null");
+        return nullptr;
+    }
+
     rocksdb::ReadOptions read_opts;
-    return std::unique_ptr<rocksdb::Iterator>(db_->GetBaseDB()->NewIterator(read_opts));
+    return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
 }
 
 } // namespace themis
