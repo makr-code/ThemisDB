@@ -1494,6 +1494,8 @@ if(THEMIS_BUILD_TESTS)
         tests/test_http_config.cpp
         tests/test_http_aql_graph.cpp
         tests/test_crash_recovery_direct.cpp
+        tests/test_wal_manifest_corruption.cpp
+        tests/test_domain_durability.cpp
         tests/test_http_aql_collect.cpp
         tests/test_http_vector.cpp
         tests/test_http_vector_largescale.cpp
@@ -1605,6 +1607,11 @@ if(THEMIS_BUILD_TESTS)
         tests/test_olap_extended.cpp
         tests/test_process_mining_extended.cpp
         tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
+        
+        # Phase 1: Database Durability & Crash Recovery Tests (v1.3.4+)
+        tests/test_crash_recovery_direct.cpp
+        tests/test_wal_manifest_corruption.cpp
+        tests/test_domain_durability.cpp
         
         # Phase 1 Performance Optimization Tests (from PR #157)
         tests/test_performance_feature_flags.cpp
