@@ -111,7 +111,7 @@ flowchart TD
   Stem --> Stemmed[Stemmed tokens: themisdb, multi-model, datenbank]
     
   Stemmed --> Index[5. Inverted Index - term to document IDs]
-  Index --> Final[(Searchable Index: themisdb → [doc1, doc5]\ndatenbank → [doc1, doc2, doc3])]
+  Index --> Final[(Searchable Index: themisdb -> doc1, doc5<br/>datenbank -> doc1, doc2, doc3)]
     
     style Input fill:#667eea
     style Token fill:#4facfe

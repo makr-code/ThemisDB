@@ -82,6 +82,40 @@ security:
 
 ## 36.2 Authentication & Authorization
 
+```mermaid
+graph TB
+    subgraph "Security Layers"
+        Network[Network Layer<br/>Firewall, VPN, TLS]
+        Auth[Authentication Layer<br/>mTLS, JWT, OAuth2]
+        Authz[Authorization Layer<br/>RBAC, ABAC, ACL]
+        Data[Data Layer<br/>Encryption at Rest]
+        Audit[Audit Layer<br/>Logging, Monitoring]
+    end
+    
+    Client[Client Request] --> Network
+    Network --> Auth
+    Auth --> Authz
+    Authz --> Data
+    Data --> Response[Response]
+    
+    Network -.-> Audit
+    Auth -.-> Audit
+    Authz -.-> Audit
+    Data -.-> Audit
+    
+    Audit --> SIEM[SIEM/Analysis]
+    SIEM --> Alert{Threat?}
+    Alert -->|Yes| Block[Block & Alert]
+    Alert -->|No| Allow[Allow]
+    
+    style Network fill:#4dabf7
+    style Auth fill:#fab005
+    style Authz fill:#fa5252
+    style Data fill:#51cf66
+    style Audit fill:#845ef7
+    style Block fill:#ff6b6b
+```
+
 ### RBAC (Role-Based Access Control)
 
 ```aql

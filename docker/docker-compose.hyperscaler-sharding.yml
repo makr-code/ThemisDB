@@ -1,0 +1,386 @@
+# ThemisDB Hyperscaler Edition - 10-Instance Sharding Test Environment
+# RAID Configuration Test: RAID 1, RAID 2, RAID 5
+# 
+# Architecture:
+# - 10 ThemisDB instances (shards)
+# - RAID 1 group: shards 0-2 (mirroring, 3 nodes)
+# - RAID 2 group: shards 3-5 (bit-level striping with Hamming code, 3 nodes)
+# - RAID 5 group: shards 6-9 (block-level striping with distributed parity, 4 nodes)
+# - Monitoring: Prometheus + Grafana
+# - Load balancer: Nginx for request distribution
+
+version: '3.9'
+
+x-themis-base: &themis-base
+  image: themisdb-hyperscaler:latest
+  restart: unless-stopped
+  networks:
+    - themis-cluster
+  deploy:
+    resources:
+      limits:
+        cpus: '4'
+        memory: 16G
+      reservations:
+        cpus: '2'
+        memory: 8G
+  environment: &themis-env-base
+    THEMIS_EDITION: HYPERSCALER
+    CLUSTER_NAME: themis-hyperscaler-test
+    CLUSTER_SIZE: "10"
+    REPLICATION_FACTOR: "2"
+    CONSISTENCY_LEVEL: QUORUM
+    THEMIS_ENABLE_TRACING: "true"
+    THEMIS_ENABLE_LLM_STORE: "true"
+    THEMIS_ENABLE_GPU: "true"
+    THEMIS_LOG_LEVEL: info
+    THEMIS_WORKER_THREADS: "16"
+    THEMIS_MAX_CONNECTIONS: "10000"
+    THEMIS_MEMTABLE_SIZE_MB: "512"
+    THEMIS_BLOCK_CACHE_SIZE_MB: "2048"
+    THEMIS_MAX_BACKGROUND_JOBS: "16"
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+    interval: 15s
+    timeout: 5s
+    retries: 3
+    start_period: 30s
+
+networks:
+  themis-cluster:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+  monitoring:
+    driver: bridge
+
+volumes:
+  # RAID 1 volumes (mirroring)
+  shard-0-data:
+  shard-1-data:
+  shard-2-data:
+  # RAID 2 volumes (bit-level striping with Hamming code)
+  shard-3-data:
+  shard-4-data:
+  shard-5-data:
+  # RAID 5 volumes (block-level striping with distributed parity)
+  shard-6-data:
+  shard-7-data:
+  shard-8-data:
+  shard-9-data:
+  # Monitoring
+  prometheus-data:
+  grafana-data:
+
+services:
+  # ============================================================================
+  # RAID 1 GROUP - Shards 0-2 (Mirroring)
+  # ============================================================================
+  
+  themis-shard-0:
+    <<: *themis-base
+    container_name: themis-shard-0
+    hostname: shard-0
+    ports:
+      - "8080:8080"
+      - "18765:18765"
+      - "9090:9090"
+    volumes:
+      - shard-0-data:/var/lib/themisdb
+      - ./logs/shard-0:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_0
+      SHARD_ROLE: primary
+      RAID_LEVEL: RAID1
+      RAID_GROUP: raid1-group
+      RAID_MEMBER_INDEX: "0"
+      RAID_GROUP_SIZE: "3"
+      SEED_NODES: shard-0,shard-1,shard-2
+      DATACENTER: dc_1
+      RACK_ID: rack_1
+
+  themis-shard-1:
+    <<: *themis-base
+    container_name: themis-shard-1
+    hostname: shard-1
+    ports:
+      - "8081:8080"
+      - "18766:18765"
+      - "9091:9090"
+    volumes:
+      - shard-1-data:/var/lib/themisdb
+      - ./logs/shard-1:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_1
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID1
+      RAID_GROUP: raid1-group
+      RAID_MEMBER_INDEX: "1"
+      RAID_GROUP_SIZE: "3"
+      SEED_NODES: shard-0,shard-1,shard-2
+      DATACENTER: dc_1
+      RACK_ID: rack_1
+
+  themis-shard-2:
+    <<: *themis-base
+    container_name: themis-shard-2
+    hostname: shard-2
+    ports:
+      - "8082:8080"
+      - "18767:18765"
+      - "9092:9090"
+    volumes:
+      - shard-2-data:/var/lib/themisdb
+      - ./logs/shard-2:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_2
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID1
+      RAID_GROUP: raid1-group
+      RAID_MEMBER_INDEX: "2"
+      RAID_GROUP_SIZE: "3"
+      SEED_NODES: shard-0,shard-1,shard-2
+      DATACENTER: dc_1
+      RACK_ID: rack_2
+
+  # ============================================================================
+  # RAID 2 GROUP - Shards 3-5 (Bit-level striping with Hamming code)
+  # ============================================================================
+  
+  themis-shard-3:
+    <<: *themis-base
+    container_name: themis-shard-3
+    hostname: shard-3
+    ports:
+      - "8083:8080"
+      - "18768:18765"
+      - "9093:9090"
+    volumes:
+      - shard-3-data:/var/lib/themisdb
+      - ./logs/shard-3:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_3
+      SHARD_ROLE: primary
+      RAID_LEVEL: RAID2
+      RAID_GROUP: raid2-group
+      RAID_MEMBER_INDEX: "0"
+      RAID_GROUP_SIZE: "3"
+      SEED_NODES: shard-3,shard-4,shard-5
+      DATACENTER: dc_2
+      RACK_ID: rack_3
+
+  themis-shard-4:
+    <<: *themis-base
+    container_name: themis-shard-4
+    hostname: shard-4
+    ports:
+      - "8084:8080"
+      - "18769:18765"
+      - "9094:9090"
+    volumes:
+      - shard-4-data:/var/lib/themisdb
+      - ./logs/shard-4:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_4
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID2
+      RAID_GROUP: raid2-group
+      RAID_MEMBER_INDEX: "1"
+      RAID_GROUP_SIZE: "3"
+      SEED_NODES: shard-3,shard-4,shard-5
+      DATACENTER: dc_2
+      RACK_ID: rack_3
+
+  themis-shard-5:
+    <<: *themis-base
+    container_name: themis-shard-5
+    hostname: shard-5
+    ports:
+      - "8085:8080"
+      - "18770:18765"
+      - "9095:9090"
+    volumes:
+      - shard-5-data:/var/lib/themisdb
+      - ./logs/shard-5:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_5
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID2
+      RAID_GROUP: raid2-group
+      RAID_MEMBER_INDEX: "2"
+      RAID_GROUP_SIZE: "3"
+      SEED_NODES: shard-3,shard-4,shard-5
+      DATACENTER: dc_2
+      RACK_ID: rack_4
+
+  # ============================================================================
+  # RAID 5 GROUP - Shards 6-9 (Block-level striping with distributed parity)
+  # ============================================================================
+  
+  themis-shard-6:
+    <<: *themis-base
+    container_name: themis-shard-6
+    hostname: shard-6
+    ports:
+      - "8086:8080"
+      - "18771:18765"
+      - "9096:9090"
+    volumes:
+      - shard-6-data:/var/lib/themisdb
+      - ./logs/shard-6:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_6
+      SHARD_ROLE: primary
+      RAID_LEVEL: RAID5
+      RAID_GROUP: raid5-group
+      RAID_MEMBER_INDEX: "0"
+      RAID_GROUP_SIZE: "4"
+      SEED_NODES: shard-6,shard-7,shard-8,shard-9
+      DATACENTER: dc_3
+      RACK_ID: rack_5
+
+  themis-shard-7:
+    <<: *themis-base
+    container_name: themis-shard-7
+    hostname: shard-7
+    ports:
+      - "8087:8080"
+      - "18772:18765"
+      - "9097:9090"
+    volumes:
+      - shard-7-data:/var/lib/themisdb
+      - ./logs/shard-7:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_7
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID5
+      RAID_GROUP: raid5-group
+      RAID_MEMBER_INDEX: "1"
+      RAID_GROUP_SIZE: "4"
+      SEED_NODES: shard-6,shard-7,shard-8,shard-9
+      DATACENTER: dc_3
+      RACK_ID: rack_5
+
+  themis-shard-8:
+    <<: *themis-base
+    container_name: themis-shard-8
+    hostname: shard-8
+    ports:
+      - "8088:8080"
+      - "18773:18765"
+      - "9098:9090"
+    volumes:
+      - shard-8-data:/var/lib/themisdb
+      - ./logs/shard-8:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_8
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID5
+      RAID_GROUP: raid5-group
+      RAID_MEMBER_INDEX: "2"
+      RAID_GROUP_SIZE: "4"
+      SEED_NODES: shard-6,shard-7,shard-8,shard-9
+      DATACENTER: dc_3
+      RACK_ID: rack_6
+
+  themis-shard-9:
+    <<: *themis-base
+    container_name: themis-shard-9
+    hostname: shard-9
+    ports:
+      - "8089:8080"
+      - "18774:18765"
+      - "9099:9090"
+    volumes:
+      - shard-9-data:/var/lib/themisdb
+      - ./logs/shard-9:/var/log/themis
+    environment:
+      <<: *themis-env-base
+      SHARD_ID: shard_9
+      SHARD_ROLE: replica
+      RAID_LEVEL: RAID5
+      RAID_GROUP: raid5-group
+      RAID_MEMBER_INDEX: "3"
+      RAID_GROUP_SIZE: "4"
+      SEED_NODES: shard-6,shard-7,shard-8,shard-9
+      DATACENTER: dc_3
+      RACK_ID: rack_6
+
+  # ============================================================================
+  # LOAD BALANCER - Nginx for request distribution
+  # ============================================================================
+  
+  nginx:
+    image: nginx:alpine
+    container_name: themis-lb
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - themis-cluster
+    depends_on:
+      - themis-shard-0
+      - themis-shard-1
+      - themis-shard-2
+      - themis-shard-3
+      - themis-shard-4
+      - themis-shard-5
+      - themis-shard-6
+      - themis-shard-7
+      - themis-shard-8
+      - themis-shard-9
+    restart: unless-stopped
+
+  # ============================================================================
+  # MONITORING - Prometheus + Grafana
+  # ============================================================================
+  
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: themis-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - themis-cluster
+      - monitoring
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: themis-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - monitoring
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_INSTALL_PLUGINS: "redis-datasource,grafana-piechart-panel"
+    depends_on:
+      - prometheus
+    restart: unless-stopped

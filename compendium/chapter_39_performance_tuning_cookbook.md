@@ -27,6 +27,51 @@ Ein praxisorientiertes Tuning-Kochbuch für ThemisDB. Jede Sektion enthält Symp
 - **Memory hoch?** Cache begrenzen, Streaming statt Materializing, LIMIT
 - **Lock/Deadlock?** Konsistente Lock-Order, kürzere Transaktionen
 
+```mermaid
+flowchart TD
+    START[Performance Problem] --> METRIC{Welche Metrik?}
+    
+    METRIC -->|Hohe Latenz| LAT[Query EXPLAIN]
+    METRIC -->|Niedriger Throughput| THR[Connection Pool]
+    METRIC -->|Hohe CPU| CPU[Full Scan]
+    METRIC -->|Hohe Memory| MEM[Cache Size]
+    METRIC -->|Hohe I/O| IO[Covering Index]
+    
+    LAT --> IDX{Index vorhanden?}
+    IDX -->|Nein| CREATE[Index erstellen]
+    IDX -->|Ja| PROJ[Early Projection]
+    
+    THR --> POOL{Pool-Größe?}
+    POOL -->|Klein| INC[Pool vergrößern]
+    POOL -->|OK| BATCH[Batching nutzen]
+    
+    CPU --> SCAN{Full Scan?}
+    SCAN -->|Ja| CREATE
+    SCAN -->|Nein| REGEX[Regex/Sort reduzieren]
+    
+    MEM --> CACHE{Cache > 60%?}
+    CACHE -->|Ja| LIMIT[Cache begrenzen]
+    CACHE -->|Nein| STREAM[Streaming nutzen]
+    
+    IO --> COV{Covering Index?}
+    COV -->|Nein| COVER[Covering Index]
+    COV -->|Ja| COMP[Kompression aktivieren]
+    
+    CREATE --> TEST[Performance Test]
+    PROJ --> TEST
+    INC --> TEST
+    BATCH --> TEST
+    REGEX --> TEST
+    LIMIT --> TEST
+    STREAM --> TEST
+    COVER --> TEST
+    COMP --> TEST
+    
+    TEST --> OK{Besser?}
+    OK -->|Ja| DONE[✓ Problem gelöst]
+    OK -->|Nein| METRIC
+```
+
 ---
 
 ## 39.2 Query Patterns (Fixes)

@@ -16,6 +16,52 @@ Migration von Legacy-Systemen (PostgreSQL, MongoDB, Neo4j) zu ThemisDB ist eine 
 - Rollback-Strategien
 - Performance Tuning nach Migration
 
+```mermaid
+flowchart LR
+    subgraph Legacy Systems
+        PG[(PostgreSQL)]
+        MG[(MongoDB)]
+        N4[(Neo4j)]
+    end
+    
+    subgraph Migration Layer
+        ETL[ETL Pipeline]
+        VAL[Validation]
+        SYNC[Live Sync]
+    end
+    
+    subgraph ThemisDB
+        COL[Collections]
+        GRAPH[Graphs]
+        EDGE[Edges]
+    end
+    
+    subgraph Phases
+        P1[Schema Mapping]
+        P2[Bulk Import]
+        P3[Delta Sync]
+        P4[Cutover]
+        P5[Validation]
+    end
+    
+    PG --> ETL
+    MG --> ETL
+    N4 --> ETL
+    
+    ETL --> VAL
+    VAL --> SYNC
+    SYNC --> COL
+    SYNC --> GRAPH
+    SYNC --> EDGE
+    
+    P1 --> P2
+    P2 --> P3
+    P3 --> P4
+    P4 --> P5
+    
+    P5 -.->|Fail| P3
+```
+
 ---
 
 ## 26.1 Schema-Mapping Strategien

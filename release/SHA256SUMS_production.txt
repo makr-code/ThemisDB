@@ -1,2 +1,1 @@
-44e96d817868ff9d5a5bf35a8215def631aaf5ef95431ae210b63a9bb24ebdfc  themisdb-v1.3.0-linux-x64-production.tar.gz
-a802b2269de514ad02d0ec2b0537393403c2450cc06d824f9809af2e474ad6d5  themisdb-v1.3.0-windows-x64-production.zip
+a8625f1ef1f293ebdacf2f7a790884c614c9f831b999ec4d4a51ab36cf34b445  themisdb-v1.3.4-linux-x64-production.tar.gz

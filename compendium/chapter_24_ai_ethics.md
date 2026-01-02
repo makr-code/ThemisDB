@@ -40,6 +40,35 @@ Die Einführung eines KI-Ökosystems wie **VCC (Veritas, Covina, Clara)** in der
 5. Governance-Framework und Ethik-by-Design
 6. Praktische Implementierung in ThemisDB
 
+```mermaid
+flowchart TD
+    subgraph Ethics-by-Design Framework
+        A[Datenerhebung] --> B[Bias Detection]
+        B --> C[Data Quality Audit]
+        C --> D[Pre-Filtering]
+        D --> E[LLM Processing]
+        E --> F[Human-in-the-Loop]
+        F --> G[Explainability]
+        G --> H[Audit Trail]
+    end
+    
+    subgraph Risk Areas
+        R1[Covina: Ingestion Bias]
+        R2[Clara: LLM Hallucination]
+        R3[Veritas: Unfair Retrieval]
+    end
+    
+    R1 -.->|Mitigation| C
+    R2 -.->|Mitigation| F
+    R3 -.->|Mitigation| D
+    
+    H --> I[Governance Board]
+    I --> J{Ethisch vertretbar?}
+    J -->|Nein| K[Rollback/Fix]
+    J -->|Ja| L[Deployment]
+    K --> A
+```
+
 ---
 
 ## 24.1 Der Ethische Imperativ für Verwaltungs-KI

@@ -18,6 +18,41 @@ Dieses Kapitel zeigt, wie ThemisDB mit externen Systemen integriert wird und wie
 - Performance Monitoring Integrations
 - Cross-database Synchronization
 
+```mermaid
+flowchart LR
+    subgraph External Systems
+        ES[Elasticsearch]
+        K[Kafka]
+        PG[PostgreSQL]
+        R[Redis]
+        P[Prometheus]
+    end
+    
+    subgraph ThemisDB Core
+        TDB[(ThemisDB)]
+        PLUG[Plugins]
+        HOOK[Webhooks]
+    end
+    
+    subgraph Application Layer
+        APP[App Server]
+        API[REST API]
+        WS[WebSocket]
+    end
+    
+    ES <-->|Full-Text Sync| TDB
+    K <-->|Event Stream| HOOK
+    PG <-->|Data Federation| TDB
+    R <-->|Cache Layer| TDB
+    P -->|Metrics| TDB
+    
+    TDB --> PLUG
+    PLUG --> API
+    HOOK --> WS
+    API --> APP
+    WS --> APP
+```
+
 ---
 
 ## 37.1 Beliebte Integrationen

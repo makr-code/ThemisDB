@@ -45,6 +45,30 @@ Root Cause: Fehlende Pre-Deploy Index-Validation
 Solution: Pre-Deploy Hook für Schema-Validation hinzufügen
 ```
 
+```mermaid
+flowchart TD
+    A[Problem erkannt] --> B{Logs vorhanden?}
+    B -->|Ja| C[Logs analysieren]
+    B -->|Nein| D[Monitoring prüfen]
+    C --> E{Fehlermuster?}
+    D --> E
+    E -->|Performance| F[EXPLAIN Query]
+    E -->|Crash| G[Core Dump analysieren]
+    E -->|Network| H[Latency/Packet Loss]
+    F --> I[Index fehlt?]
+    I -->|Ja| J[Index erstellen]
+    I -->|Nein| K[Query optimieren]
+    G --> L[Memory/Deadlock?]
+    H --> M[Load Balancer Check]
+    J --> N[Problem gelöst?]
+    K --> N
+    L --> N
+    M --> N
+    N -->|Nein| O[5-Why Root Cause]
+    N -->|Ja| P[Post-Mortem]
+    O --> P
+```
+
 ### Diagnostic Checklist
 
 ```bash

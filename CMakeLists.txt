@@ -96,7 +96,7 @@ endif()
 # LLM Support (v1.3.0+)
 # Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
 # Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
-option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" OFF)
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" ON)
 
 # Voice Assistant Support (v1.4.0+) - Enterprise Feature
 # Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
@@ -284,9 +284,7 @@ if(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
     set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
     set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
-    # TEMPORARY: LLM disabled for testing to avoid llama.cpp hang
-    set(THEMIS_ENABLE_LLM OFF CACHE INTERNAL "LLM temporarily disabled for testing")
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM DISABLED FOR TESTING")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM=${THEMIS_ENABLE_LLM}")
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
@@ -2454,7 +2452,7 @@ install(DIRECTORY include/
 )
 
 # Performance Optimization Benchmarks
-if(THEMIS_BUILD_BENCHMARKS)
-    add_subdirectory(benchmarks/performance_optimizations)
-endif()
+# if(THEMIS_BUILD_BENCHMARKS)
+#     add_subdirectory(benchmarks/performance_optimizations)
+# endif()
 

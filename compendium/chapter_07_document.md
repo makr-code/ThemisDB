@@ -98,7 +98,7 @@ graph TB
     end
     
     subgraph "Document Model - Denormalized"
-        Doc[Single Document; title, content, comments[], tags[]]
+        Doc["Single Document<br/>title, content, comments[], tags[]"]
     end
     
     Pro1[✅ Self-contained<br/>✅ Single read<br/>✅ No JOINs<br/>✅ Flexible schema]

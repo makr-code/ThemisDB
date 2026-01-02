@@ -20,6 +20,64 @@ Dieses Kapitel liefert ein praktisches Observability- und SRE-Playbook für Them
 
 **Voraussetzungen:** Basiswissen aus Monitoring (Kapitel 19) und Troubleshooting (Kapitel 27).
 
+```mermaid
+flowchart TB
+    subgraph "Data Sources"
+        DB[ThemisDB]
+        App[Application]
+        Infra[Infrastructure]
+    end
+    
+    subgraph "Collection"
+        Metrics[Metrics<br/>Prometheus]
+        Logs[Logs<br/>Loki]
+        Traces[Traces<br/>Tempo]
+    end
+    
+    subgraph "Storage"
+        TSDB[(Time Series DB)]
+        LogStore[(Log Storage)]
+        TraceStore[(Trace Storage)]
+    end
+    
+    subgraph "Visualization"
+        Grafana[Grafana Dashboards]
+    end
+    
+    subgraph "Alerting"
+        AlertManager[Alert Manager]
+        PagerDuty[PagerDuty]
+        Slack[Slack]
+    end
+    
+    DB --> Metrics
+    DB --> Logs
+    DB --> Traces
+    
+    App --> Metrics
+    App --> Logs
+    App --> Traces
+    
+    Infra --> Metrics
+    Infra --> Logs
+    
+    Metrics --> TSDB
+    Logs --> LogStore
+    Traces --> TraceStore
+    
+    TSDB --> Grafana
+    LogStore --> Grafana
+    TraceStore --> Grafana
+    
+    TSDB --> AlertManager
+    AlertManager --> PagerDuty
+    AlertManager --> Slack
+    
+    style DB fill:#4dabf7
+    style Grafana fill:#fab005
+    style AlertManager fill:#ff6b6b
+```
+
 ---
 
 ## 38.1 Metriken (What to Measure)

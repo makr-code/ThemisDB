@@ -75,6 +75,34 @@ PROFILE FOR doc IN users
 -- 4    | Return    | 100k  | 10       | 100%
 ```
 
+```mermaid
+flowchart LR
+    Query[AQL Query] --> Parse[Parser]
+    Parse --> Analyze[Query Analyzer]
+    Analyze --> Optimize[Query Optimizer]
+    
+    Optimize --> IndexCheck{Index verfügbar?}
+    IndexCheck -->|Ja| IndexScan[Index Scan]
+    IndexCheck -->|Nein| FullScan[Collection Scan]
+    
+    IndexScan --> Filter[Filter Early]
+    FullScan --> Filter
+    
+    Filter --> Project[Projection]
+    Project --> Sort{Sort nötig?}
+    
+    Sort -->|Ja| SortOp[Sort Operation]
+    Sort -->|Nein| Limit
+    
+    SortOp --> Limit[Limit/Skip]
+    Limit --> Return[Return Results]
+    
+    style IndexScan fill:#51cf66
+    style FullScan fill:#ff6b6b
+    style Filter fill:#4dabf7
+    style Return fill:#40c057
+```
+
 ---
 
 ## 34.2 Index-Strategien

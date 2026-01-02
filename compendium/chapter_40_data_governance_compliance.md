@@ -22,6 +22,63 @@ Ein praxisnahes Governance- und Compliance-Kapitel für ThemisDB: Policies, Zugr
 
 ## 40.1 Governance Operating Model
 
+```mermaid
+flowchart TB
+    subgraph "Governance Framework"
+        Policy[Policy Catalog]
+        Owner[Data Owners]
+        Steward[Data Stewards]
+        Custodian[Data Custodians]
+    end
+    
+    subgraph "Controls"
+        Access[Access Control]
+        Classify[Classification]
+        Encrypt[Encryption]
+        Audit[Audit Logs]
+    end
+    
+    subgraph "Compliance"
+        GDPR[GDPR/DSGVO]
+        SOX[SOX]
+        SOC2[SOC2]
+        ISO[ISO27001]
+    end
+    
+    subgraph "Operations"
+        Monitor[Monitoring]
+        Alert[Alerting]
+        Response[Incident Response]
+        Evidence[Evidence Collection]
+    end
+    
+    Policy --> Access
+    Policy --> Classify
+    Policy --> Encrypt
+    Policy --> Audit
+    
+    Owner --> Policy
+    Steward --> Classify
+    Custodian --> Encrypt
+    
+    Access --> GDPR
+    Classify --> SOC2
+    Encrypt --> ISO
+    Audit --> SOX
+    
+    Audit --> Monitor
+    Monitor --> Alert
+    Alert --> Response
+    Response --> Evidence
+    
+    Evidence --> Review[Quarterly Review]
+    Review --> Policy
+    
+    style Policy fill:#4dabf7
+    style GDPR fill:#fa5252
+    style Evidence fill:#51cf66
+```
+
 - **Ownership:** Jede Collection hat Owner (Team), Steward (Data Quality), Custodian (Ops)
 - **Policy Catalog:** Zugriff, Retention, Encryption, Backup, Sharing
 - **Review Zyklen:** Quartalsweise Policy-Review, jährliche Controls-Audits

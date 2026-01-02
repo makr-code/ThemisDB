@@ -62,6 +62,46 @@ Data Modeling ist die Grundlage jeder erfolgreichen Datenbankanwendung. Dieses K
 
 **Best Practice:** Nutze für Snapshot-Daten (Preis zum Kaufzeitpunkt, nicht aktuelle Produkt-Info)
 
+```mermaid
+flowchart TD
+    Start[Data Model Design] --> Analyze{Beziehung?}
+    
+    Analyze -->|1:1| Embed1[Embed in Parent]
+    Analyze -->|1:Few| CheckSize{Size < 100?}
+    Analyze -->|1:Many| Ref1[Reference Pattern]
+    Analyze -->|M:N| Junction[Junction Collection]
+    
+    CheckSize -->|Yes| Embed2[Embed Array]
+    CheckSize -->|No| Ref2[Reference Array]
+    
+    Embed1 --> Immutable{Immutable?}
+    Embed2 --> Immutable
+    
+    Immutable -->|Yes| Final1[✓ Embedded OK]
+    Immutable -->|No| Consider{Updates häufig?}
+    
+    Consider -->|Yes| Ref3[Consider Reference]
+    Consider -->|No| Final1
+    
+    Ref1 --> Index1[Add Index on FK]
+    Ref2 --> Index1
+    Ref3 --> Index1
+    Junction --> Index2[Index both FKs]
+    
+    Index1 --> Final2[✓ Referenced]
+    Index2 --> Final2
+    
+    Final1 --> Validate{Doc Size?}
+    Validate -->|< 16MB| OK[✓ Valid]
+    Validate -->|> 16MB| Split[Split Document]
+    
+    style Embed1 fill:#51cf66
+    style Embed2 fill:#51cf66
+    style Final1 fill:#40c057
+    style Final2 fill:#4dabf7
+    style OK fill:#40c057
+```
+
 ---
 
 ### Pattern 2: Reference Links

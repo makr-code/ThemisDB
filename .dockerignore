@@ -33,8 +33,10 @@ msvc_build*.txt
 # --- vcpkg Offline-First Strategy (v4.0.0) ---------------------------------
 # Include: vcpkg/downloads/ (~2.5 GB) for offline builds
 # Exclude: build artifacts (~15 GB) - werden im Docker neu gebaut
+# CRITICAL: Exclude vcpkg/buildtrees/* to avoid file access issues in Docker
 vcpkg_installed/
 vcpkg/buildtrees/
+vcpkg/buildtrees/**
 vcpkg/packages/
 vcpkg/installed/
 .vcpkg/

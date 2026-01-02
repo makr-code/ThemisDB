@@ -1,20 +1,117 @@
 #!/usr/bin/env python3
 """
-ThemisDB PDF - Schnell-Generator
-Vereinfachte Version für schnelle PDF-Generierung
+ThemisDB PDF - Mermaid für Buchdruck optimiert
+- SVG extern mit Mermaid-Config für Print
+- Max 4 Objekte pro Zeile
+- Bessere Lesbarkeit
 """
 
-import sys, re, subprocess, hashlib, base64
+import sys, re, subprocess, base64
 from pathlib import Path
 from datetime import datetime
 import markdown
+import json
 
 COMPENDIUM_DIR = Path(__file__).parent
 PDF_OUTPUT_DIR = COMPENDIUM_DIR / "pdf"
 TEMP_DIR = COMPENDIUM_DIR / "temp"
 TEMP_DIR.mkdir(exist_ok=True)
 
-# Dynamisch alle Kapitel und Anhänge sammeln - mit korrekter Sortierung
+# Mermaid-Konfiguration für Buchdruck
+MERMAID_CONFIG = {
+    "theme": "default",
+    "flowchart": {
+        "useMaxWidth": False,
+        "width": 800,
+        "htmlLabels": True,
+        "curve": "linear"
+    },
+    "sequence": {
+        "useMaxWidth": False,
+        "width": 800
+    },
+    "gantt": {
+        "useMaxWidth": False,
+        "width": 800
+    },
+    "fontSize": 14,
+    "fontFamily": "arial"
+}
+
+def render_mermaid_to_svg(mermaid_code, output_path):
+    """Rendere Mermaid zu SVG mit optimierter Config."""
+    try:
+        # Schreibe Config am Anfang
+        full_mermaid = f"""%%{{init: {json.dumps(MERMAID_CONFIG)}}}%%
+{mermaid_code}"""
+        
+        mmd_file = TEMP_DIR / "temp.mmd"
+        with open(mmd_file, 'w', encoding='utf-8') as f:
+            f.write(full_mermaid)
+        
+        # Rendere mit mmdc
+        mmdc_path = COMPENDIUM_DIR / "node_modules" / ".bin" / "mmdc"
+        result = subprocess.run(
+            [str(mmdc_path), '-i', str(mmd_file), '-o', str(output_path), 
+             '-b', 'transparent', '-w', '800', '-H', '600'],
+            capture_output=True, timeout=15, cwd=str(COMPENDIUM_DIR)
+        )
+        return result.returncode == 0
+    except Exception as e:
+        print(f"    ⚠️  Fehler: {e}")
+        return False
+
+def clean_md(content):
+    """Remove h1, convert mermaid blocks to SVG (embedded)."""
+    content = re.sub(r'^#\s+.+?$\n?', '', content, flags=re.MULTILINE)
+    
+    mermaid_counter = [0]
+    def replace_mermaid(match):
+        mermaid_code = match.group(1)
+        mermaid_counter[0] += 1
+        
+        # Optimiere Diagramm für Print
+        lines = mermaid_code.strip().split('\n')
+        diagram_type = lines[0].split()[0].lower()  # 'flowchart', 'sequenceDiagram', etc.
+        
+        svg_file = TEMP_DIR / f"mermaid_{mermaid_counter[0]}.svg"
+        if not svg_file.exists():
+            print(f"  🔄 [{diagram_type}] Mermaid {mermaid_counter[0]}...", end=" ", flush=True)
+            if render_mermaid_to_svg(mermaid_code, svg_file):
+                size_kb = svg_file.stat().st_size / 1024
+                print(f"✓ {size_kb:.1f}KB")
+            else:
+                print("✗ Fallback zu Code")
+                return f'\n```mermaid\n{mermaid_code}\n```\n'
+        
+        # Lese SVG und optimiere
+        with open(svg_file, 'r', encoding='utf-8') as f:
+            svg_content = f.read()
+        
+        # Entferne XML-Header und Whitespace
+        svg_content = re.sub(r'<\?xml[^?]*\?>\s*', '', svg_content)
+        svg_content = re.sub(r'\n\s*', '\n', svg_content)
+        
+        # Konvertiere zu Base64
+        svg_b64 = base64.b64encode(svg_content.encode()).decode()
+        
+        # HTML-Wrapper mit Caption
+        caption = f"Diagramm {mermaid_counter[0]}: {diagram_type.capitalize()}"
+        return f'''
+<figure style="margin: 15pt 0; page-break-inside: avoid; text-align: center;">
+  <img src="data:image/svg+xml;base64,{svg_b64}" alt="{caption}" style="max-width:100%; height:auto; display:block; margin:0 auto;" />
+  <figcaption style="font-size:9pt; color:#666; margin-top:5pt;">{caption}</figcaption>
+</figure>
+'''
+    
+    content = re.sub(r'```mermaid\n(.*?)```', replace_mermaid, content, flags=re.DOTALL)
+    return content
+
+def get_title(content):
+    """Extract title."""
+    match = re.search(r'^#\s+(.+?)(?:\n|$)', content, re.MULTILINE)
+    return match.group(1).strip() if match else "Chapter"
+
 def sort_chapters(files):
     """Sortiere: preface, chapter_XX (numerisch), appendix_XX"""
     chapters = []
@@ -25,7 +122,6 @@ def sort_chapters(files):
         else:
             chapters.append(f)
     
-    # Sortiere numerisch nach Nummer
     chapters.sort(key=lambda p: int(p.name.split('_')[1]) if p.name.startswith('chapter_') else 0)
     appendix.sort(key=lambda p: p.name)
     return chapters + appendix
@@ -34,76 +130,9 @@ CHAPTERS = ["preface.md"] + [str(p) for p in sort_chapters(
     list((COMPENDIUM_DIR.glob("chapter_*.md"))) + list((COMPENDIUM_DIR.glob("appendix_*.md")))
 )]
 
-def render_mermaid_to_png(mermaid_code, output_path):
-    """Rendere Mermaid-Code zu PNG mit mermaid-cli."""
-    try:
-        # Schreibe Mermaid-Code in temp-Datei
-        mmd_file = TEMP_DIR / "temp.mmd"
-        with open(mmd_file, 'w', encoding='utf-8') as f:
-            f.write(mermaid_code)
-        
-        # Versuche lokalen mmdc, dann globalen
-        mmdc_paths = [
-            COMPENDIUM_DIR / "node_modules" / ".bin" / "mmdc",
-            "mmdc"  # Global
-        ]
-        
-        for mmdc_path in mmdc_paths:
-            try:
-                result = subprocess.run(
-                    [str(mmdc_path), '-i', str(mmd_file), '-o', str(output_path), '-b', 'transparent'],
-                    capture_output=True, timeout=10, cwd=str(COMPENDIUM_DIR)
-                )
-                if result.returncode == 0:
-                    return True
-            except (FileNotFoundError, subprocess.SubprocessError):
-                continue
-        
-        return False
-    except Exception as e:
-        print(f"⚠️  Mermaid-Fehler: {e}")
-        return False
-
-def clean_md(content):
-    """Remove h1, convert mermaid blocks to PNG with Base64 embedding."""
-    content = re.sub(r'^#\s+.+?$\n?', '', content, flags=re.MULTILINE)
-    
-    # Finde und ersetze Mermaid-Blöcke
-    mermaid_counter = [0]
-    def replace_mermaid(match):
-        mermaid_code = match.group(1)
-        mermaid_counter[0] += 1
-        
-        # Erzeuge eindeutigen Dateinamen
-        code_hash = hashlib.md5(mermaid_code.encode()).hexdigest()[:8]
-        png_file = TEMP_DIR / f"mermaid_{mermaid_counter[0]}_{code_hash}.png"
-        
-        # Rendere zu PNG
-        if not png_file.exists():
-            if render_mermaid_to_png(mermaid_code, png_file):
-                print(f"  ✓ Mermaid → PNG: {png_file.name}")
-            else:
-                # Fallback: zeige Code-Block
-                return f"\n```\n{mermaid_code}\n```\n"
-        
-        # Lese PNG und konvertiere zu Base64
-        with open(png_file, 'rb') as f:
-            png_data = base64.b64encode(f.read()).decode('utf-8')
-        
-        # Gebe Data-URL zurück
-        return f'\n<img src="data:image/png;base64,{png_data}" alt="Mermaid Diagram" style="max-width:100%; height:auto; margin:10pt 0;" />\n'
-    
-    content = re.sub(r'```mermaid\n(.*?)```', replace_mermaid, content, flags=re.DOTALL)
-    return content
-
-def get_title(content):
-    """Extract title."""
-    match = re.search(r'^#\s+(.+?)(?:\n|$)', content, re.MULTILINE)
-    return match.group(1).strip() if match else "Chapter"
-
-print("\n" + "="*60)
-print("  ThemisDB PDF - Schnell-Generator")
-print("="*60 + "\n")
+print("\n" + "="*70)
+print("  ThemisDB PDF - Mermaid Print-Optimiert")
+print("="*70 + "\n")
 
 chapters = []
 for ch in CHAPTERS:
@@ -153,8 +182,10 @@ table tr:nth-child(even) { background: #f9f9f9; }
 ul, ol { margin-left: 20pt; margin-bottom: 8pt; margin-top: 4pt; }
 li { margin-bottom: 2pt; line-height: 1.5; }
 a { color: #2c5aa0; text-decoration: none; }
+figure { margin: 15pt 0; page-break-inside: avoid; text-align: center; }
+figcaption { font-size: 9pt; color: #666; margin-top: 5pt; font-weight: 600; }
 .chapter-footer { margin-top: 20pt; padding-top: 8pt; border-top: 1pt solid #ddd; text-align: center; font-size: 8pt; color: #999; page-break-after: always; }
-img { max-width: 100%; height: auto; margin: 10pt 0; border: 1pt solid #eee; page-break-inside: avoid; }
+svg { max-width: 100%; height: auto; }
 </style></head><body><div class="container">
 <div class="title-page">
 <h1>ThemisDB</h1>
@@ -190,7 +221,7 @@ with open(output_file, 'w', encoding='utf-8') as f:
     f.write(html)
 
 size_mb = len(html) / 1024 / 1024
-print(f"✓ HTML generated: {size_mb:.1f} MB")
+print(f"\n✓ HTML generated: {size_mb:.1f} MB")
 print(f"✓ Saved to: {output_file}")
-print(f"\n✅ Done! Convert with:")
+print(f"\n✅ Prüfe HTML vor PDF-Generierung:")
 print(f"   weasyprint {output_file} ThemisDB-Kompendium-v1.3.4-print.pdf")

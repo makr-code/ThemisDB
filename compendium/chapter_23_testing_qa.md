@@ -77,6 +77,41 @@ FUNCTION teardown_test_data() {
 
 ### Test Cases für Geschäftslogik
 
+```mermaid
+flowchart LR
+    subgraph "Testing Pyramid"
+        Unit[Unit Tests<br/>AQL Functions<br/>Fast & Isolated]
+        Integration[Integration Tests<br/>Transactions<br/>Multiple Collections]
+        E2E[E2E Tests<br/>Full Workflows<br/>Real Scenarios]
+        
+        Unit --> Integration
+        Integration --> E2E
+    end
+    
+    subgraph "Test Execution"
+        CI[CI Pipeline]
+        Local[Local Dev]
+        Staging[Staging Env]
+    end
+    
+    Unit --> CI
+    Integration --> CI
+    E2E --> Staging
+    Unit --> Local
+    
+    CI --> Report[Test Report]
+    Staging --> Report
+    
+    Report --> Pass{All Pass?}
+    Pass -->|Yes| Deploy[Deploy]
+    Pass -->|No| Fix[Fix & Retry]
+    
+    style Unit fill:#4dabf7
+    style Integration fill:#fab005
+    style E2E fill:#fa5252
+    style Deploy fill:#51cf66
+```
+
 ```aql
 -- Test 1: Benutzerverwaltung
 FUNCTION test_user_creation() {

@@ -16,6 +16,58 @@ Production-grade Datenbanken erfordern automatisierte Bereitstellung, Monitoring
 - Disaster Recovery Planning
 - Operational Runbooks
 
+```mermaid
+flowchart LR
+    subgraph "Source Control"
+        Git[Git Repository]
+    end
+    
+    subgraph "CI Pipeline"
+        Build[Build & Test]
+        TF[Terraform Plan]
+        Security[Security Scan]
+    end
+    
+    subgraph "CD Pipeline"
+        Staging[Deploy Staging]
+        SmokeTest[Smoke Tests]
+        Prod[Deploy Production]
+    end
+    
+    subgraph "Infrastructure"
+        K8s[Kubernetes Cluster]
+        DB[ThemisDB Cluster]
+        Monitor[Monitoring]
+    end
+    
+    Git --> Build
+    Build --> TF
+    TF --> Security
+    Security --> Staging
+    
+    Staging --> K8s
+    Staging --> DB
+    
+    Staging --> SmokeTest
+    SmokeTest -->|Pass| Prod
+    SmokeTest -->|Fail| Rollback[Rollback]
+    
+    Prod --> K8s
+    Prod --> DB
+    
+    K8s --> Monitor
+    DB --> Monitor
+    
+    Monitor --> Alert{Incident?}
+    Alert -->|Yes| Rollback
+    Alert -->|No| OK[Healthy]
+    
+    style Build fill:#4dabf7
+    style Prod fill:#51cf66
+    style Rollback fill:#ff6b6b
+    style OK fill:#40c057
+```
+
 ---
 
 ## 25.1 Terraform Infrastructure-as-Code

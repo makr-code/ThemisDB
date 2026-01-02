@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-ThemisDB PDF - Schnell-Generator
-Vereinfachte Version für schnelle PDF-Generierung
+ThemisDB PDF - Mit SVG-Mermaid-Diagrammen (eingebettet)
 """
 
-import sys, re, subprocess, hashlib, base64
+import sys, re, subprocess, base64
 from pathlib import Path
 from datetime import datetime
 import markdown
@@ -14,7 +13,53 @@ PDF_OUTPUT_DIR = COMPENDIUM_DIR / "pdf"
 TEMP_DIR = COMPENDIUM_DIR / "temp"
 TEMP_DIR.mkdir(exist_ok=True)
 
-# Dynamisch alle Kapitel und Anhänge sammeln - mit korrekter Sortierung
+def render_mermaid_to_svg(mermaid_code, output_path):
+    """Rendere Mermaid-Code zu SVG mit mermaid-cli."""
+    try:
+        mmd_file = TEMP_DIR / "temp.mmd"
+        with open(mmd_file, 'w', encoding='utf-8') as f:
+            f.write(mermaid_code)
+        
+        mmdc_path = COMPENDIUM_DIR / "node_modules" / ".bin" / "mmdc"
+        result = subprocess.run(
+            [str(mmdc_path), '-i', str(mmd_file), '-o', str(output_path), '-b', 'transparent'],
+            capture_output=True, timeout=10, cwd=str(COMPENDIUM_DIR)
+        )
+        return result.returncode == 0
+    except Exception as e:
+        return False
+
+def clean_md(content):
+    """Remove h1, convert mermaid blocks to SVG (embedded as data URI)."""
+    content = re.sub(r'^#\s+.+?$\n?', '', content, flags=re.MULTILINE)
+    
+    mermaid_counter = [0]
+    def replace_mermaid(match):
+        mermaid_code = match.group(1)
+        mermaid_counter[0] += 1
+        
+        svg_file = TEMP_DIR / f"mermaid_{mermaid_counter[0]}.svg"
+        if not svg_file.exists():
+            if render_mermaid_to_svg(mermaid_code, svg_file):
+                print(f"  ✓ Mermaid → SVG: {svg_file.name}")
+            else:
+                return f"\n```\n{mermaid_code}\n```\n"
+        
+        # Lese SVG und konvertiere zu Data-URI
+        with open(svg_file, 'rb') as f:
+            svg_data = base64.b64encode(f.read()).decode('utf-8')
+        
+        # Gebe Data-URL zurück
+        return f'\n<img src="data:image/svg+xml;base64,{svg_data}" alt="Mermaid Diagram" style="max-width:100%; height:auto; margin:10pt 0;" />\n'
+    
+    content = re.sub(r'```mermaid\n(.*?)```', replace_mermaid, content, flags=re.DOTALL)
+    return content
+
+def get_title(content):
+    """Extract title."""
+    match = re.search(r'^#\s+(.+?)(?:\n|$)', content, re.MULTILINE)
+    return match.group(1).strip() if match else "Chapter"
+
 def sort_chapters(files):
     """Sortiere: preface, chapter_XX (numerisch), appendix_XX"""
     chapters = []
@@ -25,7 +70,6 @@ def sort_chapters(files):
         else:
             chapters.append(f)
     
-    # Sortiere numerisch nach Nummer
     chapters.sort(key=lambda p: int(p.name.split('_')[1]) if p.name.startswith('chapter_') else 0)
     appendix.sort(key=lambda p: p.name)
     return chapters + appendix
@@ -34,75 +78,8 @@ CHAPTERS = ["preface.md"] + [str(p) for p in sort_chapters(
     list((COMPENDIUM_DIR.glob("chapter_*.md"))) + list((COMPENDIUM_DIR.glob("appendix_*.md")))
 )]
 
-def render_mermaid_to_png(mermaid_code, output_path):
-    """Rendere Mermaid-Code zu PNG mit mermaid-cli."""
-    try:
-        # Schreibe Mermaid-Code in temp-Datei
-        mmd_file = TEMP_DIR / "temp.mmd"
-        with open(mmd_file, 'w', encoding='utf-8') as f:
-            f.write(mermaid_code)
-        
-        # Versuche lokalen mmdc, dann globalen
-        mmdc_paths = [
-            COMPENDIUM_DIR / "node_modules" / ".bin" / "mmdc",
-            "mmdc"  # Global
-        ]
-        
-        for mmdc_path in mmdc_paths:
-            try:
-                result = subprocess.run(
-                    [str(mmdc_path), '-i', str(mmd_file), '-o', str(output_path), '-b', 'transparent'],
-                    capture_output=True, timeout=10, cwd=str(COMPENDIUM_DIR)
-                )
-                if result.returncode == 0:
-                    return True
-            except (FileNotFoundError, subprocess.SubprocessError):
-                continue
-        
-        return False
-    except Exception as e:
-        print(f"⚠️  Mermaid-Fehler: {e}")
-        return False
-
-def clean_md(content):
-    """Remove h1, convert mermaid blocks to PNG with Base64 embedding."""
-    content = re.sub(r'^#\s+.+?$\n?', '', content, flags=re.MULTILINE)
-    
-    # Finde und ersetze Mermaid-Blöcke
-    mermaid_counter = [0]
-    def replace_mermaid(match):
-        mermaid_code = match.group(1)
-        mermaid_counter[0] += 1
-        
-        # Erzeuge eindeutigen Dateinamen
-        code_hash = hashlib.md5(mermaid_code.encode()).hexdigest()[:8]
-        png_file = TEMP_DIR / f"mermaid_{mermaid_counter[0]}_{code_hash}.png"
-        
-        # Rendere zu PNG
-        if not png_file.exists():
-            if render_mermaid_to_png(mermaid_code, png_file):
-                print(f"  ✓ Mermaid → PNG: {png_file.name}")
-            else:
-                # Fallback: zeige Code-Block
-                return f"\n```\n{mermaid_code}\n```\n"
-        
-        # Lese PNG und konvertiere zu Base64
-        with open(png_file, 'rb') as f:
-            png_data = base64.b64encode(f.read()).decode('utf-8')
-        
-        # Gebe Data-URL zurück
-        return f'\n<img src="data:image/png;base64,{png_data}" alt="Mermaid Diagram" style="max-width:100%; height:auto; margin:10pt 0;" />\n'
-    
-    content = re.sub(r'```mermaid\n(.*?)```', replace_mermaid, content, flags=re.DOTALL)
-    return content
-
-def get_title(content):
-    """Extract title."""
-    match = re.search(r'^#\s+(.+?)(?:\n|$)', content, re.MULTILINE)
-    return match.group(1).strip() if match else "Chapter"
-
 print("\n" + "="*60)
-print("  ThemisDB PDF - Schnell-Generator")
+print("  ThemisDB PDF - SVG-Generator")
 print("="*60 + "\n")
 
 chapters = []
@@ -154,7 +131,8 @@ ul, ol { margin-left: 20pt; margin-bottom: 8pt; margin-top: 4pt; }
 li { margin-bottom: 2pt; line-height: 1.5; }
 a { color: #2c5aa0; text-decoration: none; }
 .chapter-footer { margin-top: 20pt; padding-top: 8pt; border-top: 1pt solid #ddd; text-align: center; font-size: 8pt; color: #999; page-break-after: always; }
-img { max-width: 100%; height: auto; margin: 10pt 0; border: 1pt solid #eee; page-break-inside: avoid; }
+img { max-width: 100%; height: auto; margin: 10pt 0; page-break-inside: avoid; }
+svg { max-width: 100%; height: auto; margin: 10pt 0; page-break-inside: avoid; }
 </style></head><body><div class="container">
 <div class="title-page">
 <h1>ThemisDB</h1>
