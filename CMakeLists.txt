@@ -15,6 +15,19 @@ project(Themis VERSION ${_ver} LANGUAGES CXX)
 # Make project version available to all translation units
 add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
 
+# Linux-specific compiler flags for Boost/vcpkg compatibility
+# Suppress deprecated-declarations and other warnings that occur in vcpkg dependencies
+# on Linux with modern GCC/Clang versions
+if(UNIX AND NOT APPLE)
+    message(STATUS "Configuring for Linux: Adding compiler flags for vcpkg compatibility")
+    add_compile_options(-Wno-deprecated-declarations)
+    add_compile_options(-Wno-error=deprecated-declarations)
+    # Suppress "mangled-name" warnings in some Boost packages
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-Wno-error=format-security)
+    endif()
+endif()
+
 # Include modular build configuration (post-v1.3.0 feature)
 # See docs/architecture/MODULARIZATION_PLAN.md for details
 include(cmake/ModularBuild.cmake)
@@ -618,6 +631,16 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
     set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
     
+    # Linux-specific optimizations for llama.cpp
+    # Suppress warnings that occur on Linux GCC/Clang with modern C++ standards
+    if(UNIX AND NOT APPLE)
+        message(STATUS "  Configuring llama.cpp for Linux with optimization flags")
+        set(LLAMA_AVX2 ON CACHE BOOL "Enable AVX2 optimization in llama.cpp" FORCE)
+        set(LLAMA_F16C ON CACHE BOOL "Enable F16C optimization in llama.cpp" FORCE)
+        # Disable problematic features that cause Linux build failures
+        set(LLAMA_CCACHE OFF CACHE BOOL "Disable ccache for reproducibility" FORCE)
+    endif()
+    
     # GPU acceleration options
     if(THEMIS_ENABLE_CUDA)
         message(STATUS "  Enabling CUDA support in llama.cpp")
@@ -648,6 +671,10 @@ if(THEMIS_ENABLE_LLM)
         target_compile_options(llama PRIVATE /Zc:char8_t-)
     endif()
     
+    # Linux GCC/Clang fix: Suppress deprecated-declarations warning in llama.cpp
+    if(UNIX AND NOT APPLE AND TARGET llama)
+        target_compile_options(llama PRIVATE -Wno-deprecated-declarations)
+    endif()
     # Define LLM enabled for ThemisDB code
     add_compile_definitions(THEMIS_LLM_ENABLED)
     
