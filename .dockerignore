@@ -187,9 +187,11 @@ venv/
 .venv/
 .venv-*/
 .venv-wsl/
+.venv_wsl/
 env/
 env-*/
 compendium/.venv/
+compendium/.venv_wsl/
 *.egg-info/
 
 # --- Node.js (falls vorhanden) ---------------------------------------------
