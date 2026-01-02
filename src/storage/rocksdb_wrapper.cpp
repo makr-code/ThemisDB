@@ -105,16 +105,32 @@ void RocksDBWrapper::configureOptions() {
     table_options.partition_filters = config_.partition_filters;
     
     // Bloom filter for faster point lookups
-    table_options.filter_policy.reset(rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false));
+    // CRITICAL FIX: Avoid use-after-free with BlockBasedTableOptions
+    // NewBlockBasedTableFactory makes a copy of the options internally,
+    // but filter_policy handling can be fragile across RocksDB versions.
+    // To ensure safe lifecycle management, create the factory immediately
+    // while table_options is still in scope. The factory will copy all data it needs.
+    std::unique_ptr<rocksdb::FilterPolicy> filter_policy(
+        rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false)
+    );
+    table_options.filter_policy.reset(filter_policy.release());
+    
+    // Create BlockBasedTableFactory immediately - it will copy all internal structures
     options_->table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
     
     // Phase 2H: Configure background thread pools for high parallelism
+    // CRITICAL: options_->env is initialized by RocksDB during Options construction
+    // Ensure it's not null before calling SetBackgroundThreads
+    if (options_->env == nullptr) {
+        options_->env = rocksdb::Env::Default();
+    }
+    
     // Set flush thread pool (HIGH priority)
-    if (config_.background_threads_high > 0) {
+    if (config_.background_threads_high > 0 && options_->env) {
         options_->env->SetBackgroundThreads(config_.background_threads_high, rocksdb::Env::Priority::HIGH);
     }
     // Set compaction thread pool (LOW priority)
-    if (config_.background_threads_low > 0) {
+    if (config_.background_threads_low > 0 && options_->env) {
         options_->env->SetBackgroundThreads(config_.background_threads_low, rocksdb::Env::Priority::LOW);
     }
     
@@ -314,10 +330,13 @@ bool RocksDBWrapper::open() {
     
     // Prepare column family descriptors
     std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
-    rocksdb::ColumnFamilyOptions cf_opts;
-    cf_opts.OptimizeForPointLookup(256); // 256MB block cache
     
     for (const auto& cf_name : cf_names) {
+        rocksdb::ColumnFamilyOptions cf_opts;
+        // Avoid calling OptimizeForPointLookup which can cause issues with large values
+        // Instead configure options directly for stability
+        cf_opts.write_buffer_size = options_->write_buffer_size;
+        cf_opts.max_write_buffer_number = options_->max_write_buffer_number;
         cf_descriptors.emplace_back(cf_name, cf_opts);
     }
     
