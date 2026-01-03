@@ -44,15 +44,15 @@
 using namespace themis;
 using json = nlohmann::json;
 
-// Global server instance for signal handling
-std::shared_ptr<server::HttpServer> g_server;
+// Global atomic flag for signal handling (async-signal-safe)
+std::atomic<bool> g_shutdown_requested{false};
 
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
-        THEMIS_INFO("Received shutdown signal...");
-        if (g_server) {
-            g_server->stop();
-        }
+        // Use async-signal-safe atomic operation
+        g_shutdown_requested.store(true, std::memory_order_release);
+        // Note: THEMIS_INFO is not async-signal-safe, but we keep it for debugging
+        // In production, consider using write() to stderr instead
     }
 }
 
@@ -737,8 +737,14 @@ int main(int argc, char* argv[]) {
         }
         THEMIS_INFO("");
         
-        // Wait for server to finish
-        g_server->wait();
+        // Wait for shutdown signal (check atomic flag periodically)
+        THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
+        while (!g_shutdown_requested.load(std::memory_order_acquire)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        
+        THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");
+        g_server->stop();
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Initiating graceful shutdown sequence...");

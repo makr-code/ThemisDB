@@ -253,6 +253,8 @@ private:
     MqttRateLimitConfig rateLimitConfig_;
     MqttRetryConfig retryConfig_;
     std::mutex mutex_;
+    // Thread-safe round-robin index for shared subscriptions
+    std::atomic<size_t> sharedSubscriptionRoundRobin_{0};
 };
 
 #endif // THEMIS_ENABLE_MQTT

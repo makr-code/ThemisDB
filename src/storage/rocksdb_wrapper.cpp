@@ -384,14 +384,18 @@ void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
         // Destroy any created ColumnFamily handles first to avoid RocksDB assertions
-        for (auto* h : cf_handles_) {
+        for (size_t i = 0; i < cf_handles_.size(); ++i) {
+            auto* h = cf_handles_[i];
             if (h) {
                 // Safe to call even if DB is shutting down; check status
                 try {
                     db_->DestroyColumnFamilyHandle(h);
+                } catch (const std::exception& e) {
+                    // Log specific exception details for debugging
+                    THEMIS_WARN("Exception while destroying ColumnFamilyHandle {}: {}", i, e.what());
                 } catch (...) {
-                    // Swallow exceptions here but log
-                    THEMIS_WARN("Exception while destroying ColumnFamilyHandle");
+                    // Unknown exception - log index at least
+                    THEMIS_WARN("Unknown exception while destroying ColumnFamilyHandle {}", i);
                 }
             }
         }

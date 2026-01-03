@@ -707,10 +707,9 @@ void MqttBroker::publish(const std::string& topic, const std::string& payload, u
     for (const auto& [shareName, topics] : sharedSubscriptions_) {
         for (const auto& [filter, sessions] : topics) {
             if (topicMatches(filter, topic)) {
-                // Round-robin delivery to one session in the group
-                static size_t roundRobinIndex = 0;
+                // Round-robin delivery to one session in the group (thread-safe)
                 if (!sessions.empty()) {
-                    size_t idx = roundRobinIndex++ % sessions.size();
+                    size_t idx = sharedSubscriptionRoundRobin_.fetch_add(1, std::memory_order_relaxed) % sessions.size();
                     if (auto session = sessions[idx].lock()) {
                         session->sendPublish(topic, payload, qos, retain);
                     }
