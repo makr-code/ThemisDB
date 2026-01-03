@@ -1,6 +1,0 @@
-provider,service,region,sku,vcpu,ram_gb,storage_type,storage_iops,price_per_hour_usd,throughput_ops_s,latency_p99_ms,cost_per_million_ops_usd,notes
-Themis,Self-Hosted,local,16c-32g-nvme,16,32,NVMe,500k,0.00,NA,NA,NA,fill with measured
-AWS,Aurora-MySQL,us-east-1,r6g.4xlarge,16,128,GP3,16000,1.536,NA,NA,NA,public pricing 12/2025
-AWS,Redshift-RA3,us-east-1,ra3.4xlarge,12,96,Managed,NA,3.26,NA,NA,NA,public pricing 12/2025
-GCP,Spanner,us-central1,nodes-6,6,24,Managed,NA,4.80,NA,NA,NA,public pricing 12/2025
-Azure,Cosmos-SQL,westus2,provisioned-50kRU,NA,NA,Managed,NA,3.80,NA,NA,NA,public pricing 12/2025

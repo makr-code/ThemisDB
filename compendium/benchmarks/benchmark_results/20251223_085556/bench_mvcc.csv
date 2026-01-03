@@ -1,9 +1,0 @@
-﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
-"MVCCFixture/SingleEntityCommit_MVCC","1000","4069405,50002037","ns","140625",,"7111,11111111111",
-"MVCCFixture/BatchInsert100_MVCC","204","7293136,76471493","ns","3370098,03921569",,"29672,7272727273",
-"MVCCFixture/SnapshotIsolationOverhead_MVCC","1000","4052698,59998953","ns","250000",,"40000",
-"MVCCFixture/Rollback_MVCC","2800","266145,750002969","ns","267857,142857143",,"37333,3333333333",
-"MVCCFixture/SingleEntityCommit_WriteBatch","1120","4383173,57142556","ns","153459,821428571",,"6516,36363636364",
-"MVCCFixture/BatchInsert100_WriteBatch","280","6250826,7857733","ns","2399553,57142857",,"41674,4186046512",
-"MVCCFixture/InsertWithMultipleIndexes_MVCC","1000","3357933,80002724","ns","250000",,"4000",
-"MVCCFixture/UpdateWithIndexes_MVCC","1000","3591042,40004672","ns","421875",,"2370,37037037037",

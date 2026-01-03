@@ -1,2 +1,0 @@
-﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
-"BM_AsyncIO_Multiscan_Disabled","497777778","1,29253499946817","ns","1,28696986549689",,,

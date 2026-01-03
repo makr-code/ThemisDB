@@ -24,7 +24,8 @@
     { "name": "curl" },
     { "name": "yaml-cpp" },
     { "name": "zstd" },
-    { "name": "mimalloc" }
+    { "name": "mimalloc" },
+    { "name": "prometheus-cpp", "features": ["pull"] }
   ],
   "features": {
     "gpu": {

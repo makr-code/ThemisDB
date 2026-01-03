@@ -1,0 +1,7 @@
+﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
+"VectorIndexBench/InsertPlaintext","2800","282072,571447186","ns","284598,214285714",,"351372,549019608",
+"SecondaryIndexBench/IndexInsert","1120","476602,85719238","ns","460379,464285714",,"217212,121212121",
+"SecondaryIndexBench/RawWriteOnly","4978","114981,739658506","ns","112997,187625552",,"884977,777777778",
+"QueryEngineBench/SimpleEvaluation","560000000","1,24870517839944","ns","1,22767857142857",,"814545454,545455",
+"GraphIndexBench/AddEdges","5600","158371,964290771","ns","159040,178571429",,"628771,929824561",
+"TimeseriesBench/InsertTimepoints","344615","2029,92121663172","ns","2040,3203575004",,"49011911,1111111",

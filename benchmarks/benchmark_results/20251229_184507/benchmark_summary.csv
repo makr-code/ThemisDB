@@ -1,0 +1,7 @@
+Benchmark Name,Iterations,Real Time (ns),CPU Time (ns),Items/Second,Time Unit,Threads
+VectorIndexBench/InsertPlaintext,2800,282072.57,284598.21,"351,373",ns,1
+SecondaryIndexBench/IndexInsert,1120,476602.86,460379.46,"217,212",ns,1
+SecondaryIndexBench/RawWriteOnly,4978,114981.74,112997.19,"884,978",ns,1
+QueryEngineBench/SimpleEvaluation,560000000,1.25,1.23,"814,545,455",ns,1
+GraphIndexBench/AddEdges,5600,158371.96,159040.18,"628,772",ns,1
+TimeseriesBench/InsertTimepoints,344615,2029.92,2040.32,"49,011,911",ns,1

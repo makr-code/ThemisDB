@@ -1,5 +1,0 @@
-﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
-"BatchInsertBenchmark/SingleInserts_100","10","432850739,976857","ns","18750000",,"533,333333333333",
-"BatchInsertBenchmark/BatchInsert_100","100","10511350,0053994","ns","7343750",,"136,170212765957",
-"BatchInsertBenchmark/SingleInserts_1000","1","15849741399,9867","ns","218750000",,"4571,42857142857",
-"BatchInsertBenchmark/BatchInsert_1000","10","277046260,004863","ns","268750000",,"372,093023255814",

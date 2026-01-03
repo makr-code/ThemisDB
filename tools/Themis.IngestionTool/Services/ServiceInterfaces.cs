@@ -13,6 +13,7 @@ namespace Themis.IngestionTool.Services
     {
         Task<bool> CheckConnectionAsync();
         Task<bool> TestConnectionAsync(string host, int port);
+        void UpdateConnectionSettings(string host, int port);
         event EventHandler<ConnectionStatusChangedEventArgs>? ConnectionStatusChanged;
     }
 
@@ -21,6 +22,7 @@ namespace Themis.IngestionTool.Services
         AppSettings LoadSettings();
         void SaveSettings(AppSettings settings);
         string GetThemisApiUrl();  // Get API URL for graph/vector queries
+        bool UseGrpc { get; }  // Bestimmt ob gRPC oder HTTP verwendet wird
     }
 
     public interface ILoggerService

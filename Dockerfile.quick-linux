@@ -1,0 +1,37 @@
+# Quick ThemisDB Server Docker Image (using pre-built Linux binary)
+FROM ubuntu:24.04
+
+# Install runtime dependencies with security updates
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    libssl3 \
+    libstdc++6 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Create themis user and directories
+RUN useradd -r -s /bin/false themis && \
+    mkdir -p /var/lib/themisdb /etc/themis && \
+    chown -R themis:themis /var/lib/themisdb
+
+# Copy themis_server binary from docker-bin
+COPY docker-bin/themis_server /usr/local/bin/themis_server
+RUN chmod +x /usr/local/bin/themis_server
+
+# Create default config
+RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb"}' > /etc/themis/config.json
+
+# Expose ports
+EXPOSE 8080 18765 9090
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS http://localhost:8080/health || exit 1
+
+# Run as themis user
+USER themis
+
+# Start server
+WORKDIR /var/lib/themisdb
+CMD ["/usr/local/bin/themis_server", "--config", "/etc/themis/config.json"]

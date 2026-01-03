@@ -1,0 +1,12 @@
+﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
+"BM_CPUBackend_DistanceComputation/10/1000","640","0,968930156159331","ms","0,9765625",,"10240000",
+"BM_CPUBackend_DistanceComputation/100/10000","6","102,480300003663","ms","104,166666666667",,"9600000",
+"BM_CPUBackend_DistanceComputation/1000/100000","1","10056,3404000131","ms","10046,875",,"9953343,70139969",
+"BM_BackendComparison_VaryingDimensions/64","19","38,8326684233585","ms","38,6513157894737",,"25872340,4255319",
+"BM_BackendComparison_VaryingDimensions/128","7","102,847271415937","ms","102,678571428571",,"9739130,43478261",
+"BM_BackendComparison_VaryingDimensions/256","3","230,251733330078","ms","229,166666666667",,"4363636,36363636",
+"BM_BackendComparison_VaryingDimensions/512","2","438,760799996089","ms","437,5",,"2285714,28571429",
+"BM_BackendComparison_VaryingDimensions/1024","1","931,70169997029","ms","921,875",,"1084745,76271186",
+"BM_BackendComparison_VaryingDimensions/2048","1","1885,08160004858","ms","1890,625",,"528925,619834711",
+"BM_BackendInitializationOverhead/0","11200000","0,066331375003626","us","0,0669642857142857",,"14933333,3333333",
+"BM_ThroughputComparison/iterations:5","5","9923,89428000897","ms","9903,125",,"10097822,6569896",

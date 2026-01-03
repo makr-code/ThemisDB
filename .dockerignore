@@ -1,153 +1,107 @@
 # ============================================================================
 # .dockerignore - Docker Build Context Optimization
 # ============================================================================
-# Version: 2.0.0 (vcpkg Offline-First)
-# Last Updated: 18. Dezember 2025
-#
-# Reduziert Build-Context von ~200k+ auf ~2k Dateien
-# WICHTIG: vcpkg/downloads/ (~2.5 GB) wird inkludiert für offline builds
-# Spart dennoch ~15 GB durch Exclusion von vcpkg/packages & buildtrees
+# Version: 4.0.0 (Maximum Size Reduction)
+# Ziel: Build Context von ~38GB auf <500MB reduzieren
+# ============================================================================
 
-# --- Build Artifacts (nicht für Docker-Build nötig) ------------------------
-# Alle lokalen Build-Verzeichnisse ausschließen
+# --- KRITISCH: Größte Verursacher (30+ GB) ---------------------------------
+# vcpkg komplett ausschließen - wird im Docker neu gebaut
+vcpkg/
+vcpkg_installed/
+.vcpkg/
+
+# llama.cpp komplett ausschließen - wird im Docker geklont
+llama.cpp/
+
+# Git History (~2GB)
+.git/
+.github/
+.gitignore
+.gitattributes
+.gitmodules
+
+# --- Build Artifacts (~5-10 GB) --------------------------------------------
 build/
 build-*/
+build-msvc/
+build-wsl/
 out/
 bin/
+obj/
 lib/
 dist/
 Testing/
 CMakeFiles/
 CMakeCache.txt
+cmake_install.cmake
 *.cmake
+*.a
+*.o
+*.obj
+*.lib
+*.dll
+*.so
+*.so.*
+*.dylib
+*.exe
+*.pdb
+*.ilk
+*.exp
 
-# Build logs (alle Varianten)
+# Build logs
 *.log
 build*.txt
 docker-build*.log
 msbuild*.txt
 msvc_build*.txt
+ctest*.txt
+ingestion_output.json
 
-# (Release assets re-included below after release/ exclusion)
-
-# --- vcpkg Offline-First Strategy (v4.0.0) ---------------------------------
-# Include: vcpkg/downloads/ (~2.5 GB) for offline builds
-# Exclude: build artifacts (~15 GB) - werden im Docker neu gebaut
-vcpkg_installed/
-vcpkg/buildtrees/
-vcpkg/packages/
-vcpkg/installed/
-.vcpkg/
-
-# INCLUDE vcpkg essentials for offline builds (only specific subpaths)
-!vcpkg/downloads/
-!vcpkg/downloads/**
-!vcpkg/scripts/
-!vcpkg/scripts/**
-!vcpkg/.vcpkg-root
-!vcpkg/bootstrap-vcpkg.sh
-!vcpkg/vcpkg.json
-!vcpkg-configuration.json
-
-# --- Exclude local LLM source (not needed in Docker context) --------------
-llama.cpp/
-
-# --- Development & Testing (nicht f??r Production) --------------------------
+# --- Testing & Benchmarks (~3-5 GB) ----------------------------------------
 tests/
 benchmarks/
 fuzz/
 data/
 test_geo_integration_db/
-# examples/ - NEEDED for Docker packages
-# clients/ - NEEDED for SDK distribution
-# openapi/ - NEEDED for API specification
 adapters/
+test_output*
+*_test
+*_test.exe
+test_*.cpp
+test_debug.cpp
 
-# --- Release packages (not needed in Docker builds) -----------------------
+# --- Release Packages (~2-3 GB) --------------------------------------------
 release/
+release-changelogs/
+packaging/
+debian/
+PKGBUILD
+*.spec
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.deb
+*.rpm
 
-# Allow selected release artifacts for Docker builds
-!release/v*/themis-v*.tar.gz
-!release/v*/themis-v*.zip
-!docker/themis-linux.tar.gz
-
-# --- Documentation (nicht f??r Runtime) ----------------------------------------
-# docs/ - Some docs needed for packages (openapi, deployment guides)
-# Most markdown files excluded, but keep essentials
-*.md
-!README.md
-!CHANGELOG.md
-!LICENSE
-!SECURITY.md
-!docker/README.md
-!docker/CHANGELOG.md
-!docker/ROADMAP.md
-!DOCKER_DEPLOYMENT.md
-# Exclude heavy documentation dirs
+# --- Documentation (~1-2 GB) -----------------------------------------------
+docs/
 site/
 wiki/
 wiki_out/
 wiki-temp/
-docs/archive/
-docs/api/
-docs/architecture/
-docs/compliance/
-docs/development/
-docs/enterprise/
-docs/features/
-docs/governance/
-docs/guides/
-docs/operations/
-docs/performance/
-docs/plugins/
-docs/query/
-docs/reports/
-docs/roadmap/
-docs/sdk/
-docs/security/
-docs/server/
-docs/sharding/
-docs/src/
-docs/storage/
-docs/tools/
-docs/updates/
-docs/analysis/
+book/
+compendium/
+*.md
 
-# --- Developer Tools (nicht f??r Production) --------------------------------
-# tools/ - plugin_signer and sign scripts needed
-tools/jaeger/
-tools/Themis.*/
-tools/CMakeLists.txt
-tools/debug_graph_keys.cpp
-tools/publish_wiki.py
-tools/STATUS.md
-tools/MOCK_MODE.md
-tools/Themis.sln
-.tools/
-# scripts/ - needed for install scripts in packages
-.github/
+# --- Unreal Engine (~3-5 GB wenn vorhanden) --------------------------------
+unreal/
+
+# --- IDE & Editor Files ----------------------------------------------------
 .vscode/
 .idea/
 .vs/
-
-# --- Logs und tempor??re Dateien --------------------------------------------
-logs/
-*.log
-*.pid
-*.err
-*.out
-tmp*/
-test_output*
-server.pid
-server.err
-server.out
-
-# --- Git Repository --------------------------------------------------------
-.git/
-.gitignore
-.gitattributes
-
-# --- IDE und OS Dateien ----------------------------------------------------
 *.swp
 *.swo
 *~
@@ -155,57 +109,119 @@ server.out
 Thumbs.db
 *.suo
 *.user
-.vscode/
-.idea/
 
-# --- Build Artefakte (kompiliert) ------------------------------------------
-*.o
-*.obj
-*.a
-*.lib
-*.so
-*.dll
-*.exe
-*.pdb
-*.ilk
-*.dylib
-
-# --- Archive und Packages --------------------------------------------------
-*.tar.gz
-*.zip
-*.deb
-*.rpm
-*.tgz
-# BUT allow release archives
-!themis-linux.tar.gz
-
-# --- Python (falls vorhanden) ----------------------------------------------
-__pycache__/
-*.py[cod]
-.pytest_cache/
-venv/
-.venv/
-*.egg-info/
-
-# --- Node.js (falls vorhanden) ---------------------------------------------
+# --- Node & JavaScript -----------------------------------------------------
 node_modules/
 npm-debug.log
 yarn-error.log
+.npm/
+.yarn/
+package-lock.json
+yarn.lock
 
-# --- Packaging (nicht f??r Docker-Build) ------------------------------------
-packaging/
-debian/
-PKGBUILD
-*.spec
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+*.pyc
+
+# --- Temporary & Cache -----------------------------------------------------
+temp/
+tmp/
+tmp*/
+*.tmp
+*.cache
+*.bak
+*.backup
+*~
+logs/
+*.pid
+*.err
+*.out
+server.pid
+server.err
+server.out
+
+# --- Config & Secrets ------------------------------------------------------
+*.pem
+*.key
+*.crt
+*.pfx
+.env
+.env.local
+.env.*.local
+secrets/
+
+# --- Docker Artifacts ------------------------------------------------------
+docker-compose*.yml.backup
+Dockerfile.backup
+*.tar.bz2
+
+# --- External & SDKs -------------------------------------------------------
+sdks/
+clients/
+external/llama.cpp/
+external/vcpkg/
+
+# --- Grafana & Monitoring --------------------------------------------------
+grafana/data/
+grafana/logs/
+
+# --- Projects & Tools ------------------------------------------------------
+projects/
+tools/jaeger/
+tools/Themis.*/
+.tools/
+
+# --- CodeQL & Security Scanning --------------------------------------------
+_codeql_detected_source_root/
+
+# --- Deploy Scripts --------------------------------------------------------
+deploy/
+docker-bin/
+helm/
+
+# --- Models & Data ---------------------------------------------------------
+models/*.gguf
+models/*.bin
 
 # ============================================================================
-# Explizit einbeziehen (??berschreibt obige Regeln)
+# EXPLIZIT EINBEZIEHEN (überschreibt obige Regeln)
 # ============================================================================
 !CMakeLists.txt
+!CMakeLists_debug.txt
+!CMakePresets.json
+!vcpkg.json
+!vcpkg-configuration.json
+!README.md
+!LICENSE
+!SECURITY.md
 
-!Dockerfile
-!docker-compose*.yml
-!setup.sh
-!build.sh
-!ports-overlays/**
-# --- Ende .dockerignore -----------------------------------------------------
+# Source Code
+!src/
+!include/
+!proto/
+
+# Build Infrastructure
+!cmake/
+!scripts/
+!ports-overlays/
+!external/
+
+# Docker Files
+!Dockerfile*
+!*.sh
+!*.ps1
+
+# OpenAPI Spec
+!openapi/
+
+# ============================================================================
+# Build Context Ziel: <500MB (vorher 38GB)
+# ============================================================================

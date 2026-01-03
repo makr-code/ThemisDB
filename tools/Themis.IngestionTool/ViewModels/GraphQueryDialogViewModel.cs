@@ -115,7 +115,7 @@ namespace Themis.IngestionTool.ViewModels
                 var result = await _graphQueryService.TraverseRelationshipsAsync(
                     TraversalSourceEntityId,
                     TraversalMaxDepth,
-                    string.IsNullOrWhiteSpace(TraversalRelationshipType) ? null : TraversalRelationshipType);
+                    TraversalRelationshipType ?? null);
 
                 TraversalEntities.Clear();
                 foreach (var entity in result.Entities)

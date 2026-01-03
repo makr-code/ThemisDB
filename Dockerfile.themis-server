@@ -1,0 +1,109 @@
+# Multi-Stage Dockerfile für ThemisDB (Alle Editionen)
+# Unterstützt: Community, Professional, Enterprise, Hyperscaler
+# Build Args:
+#   THEMIS_ENABLE_LLM=ON/OFF    - LLM Integration (Default: ON - in allen Editionen)
+#   THEMIS_ENABLE_GPU=ON/OFF    - GPU Support (Default: ON - in allen Editionen)
+#   CMAKE_BUILD_TYPE=Release/Debug (Default: Release)
+#
+# HINWEIS: Alle Features sind in ALLEN Editionen aktiviert:
+#          - Prometheus Metriken (immer aktiviert)
+#          - LLM (llama.cpp) (immer aktiviert)
+#          - GPU/CUDA Support (immer aktiviert)
+
+# ============================================================================
+# Stage 1: Builder
+# ============================================================================
+FROM ubuntu:24.04 AS builder
+
+ARG THEMIS_ENABLE_LLM=ON
+ARG THEMIS_ENABLE_GPU=ON
+ARG CMAKE_BUILD_TYPE=Release
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    curl \
+    zip \
+    unzip \
+    tar \
+    pkg-config \
+    ninja-build \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install vcpkg
+WORKDIR /opt
+RUN git clone https://github.com/Microsoft/vcpkg.git && \
+    cd vcpkg && \
+    ./bootstrap-vcpkg.sh && \
+    ./vcpkg integrate install
+
+ENV VCPKG_ROOT=/opt/vcpkg
+ENV PATH="${VCPKG_ROOT}:${PATH}"
+
+# Set working directory
+WORKDIR /build
+
+# Copy source code
+COPY . .
+
+# Configure CMake
+RUN cmake -S . -B build \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+    -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+    -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
+    -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
+    -DBUILD_SHARED_LIBS=OFF
+
+# Build ThemisDB (Prometheus metrics always included)
+RUN cmake --build build --config ${CMAKE_BUILD_TYPE} --parallel $(nproc)
+
+# ============================================================================
+# Stage 2: Runtime
+# ============================================================================
+FROM ubuntu:24.04
+
+ARG CMAKE_BUILD_TYPE=Release
+
+# Install runtime dependencies with security updates
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    libssl3 \
+    libcurl4 \
+    libstdc++6 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Copy binary from builder (Linux ELF, not Windows .exe!)
+COPY --from=builder /build/build/themis_server /usr/local/bin/themis_server
+
+# Make executable
+RUN chmod +x /usr/local/bin/themis_server
+
+# Create themis user and directories
+RUN useradd -r -s /bin/false themis && \
+    mkdir -p /var/lib/themisdb /etc/themis && \
+    chown -R themis:themis /var/lib/themisdb
+
+# Create default config
+RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb"}' > /etc/themis/config.json
+
+# Expose ports
+EXPOSE 18765 8080 9090
+# 18765 - Wire Protocol (gRPC)
+# 8080  - REST API + /metrics endpoint
+# 9090  - Prometheus metrics (optional, metrics also on 8080)
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS http://localhost:8080/health || exit 1
+
+# Run as themis user
+USER themis
+
+# Start server
+WORKDIR /var/lib/themisdb
+CMD ["/usr/local/bin/themis_server", "--config", "/etc/themis/config.json"]

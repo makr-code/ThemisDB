@@ -1819,6 +1819,8 @@ if(THEMIS_BUILD_TESTS)
 endif()
 
 # Benchmarks
+option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID comprehensive benchmark" OFF)
+
 if(THEMIS_BUILD_BENCHMARKS)
     find_package(benchmark CONFIG REQUIRED)
     
@@ -2384,6 +2386,25 @@ if(THEMIS_BUILD_BENCHMARKS)
 
 endif()
 
+if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
+    find_package(benchmark CONFIG REQUIRED)
+    find_package(prometheus-cpp CONFIG REQUIRED)
+    # Docker RAID Comprehensive Benchmark (v1.3.4+)
+    # 1+ hour benchmark suite for Docker multi-container RAID testing
+    # Tests RAID0, RAID1, RAID5, RAID6, RAID10 configurations
+    # See: benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
+    add_executable(bench_docker_raid_comprehensive
+        ${CMAKE_CURRENT_SOURCE_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
+    )
+    target_link_libraries(bench_docker_raid_comprehensive PRIVATE 
+        themis_core 
+        benchmark::benchmark 
+        benchmark::benchmark_main
+        prometheus-cpp::pull
+        prometheus-cpp::core
+    )
+endif()
+
 # Admin Tools (.NET)
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)
 if(THEMIS_BUILD_ADMIN_TOOLS)
@@ -2420,6 +2441,6 @@ install(DIRECTORY include/
 
 # Performance Optimization Benchmarks
 if(THEMIS_BUILD_BENCHMARKS)
-    add_subdirectory(benchmarks/performance_optimizations)
+    # add_subdirectory(benchmarks/performance_optimizations) # Directory does not exist
 endif()
 

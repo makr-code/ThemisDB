@@ -1,6 +1,0 @@
-﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
-"BM_VectorGeo_AQL_Sugar","1","0","ms","0",,,
-"BM_VectorGeo_CPP_API","112","8,58334196423779","ms","8,09151785714286",,"123,586206896552",
-"BM_ContentGeo_AQL_Sugar","3733","0,456952129658077","ms","0,179982587731047",,"5556,09302325581",
-"BM_ContentGeo_CPP_API","4978","0,435548473283119","ms","0,178912213740458",,"5589,33333333333",
-"BM_AQL_Parse_Translate_Only","112000","6,57200178570097","us","6,55691964285714",,"152510,638297872",
