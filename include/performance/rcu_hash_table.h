@@ -12,6 +12,7 @@
 #include <mutex>
 #include <functional>
 #include <cstring>
+#include <memory>
 
 namespace themis {
 namespace rcu {
@@ -33,15 +34,17 @@ public:
     explicit RCUHashTable(size_t initial_capacity = 1024)
         : capacity_(initial_capacity) {
         
-        auto* table = new HashNode*[capacity_];
-        std::memset(table, 0, capacity_ * sizeof(HashNode*));
-        table_.store(table, std::memory_order_release);
+        // Use unique_ptr for RAII and automatic cleanup
+        auto table = std::make_unique<HashNode*[]>(capacity_);
+        std::memset(table.get(), 0, capacity_ * sizeof(HashNode*));
+        table_.store(table.release(), std::memory_order_release);
     }
     
     ~RCUHashTable() {
-        // Clean up all nodes
-        auto* table = table_.load();
-        if (table) {
+        // Clean up all nodes - unique_ptr ensures no leaks
+        auto* table_raw = table_.load();
+        if (table_raw) {
+            std::unique_ptr<HashNode*[]> table(table_raw);
             for (size_t i = 0; i < capacity_; ++i) {
                 HashNode* node = table[i];
                 while (node) {
@@ -50,7 +53,7 @@ public:
                     node = next;
                 }
             }
-            delete[] table;
+            // table unique_ptr automatically deletes the array
         }
     }
     

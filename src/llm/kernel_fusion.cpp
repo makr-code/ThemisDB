@@ -1,6 +1,7 @@
 #include "llm/kernel_fusion.h"
 #include <spdlog/spdlog.h>
 #include <cmath>
+#include <vector>
 
 namespace themis {
 namespace llm {
@@ -223,10 +224,10 @@ void fusedGatedFFN(
         const float* input_row = input + i * hidden_dim;
         float* output_row = output + i * hidden_dim;
         
-        // Intermediate buffer
-        float* gate_out = new float[intermediate_dim];
-        float* up_out = new float[intermediate_dim];
-        float* fused_out = new float[intermediate_dim];
+        // Intermediate buffers (RAII with std::vector for exception safety)
+        std::vector<float> gate_out(intermediate_dim);
+        std::vector<float> up_out(intermediate_dim);
+        std::vector<float> fused_out(intermediate_dim);
         
         // Gate and Up projections (simplified)
         for (int j = 0; j < intermediate_dim; ++j) {
@@ -253,10 +254,7 @@ void fusedGatedFFN(
                 output_row[j] += fused_out[k] * down_weight[k * hidden_dim + j];
             }
         }
-        
-        delete[] gate_out;
-        delete[] up_out;
-        delete[] fused_out;
+        // No manual cleanup needed - vectors automatically destroyed
     }
 }
 
