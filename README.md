@@ -15,6 +15,15 @@
 
 ## 🎉 What's New
 
+### 🔒 RocksDB Wrapper Security Hotfix (2026-01-02)
+- 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper
+- 🔧 **Memory Safety** - Fixed use-after-free vulnerability in BlockBasedTableOptions
+- ✅ **Null-Pointer Protection** - Added null-checks for `options_->env` before SetBackgroundThreads calls
+- 📊 **Transaction Safety** - Improved transaction error handling and resource cleanup
+- 📝 **Comprehensive Audit** - Full security audit report available in [ROCKSDB_WRAPPER_AUDIT_REPORT.md](ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+
+**Quick Links:** [Security Audit Report](ROCKSDB_WRAPPER_AUDIT_REPORT.md) | [Security Policy](SECURITY.md)
+
 ### 🎙️ Voice Assistant Integration (2025-12-30) - Enterprise Feature
 - 🗣️ **Natural Language Voice Interaction** - Similar to Alexa/Siri, powered by Whisper.cpp + Piper TTS + llama.cpp
 - 📞 **Phone Call Recording** - Automatic transcription and secure storage with revision control
