@@ -40,19 +40,26 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
+#include <unistd.h>  // for write() in signal handler
+#include <cstring>   // for strlen() in signal handler
 
 using namespace themis;
 using json = nlohmann::json;
 
 // Global atomic flag for signal handling (async-signal-safe)
 std::atomic<bool> g_shutdown_requested{false};
+// Server instance (accessed only from main thread, not from signal handler)
+std::shared_ptr<server::HttpServer> g_server;
 
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
-        // Use async-signal-safe atomic operation
+        // Only use async-signal-safe operations in signal handler
+        // Write to stderr is async-signal-safe, unlike logging
+        const char* msg = "\nReceived shutdown signal, initiating graceful shutdown...\n";
+        (void)write(STDERR_FILENO, msg, strlen(msg));
+        
+        // Set atomic flag to trigger shutdown in main thread
         g_shutdown_requested.store(true, std::memory_order_release);
-        // Note: THEMIS_INFO is not async-signal-safe, but we keep it for debugging
-        // In production, consider using write() to stderr instead
     }
 }
 
