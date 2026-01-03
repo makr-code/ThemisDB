@@ -4,16 +4,6 @@ name: Python SDK [Dry-Run]
 # 🔶 DRY-RUN MODE - Package is built but NOT uploaded to PyPI
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'clients/python/**'
-      - '.github/workflows/python-sdk-test.yml'
-  pull_request:
-    branches: [main, develop]
-    paths:
-      - 'clients/python/**'
-      - '.github/workflows/python-sdk-test.yml'
   workflow_dispatch:
 
 # Minimal permissions for security

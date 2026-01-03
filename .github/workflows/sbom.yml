@@ -6,7 +6,6 @@ name: SBOM Generation
 
 on:
   push:
-    branches: [main, master]
     tags: ['v*']
   release:
     types: [published]
