@@ -145,10 +145,27 @@ int main(int argc, char* argv[]) {
                     return to_json(root);
                 } else {
                     std::ifstream f(path);
-                    if (!f.is_open()) return std::nullopt;
-                    json j; f >> j; return j;
+                    if (!f.is_open()) {
+                        THEMIS_WARN("Cannot open config file: {}", path);
+                        return std::nullopt;
+                    }
+                    json j; 
+                    f >> j; 
+                    return j;
                 }
-            } catch (...) { return std::nullopt; }
+            } catch (const YAML::Exception& e) {
+                THEMIS_ERROR("YAML parsing error in {}: {}", path, e.what());
+                return std::nullopt;
+            } catch (const json::exception& e) {
+                THEMIS_ERROR("JSON parsing error in {}: {}", path, e.what());
+                return std::nullopt;
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Config loading error in {}: {}", path, e.what());
+                return std::nullopt;
+            } catch (...) {
+                THEMIS_ERROR("Unknown error loading config file: {}", path);
+                return std::nullopt;
+            }
         };
 
         std::optional<json> cfg;

@@ -155,6 +155,9 @@ TransactionManager::Transaction::Transaction(TransactionId id,
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()) {
     mvcc_txn_ = db_.beginTransaction();
+    if (!mvcc_txn_) {
+        throw std::runtime_error("Failed to create MVCC transaction");
+    }
     saga_ = std::make_unique<Saga>();
     THEMIS_INFO("Transaction {} initialized with MVCC and SAGA support (isolation: {})", 
                id_, isolation_ == IsolationLevel::Snapshot ? "Snapshot" : "ReadCommitted");
