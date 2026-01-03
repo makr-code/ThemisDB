@@ -40,19 +40,26 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
+#include <unistd.h>  // for write() in signal handler
+#include <cstring>   // for strlen() in signal handler
 
 using namespace themis;
 using json = nlohmann::json;
 
-// Global server instance for signal handling
+// Global atomic flag for signal handling (async-signal-safe)
+std::atomic<bool> g_shutdown_requested{false};
+// Server instance (accessed only from main thread, not from signal handler)
 std::shared_ptr<server::HttpServer> g_server;
 
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
-        THEMIS_INFO("Received shutdown signal...");
-        if (g_server) {
-            g_server->stop();
-        }
+        // Only use async-signal-safe operations in signal handler
+        // Write to stderr is async-signal-safe, unlike logging
+        const char* msg = "\nReceived shutdown signal, initiating graceful shutdown...\n";
+        (void)write(STDERR_FILENO, msg, strlen(msg));
+        
+        // Set atomic flag to trigger shutdown in main thread
+        g_shutdown_requested.store(true, std::memory_order_release);
     }
 }
 
@@ -138,10 +145,27 @@ int main(int argc, char* argv[]) {
                     return to_json(root);
                 } else {
                     std::ifstream f(path);
-                    if (!f.is_open()) return std::nullopt;
-                    json j; f >> j; return j;
+                    if (!f.is_open()) {
+                        THEMIS_WARN("Cannot open config file: {}", path);
+                        return std::nullopt;
+                    }
+                    json j; 
+                    f >> j; 
+                    return j;
                 }
-            } catch (...) { return std::nullopt; }
+            } catch (const YAML::Exception& e) {
+                THEMIS_ERROR("YAML parsing error in {}: {}", path, e.what());
+                return std::nullopt;
+            } catch (const json::exception& e) {
+                THEMIS_ERROR("JSON parsing error in {}: {}", path, e.what());
+                return std::nullopt;
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Config loading error in {}: {}", path, e.what());
+                return std::nullopt;
+            } catch (...) {
+                THEMIS_ERROR("Unknown error loading config file: {}", path);
+                return std::nullopt;
+            }
         };
 
         std::optional<json> cfg;
@@ -737,8 +761,14 @@ int main(int argc, char* argv[]) {
         }
         THEMIS_INFO("");
         
-        // Wait for server to finish
-        g_server->wait();
+        // Wait for shutdown signal (check atomic flag periodically)
+        THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
+        while (!g_shutdown_requested.load(std::memory_order_acquire)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        
+        THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");
+        g_server->stop();
         
         THEMIS_INFO("=================================================");
         THEMIS_INFO("Initiating graceful shutdown sequence...");

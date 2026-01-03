@@ -252,6 +252,9 @@ private:
     // Statistics
     Statistics statistics_;
     
+    // Cleanup tracking (protected by mutex_)
+    std::chrono::steady_clock::time_point last_cleanup_{std::chrono::steady_clock::now()};
+    
     // Internal methods
     void workerLoop();
     void healthLoop();

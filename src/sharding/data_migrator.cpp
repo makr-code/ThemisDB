@@ -414,9 +414,8 @@ bool DataMigrator::isBatchCompleted(const std::string& batch_id) {
 void DataMigrator::markBatchCompleted(const std::string& batch_id) {
     std::lock_guard<std::mutex> lock(idempotency_mutex_);
     completed_batches_.insert(batch_id);
-    // Persist after every N batches to avoid too frequent I/O
-    static size_t batch_counter = 0;
-    if (++batch_counter % 10 == 0) {
+    // Persist after every N batches to avoid too frequent I/O (thread-safe with atomic)
+    if (batch_counter_.fetch_add(1, std::memory_order_relaxed) % 10 == 0) {
         saveIdempotencyState();
     }
 }

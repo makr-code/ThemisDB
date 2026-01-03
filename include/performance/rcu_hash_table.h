@@ -2,6 +2,10 @@
 // Lock-free reads for read-heavy workloads using RCU
 //
 // Based on: "Scalable Read-Mostly Synchronization Using RCU" (ASPLOS'10)
+//
+// Note: Manual memory management is required here because the table pointer
+// is shared across threads via std::atomic. Using unique_ptr would be unsafe
+// since multiple threads access the raw pointer returned by atomic::load().
 
 #pragma once
 
@@ -33,14 +37,16 @@ public:
     explicit RCUHashTable(size_t initial_capacity = 1024)
         : capacity_(initial_capacity) {
         
+        // Allocate array - will be manually managed since it's shared across threads via atomic
+        // Cannot use unique_ptr because atomic requires raw pointer for lock-free access
         auto* table = new HashNode*[capacity_];
         std::memset(table, 0, capacity_ * sizeof(HashNode*));
         table_.store(table, std::memory_order_release);
     }
     
     ~RCUHashTable() {
-        // Clean up all nodes
-        auto* table = table_.load();
+        // Clean up all nodes - must use manual delete since atomic stores raw pointer
+        auto* table = table_.load(std::memory_order_acquire);
         if (table) {
             for (size_t i = 0; i < capacity_; ++i) {
                 HashNode* node = table[i];
@@ -50,7 +56,7 @@ public:
                     node = next;
                 }
             }
-            delete[] table;
+            delete[] table;  // Manual cleanup required for atomically-shared pointer
         }
     }
     
