@@ -19,6 +19,25 @@
 
 ## 🚧 [Unreleased]
 
+### 🔒 Security
+
+- **RocksDB Wrapper Security Hotfix** (2026-01-02)
+  - 🛡️ Fixed 7 critical security vulnerabilities identified in security audit
+  - 🔧 **CRITICAL**: Fixed use-after-free vulnerability in BlockBasedTableOptions (lines 108-117)
+    - Properly manage lifetime of filter_policy shared_ptr
+    - Ensure BlockBasedTableFactory copies internal structures correctly
+  - ✅ **CRITICAL**: Added null-pointer checks for `options_->env` before SetBackgroundThreads (lines 120-124)
+    - Initialize env to rocksdb::Env::Default() if null
+    - Prevent segmentation faults in background thread configuration
+  - 🔄 **MEDIUM**: Improved transaction error handling
+    - Removed double rollback after commit failures
+    - Better resource cleanup in transaction lifecycle
+  - 📊 **MEDIUM**: Enhanced iterator lifecycle management
+    - Explicit iterator cleanup to prevent resource leaks
+    - Proper lock management in scan operations
+  - 📝 Comprehensive security audit completed with detailed findings in [ROCKSDB_WRAPPER_AUDIT_REPORT.md](ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+  - 🎯 Audit identified 15 total issues: 11 fixed immediately, 4 scheduled for next phase
+
 ### ✨ Added
 
 - **Git Flow Branching Strategy** - Comprehensive workflow documentation (~125 KB)
