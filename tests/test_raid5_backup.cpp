@@ -298,3 +298,57 @@ TEST_F(RAID5BackupTest, LogsWarningForRAID5Requirements) {
     
     cleanupPath(db_path);
 }
+
+TEST_F(RAID5BackupTest, RAID0DetectionRequiresAllShards) {
+    // Set up RAID0 environment
+    setEnv("THEMIS_RAID_GROUP", "raid0");
+    setEnv("THEMIS_SHARD_ID", "raid0-1");
+    setEnv("THEMIS_SHARDS", "shard1:18765,shard2:18765,shard3:18765");
+    
+    // Detect configuration
+    auto config = themis::BackupManager::detectRAIDConfiguration();
+    
+    // Verify RAID0 detection
+    EXPECT_EQ(config.mode, themis::RAIDMode::RAID0);
+    EXPECT_EQ(config.raid_group, "raid0");
+    EXPECT_EQ(config.shards.size(), 3);
+    EXPECT_EQ(config.data_shards, 3);  // All shards are data for RAID0
+    EXPECT_EQ(config.parity_shards, 0);  // No parity in RAID0
+    EXPECT_TRUE(config.is_coordinated);  // All shards required
+}
+
+TEST_F(RAID5BackupTest, RAID1DetectionForMirroring) {
+    // Set up RAID1 environment
+    setEnv("THEMIS_RAID_GROUP", "raid1");
+    setEnv("THEMIS_SHARD_ID", "raid1-primary");
+    setEnv("THEMIS_SHARDS", "primary:18765,secondary:18765");
+    
+    // Detect configuration
+    auto config = themis::BackupManager::detectRAIDConfiguration();
+    
+    // Verify RAID1 detection
+    EXPECT_EQ(config.mode, themis::RAIDMode::RAID1);
+    EXPECT_EQ(config.raid_group, "raid1");
+    EXPECT_EQ(config.shards.size(), 2);
+    EXPECT_EQ(config.data_shards, 2);  // All shards contain full data
+    EXPECT_EQ(config.parity_shards, 0);  // No parity, just mirroring
+    EXPECT_FALSE(config.is_coordinated);  // Any shard has complete data
+}
+
+TEST_F(RAID5BackupTest, RAID10DetectionForStripingAndMirroring) {
+    // Set up RAID10 environment (4 shards minimum)
+    setEnv("THEMIS_RAID_GROUP", "raid10");
+    setEnv("THEMIS_SHARD_ID", "raid10-1");
+    setEnv("THEMIS_SHARDS", "shard1:18765,shard2:18765,shard3:18765,shard4:18765");
+    
+    // Detect configuration
+    auto config = themis::BackupManager::detectRAIDConfiguration();
+    
+    // Verify RAID10 detection
+    EXPECT_EQ(config.mode, themis::RAIDMode::RAID10);
+    EXPECT_EQ(config.raid_group, "raid10");
+    EXPECT_EQ(config.shards.size(), 4);
+    EXPECT_EQ(config.data_shards, 4);  // All shards for striping + mirroring
+    EXPECT_EQ(config.parity_shards, 0);  // No parity, uses mirroring
+    EXPECT_TRUE(config.is_coordinated);  // All shards needed
+}
