@@ -15,18 +15,25 @@ services:
     restart: unless-stopped
     ports:
       - "18765:18765"
-      - "8080:8080"
+      - "8080:8765"
       - "9091:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
       THEMIS_ROLE: "shard"
       THEMIS_SHARD_ID: "raid0-1"
       THEMIS_RAID_MODE: "stripe"
       THEMIS_RAID_GROUP: "raid0"
       THEMIS_SHARDS: "themis-raid0-shard1:18765,themis-raid0-shard2:18765,themis-raid0-shard3:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
-      THEMIS_ENABLE_METRICS: "true"
-      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Sharding-specific timeout (give time for cluster discovery)
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "15000"
     volumes:
       - raid0_shard1_data:/var/lib/themisdb
     healthcheck:
@@ -34,7 +41,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -42,23 +49,33 @@ services:
       - "raid_group=raid0"
 
   themis-raid0-shard2:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid0-shard2
     restart: unless-stopped
     ports:
       - "18766:18765"
-      - "8081:8080"
+      - "8081:8765"
       - "9092:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
+      # Note: Only bootstrap node (shard1) knows all shards
+      # Shard2 discovers other shards from Shard1 during cluster discovery
       THEMIS_ROLE: "shard"
       THEMIS_SHARD_ID: "raid0-2"
       THEMIS_RAID_MODE: "stripe"
       THEMIS_RAID_GROUP: "raid0"
-      THEMIS_SHARDS: "themis-raid0-shard1:18765,themis-raid0-shard2:18765,themis-raid0-shard3:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
-      THEMIS_ENABLE_METRICS: "true"
-      THEMIS_METRICS_PORT: "9090"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Cluster discovery timeout (allow bootstrap node communication)
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+      THEMIS_CLUSTER_DISCOVERY_RETRIES: "10"
     volumes:
       - raid0_shard2_data:/var/lib/themisdb
     healthcheck:
@@ -66,7 +83,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -74,23 +91,33 @@ services:
       - "raid_group=raid0"
 
   themis-raid0-shard3:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid0-shard3
     restart: unless-stopped
     ports:
       - "18767:18765"
-      - "8082:8080"
+      - "8082:8765"
       - "9093:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
+      # Note: Only bootstrap node (shard1) knows all shards
+      # Shard3 discovers other shards from Shard1 during cluster discovery
       THEMIS_ROLE: "shard"
       THEMIS_SHARD_ID: "raid0-3"
       THEMIS_RAID_MODE: "stripe"
       THEMIS_RAID_GROUP: "raid0"
-      THEMIS_SHARDS: "themis-raid0-shard1:18765,themis-raid0-shard2:18765,themis-raid0-shard3:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
-      THEMIS_ENABLE_METRICS: "true"
-      THEMIS_METRICS_PORT: "9090"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Cluster discovery timeout (allow bootstrap node communication)
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+      THEMIS_CLUSTER_DISCOVERY_RETRIES: "10"
     volumes:
       - raid0_shard3_data:/var/lib/themisdb
     healthcheck:
@@ -98,7 +125,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -107,23 +134,30 @@ services:
 
   # RAID 1 - Mirroring (Redundanz)
   themis-raid1-primary:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid1-primary
     restart: unless-stopped
     ports:
       - "18768:18765"
-      - "8083:8080"
+      - "8083:8765"
       - "9094:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
       THEMIS_ROLE: "shard"
       THEMIS_SHARD_ID: "raid1-primary"
       THEMIS_RAID_MODE: "mirror"
       THEMIS_RAID_GROUP: "raid1"
       THEMIS_MIRROR_PEER: "themis-raid1-secondary:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
-      THEMIS_ENABLE_METRICS: "true"
-      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Sharding-specific timeout
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "15000"
     volumes:
       - raid1_primary_data:/var/lib/themisdb
     healthcheck:
@@ -131,7 +165,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -140,23 +174,34 @@ services:
       - "raid_role=primary"
 
   themis-raid1-secondary:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid1-secondary
     restart: unless-stopped
     ports:
       - "18769:18765"
-      - "8084:8080"
+      - "8084:8765"
       - "9095:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
+      # Note: Only bootstrap node (raid1-primary) is referenced
+      # Secondary discovers primary and syncs from it
       THEMIS_ROLE: "shard"
       THEMIS_SHARD_ID: "raid1-secondary"
       THEMIS_RAID_MODE: "mirror"
       THEMIS_RAID_GROUP: "raid1"
-      THEMIS_ENABLE_METRICS: "true"
-      THEMIS_METRICS_PORT: "9090"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid1-primary:18765"
       THEMIS_MIRROR_PEER: "themis-raid1-primary:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Cluster discovery timeout
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+      THEMIS_CLUSTER_DISCOVERY_RETRIES: "10"
     volumes:
       - raid1_secondary_data:/var/lib/themisdb
     healthcheck:
@@ -164,7 +209,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -174,23 +219,30 @@ services:
 
   # RAID 5 - Striping + Parity (Balance)
   themis-raid5-shard1:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid5-shard1
     restart: unless-stopped
     ports:
       - "18770:18765"
-      - "8085:8080"
+      - "8085:8765"
       - "9096:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
-      THEMIS_ROLE: "shard"
-      THEMIS_SHARD_ID: "raid5-1"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
       THEMIS_ENABLE_METRICS: "true"
       THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid5-1"
       THEMIS_RAID_MODE: "parity"
       THEMIS_RAID_GROUP: "raid5"
       THEMIS_SHARDS: "themis-raid5-shard1:18765,themis-raid5-shard2:18765,themis-raid5-shard3:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Sharding-specific timeout
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "15000"
     volumes:
       - raid5_shard1_data:/var/lib/themisdb
     healthcheck:
@@ -198,7 +250,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -206,23 +258,33 @@ services:
       - "raid_group=raid5"
 
   themis-raid5-shard2:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid5-shard2
     restart: unless-stopped
     ports:
       - "18771:18765"
-      - "8086:8080"
+      - "8086:8765"
       - "9097:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
-      THEMIS_ROLE: "shard"
-      THEMIS_SHARD_ID: "raid5-2"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
       THEMIS_ENABLE_METRICS: "true"
       THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
+      # Note: Only bootstrap node (shard1) is referenced
+      # Shard2 discovers other shards from Shard1
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid5-2"
       THEMIS_RAID_MODE: "parity"
       THEMIS_RAID_GROUP: "raid5"
-      THEMIS_SHARDS: "themis-raid5-shard1:18765,themis-raid5-shard2:18765,themis-raid5-shard3:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid5-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Cluster discovery timeout
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+      THEMIS_CLUSTER_DISCOVERY_RETRIES: "10"
     volumes:
       - raid5_shard2_data:/var/lib/themisdb
     healthcheck:
@@ -230,7 +292,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:
@@ -238,23 +300,33 @@ services:
       - "raid_group=raid5"
 
   themis-raid5-shard3:
-    image: themisdb/themisdb:latest
+    image: themisdb/themisdb:hyperscaler
     container_name: themis-raid5-shard3
     restart: unless-stopped
     ports:
       - "18772:18765"
-      - "8087:8080"
+      - "8087:8765"
       - "9098:9090"
     environment:
+      # Core Configuration
       THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
       THEMIS_ENABLE_METRICS: "true"
       THEMIS_METRICS_PORT: "9090"
+      
+      # Sharding & Clustering (Hyperscaler Edition)
+      # Note: Only bootstrap node (shard1) is referenced
+      # Shard3 discovers other shards from Shard1
       THEMIS_ROLE: "shard"
       THEMIS_SHARD_ID: "raid5-3"
       THEMIS_RAID_MODE: "parity"
       THEMIS_RAID_GROUP: "raid5"
-      THEMIS_SHARDS: "themis-raid5-shard1:18765,themis-raid5-shard2:18765,themis-raid5-shard3:18765"
-      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid5-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      
+      # Cluster discovery timeout
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+      THEMIS_CLUSTER_DISCOVERY_RETRIES: "10"
     volumes:
       - raid5_shard3_data:/var/lib/themisdb
     healthcheck:
@@ -262,7 +334,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 60s
     networks:
       - themis-network
     labels:

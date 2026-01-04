@@ -6,8 +6,16 @@
 # ============================================================================
 
 # --- KRITISCH: Größte Verursacher (30+ GB) ---------------------------------
-# vcpkg komplett ausschließen - wird im Docker neu gebaut
-vcpkg/
+# vcpkg aus dem Repo mitnehmen (Cache/Ports), aber große Artefakte ausschließen
+!vcpkg/
+!vcpkg/**
+vcpkg/buildtrees/
+vcpkg/downloads/
+vcpkg/packages/
+vcpkg/installed/
+vcpkg/.github/
+vcpkg/.vs/
+vcpkg/toolsrc/
 vcpkg_installed/
 .vcpkg/
 

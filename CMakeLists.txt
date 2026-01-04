@@ -715,6 +715,7 @@ set(THEMIS_CORE_SOURCES
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:src/server/wal_grpc_service.cpp>
     
     # LLM integration (server/API/grpc) is added conditionally below
     src/server/rate_limiter.cpp
@@ -846,6 +847,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/wal_applier.cpp
     src/sharding/wal_manager.cpp
     src/sharding/wal_shipper.cpp
+    src/sharding/replication_coordinator.cpp
     src/sharding/truetime.cpp
     src/sharding/distributed_transaction.cpp
     src/sharding/redundancy_strategy.cpp
@@ -1280,8 +1282,52 @@ endif()
 if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
     message(STATUS "gRPC support enabled (inter-shard communication)")
-    # Note: gRPC dependencies may already be linked via sharding modules
-    # TODO: Verify gRPC linking in sharding components
+    find_package(gRPC CONFIG)
+    find_package(Protobuf CONFIG)
+    if(gRPC_FOUND AND Protobuf_FOUND)
+        target_link_libraries(themis_core PUBLIC gRPC::grpc++ gRPC::grpc++_reflection protobuf::libprotobuf)
+        message(STATUS "gRPC and Protobuf found - linking to themis_core")
+
+        if(COMMAND protobuf_generate)
+            # Generate shard RPC stubs (ApplyWalBatch, etc.)
+            set(SHARD_PROTO ${CMAKE_CURRENT_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
+            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
+
+            # Manually generate protobuf files
+            set(SHARD_PROTO_SRCS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.cc
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.cc
+            )
+            set(SHARD_PROTO_HDRS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.h
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
+                     --grpc_out ${SHARD_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${CMAKE_CURRENT_SOURCE_DIR}/proto/sharding
+                     ${SHARD_PROTO}
+                DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
+                VERBATIM
+            )
+
+            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
+            target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
+            target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            target_link_libraries(themis_core PUBLIC themis_shard_proto)
+        else()
+            message(WARNING "protobuf_generate() not available; skipping shard RPC stub generation")
+        endif()
+    else()
+        message(WARNING "gRPC/Protobuf not found - WAL gRPC service will be disabled at runtime")
+    endif()
 endif()
 
 # WebSocket Protocol Support (placeholder for future implementation)
@@ -1539,6 +1585,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_image_analysis_interface.cpp
         tests/test_image_analysis_quality.cpp
         tests/test_backup_restore.cpp
+        tests/test_raid5_backup.cpp
         tests/test_cursor.cpp
         tests/test_temporal_graph.cpp
         tests/test_temporal_aggregation.cpp
@@ -1567,6 +1614,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_vault_key_provider.cpp
         tests/test_vault_key_provider_retry.cpp
     tests/test_wal_backup_manager.cpp
+    tests/test_wal_grpc_apply.cpp
         tests/test_audit_logger.cpp
         tests/test_pii_detector.cpp
         tests/test_retention_manager.cpp
@@ -1900,6 +1948,7 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_crud.cpp
         benchmarks/bench_query.cpp
         benchmarks/bench_vector_search.cpp
+        benchmarks/bench_wal_apply_grpc.cpp
     )
     
     target_link_libraries(themis_benchmarks

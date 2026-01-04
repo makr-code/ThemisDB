@@ -343,7 +343,28 @@ bool RocksDBWrapper::open() {
         cf_descriptors.emplace_back(cf_name, cf_opts);
     }
     
-    // Open with all existing column families
+    // CRITICAL FIX: When sharding enabled, skip 2nd column family to prevent MVCC deadlock
+    // Sharding mode creates a 2nd CF for cluster coordination, but if it's not fully
+    // initialized yet, AdaptiveIndexManager tries to use MVCC across both CFs and blocks.
+    // Solution: Open only default CF when sharding is detected via environment.
+    const char* sharding_enabled = std::getenv("THEMIS_ENABLE_SHARDING");
+    bool sharding_mode = sharding_enabled && 
+                         (std::string(sharding_enabled) == "true" || 
+                          std::string(sharding_enabled) == "1");
+    
+    if (sharding_mode && cf_descriptors.size() > 1) {
+        THEMIS_WARN("Sharding mode detected: opening only default column family to prevent MVCC deadlock");
+        // Keep only the default CF
+        cf_descriptors.erase(
+            std::remove_if(cf_descriptors.begin(), cf_descriptors.end(),
+                          [](const rocksdb::ColumnFamilyDescriptor& cf) {
+                              return cf.name != rocksdb::kDefaultColumnFamilyName;
+                          }),
+            cf_descriptors.end()
+        );
+    }
+    
+    // Open with available column families
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles;
     rocksdb::TransactionDB* txn_db_ptr = nullptr;
     rocksdb::Status status = rocksdb::TransactionDB::Open(
@@ -365,18 +386,20 @@ bool RocksDBWrapper::open() {
     
     db_.reset(txn_db_ptr);
     
-    // Store column family handles (except default which is handled separately by RocksDB)
+    // Store column family handles
+    // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
     for (size_t i = 0; i < cf_handles.size(); ++i) {
-        if (cf_names[i] != rocksdb::kDefaultColumnFamilyName) {
-            cf_handles_.push_back(cf_handles[i]);
-        } else {
-            // Default CF handle - RocksDB manages this, but we need to track it for cleanup
-            cf_handles_.push_back(cf_handles[i]);
-        }
+        // All remaining CFs (after sharding filter) are stored
+        cf_handles_.push_back(cf_handles[i]);
     }
     
-    THEMIS_INFO("Opened RocksDB TransactionDB at: {} (MVCC enabled, {} column families)", 
-                config_.db_path, cf_names.size());
+    // Log actual CF count opened (not original cf_names.size())
+    THEMIS_INFO("Opened RocksDB TransactionDB at: {} (MVCC enabled, {} column families opened)", 
+                config_.db_path, cf_descriptors.size());
+    if (sharding_mode && cf_descriptors.size() < cf_names.size()) {
+        THEMIS_INFO("  (Sharding mode: {} additional CFs deferred for cluster initialization)", 
+                    cf_names.size() - cf_descriptors.size());
+    }
     return true;
 }
 

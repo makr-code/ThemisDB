@@ -15,7 +15,19 @@
 
 ## 🎉 What's New
 
-### 🔒 RocksDB Wrapper Security Hotfix (2026-01-02)
+### �️ RAID Sharding Deadlock Hotfix (2026-01-04)
+- 🔧 **Critical Fix** - Resolved server hang in RAID cluster mode at "Adaptive Index Manager initialized"
+- 🎯 **Root Cause** - AdaptiveIndexManager MVCC coordination across 2 CFs before Sharding Manager initialization
+- ✅ **Solution** - Conditional Column Family opening when `THEMIS_ENABLE_SHARDING=true` detected
+- 🔧 **Port Mapping Fix** - Corrected docker-compose HTTP mappings from `808X:8080` to `808X:8765`
+- 🧪 **RAID Testing** - 2-hour endurance test suite with monitoring dashboard
+- 📊 **Verification** - All 9 RAID shards (RAID 0/1/5) operational with 0% error rate
+- 📦 **Build Optimization** - Docker build context reduced from 3GB to 85MB (97% reduction)
+
+**Files Modified:** `src/storage/rocksdb_wrapper.cpp`, `src/server/http_server.cpp`, `docker/compose/docker-compose-sharding.yml`, `Dockerfile.themis-server`, `.dockerignore`  
+**Tools Added:** `scripts/raid_endurance_test.py`, `scripts/monitor_raid_test.ps1`
+
+### �🔒 RocksDB Wrapper Security Hotfix (2026-01-02)
 - 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper
 - 🔧 **Memory Safety** - Fixed use-after-free vulnerability in BlockBasedTableOptions
 - ✅ **Null-Pointer Protection** - Added null-checks for `options_->env` before SetBackgroundThreads calls

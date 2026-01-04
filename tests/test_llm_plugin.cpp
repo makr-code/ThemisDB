@@ -503,6 +503,8 @@ TEST_F(LLMPluginTest, Integration_MultiLoRASwitch) {
     
     auto legal_response = plugin.generate(legal_req);
     EXPECT_FALSE(legal_response.text.empty());
+    ASSERT_TRUE(legal_response.lora_used.has_value());
+    EXPECT_EQ(legal_response.lora_used.value(), "legal");
     
     // Generate with medical LoRA (fast switch!)
     InferenceRequest medical_req;
@@ -512,7 +514,251 @@ TEST_F(LLMPluginTest, Integration_MultiLoRASwitch) {
     
     auto medical_response = plugin.generate(medical_req);
     EXPECT_FALSE(medical_response.text.empty());
+    ASSERT_TRUE(medical_response.lora_used.has_value());
+    EXPECT_EQ(medical_response.lora_used.value(), "medical");
     
     // Responses should be different (different LoRAs)
     // In real implementation, they would have domain-specific knowledge
+}
+
+// ═══════════════════════════════════════════════════════════
+// LoRA Inference Verification Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
+    LlamaCppPlugin::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    
+    createDummyModel("model.gguf", 100);
+    createDummyLoRA("adapter.bin", 20);
+    
+    plugin.loadModel(test_model_dir + "/model.gguf", {});
+    plugin.loadLoRA("adapter", test_lora_dir + "/adapter.bin", 1.0f);
+    
+    // Verify LoRA is loaded before inference
+    auto loaded_loras = plugin.listLoRAs();
+    ASSERT_EQ(loaded_loras.size(), 1);
+    EXPECT_EQ(loaded_loras[0].id, "adapter");
+    EXPECT_TRUE(loaded_loras[0].is_loaded);
+    
+    // Inference with LoRA specified
+    InferenceRequest req;
+    req.prompt = "Test prompt";
+    req.max_tokens = 32;
+    req.lora_adapter_id = "adapter";
+    
+    InferenceResponse resp = plugin.generate(req);
+    
+    // Critical check: Response must have lora_used field set
+    ASSERT_TRUE(resp.lora_used.has_value()) 
+        << "lora_used field not set in response when LoRA was specified!";
+    EXPECT_EQ(resp.lora_used.value(), "adapter");
+    EXPECT_FALSE(resp.text.empty());
+    EXPECT_GT(resp.tokens_generated, 0);
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails) {
+    LlamaCppPlugin::Config config;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyModel("model.gguf", 100);
+    plugin.loadModel(test_model_dir + "/model.gguf", {});
+    
+    // Try to use non-existent LoRA
+    InferenceRequest req;
+    req.prompt = "Test";
+    req.max_tokens = 32;
+    req.lora_adapter_id = "nonexistent-lora";
+    
+    // Should handle gracefully (fallback to base model or error)
+    // Expected behavior: try to apply LoRA, fallback if not loaded
+    InferenceResponse resp = plugin.generate(req);
+    EXPECT_FALSE(resp.text.empty());
+    
+    // lora_used should NOT be set since LoRA wasn't loaded
+    if (resp.lora_used.has_value()) {
+        EXPECT_NE(resp.lora_used.value(), "nonexistent-lora");
+    }
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_WithoutLoRA) {
+    LlamaCppPlugin::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyModel("base.gguf", 100);
+    plugin.loadModel(test_model_dir + "/base.gguf", {});
+    
+    // Inference WITHOUT LoRA
+    InferenceRequest req;
+    req.prompt = "Test";
+    req.max_tokens = 32;
+    // No lora_adapter_id specified
+    
+    InferenceResponse resp = plugin.generate(req);
+    EXPECT_FALSE(resp.text.empty());
+    EXPECT_GT(resp.tokens_generated, 0);
+    
+    // lora_used should not be set
+    EXPECT_FALSE(resp.lora_used.has_value());
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_ModelNotLoaded) {
+    LlamaCppPlugin::Config config;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyLoRA("orphan.bin", 20);
+    
+    // Load LoRA without model (should fail or be deferred)
+    bool lora_loaded = plugin.loadLoRA("orphan", test_lora_dir + "/orphan.bin", 1.0f);
+    EXPECT_FALSE(lora_loaded) << "LoRA should not load without base model";
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_VerifyScaleFactor) {
+    LlamaCppPlugin::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyModel("model.gguf", 100);
+    createDummyLoRA("scaled.bin", 20);
+    
+    plugin.loadModel(test_model_dir + "/model.gguf", {});
+    plugin.loadLoRA("scaled", test_lora_dir + "/scaled.bin", 2.0f);
+    
+    // Verify LoRA was loaded with correct scale
+    auto loras = plugin.listLoRAs();
+    ASSERT_EQ(loras.size(), 1);
+    EXPECT_EQ(loras[0].scale, 2.0f);
+    EXPECT_EQ(loras[0].id, "scaled");
+    
+    // Inference with scaled LoRA
+    InferenceRequest req;
+    req.prompt = "Test";
+    req.max_tokens = 32;
+    req.lora_adapter_id = "scaled";
+    
+    InferenceResponse resp = plugin.generate(req);
+    ASSERT_TRUE(resp.lora_used.has_value());
+    EXPECT_EQ(resp.lora_used.value(), "scaled");
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
+    LlamaCppPlugin::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyModel("seq_model.gguf", 100);
+    createDummyLoRA("lora_a.bin", 20);
+    createDummyLoRA("lora_b.bin", 20);
+    
+    plugin.loadModel(test_model_dir + "/seq_model.gguf", {});
+    plugin.loadLoRA("lora_a", test_lora_dir + "/lora_a.bin", 1.0f);
+    plugin.loadLoRA("lora_b", test_lora_dir + "/lora_b.bin", 1.0f);
+    
+    // Request 1: Use lora_a
+    InferenceRequest req1;
+    req1.prompt = "Request with A";
+    req1.max_tokens = 32;
+    req1.lora_adapter_id = "lora_a";
+    req1.request_id = "req-001";
+    
+    InferenceResponse resp1 = plugin.generate(req1);
+    EXPECT_EQ(resp1.request_id, "req-001");
+    ASSERT_TRUE(resp1.lora_used.has_value());
+    EXPECT_EQ(resp1.lora_used.value(), "lora_a");
+    
+    // Request 2: Use lora_b (different LoRA - verify switching works)
+    InferenceRequest req2;
+    req2.prompt = "Request with B";
+    req2.max_tokens = 32;
+    req2.lora_adapter_id = "lora_b";
+    req2.request_id = "req-002";
+    
+    InferenceResponse resp2 = plugin.generate(req2);
+    EXPECT_EQ(resp2.request_id, "req-002");
+    ASSERT_TRUE(resp2.lora_used.has_value());
+    EXPECT_EQ(resp2.lora_used.value(), "lora_b");
+    
+    // Request 3: Back to lora_a (verify switching back)
+    InferenceRequest req3;
+    req3.prompt = "Request with A again";
+    req3.max_tokens = 32;
+    req3.lora_adapter_id = "lora_a";
+    req3.request_id = "req-003";
+    
+    InferenceResponse resp3 = plugin.generate(req3);
+    EXPECT_EQ(resp3.request_id, "req-003");
+    ASSERT_TRUE(resp3.lora_used.has_value());
+    EXPECT_EQ(resp3.lora_used.value(), "lora_a");
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_CacheVerification) {
+    LlamaCppPlugin::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyModel("cache_model.gguf", 100);
+    createDummyLoRA("cached.bin", 20);
+    
+    plugin.loadModel(test_model_dir + "/cache_model.gguf", {});
+    
+    // Load LoRA twice (should hit cache)
+    bool loaded1 = plugin.loadLoRA("cached", test_lora_dir + "/cached.bin", 1.0f);
+    EXPECT_TRUE(loaded1);
+    
+    bool loaded2 = plugin.loadLoRA("cached", test_lora_dir + "/cached.bin", 1.0f);
+    EXPECT_TRUE(loaded2) << "Cached LoRA load should succeed";
+    
+    // Get cache stats
+    auto loras = plugin.listLoRAs();
+    ASSERT_EQ(loras.size(), 1);
+    EXPECT_TRUE(loras[0].is_loaded);
+}
+
+TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
+    LlamaCppPlugin::Config config;
+    config.n_gpu_layers = 32;
+    config.n_ctx = 4096;
+    config.multi_lora_config.max_lora_slots = 8;
+    
+    LlamaCppPlugin plugin(config);
+    createDummyModel("unload_model.gguf", 100);
+    createDummyLoRA("unload.bin", 20);
+    
+    plugin.loadModel(test_model_dir + "/unload_model.gguf", {});
+    
+    // Load
+    EXPECT_TRUE(plugin.loadLoRA("unload", test_lora_dir + "/unload.bin", 1.0f));
+    EXPECT_EQ(plugin.listLoRAs().size(), 1);
+    
+    // Unload
+    EXPECT_TRUE(plugin.unloadLoRA("unload"));
+    EXPECT_EQ(plugin.listLoRAs().size(), 0);
+    
+    // Reload
+    EXPECT_TRUE(plugin.loadLoRA("unload", test_lora_dir + "/unload.bin", 1.0f));
+    EXPECT_EQ(plugin.listLoRAs().size(), 1);
+    
+    // Inference should work after reload
+    InferenceRequest req;
+    req.prompt = "Test";
+    req.max_tokens = 32;
+    req.lora_adapter_id = "unload";
+    
+    InferenceResponse resp = plugin.generate(req);
+    ASSERT_TRUE(resp.lora_used.has_value());
+    EXPECT_EQ(resp.lora_used.value(), "unload");
 }
