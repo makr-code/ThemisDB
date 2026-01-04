@@ -30,17 +30,21 @@ RUN apt-get update && apt-get install -y \
     tar \
     pkg-config \
     ninja-build \
+    flex \
+    bison \
     && rm -rf /var/lib/apt/lists/*
 
-# Install vcpkg
+# Install vcpkg (use repo-provided cache to avoid flaky downloads)
 WORKDIR /opt
-RUN git clone https://github.com/Microsoft/vcpkg.git && \
-    cd vcpkg && \
-    ./bootstrap-vcpkg.sh && \
+# Copy existing vcpkg tree from repository (includes configuration & cached ports)
+COPY vcpkg /opt/vcpkg
+RUN cd /opt/vcpkg && \
+    ./bootstrap-vcpkg.sh -disableMetrics && \
     ./vcpkg integrate install
 
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV PATH="${VCPKG_ROOT}:${PATH}"
+ENV VCPKG_BINARY_SOURCES="clear;default"
 
 # Set working directory
 WORKDIR /build
@@ -49,12 +53,24 @@ WORKDIR /build
 COPY . .
 
 # Configure CMake
+# Aktiviere alle Features für Production-Image:
+# - LLM Integration (llama.cpp)
+# - GPU Acceleration (CUDA/Vulkan/ROCm)
+# - Prometheus Metrics (immer included)
+# - Content Processors (audio/image/video/geo/cad)
+# - OpenTelemetry Tracing (distributed tracing)
+# - AVX2 SIMD Support (vectorized operations)
 RUN cmake -S . -B build \
     -G Ninja \
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
     -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
     -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
+    -DTHEMIS_ENABLE_CONTENT_PROCESSORS=ON \
+    -DTHEMIS_ENABLE_TRACING=ON \
+    -DTHEMIS_ENABLE_AVX2=ON \
+    -DTHEMIS_BUILD_TESTS=OFF \
+    -DTHEMIS_BUILD_BENCHMARKS=OFF \
     -DBUILD_SHARED_LIBS=OFF
 
 # Build ThemisDB (Prometheus metrics always included)

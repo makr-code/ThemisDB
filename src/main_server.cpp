@@ -21,6 +21,11 @@
 #include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
 #include "server/http_server.h"
+#include "sharding/wal_applier.h"
+#include "sharding/wal_manager.h"
+#include "sharding/wal_shipper.h"
+#include "sharding/prometheus_metrics.h"
+#include "sharding/replication_coordinator.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -43,6 +48,11 @@
 #include <unistd.h>  // for write() in signal handler
 #include <cstring>   // for strlen() in signal handler
 
+#ifdef THEMIS_ENABLE_GRPC
+#include <grpcpp/grpcpp.h>
+#include "server/wal_grpc_service.h"
+#endif
+
 using namespace themis;
 using json = nlohmann::json;
 
@@ -50,6 +60,13 @@ using json = nlohmann::json;
 std::atomic<bool> g_shutdown_requested{false};
 // Server instance (accessed only from main thread, not from signal handler)
 std::shared_ptr<server::HttpServer> g_server;
+
+#ifdef THEMIS_ENABLE_GRPC
+static std::unique_ptr<grpc::Server> g_wal_grpc_server;
+static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
+#endif
+
+static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
 
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
@@ -328,14 +345,178 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
+        // WAL components for replica apply endpoint
+        themis::sharding::WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = db_path + "/wal_replica";
+        auto wal_manager = std::make_shared<themis::sharding::WALManager>(wal_cfg);
+
+        auto wal_applier = std::make_shared<themis::sharding::WALApplier>(
+            themis::sharding::WALApplierConfig{.replica_id = "local"}
+        );
+        // Apply handler: idempotent apply to RocksDB (optional key/value) and append to replica WAL.
+        wal_applier->setApplyHandler([wal_manager, db](const themis::sharding::WALEntry& entry) {
+            try {
+                const std::string marker_key = "replica_applied/" + entry.lsn.toString();
+                std::string existing;
+                // Idempotent: if already applied, skip
+                if (db->get(marker_key, existing)) {
+                    return true;
+                }
+
+                // Append to local WAL for durability
+                wal_manager->append(entry);
+
+                // Optional: apply to RocksDB if payload has key/value
+                bool data_ok = true;
+                if (entry.data.contains("key")) {
+                    const std::string user_key = entry.data.value("key", std::string());
+                    switch (entry.type) {
+                        case themis::sharding::WALEntryType::DELETE:
+                            if (!db->del(user_key)) data_ok = false;
+                            break;
+                        default: {
+                            // Value may be any JSON; store serialized
+                            std::string value_str;
+                            if (entry.data.contains("value")) {
+                                value_str = entry.data["value"].dump();
+                            } else {
+                                value_str = entry.data.dump();
+                            }
+                            if (!db->put(user_key, value_str)) data_ok = false;
+                            break;
+                        }
+                    }
+                }
+
+                // Mark applied (even if no user_key) to keep idempotency
+                if (!db->put(marker_key, entry.data.dump())) {
+                    return false;
+                }
+                return data_ok;
+            } catch (...) {
+                return false;
+            }
+        });
+
+        // Initialize WALShipper and ReplicationCoordinator for replication (leader-side)
+        bool shipper_enabled = false;
+        themis::sharding::WALShipperConfig shipper_cfg;
+        shipper_cfg.primary_id = "primary-local";
+        std::vector<std::pair<std::string, std::string>> replicas; // (replica_id, endpoint)
+
+        if (cfg && cfg->contains("replication")) {
+            const auto& repl = (*cfg)["replication"];
+            shipper_enabled = repl.value("shipper_enabled", false);
+            shipper_cfg.primary_id = repl.value("primary_id", shipper_cfg.primary_id);
+            shipper_cfg.batch_size = repl.value("batch_size", size_t(100));
+            shipper_cfg.max_batch_bytes = repl.value("max_batch_bytes", size_t(1024 * 1024));
+            shipper_cfg.ship_interval_ms = repl.value("ship_interval_ms", uint64_t(100));
+            shipper_cfg.retry_delay_ms = repl.value("retry_delay_ms", uint64_t(1000));
+            shipper_cfg.max_retry_delay_ms = repl.value("max_retry_delay_ms", uint64_t(60000));
+            shipper_cfg.max_retries = repl.value("max_retries", size_t(5));
+            shipper_cfg.health_check_interval_ms = repl.value("health_check_interval_ms", uint64_t(10000));
+            
+            // Compression config
+            std::string comp = repl.value("compression", std::string("zstd"));
+            if (comp == "none") {
+                shipper_cfg.compression = themis::sharding::WALShipperConfig::CompressionType::None;
+            } else if (comp == "lz4") {
+                shipper_cfg.compression = themis::sharding::WALShipperConfig::CompressionType::LZ4;
+            } else {
+                shipper_cfg.compression = themis::sharding::WALShipperConfig::CompressionType::Zstd;
+            }
+            shipper_cfg.compression_level = repl.value("compression_level", 3);
+            
+            // mTLS paths (optional; dev can skip)
+            if (repl.contains("cert_path")) shipper_cfg.cert_path = repl["cert_path"].get<std::string>();
+            if (repl.contains("key_path")) shipper_cfg.key_path = repl["key_path"].get<std::string>();
+            if (repl.contains("ca_cert_path")) shipper_cfg.ca_cert_path = repl["ca_cert_path"].get<std::string>();
+
+            // Replica endpoints
+            if (repl.contains("replicas")) {
+                for (const auto& r : repl["replicas"]) {
+                    std::string rep_id = r.value("replica_id", std::string("replica-") + std::to_string(replicas.size()));
+                    std::string endpoint = r.value("endpoint", std::string());
+                    if (!endpoint.empty()) {
+                        replicas.emplace_back(rep_id, endpoint);
+                    }
+                }
+            }
+        }
+
+        if (shipper_enabled && !replicas.empty()) {
+            try {
+                g_wal_shipper = std::make_shared<themis::sharding::WALShipper>(wal_manager, shipper_cfg);
+                for (const auto& [rep_id, endpoint] : replicas) {
+                    g_wal_shipper->addReplica(rep_id, endpoint);
+                    THEMIS_INFO("Added replica: {} ({})", rep_id, endpoint);
+                }
+                
+                // Create PrometheusMetrics exporter for replication metrics
+                themis::sharding::PrometheusMetrics::Config prom_cfg;
+                prom_cfg.http_port = 8080;
+                prom_cfg.http_path = "/metrics";
+                auto prometheus_metrics = std::make_shared<themis::sharding::PrometheusMetrics>(prom_cfg);
+                g_wal_shipper->setMetricsExporter(prometheus_metrics);
+                THEMIS_INFO("Prometheus metrics exporter configured for WALShipper");
+                
+                g_wal_shipper->start();
+                THEMIS_INFO("WALShipper started with {} replica(s)", replicas.size());
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to start WALShipper: {}", e.what());
+            }
+        } else if (shipper_enabled && replicas.empty()) {
+            THEMIS_WARN("WALShipper enabled but no replicas configured; skipping shipper startup");
+        }
+
+        // Create ReplicationCoordinator (wraps shipper for write concern enforcement)
+        std::shared_ptr<themis::sharding::ReplicationCoordinator> replication_coordinator;
+        if (g_wal_shipper) {
+            replication_coordinator = std::make_shared<themis::sharding::ReplicationCoordinator>(g_wal_shipper);
+            THEMIS_INFO("ReplicationCoordinator created for write concern enforcement");
+        }
+
+        // Create HttpServer with all components
         g_server = std::make_shared<server::HttpServer>(
             server_config,
             db,
             secondary_index,
             graph_index,
             vector_index,
-            tx_manager
+            tx_manager,
+            wal_applier,
+            wal_manager,
+            replication_coordinator
         );
+
+#ifdef THEMIS_ENABLE_GRPC
+        // Start WAL gRPC Apply service (if stubs are available)
+        g_wal_grpc_service = std::make_unique<server::WalGrpcService>(wal_applier);
+        if (auto* wal_service = g_wal_grpc_service->service()) {
+            std::string grpc_host = "0.0.0.0";
+            int grpc_port = 50051;
+            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) grpc_host = h;
+            if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
+                try { grpc_port = std::stoi(p); } catch (...) {}
+            }
+            std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
+
+            grpc::ServerBuilder builder;
+            builder.AddListeningPort(grpc_addr, grpc::InsecureServerCredentials());
+            builder.RegisterService(static_cast<grpc::Service*>(wal_service));
+            builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
+            builder.SetMaxSendMessageSize(100 * 1024 * 1024);
+
+            g_wal_grpc_server = builder.BuildAndStart();
+            if (g_wal_grpc_server) {
+                THEMIS_INFO("WAL gRPC Apply service listening on {}", grpc_addr);
+            } else {
+                THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
+            }
+        } else {
+            THEMIS_WARN("WAL gRPC stubs not found; skipping gRPC Apply service startup");
+        }
+#endif
         
         // Setup signal handlers
         std::signal(SIGINT, signalHandler);
@@ -760,6 +941,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("  POST /ts/aggregate        - Aggregate time-series (beta)");
         }
         THEMIS_INFO("");
+        THEMIS_INFO("ready to serve...");
         
         // Wait for shutdown signal (check atomic flag periodically)
         THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
@@ -768,6 +950,22 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");
+        
+        // Stop WALShipper before other services
+        if (g_wal_shipper) {
+            THEMIS_INFO("Stopping WALShipper...");
+            g_wal_shipper->stop();
+            g_wal_shipper.reset();
+        }
+        
+#ifdef THEMIS_ENABLE_GRPC
+        if (g_wal_grpc_server) {
+            THEMIS_INFO("Stopping WAL gRPC Apply service...");
+            g_wal_grpc_server->Shutdown();
+            g_wal_grpc_server.reset();
+            g_wal_grpc_service.reset();
+        }
+#endif
         g_server->stop();
         
         THEMIS_INFO("=================================================");

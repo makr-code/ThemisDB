@@ -96,6 +96,26 @@ public:
     void recordDatacenterLatency(const std::string& datacenter, double latency_ms);
     void recordCrossDCRequest(const std::string& source_dc, const std::string& target_dc);
 
+    // ==================== Replication Metrics (RAID1/10) ====================
+
+    // WALShipper metrics
+    void recordWalShipBatch(const std::string& replica_id, int64_t entries, int64_t bytes, bool success);
+    void recordWalShipLatency(const std::string& replica_id, double latency_ms);
+    void recordWalReplicationLag(const std::string& replica_id, double lag_seconds);
+    void setWalBacklogBytes(const std::string& replica_id, int64_t bytes);
+    void recordWalCompressionRatio(double ratio);
+    
+    // WALApplier metrics
+    void recordWalApplyBatch(int64_t entries, bool success);
+    void recordWalApplyLatency(double latency_ms);
+    void recordWalApplyFailure(const std::string& error_type);
+    void setWalLastAppliedLsn(const std::string& lsn);
+    
+    // ReplicationCoordinator metrics
+    void recordWriteConcernWait(const std::string& level, double wait_time_ms, bool success);
+    void setPendingWrites(int64_t count);
+    void recordQuorumTimeout(const std::string& level);
+
     // Generic metrics (for extensibility)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
     void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
