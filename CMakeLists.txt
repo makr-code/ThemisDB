@@ -1583,6 +1583,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_image_analysis_interface.cpp
         tests/test_image_analysis_quality.cpp
         tests/test_backup_restore.cpp
+        tests/test_raid5_backup.cpp
         tests/test_cursor.cpp
         tests/test_temporal_graph.cpp
         tests/test_temporal_aggregation.cpp
