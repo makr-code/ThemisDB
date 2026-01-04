@@ -9,6 +9,13 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
+// Undefine potential Windows macro conflicts
+#ifdef _WIN32
+#ifdef LSN
+#undef LSN
+#endif
+#endif
+
 namespace themis::sharding {
 
 /**

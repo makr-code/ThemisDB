@@ -10,8 +10,8 @@
 
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
 #include <grpcpp/grpcpp.h>
-#include "sharding/shard_rpc.grpc.pb.h"
-#include "sharding/shard_rpc.pb.h"
+#include "shard_rpc.grpc.pb.h"
+#include "shard_rpc.pb.h"
 #define THEMIS_HAS_SHARD_GRPC 1
 #else
 #define THEMIS_HAS_SHARD_GRPC 0

@@ -1289,7 +1289,7 @@ if(THEMIS_ENABLE_GRPC)
         if(COMMAND protobuf_generate)
             # Generate shard RPC stubs (ApplyWalBatch, etc.)
             set(SHARD_PROTO ${CMAKE_CURRENT_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
-            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/generated/sharding)
+            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
             file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
 
             # Manually generate protobuf files
