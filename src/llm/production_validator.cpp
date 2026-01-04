@@ -37,6 +37,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     
     // Record initial memory usage
     size_t initial_memory_mb = measureMemoryUsage();
+    size_t peak_memory_mb = initial_memory_mb;
     
     // 1. Run benchmark suite: 100 requests with varying lengths
     std::vector<double> latencies;
@@ -74,6 +75,12 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
         double latency = std::chrono::duration<double, std::milli>(req_end - req_start).count();
         latencies.push_back(latency);
         
+        // Track peak memory usage during benchmark
+        size_t current_memory_mb = measureMemoryUsage();
+        if (current_memory_mb > peak_memory_mb) {
+            peak_memory_mb = current_memory_mb;
+        }
+        
         // Log progress every 25 requests
         if ((i + 1) % 25 == 0) {
             spdlog::info("  Progress: {}/100 requests completed", i + 1);
@@ -108,7 +115,7 @@ ProductionValidator::ProductionMetrics ProductionValidator::benchmarkInference(
     // 5. Measure memory usage
     size_t final_memory_mb = measureMemoryUsage();
     metrics.memory_used_mb = final_memory_mb - initial_memory_mb;
-    metrics.peak_memory_mb = final_memory_mb;
+    metrics.peak_memory_mb = peak_memory_mb;
     
     // 6. Run quality tests
     auto tests = getQualityTests();
@@ -534,22 +541,37 @@ double ProductionValidator::calculatePercentile(
         return 0.0;
     }
     
-    std::vector<double> sorted = data;
-    std::sort(sorted.begin(), sorted.end());
+    if (data.size() == 1) {
+        return data[0];
+    }
+    
+    // Use std::nth_element for O(n) average performance instead of O(n log n) sort
+    std::vector<double> mutable_copy = data;
     
     size_t index = static_cast<size_t>(
-        (percentile / 100.0) * (sorted.size() - 1)
+        (percentile / 100.0) * (mutable_copy.size() - 1)
     );
     
-    return sorted[index];
+    // Ensure index is valid
+    if (index >= mutable_copy.size()) {
+        index = mutable_copy.size() - 1;
+    }
+    
+    // Partially sort to find the element at the percentile position
+    std::nth_element(mutable_copy.begin(), 
+                     mutable_copy.begin() + index, 
+                     mutable_copy.end());
+    
+    return mutable_copy[index];
 }
 
 void ProductionValidator::recordLatency(double latency_ms) {
     latency_samples_.push_back(latency_ms);
     
     // Keep only last 10000 samples to avoid memory bloat
+    // Using deque for O(1) removal from front instead of O(n) with vector
     if (latency_samples_.size() > 10000) {
-        latency_samples_.erase(latency_samples_.begin());
+        latency_samples_.pop_front();
     }
 }
 

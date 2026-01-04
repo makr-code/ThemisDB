@@ -5,6 +5,7 @@
 #include "llm/gpu_memory_manager.h"
 #include "llm/kernel_fusion.h"
 #include <vector>
+#include <deque>
 #include <string>
 #include <chrono>
 #include <functional>
@@ -180,7 +181,7 @@ private:
     std::chrono::system_clock::time_point stress_test_start_;
     
     // Statistics
-    std::vector<double> latency_samples_;
+    std::deque<double> latency_samples_;  // Use deque for efficient removal of old samples
     size_t total_requests_processed_ = 0;
     size_t total_failures_ = 0;
     
