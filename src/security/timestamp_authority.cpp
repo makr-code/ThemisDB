@@ -95,6 +95,69 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
 std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) { std::vector<uint8_t> n(bytes); for(size_t i=0;i<bytes;++i) n[i]=static_cast<uint8_t>(i); return n; }
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data) { return pseudo_hash(data); }
 
+// ============================================================================
+// eIDAS Timestamp Validator Stub Implementation
+// ============================================================================
+
+bool eIDASTimestampValidator::validateeIDASTimestamp(
+    const TimestampToken& token,
+    const std::vector<std::string>& trust_anchors) {
+    
+    validation_errors_.clear();
+    
+    // Stub implementation - basic checks only
+    if (!token.success) {
+        validation_errors_.push_back("Token marked as unsuccessful");
+        return false;
+    }
+    
+    // In stub mode, we accept any successful token
+    return true;
+}
+
+bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_age_days) {
+    validation_errors_.clear();
+    
+    if (token.timestamp_unix_ms == 0) {
+        validation_errors_.push_back("Token has no timestamp");
+        return false;
+    }
+    
+    // Get current time in milliseconds
+    auto now = std::chrono::system_clock::now();
+    uint64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+    ).count();
+    
+    // Calculate age in milliseconds
+    uint64_t age_ms = now_ms - token.timestamp_unix_ms;
+    
+    // Convert max age from days to milliseconds
+    uint64_t max_age_ms = static_cast<uint64_t>(max_age_days) * 24 * 60 * 60 * 1000;
+    
+    if (age_ms > max_age_ms) {
+        validation_errors_.push_back("Token age exceeds maximum allowed age");
+        return false;
+    }
+    
+    return true;
+}
+
+bool eIDASTimestampValidator::isQualifiedTSA(
+    const std::string& tsa_cert,
+    const std::vector<std::string>& qtsp_list) {
+    
+    validation_errors_.clear();
+    
+    // Stub implementation - no real validation
+    // In production, this would check against EU Trusted List
+    return true;
+}
+
+std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
+    return validation_errors_;
+}
+
 } } // namespace themis::security
 
 #endif // THEMIS_USE_OPENSSL_TSA

@@ -1172,6 +1172,15 @@ if(CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
 endif()
 
+# Enable OpenSSL-based Timestamp Authority (RFC 3161) if both OpenSSL and CURL are available
+# OpenSSL is required for cryptographic operations, CURL for HTTP/HTTPS communication with TSA servers
+if(OpenSSL_FOUND AND CURL_FOUND)
+    target_compile_definitions(themis_core PUBLIC THEMIS_USE_OPENSSL_TSA)
+    message(STATUS "Timestamp Authority (RFC 3161): Enabled with OpenSSL and CURL")
+else()
+    message(STATUS "Timestamp Authority (RFC 3161): Using stub implementation (OpenSSL=${OpenSSL_FOUND}, CURL=${CURL_FOUND})")
+endif()
+
 # Define version string for runtime use
 target_compile_definitions(themis_core PUBLIC 
     THEMIS_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
