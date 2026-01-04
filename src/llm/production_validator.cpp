@@ -883,7 +883,8 @@ bool ProductionValidator::simulateQualityTest(const QualityTest& test) {
         return true;
     } else if (test.category == "reasoning") {
         // Simulate 2 out of 3 reasoning tests passing (85% overall)
-        static int reasoning_count = 0;
+        // Use thread-local storage for thread safety
+        thread_local int reasoning_count = 0;
         reasoning_count++;
         return (reasoning_count % 3) != 0;  // Fail every 3rd reasoning test
     }
