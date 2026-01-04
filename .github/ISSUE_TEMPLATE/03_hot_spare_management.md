@@ -95,9 +95,9 @@ auto status = spare_manager.getRebuildStatus();
 
 ## References
 
-- [Feature Proposals Document](../FEATURE_PROPOSALS_V1.4.md#13-hot-spare-management)
-- [Auto-Recovery Manager](../include/sharding/auto_recovery_manager.h)
-- [RAID Quick Start Guide](../docs/en/guides/RAID_QUICK_START_GUIDE.md)
+- [Feature Proposals Document](../../FEATURE_PROPOSALS_V1.4.md#13-hot-spare-management)
+- [Auto-Recovery Manager](../../include/sharding/auto_recovery_manager.h)
+- [RAID Quick Start Guide](../../docs/en/guides/RAID_QUICK_START_GUIDE.md)
 
 ## Acceptance Criteria
 

@@ -82,8 +82,8 @@ RedundancyStrategy strategy(config);
 
 ## References
 
-- [Feature Proposals Document](../FEATURE_PROPOSALS_V1.4.md#11-raid-6-dual-parity)
-- [RAID Quick Start Guide](../docs/en/guides/RAID_QUICK_START_GUIDE.md)
+- [Feature Proposals Document](../../FEATURE_PROPOSALS_V1.4.md#11-raid-6-dual-parity)
+- [RAID Quick Start Guide](../../docs/en/guides/RAID_QUICK_START_GUIDE.md)
 - [Wikipedia: RAID 6](https://en.wikipedia.org/wiki/Standard_RAID_levels#RAID_6)
 
 ## Acceptance Criteria

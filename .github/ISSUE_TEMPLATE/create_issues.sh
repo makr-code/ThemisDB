@@ -3,7 +3,7 @@
 # Usage: ./create_issues.sh [phase]
 #   phase: all, phase1, phase2, phase3, or specific issue number
 
-set -e
+set -euo pipefail
 
 REPO="makr-code/ThemisDB"
 TEMPLATE_DIR=".github/ISSUE_TEMPLATE"
@@ -38,17 +38,22 @@ create_issue() {
     
     echo -e "${YELLOW}Creating issue: $title${NC}"
     
+    local temp_output=$(mktemp)
+    trap "rm -f $temp_output" EXIT
+    
     if gh issue create \
         --repo "$REPO" \
         --title "$title" \
         --label "$labels" \
-        --body-file "$TEMPLATE_DIR/$template_file" 2>&1 | tee /tmp/gh_output.txt
+        --body-file "$TEMPLATE_DIR/$template_file" 2>&1 | tee "$temp_output"
     then
-        local issue_url=$(grep "https://github.com" /tmp/gh_output.txt)
+        local issue_url=$(grep "https://github.com" "$temp_output")
         echo -e "${GREEN}✓ Created: $issue_url${NC}\n"
+        rm -f "$temp_output"
         return 0
     else
         echo -e "${RED}✗ Failed to create issue${NC}\n"
+        rm -f "$temp_output"
         return 1
     fi
 }

@@ -98,8 +98,8 @@ auto stats = manager.getQuantizationStats("math-lora");
 
 ## References
 
-- [Feature Proposals Document](../FEATURE_PROPOSALS_V1.4.md#21-lora-quantization)
-- [LoRA Adapter Guide](../docs/en/guides/LORA_ADAPTER_GUIDE.md)
+- [Feature Proposals Document](../../FEATURE_PROPOSALS_V1.4.md#21-lora-quantization)
+- [LoRA Adapter Guide](../../docs/en/guides/LORA_ADAPTER_GUIDE.md)
 - [GPTQ Paper](https://arxiv.org/abs/2210.17323)
 - [LLM.int8() Paper](https://arxiv.org/abs/2208.07339)
 

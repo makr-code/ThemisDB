@@ -95,8 +95,8 @@ config.gpu_config = {
 
 ## References
 
-- [Feature Proposals Document](../FEATURE_PROPOSALS_V1.4.md#31-gpu-accelerated-erasure-coding)
-- [RAID Optimizations](../include/sharding/raid_optimizations.h)
+- [Feature Proposals Document](../../FEATURE_PROPOSALS_V1.4.md#31-gpu-accelerated-erasure-coding)
+- [RAID Optimizations](../../include/sharding/raid_optimizations.h)
 - [ISA-L GPU Port](https://github.com/intel/isa-l_crypto)
 - [CUDA Programming Guide](https://docs.nvidia.com/cuda/)
 

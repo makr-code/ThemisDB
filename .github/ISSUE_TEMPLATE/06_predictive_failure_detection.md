@@ -108,8 +108,8 @@ for (auto& pred : predictions) {
 
 ## References
 
-- [Feature Proposals Document](../FEATURE_PROPOSALS_V1.4.md#41-predictive-failure-detection)
-- [Auto-Recovery Manager](../include/sharding/auto_recovery_manager.h)
+- [Feature Proposals Document](../../FEATURE_PROPOSALS_V1.4.md#41-predictive-failure-detection)
+- [Auto-Recovery Manager](../../include/sharding/auto_recovery_manager.h)
 - [Backblaze Hard Drive Stats](https://www.backblaze.com/b2/hard-drive-test-data.html)
 - [Google: Failure Trends in Large Disk Drive Population](https://research.google/pubs/pub32774/)
 

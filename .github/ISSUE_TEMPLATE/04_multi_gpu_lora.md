@@ -101,9 +101,9 @@ auto response = manager.inference(request, "large-lora", context);
 
 ## References
 
-- [Feature Proposals Document](../FEATURE_PROPOSALS_V1.4.md#24-multi-gpu-lora-support)
-- [GPU Memory Manager](../include/llm/gpu_memory_manager.h)
-- [LoRA Adapter Guide](../docs/en/guides/LORA_ADAPTER_GUIDE.md)
+- [Feature Proposals Document](../../FEATURE_PROPOSALS_V1.4.md#24-multi-gpu-lora-support)
+- [GPU Memory Manager](../../include/llm/gpu_memory_manager.h)
+- [LoRA Adapter Guide](../../docs/en/guides/LORA_ADAPTER_GUIDE.md)
 - [NVIDIA GPUDirect](https://developer.nvidia.com/gpudirect)
 
 ## Dependencies
