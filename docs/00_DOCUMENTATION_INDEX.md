@@ -36,6 +36,36 @@ ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
 
 ---
 
+## 🐳 DOCKER RAID CLUSTER DOCUMENTATION (NEU - 2026-01-04)
+
+### RAID Setup and Troubleshooting
+
+ThemisDB implements RAID clustering for distributed database operations:
+- **RAID 0 (Striping)** - Maximum performance through data distribution
+- **RAID 1 (Mirroring)** - High availability with data redundancy
+- **RAID 5 (Parity)** - Balanced performance and fault tolerance
+
+**Core Documentation:**
+- [GITHUB_ISSUE_RAID_SETUP.md](GITHUB_ISSUE_RAID_SETUP.md) - Complete issue documentation for RAID setup problems
+- [RAID_SHARD_REFERENCING_ARCHITECTURE.md](RAID_SHARD_REFERENCING_ARCHITECTURE.md) - Technical deep-dive into shard architecture
+- [RAID_TROUBLESHOOTING_QUICK_GUIDE.md](RAID_TROUBLESHOOTING_QUICK_GUIDE.md) - Fast reference for common issues
+
+**Related Files:**
+- `benchmarks/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md` - Implementation details
+- `benchmarks/RAID_SHARDING_QUICKSTART.md` - Quick start guide
+- `docker/compose/docker-compose-sharding.yml` - Docker configuration
+- `PROMETHEUS_INTEGRATION_COMPLETE.md` - Metrics integration
+
+**Key Issues Documented:**
+- ✅ Prometheus metrics integration and endpoint configuration
+- ✅ Grafana dashboard connectivity issues
+- ✅ Shard discovery and peer referencing
+- ✅ Docker image architecture mismatch (Windows vs Linux)
+- ✅ Port mapping and network configuration
+- ✅ RAID failover and recovery procedures
+
+---
+
 ## 📋 DOKUMENTATIONS-ÜBERSICHT
 
 ### PHASE 1: ANALYSE & RESEARCH (Steps 1-3)
