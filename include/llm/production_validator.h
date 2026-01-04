@@ -73,6 +73,46 @@ public:
         std::chrono::seconds total_uptime{0};
     };
     
+    /**
+     * @brief Production Metrics for LLM inference benchmarking
+     * 
+     * Returned by benchmarkInference() to provide detailed performance
+     * metrics for a specific model.
+     */
+    struct ProductionMetrics {
+        std::string model_id;
+        bool passed = false;
+        std::string error_message;
+        std::vector<std::string> warnings;
+        
+        // Latency metrics (milliseconds)
+        double latency_p50_ms = 0.0;
+        double latency_p95_ms = 0.0;
+        double latency_p99_ms = 0.0;
+        double avg_latency_ms = 0.0;
+        double max_latency_ms = 0.0;
+        double min_latency_ms = 0.0;
+        
+        // Throughput metrics
+        double throughput_tokens_per_sec = 0.0;
+        size_t total_tokens_generated = 0;
+        double total_time_seconds = 0.0;
+        
+        // Quality score (0-100%)
+        double quality_score_pct = 0.0;
+        size_t quality_tests_passed = 0;
+        size_t quality_tests_total = 0;
+        
+        // Memory metrics
+        size_t memory_used_mb = 0;
+        size_t peak_memory_mb = 0;
+        
+        // Request statistics
+        size_t total_requests = 0;
+        size_t successful_requests = 0;
+        size_t failed_requests = 0;
+    };
+    
     explicit ProductionValidator(const ValidationConfig& config);
     
     // Main validation methods
@@ -82,6 +122,29 @@ public:
     ValidationResult checkPerformanceRegression(
         const std::string& baseline_file
     );
+    
+    /**
+     * @brief Benchmark LLM inference performance
+     * 
+     * Runs a comprehensive benchmark suite with 100 requests of varying lengths,
+     * measures latency percentiles (P50, P95, P99), throughput, quality tests,
+     * and memory usage. Validates against SLA thresholds.
+     * 
+     * @param model_id Identifier of the model to benchmark
+     * @return ProductionMetrics with detailed performance and quality metrics
+     */
+    ProductionMetrics benchmarkInference(const std::string& model_id);
+    
+    /**
+     * @brief Validate model quality with standard test suite
+     * 
+     * Runs math, knowledge, and reasoning tests to verify model quality.
+     * Requires ≥80% pass rate to meet acceptance criteria.
+     * 
+     * @param model_id Identifier of the model to validate
+     * @return true if quality score ≥ 80%, false otherwise
+     */
+    bool validateQuality(const std::string& model_id);
     
     // Individual test suites
     bool testModelLoading();
@@ -125,6 +188,18 @@ private:
     double calculatePercentile(const std::vector<double>& data, double percentile);
     void recordLatency(double latency_ms);
     void checkMemoryLeaks();
+    
+    // Benchmark helpers
+    std::string generateBenchmarkPrompt(int variant);
+    size_t measureMemoryUsage();
+    
+    // Quality test helpers
+    struct QualityTest {
+        std::string category;
+        std::string prompt;
+        std::vector<std::string> expected_answers;
+    };
+    std::vector<QualityTest> getQualityTests();
 };
 
 /**
