@@ -7,12 +7,17 @@
 #include <atomic>
 #include <mutex>
 #include <fstream>
+#include <optional>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 
 // Undefine potential Windows macro conflicts
 #ifdef _WIN32
 #ifdef LSN
 #undef LSN
+#endif
+#ifdef DELETE
+#undef DELETE
 #endif
 #endif
 

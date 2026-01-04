@@ -45,7 +45,11 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
+#ifndef _WIN32
 #include <unistd.h>  // for write() in signal handler
+#else
+#include <io.h>      // Windows equivalent: _write()
+#endif
 #include <cstring>   // for strlen() in signal handler
 
 #ifdef THEMIS_ENABLE_GRPC
@@ -73,7 +77,12 @@ void signalHandler(int signal) {
         // Only use async-signal-safe operations in signal handler
         // Write to stderr is async-signal-safe, unlike logging
         const char* msg = "\nReceived shutdown signal, initiating graceful shutdown...\n";
+#ifndef _WIN32
         (void)write(STDERR_FILENO, msg, strlen(msg));
+#else
+        // Windows: use _write() with file descriptor 2 (stderr)
+        (void)_write(2, msg, static_cast<unsigned int>(strlen(msg)));
+#endif
         
         // Set atomic flag to trigger shutdown in main thread
         g_shutdown_requested.store(true, std::memory_order_release);

@@ -144,7 +144,7 @@ void WALShipper::shippingLoop() {
     }
 }
 
-bool WALShipper::shipToReplica(const std::string& replica_id, ReplicaInfo& replica) {
+bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& replica) {
     // Get current LSN
     LSN current_lsn = wal_manager_->getCurrentLSN();
     

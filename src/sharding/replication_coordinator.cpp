@@ -48,25 +48,13 @@ WriteResult ReplicationCoordinator::waitForReplication(
     // Register pending write
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
-        // Use emplace to construct in-place (atomic is not copyable/movable)
-        auto it = pending_writes_.find(lsn_key);
-        if (it != pending_writes_.end()) {
-            // LSN already exists, just update ack_count
-            it->second.lsn = entry_lsn;
-            it->second.concern = concern;
-            it->second.ack_count.store(1, std::memory_order_relaxed);
-            it->second.start_time = start;
-            it->second.completed = false;
-                } else {
-                    // Create new entry - use default constructor then assign
-                    PendingWrite pw;
-                    pw.lsn = entry_lsn;
-                    pw.concern = concern;
-                    pw.ack_count.store(1, std::memory_order_relaxed);
-                    pw.start_time = start;
-                    pw.completed = false;
-                    pending_writes_.emplace(lsn_key, std::move(pw));
-        }
+        auto [it, inserted] = pending_writes_.try_emplace(lsn_key);
+        PendingWrite& pw = it->second;
+        pw.lsn = entry_lsn;
+        pw.concern = concern;
+        pw.ack_count.store(1, std::memory_order_relaxed);  // Primary already wrote
+        pw.start_time = start;
+        pw.completed = false;
     }
 
     // Wait for acknowledgments with timeout

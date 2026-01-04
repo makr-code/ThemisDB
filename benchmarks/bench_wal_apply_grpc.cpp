@@ -173,13 +173,9 @@ BENCHMARK_REGISTER_F(WalGrpcApplyFixture, ApplyWalBatch)
     ->Args({50, 1})  // 50 entries, zstd
     ->Unit(benchmark::kMicrosecond);
 
-BENCHMARK_MAIN();
-
 #else
 #include <cstdio>
 
-int main(int, char**) {
-    std::puts("Shard gRPC stubs not available; bench_wal_apply_grpc skipped.");
-    return 0;
-}
+// No main function here - let Google Benchmark or test framework provide it
+// If building without gRPC, this file will not be linked
 #endif

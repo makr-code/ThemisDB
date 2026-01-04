@@ -848,6 +848,9 @@ set(THEMIS_CORE_SOURCES
     src/sharding/wal_manager.cpp
     src/sharding/wal_shipper.cpp
     src/sharding/replication_coordinator.cpp
+    src/sharding/replica_topology.cpp
+    src/sharding/multi_primary_coordinator.cpp
+    src/sharding/health_monitor.cpp
     src/sharding/truetime.cpp
     src/sharding/distributed_transaction.cpp
     src/server/sharding_metrics_handler.cpp
@@ -1612,6 +1615,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_vault_key_provider_retry.cpp
     tests/test_wal_backup_manager.cpp
     tests/test_wal_grpc_apply.cpp
+        tests/test_wal_replication_integration.cpp
         tests/test_audit_logger.cpp
         tests/test_pii_detector.cpp
         tests/test_retention_manager.cpp

@@ -62,6 +62,28 @@ private:
         std::atomic<size_t> ack_count{0};
         std::chrono::steady_clock::time_point start_time;
         bool completed{false};
+
+        PendingWrite() = default;
+        PendingWrite(const PendingWrite&) = delete;
+        PendingWrite& operator=(const PendingWrite&) = delete;
+
+        PendingWrite(PendingWrite&& other) noexcept
+            : lsn(other.lsn)
+            , concern(other.concern)
+            , ack_count(other.ack_count.load(std::memory_order_relaxed))
+            , start_time(other.start_time)
+            , completed(other.completed) {}
+
+        PendingWrite& operator=(PendingWrite&& other) noexcept {
+            if (this != &other) {
+                lsn = other.lsn;
+                concern = other.concern;
+                ack_count.store(other.ack_count.load(std::memory_order_relaxed), std::memory_order_relaxed);
+                start_time = other.start_time;
+                completed = other.completed;
+            }
+            return *this;
+        }
     };
 
     mutable std::mutex pending_mutex_;

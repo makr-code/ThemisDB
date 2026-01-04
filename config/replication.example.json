@@ -1,0 +1,41 @@
+{
+  "replication": {
+    "shipper_enabled": true,
+    "primary_id": "primary-node-1",
+    "batch_size": 100,
+    "max_batch_bytes": 1048576,
+    "ship_interval_ms": 100,
+    "retry_delay_ms": 1000,
+    "max_retry_delay_ms": 60000,
+    "max_retries": 5,
+    "health_check_interval_ms": 10000,
+    "compression": "zstd",
+    "compression_level": 3,
+    "replicas": [
+      {
+        "replica_id": "replica-node-1",
+        "endpoint": "localhost:8766"
+      },
+      {
+        "replica_id": "replica-node-2",
+        "endpoint": "localhost:8767"
+      }
+    ]
+  },
+  "replica_topology": [
+    {
+      "shard_id": "shard_0",
+      "primary_id": "primary-node-1",
+      "redundancy": "RAID1",
+      "replicas": ["replica-node-1"],
+      "stripe_key": 0
+    },
+    {
+      "shard_id": "shard_1",
+      "primary_id": "primary-node-1",
+      "redundancy": "RAID10",
+      "replicas": ["replica-node-1", "replica-node-2"],
+      "stripe_key": 1
+    }
+  ]
+}
