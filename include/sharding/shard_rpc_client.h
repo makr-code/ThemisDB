@@ -4,6 +4,14 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
+// Forward declarations for gRPC types
+#ifdef THEMIS_ENABLE_GRPC
+namespace grpc {
+    class ClientContext;
+    enum StatusCode : int;
+}
+#endif
+
 namespace themis::sharding {
 
 /**
@@ -11,14 +19,21 @@ namespace themis::sharding {
  * 
  * v1.3.0: Basic RPC implementation for distributed transactions
  * Supports 2PC (Two-Phase Commit) protocol messages
+ * 
+ * v1.3.4: Added gRPC support for multi-node cluster deployments
+ * - Real gRPC connections for horizontal scaling
+ * - Automatic retry with exponential backoff
+ * - Connection keepalive and pooling
+ * - Healthcheck endpoint
+ * - Error categorization (retryable vs non-retryable)
  */
 class ShardRPCClient {
 public:
     struct Config {
-        std::string endpoint;           // Shard endpoint (e.g., "http://shard1:8529")
+        std::string endpoint;           // Shard endpoint (e.g., "shard1:50051" for gRPC)
         int timeout_ms = 5000;          // RPC timeout in milliseconds
         int max_retries = 3;            // Maximum retry attempts
-        int retry_delay_ms = 100;       // Delay between retries
+        int retry_delay_ms = 100;       // Initial delay between retries (exponential backoff)
     };
     
     explicit ShardRPCClient(const Config& config);
@@ -81,11 +96,74 @@ private:
     
     /**
      * @brief Send RPC request with retry logic
+     * Routes to either gRPC or in-process implementation
      */
     nlohmann::json sendRequest(
         const std::string& method,
         const nlohmann::json& params
     );
+    
+    /**
+     * @brief Send request using in-process simulation (for single-node)
+     */
+    nlohmann::json sendRequestInProcess(
+        const std::string& method,
+        const nlohmann::json& params
+    );
+    
+#ifdef THEMIS_ENABLE_GRPC
+    /**
+     * @brief Send request using gRPC (for multi-node)
+     */
+    nlohmann::json sendRequestGrpc(
+        const std::string& method,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC prepare transaction request
+     */
+    nlohmann::json handlePrepareGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC commit transaction request
+     */
+    nlohmann::json handleCommitGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC abort transaction request
+     */
+    nlohmann::json handleAbortGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC snapshot read request
+     */
+    nlohmann::json handleSnapshotReadGrpc(
+        grpc::ClientContext& context,
+        const nlohmann::json& params
+    );
+    
+    /**
+     * @brief Handle gRPC healthcheck request
+     */
+    nlohmann::json handleHealthCheckGrpc(
+        grpc::ClientContext& context
+    );
+    
+    /**
+     * @brief Determine if a gRPC error is retryable
+     */
+    bool isRetryableError(grpc::StatusCode code);
+#endif
 };
 
 } // namespace themis::sharding
