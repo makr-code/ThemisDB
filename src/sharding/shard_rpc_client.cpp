@@ -53,10 +53,11 @@ struct ShardRPCClient::Impl {
      */
     bool isLoopbackEndpoint(const std::string& endpoint) {
         // Check for common loopback addresses and hostnames
+        // Note: 0.0.0.0 is not included as it typically means "bind to all interfaces"
+        // and is used for server listening, not client connections
         return (endpoint.find("localhost") != std::string::npos ||
                 endpoint.find("127.0.0.1") != std::string::npos ||
-                endpoint.find("::1") != std::string::npos ||
-                endpoint.find("0.0.0.0") != std::string::npos);
+                endpoint.find("::1") != std::string::npos);
     }
     
 #if THEMIS_HAS_SHARD_GRPC
