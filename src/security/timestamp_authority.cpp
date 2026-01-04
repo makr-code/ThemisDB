@@ -138,8 +138,19 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     // Calculate age in milliseconds
     uint64_t age_ms = now_ms - token.timestamp_unix_ms;
     
-    // Convert max age from days to milliseconds
-    uint64_t max_age_ms = static_cast<uint64_t>(max_age_days) * 24 * 60 * 60 * 1000;
+    // Convert max age from days to milliseconds with overflow check
+    // max_age_days * 24 * 60 * 60 * 1000 = max_age_days * 86400000
+    // Check if multiplication would overflow uint64_t
+    constexpr uint64_t MS_PER_DAY = 86400000ULL;
+    if (max_age_days < 0) {
+        validation_errors_.push_back("Maximum age must be non-negative");
+        return false;
+    }
+    if (static_cast<uint64_t>(max_age_days) > UINT64_MAX / MS_PER_DAY) {
+        validation_errors_.push_back("Maximum age value too large");
+        return false;
+    }
+    uint64_t max_age_ms = static_cast<uint64_t>(max_age_days) * MS_PER_DAY;
     
     if (age_ms > max_age_ms) {
         validation_errors_.push_back("Token age exceeds maximum allowed age");
