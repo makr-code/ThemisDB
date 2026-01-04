@@ -185,7 +185,7 @@ struct RAGContext {
  * @brief Base interface for LLM plugins
  * 
  * All LLM backend plugins must implement this interface.
- * Examples: LlamaCppPlugin, VLLMPlugin, OpenAIPlugin, etc.
+ * Examples: LlamaWrapper, VLLMPlugin, OpenAIPlugin, etc.
  */
 class ILLMPlugin {
 public:

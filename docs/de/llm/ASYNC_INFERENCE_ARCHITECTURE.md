@@ -57,7 +57,7 @@
 │  │        │         │         │         │                │  │
 │  │        ▼         ▼         ▼         ▼                │  │
 │  │  ┌──────────────────────────────────────────────┐    │  │
-│  │  │      LlamaCppPlugin (Thread-Safe)            │    │  │
+│  │  │      LlamaWrapper (Thread-Safe)            │    │  │
 │  │  │  ┌────────────┐  ┌────────────────────────┐  │    │  │
 │  │  │  │ Model      │  │ LoRA Manager           │  │    │  │
 │  │  │  │ (GPU)      │  │ (Multi-LoRA)           │  │    │  │
@@ -105,7 +105,7 @@
 #include "llm/async_inference_engine.h"
 
 // Initialize plugin
-createLlamaCppPlugin("llamacpp", "/models/mistral-7b.gguf", config);
+createLlamaWrapper("llamacpp", "/models/mistral-7b.gguf", config);
 auto* plugin = LLMPluginManager::instance().getPlugin("llamacpp");
 
 // Create async engine with 4 worker threads
@@ -357,7 +357,7 @@ async_engine.submit(request, priority = 1);
 ```cmake
 if(THEMIS_ENABLE_LLM)
     target_sources(themis_core PRIVATE
-        src/llm/llamacpp_plugin.cpp
+        src/llm/llama_wrapper.cpp
         src/llm/llm_plugin_manager.cpp
         src/llm/model_loader.cpp
         src/llm/multi_lora_manager.cpp

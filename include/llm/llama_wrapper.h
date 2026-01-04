@@ -13,7 +13,7 @@ struct llama_context;
 typedef int32_t llama_token;
 
 /**
- * @file llamacpp_plugin.h
+ * @file llama_wrapper.h
  * @brief Reference implementation of LLM plugin using llama.cpp backend
  * 
  * This plugin demonstrates:
@@ -43,7 +43,7 @@ namespace llm {
  * Note: Actual llama.cpp integration will be done in v1.3.0.
  * This provides the plugin structure and API design.
  */
-class LlamaCppPlugin : public ILLMPlugin {
+class LlamaWrapper : public ILLMPlugin {
 public:
     /**
      * @brief Configuration for llama.cpp backend
@@ -70,12 +70,12 @@ public:
         MultiLoRAManager::Config multi_lora_config;
     };
     
-    explicit LlamaCppPlugin(const Config& config);
-    ~LlamaCppPlugin() override;
+    explicit LlamaWrapper(const Config& config);
+    ~LlamaWrapper() override;
     
     // Prevent copying
-    LlamaCppPlugin(const LlamaCppPlugin&) = delete;
-    LlamaCppPlugin& operator=(const LlamaCppPlugin&) = delete;
+    LlamaWrapper(const LlamaWrapper&) = delete;
+    LlamaWrapper& operator=(const LlamaWrapper&) = delete;
     
     // ═══════════════════════════════════════════════════════════
     // Model Management

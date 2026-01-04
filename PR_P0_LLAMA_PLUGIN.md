@@ -16,15 +16,15 @@ Ersetzen der Placeholder-Implementation des LLaMA.cpp Plugins durch eine vollstÃ
 ## ðŸ“Š Aktuelle Situation
 
 ### Betroffene Dateien
-- `src/llm/llamacpp_plugin.cpp` (167 Zeilen)
+- `src/llm/llama_wrapper.cpp` (167 Zeilen)
 - `src/llm/llamacpp_inference_engine.cpp` (170 Zeilen)
-- `include/llm/llamacpp_plugin.h`
+- `include/llm/llama_wrapper.h`
 - `include/llm/llamacpp_inference_engine.h`
 
 ### Aktueller Code (Stub)
 
 ```cpp
-// src/llm/llamacpp_plugin.cpp (Zeile 173-176)
+// src/llm/llama_wrapper.cpp (Zeile 173-176)
 // LLM inference stubbed out - llama.cpp API needs refactoring
 // For now, return a stub response with plausible timing & token counts
 // This works with both stub (nullptr) and real (valid) handles
@@ -61,14 +61,14 @@ response.latency_ms = 150.0;
 
 ### 1. Model Loading & Context Management
 
-**Datei:** `src/llm/llamacpp_plugin.cpp`
+**Datei:** `src/llm/llama_wrapper.cpp`
 
 **Aktuelle Stub-Implementation:**
 ```cpp
-bool LlamaCppPlugin::loadModel(const std::string& model_path) {
+bool LlamaWrapper::loadModel(const std::string& model_path) {
     // For testing with stub models, allow nullptr handles
     if (!handle_) {
-        THEMIS_WARN("LlamaCppPlugin: Model handle is null, using stub response");
+        THEMIS_WARN("LlamaWrapper: Model handle is null, using stub response");
     }
     return true;  // Stub always succeeds
 }
@@ -76,7 +76,7 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path) {
 
 **Zu implementieren:**
 ```cpp
-bool LlamaCppPlugin::loadModel(const std::string& model_path) {
+bool LlamaWrapper::loadModel(const std::string& model_path) {
     // 1. llama_backend_init()
     llama_backend_init(false);
     
@@ -125,11 +125,11 @@ bool LlamaCppPlugin::loadModel(const std::string& model_path) {
 
 ### 2. Text Generation (Inference)
 
-**Datei:** `src/llm/llamacpp_plugin.cpp`
+**Datei:** `src/llm/llama_wrapper.cpp`
 
 **Zu implementieren:**
 ```cpp
-LLMResponse LlamaCppPlugin::generate(const LLMRequest& request) {
+LLMResponse LlamaWrapper::generate(const LLMRequest& request) {
     if (!ctx_ || !model_) {
         throw std::runtime_error("Model not loaded");
     }
@@ -189,7 +189,7 @@ LLMResponse LlamaCppPlugin::generate(const LLMRequest& request) {
 
 **Hilfs-Funktionen:**
 ```cpp
-std::vector<llama_token> LlamaCppPlugin::tokenize(const std::string& text, bool add_bos) {
+std::vector<llama_token> LlamaWrapper::tokenize(const std::string& text, bool add_bos) {
     int n_tokens = text.length() + (add_bos ? 1 : 0);
     std::vector<llama_token> tokens(n_tokens);
     n_tokens = llama_tokenize(model_, text.c_str(), text.length(), 
@@ -198,7 +198,7 @@ std::vector<llama_token> LlamaCppPlugin::tokenize(const std::string& text, bool 
     return tokens;
 }
 
-std::string LlamaCppPlugin::detokenize(const std::vector<llama_token>& tokens) {
+std::string LlamaWrapper::detokenize(const std::vector<llama_token>& tokens) {
     std::string text;
     for (llama_token token : tokens) {
         text += llama_token_to_piece(ctx_, token);
@@ -206,7 +206,7 @@ std::string LlamaCppPlugin::detokenize(const std::vector<llama_token>& tokens) {
     return text;
 }
 
-llama_token LlamaCppPlugin::sample_token(llama_context* ctx, float temperature, float top_p) {
+llama_token LlamaWrapper::sample_token(llama_context* ctx, float temperature, float top_p) {
     auto logits = llama_get_logits(ctx);
     auto n_vocab = llama_n_vocab(model_);
     
@@ -237,11 +237,11 @@ llama_token LlamaCppPlugin::sample_token(llama_context* ctx, float temperature, 
 
 ### 3. Embeddings Generation
 
-**Datei:** `src/llm/llamacpp_plugin.cpp`
+**Datei:** `src/llm/llama_wrapper.cpp`
 
 **Zu implementieren:**
 ```cpp
-std::vector<float> LlamaCppPlugin::generateEmbedding(const std::string& text) {
+std::vector<float> LlamaWrapper::generateEmbedding(const std::string& text) {
     if (!ctx_ || !model_) {
         throw std::runtime_error("Model not loaded");
     }
@@ -285,11 +285,11 @@ std::vector<float> LlamaCppPlugin::generateEmbedding(const std::string& text) {
 
 ### 4. Chat Completion (mit Chat Template)
 
-**Datei:** `src/llm/llamacpp_plugin.cpp`
+**Datei:** `src/llm/llama_wrapper.cpp`
 
 **Zu implementieren:**
 ```cpp
-LLMResponse LlamaCppPlugin::chat(const std::vector<ChatMessage>& messages, 
+LLMResponse LlamaWrapper::chat(const std::vector<ChatMessage>& messages, 
                                   const LLMRequest& request) {
     // 1. Format messages with chat template
     std::string formatted_prompt = formatChatTemplate(messages);
@@ -301,7 +301,7 @@ LLMResponse LlamaCppPlugin::chat(const std::vector<ChatMessage>& messages,
     return generate(modified_request);
 }
 
-std::string LlamaCppPlugin::formatChatTemplate(const std::vector<ChatMessage>& messages) {
+std::string LlamaWrapper::formatChatTemplate(const std::vector<ChatMessage>& messages) {
     // ChatML format (for Mistral, Llama-3, etc.)
     std::ostringstream oss;
     for (const auto& msg : messages) {
@@ -320,15 +320,15 @@ std::string LlamaCppPlugin::formatChatTemplate(const std::vector<ChatMessage>& m
 
 ### 5. Resource Management & Cleanup
 
-**Datei:** `src/llm/llamacpp_plugin.cpp`
+**Datei:** `src/llm/llama_wrapper.cpp`
 
 **Zu implementieren:**
 ```cpp
-LlamaCppPlugin::~LlamaCppPlugin() {
+LlamaWrapper::~LlamaWrapper() {
     unloadModel();
 }
 
-void LlamaCppPlugin::unloadModel() {
+void LlamaWrapper::unloadModel() {
     if (ctx_) {
         llama_free(ctx_);
         ctx_ = nullptr;
@@ -401,29 +401,29 @@ InferenceResult LlamaCppInferenceEngine::generateCompletion(const InferenceReque
 
 ### Unit Tests
 
-**Neue Datei:** `tests/test_llamacpp_plugin_real.cpp`
+**Neue Datei:** `tests/test_llama_wrapper_real.cpp`
 
 ```cpp
 #include <gtest/gtest.h>
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 
-class LlamaCppPluginRealTest : public ::testing::Test {
+class LlamaWrapperRealTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        plugin_ = std::make_unique<LlamaCppPlugin>();
+        plugin_ = std::make_unique<LlamaWrapper>();
         // Use small test model (e.g., TinyLlama-1.1B)
         model_path_ = "/models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf";
     }
     
-    std::unique_ptr<LlamaCppPlugin> plugin_;
+    std::unique_ptr<LlamaWrapper> plugin_;
     std::string model_path_;
 };
 
-TEST_F(LlamaCppPluginRealTest, LoadModel) {
+TEST_F(LlamaWrapperRealTest, LoadModel) {
     ASSERT_TRUE(plugin_->loadModel(model_path_));
 }
 
-TEST_F(LlamaCppPluginRealTest, GenerateSimple) {
+TEST_F(LlamaWrapperRealTest, GenerateSimple) {
     ASSERT_TRUE(plugin_->loadModel(model_path_));
     
     LLMRequest request;
@@ -442,7 +442,7 @@ TEST_F(LlamaCppPluginRealTest, GenerateSimple) {
     EXPECT_EQ(response.text.find("[Generated response placeholder"), std::string::npos);
 }
 
-TEST_F(LlamaCppPluginRealTest, GenerateEmbedding) {
+TEST_F(LlamaWrapperRealTest, GenerateEmbedding) {
     ASSERT_TRUE(plugin_->loadModel(model_path_));
     
     auto embedding = plugin_->generateEmbedding("Hello world");
@@ -456,7 +456,7 @@ TEST_F(LlamaCppPluginRealTest, GenerateEmbedding) {
     EXPECT_NEAR(std::sqrt(norm), 1.0f, 0.01f);
 }
 
-TEST_F(LlamaCppPluginRealTest, ChatCompletion) {
+TEST_F(LlamaWrapperRealTest, ChatCompletion) {
     ASSERT_TRUE(plugin_->loadModel(model_path_));
     
     std::vector<ChatMessage> messages = {

@@ -27,7 +27,7 @@
 ## 🚨 KRITISCH (P0) - Sofort
 
 ### 1. LLaMA.cpp Plugin Real-Implementation
-**Datei:** `src/llm/llamacpp_plugin.cpp`
+**Datei:** `src/llm/llama_wrapper.cpp`
 
 **Problem:**
 ```cpp

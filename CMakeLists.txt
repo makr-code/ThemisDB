@@ -1366,7 +1366,7 @@ endif()
 if(THEMIS_ENABLE_LLM)
     # Add LLM plugin source files
     target_sources(themis_core PRIVATE
-        src/llm/llamacpp_plugin.cpp
+        src/llm/llama_wrapper.cpp
         src/llm/llm_plugin_manager.cpp
         src/llm/model_loader.cpp          # Ollama-style lazy loading
         src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA

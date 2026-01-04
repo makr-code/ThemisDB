@@ -18,7 +18,7 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 **Implementiert in v1.3.0:**
 - 🧠 **Embedded llama.cpp** – Native LLM-Inferenz ohne externe APIs (optional)
 - ⚡ **GPU-Beschleunigung** (CUDA/Metal/Vulkan) für hohe Durchsätze
-- 🧩 **Plugin-Architektur** mit `LlamaCppPlugin`
+- 🧩 **Plugin-Architektur** mit `LlamaWrapper`
 - 🗃️ **Lazy Model Loading** (Ollama‑Style)
 - 🔀 **Multi‑LoRA Management** (vLLM‑Style)
 

@@ -25,7 +25,7 @@ ThemisDB's plugin-based LLM architecture enables:
 ```
 ILLMPlugin (llm/llm_plugin_interface.h)
     ↓
-LlamaCppPlugin (reference implementation)
+LlamaWrapper (reference implementation)
     ↓
 Your Custom Plugin
 ```
@@ -34,7 +34,7 @@ Your Custom Plugin
 
 1. **ILLMPlugin** - Base interface all plugins must implement
 2. **LLMPluginManager** - Coordinates multiple LLM backends
-3. **LlamaCppPlugin** - Reference implementation using llama.cpp
+3. **LlamaWrapper** - Reference implementation using llama.cpp
 4. **LLMPluginAdapter** - Bridges to ThemisDB's unified plugin system
 
 ---
@@ -558,7 +558,7 @@ TEST(MyLLMPluginTest, BasicInference) {
 ## 📖 Examples
 
 See:
-- **Reference Implementation:** `src/llm/llamacpp_plugin.cpp`
+- **Reference Implementation:** `src/llm/llama_wrapper.cpp`
 - **Architecture Design:** `docs/llm/AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md`
 - **LLM Integration Guide:** `docs/llm/NATIVE_LLM_INTEGRATION_CONCEPT.md`
 

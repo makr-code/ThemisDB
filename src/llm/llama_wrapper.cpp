@@ -1,4 +1,4 @@
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <sstream>
@@ -8,7 +8,7 @@
 namespace themis {
 namespace llm {
 
-LlamaCppPlugin::LlamaCppPlugin(const Config& config)
+LlamaWrapper::LlamaWrapper(const Config& config)
     : config_(config) {
     
     // Initialize lazy model loader (Ollama-style)
@@ -17,14 +17,14 @@ LlamaCppPlugin::LlamaCppPlugin(const Config& config)
     // Initialize multi-LoRA manager (vLLM-style)
     lora_manager_ = std::make_unique<MultiLoRAManager>(config_.multi_lora_config);
     
-    spdlog::info("LlamaCppPlugin initialized:");
+    spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
 }
 
-LlamaCppPlugin::~LlamaCppPlugin() {
+LlamaWrapper::~LlamaWrapper() {
     unloadModel();
 }
 
@@ -32,7 +32,7 @@ LlamaCppPlugin::~LlamaCppPlugin() {
 // Model Management
 // ═══════════════════════════════════════════════════════════
 
-bool LlamaCppPlugin::loadModel(
+bool LlamaWrapper::loadModel(
     const std::string& model_path,
     const json& config
 ) {
@@ -70,7 +70,7 @@ bool LlamaCppPlugin::loadModel(
     return true;
 }
 
-void LlamaCppPlugin::unloadModel() {
+void LlamaWrapper::unloadModel() {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
@@ -88,7 +88,7 @@ void LlamaCppPlugin::unloadModel() {
     spdlog::info("Model unloaded");
 }
 
-std::optional<ModelInfo> LlamaCppPlugin::getModelInfo() const {
+std::optional<ModelInfo> LlamaWrapper::getModelInfo() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
@@ -98,7 +98,7 @@ std::optional<ModelInfo> LlamaCppPlugin::getModelInfo() const {
     return model_loader_->getModelInfo(current_model_id_);
 }
 
-bool LlamaCppPlugin::isModelLoaded() const {
+bool LlamaWrapper::isModelLoaded() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return !current_model_id_.empty() && 
            model_loader_->isModelLoaded(current_model_id_);
@@ -108,7 +108,7 @@ bool LlamaCppPlugin::isModelLoaded() const {
 // LoRA Management
 // ═══════════════════════════════════════════════════════════
 
-bool LlamaCppPlugin::loadLoRA(
+bool LlamaWrapper::loadLoRA(
     const std::string& lora_id,
     const std::string& lora_path,
     float scale
@@ -126,12 +126,12 @@ bool LlamaCppPlugin::loadLoRA(
     return lora_manager_->loadLoRA(lora_id, lora_path, current_model_id_, scale);
 }
 
-bool LlamaCppPlugin::unloadLoRA(const std::string& lora_id) {
+bool LlamaWrapper::unloadLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     return lora_manager_->unloadLoRA(lora_id);
 }
 
-std::vector<LoRAInfo> LlamaCppPlugin::listLoRAs() const {
+std::vector<LoRAInfo> LlamaWrapper::listLoRAs() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return lora_manager_->listLoRAs();
 }
@@ -140,7 +140,7 @@ std::vector<LoRAInfo> LlamaCppPlugin::listLoRAs() const {
 // Inference
 // ═══════════════════════════════════════════════════════════
 
-InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
+InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
@@ -167,7 +167,7 @@ InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
     // For testing with stub models, allow nullptr handles
     // In production with real llama.cpp, these would be non-null
     if (!lmodel || !lctx) {
-        spdlog::warn("LlamaCppPlugin: Model/context handle is null, using stub response");
+        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
         // Fallback to stub for compatibility
         std::string output = "[Generated response placeholder for: " + request.prompt + "]";
         InferenceResponse response;
@@ -266,7 +266,7 @@ InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
     }
 }
 
-InferenceResponse LlamaCppPlugin::generateRAG(
+InferenceResponse LlamaWrapper::generateRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
 ) {
@@ -298,7 +298,7 @@ InferenceResponse LlamaCppPlugin::generateRAG(
     return response;
 }
 
-std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
+std::vector<float> LlamaWrapper::embed(const std::string& text) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
@@ -321,7 +321,7 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
     
     // Fallback to dummy embedding if handles are null
     if (!lmodel || !lctx) {
-        spdlog::warn("LlamaCppPlugin: Model/context handle is null for embeddings, returning dummy vector");
+        spdlog::warn("LlamaWrapper: Model/context handle is null for embeddings, returning dummy vector");
         return std::vector<float>(768, 0.0f);
     }
     
@@ -375,7 +375,7 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
 // Capabilities
 // ═══════════════════════════════════════════════════════════
 
-LLMCapabilities LlamaCppPlugin::getCapabilities() const {
+LLMCapabilities LlamaWrapper::getCapabilities() const {
     LLMCapabilities caps;
     
     caps.supports_instruct = true;
@@ -397,7 +397,7 @@ LLMCapabilities LlamaCppPlugin::getCapabilities() const {
     return caps;
 }
 
-json LlamaCppPlugin::getMemoryStats() const {
+json LlamaWrapper::getMemoryStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
@@ -421,7 +421,7 @@ json LlamaCppPlugin::getMemoryStats() const {
     return stats;
 }
 
-json LlamaCppPlugin::getPerformanceStats() const {
+json LlamaWrapper::getPerformanceStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
     json stats;
@@ -446,7 +446,7 @@ json LlamaCppPlugin::getPerformanceStats() const {
 // Distributed Features
 // ═══════════════════════════════════════════════════════════
 
-std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& lora_id) {
+std::vector<uint8_t> LlamaWrapper::exportLoRA(const std::string& lora_id) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     spdlog::info("Exporting LoRA for cross-shard transfer: {}", lora_id);
@@ -455,7 +455,7 @@ std::vector<uint8_t> LlamaCppPlugin::exportLoRA(const std::string& lora_id) {
     return lora_manager_->exportLoRA(lora_id);
 }
 
-bool LlamaCppPlugin::importLoRA(
+bool LlamaWrapper::importLoRA(
     const std::string& lora_id,
     const std::vector<uint8_t>& data
 ) {
@@ -477,7 +477,7 @@ bool LlamaCppPlugin::importLoRA(
 // Helper Methods
 // ═══════════════════════════════════════════════════════════
 
-std::string LlamaCppPlugin::formatPromptForRAG(
+std::string LlamaWrapper::formatPromptForRAG(
     const RAGContext& rag_context,
     const InferenceRequest& request
 ) {
@@ -504,13 +504,13 @@ std::string LlamaCppPlugin::formatPromptForRAG(
     return oss.str();
 }
 
-void LlamaCppPlugin::updateStatistics(const InferenceResponse& response) {
+void LlamaWrapper::updateStatistics(const InferenceResponse& response) {
     stats_.total_inferences++;
     stats_.total_tokens_generated += response.tokens_generated;
     stats_.total_inference_time_ms += response.inference_time_ms;
 }
 
-std::string LlamaCppPlugin::extractModelId(const std::string& model_path) {
+std::string LlamaWrapper::extractModelId(const std::string& model_path) {
     // Extract filename without extension as model ID
     std::filesystem::path p(model_path);
     return p.stem().string();
@@ -520,7 +520,7 @@ std::string LlamaCppPlugin::extractModelId(const std::string& model_path) {
 // Internal Helper Methods for llama.cpp Integration
 // ═══════════════════════════════════════════════════════════
 
-std::vector<llama_token> LlamaCppPlugin::tokenizeInternal(
+std::vector<llama_token> LlamaWrapper::tokenizeInternal(
     llama_model* model, 
     const std::string& text, 
     bool add_bos
@@ -569,7 +569,7 @@ std::vector<llama_token> LlamaCppPlugin::tokenizeInternal(
     return tokens;
 }
 
-std::string LlamaCppPlugin::detokenizeInternal(
+std::string LlamaWrapper::detokenizeInternal(
     llama_context* ctx,
     const std::vector<llama_token>& tokens
 ) {
@@ -597,7 +597,7 @@ std::string LlamaCppPlugin::detokenizeInternal(
     return result;
 }
 
-llama_token LlamaCppPlugin::sampleTokenInternal(
+llama_token LlamaWrapper::sampleTokenInternal(
     llama_context* ctx,
     llama_model* model,
     float* logits,
