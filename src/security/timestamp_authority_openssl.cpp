@@ -15,6 +15,7 @@
 
 #include <chrono>
 #include <cstring>
+#include <ctime>
 #include <sstream>
 #include <iomanip>
 
@@ -60,6 +61,42 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
     if(len < 0) len = 0; out.resize(len);
     BIO_free_all(mem);
     return out;
+}
+
+// Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
+static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
+    if (!gen) return 0;
+    
+    struct tm tm_time = {};
+    // ASN1_GENERALIZEDTIME format: YYYYMMDDHHMMSS[.fff]Z
+    // Example: 20260104120000Z
+    const char* str = (const char*)gen->data;
+    int len = gen->length;
+    
+    if (len < 14) return 0;  // Need at least YYYYMMDDHHMMSS
+    
+    // Parse: YYYYMMDDHHMMSSZ
+    char year[5] = {str[0], str[1], str[2], str[3], 0};
+    char month[3] = {str[4], str[5], 0};
+    char day[3] = {str[6], str[7], 0};
+    char hour[3] = {str[8], str[9], 0};
+    char minute[3] = {str[10], str[11], 0};
+    char second[3] = {str[12], str[13], 0};
+    
+    tm_time.tm_year = atoi(year) - 1900;
+    tm_time.tm_mon = atoi(month) - 1;
+    tm_time.tm_mday = atoi(day);
+    tm_time.tm_hour = atoi(hour);
+    tm_time.tm_min = atoi(minute);
+    tm_time.tm_sec = atoi(second);
+    tm_time.tm_isdst = 0;  // UTC
+    
+    // Convert to Unix timestamp (seconds since epoch)
+    time_t t = timegm(&tm_time);
+    if (t == -1) return 0;
+    
+    // Convert to milliseconds
+    return static_cast<uint64_t>(t) * 1000;
 }
 
 TimestampAuthority::TimestampAuthority(TSAConfig config)
@@ -166,7 +203,11 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
     if(tst){
         ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst);
-        if(gen){ std::string g(reinterpret_cast<char*>(gen->data), gen->length); token.timestamp_utc = g; }
+        if(gen){ 
+            std::string g(reinterpret_cast<char*>(gen->data), gen->length); 
+            token.timestamp_utc = g;
+            token.timestamp_unix_ms = asn1TimeToUnixMs(gen);
+        }
         ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
         if(serial){ BIGNUM* bn = ASN1_INTEGER_to_BN(serial,nullptr); char* hexStr = BN_bn2hex(bn); token.serial_number = hexStr; OPENSSL_free(hexStr); BN_free(bn);}        
         ASN1_OBJECT* policy = TS_TST_INFO_get_policy_id(tst);
