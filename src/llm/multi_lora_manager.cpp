@@ -1,6 +1,7 @@
 #include "llm/multi_lora_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cstring>
 
 namespace themis {
 namespace llm {
