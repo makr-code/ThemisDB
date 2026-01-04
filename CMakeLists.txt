@@ -850,6 +850,8 @@ set(THEMIS_CORE_SOURCES
     src/sharding/replication_coordinator.cpp
     src/sharding/truetime.cpp
     src/sharding/distributed_transaction.cpp
+    src/sharding/redundancy_strategy.cpp
+    src/storage/blob_redundancy_manager.cpp
     src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
@@ -1636,6 +1638,9 @@ if(THEMIS_BUILD_TESTS)
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
+        tests/test_raid_redundancy.cpp
+        tests/test_lora_adapter.cpp
+        tests/test_raid_integration.cpp
         tests/test_stream_protocol_extended.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
@@ -2432,6 +2437,12 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_simple_insert_test.cpp
     )
     target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # RAID and LoRA Adapter Benchmark
+    add_executable(bench_raid_lora
+        benchmarks/bench_raid_lora.cpp
+    )
+    target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
 endif()
 
