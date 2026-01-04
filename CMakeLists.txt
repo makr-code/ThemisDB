@@ -1591,6 +1591,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
         tests/test_raid_redundancy.cpp
+        tests/test_lora_adapter.cpp
         tests/test_stream_protocol_extended.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
@@ -2386,6 +2387,12 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_simple_insert_test.cpp
     )
     target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # RAID and LoRA Adapter Benchmark
+    add_executable(bench_raid_lora
+        benchmarks/bench_raid_lora.cpp
+    )
+    target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
 endif()
 
