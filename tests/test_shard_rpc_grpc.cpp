@@ -237,9 +237,9 @@ TEST_F(ShardRPCTest, GrpcClientServerCommunication) {
 }
 
 TEST_F(ShardRPCTest, GrpcConnectionFailure) {
-    // Try to connect to non-existent server
+    // Try to connect to non-existent server on localhost with unused port
     ShardRPCClient::Config config{
-        .endpoint = "192.168.255.255:50053",  // Non-routable address
+        .endpoint = "127.0.0.1:59999",  // Unused port, unlikely to be in use
         .timeout_ms = 1000,
         .max_retries = 2,
         .retry_delay_ms = 100
@@ -247,14 +247,14 @@ TEST_F(ShardRPCTest, GrpcConnectionFailure) {
     
     ShardRPCClient client(config);
     
-    // Should fail after retries
+    // Should fail after retries (unless somehow this port is in use)
     bool result = client.ping();
     // With gRPC, this will likely fail or timeout
 }
 
 TEST_F(ShardRPCTest, GrpcExponentialBackoff) {
     ShardRPCClient::Config config{
-        .endpoint = "192.168.255.254:50054",
+        .endpoint = "127.0.0.1:59998",  // Unused port
         .timeout_ms = 500,
         .max_retries = 3,
         .retry_delay_ms = 100

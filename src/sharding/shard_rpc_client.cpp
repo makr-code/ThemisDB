@@ -35,9 +35,8 @@ struct ShardRPCClient::Impl {
     
     explicit Impl(const Config& cfg) : config(cfg) {
         // Detect if we should use gRPC or in-process simulation
-        // Use in-process if endpoint contains "localhost" or "127.0.0.1"
-        use_grpc = (config.endpoint.find("localhost") == std::string::npos &&
-                    config.endpoint.find("127.0.0.1") == std::string::npos);
+        // Use in-process if endpoint contains loopback addresses
+        use_grpc = !isLoopbackEndpoint(config.endpoint);
         
 #if THEMIS_HAS_SHARD_GRPC
         if (use_grpc) {
@@ -47,6 +46,17 @@ struct ShardRPCClient::Impl {
         // Force in-process simulation if gRPC is not available
         use_grpc = false;
 #endif
+    }
+    
+    /**
+     * @brief Check if endpoint is a loopback address
+     */
+    bool isLoopbackEndpoint(const std::string& endpoint) {
+        // Check for common loopback addresses and hostnames
+        return (endpoint.find("localhost") != std::string::npos ||
+                endpoint.find("127.0.0.1") != std::string::npos ||
+                endpoint.find("::1") != std::string::npos ||
+                endpoint.find("0.0.0.0") != std::string::npos);
     }
     
 #if THEMIS_HAS_SHARD_GRPC

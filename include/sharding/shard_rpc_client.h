@@ -4,14 +4,6 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
-// Forward declarations for gRPC types
-#ifdef THEMIS_ENABLE_GRPC
-namespace grpc {
-    class ClientContext;
-    enum StatusCode : int;
-}
-#endif
-
 namespace themis::sharding {
 
 /**

@@ -128,7 +128,12 @@ public:
             response->set_uptime_seconds(health_info.uptime_seconds);
         } else {
             response->set_status("healthy");
-            response->set_version("1.3.4");
+            // Use compile-time version string
+#ifdef THEMIS_VERSION_STRING
+            response->set_version(THEMIS_VERSION_STRING);
+#else
+            response->set_version("unknown");
+#endif
             response->set_uptime_seconds(0);
         }
         
