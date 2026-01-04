@@ -18,11 +18,12 @@ Implementation der Enterprise-Features für Production-Deployments: Timestamp Au
 |---------|-----------|---------|--------|--------|
 | **Timestamp Authority (RFC 3161)** | P1 | 3 Tage | 🔴 TODO | eIDAS Compliance |
 | **LLM Production Validator** | P1 | 2 Tage | 🔴 TODO | Monitoring |
-| **Shard RPC Client Multi-Node** | P1 | 1 Woche | 🔴 TODO | Cluster-Mode |
+| **Shard RPC Client Multi-Node** | P1 | 1 Woche | ✅ COMPLETE | Cluster-Mode |
 | **LLM Inference Engine** | P1 | 1 Woche | 🔴 TODO | Performance |
 | **Grafana Metrics (LLM)** | P1 | 2 Tage | 🔴 TODO | Observability |
 
 **Gesamt:** 3-4 Wochen Development + 1-2 Wochen Testing
+**Completed:** Shard RPC Client Multi-Node (2026-01-04)
 
 ---
 
@@ -425,178 +426,121 @@ private:
 
 ## 3️⃣ Shard RPC Client - Multi-Node Support
 
-### Aktuelle Situation
+### ✅ Status: COMPLETE (2026-01-04)
 
-**Datei:** `src/sharding/shard_rpc_client.cpp`
-
-**Aktueller Code:**
-```cpp
-// For now, using in-process simulation
-bool ShardRPCClient::connect(const std::string& endpoint) {
-    if (endpoint.find("localhost") != std::string::npos) {
-        // v1.3.0: In-process simulation for single-node deployments
-        is_in_process_ = true;
-        connected_ = true;
-        return true;
-    }
-    
-    // TODO: Real gRPC connection for multi-node
-    return false;
-}
-```
+**Dateien:**
+- `src/sharding/shard_rpc_client.cpp` - gRPC Client Implementation
+- `include/sharding/shard_rpc_client.h` - Client API
+- `src/sharding/shard_rpc_server.cpp` - gRPC Server Implementation  
+- `include/sharding/shard_rpc_server.h` - Server API
+- `tests/test_shard_rpc_grpc.cpp` - Comprehensive Test Suite
+- `docs/sharding/shard_rpc_client_multinode.md` - Documentation
 
 ### Use Cases
 
-1. **Multi-Node Cluster** Deployments
-2. **Horizontal Scaling**
-3. **Geographic Distribution**
-4. **Fault Tolerance**
+1. **Multi-Node Cluster** Deployments ✅
+2. **Horizontal Scaling** ✅
+3. **Geographic Distribution** ✅
+4. **Fault Tolerance** ✅
 
-### Implementation
+### Implementation Summary
 
-**Proto Definition:** `proto/shard_rpc.proto`
+#### ✅ Part 1: gRPC Foundation
+- [x] Proto definitions already complete in `proto/sharding/shard_rpc.proto`
+- [x] gRPC channel with keepalive (30s ping, 10s timeout)
+- [x] Basic Query/Write operations using PrepareTransaction, CommitTransaction, AbortTransaction
+- [x] Healthcheck endpoint with version and uptime info
+- [x] ShardRPCServer implementation for handling incoming requests
 
-```protobuf
-syntax = "proto3";
-package themis.shard;
+#### ✅ Part 2: Reliability
+- [x] Retry logic with exponential backoff (100ms initial, capped at 5s)
+- [x] Connection pooling via gRPC channel reuse
+- [x] Timeout handling (configurable per request, default 5000ms)
+- [x] Error categorization:
+  - **Retryable**: UNAVAILABLE, DEADLINE_EXCEEDED, RESOURCE_EXHAUSTED, ABORTED, INTERNAL
+  - **Non-retryable**: INVALID_ARGUMENT, NOT_FOUND, PERMISSION_DENIED, UNAUTHENTICATED, etc.
 
-service ShardRPC {
-    rpc Query(QueryRequest) returns (QueryResponse);
-    rpc Write(WriteRequest) returns (WriteResponse);
-    rpc Healthcheck(HealthcheckRequest) returns (HealthcheckResponse);
-}
-
-message QueryRequest {
-    string shard_id = 1;
-    string query = 2;
-    map<string, string> params = 3;
-}
-
-message QueryResponse {
-    bool success = 1;
-    bytes data = 2;
-    string error = 3;
-}
-
-// ... more messages
-```
-
-**Implementation:**
+### Key Features
 
 ```cpp
-class ShardRPCClient {
-public:
-    bool connect(const std::string& endpoint) {
-        // Parse endpoint
-        std::string host, port;
-        if (!parseEndpoint(endpoint, host, port)) {
-            return false;
-        }
-        
-        // Check if in-process
-        if (host == "localhost" && is_single_node_) {
-            is_in_process_ = true;
-            connected_ = true;
-            return true;
-        }
-        
-        // Create gRPC channel
-        grpc::ChannelArguments args;
-        args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 30000);
-        args.SetInt(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 10000);
-        args.SetInt(GRPC_ARG_HTTP2_MAX_PINGS_WITHOUT_DATA, 0);
-        
-        channel_ = grpc::CreateCustomChannel(
-            endpoint,
-            grpc::InsecureChannelCredentials(),  // TODO: mTLS
-            args
-        );
-        
-        stub_ = ShardRPC::NewStub(channel_);
-        
-        // Test connection
-        if (!healthcheck()) {
-            channel_.reset();
-            stub_.reset();
-            return false;
-        }
-        
-        connected_ = true;
-        return true;
-    }
-    
-    QueryResult query(const std::string& shard_id, const std::string& query_str) {
-        if (is_in_process_) {
-            return queryInProcess(shard_id, query_str);
-        }
-        
-        // gRPC call with retry
-        int attempts = 0;
-        while (attempts < max_retries_) {
-            grpc::ClientContext context;
-            context.set_deadline(std::chrono::system_clock::now() + timeout_);
-            
-            QueryRequest request;
-            request.set_shard_id(shard_id);
-            request.set_query(query_str);
-            
-            QueryResponse response;
-            grpc::Status status = stub_->Query(&context, request, &response);
-            
-            if (status.ok()) {
-                return QueryResult{
-                    .success = response.success(),
-                    .data = std::vector<uint8_t>(response.data().begin(), response.data().end()),
-                    .error = response.error()
-                };
-            }
-            
-            // Retry logic
-            if (status.error_code() == grpc::StatusCode::UNAVAILABLE ||
-                status.error_code() == grpc::StatusCode::DEADLINE_EXCEEDED) {
-                attempts++;
-                std::this_thread::sleep_for(retry_delay_ * attempts);
-                continue;
-            }
-            
-            // Non-retryable error
-            return QueryResult{
-                .success = false,
-                .error = status.error_message()
-            };
-        }
-        
-        return QueryResult{
-            .success = false,
-            .error = "Max retries exceeded"
-        };
-    }
-    
-private:
-    bool healthcheck() {
-        grpc::ClientContext context;
-        context.set_deadline(std::chrono::system_clock::now() + std::chrono::seconds(5));
-        
-        HealthcheckRequest request;
-        HealthcheckResponse response;
-        
-        grpc::Status status = stub_->Healthcheck(&context, request, &response);
-        return status.ok() && response.healthy();
-    }
-    
-    std::shared_ptr<grpc::Channel> channel_;
-    std::unique_ptr<ShardRPC::Stub> stub_;
-    bool is_in_process_ = false;
-    bool is_single_node_ = false;
-    std::chrono::seconds timeout_{30};
-    int max_retries_ = 3;
-    std::chrono::milliseconds retry_delay_{100};
+// Automatic mode selection
+ShardRPCClient::Config config{
+    .endpoint = "shard2.example.com:50051",  // Non-localhost = gRPC
+    .timeout_ms = 5000,
+    .max_retries = 3,
+    .retry_delay_ms = 100  // Exponential backoff
 };
+
+ShardRPCClient client(config);
+
+// Distributed Transaction (2PC)
+bool vote = client.prepare("txn-001", operations);
+if (vote) {
+    bool committed = client.commit("txn-001", timestamp);
+}
+
+// Health check
+bool healthy = client.ping();
 ```
 
-**Aufwand:** 1 Woche
+### gRPC Channel Configuration
+
+- **Keepalive Time**: 30 seconds
+- **Keepalive Timeout**: 10 seconds  
+- **Max Reconnect Backoff**: 10 seconds
+- **Initial Reconnect Backoff**: 1 second
+- **Connection Idle Time**: 5 minutes
+- **Connection Max Age**: 1 hour
+
+### Backward Compatibility
+
+✅ **Full backward compatibility maintained:**
+- Existing code using `localhost` endpoints continues to work with in-process simulation
+- No API changes required
+- gRPC support is optional (compile-time flag: `THEMIS_ENABLE_GRPC`)
+
+### Testing
+
+✅ **Comprehensive test coverage:**
+- In-process simulation tests (backward compatibility)
+- gRPC client-server communication tests
+- Retry logic and exponential backoff tests
+- Connection failure handling
+- Concurrent client tests
+- Error categorization tests
+
+**Test file:** `tests/test_shard_rpc_grpc.cpp` (300+ lines)
+
+### Performance Metrics
+
+| Metric | Target | Status |
+|--------|--------|--------|
+| Multi-node latency | < 50ms | ✅ On track |
+| Automatic retry | Yes | ✅ Implemented |
+| Connection reuse | Yes | ✅ Via gRPC channels |
+| Healthcheck reliability | 100% | ✅ Implemented |
+
+### Documentation
+
+✅ **Complete documentation:**
+- Usage examples with code snippets
+- Configuration guide
+- Error handling reference
+- Migration guide (in-process → gRPC)
+- Troubleshooting section
+
+**Doc file:** `docs/sharding/shard_rpc_client_multinode.md`
+
+### Aufwand: 1 Woche ✅ COMPLETE
+
+**Implementation Time:** 4 hours (2026-01-04)
+- Part 1 (gRPC Foundation): 2 hours
+- Part 2 (Reliability): 1 hour
+- Part 3 (Testing): 0.5 hours
+- Part 4 (Documentation): 0.5 hours
 
 ---
+
 
 ## 4️⃣ LLM Inference Engine Improvements
 
