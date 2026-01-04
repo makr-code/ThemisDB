@@ -529,13 +529,16 @@ std::vector<llama_token> LlamaCppPlugin::tokenizeInternal(
         throw std::runtime_error("Model is null");
     }
     
+    // Get vocab from model
+    const llama_vocab* vocab = llama_model_get_vocab(model);
+    
     // Allocate buffer for tokens (estimate: text length + special tokens)
     int32_t n_tokens_max = text.length() + (add_bos ? 1 : 0) + 8;
     std::vector<llama_token> tokens(n_tokens_max);
     
     // Tokenize
     int32_t n_tokens = llama_tokenize(
-        model,
+        vocab,
         text.c_str(),
         text.length(),
         tokens.data(),
@@ -548,7 +551,7 @@ std::vector<llama_token> LlamaCppPlugin::tokenizeInternal(
         // Buffer was too small, resize and try again
         tokens.resize(-n_tokens);
         n_tokens = llama_tokenize(
-            model,
+            vocab,
             text.c_str(),
             text.length(),
             tokens.data(),
@@ -574,13 +577,17 @@ std::string LlamaCppPlugin::detokenizeInternal(
         throw std::runtime_error("Context is null");
     }
     
+    // Get model and vocab from context
+    const llama_model* model = llama_get_model(ctx);
+    const llama_vocab* vocab = llama_model_get_vocab(model);
+    
     std::string result;
     result.reserve(tokens.size() * 4);  // Rough estimate
     
     for (llama_token token : tokens) {
         // Buffer for token piece
         char buf[256];
-        int32_t n = llama_token_to_piece(ctx, token, buf, sizeof(buf), 0, false);
+        int32_t n = llama_token_to_piece(vocab, token, buf, sizeof(buf), 0, false);
         
         if (n > 0 && n < static_cast<int32_t>(sizeof(buf))) {
             result.append(buf, n);
