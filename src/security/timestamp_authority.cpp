@@ -129,6 +129,12 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
         now.time_since_epoch()
     ).count();
     
+    // Check for future timestamps (avoid integer underflow)
+    if (token.timestamp_unix_ms > now_ms) {
+        validation_errors_.push_back("Token timestamp is in the future");
+        return false;
+    }
+    
     // Calculate age in milliseconds
     uint64_t age_ms = now_ms - token.timestamp_unix_ms;
     

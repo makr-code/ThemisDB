@@ -65,34 +65,40 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
 
 // Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
 static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
-    if (!gen) return 0;
+    if (!gen || !gen->data) return 0;
     
+    // Use OpenSSL's built-in conversion which handles all valid ASN.1 formats
     struct tm tm_time = {};
-    // ASN1_GENERALIZEDTIME format: YYYYMMDDHHMMSS[.fff]Z
-    // Example: 20260104120000Z
-    const char* str = (const char*)gen->data;
-    int len = gen->length;
+    if (!ASN1_TIME_to_tm(reinterpret_cast<const ASN1_TIME*>(gen), &tm_time)) {
+        return 0;
+    }
     
-    if (len < 14) return 0;  // Need at least YYYYMMDDHHMMSS
+    // Convert to UTC time_t using portable method
+#ifdef _WIN32
+    time_t t = _mkgmtime(&tm_time);
+#else
+    // For POSIX systems, use timegm if available, otherwise use portable fallback
+    #if defined(__linux__) || defined(__APPLE__)
+        time_t t = timegm(&tm_time);
+    #else
+        // Portable fallback: temporarily set TZ to UTC
+        char* old_tz = getenv("TZ");
+        if (old_tz) {
+            old_tz = strdup(old_tz);
+        }
+        setenv("TZ", "UTC", 1);
+        tzset();
+        time_t t = mktime(&tm_time);
+        if (old_tz) {
+            setenv("TZ", old_tz, 1);
+            free(old_tz);
+        } else {
+            unsetenv("TZ");
+        }
+        tzset();
+    #endif
+#endif
     
-    // Parse: YYYYMMDDHHMMSSZ
-    char year[5] = {str[0], str[1], str[2], str[3], 0};
-    char month[3] = {str[4], str[5], 0};
-    char day[3] = {str[6], str[7], 0};
-    char hour[3] = {str[8], str[9], 0};
-    char minute[3] = {str[10], str[11], 0};
-    char second[3] = {str[12], str[13], 0};
-    
-    tm_time.tm_year = atoi(year) - 1900;
-    tm_time.tm_mon = atoi(month) - 1;
-    tm_time.tm_mday = atoi(day);
-    tm_time.tm_hour = atoi(hour);
-    tm_time.tm_min = atoi(minute);
-    tm_time.tm_sec = atoi(second);
-    tm_time.tm_isdst = 0;  // UTC
-    
-    // Convert to Unix timestamp (seconds since epoch)
-    time_t t = timegm(&tm_time);
     if (t == -1) return 0;
     
     // Convert to milliseconds
@@ -356,6 +362,12 @@ bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_a
     uint64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         now.time_since_epoch()
     ).count();
+    
+    // Check for future timestamps (avoid integer underflow)
+    if (token.timestamp_unix_ms > now_ms) {
+        validation_errors_.push_back("Token timestamp is in the future");
+        return false;
+    }
     
     // Calculate age in milliseconds
     uint64_t age_ms = now_ms - token.timestamp_unix_ms;
