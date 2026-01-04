@@ -234,6 +234,18 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             
             generated_tokens.push_back(next_token);
             
+            // **Streaming support**: Call callback if provided
+            if (request.stream_callback) {
+                try {
+                    // Detokenize this single token for streaming
+                    std::string token_text = detokenizeInternal(lctx, {next_token});
+                    request.stream_callback(token_text);
+                } catch (const std::exception& e) {
+                    spdlog::warn("Streaming callback error: {}", e.what());
+                    // Continue generation even if streaming fails
+                }
+            }
+            
             // Prepare next batch with single token
             llama_batch next_batch = llama_batch_get_one(&next_token, 1);
             
@@ -517,6 +529,143 @@ std::string LlamaWrapper::extractModelId(const std::string& model_path) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// Chat Formatting Methods
+// ═══════════════════════════════════════════════════════════
+
+std::string LlamaWrapper::formatChatMessages(
+    const std::vector<ChatMessage>& messages,
+    ChatFormat format
+) {
+    switch (format) {
+        case ChatFormat::ChatML:
+            return formatChatML(messages);
+        case ChatFormat::Llama2:
+            return formatLlama2(messages);
+        case ChatFormat::Vicuna:
+            return formatVicuna(messages);
+        case ChatFormat::Alpaca:
+            return formatAlpaca(messages);
+        default:
+            return formatChatML(messages);
+    }
+}
+
+std::string LlamaWrapper::formatChatML(const std::vector<ChatMessage>& messages) {
+    // ChatML format used by Mistral, Llama-3, etc.
+    // <|im_start|>system\ncontent<|im_end|>
+    std::ostringstream oss;
+    
+    for (const auto& msg : messages) {
+        oss << "<|im_start|>" << msg.role << "\n";
+        oss << msg.content << "\n";
+        oss << "<|im_end|>\n";
+    }
+    
+    // Add the assistant prompt to trigger response
+    oss << "<|im_start|>assistant\n";
+    
+    return oss.str();
+}
+
+std::string LlamaWrapper::formatLlama2(const std::vector<ChatMessage>& messages) {
+    // Llama-2 chat format
+    // <s>[INST] <<SYS>>\nsystem_message\n<</SYS>>\n\nuser_message [/INST]
+    std::ostringstream oss;
+    
+    bool first_user = true;
+    std::string system_msg;
+    
+    for (const auto& msg : messages) {
+        if (msg.role == "system") {
+            system_msg = msg.content;
+        } else if (msg.role == "user") {
+            if (first_user && !system_msg.empty()) {
+                oss << "<s>[INST] <<SYS>>\n" << system_msg << "\n<</SYS>>\n\n";
+                oss << msg.content << " [/INST]";
+                first_user = false;
+            } else if (first_user) {
+                oss << "<s>[INST] " << msg.content << " [/INST]";
+                first_user = false;
+            } else {
+                oss << " <s>[INST] " << msg.content << " [/INST]";
+            }
+        } else if (msg.role == "assistant") {
+            oss << " " << msg.content << " </s>";
+        }
+    }
+    
+    return oss.str();
+}
+
+std::string LlamaWrapper::formatVicuna(const std::vector<ChatMessage>& messages) {
+    // Vicuna format
+    // A chat between a curious user and an artificial intelligence assistant...
+    // USER: message\nASSISTANT:
+    std::ostringstream oss;
+    
+    // Optional system message
+    bool has_system = false;
+    for (const auto& msg : messages) {
+        if (msg.role == "system") {
+            oss << msg.content << "\n\n";
+            has_system = true;
+            break;
+        }
+    }
+    
+    if (!has_system) {
+        oss << "A chat between a curious user and an artificial intelligence assistant. ";
+        oss << "The assistant gives helpful, detailed, and polite answers to the user's questions.\n\n";
+    }
+    
+    for (const auto& msg : messages) {
+        if (msg.role == "user") {
+            oss << "USER: " << msg.content << "\n";
+        } else if (msg.role == "assistant") {
+            oss << "ASSISTANT: " << msg.content << "\n";
+        }
+    }
+    
+    // Add assistant prompt
+    oss << "ASSISTANT:";
+    
+    return oss.str();
+}
+
+std::string LlamaWrapper::formatAlpaca(const std::vector<ChatMessage>& messages) {
+    // Alpaca format
+    // Below is an instruction... ### Instruction:\nuser_message\n\n### Response:
+    std::ostringstream oss;
+    
+    std::string system_msg = "Below is an instruction that describes a task. "
+                            "Write a response that appropriately completes the request.";
+    
+    // Extract system message if present
+    for (const auto& msg : messages) {
+        if (msg.role == "system") {
+            system_msg = msg.content;
+            break;
+        }
+    }
+    
+    oss << system_msg << "\n\n";
+    
+    // Format conversation
+    for (const auto& msg : messages) {
+        if (msg.role == "user") {
+            oss << "### Instruction:\n" << msg.content << "\n\n";
+        } else if (msg.role == "assistant") {
+            oss << "### Response:\n" << msg.content << "\n\n";
+        }
+    }
+    
+    // Add response prompt
+    oss << "### Response:\n";
+    
+    return oss.str();
+}
+
+// ═══════════════════════════════════════════════════════════
 // Internal Helper Methods for llama.cpp Integration
 // ═══════════════════════════════════════════════════════════
 
@@ -672,6 +821,89 @@ llama_token LlamaWrapper::sampleTokenInternal(
     // Simple greedy sampling from sorted candidates
     // (For production, use llama_sampler for more sophisticated sampling)
     return candidates[0].id;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Output Formatting Helpers (MCP, SSE, AQL)
+// ═══════════════════════════════════════════════════════════
+
+json LlamaWrapper::formatAsMCPResponse(const InferenceResponse& response) {
+    // MCP-compatible response format for Model Context Protocol
+    json mcp_response = {
+        {"type", "completion"},
+        {"completion", {
+            {"text", response.text},
+            {"model", response.model_used},
+            {"tokens_prompt", response.tokens_prompt},
+            {"tokens_generated", response.tokens_generated},
+            {"tokens_per_second", response.tokens_per_second},
+            {"latency_ms", response.latency_ms}
+        }},
+        {"metadata", response.metadata}
+    };
+    
+    if (!response.request_id.empty()) {
+        mcp_response["request_id"] = response.request_id;
+    }
+    
+    if (!response.lora_used.empty()) {
+        mcp_response["completion"]["lora"] = response.lora_used;
+    }
+    
+    return mcp_response;
+}
+
+std::string LlamaWrapper::formatAsSSE(const InferenceResponse& response) {
+    // Server-Sent Events format: "data: {json}\n\n"
+    json sse_data = formatAsMCPResponse(response);
+    return "data: " + sse_data.dump() + "\n\n";
+}
+
+json LlamaWrapper::formatAsJsonMarkdown(const InferenceResponse& response) {
+    // JSON with embedded markdown for rich text display
+    json result = {
+        {"format", "markdown"},
+        {"content", response.text},
+        {"metadata", {
+            {"model", response.model_used},
+            {"tokens", {
+                {"prompt", response.tokens_prompt},
+                {"generated", response.tokens_generated},
+                {"total", response.tokens_prompt + response.tokens_generated}
+            }},
+            {"performance", {
+                {"latency_ms", response.latency_ms},
+                {"tokens_per_second", response.tokens_per_second}
+            }}
+        }}
+    };
+    
+    if (!response.request_id.empty()) {
+        result["request_id"] = response.request_id;
+    }
+    
+    // Add markdown formatting hints
+    result["metadata"]["format_hints"] = {
+        {"supports_code_blocks", true},
+        {"supports_tables", true},
+        {"supports_latex", false}
+    };
+    
+    return result;
+}
+
+std::string LlamaWrapper::formatStreamTokenAsSSE(const std::string& token, const std::string& request_id) {
+    // SSE format for streaming tokens
+    json event = {
+        {"type", "token"},
+        {"token", token}
+    };
+    
+    if (!request_id.empty()) {
+        event["request_id"] = request_id;
+    }
+    
+    return "data: " + event.dump() + "\n\n";
 }
 
 } // namespace llm

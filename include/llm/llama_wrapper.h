@@ -12,6 +12,30 @@ struct llama_model;
 struct llama_context;
 typedef int32_t llama_token;
 
+namespace themis {
+namespace llm {
+
+/**
+ * @brief Chat message structure for multi-turn conversations
+ */
+struct ChatMessage {
+    std::string role;      // "system", "user", "assistant"
+    std::string content;   // Message content
+};
+
+/**
+ * @brief Chat template format options
+ */
+enum class ChatFormat {
+    ChatML,      // ChatML format: <|im_start|>role\ncontent<|im_end|>
+    Llama2,      // Llama-2 format: [INST] content [/INST]
+    Vicuna,      // Vicuna format: USER: content\nASSISTANT:
+    Alpaca       // Alpaca format: ### Instruction:\ncontent\n### Response:
+};
+
+} // namespace llm
+} // namespace themis
+
 /**
  * @file llama_wrapper.h
  * @brief Reference implementation of LLM plugin using llama.cpp backend
@@ -197,6 +221,46 @@ private:
         float temperature,
         float top_p
     );
+    
+    // Chat formatting helpers
+    std::string formatChatMessages(
+        const std::vector<ChatMessage>& messages,
+        ChatFormat format = ChatFormat::ChatML
+    );
+    
+    std::string formatChatML(const std::vector<ChatMessage>& messages);
+    std::string formatLlama2(const std::vector<ChatMessage>& messages);
+    std::string formatVicuna(const std::vector<ChatMessage>& messages);
+    std::string formatAlpaca(const std::vector<ChatMessage>& messages);
+    
+public:
+    // ═══════════════════════════════════════════════════════════
+    // Output Formatting Helpers (MCP, SSE, AQL)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Format response as JSON for MCP protocol
+     * Converts InferenceResponse to MCP-compatible JSON format
+     */
+    static json formatAsMCPResponse(const InferenceResponse& response);
+    
+    /**
+     * @brief Format response as SSE (Server-Sent Events) data
+     * Returns SSE-formatted string: "data: {...}\n\n"
+     */
+    static std::string formatAsSSE(const InferenceResponse& response);
+    
+    /**
+     * @brief Format response as JSON with embedded markdown
+     * Useful for rich text responses with code blocks
+     */
+    static json formatAsJsonMarkdown(const InferenceResponse& response);
+    
+    /**
+     * @brief Format streaming token as SSE event
+     * For real-time token streaming via Server-Sent Events
+     */
+    static std::string formatStreamTokenAsSSE(const std::string& token, const std::string& request_id = "");
 };
 
 } // namespace llm
