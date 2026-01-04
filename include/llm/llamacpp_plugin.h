@@ -7,6 +7,11 @@
 #include <unordered_map>
 #include <memory>
 
+// Forward declarations for llama.cpp types
+struct llama_model;
+struct llama_context;
+typedef int32_t llama_token;
+
 /**
  * @file llamacpp_plugin.h
  * @brief Reference implementation of LLM plugin using llama.cpp backend
@@ -171,6 +176,27 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // Internal llama.cpp helper functions
+    std::vector<llama_token> tokenizeInternal(
+        llama_model* model,
+        const std::string& text,
+        bool add_bos
+    );
+    
+    std::string detokenizeInternal(
+        llama_context* ctx,
+        const std::vector<llama_token>& tokens
+    );
+    
+    llama_token sampleTokenInternal(
+        llama_context* ctx,
+        llama_model* model,
+        float* logits,
+        int32_t n_vocab,
+        float temperature,
+        float top_p
+    );
 };
 
 } // namespace llm
