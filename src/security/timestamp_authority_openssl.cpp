@@ -83,15 +83,25 @@ static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
     #else
         // Portable fallback: temporarily set TZ to UTC
         char* old_tz = getenv("TZ");
+        char* old_tz_copy = nullptr;
         if (old_tz) {
-            old_tz = strdup(old_tz);
+            old_tz_copy = strdup(old_tz);
+            if (!old_tz_copy) {
+                return 0;  // Memory allocation failed
+            }
         }
-        setenv("TZ", "UTC", 1);
+        
+        if (setenv("TZ", "UTC", 1) != 0) {
+            free(old_tz_copy);
+            return 0;  // setenv failed
+        }
         tzset();
         time_t t = mktime(&tm_time);
-        if (old_tz) {
-            setenv("TZ", old_tz, 1);
-            free(old_tz);
+        
+        // Restore original TZ (even if mktime failed)
+        if (old_tz_copy) {
+            setenv("TZ", old_tz_copy, 1);
+            free(old_tz_copy);
         } else {
             unsetenv("TZ");
         }
@@ -300,7 +310,12 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     
     // Validate timestamp token structure
     const unsigned char* p = token.token_der.data();
-    PKCS7* pkcs7 = d2i_PKCS7(nullptr, &p, (long)token.token_der.size());
+    // Safe cast: d2i_PKCS7 expects long, ensure we don't overflow
+    if (token.token_der.size() > static_cast<size_t>(LONG_MAX)) {
+        validation_errors_.push_back("Token size exceeds maximum allowed");
+        return false;
+    }
+    PKCS7* pkcs7 = d2i_PKCS7(nullptr, &p, static_cast<long>(token.token_der.size()));
     if (!pkcs7) {
         validation_errors_.push_back("Failed to parse PKCS7 token");
         return false;
@@ -412,9 +427,19 @@ bool eIDASTimestampValidator::isQualifiedTSA(
         return false;
     }
     
-    char subject_str[256];
-    X509_NAME_oneline(subject, subject_str, sizeof(subject_str));
-    std::string subject_name(subject_str);
+    // Extract subject name using dynamic allocation
+    BIO* name_bio = BIO_new(BIO_s_mem());
+    if (!name_bio) {
+        validation_errors_.push_back("Failed to create BIO for subject name");
+        X509_free(cert);
+        return false;
+    }
+    
+    X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
+    BUF_MEM* name_buf;
+    BIO_get_mem_ptr(name_bio, &name_buf);
+    std::string subject_name(name_buf->data, name_buf->length);
+    BIO_free(name_bio);
     
     X509_free(cert);
     

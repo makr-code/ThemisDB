@@ -155,9 +155,14 @@ bool eIDASTimestampValidator::isQualifiedTSA(
     
     validation_errors_.clear();
     
-    // Stub implementation - no real validation
-    // In production, this would check against EU Trusted List
-    return true;
+    // Stub implementation - default to false for security
+    // Without OpenSSL, we cannot properly validate certificates
+    // In production builds with OpenSSL, proper validation is performed
+    validation_errors_.push_back(
+        "QTSP validation not available in stub implementation - "
+        "rebuild with OpenSSL support (THEMIS_USE_OPENSSL_TSA) for secure validation"
+    );
+    return false;
 }
 
 std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
