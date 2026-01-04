@@ -16,11 +16,36 @@ namespace themis {
 namespace llm {
 
 /**
+ * @brief Chat role enumeration for type-safe message roles
+ */
+enum class ChatRole {
+    System,     // System message (instructions, persona)
+    User,       // User message (query, input)
+    Assistant   // Assistant message (response, output)
+};
+
+/**
  * @brief Chat message structure for multi-turn conversations
  */
 struct ChatMessage {
-    std::string role;      // "system", "user", "assistant"
+    std::string role;      // "system", "user", "assistant" (kept as string for compatibility)
     std::string content;   // Message content
+    
+    // Helper constructor for enum-based creation
+    ChatMessage(ChatRole r, const std::string& c) 
+        : content(c) {
+        switch (r) {
+            case ChatRole::System: role = "system"; break;
+            case ChatRole::User: role = "user"; break;
+            case ChatRole::Assistant: role = "assistant"; break;
+        }
+    }
+    
+    // Default constructor for string-based creation (backwards compatibility)
+    ChatMessage(const std::string& r, const std::string& c)
+        : role(r), content(c) {}
+    
+    ChatMessage() = default;
 };
 
 /**

@@ -182,8 +182,11 @@ json EmbeddedLLM::getStats() const {
 }
 
 void EmbeddedLLM::clearCache() {
-    // TODO: Implement cache clearing if caching is enabled
-    spdlog::info("Cache clearing requested");
+    // Note: Cache clearing implementation depends on caching strategy
+    // Currently no caching is implemented at this layer
+    // Future: Could implement response cache with LRU eviction
+    // or call into model_loader_->clearCache() if caching is at that level
+    spdlog::info("Cache clearing requested (no-op: caching not yet implemented)");
 }
 
 // ═══════════════════════════════════════════════════════════

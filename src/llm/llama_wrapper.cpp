@@ -8,6 +8,10 @@
 namespace themis {
 namespace llm {
 
+// Constants for stub response estimation
+constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
+constexpr int MAX_STUB_TOKENS = 64;
+
 LlamaWrapper::LlamaWrapper(const Config& config)
     : config_(config) {
     
@@ -150,7 +154,7 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     auto start_time = std::chrono::high_resolution_clock::now();
     
     spdlog::debug("Generating response for prompt: {} (max_tokens={})",
-                  request.prompt.substr(0, 50), request.max_tokens);
+                  request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
     
     // Ensure model is loaded (lazy loading trigger)
     auto* cached = model_loader_->getOrLoadModel(
@@ -177,12 +181,14 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         if (request.lora_adapter_id) {
             response.lora_used = *request.lora_adapter_id;
         }
-        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / 4));
-        response.tokens_generated = std::max(1, std::min(request.max_tokens, 64));
+        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
+        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
         auto end_time = std::chrono::high_resolution_clock::now();
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
         response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        response.tokens_per_second = response.tokens_generated / (response.inference_time_ms / 1000.0f);
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
         updateStatistics(response);
         return response;
     }
@@ -235,6 +241,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             generated_tokens.push_back(next_token);
             
             // **Streaming support**: Call callback if provided
+            // Note: Callback is called while holding mutex_. Ensure callback
+            // is non-blocking to avoid performance issues.
             if (request.stream_callback) {
                 try {
                     // Detokenize this single token for streaming
@@ -265,9 +273,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
         response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
         
-        if (response.inference_time_ms > 0) {
-            response.tokens_per_second = response.tokens_generated / (response.inference_time_ms / 1000.0f);
-        }
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
         
         updateStatistics(response);
         return response;
