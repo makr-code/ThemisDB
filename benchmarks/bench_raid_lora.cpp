@@ -52,7 +52,7 @@ public:
 
 std::vector<uint8_t> generateRandomData(size_t size) {
     static std::mt19937 gen(42);
-    static std::uniform_int_distribution<int> dist(0, 255);
+    static std::uniform_int_distribution<unsigned int> dist(0, 255);
     
     std::vector<uint8_t> data(size);
     for (auto& byte : data) {
@@ -309,6 +309,7 @@ BENCHMARK(BM_CompareRAIDModes_1MB)->DenseRange(0, 3);
 // LoRA Adapter Benchmarks
 // ═══════════════════════════════════════════════════════════
 
+#ifdef THEMIS_ENABLE_LLM
 static void BM_LoRA_LoadUnload(benchmark::State& state) {
     MultiLoRAManager::Config config;
     config.max_lora_vram_mb = 2048;
@@ -413,6 +414,7 @@ static void BM_LoRA_SwitchingOverhead(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_LoRA_SwitchingOverhead);
+#endif // THEMIS_ENABLE_LLM
 
 // ═══════════════════════════════════════════════════════════
 // Blob Redundancy Manager Benchmarks
