@@ -237,9 +237,11 @@ TEST_F(ShardRPCTest, GrpcClientServerCommunication) {
 }
 
 TEST_F(ShardRPCTest, GrpcConnectionFailure) {
-    // Try to connect to non-existent server on localhost with unused port
+    // Try to connect to non-existent server on localhost with unused high port
+    // Note: Using a high port number that's unlikely to be in use
+    // This test is designed to fail connection, so exact port doesn't matter
     ShardRPCClient::Config config{
-        .endpoint = "127.0.0.1:59999",  // Unused port, unlikely to be in use
+        .endpoint = "127.0.0.1:59999",
         .timeout_ms = 1000,
         .max_retries = 2,
         .retry_delay_ms = 100
@@ -253,8 +255,9 @@ TEST_F(ShardRPCTest, GrpcConnectionFailure) {
 }
 
 TEST_F(ShardRPCTest, GrpcExponentialBackoff) {
+    // Similar to above, testing exponential backoff with connection failure
     ShardRPCClient::Config config{
-        .endpoint = "127.0.0.1:59998",  // Unused port
+        .endpoint = "127.0.0.1:59998",
         .timeout_ms = 500,
         .max_retries = 3,
         .retry_delay_ms = 100
