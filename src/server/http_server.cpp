@@ -68,6 +68,8 @@
 #include "server/keys_api_handler.h"
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
+#include "sharding/multi_primary_coordinator.h"
+#include "sharding/health_monitor.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -183,6 +185,33 @@ HttpServer::HttpServer(
     std::shared_ptr<sharding::WALManager> wal_manager,
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator
 )
+    : HttpServer(
+        config,
+        std::move(storage),
+        std::move(secondary_index),
+        std::move(graph_index),
+        std::move(vector_index),
+        std::move(tx_manager),
+        std::move(wal_applier),
+        std::move(wal_manager),
+        std::move(replication_coordinator),
+        nullptr,
+        nullptr)
+{}
+
+HttpServer::HttpServer(
+    const Config& config,
+    std::shared_ptr<RocksDBWrapper> storage,
+    std::shared_ptr<SecondaryIndexManager> secondary_index,
+    std::shared_ptr<GraphIndexManager> graph_index,
+    std::shared_ptr<VectorIndexManager> vector_index,
+    std::shared_ptr<TransactionManager> tx_manager,
+    std::shared_ptr<sharding::WALApplier> wal_applier,
+    std::shared_ptr<sharding::WALManager> wal_manager,
+    std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
+    std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator,
+    std::shared_ptr<sharding::HealthMonitor> health_monitor
+)
     : config_(config)
     , storage_(std::move(storage))
     , secondary_index_(std::move(secondary_index))
@@ -192,6 +221,8 @@ HttpServer::HttpServer(
     , wal_applier_(std::move(wal_applier))
     , wal_manager_(std::move(wal_manager))
     , replication_coordinator_(std::move(replication_coordinator))
+    , multi_primary_coordinator_(std::move(multi_primary_coordinator))
+    , health_monitor_(std::move(health_monitor))
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
@@ -5478,6 +5509,11 @@ http::response<http::string_body> HttpServer::handlePutEntity(
 
             if (wal_manager_) {
                 wal_entry.lsn = wal_manager_->append(wal_entry);
+            }
+
+            // Record multi-primary bookkeeping (logical clock/heartbeat)
+            if (multi_primary_coordinator_) {
+                multi_primary_coordinator_->recordWrite(wal_entry.lsn);
             }
 
             auto write_result = replication_coordinator_->waitForReplication(wal_entry.lsn, wc_config);

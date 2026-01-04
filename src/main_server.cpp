@@ -26,6 +26,9 @@
 #include "sharding/wal_shipper.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/replication_coordinator.h"
+#include "sharding/multi_primary_coordinator.h"
+#include "sharding/health_monitor.h"
+#include "sharding/replica_topology.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -485,6 +488,73 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("ReplicationCoordinator created for write concern enforcement");
         }
 
+        // Multi-primary coordination + health monitoring (optional)
+        std::shared_ptr<themis::sharding::MultiPrimaryCoordinator> multi_primary_coordinator;
+        std::shared_ptr<themis::sharding::HealthMonitor> health_monitor;
+
+        if (cfg && cfg->contains("multi_primary")) {
+            const auto& mp_cfg_json = (*cfg)["multi_primary"];
+            bool mp_enabled = mp_cfg_json.value("enabled", false);
+            if (mp_enabled) {
+                themis::sharding::MultiPrimaryConfig mp_cfg;
+                mp_cfg.current_node_id = mp_cfg_json.value("current_node_id", host);
+                mp_cfg.use_last_write_wins = mp_cfg_json.value("use_last_write_wins", true);
+                mp_cfg.allow_concurrent_writes = mp_cfg_json.value("allow_concurrent_writes", true);
+                mp_cfg.cross_primary_replication = mp_cfg_json.value("cross_primary_replication", true);
+                mp_cfg.auto_promote_on_primary_failure = mp_cfg_json.value("auto_promote_on_primary_failure", true);
+                mp_cfg.default_write_concern = themis::sharding::parseWriteConcern(
+                    mp_cfg_json.value("default_write_concern", std::string("MAJORITY"))
+                );
+                mp_cfg.promotion_timeout = std::chrono::milliseconds(
+                    mp_cfg_json.value("promotion_timeout_ms", 5000)
+                );
+
+                if (mp_cfg_json.contains("nodes") && mp_cfg_json["nodes"].is_array()) {
+                    for (const auto& node : mp_cfg_json["nodes"]) {
+                        std::string node_id = node.value("node_id", std::string());
+                        std::string endpoint = node.value("endpoint", std::string());
+                        if (!node_id.empty()) {
+                            mp_cfg.primary_node_ids.push_back(node_id);
+                            if (!endpoint.empty()) {
+                                mp_cfg.primary_endpoints[node_id] = endpoint;
+                            }
+                        }
+                    }
+                }
+
+                multi_primary_coordinator = std::make_shared<themis::sharding::MultiPrimaryCoordinator>(mp_cfg);
+                THEMIS_INFO("MultiPrimaryCoordinator enabled with {} nodes", mp_cfg.primary_node_ids.size());
+
+                // Health monitor (optional)
+                themis::sharding::HealthMonitorConfig hm_cfg;
+                if (cfg->contains("health_monitor")) {
+                    const auto& hm_json = (*cfg)["health_monitor"];
+                    hm_cfg.heartbeat_interval = std::chrono::milliseconds(
+                        hm_json.value("heartbeat_interval_ms", 1000)
+                    );
+                    hm_cfg.health_check_timeout = std::chrono::milliseconds(
+                        hm_json.value("health_check_timeout_ms", 500)
+                    );
+                    hm_cfg.max_consecutive_failures = hm_json.value("max_consecutive_failures", 3u);
+                    hm_cfg.auto_failover_enabled = hm_json.value("auto_failover_enabled", true);
+                    hm_cfg.auto_promote_standby = hm_json.value("auto_promote_standby", true);
+                    hm_cfg.failover_cooldown = std::chrono::milliseconds(
+                        hm_json.value("failover_cooldown_ms", 10000)
+                    );
+                    hm_cfg.health_check_path = hm_json.value("health_check_path", std::string("/health"));
+                }
+
+                // Use an empty replica topology for now (can be populated from config later)
+                auto topology = std::make_shared<themis::sharding::ReplicaTopology>();
+                health_monitor = std::make_shared<themis::sharding::HealthMonitor>(
+                    hm_cfg, multi_primary_coordinator, topology
+                );
+                health_monitor->start();
+                THEMIS_INFO("HealthMonitor started (hb={}ms, timeout={}ms)",
+                    hm_cfg.heartbeat_interval.count(), hm_cfg.health_check_timeout.count());
+            }
+        }
+
         // Create HttpServer with all components
         g_server = std::make_shared<server::HttpServer>(
             server_config,
@@ -495,7 +565,9 @@ int main(int argc, char* argv[]) {
             tx_manager,
             wal_applier,
             wal_manager,
-            replication_coordinator
+            replication_coordinator,
+            multi_primary_coordinator,
+            health_monitor
         );
 
 #ifdef THEMIS_ENABLE_GRPC
