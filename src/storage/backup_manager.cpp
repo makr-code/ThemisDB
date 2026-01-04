@@ -563,8 +563,10 @@ bool BackupManager::verifyRAIDShardsInBackup(const std::string& backup_dir,
     
     // Check if RAID info exists in manifest
     if (!manifest.contains("raid") || !manifest["raid"].contains("total_shards")) {
-        THEMIS_WARN("Manifest missing RAID information for RAID5/6 backup");
-        return true;  // Cannot verify, but don't fail
+        THEMIS_WARN("Manifest missing RAID information for RAID5/6 backup - skipping shard verification");
+        THEMIS_WARN("This may indicate an older backup format without RAID metadata");
+        // Cannot verify without RAID info, but log warning and continue
+        return true;
     }
     
     uint32_t expected_shards = manifest["raid"]["total_shards"];

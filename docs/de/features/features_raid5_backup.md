@@ -187,7 +187,7 @@ services:
   themis-raid5-shard3:
     environment:
       THEMIS_RAID_GROUP: "raid5"
-      SHARD_ID: "raid5-3"
+      THEMIS_SHARD_ID: "raid5-3"
       THEMIS_SHARDS: "themis-raid5-shard1:18765,themis-raid5-shard2:18765,themis-raid5-shard3:18765"
 ```
 

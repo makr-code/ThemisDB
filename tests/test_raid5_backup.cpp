@@ -144,7 +144,11 @@ TEST_F(RAID5BackupTest, ManifestIncludesRAIDInfo) {
     ASSERT_TRUE(manifest_file.is_open());
     
     nlohmann::json manifest;
-    manifest_file >> manifest;
+    try {
+        manifest_file >> manifest;
+    } catch (const std::exception& e) {
+        FAIL() << "Failed to parse manifest JSON: " << e.what();
+    }
     
     // Verify RAID information is present
     ASSERT_TRUE(manifest.contains("raid"));
@@ -250,7 +254,11 @@ TEST_F(RAID5BackupTest, NoRAIDInManifestForStandardBackup) {
     auto manifest_path = fs::path(backup_path) / backups[0] / "MANIFEST.json";
     std::ifstream manifest_file(manifest_path);
     nlohmann::json manifest;
-    manifest_file >> manifest;
+    try {
+        manifest_file >> manifest;
+    } catch (const std::exception& e) {
+        FAIL() << "Failed to parse manifest JSON: " << e.what();
+    }
     
     // Verify RAID mode is NONE
     ASSERT_TRUE(manifest.contains("raid"));
