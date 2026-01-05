@@ -123,6 +123,10 @@ private:
     };
     TransactionState transactionState_ = TransactionState::IDLE;
     
+    // COPY protocol state
+    bool copyInProgress_ = false;
+    std::vector<std::string> copyBuffer_;
+    
     // Prepared statements and portals
     struct PreparedStatement {
         std::string query;
