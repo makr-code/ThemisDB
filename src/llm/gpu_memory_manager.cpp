@@ -3,10 +3,28 @@
 #include <algorithm>
 #include <cstring>
 
-// TODO: Include actual CUDA headers when CUDA support is built
-// #ifdef THEMIS_CUDA_ENABLED
-// #include <cuda_runtime.h>
-// #endif
+// Include actual CUDA headers when CUDA support is built
+#ifdef THEMIS_ENABLE_CUDA
+#include <cuda_runtime.h>
+
+// CUDA error checking macro
+#define CUDA_CHECK(call) \
+    do { \
+        cudaError_t err = call; \
+        if (err != cudaSuccess) { \
+            spdlog::error("CUDA error at {}:{} - {}", __FILE__, __LINE__, cudaGetErrorString(err)); \
+        } \
+    } while(0)
+
+#define CUDA_CHECK_RETURN(call, retval) \
+    do { \
+        cudaError_t err = call; \
+        if (err != cudaSuccess) { \
+            spdlog::error("CUDA error at {}:{} - {}", __FILE__, __LINE__, cudaGetErrorString(err)); \
+            return retval; \
+        } \
+    } while(0)
+#endif
 
 namespace themis {
 namespace llm {
@@ -29,13 +47,28 @@ GPUMemoryManager::~GPUMemoryManager() {
         spdlog::info("Freeing memory for model: {}", model_id);
         for (auto& alloc : allocs) {
             if (alloc.gpu_ptr) {
-                // TODO: cudaFree(alloc.gpu_ptr);
-                std::free(alloc.gpu_ptr);  // Placeholder
+#ifdef THEMIS_ENABLE_CUDA
+                if (gpu_available_) {
+                    cudaSetDevice(alloc.gpu_device_id);
+                    CUDA_CHECK(cudaFree(alloc.gpu_ptr));
+                } else {
+                    std::free(alloc.gpu_ptr);
+                }
+#else
+                std::free(alloc.gpu_ptr);  // Simulation mode
+#endif
             }
             if (alloc.cpu_ptr) {
                 if (alloc.is_pinned) {
-                    // TODO: cudaFreeHost(alloc.cpu_ptr);
-                    std::free(alloc.cpu_ptr);  // Placeholder
+#ifdef THEMIS_ENABLE_CUDA
+                    if (gpu_available_) {
+                        CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
+                    } else {
+                        std::free(alloc.cpu_ptr);
+                    }
+#else
+                    std::free(alloc.cpu_ptr);  // Simulation mode
+#endif
                 } else {
                     std::free(alloc.cpu_ptr);
                 }
@@ -47,44 +80,109 @@ GPUMemoryManager::~GPUMemoryManager() {
 }
 
 void GPUMemoryManager::initializeGPU() {
-    // TODO: When CUDA is available:
-    // cudaError_t err = cudaGetDevice(&gpu_device_id_);
-    // if (err == cudaSuccess) {
-    //     gpu_available_ = true;
-    //     cudaDeviceProp prop;
-    //     cudaGetDeviceProperties(&prop, gpu_device_id_);
-    //     spdlog::info("GPU detected: {} (Compute {}.{})", 
-    //                  prop.name, prop.major, prop.minor);
-    //     spdlog::info("  Total VRAM: {} GB", prop.totalGlobalMem / (1024.0*1024*1024));
-    // } else {
-    //     gpu_available_ = false;
-    //     spdlog::warn("No GPU detected, running in CPU-only mode");
-    // }
+#ifdef THEMIS_ENABLE_CUDA
+    // Try to detect and initialize CUDA GPU
+    int deviceCount = 0;
+    cudaError_t err = cudaGetDeviceCount(&deviceCount);
     
-    // For now, assume GPU is available (simulation mode)
-    gpu_available_ = true;
+    if (err == cudaSuccess && deviceCount > 0) {
+        gpu_available_ = true;
+        
+        // Get current device or use device 0
+        err = cudaGetDevice(&gpu_device_id_);
+        if (err != cudaSuccess) {
+            gpu_device_id_ = 0;
+            CUDA_CHECK(cudaSetDevice(gpu_device_id_));
+        }
+        
+        // Query GPU properties
+        cudaDeviceProp prop;
+        if (cudaGetDeviceProperties(&prop, gpu_device_id_) == cudaSuccess) {
+            spdlog::info("GPU detected: {} (Compute {}.{})", 
+                         prop.name, prop.major, prop.minor);
+            spdlog::info("  Total VRAM: {:.2f} GB", prop.totalGlobalMem / (1024.0*1024*1024));
+            spdlog::info("  Multiprocessors: {}", prop.multiProcessorCount);
+        }
+        
+        // Initialize multi-GPU support (v1.4.0)
+        if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
+            spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
+            available_gpus_ = config_.gpu_devices;
+            
+            for (int gpu_id : config_.gpu_devices) {
+                // Check if GPU exists
+                if (gpu_id >= deviceCount) {
+                    spdlog::warn("GPU {} requested but only {} GPUs available, skipping", gpu_id, deviceCount);
+                    continue;
+                }
+                
+                per_gpu_vram_used_[gpu_id] = 0;
+                gpu_health_status_[gpu_id] = true;
+                spdlog::info("  GPU {} initialized", gpu_id);
+            }
+            
+            // Enable peer access if requested
+            if (config_.enable_peer_access) {
+                spdlog::info("Enabling CUDA peer-to-peer access between GPUs");
+                for (size_t i = 0; i < available_gpus_.size(); ++i) {
+                    for (size_t j = i+1; j < available_gpus_.size(); ++j) {
+                        int src_gpu = available_gpus_[i];
+                        int dst_gpu = available_gpus_[j];
+                        
+                        // Check if peer access is possible
+                        int can_access = 0;
+                        cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+                        if (can_access) {
+                            cudaSetDevice(src_gpu);
+                            cudaError_t p2p_err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
+                            if (p2p_err == cudaSuccess) {
+                                spdlog::info("  P2P enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
+                            } else if (p2p_err != cudaErrorPeerAccessAlreadyEnabled) {
+                                spdlog::warn("  P2P failed: GPU {} -> GPU {}: {}", 
+                                           src_gpu, dst_gpu, cudaGetErrorString(p2p_err));
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            // Single GPU mode
+            available_gpus_.push_back(gpu_device_id_);
+            per_gpu_vram_used_[gpu_device_id_] = 0;
+            gpu_health_status_[gpu_device_id_] = true;
+        }
+        
+        spdlog::info("GPU Memory Manager: Running with real CUDA support");
+        spdlog::info("  Available GPUs: {}", available_gpus_.size());
+    } else {
+        gpu_available_ = false;
+        spdlog::warn("No GPU detected: {}", cudaGetErrorString(err));
+        spdlog::warn("Running in CPU-only mode (simulation)");
+        
+        // Fallback to simulation mode
+        gpu_device_id_ = 0;
+        available_gpus_.push_back(gpu_device_id_);
+        per_gpu_vram_used_[gpu_device_id_] = 0;
+        gpu_health_status_[gpu_device_id_] = true;
+    }
+#else
+    // Simulation mode when CUDA is not enabled at build time
+    gpu_available_ = false;
     gpu_device_id_ = 0;
     
-    // Initialize multi-GPU support (v1.4.0)
+    // Initialize multi-GPU support in simulation mode (v1.4.0)
     if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
-        spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
+        spdlog::info("Initializing multi-GPU support (simulation) with {} GPUs", config_.gpu_devices.size());
         available_gpus_ = config_.gpu_devices;
         
         for (int gpu_id : config_.gpu_devices) {
             per_gpu_vram_used_[gpu_id] = 0;
-            gpu_health_status_[gpu_id] = true;  // Assume healthy initially
-            spdlog::info("  GPU {} initialized", gpu_id);
+            gpu_health_status_[gpu_id] = true;
+            spdlog::info("  GPU {} initialized (simulated)", gpu_id);
         }
         
-        // Enable peer access if requested
         if (config_.enable_peer_access) {
-            spdlog::info("Enabling CUDA peer-to-peer access between GPUs");
-            // TODO: Enable P2P with CUDA
-            // for (size_t i = 0; i < available_gpus_.size(); ++i) {
-            //     for (size_t j = i+1; j < available_gpus_.size(); ++j) {
-            //         enablePeerAccess(available_gpus_[i], available_gpus_[j]);
-            //     }
-            // }
+            spdlog::info("P2P access enabled (simulated)");
         }
     } else {
         // Single GPU mode
@@ -93,14 +191,35 @@ void GPUMemoryManager::initializeGPU() {
         gpu_health_status_[gpu_device_id_] = true;
     }
     
-    spdlog::info("GPU Memory Manager: Running in simulation mode (actual GPU support in CUDA build)");
-    spdlog::info("  Available GPUs: {}", available_gpus_.size());
+    spdlog::info("GPU Memory Manager: Running in simulation mode (CUDA not enabled at build time)");
+    spdlog::info("  Available GPUs: {} (simulated)", available_gpus_.size());
+#endif
 }
 
 void GPUMemoryManager::shutdownGPU() {
+#ifdef THEMIS_ENABLE_CUDA
     if (gpu_available_) {
-        // TODO: cudaDeviceReset();
+        // Disable peer access if it was enabled
+        if (config_.enable_peer_access && available_gpus_.size() > 1) {
+            for (size_t i = 0; i < available_gpus_.size(); ++i) {
+                int src_gpu = available_gpus_[i];
+                cudaSetDevice(src_gpu);
+                for (size_t j = 0; j < available_gpus_.size(); ++j) {
+                    if (i != j) {
+                        int dst_gpu = available_gpus_[j];
+                        cudaDeviceDisablePeerAccess(dst_gpu);
+                    }
+                }
+            }
+        }
+        
+        // Reset all devices
+        for (int gpu_id : available_gpus_) {
+            cudaSetDevice(gpu_id);
+            CUDA_CHECK(cudaDeviceReset());
+        }
     }
+#endif
 }
 
 void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
@@ -114,19 +233,30 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     
     void* ptr = nullptr;
     
-    // TODO: When CUDA is available:
-    // cudaError_t err = cudaMalloc(&ptr, bytes);
-    // if (err != cudaSuccess) {
-    //     spdlog::error("cudaMalloc failed: {}", cudaGetErrorString(err));
-    //     return nullptr;
-    // }
-    
-    // Placeholder: use regular malloc for simulation
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available_) {
+        // Use actual CUDA allocation
+        cudaError_t err = cudaMalloc(&ptr, bytes);
+        if (err != cudaSuccess) {
+            spdlog::error("cudaMalloc failed: {}", cudaGetErrorString(err));
+            return nullptr;
+        }
+    } else {
+        // Fallback to simulation when CUDA is available but no GPU detected
+        ptr = std::malloc(bytes);
+        if (!ptr) {
+            spdlog::error("Failed to allocate {} bytes for model {} (simulation)", bytes, model_id);
+            return nullptr;
+        }
+    }
+#else
+    // Simulation mode: use regular malloc when CUDA is not enabled at build time
     ptr = std::malloc(bytes);
     if (!ptr) {
-        spdlog::error("Failed to allocate {} bytes for model {}", bytes, model_id);
+        spdlog::error("Failed to allocate {} bytes for model {} (simulation)", bytes, model_id);
         return nullptr;
     }
+#endif
     
     // Track allocation
     MemoryAllocation alloc;
@@ -156,22 +286,25 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
     
     void* ptr = nullptr;
     
+#ifdef THEMIS_ENABLE_CUDA
     if (pinned && gpu_available_) {
-        // TODO: When CUDA is available:
-        // cudaError_t err = cudaMallocHost(&ptr, bytes);
-        // if (err != cudaSuccess) {
-        //     spdlog::warn("cudaMallocHost failed, falling back to regular malloc");
-        //     pinned = false;
-        // }
-        
-        // Placeholder
+        // Use CUDA pinned memory for faster transfers
+        cudaError_t err = cudaMallocHost(&ptr, bytes);
+        if (err != cudaSuccess) {
+            spdlog::warn("cudaMallocHost failed: {}, falling back to regular malloc", 
+                        cudaGetErrorString(err));
+            pinned = false;
+            ptr = std::malloc(bytes);
+        }
+    } else {
         ptr = std::malloc(bytes);
         pinned = false;
     }
-    
-    if (!ptr) {
-        ptr = std::malloc(bytes);
-    }
+#else
+    // Simulation mode: always use regular malloc
+    ptr = std::malloc(bytes);
+    pinned = false;
+#endif
     
     if (!ptr) {
         spdlog::error("Failed to allocate {} bytes RAM for model {}", bytes, model_id);
@@ -207,8 +340,16 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
     
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
-            // TODO: cudaFree(ptr);
-            std::free(ptr);
+#ifdef THEMIS_ENABLE_CUDA
+            if (gpu_available_) {
+                cudaSetDevice(alloc_it->gpu_device_id);
+                CUDA_CHECK(cudaFree(ptr));
+            } else {
+                std::free(ptr);
+            }
+#else
+            std::free(ptr);  // Simulation mode
+#endif
             
             total_vram_used_ -= alloc_it->vram_bytes;
             it->second.erase(alloc_it);
@@ -235,8 +376,15 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->cpu_ptr == ptr) {
             if (alloc_it->is_pinned) {
-                // TODO: cudaFreeHost(ptr);
-                std::free(ptr);
+#ifdef THEMIS_ENABLE_CUDA
+                if (gpu_available_) {
+                    CUDA_CHECK(cudaFreeHost(ptr));
+                } else {
+                    std::free(ptr);
+                }
+#else
+                std::free(ptr);  // Simulation mode
+#endif
             } else {
                 std::free(ptr);
             }
@@ -268,14 +416,29 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
     
     for (auto& alloc : it->second) {
         if (alloc.gpu_ptr) {
-            // TODO: cudaFree(alloc.gpu_ptr);
-            std::free(alloc.gpu_ptr);
+#ifdef THEMIS_ENABLE_CUDA
+            if (gpu_available_) {
+                cudaSetDevice(alloc.gpu_device_id);
+                CUDA_CHECK(cudaFree(alloc.gpu_ptr));
+            } else {
+                std::free(alloc.gpu_ptr);
+            }
+#else
+            std::free(alloc.gpu_ptr);  // Simulation mode
+#endif
             freed_vram += alloc.vram_bytes;
         }
         if (alloc.cpu_ptr) {
             if (alloc.is_pinned) {
-                // TODO: cudaFreeHost(alloc.cpu_ptr);
-                std::free(alloc.cpu_ptr);
+#ifdef THEMIS_ENABLE_CUDA
+                if (gpu_available_) {
+                    CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
+                } else {
+                    std::free(alloc.cpu_ptr);
+                }
+#else
+                std::free(alloc.cpu_ptr);  // Simulation mode
+#endif
             } else {
                 std::free(alloc.cpu_ptr);
             }
@@ -516,20 +679,35 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     
     void* ptr = nullptr;
     
-    // TODO: When CUDA is available:
-    // cudaSetDevice(gpu_device_id);
-    // cudaError_t err = cudaMalloc(&ptr, bytes);
-    // if (err != cudaSuccess) {
-    //     spdlog::error("cudaMalloc failed on GPU {}: {}", gpu_device_id, cudaGetErrorString(err));
-    //     return nullptr;
-    // }
-    
-    // Placeholder: use regular malloc for simulation
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available_) {
+        // Set the target GPU device
+        CUDA_CHECK_RETURN(cudaSetDevice(gpu_device_id), nullptr);
+        
+        // Use actual CUDA allocation
+        cudaError_t err = cudaMalloc(&ptr, bytes);
+        if (err != cudaSuccess) {
+            spdlog::error("cudaMalloc failed on GPU {}: {}", gpu_device_id, cudaGetErrorString(err));
+            return nullptr;
+        }
+    } else {
+        // Fallback to simulation
+        ptr = std::malloc(bytes);
+        if (!ptr) {
+            spdlog::error("Failed to allocate {} bytes on GPU {} for model {} (simulation)", 
+                         bytes, gpu_device_id, model_id);
+            return nullptr;
+        }
+    }
+#else
+    // Simulation mode: use regular malloc when CUDA is not enabled at build time
     ptr = std::malloc(bytes);
     if (!ptr) {
-        spdlog::error("Failed to allocate {} bytes on GPU {} for model {}", bytes, gpu_device_id, model_id);
+        spdlog::error("Failed to allocate {} bytes on GPU {} for model {} (simulation)", 
+                     bytes, gpu_device_id, model_id);
         return nullptr;
     }
+#endif
     
     // Track allocation
     MemoryAllocation alloc;
@@ -572,8 +750,16 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         
         if (is_target_gpu || is_cpu_only) {
             if (alloc_it->gpu_ptr && is_target_gpu) {
-                // TODO: cudaSetDevice(gpu_device_id); cudaFree(alloc_it->gpu_ptr);
-                std::free(alloc_it->gpu_ptr);
+#ifdef THEMIS_ENABLE_CUDA
+                if (gpu_available_) {
+                    cudaSetDevice(gpu_device_id);
+                    CUDA_CHECK(cudaFree(alloc_it->gpu_ptr));
+                } else {
+                    std::free(alloc_it->gpu_ptr);
+                }
+#else
+                std::free(alloc_it->gpu_ptr);  // Simulation mode
+#endif
                 freed_vram += alloc_it->vram_bytes;
                 if (per_gpu_vram_used_.find(gpu_device_id) != per_gpu_vram_used_.end()) {
                     per_gpu_vram_used_[gpu_device_id] -= alloc_it->vram_bytes;
@@ -581,8 +767,15 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
             }
             if (alloc_it->cpu_ptr) {
                 if (alloc_it->is_pinned) {
-                    // TODO: cudaFreeHost(alloc_it->cpu_ptr);
-                    std::free(alloc_it->cpu_ptr);
+#ifdef THEMIS_ENABLE_CUDA
+                    if (gpu_available_) {
+                        CUDA_CHECK(cudaFreeHost(alloc_it->cpu_ptr));
+                    } else {
+                        std::free(alloc_it->cpu_ptr);
+                    }
+#else
+                    std::free(alloc_it->cpu_ptr);  // Simulation mode
+#endif
                 } else {
                     std::free(alloc_it->cpu_ptr);
                 }
@@ -643,15 +836,32 @@ bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
         return false;
     }
     
-    // TODO: When CUDA is available:
-    // cudaSetDevice(src_gpu);
-    // cudaError_t err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
-    // if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
-    //     spdlog::error("Failed to enable peer access from GPU {} to {}: {}", 
-    //                   src_gpu, dst_gpu, cudaGetErrorString(err));
-    //     return false;
-    // }
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available_) {
+        // Check if peer access is possible
+        int can_access = 0;
+        CUDA_CHECK_RETURN(cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu), false);
+        
+        if (!can_access) {
+            spdlog::warn("Peer access not supported between GPU {} and GPU {}", src_gpu, dst_gpu);
+            return false;
+        }
+        
+        // Enable peer access
+        CUDA_CHECK_RETURN(cudaSetDevice(src_gpu), false);
+        cudaError_t err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
+        if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
+            spdlog::error("Failed to enable peer access from GPU {} to {}: {}", 
+                          src_gpu, dst_gpu, cudaGetErrorString(err));
+            return false;
+        }
+        
+        spdlog::info("Peer access enabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
+        return true;
+    }
+#endif
     
+    // Simulation mode
     spdlog::info("Peer access enabled: GPU {} -> GPU {} (simulated)", src_gpu, dst_gpu);
     return true;
 }
@@ -663,10 +873,22 @@ bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
         return false;
     }
     
-    // TODO: When CUDA is available:
-    // cudaSetDevice(src_gpu);
-    // cudaDeviceDisablePeerAccess(dst_gpu);
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available_) {
+        CUDA_CHECK_RETURN(cudaSetDevice(src_gpu), false);
+        cudaError_t err = cudaDeviceDisablePeerAccess(dst_gpu);
+        if (err != cudaSuccess && err != cudaErrorPeerAccessNotEnabled) {
+            spdlog::warn("Failed to disable peer access from GPU {} to {}: {}", 
+                        src_gpu, dst_gpu, cudaGetErrorString(err));
+            return false;
+        }
+        
+        spdlog::info("Peer access disabled: GPU {} -> GPU {}", src_gpu, dst_gpu);
+        return true;
+    }
+#endif
     
+    // Simulation mode
     spdlog::info("Peer access disabled: GPU {} -> GPU {} (simulated)", src_gpu, dst_gpu);
     return true;
 }
@@ -682,10 +904,16 @@ bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
         return false;
     }
     
-    // TODO: When CUDA is available:
-    // int can_access = 0;
-    // cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
-    // return can_access != 0;
+#ifdef THEMIS_ENABLE_CUDA
+    if (gpu_available_) {
+        int can_access = 0;
+        cudaError_t err = cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+        if (err != cudaSuccess) {
+            return false;
+        }
+        return can_access != 0;
+    }
+#endif
     
     // Simulation: assume all GPUs can access each other if peer access is enabled
     return true;
