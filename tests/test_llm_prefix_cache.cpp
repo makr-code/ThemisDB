@@ -329,3 +329,49 @@ TEST_F(LLMPrefixCacheTest, TokensSavedStatistics) {
     auto stats = cache.getStatistics();
     EXPECT_EQ(stats.total_tokens_saved, 100);  // 50 tokens × 2 hits
 }
+
+TEST_F(LLMPrefixCacheTest, HNSWIntegrationTest) {
+    // Test that HNSW-based similarity search works correctly
+    LLMPrefixCache cache("test_hnsw", config_);
+    
+    // Add multiple prefixes with different embeddings
+    std::string prefix1 = "You are a helpful assistant specialized in programming.";
+    std::vector<int> tokens1 = {1, 2, 3, 4, 5, 6, 7, 8};
+    std::vector<float> embedding1 = {0.8f, 0.1f, 0.05f, 0.05f};
+    
+    std::string prefix2 = "You are a helpful assistant specialized in mathematics.";
+    std::vector<int> tokens2 = {10, 11, 12, 13, 14, 15, 16};
+    std::vector<float> embedding2 = {0.7f, 0.2f, 0.05f, 0.05f};
+    
+    std::string prefix3 = "Please analyze this document carefully.";
+    std::vector<int> tokens3 = {20, 21, 22, 23, 24};
+    std::vector<float> embedding3 = {0.1f, 0.1f, 0.7f, 0.1f};
+    
+    cache.put(prefix1, tokens1, embedding1);
+    cache.put(prefix2, tokens2, embedding2);
+    cache.put(prefix3, tokens3, embedding3);
+    
+    // Query with embedding similar to prefix1
+    std::vector<float> query_embedding = {0.79f, 0.11f, 0.05f, 0.05f};
+    auto result = cache.get("You are a helpful assistant in coding.", query_embedding);
+    
+    // Should match prefix1 or prefix2 due to high similarity
+    ASSERT_TRUE(result.has_value());
+    // Either prefix1 or prefix2 is acceptable since both are similar
+    bool matched_expected = (result->prefix == prefix1 || result->prefix == prefix2);
+    EXPECT_TRUE(matched_expected);
+    
+    // Query with very different embedding
+    std::vector<float> different_embedding = {0.05f, 0.05f, 0.8f, 0.1f};
+    auto result2 = cache.get("Analyze this document.", different_embedding);
+    
+    // Should match prefix3 due to high similarity
+    ASSERT_TRUE(result2.has_value());
+    EXPECT_EQ(result2->prefix, prefix3);
+    
+    // Verify cache statistics
+    auto stats = cache.getStatistics();
+    EXPECT_EQ(stats.hits, 2);
+    EXPECT_EQ(stats.total_entries, 3);
+    EXPECT_GT(stats.avg_similarity, 0.9);  // Should have high average similarity
+}
