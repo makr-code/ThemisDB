@@ -107,6 +107,23 @@ llm_plugins:
         min_prefix_length: 20       # Minimum prefix length to cache (chars)
         ttl_seconds: 7200           # 2 hours TTL
         enable_kv_caching: true     # Precompute KV cache
+      
+      # Grammar-Constrained Generation (Phase 3.2): Guarantee valid structured output
+      # Forces LLM to generate only tokens that conform to EBNF grammar
+      # Eliminates parsing errors, no retry logic needed
+      grammar_constraints:
+        enabled: false  # Enable for guaranteed structured outputs
+        default_grammar: "json"  # Default built-in grammar
+        custom_grammars_path: "/grammars/"  # Path to custom EBNF files
+        cache_grammars: true  # Cache compiled grammars
+        max_cached_grammars: 100  # Maximum grammars to cache
+        
+        # Built-in grammars available:
+        # - json / json_strict: Strict JSON format
+        # - json_relaxed: JSON with trailing commas, unquoted keys
+        # - xml: Basic XML with elements and attributes
+        # - csv: CSV format with quoted/unquoted fields
+        # - react_agent: ReAct agent format (thought/action/observation)
     
     # Context and processing
     context:
