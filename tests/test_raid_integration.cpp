@@ -17,7 +17,7 @@
 #include <chrono>
 #include <random>
 
-using namespace themisdb::sharding;
+using namespace themis::sharding;
 
 // ═══════════════════════════════════════════════════════════
 // Multi-Shard Test Environment
@@ -199,7 +199,7 @@ TEST_F(RAIDIntegrationTest, RAID1_ConcurrentWritesAndReads) {
     for (int t = 0; t < num_threads; ++t) {
         threads.emplace_back([&, t]() {
             for (int i = 0; i < ops_per_thread; ++i) {
-                std::string doc_id = "doc-" + std::to_std::string(t * ops_per_thread + i);
+                std::string doc_id = "doc-" + std::to_string(t * ops_per_thread + i);
                 
                 // Give writes time to complete
                 std::this_thread::sleep_for(std::chrono::milliseconds(10));

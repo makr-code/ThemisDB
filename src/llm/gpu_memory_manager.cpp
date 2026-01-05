@@ -47,6 +47,12 @@ GPUMemoryManager::~GPUMemoryManager() {
 }
 
 void GPUMemoryManager::initializeGPU() {
+    spdlog::warn("⚠️  GPUMemoryManager: Running in SIMULATION mode!");
+    spdlog::warn("    - No actual CUDA support");
+    spdlog::warn("    - Using regular malloc instead of GPU memory");
+    spdlog::warn("    - All GPU claims are simulated");
+    spdlog::warn("    - See .github/issues/04-implement-gpu-memory-manager.md");
+    
     // TODO: When CUDA is available:
     // cudaError_t err = cudaGetDevice(&gpu_device_id_);
     // if (err == cudaSuccess) {
