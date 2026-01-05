@@ -5,6 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <sstream>
+#include <fstream>
 #include <filesystem>
 #include <llama.h>
 
@@ -95,6 +96,21 @@ LlamaWrapper::LlamaWrapper(const Config& config)
                      config_.response_cache_config.similarity_threshold);
     }
     
+    // Initialize grammar cache (Phase 3.2)
+    if (config_.grammar_config.enabled) {
+        GrammarCache::Config grammar_cache_config;
+        grammar_cache_config.max_cached_grammars = config_.grammar_config.max_cached_grammars;
+        grammar_cache_config.enabled = config_.grammar_config.cache_grammars;
+        grammar_cache_ = std::make_unique<GrammarCache>(grammar_cache_config);
+        
+        // Load built-in grammars
+        initializeBuiltinGrammars();
+        
+        spdlog::info("Grammar-constrained generation enabled (cache: {}, max_cached: {})",
+                     config_.grammar_config.cache_grammars,
+                     config_.grammar_config.max_cached_grammars);
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -102,6 +118,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
+    spdlog::info("  Grammar constraints: {}", config_.grammar_config.enabled ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
@@ -1686,6 +1703,112 @@ std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerSt
     }
     
     return batch_scheduler_->getStats();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Grammar-Constrained Generation (Phase 3.2)
+// ═══════════════════════════════════════════════════════════
+
+void LlamaWrapper::initializeBuiltinGrammars() {
+    // Load built-in grammar files from src/llm/grammars/
+    // These are embedded at compile time
+    
+    // For now, we'll load them from filesystem
+    // In production, these could be embedded as string literals
+    
+    const std::string grammars_path = "src/llm/grammars/";
+    
+    builtin_grammars_["json"] = loadGrammarFile(grammars_path + "json_strict.gbnf");
+    builtin_grammars_["json_strict"] = builtin_grammars_["json"];
+    builtin_grammars_["json_relaxed"] = loadGrammarFile(grammars_path + "json_relaxed.gbnf");
+    builtin_grammars_["xml"] = loadGrammarFile(grammars_path + "xml.gbnf");
+    builtin_grammars_["csv"] = loadGrammarFile(grammars_path + "csv.gbnf");
+    builtin_grammars_["react_agent"] = loadGrammarFile(grammars_path + "react_agent.gbnf");
+    
+    spdlog::debug("Loaded {} built-in grammars", builtin_grammars_.size());
+}
+
+std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
+    try {
+        std::ifstream file(grammar_path);
+        if (!file.is_open()) {
+            spdlog::warn("Failed to open grammar file: {}", grammar_path);
+            return "";
+        }
+        
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception loading grammar file {}: {}", grammar_path, e.what());
+        return "";
+    }
+}
+
+std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest& request) {
+    // Check if grammar is requested
+    if (!request.grammar_type.has_value() && !request.grammar_ebnf.has_value()) {
+        return nullptr;
+    }
+    
+    if (!config_.grammar_config.enabled) {
+        spdlog::warn("Grammar requested but grammar support is disabled in config");
+        return nullptr;
+    }
+    
+    std::string grammar_key;
+    std::string ebnf_text;
+    
+    // Custom EBNF grammar takes precedence
+    if (request.grammar_ebnf.has_value()) {
+        ebnf_text = request.grammar_ebnf.value();
+        grammar_key = "custom_" + std::to_string(std::hash<std::string>{}(ebnf_text));
+    }
+    // Built-in grammar
+    else if (request.grammar_type.has_value()) {
+        std::string grammar_name = request.grammar_type.value();
+        grammar_key = grammar_name;
+        
+        // Check if built-in grammar exists
+        auto it = builtin_grammars_.find(grammar_name);
+        if (it != builtin_grammars_.end()) {
+            ebnf_text = it->second;
+        } else {
+            spdlog::error("Unknown built-in grammar: {}", grammar_name);
+            return nullptr;
+        }
+    }
+    
+    if (ebnf_text.empty()) {
+        spdlog::error("Empty grammar EBNF text");
+        return nullptr;
+    }
+    
+    // Check cache first
+    if (grammar_cache_ && config_.grammar_config.cache_grammars) {
+        auto cached = grammar_cache_->get(grammar_key);
+        if (cached && cached->isValid()) {
+            spdlog::debug("Using cached grammar: {}", grammar_key);
+            return cached;
+        }
+    }
+    
+    // Create new grammar
+    spdlog::debug("Compiling grammar: {}", grammar_key);
+    auto grammar = std::make_shared<Grammar>(ebnf_text, "root");
+    
+    if (!grammar->isValid()) {
+        spdlog::error("Failed to compile grammar {}: {}", grammar_key, grammar->getError());
+        return nullptr;
+    }
+    
+    // Cache for future use
+    if (grammar_cache_ && config_.grammar_config.cache_grammars) {
+        grammar_cache_->put(grammar_key, grammar);
+    }
+    
+    return grammar;
 }
 
 } // namespace llm

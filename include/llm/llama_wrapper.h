@@ -8,6 +8,8 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/grafana_metrics.h"
 #include "llm/llm_response_cache.h"
+#include "llm/grammar.h"
+#include "llm/grammar_cache.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -151,6 +153,16 @@ public:
         // Response cache (optional)
         bool enable_response_cache = true;
         LLMResponseCache::Config response_cache_config;
+        
+        // Grammar-Constrained Generation (Phase 3.2)
+        struct GrammarConfig {
+            bool enabled = false;
+            std::string default_grammar = "json";      // Default built-in grammar
+            std::string custom_grammars_path = "/grammars/";  // Path to custom grammar files
+            bool cache_grammars = true;                 // Enable grammar caching
+            size_t max_cached_grammars = 100;          // Max grammars to cache
+        };
+        GrammarConfig grammar_config;
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -333,6 +345,10 @@ private:
     // Response cache for frequent queries
     std::unique_ptr<LLMResponseCache> response_cache_;
     
+    // Grammar-Constrained Generation (Phase 3.2)
+    std::unique_ptr<GrammarCache> grammar_cache_;
+    std::unordered_map<std::string, std::string> builtin_grammars_;  // name -> ebnf text
+    
     // Current active model
     std::string current_model_id_;
     std::string current_model_path_;
@@ -362,6 +378,11 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // Grammar-related helpers (Phase 3.2)
+    void initializeBuiltinGrammars();
+    std::shared_ptr<Grammar> getOrCreateGrammar(const InferenceRequest& request);
+    std::string loadGrammarFile(const std::string& grammar_name);
     
     // Speculative Decoding helpers
     bool loadDraftModel(const std::string& draft_path);
