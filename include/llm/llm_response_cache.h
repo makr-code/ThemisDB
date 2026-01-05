@@ -43,6 +43,12 @@ namespace llm {
  * - Uses pointer exchange pattern with ThemisDB's VectorIndexManager
  * - Leverages existing HNSW infrastructure for efficient ANN search
  * - No duplication of vector index functionality
+ * 
+ * Note on Embeddings:
+ * - Current implementation uses feature-based embeddings (n-grams + words) as placeholder
+ * - For production deployment with actual LLM models, integrate with embedding model
+ *   (e.g., via LlamaWrapper::embed or external embedding service)
+ * - Feature-based embeddings provide basic similarity but lack deep semantic understanding
  */
 class LLMResponseCache {
 public:

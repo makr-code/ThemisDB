@@ -94,8 +94,9 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
         entity.setField("embedding", Value{embedding});
         entity.setField("response_text", Value{response.text});
         entity.setField("tokens_generated", Value{static_cast<int64_t>(response.tokens_generated)});
-        entity.setField("inference_time_ms", Value{static_cast<int64_t>(response.inference_time_ms)});
+        entity.setField("inference_time_ms", Value{static_cast<double>(response.inference_time_ms)});
         entity.setField("model_id", Value{response.model_id});
+        entity.setField("model_used", Value{response.model_used});
         
         auto status = vector_index_->addEntity(entity, "embedding");
         if (!status.ok) {
@@ -241,6 +242,10 @@ size_t LLMResponseCache::invalidate(const std::string& pattern) {
         
         for (auto it = response_store_.begin(); it != response_store_.end(); ) {
             if (std::regex_search(it->second.prompt, regex_pattern)) {
+                // Remove from vector index as well
+                if (vector_index_) {
+                    vector_index_->removeByPk(it->first);
+                }
                 it = response_store_.erase(it);
                 count++;
             } else {
@@ -292,8 +297,8 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
     }
     
     // Generate a simple feature-based embedding using text characteristics
-    // This provides basic semantic similarity without requiring a full LLM model
-    // For production with actual LLM models, this should be replaced with model.embed()
+    // NOTE: This is a placeholder for production LLM embedding models
+    // For real semantic similarity, integrate with actual embedding model (e.g., via LlamaWrapper::embed)
     std::vector<float> embedding(config_.embedding_dim, 0.0f);
     
     // Extract features from the prompt
@@ -302,6 +307,9 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
     for (char c : prompt) {
         lower_prompt += std::tolower(c);
     }
+    
+    // Reusable hasher to avoid repeated construction
+    std::hash<std::string> hasher;
     
     // Feature 1: Character n-grams (trigrams)
     std::unordered_map<std::string, int> trigrams;
@@ -329,17 +337,13 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
         words[word]++;
     }
     
-    // Distribute features across embedding dimensions
-    size_t dim_idx = 0;
-    
-    // Encode trigrams
+    // Encode trigrams into embedding
     for (const auto& [trigram, count] : trigrams) {
-        std::hash<std::string> hasher;
         size_t hash = hasher(trigram);
         size_t idx = hash % config_.embedding_dim;
         embedding[idx] += static_cast<float>(count);
         
-        // Also add to neighboring dimensions for better distribution
+        // Add to neighboring dimensions for better distribution
         if (idx > 0) {
             embedding[idx - 1] += static_cast<float>(count) * 0.5f;
         }
@@ -348,11 +352,11 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
         }
     }
     
-    // Encode words
+    // Encode words into embedding (using different hash offset for distribution)
     for (const auto& [word_str, count] : words) {
-        std::hash<std::string> hasher;
         size_t hash = hasher(word_str);
-        size_t idx = (hash >> 8) % config_.embedding_dim;  // Different hash offset
+        // Use XOR with constant to get different distribution than trigrams
+        size_t idx = (hash ^ 0x9e3779b9) % config_.embedding_dim;
         embedding[idx] += static_cast<float>(count) * 2.0f;  // Weight words higher
         
         // Add to neighbors
