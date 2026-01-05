@@ -8,6 +8,10 @@
 
 using namespace themis::llm::kernels;
 
+// Test constants
+constexpr float TENSOR_EPSILON = 1e-4f;
+constexpr float ATTENTION_SUM_TOLERANCE = 0.01f;
+
 class KernelFusionTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -19,7 +23,7 @@ protected:
     }
     
     // Helper to verify tensors are close
-    bool areClose(const std::vector<float>& a, const std::vector<float>& b, float eps = 1e-4f) {
+    bool areClose(const std::vector<float>& a, const std::vector<float>& b, float eps = TENSOR_EPSILON) {
         if (a.size() != b.size()) return false;
         for (size_t i = 0; i < a.size(); ++i) {
             if (std::abs(a[i] - b[i]) > eps) return false;
@@ -309,7 +313,7 @@ TEST_F(KernelFusionTest, FusedSoftmaxDropoutAttention) {
                         sum += attention_weights[idx];
                     }
                 }
-                EXPECT_NEAR(sum, 1.0f, 0.01f) << "Sum of attention weights should be ~1.0";
+                EXPECT_NEAR(sum, 1.0f, ATTENTION_SUM_TOLERANCE) << "Sum of attention weights should be ~1.0";
             }
         }
     }
