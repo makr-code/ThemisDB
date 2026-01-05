@@ -81,6 +81,9 @@ static std::string base64Decode(const std::string& input) {
     return output;
 }
 
+ShardTopology::ShardTopology()
+    : ShardTopology(Config{"", "", 0, false}) {}
+
 ShardTopology::ShardTopology(const Config& config) 
     : config_(config) {
     // If metadata endpoint is configured, load initial topology

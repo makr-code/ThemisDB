@@ -956,7 +956,7 @@ void RocksDBBlobListener::OnFlushCompleted(
     manager_.registerBlob(
         BlobType::SST_L0,
         info.file_path,
-        info.file_size,
+        static_cast<uint64_t>(info.table_properties.data_size),
         collection_,
         ""
     );

@@ -14,7 +14,7 @@
 #include <future>
 #include <cstring>
 
-namespace themisdb {
+namespace themis {
 namespace sharding {
 
 // ═══════════════════════════════════════════════════════════
@@ -1018,4 +1018,11 @@ void CollectionRedundancyManager::removeCollectionConfig(const std::string& coll
 }
 
 } // namespace sharding
-} // namespace themisdb
+} // namespace themis
+
+// Backward compatibility shim: expose under themisdb::sharding
+namespace themisdb {
+namespace sharding {
+using namespace themis::sharding;
+}
+}

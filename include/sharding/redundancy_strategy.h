@@ -28,8 +28,9 @@
 #include <mutex>
 #include <shared_mutex>
 #include <atomic>
+#include <future>
 
-namespace themisdb {
+namespace themis {
 namespace sharding {
 
 // Forward declarations
@@ -572,4 +573,11 @@ private:
 };
 
 } // namespace sharding
-} // namespace themisdb
+} // namespace themis
+
+// Backward compatibility shim: expose under themisdb::sharding
+namespace themisdb {
+namespace sharding {
+using namespace themis::sharding;
+}
+}

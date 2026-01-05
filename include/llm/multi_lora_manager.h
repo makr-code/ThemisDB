@@ -243,6 +243,9 @@ public:
     };
 
     Stats getStatistics() const;
+
+    // Backward-compat: legacy tests expect getStats()
+    Stats getStats() const { return getStatistics(); }
     
     /**
      * @brief Export LoRA for cross-shard transfer
