@@ -410,7 +410,8 @@ private:
         float* logits,
         int32_t n_vocab,
         float temperature,
-        float top_p
+        float top_p,
+        llama_grammar* grammar = nullptr
     );
     
     // Chat formatting helpers (implementation details)

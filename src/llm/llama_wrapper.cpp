@@ -433,6 +433,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
+        // Grammar-constrained generation (Phase 3.2)
+        std::shared_ptr<Grammar> grammar = getOrCreateGrammar(request);
+        if (grammar && grammar->isValid()) {
+            spdlog::debug("Using grammar-constrained generation");
+        }
+        
         // Get vocab for EOS detection and token count
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
@@ -446,8 +452,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
             
-            // Sample next token
-            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
+            // Sample next token with optional grammar constraint (Phase 3.2)
+            llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;
+            llama_token next_token = sampleTokenInternal(
+                lctx, lmodel, logits, n_vocab, temperature, top_p, grammar_handle
+            );
             
             // Check for end of sequence (EOS token)
             if (next_token == eos_token) {
@@ -1012,7 +1021,8 @@ llama_token LlamaWrapper::sampleTokenInternal(
     float* logits,
     int32_t n_vocab,
     float temperature,
-    float top_p
+    float top_p,
+    llama_grammar* grammar
 ) {
     if (!ctx || !model || !logits) {
         throw std::runtime_error("Invalid parameters for sampling");
@@ -1033,18 +1043,29 @@ llama_token LlamaWrapper::sampleTokenInternal(
         false   // sorted
     };
     
+    // Apply grammar constraint FIRST (Phase 3.2)
+    // This filters candidates to only those valid according to grammar
+    if (grammar != nullptr) {
+        // llama_grammar_sample filters candidates_p in-place
+        // Only valid tokens according to grammar remain
+        llama_grammar_sample(grammar, ctx, &candidates_p);
+        
+        // After grammar filtering, candidates_p.size may be reduced
+        spdlog::debug("Grammar filtered candidates: {} -> {}", n_vocab, candidates_p.size);
+    }
+    
     // Apply temperature sampling
     if (temperature > 0.0f && temperature != 1.0f) {
         // Manually apply temperature to logits
-        for (size_t i = 0; i < candidates.size(); ++i) {
-            candidates[i].logit /= temperature;
+        for (size_t i = 0; i < candidates_p.size; ++i) {
+            candidates_p.data[i].logit /= temperature;
         }
     }
     
     // Apply top-p (nucleus) sampling
     if (top_p < 1.0f && top_p > 0.0f) {
         // Sort by logit (descending)
-        std::sort(candidates.begin(), candidates.end(), 
+        std::sort(candidates.begin(), candidates.begin() + candidates_p.size, 
             [](const llama_token_data& a, const llama_token_data& b) {
                 return a.logit > b.logit;
             });
@@ -1052,14 +1073,14 @@ llama_token LlamaWrapper::sampleTokenInternal(
         // Calculate softmax and cumulative probability
         float max_logit = candidates[0].logit;
         float sum_exp = 0.0f;
-        for (auto& c : candidates) {
-            c.p = std::exp(c.logit - max_logit);
-            sum_exp += c.p;
+        for (size_t i = 0; i < candidates_p.size; ++i) {
+            candidates[i].p = std::exp(candidates[i].logit - max_logit);
+            sum_exp += candidates[i].p;
         }
         
         float cum_prob = 0.0f;
         size_t last_idx = 0;
-        for (size_t i = 0; i < candidates.size(); ++i) {
+        for (size_t i = 0; i < candidates_p.size; ++i) {
             candidates[i].p /= sum_exp;
             cum_prob += candidates[i].p;
             last_idx = i;
@@ -1069,18 +1090,24 @@ llama_token LlamaWrapper::sampleTokenInternal(
         }
         
         // Truncate to top-p
-        candidates.resize(last_idx + 1);
-        candidates_p.size = candidates.size();
+        candidates_p.size = last_idx + 1;
     }
     
     // Sample from remaining candidates
-    if (candidates.empty()) {
+    if (candidates_p.size == 0) {
         return 0;  // Fallback to token 0
     }
     
     // Simple greedy sampling from sorted candidates
     // (For production, use llama_sampler for more sophisticated sampling)
-    return candidates[0].id;
+    llama_token sampled_token = candidates[0].id;
+    
+    // Update grammar state with sampled token (Phase 3.2)
+    if (grammar != nullptr) {
+        llama_grammar_accept(grammar, ctx, sampled_token);
+    }
+    
+    return sampled_token;
 }
 
 // ═══════════════════════════════════════════════════════════
