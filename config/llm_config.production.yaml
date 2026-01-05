@@ -10,8 +10,16 @@ llm:
     use_kv_cache_reuse: true      # Always enabled in production
     enable_embeddings: false      # Separate mode for embeddings
     
+    # Speculative Decoding (Phase 2)
+    use_speculative_decoding: true
+    draft_model_path: "/models/llama-2-1b-q4.gguf"
+    draft_n_gpu_layers: 32         # More GPU layers in production
+    speculative_tokens: 7          # Aggressive speculation
+    acceptance_threshold: 0.75     # Lower threshold for speed
+    enable_draft_kv_cache: true
+    
     # Prefix Cache (aggressive for production)
-    prefix_cache:
+    prefix_cache_config:
       similarity_threshold: 0.98  # Stricter for production
       max_entries: 5000           # More entries
       min_prefix_length: 10       # Cache shorter prefixes

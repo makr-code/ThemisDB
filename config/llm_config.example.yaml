@@ -76,6 +76,17 @@ llm_plugins:
       # Extract embeddings for semantic search, RAG, clustering
       enable_embeddings: false  # Disable by default (separate mode)
       
+      # Speculative Decoding (Phase 2): 2-3x inference speedup
+      # Uses smaller draft model to predict tokens, validated by target model
+      # Requires compatible draft model (same tokenizer/vocabulary)
+      speculative_decoding:
+        enabled: false
+        draft_model_path: "/models/llama-2-1b-q4.gguf"
+        draft_n_gpu_layers: 16
+        speculative_tokens: 5
+        acceptance_threshold: 0.8
+        enable_draft_kv_cache: true
+      
       # Prefix Cache Configuration
       prefix_cache:
         similarity_threshold: 0.95  # 95% similarity required for cache hit

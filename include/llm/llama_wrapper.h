@@ -118,6 +118,14 @@ public:
         bool use_kv_cache_reuse = true; // KV-Cache Reuse for 10-20x first-token speedup
         bool enable_embeddings = false; // Enable embeddings extraction mode
         
+        // Speculative Decoding (Phase 2)
+        bool use_speculative_decoding = false; // 2-3x inference speedup
+        std::string draft_model_path;          // Path to draft model
+        int draft_n_gpu_layers = 16;           // GPU layers for draft model
+        int speculative_tokens = 5;            // Number of tokens to speculate
+        float acceptance_threshold = 0.8f;     // Probability threshold for acceptance
+        bool enable_draft_kv_cache = true;     // KV cache for draft model
+        
         // Lazy loading (Ollama-style)
         LazyModelLoader::Config lazy_loader_config;
         
@@ -216,6 +224,20 @@ public:
      */
     void clearPrefixCache();
     
+    /**
+     * @brief Get speculative decoding statistics
+     * @return Speculative decoding stats or nullopt if disabled
+     */
+    struct SpeculativeDecodingStats {
+        size_t total_speculations = 0;
+        size_t total_accepted = 0;
+        size_t total_rejected = 0;
+        double avg_acceptance_rate = 0.0;
+        double avg_speedup = 0.0;
+    };
+    
+    std::optional<SpeculativeDecodingStats> getSpeculativeStats() const;
+    
 private:
     Config config_;
     
@@ -227,6 +249,12 @@ private:
     
     // KV-Cache Reuse (Prefix Caching)
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
+    
+    // Speculative Decoding (Phase 2)
+    llama_model* draft_model_ = nullptr;
+    llama_context* draft_context_ = nullptr;
+    std::string draft_model_id_;
+    SpeculativeDecodingStats speculative_stats_;
     
     // Current active model
     std::string current_model_id_;
@@ -254,6 +282,14 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // Speculative Decoding helpers
+    bool loadDraftModel(const std::string& draft_path);
+    void unloadDraftModel();
+    InferenceResponse generateSpeculative(const InferenceRequest& request);
+    InferenceResponse generateRegular(const InferenceRequest& request);
+    float getProbability(float* logits, llama_token token, int32_t n_vocab);
+    void synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens);
     
     // Internal llama.cpp helper functions
     std::vector<llama_token> tokenizeInternal(

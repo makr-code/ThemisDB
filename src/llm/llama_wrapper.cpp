@@ -92,6 +92,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
 }
 
 LlamaWrapper::~LlamaWrapper() {
+    unloadDraftModel();
     unloadModel();
 }
 
@@ -154,6 +155,15 @@ bool LlamaWrapper::loadModel(
     }
     
     spdlog::info("Model ready: {} (lazy loaded)", current_model_id_);
+    
+    // Load draft model if speculative decoding enabled
+    if (config_.use_speculative_decoding && !config_.draft_model_path.empty()) {
+        if (!loadDraftModel(config_.draft_model_path)) {
+            spdlog::warn("Failed to load draft model, speculative decoding disabled");
+            config_.use_speculative_decoding = false;
+        }
+    }
+    
     return true;
 }
 
@@ -165,6 +175,9 @@ void LlamaWrapper::unloadModel() {
     }
     
     spdlog::info("Unloading model: {}", current_model_id_);
+    
+    // Unload draft model first
+    unloadDraftModel();
     
     // Unload via lazy loader
     model_loader_->unloadModel(current_model_id_, true);
@@ -234,139 +247,25 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("No model loaded");
     }
     
-    auto start_time = std::chrono::high_resolution_clock::now();
-    
     spdlog::debug("Generating response for prompt: {} (max_tokens={})",
                   request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
     
-    // Ensure model is loaded (lazy loading trigger)
-    auto* cached = model_loader_->getOrLoadModel(
-        current_model_id_,
-        current_model_path_
-    );
-    if (!cached) {
-        throw std::runtime_error("Model failed to load");
+    // Check if speculative decoding is available and enabled
+    if (config_.use_speculative_decoding && draft_model_ && draft_context_) {
+        spdlog::debug("Using speculative decoding");
+        // Unlock for speculative generation (it will lock internally as needed)
+        mutex_.unlock();
+        auto response = generateSpeculative(request);
+        mutex_.lock();
+        return response;
     }
-
-    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
-    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
     
-    // For testing with stub models, allow nullptr handles
-    // In production with real llama.cpp, these would be non-null
-    if (!lmodel || !lctx) {
-        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
-        // Fallback to stub for compatibility
-        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
-        InferenceResponse response;
-        response.request_id = request.request_id;
-        response.text = output;
-        response.model_used = current_model_id_;
-        if (request.lora_adapter_id) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
-        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        updateStatistics(response);
-        return response;
-    }
-
-    // Real llama.cpp inference implementation
-    try {
-        // 1. Tokenize prompt
-        std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
-        
-        InferenceResponse response;
-        response.request_id = request.request_id;
-        response.model_used = current_model_id_;
-        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
-        
-        if (request.lora_adapter_id) {
-            response.lora_used = *request.lora_adapter_id;
-        }
-        
-        // 2. Prepare batch for prompt evaluation
-        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
-        
-        // 3. Evaluate prompt (populate KV cache)
-        if (llama_decode(lctx, batch) != 0) {
-            throw std::runtime_error("Failed to evaluate prompt");
-        }
-        
-        // 4. Generate tokens
-        std::vector<llama_token> generated_tokens;
-        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
-        float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
-        float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
-        
-        // Get vocab for EOS detection and token count
-        const llama_vocab* vocab = llama_model_get_vocab(lmodel);
-        int32_t n_vocab = llama_vocab_n_tokens(vocab);
-        llama_token eos_token = llama_vocab_eos(vocab);
-        
-        for (int i = 0; i < max_tokens; ++i) {
-            // Get logits for last token
-            float* logits = llama_get_logits_ith(lctx, -1);
-            
-            // Sample next token
-            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
-            
-            // Check for end of sequence (EOS token)
-            if (next_token == eos_token) {
-                break;
-            }
-            
-            generated_tokens.push_back(next_token);
-            
-            // **Streaming support**: Call callback if provided
-            // Note: Callback is called while holding mutex_. Ensure callback
-            // is non-blocking to avoid performance issues.
-            if (request.stream_callback) {
-                try {
-                    // Detokenize this single token for streaming
-                    std::string token_text = detokenizeInternal(lctx, {next_token});
-                    request.stream_callback(token_text);
-                } catch (const std::exception& e) {
-                    spdlog::warn("Streaming callback error: {}", e.what());
-                    // Continue generation even if streaming fails
-                }
-            }
-            
-            // Prepare next batch with single token
-            llama_batch next_batch = llama_batch_get_one(&next_token, 1);
-            
-            // Decode next token
-            if (llama_decode(lctx, next_batch) != 0) {
-                spdlog::warn("Failed to decode token at position {}", i);
-                break;
-            }
-        }
-        
-        // 5. Detokenize generated tokens
-        response.text = detokenizeInternal(lctx, generated_tokens);
-        response.tokens_generated = static_cast<int>(generated_tokens.size());
-        
-        // 6. Calculate timing metrics
-        auto end_time = std::chrono::high_resolution_clock::now();
-        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
-        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
-        
-        response.tokens_per_second = (response.inference_time_ms > 0) 
-            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
-            : 0.0f;
-        
-        updateStatistics(response);
-        return response;
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Inference error: {}", e.what());
-        throw;
-    }
+    // Fall back to regular generation
+    // Unlock for regular generation (it will lock internally as needed)
+    mutex_.unlock();
+    auto response = generateRegular(request);
+    mutex_.lock();
+    return response;
 }
 
 InferenceResponse LlamaWrapper::generateRAG(
@@ -1017,6 +916,404 @@ void LlamaWrapper::clearPrefixCache() {
     if (prefix_cache_) {
         prefix_cache_->clear();
         spdlog::info("Prefix cache cleared");
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Speculative Decoding Implementation (Phase 2)
+// ═══════════════════════════════════════════════════════════
+
+bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
+    spdlog::info("Loading draft model for speculative decoding: {}", draft_path);
+    
+    // Initialize llama.cpp model parameters for draft
+    llama_model_params draft_params = llama_model_default_params();
+    draft_params.n_gpu_layers = config_.draft_n_gpu_layers;
+    draft_params.use_mmap = config_.use_mmap;
+    draft_params.use_mlock = false;  // Draft doesn't need mlock
+    
+    // Load draft model
+    draft_model_ = llama_load_model_from_file(draft_path.c_str(), draft_params);
+    
+    if (!draft_model_) {
+        spdlog::error("Failed to load draft model: {}", draft_path);
+        return false;
+    }
+    
+    // Create context for draft model
+    llama_context_params draft_ctx_params = llama_context_default_params();
+    draft_ctx_params.n_ctx = config_.n_ctx;
+    draft_ctx_params.n_batch = config_.n_batch * 2;  // Draft can use larger batch
+    draft_ctx_params.n_threads = config_.n_threads;
+    
+    draft_context_ = llama_new_context_with_model(draft_model_, draft_ctx_params);
+    
+    if (!draft_context_) {
+        spdlog::error("Failed to create context for draft model");
+        llama_free_model(draft_model_);
+        draft_model_ = nullptr;
+        return false;
+    }
+    
+    draft_model_id_ = extractModelId(draft_path);
+    spdlog::info("Draft model loaded successfully: {} ({} GPU layers)", 
+                 draft_model_id_, config_.draft_n_gpu_layers);
+    return true;
+}
+
+void LlamaWrapper::unloadDraftModel() {
+    if (draft_context_) {
+        llama_free(draft_context_);
+        draft_context_ = nullptr;
+    }
+    if (draft_model_) {
+        llama_free_model(draft_model_);
+        draft_model_ = nullptr;
+    }
+    draft_model_id_.clear();
+}
+
+std::optional<LlamaWrapper::SpeculativeDecodingStats> LlamaWrapper::getSpeculativeStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!config_.use_speculative_decoding || !draft_model_) {
+        return std::nullopt;
+    }
+    
+    return speculative_stats_;
+}
+
+float LlamaWrapper::getProbability(float* logits, llama_token token, int32_t n_vocab) {
+    // Find max logit for numerical stability
+    float max_logit = -INFINITY;
+    for (int32_t i = 0; i < n_vocab; ++i) {
+        max_logit = std::max(max_logit, logits[i]);
+    }
+    
+    // Calculate softmax denominator
+    float sum_exp = 0.0f;
+    for (int32_t i = 0; i < n_vocab; ++i) {
+        sum_exp += std::exp(logits[i] - max_logit);
+    }
+    
+    // Calculate probability for target token
+    float token_prob = std::exp(logits[token] - max_logit) / sum_exp;
+    return token_prob;
+}
+
+void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens) {
+    // Synchronize draft model's KV cache to match target model
+    // This ensures both models are at the same position
+    // Implementation: Re-evaluate accepted tokens in draft model
+    if (accepted_tokens.empty() || !draft_context_) {
+        return;
+    }
+    
+    // Clear draft context and re-evaluate accepted tokens
+    llama_kv_cache_clear(draft_context_);
+    
+    llama_batch batch = llama_batch_get_one(
+        const_cast<llama_token*>(accepted_tokens.data()), 
+        accepted_tokens.size()
+    );
+    
+    if (llama_decode(draft_context_, batch) != 0) {
+        spdlog::warn("Failed to synchronize draft model");
+    }
+}
+
+InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& request) {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    // Get target model
+    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    if (!cached) {
+        throw std::runtime_error("Target model failed to load");
+    }
+    
+    auto* target_model = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* target_context = reinterpret_cast<llama_context*>(cached->context_handle);
+    
+    if (!target_model || !target_context || !draft_model_ || !draft_context_) {
+        spdlog::warn("Speculative decoding prerequisites not met, falling back to regular generation");
+        return generateRegular(request);
+    }
+    
+    try {
+        // 1. Tokenize prompt (same for both models)
+        std::vector<llama_token> prompt_tokens = tokenizeInternal(target_model, request.prompt, true);
+        
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.model_used = current_model_id_ + " (speculative)";
+        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
+        
+        if (request.lora_adapter_id) {
+            response.lora_used = *request.lora_adapter_id;
+        }
+        
+        // 2. Evaluate prompt in both models
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        if (llama_decode(target_context, batch) != 0) {
+            throw std::runtime_error("Failed to evaluate prompt in target model");
+        }
+        if (llama_decode(draft_context_, batch) != 0) {
+            throw std::runtime_error("Failed to evaluate prompt in draft model");
+        }
+        
+        // 3. Speculative generation loop
+        std::vector<llama_token> generated_tokens;
+        const llama_vocab* vocab = llama_model_get_vocab(target_model);
+        int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        llama_token eos_token = llama_vocab_eos(vocab);
+        
+        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
+        float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+        
+        size_t total_speculations = 0;
+        size_t total_accepted = 0;
+        
+        while (generated_tokens.size() < static_cast<size_t>(max_tokens)) {
+            // 3a. Draft model generates N candidate tokens
+            std::vector<llama_token> draft_tokens;
+            for (int i = 0; i < config_.speculative_tokens; ++i) {
+                float* draft_logits = llama_get_logits_ith(draft_context_, -1);
+                llama_token draft_token = sampleTokenInternal(
+                    draft_context_, draft_model_, draft_logits, n_vocab,
+                    temperature, top_p
+                );
+                
+                draft_tokens.push_back(draft_token);
+                
+                // Feed token back to draft model
+                llama_batch draft_batch = llama_batch_get_one(&draft_token, 1);
+                if (llama_decode(draft_context_, draft_batch) != 0) {
+                    break;
+                }
+                
+                // Stop if EOS
+                if (draft_token == eos_token) {
+                    break;
+                }
+            }
+            
+            total_speculations += draft_tokens.size();
+            
+            // 3b. Target model validates all draft tokens in parallel
+            llama_batch validation_batch = llama_batch_get_one(
+                draft_tokens.data(), draft_tokens.size()
+            );
+            if (llama_decode(target_context, validation_batch) != 0) {
+                spdlog::warn("Failed to validate draft tokens");
+                break;
+            }
+            
+            // 3c. Check which tokens are accepted
+            int accepted = 0;
+            for (size_t i = 0; i < draft_tokens.size(); ++i) {
+                float* target_logits = llama_get_logits_ith(target_context, i);
+                
+                // Get probability of draft token from target model
+                float target_prob = getProbability(target_logits, draft_tokens[i], n_vocab);
+                
+                if (target_prob >= config_.acceptance_threshold) {
+                    generated_tokens.push_back(draft_tokens[i]);
+                    total_accepted++;
+                    accepted++;
+                    
+                    // Stream token if callback provided
+                    if (request.stream_callback) {
+                        try {
+                            std::string token_text = detokenizeInternal(target_context, {draft_tokens[i]});
+                            request.stream_callback(token_text);
+                        } catch (const std::exception& e) {
+                            spdlog::warn("Streaming callback error: {}", e.what());
+                        }
+                    }
+                    
+                    // Check for EOS
+                    if (draft_tokens[i] == eos_token) {
+                        break;
+                    }
+                } else {
+                    // Target model rejects, resample from target distribution
+                    llama_token corrected_token = sampleTokenInternal(
+                        target_context, target_model, target_logits, n_vocab,
+                        temperature, top_p
+                    );
+                    generated_tokens.push_back(corrected_token);
+                    accepted++;
+                    
+                    // Stream corrected token
+                    if (request.stream_callback) {
+                        try {
+                            std::string token_text = detokenizeInternal(target_context, {corrected_token});
+                            request.stream_callback(token_text);
+                        } catch (const std::exception& e) {
+                            spdlog::warn("Streaming callback error: {}", e.what());
+                        }
+                    }
+                    
+                    // Synchronize draft model after rejection
+                    synchronizeDraftToTarget(generated_tokens);
+                    break;  // Stop after first rejection
+                }
+            }
+            
+            // Check for completion
+            if (generated_tokens.empty() || generated_tokens.back() == eos_token) {
+                break;
+            }
+        }
+        
+        // 4. Update statistics
+        speculative_stats_.total_speculations += total_speculations;
+        speculative_stats_.total_accepted += total_accepted;
+        speculative_stats_.total_rejected += (total_speculations - total_accepted);
+        
+        if (total_speculations > 0) {
+            double acceptance_rate = static_cast<double>(total_accepted) / total_speculations;
+            speculative_stats_.avg_acceptance_rate = 
+                (speculative_stats_.avg_acceptance_rate * (speculative_stats_.total_speculations - total_speculations) + 
+                 acceptance_rate * total_speculations) / speculative_stats_.total_speculations;
+        }
+        
+        // 5. Detokenize and finalize response
+        response.text = detokenizeInternal(target_context, generated_tokens);
+        response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
+        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
+        
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
+        
+        // Add speculative decoding metadata
+        response.metadata["speculative_decoding"] = true;
+        response.metadata["acceptance_rate"] = (total_speculations > 0) 
+            ? static_cast<double>(total_accepted) / total_speculations : 0.0;
+        response.metadata["draft_model"] = draft_model_id_;
+        
+        updateStatistics(response);
+        return response;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Speculative decoding error: {}", e.what());
+        spdlog::info("Falling back to regular generation");
+        return generateRegular(request);
+    }
+}
+
+InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request) {
+    // This is the existing generate() implementation extracted
+    // Fallback for when speculative decoding is not available
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    auto* cached = model_loader_->getOrLoadModel(current_model_id_, current_model_path_);
+    if (!cached) {
+        throw std::runtime_error("Model failed to load");
+    }
+
+    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    
+    // For testing with stub models, allow nullptr handles
+    if (!lmodel || !lctx) {
+        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
+        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.text = output;
+        response.model_used = current_model_id_;
+        if (request.lora_adapter_id) {
+            response.lora_used = *request.lora_adapter_id;
+        }
+        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
+        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
+        auto end_time = std::chrono::high_resolution_clock::now();
+        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
+        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
+        updateStatistics(response);
+        return response;
+    }
+
+    // Real llama.cpp inference implementation
+    try {
+        std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+        
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.model_used = current_model_id_;
+        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
+        
+        if (request.lora_adapter_id) {
+            response.lora_used = *request.lora_adapter_id;
+        }
+        
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        
+        if (llama_decode(lctx, batch) != 0) {
+            throw std::runtime_error("Failed to evaluate prompt");
+        }
+        
+        std::vector<llama_token> generated_tokens;
+        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
+        float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+        
+        const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        llama_token eos_token = llama_vocab_eos(vocab);
+        
+        for (int i = 0; i < max_tokens; ++i) {
+            float* logits = llama_get_logits_ith(lctx, -1);
+            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
+            
+            if (next_token == eos_token) {
+                break;
+            }
+            
+            generated_tokens.push_back(next_token);
+            
+            if (request.stream_callback) {
+                try {
+                    std::string token_text = detokenizeInternal(lctx, {next_token});
+                    request.stream_callback(token_text);
+                } catch (const std::exception& e) {
+                    spdlog::warn("Streaming callback error: {}", e.what());
+                }
+            }
+            
+            llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+            if (llama_decode(lctx, next_batch) != 0) {
+                spdlog::warn("Failed to decode token at position {}", i);
+                break;
+            }
+        }
+        
+        response.text = detokenizeInternal(lctx, generated_tokens);
+        response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
+        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
+        
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
+        
+        updateStatistics(response);
+        return response;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Inference error: {}", e.what());
+        throw;
     }
 }
 
