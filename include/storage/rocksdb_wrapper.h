@@ -7,14 +7,19 @@
 #include <vector>
 #include <functional>
 #include <atomic>
+#include <mutex>
+#include <condition_variable>
 #include <string>
+
+// RocksDB forward declarations
+// Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
+#include <rocksdb/iterator.h>
 
 namespace rocksdb {
     class TransactionDB;
     class Transaction;
     class WriteBatch;
     class WriteBatchWithIndex;
-    class Iterator;
     class Options;
     class ReadOptions;
     class WriteOptions;

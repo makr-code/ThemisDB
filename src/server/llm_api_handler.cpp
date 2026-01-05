@@ -151,16 +151,6 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         };
         
         return createJsonResponse(http::status::ok, response_body);
-        
-        json response_data = {
-            {"text", llm_response.text},
-            {"model", llm_response.model_id},
-            {"tokens_generated", llm_response.tokens_generated},
-            {"inference_time_ms", llm_response.inference_time_ms},
-            {"cache_hit", llm_response.cache_hit}
-        };
-        
-        return createJsonResponse(response_data);
     } catch (const std::exception& e) {
         return createErrorResponse(
             http::status::internal_server_error,

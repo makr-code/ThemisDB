@@ -1,4 +1,6 @@
 #include "llm/llama_wrapper.h"
+#include "llm/llm_prefix_cache.h"
+#include "llm/llm_response_cache.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <sstream>
@@ -81,6 +83,8 @@ LlamaWrapper::LlamaWrapper(const Config& config)
             config_.prefix_cache_config
         );
         spdlog::info("  KV-Cache Reuse: enabled (10-20x first-token speedup)");
+    }
+    
     // Initialize response cache (optional)
     if (config_.enable_response_cache) {
         response_cache_ = std::make_unique<LLMResponseCache>("response_cache", config_.response_cache_config);
@@ -177,6 +181,8 @@ bool LlamaWrapper::loadModel(
             spdlog::warn("Failed to load draft model, speculative decoding disabled");
             config_.use_speculative_decoding = false;
         }
+    }
+    
     auto load_end = std::chrono::high_resolution_clock::now();
     double load_time_ms = std::chrono::duration<double, std::milli>(load_end - load_start).count();
     

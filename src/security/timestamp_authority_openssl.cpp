@@ -153,7 +153,7 @@ std::vector<uint8_t> TimestampAuthority::createTSPRequest(const std::vector<uint
     TS_MSG_IMPRINT_set_algo(imprint, algo);
     ASN1_OCTET_STRING* hash_asn1 = ASN1_OCTET_STRING_new();
     ASN1_OCTET_STRING_set(hash_asn1, hash.data(), (int)hash.size());
-    TS_MSG_IMPRINT_set_msg(imprint, hash_asn1);
+    TS_MSG_IMPRINT_set_msg(imprint, const_cast<unsigned char*>(hash.data()), (int)hash.size());
     TS_REQ_set_msg_imprint(req, imprint);
     // Nonce
     if(!nonce.empty()){
@@ -208,7 +208,7 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     TS_RESP* resp = d2i_TS_RESP(nullptr, &p, (long)respBytes.size());
     if(!resp){ token.error_message="d2i_TS_RESP failed"; return token; }
     TS_STATUS_INFO* status = TS_RESP_get_status_info(resp);
-    ASN1_INTEGER* st_int = TS_STATUS_INFO_get0_status(status);
+    const ASN1_INTEGER* st_int = TS_STATUS_INFO_get0_status(status);
     token.pki_status = ASN1_INTEGER_get(st_int);
     if(token.pki_status != 0 && token.pki_status != 1){ token.error_message="TSA rejected"; TS_RESP_free(resp); return token; }
     PKCS7* pkcs7 = TS_RESP_get_token(resp);
@@ -218,13 +218,13 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     token.token_b64 = b64Encode(token.token_der);
     TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
     if(tst){
-        ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst);
+        const ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst);
         if(gen){ 
-            std::string g(reinterpret_cast<char*>(gen->data), gen->length); 
+            std::string g(reinterpret_cast<const char*>(gen->data), gen->length); 
             token.timestamp_utc = g;
-            token.timestamp_unix_ms = asn1TimeToUnixMs(gen);
+            token.timestamp_unix_ms = asn1TimeToUnixMs(const_cast<ASN1_GENERALIZEDTIME*>(gen));
         }
-        ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
+        const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
         if(serial){ BIGNUM* bn = ASN1_INTEGER_to_BN(serial,nullptr); char* hexStr = BN_bn2hex(bn); token.serial_number = hexStr; OPENSSL_free(hexStr); BN_free(bn);}        
         ASN1_OBJECT* policy = TS_TST_INFO_get_policy_id(tst);
         if(policy){ char buf[128]; OBJ_obj2txt(buf,sizeof(buf),policy,1); token.policy_oid=buf; }
@@ -334,14 +334,14 @@ bool eIDASTimestampValidator::validateeIDASTimestamp(
     bool valid = true;
     
     // Check if timestamp is present
-    ASN1_GENERALIZEDTIME* gen_time = TS_TST_INFO_get_time(tst);
+    const ASN1_GENERALIZEDTIME* gen_time = TS_TST_INFO_get_time(tst);
     if (!gen_time) {
         validation_errors_.push_back("Missing timestamp in token");
         valid = false;
     }
     
     // Check if serial number is present
-    ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
+    const ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
     if (!serial) {
         validation_errors_.push_back("Missing serial number in token");
         valid = false;

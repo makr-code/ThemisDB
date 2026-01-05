@@ -39,7 +39,8 @@ public:
         bool enable_streaming = false; // Default: no streaming
     };
     
-    explicit EmbeddedLLM(const Config& config = Config{});
+    explicit EmbeddedLLM(const Config& config);
+    explicit EmbeddedLLM(); // Default constructor
     ~EmbeddedLLM();
     
     // ═══════════════════════════════════════════════════════════
