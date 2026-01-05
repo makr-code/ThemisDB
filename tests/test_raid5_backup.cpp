@@ -2,10 +2,13 @@
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <cstdlib>
+#include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
+using json = nlohmann::json;
 
 static void cleanupPath(const std::string& p) {
     std::error_code ec; 

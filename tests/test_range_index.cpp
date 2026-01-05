@@ -1,4 +1,4 @@
-﻿// Test suite for range indexes
+// Test suite for range indexes
 
 #include <gtest/gtest.h>
 #include "index/secondary_index.h"
@@ -37,7 +37,7 @@ protected:
     std::unique_ptr<SecondaryIndexManager> mgr_;
 };
 
-// Test 1: Range-Index erstellen und prüfen
+// Test 1: Range-Index erstellen und pr�fen
 TEST_F(RangeIndexTest, CreateAndDrop) {
     auto st = mgr_->createRangeIndex("users", "age");
     ASSERT_TRUE(st.ok) << st.message;
@@ -52,7 +52,7 @@ TEST_F(RangeIndexTest, CreateAndDrop) {
 
 // Test 2: Automatische Index-Pflege bei Put
 TEST_F(RangeIndexTest, AutomaticIndexMaintenance) {
-    // Erstelle Range-Index und normalen Index für Vergleich
+    // Erstelle Range-Index und normalen Index f�r Vergleich
     auto st = mgr_->createRangeIndex("users", "age");
     ASSERT_TRUE(st.ok) << st.message;
     st = mgr_->createIndex("users", "age"); // Auch Equality-Index
@@ -149,7 +149,7 @@ TEST_F(RangeIndexTest, RangeScanNoLowerBound) {
         ASSERT_TRUE(st.ok) << st.message;
     }
     
-    // Scan [-∞, 25]
+    // Scan [-8, 25]
     auto [rst, keys] = mgr_->scanKeysRange("users", "age", std::nullopt, "25", true, true, 100, false);
     ASSERT_TRUE(rst.ok) << rst.message;
     EXPECT_EQ(keys.size(), 2); // u20, u25
@@ -169,7 +169,7 @@ TEST_F(RangeIndexTest, RangeScanNoUpperBound) {
         ASSERT_TRUE(st.ok) << st.message;
     }
     
-    // Scan [25, +∞)
+    // Scan [25, +8)
     auto [rst, keys] = mgr_->scanKeysRange("users", "age", "25", std::nullopt, true, true, 100, false);
     ASSERT_TRUE(rst.ok) << rst.message;
     EXPECT_EQ(keys.size(), 2); // u25, u30
@@ -189,7 +189,7 @@ TEST_F(RangeIndexTest, RangeScanWithLimit) {
         ASSERT_TRUE(st.ok) << st.message;
     }
     
-    // Scan [0, +∞) mit Limit 2
+    // Scan [0, +8) mit Limit 2
     auto [rst, keys] = mgr_->scanKeysRange("users", "age", std::nullopt, std::nullopt, true, true, 2, false);
     ASSERT_TRUE(rst.ok) << rst.message;
     EXPECT_EQ(keys.size(), 2);
@@ -219,7 +219,7 @@ TEST_F(RangeIndexTest, RangeScanReversed) {
     EXPECT_EQ(keys[2], "u20");
 }
 
-// Test 9: Delete entfernt Range-Index-Einträge
+// Test 9: Delete entfernt Range-Index-Eintr�ge
 TEST_F(RangeIndexTest, DeleteRemovesRangeEntry) {
     auto st = mgr_->createRangeIndex("users", "age");
     ASSERT_TRUE(st.ok) << st.message;

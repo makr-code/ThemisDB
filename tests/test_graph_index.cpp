@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -169,9 +169,9 @@ TEST_F(GraphIndexTest, BFS_CycleHandling) {
     EXPECT_EQ(order[0], "user1");
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 // In-Memory Topology Tests
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 
 TEST_F(GraphIndexTest, RebuildTopology_LoadsFromRocksDB) {
     // Create some edges
@@ -319,9 +319,9 @@ TEST_F(GraphIndexTest, InMemoryTopology_UpdateAfterDelete) {
     EXPECT_EQ(neighbors[0], "C");
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 // Shortest-Path Tests (Dijkstra & A*)
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 
 TEST_F(GraphIndexTest, Dijkstra_SimpleUnweightedPath) {
     // Graph: A -> B -> C -> D
@@ -358,7 +358,7 @@ TEST_F(GraphIndexTest, Dijkstra_WeightedPath) {
     // Graph mit Gewichten:
     // A --(5)--> B --(1)--> D
     // A --(2)--> C --(2)--> D
-    // Kürzester Pfad: A -> C -> D (cost = 4)
+    // K�rzester Pfad: A -> C -> D (cost = 4)
     
     themis::BaseEntity e1("edge1");
     e1.setField("id", "edge1");
@@ -486,7 +486,7 @@ TEST_F(GraphIndexTest, AStar_WithoutHeuristic_FallsToDijkstra) {
     auto [st, result] = graph_mgr_->aStar("A", "B", nullptr);
     ASSERT_TRUE(st.ok) << st.message;
     
-    // Kürzester Pfad: A -> C -> B (cost = 2)
+    // K�rzester Pfad: A -> C -> B (cost = 2)
     ASSERT_EQ(result.path.size(), 3u);
     EXPECT_EQ(result.path[0], "A");
     EXPECT_EQ(result.path[1], "C");

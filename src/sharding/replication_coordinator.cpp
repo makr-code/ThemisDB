@@ -48,13 +48,7 @@ WriteResult ReplicationCoordinator::waitForReplication(
     // Register pending write
     {
         std::lock_guard<std::mutex> lock(pending_mutex_);
-        auto [it, inserted] = pending_writes_.try_emplace(lsn_key);
-        PendingWrite& pw = it->second;
-        pw.lsn = entry_lsn;
-        pw.concern = concern;
-        pw.ack_count.store(1, std::memory_order_relaxed);  // Primary already wrote
-        pw.start_time = start;
-        pw.completed = false;
+        pending_writes_.try_emplace(lsn_key, entry_lsn, concern, 1);
     }
 
     // Wait for acknowledgments with timeout

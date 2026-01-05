@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file test_http_index_endpoints.cpp
  * @brief Integration tests for HTTP Index Maintenance Endpoints
  */
