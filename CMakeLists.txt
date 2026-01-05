@@ -247,6 +247,7 @@ option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
 # Multi-Edition Support (v1.3.5+)
 # THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
 # This setting determines feature availability, licensing limits, and hardware constraints
+# MINIMAL: Core database only (embedded/IoT), COMMUNITY: Full features (default), ENTERPRISE: Scaling+HA, HYPERSCALER: Unlimited
 set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER")
 set_property(CACHE THEMIS_EDITION PROPERTY STRINGS MINIMAL COMMUNITY ENTERPRISE HYPERSCALER)
 

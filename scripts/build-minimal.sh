@@ -29,10 +29,16 @@ echo "Build time: ~5-10 minutes (vs ~30-40 for full build)"
 echo ""
 
 # Ensure running inside WSL/Linux
-if grep -qi microsoft /proc/version 2>/dev/null; then
-  echo "Running under WSL"
+if [ -f /proc/version ]; then
+  if grep -qi microsoft /proc/version 2>/dev/null; then
+    echo "Running under WSL"
+  elif grep -qi ubuntu /proc/version 2>/dev/null || [ -f /etc/lsb-release ]; then
+    echo "Running on Ubuntu/Linux"
+  else
+    echo "Warning: This script is optimized for WSL/Ubuntu. Continuing anyway..."
+  fi
 else
-  echo "Warning: This script is designed for WSL/Ubuntu. Continuing anyway..."
+  echo "Warning: Non-Linux environment detected. This script may not work correctly."
 fi
 
 # Ensure minimum tools exist
