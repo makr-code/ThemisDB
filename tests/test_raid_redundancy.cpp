@@ -548,6 +548,385 @@ TEST(BlobRedundancyManagerTest, PrometheusMetrics) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// RAID 6 (Dual Parity) Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(RedundancyStrategyTest, RAID6_BasicConfiguration) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    EXPECT_TRUE(config.validate());
+    EXPECT_EQ(config.getFaultTolerance(), 2);
+    EXPECT_DOUBLE_EQ(config.getStorageEfficiency(), 6.0 / 8.0);  // 75%
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_InvalidConfiguration) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 1;  // RAID6 requires at least 2
+    
+    EXPECT_FALSE(config.validate());
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_BasicWriteRead) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 4;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    std::vector<uint8_t> data(4 * 1024, 0xAB);  // 4KB data
+    
+    // Write
+    auto write_result = strategy.write(
+        "doc1", data, "collection1",
+        *ring, *topology, createWriteHandler()
+    );
+    
+    EXPECT_TRUE(write_result.success);
+    EXPECT_GE(write_result.written_shards.size(), 4);  // At least data shards
+    
+    // Read
+    auto read_result = strategy.read(
+        "doc1", "collection1",
+        *ring, *topology, createReadHandler()
+    );
+    
+    EXPECT_TRUE(read_result.success);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_SingleShardFailure) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    std::vector<uint8_t> data(6 * 1024, 0xCD);
+    
+    // Write
+    strategy.write("doc1", data, "collection1",
+                  *ring, *topology, createWriteHandler());
+    
+    // Simulate single shard failure
+    storage->clearShard("shard-0");
+    
+    // Read should still succeed
+    auto read_result = strategy.read(
+        "doc1", "collection1",
+        *ring, *topology, createReadHandler()
+    );
+    
+    EXPECT_TRUE(read_result.success);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_DualShardFailure) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    std::vector<uint8_t> data(6 * 1024, 0xEF);
+    
+    // Write
+    strategy.write("doc1", data, "collection1",
+                  *ring, *topology, createWriteHandler());
+    
+    // Simulate TWO shard failures (RAID 6 should tolerate this)
+    storage->clearShard("shard-0");
+    storage->clearShard("shard-1");
+    
+    // Read should still succeed with RAID 6
+    auto read_result = strategy.read(
+        "doc1", "collection1",
+        *ring, *topology, createReadHandler()
+    );
+    
+    EXPECT_TRUE(read_result.success);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_AllDataShardCombinations) {
+    // Test recovery from various 2-shard failure combinations
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 4;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    std::vector<uint8_t> original_data(4 * 1024, 0x42);
+    
+    // Test all combinations of 2-shard failures
+    std::vector<std::pair<int, int>> failure_combinations = {
+        {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},
+        {1, 2}, {1, 3}, {1, 4}, {1, 5},
+        {2, 3}, {2, 4}, {2, 5},
+        {3, 4}, {3, 5},
+        {4, 5}
+    };
+    
+    for (const auto& [fail1, fail2] : failure_combinations) {
+        // Reset storage for each test
+        storage = std::make_unique<MockShardStorage>();
+        
+        // Write data
+        strategy.write("doc_test", original_data, "collection1",
+                      *ring, *topology, createWriteHandler());
+        
+        // Simulate 2-shard failure
+        storage->clearShard("shard-" + std::to_string(fail1));
+        storage->clearShard("shard-" + std::to_string(fail2));
+        
+        // Try to read - should succeed
+        auto read_result = strategy.read(
+            "doc_test", "collection1",
+            *ring, *topology, createReadHandler()
+        );
+        
+        EXPECT_TRUE(read_result.success) 
+            << "Failed to recover with shards " << fail1 << " and " << fail2 << " down";
+    }
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_StorageEfficiency) {
+    // Test various RAID 6 configurations
+    std::vector<std::pair<uint32_t, uint32_t>> configs = {
+        {4, 2},   // 4+2 = 67% efficiency
+        {6, 2},   // 6+2 = 75% efficiency
+        {8, 2},   // 8+2 = 80% efficiency
+        {10, 2}   // 10+2 = 83% efficiency
+    };
+    
+    for (const auto& [data_shards, parity_shards] : configs) {
+        RedundancyConfig config;
+        config.mode = RedundancyMode::RAID6;
+        config.erasure_coding.data_shards = data_shards;
+        config.erasure_coding.parity_shards = parity_shards;
+        
+        double expected_efficiency = static_cast<double>(data_shards) / (data_shards + parity_shards);
+        
+        EXPECT_DOUBLE_EQ(config.getStorageEfficiency(), expected_efficiency)
+            << "Config " << data_shards << "+" << parity_shards;
+    }
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_PerformanceMetrics) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    std::vector<uint8_t> data(10 * 1024, 0x55);  // 10KB
+    
+    auto start = std::chrono::steady_clock::now();
+    
+    // Write
+    auto write_result = strategy.write(
+        "perf_doc", data, "collection1",
+        *ring, *topology, createWriteHandler()
+    );
+    
+    auto end = std::chrono::steady_clock::now();
+    auto write_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    EXPECT_TRUE(write_result.success);
+    EXPECT_LT(write_time.count(), 1000);  // Should complete within 1 second
+    
+    // Read
+    start = std::chrono::steady_clock::now();
+    
+    auto read_result = strategy.read(
+        "perf_doc", "collection1",
+        *ring, *topology, createReadHandler()
+    );
+    
+    end = std::chrono::steady_clock::now();
+    auto read_time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    EXPECT_TRUE(read_result.success);
+    EXPECT_LT(read_time.count(), 1000);  // Should complete within 1 second
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_PrometheusMetrics) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    std::vector<uint8_t> data(5 * 1024, 0x99);
+    
+    strategy.write("metrics_doc", data, "collection1",
+                  *ring, *topology, createWriteHandler());
+    strategy.read("metrics_doc", "collection1",
+                 *ring, *topology, createReadHandler());
+    
+    std::string metrics = strategy.exportPrometheusMetrics();
+    
+    EXPECT_FALSE(metrics.empty());
+    EXPECT_NE(metrics.find("themis_redundancy_writes_total"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_redundancy_reads_total"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_redundancy_bytes_written_total"), std::string::npos);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_vs_RAID5_Comparison) {
+    // Compare RAID 5 (1 parity) vs RAID 6 (2 parity)
+    
+    // RAID 5 config
+    RedundancyConfig raid5_config;
+    raid5_config.mode = RedundancyMode::PARITY;
+    raid5_config.erasure_coding.data_shards = 6;
+    raid5_config.erasure_coding.parity_shards = 1;
+    
+    // RAID 6 config
+    RedundancyConfig raid6_config;
+    raid6_config.mode = RedundancyMode::RAID6;
+    raid6_config.erasure_coding.data_shards = 6;
+    raid6_config.erasure_coding.parity_shards = 2;
+    raid6_config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    // RAID 5: 1 failure tolerance, ~86% efficiency
+    EXPECT_EQ(raid5_config.getFaultTolerance(), 1);
+    EXPECT_DOUBLE_EQ(raid5_config.getStorageEfficiency(), 6.0 / 7.0);
+    
+    // RAID 6: 2 failure tolerance, ~75% efficiency
+    EXPECT_EQ(raid6_config.getFaultTolerance(), 2);
+    EXPECT_DOUBLE_EQ(raid6_config.getStorageEfficiency(), 6.0 / 8.0);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_LargeDocumentHandling) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    // Test with larger document (1MB)
+    std::vector<uint8_t> large_data(1024 * 1024, 0x77);
+    
+    auto write_result = strategy.write(
+        "large_doc", large_data, "collection1",
+        *ring, *topology, createWriteHandler()
+    );
+    
+    EXPECT_TRUE(write_result.success);
+    
+    auto read_result = strategy.read(
+        "large_doc", "collection1",
+        *ring, *topology, createReadHandler()
+    );
+    
+    EXPECT_TRUE(read_result.success);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_CauchyAlgorithm) {
+    // Verify Cauchy algorithm is used for RAID 6
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    // Should not throw
+    EXPECT_NO_THROW({
+        RedundancyStrategy strategy(config);
+        
+        std::vector<uint8_t> data(6 * 1024, 0xAA);
+        strategy.write("test_cauchy", data, "collection1",
+                      *ring, *topology, createWriteHandler());
+    });
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_MultipleDocuments) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 6;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    // Write multiple documents
+    const int NUM_DOCS = 10;
+    for (int i = 0; i < NUM_DOCS; ++i) {
+        std::vector<uint8_t> data(5 * 1024, static_cast<uint8_t>(i));
+        std::string doc_id = "multi_doc_" + std::to_string(i);
+        
+        auto result = strategy.write(doc_id, data, "collection1",
+                                    *ring, *topology, createWriteHandler());
+        EXPECT_TRUE(result.success);
+    }
+    
+    // Read them back
+    for (int i = 0; i < NUM_DOCS; ++i) {
+        std::string doc_id = "multi_doc_" + std::to_string(i);
+        auto result = strategy.read(doc_id, "collection1",
+                                   *ring, *topology, createReadHandler());
+        EXPECT_TRUE(result.success);
+    }
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_EdgeCases) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::RAID6;
+    config.erasure_coding.data_shards = 4;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    
+    RedundancyStrategy strategy(config);
+    
+    // Test with very small data
+    std::vector<uint8_t> small_data = {0x01, 0x02, 0x03};
+    auto result1 = strategy.write("small_doc", small_data, "collection1",
+                                 *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(result1.success);
+    
+    // Test with empty data
+    std::vector<uint8_t> empty_data;
+    auto result2 = strategy.write("empty_doc", empty_data, "collection1",
+                                 *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(result2.success);
+}
+
+TEST_F(RedundancyStrategyTest, RAID6_CollectionSpecific) {
+    CollectionRedundancyManager manager;
+    
+    // Set RAID 6 for specific collection
+    RedundancyConfig raid6_config;
+    raid6_config.mode = RedundancyMode::RAID6;
+    raid6_config.erasure_coding.data_shards = 6;
+    raid6_config.erasure_coding.parity_shards = 2;
+    raid6_config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+    manager.setCollectionConfig("critical_data", raid6_config);
+    
+    // Verify configuration
+    auto config = manager.getConfig("critical_data");
+    EXPECT_EQ(config.mode, RedundancyMode::RAID6);
+    EXPECT_EQ(config.erasure_coding.data_shards, 6);
+    EXPECT_EQ(config.erasure_coding.parity_shards, 2);
+    EXPECT_EQ(config.getFaultTolerance(), 2);
+}
+
+// ═══════════════════════════════════════════════════════════
 // Stress Tests
 // ═══════════════════════════════════════════════════════════
 
