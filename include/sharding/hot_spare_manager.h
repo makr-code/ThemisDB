@@ -280,20 +280,14 @@ private:
         std::vector<std::string> documents;
         uint64_t total_bytes;
         bool paused = false;
+        
+        // Handlers for data transfer
+        ConsistentHashRing* ring;
+        ReadHandler read_handler;
+        WriteHandler write_handler;
     };
     
-    bool rebuildShard(
-        RebuildTask& task,
-        ConsistentHashRing& ring,
-        ReadHandler read_handler,
-        WriteHandler write_handler
-    );
-    
-    void processRebuildQueue(
-        ConsistentHashRing& ring,
-        ReadHandler read_handler,
-        WriteHandler write_handler
-    );
+    bool rebuildShard(RebuildTask& task);
     
     // Spare selection
     std::optional<std::string> selectBestSpare() const;

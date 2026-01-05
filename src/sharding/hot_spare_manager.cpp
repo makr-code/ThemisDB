@@ -319,6 +319,9 @@ bool HotSpareManager::activateSpare(
         task.source_shard_id = failed_shard_id;
         task.documents = documents;
         task.total_bytes = 0;  // Will be calculated during rebuild
+        task.ring = &ring;
+        task.read_handler = read_handler;
+        task.write_handler = write_handler;
         
         {
             std::lock_guard<std::mutex> lock(rebuild_mutex_);
@@ -661,14 +664,8 @@ void HotSpareManager::rebuildLoop() {
             }
         }
         
-        // Perform rebuild
-        // TODO: Implement actual data transfer with handlers from activateSpare
-        // This would involve:
-        // 1. Reading documents from source shard replicas
-        // 2. Writing to spare shard with throttling
-        // 3. Tracking progress and updating spare.bytes_rebuilt
-        // 4. Handling errors and retries
-        bool success = true;  // Simplified: Always succeed in this version
+        // Perform rebuild with actual data transfer
+        bool success = rebuildShard(task);
         
         // Update statistics
         {
@@ -715,35 +712,139 @@ void HotSpareManager::handleShardFailure(const std::string& shard_id) {
     sendAlert("Shard failure detected: " + shard_id);
 }
 
-bool HotSpareManager::rebuildShard(
-    RebuildTask& task,
-    ConsistentHashRing& ring,
-    ReadHandler read_handler,
-    WriteHandler write_handler
-) {
-    // TODO: Implement full rebuild logic with:
-    // 1. Iterate through task.documents
-    // 2. Read each document from replicas using read_handler
-    // 3. Write to spare shard using write_handler
-    // 4. Apply throttling based on config_.rebuild_throttle_mbps
-    // 5. Update progress in spares_ map
-    // 6. Handle network errors and retries
-    // 7. Verify data integrity
-    
-    spdlog::info("Rebuild shard called for spare: {}, documents: {}", 
+bool HotSpareManager::rebuildShard(RebuildTask& task) {
+    spdlog::info("Starting rebuild for spare: {}, {} documents to transfer", 
                  task.spare_shard_id, task.documents.size());
     
-    // Simplified implementation - always succeed
-    return true;
-}
-
-void HotSpareManager::processRebuildQueue(
-    ConsistentHashRing& ring,
-    ReadHandler read_handler,
-    WriteHandler write_handler
-) {
-    // Process rebuild queue with handlers
-    // This would be called by rebuild loop with stored handlers
+    if (!task.ring || !task.read_handler || !task.write_handler) {
+        spdlog::error("Invalid rebuild task: missing ring or handlers");
+        return false;
+    }
+    
+    auto rebuild_start = std::chrono::steady_clock::now();
+    uint64_t bytes_transferred = 0;
+    uint32_t documents_transferred = 0;
+    uint32_t failed_documents = 0;
+    
+    // Calculate throttle delay per MB if throttling is enabled
+    std::chrono::microseconds throttle_delay_per_mb{0};
+    if (config_.rebuild_throttle_mbps > 0) {
+        // Calculate microseconds to wait per MB transferred
+        throttle_delay_per_mb = std::chrono::microseconds(1000000 / config_.rebuild_throttle_mbps);
+    }
+    
+    // Process documents in chunks for better progress tracking
+    size_t chunk_size = config_.rebuild_chunk_size_mb > 0 ? 
+                        config_.rebuild_chunk_size_mb : 100;
+    
+    for (size_t i = 0; i < task.documents.size(); ++i) {
+        const auto& doc_id = task.documents[i];
+        
+        // Check if rebuild is paused
+        {
+            std::lock_guard<std::mutex> lock(rebuild_mutex_);
+            if (rebuild_paused_[task.spare_shard_id]) {
+                spdlog::info("Rebuild paused for spare: {}", task.spare_shard_id);
+                return false;  // Will be retried when resumed
+            }
+        }
+        
+        try {
+            // Get replica nodes for this document (excluding the failed shard)
+            auto replicas = task.ring->getReplicaNodes(doc_id, 2);
+            
+            // Try to read from each replica until successful
+            std::optional<std::vector<uint8_t>> data;
+            std::string source_replica;
+            
+            for (const auto& replica_id : replicas) {
+                if (replica_id != task.source_shard_id) {
+                    data = task.read_handler(replica_id, doc_id);
+                    if (data) {
+                        source_replica = replica_id;
+                        break;
+                    }
+                }
+            }
+            
+            if (!data) {
+                spdlog::error("Failed to read document {} from any replica", doc_id);
+                failed_documents++;
+                continue;
+            }
+            
+            // Write to spare shard
+            bool write_success = task.write_handler(task.spare_shard_id, doc_id, *data);
+            
+            if (!write_success) {
+                spdlog::error("Failed to write document {} to spare {}", 
+                             doc_id, task.spare_shard_id);
+                failed_documents++;
+                continue;
+            }
+            
+            // Update progress
+            bytes_transferred += data->size();
+            documents_transferred++;
+            
+            {
+                std::unique_lock<std::shared_mutex> lock(spares_mutex_);
+                auto it = spares_.find(task.spare_shard_id);
+                if (it != spares_.end()) {
+                    it->second.bytes_rebuilt = bytes_transferred;
+                    // Update total bytes estimate as we go
+                    it->second.total_bytes = bytes_transferred + 
+                        (data->size() * (task.documents.size() - i - 1));
+                }
+            }
+            
+            // Apply throttling if enabled
+            if (config_.rebuild_throttle_mbps > 0 && data->size() > 0) {
+                double mb_transferred = data->size() / (1024.0 * 1024.0);
+                auto delay = std::chrono::microseconds(
+                    static_cast<int64_t>(mb_transferred * throttle_delay_per_mb.count())
+                );
+                
+                if (delay.count() > 0) {
+                    std::this_thread::sleep_for(delay);
+                }
+            }
+            
+            // Log progress periodically
+            if ((i + 1) % chunk_size == 0 || i == task.documents.size() - 1) {
+                double progress = ((i + 1) * 100.0) / task.documents.size();
+                auto elapsed = std::chrono::steady_clock::now() - rebuild_start;
+                double elapsed_seconds = std::chrono::duration<double>(elapsed).count();
+                double throughput_mbps = elapsed_seconds > 0 ? 
+                    (bytes_transferred / (1024.0 * 1024.0)) / elapsed_seconds : 0.0;
+                
+                spdlog::info("Rebuild progress for {}: {:.1f}% ({}/{} docs, {:.2f} MB/s)", 
+                            task.spare_shard_id, progress, i + 1, 
+                            task.documents.size(), throughput_mbps);
+            }
+            
+        } catch (const std::exception& e) {
+            spdlog::error("Exception during rebuild of document {}: {}", doc_id, e.what());
+            failed_documents++;
+        }
+    }
+    
+    auto rebuild_end = std::chrono::steady_clock::now();
+    auto rebuild_duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        rebuild_end - rebuild_start);
+    
+    bool success = failed_documents == 0;
+    
+    if (success) {
+        spdlog::info("Rebuild completed successfully for spare {}: {} documents, {} bytes, {} ms", 
+                    task.spare_shard_id, documents_transferred, 
+                    bytes_transferred, rebuild_duration.count());
+    } else {
+        spdlog::warn("Rebuild completed with errors for spare {}: {}/{} documents failed", 
+                    task.spare_shard_id, failed_documents, task.documents.size());
+    }
+    
+    return success;
 }
 
 std::optional<std::string> HotSpareManager::selectBestSpare() const {
