@@ -903,7 +903,8 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
             int8_t quantized = static_cast<int8_t>(
                 std::max(-INT8_MAX_VALUE, std::min(INT8_MAX_VALUE, std::round(w / scale)))
             );
-            // Store as unsigned byte by offsetting range from [-127,127] to [0,254]
+            // Store as unsigned byte: add zero-point to map signed range to unsigned [0,254]
+            // Quantized range [-127,127] + zero-point 127 = [0,254]
             // During dequantization: x = (Q - INT8_ZERO_POINT) * scale
             lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + INT8_ZERO_POINT);
         }
@@ -927,7 +928,7 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
     size_t num_groups = (num_weights + group_size - 1) / group_size;
     
     lora->scale_factors.resize(num_groups);
-    lora->quantized_weights.resize((num_weights + 1) / 2);  // INT4: 0.5 bytes per weight (packed)
+    lora->quantized_weights.resize((num_weights + 1) / 2, 0);  // INT4: 0.5 bytes per weight (packed), initialize to 0
     
     // Quantize per group
     for (size_t g = 0; g < num_groups; ++g) {
