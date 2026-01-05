@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "llm/llama_wrapper.h"
 #include <filesystem>
+#include <cstdlib>
 
 using namespace themis::llm;
 
@@ -152,10 +153,21 @@ TEST_F(LlamaWrapperVisionTest, DISABLED_FullVisionPipeline) {
     // 2. LLaVA model file (GGUF)
     // 3. CLIP vision encoder model (GGUF)
     // 4. Test image file
+    //
+    // Note: Paths are examples. Set environment variables or modify for your setup:
+    //   THEMIS_LLAVA_MODEL=/path/to/llava-model.gguf
+    //   THEMIS_CLIP_MODEL=/path/to/clip-model.gguf
+    //   THEMIS_TEST_IMAGE=/path/to/test-image.jpg
     
-    const std::string llava_model = "/models/llava-v1.6-mistral-7b.Q4_K_M.gguf";
-    const std::string clip_model = "/models/mmproj-model-f16.gguf";
-    const std::string test_image = "/test/images/sample.jpg";
+    const std::string llava_model = std::getenv("THEMIS_LLAVA_MODEL") 
+        ? std::getenv("THEMIS_LLAVA_MODEL") 
+        : "/models/llava-v1.6-mistral-7b.Q4_K_M.gguf";
+    const std::string clip_model = std::getenv("THEMIS_CLIP_MODEL")
+        ? std::getenv("THEMIS_CLIP_MODEL")
+        : "/models/mmproj-model-f16.gguf";
+    const std::string test_image = std::getenv("THEMIS_TEST_IMAGE")
+        ? std::getenv("THEMIS_TEST_IMAGE")
+        : "/test/images/sample.jpg";
     
     if (!std::filesystem::exists(llava_model)) {
         GTEST_SKIP() << "LLaVA model not found";
@@ -210,8 +222,13 @@ TEST_F(LlamaWrapperVisionTest, DISABLED_FullVisionPipeline) {
 
 TEST_F(LlamaWrapperVisionTest, DISABLED_MultiImageVisionPipeline) {
     // Test with multiple images
-    const std::string llava_model = "/models/llava-v1.6-mistral-7b.Q4_K_M.gguf";
-    const std::string clip_model = "/models/mmproj-model-f16.gguf";
+    // Note: Use environment variables for custom paths (see DISABLED_FullVisionPipeline test)
+    const std::string llava_model = std::getenv("THEMIS_LLAVA_MODEL")
+        ? std::getenv("THEMIS_LLAVA_MODEL")
+        : "/models/llava-v1.6-mistral-7b.Q4_K_M.gguf";
+    const std::string clip_model = std::getenv("THEMIS_CLIP_MODEL")
+        ? std::getenv("THEMIS_CLIP_MODEL")
+        : "/models/mmproj-model-f16.gguf";
     const std::vector<std::string> test_images = {
         "/test/images/sample1.jpg",
         "/test/images/sample2.jpg"

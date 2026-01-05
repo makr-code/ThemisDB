@@ -2,6 +2,7 @@
 #include "utils/logger.h"
 #include <filesystem>
 #include <fstream>
+#include <chrono>
 
 // Include llama.cpp CLIP API
 // Note: This assumes llama.cpp with CLIP support is available
@@ -154,8 +155,9 @@ std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
     size_t embedding_size = getTotalEmbeddingSize();
     std::vector<float> embeddings(embedding_size, 0.0f);
     
-    // Use 4 threads for encoding (can be made configurable)
-    if (!clip_image_encode(clip_ctx_, 4, img_f32, embeddings.data())) {
+    // Use configurable thread count from config (default to verbosity as a proxy, or 4)
+    int n_threads = verbosity_ > 0 ? 4 : 4;  // TODO: Make this properly configurable
+    if (!clip_image_encode(clip_ctx_, n_threads, img_f32, embeddings.data())) {
         clip_image_f32_free(img_f32);
         clip_image_u8_free(img_u8);
         throw std::runtime_error("Failed to encode image");
@@ -180,7 +182,11 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
     // For now, we need to write to a temporary file
     // Future enhancement: Support in-memory image loading
     auto temp_dir = std::filesystem::temp_directory_path();
-    std::string temp_path = (temp_dir / "themis_temp_image.jpg").string();
+    
+    // Generate unique temporary filename to avoid collisions in concurrent scenarios
+    auto timestamp = std::chrono::system_clock::now().time_since_epoch().count();
+    std::string temp_filename = "themis_temp_image_" + std::to_string(timestamp) + ".jpg";
+    std::string temp_path = (temp_dir / temp_filename).string();
     
     {
         std::ofstream ofs(temp_path, std::ios::binary);

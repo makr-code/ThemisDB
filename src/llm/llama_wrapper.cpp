@@ -1829,13 +1829,16 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
         inference_request.top_p = vision_request.top_p;
         inference_request.top_k = vision_request.top_k;
         
-        // Note: Actual integration of image embeddings into llama.cpp context
-        // would require modifications to llama.cpp's batch processing.
-        // For now, this is a stub that shows the architecture.
-        // Full implementation would use llama_batch with embedded image tokens.
+        // Note: Full integration of image embeddings into llama.cpp context
+        // requires modifications to llama.cpp's batch processing.
+        // This implementation provides the foundation and architecture.
+        // TODO: Complete integration with llama_batch for true multi-modal inference.
+        // For now, the text prompt will be processed without actual image embeddings.
         
-        spdlog::warn("Vision support: Image embedding integration with llama.cpp is not yet fully implemented");
-        spdlog::info("Generating text-only response with vision context prompt");
+        spdlog::warn("Vision support: Full multi-modal inference not yet implemented.");
+        spdlog::warn("  - Image encoding: ✓ Completed");
+        spdlog::warn("  - Image embedding injection: ✗ Pending llama.cpp integration");
+        spdlog::info("Generating text response with vision-formatted prompt (architecture validation)");
         
         // Generate response (text-only for now, until llama.cpp integration is complete)
         auto inference_response = generate(inference_request);

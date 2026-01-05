@@ -66,7 +66,7 @@ public:
      * it using the CLIP vision encoder.
      * 
      * @param image_path Path to image file (JPEG, PNG, BMP, etc.)
-     * @return Embedding vector (typically 576 patches × embedding_dim)
+     * @return Embedding vector (size depends on model: num_patches × embedding_dim or just embedding_dim)
      * @throws std::runtime_error if image loading or encoding fails
      */
     std::vector<float> encodeImage(const std::string& image_path);
@@ -90,9 +90,10 @@ public:
     /**
      * @brief Get the number of image patches
      * 
-     * For CLIP ViT models, images are divided into patches (e.g., 24×24 = 576)
+     * For CLIP ViT models, images are divided into patches.
+     * Common values: 576 (24×24), 256 (16×16), depending on model architecture.
      * 
-     * @return Number of image patches
+     * @return Number of image patches (model-dependent)
      */
     int getNumPatches() const;
     
