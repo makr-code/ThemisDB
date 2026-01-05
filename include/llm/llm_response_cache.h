@@ -7,6 +7,7 @@
 #include <mutex>
 #include <string>
 #include <memory>
+#include <functional>
 #include "llm_plugin_interface.h"
 
 // Forward declarations
@@ -15,6 +16,7 @@ class VectorIndexManager;
 class RocksDBWrapper;
 
 namespace llm {
+class EmbeddedLLM;
 namespace monitoring {
 class LLMMetricsCollector;
 }
@@ -44,11 +46,10 @@ namespace llm {
  * - Leverages existing HNSW infrastructure for efficient ANN search
  * - No duplication of vector index functionality
  * 
- * Note on Embeddings:
- * - Current implementation uses feature-based embeddings (n-grams + words) as placeholder
- * - For production deployment with actual LLM models, integrate with embedding model
- *   (e.g., via LlamaWrapper::embed or external embedding service)
- * - Feature-based embeddings provide basic similarity but lack deep semantic understanding
+ * Embedding Strategy:
+ * - Uses existing LLM embedding infrastructure (LlamaWrapper::embed, EmbeddedLLM::embed)
+ * - Supports custom embedding function via callback for flexibility
+ * - Falls back to simple feature-based embeddings if no LLM available
  */
 class LLMResponseCache {
 public:
@@ -60,6 +61,8 @@ public:
         size_t embedding_dim = 384;          // Embedding dimension (default: 384 for small models)
         bool use_vector_index = true;        // Use HNSW for fast lookup
         RocksDBWrapper* db_ptr = nullptr;    // Optional: External RocksDB instance (pointer exchange)
+        EmbeddedLLM* llm_ptr = nullptr;      // Optional: LLM instance for real embeddings (pointer exchange)
+        std::function<std::vector<float>(const std::string&)> embedding_fn = nullptr; // Optional: Custom embedding function
     };
 
     struct CacheStatistics {
@@ -152,12 +155,22 @@ private:
 
     /**
      * @brief Generate embedding for a prompt
-     * Uses simple feature-based embedding (character n-grams + word features)
-     * For production with LLM models, integrate with actual embedding model
+     * 
+     * Priority:
+     * 1. Use custom embedding_fn if provided
+     * 2. Use LLM instance (llm_ptr) if available
+     * 3. Fall back to simple feature-based embeddings
+     * 
      * @param prompt The input prompt
      * @return Embedding vector or empty vector on error
      */
     std::vector<float> generateEmbedding(const std::string& prompt) const;
+    
+    /**
+     * @brief Generate simple feature-based embedding (fallback)
+     * Used when no LLM is available
+     */
+    std::vector<float> generateSimpleEmbedding(const std::string& prompt) const;
 
     /**
      * @brief Check if entry has expired based on TTL

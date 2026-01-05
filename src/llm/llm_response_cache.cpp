@@ -1,5 +1,6 @@
 #include "llm/llm_response_cache.h"
 #include "llm/grafana_metrics.h"
+#include "llm/embedded_llm.h"
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -296,9 +297,44 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
         return {};
     }
     
+    // Priority 1: Use custom embedding function if provided
+    if (config_.embedding_fn) {
+        try {
+            auto embedding = config_.embedding_fn(prompt);
+            if (!embedding.empty() && embedding.size() == config_.embedding_dim) {
+                return embedding;
+            }
+            THEMIS_WARN("Custom embedding function returned invalid result, falling back");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Custom embedding function failed: {}, falling back", e.what());
+        }
+    }
+    
+    // Priority 2: Use LLM instance if available
+    if (config_.llm_ptr) {
+        try {
+            auto embedding = config_.llm_ptr->embed(prompt);
+            if (!embedding.empty()) {
+                // Resize or pad to match expected dimension
+                if (embedding.size() != config_.embedding_dim) {
+                    THEMIS_DEBUG("LLM embedding dimension mismatch: {} vs {}, adjusting",
+                                embedding.size(), config_.embedding_dim);
+                    embedding.resize(config_.embedding_dim, 0.0f);
+                }
+                return embedding;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("LLM embedding failed: {}, falling back to simple embeddings", e.what());
+        }
+    }
+    
+    // Priority 3: Fall back to simple feature-based embeddings
+    return generateSimpleEmbedding(prompt);
+}
+
+std::vector<float> LLMResponseCache::generateSimpleEmbedding(const std::string& prompt) const {
     // Generate a simple feature-based embedding using text characteristics
-    // NOTE: This is a placeholder for production LLM embedding models
-    // For real semantic similarity, integrate with actual embedding model (e.g., via LlamaWrapper::embed)
+    // This is a fallback when no LLM is available
     std::vector<float> embedding(config_.embedding_dim, 0.0f);
     
     // Extract features from the prompt
