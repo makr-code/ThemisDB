@@ -581,18 +581,311 @@ bool GPUMemoryManager::defragment() {
         return false;
     }
     
-    spdlog::info("Starting memory defragmentation...");
-    
-    // TODO: Implement actual defragmentation
-    // For now, just log that we would defragment
-    
-    size_t frag = getMemoryFragmentation();
-    if (frag < 10) {
-        spdlog::info("Fragmentation low ({}%), skipping", frag);
+    size_t initial_frag = getMemoryFragmentation();
+    if (initial_frag < 10) {
+        spdlog::debug("Fragmentation low ({}%), skipping defragmentation", initial_frag);
         return false;
     }
     
-    spdlog::info("Defragmentation complete (fragmentation: {} -> {}%)", frag, frag / 2);
+    spdlog::info("Starting memory defragmentation (current fragmentation: {}%)...", initial_frag);
+    
+    size_t models_defragmented = 0;
+    size_t allocations_consolidated = 0;
+    
+    // Iterate through each model and consolidate fragmented allocations
+    for (auto& [model_id, allocs] : allocations_) {
+        // Skip if model has only one allocation (not fragmented)
+        if (allocs.size() <= 1) {
+            continue;
+        }
+        
+        // Separate GPU and CPU allocations for this model
+        std::vector<MemoryAllocation> gpu_allocs;
+        std::vector<MemoryAllocation> cpu_allocs;
+        
+        for (const auto& alloc : allocs) {
+            if (alloc.vram_bytes > 0 && alloc.gpu_ptr) {
+                gpu_allocs.push_back(alloc);
+            }
+            if (alloc.ram_bytes > 0 && alloc.cpu_ptr) {
+                cpu_allocs.push_back(alloc);
+            }
+        }
+        
+        // Defragment GPU memory if there are multiple GPU allocations
+        if (gpu_allocs.size() > 1) {
+            if (defragmentModelGPU(model_id, gpu_allocs)) {
+                allocations_consolidated += gpu_allocs.size() - 1;
+            }
+        }
+        
+        // Defragment CPU memory if there are multiple CPU allocations
+        if (cpu_allocs.size() > 1) {
+            if (defragmentModelCPU(model_id, cpu_allocs)) {
+                allocations_consolidated += cpu_allocs.size() - 1;
+            }
+        }
+        
+        if (gpu_allocs.size() > 1 || cpu_allocs.size() > 1) {
+            models_defragmented++;
+        }
+    }
+    
+    size_t final_frag = getMemoryFragmentation();
+    
+    if (models_defragmented > 0) {
+        spdlog::info("Defragmentation complete: {} models defragmented, {} allocations consolidated", 
+                     models_defragmented, allocations_consolidated);
+        spdlog::info("Fragmentation reduced: {}% -> {}%", initial_frag, final_frag);
+        return true;
+    } else {
+        spdlog::debug("No fragmented models found, defragmentation skipped");
+        return false;
+    }
+}
+
+bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id, 
+                                          const std::vector<MemoryAllocation>& gpu_allocs) {
+    // Group allocations by GPU device
+    std::unordered_map<int, std::vector<MemoryAllocation>> per_device_allocs;
+    for (const auto& alloc : gpu_allocs) {
+        per_device_allocs[alloc.gpu_device_id].push_back(alloc);
+    }
+    
+    // Defragment each device separately
+    for (const auto& [device_id, device_allocs] : per_device_allocs) {
+        if (device_allocs.size() <= 1) {
+            continue;
+        }
+        
+        // Calculate total memory needed
+        size_t total_vram = 0;
+        for (const auto& alloc : device_allocs) {
+            total_vram += alloc.vram_bytes;
+        }
+        
+        // Allocate new consolidated block
+        void* new_ptr = nullptr;
+        
+#ifdef THEMIS_ENABLE_CUDA
+        if (gpu_available_) {
+            cudaSetDevice(device_id);
+            cudaError_t err = cudaMalloc(&new_ptr, total_vram);
+            if (err != cudaSuccess) {
+                spdlog::warn("Failed to allocate consolidated GPU memory for model {}: {}", 
+                           model_id, cudaGetErrorString(err));
+                return false;
+            }
+            
+            // Copy data from fragmented blocks to new consolidated block
+            size_t offset = 0;
+            for (const auto& alloc : device_allocs) {
+                cudaMemcpy(static_cast<char*>(new_ptr) + offset, 
+                          alloc.gpu_ptr, 
+                          alloc.vram_bytes, 
+                          cudaMemcpyDeviceToDevice);
+                offset += alloc.vram_bytes;
+            }
+        } else {
+            // Simulation mode fallback
+            new_ptr = std::malloc(total_vram);
+            if (!new_ptr) {
+                return false;
+            }
+            
+            size_t offset = 0;
+            for (const auto& alloc : device_allocs) {
+                std::memcpy(static_cast<char*>(new_ptr) + offset, 
+                           alloc.gpu_ptr, 
+                           alloc.vram_bytes);
+                offset += alloc.vram_bytes;
+            }
+        }
+#else
+        // Simulation mode
+        new_ptr = std::malloc(total_vram);
+        if (!new_ptr) {
+            return false;
+        }
+        
+        size_t offset = 0;
+        for (const auto& alloc : device_allocs) {
+            std::memcpy(static_cast<char*>(new_ptr) + offset, 
+                       alloc.gpu_ptr, 
+                       alloc.vram_bytes);
+            offset += alloc.vram_bytes;
+        }
+#endif
+        
+        // Free old fragmented blocks
+        for (const auto& alloc : device_allocs) {
+#ifdef THEMIS_ENABLE_CUDA
+            if (gpu_available_) {
+                cudaSetDevice(device_id);
+                CUDA_CHECK(cudaFree(alloc.gpu_ptr));
+            } else {
+                std::free(alloc.gpu_ptr);
+            }
+#else
+            std::free(alloc.gpu_ptr);
+#endif
+        }
+        
+        // Update allocations list - remove old fragmented allocations for this device
+        auto& model_allocs = allocations_[model_id];
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [device_id](const MemoryAllocation& alloc) {
+                    return alloc.gpu_device_id == device_id && alloc.vram_bytes > 0;
+                }),
+            model_allocs.end()
+        );
+        
+        // Add new consolidated allocation
+        MemoryAllocation consolidated;
+        consolidated.model_id = model_id;
+        consolidated.vram_bytes = total_vram;
+        consolidated.gpu_ptr = new_ptr;
+        consolidated.gpu_device_id = device_id;
+        model_allocs.push_back(consolidated);
+        
+        spdlog::debug("Consolidated {} GPU allocations for model {} on device {} into single {} MB block",
+                     device_allocs.size(), model_id, device_id, total_vram / (1024.0 * 1024));
+    }
+    
+    return true;
+}
+
+bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id, 
+                                          const std::vector<MemoryAllocation>& cpu_allocs) {
+    if (cpu_allocs.size() <= 1) {
+        return false;
+    }
+    
+    // Separate pinned and non-pinned allocations
+    std::vector<MemoryAllocation> pinned_allocs;
+    std::vector<MemoryAllocation> regular_allocs;
+    
+    for (const auto& alloc : cpu_allocs) {
+        if (alloc.is_pinned) {
+            pinned_allocs.push_back(alloc);
+        } else {
+            regular_allocs.push_back(alloc);
+        }
+    }
+    
+    // Consolidate pinned allocations
+    if (pinned_allocs.size() > 1) {
+        size_t total_ram = 0;
+        for (const auto& alloc : pinned_allocs) {
+            total_ram += alloc.ram_bytes;
+        }
+        
+        void* new_ptr = nullptr;
+        
+#ifdef THEMIS_ENABLE_CUDA
+        if (gpu_available_) {
+            cudaError_t err = cudaMallocHost(&new_ptr, total_ram);
+            if (err != cudaSuccess) {
+                spdlog::warn("Failed to allocate consolidated pinned memory for model {}: {}", 
+                           model_id, cudaGetErrorString(err));
+                // Fall back to regular malloc
+                new_ptr = std::malloc(total_ram);
+            }
+        } else {
+            new_ptr = std::malloc(total_ram);
+        }
+#else
+        new_ptr = std::malloc(total_ram);
+#endif
+        
+        if (!new_ptr) {
+            return false;
+        }
+        
+        // Copy data
+        size_t offset = 0;
+        for (const auto& alloc : pinned_allocs) {
+            std::memcpy(static_cast<char*>(new_ptr) + offset, 
+                       alloc.cpu_ptr, 
+                       alloc.ram_bytes);
+            offset += alloc.ram_bytes;
+        }
+        
+        // Free old blocks
+        for (const auto& alloc : pinned_allocs) {
+#ifdef THEMIS_ENABLE_CUDA
+            if (gpu_available_ && alloc.is_pinned) {
+                CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
+            } else {
+                std::free(alloc.cpu_ptr);
+            }
+#else
+            std::free(alloc.cpu_ptr);
+#endif
+        }
+        
+        // Update allocations
+        auto& model_allocs = allocations_[model_id];
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [](const MemoryAllocation& alloc) {
+                    return alloc.is_pinned && alloc.ram_bytes > 0;
+                }),
+            model_allocs.end()
+        );
+        
+        MemoryAllocation consolidated;
+        consolidated.model_id = model_id;
+        consolidated.ram_bytes = total_ram;
+        consolidated.cpu_ptr = new_ptr;
+        consolidated.is_pinned = true;
+        model_allocs.push_back(consolidated);
+    }
+    
+    // Consolidate regular allocations
+    if (regular_allocs.size() > 1) {
+        size_t total_ram = 0;
+        for (const auto& alloc : regular_allocs) {
+            total_ram += alloc.ram_bytes;
+        }
+        
+        void* new_ptr = std::malloc(total_ram);
+        if (!new_ptr) {
+            return false;
+        }
+        
+        // Copy data
+        size_t offset = 0;
+        for (const auto& alloc : regular_allocs) {
+            std::memcpy(static_cast<char*>(new_ptr) + offset, 
+                       alloc.cpu_ptr, 
+                       alloc.ram_bytes);
+            offset += alloc.ram_bytes;
+        }
+        
+        // Free old blocks
+        for (const auto& alloc : regular_allocs) {
+            std::free(alloc.cpu_ptr);
+        }
+        
+        // Update allocations
+        auto& model_allocs = allocations_[model_id];
+        model_allocs.erase(
+            std::remove_if(model_allocs.begin(), model_allocs.end(),
+                [](const MemoryAllocation& alloc) {
+                    return !alloc.is_pinned && alloc.ram_bytes > 0;
+                }),
+            model_allocs.end()
+        );
+        
+        MemoryAllocation consolidated;
+        consolidated.model_id = model_id;
+        consolidated.ram_bytes = total_ram;
+        consolidated.cpu_ptr = new_ptr;
+        consolidated.is_pinned = false;
+        model_allocs.push_back(consolidated);
+    }
     
     return true;
 }
