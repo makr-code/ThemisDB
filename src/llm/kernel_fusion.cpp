@@ -21,6 +21,15 @@ void fusedLayerNormLinearResidual(
     int hidden_dim,
     float epsilon
 ) {
+    static bool warning_logged = false;
+    if (!warning_logged) {
+        spdlog::warn("⚠️  Kernel Fusion: Using STUB implementation (CPU fallback)!");
+        spdlog::warn("    - No CUDA kernels implemented");
+        spdlog::warn("    - Flash Attention claims (50-100x) are not validated");
+        spdlog::warn("    - See .github/issues/05-implement-flash-attention-kernels.md");
+        warning_logged = true;
+    }
+    
     // TODO: Implement actual CUDA kernel when CUDA support is built
     // For now, CPU fallback implementation
     
