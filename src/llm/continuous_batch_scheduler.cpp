@@ -415,11 +415,14 @@ void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
 
 void ContinuousBatchScheduler::updateStats() {
     // Calculate average time to first token
+    // Note: Currently approximates TTFT using last_token_at for active decode requests
+    // For more accurate TTFT, consider adding a first_token_at timestamp in future
     double total_ttft = 0.0;
     size_t ttft_count = 0;
     
     for (const auto& req : active_requests_) {
         if (req->tokens_generated > 0 && req->state == RequestState::DECODE) {
+            // Approximate TTFT - ideally would use first token timestamp
             auto ttft = std::chrono::duration_cast<std::chrono::milliseconds>(
                 req->last_token_at - req->started_at
             ).count();
@@ -434,6 +437,7 @@ void ContinuousBatchScheduler::updateStats() {
     
     // Calculate tokens per second throughput (using only active requests)
     // This avoids performance issues as all_requests_ grows over time
+    // Note: Generation time includes prefill phase, which slightly underestimates TPS
     size_t total_tokens_generated = 0;
     std::chrono::milliseconds total_generation_time(0);
     
