@@ -1244,17 +1244,81 @@ RedundancyStats RedundancyStrategy::getStats() const {
 
 std::string RedundancyStrategy::exportPrometheusMetrics() const {
     std::stringstream ss;
+    
+    // Convert mode to string
+    std::string mode_str;
+    switch (config_.mode) {
+        case RedundancyMode::NONE: mode_str = "none"; break;
+        case RedundancyMode::MIRROR: mode_str = "mirror"; break;
+        case RedundancyMode::STRIPE: mode_str = "stripe"; break;
+        case RedundancyMode::STRIPE_MIRROR: mode_str = "stripe_mirror"; break;
+        case RedundancyMode::PARITY: mode_str = "parity"; break;
+        case RedundancyMode::RAID6: mode_str = "raid6"; break;
+        case RedundancyMode::GEO_MIRROR: mode_str = "geo_mirror"; break;
+        default: mode_str = "unknown"; break;
+    }
+    
     ss << "# HELP themis_redundancy_writes_total Total number of write operations\n";
     ss << "# TYPE themis_redundancy_writes_total counter\n";
-    ss << "themis_redundancy_writes_total " << stats_writes_.load() << "\n";
+    ss << "themis_redundancy_writes_total{mode=\"" << mode_str << "\"} " 
+       << stats_writes_.load() << "\n";
     
     ss << "# HELP themis_redundancy_reads_total Total number of read operations\n";
     ss << "# TYPE themis_redundancy_reads_total counter\n";
-    ss << "themis_redundancy_reads_total " << stats_reads_.load() << "\n";
+    ss << "themis_redundancy_reads_total{mode=\"" << mode_str << "\"} " 
+       << stats_reads_.load() << "\n";
     
     ss << "# HELP themis_redundancy_bytes_written_total Total bytes written\n";
     ss << "# TYPE themis_redundancy_bytes_written_total counter\n";
-    ss << "themis_redundancy_bytes_written_total " << stats_bytes_written_.load() << "\n";
+    ss << "themis_redundancy_bytes_written_total{mode=\"" << mode_str << "\"} " 
+       << stats_bytes_written_.load() << "\n";
+    
+    ss << "# HELP themis_redundancy_bytes_read_total Total bytes read\n";
+    ss << "# TYPE themis_redundancy_bytes_read_total counter\n";
+    ss << "themis_redundancy_bytes_read_total{mode=\"" << mode_str << "\"} " 
+       << stats_bytes_read_.load() << "\n";
+    
+    ss << "# HELP themis_redundancy_recoveries_total Total recovery operations\n";
+    ss << "# TYPE themis_redundancy_recoveries_total counter\n";
+    ss << "themis_redundancy_recoveries_total{mode=\"" << mode_str << "\"} " 
+       << stats_recoveries_.load() << "\n";
+    
+    // Configuration info
+    ss << "# HELP themis_redundancy_storage_efficiency Storage efficiency ratio (0.0-1.0)\n";
+    ss << "# TYPE themis_redundancy_storage_efficiency gauge\n";
+    ss << "themis_redundancy_storage_efficiency{mode=\"" << mode_str << "\"} " 
+       << config_.getStorageEfficiency() << "\n";
+    
+    ss << "# HELP themis_redundancy_fault_tolerance Number of failures tolerated\n";
+    ss << "# TYPE themis_redundancy_fault_tolerance gauge\n";
+    ss << "themis_redundancy_fault_tolerance{mode=\"" << mode_str << "\"} " 
+       << config_.getFaultTolerance() << "\n";
+    
+    // RAID 6 specific metrics
+    if (config_.mode == RedundancyMode::RAID6 || config_.mode == RedundancyMode::PARITY) {
+        ss << "# HELP themis_redundancy_data_shards Number of data shards\n";
+        ss << "# TYPE themis_redundancy_data_shards gauge\n";
+        ss << "themis_redundancy_data_shards{mode=\"" << mode_str << "\"} " 
+           << config_.erasure_coding.data_shards << "\n";
+        
+        ss << "# HELP themis_redundancy_parity_shards Number of parity shards\n";
+        ss << "# TYPE themis_redundancy_parity_shards gauge\n";
+        ss << "themis_redundancy_parity_shards{mode=\"" << mode_str << "\"} " 
+           << config_.erasure_coding.parity_shards << "\n";
+        
+        std::string algo_str;
+        switch (config_.erasure_coding.algorithm) {
+            case ErasureCodingAlgorithm::REED_SOLOMON: algo_str = "reed_solomon"; break;
+            case ErasureCodingAlgorithm::CAUCHY: algo_str = "cauchy"; break;
+            case ErasureCodingAlgorithm::LRC: algo_str = "lrc"; break;
+            default: algo_str = "unknown"; break;
+        }
+        
+        ss << "# HELP themis_redundancy_erasure_algorithm Erasure coding algorithm (info metric)\n";
+        ss << "# TYPE themis_redundancy_erasure_algorithm gauge\n";
+        ss << "themis_redundancy_erasure_algorithm{mode=\"" << mode_str 
+           << "\",algorithm=\"" << algo_str << "\"} 1\n";
+    }
     
     return ss.str();
 }
