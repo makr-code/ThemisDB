@@ -29,6 +29,43 @@ namespace themis {
 namespace llm {
 
 /**
+ * @brief Multi-GPU placement strategy for LoRA adapters (v1.4.0)
+ */
+enum class MultiGPUStrategy {
+    NONE = 0,           // Single GPU (default)
+    ROUND_ROBIN = 1,    // Distribute LoRAs evenly across GPUs
+    DATA_PARALLEL = 2,  // Replicate adapter on all GPUs
+    MODEL_PARALLEL = 3  // Split large adapter across GPUs
+};
+
+/**
+ * @brief GPU placement configuration for a LoRA adapter (v1.4.0)
+ */
+enum class GPUPlacement {
+    SINGLE_GPU = 0,     // LoRA on single GPU
+    MULTI_GPU = 1       // LoRA spans multiple GPUs
+};
+
+/**
+ * @brief Multi-GPU configuration for LoRA adapters (v1.4.0)
+ */
+struct MultiGPUConfig {
+    bool enabled = false;
+    std::vector<int> devices;                    // GPU device IDs to use (e.g., {0, 1, 2, 3})
+    MultiGPUStrategy strategy = MultiGPUStrategy::ROUND_ROBIN;
+    bool enable_peer_transfer = false;           // GPUDirect P2P
+    size_t max_vram_per_gpu_mb = 24 * 1024;     // Max VRAM per GPU (default: 24GB)
+    
+    // Load balancing
+    bool enable_load_balancing = true;
+    float load_balance_threshold = 0.8f;         // Rebalance when GPU usage > 80%
+    
+    // Fault tolerance
+    bool enable_fault_tolerance = true;
+    int health_check_interval_sec = 30;
+};
+
+/**
  * @brief Quantization mode for LoRA adapters
  */
 enum class QuantizationMode {
@@ -103,6 +140,11 @@ struct LoRASlot {
     size_t original_vram_bytes = 0;     // Original size before quantization
     std::vector<float> scale_factors;   // Per-channel scale factors
     std::vector<uint8_t> quantized_weights;  // Quantized weight data
+    
+    // Multi-GPU support (v1.4.0)
+    GPUPlacement gpu_placement = GPUPlacement::SINGLE_GPU;
+    std::vector<int> assigned_gpus;     // GPU device IDs where this LoRA is loaded
+    int primary_gpu = 0;                 // Primary GPU for single-GPU or coordinator for multi-GPU
 };
 
 /**
@@ -139,6 +181,9 @@ public:
         
         // Quantization (v1.4.0)
         LoRAQuantizationConfig quantization;
+        
+        // Multi-GPU support (v1.4.0)
+        MultiGPUConfig multi_gpu;
     };
     
     explicit MultiLoRAManager(const Config& config);
@@ -199,6 +244,28 @@ public:
         const std::string& lora_path,
         const std::string& base_model_id,
         bool quantize,
+        float scale = 1.0f
+    );
+    
+    /**
+     * @brief Load a LoRA adapter with multi-GPU placement (v1.4.0)
+     * 
+     * Loads a LoRA adapter with explicit GPU placement control.
+     * 
+     * @param lora_id Unique LoRA identifier
+     * @param lora_path Path to LoRA weights file
+     * @param base_model_id Compatible base model
+     * @param quantize Whether to apply quantization
+     * @param placement GPU placement strategy (SINGLE_GPU or MULTI_GPU)
+     * @param scale LoRA scaling factor (default: 1.0)
+     * @return true if loaded successfully
+     */
+    bool loadLoRA(
+        const std::string& lora_id,
+        const std::string& lora_path,
+        const std::string& base_model_id,
+        bool quantize,
+        GPUPlacement placement,
         float scale = 1.0f
     );
     
@@ -297,6 +364,47 @@ public:
     std::optional<QuantizationStats> getQuantizationStats(const std::string& lora_id) const;
     
     /**
+     * @brief Get multi-GPU configuration (v1.4.0)
+     * 
+     * @return Current multi-GPU configuration
+     */
+    MultiGPUConfig getMultiGPUConfig() const;
+    
+    /**
+     * @brief Set multi-GPU configuration (v1.4.0)
+     * 
+     * Updates multi-GPU configuration. Affects subsequently loaded LoRAs.
+     * 
+     * @param config Multi-GPU configuration
+     */
+    void setMultiGPUConfig(const MultiGPUConfig& config);
+    
+    /**
+     * @brief Get GPU placement for a LoRA adapter (v1.4.0)
+     * 
+     * @param lora_id LoRA identifier
+     * @return GPU device IDs where the LoRA is placed, empty if not loaded
+     */
+    std::vector<int> getLoRAGPUPlacement(const std::string& lora_id) const;
+    
+    /**
+     * @brief Get per-GPU memory statistics (v1.4.0)
+     * 
+     * @return Map of GPU ID to VRAM usage in bytes
+     */
+    std::unordered_map<int, size_t> getPerGPUMemoryUsage() const;
+    
+    /**
+     * @brief Balance LoRA load across GPUs (v1.4.0)
+     * 
+     * Redistributes LoRAs across GPUs for better load balancing.
+     * Only effective when multi-GPU is enabled with ROUND_ROBIN strategy.
+     * 
+     * @return Number of LoRAs moved
+     */
+    size_t balanceGPULoad();
+    
+    /**
      * @brief List all loaded LoRAs
      */
     std::vector<LoRAInfo> listLoRAs() const;
@@ -381,14 +489,27 @@ private:
     size_t evictions_ = 0;
     size_t switches_ = 0;                // LoRA switch count
     
+    // Multi-GPU state (v1.4.0)
+    std::unordered_map<int, size_t> gpu_vram_usage_;  // Per-GPU VRAM tracking
+    int next_round_robin_gpu_ = 0;                     // Round-robin counter
+    
     // Internal helpers
     LoRASlot* loadLoRAInternal(
         const std::string& lora_id,
         const std::string& lora_path,
         const std::string& base_model_id,
         float scale,
-        bool quantize = false
+        bool quantize = false,
+        GPUPlacement placement = GPUPlacement::SINGLE_GPU
     );
+    
+    // Multi-GPU helpers (v1.4.0)
+    int selectGPUForLoRA(size_t vram_bytes);  // Select best GPU for new LoRA
+    bool loadLoRAOnGPU(LoRASlot* lora, int gpu_id);  // Load LoRA on specific GPU
+    bool loadLoRAMultiGPU(LoRASlot* lora);  // Load LoRA across multiple GPUs
+    void updateGPUMemoryTracking();  // Recalculate per-GPU memory usage
+    bool isGPUHealthy(int gpu_id) const;  // Check GPU health status
+    std::vector<int> getAvailableGPUs() const;  // Get list of available GPUs
     
     // Quantization helpers
     bool quantizeLoRA(LoRASlot* lora);

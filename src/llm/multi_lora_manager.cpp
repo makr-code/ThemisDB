@@ -43,6 +43,25 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
         spdlog::info("  Quantization: enabled (mode: {})", 
                      quantizationModeToString(config_.quantization.mode));
     }
+    
+    // Initialize multi-GPU support (v1.4.0)
+    if (config_.multi_gpu.enabled && !config_.multi_gpu.devices.empty()) {
+        spdlog::info("  Multi-GPU: enabled");
+        spdlog::info("    Strategy: {}", 
+                     config_.multi_gpu.strategy == MultiGPUStrategy::ROUND_ROBIN ? "ROUND_ROBIN" :
+                     config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL ? "DATA_PARALLEL" :
+                     config_.multi_gpu.strategy == MultiGPUStrategy::MODEL_PARALLEL ? "MODEL_PARALLEL" : "UNKNOWN");
+        spdlog::info("    Devices: {} GPUs", config_.multi_gpu.devices.size());
+        spdlog::info("    Peer transfer: {}", config_.multi_gpu.enable_peer_transfer ? "enabled" : "disabled");
+        
+        // Initialize per-GPU tracking
+        for (int gpu_id : config_.multi_gpu.devices) {
+            gpu_vram_usage_[gpu_id] = 0;
+            spdlog::debug("    GPU {} initialized", gpu_id);
+        }
+    } else {
+        spdlog::info("  Multi-GPU: disabled (single GPU mode)");
+    }
 }
 
 MultiLoRAManager::~MultiLoRAManager() {
@@ -123,8 +142,8 @@ bool MultiLoRAManager::loadLoRA(
         evictLRU();
     }
     
-    // Load LoRA
-    auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale, quantize);
+    // Load LoRA (default to single GPU placement)
+    auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale, quantize, GPUPlacement::SINGLE_GPU);
     return lora != nullptr;
 }
 
@@ -735,69 +754,10 @@ bool MultiLoRAManager::importLoRA(
     lora->last_used = std::chrono::system_clock::now();
     
     total_vram_bytes_ += lora->vram_bytes;
-    
     loras_[lora_id] = std::move(lora);
     
     spdlog::info("LoRA {} imported successfully", lora_id);
     return true;
-}
-
-LoRASlot* MultiLoRAManager::loadLoRAInternal(
-    const std::string& lora_id,
-    const std::string& lora_path,
-    const std::string& base_model_id,
-    float scale,
-    bool quantize
-) {
-    // Already locked by caller
-    
-    spdlog::info("Loading LoRA: {} from {}", lora_id, lora_path);
-    
-    auto lora = std::make_unique<LoRASlot>();
-    lora->lora_id = lora_id;
-    lora->path = lora_path;
-    lora->base_model_id = base_model_id;
-    lora->scale = scale;
-    lora->loaded_at = std::chrono::system_clock::now();
-    lora->last_used = std::chrono::system_clock::now();
-    lora->use_count = 1;
-    
-    // Load LoRA from file
-    // In production with llama.cpp, this would use:
-    // lora->adapter_handle = llama_lora_adapter_init(model, lora_path.c_str());
-    
-    // Estimate VRAM usage based on file size or typical LoRA parameters
-    // Typical LoRA: rank * 2 * hidden_dim * n_layers * sizeof(float)
-    // For a 7B model with rank=8: ~32-64 MB
-    lora->original_vram_bytes = TYPICAL_LORA_RANK8_BYTES;
-    lora->vram_bytes = lora->original_vram_bytes;
-    lora->rank = 8;
-    lora->alpha = 16;
-    
-    // Apply quantization if requested
-    if (quantize && config_.quantization.enabled) {
-        spdlog::info("Applying {} quantization to LoRA: {}", 
-                     quantizationModeToString(config_.quantization.mode),
-                     lora_id);
-        if (quantizeLoRA(lora.get())) {
-            spdlog::info("Quantization successful: {} -> {} bytes ({:.1f}× compression)",
-                         lora->original_vram_bytes, lora->vram_bytes, 
-                         static_cast<float>(lora->original_vram_bytes) / lora->vram_bytes);
-        } else {
-            spdlog::warn("Quantization failed, using full precision");
-        }
-    }
-    
-    // Update totals
-    total_vram_bytes_ += lora->vram_bytes;
-    
-    auto* result = lora.get();
-    loras_[lora_id] = std::move(lora);
-    
-    spdlog::info("LoRA loaded successfully: {} ({} MB VRAM)", 
-                 lora_id, result->vram_bytes / (1024 * 1024));
-    
-    return result;
 }
 
 bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
@@ -1017,6 +977,442 @@ std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
     }
     
     return weights;
+}
+
+// Multi-GPU support methods (v1.4.0)
+
+bool MultiLoRAManager::loadLoRA(
+    const std::string& lora_id,
+    const std::string& lora_path,
+    const std::string& base_model_id,
+    bool quantize,
+    GPUPlacement placement,
+    float scale
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Check if already loaded
+    auto it = loras_.find(lora_id);
+    if (it != loras_.end()) {
+        spdlog::debug("LoRA cache hit: {}", lora_id);
+        cache_hits_++;
+        it->second->last_used = std::chrono::system_clock::now();
+        it->second->use_count++;
+        return true;
+    }
+    
+    spdlog::info("LoRA cache miss: {} - loading with placement: {}", 
+                 lora_id, placement == GPUPlacement::MULTI_GPU ? "MULTI_GPU" : "SINGLE_GPU");
+    cache_misses_++;
+    
+    // Check if we need to evict
+    if (loras_.size() >= config_.max_lora_slots) {
+        spdlog::info("LoRA cache full, evicting LRU");
+        evictLRU();
+    }
+    
+    // Load LoRA with specified placement
+    auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale, quantize, placement);
+    return lora != nullptr;
+}
+
+MultiGPUConfig MultiLoRAManager::getMultiGPUConfig() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return config_.multi_gpu;
+}
+
+void MultiLoRAManager::setMultiGPUConfig(const MultiGPUConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    config_.multi_gpu = config;
+    
+    // Reinitialize GPU tracking
+    if (config.enabled) {
+        gpu_vram_usage_.clear();
+        for (int gpu_id : config.devices) {
+            gpu_vram_usage_[gpu_id] = 0;
+        }
+        next_round_robin_gpu_ = 0;
+    }
+    
+    spdlog::info("Multi-GPU configuration updated: {} GPUs", config.devices.size());
+}
+
+std::vector<int> MultiLoRAManager::getLoRAGPUPlacement(const std::string& lora_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = loras_.find(lora_id);
+    if (it == loras_.end()) {
+        return {};
+    }
+    
+    return it->second->assigned_gpus;
+}
+
+std::unordered_map<int, size_t> MultiLoRAManager::getPerGPUMemoryUsage() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return gpu_vram_usage_;
+}
+
+size_t MultiLoRAManager::balanceGPULoad() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!config_.multi_gpu.enabled || 
+        config_.multi_gpu.strategy != MultiGPUStrategy::ROUND_ROBIN) {
+        return 0;
+    }
+    
+    if (config_.multi_gpu.devices.size() < 2) {
+        return 0;  // Nothing to balance with single GPU
+    }
+    
+    // Calculate average VRAM usage
+    size_t total_usage = 0;
+    for (const auto& [_, usage] : gpu_vram_usage_) {
+        total_usage += usage;
+    }
+    size_t avg_usage = total_usage / gpu_vram_usage_.size();
+    
+    // Find GPUs that exceed threshold
+    std::vector<int> overloaded_gpus;
+    std::vector<int> underloaded_gpus;
+    
+    for (const auto& [gpu_id, usage] : gpu_vram_usage_) {
+        float usage_ratio = static_cast<float>(usage) / config_.multi_gpu.max_vram_per_gpu_mb;
+        if (usage_ratio > config_.multi_gpu.load_balance_threshold) {
+            overloaded_gpus.push_back(gpu_id);
+        } else if (usage < avg_usage * 0.8f) {
+            underloaded_gpus.push_back(gpu_id);
+        }
+    }
+    
+    if (overloaded_gpus.empty() || underloaded_gpus.empty()) {
+        spdlog::debug("GPU load is balanced, no action needed");
+        return 0;
+    }
+    
+    // Move LoRAs from overloaded to underloaded GPUs
+    size_t moved = 0;
+    for (int overloaded_gpu : overloaded_gpus) {
+        // Find LoRAs on this GPU
+        for (auto& [lora_id, lora] : loras_) {
+            if (lora->primary_gpu == overloaded_gpu && 
+                !lora->keep_loaded &&
+                lora->gpu_placement == GPUPlacement::SINGLE_GPU) {
+                
+                // Try to move to underloaded GPU
+                for (int target_gpu : underloaded_gpus) {
+                    size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+                    if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < max_vram_per_gpu_bytes) {
+                        
+                        spdlog::info("Moving LoRA {} from GPU {} to GPU {}", 
+                                     lora_id, overloaded_gpu, target_gpu);
+                        
+                        // Update tracking
+                        gpu_vram_usage_[overloaded_gpu] -= lora->vram_bytes;
+                        gpu_vram_usage_[target_gpu] += lora->vram_bytes;
+                        lora->primary_gpu = target_gpu;
+                        lora->assigned_gpus = {target_gpu};
+                        
+                        moved++;
+                        break;
+                    }
+                }
+                
+                if (moved >= 5) {  // Limit moves per balance operation
+                    break;
+                }
+            }
+        }
+        if (moved >= 5) break;
+    }
+    
+    if (moved > 0) {
+        spdlog::info("Balanced GPU load: moved {} LoRAs", moved);
+    }
+    
+    return moved;
+}
+
+// Internal multi-GPU helper methods
+
+int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
+    // Already locked by caller
+    
+    if (!config_.multi_gpu.enabled || config_.multi_gpu.devices.empty()) {
+        return 0;  // Default GPU
+    }
+    
+    // Pre-compute max VRAM per GPU in bytes to avoid repeated multiplication
+    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+    
+    switch (config_.multi_gpu.strategy) {
+        case MultiGPUStrategy::ROUND_ROBIN: {
+            // Simple round-robin across GPUs
+            int selected_gpu = config_.multi_gpu.devices[next_round_robin_gpu_];
+            next_round_robin_gpu_ = (next_round_robin_gpu_ + 1) % config_.multi_gpu.devices.size();
+            
+            // Check if GPU has capacity
+            if (gpu_vram_usage_[selected_gpu] + vram_bytes <= max_vram_per_gpu_bytes) {
+                return selected_gpu;
+            }
+            
+            // Try other GPUs if selected one is full
+            for (int gpu_id : config_.multi_gpu.devices) {
+                if (gpu_vram_usage_[gpu_id] + vram_bytes <= max_vram_per_gpu_bytes) {
+                    return gpu_id;
+                }
+            }
+            
+            spdlog::warn("All GPUs are near capacity, using GPU {} anyway", selected_gpu);
+            return selected_gpu;
+        }
+        
+        case MultiGPUStrategy::DATA_PARALLEL: {
+            // For data parallel, we'll replicate on all GPUs
+            // Return first GPU as primary
+            return config_.multi_gpu.devices[0];
+        }
+        
+        case MultiGPUStrategy::MODEL_PARALLEL: {
+            // For model parallel, select GPU with most free space
+            int best_gpu = config_.multi_gpu.devices[0];
+            size_t max_free = max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu];
+            
+            for (size_t i = 1; i < config_.multi_gpu.devices.size(); ++i) {
+                int gpu_id = config_.multi_gpu.devices[i];
+                size_t free = max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id];
+                if (free > max_free) {
+                    max_free = free;
+                    best_gpu = gpu_id;
+                }
+            }
+            
+            return best_gpu;
+        }
+        
+        default:
+            return 0;
+    }
+}
+
+bool MultiLoRAManager::loadLoRAOnGPU(LoRASlot* lora, int gpu_id) {
+    // Already locked by caller
+    
+    if (!lora) {
+        return false;
+    }
+    
+    spdlog::debug("Loading LoRA {} on GPU {}", lora->lora_id, gpu_id);
+    
+    // In production with CUDA:
+    // cudaSetDevice(gpu_id);
+    // lora->adapter_handle = llama_lora_adapter_init_on_device(model, lora->path.c_str(), gpu_id);
+    
+    // Update tracking
+    lora->primary_gpu = gpu_id;
+    lora->assigned_gpus = {gpu_id};
+    lora->gpu_placement = GPUPlacement::SINGLE_GPU;
+    gpu_vram_usage_[gpu_id] += lora->vram_bytes;
+    
+    spdlog::info("LoRA {} loaded on GPU {} ({} MB)", 
+                 lora->lora_id, gpu_id, lora->vram_bytes / (1024 * 1024));
+    
+    return true;
+}
+
+bool MultiLoRAManager::loadLoRAMultiGPU(LoRASlot* lora) {
+    // Already locked by caller
+    
+    if (!lora || !config_.multi_gpu.enabled) {
+        return false;
+    }
+    
+    spdlog::info("Loading LoRA {} across multiple GPUs", lora->lora_id);
+    
+    switch (config_.multi_gpu.strategy) {
+        case MultiGPUStrategy::DATA_PARALLEL: {
+            // Replicate LoRA on all GPUs
+            lora->assigned_gpus = config_.multi_gpu.devices;
+            lora->primary_gpu = config_.multi_gpu.devices[0];
+            lora->gpu_placement = GPUPlacement::MULTI_GPU;
+            
+            for (int gpu_id : config_.multi_gpu.devices) {
+                // In production: load replica on each GPU
+                gpu_vram_usage_[gpu_id] += lora->vram_bytes;
+                spdlog::debug("  Replica on GPU {}", gpu_id);
+            }
+            
+            spdlog::info("LoRA {} replicated across {} GPUs (data parallel)", 
+                         lora->lora_id, lora->assigned_gpus.size());
+            break;
+        }
+        
+        case MultiGPUStrategy::MODEL_PARALLEL: {
+            // Split LoRA across GPUs
+            size_t chunk_size = lora->vram_bytes / config_.multi_gpu.devices.size();
+            lora->assigned_gpus = config_.multi_gpu.devices;
+            lora->primary_gpu = config_.multi_gpu.devices[0];
+            lora->gpu_placement = GPUPlacement::MULTI_GPU;
+            
+            for (size_t i = 0; i < config_.multi_gpu.devices.size(); ++i) {
+                int gpu_id = config_.multi_gpu.devices[i];
+                size_t chunk = (i == config_.multi_gpu.devices.size() - 1) ? 
+                              (lora->vram_bytes - chunk_size * i) : chunk_size;
+                
+                // In production: load shard on each GPU
+                gpu_vram_usage_[gpu_id] += chunk;
+                spdlog::debug("  Shard {} on GPU {} ({} MB)", 
+                             i, gpu_id, chunk / (1024 * 1024));
+            }
+            
+            spdlog::info("LoRA {} split across {} GPUs (model parallel)", 
+                         lora->lora_id, lora->assigned_gpus.size());
+            break;
+        }
+        
+        default:
+            return false;
+    }
+    
+    return true;
+}
+
+void MultiLoRAManager::updateGPUMemoryTracking() {
+    // Already locked by caller
+    
+    // Recalculate per-GPU usage from LoRAs
+    for (auto& [gpu_id, _] : gpu_vram_usage_) {
+        gpu_vram_usage_[gpu_id] = 0;
+    }
+    
+    for (const auto& [_, lora] : loras_) {
+        if (lora->gpu_placement == GPUPlacement::SINGLE_GPU) {
+            gpu_vram_usage_[lora->primary_gpu] += lora->vram_bytes;
+        } else {
+            // Multi-GPU placement
+            for (int gpu_id : lora->assigned_gpus) {
+                if (config_.multi_gpu.strategy == MultiGPUStrategy::DATA_PARALLEL) {
+                    // Full copy on each GPU
+                    gpu_vram_usage_[gpu_id] += lora->vram_bytes;
+                } else {
+                    // Split across GPUs
+                    size_t chunk = lora->vram_bytes / lora->assigned_gpus.size();
+                    gpu_vram_usage_[gpu_id] += chunk;
+                }
+            }
+        }
+    }
+}
+
+bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
+    // Already locked by caller
+    
+    // TODO: In production, check actual GPU health
+    // cudaError_t err = cudaSetDevice(gpu_id);
+    // if (err != cudaSuccess) return false;
+    //
+    // cudaDeviceProp prop;
+    // err = cudaGetDeviceProperties(&prop, gpu_id);
+    // return err == cudaSuccess;
+    
+    // Simulation: all GPUs are healthy
+    return config_.multi_gpu.enabled && 
+           std::find(config_.multi_gpu.devices.begin(), 
+                    config_.multi_gpu.devices.end(), 
+                    gpu_id) != config_.multi_gpu.devices.end();
+}
+
+std::vector<int> MultiLoRAManager::getAvailableGPUs() const {
+    // Already locked by caller
+    
+    if (!config_.multi_gpu.enabled) {
+        return {0};
+    }
+    
+    std::vector<int> available;
+    for (int gpu_id : config_.multi_gpu.devices) {
+        if (isGPUHealthy(gpu_id)) {
+            available.push_back(gpu_id);
+        }
+    }
+    
+    return available;
+}
+
+// Update loadLoRAInternal to support multi-GPU placement
+LoRASlot* MultiLoRAManager::loadLoRAInternal(
+    const std::string& lora_id,
+    const std::string& lora_path,
+    const std::string& base_model_id,
+    float scale,
+    bool quantize,
+    GPUPlacement placement
+) {
+    // Already locked by caller
+    
+    spdlog::info("Loading LoRA: {} from {} (placement: {})", 
+                 lora_id, lora_path, placement == GPUPlacement::MULTI_GPU ? "MULTI_GPU" : "SINGLE_GPU");
+    
+    auto lora = std::make_unique<LoRASlot>();
+    lora->lora_id = lora_id;
+    lora->path = lora_path;
+    lora->base_model_id = base_model_id;
+    lora->scale = scale;
+    lora->loaded_at = std::chrono::system_clock::now();
+    lora->last_used = std::chrono::system_clock::now();
+    lora->use_count = 1;
+    lora->gpu_placement = placement;
+    
+    // Load LoRA from file
+    // In production with llama.cpp, this would use:
+    // lora->adapter_handle = llama_lora_adapter_init(model, lora_path.c_str());
+    
+    // Estimate VRAM usage
+    lora->original_vram_bytes = TYPICAL_LORA_RANK8_BYTES;
+    lora->vram_bytes = lora->original_vram_bytes;
+    lora->rank = 8;
+    lora->alpha = 16;
+    
+    // Apply quantization if requested
+    if (quantize && config_.quantization.enabled) {
+        spdlog::info("Applying {} quantization to LoRA: {}", 
+                     quantizationModeToString(config_.quantization.mode),
+                     lora_id);
+        if (quantizeLoRA(lora.get())) {
+            spdlog::info("Quantization successful: {} -> {} bytes ({:.1f}× compression)",
+                         lora->original_vram_bytes, lora->vram_bytes, 
+                         static_cast<float>(lora->original_vram_bytes) / lora->vram_bytes);
+        } else {
+            spdlog::warn("Quantization failed, using full precision");
+        }
+    }
+    
+    // Handle GPU placement
+    if (placement == GPUPlacement::MULTI_GPU && config_.multi_gpu.enabled) {
+        if (!loadLoRAMultiGPU(lora.get())) {
+            spdlog::error("Failed to load LoRA on multiple GPUs");
+            return nullptr;
+        }
+    } else {
+        // Single GPU placement
+        int gpu_id = selectGPUForLoRA(lora->vram_bytes);
+        if (!loadLoRAOnGPU(lora.get(), gpu_id)) {
+            spdlog::error("Failed to load LoRA on GPU {}", gpu_id);
+            return nullptr;
+        }
+    }
+    
+    // Update totals
+    total_vram_bytes_ += lora->vram_bytes;
+    
+    auto* result = lora.get();
+    loras_[lora_id] = std::move(lora);
+    
+    spdlog::info("LoRA loaded successfully: {} ({} MB VRAM, GPU(s): {})", 
+                 lora_id, result->vram_bytes / (1024 * 1024),
+                 result->assigned_gpus.size());
+    
+    return result;
 }
 
 } // namespace llm
