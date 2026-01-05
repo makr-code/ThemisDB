@@ -1654,4 +1654,66 @@ std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
     return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
 }
 
+// SafeIterator implementation - SOLUTION 1B for iterator lifecycle safety
+RocksDBWrapper::SafeIterator RocksDBWrapper::newSafeIterator(const rocksdb::ReadOptions* read_options) {
+    // Create operation guard first to extend database lifetime
+    auto guard = std::make_unique<OperationGuard>(this);
+    
+    if (!guard || !*guard) {
+        // Database not open - return invalid iterator
+        return SafeIterator(nullptr, std::move(guard));
+    }
+    
+    // Use provided read options or default
+    const rocksdb::ReadOptions* opts = read_options ? read_options : read_options_.get();
+    
+    // Create iterator while holding guard
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("newSafeIterator: base DB is null");
+        return SafeIterator(nullptr, std::move(guard));
+    }
+    
+    auto iter = std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(*opts));
+    
+    return SafeIterator(std::move(iter), std::move(guard));
+}
+
+// SafeIterator method implementations
+void RocksDBWrapper::SafeIterator::Seek(const std::string& target) {
+    if (iterator_) iterator_->Seek(target);
+}
+
+void RocksDBWrapper::SafeIterator::SeekToFirst() {
+    if (iterator_) iterator_->SeekToFirst();
+}
+
+void RocksDBWrapper::SafeIterator::SeekToLast() {
+    if (iterator_) iterator_->SeekToLast();
+}
+
+void RocksDBWrapper::SafeIterator::Next() {
+    if (iterator_) iterator_->Next();
+}
+
+void RocksDBWrapper::SafeIterator::Prev() {
+    if (iterator_) iterator_->Prev();
+}
+
+bool RocksDBWrapper::SafeIterator::Valid() const {
+    return iterator_ && iterator_->Valid();
+}
+
+std::string_view RocksDBWrapper::SafeIterator::key() const {
+    if (!iterator_) return std::string_view();
+    auto s = iterator_->key();
+    return std::string_view(s.data(), s.size());
+}
+
+std::string_view RocksDBWrapper::SafeIterator::value() const {
+    if (!iterator_) return std::string_view();
+    auto s = iterator_->value();
+    return std::string_view(s.data(), s.size());
+}
+
 } // namespace themis

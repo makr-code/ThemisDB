@@ -263,6 +263,60 @@ public:
     
     // ===== Iteration / Scanning =====
     
+    /// RAII wrapper for safe iterator usage
+    /// Automatically manages database lifecycle during iteration
+    /// Prevents use-after-free by holding OperationGuard
+    class SafeIterator {
+    public:
+        SafeIterator(SafeIterator&& other) noexcept = default;
+        SafeIterator& operator=(SafeIterator&& other) noexcept = default;
+        
+        // No copying - enforce move semantics for safety
+        SafeIterator(const SafeIterator&) = delete;
+        SafeIterator& operator=(const SafeIterator&) = delete;
+        
+        ~SafeIterator() = default;
+        
+        // Forward iterator interface
+        void Seek(const std::string& target);
+        void SeekToFirst();
+        void SeekToLast();
+        void Next();
+        void Prev();
+        bool Valid() const;
+        std::string_view key() const;
+        std::string_view value() const;
+        
+        // Check if iterator is usable
+        explicit operator bool() const { return iterator_ != nullptr; }
+        
+    private:
+        friend class RocksDBWrapper;
+        
+        SafeIterator(std::unique_ptr<rocksdb::Iterator> iter, 
+                     std::unique_ptr<OperationGuard> guard)
+            : iterator_(std::move(iter))
+            , guard_(std::move(guard)) {}
+        
+        std::unique_ptr<rocksdb::Iterator> iterator_;
+        std::unique_ptr<OperationGuard> guard_;  // Keeps database alive
+    };
+    
+    /// Creates a safe iterator with automatic lifecycle management
+    /// Preferred over newIterator() for most use cases
+    /// 
+    /// The returned SafeIterator holds an OperationGuard that prevents
+    /// the database from being closed while the iterator is in use.
+    /// 
+    /// Thread-Safety:
+    /// - Safe to call from multiple threads concurrently
+    /// - Each thread gets its own iterator instance
+    /// - Iterator itself is NOT thread-safe (use from single thread)
+    /// 
+    /// @param read_options Optional read options
+    /// @return SafeIterator with automatic lifecycle management
+    SafeIterator newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
+    
     /// Scan with prefix (for index scans)
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
     void scanPrefix(std::string_view prefix, ScanCallback callback);

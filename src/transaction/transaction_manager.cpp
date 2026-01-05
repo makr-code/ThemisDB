@@ -6,6 +6,8 @@
 #include "index/vector_index.h"
 #include "transaction/saga.h"
 #include "utils/logger.h"
+#include <functional>
+#include <thread>
 
 namespace themis {
 
@@ -29,7 +31,10 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
         active_transactions_[txn_id] = txn;
     }
     
-    total_begun_.fetch_add(1, std::memory_order_relaxed);
+    // SOLUTION 2B: Update statistics with sequence lock
+    updateStatsWithSeqLock([this]() {
+        total_begun_.fetch_add(1, std::memory_order_relaxed);
+    });
     THEMIS_INFO("Transaction {} begun (isolation: {})", txn_id, 
                isolation == IsolationLevel::ReadCommitted ? "ReadCommitted" : "Snapshot");
     
@@ -58,10 +63,16 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
     
     auto status = txn->commit();
     if (status.ok) {
-        total_committed_.fetch_add(1, std::memory_order_relaxed);
+        // SOLUTION 2B: Update statistics with sequence lock
+        updateStatsWithSeqLock([this]() {
+            total_committed_.fetch_add(1, std::memory_order_relaxed);
+        });
         THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
     } else {
-        total_aborted_.fetch_add(1, std::memory_order_relaxed);
+        // SOLUTION 2B: Update statistics with sequence lock
+        updateStatsWithSeqLock([this]() {
+            total_aborted_.fetch_add(1, std::memory_order_relaxed);
+        });
         THEMIS_WARN("Transaction {} commit failed: {}", id, status.message);
     }
     
@@ -81,7 +92,10 @@ void TransactionManager::rollbackTransaction(TransactionId id) {
     }
     
     txn->rollback();
-    total_aborted_.fetch_add(1, std::memory_order_relaxed);
+    // SOLUTION 2B: Update statistics with sequence lock
+    updateStatsWithSeqLock([this]() {
+        total_aborted_.fetch_add(1, std::memory_order_relaxed);
+    });
     THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
     
     moveToCompleted(id);
@@ -130,6 +144,68 @@ TransactionManager::Stats TransactionManager::getStats() const {
     return stats;
 }
 
+// SOLUTION 2B: Lock-free statistics with sequence lock pattern
+TransactionManager::Stats TransactionManager::getStatsLockFree() const {
+    Stats stats;
+    uint64_t seq1, seq2;
+    
+    // Optimistic read with retry on concurrent modification
+    do {
+        // Read sequence number (acquire semantics)
+        seq1 = stats_sequence_.load(std::memory_order_acquire);
+        
+        // If sequence is odd, a writer is active - retry
+        if ((seq1 & 1) != 0) {
+            std::this_thread::yield();  // Give writer a chance to finish
+            continue;
+        }
+        
+        // Read all statistics atomically
+        stats.total_begun = total_begun_.load(std::memory_order_relaxed);
+        stats.total_committed = total_committed_.load(std::memory_order_relaxed);
+        stats.total_aborted = total_aborted_.load(std::memory_order_relaxed);
+        
+        // For map sizes, we need a quick lock (cannot be done lock-free)
+        // This is acceptable as the lock is held very briefly
+        {
+            std::lock_guard<std::mutex> lock(sessions_mutex_);
+            stats.active_count = active_transactions_.size();
+            
+            // Calculate duration stats
+            uint64_t total_duration = 0;
+            stats.max_duration_ms = 0;
+            size_t count = 0;
+            
+            for (const auto& [id, txn] : completed_transactions_) {
+                auto duration = txn->getDurationMs();
+                total_duration += duration;
+                stats.max_duration_ms = std::max(stats.max_duration_ms, duration);
+                ++count;
+            }
+            
+            stats.avg_duration_ms = count > 0 ? total_duration / count : 0;
+        }
+        
+        // Read sequence number again (acquire semantics)
+        seq2 = stats_sequence_.load(std::memory_order_acquire);
+        
+    } while (seq1 != seq2 || (seq1 & 1) != 0);  // Retry if modified during read
+    
+    return stats;
+}
+
+// Helper to update statistics with sequence lock protocol
+void TransactionManager::updateStatsWithSeqLock(std::function<void()> update) {
+    // Increment sequence (odd = writer active)
+    stats_sequence_.fetch_add(1, std::memory_order_release);
+    
+    // Perform the update
+    update();
+    
+    // Increment sequence again (even = no active writer)
+    stats_sequence_.fetch_add(1, std::memory_order_release);
+}
+
 void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
@@ -148,7 +224,10 @@ void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
 // Direct transaction (legacy API)
 TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
-    total_begun_.fetch_add(1, std::memory_order_relaxed);
+    // SOLUTION 2B: Update statistics with sequence lock
+    updateStatsWithSeqLock([this]() {
+        total_begun_.fetch_add(1, std::memory_order_relaxed);
+    });
     return Transaction(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
 }
 
