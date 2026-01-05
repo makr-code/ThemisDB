@@ -64,7 +64,37 @@ void GPUMemoryManager::initializeGPU() {
     // For now, assume GPU is available (simulation mode)
     gpu_available_ = true;
     gpu_device_id_ = 0;
+    
+    // Initialize multi-GPU support (v1.4.0)
+    if (config_.enable_multi_gpu && !config_.gpu_devices.empty()) {
+        spdlog::info("Initializing multi-GPU support with {} GPUs", config_.gpu_devices.size());
+        available_gpus_ = config_.gpu_devices;
+        
+        for (int gpu_id : config_.gpu_devices) {
+            per_gpu_vram_used_[gpu_id] = 0;
+            gpu_health_status_[gpu_id] = true;  // Assume healthy initially
+            spdlog::info("  GPU {} initialized", gpu_id);
+        }
+        
+        // Enable peer access if requested
+        if (config_.enable_peer_access) {
+            spdlog::info("Enabling CUDA peer-to-peer access between GPUs");
+            // TODO: Enable P2P with CUDA
+            // for (size_t i = 0; i < available_gpus_.size(); ++i) {
+            //     for (size_t j = i+1; j < available_gpus_.size(); ++j) {
+            //         enablePeerAccess(available_gpus_[i], available_gpus_[j]);
+            //     }
+            // }
+        }
+    } else {
+        // Single GPU mode
+        available_gpus_.push_back(gpu_device_id_);
+        per_gpu_vram_used_[gpu_device_id_] = 0;
+        gpu_health_status_[gpu_device_id_] = true;
+    }
+    
     spdlog::info("GPU Memory Manager: Running in simulation mode (actual GPU support in CUDA build)");
+    spdlog::info("  Available GPUs: {}", available_gpus_.size());
 }
 
 void GPUMemoryManager::shutdownGPU() {
@@ -447,12 +477,212 @@ void GPUMemoryManager::updateMemoryStats() {
     total_vram_used_ = 0;
     total_ram_used_ = 0;
     
+    // Reset per-GPU counters
+    for (auto& [gpu_id, _] : per_gpu_vram_used_) {
+        per_gpu_vram_used_[gpu_id] = 0;
+    }
+    
     for (const auto& [_, allocs] : allocations_) {
         for (const auto& alloc : allocs) {
             total_vram_used_ += alloc.vram_bytes;
             total_ram_used_ += alloc.ram_bytes;
+            
+            // Track per-GPU usage
+            if (alloc.vram_bytes > 0) {
+                per_gpu_vram_used_[alloc.gpu_device_id] += alloc.vram_bytes;
+            }
         }
     }
+}
+
+// Multi-GPU methods (v1.4.0)
+
+void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, int gpu_device_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Verify GPU is available
+    if (!isGPUAvailable(gpu_device_id)) {
+        spdlog::error("GPU {} is not available", gpu_device_id);
+        return nullptr;
+    }
+    
+    // Check per-GPU capacity
+    size_t gpu_used = per_gpu_vram_used_[gpu_device_id];
+    if (gpu_used + bytes > config_.max_vram_bytes) {
+        spdlog::error("Cannot allocate {} bytes on GPU {}: insufficient memory (used: {}, max: {})", 
+                      bytes, gpu_device_id, gpu_used, config_.max_vram_bytes);
+        return nullptr;
+    }
+    
+    void* ptr = nullptr;
+    
+    // TODO: When CUDA is available:
+    // cudaSetDevice(gpu_device_id);
+    // cudaError_t err = cudaMalloc(&ptr, bytes);
+    // if (err != cudaSuccess) {
+    //     spdlog::error("cudaMalloc failed on GPU {}: {}", gpu_device_id, cudaGetErrorString(err));
+    //     return nullptr;
+    // }
+    
+    // Placeholder: use regular malloc for simulation
+    ptr = std::malloc(bytes);
+    if (!ptr) {
+        spdlog::error("Failed to allocate {} bytes on GPU {} for model {}", bytes, gpu_device_id, model_id);
+        return nullptr;
+    }
+    
+    // Track allocation
+    MemoryAllocation alloc;
+    alloc.model_id = model_id;
+    alloc.vram_bytes = bytes;
+    alloc.gpu_ptr = ptr;
+    alloc.gpu_device_id = gpu_device_id;
+    
+    allocations_[model_id].push_back(alloc);
+    total_vram_used_ += bytes;
+    per_gpu_vram_used_[gpu_device_id] += bytes;
+    
+    spdlog::debug("Allocated {} MB on GPU {} for model {} (GPU total: {} MB)", 
+                  bytes / (1024.0 * 1024),
+                  gpu_device_id,
+                  model_id,
+                  per_gpu_vram_used_[gpu_device_id] / (1024.0 * 1024));
+    
+    return ptr;
+}
+
+bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = allocations_.find(model_id);
+    if (it == allocations_.end()) {
+        return false;
+    }
+    
+    size_t freed_vram = 0;
+    size_t freed_ram = 0;
+    
+    // Free only allocations on specified GPU
+    auto& allocs = it->second;
+    auto alloc_it = allocs.begin();
+    while (alloc_it != allocs.end()) {
+        if (alloc_it->gpu_device_id == gpu_device_id || alloc_it->vram_bytes == 0) {
+            if (alloc_it->gpu_ptr && alloc_it->gpu_device_id == gpu_device_id) {
+                // TODO: cudaSetDevice(gpu_device_id); cudaFree(alloc_it->gpu_ptr);
+                std::free(alloc_it->gpu_ptr);
+                freed_vram += alloc_it->vram_bytes;
+                per_gpu_vram_used_[gpu_device_id] -= alloc_it->vram_bytes;
+            }
+            if (alloc_it->cpu_ptr) {
+                if (alloc_it->is_pinned) {
+                    // TODO: cudaFreeHost(alloc_it->cpu_ptr);
+                    std::free(alloc_it->cpu_ptr);
+                } else {
+                    std::free(alloc_it->cpu_ptr);
+                }
+                freed_ram += alloc_it->ram_bytes;
+            }
+            alloc_it = allocs.erase(alloc_it);
+        } else {
+            ++alloc_it;
+        }
+    }
+    
+    total_vram_used_ -= freed_vram;
+    total_ram_used_ -= freed_ram;
+    
+    if (allocs.empty()) {
+        allocations_.erase(it);
+    }
+    
+    spdlog::info("Freed memory for model {} on GPU {}: {} MB VRAM, {} MB RAM",
+                 model_id, gpu_device_id,
+                 freed_vram / (1024.0 * 1024),
+                 freed_ram / (1024.0 * 1024));
+    
+    return true;
+}
+
+size_t GPUMemoryManager::getGPUVRAM(int gpu_device_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = per_gpu_vram_used_.find(gpu_device_id);
+    return it != per_gpu_vram_used_.end() ? it->second : 0;
+}
+
+size_t GPUMemoryManager::getFreeGPUVRAM(int gpu_device_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    size_t used = getGPUVRAM(gpu_device_id);
+    return used < config_.max_vram_bytes ? (config_.max_vram_bytes - used) : 0;
+}
+
+std::vector<int> GPUMemoryManager::getAvailableGPUs() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return available_gpus_;
+}
+
+bool GPUMemoryManager::isGPUAvailable(int gpu_device_id) const {
+    // Already locked by caller in most cases, but safe to lock again
+    auto it = gpu_health_status_.find(gpu_device_id);
+    if (it == gpu_health_status_.end()) {
+        return false;
+    }
+    return it->second;
+}
+
+bool GPUMemoryManager::enablePeerAccess(int src_gpu, int dst_gpu) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+        spdlog::error("Cannot enable peer access: GPU {} or {} not available", src_gpu, dst_gpu);
+        return false;
+    }
+    
+    // TODO: When CUDA is available:
+    // cudaSetDevice(src_gpu);
+    // cudaError_t err = cudaDeviceEnablePeerAccess(dst_gpu, 0);
+    // if (err != cudaSuccess && err != cudaErrorPeerAccessAlreadyEnabled) {
+    //     spdlog::error("Failed to enable peer access from GPU {} to {}: {}", 
+    //                   src_gpu, dst_gpu, cudaGetErrorString(err));
+    //     return false;
+    // }
+    
+    spdlog::info("Peer access enabled: GPU {} -> GPU {} (simulated)", src_gpu, dst_gpu);
+    return true;
+}
+
+bool GPUMemoryManager::disablePeerAccess(int src_gpu, int dst_gpu) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+        return false;
+    }
+    
+    // TODO: When CUDA is available:
+    // cudaSetDevice(src_gpu);
+    // cudaDeviceDisablePeerAccess(dst_gpu);
+    
+    spdlog::info("Peer access disabled: GPU {} -> GPU {} (simulated)", src_gpu, dst_gpu);
+    return true;
+}
+
+bool GPUMemoryManager::canAccessPeer(int src_gpu, int dst_gpu) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!config_.enable_peer_access) {
+        return false;
+    }
+    
+    if (!isGPUAvailable(src_gpu) || !isGPUAvailable(dst_gpu)) {
+        return false;
+    }
+    
+    // TODO: When CUDA is available:
+    // int can_access = 0;
+    // cudaDeviceCanAccessPeer(&can_access, src_gpu, dst_gpu);
+    // return can_access != 0;
+    
+    // Simulation: assume all GPUs can access each other if peer access is enabled
+    return true;
 }
 
 } // namespace llm
