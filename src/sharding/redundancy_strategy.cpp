@@ -293,15 +293,18 @@ uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
 uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
     if (a == 0) return 0;
     
-    // Use lookup table for performance (simplified version)
-    // In production, use precomputed tables
+    // Use Fermat's Little Theorem: a^(2^8 - 2) = a^254 = a^(-1) in GF(2^8)
+    // Compute using repeated squaring
+    uint8_t p = a;
     uint8_t result = 1;
-    uint8_t power = a;
     
-    // a^254 = a^(-1) in GF(2^8)
-    for (int i = 0; i < 254; i++) {
-        if (i == 253) result = power;
-        power = gf_mul(power, a);
+    // Exponent 254 = 11111110 in binary
+    // Start from the highest bit and work down
+    for (int i = 7; i >= 0; i--) {
+        result = gf_mul(result, result);  // Square
+        if ((254 >> i) & 1) {
+            result = gf_mul(result, a);
+        }
     }
     
     return result;
@@ -315,10 +318,17 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
     
     // Cauchy matrix: M[i][j] = 1 / (x[i] XOR y[j])
     // where x and y are distinct elements from GF(2^8)
+    
+    // Ensure rows + cols doesn't exceed 256 to avoid duplicates
+    if (rows + cols > 256) {
+        throw std::invalid_argument("Too many shards: rows + cols must be <= 256");
+    }
+    
     std::vector<uint8_t> x(rows);
     std::vector<uint8_t> y(cols);
     
     // Initialize x and y with distinct values
+    // Use first 'rows' values for x, next 'cols' values for y
     for (uint32_t i = 0; i < rows; i++) {
         x[i] = static_cast<uint8_t>(i);
     }
@@ -330,6 +340,12 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
     for (uint32_t i = 0; i < rows; i++) {
         for (uint32_t j = 0; j < cols; j++) {
             uint8_t diff = x[i] ^ y[j];
+            
+            // Ensure diff is non-zero (x and y should be distinct)
+            if (diff == 0) {
+                throw std::runtime_error("Invalid Cauchy matrix: x[i] == y[j]");
+            }
+            
             matrix[i][j] = gf_inv(diff);
         }
     }
