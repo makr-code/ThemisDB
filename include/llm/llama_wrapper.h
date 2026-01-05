@@ -8,6 +8,8 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/grafana_metrics.h"
 #include "llm/llm_response_cache.h"
+#include "llm/grammar.h"
+#include "llm/grammar_cache.h"
 #include "llm/vision_encoder.h"
 #include <mutex>
 #include <unordered_map>
@@ -163,6 +165,15 @@ public:
         bool enable_response_cache = true;
         LLMResponseCache::Config response_cache_config;
         
+        // Grammar-Constrained Generation (Phase 3.2)
+        struct GrammarConfig {
+            bool enabled = false;
+            std::string default_grammar = "json";      // Default built-in grammar
+            std::string custom_grammars_path = "/grammars/";  // Path to custom grammar files
+            bool cache_grammars = true;                 // Enable grammar caching
+            size_t max_cached_grammars = 100;          // Max grammars to cache
+        };
+        GrammarConfig grammar_config;
         // RoPE Scaling (Phase 3.1) - Extended Context Window
         struct RopeScalingConfig {
             bool enabled = false;
@@ -373,6 +384,9 @@ private:
     // Response cache for frequent queries
     std::unique_ptr<LLMResponseCache> response_cache_;
     
+    // Grammar-Constrained Generation (Phase 3.2)
+    std::unique_ptr<GrammarCache> grammar_cache_;
+    std::unordered_map<std::string, std::string> builtin_grammars_;  // name -> ebnf text
     // Vision Support (Multi-Modal)
     std::unique_ptr<VisionEncoder> vision_encoder_;
     bool vision_enabled_ = false;
@@ -407,6 +421,11 @@ private:
     
     std::string extractModelId(const std::string& model_path);
     
+    // Grammar-related helpers (Phase 3.2)
+    void initializeBuiltinGrammars();
+    std::shared_ptr<Grammar> getOrCreateGrammar(const InferenceRequest& request);
+    std::string loadGrammarFile(const std::string& grammar_name);
+    
     // Speculative Decoding helpers
     bool loadDraftModel(const std::string& draft_path);
     void unloadDraftModel();
@@ -438,7 +457,8 @@ private:
         float* logits,
         int32_t n_vocab,
         float temperature,
-        float top_p
+        float top_p,
+        llama_grammar* grammar = nullptr
     );
     
     // Chat formatting helpers (implementation details)

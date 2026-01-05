@@ -1444,6 +1444,10 @@ if(THEMIS_ENABLE_LLM)
         src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
         
+        # Phase 3.2: Grammar-Constrained Generation
+        src/llm/grammar.cpp               # Grammar parsing and compilation
+        src/llm/grammar_cache.cpp         # Grammar caching for performance
+        
         # Phase 4+5 Week 4-6: llama.cpp Integration
         src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
