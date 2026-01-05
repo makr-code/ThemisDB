@@ -4,7 +4,9 @@
 #include "llm/paged_block_manager.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
+#include <cmath>
 #include <sstream>
+#include <fstream>
 #include <filesystem>
 #include <llama.h>
 
@@ -59,6 +61,53 @@ void LlamaWrapper::validateConfig(const Config& config) {
                         cache_cfg.ttl_seconds);
         }
     }
+    
+    // Validate RoPE scaling config (Phase 3.1)
+    if (config.rope_scaling.enabled) {
+        const auto& rope_cfg = config.rope_scaling;
+        
+        if (rope_cfg.max_context <= 0) {
+            throw std::invalid_argument("rope_scaling.max_context must be positive");
+        }
+        
+        if (rope_cfg.original_context <= 0) {
+            throw std::invalid_argument("rope_scaling.original_context must be positive");
+        }
+        
+        if (rope_cfg.max_context <= rope_cfg.original_context) {
+            spdlog::warn("RoPE scaling max_context ({}) <= original_context ({}), scaling has no effect",
+                        rope_cfg.max_context, rope_cfg.original_context);
+        }
+        
+        float scaling_factor = static_cast<float>(rope_cfg.max_context) / static_cast<float>(rope_cfg.original_context);
+        
+        if (scaling_factor > 16.0f) {
+            spdlog::warn("RoPE scaling factor ({:.1f}x) is very high, quality may degrade significantly", scaling_factor);
+        }
+        
+        if (rope_cfg.method == RopeScalingMethod::LINEAR && scaling_factor > 4.0f) {
+            spdlog::warn("Linear RoPE scaling with factor {:.1f}x (>4x) may have poor quality. Consider using YaRN.", scaling_factor);
+        }
+        
+        // Validate YaRN-specific parameters
+        if (rope_cfg.method == RopeScalingMethod::YARN) {
+            if (rope_cfg.yarn_ext_factor < 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_ext_factor must be non-negative");
+            }
+            if (rope_cfg.yarn_attn_factor < 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_attn_factor must be non-negative");
+            }
+            if (rope_cfg.yarn_beta_fast <= 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_beta_fast must be positive");
+            }
+            if (rope_cfg.yarn_beta_slow <= 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_beta_slow must be positive");
+            }
+        }
+        
+        spdlog::info("RoPE scaling validated: {:.1f}x context extension ({} → {} tokens)",
+                    scaling_factor, rope_cfg.original_context, rope_cfg.max_context);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -95,6 +144,29 @@ LlamaWrapper::LlamaWrapper(const Config& config)
                      config_.response_cache_config.similarity_threshold);
     }
     
+    // Initialize grammar cache (Phase 3.2)
+    if (config_.grammar_config.enabled) {
+        GrammarCache::Config grammar_cache_config;
+        grammar_cache_config.max_cached_grammars = config_.grammar_config.max_cached_grammars;
+        grammar_cache_config.enabled = config_.grammar_config.cache_grammars;
+        grammar_cache_ = std::make_unique<GrammarCache>(grammar_cache_config);
+        
+        // Load built-in grammars
+        initializeBuiltinGrammars();
+        
+        spdlog::info("Grammar-constrained generation enabled (cache: {}, max_cached: {})",
+                     config_.grammar_config.cache_grammars,
+                     config_.grammar_config.max_cached_grammars);
+    // Initialize vision encoder (multi-modal support)
+    if (config_.enable_vision && !config_.clip_model_path.empty()) {
+        try {
+            initializeVisionEncoder();
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to initialize vision encoder: {}. Vision support disabled.", e.what());
+            vision_enabled_ = false;
+        }
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -102,9 +174,12 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
+    spdlog::info("  Grammar constraints: {}", config_.grammar_config.enabled ? "enabled" : "disabled");
+    spdlog::info("  Vision support: {}", vision_enabled_ ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
+    shutdownVisionEncoder();
     unloadDraftModel();
     unloadModel();
 }
@@ -155,6 +230,49 @@ bool LlamaWrapper::loadModel(
     }
     if (!config.contains("enable_embeddings")) {
         load_config["enable_embeddings"] = config_.enable_embeddings;
+    }
+    
+    // Pass RoPE scaling configuration (Phase 3.1)
+    if (config_.rope_scaling.enabled) {
+        load_config["rope_scaling_enabled"] = true;
+        
+        // Set context to max_context when RoPE scaling is enabled
+        if (!config.contains("n_ctx")) {
+            load_config["n_ctx"] = config_.rope_scaling.max_context;
+        }
+        
+        // Pass method
+        switch (config_.rope_scaling.method) {
+            case RopeScalingMethod::LINEAR:
+                load_config["rope_scaling_method"] = "linear";
+                break;
+            case RopeScalingMethod::NTK:
+                load_config["rope_scaling_method"] = "ntk";
+                break;
+            case RopeScalingMethod::YARN:
+                load_config["rope_scaling_method"] = "yarn";
+                break;
+            case RopeScalingMethod::DYNAMIC:
+                load_config["rope_scaling_method"] = "dynamic";
+                break;
+        }
+        
+        // Pass scaling parameters
+        load_config["rope_max_context"] = config_.rope_scaling.max_context;
+        load_config["rope_original_context"] = config_.rope_scaling.original_context;
+        
+        // Pass YaRN-specific parameters
+        if (config_.rope_scaling.method == RopeScalingMethod::YARN) {
+            load_config["rope_yarn_ext_factor"] = config_.rope_scaling.yarn_ext_factor;
+            load_config["rope_yarn_attn_factor"] = config_.rope_scaling.yarn_attn_factor;
+            load_config["rope_yarn_beta_fast"] = config_.rope_scaling.yarn_beta_fast;
+            load_config["rope_yarn_beta_slow"] = config_.rope_scaling.yarn_beta_slow;
+        }
+        
+        spdlog::info("RoPE scaling enabled: {} ({} → {} tokens)",
+                     load_config["rope_scaling_method"].get<std::string>(),
+                     config_.rope_scaling.original_context,
+                     config_.rope_scaling.max_context);
     }
     
     // Trigger lazy load (or get from cache)
@@ -416,6 +534,12 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
         float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
         
+        // Grammar-constrained generation (Phase 3.2)
+        std::shared_ptr<Grammar> grammar = getOrCreateGrammar(request);
+        if (grammar && grammar->isValid()) {
+            spdlog::debug("Using grammar-constrained generation");
+        }
+        
         // Get vocab for EOS detection and token count
         const llama_vocab* vocab = llama_model_get_vocab(lmodel);
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
@@ -429,8 +553,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
             
-            // Sample next token
-            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
+            // Sample next token with optional grammar constraint (Phase 3.2)
+            llama_grammar* grammar_handle = grammar ? grammar->getHandle() : nullptr;
+            llama_token next_token = sampleTokenInternal(
+                lctx, lmodel, logits, n_vocab, temperature, top_p, grammar_handle
+            );
             
             // Check for end of sequence (EOS token)
             if (next_token == eos_token) {
@@ -995,7 +1122,8 @@ llama_token LlamaWrapper::sampleTokenInternal(
     float* logits,
     int32_t n_vocab,
     float temperature,
-    float top_p
+    float top_p,
+    llama_grammar* grammar
 ) {
     if (!ctx || !model || !logits) {
         throw std::runtime_error("Invalid parameters for sampling");
@@ -1016,35 +1144,46 @@ llama_token LlamaWrapper::sampleTokenInternal(
         false   // sorted
     };
     
+    // Apply grammar constraint FIRST (Phase 3.2)
+    // This filters candidates to only those valid according to grammar
+    if (grammar != nullptr) {
+        // llama_grammar_sample filters candidates_p in-place
+        // Only valid tokens according to grammar remain
+        llama_grammar_sample(grammar, ctx, &candidates_p);
+        
+        // After grammar filtering, candidates_p.size may be reduced
+        spdlog::debug("Grammar filtered candidates: {} -> {}", n_vocab, candidates_p.size);
+    }
+    
     // Apply temperature sampling
     if (temperature > 0.0f && temperature != 1.0f) {
         // Manually apply temperature to logits
-        for (size_t i = 0; i < candidates.size(); ++i) {
-            candidates[i].logit /= temperature;
+        for (size_t i = 0; i < candidates_p.size; ++i) {
+            candidates_p.data[i].logit /= temperature;
         }
     }
     
     // Apply top-p (nucleus) sampling
     if (top_p < 1.0f && top_p > 0.0f) {
-        // Sort by logit (descending)
-        std::sort(candidates.begin(), candidates.end(), 
+        // Sort by logit (descending) - operate on filtered candidates only
+        std::sort(candidates_p.data, candidates_p.data + candidates_p.size, 
             [](const llama_token_data& a, const llama_token_data& b) {
                 return a.logit > b.logit;
             });
         
         // Calculate softmax and cumulative probability
-        float max_logit = candidates[0].logit;
+        float max_logit = candidates_p.data[0].logit;
         float sum_exp = 0.0f;
-        for (auto& c : candidates) {
-            c.p = std::exp(c.logit - max_logit);
-            sum_exp += c.p;
+        for (size_t i = 0; i < candidates_p.size; ++i) {
+            candidates_p.data[i].p = std::exp(candidates_p.data[i].logit - max_logit);
+            sum_exp += candidates_p.data[i].p;
         }
         
         float cum_prob = 0.0f;
         size_t last_idx = 0;
-        for (size_t i = 0; i < candidates.size(); ++i) {
-            candidates[i].p /= sum_exp;
-            cum_prob += candidates[i].p;
+        for (size_t i = 0; i < candidates_p.size; ++i) {
+            candidates_p.data[i].p /= sum_exp;
+            cum_prob += candidates_p.data[i].p;
             last_idx = i;
             if (cum_prob >= top_p) {
                 break;
@@ -1052,18 +1191,24 @@ llama_token LlamaWrapper::sampleTokenInternal(
         }
         
         // Truncate to top-p
-        candidates.resize(last_idx + 1);
-        candidates_p.size = candidates.size();
+        candidates_p.size = last_idx + 1;
     }
     
     // Sample from remaining candidates
-    if (candidates.empty()) {
+    if (candidates_p.size == 0) {
         return 0;  // Fallback to token 0
     }
     
     // Simple greedy sampling from sorted candidates
     // (For production, use llama_sampler for more sophisticated sampling)
-    return candidates[0].id;
+    llama_token sampled_token = candidates_p.data[0].id;
+    
+    // Update grammar state with sampled token (Phase 3.2)
+    if (grammar != nullptr) {
+        llama_grammar_accept(grammar, ctx, sampled_token);
+    }
+    
+    return sampled_token;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1195,9 +1340,43 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     
     // Create context for draft model
     llama_context_params draft_ctx_params = llama_context_default_params();
-    draft_ctx_params.n_ctx = config_.n_ctx;
+    draft_ctx_params.n_ctx = config_.rope_scaling.enabled ? config_.rope_scaling.max_context : config_.n_ctx;
     draft_ctx_params.n_batch = config_.n_batch * 2;  // Draft can use larger batch
     draft_ctx_params.n_threads = config_.n_threads;
+    
+    // Apply same RoPE scaling to draft model
+    if (config_.rope_scaling.enabled) {
+        int max_context = config_.rope_scaling.max_context;
+        int original_context = config_.rope_scaling.original_context;
+        float scale_factor = static_cast<float>(original_context) / static_cast<float>(max_context);
+        
+        switch (config_.rope_scaling.method) {
+            case RopeScalingMethod::LINEAR:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+            case RopeScalingMethod::NTK:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_NONE;
+                draft_ctx_params.rope_freq_base = 10000.0f * std::pow(
+                    static_cast<float>(max_context) / static_cast<float>(original_context), 0.5f);
+                break;
+            case RopeScalingMethod::YARN:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_YARN;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                draft_ctx_params.yarn_ext_factor = config_.rope_scaling.yarn_ext_factor;
+                draft_ctx_params.yarn_attn_factor = config_.rope_scaling.yarn_attn_factor;
+                draft_ctx_params.yarn_beta_fast = config_.rope_scaling.yarn_beta_fast;
+                draft_ctx_params.yarn_beta_slow = config_.rope_scaling.yarn_beta_slow;
+                break;
+            case RopeScalingMethod::DYNAMIC:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+        }
+        
+        spdlog::info("RoPE scaling applied to draft model: {} → {} tokens",
+                     original_context, max_context);
+    }
     
     draft_context_ = llama_new_context_with_model(draft_model_, draft_ctx_params);
     
@@ -1335,7 +1514,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
                 llama_token draft_token = sampleTokenInternal(
                     draft_context_, draft_model_, draft_logits, n_vocab,
-                    temperature, top_p
+                    temperature, top_p, nullptr  // No grammar for draft model
                 );
                 
                 draft_tokens.push_back(draft_token);
@@ -1394,7 +1573,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                     // Target model rejects, resample from target distribution
                     llama_token corrected_token = sampleTokenInternal(
                         target_context, target_model, target_logits, n_vocab,
-                        temperature, top_p
+                        temperature, top_p, nullptr  // No grammar for speculative decoding
                     );
                     generated_tokens.push_back(corrected_token);
                     accepted++;
@@ -1527,7 +1706,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
-            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
+            llama_token next_token = sampleTokenInternal(
+                lctx, lmodel, logits, n_vocab, temperature, top_p, nullptr
+            );
             
             if (next_token == eos_token) {
                 break;
@@ -1686,6 +1867,285 @@ std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerSt
     }
     
     return batch_scheduler_->getStats();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Grammar-Constrained Generation (Phase 3.2)
+// ═══════════════════════════════════════════════════════════
+
+void LlamaWrapper::initializeBuiltinGrammars() {
+    // Load built-in grammar files from src/llm/grammars/
+    // In production, consider embedding these as string literals or using
+    // a configurable base path based on executable location
+    
+    // Use configurable path or fallback to relative path
+    std::string grammars_path = config_.grammar_config.custom_grammars_path;
+    if (grammars_path.empty() || grammars_path == "/grammars/") {
+        // Fallback to relative path for development/testing
+        grammars_path = "src/llm/grammars/";
+    }
+    
+    builtin_grammars_["json"] = loadGrammarFile(grammars_path + "json_strict.gbnf");
+    builtin_grammars_["json_strict"] = builtin_grammars_["json"];
+    builtin_grammars_["json_relaxed"] = loadGrammarFile(grammars_path + "json_relaxed.gbnf");
+    builtin_grammars_["xml"] = loadGrammarFile(grammars_path + "xml.gbnf");
+    builtin_grammars_["csv"] = loadGrammarFile(grammars_path + "csv.gbnf");
+    builtin_grammars_["react_agent"] = loadGrammarFile(grammars_path + "react_agent.gbnf");
+    
+    spdlog::debug("Loaded {} built-in grammars from {}", builtin_grammars_.size(), grammars_path);
+}
+
+std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
+    try {
+        std::ifstream file(grammar_path);
+        if (!file.is_open()) {
+            spdlog::warn("Failed to open grammar file: {}", grammar_path);
+            return "";
+        }
+        
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        return buffer.str();
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception loading grammar file {}: {}", grammar_path, e.what());
+        return "";
+    }
+}
+
+std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest& request) {
+    // Check if grammar is requested
+    if (!request.grammar_type.has_value() && !request.grammar_ebnf.has_value()) {
+        return nullptr;
+    }
+    
+    if (!config_.grammar_config.enabled) {
+        spdlog::warn("Grammar requested but grammar support is disabled in config");
+        return nullptr;
+    }
+    
+    std::string grammar_key;
+    std::string ebnf_text;
+    
+    // Custom EBNF grammar takes precedence
+    if (request.grammar_ebnf.has_value()) {
+        ebnf_text = request.grammar_ebnf.value();
+        // Use hash with length to reduce collision risk
+        // In production, consider SHA256 or storing full text as key
+        size_t hash = std::hash<std::string>{}(ebnf_text);
+        size_t len = ebnf_text.length();
+        grammar_key = "custom_" + std::to_string(hash) + "_" + std::to_string(len);
+    }
+    // Built-in grammar
+    else if (request.grammar_type.has_value()) {
+        std::string grammar_name = request.grammar_type.value();
+        grammar_key = grammar_name;
+        
+        // Check if built-in grammar exists
+        auto it = builtin_grammars_.find(grammar_name);
+        if (it != builtin_grammars_.end()) {
+            ebnf_text = it->second;
+        } else {
+            spdlog::error("Unknown built-in grammar: {}", grammar_name);
+            return nullptr;
+        }
+    }
+    
+    if (ebnf_text.empty()) {
+        spdlog::error("Empty grammar EBNF text");
+        return nullptr;
+    }
+    
+    // Check cache first
+    if (grammar_cache_ && config_.grammar_config.cache_grammars) {
+        auto cached = grammar_cache_->get(grammar_key);
+        if (cached && cached->isValid()) {
+            spdlog::debug("Using cached grammar: {}", grammar_key);
+            return cached;
+        }
+    }
+    
+    // Create new grammar
+    spdlog::debug("Compiling grammar: {}", grammar_key);
+    auto grammar = std::make_shared<Grammar>(ebnf_text, "root");
+    
+    if (!grammar->isValid()) {
+        spdlog::error("Failed to compile grammar {}: {}", grammar_key, grammar->getError());
+        return nullptr;
+    }
+    
+    // Cache for future use
+    if (grammar_cache_ && config_.grammar_config.cache_grammars) {
+        grammar_cache_->put(grammar_key, grammar);
+    }
+    
+    return grammar;
+// Vision Support (Multi-Modal)
+// ═══════════════════════════════════════════════════════════
+
+bool LlamaWrapper::initializeVisionEncoder() {
+    if (config_.clip_model_path.empty()) {
+        spdlog::warn("Vision encoder: CLIP model path not configured");
+        return false;
+    }
+    
+    try {
+        spdlog::info("Initializing vision encoder: {}", config_.clip_model_path);
+        vision_encoder_ = std::make_unique<VisionEncoder>(
+            config_.clip_model_path,
+            1  // verbosity
+        );
+        
+        if (!vision_encoder_->isReady()) {
+            throw std::runtime_error("Vision encoder initialization failed");
+        }
+        
+        vision_enabled_ = true;
+        spdlog::info("Vision encoder initialized successfully");
+        spdlog::info("  - Embedding dimension: {}", vision_encoder_->getEmbeddingDimension());
+        spdlog::info("  - Number of patches: {}", vision_encoder_->getNumPatches());
+        
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to initialize vision encoder: {}", e.what());
+        vision_enabled_ = false;
+        vision_encoder_.reset();
+        throw;
+    }
+}
+
+void LlamaWrapper::shutdownVisionEncoder() {
+    if (vision_encoder_) {
+        spdlog::info("Shutting down vision encoder");
+        vision_encoder_.reset();
+        vision_enabled_ = false;
+    }
+}
+
+std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
+    // Build multi-modal prompt in LLaVA format
+    // Format: <image>\nUSER: {question}\nASSISTANT:
+    
+    std::string prompt;
+    
+    // Count number of images
+    size_t num_images = 0;
+    if (!request.image_path.empty()) {
+        num_images = 1;
+    } else if (!request.image_paths.empty()) {
+        num_images = request.image_paths.size();
+    }
+    
+    // Add image tokens
+    if (request.use_image_start_end) {
+        for (size_t i = 0; i < num_images; ++i) {
+            prompt += request.image_token + "\n";
+        }
+    }
+    
+    // Add text prompt in chat format
+    prompt += "USER: " + request.text_prompt + "\nASSISTANT:";
+    
+    return prompt;
+}
+
+VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request) {
+    VisionResponse response;
+    
+    // Check if vision is enabled
+    if (!vision_enabled_ || !vision_encoder_) {
+        response.success = false;
+        response.error_message = "Vision support not enabled. Configure clip_model_path and enable_vision=true";
+        return response;
+    }
+    
+    // Check if model is loaded
+    if (!isModelLoaded()) {
+        response.success = false;
+        response.error_message = "No model loaded. Call loadModel() first";
+        return response;
+    }
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    try {
+        // Collect image paths
+        std::vector<std::string> image_paths;
+        if (!vision_request.image_path.empty()) {
+            image_paths.push_back(vision_request.image_path);
+        } else if (!vision_request.image_paths.empty()) {
+            image_paths = vision_request.image_paths;
+        } else {
+            throw std::runtime_error("No images provided in vision request");
+        }
+        
+        // Encode images
+        auto encode_start = std::chrono::high_resolution_clock::now();
+        std::vector<std::vector<float>> image_embeddings;
+        image_embeddings.reserve(image_paths.size());
+        
+        for (const auto& img_path : image_paths) {
+            spdlog::debug("Encoding image: {}", img_path);
+            auto embeddings = vision_encoder_->encodeImage(img_path);
+            image_embeddings.push_back(std::move(embeddings));
+        }
+        
+        auto encode_end = std::chrono::high_resolution_clock::now();
+        response.image_encoding_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            encode_end - encode_start
+        ).count();
+        
+        spdlog::debug("Image encoding completed in {}ms", response.image_encoding_time_ms);
+        
+        // Build multi-modal prompt
+        std::string prompt = buildVisionPrompt(vision_request);
+        
+        // Create inference request
+        InferenceRequest inference_request;
+        inference_request.prompt = prompt;
+        inference_request.max_tokens = vision_request.max_tokens;
+        inference_request.temperature = vision_request.temperature;
+        inference_request.top_p = vision_request.top_p;
+        inference_request.top_k = vision_request.top_k;
+        
+        // Note: Full integration of image embeddings into llama.cpp context
+        // requires modifications to llama.cpp's batch processing.
+        // This implementation provides the foundation and architecture.
+        // TODO: Complete integration with llama_batch for true multi-modal inference.
+        // For now, the text prompt will be processed without actual image embeddings.
+        
+        spdlog::warn("Vision support: Full multi-modal inference not yet implemented.");
+        spdlog::warn("  - Image encoding: ✓ Completed");
+        spdlog::warn("  - Image embedding injection: ✗ Pending llama.cpp integration");
+        spdlog::info("Generating text response with vision-formatted prompt (architecture validation)");
+        
+        // Generate response (text-only for now, until llama.cpp integration is complete)
+        auto inference_response = generate(inference_request);
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        
+        // Build vision response
+        response.success = inference_response.success;
+        response.text = inference_response.generated_text;
+        response.error_message = inference_response.error_message;
+        response.tokens_generated = inference_response.tokens_generated;
+        response.inference_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        ).count();
+        response.model_name = current_model_id_;
+        
+        spdlog::info("Vision inference completed: {} tokens in {}ms ({}ms image encoding)",
+                     response.tokens_generated,
+                     response.inference_time_ms,
+                     response.image_encoding_time_ms);
+        
+    } catch (const std::exception& e) {
+        response.success = false;
+        response.error_message = std::string("Vision inference failed: ") + e.what();
+        spdlog::error("Vision inference error: {}", e.what());
+    }
+    
+    return response;
 }
 
 } // namespace llm

@@ -1444,6 +1444,10 @@ if(THEMIS_ENABLE_LLM)
         src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
         
+        # Phase 3.2: Grammar-Constrained Generation
+        src/llm/grammar.cpp               # Grammar parsing and compilation
+        src/llm/grammar_cache.cpp         # Grammar caching for performance
+        
         # Phase 4+5 Week 4-6: llama.cpp Integration
         src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
@@ -1456,7 +1460,20 @@ if(THEMIS_ENABLE_LLM)
         src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        
+        # P3: Vision Support (Multi-Modal)
+        src/llm/vision_encoder.cpp             # CLIP vision encoder for LLaVA
+        src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
+        src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
     )
+    
+    # Add CUDA kernel fusion sources when CUDA is enabled
+    if(THEMIS_ENABLE_CUDA)
+        list(APPEND THEMIS_CORE_SOURCES
+            src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+        )
+        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
+    endif()
     
     # Threading support required for async inference
     find_package(Threads REQUIRED)
@@ -1818,6 +1835,7 @@ if(THEMIS_BUILD_TESTS)
             tests/test_kv_cache_buffer.cpp
             tests/test_llm_response_cache.cpp
             tests/test_paged_attention.cpp
+            tests/test_continuous_batch_scheduler.cpp
             tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
             tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
             tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
@@ -1839,6 +1857,41 @@ if(THEMIS_BUILD_TESTS)
         gtest_discover_tests(themis_llm_tests
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
+        # Flash Attention Tests
+        add_executable(test_phase1_flash_attention
+            tests/test_phase1_flash_attention.cpp
+        )
+        target_link_libraries(test_phase1_flash_attention
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_flash_attention
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # KV-Cache Reuse Tests
+        add_executable(test_phase1_kv_cache_reuse
+            tests/test_phase1_kv_cache_reuse.cpp
+        )
+        target_link_libraries(test_phase1_kv_cache_reuse
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_kv_cache_reuse
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
@@ -2223,6 +2276,20 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_saga_compensation
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Phase 1 Benchmarks - LLM Optimizations (Flash Attention, KV-Cache, Embeddings)
+    
+    # Flash Attention Benchmark
+    add_executable(bench_phase1_flash_attention
+        benchmarks/bench_phase1_flash_attention.cpp
+    )
+    
+    target_link_libraries(bench_phase1_flash_attention
         PRIVATE
             themis_core
             benchmark::benchmark

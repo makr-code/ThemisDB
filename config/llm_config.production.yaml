@@ -36,6 +36,15 @@ llm:
       ttl_seconds: 14400          # 4 hours TTL
       enable_kv_caching: true
     
+    # Grammar-Constrained Generation (Phase 3.2)
+    # Enabled in production for guaranteed structured outputs
+    grammar_config:
+      enabled: true                  # Always enabled for APIs
+      default_grammar: "json"        # JSON by default
+      custom_grammars_path: "/grammars/"
+      cache_grammars: true           # Always cache
+      max_cached_grammars: 200       # More cache in production
+    
     # =====================================================
     # GPU Settings (Production)
     # =====================================================
