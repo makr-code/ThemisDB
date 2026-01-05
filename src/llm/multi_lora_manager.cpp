@@ -16,6 +16,9 @@ namespace {
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
     constexpr uint32_t SIMULATION_SEED = 42;
+    constexpr float LORA_WEIGHT_STDDEV = 0.1f;  // Standard deviation for simulated LoRA weights
+    constexpr uint8_t INT8_ZERO_POINT = 127;    // Zero-point for INT8: maps 0 to 127 in [0,254]
+    constexpr uint8_t INT4_ZERO_POINT = 7;      // Zero-point for INT4: maps 0 to 7 in [0,14]
     
     // Helper to convert QuantizationMode to string
     const char* quantizationModeToString(QuantizationMode mode) {
@@ -900,9 +903,9 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
             int8_t quantized = static_cast<int8_t>(
                 std::max(-INT8_MAX_VALUE, std::min(INT8_MAX_VALUE, std::round(w / scale)))
             );
-            // Store as unsigned byte by offsetting range from [-127,127] to [1,255]
-            // During dequantization, subtract 128 to restore signed range
-            lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + 128);
+            // Store as unsigned byte by offsetting range from [-127,127] to [0,254]
+            // During dequantization: x = (Q - INT8_ZERO_POINT) * scale
+            lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + INT8_ZERO_POINT);
         }
     }
     
@@ -952,12 +955,13 @@ void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& we
                 std::max(-INT4_MAX_VALUE, std::min(INT4_MAX_VALUE, std::round(w / scale)))
             );
             
-            // Pack two 4-bit values into one byte
+            // Pack two 4-bit values into one byte, offset from [-7,7] to [0,14]
+            // During dequantization: x = (Q - INT4_ZERO_POINT) * scale
             size_t byte_idx = idx / 2;
             if (idx % 2 == 0) {
-                lora->quantized_weights[byte_idx] = (quantized + 8) & 0x0F;  // Lower 4 bits
+                lora->quantized_weights[byte_idx] = (quantized + INT4_ZERO_POINT) & 0x0F;  // Lower 4 bits
             } else {
-                lora->quantized_weights[byte_idx] |= ((quantized + 8) & 0x0F) << 4;  // Upper 4 bits
+                lora->quantized_weights[byte_idx] |= ((quantized + INT4_ZERO_POINT) & 0x0F) << 4;  // Upper 4 bits
             }
         }
     }
@@ -1005,7 +1009,7 @@ std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
     
     std::vector<float> weights(count);
     std::mt19937 gen(SIMULATION_SEED);  // Fixed seed for reproducibility
-    std::normal_distribution<float> dist(0.0f, 0.1f);  // Mean=0, StdDev=0.1 (typical for LoRA)
+    std::normal_distribution<float> dist(0.0f, LORA_WEIGHT_STDDEV);  // Mean=0, typical LoRA distribution
     
     for (size_t i = 0; i < count; ++i) {
         weights[i] = dist(gen);

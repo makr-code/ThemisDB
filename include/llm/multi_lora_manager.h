@@ -50,9 +50,6 @@ struct LoRAQuantizationConfig {
     // Quantization strategy
     bool per_channel = true;             // Per-channel vs per-tensor scaling
     int group_size = 128;                // For INT4 grouping (0 = per-channel)
-    
-    // Quality control
-    float max_accuracy_loss = 0.015f;    // Maximum acceptable accuracy loss (1.5%)
 };
 
 /**
