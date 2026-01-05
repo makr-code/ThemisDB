@@ -113,6 +113,7 @@ void PostgresSession::handleQuery(const std::string& query) {
             {"version", 0, 0, 25, -1, -1, 0} // text type
         };
         sendRowDescription(fields);
+        // TODO: Use centralized version from VERSION file (currently 1.3.4)
         sendDataRow({"PostgreSQL 14.0 (ThemisDB 1.3.0 compatibility mode)"});
         sendCommandComplete("SELECT 1");
         char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
@@ -259,6 +260,9 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         const auto& params = portalData.params;
         
         // Replace $1, $2, etc. with actual parameter values
+        // Note: This is a basic implementation for SQL-to-Cypher translation
+        // In production, proper parameter binding should be used to prevent injection
+        // The actual database driver should handle parameter escaping
         for (size_t i = 0; i < params.size(); ++i) {
             std::string placeholder = "$" + std::to_string(i + 1);
             size_t pos = 0;

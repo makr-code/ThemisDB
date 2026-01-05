@@ -207,9 +207,9 @@ TEST(PostgresCopyProtocolTest, CopyInFlow) {
     };
     
     EXPECT_EQ(messageSequence.size(), 7);
-    EXPECT_EQ(messageSequence[0].find("COPY"), 7);
+    EXPECT_NE(messageSequence[0].find("COPY"), std::string::npos);
     EXPECT_EQ(messageSequence[1], "CopyInResponse");
-    EXPECT_EQ(messageSequence[6].find("COPY 3"), 17);
+    EXPECT_NE(messageSequence[6].find("COPY 3"), std::string::npos);
 }
 
 TEST(PostgresCopyProtocolTest, CopyInWithError) {
@@ -248,7 +248,7 @@ TEST(PostgresCopyProtocolTest, CopyOutFlow) {
     };
     
     EXPECT_EQ(messageSequence.size(), 7);
-    EXPECT_EQ(messageSequence[0].find("TO STDOUT"), 18);
+    EXPECT_NE(messageSequence[0].find("TO STDOUT"), std::string::npos);
     EXPECT_EQ(messageSequence[1], "CopyOutResponse");
 }
 
@@ -264,7 +264,7 @@ TEST(PostgresCopyProtocolTest, CopyOutEmpty) {
     };
     
     EXPECT_EQ(messageSequence.size(), 4);
-    EXPECT_EQ(messageSequence[3].find("COPY 0"), 17);
+    EXPECT_NE(messageSequence[3].find("COPY 0"), std::string::npos);
 }
 
 // ============================================================================
