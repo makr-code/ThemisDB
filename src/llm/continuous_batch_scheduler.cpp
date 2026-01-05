@@ -352,7 +352,16 @@ bool ContinuousBatchScheduler::canAddToBatch(
     }
     
     // Check KV cache availability
-    // TODO: Implement actual block availability check with PagedKVCache
+    if (kv_cache_) {
+        // Calculate blocks needed for this request
+        size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
+        size_t blocks_needed = (total_tokens + 15) / 16;  // 16 tokens per block
+        
+        auto stats = kv_cache_->getStats();
+        if (stats.blocks_free < blocks_needed) {
+            return false;
+        }
+    }
     
     return true;
 }
@@ -362,20 +371,26 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
         return;
     }
     
-    // TODO: Implement actual block allocation with PagedKVCache
-    // For now, placeholder
-    
-    // Estimate blocks needed
+    // Estimate blocks needed for total sequence length (prompt + generation)
     size_t tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
     size_t blocks_needed = (tokens + 15) / 16;  // 16 tokens per block
     
-    request->allocated_blocks.resize(blocks_needed);
-    for (size_t i = 0; i < blocks_needed; ++i) {
-        request->allocated_blocks[i] = static_cast<int>(i);  // Placeholder
+    // Get or create block table for this sequence
+    auto block_table = kv_cache_->getBlockTable(request->sequence_id);
+    if (!block_table) {
+        // Block table doesn't exist yet, it will be created when we store KV data
+        // For now, we'll just track that we need blocks
+        spdlog::debug("Block table will be created on first store for sequence {}",
+                      request->sequence_id);
+        return;
     }
     
-    spdlog::debug("Allocated {} blocks for request {}",
-                  blocks_needed, request->request_id);
+    // Allocate blocks through the block table
+    auto allocated = block_table->allocateBlocks(blocks_needed);
+    request->allocated_blocks = allocated;
+    
+    spdlog::debug("Allocated {} blocks for request {} (sequence {})",
+                  allocated.size(), request->request_id, request->sequence_id);
 }
 
 void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
@@ -383,10 +398,12 @@ void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
         return;
     }
     
-    // TODO: Implement actual block deallocation with PagedKVCache
+    // Remove the sequence from the KV cache, which will free all blocks
+    kv_cache_->removeSequence(request->sequence_id);
     
-    spdlog::debug("Freed {} blocks for request {}",
-                  request->allocated_blocks.size(), request->request_id);
+    spdlog::debug("Freed {} blocks for request {} (sequence {})",
+                  request->allocated_blocks.size(), request->request_id, 
+                  request->sequence_id);
     
     request->allocated_blocks.clear();
 }
@@ -410,8 +427,45 @@ void ContinuousBatchScheduler::updateStats() {
         stats_.avg_time_to_first_token_ms = total_ttft / ttft_count;
     }
     
-    // Calculate tokens per second
-    // TODO: Implement more sophisticated throughput calculation
+    // Calculate tokens per second throughput
+    size_t total_tokens_generated = 0;
+    std::chrono::milliseconds total_generation_time(0);
+    
+    for (const auto& req : active_requests_) {
+        if (req->tokens_generated > 0 && req->state == RequestState::DECODE) {
+            total_tokens_generated += req->tokens_generated;
+            auto generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                req->last_token_at - req->started_at
+            );
+            total_generation_time += generation_time;
+        }
+    }
+    
+    // Include completed requests in throughput calculation
+    for (const auto& [req_id, req] : all_requests_) {
+        if (req->state == RequestState::COMPLETED && req->tokens_generated > 0) {
+            total_tokens_generated += req->tokens_generated;
+            auto generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
+                req->last_token_at - req->started_at
+            );
+            total_generation_time += generation_time;
+        }
+    }
+    
+    if (total_generation_time.count() > 0) {
+        // Convert to tokens per second
+        double seconds = total_generation_time.count() / 1000.0;
+        stats_.avg_tokens_per_second = total_tokens_generated / seconds;
+    }
+    
+    // Consider block availability for throughput estimation
+    if (kv_cache_) {
+        auto kv_stats = kv_cache_->getStats();
+        // Adjust throughput based on memory pressure
+        if (kv_stats.blocks_free < 10) {  // Low memory
+            stats_.avg_tokens_per_second *= 0.8;  // Reduce expected throughput
+        }
+    }
 }
 
 std::string ContinuousBatchScheduler::generateRequestId() {
