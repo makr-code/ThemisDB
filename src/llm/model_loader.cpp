@@ -2,6 +2,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <filesystem>
+#include <llama.h>
 
 namespace fs = std::filesystem;
 
@@ -20,11 +21,19 @@ LazyModelLoader::LazyModelLoader(const Config& config)
 LazyModelLoader::~LazyModelLoader() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Unload all models (opaque handles are null in test mode)
+    // Unload all models properly
     for (auto& [id, model] : models_) {
         spdlog::info("Unloading model: {}", id);
-        model->context_handle = nullptr;
-        model->model_handle = nullptr;
+        
+        // Free llama.cpp resources if they exist
+        if (model->context_handle) {
+            llama_free(reinterpret_cast<llama_context*>(model->context_handle));
+            model->context_handle = nullptr;
+        }
+        if (model->model_handle) {
+            llama_free_model(reinterpret_cast<llama_model*>(model->model_handle));
+            model->model_handle = nullptr;
+        }
     }
     models_.clear();
 }
@@ -90,9 +99,15 @@ bool LazyModelLoader::unloadModel(const std::string& model_id, bool force) {
     
     spdlog::info("Unloading model: {}", model_id);
 
-    // Release opaque handles (no backend calls in test path)
-    it->second->context_handle = nullptr;
-    it->second->model_handle = nullptr;
+    // Free llama.cpp resources
+    if (it->second->context_handle) {
+        llama_free(reinterpret_cast<llama_context*>(it->second->context_handle));
+        it->second->context_handle = nullptr;
+    }
+    if (it->second->model_handle) {
+        llama_free_model(reinterpret_cast<llama_model*>(it->second->model_handle));
+        it->second->model_handle = nullptr;
+    }
 
     // Update memory usage
     total_vram_mb_ -= it->second->vram_mb;
@@ -286,35 +301,87 @@ CachedModel* LazyModelLoader::loadModelInternal(
     model->last_used = std::chrono::system_clock::now();
     model->use_count = 1;
 
-    // No real llama.cpp loading in tests: infer size from file if present
-    size_t size_bytes = 0;
-    try {
-        if (fs::exists(model_path)) {
-            size_bytes = static_cast<size_t>(fs::file_size(model_path));
-        }
-    } catch (...) {
-        size_bytes = 0;
+    // Check if file exists
+    if (!fs::exists(model_path)) {
+        spdlog::error("Model file not found: {}", model_path);
+        return nullptr;
     }
 
-    // Populate info (basic)
+    size_t size_bytes = static_cast<size_t>(fs::file_size(model_path));
+
+    // Initialize llama.cpp model parameters
+    llama_model_params model_params = llama_model_default_params();
+    
+    // Configure GPU layers from config
+    int n_gpu_layers = config.value("n_gpu_layers", config_.default_n_gpu_layers);
+    model_params.n_gpu_layers = n_gpu_layers;
+    
+    // Enable Flash Attention if available and configured
+    bool use_flash_attn = config.value("use_flash_attn", false);
+    #ifdef LLAMA_FLASH_ATTN
+    if (use_flash_attn) {
+        model_params.flash_attn = true;
+        spdlog::info("Flash Attention enabled for model: {}", model_id);
+    }
+    #else
+    if (use_flash_attn) {
+        spdlog::warn("Flash Attention requested but not available in this llama.cpp build");
+    }
+    #endif
+    
+    // Memory management
+    model_params.use_mmap = config.value("use_mmap", true);
+    model_params.use_mlock = config.value("use_mlock", false);
+    
+    // Load the model
+    llama_model* lmodel = llama_load_model_from_file(model_path.c_str(), model_params);
+    
+    if (!lmodel) {
+        spdlog::error("Failed to load model from file: {}", model_path);
+        return nullptr;
+    }
+    
+    // Initialize context parameters
+    llama_context_params ctx_params = llama_context_default_params();
+    ctx_params.n_ctx = config.value("n_ctx", config_.default_n_ctx);
+    ctx_params.n_batch = config.value("n_batch", 512);
+    ctx_params.n_threads = config.value("n_threads", 8);
+    
+    // Check for embeddings mode
+    bool enable_embeddings = config.value("enable_embeddings", false);
+    if (enable_embeddings) {
+        ctx_params.embeddings = true;
+        spdlog::info("Embeddings mode enabled for model: {}", model_id);
+    }
+    
+    // Create context
+    llama_context* lctx = llama_new_context_with_model(lmodel, ctx_params);
+    
+    if (!lctx) {
+        spdlog::error("Failed to create context for model: {}", model_id);
+        llama_free_model(lmodel);
+        return nullptr;
+    }
+
+    // Populate model info
     model->info.name = model_id;
     model->info.model_id = model_id;
     model->info.path = model_path;
     model->info.format = "gguf";
     model->info.architecture = "llama";
-    model->info.context_length = config_.default_n_ctx;
+    model->info.context_length = ctx_params.n_ctx;
     model->info.size_bytes = size_bytes;
     model->info.is_loaded = true;
 
-    // Heuristic VRAM/RAM estimates from file size
+    // Estimate VRAM/RAM usage
     size_t vram_mb = static_cast<size_t>(size_bytes / (1024ull * 1024ull));
     size_t ram_mb = vram_mb / 2;
     model->vram_mb = vram_mb;
     model->ram_mb = ram_mb;
 
-    // Opaque handles remain null in this test-friendly path
-    model->model_handle = nullptr;
-    model->context_handle = nullptr;
+    // Store opaque handles
+    model->model_handle = reinterpret_cast<void*>(lmodel);
+    model->context_handle = reinterpret_cast<void*>(lctx);
 
     auto* result = model.get();
     models_[model_id] = std::move(model);
@@ -324,7 +391,8 @@ CachedModel* LazyModelLoader::loadModelInternal(
     total_ram_mb_ += ram_mb;
     models_loaded_++;
 
-    spdlog::info("Model loaded (stub): {} ({} MB)", model_id, vram_mb);
+    spdlog::info("Model loaded successfully: {} ({} MB VRAM, {} GPU layers, Flash Attention: {})",
+                 model_id, vram_mb, n_gpu_layers, use_flash_attn ? "ON" : "OFF");
     return result;
 }
 

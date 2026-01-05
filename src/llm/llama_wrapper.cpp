@@ -120,6 +120,26 @@ bool LlamaWrapper::loadModel(
     if (!config.contains("n_ctx")) {
         load_config["n_ctx"] = config_.n_ctx;
     }
+    if (!config.contains("n_batch")) {
+        load_config["n_batch"] = config_.n_batch;
+    }
+    if (!config.contains("n_threads")) {
+        load_config["n_threads"] = config_.n_threads;
+    }
+    
+    // Pass performance optimization flags
+    if (!config.contains("use_flash_attn")) {
+        load_config["use_flash_attn"] = config_.use_flash_attn;
+    }
+    if (!config.contains("use_mmap")) {
+        load_config["use_mmap"] = config_.use_mmap;
+    }
+    if (!config.contains("use_mlock")) {
+        load_config["use_mlock"] = config_.use_mlock;
+    }
+    if (!config.contains("enable_embeddings")) {
+        load_config["enable_embeddings"] = config_.enable_embeddings;
+    }
     
     // Trigger lazy load (or get from cache)
     auto* model = model_loader_->getOrLoadModel(
