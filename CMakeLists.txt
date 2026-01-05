@@ -1400,6 +1400,12 @@ if(THEMIS_ENABLE_LLM)
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
+        
+        # P1: Enterprise Features - LLM Inference Engine Improvements
+        src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
+        src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
+        src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
+        src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
     )
     
     # Threading support required for async inference
@@ -1763,6 +1769,7 @@ if(THEMIS_BUILD_TESTS)
             tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
             tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
             tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
+            tests/test_inference_engine_enhanced.cpp  # P1: Enhanced inference engine tests
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages

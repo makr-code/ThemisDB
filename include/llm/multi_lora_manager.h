@@ -29,6 +29,51 @@ namespace themis {
 namespace llm {
 
 /**
+ * @brief Quantization mode for LoRA adapters
+ */
+enum class QuantizationMode {
+    NONE = 0,    // No quantization (FP32/FP16)
+    INT8 = 1,    // 8-bit integer quantization (4× compression)
+    INT4 = 2     // 4-bit integer quantization (8× compression)
+};
+
+/**
+ * @brief LoRA quantization configuration
+ */
+struct LoRAQuantizationConfig {
+    bool enabled = false;
+    QuantizationMode mode = QuantizationMode::INT8;
+    
+    // Calibration parameters
+    int calibration_samples = 100;       // Number of samples for scale calibration
+    
+    // Quantization strategy
+    bool per_channel = true;             // Per-channel vs per-tensor scaling
+    int group_size = 128;                // For INT4 grouping (0 = per-channel)
+};
+
+/**
+ * @brief Quantization statistics for a LoRA adapter
+ */
+struct QuantizationStats {
+    std::string lora_id;
+    QuantizationMode mode = QuantizationMode::NONE;
+    
+    size_t original_bytes = 0;           // Original FP32 size
+    size_t quantized_bytes = 0;          // Quantized size
+    float compression_ratio = 1.0f;      // original_bytes / quantized_bytes
+    
+    float quantization_time_ms = 0.0f;   // Time to quantize
+    float calibration_time_ms = 0.0f;    // Time for calibration
+    
+    // Per-channel statistics
+    size_t num_channels = 0;
+    float min_scale = 0.0f;              // Minimum scale factor
+    float max_scale = 0.0f;              // Maximum scale factor
+    float avg_scale = 0.0f;              // Average scale factor
+};
+
+/**
  * @brief LoRA adapter slot
  * 
  * Represents a loaded LoRA adapter with its metadata and handle.
@@ -51,6 +96,13 @@ struct LoRASlot {
     
     bool is_active = false;             // Currently applied to model
     bool keep_loaded = false;           // Pin in memory
+    
+    // Quantization support (v1.4.0)
+    bool is_quantized = false;
+    QuantizationMode quantization_mode = QuantizationMode::NONE;
+    size_t original_vram_bytes = 0;     // Original size before quantization
+    std::vector<float> scale_factors;   // Per-channel scale factors
+    std::vector<uint8_t> quantized_weights;  // Quantized weight data
 };
 
 /**
@@ -84,10 +136,30 @@ public:
         
         // Adapter fusion
         bool enable_adapter_fusion = false;    // Merge multiple LoRAs
+        
+        // Quantization (v1.4.0)
+        LoRAQuantizationConfig quantization;
     };
     
     explicit MultiLoRAManager(const Config& config);
     ~MultiLoRAManager();
+    
+    /**
+     * @brief Set quantization configuration
+     * 
+     * Configures quantization parameters for subsequently loaded LoRAs.
+     * Does not affect already-loaded LoRAs.
+     * 
+     * @param config Quantization configuration
+     */
+    void setQuantizationConfig(const LoRAQuantizationConfig& config);
+    
+    /**
+     * @brief Get quantization configuration
+     * 
+     * @return Current quantization configuration
+     */
+    LoRAQuantizationConfig getQuantizationConfig() const;
     
     /**
      * @brief Load a LoRA adapter (lazy loading)
@@ -107,6 +179,26 @@ public:
         const std::string& lora_id,
         const std::string& lora_path,
         const std::string& base_model_id,
+        float scale = 1.0f
+    );
+    
+    /**
+     * @brief Load a LoRA adapter with optional quantization
+     * 
+     * Loads a LoRA adapter and optionally applies quantization.
+     * 
+     * @param lora_id Unique LoRA identifier
+     * @param lora_path Path to LoRA weights file
+     * @param base_model_id Compatible base model
+     * @param quantize Whether to apply quantization (uses current config)
+     * @param scale LoRA scaling factor (default: 1.0)
+     * @return true if loaded successfully
+     */
+    bool loadLoRA(
+        const std::string& lora_id,
+        const std::string& lora_path,
+        const std::string& base_model_id,
+        bool quantize,
         float scale = 1.0f
     );
     
@@ -192,6 +284,17 @@ public:
      * @brief Check if LoRA is loaded
      */
     bool isLoRALoaded(const std::string& lora_id) const;
+    
+    /**
+     * @brief Get quantization statistics for a LoRA adapter
+     * 
+     * Returns statistics about quantization for a specific LoRA,
+     * including compression ratio and memory savings.
+     * 
+     * @param lora_id LoRA identifier
+     * @return Quantization statistics, or nullopt if LoRA not loaded or not quantized
+     */
+    std::optional<QuantizationStats> getQuantizationStats(const std::string& lora_id) const;
     
     /**
      * @brief List all loaded LoRAs
@@ -283,8 +386,16 @@ private:
         const std::string& lora_id,
         const std::string& lora_path,
         const std::string& base_model_id,
-        float scale
+        float scale,
+        bool quantize = false
     );
+    
+    // Quantization helpers
+    bool quantizeLoRA(LoRASlot* lora);
+    void quantizeINT8(LoRASlot* lora, const std::vector<float>& weights);
+    void quantizeINT4(LoRASlot* lora, const std::vector<float>& weights);
+    void calibrateScales(const std::vector<float>& weights, std::vector<float>& scales);
+    std::vector<float> simulateWeights(size_t count);  // For testing without real weights
     
     bool hasCapacity(size_t vram_bytes) const;
     void updateMemoryUsage();
