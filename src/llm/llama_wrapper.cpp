@@ -1,6 +1,7 @@
 #include "llm/llama_wrapper.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
+#include "llm/paged_block_manager.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <sstream>
@@ -1084,8 +1085,8 @@ json LlamaWrapper::formatAsMCPResponse(const InferenceResponse& response) {
         mcp_response["request_id"] = response.request_id;
     }
     
-    if (!response.lora_used.empty()) {
-        mcp_response["completion"]["lora"] = response.lora_used;
+    if (response.lora_used.has_value()) {
+        mcp_response["completion"]["lora"] = response.lora_used.value();
     }
     
     return mcp_response;
@@ -1258,7 +1259,8 @@ void LlamaWrapper::synchronizeDraftToTarget(const std::vector<llama_token>& acce
     }
     
     // Clear draft context and re-evaluate accepted tokens
-    llama_kv_cache_clear(draft_context_);
+    llama_memory_t mem = llama_get_memory(draft_context_);
+    llama_memory_clear(mem, true);
     
     llama_batch batch = llama_batch_get_one(
         const_cast<llama_token*>(accepted_tokens.data()), 
@@ -1586,8 +1588,14 @@ void LlamaWrapper::startBatchMode() {
     if (!paged_kv_cache_) {
         PagedKVCache::Config kv_config;
         kv_config.block_size = 16;  // 16 tokens per block
-        kv_config.max_blocks = 4096; // Supports large batches
-        paged_kv_cache_ = std::make_unique<PagedKVCache>(kv_config);
+        kv_config.num_blocks = 4096; // Supports large batches
+        
+        // Create block manager for PagedKVCache
+        PagedBlockManager::Config block_config;
+        block_config.max_blocks = kv_config.num_blocks;
+        block_config.block_size_tokens = kv_config.block_size;
+        auto block_manager = std::make_shared<PagedBlockManager>(block_config);
+        paged_kv_cache_ = std::make_unique<PagedKVCache>(kv_config, block_manager);
         spdlog::info("PagedKVCache initialized for continuous batching");
     }
     

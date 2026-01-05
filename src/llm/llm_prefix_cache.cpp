@@ -3,6 +3,7 @@
 #include <mutex>
 #include <algorithm>
 #include <regex>
+#include <cmath>
 
 namespace themis {
 namespace llm {
@@ -234,6 +235,8 @@ private:
 
 LLMPrefixCache::LLMPrefixCache(const std::string& cache_name, const Config& config)
     : impl_(std::make_unique<Impl>(cache_name, config)) {}
+
+LLMPrefixCache::~LLMPrefixCache() = default;
 
 void LLMPrefixCache::put(const std::string& prefix,
                           const std::vector<int>& tokens,

@@ -300,6 +300,14 @@ public:
      */
     std::optional<ContinuousBatchScheduler::Stats> getBatchSchedulerStats() const;
     
+    /**
+     * @brief Format chat messages according to template
+     */
+    std::string formatChatMessages(
+        const std::vector<ChatMessage>& messages,
+        ChatFormat format = ChatFormat::ChatML
+    );
+    
 private:
     Config config_;
     
@@ -384,12 +392,7 @@ private:
         float top_p
     );
     
-    // Chat formatting helpers
-    std::string formatChatMessages(
-        const std::vector<ChatMessage>& messages,
-        ChatFormat format = ChatFormat::ChatML
-    );
-    
+    // Chat formatting helpers (implementation details)
     std::string formatChatML(const std::vector<ChatMessage>& messages);
     std::string formatLlama2(const std::vector<ChatMessage>& messages);
     std::string formatVicuna(const std::vector<ChatMessage>& messages);
