@@ -43,16 +43,20 @@ void QueryPatternTracker::recordPattern(const std::string& collection,
 
 std::vector<QueryPatternTracker::QueryPattern> 
 QueryPatternTracker::getPatterns(const std::string& collection) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
+    // RACE CONDITION FIX: Move sorting outside lock to reduce contention
     std::vector<QueryPattern> result;
-    for (const auto& [key, pattern] : patterns_) {
-        if (collection.empty() || pattern.collection == collection) {
-            result.push_back(pattern);
-        }
-    }
     
-    // Sort by count (descending)
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.reserve(patterns_.size());
+        for (const auto& [key, pattern] : patterns_) {
+            if (collection.empty() || pattern.collection == collection) {
+                result.push_back(pattern);
+            }
+        }
+    }  // Release lock before sorting
+    
+    // Sort by count (descending) - outside lock (O(n log n) operation)
     std::sort(result.begin(), result.end(), 
              [](const QueryPattern& a, const QueryPattern& b) {
                  return a.count > b.count;
