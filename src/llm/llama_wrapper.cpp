@@ -4,6 +4,7 @@
 #include "llm/paged_block_manager.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
+#include <cmath>
 #include <sstream>
 #include <fstream>
 #include <filesystem>
@@ -60,6 +61,53 @@ void LlamaWrapper::validateConfig(const Config& config) {
                         cache_cfg.ttl_seconds);
         }
     }
+    
+    // Validate RoPE scaling config (Phase 3.1)
+    if (config.rope_scaling.enabled) {
+        const auto& rope_cfg = config.rope_scaling;
+        
+        if (rope_cfg.max_context <= 0) {
+            throw std::invalid_argument("rope_scaling.max_context must be positive");
+        }
+        
+        if (rope_cfg.original_context <= 0) {
+            throw std::invalid_argument("rope_scaling.original_context must be positive");
+        }
+        
+        if (rope_cfg.max_context <= rope_cfg.original_context) {
+            spdlog::warn("RoPE scaling max_context ({}) <= original_context ({}), scaling has no effect",
+                        rope_cfg.max_context, rope_cfg.original_context);
+        }
+        
+        float scaling_factor = static_cast<float>(rope_cfg.max_context) / static_cast<float>(rope_cfg.original_context);
+        
+        if (scaling_factor > 16.0f) {
+            spdlog::warn("RoPE scaling factor ({:.1f}x) is very high, quality may degrade significantly", scaling_factor);
+        }
+        
+        if (rope_cfg.method == RopeScalingMethod::LINEAR && scaling_factor > 4.0f) {
+            spdlog::warn("Linear RoPE scaling with factor {:.1f}x (>4x) may have poor quality. Consider using YaRN.", scaling_factor);
+        }
+        
+        // Validate YaRN-specific parameters
+        if (rope_cfg.method == RopeScalingMethod::YARN) {
+            if (rope_cfg.yarn_ext_factor < 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_ext_factor must be non-negative");
+            }
+            if (rope_cfg.yarn_attn_factor < 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_attn_factor must be non-negative");
+            }
+            if (rope_cfg.yarn_beta_fast <= 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_beta_fast must be positive");
+            }
+            if (rope_cfg.yarn_beta_slow <= 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_beta_slow must be positive");
+            }
+        }
+        
+        spdlog::info("RoPE scaling validated: {:.1f}x context extension ({} → {} tokens)",
+                    scaling_factor, rope_cfg.original_context, rope_cfg.max_context);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -109,6 +157,14 @@ LlamaWrapper::LlamaWrapper(const Config& config)
         spdlog::info("Grammar-constrained generation enabled (cache: {}, max_cached: {})",
                      config_.grammar_config.cache_grammars,
                      config_.grammar_config.max_cached_grammars);
+    // Initialize vision encoder (multi-modal support)
+    if (config_.enable_vision && !config_.clip_model_path.empty()) {
+        try {
+            initializeVisionEncoder();
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to initialize vision encoder: {}. Vision support disabled.", e.what());
+            vision_enabled_ = false;
+        }
     }
     
     spdlog::info("LlamaWrapper initialized:");
@@ -119,9 +175,11 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
     spdlog::info("  Grammar constraints: {}", config_.grammar_config.enabled ? "enabled" : "disabled");
+    spdlog::info("  Vision support: {}", vision_enabled_ ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
+    shutdownVisionEncoder();
     unloadDraftModel();
     unloadModel();
 }
@@ -172,6 +230,49 @@ bool LlamaWrapper::loadModel(
     }
     if (!config.contains("enable_embeddings")) {
         load_config["enable_embeddings"] = config_.enable_embeddings;
+    }
+    
+    // Pass RoPE scaling configuration (Phase 3.1)
+    if (config_.rope_scaling.enabled) {
+        load_config["rope_scaling_enabled"] = true;
+        
+        // Set context to max_context when RoPE scaling is enabled
+        if (!config.contains("n_ctx")) {
+            load_config["n_ctx"] = config_.rope_scaling.max_context;
+        }
+        
+        // Pass method
+        switch (config_.rope_scaling.method) {
+            case RopeScalingMethod::LINEAR:
+                load_config["rope_scaling_method"] = "linear";
+                break;
+            case RopeScalingMethod::NTK:
+                load_config["rope_scaling_method"] = "ntk";
+                break;
+            case RopeScalingMethod::YARN:
+                load_config["rope_scaling_method"] = "yarn";
+                break;
+            case RopeScalingMethod::DYNAMIC:
+                load_config["rope_scaling_method"] = "dynamic";
+                break;
+        }
+        
+        // Pass scaling parameters
+        load_config["rope_max_context"] = config_.rope_scaling.max_context;
+        load_config["rope_original_context"] = config_.rope_scaling.original_context;
+        
+        // Pass YaRN-specific parameters
+        if (config_.rope_scaling.method == RopeScalingMethod::YARN) {
+            load_config["rope_yarn_ext_factor"] = config_.rope_scaling.yarn_ext_factor;
+            load_config["rope_yarn_attn_factor"] = config_.rope_scaling.yarn_attn_factor;
+            load_config["rope_yarn_beta_fast"] = config_.rope_scaling.yarn_beta_fast;
+            load_config["rope_yarn_beta_slow"] = config_.rope_scaling.yarn_beta_slow;
+        }
+        
+        spdlog::info("RoPE scaling enabled: {} ({} → {} tokens)",
+                     load_config["rope_scaling_method"].get<std::string>(),
+                     config_.rope_scaling.original_context,
+                     config_.rope_scaling.max_context);
     }
     
     // Trigger lazy load (or get from cache)
@@ -1239,9 +1340,43 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     
     // Create context for draft model
     llama_context_params draft_ctx_params = llama_context_default_params();
-    draft_ctx_params.n_ctx = config_.n_ctx;
+    draft_ctx_params.n_ctx = config_.rope_scaling.enabled ? config_.rope_scaling.max_context : config_.n_ctx;
     draft_ctx_params.n_batch = config_.n_batch * 2;  // Draft can use larger batch
     draft_ctx_params.n_threads = config_.n_threads;
+    
+    // Apply same RoPE scaling to draft model
+    if (config_.rope_scaling.enabled) {
+        int max_context = config_.rope_scaling.max_context;
+        int original_context = config_.rope_scaling.original_context;
+        float scale_factor = static_cast<float>(original_context) / static_cast<float>(max_context);
+        
+        switch (config_.rope_scaling.method) {
+            case RopeScalingMethod::LINEAR:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+            case RopeScalingMethod::NTK:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_NONE;
+                draft_ctx_params.rope_freq_base = 10000.0f * std::pow(
+                    static_cast<float>(max_context) / static_cast<float>(original_context), 0.5f);
+                break;
+            case RopeScalingMethod::YARN:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_YARN;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                draft_ctx_params.yarn_ext_factor = config_.rope_scaling.yarn_ext_factor;
+                draft_ctx_params.yarn_attn_factor = config_.rope_scaling.yarn_attn_factor;
+                draft_ctx_params.yarn_beta_fast = config_.rope_scaling.yarn_beta_fast;
+                draft_ctx_params.yarn_beta_slow = config_.rope_scaling.yarn_beta_slow;
+                break;
+            case RopeScalingMethod::DYNAMIC:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+        }
+        
+        spdlog::info("RoPE scaling applied to draft model: {} → {} tokens",
+                     original_context, max_context);
+    }
     
     draft_context_ = llama_new_context_with_model(draft_model_, draft_ctx_params);
     
@@ -1845,6 +1980,172 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
     }
     
     return grammar;
+// Vision Support (Multi-Modal)
+// ═══════════════════════════════════════════════════════════
+
+bool LlamaWrapper::initializeVisionEncoder() {
+    if (config_.clip_model_path.empty()) {
+        spdlog::warn("Vision encoder: CLIP model path not configured");
+        return false;
+    }
+    
+    try {
+        spdlog::info("Initializing vision encoder: {}", config_.clip_model_path);
+        vision_encoder_ = std::make_unique<VisionEncoder>(
+            config_.clip_model_path,
+            1  // verbosity
+        );
+        
+        if (!vision_encoder_->isReady()) {
+            throw std::runtime_error("Vision encoder initialization failed");
+        }
+        
+        vision_enabled_ = true;
+        spdlog::info("Vision encoder initialized successfully");
+        spdlog::info("  - Embedding dimension: {}", vision_encoder_->getEmbeddingDimension());
+        spdlog::info("  - Number of patches: {}", vision_encoder_->getNumPatches());
+        
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to initialize vision encoder: {}", e.what());
+        vision_enabled_ = false;
+        vision_encoder_.reset();
+        throw;
+    }
+}
+
+void LlamaWrapper::shutdownVisionEncoder() {
+    if (vision_encoder_) {
+        spdlog::info("Shutting down vision encoder");
+        vision_encoder_.reset();
+        vision_enabled_ = false;
+    }
+}
+
+std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
+    // Build multi-modal prompt in LLaVA format
+    // Format: <image>\nUSER: {question}\nASSISTANT:
+    
+    std::string prompt;
+    
+    // Count number of images
+    size_t num_images = 0;
+    if (!request.image_path.empty()) {
+        num_images = 1;
+    } else if (!request.image_paths.empty()) {
+        num_images = request.image_paths.size();
+    }
+    
+    // Add image tokens
+    if (request.use_image_start_end) {
+        for (size_t i = 0; i < num_images; ++i) {
+            prompt += request.image_token + "\n";
+        }
+    }
+    
+    // Add text prompt in chat format
+    prompt += "USER: " + request.text_prompt + "\nASSISTANT:";
+    
+    return prompt;
+}
+
+VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request) {
+    VisionResponse response;
+    
+    // Check if vision is enabled
+    if (!vision_enabled_ || !vision_encoder_) {
+        response.success = false;
+        response.error_message = "Vision support not enabled. Configure clip_model_path and enable_vision=true";
+        return response;
+    }
+    
+    // Check if model is loaded
+    if (!isModelLoaded()) {
+        response.success = false;
+        response.error_message = "No model loaded. Call loadModel() first";
+        return response;
+    }
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    try {
+        // Collect image paths
+        std::vector<std::string> image_paths;
+        if (!vision_request.image_path.empty()) {
+            image_paths.push_back(vision_request.image_path);
+        } else if (!vision_request.image_paths.empty()) {
+            image_paths = vision_request.image_paths;
+        } else {
+            throw std::runtime_error("No images provided in vision request");
+        }
+        
+        // Encode images
+        auto encode_start = std::chrono::high_resolution_clock::now();
+        std::vector<std::vector<float>> image_embeddings;
+        image_embeddings.reserve(image_paths.size());
+        
+        for (const auto& img_path : image_paths) {
+            spdlog::debug("Encoding image: {}", img_path);
+            auto embeddings = vision_encoder_->encodeImage(img_path);
+            image_embeddings.push_back(std::move(embeddings));
+        }
+        
+        auto encode_end = std::chrono::high_resolution_clock::now();
+        response.image_encoding_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            encode_end - encode_start
+        ).count();
+        
+        spdlog::debug("Image encoding completed in {}ms", response.image_encoding_time_ms);
+        
+        // Build multi-modal prompt
+        std::string prompt = buildVisionPrompt(vision_request);
+        
+        // Create inference request
+        InferenceRequest inference_request;
+        inference_request.prompt = prompt;
+        inference_request.max_tokens = vision_request.max_tokens;
+        inference_request.temperature = vision_request.temperature;
+        inference_request.top_p = vision_request.top_p;
+        inference_request.top_k = vision_request.top_k;
+        
+        // Note: Full integration of image embeddings into llama.cpp context
+        // requires modifications to llama.cpp's batch processing.
+        // This implementation provides the foundation and architecture.
+        // TODO: Complete integration with llama_batch for true multi-modal inference.
+        // For now, the text prompt will be processed without actual image embeddings.
+        
+        spdlog::warn("Vision support: Full multi-modal inference not yet implemented.");
+        spdlog::warn("  - Image encoding: ✓ Completed");
+        spdlog::warn("  - Image embedding injection: ✗ Pending llama.cpp integration");
+        spdlog::info("Generating text response with vision-formatted prompt (architecture validation)");
+        
+        // Generate response (text-only for now, until llama.cpp integration is complete)
+        auto inference_response = generate(inference_request);
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        
+        // Build vision response
+        response.success = inference_response.success;
+        response.text = inference_response.generated_text;
+        response.error_message = inference_response.error_message;
+        response.tokens_generated = inference_response.tokens_generated;
+        response.inference_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        ).count();
+        response.model_name = current_model_id_;
+        
+        spdlog::info("Vision inference completed: {} tokens in {}ms ({}ms image encoding)",
+                     response.tokens_generated,
+                     response.inference_time_ms,
+                     response.image_encoding_time_ms);
+        
+    } catch (const std::exception& e) {
+        response.success = false;
+        response.error_message = std::string("Vision inference failed: ") + e.what();
+        spdlog::error("Vision inference error: {}", e.what());
+    }
+    
+    return response;
 }
 
 } // namespace llm

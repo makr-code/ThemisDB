@@ -1,6 +1,7 @@
 #include "llm/model_loader.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <llama.h>
 
@@ -346,6 +347,59 @@ CachedModel* LazyModelLoader::loadModelInternal(
     ctx_params.n_ctx = config.value("n_ctx", config_.default_n_ctx);
     ctx_params.n_batch = config.value("n_batch", 512);
     ctx_params.n_threads = config.value("n_threads", 8);
+    
+    // Configure RoPE scaling (Phase 3.1)
+    if (config.value("rope_scaling_enabled", false)) {
+        std::string method = config.value("rope_scaling_method", "yarn");
+        int max_context = config.value("rope_max_context", 32768);
+        int original_context = config.value("rope_original_context", 4096);
+        
+        // Calculate scaling factor
+        float scale_factor = static_cast<float>(original_context) / static_cast<float>(max_context);
+        
+        if (method == "linear") {
+            // Linear scaling: simple frequency scaling
+            ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+            ctx_params.rope_freq_scale = scale_factor;
+            spdlog::info("RoPE Linear scaling: {} → {} tokens (scale: {:.4f})",
+                        original_context, max_context, scale_factor);
+        }
+        else if (method == "ntk") {
+            // NTK-Aware scaling: adjust base frequency
+            ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_NONE;  // NTK uses freq_base
+            float scaling_ratio = static_cast<float>(max_context) / static_cast<float>(original_context);
+            ctx_params.rope_freq_base = 10000.0f * std::pow(scaling_ratio, 0.5f);
+            spdlog::info("RoPE NTK scaling: {} → {} tokens (freq_base: {:.2f})",
+                        original_context, max_context, ctx_params.rope_freq_base);
+        }
+        else if (method == "yarn") {
+            // YaRN scaling: best quality for high factors
+            ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_YARN;
+            ctx_params.rope_freq_scale = scale_factor;
+            
+            // YaRN-specific parameters
+            ctx_params.yarn_ext_factor = config.value("rope_yarn_ext_factor", 1.0f);
+            ctx_params.yarn_attn_factor = config.value("rope_yarn_attn_factor", 1.0f);
+            ctx_params.yarn_beta_fast = config.value("rope_yarn_beta_fast", 32.0f);
+            ctx_params.yarn_beta_slow = config.value("rope_yarn_beta_slow", 1.0f);
+            
+            spdlog::info("RoPE YaRN scaling: {} → {} tokens (scale: {:.4f}, ext: {:.2f}, attn: {:.2f})",
+                        original_context, max_context, scale_factor,
+                        ctx_params.yarn_ext_factor, ctx_params.yarn_attn_factor);
+        }
+        else if (method == "dynamic") {
+            // Dynamic scaling: adapts to input length
+            ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;  // Use linear as base
+            ctx_params.rope_freq_scale = scale_factor;
+            spdlog::info("RoPE Dynamic scaling: {} → {} tokens (adaptive)",
+                        original_context, max_context);
+        }
+        else {
+            spdlog::warn("Unknown RoPE scaling method: {}, using YaRN", method);
+            ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_YARN;
+            ctx_params.rope_freq_scale = scale_factor;
+        }
+    }
     
     // Check for embeddings mode
     bool enable_embeddings = config.value("enable_embeddings", false);

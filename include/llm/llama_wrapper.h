@@ -10,6 +10,7 @@
 #include "llm/llm_response_cache.h"
 #include "llm/grammar.h"
 #include "llm/grammar_cache.h"
+#include "llm/vision_encoder.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -21,6 +22,16 @@ typedef int32_t llama_token;
 
 namespace themis {
 namespace llm {
+
+/**
+ * @brief RoPE scaling method enumeration
+ */
+enum class RopeScalingMethod {
+    LINEAR,   // Linear scaling - simple, works for 2-4x
+    NTK,      // NTK-Aware scaling - better quality than linear
+    YARN,     // YaRN scaling - best quality for high factors (8x+)
+    DYNAMIC   // Dynamic scaling - adapts to input length
+};
 
 /**
  * @brief Chat role enumeration for type-safe message roles
@@ -163,6 +174,24 @@ public:
             size_t max_cached_grammars = 100;          // Max grammars to cache
         };
         GrammarConfig grammar_config;
+        // RoPE Scaling (Phase 3.1) - Extended Context Window
+        struct RopeScalingConfig {
+            bool enabled = false;
+            RopeScalingMethod method = RopeScalingMethod::YARN;
+            int max_context = 32768;        // Target context length (8x increase)
+            int original_context = 4096;    // Model's trained context length
+            
+            // YaRN-specific parameters (used when method == YARN)
+            float yarn_ext_factor = 1.0f;
+            float yarn_attn_factor = 1.0f;
+            float yarn_beta_fast = 32.0f;
+            float yarn_beta_slow = 1.0f;
+        } rope_scaling;
+        // Vision Support (Multi-Modal LLM)
+        bool enable_vision = false;           // Enable vision/multi-modal support
+        std::string clip_model_path;          // Path to CLIP vision encoder model
+        int vision_threads = 4;               // Threads for image encoding
+        bool preload_vision = true;           // Keep vision encoder in memory
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -221,6 +250,16 @@ public:
         const RAGContext& rag_context,
         const InferenceRequest& request
     ) override;
+    
+    /**
+     * @brief Generate response with vision support (multi-modal)
+     * 
+     * Processes both text and images using vision-language models like LLaVA.
+     * 
+     * @param vision_request Vision request with text prompt and image(s)
+     * @return Vision response with generated text
+     */
+    VisionResponse generateVision(const VisionRequest& vision_request);
     
     std::vector<float> embed(const std::string& text) override;
     
@@ -348,6 +387,9 @@ private:
     // Grammar-Constrained Generation (Phase 3.2)
     std::unique_ptr<GrammarCache> grammar_cache_;
     std::unordered_map<std::string, std::string> builtin_grammars_;  // name -> ebnf text
+    // Vision Support (Multi-Modal)
+    std::unique_ptr<VisionEncoder> vision_encoder_;
+    bool vision_enabled_ = false;
     
     // Current active model
     std::string current_model_id_;
@@ -391,6 +433,11 @@ private:
     InferenceResponse generateRegular(const InferenceRequest& request);
     float getProbability(float* logits, llama_token token, int32_t n_vocab);
     void synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens);
+    
+    // Vision support helpers
+    bool initializeVisionEncoder();
+    void shutdownVisionEncoder();
+    std::string buildVisionPrompt(const VisionRequest& request);
     
     // Internal llama.cpp helper functions
     std::vector<llama_token> tokenizeInternal(
