@@ -1830,6 +1830,41 @@ if(THEMIS_BUILD_TESTS)
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
+        
+        # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
+        # Flash Attention Tests
+        add_executable(test_phase1_flash_attention
+            tests/test_phase1_flash_attention.cpp
+        )
+        target_link_libraries(test_phase1_flash_attention
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_flash_attention
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # KV-Cache Reuse Tests
+        add_executable(test_phase1_kv_cache_reuse
+            tests/test_phase1_kv_cache_reuse.cpp
+        )
+        target_link_libraries(test_phase1_kv_cache_reuse
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_kv_cache_reuse
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
     endif()
 
     # Discover individual GoogleTest tests for better CTest integration
@@ -2211,6 +2246,20 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_saga_compensation
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Phase 1 Benchmarks - LLM Optimizations (Flash Attention, KV-Cache, Embeddings)
+    
+    # Flash Attention Benchmark
+    add_executable(bench_phase1_flash_attention
+        benchmarks/bench_phase1_flash_attention.cpp
+    )
+    
+    target_link_libraries(bench_phase1_flash_attention
         PRIVATE
             themis_core
             benchmark::benchmark
