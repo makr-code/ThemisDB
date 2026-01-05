@@ -19,6 +19,7 @@ namespace cuda {
 constexpr int BLOCK_SIZE = 256;
 constexpr int TILE_SIZE = 64;  // Tile size for memory-efficient attention
 constexpr int WARP_SIZE = 32;
+constexpr float SOFTMAX_EPSILON = 1e-10f;  // Numerical stability for softmax normalization
 
 // ============================================================================
 // Flash Attention Forward Pass Kernels
@@ -146,7 +147,7 @@ __global__ void flashAttentionForwardKernel(
     }
     
     // Normalize and write output
-    float norm = 1.0f / (sum_exp + 1e-10f);
+    float norm = 1.0f / (sum_exp + SOFTMAX_EPSILON);
     for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
         O_head[d] = output[d] * norm;
     }
@@ -278,8 +279,8 @@ __global__ void flashAttentionBackwardKernel(
             }
         }
         
-        // Initialize dK and dV tiles to zero
-        for (int d = 0; d < TILE_SIZE; ++d) {
+        // Initialize dK and dV tiles to zero (use actual head_dim, not TILE_SIZE)
+        for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
             tile_dK[threadIdx.x][d] = 0.0f;
             tile_dV[threadIdx.x][d] = 0.0f;
         }
@@ -296,7 +297,7 @@ __global__ void flashAttentionBackwardKernel(
                 score += Q_head[d] * tile_K[k_local][d];
             }
             score *= scale;
-            float attn = expf(score - max_score) / (sum_exp + 1e-10f);
+            float attn = expf(score - max_score) / (sum_exp + SOFTMAX_EPSILON);
             
             // Compute dP (gradient of attention weights before softmax)
             float dP = 0.0f;

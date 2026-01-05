@@ -380,7 +380,7 @@ See `docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md` for llama.cpp integration de
 ### Planned Features
 
 - [ ] Flash Attention 2.0 with better parallelism
-- [x] Flash Attention backward pass for training (✅ Completed)
+- [x] Flash Attention backward pass for training
 - [ ] Multi-query attention (MQA) support
 - [ ] Grouped-query attention (GQA) support
 - [ ] Sliding window attention
