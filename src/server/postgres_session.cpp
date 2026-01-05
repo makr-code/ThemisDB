@@ -4,11 +4,78 @@
 #include <boost/beast/core.hpp>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+
+namespace {
+    // Helper function to escape SQL string literals
+    std::string escapeSQLString(const std::string& input) {
+        std::string result;
+        result.reserve(input.size() + 10);
+        
+        for (char c : input) {
+            if (c == '\'') {
+                result += "''";  // PostgreSQL escapes single quotes by doubling
+            } else if (c == '\\') {
+                result += "\\\\";  // Escape backslashes
+            } else if (c == '\0') {
+                // Skip null bytes or handle specially
+                continue;
+            } else {
+                result += c;
+            }
+        }
+        
+        return result;
+    }
+    
+    // Helper function to safely bind parameter value
+    std::string bindParameterValue(const std::string& param, int32_t paramType) {
+        // Handle NULL
+        if (param == "NULL") {
+            return "NULL";
+        }
+        
+        // For numeric types, validate and pass through
+        if (paramType == 20 || paramType == 21 || paramType == 23 ||  // int8, int2, int4
+            paramType == 700 || paramType == 701) {  // float4, float8
+            // Basic numeric validation
+            bool isValid = true;
+            bool hasDot = false;
+            for (size_t i = 0; i < param.size(); ++i) {
+                char c = param[i];
+                if (i == 0 && (c == '-' || c == '+')) continue;
+                if (c == '.' && !hasDot) {
+                    hasDot = true;
+                    continue;
+                }
+                if (!std::isdigit(c)) {
+                    isValid = false;
+                    break;
+                }
+            }
+            if (isValid && !param.empty()) {
+                return param;
+            }
+        }
+        
+        // For all other types (text, varchar, etc.), escape and quote
+        return "'" + escapeSQLString(param) + "'";
+    }
+}
 
 PostgresSession::PostgresSession(asio::ip::tcp::socket socket)
     : socket_(std::move(socket))
     , isAuthenticated_(false)
-    , inStartup_(true) {
+    , inStartup_(true)
+    , queryEngine_(nullptr) {
+}
+
+PostgresSession::PostgresSession(asio::ip::tcp::socket socket, themis::QueryEngine* queryEngine)
+    : socket_(std::move(socket))
+    , isAuthenticated_(false)
+    , inStartup_(true)
+    , queryEngine_(queryEngine) {
 }
 
 PostgresSession::~PostgresSession() {
@@ -238,8 +305,8 @@ void PostgresSession::handleBind(const std::string& portal, const std::string& s
 }
 
 void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) {
-    // PostgreSQL Execute message handler
-    // Executes portal with bound parameters and returns results
+    // PostgreSQL Execute message handler with result streaming
+    // Executes portal with bound parameters and returns results (up to maxRows)
     
     auto portalIt = portals_.find(portal);
     if (portalIt == portals_.end()) {
@@ -247,7 +314,7 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         return;
     }
     
-    const auto& portalData = portalIt->second;
+    auto& portalData = portalIt->second;
     auto stmtIt = preparedStatements_.find(portalData.statementName);
     if (stmtIt == preparedStatements_.end()) {
         sendErrorResponse("ERROR", "26000", "Prepared statement not found");
@@ -258,43 +325,85 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
         // Get query with bound parameters
         std::string query = stmtIt->second.query;
         const auto& params = portalData.params;
+        const auto& paramTypes = stmtIt->second.paramTypes;
         
-        // Replace $1, $2, etc. with actual parameter values
-        // Note: This is a basic implementation for SQL-to-Cypher translation
-        // In production, proper parameter binding should be used to prevent injection
-        // The actual database driver should handle parameter escaping
+        // Replace $1, $2, etc. with properly escaped parameter values
         for (size_t i = 0; i < params.size(); ++i) {
             std::string placeholder = "$" + std::to_string(i + 1);
+            int32_t paramType = (i < paramTypes.size()) ? paramTypes[i] : 25; // default to text
+            std::string escapedValue = bindParameterValue(params[i], paramType);
+            
             size_t pos = 0;
             while ((pos = query.find(placeholder, pos)) != std::string::npos) {
-                query.replace(pos, placeholder.length(), params[i]);
-                pos += params[i].length();
+                query.replace(pos, placeholder.length(), escapedValue);
+                pos += escapedValue.length();
             }
         }
         
-        // Handle schema queries
-        if (isSchemaQuery(query)) {
-            handleSchemaQuery(query);
+        // If this is the first execution, fetch and cache results
+        if (!portalData.resultsComplete && portalData.currentRow == 0) {
+            // Handle schema queries
+            if (isSchemaQuery(query)) {
+                handleSchemaQuery(query);
+                portalData.resultsComplete = true;
+                return;
+            }
+            
+            // Handle special PostgreSQL functions
+            if (query.find("version()") != std::string::npos) {
+                std::vector<FieldDescription> fields = {
+                    {"version", 0, 0, 25, -1, -1, 0}
+                };
+                sendRowDescription(fields);
+                sendDataRow({"PostgreSQL 14.0 (ThemisDB 1.3.0 compatibility mode)"});
+                sendCommandComplete("SELECT 1");
+                portalData.resultsComplete = true;
+                return;
+            }
+            
+            // If query engine is available, execute actual query
+            if (queryEngine_) {
+                // TODO: Integrate with QueryEngine for actual execution
+                // For now, translate to Cypher/AQL and prepare for future execution
+                std::string cypherQuery = translateQuery(query);
+                // Future: auto [status, results] = queryEngine_->execute(cypherQuery);
+                
+                // Placeholder: Return empty result set
+                sendCommandComplete("SELECT 0");
+                portalData.resultsComplete = true;
+                return;
+            }
+            
+            // Fallback: Translate query for future execution
+            std::string cypherQuery = translateQuery(query);
+            sendCommandComplete("SELECT 0");
+            portalData.resultsComplete = true;
             return;
         }
         
-        // Handle special PostgreSQL functions
-        if (query.find("version()") != std::string::npos) {
-            std::vector<FieldDescription> fields = {
-                {"version", 0, 0, 25, -1, -1, 0}
-            };
-            sendRowDescription(fields);
-            sendDataRow({"PostgreSQL 14.0 (ThemisDB 1.3.0 compatibility mode)"});
-            sendCommandComplete("SELECT 1");
-            return;
+        // Result streaming: Send cached results up to maxRows
+        if (maxRows == 0) {
+            // maxRows == 0 means no limit, send all remaining rows
+            maxRows = portalData.cachedResults.size() - portalData.currentRow;
         }
         
-        // Translate and execute query
-        std::string cypherQuery = translateQuery(query);
+        size_t rowsToSend = std::min(static_cast<size_t>(maxRows), 
+                                      portalData.cachedResults.size() - portalData.currentRow);
         
-        // For now, send mock response indicating successful translation
-        // In production, this would execute against the actual database
-        sendCommandComplete("SELECT 0");
+        for (size_t i = 0; i < rowsToSend; ++i) {
+            sendDataRow(portalData.cachedResults[portalData.currentRow + i]);
+        }
+        
+        portalData.currentRow += rowsToSend;
+        
+        // Check if all results have been sent
+        if (portalData.currentRow >= portalData.cachedResults.size()) {
+            sendCommandComplete("SELECT " + std::to_string(portalData.cachedResults.size()));
+            portalData.resultsComplete = true;
+        } else {
+            // More rows available, send PortalSuspended
+            sendPortalSuspended();
+        }
         
     } catch (const std::exception& e) {
         sendErrorResponse("ERROR", "XX000", std::string("Execute error: ") + e.what());
@@ -600,6 +709,37 @@ void PostgresSession::sendDataRow(const std::vector<std::string>& values) {
     }
     
     writeMessage('D', payload);
+}
+
+void PostgresSession::sendDataRowBinary(const std::vector<std::pair<std::vector<uint8_t>, int32_t>>& values) {
+    // Send DataRow in binary format
+    // Each value is a pair of (binary_data, type_oid)
+    std::vector<uint8_t> payload;
+    
+    // Column count
+    uint16_t colCount = values.size();
+    payload.push_back((colCount >> 8) & 0xFF);
+    payload.push_back(colCount & 0xFF);
+    
+    for (const auto& [data, typeOid] : values) {
+        // Column length
+        int32_t len = data.size();
+        payload.push_back((len >> 24) & 0xFF);
+        payload.push_back((len >> 16) & 0xFF);
+        payload.push_back((len >> 8) & 0xFF);
+        payload.push_back(len & 0xFF);
+        
+        // Binary column value
+        payload.insert(payload.end(), data.begin(), data.end());
+    }
+    
+    writeMessage('D', payload);
+}
+
+void PostgresSession::sendPortalSuspended() {
+    // Send PortalSuspended message ('s')
+    // Indicates that execution was suspended due to maxRows limit
+    writeMessage('s', {});
 }
 
 void PostgresSession::sendCommandComplete(const std::string& commandTag) {
