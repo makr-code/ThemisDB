@@ -264,7 +264,8 @@ void PostgresSession::handleQuery(const std::string& query) {
         std::string cypherQuery = translateQuery(query);
         
         // Execute Cypher query against ThemisDB
-        // For now, send mock response to indicate successful translation
+        // When QueryEngine is available, queries would be executed here
+        // For protocol-only mode, return empty result
         sendCommandComplete("SELECT 0");
     } catch (const std::exception& e) {
         sendErrorResponse("ERROR", "42601", std::string("Query translation failed: ") + e.what());
