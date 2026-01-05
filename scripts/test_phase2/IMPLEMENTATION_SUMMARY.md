@@ -246,6 +246,17 @@ scripts/test_phase2/
 Total: ~95 KB of test infrastructure
 ```
 
+## Dependencies
+
+⚠️ **Blocked by:**
+- **Issue #1** (Fix Compilation) - needed to run actual tests
+- **Issue #2** (Phase 1 Testing) - dependency
+
+**The test infrastructure is complete and ready.** It will work once:
+1. ThemisDB binary is built (Issue #1)
+2. GGUF model files are available
+3. Phase 1 testing is complete (Issue #2)
+
 ## Issue Resolution
 
 This PR resolves **Issue #3: Test & Validate Phase 2 Features**

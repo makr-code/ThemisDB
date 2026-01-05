@@ -18,15 +18,24 @@ This directory contains test scripts and benchmarks to validate that Phase 2 fea
    - vLLM-style scheduling
    - High GPU utilization (90%+)
 
+## Dependencies
+
+⚠️ **Blocked by:**
+- **Issue #1** (Fix Compilation Infrastructure) - needed to build ThemisDB binary
+- **Issue #2** (Phase 1 Testing) - dependency for Phase 2
+
+**The test infrastructure is complete and ready.** It will work once:
+1. ThemisDB binary is built (Issue #1)
+2. GGUF model files are available:
+   - Target model: e.g., Mistral-7B-Instruct-Q4_K_M
+   - Draft model: e.g., Llama-2-1B-Q4_K_M (for Speculative Decoding)
+3. Phase 1 testing is complete (Issue #2)
+
 ## Prerequisites
 
-- ✅ Issue #1 (Fix Compilation Infrastructure) resolved
-- ✅ Issue #2 (Phase 1 Testing) completed
 - ThemisDB built with llama.cpp integration
-- GGUF model files available:
-  - Target model: e.g., Mistral-7B-Instruct-Q4_K_M
-  - Draft model: e.g., Llama-2-1B-Q4_K_M (for Speculative Decoding)
-- GPU with CUDA support
+- GGUF model files available
+- GPU with CUDA support (recommended)
 
 ## Test Scripts
 
