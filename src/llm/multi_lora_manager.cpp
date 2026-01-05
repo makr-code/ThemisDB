@@ -1101,8 +1101,8 @@ size_t MultiLoRAManager::balanceGPULoad() {
                 
                 // Try to move to underloaded GPU
                 for (int target_gpu : underloaded_gpus) {
-                    if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < 
-                        config_.multi_gpu.max_vram_per_gpu_mb) {
+                    size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+                    if (gpu_vram_usage_[target_gpu] + lora->vram_bytes < max_vram_per_gpu_bytes) {
                         
                         spdlog::info("Moving LoRA {} from GPU {} to GPU {}", 
                                      lora_id, overloaded_gpu, target_gpu);
@@ -1142,6 +1142,9 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         return 0;  // Default GPU
     }
     
+    // Pre-compute max VRAM per GPU in bytes to avoid repeated multiplication
+    const size_t max_vram_per_gpu_bytes = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024;
+    
     switch (config_.multi_gpu.strategy) {
         case MultiGPUStrategy::ROUND_ROBIN: {
             // Simple round-robin across GPUs
@@ -1149,15 +1152,13 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
             next_round_robin_gpu_ = (next_round_robin_gpu_ + 1) % config_.multi_gpu.devices.size();
             
             // Check if GPU has capacity
-            if (gpu_vram_usage_[selected_gpu] + vram_bytes <= 
-                config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024) {
+            if (gpu_vram_usage_[selected_gpu] + vram_bytes <= max_vram_per_gpu_bytes) {
                 return selected_gpu;
             }
             
             // Try other GPUs if selected one is full
             for (int gpu_id : config_.multi_gpu.devices) {
-                if (gpu_vram_usage_[gpu_id] + vram_bytes <= 
-                    config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024) {
+                if (gpu_vram_usage_[gpu_id] + vram_bytes <= max_vram_per_gpu_bytes) {
                     return gpu_id;
                 }
             }
@@ -1175,13 +1176,11 @@ int MultiLoRAManager::selectGPUForLoRA(size_t vram_bytes) {
         case MultiGPUStrategy::MODEL_PARALLEL: {
             // For model parallel, select GPU with most free space
             int best_gpu = config_.multi_gpu.devices[0];
-            size_t max_free = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024 - 
-                             gpu_vram_usage_[best_gpu];
+            size_t max_free = max_vram_per_gpu_bytes - gpu_vram_usage_[best_gpu];
             
             for (size_t i = 1; i < config_.multi_gpu.devices.size(); ++i) {
                 int gpu_id = config_.multi_gpu.devices[i];
-                size_t free = config_.multi_gpu.max_vram_per_gpu_mb * 1024 * 1024 - 
-                             gpu_vram_usage_[gpu_id];
+                size_t free = max_vram_per_gpu_bytes - gpu_vram_usage_[gpu_id];
                 if (free > max_free) {
                     max_free = free;
                     best_gpu = gpu_id;

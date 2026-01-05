@@ -487,12 +487,8 @@ void GPUMemoryManager::updateMemoryStats() {
             total_vram_used_ += alloc.vram_bytes;
             total_ram_used_ += alloc.ram_bytes;
             
-            // Track per-GPU usage - ensure GPU ID exists in map
+            // Track per-GPU usage (operator[] auto-initializes to 0)
             if (alloc.vram_bytes > 0) {
-                // Initialize if not present (defensive programming)
-                if (per_gpu_vram_used_.find(alloc.gpu_device_id) == per_gpu_vram_used_.end()) {
-                    per_gpu_vram_used_[alloc.gpu_device_id] = 0;
-                }
                 per_gpu_vram_used_[alloc.gpu_device_id] += alloc.vram_bytes;
             }
         }
