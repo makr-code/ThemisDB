@@ -10,6 +10,7 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
+#include <sstream>
 
 namespace themis {
 namespace sharding {
