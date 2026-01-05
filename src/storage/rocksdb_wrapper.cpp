@@ -43,8 +43,11 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     , txn_db_options_(std::move(other.txn_db_options_))
     , txn_options_(std::move(other.txn_options_))
     , read_options_(std::move(other.read_options_))
-    , write_options_(std::move(other.write_options_))
-    , cf_handles_(std::move(other.cf_handles_)) {}
+    , write_options_(std::move(other.write_options_)) {
+    // RACE CONDITION FIX #1: Protect cf_handles_ during move
+    std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
+    cf_handles_ = std::move(other.cf_handles_);
+}
 
 RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     if (this != &other) {
@@ -56,6 +59,8 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
         txn_options_ = std::move(other.txn_options_);
         read_options_ = std::move(other.read_options_);
         write_options_ = std::move(other.write_options_);
+        // RACE CONDITION FIX #1: Protect cf_handles_ during move
+        std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
         cf_handles_ = std::move(other.cf_handles_);
     }
     return *this;
@@ -386,11 +391,15 @@ bool RocksDBWrapper::open() {
     
     db_.reset(txn_db_ptr);
     
-    // Store column family handles
-    // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
-    for (size_t i = 0; i < cf_handles.size(); ++i) {
-        // All remaining CFs (after sharding filter) are stored
-        cf_handles_.push_back(cf_handles[i]);
+    // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
+    {
+        std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+        // Store column family handles
+        // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
+        for (size_t i = 0; i < cf_handles.size(); ++i) {
+            // All remaining CFs (after sharding filter) are stored
+            cf_handles_.push_back(cf_handles[i]);
+        }
     }
     
     // Log actual CF count opened (not original cf_names.size())
@@ -406,6 +415,9 @@ bool RocksDBWrapper::open() {
 void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
+        // RACE CONDITION FIX #1: Protect cf_handles_ access during close
+        std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+        
         // Destroy any created ColumnFamily handles first to avoid RocksDB assertions
         for (size_t i = 0; i < cf_handles_.size(); ++i) {
             auto* h = cf_handles_[i];
@@ -1143,12 +1155,15 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
 }
 
 rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::string& cf_name) {
+    // RACE CONDITION FIX #1: Protect entire check-create-insert sequence with mutex
+    std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+    
     if (!db_) {
         THEMIS_ERROR("getOrCreateColumnFamily: DB not open");
         return nullptr;
     }
     
-    // Check if CF already exists in our handles
+    // Check if CF already exists in our handles (now protected by mutex)
     for (auto* handle : cf_handles_) {
         if (handle && handle->GetName() == cf_name) {
             THEMIS_DEBUG("Column family '{}' already exists", cf_name);
@@ -1167,7 +1182,7 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
         return nullptr;
     }
     
-    // Track handle so we can destroy it on close
+    // Track handle so we can destroy it on close (protected by mutex)
     cf_handles_.push_back(cf_handle);
     THEMIS_INFO("Created or got column family '{}'", cf_name);
     return cf_handle;
