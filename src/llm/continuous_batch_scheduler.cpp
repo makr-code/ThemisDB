@@ -445,7 +445,8 @@ void ContinuousBatchScheduler::updateStats() {
     
     for (const auto& req : active_requests_) {
         if (req->tokens_generated > 1 && req->state == RequestState::DECODE) {
-            total_tokens_generated += req->tokens_generated;
+            // Exclude first token since timing starts from first_token_at
+            total_tokens_generated += (req->tokens_generated - 1);
             // Calculate generation time from first token (excludes prefill)
             auto generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                 req->last_token_at - req->first_token_at
