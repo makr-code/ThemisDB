@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <regex>
 #include <cmath>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {

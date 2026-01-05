@@ -6,6 +6,7 @@
 #include <string_view>
 #include <optional>
 #include <nlohmann/json.hpp>
+#include <auth/jwt_validator.h>
 
 // Forward declarations for LLM components
 namespace themis {
@@ -16,7 +17,6 @@ class AsyncInferenceEngine;
 }
 namespace auth {
 class JWTValidator;
-struct JWTValidatorConfig;
 }
 }
 

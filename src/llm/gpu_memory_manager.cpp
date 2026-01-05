@@ -569,7 +569,7 @@ size_t GPUMemoryManager::getMemoryFragmentation() const {
         : 0;
     
     // Convert to percentage (capped at 100%)
-    size_t fragmentation_pct = std::min(100UL, (excess_allocations * 100) / num_models);
+    size_t fragmentation_pct = std::min(static_cast<size_t>(100), static_cast<size_t>((excess_allocations * 100) / num_models));
     
     return fragmentation_pct;
 }

@@ -73,6 +73,8 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
     }
 }
 
+LLMResponseCache::~LLMResponseCache() = default;
+
 void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& response) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
