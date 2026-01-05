@@ -634,7 +634,7 @@ du -sh /mnt/nvme*/themisdb/
 
 - [Performance Memory Guide](performance_memory.md)
 - [Configuration Tuning Guide](../guides/CONFIGURATION_TUNING_GUIDE.md)
-- [RAID Sharding Documentation](../RAID_DOCUMENTATION_HUB.md)
+- [RAID Sharding Documentation](../../RAID_DOCUMENTATION_HUB.md)
 - [RocksDB Tuning Guide](https://github.com/facebook/rocksdb/wiki/RocksDB-Tuning-Guide)
 
 ---

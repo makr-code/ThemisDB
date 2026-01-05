@@ -178,12 +178,41 @@ int main() {
     std::cout << "6. Avoid RAID 5/6 (performance loss)\n";
     std::cout << "\n";
     
-    // Optional: Run actual benchmark if paths exist
-    std::cout << "\nTo benchmark your setup:\n";
-    std::cout << "1. Update paths in this file to match your system\n";
-    std::cout << "2. Create mount points: /mnt/nvme0, /mnt/nvme1, etc.\n";
-    std::cout << "3. Recompile and run this example\n";
-    std::cout << "4. Compare throughput between configurations\n";
+    std::cout << "\nNote: This example demonstrates configurations.\n";
+    std::cout << "To run actual benchmarks, uncomment the benchmark code below\n";
+    std::cout << "and update paths to match your system:\n";
+    std::cout << "1. Create mount points: /mnt/nvme0, /mnt/nvme1, etc.\n";
+    std::cout << "2. Update db_path values in the examples\n";
+    std::cout << "3. Uncomment the benchmark calls below\n";
+    std::cout << "4. Recompile and run\n";
+    
+    /*
+    // Example: Uncomment to run actual benchmark
+    std::cout << "\n=== Running Benchmarks ===\n";
+    
+    // Single SSD benchmark
+    {
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = "/tmp/bench_single";
+        RocksDBWrapper db(cfg);
+        if (db.open()) {
+            benchmark_write_throughput(db, "Single SSD");
+            db.close();
+        }
+    }
+    
+    // 2 SSD benchmark (separate WAL)
+    {
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = "/tmp/bench_2ssd";
+        cfg.wal_dir = "/tmp/bench_2ssd_wal";
+        RocksDBWrapper db(cfg);
+        if (db.open()) {
+            benchmark_write_throughput(db, "2 SSDs (WAL separate)");
+            db.close();
+        }
+    }
+    */
     
     return 0;
 }
