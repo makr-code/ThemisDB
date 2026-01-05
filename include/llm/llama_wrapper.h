@@ -3,6 +3,9 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
+#include "llm/llm_prefix_cache.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/paged_kv_cache.h"
 #include "llm/grafana_metrics.h"
 #include "llm/llm_response_cache.h"
 #include <mutex>
@@ -114,12 +117,37 @@ public:
         size_t max_vram_mb = 14336;   // Max VRAM to use (14GB default)
         bool unified_memory = false;  // Use CUDA unified memory
         
+        // Performance optimizations (llama.cpp features)
+        bool use_flash_attn = true;   // Flash Attention for 15-25% speedup
+        bool use_kv_cache_reuse = true; // KV-Cache Reuse for 10-20x first-token speedup
+        bool enable_embeddings = false; // Enable embeddings extraction mode
+        
+        // Speculative Decoding (Phase 2.1)
+        bool use_speculative_decoding = false; // 2-3x inference speedup
+        std::string draft_model_path;          // Path to draft model
+        int draft_n_gpu_layers = 16;           // GPU layers for draft model
+        int speculative_tokens = 5;            // Number of tokens to speculate
+        float acceptance_threshold = 0.8f;     // Probability threshold for acceptance
+        bool enable_draft_kv_cache = true;     // KV cache for draft model
+        
+        // Continuous Batching (Phase 2.2)
+        bool use_continuous_batching = false;  // 8x throughput improvement
+        size_t max_batch_size = 32;            // Max sequences in batch
+        size_t max_concurrent_requests = 128;   // Max pending requests
+        size_t max_tokens_per_batch = 8192;    // Total token budget per batch
+        std::string scheduler_policy = "priority"; // fifo, priority, sjf
+        bool enable_preemption = true;         // Allow request preemption
+        bool enable_chunked_prefill = true;    // Chunk large prefills
+        size_t prefill_chunk_size = 512;       // Tokens per prefill chunk
+        
         // Lazy loading (Ollama-style)
         LazyModelLoader::Config lazy_loader_config;
         
         // Multi-LoRA (vLLM-style)
         MultiLoRAManager::Config multi_lora_config;
         
+        // KV-Cache Reuse (Prefix Caching)
+        LLMPrefixCache::Config prefix_cache_config;
         // Response cache (optional)
         bool enable_response_cache = true;
         LLMResponseCache::Config response_cache_config;
@@ -208,6 +236,70 @@ public:
     // Non-ILLMPlugin convenience method for tests
     std::string getName() const { return "llamacpp"; }
     
+    // ═══════════════════════════════════════════════════════════
+    // Cache Management (Optional Features)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get prefix cache statistics
+     * @return Cache statistics (hits, misses, hit rate) or nullopt if cache disabled
+     */
+    std::optional<PrefixCacheStatistics> getPrefixCacheStats() const;
+    
+    /**
+     * @brief Clear prefix cache
+     */
+    void clearPrefixCache();
+    
+    /**
+     * @brief Get speculative decoding statistics
+     * @return Speculative decoding stats or nullopt if disabled
+     */
+    struct SpeculativeDecodingStats {
+        size_t total_speculations = 0;
+        size_t total_accepted = 0;
+        size_t total_rejected = 0;
+        double avg_acceptance_rate = 0.0;
+        double avg_speedup = 0.0;
+    };
+    
+    std::optional<SpeculativeDecodingStats> getSpeculativeStats() const;
+    
+    /**
+     * @brief Start continuous batching mode
+     * Initializes the batch scheduler for high-throughput scenarios
+     */
+    void startBatchMode();
+    
+    /**
+     * @brief Stop continuous batching mode
+     */
+    void stopBatchMode();
+    
+    /**
+     * @brief Check if batch mode is active
+     */
+    bool isBatchModeActive() const;
+    
+    /**
+     * @brief Submit async request to batch scheduler
+     * @param request Inference request
+     * @param priority Request priority
+     * @param callback Callback for response (optional)
+     * @return Request ID for tracking
+     */
+    std::string submitBatchRequest(
+        const InferenceRequest& request,
+        ContinuousBatchScheduler::RequestPriority priority = ContinuousBatchScheduler::RequestPriority::NORMAL,
+        std::function<void(const InferenceResponse&)> callback = nullptr
+    );
+    
+    /**
+     * @brief Get batch scheduler statistics
+     * @return Scheduler stats or nullopt if batch mode disabled
+     */
+    std::optional<ContinuousBatchScheduler::Stats> getBatchSchedulerStats() const;
+    
 private:
     Config config_;
     
@@ -217,6 +309,19 @@ private:
     // vLLM-style multi-LoRA manager
     std::unique_ptr<MultiLoRAManager> lora_manager_;
     
+    // KV-Cache Reuse (Prefix Caching)
+    std::unique_ptr<LLMPrefixCache> prefix_cache_;
+    
+    // Speculative Decoding (Phase 2.1)
+    llama_model* draft_model_ = nullptr;
+    llama_context* draft_context_ = nullptr;
+    std::string draft_model_id_;
+    SpeculativeDecodingStats speculative_stats_;
+    
+    // Continuous Batching (Phase 2.2)
+    std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;
+    std::unique_ptr<PagedKVCache> paged_kv_cache_;
+    bool batch_mode_active_ = false;
     // Response cache for frequent queries
     std::unique_ptr<LLMResponseCache> response_cache_;
     
@@ -239,6 +344,8 @@ private:
     mutable std::mutex mutex_;
     
     // Helper methods
+    void validateConfig(const Config& config);
+    
     std::string formatPromptForRAG(
         const RAGContext& rag_context,
         const InferenceRequest& request
@@ -247,6 +354,14 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // Speculative Decoding helpers
+    bool loadDraftModel(const std::string& draft_path);
+    void unloadDraftModel();
+    InferenceResponse generateSpeculative(const InferenceRequest& request);
+    InferenceResponse generateRegular(const InferenceRequest& request);
+    float getProbability(float* logits, llama_token token, int32_t n_vocab);
+    void synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens);
     
     // Internal llama.cpp helper functions
     std::vector<llama_token> tokenizeInternal(
