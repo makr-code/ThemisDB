@@ -13,6 +13,7 @@
 #include "llm/llm_response_cache.h"
 #include <random>
 #include <sstream>
+#include <mutex>
 
 using namespace themis::llm;
 
