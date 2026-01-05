@@ -6,6 +6,7 @@
 #include <optional>
 #include <vector>
 #include <functional>
+#include <atomic>
 #include <string>
 
 namespace rocksdb {
@@ -263,6 +264,11 @@ public:
     
     // ===== Iteration / Scanning =====
     
+private:
+    // Forward declare OperationGuard for use in SafeIterator
+    class OperationGuard;
+    
+public:
     /// RAII wrapper for safe iterator usage
     /// Automatically manages database lifecycle during iteration
     /// Prevents use-after-free by holding OperationGuard

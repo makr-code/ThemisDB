@@ -307,9 +307,8 @@ elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
     set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
     set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
-    # TEMPORARY: LLM disabled for testing to avoid llama.cpp hang
-    set(THEMIS_ENABLE_LLM OFF CACHE INTERNAL "LLM temporarily disabled for testing")
-    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM DISABLED FOR TESTING")
+    # LLM is a core feature in Community Edition (v1.3.0+) - can be enabled via THEMIS_ENABLE_LLM option
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node")
 
 elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
     set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
@@ -453,6 +452,19 @@ function(link_required target_name visibility dependency_target)
 endfunction()
 
 # Find required packages
+# RocksDB requires zstd::zstd target, so we need to ensure it exists before finding RocksDB
+find_package(PkgConfig QUIET)
+if(PKG_CONFIG_FOUND)
+    pkg_check_modules(ZSTD_PKG QUIET libzstd)
+    if(ZSTD_PKG_FOUND AND NOT TARGET zstd::zstd)
+        add_library(zstd::zstd INTERFACE IMPORTED)
+        set_target_properties(zstd::zstd PROPERTIES
+            INTERFACE_INCLUDE_DIRECTORIES "${ZSTD_PKG_INCLUDE_DIRS}"
+            INTERFACE_LINK_LIBRARIES "${ZSTD_PKG_LIBRARIES}")
+        message(STATUS "Created zstd::zstd target from pkg-config")
+    endif()
+endif()
+
 find_package(RocksDB CONFIG)
 
 # Select appropriate RocksDB target based on build type
