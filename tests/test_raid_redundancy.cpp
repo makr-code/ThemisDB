@@ -14,8 +14,9 @@
 #include <string>
 #include <cstring>
 
-using namespace themisdb::sharding;
-using namespace themisdb::storage;
+using namespace themis::sharding;
+using themisdb::storage::BlobRedundancyManager;
+using themisdb::storage::BlobType;
 
 // ═══════════════════════════════════════════════════════════
 // Mock Implementations
