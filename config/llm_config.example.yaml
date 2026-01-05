@@ -62,6 +62,12 @@ llm_plugins:
       # Use CUDA unified memory
       unified_memory: false
     
+    # Performance optimizations (v1.3.1+)
+    optimizations:
+      # Flash Attention: 15-25% faster inference, 30% less memory
+      # Requires llama.cpp b2000+ with CUDA support
+      use_flash_attn: true
+    
     # Context and processing
     context:
       # Maximum context length (tokens)

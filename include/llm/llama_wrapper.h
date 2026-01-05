@@ -112,6 +112,9 @@ public:
         size_t max_vram_mb = 14336;   // Max VRAM to use (14GB default)
         bool unified_memory = false;  // Use CUDA unified memory
         
+        // Performance optimizations (llama.cpp features)
+        bool use_flash_attn = true;   // Flash Attention for 15-25% speedup
+        
         // Lazy loading (Ollama-style)
         LazyModelLoader::Config lazy_loader_config;
         

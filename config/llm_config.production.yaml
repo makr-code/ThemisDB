@@ -1,0 +1,47 @@
+# LLM Production Configuration
+# Optimized for production workloads with maximum performance
+
+llm:
+  llama_wrapper:
+    # =====================================================
+    # Performance Optimizations
+    # =====================================================
+    use_flash_attn: true          # Always enabled in production
+    
+    # =====================================================
+    # GPU Settings (Production)
+    # =====================================================
+    n_gpu_layers: 99               # All layers on GPU
+    use_mmap: true                 # Fast loading
+    use_mlock: false               # Don't lock (let OS manage)
+    
+    # =====================================================
+    # Context Settings (Extended)
+    # =====================================================
+    n_ctx: 8192                    # Extended context for complex queries
+    n_batch: 2048                  # Larger batch for higher throughput
+    n_threads: 16                  # More CPU threads
+    
+    # =====================================================
+    # Memory Management (High-End GPU)
+    # =====================================================
+    max_vram_mb: 81920             # 80GB VRAM (A100)
+    unified_memory: false
+    
+    # =====================================================
+    # Lazy Loading (Aggressive Caching)
+    # =====================================================
+    lazy_loader_config:
+      max_vram_mb: 81920           # Full VRAM
+      max_ram_mb: 262144           # 256GB RAM
+      max_models: 10               # Many models
+      model_ttl: 7200              # 2 hours TTL
+      enable_lazy_load: true
+    
+    # =====================================================
+    # Multi-LoRA (High Capacity)
+    # =====================================================
+    multi_lora_config:
+      max_adapters: 64             # Many adapters
+      adapter_cache_mb: 8192       # 8GB cache
+      enable_dynamic_loading: true
