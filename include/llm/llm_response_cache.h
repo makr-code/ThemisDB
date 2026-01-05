@@ -6,7 +6,9 @@
 #include <unordered_map>
 #include <mutex>
 #include <string>
+#include <memory>
 #include "llm_plugin_interface.h"
+#include "cache/embedding_cache.h"
 
 // Forward declaration for metrics
 namespace themis {
@@ -21,19 +23,19 @@ namespace themis {
 namespace llm {
 
 /**
- * @brief LLM response cache using SemanticCache for prompt/response caching
+ * @brief LLM response cache using EmbeddingCache for semantic similarity caching
  * 
- * Wraps ThemisDB's SemanticCache to provide:
- * - Semantic similarity matching (find similar prompts)
- * - RocksDB-backed persistence (survives restarts)
+ * Uses ThemisDB's EmbeddingCache with HNSW indexing to provide:
+ * - Semantic similarity matching via cosine similarity
+ * - Fast ANN search with HNSW index
  * - TTL-based expiration
  * - Hit/miss statistics
  * 
  * Benefits:
  * - 75x faster cached inference (2ms vs 150ms)
- * - 70-90% cache hit rate in production
- * - Persistent across process restarts
- * - Semantic matching (not just exact prompts)
+ * - 70-90% cache hit rate in production with semantic matching
+ * - Efficient similarity search (not just exact prompts)
+ * - Automatic eviction with LRU policy
  */
 class LLMResponseCache {
 public:
@@ -41,7 +43,9 @@ public:
         float similarity_threshold = 0.90f;  // 90% similarity required for match
         uint32_t ttl_seconds = 3600;         // 1 hour TTL
         size_t max_entries = 10000;          // Max cached responses
-        std::string db_path = "./llm_cache"; // RocksDB path
+        std::string cache_dir = "./llm_cache"; // Cache storage directory
+        size_t embedding_dim = 384;          // Embedding dimension (default: 384 for small models)
+        bool use_vector_index = true;        // Use HNSW for fast lookup
     };
 
     struct CacheStatistics {
@@ -112,9 +116,9 @@ public:
 
 private:
     struct CachedEntry {
+        std::string prompt;
         InferenceResponse response;
         std::chrono::system_clock::time_point timestamp;
-        float embedding[512];  // Simplified - would use actual embedding
     };
 
     std::string cache_name_;
@@ -124,16 +128,19 @@ private:
     // Metrics collection (optional)
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
 
-    // TODO: v1.3.0 - Replace with actual SemanticCache integration
-    // For now, use std::unordered_map as stub
-    std::unordered_map<std::string, CachedEntry> cache_store_;
+    // Real semantic cache implementation using EmbeddingCache
+    std::unique_ptr<EmbeddingCache> embedding_cache_;
+    
+    // Map from embedding cache entry ID to cached response
+    std::unordered_map<std::string, CachedEntry> response_store_;
     mutable std::mutex cache_mutex_;
 
     /**
-     * @brief Calculate semantic similarity between two prompts
-     * @return Similarity score [0.0, 1.0]
+     * @brief Generate embedding for a prompt
+     * @param prompt The input prompt
+     * @return Embedding vector or empty vector on error
      */
-    float calculateSimilarity(const std::string& prompt1, const std::string& prompt2) const;
+    std::vector<float> generateEmbedding(const std::string& prompt) const;
 
     /**
      * @brief Check if entry has expired based on TTL
