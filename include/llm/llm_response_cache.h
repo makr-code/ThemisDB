@@ -8,10 +8,12 @@
 #include <string>
 #include <memory>
 #include "llm_plugin_interface.h"
-#include "cache/embedding_cache.h"
 
-// Forward declaration for metrics
+// Forward declarations
 namespace themis {
+class VectorIndexManager;
+class RocksDBWrapper;
+
 namespace llm {
 namespace monitoring {
 class LLMMetricsCollector;
@@ -23,11 +25,11 @@ namespace themis {
 namespace llm {
 
 /**
- * @brief LLM response cache using EmbeddingCache for semantic similarity caching
+ * @brief LLM response cache using VectorIndexManager for semantic similarity caching
  * 
- * Uses ThemisDB's EmbeddingCache with HNSW indexing to provide:
+ * Uses ThemisDB's VectorIndexManager with HNSW indexing to provide:
  * - Semantic similarity matching via cosine similarity
- * - Fast ANN search with HNSW index
+ * - Fast ANN search with HNSW index from ThemisDB core
  * - TTL-based expiration
  * - Hit/miss statistics
  * 
@@ -36,6 +38,11 @@ namespace llm {
  * - 70-90% cache hit rate in production with semantic matching
  * - Efficient similarity search (not just exact prompts)
  * - Automatic eviction with LRU policy
+ * 
+ * Integration:
+ * - Uses pointer exchange pattern with ThemisDB's VectorIndexManager
+ * - Leverages existing HNSW infrastructure for efficient ANN search
+ * - No duplication of vector index functionality
  */
 class LLMResponseCache {
 public:
@@ -46,6 +53,7 @@ public:
         std::string cache_dir = "./llm_cache"; // Cache storage directory
         size_t embedding_dim = 384;          // Embedding dimension (default: 384 for small models)
         bool use_vector_index = true;        // Use HNSW for fast lookup
+        RocksDBWrapper* db_ptr = nullptr;    // Optional: External RocksDB instance (pointer exchange)
     };
 
     struct CacheStatistics {
@@ -128,15 +136,18 @@ private:
     // Metrics collection (optional)
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
 
-    // Real semantic cache implementation using EmbeddingCache
-    std::unique_ptr<EmbeddingCache> embedding_cache_;
+    // Real semantic cache implementation using VectorIndexManager (pointer exchange pattern)
+    std::unique_ptr<RocksDBWrapper> owned_db_;      // Owned DB if no external DB provided
+    std::unique_ptr<VectorIndexManager> vector_index_; // ThemisDB's HNSW vector index
     
-    // Map from embedding cache entry ID to cached response
+    // Map from prompt hash to cached response
     std::unordered_map<std::string, CachedEntry> response_store_;
     mutable std::mutex cache_mutex_;
 
     /**
      * @brief Generate embedding for a prompt
+     * Uses simple feature-based embedding (character n-grams + word features)
+     * For production with LLM models, integrate with actual embedding model
      * @param prompt The input prompt
      * @return Embedding vector or empty vector on error
      */

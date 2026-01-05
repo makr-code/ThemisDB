@@ -1,5 +1,8 @@
 #include "llm/llm_response_cache.h"
 #include "llm/grafana_metrics.h"
+#include "index/vector_index.h"
+#include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -16,23 +19,56 @@ namespace llm {
 LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& config)
     : cache_name_(cache_name), config_(config) {
     
-    // Initialize EmbeddingCache for semantic similarity
-    EmbeddingCache::Config emb_config;
-    emb_config.max_entries = config_.max_entries;
-    emb_config.ttl_seconds = config_.ttl_seconds;
-    emb_config.similarity_threshold = config_.similarity_threshold;
-    emb_config.embedding_dim = config_.embedding_dim;
-    emb_config.use_vector_index = config_.use_vector_index;
-    emb_config.cache_dir = config_.cache_dir;
+    // Initialize RocksDB if not provided via pointer exchange
+    RocksDBWrapper* db = config_.db_ptr;
+    if (!db) {
+        try {
+            RocksDBWrapper::Config db_config;
+            db_config.db_path = config_.cache_dir;
+            db_config.create_if_missing = true;
+            owned_db_ = std::make_unique<RocksDBWrapper>(db_config);
+            db = owned_db_.get();
+            THEMIS_INFO("LLMResponseCache '{}': Created own RocksDB at '{}'", 
+                       cache_name_, config_.cache_dir);
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to create RocksDB for LLMResponseCache '{}': {}", 
+                        cache_name_, e.what());
+            return;
+        }
+    } else {
+        THEMIS_INFO("LLMResponseCache '{}': Using external RocksDB via pointer exchange", 
+                   cache_name_);
+    }
     
-    try {
-        embedding_cache_ = std::make_unique<EmbeddingCache>(emb_config);
-        THEMIS_INFO("LLMResponseCache '{}' initialized with EmbeddingCache (dim={}, threshold={})",
-                    cache_name_, config_.embedding_dim, config_.similarity_threshold);
-    } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to initialize EmbeddingCache for LLMResponseCache '{}': {}",
-                     cache_name_, e.what());
-        // Cache will still work, but without semantic matching (falls back to exact match only)
+    // Initialize VectorIndexManager for semantic similarity with HNSW
+    if (config_.use_vector_index && db) {
+        try {
+            vector_index_ = std::make_unique<VectorIndexManager>(*db);
+            
+            // Initialize HNSW index for prompt embeddings
+            auto status = vector_index_->init(
+                cache_name_,                           // objectName
+                config_.embedding_dim,                 // dimension
+                VectorIndexManager::Metric::COSINE,    // metric
+                16,                                    // M
+                200,                                   // efConstruction
+                64                                     // efSearch
+            );
+            
+            if (status.ok) {
+                THEMIS_INFO("LLMResponseCache '{}' initialized with VectorIndexManager "
+                           "(dim={}, threshold={}, HNSW enabled)",
+                           cache_name_, config_.embedding_dim, config_.similarity_threshold);
+            } else {
+                THEMIS_ERROR("Failed to initialize VectorIndexManager for LLMResponseCache '{}': {}",
+                            cache_name_, status.message);
+                vector_index_.reset();
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to create VectorIndexManager for LLMResponseCache '{}': {}",
+                        cache_name_, e.what());
+            vector_index_.reset();
+        }
     }
 }
 
@@ -46,29 +82,62 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
         return;
     }
     
-    // Create metadata JSON with response info
-    nlohmann::json metadata;
-    metadata["tokens_generated"] = response.tokens_generated;
-    metadata["inference_time_ms"] = response.inference_time_ms;
-    metadata["model_id"] = response.model_id;
+    // Create unique PK for this prompt
+    std::hash<std::string> hasher;
+    std::string pk = "llm_cache_" + std::to_string(hasher(prompt));
     
-    // Store in embedding cache
-    if (embedding_cache_) {
-        std::string metadata_str = metadata.dump();
-        if (embedding_cache_->store(prompt, embedding, metadata_str)) {
-            // Store the response in our local map
-            // Use a hash of the prompt as the key
-            std::string entry_id = std::to_string(std::hash<std::string>{}(prompt));
-            
-            CachedEntry entry;
-            entry.prompt = prompt;
-            entry.response = response;
-            entry.timestamp = std::chrono::system_clock::now();
-            
-            response_store_[entry_id] = entry;
+    // Store in vector index if available
+    if (vector_index_) {
+        BaseEntity entity;
+        entity.setPrimaryKey(pk);
+        entity.setField("prompt", Value{prompt});
+        entity.setField("embedding", Value{embedding});
+        entity.setField("response_text", Value{response.text});
+        entity.setField("tokens_generated", Value{static_cast<int64_t>(response.tokens_generated)});
+        entity.setField("inference_time_ms", Value{static_cast<int64_t>(response.inference_time_ms)});
+        entity.setField("model_id", Value{response.model_id});
+        
+        auto status = vector_index_->addEntity(entity, "embedding");
+        if (!status.ok) {
+            THEMIS_WARN("Failed to add entry to vector index: {}", status.message);
+        }
+    }
+    
+    // Store the response in our local map for quick access
+    CachedEntry entry;
+    entry.prompt = prompt;
+    entry.response = response;
+    entry.timestamp = std::chrono::system_clock::now();
+    
+    response_store_[pk] = entry;
+    stats_.total_entries = response_store_.size();
+    
+    // Record cache size metric
+    if (metrics_collector_) {
+        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+    }
+    
+    // Enforce max_entries limit (LRU eviction)
+    if (response_store_.size() > config_.max_entries) {
+        // Find oldest entry
+        auto oldest_it = response_store_.end();
+        std::chrono::system_clock::time_point oldest_time = std::chrono::system_clock::now();
+        
+        for (auto it = response_store_.begin(); it != response_store_.end(); ++it) {
+            if (it->second.timestamp < oldest_time) {
+                oldest_time = it->second.timestamp;
+                oldest_it = it;
+            }
+        }
+        
+        if (oldest_it != response_store_.end()) {
+            // Remove from vector index
+            if (vector_index_) {
+                vector_index_->removeByPk(oldest_it->first);
+            }
+            response_store_.erase(oldest_it);
             stats_.total_entries = response_store_.size();
             
-            // Record cache size metric
             if (metrics_collector_) {
                 metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
             }
@@ -91,45 +160,56 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         return std::nullopt;
     }
     
-    // Try semantic similarity match using EmbeddingCache
-    if (embedding_cache_) {
-        auto cache_result = embedding_cache_->query(query_embedding);
+    // Try semantic similarity match using VectorIndexManager
+    if (vector_index_) {
+        // Search for k=1 nearest neighbor
+        auto [status, results] = vector_index_->searchKnn(query_embedding, 1);
         
-        if (cache_result) {
-            // Found a similar cached entry
-            std::string entry_id = std::to_string(std::hash<std::string>{}(cache_result->query_text));
-            auto it = response_store_.find(entry_id);
+        if (status.ok && !results.empty()) {
+            const auto& result = results[0];
             
-            if (it != response_store_.end()) {
-                auto& entry = it->second;
+            // Convert distance to similarity for COSINE metric
+            // For cosine: distance = 1 - similarity, so similarity = 1 - distance
+            float similarity = 1.0f - result.distance;
+            
+            if (similarity >= config_.similarity_threshold) {
+                // Found a match above threshold
+                auto it = response_store_.find(result.pk);
                 
-                // Check if entry is expired
-                if (!isExpired(entry)) {
-                    stats_.hits++;
-                    auto end = std::chrono::high_resolution_clock::now();
-                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                    stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                                  duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+                if (it != response_store_.end()) {
+                    auto& entry = it->second;
                     
-                    // Record cache hit
-                    if (metrics_collector_) {
-                        metrics_collector_->recordCacheHit(cache_name_);
-                    }
-                    
-                    THEMIS_DEBUG("Cache hit: similarity={:.4f}, prompt='{}' matched to '{}'",
-                                cache_result->last_similarity, 
-                                prompt.substr(0, 50), 
-                                cache_result->query_text.substr(0, 50));
-                    
-                    return entry.response;
-                } else {
-                    // Expired - remove it
-                    response_store_.erase(it);
-                    stats_.total_entries = response_store_.size();
-                    
-                    // Update cache size
-                    if (metrics_collector_) {
-                        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+                    // Check if entry is expired
+                    if (!isExpired(entry)) {
+                        stats_.hits++;
+                        auto end = std::chrono::high_resolution_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                        stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
+                                                      duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+                        
+                        // Record cache hit
+                        if (metrics_collector_) {
+                            metrics_collector_->recordCacheHit(cache_name_);
+                        }
+                        
+                        THEMIS_DEBUG("Cache hit: similarity={:.4f}, prompt='{}' matched to '{}'",
+                                    similarity,
+                                    prompt.substr(0, 50), 
+                                    entry.prompt.substr(0, 50));
+                        
+                        return entry.response;
+                    } else {
+                        // Expired - remove it
+                        if (vector_index_) {
+                            vector_index_->removeByPk(it->first);
+                        }
+                        response_store_.erase(it);
+                        stats_.total_entries = response_store_.size();
+                        
+                        // Update cache size
+                        if (metrics_collector_) {
+                            metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+                        }
                     }
                 }
             }
@@ -178,9 +258,19 @@ size_t LLMResponseCache::invalidate(const std::string& pattern) {
 void LLMResponseCache::clear() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
+    // Clear response store
     response_store_.clear();
-    if (embedding_cache_) {
-        embedding_cache_->clear();
+    
+    // Clear vector index by removing all entries
+    if (vector_index_) {
+        // Shutdown and reinitialize to clear
+        vector_index_->shutdown();
+        vector_index_->init(
+            cache_name_,
+            config_.embedding_dim,
+            VectorIndexManager::Metric::COSINE,
+            16, 200, 64
+        );
     }
     
     stats_.total_entries = 0;
@@ -201,31 +291,87 @@ std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt
         return {};
     }
     
-    // For now, use a simple character-based embedding as a placeholder
-    // In production, this should use an actual embedding model (e.g., via llama.cpp)
+    // Generate a simple feature-based embedding using text characteristics
+    // This provides basic semantic similarity without requiring a full LLM model
+    // For production with actual LLM models, this should be replaced with model.embed()
     std::vector<float> embedding(config_.embedding_dim, 0.0f);
     
-    // Create a simple deterministic embedding based on the prompt
-    // This is a placeholder - real implementation would use LLM embedding model
-    std::hash<std::string> hasher;
-    size_t hash = hasher(prompt);
-    
-    // Distribute hash across embedding dimensions
-    for (size_t i = 0; i < config_.embedding_dim; ++i) {
-        // Use different parts of the hash for each dimension
-        size_t seed = hash ^ (i * 0x9e3779b9);
-        // Normalize to [-1, 1] range
-        embedding[i] = static_cast<float>((seed % 1000) - 500) / 500.0f;
+    // Extract features from the prompt
+    std::string lower_prompt;
+    lower_prompt.reserve(prompt.size());
+    for (char c : prompt) {
+        lower_prompt += std::tolower(c);
     }
     
-    // Normalize the embedding vector
+    // Feature 1: Character n-grams (trigrams)
+    std::unordered_map<std::string, int> trigrams;
+    for (size_t i = 0; i + 2 < lower_prompt.size(); ++i) {
+        if (std::isalnum(lower_prompt[i]) && 
+            std::isalnum(lower_prompt[i+1]) && 
+            std::isalnum(lower_prompt[i+2])) {
+            std::string trigram = lower_prompt.substr(i, 3);
+            trigrams[trigram]++;
+        }
+    }
+    
+    // Feature 2: Word-level features
+    std::unordered_map<std::string, int> words;
+    std::string word;
+    for (char c : lower_prompt) {
+        if (std::isalnum(c)) {
+            word += c;
+        } else if (!word.empty()) {
+            words[word]++;
+            word.clear();
+        }
+    }
+    if (!word.empty()) {
+        words[word]++;
+    }
+    
+    // Distribute features across embedding dimensions
+    size_t dim_idx = 0;
+    
+    // Encode trigrams
+    for (const auto& [trigram, count] : trigrams) {
+        std::hash<std::string> hasher;
+        size_t hash = hasher(trigram);
+        size_t idx = hash % config_.embedding_dim;
+        embedding[idx] += static_cast<float>(count);
+        
+        // Also add to neighboring dimensions for better distribution
+        if (idx > 0) {
+            embedding[idx - 1] += static_cast<float>(count) * 0.5f;
+        }
+        if (idx + 1 < config_.embedding_dim) {
+            embedding[idx + 1] += static_cast<float>(count) * 0.5f;
+        }
+    }
+    
+    // Encode words
+    for (const auto& [word_str, count] : words) {
+        std::hash<std::string> hasher;
+        size_t hash = hasher(word_str);
+        size_t idx = (hash >> 8) % config_.embedding_dim;  // Different hash offset
+        embedding[idx] += static_cast<float>(count) * 2.0f;  // Weight words higher
+        
+        // Add to neighbors
+        if (idx > 0) {
+            embedding[idx - 1] += static_cast<float>(count);
+        }
+        if (idx + 1 < config_.embedding_dim) {
+            embedding[idx + 1] += static_cast<float>(count);
+        }
+    }
+    
+    // Normalize the embedding vector (L2 normalization for cosine similarity)
     float norm = 0.0f;
     for (float val : embedding) {
         norm += val * val;
     }
     norm = std::sqrt(norm);
     
-    if (norm > 0.0f) {
+    if (norm > 1e-6f) {
         for (float& val : embedding) {
             val /= norm;
         }
