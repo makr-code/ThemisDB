@@ -762,3 +762,89 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
     ASSERT_TRUE(resp.lora_used.has_value());
     EXPECT_EQ(resp.lora_used.value(), "unload");
 }
+
+// ═══════════════════════════════════════════════════════════
+// RoPE Scaling Tests (Phase 3.1)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(LLMPluginTest, RopeScaling_ConfigValidation) {
+    LlamaWrapper::Config config;
+    
+    // Test valid RoPE scaling configuration
+    config.rope_scaling.enabled = true;
+    config.rope_scaling.method = RopeScalingMethod::YARN;
+    config.rope_scaling.max_context = 32768;
+    config.rope_scaling.original_context = 4096;
+    
+    // Should not throw
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config));
+}
+
+TEST_F(LLMPluginTest, RopeScaling_InvalidConfig) {
+    LlamaWrapper::Config config;
+    
+    // Test invalid configuration: max_context < original_context
+    config.rope_scaling.enabled = true;
+    config.rope_scaling.max_context = 2048;
+    config.rope_scaling.original_context = 4096;
+    
+    // Should issue a warning but not throw (warning is logged, not an error)
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config));
+}
+
+TEST_F(LLMPluginTest, RopeScaling_YarnParameters) {
+    LlamaWrapper::Config config;
+    
+    config.rope_scaling.enabled = true;
+    config.rope_scaling.method = RopeScalingMethod::YARN;
+    config.rope_scaling.max_context = 32768;
+    config.rope_scaling.original_context = 4096;
+    
+    // Test YaRN-specific parameters
+    config.rope_scaling.yarn_ext_factor = 1.5f;
+    config.rope_scaling.yarn_attn_factor = 1.2f;
+    config.rope_scaling.yarn_beta_fast = 32.0f;
+    config.rope_scaling.yarn_beta_slow = 1.0f;
+    
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config));
+}
+
+TEST_F(LLMPluginTest, RopeScaling_AllMethods) {
+    // Test all scaling methods
+    std::vector<RopeScalingMethod> methods = {
+        RopeScalingMethod::LINEAR,
+        RopeScalingMethod::NTK,
+        RopeScalingMethod::YARN,
+        RopeScalingMethod::DYNAMIC
+    };
+    
+    for (auto method : methods) {
+        LlamaWrapper::Config config;
+        config.rope_scaling.enabled = true;
+        config.rope_scaling.method = method;
+        config.rope_scaling.max_context = 16384;
+        config.rope_scaling.original_context = 4096;
+        
+        EXPECT_NO_THROW(LlamaWrapper wrapper(config));
+    }
+}
+
+TEST_F(LLMPluginTest, RopeScaling_InvalidYarnParameters) {
+    LlamaWrapper::Config config;
+    
+    config.rope_scaling.enabled = true;
+    config.rope_scaling.method = RopeScalingMethod::YARN;
+    config.rope_scaling.max_context = 32768;
+    config.rope_scaling.original_context = 4096;
+    
+    // Test negative yarn_ext_factor
+    config.rope_scaling.yarn_ext_factor = -1.0f;
+    EXPECT_THROW(LlamaWrapper wrapper(config), std::invalid_argument);
+    
+    // Reset to valid value
+    config.rope_scaling.yarn_ext_factor = 1.0f;
+    
+    // Test zero yarn_beta_fast
+    config.rope_scaling.yarn_beta_fast = 0.0f;
+    EXPECT_THROW(LlamaWrapper wrapper(config), std::invalid_argument);
+}
