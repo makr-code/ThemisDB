@@ -8,8 +8,12 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <queue>
 #include <chrono>
 #include <atomic>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 /**
  * @file inference_engine_enhanced.h
@@ -175,7 +179,7 @@ private:
     // Model registry for load balancing
     std::unordered_map<std::string, ModelInfo> models_;
     mutable std::mutex models_mutex_;
-    size_t round_robin_index_ = 0;
+    std::atomic<size_t> round_robin_index_{0};
     
     // Request tracking
     struct TrackedRequest {

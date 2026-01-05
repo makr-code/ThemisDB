@@ -167,10 +167,14 @@ TEST_F(InferenceEngineEnhancedTest, BatchProcessingDynamic) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(InferenceEngineEnhancedTest, RequestQueueingTimeout) {
+    // Test constants
+    constexpr int SLOW_PLUGIN_LATENCY_MS = 2000;
+    constexpr int REQUEST_TIMEOUT_MS = 500;
+    
     InferenceEngineEnhanced engine(config_);
     
     // Use a slow mock plugin to trigger timeout
-    auto slow_plugin = std::make_shared<MockLLMPlugin>("slow_model", 2000);
+    auto slow_plugin = std::make_shared<MockLLMPlugin>("slow_model", SLOW_PLUGIN_LATENCY_MS);
     engine.registerModel("slow_model", slow_plugin);
     
     engine.start();
@@ -180,7 +184,7 @@ TEST_F(InferenceEngineEnhancedTest, RequestQueueingTimeout) {
     req.request_id = "timeout_req";
     req.base_request.prompt = "This will timeout";
     req.base_request.max_tokens = 50;
-    req.timeout = std::chrono::milliseconds(500);  // 500ms timeout, but plugin takes 2s
+    req.timeout = std::chrono::milliseconds(REQUEST_TIMEOUT_MS);
     
     auto handle = engine.submit(req);
     

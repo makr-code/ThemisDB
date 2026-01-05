@@ -713,8 +713,15 @@ std::string InferenceEngineEnhanced::generateCacheKey(const InferenceRequest& re
     std::string input = oss.str();
     
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), 
-           input.length(), hash);
+    unsigned char* result = SHA256(reinterpret_cast<const unsigned char*>(input.c_str()), 
+                                   input.length(), hash);
+    
+    // Check for SHA256 failure
+    if (result == nullptr) {
+        spdlog::error("SHA256 hash generation failed");
+        // Fallback to simple hash
+        return "cache_" + std::to_string(std::hash<std::string>{}(input));
+    }
     
     std::ostringstream hash_str;
     for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
@@ -754,9 +761,11 @@ std::string InferenceEngineEnhanced::selectModel(const EnhancedInferenceRequest&
     
     // Apply load balancing strategy
     switch (config_.load_balance_strategy) {
-        case Config::LoadBalanceStrategy::ROUND_ROBIN:
-            round_robin_index_ = (round_robin_index_ + 1) % available.size();
-            return available[round_robin_index_];
+        case Config::LoadBalanceStrategy::ROUND_ROBIN: {
+            // Use atomic fetch_add for thread-safe round-robin
+            size_t index = round_robin_index_.fetch_add(1, std::memory_order_relaxed) % available.size();
+            return available[index];
+        }
             
         case Config::LoadBalanceStrategy::LEAST_LOADED: {
             auto least_loaded = available[0];
