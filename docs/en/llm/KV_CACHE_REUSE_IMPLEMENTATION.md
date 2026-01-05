@@ -79,7 +79,8 @@ Request 2: "You are a legal assistant. Analyze contract B."
 │                  LLMPrefixCache                         │
 ├─────────────────────────────────────────────────────────┤
 │  • Stores: prefix text, tokens, embeddings, KV cache    │
-│  • Similarity search: cosine similarity (HNSW in prod)  │
+│  • Similarity search: HNSW-based (EmbeddingCache)       │
+│  • Fallback: Linear cosine similarity                   │
 │  • LRU eviction: max 1000 entries (configurable)        │
 │  • TTL: 2 hours default (configurable)                  │
 └─────────────────────────────────────────────────────────┘
@@ -88,7 +89,7 @@ Request 2: "You are a legal assistant. Analyze contract B."
 ### Integration Points
 
 1. **llama_wrapper.cpp**: Query cache before inference
-2. **llm_prefix_cache.cpp**: Already implemented (stub)
+2. **llm_prefix_cache.cpp**: ✅ HNSW integration complete
 3. **config**: Configuration options added
 
 ---
@@ -380,7 +381,8 @@ This KV-Cache Reuse implementation complements PR #215's enhancements:
 
 ### v1.3.1 (Current)
 - [x] Infrastructure in place
-- [x] LLMPrefixCache implemented
+- [x] LLMPrefixCache implemented with HNSW
+- [x] EmbeddingCache integration complete
 - [x] Config options added
 - [ ] llama.cpp integration (pending)
 
