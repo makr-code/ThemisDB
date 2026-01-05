@@ -4,6 +4,7 @@
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
 #include "llm/grafana_metrics.h"
+#include "llm/llm_response_cache.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -118,6 +119,10 @@ public:
         
         // Multi-LoRA (vLLM-style)
         MultiLoRAManager::Config multi_lora_config;
+        
+        // Response cache (optional)
+        bool enable_response_cache = true;
+        LLMResponseCache::Config response_cache_config;
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -130,6 +135,11 @@ public:
     // Set metrics collector (optional)
     void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
         metrics_collector_ = collector;
+        
+        // Also set on response cache if enabled
+        if (response_cache_) {
+            response_cache_->setMetricsCollector(collector);
+        }
     }
     
     // ═══════════════════════════════════════════════════════════
@@ -206,6 +216,9 @@ private:
     
     // vLLM-style multi-LoRA manager
     std::unique_ptr<MultiLoRAManager> lora_manager_;
+    
+    // Response cache for frequent queries
+    std::unique_ptr<LLMResponseCache> response_cache_;
     
     // Current active model
     std::string current_model_id_;

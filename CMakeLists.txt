@@ -1762,6 +1762,7 @@ if(THEMIS_BUILD_TESTS)
             tests/test_paged_attention.cpp
             tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
             tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
+            tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages

@@ -21,11 +21,21 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     // Initialize multi-LoRA manager (vLLM-style)
     lora_manager_ = std::make_unique<MultiLoRAManager>(config_.multi_lora_config);
     
+    // Initialize response cache (optional)
+    if (config_.enable_response_cache) {
+        response_cache_ = std::make_unique<LLMResponseCache>("response_cache", config_.response_cache_config);
+        spdlog::info("Response cache enabled (max_entries: {}, ttl: {}s, similarity: {})",
+                     config_.response_cache_config.max_entries,
+                     config_.response_cache_config.ttl_seconds,
+                     config_.response_cache_config.similarity_threshold);
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
+    spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
@@ -173,6 +183,26 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("No model loaded");
     }
     
+    // Check response cache first (if enabled)
+    if (response_cache_) {
+        auto cached_response = response_cache_->get(request.prompt);
+        if (cached_response) {
+            spdlog::debug("Cache hit for prompt: {}", request.prompt.substr(0, 50));
+            
+            // Update request_id to match current request
+            cached_response->request_id = request.request_id;
+            
+            // Record cache hit in inference metrics too
+            if (metrics_collector_) {
+                metrics_collector_->recordInferenceRequest(current_model_id_);
+                metrics_collector_->recordInferenceSuccess(current_model_id_, 1.0); // Cached responses are ~1ms
+                metrics_collector_->recordTokensGenerated(current_model_id_, cached_response->tokens_generated);
+            }
+            
+            return *cached_response;
+        }
+    }
+    
     // Record inference request
     if (metrics_collector_) {
         metrics_collector_->recordInferenceRequest(current_model_id_);
@@ -226,6 +256,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
             metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
             metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
+        }
+        
+        // Cache the response
+        if (response_cache_) {
+            response_cache_->put(request.prompt, response);
         }
         
         return response;
@@ -342,6 +377,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                 double per_token_latency = response.inference_time_ms / response.tokens_generated;
                 metrics_collector_->recordPerTokenLatency(current_model_id_, per_token_latency);
             }
+        }
+        
+        // Cache the successful response
+        if (response_cache_) {
+            response_cache_->put(request.prompt, response);
         }
         
         return response;
