@@ -3,6 +3,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
+#include "llm/grafana_metrics.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -126,6 +127,11 @@ public:
     LlamaWrapper(const LlamaWrapper&) = delete;
     LlamaWrapper& operator=(const LlamaWrapper&) = delete;
     
+    // Set metrics collector (optional)
+    void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
+        metrics_collector_ = collector;
+    }
+    
     // ═══════════════════════════════════════════════════════════
     // Model Management
     // ═══════════════════════════════════════════════════════════
@@ -212,6 +218,9 @@ private:
         double total_inference_time_ms = 0.0;
     };
     Stats stats_;
+    
+    // Metrics collection (optional)
+    monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     
     // Thread safety
     mutable std::mutex mutex_;

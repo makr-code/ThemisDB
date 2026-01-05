@@ -44,6 +44,8 @@ bool LlamaWrapper::loadModel(
     
     spdlog::info("Loading model (lazy): {}", model_path);
     
+    auto load_start = std::chrono::high_resolution_clock::now();
+    
     // Extract model ID from path
     current_model_id_ = extractModelId(model_path);
     current_model_path_ = model_path;
@@ -67,10 +69,25 @@ bool LlamaWrapper::loadModel(
     
     if (!model) {
         spdlog::error("Failed to load model: {}", model_path);
+        
+        if (metrics_collector_) {
+            metrics_collector_->recordError("model_load_failed", "model_loader");
+        }
+        
         return false;
     }
     
-    spdlog::info("Model ready: {} (lazy loaded)", current_model_id_);
+    auto load_end = std::chrono::high_resolution_clock::now();
+    double load_time_ms = std::chrono::duration<double, std::milli>(load_end - load_start).count();
+    
+    spdlog::info("Model ready: {} (lazy loaded in {:.2f}ms)", current_model_id_, load_time_ms);
+    
+    // Record model loaded metrics
+    if (metrics_collector_) {
+        metrics_collector_->recordModelLoaded(current_model_id_, model->vram_mb);
+        metrics_collector_->recordModelSwitchLatency(load_time_ms);
+    }
+    
     return true;
 }
 
@@ -82,6 +99,11 @@ void LlamaWrapper::unloadModel() {
     }
     
     spdlog::info("Unloading model: {}", current_model_id_);
+    
+    // Record model unload before clearing the ID
+    if (metrics_collector_) {
+        metrics_collector_->recordModelUnloaded(current_model_id_);
+    }
     
     // Unload via lazy loader
     model_loader_->unloadModel(current_model_id_, true);
@@ -151,6 +173,11 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         throw std::runtime_error("No model loaded");
     }
     
+    // Record inference request
+    if (metrics_collector_) {
+        metrics_collector_->recordInferenceRequest(current_model_id_);
+    }
+    
     auto start_time = std::chrono::high_resolution_clock::now();
     
     spdlog::debug("Generating response for prompt: {} (max_tokens={})",
@@ -162,6 +189,9 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         current_model_path_
     );
     if (!cached) {
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_, "model_load_failed");
+        }
         throw std::runtime_error("Model failed to load");
     }
 
@@ -190,6 +220,14 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
             : 0.0f;
         updateStatistics(response);
+        
+        // Record metrics for stub response
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
+            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
+            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
+        }
+        
         return response;
     }
 
@@ -226,6 +264,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         int32_t n_vocab = llama_vocab_n_tokens(vocab);
         llama_token eos_token = llama_vocab_eos(vocab);
         
+        // Time to first token
+        auto first_token_start = std::chrono::high_resolution_clock::now();
+        bool first_token_generated = false;
+        
         for (int i = 0; i < max_tokens; ++i) {
             // Get logits for last token
             float* logits = llama_get_logits_ith(lctx, -1);
@@ -239,6 +281,16 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             }
             
             generated_tokens.push_back(next_token);
+            
+            // Record first token latency
+            if (!first_token_generated && metrics_collector_) {
+                auto first_token_end = std::chrono::high_resolution_clock::now();
+                double first_token_latency = std::chrono::duration<double, std::milli>(
+                    first_token_end - first_token_start
+                ).count();
+                metrics_collector_->recordFirstTokenLatency(current_model_id_, first_token_latency);
+                first_token_generated = true;
+            }
             
             // **Streaming support**: Call callback if provided
             // Note: Callback is called while holding mutex_. Ensure callback
@@ -278,10 +330,31 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
             : 0.0f;
         
         updateStatistics(response);
+        
+        // Record comprehensive metrics
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
+            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
+            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
+            
+            // Calculate per-token latency
+            if (response.tokens_generated > 0) {
+                double per_token_latency = response.inference_time_ms / response.tokens_generated;
+                metrics_collector_->recordPerTokenLatency(current_model_id_, per_token_latency);
+            }
+        }
+        
         return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Inference error: {}", e.what());
+        
+        // Record error
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_, "inference_exception");
+            metrics_collector_->recordError("inference_exception", "llama_wrapper");
+        }
+        
         throw;
     }
 }
