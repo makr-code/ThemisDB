@@ -309,7 +309,7 @@ BENCHMARK(BM_CompareRAIDModes_1MB)->DenseRange(0, 3);
 // LoRA Adapter Benchmarks
 // ═══════════════════════════════════════════════════════════
 
-#ifdef THEMIS_ENABLE_LLM
+#if defined(THEMIS_ENABLE_LLM) && THEMIS_ENABLE_LLM
 static void BM_LoRA_LoadUnload(benchmark::State& state) {
     MultiLoRAManager::Config config;
     config.max_lora_vram_mb = 2048;
