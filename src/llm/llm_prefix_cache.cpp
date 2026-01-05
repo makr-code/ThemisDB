@@ -107,9 +107,10 @@ public:
                 if (it != cache_.end() && !isExpired(it->second)) {
                     it->second.usage_count++;
                     it->second.last_used = std::chrono::system_clock::now();
-                    stats_.hits++;
+                    // Update average similarity before incrementing hits
                     stats_.avg_similarity = (stats_.avg_similarity * stats_.hits + similar_entry->last_similarity) 
                                           / (stats_.hits + 1);
+                    stats_.hits++;
                     updateLookupTime(start);
                     return it->second;
                 }
@@ -139,8 +140,9 @@ public:
                     break;
                 }
             }
-            stats_.hits++;
+            // Update average similarity before incrementing hits
             stats_.avg_similarity = (stats_.avg_similarity * stats_.hits + best_similarity) / (stats_.hits + 1);
+            stats_.hits++;
             updateLookupTime(start);
             return best_match;
         }
