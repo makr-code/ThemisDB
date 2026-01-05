@@ -123,6 +123,17 @@ public:
         uint64_t avg_duration_ms;
         uint64_t max_duration_ms;
     };
+    
+    /**
+     * @brief Get transaction statistics
+     * 
+     * Thread-safety: Statistics are eventually consistent. The atomic counters
+     * (total_begun, total_committed, total_aborted) may be slightly out of sync
+     * with the active/completed transaction maps due to timing differences.
+     * This is acceptable for monitoring purposes and does not affect correctness.
+     * 
+     * @return Stats structure with current transaction statistics
+     */
     Stats getStats() const;
     
     // Cleanup old completed transactions (after 1 hour by default)
