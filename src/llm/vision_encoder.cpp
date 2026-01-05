@@ -179,7 +179,8 @@ std::vector<float> VisionEncoder::encodeImageData(const std::vector<uint8_t>& im
 #ifdef THEMIS_ENABLE_LLM
     // For now, we need to write to a temporary file
     // Future enhancement: Support in-memory image loading
-    std::string temp_path = std::filesystem::temp_directory_path() / "themis_temp_image.jpg";
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string temp_path = (temp_dir / "themis_temp_image.jpg").string();
     
     {
         std::ofstream ofs(temp_path, std::ios::binary);
