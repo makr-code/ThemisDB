@@ -18,6 +18,8 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <iostream> // For debugging
+#include <thread>   // For sleep_for (race condition fix #3)
+#include <chrono>   // For milliseconds (race condition fix #3)
 
 namespace themis {
 
@@ -415,6 +417,25 @@ bool RocksDBWrapper::open() {
 void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
+        
+        // RACE CONDITION FIX #3: Wait for active operations to complete before closing
+        {
+            std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
+            // After acquiring lock, new operations can't start (OperationGuard checks db_ under lock)
+            // Now we just need to wait for existing operations to finish
+        }
+        
+        // Busy-wait for active operations to complete
+        int wait_count = 0;
+        while (active_operations_.load(std::memory_order_acquire) > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            wait_count++;
+            if (wait_count % 100 == 0) {
+                THEMIS_WARN("Waiting for {} active operations to complete before closing DB", 
+                           active_operations_.load(std::memory_order_relaxed));
+            }
+        }
+        
         // RACE CONDITION FIX #1: Protect cf_handles_ access during close
         std::lock_guard<std::mutex> lock(cf_handles_mutex_);
         
@@ -853,9 +874,11 @@ bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
 }
 
 void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) {
-    if (!db_) return;
+    // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
 
-    auto* base_db = db_->GetBaseDB();
+    auto* base_db = guard.get()->GetBaseDB();
     if (!base_db) {
         THEMIS_ERROR("scanPrefix: base DB is null");
         return;
@@ -872,12 +895,15 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
             break; // Stop iteration if callback returns false
         }
     }
+    // OperationGuard destructor ensures db_ stays valid until here
 }
 
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
-    if (!db_) return;
+    // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
 
-    auto* base_db = db_->GetBaseDB();
+    auto* base_db = guard.get()->GetBaseDB();
     if (!base_db) {
         THEMIS_ERROR("scanRange: base DB is null");
         return;
@@ -898,9 +924,11 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
 }
 
 void RocksDBWrapper::scanAll(ScanCallback callback) {
-    if (!db_) return;
+    // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
 
-    auto* base_db = db_->GetBaseDB();
+    auto* base_db = guard.get()->GetBaseDB();
     if (!base_db) {
         THEMIS_ERROR("scanAll: base DB is null");
         return;

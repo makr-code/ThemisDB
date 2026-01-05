@@ -361,6 +361,38 @@ public:
     const rocksdb::TransactionDB* getRawDB() const { return db_.get(); }
 
 private:
+    // RAII helper to track active operations and prevent close during operations
+    class OperationGuard {
+    public:
+        explicit OperationGuard(const RocksDBWrapper* wrapper) 
+            : wrapper_(wrapper), db_(nullptr) {
+            if (wrapper_) {
+                std::lock_guard<std::mutex> lock(wrapper_->db_lifecycle_mutex_);
+                if (wrapper_->db_) {
+                    wrapper_->active_operations_.fetch_add(1, std::memory_order_acquire);
+                    db_ = wrapper_->db_.get();
+                }
+            }
+        }
+        
+        ~OperationGuard() {
+            if (wrapper_ && db_) {
+                wrapper_->active_operations_.fetch_sub(1, std::memory_order_release);
+            }
+        }
+        
+        OperationGuard(const OperationGuard&) = delete;
+        OperationGuard& operator=(const OperationGuard&) = delete;
+        
+        rocksdb::TransactionDB* get() const { return db_; }
+        explicit operator bool() const { return db_ != nullptr; }
+        
+    private:
+        const RocksDBWrapper* wrapper_;
+        rocksdb::TransactionDB* db_;
+    };
+
+private:
     Config config_;
     std::unique_ptr<rocksdb::TransactionDB> db_;
     std::unique_ptr<rocksdb::Options> options_;
@@ -372,6 +404,10 @@ private:
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles_;
     // Mutex to protect cf_handles_ from concurrent access (race condition fix #1)
     mutable std::mutex cf_handles_mutex_;
+    // Mutex to protect db_ lifecycle (race condition fix #3)
+    mutable std::mutex db_lifecycle_mutex_;
+    // Active operations counter for safe close (race condition fix #3)
+    mutable std::atomic<int> active_operations_{0};
     
     void configureOptions();
     bool commitBatch(rocksdb::WriteBatch* batch);
