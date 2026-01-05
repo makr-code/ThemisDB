@@ -39,7 +39,8 @@ public:
         bool enable_streaming = false; // Default: no streaming
     };
     
-    explicit EmbeddedLLM(const Config& config = Config{});
+    explicit EmbeddedLLM(const Config& config);
+    explicit EmbeddedLLM(); // Default constructor
     ~EmbeddedLLM();
     
     // ═══════════════════════════════════════════════════════════
@@ -217,7 +218,7 @@ private:
     ~EmbeddedLLMManager() = default;
     
     std::unique_ptr<EmbeddedLLM> llm_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     bool initialized_ = false;
 };
 

@@ -331,9 +331,10 @@ ProductionValidator::ValidationResult ProductionValidator::runStressTest() {
             0.0
         ) / latency_samples_.size();
         
-        result.p50_latency_ms = calculatePercentile(latency_samples_, 50.0);
-        result.p95_latency_ms = calculatePercentile(latency_samples_, 95.0);
-        result.p99_latency_ms = calculatePercentile(latency_samples_, 99.0);
+        std::vector<double> latency_vec(latency_samples_.begin(), latency_samples_.end());
+        result.p50_latency_ms = calculatePercentile(latency_vec, 50.0);
+        result.p95_latency_ms = calculatePercentile(latency_vec, 95.0);
+        result.p99_latency_ms = calculatePercentile(latency_vec, 99.0);
     }
     
     // Check against thresholds

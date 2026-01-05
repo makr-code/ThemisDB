@@ -242,8 +242,8 @@ bool HotSpareManager::activateSpare(
     
     // Replace failed shard with spare in ring
     try {
-        ring.removeNode(failed_shard_id);
-        ring.addNode(spare_id);
+        ring.removeShard(failed_shard_id);
+        ring.addShard(spare_id);
         
         // Update topology
         // (Topology update logic would go here)

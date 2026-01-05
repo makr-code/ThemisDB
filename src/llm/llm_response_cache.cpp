@@ -13,6 +13,12 @@ LLMResponseCache::LLMResponseCache(const std::string& cache_name, const Config& 
     : cache_name_(cache_name), config_(config) {
     // TODO: v1.3.0 - Initialize actual SemanticCache here
     // For now, using in-memory map as stub
+    
+    spdlog::warn("⚠️  LLMResponseCache: Using STUB implementation!");
+    spdlog::warn("    - No semantic similarity (simple string matching only)");
+    spdlog::warn("    - No HNSW integration");
+    spdlog::warn("    - Performance claims (75x speedup) are not validated");
+    spdlog::warn("    - See .github/issues/02-implement-llm-response-cache.md");
 }
 
 void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& response) {
