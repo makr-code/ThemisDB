@@ -153,6 +153,17 @@ struct StripeConfig {
 };
 
 /**
+ * Hot Spare Configuration (forward declaration for inclusion)
+ */
+struct HotSpareConfigSimple {
+    bool enable = false;
+    std::vector<std::string> spare_shards;
+    bool auto_rebuild = true;
+    uint32_t rebuild_throttle_mbps = 100;
+    std::chrono::seconds health_check_interval{30};
+};
+
+/**
  * Main Redundancy Configuration
  */
 struct RedundancyConfig {
@@ -175,6 +186,9 @@ struct RedundancyConfig {
     
     // Geo-replication settings (for GEO_MIRROR mode)
     GeoReplicationConfig geo_replication;
+    
+    // Hot spare settings (for automatic failover and rebuild)
+    HotSpareConfigSimple hot_spare;
     
     // Timing
     std::chrono::milliseconds replication_timeout{5000};

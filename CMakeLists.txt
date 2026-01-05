@@ -854,6 +854,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/truetime.cpp
     src/sharding/distributed_transaction.cpp
     src/sharding/redundancy_strategy.cpp
+    src/sharding/hot_spare_manager.cpp
     src/sharding/shard_rpc_server.cpp
     src/storage/blob_redundancy_manager.cpp
     src/server/sharding_metrics_handler.cpp
@@ -1663,6 +1664,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
         tests/test_raid_redundancy.cpp
+        tests/test_hot_spare.cpp
         tests/test_lora_adapter.cpp
         tests/test_raid_integration.cpp
         tests/test_stream_protocol_extended.cpp
