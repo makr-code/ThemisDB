@@ -1,0 +1,214 @@
+# =============================================================================
+# ThemisDB MINIMAL Edition Configuration
+# Version: 1.3.5+
+# Edition: MINIMAL
+# =============================================================================
+#
+# This is a minimal configuration for ThemisDB MINIMAL Edition.
+# Only core database features are enabled. No LLM, GPU, sharding, or advanced
+# protocols are available in this edition.
+#
+# Features included:
+#   - ACID transactions with MVCC
+#   - Multi-model storage (relational, graph, vector, document)
+#   - Secondary indexes
+#   - Basic query engine (AQL)
+#   - REST API (HTTP/1.1)
+#   - GraphQL (basic)
+#   - Basic time-series support
+#
+# Features NOT included:
+#   - LLM integration
+#   - GPU acceleration
+#   - Horizontal sharding
+#   - Replication
+#   - Advanced protocols (HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire)
+#   - Voice assistant
+#   - Content processors
+#   - OpenTelemetry tracing
+#   - RBAC (basic auth only)
+#   - Field-level encryption
+#
+# =============================================================================
+
+# =============================================================================
+# STORAGE CONFIGURATION (RocksDB)
+# =============================================================================
+storage:
+  rocksdb_path: "./data/rocksdb"
+  wal_dir: ""
+  
+  # Memory Configuration (reduced for minimal footprint)
+  memtable_size_mb: 64
+  block_cache_size_mb: 256
+  block_cache_shard_bits: -1
+  cache_index_and_filter_blocks: true
+  pin_l0_filter_and_index_blocks_in_cache: false
+  partition_filters: true
+  high_pri_pool_ratio: 0.5
+  db_write_buffer_size_mb: 0
+  
+  # Write Configuration
+  enable_wal: true
+  max_write_buffer_number: 2
+  min_write_buffer_number_to_merge: 1
+  allow_concurrent_memtable_write: true
+  
+  # Compaction Configuration (minimal)
+  max_background_compactions: 2
+  max_background_flushes: 2
+  level0_file_num_compaction_trigger: 4
+  level0_slowdown_writes_trigger: 20
+  level0_stop_writes_trigger: 36
+  
+  # Bloom Filter (basic)
+  bloom_bits_per_key: 10
+  whole_key_filtering: true
+  
+  # Compression (basic)
+  compression_type: "lz4"
+  bottommost_compression_type: "zstd"
+  
+  # Performance
+  max_open_files: 1000
+  bytes_per_sync: 1048576
+  wal_bytes_per_sync: 1048576
+
+# =============================================================================
+# NETWORK CONFIGURATION
+# =============================================================================
+network:
+  # HTTP/1.1 Server (REST API + GraphQL)
+  http_host: "0.0.0.0"
+  http_port: 8080
+  
+  # No advanced protocols in minimal edition
+  # gRPC: disabled
+  # HTTP/2: disabled
+  # WebSocket: disabled
+  # MQTT: disabled
+  # PostgreSQL Wire: disabled
+
+# =============================================================================
+# SECURITY CONFIGURATION (Basic)
+# =============================================================================
+security:
+  # TLS/SSL (optional)
+  enable_tls: false
+  # tls_cert: "/path/to/cert.pem"
+  # tls_key: "/path/to/key.pem"
+  
+  # Basic Authentication (no RBAC in minimal)
+  enable_auth: false
+  
+  # No field-level encryption in minimal
+  # No HSM support in minimal
+
+# =============================================================================
+# QUERY ENGINE CONFIGURATION
+# =============================================================================
+query:
+  # Basic query limits
+  max_query_size_bytes: 1048576
+  query_timeout_seconds: 30
+  max_concurrent_queries: 100
+
+# =============================================================================
+# INDEX CONFIGURATION
+# =============================================================================
+index:
+  # Secondary indexes
+  enable_secondary_indexes: true
+  max_secondary_indexes_per_table: 10
+  
+  # Graph indexes
+  enable_graph_indexes: true
+  
+  # Vector indexes (CPU-only, no GPU)
+  enable_vector_indexes: true
+  default_vector_distance_metric: "cosine"
+  hnsw_m: 16
+  hnsw_ef_construction: 200
+  hnsw_ef_search: 50
+
+# =============================================================================
+# TRANSACTION CONFIGURATION
+# =============================================================================
+transaction:
+  # MVCC settings
+  enable_mvcc: true
+  default_snapshot_isolation_level: "snapshot"
+  max_transaction_duration_seconds: 60
+  transaction_lock_timeout_seconds: 10
+
+# =============================================================================
+# LOGGING CONFIGURATION
+# =============================================================================
+logging:
+  level: "info"
+  format: "text"
+  output: "stdout"
+  # No OpenTelemetry tracing in minimal
+
+# =============================================================================
+# BACKUP CONFIGURATION (Basic)
+# =============================================================================
+backup:
+  # Local backups only (no cloud storage in minimal)
+  enable_automatic_backups: false
+  backup_directory: "./backups"
+  backup_interval_hours: 24
+  max_backups_retained: 7
+
+# =============================================================================
+# PERFORMANCE TUNING (Minimal)
+# =============================================================================
+performance:
+  # Worker threads (reduced for minimal footprint)
+  worker_threads: 4
+  
+  # No GPU acceleration in minimal
+  enable_gpu: false
+  
+  # No performance optimizations in minimal
+  # (mimalloc, huge pages, RCU, etc. disabled by default)
+
+# =============================================================================
+# DISABLED FEATURES (Explicit for clarity)
+# =============================================================================
+# The following features are explicitly disabled in MINIMAL edition:
+#
+# llm:
+#   enable_llm: false
+#
+# gpu:
+#   enable_gpu: false
+#
+# sharding:
+#   enable_sharding: false
+#
+# replication:
+#   enable_replication: false
+#
+# protocols:
+#   enable_grpc: false
+#   enable_http2: false
+#   enable_websocket: false
+#   enable_mqtt: false
+#   enable_postgres_wire: false
+#
+# content:
+#   enable_content_processors: false
+#
+# voice:
+#   enable_voice_assistant: false
+#
+# observability:
+#   enable_tracing: false
+#   enable_prometheus: true  # Basic metrics only
+#
+# security_advanced:
+#   enable_rbac: false
+#   enable_field_encryption: false
+#   enable_hsm: false
+# =============================================================================
