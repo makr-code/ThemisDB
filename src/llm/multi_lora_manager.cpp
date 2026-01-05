@@ -16,6 +16,16 @@ namespace {
     constexpr float INT4_MAX_VALUE = 7.0f;
     constexpr float MIN_SCALE_EPSILON = 1e-8f;
     constexpr uint32_t SIMULATION_SEED = 42;
+    
+    // Helper to convert QuantizationMode to string
+    const char* quantizationModeToString(QuantizationMode mode) {
+        switch (mode) {
+            case QuantizationMode::INT8: return "INT8";
+            case QuantizationMode::INT4: return "INT4";
+            case QuantizationMode::NONE: return "NONE";
+            default: return "UNKNOWN";
+        }
+    }
 }
 
 MultiLoRAManager::MultiLoRAManager(const Config& config)
@@ -28,7 +38,7 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
                  config_.enable_multi_lora_batch ? "enabled" : "disabled");
     if (config_.quantization.enabled) {
         spdlog::info("  Quantization: enabled (mode: {})", 
-                     config_.quantization.mode == QuantizationMode::INT8 ? "INT8" : "INT4");
+                     quantizationModeToString(config_.quantization.mode));
     }
 }
 
@@ -62,9 +72,7 @@ void MultiLoRAManager::setQuantizationConfig(const LoRAQuantizationConfig& confi
     std::lock_guard<std::mutex> lock(mutex_);
     config_.quantization = config;
     spdlog::info("Quantization config updated: enabled={}, mode={}", 
-                 config.enabled, 
-                 config.mode == QuantizationMode::INT8 ? "INT8" : 
-                 config.mode == QuantizationMode::INT4 ? "INT4" : "NONE");
+                 config.enabled, quantizationModeToString(config.mode));
 }
 
 LoRAQuantizationConfig MultiLoRAManager::getQuantizationConfig() const {
@@ -766,7 +774,7 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     // Apply quantization if requested
     if (quantize && config_.quantization.enabled) {
         spdlog::info("Applying {} quantization to LoRA: {}", 
-                     config_.quantization.mode == QuantizationMode::INT8 ? "INT8" : "INT4",
+                     quantizationModeToString(config_.quantization.mode),
                      lora_id);
         if (quantizeLoRA(lora.get())) {
             spdlog::info("Quantization successful: {} -> {} bytes ({:.1f}× compression)",
@@ -892,7 +900,9 @@ void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& we
             int8_t quantized = static_cast<int8_t>(
                 std::max(-INT8_MAX_VALUE, std::min(INT8_MAX_VALUE, std::round(w / scale)))
             );
-            lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + 128);  // Offset for storage
+            // Store as unsigned byte by offsetting range from [-127,127] to [1,255]
+            // During dequantization, subtract 128 to restore signed range
+            lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + 128);
         }
     }
     
