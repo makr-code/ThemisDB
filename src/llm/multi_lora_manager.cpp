@@ -2,9 +2,34 @@
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
+#include <cmath>
+#include <random>
+#include <numeric>
 
 namespace themis {
 namespace llm {
+
+// Quantization constants
+namespace {
+    constexpr size_t TYPICAL_LORA_RANK8_BYTES = 32 * 1024 * 1024;  // 32 MB for rank-8 LoRA
+    constexpr float INT8_MAX_VALUE = 127.0f;
+    constexpr float INT4_MAX_VALUE = 7.0f;
+    constexpr float MIN_SCALE_EPSILON = 1e-8f;
+    constexpr uint32_t SIMULATION_SEED = 42;
+    constexpr float LORA_WEIGHT_STDDEV = 0.1f;  // Standard deviation for simulated LoRA weights
+    constexpr uint8_t INT8_ZERO_POINT = 127;    // Zero-point for INT8: maps 0 to 127 in [0,254]
+    constexpr uint8_t INT4_ZERO_POINT = 7;      // Zero-point for INT4: maps 0 to 7 in [0,14]
+    
+    // Helper to convert QuantizationMode to string
+    const char* quantizationModeToString(QuantizationMode mode) {
+        switch (mode) {
+            case QuantizationMode::INT8: return "INT8";
+            case QuantizationMode::INT4: return "INT4";
+            case QuantizationMode::NONE: return "NONE";
+            default: return "UNKNOWN";
+        }
+    }
+}
 
 MultiLoRAManager::MultiLoRAManager(const Config& config)
     : config_(config) {
@@ -14,6 +39,10 @@ MultiLoRAManager::MultiLoRAManager(const Config& config)
     spdlog::info("  LoRA TTL: {} seconds", config_.lora_ttl.count());
     spdlog::info("  Multi-LoRA batching: {}", 
                  config_.enable_multi_lora_batch ? "enabled" : "disabled");
+    if (config_.quantization.enabled) {
+        spdlog::info("  Quantization: enabled (mode: {})", 
+                     quantizationModeToString(config_.quantization.mode));
+    }
 }
 
 MultiLoRAManager::~MultiLoRAManager() {
@@ -42,10 +71,32 @@ MultiLoRAManager::~MultiLoRAManager() {
     spdlog::info("MultiLoRAManager destroyed, all LoRAs unloaded");
 }
 
+void MultiLoRAManager::setQuantizationConfig(const LoRAQuantizationConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    config_.quantization = config;
+    spdlog::info("Quantization config updated: enabled={}, mode={}", 
+                 config.enabled, quantizationModeToString(config.mode));
+}
+
+LoRAQuantizationConfig MultiLoRAManager::getQuantizationConfig() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return config_.quantization;
+}
+
 bool MultiLoRAManager::loadLoRA(
     const std::string& lora_id,
     const std::string& lora_path,
     const std::string& base_model_id,
+    float scale
+) {
+    return loadLoRA(lora_id, lora_path, base_model_id, config_.quantization.enabled, scale);
+}
+
+bool MultiLoRAManager::loadLoRA(
+    const std::string& lora_id,
+    const std::string& lora_path,
+    const std::string& base_model_id,
+    bool quantize,
     float scale
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -73,7 +124,7 @@ bool MultiLoRAManager::loadLoRA(
     }
     
     // Load LoRA
-    auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale);
+    auto* lora = loadLoRAInternal(lora_id, lora_path, base_model_id, scale, quantize);
     return lora != nullptr;
 }
 
@@ -695,7 +746,8 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     const std::string& lora_id,
     const std::string& lora_path,
     const std::string& base_model_id,
-    float scale
+    float scale,
+    bool quantize
 ) {
     // Already locked by caller
     
@@ -717,9 +769,24 @@ LoRASlot* MultiLoRAManager::loadLoRAInternal(
     // Estimate VRAM usage based on file size or typical LoRA parameters
     // Typical LoRA: rank * 2 * hidden_dim * n_layers * sizeof(float)
     // For a 7B model with rank=8: ~32-64 MB
-    lora->vram_bytes = 33554432;  // 32 MB typical for rank-8 LoRA
+    lora->original_vram_bytes = TYPICAL_LORA_RANK8_BYTES;
+    lora->vram_bytes = lora->original_vram_bytes;
     lora->rank = 8;
     lora->alpha = 16;
+    
+    // Apply quantization if requested
+    if (quantize && config_.quantization.enabled) {
+        spdlog::info("Applying {} quantization to LoRA: {}", 
+                     quantizationModeToString(config_.quantization.mode),
+                     lora_id);
+        if (quantizeLoRA(lora.get())) {
+            spdlog::info("Quantization successful: {} -> {} bytes ({:.1f}× compression)",
+                         lora->original_vram_bytes, lora->vram_bytes, 
+                         static_cast<float>(lora->original_vram_bytes) / lora->vram_bytes);
+        } else {
+            spdlog::warn("Quantization failed, using full precision");
+        }
+    }
     
     // Update totals
     total_vram_bytes_ += lora->vram_bytes;
@@ -746,6 +813,210 @@ void MultiLoRAManager::updateMemoryUsage() {
     for (const auto& [_, lora] : loras_) {
         total_vram_bytes_ += lora->vram_bytes;
     }
+}
+
+std::optional<QuantizationStats> MultiLoRAManager::getQuantizationStats(const std::string& lora_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = loras_.find(lora_id);
+    if (it == loras_.end()) {
+        return std::nullopt;
+    }
+    
+    const auto* lora = it->second.get();
+    if (!lora->is_quantized) {
+        return std::nullopt;
+    }
+    
+    QuantizationStats stats;
+    stats.lora_id = lora_id;
+    stats.mode = lora->quantization_mode;
+    stats.original_bytes = lora->original_vram_bytes;
+    stats.quantized_bytes = lora->vram_bytes;
+    stats.compression_ratio = static_cast<float>(lora->original_vram_bytes) / lora->vram_bytes;
+    
+    // Calculate scale statistics
+    if (!lora->scale_factors.empty()) {
+        stats.num_channels = lora->scale_factors.size();
+        stats.min_scale = *std::min_element(lora->scale_factors.begin(), lora->scale_factors.end());
+        stats.max_scale = *std::max_element(lora->scale_factors.begin(), lora->scale_factors.end());
+        stats.avg_scale = std::accumulate(lora->scale_factors.begin(), lora->scale_factors.end(), 0.0f) 
+                         / lora->scale_factors.size();
+    }
+    
+    return stats;
+}
+
+// Quantization implementation methods
+
+bool MultiLoRAManager::quantizeLoRA(LoRASlot* lora) {
+    if (!lora) {
+        return false;
+    }
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    // Simulate loading weights from the LoRA file
+    // In production, these would be loaded from the actual LoRA weights file
+    size_t num_weights = lora->original_vram_bytes / sizeof(float);
+    std::vector<float> weights = simulateWeights(num_weights);
+    
+    // Apply quantization based on mode
+    if (config_.quantization.mode == QuantizationMode::INT8) {
+        quantizeINT8(lora, weights);
+    } else if (config_.quantization.mode == QuantizationMode::INT4) {
+        quantizeINT4(lora, weights);
+    } else {
+        return false;
+    }
+    
+    auto end_time = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+    
+    spdlog::debug("Quantization completed in {} ms", duration.count());
+    
+    return true;
+}
+
+void MultiLoRAManager::quantizeINT8(LoRASlot* lora, const std::vector<float>& weights) {
+    // INT8 quantization: 4× memory reduction (FP32 → INT8)
+    // Uses symmetric quantization: Q = round(x / scale) where scale = max(abs(x)) / INT8_MAX_VALUE
+    
+    size_t num_weights = weights.size();
+    size_t num_channels = config_.quantization.per_channel ? lora->rank : 1;
+    size_t weights_per_channel = num_weights / num_channels;
+    
+    lora->scale_factors.resize(num_channels);
+    lora->quantized_weights.resize(num_weights);  // INT8: 1 byte per weight
+    
+    // Calibrate scale factors
+    calibrateScales(weights, lora->scale_factors);
+    
+    // Quantize weights
+    for (size_t ch = 0; ch < num_channels; ++ch) {
+        float scale = lora->scale_factors[ch];
+        size_t offset = ch * weights_per_channel;
+        
+        for (size_t i = 0; i < weights_per_channel && (offset + i) < num_weights; ++i) {
+            float w = weights[offset + i];
+            // Quantize: Q = round(x / scale), clamped to [-INT8_MAX_VALUE, INT8_MAX_VALUE]
+            int8_t quantized = static_cast<int8_t>(
+                std::max(-INT8_MAX_VALUE, std::min(INT8_MAX_VALUE, std::round(w / scale)))
+            );
+            // Store as unsigned byte: add zero-point to map signed range to unsigned [0,254]
+            // Quantized range [-127,127] + zero-point 127 = [0,254]
+            // During dequantization: x = (Q - INT8_ZERO_POINT) * scale
+            lora->quantized_weights[offset + i] = static_cast<uint8_t>(quantized + INT8_ZERO_POINT);
+        }
+    }
+    
+    // Update metadata
+    lora->is_quantized = true;
+    lora->quantization_mode = QuantizationMode::INT8;
+    lora->vram_bytes = num_weights + lora->scale_factors.size() * sizeof(float);  // INT8 weights + scales
+    
+    spdlog::debug("INT8 quantization: {} channels, {} weights per channel", 
+                  num_channels, weights_per_channel);
+}
+
+void MultiLoRAManager::quantizeINT4(LoRASlot* lora, const std::vector<float>& weights) {
+    // INT4 quantization: 8× memory reduction (FP32 → INT4)
+    // Uses group-based quantization for better accuracy
+    
+    size_t num_weights = weights.size();
+    int group_size = config_.quantization.group_size > 0 ? config_.quantization.group_size : 128;
+    size_t num_groups = (num_weights + group_size - 1) / group_size;
+    
+    lora->scale_factors.resize(num_groups);
+    lora->quantized_weights.resize((num_weights + 1) / 2, 0);  // INT4: 0.5 bytes per weight (packed), initialize to 0
+    
+    // Quantize per group
+    for (size_t g = 0; g < num_groups; ++g) {
+        size_t start_idx = g * group_size;
+        size_t end_idx = std::min(start_idx + group_size, num_weights);
+        size_t group_len = end_idx - start_idx;
+        
+        // Calculate scale for this group
+        float max_abs = 0.0f;
+        for (size_t i = start_idx; i < end_idx; ++i) {
+            max_abs = std::max(max_abs, std::abs(weights[i]));
+        }
+        lora->scale_factors[g] = max_abs / INT4_MAX_VALUE;  // 4-bit: [-INT4_MAX_VALUE, INT4_MAX_VALUE]
+        
+        float scale = lora->scale_factors[g];
+        if (scale < MIN_SCALE_EPSILON) scale = MIN_SCALE_EPSILON;  // Avoid division by zero
+        
+        // Quantize group
+        for (size_t i = 0; i < group_len; ++i) {
+            size_t idx = start_idx + i;
+            float w = weights[idx];
+            
+            // Quantize: Q = round(x / scale), clamped to [-INT4_MAX_VALUE, INT4_MAX_VALUE]
+            int8_t quantized = static_cast<int8_t>(
+                std::max(-INT4_MAX_VALUE, std::min(INT4_MAX_VALUE, std::round(w / scale)))
+            );
+            
+            // Pack two 4-bit values into one byte, offset from [-7,7] to [0,14]
+            // During dequantization: x = (Q - INT4_ZERO_POINT) * scale
+            size_t byte_idx = idx / 2;
+            if (idx % 2 == 0) {
+                lora->quantized_weights[byte_idx] = (quantized + INT4_ZERO_POINT) & 0x0F;  // Lower 4 bits
+            } else {
+                lora->quantized_weights[byte_idx] |= ((quantized + INT4_ZERO_POINT) & 0x0F) << 4;  // Upper 4 bits
+            }
+        }
+    }
+    
+    // Update metadata
+    lora->is_quantized = true;
+    lora->quantization_mode = QuantizationMode::INT4;
+    lora->vram_bytes = lora->quantized_weights.size() + lora->scale_factors.size() * sizeof(float);
+    
+    spdlog::debug("INT4 quantization: {} groups, {} group size", num_groups, group_size);
+}
+
+void MultiLoRAManager::calibrateScales(const std::vector<float>& weights, std::vector<float>& scales) {
+    // Calibrate scale factors for quantization
+    // Uses symmetric quantization: scale = max(abs(x)) / max_quantized_value
+    
+    size_t num_channels = scales.size();
+    size_t weights_per_channel = weights.size() / num_channels;
+    
+    for (size_t ch = 0; ch < num_channels; ++ch) {
+        size_t offset = ch * weights_per_channel;
+        float max_abs = 0.0f;
+        
+        // Find max absolute value in this channel
+        for (size_t i = 0; i < weights_per_channel && (offset + i) < weights.size(); ++i) {
+            max_abs = std::max(max_abs, std::abs(weights[offset + i]));
+        }
+        
+        // Calculate scale factor
+        // For INT8: max_quantized = INT8_MAX_VALUE
+        // For INT4: max_quantized = INT4_MAX_VALUE
+        float max_quantized = (config_.quantization.mode == QuantizationMode::INT8) ? INT8_MAX_VALUE : INT4_MAX_VALUE;
+        scales[ch] = max_abs / max_quantized;
+        
+        // Avoid division by zero
+        if (scales[ch] < MIN_SCALE_EPSILON) {
+            scales[ch] = MIN_SCALE_EPSILON;
+        }
+    }
+}
+
+std::vector<float> MultiLoRAManager::simulateWeights(size_t count) {
+    // Simulate LoRA weights for testing
+    // In production, these would be loaded from the actual LoRA weights file
+    
+    std::vector<float> weights(count);
+    std::mt19937 gen(SIMULATION_SEED);  // Fixed seed for reproducibility
+    std::normal_distribution<float> dist(0.0f, LORA_WEIGHT_STDDEV);  // Mean=0, typical LoRA distribution
+    
+    for (size_t i = 0; i < count; ++i) {
+        weights[i] = dist(gen);
+    }
+    
+    return weights;
 }
 
 } // namespace llm
