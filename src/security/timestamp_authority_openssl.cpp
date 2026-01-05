@@ -13,7 +13,9 @@
 #include <openssl/rand.h>
 #include <curl/curl.h>
 
+#include <chrono>
 #include <cstring>
+#include <ctime>
 #include <sstream>
 #include <iomanip>
 
@@ -59,6 +61,58 @@ static std::vector<uint8_t> b64Decode(const std::string& s){
     if(len < 0) len = 0; out.resize(len);
     BIO_free_all(mem);
     return out;
+}
+
+// Helper: Convert ASN1_GENERALIZEDTIME to Unix milliseconds
+static uint64_t asn1TimeToUnixMs(ASN1_GENERALIZEDTIME* gen) {
+    if (!gen || !gen->data) return 0;
+    
+    // Use OpenSSL's built-in conversion which handles all valid ASN.1 formats
+    struct tm tm_time = {};
+    if (!ASN1_TIME_to_tm(reinterpret_cast<const ASN1_TIME*>(gen), &tm_time)) {
+        return 0;
+    }
+    
+    // Convert to UTC time_t using portable method
+#ifdef _WIN32
+    time_t t = _mkgmtime(&tm_time);
+#else
+    // For POSIX systems, use timegm if available, otherwise use portable fallback
+    #if defined(__linux__) || defined(__APPLE__)
+        time_t t = timegm(&tm_time);
+    #else
+        // Portable fallback: temporarily set TZ to UTC
+        char* old_tz = getenv("TZ");
+        char* old_tz_copy = nullptr;
+        if (old_tz) {
+            old_tz_copy = strdup(old_tz);
+            if (!old_tz_copy) {
+                return 0;  // Memory allocation failed
+            }
+        }
+        
+        if (setenv("TZ", "UTC", 1) != 0) {
+            free(old_tz_copy);
+            return 0;  // setenv failed
+        }
+        tzset();
+        time_t t = mktime(&tm_time);
+        
+        // Restore original TZ (even if mktime failed)
+        if (old_tz_copy) {
+            setenv("TZ", old_tz_copy, 1);
+            free(old_tz_copy);
+        } else {
+            unsetenv("TZ");
+        }
+        tzset();
+    #endif
+#endif
+    
+    if (t == -1) return 0;
+    
+    // Convert to milliseconds
+    return static_cast<uint64_t>(t) * 1000;
 }
 
 TimestampAuthority::TimestampAuthority(TSAConfig config)
@@ -165,7 +219,11 @@ TimestampToken TimestampAuthority::parseTSPResponse(const std::vector<uint8_t>& 
     TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
     if(tst){
         ASN1_GENERALIZEDTIME* gen = TS_TST_INFO_get_time(tst);
-        if(gen){ std::string g(reinterpret_cast<char*>(gen->data), gen->length); token.timestamp_utc = g; }
+        if(gen){ 
+            std::string g(reinterpret_cast<char*>(gen->data), gen->length); 
+            token.timestamp_utc = g;
+            token.timestamp_unix_ms = asn1TimeToUnixMs(gen);
+        }
         ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
         if(serial){ BIGNUM* bn = ASN1_INTEGER_to_BN(serial,nullptr); char* hexStr = BN_bn2hex(bn); token.serial_number = hexStr; OPENSSL_free(hexStr); BN_free(bn);}        
         ASN1_OBJECT* policy = TS_TST_INFO_get_policy_id(tst);
@@ -228,6 +286,198 @@ bool TimestampAuthority::isAvailable(){
 }
 
 std::string TimestampAuthority::getLastError() const { return last_error_; }
+
+// ============================================================================
+// eIDAS Timestamp Validator Implementation
+// ============================================================================
+
+bool eIDASTimestampValidator::validateeIDASTimestamp(
+    const TimestampToken& token,
+    const std::vector<std::string>& trust_anchors) {
+    
+    validation_errors_.clear();
+    
+    // Basic validation
+    if (!token.success) {
+        validation_errors_.push_back("Token marked as unsuccessful");
+        return false;
+    }
+    
+    if (token.token_der.empty()) {
+        validation_errors_.push_back("Token DER data is empty");
+        return false;
+    }
+    
+    // Validate timestamp token structure
+    const unsigned char* p = token.token_der.data();
+    // Safe cast: d2i_PKCS7 expects long, ensure we don't overflow
+    if (token.token_der.size() > static_cast<size_t>(LONG_MAX)) {
+        validation_errors_.push_back("Token size exceeds maximum allowed");
+        return false;
+    }
+    PKCS7* pkcs7 = d2i_PKCS7(nullptr, &p, static_cast<long>(token.token_der.size()));
+    if (!pkcs7) {
+        validation_errors_.push_back("Failed to parse PKCS7 token");
+        return false;
+    }
+    
+    // Extract TST_INFO
+    TS_TST_INFO* tst = PKCS7_to_TS_TST_INFO(pkcs7);
+    if (!tst) {
+        validation_errors_.push_back("Failed to extract TST_INFO from token");
+        PKCS7_free(pkcs7);
+        return false;
+    }
+    
+    // Validate signature (simplified - full validation would need trust anchors)
+    // For now, we just verify the token structure is valid
+    bool valid = true;
+    
+    // Check if timestamp is present
+    ASN1_GENERALIZEDTIME* gen_time = TS_TST_INFO_get_time(tst);
+    if (!gen_time) {
+        validation_errors_.push_back("Missing timestamp in token");
+        valid = false;
+    }
+    
+    // Check if serial number is present
+    ASN1_INTEGER* serial = TS_TST_INFO_get_serial(tst);
+    if (!serial) {
+        validation_errors_.push_back("Missing serial number in token");
+        valid = false;
+    }
+    
+    // Check message imprint
+    TS_MSG_IMPRINT* imprint = TS_TST_INFO_get_msg_imprint(tst);
+    if (!imprint) {
+        validation_errors_.push_back("Missing message imprint in token");
+        valid = false;
+    }
+    
+    // For eIDAS compliance, we would need to:
+    // 1. Verify the certificate chain against trust anchors
+    // 2. Check if TSA is in the qualified trust list
+    // 3. Validate signature with TSA certificate
+    // These are simplified here as they require the full trust anchor infrastructure
+    
+    TS_TST_INFO_free(tst);
+    PKCS7_free(pkcs7);
+    
+    return valid;
+}
+
+bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_age_days) {
+    validation_errors_.clear();
+    
+    if (token.timestamp_unix_ms == 0) {
+        validation_errors_.push_back("Token has no timestamp");
+        return false;
+    }
+    
+    // Get current time in milliseconds
+    auto now = std::chrono::system_clock::now();
+    uint64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+    ).count();
+    
+    // Check for future timestamps (avoid integer underflow)
+    if (token.timestamp_unix_ms > now_ms) {
+        validation_errors_.push_back("Token timestamp is in the future");
+        return false;
+    }
+    
+    // Calculate age in milliseconds
+    uint64_t age_ms = now_ms - token.timestamp_unix_ms;
+    
+    // Convert max age from days to milliseconds with overflow check
+    // max_age_days * 24 * 60 * 60 * 1000 = max_age_days * 86400000
+    // Check if multiplication would overflow uint64_t
+    constexpr uint64_t MS_PER_DAY = 86400000ULL;
+    if (max_age_days < 0) {
+        validation_errors_.push_back("Maximum age must be non-negative");
+        return false;
+    }
+    if (static_cast<uint64_t>(max_age_days) > UINT64_MAX / MS_PER_DAY) {
+        validation_errors_.push_back("Maximum age value too large");
+        return false;
+    }
+    uint64_t max_age_ms = static_cast<uint64_t>(max_age_days) * MS_PER_DAY;
+    
+    if (age_ms > max_age_ms) {
+        validation_errors_.push_back("Token age exceeds maximum allowed age");
+        return false;
+    }
+    
+    return true;
+}
+
+bool eIDASTimestampValidator::isQualifiedTSA(
+    const std::string& tsa_cert,
+    const std::vector<std::string>& qtsp_list) {
+    
+    validation_errors_.clear();
+    
+    // Validate certificate size
+    if (tsa_cert.size() > static_cast<size_t>(INT_MAX)) {
+        validation_errors_.push_back("TSA certificate size exceeds maximum allowed");
+        return false;
+    }
+    
+    // Parse TSA certificate
+    BIO* bio = BIO_new_mem_buf(tsa_cert.data(), static_cast<int>(tsa_cert.size()));
+    if (!bio) {
+        validation_errors_.push_back("Failed to create BIO for certificate");
+        return false;
+    }
+    
+    X509* cert = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+    BIO_free(bio);
+    
+    if (!cert) {
+        validation_errors_.push_back("Failed to parse TSA certificate");
+        return false;
+    }
+    
+    // Extract subject name
+    X509_NAME* subject = X509_get_subject_name(cert);
+    if (!subject) {
+        validation_errors_.push_back("Certificate has no subject");
+        X509_free(cert);
+        return false;
+    }
+    
+    // Extract subject name using dynamic allocation
+    BIO* name_bio = BIO_new(BIO_s_mem());
+    if (!name_bio) {
+        validation_errors_.push_back("Failed to create BIO for subject name");
+        X509_free(cert);
+        return false;
+    }
+    
+    X509_NAME_print_ex(name_bio, subject, 0, XN_FLAG_RFC2253);
+    BUF_MEM* name_buf;
+    BIO_get_mem_ptr(name_bio, &name_buf);
+    std::string subject_name(name_buf->data, name_buf->length);
+    BIO_free(name_bio);
+    
+    X509_free(cert);
+    
+    // Check if TSA is in qualified list
+    // In a real implementation, this would check against the EU Trusted List
+    // For now, we do a simple string match
+    for (const auto& qtsp : qtsp_list) {
+        if (subject_name.find(qtsp) != std::string::npos) {
+            return true;
+        }
+    }
+    
+    validation_errors_.push_back("TSA not found in qualified trust service providers list");
+    return false;
+}
+
+std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
+    return validation_errors_;
+}
 
 } } // namespace themis::security
 
