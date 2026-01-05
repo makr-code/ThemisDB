@@ -240,10 +240,17 @@ curl http://localhost:9091/metrics | grep cache
 
 ## Konfigurationsoptionen
 
+> **⚠️ WICHTIGER HINWEIS**: Der Response Cache ist **standardmäßig aktiviert** (`enable_response_cache = true`).
+> 
+> Für bestehende Anwendungen kann dies unerwartetes Verhalten verursachen. Um den Cache zu deaktivieren:
+> ```cpp
+> config.enable_response_cache = false;
+> ```
+
 ```cpp
 LlamaWrapper::Config config;
 
-// Response Cache aktivieren
+// Response Cache aktivieren (ist bereits standardmäßig true!)
 config.enable_response_cache = true;
 
 // Cache-Einstellungen

@@ -57,6 +57,9 @@ int main() {
     llm_config.n_ctx = 2048;
     llm_config.n_batch = 512;
     
+    // Note: Response cache is ENABLED BY DEFAULT (enable_response_cache = true)
+    // Uncomment to disable: llm_config.enable_response_cache = false;
+    
     auto wrapper = std::make_unique<LlamaWrapper>(llm_config);
     
     // Step 5: Connect metrics collector to wrapper

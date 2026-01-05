@@ -137,6 +137,9 @@ LlamaWrapper::Config llm_config;
 llm_config.n_gpu_layers = 32;
 llm_config.n_ctx = 4096;
 
+// Note: Response cache is ENABLED BY DEFAULT (enable_response_cache = true)
+// To disable: llm_config.enable_response_cache = false;
+
 LlamaWrapper wrapper(llm_config);
 
 // 4. Set metrics collector on wrapper

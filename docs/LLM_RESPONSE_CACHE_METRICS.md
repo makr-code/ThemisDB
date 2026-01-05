@@ -30,6 +30,9 @@ Die LLM Response Cache Integration erweitert die Grafana Metrics um umfassende C
 
 ### 1. Response Cache aktivieren
 
+> **⚠️ WICHTIG**: Der Response Cache ist **standardmäßig aktiviert** (`enable_response_cache = true`).
+> Zum Deaktivieren: `config.enable_response_cache = false;`
+
 ```cpp
 #include "llm/llama_wrapper.h"
 #include "llm/grafana_metrics.h"
@@ -38,8 +41,9 @@ using namespace themis::llm;
 using namespace themis::llm::monitoring;
 
 // Konfiguration mit Response Cache
+// Note: Cache ist standardmäßig aktiviert, explizites Setzen nur zur Verdeutlichung
 LlamaWrapper::Config config;
-config.enable_response_cache = true;  // Cache aktivieren
+config.enable_response_cache = true;  // Default ist bereits true!
 
 // Cache-Einstellungen
 config.response_cache_config.similarity_threshold = 0.90f;  // 90% Ähnlichkeit
