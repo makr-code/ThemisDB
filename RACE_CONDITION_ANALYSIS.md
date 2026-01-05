@@ -468,34 +468,41 @@ TransactionManager::Stats TransactionManager::getStats() const {
 The LRU eviction logic has multiple race conditions:
 
 ```cpp
-void EmbeddingCache::put(const std::string& query_embedding, const InferenceResponse& response) {
+void EmbeddingCache::put(const std::string& query_text, 
+                        const std::vector<float>& embedding,
+                        const std::string& metadata) {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     
     CachedEntry entry;
-    entry.response = response;
+    entry.query_text = query_text;
+    entry.embedding = embedding;
+    entry.metadata = metadata;
     entry.timestamp = std::chrono::system_clock::now();
     
-    cache_store_[prompt] = entry;
+    // Generate unique key
+    std::string key = "emb_" + std::to_string(next_id++);
+    cache_store_[key] = entry;
     stats_.total_entries = cache_store_.size();
     
     // Enforce max_entries limit (LRU eviction)
     if (cache_store_.size() > config_.max_entries) {
         // Find oldest entry
-        auto oldest = cache_store_.begin();  // <-- PROBLEM 1: Not safe if map is empty (though checked above)
+        // Note: cache_store_.size() > config_.max_entries ensures map is non-empty
+        auto oldest = cache_store_.begin();
         for (auto it = cache_store_.begin(); it != cache_store_.end(); ++it) {
             if (it->second.timestamp < oldest->second.timestamp) {
                 oldest = it;
             }
         }
-        cache_store_.erase(oldest);  // <-- PROBLEM 2: If vector index is enabled, need to remove from index too
+        cache_store_.erase(oldest);  // <-- PROBLEM: If vector index is enabled, need to remove from index too
         stats_.total_entries = cache_store_.size();
     }
 }
 ```
 
 #### Problem
-1. If the vector index is enabled (via `impl_->vector_index`), the evicted entry is removed from the map but not from the vector index, creating a memory leak and stale references
-2. The loop to find the oldest entry is O(n) and blocks other operations
+1. If the vector index is enabled (via `impl_->vector_index`), the evicted entry is removed from the map but not from the vector index, creating a memory leak and stale references in the vector index
+2. The loop to find the oldest entry is O(n) and blocks other operations while holding the lock
 
 #### Impact
 - **Memory leak:** High (vector index entries not cleaned up)
@@ -506,17 +513,16 @@ void EmbeddingCache::put(const std::string& query_embedding, const InferenceResp
 Maintain a separate access-time-ordered structure (like `std::map` or linked list) and remove from vector index:
 
 ```cpp
-void EmbeddingCache::put(const std::string& prompt, const InferenceResponse& response) {
+void EmbeddingCache::store(const std::string& query_text, 
+                          const std::vector<float>& embedding,
+                          const std::string& metadata) {
     std::lock_guard<std::mutex> lock(impl_->mutex);
     
     CachedEntry entry;
-    entry.response = response;
+    entry.query_text = query_text;
+    entry.embedding = embedding;
+    entry.metadata = metadata;
     entry.timestamp = std::chrono::system_clock::now();
-    
-    // Generate embedding for vector index
-    // TODO: v1.3.0 - Generate actual embedding
-    std::vector<float> embedding(config_.embedding_dim, 0.0f);
-    std::copy(std::begin(entry.embedding), std::end(entry.embedding), embedding.begin());
     
     // Check if we need to evict before inserting
     if (impl_->entries.size() >= config_.max_entries) {
