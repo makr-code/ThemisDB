@@ -491,7 +491,6 @@ private:
     
     // Multi-GPU state (v1.4.0)
     std::unordered_map<int, size_t> gpu_vram_usage_;  // Per-GPU VRAM tracking
-    mutable std::mutex gpu_mutex_;                     // Separate mutex for GPU operations
     int next_round_robin_gpu_ = 0;                     // Round-robin counter
     
     // Internal helpers

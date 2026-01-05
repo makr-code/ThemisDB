@@ -754,23 +754,11 @@ bool MultiLoRAManager::importLoRA(
     lora->last_used = std::chrono::system_clock::now();
     
     total_vram_bytes_ += lora->vram_bytes;
-    
-    loras_[lora_id] = std::move(lora);
-    
-    
-    lora->base_model_id = base_model_id;
-    lora->loaded_at = std::chrono::system_clock::now();
-    lora->last_used = std::chrono::system_clock::now();
-    
-    total_vram_bytes_ += lora->vram_bytes;
-    
     loras_[lora_id] = std::move(lora);
     
     spdlog::info("LoRA {} imported successfully", lora_id);
     return true;
 }
-
-// Removed old loadLoRAInternal - replaced with multi-GPU version at end of file
 
 bool MultiLoRAManager::hasCapacity(size_t vram_bytes) const {
     size_t vram_mb = vram_bytes / (1024 * 1024);

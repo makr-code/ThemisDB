@@ -487,8 +487,12 @@ void GPUMemoryManager::updateMemoryStats() {
             total_vram_used_ += alloc.vram_bytes;
             total_ram_used_ += alloc.ram_bytes;
             
-            // Track per-GPU usage
+            // Track per-GPU usage - ensure GPU ID exists in map
             if (alloc.vram_bytes > 0) {
+                // Initialize if not present (defensive programming)
+                if (per_gpu_vram_used_.find(alloc.gpu_device_id) == per_gpu_vram_used_.end()) {
+                    per_gpu_vram_used_[alloc.gpu_device_id] = 0;
+                }
                 per_gpu_vram_used_[alloc.gpu_device_id] += alloc.vram_bytes;
             }
         }
@@ -566,12 +570,18 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
     auto& allocs = it->second;
     auto alloc_it = allocs.begin();
     while (alloc_it != allocs.end()) {
-        if (alloc_it->gpu_device_id == gpu_device_id || alloc_it->vram_bytes == 0) {
-            if (alloc_it->gpu_ptr && alloc_it->gpu_device_id == gpu_device_id) {
+        // Match allocations on this GPU or CPU-only allocations (vram_bytes == 0)
+        bool is_target_gpu = (alloc_it->gpu_device_id == gpu_device_id);
+        bool is_cpu_only = (alloc_it->vram_bytes == 0);
+        
+        if (is_target_gpu || is_cpu_only) {
+            if (alloc_it->gpu_ptr && is_target_gpu) {
                 // TODO: cudaSetDevice(gpu_device_id); cudaFree(alloc_it->gpu_ptr);
                 std::free(alloc_it->gpu_ptr);
                 freed_vram += alloc_it->vram_bytes;
-                per_gpu_vram_used_[gpu_device_id] -= alloc_it->vram_bytes;
+                if (per_gpu_vram_used_.find(gpu_device_id) != per_gpu_vram_used_.end()) {
+                    per_gpu_vram_used_[gpu_device_id] -= alloc_it->vram_bytes;
+                }
             }
             if (alloc_it->cpu_ptr) {
                 if (alloc_it->is_pinned) {
