@@ -81,6 +81,13 @@ LlamaWrapper::LlamaWrapper(const Config& config)
             config_.prefix_cache_config
         );
         spdlog::info("  KV-Cache Reuse: enabled (10-20x first-token speedup)");
+    // Initialize response cache (optional)
+    if (config_.enable_response_cache) {
+        response_cache_ = std::make_unique<LLMResponseCache>("response_cache", config_.response_cache_config);
+        spdlog::info("Response cache enabled (max_entries: {}, ttl: {}s, similarity: {})",
+                     config_.response_cache_config.max_entries,
+                     config_.response_cache_config.ttl_seconds,
+                     config_.response_cache_config.similarity_threshold);
     }
     
     spdlog::info("LlamaWrapper initialized:");
@@ -89,6 +96,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Flash Attention: {}", config_.use_flash_attn ? "enabled" : "disabled");
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
+    spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
@@ -107,6 +115,8 @@ bool LlamaWrapper::loadModel(
     std::lock_guard<std::mutex> lock(mutex_);
     
     spdlog::info("Loading model (lazy): {}", model_path);
+    
+    auto load_start = std::chrono::high_resolution_clock::now();
     
     // Extract model ID from path
     current_model_id_ = extractModelId(model_path);
@@ -151,6 +161,11 @@ bool LlamaWrapper::loadModel(
     
     if (!model) {
         spdlog::error("Failed to load model: {}", model_path);
+        
+        if (metrics_collector_) {
+            metrics_collector_->recordError("model_load_failed", "model_loader");
+        }
+        
         return false;
     }
     
@@ -162,6 +177,15 @@ bool LlamaWrapper::loadModel(
             spdlog::warn("Failed to load draft model, speculative decoding disabled");
             config_.use_speculative_decoding = false;
         }
+    auto load_end = std::chrono::high_resolution_clock::now();
+    double load_time_ms = std::chrono::duration<double, std::milli>(load_end - load_start).count();
+    
+    spdlog::info("Model ready: {} (lazy loaded in {:.2f}ms)", current_model_id_, load_time_ms);
+    
+    // Record model loaded metrics
+    if (metrics_collector_) {
+        metrics_collector_->recordModelLoaded(current_model_id_, model->vram_mb);
+        metrics_collector_->recordModelSwitchLatency(load_time_ms);
     }
     
     return true;
@@ -178,6 +202,10 @@ void LlamaWrapper::unloadModel() {
     
     // Unload draft model first
     unloadDraftModel();
+    // Record model unload before clearing the ID
+    if (metrics_collector_) {
+        metrics_collector_->recordModelUnloaded(current_model_id_);
+    }
     
     // Unload via lazy loader
     model_loader_->unloadModel(current_model_id_, true);
@@ -266,6 +294,220 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     auto response = generateRegular(request);
     mutex_.lock();
     return response;
+    // Check response cache first (if enabled)
+    if (response_cache_) {
+        auto cached_response = response_cache_->get(request.prompt);
+        if (cached_response) {
+            spdlog::debug("Cache hit for prompt: {}", request.prompt.substr(0, 50));
+            
+            // Update request_id to match current request
+            cached_response->request_id = request.request_id;
+            
+            // Record cache hit in inference metrics too
+            if (metrics_collector_) {
+                metrics_collector_->recordInferenceRequest(current_model_id_);
+                metrics_collector_->recordInferenceSuccess(current_model_id_, 1.0); // Cached responses are ~1ms
+                metrics_collector_->recordTokensGenerated(current_model_id_, cached_response->tokens_generated);
+            }
+            
+            return *cached_response;
+        }
+    }
+    
+    // Record inference request
+    if (metrics_collector_) {
+        metrics_collector_->recordInferenceRequest(current_model_id_);
+    }
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    spdlog::debug("Generating response for prompt: {} (max_tokens={})",
+                  request.prompt.substr(0, std::min(request.prompt.size(), size_t(50))), request.max_tokens);
+    
+    // Ensure model is loaded (lazy loading trigger)
+    auto* cached = model_loader_->getOrLoadModel(
+        current_model_id_,
+        current_model_path_
+    );
+    if (!cached) {
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_, "model_load_failed");
+        }
+        throw std::runtime_error("Model failed to load");
+    }
+
+    auto* lmodel = reinterpret_cast<llama_model*>(cached->model_handle);
+    auto* lctx = reinterpret_cast<llama_context*>(cached->context_handle);
+    
+    // For testing with stub models, allow nullptr handles
+    // In production with real llama.cpp, these would be non-null
+    if (!lmodel || !lctx) {
+        spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
+        // Fallback to stub for compatibility
+        std::string output = "[Generated response placeholder for: " + request.prompt + "]";
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.text = output;
+        response.model_used = current_model_id_;
+        if (request.lora_adapter_id) {
+            response.lora_used = *request.lora_adapter_id;
+        }
+        response.tokens_prompt = static_cast<int>(std::max<size_t>(1, request.prompt.size() / CHARS_PER_TOKEN_ESTIMATE));
+        response.tokens_generated = std::max(1, std::min(request.max_tokens, MAX_STUB_TOKENS));
+        auto end_time = std::chrono::high_resolution_clock::now();
+        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
+        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
+        updateStatistics(response);
+        
+        // Record metrics for stub response
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
+            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
+            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
+        }
+        
+        // Cache the response
+        if (response_cache_) {
+            response_cache_->put(request.prompt, response);
+        }
+        
+        return response;
+    }
+
+    // Real llama.cpp inference implementation
+    try {
+        // 1. Tokenize prompt
+        std::vector<llama_token> prompt_tokens = tokenizeInternal(lmodel, request.prompt, true);
+        
+        InferenceResponse response;
+        response.request_id = request.request_id;
+        response.model_used = current_model_id_;
+        response.tokens_prompt = static_cast<int>(prompt_tokens.size());
+        
+        if (request.lora_adapter_id) {
+            response.lora_used = *request.lora_adapter_id;
+        }
+        
+        // 2. Prepare batch for prompt evaluation
+        llama_batch batch = llama_batch_get_one(prompt_tokens.data(), prompt_tokens.size());
+        
+        // 3. Evaluate prompt (populate KV cache)
+        if (llama_decode(lctx, batch) != 0) {
+            throw std::runtime_error("Failed to evaluate prompt");
+        }
+        
+        // 4. Generate tokens
+        std::vector<llama_token> generated_tokens;
+        int max_tokens = request.max_tokens > 0 ? request.max_tokens : 512;
+        float temperature = request.temperature > 0.0f ? request.temperature : 0.7f;
+        float top_p = request.top_p > 0.0f ? request.top_p : 0.9f;
+        
+        // Get vocab for EOS detection and token count
+        const llama_vocab* vocab = llama_model_get_vocab(lmodel);
+        int32_t n_vocab = llama_vocab_n_tokens(vocab);
+        llama_token eos_token = llama_vocab_eos(vocab);
+        
+        // Time to first token
+        auto first_token_start = std::chrono::high_resolution_clock::now();
+        bool first_token_generated = false;
+        
+        for (int i = 0; i < max_tokens; ++i) {
+            // Get logits for last token
+            float* logits = llama_get_logits_ith(lctx, -1);
+            
+            // Sample next token
+            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
+            
+            // Check for end of sequence (EOS token)
+            if (next_token == eos_token) {
+                break;
+            }
+            
+            generated_tokens.push_back(next_token);
+            
+            // Record first token latency
+            if (!first_token_generated && metrics_collector_) {
+                auto first_token_end = std::chrono::high_resolution_clock::now();
+                double first_token_latency = std::chrono::duration<double, std::milli>(
+                    first_token_end - first_token_start
+                ).count();
+                metrics_collector_->recordFirstTokenLatency(current_model_id_, first_token_latency);
+                first_token_generated = true;
+            }
+            
+            // **Streaming support**: Call callback if provided
+            // Note: Callback is called while holding mutex_. Ensure callback
+            // is non-blocking to avoid performance issues.
+            if (request.stream_callback) {
+                try {
+                    // Detokenize this single token for streaming
+                    std::string token_text = detokenizeInternal(lctx, {next_token});
+                    request.stream_callback(token_text);
+                } catch (const std::exception& e) {
+                    spdlog::warn("Streaming callback error: {}", e.what());
+                    // Continue generation even if streaming fails
+                }
+            }
+            
+            // Prepare next batch with single token
+            llama_batch next_batch = llama_batch_get_one(&next_token, 1);
+            
+            // Decode next token
+            if (llama_decode(lctx, next_batch) != 0) {
+                spdlog::warn("Failed to decode token at position {}", i);
+                break;
+            }
+        }
+        
+        // 5. Detokenize generated tokens
+        response.text = detokenizeInternal(lctx, generated_tokens);
+        response.tokens_generated = static_cast<int>(generated_tokens.size());
+        
+        // 6. Calculate timing metrics
+        auto end_time = std::chrono::high_resolution_clock::now();
+        response.inference_time_ms = std::chrono::duration<float, std::milli>(end_time - start_time).count();
+        response.latency_ms = static_cast<int64_t>(response.inference_time_ms);
+        
+        response.tokens_per_second = (response.inference_time_ms > 0) 
+            ? response.tokens_generated / (response.inference_time_ms / 1000.0f)
+            : 0.0f;
+        
+        updateStatistics(response);
+        
+        // Record comprehensive metrics
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceSuccess(current_model_id_, response.inference_time_ms);
+            metrics_collector_->recordTokensGenerated(current_model_id_, response.tokens_generated);
+            metrics_collector_->recordEndToEndLatency(current_model_id_, response.inference_time_ms);
+            
+            // Calculate per-token latency
+            if (response.tokens_generated > 0) {
+                double per_token_latency = response.inference_time_ms / response.tokens_generated;
+                metrics_collector_->recordPerTokenLatency(current_model_id_, per_token_latency);
+            }
+        }
+        
+        // Cache the successful response
+        if (response_cache_) {
+            response_cache_->put(request.prompt, response);
+        }
+        
+        return response;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Inference error: {}", e.what());
+        
+        // Record error
+        if (metrics_collector_) {
+            metrics_collector_->recordInferenceFailure(current_model_id_, "inference_exception");
+            metrics_collector_->recordError("inference_exception", "llama_wrapper");
+        }
+        
+        throw;
+    }
 }
 
 InferenceResponse LlamaWrapper::generateRAG(

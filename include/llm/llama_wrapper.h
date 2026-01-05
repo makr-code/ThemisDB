@@ -6,6 +6,8 @@
 #include "llm/llm_prefix_cache.h"
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/paged_kv_cache.h"
+#include "llm/grafana_metrics.h"
+#include "llm/llm_response_cache.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -146,6 +148,9 @@ public:
         
         // KV-Cache Reuse (Prefix Caching)
         LLMPrefixCache::Config prefix_cache_config;
+        // Response cache (optional)
+        bool enable_response_cache = true;
+        LLMResponseCache::Config response_cache_config;
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -154,6 +159,16 @@ public:
     // Prevent copying
     LlamaWrapper(const LlamaWrapper&) = delete;
     LlamaWrapper& operator=(const LlamaWrapper&) = delete;
+    
+    // Set metrics collector (optional)
+    void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
+        metrics_collector_ = collector;
+        
+        // Also set on response cache if enabled
+        if (response_cache_) {
+            response_cache_->setMetricsCollector(collector);
+        }
+    }
     
     // ═══════════════════════════════════════════════════════════
     // Model Management
@@ -307,6 +322,8 @@ private:
     std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;
     std::unique_ptr<PagedKVCache> paged_kv_cache_;
     bool batch_mode_active_ = false;
+    // Response cache for frequent queries
+    std::unique_ptr<LLMResponseCache> response_cache_;
     
     // Current active model
     std::string current_model_id_;
@@ -319,6 +336,9 @@ private:
         double total_inference_time_ms = 0.0;
     };
     Stats stats_;
+    
+    // Metrics collection (optional)
+    monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     
     // Thread safety
     mutable std::mutex mutex_;

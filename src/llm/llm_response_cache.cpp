@@ -1,4 +1,5 @@
 #include "llm/llm_response_cache.h"
+#include "llm/grafana_metrics.h"
 #include <algorithm>
 #include <regex>
 #include <cmath>
@@ -28,6 +29,11 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     cache_store_[prompt] = entry;
     stats_.total_entries = cache_store_.size();
     
+    // Record cache size metric
+    if (metrics_collector_) {
+        metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0); // Approximate MB
+    }
+    
     // Enforce max_entries limit (LRU eviction)
     if (cache_store_.size() > config_.max_entries) {
         // Find oldest entry
@@ -39,6 +45,11 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
         }
         cache_store_.erase(oldest);
         stats_.total_entries = cache_store_.size();
+        
+        // Update cache size after eviction
+        if (metrics_collector_) {
+            metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+        }
     }
 }
 
@@ -55,11 +66,22 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
             auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
             stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
                                           duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+            
+            // Record cache hit
+            if (metrics_collector_) {
+                metrics_collector_->recordCacheHit(cache_name_);
+            }
+            
             return it->second.response;
         } else {
             // Expired - remove it
             cache_store_.erase(it);
             stats_.total_entries = cache_store_.size();
+            
+            // Update cache size
+            if (metrics_collector_) {
+                metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
+            }
         }
     }
     
@@ -84,12 +106,24 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
         stats_.hits++;
         stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
                                       duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+        
+        // Record semantic cache hit
+        if (metrics_collector_) {
+            metrics_collector_->recordCacheHit(cache_name_ + "_semantic");
+        }
+        
         return best_match;
     }
     
     stats_.misses++;
     stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
                                   duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+    
+    // Record cache miss
+    if (metrics_collector_) {
+        metrics_collector_->recordCacheMiss(cache_name_);
+    }
+    
     return std::nullopt;
 }
 
@@ -120,6 +154,11 @@ void LLMResponseCache::clear() {
     std::lock_guard<std::mutex> lock(cache_mutex_);
     cache_store_.clear();
     stats_.total_entries = 0;
+    
+    // Record cache cleared
+    if (metrics_collector_) {
+        metrics_collector_->recordCacheSize(cache_name_, 0.0);
+    }
 }
 
 LLMResponseCache::CacheStatistics LLMResponseCache::getStatistics() const {

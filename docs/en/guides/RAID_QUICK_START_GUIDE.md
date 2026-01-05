@@ -50,11 +50,11 @@ collections:
     mode: PARITY
     erasure_coding:
       data_shards: 4
-      parity_shards: 2
+      parity_shards: 1
       algorithm: REED_SOLOMON
     
-    # Storage: 67% efficiency (stores 6 units for 4 units of data)
-    # Fault tolerance: 2 shard failures
+    # Storage: 80% efficiency (stores 5 units for 4 units of data)
+    # Fault tolerance: 1 shard failure
 ```
 
 **C++ API:**
@@ -62,11 +62,75 @@ collections:
 RedundancyConfig config;
 config.mode = RedundancyMode::PARITY;
 config.erasure_coding.data_shards = 4;
-config.erasure_coding.parity_shards = 2;
+config.erasure_coding.parity_shards = 1;
 config.erasure_coding.algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
 
 RedundancyStrategy strategy(config);
 ```
+
+### RAID 6 (Dual Parity) - Maximum Reliability
+
+Best for: Critical data requiring maximum reliability and tolerance for 2 simultaneous failures.
+
+**New in v1.4.0** - Implements Cauchy Reed-Solomon for optimized dual-parity performance.
+
+```yaml
+collections:
+  critical_datasets:
+    mode: RAID6
+    erasure_coding:
+      data_shards: 6
+      parity_shards: 2
+      algorithm: CAUCHY  # Optimized for RAID 6
+    
+    # Storage: 75% efficiency (stores 8 units for 6 units of data)
+    # Fault tolerance: 2 shard failures (any combination)
+    # Ideal for: Large deployments (10+ shards), compliance requirements
+```
+
+**C++ API:**
+```cpp
+#include "sharding/redundancy_strategy.h"
+
+RedundancyConfig config;
+config.mode = RedundancyMode::RAID6;
+config.erasure_coding.data_shards = 6;
+config.erasure_coding.parity_shards = 2;
+config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+
+RedundancyStrategy strategy(config);
+
+// Storage efficiency: 75% (6/(6+2))
+// Fault tolerance: 2 simultaneous failures
+// Write performance: ~20% slower than RAID 5
+// Read performance: Same as RAID 5
+```
+
+**RAID 6 Configuration Examples:**
+
+```cpp
+// Small deployment (4+2)
+config.erasure_coding.data_shards = 4;
+config.erasure_coding.parity_shards = 2;
+// Efficiency: 66.7%, Tolerance: 2 failures
+
+// Recommended deployment (6+2)
+config.erasure_coding.data_shards = 6;
+config.erasure_coding.parity_shards = 2;
+// Efficiency: 75%, Tolerance: 2 failures
+
+// Large deployment (10+2)
+config.erasure_coding.data_shards = 10;
+config.erasure_coding.parity_shards = 2;
+// Efficiency: 83.3%, Tolerance: 2 failures
+```
+
+**When to Use RAID 6:**
+- Large-scale deployments (10+ shards) where failure probability is higher
+- Compliance requirements (financial, healthcare)
+- Long-term archival storage
+- Maintenance windows without downtime risk
+- Critical data that cannot afford data loss
 
 ### RAID 0 (Stripe) - Maximum Performance
 
@@ -176,9 +240,67 @@ std::cout << "Can recover: " << (health.can_recover ? "yes" : "no") << "\n";
 - Enable `enable_auto_failover`
 
 ### For Storage Efficiency (RAID 5)
-- Adjust data/parity ratio (e.g., 6+3 for larger datasets)
+- Adjust data/parity ratio (e.g., 8+1 for larger datasets)
 - Consider `algorithm: CAUCHY` for better performance
 - Monitor recovery time with higher parity counts
+
+### For Maximum Fault Tolerance (RAID 6)
+- Use 6+2 or 10+2 configurations for optimal efficiency
+- Always use `algorithm: CAUCHY` for best dual-parity performance
+- Suitable for large deployments (10+ shards)
+- Tolerates 2 simultaneous failures without data loss
+
+## RAID Level Comparison
+
+| Mode | Storage Efficiency | Fault Tolerance | Write Speed | Best Use Case |
+|------|-------------------|-----------------|-------------|---------------|
+| **RAID 0 (Stripe)** | 100% | 0 failures | ★★★★★ | Caches, temporary data |
+| **RAID 1 (Mirror)** | 33% (3x RF) | 2 failures | ★★★★☆ | Critical data, HA |
+| **RAID 5 (Parity)** | 80% (4+1) | 1 failure | ★★★☆☆ | Large datasets |
+| **RAID 6 (Dual Parity)** | 75% (6+2) | 2 failures | ★★☆☆☆ | Enterprise storage |
+| **RAID 10 (Stripe+Mirror)** | 50% | 1-2 failures | ★★★★☆ | High-performance DB |
+
+**RAID 5 vs RAID 6 Decision Guide:**
+
+Choose **RAID 5** when:
+- You have fewer than 10 shards
+- Single failure tolerance is acceptable
+- Write performance is critical
+- Storage efficiency matters (80% vs 75%)
+
+Choose **RAID 6** when:
+- You have 10+ shards (higher failure probability)
+- Compliance requires 2-failure tolerance
+- Data is critical and cannot be regenerated
+- You can afford 20% slower writes
+- Maintenance windows need zero downtime
+
+**Example Scenarios:**
+
+```cpp
+// Financial transactions - Use RAID 6
+RedundancyConfig financial_config;
+financial_config.mode = RedundancyMode::RAID6;
+financial_config.erasure_coding = {
+    .data_shards = 6,
+    .parity_shards = 2,
+    .algorithm = ErasureCodingAlgorithm::CAUCHY
+};
+
+// Log analytics - Use RAID 5
+RedundancyConfig logs_config;
+logs_config.mode = RedundancyMode::PARITY;
+logs_config.erasure_coding = {
+    .data_shards = 8,
+    .parity_shards = 1,
+    .algorithm = ErasureCodingAlgorithm::REED_SOLOMON
+};
+
+// User sessions - Use RAID 1
+RedundancyConfig session_config;
+session_config.mode = RedundancyMode::MIRROR;
+session_config.replication_factor = 3;
+```
 
 ## Monitoring and Metrics
 
