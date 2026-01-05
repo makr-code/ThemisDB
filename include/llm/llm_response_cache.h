@@ -81,6 +81,12 @@ public:
 
     /**
      * @brief Invalidate cache entries matching a pattern
+     * 
+     * Thread-safety: This operation is atomic with respect to the cache structure,
+     * but concurrent get() calls may still return entries that match the
+     * invalidation pattern if they are in progress. This is expected cache
+     * behavior (eventual consistency).
+     * 
      * @param pattern Regex pattern to match prompts
      * @return Number of entries invalidated
      */
