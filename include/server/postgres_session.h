@@ -43,6 +43,9 @@ public:
     void sendCommandComplete(const std::string& commandTag);
     void sendParseComplete();
     void sendBindComplete();
+    void sendParameterDescription(const std::vector<int32_t>& paramTypes);
+    void sendNoData();
+    void sendCloseComplete();
     void sendErrorResponse(const std::string& severity, const std::string& code, const std::string& message);
 
     struct FieldDescription {
@@ -92,6 +95,14 @@ private:
     bool isAuthenticated_;
     bool inStartup_;
     std::deque<std::vector<uint8_t>> writeQueue_;
+    
+    // Transaction state tracking
+    enum class TransactionState {
+        IDLE,           // 'I' - not in a transaction
+        IN_TRANSACTION, // 'T' - in a transaction block
+        FAILED          // 'E' - in a failed transaction block
+    };
+    TransactionState transactionState_ = TransactionState::IDLE;
     
     // Prepared statements and portals
     struct PreparedStatement {
