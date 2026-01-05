@@ -1,5 +1,6 @@
 #include "aql/llm_aql_handler.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/embedded_llm.h"
 #include <stdexcept>
 #include <sstream>
 
@@ -27,26 +28,28 @@ std::string LLMAQLHandler::executeInfer(
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
-        auto& plugin_mgr = impl_->getPluginManager();
+        // Use EmbeddedLLM for direct inference
+        (void)model_id; // Future: support model selection
+        (void)lora_id;  // Future: support LoRA adapters
         
-        llm::InferenceRequest request;
-        request.prompt = prompt;
-        request.model_id = model_id.empty() ? "default" : model_id;
-        request.lora_adapter_id = lora_id;
+        // Parse options for generation parameters
+        int max_tokens = 512;
+        float temperature = 0.7f;
+        float top_p = 0.9f;
         
-        // Parse options
         if (options.count("max_tokens")) {
-            request.max_tokens = std::stoi(options.at("max_tokens"));
+            max_tokens = std::stoi(options.at("max_tokens"));
         }
         if (options.count("temperature")) {
-            request.temperature = std::stof(options.at("temperature"));
+            temperature = std::stof(options.at("temperature"));
         }
         if (options.count("top_p")) {
-            request.top_p = std::stof(options.at("top_p"));
+            top_p = std::stof(options.at("top_p"));
         }
         
-        auto response = plugin_mgr.generate(request);
-        return response.text;
+        // Use simplified EmbeddedLLM API
+        auto result = THEMIS_LLM_GENERATE(prompt);
+        return result;
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -99,9 +102,11 @@ std::vector<float> LLMAQLHandler::executeEmbed(
     const std::string& model_id
 ) {
     try {
-        auto& plugin_mgr = impl_->getPluginManager();
-        (void)model_id;
-        return plugin_mgr.embed(text);
+        (void)model_id; // Future: support model selection
+        
+        // Use simplified EmbeddedLLM API
+        auto embedding = THEMIS_LLM_EMBED(text);
+        return embedding;
         
     } catch (const std::exception& e) {
         throw std::runtime_error(

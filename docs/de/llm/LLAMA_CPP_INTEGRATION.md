@@ -104,7 +104,7 @@ endif()
 # LLM Plugin Source Files
 if(THEMIS_ENABLE_LLM)
     set(LLM_PLUGIN_SOURCES
-        src/llm/llamacpp_plugin.cpp
+        src/llm/llama_wrapper.cpp
         src/llm/llm_plugin_manager.cpp
     )
     
@@ -289,12 +289,12 @@ ThemisDB v1.3.0
 
 ```cpp
 #include <gtest/gtest.h>
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 
 TEST(LlamaIntegration, LoadModel) {
     llama_backend_init();
     
-    LlamaCppPlugin plugin;
+    LlamaWrapper plugin;
     bool loaded = plugin.loadModel("/models/test-model.gguf");
     
     EXPECT_TRUE(loaded);
@@ -310,7 +310,7 @@ TEST(LlamaIntegration, LoadModel) {
 TEST(LlamaIntegration, BasicInference) {
     llama_backend_init();
     
-    LlamaCppPlugin plugin;
+    LlamaWrapper plugin;
     plugin.loadModel("/models/test-model.gguf");
     
     InferenceRequest request;

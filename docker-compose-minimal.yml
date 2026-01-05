@@ -1,0 +1,75 @@
+version: '3.8'
+
+# Docker Compose for ThemisDB MINIMAL Edition
+# Lightweight deployment with only core database features
+# No LLM, no GPU, no sharding, no advanced protocols
+#
+# Usage:
+#   docker-compose -f docker-compose-minimal.yml up -d
+#
+# Access:
+#   HTTP API: http://localhost:8080
+#   Health: http://localhost:8080/health
+#   Metrics: http://localhost:8080/metrics
+
+services:
+  themisdb-minimal:
+    build:
+      context: .
+      dockerfile: Dockerfile.minimal
+      args:
+        CMAKE_BUILD_TYPE: Release
+    
+    image: themisdb:minimal
+    container_name: themis-minimal
+    
+    # Ports
+    ports:
+      - "8080:8080"  # HTTP/1.1 REST API
+    
+    # Volumes
+    volumes:
+      - themis_minimal_data:/data
+      - ./config/config-minimal.yaml:/etc/themisdb/config.yaml:ro
+    
+    # Environment
+    environment:
+      - THEMIS_EDITION=MINIMAL
+      - THEMIS_CONFIG=/etc/themisdb/config.yaml
+      - THEMIS_LOG_LEVEL=info
+    
+    # Resource limits (minimal footprint)
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  themis_minimal_data:
+    driver: local
+
+networks:
+  default:
+    name: themisdb-minimal-network

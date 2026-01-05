@@ -37,6 +37,10 @@
 #include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
 
+#ifdef THEMIS_ENABLE_LLM
+#include "llm/embedded_llm.h"
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -322,6 +326,55 @@ int main(int argc, char* argv[]) {
         );
         
         THEMIS_INFO("All managers initialized");
+        
+#ifdef THEMIS_ENABLE_LLM
+        // Initialize EmbeddedLLM if enabled in config
+        if (cfg && cfg->contains("llm")) {
+            const auto& llm_cfg = (*cfg)["llm"];
+            bool llm_enabled = llm_cfg.value("enabled", false);
+            
+            if (llm_enabled) {
+                try {
+                    themis::llm::EmbeddedLLM::Config llm_config;
+                    llm_config.model_path = llm_cfg.value("model_path", std::string("models/default.gguf"));
+                    llm_config.model_id = llm_cfg.value("model_id", std::string("default"));
+                    llm_config.n_gpu_layers = llm_cfg.value("gpu_layers", 0);
+                    llm_config.n_ctx = llm_cfg.value("context_size", 4096);
+                    llm_config.n_threads = llm_cfg.value("threads", 4);
+                    llm_config.enable_caching = llm_cfg.value("enable_caching", true);
+                    
+                    THEMIS_INFO("Initializing EmbeddedLLM...");
+                    THEMIS_INFO("  Model: {}", llm_config.model_path);
+                    THEMIS_INFO("  GPU Layers: {}", llm_config.n_gpu_layers);
+                    THEMIS_INFO("  Context Size: {}", llm_config.n_ctx);
+                    THEMIS_INFO("  Threads: {}", llm_config.n_threads);
+                    
+                    themis::llm::EmbeddedLLMManager::instance().initialize(llm_config);
+                    
+                    if (THEMIS_LLM().isReady()) {
+                        THEMIS_INFO("EmbeddedLLM initialized successfully: {}", THEMIS_LLM().getModelInfo());
+                    } else {
+                        THEMIS_WARN("EmbeddedLLM initialization completed but model not ready (likely lazy loading)");
+                    }
+                } catch (const std::exception& e) {
+                    bool llm_required = llm_cfg.value("required", false);
+                    if (llm_required) {
+                        THEMIS_ERROR("EmbeddedLLM initialization failed and is marked as required: {}", e.what());
+                        return 1;
+                    } else {
+                        THEMIS_WARN("EmbeddedLLM initialization failed (non-critical): {}", e.what());
+                        THEMIS_WARN("LLM features will not be available");
+                    }
+                }
+            } else {
+                THEMIS_INFO("EmbeddedLLM disabled in configuration");
+            }
+        } else {
+            THEMIS_INFO("No LLM configuration found, LLM features disabled");
+        }
+#else
+        THEMIS_INFO("LLM support not compiled (THEMIS_ENABLE_LLM=OFF)");
+#endif
         
         // Initialize tracing if enabled
         if (cfg && cfg->contains("tracing")) {

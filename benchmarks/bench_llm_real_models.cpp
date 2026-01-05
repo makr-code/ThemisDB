@@ -12,7 +12,7 @@
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/llm_plugin_manager.h"
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 #endif
 
 #include "storage/rocksdb_wrapper.h"
@@ -75,12 +75,12 @@ public:
         
         // Load model
         try {
-            llm::LlamaCppPluginConfig plugin_config;
+            llm::LlamaWrapperConfig plugin_config;
             plugin_config.n_threads = 4;
             plugin_config.n_ctx = 2048;
             plugin_config.use_mmap = true;
             
-            manager.createLlamaCppPlugin("benchmark_model", model_path_, plugin_config);
+            manager.createLlamaWrapper("benchmark_model", model_path_, plugin_config);
             
         } catch (const std::exception& e) {
             state.SkipWithError(std::string("Failed to load model: ") + e.what());
@@ -278,7 +278,7 @@ static void BM_RealModel_LoadingTime(benchmark::State& state) {
     for (auto _ : state) {
         auto& manager = llm::LLMPluginManager::getInstance();
         
-        llm::LlamaCppPluginConfig config;
+        llm::LlamaWrapperConfig config;
         config.n_threads = 4;
         config.n_ctx = 2048;
         
@@ -286,7 +286,7 @@ static void BM_RealModel_LoadingTime(benchmark::State& state) {
         std::string plugin_name = "load_test_" + std::to_string(state.iterations());
         state.ResumeTiming();
         
-        manager.createLlamaCppPlugin(plugin_name, model_path, config);
+        manager.createLlamaWrapper(plugin_name, model_path, config);
         
         state.PauseTiming();
         manager.unregisterPlugin(plugin_name);

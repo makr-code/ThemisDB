@@ -47,7 +47,8 @@ enum class RedundancyMode {
     MIRROR,         // Full replication to N shards (RAID-1)
     STRIPE,         // Data striping across shards (RAID-0)
     STRIPE_MIRROR,  // Striping with mirroring (RAID-10)
-    PARITY,         // Erasure coding with parity (RAID-5/6)
+    PARITY,         // Erasure coding with parity (RAID-5)
+    RAID6,          // Erasure coding with dual parity (RAID-6)
     GEO_MIRROR      // Geo-distributed replication
 };
 
@@ -152,6 +153,17 @@ struct StripeConfig {
 };
 
 /**
+ * Hot Spare Configuration (forward declaration for inclusion)
+ */
+struct HotSpareConfigSimple {
+    bool enable = false;
+    std::vector<std::string> spare_shards;
+    bool auto_rebuild = true;
+    uint32_t rebuild_throttle_mbps = 100;
+    std::chrono::seconds health_check_interval{30};
+};
+
+/**
  * Main Redundancy Configuration
  */
 struct RedundancyConfig {
@@ -174,6 +186,9 @@ struct RedundancyConfig {
     
     // Geo-replication settings (for GEO_MIRROR mode)
     GeoReplicationConfig geo_replication;
+    
+    // Hot spare settings (for automatic failover and rebuild)
+    HotSpareConfigSimple hot_spare;
     
     // Timing
     std::chrono::milliseconds replication_timeout{5000};
@@ -354,6 +369,40 @@ private:
     void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
                        const std::vector<uint8_t>& vec,
                        std::vector<uint8_t>& result);
+};
+
+/**
+ * Cauchy Reed-Solomon Erasure Coder
+ * Optimized for RAID 6 dual-parity encoding/decoding
+ */
+class CauchyReedSolomonCoder : public ErasureCoder {
+public:
+    std::vector<std::vector<uint8_t>> encode(
+        const std::vector<uint8_t>& data,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+    
+    std::vector<uint8_t> decode(
+        const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+        const std::vector<uint32_t>& missing_indices,
+        uint32_t data_shards,
+        uint32_t parity_shards
+    ) override;
+    
+private:
+    // Cauchy matrix operations
+    std::vector<std::vector<uint8_t>> buildCauchyMatrix(uint32_t rows, uint32_t cols);
+    
+    // Optimized Galois Field operations for Cauchy
+    uint8_t gf_mul(uint8_t a, uint8_t b);
+    uint8_t gf_inv(uint8_t a);
+    void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
+                       const std::vector<uint8_t>& vec,
+                       std::vector<uint8_t>& result);
+    
+    // Matrix inversion for recovery
+    bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
 };
 
 /**

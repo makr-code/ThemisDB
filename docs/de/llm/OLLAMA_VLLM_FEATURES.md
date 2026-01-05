@@ -290,12 +290,12 @@ Concurrent domains: Up to 16 LoRAs simultaneously
 
 ## 🛠️ Integration with Existing Code
 
-### Update LlamaCppPlugin
+### Update LlamaWrapper
 
-The existing `LlamaCppPlugin` can be enhanced to use these new managers:
+The existing `LlamaWrapper` can be enhanced to use these new managers:
 
 ```cpp
-class LlamaCppPlugin : public ILLMPlugin {
+class LlamaWrapper : public ILLMPlugin {
 private:
     std::unique_ptr<LazyModelLoader> model_loader_;
     std::unique_ptr<MultiLoRAManager> lora_manager_;

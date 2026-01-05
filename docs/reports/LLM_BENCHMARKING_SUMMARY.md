@@ -155,7 +155,7 @@ $env:THEMIS_LLM_MODEL_PATH = "C:\VCC\themis\models\llama3.2_1b.gguf"
 
 auto& manager = themis::llm::LLMPluginManager::getInstance();
 
-manager.createLlamaCppPlugin(
+manager.createLlamaWrapper(
     "my_model",
     "C:/VCC/themis/models/phi3_mini.gguf",
     config

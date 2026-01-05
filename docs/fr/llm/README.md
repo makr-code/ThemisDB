@@ -18,7 +18,7 @@ ThemisDB offre depuis la v1.3.0 un **moteur LLM embarqué optionnel** basé sur 
 **Implémenté dans v1.3.0 :**
 - 🧠 **llama.cpp embarqué** – Inférence LLM native sans APIs externes (optionnel)
 - ⚡ **Accélération GPU** (CUDA/Metal/Vulkan) pour des débits élevés
-- 🧩 **Architecture de plugins** avec `LlamaCppPlugin`
+- 🧩 **Architecture de plugins** avec `LlamaWrapper`
 - 🗃️ **Chargement paresseux de modèles** (style Ollama)
 - 🔀 **Gestion Multi-LoRA** (style vLLM)
 

@@ -33,7 +33,7 @@ ThemisDB v1.3.0 introduces **optional native LLM integration** with embedded lla
 - **Automatic Fallback**: Graceful degradation to CPU when GPU unavailable
 
 ### 🧩 Plugin Architecture
-- **LlamaCppPlugin**: Reference implementation for llama.cpp backend
+- **LlamaWrapper**: Reference implementation for llama.cpp backend
 - **ILLMPlugin Interface**: Extensible plugin system for custom LLM backends
 - **Plugin Manager**: Centralized management with lifecycle control
 - **Hot-Swappable**: Load/unload models and LoRA adapters dynamically

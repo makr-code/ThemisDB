@@ -231,9 +231,8 @@ void ContinuousBatchScheduler::processBatchResults(
         req->tokens_generated++;
         req->last_token_at = std::chrono::system_clock::now();
         
-        // Check if request is complete
-        bool is_complete = resp.finish_reason.has_value() || 
-                          req->tokens_generated >= req->inference_request.max_tokens;
+        // Check if request is complete (reached max tokens)
+        bool is_complete = req->tokens_generated >= req->inference_request.max_tokens;
         
         if (is_complete) {
             req->state = RequestState::COMPLETED;
