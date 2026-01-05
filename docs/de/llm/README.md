@@ -32,9 +32,14 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 - [🎯 **Embeddings Extraction Implementation**](../../en/llm/EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md) – Unified model for generation + embeddings
 - [📝 **Migration Guide v1.3.1**](../../en/llm/MIGRATION_GUIDE_V1.3.1.md) – Upgrade existing configs
 
-**Phase 2 Features (IN PROGRESS):**
-- [🔮 **Speculative Decoding Implementation**](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md) – **NEU** 2-3x inference speedup
-- [⚙️ **Continuous Batching Implementation**](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md) – **NEU** 5-10x throughput improvement
+**Phase 2 Features (COMPLETE):**
+- [🔮 **Speculative Decoding Implementation**](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md) – 2-3x inference speedup
+- [⚙️ **Continuous Batching Implementation**](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md) – 5-10x throughput improvement
+
+**Phase 3 Features (DOCUMENTED):**
+- [📝 **Grammar-Constrained Generation**](../../en/llm/GRAMMAR_CONSTRAINED_GENERATION.md) – **NEU** Guaranteed valid JSON/XML output
+- [👁️ **Vision Support (Multi-Modal)**](../../en/llm/VISION_SUPPORT_IMPLEMENTATION.md) – **NEU** Image understanding with LLaVA
+- [📏 **RoPE Scaling (Extended Context)**](../../en/llm/ROPE_SCALING_IMPLEMENTATION.md) – **NEU** 4K → 32K context extension
 
 **Other:**
 - [⚡ **Feature Quick Reference**](./LLAMA_CPP_FEATURE_QUICKREF.md) – Schnellübersicht empfohlener Features
