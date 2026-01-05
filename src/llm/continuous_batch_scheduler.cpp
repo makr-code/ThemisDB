@@ -375,13 +375,18 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
     size_t tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
     size_t blocks_needed = (tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
     
-    // Get or create block table for this sequence
+    // Get block table for this sequence
     auto block_table = kv_cache_->getBlockTable(request->sequence_id);
     if (!block_table) {
         // Block table doesn't exist yet, it will be created when we store KV data
-        // For now, we'll just track that we need blocks
-        spdlog::debug("Block table will be created on first store for sequence {}",
-                      request->sequence_id);
+        // Reserve the blocks by tracking them in allocated_blocks
+        // This ensures consistency with canAddToBatch() availability check
+        request->allocated_blocks.reserve(blocks_needed);
+        for (size_t i = 0; i < blocks_needed; ++i) {
+            request->allocated_blocks.push_back(-1);  // Placeholder, actual allocation on store
+        }
+        spdlog::debug("Reserved {} blocks for request {} (sequence {}), will allocate on first store",
+                      blocks_needed, request->request_id, request->sequence_id);
         return;
     }
     
@@ -427,23 +432,13 @@ void ContinuousBatchScheduler::updateStats() {
         stats_.avg_time_to_first_token_ms = total_ttft / ttft_count;
     }
     
-    // Calculate tokens per second throughput
+    // Calculate tokens per second throughput (using only active requests)
+    // This avoids performance issues as all_requests_ grows over time
     size_t total_tokens_generated = 0;
     std::chrono::milliseconds total_generation_time(0);
     
     for (const auto& req : active_requests_) {
         if (req->tokens_generated > 0 && req->state == RequestState::DECODE) {
-            total_tokens_generated += req->tokens_generated;
-            auto generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
-                req->last_token_at - req->started_at
-            );
-            total_generation_time += generation_time;
-        }
-    }
-    
-    // Include completed requests in throughput calculation
-    for (const auto& [req_id, req] : all_requests_) {
-        if (req->state == RequestState::COMPLETED && req->tokens_generated > 0) {
             total_tokens_generated += req->tokens_generated;
             auto generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                 req->last_token_at - req->started_at

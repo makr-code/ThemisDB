@@ -94,7 +94,7 @@ TEST_F(ContinuousBatchSchedulerTest, BlockAvailabilityCheck) {
     constexpr size_t PROMPT_TOKENS = 100;
     constexpr size_t MAX_TOKENS = 50;
     constexpr size_t TOTAL_TOKENS = PROMPT_TOKENS + MAX_TOKENS;  // 150 tokens
-    // Calculate blocks needed: (150 + 16 - 1) / 16 = 10.3125 -> 10 blocks
+    // Calculate blocks needed using ceiling division: (150 + 15) / 16 = 10.3125 rounds up to 11 blocks
     size_t blocks_per_request = (TOTAL_TOKENS + BLOCK_SIZE_TOKENS - 1) / BLOCK_SIZE_TOKENS;
     size_t max_requests = free_blocks / blocks_per_request;
     
