@@ -37,6 +37,11 @@ public:
         // Performance
         size_t scheduling_overhead_ms = 5;     // Target scheduling time
         bool enable_continuous_batching = true;
+        
+        // Memory management
+        size_t block_size_tokens = 16;         // Tokens per block (should match PagedKVCache)
+        size_t low_memory_threshold_blocks = 10;  // Threshold for memory pressure
+        double memory_pressure_throughput_factor = 0.8;  // Throughput reduction under memory pressure
     };
     
     enum class RequestPriority {

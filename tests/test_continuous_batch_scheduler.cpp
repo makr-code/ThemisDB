@@ -8,19 +8,23 @@
 
 using namespace themis::llm;
 
+// Test constants
+constexpr size_t CHARS_PER_TOKEN = 4;  // Rough estimate for token size
+constexpr size_t BLOCK_SIZE_TOKENS = 16;  // Must match configuration
+
 class ContinuousBatchSchedulerTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Set up PagedBlockManager
         PagedBlockManager::Config bm_config;
         bm_config.total_blocks = 1000;
-        bm_config.block_size_tokens = 16;
+        bm_config.block_size_tokens = BLOCK_SIZE_TOKENS;
         block_manager = std::make_shared<PagedBlockManager>(bm_config);
         
         // Set up PagedKVCache
         PagedKVCache::Config cache_config;
         cache_config.num_blocks = 1000;
-        cache_config.block_size = 16;
+        cache_config.block_size = BLOCK_SIZE_TOKENS;
         kv_cache = std::make_unique<PagedKVCache>(cache_config, block_manager);
         
         // Set up ContinuousBatchScheduler
@@ -28,6 +32,7 @@ protected:
         sched_config.max_batch_size = 32;
         sched_config.max_concurrent_requests = 64;
         sched_config.max_tokens_per_batch = 2048;
+        sched_config.block_size_tokens = BLOCK_SIZE_TOKENS;
         scheduler = std::make_unique<ContinuousBatchScheduler>(sched_config, kv_cache.get());
         
         scheduler->start();
@@ -39,7 +44,7 @@ protected:
     
     InferenceRequest createTestRequest(size_t prompt_length, size_t max_tokens) {
         InferenceRequest req;
-        req.prompt = std::string(prompt_length * 4, 'a'); // ~4 chars per token
+        req.prompt = std::string(prompt_length * CHARS_PER_TOKEN, 'a');
         req.max_tokens = max_tokens;
         req.temperature = 1.0f;
         return req;
@@ -86,15 +91,17 @@ TEST_F(ContinuousBatchSchedulerTest, BlockAvailabilityCheck) {
     size_t free_blocks = stats.blocks_free;
     
     // Each request needs blocks for prompt + generation
-    // Assume 100 tokens prompt + 50 tokens generation = 150 tokens
-    // At 16 tokens per block = 10 blocks per request
-    size_t blocks_per_request = 10;
+    constexpr size_t PROMPT_TOKENS = 100;
+    constexpr size_t MAX_TOKENS = 50;
+    constexpr size_t TOTAL_TOKENS = PROMPT_TOKENS + MAX_TOKENS;  // 150 tokens
+    // Calculate blocks needed: (150 + 16 - 1) / 16 = 10.3125 -> 10 blocks
+    size_t blocks_per_request = (TOTAL_TOKENS + BLOCK_SIZE_TOKENS - 1) / BLOCK_SIZE_TOKENS;
     size_t max_requests = free_blocks / blocks_per_request;
     
     // Submit requests up to the limit
     std::vector<std::string> request_ids;
     for (size_t i = 0; i < max_requests; ++i) {
-        auto req = createTestRequest(100, 50);
+        auto req = createTestRequest(PROMPT_TOKENS, MAX_TOKENS);
         auto req_id = scheduler->submitRequest(req);
         request_ids.push_back(req_id);
     }
@@ -104,7 +111,7 @@ TEST_F(ContinuousBatchSchedulerTest, BlockAvailabilityCheck) {
     EXPECT_GT(batch1.size(), 0);
     
     // Submit one more request that should not fit
-    auto extra_req = createTestRequest(100, 50);
+    auto extra_req = createTestRequest(PROMPT_TOKENS, MAX_TOKENS);
     auto extra_id = scheduler->submitRequest(extra_req);
     
     // This request should not be scheduled due to lack of blocks

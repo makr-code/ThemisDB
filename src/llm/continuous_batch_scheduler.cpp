@@ -355,7 +355,7 @@ bool ContinuousBatchScheduler::canAddToBatch(
     if (kv_cache_) {
         // Calculate blocks needed for this request
         size_t total_tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
-        size_t blocks_needed = (total_tokens + 15) / 16;  // 16 tokens per block
+        size_t blocks_needed = (total_tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
         
         auto stats = kv_cache_->getStats();
         if (stats.blocks_free < blocks_needed) {
@@ -373,7 +373,7 @@ void ContinuousBatchScheduler::allocateKVCacheBlocks(ScheduledRequest* request) 
     
     // Estimate blocks needed for total sequence length (prompt + generation)
     size_t tokens = request->total_prompt_tokens + request->inference_request.max_tokens;
-    size_t blocks_needed = (tokens + 15) / 16;  // 16 tokens per block
+    size_t blocks_needed = (tokens + config_.block_size_tokens - 1) / config_.block_size_tokens;
     
     // Get or create block table for this sequence
     auto block_table = kv_cache_->getBlockTable(request->sequence_id);
@@ -462,8 +462,8 @@ void ContinuousBatchScheduler::updateStats() {
     if (kv_cache_) {
         auto kv_stats = kv_cache_->getStats();
         // Adjust throughput based on memory pressure
-        if (kv_stats.blocks_free < 10) {  // Low memory
-            stats_.avg_tokens_per_second *= 0.8;  // Reduce expected throughput
+        if (kv_stats.blocks_free < config_.low_memory_threshold_blocks) {
+            stats_.avg_tokens_per_second *= config_.memory_pressure_throughput_factor;
         }
     }
 }
