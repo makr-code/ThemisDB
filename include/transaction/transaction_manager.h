@@ -24,6 +24,14 @@ enum class IsolationLevel {
 };
 
 /// TransactionManager: ACID-ähnliche, atomare Multi-Layer-Updates via RocksDB WriteBatch
+///
+/// Thread-Safety:
+/// - Thread-safe for all operations
+/// - Transaction IDs generated atomically
+/// - Transaction map protected by internal mutex
+/// - Each Transaction object is NOT thread-safe (use from single thread)
+/// - Transaction::finished_ uses atomic operations to prevent double commit/rollback
+/// - Safe to call commitTransaction()/rollbackTransaction() from different threads
 class TransactionManager {
 public:
     using TransactionId = uint64_t;

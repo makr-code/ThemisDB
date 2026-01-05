@@ -30,6 +30,13 @@ class BaseEntity;
 
 /// High-level wrapper around RocksDB TransactionDB for MVCC support
 /// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
+/// 
+/// Thread-Safety:
+/// - Thread-safe for concurrent operations (reads, writes, transactions)
+/// - Column family operations protected by internal mutex
+/// - Iterator operations use reference counting to prevent use-after-free
+/// - Safe concurrent access to multiple methods
+/// - close() waits for active operations before shutdown
 class RocksDBWrapper {
 public:
     struct Config {
