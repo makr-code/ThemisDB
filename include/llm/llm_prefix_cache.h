@@ -68,7 +68,7 @@ public:
     };
     
     explicit LLMPrefixCache(const std::string& cache_name, const Config& config);
-    ~LLMPrefixCache() = default;
+    ~LLMPrefixCache();
     
     /**
      * @brief Add a prefix to the cache

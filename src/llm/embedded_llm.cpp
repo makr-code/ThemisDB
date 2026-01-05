@@ -8,6 +8,10 @@ namespace llm {
 // EmbeddedLLM Implementation
 // ═══════════════════════════════════════════════════════════
 
+EmbeddedLLM::EmbeddedLLM()
+    : EmbeddedLLM(Config{}) {
+}
+
 EmbeddedLLM::EmbeddedLLM(const Config& config)
     : config_(config) {
     
