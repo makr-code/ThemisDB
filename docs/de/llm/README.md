@@ -24,6 +24,26 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 
 **Quicklinks:**
 - [🧠 **LLM Complete Setup Guide**](../guides/LLM_COMPLETE_SETUP_GUIDE.md) – **NEU** Vollständiger Guide für Setup & Inferencing
+- [🔍 **llama.cpp Feature Research**](./LLAMA_CPP_API_FEATURE_RESEARCH.md) – **NEU** Identifizierung zusätzlicher llama.cpp Features (14 neue Features)
+
+**Phase 1 Features (COMPLETE):**
+- [⚡ **Flash Attention Implementation**](../../en/llm/FLASH_ATTENTION_IMPLEMENTATION.md) – Quick Win: 15-25% Speedup
+- [🚀 **KV-Cache Reuse Implementation**](../../en/llm/KV_CACHE_REUSE_IMPLEMENTATION.md) – 10-20x first-token speedup for RAG
+- [🎯 **Embeddings Extraction Implementation**](../../en/llm/EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md) – Unified model for generation + embeddings
+- [📝 **Migration Guide v1.3.1**](../../en/llm/MIGRATION_GUIDE_V1.3.1.md) – Upgrade existing configs
+
+**Phase 2 Features (COMPLETE):**
+- [🔮 **Speculative Decoding Implementation**](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md) – 2-3x inference speedup
+- [⚙️ **Continuous Batching Implementation**](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md) – 5-10x throughput improvement
+
+**Phase 3 Features (DOCUMENTED):**
+- [📝 **Grammar-Constrained Generation**](../../en/llm/GRAMMAR_CONSTRAINED_GENERATION.md) – **NEU** Guaranteed valid JSON/XML output
+- [👁️ **Vision Support (Multi-Modal)**](../../en/llm/VISION_SUPPORT_IMPLEMENTATION.md) – **NEU** Image understanding with LLaVA
+- [📏 **RoPE Scaling (Extended Context)**](../../en/llm/ROPE_SCALING_IMPLEMENTATION.md) – **NEU** 4K → 32K context extension
+
+**Other:**
+- [⚡ **Feature Quick Reference**](./LLAMA_CPP_FEATURE_QUICKREF.md) – Schnellübersicht empfohlener Features
+- [🔧 **Feature Implementation Guide**](./LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md) – Implementierungs-Anleitungen
 - [LLAMA_CPP_INTEGRATION.md](./LLAMA_CPP_INTEGRATION.md) – Einbindung & Build
 - [README_PLUGINS.md](./README_PLUGINS.md) – Schnellstart & Beispiele
 - [INTEGRATION_REVIEW_AND_SEQUENCE.md](./INTEGRATION_REVIEW_AND_SEQUENCE.md) – Architektur & Sequenzen

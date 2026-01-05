@@ -18,6 +18,8 @@
 #include <nlohmann/json.hpp>
 #include <unordered_map>
 #include <iostream> // For debugging
+#include <thread>   // For sleep_for (race condition fix #3)
+#include <chrono>   // For milliseconds (race condition fix #3)
 
 namespace themis {
 
@@ -43,8 +45,11 @@ RocksDBWrapper::RocksDBWrapper(RocksDBWrapper&& other) noexcept
     , txn_db_options_(std::move(other.txn_db_options_))
     , txn_options_(std::move(other.txn_options_))
     , read_options_(std::move(other.read_options_))
-    , write_options_(std::move(other.write_options_))
-    , cf_handles_(std::move(other.cf_handles_)) {}
+    , write_options_(std::move(other.write_options_)) {
+    // RACE CONDITION FIX #1: Protect cf_handles_ during move
+    std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
+    cf_handles_ = std::move(other.cf_handles_);
+}
 
 RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
     if (this != &other) {
@@ -56,6 +61,8 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
         txn_options_ = std::move(other.txn_options_);
         read_options_ = std::move(other.read_options_);
         write_options_ = std::move(other.write_options_);
+        // RACE CONDITION FIX #1: Protect cf_handles_ during move
+        std::lock_guard<std::mutex> lock(other.cf_handles_mutex_);
         cf_handles_ = std::move(other.cf_handles_);
     }
     return *this;
@@ -386,11 +393,15 @@ bool RocksDBWrapper::open() {
     
     db_.reset(txn_db_ptr);
     
-    // Store column family handles
-    // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
-    for (size_t i = 0; i < cf_handles.size(); ++i) {
-        // All remaining CFs (after sharding filter) are stored
-        cf_handles_.push_back(cf_handles[i]);
+    // RACE CONDITION FIX #1: Protect cf_handles_ during initialization
+    {
+        std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+        // Store column family handles
+        // When sharding mode filtered CFs, cf_handles.size() == cf_descriptors.size()
+        for (size_t i = 0; i < cf_handles.size(); ++i) {
+            // All remaining CFs (after sharding filter) are stored
+            cf_handles_.push_back(cf_handles[i]);
+        }
     }
     
     // Log actual CF count opened (not original cf_names.size())
@@ -406,6 +417,28 @@ bool RocksDBWrapper::open() {
 void RocksDBWrapper::close() {
     if (db_) {
         THEMIS_INFO("Closing RocksDB");
+        
+        // RACE CONDITION FIX #3: Wait for active operations to complete before closing
+        {
+            std::lock_guard<std::mutex> lock(db_lifecycle_mutex_);
+            // After acquiring lock, new operations can't start (OperationGuard checks db_ under lock)
+            // Now we just need to wait for existing operations to finish
+        }
+        
+        // Busy-wait for active operations to complete
+        int wait_count = 0;
+        while (active_operations_.load(std::memory_order_acquire) > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            wait_count++;
+            if (wait_count % 100 == 0) {
+                THEMIS_WARN("Waiting for {} active operations to complete before closing DB", 
+                           active_operations_.load(std::memory_order_relaxed));
+            }
+        }
+        
+        // RACE CONDITION FIX #1: Protect cf_handles_ access during close
+        std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+        
         // Destroy any created ColumnFamily handles first to avoid RocksDB assertions
         for (size_t i = 0; i < cf_handles_.size(); ++i) {
             auto* h = cf_handles_[i];
@@ -841,9 +874,11 @@ bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
 }
 
 void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) {
-    if (!db_) return;
+    // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
 
-    auto* base_db = db_->GetBaseDB();
+    auto* base_db = guard.get()->GetBaseDB();
     if (!base_db) {
         THEMIS_ERROR("scanPrefix: base DB is null");
         return;
@@ -860,12 +895,15 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
             break; // Stop iteration if callback returns false
         }
     }
+    // OperationGuard destructor ensures db_ stays valid until here
 }
 
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
-    if (!db_) return;
+    // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
 
-    auto* base_db = db_->GetBaseDB();
+    auto* base_db = guard.get()->GetBaseDB();
     if (!base_db) {
         THEMIS_ERROR("scanRange: base DB is null");
         return;
@@ -886,9 +924,11 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
 }
 
 void RocksDBWrapper::scanAll(ScanCallback callback) {
-    if (!db_) return;
+    // RACE CONDITION FIX #3: Protect iterator lifetime with OperationGuard
+    OperationGuard guard(this);
+    if (!guard) return;
 
-    auto* base_db = db_->GetBaseDB();
+    auto* base_db = guard.get()->GetBaseDB();
     if (!base_db) {
         THEMIS_ERROR("scanAll: base DB is null");
         return;
@@ -1143,12 +1183,15 @@ bool RocksDBWrapper::restoreFromCheckpoint(const std::string& checkpoint_dir) {
 }
 
 rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::string& cf_name) {
+    // RACE CONDITION FIX #1: Protect entire check-create-insert sequence with mutex
+    std::lock_guard<std::mutex> lock(cf_handles_mutex_);
+    
     if (!db_) {
         THEMIS_ERROR("getOrCreateColumnFamily: DB not open");
         return nullptr;
     }
     
-    // Check if CF already exists in our handles
+    // Check if CF already exists in our handles (now protected by mutex)
     for (auto* handle : cf_handles_) {
         if (handle && handle->GetName() == cf_name) {
             THEMIS_DEBUG("Column family '{}' already exists", cf_name);
@@ -1167,7 +1210,7 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
         return nullptr;
     }
     
-    // Track handle so we can destroy it on close
+    // Track handle so we can destroy it on close (protected by mutex)
     cf_handles_.push_back(cf_handle);
     THEMIS_INFO("Created or got column family '{}'", cf_name);
     return cf_handle;
@@ -1609,6 +1652,68 @@ std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
 
     rocksdb::ReadOptions read_opts;
     return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
+}
+
+// SafeIterator implementation - SOLUTION 1B for iterator lifecycle safety
+RocksDBWrapper::SafeIterator RocksDBWrapper::newSafeIterator(const rocksdb::ReadOptions* read_options) {
+    // Create operation guard first to extend database lifetime
+    auto guard = std::make_unique<OperationGuard>(this);
+    
+    if (!guard || !*guard) {
+        // Database not open - return invalid iterator
+        return SafeIterator(nullptr, std::move(guard));
+    }
+    
+    // Use provided read options or default
+    const rocksdb::ReadOptions* opts = read_options ? read_options : read_options_.get();
+    
+    // Create iterator while holding guard
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("newSafeIterator: base DB is null");
+        return SafeIterator(nullptr, std::move(guard));
+    }
+    
+    auto iter = std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(*opts));
+    
+    return SafeIterator(std::move(iter), std::move(guard));
+}
+
+// SafeIterator method implementations
+void RocksDBWrapper::SafeIterator::Seek(const std::string& target) {
+    if (iterator_) iterator_->Seek(target);
+}
+
+void RocksDBWrapper::SafeIterator::SeekToFirst() {
+    if (iterator_) iterator_->SeekToFirst();
+}
+
+void RocksDBWrapper::SafeIterator::SeekToLast() {
+    if (iterator_) iterator_->SeekToLast();
+}
+
+void RocksDBWrapper::SafeIterator::Next() {
+    if (iterator_) iterator_->Next();
+}
+
+void RocksDBWrapper::SafeIterator::Prev() {
+    if (iterator_) iterator_->Prev();
+}
+
+bool RocksDBWrapper::SafeIterator::Valid() const {
+    return iterator_ && iterator_->Valid();
+}
+
+std::string_view RocksDBWrapper::SafeIterator::key() const {
+    if (!iterator_) return std::string_view();
+    auto s = iterator_->key();
+    return std::string_view(s.data(), s.size());
+}
+
+std::string_view RocksDBWrapper::SafeIterator::value() const {
+    if (!iterator_) return std::string_view();
+    auto s = iterator_->value();
+    return std::string_view(s.data(), s.size());
 }
 
 } // namespace themis
