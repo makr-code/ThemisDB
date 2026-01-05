@@ -14,6 +14,10 @@ class ILLMPlugin;
 class LLMPluginManager;
 class AsyncInferenceEngine;
 }
+namespace auth {
+class JWTValidator;
+struct JWTValidatorConfig;
+}
 }
 
 namespace themis::server {
@@ -50,8 +54,18 @@ public:
      * @brief Construct LLM API handler
      * 
      * @param plugin_manager LLM plugin manager instance
+     * @param jwt_config Optional JWT validator configuration
      */
-    explicit LLMApiHandler(std::shared_ptr<llm::LLMPluginManager> plugin_manager);
+    explicit LLMApiHandler(
+        std::shared_ptr<llm::LLMPluginManager> plugin_manager,
+        std::optional<auth::JWTValidatorConfig> jwt_config = std::nullopt);
+    
+    /**
+     * @brief Configure JWT validation after construction
+     * 
+     * @param config JWT validator configuration
+     */
+    void configureJWT(const auth::JWTValidatorConfig& config);
     
     /**
      * @brief Handle LLM API request
@@ -134,6 +148,7 @@ private:
         const http::request<http::string_body>& req);
     
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
+    std::unique_ptr<auth::JWTValidator> jwt_validator_;
 };
 
 } // namespace themis::server

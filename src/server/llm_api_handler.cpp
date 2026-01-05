@@ -1,4 +1,5 @@
 #include "server/llm_api_handler.h"
+#include "auth/jwt_validator.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
@@ -35,8 +36,18 @@ namespace {
     }
 }
 
-LLMApiHandler::LLMApiHandler(std::shared_ptr<llm::LLMPluginManager> plugin_manager)
+LLMApiHandler::LLMApiHandler(
+    std::shared_ptr<llm::LLMPluginManager> plugin_manager,
+    std::optional<auth::JWTValidatorConfig> jwt_config)
     : plugin_manager_(std::move(plugin_manager)) {
+    
+    if (jwt_config) {
+        jwt_validator_ = std::make_unique<auth::JWTValidator>(*jwt_config);
+    }
+}
+
+void LLMApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
+    jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
 http::response<http::string_body> LLMApiHandler::handleRequest(
@@ -744,31 +755,23 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         return false;
     }
     
-    // TODO: Implement actual JWT validation
-    // SECURITY WARNING: This is a placeholder implementation for development only.
-    // DO NOT USE IN PRODUCTION without implementing proper JWT validation:
-    // 1. Parse JWT structure (header.payload.signature)
-    // 2. Verify signature using public key/secret
-    // 3. Check expiration (exp claim)
-    // 4. Validate issuer (iss claim)
-    // 5. Validate audience (aud claim)
-    // 6. Check not-before time (nbf claim)
-    // Consider using a JWT library like jwt-cpp or libjwt for production.
-    
-    // For now, reject empty tokens as a minimal safety check
-    if (token->empty()) {
+    if (!jwt_validator_) {
+        static bool warning_logged = false;
+        if (!warning_logged) {
+            std::cerr << "WARNING: JWT validator not configured. Denying access." << std::endl;
+            warning_logged = true;
+        }
         return false;
     }
     
-    // Development-only: log warning about placeholder validation
-    static bool warning_logged = false;
-    if (!warning_logged) {
-        std::cerr << "WARNING: Using placeholder JWT validation. "
-                  << "Implement proper JWT verification before production use." << std::endl;
-        warning_logged = true;
+    try {
+        auto claims = jwt_validator_->parseAndValidate(*token);
+        // Token is valid
+        return true;
+    } catch (const std::exception& e) {
+        // Token validation failed (expired, invalid signature, etc.)
+        return false;
     }
-    
-    return true;
 }
 
 http::response<http::string_body> LLMApiHandler::createErrorResponse(

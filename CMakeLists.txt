@@ -1708,6 +1708,7 @@ if(THEMIS_BUILD_TESTS)
     tests/test_jwt_validator.cpp
     tests/test_jwt_integration.cpp
         tests/test_jwt_rotation_unit.cpp
+        tests/test_llm_api_handler_jwt.cpp
         tests/test_pki_client_rest.cpp
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
