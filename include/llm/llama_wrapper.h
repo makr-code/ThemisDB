@@ -4,6 +4,8 @@
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
 #include "llm/llm_prefix_cache.h"
+#include "llm/continuous_batch_scheduler.h"
+#include "llm/paged_kv_cache.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -118,13 +120,23 @@ public:
         bool use_kv_cache_reuse = true; // KV-Cache Reuse for 10-20x first-token speedup
         bool enable_embeddings = false; // Enable embeddings extraction mode
         
-        // Speculative Decoding (Phase 2)
+        // Speculative Decoding (Phase 2.1)
         bool use_speculative_decoding = false; // 2-3x inference speedup
         std::string draft_model_path;          // Path to draft model
         int draft_n_gpu_layers = 16;           // GPU layers for draft model
         int speculative_tokens = 5;            // Number of tokens to speculate
         float acceptance_threshold = 0.8f;     // Probability threshold for acceptance
         bool enable_draft_kv_cache = true;     // KV cache for draft model
+        
+        // Continuous Batching (Phase 2.2)
+        bool use_continuous_batching = false;  // 8x throughput improvement
+        size_t max_batch_size = 32;            // Max sequences in batch
+        size_t max_concurrent_requests = 128;   // Max pending requests
+        size_t max_tokens_per_batch = 8192;    // Total token budget per batch
+        std::string scheduler_policy = "priority"; // fifo, priority, sjf
+        bool enable_preemption = true;         // Allow request preemption
+        bool enable_chunked_prefill = true;    // Chunk large prefills
+        size_t prefill_chunk_size = 512;       // Tokens per prefill chunk
         
         // Lazy loading (Ollama-style)
         LazyModelLoader::Config lazy_loader_config;
@@ -238,6 +250,41 @@ public:
     
     std::optional<SpeculativeDecodingStats> getSpeculativeStats() const;
     
+    /**
+     * @brief Start continuous batching mode
+     * Initializes the batch scheduler for high-throughput scenarios
+     */
+    void startBatchMode();
+    
+    /**
+     * @brief Stop continuous batching mode
+     */
+    void stopBatchMode();
+    
+    /**
+     * @brief Check if batch mode is active
+     */
+    bool isBatchModeActive() const;
+    
+    /**
+     * @brief Submit async request to batch scheduler
+     * @param request Inference request
+     * @param priority Request priority
+     * @param callback Callback for response (optional)
+     * @return Request ID for tracking
+     */
+    std::string submitBatchRequest(
+        const InferenceRequest& request,
+        ContinuousBatchScheduler::RequestPriority priority = ContinuousBatchScheduler::RequestPriority::NORMAL,
+        std::function<void(const InferenceResponse&)> callback = nullptr
+    );
+    
+    /**
+     * @brief Get batch scheduler statistics
+     * @return Scheduler stats or nullopt if batch mode disabled
+     */
+    std::optional<ContinuousBatchScheduler::Stats> getBatchSchedulerStats() const;
+    
 private:
     Config config_;
     
@@ -250,11 +297,16 @@ private:
     // KV-Cache Reuse (Prefix Caching)
     std::unique_ptr<LLMPrefixCache> prefix_cache_;
     
-    // Speculative Decoding (Phase 2)
+    // Speculative Decoding (Phase 2.1)
     llama_model* draft_model_ = nullptr;
     llama_context* draft_context_ = nullptr;
     std::string draft_model_id_;
     SpeculativeDecodingStats speculative_stats_;
+    
+    // Continuous Batching (Phase 2.2)
+    std::unique_ptr<ContinuousBatchScheduler> batch_scheduler_;
+    std::unique_ptr<PagedKVCache> paged_kv_cache_;
+    bool batch_mode_active_ = false;
     
     // Current active model
     std::string current_model_id_;

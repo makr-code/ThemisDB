@@ -76,7 +76,7 @@ llm_plugins:
       # Extract embeddings for semantic search, RAG, clustering
       enable_embeddings: false  # Disable by default (separate mode)
       
-      # Speculative Decoding (Phase 2): 2-3x inference speedup
+      # Speculative Decoding (Phase 2.1): 2-3x inference speedup
       # Uses smaller draft model to predict tokens, validated by target model
       # Requires compatible draft model (same tokenizer/vocabulary)
       speculative_decoding:
@@ -86,6 +86,19 @@ llm_plugins:
         speculative_tokens: 5
         acceptance_threshold: 0.8
         enable_draft_kv_cache: true
+      
+      # Continuous Batching (Phase 2.2): 5-10x throughput improvement
+      # vLLM-style dynamic batching for multi-tenant scenarios
+      # Adds/removes requests dynamically during batch execution
+      continuous_batching:
+        enabled: false  # Enable for high-throughput scenarios
+        max_batch_size: 32  # Max sequences per batch
+        max_concurrent_requests: 128  # Max pending requests
+        max_tokens_per_batch: 8192  # Total token budget
+        scheduler_policy: "priority"  # fifo, priority, sjf (shortest-job-first)
+        enable_preemption: true  # Allow pausing low-priority requests
+        enable_chunked_prefill: true  # Split large prompts into chunks
+        prefill_chunk_size: 512  # Tokens per chunk
       
       # Prefix Cache Configuration
       prefix_cache:

@@ -1317,5 +1317,117 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
     }
 }
 
+// ═══════════════════════════════════════════════════════════
+// Continuous Batching (Phase 2.2)
+// ═══════════════════════════════════════════════════════════
+
+void LlamaWrapper::startBatchMode() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (batch_mode_active_) {
+        spdlog::warn("Batch mode already active");
+        return;
+    }
+    
+    if (!config_.use_continuous_batching) {
+        spdlog::warn("Continuous batching is disabled in config");
+        return;
+    }
+    
+    // Initialize PagedKVCache if not already
+    if (!paged_kv_cache_) {
+        PagedKVCache::Config kv_config;
+        kv_config.block_size = 16;  // 16 tokens per block
+        kv_config.max_blocks = 4096; // Supports large batches
+        paged_kv_cache_ = std::make_unique<PagedKVCache>(kv_config);
+        spdlog::info("PagedKVCache initialized for continuous batching");
+    }
+    
+    // Initialize ContinuousBatchScheduler
+    if (!batch_scheduler_) {
+        ContinuousBatchScheduler::SchedulerConfig sched_config;
+        sched_config.max_batch_size = config_.max_batch_size;
+        sched_config.max_concurrent_requests = config_.max_concurrent_requests;
+        sched_config.max_tokens_per_batch = config_.max_tokens_per_batch;
+        sched_config.enable_preemption = config_.enable_preemption;
+        sched_config.enable_chunked_prefill = config_.enable_chunked_prefill;
+        sched_config.prefill_chunk_size = config_.prefill_chunk_size;
+        sched_config.enable_priority_scheduling = (config_.scheduler_policy == "priority");
+        sched_config.enable_continuous_batching = true;
+        
+        batch_scheduler_ = std::make_unique<ContinuousBatchScheduler>(
+            sched_config,
+            paged_kv_cache_.get()
+        );
+        spdlog::info("Continuous Batch Scheduler initialized (vLLM-style)");
+    }
+    
+    // Start the scheduler
+    batch_scheduler_->start();
+    batch_mode_active_ = true;
+    
+    spdlog::info("Continuous batching mode started:");
+    spdlog::info("  Max batch size: {}", config_.max_batch_size);
+    spdlog::info("  Max concurrent: {}", config_.max_concurrent_requests);
+    spdlog::info("  Scheduler policy: {}", config_.scheduler_policy);
+    spdlog::info("  Preemption: {}", config_.enable_preemption ? "enabled" : "disabled");
+}
+
+void LlamaWrapper::stopBatchMode() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!batch_mode_active_) {
+        spdlog::warn("Batch mode not active");
+        return;
+    }
+    
+    if (batch_scheduler_) {
+        batch_scheduler_->stop();
+    }
+    
+    batch_mode_active_ = false;
+    spdlog::info("Continuous batching mode stopped");
+}
+
+bool LlamaWrapper::isBatchModeActive() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return batch_mode_active_;
+}
+
+std::string LlamaWrapper::submitBatchRequest(
+    const InferenceRequest& request,
+    ContinuousBatchScheduler::RequestPriority priority,
+    std::function<void(const InferenceResponse&)> callback
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!batch_mode_active_) {
+        throw std::runtime_error("Batch mode not active. Call startBatchMode() first.");
+    }
+    
+    if (!batch_scheduler_) {
+        throw std::runtime_error("Batch scheduler not initialized");
+    }
+    
+    // Submit request to scheduler
+    std::string request_id = batch_scheduler_->submitRequest(request, priority, callback);
+    
+    spdlog::debug("Batch request submitted: {} (priority: {})",
+                  request_id, static_cast<int>(priority));
+    
+    return request_id;
+}
+
+std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!batch_mode_active_ || !batch_scheduler_) {
+        return std::nullopt;
+    }
+    
+    return batch_scheduler_->getStats();
+}
+
 } // namespace llm
 } // namespace themis
+
