@@ -4,6 +4,7 @@
 #include "llm/paged_block_manager.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
+#include <cmath>
 #include <sstream>
 #include <filesystem>
 #include <llama.h>
@@ -58,6 +59,53 @@ void LlamaWrapper::validateConfig(const Config& config) {
             spdlog::warn("prefix_cache_config.ttl_seconds is very short ({}s), cache may expire too quickly",
                         cache_cfg.ttl_seconds);
         }
+    }
+    
+    // Validate RoPE scaling config (Phase 3.1)
+    if (config.rope_scaling.enabled) {
+        const auto& rope_cfg = config.rope_scaling;
+        
+        if (rope_cfg.max_context <= 0) {
+            throw std::invalid_argument("rope_scaling.max_context must be positive");
+        }
+        
+        if (rope_cfg.original_context <= 0) {
+            throw std::invalid_argument("rope_scaling.original_context must be positive");
+        }
+        
+        if (rope_cfg.max_context <= rope_cfg.original_context) {
+            spdlog::warn("RoPE scaling max_context ({}) <= original_context ({}), scaling has no effect",
+                        rope_cfg.max_context, rope_cfg.original_context);
+        }
+        
+        float scaling_factor = static_cast<float>(rope_cfg.max_context) / static_cast<float>(rope_cfg.original_context);
+        
+        if (scaling_factor > 16.0f) {
+            spdlog::warn("RoPE scaling factor ({:.1f}x) is very high, quality may degrade significantly", scaling_factor);
+        }
+        
+        if (rope_cfg.method == RopeScalingMethod::LINEAR && scaling_factor > 4.0f) {
+            spdlog::warn("Linear RoPE scaling with factor {:.1f}x (>4x) may have poor quality. Consider using YaRN.", scaling_factor);
+        }
+        
+        // Validate YaRN-specific parameters
+        if (rope_cfg.method == RopeScalingMethod::YARN) {
+            if (rope_cfg.yarn_ext_factor < 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_ext_factor must be non-negative");
+            }
+            if (rope_cfg.yarn_attn_factor < 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_attn_factor must be non-negative");
+            }
+            if (rope_cfg.yarn_beta_fast <= 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_beta_fast must be positive");
+            }
+            if (rope_cfg.yarn_beta_slow <= 0.0f) {
+                throw std::invalid_argument("rope_scaling.yarn_beta_slow must be positive");
+            }
+        }
+        
+        spdlog::info("RoPE scaling validated: {:.1f}x context extension ({} → {} tokens)",
+                    scaling_factor, rope_cfg.original_context, rope_cfg.max_context);
     }
 }
 
@@ -155,6 +203,49 @@ bool LlamaWrapper::loadModel(
     }
     if (!config.contains("enable_embeddings")) {
         load_config["enable_embeddings"] = config_.enable_embeddings;
+    }
+    
+    // Pass RoPE scaling configuration (Phase 3.1)
+    if (config_.rope_scaling.enabled) {
+        load_config["rope_scaling_enabled"] = true;
+        
+        // Set context to max_context when RoPE scaling is enabled
+        if (!config.contains("n_ctx")) {
+            load_config["n_ctx"] = config_.rope_scaling.max_context;
+        }
+        
+        // Pass method
+        switch (config_.rope_scaling.method) {
+            case RopeScalingMethod::LINEAR:
+                load_config["rope_scaling_method"] = "linear";
+                break;
+            case RopeScalingMethod::NTK:
+                load_config["rope_scaling_method"] = "ntk";
+                break;
+            case RopeScalingMethod::YARN:
+                load_config["rope_scaling_method"] = "yarn";
+                break;
+            case RopeScalingMethod::DYNAMIC:
+                load_config["rope_scaling_method"] = "dynamic";
+                break;
+        }
+        
+        // Pass scaling parameters
+        load_config["rope_max_context"] = config_.rope_scaling.max_context;
+        load_config["rope_original_context"] = config_.rope_scaling.original_context;
+        
+        // Pass YaRN-specific parameters
+        if (config_.rope_scaling.method == RopeScalingMethod::YARN) {
+            load_config["rope_yarn_ext_factor"] = config_.rope_scaling.yarn_ext_factor;
+            load_config["rope_yarn_attn_factor"] = config_.rope_scaling.yarn_attn_factor;
+            load_config["rope_yarn_beta_fast"] = config_.rope_scaling.yarn_beta_fast;
+            load_config["rope_yarn_beta_slow"] = config_.rope_scaling.yarn_beta_slow;
+        }
+        
+        spdlog::info("RoPE scaling enabled: {} ({} → {} tokens)",
+                     load_config["rope_scaling_method"].get<std::string>(),
+                     config_.rope_scaling.original_context,
+                     config_.rope_scaling.max_context);
     }
     
     // Trigger lazy load (or get from cache)
@@ -1195,9 +1286,43 @@ bool LlamaWrapper::loadDraftModel(const std::string& draft_path) {
     
     // Create context for draft model
     llama_context_params draft_ctx_params = llama_context_default_params();
-    draft_ctx_params.n_ctx = config_.n_ctx;
+    draft_ctx_params.n_ctx = config_.rope_scaling.enabled ? config_.rope_scaling.max_context : config_.n_ctx;
     draft_ctx_params.n_batch = config_.n_batch * 2;  // Draft can use larger batch
     draft_ctx_params.n_threads = config_.n_threads;
+    
+    // Apply same RoPE scaling to draft model
+    if (config_.rope_scaling.enabled) {
+        int max_context = config_.rope_scaling.max_context;
+        int original_context = config_.rope_scaling.original_context;
+        float scale_factor = static_cast<float>(original_context) / static_cast<float>(max_context);
+        
+        switch (config_.rope_scaling.method) {
+            case RopeScalingMethod::LINEAR:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+            case RopeScalingMethod::NTK:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_NONE;
+                draft_ctx_params.rope_freq_base = 10000.0f * std::pow(
+                    static_cast<float>(max_context) / static_cast<float>(original_context), 0.5f);
+                break;
+            case RopeScalingMethod::YARN:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_YARN;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                draft_ctx_params.yarn_ext_factor = config_.rope_scaling.yarn_ext_factor;
+                draft_ctx_params.yarn_attn_factor = config_.rope_scaling.yarn_attn_factor;
+                draft_ctx_params.yarn_beta_fast = config_.rope_scaling.yarn_beta_fast;
+                draft_ctx_params.yarn_beta_slow = config_.rope_scaling.yarn_beta_slow;
+                break;
+            case RopeScalingMethod::DYNAMIC:
+                draft_ctx_params.rope_scaling_type = LLAMA_ROPE_SCALING_TYPE_LINEAR;
+                draft_ctx_params.rope_freq_scale = scale_factor;
+                break;
+        }
+        
+        spdlog::info("RoPE scaling applied to draft model: {} → {} tokens",
+                     original_context, max_context);
+    }
     
     draft_context_ = llama_new_context_with_model(draft_model_, draft_ctx_params);
     
