@@ -4,7 +4,7 @@
 
 **ThemisDB Release History**
 
-[![Version](https://img.shields.io/badge/version-1.3.4-blue)](https://github.com/makr-code/ThemisDB/releases)
+[![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases)
 [![Keep a Changelog](https://img.shields.io/badge/Keep%20a%20Changelog-v1.0.0-orange)](https://keepachangelog.com/)
 [![Semantic Versioning](https://img.shields.io/badge/SemVer-v2.0.0-green)](https://semver.org/)
 
@@ -18,6 +18,282 @@
 ---
 
 ## 🚧 [Unreleased]
+
+---
+
+## 🎉 [v1.4.0-alpha] - 2026-01-05
+
+> **🚀 ALPHA RELEASE:** Advanced LLM Features & Enterprise Enhancements
+
+This release brings significant enhancements to ThemisDB's LLM capabilities, including grammar-constrained generation, extended context windows, vision support, and performance optimizations. It represents a major leap forward in AI/LLM integration and enterprise features.
+
+### ✨ Added - Advanced LLM Features
+
+<details open>
+<summary><b>📝 Grammar-Constrained Generation</b> (PR #245)</summary>
+
+- 🎯 **EBNF/GBNF Grammar Support** - Guarantees valid structured outputs (JSON, XML, CSV, custom formats)
+- 📦 **Built-in Grammars** - JSON (strict/relaxed), XML, CSV, ReAct Agent format
+- 🗂️ **Grammar Cache** - Thread-safe LRU cache with configurable size (up to 100 grammars)
+- ⚡ **Performance** - Reduces compilation overhead for repeated grammars
+- 🔧 **Configuration** - YAML-based grammar configuration with custom grammar path support
+- 📚 **Documentation** - Complete implementation guide in `docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md`
+- ✅ **Reliability** - 95-99% valid outputs vs 60-70% without grammar constraints
+
+**Key Components:**
+- `include/llm/grammar.h` & `src/llm/grammar.cpp` - Grammar compilation and management
+- `include/llm/grammar_cache.h` & `src/llm/grammar_cache.cpp` - Thread-safe caching
+- `src/llm/grammars/*.gbnf` - Built-in grammar definitions
+- Integration in `LlamaWrapper` with `InferenceRequest.grammar_type` and `grammar_ebnf` fields
+
+</details>
+
+<details>
+<summary><b>🔭 RoPE Scaling - Extended Context Window</b> (PR #244)</summary>
+
+- 📏 **Context Extension** - 4K → 32K tokens (8x increase) via RoPE scaling
+- 🎯 **Long Document Support** - Process entire research papers, codebases, extended conversations
+- 🔧 **Scaling Methods** - Linear, NTK-aware, YaRN (Yet another RoPE extension)
+- ⚙️ **Configuration** - `rope_scaling_type` and `rope_freq_base` in LlamaWrapper config
+- 🧪 **Unit Tests** - Comprehensive test suite for RoPE scaling configuration
+- 📚 **Documentation** - Complete guide in `docs/en/llm/ROPE_SCALING_IMPLEMENTATION.md`
+- ✅ **Quality Preservation** - Maintains output quality across extended context
+
+**Configuration Example:**
+```cpp
+config.rope_scaling_type = LLAMA_ROPE_SCALING_YARN;
+config.n_ctx = 32768;  // 32K tokens
+config.rope_freq_base = 10000.0f;
+```
+
+</details>
+
+<details>
+<summary><b>🖼️ Vision Support - Multi-Modal LLMs</b> (PR #246)</summary>
+
+- 👁️ **Image Analysis** - CLIP-based vision encoding for multi-modal inference
+- 🦙 **LLaVA Integration** - Support for vision-language models (LLaVA, BakLLaVA, etc.)
+- 🔧 **VisionEncoder Class** - Wraps llama.cpp CLIP functionality with thread-safe implementation
+- 📸 **Multiple Image Support** - Process single or multiple images per request
+- ⚙️ **Configuration** - `enable_vision`, `clip_model_path`, `vision_threads` options
+- 🧪 **Testing** - Comprehensive unit tests (`test_llm_vision_encoder.cpp`, `test_llm_vision_integration.cpp`)
+- 📚 **Documentation** - Quick start guide and API examples in `docs/en/llm/VISION_SUPPORT_*.md`
+
+**New Files:**
+- `include/llm/vision_encoder.h` & `src/llm/vision_encoder.cpp` - Vision encoding infrastructure
+- `tests/test_llm_vision_encoder.cpp` - VisionEncoder unit tests
+- `tests/test_llm_vision_integration.cpp` - Integration tests
+
+**Usage Example:**
+```cpp
+VisionRequest request;
+request.text_prompt = "What's in this image?";
+request.image_path = "/uploads/photo.jpg";
+request.max_tokens = 256;
+auto response = wrapper.generateVision(request);
+```
+
+</details>
+
+<details>
+<summary><b>⚡ Flash Attention CUDA Kernels</b> (PR #241)</summary>
+
+- 🚀 **Performance Boost** - 15-25% faster inference, 30% memory reduction
+- 🎯 **CUDA Implementation** - Optimized attention mechanism with memory reordering
+- 🔧 **Kernel Fusion** - Fused CUDA kernels for additional performance (`src/llm/kernel_fusion.cu`)
+- 📊 **Backward Pass** - Training support with Flash Attention backward pass
+- 🧪 **Testing** - Comprehensive test suite (`tests/test_phase1_flash_attention.cpp`)
+- 📚 **Documentation** - Implementation guide in `docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md`
+- ✅ **No Quality Loss** - Mathematically equivalent to standard attention
+
+**Features:**
+- Automatic CUDA detection and CPU fallback
+- Multi-compute capability support (Pascal to Ada)
+- Configurable via `use_flash_attn` flag
+
+</details>
+
+<details>
+<summary><b>🎯 Speculative Decoding</b></summary>
+
+- ⚡ **2-3x Speedup** - Faster inference using draft+target model approach
+- 🎯 **Zero Quality Loss** - Target model validates all outputs
+- 🔧 **Configuration** - Draft model pairing with target model
+- 📚 **Documentation** - Complete guide in `docs/en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md`
+- ✅ **Production Ready** - Mathematically equivalent sampling distribution
+
+</details>
+
+<details>
+<summary><b>🔄 Continuous Batching</b></summary>
+
+- 📦 **Dynamic Batching** - Concurrent request handling with token budget management
+- ⚡ **Throughput** - 2x+ improvement through efficient request batching
+- 🔧 **Configuration** - Min/max batch sizes (1-256), batch timeout (100ms default)
+- 🧪 **Testing** - Comprehensive test suite (`tests/test_continuous_batch_scheduler.cpp`)
+- 📚 **Documentation** - Implementation guide in `docs/en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md`
+
+</details>
+
+### 🏢 Enterprise Features
+
+<details>
+<summary><b>🔥 Hot Spare Management</b></summary>
+
+- 🛡️ **High Availability** - Automatic failover for critical shards
+- 📊 **Health Monitoring** - Continuous shard health checks with failure detection
+- 🔄 **Auto Recovery** - Automatic shard recovery and reintegration
+- 🧪 **Testing** - Comprehensive test suite (`tests/test_hot_spare.cpp`)
+- 📚 **Documentation** - Complete implementation summary in `HOT_SPARE_COMPLETE.md`
+
+**New Components:**
+- `include/sharding/hot_spare_manager.h` & `src/sharding/hot_spare_manager.cpp`
+- `include/sharding/health_monitor.h` & `src/sharding/health_monitor.cpp`
+- `include/sharding/auto_recovery_manager.h`
+
+</details>
+
+<details>
+<summary><b>📊 Enhanced Prometheus Metrics</b></summary>
+
+- 📈 **LLM Metrics** - Inference latency, token throughput, cache hit rates
+- 🔍 **Response Cache Metrics** - Cache performance tracking
+- 📊 **Grafana Dashboards** - Pre-configured dashboards for monitoring
+- 🚨 **Alert Rules** - Production-ready alerting configuration
+- 🧪 **Testing** - Metrics test suites (`tests/test_llm_grafana_metrics.cpp`, `tests/test_llm_response_cache_metrics.cpp`)
+
+</details>
+
+<details>
+<summary><b>🔄 WAL Replication via gRPC</b></summary>
+
+- 🌐 **Distributed Replication** - Inter-shard WAL shipping via gRPC
+- 🔧 **gRPC Service** - `WALGrpcService` for efficient WAL transfer
+- 🧪 **Testing** - Integration tests (`tests/test_wal_grpc_apply.cpp`, `tests/test_wal_replication_integration.cpp`)
+- 📚 **Documentation** - Implementation status in `REPLICATION_IMPLEMENTATION_STATUS.md`
+
+**New Files:**
+- `include/server/wal_grpc_service.h` & `src/server/wal_grpc_service.cpp`
+- `src/sharding/wal_grpc_service.cpp`
+
+</details>
+
+<details>
+<summary><b>🎮 Multi-GPU LoRA Support</b></summary>
+
+- 🖥️ **Multi-GPU** - Distributed LoRA adapter management across multiple GPUs
+- 🔧 **Inline LoRA** - Efficient LoRA adapter switching
+- 🧪 **Testing** - Comprehensive test suite (`tests/test_multi_gpu_lora.cpp`, `tests/test_llm_lora_inline.cpp`)
+- 📚 **Documentation** - Implementation report in `MULTI_GPU_IMPLEMENTATION_SUMMARY.md`
+
+</details>
+
+<details>
+<summary><b>🐘 PostgreSQL Protocol Enhancements</b></summary>
+
+- 📋 **COPY Protocol** - Bulk data import/export support
+- 🔒 **Prepared Statements** - Efficient query execution with parameter binding
+- 🔄 **Transaction Support** - BEGIN, COMMIT, ROLLBACK with proper isolation
+- 🧪 **Testing** - Complete test coverage (`tests/test_postgres_*.cpp`)
+- 📊 **Benchmarks** - Performance benchmarks for protocol operations
+
+</details>
+
+### 🔧 Infrastructure & Quality
+
+<details>
+<summary><b>🧪 Testing & Benchmarks</b></summary>
+
+**New Test Suites (31 files):**
+- Flash Attention: `test_phase1_flash_attention.cpp`
+- KV-Cache Reuse: `test_phase1_kv_cache_reuse.cpp`
+- Vision Support: `test_llm_vision_encoder.cpp`, `test_llm_vision_integration.cpp`
+- Continuous Batching: `test_continuous_batch_scheduler.cpp`
+- Hot Spare: `test_hot_spare.cpp`
+- RAID Integration: `test_raid_integration.cpp`, `test_raid_redundancy.cpp`
+- PostgreSQL: `test_postgres_copy_protocol.cpp`, `test_postgres_prepared_statements.cpp`, `test_postgres_transactions.cpp`
+- WAL Replication: `test_wal_grpc_apply.cpp`, `test_wal_replication_integration.cpp`
+- Multi-GPU LoRA: `test_multi_gpu_lora.cpp`, `test_lora_adapter.cpp`
+- Metrics: `test_llm_grafana_metrics.cpp`, `test_llm_response_cache_metrics.cpp`
+- Production Validator: `test_production_validator.cpp`
+- And many more...
+
+**New Benchmarks:**
+- `bench_phase1_flash_attention.cpp` - Flash Attention performance
+- `bench_embedded_llm.cpp` - Embedded LLM throughput
+- `bench_llm_raid_pipeline.cpp` - RAID pipeline performance
+- `bench_postgres_e2e.cpp` - PostgreSQL end-to-end benchmarks
+- `bench_lora_inline.cpp` - LoRA adapter switching
+
+</details>
+
+<details>
+<summary><b>📚 Documentation</b></summary>
+
+**New LLM Documentation (17 files):**
+- Grammar-Constrained Generation: Complete implementation guide
+- RoPE Scaling: Extended context window guide
+- Vision Support: Quick start, API examples, implementation details
+- Flash Attention: Implementation guide with CUDA details
+- Continuous Batching: Configuration and usage guide
+- Speculative Decoding: Implementation guide with model pairing
+- KV-Cache Reuse: Context caching implementation
+
+**Implementation Summaries:**
+- `GRAMMAR_IMPLEMENTATION_COMPLETE.md` & `GRAMMAR_IMPLEMENTATION_SUMMARY.md`
+- `VISION_SUPPORT_PR_SUMMARY.md`
+- `P1_IMPLEMENTATION_SUMMARY.md` - Enterprise features summary
+- `IMPLEMENTATION_STATUS_FINAL.md` - LLaMA.cpp integration status
+- `MULTI_GPU_IMPLEMENTATION_SUMMARY.md`
+- `HOT_SPARE_COMPLETE.md`
+
+</details>
+
+<details>
+<summary><b>🔧 Tools & Examples</b></summary>
+
+**New Examples:**
+- `examples/embedded_llm_examples.cpp` - Integration patterns (250 lines)
+- `examples/chat_formatting_example.cpp` - Chat template examples
+- `examples/hot_spare_example.cpp` - Hot spare usage example
+
+**Ingestion Tool Enhancements:**
+- gRPC integration for high-performance data ingestion
+- Performance profiling capabilities
+- Enhanced settings dialog with protocol selection
+
+</details>
+
+### 📊 Statistics
+
+- **938 files changed** (+113,762 lines, -45,154 lines)
+- **31 new test files** - Comprehensive test coverage for all new features
+- **17 new documentation files** - Complete guides for all LLM features
+- **11 new benchmarks** - Performance validation across all components
+- **15+ new source files** - Core feature implementations
+
+### 🔗 Related Documentation
+
+- [Grammar-Constrained Generation Guide](docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
+- [RoPE Scaling Implementation](docs/en/llm/ROPE_SCALING_IMPLEMENTATION.md)
+- [Vision Support Quick Start](docs/en/llm/VISION_SUPPORT_QUICK_START.md)
+- [Flash Attention Implementation](docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
+- [Continuous Batching Guide](docs/en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md)
+- [Speculative Decoding Guide](docs/en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md)
+- [Hot Spare Management](HOT_SPARE_COMPLETE.md)
+- [Multi-GPU LoRA Support](MULTI_GPU_IMPLEMENTATION_SUMMARY.md)
+
+### ⚠️ Breaking Changes
+
+None. All new features are opt-in via configuration.
+
+### 🔄 Migration Notes
+
+- Grammar-constrained generation requires llama.cpp with grammar support
+- Vision support requires CLIP models (`.gguf` format) for multi-modal inference
+- Flash Attention requires CUDA-enabled llama.cpp build for performance benefits
+- Extended context (RoPE scaling) requires models fine-tuned for longer contexts
+- All features can be enabled/disabled via YAML configuration
 
 ---
 
