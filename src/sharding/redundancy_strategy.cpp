@@ -27,13 +27,17 @@ bool RedundancyConfig::validate() const {
         return false;
     }
     
-    if (mode == RedundancyMode::PARITY) {
+    if (mode == RedundancyMode::PARITY || mode == RedundancyMode::RAID6) {
         if (erasure_coding.data_shards < 2) {
             spdlog::error("Invalid erasure coding: data_shards must be >= 2");
             return false;
         }
         if (erasure_coding.parity_shards < 1) {
             spdlog::error("Invalid erasure coding: parity_shards must be >= 1");
+            return false;
+        }
+        if (mode == RedundancyMode::RAID6 && erasure_coding.parity_shards < 2) {
+            spdlog::error("RAID6 requires at least 2 parity shards");
             return false;
         }
     }
@@ -58,6 +62,7 @@ double RedundancyConfig::getStorageEfficiency() const {
         case RedundancyMode::STRIPE_MIRROR:
             return 1.0 / replication_factor;
         case RedundancyMode::PARITY:
+        case RedundancyMode::RAID6:
             return erasure_coding.storageEfficiency();
         default:
             return 1.0;
@@ -74,6 +79,7 @@ uint32_t RedundancyConfig::getFaultTolerance() const {
         case RedundancyMode::GEO_MIRROR:
             return replication_factor - 1;
         case RedundancyMode::PARITY:
+        case RedundancyMode::RAID6:
             return erasure_coding.faultTolerance();
         default:
             return 0;
@@ -86,6 +92,7 @@ uint32_t RedundancyConfig::getEffectiveReplicationFactor() const {
         case RedundancyMode::STRIPE:
             return 1;
         case RedundancyMode::PARITY:
+        case RedundancyMode::RAID6:
             return erasure_coding.totalShards();
         default:
             return replication_factor;
@@ -259,6 +266,312 @@ void ReedSolomonCoder::gf_matrix_mul(
 }
 
 // ═══════════════════════════════════════════════════════════
+// CauchyReedSolomonCoder Implementation
+// ═══════════════════════════════════════════════════════════
+
+// Galois Field (GF(2^8)) multiplication using Russian Peasant algorithm
+uint8_t CauchyReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
+    uint8_t p = 0;
+    uint8_t hi_bit_set;
+    
+    for (int i = 0; i < 8; i++) {
+        if (b & 1) {
+            p ^= a;
+        }
+        hi_bit_set = a & 0x80;
+        a <<= 1;
+        if (hi_bit_set) {
+            a ^= 0x1d;  // x^8 + x^4 + x^3 + x^2 + 1 polynomial
+        }
+        b >>= 1;
+    }
+    
+    return p;
+}
+
+// Galois Field inverse using Extended Euclidean algorithm
+uint8_t CauchyReedSolomonCoder::gf_inv(uint8_t a) {
+    if (a == 0) return 0;
+    
+    // Use lookup table for performance (simplified version)
+    // In production, use precomputed tables
+    uint8_t result = 1;
+    uint8_t power = a;
+    
+    // a^254 = a^(-1) in GF(2^8)
+    for (int i = 0; i < 254; i++) {
+        if (i == 253) result = power;
+        power = gf_mul(power, a);
+    }
+    
+    return result;
+}
+
+// Build Cauchy matrix for erasure coding
+std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::buildCauchyMatrix(
+    uint32_t rows, uint32_t cols
+) {
+    std::vector<std::vector<uint8_t>> matrix(rows, std::vector<uint8_t>(cols));
+    
+    // Cauchy matrix: M[i][j] = 1 / (x[i] XOR y[j])
+    // where x and y are distinct elements from GF(2^8)
+    std::vector<uint8_t> x(rows);
+    std::vector<uint8_t> y(cols);
+    
+    // Initialize x and y with distinct values
+    for (uint32_t i = 0; i < rows; i++) {
+        x[i] = static_cast<uint8_t>(i);
+    }
+    for (uint32_t j = 0; j < cols; j++) {
+        y[j] = static_cast<uint8_t>(rows + j);
+    }
+    
+    // Build Cauchy matrix
+    for (uint32_t i = 0; i < rows; i++) {
+        for (uint32_t j = 0; j < cols; j++) {
+            uint8_t diff = x[i] ^ y[j];
+            matrix[i][j] = gf_inv(diff);
+        }
+    }
+    
+    return matrix;
+}
+
+// Matrix-vector multiplication in GF(2^8)
+void CauchyReedSolomonCoder::gf_matrix_mul(
+    const std::vector<std::vector<uint8_t>>& matrix,
+    const std::vector<uint8_t>& vec,
+    std::vector<uint8_t>& result
+) {
+    size_t rows = matrix.size();
+    size_t cols = matrix[0].size();
+    
+    result.resize(rows, 0);
+    
+    for (size_t i = 0; i < rows; i++) {
+        uint8_t sum = 0;
+        for (size_t j = 0; j < cols && j < vec.size(); j++) {
+            sum ^= gf_mul(matrix[i][j], vec[j]);
+        }
+        result[i] = sum;
+    }
+}
+
+// Gauss-Jordan elimination for matrix inversion in GF(2^8)
+bool CauchyReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
+    size_t n = matrix.size();
+    if (n == 0 || matrix[0].size() != n) return false;
+    
+    // Create augmented matrix [A | I]
+    std::vector<std::vector<uint8_t>> augmented(n, std::vector<uint8_t>(2 * n, 0));
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++) {
+            augmented[i][j] = matrix[i][j];
+        }
+        augmented[i][n + i] = 1;  // Identity matrix
+    }
+    
+    // Forward elimination
+    for (size_t i = 0; i < n; i++) {
+        // Find pivot
+        size_t pivot_row = i;
+        for (size_t j = i + 1; j < n; j++) {
+            if (augmented[j][i] != 0) {
+                pivot_row = j;
+                break;
+            }
+        }
+        
+        if (augmented[pivot_row][i] == 0) {
+            return false;  // Matrix is singular
+        }
+        
+        // Swap rows
+        if (pivot_row != i) {
+            std::swap(augmented[i], augmented[pivot_row]);
+        }
+        
+        // Scale pivot row
+        uint8_t pivot = augmented[i][i];
+        uint8_t pivot_inv = gf_inv(pivot);
+        for (size_t j = 0; j < 2 * n; j++) {
+            augmented[i][j] = gf_mul(augmented[i][j], pivot_inv);
+        }
+        
+        // Eliminate column
+        for (size_t j = 0; j < n; j++) {
+            if (j != i && augmented[j][i] != 0) {
+                uint8_t factor = augmented[j][i];
+                for (size_t k = 0; k < 2 * n; k++) {
+                    augmented[j][k] ^= gf_mul(factor, augmented[i][k]);
+                }
+            }
+        }
+    }
+    
+    // Extract inverse from augmented matrix
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++) {
+            matrix[i][j] = augmented[i][n + j];
+        }
+    }
+    
+    return true;
+}
+
+std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
+    const std::vector<uint8_t>& data,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    std::vector<std::vector<uint8_t>> chunks;
+    
+    // Calculate chunk size
+    size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
+    
+    // Split data into chunks
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        size_t offset = i * chunk_size;
+        size_t size = std::min(chunk_size, data.size() - offset);
+        
+        std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros
+        if (offset < data.size()) {
+            std::memcpy(chunk.data(), data.data() + offset, size);
+        }
+        chunks.push_back(chunk);
+    }
+    
+    // Build Cauchy matrix for parity generation
+    auto cauchy_matrix = buildCauchyMatrix(parity_shards, data_shards);
+    
+    // Generate parity chunks using Cauchy matrix
+    for (uint32_t p = 0; p < parity_shards; ++p) {
+        std::vector<uint8_t> parity(chunk_size, 0);
+        
+        // For each byte position in the chunk
+        for (size_t byte_pos = 0; byte_pos < chunk_size; ++byte_pos) {
+            // Collect data bytes at this position
+            std::vector<uint8_t> data_bytes(data_shards);
+            for (uint32_t d = 0; d < data_shards; ++d) {
+                data_bytes[d] = chunks[d][byte_pos];
+            }
+            
+            // Apply Cauchy matrix row to compute parity byte
+            uint8_t parity_byte = 0;
+            for (uint32_t d = 0; d < data_shards; ++d) {
+                parity_byte ^= gf_mul(cauchy_matrix[p][d], data_bytes[d]);
+            }
+            parity[byte_pos] = parity_byte;
+        }
+        
+        chunks.push_back(parity);
+    }
+    
+    return chunks;
+}
+
+std::vector<uint8_t> CauchyReedSolomonCoder::decode(
+    const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
+    const std::vector<uint32_t>& missing_indices,
+    uint32_t data_shards,
+    uint32_t parity_shards
+) {
+    // Check if we have enough chunks
+    if (available_chunks.size() < data_shards) {
+        throw std::runtime_error("Not enough chunks for recovery");
+    }
+    
+    // If all data chunks are available, just concatenate them
+    bool all_data_available = true;
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        if (available_chunks.find(i) == available_chunks.end()) {
+            all_data_available = false;
+            break;
+        }
+    }
+    
+    if (all_data_available) {
+        std::vector<uint8_t> recovered;
+        for (uint32_t i = 0; i < data_shards; ++i) {
+            const auto& chunk = available_chunks.at(i);
+            recovered.insert(recovered.end(), chunk.begin(), chunk.end());
+        }
+        return recovered;
+    }
+    
+    // Need to use erasure decoding
+    size_t chunk_size = available_chunks.begin()->second.size();
+    uint32_t total_shards = data_shards + parity_shards;
+    
+    // Build full Cauchy matrix (identity for data, Cauchy for parity)
+    std::vector<std::vector<uint8_t>> full_matrix(total_shards, std::vector<uint8_t>(data_shards));
+    
+    // Identity portion (for data shards)
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            full_matrix[i][j] = (i == j) ? 1 : 0;
+        }
+    }
+    
+    // Cauchy portion (for parity shards)
+    auto cauchy_matrix = buildCauchyMatrix(parity_shards, data_shards);
+    for (uint32_t i = 0; i < parity_shards; ++i) {
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            full_matrix[data_shards + i][j] = cauchy_matrix[i][j];
+        }
+    }
+    
+    // Extract rows for available chunks
+    std::vector<std::vector<uint8_t>> decode_matrix(data_shards, std::vector<uint8_t>(data_shards));
+    std::vector<uint32_t> available_indices;
+    
+    for (const auto& [idx, _] : available_chunks) {
+        if (available_indices.size() < data_shards) {
+            available_indices.push_back(idx);
+        }
+    }
+    
+    for (size_t i = 0; i < data_shards; ++i) {
+        for (size_t j = 0; j < data_shards; ++j) {
+            decode_matrix[i][j] = full_matrix[available_indices[i]][j];
+        }
+    }
+    
+    // Invert the decode matrix
+    if (!invertMatrix(decode_matrix)) {
+        throw std::runtime_error("Failed to invert decode matrix");
+    }
+    
+    // Recover data chunks byte by byte
+    std::vector<std::vector<uint8_t>> recovered_data(data_shards, std::vector<uint8_t>(chunk_size));
+    
+    for (size_t byte_pos = 0; byte_pos < chunk_size; ++byte_pos) {
+        // Collect available bytes
+        std::vector<uint8_t> available_bytes(data_shards);
+        for (size_t i = 0; i < data_shards; ++i) {
+            available_bytes[i] = available_chunks.at(available_indices[i])[byte_pos];
+        }
+        
+        // Apply inverse matrix to recover original data bytes
+        std::vector<uint8_t> recovered_bytes;
+        gf_matrix_mul(decode_matrix, available_bytes, recovered_bytes);
+        
+        // Store recovered bytes
+        for (size_t i = 0; i < data_shards; ++i) {
+            recovered_data[i][byte_pos] = recovered_bytes[i];
+        }
+    }
+    
+    // Concatenate recovered data chunks
+    std::vector<uint8_t> result;
+    for (const auto& chunk : recovered_data) {
+        result.insert(result.end(), chunk.begin(), chunk.end());
+    }
+    
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════
 // ErasureCoder Factory
 // ═══════════════════════════════════════════════════════════
 
@@ -267,9 +580,10 @@ std::unique_ptr<ErasureCoder> ErasureCoder::create(ErasureCodingAlgorithm algori
         case ErasureCodingAlgorithm::REED_SOLOMON:
             return std::make_unique<ReedSolomonCoder>();
         case ErasureCodingAlgorithm::CAUCHY:
+            return std::make_unique<CauchyReedSolomonCoder>();
         case ErasureCodingAlgorithm::LRC:
-            spdlog::warn("Algorithm not yet implemented, falling back to Reed-Solomon");
-            return std::make_unique<ReedSolomonCoder>();
+            spdlog::warn("LRC algorithm not yet implemented, falling back to Cauchy Reed-Solomon");
+            return std::make_unique<CauchyReedSolomonCoder>();
         default:
             return nullptr;
     }
@@ -286,7 +600,7 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
         throw std::invalid_argument("Invalid redundancy configuration");
     }
     
-    if (config_.mode == RedundancyMode::PARITY) {
+    if (config_.mode == RedundancyMode::PARITY || config_.mode == RedundancyMode::RAID6) {
         erasure_coder_ = ErasureCoder::create(config_.erasure_coding.algorithm);
         if (!erasure_coder_) {
             throw std::runtime_error("Failed to create erasure coder");
@@ -333,6 +647,7 @@ WriteResult RedundancyStrategy::write(
                 result = writeStripeMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
+            case RedundancyMode::RAID6:
                 result = writeParity(document_id, data, ring, topology, handler);
                 break;
             default:
@@ -375,6 +690,7 @@ ReadResult RedundancyStrategy::read(
                 result = readStripe(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::PARITY:
+            case RedundancyMode::RAID6:
                 result = readParity(document_id, ring, topology, handler);
                 break;
             default:
