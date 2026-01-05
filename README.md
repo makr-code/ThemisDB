@@ -119,12 +119,13 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 <details open>
 <summary><b>Available Editions</b></summary>
 
-| Edition | License | Features |
-|---------|---------|----------|
-| 🆓 **Community** | Open Source (MIT) | Full-featured single-node database with all core capabilities |
-| 🔒 **Enterprise** | Commercial | + Horizontal scaling, advanced analytics, HA/replication, and more |
+| Edition | License | Features | Use Case |
+|---------|---------|----------|----------|
+| 🔹 **Minimal** | Open Source (MIT) | Core database only - no LLM, GPU, sharding, advanced protocols | Embedded systems, IoT, edge devices, fast builds |
+| 🆓 **Community** | Open Source (MIT) | Full-featured single-node database with all core capabilities | Development, startups, single-server deployments |
+| 🔒 **Enterprise** | Commercial | + Horizontal scaling, advanced analytics, HA/replication, and more | Large-scale production deployments |
 
-**[→ See Enterprise Edition Details](ENTERPRISE.md)**
+**[→ See Minimal Edition Details](docs/MINIMAL_EDITION.md)** | **[→ See Enterprise Edition Details](ENTERPRISE.md)**
 
 </details>
 

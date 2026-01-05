@@ -8,6 +8,15 @@
 #include <string>
 #include "llm_plugin_interface.h"
 
+// Forward declaration for metrics
+namespace themis {
+namespace llm {
+namespace monitoring {
+class LLMMetricsCollector;
+}
+}
+}
+
 namespace themis {
 namespace llm {
 
@@ -93,6 +102,14 @@ public:
      */
     CacheStatistics getStatistics() const;
 
+    /**
+     * @brief Set metrics collector for recording cache metrics
+     * @param collector Pointer to metrics collector (optional)
+     */
+    void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
+        metrics_collector_ = collector;
+    }
+
 private:
     struct CachedEntry {
         InferenceResponse response;
@@ -103,6 +120,9 @@ private:
     std::string cache_name_;
     Config config_;
     mutable CacheStatistics stats_;
+    
+    // Metrics collection (optional)
+    monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
 
     // TODO: v1.3.0 - Replace with actual SemanticCache integration
     // For now, use std::unordered_map as stub

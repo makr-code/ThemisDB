@@ -245,24 +245,61 @@ option(THEMIS_GEO_H3 "Enable H3 integration (enterprise add-in)" OFF)
 option(THEMIS_GEO_GEOS_PLUGIN "Enable GEOS prepared geometries plugin (enterprise add-in)" OFF)
 option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
 # Multi-Edition Support (v1.3.5+)
-# THEMIS_EDITION: One of COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
+# THEMIS_EDITION: One of MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
 # This setting determines feature availability, licensing limits, and hardware constraints
-set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: COMMUNITY, ENTERPRISE, or HYPERSCALER")
-set_property(CACHE THEMIS_EDITION PROPERTY STRINGS COMMUNITY ENTERPRISE HYPERSCALER)
+# MINIMAL: Core database only (embedded/IoT), COMMUNITY: Full features (default), ENTERPRISE: Scaling+HA, HYPERSCALER: Unlimited
+set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER")
+set_property(CACHE THEMIS_EDITION PROPERTY STRINGS MINIMAL COMMUNITY ENTERPRISE HYPERSCALER)
 
 # Validate edition selection
-if(NOT THEMIS_EDITION MATCHES "^(COMMUNITY|ENTERPRISE|HYPERSCALER)$")
-    message(FATAL_ERROR "THEMIS_EDITION must be COMMUNITY, ENTERPRISE, or HYPERSCALER (got: ${THEMIS_EDITION})")
+if(NOT THEMIS_EDITION MATCHES "^(MINIMAL|COMMUNITY|ENTERPRISE|HYPERSCALER)$")
+    message(FATAL_ERROR "THEMIS_EDITION must be MINIMAL, COMMUNITY, ENTERPRISE, or HYPERSCALER (got: ${THEMIS_EDITION})")
 endif()
 
 # Edition feature configuration (compile-time feature flags)
 # These determine which functionality is available at build time
 
 # GPU Memory Limits: Edition-specific VRAM constraints
+# MINIMAL: No GPU, no LLM, no sharding - only core database features
 # COMMUNITY: 24 GB (typical gaming GPU, consumer hardware)
 # ENTERPRISE: 256 GB (data center grade A100/H100)
 # HYPERSCALER: Unlimited (custom, OEM deployments)
-if(THEMIS_EDITION STREQUAL "COMMUNITY")
+if(THEMIS_EDITION STREQUAL "MINIMAL")
+    # MINIMAL Edition: Core database features only
+    # No LLM, no GPU acceleration, no sharding, no replication, no advanced analytics
+    # Smallest footprint, fastest build time, ideal for embedded/edge deployments
+    set(THEMIS_GPU_MAX_VRAM_GB 0 CACHE INTERNAL "No GPU support in Minimal Edition")
+    set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Single-node only in Minimal Edition")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Minimal")
+    set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Minimal")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Minimal")
+    set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Minimal")
+    set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Minimal")
+    set(THEMIS_ENABLE_LLM OFF CACHE INTERNAL "LLM disabled in Minimal")
+    set(THEMIS_ENABLE_GPU OFF CACHE INTERNAL "GPU disabled in Minimal")
+    set(THEMIS_ENABLE_CUDA OFF CACHE INTERNAL "CUDA disabled in Minimal")
+    set(THEMIS_ENABLE_HIP OFF CACHE INTERNAL "HIP disabled in Minimal")
+    set(THEMIS_ENABLE_VULKAN OFF CACHE INTERNAL "Vulkan disabled in Minimal")
+    set(THEMIS_ENABLE_CONTENT_PROCESSORS OFF CACHE INTERNAL "Content processors disabled in Minimal")
+    set(THEMIS_ENABLE_TRACING OFF CACHE INTERNAL "OpenTelemetry tracing disabled in Minimal")
+    set(THEMIS_ENABLE_VOICE_ASSISTANT OFF CACHE INTERNAL "Voice assistant disabled in Minimal")
+    set(THEMIS_ENABLE_WHISPER OFF CACHE INTERNAL "Whisper disabled in Minimal")
+    set(THEMIS_ENABLE_PIPER_TTS OFF CACHE INTERNAL "Piper TTS disabled in Minimal")
+    set(THEMIS_ENABLE_GRPC OFF CACHE INTERNAL "gRPC disabled in Minimal")
+    set(THEMIS_ENABLE_HTTP2 OFF CACHE INTERNAL "HTTP/2 disabled in Minimal")
+    set(THEMIS_ENABLE_HTTP3 OFF CACHE INTERNAL "HTTP/3 disabled in Minimal")
+    set(THEMIS_ENABLE_WEBSOCKET OFF CACHE INTERNAL "WebSocket disabled in Minimal")
+    set(THEMIS_ENABLE_MQTT OFF CACHE INTERNAL "MQTT disabled in Minimal")
+    set(THEMIS_ENABLE_POSTGRES_WIRE OFF CACHE INTERNAL "PostgreSQL Wire disabled in Minimal")
+    set(THEMIS_ENABLE_MCP OFF CACHE INTERNAL "MCP disabled in Minimal")
+    set(THEMIS_BUILD_TESTS OFF CACHE INTERNAL "Tests disabled in Minimal for faster builds")
+    set(THEMIS_BUILD_BENCHMARKS OFF CACHE INTERNAL "Benchmarks disabled in Minimal")
+    message(STATUS "Edition: MINIMAL - Core database only, no GPU, no LLM, no sharding, no advanced features")
+    message(STATUS "  Features: ACID transactions, multi-model storage, secondary indexes, basic queries")
+    message(STATUS "  Protocols: HTTP/1.1, REST API only")
+    message(STATUS "  Build time: ~5-10 minutes (vs ~30-40 for full build)")
+    
+elseif(THEMIS_EDITION STREQUAL "COMMUNITY")
     set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
     set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Max sharding nodes for Community Edition")
     set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
@@ -1400,6 +1437,12 @@ if(THEMIS_ENABLE_LLM)
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
+        
+        # P1: Enterprise Features - LLM Inference Engine Improvements
+        src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
+        src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
+        src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
+        src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
     )
     
     # Threading support required for async inference
@@ -1761,6 +1804,9 @@ if(THEMIS_BUILD_TESTS)
             tests/test_llm_response_cache.cpp
             tests/test_paged_attention.cpp
             tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
+            tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
+            tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
+            tests/test_inference_engine_enhanced.cpp  # P1: Enhanced inference engine tests
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
