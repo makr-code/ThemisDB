@@ -1456,7 +1456,20 @@ if(THEMIS_ENABLE_LLM)
         src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
         src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
         src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        
+        # P3: Vision Support (Multi-Modal)
+        src/llm/vision_encoder.cpp             # CLIP vision encoder for LLaVA
+        src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
+        src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
     )
+    
+    # Add CUDA kernel fusion sources when CUDA is enabled
+    if(THEMIS_ENABLE_CUDA)
+        list(APPEND THEMIS_CORE_SOURCES
+            src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+        )
+        message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
+    endif()
     
     # Threading support required for async inference
     find_package(Threads REQUIRED)

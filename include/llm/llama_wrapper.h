@@ -8,6 +8,7 @@
 #include "llm/paged_kv_cache.h"
 #include "llm/grafana_metrics.h"
 #include "llm/llm_response_cache.h"
+#include "llm/vision_encoder.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -175,6 +176,11 @@ public:
             float yarn_beta_fast = 32.0f;
             float yarn_beta_slow = 1.0f;
         } rope_scaling;
+        // Vision Support (Multi-Modal LLM)
+        bool enable_vision = false;           // Enable vision/multi-modal support
+        std::string clip_model_path;          // Path to CLIP vision encoder model
+        int vision_threads = 4;               // Threads for image encoding
+        bool preload_vision = true;           // Keep vision encoder in memory
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -233,6 +239,16 @@ public:
         const RAGContext& rag_context,
         const InferenceRequest& request
     ) override;
+    
+    /**
+     * @brief Generate response with vision support (multi-modal)
+     * 
+     * Processes both text and images using vision-language models like LLaVA.
+     * 
+     * @param vision_request Vision request with text prompt and image(s)
+     * @return Vision response with generated text
+     */
+    VisionResponse generateVision(const VisionRequest& vision_request);
     
     std::vector<float> embed(const std::string& text) override;
     
@@ -357,6 +373,10 @@ private:
     // Response cache for frequent queries
     std::unique_ptr<LLMResponseCache> response_cache_;
     
+    // Vision Support (Multi-Modal)
+    std::unique_ptr<VisionEncoder> vision_encoder_;
+    bool vision_enabled_ = false;
+    
     // Current active model
     std::string current_model_id_;
     std::string current_model_path_;
@@ -394,6 +414,11 @@ private:
     InferenceResponse generateRegular(const InferenceRequest& request);
     float getProbability(float* logits, llama_token token, int32_t n_vocab);
     void synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens);
+    
+    // Vision support helpers
+    bool initializeVisionEncoder();
+    void shutdownVisionEncoder();
+    std::string buildVisionPrompt(const VisionRequest& request);
     
     // Internal llama.cpp helper functions
     std::vector<llama_token> tokenizeInternal(
