@@ -72,6 +72,10 @@ llm_plugins:
       # Especially beneficial for RAG workloads with consistent system prompts
       use_kv_cache_reuse: true
       
+      # Embeddings Extraction: Use LLM as embedding model
+      # Extract embeddings for semantic search, RAG, clustering
+      enable_embeddings: false  # Disable by default (separate mode)
+      
       # Prefix Cache Configuration
       prefix_cache:
         similarity_threshold: 0.95  # 95% similarity required for cache hit

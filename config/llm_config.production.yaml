@@ -8,6 +8,7 @@ llm:
     # =====================================================
     use_flash_attn: true          # Always enabled in production
     use_kv_cache_reuse: true      # Always enabled in production
+    enable_embeddings: false      # Separate mode for embeddings
     
     # Prefix Cache (aggressive for production)
     prefix_cache:

@@ -116,6 +116,7 @@ public:
         // Performance optimizations (llama.cpp features)
         bool use_flash_attn = true;   // Flash Attention for 15-25% speedup
         bool use_kv_cache_reuse = true; // KV-Cache Reuse for 10-20x first-token speedup
+        bool enable_embeddings = false; // Enable embeddings extraction mode
         
         // Lazy loading (Ollama-style)
         LazyModelLoader::Config lazy_loader_config;
