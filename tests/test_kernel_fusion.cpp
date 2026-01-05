@@ -3,6 +3,8 @@
 #include <vector>
 #include <cmath>
 #include <memory>
+#include <chrono>
+#include <iostream>
 
 using namespace themis::llm::kernels;
 
