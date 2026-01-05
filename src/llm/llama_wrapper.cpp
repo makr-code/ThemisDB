@@ -1064,25 +1064,25 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Apply top-p (nucleus) sampling
     if (top_p < 1.0f && top_p > 0.0f) {
-        // Sort by logit (descending)
-        std::sort(candidates.begin(), candidates.begin() + candidates_p.size, 
+        // Sort by logit (descending) - operate on filtered candidates only
+        std::sort(candidates_p.data, candidates_p.data + candidates_p.size, 
             [](const llama_token_data& a, const llama_token_data& b) {
                 return a.logit > b.logit;
             });
         
         // Calculate softmax and cumulative probability
-        float max_logit = candidates[0].logit;
+        float max_logit = candidates_p.data[0].logit;
         float sum_exp = 0.0f;
         for (size_t i = 0; i < candidates_p.size; ++i) {
-            candidates[i].p = std::exp(candidates[i].logit - max_logit);
-            sum_exp += candidates[i].p;
+            candidates_p.data[i].p = std::exp(candidates_p.data[i].logit - max_logit);
+            sum_exp += candidates_p.data[i].p;
         }
         
         float cum_prob = 0.0f;
         size_t last_idx = 0;
         for (size_t i = 0; i < candidates_p.size; ++i) {
-            candidates[i].p /= sum_exp;
-            cum_prob += candidates[i].p;
+            candidates_p.data[i].p /= sum_exp;
+            cum_prob += candidates_p.data[i].p;
             last_idx = i;
             if (cum_prob >= top_p) {
                 break;
@@ -1100,7 +1100,7 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Simple greedy sampling from sorted candidates
     // (For production, use llama_sampler for more sophisticated sampling)
-    llama_token sampled_token = candidates[0].id;
+    llama_token sampled_token = candidates_p.data[0].id;
     
     // Update grammar state with sampled token (Phase 3.2)
     if (grammar != nullptr) {

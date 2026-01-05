@@ -116,7 +116,7 @@ expr ::= digit+ ("+" | "-") digit+
 
 ## Benefits of Grammar-Constrained Generation
 
-1. **99% Valid Outputs** - No more parsing errors
+1. **95-99% Valid Outputs** - No more parsing errors
 2. **No Retry Logic** - Eliminates need for error handling
 3. **Faster Generation** - Only valid tokens are considered
 4. **Better UX** - Consistent, predictable outputs
