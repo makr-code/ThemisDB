@@ -197,7 +197,7 @@ private:
 
 #### Modified Inference Loop
 ```cpp
-InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
+InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // Traditional llama.cpp:
     // llama_context* ctx = llama_new_context_with_model(model, params);
     // Pre-allocates: n_ctx * n_layers * kv_size ≈ 2-4 GB per context
@@ -248,7 +248,7 @@ InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
 
 #### Batch Inference (Key Advantage!)
 ```cpp
-std::vector<InferenceResponse> LlamaCppPlugin::generateBatch(
+std::vector<InferenceResponse> LlamaWrapper::generateBatch(
     const std::vector<InferenceRequest>& requests
 ) {
     // Schedule batch (fit as many as VRAM allows)
@@ -325,7 +325,7 @@ std::vector<InferenceResponse> LlamaCppPlugin::generateBatch(
 - [ ] **Performance benchmarks** - Throughput, latency, memory
 
 ### Phase 4: ThemisDB Integration (Week 7-8)
-- [ ] **LlamaCppPlugin updates** - Use PagedAttention by default
+- [ ] **LlamaWrapper updates** - Use PagedAttention by default
 - [ ] **AsyncInferenceEngine** - Batch requests with PagedAttention
 - [ ] **Configuration** - Tune block size, max blocks
 - [ ] **Documentation** - Usage guide, tuning guide
@@ -433,7 +433,7 @@ llm:
 #include <benchmark/benchmark.h>
 
 static void BM_Traditional_SingleRequest(benchmark::State& state) {
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     for (auto _ : state) {
         plugin.generate({.prompt = "Test", .max_tokens = 512});
     }
@@ -441,7 +441,7 @@ static void BM_Traditional_SingleRequest(benchmark::State& state) {
 }
 
 static void BM_PagedAttention_SingleRequest(benchmark::State& state) {
-    LlamaCppPlugin plugin(config_with_paged_attention);
+    LlamaWrapper plugin(config_with_paged_attention);
     for (auto _ : state) {
         plugin.generate({.prompt = "Test", .max_tokens = 512});
     }
@@ -450,7 +450,7 @@ static void BM_PagedAttention_SingleRequest(benchmark::State& state) {
 
 static void BM_Traditional_Batch(benchmark::State& state) {
     int batch_size = state.range(0);
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     std::vector<InferenceRequest> requests(batch_size, 
         {.prompt = "Test", .max_tokens = 256});
@@ -463,7 +463,7 @@ static void BM_Traditional_Batch(benchmark::State& state) {
 
 static void BM_PagedAttention_Batch(benchmark::State& state) {
     int batch_size = state.range(0);
-    LlamaCppPlugin plugin(config_with_paged_attention);
+    LlamaWrapper plugin(config_with_paged_attention);
     
     std::vector<InferenceRequest> requests(batch_size,
         {.prompt = "Test", .max_tokens = 256});
@@ -574,5 +574,5 @@ The performance gains justify the engineering effort, especially for ThemisDB's 
 1. **Prototype** (1 week) - Prove PagedBlockManager works
 2. **Benchmark** (1 week) - Measure memory savings
 3. **llama.cpp patch** (2 weeks) - Modify attention kernels
-4. **Integration** (2 weeks) - Wire into LlamaCppPlugin
+4. **Integration** (2 weeks) - Wire into LlamaWrapper
 5. **Production** (2 weeks) - Testing, tuning, docs

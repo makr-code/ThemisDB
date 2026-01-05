@@ -126,6 +126,14 @@ private:
     json toolGetSchema(const json& args);
     json toolGetStats(const json& args);
 
+    // LLM Tool handlers (NEW)
+    #ifdef THEMIS_ENABLE_LLM
+    json toolLLMComplete(const json& args);
+    json toolLLMEmbed(const json& args);
+    json toolLLMChat(const json& args);
+    json toolDatabaseQueryWithLLM(const json& args);
+    #endif
+
     // Default resource handlers
     void registerDefaultResources();
     json resourceSchema(const std::string& uri);

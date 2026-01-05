@@ -7,8 +7,62 @@
 #include <unordered_map>
 #include <memory>
 
+// Forward declarations for llama.cpp types
+struct llama_model;
+struct llama_context;
+typedef int32_t llama_token;
+
+namespace themis {
+namespace llm {
+
 /**
- * @file llamacpp_plugin.h
+ * @brief Chat role enumeration for type-safe message roles
+ */
+enum class ChatRole {
+    System,     // System message (instructions, persona)
+    User,       // User message (query, input)
+    Assistant   // Assistant message (response, output)
+};
+
+/**
+ * @brief Chat message structure for multi-turn conversations
+ */
+struct ChatMessage {
+    std::string role;      // "system", "user", "assistant" (kept as string for compatibility)
+    std::string content;   // Message content
+    
+    // Helper constructor for enum-based creation
+    ChatMessage(ChatRole r, const std::string& c) 
+        : content(c) {
+        switch (r) {
+            case ChatRole::System: role = "system"; break;
+            case ChatRole::User: role = "user"; break;
+            case ChatRole::Assistant: role = "assistant"; break;
+        }
+    }
+    
+    // Default constructor for string-based creation (backwards compatibility)
+    ChatMessage(const std::string& r, const std::string& c)
+        : role(r), content(c) {}
+    
+    ChatMessage() = default;
+};
+
+/**
+ * @brief Chat template format options
+ */
+enum class ChatFormat {
+    ChatML,      // ChatML format: <|im_start|>role\ncontent<|im_end|>
+    Llama2,      // Llama-2 format: [INST] content [/INST]
+    Vicuna,      // Vicuna format: USER: content\nASSISTANT:
+    Alpaca       // Alpaca format: ### Instruction:\ncontent\n### Response:
+};
+
+} // namespace llm
+} // namespace themis
+
+/**
+ * @file llama_wrapper.h
  * @brief Reference implementation of LLM plugin using llama.cpp backend
  * 
  * This plugin demonstrates:
@@ -38,7 +92,7 @@ namespace llm {
  * Note: Actual llama.cpp integration will be done in v1.3.0.
  * This provides the plugin structure and API design.
  */
-class LlamaCppPlugin : public ILLMPlugin {
+class LlamaWrapper : public ILLMPlugin {
 public:
     /**
      * @brief Configuration for llama.cpp backend
@@ -65,12 +119,12 @@ public:
         MultiLoRAManager::Config multi_lora_config;
     };
     
-    explicit LlamaCppPlugin(const Config& config);
-    ~LlamaCppPlugin() override;
+    explicit LlamaWrapper(const Config& config);
+    ~LlamaWrapper() override;
     
     // Prevent copying
-    LlamaCppPlugin(const LlamaCppPlugin&) = delete;
-    LlamaCppPlugin& operator=(const LlamaCppPlugin&) = delete;
+    LlamaWrapper(const LlamaWrapper&) = delete;
+    LlamaWrapper& operator=(const LlamaWrapper&) = delete;
     
     // ═══════════════════════════════════════════════════════════
     // Model Management
@@ -171,6 +225,67 @@ private:
     void updateStatistics(const InferenceResponse& response);
     
     std::string extractModelId(const std::string& model_path);
+    
+    // Internal llama.cpp helper functions
+    std::vector<llama_token> tokenizeInternal(
+        llama_model* model,
+        const std::string& text,
+        bool add_bos
+    );
+    
+    std::string detokenizeInternal(
+        llama_context* ctx,
+        const std::vector<llama_token>& tokens
+    );
+    
+    llama_token sampleTokenInternal(
+        llama_context* ctx,
+        llama_model* model,
+        float* logits,
+        int32_t n_vocab,
+        float temperature,
+        float top_p
+    );
+    
+    // Chat formatting helpers
+    std::string formatChatMessages(
+        const std::vector<ChatMessage>& messages,
+        ChatFormat format = ChatFormat::ChatML
+    );
+    
+    std::string formatChatML(const std::vector<ChatMessage>& messages);
+    std::string formatLlama2(const std::vector<ChatMessage>& messages);
+    std::string formatVicuna(const std::vector<ChatMessage>& messages);
+    std::string formatAlpaca(const std::vector<ChatMessage>& messages);
+    
+public:
+    // ═══════════════════════════════════════════════════════════
+    // Output Formatting Helpers (MCP, SSE, AQL)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Format response as JSON for MCP protocol
+     * Converts InferenceResponse to MCP-compatible JSON format
+     */
+    static json formatAsMCPResponse(const InferenceResponse& response);
+    
+    /**
+     * @brief Format response as SSE (Server-Sent Events) data
+     * Returns SSE-formatted string: "data: {...}\n\n"
+     */
+    static std::string formatAsSSE(const InferenceResponse& response);
+    
+    /**
+     * @brief Format response as JSON with embedded markdown
+     * Useful for rich text responses with code blocks
+     */
+    static json formatAsJsonMarkdown(const InferenceResponse& response);
+    
+    /**
+     * @brief Format streaming token as SSE event
+     * For real-time token streaming via Server-Sent Events
+     */
+    static std::string formatStreamTokenAsSSE(const std::string& token, const std::string& request_id = "");
 };
 
 } // namespace llm

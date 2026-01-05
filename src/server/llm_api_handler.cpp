@@ -2,6 +2,7 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
+#include "llm/embedded_llm.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -136,17 +137,20 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         return createErrorResponse(http::status::bad_request, "Invalid request parameters", e.what());
     }
     
-    // Call LLMPluginManager for inference
+    // Call EmbeddedLLM for inference
     try {
-        llm::InferenceRequest llm_request;
-        llm_request.prompt = prompt;
-        llm_request.model_id = model_id.empty() ? "default" : model_id;
-        llm_request.lora_adapter_id = lora_id;
-        llm_request.max_tokens = max_tokens;
-        llm_request.temperature = temperature;
+        // Use simplified EmbeddedLLM API
+        std::string result = THEMIS_LLM_GENERATE(prompt);
         
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
-        auto llm_response = plugin_mgr.generate(llm_request);
+        // Create response
+        json response_body = {
+            {"text", result},
+            {"model", model_id.empty() ? "default" : model_id},
+            {"prompt_length", prompt.length()},
+            {"generated_length", result.length()}
+        };
+        
+        return createJsonResponse(http::status::ok, response_body);
         
         json response_data = {
             {"text", llm_response.text},
@@ -264,15 +268,22 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         return createErrorResponse(http::status::bad_request, "Invalid embed parameters", e.what());
     }
     
-    // Generate embeddings via LLMPluginManager
+    // Generate embeddings using EmbeddedLLM
     try {
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
-        auto embedding = plugin_mgr.embed(text);
+        auto embedding = THEMIS_LLM_EMBED(text);
         
         json embedding_vector = json::array();
         for (const auto& val : embedding) {
             embedding_vector.push_back(val);
         }
+        
+        json response_body = {
+            {"embedding", embedding_vector},
+            {"dimensions", embedding.size()},
+            {"text_length", text.length()}
+        };
+        
+        return createJsonResponse(http::status::ok, response_body);
         
         json response_data = {
             {"embedding", embedding_vector},

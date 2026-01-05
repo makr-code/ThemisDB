@@ -245,7 +245,7 @@ Für jede gefundene Datei:
 #### 4.2 Inference
 **Priorität:** P0 (Kritisch)
 
-- [ ] **LLaMA.cpp Plugin** (`src/llm/llamacpp_plugin.cpp`)
+- [ ] **LLaMA.cpp Plugin** (`src/llm/llama_wrapper.cpp`)
   - [ ] Status: ⚠️ Stub Response
   - [ ] Known: "[Generated response placeholder for: ...]"
   - [ ] **CRITICAL:** Echte llama.cpp API-Integration fehlt

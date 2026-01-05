@@ -19,9 +19,9 @@ using themis::llm::json;
 
 namespace {
 
-class FakeLlamaCppPlugin : public ILLMPlugin {
+class FakeLlamaWrapper : public ILLMPlugin {
 public:
-    explicit FakeLlamaCppPlugin(const MultiLoRAManager::Config& cfg = {})
+    explicit FakeLlamaWrapper(const MultiLoRAManager::Config& cfg = {})
         : config_(cfg), lora_manager_(cfg) {}
 
     bool loadModel(const std::string& model_path, const json& config = {}) override {
@@ -127,7 +127,7 @@ private:
 
 LLMPluginManager makeManagerWithPlugin(const MultiLoRAManager::Config& cfg = {}) {
     LLMPluginManager mgr;
-    mgr.registerPlugin("fake-llama", std::make_unique<FakeLlamaCppPlugin>(cfg));
+    mgr.registerPlugin("fake-llama", std::make_unique<FakeLlamaWrapper>(cfg));
     mgr.setDefaultPlugin("fake-llama");
     return mgr;
 }
@@ -176,7 +176,7 @@ TEST(InlineLoRATest, LruEvictionWhenSlotsExceeded) {
     ASSERT_EQ(loras.size(), 1);
     EXPECT_EQ(loras.front().lora_id, "lora-two");
 
-    auto* plugin = dynamic_cast<FakeLlamaCppPlugin*>(mgr.getDefaultPlugin());
+    auto* plugin = dynamic_cast<FakeLlamaWrapper*>(mgr.getDefaultPlugin());
     ASSERT_NE(plugin, nullptr);
     auto stats = plugin->loraCacheStats();
     ASSERT_TRUE(stats.contains("evictions"));

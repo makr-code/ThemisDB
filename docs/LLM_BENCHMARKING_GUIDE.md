@@ -292,7 +292,7 @@ cmake --build build-msvc --config Release
 auto& manager = themis::llm::LLMPluginManager::getInstance();
 
 // Modell laden
-manager.createLlamaCppPlugin(
+manager.createLlamaWrapper(
     "production_model",
     "C:/VCC/themis/models/mistral_7b.gguf",
     config

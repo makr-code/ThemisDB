@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
 #include "llm/async_inference_engine.h"
@@ -248,27 +248,27 @@ TEST_F(LLMPluginTest, MultiLoRAManager_SlotLimit) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// LlamaCppPlugin Tests (Consolidated)
+// LlamaWrapper Tests (Consolidated)
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LLMPluginTest, LlamaCppPlugin_Initialization) {
-    LlamaCppPlugin::Config config;
+TEST_F(LLMPluginTest, LlamaWrapper_Initialization) {
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     EXPECT_EQ(plugin.getName(), "llamacpp");
     EXPECT_FALSE(plugin.isModelLoaded());
 }
 
-TEST_F(LLMPluginTest, LlamaCppPlugin_ModelLoading) {
-    LlamaCppPlugin::Config config;
+TEST_F(LLMPluginTest, LlamaWrapper_ModelLoading) {
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.lazy_loader_config.max_models = 2;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     createDummyModel("mistral.gguf", 100);
     std::string model_path = test_model_dir + "/mistral.gguf";
@@ -288,13 +288,13 @@ TEST_F(LLMPluginTest, LlamaCppPlugin_ModelLoading) {
     ASSERT_TRUE(info.has_value());
 }
 
-TEST_F(LLMPluginTest, LlamaCppPlugin_LoRAManagement) {
-    LlamaCppPlugin::Config config;
+TEST_F(LLMPluginTest, LlamaWrapper_LoRAManagement) {
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     createDummyModel("mistral.gguf", 100);
     createDummyLoRA("legal.bin", 20);
@@ -311,12 +311,12 @@ TEST_F(LLMPluginTest, LlamaCppPlugin_LoRAManagement) {
     EXPECT_GE(loras.size(), 1);
 }
 
-TEST_F(LLMPluginTest, LlamaCppPlugin_BasicInference) {
-    LlamaCppPlugin::Config config;
+TEST_F(LLMPluginTest, LlamaWrapper_BasicInference) {
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     createDummyModel("tiny.gguf", 50);
     plugin.loadModel(test_model_dir + "/tiny.gguf", {});
@@ -340,11 +340,11 @@ TEST_F(LLMPluginTest, LlamaCppPlugin_BasicInference) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(LLMPluginTest, AsyncInference_NonBlocking) {
-    LlamaCppPlugin::Config plugin_config;
+    LlamaWrapper::Config plugin_config;
     plugin_config.n_gpu_layers = 32;
     plugin_config.n_ctx = 2048;
     
-    auto plugin = std::make_shared<LlamaCppPlugin>(plugin_config);
+    auto plugin = std::make_shared<LlamaWrapper>(plugin_config);
     
     createDummyModel("async_model.gguf", 50);
     plugin->loadModel(test_model_dir + "/async_model.gguf", {});
@@ -375,7 +375,7 @@ TEST_F(LLMPluginTest, AsyncInference_NonBlocking) {
 }
 
 TEST_F(LLMPluginTest, AsyncInference_Callback) {
-    auto plugin = std::make_shared<LlamaCppPlugin>(LlamaCppPlugin::Config{});
+    auto plugin = std::make_shared<LlamaWrapper>(LlamaWrapper::Config{});
     createDummyModel("callback_model.gguf", 50);
     plugin->loadModel(test_model_dir + "/callback_model.gguf", {});
     
@@ -405,7 +405,7 @@ TEST_F(LLMPluginTest, AsyncInference_Callback) {
 }
 
 TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
-    auto plugin = std::make_shared<LlamaCppPlugin>(LlamaCppPlugin::Config{});
+    auto plugin = std::make_shared<LlamaWrapper>(LlamaWrapper::Config{});
     createDummyModel("priority_model.gguf", 50);
     plugin->loadModel(test_model_dir + "/priority_model.gguf", {});
     
@@ -450,11 +450,11 @@ TEST_F(LLMPluginTest, AsyncInference_PriorityScheduling) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(LLMPluginTest, Integration_RAGWorkflow) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 8192;  // Large context for RAG
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     createDummyModel("rag_model.gguf", 100);
     plugin.loadModel(test_model_dir + "/rag_model.gguf", {});
@@ -480,12 +480,12 @@ TEST_F(LLMPluginTest, Integration_RAGWorkflow) {
 }
 
 TEST_F(LLMPluginTest, Integration_MultiLoRASwitch) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     createDummyModel("base.gguf", 100);
     createDummyLoRA("legal.bin", 20);
@@ -526,12 +526,12 @@ TEST_F(LLMPluginTest, Integration_MultiLoRASwitch) {
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     
     createDummyModel("model.gguf", 100);
     createDummyLoRA("adapter.bin", 20);
@@ -562,10 +562,10 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_LoRAFieldSet) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyModel("model.gguf", 100);
     plugin.loadModel(test_model_dir + "/model.gguf", {});
     
@@ -587,11 +587,11 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_InvalidLoRAFails) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_WithoutLoRA) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyModel("base.gguf", 100);
     plugin.loadModel(test_model_dir + "/base.gguf", {});
     
@@ -610,10 +610,10 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_WithoutLoRA) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_ModelNotLoaded) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyLoRA("orphan.bin", 20);
     
     // Load LoRA without model (should fail or be deferred)
@@ -622,12 +622,12 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_ModelNotLoaded) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_VerifyScaleFactor) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyModel("model.gguf", 100);
     createDummyLoRA("scaled.bin", 20);
     
@@ -652,12 +652,12 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_VerifyScaleFactor) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyModel("seq_model.gguf", 100);
     createDummyLoRA("lora_a.bin", 20);
     createDummyLoRA("lora_b.bin", 20);
@@ -704,12 +704,12 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_MultipleSequentialRequests) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_CacheVerification) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyModel("cache_model.gguf", 100);
     createDummyLoRA("cached.bin", 20);
     
@@ -729,12 +729,12 @@ TEST_F(LLMPluginTest, InferenceLoRAInclusion_CacheVerification) {
 }
 
 TEST_F(LLMPluginTest, InferenceLoRAInclusion_UnloadAndReload) {
-    LlamaCppPlugin::Config config;
+    LlamaWrapper::Config config;
     config.n_gpu_layers = 32;
     config.n_ctx = 4096;
     config.multi_lora_config.max_lora_slots = 8;
     
-    LlamaCppPlugin plugin(config);
+    LlamaWrapper plugin(config);
     createDummyModel("unload_model.gguf", 100);
     createDummyLoRA("unload.bin", 20);
     

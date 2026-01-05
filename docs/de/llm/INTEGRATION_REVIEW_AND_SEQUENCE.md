@@ -25,7 +25,7 @@ ThemisDB Core
 ├── include/llm/               ← LLM Plugin Headers (15 files)
 │   ├── llm_plugin_interface.h      [ILLMPlugin base interface]
 │   ├── llm_plugin_manager.h        [Plugin coordinator singleton]
-│   ├── llamacpp_plugin.h           [llama.cpp reference impl]
+│   ├── llama_wrapper.h           [llama.cpp reference impl]
 │   ├── model_loader.h              [Ollama-style lazy loading]
 │   ├── multi_lora_manager.h        [vLLM-style multi-LoRA]
 │   ├── async_inference_engine.h    [Independent threading]
@@ -113,7 +113,7 @@ endif()
 if(THEMIS_ENABLE_LLM)
     target_sources(themis_core PRIVATE
         # Phase 1: Core infrastructure
-        src/llm/llamacpp_plugin.cpp
+        src/llm/llama_wrapper.cpp
         src/llm/llm_plugin_manager.cpp
         src/llm/model_loader.cpp          # Ollama-style lazy loading
         src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
@@ -155,7 +155,7 @@ endif()
 **✅ PASSED**: Clean separation of concerns
 - **Plugin Interface**: Clear abstraction (`ILLMPlugin`) for multiple backends
 - **Manager Pattern**: Singleton `LLMPluginManager` coordinates all plugins
-- **Composition over Inheritance**: `LlamaCppPlugin` delegates to `LazyModelLoader` and `MultiLoRAManager`
+- **Composition over Inheritance**: `LlamaWrapper` delegates to `LazyModelLoader` and `MultiLoRAManager`
 - **No Code Duplication**: 1,150 LOC saved by reusing existing cache infrastructure
 
 **✅ PASSED**: Dependency Injection
@@ -565,7 +565,7 @@ try {
 
 - [x] **ILLMPlugin Interface**: Base abstraction for all backends
 - [x] **LLMPluginManager**: Singleton coordinator
-- [x] **LlamaCppPlugin**: Reference implementation
+- [x] **LlamaWrapper**: Reference implementation
 - [x] **LazyModelLoader**: Ollama-style lazy loading (LRU, TTL, VRAM limits)
 - [x] **MultiLoRAManager**: vLLM-style multi-LoRA (16 slots, 5ms switching)
 - [x] **AsyncInferenceEngine**: Independent threading (priority queue, non-blocking)

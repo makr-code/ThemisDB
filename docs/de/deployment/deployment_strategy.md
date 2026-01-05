@@ -514,7 +514,7 @@ public:
   └─ NICHT in Docker kopiert!
 
 .\src\llm\                      ← v1.3.0 (llama.cpp integration, bundled)
-  ├─ llamacpp_plugin.cpp
+  ├─ llama_wrapper.cpp
   ├─ gguf_loader.cpp
   ├─ paged_kv_cache.cpp
   └─ [96 files total]
