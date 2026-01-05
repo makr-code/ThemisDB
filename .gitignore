@@ -266,3 +266,7 @@ docs/stakeholder/STAKEHOLDER_VALUE_PROPOSITION.md
 # Business secrets, internal strategies, pricing models, and confidential analysis
 docs/de/confidencial/
 docs/en/confidential/
+
+# Test results and benchmarks
+results/
+*.log
