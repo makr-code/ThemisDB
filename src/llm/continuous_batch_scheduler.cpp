@@ -231,6 +231,11 @@ void ContinuousBatchScheduler::processBatchResults(
         req->tokens_generated++;
         req->last_token_at = std::chrono::system_clock::now();
         
+        // Record first token timestamp for accurate TTFT calculation
+        if (req->tokens_generated == 1) {
+            req->first_token_at = req->last_token_at;
+        }
+        
         // Check if request is complete (reached max tokens)
         bool is_complete = req->tokens_generated >= req->inference_request.max_tokens;
         
@@ -414,17 +419,15 @@ void ContinuousBatchScheduler::freeKVCacheBlocks(ScheduledRequest* request) {
 }
 
 void ContinuousBatchScheduler::updateStats() {
-    // Calculate average time to first token
-    // Note: Currently approximates TTFT using last_token_at for active decode requests
-    // For more accurate TTFT, consider adding a first_token_at timestamp in future
+    // Calculate average time to first token using accurate first_token_at timestamp
     double total_ttft = 0.0;
     size_t ttft_count = 0;
     
     for (const auto& req : active_requests_) {
         if (req->tokens_generated > 0 && req->state == RequestState::DECODE) {
-            // Approximate TTFT - ideally would use first token timestamp
+            // Use accurate first token timestamp
             auto ttft = std::chrono::duration_cast<std::chrono::milliseconds>(
-                req->last_token_at - req->started_at
+                req->first_token_at - req->started_at
             ).count();
             total_ttft += ttft;
             ttft_count++;
@@ -435,17 +438,17 @@ void ContinuousBatchScheduler::updateStats() {
         stats_.avg_time_to_first_token_ms = total_ttft / ttft_count;
     }
     
-    // Calculate tokens per second throughput (using only active requests)
-    // This avoids performance issues as all_requests_ grows over time
-    // Note: Generation time includes prefill phase, which slightly underestimates TPS
+    // Calculate tokens per second throughput (decode phase only)
+    // Uses time from first token to last token to exclude prefill phase
     size_t total_tokens_generated = 0;
     std::chrono::milliseconds total_generation_time(0);
     
     for (const auto& req : active_requests_) {
-        if (req->tokens_generated > 0 && req->state == RequestState::DECODE) {
+        if (req->tokens_generated > 1 && req->state == RequestState::DECODE) {
             total_tokens_generated += req->tokens_generated;
+            // Calculate generation time from first token (excludes prefill)
             auto generation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
-                req->last_token_at - req->started_at
+                req->last_token_at - req->first_token_at
             );
             total_generation_time += generation_time;
         }
