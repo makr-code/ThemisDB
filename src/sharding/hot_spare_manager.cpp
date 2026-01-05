@@ -1,6 +1,11 @@
 /**
  * ThemisDB Hot Spare Management Implementation
  * 
+ * Note: This file uses the themis::sharding namespace internally
+ * with a compatibility shim for themisdb::sharding at the end,
+ * following the pattern used in redundancy_strategy.cpp and other
+ * sharding components.
+ * 
  * Copyright (c) 2025 VCC-URN Project
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -656,8 +661,14 @@ void HotSpareManager::rebuildLoop() {
             }
         }
         
-        // Perform rebuild (simplified - actual implementation would need handlers)
-        bool success = true;  // Placeholder
+        // Perform rebuild
+        // TODO: Implement actual data transfer with handlers from activateSpare
+        // This would involve:
+        // 1. Reading documents from source shard replicas
+        // 2. Writing to spare shard with throttling
+        // 3. Tracking progress and updating spare.bytes_rebuilt
+        // 4. Handling errors and retries
+        bool success = true;  // Simplified: Always succeed in this version
         
         // Update statistics
         {
@@ -710,8 +721,19 @@ bool HotSpareManager::rebuildShard(
     ReadHandler read_handler,
     WriteHandler write_handler
 ) {
-    // Simplified rebuild implementation
-    // In production, implement actual data transfer with throttling
+    // TODO: Implement full rebuild logic with:
+    // 1. Iterate through task.documents
+    // 2. Read each document from replicas using read_handler
+    // 3. Write to spare shard using write_handler
+    // 4. Apply throttling based on config_.rebuild_throttle_mbps
+    // 5. Update progress in spares_ map
+    // 6. Handle network errors and retries
+    // 7. Verify data integrity
+    
+    spdlog::info("Rebuild shard called for spare: {}, documents: {}", 
+                 task.spare_shard_id, task.documents.size());
+    
+    // Simplified implementation - always succeed
     return true;
 }
 

@@ -329,12 +329,6 @@ private:
     // Statistics
     mutable std::mutex stats_mutex_;
     Stats stats_;
-    
-    // Stored handlers (for background operations)
-    std::optional<ConsistentHashRing*> ring_ptr_;
-    ReadHandler stored_read_handler_;
-    WriteHandler stored_write_handler_;
-    DocumentIterator stored_doc_iterator_;
 };
 
 } // namespace sharding
