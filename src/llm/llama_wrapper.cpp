@@ -1740,12 +1740,15 @@ std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerSt
 
 void LlamaWrapper::initializeBuiltinGrammars() {
     // Load built-in grammar files from src/llm/grammars/
-    // These are embedded at compile time
+    // In production, consider embedding these as string literals or using
+    // a configurable base path based on executable location
     
-    // For now, we'll load them from filesystem
-    // In production, these could be embedded as string literals
-    
-    const std::string grammars_path = "src/llm/grammars/";
+    // Use configurable path or fallback to relative path
+    std::string grammars_path = config_.grammar_config.custom_grammars_path;
+    if (grammars_path.empty() || grammars_path == "/grammars/") {
+        // Fallback to relative path for development/testing
+        grammars_path = "src/llm/grammars/";
+    }
     
     builtin_grammars_["json"] = loadGrammarFile(grammars_path + "json_strict.gbnf");
     builtin_grammars_["json_strict"] = builtin_grammars_["json"];
@@ -1754,7 +1757,7 @@ void LlamaWrapper::initializeBuiltinGrammars() {
     builtin_grammars_["csv"] = loadGrammarFile(grammars_path + "csv.gbnf");
     builtin_grammars_["react_agent"] = loadGrammarFile(grammars_path + "react_agent.gbnf");
     
-    spdlog::debug("Loaded {} built-in grammars", builtin_grammars_.size());
+    spdlog::debug("Loaded {} built-in grammars from {}", builtin_grammars_.size(), grammars_path);
 }
 
 std::string LlamaWrapper::loadGrammarFile(const std::string& grammar_path) {
@@ -1792,7 +1795,11 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
     // Custom EBNF grammar takes precedence
     if (request.grammar_ebnf.has_value()) {
         ebnf_text = request.grammar_ebnf.value();
-        grammar_key = "custom_" + std::to_string(std::hash<std::string>{}(ebnf_text));
+        // Use hash with length to reduce collision risk
+        // In production, consider SHA256 or storing full text as key
+        size_t hash = std::hash<std::string>{}(ebnf_text);
+        size_t len = ebnf_text.length();
+        grammar_key = "custom_" + std::to_string(hash) + "_" + std::to_string(len);
     }
     // Built-in grammar
     else if (request.grammar_type.has_value()) {
