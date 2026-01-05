@@ -1386,6 +1386,9 @@ if(THEMIS_ENABLE_LLM)
         # Phase 4+5 Week 4-6: llama.cpp Integration
         src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        
+        # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
+        src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
     )
     
     # Threading support required for async inference
@@ -1746,6 +1749,7 @@ if(THEMIS_BUILD_TESTS)
             tests/test_kv_cache_buffer.cpp
             tests/test_llm_response_cache.cpp
             tests/test_paged_attention.cpp
+            tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
