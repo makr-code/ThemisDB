@@ -201,6 +201,21 @@ public:
     // Non-ILLMPlugin convenience method for tests
     std::string getName() const { return "llamacpp"; }
     
+    // ═══════════════════════════════════════════════════════════
+    // Cache Management (Optional Features)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get prefix cache statistics
+     * @return Cache statistics (hits, misses, hit rate) or nullopt if cache disabled
+     */
+    std::optional<PrefixCacheStatistics> getPrefixCacheStats() const;
+    
+    /**
+     * @brief Clear prefix cache
+     */
+    void clearPrefixCache();
+    
 private:
     Config config_;
     
@@ -229,6 +244,8 @@ private:
     mutable std::mutex mutex_;
     
     // Helper methods
+    void validateConfig(const Config& config);
+    
     std::string formatPromptForRAG(
         const RAGContext& rag_context,
         const InferenceRequest& request

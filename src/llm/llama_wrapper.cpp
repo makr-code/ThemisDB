@@ -12,8 +12,61 @@ namespace llm {
 constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
 constexpr int MAX_STUB_TOKENS = 64;
 
+// ═══════════════════════════════════════════════════════════
+// Configuration Validation
+// ═══════════════════════════════════════════════════════════
+
+void LlamaWrapper::validateConfig(const Config& config) {
+    // Validate basic parameters
+    if (config.n_ctx <= 0) {
+        throw std::invalid_argument("n_ctx must be positive");
+    }
+    if (config.n_batch <= 0) {
+        throw std::invalid_argument("n_batch must be positive");
+    }
+    if (config.n_threads <= 0) {
+        throw std::invalid_argument("n_threads must be positive");
+    }
+    
+    // Validate prefix cache config if enabled
+    if (config.use_kv_cache_reuse) {
+        const auto& cache_cfg = config.prefix_cache_config;
+        
+        if (cache_cfg.similarity_threshold < 0.0 || cache_cfg.similarity_threshold > 1.0) {
+            spdlog::warn("prefix_cache_config.similarity_threshold should be between 0.0 and 1.0, got {}",
+                        cache_cfg.similarity_threshold);
+        }
+        
+        if (cache_cfg.max_entries == 0) {
+            spdlog::warn("prefix_cache_config.max_entries is 0, cache will be ineffective");
+        }
+        
+        if (cache_cfg.max_entries > 100000) {
+            spdlog::warn("prefix_cache_config.max_entries is very large ({}), may use excessive memory",
+                        cache_cfg.max_entries);
+        }
+        
+        if (cache_cfg.min_prefix_length < 10) {
+            spdlog::warn("prefix_cache_config.min_prefix_length is very small ({}), may cache inefficiently",
+                        cache_cfg.min_prefix_length);
+        }
+        
+        if (cache_cfg.ttl_seconds < 60) {
+            spdlog::warn("prefix_cache_config.ttl_seconds is very short ({}s), cache may expire too quickly",
+                        cache_cfg.ttl_seconds);
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Constructor and Destructor
+// ═══════════════════════════════════════════════════════════
+
 LlamaWrapper::LlamaWrapper(const Config& config)
     : config_(config) {
+    
+    // Validate configuration
+    validateConfig(config_);
     
     // Initialize lazy model loader (Ollama-style)
     model_loader_ = std::make_unique<LazyModelLoader>(config_.lazy_loader_config);
@@ -922,6 +975,29 @@ std::string LlamaWrapper::formatStreamTokenAsSSE(const std::string& token, const
     }
     
     return "data: " + event.dump() + "\n\n";
+}
+
+// ═══════════════════════════════════════════════════════════
+// Cache Management (Optional Features)
+// ═══════════════════════════════════════════════════════════
+
+std::optional<PrefixCacheStatistics> LlamaWrapper::getPrefixCacheStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (!prefix_cache_) {
+        return std::nullopt;
+    }
+    
+    return prefix_cache_->getStatistics();
+}
+
+void LlamaWrapper::clearPrefixCache() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    if (prefix_cache_) {
+        prefix_cache_->clear();
+        spdlog::info("Prefix cache cleared");
+    }
 }
 
 } // namespace llm

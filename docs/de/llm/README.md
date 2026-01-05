@@ -28,6 +28,7 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 - [⚡ **Flash Attention Implementation**](../../en/llm/FLASH_ATTENTION_IMPLEMENTATION.md) – **NEU** Quick Win: 15-25% Speedup in < 1h
 - [🚀 **KV-Cache Reuse Implementation**](../../en/llm/KV_CACHE_REUSE_IMPLEMENTATION.md) – **NEU** 10-20x first-token speedup for RAG
 - [🎯 **Embeddings Extraction Implementation**](../../en/llm/EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md) – **NEU** Unified model for generation + embeddings
+- [📝 **Migration Guide v1.3.1**](../../en/llm/MIGRATION_GUIDE_V1.3.1.md) – **NEU** Upgrade existing configs to use new features
 - [⚡ **Feature Quick Reference**](./LLAMA_CPP_FEATURE_QUICKREF.md) – **NEU** Schnellübersicht empfohlener Features
 - [🔧 **Feature Implementation Guide**](./LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md) – **NEU** Implementierungs-Anleitungen
 - [LLAMA_CPP_INTEGRATION.md](./LLAMA_CPP_INTEGRATION.md) – Einbindung & Build
