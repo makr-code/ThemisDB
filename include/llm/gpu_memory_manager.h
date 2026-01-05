@@ -125,6 +125,10 @@ private:
     void initializeGPU();
     void shutdownGPU();
     void updateMemoryStats();
+    
+    // Defragmentation helper methods
+    bool defragmentModelGPU(const std::string& model_id, const std::vector<MemoryAllocation>& gpu_allocs);
+    bool defragmentModelCPU(const std::string& model_id, const std::vector<MemoryAllocation>& cpu_allocs);
 };
 
 } // namespace llm

@@ -1828,6 +1828,7 @@ if(THEMIS_BUILD_TESTS)
             tests/test_kv_cache_buffer.cpp
             tests/test_llm_response_cache.cpp
             tests/test_paged_attention.cpp
+            tests/test_continuous_batch_scheduler.cpp
             tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
             tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
             tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
@@ -1849,6 +1850,41 @@ if(THEMIS_BUILD_TESTS)
         gtest_discover_tests(themis_llm_tests
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
+        # Flash Attention Tests
+        add_executable(test_phase1_flash_attention
+            tests/test_phase1_flash_attention.cpp
+        )
+        target_link_libraries(test_phase1_flash_attention
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_flash_attention
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # KV-Cache Reuse Tests
+        add_executable(test_phase1_kv_cache_reuse
+            tests/test_phase1_kv_cache_reuse.cpp
+        )
+        target_link_libraries(test_phase1_kv_cache_reuse
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_phase1_kv_cache_reuse
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>
             EXTRA_ARGS --gtest_color=yes
             CONFIGURATIONS Release Debug
         )
@@ -2233,6 +2269,20 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_saga_compensation
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Phase 1 Benchmarks - LLM Optimizations (Flash Attention, KV-Cache, Embeddings)
+    
+    # Flash Attention Benchmark
+    add_executable(bench_phase1_flash_attention
+        benchmarks/bench_phase1_flash_attention.cpp
+    )
+    
+    target_link_libraries(bench_phase1_flash_attention
         PRIVATE
             themis_core
             benchmark::benchmark

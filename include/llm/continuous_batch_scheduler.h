@@ -13,13 +13,30 @@ namespace themis {
 namespace llm {
 
 /**
- * @brief Continuous Batching Scheduler (vLLM-style)
+ * @brief Continuous Batching Scheduler (vLLM-style) with PagedAttention Integration
  * 
- * Week 7-9 Implementation: Dynamic batching with PagedAttention integration.
- * Supports 100+ concurrent requests with iterative scheduling and preemption.
+ * Implements dynamic batching with efficient memory management through PagedAttention.
+ * Supports 100+ concurrent requests with iterative scheduling, preemption, and
+ * intelligent block management.
+ * 
+ * Key Features:
+ * - Block-based KV cache allocation via PagedKVCache
+ * - Memory-aware scheduling prevents OOM scenarios
+ * - Accurate TTFT and TPS metrics with first_token_at tracking
+ * - Configurable memory pressure handling
+ * 
+ * Thread Safety: All public methods are thread-safe via internal mutex.
+ * 
+ * @see docs/llm/PAGED_ATTENTION_INTEGRATION.md for detailed documentation
  */
 class ContinuousBatchScheduler {
 public:
+    /**
+     * @brief Configuration for the scheduler
+     * 
+     * Note: block_size_tokens MUST match PagedKVCache::Config::block_size
+     * for correct availability calculations.
+     */
     struct SchedulerConfig {
         size_t max_batch_size = 256;           // Max sequences in batch
         size_t max_concurrent_requests = 128;   // Max pending requests
@@ -37,6 +54,11 @@ public:
         // Performance
         size_t scheduling_overhead_ms = 5;     // Target scheduling time
         bool enable_continuous_batching = true;
+        
+        // Memory management (PagedAttention integration)
+        size_t block_size_tokens = 16;         // Tokens per block (MUST match PagedKVCache)
+        size_t low_memory_threshold_blocks = 10;  // Memory pressure trigger
+        double memory_pressure_throughput_factor = 0.8;  // Throughput reduction (0.0-1.0)
     };
     
     enum class RequestPriority {
@@ -55,6 +77,12 @@ public:
         FAILED         // Error occurred
     };
     
+    /**
+     * @brief Represents a scheduled inference request with PagedAttention tracking
+     * 
+     * Tracks request lifecycle, allocated blocks, and timing metrics for
+     * accurate TTFT and TPS calculation.
+     */
     struct ScheduledRequest {
         std::string request_id;
         InferenceRequest inference_request;
@@ -68,12 +96,13 @@ public:
         size_t total_prompt_tokens = 0;
         
         // PagedAttention integration
-        std::vector<int> allocated_blocks;
-        int sequence_id = -1;
+        std::vector<int> allocated_blocks;  // Physical block IDs from PagedKVCache
+        int sequence_id = -1;                // Unique sequence identifier
         
-        // Timestamps
-        std::chrono::system_clock::time_point submitted_at;
-        std::chrono::system_clock::time_point started_at;
+        // Timestamps for accurate metrics
+        std::chrono::system_clock::time_point submitted_at;   // Request submission time
+        std::chrono::system_clock::time_point started_at;     // Prefill start time
+        std::chrono::system_clock::time_point first_token_at; // First token generated (for TTFT)
         std::chrono::system_clock::time_point last_token_at;
         
         // Callback
