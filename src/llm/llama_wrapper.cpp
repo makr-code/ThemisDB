@@ -349,6 +349,10 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // For testing with stub models, allow nullptr handles
     // In production with real llama.cpp, these would be non-null
     if (!lmodel || !lctx) {
+        spdlog::error("⚠️  LlamaWrapper: Model/context handle is null!");
+        spdlog::error("    - This indicates model was not loaded properly");
+        spdlog::error("    - Returning stub response for backward compatibility");
+        spdlog::error("    - In production, this should throw an exception");
         spdlog::warn("LlamaWrapper: Model/context handle is null, using stub response");
         // Fallback to stub for compatibility
         std::string output = "[Generated response placeholder for: " + request.prompt + "]";
