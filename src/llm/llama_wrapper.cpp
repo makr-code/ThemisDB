@@ -1379,7 +1379,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                 float* draft_logits = llama_get_logits_ith(draft_context_, -1);
                 llama_token draft_token = sampleTokenInternal(
                     draft_context_, draft_model_, draft_logits, n_vocab,
-                    temperature, top_p
+                    temperature, top_p, nullptr  // No grammar for draft model
                 );
                 
                 draft_tokens.push_back(draft_token);
@@ -1438,7 +1438,7 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
                     // Target model rejects, resample from target distribution
                     llama_token corrected_token = sampleTokenInternal(
                         target_context, target_model, target_logits, n_vocab,
-                        temperature, top_p
+                        temperature, top_p, nullptr  // No grammar for speculative decoding
                     );
                     generated_tokens.push_back(corrected_token);
                     accepted++;
@@ -1571,7 +1571,9 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         for (int i = 0; i < max_tokens; ++i) {
             float* logits = llama_get_logits_ith(lctx, -1);
-            llama_token next_token = sampleTokenInternal(lctx, lmodel, logits, n_vocab, temperature, top_p);
+            llama_token next_token = sampleTokenInternal(
+                lctx, lmodel, logits, n_vocab, temperature, top_p, nullptr
+            );
             
             if (next_token == eos_token) {
                 break;

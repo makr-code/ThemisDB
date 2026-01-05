@@ -111,7 +111,7 @@ llm_plugins:
       # Grammar-Constrained Generation (Phase 3.2): Guarantee valid structured output
       # Forces LLM to generate only tokens that conform to EBNF grammar
       # Eliminates parsing errors, no retry logic needed
-      grammar_constraints:
+      grammar_config:
         enabled: false  # Enable for guaranteed structured outputs
         default_grammar: "json"  # Default built-in grammar
         custom_grammars_path: "/grammars/"  # Path to custom EBNF files
