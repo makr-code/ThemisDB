@@ -129,7 +129,8 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     std::string prefix = "d:" + collection + ":";
     
     rocksdb::ReadOptions read_opts;
-    rocksdb::Iterator* it = db_->NewIterator(read_opts);
+    // RACE CONDITION FIX: Use unique_ptr for automatic cleanup and safer lifetime management
+    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts));
     
     std::set<std::string> unique_values;
     std::map<std::string, int> value_counts;
@@ -161,7 +162,7 @@ SelectivityAnalyzer::analyze(const std::string& collection,
         }
     }
     
-    delete it;
+    // No need to delete - unique_ptr handles cleanup automatically
     
     stats.total_documents = total;
     stats.unique_values = static_cast<int64_t>(unique_values.size());
