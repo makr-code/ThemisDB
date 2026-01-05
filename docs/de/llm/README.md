@@ -24,6 +24,9 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 
 **Quicklinks:**
 - [🧠 **LLM Complete Setup Guide**](../guides/LLM_COMPLETE_SETUP_GUIDE.md) – **NEU** Vollständiger Guide für Setup & Inferencing
+- [🔍 **llama.cpp Feature Research**](./LLAMA_CPP_API_FEATURE_RESEARCH.md) – **NEU** Identifizierung zusätzlicher llama.cpp Features
+- [⚡ **Feature Quick Reference**](./LLAMA_CPP_FEATURE_QUICKREF.md) – **NEU** Schnellübersicht empfohlener Features
+- [🔧 **Feature Implementation Guide**](./LLAMA_CPP_FEATURE_IMPLEMENTATION_GUIDE.md) – **NEU** Implementierungs-Anleitungen
 - [LLAMA_CPP_INTEGRATION.md](./LLAMA_CPP_INTEGRATION.md) – Einbindung & Build
 - [README_PLUGINS.md](./README_PLUGINS.md) – Schnellstart & Beispiele
 - [INTEGRATION_REVIEW_AND_SEQUENCE.md](./INTEGRATION_REVIEW_AND_SEQUENCE.md) – Architektur & Sequenzen
