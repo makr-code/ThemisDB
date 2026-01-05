@@ -61,7 +61,7 @@ public:
         IsolationLevel getIsolationLevel() const { return isolation_; }
         std::chrono::system_clock::time_point getStartTime() const { return start_time_; }
         uint64_t getDurationMs() const;
-        bool isFinished() const { return finished_; }
+        bool isFinished() const { return finished_.load(std::memory_order_acquire); }
 
         // Relational
         Status putEntity(std::string_view table, const BaseEntity& entity);
@@ -94,7 +94,7 @@ public:
         std::chrono::system_clock::time_point start_time_;
         std::unique_ptr<class RocksDBWrapper::TransactionWrapper> mvcc_txn_; // MVCC Transaction
         std::unique_ptr<Saga> saga_; // SAGA pattern for compensating actions
-        bool finished_ = false;
+        std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
     };
 
     // Session-based transaction management

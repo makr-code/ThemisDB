@@ -91,6 +91,14 @@ void TransactionManager::moveToCompleted(TransactionId id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = active_transactions_.find(id);
     if (it != active_transactions_.end()) {
+        // RACE CONDITION FIX: Check if transaction already exists in completed map
+        auto completed_it = completed_transactions_.find(id);
+        if (completed_it != completed_transactions_.end()) {
+            THEMIS_WARN("Transaction {} already in completed map, skipping duplicate move", id);
+            active_transactions_.erase(it);
+            return;
+        }
+        
         completed_transactions_[id] = std::move(it->second);
         active_transactions_.erase(it);
     }
@@ -164,7 +172,8 @@ TransactionManager::Transaction::Transaction(TransactionId id,
 }
 
 TransactionManager::Transaction::~Transaction() {
-    if (!finished_ && mvcc_txn_ && mvcc_txn_->isActive()) {
+    // Use atomic load to check if finished
+    if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
         THEMIS_WARN("Transaction {} destructed without commit/rollback; rolling back implicitly", id_);
         mvcc_txn_->rollback();
         saga_->compensate();
@@ -180,13 +189,14 @@ uint64_t TransactionManager::Transaction::getDurationMs() const {
 TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
     : id_(other.id_), db_(other.db_), secIdx_(other.secIdx_), graphIdx_(other.graphIdx_), 
       vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),
-      mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), finished_(other.finished_) {
-    other.finished_ = true;
+      mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
+      finished_(other.finished_.load(std::memory_order_acquire)) {
+    other.finished_.store(true, std::memory_order_release);
 }
 
 TransactionManager::Transaction& TransactionManager::Transaction::operator=(Transaction&& other) noexcept {
     if (this != &other) {
-        if (!finished_ && mvcc_txn_ && mvcc_txn_->isActive()) {
+        if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
             mvcc_txn_->rollback();
             saga_->compensate();
         }
@@ -194,8 +204,8 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         // Diese werden in Konstruktor initialisiert und bleiben über Lebensdauer konstant.
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
-        finished_ = other.finished_;
-        other.finished_ = true;
+        finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
+        other.finished_.store(true, std::memory_order_release);
     }
     return *this;
 }
@@ -389,8 +399,15 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
 }
 
 TransactionManager::Status TransactionManager::Transaction::commit() {
-    if (finished_) return Status::Error("commit: Transaktion bereits abgeschlossen");
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("commit: keine aktive Transaktion");
+    // RACE CONDITION FIX: Use atomic compare-exchange to prevent double commit
+    bool expected = false;
+    if (!finished_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+        return Status::Error("commit: Transaktion bereits abgeschlossen");
+    }
+    
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("commit: keine aktive Transaktion");
+    }
     
     THEMIS_DEBUG("Committing MVCC transaction {} with {} SAGA steps (duration: {} ms)", 
                 id_, saga_->stepCount(), getDurationMs());
@@ -399,19 +416,19 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         // Commit failed - MVCC conflict detected
         THEMIS_ERROR("Transaction {} commit failed - MVCC conflict, executing SAGA compensation", id_);
         saga_->compensate();
-        finished_ = true;
         return Status::Error("commit: MVCC conflict detected, transaction must be retried");
     }
     
     // Success - clear SAGA (no compensation needed)
     saga_->clear();
-    finished_ = true;
     THEMIS_INFO("Transaction {} committed successfully (MVCC)", id_);
     return Status::OK();
 }
 
 void TransactionManager::Transaction::rollback() {
-    if (finished_) {
+    // RACE CONDITION FIX: Use atomic compare-exchange to prevent double rollback
+    bool expected = false;
+    if (!finished_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         THEMIS_WARN("Transaction {} already finished, rollback skipped", id_);
         return;
     }
@@ -425,7 +442,6 @@ void TransactionManager::Transaction::rollback() {
     // Execute SAGA compensation
     saga_->compensate();
     
-    finished_ = true;
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }
 
