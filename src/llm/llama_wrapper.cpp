@@ -95,6 +95,16 @@ LlamaWrapper::LlamaWrapper(const Config& config)
                      config_.response_cache_config.similarity_threshold);
     }
     
+    // Initialize vision encoder (multi-modal support)
+    if (config_.enable_vision && !config_.clip_model_path.empty()) {
+        try {
+            initializeVisionEncoder();
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to initialize vision encoder: {}. Vision support disabled.", e.what());
+            vision_enabled_ = false;
+        }
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -102,9 +112,11 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
     spdlog::info("  Response cache: {}", config_.enable_response_cache ? "enabled" : "disabled");
+    spdlog::info("  Vision support: {}", vision_enabled_ ? "enabled" : "disabled");
 }
 
 LlamaWrapper::~LlamaWrapper() {
+    shutdownVisionEncoder();
     unloadDraftModel();
     unloadModel();
 }
@@ -1686,6 +1698,172 @@ std::optional<ContinuousBatchScheduler::Stats> LlamaWrapper::getBatchSchedulerSt
     }
     
     return batch_scheduler_->getStats();
+}
+
+// ═══════════════════════════════════════════════════════════
+// Vision Support (Multi-Modal)
+// ═══════════════════════════════════════════════════════════
+
+bool LlamaWrapper::initializeVisionEncoder() {
+    if (config_.clip_model_path.empty()) {
+        spdlog::warn("Vision encoder: CLIP model path not configured");
+        return false;
+    }
+    
+    try {
+        spdlog::info("Initializing vision encoder: {}", config_.clip_model_path);
+        vision_encoder_ = std::make_unique<VisionEncoder>(
+            config_.clip_model_path,
+            1  // verbosity
+        );
+        
+        if (!vision_encoder_->isReady()) {
+            throw std::runtime_error("Vision encoder initialization failed");
+        }
+        
+        vision_enabled_ = true;
+        spdlog::info("Vision encoder initialized successfully");
+        spdlog::info("  - Embedding dimension: {}", vision_encoder_->getEmbeddingDimension());
+        spdlog::info("  - Number of patches: {}", vision_encoder_->getNumPatches());
+        
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to initialize vision encoder: {}", e.what());
+        vision_enabled_ = false;
+        vision_encoder_.reset();
+        throw;
+    }
+}
+
+void LlamaWrapper::shutdownVisionEncoder() {
+    if (vision_encoder_) {
+        spdlog::info("Shutting down vision encoder");
+        vision_encoder_.reset();
+        vision_enabled_ = false;
+    }
+}
+
+std::string LlamaWrapper::buildVisionPrompt(const VisionRequest& request) {
+    // Build multi-modal prompt in LLaVA format
+    // Format: <image>\nUSER: {question}\nASSISTANT:
+    
+    std::string prompt;
+    
+    // Count number of images
+    size_t num_images = 0;
+    if (!request.image_path.empty()) {
+        num_images = 1;
+    } else if (!request.image_paths.empty()) {
+        num_images = request.image_paths.size();
+    }
+    
+    // Add image tokens
+    if (request.use_image_start_end) {
+        for (size_t i = 0; i < num_images; ++i) {
+            prompt += request.image_token + "\n";
+        }
+    }
+    
+    // Add text prompt in chat format
+    prompt += "USER: " + request.text_prompt + "\nASSISTANT:";
+    
+    return prompt;
+}
+
+VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request) {
+    VisionResponse response;
+    
+    // Check if vision is enabled
+    if (!vision_enabled_ || !vision_encoder_) {
+        response.success = false;
+        response.error_message = "Vision support not enabled. Configure clip_model_path and enable_vision=true";
+        return response;
+    }
+    
+    // Check if model is loaded
+    if (!isModelLoaded()) {
+        response.success = false;
+        response.error_message = "No model loaded. Call loadModel() first";
+        return response;
+    }
+    
+    auto start_time = std::chrono::high_resolution_clock::now();
+    
+    try {
+        // Collect image paths
+        std::vector<std::string> image_paths;
+        if (!vision_request.image_path.empty()) {
+            image_paths.push_back(vision_request.image_path);
+        } else if (!vision_request.image_paths.empty()) {
+            image_paths = vision_request.image_paths;
+        } else {
+            throw std::runtime_error("No images provided in vision request");
+        }
+        
+        // Encode images
+        auto encode_start = std::chrono::high_resolution_clock::now();
+        std::vector<std::vector<float>> image_embeddings;
+        image_embeddings.reserve(image_paths.size());
+        
+        for (const auto& img_path : image_paths) {
+            spdlog::debug("Encoding image: {}", img_path);
+            auto embeddings = vision_encoder_->encodeImage(img_path);
+            image_embeddings.push_back(std::move(embeddings));
+        }
+        
+        auto encode_end = std::chrono::high_resolution_clock::now();
+        response.image_encoding_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            encode_end - encode_start
+        ).count();
+        
+        spdlog::debug("Image encoding completed in {}ms", response.image_encoding_time_ms);
+        
+        // Build multi-modal prompt
+        std::string prompt = buildVisionPrompt(vision_request);
+        
+        // Create inference request
+        InferenceRequest inference_request;
+        inference_request.prompt = prompt;
+        inference_request.max_tokens = vision_request.max_tokens;
+        inference_request.temperature = vision_request.temperature;
+        inference_request.top_p = vision_request.top_p;
+        inference_request.top_k = vision_request.top_k;
+        
+        // Note: Actual integration of image embeddings into llama.cpp context
+        // would require modifications to llama.cpp's batch processing.
+        // For now, this is a stub that shows the architecture.
+        // Full implementation would use llama_batch with embedded image tokens.
+        
+        spdlog::warn("Vision support: Image embedding integration with llama.cpp is not yet fully implemented");
+        spdlog::info("Generating text-only response with vision context prompt");
+        
+        // Generate response (text-only for now, until llama.cpp integration is complete)
+        auto inference_response = generate(inference_request);
+        
+        auto end_time = std::chrono::high_resolution_clock::now();
+        
+        // Build vision response
+        response.success = inference_response.success;
+        response.text = inference_response.generated_text;
+        response.error_message = inference_response.error_message;
+        response.tokens_generated = inference_response.tokens_generated;
+        response.inference_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        ).count();
+        response.model_name = current_model_id_;
+        
+        spdlog::info("Vision inference completed: {} tokens in {}ms ({}ms image encoding)",
+                     response.tokens_generated,
+                     response.inference_time_ms,
+                     response.image_encoding_time_ms);
+        
+    } catch (const std::exception& e) {
+        response.success = false;
+        response.error_message = std::string("Vision inference failed: ") + e.what();
+        spdlog::error("Vision inference error: {}", e.what());
+    }
+    
+    return response;
 }
 
 } // namespace llm
