@@ -63,6 +63,9 @@ public:
      * @param config Configuration parameters
      */
     explicit ShardTopology(const Config& config);
+
+    // Convenience default constructor for benchmarks/tests
+    ShardTopology();
     
     /**
      * Add or update shard information

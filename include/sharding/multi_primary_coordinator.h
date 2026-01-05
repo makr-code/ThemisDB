@@ -175,7 +175,7 @@ private:
     mutable std::mutex mutex_;
     
     std::map<std::string, PrimaryNodeInfo> primaries_;
-    std::atomic<uint64_t> conflicts_resolved_{0};
+    mutable std::atomic<uint64_t> conflicts_resolved_{0};
 };
 
 } // namespace themis::sharding

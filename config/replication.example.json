@@ -22,6 +22,29 @@
       }
     ]
   },
+  "multi_primary": {
+    "enabled": true,
+    "current_node_id": "primary-node-1",
+    "use_last_write_wins": true,
+    "allow_concurrent_writes": true,
+    "cross_primary_replication": true,
+    "default_write_concern": "MAJORITY",
+    "promotion_timeout_ms": 5000,
+    "auto_promote_on_primary_failure": true,
+    "nodes": [
+      {"node_id": "primary-node-1", "endpoint": "http://primary1:8765"},
+      {"node_id": "primary-node-2", "endpoint": "http://primary2:8765"}
+    ]
+  },
+  "health_monitor": {
+    "heartbeat_interval_ms": 1000,
+    "health_check_timeout_ms": 500,
+    "max_consecutive_failures": 3,
+    "auto_failover_enabled": true,
+    "auto_promote_standby": true,
+    "failover_cooldown_ms": 10000,
+    "health_check_path": "/health"
+  },
   "replica_topology": [
     {
       "shard_id": "shard_0",

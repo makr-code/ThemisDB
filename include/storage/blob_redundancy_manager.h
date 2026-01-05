@@ -32,6 +32,8 @@
 #include <queue>
 #include <condition_variable>
 
+#include <rocksdb/listener.h>
+
 // Forward declaration for RocksDB
 namespace rocksdb {
     class DB;
@@ -43,9 +45,6 @@ namespace rocksdb {
 
 namespace themisdb {
 namespace storage {
-
-// Forward declarations
-class ErasureCoder;
 
 /**
  * Blob Type Classification
@@ -477,8 +476,6 @@ private:
     std::thread config_reload_thread_;
     
     // Erasure coder
-    std::unique_ptr<ErasureCoder> erasure_coder_;
-    
     // Statistics
     std::atomic<uint64_t> stats_total_blobs_{0};
     std::atomic<uint64_t> stats_repairs_{0};

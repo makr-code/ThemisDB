@@ -17,8 +17,10 @@
 #include <vector>
 #include <map>
 
-using namespace themisdb::sharding;
-using namespace themisdb::storage;
+using namespace themis::sharding;
+using themisdb::storage::BlobRedundancyManager;
+using themisdb::storage::BlobType;
+using themisdb::storage::BlobRedundancyConfig;
 using namespace themis::llm;
 
 // ═══════════════════════════════════════════════════════════
@@ -50,11 +52,11 @@ public:
 
 std::vector<uint8_t> generateRandomData(size_t size) {
     static std::mt19937 gen(42);
-    static std::uniform_int_distribution<uint8_t> dist(0, 255);
+    static std::uniform_int_distribution<unsigned int> dist(0, 255);
     
     std::vector<uint8_t> data(size);
     for (auto& byte : data) {
-        byte = dist(gen);
+        byte = static_cast<uint8_t>(dist(gen));
     }
     return data;
 }
@@ -307,6 +309,7 @@ BENCHMARK(BM_CompareRAIDModes_1MB)->DenseRange(0, 3);
 // LoRA Adapter Benchmarks
 // ═══════════════════════════════════════════════════════════
 
+#ifdef THEMIS_ENABLE_LLM
 static void BM_LoRA_LoadUnload(benchmark::State& state) {
     MultiLoRAManager::Config config;
     config.max_lora_vram_mb = 2048;
@@ -411,6 +414,7 @@ static void BM_LoRA_SwitchingOverhead(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_LoRA_SwitchingOverhead);
+#endif // THEMIS_ENABLE_LLM
 
 // ═══════════════════════════════════════════════════════════
 // Blob Redundancy Manager Benchmarks
