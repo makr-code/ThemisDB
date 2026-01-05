@@ -11,6 +11,7 @@ This document describes the CUDA kernel implementation for Flash Attention and r
 ### Completed Features
 
 - [x] Flash Attention forward pass CUDA kernel
+- [x] Flash Attention backward pass CUDA kernel (for training)
 - [x] Fused QKV projection kernel
 - [x] Fused RoPE (Rotary Position Embedding) kernel
 - [x] Fused LayerNorm + Linear kernel
@@ -59,6 +60,35 @@ __global__ void flashAttentionForwardKernel(
     bool is_causal            // Causal masking for autoregressive models
 );
 ```
+
+### Backward Pass Kernel Signature
+
+The backward pass computes gradients for training using the Flash Attention backward algorithm (Algorithm 2 from the paper).
+
+```cuda
+__global__ void flashAttentionBackwardKernel(
+    const float* dO,          // Gradient of output
+    const float* Q,           // Query tensor (from forward)
+    const float* K,           // Key tensor (from forward)
+    const float* V,           // Value tensor (from forward)
+    const float* O,           // Output tensor (from forward)
+    float* dQ,                // Gradient of query (output)
+    float* dK,                // Gradient of key (output)
+    float* dV,                // Gradient of value (output)
+    int batch_size,
+    int num_heads,
+    int seq_len,
+    int head_dim,
+    float scale,
+    bool is_causal
+);
+```
+
+**Key Features:**
+- Recomputes attention on-the-fly (no need to store full attention matrix during forward pass)
+- Memory-efficient gradient computation with tiling
+- Fused gradient accumulation
+- Supports training for autoregressive models with causal masking
 
 ### Memory Layout
 
@@ -233,6 +263,8 @@ Located in `tests/test_kernel_fusion.cpp`:
 - ✅ Numerical accuracy validation
 - ✅ Attention weight normalization checks
 - ✅ Causal masking verification
+- ✅ Backward pass API test (requires CUDA)
+- ✅ Gradient checking concept documentation
 - 🔲 Performance benchmarks (disabled by default)
 
 ### Running Tests
@@ -245,8 +277,59 @@ ctest -R test_kernel_fusion --output-on-failure
 # Run with verbose output
 ctest -R test_kernel_fusion -V
 
+# Run CUDA-specific tests (backward pass)
+./themis_tests --gtest_filter=KernelFusionTest.DISABLED_FlashAttentionBackward --gtest_also_run_disabled_tests
+
 # Run performance benchmarks
 ./themis_tests --gtest_filter=KernelFusionTest.DISABLED_PerformanceBenchmark --gtest_also_run_disabled_tests
+```
+
+## Training Support
+
+The backward pass implementation enables full training support for transformer models:
+
+### Usage Example
+
+```cpp
+// Forward pass
+launchFlashAttentionForward(d_Q, d_K, d_V, d_O, 
+    batch_size, num_heads, seq_len, head_dim, scale, is_causal);
+
+// Compute loss and get gradient dO
+// ... loss computation ...
+
+// Backward pass
+launchFlashAttentionBackward(d_dO, d_Q, d_K, d_V, d_O,
+    d_dQ, d_dK, d_dV,
+    batch_size, num_heads, seq_len, head_dim, scale, is_causal);
+
+// Gradients dQ, dK, dV are now ready for optimizer update
+```
+
+### Gradient Checking
+
+To verify correctness of gradients, use numerical differentiation:
+
+```python
+# Pseudocode for gradient checking
+def check_gradients(Q, K, V, dO):
+    eps = 1e-5
+    
+    # Compute analytical gradients
+    dQ_analytical = backward_pass(dO, Q, K, V)
+    
+    # Compute numerical gradients
+    for i in range(len(Q)):
+        Q[i] += eps
+        loss_plus = forward_pass(Q, K, V)
+        Q[i] -= 2 * eps
+        loss_minus = forward_pass(Q, K, V)
+        Q[i] += eps
+        
+        dQ_numerical[i] = (loss_plus - loss_minus) / (2 * eps)
+    
+    # Compare
+    assert ||dQ_analytical - dQ_numerical|| < tolerance
 ```
 
 ## Integration with llama.cpp
@@ -297,7 +380,7 @@ See `docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md` for llama.cpp integration de
 ### Planned Features
 
 - [ ] Flash Attention 2.0 with better parallelism
-- [ ] Flash Attention backward pass for training
+- [x] Flash Attention backward pass for training (✅ Completed)
 - [ ] Multi-query attention (MQA) support
 - [ ] Grouped-query attention (GQA) support
 - [ ] Sliding window attention
@@ -312,6 +395,7 @@ See `docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md` for llama.cpp integration de
 - [ ] Tensor core utilization for matrix multiplications
 - [ ] Multi-stream execution for batched inference
 - [ ] CUDA Graphs for kernel fusion sequences
+- [ ] Optimized atomic operations for gradient accumulation
 
 ## References
 

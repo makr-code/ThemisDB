@@ -152,6 +152,185 @@ __global__ void flashAttentionForwardKernel(
     }
 }
 
+// ============================================================================
+// Flash Attention Backward Pass Kernels
+// ============================================================================
+
+/**
+ * @brief Flash Attention Backward Pass - Tiled Implementation
+ * 
+ * Computes gradients for Q, K, V using the Flash Attention backward algorithm.
+ * Based on Flash Attention paper Algorithm 2.
+ * 
+ * Key optimizations:
+ * - Recompute attention on-the-fly (no need to store full attention matrix)
+ * - Tiled computation for memory efficiency
+ * - Fused gradient computation
+ * 
+ * @param dO Gradient of output (batch * num_heads * seq_len * head_dim)
+ * @param Q Query tensor (batch * num_heads * seq_len * head_dim)
+ * @param K Key tensor (batch * num_heads * seq_len * head_dim)
+ * @param V Value tensor (batch * num_heads * seq_len * head_dim)
+ * @param O Output from forward pass (batch * num_heads * seq_len * head_dim)
+ * @param dQ Gradient of query (output)
+ * @param dK Gradient of key (output)
+ * @param dV Gradient of value (output)
+ * @param scale Scaling factor (typically 1/sqrt(head_dim))
+ * @param is_causal Whether to apply causal masking
+ */
+__global__ void flashAttentionBackwardKernel(
+    const float* dO,
+    const float* Q,
+    const float* K,
+    const float* V,
+    const float* O,
+    float* dQ,
+    float* dK,
+    float* dV,
+    int batch_size,
+    int num_heads,
+    int seq_len,
+    int head_dim,
+    float scale,
+    bool is_causal
+) {
+    // Thread and block indices
+    int batch = blockIdx.z;
+    int head = blockIdx.y;
+    int q_idx = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    if (q_idx >= seq_len) return;
+    
+    // Shared memory for tiles
+    __shared__ float tile_K[TILE_SIZE][TILE_SIZE];
+    __shared__ float tile_V[TILE_SIZE][TILE_SIZE];
+    __shared__ float tile_dV[TILE_SIZE][TILE_SIZE];
+    __shared__ float tile_dK[TILE_SIZE][TILE_SIZE];
+    
+    // Base offsets for this head
+    int qkv_offset = (batch * num_heads + head) * seq_len * head_dim;
+    const float* Q_head = Q + qkv_offset + q_idx * head_dim;
+    const float* K_head = K + qkv_offset;
+    const float* V_head = V + qkv_offset;
+    const float* O_head = O + qkv_offset + q_idx * head_dim;
+    const float* dO_head = dO + qkv_offset + q_idx * head_dim;
+    float* dQ_head = dQ + qkv_offset + q_idx * head_dim;
+    
+    // Initialize dQ to zero
+    for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+        dQ_head[d] = 0.0f;
+    }
+    
+    // Recompute attention statistics for this query
+    float max_score = -FLT_MAX;
+    float sum_exp = 0.0f;
+    
+    // First pass: compute max and sum for softmax (same as forward)
+    for (int k_tile = 0; k_tile < seq_len; k_tile += TILE_SIZE) {
+        int k_idx = k_tile + threadIdx.x;
+        
+        if (is_causal && k_idx > q_idx) break;
+        
+        // Load K tile
+        if (k_idx < seq_len) {
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                tile_K[threadIdx.x][d] = K_head[k_idx * head_dim + d];
+            }
+        }
+        __syncthreads();
+        
+        // Compute scores
+        for (int k_local = 0; k_local < TILE_SIZE; ++k_local) {
+            int k_global = k_tile + k_local;
+            if (k_global >= seq_len || (is_causal && k_global > q_idx)) continue;
+            
+            float score = 0.0f;
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                score += Q_head[d] * tile_K[k_local][d];
+            }
+            score *= scale;
+            
+            float old_max = max_score;
+            max_score = fmaxf(max_score, score);
+            float rescale = expf(old_max - max_score);
+            sum_exp = sum_exp * rescale + expf(score - max_score);
+        }
+        __syncthreads();
+    }
+    
+    // Compute D = dO * O (element-wise, then sum)
+    float D = 0.0f;
+    for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+        D += dO_head[d] * O_head[d];
+    }
+    
+    // Second pass: compute gradients
+    for (int k_tile = 0; k_tile < seq_len; k_tile += TILE_SIZE) {
+        int k_idx = k_tile + threadIdx.x;
+        
+        if (is_causal && k_idx > q_idx) break;
+        
+        // Load K, V tiles
+        if (k_idx < seq_len) {
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                tile_K[threadIdx.x][d] = K_head[k_idx * head_dim + d];
+                tile_V[threadIdx.x][d] = V_head[k_idx * head_dim + d];
+            }
+        }
+        
+        // Initialize dK and dV tiles to zero
+        for (int d = 0; d < TILE_SIZE; ++d) {
+            tile_dK[threadIdx.x][d] = 0.0f;
+            tile_dV[threadIdx.x][d] = 0.0f;
+        }
+        __syncthreads();
+        
+        // Compute gradients for this tile
+        for (int k_local = 0; k_local < TILE_SIZE; ++k_local) {
+            int k_global = k_tile + k_local;
+            if (k_global >= seq_len || (is_causal && k_global > q_idx)) continue;
+            
+            // Recompute attention weight
+            float score = 0.0f;
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                score += Q_head[d] * tile_K[k_local][d];
+            }
+            score *= scale;
+            float attn = expf(score - max_score) / (sum_exp + 1e-10f);
+            
+            // Compute dP (gradient of attention weights before softmax)
+            float dP = 0.0f;
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                dP += dO_head[d] * tile_V[k_local][d];
+            }
+            dP = attn * (dP - D);
+            
+            // Accumulate dQ
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                dQ_head[d] += dP * scale * tile_K[k_local][d];
+            }
+            
+            // Accumulate dK and dV in shared memory
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                atomicAdd(&tile_dK[k_local][d], dP * scale * Q_head[d]);
+                atomicAdd(&tile_dV[k_local][d], attn * dO_head[d]);
+            }
+        }
+        __syncthreads();
+        
+        // Write dK and dV back to global memory
+        if (k_idx < seq_len) {
+            float* dK_ptr = dK + qkv_offset + k_idx * head_dim;
+            float* dV_ptr = dV + qkv_offset + k_idx * head_dim;
+            for (int d = 0; d < head_dim && d < TILE_SIZE; ++d) {
+                atomicAdd(&dK_ptr[d], tile_dK[threadIdx.x][d]);
+                atomicAdd(&dV_ptr[d], tile_dV[threadIdx.x][d]);
+            }
+        }
+        __syncthreads();
+    }
+}
+
 /**
  * @brief Fused QKV Projection Kernel
  * 
@@ -401,6 +580,47 @@ void launchFlashAttentionForward(
     
     flashAttentionForwardKernel<<<gridDim, blockDim, 0, stream>>>(
         d_Q, d_K, d_V, d_O,
+        batch_size, num_heads, seq_len, head_dim,
+        scale, is_causal
+    );
+}
+
+/**
+ * @brief Launch Flash Attention Backward Kernel
+ */
+void launchFlashAttentionBackward(
+    const float* d_dO,
+    const float* d_Q,
+    const float* d_K,
+    const float* d_V,
+    const float* d_O,
+    float* d_dQ,
+    float* d_dK,
+    float* d_dV,
+    int batch_size,
+    int num_heads,
+    int seq_len,
+    int head_dim,
+    float scale,
+    bool is_causal,
+    cudaStream_t stream
+) {
+    // Initialize gradients to zero
+    size_t size = batch_size * num_heads * seq_len * head_dim * sizeof(float);
+    cudaMemsetAsync(d_dQ, 0, size, stream);
+    cudaMemsetAsync(d_dK, 0, size, stream);
+    cudaMemsetAsync(d_dV, 0, size, stream);
+    
+    dim3 blockDim(BLOCK_SIZE);
+    dim3 gridDim(
+        (seq_len + blockDim.x - 1) / blockDim.x,
+        num_heads,
+        batch_size
+    );
+    
+    flashAttentionBackwardKernel<<<gridDim, blockDim, 0, stream>>>(
+        d_dO, d_Q, d_K, d_V, d_O,
+        d_dQ, d_dK, d_dV,
         batch_size, num_heads, seq_len, head_dim,
         scale, is_causal
     );

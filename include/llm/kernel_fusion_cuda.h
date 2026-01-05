@@ -57,6 +57,46 @@ void launchFlashAttentionForward(
 );
 
 /**
+ * @brief Launch Flash Attention Backward Kernel
+ * 
+ * Computes gradients for Q, K, V using Flash Attention backward algorithm.
+ * Based on Flash Attention paper Algorithm 2.
+ * 
+ * @param d_dO Gradient of output on device (batch * num_heads * seq_len * head_dim)
+ * @param d_Q Query tensor on device (batch * num_heads * seq_len * head_dim)
+ * @param d_K Key tensor on device (batch * num_heads * seq_len * head_dim)
+ * @param d_V Value tensor on device (batch * num_heads * seq_len * head_dim)
+ * @param d_O Output from forward pass on device (batch * num_heads * seq_len * head_dim)
+ * @param d_dQ Gradient of query on device (output)
+ * @param d_dK Gradient of key on device (output)
+ * @param d_dV Gradient of value on device (output)
+ * @param batch_size Batch size
+ * @param num_heads Number of attention heads
+ * @param seq_len Sequence length
+ * @param head_dim Dimension per head
+ * @param scale Scaling factor (typically 1/sqrt(head_dim))
+ * @param is_causal Whether to apply causal masking
+ * @param stream CUDA stream for async execution
+ */
+void launchFlashAttentionBackward(
+    const float* d_dO,
+    const float* d_Q,
+    const float* d_K,
+    const float* d_V,
+    const float* d_O,
+    float* d_dQ,
+    float* d_dK,
+    float* d_dV,
+    int batch_size,
+    int num_heads,
+    int seq_len,
+    int head_dim,
+    float scale,
+    bool is_causal,
+    cudaStream_t stream = 0
+);
+
+/**
  * @brief Launch Fused QKV Projection Kernel
  * 
  * Projects input to Query, Key, Value in single kernel launch

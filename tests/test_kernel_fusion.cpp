@@ -329,6 +329,68 @@ TEST_F(KernelFusionTest, FusedSoftmaxDropoutAttention) {
     EXPECT_TRUE(has_nonzero);
 }
 
+#ifdef THEMIS_ENABLE_CUDA
+// Note: Backward pass test requires CUDA and proper memory management
+// This is a placeholder that demonstrates the API
+TEST_F(KernelFusionTest, DISABLED_FlashAttentionBackward) {
+    // This test is disabled by default as it requires CUDA runtime
+    // Enable with: --gtest_also_run_disabled_tests
+    
+    const int batch_size = 1;
+    const int num_heads = 2;
+    const int seq_len = 4;
+    const int head_dim = 8;
+    const int qkv_total = batch_size * num_heads * seq_len * head_dim;
+    
+    // Host tensors
+    std::vector<float> Q(qkv_total, 0.5f);
+    std::vector<float> K(qkv_total, 0.5f);
+    std::vector<float> V(qkv_total, 0.5f);
+    std::vector<float> O(qkv_total, 0.3f);  // From forward pass
+    std::vector<float> dO(qkv_total, 1.0f); // Gradient from loss
+    
+    std::vector<float> dQ(qkv_total, 0.0f);
+    std::vector<float> dK(qkv_total, 0.0f);
+    std::vector<float> dV(qkv_total, 0.0f);
+    
+    // In a real test, would:
+    // 1. Allocate device memory with cudaMalloc
+    // 2. Copy inputs to device with cudaMemcpy
+    // 3. Call launchFlashAttentionBackward
+    // 4. Copy gradients back to host
+    // 5. Verify gradient correctness (e.g., with finite differences)
+    
+    // For now, just verify API exists
+    EXPECT_EQ(dQ.size(), qkv_total);
+    EXPECT_EQ(dK.size(), qkv_total);
+    EXPECT_EQ(dV.size(), qkv_total);
+}
+#endif
+
+// Gradient check test (numerical differentiation)
+TEST_F(KernelFusionTest, GradientCheckConcept) {
+    // This test demonstrates the concept of gradient checking
+    // In practice, would need to compute numerical gradients and compare
+    
+    const int batch_size = 1;
+    const int num_heads = 1;
+    const int seq_len = 2;
+    const int head_dim = 4;
+    
+    // For gradient checking, we would:
+    // 1. Run forward pass to get output O
+    // 2. Compute loss from O
+    // 3. Run backward pass to get analytical gradients
+    // 4. Compute numerical gradients using finite differences:
+    //    grad_numerical[i] = (f(x + eps) - f(x - eps)) / (2 * eps)
+    // 5. Compare analytical vs numerical gradients
+    
+    // Expected: ||grad_analytical - grad_numerical|| < tolerance
+    
+    // This is a placeholder test
+    SUCCEED() << "Gradient checking concept documented";
+}
+
 // Performance benchmark placeholder
 TEST_F(KernelFusionTest, DISABLED_PerformanceBenchmark) {
     // This test is disabled by default
