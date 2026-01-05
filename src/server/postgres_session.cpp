@@ -133,6 +133,35 @@ void PostgresSession::handleQuery(const std::string& query) {
         return;
     }
     
+    // Handle COPY commands
+    if (upperQuery.find("COPY") == 0) {
+        // COPY FROM STDIN or COPY TO STDOUT
+        if (upperQuery.find("FROM STDIN") != std::string::npos) {
+            // COPY table FROM STDIN
+            // Send CopyInResponse to start receiving data
+            std::vector<int16_t> formatCodes = {0}; // Text format
+            sendCopyInResponse(formatCodes);
+            return; // Don't send ReadyForQuery yet
+        } else if (upperQuery.find("TO STDOUT") != std::string::npos) {
+            // COPY table TO STDOUT
+            // Send CopyOutResponse and start sending data
+            std::vector<int16_t> formatCodes = {0}; // Text format
+            sendCopyOutResponse(formatCodes);
+            
+            // Send sample data (in production, query database)
+            // Format: tab-separated values, newline-terminated
+            std::string sampleData = "1\tAlice\talice@example.com\n2\tBob\tbob@example.com\n";
+            sendCopyData(std::vector<uint8_t>(sampleData.begin(), sampleData.end()));
+            
+            // End of data
+            sendCopyDone();
+            sendCommandComplete("COPY 2"); // 2 rows
+            char txnStatus = (transactionState_ == TransactionState::IN_TRANSACTION) ? 'T' : 'I';
+            sendReadyForQuery(txnStatus);
+            return;
+        }
+    }
+    
     // Translate SQL to Cypher for regular queries
     try {
         std::string cypherQuery = translateQuery(query);
@@ -425,6 +454,45 @@ void PostgresSession::handleTerminate() {
     stop();
 }
 
+void PostgresSession::handleCopyData(const std::vector<uint8_t>& data) {
+    // PostgreSQL CopyData message handler
+    // Receives data rows during COPY IN operation
+    
+    // Parse the data based on format (text or binary)
+    // For now, accumulate data for bulk insertion
+    
+    // In production, this would:
+    // 1. Parse CSV/TSV data (text format) or binary format
+    // 2. Validate and transform data
+    // 3. Buffer for batch insertion
+    // 4. Handle errors gracefully
+    
+    // For now, just acknowledge receipt
+    // Actual insertion would happen on CopyDone
+}
+
+void PostgresSession::handleCopyDone() {
+    // PostgreSQL CopyDone message handler
+    // Signals end of COPY IN operation
+    
+    // In production, this would:
+    // 1. Flush any buffered data
+    // 2. Execute batch insert
+    // 3. Return number of rows inserted
+    
+    // Send CommandComplete with row count
+    sendCommandComplete("COPY 0"); // Placeholder: 0 rows copied
+}
+
+void PostgresSession::handleCopyFail(const std::string& message) {
+    // PostgreSQL CopyFail message handler
+    // Signals that client wants to abort COPY operation
+    
+    // Clean up any buffered data
+    // Send error response if needed
+    sendErrorResponse("ERROR", "57014", "COPY operation canceled: " + message);
+}
+
 // Send methods
 
 void PostgresSession::sendAuthenticationOk() {
@@ -570,6 +638,84 @@ void PostgresSession::sendNoData() {
 
 void PostgresSession::sendCloseComplete() {
     writeMessage('3', {});
+}
+
+void PostgresSession::sendCopyInResponse(const std::vector<int16_t>& formatCodes) {
+    // Send CopyInResponse message ('G')
+    // Format: overall_format(1) + num_columns(2) + format_codes(2 * N)
+    
+    std::vector<uint8_t> payload;
+    
+    // Overall format: 0 = text, 1 = binary
+    uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
+    payload.push_back(overallFormat);
+    
+    // Number of columns
+    uint16_t numColumns = formatCodes.size();
+    payload.push_back((numColumns >> 8) & 0xFF);
+    payload.push_back(numColumns & 0xFF);
+    
+    // Format code for each column (0 = text, 1 = binary)
+    for (int16_t format : formatCodes) {
+        payload.push_back((format >> 8) & 0xFF);
+        payload.push_back(format & 0xFF);
+    }
+    
+    writeMessage('G', payload);
+}
+
+void PostgresSession::sendCopyOutResponse(const std::vector<int16_t>& formatCodes) {
+    // Send CopyOutResponse message ('H')
+    // Same format as CopyInResponse
+    
+    std::vector<uint8_t> payload;
+    
+    uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
+    payload.push_back(overallFormat);
+    
+    uint16_t numColumns = formatCodes.size();
+    payload.push_back((numColumns >> 8) & 0xFF);
+    payload.push_back(numColumns & 0xFF);
+    
+    for (int16_t format : formatCodes) {
+        payload.push_back((format >> 8) & 0xFF);
+        payload.push_back(format & 0xFF);
+    }
+    
+    writeMessage('H', payload);
+}
+
+void PostgresSession::sendCopyBothResponse(const std::vector<int16_t>& formatCodes) {
+    // Send CopyBothResponse message ('W')
+    // Used for replication
+    
+    std::vector<uint8_t> payload;
+    
+    uint8_t overallFormat = formatCodes.empty() ? 0 : (formatCodes[0] == 1 ? 1 : 0);
+    payload.push_back(overallFormat);
+    
+    uint16_t numColumns = formatCodes.size();
+    payload.push_back((numColumns >> 8) & 0xFF);
+    payload.push_back(numColumns & 0xFF);
+    
+    for (int16_t format : formatCodes) {
+        payload.push_back((format >> 8) & 0xFF);
+        payload.push_back(format & 0xFF);
+    }
+    
+    writeMessage('W', payload);
+}
+
+void PostgresSession::sendCopyData(const std::vector<uint8_t>& data) {
+    // Send CopyData message ('d')
+    // Just the raw data bytes
+    writeMessage('d', data);
+}
+
+void PostgresSession::sendCopyDone() {
+    // Send CopyDone message ('c')
+    // No payload
+    writeMessage('c', {});
 }
 
 void PostgresSession::sendErrorResponse(const std::string& severity, const std::string& code, 
@@ -761,6 +907,21 @@ void PostgresSession::doRead() {
                     case 'X': // Terminate
                         handleTerminate();
                         return;
+                    case 'd': { // CopyData
+                        // Copy data from client
+                        std::vector<uint8_t> copyData(buffer_.data() + offset, 
+                                                     buffer_.data() + length + 1);
+                        handleCopyData(copyData);
+                        break;
+                    }
+                    case 'c': // CopyDone
+                        handleCopyDone();
+                        break;
+                    case 'f': { // CopyFail
+                        std::string errorMsg(buffer_.data() + offset);
+                        handleCopyFail(errorMsg);
+                        break;
+                    }
                     default:
                         break;
                 }

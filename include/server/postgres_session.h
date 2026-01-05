@@ -30,6 +30,9 @@ public:
     void handleClose(char type, const std::string& name);
     void handleSync();
     void handleTerminate();
+    void handleCopyData(const std::vector<uint8_t>& data);
+    void handleCopyDone();
+    void handleCopyFail(const std::string& message);
 
     // Send PostgreSQL protocol messages
     void sendAuthenticationOk();
@@ -46,6 +49,11 @@ public:
     void sendParameterDescription(const std::vector<int32_t>& paramTypes);
     void sendNoData();
     void sendCloseComplete();
+    void sendCopyInResponse(const std::vector<int16_t>& formatCodes);
+    void sendCopyOutResponse(const std::vector<int16_t>& formatCodes);
+    void sendCopyBothResponse(const std::vector<int16_t>& formatCodes);
+    void sendCopyData(const std::vector<uint8_t>& data);
+    void sendCopyDone();
     void sendErrorResponse(const std::string& severity, const std::string& code, const std::string& message);
 
     struct FieldDescription {
