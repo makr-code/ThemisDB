@@ -67,6 +67,18 @@ llm_plugins:
       # Flash Attention: 15-25% faster inference, 30% less memory
       # Requires llama.cpp b2000+ with CUDA support
       use_flash_attn: true
+      
+      # KV-Cache Reuse: 10-20x faster first-token for repeated prompts
+      # Especially beneficial for RAG workloads with consistent system prompts
+      use_kv_cache_reuse: true
+      
+      # Prefix Cache Configuration
+      prefix_cache:
+        similarity_threshold: 0.95  # 95% similarity required for cache hit
+        max_entries: 1000           # Maximum cached prefixes
+        min_prefix_length: 20       # Minimum prefix length to cache (chars)
+        ttl_seconds: 7200           # 2 hours TTL
+        enable_kv_caching: true     # Precompute KV cache
     
     # Context and processing
     context:

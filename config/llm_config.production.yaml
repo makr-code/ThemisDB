@@ -7,6 +7,15 @@ llm:
     # Performance Optimizations
     # =====================================================
     use_flash_attn: true          # Always enabled in production
+    use_kv_cache_reuse: true      # Always enabled in production
+    
+    # Prefix Cache (aggressive for production)
+    prefix_cache:
+      similarity_threshold: 0.98  # Stricter for production
+      max_entries: 5000           # More entries
+      min_prefix_length: 10       # Cache shorter prefixes
+      ttl_seconds: 14400          # 4 hours TTL
+      enable_kv_caching: true
     
     # =====================================================
     # GPU Settings (Production)

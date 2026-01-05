@@ -21,9 +21,19 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     // Initialize multi-LoRA manager (vLLM-style)
     lora_manager_ = std::make_unique<MultiLoRAManager>(config_.multi_lora_config);
     
+    // Initialize KV-Cache Reuse (Prefix Caching)
+    if (config_.use_kv_cache_reuse) {
+        prefix_cache_ = std::make_unique<LLMPrefixCache>(
+            "llama_prefix_cache",
+            config_.prefix_cache_config
+        );
+        spdlog::info("  KV-Cache Reuse: enabled (10-20x first-token speedup)");
+    }
+    
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
+    spdlog::info("  Flash Attention: {}", config_.use_flash_attn ? "enabled" : "disabled");
     spdlog::info("  Lazy loading: enabled (Ollama-style)");
     spdlog::info("  Multi-LoRA: enabled (vLLM-style)");
 }

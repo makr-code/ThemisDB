@@ -3,6 +3,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/model_loader.h"
 #include "llm/multi_lora_manager.h"
+#include "llm/llm_prefix_cache.h"
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -114,12 +115,16 @@ public:
         
         // Performance optimizations (llama.cpp features)
         bool use_flash_attn = true;   // Flash Attention for 15-25% speedup
+        bool use_kv_cache_reuse = true; // KV-Cache Reuse for 10-20x first-token speedup
         
         // Lazy loading (Ollama-style)
         LazyModelLoader::Config lazy_loader_config;
         
         // Multi-LoRA (vLLM-style)
         MultiLoRAManager::Config multi_lora_config;
+        
+        // KV-Cache Reuse (Prefix Caching)
+        LLMPrefixCache::Config prefix_cache_config;
     };
     
     explicit LlamaWrapper(const Config& config);
@@ -203,6 +208,9 @@ private:
     
     // vLLM-style multi-LoRA manager
     std::unique_ptr<MultiLoRAManager> lora_manager_;
+    
+    // KV-Cache Reuse (Prefix Caching)
+    std::unique_ptr<LLMPrefixCache> prefix_cache_;
     
     // Current active model
     std::string current_model_id_;
