@@ -72,10 +72,10 @@ All SDKs now support the same feature set (as of v1.4.0-alpha, January 2026):
 | - `vectorSearch()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | - `vectorUpsert()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | - `vectorDelete()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **LLM API (v1.4.0+)** 🆕 | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
-| - `llmInteraction()` | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
-| - `getLlmInteraction()` | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
-| - `listLlmInteractions()` | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
+| **LLM API (v1.4.0+)** 🆕 | ✅ | ✅ | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 |
+| - `llmInteraction()` | ✅ | ✅ | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 |
+| - `getLlmInteraction()` | ✅ | ✅ | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 |
+| - `listLlmInteractions()` | ✅ | ✅ | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 |
 | Batch Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ | N/A | N/A |

@@ -8,6 +8,7 @@ Official Go client library for [ThemisDB](https://github.com/makr-code/ThemisDB)
 ## Features
 
 - ✅ **ACID Transactions** - Full transaction support with BEGIN/COMMIT/ROLLBACK
+- ✅ **LLM Integration** - Native support for LLM interactions (v1.4.0+) 🆕
 - ✅ **Multiple Isolation Levels** - READ_COMMITTED, SNAPSHOT
 - ✅ **CRUD Operations** - Get, Put, Delete with type-safe interfaces
 - ✅ **AQL Query Support** - Execute complex queries
@@ -239,6 +240,129 @@ func operationWithTimeout(client *themisdb.Client) error {
             return fmt.Errorf("operation timed out")
         }
         return err
+    }
+
+    return nil
+}
+```
+
+## LLM Integration (v1.4.0+) 🆕
+
+### Basic LLM Interaction
+
+```go
+func createLlmInteraction(client *themisdb.Client) error {
+    ctx := context.Background()
+
+    messages := []themisdb.LlmMessage{
+        {
+            Role:    "user",
+            Content: "Explain MVCC in databases",
+        },
+    }
+
+    result, err := client.LlmInteraction(ctx, "gpt-4o", messages, nil)
+    if err != nil {
+        return err
+    }
+
+    fmt.Printf("Interaction ID: %s, Success: %v\n", result.ID, result.Success)
+    return nil
+}
+```
+
+### LLM with Reasoning Steps
+
+```go
+func llmWithReasoning(client *themisdb.Client) error {
+    ctx := context.Background()
+
+    messages := []themisdb.LlmMessage{
+        {Role: "system", Content: "You are a database expert"},
+        {Role: "user", Content: "How does ThemisDB handle transactions?"},
+    }
+
+    opts := &themisdb.LlmInteractionOptions{
+        ReasoningSteps: []themisdb.ReasoningStep{
+            {
+                Type: "chain_of_thought",
+                Content: []string{
+                    "MVCC allows parallel reading/writing",
+                    "Each transaction gets a snapshot",
+                    "Commit checks for conflicts",
+                },
+            },
+        },
+        Metadata: map[string]interface{}{
+            "use_case": "documentation",
+            "version":  "1.4.0",
+        },
+    }
+
+    result, err := client.LlmInteraction(ctx, "llama-3.1", messages, opts)
+    if err != nil {
+        return err
+    }
+
+    fmt.Printf("Created interaction: %s\n", result.ID)
+    return nil
+}
+```
+
+### Get LLM Interaction
+
+```go
+func retrieveLlmInteraction(client *themisdb.Client, interactionID string) error {
+    ctx := context.Background()
+
+    interaction, err := client.GetLlmInteraction(ctx, interactionID)
+    if err != nil {
+        return err
+    }
+
+    if interaction == nil {
+        fmt.Println("Interaction not found")
+        return nil
+    }
+
+    fmt.Printf("Model: %s\n", interaction.Model)
+    fmt.Printf("Created: %s\n", interaction.CreatedAt)
+    for _, msg := range interaction.Messages {
+        fmt.Printf("%s: %s\n", msg.Role, msg.Content)
+    }
+
+    if interaction.ReasoningSteps != nil {
+        for _, step := range interaction.ReasoningSteps {
+            fmt.Printf("Reasoning (%s): %v\n", step.Type, step.Content)
+        }
+    }
+
+    return nil
+}
+```
+
+### List LLM Interactions
+
+```go
+func listLlmInteractions(client *themisdb.Client) error {
+    ctx := context.Background()
+
+    opts := &themisdb.ListLlmInteractionsOptions{
+        Model:  "gpt-4o",
+        Limit:  50,
+        Offset: 0,
+    }
+
+    interactions, err := client.ListLlmInteractions(ctx, opts)
+    if err != nil {
+        return err
+    }
+
+    for _, interaction := range interactions {
+        fmt.Printf("%s: %s - %s\n", 
+            interaction.ID, 
+            interaction.Model, 
+            interaction.CreatedAt)
     }
 
     return nil
