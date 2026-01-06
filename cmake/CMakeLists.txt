@@ -904,6 +904,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/distributed_transaction.cpp
     src/sharding/redundancy_strategy.cpp
     src/sharding/hot_spare_manager.cpp
+    src/sharding/predictive_detector.cpp
     src/sharding/shard_rpc_server.cpp
     src/storage/blob_redundancy_manager.cpp
     src/server/sharding_metrics_handler.cpp
