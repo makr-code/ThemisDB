@@ -200,6 +200,26 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Updates the task context when a document/case/process is selected
+    /// This implements VIS-style context-aware task filtering
+    /// </summary>
+    public async Task UpdateTaskContextAsync(string? entityId, Application.Tasks.Queries.GetMyTasks.LinkedEntityType? entityType)
+    {
+        try
+        {
+            var tasksVm = App.GetService<TasksRightSidebarViewModel>();
+            if (tasksVm != null)
+            {
+                await tasksVm.UpdateEntityContextAsync(entityId, entityType);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Fehler beim Aktualisieren des Aufgaben-Kontexts: {ex.Message}";
+        }
+    }
+
     private void SaveTabs()
     {
         try
