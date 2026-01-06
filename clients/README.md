@@ -57,7 +57,7 @@ Each SDK directory contains its own README with language-specific installation a
 
 ## SDK Feature Parity Matrix
 
-All SDKs now support the same feature set (as of December 2025):
+All SDKs now support the same feature set (as of v1.4.0-alpha, January 2026):
 
 | Feature | Python | JavaScript | Go | Rust | Java | C# | Swift | PHP | Ruby |
 |---------|--------|------------|----|----|------|----|----|-----|------|
@@ -72,10 +72,19 @@ All SDKs now support the same feature set (as of December 2025):
 | - `vectorSearch()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | - `vectorUpsert()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | - `vectorDelete()` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **LLM API (v1.4.0+)** 🆕 | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
+| - `llmInteraction()` | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
+| - `getLlmInteraction()` | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
+| - `listLlmInteractions()` | ✅ | ✅ | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 | 📋 |
 | Batch Operations | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Topology-Aware Routing | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | Async/Await | ✅ | ✅ | N/A | ✅ | N/A | ✅ | ✅ | N/A | N/A |
 | TLS/mTLS | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+**Legend:**
+- ✅ = Implemented and tested
+- 📋 = Planned (template available in Python/JavaScript clients)
+- N/A = Not applicable for this language
 
 ## Documentation
 
