@@ -1,4 +1,4 @@
-# 🐳 ThemisDB Docker Build - Konsolidierte Version
+do# 🐳 ThemisDB Docker Build - Konsolidierte Version
 
 ## ✅ Ein Dockerfile für alle Editionen
 
