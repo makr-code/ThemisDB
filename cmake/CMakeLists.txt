@@ -1255,7 +1255,26 @@ endif()
 
 # Link Office document libraries (libzip and pugixml) if enabled
 if(THEMIS_ENABLE_OFFICE)
-    target_link_libraries(themis_core PUBLIC libzip::zip pugixml::pugixml)
+    # libzip may export as libzip::zip or libzip::libzip depending on version
+    if(TARGET libzip::zip)
+        target_link_libraries(themis_core PUBLIC libzip::zip)
+    elseif(TARGET libzip::libzip)
+        target_link_libraries(themis_core PUBLIC libzip::libzip)
+    else()
+        message(WARNING "libzip target not found - please check libzip installation")
+    endif()
+    
+    # pugixml should export as pugixml::pugixml or pugixml::static
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(themis_core PUBLIC pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(themis_core PUBLIC pugixml::static)
+    elseif(TARGET pugixml)
+        target_link_libraries(themis_core PUBLIC pugixml)
+    else()
+        message(WARNING "pugixml target not found - please check pugixml installation")
+    endif()
+    
     message(STATUS "Office support linked: libzip and pugixml")
 endif()
 

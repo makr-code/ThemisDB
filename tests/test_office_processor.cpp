@@ -136,8 +136,9 @@ TEST_F(OfficeProcessorTest, ExtractFromInvalidBlob) {
     
     auto result = processor->extract(invalid_blob, content_type);
     
-    // Should fail gracefully
-    EXPECT_FALSE(result.ok || result.text.empty() || !result.error_message.empty());
+    // Should fail gracefully - either ok is false OR there's an error message
+    EXPECT_TRUE(!result.ok || !result.error_message.empty()) 
+        << "Invalid document should fail or have error message";
 }
 
 TEST_F(OfficeProcessorTest, ExtractFromEmptyBlob) {
