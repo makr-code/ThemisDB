@@ -96,6 +96,27 @@ enum class ErasureCodingAlgorithm {
 };
 
 /**
+ * GPU Acceleration Type for Erasure Coding
+ */
+enum class AccelerationType {
+    CPU_ONLY,       // CPU-only fallback
+    GPU_CUDA,       // NVIDIA CUDA
+    GPU_OPENCL,     // OpenCL (AMD/Intel/NVIDIA)
+    AUTO            // Auto-detect best available
+};
+
+/**
+ * GPU Configuration for Erasure Coding
+ */
+struct GPUErasureConfig {
+    AccelerationType acceleration = AccelerationType::CPU_ONLY;
+    int device_id = 0;
+    size_t batch_size = 64;
+    bool async_compute = true;
+    bool fallback_cpu = true;
+};
+
+/**
  * Erasure Coding Configuration
  */
 struct ErasureCodingConfig {
@@ -103,6 +124,9 @@ struct ErasureCodingConfig {
     uint32_t parity_shards = 2;     // m: Number of parity chunks
     ErasureCodingAlgorithm algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
     uint32_t min_document_size_kb = 1024;  // Minimum size to apply EC
+    
+    // GPU acceleration settings (v1.5.0+)
+    GPUErasureConfig gpu_config;
     
     // Total shards needed = data_shards + parity_shards
     uint32_t totalShards() const { return data_shards + parity_shards; }

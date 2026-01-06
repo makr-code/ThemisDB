@@ -903,6 +903,8 @@ set(THEMIS_CORE_SOURCES
     src/sharding/truetime.cpp
     src/sharding/distributed_transaction.cpp
     src/sharding/redundancy_strategy.cpp
+    src/sharding/gpu_erasure_coder.cpp
+    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:src/sharding/gpu_erasure_coder_opencl.cpp>
     src/sharding/hot_spare_manager.cpp
     src/sharding/shard_rpc_server.cpp
     src/storage/blob_redundancy_manager.cpp
@@ -1088,6 +1090,7 @@ if(THEMIS_ENABLE_CUDA)
     list(APPEND THEMIS_ACCELERATION_SOURCES 
         src/acceleration/cuda_backend.cpp
         src/acceleration/cuda/vector_kernels.cu
+        src/sharding/gpu_erasure_coder.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
