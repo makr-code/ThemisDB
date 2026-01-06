@@ -58,6 +58,34 @@ if(NOT CURL_FOUND)
     message(WARNING "CURL package not found; building without libcurl. Some features may be disabled.")
 endif()
 
+# Office document support (DOCX/XLSX/PPTX)
+# Requires libzip (for ZIP archive handling) and pugixml (for XML parsing)
+if(THEMIS_ENABLE_OFFICE)
+    find_package(libzip CONFIG)
+    if(NOT libzip_FOUND)
+        find_package(libzip)
+    endif()
+    
+    find_package(pugixml CONFIG)
+    if(NOT pugixml_FOUND)
+        find_package(pugixml)
+    endif()
+    
+    if(libzip_FOUND AND pugixml_FOUND)
+        message(STATUS "Office support enabled - libzip and pugixml found")
+        add_compile_definitions(THEMIS_ENABLE_OFFICE)
+    else()
+        if(NOT libzip_FOUND)
+            message(WARNING "libzip not found - Install with: vcpkg install libzip")
+        endif()
+        if(NOT pugixml_FOUND)
+            message(WARNING "pugixml not found - Install with: vcpkg install pugixml")
+        endif()
+        message(WARNING "Disabling Office support due to missing dependencies")
+        set(THEMIS_ENABLE_OFFICE OFF CACHE BOOL "Office support disabled - missing dependencies" FORCE)
+    endif()
+endif()
+
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
@@ -71,6 +99,7 @@ option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stu
 option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
 option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors (audio/image/video/geo/cad) in core" OFF)
+option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) with libzip+pugixml" ON)
 
 # For QNAP or fully static builds, force static core library
 if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
@@ -788,6 +817,7 @@ set(THEMIS_CORE_SOURCES
     src/content/content_policy.cpp
     src/content/content_fs.cpp
     src/content/version_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:src/content/office_processor.cpp>
     
     src/cache/semantic_cache.cpp
     src/cache/embedding_cache.cpp
@@ -1221,6 +1251,12 @@ endif()
 # Define THEMIS_ENABLE_CURL if CURL is found
 if(CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
+endif()
+
+# Link Office document libraries (libzip and pugixml) if enabled
+if(THEMIS_ENABLE_OFFICE)
+    target_link_libraries(themis_core PUBLIC libzip::zip pugixml::pugixml)
+    message(STATUS "Office support linked: libzip and pugixml")
 endif()
 
 # Enable OpenSSL-based Timestamp Authority (RFC 3161) if both OpenSSL and CURL are available
