@@ -130,36 +130,35 @@
 
 ## 📋 TODO: Was fehlt noch?
 
+### Hinweis: Office Add-Ins
+
+> **ℹ️ Office Add-Ins befinden sich in einem separaten Repository:**
+> https://github.com/makr-code/OfficeAddins
+> 
+> Die Implementierung von Word, Excel, Outlook und PowerPoint Add-Ins erfolgt dort.
+> DocumentManager kommuniziert mit den Add-Ins über definierte APIs.
+
 ### Priorität 1: Kritische Implementierungen ⚠️
 
-#### 1.1 Office Integration - Praktische Umsetzung
-**Status:** 📚 Dokumentiert, ❌ Nicht implementiert
+#### 1.1 Office Add-In Integration (API-Seite)
+**Status:** 🔗 Add-Ins in separatem Repo, ❌ API-Integration in DocumentManager fehlt
 
-**Was fehlt:**
-- [ ] **Word Add-In (VSTO)**
-  - [ ] Ribbon-Buttons: "ThemisDB Archivieren", "Metadaten", "Versionen"
-  - [ ] Task Pane Integration
-  - [ ] Auto-Save Handler (BeforeSave-Event)
-  - [ ] Versions-Tracking im Dokument
-  - [ ] Template-Browser
+**Was in diesem Repo (ThemisDB/DocumentManager) zu implementieren ist:**
+- [ ] **API für Office Add-In Kommunikation**
+  - [ ] REST/WebSocket Endpoints für Add-In ↔ DocumentManager
+  - [ ] Document Archive API (für Word/Excel/PowerPoint)
+  - [ ] Task Sync API (für Outlook)
+  - [ ] Metadata Query API (für alle Add-Ins)
+  - [ ] Authentication/Authorization für Add-Ins
 
-- [ ] **Excel Add-In (VSTO)**
-  - [ ] Custom UDF Functions (`=THEMISDB_QUERY()`)
-  - [ ] Data Import/Export
-  - [ ] Ribbon-Integration
+- [ ] **Office Integration Service erweitern**
+  - [ ] Bidirektionale Task-Synchronisation Backend
+  - [ ] E-Mail-Archivierung Backend
+  - [ ] Dokument-Versionierung API
+  - [ ] Template-Management API
 
-- [ ] **Outlook Add-In (VSTO)**
-  - [ ] **Bidirektionale Task-Synchronisation** (KRITISCH für Tasks-Feature!)
-  - [ ] E-Mail-Archivierung
-  - [ ] Anhang-Handler
-  - [ ] Kategorie-Mapping
-
-- [ ] **PowerPoint Add-In**
-  - [ ] Template-Browser
-  - [ ] Daten-Visualisierung
-
-**Aufwand:** ~40-60 Stunden pro Add-In
-**Technologie:** Visual Studio Tools for Office (VSTO), COM Interop
+**Aufwand:** ~20-30 Stunden
+**Technologie:** ASP.NET Core Web API, SignalR (optional für real-time)
 
 #### 1.2 Windows Integration - Shell Extensions
 **Status:** 📚 Dokumentiert, ❌ Nicht implementiert
@@ -337,44 +336,46 @@
 
 ## 🎯 Empfohlene Roadmap
 
-### Phase 1: Office Integration (8-10 Wochen)
+> **ℹ️ Hinweis:** Office Add-Ins werden parallel im separaten Repository [OfficeAddins](https://github.com/makr-code/OfficeAddins) entwickelt.
+
+### Phase 1: Office Integration API & Task Backend (3-4 Wochen)
 **Kritisch für "nahtlose Office-Adaptation"**
 
-**Woche 1-3:** Outlook Task Sync (bidirektional)
-- Backend: Task CRUD Commands
-- Outlook Add-In: COM Interop
-- Synchronisations-Service
-- **Ziel:** Tasks zwischen Outlook ↔ ThemisDB synchronisieren
+**Woche 1-2:** Office Add-In API Implementation
+- REST/WebSocket Endpoints für Add-In Kommunikation
+- Authentication/Authorization
+- Document Archive API
+- Metadata Query API
+- **Ziel:** DocumentManager kann mit Office Add-Ins kommunizieren
 
-**Woche 4-6:** Word Add-In
-- Ribbon-Buttons
-- Task Pane
-- Auto-Save Integration
-- **Ziel:** Dokumente direkt aus Word archivieren
+**Woche 3-4:** Task Backend & Outlook Sync API
+- Task CRUD Commands (MediatR)
+- Task Repository
+- ThemisDB Task Store Schema
+- Bidirektionale Sync API für Outlook
+- **Ziel:** Tasks zwischen Outlook ↔ ThemisDB synchronisieren (Backend-Seite)
 
-**Woche 7-8:** Excel Add-In
-- Custom Functions
-- Data Import/Export
-- **Ziel:** ThemisDB-Daten in Excel nutzen
-
-**Woche 9-10:** PowerPoint & OneNote (Nice-to-have)
+**Parallel im OfficeAddins Repo:**
+- Outlook Add-In: COM Interop, Task Sync Client
+- Word Add-In: Ribbon, Task Pane, Auto-Save
+- Excel Add-In: Custom Functions, Data Import
 
 ### Phase 2: Windows Integration (3-4 Wochen)
-**Woche 11-12:** Shell Extensions
+**Woche 5-6:** Shell Extensions
 - Context Menu Integration
 - Protocol Handler (`themisdb://`)
 
-**Woche 13-14:** Notifications & Taskbar
+**Woche 7-8:** Notifications & Taskbar
 - Toast Notifications
 - JumpLists
 
 ### Phase 3: Voice Control (2-3 Wochen)
-**Woche 15-17:** STT/TTS Implementation
+**Woche 9-11:** STT/TTS Implementation
 - Whisper.NET Integration
 - Voice Command UI
 
 ### Phase 4: Polish & Documentation (2 Wochen)
-**Woche 18-19:** Testing, Bug Fixes, Dokumentation
+**Woche 12-13:** Testing, Bug Fixes, Dokumentation
 
 ---
 
@@ -394,13 +395,16 @@
 - Services für ThemisDB-Zugriff
 - MVVM Architecture
 
-### ❌ Noch zu implementieren (ca. 20%, aber kritisch)
+### ❌ Noch zu implementieren in diesem Repo
 
-**Kritisch:**
-1. **Office Add-Ins** (Word, Excel, Outlook) - ~40-60h pro Add-In
-2. **Outlook Task Sync** - ~20h (HÖCHSTE PRIORITÄT für Tasks!)
-3. **Windows Shell Extensions** - ~20-30h
-4. **Task Backend** (Commands, Repository) - ~15-20h
+> **ℹ️ Office Add-Ins (Word, Excel, Outlook, PowerPoint) werden im separaten Repository entwickelt:**
+> https://github.com/makr-code/OfficeAddins
+
+**Kritisch in ThemisDB/DocumentManager:**
+1. **Office Add-In API Integration** - ~20-30h (Backend für Add-In Kommunikation)
+2. **Task Backend vervollständigen** - ~15-20h (Commands, Repository, ThemisDB Schema)
+3. **Windows Shell Extensions** - ~20-30h (Context Menu, Protocol Handler)
+4. **Task Sync API** - ~10-15h (Backend für Outlook Sync)
 
 **Nice-to-have:**
 5. Voice Control Implementation - ~10-15h
@@ -409,23 +413,27 @@
 
 ### 🎯 Empfehlung
 
-**Sofort starten:**
-1. **Outlook Task Sync** (kritisch für Tasks-Feature!)
-2. **Word Add-In** (höchste Sichtbarkeit)
-3. **Task Backend vervollständigen**
+**Sofort in diesem Repo starten:**
+1. **Task Backend vervollständigen** (kritisch für Tasks-Feature!)
+2. **Office Add-In API** (ermöglicht Integration mit OfficeAddins Repo)
+3. **Task Sync API Backend** (für Outlook-Integration)
 
-**Danach:**
-4. Windows Shell Extensions
-5. Excel Add-In
-6. Voice Control
+**Parallel im OfficeAddins Repo:**
+4. Word Add-In (höchste Sichtbarkeit)
+5. Outlook Add-In (Task Sync Client)
+6. Excel Add-In
+
+**Danach in diesem Repo:**
+7. Windows Shell Extensions
+8. Voice Control
+9. Advanced AI Features
 
 **Später:**
-7. PowerPoint/OneNote Add-Ins
-8. Advanced AI Features
-9. Mobile/Web Frontend
+10. Mobile/Web Frontend
 
 ---
 
 **Erstellt:** 2024-06-12  
-**Version:** 1.0  
-**Basis:** ThemisDB v1.3.3 + Themis.DocumentManager Tasks-Branch
+**Version:** 1.1  
+**Basis:** ThemisDB v1.3.3 + Themis.DocumentManager Tasks-Branch  
+**Update:** Office Add-Ins in separatem Repo: https://github.com/makr-code/OfficeAddins
