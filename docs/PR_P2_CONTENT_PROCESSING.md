@@ -361,13 +361,21 @@ TEST(VideoProcessorFFmpeg, ExtractThumbnail) {
 
 **Datei:** `src/content/office_processor.cpp`
 
-**Status:** DOCX/XLSX ✅ fertig, PPTX ❌ Placeholder
+**Status:** DOCX/XLSX/PPTX ✅ Alle fertig und getestet
+
+Die PPTX-Implementierung ist vollständig:
+- Verwendet libzip für ZIP-Archiv-Verarbeitung
+- Verwendet pugixml für XML-Parsing
+- Extrahiert Folienanzahl und Metadaten
+- Parst Text aus allen Folien
+- Extrahiert Sprechernotizen (falls konfiguriert)
+- Unterstützt alle OOXML Office-Formate (DOCX/XLSX/PPTX)
 
 ```cpp
-if (content_type.mime_type.find("presentationml") != std::string::npos) {
-    // 🟡 PPTX - Placeholder
-    result.text = "[PPTX extraction not yet implemented]";
-    THEMIS_WARN("PPTX extraction is a placeholder");
+// PPTX extraction is fully implemented in office_processor.cpp lines 410-498
+ExtractionResult OfficeProcessor::extractPPTX(const std::string& blob) {
+    // Full implementation with libzip + pugixml
+    // Extracts slides, text, notes, and metadata
 }
 ```
 
