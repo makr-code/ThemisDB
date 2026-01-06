@@ -6,6 +6,8 @@ FROM ubuntu:24.04 AS builder
 ARG THEMIS_ENABLE_LLM=ON
 ARG THEMIS_ENABLE_GPU=ON
 ARG CMAKE_BUILD_TYPE=Release
+ARG THEMIS_BUILD_TESTS=OFF
+ARG THEMIS_BUILD_BENCHMARKS=OFF
 
 # Install build dependencies with C/C++ compiler explicitly
 RUN apt-get update && apt-get install -y \
@@ -20,8 +22,9 @@ RUN apt-get update && apt-get install -y \
     unzip \
     tar \
     pkg-config \
-    ninja-build \
     python3 \
+    make \
+    ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
 # Set compiler explicitly
@@ -30,36 +33,44 @@ ENV CXX=/usr/bin/g++
 ENV CMAKE_C_COMPILER=/usr/bin/gcc
 ENV CMAKE_CXX_COMPILER=/usr/bin/g++
 
-# Install vcpkg
+# Clone vcpkg fresh (stabiler als altes Repo-vcpkg)
 WORKDIR /opt
-COPY vcpkg /opt/vcpkg
-RUN cd /opt/vcpkg && \
+RUN git clone https://github.com/microsoft/vcpkg.git /opt/vcpkg && \
+    cd /opt/vcpkg && \
     ./bootstrap-vcpkg.sh -disableMetrics && \
     ./vcpkg integrate install
 
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV PATH="${VCPKG_ROOT}:${PATH}"
 
+# Binary Cache wird im Container nicht benötigt (lokal sowieso größer)
+# vcpkg lädt Packages von GitHub
+
 # Copy source and build
 WORKDIR /build
 COPY . .
 
+# Clone llama.cpp wenn THEMIS_ENABLE_LLM=ON (wird von CMake benötigt)
+RUN if [ "${THEMIS_ENABLE_LLM}" = "ON" ]; then \
+        echo "Cloning llama.cpp for LLM support..." && \
+        git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp; \
+    fi
+
 # Configure with explicit compiler
 # Note: CMakePresets.json now in cmake/ subdirectory
 RUN cmake -S . -B build \
-    -G Ninja \
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
     -DCMAKE_C_COMPILER=/usr/bin/gcc \
     -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
     -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
     -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
     -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
-    -DTHEMIS_BUILD_TESTS=OFF \
-    -DTHEMIS_BUILD_BENCHMARKS=OFF \
+    -DTHEMIS_BUILD_TESTS=${THEMIS_BUILD_TESTS} \
+    -DTHEMIS_BUILD_BENCHMARKS=${THEMIS_BUILD_BENCHMARKS} \
     -DBUILD_SHARED_LIBS=OFF
 
 # Build with parallel jobs
-RUN cmake --build build --config ${CMAKE_BUILD_TYPE} --parallel 8
+RUN cmake --build build --config ${CMAKE_BUILD_TYPE} -j 4
 
 # ============================================================================
 # Runtime Stage
