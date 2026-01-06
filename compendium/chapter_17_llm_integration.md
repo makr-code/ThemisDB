@@ -1398,9 +1398,681 @@ FOR review IN reviews
   } IN reviews
 ```
 
-## 17.12 Best Practices Zusammenfassung
+## 17.12 Erweiterte LLM-Features (v1.4.0-alpha)
 
-### DO ✅
+### 17.12.1 Prefix Caching
+
+**Neu in v1.4.0-alpha:** Automatisches Caching häufig verwendeter Prompt-Präfixe für deutlich reduzierte Latenz und Kosten.
+
+**Funktionsweise:**
+
+Prefix Caching speichert die Attention-States häufig verwendeter Prompt-Anfänge zwischen Anfragen. Dies ist besonders nützlich für:
+- System-Prompts mit Rollen und Anweisungen
+- Lange Kontext-Dokumente in RAG-Patterns
+- Wiederkehrende Dokumentations- oder Codebase-Referenzen
+
+```aql
+// Prefix Caching automatisch aktiviert für System-Prompts
+FOR doc IN customer_inquiries
+  LIMIT 100
+  LET response = PROMPT('gpt-4',
+    {
+      system: '''Du bist ein Kundenservice-Assistent für ThemisDB.
+                 Unsere Hauptfeatures sind:
+                 - Multi-Model-Datenbank (Graph, Document, Vector, Relational)
+                 - Native LLM-Integration
+                 - Horizontales Sharding für Enterprise-Scale
+                 
+                 Antworte immer höflich, präzise und lösungsorientiert.''',  // Wird gecacht!
+      user: doc.inquiry_text
+    },
+    {
+      temperature: 0.7,
+      enable_prefix_cache: true  // Explizit aktiviert (optional, ist Standard)
+    }
+  )
+  UPDATE doc WITH {response: response} IN customer_inquiries
+```
+
+**Performance-Vorteile:**
+
+```aql
+// Prefix Cache Statistiken abfragen
+RETURN LLMCACHE_STATS('prefix')
+```
+
+Beispiel-Output:
+```json
+{
+  "cache_hits": 847,
+  "cache_misses": 153,
+  "hit_rate": 0.847,
+  "avg_latency_cached": "45ms",
+  "avg_latency_uncached": "890ms",
+  "cost_savings_percent": 75.2,
+  "total_tokens_saved": 1250000
+}
+```
+
+**Best Practices:**
+
+1. **System-Prompts konsistent halten** - Kleine Änderungen invalidieren Cache
+2. **Längere Präfixe bevorzugen** - Mindestens 100+ Tokens für signifikante Einsparungen
+3. **Cache-Wartezeit einplanen** - Erste Anfrage ist langsamer, nachfolgende profitieren
+
+### 17.12.2 Response Caching
+
+**Neu in v1.4.0-alpha:** Intelligentes Caching kompletter LLM-Antworten basierend auf semantischer Ähnlichkeit.
+
+**Funktionsweise:**
+
+Response Caching speichert LLM-Antworten und verwendet Embedding-basierte Ähnlichkeitssuche, um identische oder sehr ähnliche Anfragen zu erkennen.
+
+```aql
+// Response Caching mit semantischer Ähnlichkeit
+FOR question IN faq_queue
+  FILTER question.answered == false
+  
+  // Prüfe ob ähnliche Frage bereits beantwortet wurde
+  LET cached_answer = LLMCACHE_LOOKUP(
+    'response',
+    question.text,
+    {
+      similarity_threshold: 0.92,  // 92% Ähnlichkeit erforderlich
+      max_age_hours: 168           // Cache 7 Tage gültig
+    }
+  )
+  
+  LET answer = cached_answer != null ? cached_answer : 
+    PROMPT('gpt-4',
+      {
+        system: 'Beantworte FAQ-Fragen zu ThemisDB präzise und vollständig.',
+        user: question.text
+      },
+      {
+        temperature: 0.3,
+        cache_response: true,  // Antwort für zukünftige Verwendung cachen
+        cache_ttl: 604800      // 7 Tage in Sekunden
+      }
+    )
+  
+  UPDATE question WITH {
+    answer: answer,
+    answered: true,
+    from_cache: cached_answer != null,
+    answered_at: DATE_NOW()
+  } IN faq_queue
+```
+
+**Konfiguration:**
+
+```javascript
+// ThemisDB Konfiguration (themis.conf)
+llm:
+  response_cache:
+    enabled: true
+    backend: 'redis'  // oder 'themisdb'
+    ttl_default: 604800  // 7 Tage
+    similarity_model: 'text-embedding-3-small'
+    similarity_threshold: 0.90
+    max_cache_size_gb: 10
+```
+
+**Cache-Invalidierung:**
+
+```aql
+// Selektive Cache-Invalidierung
+CALL LLMCACHE_INVALIDATE('response', {
+  pattern: '%produkt-updates%',
+  older_than: '2024-01-01'
+})
+
+// Kompletten Response-Cache leeren
+CALL LLMCACHE_CLEAR('response')
+```
+
+**ROI-Analyse:**
+
+```aql
+// Cache-Effizienz über Zeit analysieren
+FOR stat IN LLMCACHE_TIMESERIES('response', {
+  from: DATE_SUBTRACT(DATE_NOW(), 30, 'day'),
+  to: DATE_NOW(),
+  granularity: 'day'
+})
+  RETURN {
+    date: stat.date,
+    requests: stat.total_requests,
+    cache_hits: stat.cache_hits,
+    hit_rate: stat.cache_hits / stat.total_requests,
+    cost_saved_usd: stat.tokens_saved * 0.00003,  // GPT-4 pricing
+    avg_latency_ms: stat.avg_latency
+  }
+```
+
+### 17.12.3 Multi-GPU Support
+
+**Neu in v1.4.0-alpha:** Verteilte LLM-Inferenz über mehrere GPUs für maximale Performance und Skalierbarkeit.
+
+**Unterstützte Parallelisierungsstrategien:**
+
+1. **Tensor Parallelism** - Große Modelle über GPUs verteilen
+2. **Pipeline Parallelism** - Modell-Layer auf verschiedene GPUs
+3. **Data Parallelism** - Mehrere Anfragen parallel verarbeiten
+
+```aql
+// Multi-GPU Konfiguration in AQL Query
+FOR batch IN RANGE(0, 9)
+  LET start_idx = batch * 100
+  LET end_idx = (batch + 1) * 100
+  
+  LET summaries = (
+    FOR doc IN documents
+      FILTER doc.id >= start_idx AND doc.id < end_idx
+      RETURN PROMPT('llama-70b-local',
+        CONCAT('Summarize: ', doc.content),
+        {
+          max_tokens: 150,
+          gpu_config: {
+            num_gpus: 4,              // 4 GPUs verwenden
+            strategy: 'tensor_parallel',  // Tensor Parallelism
+            gpu_ids: [0, 1, 2, 3]     // Spezifische GPU-IDs
+          }
+        }
+      )
+  )
+  
+  RETURN {batch: batch, summaries: summaries}
+```
+
+**GPU-Scheduling:**
+
+```javascript
+// themis.conf - Multi-GPU Konfiguration
+llm:
+  local_models:
+    llama-70b:
+      model_path: '/models/llama-70b'
+      gpu_config:
+        num_gpus: 4
+        tensor_parallel_size: 4
+        pipeline_parallel_size: 1
+        max_num_batched_tokens: 8192
+        gpu_memory_utilization: 0.9
+```
+
+**Performance-Monitoring:**
+
+```aql
+// GPU-Auslastung in Echtzeit überwachen
+RETURN LLM_GPU_STATS()
+```
+
+Output:
+```json
+{
+  "gpus": [
+    {
+      "id": 0,
+      "model": "NVIDIA A100",
+      "memory_used_gb": 38.2,
+      "memory_total_gb": 40.0,
+      "utilization_percent": 95,
+      "temperature_celsius": 68,
+      "power_watts": 320
+    },
+    // GPU 1-3...
+  ],
+  "throughput_tokens_per_sec": 1250,
+  "active_requests": 12,
+  "queue_length": 3
+}
+```
+
+**Skalierungs-Benchmarks:**
+
+| GPUs | Tokens/Sek | Latenz (p50) | Latenz (p99) | Cost/1M Tokens |
+|------|------------|--------------|--------------|----------------|
+| 1x A100 | 320 | 1.2s | 2.8s | $0 (lokal) |
+| 2x A100 | 580 | 0.7s | 1.6s | $0 (lokal) |
+| 4x A100 | 1050 | 0.4s | 0.9s | $0 (lokal) |
+| 8x A100 | 1850 | 0.25s | 0.6s | $0 (lokal) |
+
+### 17.12.4 Paged Attention
+
+**Neu in v1.4.0-alpha:** Effiziente GPU-Speicherverwaltung für Attention-Mechanismen mit bis zu 80% weniger Speicherverbrauch.
+
+**Problem ohne Paged Attention:**
+
+Traditionelle Attention-Implementierungen allokieren kontinuierlichen Speicher für KV-Caches, was zu Fragmentierung und ineffizienter Nutzung führt.
+
+**Lösung mit Paged Attention:**
+
+```mermaid
+graph LR
+    A[Request 1<br/>512 tokens] -->|Pages| PA[Paged Attention]
+    B[Request 2<br/>1024 tokens] -->|Pages| PA
+    C[Request 3<br/>256 tokens] -->|Pages| PA
+    
+    PA -->|Page 1-4| GPU1[GPU Memory<br/>Block 1]
+    PA -->|Page 5-12| GPU2[GPU Memory<br/>Block 2]
+    PA -->|Page 13-16| GPU3[GPU Memory<br/>Block 3]
+    
+    style PA fill:#4facfe
+    style GPU1 fill:#43e97b
+    style GPU2 fill:#43e97b
+    style GPU3 fill:#43e97b
+```
+
+**Aktivierung:**
+
+```aql
+// Paged Attention ist standardmäßig aktiviert in v1.4.0-alpha
+FOR doc IN large_documents
+  LIMIT 1000
+  LET analysis = PROMPT('llama-70b-local',
+    {
+      system: 'Analysiere das folgende Dokument detailliert.',
+      user: doc.content  // Auch für sehr lange Dokumente effizient
+    },
+    {
+      max_tokens: 2000,
+      paged_attention: {
+        enabled: true,  // Default: true
+        page_size: 16,  // Tokens pro Page (empfohlen: 16)
+        max_num_pages: 4096  // Maximale Pages im Cache
+      }
+    }
+  )
+  RETURN analysis
+```
+
+**Speicher-Effizienz:**
+
+```aql
+// Vergleich: Mit vs. ohne Paged Attention
+RETURN {
+  without_paging: {
+    memory_per_request_mb: 450,
+    max_concurrent_requests: 89,
+    gpu_memory_utilization: 0.99,
+    memory_waste_percent: 35
+  },
+  with_paging: {
+    memory_per_request_mb: 90,
+    max_concurrent_requests: 445,
+    gpu_memory_utilization: 0.99,
+    memory_waste_percent: 8
+  },
+  improvement: {
+    memory_reduction: '80%',
+    concurrency_increase: '5x',
+    waste_reduction: '77%'
+  }
+}
+```
+
+**Performance-Charakteristiken:**
+
+- **Speicher-Overhead:** ~5% zusätzlicher Overhead für Page-Management
+- **Latenz-Impact:** <2% zusätzliche Latenz bei gleichem Durchsatz
+- **Skalierbarkeit:** 4-5x mehr gleichzeitige Requests möglich
+
+### 17.12.5 LoRA (Low-Rank Adaptation) Support
+
+**Neu in v1.4.0-alpha:** Effizientes Fine-Tuning und Deployment von spezialisierten Modell-Adaptern mit minimalem Speicher-Overhead.
+
+**Konzept:**
+
+LoRA fügt trainierbare Low-Rank-Matrizen zu vortrainierten Modellen hinzu, statt das gesamte Modell neu zu trainieren. Dies reduziert:
+- **Speicher:** 99% weniger Speicher für Fine-Tuned Models
+- **Training-Zeit:** 3-10x schneller als Full Fine-Tuning
+- **Deployment:** Mehrere Adapter auf einem Basis-Modell
+
+**LoRA-Adapter Management:**
+
+```aql
+// LoRA-Adapter registrieren
+CALL LLM_REGISTER_LORA({
+  name: 'medical-assistant',
+  base_model: 'llama-70b-local',
+  adapter_path: '/models/lora/medical-assistant',
+  description: 'Spezialisiert auf medizinische Beratung',
+  rank: 16,  // LoRA Rank (niedrig = kleiner, hoch = expressiver)
+  alpha: 32,
+  target_modules: ['q_proj', 'v_proj']
+})
+
+// Adapter verwenden
+FOR patient_inquiry IN medical_questions
+  LET advice = PROMPT('llama-70b-local',
+    {
+      system: 'Du bist ein medizinischer Assistent. Gebe keine Diagnosen.',
+      user: patient_inquiry.question
+    },
+    {
+      lora_adapter: 'medical-assistant',  // LoRA-Adapter aktivieren
+      temperature: 0.3
+    }
+  )
+  RETURN {question: patient_inquiry.question, advice: advice}
+```
+
+**Multi-LoRA Support:**
+
+```aql
+// Verschiedene Adapter für verschiedene Use Cases
+LET adapters = {
+  'legal': 'legal-document-assistant',
+  'medical': 'medical-assistant',
+  'code': 'code-generation-assistant',
+  'finance': 'financial-analyst'
+}
+
+FOR doc IN documents
+  LET domain = doc.domain
+  LET adapter = adapters[domain]
+  
+  LET analysis = adapter != null ? 
+    PROMPT('llama-70b-local',
+      CONCAT('Analyze: ', doc.content),
+      {lora_adapter: adapter, temperature: 0.2}
+    ) : null
+    
+  RETURN {domain: domain, analysis: analysis}
+```
+
+**LoRA-Adapter Training:**
+
+```aql
+// Training-Job starten (vereinfachtes Beispiel)
+CALL LLM_TRAIN_LORA({
+  job_name: 'customer-support-v2',
+  base_model: 'llama-70b-local',
+  training_data: 'customer_support_conversations',  // Collection
+  validation_split: 0.1,
+  hyperparameters: {
+    rank: 16,
+    alpha: 32,
+    learning_rate: 3e-4,
+    epochs: 3,
+    batch_size: 8,
+    warmup_steps: 100
+  },
+  output_path: '/models/lora/customer-support-v2'
+})
+```
+
+**Adapter-Vergleich:**
+
+```aql
+// A/B-Testing verschiedener Adapter
+FOR question IN test_questions
+  LET response_base = PROMPT('llama-70b-local', question.text, {temperature: 0.3})
+  LET response_v1 = PROMPT('llama-70b-local', question.text, {
+    lora_adapter: 'customer-support-v1',
+    temperature: 0.3
+  })
+  LET response_v2 = PROMPT('llama-70b-local', question.text, {
+    lora_adapter: 'customer-support-v2',
+    temperature: 0.3
+  })
+  
+  RETURN {
+    question: question.text,
+    base: response_base,
+    v1: response_v1,
+    v2: response_v2
+  }
+```
+
+**Adapter-Statistiken:**
+
+```aql
+RETURN LLM_LORA_STATS()
+```
+
+Output:
+```json
+{
+  "registered_adapters": 12,
+  "active_adapters": {
+    "medical-assistant": {
+      "requests_total": 15420,
+      "avg_latency_ms": 245,
+      "size_mb": 45,
+      "rank": 16,
+      "base_model": "llama-70b-local"
+    }
+    // weitere Adapter...
+  },
+  "memory_overhead_mb": 540,  // 12 Adapter zusammen
+  "base_model_size_gb": 65
+}
+```
+
+### 17.12.6 Vision Support
+
+**Neu in v1.4.0-alpha:** Multimodale LLM-Integration für Text + Bild-Verarbeitung, ermöglicht visuelle Analyse, OCR und Bildbeschreibung direkt in AQL.
+
+**Unterstützte Modelle:**
+
+- GPT-4 Vision (OpenAI)
+- Claude 3 (Anthropic)
+- LLaVA (lokal)
+- CogVLM (lokal)
+
+**Bild-Analyse in AQL:**
+
+```aql
+// Produktbilder analysieren
+FOR product IN products
+  FILTER product.image_analysis == null
+  LIMIT 100
+  
+  LET analysis = PROMPT_VISION('gpt-4-vision',
+    {
+      image: product.image_url,  // URL oder base64
+      prompt: '''Analysiere dieses Produktbild und extrahiere:
+                 1. Produkttyp und Kategorie
+                 2. Sichtbare Features und Merkmale
+                 3. Farben und Materialien
+                 4. Zustand (neu/gebraucht)
+                 5. Qualitätsbewertung (1-10)'''
+    },
+    {
+      temperature: 0.3,
+      max_tokens: 500,
+      response_format: 'json'
+    }
+  )
+  
+  UPDATE product WITH {
+    image_analysis: analysis,
+    analyzed_at: DATE_NOW()
+  } IN products
+```
+
+**OCR und Dokumenten-Extraktion:**
+
+```aql
+// Rechnungen per OCR verarbeiten
+FOR invoice IN scanned_invoices
+  FILTER invoice.extracted == false
+  
+  LET ocr_result = PROMPT_VISION('gpt-4-vision',
+    {
+      image: invoice.scan_base64,
+      prompt: '''Extrahiere folgende Informationen aus dieser Rechnung:
+                 - Rechnungsnummer
+                 - Datum
+                 - Lieferant (Name, Adresse)
+                 - Positionen (Artikel, Menge, Einzelpreis)
+                 - Gesamtbetrag
+                 - Mehrwertsteuer
+                 Gebe das Ergebnis als strukturiertes JSON zurück.'''
+    },
+    {
+      temperature: 0.1,
+      response_format: 'json'
+    }
+  )
+  
+  INSERT {
+    invoice_id: invoice._key,
+    invoice_number: ocr_result.invoice_number,
+    date: ocr_result.date,
+    supplier: ocr_result.supplier,
+    items: ocr_result.items,
+    total: ocr_result.total,
+    vat: ocr_result.vat,
+    extracted_at: DATE_NOW()
+  } INTO invoice_data
+  
+  UPDATE invoice WITH {extracted: true} IN scanned_invoices
+```
+
+**Integration mit Video Processor:**
+
+```aql
+// Keyframes aus Videos analysieren (siehe Kapitel 12: Computer Vision)
+FOR video IN videos
+  FILTER video.keyframe_analysis == null
+  
+  // Keyframes extrahieren (aus Video Processor)
+  LET keyframes = VIDEO_EXTRACT_KEYFRAMES(video.file_path, {
+    max_keyframes: 10,
+    min_interval_seconds: 5
+  })
+  
+  // Jeden Keyframe mit Vision LLM analysieren
+  LET frame_analyses = (
+    FOR frame IN keyframes
+      RETURN PROMPT_VISION('gpt-4-vision',
+        {
+          image: frame.image_base64,
+          prompt: 'Beschreibe was in diesem Video-Frame zu sehen ist. Fokus auf Aktionen, Objekte und Kontext.'
+        },
+        {temperature: 0.5, max_tokens: 200}
+      )
+  )
+  
+  // Gesamtzusammenfassung generieren
+  LET summary = PROMPT('gpt-4',
+    {
+      system: 'Erstelle eine kohärente Video-Zusammenfassung aus Einzelframe-Beschreibungen.',
+      user: CONCAT('Frame-Beschreibungen:\n', TO_STRING(frame_analyses))
+    }
+  )
+  
+  UPDATE video WITH {
+    keyframe_analyses: frame_analyses,
+    summary: summary,
+    keyframe_analysis: true
+  } IN videos
+```
+
+**Visual Question Answering:**
+
+```aql
+// Fragen zu Bildern beantworten
+FOR support_ticket IN tickets
+  FILTER support_ticket.has_image AND support_ticket.image_question != null
+  
+  LET answer = PROMPT_VISION('claude-3-opus',
+    {
+      image: support_ticket.image_url,
+      prompt: CONCAT(
+        'Kundenfrage: ', support_ticket.image_question, '\n\n',
+        'Analysiere das Bild und beantworte die Kundenfrage detailliert.'
+      )
+    },
+    {temperature: 0.4, max_tokens: 400}
+  )
+  
+  UPDATE support_ticket WITH {
+    ai_answer: answer,
+    ai_answered_at: DATE_NOW()
+  } IN tickets
+```
+
+**Batch-Verarbeitung mit Vision:**
+
+```aql
+// Effiziente Batch-Verarbeitung großer Bildmengen
+FOR batch IN RANGE(0, 49)
+  LET start_idx = batch * 20
+  LET end_idx = (batch + 1) * 20
+  
+  LET results = (
+    FOR img IN images
+      FILTER img.id >= start_idx AND img.id < end_idx
+      FILTER img.moderation_check == null
+      
+      RETURN {
+        id: img._key,
+        moderation: PROMPT_VISION('gpt-4-vision',
+          {
+            image: img.url,
+            prompt: '''Prüfe dieses Bild auf:
+                       - Inappropriate content
+                       - Violence
+                       - Hate symbols
+                       - NSFW content
+                       Gebe JSON mit: {safe: boolean, flags: [], confidence: number}'''
+          },
+          {temperature: 0.1, response_format: 'json'}
+        )
+      }
+  )
+  
+  // Batch-Update
+  FOR result IN results
+    UPDATE {_key: result.id} WITH {
+      moderation_check: result.moderation,
+      checked_at: DATE_NOW()
+    } IN images
+```
+
+**Performance-Überlegungen:**
+
+```aql
+// Vision API Kosten-Tracking
+RETURN LLM_VISION_STATS({
+  from: DATE_SUBTRACT(DATE_NOW(), 7, 'day'),
+  to: DATE_NOW()
+})
+```
+
+Output:
+```json
+{
+  "total_requests": 15420,
+  "images_processed": 15420,
+  "avg_latency_ms": 1850,
+  "cost_breakdown": {
+    "gpt-4-vision": {
+      "requests": 12000,
+      "cost_usd": 360.00,
+      "avg_cost_per_image": 0.03
+    },
+    "claude-3-opus": {
+      "requests": 3420,
+      "cost_usd": 205.20,
+      "avg_cost_per_image": 0.06
+    }
+  },
+  "use_cases": {
+    "product_analysis": 8500,
+    "ocr": 4200,
+    "moderation": 2720
+  }
+}
+```
+
+## 17.13 Best Practices Zusammenfassung
+
+### 17.13.1 DO ✅
 
 1. **Verwende @parameter binding** für alle Benutzereingaben
 2. **Cache häufige Anfragen** um Kosten zu sparen
@@ -1411,7 +2083,7 @@ FOR review IN reviews
 7. **Verwende strukturierte Outputs** (JSON) wenn möglich
 8. **Implementiere Fallbacks** bei LLM-Fehlern
 
-### DON'T ❌
+### 17.13.2 DON'T ❌
 
 1. **Keine sensiblen Daten** ungefiltert an LLMs senden
 2. **Keine unvalidierten LLM-Queries** ausführen
