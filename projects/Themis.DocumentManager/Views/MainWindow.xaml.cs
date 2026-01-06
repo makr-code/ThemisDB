@@ -8,6 +8,7 @@ using Themis.DocumentManager.Features.Dashboard.Views;
 using Themis.DocumentManager.Features.Dashboard.ViewModels;
 using Themis.DocumentManager.Features.Gantt.ViewModels;
 using Themis.DocumentManager.Features.MetadataForm.ViewModels;
+using Themis.DocumentManager.Features.TaskBasket.ViewModels;
 using Themis.DocumentManager.Services;
 using Themis.DocumentManager.Views.Windows;
 using System.Windows.Input;
@@ -154,6 +155,15 @@ public partial class MainWindow : Window
     {
         try
         {
+            // Tasks: bind TasksRightSidebarViewModel
+            var tasksVm = App.GetService<TasksRightSidebarViewModel>();
+            if (tasksVm != null && RightTasksPanel != null)
+            {
+                RightTasksPanel.DataContext = tasksVm;
+                // Load initial tasks
+                await tasksVm.LoadTasksAsync();
+            }
+
             // Metadata: bind MetadataFormViewModel
             var metadataVm = App.GetService<MetadataFormViewModel>();
             if (metadataVm != null && RightMetadataPanel != null)
@@ -187,6 +197,26 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             StatusText.Text = $"Fehler beim Verdrahten der rechten Seitenleiste: {ex.Message}";
+        }
+    }
+
+    /// <summary>
+    /// Updates the task context when a document/case/process is selected
+    /// This implements VIS-style context-aware task filtering
+    /// </summary>
+    public async Task UpdateTaskContextAsync(string? entityId, Application.Tasks.Queries.GetMyTasks.LinkedEntityType? entityType)
+    {
+        try
+        {
+            var tasksVm = App.GetService<TasksRightSidebarViewModel>();
+            if (tasksVm != null)
+            {
+                await tasksVm.UpdateEntityContextAsync(entityId, entityType);
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusText.Text = $"Fehler beim Aktualisieren des Aufgaben-Kontexts: {ex.Message}";
         }
     }
 

@@ -432,6 +432,7 @@ public partial class App : System.Windows.Application
             services.AddTransient<MetadataFormViewModel>();
             services.AddTransient<ProcessLinkingDialogViewModel>();
             services.AddTransient<TaskBasketViewModel>();
+            services.AddTransient<TasksRightSidebarViewModel>();
             services.AddTransient<TestDataGeneratorViewModel>();
             services.AddTransient<AIChatViewModel>(sp =>
             {
