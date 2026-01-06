@@ -1673,6 +1673,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_http_vector_largescale.cpp
         tests/test_http_content.cpp
         tests/test_video_processor_extended.cpp
+        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:tests/test_office_processor.cpp>
         tests/test_http_changefeed.cpp
         tests/test_http_changefeed_sse.cpp
         tests/test_http_timeseries.cpp
