@@ -1737,6 +1737,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_hot_spare.cpp
         # SKIPPED: tests/test_lora_adapter.cpp  # MultiLoRAManager implementation missing
         tests/test_raid_integration.cpp
+        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:tests/test_gpu_erasure_coding.cpp>
         tests/test_stream_protocol_extended.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
@@ -2593,6 +2594,14 @@ if(THEMIS_BUILD_BENCHMARKS)
         benchmarks/bench_raid_lora.cpp
     )
     target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    
+    # GPU erasure coding benchmark (CUDA only)
+    if(THEMIS_ENABLE_CUDA)
+        add_executable(bench_gpu_erasure
+            benchmarks/bench_gpu_erasure.cpp
+        )
+        target_link_libraries(bench_gpu_erasure PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
 endif()
 
