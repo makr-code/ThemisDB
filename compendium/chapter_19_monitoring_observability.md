@@ -1243,6 +1243,61 @@ config:
 
 ## 19.6A Enhanced Prometheus Metrics (v1.4.0-alpha)
 
+**Neu in v1.4.0-alpha:** Umfassende Metriken für LLM-Operations, Caching, GPU-Nutzung, High Availability und Performance-Optimierungen.
+
+**Monitoring-Architektur Übersicht:**
+
+```mermaid
+graph TB
+    subgraph "ThemisDB Cluster"
+        TDB1[ThemisDB Node 1<br/>Shard 1] --> Exporter1[Prometheus<br/>Exporter :9090]
+        TDB2[ThemisDB Node 2<br/>Shard 2] --> Exporter2[Prometheus<br/>Exporter :9090]
+        TDB3[ThemisDB Node 3<br/>Hot Spare] --> Exporter3[Prometheus<br/>Exporter :9090]
+        
+        LLM1[LLM Engine<br/>GPU Metrics] --> Exporter1
+        LLM2[LLM Engine<br/>GPU Metrics] --> Exporter2
+    end
+    
+    subgraph "Monitoring Stack"
+        Exporter1 --> Prometheus[Prometheus<br/>Time Series DB]
+        Exporter2 --> Prometheus
+        Exporter3 --> Prometheus
+        
+        Prometheus --> Grafana[Grafana<br/>Visualization]
+        Prometheus --> AlertManager[AlertManager<br/>Notifications]
+        
+        AlertManager --> Slack[Slack]
+        AlertManager --> PagerDuty[PagerDuty]
+        AlertManager --> Email[Email]
+    end
+    
+    subgraph "Metrics Categories"
+        M1[LLM Metrics<br/>15+ metrics]
+        M2[Performance Metrics<br/>10+ metrics]
+        M3[HA Metrics<br/>8+ metrics]
+        M4[Cache Metrics<br/>6+ metrics]
+    end
+    
+    Prometheus -.collects.-> M1
+    Prometheus -.collects.-> M2
+    Prometheus -.collects.-> M3
+    Prometheus -.collects.-> M4
+    
+    style TDB1 fill:#667eea
+    style TDB2 fill:#667eea
+    style TDB3 fill:#ffd32a
+    style Prometheus fill:#43e97b
+    style Grafana fill:#4facfe
+    style AlertManager fill:#f093fb
+```
+
+**Diagramm-Erklärung:**
+- **ThemisDB Nodes:** Jeder Node exportiert Metriken über HTTP-Endpoint (/metrics)
+- **Prometheus:** Scraped Metriken alle 15s, speichert als Time Series
+- **Grafana:** Visualisiert Metriken in Dashboards (LLM, Performance, HA)
+- **AlertManager:** Routet Alerts zu verschiedenen Kanälen (Slack, PagerDuty, Email)
+- **Metric Categories:** Über 40 neue Metriken in v1.4.0-alpha organisiert in 4 Kategorien
+
 ### 19.6A.1 LLM-spezifische Metriken
 
 **Neu in v1.4.0-alpha:** Umfassende Metriken für LLM-Operations, Caching und GPU-Nutzung.

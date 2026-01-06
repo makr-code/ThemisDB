@@ -1411,6 +1411,41 @@ Prefix Caching speichert die Attention-States häufig verwendeter Prompt-Anfäng
 - Lange Kontext-Dokumente in RAG-Patterns
 - Wiederkehrende Dokumentations- oder Codebase-Referenzen
 
+```mermaid
+sequenceDiagram
+    participant Client
+    participant ThemisDB
+    participant PrefixCache as Prefix Cache
+    participant LLM as LLM Provider
+    
+    Note over Client,LLM: First Request (Cache Miss)
+    Client->>ThemisDB: PROMPT with System+User
+    ThemisDB->>PrefixCache: Check Cache for System Prompt Hash
+    PrefixCache-->>ThemisDB: Cache MISS
+    ThemisDB->>LLM: Full Request (System + User)
+    LLM-->>LLM: Process Full Prompt<br/>890ms
+    LLM-->>ThemisDB: Response + Attention States
+    ThemisDB->>PrefixCache: Store Prefix Attention States
+    ThemisDB-->>Client: Response (890ms total)
+    
+    Note over Client,LLM: Second Request (Cache HIT)
+    Client->>ThemisDB: PROMPT with SAME System, different User
+    ThemisDB->>PrefixCache: Check Cache for System Prompt Hash
+    PrefixCache-->>ThemisDB: Cache HIT! Return Attention States
+    ThemisDB->>LLM: Only User Prompt (reuse cached states)
+    LLM-->>LLM: Process User Only<br/>45ms
+    LLM-->>ThemisDB: Response
+    ThemisDB-->>Client: Response (45ms total)
+    
+    Note over Client,LLM: 95% Latency Reduction, 75% Cost Savings
+```
+
+**Diagramm-Erklärung:**
+- **Cache Miss (erste Anfrage):** System-Prompt wird verarbeitet und Attention-States gecacht (890ms)
+- **Cache Hit (folgende Anfragen):** Gecachte Attention-States werden wiederverwendet, nur User-Prompt neu verarbeitet (45ms)
+- **Hash-basiert:** Identische System-Prompts werden erkannt durch Content-Hash
+- **Transparent:** Cache-Mechanismus ist für Anwendung transparent
+
 ```aql
 // Prefix Caching automatisch aktiviert für System-Prompts
 FOR doc IN customer_inquiries
@@ -1467,6 +1502,37 @@ Beispiel-Output:
 **Funktionsweise:**
 
 Response Caching speichert LLM-Antworten und verwendet Embedding-basierte Ähnlichkeitssuche, um identische oder sehr ähnliche Anfragen zu erkennen.
+
+```mermaid
+graph TB
+    subgraph "Response Caching Flow"
+        Q1[Neue Anfrage:<br/>'Wie installiere ich ThemisDB?'] --> E1[Embedding<br/>Generierung]
+        E1 --> V1[Vector<br/>[0.12, -0.34, ...]]
+        V1 --> S1{Similarity<br/>Search<br/>threshold=0.92}
+        
+        S1 -->|Match Found<br/>similarity=0.95| C1[Cached Response:<br/>'Führe npm install aus...']
+        S1 -->|No Match<br/>similarity<0.92| L1[LLM Call<br/>GPT-4]
+        
+        L1 --> R1[New Response:<br/>'Führe npm install aus...']
+        R1 --> Store[Store in Cache<br/>+ Embedding<br/>+ TTL: 7 days]
+        Store --> Return1[Return Response]
+        C1 --> Return2[Return Cached<br/>60-80% cost saved]
+        
+        Q2[Ähnliche Anfrage:<br/>'ThemisDB Installation?'] -.->|96% similar| S1
+    end
+    
+    style C1 fill:#43e97b
+    style L1 fill:#ffd32a
+    style S1 fill:#4facfe
+    style Store fill:#95e1d3
+```
+
+**Diagramm-Erklärung:**
+- **Embedding-Generierung:** Jede Anfrage wird in einen Vektor umgewandelt
+- **Similarity Search:** Vector-Suche findet semantisch ähnliche Fragen (auch mit unterschiedlicher Formulierung)
+- **Threshold:** Konfigurierbare Ähnlichkeitsschwelle (z.B. 92%) bestimmt Cache-Hit
+- **TTL-basiert:** Automatische Invalidierung nach konfigurierbarer Zeit (z.B. 7 Tage)
+- **Backend:** Unterstützt Redis oder ThemisDB als Cache-Backend
 
 ```aql
 // Response Caching mit semantischer Ähnlichkeit

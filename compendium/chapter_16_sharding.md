@@ -815,6 +815,77 @@ HA:     Drei gleichzeitige Ausfälle abgedeckt
    Client requests → Hot Spare (now active) → Background: Sync data from other shards
    ```
 
+**Detaillierte Failover-Timeline:**
+
+```mermaid
+gantt
+    title Hot Spare Failover Timeline (Total: ~5s)
+    dateFormat X
+    axisFormat %Ls
+    
+    section Detection Phase
+    Health Check 1 (OK)     :done, h1, 0, 1000
+    Health Check 2 (FAIL)   :crit, h2, 1000, 2000
+    Health Check 3 (FAIL)   :crit, h3, 2000, 3000
+    Declare Failure         :milestone, m1, 3000, 3000
+    
+    section Promotion Phase
+    Select Hot Spare        :active, p1, 3000, 3500
+    Apply WAL Entries       :active, p2, 3500, 4500
+    Update Routing Table    :active, p3, 4500, 5000
+    Promote to Active       :milestone, m2, 5000, 5000
+    
+    section Recovery Phase
+    Accept Client Requests  :done, r1, 5000, 8000
+    Background Sync         :active, r2, 5000, 120000
+```
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Router as Shard Router
+    participant Shard as Shard 2 (Primary)
+    participant HS as Hot Spare 1
+    participant Monitor as Health Monitor
+    
+    Note over Shard,HS: Normal Operation
+    Client->>Router: Request
+    Router->>Shard: Route to Shard 2
+    Shard-->>Router: Response
+    Router-->>Client: Response
+    Monitor->>Shard: Health Check (OK)
+    
+    Note over Shard: ❌ Shard 2 Crashes
+    Monitor->>Shard: Health Check (FAIL)
+    Monitor->>Shard: Health Check (FAIL)
+    Monitor->>Shard: Health Check (FAIL)
+    Monitor->>Monitor: Declare Failure (3s)
+    
+    Note over HS: Promotion Starts
+    Monitor->>HS: Select as Replacement
+    HS->>HS: Apply Latest WAL (1s)
+    Monitor->>Router: Update Routing Table (0.5s)
+    HS->>HS: Promote to ACTIVE (0.5s)
+    
+    Note over HS: Now Serving Traffic
+    Client->>Router: Request
+    Router->>HS: Route to Hot Spare 1 (now active)
+    HS-->>Router: Response
+    Router-->>Client: Response (5s total failover)
+```
+
+**Diagramm-Erklärung:**
+- **Gantt-Chart (oben):** Zeigt die zeitliche Abfolge der Failover-Phasen
+  - Detection: 0-3s (3 Health Checks à 1s)
+  - Promotion: 3-5s (Spare auswählen, WAL anwenden, Routing aktualisieren)
+  - Total: ~5s bis Traffic wieder fließt
+  
+- **Sequence-Diagram (unten):** Zeigt die Interaktion zwischen Komponenten
+  - Health Monitor erkennt Ausfall nach 3 Fehlversuchen
+  - Hot Spare wird automatisch promoted
+  - Routing-Tabelle wird aktualisiert
+  - Clients merken nichts vom Failover (transparent)
+
 **Performance-Charakteristiken:**
 
 | Metric | Wert | Beschreibung |

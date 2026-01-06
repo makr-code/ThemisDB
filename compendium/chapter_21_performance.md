@@ -1028,6 +1028,40 @@ graph LR
     style Batch fill:#ffd32a
 ```
 
+**Detaillierter Timeline-Ablauf:**
+
+```mermaid
+gantt
+    title Continuous Batching vs. Static Batching
+    dateFormat X
+    axisFormat %L
+    
+    section Static Batch
+    Request 1 (100 tok) :done, s1, 0, 500
+    Request 2 (500 tok) :done, s2, 0, 500
+    Request 3 (50 tok)  :done, s3, 0, 500
+    Wait for slowest    :crit, s4, 100, 500
+    
+    section Continuous Batch
+    Request 1 (100 tok) :done, c1, 0, 100
+    Request 2 (500 tok) :done, c2, 0, 500
+    Request 3 (50 tok)  :done, c3, 0, 50
+    Request 4 (new)     :active, c4, 100, 200
+```
+
+**Diagramm-Erklärung:**
+- **Static Batching (oben):** Alle Requests warten bis zum langsamsten (500 tokens)
+  - Request 1 & 3 fertig nach 100/50 tokens, müssen aber 500 tokens warten
+  - Total Time: 500ms für alle
+  - Verschwendete Zeit: 400ms (Request 1) + 450ms (Request 3)
+  
+- **Continuous Batching (unten):** Requests verlassen Batch sobald fertig
+  - Request 1: 100ms → sofort zurückgegeben
+  - Request 3: 50ms → sofort zurückgegeben
+  - Request 2: 500ms → später zurückgegeben
+  - Request 4: Kann bei 100ms in den aktiven Batch eintreten
+  - Durchschnittliche Latenz: (100+500+50+200)/4 = 212ms vs. 500ms (Static)
+
 **Konfiguration:**
 
 ```javascript
