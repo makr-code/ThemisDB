@@ -1241,6 +1241,476 @@ config:
 
 ---
 
+## 19.6A Enhanced Prometheus Metrics (v1.4.0-alpha)
+
+### 19.6A.1 LLM-spezifische Metriken
+
+**Neu in v1.4.0-alpha:** Umfassende Metriken für LLM-Operations, Caching und GPU-Nutzung.
+
+**Request Metriken:**
+
+```prometheus
+# Gesamtzahl LLM-Anfragen (nach Modell und Status)
+themis_llm_requests_total{model="gpt-4",status="success"} 15420
+themis_llm_requests_total{model="gpt-4",status="error"} 23
+themis_llm_requests_total{model="llama-70b-local",status="success"} 8945
+
+# Request-Latenz (Histogram)
+themis_llm_request_duration_seconds_bucket{model="gpt-4",le="0.5"} 1200
+themis_llm_request_duration_seconds_bucket{model="gpt-4",le="1.0"} 8400
+themis_llm_request_duration_seconds_bucket{model="gpt-4",le="2.0"} 14200
+themis_llm_request_duration_seconds_sum{model="gpt-4"} 18540.5
+themis_llm_request_duration_seconds_count{model="gpt-4"} 15420
+
+# Generierte Tokens
+themis_llm_tokens_generated_total{model="gpt-4",type="completion"} 2450000
+themis_llm_tokens_generated_total{model="gpt-4",type="prompt"} 8900000
+
+# Token-Generierungs-Rate (tokens/sekunde)
+themis_llm_tokens_per_second{model="llama-70b-local"} 312.5
+```
+
+**Cache Metriken:**
+
+```prometheus
+# Prefix Cache Hits/Misses
+themis_llm_prefix_cache_hits_total{model="gpt-4"} 12450
+themis_llm_prefix_cache_misses_total{model="gpt-4"} 2970
+themis_llm_prefix_cache_hit_rate{model="gpt-4"} 0.807
+
+# Prefix Cache Einsparungen
+themis_llm_prefix_cache_tokens_saved_total{model="gpt-4"} 1850000
+themis_llm_prefix_cache_cost_saved_usd{model="gpt-4"} 55.50
+
+# Response Cache
+themis_llm_response_cache_hits_total{model="gpt-4"} 8420
+themis_llm_response_cache_misses_total{model="gpt-4"} 7000
+themis_llm_response_cache_hit_rate{model="gpt-4"} 0.546
+
+# Response Cache Latenz-Verbesserung
+themis_llm_response_cache_latency_saved_seconds_total{model="gpt-4"} 6840.5
+```
+
+**GPU Metriken:**
+
+```prometheus
+# GPU-Speichernutzung pro Device
+themis_llm_gpu_memory_used_bytes{device="0",model="llama-70b-local"} 25903915008  # 24.1GB
+themis_llm_gpu_memory_total_bytes{device="0"} 42949672960  # 40GB
+themis_llm_gpu_memory_utilization{device="0"} 0.603
+
+# GPU Compute-Auslastung
+themis_llm_gpu_utilization_percent{device="0"} 94
+themis_llm_gpu_temperature_celsius{device="0"} 72
+themis_llm_gpu_power_watts{device="0"} 325
+
+# Multi-GPU Metriken
+themis_llm_multi_gpu_active_devices{model="llama-70b-local"} 4
+themis_llm_multi_gpu_total_memory_bytes 171798691840  # 160GB (4x40GB)
+```
+
+**Batch Metriken:**
+
+```prometheus
+# Aktuelle Batch-Größe
+themis_llm_batch_size{model="llama-70b-local"} 87
+
+# Batch-Auslastung
+themis_llm_batch_utilization{model="llama-70b-local"} 0.679  # 87/128
+
+# Queue-Länge
+themis_llm_batch_queue_length{model="llama-70b-local"} 12
+
+# Batches verarbeitet
+themis_llm_batches_processed_total{model="llama-70b-local"} 58420
+```
+
+**Grafana Dashboard - LLM Operations:**
+
+```yaml
+# dashboards/llm_operations.json (Auszug)
+panels:
+  - title: "LLM Request Rate"
+    targets:
+      - expr: rate(themis_llm_requests_total[5m])
+    
+  - title: "LLM Latency (P50, P95, P99)"
+    targets:
+      - expr: histogram_quantile(0.50, themis_llm_request_duration_seconds_bucket)
+      - expr: histogram_quantile(0.95, themis_llm_request_duration_seconds_bucket)
+      - expr: histogram_quantile(0.99, themis_llm_request_duration_seconds_bucket)
+    
+  - title: "Cache Hit Rates"
+    targets:
+      - expr: themis_llm_prefix_cache_hit_rate
+      - expr: themis_llm_response_cache_hit_rate
+    
+  - title: "GPU Memory Usage"
+    targets:
+      - expr: themis_llm_gpu_memory_used_bytes / themis_llm_gpu_memory_total_bytes
+```
+
+### 19.6A.2 Performance-Optimierungs-Metriken
+
+**Neu in v1.4.0-alpha:** Metriken für Flash Attention, Speculative Decoding und Continuous Batching.
+
+**Flash Attention Metriken:**
+
+```prometheus
+# Flash Attention Status (0=disabled, 1=enabled)
+themis_flash_attention_enabled{model="llama-70b-local"} 1
+
+# Memory-Einsparungen
+themis_flash_attention_memory_saved_bytes{model="llama-70b-local"} 15099494400  # 14.1GB
+
+# Performance-Verbesserung
+themis_flash_attention_throughput_improvement{model="llama-70b-local"} 0.69  # 69%
+themis_flash_attention_latency_reduction{model="llama-70b-local"} 0.39  # 39%
+```
+
+**Speculative Decoding Metriken:**
+
+```prometheus
+# Speculative Decoding Status
+themis_speculative_decoding_enabled{model="llama-70b-local"} 1
+themis_speculative_decoding_draft_model{model="llama-70b-local",draft="llama-7b-local"} 1
+
+# Akzeptanzrate
+themis_speculative_decoding_acceptance_rate{model="llama-70b-local"} 0.821
+
+# Tokens vorgeschlagen/akzeptiert
+themis_speculative_decoding_tokens_proposed_total{model="llama-70b-local"} 226000
+themis_speculative_decoding_tokens_accepted_total{model="llama-70b-local"} 185460
+
+# Speedup
+themis_speculative_decoding_speedup{model="llama-70b-local"} 2.4
+themis_speculative_decoding_latency_reduction_seconds{model="llama-70b-local"} 1.68
+```
+
+**Continuous Batching Metriken:**
+
+```prometheus
+# Batching Mode (0=static, 1=continuous)
+themis_continuous_batching_enabled{model="llama-70b-local"} 1
+
+# Queue Metriken
+themis_continuous_batching_queue_length{model="llama-70b-local"} 12
+themis_continuous_batching_queue_wait_time_seconds{model="llama-70b-local"} 0.095
+
+# Batch-Bildung
+themis_continuous_batching_batches_formed_total{model="llama-70b-local"} 58420
+themis_continuous_batching_avg_batch_size{model="llama-70b-local"} 73.5
+themis_continuous_batching_batch_fill_rate{model="llama-70b-local"} 0.68
+
+# Performance-Verbesserung
+themis_continuous_batching_throughput_improvement{model="llama-70b-local"} 1.76  # 176%
+themis_continuous_batching_latency_reduction{model="llama-70b-local"} 0.57  # 57%
+```
+
+**Paged Attention Metriken:**
+
+```prometheus
+# Paged Attention Status
+themis_paged_attention_enabled{model="llama-70b-local"} 1
+
+# Memory Metriken
+themis_paged_attention_pages_allocated 4096
+themis_paged_attention_pages_used 2847
+themis_paged_attention_memory_efficiency 0.92  # 92% weniger Waste
+
+# Performance
+themis_paged_attention_concurrent_requests{model="llama-70b-local"} 445
+themis_paged_attention_memory_per_request_bytes 94371840  # 90MB
+```
+
+**Grafana Dashboard - Performance Optimizations:**
+
+```yaml
+panels:
+  - title: "Flash Attention Impact"
+    targets:
+      - expr: themis_flash_attention_throughput_improvement * 100
+        legendFormat: "Throughput Improvement %"
+      - expr: themis_flash_attention_memory_saved_bytes / 1024^3
+        legendFormat: "Memory Saved GB"
+  
+  - title: "Speculative Decoding Acceptance Rate"
+    targets:
+      - expr: themis_speculative_decoding_acceptance_rate * 100
+        legendFormat: "Acceptance Rate %"
+  
+  - title: "Continuous Batching Efficiency"
+    targets:
+      - expr: themis_continuous_batching_batch_fill_rate
+        legendFormat: "Batch Fill Rate"
+      - expr: themis_continuous_batching_queue_length
+        legendFormat: "Queue Length"
+```
+
+### 19.6A.3 Sharding & HA Metriken
+
+**Neu in v1.4.0-alpha:** Metriken für Hot Spare und WAL Replication.
+
+**Hot Spare Metriken:**
+
+```prometheus
+# Hot Spare Status (0=standby, 1=active)
+themis_hot_spare_active{node="hot-spare-1"} 0
+themis_hot_spare_active{node="hot-spare-2"} 0
+
+# Replication Lag
+themis_hot_spare_replication_lag_seconds{node="hot-spare-1"} 0.045
+themis_hot_spare_replication_lag_bytes{node="hot-spare-1"} 16384
+
+# Failover Metriken
+themis_hot_spare_failover_count_total{node="hot-spare-1"} 0
+themis_hot_spare_last_failover_duration_seconds{node="hot-spare-1"} 0
+
+# Health
+themis_hot_spare_failover_ready{node="hot-spare-1"} 1
+themis_hot_spare_last_health_check_timestamp{node="hot-spare-1"} 1704549600
+```
+
+**WAL Replication Metriken:**
+
+```prometheus
+# WAL Status
+themis_wal_replication_lag_seconds{replica="hot-spare-1"} 0.002
+themis_wal_replication_lag_bytes{replica="hot-spare-1"} 16
+
+# WAL Segments
+themis_wal_segments_total{shard="shard-1"} 156
+themis_wal_segments_archived_total{shard="shard-1"} 12450
+themis_wal_size_bytes{shard="shard-1"} 4294967296
+
+# WAL Sync Operations
+themis_wal_sync_operations_total{shard="shard-1"} 125840
+themis_wal_sync_duration_seconds_sum{shard="shard-1"} 45.2
+themis_wal_sync_duration_seconds_count{shard="shard-1"} 125840
+
+# Replication Mode
+themis_wal_replication_mode{shard="shard-1"} 1  # 0=async, 1=sync, 2=hybrid
+```
+
+**Shard Health Metriken:**
+
+```prometheus
+# Shard Status (0=down, 1=up)
+themis_shard_health{shard="shard-1"} 1
+themis_shard_health{shard="shard-2"} 1
+themis_shard_health{shard="shard-3"} 1
+themis_shard_health{shard="shard-4"} 1
+
+# Rebalancing
+themis_shard_rebalance_operations_total{shard="shard-1"} 5
+themis_shard_rebalance_duration_seconds{shard="shard-1"} 245.8
+themis_shard_rebalance_in_progress{shard="shard-1"} 0
+
+# Data Distribution
+themis_shard_data_size_bytes{shard="shard-1"} 10737418240  # 10GB
+themis_shard_key_count{shard="shard-1"} 2500000
+```
+
+**Grafana Dashboard - High Availability:**
+
+```yaml
+panels:
+  - title: "Shard Health Status"
+    targets:
+      - expr: themis_shard_health
+        legendFormat: "{{shard}}"
+  
+  - title: "Hot Spare Replication Lag"
+    targets:
+      - expr: themis_hot_spare_replication_lag_seconds
+        legendFormat: "{{node}}"
+  
+  - title: "WAL Replication Lag"
+    targets:
+      - expr: themis_wal_replication_lag_seconds
+        legendFormat: "{{replica}}"
+  
+  - title: "Failover Events (24h)"
+    targets:
+      - expr: increase(themis_hot_spare_failover_count_total[24h])
+```
+
+### 19.6A.4 Alerting Rules für v1.4.0-alpha Features
+
+**LLM Alerts:**
+
+```yaml
+# config/prometheus/alerts/llm.yml
+groups:
+  - name: llm_alerts
+    rules:
+      # Hohe Fehlerrate
+      - alert: LLMHighErrorRate
+        expr: rate(themis_llm_requests_total{status="error"}[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High LLM error rate on {{ $labels.model }}"
+          description: "Error rate is {{ $value | humanizePercentage }}"
+      
+      # Cache Hit Rate zu niedrig
+      - alert: LLMCacheHitRateLow
+        expr: themis_llm_prefix_cache_hit_rate < 0.5
+        for: 15m
+        labels:
+          severity: info
+        annotations:
+          summary: "Low prefix cache hit rate"
+          description: "Hit rate is {{ $value | humanizePercentage }}"
+      
+      # GPU Memory Auslastung kritisch
+      - alert: GPUMemoryCritical
+        expr: themis_llm_gpu_memory_utilization > 0.95
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "GPU {{ $labels.device }} memory critical"
+          description: "Memory utilization is {{ $value | humanizePercentage }}"
+      
+      # Batch Queue zu lang
+      - alert: LLMBatchQueueLong
+        expr: themis_continuous_batching_queue_length > 100
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "LLM batch queue too long"
+          description: "Queue length is {{ $value }}"
+```
+
+**HA & Replication Alerts:**
+
+```yaml
+# config/prometheus/alerts/ha.yml
+groups:
+  - name: ha_alerts
+    rules:
+      # Hot Spare Replication Lag zu hoch
+      - alert: HotSpareReplicationLagHigh
+        expr: themis_hot_spare_replication_lag_seconds > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Hot spare {{ $labels.node }} replication lag high"
+          description: "Lag is {{ $value }}s"
+      
+      # Hot Spare nicht bereit
+      - alert: HotSpareNotReady
+        expr: themis_hot_spare_failover_ready == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Hot spare {{ $labels.node }} not ready for failover"
+      
+      # Shard Down
+      - alert: ShardDown
+        expr: themis_shard_health == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Shard {{ $labels.shard }} is down"
+          description: "Immediate attention required"
+      
+      # WAL Replication Lag kritisch
+      - alert: WALReplicationLagCritical
+        expr: themis_wal_replication_lag_seconds > 1.0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "WAL replication lag critical on {{ $labels.replica }}"
+          description: "Lag is {{ $value }}s"
+```
+
+**Performance Optimization Alerts:**
+
+```yaml
+# config/prometheus/alerts/performance.yml
+groups:
+  - name: performance_alerts
+    rules:
+      # Speculative Decoding Akzeptanzrate niedrig
+      - alert: SpeculativeDecodingLowAcceptance
+        expr: themis_speculative_decoding_acceptance_rate < 0.6
+        for: 15m
+        labels:
+          severity: info
+        annotations:
+          summary: "Low speculative decoding acceptance rate"
+          description: "Consider adjusting draft model or threshold"
+      
+      # Batch Fill Rate niedrig
+      - alert: ContinuousBatchingLowFillRate
+        expr: themis_continuous_batching_batch_fill_rate < 0.4
+        for: 15m
+        labels:
+          severity: info
+        annotations:
+          summary: "Low batch fill rate"
+          description: "Consider adjusting batch size or timeout"
+```
+
+### 19.6A.5 Beispiel PromQL Queries
+
+**LLM Performance Analysis:**
+
+```promql
+# Durchschnittliche Latenz pro Modell (letzte 5 Minuten)
+rate(themis_llm_request_duration_seconds_sum[5m]) 
+/ 
+rate(themis_llm_request_duration_seconds_count[5m])
+
+# Tokens pro Sekunde (Rate)
+rate(themis_llm_tokens_generated_total[5m])
+
+# Cache Einsparungen in USD (letzte 24h)
+increase(themis_llm_prefix_cache_cost_saved_usd[24h])
+
+# GPU Auslastung über alle Devices
+avg(themis_llm_gpu_utilization_percent)
+```
+
+**Sharding & HA Analysis:**
+
+```promql
+# Durchschnittliche Replication Lag über alle Hot Spares
+avg(themis_hot_spare_replication_lag_seconds)
+
+# Anzahl Shards die UP sind
+sum(themis_shard_health)
+
+# WAL Sync Latenz (P95)
+histogram_quantile(0.95, 
+  rate(themis_wal_sync_duration_seconds_bucket[5m])
+)
+
+# Total Rebalance Operations (letzte 24h)
+sum(increase(themis_shard_rebalance_operations_total[24h]))
+```
+
+**Cost Analysis:**
+
+```promql
+# Gesamte Token-Kosten (letzte 30 Tage, $0.03/1K tokens GPT-4)
+sum(increase(themis_llm_tokens_generated_total{model="gpt-4"}[30d])) 
+* 0.03 / 1000
+
+# Cache-Einsparungen vs. Kosten
+sum(increase(themis_llm_prefix_cache_cost_saved_usd[30d])) 
++ 
+sum(increase(themis_llm_response_cache_cost_saved_usd[30d]))
+```
+
 ## 19.7 Zusammenfassung
 
 ThemisDB bietet ein **Production-Ready Observability-Stack** mit:
