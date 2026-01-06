@@ -5,50 +5,57 @@ FROM ubuntu:24.04 AS builder
 
 ARG THEMIS_ENABLE_LLM=ON
 ARG THEMIS_ENABLE_GPU=ON
+ARG THEMIS_ENABLE_GRPC=ON
 ARG CMAKE_BUILD_TYPE=Release
 ARG THEMIS_BUILD_TESTS=OFF
 ARG THEMIS_BUILD_BENCHMARKS=OFF
 
 # Install build dependencies with C/C++ compiler explicitly
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    gcc \
-    g++ \
-    cmake \
-    git \
-    curl \
-    wget \
-    zip \
-    unzip \
-    tar \
-    pkg-config \
-    python3 \
-    make \
-    ninja-build \
+    build-essential gcc g++ cmake git curl wget zip unzip tar pkg-config python3 \
+    libboost-all-dev libgrpc-dev libgrpc++-dev protobuf-compiler-grpc libssl-dev \
+    libprotobuf-dev libgtest-dev nlohmann-json3-dev libcurl4-openssl-dev \
+    librocksdb-dev \
+    zlib1g-dev liblz4-dev libzstd-dev libc-ares-dev libtbb-dev libspdlog-dev \
+    libsimdjson-dev libyaml-cpp-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set compiler explicitly
+# Set compiler explicitly and CMAKE_PREFIX_PATH for gRPC discovery
 ENV CC=/usr/bin/gcc
 ENV CXX=/usr/bin/g++
 ENV CMAKE_C_COMPILER=/usr/bin/gcc
 ENV CMAKE_CXX_COMPILER=/usr/bin/g++
-
-# Clone vcpkg fresh (stabiler als altes Repo-vcpkg)
-WORKDIR /opt
-RUN git clone https://github.com/microsoft/vcpkg.git /opt/vcpkg && \
-    cd /opt/vcpkg && \
-    ./bootstrap-vcpkg.sh -disableMetrics && \
-    ./vcpkg integrate install
-
-ENV VCPKG_ROOT=/opt/vcpkg
-ENV PATH="${VCPKG_ROOT}:${PATH}"
-
-# Binary Cache wird im Container nicht benötigt (lokal sowieso größer)
-# vcpkg lädt Packages von GitHub
+ENV CMAKE_MAKE_PROGRAM=/usr/bin/make
 
 # Copy source and build
 WORKDIR /build
-COPY . .
+# Copy minimal sources and build config
+COPY CMakeLists.txt ./
+COPY cmake/ cmake/
+COPY src/ src/
+COPY include/ include/
+COPY proto/ proto/
+COPY internal/ internal/
+COPY scripts/ scripts/
+COPY VERSION VERSION
+COPY RELEASE_TYPE RELEASE_TYPE
+COPY vcpkg.json vcpkg.json
+COPY vcpkg-configuration.json vcpkg-configuration.json
+
+# Mirror source roots into cmake/ to satisfy relative paths in cmake/CMakeLists.txt
+RUN cd cmake && \
+    ln -s ../src src && \
+    ln -s ../include include && \
+    ln -s ../proto proto && \
+    ln -s ../internal internal && \
+    ln -s ../scripts scripts
+
+# Sanity: ensure key sources exist
+RUN test -f src/storage/rocksdb_wrapper.cpp && test -f src/main.cpp && test -f src/main_server.cpp
+
+# Quick inventory to debug missing sources in CMake
+RUN du -sh src internal include proto scripts || true \
+    && find src -maxdepth 2 -type f | head -n 40
 
 # Clone llama.cpp wenn THEMIS_ENABLE_LLM=ON (wird von CMake benötigt)
 RUN if [ "${THEMIS_ENABLE_LLM}" = "ON" ]; then \
@@ -56,17 +63,16 @@ RUN if [ "${THEMIS_ENABLE_LLM}" = "ON" ]; then \
         git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp; \
     fi
 
-# Configure with explicit compiler
+# Configure with explicit compiler and gRPC linkage
 # Note: CMakePresets.json now in cmake/ subdirectory
 RUN cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-    -DCMAKE_C_COMPILER=/usr/bin/gcc \
-    -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
-    -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
     -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
     -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
+    -DTHEMIS_ENABLE_GRPC=${THEMIS_ENABLE_GRPC} \
     -DTHEMIS_BUILD_TESTS=${THEMIS_BUILD_TESTS} \
     -DTHEMIS_BUILD_BENCHMARKS=${THEMIS_BUILD_BENCHMARKS} \
+    -DTHEMIS_ENABLE_TRACING=OFF \
     -DBUILD_SHARED_LIBS=OFF
 
 # Build with parallel jobs
