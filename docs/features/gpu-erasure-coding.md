@@ -80,24 +80,34 @@ auto coder = std::make_unique<GPUErasureCoder>(
 
 ```cpp
 #include "sharding/redundancy_strategy.h"
+#include "sharding/gpu_erasure_coder.h"
 
 // Configure erasure coding with GPU acceleration
+// Note: GPU configuration is done through GPUErasureCoder directly
+// RedundancyConfig focuses on redundancy mode and erasure coding parameters
 RedundancyConfig config;
 config.mode = RedundancyMode::PARITY;
 config.erasure_coding = {
     .data_shards = 10,
     .parity_shards = 4,
     .algorithm = ErasureCodingAlgorithm::REED_SOLOMON,
-    .gpu_config = {
-        .acceleration = AccelerationType::GPU_CUDA,
-        .device_id = 0,
-        .batch_size = 64,
-        .async_compute = true,
-        .fallback_cpu = true
-    }
 };
 
-// Create redundancy strategy with GPU-accelerated erasure coding
+// Create GPU-accelerated erasure coder
+GPUConfig gpu_config;
+gpu_config.device_id = 0;
+gpu_config.batch_size = 64;
+gpu_config.async_compute = true;
+gpu_config.fallback_cpu = true;
+
+auto gpu_coder = std::make_unique<GPUErasureCoder>(
+    AccelerationType::GPU_CUDA,
+    gpu_config,
+    config.erasure_coding.algorithm
+);
+
+// Create redundancy strategy
+// (Note: Integration with RedundancyStrategy for GPU is done at application level)
 auto strategy = std::make_unique<RedundancyStrategy>(config);
 ```
 

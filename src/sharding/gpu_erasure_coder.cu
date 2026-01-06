@@ -50,7 +50,7 @@ namespace {
             if (b & 1) prod ^= a;
             bool carry = (a & 0x80);
             a <<= 1;
-            if (carry) a ^= 0x1D;  // GF(2^8) primitive polynomial: x^8 + x^4 + x^3 + x^2 + 1
+            if (carry) a ^= 0x1D;  // GF(2^8) irreducible polynomial: x^4 + x^3 + x^2 + 1 (0x1D = 0b00011101)
             b >>= 1;
         }
         return static_cast<uint8_t>(prod);
@@ -320,8 +320,8 @@ public:
         // 3. Launch decode kernel
         // 4. Download recovered data
         
-        // For now, throw to trigger CPU fallback
-        throw std::runtime_error("GPU decode not yet implemented, use CPU fallback");
+        // GPU decode not yet implemented, falling back to CPU
+        throw std::runtime_error("GPU decode not yet implemented, automatic CPU fallback will be used");
     }
     
     std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
