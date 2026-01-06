@@ -201,10 +201,10 @@ FailurePrediction PredictiveFailureDetector::predictShard(const std::string& sha
     // Update statistics
     {
         std::lock_guard<std::mutex> lock(stats_mutex_);
-        uint64_t total_predictions = stats_.predictions_made + 1;
         uint64_t total_time = stats_.avg_inference_time.count() * stats_.predictions_made;
+        stats_.predictions_made++;
         stats_.avg_inference_time = std::chrono::milliseconds(
-            (total_time + duration.count()) / total_predictions
+            (total_time + duration.count()) / stats_.predictions_made
         );
     }
     
@@ -330,7 +330,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
         return static_cast<float>(slope);
     };
     
-    // Latency features (indices 0-9)
+    // Latency features (indices 0-5)
     features.push_back(compute_mean(latencies));
     features.push_back(compute_stddev(latencies));
     features.push_back(compute_trend(latencies));
@@ -338,7 +338,7 @@ std::vector<float> PredictiveFailureDetector::computeStatisticalFeatures(
     features.push_back(history.back().p95_latency_ms / 100.0f);
     features.push_back(history.back().p99_latency_ms / 100.0f);
     
-    // Throughput features (indices 6-11)
+    // Throughput features (indices 6-9)
     features.push_back(compute_mean(throughputs));
     features.push_back(compute_stddev(throughputs));
     features.push_back(compute_trend(throughputs));

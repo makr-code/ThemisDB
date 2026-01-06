@@ -21,6 +21,9 @@ import argparse
 import sys
 from pathlib import Path
 
+# Feature configuration
+NUM_FEATURES = 50  # Number of features extracted from metrics
+
 try:
     import pandas as pd
     import numpy as np
@@ -124,11 +127,11 @@ def extract_features(df):
         feature_vector.append(group['recovery_success_rate'].iloc[-1])
         feature_vector.append(group['retry_count'].iloc[-1])
         
-        # Pad to 50 features
-        while len(feature_vector) < 50:
+        # Pad to NUM_FEATURES
+        while len(feature_vector) < NUM_FEATURES:
             feature_vector.append(0.0)
         
-        features.append(feature_vector[:50])
+        features.append(feature_vector[:NUM_FEATURES])
         labels.append(label)
     
     print(f"Extracted {len(features)} feature vectors")
@@ -218,7 +221,7 @@ def evaluate_model(model, X_test, y_test):
     }
 
 
-def export_to_onnx(model, output_path, num_features=50):
+def export_to_onnx(model, output_path, num_features=NUM_FEATURES):
     """
     Export trained model to ONNX format.
     
