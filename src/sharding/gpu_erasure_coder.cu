@@ -51,7 +51,7 @@ namespace {
             bool carry = (a & 0x80);
             a <<= 1;
             // GF(2^8) irreducible polynomial: x^8 + x^4 + x^3 + x + 1 (0x11B)
-            // When reducing, we XOR with 0x1B (the lower 8 bits of 0x11B after removing x^8)
+            // For reduction, we use 0x1B (lower 8 bits, since x^8 coefficient is implicit)
             if (carry) a ^= 0x1B;
             b >>= 1;
         }

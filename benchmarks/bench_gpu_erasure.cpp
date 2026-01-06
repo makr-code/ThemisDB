@@ -107,6 +107,9 @@ static void BM_GPU_Encode_1MB(benchmark::State& state) {
     uint32_t data_shards = 10;
     uint32_t parity_shards = 4;
     
+    // Reset stats before benchmark
+    coder->resetStats();
+    
     for (auto _ : state) {
         auto chunks = coder->encode(data, data_shards, parity_shards);
         benchmark::DoNotOptimize(chunks);
@@ -114,11 +117,11 @@ static void BM_GPU_Encode_1MB(benchmark::State& state) {
     
     state.SetBytesProcessed(state.iterations() * data.size());
     
-    // Report GPU usage
+    // Report GPU usage (only once at the end)
     if (state.thread_index() == 0) {
         auto stats = coder->getStats();
-        state.counters["gpu_encodes"] = stats.gpu_encodes;
-        state.counters["cpu_fallbacks"] = stats.cpu_fallbacks;
+        state.counters["gpu_encodes"] = static_cast<double>(stats.gpu_encodes);
+        state.counters["cpu_fallbacks"] = static_cast<double>(stats.cpu_fallbacks);
     }
 }
 BENCHMARK(BM_GPU_Encode_1MB);
@@ -134,6 +137,9 @@ static void BM_GPU_Encode_10MB(benchmark::State& state) {
     uint32_t data_shards = 10;
     uint32_t parity_shards = 4;
     
+    // Reset stats before benchmark
+    coder->resetStats();
+    
     for (auto _ : state) {
         auto chunks = coder->encode(data, data_shards, parity_shards);
         benchmark::DoNotOptimize(chunks);
@@ -143,8 +149,8 @@ static void BM_GPU_Encode_10MB(benchmark::State& state) {
     
     if (state.thread_index() == 0) {
         auto stats = coder->getStats();
-        state.counters["gpu_encodes"] = stats.gpu_encodes;
-        state.counters["cpu_fallbacks"] = stats.cpu_fallbacks;
+        state.counters["gpu_encodes"] = static_cast<double>(stats.gpu_encodes);
+        state.counters["cpu_fallbacks"] = static_cast<double>(stats.cpu_fallbacks);
     }
 }
 BENCHMARK(BM_GPU_Encode_10MB);
@@ -160,6 +166,9 @@ static void BM_GPU_Encode_100MB(benchmark::State& state) {
     uint32_t data_shards = 10;
     uint32_t parity_shards = 4;
     
+    // Reset stats before benchmark
+    coder->resetStats();
+    
     for (auto _ : state) {
         auto chunks = coder->encode(data, data_shards, parity_shards);
         benchmark::DoNotOptimize(chunks);
@@ -169,8 +178,8 @@ static void BM_GPU_Encode_100MB(benchmark::State& state) {
     
     if (state.thread_index() == 0) {
         auto stats = coder->getStats();
-        state.counters["gpu_encodes"] = stats.gpu_encodes;
-        state.counters["cpu_fallbacks"] = stats.cpu_fallbacks;
+        state.counters["gpu_encodes"] = static_cast<double>(stats.gpu_encodes);
+        state.counters["cpu_fallbacks"] = static_cast<double>(stats.cpu_fallbacks);
     }
 }
 BENCHMARK(BM_GPU_Encode_100MB);
