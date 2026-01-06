@@ -50,7 +50,9 @@ namespace {
             if (b & 1) prod ^= a;
             bool carry = (a & 0x80);
             a <<= 1;
-            if (carry) a ^= 0x1D;  // GF(2^8) irreducible polynomial: x^4 + x^3 + x^2 + 1 (0x1D = 0b00011101)
+            // GF(2^8) irreducible polynomial: x^8 + x^4 + x^3 + x + 1 (0x11B)
+            // When reducing, we XOR with 0x1B (the lower 8 bits of 0x11B after removing x^8)
+            if (carry) a ^= 0x1B;
             b >>= 1;
         }
         return static_cast<uint8_t>(prod);
@@ -314,14 +316,10 @@ public:
         uint32_t data_shards,
         uint32_t parity_shards
     ) override {
-        // Simplified implementation: For full implementation, would need to:
-        // 1. Build decoding matrix by inverting encoding matrix subset
-        // 2. Upload available chunks and decoding matrix to GPU
-        // 3. Launch decode kernel
-        // 4. Download recovered data
-        
-        // GPU decode not yet implemented, falling back to CPU
-        throw std::runtime_error("GPU decode not yet implemented, automatic CPU fallback will be used");
+        // GPU decode not yet fully implemented
+        // The base GPUErasureCoder class will catch this exception and 
+        // automatically fall back to CPU-based decoding
+        throw std::runtime_error("GPU decode not implemented");
     }
     
     std::vector<std::vector<std::vector<uint8_t>>> batchEncode(
