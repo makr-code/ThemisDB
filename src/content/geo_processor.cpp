@@ -14,6 +14,15 @@
 #include <cmath>
 #include <sstream>
 #include <chrono>
+#include <fstream>
+#include <filesystem>
+
+#ifdef THEMIS_ENABLE_GDAL
+#include <gdal/gdal.h>
+#include <gdal/gdal_priv.h>
+#include <gdal/ogrsf_frmts.h>
+#include <gdal/cpl_conv.h>
+#endif
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -48,11 +57,13 @@ PluginInfo GeoProcessor::getInfo() const {
         "application/vnd.google-earth.kmz",
         "application/gpx+xml",
         "application/x-shapefile",
-        "application/geopackage+sqlite3"
+        "application/geopackage+sqlite3",
+        "image/tiff",  // GeoTIFF
+        "image/x-tiff"  // Alternative GeoTIFF MIME type
     };
     
     info.extensions = {
-        "geojson", "json", "kml", "kmz", "gpx", "shp", "gpkg"
+        "geojson", "json", "kml", "kmz", "gpx", "shp", "gpkg", "tif", "tiff"
     };
     
     info.supports_chunking = true;
@@ -77,9 +88,11 @@ bool GeoProcessor::initialize(const PluginConfig& config) {
     simplify_tolerance_ = config.get<double>("simplify.tolerance", 0.0001);
     generate_centroid_ = config.get<bool>("analysis.centroid", true);
     
-    // Note: Initialize GDAL
-    // GDALAllRegister();
-    // OGRRegisterAll();
+#ifdef THEMIS_ENABLE_GDAL
+    // Initialize GDAL
+    GDALAllRegister();
+    OGRRegisterAll();
+#endif
     
     initialized_ = true;
     return true;
@@ -90,8 +103,10 @@ void GeoProcessor::shutdown() {
         return;
     }
     
-    // Note: Clean up GDAL
-    // GDALDestroyDriverManager();
+#ifdef THEMIS_ENABLE_GDAL
+    // Clean up GDAL
+    GDALDestroyDriverManager();
+#endif
     
     initialized_ = false;
 }
@@ -104,7 +119,9 @@ bool GeoProcessor::canProcess(const std::string& mime_type) const {
         "application/vnd.google-earth.kmz",
         "application/gpx+xml",
         "application/x-shapefile",
-        "application/geopackage+sqlite3"
+        "application/geopackage+sqlite3",
+        "image/tiff",
+        "image/x-tiff"
     };
     
     return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
@@ -148,6 +165,10 @@ ContentExtractionResult GeoProcessor::extract(
             geo = parseGPX(blob);
         } else if (mime_type == "application/x-shapefile") {
             geo = parseShapefile(blob);
+        } else if (mime_type == "application/geopackage+sqlite3") {
+            geo = parseGeoPackage(blob);
+        } else if (mime_type == "image/tiff" || mime_type == "image/x-tiff") {
+            geo = parseGeoTIFF(blob);
         } else if (mime_type == "application/geopackage+sqlite3") {
             geo = parseGeoPackage(blob);
         } else {
@@ -382,8 +403,164 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob)
     GeoExtractionData data;
     data.crs = default_crs_;
     
-    // Real implementation would use GDAL/OGR to read shapefile
-    // Note: Shapefiles are typically multi-file (.shp, .shx, .dbf)
+#ifdef THEMIS_ENABLE_GDAL
+    // Write blob to temporary file (GDAL requires file path for shapefiles)
+    // Note: Shapefiles are typically multi-file (.shp, .shx, .dbf, .prj)
+    std::string temp_dir = std::filesystem::temp_directory_path().string();
+    std::string temp_path = temp_dir + "/themis_temp_shapefile_" + 
+                           std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) + ".shp";
+    
+    // Write the blob to file
+    std::ofstream ofs(temp_path, std::ios::binary);
+    if (!ofs) {
+        throw std::runtime_error("Failed to create temporary file for shapefile");
+    }
+    ofs.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+    ofs.close();
+    
+    // Open with GDAL
+    GDALDataset* dataset = static_cast<GDALDataset*>(
+        GDALOpenEx(temp_path.c_str(), GDAL_OF_VECTOR, nullptr, nullptr, nullptr)
+    );
+    
+    if (!dataset) {
+        std::filesystem::remove(temp_path);
+        throw std::runtime_error("Failed to open shapefile with GDAL");
+    }
+    
+    try {
+        // Iterate through layers
+        int layer_count = dataset->GetLayerCount();
+        for (int i = 0; i < layer_count; ++i) {
+            OGRLayer* layer = dataset->GetLayer(i);
+            if (!layer) continue;
+            
+            // Get spatial reference system
+            OGRSpatialReference* srs = layer->GetSpatialRef();
+            if (srs) {
+                char* wkt = nullptr;
+                srs->exportToWkt(&wkt);
+                if (wkt) {
+                    data.crs = wkt;
+                    CPLFree(wkt);
+                }
+            }
+            
+            // Extract features
+            layer->ResetReading();
+            OGRFeature* feature = nullptr;
+            int feature_count = 0;
+            
+            while ((feature = layer->GetNextFeature()) != nullptr && 
+                   feature_count < max_features_) {
+                
+                // Extract geometry
+                OGRGeometry* geometry = feature->GetGeometryRef();
+                if (geometry) {
+                    // Set geometry type if not already set
+                    if (data.geometry_type.empty()) {
+                        data.geometry_type = geometry->getGeometryName();
+                    }
+                    
+                    // Extract coordinates based on geometry type
+                    OGRwkbGeometryType geom_type = geometry->getGeometryType();
+                    
+                    if (geom_type == wkbPoint || geom_type == wkbPoint25D) {
+                        OGRPoint* point = geometry->toPoint();
+                        data.coordinates.emplace_back(point->getY(), point->getX());
+                    }
+                    else if (geom_type == wkbLineString || geom_type == wkbLineString25D) {
+                        OGRLineString* linestring = geometry->toLineString();
+                        int num_points = linestring->getNumPoints();
+                        for (int p = 0; p < num_points; ++p) {
+                            data.coordinates.emplace_back(
+                                linestring->getY(p),
+                                linestring->getX(p)
+                            );
+                        }
+                    }
+                    else if (geom_type == wkbPolygon || geom_type == wkbPolygon25D) {
+                        OGRPolygon* polygon = geometry->toPolygon();
+                        OGRLinearRing* ring = polygon->getExteriorRing();
+                        if (ring) {
+                            int num_points = ring->getNumPoints();
+                            for (int p = 0; p < num_points; ++p) {
+                                data.coordinates.emplace_back(
+                                    ring->getY(p),
+                                    ring->getX(p)
+                                );
+                            }
+                        }
+                    }
+                    else if (geom_type == wkbMultiPoint || geom_type == wkbMultiPoint25D) {
+                        OGRMultiPoint* multipoint = geometry->toMultiPoint();
+                        int num_geoms = multipoint->getNumGeometries();
+                        for (int g = 0; g < num_geoms; ++g) {
+                            OGRPoint* point = static_cast<OGRPoint*>(multipoint->getGeometryRef(g));
+                            data.coordinates.emplace_back(point->getY(), point->getX());
+                        }
+                    }
+                    
+                    // Export geometry to WKT for storage
+                    char* wkt = nullptr;
+                    geometry->exportToWkt(&wkt);
+                    if (wkt) {
+                        // Store first few geometries as examples
+                        if (feature_count < 10) {
+                            data.properties["geometry_" + std::to_string(feature_count)] = wkt;
+                        }
+                        CPLFree(wkt);
+                    }
+                }
+                
+                // Extract attributes
+                for (int field = 0; field < feature->GetFieldCount(); ++field) {
+                    OGRFieldDefn* field_defn = feature->GetFieldDefnRef(field);
+                    const char* field_name = field_defn->GetNameRef();
+                    
+                    // Store first feature's attributes as properties
+                    if (feature_count == 0) {
+                        if (feature->IsFieldSet(field)) {
+                            data.properties[field_name] = feature->GetFieldAsString(field);
+                        }
+                    }
+                }
+                
+                OGRFeature::DestroyFeature(feature);
+                feature_count++;
+            }
+            
+            // Store feature count
+            data.properties["feature_count"] = std::to_string(feature_count);
+            data.properties["layer_name"] = layer->GetName();
+        }
+        
+        // Calculate bounding box if coordinates were extracted
+        if (!data.coordinates.empty()) {
+            data.bounds[0] = data.coordinates[0].second;  // minX (lon)
+            data.bounds[1] = data.coordinates[0].first;   // minY (lat)
+            data.bounds[2] = data.coordinates[0].second;  // maxX (lon)
+            data.bounds[3] = data.coordinates[0].first;   // maxY (lat)
+            
+            for (const auto& coord : data.coordinates) {
+                data.bounds[0] = std::min(data.bounds[0], coord.second);
+                data.bounds[1] = std::min(data.bounds[1], coord.first);
+                data.bounds[2] = std::max(data.bounds[2], coord.second);
+                data.bounds[3] = std::max(data.bounds[3], coord.first);
+            }
+        }
+        
+    } catch (...) {
+        GDALClose(dataset);
+        std::filesystem::remove(temp_path);
+        throw;
+    }
+    
+    GDALClose(dataset);
+    std::filesystem::remove(temp_path);
+#else
+    throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
+#endif
     
     return data;
 }
@@ -392,7 +569,225 @@ GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob
     GeoExtractionData data;
     data.crs = default_crs_;
     
-    // Real implementation would use GDAL/OGR to read GeoPackage (SQLite)
+#ifdef THEMIS_ENABLE_GDAL
+    // Write blob to temporary file
+    std::string temp_dir = std::filesystem::temp_directory_path().string();
+    std::string temp_path = temp_dir + "/themis_temp_geopackage_" + 
+                           std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) + ".gpkg";
+    
+    std::ofstream ofs(temp_path, std::ios::binary);
+    if (!ofs) {
+        throw std::runtime_error("Failed to create temporary file for GeoPackage");
+    }
+    ofs.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+    ofs.close();
+    
+    // Open with GDAL (GeoPackage is SQLite-based)
+    GDALDataset* dataset = static_cast<GDALDataset*>(
+        GDALOpenEx(temp_path.c_str(), GDAL_OF_VECTOR, nullptr, nullptr, nullptr)
+    );
+    
+    if (!dataset) {
+        std::filesystem::remove(temp_path);
+        throw std::runtime_error("Failed to open GeoPackage with GDAL");
+    }
+    
+    try {
+        // Process similar to Shapefile - GeoPackage can contain multiple layers
+        int layer_count = dataset->GetLayerCount();
+        for (int i = 0; i < layer_count && i < 1; ++i) {  // Process first layer
+            OGRLayer* layer = dataset->GetLayer(i);
+            if (!layer) continue;
+            
+            // Get spatial reference
+            OGRSpatialReference* srs = layer->GetSpatialRef();
+            if (srs) {
+                char* wkt = nullptr;
+                srs->exportToWkt(&wkt);
+                if (wkt) {
+                    data.crs = wkt;
+                    CPLFree(wkt);
+                }
+            }
+            
+            // Extract features (similar to shapefile logic but simplified)
+            layer->ResetReading();
+            OGRFeature* feature = nullptr;
+            int feature_count = 0;
+            
+            while ((feature = layer->GetNextFeature()) != nullptr && 
+                   feature_count < max_features_) {
+                
+                OGRGeometry* geometry = feature->GetGeometryRef();
+                if (geometry && data.geometry_type.empty()) {
+                    data.geometry_type = geometry->getGeometryName();
+                }
+                
+                OGRFeature::DestroyFeature(feature);
+                feature_count++;
+            }
+            
+            data.properties["feature_count"] = std::to_string(feature_count);
+            data.properties["layer_name"] = layer->GetName();
+        }
+    } catch (...) {
+        GDALClose(dataset);
+        std::filesystem::remove(temp_path);
+        throw;
+    }
+    
+    GDALClose(dataset);
+    std::filesystem::remove(temp_path);
+#else
+    throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
+#endif
+    
+    return data;
+}
+
+// Helper function for GeoTIFF processing
+GeoExtractionData GeoProcessor::parseGeoTIFF(const std::vector<uint8_t>& blob) {
+    GeoExtractionData data;
+    data.crs = default_crs_;
+    data.geometry_type = "Raster";
+    
+#ifdef THEMIS_ENABLE_GDAL
+    // Write blob to temporary file
+    std::string temp_dir = std::filesystem::temp_directory_path().string();
+    std::string temp_path = temp_dir + "/themis_temp_geotiff_" + 
+                           std::to_string(std::chrono::system_clock::now().time_since_epoch().count()) + ".tif";
+    
+    std::ofstream ofs(temp_path, std::ios::binary);
+    if (!ofs) {
+        throw std::runtime_error("Failed to create temporary file for GeoTIFF");
+    }
+    ofs.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+    ofs.close();
+    
+    // Open with GDAL (raster mode)
+    GDALDataset* dataset = static_cast<GDALDataset*>(
+        GDALOpen(temp_path.c_str(), GA_ReadOnly)
+    );
+    
+    if (!dataset) {
+        std::filesystem::remove(temp_path);
+        throw std::runtime_error("Failed to open GeoTIFF with GDAL");
+    }
+    
+    try {
+        // Extract raster metadata
+        int width = dataset->GetRasterXSize();
+        int height = dataset->GetRasterYSize();
+        int band_count = dataset->GetRasterCount();
+        
+        data.properties["width"] = std::to_string(width);
+        data.properties["height"] = std::to_string(height);
+        data.properties["bands"] = std::to_string(band_count);
+        data.properties["size_pixels"] = std::to_string(width * height);
+        
+        // Extract geotransform (affine transformation for georeferencing)
+        double geotransform[6];
+        if (dataset->GetGeoTransform(geotransform) == CE_None) {
+            data.properties["geotransform_origin_x"] = std::to_string(geotransform[0]);
+            data.properties["geotransform_origin_y"] = std::to_string(geotransform[3]);
+            data.properties["pixel_width"] = std::to_string(geotransform[1]);
+            data.properties["pixel_height"] = std::to_string(geotransform[5]);
+            data.properties["rotation_x"] = std::to_string(geotransform[2]);
+            data.properties["rotation_y"] = std::to_string(geotransform[4]);
+            
+            // Calculate bounding box from geotransform
+            double minX = geotransform[0];
+            double maxY = geotransform[3];
+            double maxX = geotransform[0] + width * geotransform[1] + height * geotransform[2];
+            double minY = geotransform[3] + width * geotransform[4] + height * geotransform[5];
+            
+            data.bounds[0] = minX;
+            data.bounds[1] = minY;
+            data.bounds[2] = maxX;
+            data.bounds[3] = maxY;
+            
+            data.properties["bounds_minX"] = std::to_string(minX);
+            data.properties["bounds_minY"] = std::to_string(minY);
+            data.properties["bounds_maxX"] = std::to_string(maxX);
+            data.properties["bounds_maxY"] = std::to_string(maxY);
+        }
+        
+        // Extract projection/CRS
+        const char* projection = dataset->GetProjectionRef();
+        if (projection && std::strlen(projection) > 0) {
+            data.crs = projection;
+            data.properties["projection"] = projection;
+            
+            // Parse spatial reference to get EPSG code if available
+            OGRSpatialReference srs;
+            if (srs.importFromWkt(projection) == OGRERR_NONE) {
+                const char* auth_name = srs.GetAuthorityName(nullptr);
+                const char* auth_code = srs.GetAuthorityCode(nullptr);
+                if (auth_name && auth_code) {
+                    std::string epsg = std::string(auth_name) + ":" + std::string(auth_code);
+                    data.properties["epsg_code"] = epsg;
+                }
+            }
+        }
+        
+        // Extract band information
+        for (int i = 1; i <= band_count; ++i) {
+            GDALRasterBand* band = dataset->GetRasterBand(i);
+            if (band) {
+                std::string band_prefix = "band_" + std::to_string(i);
+                
+                // Data type
+                GDALDataType dtype = band->GetRasterDataType();
+                data.properties[band_prefix + "_data_type"] = GDALGetDataTypeName(dtype);
+                
+                // Block size
+                int block_x, block_y;
+                band->GetBlockSize(&block_x, &block_y);
+                data.properties[band_prefix + "_block_size"] = 
+                    std::to_string(block_x) + "x" + std::to_string(block_y);
+                
+                // Color interpretation
+                GDALColorInterp color_interp = band->GetColorInterpretation();
+                data.properties[band_prefix + "_color_interpretation"] = 
+                    GDALGetColorInterpretationName(color_interp);
+                
+                // NoData value
+                int has_nodata;
+                double nodata = band->GetNoDataValue(&has_nodata);
+                if (has_nodata) {
+                    data.properties[band_prefix + "_nodata"] = std::to_string(nodata);
+                }
+                
+                // Statistics (if computed)
+                double min, max, mean, stddev;
+                if (band->GetStatistics(FALSE, FALSE, &min, &max, &mean, &stddev) == CE_None) {
+                    data.properties[band_prefix + "_min"] = std::to_string(min);
+                    data.properties[band_prefix + "_max"] = std::to_string(max);
+                    data.properties[band_prefix + "_mean"] = std::to_string(mean);
+                    data.properties[band_prefix + "_stddev"] = std::to_string(stddev);
+                }
+            }
+        }
+        
+        // Calculate center point
+        if (data.bounds[0] != 0 || data.bounds[1] != 0 || 
+            data.bounds[2] != 0 || data.bounds[3] != 0) {
+            double center_x = (data.bounds[0] + data.bounds[2]) / 2.0;
+            double center_y = (data.bounds[1] + data.bounds[3]) / 2.0;
+            data.coordinates.emplace_back(center_y, center_x);
+        }
+        
+    } catch (...) {
+        GDALClose(dataset);
+        std::filesystem::remove(temp_path);
+        throw;
+    }
+    
+    GDALClose(dataset);
+    std::filesystem::remove(temp_path);
+#else
+    throw std::runtime_error("GDAL support not enabled. Build with -DTHEMIS_ENABLE_GDAL=ON");
+#endif
     
     return data;
 }

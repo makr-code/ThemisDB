@@ -94,6 +94,10 @@ option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
 
+# Geospatial Processing (P2 - v1.4.0+)
+# Enables GDAL integration for Shapefile and GeoTIFF support
+option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
+
 # Performance Optimization Options (Research-based, see docs/de/research/)
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
 option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
@@ -623,6 +627,41 @@ if(THEMIS_ENABLE_HTTP3)
         endif()
         message(WARNING "Disabling HTTP/3 support due to missing dependencies")
         set(THEMIS_ENABLE_HTTP3 OFF CACHE BOOL "nghttp3/ngtcp2 not available" FORCE)
+    endif()
+endif()
+
+# ═══════════════════════════════════════════════════════════
+# GDAL Integration (P2 - v1.4.0+)
+# ═══════════════════════════════════════════════════════════
+if(THEMIS_ENABLE_GDAL)
+    message(STATUS "GDAL support enabled - integrating GDAL for geospatial data processing")
+    
+    # Find GDAL package
+    find_package(GDAL CONFIG QUIET)
+    if(GDAL_FOUND)
+        message(STATUS "GDAL found via CONFIG: ${GDAL_VERSION}")
+    else()
+        # Fallback to MODULE mode
+        find_package(GDAL MODULE)
+        if(GDAL_FOUND)
+            message(STATUS "GDAL found via MODULE: ${GDAL_VERSION}")
+            # Create imported target if not already created
+            if(NOT TARGET GDAL::GDAL)
+                add_library(GDAL::GDAL UNKNOWN IMPORTED)
+                set_target_properties(GDAL::GDAL PROPERTIES
+                    IMPORTED_LOCATION "${GDAL_LIBRARY}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${GDAL_INCLUDE_DIR}")
+            endif()
+        else()
+            message(WARNING "GDAL not found - Install with: vcpkg install gdal")
+            message(WARNING "Disabling GDAL support due to missing dependency")
+            set(THEMIS_ENABLE_GDAL OFF CACHE BOOL "GDAL not available" FORCE)
+        endif()
+    endif()
+    
+    if(GDAL_FOUND)
+        add_compile_definitions(THEMIS_ENABLE_GDAL)
+        message(STATUS "  GDAL features: Shapefile, GeoTIFF, GeoPackage support enabled")
     endif()
 endif()
 

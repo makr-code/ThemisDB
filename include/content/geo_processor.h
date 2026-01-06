@@ -73,6 +73,7 @@ private:
     // Internal methods
     GeoExtractionData parseGeoJSON(const std::vector<uint8_t>& blob);
     GeoExtractionData parseShapefile(const std::vector<uint8_t>& blob);
+    GeoExtractionData parseGeoTIFF(const std::vector<uint8_t>& blob);
     GeoExtractionData parseKML(const std::vector<uint8_t>& blob);
     GeoExtractionData parseGPX(const std::vector<uint8_t>& blob);
     GeoExtractionData parseGeoPackage(const std::vector<uint8_t>& blob);
