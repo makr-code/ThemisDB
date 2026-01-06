@@ -660,7 +660,6 @@ if(THEMIS_ENABLE_GDAL)
     endif()
     
     if(GDAL_FOUND)
-        add_compile_definitions(THEMIS_ENABLE_GDAL)
         message(STATUS "  GDAL features: Shapefile, GeoTIFF, GeoPackage support enabled")
     endif()
 endif()
@@ -1340,6 +1339,13 @@ if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
     target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
     message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# GDAL Geospatial Processing Support
+if(THEMIS_ENABLE_GDAL AND GDAL_FOUND)
+    target_link_libraries(themis_core PUBLIC GDAL::GDAL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GDAL)
+    message(STATUS "GDAL geospatial processing enabled and linked to themis_core")
 endif()
 
 # GraphQL Protocol Support

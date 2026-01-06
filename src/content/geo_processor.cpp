@@ -169,8 +169,6 @@ ContentExtractionResult GeoProcessor::extract(
             geo = parseGeoPackage(blob);
         } else if (mime_type == "image/tiff" || mime_type == "image/x-tiff") {
             geo = parseGeoTIFF(blob);
-        } else if (mime_type == "application/geopackage+sqlite3") {
-            geo = parseGeoPackage(blob);
         } else {
             // Try GeoJSON as default
             geo = parseGeoJSON(blob);
