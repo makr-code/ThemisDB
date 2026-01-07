@@ -9,7 +9,56 @@
     // Initialize when document is ready
     $(document).ready(function() {
         ThemisDBWikiIntegration.init();
+        ThemisDBWikiNav.init();
     });
+    
+    /**
+     * Wiki Navigation object
+     */
+    var ThemisDBWikiNav = {
+        
+        /**
+         * Initialize navigation
+         */
+        init: function() {
+            this.initAccordion();
+            this.highlightCurrentPage();
+        },
+        
+        /**
+         * Initialize accordion functionality
+         */
+        initAccordion: function() {
+            $('.themisdb-wiki-nav-accordion .themisdb-nav-section-title').on('click', function() {
+                $(this).toggleClass('collapsed');
+            });
+        },
+        
+        /**
+         * Highlight current page in navigation
+         */
+        highlightCurrentPage: function() {
+            var currentUrl = window.location.href;
+            var currentPath = window.location.pathname;
+            
+            $('.themisdb-nav-item a').each(function() {
+                var $link = $(this);
+                var href = $link.attr('href');
+                
+                // Check if this link matches current page
+                if (href === currentUrl || href === currentPath) {
+                    $link.addClass('current-page');
+                    $link.attr('aria-current', 'page');
+                    
+                    // Expand parent section if accordion
+                    var $section = $link.closest('.themisdb-nav-section');
+                    if ($section.length) {
+                        $section.find('.themisdb-nav-section-title').removeClass('collapsed');
+                    }
+                }
+            });
+        }
+    };
     
     /**
      * Main object

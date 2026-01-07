@@ -45,6 +45,10 @@ class ThemisDB_Wiki_Integration {
         // Register shortcodes
         add_shortcode('themisdb_wiki', array($this, 'wiki_shortcode'));
         add_shortcode('themisdb_docs', array($this, 'docs_shortcode'));
+        add_shortcode('themisdb_wiki_nav', array($this, 'wiki_nav_shortcode'));
+        
+        // Register widget
+        add_action('widgets_init', array($this, 'register_widgets'));
         
         // AJAX handlers for auto-sync
         add_action('wp_ajax_themisdb_sync_docs', array($this, 'ajax_sync_docs'));
@@ -126,7 +130,11 @@ class ThemisDB_Wiki_Integration {
         global $post;
         
         // Only load if shortcode is present
-        if (is_a($post, 'WP_Post') && (has_shortcode($post->post_content, 'themisdb_wiki') || has_shortcode($post->post_content, 'themisdb_docs'))) {
+        if (is_a($post, 'WP_Post') && (
+            has_shortcode($post->post_content, 'themisdb_wiki') || 
+            has_shortcode($post->post_content, 'themisdb_docs') ||
+            has_shortcode($post->post_content, 'themisdb_wiki_nav')
+        )) {
             wp_enqueue_style(
                 'themisdb-wiki-style',
                 THEMISDB_WIKI_PLUGIN_URL . 'assets/css/wiki-integration.css',
@@ -449,6 +457,141 @@ class ThemisDB_Wiki_Integration {
     }
     
     /**
+     * Wiki Navigation shortcode (from _Sidebar.md)
+     */
+    public function wiki_nav_shortcode($atts) {
+        $atts = shortcode_atts(array(
+            'lang' => get_option('themisdb_wiki_default_lang', 'de'),
+            'style' => 'sidebar' // sidebar, horizontal, accordion
+        ), $atts);
+        
+        // Fetch _Sidebar.md file
+        $sidebar_content = $this->fetch_github_file('_Sidebar.md', null); // Sidebar is in root docs/
+        
+        if (is_wp_error($sidebar_content)) {
+            return '<div class="themisdb-wiki-nav-error">' . __('Navigation could not be loaded.', 'themisdb-wiki-integration') . '</div>';
+        }
+        
+        // Parse the sidebar markdown to create navigation
+        $nav_html = $this->parse_sidebar_to_nav($sidebar_content, $atts['lang'], $atts['style']);
+        
+        $output = '<nav class="themisdb-wiki-nav themisdb-wiki-nav-' . esc_attr($atts['style']) . '">';
+        $output .= $nav_html;
+        $output .= '</nav>';
+        
+        return $output;
+    }
+    
+    /**
+     * Parse _Sidebar.md content to navigation HTML
+     */
+    private function parse_sidebar_to_nav($markdown, $lang, $style) {
+        $lines = explode("\n", $markdown);
+        $html = '';
+        $in_section = false;
+        $section_title = '';
+        
+        foreach ($lines as $line) {
+            $line = trim($line);
+            
+            // Skip empty lines and horizontal rules
+            if (empty($line) || $line === '---') {
+                continue;
+            }
+            
+            // Main heading (h2 - ###)
+            if (preg_match('/^###\s+(.+)$/', $line, $matches)) {
+                // Close previous section
+                if ($in_section) {
+                    $html .= '</ul></div>';
+                }
+                
+                $section_title = strip_tags($matches[1]);
+                $section_id = sanitize_title($section_title);
+                
+                if ($style === 'accordion') {
+                    $html .= '<div class="themisdb-nav-section" data-section="' . esc_attr($section_id) . '">';
+                    $html .= '<h3 class="themisdb-nav-section-title">' . esc_html($section_title) . ' <span class="themisdb-nav-toggle">▼</span></h3>';
+                    $html .= '<ul class="themisdb-nav-section-items">';
+                } else {
+                    $html .= '<div class="themisdb-nav-section">';
+                    $html .= '<h3 class="themisdb-nav-section-title">' . esc_html($section_title) . '</h3>';
+                    $html .= '<ul class="themisdb-nav-section-items">';
+                }
+                
+                $in_section = true;
+            }
+            // List items with links
+            elseif (preg_match('/^-\s+\[(.+?)\]\((.+?)\)/', $line, $matches)) {
+                if (!$in_section) {
+                    $html .= '<div class="themisdb-nav-section"><ul class="themisdb-nav-section-items">';
+                    $in_section = true;
+                }
+                
+                $link_text = $matches[1];
+                $link_url = $matches[2];
+                
+                // Build WordPress-friendly URL
+                $wp_url = $this->build_nav_link_url($link_url, $lang);
+                
+                $html .= '<li class="themisdb-nav-item">';
+                $html .= '<a href="' . esc_url($wp_url) . '">' . esc_html($link_text) . '</a>';
+                $html .= '</li>';
+            }
+            // Sub-section heading (h4 - ####)
+            elseif (preg_match('/^####\s+(.+)$/', $line, $matches)) {
+                if ($in_section) {
+                    $subsection_title = strip_tags($matches[1]);
+                    $html .= '<li class="themisdb-nav-subsection">';
+                    $html .= '<span class="themisdb-nav-subsection-title">' . esc_html($subsection_title) . '</span>';
+                    $html .= '<ul class="themisdb-nav-subsection-items">';
+                    // Note: This creates nested structure, needs closing
+                }
+            }
+        }
+        
+        // Close last section
+        if ($in_section) {
+            $html .= '</ul></div>';
+        }
+        
+        return $html;
+    }
+    
+    /**
+     * Build WordPress-friendly URL for navigation links
+     */
+    private function build_nav_link_url($github_path, $lang) {
+        // Get current page URL
+        $current_url = get_permalink();
+        $base_url = trailingslashit(dirname($current_url));
+        
+        // Clean the GitHub path
+        $clean_path = ltrim($github_path, './');
+        $clean_path = str_replace('../', '', $clean_path);
+        
+        // Check if this is an absolute URL
+        if (strpos($clean_path, 'http://') === 0 || strpos($clean_path, 'https://') === 0) {
+            return $clean_path;
+        }
+        
+        // Build URL with themisdb_wiki shortcode parameter
+        // We'll use a query parameter approach
+        $slug = str_replace('.md', '', $clean_path);
+        
+        // Try to find a WordPress page with this shortcode
+        // For now, we'll construct a relative URL
+        return add_query_arg('doc', $slug, $current_url);
+    }
+    
+    /**
+     * Register widgets
+     */
+    public function register_widgets() {
+        register_widget('ThemisDB_Wiki_Nav_Widget');
+    }
+    
+    /**
      * Generate Table of Contents
      */
     private function generate_toc($html) {
@@ -523,3 +666,100 @@ class ThemisDB_Wiki_Integration {
 
 // Initialize the plugin
 new ThemisDB_Wiki_Integration();
+
+/**
+ * ThemisDB Wiki Navigation Widget
+ */
+class ThemisDB_Wiki_Nav_Widget extends WP_Widget {
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        parent::__construct(
+            'themisdb_wiki_nav_widget',
+            __('ThemisDB Wiki Navigation', 'themisdb-wiki-integration'),
+            array(
+                'description' => __('Displays ThemisDB documentation navigation from GitHub wiki', 'themisdb-wiki-integration')
+            )
+        );
+    }
+    
+    /**
+     * Widget output
+     */
+    public function widget($args, $instance) {
+        $title = !empty($instance['title']) ? $instance['title'] : __('Documentation', 'themisdb-wiki-integration');
+        $style = !empty($instance['style']) ? $instance['style'] : 'sidebar';
+        $lang = !empty($instance['lang']) ? $instance['lang'] : get_option('themisdb_wiki_default_lang', 'de');
+        
+        echo $args['before_widget'];
+        
+        if (!empty($title)) {
+            echo $args['before_title'] . esc_html($title) . $args['after_title'];
+        }
+        
+        // Use the shortcode to render navigation
+        echo do_shortcode('[themisdb_wiki_nav lang="' . esc_attr($lang) . '" style="' . esc_attr($style) . '"]');
+        
+        echo $args['after_widget'];
+    }
+    
+    /**
+     * Widget admin form
+     */
+    public function form($instance) {
+        $title = !empty($instance['title']) ? $instance['title'] : __('Documentation', 'themisdb-wiki-integration');
+        $style = !empty($instance['style']) ? $instance['style'] : 'sidebar';
+        $lang = !empty($instance['lang']) ? $instance['lang'] : 'de';
+        ?>
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>">
+                <?php _e('Title:', 'themisdb-wiki-integration'); ?>
+            </label>
+            <input class="widefat" 
+                   id="<?php echo esc_attr($this->get_field_id('title')); ?>" 
+                   name="<?php echo esc_attr($this->get_field_name('title')); ?>" 
+                   type="text" 
+                   value="<?php echo esc_attr($title); ?>">
+        </p>
+        
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('lang')); ?>">
+                <?php _e('Language:', 'themisdb-wiki-integration'); ?>
+            </label>
+            <select class="widefat" 
+                    id="<?php echo esc_attr($this->get_field_id('lang')); ?>" 
+                    name="<?php echo esc_attr($this->get_field_name('lang')); ?>">
+                <option value="de" <?php selected($lang, 'de'); ?>>Deutsch (DE)</option>
+                <option value="en" <?php selected($lang, 'en'); ?>>English (EN)</option>
+                <option value="fr" <?php selected($lang, 'fr'); ?>>Français (FR)</option>
+            </select>
+        </p>
+        
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('style')); ?>">
+                <?php _e('Style:', 'themisdb-wiki-integration'); ?>
+            </label>
+            <select class="widefat" 
+                    id="<?php echo esc_attr($this->get_field_id('style')); ?>" 
+                    name="<?php echo esc_attr($this->get_field_name('style')); ?>">
+                <option value="sidebar" <?php selected($style, 'sidebar'); ?>><?php _e('Sidebar', 'themisdb-wiki-integration'); ?></option>
+                <option value="accordion" <?php selected($style, 'accordion'); ?>><?php _e('Accordion', 'themisdb-wiki-integration'); ?></option>
+                <option value="horizontal" <?php selected($style, 'horizontal'); ?>><?php _e('Horizontal', 'themisdb-wiki-integration'); ?></option>
+            </select>
+        </p>
+        <?php
+    }
+    
+    /**
+     * Update widget settings
+     */
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['style'] = (!empty($new_instance['style'])) ? sanitize_text_field($new_instance['style']) : 'sidebar';
+        $instance['lang'] = (!empty($new_instance['lang'])) ? sanitize_text_field($new_instance['lang']) : 'de';
+        return $instance;
+    }
+}

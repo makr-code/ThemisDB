@@ -15,6 +15,9 @@ This WordPress plugin enables automatic integration of ThemisDB documentation (w
 ## Features
 
 - ✅ Automatisches Abrufen von Markdown-Dokumentation aus GitHub
+- ✅ **Wiki-Navigation aus _Sidebar.md** (GitHub Wiki-Index)
+- ✅ **WordPress-Widget für Seitenleisten-Navigation**
+- ✅ **Drei Navigationsstile**: Sidebar, Accordion, Horizontal
 - ✅ Unterstützung für mehrere Sprachen (DE, EN, FR)
 - ✅ Caching-Mechanismus für bessere Performance
 - ✅ Automatische Synchronisierung (stündlich)
@@ -54,6 +57,19 @@ Nach der Aktivierung gehen Sie zu **Einstellungen → ThemisDB Wiki** und konfig
 
 ## Verwendung / Usage
 
+### Shortcode: Wiki-Navigation anzeigen (NEU!)
+
+```php
+[themisdb_wiki_nav lang="de" style="sidebar"]
+```
+
+**Parameter:**
+- `lang`: Sprache (`de`, `en`, `fr`) - Standard: Plugin-Einstellung
+- `style`: Anzeigestil (`sidebar`, `accordion`, `horizontal`)
+
+**Beschreibung:**
+Zeigt die vollständige Dokumentations-Navigation aus der `_Sidebar.md` Datei des GitHub-Wikis an. Dies ist der empfohlene Ausgangspunkt für die Navigation durch die Dokumentation.
+
 ### Shortcode: Dokumentation anzeigen
 
 ```php
@@ -75,9 +91,30 @@ Nach der Aktivierung gehen Sie zu **Einstellungen → ThemisDB Wiki** und konfig
 - `lang`: Sprache (`de`, `en`, `fr`)
 - `layout`: Anzeigelayout (`list`, `grid`)
 
+### WordPress Widget
+
+Das Plugin bietet auch ein WordPress-Widget **"ThemisDB Wiki Navigation"**, das in der Seitenleiste oder anderen Widget-Bereichen platziert werden kann. Das Widget verwendet intern den `[themisdb_wiki_nav]` Shortcode.
+
+**Widget-Konfiguration:**
+- Titel: Angezeigter Widget-Titel
+- Sprache: DE, EN oder FR
+- Stil: Sidebar, Accordion oder Horizontal
+
 ## Beispiele / Examples
 
-### Beispiel 1: Deutsche README anzeigen
+### Beispiel 1: Vollständige Dokumentationsseite mit Navigation
+
+```php
+<!-- Sidebar-Widget oder Shortcode für Navigation -->
+[themisdb_wiki_nav lang="de" style="accordion"]
+
+<!-- Hauptinhalt -->
+<div class="content-area">
+    [themisdb_wiki file="README.md" lang="de" show_toc="yes"]
+</div>
+```
+
+### Beispiel 2: Deutsche README anzeigen
 ```php
 [themisdb_wiki file="README.md" lang="de"]
 ```
