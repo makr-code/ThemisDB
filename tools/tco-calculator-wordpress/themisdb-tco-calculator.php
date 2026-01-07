@@ -23,6 +23,9 @@ if (!defined('ABSPATH')) {
 define('THEMISDB_TCO_VERSION', '1.0.0');
 define('THEMISDB_TCO_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_TCO_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('THEMISDB_TCO_PLUGIN_FILE', __FILE__);
+define('THEMISDB_TCO_GITHUB_REPO', 'makr-code/ThemisDB');
+define('THEMISDB_TCO_GITHUB_PATH', 'tools/tco-calculator-wordpress');
 
 /**
  * Main Plugin Class
@@ -62,6 +65,13 @@ class ThemisDB_TCO_Calculator {
         // Admin menu
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
+        
+        // Plugin action links
+        add_filter('plugin_action_links_' . plugin_basename(THEMISDB_TCO_PLUGIN_FILE), array($this, 'add_action_links'));
+        
+        // GitHub updates
+        add_filter('pre_set_site_transient_update_plugins', array($this, 'check_for_updates'));
+        add_filter('plugins_api', array($this, 'plugin_info'), 20, 3);
     }
     
     /**
@@ -202,6 +212,160 @@ class ThemisDB_TCO_Calculator {
         }
         
         include THEMISDB_TCO_PLUGIN_DIR . 'templates/admin-settings.php';
+    }
+    
+    /**
+     * Add action links to plugin page
+     */
+    public function add_action_links($links) {
+        $settings_link = '<a href="' . esc_url(admin_url('options-general.php?page=themisdb-tco-calculator')) . '">' . 
+                        __('Einstellungen', 'themisdb-tco-calculator') . '</a>';
+        array_unshift($links, $settings_link);
+        return $links;
+    }
+    
+    /**
+     * Check for plugin updates from GitHub
+     */
+    public function check_for_updates($transient) {
+        if (empty($transient->checked)) {
+            return $transient;
+        }
+        
+        $plugin_slug = plugin_basename(THEMISDB_TCO_PLUGIN_FILE);
+        
+        // Get the latest release info from GitHub
+        $remote_version = $this->get_github_release_info();
+        
+        if ($remote_version && version_compare(THEMISDB_TCO_VERSION, $remote_version->tag_name, '<')) {
+            $plugin_data = array(
+                'slug' => dirname($plugin_slug),
+                'plugin' => $plugin_slug,
+                'new_version' => $remote_version->tag_name,
+                'url' => $remote_version->html_url,
+                'package' => $this->get_github_download_url($remote_version->tag_name),
+                'tested' => '6.7',
+                'requires_php' => '7.4',
+            );
+            
+            $transient->response[$plugin_slug] = (object) $plugin_data;
+        }
+        
+        return $transient;
+    }
+    
+    /**
+     * Get plugin info for update details
+     */
+    public function plugin_info($false, $action, $response) {
+        $plugin_slug = dirname(plugin_basename(THEMISDB_TCO_PLUGIN_FILE));
+        
+        if ($action !== 'plugin_information' || $response->slug !== $plugin_slug) {
+            return $false;
+        }
+        
+        $remote_version = $this->get_github_release_info();
+        
+        if ($remote_version) {
+            $response->name = 'ThemisDB TCO Calculator';
+            $response->slug = $plugin_slug;
+            $response->version = $remote_version->tag_name;
+            $response->author = '<a href="https://github.com/makr-code">ThemisDB Team</a>';
+            $response->homepage = 'https://github.com/' . THEMISDB_TCO_GITHUB_REPO;
+            $response->download_link = $this->get_github_download_url($remote_version->tag_name);
+            $response->requires = '5.0';
+            $response->tested = '6.7';
+            $response->requires_php = '7.4';
+            $response->sections = array(
+                'description' => 'Total Cost of Ownership Calculator für ThemisDB',
+                'changelog' => isset($remote_version->body) ? $remote_version->body : 'Siehe GitHub für Details',
+            );
+            
+            return $response;
+        }
+        
+        return $false;
+    }
+    
+    /**
+     * Get latest release info from GitHub
+     */
+    private function get_github_release_info() {
+        $cache_key = 'themisdb_tco_github_release';
+        $cached = get_transient($cache_key);
+        
+        if ($cached !== false) {
+            return $cached;
+        }
+        
+        $api_url = 'https://api.github.com/repos/' . THEMISDB_TCO_GITHUB_REPO . '/releases/latest';
+        
+        $response = wp_remote_get($api_url, array(
+            'timeout' => 10,
+            'headers' => array(
+                'Accept' => 'application/vnd.github+json',
+                'X-GitHub-Api-Version' => '2022-11-28',
+            ),
+        ));
+        
+        if (is_wp_error($response)) {
+            return false;
+        }
+        
+        // Check HTTP status code
+        $status_code = wp_remote_retrieve_response_code($response);
+        if ($status_code !== 200) {
+            return false;
+        }
+        
+        $body = wp_remote_retrieve_body($response);
+        
+        // Validate JSON before decoding
+        if (empty($body)) {
+            return false;
+        }
+        
+        $data = json_decode($body);
+        
+        // Check for JSON decoding errors
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return false;
+        }
+        
+        if ($data && isset($data->tag_name)) {
+            // Cache for 12 hours
+            set_transient($cache_key, $data, 12 * HOUR_IN_SECONDS);
+            return $data;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Get GitHub download URL for specific version
+     * Note: For production use, consider creating proper plugin ZIP releases
+     * that contain only the plugin files in the correct structure.
+     * Current implementation downloads the entire repository archive.
+     */
+    private function get_github_download_url($version) {
+        // For a production plugin, you would want to create GitHub releases
+        // with pre-packaged plugin ZIPs. This is a simplified implementation
+        // that assumes the user will create proper release assets.
+        // 
+        // Alternative: Use release assets if available
+        $release_info = get_transient('themisdb_tco_github_release');
+        if ($release_info && isset($release_info->assets) && !empty($release_info->assets)) {
+            // Look for a plugin ZIP in the release assets
+            foreach ($release_info->assets as $asset) {
+                if (strpos($asset->name, 'themisdb-tco-calculator') !== false && 
+                    strpos($asset->name, '.zip') !== false) {
+                    return $asset->browser_download_url;
+                }
+            }
+        }
+        
+        // Fallback: repository archive (may require manual extraction)
+        return 'https://github.com/' . THEMISDB_TCO_GITHUB_REPO . '/archive/refs/tags/' . $version . '.zip';
     }
 }
 

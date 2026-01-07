@@ -72,37 +72,34 @@ class TCOCalculator {
      * Initialize all event listeners
      */
     initializeEventListeners() {
-        // Wait for DOM to be ready
-        document.addEventListener('DOMContentLoaded', () => {
-            const calculateBtn = document.getElementById('calculateBtn');
-            if (calculateBtn) {
-                calculateBtn.addEventListener('click', () => this.calculate());
-            }
-            
-            const resetBtn = document.getElementById('resetBtn');
-            if (resetBtn) {
-                resetBtn.addEventListener('click', () => this.reset());
-            }
-            
-            const exportPDFBtn = document.getElementById('exportPDF');
-            if (exportPDFBtn) {
-                exportPDFBtn.addEventListener('click', () => this.exportPDF());
-            }
-            
-            const exportCSVBtn = document.getElementById('exportCSV');
-            if (exportCSVBtn) {
-                exportCSVBtn.addEventListener('click', () => this.exportCSV());
-            }
-            
-            const printBtn = document.getElementById('printBtn');
-            if (printBtn) {
-                printBtn.addEventListener('click', () => window.print());
-            }
+        const calculateBtn = document.getElementById('calculateBtn');
+        if (calculateBtn) {
+            calculateBtn.addEventListener('click', () => this.calculate());
+        }
+        
+        const resetBtn = document.getElementById('resetBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => this.reset());
+        }
+        
+        const exportPDFBtn = document.getElementById('exportPDF');
+        if (exportPDFBtn) {
+            exportPDFBtn.addEventListener('click', () => this.exportPDF());
+        }
+        
+        const exportCSVBtn = document.getElementById('exportCSV');
+        if (exportCSVBtn) {
+            exportCSVBtn.addEventListener('click', () => this.exportCSV());
+        }
+        
+        const printBtn = document.getElementById('printBtn');
+        if (printBtn) {
+            printBtn.addEventListener('click', () => window.print());
+        }
 
-            // Tab switching
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
-            });
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
         });
     }
 
