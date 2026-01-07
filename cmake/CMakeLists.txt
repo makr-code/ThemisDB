@@ -10,10 +10,13 @@ if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
     message(FATAL_ERROR "Invalid VERSION content: '${_ver}'. Expected semantic version like 1.2.3")
 endif()
 
-project(Themis VERSION ${_ver} LANGUAGES CXX)
+# Extract numeric version for CMake project() command (CMake doesn't like -alpha suffix)
+string(REGEX REPLACE "^([0-9]+\\.[0-9]+\\.[0-9]+).*$" "\\1" _ver_numeric "${_ver}")
 
-# Make project version available to all translation units
-add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
+project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
+
+# Make full project version (with suffix) available to all translation units
+add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
 
 # Include modular build configuration (post-v1.3.0 feature)
 # See docs/architecture/MODULARIZATION_PLAN.md for details
@@ -471,6 +474,22 @@ find_package(RocksDB CONFIG)
 # Note: vcpkg's rocksdb-shared only exports the C API, so linking the C++ wrapper
 # requires the static library even when themis_core is built as a DLL.
 set(THEMIS_ROCKSDB_TARGET "")
+        # Fix duplicate: remove the extra else block that was added
+        if(gRPC_FOUND AND Protobuf_FOUND)
+            # Already linked above
+        else()
+            # Try fallback with pkg-config
+            find_package(PkgConfig QUIET)
+            if(PkgConfig_FOUND)
+                pkg_check_modules(GRPC QUIET grpc++)
+                pkg_check_modules(PROTOBUF QUIET protobuf)
+                if(GRPC_FOUND AND PROTOBUF_FOUND)
+                    target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
+                    target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
+                    message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
+                endif()
+            endif()
+        endif()
 if(TARGET RocksDB::rocksdb)
     set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
     message(STATUS "RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage")
@@ -690,7 +709,9 @@ if(THEMIS_ENABLE_LLM)
     endif()
     
     # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
-    add_subdirectory(${LLAMA_SRC_DIR} EXCLUDE_FROM_ALL)
+    # When LLAMA_SRC_DIR is outside the current source dir (cmake/), CMake requires an explicit binary dir.
+    set(LLAMA_BIN_DIR "${CMAKE_BINARY_DIR}/llama_cpp_build")
+    add_subdirectory(${LLAMA_SRC_DIR} ${LLAMA_BIN_DIR} EXCLUDE_FROM_ALL)
     
     # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
     if(MSVC AND TARGET llama)
@@ -730,6 +751,7 @@ set(THEMIS_CORE_SOURCES
     src/security/field_encryption.cpp
     src/security/encrypted_field.cpp
     src/security/malware_scanner.cpp
+    src/security/usb_admin_authenticator.cpp
     
     src/transaction/transaction_manager.cpp
     src/transaction/saga.cpp
@@ -832,6 +854,7 @@ set(THEMIS_CORE_SOURCES
     src/utils/simd_distance.cpp
     src/utils/update_checker.cpp
     src/utils/http_client_pool.cpp
+    src/utils/build_info.cpp
     
     # Updates (hot-reload)
     src/updates/release_manifest.cpp
@@ -1561,26 +1584,24 @@ add_executable(themis_demo_encryption
     src/demo_encryption.cpp
 )
 
-target_link_libraries(themis_demo_encryption
-    PRIVATE
-        themis_core
-)
-
-# API Server executable
-add_executable(themis_server
-    src/main_server.cpp
-)
-
-target_link_libraries(themis_server
-    PRIVATE
-        themis_core
-)
-
-# Link performance optimization libraries
-if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-    target_link_libraries(themis_server PRIVATE mimalloc)
-    message(STATUS "Linking themis_server with mimalloc")
-endif()
+# TODO: Fix orphaned mimalloc/gRPC linking code below - appears to be incomplete
+# This code block is missing an opening if() statement and should be reviewed
+#    target_link_libraries(themis_server PRIVATE mimalloc)
+#        # Fallback: if CONFIG packages not found, try pkg-config for apt-installed gRPC
+#        if(NOT gRPC_FOUND OR NOT Protobuf_FOUND)
+#            find_package(PkgConfig QUIET)
+#            if(PkgConfig_FOUND)
+#                pkg_check_modules(GRPC QUIET grpc++)
+#                pkg_check_modules(PROTOBUF QUIET protobuf)
+#                if(GRPC_FOUND AND PROTOBUF_FOUND)
+#                    target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
+#                    target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
+#                    message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
+#                endif()
+#            endif()
+#        endif()
+#    message(STATUS "Linking themis_server with mimalloc")
+#endif()
 
 # Tests
 if(THEMIS_BUILD_TESTS)
@@ -1729,6 +1750,8 @@ if(THEMIS_BUILD_TESTS)
     tests/test_jwt_integration.cpp
         tests/test_jwt_rotation_unit.cpp
         tests/test_llm_api_handler_jwt.cpp
+        tests/test_auth_middleware.cpp
+        tests/test_usb_admin_authenticator.cpp
         tests/test_pki_client_rest.cpp
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
