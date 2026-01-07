@@ -1,242 +1,62 @@
-# ============================================================================
-# .dockerignore - Docker Build Context Optimization für ThemisDB
-# ============================================================================
-# Ziel: Context von ~2.9GB auf <200MB reduzieren
-# Strategie: Nur notwendige Source/Build-Dateien, vcpkg aus Binary Cache
-# ============================================================================
-
-# --- KRITISCH: vcpkg (~500MB+) --------------------------------------------
-# Wird im Container frisch geklont (aktueller, stabiler)
 vcpkg/
 vcpkg_installed/
-.vcpkg/
-
-# --- llama.cpp (wenn vorhanden, ~500MB) ------------------------------------
 llama.cpp/
+external/
 
-# --- Git & GitHub (~2GB) ---------------------------------------------------
-.git/
-.github/
-.gitignore
-.gitattributes
-.gitmodules
-.gitleaks.toml
+**/buildtrees/
+**/packages/
+**/downloads/
+**/installed/
 
-# --- Build-Artefakte (~1-5 GB) ---------------------------------------------
 build/
 build-*/
 build-msvc/
 build-wsl/
 out/
 bin/
-obj/
 lib/
+obj/
 dist/
 Testing/
 CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-CTestTestfile.cmake
-*.a
 *.o
-*.obj
-*.lib
+*.a
+*.so*
 *.dll
-*.so
-*.so.*
-*.dylib
 *.exe
 *.pdb
-*.ilk
-*.exp
-*.iobj
-*.ipdb
 
-# Build & Docker Logs
-*.log
-build*.txt
-docker*.log
-docker_*.log
-msbuild*.txt
-msvc_build*.txt
-ctest*.txt
-ingestion_output.json
-
-# --- Tests & Benchmarks (~3-5 GB) ------------------------------------------
 tests/
 benchmarks/
 fuzz/
 data/
-test_geo_integration_db/
-test_replication_loopback_data/
-test_output*
-test_debug.cpp
-*_test
-*_test.exe
-
-# --- Release & Packages (~2-3 GB) ------------------------------------------
+models/
+docs/
+site/
+book/
+compendium/
 release/
 release-changelogs/
 packaging/
 debian/
-PKGBUILD
-*.spec
-*.tar
-*.tar.gz
-*.tgz
-*.zip
-*.deb
-*.rpm
-
-# --- Dokumentation (~1-2 GB) -----------------------------------------------
-docs/
-site/
-wiki/
-book/
-compendium/
-*.pdf
-ThemisDB-Kompendium*.pdf
-
-# --- Unreal Engine ---------------------------------------------------------
-unreal/
-
-# --- IDE & Editor ----------------------------------------------------------
-.vscode/
-.idea/
-.vs/
-.tools/
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-*.suo
-*.user
-
-# --- Node & JavaScript -----------------------------------------------------
-node_modules/
-npm-debug.log
-yarn-error.log
-.npm/
-.yarn/
-package-lock.json
-yarn.lock
-
-# --- Python ----------------------------------------------------------------
-__pycache__/
-*.py[cod]
-*$py.class
-.Python
-env/
-venv/
-.venv/
-*.egg-info/
-.pytest_cache/
-*.pyc
-requirements-docs.txt
-
-# --- Temp & Cache ----------------------------------------------------------
-temp/
-tmp/
-tmp*/
-*.tmp
-*.cache
-*.bak
-*.backup
-logs/
-*.pid
-*.err
-*.out
-
-# --- Secrets & Config ------------------------------------------------------
-*.pem
-*.key
-*.crt
-*.pfx
-.env
-.env.local
-.env.*.local
-secrets/
-
-# --- External & SDKs -------------------------------------------------------
-sdks/
-clients/
-adapters/
-external/llama.cpp/
-external/vcpkg/
-
-# --- Monitoring ------------------------------------------------------------
-grafana/
-prometheus/
-
-# --- Deployment ------------------------------------------------------------
-deploy/
-docker-bin/
-helm/
-
-# --- CodeQL & Security -----------------------------------------------------
-_codeql_detected_source_root/
-
-# --- Models & Data ---------------------------------------------------------
-models/
-
-# --- Projects --------------------------------------------------------------
-projects/
-enterprise_pricing_server/
 examples/
+projects/
+test_geo_integration_db/
+test_replication_loopback_data/
 
-# --- Arbeitsdateien --------------------------------------------------------
-themis.code-workspace
-themis_server.log
-*.code-workspace
-current_build.log
-build_errors.txt
-build_failure.log
-build_final.log
-build_full.log
-build_output.log
+node_modules/
 
-# ============================================================================
-# EXPLIZIT EINBEZIEHEN (überschreibt obige Regeln)
-# ============================================================================
+.git/
+.github/
+.gitignore
 
-# Root Build Files
+# Explicitly include sources/config needed for build
 !CMakeLists.txt
-!CMakePresets.json
-!vcpkg.json
-!vcpkg-configuration.json
-!vcpkg.docker.json
-!VERSION
-!RELEASE_TYPE
-!LICENSE
-!SECURITY.md
-!README.md
-
-# Source Code (essentiell)
+!cmake/
 !src/
 !include/
 !proto/
 !internal/
-
-# Build Infrastructure
-!cmake/
-!scripts/*.sh
-!scripts/*.ps1
-!scripts/docker_*.sh
-!ports-overlays/
-
-# Docker Files
-!docker/
+!scripts/
 !Dockerfile*
-!.dockerignore
 
-# OpenAPI (optional, aber klein)
-!openapi/
-
-# Minimale AQL-Referenz
-!aql/*.ebnf
-!aql/README.md
-
-# ============================================================================
-# Erwarteter Context: ~100-200MB (vorher 2.9GB)
-# ============================================================================

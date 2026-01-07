@@ -884,10 +884,14 @@ impl Transaction {
         self.ensure_active()?;
         let endpoint = self.client.resolve_endpoint(model, collection, uuid).await?;
         let key = build_entity_key(model, &self.client.config.namespace, collection, uuid);
-        let url = format!("{endpoint}/entities/{key}");
+        let url = format!("{endpoint}/entities");
+        let body = Some(RequestBody {
+            content_type: Some(JSON_CONTENT_TYPE.to_string()),
+            body: Some(json!({ "key": key }).to_string()),
+        });
         let response = self
             .client
-            .request_with_headers(Method::GET, url, None, Some(self.transaction_headers()))
+            .request_with_headers(Method::GET, url, body, Some(self.transaction_headers()))
             .await?;
         if response.status() == 404 {
             return Ok(None);
