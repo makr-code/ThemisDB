@@ -90,7 +90,7 @@ Gesamt:                          €3.170/Monat = €38.040/Jahr
 | **Vertex AI** | ML/AI | €0,30/Std. (n1-standard-4) | Managed AI | Teuer, API-Abhängigkeit |
 | **BigQuery** | Analytics | €5/TB Query | Massive Skalierung | Nur Analytics, kein OLTP |
 
-**Typische Monatliche Kosten (mittelgroßes setup):**
+**Typische Monatliche Kosten (mittelgroßes Setup):**
 ```
 Cloud SQL Enterprise Plus:        €580
 Firestore (10M Reads, 1M Writes): €360
