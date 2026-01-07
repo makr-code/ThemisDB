@@ -306,13 +306,18 @@ class ThemisDB_Gallery_Image_API {
             return new WP_Error('no_image', __('Kein Bild generiert', 'themisdb-gallery'));
         }
         
+        // Parse size safely
+        $size_parts = explode('x', $size);
+        $width = isset($size_parts[0]) ? (int) $size_parts[0] : 1024;
+        $height = isset($size_parts[1]) ? (int) $size_parts[1] : 1024;
+        
         return array(
             'id' => 'ai_' . time(),
             'title' => $prompt,
             'url' => $data['data'][0]['url'],
             'thumb' => $data['data'][0]['url'],
-            'width' => (int) explode('x', $size)[0],
-            'height' => (int) explode('x', $size)[1],
+            'width' => $width,
+            'height' => $height,
             'author' => 'AI Generated (DALL-E)',
             'author_url' => '',
             'source' => 'OpenAI DALL-E',
