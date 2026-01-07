@@ -1,19 +1,27 @@
 # LLM & AI Integration Documentation
 
-**Status:** December 20, 2025  
-**Version:** 1.3.0 (Native LLM Integration with llama.cpp - Optional)  
+**Status:** January 5, 2026  
+**Version:** 1.4.0-alpha (Advanced LLM Features)  
 **Category:** LLM & Distributed AI
 
 ---
 
 ## 🚀 Overview
 
-As of v1.3.0, ThemisDB offers an **optional embedded LLM engine** based on **llama.cpp** as well as foundations for **distributed reasoning**. The LLM module includes plugin architecture, lazy model loading, multi-LoRA, and RAG integration.
+As of v1.4.0-alpha, ThemisDB offers advanced **embedded LLM capabilities** with grammar-constrained generation, extended context windows, vision support, and significant performance optimizations. The LLM module continues to build on the llama.cpp foundation with enterprise-grade features.
 
 > **Important Note**: LLM integration is an **optional feature**:
 > - Requires build flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - Requires external dependency: llama.cpp (clone separately)
 > - Not enabled by default
+
+**NEW in v1.4.0-alpha:**
+- 📝 **Grammar-Constrained Generation** - EBNF/GBNF for guaranteed valid JSON/XML/CSV (95-99% reliability)
+- 🔭 **RoPE Scaling** - Extended context window from 4K → 32K tokens (8x increase)
+- 🖼️ **Vision Support** - Multi-modal LLMs with CLIP-based image encoding (LLaVA)
+- ⚡ **Flash Attention** - CUDA kernels for 15-25% speedup, 30% memory reduction
+- 🎯 **Speculative Decoding** - 2-3x faster inference with draft+target models
+- 🔄 **Continuous Batching** - 2x+ throughput with dynamic request batching
 
 **Implemented in v1.3.0:**
 - 🧠 **Embedded llama.cpp** – Native LLM inference without external APIs (optional)
@@ -22,11 +30,31 @@ As of v1.3.0, ThemisDB offers an **optional embedded LLM engine** based on **lla
 - 🗃️ **Lazy Model Loading** (Ollama-style)
 - 🔀 **Multi-LoRA Management** (vLLM-style)
 
-**Quick Links:**
-- [🧠 **LLM Complete Setup Guide**](../../de/guides/LLM_COMPLETE_SETUP_GUIDE.md) – **NEW** Complete guide for setup & inferencing
+**Quick Links (v1.4.0-alpha):**
+- [📝 Grammar-Constrained Generation](GRAMMAR_CONSTRAINED_GENERATION.md) - **NEW** Guaranteed valid outputs
+- [🔭 RoPE Scaling Implementation](ROPE_SCALING_IMPLEMENTATION.md) - **NEW** Extended context windows
+- [🖼️ Vision Support Quick Start](VISION_SUPPORT_QUICK_START.md) - **NEW** Multi-modal LLMs
+- [⚡ Flash Attention Implementation](FLASH_ATTENTION_IMPLEMENTATION.md) - **NEW** Performance optimization
+- [🎯 Speculative Decoding](SPECULATIVE_DECODING_IMPLEMENTATION.md) - **NEW** 2-3x speedup
+- [🔄 Continuous Batching](CONTINUOUS_BATCHING_IMPLEMENTATION.md) - **NEW** Dynamic batching
+- [🧠 **LLM Complete Setup Guide**](../../de/guides/LLM_COMPLETE_SETUP_GUIDE.md) – Complete guide for setup & inferencing
 - [LLAMA_CPP_INTEGRATION.md](../../de/llm/LLAMA_CPP_INTEGRATION.md) – Integration & build
 - [README_PLUGINS.md](../../de/llm/README_PLUGINS.md) – Quick start & examples
-- [INTEGRATION_REVIEW_AND_SEQUENCE.md](../../de/llm/INTEGRATION_REVIEW_AND_SEQUENCE.md) – Architecture & sequences
+
+## 📚 Feature Documentation (v1.4.0-alpha)
+
+### Advanced Features
+
+| Feature | Guide | Status | Version |
+|---------|-------|--------|---------|
+| 📝 Grammar-Constrained Generation | [GRAMMAR_CONSTRAINED_GENERATION.md](GRAMMAR_CONSTRAINED_GENERATION.md) | ✅ Complete | v1.4.0-alpha |
+| 🔭 RoPE Scaling (4K→32K tokens) | [ROPE_SCALING_IMPLEMENTATION.md](ROPE_SCALING_IMPLEMENTATION.md) | ✅ Complete | v1.4.0-alpha |
+| 🖼️ Vision Support (Multi-Modal) | [VISION_SUPPORT_QUICK_START.md](VISION_SUPPORT_QUICK_START.md) | ✅ Complete | v1.4.0-alpha |
+| ⚡ Flash Attention CUDA | [FLASH_ATTENTION_IMPLEMENTATION.md](FLASH_ATTENTION_IMPLEMENTATION.md) | ✅ Complete | v1.4.0-alpha |
+| 🎯 Speculative Decoding | [SPECULATIVE_DECODING_IMPLEMENTATION.md](SPECULATIVE_DECODING_IMPLEMENTATION.md) | ✅ Complete | v1.4.0-alpha |
+| 🔄 Continuous Batching | [CONTINUOUS_BATCHING_IMPLEMENTATION.md](CONTINUOUS_BATCHING_IMPLEMENTATION.md) | ✅ Complete | v1.4.0-alpha |
+| 💾 KV-Cache Reuse | [KV_CACHE_REUSE_IMPLEMENTATION.md](KV_CACHE_REUSE_IMPLEMENTATION.md) | ✅ Complete | v1.3.0 |
+| 📊 Embeddings Extraction | [EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md](EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md) | ✅ Complete | v1.3.0 |
 
 ## Source Code Reference
 

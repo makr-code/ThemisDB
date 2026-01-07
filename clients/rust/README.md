@@ -8,6 +8,7 @@ Official Rust SDK for ThemisDB - A high-performance multi-model database with AC
 ## Features
 
 - ✅ **Full ACID Transaction Support** with `BEGIN`, `COMMIT`, and `ROLLBACK`
+- ✅ **LLM Integration** - Native support for LLM interactions (v1.4.0+) 🆕
 - ✅ **Multi-Model Operations** - Relational, Document, Graph, Vector, Time-Series
 - ✅ **Async/Await** - Built on Tokio for high-performance async operations
 - ✅ **Isolation Levels** - `READ_COMMITTED` and `SNAPSHOT` isolation

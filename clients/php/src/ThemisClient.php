@@ -574,6 +574,111 @@ class ThemisClient
         return new Transaction($this, $response['transaction_id']);
     }
 
+    // ==================== LLM API ====================
+
+    /**
+     * Create an LLM interaction.
+     *
+     * @param string $model LLM model name (e.g., 'gpt-4o', 'llama-3.1')
+     * @param array $messages List of LlmMessage objects or arrays
+     * @param array|null $reasoningSteps Optional reasoning steps
+     * @param array|null $metadata Optional metadata
+     * @return Llm\LlmInteractionResult
+     * @throws RuntimeException If request fails
+     */
+    public function llmInteraction(
+        string $model,
+        array $messages,
+        ?array $reasoningSteps = null,
+        ?array $metadata = null
+    ): Llm\LlmInteractionResult {
+        $endpoint = $this->endpoints[0];
+        
+        $body = [
+            'model' => $model,
+            'messages' => array_map(function($msg) {
+                return $msg instanceof Llm\LlmMessage ? $msg->toArray() : $msg;
+            }, $messages),
+        ];
+        
+        if ($reasoningSteps !== null) {
+            $body['reasoning_steps'] = array_map(function($step) {
+                return $step instanceof Llm\ReasoningStep ? $step->toArray() : $step;
+            }, $reasoningSteps);
+        }
+        
+        if ($metadata !== null) {
+            $body['metadata'] = $metadata;
+        }
+        
+        $response = $this->request('POST', "{$endpoint}/llm/interaction", $body);
+        
+        return Llm\LlmInteractionResult::fromArray($response);
+    }
+
+    /**
+     * Get a specific LLM interaction by ID.
+     *
+     * @param string $interactionId The interaction ID
+     * @return Llm\LlmInteraction|null
+     * @throws RuntimeException If request fails
+     */
+    public function getLlmInteraction(string $interactionId): ?Llm\LlmInteraction
+    {
+        $endpoint = $this->endpoints[0];
+        
+        try {
+            $response = $this->request('GET', "{$endpoint}/llm/interaction/{$interactionId}");
+            return Llm\LlmInteraction::fromArray($response);
+        } catch (NotFoundException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * List LLM interactions with optional filtering.
+     *
+     * @param string|null $model Optional model name filter
+     * @param int|null $limit Maximum number of results
+     * @param int|null $offset Result offset for pagination
+     * @return array List of LlmInteraction objects
+     * @throws RuntimeException If request fails
+     */
+    public function listLlmInteractions(
+        ?string $model = null,
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
+        $endpoint = $this->endpoints[0];
+        $params = [];
+        
+        if ($model !== null) {
+            $params[] = 'model=' . urlencode($model);
+        }
+        
+        if ($limit !== null) {
+            $params[] = 'limit=' . $limit;
+        }
+        
+        if ($offset !== null) {
+            $params[] = 'offset=' . $offset;
+        }
+        
+        $url = "{$endpoint}/llm/interaction";
+        if (!empty($params)) {
+            $url .= '?' . implode('&', $params);
+        }
+        
+        $response = $this->request('GET', $url);
+        
+        $interactions = [];
+        foreach ($response['interactions'] ?? [] as $data) {
+            $interactions[] = Llm\LlmInteraction::fromArray($data);
+        }
+        
+        return $interactions;
+    }
+
     /**
      * Make an HTTP request with retry logic.
      *

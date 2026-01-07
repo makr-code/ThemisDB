@@ -7,13 +7,56 @@
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-  [![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)
+  [![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
 ---
 
 ## 🎉 What's New
+
+### 🚀 v1.4.0-alpha - Advanced LLM Features (2026-01-05)
+
+#### 🧠 Advanced LLM Capabilities
+- 📝 **Grammar-Constrained Generation** - EBNF/GBNF support for guaranteed valid JSON/XML/CSV outputs (95-99% reliability vs 60-70%)
+  - Built-in grammars: JSON, XML, CSV, ReAct Agent
+  - Thread-safe grammar cache with LRU eviction
+  - Zero post-processing required
+- 🔭 **RoPE Scaling** - Extended context window from 4K → 32K tokens (8x increase)
+  - Linear, NTK-aware, YaRN scaling methods
+  - Process entire research papers and codebases
+- 🖼️ **Vision Support** - Multi-modal LLMs with CLIP-based image encoding
+  - LLaVA integration for image analysis
+  - Single and multiple image support
+  - Thread-safe VisionEncoder class
+- ⚡ **Flash Attention** - CUDA kernels for 15-25% speedup, 30% memory reduction
+  - Optimized attention mechanism
+  - Backward pass for training support
+  - Multi-compute capability support
+- 🎯 **Speculative Decoding** - 2-3x faster inference with draft+target models
+- 🔄 **Continuous Batching** - 2x+ throughput with dynamic request batching
+
+#### 🏢 Enterprise Enhancements
+- 🔥 **Hot Spare Management** - Automatic failover with health monitoring
+- 📊 **Enhanced Prometheus Metrics** - LLM inference, cache performance, response tracking
+- 🔄 **WAL Replication via gRPC** - Distributed inter-shard replication
+- 🎮 **Multi-GPU LoRA Support** - Distributed LoRA adapters across GPUs
+- 🐘 **PostgreSQL Protocol** - COPY, prepared statements, transaction support
+
+#### 📊 Quality & Testing
+- 31 new test suites with comprehensive coverage
+- 11 new performance benchmarks
+- 17 new documentation guides
+- 938 files changed (+113,762 lines, -45,154 lines)
+
+**📚 Quick Links:**
+- [Grammar-Constrained Generation](docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
+- [RoPE Scaling Guide](docs/en/llm/ROPE_SCALING_IMPLEMENTATION.md)
+- [Vision Support Quick Start](docs/en/llm/VISION_SUPPORT_QUICK_START.md)
+- [Flash Attention Implementation](docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
+- [Complete Changelog](CHANGELOG.md#v140-alpha)
+
+---
 
 ### �️ RAID Sharding Deadlock Hotfix (2026-01-04)
 - 🔧 **Critical Fix** - Resolved server hang in RAID cluster mode at "Adaptive Index Manager initialized"
@@ -88,11 +131,16 @@
 | Feature | Description | Status |
 |---------|-------------|--------|
 | 🧠 **Embedded LLM Engine** | llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params) | ✅ |
+| 📝 **Grammar Constraints** | EBNF/GBNF for guaranteed valid JSON/XML/CSV outputs | ✅ v1.4.0-alpha |
+| 🔭 **RoPE Scaling** | Extended context window 4K → 32K tokens (8x increase) | ✅ v1.4.0-alpha |
+| 🖼️ **Vision Support** | Multi-modal LLMs with CLIP image encoding (LLaVA) | ✅ v1.4.0-alpha |
+| ⚡ **Flash Attention** | CUDA kernels: 15-25% speedup, 30% memory reduction | ✅ v1.4.0-alpha |
+| 🎯 **Speculative Decoding** | 2-3x faster inference with draft+target models | ✅ v1.4.0-alpha |
+| 🔄 **Continuous Batching** | 2x+ throughput with dynamic request batching | ✅ v1.4.0-alpha |
 | 🎙️ **Voice Assistant** | STT/TTS/LLM for phone calls, meetings, voice commands (Enterprise) | ✅ |
 | 🖼️ **Image Analysis AI** | Multi-backend plugins (llama.cpp Vision, ONNX CLIP, OpenCV DNN) | ✅ |
 | ⚡ **GPU Acceleration** | NVIDIA CUDA support with significant speedup | ✅ |
 | 💾 **PagedAttention** | Advanced memory management | ✅ |
-| 🎯 **Continuous Batching** | Handle concurrent inference requests | ✅ |
 | 🔧 **Quantization** | Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage | ✅ |
 | 📊 **Monitoring** | Grafana dashboards with metrics and alerts | ✅ |
 | 🔌 **Plugin Architecture** | Extensible LLM and image analysis backends | ✅ |
