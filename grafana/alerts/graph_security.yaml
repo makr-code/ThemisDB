@@ -1,0 +1,260 @@
+# Graph Security Monitoring Alerts
+# Phase 1 Implementation - Knowledge Graph Protection
+# 
+# These alerts detect suspicious access patterns that may indicate
+# knowledge graph exfiltration, embedding theft, or training data extraction.
+#
+# Based on research: "Making Stolen Data Unusable for AI Training" (2026)
+# Documentation: docs/de/security/knowledge_graph_protection.md
+
+groups:
+  - name: graph_security
+    interval: 30s
+    rules:
+      # ========================================================================
+      # Graph Traversal Monitoring
+      # ========================================================================
+      
+      - alert: SuspiciousGraphTraversal
+        expr: rate(themis_graph_traversal_depth_bucket{le="10"}[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Unusual deep graph traversal detected"
+          description: "User {{ $labels.user_id }} is performing unusually deep graph traversals (depth > 10) at a high rate: {{ $value | humanize }} traversals/sec"
+          action: "Review user activity logs and verify legitimate use case"
+          documentation: "docs/de/security/knowledge_graph_protection.md#bedrohungsszenarien"
+      
+      - alert: HighFrequencyGraphTraversal
+        expr: rate(themis_graph_traversal_total[5m]) > 100
+        for: 5m
+        labels:
+          severity: medium
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "High frequency of graph traversal operations"
+          description: "Detected {{ $value | humanize }} graph traversals per second from {{ $labels.user_id }} over the last 5 minutes"
+          action: "Verify if this is expected batch processing or potential data scraping"
+      
+      # ========================================================================
+      # Bulk Data Access Monitoring
+      # ========================================================================
+      
+      - alert: BulkGraphExport
+        expr: rate(themis_graph_nodes_exported[5m]) > 1000
+        for: 2m
+        labels:
+          severity: critical
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Large-scale graph export detected"
+          description: "User {{ $labels.user_id }} is exporting {{ $value | humanize }} nodes per second - possible data exfiltration"
+          action: "IMMEDIATE: Block user access, review export destination, check for unauthorized data transfer"
+          documentation: "docs/de/security/graph_protection_impact_summary.md"
+      
+      - alert: BulkNodeAccess
+        expr: rate(themis_graph_nodes_accessed[5m]) > 5000
+        for: 3m
+        labels:
+          severity: warning
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Bulk node access pattern detected"
+          description: "Accessing {{ $value | humanize }} nodes per second from {{ $labels.user_id }}"
+          action: "Review access pattern for systematic enumeration"
+      
+      - alert: BulkEdgeAccess
+        expr: rate(themis_graph_edges_accessed[5m]) > 10000
+        for: 3m
+        labels:
+          severity: warning
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Bulk edge access pattern detected"
+          description: "Accessing {{ $value | humanize }} edges per second from {{ $labels.user_id }}"
+          action: "Verify legitimate batch processing or potential graph scraping"
+      
+      # ========================================================================
+      # Vector Embedding Monitoring
+      # ========================================================================
+      
+      - alert: EmbeddingTheft
+        expr: rate(themis_embeddings_queried[5m]) > 500
+        for: 2m
+        labels:
+          severity: high
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Suspicious embedding access pattern"
+          description: "User {{ $labels.user_id }} is querying {{ $value | humanize }} embeddings per second - possible embedding theft"
+          action: "Review embedding access logs, verify use case, consider rate limiting"
+          documentation: "docs/de/security/knowledge_graph_protection.md#embedding-diebstahl"
+      
+      - alert: HighVolumeEmbeddingExport
+        expr: rate(themis_embeddings_exported_bytes[5m]) > 100*1024*1024
+        for: 5m
+        labels:
+          severity: critical
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Large volume embedding export detected"
+          description: "Exporting {{ $value | humanizeBytes }} per second of embedding data from {{ $labels.user_id }}"
+          action: "IMMEDIATE: Investigate export destination, verify authorization, consider blocking"
+      
+      # ========================================================================
+      # Temporal Query Monitoring
+      # ========================================================================
+      
+      - alert: SuspiciousTemporalQuery
+        expr: rate(themis_temporal_graph_queries[5m]) > 50
+        for: 5m
+        labels:
+          severity: medium
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "High frequency temporal graph queries"
+          description: "User {{ $labels.user_id }} is performing {{ $value | humanize }} temporal queries per second"
+          action: "Review for potential timeline reconstruction attempts"
+      
+      # ========================================================================
+      # Anomaly Detection
+      # ========================================================================
+      
+      - alert: GraphAnomalyDetected
+        expr: themis_graph_anomalies_detected > 0
+        for: 1m
+        labels:
+          severity: high
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Anomalous graph access pattern detected"
+          description: "Detected {{ $value }} anomalies in graph access patterns for {{ $labels.user_id }}"
+          action: "URGENT: Review anomaly details in audit logs, consider temporary access restriction"
+          documentation: "docs/de/security/knowledge_graph_protection.md#access-pattern-anomaly-detection"
+      
+      - alert: SystematicEnumeration
+        expr: |
+          (rate(themis_graph_nodes_accessed[5m]) > 1000)
+          and
+          (stddev_over_time(themis_graph_node_access_interval[10m]) < 0.1)
+        for: 5m
+        labels:
+          severity: critical
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Systematic node enumeration detected"
+          description: "User {{ $labels.user_id }} is accessing nodes in a highly regular pattern - possible automated scraping"
+          action: "IMMEDIATE: Block user, review access logs, check for bot activity"
+      
+      # ========================================================================
+      # Rate Limit Violations
+      # ========================================================================
+      
+      - alert: GraphRateLimitExceeded
+        expr: rate(themis_graph_rate_limit_exceeded[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Graph rate limits frequently exceeded"
+          description: "User {{ $labels.user_id }} exceeded graph rate limits {{ $value | humanize }} times per second"
+          action: "Review rate limit configuration and user behavior"
+      
+      - alert: ExportControlViolation
+        expr: increase(themis_graph_export_blocked[10m]) > 5
+        for: 1m
+        labels:
+          severity: high
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Multiple export control violations"
+          description: "User {{ $labels.user_id }} attempted {{ $value }} blocked exports in the last 10 minutes"
+          action: "URGENT: Investigate user intent, verify authorization level"
+      
+      # ========================================================================
+      # Data Volume Monitoring
+      # ========================================================================
+      
+      - alert: ExcessiveDataTransfer
+        expr: |
+          sum by (user_id) (
+            rate(themis_graph_nodes_exported[1h])
+            + rate(themis_graph_edges_exported[1h])
+            + rate(themis_embeddings_exported[1h])
+          ) > 100000
+        for: 30m
+        labels:
+          severity: critical
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Excessive data transfer detected"
+          description: "User {{ $labels.user_id }} has transferred {{ $value | humanize }} data items in the last hour"
+          action: "IMMEDIATE: Review for data exfiltration, check export approvals, consider temporary block"
+      
+      # ========================================================================
+      # Timing Analysis
+      # ========================================================================
+      
+      - alert: OffHoursGraphAccess
+        expr: |
+          (hour() < 6 or hour() > 22)
+          and
+          rate(themis_graph_traversal_total[5m]) > 50
+        for: 10m
+        labels:
+          severity: medium
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "Unusual graph activity during off-hours"
+          description: "Detected high graph activity from {{ $labels.user_id }} at {{ hour() }}:00 UTC"
+          action: "Review for legitimate batch processing or unauthorized access"
+      
+      # ========================================================================
+      # Audit Log Monitoring
+      # ========================================================================
+      
+      - alert: AuditLogGraphEvents
+        expr: rate(themis_audit_events_total{event_type=~"GRAPH_.*|EMBEDDING_.*"}[5m]) > 200
+        for: 5m
+        labels:
+          severity: info
+          category: graph_security
+          phase: 1
+        annotations:
+          summary: "High volume of graph-related audit events"
+          description: "Recording {{ $value | humanize }} graph audit events per second"
+          action: "Monitor for trends, no immediate action required"
+
+# ============================================================================
+# Runbook References
+# ============================================================================
+#
+# For incident response procedures, see:
+# - docs/de/security/knowledge_graph_protection.md#best-practices
+# - docs/de/security/graph_protection_impact_summary.md
+#
+# Alert severity guidelines:
+# - CRITICAL: Immediate action required, possible active attack
+# - HIGH: Urgent investigation needed, suspicious behavior confirmed
+# - MEDIUM: Investigation required, potentially suspicious
+# - WARNING: Monitoring recommended, may be legitimate
+# - INFO: Informational, track for trends
+#
+# ============================================================================

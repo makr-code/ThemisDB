@@ -18,6 +18,10 @@ __all__ = [
     "QueryResult",
     "BatchGetResult",
     "BatchWriteResult",
+    "LlmMessage",
+    "ReasoningStep",
+    "LlmInteraction",
+    "LlmInteractionResult",
     "__version__",
 ]
 
@@ -56,6 +60,38 @@ class BatchGetResult:
 class BatchWriteResult:
     succeeded: List[str]
     failed: Dict[str, str]
+
+
+@dataclass
+class LlmMessage:
+    """Represents a message in an LLM conversation."""
+    role: str  # "user", "assistant", or "system"
+    content: str
+
+
+@dataclass
+class ReasoningStep:
+    """Represents a reasoning step in LLM interaction."""
+    type: str  # e.g., "chain_of_thought"
+    content: List[str]
+
+
+@dataclass
+class LlmInteraction:
+    """Represents a stored LLM interaction."""
+    id: str
+    created_at: str
+    model: str
+    messages: List[LlmMessage]
+    reasoning_steps: Optional[List[ReasoningStep]] = None
+    metadata: Optional[Dict[str, Any]] = None
+
+
+@dataclass
+class LlmInteractionResult:
+    """Result of creating an LLM interaction."""
+    id: str
+    success: bool
 
 
 def _normalize_endpoint(endpoint: str) -> str:
@@ -470,6 +506,151 @@ class ThemisClient:
             raise TransactionError("Server did not return transaction_id")
         
         return Transaction(self, tx_id)
+
+    def llm_interaction(
+        self,
+        model: str,
+        messages: List[Dict[str, str]],
+        *,
+        reasoning_steps: Optional[List[Dict[str, Any]]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+    ) -> LlmInteractionResult:
+        """Create an LLM interaction.
+        
+        Args:
+            model: LLM model name (e.g., "gpt-4o", "llama-3.1")
+            messages: List of message dictionaries with "role" and "content" keys
+            reasoning_steps: Optional list of reasoning steps
+            metadata: Optional metadata dictionary
+            
+        Returns:
+            LlmInteractionResult with id and success status
+            
+        Example:
+            >>> client.llm_interaction(
+            ...     model="gpt-4o",
+            ...     messages=[{"role": "user", "content": "Explain MVCC"}],
+            ...     reasoning_steps=[{"type": "chain_of_thought", "content": ["Step 1", "Step 2"]}]
+            ... )
+        """
+        endpoint = self.endpoints[0]
+        body: Dict[str, Any] = {
+            "model": model,
+            "messages": messages,
+        }
+        if reasoning_steps is not None:
+            body["reasoning_steps"] = reasoning_steps
+        if metadata is not None:
+            body["metadata"] = metadata
+        
+        response = self._request("POST", f"{endpoint}/llm/interaction", json=body)
+        response.raise_for_status()
+        payload = response.json()
+        
+        return LlmInteractionResult(
+            id=payload.get("id", ""),
+            success=payload.get("success", False),
+        )
+
+    def get_llm_interaction(self, interaction_id: str) -> Optional[LlmInteraction]:
+        """Get a specific LLM interaction by ID.
+        
+        Args:
+            interaction_id: The interaction ID
+            
+        Returns:
+            LlmInteraction object or None if not found
+        """
+        endpoint = self.endpoints[0]
+        response = self._request("GET", f"{endpoint}/llm/interaction/{interaction_id}")
+        
+        if response.status_code == 404:
+            return None
+        response.raise_for_status()
+        payload = response.json()
+        
+        messages = [
+            LlmMessage(role=msg.get("role", ""), content=msg.get("content", ""))
+            for msg in payload.get("messages", [])
+        ]
+        
+        reasoning_steps = None
+        if "reasoning_steps" in payload:
+            reasoning_steps = [
+                ReasoningStep(
+                    type=step.get("type", ""),
+                    content=step.get("content", []),
+                )
+                for step in payload.get("reasoning_steps", [])
+            ]
+        
+        return LlmInteraction(
+            id=payload.get("id", ""),
+            created_at=payload.get("created_at", ""),
+            model=payload.get("model", ""),
+            messages=messages,
+            reasoning_steps=reasoning_steps,
+            metadata=payload.get("metadata"),
+        )
+
+    def list_llm_interactions(
+        self,
+        *,
+        model: Optional[str] = None,
+        limit: int = 100,
+        offset: int = 0,
+    ) -> List[LlmInteraction]:
+        """List LLM interactions with optional filtering.
+        
+        Args:
+            model: Optional model name filter
+            limit: Maximum number of results (default: 100)
+            offset: Result offset for pagination (default: 0)
+            
+        Returns:
+            List of LlmInteraction objects
+        """
+        endpoint = self.endpoints[0]
+        params: Dict[str, Any] = {
+            "limit": limit,
+            "offset": offset,
+        }
+        if model is not None:
+            params["model"] = model
+        
+        response = self._request("GET", f"{endpoint}/llm/interaction", params=params)
+        response.raise_for_status()
+        payload = response.json()
+        
+        interactions = []
+        for item in payload.get("interactions", []):
+            messages = [
+                LlmMessage(role=msg.get("role", ""), content=msg.get("content", ""))
+                for msg in item.get("messages", [])
+            ]
+            
+            reasoning_steps = None
+            if "reasoning_steps" in item:
+                reasoning_steps = [
+                    ReasoningStep(
+                        type=step.get("type", ""),
+                        content=step.get("content", []),
+                    )
+                    for step in item.get("reasoning_steps", [])
+                ]
+            
+            interactions.append(
+                LlmInteraction(
+                    id=item.get("id", ""),
+                    created_at=item.get("created_at", ""),
+                    model=item.get("model", ""),
+                    messages=messages,
+                    reasoning_steps=reasoning_steps,
+                    metadata=item.get("metadata"),
+                )
+            )
+        
+        return interactions
 
     def _current_endpoints(self) -> List[str]:
         return self._shard_endpoints or self.endpoints

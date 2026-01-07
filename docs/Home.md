@@ -2,6 +2,8 @@
 
 # ThemisDB Documentation Home (Language Selector)
 
+**Version:** 1.4.0-alpha | **Last Updated:** January 5, 2026
+
 </div>
 
 This page is now language-neutral. Please choose your language:
@@ -11,6 +13,23 @@ This page is now language-neutral. Please choose your language:
 
 > [!NOTE]
 > German docs are authoritative; translations may lag.
+
+---
+
+## 🚀 NEW in v1.4.0-alpha
+
+**Documentation:**
+- [Release Notes v1.4.0-alpha](../RELEASE_NOTES_V1.4.0_ALPHA.md)
+- [Changelog](../CHANGELOG.md#v140-alpha)
+- [Compendium Update Notes](../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md)
+
+**Features:**
+- Grammar-Constrained Generation, RoPE Scaling, Vision Support
+- Flash Attention, Speculative Decoding, Continuous Batching
+- Hot Spare Management, Enhanced Metrics, WAL Replication
+- Multi-GPU LoRA, PostgreSQL Protocol Enhancements
+
+---
 ThemisDB is a production-ready multi-model database that combines **relational, graph, vector, and document** models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
 
 **Key Capabilities:**

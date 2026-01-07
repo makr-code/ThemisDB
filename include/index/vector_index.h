@@ -15,12 +15,17 @@ class BaseEntity;
 class SecondaryIndexManager;
 class ProductQuantizer;
 
+namespace utils {
+    class AuditLogger;
+}
+
 /// VectorIndexManager
 /// - Optional HNSWlib-Unterstützung (compile-time)
 /// - Fallback: Brute-Force (L2/Cosine) über in-memory Cache oder RocksDB-Scan
 /// - Persistenz: Vektoren liegen in RocksDB unter Namespace objectName:pk als BaseEntity
 /// - Atomare Operationen via WriteBatch (analog zu Secondary/Graph-Indizes)
 /// - In-Memory Cache für schnellen Zugriff, optional HNSW-Index für ANN
+/// - Optional: Audit Logging für Vector-Operationen (Phase 1 Knowledge Graph Protection)
 class VectorIndexManager {
 public:
     enum class Metric { L2, COSINE, DOT };
@@ -39,6 +44,13 @@ public:
 
     explicit VectorIndexManager(RocksDBWrapper& db);
     ~VectorIndexManager();
+    
+    // Phase 1: Set optional audit logger for tracking vector operations
+    void setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context = "system");
+    
+    // Set user context for audit logging
+    void setUserContext(std::string user_id);
+
 
     // Initialisierung eines Index-Namespace (z. B. "documents"): Dimension, M/ef, Metrik
     Status init(std::string_view objectName, int dim, Metric metric = Metric::COSINE,
@@ -308,6 +320,14 @@ private:
     size_t encBatchCount_ = 0;
     size_t encBatchSize_ = 256; // commit every N encrypted inserts
     void flushEncBatch() const;
+    
+    // Phase 1: Optional AuditLogger for knowledge graph protection
+    std::shared_ptr<utils::AuditLogger> audit_logger_;
+    std::string user_context_ = "system";  // Default user context
+    
+    // Helper: Log audit event if logger is set
+    void logAuditEvent_(const std::string& event_type, const std::string& resource,
+                       const std::string& operation, size_t count = 0) const;
 };
 
 } // namespace themis

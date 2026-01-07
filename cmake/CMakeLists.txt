@@ -738,6 +738,7 @@ set(THEMIS_CORE_SOURCES
     src/security/field_encryption.cpp
     src/security/encrypted_field.cpp
     src/security/malware_scanner.cpp
+    src/security/usb_admin_authenticator.cpp
     
     src/transaction/transaction_manager.cpp
     src/transaction/saga.cpp
@@ -840,6 +841,7 @@ set(THEMIS_CORE_SOURCES
     src/utils/simd_distance.cpp
     src/utils/update_checker.cpp
     src/utils/http_client_pool.cpp
+    src/utils/build_info.cpp
     
     # Updates (hot-reload)
     src/updates/release_manifest.cpp
@@ -1747,6 +1749,8 @@ if(THEMIS_BUILD_TESTS)
     tests/test_jwt_integration.cpp
         tests/test_jwt_rotation_unit.cpp
         tests/test_llm_api_handler_jwt.cpp
+        tests/test_auth_middleware.cpp
+        tests/test_usb_admin_authenticator.cpp
         tests/test_pki_client_rest.cpp
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp

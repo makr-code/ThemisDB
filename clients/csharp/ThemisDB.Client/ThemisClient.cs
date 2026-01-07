@@ -394,6 +394,132 @@ public class ThemisClient : IDisposable
     {
         public string TransactionId { get; set; } = string.Empty;
     }
+    
+    // ==================== LLM API ====================
+    
+    /// <summary>
+    /// Creates an LLM interaction
+    /// </summary>
+    /// <param name="model">LLM model name (e.g., "gpt-4o", "llama-3.1")</param>
+    /// <param name="messages">List of conversation messages</param>
+    /// <param name="reasoningSteps">Optional reasoning steps</param>
+    /// <param name="metadata">Optional metadata</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Result containing interaction ID and success status</returns>
+    public async Task<Llm.LlmInteractionResult> LlmInteractionAsync(
+        string model,
+        List<Llm.LlmMessage> messages,
+        List<Llm.ReasoningStep>? reasoningSteps = null,
+        Dictionary<string, object>? metadata = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/llm/interaction";
+        
+        var body = new Dictionary<string, object>
+        {
+            ["model"] = model,
+            ["messages"] = messages
+        };
+        
+        if (reasoningSteps != null)
+        {
+            body["reasoning_steps"] = reasoningSteps;
+        }
+        
+        if (metadata != null)
+        {
+            body["metadata"] = metadata;
+        }
+        
+        var content = new StringContent(
+            JsonSerializer.Serialize(body),
+            Encoding.UTF8,
+            "application/json"
+        );
+        
+        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        
+        return await response.Content.ReadFromJsonAsync<Llm.LlmInteractionResult>(cancellationToken: cancellationToken)
+            ?? new Llm.LlmInteractionResult();
+    }
+    
+    /// <summary>
+    /// Gets a specific LLM interaction by ID
+    /// </summary>
+    /// <param name="interactionId">The interaction ID</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The LLM interaction or null if not found</returns>
+    public async Task<Llm.LlmInteraction?> GetLlmInteractionAsync(
+        string interactionId,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var url = $"{endpoint}/llm/interaction/{interactionId}";
+        
+        var response = await _httpClient.GetAsync(url, cancellationToken);
+        
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+        
+        response.EnsureSuccessStatusCode();
+        
+        return await response.Content.ReadFromJsonAsync<Llm.LlmInteraction>(cancellationToken: cancellationToken);
+    }
+    
+    /// <summary>
+    /// Lists LLM interactions with optional filtering
+    /// </summary>
+    /// <param name="model">Optional model name filter</param>
+    /// <param name="limit">Maximum number of results</param>
+    /// <param name="offset">Result offset for pagination</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>List of LLM interactions</returns>
+    public async Task<List<Llm.LlmInteraction>> ListLlmInteractionsAsync(
+        string? model = null,
+        int? limit = null,
+        int? offset = null,
+        CancellationToken cancellationToken = default)
+    {
+        var endpoint = await GetCurrentEndpointAsync();
+        var queryParams = new List<string>();
+        
+        if (!string.IsNullOrEmpty(model))
+        {
+            queryParams.Add($"model={Uri.EscapeDataString(model)}");
+        }
+        
+        if (limit.HasValue)
+        {
+            queryParams.Add($"limit={limit.Value}");
+        }
+        
+        if (offset.HasValue)
+        {
+            queryParams.Add($"offset={offset.Value}");
+        }
+        
+        var url = $"{endpoint}/llm/interaction";
+        if (queryParams.Any())
+        {
+            url += "?" + string.Join("&", queryParams);
+        }
+        
+        var response = await _httpClient.GetAsync(url, cancellationToken);
+        response.EnsureSuccessStatusCode();
+        
+        var result = await response.Content.ReadFromJsonAsync<LlmInteractionsResponse>(cancellationToken: cancellationToken);
+        return result?.Interactions ?? new List<Llm.LlmInteraction>();
+    }
+    
+    private class LlmInteractionsResponse
+    {
+        [JsonPropertyName("interactions")]
+        public List<Llm.LlmInteraction> Interactions { get; set; } = new();
+    }
 }
 
 /// <summary>
