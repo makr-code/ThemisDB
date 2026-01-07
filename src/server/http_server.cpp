@@ -71,6 +71,8 @@
 #include "server/classification_api_handler.h"
 #include "sharding/multi_primary_coordinator.h"
 #include "sharding/health_monitor.h"
+#include "sharding/wal_manager.h"
+#include "sharding/wal_applier.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
