@@ -35,8 +35,72 @@ Dieses Dokument beschreibt spezialisierte WordPress-Plugins für die ThemisDB-We
 - Export-Funktionen (PDF, CSV)
 - WordPress-Shortcode: `[themisdb_tco_calculator]`
 
-**Verwendung als Template:**
-Dieser Plugin dient als Referenz-Implementierung für weitere ThemisDB-spezifische Plugins.
+**Verwendung als Design-Template für Phase 1:** ⭐
+Dieser Plugin dient als **verbindliche Referenz-Implementierung** für Benchmark Visualizer und Feature Matrix.
+
+### TCO Calculator - Technische Struktur (als Vorlage)
+
+**Dateistruktur:**
+```
+tco-calculator-wordpress/
+├── themisdb-tco-calculator.php    # Haupt-Plugin mit WordPress-Hooks
+├── assets/
+│   ├── css/
+│   │   └── tco-calculator.css     # Styling (wiederverwenden!)
+│   └── js/
+│       └── tco-calculator.js      # JavaScript-Logik mit Chart.js
+└── templates/
+    ├── calculator.php             # HTML-Template
+    └── admin-settings.php         # Admin-Einstellungsseite
+```
+
+**Design-Prinzipien vom TCO Calculator:**
+1. **Clean & Modern UI:** Minimalistisches Design mit klaren Farben
+2. **Responsive Layout:** Mobile-First Approach
+3. **Chart.js Integration:** Konsistente Visualisierungen
+4. **Interactive Elements:** Slider, Dropdowns, Radio-Buttons
+5. **Export-Funktionen:** PDF, CSV Download-Buttons
+
+**CSS-Klassen zum Wiederverwenden:**
+```css
+.themisdb-calculator-wrapper    /* Haupt-Container */
+.themisdb-section              /* Abschnitte */
+.themisdb-chart-container      /* Chart-Bereiche */
+.themisdb-btn-primary          /* Primäre Buttons */
+.themisdb-input-group          /* Input-Felder */
+.themisdb-results              /* Ergebnis-Darstellung */
+```
+
+**JavaScript-Pattern:**
+```javascript
+// TCO Calculator Pattern für neue Plugins
+window.ThemisDBPlugin = {
+    init: function() { /* Initialisierung */ },
+    loadData: function() { /* Daten laden */ },
+    renderChart: function() { /* Chart.js */ },
+    exportPDF: function() { /* Export */ }
+};
+```
+
+**WordPress-Integration (aus TCO Calculator übernehmen):**
+```php
+// Shortcode-Registrierung
+add_shortcode('themisdb_benchmark_visualizer', 'themisdb_bv_shortcode');
+
+// Assets nur bei Shortcode laden
+add_action('wp_enqueue_scripts', function() {
+    if (has_shortcode(get_post()->post_content, 'themisdb_benchmark_visualizer')) {
+        wp_enqueue_style('themisdb-bv-style');
+        wp_enqueue_script('themisdb-bv-script');
+    }
+});
+
+// Admin-Seite
+add_action('admin_menu', function() {
+    add_options_page('Benchmark Visualizer', 'Benchmark Visualizer', 
+                     'manage_options', 'themisdb-bv', 'themisdb_bv_admin_page');
+});
+```
 
 ---
 
@@ -78,23 +142,69 @@ Update: Automatisch bei neuen Releases
 [themisdb_benchmark_visualizer metric="latency" chart_type="bar"]
 ```
 
-**Technische Umsetzung:**
+**Technische Umsetzung (basierend auf TCO Calculator):**
+
+**1. Plugin-Struktur (analog zu TCO Calculator):**
+```
+themisdb-benchmark-visualizer/
+├── themisdb-benchmark-visualizer.php    # Analog zu themisdb-tco-calculator.php
+├── assets/
+│   ├── css/
+│   │   └── benchmark-visualizer.css     # Importiert tco-calculator.css Basis-Styles
+│   └── js/
+│       └── benchmark-visualizer.js      # Gleiche Chart.js Pattern wie TCO Calculator
+└── templates/
+    ├── visualizer.php                   # Analog zu calculator.php
+    └── admin-settings.php               # Gleiche Struktur wie TCO Calculator
+```
+
+**2. JavaScript API (Pattern vom TCO Calculator):**
 ```javascript
-// JavaScript API
+// Analog zu window.tcoCalculator im TCO Calculator
 window.ThemisDBBenchmarks = {
-  loadData: async (version) => { /* Lade Benchmark-Daten */ },
-  renderChart: (container, data, options) => { /* Chart.js */ },
-  exportCSV: (data) => { /* CSV Export */ }
+  init: function() {
+    this.loadData();
+    this.setupFilters();
+    this.renderInitialChart();
+  },
+  loadData: async (version) => { 
+    // Benchmark-Daten laden (ähnlich TCO Calculator Daten-Handling)
+  },
+  renderChart: (container, data, options) => { 
+    // Chart.js (gleiche Library-Version wie TCO Calculator)
+    // Wiederverwendung der Chart-Konfiguration
+  },
+  exportCSV: (data) => { 
+    // CSV Export (gleiche Logik wie TCO Calculator)
+  },
+  exportPDF: () => {
+    // PDF Export (gleiche Library wie TCO Calculator)
+  }
 };
 ```
 
-**Admin-Einstellungen:**
+**3. CSS-Styling (TCO Calculator als Basis):**
+```css
+/* Importiere TCO Calculator Basis-Styles */
+@import 'tco-calculator.css';
+
+/* Benchmark-spezifische Erweiterungen */
+.themisdb-benchmark-container {
+  /* Verwende gleiche Spacing/Colors wie TCO Calculator */
+}
+
+.themisdb-benchmark-chart {
+  /* Analog zu .themisdb-tco-chart */
+}
+```
+
+**Admin-Einstellungen (analog zu TCO Calculator):**
 - Benchmark-Datenquelle (JSON-URL oder lokale Datei)
 - Standard-Vergleichsdatenbanken
-- Chart-Theme (Dark/Light)
+- Chart-Theme (Dark/Light) - gleiche Themes wie TCO Calculator
 - Auto-Update Intervall
 
-**Implementierungsaufwand:** ~40-60h
+**Implementierungsaufwand:** ~40-60h (reduziert durch TCO Calculator Wiederverwendung)  
 **ROI:** Zeigt Performance-Vorteile direkt auf der Website
 
 ---
@@ -138,7 +248,7 @@ Structure:
 [themisdb_feature_matrix view="compact"]
 ```
 
-**UI-Konzept:**
+**UI-Konzept (inspiriert von TCO Calculator Layout):**
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ Feature                    │ ThemisDB │ PostgreSQL │ MongoDB│
@@ -153,7 +263,61 @@ Structure:
 [Filter: 🎯 All | 🤖 AI/ML | 📊 Performance | 🔒 Security]
 ```
 
-**Implementierungsaufwand:** ~30-40h
+**Technische Umsetzung (basierend auf TCO Calculator):**
+
+**1. Plugin-Struktur (analog zu TCO Calculator):**
+```
+themisdb-feature-matrix/
+├── themisdb-feature-matrix.php          # Analog zu themisdb-tco-calculator.php
+├── assets/
+│   ├── css/
+│   │   └── feature-matrix.css           # Basis-Styles vom TCO Calculator
+│   └── js/
+│       └── feature-matrix.js            # Interaktive Tabelle mit jQuery/Vanilla JS
+└── templates/
+    ├── matrix.php                       # HTML-Template mit TCO Calculator CSS-Klassen
+    └── admin-settings.php               # Admin-Panel wie TCO Calculator
+```
+
+**2. JavaScript (Pattern vom TCO Calculator):**
+```javascript
+// Analog zu window.tcoCalculator
+window.ThemisDBFeatureMatrix = {
+  init: function() {
+    this.loadFeatures();
+    this.setupFilters();
+    this.renderTable();
+  },
+  loadFeatures: async () => {
+    // Feature-Daten laden (ähnlich TCO Calculator)
+  },
+  renderTable: (filters) => {
+    // Dynamische Tabelle mit Sortierung/Filterung
+  },
+  exportPDF: () => {
+    // PDF Export (gleiche Mechanik wie TCO Calculator)
+  }
+};
+```
+
+**3. CSS-Styling (TCO Calculator wiederverwenden):**
+```css
+/* Gleiche Container-Klassen wie TCO Calculator */
+.themisdb-feature-wrapper {
+  /* Analog zu .themisdb-calculator-wrapper */
+}
+
+.themisdb-feature-table {
+  /* Tabellen-Styling konsistent mit TCO Calculator Cards */
+}
+
+/* Filter-Buttons wie im TCO Calculator */
+.themisdb-filter-btn {
+  /* Gleiche Button-Styles */
+}
+```
+
+**Implementierungsaufwand:** ~30-40h (reduziert durch TCO Calculator Wiederverwendung)  
 **ROI:** Hebt Alleinstellungsmerkmale hervor
 
 ---
@@ -342,20 +506,38 @@ Interactive: JavaScript Events
 
 ## 3. Priorisierung und Roadmap
 
-### Phase 1: Quick Wins (Q1 2026)
+### Phase 1: Quick Wins (Q1 2026) ⭐ **START HIER**
+
+**Design-Template:** Nutze `/tools/tco-calculator-wordpress/` als Vorlage für Design, Code-Struktur und Best Practices.
+
 ```yaml
 1. Benchmark Visualizer (Prio: Hoch)
    - Aufwand: 40-60h
    - Impact: Zeigt Performance-Vorteile
    - Dependencies: Benchmark-Daten strukturieren
-
+   - Design: Basiert auf TCO Calculator UI/UX
+   
 2. Feature Matrix (Prio: Mittel)
    - Aufwand: 30-40h
    - Impact: Hebt USPs hervor
    - Dependencies: Feature-Matrix-JSON erstellen
+   - Design: Basiert auf TCO Calculator UI/UX
 ```
 
-### Phase 2: High-Value Features (Q2 2026)
+**Phase 1 Implementation Guidelines:**
+- ✅ **Code-Struktur:** Gleiche Plugin-Architektur wie TCO Calculator
+- ✅ **Design-System:** Verwende TCO Calculator CSS-Klassen und Styling
+- ✅ **Chart.js Version:** Gleiche Library-Versionen wie TCO Calculator
+- ✅ **Admin-Panel:** Analog zu TCO Calculator Settings-Page
+- ✅ **Shortcode-Pattern:** Gleiche Parameter-Logik wie `[themisdb_tco_calculator]`
+- ✅ **Export-Funktionen:** PDF/CSV wie im TCO Calculator
+
+**Vorteile:**
+- Konsistentes Look & Feel über alle ThemisDB-Plugins
+- Weniger Entwicklungsaufwand durch Code-Wiederverwendung
+- Bewährte UX-Patterns vom TCO Calculator übernehmen
+
+---### Phase 2: High-Value Features (Q2 2026)
 ```yaml
 3. Live Query Playground (Prio: Hoch)
    - Aufwand: 80-100h

@@ -34,7 +34,41 @@ This document describes specialized WordPress plugins for the ThemisDB website t
 - Export functions (PDF, CSV)
 - WordPress shortcode: `[themisdb_tco_calculator]`
 
-**Use as Template:** This plugin serves as reference implementation for additional ThemisDB-specific plugins.
+**Use as Design Template for Phase 1:** ⭐  
+This plugin serves as **binding reference implementation** for Benchmark Visualizer and Feature Matrix.
+
+### TCO Calculator - Technical Structure (as Template)
+
+**File Structure:**
+```
+tco-calculator-wordpress/
+├── themisdb-tco-calculator.php    # Main plugin with WordPress hooks
+├── assets/
+│   ├── css/
+│   │   └── tco-calculator.css     # Styling (reuse!)
+│   └── js/
+│       └── tco-calculator.js      # JavaScript logic with Chart.js
+└── templates/
+    ├── calculator.php             # HTML template
+    └── admin-settings.php         # Admin settings page
+```
+
+**Design Principles from TCO Calculator:**
+1. **Clean & Modern UI:** Minimalist design with clear colors
+2. **Responsive Layout:** Mobile-first approach
+3. **Chart.js Integration:** Consistent visualizations
+4. **Interactive Elements:** Sliders, dropdowns, radio buttons
+5. **Export Functions:** PDF, CSV download buttons
+
+**CSS Classes to Reuse:**
+```css
+.themisdb-calculator-wrapper    /* Main container */
+.themisdb-section              /* Sections */
+.themisdb-chart-container      /* Chart areas */
+.themisdb-btn-primary          /* Primary buttons */
+.themisdb-input-group          /* Input fields */
+.themisdb-results              /* Result display */
+```
 
 ---
 
@@ -162,16 +196,36 @@ Demo Data: Pre-generated sample data
 
 ## 3. Prioritization and Roadmap
 
-### Phase 1: Quick Wins (Q1 2026)
+### Phase 1: Quick Wins (Q1 2026) ⭐ **START HERE**
+
+**Design Template:** Use `/tools/tco-calculator-wordpress/` as template for design, code structure, and best practices.
+
 ```yaml
 1. Benchmark Visualizer (Priority: High)
    - Effort: 40-60h
    - Impact: Shows performance advantages
+   - Design: Based on TCO Calculator UI/UX
    
 2. Feature Matrix (Priority: Medium)
    - Effort: 30-40h
    - Impact: Highlights USPs
+   - Design: Based on TCO Calculator UI/UX
 ```
+
+**Phase 1 Implementation Guidelines:**
+- ✅ **Code Structure:** Same plugin architecture as TCO Calculator
+- ✅ **Design System:** Use TCO Calculator CSS classes and styling
+- ✅ **Chart.js Version:** Same library versions as TCO Calculator
+- ✅ **Admin Panel:** Similar to TCO Calculator settings page
+- ✅ **Shortcode Pattern:** Same parameter logic as `[themisdb_tco_calculator]`
+- ✅ **Export Functions:** PDF/CSV like in TCO Calculator
+
+**Benefits:**
+- Consistent look & feel across all ThemisDB plugins
+- Less development effort through code reuse
+- Proven UX patterns from TCO Calculator
+
+---
 
 ### Phase 2: High-Value Features (Q2 2026)
 ```yaml
