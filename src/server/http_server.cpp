@@ -3146,6 +3146,25 @@ http::response<http::string_body> HttpServer::handleCapabilities(
 ) {
     // No auth required for capabilities (read-only, non-sensitive)
     json caps;
+    
+    // Add edition and build information
+    try {
+        auto build_config = themis::build_info::getBuildConfiguration();
+        caps["edition"] = {
+            {"name", build_config.edition_name},
+            {"type", build_config.edition_type},
+            {"gpu_max_vram_gb", build_config.gpu_max_vram_gb},
+            {"sharding_max_nodes", build_config.sharding_max_nodes}
+        };
+        
+        caps["build"] = {
+            {"compiler", build_config.compiler},
+            {"version", build_config.compiler_version},
+            {"type", build_config.build_type}
+        };
+    } catch (...) {
+        // If build info fails, continue with basic capabilities
+    }
 
     // Build flags
 #ifdef THEMIS_GEO_ENABLED
