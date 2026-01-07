@@ -345,6 +345,22 @@ add_compile_definitions(
     "THEMIS_SHARDING_MAX_NODES=${THEMIS_SHARDING_MAX_NODES}"
 )
 
+# MSVC: sanitize any accidentally injected '/WX:NO' options (invalid for cl.exe)
+if(MSVC)
+    get_property(_allTargets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_t IN LISTS _allTargets)
+        foreach(_prop IN ITEMS COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS)
+            get_target_property(_opts ${_t} ${_prop})
+            if(_opts)
+                list(TRANSFORM _opts REPLACE "/WX:NO" "")
+                list(TRANSFORM _opts REPLACE "/WX:No" "")
+                list(TRANSFORM _opts REPLACE "/WX:0"  "")
+                set_target_properties(${_t} PROPERTIES ${_prop} "${_opts}")
+            endif()
+        endforeach()
+    endforeach()
+endif()
+
 # Detect target architecture
 set(THEMIS_TARGET_ARCH "unknown")
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
@@ -1075,6 +1091,14 @@ if(THEMIS_CORE_SHARED)
     set(_THEMIS_CORE_LIBTYPE SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
+
+# Base include directories for core headers
+# Needed to resolve includes like "sharding/...", "llm/...", etc.
+target_include_directories(themis_core
+    PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+)
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)
 if(MSVC)
@@ -2706,6 +2730,23 @@ install(DIRECTORY /include/
 # Performance Optimization Benchmarks
 if(THEMIS_BUILD_BENCHMARKS)
     # add_subdirectory(benchmarks/performance_optimizations) # Directory does not exist
+endif()
+
+
+# Final MSVC cleanup: strip any invalid '/WX:NO' that might have been injected
+if(MSVC)
+    get_property(_allTargets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_t IN LISTS _allTargets)
+        foreach(_prop IN ITEMS COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS)
+            get_target_property(_opts ${_t} ${_prop})
+            if(_opts)
+                list(TRANSFORM _opts REPLACE "/WX:NO" "")
+                list(TRANSFORM _opts REPLACE "/WX:No" "")
+                list(TRANSFORM _opts REPLACE "/WX:0"  "")
+                set_target_properties(${_t} PROPERTIES ${_prop} "${_opts}")
+            endif()
+        endforeach()
+    endforeach()
 endif()
 
 
