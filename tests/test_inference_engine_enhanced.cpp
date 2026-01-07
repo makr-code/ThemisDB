@@ -3,6 +3,7 @@
 #include "llm/llm_plugin_interface.h"
 #include <thread>
 #include <chrono>
+#include <spdlog/spdlog.h>
 
 using namespace themis::llm;
 
@@ -12,18 +13,31 @@ public:
     MockLLMPlugin(const std::string& model_id, int latency_ms = 50)
         : model_id_(model_id), latency_ms_(latency_ms) {}
     
+    // Model management
+    bool loadModel(const std::string& /*model_path*/, const json& /*config*/) override { return true; }
+    void unloadModel() override {}
+    std::optional<ModelInfo> getModelInfo() const override {
+        ModelInfo info{};
+        info.model_id = model_id_;
+        info.name = model_id_;
+        info.is_loaded = true;
+        return info;
+    }
+    bool isModelLoaded() const override { return true; }
+    
+    // Inference
     InferenceResponse generate(const InferenceRequest& request) override {
         // Simulate processing time
         std::this_thread::sleep_for(std::chrono::milliseconds(latency_ms_));
         
         InferenceResponse response;
-        response.success = true;
+        response.request_id = request.request_id;
         response.text = "Mock response for: " + request.prompt;
         response.model_id = model_id_;
-        response.prompt_tokens = request.prompt.length() / 4;
-        response.completion_tokens = 20;
-        response.total_tokens = response.prompt_tokens + response.completion_tokens;
-        response.inference_time_ms = latency_ms_;
+        response.tokens_prompt = static_cast<int>(request.prompt.length() / 4);
+        response.tokens_generated = 20;
+        response.inference_time_ms = static_cast<float>(latency_ms_);
+        response.latency_ms = latency_ms_;
         
         return response;
     }
@@ -32,15 +46,25 @@ public:
                                    const InferenceRequest& request) override {
         return generate(request);
     }
-    
-    json getModelInfo() const override {
-        json info;
-        info["model_id"] = model_id_;
-        info["type"] = "mock";
-        return info;
+
+    std::vector<float> embed(const std::string& text) override {
+        // Return a fixed-size mock embedding
+        return std::vector<float>(8, static_cast<float>(text.size() % 5));
     }
-    
-    bool isLoaded() const override { return true; }
+
+    // Capabilities & stats
+    LLMCapabilities getCapabilities() const override { return LLMCapabilities{}; }
+    json getMemoryStats() const override { return json::object(); }
+    json getPerformanceStats() const override { return json::object(); }
+
+    // LoRA management (stubs)
+    bool loadLoRA(const std::string& /*lora_id*/, const std::string& /*lora_path*/, float /*scale*/) override { return true; }
+    bool unloadLoRA(const std::string& /*lora_id*/) override { return true; }
+    std::vector<LoRAInfo> listLoRAs() const override { return {}; }
+
+    // Distributed features (stubs)
+    std::vector<uint8_t> exportLoRA(const std::string& /*lora_id*/) override { return {}; }
+    bool importLoRA(const std::string& /*lora_id*/, const std::vector<uint8_t>& /*data*/) override { return true; }
     
 private:
     std::string model_id_;

@@ -300,19 +300,23 @@ HttpServer::HttpServer(
             cdc_cf_handle_
         );
         THEMIS_INFO("Changefeed initialized using default CF");
-        // Initialize SSE Connection Manager for streaming
-        SseConnectionManager::ConnectionConfig sse_config;
-        sse_config.heartbeat_interval_ms = 15000;
-        sse_config.max_buffered_events = 1000;
-        sse_config.event_poll_interval_ms = 500;
-        sse_config.max_events_per_second = config_.sse_max_events_per_second; // from server config
-        
-        sse_manager_ = std::make_unique<SseConnectionManager>(
-            changefeed_,
-            ioc_,
-            sse_config
-        );
-        THEMIS_INFO("SSE Connection Manager initialized");
+        // Initialize SSE Connection Manager for streaming (if enabled)
+#ifdef THEMIS_ENABLE_SSE
+        {
+            SseConnectionManager::ConnectionConfig sse_config;
+            sse_config.heartbeat_interval_ms = 15000;
+            sse_config.max_buffered_events = 1000;
+            sse_config.event_poll_interval_ms = 500;
+            sse_config.max_events_per_second = config_.sse_max_events_per_second; // from server config
+
+            sse_manager_ = std::make_unique<SseConnectionManager>(
+                changefeed_,
+                ioc_,
+                sse_config
+            );
+            THEMIS_INFO("SSE Connection Manager initialized");
+        }
+#endif
     }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -3669,6 +3673,7 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         }
 
         // SSE/Changefeed streaming metrics
+    #ifdef THEMIS_ENABLE_SSE
         if (sse_manager_) {
             auto sstats = sse_manager_->getStats();
             out += "# HELP themis_sse_active_connections Number of active SSE connections\n";
@@ -3687,6 +3692,7 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
             out += "# TYPE themis_sse_dropped_events_total counter\n";
             out += "themis_sse_dropped_events_total " + std::to_string(sstats.total_dropped_events) + "\n";
         }
+#endif
         
         // Rate Limiter metrics
         if (rate_limiter_) {
@@ -4988,6 +4994,8 @@ http::response<http::string_body> HttpServer::handleChangefeedStreamSse(
     // Advise client reconnect delay
     body << "retry: " << retry_ms << "\n\n";
         
+        // Production streaming path via SSE manager (only when enabled)
+    #ifdef THEMIS_ENABLE_SSE
         if (keep_alive && sse_manager_) {
             // Production mode: Register connection for streaming
             // Note: Current Beast setup limits us to batch-based streaming
@@ -5047,7 +5055,9 @@ http::response<http::string_body> HttpServer::handleChangefeedStreamSse(
             THEMIS_INFO("SSE stream completed: conn={}, events={}, heartbeats={}",
                 conn_id, total_events, heartbeats);
             
-        } else {
+        } else
+    #endif
+        {
             // MVP mode: Send one batch and close (backward compatible)
             Changefeed::ListOptions options;
             options.from_sequence = from_seq;
