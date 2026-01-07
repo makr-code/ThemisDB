@@ -287,6 +287,7 @@ window.ThemisDBFeatureMatrix = {
     this.loadFeatures();
     this.setupFilters();
     this.renderTable();
+    this.renderMermaidDiagram(); // Optional: Mermaid Visualisierung
   },
   loadFeatures: async () => {
     // Feature-Daten laden (ähnlich TCO Calculator)
@@ -294,10 +295,50 @@ window.ThemisDBFeatureMatrix = {
   renderTable: (filters) => {
     // Dynamische Tabelle mit Sortierung/Filterung
   },
+  renderMermaidDiagram: () => {
+    // Optional: Feature-Beziehungen als Mermaid-Diagramm
+    const mermaidCode = `
+      graph LR
+        ThemisDB[ThemisDB Features]
+        ThemisDB --> MultiModel[Multi-Model Support ✅]
+        ThemisDB --> LLM[Native LLM ✅]
+        ThemisDB --> Vector[Vector Search ✅]
+        ThemisDB --> Graph[Graph DB ✅]
+        
+        style ThemisDB fill:#2ea44f
+        style MultiModel fill:#2ea44f
+        style LLM fill:#2ea44f
+    `;
+    mermaid.render('feature-diagram', mermaidCode);
+  },
   exportPDF: () => {
     // PDF Export (gleiche Mechanik wie TCO Calculator)
   }
 };
+```
+
+**Alternative Visualisierung mit Mermaid.js:**
+```mermaid
+mindmap
+  root((ThemisDB))
+    Multi-Model
+      Document Store
+      Graph Database
+      Key-Value
+      Time Series
+    AI/ML Integration
+      Native LLM llama.cpp
+      Vector Search HNSW
+      Embedding Generation
+    Enterprise Features
+      ACID Transactions
+      Sharding RAID
+      Hot Spare
+      Replication
+    Security
+      Field Encryption
+      RBAC
+      Audit Logging
 ```
 
 **3. CSS-Styling (TCO Calculator wiederverwenden):**
@@ -315,9 +356,15 @@ window.ThemisDBFeatureMatrix = {
 .themisdb-filter-btn {
   /* Gleiche Button-Styles */
 }
+
+/* Mermaid-Diagramm Container */
+.themisdb-mermaid-container {
+  margin: 2rem 0;
+  text-align: center;
+}
 ```
 
-**Implementierungsaufwand:** ~30-40h (reduziert durch TCO Calculator Wiederverwendung)  
+**Implementierungsaufwand:** ~30-40h (reduziert durch TCO Calculator + Mermaid.js)  
 **ROI:** Hebt Alleinstellungsmerkmale hervor
 
 ---
@@ -483,12 +530,56 @@ Format: Parsed Markdown + Metadata
   - LLM Integration (llama.cpp)
   - Sharding/RAID Architecture
 - Export als SVG/PNG
+- Live-Rendering mit Mermaid.js
 
-**Technologie:**
+**Technologie:** ⭐ **Mermaid.js empfohlen**
 ```yaml
-Frontend: D3.js oder Mermaid.js
-Backend: SVG-Generierung
-Interactive: JavaScript Events
+Frontend: Mermaid.js (Primary) oder D3.js
+Backend: Mermaid-Syntax aus Markdown/JSON
+Interactive: JavaScript Events + Mermaid API
+Benefits:
+  - Einfache Syntax (Text-basierte Diagramme)
+  - Wartbar (Diagramme als Code)
+  - Versionierbar (Git-freundlich)
+  - Kein manuelles SVG-Editing
+```
+
+**Mermaid.js Beispiel:**
+```mermaid
+graph TB
+    subgraph "ThemisDB Multi-Model Architecture"
+        Client[Client Applications]
+        API[REST/gRPC API]
+        
+        subgraph "Query Layer"
+            AQL[AQL Parser]
+            Optimizer[Query Optimizer]
+        end
+        
+        subgraph "Storage Engine"
+            RocksDB[(RocksDB)]
+            Vector[Vector Index HNSW]
+            Graph[Graph Store]
+        end
+        
+        subgraph "LLM Integration"
+            Llama[llama.cpp]
+            Models[LLM Models]
+        end
+    end
+    
+    Client --> API
+    API --> AQL
+    AQL --> Optimizer
+    Optimizer --> RocksDB
+    Optimizer --> Vector
+    Optimizer --> Graph
+    API --> Llama
+    Llama --> Models
+    
+    click RocksDB "https://themisdb.com/docs/storage" "RocksDB Details"
+    click Vector "https://themisdb.com/docs/vector-search" "Vector Search"
+    click Llama "https://themisdb.com/docs/llm" "LLM Integration"
 ```
 
 **Shortcode:**
@@ -496,10 +587,42 @@ Interactive: JavaScript Events
 [themisdb_architecture view="high_level"]
 [themisdb_architecture view="storage_layer"]
 [themisdb_architecture view="llm_integration"]
-[themisdb_architecture interactive="true"]
+[themisdb_architecture interactive="true" theme="dark"]
 ```
 
-**Implementierungsaufwand:** ~40-50h
+**Implementation mit Mermaid.js:**
+```javascript
+// Mermaid-Integration im Plugin
+window.ThemisDBArchitecture = {
+  init: function() {
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: 'neutral',
+      flowchart: { useMaxWidth: true }
+    });
+  },
+  renderDiagram: function(view) {
+    const mermaidCode = this.getDiagramCode(view);
+    mermaid.render('architecture-diagram', mermaidCode);
+  },
+  addInteractivity: function() {
+    // Click-Events auf Mermaid-Elemente
+    document.querySelectorAll('.node').forEach(node => {
+      node.addEventListener('click', this.showDetails);
+    });
+  }
+};
+```
+
+**Vorteile Mermaid.js:**
+- ✅ Text-basiert → einfach zu aktualisieren
+- ✅ Versionierung in Git möglich
+- ✅ Automatisches Layout
+- ✅ Konsistente Darstellung
+- ✅ Interaktive Links möglich
+- ✅ Export als SVG/PNG integriert
+
+**Implementierungsaufwand:** ~35-45h (reduziert durch Mermaid.js)  
 **ROI:** Visualisiert Komplexität verständlich
 
 ---
@@ -527,27 +650,52 @@ Interactive: JavaScript Events
 **Phase 1 Implementation Guidelines:**
 - ✅ **Code-Struktur:** Gleiche Plugin-Architektur wie TCO Calculator
 - ✅ **Design-System:** Verwende TCO Calculator CSS-Klassen und Styling
-- ✅ **Chart.js Version:** Gleiche Library-Versionen wie TCO Calculator
+- ✅ **Chart.js Version:** Gleiche Library-Versionen wie TCO Calculator (für Charts)
+- ✅ **Mermaid.js:** Für Diagramme und Architektur-Visualisierungen (zusätzlich)
 - ✅ **Admin-Panel:** Analog zu TCO Calculator Settings-Page
 - ✅ **Shortcode-Pattern:** Gleiche Parameter-Logik wie `[themisdb_tco_calculator]`
 - ✅ **Export-Funktionen:** PDF/CSV wie im TCO Calculator
+
+**Technologie-Stack für Phase 1:**
+```yaml
+Visualisierung:
+  Chart.js: Performance-Charts, Metriken (vom TCO Calculator)
+  Mermaid.js: Architektur-Diagramme, Flowcharts, Entity-Relationships
+  
+Mermaid.js Einsatzbereiche:
+  - Benchmark Visualizer: Workflow-Diagramme für Test-Pipelines
+  - Feature Matrix: Mind-Maps und Beziehungs-Diagramme
+  - Architecture Diagrams: System-Architektur (Phase 2)
+  
+Vorteile Mermaid.js:
+  - Text-basierte Diagramme (wartbar, versionierbar)
+  - Automatisches Layout
+  - Integration mit Markdown-Dokumentation
+  - Export als SVG/PNG
+  - Interaktive Klicks möglich
+```
 
 **Vorteile:**
 - Konsistentes Look & Feel über alle ThemisDB-Plugins
 - Weniger Entwicklungsaufwand durch Code-Wiederverwendung
 - Bewährte UX-Patterns vom TCO Calculator übernehmen
+- Flexible Visualisierung mit Chart.js + Mermaid.js
 
----### Phase 2: High-Value Features (Q2 2026)
+---
+
+### Phase 2: High-Value Features (Q2 2026)
 ```yaml
 3. Live Query Playground (Prio: Hoch)
    - Aufwand: 80-100h
    - Impact: Extrem hoch - Try-before-buy
    - Dependencies: Demo ThemisDB Instance
+   - Visualisierung: Mermaid.js für Query-Execution-Plans
 
 4. Architecture Diagrams (Prio: Mittel)
-   - Aufwand: 40-50h
+   - Aufwand: 35-45h (reduziert durch Mermaid.js)
    - Impact: Visualisiert Komplexität verständlich
-   - Dependencies: Architektur-Diagramme als SVG/JSON
+   - Dependencies: Architektur-Diagramme als Mermaid-Code
+   - Technologie: Primär Mermaid.js
 ```
 
 ### Phase 3: Nice-to-Haves (Q3 2026)
@@ -601,7 +749,257 @@ themisdb-<plugin-name>/
  */
 ```
 
-### 4.2 Datenanbindung
+### 4.2 Mermaid.js Integration ⭐ **Neu empfohlen**
+
+**Warum Mermaid.js:**
+- Text-basierte Diagramme (einfach zu warten und versionieren)
+- Automatisches Layout (kein manuelles Positioning)
+- Viele Diagramm-Typen: Flowchart, Sequence, Class, Entity-Relationship, Mind-Map
+- WordPress-freundlich (einfache Integration)
+- Export als SVG/PNG integriert
+
+**Installation in WordPress-Plugin:**
+```php
+// In Plugin-Haupt-Datei
+function themisdb_plugin_enqueue_scripts() {
+    // Mermaid.js von CDN laden
+    wp_enqueue_script(
+        'mermaid-js',
+        'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js',
+        array(),
+        '10.0.0',
+        true
+    );
+    
+    // Plugin-spezifisches JavaScript
+    wp_enqueue_script(
+        'themisdb-plugin-js',
+        plugin_dir_url(__FILE__) . 'assets/js/plugin.js',
+        array('mermaid-js'),
+        '1.0.0',
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'themisdb_plugin_enqueue_scripts');
+```
+
+**JavaScript-Initialisierung:**
+```javascript
+// Im Plugin JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Mermaid konfigurieren
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'neutral',
+        securityLevel: 'loose', // Für interaktive Links
+        flowchart: {
+            useMaxWidth: true,
+            htmlLabels: true,
+            curve: 'basis'
+        }
+    });
+    
+    // Optional: Manuelles Rendering
+    mermaid.run({
+        querySelector: '.themisdb-mermaid-diagram'
+    });
+});
+```
+
+**Mermaid-Code in WordPress einbetten:**
+```php
+// Template-Datei
+<div class="themisdb-mermaid-container">
+    <div class="mermaid">
+        <?php echo esc_html($mermaid_code); ?>
+    </div>
+</div>
+```
+
+**Beispiel-Diagramme für ThemisDB-Plugins:**
+
+**1. Benchmark-Pipeline (Benchmark Visualizer):**
+```mermaid
+flowchart LR
+    A[Benchmark Start] --> B{Load Test Data}
+    B --> C[Vector Search Test]
+    B --> D[AQL Query Test]
+    B --> E[Graph Traversal Test]
+    C --> F[Measure Latency]
+    D --> F
+    E --> F
+    F --> G[Calculate Throughput]
+    G --> H[Generate Report]
+    H --> I[Visualize Results]
+    
+    style A fill:#2ea44f
+    style I fill:#2ea44f
+```
+
+**2. Feature-Hierarchie (Feature Matrix):**
+```mermaid
+mindmap
+  root((ThemisDB))
+    Multi-Model
+      Document
+      Graph
+      Vector
+      Time Series
+    LLM Integration
+      llama.cpp
+      LoRA Adapters
+      RAID Distribution
+    Enterprise
+      ACID
+      Sharding
+      Replication
+```
+
+**3. Architektur-Diagramm (Architecture Diagrams):**
+```mermaid
+graph TB
+    subgraph Client["Client Layer"]
+        CLI[CLI]
+        REST[REST API]
+        GRPC[gRPC]
+    end
+    
+    subgraph Query["Query Engine"]
+        AQL[AQL Parser]
+        OPT[Optimizer]
+    end
+    
+    subgraph Storage["Storage Layer"]
+        ROCKS[(RocksDB)]
+        VECTOR[Vector Index]
+        GRAPH[Graph Store]
+    end
+    
+    subgraph AI["AI/LLM Layer"]
+        LLAMA[llama.cpp]
+        MODELS[LLM Models]
+    end
+    
+    CLI --> REST
+    REST --> AQL
+    GRPC --> AQL
+    AQL --> OPT
+    OPT --> ROCKS
+    OPT --> VECTOR
+    OPT --> GRAPH
+    REST --> LLAMA
+    LLAMA --> MODELS
+    
+    click ROCKS "https://themisdb.com/docs/storage"
+    click VECTOR "https://themisdb.com/docs/vector"
+    click LLAMA "https://themisdb.com/docs/llm"
+```
+
+**4. Query Execution Plan (Live Query Playground):**
+```mermaid
+sequenceDiagram
+    participant User
+    participant Browser
+    participant ThemisDB
+    participant Storage
+    
+    User->>Browser: Write AQL Query
+    Browser->>ThemisDB: Execute Query
+    ThemisDB->>ThemisDB: Parse AQL
+    ThemisDB->>ThemisDB: Optimize
+    ThemisDB->>Storage: Fetch Data
+    Storage-->>ThemisDB: Return Results
+    ThemisDB-->>Browser: JSON Response
+    Browser-->>User: Display Results
+```
+
+**Interaktive Features:**
+```javascript
+// Click-Events auf Mermaid-Elemente
+window.addMermaidInteractivity = function() {
+    document.querySelectorAll('.mermaid svg .node').forEach(node => {
+        node.style.cursor = 'pointer';
+        node.addEventListener('click', function(e) {
+            const nodeId = this.id;
+            showDetailModal(nodeId);
+        });
+    });
+};
+
+// Nach Mermaid-Rendering ausführen
+mermaid.run().then(() => {
+    addMermaidInteractivity();
+});
+```
+
+**Export-Funktionen:**
+```javascript
+// SVG Export
+function exportMermaidAsSVG() {
+    const svg = document.querySelector('.mermaid svg');
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([svgData], {type: 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'themisdb-diagram.svg';
+    a.click();
+}
+
+// PNG Export (via Canvas)
+function exportMermaidAsPNG() {
+    const svg = document.querySelector('.mermaid svg');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // SVG zu PNG konvertieren
+    const img = new Image();
+    img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'themisdb-diagram.png';
+            a.click();
+        });
+    };
+    img.src = 'data:image/svg+xml;base64,' + btoa(new XMLSerializer().serializeToString(svg));
+}
+```
+
+**CSS-Styling für Mermaid:**
+```css
+/* Mermaid-Container im ThemisDB-Design */
+.themisdb-mermaid-container {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: #f6f8fa;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.themisdb-mermaid-container .mermaid {
+    text-align: center;
+}
+
+.themisdb-mermaid-container svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Dark Mode Support */
+.dark-mode .themisdb-mermaid-container {
+    background: #1a1a1a;
+}
+```
+
+---
+
+### 4.3 Datenanbindung
 
 **Option 1: Statische JSON-Dateien**
 ```php
@@ -627,7 +1025,17 @@ $client = new ThemisDBClient($themisdb_host);
 $result = $client->query($aql_query);
 ```
 
-### 4.3 Sicherheit
+**Option 4: Mermaid-Code aus Datei laden**
+```php
+// Für Architecture Diagrams
+$mermaid_file = plugin_dir_path(__FILE__) . 'diagrams/architecture.mmd';
+$mermaid_code = file_get_contents($mermaid_file);
+echo '<div class="mermaid">' . esc_html($mermaid_code) . '</div>';
+```
+
+---
+
+### 4.4 Sicherheit
 
 **Wichtige Maßnahmen:**
 ```php

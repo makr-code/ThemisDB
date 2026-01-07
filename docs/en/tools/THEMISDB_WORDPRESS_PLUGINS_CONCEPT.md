@@ -215,15 +215,36 @@ Demo Data: Pre-generated sample data
 **Phase 1 Implementation Guidelines:**
 - ✅ **Code Structure:** Same plugin architecture as TCO Calculator
 - ✅ **Design System:** Use TCO Calculator CSS classes and styling
-- ✅ **Chart.js Version:** Same library versions as TCO Calculator
+- ✅ **Chart.js Version:** Same library versions as TCO Calculator (for charts)
+- ✅ **Mermaid.js:** For diagrams and architecture visualizations (additional)
 - ✅ **Admin Panel:** Similar to TCO Calculator settings page
 - ✅ **Shortcode Pattern:** Same parameter logic as `[themisdb_tco_calculator]`
 - ✅ **Export Functions:** PDF/CSV like in TCO Calculator
+
+**Technology Stack for Phase 1:**
+```yaml
+Visualization:
+  Chart.js: Performance charts, metrics (from TCO Calculator)
+  Mermaid.js: Architecture diagrams, flowcharts, entity-relationships
+  
+Mermaid.js Use Cases:
+  - Benchmark Visualizer: Workflow diagrams for test pipelines
+  - Feature Matrix: Mind-maps and relationship diagrams
+  - Architecture Diagrams: System architecture (Phase 2)
+  
+Mermaid.js Benefits:
+  - Text-based diagrams (maintainable, versionable)
+  - Automatic layout
+  - Integration with Markdown documentation
+  - Export as SVG/PNG
+  - Interactive clicks possible
+```
 
 **Benefits:**
 - Consistent look & feel across all ThemisDB plugins
 - Less development effort through code reuse
 - Proven UX patterns from TCO Calculator
+- Flexible visualization with Chart.js + Mermaid.js
 
 ---
 
@@ -232,10 +253,12 @@ Demo Data: Pre-generated sample data
 3. Live Query Playground (Priority: High)
    - Effort: 80-100h
    - Impact: Extremely high - try-before-buy
+   - Visualization: Mermaid.js for query execution plans
    
 4. Architecture Diagrams (Priority: Medium)
-   - Effort: 40-50h
+   - Effort: 35-45h (reduced through Mermaid.js)
    - Impact: Visualizes complexity comprehensibly
+   - Technology: Primarily Mermaid.js
 ```
 
 ### Phase 3: Nice-to-Haves (Q3 2026)
