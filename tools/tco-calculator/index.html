@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB TCO-Rechner - Total Cost of Ownership Calculator</title>
+    <meta name="description" content="Interaktiver TCO-Rechner für ThemisDB - Vergleichen Sie die Gesamtbetriebskosten verschiedener Datenbanklösungen">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>🗄️ ThemisDB TCO-Rechner</h1>
+                <p class="subtitle">Total Cost of Ownership Calculator - Vergleichen Sie die Gesamtbetriebskosten</p>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Introduction Section -->
+            <section class="intro-section">
+                <div class="info-box">
+                    <h2>📊 Über diesen TCO-Rechner</h2>
+                    <p>
+                        Dieser interaktive Rechner hilft Ihnen, die <strong>Gesamtbetriebskosten (Total Cost of Ownership)</strong> 
+                        verschiedener Datenbanklösungen über einen Zeitraum von 3 Jahren zu vergleichen. 
+                        Berücksichtigt werden nicht nur Lizenzkosten, sondern auch Infrastruktur, Personal und Betriebskosten.
+                    </p>
+                    <div class="edition-badges">
+                        <span class="badge badge-minimal">Minimal (Free)</span>
+                        <span class="badge badge-community">Community (Free)</span>
+                        <span class="badge badge-enterprise">Enterprise (Commercial)</span>
+                        <span class="badge badge-hyperscaler">Hyperscaler (Custom)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input Form Section -->
+            <section class="input-section">
+                <h2>⚙️ Ihre Anforderungen</h2>
+                
+                <div class="form-grid">
+                    <!-- Workload Parameters -->
+                    <div class="form-group">
+                        <label for="requestsPerDay">
+                            <span class="label-text">Anfragen pro Tag</span>
+                            <span class="label-info" title="Durchschnittliche Anzahl von Datenbank-Anfragen pro Tag">ℹ️</span>
+                        </label>
+                        <input type="number" id="requestsPerDay" value="1000000" min="1000" step="10000">
+                        <small>Beispiel: 1.000.000 = 1 Million Anfragen/Tag</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dataSize">
+                            <span class="label-text">Datenmenge (GB)</span>
+                            <span class="label-info" title="Geschätzte Gesamtgröße Ihrer Daten">ℹ️</span>
+                        </label>
+                        <input type="number" id="dataSize" value="500" min="1" step="10">
+                        <small>Aktive Datenmenge in Gigabyte</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="peakLoad">
+                            <span class="label-text">Spitzenlast-Faktor</span>
+                            <span class="label-info" title="Verhältnis von Spitzenlast zu Durchschnittslast">ℹ️</span>
+                        </label>
+                        <input type="number" id="peakLoad" value="3" min="1" max="10" step="0.5">
+                        <small>Peak Load / Average Load (1-10x)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availability">
+                            <span class="label-text">Verfügbarkeitsanforderung</span>
+                            <span class="label-info" title="Benötigte Systemverfügbarkeit">ℹ️</span>
+                        </label>
+                        <select id="availability">
+                            <option value="99">99% (Standard)</option>
+                            <option value="99.9">99.9% (High)</option>
+                            <option value="99.99">99.99% (Very High)</option>
+                            <option value="99.999" selected>99.999% (Mission Critical)</option>
+                        </select>
+                    </div>
+
+                    <!-- Infrastructure Parameters -->
+                    <div class="form-group">
+                        <label for="serverCost">
+                            <span class="label-text">Server-Kosten (€/Monat)</span>
+                            <span class="label-info" title="Monatliche Kosten pro Server (Cloud oder On-Premise)">ℹ️</span>
+                        </label>
+                        <input type="number" id="serverCost" value="500" min="0" step="50">
+                        <small>Kosten pro physischer/virtueller Server</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="storageCostPerGB">
+                            <span class="label-text">Speicher-Kosten (€/GB/Monat)</span>
+                            <span class="label-info" title="Monatliche Kosten pro GB Speicher">ℹ️</span>
+                        </label>
+                        <input type="number" id="storageCostPerGB" value="0.10" min="0" step="0.01">
+                        <small>SSD/NVMe Speicher pro GB</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="networkCost">
+                            <span class="label-text">Netzwerk-Kosten (€/TB)</span>
+                            <span class="label-info" title="Kosten für ausgehenden Datenverkehr pro TB">ℹ️</span>
+                        </label>
+                        <input type="number" id="networkCost" value="50" min="0" step="10">
+                        <small>Egress/Outbound Traffic</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="backupCost">
+                            <span class="label-text">Backup-Kosten (€/GB/Monat)</span>
+                            <span class="label-info" title="Monatliche Kosten für Backup-Speicher">ℹ️</span>
+                        </label>
+                        <input type="number" id="backupCost" value="0.05" min="0" step="0.01">
+                        <small>Backup & DR Storage</small>
+                    </div>
+
+                    <!-- Personnel Costs -->
+                    <div class="form-group">
+                        <label for="dbaCount">
+                            <span class="label-text">Anzahl DBAs</span>
+                            <span class="label-info" title="Anzahl Vollzeit-Datenbankadministratoren">ℹ️</span>
+                        </label>
+                        <input type="number" id="dbaCount" value="2" min="0" step="0.5">
+                        <small>Database Administrators (FTE)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dbaSalary">
+                            <span class="label-text">DBA Gehalt (€/Jahr)</span>
+                            <span class="label-info" title="Durchschnittliches Jahresgehalt pro DBA">ℹ️</span>
+                        </label>
+                        <input type="number" id="dbaSalary" value="85000" min="0" step="5000">
+                        <small>Durchschnittliches Jahresgehalt</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="devCount">
+                            <span class="label-text">Anzahl Entwickler</span>
+                            <span class="label-info" title="Entwickler für Datenbankintegration">ℹ️</span>
+                        </label>
+                        <input type="number" id="devCount" value="5" min="0" step="0.5">
+                        <small>Entwickler (FTE) für DB-Integration</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="devSalary">
+                            <span class="label-text">Dev Gehalt (€/Jahr)</span>
+                            <span class="label-info" title="Durchschnittliches Jahresgehalt pro Entwickler">ℹ️</span>
+                        </label>
+                        <input type="number" id="devSalary" value="75000" min="0" step="5000">
+                        <small>Durchschnittliches Jahresgehalt</small>
+                    </div>
+
+                    <!-- Additional Costs -->
+                    <div class="form-group">
+                        <label for="trainingCost">
+                            <span class="label-text">Schulungskosten (€/Jahr)</span>
+                            <span class="label-info" title="Jährliche Kosten für Team-Schulungen">ℹ️</span>
+                        </label>
+                        <input type="number" id="trainingCost" value="20000" min="0" step="1000">
+                        <small>Team Training & Zertifizierungen</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supportCost">
+                            <span class="label-text">Support-Kosten (€/Jahr)</span>
+                            <span class="label-info" title="Jährliche Enterprise-Support-Kosten">ℹ️</span>
+                        </label>
+                        <input type="number" id="supportCost" value="50000" min="0" step="5000">
+                        <small>Enterprise Support & Wartung</small>
+                    </div>
+
+                    <!-- AI/LLM Features -->
+                    <div class="form-group">
+                        <label for="useAI">
+                            <span class="label-text">AI/LLM Features nutzen?</span>
+                            <span class="label-info" title="Native LLM-Integration mit llama.cpp">ℹ️</span>
+                        </label>
+                        <select id="useAI">
+                            <option value="false">Nein</option>
+                            <option value="true">Ja (inkl. GPU)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aiApiCost">
+                            <span class="label-text">Externe AI API Kosten (€/Monat)</span>
+                            <span class="label-info" title="Monatliche Kosten für externe AI APIs (OpenAI, etc.)">ℹ️</span>
+                        </label>
+                        <input type="number" id="aiApiCost" value="5000" min="0" step="500">
+                        <small>Nur bei externen AI Services</small>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="calculateBtn" class="btn btn-primary">
+                        💰 TCO Berechnen
+                    </button>
+                    <button id="resetBtn" class="btn btn-secondary">
+                        🔄 Zurücksetzen
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h2>📈 TCO-Analyse (3 Jahre)</h2>
+                
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="card card-themisdb">
+                        <div class="card-header">
+                            <h3>ThemisDB</h3>
+                            <span id="themisdbEdition" class="badge">Community</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="cost-main">
+                                <span class="cost-value" id="themisdbTotal">€0</span>
+                                <span class="cost-label">Gesamtkosten</span>
+                            </div>
+                            <div class="cost-breakdown">
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Infrastruktur:</span>
+                                    <span class="cost-item-value" id="themisdbInfra">€0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Personal:</span>
+                                    <span class="cost-item-value" id="themisdbPersonnel">€0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Lizenzen:</span>
+                                    <span class="cost-item-value" id="themisdbLicense">€0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Betrieb:</span>
+                                    <span class="cost-item-value" id="themisdbOps">€0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-hyperscaler">
+                        <div class="card-header">
+                            <h3>Cloud-Hyperscaler</h3>
+                            <span class="badge badge-cloud">AWS/Azure/GCP</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="cost-main">
+                                <span class="cost-value" id="hyperscalerTotal">€0</span>
+                                <span class="cost-label">Gesamtkosten</span>
+                            </div>
+                            <div class="cost-breakdown">
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Compute:</span>
+                                    <span class="cost-item-value" id="hyperscalerCompute">€0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Storage:</span>
+                                    <span class="cost-item-value" id="hyperscalerStorage">€0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">Network:</span>
+                                    <span class="cost-item-value" id="hyperscalerNetwork">€0</span>
+                                </div>
+                                <div class="cost-item">
+                                    <span class="cost-item-label">AI APIs:</span>
+                                    <span class="cost-item-value" id="hyperscalerAI">€0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-savings">
+                        <div class="card-header">
+                            <h3>💰 Einsparungen</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="cost-main">
+                                <span class="cost-value savings-value" id="savingsAmount">€0</span>
+                                <span class="cost-label">Über 3 Jahre</span>
+                            </div>
+                            <div class="savings-percentage" id="savingsPercentage">
+                                0% günstiger
+                            </div>
+                            <div class="roi-info">
+                                <strong>ROI-Zeitpunkt:</strong>
+                                <span id="roiTime">Nach 12 Monaten</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="chart-container">
+                    <h3>📊 Kostenvergleich über 3 Jahre</h3>
+                    <canvas id="costChart"></canvas>
+                </div>
+
+                <!-- Detailed Breakdown -->
+                <div class="detailed-breakdown">
+                    <h3>🔍 Detaillierte Aufschlüsselung</h3>
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="themisdb-details">ThemisDB</button>
+                        <button class="tab-btn" data-tab="hyperscaler-details">Hyperscaler</button>
+                        <button class="tab-btn" data-tab="comparison">Vergleich</button>
+                    </div>
+                    
+                    <div id="themisdb-details" class="tab-content active">
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Kostenart</th>
+                                    <th>Jahr 1</th>
+                                    <th>Jahr 2</th>
+                                    <th>Jahr 3</th>
+                                    <th>Gesamt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="themisdbBreakdownTable">
+                                <!-- Filled by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="hyperscaler-details" class="tab-content">
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Kostenart</th>
+                                    <th>Jahr 1</th>
+                                    <th>Jahr 2</th>
+                                    <th>Jahr 3</th>
+                                    <th>Gesamt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hyperscalerBreakdownTable">
+                                <!-- Filled by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="comparison" class="tab-content">
+                        <div class="comparison-insights">
+                            <h4>💡 Wichtige Erkenntnisse</h4>
+                            <ul id="insightsList">
+                                <!-- Filled by JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Options -->
+                <div class="export-section">
+                    <h3>📥 Ergebnisse exportieren</h3>
+                    <div class="button-group">
+                        <button id="exportPDF" class="btn btn-secondary">
+                            📄 Als PDF
+                        </button>
+                        <button id="exportCSV" class="btn btn-secondary">
+                            📊 Als CSV
+                        </button>
+                        <button id="printBtn" class="btn btn-secondary">
+                            🖨️ Drucken
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assumptions Section -->
+            <section class="assumptions-section">
+                <h2>📝 Annahmen und Methodik</h2>
+                <div class="assumptions-content">
+                    <h3>Berechnungsgrundlage</h3>
+                    <ul>
+                        <li><strong>Betrachtungszeitraum:</strong> 3 Jahre (typischer Planungshorizont)</li>
+                        <li><strong>Datenwachstum:</strong> 20% pro Jahr (Branchendurchschnitt)</li>
+                        <li><strong>ThemisDB Lizenzmodell:</strong>
+                            <ul>
+                                <li>Community Edition: Kostenlos (MIT Lizenz)</li>
+                                <li>Enterprise Edition: ~€50.000/Jahr (geschätzt, abhängig von Nodes)</li>
+                                <li>Hyperscaler Edition: Custom Pricing</li>
+                            </ul>
+                        </li>
+                        <li><strong>Hyperscaler-Kosten:</strong> Basierend auf AWS DynamoDB, Azure Cosmos DB, Google Cloud Spanner</li>
+                        <li><strong>Personalkosten:</strong> Inkl. 30% Overhead (Sozialleistungen, Infrastruktur)</li>
+                        <li><strong>AI/LLM-Kosten:</strong>
+                            <ul>
+                                <li>ThemisDB: Native llama.cpp Integration (GPU-Hardware, kein API-Kosten)</li>
+                                <li>Hyperscaler: Externe APIs (OpenAI, Anthropic, etc.)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Kostenvorteile von ThemisDB</h3>
+                    <ul>
+                        <li>✅ <strong>Keine Pay-per-Request Kosten:</strong> Vorhersagbare Kosten</li>
+                        <li>✅ <strong>Native AI Integration:</strong> Keine externen API-Kosten</li>
+                        <li>✅ <strong>Multi-Model:</strong> Ein System statt mehrerer spezialisierter DBs</li>
+                        <li>✅ <strong>Open Source:</strong> Community Edition komplett kostenlos</li>
+                        <li>✅ <strong>Keine Vendor Lock-in:</strong> Flexible Deployment-Optionen</li>
+                    </ul>
+
+                    <h3>Wann lohnt sich ThemisDB?</h3>
+                    <ul>
+                        <li>📈 <strong>Hoher Durchsatz:</strong> > 100.000 Anfragen/Tag</li>
+                        <li>💾 <strong>Große Datenmengen:</strong> > 100 GB aktive Daten</li>
+                        <li>🤖 <strong>AI/LLM-Workloads:</strong> Vermeidung von API-Kosten</li>
+                        <li>🎯 <strong>Multi-Model Anforderungen:</strong> Graph + Document + Vector + Timeseries</li>
+                        <li>🔒 <strong>Datensouveränität:</strong> On-Premise oder Private Cloud</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <p>
+                ThemisDB TCO-Rechner v1.0 | 
+                <a href="https://github.com/makr-code/ThemisDB" target="_blank">GitHub</a> | 
+                <a href="https://github.com/makr-code/ThemisDB/blob/main/LICENSE" target="_blank">MIT License</a>
+            </p>
+            <p class="disclaimer">
+                <small>
+                    Disclaimer: Diese Kalkulation dient als Orientierungshilfe. Tatsächliche Kosten können je nach 
+                    spezifischen Anforderungen, Verträgen und Nutzungsmustern variieren.
+                </small>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <!-- Main Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
