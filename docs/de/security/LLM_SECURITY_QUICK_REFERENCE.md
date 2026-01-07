@@ -8,6 +8,18 @@
 
 ## 🚀 Quick Start
 
+> **⚠️ WICHTIGER HINWEIS ZUM PRODUKTIONSEINSATZ**
+> 
+> Die LoRa-Signaturvalidierung ist derzeit als **Prototyp/Konzept** implementiert
+> und verwendet Stub-Code. **NICHT für Produktionsumgebungen geeignet** ohne:
+> 
+> - Vollständige OpenSSL X.509 Signaturverifikation
+> - LoRa-Dateiformat-Parsing
+> - Security-Audit
+> 
+> Die Prompt Injection Detection und Embedding Anomaly Detection sind
+> produktionsreif und können sofort eingesetzt werden.
+
 ### 1. LoRa-Adapter-Sicherheit aktivieren
 
 ```cpp

@@ -5,6 +5,9 @@
 #include <optional>
 #include <regex>
 #include <unordered_set>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 namespace themis {
 namespace llm {

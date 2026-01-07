@@ -349,6 +349,19 @@ Beeinflussung der Top-K Retrieval-Ergebnisse durch gezielte Vektoren.
 
 ### 5.1 Sofortmaßnahmen (Quick Wins)
 
+> **⚠️ WICHTIG: Implementierungsstatus**
+> 
+> Die folgenden Sicherheitsmaßnahmen sind als **Konzept und Prototyp** implementiert.
+> Die Signaturvalidierung verwendet derzeit **Stub-Implementierungen** und ist
+> **NICHT für den Produktionseinsatz geeignet**. Vor Produktivnutzung müssen:
+> 
+> - [ ] OpenSSL X.509 Signaturverifikation vollständig implementiert werden
+> - [ ] Base64-Dekodierung für Signaturen implementiert werden
+> - [ ] LoRa-Weight-Datei-Parsing implementiert werden
+> - [ ] Security-Audit durchgeführt werden
+> 
+> Siehe Code-Kommentare in `src/llm/lora_security_validator.cpp` für Details.
+
 #### 5.1.1 LoRa-Adapter-Signierung
 **Implementierung:**
 ```cpp

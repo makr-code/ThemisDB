@@ -5,10 +5,15 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include <numeric>
+#include <iomanip>
 #include <openssl/sha.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 namespace themis {
 namespace llm {
@@ -78,16 +83,23 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
     
     // Decode signature from base64
     std::vector<uint8_t> signature;
-    // TODO: Implement base64 decode
+    // NOTE: Base64 decode not yet implemented
+    // TODO(security): Implement base64_decode(signature_b64, signature)
     
     // Verify signature using OpenSSL
-    // TODO: Load certificate and verify
-    // For now, return simulated result
-    result.is_valid = true;  // Stub
+    // NOTE: X.509 signature verification not yet implemented
+    // TODO(security): Complete OpenSSL signature verification
+    // For production use, this MUST be implemented before enabling signature requirements
+    
+    // WARNING: Current implementation is a STUB and does not provide security!
+    LOG_WARN("LoRa signature verification is STUBBED - not production ready!");
+    result.is_valid = false;  // Changed from true to false for safety
     result.signer_identity = cert_fingerprint;
     result.signature_algorithm = "RSA-SHA256";
+    result.error_message = "Signature verification not fully implemented (stub)";
     
-    LOG_INFO("LoRa signature verified for {}: signer={}", lora_path, cert_fingerprint);
+    LOG_INFO("LoRa signature verification attempted for {}: signer={} (STUB)", 
+             lora_path, cert_fingerprint);
     
     return result;
 }
@@ -125,10 +137,16 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
     std::string signer = metadata["signer"];
     
     // Verify signature
-    // TODO: Implement actual verification
-    result.is_valid = true;  // Stub
+    // NOTE: Embedded signature verification not yet implemented
+    // TODO(security): Implement full signature verification logic
+    // For production use, this MUST be implemented
+    
+    // WARNING: Current implementation is a STUB and does not provide security!
+    LOG_WARN("Embedded LoRa signature verification is STUBBED - not production ready!");
+    result.is_valid = false;  // Changed from true to false for safety
     result.signer_identity = signer;
     result.signature_algorithm = "RSA-SHA256";
+    result.error_message = "Embedded signature verification not fully implemented (stub)";
     
     return result;
 }
@@ -159,13 +177,22 @@ LoRAIntegrityResult LoRASecurityValidator::checkIntegrity(
     
     // Weight anomaly detection
     if (config_.detect_weight_anomalies) {
-        // Load weights (stub)
-        std::vector<float> weights;  // TODO: Load actual weights from file
+        // NOTE: Weight loading not yet implemented
+        // TODO(security): Implement actual LoRa weight file parsing
+        // Currently using empty weights vector which makes detection ineffective
+        std::vector<float> weights;  
         
-        auto anomalies = detectWeightAnomalies(weights);
-        if (!anomalies.empty()) {
-            result.anomalies.insert(result.anomalies.end(), 
-                                   anomalies.begin(), anomalies.end());
+        // For production: Load actual weights from file
+        // weights = loadWeightsFromLoRAFile(lora_path);
+        
+        if (!weights.empty()) {
+            auto anomalies = detectWeightAnomalies(weights);
+            if (!anomalies.empty()) {
+                result.anomalies.insert(result.anomalies.end(), 
+                                       anomalies.begin(), anomalies.end());
+            }
+        } else {
+            LOG_WARN("Weight anomaly detection skipped: weight loading not implemented");
         }
     }
     

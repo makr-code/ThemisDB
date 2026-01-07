@@ -67,10 +67,15 @@ Das Security-Modul implementiert umfassende Sicherheitsfunktionen für ThemisDB,
 - 🟡 Adapter Weight Extraction (Niedrig)
 
 **Schutzmaßnahmen (Implementiert):**
-- ✅ `LoRASecurityValidator` - Signaturvalidierung und Integritätsprüfung
-- ✅ `PromptInjectionDetector` - Pattern-basierte Injection-Erkennung
-- ✅ `EmbeddingAnomalyDetector` - Statistische Anomalieerkennung
+- ⚠️ `LoRASecurityValidator` - Architektur und Tests (Signaturvalidierung: Stub)
+- ⚠️ `PromptInjectionDetector` - Pattern-basierte Injection-Erkennung (Produktionsreif)
+- ⚠️ `EmbeddingAnomalyDetector` - Statistische Anomalieerkennung (Produktionsreif)
 - ✅ Unit Tests in `tests/test_lora_security.cpp`
+
+> **⚠️ HINWEIS:** Die Signaturvalidierung für LoRa-Adapter ist derzeit als
+> Prototyp implementiert und verwendet Stub-Code. Für Produktionsumgebungen
+> muss die OpenSSL-Integration vervollständigt werden. Siehe 
+> [LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md) für Details.
 
 **Referenzen:**
 - [Multi-LoRa Manager](../../include/llm/multi_lora_manager.h) - Adapter-Verwaltung
