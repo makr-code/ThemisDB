@@ -1525,10 +1525,21 @@ if(THEMIS_ENABLE_LLM)
         ${CMAKE_SOURCE_DIR}/src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         
         # P3: Vision Support (Multi-Modal)
-        ${CMAKE_SOURCE_DIR}/src/llm/vision_encoder.cpp             # CLIP vision encoder for LLaVA
+        # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
         ${CMAKE_SOURCE_DIR}/src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
         ${CMAKE_SOURCE_DIR}/src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
     )
+
+    # Add CLIP vision encoder only when explicitly enabled
+    if(THEMIS_ENABLE_VISION)
+        target_sources(themis_core PRIVATE
+            ${CMAKE_SOURCE_DIR}/src/llm/vision_encoder.cpp
+        )
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VISION=1)
+        message(STATUS "LLM Vision: CLIP vision encoder enabled")
+    else()
+        message(STATUS "LLM Vision: disabled (set -DTHEMIS_ENABLE_VISION=ON to enable)")
+    endif()
     
     # Add CUDA kernel fusion sources when CUDA is enabled
     if(THEMIS_ENABLE_CUDA)
