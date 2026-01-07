@@ -121,6 +121,9 @@ class ThemisDB_Downloads_Taxonomy_Manager {
      * @return array Array of tag names
      */
     private function extract_tags_from_text($text, $title = '') {
+        // Store original text for capitalization check
+        $original_text = $text;
+        
         // Tokenize text into words
         $words = $this->tokenize_text($text);
         $title_words = $this->tokenize_text($title);
@@ -144,7 +147,7 @@ class ThemisDB_Downloads_Taxonomy_Manager {
             }
             
             // Skip stop words
-            if (in_array(mb_strtolower($word), $this->stop_words)) {
+            if (in_array($word, $this->stop_words)) {
                 continue;
             }
             
@@ -162,8 +165,9 @@ class ThemisDB_Downloads_Taxonomy_Manager {
                 $score *= 1.5;
             }
             
-            // Capitalized words (proper nouns) get bonus
-            if (mb_strtoupper(mb_substr($word, 0, 1)) === mb_substr($word, 0, 1) && mb_strlen($word) > 3) {
+            // Check if word appears capitalized in original text
+            $capitalized_word = mb_convert_case($word, MB_CASE_TITLE, 'UTF-8');
+            if (mb_stripos($original_text, $capitalized_word) !== false && mb_strlen($word) > 3) {
                 $score *= 1.3;
             }
             
@@ -176,9 +180,9 @@ class ThemisDB_Downloads_Taxonomy_Manager {
         // Get top N tags
         $tags = array_keys(array_slice($scored_words, 0, $this->max_tags));
         
-        // Capitalize first letter of each tag
+        // Capitalize first letter only (preserve rest of word)
         $tags = array_map(function($tag) {
-            return mb_convert_case($tag, MB_CASE_TITLE, 'UTF-8');
+            return mb_strtoupper(mb_substr($tag, 0, 1)) . mb_substr($tag, 1);
         }, $tags);
         
         return $tags;
@@ -220,9 +224,13 @@ class ThemisDB_Downloads_Taxonomy_Manager {
         // Get top N categories
         $categories = array_keys(array_slice($scored_phrases, 0, $this->max_categories));
         
-        // Capitalize first letter of each word in category
+        // Capitalize first letter of each word (preserve rest)
         $categories = array_map(function($cat) {
-            return mb_convert_case($cat, MB_CASE_TITLE, 'UTF-8');
+            $words = explode(' ', $cat);
+            $words = array_map(function($word) {
+                return mb_strtoupper(mb_substr($word, 0, 1)) . mb_substr($word, 1);
+            }, $words);
+            return implode(' ', $words);
         }, $categories);
         
         return $categories;
