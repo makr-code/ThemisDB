@@ -1,5 +1,36 @@
 #pragma once
 
+// Prevent/clean Windows macro pollution that can break enum/identifiers
+#if defined(_WIN32)
+#ifndef NOMINMAX
+#define NOMINMAX 1
+#endif
+#ifdef LSN
+#undef LSN
+#endif
+#ifdef DELETE
+#undef DELETE
+#endif
+#ifdef INSERT
+#undef INSERT
+#endif
+#ifdef UPDATE
+#undef UPDATE
+#endif
+#ifdef BEGIN
+#undef BEGIN
+#endif
+#ifdef COMMIT
+#undef COMMIT
+#endif
+#ifdef ABORT
+#undef ABORT
+#endif
+#ifdef CHECKPOINT
+#undef CHECKPOINT
+#endif
+#endif
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -10,16 +41,6 @@
 #include <optional>
 #include <cstdint>
 #include <nlohmann/json.hpp>
-
-// Undefine potential Windows macro conflicts
-#ifdef _WIN32
-#ifdef LSN
-#undef LSN
-#endif
-#ifdef DELETE
-#undef DELETE
-#endif
-#endif
 
 namespace themis::sharding {
 
