@@ -2,6 +2,8 @@
 
 Ein interaktiver Total Cost of Ownership (TCO) Rechner für ThemisDB - Vergleichen Sie die Gesamtbetriebskosten verschiedener Datenbanklösungen.
 
+> **💡 WordPress-Version verfügbar:** Wenn Sie WordPress verwenden, schauen Sie sich das [WordPress-Plugin](../tco-calculator-wordpress/) an. Es bietet die gleiche Funktionalität mit nahtloser WordPress-Integration via Shortcode.
+
 ## 📋 Übersicht
 
 Der TCO-Rechner hilft Ihnen, fundierte Entscheidungen über Ihre Datenbank-Infrastruktur zu treffen, indem er die Gesamtbetriebskosten über einen Zeitraum von 3 Jahren vergleicht:
