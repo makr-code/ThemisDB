@@ -63,6 +63,51 @@
     }
 
     /**
+     * Get theme color based on menu item title
+     */
+    function getThemeColor(title, index) {
+        const lowerTitle = title.toLowerCase();
+        
+        // Thematic color mapping
+        if (lowerTitle.includes('doc') || lowerTitle.includes('guide') || lowerTitle.includes('tutorial')) {
+            return { fill: '#3498db', stroke: '#2980b9', class: 'docNode', label: '📚' };
+        } else if (lowerTitle.includes('feature') || lowerTitle.includes('product')) {
+            return { fill: '#27ae60', stroke: '#229954', class: 'featureNode', label: '⚡' };
+        } else if (lowerTitle.includes('about') || lowerTitle.includes('contact') || lowerTitle.includes('team')) {
+            return { fill: '#e74c3c', stroke: '#c0392b', class: 'aboutNode', label: '👥' };
+        } else if (lowerTitle.includes('blog') || lowerTitle.includes('news') || lowerTitle.includes('article')) {
+            return { fill: '#f39c12', stroke: '#e67e22', class: 'blogNode', label: '📝' };
+        } else if (lowerTitle.includes('api') || lowerTitle.includes('code') || lowerTitle.includes('develop')) {
+            return { fill: '#9b59b6', stroke: '#8e44ad', class: 'apiNode', label: '💻' };
+        } else if (lowerTitle.includes('support') || lowerTitle.includes('help') || lowerTitle.includes('faq')) {
+            return { fill: '#16a085', stroke: '#138d75', class: 'supportNode', label: '🛟' };
+        } else {
+            // Cycle through Themis colors for other items
+            const colors = [
+                { fill: '#7c4dff', stroke: '#651fff', class: 'primaryNode', label: '🔷' },
+                { fill: '#3498db', stroke: '#2980b9', class: 'secondaryNode', label: '🔹' },
+                { fill: '#27ae60', stroke: '#229954', class: 'successNode', label: '✅' }
+            ];
+            return colors[index % colors.length];
+        }
+    }
+
+    /**
+     * Get edge label based on relationship
+     */
+    function getEdgeLabel(parentTitle, childTitle, level) {
+        const labels = [
+            'contains', 'includes', 'leads to', 'opens', 'shows',
+            'displays', 'presents', 'explores', 'details', 'explains'
+        ];
+        
+        if (level === 0) return 'navigate to';
+        if (level === 1) return 'view';
+        
+        return labels[Math.floor(Math.random() * labels.length)];
+    }
+
+    /**
      * Build graph data structure for force-directed layout
      */
     function buildGraphData() {
@@ -379,46 +424,6 @@
         }
 
         return { simulation, svg, zoom };
-    }
-        const lowerTitle = title.toLowerCase();
-        
-        // Thematic color mapping
-        if (lowerTitle.includes('doc') || lowerTitle.includes('guide') || lowerTitle.includes('tutorial')) {
-            return { fill: '#3498db', stroke: '#2980b9', class: 'docNode', label: '📚' };
-        } else if (lowerTitle.includes('feature') || lowerTitle.includes('product')) {
-            return { fill: '#27ae60', stroke: '#229954', class: 'featureNode', label: '⚡' };
-        } else if (lowerTitle.includes('about') || lowerTitle.includes('contact') || lowerTitle.includes('team')) {
-            return { fill: '#e74c3c', stroke: '#c0392b', class: 'aboutNode', label: '👥' };
-        } else if (lowerTitle.includes('blog') || lowerTitle.includes('news') || lowerTitle.includes('article')) {
-            return { fill: '#f39c12', stroke: '#e67e22', class: 'blogNode', label: '📝' };
-        } else if (lowerTitle.includes('api') || lowerTitle.includes('code') || lowerTitle.includes('develop')) {
-            return { fill: '#9b59b6', stroke: '#8e44ad', class: 'apiNode', label: '💻' };
-        } else if (lowerTitle.includes('support') || lowerTitle.includes('help') || lowerTitle.includes('faq')) {
-            return { fill: '#16a085', stroke: '#138d75', class: 'supportNode', label: '🛟' };
-        } else {
-            // Cycle through Themis colors for other items
-            const colors = [
-                { fill: '#7c4dff', stroke: '#651fff', class: 'primaryNode', label: '🔷' },
-                { fill: '#3498db', stroke: '#2980b9', class: 'secondaryNode', label: '🔹' },
-                { fill: '#27ae60', stroke: '#229954', class: 'successNode', label: '✅' }
-            ];
-            return colors[index % colors.length];
-        }
-    }
-
-    /**
-     * Get edge label based on relationship
-     */
-    function getEdgeLabel(parentTitle, childTitle, level) {
-        const labels = [
-            'contains', 'includes', 'leads to', 'opens', 'shows',
-            'displays', 'presents', 'explores', 'details', 'explains'
-        ];
-        
-        if (level === 0) return 'navigate to';
-        if (level === 1) return 'view';
-        
-        return labels[Math.floor(Math.random() * labels.length)];
     }
 
     /**
