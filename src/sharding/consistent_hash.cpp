@@ -80,6 +80,25 @@ std::string ConsistentHashRing::getShardForURN(const URN& urn) const {
     return getShardForHash(urn.hash());
 }
 
+std::optional<std::string> ConsistentHashRing::getNode(const std::string& key) const {
+    auto shard = getShardForHash(hash(key));
+    if (shard.empty()) {
+        return std::nullopt;
+    }
+    return shard;
+}
+
+std::vector<std::string> ConsistentHashRing::getReplicaNodes(const std::string& key, size_t count) const {
+    auto nodes = getSuccessors(hash(key), count + 1);
+    if (!nodes.empty()) {
+        nodes.erase(nodes.begin()); // drop primary
+    }
+    if (nodes.size() > count) {
+        nodes.resize(count);
+    }
+    return nodes;
+}
+
 std::vector<std::string> ConsistentHashRing::getSuccessors(uint64_t hash, size_t count) const {
     std::lock_guard<std::mutex> lock(mutex_);
     

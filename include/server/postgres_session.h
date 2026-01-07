@@ -12,9 +12,18 @@
 
 namespace asio = boost::asio;
 
+// Forward declarations for ThemisDB components
+namespace themis {
+    class QueryEngine;
+    class RocksDBWrapper;
+    class SecondaryIndexManager;
+}
+
 class PostgresSession : public std::enable_shared_from_this<PostgresSession> {
 public:
     explicit PostgresSession(asio::ip::tcp::socket socket);
+    explicit PostgresSession(asio::ip::tcp::socket socket, 
+                           themis::QueryEngine* queryEngine);
     ~PostgresSession();
 
     void start();
@@ -30,6 +39,9 @@ public:
     void handleClose(char type, const std::string& name);
     void handleSync();
     void handleTerminate();
+    void handleCopyData(const std::vector<uint8_t>& data);
+    void handleCopyDone();
+    void handleCopyFail(const std::string& message);
 
     // Send PostgreSQL protocol messages
     void sendAuthenticationOk();
@@ -40,9 +52,19 @@ public:
     void sendReadyForQuery(char transactionStatus); // 'I' idle, 'T' in transaction, 'E' error
     void sendRowDescription(const std::vector<FieldDescription>& fields);
     void sendDataRow(const std::vector<std::string>& values);
+    void sendDataRowBinary(const std::vector<std::pair<std::vector<uint8_t>, int32_t>>& values);
+    void sendPortalSuspended();
     void sendCommandComplete(const std::string& commandTag);
     void sendParseComplete();
     void sendBindComplete();
+    void sendParameterDescription(const std::vector<int32_t>& paramTypes);
+    void sendNoData();
+    void sendCloseComplete();
+    void sendCopyInResponse(const std::vector<int16_t>& formatCodes);
+    void sendCopyOutResponse(const std::vector<int16_t>& formatCodes);
+    void sendCopyBothResponse(const std::vector<int16_t>& formatCodes);
+    void sendCopyData(const std::vector<uint8_t>& data);
+    void sendCopyDone();
     void sendErrorResponse(const std::string& severity, const std::string& code, const std::string& message);
 
     struct FieldDescription {
@@ -93,6 +115,18 @@ private:
     bool inStartup_;
     std::deque<std::vector<uint8_t>> writeQueue_;
     
+    // Transaction state tracking
+    enum class TransactionState {
+        IDLE,           // 'I' - not in a transaction
+        IN_TRANSACTION, // 'T' - in a transaction block
+        FAILED          // 'E' - in a failed transaction block
+    };
+    TransactionState transactionState_ = TransactionState::IDLE;
+    
+    // COPY protocol state
+    bool copyInProgress_ = false;
+    std::vector<std::string> copyBuffer_;
+    
     // Prepared statements and portals
     struct PreparedStatement {
         std::string query;
@@ -102,10 +136,16 @@ private:
     struct Portal {
         std::string statementName;
         std::vector<std::string> params;
+        size_t currentRow = 0;  // For result streaming
+        std::vector<std::vector<std::string>> cachedResults;  // Cached query results
+        bool resultsComplete = false;  // Whether all results have been fetched
     };
     
     std::map<std::string, PreparedStatement> preparedStatements_;
     std::map<std::string, Portal> portals_;
+    
+    // Optional: Query engine for database integration
+    themis::QueryEngine* queryEngine_ = nullptr;
 };
 
 #endif // THEMIS_ENABLE_POSTGRES_WIRE

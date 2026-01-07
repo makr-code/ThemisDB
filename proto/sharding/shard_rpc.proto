@@ -3,7 +3,7 @@
 
 syntax = "proto3";
 
-package themis.sharding;
+package themis.sharding.proto;
 
 option cc_enable_arenas = true;
 option optimize_for = SPEED;
@@ -16,6 +16,8 @@ service ShardService {
     // Data Replication
     rpc ReplicateData(ReplicateRequest) returns (ReplicateResponse);
     rpc ReplicateDataStream(stream ReplicateChunk) returns (ReplicateResponse);
+    // WAL replication (pull or push from shipper)
+    rpc ApplyWalBatch(ApplyWalBatchRequest) returns (ApplyWalBatchResponse);
     
     // Distributed Transactions (2PC)
     rpc PrepareTransaction(PrepareRequest) returns (PrepareResponse);
@@ -39,6 +41,39 @@ service ShardService {
     
     // Gossip Protocol
     rpc GossipExchange(GossipMessage) returns (GossipMessage);
+}
+
+// WAL Apply RPC (mirrors HTTP /api/v1/wal/apply semantics)
+message ApplyWalBatchRequest {
+    // Either entries is populated, or entries_compressed contains a zstd blob of the JSON array
+    repeated WalEntry entries = 1;
+    bytes entries_compressed = 2; // zstd-compressed JSON array of WalEntry
+}
+
+message ApplyWalBatchResponse {
+    bool success = 1;
+    uint32 entries_applied = 2;
+    string last_applied_lsn = 3;
+    repeated string errors = 4;
+}
+
+enum WalEntryType {
+    WAL_UNKNOWN = 0;
+    WAL_INSERT = 1;
+    WAL_UPDATE = 2;
+    WAL_DELETE = 3;
+    WAL_BEGIN_TX = 4;
+    WAL_COMMIT_TX = 5;
+    WAL_ABORT_TX = 6;
+    WAL_CHECKPOINT = 7;
+}
+
+message WalEntry {
+    string lsn = 1;               // "segment/offset" format
+    WalEntryType type = 2;
+    uint64 timestamp = 3;         // millis since epoch
+    string transaction_id = 4;
+    bytes data_json = 5;          // JSON object payload (same shape as HTTP apply)
 }
 
 message ReplicateRequest {

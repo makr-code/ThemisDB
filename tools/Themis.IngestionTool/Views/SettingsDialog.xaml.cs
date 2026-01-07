@@ -26,5 +26,29 @@ namespace Themis.IngestionTool.Views
             DialogResult = false;
             Close();
         }
+
+        private void OnReset(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Möchten Sie wirklich alle Einstellungen auf die Standardwerte zurücksetzen?",
+                "Zurücksetzen bestätigen",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            
+            if (result == MessageBoxResult.Yes)
+            {
+                _viewModel.ResetToDefaults();
+            }
+        }
+
+        private async void OnScanServers(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.ScanForServersAsync();
+        }
+
+        private void OnApplyServer(object sender, RoutedEventArgs e)
+        {
+            _viewModel.ApplySelectedServer();
+        }
     }
 }

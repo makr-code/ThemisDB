@@ -95,6 +95,91 @@ std::vector<uint8_t> TimestampAuthority::sendTSPRequest(const std::vector<uint8_
 std::vector<uint8_t> TimestampAuthority::generateNonce(size_t bytes) { std::vector<uint8_t> n(bytes); for(size_t i=0;i<bytes;++i) n[i]=static_cast<uint8_t>(i); return n; }
 std::vector<uint8_t> TimestampAuthority::computeHash(const std::vector<uint8_t>& data) { return pseudo_hash(data); }
 
+// ============================================================================
+// eIDAS Timestamp Validator Stub Implementation
+// ============================================================================
+
+bool eIDASTimestampValidator::validateeIDASTimestamp(
+    const TimestampToken& token,
+    const std::vector<std::string>& trust_anchors) {
+    
+    validation_errors_.clear();
+    
+    // Stub implementation - basic checks only
+    if (!token.success) {
+        validation_errors_.push_back("Token marked as unsuccessful");
+        return false;
+    }
+    
+    // In stub mode, we accept any successful token
+    return true;
+}
+
+bool eIDASTimestampValidator::validateAge(const TimestampToken& token, int max_age_days) {
+    validation_errors_.clear();
+    
+    if (token.timestamp_unix_ms == 0) {
+        validation_errors_.push_back("Token has no timestamp");
+        return false;
+    }
+    
+    // Get current time in milliseconds
+    auto now = std::chrono::system_clock::now();
+    uint64_t now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now.time_since_epoch()
+    ).count();
+    
+    // Check for future timestamps (avoid integer underflow)
+    if (token.timestamp_unix_ms > now_ms) {
+        validation_errors_.push_back("Token timestamp is in the future");
+        return false;
+    }
+    
+    // Calculate age in milliseconds
+    uint64_t age_ms = now_ms - token.timestamp_unix_ms;
+    
+    // Convert max age from days to milliseconds with overflow check
+    // max_age_days * 24 * 60 * 60 * 1000 = max_age_days * 86400000
+    // Check if multiplication would overflow uint64_t
+    constexpr uint64_t MS_PER_DAY = 86400000ULL;
+    if (max_age_days < 0) {
+        validation_errors_.push_back("Maximum age must be non-negative");
+        return false;
+    }
+    if (static_cast<uint64_t>(max_age_days) > UINT64_MAX / MS_PER_DAY) {
+        validation_errors_.push_back("Maximum age value too large");
+        return false;
+    }
+    uint64_t max_age_ms = static_cast<uint64_t>(max_age_days) * MS_PER_DAY;
+    
+    if (age_ms > max_age_ms) {
+        validation_errors_.push_back("Token age exceeds maximum allowed age");
+        return false;
+    }
+    
+    return true;
+}
+
+bool eIDASTimestampValidator::isQualifiedTSA(
+    const std::string& tsa_cert,
+    const std::vector<std::string>& qtsp_list) {
+    
+    validation_errors_.clear();
+    
+    // Stub implementation - default to false for security
+    // Without OpenSSL, we cannot properly validate certificates
+    // In production builds with OpenSSL, proper validation is performed
+    validation_errors_.push_back(
+        "QTSP validation not available in stub implementation - "
+        "rebuild with OpenSSL support (THEMIS_USE_OPENSSL_TSA) for secure validation"
+    );
+    return false;
+}
+
+std::vector<std::string> eIDASTimestampValidator::getValidationErrors() const {
+    return validation_errors_;
+}
+
 } } // namespace themis::security
 
 #endif // THEMIS_USE_OPENSSL_TSA

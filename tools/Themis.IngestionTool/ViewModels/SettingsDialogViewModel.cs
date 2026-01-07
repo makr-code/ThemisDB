@@ -37,6 +37,12 @@ namespace Themis.IngestionTool.ViewModels
         private int _llmStatusCheckIntervalSeconds = 10;
         private bool _showLlmStatusInStatusBar = true;
 
+        // Server Discovery
+        private System.Collections.ObjectModel.ObservableCollection<string> _availableServers = new();
+        private string? _selectedServer;
+        private bool _isScanning = false;
+        private string _scanStatus = "Bereit zum Scannen";
+
         public SettingsDialogViewModel(ISettingsService settingsService)
         {
             _settingsService = settingsService;
@@ -182,6 +188,31 @@ namespace Themis.IngestionTool.ViewModels
             set => SetProperty(ref _showLlmStatusInStatusBar, value);
         }
 
+        // Server Discovery Properties
+        public System.Collections.ObjectModel.ObservableCollection<string> AvailableServers
+        {
+            get => _availableServers;
+            set => SetProperty(ref _availableServers, value);
+        }
+
+        public string? SelectedServer
+        {
+            get => _selectedServer;
+            set => SetProperty(ref _selectedServer, value);
+        }
+
+        public bool IsScanning
+        {
+            get => _isScanning;
+            set => SetProperty(ref _isScanning, value);
+        }
+
+        public string ScanStatus
+        {
+            get => _scanStatus;
+            set => SetProperty(ref _scanStatus, value);
+        }
+
         private void LoadSettings()
         {
             var settings = _settingsService.LoadSettings();
@@ -245,6 +276,118 @@ namespace Themis.IngestionTool.ViewModels
                 ShowLlmStatusInStatusBar = ShowLlmStatusInStatusBar
             };
             _settingsService.SaveSettings(settings);
+        }
+
+        public void ResetToDefaults()
+        {
+            ThemisHost = "localhost";
+            ThemisPort = 8765;
+            DatabasePath = "ingestion_tracker.db";
+            MaxFileSize = 100;
+            EnableVectorMetadata = true;
+            EnableGraphMetadata = true;
+            EnableRelationalMetadata = true;
+            
+            LlamaEndpoint = "http://localhost:11434/api/generate";
+            LlamaModel = "llama2";
+            LlamaMaxTokens = 200;
+            LlamaTemperature = 0.7;
+            
+            MaxParallelFiles = 4;
+            EnableBatching = true;
+            BatchSize = 10;
+            EnableCaching = true;
+            
+            UseTransactions = true;
+            UseBatchOperations = true;
+            StoreVectors = true;
+            TrackTimeSeries = true;
+            
+            EnableLlmStatusMonitoring = true;
+            LlmStatusCheckIntervalSeconds = 10;
+            ShowLlmStatusInStatusBar = true;
+        }
+
+        public async System.Threading.Tasks.Task ScanForServersAsync()
+        {
+            IsScanning = true;
+            ScanStatus = "Scanne Netzwerk...";
+            AvailableServers.Clear();
+
+            var commonPorts = new[] { 8765, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089, 18766, 18767, 18768, 18769, 18770 };
+            var endpoints = new[] { "/health", "/api/health", "/status", "/", "/api/v1/health" };
+            
+            int found = 0;
+            int tested = 0;
+            using (var client = new System.Net.Http.HttpClient { Timeout = System.TimeSpan.FromSeconds(2) })
+            {
+                foreach (var port in commonPorts)
+                {
+                    ScanStatus = $"Prüfe Port {port}... ({tested}/{commonPorts.Length * endpoints.Length})";
+                    
+                    foreach (var endpoint in endpoints)
+                    {
+                        tested++;
+                        try
+                        {
+                            var response = await client.GetAsync($"http://localhost:{port}{endpoint}");
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var serverInfo = $"localhost:{port} ({endpoint}) - HTTP {(int)response.StatusCode}";
+                                if (!AvailableServers.Contains(serverInfo))
+                                {
+                                    AvailableServers.Add(serverInfo);
+                                    found++;
+                                }
+                                break; // Gefunden, nächster Port
+                            }
+                        }
+                        catch (System.Net.Http.HttpRequestException ex)
+                        {
+                            // HTTP-Fehler (z.B. Connection refused, Reset)
+                            if (ex.Message.Contains("actively refused") || ex.Message.Contains("connection was closed"))
+                            {
+                                // Port ist offen aber Server antwortet nicht richtig
+                                continue;
+                            }
+                        }
+                        catch
+                        {
+                            // Timeout oder anderer Fehler
+                        }
+                    }
+                }
+            }
+
+            if (found == 0)
+            {
+                ScanStatus = $"⚠️ Keine Server gefunden. Getestet: {tested} Endpoints auf {commonPorts.Length} Ports. Stellen Sie sicher dass ThemisDB läuft.";
+            }
+            else
+            {
+                ScanStatus = $"✓ {found} Server gefunden";
+            }
+            IsScanning = false;
+        }
+
+        public void ApplySelectedServer()
+        {
+            if (string.IsNullOrEmpty(SelectedServer)) return;
+
+            // Parse "localhost:8081 (/health)"
+            var parts = SelectedServer.Split(' ');
+            if (parts.Length > 0)
+            {
+                var hostPort = parts[0].Split(':');
+                if (hostPort.Length == 2)
+                {
+                    ThemisHost = hostPort[0];
+                    if (int.TryParse(hostPort[1], out int port))
+                    {
+                        ThemisPort = port;
+                    }
+                }
+            }
         }
     }
 }

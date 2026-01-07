@@ -1,0 +1,55 @@
+# Prometheus Configuration für ThemisDB RAID Cluster mit Metrics Support
+# Alle Targets scrapen auf Port 8080 (REST API mit /metrics endpoint)
+# nicht auf Port 9090
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'themisdb-raid'
+
+scrape_configs:
+  # RAID 0 - Striping
+  - job_name: 'raid0-stripe'
+    static_configs:
+      - targets:
+        - 'themis-raid0-shard1:8080'
+        - 'themis-raid0-shard2:8080'
+        - 'themis-raid0-shard3:8080'
+        labels:
+          raid_mode: 'stripe'
+          raid_group: 'raid0'
+    metrics_path: '/metrics'
+
+  # RAID 1 - Mirroring
+  - job_name: 'raid1-mirror'
+    static_configs:
+      - targets:
+        - 'themis-raid1-primary:8080'
+        labels:
+          raid_mode: 'mirror'
+          raid_group: 'raid1'
+          raid_role: 'primary'
+      - targets:
+        - 'themis-raid1-secondary:8080'
+        labels:
+          raid_mode: 'mirror'
+          raid_group: 'raid1'
+          raid_role: 'secondary'
+    metrics_path: '/metrics'
+
+  # RAID 5 - Striping + Parity
+  - job_name: 'raid5-parity'
+    static_configs:
+      - targets:
+        - 'themis-raid5-shard1:8080'
+        - 'themis-raid5-shard2:8080'
+        - 'themis-raid5-shard3:8080'
+        labels:
+          raid_mode: 'parity'
+          raid_group: 'raid5'
+    metrics_path: '/metrics'
+
+  # Prometheus selbst
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

@@ -37,7 +37,7 @@ This document provides a complete overview of the ThemisDB LLM plugin system imp
 
 | Component | File | Description |
 |-----------|------|-------------|
-| **LlamaCppPlugin** | `include/llm/llamacpp_plugin.h` | llama.cpp backend implementation |
+| **LlamaWrapper** | `include/llm/llama_wrapper.h` | llama.cpp backend implementation |
 
 ---
 
@@ -51,7 +51,7 @@ This document provides a complete overview of the ThemisDB LLM plugin system imp
                      │
                      ▼
 ┌─────────────────────────────────────────────────────────┐
-│                  LlamaCppPlugin                         │
+│                  LlamaWrapper                         │
 │                  (ILLMPlugin Implementation)            │
 ├─────────────────────────────────────────────────────────┤
 │                                                          │
@@ -70,7 +70,7 @@ This document provides a complete overview of the ThemisDB LLM plugin system imp
 
 ### Data Flow
 
-1. **Plugin Registration**: `createLlamaCppPlugin()` → `LLMPluginManager`
+1. **Plugin Registration**: `createLlamaWrapper()` → `LLMPluginManager`
 2. **Model Loading**: `loadModel()` → `LazyModelLoader.getOrLoadModel()`
 3. **LoRA Loading**: `loadLoRA()` → `MultiLoRAManager.loadLoRA()`
 4. **Inference**: `generate()` → Uses both managers for resources
@@ -108,7 +108,7 @@ json config = {
 };
 
 // Create plugin
-createLlamaCppPlugin("llamacpp", "/models/mistral-7b-q4.gguf", config);
+createLlamaWrapper("llamacpp", "/models/mistral-7b-q4.gguf", config);
 ```
 
 ### 2. Use the Plugin
@@ -210,13 +210,13 @@ std::cout << "LoRA cache hit rate: "
 include/llm/
 ├── llm_plugin_interface.h      # Core interfaces (ILLMPlugin, etc.)
 ├── llm_plugin_manager.h        # Plugin orchestration
-├── llamacpp_plugin.h           # llama.cpp implementation
+├── llama_wrapper.h           # llama.cpp implementation
 ├── model_loader.h              # Ollama-style lazy loading
 └── multi_lora_manager.h        # vLLM-style multi-LoRA
 
 src/llm/
 ├── llm_plugin_manager.cpp      # Plugin management logic
-├── llamacpp_plugin.cpp         # llama.cpp integration
+├── llama_wrapper.cpp         # llama.cpp integration
 ├── model_loader.cpp            # Lazy loader implementation
 ├── multi_lora_manager.cpp      # Multi-LoRA implementation
 ├── llm_interaction_store.cpp   # Interaction storage (existing)
@@ -249,7 +249,7 @@ cmake --build build
 ### Source Files Added to Build
 
 When `THEMIS_ENABLE_LLM=ON`:
-- `src/llm/llamacpp_plugin.cpp`
+- `src/llm/llama_wrapper.cpp`
 - `src/llm/llm_plugin_manager.cpp`
 - `src/llm/model_loader.cpp` (Ollama-style)
 - `src/llm/multi_lora_manager.cpp` (vLLM-style)
@@ -276,7 +276,7 @@ When `THEMIS_ENABLE_LLM=ON`:
 - [x] Plugin interface design (ILLMPlugin, LLMPluginManager)
 - [x] Ollama-style lazy model loader (LazyModelLoader)
 - [x] vLLM-style multi-LoRA manager (MultiLoRAManager)
-- [x] LlamaCppPlugin integration with both managers
+- [x] LlamaWrapper integration with both managers
 - [x] Configuration system for all features
 - [x] Memory and performance statistics
 - [x] Documentation (4 comprehensive docs)
@@ -299,7 +299,7 @@ When `THEMIS_ENABLE_LLM=ON`:
 ## 🎓 Design Principles
 
 1. **Separation of Concerns**: Model loading, LoRA management, and inference are distinct
-2. **Composition over Inheritance**: LlamaCppPlugin *uses* LazyModelLoader and MultiLoRAManager
+2. **Composition over Inheritance**: LlamaWrapper *uses* LazyModelLoader and MultiLoRAManager
 3. **Lazy Everything**: Models and LoRAs load only when needed
 4. **Memory-Aware**: Automatic eviction based on limits
 5. **Statistics-Driven**: Comprehensive metrics for optimization

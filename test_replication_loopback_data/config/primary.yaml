@@ -1,0 +1,23 @@
+﻿server:
+  port: 8765
+  threads: 2
+  host: "127.0.0.1"
+
+storage:
+  db_path: "C:/VCC/themis/test_replication_loopback_data/primary"
+  memtable_size_mb: 64
+  block_cache_size_mb: 128
+  enable_wal: true
+  enable_blobdb: false
+
+replication:
+  shipper_enabled: true
+  primary_id: "primary-8765"
+  batch_size: 100
+  max_batch_bytes: 1048576
+  ship_interval_ms: 100
+  compression: "zstd"
+  compression_level: 3
+  replicas:
+    - replica_id: "replica-8766"
+      endpoint: "http://127.0.0.1:8766"

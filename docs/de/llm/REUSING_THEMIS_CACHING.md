@@ -647,10 +647,10 @@ private:
 } // namespace themis
 ```
 
-### Integration in LlamaCppPlugin
+### Integration in LlamaWrapper
 
 ```cpp
-InferenceResponse LlamaCppPlugin::generate(const InferenceRequest& request) {
+InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
     // Check cache first
     if (response_cache_) {
         auto cached = response_cache_->queryCached(request);
@@ -916,7 +916,7 @@ std::vector<int> PagedKVCache::allocateForRequest(
 if(THEMIS_ENABLE_LLM)
     target_sources(themis_core PRIVATE
         # LLM Plugin
-        src/llm/llamacpp_plugin.cpp
+        src/llm/llama_wrapper.cpp
         src/llm/llm_plugin_manager.cpp
         src/llm/model_loader.cpp
         src/llm/multi_lora_manager.cpp
@@ -984,7 +984,7 @@ llm:
 
 ### Phase 3: SemanticCache (Week 3)
 - [x] Implement LLMResponseCache wrapper
-- [x] Integration mit LlamaCppPlugin
+- [x] Integration mit LlamaWrapper
 - [x] RocksDB Column Family setup
 - [x] Benchmark: Cache hit rates
 

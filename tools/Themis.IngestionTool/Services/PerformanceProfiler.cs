@@ -147,7 +147,11 @@ Operation Metrics:
             }
 
             // Update memory peak
-            var currentMemory = _currentProcess.WorkingSet64 / (1024 * 1024);
+            long currentMemory = 0;
+            if (_currentProcess != null && _currentProcess.WorkingSet64 > 0)
+            {
+                currentMemory = (_currentProcess.WorkingSet64 / (1024 * 1024));
+            }
             if (currentMemory > _currentProfile.MemoryPeakMB)
             {
                 _currentProfile.MemoryPeakMB = currentMemory;

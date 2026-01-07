@@ -140,10 +140,29 @@ namespace Themis.IngestionTool.ViewModels
 
         private void LoadSettings()
         {
-            var settings = _settingsService.LoadSettings();
-            SourceFolder = settings.LastSourceFolder;
-            OutputFile = settings.LastOutputFile;
-            ShowLlmStatusInStatusBar = settings.ShowLlmStatusInStatusBar && settings.EnableLlmStatusMonitoring;
+            try
+            {
+                var settings = _settingsService.LoadSettings();
+                SourceFolder = settings.LastSourceFolder ?? string.Empty;
+                OutputFile = settings.LastOutputFile ?? "ingestion_output.json";
+                ShowLlmStatusInStatusBar = settings.ShowLlmStatusInStatusBar && settings.EnableLlmStatusMonitoring;
+                
+                // Lade Verbindungseinstellungen
+                if (!string.IsNullOrEmpty(settings.ThemisHost) && settings.ThemisPort > 0)
+                {
+                    _connectionService.UpdateConnectionSettings(settings.ThemisHost, settings.ThemisPort);
+                    System.Diagnostics.Debug.WriteLine($"[SETTINGS] Loaded ThemisDB: {settings.ThemisHost}:{settings.ThemisPort}");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("[SETTINGS] Using default ThemisDB settings");
+                }
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogError($"Fehler beim Laden der Einstellungen: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"[SETTINGS ERROR] {ex}");
+            }
         }
 
         private void SaveCurrentSettings()

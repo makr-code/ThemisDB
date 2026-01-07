@@ -62,6 +62,69 @@ llm_plugins:
       # Use CUDA unified memory
       unified_memory: false
     
+    # Performance optimizations (v1.3.1+)
+    optimizations:
+      # Flash Attention: 15-25% faster inference, 30% less memory
+      # Requires llama.cpp b2000+ with CUDA support
+      use_flash_attn: true
+      
+      # KV-Cache Reuse: 10-20x faster first-token for repeated prompts
+      # Especially beneficial for RAG workloads with consistent system prompts
+      use_kv_cache_reuse: true
+      
+      # Embeddings Extraction: Use LLM as embedding model
+      # Extract embeddings for semantic search, RAG, clustering
+      enable_embeddings: false  # Disable by default (separate mode)
+      
+      # Speculative Decoding (Phase 2.1): 2-3x inference speedup
+      # Uses smaller draft model to predict tokens, validated by target model
+      # Requires compatible draft model (same tokenizer/vocabulary)
+      speculative_decoding:
+        enabled: false
+        draft_model_path: "/models/llama-2-1b-q4.gguf"
+        draft_n_gpu_layers: 16
+        speculative_tokens: 5
+        acceptance_threshold: 0.8
+        enable_draft_kv_cache: true
+      
+      # Continuous Batching (Phase 2.2): 5-10x throughput improvement
+      # vLLM-style dynamic batching for multi-tenant scenarios
+      # Adds/removes requests dynamically during batch execution
+      continuous_batching:
+        enabled: false  # Enable for high-throughput scenarios
+        max_batch_size: 32  # Max sequences per batch
+        max_concurrent_requests: 128  # Max pending requests
+        max_tokens_per_batch: 8192  # Total token budget
+        scheduler_policy: "priority"  # fifo, priority, sjf (shortest-job-first)
+        enable_preemption: true  # Allow pausing low-priority requests
+        enable_chunked_prefill: true  # Split large prompts into chunks
+        prefill_chunk_size: 512  # Tokens per chunk
+      
+      # Prefix Cache Configuration
+      prefix_cache:
+        similarity_threshold: 0.95  # 95% similarity required for cache hit
+        max_entries: 1000           # Maximum cached prefixes
+        min_prefix_length: 20       # Minimum prefix length to cache (chars)
+        ttl_seconds: 7200           # 2 hours TTL
+        enable_kv_caching: true     # Precompute KV cache
+      
+      # Grammar-Constrained Generation (Phase 3.2): Guarantee valid structured output
+      # Forces LLM to generate only tokens that conform to EBNF grammar
+      # Eliminates parsing errors, no retry logic needed
+      grammar_config:
+        enabled: false  # Enable for guaranteed structured outputs
+        default_grammar: "json"  # Default built-in grammar
+        custom_grammars_path: "/grammars/"  # Path to custom EBNF files
+        cache_grammars: true  # Cache compiled grammars
+        max_cached_grammars: 100  # Maximum grammars to cache
+        
+        # Built-in grammars available:
+        # - json / json_strict: Strict JSON format
+        # - json_relaxed: JSON with trailing commas, unquoted keys
+        # - xml: Basic XML with elements and attributes
+        # - csv: CSV format with quoted/unquoted fields
+        # - react_agent: ReAct agent format (thought/action/observation)
+    
     # Context and processing
     context:
       # Maximum context length (tokens)

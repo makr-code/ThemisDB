@@ -1,0 +1,397 @@
+version: "3.8"
+
+# ThemisDB RAID Cluster with LLM LoRA Pipeline Tests
+# Includes:
+# - 9-Shard RAID Cluster (RAID0/1/5)
+# - LLM Model + LoRA Services
+# - Comprehensive Test & Benchmark Suite
+# - Prometheus + Grafana Monitoring
+
+services:
+  # RAID 0 - Striping (Performance)
+  themis-raid0-shard1:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid0-shard1
+    restart: unless-stopped
+    ports:
+      - "18765:18765"
+      - "8080:8080"
+      - "9091:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid0-1"
+      THEMIS_RAID_MODE: "stripe"
+      THEMIS_RAID_GROUP: "raid0"
+      THEMIS_SHARDS: "themis-raid0-shard1:18765,themis-raid0-shard2:18765,themis-raid0-shard3:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "15000"
+    volumes:
+      - raid0_shard1_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=stripe"
+      - "raid_group=raid0"
+
+  themis-raid0-shard2:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid0-shard2
+    restart: unless-stopped
+    ports:
+      - "18766:18765"
+      - "8081:8080"
+      - "9092:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid0-2"
+      THEMIS_RAID_MODE: "stripe"
+      THEMIS_RAID_GROUP: "raid0"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+    volumes:
+      - raid0_shard2_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=stripe"
+      - "raid_group=raid0"
+
+  themis-raid0-shard3:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid0-shard3
+    restart: unless-stopped
+    ports:
+      - "18767:18765"
+      - "8082:8080"
+      - "9093:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid0-3"
+      THEMIS_RAID_MODE: "stripe"
+      THEMIS_RAID_GROUP: "raid0"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+      THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "30000"
+    volumes:
+      - raid0_shard3_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=stripe"
+      - "raid_group=raid0"
+
+  # RAID 1 - Mirroring (Redundancy)
+  themis-raid1-primary:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid1-primary
+    restart: unless-stopped
+    ports:
+      - "18768:18765"
+      - "8083:8080"
+      - "9094:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid1-primary"
+      THEMIS_RAID_MODE: "mirror"
+      THEMIS_RAID_GROUP: "raid1"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+    volumes:
+      - raid1_primary_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=mirror"
+      - "raid_group=raid1"
+
+  themis-raid1-mirror:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid1-mirror
+    restart: unless-stopped
+    ports:
+      - "18769:18765"
+      - "8084:8080"
+      - "9095:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid1-mirror"
+      THEMIS_RAID_MODE: "mirror"
+      THEMIS_RAID_GROUP: "raid1"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+    volumes:
+      - raid1_mirror_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=mirror"
+      - "raid_group=raid1"
+
+  # RAID 5 - Striping + Parity
+  themis-raid5-shard1:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid5-shard1
+    restart: unless-stopped
+    ports:
+      - "18770:18765"
+      - "8085:8080"
+      - "9096:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid5-1"
+      THEMIS_RAID_MODE: "parity_stripe"
+      THEMIS_RAID_GROUP: "raid5"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+    volumes:
+      - raid5_shard1_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=parity_stripe"
+      - "raid_group=raid5"
+
+  themis-raid5-shard2:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid5-shard2
+    restart: unless-stopped
+    ports:
+      - "18771:18765"
+      - "8086:8080"
+      - "9097:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid5-2"
+      THEMIS_RAID_MODE: "parity_stripe"
+      THEMIS_RAID_GROUP: "raid5"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+    volumes:
+      - raid5_shard2_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=parity_stripe"
+      - "raid_group=raid5"
+
+  themis-raid5-shard3:
+    image: themisdb/themisdb:hyperscaler
+    container_name: themis-raid5-shard3
+    restart: unless-stopped
+    ports:
+      - "18772:18765"
+      - "8087:8080"
+      - "9098:9090"
+    environment:
+      THEMIS_PORT: "18765"
+      THEMIS_DATA_DIR: "/var/lib/themisdb"
+      THEMIS_ENABLE_METRICS: "true"
+      THEMIS_METRICS_PORT: "9090"
+      THEMIS_ROLE: "shard"
+      THEMIS_SHARD_ID: "raid5-3"
+      THEMIS_RAID_MODE: "parity_stripe"
+      THEMIS_RAID_GROUP: "raid5"
+      THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+      THEMIS_ENABLE_SHARDING: "true"
+    volumes:
+      - raid5_shard3_data:/var/lib/themisdb
+      - ./test_data:/test_data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+    networks:
+      - themis-network
+    labels:
+      - "raid_mode=parity_stripe"
+      - "raid_group=raid5"
+
+  # ═══════════════════════════════════════════════════════════
+  # LLM RAID Pipeline Test Suite Service
+  # ═══════════════════════════════════════════════════════════
+
+  themis-llm-raid-tests:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.llm-raid-tests
+    image: themisdb/themis-llm-raid-tests:latest
+    container_name: themis-llm-raid-tests
+    restart: "no"
+    depends_on:
+      themis-raid0-shard1:
+        condition: service_healthy
+      themis-raid0-shard2:
+        condition: service_healthy
+      themis-raid0-shard3:
+        condition: service_healthy
+      themis-raid1-primary:
+        condition: service_healthy
+      themis-raid1-mirror:
+        condition: service_healthy
+      themis-raid5-shard1:
+        condition: service_healthy
+      themis-raid5-shard2:
+        condition: service_healthy
+      themis-raid5-shard3:
+        condition: service_healthy
+    environment:
+      # Test Configuration
+      TEST_TYPE: "${TEST_TYPE:-pipeline}"
+      THEMIS_CLUSTER_BOOTSTRAP: "themis-raid0-shard1:18765"
+      
+      # Shard Endpoints
+      THEMIS_RAID0_SHARDS: "themis-raid0-shard1:8080,themis-raid0-shard2:8080,themis-raid0-shard3:8080"
+      THEMIS_RAID1_SHARDS: "themis-raid1-primary:8080,themis-raid1-mirror:8080"
+      THEMIS_RAID5_SHARDS: "themis-raid5-shard1:8080,themis-raid5-shard2:8080,themis-raid5-shard3:8080"
+      
+      # Test Paths
+      TEST_DATA: "/test_data"
+      TEST_MODELS: "/test_models"
+      TEST_LORAS: "/test_loras"
+      TEST_RESULTS: "/test_results"
+    volumes:
+      - ./test_data:/test_data
+      - ./test_models:/test_models
+      - ./test_loras:/test_loras
+      - ./test_results:/test_results
+    networks:
+      - themis-network
+    labels:
+      - "app=test-suite"
+      - "component=llm-raid-tests"
+
+  # ═══════════════════════════════════════════════════════════
+  # Monitoring & Observability
+  # ═══════════════════════════════════════════════════════════
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: themis-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    networks:
+      - themis-network
+    labels:
+      - "app=monitoring"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: themis-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+      GF_INSTALL_PLUGINS: ""
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - themis-network
+    labels:
+      - "app=monitoring"
+
+volumes:
+  raid0_shard1_data:
+  raid0_shard2_data:
+  raid0_shard3_data:
+  raid1_primary_data:
+  raid1_mirror_data:
+  raid5_shard1_data:
+  raid5_shard2_data:
+  raid5_shard3_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  themis-network:
+    driver: bridge

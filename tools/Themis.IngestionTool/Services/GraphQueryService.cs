@@ -21,7 +21,7 @@ namespace Themis.IngestionTool.Services
         Task<GraphTraversalResult> TraverseRelationshipsAsync(
             string sourceEntityId,
             int maxDepth = 3,
-            string relationshipType = null);
+            string? relationshipType = null);
 
         /// <summary>
         /// Find shortest path between two entities.
@@ -71,7 +71,7 @@ namespace Themis.IngestionTool.Services
         public async Task<GraphTraversalResult> TraverseRelationshipsAsync(
             string sourceEntityId,
             int maxDepth = 3,
-            string relationshipType = null)
+            string? relationshipType = null)
         {
             try
             {
@@ -97,6 +97,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<GraphTraversalResult>(content);
+                    if (result == null)
+                    {
+                        return new GraphTraversalResult { Entities = new List<EntityNode>(), Relationships = new List<RelationshipEdge>() };
+                    }
                     _loggerService.LogInfo($"Graph traversal complete: {result.Entities.Count} entities found");
                     return result;
                 }
@@ -139,6 +143,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<PathFindingResult>(content);
+                    if (result == null)
+                    {
+                        return new PathFindingResult { PathFound = false, Path = new List<string>(), PathLength = 0 };
+                    }
                     _loggerService.LogInfo($"Path found: {result.PathLength} hops, {(result.PathFound ? "Success" : "Not found")}");
                     return result;
                 }
@@ -177,6 +185,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<NeighborhoodResult>(content);
+                    if (result == null)
+                    {
+                        return new NeighborhoodResult { Entities = new List<EntityNode>(), Relationships = new List<RelationshipEdge>() };
+                    }
                     _loggerService.LogInfo($"Neighborhood retrieved: {result.Entities.Count} entities, {result.Relationships.Count} relationships");
                     return result;
                 }
@@ -215,6 +227,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<CommunityDetectionResult>(content);
+                    if (result == null)
+                    {
+                        return new CommunityDetectionResult { Communities = new List<Community>(), Modularity = 0 };
+                    }
                     _loggerService.LogInfo($"Community detection complete: {result.Communities.Count} communities found");
                     return result;
                 }
@@ -242,8 +258,11 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<RelationshipStatistics>(content);
-                    _loggerService.LogInfo($"Statistics retrieved: {result.InDegree} in-edges, {result.OutDegree} out-edges");
-                    return result;
+                    if (result != null)
+                    {
+                        _loggerService.LogInfo($"Statistics retrieved: {result.InDegree} in-edges, {result.OutDegree} out-edges");
+                        return result;
+                    }
                 }
 
                 _loggerService.LogError($"Statistics retrieval failed: {response.StatusCode}");
@@ -262,13 +281,13 @@ namespace Themis.IngestionTool.Services
     public class GraphTraversalRequest
     {
         [JsonProperty("source_entity_id")]
-        public string SourceEntityId { get; set; }
+        public string SourceEntityId { get; set; } = string.Empty;
 
         [JsonProperty("max_depth")]
         public int MaxDepth { get; set; }
 
         [JsonProperty("relationship_type")]
-        public string RelationshipType { get; set; }
+        public string? RelationshipType { get; set; }
 
         [JsonProperty("include_metadata")]
         public bool IncludeMetadata { get; set; }
@@ -292,13 +311,13 @@ namespace Themis.IngestionTool.Services
     public class EntityNode
     {
         [JsonProperty("entity_id")]
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = string.Empty;
 
         [JsonProperty("entity_type")]
-        public string EntityType { get; set; }
+        public string EntityType { get; set; } = string.Empty;
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [JsonProperty("depth")]
         public int Depth { get; set; }
@@ -310,13 +329,13 @@ namespace Themis.IngestionTool.Services
     public class RelationshipEdge
     {
         [JsonProperty("source_id")]
-        public string SourceId { get; set; }
+        public string SourceId { get; set; } = string.Empty;
 
         [JsonProperty("target_id")]
-        public string TargetId { get; set; }
+        public string TargetId { get; set; } = string.Empty;
 
         [JsonProperty("relationship_type")]
-        public string RelationshipType { get; set; }
+        public string RelationshipType { get; set; } = string.Empty;
 
         [JsonProperty("weight")]
         public double Weight { get; set; }
@@ -328,10 +347,10 @@ namespace Themis.IngestionTool.Services
     public class PathFindingRequest
     {
         [JsonProperty("source_entity_id")]
-        public string SourceEntityId { get; set; }
+        public string SourceEntityId { get; set; } = string.Empty;
 
         [JsonProperty("target_entity_id")]
-        public string TargetEntityId { get; set; }
+        public string TargetEntityId { get; set; } = string.Empty;
 
         [JsonProperty("max_depth")]
         public int MaxDepth { get; set; }
@@ -355,7 +374,7 @@ namespace Themis.IngestionTool.Services
     public class NeighborhoodRequest
     {
         [JsonProperty("entity_id")]
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = string.Empty;
 
         [JsonProperty("distance")]
         public int Distance { get; set; }
@@ -364,7 +383,7 @@ namespace Themis.IngestionTool.Services
     public class NeighborhoodResult
     {
         [JsonProperty("center_entity_id")]
-        public string CenterEntityId { get; set; }
+        public string CenterEntityId { get; set; } = string.Empty;
 
         [JsonProperty("entities")]
         public List<EntityNode> Entities { get; set; } = new List<EntityNode>();
@@ -418,7 +437,7 @@ namespace Themis.IngestionTool.Services
     public class RelationshipStatistics
     {
         [JsonProperty("entity_id")]
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = string.Empty;
 
         [JsonProperty("in_degree")]
         public int InDegree { get; set; }

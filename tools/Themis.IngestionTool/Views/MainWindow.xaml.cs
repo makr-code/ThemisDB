@@ -11,12 +11,32 @@ namespace Themis.IngestionTool.Views
     {
         private readonly MainWindowViewModel _viewModel;
         private FileDetailsView? _detailsView;
+        private GridLength _sidebarExpandedWidth = new GridLength(380);
+        private bool _isSidebarCollapsed = false;
 
         public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
             DataContext = _viewModel;
+        }
+
+        private void OnToggleSidebar(object sender, RoutedEventArgs e)
+        {
+            // Toggle zwischen sichtbarer und versteckter Seitenleiste
+            if (!_isSidebarCollapsed)
+            {
+                _sidebarExpandedWidth = LeftColumn.Width.Value > 0 ? LeftColumn.Width : new GridLength(380);
+                LeftColumn.Width = new GridLength(0);
+                SidebarToggle.Content = "Menu >";
+                _isSidebarCollapsed = true;
+            }
+            else
+            {
+                LeftColumn.Width = _sidebarExpandedWidth.Value > 0 ? _sidebarExpandedWidth : new GridLength(380);
+                SidebarToggle.Content = "Menu";
+                _isSidebarCollapsed = false;
+            }
         }
 
         private void OnResultSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -91,9 +111,22 @@ namespace Themis.IngestionTool.Views
 
         private async void OnStartIngestion(object sender, RoutedEventArgs e)
         {
+            // Debug: Prüfe Bedingungen
+            System.Diagnostics.Debug.WriteLine($"[START] SourceFolder: {_viewModel.SourceFolder ?? "NULL"}");
+            System.Diagnostics.Debug.WriteLine($"[START] IsConnected: {_viewModel.IsConnected}");
+            System.Diagnostics.Debug.WriteLine($"[START] IsRunning: {_viewModel.IsRunning}");
+
             if (string.IsNullOrEmpty(_viewModel.SourceFolder))
             {
-                MessageBox.Show("Bitte wählen Sie einen Quellordner aus.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Bitte wählen Sie zuerst einen Quellordner aus.\n\nKlicken Sie auf '📁 Quelle' um einen Ordner zu wählen.", 
+                    "Quellordner fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!_viewModel.IsConnected)
+            {
+                MessageBox.Show("Nicht mit ThemisDB verbunden!\n\nÖffnen Sie die Einstellungen (⚙️) und verbinden Sie sich mit einem ThemisDB Server.", 
+                    "Verbindung fehlt", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -182,6 +215,18 @@ namespace Themis.IngestionTool.Views
             _viewModel.IsRunning = false;
             _viewModel.Status = "Pipeline abgebrochen";
             MessageBox.Show("Pipeline wurde abgebrochen.", "Abgebrochen", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void OnToggleIngestion(object sender, RoutedEventArgs e)
+        {
+            if (_viewModel.IsRunning)
+            {
+                OnCancelIngestion(sender, e);
+            }
+            else
+            {
+                OnStartIngestion(sender, e);
+            }
         }
 
         private async void OnStartRealIngestion(object sender, RoutedEventArgs e)

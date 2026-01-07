@@ -56,3 +56,4 @@ Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 Weiterlesen:
 - security/key_management.md, security/audit_and_retention.md
 - encryption_strategy.md, security_hardening_guide.md, security_audit_checklist.md
+- [GPU/VRAM/CUDA Angriffsvektoren](GPU_VRAM_ANGRIFFSVEKTOREN.md) - Spezifische Analyse von GPU-basierten Bedrohungen

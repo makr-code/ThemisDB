@@ -43,16 +43,20 @@ void QueryPatternTracker::recordPattern(const std::string& collection,
 
 std::vector<QueryPatternTracker::QueryPattern> 
 QueryPatternTracker::getPatterns(const std::string& collection) const {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
+    // RACE CONDITION FIX: Move sorting outside lock to reduce contention
     std::vector<QueryPattern> result;
-    for (const auto& [key, pattern] : patterns_) {
-        if (collection.empty() || pattern.collection == collection) {
-            result.push_back(pattern);
-        }
-    }
     
-    // Sort by count (descending)
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        result.reserve(patterns_.size());
+        for (const auto& [key, pattern] : patterns_) {
+            if (collection.empty() || pattern.collection == collection) {
+                result.push_back(pattern);
+            }
+        }
+    }  // Release lock before sorting
+    
+    // Sort by count (descending) - outside lock (O(n log n) operation)
     std::sort(result.begin(), result.end(), 
              [](const QueryPattern& a, const QueryPattern& b) {
                  return a.count > b.count;
@@ -125,7 +129,8 @@ SelectivityAnalyzer::analyze(const std::string& collection,
     std::string prefix = "d:" + collection + ":";
     
     rocksdb::ReadOptions read_opts;
-    rocksdb::Iterator* it = db_->NewIterator(read_opts);
+    // RACE CONDITION FIX: Use unique_ptr for automatic cleanup and safer lifetime management
+    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(read_opts));
     
     std::set<std::string> unique_values;
     std::map<std::string, int> value_counts;
@@ -157,7 +162,7 @@ SelectivityAnalyzer::analyze(const std::string& collection,
         }
     }
     
-    delete it;
+    // No need to delete - unique_ptr handles cleanup automatically
     
     stats.total_documents = total;
     stats.unique_values = static_cast<int64_t>(unique_values.size());
