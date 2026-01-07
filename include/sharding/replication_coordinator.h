@@ -70,10 +70,36 @@ private:
             : lsn(l), concern(c), ack_count(ack), 
               start_time(std::chrono::steady_clock::now()), completed(false) {}
         
-        PendingWrite(const PendingWrite&) = delete;
-        PendingWrite& operator=(const PendingWrite&) = delete;
-        PendingWrite(PendingWrite&&) = default;
-        PendingWrite& operator=(PendingWrite&&) = default;
+        // Custom copy/move to support storage inside associative containers despite atomic member
+        PendingWrite(const PendingWrite& other)
+            : lsn(other.lsn), concern(other.concern),
+              ack_count(other.ack_count.load()),
+              start_time(other.start_time), completed(other.completed) {}
+
+        PendingWrite& operator=(const PendingWrite& other) {
+            if (this == &other) return *this;
+            lsn = other.lsn;
+            concern = other.concern;
+            ack_count.store(other.ack_count.load());
+            start_time = other.start_time;
+            completed = other.completed;
+            return *this;
+        }
+
+        PendingWrite(PendingWrite&& other) noexcept
+            : lsn(std::move(other.lsn)), concern(std::move(other.concern)),
+              ack_count(other.ack_count.load()),
+              start_time(other.start_time), completed(other.completed) {}
+
+        PendingWrite& operator=(PendingWrite&& other) noexcept {
+            if (this == &other) return *this;
+            lsn = std::move(other.lsn);
+            concern = std::move(other.concern);
+            ack_count.store(other.ack_count.load());
+            start_time = other.start_time;
+            completed = other.completed;
+            return *this;
+        }
     };
 
     mutable std::mutex pending_mutex_;
