@@ -2,6 +2,8 @@
 
 # ThemisDB Documentation Index (Language Selector)
 
+**Version:** 1.4.0-alpha | **Last Updated:** January 5, 2026
+
 </div>
 
 This file is now language-neutral. Please choose your language:
@@ -11,6 +13,24 @@ This file is now language-neutral. Please choose your language:
 
 > [!NOTE]
 > German docs are authoritative; translations may lag.
+
+---
+
+## 🚀 NEW in v1.4.0-alpha
+
+**Documentation:**
+- [Release Notes v1.4.0-alpha](../RELEASE_NOTES_V1.4.0_ALPHA.md) - Comprehensive release summary
+- [Changelog v1.4.0-alpha](../CHANGELOG.md#v140-alpha) - Complete changelog
+- [Compendium Update Notes](../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md) - German integration guide
+- [Documentation Completion Summary](../DOCUMENTATION_COMPLETION_SUMMARY.md) - Task reference
+
+**New Features:**
+- 📝 Grammar-Constrained Generation - EBNF/GBNF for guaranteed valid outputs
+- 🔭 RoPE Scaling - 4K→32K token context extension (8x)
+- 🖼️ Vision Support - Multi-modal LLMs with CLIP
+- ⚡ Flash Attention - 15-25% speedup, 30% memory reduction
+- 🎯 Speculative Decoding - 2-3x inference speedup
+- 🔄 Continuous Batching - 2x+ throughput
 
 ---
 

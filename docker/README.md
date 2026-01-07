@@ -9,21 +9,33 @@
 
 ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM-Tree-Architektur mit nativer Unterstützung für Vektorsuche, Graphoperationen, Geospatial-Abfragen und Volltextsuche.
 
-**✨ NEU in v1.3.4-hotfix (04.01.2026):** 
-- 🛡️ **RAID Sharding Deadlock Fix** - Server-Hang in RAID-Modus behoben (MVCC Column Family Initialisierung)
-- 🔧 **Port-Mapping Korrektur** - HTTP-Endpunkte jetzt korrekt auf Port 8765 gemappt (nicht 8080)
-- 🧪 **RAID Endurance Test Suite** - 2-Stunden-Lasttest mit Real-time Monitoring (375 Ops/Iteration)
-- 📦 **Build Context Optimierung** - 97% Reduktion: 3GB → 85MB (vcpkg artifacts excluded)
-- 🚀 **Massive Insert Performance** - 23-77x schnellere Bulk Inserts via Batch API
-- 🧠 **LLM Integration (llama.cpp)** - In allen Editionen aktiviert
-- ⚡ **GPU/CUDA Support** - Accelerated operations in allen Editionen
-- 📊 **Prometheus Metriken** - Native monitoring capabilities
-- 🌐 **RAID Clustering** - Multi-Shard Deployment (RAID 0/1/5) mit Bootstrap Discovery
+**✨ NEU in v1.4.0-alpha (05.01.2026):**
 
-**Aktuelle Version:** v1.3.4 (Januar 2026)  
+**Erweiterte LLM-Funktionen:**
+- 📝 **Grammatik-gesteuerte Generierung** - EBNF/GBNF für 95-99% valide JSON/XML/CSV-Ausgaben
+- 🔭 **RoPE Scaling** - Erweitertes Kontextfenster 4K → 32K Tokens (8x Vergrößerung)
+- 🖼️ **Vision Support** - Multi-modale LLMs mit CLIP-Bildcodierung (LLaVA)
+- ⚡ **Flash Attention** - 15-25% Geschwindigkeitssteigerung, 30% Speicherreduktion via CUDA
+- 🎯 **Speculative Decoding** - 2-3x schnellere Inferenz mit Draft+Target-Modellen
+- 🔄 **Continuous Batching** - 2x+ Durchsatz mit dynamischem Request-Batching
+
+**Enterprise-Features:**
+- 🔥 **Hot Spare Management** - Automatisches Failover mit Health-Monitoring
+- 📊 **Erweiterte Prometheus-Metriken** - LLM-Inferenz, Cache-Performance, Response-Tracking
+- 🔄 **WAL-Replikation via gRPC** - Verteilte Inter-Shard-Replikation
+- 🎮 **Multi-GPU LoRA Support** - Verteilte LoRA-Adapter über mehrere GPUs
+- 🐘 **PostgreSQL-Protokoll** - COPY, Prepared Statements, Transaktionen
+
+**Vorherige Version (v1.3.4-hotfix - 04.01.2026):** 
+- 🛡️ **RAID Sharding Deadlock Fix** - Server-Hang in RAID-Modus behoben
+- 🔧 **Port-Mapping Korrektur** - HTTP-Endpunkte auf Port 8765
+- 🧪 **RAID Endurance Test Suite** - 2-Stunden-Lasttest mit Monitoring
+- 📦 **Build Context Optimierung** - 97% Reduktion: 3GB → 85MB
+
+**Aktuelle Version:** v1.4.0-alpha (Januar 2026)  
 **Registry:** `docker.io/themisdb/themisdb`  
-**Docker Image:** `themisdb/themisdb:v1.3.4-community` / `latest`  
-**Build-Status:** ✅ Erfolgreich (04.01.2026)
+**Docker Image:** `themisdb/themisdb:v1.4.0-alpha` / `latest`  
+**Build-Status:** ✅ Erfolgreich (05.01.2026)
 
 ---
 
@@ -31,7 +43,7 @@ ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM
 
 ```bash
 # Image herunterladen
-docker pull themisdb/themisdb:v1.3.4-community
+docker pull themisdb/themisdb:v1.4.0-alpha
 
 # ThemisDB starten (REST API + /metrics)
 docker run -d \
@@ -39,7 +51,7 @@ docker run -d \
   -p 18765:18765 \
   -p 8080:8080 \
   -v themisdb_data:/var/lib/themisdb \
-  themisdb/themisdb:v1.3.4-community
+  themisdb/themisdb:v1.4.0-alpha
 
 # REST API überprüfen
 curl http://localhost:8080/health
@@ -109,7 +121,7 @@ docker run -d \
   -e THEMIS_ENABLE_TRACING=true \
   -e THEMIS_OTLP_ENDPOINT=http://jaeger:4318 \
   -v themisdb_data:/data \
-  themisdb/themis:1.3.4
+  themisdb/themis:1.4.0-alpha
 ```
 
 ---
@@ -126,6 +138,7 @@ ThemisDB ist in 3 Editionen verfügbar:
 | Tag | Edition | Architektur | Base Image | Einsatz |
 |-----|---------|-------------|------------|---------|
 | `latest` | Community | amd64 | Ubuntu 24.04 | **Empfohlen** - Neueste Community Version |
+| `1.4.0-alpha` | Community | amd64 | Ubuntu 24.04 | Alpha Release (5. Jan 2026) - Advanced LLM Features |
 | `1.3.4` | Community | amd64 | Ubuntu 24.04 | Stabile Release (28. Dez 2025) - Performance Update |
 | `1.3.0` | Community | amd64, arm64 | Ubuntu 22.04 | Vorherige Release (21. Dez 2025) |
 | `1.3` | Community | amd64 | Ubuntu 24.04 | Minor Version Track |
@@ -134,7 +147,7 @@ ThemisDB ist in 3 Editionen verfügbar:
 **Plattform-Unterstützung:**
 - `linux/amd64` - Intel/AMD x64 Prozessoren (Ubuntu 24.04 base)
 
-**Note:** v1.3.4 focuses on amd64. ARM64 support will be re-added in future releases.
+**Note:** v1.4.0-alpha focuses on amd64. ARM64 support will be re-added in future releases.
 
 ---
 
