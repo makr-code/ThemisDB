@@ -150,6 +150,38 @@
     
     <hr>
     
+    <h2><?php _e('Plugin-Updates', 'themisdb-tco-calculator'); ?></h2>
+    <div class="notice notice-info inline">
+        <p>
+            <strong>🔄 Automatische Updates von GitHub</strong><br>
+            Dieses Plugin unterstützt automatische Updates direkt von GitHub. 
+            Neue Versionen werden automatisch unter <strong>Dashboard → Aktualisierungen</strong> angezeigt.
+        </p>
+        <p>
+            <strong>Aktuell installierte Version:</strong> <?php echo THEMISDB_TCO_VERSION; ?><br>
+            <strong>GitHub Repository:</strong> 
+            <a href="https://github.com/<?php echo THEMISDB_TCO_GITHUB_REPO; ?>" target="_blank">
+                <?php echo THEMISDB_TCO_GITHUB_REPO; ?>
+            </a>
+        </p>
+        <?php
+        // Check for update manually
+        $latest_release_info = get_transient('themisdb_tco_github_release');
+        if (!$latest_release_info) {
+            echo '<p><em>Prüfen Sie unter Dashboard → Aktualisierungen auf neue Versionen.</em></p>';
+        } else {
+            $latest_version = isset($latest_release_info->tag_name) ? $latest_release_info->tag_name : 'Unbekannt';
+            if (version_compare(THEMISDB_TCO_VERSION, $latest_version, '<')) {
+                echo '<p style="color: #d63638;"><strong>⚠️ Eine neue Version (' . esc_html($latest_version) . ') ist verfügbar!</strong></p>';
+            } else {
+                echo '<p style="color: #00a32a;"><strong>✅ Plugin ist auf dem neuesten Stand.</strong></p>';
+            }
+        }
+        ?>
+    </div>
+    
+    <hr>
+    
     <h2><?php _e('Über dieses Plugin', 'themisdb-tco-calculator'); ?></h2>
     <p>
         <strong>Version:</strong> <?php echo THEMISDB_TCO_VERSION; ?><br>

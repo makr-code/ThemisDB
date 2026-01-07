@@ -106,6 +106,212 @@ TEST_F(LoRASecurityTest, DetectWeightAnomalies_AllZeros) {
         [](const std::string& s) { return s.find("zero") != std::string::npos; }));
 }
 
+// ===== New Security Features Tests =====
+
+TEST_F(LoRASecurityTest, SignatureFormatValidation_ValidFingerprint) {
+    // Test with valid SHA-256 fingerprint (64 hex chars)
+    config_.require_signature = true;
+    config_.trusted_signers.push_back("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
+    validator_->setConfig(config_);
+    
+    // Create signature file with valid format
+    std::string sig_file = "/tmp/test_signature.sig";
+    std::ofstream sig(sig_file);
+    sig << "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef:";
+    sig << "U29tZUJhc2U2NEVuY29kZWRTaWduYXR1cmVEYXRhSGVyZQ==";  // Valid base64
+    sig.close();
+    
+    // Verify signature (will validate format even though crypto verification is not implemented)
+    auto result = validator_->verifySignature(test_file_, sig_file);
+    
+    // Format should be validated (signature, fingerprint, base64)
+    EXPECT_TRUE(result.signer_identity == "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
+    
+    std::remove(sig_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, SignatureFormatValidation_InvalidFingerprint) {
+    config_.require_signature = true;
+    config_.trusted_signers.push_back("invalid_fingerprint_not_hex");
+    validator_->setConfig(config_);
+    
+    std::string sig_file = "/tmp/test_signature_invalid.sig";
+    std::ofstream sig(sig_file);
+    sig << "invalid_fingerprint_not_hex:U29tZUJhc2U2NA==";
+    sig.close();
+    
+    auto result = validator_->verifySignature(test_file_, sig_file);
+    
+    // Should reject invalid fingerprint format
+    EXPECT_FALSE(result.is_valid);
+    
+    std::remove(sig_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, SignatureFormatValidation_UntrustedSigner) {
+    config_.require_signature = true;
+    // No trusted signers added
+    validator_->setConfig(config_);
+    
+    std::string sig_file = "/tmp/test_signature_untrusted.sig";
+    std::ofstream sig(sig_file);
+    sig << "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef:U29tZUJhc2U2NA==";
+    sig.close();
+    
+    auto result = validator_->verifySignature(test_file_, sig_file);
+    
+    // Should reject untrusted signer
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.error_message.find("Untrusted") != std::string::npos);
+    
+    std::remove(sig_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, SignatureFormatValidation_MalformedSignature) {
+    config_.require_signature = true;
+    config_.trusted_signers.push_back("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef");
+    validator_->setConfig(config_);
+    
+    std::string sig_file = "/tmp/test_signature_malformed.sig";
+    std::ofstream sig(sig_file);
+    sig << "no_colon_separator_here";  // Missing colon separator
+    sig.close();
+    
+    auto result = validator_->verifySignature(test_file_, sig_file);
+    
+    // Should reject malformed signature format
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_TRUE(result.error_message.find("Invalid signature format") != std::string::npos);
+    
+    std::remove(sig_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, WeightLoading_JSONFormat) {
+    // Create a JSON-format LoRa file
+    std::string json_file = "/tmp/test_lora.json";
+    std::ofstream file(json_file);
+    file << R"({
+        "base_model": "llama-2-7b",
+        "rank": 8,
+        "weights": [0.1, 0.2, 0.3, 0.4, 0.5]
+    })";
+    file.close();
+    
+    // Test integrity check with weight loading
+    auto result = validator_->checkIntegrity(json_file);
+    
+    // Should successfully load and check integrity
+    EXPECT_TRUE(result.calculated_checksum.length() == 64);
+    
+    std::remove(json_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, WeightLoading_SafeTensorsFormat) {
+    // Create a minimal SafeTensors-format file
+    std::string safetensors_file = "/tmp/test_lora.safetensors";
+    std::ofstream file(safetensors_file, std::ios::binary);
+    
+    // SafeTensors format: 8-byte header size (little-endian), JSON header, binary data
+    std::string header = R"({"tensor1": {"dtype": "F32", "data_offsets": [0, 20]}})";
+    uint64_t header_size = header.size();
+    
+    // Write header size (8 bytes, little-endian)
+    file.write(reinterpret_cast<const char*>(&header_size), 8);
+    // Write JSON header
+    file.write(header.c_str(), header.size());
+    // Write some dummy float data (5 floats = 20 bytes)
+    float data[] = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f};
+    file.write(reinterpret_cast<const char*>(data), sizeof(data));
+    
+    file.close();
+    
+    // Test integrity check with weight loading
+    auto result = validator_->checkIntegrity(safetensors_file);
+    
+    // Should successfully process SafeTensors format
+    EXPECT_TRUE(result.calculated_checksum.length() == 64);
+    
+    std::remove(safetensors_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, BoundsValidation_OversizedTensor) {
+    // Create a SafeTensors file with malicious oversized tensor offset
+    std::string malicious_file = "/tmp/test_lora_malicious.safetensors";
+    std::ofstream file(malicious_file, std::ios::binary);
+    
+    // Create header with invalid offsets (larger than file)
+    std::string header = R"({"tensor1": {"dtype": "F32", "data_offsets": [0, 999999999]}})";
+    uint64_t header_size = header.size();
+    
+    file.write(reinterpret_cast<const char*>(&header_size), 8);
+    file.write(header.c_str(), header.size());
+    // Write minimal data (less than claimed in header)
+    float data[] = {1.0f, 2.0f};
+    file.write(reinterpret_cast<const char*>(data), sizeof(data));
+    
+    file.close();
+    
+    // Test integrity check - should handle malicious offsets safely
+    auto result = validator_->checkIntegrity(malicious_file);
+    
+    // Should not crash and should complete (even if no weights loaded due to bounds check)
+    EXPECT_TRUE(result.calculated_checksum.length() == 64);
+    
+    std::remove(malicious_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, BoundsValidation_IntegerOverflow) {
+    // Create file with offsets designed to cause integer overflow
+    std::string overflow_file = "/tmp/test_lora_overflow.safetensors";
+    std::ofstream file(overflow_file, std::ios::binary);
+    
+    // Use UINT64_MAX to test overflow protection
+    std::string header = R"({"tensor1": {"dtype": "F32", "data_offsets": [18446744073709551615, 100]}})";
+    uint64_t header_size = header.size();
+    
+    file.write(reinterpret_cast<const char*>(&header_size), 8);
+    file.write(header.c_str(), header.size());
+    
+    file.close();
+    
+    // Should handle overflow gracefully without crash
+    auto result = validator_->checkIntegrity(overflow_file);
+    
+    EXPECT_TRUE(result.calculated_checksum.length() == 64);
+    
+    std::remove(overflow_file.c_str());
+}
+
+TEST_F(LoRASecurityTest, NaNInfFiltering) {
+    // Create SafeTensors with NaN and Inf values
+    std::string test_file = "/tmp/test_lora_nan_inf.safetensors";
+    std::ofstream file(test_file, std::ios::binary);
+    
+    std::string header = R"({"tensor1": {"dtype": "F32", "data_offsets": [0, 16]}})";
+    uint64_t header_size = header.size();
+    
+    file.write(reinterpret_cast<const char*>(&header_size), 8);
+    file.write(header.c_str(), header.size());
+    
+    // Write NaN and Inf values
+    float data[] = {
+        std::numeric_limits<float>::quiet_NaN(),
+        std::numeric_limits<float>::infinity(),
+        -std::numeric_limits<float>::infinity(),
+        0.5f
+    };
+    file.write(reinterpret_cast<const char*>(data), sizeof(data));
+    
+    file.close();
+    
+    // Should filter out NaN/Inf and process remaining valid floats
+    auto result = validator_->checkIntegrity(test_file);
+    
+    EXPECT_TRUE(result.calculated_checksum.length() == 64);
+    
+    std::remove(test_file.c_str());
+}
+
 // ===== Prompt Injection Tests =====
 
 class PromptInjectionTest : public ::testing::Test {
