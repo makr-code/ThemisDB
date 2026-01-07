@@ -498,8 +498,5 @@ TEST_F(StreamProtocolExtendedTest, MultipleConcurrentReceiveTasks) {
     EXPECT_EQ(tasks.size(), num_tasks);
 }
 
-// Main function for Google Test
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Main function moved to gtest_main
+

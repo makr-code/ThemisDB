@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
 

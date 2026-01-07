@@ -957,8 +957,4 @@ TEST_F(RedundancyStrategyTest, DISABLED_StressTest_ManyWrites) {
 // ═══════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// main() removed - GTest provides its own main via gtest_main

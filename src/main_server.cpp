@@ -36,6 +36,7 @@
 #include "security/mock_key_provider.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
+#include "themis/build_info.h"
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
@@ -43,6 +44,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cstdlib>
 #include <csignal>
 #include <memory>
@@ -106,6 +108,20 @@ int main(int argc, char* argv[]) {
 #else
     THEMIS_INFO("Version: unknown");
 #endif
+    
+    // Display build configuration and edition information
+    try {
+        auto build_config = themis::build_info::getBuildConfiguration();
+        std::string build_info = themis::build_info::formatBuildInfo(build_config);
+        // Log the formatted build info (line by line to preserve formatting)
+        std::istringstream iss(build_info);
+        std::string line;
+        while (std::getline(iss, line)) {
+            THEMIS_INFO("{}", line);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to display build configuration: {}", e.what());
+    }
     
     try {
         // Parse command line arguments

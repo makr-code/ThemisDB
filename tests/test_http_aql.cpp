@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>

@@ -13,6 +13,7 @@
         xmlns:geo="clr-namespace:Themis.DocumentManager.Features.Geo.Views"
         xmlns:graph="clr-namespace:Themis.DocumentManager.Features.Graph.Views"
         xmlns:nav="clr-namespace:Themis.DocumentManager.Views.Navigation"
+        xmlns:taskbasket="clr-namespace:Themis.DocumentManager.Features.TaskBasket.Views"
         Title="ThemisDB Document Manager" 
         Height="900" Width="1600"
         MinHeight="600" MinWidth="1000"
@@ -309,6 +310,9 @@
                         <Button Content="▶" Command="{x:Static local:MainWindow.ToggleRightSidebarCommand}" Margin="8,0,0,0"/>
                     </StackPanel>
                     <TabControl x:Name="RightSidebarTabs">
+                        <TabItem Header="✅ Aufgaben" x:Name="RightTasksTab">
+                            <taskbasket:TaskCardView x:Name="RightTasksPanel"/>
+                        </TabItem>
                         <TabItem Header="🏷️ Metadaten" x:Name="RightMetadataTab">
                             <metadata:MetadataFormView x:Name="RightMetadataPanel"/>
                         </TabItem>

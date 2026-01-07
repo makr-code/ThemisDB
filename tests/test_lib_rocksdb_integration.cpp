@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2025 VCC ThemisDB Contributors
+// Copyright (c) 2025 VCC ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 //
 // RocksDB Library Integration Tests (Updated for v1.3.5+)

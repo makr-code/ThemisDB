@@ -78,7 +78,7 @@ public:
     };
 
     explicit LLMResponseCache(const std::string& cache_name, const Config& config);
-    ~LLMResponseCache() = default;
+    ~LLMResponseCache();  // Must be defined in .cpp where VectorIndexManager is complete
 
     // Non-copyable, moveable
     LLMResponseCache(const LLMResponseCache&) = delete;

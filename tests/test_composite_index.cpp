@@ -1,4 +1,4 @@
-﻿// Test for composite secondary indexes
+// Test for composite secondary indexes
 
 #include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"

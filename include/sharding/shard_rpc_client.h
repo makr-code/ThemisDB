@@ -4,6 +4,10 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 
+#ifdef THEMIS_ENABLE_GRPC
+#include <grpcpp/grpcpp.h>
+#endif
+
 namespace themis::sharding {
 
 /**

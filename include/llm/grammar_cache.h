@@ -23,8 +23,10 @@ public:
      * @brief Configuration for grammar cache
      */
     struct Config {
-        size_t max_cached_grammars = 100;  // Maximum number of grammars to cache
-        bool enabled = true;                // Enable caching
+        size_t max_cached_grammars;  // Maximum number of grammars to cache
+        bool enabled;                 // Enable caching
+        
+        Config() : max_cached_grammars(100), enabled(true) {}
     };
     
     /**

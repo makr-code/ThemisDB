@@ -35,7 +35,10 @@ InferenceEngineEnhanced::InferenceEngineEnhanced(const Config& config)
     }
     
     // Initialize KV cache for paged attention
-    block_manager_ = std::make_shared<PagedBlockManager>(4096, 16);
+    PagedBlockManager::Config block_config;
+    block_config.max_blocks = 4096;
+    block_config.block_size_tokens = 16;
+    block_manager_ = std::make_shared<PagedBlockManager>(block_config);
     
     PagedKVCache::Config kv_config;
     kv_config.enable_prefix_caching = config_.enable_context_caching;
@@ -479,8 +482,8 @@ void InferenceEngineEnhanced::checkAndHandleTimeouts() {
         if (it != tracked_requests_.end()) {
             try {
                 InferenceResponse timeout_response;
-                timeout_response.success = false;
-                timeout_response.error_message = "Request timed out";
+                timeout_response.text = "";
+                timeout_response.model_id = "";
                 
                 if (it->second->callback) {
                     it->second->callback(timeout_response);
@@ -558,7 +561,7 @@ void InferenceEngineEnhanced::processBatch(
             auto response = plugin->generate(req.base_request);
             
             // Update cache
-            if (config_.enable_context_caching && req.allow_caching && response.success) {
+            if (config_.enable_context_caching && req.allow_caching && !response.text.empty()) {
                 updateCache(req.base_request, response);
             }
             
@@ -573,14 +576,14 @@ void InferenceEngineEnhanced::processBatch(
                 req_end - req_start).count();
             
             recordRequestCompletion(latency, model_id);
-            updateModelStats(model_id, latency, response.success);
+            updateModelStats(model_id, latency, !response.text.empty());
             
         } catch (const std::exception& e) {
             spdlog::error("Failed to process request {}: {}", req.request_id, e.what());
             
             InferenceResponse error_response;
-            error_response.success = false;
-            error_response.error_message = e.what();
+            error_response.text = "Error: " + std::string(e.what());
+            error_response.model_id = "";
             
             if (tracked->callback) {
                 tracked->callback(error_response);
@@ -672,10 +675,9 @@ std::optional<InferenceResponse> InferenceEngineEnhanced::checkCache(
         
         // Reconstruct response from cache
         InferenceResponse response;
-        response.success = true;
         response.text = cached->prefix;  // Simplified - would be actual generated text
-        response.prompt_tokens = cached->token_ids.size();
-        response.cached = true;
+        response.tokens_prompt = static_cast<int>(cached->token_ids.size());
+        response.cache_hit = true;
         
         return response;
     }
@@ -688,7 +690,7 @@ void InferenceEngineEnhanced::updateCache(
     const InferenceRequest& request,
     const InferenceResponse& response
 ) {
-    if (!prefix_cache_ || !response.success) {
+    if (!prefix_cache_ || response.text.empty()) {
         return;
     }
     
