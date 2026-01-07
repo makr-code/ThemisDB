@@ -96,7 +96,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy built binary
-COPY --from=builder /build/build/themis_server /usr/local/bin/themis_server
+COPY --from=builder /build/build/cmake/themis_server /usr/local/bin/themis_server
 RUN chmod +x /usr/local/bin/themis_server
 
 # Create themis user and directories

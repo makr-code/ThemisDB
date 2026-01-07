@@ -49,8 +49,35 @@ USBAdminAuthenticator::USBAdminAuthenticator(const USBAdminConfig& config)
 }
 
 USBAdminAuthenticator::~USBAdminAuthenticator() = default;
-USBAdminAuthenticator::USBAdminAuthenticator(USBAdminAuthenticator&&) noexcept = default;
-USBAdminAuthenticator& USBAdminAuthenticator::operator=(USBAdminAuthenticator&&) noexcept = default;
+
+// Custom move constructor: do not move std::mutex (non-movable)
+USBAdminAuthenticator::USBAdminAuthenticator(USBAdminAuthenticator&& other) noexcept
+    : impl_(std::move(other.impl_))
+    , config_(std::move(other.config_))
+    , metrics_(other.metrics_)
+    , failed_attempts_(other.failed_attempts_)
+    , lockout_until_(other.lockout_until_)
+    , current_license_(std::move(other.current_license_))
+    , last_usb_check_(other.last_usb_check_)
+{
+    // mutex_ is default-constructed; intentionally not moved
+}
+
+// Custom move assignment: do not assign std::mutex
+USBAdminAuthenticator& USBAdminAuthenticator::operator=(USBAdminAuthenticator&& other) noexcept {
+    if (this != &other) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        impl_ = std::move(other.impl_);
+        config_ = std::move(other.config_);
+        metrics_ = other.metrics_;
+        failed_attempts_ = other.failed_attempts_;
+        lockout_until_ = other.lockout_until_;
+        current_license_ = std::move(other.current_license_);
+        last_usb_check_ = other.last_usb_check_;
+        // mutex_ remains default-constructed for this instance
+    }
+    return *this;
+}
 
 bool USBAdminAuthenticator::initialize() {
     THEMIS_INFO("USBAdminAuthenticator initializing with mount_path='{}'", config_.mount_path);
