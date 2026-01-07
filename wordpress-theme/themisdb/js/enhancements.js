@@ -269,12 +269,25 @@
             }
         });
 
-        // Scroll to top on click
+        // Scroll to top on click with fallback for older browsers
         backToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            // Try modern smooth scroll first
+            if ('scrollBehavior' in document.documentElement.style) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            } else {
+                // Fallback for older browsers - animated scroll
+                const scrollToTop = () => {
+                    const c = document.documentElement.scrollTop || document.body.scrollTop;
+                    if (c > 0) {
+                        window.requestAnimationFrame(scrollToTop);
+                        window.scrollTo(0, c - c / 8);
+                    }
+                };
+                scrollToTop();
+            }
         });
     }
 
@@ -324,8 +337,26 @@
             copyBtn.addEventListener('click', async () => {
                 const text = code.textContent;
                 try {
-                    await navigator.clipboard.writeText(text);
-                    copyBtn.innerHTML = '✅ Copied!';
+                    // Modern clipboard API with fallback
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(text);
+                        copyBtn.innerHTML = '✅ Copied!';
+                    } else {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = text;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            copyBtn.innerHTML = '✅ Copied!';
+                        } catch (err) {
+                            copyBtn.innerHTML = '❌ Failed';
+                        }
+                        document.body.removeChild(textArea);
+                    }
                     setTimeout(() => {
                         copyBtn.innerHTML = '📋 Copy';
                     }, 2000);
@@ -364,16 +395,21 @@
      * Initialize all enhancements
      */
     function init() {
-        initReadingProgress();
-        initLazyLoading();
-        initAccordion();
-        initScrollAnimations();
-        initImageGallery();
-        initCounters();
-        initBackToTop();
-        initTooltips();
-        initCodeCopy();
-        initExternalLinks();
+        try {
+            initReadingProgress();
+            initLazyLoading();
+            initAccordion();
+            initScrollAnimations();
+            initImageGallery();
+            initCounters();
+            initBackToTop();
+            initTooltips();
+            initCodeCopy();
+            initExternalLinks();
+        } catch (error) {
+            console.warn('ThemisDB enhancements initialization error:', error);
+            // Continue execution even if some features fail
+        }
     }
 
     // Initialize when DOM is ready
