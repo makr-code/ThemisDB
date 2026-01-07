@@ -5,6 +5,50 @@ All notable changes to this WordPress plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-07
+
+### Added
+- **Automatic Content-Based Tags and Categories**: Plugin now automatically extracts and assigns WordPress tags and categories from post/page content
+- New `class-taxonomy-manager.php` for intelligent content analysis and taxonomy extraction
+- Advanced text analysis techniques:
+  - **Word Frequency Analysis**: Most frequently used words become tags
+  - **Title Weighting**: Words in the title get 3x priority
+  - **Relevance Scoring**: Longer words (>6 chars) and capitalized words get bonus scores
+  - **Stop Word Filtering**: Common German and English filler words are excluded
+  - **Phrase Recognition**: 2-3 word combinations are extracted as categories
+- Auto-generated tags based on:
+  - Word frequency in content
+  - Position in title vs body
+  - Word length and capitalization
+  - Up to 15 most relevant terms
+- Auto-generated categories based on:
+  - Multi-word phrase extraction (bigrams and trigrams)
+  - Phrase frequency and title occurrence
+  - Up to 5 most relevant phrases
+- Admin settings for controlling auto-taxonomy feature:
+  - Toggle to enable/disable automatic taxonomies
+  - Separate controls for tags and categories
+  - Detailed descriptions and examples in admin panel
+- Automatic taxonomy assignment:
+  - Triggers when saving any post or page
+  - Analyzes title and content text
+  - Creates new tags/categories if they don't exist
+  - Appends to existing taxonomies without removing them
+
+### Changed
+- Updated plugin version to 1.2.0
+- Enhanced plugin description to mention content-based tag and category extraction
+- Extended admin panel with new "Automatische Schlagwörter und Kategorien" section
+- Updated README.md with comprehensive documentation on content analysis feature
+- Completely rewritten taxonomy manager to use NLP-style content analysis instead of GitHub API data
+
+### Technical Details
+- New activation hooks to set default auto-taxonomy options (enabled by default)
+- Integration with WordPress `save_post` action for automatic processing on save
+- Text tokenization with Unicode support for German umlauts
+- Intelligent word and phrase extraction algorithms
+- Best practices for automatic tagging following WordPress standards
+
 ## [1.1.0] - 2026-01-07
 
 ### Added
@@ -126,6 +170,8 @@ See [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
 ## Version History
 
+- **1.2.0** (2026-01-07) - Auto tags and categories feature
+- **1.1.0** (2026-01-07) - README and CHANGELOG shortcodes
 - **1.0.0** (2026-01-07) - Initial release
 
 ---
