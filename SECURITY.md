@@ -213,6 +213,25 @@ ThemisDB implements **defense-in-depth** security across all layers:
 
 </details>
 
+<details>
+<summary><b>🆕 Knowledge Graph Protection (2026)</b></summary>
+
+**Protection against AI data theft and knowledge graph exfiltration:**
+
+- 🛡️ [Knowledge Graph Protection Guide (EN)](docs/en/security/knowledge_graph_protection.md)
+- 🛡️ [Wissensgraphen-Schutz (DE)](docs/de/security/knowledge_graph_protection.md)
+- 📊 [Impact Summary & Implementation Plan (DE)](docs/de/security/graph_protection_impact_summary.md)
+- ⚙️ [Graph Protection Configuration Example](config/graph_protection.yaml)
+
+**Topics covered:**
+- Systematic graph exfiltration detection
+- Vector embedding theft prevention
+- Training data extraction protection
+- Access pattern anomaly detection
+- Graph watermarking & fingerprinting (planned)
+
+</details>
+
 ---
 
 ## 🤝 Vulnerability Disclosure Policy

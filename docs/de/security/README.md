@@ -3,7 +3,7 @@
 **Kategorie:** 📋 Reports & Documentation  
 **Version:** v1.3.0  
 **Status:** ✅ Production Ready  
-**Letzte Aktualisierung:** 22.12.2025
+**Letzte Aktualisierung:** 7. Januar 2026
 
 ---
 
@@ -11,6 +11,7 @@
 
 - [📋 Übersicht](#-übersicht)
 - [✨ Features & Highlights](#-features--highlights)
+- [🛡️ Wissensgraphen-Schutz (NEU)](#️-wissensgraphen-schutz-neu)
 - [🚀 Schnellstart](#-schnellstart)
 - [📖 Detaillierte Dokumentation](#-detaillierte-dokumentation)
 - [💡 Best Practices](#-best-practices)
@@ -40,6 +41,30 @@ Das Security-Modul implementiert umfassende Sicherheitsfunktionen für ThemisDB,
 | TimestampAuthority | `timestamp_authority.h` | `timestamp_authority.cpp` | RFC 3161 TSA |
 
 **Gesamt:** 16 Header, 16 Source-Dateien, ~8,100 LOC
+
+---
+
+## 🛡️ Wissensgraphen-Schutz (NEU)
+
+### 🔐 Schutz vor KI-Datendiebstahl (Januar 2026)
+
+Neue Bedrohungen für Wissensgraphen und Vektor-Embeddings erfordern erweiterte Schutzmaßnahmen:
+
+**Dokumentation:**
+- **[knowledge_graph_protection.md](knowledge_graph_protection.md)** - Umfassende Analyse und Schutzmaßnahmen
+- **[graph_protection_impact_summary.md](graph_protection_impact_summary.md)** - Executive Summary & Implementierungsplan
+- **[../../config/graph_protection.yaml](../../../config/graph_protection.yaml)** - Beispielkonfiguration
+
+**Kernthemen:**
+- 🔍 Systematische Graphexfiltration
+- 📊 Embedding-Diebstahl
+- 🎯 Training Data Extraction
+- ⏱️ Temporal Data Mining
+
+**Empfohlene Maßnahmen:**
+1. ✅ Phase 1 (Sofort): Erweiterte Audit-Logs, Rate Limits, Monitoring
+2. 📋 Phase 2 (3-6 Monate): Graph Watermarking, Embedding Fingerprinting
+3. 🔮 Phase 3 (6-12 Monate): Differenzielle Privacy, ML-Anomalieerkennung
 
 ---
 
