@@ -5,7 +5,8 @@ Official Python client for ThemisDB - A high-performance multi-model database.
 ## Features
 
 - ✅ **Type Hints** - Full type annotations (PEP 484)
-- ✅ **Transaction Support** - BEGIN/COMMIT/ROLLBACK with isolation levels (NEW!)
+- ✅ **Transaction Support** - BEGIN/COMMIT/ROLLBACK with isolation levels
+- ✅ **LLM Integration** - Native support for LLM interactions (v1.4.0+) 🆕
 - ✅ **Context Manager** - Pythonic `with` statement support
 - ✅ **Multi-Model** - Relational, Graph, Vector operations
 - ✅ **Query Support** - AQL (Advanced Query Language)
@@ -175,6 +176,99 @@ def transfer_money(client, from_account: str, to_account: str, amount: float):
 transfer_money(client, "alice", "bob", 100.0)
 ```
 
+## LLM Integration (v1.4.0+) 🆕
+
+ThemisDB v1.4.0-alpha introduces native LLM integration with support for various models and features like prefix caching, response caching, multi-GPU, and more.
+
+### Basic LLM Interaction
+
+```python
+from themis import ThemisClient
+
+client = ThemisClient(endpoints=["http://localhost:8080"])
+
+# Create an LLM interaction
+result = client.llm_interaction(
+    model="gpt-4o",
+    messages=[
+        {"role": "user", "content": "Explain MVCC in databases"}
+    ]
+)
+
+print(f"Interaction ID: {result.id}")
+print(f"Success: {result.success}")
+```
+
+### LLM with Reasoning Steps
+
+```python
+# Create interaction with chain-of-thought reasoning
+result = client.llm_interaction(
+    model="llama-3.1",
+    messages=[
+        {"role": "system", "content": "You are a database expert"},
+        {"role": "user", "content": "How does ThemisDB handle transactions?"}
+    ],
+    reasoning_steps=[
+        {
+            "type": "chain_of_thought",
+            "content": [
+                "MVCC allows parallel reading/writing",
+                "Each transaction gets a snapshot",
+                "Commit checks for conflicts"
+            ]
+        }
+    ],
+    metadata={"use_case": "documentation", "version": "1.4.0"}
+)
+```
+
+### Retrieve LLM Interactions
+
+```python
+# Get a specific interaction
+interaction = client.get_llm_interaction("interaction_id_123")
+
+if interaction:
+    print(f"Model: {interaction.model}")
+    print(f"Created: {interaction.created_at}")
+    for msg in interaction.messages:
+        print(f"{msg.role}: {msg.content}")
+    
+    if interaction.reasoning_steps:
+        for step in interaction.reasoning_steps:
+            print(f"Reasoning ({step.type}): {step.content}")
+```
+
+### List LLM Interactions
+
+```python
+# List all interactions
+interactions = client.list_llm_interactions(limit=50, offset=0)
+
+for interaction in interactions:
+    print(f"{interaction.id}: {interaction.model} - {interaction.created_at}")
+
+# Filter by model
+gpt4_interactions = client.list_llm_interactions(model="gpt-4o", limit=10)
+```
+
+### LLM with Vision Support
+
+```python
+# Vision model interaction (requires v1.4.0+ with vision support)
+result = client.llm_interaction(
+    model="gpt-4-vision",
+    messages=[
+        {
+            "role": "user",
+            "content": "What's in this image?",
+            "image_url": "https://example.com/image.jpg"  # Or base64 encoded
+        }
+    ]
+)
+```
+
 ## API Reference
 
 ### ThemisClient
@@ -207,7 +301,10 @@ ThemisClient(
 - `vector_search(embedding, top_k=10)` - Vector similarity search
 - `graph_traverse(start_node, max_depth=3)` - Graph traversal
 - `health(endpoint=None)` - Health check
-- `begin_transaction(*, isolation_level="READ_COMMITTED")` - **NEW:** Start transaction
+- `begin_transaction(*, isolation_level="READ_COMMITTED")` - Start transaction
+- `llm_interaction(model, messages, *, reasoning_steps=None, metadata=None)` - **NEW:** Create LLM interaction
+- `get_llm_interaction(interaction_id)` - **NEW:** Retrieve LLM interaction
+- `list_llm_interactions(*, model=None, limit=100, offset=0)` - **NEW:** List LLM interactions
 
 ### Transaction
 

@@ -29,6 +29,42 @@ export interface QueryResult<T = unknown> {
   raw: Record<string, unknown>;
 }
 
+export interface LlmMessage {
+  role: string;
+  content: string;
+  image_url?: string;
+}
+
+export interface ReasoningStep {
+  type: string;
+  content: string[];
+}
+
+export interface LlmInteraction {
+  id: string;
+  created_at: string;
+  model: string;
+  messages: LlmMessage[];
+  reasoning_steps?: ReasoningStep[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface LlmInteractionResult {
+  id: string;
+  success: boolean;
+}
+
+export interface LlmInteractionOptions {
+  reasoning_steps?: ReasoningStep[];
+  metadata?: Record<string, unknown>;
+}
+
+export interface ListLlmInteractionsOptions {
+  model?: string;
+  limit?: number;
+  offset?: number;
+}
+
 export class TopologyError extends Error {}
 
 export class ThemisClient {
@@ -271,6 +307,76 @@ export class ThemisClient {
     });
     return { results: hits.slice(0, options.topK ?? 10), partials: payloads };
   }
+
+  // ==================== LLM API ====================
+
+  async llmInteraction(
+    model: string,
+    messages: LlmMessage[],
+    options: LlmInteractionOptions = {},
+  ): Promise<LlmInteractionResult> {
+    const body: Record<string, unknown> = {
+      model,
+      messages,
+    };
+    if (options.reasoning_steps) {
+      body.reasoning_steps = options.reasoning_steps;
+    }
+    if (options.metadata) {
+      body.metadata = options.metadata;
+    }
+
+    const endpoint = this.endpoints[0];
+    const response = await this.request("POST", `${endpoint}/llm/interaction`, {
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      throw await toHttpError(response, "LLM interaction failed");
+    }
+
+    const payload = (await response.json()) as LlmInteractionResult;
+    return payload;
+  }
+
+  async getLlmInteraction(interactionId: string): Promise<LlmInteraction | null> {
+    const endpoint = this.endpoints[0];
+    const response = await this.request("GET", `${endpoint}/llm/interaction/${interactionId}`);
+
+    if (response.status === 404) {
+      return null;
+    }
+
+    if (!response.ok) {
+      throw await toHttpError(response, "failed to get LLM interaction");
+    }
+
+    const payload = (await response.json()) as LlmInteraction;
+    return payload;
+  }
+
+  async listLlmInteractions(
+    options: ListLlmInteractionsOptions = {},
+  ): Promise<LlmInteraction[]> {
+    const params = new URLSearchParams();
+    if (options.model) params.set("model", options.model);
+    if (options.limit !== undefined) params.set("limit", options.limit.toString());
+    if (options.offset !== undefined) params.set("offset", options.offset.toString());
+
+    const endpoint = this.endpoints[0];
+    const url = `${endpoint}/llm/interaction${params.toString() ? `?${params}` : ""}`;
+    const response = await this.request("GET", url);
+
+    if (!response.ok) {
+      throw await toHttpError(response, "failed to list LLM interactions");
+    }
+
+    const payload = (await response.json()) as { interactions: LlmInteraction[] };
+    return payload.interactions ?? [];
+  }
+
+  // ==================== Private Methods ====================
 
   private async currentEndpoints(): Promise<string[]> {
     await this.ensureTopology();

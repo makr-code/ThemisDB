@@ -490,6 +490,90 @@ extension ThemisClient {
     }
 }
 
+// MARK: - LLM API Extension
+
+extension ThemisClient {
+    /// Create an LLM interaction
+    public func llmInteraction(
+        model: String,
+        messages: [LlmMessage],
+        reasoningSteps: [ReasoningStep]? = nil,
+        metadata: [String: Any]? = nil
+    ) async throws -> LlmInteractionResult {
+        var bodyDict: [String: Any] = [
+            "model": model,
+            "messages": messages.map { msg in
+                var dict: [String: Any] = [
+                    "role": msg.role,
+                    "content": msg.content
+                ]
+                if let imageUrl = msg.imageUrl {
+                    dict["image_url"] = imageUrl
+                }
+                return dict
+            }
+        ]
+        
+        if let reasoningSteps = reasoningSteps {
+            bodyDict["reasoning_steps"] = reasoningSteps.map { step in
+                ["type": step.type, "content": step.content]
+            }
+        }
+        
+        if let metadata = metadata {
+            bodyDict["metadata"] = metadata
+        }
+        
+        return try await request(
+            method: "POST",
+            path: "/llm/interaction",
+            body: bodyDict
+        )
+    }
+    
+    /// Get a specific LLM interaction by ID
+    public func getLlmInteraction(interactionId: String) async throws -> LlmInteraction? {
+        do {
+            let interaction: LlmInteraction = try await request(
+                method: "GET",
+                path: "/llm/interaction/\(interactionId)",
+                body: nil
+            )
+            return interaction
+        } catch ThemisError.httpError(let statusCode, _) where statusCode == 404 {
+            return nil
+        }
+    }
+    
+    /// List LLM interactions with optional filtering
+    public func listLlmInteractions(
+        model: String? = nil,
+        limit: Int? = nil,
+        offset: Int? = nil
+    ) async throws -> [LlmInteraction] {
+        var queryParams: [String] = []
+        
+        if let model = model {
+            queryParams.append("model=\(model.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? model)")
+        }
+        if let limit = limit {
+            queryParams.append("limit=\(limit)")
+        }
+        if let offset = offset {
+            queryParams.append("offset=\(offset)")
+        }
+        
+        let path = "/llm/interaction" + (queryParams.isEmpty ? "" : "?\(queryParams.joined(separator: "&"))")
+        
+        let response: LlmInteractionsResponse = try await request(
+            method: "GET",
+            path: path,
+            body: nil
+        )
+        return response.interactions
+    }
+}
+
 // MARK: - Supporting Types
 
 public struct GraphTraverseResult: Decodable {
