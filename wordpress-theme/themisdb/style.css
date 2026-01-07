@@ -61,7 +61,7 @@ body {
     font-size: 1rem;
     line-height: 1.7;
     color: var(--text-primary);
-    background-color: #ffffff;
+    background-color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -148,7 +148,7 @@ a:focus {
     margin: 0 auto;
     padding: 2rem 1rem;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--white);
 }
 
 .content-area {
