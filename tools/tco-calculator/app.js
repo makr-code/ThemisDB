@@ -20,6 +20,9 @@ const CONFIG = {
     GB_PER_SERVER: 1000, // Storage capacity per server in GB
     REQUESTS_PER_SERVER_DAY: 10000000, // Max requests per server per day (10M)
     KB_PER_REQUEST: 10, // Average kilobytes per request for network estimation
+    KB_TO_GB: 1024 * 1024, // Conversion factor from KB to GB
+    HA_ADDITIONAL_SERVERS: 2, // Additional servers for high availability
+    HA_REDUNDANCY_MULTIPLIER: 1.5, // Redundancy multiplier for HA
 };
 
 // State Management
@@ -176,7 +179,10 @@ class TCOCalculator {
         
         // Add servers for high availability
         if (this.inputs.availability >= 99.99) {
-            servers = Math.max(servers + 2, servers * 1.5); // Add redundancy
+            servers = Math.max(
+                servers + CONFIG.HA_ADDITIONAL_SERVERS, 
+                servers * CONFIG.HA_REDUNDANCY_MULTIPLIER
+            );
         }
         
         // Peak load consideration
@@ -239,7 +245,7 @@ class TCOCalculator {
      */
     estimateNetworkUsage() {
         // Estimate based on average data per request
-        const dailyGB = (this.inputs.requestsPerDay * CONFIG.KB_PER_REQUEST) / (1024 * 1024);
+        const dailyGB = (this.inputs.requestsPerDay * CONFIG.KB_PER_REQUEST) / CONFIG.KB_TO_GB;
         return dailyGB * 30; // Monthly
     }
 
