@@ -254,6 +254,10 @@ void RocksDBWrapper::configureOptions() {
     }
     
     // Set transaction options for optimistic concurrency control
+    // SECURITY NOTE #13 (Phase 2): Snapshot lifecycle management
+    // set_snapshot = true ensures consistent reads within transactions
+    // Snapshots are transaction-local and automatically invalidated when transaction ends
+    // Callers must not use snapshot pointers after transaction commit/rollback
     txn_options_->set_snapshot = true; // Automatically create snapshot on begin
     // Use single-phase commit; do not require Prepare() for Commit
     txn_options_->skip_prepare = true;
@@ -389,6 +393,14 @@ bool RocksDBWrapper::open() {
         THEMIS_ERROR("{}", msg);
         fprintf(stderr, "%s\n", msg.c_str());
         return false;
+    }
+    
+    // SECURITY FIX #12 (Phase 2): Prevent reopen leak
+    // If db_ is already open (e.g., reopen after failed open), close it first
+    // to avoid resource leak and ensure clean state
+    if (db_) {
+        THEMIS_WARN("Database already open during open() - closing existing connection first");
+        close();
     }
     
     db_.reset(txn_db_ptr);
@@ -884,7 +896,13 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
         return;
     }
 
-    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
+    // SECURITY FIX #15 (Phase 3): Prevent infinite loop in prefix scanning
+    // Use prefix_same_as_start to optimize prefix scans and prevent over-iteration
+    // RocksDB will automatically stop iteration when prefix changes
+    rocksdb::ReadOptions scan_options = *read_options_;
+    scan_options.prefix_same_as_start = true;
+    
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(scan_options));
     rocksdb::Slice prefix_slice(prefix.data(), prefix.size());
     
     for (it->Seek(prefix_slice); it->Valid() && it->key().starts_with(prefix_slice); it->Next()) {
