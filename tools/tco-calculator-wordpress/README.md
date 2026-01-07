@@ -23,6 +23,9 @@ Dieses Plugin ist eine WordPress-Adaptation des [JavaScript TCO-Rechners](../tco
 ### WordPress-Integration
 - 📝 **Shortcode**: Einfache Einbindung via `[themisdb_tco_calculator]`
 - ⚙️ **Admin-Panel**: Einstellungsseite unter Einstellungen → TCO Calculator
+- 🔄 **GitHub Auto-Updates**: Automatische Plugin-Updates von GitHub
+- 🔗 **Plugin-Action-Links**: Direkter Zugriff auf Einstellungen von der Plugins-Seite
+- 🧹 **Saubere Deinstallation**: Automatische Bereinigung bei Plugin-Löschung
 - 🎨 **Theme-kompatibel**: Funktioniert mit jedem WordPress-Theme
 - 📱 **Responsive**: Optimiert für alle Bildschirmgrößen
 
@@ -47,6 +50,15 @@ Dieses Plugin ist eine WordPress-Adaptation des [JavaScript TCO-Rechners](../tco
    - Gehen Sie zu WordPress Admin → Plugins
    - Suchen Sie nach "ThemisDB TCO Calculator"
    - Klicken Sie auf "Aktivieren"
+
+3. **Konfiguration (Optional)**
+   - Gehen Sie zu Einstellungen → TCO Calculator
+   - Passen Sie die Standardwerte nach Bedarf an
+
+4. **Shortcode verwenden**
+   - Erstellen Sie eine neue Seite oder Beitrag
+   - Fügen Sie `[themisdb_tco_calculator]` ein
+   - Veröffentlichen
 
 ### Methode 2: ZIP-Upload
 
@@ -111,11 +123,41 @@ Der Shortcode unterstützt folgende optionale Parameter:
 
 1. **Einstellungsseite öffnen**
    - WordPress Admin → Einstellungen → TCO Calculator
+   - Oder direkt über den "Einstellungen"-Link auf der Plugins-Seite
 
 2. **Verfügbare Einstellungen:**
    - AI Features aktivieren
    - Standard Anfragen/Tag
    - Standard Datengröße (GB)
+   - Standard Spitzenlast-Faktor
+   - Standard Verfügbarkeit (%)
+
+3. **Einstellungen speichern**
+   - Änderungen werden automatisch auf alle Instanzen des Rechners angewendet
+
+4. **Update-Status prüfen**
+   - Die Einstellungsseite zeigt den aktuellen Update-Status an
+   - Neue Versionen werden automatisch erkannt
+
+### GitHub Auto-Updates
+
+Das Plugin unterstützt automatische Updates direkt von GitHub:
+
+1. **Automatische Erkennung**
+   - Das Plugin prüft regelmäßig auf neue Versionen
+   - Updates werden unter Dashboard → Aktualisierungen angezeigt
+
+2. **Update installieren**
+   - Klicken Sie auf "Jetzt aktualisieren" wie bei jedem anderen Plugin
+   - Das Plugin wird automatisch von GitHub heruntergeladen
+
+3. **Update-Benachrichtigungen**
+   - Sie werden benachrichtigt, wenn eine neue Version verfügbar ist
+   - Der Update-Status wird auch auf der Plugin-Einstellungsseite angezeigt
+
+4. **Release-Notes**
+   - Changelog wird direkt von GitHub geladen
+   - Klicken Sie auf "Details anzeigen" für vollständige Release-Notes
    - Standard Spitzenlast-Faktor
    - Standard Verfügbarkeit (%)
 
@@ -318,14 +360,20 @@ Wenn Sie bereits den Original-HTML-Rechner verwenden:
 
 ### Version 1.0.0 (Januar 2026)
 - ✅ Erste Veröffentlichung
-- ✅ Shortcode-Integration
-- ✅ Admin-Einstellungsseite
+- ✅ Shortcode-Integration `[themisdb_tco_calculator]`
+- ✅ Admin-Einstellungsseite mit Standardwerten
+- ✅ **GitHub Auto-Update-Unterstützung**
+- ✅ **Plugin-Action-Links** (direkter Zugriff auf Einstellungen)
+- ✅ **Uninstall-Hook** für saubere Deinstallation
+- ✅ **JavaScript-Button-Fix**: Event-Listener funktionieren jetzt korrekt
 - ✅ Vollständige Feature-Parität mit Original-Rechner
 - ✅ WordPress-optimierte Code-Struktur
 - ✅ Chart.js Integration
-- ✅ Export-Funktionen (PDF, CSV)
+- ✅ Export-Funktionen (PDF, CSV, Druck)
 - ✅ Responsive Design
 - ✅ Deutsche Lokalisierung
+- ✅ WordPress.org readme.txt Format
+- ✅ Multisite-Unterstützung
 
 ## 🤝 Beitragen
 

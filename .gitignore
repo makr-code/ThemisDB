@@ -272,3 +272,4 @@ docs/en/confidential/
 # Test results and benchmarks
 results/
 *.log
+tools/tco-calculator-wordpress/test.html
