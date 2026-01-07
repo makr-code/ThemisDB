@@ -304,7 +304,43 @@ cppcheck --enable=warning,style --inconclusive ./src ./include
 
 | Date | Event |
 |------|-------|
+| **2026-01** | 🔒 Major security improvements in v1.3.4 (RocksDB, Docker, Updates) |
+| **2025-12** | 🔐 Update Checker security features & Manifest signing design |
 | **2025-11** | 📝 Initial security policy publication |
+
+---
+
+## 🔒 Recent Security Work
+
+> [!NOTE]
+> **Comprehensive Security Summary (v1.3.0 - v1.3.4):**  
+> See [Security Work Summary](/docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md) for detailed information about recent security improvements.
+
+### Highlights (v1.3.4)
+
+**RocksDB Wrapper Security Fixes:**
+- ✅ 7 critical vulnerabilities fixed (use-after-free, null-pointer, memory leaks)
+- ✅ 8 medium-severity issues resolved (deadlocks, resource leaks)
+- 📊 100% elimination of segfault risks
+- 📖 [Full Audit Report](/docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+
+**Docker Security Improvements:**
+- ✅ Ubuntu 24.04 LTS base image (extended security support)
+- ✅ Automated security updates during build
+- ✅ 80%+ reduction in CVEs
+- 📖 [Docker Security Fixes](/docs/DOCKER_SECURITY_FIXES.md)
+
+**Update Checker Security:**
+- ✅ Token masking and secure handling
+- ✅ HTTPS-only communication
+- ✅ Thread-safe implementation
+- 📖 [Update Security Summary](/docs/de/releases/updates_security_summary.md)
+
+**Binary Authenticity (Design):**
+- ✅ Cryptographic manifest signing architecture
+- ✅ SHA-256 hash verification
+- ✅ RSA-4096 digital signatures
+- 📖 [Manifest Security](/docs/de/releases/updates_manifest_security.md)
 
 ---
 
