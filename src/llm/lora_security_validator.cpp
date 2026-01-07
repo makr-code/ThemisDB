@@ -82,20 +82,20 @@ static bool base64_decode(const std::string& input, std::vector<uint8_t>& output
 }
 
 /**
- * @brief Verify RSA-SHA256 signature using OpenSSL
+ * @brief Validate RSA-SHA256 signature format
  * @param data Data that was signed
  * @param signature Signature bytes
  * @param cert_fingerprint SHA-256 fingerprint of signing certificate
- * @return true if signature is valid, false otherwise
+ * @return true if signature format is valid, false otherwise
+ * 
+ * NOTE: This function ONLY validates signature format (size, structure).
+ * It does NOT perform cryptographic signature verification.
+ * Full verification requires X.509 certificate store integration.
  */
-static bool verify_rsa_sha256_signature(
+static bool validate_signature_format(
     const std::vector<uint8_t>& data,
     const std::vector<uint8_t>& signature,
     const std::string& cert_fingerprint) {
-    
-    // For now, we verify the signature format is correct
-    // Full X.509 cert chain verification would require loading the cert from a store
-    // based on the fingerprint, which is deployment-specific
     
     if (signature.empty()) {
         LOG_ERROR("Empty signature provided");
@@ -107,29 +107,29 @@ static bool verify_rsa_sha256_signature(
         return false;
     }
     
-    // Verify signature size is reasonable for RSA (256-512 bytes typical)
+    // Verify signature size is reasonable for RSA (128-1024 bytes)
     if (signature.size() < 128 || signature.size() > 1024) {
         LOG_ERROR("Signature size {} is outside expected range (128-1024 bytes)", signature.size());
         return false;
     }
     
-    // Calculate SHA-256 hash of data
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(data.data(), data.size(), hash);
+    // Verify cert fingerprint format (64 hex chars for SHA-256)
+    if (cert_fingerprint.size() != 64 && cert_fingerprint.size() != 40) {
+        LOG_ERROR("Invalid certificate fingerprint format: {} chars", cert_fingerprint.size());
+        return false;
+    }
     
-    // NOTE: Full signature verification requires:
-    // 1. Loading the X.509 certificate based on cert_fingerprint
-    // 2. Extracting the public key from the certificate
-    // 3. Verifying the signature using EVP_DigestVerify* APIs
-    // 
-    // This requires a certificate store configuration which is deployment-specific.
-    // For production use, integrate with system certificate store or PKI infrastructure.
+    // Verify fingerprint contains only hex characters
+    for (char c : cert_fingerprint) {
+        if (!std::isxdigit(static_cast<unsigned char>(c))) {
+            LOG_ERROR("Certificate fingerprint contains non-hex character");
+            return false;
+        }
+    }
     
-    LOG_INFO("Signature format validated: {} bytes, cert fingerprint: {}", 
+    LOG_DEBUG("Signature format validated: {} bytes, cert fingerprint: {}", 
              signature.size(), cert_fingerprint);
     
-    // Return true only if signature format is valid
-    // Actual cryptographic verification requires certificate store integration
     return true;
 }
 
@@ -205,31 +205,37 @@ LoRASignatureResult LoRASecurityValidator::verifySignature(
         return result;
     }
     
-    // Verify signature using OpenSSL
-    bool sig_valid = verify_rsa_sha256_signature(lora_data, signature, cert_fingerprint);
+    // Validate signature format
+    bool format_valid = validate_signature_format(lora_data, signature, cert_fingerprint);
     
-    if (!sig_valid) {
+    if (!format_valid) {
         result.is_valid = false;
-        result.error_message = "Signature verification failed";
+        result.error_message = "Signature format validation failed";
         
         // Audit log
         audit_logger::log_security_event(
-            "lora_signature_verification_failed",
+            "lora_signature_format_invalid",
             {{"lora_path", lora_path}, {"signer", cert_fingerprint}}
         );
         
-        LOG_ERROR("LoRa signature verification failed for {}: signer={}", 
+        LOG_ERROR("LoRa signature format invalid for {}: signer={}", 
                  lora_path, cert_fingerprint);
         return result;
     }
     
-    // Signature is valid
+    // NOTE: Cryptographic signature verification not yet implemented
+    // This requires X.509 certificate store integration which is deployment-specific
+    // Format validation above provides basic security checks, but NOT cryptographic verification
+    LOG_WARN("LoRa signature cryptographic verification not implemented - using format validation only");
+    
+    // For now, if format is valid and signer is trusted, we accept the signature
+    // This provides some security (trusted signers + format validation) but not full crypto verification
     result.is_valid = true;
     result.signer_identity = cert_fingerprint;
-    result.signature_algorithm = "RSA-SHA256";
-    result.error_message = "";
+    result.signature_algorithm = "RSA-SHA256 (format validation only)";
+    result.error_message = "Cryptographic verification not implemented - format validated only";
     
-    LOG_INFO("LoRa signature verified successfully for {}: signer={}", 
+    LOG_INFO("LoRa signature format validated for {}: signer={} (crypto verification pending)", 
              lora_path, cert_fingerprint);
     
     return result;
@@ -289,31 +295,37 @@ LoRASignatureResult LoRASecurityValidator::verifyEmbeddedSignature(
         return result;
     }
     
-    // Verify embedded signature
-    bool sig_valid = verify_rsa_sha256_signature(lora_data, signature, signer);
+    // Validate signature format
+    bool format_valid = validate_signature_format(lora_data, signature, signer);
     
-    if (!sig_valid) {
+    if (!format_valid) {
         result.is_valid = false;
-        result.error_message = "Embedded signature verification failed";
+        result.error_message = "Embedded signature format validation failed";
         
         // Audit log
         audit_logger::log_security_event(
-            "lora_embedded_signature_verification_failed",
+            "lora_embedded_signature_format_invalid",
             {{"lora_path", lora_path}, {"signer", signer}}
         );
         
-        LOG_ERROR("Embedded LoRa signature verification failed for {}: signer={}", 
+        LOG_ERROR("Embedded LoRa signature format invalid for {}: signer={}", 
                  lora_path, signer);
         return result;
     }
     
-    // Signature is valid
+    // NOTE: Cryptographic signature verification not yet implemented
+    // This requires X.509 certificate store integration which is deployment-specific
+    // Format validation above provides basic security checks, but NOT cryptographic verification
+    LOG_WARN("Embedded LoRa signature cryptographic verification not implemented - using format validation only");
+    
+    // For now, if format is valid and signer is trusted, we accept the signature
+    // This provides some security (trusted signers + format validation) but not full crypto verification
     result.is_valid = true;
     result.signer_identity = signer;
-    result.signature_algorithm = "RSA-SHA256";
-    result.error_message = "";
+    result.signature_algorithm = "RSA-SHA256 (format validation only)";
+    result.error_message = "Cryptographic verification not implemented - format validated only";
     
-    LOG_INFO("Embedded LoRa signature verified successfully for {}: signer={}", 
+    LOG_INFO("Embedded LoRa signature format validated for {}: signer={} (crypto verification pending)", 
              lora_path, signer);
     
     return result;
@@ -592,12 +604,46 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
             
             if (offsets.size() != 2) continue;
             
+            // Validate offsets to prevent overflow and out-of-bounds access
+            if (offsets[0] > offsets[1]) {
+                LOG_WARN("Invalid tensor offsets: start {} > end {}", offsets[0], offsets[1]);
+                continue;
+            }
+            
+            // Check for overflow when adding data_offset
+            if (offsets[0] > UINT64_MAX - data_offset || offsets[1] > UINT64_MAX - data_offset) {
+                LOG_WARN("Tensor offset would overflow: data_offset={}, offsets=[{}, {}]", 
+                         data_offset, offsets[0], offsets[1]);
+                continue;
+            }
+            
             uint64_t start_offset = data_offset + offsets[0];
             uint64_t end_offset = data_offset + offsets[1];
             
+            // Validate bounds within data buffer
+            if (start_offset >= data.size() || end_offset > data.size()) {
+                LOG_WARN("Tensor offsets out of bounds: start={}, end={}, data_size={}", 
+                         start_offset, end_offset, data.size());
+                continue;
+            }
+            
+            // Validate tensor size is reasonable (< 10GB)
+            if (end_offset - start_offset > 10ULL * 1024 * 1024 * 1024) {
+                LOG_WARN("Tensor size too large: {} bytes", end_offset - start_offset);
+                continue;
+            }
+            
             // Only support float32 for now
             if (dtype == "F32" || dtype == "float32") {
-                size_t num_floats = (end_offset - start_offset) / sizeof(float);
+                size_t tensor_size = end_offset - start_offset;
+                
+                // Validate tensor size is multiple of float size
+                if (tensor_size % sizeof(float) != 0) {
+                    LOG_WARN("Tensor size {} is not multiple of float size", tensor_size);
+                    continue;
+                }
+                
+                size_t num_floats = tensor_size / sizeof(float);
                 
                 // Sample some weights (don't load all to avoid memory issues)
                 size_t sample_size = std::min(num_floats, static_cast<size_t>(10000));
@@ -605,10 +651,18 @@ std::vector<float> LoRASecurityValidator::loadWeightsFromLoRAFile(
                 
                 for (size_t i = 0; i < num_floats && weights.size() < sample_size; i += stride) {
                     size_t byte_offset = start_offset + i * sizeof(float);
+                    // Double-check bounds before memcpy
                     if (byte_offset + sizeof(float) <= data.size()) {
                         float value;
+                        // NOTE: SafeTensors format uses little-endian byte order
+                        // This memcpy assumes the host system is also little-endian (x86/x64)
+                        // For big-endian systems, byte swapping would be required
                         std::memcpy(&value, &data[byte_offset], sizeof(float));
-                        weights.push_back(value);
+                        
+                        // Validate float is not NaN or Inf to prevent anomaly detection issues
+                        if (std::isfinite(value)) {
+                            weights.push_back(value);
+                        }
                     }
                 }
             }
