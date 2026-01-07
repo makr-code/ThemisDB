@@ -255,6 +255,55 @@ cp -r tco-calculator-wordpress /path/to/wordpress/wp-content/plugins/themisdb-tc
 - [Installation](tco-calculator-wordpress/INSTALLATION.md)
 - [Implementation Guide](tco-calculator-wordpress/IMPLEMENTATION.md)
 
+---
+
+### Wiki Integration (`themisdb-wiki-integration`)
+
+Ein WordPress-Plugin zur **automatischen Integration der ThemisDB-Dokumentation aus GitHub**.
+
+**Features:**
+- ✅ Automatisches Abrufen von Markdown-Dateien aus GitHub
+- ✅ Unterstützung für mehrere Sprachen (DE, EN, FR)
+- ✅ Caching-Mechanismus für Performance
+- ✅ Automatische stündliche Synchronisierung
+- ✅ Inhaltsverzeichnis-Generierung
+- ✅ Responsive Design mit Dark Mode Support
+- ✅ Admin-Panel zur Konfiguration
+
+**Verwendung:**
+```php
+// Dokumentation anzeigen
+[themisdb_wiki file="README.md" lang="de" show_toc="yes"]
+
+// Dokumentationsliste anzeigen
+[themisdb_docs lang="de" layout="grid"]
+
+// Beispiele
+[themisdb_wiki file="features/FEATURES.md" lang="de" show_toc="yes"]
+[themisdb_wiki file="architecture/ARCHITECTURE.md" lang="en"]
+```
+
+**Installation:**
+```bash
+# In WordPress plugins-Verzeichnis kopieren
+cp -r themisdb-wiki-integration /path/to/wordpress/wp-content/plugins/
+
+# In WordPress Admin aktivieren
+# Plugins → ThemisDB Wiki Integration → Aktivieren
+```
+
+**Konfiguration:**
+- Gehen Sie zu **Einstellungen → ThemisDB Wiki**
+- GitHub Repository: `makr-code/ThemisDB`
+- Branch: `main`
+- Dokumentationspfad: `docs`
+- Optional: GitHub Token für höhere API-Limits
+
+**Dokumentation:**
+- [README](themisdb-wiki-integration/README.md)
+- [Quick Start](themisdb-wiki-integration/QUICKSTART.md)
+- [Installation Guide](themisdb-wiki-integration/INSTALLATION.md)
+
 ### ThemisDB-spezifische WordPress Plugins (Konzept)
 
 **Spezialisierte Plugins zur Visualisierung von ThemisDB-Daten** (Benchmarks, Features, Tests, Docs).
