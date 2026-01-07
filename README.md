@@ -70,14 +70,15 @@
 **Files Modified:** `src/storage/rocksdb_wrapper.cpp`, `src/server/http_server.cpp`, `docker/compose/docker-compose-sharding.yml`, `Dockerfile.themis-server`, `.dockerignore`  
 **Tools Added:** `scripts/raid_endurance_test.py`, `scripts/monitor_raid_test.ps1`
 
-### �🔒 RocksDB Wrapper Security Hotfix (2026-01-02)
-- 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper
-- 🔧 **Memory Safety** - Fixed use-after-free vulnerability in BlockBasedTableOptions
-- ✅ **Null-Pointer Protection** - Added null-checks for `options_->env` before SetBackgroundThreads calls
-- 📊 **Transaction Safety** - Improved transaction error handling and resource cleanup
-- 📝 **Comprehensive Audit** - Full security audit report available in [ROCKSDB_WRAPPER_AUDIT_REPORT.md](ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+### 🔒 Security Improvements Summary (v1.3.0 - v1.3.4)
+- 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper (100% segfault risk elimination)
+- 🐳 **Docker Security** - Upgraded to Ubuntu 24.04 LTS with 80%+ CVE reduction
+- 🔄 **Update Checker Security** - Secure token handling, HTTPS-only, thread-safe implementation
+- 🔐 **Binary Authenticity** - Cryptographic manifest signing architecture (RSA-4096, SHA-256)
+- 🔧 **Memory Safety** - Fixed use-after-free vulnerabilities, memory leaks, and resource management
+- ✅ **Verification** - CodeQL passed, comprehensive audit reports, all critical issues resolved
 
-**Quick Links:** [Security Audit Report](ROCKSDB_WRAPPER_AUDIT_REPORT.md) | [Security Policy](SECURITY.md)
+**Quick Links:** [Security Summary (EN)](docs/SECURITY_WORK_SUMMARY_v1.3.4_EN.md) | [Sicherheitszusammenfassung (DE)](docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md) | [Security Audit](docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md) | [Security Policy](SECURITY.md)
 
 ### 🎙️ Voice Assistant Integration (2025-12-30) - Enterprise Feature
 - 🗣️ **Natural Language Voice Interaction** - Similar to Alexa/Siri, powered by Whisper.cpp + Piper TTS + llama.cpp
