@@ -244,7 +244,7 @@ class ThemisDB_TCO_Calculator {
                 'new_version' => $remote_version->tag_name,
                 'url' => $remote_version->html_url,
                 'package' => $this->get_github_download_url($remote_version->tag_name),
-                'tested' => '6.4',
+                'tested' => '6.7',
                 'requires_php' => '7.4',
             );
             
@@ -274,7 +274,7 @@ class ThemisDB_TCO_Calculator {
             $response->homepage = 'https://github.com/' . THEMISDB_TCO_GITHUB_REPO;
             $response->download_link = $this->get_github_download_url($remote_version->tag_name);
             $response->requires = '5.0';
-            $response->tested = '6.4';
+            $response->tested = '6.7';
             $response->requires_php = '7.4';
             $response->sections = array(
                 'description' => 'Total Cost of Ownership Calculator für ThemisDB',
