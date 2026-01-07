@@ -34,6 +34,172 @@
 - [security_hardening.md](security_hardening.md) - Hardening Guide
 - [security_policies.md](security_policies.md) - Security Policies
 - [security_policy.md](security_policy.md) - Security Policy Document
+## 📋 Übersicht
+
+Das Security-Modul implementiert umfassende Sicherheitsfunktionen für ThemisDB, einschließlich Field-Level Encryption, Key Management, RBAC, PKI-Integration, Vector Encryption und Malware-Scanning.
+
+### Hauptkomponenten
+
+| Komponente | Header | Source | Beschreibung |
+|------------|--------|--------|--------------|
+| FieldEncryption | `encryption.h` | `encryption.cpp` | AES-256-GCM |
+| KeyProvider | `key_provider.h` | - | Key Provider Interface |
+| MockKeyProvider | `mock_key_provider.h` | `mock_key_provider.cpp` | Test Provider |
+| VaultKeyProvider | `vault_key_provider.h` | `vault_key_provider.cpp` | HashiCorp Vault |
+| HSMProvider | `hsm_provider.h` | `hsm_provider_pkcs11.cpp` | PKCS#11 HSM |
+| PKIKeyProvider | `pki_key_provider.h` | `pki_key_provider.cpp` | PKI Integration |
+| RBAC | `rbac.h` | `rbac.cpp` | Role-Based Access |
+| MalwareScanner | `malware_scanner.h` | `malware_scanner.cpp` | Content Scanning |
+| CMSSigning | `cms_signing.h` | `cms_signing.cpp` | CMS Signatures |
+| TimestampAuthority | `timestamp_authority.h` | `timestamp_authority.cpp` | RFC 3161 TSA |
+
+**Gesamt:** 16 Header, 16 Source-Dateien, ~8,100 LOC
+
+---
+
+## ✨ Features & Highlights
+
+### 🆕 Vector Encryption (Phase 1 + 2) - VOLLSTÄNDIG IMPLEMENTIERT ✅
+
+**Schnellstart:**
+- **[QUICK_START_VECTOR_ENCRYPTION.md](QUICK_START_VECTOR_ENCRYPTION.md)** - 5-Minuten Schnelleinstieg
+
+**Benutzerhandbücher:**
+- **[VECTOR_ENCRYPTION_CONFIGURATION.md](VECTOR_ENCRYPTION_CONFIGURATION.md)** - Phase 1: Vektor-Verschlüsselung in RocksDB
+- **[HNSW_ENCRYPTION_CONFIGURATION.md](HNSW_ENCRYPTION_CONFIGURATION.md)** - Phase 2: HNSW Index Verschlüsselung
+
+### 🔴 LLM & LoRa Adapter Sicherheit (v1.4.0+) - NEU ✅
+
+**Bedrohungsanalyse:**
+- **[LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md)** ⭐ **WICHTIG** - Umfassende Analyse von Angriffsvektoren auf LLMs und LoRa-Adapter
+
+**Hauptrisiken:**
+- 🔴 Prompt Injection (Hoch)
+- 🔴 LoRa Model Poisoning (Hoch)
+- 🟠 Vector Embedding Manipulation (Mittel, durch Verschlüsselung geschützt)
+- 🟠 HNSW Index Poisoning (Mittel, durch Verschlüsselung geschützt)
+- 🟡 Adapter Weight Extraction (Niedrig)
+
+**Schutzmaßnahmen (Implementiert):**
+- ⚠️ `LoRASecurityValidator` - Architektur und Tests (Signaturvalidierung: Stub)
+- ⚠️ `PromptInjectionDetector` - Pattern-basierte Injection-Erkennung (Produktionsreif)
+- ⚠️ `EmbeddingAnomalyDetector` - Statistische Anomalieerkennung (Produktionsreif)
+- ✅ Unit Tests in `tests/test_lora_security.cpp`
+
+> **⚠️ HINWEIS:** Die Signaturvalidierung für LoRa-Adapter ist derzeit als
+> Prototyp implementiert und verwendet Stub-Code. Für Produktionsumgebungen
+> muss die OpenSSL-Integration vervollständigt werden. Siehe 
+> [LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md) für Details.
+
+**Referenzen:**
+- [Multi-LoRa Manager](../../include/llm/multi_lora_manager.h) - Adapter-Verwaltung
+- [Security Validator](../../include/llm/lora_security_validator.h) - Sicherheitsvalidierung
+- [RAID LoRa Implementation](../../docs/RAID_LORA_IMPLEMENTATION_REPORT.md) - Verteilte Adapter
+
+**Implementierungsdetails:**
+- **[COMPLETE_IMPLEMENTATION_SUMMARY.md](COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Vollständige Übersicht aller Phasen
+- **[PHASE1_FINAL_REPORT.md](PHASE1_FINAL_REPORT.md)** - Phase 1 Abschlussbericht
+- **[PHASE2_IMPLEMENTATION_REPORT.md](PHASE2_IMPLEMENTATION_REPORT.md)** - Phase 2 Abschlussbericht
+
+**Build & Test:**
+- **[BUILD_VERIFICATION_GUIDE.md](BUILD_VERIFICATION_GUIDE.md)** - Build und Test Anleitung
+
+**Performance & Optimierung:**
+- **[PERFORMANCE_OPTIMIZATION_NOTES.md](PERFORMANCE_OPTIMIZATION_NOTES.md)** - Performance-Optimierungen
+
+**Analysen:**
+- **[HNSW_PERSISTENCE_ENCRYPTION_ANALYSIS.md](HNSW_PERSISTENCE_ENCRYPTION_ANALYSIS.md)** - Sicherheitsanalyse HNSW Persistenz
+- **[EMBEDDING_REVERSIBILITY_ANALYSIS.md](EMBEDDING_REVERSIBILITY_ANALYSIS.md)** - Vektor-Embedding Sicherheitsanalyse
+- **[ENCRYPTED_HNSW_SEARCHABILITY.md](ENCRYPTED_HNSW_SEARCHABILITY.md)** - Analyse verschlüsselte Suche
+
+**Ergebnis:**
+- ✅ 100% At-Rest Verschlüsselung für Vektoren
+- ✅ AES-256-GCM für RocksDB Vektoren und HNSW Index-Dateien
+- ✅ BSI C5 CRY-03 vollständig konform
+- ✅ 8 Integrationstests + 5 Beispiele
+- ✅ Migrations-Tool für bestehende Daten
+
+### 🏆 BSI C5 Compliance - Kryptographie
+
+**[➡️ BSI C5 Column Encryption Compliance Report](BSI_C5_COLUMN_ENCRYPTION_COMPLIANCE.md)**  
+Comprehensive analysis of column encryption implementation against BSI C5 requirements (CRY-01 to CRY-06).  
+**Compliance Score: 95% → 100% (with new documentation)** ✅
+
+**[➡️ BSI C5 Multi-Model Encryption Analysis](BSI_C5_MULTI_MODEL_ENCRYPTION_ANALYSIS.md)** ⭐ **NEU**  
+Detaillierte Analyse der Verschlüsselung über **alle Datenmodell-Schichten**: Relational, Vector, Graph, Geo, Timeline, Process.  
+**Ergebnis: Unified Storage Architecture sichert konsistente Verschlüsselung über alle Modelle** ✅
+
+**Formale Dokumentation (Dezember 2025):**
+- **[Kryptographie-Policy](CRYPTOGRAPHY_POLICY.md)** - Formale Policy gemäß BSI C5 CRY-01, BSI TR-02102-1 konform
+- **[Key Lifecycle Management](KEY_LIFECYCLE_MANAGEMENT.md)** - Vollständiger Schlüssel-Lebenszyklus gemäß BSI C5 CRY-02
+- **[Executive Summary (DE)](BSI_C5_ZUSAMMENFASSUNG.md)** - Kurzzusammenfassung für Stakeholder
+
+### 🛡️ Implementierungsstatus (Dezember 2025)
+
+| Komponente | Status | Implementierung |
+|------------|--------|-----------------|
+| **RBAC/ABAC Policy Engine** | ✅ Produktionsreif | Ranger-kompatibel |
+| **Apache Ranger Integration** | ✅ Produktionsreif | `src/server/ranger_adapter.cpp` |
+| **VaultKeyProvider (KMS)** | ✅ Produktionsreif | `src/security/vault_key_provider.cpp` |
+| **HSMProvider (PKCS#11)** | ✅ Produktionsreif | `src/security/hsm_provider_pkcs11.cpp` |
+| **PKI Client (OpenSSL)** | ✅ Produktionsreif | `src/utils/pki_client.cpp` |
+| **Audit Logging** | ✅ Produktionsreif | Hash-Chain, PKI-Signaturen |
+| **Field Encryption** | ✅ Produktionsreif | AES-256-GCM |
+| **Timestamp Authority** | ✅ Produktionsreif | RFC 3161 via OpenSSL |
+
+---
+
+## 🚀 Schnellstart
+
+### Vector Encryption aktivieren
+
+```cpp
+// Initialize encryption
+auto key_provider = std::make_shared<KeyProvider>();
+auto field_encryption = std::make_shared<FieldEncryption>(key_provider);
+EncryptedField<std::vector<float>>::setFieldEncryption(field_encryption);
+
+// Enable encryption
+VectorIndexManager vim(db);
+vim.init("documents", 768);
+vim.setVectorEncryptionEnabled(true);
+
+// Add vectors - automatically encrypted!
+BaseEntity entity("doc1");
+entity.setField("embedding", std::vector<float>(768, 0.5f));
+vim.addEntity(entity);
+```
+
+### Field Encryption verwenden
+
+```cpp
+// Encrypt sensitive field
+FieldEncryption encryption(keyProvider);
+auto blob = encryption.encrypt("sensitive data", "user_pii");
+entity.setField("email_encrypted", blob.toBase64());
+
+// Decrypt
+auto decrypted = encryption.decrypt(EncryptedBlob::fromBase64(encrypted_value));
+```
+
+### RBAC konfigurieren
+
+```cpp
+RBAC rbac;
+rbac.createRole("analyst", {{"data", "read"}, {"reports", "read"}});
+rbac.assignRole("user@example.com", "analyst");
+
+// Check permission
+if (rbac.authorize("user@example.com", "data", "read")) {
+    // Access granted
+}
+```
+
+---
+
+## 📖 Detaillierte Dokumentation
+
+### 🔒 Encryption
 
 ### 3. Encryption & Key Management
 - [security_encryption_strategy.md](security_encryption_strategy.md) - Verschlüsselungsstrategie

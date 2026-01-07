@@ -1,19 +1,27 @@
 # LLM & AI Integration Documentation
 
-**Stand:** 20. Dezember 2025  
-**Version:** 1.3.0 (Native LLM Integration mit llama.cpp - Optional)  
+**Stand:** 5. Januar 2026  
+**Version:** 1.4.0-alpha (Erweiterte LLM-Features)  
 **Kategorie:** LLM & Distributed AI
 
 ---
 
 ## 🚀 Übersicht
 
-ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis von **llama.cpp** sowie Grundlagen für **verteiltes Reasoning**. Das LLM-Modul umfasst Plugin-Architektur, Lazy Model Loading, Multi‑LoRA und RAG-Integration.
+Ab v1.4.0-alpha bietet ThemisDB erweiterte **eingebettete LLM-Funktionen** mit grammatik-gesteuerter Generierung, erweiterten Kontextfenstern, Vision-Support und signifikanten Performance-Optimierungen. Das LLM-Modul baut weiterhin auf der llama.cpp-Basis mit Enterprise-Grade-Features auf.
 
 > **Wichtiger Hinweis**: LLM-Integration ist ein **optionales Feature**:
 > - Erfordert Build-Flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - Benötigt externe Abhängigkeit: llama.cpp (separat klonen)
 > - Nicht standardmäßig aktiviert
+
+**NEU in v1.4.0-alpha:**
+- 📝 **Grammatik-gesteuerte Generierung** - EBNF/GBNF für garantiert valide JSON/XML/CSV (95-99% Zuverlässigkeit)
+- 🔭 **RoPE Scaling** - Erweitertes Kontextfenster von 4K → 32K Tokens (8-fache Vergrößerung)
+- 🖼️ **Vision Support** - Multi-modale LLMs mit CLIP-basierter Bildcodierung (LLaVA)
+- ⚡ **Flash Attention** - CUDA-Kernel für 15-25% Geschwindigkeitssteigerung, 30% Speicherreduktion
+- 🎯 **Speculative Decoding** - 2-3x schnellere Inferenz mit Draft+Target-Modellen
+- 🔄 **Continuous Batching** - 2x+ Durchsatz mit dynamischem Request-Batching
 
 **Implementiert in v1.3.0:**
 - 🧠 **Embedded llama.cpp** – Native LLM-Inferenz ohne externe APIs (optional)
@@ -22,9 +30,30 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 - 🗃️ **Lazy Model Loading** (Ollama‑Style)
 - 🔀 **Multi‑LoRA Management** (vLLM‑Style)
 
-**Quicklinks:**
-- [🧠 **LLM Complete Setup Guide**](../guides/LLM_COMPLETE_SETUP_GUIDE.md) – **NEU** Vollständiger Guide für Setup & Inferencing
-- [🔍 **llama.cpp Feature Research**](./LLAMA_CPP_API_FEATURE_RESEARCH.md) – **NEU** Identifizierung zusätzlicher llama.cpp Features (14 neue Features)
+**Quicklinks (v1.4.0-alpha):**
+- [📝 Grammatik-gesteuerte Generierung](../../en/llm/GRAMMAR_CONSTRAINED_GENERATION.md) - **NEU** Garantiert valide Ausgaben
+- [🔭 RoPE Scaling Implementierung](../../en/llm/ROPE_SCALING_IMPLEMENTATION.md) - **NEU** Erweiterte Kontextfenster
+- [🖼️ Vision Support Quick Start](../../en/llm/VISION_SUPPORT_QUICK_START.md) - **NEU** Multi-modale LLMs
+- [⚡ Flash Attention Implementierung](../../en/llm/FLASH_ATTENTION_IMPLEMENTATION.md) - **NEU** Performance-Optimierung
+- [🎯 Speculative Decoding](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md) - **NEU** 2-3x Speedup
+- [🔄 Continuous Batching](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md) - **NEU** Dynamisches Batching
+- [🧠 **LLM Complete Setup Guide**](../guides/LLM_COMPLETE_SETUP_GUIDE.md) – Vollständiger Guide für Setup & Inferencing
+- [🔍 **llama.cpp Feature Research**](./LLAMA_CPP_API_FEATURE_RESEARCH.md) – Identifizierung zusätzlicher llama.cpp Features
+
+## 📚 Feature-Dokumentation (v1.4.0-alpha)
+
+### Erweiterte Features
+
+| Feature | Anleitung | Status | Version |
+|---------|-----------|--------|---------|
+| 📝 Grammatik-gesteuerte Generierung | [GRAMMAR_CONSTRAINED_GENERATION.md](../../en/llm/GRAMMAR_CONSTRAINED_GENERATION.md) | ✅ Vollständig | v1.4.0-alpha |
+| 🔭 RoPE Scaling (4K→32K Tokens) | [ROPE_SCALING_IMPLEMENTATION.md](../../en/llm/ROPE_SCALING_IMPLEMENTATION.md) | ✅ Vollständig | v1.4.0-alpha |
+| 🖼️ Vision Support (Multi-Modal) | [VISION_SUPPORT_QUICK_START.md](../../en/llm/VISION_SUPPORT_QUICK_START.md) | ✅ Vollständig | v1.4.0-alpha |
+| ⚡ Flash Attention CUDA | [FLASH_ATTENTION_IMPLEMENTATION.md](../../en/llm/FLASH_ATTENTION_IMPLEMENTATION.md) | ✅ Vollständig | v1.4.0-alpha |
+| 🎯 Speculative Decoding | [SPECULATIVE_DECODING_IMPLEMENTATION.md](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md) | ✅ Vollständig | v1.4.0-alpha |
+| 🔄 Continuous Batching | [CONTINUOUS_BATCHING_IMPLEMENTATION.md](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md) | ✅ Vollständig | v1.4.0-alpha |
+| 💾 KV-Cache Reuse | [KV_CACHE_REUSE_IMPLEMENTATION.md](../../en/llm/KV_CACHE_REUSE_IMPLEMENTATION.md) | ✅ Vollständig | v1.3.0 |
+| 📊 Embeddings Extraction | [EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md](../../en/llm/EMBEDDINGS_EXTRACTION_IMPLEMENTATION.md) | ✅ Vollständig | v1.3.0 |
 
 **Phase 1 Features (COMPLETE):**
 - [⚡ **Flash Attention Implementation**](../../en/llm/FLASH_ATTENTION_IMPLEMENTATION.md) – Quick Win: 15-25% Speedup
@@ -36,7 +65,7 @@ ThemisDB bietet ab v1.3.0 eine **optionale eingebettete LLM-Engine** auf Basis v
 - [🔮 **Speculative Decoding Implementation**](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md) – 2-3x inference speedup
 - [⚙️ **Continuous Batching Implementation**](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md) – 5-10x throughput improvement
 
-**Phase 3 Features (DOCUMENTED):**
+**Phase 3 Features (v1.4.0-alpha COMPLETE):**
 - [📝 **Grammar-Constrained Generation**](../../en/llm/GRAMMAR_CONSTRAINED_GENERATION.md) – **NEU** Guaranteed valid JSON/XML output
 - [👁️ **Vision Support (Multi-Modal)**](../../en/llm/VISION_SUPPORT_IMPLEMENTATION.md) – **NEU** Image understanding with LLaVA
 - [📏 **RoPE Scaling (Extended Context)**](../../en/llm/ROPE_SCALING_IMPLEMENTATION.md) – **NEU** 4K → 32K context extension

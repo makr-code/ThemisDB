@@ -85,6 +85,14 @@ Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 
 **Siehe [ANGRIFFSVEKTOREN_ANALYSE.md](ANGRIFFSVEKTOREN_ANALYSE.md) für STRIDE-Analyse und CVSS-Scores.**
 
+### LLM & LoRa-spezifische Risiken (v1.4.0+)
+- **Prompt Injection:** Manipulation von System-Prompts oder Benutzer-Eingaben
+- **LoRa Model Poisoning:** Vergiftete Adapter mit Backdoors
+- **Vector Embedding Manipulation:** Manipulation von HNSW-Indizes für RAG
+- **Adapter Weight Extraction:** Seitenkanal-Angriffe auf LoRa-Weights
+- **Multi-LoRa Adversarial Switching:** Ausnutzung von Adapter-Batching
+- Siehe: [LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md)
+
 ## Gegenmaßnahmen
 
 **Netzwerksicherheit:**
@@ -130,6 +138,14 @@ Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 - Regelmäßige Schlüsselrotation (empfohlen: KEK alle 90 Tage)
 - Immutable Audit Logs (WORM-Storage empfohlen)
 
+### LLM & LoRa-Schutzmaßnahmen (v1.4.0+)
+- **LoRa Signature Verification:** Signaturvalidierung für Adapter (`LoRASecurityValidator`)
+- **Prompt Injection Detection:** Pattern-basierte Erkennung (`PromptInjectionDetector`)
+- **Embedding Anomaly Detection:** Statistische Anomalieerkennung (`EmbeddingAnomalyDetector`)
+- **Vector Encryption:** At-Rest-Verschlüsselung für HNSW (Phase 1+2 ✅)
+- **Adapter Integrity Checks:** Checksum-Validierung und Weight-Anomalie-Detection
+- Siehe: Implementierung in `include/llm/lora_security_validator.h`
+
 ## Beobachtbarkeit
 - **Health/Metrics Endpunkte:** `/health`, `/metrics`, `/api/capabilities`
 - **Audit Events:** 65+ Security Event Types (Authentication, Authorization, Data Access, Admin Actions)
@@ -168,3 +184,7 @@ Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 
 **Letzte Aktualisierung:** 2026-01-07  
 **Nächste Review:** 2026-04-07 (Quarterly)
+Weiterlesen:
+- security/key_management.md, security/audit_and_retention.md
+- encryption_strategy.md, security_hardening_guide.md, security_audit_checklist.md
+- [GPU/VRAM/CUDA Angriffsvektoren](GPU_VRAM_ANGRIFFSVEKTOREN.md) - Spezifische Analyse von GPU-basierten Bedrohungen
