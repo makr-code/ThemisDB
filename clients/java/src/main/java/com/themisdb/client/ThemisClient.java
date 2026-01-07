@@ -223,6 +223,137 @@ public class ThemisClient {
         return new Transaction(this, transactionId, httpClient, gson, timeout);
     }
 
+    // ==================== LLM API ====================
+
+    /**
+     * Create an LLM interaction
+     * 
+     * @param model LLM model name (e.g., "gpt-4o", "llama-3.1")
+     * @param messages List of conversation messages
+     * @param reasoningSteps Optional reasoning steps
+     * @param metadata Optional metadata
+     * @return LlmInteractionResult with id and success status
+     * @throws IOException If the request fails
+     * @throws InterruptedException If the request is interrupted
+     */
+    public com.themisdb.client.llm.LlmInteractionResult llmInteraction(
+            String model,
+            List<com.themisdb.client.llm.LlmMessage> messages,
+            List<com.themisdb.client.llm.ReasoningStep> reasoningSteps,
+            Map<String, Object> metadata) throws IOException, InterruptedException {
+        
+        String url = String.format("%s/llm/interaction", getCurrentEndpoint());
+        JsonObject requestBody = new JsonObject();
+        requestBody.addProperty("model", model);
+        requestBody.add("messages", gson.toJsonTree(messages));
+        
+        if (reasoningSteps != null) {
+            requestBody.add("reasoning_steps", gson.toJsonTree(reasoningSteps));
+        }
+        if (metadata != null) {
+            requestBody.add("metadata", gson.toJsonTree(metadata));
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(requestBody)))
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200 && response.statusCode() != 201) {
+            throw new IOException("LLM interaction failed with status: " + response.statusCode());
+        }
+
+        return gson.fromJson(response.body(), com.themisdb.client.llm.LlmInteractionResult.class);
+    }
+
+    /**
+     * Get a specific LLM interaction by ID
+     * 
+     * @param interactionId The interaction ID
+     * @return LlmInteraction object or null if not found
+     * @throws IOException If the request fails
+     * @throws InterruptedException If the request is interrupted
+     */
+    public com.themisdb.client.llm.LlmInteraction getLlmInteraction(String interactionId) 
+            throws IOException, InterruptedException {
+        
+        String url = String.format("%s/llm/interaction/%s", getCurrentEndpoint(), interactionId);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(timeout)
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() == 404) {
+            return null;
+        }
+        
+        if (response.statusCode() != 200) {
+            throw new IOException("GET LLM interaction failed with status: " + response.statusCode());
+        }
+
+        return gson.fromJson(response.body(), com.themisdb.client.llm.LlmInteraction.class);
+    }
+
+    /**
+     * List LLM interactions with optional filtering
+     * 
+     * @param model Optional model name filter
+     * @param limit Maximum number of results
+     * @param offset Result offset for pagination
+     * @return List of LlmInteraction objects
+     * @throws IOException If the request fails
+     * @throws InterruptedException If the request is interrupted
+     */
+    public List<com.themisdb.client.llm.LlmInteraction> listLlmInteractions(
+            String model, Integer limit, Integer offset) throws IOException, InterruptedException {
+        
+        StringBuilder urlBuilder = new StringBuilder(String.format("%s/llm/interaction", getCurrentEndpoint()));
+        List<String> params = new ArrayList<>();
+        
+        if (model != null && !model.isEmpty()) {
+            params.add("model=" + model);
+        }
+        if (limit != null) {
+            params.add("limit=" + limit);
+        }
+        if (offset != null) {
+            params.add("offset=" + offset);
+        }
+        
+        if (!params.isEmpty()) {
+            urlBuilder.append("?").append(String.join("&", params));
+        }
+        
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(urlBuilder.toString()))
+                .timeout(timeout)
+                .GET()
+                .build();
+
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        if (response.statusCode() != 200) {
+            throw new IOException("LIST LLM interactions failed with status: " + response.statusCode());
+        }
+
+        JsonObject responseBody = gson.fromJson(response.body(), JsonObject.class);
+        com.themisdb.client.llm.LlmInteraction[] interactions = gson.fromJson(
+            responseBody.get("interactions"),
+            com.themisdb.client.llm.LlmInteraction[].class
+        );
+        
+        return interactions != null ? java.util.Arrays.asList(interactions) : new ArrayList<>();
+    }
+
+    // ==================== Helper Methods ====================
+
     /**
      * Get the HTTP client
      * 

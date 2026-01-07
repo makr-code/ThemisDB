@@ -22,6 +22,48 @@ const (
 	Snapshot IsolationLevel = "SNAPSHOT"
 )
 
+// LlmMessage represents a message in an LLM conversation
+type LlmMessage struct {
+	Role     string `json:"role"`
+	Content  string `json:"content"`
+	ImageURL string `json:"image_url,omitempty"`
+}
+
+// ReasoningStep represents a reasoning step in LLM interaction
+type ReasoningStep struct {
+	Type    string   `json:"type"`
+	Content []string `json:"content"`
+}
+
+// LlmInteraction represents a stored LLM interaction
+type LlmInteraction struct {
+	ID             string                 `json:"id"`
+	CreatedAt      string                 `json:"created_at"`
+	Model          string                 `json:"model"`
+	Messages       []LlmMessage           `json:"messages"`
+	ReasoningSteps []ReasoningStep        `json:"reasoning_steps,omitempty"`
+	Metadata       map[string]interface{} `json:"metadata,omitempty"`
+}
+
+// LlmInteractionResult represents the result of creating an LLM interaction
+type LlmInteractionResult struct {
+	ID      string `json:"id"`
+	Success bool   `json:"success"`
+}
+
+// LlmInteractionOptions holds options for creating an LLM interaction
+type LlmInteractionOptions struct {
+	ReasoningSteps []ReasoningStep
+	Metadata       map[string]interface{}
+}
+
+// ListLlmInteractionsOptions holds options for listing LLM interactions
+type ListLlmInteractionsOptions struct {
+	Model  string
+	Limit  int
+	Offset int
+}
+
 // Client is the ThemisDB client
 type Client struct {
 	endpoints  []string
@@ -104,6 +146,80 @@ func (c *Client) Query(ctx context.Context, aql string, result interface{}) erro
 		return fmt.Errorf("failed to unmarshal query result: %w", err)
 	}
 	return nil
+}
+
+// LlmInteraction creates an LLM interaction
+func (c *Client) LlmInteraction(ctx context.Context, model string, messages []LlmMessage, opts *LlmInteractionOptions) (*LlmInteractionResult, error) {
+	body := map[string]interface{}{
+		"model":    model,
+		"messages": messages,
+	}
+	
+	if opts != nil {
+		if opts.ReasoningSteps != nil {
+			body["reasoning_steps"] = opts.ReasoningSteps
+		}
+		if opts.Metadata != nil {
+			body["metadata"] = opts.Metadata
+		}
+	}
+	
+	var result LlmInteractionResult
+	if err := c.request(ctx, "POST", "/llm/interaction", body, &result, nil); err != nil {
+		return nil, fmt.Errorf("failed to create LLM interaction: %w", err)
+	}
+	
+	return &result, nil
+}
+
+// GetLlmInteraction retrieves a specific LLM interaction by ID
+func (c *Client) GetLlmInteraction(ctx context.Context, interactionID string) (*LlmInteraction, error) {
+	path := fmt.Sprintf("/llm/interaction/%s", interactionID)
+	
+	var interaction LlmInteraction
+	if err := c.request(ctx, "GET", path, nil, &interaction, nil); err != nil {
+		if strings.Contains(err.Error(), "404") {
+			return nil, nil
+		}
+		return nil, fmt.Errorf("failed to get LLM interaction: %w", err)
+	}
+	
+	return &interaction, nil
+}
+
+// ListLlmInteractions lists LLM interactions with optional filtering
+func (c *Client) ListLlmInteractions(ctx context.Context, opts *ListLlmInteractionsOptions) ([]LlmInteraction, error) {
+	path := "/llm/interaction"
+	
+	if opts != nil {
+		params := []string{}
+		if opts.Model != "" {
+			params = append(params, fmt.Sprintf("model=%s", opts.Model))
+		}
+		if opts.Limit > 0 {
+			params = append(params, fmt.Sprintf("limit=%d", opts.Limit))
+		}
+		if opts.Offset > 0 {
+			params = append(params, fmt.Sprintf("offset=%d", opts.Offset))
+		}
+		if len(params) > 0 {
+			path = path + "?" + strings.Join(params, "&")
+		}
+	}
+	
+	var response struct {
+		Interactions []LlmInteraction `json:"interactions"`
+	}
+	
+	if err := c.request(ctx, "GET", path, nil, &response, nil); err != nil {
+		return nil, fmt.Errorf("failed to list LLM interactions: %w", err)
+	}
+	
+	if response.Interactions == nil {
+		return []LlmInteraction{}, nil
+	}
+	
+	return response.Interactions, nil
 }
 
 // request performs an HTTP request
