@@ -15,6 +15,9 @@ namespace themis {
 namespace auth {
     class JWTValidator;
 }
+namespace security {
+    class USBAdminAuthenticator;
+}
 
 /// Token-based and JWT-based authorization with scopes
 /// Supports both static API tokens and dynamic JWT validation (Keycloak, etc.)
@@ -61,6 +64,10 @@ public:
     
     /// Enable JWT validation
     void enableJWT(const JWTConfig& config);
+    
+    /// Enable USB-based admin authentication
+    /// When enabled, admin scopes require a valid USB device to be present
+    void enableUSBAdminAuth(const std::string& mount_path = "/mnt/themis-admin");
 
     /// Configure allowed tokens (typically loaded from config file)
     void addToken(const TokenConfig& config);
@@ -94,6 +101,9 @@ public:
 
     // Returns true if at least one token is configured or JWT is enabled
     bool isEnabled() const;
+    
+    /// Check if USB admin authentication is enabled and USB is present
+    bool isUSBAdminReady() const;
 
 private:
     mutable std::mutex mutex_;
@@ -104,6 +114,13 @@ private:
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
     JWTConfig jwt_config_;
     bool jwt_enabled_ = false;
+    
+    // USB Admin Authentication
+    std::unique_ptr<security::USBAdminAuthenticator> usb_admin_auth_;
+    bool usb_admin_enabled_ = false;
+    
+    // Helper: check if scope is an admin scope requiring USB
+    bool isAdminScope(std::string_view scope) const;
     
     // Helper: try to authorize via JWT
     AuthResult authorizeViaJWT(std::string_view token, std::string_view required_scope) const;
