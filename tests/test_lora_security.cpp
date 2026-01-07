@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "llm/lora_security_validator.h"
 #include <fstream>
+#include <cstdio>
 
 using namespace themis::llm;
 
