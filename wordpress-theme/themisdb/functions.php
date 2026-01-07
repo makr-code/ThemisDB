@@ -166,6 +166,9 @@ function themisdb_scripts() {
     // Theme JavaScript
     wp_enqueue_script( 'themisdb-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '1.0.0', true );
 
+    // Graph Navigation (Neo4j Bloom inspired)
+    wp_enqueue_script( 'themisdb-graph-navigation', get_template_directory_uri() . '/js/graph-navigation.js', array(), '1.0.0', true );
+
     // Comment reply script
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );

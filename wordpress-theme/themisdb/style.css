@@ -874,6 +874,375 @@ article:hover {
     width: auto;
 }
 
+/* ===== Navigation Graph Overlay (Neo4j Bloom Style) ===== */
+.nav-graph-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-dark) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.4);
+    transition: var(--transition);
+}
+
+.nav-graph-toggle:hover {
+    background: linear-gradient(135deg, var(--accent-purple-dark) 0%, var(--accent-purple) 100%);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 16px rgba(124, 77, 255, 0.6);
+}
+
+.nav-graph-toggle:focus {
+    outline: 3px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+.nav-graph-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 37, 47, 0.98);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.nav-graph-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-graph-container {
+    width: 95%;
+    max-width: none;
+    height: 90%;
+    max-height: none;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    background: radial-gradient(ellipse at center, rgba(44, 62, 80, 0.8) 0%, rgba(26, 37, 47, 0.95) 100%);
+}
+
+.nav-graph-container .loading {
+    color: var(--white);
+    font-size: 1.2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(124, 77, 255, 0.2);
+    border-top-color: var(--accent-purple);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* D3 Force-Directed Graph Styles (Neo4j Bloom) */
+.bloom-graph {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.bloom-graph .links line {
+    stroke: var(--secondary-color);
+    stroke-opacity: 0.6;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.bloom-graph .links line:hover {
+    stroke-opacity: 1;
+    stroke-width: 3px;
+}
+
+.bloom-graph .link-labels text {
+    fill: #ecf0f1;
+    font-size: 10px;
+    font-weight: 600;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.bloom-graph .node circle {
+    stroke-width: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+.bloom-graph .node:hover circle {
+    filter: drop-shadow(0 4px 12px rgba(124, 77, 255, 0.6)) url(#glow);
+}
+
+.bloom-graph .node-icon {
+    pointer-events: none;
+    user-select: none;
+}
+
+.bloom-graph .node-label {
+    fill: var(--white);
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Graph Controls */
+.graph-controls {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+.control-btn {
+    background: rgba(44, 62, 80, 0.9);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--white);
+    backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+    background: var(--secondary-color);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* Fallback navigation tree */
+.fallback-nav-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.nav-level {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.nav-connector {
+    height: 20px;
+    color: var(--secondary-color);
+    font-family: monospace;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding-left: 1rem;
+}
+
+.nav-connector.visible {
+    opacity: 1;
+}
+
+.connector-label {
+    color: var(--secondary-color);
+}
+
+.nav-node {
+    background: var(--primary-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateX(-20px);
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-node.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.nav-node.start-node,
+.nav-node.home {
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-dark) 100%);
+    border-color: var(--accent-purple-dark);
+    border-width: 3px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(124, 77, 255, 0.4);
+}
+
+/* Thematic node colors (Neo4j Bloom inspired) */
+.nav-node.docNode {
+    background: #5DADE2;
+    border-color: #3498db;
+}
+
+.nav-node.featureNode {
+    background: #58D68D;
+    border-color: #27ae60;
+}
+
+.nav-node.aboutNode {
+    background: #EC7063;
+    border-color: #e74c3c;
+}
+
+.nav-node.blogNode {
+    background: #F5B041;
+    border-color: #f39c12;
+}
+
+.nav-node.apiNode {
+    background: #BB8FCE;
+    border-color: #9b59b6;
+}
+
+.nav-node.supportNode {
+    background: #48C9B0;
+    border-color: #16a085;
+}
+
+.nav-node.primaryNode {
+    background: #9B7EDE;
+    border-color: #7c4dff;
+}
+
+.nav-node.secondaryNode {
+    background: #5DADE2;
+    border-color: #3498db;
+}
+
+.nav-node.successNode {
+    background: #58D68D;
+    border-color: #27ae60;
+}
+
+.nav-node:hover {
+    transform: translateX(10px) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    border-width: 3px;
+    filter: brightness(1.2);
+}
+
+.nav-node .node-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.nav-node .node-label {
+    display: block;
+    font-weight: 600;
+    flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nav-graph-toggle {
+        width: 48px;
+        height: 48px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .nav-graph-container {
+        width: 98%;
+        height: 95%;
+    }
+
+    .graph-controls {
+        bottom: 15px;
+        right: 15px;
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .nav-node {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-node.start-node,
+    .nav-node.home {
+        font-size: 1rem;
+    }
+
+    .fallback-nav-tree {
+        padding: 1rem;
+    }
+}
+
+/* Accessibility */
+.nav-graph-toggle:focus-visible,
+.control-btn:focus-visible {
+    outline: 3px solid var(--secondary-color);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-graph-overlay,
+    .nav-node,
+    .nav-connector,
+    .nav-graph-toggle,
+    .control-btn,
+    .bloom-graph .node,
+    .bloom-graph .links line {
+        transition: none;
+        animation: none;
+    }
+}
+
 /* ===== Utility Classes ===== */
 .text-center { text-align: center; }
 .text-right { text-align: right; }
