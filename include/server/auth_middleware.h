@@ -66,8 +66,13 @@ public:
     void enableJWT(const JWTConfig& config);
     
     /// Enable USB-based admin authentication
-    /// When enabled, admin scopes require a valid USB device to be present
-    void enableUSBAdminAuth(const std::string& mount_path = "/mnt/themis-admin");
+    /// When enabled, configured admin scopes require a valid USB device to be present
+    /// @param mount_path Path where encrypted USB is mounted
+    /// @param protected_scopes List of scopes requiring USB (empty = use defaults)
+    void enableUSBAdminAuth(
+        const std::string& mount_path = "/mnt/themis-admin",
+        const std::vector<std::string>& protected_scopes = {}
+    );
 
     /// Configure allowed tokens (typically loaded from config file)
     void addToken(const TokenConfig& config);
@@ -118,6 +123,7 @@ private:
     // USB Admin Authentication
     std::unique_ptr<security::USBAdminAuthenticator> usb_admin_auth_;
     bool usb_admin_enabled_ = false;
+    std::vector<std::string> usb_protected_scopes_;
     
     // Helper: check if scope is an admin scope requiring USB
     bool isAdminScope(std::string_view scope) const;

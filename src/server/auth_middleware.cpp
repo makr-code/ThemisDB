@@ -27,7 +27,7 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
                 config.expected_issuer, config.expected_audience, config.scope_claim);
 }
 
-void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path) {
+void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std::vector<std::string>& protected_scopes) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     security::USBAdminConfig usb_cfg;
@@ -35,11 +35,19 @@ void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path) {
     usb_cfg.require_usb_for_admin = true;
     usb_cfg.silent_failure = true;
     
+    // Use provided scopes or defaults from config
+    if (!protected_scopes.empty()) {
+        usb_cfg.usb_protected_scopes = protected_scopes;
+    }
+    // else: use defaults from USBAdminConfig
+    
     usb_admin_auth_ = std::make_unique<security::USBAdminAuthenticator>(usb_cfg);
     usb_admin_auth_->initialize();
     usb_admin_enabled_ = true;
+    usb_protected_scopes_ = usb_cfg.usb_protected_scopes;
     
-    THEMIS_INFO("USB Admin Authentication enabled with mount_path='{}'", mount_path);
+    THEMIS_INFO("USB Admin Authentication enabled with mount_path='{}', {} protected scopes", 
+                mount_path, usb_protected_scopes_.size());
 }
 
 void AuthMiddleware::addToken(const TokenConfig& config) {
@@ -228,12 +236,18 @@ bool AuthMiddleware::isUSBAdminReady() const {
 }
 
 bool AuthMiddleware::isAdminScope(std::string_view scope) const {
-    // Define which scopes are considered "admin" and require USB validation
-    // These are high-privilege operations that should be protected by USB
-    return scope == "admin" || 
-           scope == "config:write" || 
-           scope == "cdc:admin" ||
-           scope.find("admin:") == 0;
+    // Check if scope is in the configured list of USB-protected scopes
+    // Note: mutex already locked by caller (authorize method)
+    for (const auto& protected_scope : usb_protected_scopes_) {
+        if (protected_scope == scope) {
+            return true;
+        }
+        // Support wildcard matching for "admin:*" pattern
+        if (protected_scope == "admin:*" && scope.find("admin:") == 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 } // namespace themis

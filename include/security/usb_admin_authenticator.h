@@ -36,6 +36,18 @@ struct USBAdminConfig {
     std::chrono::seconds challenge_ttl{300};        // Challenge valid for 5 minutes
     uint32_t max_validation_attempts = 3;           // Max attempts before lockout
     std::chrono::seconds lockout_duration{600};     // 10 minute lockout
+    
+    // Configurable list of scopes that require USB authentication
+    // Default: admin scopes that require USB validation
+    std::vector<std::string> usb_protected_scopes = {
+        "admin",
+        "config:write",
+        "cdc:admin",
+        "admin:backup",
+        "admin:restore",
+        "admin:topology",
+        "admin:rebalance"
+    };
 };
 
 /// USB Admin Authenticator

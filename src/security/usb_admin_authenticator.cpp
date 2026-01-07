@@ -74,10 +74,11 @@ bool USBAdminAuthenticator::isAdminUSBPresent() const {
     auto now = std::chrono::system_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_usb_check_);
     
+    // Note: Cannot refresh in const method - caller should call refreshUSBStatus() explicitly
+    // or use validateAdminOperation() which refreshes automatically
     if (elapsed.count() > 5) {
-        // Need to refresh - but we're const, so just return cached value
-        // Caller should use validateAdminOperation which will refresh
-        return current_license_.has_value();
+        // Cache may be stale - return cached value but log warning
+        THEMIS_DEBUG("USBAdminAuthenticator: USB status cache may be stale ({}s old)", elapsed.count());
     }
     
     return current_license_.has_value();
@@ -104,10 +105,10 @@ bool USBAdminAuthenticator::validateAdminOperation(const std::string& scope, con
         return false;
     }
     
-    // Refresh USB status if needed
+    // Refresh USB status if needed (removed const_cast - this method is non-const)
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_usb_check_);
     if (elapsed.count() > 5) {
-        const_cast<USBAdminAuthenticator*>(this)->refreshUSBStatus();
+        refreshUSBStatus();
     }
     
     // Check if USB is present
@@ -333,24 +334,35 @@ std::optional<USBAdminLicense> USBAdminAuthenticator::loadLicenseFromUSB() const
 }
 
 bool USBAdminAuthenticator::validateLicenseSignature(const USBAdminLicense& license) const {
-    // For now, simplified signature validation
-    // In production, this should use RSA signature verification with a public key
-    // embedded in the ThemisDB binary
+    // SECURITY WARNING: This is a simplified placeholder implementation
+    // Production systems MUST implement proper RSA signature verification
     
     if (license.signature.empty()) {
+        THEMIS_ERROR("USBAdminAuthenticator: license signature is empty");
         return false;
     }
     
-    // TODO: Implement proper RSA signature verification
-    // This is a placeholder that accepts any non-empty signature
-    // Real implementation should:
-    // 1. Extract signature from license.signature
-    // 2. Compute hash of license data (license_key, organization, hardware_id, dates, scopes)
-    // 3. Verify signature against hash using public key
+    // TODO: CRITICAL SECURITY - Implement proper RSA signature verification
+    // Real implementation must:
+    // 1. Extract signature from license.signature (base64 decode)
+    // 2. Compute hash of license data fields:
+    //    - license_key, organization, hardware_id, issued_date, expiry_date, admin_scopes
+    // 3. Verify signature against hash using public key embedded in ThemisDB binary
+    // 4. Use OpenSSL's RSA_verify or EVP_DigestVerify functions
+    //
+    // Example:
+    // EVP_PKEY* pubkey = load_embedded_public_key();
+    // EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    // EVP_DigestVerifyInit(ctx, NULL, EVP_sha256(), NULL, pubkey);
+    // EVP_DigestVerifyUpdate(ctx, license_data, license_data_len);
+    // int result = EVP_DigestVerifyFinal(ctx, signature, signature_len);
     
-    THEMIS_DEBUG("USBAdminAuthenticator: signature validation (simplified) for license {}", license.license_key);
+    THEMIS_WARN("USBAdminAuthenticator: signature validation is PLACEHOLDER ONLY - NOT SECURE!");
+    THEMIS_WARN("USBAdminAuthenticator: accepting any non-empty signature for license {}", license.license_key);
     
-    return true; // Placeholder - always valid if signature is present
+    // Placeholder: Accept any non-empty signature
+    // REMOVE THIS IN PRODUCTION - This is a security vulnerability!
+    return true;
 }
 
 std::string USBAdminAuthenticator::getSystemHardwareID() const {
@@ -379,12 +391,21 @@ std::string USBAdminAuthenticator::getSystemHardwareID() const {
     }
 #elif defined(_WIN32)
     // On Windows, use MachineGuid from registry
+    // TODO: Implement Windows registry reading for MachineGuid
     // For now, return a placeholder
+    THEMIS_WARN("USBAdminAuthenticator: Windows hardware ID detection not fully implemented");
     return "WINDOWS-PLACEHOLDER-HW-ID";
 #endif
     
-    // Ultimate fallback: generate a "hardware id" that will work for development
-    return "DEV-HARDWARE-ID-00000000";
+    // Ultimate fallback: CRITICAL - This defeats hardware binding!
+    // If this is reached, it means hardware ID detection failed
+    // Log error and return empty string to fail license validation
+    THEMIS_ERROR("USBAdminAuthenticator: CRITICAL - Failed to detect hardware ID on this system!");
+    THEMIS_ERROR("USBAdminAuthenticator: Hardware binding will fail - admin operations will be denied");
+    
+    // Return empty string to fail hardware binding check
+    // This is more secure than using a fallback that multiple systems might share
+    return "";
 }
 
 std::string USBAdminAuthenticator::createChallenge() const {
@@ -408,14 +429,32 @@ std::string USBAdminAuthenticator::createChallenge() const {
 }
 
 bool USBAdminAuthenticator::validateChallengeResponse(const std::string& challenge, const std::string& response) const {
-    // Validate challenge-response for replay protection
-    // This is a simplified implementation
-    // Real implementation should use proper cryptographic challenge-response
+    // SECURITY WARNING: This is a simplified placeholder implementation
+    // Production systems MUST implement proper cryptographic challenge-response
     
     (void)challenge;
     (void)response;
     
-    // TODO: Implement proper challenge-response validation
+    // TODO: CRITICAL SECURITY - Implement proper challenge-response validation
+    // This prevents replay attacks where an attacker captures and reuses authentication data
+    //
+    // Real implementation must:
+    // 1. Store generated challenges with timestamps in challenge_file on USB
+    // 2. Validate response is correct cryptographic signature of challenge
+    // 3. Ensure challenge is recent (within challenge_ttl window)
+    // 4. Mark challenge as used (one-time use only)
+    // 5. Clean up expired challenges periodically
+    //
+    // Example flow:
+    // - Server generates random challenge, writes to USB challenge_file
+    // - Client reads challenge, signs with USB private key, returns signature
+    // - Server validates signature against USB certificate
+    // - Server marks challenge as used
+    
+    THEMIS_WARN("USBAdminAuthenticator: challenge-response validation is PLACEHOLDER ONLY - NO REPLAY PROTECTION!");
+    
+    // Placeholder: Always accept
+    // REMOVE THIS IN PRODUCTION - This eliminates replay attack protection!
     return true;
 }
 

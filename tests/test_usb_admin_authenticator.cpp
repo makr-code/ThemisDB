@@ -26,7 +26,7 @@ protected:
         }
     }
     
-    void createValidLicense(const std::string& hw_id = "DEV-HARDWARE-ID-00000000") {
+    void createValidLicense(const std::string& hw_id = "TEST-HARDWARE-ID-12345678") {
         nlohmann::json license = {
             {"license_key", "THEMIS-ENT-ADMIN-TEST-12345678"},
             {"organization", "Test Organization"},
@@ -46,7 +46,7 @@ protected:
         nlohmann::json license = {
             {"license_key", "THEMIS-ENT-ADMIN-TEST-12345678"},
             {"organization", "Test Organization"},
-            {"hardware_id", "DEV-HARDWARE-ID-00000000"},
+            {"hardware_id", "TEST-HARDWARE-ID-12345678"},
             {"issued_date", "2020-01-01"},
             {"expiry_date", "2021-12-31"},  // Expired
             {"admin_scopes", nlohmann::json::array({"admin", "config:write"})},
