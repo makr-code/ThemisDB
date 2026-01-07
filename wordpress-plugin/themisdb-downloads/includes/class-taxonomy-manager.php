@@ -10,10 +10,15 @@ if (!defined('ABSPATH')) {
 
 class ThemisDB_Downloads_Taxonomy_Manager {
     
+    private $api;
+    
     /**
      * Constructor
      */
     public function __construct() {
+        // Initialize API once
+        $this->api = new ThemisDB_Downloads_GitHub_API();
+        
         // Hook into post save to auto-assign taxonomies
         add_action('save_post', array($this, 'auto_assign_taxonomies'), 10, 3);
         
@@ -126,8 +131,7 @@ class ThemisDB_Downloads_Taxonomy_Manager {
      */
     private function extract_and_assign_taxonomies($post_id, $content) {
         // Get latest release information
-        $api = new ThemisDB_Downloads_GitHub_API();
-        $release = $api->get_latest_release();
+        $release = $this->api->get_latest_release();
         
         if (is_wp_error($release) || empty($release)) {
             return;
@@ -240,6 +244,8 @@ class ThemisDB_Downloads_Taxonomy_Manager {
     
     /**
      * Detect platform from filename
+     * Note: This method is intentionally duplicated from class-shortcodes.php
+     * to maintain class independence and avoid tight coupling.
      * 
      * @param string $filename The filename
      * @return string The platform name
