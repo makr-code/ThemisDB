@@ -854,6 +854,7 @@ set(THEMIS_CORE_SOURCES
     src/utils/simd_distance.cpp
     src/utils/update_checker.cpp
     src/utils/http_client_pool.cpp
+    src/utils/build_info.cpp
     
     # Updates (hot-reload)
     src/updates/release_manifest.cpp

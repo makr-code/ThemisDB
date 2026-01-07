@@ -270,6 +270,7 @@ private:
 
     // Endpoint handlers
     http::response<http::string_body> handleHealthCheck(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleVersion(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetricsJson(const http::request<http::string_body>& req);
     http::response<http::string_body> handleStats(const http::request<http::string_body>& req);
