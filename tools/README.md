@@ -255,9 +255,28 @@ cp -r tco-calculator-wordpress /path/to/wordpress/wp-content/plugins/themisdb-tc
 - [Installation](tco-calculator-wordpress/INSTALLATION.md)
 - [Implementation Guide](tco-calculator-wordpress/IMPLEMENTATION.md)
 
-### WordPress Plugins Empfehlung
+### ThemisDB-spezifische WordPress Plugins (Konzept)
 
-Umfassende Analyse und Empfehlungen für WordPress-Plugins zur Erstellung der ThemisDB-Website.
+**Spezialisierte Plugins zur Visualisierung von ThemisDB-Daten** (Benchmarks, Features, Tests, Docs).
+
+**Dokumentation:**
+- [Vollständiges Konzept (DE)](../docs/de/tools/THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md) - 7 Plugin-Ideen mit Roadmap
+- [Concept (EN)](../docs/en/tools/THEMISDB_WORDPRESS_PLUGINS_CONCEPT.md) - Plugin concepts and prioritization
+
+**Vorgeschlagene Plugins:**
+1. **Benchmark Visualizer** (Prio: Hoch) - Performance-Vergleiche interaktiv
+2. **Live Query Playground** (Prio: Hoch) - AQL-Queries im Browser testen
+3. **Feature Matrix** (Prio: Mittel) - Feature-Vergleich vs. Wettbewerber
+4. **Documentation Search** (Prio: Mittel) - AI-basierte Docs-Suche mit ThemisDB
+5. **Architecture Diagrams** (Prio: Mittel) - Interaktive Architektur-Visualisierung
+
+**Phase 1 Budget:** ~70-100h (~€5.250-7.500) für Benchmark Visualizer + Feature Matrix
+
+---
+
+### Generische WordPress Plugins Empfehlung
+
+Analyse von Standard-WordPress-Plugins für Website-Funktionalität (SEO, Performance, Sicherheit).
 
 **Dokumentation:**
 - [Deutsche Version](../docs/de/tools/WORDPRESS_PLUGINS_EMPFEHLUNG.md) - Vollständige Analyse (22 Kategorien, 50+ Plugins)
