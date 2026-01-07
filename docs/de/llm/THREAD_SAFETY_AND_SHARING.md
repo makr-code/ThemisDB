@@ -46,7 +46,7 @@ t4: Thread 3 finishes Request 3, starts Request 6
 
 ```
 Thread 1 ─┐
-Thread 2 ─┼─→ AsyncInferenceEngine → LlamaCppPlugin ─┬─→ LazyModelLoader ─→ SHARED Model Weights (Read-Only)
+Thread 2 ─┼─→ AsyncInferenceEngine → LlamaWrapper ─┬─→ LazyModelLoader ─→ SHARED Model Weights (Read-Only)
 Thread 3 ─┘                                           ├─→ MultiLoRAManager ─→ SHARED LoRA Adapters (Read-Only)
                                                       └─→ PagedBlockManager ─→ SHARED Block Pool (Concurrent)
 ```
@@ -299,7 +299,7 @@ std::lock_guard<std::mutex> lock(kv_mutex);  // ✅
 AsyncInferenceEngine engine(plugin, {.num_worker_threads = 4});
 
 // Shared across all 4 worker threads:
-// 1. LlamaCppPlugin instance (singleton)
+// 1. LlamaWrapper instance (singleton)
 // 2. LazyModelLoader → shared model weights
 // 3. MultiLoRAManager → shared LoRA weights
 // 4. ModelMetadataCache, LoRAMetadataCache → lock-free sharing

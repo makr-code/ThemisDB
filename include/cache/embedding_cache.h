@@ -32,6 +32,12 @@ struct EmbeddingCacheImpl;  // Forward declaration for pimpl
  * - In-memory storage with configurable TTL
  * - Automatic eviction (LRU) when max_entries reached
  * - Cosine similarity threshold for cache hits
+ * 
+ * Thread-Safety:
+ * - Thread-safe for all operations
+ * - Internal mutex protects cache map and vector index
+ * - Vector index cleanup synchronized with cache eviction
+ * - Safe concurrent query() and store() operations
  */
 class EmbeddingCache {
 public:

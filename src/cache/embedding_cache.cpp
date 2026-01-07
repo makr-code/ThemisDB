@@ -116,6 +116,10 @@ std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
                     
                     // Check if entry is expired
                     if (isExpired(entry)) {
+                        // RACE CONDITION FIX #2: Remove from vector index before erasing from map
+                        if (impl_->vector_index) {
+                            impl_->vector_index->removeByPk(it->first);
+                        }
                         impl_->entries.erase(it);
                         stats_.miss_count++;
                         THEMIS_DEBUG("Cache miss (expired entry)");

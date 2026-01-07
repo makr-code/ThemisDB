@@ -183,6 +183,78 @@ void PrometheusMetrics::recordCrossDCRequest(const std::string& source_dc, const
     incrementCounter("themis_cross_dc_requests_total", {{"source", source_dc}, {"target", target_dc}});
 }
 
+// ==================== Replication Metrics Implementation ====================
+
+void PrometheusMetrics::recordWalShipBatch(const std::string& replica_id, int64_t entries, 
+                                            int64_t bytes, bool success) {
+    std::string result = success ? "success" : "failure";
+    incrementCounter("themis_wal_ship_batches_total", {{"replica_id", replica_id}, {"result", result}});
+    
+    if (success) {
+        // Track cumulative shipped entries and bytes
+        auto entries_key = getCounterKey("themis_wal_ship_entries_total", {{"replica_id", replica_id}});
+        auto bytes_key = getCounterKey("themis_wal_ship_bytes_total", {{"replica_id", replica_id}});
+        
+        counters_[entries_key].fetch_add(entries, std::memory_order_relaxed);
+        counters_[bytes_key].fetch_add(bytes, std::memory_order_relaxed);
+    } else {
+        incrementCounter("themis_wal_ship_failures_total", {{"replica_id", replica_id}});
+    }
+}
+
+void PrometheusMetrics::recordWalShipLatency(const std::string& replica_id, double latency_ms) {
+    observeHistogram("themis_wal_ship_latency_seconds", latency_ms / 1000.0, {{"replica_id", replica_id}});
+}
+
+void PrometheusMetrics::recordWalReplicationLag(const std::string& replica_id, double lag_seconds) {
+    setGauge("themis_wal_replication_lag_seconds", lag_seconds, {{"replica_id", replica_id}});
+}
+
+void PrometheusMetrics::setWalBacklogBytes(const std::string& replica_id, int64_t bytes) {
+    setGauge("themis_wal_backlog_bytes", static_cast<double>(bytes), {{"replica_id", replica_id}});
+}
+
+void PrometheusMetrics::recordWalCompressionRatio(double ratio) {
+    observeHistogram("themis_wal_compression_ratio", ratio, {});
+}
+
+void PrometheusMetrics::recordWalApplyBatch(int64_t entries, bool success) {
+    std::string result = success ? "success" : "failure";
+    incrementCounter("themis_wal_apply_batches_total", {{"result", result}});
+    
+    if (success) {
+        counters_[getCounterKey("themis_wal_apply_entries_total", {})].fetch_add(entries, std::memory_order_relaxed);
+    } else {
+        incrementCounter("themis_wal_apply_failures_total", {});
+    }
+}
+
+void PrometheusMetrics::recordWalApplyLatency(double latency_ms) {
+    observeHistogram("themis_wal_apply_latency_seconds", latency_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordWalApplyFailure(const std::string& error_type) {
+    incrementCounter("themis_wal_apply_errors_total", {{"error_type", error_type}});
+}
+
+void PrometheusMetrics::setWalLastAppliedLsn(const std::string& lsn) {
+    setGauge("themis_wal_last_applied_lsn", 1.0, {{"lsn", lsn}});
+}
+
+void PrometheusMetrics::recordWriteConcernWait(const std::string& level, double wait_time_ms, bool success) {
+    std::string result = success ? "success" : "timeout";
+    incrementCounter("themis_write_concern_waits_total", {{"level", level}, {"result", result}});
+    observeHistogram("themis_write_concern_wait_seconds", wait_time_ms / 1000.0, {{"level", level}});
+}
+
+void PrometheusMetrics::setPendingWrites(int64_t count) {
+    setGauge("themis_replication_pending_writes", static_cast<double>(count), {});
+}
+
+void PrometheusMetrics::recordQuorumTimeout(const std::string& level) {
+    incrementCounter("themis_replication_quorum_timeouts_total", {{"level", level}});
+}
+
 std::string PrometheusMetrics::getMetrics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     std::ostringstream oss;

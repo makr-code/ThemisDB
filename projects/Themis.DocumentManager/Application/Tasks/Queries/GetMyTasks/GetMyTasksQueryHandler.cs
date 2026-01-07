@@ -193,6 +193,16 @@ public class TaskItem
     public string? EntityId { get; set; }
     public string? ProcessId { get; set; }
     public bool IsOverdue => DueDate.HasValue && DueDate.Value < DateTime.Now && Status != TaskStatus.Completed;
+    
+    /// <summary>
+    /// Indicates if this task is related to the currently selected entity (for highlighting)
+    /// </summary>
+    public bool IsRelatedToCurrentEntity { get; set; }
+    
+    /// <summary>
+    /// ID of the linked entity (Document, Case, File, etc.)
+    /// </summary>
+    public string? LinkedEntityId => EntityId;
 }
 
 public enum TaskType

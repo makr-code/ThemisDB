@@ -165,7 +165,7 @@ req2.lora_adapter_id = "medical-diag";
 
 ```cpp
 #include "llm/llm_plugin_manager.h"
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 
 // Plugin erstellen und konfigurieren
 json config = {
@@ -174,7 +174,7 @@ json config = {
     {"n_ctx", 4096}
 };
 
-createLlamaCppPlugin("llamacpp", config["model_path"], config);
+createLlamaWrapper("llamacpp", config["model_path"], config);
 ```
 
 ### Text generieren

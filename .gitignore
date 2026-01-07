@@ -7,6 +7,8 @@ compendium/chrome/
 compendium/temp
 
 # Build directories (CMake, Ninja, MSVC, other build outputs)
+enterprise*/
+test_*/
 /release
 /build/
 /build-*/
@@ -266,3 +268,7 @@ docs/stakeholder/STAKEHOLDER_VALUE_PROPOSITION.md
 # Business secrets, internal strategies, pricing models, and confidential analysis
 docs/de/confidencial/
 docs/en/confidential/
+
+# Test results and benchmarks
+results/
+*.log

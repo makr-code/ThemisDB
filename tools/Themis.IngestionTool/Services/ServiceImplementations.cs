@@ -43,7 +43,7 @@ namespace Themis.IngestionTool.Services
 
                         await Task.Delay(100); // Simulierte Verarbeitung
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         result.Errors++;
                     }
@@ -79,19 +79,42 @@ namespace Themis.IngestionTool.Services
     public class ThemisConnectionService : IThemisConnectionService
     {
         private string _host = "localhost";
-        private int _port = 8765;
+        private int _port = 18765;  // Standard ThemisDB Port
         private System.Threading.Timer? _heartbeatTimer;
         private bool _lastConnectionState = false;
         public event EventHandler<ConnectionStatusChangedEventArgs>? ConnectionStatusChanged;
 
+        public void UpdateConnectionSettings(string host, int port)
+        {
+            _host = host;
+            _port = port;
+            System.Diagnostics.Debug.WriteLine($"[CONNECTION] Settings updated: {_host}:{_port}");
+            
+            // Starte oder restart den Heartbeat-Timer nach Settings-Update
+            if (_heartbeatTimer == null)
+            {
+                _heartbeatTimer = new System.Threading.Timer(
+                    async _ =>
+                    {
+                        try
+                        {
+                            await PerformHeartbeatCheckAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[HEARTBEAT ERROR] {ex.Message}");
+                        }
+                    },
+                    null,
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(5));
+            }
+        }
+
         public ThemisConnectionService()
         {
-            // Starte automatischen Heartbeat-Check alle 5 Sekunden
-            _heartbeatTimer = new System.Threading.Timer(
-                async _ => await PerformHeartbeatCheckAsync(),
-                null,
-                TimeSpan.FromSeconds(2),
-                TimeSpan.FromSeconds(5));
+            // Timer wird erst nach UpdateConnectionSettings gestartet
+            System.Diagnostics.Debug.WriteLine("[CONNECTION] Service created, waiting for settings");
         }
 
         private async Task PerformHeartbeatCheckAsync()
@@ -119,22 +142,46 @@ namespace Themis.IngestionTool.Services
             {
                 using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(3) })
                 {
-                    var response = await client.GetAsync($"http://{host}:{port}/health");
-                    bool isConnected = response.IsSuccessStatusCode;
+                    // Versuche mehrere mögliche Health-Endpoints
+                    string[] endpoints = { "/health", "/api/health", "/status", "/", "/api/v1/health" };
+                    
+                    foreach (var endpoint in endpoints)
+                    {
+                        try
+                        {
+                            var response = await client.GetAsync($"http://{host}:{port}{endpoint}");
+                            if (response.IsSuccessStatusCode)
+                            {
+                                ConnectionStatusChanged?.Invoke(this, new ConnectionStatusChangedEventArgs
+                                {
+                                    IsConnected = true,
+                                    Message = $"Verbunden über {endpoint}"
+                                });
+                                return true;
+                            }
+                        }
+                        catch
+                        {
+                            // Versuche nächsten Endpoint
+                            continue;
+                        }
+                    }
+                    
+                    // Keiner der Endpoints hat funktioniert
                     ConnectionStatusChanged?.Invoke(this, new ConnectionStatusChangedEventArgs
                     {
-                        IsConnected = isConnected,
-                        Message = isConnected ? "Verbunden" : "Verbindung fehlgeschlagen"
+                        IsConnected = false,
+                        Message = $"Keine Antwort von {host}:{port}"
                     });
-                    return isConnected;
+                    return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 ConnectionStatusChanged?.Invoke(this, new ConnectionStatusChangedEventArgs
                 {
                     IsConnected = false,
-                    Message = "Verbindung fehlgeschlagen"
+                    Message = $"Verbindungsfehler: {ex.Message}"
                 });
                 return false;
             }
@@ -144,6 +191,15 @@ namespace Themis.IngestionTool.Services
     public class SettingsService : ISettingsService
     {
         private const string SettingsFile = "appsettings.json";
+
+        public bool UseGrpc
+        {
+            get
+            {
+                var settings = LoadSettings();
+                return settings.UseGrpc;
+            }
+        }
 
         public AppSettings LoadSettings()
         {

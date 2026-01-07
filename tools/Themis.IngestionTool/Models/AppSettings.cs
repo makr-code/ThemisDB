@@ -7,6 +7,10 @@ namespace Themis.IngestionTool.Models
         public int ThemisPort { get; set; } = 8765;
         public string ThemisApiUrl { get; set; } = "http://localhost:8765/api";  // REST API endpoint for graph/vector queries
 
+        // gRPC Configuration
+        public bool UseGrpc { get; set; } = true;  // Neue Einstellung: gRPC vs HTTP
+        public int ThemisGrpcPort { get; set; } = 50051;  // Standard gRPC Port
+
         // Database
         public string DatabasePath { get; set; } = "ingestion_tracker.db";
         public int MaxFileSize { get; set; } = 100;

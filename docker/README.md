@@ -3,17 +3,27 @@
 [![Release](https://img.shields.io/github/v/release/makr-code/ThemisDB?include_prereleases&sort=semver&color=blue)](https://github.com/makr-code/ThemisDB/releases)
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
 [![Platform](https://img.shields.io/badge/platform-linux%2Famd64%20%7C%20linux%2Farm64-brightgreen)](https://github.com/makr-code/ThemisDB)
-[![Build](https://img.shields.io/badge/build-multi--stage--docker-success)](https://github.com/makr-code/ThemisDB/blob/main/Dockerfile)
+[![Build](https://img.shields.io/badge/build-multi--stage--docker-success)](https://github.com/makr-code/ThemisDB/blob/main/Dockerfile.themis-server)
 [![Docker](https://img.shields.io/badge/Docker-✓-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
 [![GitHub Stars](https://img.shields.io/github/stars/makr-code/ThemisDB?style=social)](https://github.com/makr-code/ThemisDB)
 
 ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM-Tree-Architektur mit nativer Unterstützung für Vektorsuche, Graphoperationen, Geospatial-Abfragen und Volltextsuche.
 
-**✨ NEU in v1.3.4:** Massive Insert Performance Optimierung - 23-77x schnellere Bulk Inserts via Batch API!
+**✨ NEU in v1.3.4-hotfix (04.01.2026):** 
+- 🛡️ **RAID Sharding Deadlock Fix** - Server-Hang in RAID-Modus behoben (MVCC Column Family Initialisierung)
+- 🔧 **Port-Mapping Korrektur** - HTTP-Endpunkte jetzt korrekt auf Port 8765 gemappt (nicht 8080)
+- 🧪 **RAID Endurance Test Suite** - 2-Stunden-Lasttest mit Real-time Monitoring (375 Ops/Iteration)
+- 📦 **Build Context Optimierung** - 97% Reduktion: 3GB → 85MB (vcpkg artifacts excluded)
+- 🚀 **Massive Insert Performance** - 23-77x schnellere Bulk Inserts via Batch API
+- 🧠 **LLM Integration (llama.cpp)** - In allen Editionen aktiviert
+- ⚡ **GPU/CUDA Support** - Accelerated operations in allen Editionen
+- 📊 **Prometheus Metriken** - Native monitoring capabilities
+- 🌐 **RAID Clustering** - Multi-Shard Deployment (RAID 0/1/5) mit Bootstrap Discovery
 
-**Aktuelle Version:** v1.3.4 (Dezember 2025)  
-**Registry:** `docker.io/themisdb/themis`  
-**Build-Status:** ✅ Erfolgreich (28.12.2025)
+**Aktuelle Version:** v1.3.4 (Januar 2026)  
+**Registry:** `docker.io/themisdb/themisdb`  
+**Docker Image:** `themisdb/themisdb:v1.3.4-community` / `latest`  
+**Build-Status:** ✅ Erfolgreich (04.01.2026)
 
 ---
 
@@ -21,32 +31,38 @@ ThemisDB ist ein High-Performance Multi-Modell-Datenbanksystem auf Basis von LSM
 
 ```bash
 # Image herunterladen
-docker pull themisdb/themis:1.3.4
+docker pull themisdb/themisdb:v1.3.4-community
 
-# ThemisDB starten (mit Data Directory)
+# ThemisDB starten (REST API + /metrics)
 docker run -d \
   --name themis \
-  -p 7687:7687 \
+  -p 18765:18765 \
   -p 8080:8080 \
-  -v themisdb_data:/data \
-  themisdb/themis:1.3.4
+  -v themisdb_data:/var/lib/themisdb \
+  themisdb/themisdb:v1.3.4-community
 
-# Verifyieren Sie den Start
+# REST API überprüfen
 curl http://localhost:8080/health
+
+# Prometheus Metriken abrufen
+curl http://localhost:8080/metrics | head -20
 ```
 
 **Ports:**
 
+> **⚠️ WICHTIG (Hotfix 04.01.2026):** ThemisDB-Server lauscht intern auf Port **8765** (konfiguriert via `THEMIS_PORT`).  
+> Docker Port-Mappings müssen daher als `<external>:8765` konfiguriert sein, nicht `<external>:8080`!
+
 **Core Ports:**
-- `7687` - Binary Protocol (Bolt/Neo4j-compatible)
-- `8080` - REST API & HTTP Interface
+- `18765` - Wire Protocol (ThemisDB Binary)
+- `8080` - REST API & HTTP Interface + `/metrics`
 
-**Note:** This release uses a simplified runtime image with core functionality. Advanced protocols (MQTT, PostgreSQL wire, etc.) will be added in future updates.
-
-**📖 Complete Port Reference:** See [docs/deployment/PORT_REFERENCE.md](../docs/deployment/PORT_REFERENCE.md) for detailed documentation.
+**Monitoring:**
+- `9090` - Prometheus (wenn mit docker-compose gestartet)
+- `3000` - Grafana (wenn mit docker-compose gestartet)
 
 **Volume:**
-- `/data` - Database files (persistent storage)
+- `/var/lib/themisdb` - Database files (persistent storage)
 
 **Schnelle Überprüfung:**
 ```bash
@@ -487,6 +503,182 @@ docker exec themis printenv LD_LIBRARY_PATH
 
 ---
 
+## RAID Sharding Deployment (Hyperscaler Edition)
+
+### 🎯 RAID-Modi Übersicht
+
+ThemisDB Hyperscaler Edition unterstützt 3 RAID-Modi für horizontale Skalierung:
+
+| RAID Mode | Beschreibung | Shards | Performance | Redundanz | Nutzung |
+|-----------|--------------|--------|-------------|-----------|---------|
+| **RAID 0** | Striping - Daten verteilt | 3+ | 🚀 Sehr hoch | ❌ Keine | High-Performance, Non-Critical |
+| **RAID 1** | Mirroring - Daten dupliziert | 2+ | ⚡ Hoch | ✅✅ Sehr hoch | Mission-Critical, Backups |
+| **RAID 5** | Striping + Parity | 3+ | ⚡ Hoch | ✅ Hoch | Balanced, Production |
+
+### 🚀 Quick Start - RAID Cluster
+
+```bash
+# RAID Cluster mit allen 3 Modi starten (9 Shards total)
+cd docker/compose
+docker-compose -f docker-compose-sharding.yml up -d
+
+# Cluster Status prüfen
+docker-compose -f docker-compose-sharding.yml ps
+
+# Health Check aller Shards
+curl http://localhost:8080/health  # RAID0 Shard1
+curl http://localhost:8081/health  # RAID0 Shard2
+curl http://localhost:8083/health  # RAID1 Primary
+curl http://localhost:8085/health  # RAID5 Shard1
+```
+
+### ⚙️ Port-Konfiguration (WICHTIG!)
+
+> **⚠️ HOTFIX (04.01.2026):** ThemisDB-Server lauscht intern auf Port **8765** (`THEMIS_PORT=18765` für gRPC).  
+> HTTP/REST API läuft auf Port **8765**, nicht 8080!
+
+**RAID 0 (Striping) - Ports:**
+- Shard1: HTTP `8080:8765`, gRPC `18765:18765`, Metrics `9091:9090`
+- Shard2: HTTP `8081:8765`, gRPC `18766:18765`, Metrics `9092:9090`
+- Shard3: HTTP `8082:8765`, gRPC `18767:18765`, Metrics `9093:9090`
+
+**RAID 1 (Mirroring) - Ports:**
+- Primary: HTTP `8083:8765`, gRPC `18768:18765`, Metrics `9094:9090`
+- Secondary: HTTP `8084:8765`, gRPC `18769:18765`, Metrics `9095:9090`
+
+**RAID 5 (Striping + Parity) - Ports:**
+- Shard1: HTTP `8085:8765`, gRPC `18770:18765`, Metrics `9096:9090`
+- Shard2: HTTP `8086:8765`, gRPC `18771:18765`, Metrics `9097:9090`
+- Shard3: HTTP `8087:8765`, gRPC `18772:18765`, Metrics `9098:9090`
+
+**Monitoring:**
+- Prometheus: `9090:9090`
+- Grafana: `3000:3000`
+
+### 🔧 RAID Cluster Konfiguration
+
+**Bootstrap Node Pattern:**
+- **Shard1** (Bootstrap Node) kennt alle Shards via `THEMIS_SHARDS`
+- **Shards 2-9** kennen nur Bootstrap Node via `THEMIS_BOOTSTRAP_SHARD`
+- Cluster Discovery erfolgt automatisch über Bootstrap Node
+
+**Beispiel docker-compose.yml:**
+```yaml
+# RAID0 Shard1 (Bootstrap Node)
+themis-raid0-shard1:
+  image: themisdb/themisdb:hyperscaler
+  ports:
+    - "18765:18765"
+    - "8080:8765"      # HTTP auf intern 8765!
+    - "9091:9090"
+  environment:
+    THEMIS_PORT: "18765"
+    THEMIS_ROLE: "shard"
+    THEMIS_SHARD_ID: "raid0-1"
+    THEMIS_RAID_MODE: "stripe"
+    THEMIS_SHARDS: "themis-raid0-shard1:18765,themis-raid0-shard2:18765,themis-raid0-shard3:18765"
+    THEMIS_ENABLE_SHARDING: "true"
+    THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "15000"
+  healthcheck:
+    test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+    start_period: 60s
+
+# RAID0 Shard2 (Discovery Node)
+themis-raid0-shard2:
+  image: themisdb/themisdb:hyperscaler
+  ports:
+    - "18766:18765"
+    - "8081:8765"      # HTTP auf intern 8765!
+    - "9092:9090"
+  environment:
+    THEMIS_PORT: "18765"
+    THEMIS_ROLE: "shard"
+    THEMIS_SHARD_ID: "raid0-2"
+    THEMIS_RAID_MODE: "stripe"
+    THEMIS_BOOTSTRAP_SHARD: "themis-raid0-shard1:18765"
+    THEMIS_ENABLE_SHARDING: "true"
+    THEMIS_CLUSTER_DISCOVERY_TIMEOUT: "15000"
+```
+
+### 🧪 RAID Endurance Test
+
+**2-Stunden-Lasttest mit allen RAID-Modi:**
+
+```bash
+# Test starten
+python scripts/raid_endurance_test.py
+
+# Live Monitoring (PowerShell)
+powershell -File scripts/monitor_raid_test.ps1
+
+# Test-Metriken:
+# - RAID 0: 100 Writes + 50 Reads = 150 Ops/Iteration
+# - RAID 1: 50 Writes + 25 Reads = 75 Ops/Iteration  
+# - RAID 5: 100 Writes + 50 Reads = 150 Ops/Iteration
+# - Total: 375 Ops alle ~6 Sekunden
+```
+
+**Test-Ausgabe:**
+```
+[2026-01-04 14:07:13] Starting RAID Endurance Test - Duration: 2 hours
+[2026-01-04 14:07:13] Initial Health Check:
+[2026-01-04 14:07:13]   RAID 0 (Striping - Performance): ✓ OK (3/3 shards)
+[2026-01-04 14:07:13]   RAID 1 (Mirroring - Redundanz): ✓ OK (2/2 shards)
+[2026-01-04 14:07:13]   RAID 5 (Striping + Parity): ✓ OK (3/3 shards)
+```
+
+### 🔍 Troubleshooting RAID Cluster
+
+**Problem: Server hängt bei "Adaptive Index Manager initialized"**
+
+**Ursache:** RocksDB MVCC Deadlock - AdaptiveIndexManager versucht 2 Column Families zu koordinieren, bevor Sharding Manager initialisiert ist.
+
+**Lösung:** Hotfix v1.3.4 implementiert:
+- `src/storage/rocksdb_wrapper.cpp` (Lines 347-365): Conditional CF opening
+- `src/server/http_server.cpp` (Lines 287-321): Sharding detection vor AdaptiveIndexManager
+
+**Verifizierung:**
+```bash
+# Alle Shards sollten "READY FOR OPERATIONS" erreichen
+for shard in raid0-shard{1..3} raid1-{primary,secondary} raid5-shard{1..3}; do
+  docker logs themis-$shard 2>&1 | grep "READY FOR OPERATIONS"
+done
+```
+
+**Problem: HTTP-Endpunkte antworten nicht (Connection reset)**
+
+**Ursache:** Falsches Port-Mapping `808X:8080` statt `808X:8765`
+
+**Lösung:**
+```bash
+# docker-compose.yml korrigieren
+# FALSCH: - "8080:8080"
+# RICHTIG: - "8080:8765"
+
+# Cluster neu starten
+docker-compose -f docker-compose-sharding.yml down -v
+docker-compose -f docker-compose-sharding.yml up -d
+
+# Nach 60s Test:
+curl http://localhost:8080/health  # Sollte 200 OK zurückgeben
+```
+
+**Problem: Container bleibt "unhealthy"**
+
+**Ursache:** Healthcheck `start_period` zu kurz für Cluster-Initialisierung
+
+**Lösung:**
+```yaml
+healthcheck:
+  test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
+  interval: 10s
+  timeout: 5s
+  retries: 3
+  start_period: 60s  # Mindestens 60s für Sharding-Initialisierung!
+```
+
+---
+
 ## Advanced Usage
 
 ### Ressourcen Limits
@@ -652,7 +844,8 @@ ThemisDB ist unter den Bedingungen der [LICENSE](https://github.com/makr-code/Th
 
 ---
 
-**Letztes Update:** 21. Dezember 2025  
+**Letztes Update:** 04. Januar 2026 - RAID Sharding Hotfix v1.3.4  
+**Hotfix Details:** Port-Mapping Korrektur (8765), RocksDB MVCC Deadlock Fix, RAID Endurance Test Suite  
 **Betreuer:** ThemisDB Team  
 **Docker Hub:** https://hub.docker.com/r/themisdb/themisdb  
 **GitHub:** https://github.com/makr-code/ThemisDB

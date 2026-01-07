@@ -1,0 +1,16 @@
+# CSV Grammar
+# Supports quoted and unquoted fields, with comma or semicolon separators
+
+root ::= rows
+
+# Rows
+rows ::= row ("\n" row)* "\n"?
+row ::= field ("," field)*
+
+# Fields
+field ::= quoted-field | unquoted-field
+quoted-field ::= "\"" char* "\""
+unquoted-field ::= [^,"\n]*
+
+# Characters in quoted fields (handle escaped quotes)
+char ::= [^"] | "\"\""

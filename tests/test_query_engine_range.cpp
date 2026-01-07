@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -25,7 +25,7 @@ TEST(QueryEngineRangeTest, RangeWithOrderByAscendingLimit) {
     ASSERT_TRUE(idx.createRangeIndex("users","age").ok);
 
     auto put = [&](const std::string& pk, const std::string& age){
-        BaseEntity::FieldMap f{{"age", age}}; // String-encoding für lexicographische Ordnung
+        BaseEntity::FieldMap f{{"age", age}}; // String-encoding f�r lexicographische Ordnung
         auto e = BaseEntity::fromFields(pk, f);
         ASSERT_TRUE(idx.put("users", e).ok);
     };

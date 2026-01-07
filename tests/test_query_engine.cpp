@@ -1,4 +1,4 @@
-﻿// QueryEngine index-backed equality tests
+// QueryEngine index-backed equality tests
 
 #include <gtest/gtest.h>
 #include <filesystem>

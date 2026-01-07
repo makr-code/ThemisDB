@@ -197,7 +197,7 @@ private:
  * @param config Plugin configuration
  * @return true if created and registered successfully
  */
-bool createLlamaCppPlugin(
+bool createLlamaWrapper(
     const std::string& name = "llamacpp",
     const std::string& model_path = "",
     const json& config = {}

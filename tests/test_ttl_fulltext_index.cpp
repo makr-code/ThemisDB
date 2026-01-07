@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -37,9 +37,9 @@ protected:
     std::unique_ptr<themis::SecondaryIndexManager> idx_;
 };
 
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 // TTL Index Tests
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 
 TEST_F(TTLFulltextIndexTest, CreateAndDropTTLIndex) {
     auto st = idx_->createTTLIndex("sessions", "created_at", 3600); // 1 hour TTL
@@ -107,9 +107,9 @@ TEST_F(TTLFulltextIndexTest, TTLIndex_MultipleEntities) {
     EXPECT_EQ(deletedCount, 3);
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 // Fulltext Index Tests
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 
 TEST_F(TTLFulltextIndexTest, CreateAndDropFulltextIndex) {
     auto st = idx_->createFulltextIndex("articles", "content");

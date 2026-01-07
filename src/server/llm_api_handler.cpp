@@ -1,7 +1,9 @@
 #include "server/llm_api_handler.h"
+#include "auth/jwt_validator.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/async_inference_engine.h"
+#include "llm/embedded_llm.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -34,8 +36,18 @@ namespace {
     }
 }
 
-LLMApiHandler::LLMApiHandler(std::shared_ptr<llm::LLMPluginManager> plugin_manager)
+LLMApiHandler::LLMApiHandler(
+    std::shared_ptr<llm::LLMPluginManager> plugin_manager,
+    std::optional<auth::JWTValidatorConfig> jwt_config)
     : plugin_manager_(std::move(plugin_manager)) {
+    
+    if (jwt_config) {
+        jwt_validator_ = std::make_unique<auth::JWTValidator>(*jwt_config);
+    }
+}
+
+void LLMApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
+    jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
 http::response<http::string_body> LLMApiHandler::handleRequest(
@@ -136,27 +148,20 @@ http::response<http::string_body> LLMApiHandler::handleInference(
         return createErrorResponse(http::status::bad_request, "Invalid request parameters", e.what());
     }
     
-    // Call LLMPluginManager for inference
+    // Call EmbeddedLLM for inference
     try {
-        llm::InferenceRequest llm_request;
-        llm_request.prompt = prompt;
-        llm_request.model_id = model_id.empty() ? "default" : model_id;
-        llm_request.lora_adapter_id = lora_id;
-        llm_request.max_tokens = max_tokens;
-        llm_request.temperature = temperature;
+        // Use simplified EmbeddedLLM API
+        std::string result = THEMIS_LLM_GENERATE(prompt);
         
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
-        auto llm_response = plugin_mgr.generate(llm_request);
-        
-        json response_data = {
-            {"text", llm_response.text},
-            {"model", llm_response.model_id},
-            {"tokens_generated", llm_response.tokens_generated},
-            {"inference_time_ms", llm_response.inference_time_ms},
-            {"cache_hit", llm_response.cache_hit}
+        // Create response
+        json response_body = {
+            {"text", result},
+            {"model", model_id.empty() ? "default" : model_id},
+            {"prompt_length", prompt.length()},
+            {"generated_length", result.length()}
         };
         
-        return createJsonResponse(response_data);
+        return createJsonResponse(http::status::ok, response_body);
     } catch (const std::exception& e) {
         return createErrorResponse(
             http::status::internal_server_error,
@@ -264,15 +269,22 @@ http::response<http::string_body> LLMApiHandler::handleEmbed(
         return createErrorResponse(http::status::bad_request, "Invalid embed parameters", e.what());
     }
     
-    // Generate embeddings via LLMPluginManager
+    // Generate embeddings using EmbeddedLLM
     try {
-        auto& plugin_mgr = llm::LLMPluginManager::instance();
-        auto embedding = plugin_mgr.embed(text);
+        auto embedding = THEMIS_LLM_EMBED(text);
         
         json embedding_vector = json::array();
         for (const auto& val : embedding) {
             embedding_vector.push_back(val);
         }
+        
+        json response_body = {
+            {"embedding", embedding_vector},
+            {"dimensions", embedding.size()},
+            {"text_length", text.length()}
+        };
+        
+        return createJsonResponse(http::status::ok, response_body);
         
         json response_data = {
             {"embedding", embedding_vector},
@@ -743,31 +755,23 @@ bool LLMApiHandler::validateBearerToken(const http::request<http::string_body>& 
         return false;
     }
     
-    // TODO: Implement actual JWT validation
-    // SECURITY WARNING: This is a placeholder implementation for development only.
-    // DO NOT USE IN PRODUCTION without implementing proper JWT validation:
-    // 1. Parse JWT structure (header.payload.signature)
-    // 2. Verify signature using public key/secret
-    // 3. Check expiration (exp claim)
-    // 4. Validate issuer (iss claim)
-    // 5. Validate audience (aud claim)
-    // 6. Check not-before time (nbf claim)
-    // Consider using a JWT library like jwt-cpp or libjwt for production.
-    
-    // For now, reject empty tokens as a minimal safety check
-    if (token->empty()) {
+    if (!jwt_validator_) {
+        static bool warning_logged = false;
+        if (!warning_logged) {
+            std::cerr << "WARNING: JWT validator not configured. Denying access." << std::endl;
+            warning_logged = true;
+        }
         return false;
     }
     
-    // Development-only: log warning about placeholder validation
-    static bool warning_logged = false;
-    if (!warning_logged) {
-        std::cerr << "WARNING: Using placeholder JWT validation. "
-                  << "Implement proper JWT verification before production use." << std::endl;
-        warning_logged = true;
+    try {
+        auto claims = jwt_validator_->parseAndValidate(*token);
+        // Token is valid
+        return true;
+    } catch (const std::exception& e) {
+        // Token validation failed (expired, invalid signature, etc.)
+        return false;
     }
-    
-    return true;
 }
 
 http::response<http::string_body> LLMApiHandler::createErrorResponse(

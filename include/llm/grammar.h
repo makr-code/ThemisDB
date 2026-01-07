@@ -1,0 +1,88 @@
+#pragma once
+
+#include <string>
+#include <memory>
+
+// Forward declaration for llama.cpp types
+struct llama_grammar;
+struct llama_model;
+
+namespace themis {
+namespace llm {
+
+/**
+ * @brief Grammar class for constrained generation using EBNF grammars
+ * 
+ * This class wraps llama.cpp's grammar functionality to enable grammar-constrained
+ * text generation, guaranteeing valid structured outputs (JSON, XML, etc.).
+ * 
+ * Based on GRAMMAR_CONSTRAINED_GENERATION.md documentation.
+ */
+class Grammar {
+public:
+    /**
+     * @brief Construct a grammar from EBNF text
+     * @param ebnf_text EBNF grammar definition
+     * @param start_symbol Starting symbol for the grammar (e.g., "root")
+     */
+    Grammar(const std::string& ebnf_text, const std::string& start_symbol);
+    
+    /**
+     * @brief Destructor - frees llama_grammar resources
+     */
+    ~Grammar();
+    
+    // Prevent copying
+    Grammar(const Grammar&) = delete;
+    Grammar& operator=(const Grammar&) = delete;
+    
+    // Allow moving
+    Grammar(Grammar&& other) noexcept;
+    Grammar& operator=(Grammar&& other) noexcept;
+    
+    /**
+     * @brief Check if grammar was compiled successfully
+     * @return true if grammar is valid and ready to use
+     */
+    bool isValid() const;
+    
+    /**
+     * @brief Get error message if compilation failed
+     * @return Error message or empty string if valid
+     */
+    std::string getError() const;
+    
+    /**
+     * @brief Get the EBNF text used to create this grammar
+     * @return Original EBNF text
+     */
+    std::string getEBNFText() const;
+    
+    /**
+     * @brief Get the start symbol
+     * @return Start symbol name
+     */
+    std::string getStartSymbol() const;
+    
+    /**
+     * @brief Get internal llama_grammar handle
+     * 
+     * This is used internally by LlamaWrapper for token sampling.
+     * Users should not need to access this directly.
+     * 
+     * @return Pointer to llama_grammar or nullptr if invalid
+     */
+    llama_grammar* getHandle() const;
+    
+private:
+    llama_grammar* grammar_ = nullptr;
+    std::string ebnf_text_;
+    std::string start_symbol_;
+    std::string error_;
+    
+    // Helper to compile EBNF to llama_grammar
+    bool compile();
+};
+
+} // namespace llm
+} // namespace themis

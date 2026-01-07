@@ -1,0 +1,32 @@
+# Strict JSON Grammar
+# Enforces valid JSON with no trailing commas or other relaxations
+
+root ::= ws value ws
+
+# Values
+value ::= object | array | string | number | boolean | null
+
+# Objects
+object ::= "{" ws "}" | "{" ws pair (ws "," ws pair)* ws "}"
+pair ::= string ws ":" ws value
+
+# Arrays
+array ::= "[" ws "]" | "[" ws value (ws "," ws value)* ws "]"
+
+# Strings
+string ::= "\"" char* "\""
+char ::= [^"\\] | "\\" escape
+escape ::= ["\\bfnrt] | "u" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]
+
+# Numbers
+number ::= integer fraction? exponent?
+integer ::= "-"? ("0" | [1-9] [0-9]*)
+fraction ::= "." [0-9]+
+exponent ::= [eE] [+-]? [0-9]+
+
+# Booleans and null
+boolean ::= "true" | "false"
+null ::= "null"
+
+# Whitespace
+ws ::= [ \t\n\r]*

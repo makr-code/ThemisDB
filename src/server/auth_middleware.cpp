@@ -1,5 +1,6 @@
 #include "server/auth_middleware.h"
 #include "auth/jwt_validator.h"
+#include "security/usb_admin_authenticator.h"
 #include "utils/logger.h"
 #include <sstream>
 
@@ -24,6 +25,29 @@ void AuthMiddleware::enableJWT(const JWTConfig& config) {
     
     THEMIS_INFO("JWT validation enabled: issuer='{}', audience='{}', scope_claim='{}'",
                 config.expected_issuer, config.expected_audience, config.scope_claim);
+}
+
+void AuthMiddleware::enableUSBAdminAuth(const std::string& mount_path, const std::vector<std::string>& protected_scopes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    security::USBAdminConfig usb_cfg;
+    usb_cfg.mount_path = mount_path;
+    usb_cfg.require_usb_for_admin = true;
+    usb_cfg.silent_failure = true;
+    
+    // Use provided scopes or defaults from config
+    if (!protected_scopes.empty()) {
+        usb_cfg.usb_protected_scopes = protected_scopes;
+    }
+    // else: use defaults from USBAdminConfig
+    
+    usb_admin_auth_ = std::make_unique<security::USBAdminAuthenticator>(usb_cfg);
+    usb_admin_auth_->initialize();
+    usb_admin_enabled_ = true;
+    usb_protected_scopes_ = usb_cfg.usb_protected_scopes;
+    
+    THEMIS_INFO("USB Admin Authentication enabled with mount_path='{}', {} protected scopes", 
+                mount_path, usb_protected_scopes_.size());
 }
 
 void AuthMiddleware::addToken(const TokenConfig& config) {
@@ -71,6 +95,15 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
             oss << "Missing required scope: " << required_scope;
             THEMIS_WARN("Authorization denied for user '{}': {}", config.user_id, oss.str());
             return AuthResult::Denied(oss.str());
+        }
+        
+        // If USB admin authentication is enabled and this is an admin scope, check USB
+        if (usb_admin_enabled_ && isAdminScope(required_scope)) {
+            if (!usb_admin_auth_->validateAdminOperation(std::string(required_scope), config.user_id)) {
+                metrics_.authz_denied_total++;
+                // Silent failure mode - return generic denial without revealing USB requirement
+                return AuthResult::Denied("Insufficient privileges");
+            }
         }
 
         metrics_.authz_success_total++;
@@ -192,6 +225,29 @@ std::optional<AuthMiddleware::AuthContext> AuthMiddleware::extractContext(std::s
         return ctx;
     }
     return std::nullopt;
+}
+
+bool AuthMiddleware::isUSBAdminReady() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!usb_admin_enabled_ || !usb_admin_auth_) {
+        return false;
+    }
+    return usb_admin_auth_->isAdminUSBPresent();
+}
+
+bool AuthMiddleware::isAdminScope(std::string_view scope) const {
+    // Check if scope is in the configured list of USB-protected scopes
+    // Note: mutex already locked by caller (authorize method)
+    for (const auto& protected_scope : usb_protected_scopes_) {
+        if (protected_scope == scope) {
+            return true;
+        }
+        // Support wildcard matching for "admin:*" pattern
+        if (protected_scope == "admin:*" && scope.find("admin:") == 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 } // namespace themis
