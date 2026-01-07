@@ -21,7 +21,7 @@ if(MSVC)
     # Windows MSVC compiler options
     add_compile_options(
         /W4              # Warning level 4
-        /WX:NO           # Don't treat warnings as errors (unless THEMIS_STRICT_BUILD)
+        /WX-             # Don't treat warnings as errors (unless THEMIS_STRICT_BUILD)
         /fp:precise      # Precise floating point
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
