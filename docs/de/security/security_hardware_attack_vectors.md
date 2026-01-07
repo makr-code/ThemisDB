@@ -29,6 +29,8 @@ Hardware-Angriffsvektoren stellen eine besondere Bedrohung für Datenbanksysteme
 
 Dieses Dokument bietet eine umfassende Übersicht über Hardware-Angriffsvektoren auf Serverebene und zeigt spezifische Schutzmaßnahmen für ThemisDB-Deployments auf.
 
+> **Hinweis:** Diese Dokumentation konzentriert sich primär auf Linux-basierte Deployments, die für produktive ThemisDB-Server empfohlen werden. Windows-spezifische Hinweise sind dort enthalten, wo zutreffend, jedoch bleibt Linux die bevorzugte Plattform für sicherheitsgehärtete Datenbank-Deployments.
+
 ### Gefährdungsklassifizierung
 
 | Bedrohungskategorie | Wahrscheinlichkeit | Impact | Risiko |
@@ -311,7 +313,7 @@ Moderne CPUs sind anfällig für verschiedene Seitenkanalangriffe, die durch Mik
 
 **Schweregrad:** 🟡 **MITTEL** (nur relevant bei SGX-Nutzung)
 
-#### 5. **Weitere CPU-Vulnerabilities**
+#### 5. **Weitere CPU-Schwachstellen**
 
 - **Foreshadow/L1TF** (L1 Terminal Fault)
 - **Branch Target Injection (BTI)**
@@ -1021,8 +1023,8 @@ alerts:
 
 ### 6. **Cold Boot Protection**
 
-```bash
-#!/bin/bash
+**Systemd Service:**
+```ini
 # /etc/systemd/system/themisdb-shutdown-wipe.service
 [Unit]
 Description=ThemisDB Memory Wipe on Shutdown
@@ -1038,6 +1040,7 @@ RemainAfterExit=yes
 WantedBy=shutdown.target
 ```
 
+**Wipe-Script:**
 ```bash
 #!/bin/bash
 # /usr/local/bin/themisdb_memory_wipe.sh

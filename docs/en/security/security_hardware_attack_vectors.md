@@ -29,6 +29,8 @@ Hardware attack vectors pose a unique threat to database systems as they often o
 
 This document provides a comprehensive overview of hardware-level attack vectors on server infrastructure and demonstrates specific protection measures for ThemisDB deployments.
 
+> **Note:** This documentation primarily focuses on Linux-based deployments, which are recommended for production ThemisDB servers. Windows-specific guidance is included where applicable, but Linux remains the preferred platform for security-hardened database deployments.
+
 ### Threat Classification
 
 | Threat Category | Likelihood | Impact | Risk |
