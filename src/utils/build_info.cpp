@@ -13,10 +13,6 @@
 namespace themis {
 namespace build_info {
 
-// Helper to detect compile-time flags
-#define CHECK_FLAG(flag) { #flag, defined(flag) ? true : false }
-#define CHECK_OPTION(option) { #option, defined(option) && option ? true : false }
-
 BuildConfiguration getBuildConfiguration() {
     BuildConfiguration config;
     
@@ -540,37 +536,161 @@ BuildConfiguration getBuildConfiguration() {
     
     // Collect all THEMIS_* compile-time flags
     config.compile_flags = {
-        CHECK_FLAG(THEMIS_ENABLE_GPU),
-        CHECK_FLAG(THEMIS_ENABLE_CUDA),
-        CHECK_FLAG(THEMIS_ENABLE_HIP),
-        CHECK_FLAG(THEMIS_ENABLE_OPENCL),
-        CHECK_FLAG(THEMIS_ENABLE_VULKAN),
-        CHECK_FLAG(THEMIS_ENABLE_DIRECTX),
-        CHECK_FLAG(THEMIS_ENABLE_METAL),
-        CHECK_FLAG(THEMIS_ENABLE_ONEAPI),
-        CHECK_FLAG(THEMIS_ENABLE_LLM),
-        CHECK_FLAG(THEMIS_ENABLE_VOICE_ASSISTANT),
-        CHECK_FLAG(THEMIS_ENABLE_WHISPER),
-        CHECK_FLAG(THEMIS_ENABLE_PIPER_TTS),
-        CHECK_FLAG(THEMIS_ENABLE_CONTENT_PROCESSORS),
-        CHECK_FLAG(THEMIS_ENABLE_HTTP2),
-        CHECK_FLAG(THEMIS_ENABLE_HTTP3),
-        CHECK_FLAG(THEMIS_ENABLE_GRPC),
-        CHECK_FLAG(THEMIS_ENABLE_WEBSOCKET),
-        CHECK_FLAG(THEMIS_USE_MIMALLOC),
-        CHECK_FLAG(THEMIS_ENABLE_HUGE_PAGES),
-        CHECK_FLAG(THEMIS_ENABLE_RCU_INDEX),
-        CHECK_FLAG(THEMIS_ENABLE_LIRS_CACHE),
-        CHECK_FLAG(THEMIS_ENABLE_WISCKEY),
-        CHECK_FLAG(THEMIS_ENABLE_RABITQ),
-        CHECK_FLAG(THEMIS_ENABLE_DISKANN),
-        CHECK_FLAG(THEMIS_ENABLE_HSM_REAL),
-        CHECK_FLAG(THEMIS_ENABLE_TRACING),
-        CHECK_FLAG(THEMIS_ENABLE_ASAN),
-        CHECK_FLAG(THEMIS_STRICT_BUILD),
-        CHECK_FLAG(THEMIS_ENABLE_AVX2),
-        CHECK_FLAG(THEMIS_QNAP_BUILD),
-        CHECK_FLAG(THEMIS_STATIC_BUILD),
+#ifdef THEMIS_ENABLE_GPU
+        { "THEMIS_ENABLE_GPU", true },
+#else
+        { "THEMIS_ENABLE_GPU", false },
+#endif
+#ifdef THEMIS_ENABLE_CUDA
+        { "THEMIS_ENABLE_CUDA", true },
+#else
+        { "THEMIS_ENABLE_CUDA", false },
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        { "THEMIS_ENABLE_HIP", true },
+#else
+        { "THEMIS_ENABLE_HIP", false },
+#endif
+#ifdef THEMIS_ENABLE_OPENCL
+        { "THEMIS_ENABLE_OPENCL", true },
+#else
+        { "THEMIS_ENABLE_OPENCL", false },
+#endif
+#ifdef THEMIS_ENABLE_VULKAN
+        { "THEMIS_ENABLE_VULKAN", true },
+#else
+        { "THEMIS_ENABLE_VULKAN", false },
+#endif
+#ifdef THEMIS_ENABLE_DIRECTX
+        { "THEMIS_ENABLE_DIRECTX", true },
+#else
+        { "THEMIS_ENABLE_DIRECTX", false },
+#endif
+#ifdef THEMIS_ENABLE_METAL
+        { "THEMIS_ENABLE_METAL", true },
+#else
+        { "THEMIS_ENABLE_METAL", false },
+#endif
+#ifdef THEMIS_ENABLE_ONEAPI
+        { "THEMIS_ENABLE_ONEAPI", true },
+#else
+        { "THEMIS_ENABLE_ONEAPI", false },
+#endif
+#ifdef THEMIS_ENABLE_LLM
+        { "THEMIS_ENABLE_LLM", true },
+#else
+        { "THEMIS_ENABLE_LLM", false },
+#endif
+#ifdef THEMIS_ENABLE_VOICE_ASSISTANT
+        { "THEMIS_ENABLE_VOICE_ASSISTANT", true },
+#else
+        { "THEMIS_ENABLE_VOICE_ASSISTANT", false },
+#endif
+#ifdef THEMIS_ENABLE_WHISPER
+        { "THEMIS_ENABLE_WHISPER", true },
+#else
+        { "THEMIS_ENABLE_WHISPER", false },
+#endif
+#ifdef THEMIS_ENABLE_PIPER_TTS
+        { "THEMIS_ENABLE_PIPER_TTS", true },
+#else
+        { "THEMIS_ENABLE_PIPER_TTS", false },
+#endif
+#ifdef THEMIS_ENABLE_CONTENT_PROCESSORS
+        { "THEMIS_ENABLE_CONTENT_PROCESSORS", true },
+#else
+        { "THEMIS_ENABLE_CONTENT_PROCESSORS", false },
+#endif
+#ifdef THEMIS_ENABLE_HTTP2
+        { "THEMIS_ENABLE_HTTP2", true },
+#else
+        { "THEMIS_ENABLE_HTTP2", false },
+#endif
+#ifdef THEMIS_ENABLE_HTTP3
+        { "THEMIS_ENABLE_HTTP3", true },
+#else
+        { "THEMIS_ENABLE_HTTP3", false },
+#endif
+#ifdef THEMIS_ENABLE_GRPC
+        { "THEMIS_ENABLE_GRPC", true },
+#else
+        { "THEMIS_ENABLE_GRPC", false },
+#endif
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        { "THEMIS_ENABLE_WEBSOCKET", true },
+#else
+        { "THEMIS_ENABLE_WEBSOCKET", false },
+#endif
+#ifdef THEMIS_USE_MIMALLOC
+        { "THEMIS_USE_MIMALLOC", true },
+#else
+        { "THEMIS_USE_MIMALLOC", false },
+#endif
+#ifdef THEMIS_ENABLE_HUGE_PAGES
+        { "THEMIS_ENABLE_HUGE_PAGES", true },
+#else
+        { "THEMIS_ENABLE_HUGE_PAGES", false },
+#endif
+#ifdef THEMIS_ENABLE_RCU_INDEX
+        { "THEMIS_ENABLE_RCU_INDEX", true },
+#else
+        { "THEMIS_ENABLE_RCU_INDEX", false },
+#endif
+#ifdef THEMIS_ENABLE_LIRS_CACHE
+        { "THEMIS_ENABLE_LIRS_CACHE", true },
+#else
+        { "THEMIS_ENABLE_LIRS_CACHE", false },
+#endif
+#ifdef THEMIS_ENABLE_WISCKEY
+        { "THEMIS_ENABLE_WISCKEY", true },
+#else
+        { "THEMIS_ENABLE_WISCKEY", false },
+#endif
+#ifdef THEMIS_ENABLE_RABITQ
+        { "THEMIS_ENABLE_RABITQ", true },
+#else
+        { "THEMIS_ENABLE_RABITQ", false },
+#endif
+#ifdef THEMIS_ENABLE_DISKANN
+        { "THEMIS_ENABLE_DISKANN", true },
+#else
+        { "THEMIS_ENABLE_DISKANN", false },
+#endif
+#ifdef THEMIS_ENABLE_HSM_REAL
+        { "THEMIS_ENABLE_HSM_REAL", true },
+#else
+        { "THEMIS_ENABLE_HSM_REAL", false },
+#endif
+#ifdef THEMIS_ENABLE_TRACING
+        { "THEMIS_ENABLE_TRACING", true },
+#else
+        { "THEMIS_ENABLE_TRACING", false },
+#endif
+#ifdef THEMIS_ENABLE_ASAN
+        { "THEMIS_ENABLE_ASAN", true },
+#else
+        { "THEMIS_ENABLE_ASAN", false },
+#endif
+#ifdef THEMIS_STRICT_BUILD
+        { "THEMIS_STRICT_BUILD", true },
+#else
+        { "THEMIS_STRICT_BUILD", false },
+#endif
+#ifdef THEMIS_ENABLE_AVX2
+        { "THEMIS_ENABLE_AVX2", true },
+#else
+        { "THEMIS_ENABLE_AVX2", false },
+#endif
+#ifdef THEMIS_QNAP_BUILD
+        { "THEMIS_QNAP_BUILD", true },
+#else
+        { "THEMIS_QNAP_BUILD", false },
+#endif
+#ifdef THEMIS_STATIC_BUILD
+        { "THEMIS_STATIC_BUILD", true },
+#else
+        { "THEMIS_STATIC_BUILD", false },
+#endif
     };
     
     return config;
