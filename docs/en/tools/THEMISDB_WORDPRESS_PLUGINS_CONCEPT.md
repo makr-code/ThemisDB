@@ -179,15 +179,16 @@ Demo Data: Pre-generated sample data
    - Effort: 80-100h
    - Impact: Extremely high - try-before-buy
    
-4. Documentation Search (Priority: Medium)
-   - Effort: 50-70h
-   - Impact: Showcases vector search
+4. Architecture Diagrams (Priority: Medium)
+   - Effort: 40-50h
+   - Impact: Visualizes complexity comprehensibly
 ```
 
 ### Phase 3: Nice-to-Haves (Q3 2026)
 ```yaml
-5. Architecture Diagrams (Priority: Medium)
-   - Effort: 40-50h
+5. Documentation Search (Priority: Medium)
+   - Effort: 50-70h
+   - Impact: Showcases vector search
 ```
 
 ---
@@ -204,7 +205,9 @@ Demo Data: Pre-generated sample data
 | Documentation Search | 50-70h | $3,750-5,250 | Medium |
 | Architecture Diagrams | 40-50h | $3,000-3,750 | Medium |
 
-**Total Phase 1+2:** ~220-270h (~$16,500-20,250)  
+**Total Phase 1+2:** ~190-250h (~$14,250-18,750)  
+**Phase 1:** Benchmark Visualizer + Feature Matrix  
+**Phase 2:** Live Query Playground + Architecture Diagrams  
 **Recommendation:** Start with Benchmark Visualizer and Feature Matrix
 
 ---
@@ -230,9 +233,9 @@ Demo Data: Pre-generated sample data
 **Break-Even:** 3-4 additional enterprise customers/year
 
 ### Total ROI (Phase 1+2)
-**Investment:** ~$12,000-15,000  
+**Investment:** ~$14,250-18,750 (Phase 1+2: Benchmark Visualizer, Feature Matrix, Live Query Playground, Architecture Diagrams)  
 **Expected Additional Revenue/Year:** $50,000-100,000  
-**ROI:** 300-600% per year
+**ROI:** 250-600% per year
 
 ---
 

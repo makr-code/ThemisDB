@@ -362,16 +362,18 @@ Interactive: JavaScript Events
    - Impact: Extrem hoch - Try-before-buy
    - Dependencies: Demo ThemisDB Instance
 
-4. Documentation Search (Prio: Mittel)
-   - Aufwand: 50-70h
-   - Impact: Showcases Vector Search
-   - Dependencies: Docs-Indexierung
+4. Architecture Diagrams (Prio: Mittel)
+   - Aufwand: 40-50h
+   - Impact: Visualisiert Komplexität verständlich
+   - Dependencies: Architektur-Diagramme als SVG/JSON
 ```
 
 ### Phase 3: Nice-to-Haves (Q3 2026)
 ```yaml
-5. Architecture Diagrams (Prio: Mittel)
-   - Aufwand: 40-50h
+5. Documentation Search (Prio: Mittel)
+   - Aufwand: 50-70h
+   - Impact: Showcases Vector Search
+   - Dependencies: Docs-Indexierung
    
 6. Release Timeline (Prio: Niedrig)
    - Aufwand: 25-35h
@@ -554,7 +556,8 @@ wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0');
 **Gesamt:** 285-385h (~€21.375-28.875)
 
 **Phase 1 (Quick Wins):** 70-100h (~€5.250-7.500)  
-**Empfehlung:** Start mit Benchmark Visualizer und Feature Matrix
+**Phase 2 (High-Value):** 120-150h (~€9.000-11.250)  
+**Empfehlung:** Start mit Benchmark Visualizer und Feature Matrix (Phase 1)
 
 ---
 
@@ -579,9 +582,9 @@ wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0');
 **Break-Even:** 3-4 zusätzliche Enterprise-Kunden/Jahr
 
 ### Gesamt-ROI (Phase 1+2)
-**Investment:** ~€12.000-15.000  
+**Investment:** ~€14.250-18.750 (Phase 1+2: Benchmark Visualizer, Feature Matrix, Live Query Playground, Architecture Diagrams)  
 **Erwarteter Zusatzumsatz/Jahr:** €50.000-100.000  
-**ROI:** 300-600% pro Jahr
+**ROI:** 250-600% pro Jahr
 
 ---
 
