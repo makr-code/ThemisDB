@@ -72,11 +72,11 @@ private:
     
     // Internal methods
     GeoExtractionData parseGeoJSON(const std::vector<uint8_t>& blob);
-    GeoExtractionData parseShapefile(const std::vector<uint8_t>& blob);
+    GeoExtractionData parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options = {});
     GeoExtractionData parseGeoTIFF(const std::vector<uint8_t>& blob);
     GeoExtractionData parseKML(const std::vector<uint8_t>& blob);
     GeoExtractionData parseGPX(const std::vector<uint8_t>& blob);
-    GeoExtractionData parseGeoPackage(const std::vector<uint8_t>& blob);
+    GeoExtractionData parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options = {});
     
     std::pair<double, double> calculateCentroid(const GeoExtractionData& geo);
     double calculateArea(const GeoExtractionData& geo);

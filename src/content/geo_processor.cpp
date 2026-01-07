@@ -173,9 +173,9 @@ ContentExtractionResult GeoProcessor::extract(
         } else if (mime_type == "application/gpx+xml") {
             geo = parseGPX(blob);
         } else if (mime_type == "application/x-shapefile") {
-            geo = parseShapefile(blob);
+            geo = parseShapefile(blob, options);
         } else if (mime_type == "application/geopackage+sqlite3") {
-            geo = parseGeoPackage(blob);
+            geo = parseGeoPackage(blob, options);
         } else if (mime_type == "image/tiff" || mime_type == "image/x-tiff") {
             geo = parseGeoTIFF(blob);
         } else {
@@ -406,7 +406,7 @@ GeoExtractionData GeoProcessor::parseGPX(const std::vector<uint8_t>& blob) {
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -444,6 +444,16 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob)
         for (int i = 0; i < layer_count; ++i) {
             OGRLayer* layer = dataset->GetLayer(i);
             if (!layer) continue;
+            
+            // Apply spatial filter if provided (10-100x speedup for selective queries)
+            if (options.use_spatial_filter) {
+                layer->SetSpatialFilterRect(
+                    options.filter_minx,
+                    options.filter_miny,
+                    options.filter_maxx,
+                    options.filter_maxy
+                );
+            }
             
             // Get spatial reference system
             OGRSpatialReference* srs = layer->GetSpatialRef();
@@ -575,7 +585,7 @@ GeoExtractionData GeoProcessor::parseShapefile(const std::vector<uint8_t>& blob)
     return data;
 }
 
-GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob) {
+GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob, const ExtractionOptions& options) {
     GeoExtractionData data;
     data.crs = default_crs_;
     
@@ -612,6 +622,16 @@ GeoExtractionData GeoProcessor::parseGeoPackage(const std::vector<uint8_t>& blob
         for (int i = 0; i < layer_count && i < 1; ++i) {  // Process first layer
             OGRLayer* layer = dataset->GetLayer(i);
             if (!layer) continue;
+            
+            // Apply spatial filter if provided (10-100x speedup for selective queries)
+            if (options.use_spatial_filter) {
+                layer->SetSpatialFilterRect(
+                    options.filter_minx,
+                    options.filter_miny,
+                    options.filter_maxx,
+                    options.filter_maxy
+                );
+            }
             
             // Get spatial reference
             OGRSpatialReference* srs = layer->GetSpatialRef();
