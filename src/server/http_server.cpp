@@ -30,6 +30,7 @@
 #include "api/geo_index_hooks.h"
 #include "transaction/transaction_manager.h"
 #include "utils/logger.h"
+#include "themis/build_info.h"
 
 #include "utils/logger_impl.h"
 #include "utils/tracing.h"
@@ -1025,6 +1026,7 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
 namespace {
     enum class Route {
         Health,
+        Version,
         Stats,
         CapabilitiesGet,
         Metrics,
@@ -1162,6 +1164,7 @@ namespace {
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (target == "/" || target == "/health") return Route::Health;
+    if (target == "/version" && method == http::verb::get) return Route::Version;
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
@@ -1397,6 +1400,9 @@ http::response<http::string_body> HttpServer::routeRequest(
         switch (classifyRoute(req)) {
             case Route::Health:
                 response = handleHealthCheck(req);
+            break;
+        case Route::Version:
+            response = handleVersion(req);
             break;
         case Route::Stats:
             response = handleStats(req);
@@ -3030,6 +3036,68 @@ http::response<http::string_body> HttpServer::handleHealthCheck(
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
+http::response<http::string_body> HttpServer::handleVersion(
+    const http::request<http::string_body>& req
+) {
+    try {
+        auto build_config = themis::build_info::getBuildConfiguration();
+        
+        json response = {
+            {"edition", {
+                {"name", build_config.edition_name},
+                {"type", build_config.edition_type},
+                {"gpu_max_vram_gb", build_config.gpu_max_vram_gb},
+                {"sharding_max_nodes", build_config.sharding_max_nodes}
+            }},
+            {"build", {
+                {"compiler", build_config.compiler},
+                {"compiler_version", build_config.compiler_version},
+                {"build_type", build_config.build_type},
+                {"timestamp", build_config.build_timestamp}
+            }}
+        };
+        
+#ifdef THEMIS_VERSION_STRING
+        response["version"] = THEMIS_VERSION_STRING;
+#else
+        response["version"] = "unknown";
+#endif
+        
+        // Add module information
+        json modules_compiled = json::array();
+        json modules_disabled = json::array();
+        
+        for (const auto& mod : build_config.modules) {
+            json module_info = {
+                {"name", mod.name},
+                {"description", mod.description}
+            };
+            
+            if (mod.compiled_in) {
+                modules_compiled.push_back(module_info);
+            } else {
+                modules_disabled.push_back(module_info);
+            }
+        }
+        
+        response["modules"] = {
+            {"compiled_in", modules_compiled},
+            {"not_compiled", modules_disabled},
+            {"total", build_config.modules.size()},
+            {"compiled_count", modules_compiled.size()},
+            {"disabled_count", modules_disabled.size()}
+        };
+        
+        return makeResponse(http::status::ok, response.dump(2), req);
+    } catch (const std::exception& e) {
+        json error_response = {
+            {"error", "Failed to retrieve version information"},
+            {"message", e.what()}
+        };
+        return makeResponse(http::status::internal_server_error, error_response.dump(), req);
+    }
+}
+
 http::response<http::string_body> HttpServer::handleStats(
     const http::request<http::string_body>& req
 ) {
@@ -3078,6 +3146,25 @@ http::response<http::string_body> HttpServer::handleCapabilities(
 ) {
     // No auth required for capabilities (read-only, non-sensitive)
     json caps;
+    
+    // Add edition and build information
+    try {
+        auto build_config = themis::build_info::getBuildConfiguration();
+        caps["edition"] = {
+            {"name", build_config.edition_name},
+            {"type", build_config.edition_type},
+            {"gpu_max_vram_gb", build_config.gpu_max_vram_gb},
+            {"sharding_max_nodes", build_config.sharding_max_nodes}
+        };
+        
+        caps["build"] = {
+            {"compiler", build_config.compiler},
+            {"version", build_config.compiler_version},
+            {"type", build_config.build_type}
+        };
+    } catch (...) {
+        // If build info fails, continue with basic capabilities
+    }
 
     // Build flags
 #ifdef THEMIS_GEO_ENABLED
