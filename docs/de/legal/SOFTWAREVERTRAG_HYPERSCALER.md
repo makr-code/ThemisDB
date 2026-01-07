@@ -336,10 +336,10 @@ Der Lizenzgeber garantiert zusätzlich:
 ### 8.3 Accelerated Bugfixing (SLA)
 | Priorität | Reaktionszeit | Workaround | Fix-Bereitstellung |
 |-----------|---------------|------------|-------------------|
-| **P0 - Kritisch** | 30 Minuten | 2 Stunden | 8 Stunden |
-| **P1 - Hoch** | 2 Stunden | 4 Stunden | 24 Stunden |
-| **P2 - Mittel** | 4 Stunden | 1 Werktag | 5 Werktage |
-| **P3 - Niedrig** | 1 Werktag | Best Effort | 30 Tage |
+| **P0 - Kritisch** | 2 Stunden | 12 Stunden | 3 Werktage |
+| **P1 - Hoch** | 4 Stunden | 1 Werktag | 1 Woche |
+| **P2 - Mittel** | 1 Werktag | 3 Werktage | 2 Wochen |
+| **P3 - Niedrig** | 2 Werktage | Best Effort | 1 Monat |
 
 ### 8.4 Erweiterte Haftung (Hyperscaler)
 Im Gegensatz zur Enterprise Edition:
@@ -406,10 +406,10 @@ Hyperscaler-Kunden erhalten:
 
 | Severity | Description | Response | Workaround | Resolution |
 |----------|-------------|----------|------------|-----------|
-| **P0 - Site Down** | Complete service outage | 15 minutes | 1 hour | 4 hours |
-| **P1 - Critical** | Core functionality impaired | 30 minutes | 2 hours | 8 hours |
-| **P2 - Major** | Significant impact | 2 hours | 4 hours | 24 hours |
-| **P3 - Minor** | Limited impact | 8 hours | 1 business day | 5 business days |
+| **P0 - Site Down** | Complete service outage | 2 hours | 12 hours | 3 days |
+| **P1 - Critical** | Core functionality impaired | 4 hours | 1 day | 1 week |
+| **P2 - Major** | Significant impact | 1 day | 3 days | 2 weeks |
+| **P3 - Minor** | Limited impact | 2 days | 1 week | 1 month |
 | **P4 - Cosmetic** | No business impact | 1 business day | Best effort | Next release |
 
 ### 9.6 SLA Credits (Detailed)
@@ -425,10 +425,10 @@ Hyperscaler-Kunden erhalten:
 **Support-SLA-Credits:**
 | SLA-Verletzung | Gutschrift |
 |----------------|-----------|
-| P0 Response > 30 min | 5% |
-| P0 Resolution > 8h | 15% |
-| P1 Response > 2h | 2% |
-| P1 Resolution > 24h | 10% |
+| P0 Response > 4h | 5% |
+| P0 Resolution > 1 Woche | 15% |
+| P1 Response > 8h | 2% |
+| P1 Resolution > 2 Wochen | 10% |
 
 **Maximum Credits:** 100% der Quartalslizenzgebühr
 

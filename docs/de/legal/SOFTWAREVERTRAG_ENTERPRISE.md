@@ -288,7 +288,7 @@ Für Schäden durch eingebundene Open-Source-Komponenten haftet der Lizenzgeber 
 
 ### 9.1 Verfügbarkeit
 Der Lizenzgeber garantiert eine Verfügbarkeit der Support-Kanäle von:
-- **99.9% pro Quartal** (entspricht ~8.8h Downtime/Jahr)
+- **99.5% pro Quartal** (entspricht ~43h Downtime/Jahr)
 
 Nicht eingerechnet werden:
 - Geplante Wartungsfenster (angekündigt 48h vorher)
@@ -299,10 +299,10 @@ Nicht eingerechnet werden:
 
 | Priorität | Beschreibung | Reaktionszeit | Lösungszeit (Ziel) |
 |-----------|--------------|---------------|-------------------|
-| **P1 - Kritisch** | Produktionssystem vollständig ausgefallen | 1 Stunde (24/7) | 4 Stunden (Workaround) |
-| **P2 - Hoch** | Kernfunktion stark beeinträchtigt | 4 Stunden (24/7) | 8 Stunden (Workaround) |
-| **P3 - Mittel** | Funktionseinschränkung | 1 Werktag | 5 Werktage |
-| **P4 - Niedrig** | Frage, Feature-Request | 2 Werktage | Best Effort |
+| **P1 - Kritisch** | Produktionssystem vollständig ausgefallen | 4 Stunden (Business Hours) | 24 Stunden (Workaround) |
+| **P2 - Hoch** | Kernfunktion stark beeinträchtigt | 1 Werktag | 3 Werktage (Workaround) |
+| **P3 - Mittel** | Funktionseinschränkung | 2 Werktage | 2 Wochen |
+| **P4 - Niedrig** | Frage, Feature-Request | 5 Werktage | Best Effort |
 
 ### 9.3 Support-Kanäle
 - **24/7 Telefon-Hotline:** Für P1/P2-Fälle
@@ -319,13 +319,13 @@ Inkludiert ab 50 Nodes:
 
 ### 9.5 Eskalationspfad
 1. **L1 Support:** Support-Team (Reaktionszeit gemäß SLA)
-2. **L2 Support:** Senior Engineers (Eskalation nach 4h bei P1)
-3. **L3 Support:** Entwicklungs-Team (Eskalation nach 8h bei P1)
+2. **L2 Support:** Senior Engineers (Eskalation nach 24h bei P1)
+3. **L3 Support:** Entwicklungs-Team (Eskalation nach 3 Tagen bei P1)
 4. **Management Escalation:** CTO (auf Kundenwunsch)
 
 ### 9.6 SLA-Gutschriften
 Bei Unterschreitung der Verfügbarkeit:
-- 99.9% - 99.0%: 10% Gutschrift (nächste Rechnung)
+- 99.5% - 99.0%: 10% Gutschrift (nächste Rechnung)
 - 99.0% - 98.0%: 25% Gutschrift
 - < 98.0%: 50% Gutschrift
 

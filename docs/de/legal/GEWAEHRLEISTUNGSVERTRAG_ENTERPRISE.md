@@ -118,10 +118,10 @@ Der Dienstleister gewährleistet, dass die Software:
 
 | Priorität | Beschreibung | Reaktionszeit | Workaround-Ziel | Fix-Bereitstellung |
 |-----------|--------------|---------------|-----------------|-------------------|
-| **P0 - Kritisch** | System down | 1 Stunde (24/7) | 4 Stunden | 24 Stunden |
-| **P1 - Hoch** | Kernfunktion stark beeinträchtigt | 4 Stunden (24/7) | 8 Stunden | 5 Werktage |
-| **P2 - Mittel** | Nebenfunktion beeinträchtigt | 1 Werktag | 5 Werktage | 30 Tage |
-| **P3 - Niedrig** | Geringe Auswirkung | 2 Werktage | Best Effort | Nächstes Minor Release |
+| **P0 - Kritisch** | System down | 4 Stunden (Business Hours) | 24 Stunden | 5 Werktage |
+| **P1 - Hoch** | Kernfunktion stark beeinträchtigt | 1 Werktag | 3 Werktage | 2 Wochen |
+| **P2 - Mittel** | Nebenfunktion beeinträchtigt | 2 Werktage | 2 Wochen | 1 Monat |
+| **P3 - Niedrig** | Geringe Auswirkung | 5 Werktage | Best Effort | Nächstes Minor Release |
 | **P4 - Kosmetisch** | Keine Auswirkung | 5 Werktage | N/A | Nächstes Major Release |
 
 **Reaktionszeit:** Erste Rückmeldung durch Support-Team  
@@ -133,19 +133,19 @@ Der Dienstleister gewährleistet, dass die Software:
 - Erste Anlaufstelle
 - Sammlung von Diagnosedaten
 - Bekannte Issues und Workarounds
-- Eskalation nach 2h (P0) bzw. 1 Tag (P1)
+- Eskalation nach 1 Tag (P0) bzw. 3 Tagen (P1)
 
 **Level 2 (L2) - Senior Engineers:**
 - Detaillierte Fehleranalyse
 - Root-Cause-Analyse
 - Entwicklung von Workarounds
-- Eskalation nach 4h (P0) bzw. 3 Tagen (P1)
+- Eskalation nach 3 Tagen (P0) bzw. 1 Woche (P1)
 
 **Level 3 (L3) - Development Team:**
 - Code-Analyse und Debugging
 - Patch-Development
 - Regression Testing
-- Eskalation nach 8h (P0) zum Management
+- Eskalation nach 1 Woche (P0) zum Management
 
 **Management Escalation:**
 - VP Engineering (auf Kundenwunsch)
@@ -239,35 +239,35 @@ Gewährleistung entfällt bei:
 ## § 4 Service Level Agreement (SLA)
 
 ### 4.1 Support-Verfügbarkeit
-**24/7/365 Support:**
+**Business Hours Support:**
+- Verfügbarkeit: Mo-Fr, 9-17 Uhr (Ortszeit)
 - Telefon-Hotline (Deutsch und Englisch)
 - E-Mail Support (support@themisdb.com)
 - Ticket-System (Online-Portal)
-- Chat Support (Business Hours)
 
 **Verfügbarkeit der Support-Kanäle:**
-- 99.9% pro Quartal
+- 99.5% pro Quartal
 - Geplante Wartungsfenster: Max. 4 Stunden/Quartal (angekündigt)
 
 ### 4.2 Response Times (siehe § 2.4)
 Reaktionszeiten gemäß Priorität:
-- P0: 1 Stunde (24/7)
-- P1: 4 Stunden (24/7)
-- P2: 1 Werktag (Business Hours)
-- P3: 2 Werktage (Business Hours)
-- P4: 5 Werktage (Business Hours)
+- P0: 4 Stunden (Business Hours)
+- P1: 1 Werktag
+- P2: 2 Werktage
+- P3: 5 Werktage
+- P4: 1 Woche
 
 ### 4.3 Resolution Times (Zielwerte)
 **Workaround-Bereitstellung:**
-- P0: 4 Stunden
-- P1: 8 Stunden
-- P2: 5 Werktage
+- P0: 24 Stunden
+- P1: 3 Werktage
+- P2: 2 Wochen
 - P3: Best Effort
 
 **Permanente Lösung:**
-- P0: 24 Stunden (Hotfix)
-- P1: 5 Werktage (Patch)
-- P2: 30 Tage (nächstes Release)
+- P0: 5 Werktage (Hotfix)
+- P1: 2 Wochen (Patch)
+- P2: 1 Monat (nächstes Release)
 - P3: Nächstes Minor Release
 - P4: Nächstes Major Release
 
@@ -276,11 +276,11 @@ Bei Unterschreitung der Reaktionszeiten:
 
 | SLA-Verletzung | Gutschrift (% der Quartalsgebühr) |
 |----------------|-----------------------------------|
-| P0 Response > 2h | 10% |
-| P0 Workaround > 8h | 15% |
-| P1 Response > 8h | 5% |
-| P1 Workaround > 24h | 10% |
-| Support-Verfügbarkeit < 99.9% | 10% pro 0.1% Unterschreitung |
+| P0 Response > 8h | 10% |
+| P0 Workaround > 48h | 15% |
+| P1 Response > 2 Werktage | 5% |
+| P1 Workaround > 1 Woche | 10% |
+| Support-Verfügbarkeit < 99.5% | 10% pro 0.1% Unterschreitung |
 
 **Maximum:** 50% der Quartals-Wartungsgebühr  
 **Geltendmachung:** Innerhalb 30 Tage nach Quartalsende  

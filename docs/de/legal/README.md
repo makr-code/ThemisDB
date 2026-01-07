@@ -63,15 +63,14 @@ Diese Dokumentensammlung enthält Musterverträge und Vertragsvorlagen für die 
 - Automatische Verlängerung mit Lizenzvertrag
 
 **Support-Verfügbarkeit:**
-- 24/7/365 für P0/P1
-- Business Hours für P2/P3/P4
+- Business Hours (Mo-Fr, 9-17 Uhr)
 - TAM ab 50 Nodes (dedizierter Ansprechpartner)
 
 **SLA-Reaktionszeiten:**
-- P0 (Kritisch): 1 Stunde
-- P1 (Hoch): 4 Stunden
-- P2 (Mittel): 1 Werktag
-- P3 (Niedrig): 2 Werktage
+- P0 (Kritisch): 4 Stunden
+- P1 (Hoch): 1 Werktag
+- P2 (Mittel): 2 Werktage
+- P3 (Niedrig): 5 Werktage
 
 ---
 
@@ -99,8 +98,8 @@ Diese Dokumentensammlung enthält Musterverträge und Vertragsvorlagen für die 
 - Keine Node-Limitierung
 - Volume Discounts (bis 50% ab 1001 Nodes)
 - Multi-Year-Rabatte (bis 35%)
-- 99.99% SLA (99.999% Multi-Region)
-- Reaktionszeit P0: 15 Minuten
+- 99.9% SLA (99.95% Multi-Region)
+- Reaktionszeit P0: 2 Stunden
 - Haftung: Bis zu 200% der Jahres-Lizenzgebühr
 - Managed Service Provider (MSP) Option
 - OEM/Embedding Rechte verfügbar
@@ -132,10 +131,10 @@ Diese Dokumentensammlung enthält Musterverträge und Vertragsvorlagen für die 
 - Customer Success Manager (quartalsweise)
 
 **SLA-Reaktionszeiten:**
-- P0 (Site Down): 15 Minuten
-- P1 (Critical): 30 Minuten
-- P2 (Major): 2 Stunden
-- P3 (Minor): 4 Stunden
+- P0 (Site Down): 2 Stunden
+- P1 (Critical): 4 Stunden
+- P2 (Major): 1 Tag
+- P3 (Minor): 2 Tage
 
 **Besondere Leistungen:**
 - Proactive Health Monitoring (Opt-In)
@@ -153,10 +152,10 @@ Diese Dokumentensammlung enthält Musterverträge und Vertragsvorlagen für die 
 |--------|------------|-------------|
 | **Lizenzierung** | Node-basiert (4-100) | Unbegrenzt |
 | **Preis** | € XX.XXX - € XXX.XXX p.a. | Custom (Individual) |
-| **Uptime-SLA** | 99.9% | 99.99% / 99.999% |
-| **P0 Reaktionszeit** | 1 Stunde | 15 Minuten |
-| **P0 Resolution** | 24 Stunden | 12 Stunden |
-| **Support** | 24/7 | 24/7 + Named Contacts |
+| **Uptime-SLA** | 99.5% | 99.9% / 99.95% |
+| **P0 Reaktionszeit** | 4 Stunden | 2 Stunden |
+| **P0 Resolution** | 5 Werktage | 3 Tage |
+| **Support** | Business Hours | Extended Hours + Named Contacts |
 | **TAM** | Ab 50 Nodes | Dedicated (Fulltime) |
 | **Solutions Architect** | Auf Anfrage | 40h/Jahr inkludiert |
 | **Professional Services** | Optional (kostenpflichtig) | 200h/Jahr inkludiert |
@@ -197,38 +196,38 @@ Diese Dokumentensammlung enthält Musterverträge und Vertragsvorlagen für die 
 
 #### Enterprise Edition
 **Verfügbarkeit:**
-- 99.9% Uptime pro Quartal
-- ~8.8 Stunden Downtime/Jahr
+- 99.5% Uptime pro Quartal
+- ~43 Stunden Downtime/Jahr
 
 **Response Times:**
 | Priorität | Reaktionszeit | Workaround | Resolution |
 |-----------|---------------|------------|-----------|
-| P0 | 1 Stunde | 4 Stunden | 24 Stunden |
-| P1 | 4 Stunden | 8 Stunden | 5 Werktage |
-| P2 | 1 Werktag | 5 Werktage | 30 Tage |
+| P0 | 4 Stunden | 24 Stunden | 5 Werktage |
+| P1 | 1 Werktag | 3 Werktage | 2 Wochen |
+| P2 | 2 Werktage | 2 Wochen | 1 Monat |
 
 **SLA-Credits:**
-- 99.9% - 99.0%: 10% Gutschrift
+- 99.5% - 99.0%: 10% Gutschrift
 - 99.0% - 98.0%: 25% Gutschrift
 - < 98.0%: 50% Gutschrift
 
 #### Hyperscaler Edition
 **Verfügbarkeit:**
-- 99.99% Single-Region (~52 Minuten/Jahr)
-- 99.999% Multi-Region (~5 Minuten/Jahr)
+- 99.9% Single-Region (~8.8h/Jahr)
+- 99.95% Multi-Region (~4.4h/Jahr)
 
 **Response Times:**
 | Priorität | Reaktionszeit | Workaround | Resolution |
 |-----------|---------------|------------|-----------|
-| P0 | 15 Minuten | 1 Stunde | 12 Stunden |
-| P1 | 30 Minuten | 2 Stunden | 48 Stunden |
-| P2 | 2 Stunden | 4 Stunden | 5 Werktage |
+| P0 | 2 Stunden | 12 Stunden | 3 Tage |
+| P1 | 4 Stunden | 1 Tag | 1 Woche |
+| P2 | 1 Tag | 3 Tage | 2 Wochen |
 
 **SLA-Credits:**
-- 99.99% - 99.95%: 10%
-- 99.95% - 99.90%: 25%
-- 99.90% - 99.50%: 50%
-- < 99.50%: 100%
+- 99.9% - 99.5%: 10%
+- 99.5% - 99.0%: 25%
+- 99.0% - 98.5%: 50%
+- < 98.5%: 100%
 - Maximum: 200% der Monatsgebühr
 
 ---
@@ -236,20 +235,20 @@ Diese Dokumentensammlung enthält Musterverträge und Vertragsvorlagen für die 
 ### C. Support-Struktur
 
 #### Enterprise Edition
-- **24/7 Support:** Telefon, E-Mail, Ticket-System
+- **24/7 Support:** Business Hours (Mo-Fr, 9-17 Uhr)
 - **TAM:** Ab 50 Nodes (dediziert)
 - **Eskalationspfad:** L1 → L2 → L3 → Management
 - **Monatliche Calls:** Bei TAM
 - **Quartalsweise Reviews:** Bei TAM
 
 #### Hyperscaler Edition
-- **Premium Support:** Named Contacts (keine Warteschleifen)
+- **Premium Support:** Named Contacts, Extended Hours
 - **Dedicated Team:**
   - TAM (fulltime)
   - Solutions Architect (40h/Jahr)
-  - SRE (shared pool, 24/7)
+  - SRE (shared pool, Business Hours)
   - CSM (quartalsweise)
-- **War Room:** Bei P0-Incidents
+- **War Room:** Bei P0-Incidents (Business Hours)
 - **Fast-Track Escalation:** Bypass L1, direkt zu L2/L3
 - **Executive Briefings:** Jährlich (C-Level)
 

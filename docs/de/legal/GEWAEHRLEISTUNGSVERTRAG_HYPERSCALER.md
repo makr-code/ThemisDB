@@ -96,10 +96,10 @@ Zusätzlich zu Enterprise-Gewährleistung garantiert der Dienstleister:
 - Query Response Time: p95 < 10ms für Standard-Queries
 
 **Verfügbarkeits-Garantien:**
-- 99.99% Uptime (Software-Layer)
-- 99.999% bei Multi-Region Setup (>= 3 Regionen)
-- Automated Failover < 30 Sekunden
-- Disaster Recovery RTO < 15 Minuten
+- 99.9% Uptime (Software-Layer)
+- 99.95% bei Multi-Region Setup (>= 3 Regionen)
+- Automated Failover < 5 Minuten
+- Disaster Recovery RTO < 1 Stunde
 
 ### 2.2 Erweiterte Fehlerkategorien
 
@@ -137,10 +137,10 @@ Zusätzlich zu Enterprise-Gewährleistung garantiert der Dienstleister:
 
 | Priorität | Reaktionszeit | Workaround | Hot-Fix | Permanent Fix |
 |-----------|---------------|------------|---------|---------------|
-| **P0 - Site Down** | 15 Minuten | 1 Stunde | 4 Stunden | 12 Stunden |
-| **P1 - Critical** | 30 Minuten | 2 Stunden | 8 Stunden | 48 Stunden |
-| **P2 - Major** | 2 Stunden | 4 Stunden | 24 Stunden | 5 Werktage |
-| **P3 - Minor** | 4 Stunden | 1 Werktag | 3 Werktage | 14 Tage |
+| **P0 - Site Down** | 2 Stunden | 12 Stunden | 3 Tage | 1 Woche |
+| **P1 - Critical** | 4 Stunden | 1 Tag | 1 Woche | 2 Wochen |
+| **P2 - Major** | 1 Tag | 3 Tage | 2 Wochen | 1 Monat |
+| **P3 - Minor** | 2 Tage | 1 Woche | 1 Monat | 2 Monate |
 | **P4 - Enhancement** | 1 Werktag | N/A | N/A | Next Release |
 
 **Definitionen:**
@@ -157,17 +157,17 @@ Zusätzlich zu Enterprise-Gewährleistung garantiert der Dienstleister:
 - Dedizierte Hotline (separate Nummer)
 
 **Management Escalation Path:**
-1. **T+15min (P0):** Engineering Manager informiert
-2. **T+1h (P0):** VP Engineering eingebunden
-3. **T+4h (P0):** CTO Briefing
-4. **T+8h (P0):** CEO Briefing (bei Business-Impact)
+1. **T+4h (P0):** Engineering Manager informiert
+2. **T+1 Tag (P0):** VP Engineering eingebunden
+3. **T+3 Tage (P0):** CTO Briefing
+4. **T+1 Woche (P0):** CEO Briefing (bei Business-Impact)
 
 **War Room Protocol:**
 Bei P0-Incidents:
 - Dedicated Slack/Teams Channel
-- Live Bridge Call (24/7)
+- Live Bridge Call (Business Hours)
 - Screen Sharing Session
-- Echtzeit-Updates alle 30 Minuten
+- Echtzeit-Updates alle 4 Stunden
 - Post-Incident Review (Mandatory)
 
 ### 2.5 Zero-Data-Loss Guarantee
@@ -183,7 +183,7 @@ Garantiert der Dienstleister:
 - < 5 Minuten RPO bei Region-Failure (Multi-Region Setup)
 
 Bei Verstoß:
-- Sofortige Root-Cause-Analyse (innerhalb 4h)
+- Sofortige Root-Cause-Analyse (innerhalb 24h)
 - Data Recovery Support (kostenfrei)
 - Kompensation: 200% der Monatsgebühr
 
@@ -241,8 +241,8 @@ Bei kritischen Kunden-spezifischen Issues:
 
 ### 4.1 Infrastructure and Software Uptime
 **Software Availability:**
-- 99.99% Uptime (Single-Region Deployment)
-- 99.999% Uptime (Multi-Region Deployment, >= 3 Regionen)
+- 99.9% Uptime (Single-Region Deployment)
+- 99.95% Uptime (Multi-Region Deployment, >= 3 Regionen)
 - Messung: Availability of Database Engine (nicht Netzwerk/Hardware)
 
 **Downtime-Definition:**
@@ -260,10 +260,10 @@ Bei kritischen Kunden-spezifischen Issues:
 
 | Priorität | Reaction | First Response | Update Frequency |
 |-----------|----------|----------------|------------------|
-| **P0** | 5 Minuten | 15 Minuten | Alle 15 Minuten |
-| **P1** | 15 Minuten | 30 Minuten | Alle 30 Minuten |
-| **P2** | 1 Stunde | 2 Stunden | Alle 4 Stunden |
-| **P3** | 2 Stunden | 4 Stunden | Täglich |
+| **P0** | 30 Minuten | 2 Stunden | Alle 4 Stunden |
+| **P1** | 2 Stunden | 4 Stunden | Alle 8 Stunden |
+| **P2** | 4 Stunden | 1 Tag | Täglich |
+| **P3** | 1 Tag | 2 Tage | Bei Statusänderung |
 | **P4** | 4 Stunden | 1 Werktag | Bei Statusänderung |
 
 **Reaction:** Automatisches Paging des On-Call Engineers  
@@ -273,14 +273,14 @@ Bei kritischen Kunden-spezifischen Issues:
 ### 4.3 Resolution Time Guarantees
 
 **P0 - Site Down:**
-- Workaround: 1 Stunde (90% der Fälle)
-- Hot-Fix: 4 Stunden (80% der Fälle)
-- Root-Cause-Fix: 12 Stunden (70% der Fälle)
+- Workaround: 12 Stunden (80% der Fälle)
+- Hot-Fix: 3 Tage (70% der Fälle)
+- Root-Cause-Fix: 1 Woche (60% der Fälle)
 
 **P1 - Critical:**
-- Workaround: 2 Stunden (85% der Fälle)
-- Hot-Fix: 8 Stunden (75% der Fälle)
-- Root-Cause-Fix: 48 Stunden (70% der Fälle)
+- Workaround: 1 Tag (75% der Fälle)
+- Hot-Fix: 1 Woche (65% der Fälle)
+- Root-Cause-Fix: 2 Wochen (60% der Fälle)
 
 **SLA-Penalty bei Verfehlung:**
 - Miss by 50%: 25% Service Credit
@@ -292,26 +292,26 @@ Bei kritischen Kunden-spezifischen Issues:
 **Availability Credits:**
 | Uptime | Service Credit (% Monthly Fee) |
 |--------|-------------------------------|
-| 99.99% - 99.95% | 10% |
-| 99.95% - 99.90% | 25% |
-| 99.90% - 99.50% | 50% |
-| < 99.50% | 100% |
+| 99.9% - 99.5% | 10% |
+| 99.5% - 99.0% | 25% |
+| 99.0% - 98.5% | 50% |
+| < 98.5% | 100% |
 
 **Multi-Region Availability Credits:**
 | Uptime (Multi-Region) | Service Credit |
 |-----------------------|----------------|
-| 99.999% - 99.995% | 10% |
-| 99.995% - 99.990% | 25% |
-| 99.990% - 99.950% | 50% |
-| < 99.950% | 100% + 1 Month Free |
+| 99.95% - 99.90% | 10% |
+| 99.90% - 99.50% | 25% |
+| 99.50% - 99.00% | 50% |
+| < 99.00% | 100% + 1 Month Free |
 
 **Response Time Credits:**
 | SLA Breach | Service Credit |
 |------------|----------------|
-| P0 Response > 30 min | 15% |
-| P0 Workaround > 2h | 25% |
-| P1 Response > 1h | 10% |
-| P1 Workaround > 4h | 20% |
+| P0 Response > 4h | 15% |
+| P0 Workaround > 24h | 25% |
+| P1 Response > 8h | 10% |
+| P1 Workaround > 2 Tage | 20% |
 
 **Maximum Credits:** 200% der Monatsgebühr (kann übertragen werden)
 
@@ -518,7 +518,7 @@ Hyperscaler-Kunden erhalten:
 
 ### 8.4 Hotfix Development
 Bei kritischen Kunden-spezifischen Bugs:
-- Hotfix-Development innerhalb 4h (P0), 24h (P1)
+- Hotfix-Development innerhalb 24h (P0), 3 Tage (P1)
 - Kostenlos, solange Wartungsvertrag aktiv
 - Private Hotfix (nicht im Public Release, wenn kundenspezifisch)
 
@@ -851,10 +851,10 @@ Name, Funktion
 
 | Metrik | Enterprise | Hyperscaler |
 |--------|------------|-------------|
-| **Support-Verfügbarkeit** | 24/7 | 24/7 + Named Contacts |
-| **Uptime-Garantie** | 99.9% | 99.99% (99.999% Multi-Region) |
-| **P0 Reaktionszeit** | 1h | 15 min |
-| **P0 Workaround** | 4h | 1h |
+| **Support-Verfügbarkeit** | Business Hours | Extended Hours + Named Contacts |
+| **Uptime-Garantie** | 99.5% | 99.9% (99.95% Multi-Region) |
+| **P0 Reaktionszeit** | 4h | 2h |
+| **P0 Workaround** | 24h | 12h |
 | **TAM** | Ab 50 Nodes | Dedicated (Fulltime) |
 | **Solutions Architect** | Auf Anfrage | 40h/Jahr inkludiert |
 | **Professional Services** | - | 200h/Jahr inkludiert |
