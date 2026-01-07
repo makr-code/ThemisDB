@@ -158,11 +158,11 @@ Das Plugin unterstützt automatische Updates direkt von GitHub:
 4. **Release-Notes**
    - Changelog wird direkt von GitHub geladen
    - Klicken Sie auf "Details anzeigen" für vollständige Release-Notes
-   - Standard Spitzenlast-Faktor
-   - Standard Verfügbarkeit (%)
 
-3. **Einstellungen speichern**
-   - Änderungen werden automatisch auf alle Instanzen des Rechners angewendet
+5. **Für Entwickler: Releases erstellen**
+   - Für optimale Update-Funktionalität erstellen Sie GitHub Releases mit pre-packaged Plugin-ZIP-Dateien
+   - Das Plugin sucht automatisch nach ZIP-Assets in Releases (z.B. `themisdb-tco-calculator-v1.0.0.zip`)
+   - Falls keine Assets vorhanden sind, wird das Repository-Archiv verwendet
 
 ## 🎨 Anpassung
 

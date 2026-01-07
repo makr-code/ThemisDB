@@ -312,7 +312,18 @@ class ThemisDB_TCO_Calculator {
         }
         
         $body = wp_remote_retrieve_body($response);
+        
+        // Validate JSON before decoding
+        if (empty($body)) {
+            return false;
+        }
+        
         $data = json_decode($body);
+        
+        // Check for JSON decoding errors
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return false;
+        }
         
         if ($data && isset($data->tag_name)) {
             // Cache for 12 hours
@@ -325,8 +336,28 @@ class ThemisDB_TCO_Calculator {
     
     /**
      * Get GitHub download URL for specific version
+     * Note: For production use, consider creating proper plugin ZIP releases
+     * that contain only the plugin files in the correct structure.
+     * Current implementation downloads the entire repository archive.
      */
     private function get_github_download_url($version) {
+        // For a production plugin, you would want to create GitHub releases
+        // with pre-packaged plugin ZIPs. This is a simplified implementation
+        // that assumes the user will create proper release assets.
+        // 
+        // Alternative: Use release assets if available
+        $release_info = get_transient('themisdb_tco_github_release');
+        if ($release_info && isset($release_info->assets) && !empty($release_info->assets)) {
+            // Look for a plugin ZIP in the release assets
+            foreach ($release_info->assets as $asset) {
+                if (strpos($asset->name, 'themisdb-tco-calculator') !== false && 
+                    strpos($asset->name, '.zip') !== false) {
+                    return $asset->browser_download_url;
+                }
+            }
+        }
+        
+        // Fallback: repository archive (may require manual extraction)
         return 'https://github.com/' . THEMISDB_TCO_GITHUB_REPO . '/archive/refs/tags/' . $version . '.zip';
     }
 }
