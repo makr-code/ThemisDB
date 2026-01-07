@@ -209,6 +209,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 
 - 📝 [Audit Logging](docs/features/features_audit_logging.md)
 - ⚠️ [Threat Model](docs/security/security_threat_model.md)
+- 🛡️ [Hardware Attack Vectors](docs/de/security/security_hardware_attack_vectors.md) - USB, PCIe, CPU, RAM, I/O threats
 - ✅ [Full Audit Checklist (BSI C5, ISO 27001, DSGVO)](docs/compliance/compliance_full_checklist.md)
 
 </details>
