@@ -300,3 +300,28 @@ Dieses Plugin ist unter der MIT-Lizenz lizenziert. Siehe [LICENSE](LICENSE) für
 ---
 
 **Viel Erfolg mit ThemisDB Wiki Integration!** 🚀
+
+---
+
+## WordPress-Suche Integration
+
+Das Plugin bietet zwei Ansätze für die Suche:
+
+### Option 1: Dynamische Integration (Standard)
+- Inhalte werden dynamisch aus GitHub geladen
+- Kein WordPress-Suche-Support (da nicht in DB gespeichert)
+- Schnelles Setup ohne zusätzliche Konfiguration
+
+### Option 2: WordPress-Seiten mit Shortcodes ⭐ Empfohlen
+- WordPress-Seiten für jedes Dokument anlegen
+- Shortcode im Seiteninhalt: `[themisdb_wiki file="..."]`
+- **WordPress-Suche funktioniert** (durchsucht Seitentitel und Metadaten)
+- Inhalte bleiben automatisch mit GitHub synchronisiert
+- **Vollständige Anleitung:** [WORDPRESS_PAGES_SETUP.md](WORDPRESS_PAGES_SETUP.md)
+
+**Hybrid-Ansatz Vorteile:**
+- ✅ WordPress-Suche funktioniert
+- ✅ Inhalte bleiben mit GitHub synchronisiert  
+- ✅ Keine manuelle Pflege nötig
+- ✅ SEO-optimiert
+
