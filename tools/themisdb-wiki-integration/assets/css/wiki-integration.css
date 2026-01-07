@@ -1,0 +1,260 @@
+/**
+ * ThemisDB Wiki Integration - Stylesheet
+ * Version: 1.0.0
+ */
+
+/* Main container */
+.themisdb-wiki-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Table of Contents */
+.themisdb-wiki-toc {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.themisdb-wiki-toc h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #24292f;
+}
+
+.themisdb-wiki-toc ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.themisdb-wiki-toc li {
+    margin: 0.5rem 0;
+}
+
+.themisdb-wiki-toc li.toc-level-3 {
+    padding-left: 1.5rem;
+}
+
+.themisdb-wiki-toc a {
+    color: #0969da;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.themisdb-wiki-toc a:hover {
+    color: #0550ae;
+    text-decoration: underline;
+}
+
+/* Wiki content */
+.themisdb-wiki-content {
+    line-height: 1.6;
+    color: #24292f;
+}
+
+.themisdb-wiki-content h1 {
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #d0d7de;
+    color: #24292f;
+}
+
+.themisdb-wiki-content h2 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #d0d7de;
+    color: #24292f;
+}
+
+.themisdb-wiki-content h3 {
+    font-size: 1.25rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: #24292f;
+}
+
+.themisdb-wiki-content p {
+    margin: 1rem 0;
+}
+
+.themisdb-wiki-content a {
+    color: #0969da;
+    text-decoration: none;
+}
+
+.themisdb-wiki-content a:hover {
+    text-decoration: underline;
+}
+
+/* Code blocks */
+.themisdb-wiki-content pre {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.themisdb-wiki-content code {
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 3px;
+    padding: 0.2em 0.4em;
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 0.9em;
+}
+
+.themisdb-wiki-content pre code {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* Lists */
+.themisdb-wiki-content ul,
+.themisdb-wiki-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.themisdb-wiki-content li {
+    margin: 0.5rem 0;
+}
+
+/* Documentation list */
+.themisdb-docs-list {
+    margin: 2rem 0;
+}
+
+.themisdb-docs-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.themisdb-docs-list li {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    background: #f6f8fa;
+    border: 1px solid #d0d7de;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.themisdb-docs-list li:hover {
+    background: #e6ebf1;
+}
+
+/* Grid layout */
+.themisdb-docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.themisdb-doc-item {
+    background: #ffffff;
+    border: 1px solid #d0d7de;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.themisdb-doc-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.themisdb-doc-item h3 {
+    margin-top: 0;
+    font-size: 1.125rem;
+    color: #24292f;
+}
+
+.themisdb-doc-item p {
+    margin: 0.5rem 0 0;
+    color: #57606a;
+    font-size: 0.875rem;
+}
+
+/* Error messages */
+.themisdb-wiki-error,
+.themisdb-docs-error {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    padding: 1rem;
+    color: #856404;
+    margin: 1rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .themisdb-wiki-container {
+        padding: 1rem;
+    }
+    
+    .themisdb-wiki-content h1 {
+        font-size: 1.5rem;
+    }
+    
+    .themisdb-wiki-content h2 {
+        font-size: 1.25rem;
+    }
+    
+    .themisdb-wiki-content h3 {
+        font-size: 1.125rem;
+    }
+    
+    .themisdb-docs-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .themisdb-wiki-container {
+        background: #1a1a1a;
+        color: #e6edf3;
+    }
+    
+    .themisdb-wiki-toc {
+        background: #2d333b;
+        border-color: #444c56;
+    }
+    
+    .themisdb-wiki-content h1,
+    .themisdb-wiki-content h2,
+    .themisdb-wiki-content h3 {
+        color: #e6edf3;
+        border-color: #444c56;
+    }
+    
+    .themisdb-wiki-content code,
+    .themisdb-wiki-content pre {
+        background: #2d333b;
+        border-color: #444c56;
+    }
+    
+    .themisdb-docs-list li {
+        background: #2d333b;
+        border-color: #444c56;
+    }
+    
+    .themisdb-doc-item {
+        background: #2d333b;
+        border-color: #444c56;
+    }
+}
