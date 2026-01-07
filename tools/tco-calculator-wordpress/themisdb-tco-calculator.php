@@ -137,8 +137,6 @@ class ThemisDB_TCO_Calculator {
                 'themisdb-tco-calculator-script',
                 'themisdbTCO',
                 array(
-                    'ajaxUrl' => admin_url('admin-ajax.php'),
-                    'nonce' => wp_create_nonce('themisdb_tco_nonce'),
                     'settings' => array(
                         'enableAI' => get_option('themisdb_tco_enable_ai_features', true),
                         'defaultRequestsPerDay' => get_option('themisdb_tco_default_requests_per_day', 1000000),
