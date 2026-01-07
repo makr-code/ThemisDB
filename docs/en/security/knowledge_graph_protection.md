@@ -606,7 +606,7 @@ ThemisDB has **solid baseline security**:
 
 - [Security Overview](security_overview.md)
 - [Encryption Strategy](security_encryption_strategy.md)
-- [Audit Logging](../../features/features_audit_logging.md)
+- [Audit Logging](../../de/development/auditlog.md)
 - [RBAC Implementation](security_implementation.md)
 
 ---
