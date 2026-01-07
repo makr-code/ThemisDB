@@ -230,7 +230,7 @@ class ThemisDB_Downloads_Admin {
                 </table>
                 
                 <h3>Automatische Schlagwörter und Kategorien</h3>
-                <p>Das Plugin kann automatisch Schlagwörter (Tags) und Kategorien basierend auf Release-Informationen erstellen und zuweisen.</p>
+                <p>Das Plugin analysiert Titel und Textinhalt von Beiträgen und verwendet Textanalyse-Techniken (Häufigkeit, Relevanz, Phrase-Erkennung) um automatisch passende Schlagwörter und Kategorien zu erstellen.</p>
                 
                 <table class="form-table">
                     <tr>
@@ -246,7 +246,7 @@ class ThemisDB_Downloads_Admin {
                                        <?php checked($auto_taxonomy, 1); ?>>
                                 Automatische Zuweisung von Schlagwörtern und Kategorien aktivieren
                             </label>
-                            <p class="description">Wenn aktiviert, werden Beiträge/Seiten mit ThemisDB-Shortcodes automatisch mit relevanten Tags und Kategorien versehen.</p>
+                            <p class="description">Wenn aktiviert, analysiert das Plugin beim Speichern den Titel und Inhalt von Beiträgen/Seiten und extrahiert automatisch relevante Tags und Kategorien.</p>
                         </td>
                     </tr>
                     
@@ -261,10 +261,10 @@ class ThemisDB_Downloads_Admin {
                                        name="themisdb_auto_tags" 
                                        value="1" 
                                        <?php checked($auto_tags, 1); ?>>
-                                Tags automatisch erstellen und zuweisen
+                                Tags automatisch aus Beitragsinhalt extrahieren
                             </label>
-                            <p class="description">Tags werden basierend auf Version, Plattform, Release-Typ und Datum erstellt.</p>
-                            <p class="description"><strong>Beispiel-Tags:</strong> ThemisDB, Database, v1.4.0, Windows, Linux, Stable Release, 2026</p>
+                            <p class="description">Tags werden durch Textanalyse extrahiert: Häufigkeit, Titel-Gewichtung, Wortlänge.</p>
+                            <p class="description"><strong>Beispiel-Tags:</strong> ThemisDB, Version, Windows, Support, Database, Installation</p>
                         </td>
                     </tr>
                     
@@ -279,10 +279,10 @@ class ThemisDB_Downloads_Admin {
                                        name="themisdb_auto_categories" 
                                        value="1" 
                                        <?php checked($auto_categories, 1); ?>>
-                                Kategorien automatisch erstellen und zuweisen
+                                Kategorien automatisch aus Beitragsinhalt extrahieren
                             </label>
-                            <p class="description">Kategorien werden basierend auf Version, Release-Typ und Jahr erstellt.</p>
-                            <p class="description"><strong>Beispiel-Kategorien:</strong> ThemisDB Releases, Version 1.4, Stable Releases, Releases 2026</p>
+                            <p class="description">Kategorien werden durch Phrase-Analyse erstellt (2-3 Wort-Kombinationen).</p>
+                            <p class="description"><strong>Beispiel-Kategorien:</strong> ThemisDB Version, Windows Support, Database Management</p>
                         </td>
                     </tr>
                 </table>

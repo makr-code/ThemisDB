@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ThemisDB Downloads
  * Plugin URI: https://github.com/makr-code/ThemisDB
- * Description: Automatisch die neuesten ThemisDB Packages von GitHub abrufen und als Download-Links mit SHA256-Checksums anzeigen. Weist automatisch Schlagwörter und Kategorien zu.
+ * Description: Automatisch die neuesten ThemisDB Packages von GitHub abrufen und als Download-Links mit SHA256-Checksums anzeigen. Extrahiert automatisch Schlagwörter und Kategorien aus Beitragsinhalten.
  * Version: 1.2.0
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB

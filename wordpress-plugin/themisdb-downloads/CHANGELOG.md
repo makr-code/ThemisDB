@@ -8,45 +8,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.0] - 2026-01-07
 
 ### Added
-- **Automatic Tags and Categories**: Plugin now automatically creates and assigns WordPress tags and categories based on release data
-- New `class-taxonomy-manager.php` for managing automatic taxonomy assignment
+- **Automatic Content-Based Tags and Categories**: Plugin now automatically extracts and assigns WordPress tags and categories from post/page content
+- New `class-taxonomy-manager.php` for intelligent content analysis and taxonomy extraction
+- Advanced text analysis techniques:
+  - **Word Frequency Analysis**: Most frequently used words become tags
+  - **Title Weighting**: Words in the title get 3x priority
+  - **Relevance Scoring**: Longer words (>6 chars) and capitalized words get bonus scores
+  - **Stop Word Filtering**: Common German and English filler words are excluded
+  - **Phrase Recognition**: 2-3 word combinations are extracted as categories
 - Auto-generated tags based on:
-  - Product name (ThemisDB, Database, Download)
-  - Version numbers (e.g., v1.4.0, v1.4)
-  - Platform types (Windows, Linux, Docker, QNAP, ARM, macOS)
-  - Release type (Stable Release, Pre-Release, Beta)
-  - Publication date (Year and Month)
+  - Word frequency in content
+  - Position in title vs body
+  - Word length and capitalization
+  - Up to 15 most relevant terms
 - Auto-generated categories based on:
-  - Main category (ThemisDB Releases)
-  - Version categories (e.g., Version 1.4)
-  - Release type categories (Stable Releases, Beta Releases)
-  - Year categories (e.g., Releases 2026)
+  - Multi-word phrase extraction (bigrams and trigrams)
+  - Phrase frequency and title occurrence
+  - Up to 5 most relevant phrases
 - Admin settings for controlling auto-taxonomy feature:
   - Toggle to enable/disable automatic taxonomies
   - Separate controls for tags and categories
   - Detailed descriptions and examples in admin panel
-- Automatic taxonomy assignment triggers:
-  - When saving posts/pages with ThemisDB shortcodes
-  - When displaying content with ThemisDB shortcodes (first time only)
-- Smart taxonomy management:
-  - Only creates new taxonomies if they don't exist
+- Automatic taxonomy assignment:
+  - Triggers when saving any post or page
+  - Analyzes title and content text
+  - Creates new tags/categories if they don't exist
   - Appends to existing taxonomies without removing them
-  - Detects if ThemisDB tags already exist to avoid duplicates
 
 ### Changed
 - Updated plugin version to 1.2.0
-- Enhanced plugin description to mention automatic tag and category assignment
+- Enhanced plugin description to mention content-based tag and category extraction
 - Extended admin panel with new "Automatische Schlagwörter und Kategorien" section
-- Updated README.md with comprehensive documentation on auto-taxonomy feature
-- Updated file structure documentation to include taxonomy-manager.php
-- Enhanced changelog with detailed version history
+- Updated README.md with comprehensive documentation on content analysis feature
+- Completely rewritten taxonomy manager to use NLP-style content analysis instead of GitHub API data
 
 ### Technical Details
 - New activation hooks to set default auto-taxonomy options (enabled by default)
-- Integration with WordPress `save_post` action for post/page save detection
-- Integration with `the_content` filter for content display detection
-- Intelligent detection of ThemisDB shortcodes in content
-- Platform detection algorithm reused from shortcodes class
+- Integration with WordPress `save_post` action for automatic processing on save
+- Text tokenization with Unicode support for German umlauts
+- Intelligent word and phrase extraction algorithms
+- Best practices for automatic tagging following WordPress standards
 
 ## [1.1.0] - 2026-01-07
 

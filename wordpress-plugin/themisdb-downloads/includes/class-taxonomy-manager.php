@@ -1,7 +1,8 @@
 <?php
 /**
  * Taxonomy Manager
- * Automatically selects and creates tags and categories for ThemisDB content
+ * Automatically extracts and creates tags and categories from post/page content
+ * Uses text analysis techniques including word frequency, relevance, and best practices
  */
 
 if (!defined('ABSPATH')) {
@@ -10,20 +11,48 @@ if (!defined('ABSPATH')) {
 
 class ThemisDB_Downloads_Taxonomy_Manager {
     
-    private $api;
+    /**
+     * Common stop words to exclude from tag extraction (German and English)
+     */
+    private $stop_words = array(
+        // German stop words
+        'der', 'die', 'das', 'und', 'oder', 'aber', 'ist', 'sind', 'ein', 'eine', 'einen', 'einer',
+        'mit', 'von', 'zu', 'auf', 'für', 'in', 'im', 'an', 'am', 'bei', 'nach', 'vor', 'über',
+        'unter', 'durch', 'um', 'aus', 'dem', 'den', 'des', 'als', 'auch', 'nur', 'noch', 'nicht',
+        'sich', 'sein', 'seine', 'ihr', 'ihre', 'haben', 'hat', 'wird', 'werden', 'wurde', 'wurden',
+        'kann', 'können', 'muss', 'soll', 'sollte', 'würde', 'diese', 'dieser', 'dieses', 'dass',
+        'wenn', 'ob', 'wie', 'was', 'wer', 'wo', 'wann', 'warum', 'welche', 'welcher', 'welches',
+        // English stop words
+        'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does',
+        'did', 'will', 'would', 'should', 'could', 'may', 'might', 'must', 'can', 'a', 'an', 'and',
+        'or', 'but', 'if', 'then', 'else', 'when', 'at', 'by', 'for', 'with', 'about', 'against',
+        'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from',
+        'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'once', 'here',
+        'there', 'all', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'only',
+        'own', 'same', 'so', 'than', 'too', 'very', 'this', 'that', 'these', 'those'
+    );
+    
+    /**
+     * Minimum word length for tag extraction
+     */
+    private $min_word_length = 3;
+    
+    /**
+     * Maximum number of tags to extract
+     */
+    private $max_tags = 15;
+    
+    /**
+     * Maximum number of categories to extract
+     */
+    private $max_categories = 5;
     
     /**
      * Constructor
      */
     public function __construct() {
-        // Initialize API once
-        $this->api = new ThemisDB_Downloads_GitHub_API();
-        
         // Hook into post save to auto-assign taxonomies
         add_action('save_post', array($this, 'auto_assign_taxonomies'), 10, 3);
-        
-        // Add filter to assign taxonomies when shortcode is used
-        add_filter('the_content', array($this, 'process_content_taxonomies'), 999);
     }
     
     /**
@@ -44,230 +73,228 @@ class ThemisDB_Downloads_Taxonomy_Manager {
             return;
         }
         
-        // Check if post contains ThemisDB shortcodes
-        if (!$this->has_themisdb_shortcodes($post->post_content)) {
+        // Only process posts and pages
+        if (!in_array($post->post_type, array('post', 'page'))) {
             return;
         }
         
-        // Extract and assign taxonomies
-        $this->extract_and_assign_taxonomies($post_id, $post->post_content);
-    }
-    
-    /**
-     * Process content and assign taxonomies when shortcode is present
-     * 
-     * @param string $content The post content
-     * @return string The unchanged content
-     */
-    public function process_content_taxonomies($content) {
-        global $post;
-        
-        if (!$post || !get_option('themisdb_auto_taxonomy', 0)) {
-            return $content;
-        }
-        
-        // Check if content has ThemisDB shortcodes
-        if ($this->has_themisdb_shortcodes($content)) {
-            // Get current post taxonomies to avoid duplicate processing
-            $current_tags = wp_get_post_tags($post->ID, array('fields' => 'names'));
-            
-            // Only process if no ThemisDB tags exist yet
-            if (!$this->has_themisdb_tags($current_tags)) {
-                $this->extract_and_assign_taxonomies($post->ID, $content);
-            }
-        }
-        
-        return $content;
-    }
-    
-    /**
-     * Check if content has ThemisDB shortcodes
-     * 
-     * @param string $content The content to check
-     * @return bool
-     */
-    private function has_themisdb_shortcodes($content) {
-        $shortcodes = array(
-            'themisdb_downloads',
-            'themisdb_latest',
-            'themisdb_readme',
-            'themisdb_changelog'
-        );
-        
-        foreach ($shortcodes as $shortcode) {
-            if (has_shortcode($content, $shortcode)) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Check if current tags include ThemisDB-related tags
-     * 
-     * @param array $tags Array of tag names
-     * @return bool
-     */
-    private function has_themisdb_tags($tags) {
-        $themisdb_keywords = array('themisdb', 'database', 'release', 'download', 'version');
-        
-        foreach ($tags as $tag) {
-            foreach ($themisdb_keywords as $keyword) {
-                if (stripos($tag, $keyword) !== false) {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Extract release information and assign taxonomies
-     * 
-     * @param int $post_id The post ID
-     * @param string $content The post content
-     */
-    private function extract_and_assign_taxonomies($post_id, $content) {
-        // Get latest release information
-        $release = $this->api->get_latest_release();
-        
-        if (is_wp_error($release) || empty($release)) {
+        // Check user permissions
+        if (!current_user_can('edit_post', $post_id)) {
             return;
         }
         
-        // Extract taxonomies from release data
-        $tags = $this->extract_tags_from_release($release);
-        $categories = $this->extract_categories_from_release($release);
+        // Extract and assign taxonomies from post content
+        $this->extract_and_assign_taxonomies_from_content($post);
+    }
+    
+    /**
+     * Extract and assign taxonomies from post content
+     * 
+     * @param WP_Post $post The post object
+     */
+    private function extract_and_assign_taxonomies_from_content($post) {
+        // Combine title and content for analysis
+        $text = $post->post_title . ' ' . $post->post_content;
         
-        // Assign tags if enabled
+        // Strip shortcodes and HTML tags
+        $text = strip_shortcodes($text);
+        $text = wp_strip_all_tags($text);
+        
+        // Extract tags if enabled
         if (get_option('themisdb_auto_tags', 1)) {
-            $this->assign_tags($post_id, $tags);
+            $tags = $this->extract_tags_from_text($text, $post->post_title);
+            $this->assign_tags($post->ID, $tags);
         }
         
-        // Assign categories if enabled
+        // Extract categories if enabled
         if (get_option('themisdb_auto_categories', 1)) {
-            $this->assign_categories($post_id, $categories);
+            $categories = $this->extract_categories_from_text($text, $post->post_title);
+            $this->assign_categories($post->ID, $categories);
         }
     }
     
     /**
-     * Extract tags from release data
+     * Extract tags from text using frequency and relevance analysis
      * 
-     * @param array $release Release data
+     * @param string $text The text to analyze
+     * @param string $title The post title (given higher weight)
      * @return array Array of tag names
      */
-    private function extract_tags_from_release($release) {
-        $tags = array();
+    private function extract_tags_from_text($text, $title = '') {
+        // Tokenize text into words
+        $words = $this->tokenize_text($text);
+        $title_words = $this->tokenize_text($title);
         
-        // Add base tags
-        $tags[] = 'ThemisDB';
-        $tags[] = 'Database';
-        $tags[] = 'Download';
+        // Calculate word frequencies
+        $word_freq = array_count_values($words);
         
-        // Add version tag
-        if (!empty($release['version'])) {
-            $tags[] = $release['version'];
+        // Give title words higher weight (3x frequency)
+        foreach ($title_words as $word) {
+            if (isset($word_freq[$word])) {
+                $word_freq[$word] *= 3;
+            }
+        }
+        
+        // Filter and score words
+        $scored_words = array();
+        foreach ($word_freq as $word => $freq) {
+            // Skip if word is too short
+            if (mb_strlen($word) < $this->min_word_length) {
+                continue;
+            }
             
-            // Extract major version (e.g., v1.4.0 -> v1.4)
-            if (preg_match('/^v?(\d+\.\d+)/', $release['version'], $matches)) {
-                $tags[] = 'v' . $matches[1];
+            // Skip stop words
+            if (in_array(mb_strtolower($word), $this->stop_words)) {
+                continue;
             }
-        }
-        
-        // Add platform tags from assets
-        if (!empty($release['assets'])) {
-            $platforms = array();
-            foreach ($release['assets'] as $asset) {
-                $platform = $this->detect_platform($asset['name']);
-                if ($platform && $platform !== 'other') {
-                    $platforms[$platform] = ucfirst($platform);
-                }
+            
+            // Skip if word is purely numeric
+            if (is_numeric($word)) {
+                continue;
             }
-            $tags = array_merge($tags, array_values($platforms));
+            
+            // Calculate relevance score
+            // Score = frequency * word_length_factor * capitalization_bonus
+            $score = $freq;
+            
+            // Longer words are generally more meaningful
+            if (mb_strlen($word) > 6) {
+                $score *= 1.5;
+            }
+            
+            // Capitalized words (proper nouns) get bonus
+            if (mb_strtoupper(mb_substr($word, 0, 1)) === mb_substr($word, 0, 1) && mb_strlen($word) > 3) {
+                $score *= 1.3;
+            }
+            
+            $scored_words[$word] = $score;
         }
         
-        // Add release type tag
-        if (!empty($release['prerelease']) && $release['prerelease']) {
-            $tags[] = 'Pre-Release';
-            $tags[] = 'Beta';
-        } else {
-            $tags[] = 'Stable Release';
-        }
+        // Sort by score descending
+        arsort($scored_words);
         
-        // Add year and month tags
-        if (!empty($release['published_at'])) {
-            $date = strtotime($release['published_at']);
-            $tags[] = date('Y', $date);
-            $tags[] = date('Y-m', $date);
-        }
+        // Get top N tags
+        $tags = array_keys(array_slice($scored_words, 0, $this->max_tags));
         
-        return array_unique($tags);
+        // Capitalize first letter of each tag
+        $tags = array_map(function($tag) {
+            return mb_convert_case($tag, MB_CASE_TITLE, 'UTF-8');
+        }, $tags);
+        
+        return $tags;
     }
     
     /**
-     * Extract categories from release data
+     * Extract categories from text using phrase analysis
      * 
-     * @param array $release Release data
+     * @param string $text The text to analyze
+     * @param string $title The post title
      * @return array Array of category names
      */
-    private function extract_categories_from_release($release) {
+    private function extract_categories_from_text($text, $title = '') {
         $categories = array();
         
-        // Main category
-        $categories[] = 'ThemisDB Releases';
+        // Extract bigrams and trigrams (2-3 word phrases)
+        $phrases = $this->extract_phrases($text . ' ' . $title);
         
-        // Version-based category
-        if (!empty($release['version'])) {
-            // Extract major version for category (e.g., v1.4.0 -> Version 1.4)
-            if (preg_match('/^v?(\d+)\.(\d+)/', $release['version'], $matches)) {
-                $categories[] = 'Version ' . $matches[1] . '.' . $matches[2];
+        // Score phrases
+        $scored_phrases = array();
+        foreach ($phrases as $phrase => $freq) {
+            // Skip if phrase is too short
+            if (mb_strlen($phrase) < 5) {
+                continue;
             }
+            
+            // Check if phrase appears in title (higher relevance)
+            $score = $freq;
+            if (mb_stripos($title, $phrase) !== false) {
+                $score *= 2;
+            }
+            
+            $scored_phrases[$phrase] = $score;
         }
         
-        // Release type category
-        if (!empty($release['prerelease']) && $release['prerelease']) {
-            $categories[] = 'Beta Releases';
-        } else {
-            $categories[] = 'Stable Releases';
-        }
+        // Sort by score
+        arsort($scored_phrases);
         
-        // Year category
-        if (!empty($release['published_at'])) {
-            $year = date('Y', strtotime($release['published_at']));
-            $categories[] = 'Releases ' . $year;
-        }
+        // Get top N categories
+        $categories = array_keys(array_slice($scored_phrases, 0, $this->max_categories));
         
-        return array_unique($categories);
+        // Capitalize first letter of each word in category
+        $categories = array_map(function($cat) {
+            return mb_convert_case($cat, MB_CASE_TITLE, 'UTF-8');
+        }, $categories);
+        
+        return $categories;
     }
     
     /**
-     * Detect platform from filename
-     * Note: This method is intentionally duplicated from class-shortcodes.php
-     * to maintain class independence and avoid tight coupling.
+     * Tokenize text into words
      * 
-     * @param string $filename The filename
-     * @return string The platform name
+     * @param string $text The text to tokenize
+     * @return array Array of words
      */
-    private function detect_platform($filename) {
-        $filename_lower = strtolower($filename);
+    private function tokenize_text($text) {
+        // Convert to lowercase
+        $text = mb_strtolower($text, 'UTF-8');
         
-        if (strpos($filename_lower, 'windows') !== false || strpos($filename_lower, '.exe') !== false || strpos($filename_lower, 'win') !== false) {
-            return 'windows';
-        } elseif (strpos($filename_lower, 'linux') !== false || strpos($filename_lower, '.deb') !== false || strpos($filename_lower, '.rpm') !== false) {
-            return 'linux';
-        } elseif (strpos($filename_lower, 'docker') !== false) {
-            return 'docker';
-        } elseif (strpos($filename_lower, 'qnap') !== false) {
-            return 'qnap';
-        } elseif (strpos($filename_lower, 'arm') !== false) {
-            return 'arm';
-        } elseif (strpos($filename_lower, 'macos') !== false || strpos($filename_lower, 'darwin') !== false) {
-            return 'macos';
+        // Remove special characters but keep umlauts and accented characters
+        $text = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $text);
+        
+        // Split into words
+        $words = preg_split('/\s+/', $text, -1, PREG_SPLIT_NO_EMPTY);
+        
+        return $words;
+    }
+    
+    /**
+     * Extract phrases (bigrams and trigrams) from text
+     * 
+     * @param string $text The text to analyze
+     * @return array Array of phrases with frequencies
+     */
+    private function extract_phrases($text) {
+        $words = $this->tokenize_text($text);
+        $phrases = array();
+        
+        // Extract bigrams (2-word phrases)
+        for ($i = 0; $i < count($words) - 1; $i++) {
+            $word1 = $words[$i];
+            $word2 = $words[$i + 1];
+            
+            // Skip if contains stop words
+            if (in_array($word1, $this->stop_words) || in_array($word2, $this->stop_words)) {
+                continue;
+            }
+            
+            $phrase = $word1 . ' ' . $word2;
+            if (!isset($phrases[$phrase])) {
+                $phrases[$phrase] = 0;
+            }
+            $phrases[$phrase]++;
         }
         
-        return 'other';
+        // Extract trigrams (3-word phrases)
+        for ($i = 0; $i < count($words) - 2; $i++) {
+            $word1 = $words[$i];
+            $word2 = $words[$i + 1];
+            $word3 = $words[$i + 2];
+            
+            // Skip if contains stop words
+            if (in_array($word1, $this->stop_words) || 
+                in_array($word2, $this->stop_words) || 
+                in_array($word3, $this->stop_words)) {
+                continue;
+            }
+            
+            $phrase = $word1 . ' ' . $word2 . ' ' . $word3;
+            if (!isset($phrases[$phrase])) {
+                $phrases[$phrase] = 0;
+            }
+            $phrases[$phrase]++;
+        }
+        
+        return $phrases;
     }
     
     /**
@@ -338,66 +365,5 @@ class ThemisDB_Downloads_Taxonomy_Manager {
         if (!empty($category_ids)) {
             wp_set_post_terms($post_id, $category_ids, 'category', true);
         }
-    }
-    
-    /**
-     * Get all ThemisDB-related tags
-     * 
-     * @return array Array of tag objects
-     */
-    public function get_themisdb_tags() {
-        $tags = get_tags(array(
-            'hide_empty' => false,
-            'search' => 'ThemisDB'
-        ));
-        
-        return $tags;
-    }
-    
-    /**
-     * Get all ThemisDB-related categories
-     * 
-     * @return array Array of category objects
-     */
-    public function get_themisdb_categories() {
-        $categories = get_categories(array(
-            'hide_empty' => false,
-            'search' => 'ThemisDB'
-        ));
-        
-        return $categories;
-    }
-    
-    /**
-     * Clean up orphaned taxonomies (tags/categories with no posts)
-     * 
-     * @return array Array with count of deleted tags and categories
-     */
-    public function cleanup_orphaned_taxonomies() {
-        $deleted = array(
-            'tags' => 0,
-            'categories' => 0
-        );
-        
-        // Clean up tags
-        $tags = $this->get_themisdb_tags();
-        foreach ($tags as $tag) {
-            if ($tag->count == 0) {
-                wp_delete_term($tag->term_id, 'post_tag');
-                $deleted['tags']++;
-            }
-        }
-        
-        // Clean up categories (but not the default category)
-        $default_category = get_option('default_category');
-        $categories = $this->get_themisdb_categories();
-        foreach ($categories as $category) {
-            if ($category->count == 0 && $category->term_id != $default_category) {
-                wp_delete_term($category->term_id, 'category');
-                $deleted['categories']++;
-            }
-        }
-        
-        return $deleted;
     }
 }

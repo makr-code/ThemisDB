@@ -1,13 +1,14 @@
 # ThemisDB Downloads WordPress Plugin
 
-Ein WordPress Plugin, das automatisch die neuesten ThemisDB Packages von GitHub abruft und als Download-Links mit SHA256-Checksums auf einer WordPress-Seite anzeigt. Das Plugin weist automatisch relevante Schlagwörter (Tags) und Kategorien zu.
+Ein WordPress Plugin, das automatisch die neuesten ThemisDB Packages von GitHub abruft und als Download-Links mit SHA256-Checksums auf einer WordPress-Seite anzeigt. Das Plugin analysiert beim Speichern von Artikeln automatisch den Inhalt und erstellt passende Schlagwörter (Tags) und Kategorien.
 
 ## Features
 
 - ✅ **Automatischer Download von GitHub Releases**: Ruft die neuesten Releases von GitHub automatisch ab
 - ✅ **SHA256-Checksums Anzeige**: Zeigt SHA256-Hashes für alle Download-Dateien an
 - ✅ **Download-Verifizierung**: Integriertes Tool zur Überprüfung der Datei-Integrität
-- ✅ **Automatische Schlagwörter und Kategorien**: Erstellt und weist automatisch Tags und Kategorien basierend auf Release-Daten zu
+- ✅ **Automatische Schlagwörter und Kategorien**: Analysiert Artikelinhalte und erstellt automatisch relevante Tags und Kategorien beim Speichern
+- ✅ **Intelligente Textanalyse**: Verwendet Häufigkeit, Relevanz und Phrase-Erkennung für beste Ergebnisse
 - ✅ **Mehrere Anzeigestile**: Standard, Kompakt, Tabellen-Ansicht
 - ✅ **Plattform-Filter**: Zeige nur Windows, Linux, Docker oder andere Plattformen
 - ✅ **Cache-System**: Reduziert API-Aufrufe durch intelligentes Caching
@@ -231,46 +232,47 @@ Vergleichen Sie den berechneten Hash mit dem angezeigten SHA256-Checksum.
 
 ## Automatische Schlagwörter und Kategorien
 
-Das Plugin kann automatisch relevante Schlagwörter (Tags) und Kategorien für Beiträge und Seiten erstellen, die ThemisDB-Shortcodes enthalten.
+Das Plugin kann automatisch relevante Schlagwörter (Tags) und Kategorien aus dem Inhalt von Beiträgen und Seiten extrahieren und zuweisen.
 
 ### Funktionsweise
 
-Wenn ein Beitrag oder eine Seite einen ThemisDB-Shortcode enthält (z.B. `[themisdb_downloads]`), analysiert das Plugin die Release-Daten und erstellt automatisch:
+Das Plugin analysiert **Titel und Textinhalt** von Beiträgen und Seiten beim Speichern und verwendet dabei fortgeschrittene Textanalyse-Techniken:
+
+- **Wortfrequenz-Analyse**: Häufig vorkommende Wörter werden als relevanter eingestuft
+- **Titel-Gewichtung**: Wörter aus dem Titel erhalten höhere Priorität (3x Gewichtung)
+- **Wortlängen-Bonus**: Längere Wörter (>6 Zeichen) werden als bedeutsamer gewertet
+- **Stop-Word-Filterung**: Füllwörter (der, die, das, the, is, are, etc.) werden ausgeschlossen
+- **Phrase-Erkennung**: Zusammenhängende Begriffe (2-3 Wörter) werden für Kategorien verwendet
 
 #### Automatische Tags
 
-Das Plugin erstellt Tags basierend auf:
-- **Produkt**: ThemisDB, Database, Download
-- **Version**: z.B. v1.4.0, v1.4
-- **Plattformen**: Windows, Linux, Docker, QNAP, ARM, macOS
-- **Release-Typ**: Stable Release, Pre-Release, Beta
-- **Datum**: Jahr (z.B. 2026) und Monat (z.B. 2026-01)
+Tags werden extrahiert basierend auf:
+- **Häufigkeit**: Wie oft ein Wort im Text vorkommt
+- **Relevanz**: Position im Titel, Wortlänge, Kapitalisierung
+- **Best Practice**: Bis zu 15 relevanteste Begriffe werden als Tags vergeben
 
-**Beispiel-Tags für v1.4.0:**
-- ThemisDB
-- Database
-- Download
-- v1.4.0
-- v1.4
-- Windows
-- Linux
-- Stable Release
-- 2026
-- 2026-01
+**Beispiel für Beitrag "ThemisDB Version 1.4.0 - Neue Release mit Windows Support":**
+- ThemisDB (hohe Frequenz + im Titel)
+- Version (im Titel)
+- Windows (im Titel + Inhalt)
+- Release (im Titel)
+- Support (im Titel + Inhalt)
+- Database (im Inhalt)
+- Installation (im Inhalt)
+- Performance (im Inhalt)
 
 #### Automatische Kategorien
 
-Das Plugin erstellt Kategorien basierend auf:
-- **Haupt-Kategorie**: ThemisDB Releases
-- **Versions-Kategorien**: z.B. Version 1.4
-- **Release-Typ**: Stable Releases, Beta Releases
-- **Jahres-Kategorien**: z.B. Releases 2026
+Kategorien werden extrahiert basierend auf:
+- **Phrase-Analyse**: 2-3 Wort-Kombinationen werden identifiziert
+- **Kontext-Relevanz**: Phrasen aus dem Titel haben höhere Priorität
+- **Best Practice**: Bis zu 5 relevanteste Phrasen werden als Kategorien vergeben
 
-**Beispiel-Kategorien für v1.4.0:**
-- ThemisDB Releases
-- Version 1.4
-- Stable Releases
-- Releases 2026
+**Beispiel-Kategorien:**
+- ThemisDB Version
+- Windows Support
+- Neue Release
+- Database Management
 
 ### Aktivierung und Konfiguration
 
@@ -278,14 +280,14 @@ Das Plugin erstellt Kategorien basierend auf:
 2. Scrollen Sie zum Abschnitt **"Automatische Schlagwörter und Kategorien"**
 3. Aktivieren Sie die gewünschten Optionen:
    - **Automatische Taxonomien aktivieren**: Haupt-Schalter für die Funktion
-   - **Automatische Schlagwörter (Tags)**: Tags erstellen und zuweisen
-   - **Automatische Kategorien**: Kategorien erstellen und zuweisen
+   - **Automatische Schlagwörter (Tags)**: Tags aus Inhalt extrahieren und zuweisen
+   - **Automatische Kategorien**: Kategorien aus Phrasen extrahieren und zuweisen
 
 ### Wann werden Taxonomien zugewiesen?
 
 Taxonomien werden automatisch zugewiesen:
-- Beim Speichern eines Beitrags/einer Seite mit ThemisDB-Shortcodes
-- Beim ersten Anzeigen einer Seite mit ThemisDB-Shortcodes (falls noch keine Tags vorhanden sind)
+- **Beim Speichern** eines Beitrags oder einer Seite
+- Gilt für alle Beiträge und Seiten (nicht nur solche mit Shortcodes)
 
 ### Vorhandene Taxonomien
 
