@@ -255,10 +255,10 @@ This comprehensive security work was accomplished through:
 - Response Time: Within 24 hours
 
 **Resources:**
-- [Security Policy](SECURITY.md)
-- [English Summary](docs/SECURITY_WORK_SUMMARY_v1.3.4_EN.md)
-- [German Summary](docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md)
-- [All Security Reports](docs/de/reports/)
+- [Security Policy](../SECURITY.md)
+- [English Summary](SECURITY_WORK_SUMMARY_v1.3.4_EN.md)
+- [German Summary](de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md)
+- [All Security Documentation](de/releases/)
 
 ---
 
