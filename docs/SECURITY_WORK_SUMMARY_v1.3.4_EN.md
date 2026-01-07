@@ -388,7 +388,7 @@ These security improvements were made by:
 **🔐 Security is a top priority at ThemisDB**
 
 [🚨 Report Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · 
-[📖 Security Docs](../de/security/) · 
-[🛡️ Hardening Guide](../de/security/security_hardening.md)
+[📖 Security Docs](de/security/) · 
+[🛡️ Hardening Guide](de/security/security_hardening.md)
 
 </div>

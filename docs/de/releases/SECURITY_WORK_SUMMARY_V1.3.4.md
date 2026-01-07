@@ -13,13 +13,13 @@ In den letzten Releases (v1.3.0 bis v1.3.4) wurden umfangreiche Sicherheitsverbe
 
 ### Gesamtübersicht
 
-| Kategorie | Anzahl Fixes | Severity | Status |
-|-----------|--------------|----------|--------|
-| RocksDB Wrapper | 11 behoben, 4 geplant | 7 Kritisch, 8 Mittel | ✅ Phase 1 abgeschlossen |
-| Docker Security | 3 Hauptverbesserungen | Hoch | ✅ Abgeschlossen |
-| Update Checker | 8 Sicherheitsaspekte | Mittel | ✅ Abgeschlossen |
-| Manifest Signing | Vollständige Implementierung | Hoch | ✅ Konzept dokumentiert |
-| RAID Deadlock | 1 kritischer Fix | Kritisch | ✅ Abgeschlossen |
+| Kategorie | Anzahl Issues | Anzahl Fixes | Severity | Status |
+|-----------|---------------|--------------|----------|--------|
+| RocksDB Wrapper | 15 identifiziert | 11 behoben | 7 Kritisch, 8 Mittel | ✅ Phase 1 abgeschlossen |
+| Docker Security | 3 Hauptverbesserungen | Alle umgesetzt | Hoch | ✅ Abgeschlossen |
+| Update Checker | 8 Sicherheitsaspekte | Alle umgesetzt | Mittel | ✅ Abgeschlossen |
+| Manifest Signing | Vollständige Architektur | Design komplett | Hoch | ✅ Konzept dokumentiert |
+| RAID Deadlock | 1 kritischer Fix | 1 behoben | Kritisch | ✅ Abgeschlossen |
 
 **Gesamtergebnis:** ✅ **Signifikante Verbesserung der Sicherheitslage**
 
@@ -32,7 +32,11 @@ In den letzten Releases (v1.3.0 bis v1.3.4) wurden umfangreiche Sicherheitsverbe
 
 ### Identifizierte Probleme
 
-#### 🔴 Kritische Sicherheitsprobleme (7 gefunden, 11 behoben)
+**Gesamtanzahl:** 15 Issues (7 kritische, 8 mittlere Severity)
+**Phase 1 Fixes:** 11 Issues behoben
+**Phase 2/3:** 4 Issues für zukünftige Releases geplant
+
+#### 🔴 Kritische Sicherheitsprobleme (7 identifiziert)
 
 1. **Use-After-Free in BlockBasedTableOptions** ✅ BEHOBEN
    - **Problem:** Pointer auf filter_policy wurde nach Zerstörung verwendet
