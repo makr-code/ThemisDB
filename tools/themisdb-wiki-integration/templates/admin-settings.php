@@ -174,7 +174,7 @@ if (!defined('ABSPATH')) {
                     type: 'POST',
                     data: {
                         action: 'themisdb_sync_docs',
-                        nonce: '<?php echo wp_create_nonce('themisdb_wiki_nonce'); ?>'
+                        nonce: '<?php echo esc_js(wp_create_nonce('themisdb_wiki_nonce')); ?>'
                     },
                     success: function(response) {
                         if (response.success) {

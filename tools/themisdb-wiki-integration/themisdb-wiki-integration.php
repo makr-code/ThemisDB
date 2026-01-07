@@ -190,7 +190,7 @@ class ThemisDB_Wiki_Integration {
         );
         
         if (!empty($github_token)) {
-            $headers['Authorization'] = 'token ' . $github_token;
+            $headers['Authorization'] = 'Bearer ' . $github_token;
         }
         
         // Fetch from GitHub
@@ -221,8 +221,11 @@ class ThemisDB_Wiki_Integration {
      * Convert Markdown to HTML
      */
     private function markdown_to_html($markdown) {
-        // Basic Markdown conversion
+        // Basic Markdown conversion with XSS protection
         // For production, consider using a library like Parsedown
+        
+        // Sanitize input first
+        $markdown = wp_kses_post($markdown);
         
         $html = $markdown;
         
@@ -236,23 +239,64 @@ class ThemisDB_Wiki_Integration {
         $html = preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $html);
         $html = preg_replace('/\*(.*?)\*/s', '<em>$1</em>', $html);
         
-        // Links
-        $html = preg_replace('/\[(.*?)\]\((.*?)\)/', '<a href="$2" target="_blank">$1</a>', $html);
+        // Links (with URL validation)
+        $html = preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function($matches) {
+            $text = esc_html($matches[1]);
+            $url = esc_url($matches[2]);
+            return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $text . '</a>';
+        }, $html);
         
         // Code blocks
-        $html = preg_replace('/```(.*?)```/s', '<pre><code>$1</code></pre>', $html);
-        $html = preg_replace('/`(.*?)`/', '<code>$1</code>', $html);
+        $html = preg_replace_callback('/```(.*?)```/s', function($matches) {
+            return '<pre><code>' . esc_html($matches[1]) . '</code></pre>';
+        }, $html);
+        $html = preg_replace_callback('/`(.*?)`/', function($matches) {
+            return '<code>' . esc_html($matches[1]) . '</code>';
+        }, $html);
         
-        // Lists
-        $html = preg_replace('/^\* (.*?)$/m', '<li>$1</li>', $html);
-        $html = preg_replace('/^- (.*?)$/m', '<li>$1</li>', $html);
-        $html = preg_replace('/(<li>.*<\/li>)/s', '<ul>$1</ul>', $html);
+        // Lists - improved to handle multiple lists correctly
+        $lines = explode("\n", $html);
+        $in_list = false;
+        $result = array();
+        
+        foreach ($lines as $line) {
+            if (preg_match('/^[\*\-] (.*)$/', $line, $matches)) {
+                if (!$in_list) {
+                    $result[] = '<ul>';
+                    $in_list = true;
+                }
+                $result[] = '<li>' . $matches[1] . '</li>';
+            } else {
+                if ($in_list) {
+                    $result[] = '</ul>';
+                    $in_list = false;
+                }
+                $result[] = $line;
+            }
+        }
+        
+        if ($in_list) {
+            $result[] = '</ul>';
+        }
+        
+        $html = implode("\n", $result);
         
         // Paragraphs
         $html = preg_replace('/\n\n/', '</p><p>', $html);
         $html = '<p>' . $html . '</p>';
         
-        return $html;
+        // Final sanitization
+        $allowed_html = array(
+            'h1' => array(), 'h2' => array(), 'h3' => array(),
+            'p' => array(), 'br' => array(),
+            'strong' => array(), 'em' => array(),
+            'ul' => array(), 'ol' => array(), 'li' => array(),
+            'a' => array('href' => array(), 'target' => array(), 'rel' => array()),
+            'code' => array(), 'pre' => array(),
+            'blockquote' => array()
+        );
+        
+        return wp_kses($html, $allowed_html);
     }
     
     /**
@@ -288,7 +332,7 @@ class ThemisDB_Wiki_Integration {
         );
         
         if (!empty($github_token)) {
-            $headers['Authorization'] = 'token ' . $github_token;
+            $headers['Authorization'] = 'Bearer ' . $github_token;
         }
         
         // Fetch from GitHub

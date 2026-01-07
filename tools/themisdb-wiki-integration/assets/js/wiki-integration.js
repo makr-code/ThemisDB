@@ -95,26 +95,49 @@
                     
                     var text = $code.text();
                     
-                    // Create temporary textarea
-                    var $temp = $('<textarea>')
-                        .val(text)
-                        .css({
-                            'position': 'absolute',
-                            'left': '-9999px'
-                        })
-                        .appendTo('body');
+                    // Try modern Clipboard API first
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(function() {
+                            // Update button text
+                            $button.html('✅ Copied!');
+                            
+                            setTimeout(function() {
+                                $button.html('📋 Copy');
+                            }, 2000);
+                        }).catch(function() {
+                            // Fallback to legacy method
+                            fallbackCopy(text);
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        fallbackCopy(text);
+                    }
                     
-                    // Select and copy
-                    $temp.select();
-                    document.execCommand('copy');
-                    $temp.remove();
-                    
-                    // Update button text
-                    $button.html('✅ Copied!');
-                    
-                    setTimeout(function() {
-                        $button.html('📋 Copy');
-                    }, 2000);
+                    function fallbackCopy(text) {
+                        // Create temporary textarea
+                        var $temp = $('<textarea>')
+                            .val(text)
+                            .css({
+                                'position': 'absolute',
+                                'left': '-9999px'
+                            })
+                            .appendTo('body');
+                        
+                        // Select and copy
+                        $temp.select();
+                        try {
+                            document.execCommand('copy');
+                            // Update button text
+                            $button.html('✅ Copied!');
+                        } catch (err) {
+                            $button.html('❌ Failed');
+                        }
+                        $temp.remove();
+                        
+                        setTimeout(function() {
+                            $button.html('📋 Copy');
+                        }, 2000);
+                    }
                 });
             });
         },
