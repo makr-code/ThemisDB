@@ -30,7 +30,26 @@
          */
         initAccordion: function() {
             $('.themisdb-wiki-nav-accordion .themisdb-nav-section-title').on('click', function() {
-                $(this).toggleClass('collapsed');
+                var $title = $(this);
+                var $items = $title.next('.themisdb-nav-section-items');
+                
+                // Toggle collapsed state
+                $title.toggleClass('collapsed');
+                
+                // Toggle visibility
+                if ($title.hasClass('collapsed')) {
+                    $items.slideUp(300);
+                } else {
+                    $items.slideDown(300);
+                }
+            });
+            
+            // Start with first section expanded, others collapsed
+            $('.themisdb-wiki-nav-accordion .themisdb-nav-section').each(function(index) {
+                if (index > 0) {
+                    $(this).find('.themisdb-nav-section-title').addClass('collapsed');
+                    $(this).find('.themisdb-nav-section-items').hide();
+                }
             });
         },
         

@@ -489,6 +489,7 @@ class ThemisDB_Wiki_Integration {
         $lines = explode("\n", $markdown);
         $html = '';
         $in_section = false;
+        $in_subsection = false;
         $section_title = '';
         
         foreach ($lines as $line) {
@@ -501,6 +502,12 @@ class ThemisDB_Wiki_Integration {
             
             // Main heading (h2 - ###)
             if (preg_match('/^###\s+(.+)$/', $line, $matches)) {
+                // Close previous subsection if open
+                if ($in_subsection) {
+                    $html .= '</ul></li>';
+                    $in_subsection = false;
+                }
+                
                 // Close previous section
                 if ($in_section) {
                     $html .= '</ul></div>';
@@ -541,13 +548,23 @@ class ThemisDB_Wiki_Integration {
             // Sub-section heading (h4 - ####)
             elseif (preg_match('/^####\s+(.+)$/', $line, $matches)) {
                 if ($in_section) {
+                    // Close previous subsection if open
+                    if ($in_subsection) {
+                        $html .= '</ul></li>';
+                    }
+                    
                     $subsection_title = strip_tags($matches[1]);
                     $html .= '<li class="themisdb-nav-subsection">';
                     $html .= '<span class="themisdb-nav-subsection-title">' . esc_html($subsection_title) . '</span>';
                     $html .= '<ul class="themisdb-nav-subsection-items">';
-                    // Note: This creates nested structure, needs closing
+                    $in_subsection = true;
                 }
             }
+        }
+        
+        // Close subsection if still open
+        if ($in_subsection) {
+            $html .= '</ul></li>';
         }
         
         // Close last section
