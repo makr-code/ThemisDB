@@ -1,0 +1,91 @@
+/* ThemisDB Downloads Plugin - Admin Styles */
+
+.themisdb-admin-header {
+    background: #fff;
+    border-left: 4px solid #0073aa;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+
+.themisdb-admin-header p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.themisdb-usage-instructions {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.themisdb-usage-instructions h3 {
+    margin-top: 0;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 0.5rem;
+}
+
+.themisdb-usage-instructions h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #23282d;
+}
+
+.themisdb-usage-instructions code {
+    display: block;
+    background: #f7f7f7;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-family: 'Courier New', monospace;
+}
+
+.form-table th {
+    font-weight: 600;
+    color: #23282d;
+}
+
+.form-table .description {
+    font-style: italic;
+    color: #666;
+}
+
+.widefat {
+    border: 1px solid #ddd;
+    background: #fff;
+}
+
+.widefat th {
+    background: #f7f7f7;
+    font-weight: 600;
+    padding: 0.75rem;
+}
+
+.widefat td {
+    padding: 0.75rem;
+    border-top: 1px solid #eee;
+}
+
+#themisdb_clear_cache {
+    margin-left: 1rem;
+}
+
+.notice {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-left-width: 4px;
+    border-left-style: solid;
+}
+
+.notice-success {
+    background: #d7f5d7;
+    border-left-color: #46b450;
+}
+
+.notice-error {
+    background: #f8d7da;
+    border-left-color: #dc3545;
+}
