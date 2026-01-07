@@ -5,6 +5,49 @@ All notable changes to this WordPress plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-07
+
+### Added
+- **Automatic Tags and Categories**: Plugin now automatically creates and assigns WordPress tags and categories based on release data
+- New `class-taxonomy-manager.php` for managing automatic taxonomy assignment
+- Auto-generated tags based on:
+  - Product name (ThemisDB, Database, Download)
+  - Version numbers (e.g., v1.4.0, v1.4)
+  - Platform types (Windows, Linux, Docker, QNAP, ARM, macOS)
+  - Release type (Stable Release, Pre-Release, Beta)
+  - Publication date (Year and Month)
+- Auto-generated categories based on:
+  - Main category (ThemisDB Releases)
+  - Version categories (e.g., Version 1.4)
+  - Release type categories (Stable Releases, Beta Releases)
+  - Year categories (e.g., Releases 2026)
+- Admin settings for controlling auto-taxonomy feature:
+  - Toggle to enable/disable automatic taxonomies
+  - Separate controls for tags and categories
+  - Detailed descriptions and examples in admin panel
+- Automatic taxonomy assignment triggers:
+  - When saving posts/pages with ThemisDB shortcodes
+  - When displaying content with ThemisDB shortcodes (first time only)
+- Smart taxonomy management:
+  - Only creates new taxonomies if they don't exist
+  - Appends to existing taxonomies without removing them
+  - Detects if ThemisDB tags already exist to avoid duplicates
+
+### Changed
+- Updated plugin version to 1.2.0
+- Enhanced plugin description to mention automatic tag and category assignment
+- Extended admin panel with new "Automatische Schlagwörter und Kategorien" section
+- Updated README.md with comprehensive documentation on auto-taxonomy feature
+- Updated file structure documentation to include taxonomy-manager.php
+- Enhanced changelog with detailed version history
+
+### Technical Details
+- New activation hooks to set default auto-taxonomy options (enabled by default)
+- Integration with WordPress `save_post` action for post/page save detection
+- Integration with `the_content` filter for content display detection
+- Intelligent detection of ThemisDB shortcodes in content
+- Platform detection algorithm reused from shortcodes class
+
 ## [1.1.0] - 2026-01-07
 
 ### Added
@@ -126,6 +169,8 @@ See [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
 ## Version History
 
+- **1.2.0** (2026-01-07) - Auto tags and categories feature
+- **1.1.0** (2026-01-07) - README and CHANGELOG shortcodes
 - **1.0.0** (2026-01-07) - Initial release
 
 ---

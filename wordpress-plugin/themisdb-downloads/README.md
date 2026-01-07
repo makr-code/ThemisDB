@@ -1,12 +1,13 @@
 # ThemisDB Downloads WordPress Plugin
 
-Ein WordPress Plugin, das automatisch die neuesten ThemisDB Packages von GitHub abruft und als Download-Links mit SHA256-Checksums auf einer WordPress-Seite anzeigt.
+Ein WordPress Plugin, das automatisch die neuesten ThemisDB Packages von GitHub abruft und als Download-Links mit SHA256-Checksums auf einer WordPress-Seite anzeigt. Das Plugin weist automatisch relevante Schlagwörter (Tags) und Kategorien zu.
 
 ## Features
 
 - ✅ **Automatischer Download von GitHub Releases**: Ruft die neuesten Releases von GitHub automatisch ab
 - ✅ **SHA256-Checksums Anzeige**: Zeigt SHA256-Hashes für alle Download-Dateien an
 - ✅ **Download-Verifizierung**: Integriertes Tool zur Überprüfung der Datei-Integrität
+- ✅ **Automatische Schlagwörter und Kategorien**: Erstellt und weist automatisch Tags und Kategorien basierend auf Release-Daten zu
 - ✅ **Mehrere Anzeigestile**: Standard, Kompakt, Tabellen-Ansicht
 - ✅ **Plattform-Filter**: Zeige nur Windows, Linux, Docker oder andere Plattformen
 - ✅ **Cache-System**: Reduziert API-Aufrufe durch intelligentes Caching
@@ -51,6 +52,9 @@ Nach der Aktivierung:
 | **Cache Dauer** | Wie lange Release-Daten gecacht werden sollen (in Sekunden) | `3600` (1 Stunde) |
 | **Anzahl Releases** | Wie viele Releases angezeigt werden sollen | `10` |
 | **Pre-Releases** | Beta- und Alpha-Versionen anzeigen | `Aus` |
+| **Automatische Taxonomien** | Automatische Zuweisung von Schlagwörtern und Kategorien aktivieren | `Ein` |
+| **Automatische Tags** | Tags automatisch erstellen und zuweisen | `Ein` |
+| **Automatische Kategorien** | Kategorien automatisch erstellen und zuweisen | `Ein` |
 
 ### GitHub Token (Optional)
 
@@ -225,6 +229,79 @@ sha256sum themis-1.4.0-linux-x64.tar.gz
 
 Vergleichen Sie den berechneten Hash mit dem angezeigten SHA256-Checksum.
 
+## Automatische Schlagwörter und Kategorien
+
+Das Plugin kann automatisch relevante Schlagwörter (Tags) und Kategorien für Beiträge und Seiten erstellen, die ThemisDB-Shortcodes enthalten.
+
+### Funktionsweise
+
+Wenn ein Beitrag oder eine Seite einen ThemisDB-Shortcode enthält (z.B. `[themisdb_downloads]`), analysiert das Plugin die Release-Daten und erstellt automatisch:
+
+#### Automatische Tags
+
+Das Plugin erstellt Tags basierend auf:
+- **Produkt**: ThemisDB, Database, Download
+- **Version**: z.B. v1.4.0, v1.4
+- **Plattformen**: Windows, Linux, Docker, QNAP, ARM, macOS
+- **Release-Typ**: Stable Release, Pre-Release, Beta
+- **Datum**: Jahr (z.B. 2026) und Monat (z.B. 2026-01)
+
+**Beispiel-Tags für v1.4.0:**
+- ThemisDB
+- Database
+- Download
+- v1.4.0
+- v1.4
+- Windows
+- Linux
+- Stable Release
+- 2026
+- 2026-01
+
+#### Automatische Kategorien
+
+Das Plugin erstellt Kategorien basierend auf:
+- **Haupt-Kategorie**: ThemisDB Releases
+- **Versions-Kategorien**: z.B. Version 1.4
+- **Release-Typ**: Stable Releases, Beta Releases
+- **Jahres-Kategorien**: z.B. Releases 2026
+
+**Beispiel-Kategorien für v1.4.0:**
+- ThemisDB Releases
+- Version 1.4
+- Stable Releases
+- Releases 2026
+
+### Aktivierung und Konfiguration
+
+1. Gehen Sie zu **Einstellungen → ThemisDB Downloads**
+2. Scrollen Sie zum Abschnitt **"Automatische Schlagwörter und Kategorien"**
+3. Aktivieren Sie die gewünschten Optionen:
+   - **Automatische Taxonomien aktivieren**: Haupt-Schalter für die Funktion
+   - **Automatische Schlagwörter (Tags)**: Tags erstellen und zuweisen
+   - **Automatische Kategorien**: Kategorien erstellen und zuweisen
+
+### Wann werden Taxonomien zugewiesen?
+
+Taxonomien werden automatisch zugewiesen:
+- Beim Speichern eines Beitrags/einer Seite mit ThemisDB-Shortcodes
+- Beim ersten Anzeigen einer Seite mit ThemisDB-Shortcodes (falls noch keine Tags vorhanden sind)
+
+### Vorhandene Taxonomien
+
+- Das Plugin **fügt** Tags und Kategorien **hinzu**, ohne vorhandene zu entfernen
+- Wenn bereits ThemisDB-Tags vorhanden sind, werden keine neuen hinzugefügt
+- Sie können jederzeit manuell Tags und Kategorien bearbeiten
+
+### Deaktivierung
+
+Um die automatische Taxonomie-Zuweisung zu deaktivieren:
+1. Gehen Sie zu **Einstellungen → ThemisDB Downloads**
+2. Deaktivieren Sie "Automatische Taxonomien aktivieren"
+3. Klicken Sie auf "Einstellungen speichern"
+
+Bereits erstellte Tags und Kategorien bleiben erhalten, aber es werden keine neuen mehr erstellt.
+
 ## API-Limits
 
 ### Ohne Token
@@ -320,7 +397,8 @@ themisdb-downloads/
 ├── includes/
 │   ├── class-github-api.php     # GitHub API Handler
 │   ├── class-admin.php          # Admin Panel
-│   └── class-shortcodes.php     # Shortcode Handler
+│   ├── class-shortcodes.php     # Shortcode Handler
+│   └── class-taxonomy-manager.php # Taxonomy Manager (Auto Tags/Kategorien)
 ├── assets/
 │   ├── css/
 │   │   ├── style.css            # Frontend Styles
@@ -385,6 +463,18 @@ Dieses Plugin ist unter der MIT-Lizenz lizenziert. Siehe [LICENSE](../../LICENSE
 Entwickelt für das ThemisDB-Projekt.
 
 ## Changelog
+
+### Version 1.2.0 (Januar 2026)
+- ✅ **NEU: Automatische Schlagwörter und Kategorien**
+- ✅ Automatische Tag-Erstellung basierend auf Release-Daten
+- ✅ Automatische Kategorien-Erstellung
+- ✅ Konfigurierbare Taxonomie-Einstellungen im Admin-Panel
+- ✅ Intelligente Taxonomie-Zuweisung beim Speichern von Beiträgen
+
+### Version 1.1.0 (Januar 2026)
+- ✅ README und CHANGELOG Shortcodes
+- ✅ Verbesserte Markdown-Darstellung
+- ✅ Erweiterte Dokumentation
 
 ### Version 1.0.0 (Januar 2026)
 - ✅ Erste Veröffentlichung

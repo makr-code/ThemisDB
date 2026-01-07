@@ -39,6 +39,9 @@ class ThemisDB_Downloads_Admin {
         register_setting('themisdb_downloads_settings', 'themisdb_cache_duration');
         register_setting('themisdb_downloads_settings', 'themisdb_show_prerelease');
         register_setting('themisdb_downloads_settings', 'themisdb_releases_count');
+        register_setting('themisdb_downloads_settings', 'themisdb_auto_taxonomy');
+        register_setting('themisdb_downloads_settings', 'themisdb_auto_tags');
+        register_setting('themisdb_downloads_settings', 'themisdb_auto_categories');
     }
     
     /**
@@ -103,6 +106,9 @@ class ThemisDB_Downloads_Admin {
             update_option('themisdb_cache_duration', intval($_POST['themisdb_cache_duration']));
             update_option('themisdb_show_prerelease', isset($_POST['themisdb_show_prerelease']) ? 1 : 0);
             update_option('themisdb_releases_count', intval($_POST['themisdb_releases_count']));
+            update_option('themisdb_auto_taxonomy', isset($_POST['themisdb_auto_taxonomy']) ? 1 : 0);
+            update_option('themisdb_auto_tags', isset($_POST['themisdb_auto_tags']) ? 1 : 0);
+            update_option('themisdb_auto_categories', isset($_POST['themisdb_auto_categories']) ? 1 : 0);
             
             echo '<div class="notice notice-success"><p>Einstellungen gespeichert!</p></div>';
         }
@@ -113,6 +119,9 @@ class ThemisDB_Downloads_Admin {
         $cache_duration = get_option('themisdb_cache_duration', 3600);
         $show_prerelease = get_option('themisdb_show_prerelease', 0);
         $releases_count = get_option('themisdb_releases_count', 10);
+        $auto_taxonomy = get_option('themisdb_auto_taxonomy', 1);
+        $auto_tags = get_option('themisdb_auto_tags', 1);
+        $auto_categories = get_option('themisdb_auto_categories', 1);
         
         // Test API connection
         $api = new ThemisDB_Downloads_GitHub_API();
@@ -216,6 +225,64 @@ class ThemisDB_Downloads_Admin {
                                        <?php checked($show_prerelease, 1); ?>>
                                 Beta- und Alpha-Versionen anzeigen
                             </label>
+                        </td>
+                    </tr>
+                </table>
+                
+                <h2>Automatische Schlagwörter und Kategorien</h2>
+                <p>Das Plugin kann automatisch Schlagwörter (Tags) und Kategorien basierend auf Release-Informationen erstellen und zuweisen.</p>
+                
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            Automatische Taxonomien aktivieren
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" 
+                                       id="themisdb_auto_taxonomy" 
+                                       name="themisdb_auto_taxonomy" 
+                                       value="1" 
+                                       <?php checked($auto_taxonomy, 1); ?>>
+                                Automatische Zuweisung von Schlagwörtern und Kategorien aktivieren
+                            </label>
+                            <p class="description">Wenn aktiviert, werden Beiträge/Seiten mit ThemisDB-Shortcodes automatisch mit relevanten Tags und Kategorien versehen.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">
+                            Automatische Schlagwörter (Tags)
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" 
+                                       id="themisdb_auto_tags" 
+                                       name="themisdb_auto_tags" 
+                                       value="1" 
+                                       <?php checked($auto_tags, 1); ?>>
+                                Tags automatisch erstellen und zuweisen
+                            </label>
+                            <p class="description">Tags werden basierend auf Version, Plattform, Release-Typ und Datum erstellt.</p>
+                            <p class="description"><strong>Beispiel-Tags:</strong> ThemisDB, Database, v1.4.0, Windows, Linux, Stable Release, 2026</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">
+                            Automatische Kategorien
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" 
+                                       id="themisdb_auto_categories" 
+                                       name="themisdb_auto_categories" 
+                                       value="1" 
+                                       <?php checked($auto_categories, 1); ?>>
+                                Kategorien automatisch erstellen und zuweisen
+                            </label>
+                            <p class="description">Kategorien werden basierend auf Version, Release-Typ und Jahr erstellt.</p>
+                            <p class="description"><strong>Beispiel-Kategorien:</strong> ThemisDB Releases, Version 1.4, Stable Releases, Releases 2026</p>
                         </td>
                     </tr>
                 </table>
