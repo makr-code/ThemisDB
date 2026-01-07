@@ -4,7 +4,7 @@ This directory contains WordPress plugins specifically developed for ThemisDB to
 
 ## 📦 Available Plugins
 
-### 1. TCO Calculator ✅ (Existing)
+### 1. TCO Calculator ✅ (Existing - Pre-Phase 1)
 **Location**: `/tools/tco-calculator-wordpress/`
 **Status**: Production-ready
 **Shortcode**: `[themisdb_tco_calculator]`
@@ -20,7 +20,7 @@ Calculate and compare Total Cost of Ownership between ThemisDB and competing dat
 
 ---
 
-### 2. Benchmark Visualizer ✅ (New - Phase 1.1)
+### 2. Benchmark Visualizer ✅ (Phase 1.1)
 **Location**: `/tools/benchmark-visualizer-wordpress/`
 **Status**: Production-ready
 **Shortcode**: `[themisdb_benchmark_visualizer]`
@@ -64,7 +64,7 @@ cp -r /path/to/ThemisDB/tools/benchmark-visualizer-wordpress ./themisdb-benchmar
 
 ---
 
-### 3. Feature Matrix ✅ (New - Phase 1.2)
+### 3. Feature Matrix ✅ (Phase 1.2)
 **Location**: `/tools/feature-matrix-wordpress/`
 **Status**: Production-ready
 **Shortcode**: `[themisdb_feature_matrix]`
@@ -105,6 +105,59 @@ cp -r /path/to/ThemisDB/tools/feature-matrix-wordpress ./themisdb-feature-matrix
 // Combined
 [themisdb_feature_matrix category="security" view="detailed" show_diagram="true"]
 ```
+
+---
+
+### 4. Architecture Diagrams ✅ (Phase 2.1)
+**Location**: `/tools/architecture-diagrams-wordpress/`
+**Status**: Production-ready
+**Shortcode**: `[themisdb_architecture]`
+
+Interactive visualization of ThemisDB system architecture with multiple views using Mermaid.js diagrams.
+
+**Features**:
+- 4 architecture views (High-Level, Storage Layer, LLM Integration, Sharding/RAID)
+- Mermaid.js interactive diagrams
+- Zoom controls (in, out, reset)
+- Fullscreen mode
+- Clickable components with details
+- Export to SVG/PNG
+- Multiple themes (neutral, dark, forest)
+- Responsive design
+
+**Installation**:
+```bash
+cd /path/to/wordpress/wp-content/plugins/
+cp -r /path/to/ThemisDB/tools/architecture-diagrams-wordpress ./themisdb-architecture-diagrams
+# Activate via WordPress Admin → Plugins
+```
+
+**Usage Examples**:
+```php
+// Basic usage
+[themisdb_architecture]
+
+// Specific view
+[themisdb_architecture view="storage_layer"]
+
+// LLM integration view
+[themisdb_architecture view="llm_integration"]
+
+// Sharding/RAID view
+[themisdb_architecture view="sharding_raid"]
+
+// Custom theme
+[themisdb_architecture view="high_level" theme="dark"]
+
+// Combined
+[themisdb_architecture view="llm_integration" theme="neutral" interactive="true"]
+```
+
+**Architecture Views**:
+1. **High-Level**: Complete system architecture (Client → API → Query → Storage → LLM)
+2. **Storage Layer**: RocksDB-based multi-model storage with indexes
+3. **LLM Integration**: llama.cpp integration and model management
+4. **Sharding & RAID**: Distributed architecture with replication
 
 ---
 
@@ -194,11 +247,11 @@ window.ThemisDB<PluginName> = {
 
 ---
 
-## 📊 Phase 1 Implementation Summary
+## 📊 Implementation Summary
 
-Based on **THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md**, Phase 1 (Q1 2026) has been completed:
+Based on **THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md**:
 
-### ✅ Completed (Phase 1)
+### ✅ Phase 1 Complete (Q1 2026)
 
 1. **Benchmark Visualizer** (40-60h estimated)
    - Interactive performance comparison
@@ -213,6 +266,22 @@ Based on **THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md**, Phase 1 (Q1 2026) has been c
    - Category filtering
    - Status indicators
    - Fully documented
+
+### ✅ Phase 2 Started (Q2 2026)
+
+3. **Architecture Diagrams** (35-45h estimated) - ✅ COMPLETED
+   - 4 interactive architecture views
+   - Mermaid.js integration
+   - Zoom and fullscreen controls
+   - Component interactivity
+   - Export to SVG/PNG
+   - Fully documented
+
+4. **Live Query Playground** (80-100h estimated) - 🔜 NEXT
+   - Interactive AQL editor
+   - Live query execution
+   - Demo database instance
+   - Query execution plans
 
 ### 📈 Key Benefits
 
@@ -251,20 +320,29 @@ Based on **THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md**, Phase 1 (Q1 2026) has been c
    cp -r /path/to/ThemisDB/tools/feature-matrix-wordpress ./themisdb-feature-matrix
    ```
 
-4. **Activate Plugins**
+4. **Install Architecture Diagrams**
+   ```bash
+   cd /path/to/wordpress/wp-content/plugins/
+   cp -r /path/to/ThemisDB/tools/architecture-diagrams-wordpress ./themisdb-architecture-diagrams
+   ```
+
+5. **Activate Plugins**
    - Go to WordPress Admin → Plugins
    - Find "ThemisDB Benchmark Visualizer" and click "Activate"
    - Find "ThemisDB Feature Matrix" and click "Activate"
+   - Find "ThemisDB Architecture Diagrams" and click "Activate"
 
-5. **Configure Settings**
+6. **Configure Settings**
    - Benchmark Visualizer: Settings → Benchmark Visualizer
    - Feature Matrix: Settings → Feature Matrix
+   - Architecture Diagrams: Settings → Architecture Diagrams
 
-6. **Use Shortcodes**
+7. **Use Shortcodes**
    - Add shortcodes to any page or post:
    ```php
    [themisdb_benchmark_visualizer]
    [themisdb_feature_matrix]
+   [themisdb_architecture]
    ```
 
 ---
@@ -273,24 +351,25 @@ Based on **THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md**, Phase 1 (Q1 2026) has been c
 
 - **Benchmark Visualizer**: [README](benchmark-visualizer-wordpress/README.md)
 - **Feature Matrix**: [README](feature-matrix-wordpress/README.md)
+- **Architecture Diagrams**: [README](architecture-diagrams-wordpress/README.md)
 - **TCO Calculator**: [README](tco-calculator-wordpress/README.md)
 - **WordPress Plugin Concept**: [THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md](../docs/de/tools/THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md)
 
 ---
 
-## 🗺️ Future Roadmap (Phase 2 & 3)
+## 🗺️ Future Roadmap
 
 As defined in the concept document:
 
-### Phase 2: High-Value Features (Q2 2026)
-- **Live Query Playground** (80-100h)
+### Phase 2: High-Value Features (Q2 2026) - 🚧 IN PROGRESS
+- ✅ **Architecture Diagrams** (35-45h) - COMPLETED
+  - Interactive system diagrams
+  - Multiple views (high-level, storage, LLM, sharding)
+  - Mermaid.js integration
+- 🔜 **Live Query Playground** (80-100h) - NEXT
   - Interactive AQL editor
   - Live query execution
   - Demo database instance
-- **Architecture Diagrams** (35-45h)
-  - Interactive system diagrams
-  - Multiple views (high-level, storage, LLM)
-  - Mermaid.js integration
 
 ### Phase 3: Nice-to-Haves (Q3 2026)
 - **Documentation Search** (50-70h)
@@ -338,5 +417,5 @@ See individual plugin LICENSE files for details.
 ---
 
 **Last Updated**: January 2026  
-**Version**: 1.0.0  
-**Status**: Phase 1 Complete ✅
+**Version**: 2.0.0  
+**Status**: Phase 1 Complete ✅ | Phase 2 In Progress 🚧 (1 of 2 plugins complete)
