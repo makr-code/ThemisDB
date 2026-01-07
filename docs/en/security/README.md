@@ -175,6 +175,7 @@ For detailed encryption documentation, please refer to the German documentation:
 ### 🛡️ Security Operations
 
 - [security_hardening.md](../../de/security/security_hardening.md) - Hardening guide
+- [security_hardware_attack_vectors.md](security_hardware_attack_vectors.md) - Hardware attack vectors (USB, PCIe, CPU, RAM, IO)
 - [security_audit_checklist.md](../../de/security/security_audit_checklist.md) - Audit checklist
 - [security_incident_response.md](../../de/security/security_incident_response.md) - Incident response
 - [security_threat_model.md](../../de/security/security_threat_model.md) - Threat model

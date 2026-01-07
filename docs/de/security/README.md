@@ -185,6 +185,7 @@ if (rbac.authorize("user@example.com", "data", "read")) {
 ### 🛡️ Security Operations
 
 - [security_hardening.md](security_hardening.md) - Härteleitfaden
+- [security_hardware_attack_vectors.md](security_hardware_attack_vectors.md) - Hardware-Angriffsvektoren (USB, PCIe, CPU, RAM, IO)
 - [security_audit_checklist.md](security_audit_checklist.md) - Audit-Checkliste
 - [security_audit_report.md](security_audit_report.md) - Audit-Report
 - [security_audit_retention.md](security_audit_retention.md) - Audit-Retention
