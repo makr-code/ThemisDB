@@ -15,6 +15,11 @@ const CONFIG = {
     HYPERSCALER_REQUEST_COST: 0.00025, // €/request (DynamoDB-like pricing)
     HYPERSCALER_STORAGE_MULTIPLIER: 1.5, // Hyperscalers need more storage (replication)
     GPU_COST_MONTHLY: 2000, // Additional cost for GPU server (A100/H100)
+    MIN_SERVERS_HA: 2, // Minimum servers for high availability
+    BACKUP_REDUNDANCY_MULTIPLIER: 2, // Backup storage redundancy factor
+    GB_PER_SERVER: 1000, // Storage capacity per server in GB
+    REQUESTS_PER_SERVER_DAY: 10000000, // Max requests per server per day (10M)
+    KB_PER_REQUEST: 10, // Average kilobytes per request for network estimation
 };
 
 // State Management
@@ -130,7 +135,7 @@ class TCOCalculator {
             }
             
             const storageCost = currentDataSize * this.inputs.storageCostPerGB;
-            const backupCost = currentDataSize * 2 * this.inputs.backupCost; // 2x for redundancy
+            const backupCost = currentDataSize * CONFIG.BACKUP_REDUNDANCY_MULTIPLIER * this.inputs.backupCost; // Redundancy for backup
             const networkCost = this.estimateNetworkUsage() * this.inputs.networkCost / 1000; // Convert to TB
             
             const yearlyInfra = (monthlyServerCost + storageCost + backupCost + networkCost) * 12;
@@ -164,10 +169,10 @@ class TCOCalculator {
      * Calculate number of servers needed for ThemisDB
      */
     calculateThemisDBServers(edition) {
-        const baseServers = Math.ceil(this.inputs.dataSize / 1000); // 1 server per TB
-        const loadServers = Math.ceil(this.inputs.requestsPerDay / 10000000); // 1 server per 10M req/day
+        const baseServers = Math.ceil(this.inputs.dataSize / CONFIG.GB_PER_SERVER); // Server capacity
+        const loadServers = Math.ceil(this.inputs.requestsPerDay / CONFIG.REQUESTS_PER_SERVER_DAY); // Load-based
         
-        let servers = Math.max(2, baseServers, loadServers); // Minimum 2 for HA
+        let servers = Math.max(CONFIG.MIN_SERVERS_HA, baseServers, loadServers); // Minimum for HA
         
         // Add servers for high availability
         if (this.inputs.availability >= 99.99) {
@@ -233,8 +238,8 @@ class TCOCalculator {
      * Estimate monthly network usage in GB
      */
     estimateNetworkUsage() {
-        // Rough estimate: 10KB per request
-        const dailyGB = (this.inputs.requestsPerDay * 10) / (1024 * 1024);
+        // Estimate based on average data per request
+        const dailyGB = (this.inputs.requestsPerDay * CONFIG.KB_PER_REQUEST) / (1024 * 1024);
         return dailyGB * 30; // Monthly
     }
 
