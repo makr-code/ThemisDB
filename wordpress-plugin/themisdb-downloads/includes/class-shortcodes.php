@@ -143,7 +143,7 @@ class ThemisDB_Downloads_Shortcodes {
                 <div class="themisdb-release">
                     <div class="release-header">
                         <h3 class="release-version">
-                            <?php echo esc_html($release['name'] ?: $release['version']); ?>
+                            <?php echo esc_html(!empty($release['name']) ? $release['name'] : $release['version']); ?>
                             <span class="release-tag"><?php echo esc_html($release['version']); ?></span>
                         </h3>
                         <p class="release-date">

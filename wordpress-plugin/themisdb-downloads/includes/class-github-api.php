@@ -135,7 +135,7 @@ class ThemisDB_Downloads_GitHub_API {
         
         if (!empty($this->token)) {
             $args['headers'] = array(
-                'Authorization' => 'token ' . $this->token
+                'Authorization' => 'Bearer ' . $this->token
             );
         }
         
@@ -199,7 +199,7 @@ class ThemisDB_Downloads_GitHub_API {
         
         // Add authorization header if token is set
         if (!empty($this->token)) {
-            $args['headers']['Authorization'] = 'token ' . $this->token;
+            $args['headers']['Authorization'] = 'Bearer ' . $this->token;
         }
         
         $response = wp_remote_get($url, $args);
@@ -228,9 +228,18 @@ class ThemisDB_Downloads_GitHub_API {
      */
     public function clear_cache() {
         delete_transient('themisdb_latest_release');
-        // Clear all releases caches
-        for ($i = 1; $i <= 50; $i++) {
-            delete_transient('themisdb_all_releases_' . $i);
+        
+        // Clear all releases caches using WordPress transient API
+        // Get common values for cache clearing
+        $common_counts = array(1, 5, 10, 20, 30, 50);
+        foreach ($common_counts as $count) {
+            delete_transient('themisdb_all_releases_' . $count);
+        }
+        
+        // Clear any custom cached counts from options
+        $custom_count = get_option('themisdb_releases_count', 10);
+        if (!in_array($custom_count, $common_counts)) {
+            delete_transient('themisdb_all_releases_' . $custom_count);
         }
     }
 }

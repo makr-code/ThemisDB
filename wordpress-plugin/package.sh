@@ -34,6 +34,9 @@ fi
 echo "📦 Creating plugin package..."
 echo ""
 
+# Store original directory
+ORIGINAL_DIR=$(pwd)
+
 # Create ZIP archive
 cd "$(dirname "$PLUGIN_DIR")"
 zip -r "$OUTPUT_DIR/$ZIP_NAME" "$(basename "$PLUGIN_DIR")" \
@@ -48,7 +51,8 @@ zip -r "$OUTPUT_DIR/$ZIP_NAME" "$(basename "$PLUGIN_DIR")" \
     -x "*/.vscode/*" \
     -x "*/.idea/*"
 
-cd - > /dev/null
+# Return to original directory
+cd "$ORIGINAL_DIR"
 
 echo ""
 echo "✅ Package created successfully!"

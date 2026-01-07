@@ -100,7 +100,8 @@
                     window.crypto.subtle.digest('SHA-256', buffer).then(function(hashBuffer) {
                         var hashArray = Array.from(new Uint8Array(hashBuffer));
                         var hashHex = hashArray.map(function(b) {
-                            return b.toString(16).padStart(2, '0');
+                            // Use slice for better browser compatibility instead of padStart
+                            return ('0' + b.toString(16)).slice(-2);
                         }).join('');
                         
                         resolve(hashHex);

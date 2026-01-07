@@ -9,11 +9,21 @@
  * License: MIT
  * Text Domain: themisdb-downloads
  * Domain Path: /languages
+ * Requires at least: 5.0
+ * Requires PHP: 7.2
  */
 
 // Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
+}
+
+// Check PHP version
+if (version_compare(PHP_VERSION, '7.2', '<')) {
+    add_action('admin_notices', function() {
+        echo '<div class="error"><p><strong>ThemisDB Downloads:</strong> Dieses Plugin benötigt PHP 7.2 oder höher. Sie verwenden PHP ' . PHP_VERSION . '</p></div>';
+    });
+    return;
 }
 
 // Plugin constants
