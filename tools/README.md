@@ -217,6 +217,64 @@ Antwort:
 ### GET /api/audit/export/csv
 Gleiche Query-Parameter, gibt CSV-Datei zurück.
 
+## Web-Tools
+
+### TCO Calculator (`tco-calculator-wordpress`)
+
+Ein WordPress-Plugin für den Total Cost of Ownership (TCO) Rechner für ThemisDB.
+
+**Features:**
+- Shortcode-basierte Einbindung: `[themisdb_tco_calculator]`
+- Admin-Einstellungsseite für Standardwerte
+- Vollständige TCO-Analyse (Infrastruktur, Personal, Lizenzen, Betrieb, AI/LLM)
+- Interaktive Visualisierungen mit Chart.js
+- Export-Funktionen (PDF, CSV)
+- WordPress-optimiert und theme-kompatibel
+
+**Verwendung:**
+```php
+// In WordPress Seite/Post
+[themisdb_tco_calculator]
+
+// Mit Parametern
+[themisdb_tco_calculator show_intro="no" title="Kostenrechner"]
+```
+
+**Installation:**
+```bash
+# In WordPress plugins-Verzeichnis kopieren
+cp -r tco-calculator-wordpress /path/to/wordpress/wp-content/plugins/themisdb-tco-calculator/
+
+# In WordPress Admin aktivieren
+# Plugins → ThemisDB TCO Calculator → Aktivieren
+```
+
+**Dokumentation:**
+- [README](tco-calculator-wordpress/README.md)
+- [Quickstart](tco-calculator-wordpress/QUICKSTART.md)
+- [Installation](tco-calculator-wordpress/INSTALLATION.md)
+- [Implementation Guide](tco-calculator-wordpress/IMPLEMENTATION.md)
+
+### WordPress Plugins Empfehlung
+
+Umfassende Analyse und Empfehlungen für WordPress-Plugins zur Erstellung der ThemisDB-Website.
+
+**Dokumentation:**
+- [Deutsche Version](../docs/de/tools/WORDPRESS_PLUGINS_EMPFEHLUNG.md) - Vollständige Analyse (22 Kategorien, 50+ Plugins)
+- [English Version](../docs/en/tools/WORDPRESS_PLUGINS_RECOMMENDATION.md) - Concise recommendations
+- [Quick Reference](../docs/de/tools/WORDPRESS_PLUGINS_QUICKREF.md) - Schnellübersicht und Checkliste
+
+**Kernempfehlungen:**
+- SEO: Rank Math SEO
+- Performance: WP Rocket
+- Sicherheit: Wordfence Security
+- Code: Syntax Highlighter Evolved
+- Dokumentation: Heroic KB
+- Analytics: MonsterInsights
+- Backup: UpdraftPlus
+
+**Budget:** €0 (kostenlos) bis €601/Jahr (Enterprise-Setup)
+
 ## Entwicklung
 
 **Architektur:**
