@@ -1,8 +1,18 @@
-# WordPress Plugin für ThemisDB Downloads
+# WordPress Plugins für ThemisDB
 
 ## Übersicht
 
-Dieses WordPress Plugin ermöglicht die automatische Anzeige von ThemisDB Release-Downloads auf WordPress-Seiten. Es ruft die neuesten Packages vom GitHub Repository ab und zeigt sie mit den entsprechenden SHA256-Checksums zur Verifikation an.
+Dieses Verzeichnis enthält WordPress-Plugins für ThemisDB:
+
+### 1. ThemisDB Downloads Plugin
+Automatische Anzeige von ThemisDB Release-Downloads auf WordPress-Seiten. Es ruft die neuesten Packages vom GitHub Repository ab und zeigt sie mit den entsprechenden SHA256-Checksums zur Verifikation an.
+
+### 2. ThemisDB Gallery Plugin
+Hilft beim Artikel erstellen relevante frei verfügbare thematisch passende Bilder im Internet zu finden, herunterzuladen und einzubinden - mit vollen Credits (Urheber usw.). Optional mit KI-Bildgenerator.
+
+---
+
+## ThemisDB Downloads Plugin
 
 ## Funktionen
 
@@ -22,21 +32,41 @@ Dieses WordPress Plugin ermöglicht die automatische Anzeige von ThemisDB Releas
 ThemisDB/
 └── wordpress-plugin/
     ├── PACKAGING.md                    # Packaging-Anleitung
-    └── themisdb-downloads/             # Plugin-Verzeichnis
-        ├── themisdb-downloads.php      # Haupt-Plugin-Datei
+    ├── themisdb-downloads/             # Downloads Plugin
+    │   ├── themisdb-downloads.php      # Haupt-Plugin-Datei
+    │   ├── README.md                   # Plugin-Dokumentation
+    │   ├── INSTALLATION.md             # Installationsanleitung
+    │   ├── includes/                   # PHP-Klassen
+    │   │   ├── class-github-api.php    # GitHub API Handler
+    │   │   ├── class-admin.php         # Admin Panel
+    │   │   └── class-shortcodes.php    # Shortcode Handler
+    │   └── assets/                     # Frontend-Ressourcen
+    │       ├── css/
+    │       │   ├── style.css           # Frontend Styles
+    │       │   └── admin.css           # Admin Styles
+    │       └── js/
+    │           ├── script.js           # Frontend JavaScript
+    │           └── admin.js            # Admin JavaScript
+    └── themisdb-gallery/               # Gallery Plugin
+        ├── themisdb-gallery.php        # Haupt-Plugin-Datei
         ├── README.md                   # Plugin-Dokumentation
         ├── INSTALLATION.md             # Installationsanleitung
         ├── includes/                   # PHP-Klassen
-        │   ├── class-github-api.php    # GitHub API Handler
+        │   ├── class-image-api.php     # Image API Handler
         │   ├── class-admin.php         # Admin Panel
-        │   └── class-shortcodes.php    # Shortcode Handler
+        │   ├── class-media-handler.php # Media Import
+        │   ├── class-shortcodes.php    # Shortcode Handler
+        │   └── class-gutenberg-block.php # Gutenberg Blocks
         └── assets/                     # Frontend-Ressourcen
             ├── css/
             │   ├── style.css           # Frontend Styles
-            │   └── admin.css           # Admin Styles
+            │   ├── admin.css           # Admin Styles
+            │   ├── blocks.css          # Block Styles
+            │   └── blocks-editor.css   # Block Editor Styles
             └── js/
                 ├── script.js           # Frontend JavaScript
-                └── admin.js            # Admin JavaScript
+                ├── admin.js            # Admin JavaScript
+                └── blocks.js           # Gutenberg Blocks
 ```
 
 ## Integration mit ThemisDB Release-Strategie
@@ -279,6 +309,92 @@ Siehe [README.md](themisdb-downloads/README.md) Abschnitt "Fehlerbehebung" für 
 - **GitHub Issues:** https://github.com/makr-code/ThemisDB/issues
 - **Dokumentation:** [docs/de/deployment/](../../docs/de/deployment/)
 - **Plugin README:** [themisdb-downloads/README.md](themisdb-downloads/README.md)
+
+---
+
+## ThemisDB Gallery Plugin
+
+### Übersicht
+
+Das ThemisDB Gallery Plugin hilft Content-Erstellern beim Finden, Herunterladen und Einbinden von frei verfügbaren, thematisch passenden Bildern mit automatischer Quellenangabe.
+
+### Hauptfunktionen
+
+- **Multi-Provider Bildsuche**
+  - Unsplash - Hochqualitative kostenlose Bilder
+  - Pexels - Große Auswahl an Stock-Fotos
+  - Pixabay - Vielfältige Bildsammlung
+
+- **Automatische Attribution**
+  - Fotografen-Credits mit Links
+  - Lizenzinformationen
+  - Gespeichert in WordPress-Metadaten
+
+- **WordPress-Integration**
+  - Meta-Box im Post-Editor
+  - Direkte Bild-Einfügung
+  - Shortcodes für Galerien
+  - Gutenberg-Blöcke
+
+- **Optional: AI-Bildgenerierung**
+  - OpenAI DALL-E Integration
+  - Bilder aus Textbeschreibungen generieren
+
+### Installation
+
+Siehe [themisdb-gallery/INSTALLATION.md](themisdb-gallery/INSTALLATION.md) für detaillierte Installationsanweisungen.
+
+**Schnellstart:**
+
+```bash
+cd wordpress-plugin/themisdb-gallery
+./package.sh
+```
+
+Dann in WordPress:
+1. **Plugins → Installieren → Plugin hochladen**
+2. ZIP-Datei auswählen
+3. Plugin aktivieren
+4. **Einstellungen → ThemisDB Gallery** - API-Schlüssel konfigurieren
+
+### Verwendung
+
+1. Öffnen Sie einen Post/Page zum Bearbeiten
+2. Suchen Sie die **"ThemisDB Gallery - Bildsuche"** Meta-Box
+3. Geben Sie einen Suchbegriff ein
+4. Wählen Sie einen Anbieter
+5. Klicken Sie auf **Suchen**
+6. Klicken Sie auf **Bild einfügen** bei gewünschtem Bild
+
+**Shortcodes:**
+
+```php
+// Galerie aus Suchergebnissen
+[themisdb_gallery search="nature" provider="unsplash" columns="3"]
+
+// Galerie mit spezifischen IDs
+[themisdb_gallery ids="123,124,125"]
+
+// Suchwidget für Frontend
+[themisdb_image_search]
+```
+
+### API-Schlüssel
+
+Alle Dienste bieten kostenlose API-Schlüssel:
+
+- **Unsplash**: https://unsplash.com/developers (50 Anfragen/Stunde)
+- **Pexels**: https://www.pexels.com/api/ (200 Anfragen/Stunde)
+- **Pixabay**: https://pixabay.com/api/docs/ (5000 Anfragen/Stunde)
+- **OpenAI** (optional): https://platform.openai.com/api-keys (kostenpflichtig)
+
+### Dokumentation
+
+- **Plugin README:** [themisdb-gallery/README.md](themisdb-gallery/README.md)
+- **Installation:** [themisdb-gallery/INSTALLATION.md](themisdb-gallery/INSTALLATION.md)
+- **Changelog:** [themisdb-gallery/CHANGELOG.md](themisdb-gallery/CHANGELOG.md)
+
+---
 
 ## Lizenz
 
