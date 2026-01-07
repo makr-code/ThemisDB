@@ -209,6 +209,30 @@ if (rbac.authorize("user@example.com", "data", "read")) {
 - [security_encryption_roadmap.md](security_encryption_roadmap.md) - Roadmap
 - [security_key_management.md](security_key_management.md) - Schlüsselverwaltung
 - [security_key_rotation.md](security_key_rotation.md) - Key Rotation
+- [security_hsm.md](security_hsm.md) - HSM Integration
+- [KEY_LIFECYCLE_MANAGEMENT.md](KEY_LIFECYCLE_MANAGEMENT.md) - Key Lifecycle Management
+
+### 🛡️ Security Operations
+
+- [security_hardening.md](security_hardening.md) - Härteleitfaden
+- [security_hardware_attack_vectors.md](security_hardware_attack_vectors.md) - Hardware-Angriffsvektoren (USB, PCIe, CPU, RAM, IO)
+- [security_audit_checklist.md](security_audit_checklist.md) - Audit-Checkliste
+- [security_audit_report.md](security_audit_report.md) - Audit-Report
+- [security_audit_retention.md](security_audit_retention.md) - Audit-Retention
+- [security_incident_response.md](security_incident_response.md) - Incident Response
+- [security_threat_model.md](security_threat_model.md) - Threat Model
+- [security_pentest_guide.md](security_pentest_guide.md) - Pentest-Leitfaden
+
+### 📜 Compliance & Policies
+
+- [security_compliance.md](security_compliance.md) - Compliance-Übersicht
+- [security_eidas.md](security_eidas.md) - eIDAS-Compliance
+- [security_policies.md](security_policies.md) - Security Policies
+- [security_policy.md](security_policy.md) - Security Policy
+- [CRYPTOGRAPHY_POLICY.md](CRYPTOGRAPHY_POLICY.md) - Kryptographie-Policy
+
+### 🔐 Authentication & Authorization
+
 - [KEY_LIFECYCLE_MANAGEMENT.md](KEY_LIFECYCLE_MANAGEMENT.md) - Key Lifecycle
 - [security_column_encryption.md](security_column_encryption.md) - Column Encryption
 - [VECTOR_ENCRYPTION_IMPLEMENTATION_SUMMARY.md](VECTOR_ENCRYPTION_IMPLEMENTATION_SUMMARY.md) - Vector Encryption
