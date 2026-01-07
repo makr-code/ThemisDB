@@ -520,7 +520,7 @@ Hyperscaler-Kunden erhalten:
 Bei kritischen Kunden-spezifischen Bugs:
 - Hotfix-Development innerhalb 4h (P0), 24h (P1)
 - Kostenlos, solange Wartungsvertrag aktiv
-- Private Hotfix (nicht im Public Release, wenn kundensepzifisch)
+- Private Hotfix (nicht im Public Release, wenn kundenspezifisch)
 
 ---
 
