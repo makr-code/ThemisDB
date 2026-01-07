@@ -21,6 +21,14 @@
 #include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
 #include "server/http_server.h"
+#include "sharding/wal_applier.h"
+#include "sharding/wal_manager.h"
+#include "sharding/wal_shipper.h"
+#include "sharding/prometheus_metrics.h"
+#include "sharding/replication_coordinator.h"
+#include "sharding/multi_primary_coordinator.h"
+#include "sharding/health_monitor.h"
+#include "sharding/replica_topology.h"
 #include "utils/retention_manager.h"
 #include "utils/audit_logger.h"
 #include "utils/pki_client.h"
@@ -28,9 +36,15 @@
 #include "security/mock_key_provider.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
+#include "themis/build_info.h"
+
+#ifdef THEMIS_ENABLE_LLM
+#include "llm/embedded_llm.h"
+#endif
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cstdlib>
 #include <csignal>
 #include <memory>
@@ -40,8 +54,17 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
+#ifndef _WIN32
 #include <unistd.h>  // for write() in signal handler
+#else
+#include <io.h>      // Windows equivalent: _write()
+#endif
 #include <cstring>   // for strlen() in signal handler
+
+#ifdef THEMIS_ENABLE_GRPC
+#include <grpcpp/grpcpp.h>
+#include "server/wal_grpc_service.h"
+#endif
 
 using namespace themis;
 using json = nlohmann::json;
@@ -51,12 +74,24 @@ std::atomic<bool> g_shutdown_requested{false};
 // Server instance (accessed only from main thread, not from signal handler)
 std::shared_ptr<server::HttpServer> g_server;
 
+#ifdef THEMIS_ENABLE_GRPC
+static std::unique_ptr<grpc::Server> g_wal_grpc_server;
+static std::unique_ptr<server::WalGrpcService> g_wal_grpc_service;
+#endif
+
+static std::shared_ptr<themis::sharding::WALShipper> g_wal_shipper;
+
 void signalHandler(int signal) {
     if (signal == SIGINT || signal == SIGTERM) {
         // Only use async-signal-safe operations in signal handler
         // Write to stderr is async-signal-safe, unlike logging
         const char* msg = "\nReceived shutdown signal, initiating graceful shutdown...\n";
+#ifndef _WIN32
         (void)write(STDERR_FILENO, msg, strlen(msg));
+#else
+        // Windows: use _write() with file descriptor 2 (stderr)
+        (void)_write(2, msg, static_cast<unsigned int>(strlen(msg)));
+#endif
         
         // Set atomic flag to trigger shutdown in main thread
         g_shutdown_requested.store(true, std::memory_order_release);
@@ -73,6 +108,20 @@ int main(int argc, char* argv[]) {
 #else
     THEMIS_INFO("Version: unknown");
 #endif
+    
+    // Display build configuration and edition information
+    try {
+        auto build_config = themis::build_info::getBuildConfiguration();
+        std::string build_info = themis::build_info::formatBuildInfo(build_config);
+        // Log the formatted build info (line by line to preserve formatting)
+        std::istringstream iss(build_info);
+        std::string line;
+        while (std::getline(iss, line)) {
+            THEMIS_INFO("{}", line);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to display build configuration: {}", e.what());
+    }
     
     try {
         // Parse command line arguments
@@ -294,6 +343,55 @@ int main(int argc, char* argv[]) {
         
         THEMIS_INFO("All managers initialized");
         
+#ifdef THEMIS_ENABLE_LLM
+        // Initialize EmbeddedLLM if enabled in config
+        if (cfg && cfg->contains("llm")) {
+            const auto& llm_cfg = (*cfg)["llm"];
+            bool llm_enabled = llm_cfg.value("enabled", false);
+            
+            if (llm_enabled) {
+                try {
+                    themis::llm::EmbeddedLLM::Config llm_config;
+                    llm_config.model_path = llm_cfg.value("model_path", std::string("models/default.gguf"));
+                    llm_config.model_id = llm_cfg.value("model_id", std::string("default"));
+                    llm_config.n_gpu_layers = llm_cfg.value("gpu_layers", 0);
+                    llm_config.n_ctx = llm_cfg.value("context_size", 4096);
+                    llm_config.n_threads = llm_cfg.value("threads", 4);
+                    llm_config.enable_caching = llm_cfg.value("enable_caching", true);
+                    
+                    THEMIS_INFO("Initializing EmbeddedLLM...");
+                    THEMIS_INFO("  Model: {}", llm_config.model_path);
+                    THEMIS_INFO("  GPU Layers: {}", llm_config.n_gpu_layers);
+                    THEMIS_INFO("  Context Size: {}", llm_config.n_ctx);
+                    THEMIS_INFO("  Threads: {}", llm_config.n_threads);
+                    
+                    themis::llm::EmbeddedLLMManager::instance().initialize(llm_config);
+                    
+                    if (THEMIS_LLM().isReady()) {
+                        THEMIS_INFO("EmbeddedLLM initialized successfully: {}", THEMIS_LLM().getModelInfo());
+                    } else {
+                        THEMIS_WARN("EmbeddedLLM initialization completed but model not ready (likely lazy loading)");
+                    }
+                } catch (const std::exception& e) {
+                    bool llm_required = llm_cfg.value("required", false);
+                    if (llm_required) {
+                        THEMIS_ERROR("EmbeddedLLM initialization failed and is marked as required: {}", e.what());
+                        return 1;
+                    } else {
+                        THEMIS_WARN("EmbeddedLLM initialization failed (non-critical): {}", e.what());
+                        THEMIS_WARN("LLM features will not be available");
+                    }
+                }
+            } else {
+                THEMIS_INFO("EmbeddedLLM disabled in configuration");
+            }
+        } else {
+            THEMIS_INFO("No LLM configuration found, LLM features disabled");
+        }
+#else
+        THEMIS_INFO("LLM support not compiled (THEMIS_ENABLE_LLM=OFF)");
+#endif
+        
         // Initialize tracing if enabled
         if (cfg && cfg->contains("tracing")) {
             const auto& tracing_cfg = (*cfg)["tracing"];
@@ -328,14 +426,247 @@ int main(int argc, char* argv[]) {
                 THEMIS_INFO("SSE rate limit: {} events/second per connection", server_config.sse_max_events_per_second);
             }
         }
+        // WAL components for replica apply endpoint
+        themis::sharding::WALManagerConfig wal_cfg;
+        wal_cfg.wal_directory = db_path + "/wal_replica";
+        auto wal_manager = std::make_shared<themis::sharding::WALManager>(wal_cfg);
+
+        auto wal_applier = std::make_shared<themis::sharding::WALApplier>(
+            themis::sharding::WALApplierConfig{.replica_id = "local"}
+        );
+        // Apply handler: idempotent apply to RocksDB (optional key/value) and append to replica WAL.
+        wal_applier->setApplyHandler([wal_manager, db](const themis::sharding::WALEntry& entry) {
+            try {
+                const std::string marker_key = "replica_applied/" + entry.lsn.toString();
+                std::string existing;
+                // Idempotent: if already applied, skip
+                if (db->get(marker_key, existing)) {
+                    return true;
+                }
+
+                // Append to local WAL for durability
+                wal_manager->append(entry);
+
+                // Optional: apply to RocksDB if payload has key/value
+                bool data_ok = true;
+                if (entry.data.contains("key")) {
+                    const std::string user_key = entry.data.value("key", std::string());
+                    switch (entry.type) {
+                        case themis::sharding::WALEntryType::DELETE:
+                            if (!db->del(user_key)) data_ok = false;
+                            break;
+                        default: {
+                            // Value may be any JSON; store serialized
+                            std::string value_str;
+                            if (entry.data.contains("value")) {
+                                value_str = entry.data["value"].dump();
+                            } else {
+                                value_str = entry.data.dump();
+                            }
+                            if (!db->put(user_key, value_str)) data_ok = false;
+                            break;
+                        }
+                    }
+                }
+
+                // Mark applied (even if no user_key) to keep idempotency
+                if (!db->put(marker_key, entry.data.dump())) {
+                    return false;
+                }
+                return data_ok;
+            } catch (...) {
+                return false;
+            }
+        });
+
+        // Initialize WALShipper and ReplicationCoordinator for replication (leader-side)
+        bool shipper_enabled = false;
+        themis::sharding::WALShipperConfig shipper_cfg;
+        shipper_cfg.primary_id = "primary-local";
+        std::vector<std::pair<std::string, std::string>> replicas; // (replica_id, endpoint)
+
+        if (cfg && cfg->contains("replication")) {
+            const auto& repl = (*cfg)["replication"];
+            shipper_enabled = repl.value("shipper_enabled", false);
+            shipper_cfg.primary_id = repl.value("primary_id", shipper_cfg.primary_id);
+            shipper_cfg.batch_size = repl.value("batch_size", size_t(100));
+            shipper_cfg.max_batch_bytes = repl.value("max_batch_bytes", size_t(1024 * 1024));
+            shipper_cfg.ship_interval_ms = repl.value("ship_interval_ms", uint64_t(100));
+            shipper_cfg.retry_delay_ms = repl.value("retry_delay_ms", uint64_t(1000));
+            shipper_cfg.max_retry_delay_ms = repl.value("max_retry_delay_ms", uint64_t(60000));
+            shipper_cfg.max_retries = repl.value("max_retries", size_t(5));
+            shipper_cfg.health_check_interval_ms = repl.value("health_check_interval_ms", uint64_t(10000));
+            
+            // Compression config
+            std::string comp = repl.value("compression", std::string("zstd"));
+            if (comp == "none") {
+                shipper_cfg.compression = themis::sharding::WALShipperConfig::CompressionType::None;
+            } else if (comp == "lz4") {
+                shipper_cfg.compression = themis::sharding::WALShipperConfig::CompressionType::LZ4;
+            } else {
+                shipper_cfg.compression = themis::sharding::WALShipperConfig::CompressionType::Zstd;
+            }
+            shipper_cfg.compression_level = repl.value("compression_level", 3);
+            
+            // mTLS paths (optional; dev can skip)
+            if (repl.contains("cert_path")) shipper_cfg.cert_path = repl["cert_path"].get<std::string>();
+            if (repl.contains("key_path")) shipper_cfg.key_path = repl["key_path"].get<std::string>();
+            if (repl.contains("ca_cert_path")) shipper_cfg.ca_cert_path = repl["ca_cert_path"].get<std::string>();
+
+            // Replica endpoints
+            if (repl.contains("replicas")) {
+                for (const auto& r : repl["replicas"]) {
+                    std::string rep_id = r.value("replica_id", std::string("replica-") + std::to_string(replicas.size()));
+                    std::string endpoint = r.value("endpoint", std::string());
+                    if (!endpoint.empty()) {
+                        replicas.emplace_back(rep_id, endpoint);
+                    }
+                }
+            }
+        }
+
+        if (shipper_enabled && !replicas.empty()) {
+            try {
+                g_wal_shipper = std::make_shared<themis::sharding::WALShipper>(wal_manager, shipper_cfg);
+                for (const auto& [rep_id, endpoint] : replicas) {
+                    g_wal_shipper->addReplica(rep_id, endpoint);
+                    THEMIS_INFO("Added replica: {} ({})", rep_id, endpoint);
+                }
+                
+                // Create PrometheusMetrics exporter for replication metrics
+                themis::sharding::PrometheusMetrics::Config prom_cfg;
+                prom_cfg.http_port = 8080;
+                prom_cfg.http_path = "/metrics";
+                auto prometheus_metrics = std::make_shared<themis::sharding::PrometheusMetrics>(prom_cfg);
+                g_wal_shipper->setMetricsExporter(prometheus_metrics);
+                THEMIS_INFO("Prometheus metrics exporter configured for WALShipper");
+                
+                g_wal_shipper->start();
+                THEMIS_INFO("WALShipper started with {} replica(s)", replicas.size());
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to start WALShipper: {}", e.what());
+            }
+        } else if (shipper_enabled && replicas.empty()) {
+            THEMIS_WARN("WALShipper enabled but no replicas configured; skipping shipper startup");
+        }
+
+        // Create ReplicationCoordinator (wraps shipper for write concern enforcement)
+        std::shared_ptr<themis::sharding::ReplicationCoordinator> replication_coordinator;
+        if (g_wal_shipper) {
+            replication_coordinator = std::make_shared<themis::sharding::ReplicationCoordinator>(g_wal_shipper);
+            THEMIS_INFO("ReplicationCoordinator created for write concern enforcement");
+        }
+
+        // Multi-primary coordination + health monitoring (optional)
+        std::shared_ptr<themis::sharding::MultiPrimaryCoordinator> multi_primary_coordinator;
+        std::shared_ptr<themis::sharding::HealthMonitor> health_monitor;
+
+        if (cfg && cfg->contains("multi_primary")) {
+            const auto& mp_cfg_json = (*cfg)["multi_primary"];
+            bool mp_enabled = mp_cfg_json.value("enabled", false);
+            if (mp_enabled) {
+                themis::sharding::MultiPrimaryConfig mp_cfg;
+                mp_cfg.current_node_id = mp_cfg_json.value("current_node_id", host);
+                mp_cfg.use_last_write_wins = mp_cfg_json.value("use_last_write_wins", true);
+                mp_cfg.allow_concurrent_writes = mp_cfg_json.value("allow_concurrent_writes", true);
+                mp_cfg.cross_primary_replication = mp_cfg_json.value("cross_primary_replication", true);
+                mp_cfg.auto_promote_on_primary_failure = mp_cfg_json.value("auto_promote_on_primary_failure", true);
+                mp_cfg.default_write_concern = themis::sharding::parseWriteConcern(
+                    mp_cfg_json.value("default_write_concern", std::string("MAJORITY"))
+                );
+                mp_cfg.promotion_timeout = std::chrono::milliseconds(
+                    mp_cfg_json.value("promotion_timeout_ms", 5000)
+                );
+
+                if (mp_cfg_json.contains("nodes") && mp_cfg_json["nodes"].is_array()) {
+                    for (const auto& node : mp_cfg_json["nodes"]) {
+                        std::string node_id = node.value("node_id", std::string());
+                        std::string endpoint = node.value("endpoint", std::string());
+                        if (!node_id.empty()) {
+                            mp_cfg.primary_node_ids.push_back(node_id);
+                            if (!endpoint.empty()) {
+                                mp_cfg.primary_endpoints[node_id] = endpoint;
+                            }
+                        }
+                    }
+                }
+
+                multi_primary_coordinator = std::make_shared<themis::sharding::MultiPrimaryCoordinator>(mp_cfg);
+                THEMIS_INFO("MultiPrimaryCoordinator enabled with {} nodes", mp_cfg.primary_node_ids.size());
+
+                // Health monitor (optional)
+                themis::sharding::HealthMonitorConfig hm_cfg;
+                if (cfg->contains("health_monitor")) {
+                    const auto& hm_json = (*cfg)["health_monitor"];
+                    hm_cfg.heartbeat_interval = std::chrono::milliseconds(
+                        hm_json.value("heartbeat_interval_ms", 1000)
+                    );
+                    hm_cfg.health_check_timeout = std::chrono::milliseconds(
+                        hm_json.value("health_check_timeout_ms", 500)
+                    );
+                    hm_cfg.max_consecutive_failures = hm_json.value("max_consecutive_failures", 3u);
+                    hm_cfg.auto_failover_enabled = hm_json.value("auto_failover_enabled", true);
+                    hm_cfg.auto_promote_standby = hm_json.value("auto_promote_standby", true);
+                    hm_cfg.failover_cooldown = std::chrono::milliseconds(
+                        hm_json.value("failover_cooldown_ms", 10000)
+                    );
+                    hm_cfg.health_check_path = hm_json.value("health_check_path", std::string("/health"));
+                }
+
+                // Use an empty replica topology for now (can be populated from config later)
+                auto topology = std::make_shared<themis::sharding::ReplicaTopology>();
+                health_monitor = std::make_shared<themis::sharding::HealthMonitor>(
+                    hm_cfg, multi_primary_coordinator, topology
+                );
+                health_monitor->start();
+                THEMIS_INFO("HealthMonitor started (hb={}ms, timeout={}ms)",
+                    hm_cfg.heartbeat_interval.count(), hm_cfg.health_check_timeout.count());
+            }
+        }
+
+        // Create HttpServer with all components
         g_server = std::make_shared<server::HttpServer>(
             server_config,
             db,
             secondary_index,
             graph_index,
             vector_index,
-            tx_manager
+            tx_manager,
+            wal_applier,
+            wal_manager,
+            replication_coordinator,
+            multi_primary_coordinator,
+            health_monitor
         );
+
+#ifdef THEMIS_ENABLE_GRPC
+        // Start WAL gRPC Apply service (if stubs are available)
+        g_wal_grpc_service = std::make_unique<server::WalGrpcService>(wal_applier);
+        if (auto* wal_service = g_wal_grpc_service->service()) {
+            std::string grpc_host = "0.0.0.0";
+            int grpc_port = 50051;
+            if (const char* h = std::getenv("THEMIS_WAL_GRPC_HOST")) grpc_host = h;
+            if (const char* p = std::getenv("THEMIS_WAL_GRPC_PORT")) {
+                try { grpc_port = std::stoi(p); } catch (...) {}
+            }
+            std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
+
+            grpc::ServerBuilder builder;
+            builder.AddListeningPort(grpc_addr, grpc::InsecureServerCredentials());
+            builder.RegisterService(static_cast<grpc::Service*>(wal_service));
+            builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
+            builder.SetMaxSendMessageSize(100 * 1024 * 1024);
+
+            g_wal_grpc_server = builder.BuildAndStart();
+            if (g_wal_grpc_server) {
+                THEMIS_INFO("WAL gRPC Apply service listening on {}", grpc_addr);
+            } else {
+                THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
+            }
+        } else {
+            THEMIS_WARN("WAL gRPC stubs not found; skipping gRPC Apply service startup");
+        }
+#endif
         
         // Setup signal handlers
         std::signal(SIGINT, signalHandler);
@@ -760,6 +1091,7 @@ int main(int argc, char* argv[]) {
             THEMIS_INFO("  POST /ts/aggregate        - Aggregate time-series (beta)");
         }
         THEMIS_INFO("");
+        THEMIS_INFO("ready to serve...");
         
         // Wait for shutdown signal (check atomic flag periodically)
         THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
@@ -768,6 +1100,22 @@ int main(int argc, char* argv[]) {
         }
         
         THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");
+        
+        // Stop WALShipper before other services
+        if (g_wal_shipper) {
+            THEMIS_INFO("Stopping WALShipper...");
+            g_wal_shipper->stop();
+            g_wal_shipper.reset();
+        }
+        
+#ifdef THEMIS_ENABLE_GRPC
+        if (g_wal_grpc_server) {
+            THEMIS_INFO("Stopping WAL gRPC Apply service...");
+            g_wal_grpc_server->Shutdown();
+            g_wal_grpc_server.reset();
+            g_wal_grpc_service.reset();
+        }
+#endif
         g_server->stop();
         
         THEMIS_INFO("=================================================");

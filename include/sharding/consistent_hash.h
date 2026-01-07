@@ -26,12 +26,19 @@ namespace themis::sharding {
  */
 class ConsistentHashRing {
 public:
+    explicit ConsistentHashRing(size_t /*virtual_nodes_hint*/ = 150) {}
+
     /**
      * Add a shard to the ring with virtual nodes
      * @param shard_id Unique shard identifier (e.g., "shard_001")
      * @param virtual_nodes Number of virtual nodes (higher = better balance, default 150)
      */
     void addShard(const std::string& shard_id, size_t virtual_nodes = 150);
+
+    // Backward-compat alias
+    void addNode(const std::string& shard_id, size_t virtual_nodes = 150) {
+        addShard(shard_id, virtual_nodes);
+    }
     
     /**
      * Remove a shard from the ring
@@ -54,6 +61,18 @@ public:
      * @return Shard ID, or empty string if ring is empty
      */
     std::string getShardForURN(const URN& urn) const;
+
+    /**
+     * Get shard for an arbitrary key (wrapper returning optional)
+     */
+    std::optional<std::string> getNode(const std::string& key) const;
+
+    /**
+     * Get replica shards following the primary for a key
+     * @param key partition key
+     * @param count number of replicas to return
+     */
+    std::vector<std::string> getReplicaNodes(const std::string& key, size_t count) const;
     
     /**
      * Get N successor shards (for replication)

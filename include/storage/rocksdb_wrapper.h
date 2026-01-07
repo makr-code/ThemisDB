@@ -6,14 +6,20 @@
 #include <optional>
 #include <vector>
 #include <functional>
+#include <atomic>
+#include <mutex>
+#include <condition_variable>
 #include <string>
+
+// RocksDB forward declarations
+// Note: rocksdb/iterator.h is included for full Iterator definition needed by std::unique_ptr
+#include <rocksdb/iterator.h>
 
 namespace rocksdb {
     class TransactionDB;
     class Transaction;
     class WriteBatch;
     class WriteBatchWithIndex;
-    class Iterator;
     class Options;
     class ReadOptions;
     class WriteOptions;
@@ -30,6 +36,13 @@ class BaseEntity;
 
 /// High-level wrapper around RocksDB TransactionDB for MVCC support
 /// Manages LSM-Tree configuration, WAL, Transactions, and BlobDB
+/// 
+/// Thread-Safety:
+/// - Thread-safe for concurrent operations (reads, writes, transactions)
+/// - Column family operations protected by internal mutex
+/// - Iterator operations use reference counting to prevent use-after-free
+/// - Safe concurrent access to multiple methods
+/// - close() waits for active operations before shutdown
 class RocksDBWrapper {
 public:
     struct Config {
@@ -256,6 +269,65 @@ public:
     
     // ===== Iteration / Scanning =====
     
+private:
+    // Forward declare OperationGuard for use in SafeIterator
+    class OperationGuard;
+    
+public:
+    /// RAII wrapper for safe iterator usage
+    /// Automatically manages database lifecycle during iteration
+    /// Prevents use-after-free by holding OperationGuard
+    class SafeIterator {
+    public:
+        SafeIterator(SafeIterator&& other) noexcept = default;
+        SafeIterator& operator=(SafeIterator&& other) noexcept = default;
+        
+        // No copying - enforce move semantics for safety
+        SafeIterator(const SafeIterator&) = delete;
+        SafeIterator& operator=(const SafeIterator&) = delete;
+        
+        ~SafeIterator() = default;
+        
+        // Forward iterator interface
+        void Seek(const std::string& target);
+        void SeekToFirst();
+        void SeekToLast();
+        void Next();
+        void Prev();
+        bool Valid() const;
+        std::string_view key() const;
+        std::string_view value() const;
+        
+        // Check if iterator is usable
+        explicit operator bool() const { return iterator_ != nullptr; }
+        
+    private:
+        friend class RocksDBWrapper;
+        
+        SafeIterator(std::unique_ptr<rocksdb::Iterator> iter, 
+                     std::unique_ptr<OperationGuard> guard)
+            : iterator_(std::move(iter))
+            , guard_(std::move(guard)) {}
+        
+        std::unique_ptr<rocksdb::Iterator> iterator_;
+        std::unique_ptr<OperationGuard> guard_;  // Keeps database alive
+    };
+    
+    /// Creates a safe iterator with automatic lifecycle management
+    /// Preferred over newIterator() for most use cases
+    /// 
+    /// The returned SafeIterator holds an OperationGuard that prevents
+    /// the database from being closed while the iterator is in use.
+    /// 
+    /// Thread-Safety:
+    /// - Safe to call from multiple threads concurrently
+    /// - Each thread gets its own iterator instance
+    /// - Iterator itself is NOT thread-safe (use from single thread)
+    /// 
+    /// @param read_options Optional read options
+    /// @return SafeIterator with automatic lifecycle management
+    SafeIterator newSafeIterator(const rocksdb::ReadOptions* read_options = nullptr);
+    
     /// Scan with prefix (for index scans)
     using ScanCallback = std::function<bool(std::string_view key, std::string_view value)>;
     void scanPrefix(std::string_view prefix, ScanCallback callback);
@@ -361,6 +433,38 @@ public:
     const rocksdb::TransactionDB* getRawDB() const { return db_.get(); }
 
 private:
+    // RAII helper to track active operations and prevent close during operations
+    class OperationGuard {
+    public:
+        explicit OperationGuard(const RocksDBWrapper* wrapper) 
+            : wrapper_(wrapper), db_(nullptr) {
+            if (wrapper_) {
+                std::lock_guard<std::mutex> lock(wrapper_->db_lifecycle_mutex_);
+                if (wrapper_->db_) {
+                    wrapper_->active_operations_.fetch_add(1, std::memory_order_acquire);
+                    db_ = wrapper_->db_.get();
+                }
+            }
+        }
+        
+        ~OperationGuard() {
+            if (wrapper_ && db_) {
+                wrapper_->active_operations_.fetch_sub(1, std::memory_order_release);
+            }
+        }
+        
+        OperationGuard(const OperationGuard&) = delete;
+        OperationGuard& operator=(const OperationGuard&) = delete;
+        
+        rocksdb::TransactionDB* get() const { return db_; }
+        explicit operator bool() const { return db_ != nullptr; }
+        
+    private:
+        const RocksDBWrapper* wrapper_;
+        rocksdb::TransactionDB* db_;
+    };
+
+private:
     Config config_;
     std::unique_ptr<rocksdb::TransactionDB> db_;
     std::unique_ptr<rocksdb::Options> options_;
@@ -370,6 +474,12 @@ private:
     std::unique_ptr<rocksdb::WriteOptions> write_options_;
     // Track created column family handles so they can be destroyed before DB close
     std::vector<rocksdb::ColumnFamilyHandle*> cf_handles_;
+    // Mutex to protect cf_handles_ from concurrent access (race condition fix #1)
+    mutable std::mutex cf_handles_mutex_;
+    // Mutex to protect db_ lifecycle (race condition fix #3)
+    mutable std::mutex db_lifecycle_mutex_;
+    // Active operations counter for safe close (race condition fix #3)
+    mutable std::atomic<int> active_operations_{0};
     
     void configureOptions();
     bool commitBatch(rocksdb::WriteBatch* batch);

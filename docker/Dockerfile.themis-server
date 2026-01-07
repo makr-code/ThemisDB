@@ -1,0 +1,122 @@
+﻿# Multi-Stage Dockerfile für ThemisDB Hyperscaler Edition
+# Features: LLM (llama.cpp) + GPU + Prometheus Metrics
+
+FROM ubuntu:24.04 AS builder
+
+ARG THEMIS_ENABLE_LLM=ON
+ARG THEMIS_ENABLE_GPU=ON
+ARG THEMIS_ENABLE_GRPC=ON
+ARG CMAKE_BUILD_TYPE=Release
+ARG THEMIS_BUILD_TESTS=OFF
+ARG THEMIS_BUILD_BENCHMARKS=OFF
+
+# Install build dependencies with C/C++ compiler explicitly
+RUN apt-get update && apt-get install -y \
+    build-essential gcc g++ cmake git curl wget zip unzip tar pkg-config python3 \
+    libboost-all-dev libgrpc-dev libgrpc++-dev protobuf-compiler-grpc libssl-dev \
+    libprotobuf-dev libgtest-dev nlohmann-json3-dev libcurl4-openssl-dev \
+    librocksdb-dev \
+    zlib1g-dev liblz4-dev libzstd-dev libc-ares-dev libtbb-dev libspdlog-dev \
+    libsimdjson-dev libyaml-cpp-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set compiler explicitly and CMAKE_PREFIX_PATH for gRPC discovery
+ENV CC=/usr/bin/gcc
+ENV CXX=/usr/bin/g++
+ENV CMAKE_C_COMPILER=/usr/bin/gcc
+ENV CMAKE_CXX_COMPILER=/usr/bin/g++
+ENV CMAKE_MAKE_PROGRAM=/usr/bin/make
+
+# Copy source and build
+WORKDIR /build
+# Copy minimal sources and build config
+COPY CMakeLists.txt ./
+COPY cmake/ cmake/
+COPY src/ src/
+COPY include/ include/
+COPY proto/ proto/
+COPY internal/ internal/
+COPY scripts/ scripts/
+COPY VERSION VERSION
+COPY RELEASE_TYPE RELEASE_TYPE
+COPY vcpkg.json vcpkg.json
+COPY vcpkg-configuration.json vcpkg-configuration.json
+
+# Mirror source roots into cmake/ to satisfy relative paths in cmake/CMakeLists.txt
+RUN cd cmake && \
+    ln -s ../src src && \
+    ln -s ../include include && \
+    ln -s ../proto proto && \
+    ln -s ../internal internal && \
+    ln -s ../scripts scripts
+
+# Sanity: ensure key sources exist
+RUN test -f src/storage/rocksdb_wrapper.cpp && test -f src/main.cpp && test -f src/main_server.cpp
+
+# Quick inventory to debug missing sources in CMake
+RUN du -sh src internal include proto scripts || true \
+    && find src -maxdepth 2 -type f | head -n 40
+
+# Clone llama.cpp wenn THEMIS_ENABLE_LLM=ON (wird von CMake benötigt)
+RUN if [ "${THEMIS_ENABLE_LLM}" = "ON" ]; then \
+        echo "Cloning llama.cpp for LLM support..." && \
+        git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp; \
+    fi
+
+# Configure with explicit compiler and gRPC linkage
+# Note: CMakePresets.json now in cmake/ subdirectory
+RUN cmake -S . -B build \
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+    -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
+    -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
+    -DTHEMIS_ENABLE_GRPC=${THEMIS_ENABLE_GRPC} \
+    -DTHEMIS_BUILD_TESTS=${THEMIS_BUILD_TESTS} \
+    -DTHEMIS_BUILD_BENCHMARKS=${THEMIS_BUILD_BENCHMARKS} \
+    -DTHEMIS_ENABLE_TRACING=OFF \
+    -DBUILD_SHARED_LIBS=OFF
+
+# Build with parallel jobs
+RUN cmake --build build --config ${CMAKE_BUILD_TYPE} -j 4
+
+# ============================================================================
+# Runtime Stage
+# ============================================================================
+FROM ubuntu:24.04
+
+ARG CMAKE_BUILD_TYPE=Release
+
+# Install runtime dependencies
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    libssl3 \
+    libcurl4 \
+    libstdc++6 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Copy built binary
+COPY --from=builder /build/build/themis_server /usr/local/bin/themis_server
+RUN chmod +x /usr/local/bin/themis_server
+
+# Create themis user and directories
+RUN useradd -r -s /bin/false themis && \
+    mkdir -p /var/lib/themisdb /etc/themis && \
+    chown -R themis:themis /var/lib/themisdb
+
+# Create default config
+RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb"}' > /etc/themis/config.json
+
+# Expose ports
+EXPOSE 18765 8080 9090
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS http://localhost:8080/health || exit 1
+
+# Run as themis user
+USER themis
+WORKDIR /var/lib/themisdb
+
+# Start server
+CMD ["/usr/local/bin/themis_server", "--config", "/etc/themis/config.json"]

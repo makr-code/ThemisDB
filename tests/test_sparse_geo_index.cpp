@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -37,9 +37,9 @@ protected:
     std::unique_ptr<themis::SecondaryIndexManager> idx_;
 };
 
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 // Sparse-Index Tests
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 
 TEST_F(SparseGeoIndexTest, CreateAndDropSparseIndex) {
     auto st = idx_->createSparseIndex("users", "email");
@@ -65,8 +65,8 @@ TEST_F(SparseGeoIndexTest, SparseIndex_SkipsNullValues) {
     e2.setField("name", "Bob");
     // email fehlt absichtlich
 
-    // TODO: Implementierung muss in put() Sparse-Index-Logik hinzufügen
-    // Für jetzt nur create/drop testen
+    // TODO: Implementierung muss in put() Sparse-Index-Logik hinzuf�gen
+    // F�r jetzt nur create/drop testen
 }
 
 TEST_F(SparseGeoIndexTest, SparseIndex_UniqueConstraint) {
@@ -75,9 +75,9 @@ TEST_F(SparseGeoIndexTest, SparseIndex_UniqueConstraint) {
     EXPECT_TRUE(idx_->hasSparseIndex("users", "email"));
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 // Geo-Index Tests
-// ────────────────────────────────────────────────────────────────────────────
+// ----------------------------------------------------------------------------
 
 TEST_F(SparseGeoIndexTest, CreateAndDropGeoIndex) {
     auto st = idx_->createGeoIndex("locations", "position");
@@ -160,7 +160,7 @@ TEST_F(SparseGeoIndexTest, SparseIndex_AutoMaintenance) {
 	auto st = idx_->createSparseIndex("Products", "discount", false);
 	ASSERT_TRUE(st.ok);
 	
-	// Entities einfügen: einige mit discount, andere ohne (NULL/leer)
+	// Entities einf�gen: einige mit discount, andere ohne (NULL/leer)
 	themis::BaseEntity p1("p1");
 	p1.setField("name", "Product A");
 	p1.setField("discount", "10%");
@@ -199,7 +199,7 @@ TEST_F(SparseGeoIndexTest, SparseIndex_AutoMaintenance) {
 	ASSERT_TRUE(st3.ok);
 	EXPECT_TRUE(pks3.empty());
 	
-	// p1 löschen -> Index-Eintrag sollte verschwinden
+	// p1 l�schen -> Index-Eintrag sollte verschwinden
 	ASSERT_TRUE(idx_->erase("Products", "p1").ok);
 	auto [st4, pks4] = idx_->scanKeysEqual("Products", "discount", "10%");
 	ASSERT_TRUE(st4.ok);
@@ -218,7 +218,7 @@ TEST_F(SparseGeoIndexTest, GeoIndex_AutoMaintenance) {
 	auto st = idx_->createGeoIndex("Locations", "position");
 	ASSERT_TRUE(st.ok);
 	
-	// Locations einfügen (Berlin, Paris, London)
+	// Locations einf�gen (Berlin, Paris, London)
 	themis::BaseEntity berlin("berlin");
 	berlin.setField("name", "Berlin");
 	berlin.setField("position_lat", "52.52");
@@ -257,7 +257,7 @@ TEST_F(SparseGeoIndexTest, GeoIndex_AutoMaintenance) {
 	// Paris ist ~877km entfernt, London ~930km -> sollten nicht dabei sein
 	EXPECT_LE(pks2.size(), 1);
 	
-	// Tokyo löschen
+	// Tokyo l�schen
 	ASSERT_TRUE(idx_->erase("Locations", "tokyo").ok);
 	
 	// Bounding Box weltweit sollte Tokyo nicht mehr enthalten

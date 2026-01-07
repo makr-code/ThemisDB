@@ -3,10 +3,12 @@
 #include "server/mcp_server.h"
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
+#include "llm/embedded_llm.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <fmt/format.h>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -397,6 +399,65 @@ void McpServer::registerDefaultTools() {
             {"required", {"label", "property"}}
         },
         [this](const json& args) { return toolCreateIndex(args); });
+
+    // ========================================================================
+    // LLM Tools (NEW)
+    // ========================================================================
+    
+    #ifdef THEMIS_ENABLE_LLM
+    registerTool("llm_complete", "Generate text completion using LLM",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"prompt", {{"type", "string"}, {"description", "Text prompt for generation"}}},
+                {"max_tokens", {{"type", "integer"}, {"description", "Maximum tokens to generate"}, {"default", 512}}},
+                {"temperature", {{"type", "number"}, {"description", "Sampling temperature (0.0-2.0)"}, {"default", 0.7}}}
+            }},
+            {"required", {"prompt"}}
+        },
+        [this](const json& args) { return toolLLMComplete(args); });
+
+    registerTool("llm_embed", "Generate embeddings for text",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"text", {{"type", "string"}, {"description", "Text to embed"}}}
+            }},
+            {"required", {"text"}}
+        },
+        [this](const json& args) { return toolLLMEmbed(args); });
+
+    registerTool("llm_chat", "Multi-turn chat completion",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"messages", {
+                    {"type", "array"},
+                    {"items", {
+                        {"type", "object"},
+                        {"properties", {
+                            {"role", {{"type", "string"}, {"enum", {"system", "user", "assistant"}}}},
+                            {"content", {{"type", "string"}}}
+                        }},
+                        {"required", {"role", "content"}}
+                    }}
+                }}
+            }},
+            {"required", {"messages"}}
+        },
+        [this](const json& args) { return toolLLMChat(args); });
+
+    registerTool("database_query_with_llm", "Execute query and analyze with LLM",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query", {{"type", "string"}, {"description", "Database query"}}},
+                {"analysis_prompt", {{"type", "string"}, {"description", "How to analyze results"}}}
+            }},
+            {"required", {"query", "analysis_prompt"}}
+        },
+        [this](const json& args) { return toolDatabaseQueryWithLLM(args); });
+    #endif
 }
 
 json McpServer::toolQuery(const json& args) {
@@ -635,6 +696,123 @@ json McpServer::toolGetStats(const json& args) {
         {"note", "Full statistics available in production integration"}
     };
 }
+
+// ============================================================================
+// LLM Tool Handlers (NEW)
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_LLM
+json McpServer::toolLLMComplete(const json& args) {
+    spdlog::info("MCP Tool 'llm_complete' called");
+    
+    try {
+        std::string prompt = args.at("prompt");
+        int max_tokens = args.value("max_tokens", 512);
+        float temperature = args.value("temperature", 0.7f);
+        
+        // Use EmbeddedLLM for generation
+        std::string result = THEMIS_LLM_GENERATE(prompt);
+        
+        return {
+            {"status", "success"},
+            {"text", result},
+            {"prompt_length", prompt.length()},
+            {"model", "default"}
+        };
+        
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", std::string("LLM completion failed: ") + e.what()}
+        };
+    }
+}
+
+json McpServer::toolLLMEmbed(const json& args) {
+    spdlog::info("MCP Tool 'llm_embed' called");
+    
+    try {
+        std::string text = args.at("text");
+        
+        // Use EmbeddedLLM for embeddings
+        auto embedding = THEMIS_LLM_EMBED(text);
+        
+        return {
+            {"status", "success"},
+            {"embedding", embedding},
+            {"dimensions", embedding.size()},
+            {"text_length", text.length()}
+        };
+        
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", std::string("LLM embedding failed: ") + e.what()}
+        };
+    }
+}
+
+json McpServer::toolLLMChat(const json& args) {
+    spdlog::info("MCP Tool 'llm_chat' called");
+    
+    try {
+        auto messages_json = args.at("messages");
+        
+        // Convert JSON messages to ChatMessage objects
+        std::vector<llm::ChatMessage> messages;
+        for (const auto& msg : messages_json) {
+            messages.push_back({
+                msg.at("role").get<std::string>(),
+                msg.at("content").get<std::string>()
+            });
+        }
+        
+        // Use EmbeddedLLM for chat
+        std::string response = THEMIS_LLM_CHAT(messages);
+        
+        return {
+            {"status", "success"},
+            {"response", response},
+            {"message_count", messages.size()}
+        };
+        
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", std::string("LLM chat failed: ") + e.what()}
+        };
+    }
+}
+
+json McpServer::toolDatabaseQueryWithLLM(const json& args) {
+    spdlog::info("MCP Tool 'database_query_with_llm' called");
+    
+    try {
+        std::string query = args.at("query");
+        std::string analysis_prompt = args.at("analysis_prompt");
+        
+        // Execute query (simplified - would use actual query engine)
+        json query_results = toolQuery({{"query", query}, {"language", "cypher"}});
+        
+        // Analyze results with LLM
+        std::string llm_prompt = analysis_prompt + "\n\nQuery Results:\n" + query_results.dump(2);
+        std::string analysis = THEMIS_LLM_GENERATE(llm_prompt);
+        
+        return {
+            {"status", "success"},
+            {"query", query},
+            {"results", query_results},
+            {"analysis", analysis}
+        };
+        
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", std::string("Query with LLM failed: ") + e.what()}
+        };
+    }
+}
+#endif // THEMIS_ENABLE_LLM
 
 // ============================================================================
 // Default Resource Handlers (Stubs)

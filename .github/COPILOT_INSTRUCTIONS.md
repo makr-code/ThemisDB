@@ -1,5 +1,14 @@
 Project: Themis (Database System)
 Language: C++
+> **📋 WICHTIG: Build-Pipeline Modernisierung (Jan 2026)**
+> 
+> Die Build-Struktur wurde reorganisiert! Bitte lies die **[neue Anleitung](COPILOT_INSTRUCTIONS_v2.md)** für:
+> - ✅ Neue Verzeichnisstruktur (cmake/, docker/, docs/build-guide/)
+> - ✅ CMakePresets verwenden (nicht manuelle Konfiguration)
+> - ✅ Links zu Build/Deployment/Release-Guides
+> - ✅ Platform-spezifische Anweisungen (Windows, Linux, Docker, ARM, RPi, QNAP)
+>
+> Diese Datei (v1) wird nicht mehr aktiv gepflegt. Nutze **COPILOT_INSTRUCTIONS_v2.md** für alle neuen Anweisungen.
 
 Purpose:
 - High-performance C++ vector database with RocksDB integration, AQL and MVCC.
@@ -76,9 +85,72 @@ git checkout -b release/1.4.0 develop
 
 ## ThemisDB Build-System Übersicht
 
-### Kernprinzip: vcpkg Offline-First Architecture
+## ThemisDB Build-System (v2.1 - Moderne Pipeline)
 
-ThemisDB nutzt eine **vcpkg Offline-First Architektur** für reproduzierbare, netzwerk-unabhängige Builds:
+### ✨ Neue Struktur (Jan 2026)
+
+Die Build-Pipeline wurde reorganisiert für bessere Wartbarkeit:
+
+```
+themis/
+├── CMakeLists.txt                    # Root CMake (delegiert zu cmake/)
+├── cmake/                            # ✨ Zentralisiert
+│   ├── CMakeLists.txt                # Hauptkonfiguration (2600+ Zeilen)
+│   ├── CMakePresets.json             # Alle Build-Profile (MSVC, WSL, Docker)
+│   ├── CMakeLists_debug.txt
+│   ├── config/                       # Feature-Konfiguration
+│   ├── modules/                      # CMake Module
+│   └── ModularBuild.cmake
+├── docker/                           # ✨ Zentralisiert
+│   ├── Dockerfile.themis-server      # Production (LLM + GPU)
+│   ├── Dockerfile.minimal            # Minimal Edition
+│   ├── Dockerfile.qnap               # QNAP NAS
+│   ├── docker-compose-minimal.yml
+│   └── .dockerignore
+├── docs/build-guide/                 # ✨ Neue Dokumentation
+│   ├── README.md                     # Build-Guide Index
+│   ├── BUILD_WINDOWS.md              # MSVC Build
+│   ├── BUILD_LINUX.md                # WSL/Linux Build
+│   ├── BUILD_DOCKER.md               # Docker Multi-Stage
+│   ├── BUILD_ARM.md                  # ARM Cross-Compilation
+│   ├── BUILD_RASPBERRY_PI.md         # Raspberry Pi (ARMv8)
+│   └── BUILD_QNAP.md                 # QNAP NAS (x86_64/ARM)
+└── docs/de/                          # Existierende Strategien
+    ├── deployment/                   # Deployment-Strategien
+    └── releases/                     # Release Management
+```
+
+### 🎯 Für Copilot: Pfade aktualisieren
+
+**ALT (Root-Level):**
+```cmake
+# ❌ Diese existieren nicht mehr im Root!
+CMakeLists.txt          → jetzt cmake/CMakeLists.txt
+CMakePresets.json       → jetzt cmake/CMakePresets.json
+Dockerfile.themis-server → jetzt docker/Dockerfile.themis-server
+```
+
+**NEU (Moderne Struktur):**
+```cmake
+# ✅ Root CMakeLists.txt (einfach)
+cmake_minimum_required(VERSION 3.20)
+add_subdirectory(cmake)  # Delegiert
+
+# ✅ cmake/CMakeLists.txt (Hauptkonfiguration)
+project(Themis VERSION ${_ver} LANGUAGES CXX)
+# 2600+ Zeilen Konfiguration
+
+# ✅ cmake/CMakePresets.json (alle Presets)
+{
+  "configurePresets": [
+    { "name": "windows-vs2022-release", ... },
+    { "name": "linux-gcc-release", ... },
+    { "name": "docker-ninja-release", ... }
+  ]
+}
+```
+
+### Kernprinzip: vcpkg Offline-First Architecture
 
 **vcpkg Cache Struktur:**
 ```
@@ -108,58 +180,90 @@ vcpkg/
 | **Docker Multi-Arch** | x64-linux, arm64-linux | Container | Multi-stage |
 | **QNAP NAS** | x64-linux | `build-qnap` | Ninja |
 
-### Quick Start Build-Commands
+### Quick Start Build-Commands (2026)
+
+Alle Builds verwenden jetzt **CMake Presets** (zentral in `cmake/CMakePresets.json`):
 
 #### Windows (MSVC 2022) - Empfohlen
 ```powershell
-# CMake Preset (v4.0.0+)
-$env:VCPKG_ROOT = "C:\VCC\themis\vcpkg"
+cd C:\VCC\themis
+
+# Mit Preset (empfohlen)
 cmake --preset windows-vs2022-release
 cmake --build --preset windows-vs2022-release --parallel 8
 
-# Oder manuell
-cmake -B build-msvc -G "Visual Studio 17 2022" -A x64 `
-  -DCMAKE_TOOLCHAIN_FILE="vcpkg/scripts/buildsystems/vcpkg.cmake" `
-  -DTHEMIS_CORE_SHARED=OFF `
-  -DTHEMIS_ENABLE_LLM=OFF
+# Oder manuell (Preset wird automatisch geladen)
+cmake -S . -B build-msvc \
+  -G "Visual Studio 17 2022" -A x64 \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_LLM=ON \
+  -DTHEMIS_ENABLE_GPU=ON
+
 cmake --build build-msvc --config Release --parallel 8
 ```
 
-**Output:** `build-msvc/Release/themis_server.exe` (~32 MB)  
-**Dauer:** 25-35 min (erste Build), 5-10 min (inkrementell)
+**Dokumentation:** [docs/build-guide/BUILD_WINDOWS.md](docs/build-guide/BUILD_WINDOWS.md)  
+**Output:** `build-msvc/Release/themis_server.exe`
 
-#### Linux/WSL (GCC/Clang)
+#### Linux/WSL (GCC/Ninja)
 ```bash
-# Konfiguration
-export VCPKG_ROOT=/mnt/c/VCC/themis/vcpkg  # WSL Pfad
-cmake -B build-wsl -G Ninja -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
-  -DTHEMIS_ENABLE_LLM=OFF
+cd /path/to/themis
 
-# Build
-cmake --build build-wsl --config Release -j$(nproc)
+# Mit Preset
+cmake --preset linux-gcc-release
+cmake --build build-wsl --parallel 8
+
+# Oder manuell
+cmake -S . -B build-wsl \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_ENABLE_LLM=ON
+
+cmake --build build-wsl --parallel $(nproc)
 ```
 
-**Output:** `build-wsl/themis_server` (~32 MB)  
-**Dauer:** 20-30 min (erste Build)
+**Dokumentation:** [docs/build-guide/BUILD_LINUX.md](docs/build-guide/BUILD_LINUX.md)  
+**Output:** `build-wsl/themis_server`
 
-#### ARM64 (Raspberry Pi / Linux ARM)
+#### Docker (Multi-Arch: x86_64 + ARM64)
 ```bash
-# Native auf ARM
-cmake -B build-arm -G Ninja -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
-  -DTHEMIS_QNAP_BUILD=ON \  # Baseline x86-64, kein AVX
-  -DTHEMIS_ENABLE_LLM=OFF
-cmake --build build-arm -j4
+# Dockerfile liegt nun in docker/ Verzeichnis
+docker build -f docker/Dockerfile.themis-server \
+  -t themis-server:hyperscaler-llm \
+  --build-arg THEMIS_ENABLE_LLM=ON \
+  --build-arg THEMIS_ENABLE_GPU=ON \
+  .
 ```
 
-**Performance:** ARM NEON SIMD automatisch aktiviert
+**Dokumentation:** [docs/build-guide/BUILD_DOCKER.md](docs/build-guide/BUILD_DOCKER.md)  
+**Besonderheit:** Multi-Stage Build (Builder 2.5GB → Runtime 200MB)
 
-### Docker Artefakte & Compose-Pfade
-- Dockerfiles liegen unter `docker/` (Build: `docker/Dockerfile`, Runtime: `docker/Dockerfile.release`)
-- Release-Archiv für Docker-Images: `docker/themis-linux.tar.gz` (aus `release/v1.3.4` gespiegelt)
-- Compose-Files: `docker/compose/docker-compose.yml` und `docker/compose/docker-compose-vllm.yml`
-- Build (Release Image): `docker buildx build -f docker/Dockerfile.release --platform linux/amd64,linux/arm64 -t <tag> --push .`
+#### Raspberry Pi (ARM64)
+```bash
+cd /path/to/themis
+
+# Native Build auf RPi 4+ mit reduziertem Parallelismus
+cmake -S . -B build-rpi \
+  -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DTHEMIS_BUILD_TESTS=OFF
+
+cmake --build build-rpi --parallel 2
+```
+
+**Dokumentation:** [docs/build-guide/BUILD_RASPBERRY_PI.md](docs/build-guide/BUILD_RASPBERRY_PI.md)  
+**Output:** `build-rpi/themis_server`
+
+#### QNAP NAS (x86_64 Docker)
+```bash
+# Docker Build auf QNAP (via docker-compose)
+docker build -f docker/Dockerfile.qnap \
+  -t themis-server:qnap \
+  --build-arg THEMIS_ENABLE_LLM=OFF \
+  .
+```
+
+**Dokumentation:** [docs/build-guide/BUILD_QNAP.md](docs/build-guide/BUILD_QNAP.md)
 
 ### Edition-spezifische Builds
 

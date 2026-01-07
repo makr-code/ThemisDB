@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_set>
 #include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
 
 namespace themis {

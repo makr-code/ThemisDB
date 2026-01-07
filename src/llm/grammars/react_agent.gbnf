@@ -1,0 +1,36 @@
+# ReAct Agent Grammar
+# Structured format for thought/action/observation cycles
+
+root ::= step+
+
+# Each step has thought, action, observation
+step ::= thought "\n" action "\n" observation "\n"?
+
+# Thought
+thought ::= "Thought:" ws text
+
+# Action
+action ::= "Action:" ws action-name ws json-args
+action-name ::= "search" | "calculate" | "lookup" | "finish"
+
+# JSON arguments for actions
+json-args ::= "{" ws "}" | "{" ws pair (ws "," ws pair)* ws "}"
+pair ::= string ws ":" ws value
+string ::= "\"" [^"]* "\""
+value ::= string | number | boolean | null
+
+# Number
+number ::= "-"? [0-9]+ ("." [0-9]+)?
+
+# Boolean and null
+boolean ::= "true" | "false"
+null ::= "null"
+
+# Observation
+observation ::= "Observation:" ws text
+
+# Text (any content except newline)
+text ::= [^\n]+
+
+# Whitespace
+ws ::= [ \t]*

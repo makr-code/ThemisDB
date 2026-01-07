@@ -64,6 +64,14 @@ class ContinuousAggregateManager;
 class AdaptiveIndexManager;
 class PromptManager;
 
+namespace sharding {
+class WALApplier;
+class WALManager;
+class ReplicationCoordinator;
+class MultiPrimaryCoordinator;
+class HealthMonitor;
+}
+
 namespace index {
 class SpatialIndexManager;
 }
@@ -149,18 +157,35 @@ public:
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<GraphIndexManager> graph_index,
         std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<TransactionManager> tx_manager
+        std::shared_ptr<TransactionManager> tx_manager,
+        std::shared_ptr<sharding::WALApplier> wal_applier = nullptr,
+        std::shared_ptr<sharding::WALManager> wal_manager = nullptr,
+        std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator = nullptr
+    );
+
+    HttpServer(
+        const Config& config,
+        std::shared_ptr<RocksDBWrapper> storage,
+        std::shared_ptr<SecondaryIndexManager> secondary_index,
+        std::shared_ptr<GraphIndexManager> graph_index,
+        std::shared_ptr<VectorIndexManager> vector_index,
+        std::shared_ptr<TransactionManager> tx_manager,
+        std::shared_ptr<sharding::WALApplier> wal_applier,
+        std::shared_ptr<sharding::WALManager> wal_manager,
+        std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
+        std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator = nullptr,
+        std::shared_ptr<sharding::HealthMonitor> health_monitor = nullptr
     );
 
     ~HttpServer();
 
     /**
-     * @brief Start the server (non-blocking)
+     * @brief Start the HTTP server (listens and spins worker threads)
      */
     void start();
 
     /**
-     * @brief Stop the server and wait for all connections to close
+     * @brief Stop the HTTP server and join worker threads
      */
     void stop();
 
@@ -238,8 +263,14 @@ private:
     void setupRoutes();
     http::response<http::string_body> routeRequest(const http::request<http::string_body>& req);
 
+    // WAL replication apply endpoint (stub until WALApplier is wired)
+    http::response<http::string_body> handleWalApply(
+        const http::request<http::string_body>& req
+    );
+
     // Endpoint handlers
     http::response<http::string_body> handleHealthCheck(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleVersion(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetricsJson(const http::request<http::string_body>& req);
     http::response<http::string_body> handleStats(const http::request<http::string_body>& req);
@@ -574,6 +605,25 @@ private:
     
     // Adaptive Index Manager (Sprint C)
     std::unique_ptr<AdaptiveIndexManager> adaptive_index_;
+
+    // WAL replication components (optional)
+    std::shared_ptr<sharding::WALApplier> wal_applier_;
+    std::shared_ptr<sharding::WALManager> wal_manager_;
+    std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
+    std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
+    std::shared_ptr<sharding::HealthMonitor> health_monitor_;
+    std::string wal_shared_secret_;
+    std::string wal_hmac_secret_;
+    std::atomic<uint64_t> wal_apply_success_{0};
+    std::atomic<uint64_t> wal_apply_fail_{0};
+    std::atomic<uint64_t> wal_apply_latency_le_50ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_le_200ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_le_1000ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_gt_1000ms_{0};
+    std::atomic<uint64_t> wal_apply_latency_sum_us_{0};
+    std::atomic<uint64_t> wal_apply_latency_count_{0};
+    std::mutex wal_metrics_mutex_;
+    std::string wal_last_applied_lsn_;
 
     // Authorization middleware
     std::unique_ptr<themis::AuthMiddleware> auth_;

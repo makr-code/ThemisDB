@@ -7,7 +7,19 @@
 #include <atomic>
 #include <mutex>
 #include <fstream>
+#include <optional>
+#include <cstdint>
 #include <nlohmann/json.hpp>
+
+// Undefine potential Windows macro conflicts
+#ifdef _WIN32
+#ifdef LSN
+#undef LSN
+#endif
+#ifdef DELETE
+#undef DELETE
+#endif
+#endif
 
 namespace themis::sharding {
 
@@ -178,13 +190,7 @@ public:
     /**
      * Get WAL statistics
      */
-    struct Statistics {
-        uint64_t total_entries = 0;
-        uint64_t total_bytes = 0;
-        uint64_t segments = 0;
-        LSN current_lsn;
-        LSN oldest_lsn;
-    };
+    struct Statistics;
     Statistics getStatistics() const;
 
 private:
@@ -235,6 +241,17 @@ private:
      * Cleanup old segments
      */
     void cleanupOldSegments();
+};
+
+/**
+ * WAL Manager Statistics
+ */
+struct WALManager::Statistics {
+    uint64_t total_entries = 0;
+    uint64_t total_bytes = 0;
+    uint64_t segments = 0;
+    LSN current_lsn;
+    LSN oldest_lsn;
 };
 
 } // namespace themis::sharding

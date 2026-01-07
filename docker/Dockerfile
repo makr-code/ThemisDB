@@ -2,15 +2,16 @@
 # Multi-stage Docker build for ThemisDB
 # Uses vcpkg for complete dependency management
 
-FROM ubuntu:22.04 AS build
+FROM ubuntu:24.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install build tools and system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install build tools and system dependencies with security updates
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     build-essential cmake ninja-build git curl zip unzip tar pkg-config \
     ca-certificates python3 perl nasm autoconf automake libtool aria2 linux-libc-dev \
     flex bison \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Upgrade to a recent CMake (>=3.25) required by Boost 1.86
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -209,7 +210,7 @@ RUN . /etc/profile.d/vcpkg.sh && \
     ls -lh /src/build/themis_server
 
 # Runtime stage - minimal Ubuntu image
-FROM ubuntu:22.04 AS runtime
+FROM ubuntu:24.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Image metadata
@@ -220,9 +221,10 @@ LABEL org.opencontainers.image.title="ThemisDB ${THEMIS_EDITION} Edition" \
     org.opencontainers.image.version="$THEMIS_VERSION" \
     org.opencontainers.image.edition="$THEMIS_EDITION"
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     ca-certificates curl libstdc++6 jq \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create non-root user 'themis' (following PostgreSQL best practice: postgres user with uid 999)
 RUN groupadd -r themis --gid=999 && \

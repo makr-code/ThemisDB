@@ -1,4 +1,4 @@
-ï»¿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "index/secondary_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -12,11 +12,11 @@ using namespace themis;
 class IndexStatsTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Erstelle einen temporÃ¤ren DB-Pfad fÃ¼r jeden Test
+        // Erstelle einen temporären DB-Pfad für jeden Test
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         dbPath_ = (std::filesystem::temp_directory_path() / ("themis_index_stats_test_" + std::to_string(now))).string();
         
-        // LÃ¶sche existierendes Testverzeichnis
+        // Lösche existierendes Testverzeichnis
         std::filesystem::remove_all(dbPath_);
         
         // RocksDB-Config
@@ -27,7 +27,7 @@ protected:
         
         // RocksDB und SecondaryIndexManager erstellen
         db_ = std::make_unique<RocksDBWrapper>(config);
-        ASSERT_TRUE(db_->open()) << "Datenbank konnte nicht geÃ¶ffnet werden";
+        ASSERT_TRUE(db_->open()) << "Datenbank konnte nicht geöffnet werden";
         
         indexMgr_ = std::make_unique<SecondaryIndexManager>(*db_);
     }
@@ -43,13 +43,13 @@ protected:
     std::unique_ptr<SecondaryIndexManager> indexMgr_;
 };
 
-// Test: Statistiken fÃ¼r regulÃ¤ren Index
+// Test: Statistiken für regulären Index
 TEST_F(IndexStatsTest, RegularIndexStats) {
     // Index erstellen
     auto status = indexMgr_->createIndex("users", "email", false);
     ASSERT_TRUE(status.ok);
     
-    // Entities einfÃ¼gen
+    // Entities einfügen
     for (int i = 0; i < 5; i++) {
     BaseEntity entity("user" + std::to_string(i));
     entity.setField("email", "user" + std::to_string(i) + "@test.com");
@@ -69,7 +69,7 @@ TEST_F(IndexStatsTest, RegularIndexStats) {
     EXPECT_FALSE(stats.unique);
 }
 
-// Test: Statistiken fÃ¼r Unique Index
+// Test: Statistiken für Unique Index
 TEST_F(IndexStatsTest, UniqueIndexStats) {
     auto status = indexMgr_->createIndex("users", "username", true);
     ASSERT_TRUE(status.ok);
@@ -86,12 +86,12 @@ TEST_F(IndexStatsTest, UniqueIndexStats) {
     EXPECT_EQ(stats.additional_info, "unique");
 }
 
-// Test: Statistiken fÃ¼r Range Index
+// Test: Statistiken für Range Index
 TEST_F(IndexStatsTest, RangeIndexStats) {
     auto status = indexMgr_->createRangeIndex("products", "price");
     ASSERT_TRUE(status.ok);
     
-    // Produkte mit verschiedenen Preisen einfÃ¼gen
+    // Produkte mit verschiedenen Preisen einfügen
     for (int i = 0; i < 10; i++) {
     BaseEntity entity("prod" + std::to_string(i));
     entity.setField("price", std::to_string(i * 10.0));
@@ -107,7 +107,7 @@ TEST_F(IndexStatsTest, RangeIndexStats) {
     EXPECT_EQ(stats.additional_info, "sorted");
 }
 
-// Test: Statistiken fÃ¼r Sparse Index
+// Test: Statistiken für Sparse Index
 TEST_F(IndexStatsTest, SparseIndexStats) {
     auto status = indexMgr_->createSparseIndex("users", "nickname", false);
     ASSERT_TRUE(status.ok);
@@ -129,12 +129,12 @@ TEST_F(IndexStatsTest, SparseIndexStats) {
     EXPECT_EQ(stats.entry_count, 3);  // Nur 3 mit nickname
 }
 
-// Test: Statistiken fÃ¼r Geo Index
+// Test: Statistiken für Geo Index
 TEST_F(IndexStatsTest, GeoIndexStats) {
     auto status = indexMgr_->createGeoIndex("locations", "coords");
     ASSERT_TRUE(status.ok);
     
-    // Locations einfÃ¼gen (Geo-Index erwartet coords_lat und coords_lon)
+    // Locations einfügen (Geo-Index erwartet coords_lat und coords_lon)
     for (int i = 0; i < 7; i++) {
         BaseEntity entity("loc" + std::to_string(i));
         entity.setField("coords_lat", std::to_string(52.0 + i));
@@ -151,15 +151,15 @@ TEST_F(IndexStatsTest, GeoIndexStats) {
     EXPECT_EQ(stats.additional_info, "geohash");
 }
 
-// Test: Statistiken fÃ¼r TTL Index
+// Test: Statistiken für TTL Index
 TEST_F(IndexStatsTest, TTLIndexStats) {
     auto status = indexMgr_->createTTLIndex("sessions", "user", 3600);  // 1 Stunde
     ASSERT_TRUE(status.ok);
     
-    // RegulÃ¤ren Index fÃ¼r user hinzufÃ¼gen
+    // Regulären Index für user hinzufügen
     indexMgr_->createIndex("sessions", "user", false);
     
-    // Sessions einfÃ¼gen
+    // Sessions einfügen
     for (int i = 0; i < 4; i++) {
     BaseEntity entity("session" + std::to_string(i));
     entity.setField("user", "user" + std::to_string(i));
@@ -175,7 +175,7 @@ TEST_F(IndexStatsTest, TTLIndexStats) {
     EXPECT_EQ(stats.additional_info, "ttl_seconds=3600");
 }
 
-// Test: Statistiken fÃ¼r Fulltext Index
+// Test: Statistiken für Fulltext Index
 TEST_F(IndexStatsTest, FulltextIndexStats) {
     auto status = indexMgr_->createFulltextIndex("articles", "content");
     ASSERT_TRUE(status.ok);
@@ -198,14 +198,14 @@ TEST_F(IndexStatsTest, FulltextIndexStats) {
     EXPECT_EQ(stats.additional_info, "inverted_index");
 }
 
-// Test: getAllIndexStats fÃ¼r Tabelle mit mehreren Indizes
+// Test: getAllIndexStats für Tabelle mit mehreren Indizes
 TEST_F(IndexStatsTest, GetAllIndexStats) {
     // Verschiedene Index-Typen erstellen
     indexMgr_->createIndex("users", "email", false);
     indexMgr_->createRangeIndex("users", "age");
     indexMgr_->createSparseIndex("users", "nickname", false);
     
-    // Entities einfÃ¼gen
+    // Entities einfügen
     for (int i = 0; i < 3; i++) {
         BaseEntity entity("user" + std::to_string(i));
         entity.setField("email", "user" + std::to_string(i) + "@test.com");
@@ -221,7 +221,7 @@ TEST_F(IndexStatsTest, GetAllIndexStats) {
     
     EXPECT_EQ(allStats.size(), 3);
     
-    // Typen prÃ¼fen
+    // Typen prüfen
     std::set<std::string> types;
     for (const auto& stats : allStats) {
         types.insert(stats.type);
@@ -233,9 +233,9 @@ TEST_F(IndexStatsTest, GetAllIndexStats) {
     EXPECT_TRUE(types.count("sparse") > 0);
 }
 
-// Test: rebuildIndex nach manueller LÃ¶schung
+// Test: rebuildIndex nach manueller Löschung
 TEST_F(IndexStatsTest, RebuildIndex) {
-    // Index erstellen und Daten einfÃ¼gen
+    // Index erstellen und Daten einfügen
     indexMgr_->createIndex("users", "email", false);
     
     for (int i = 0; i < 5; i++) {
@@ -248,7 +248,7 @@ TEST_F(IndexStatsTest, RebuildIndex) {
     auto statsBefore = indexMgr_->getIndexStats("users", "email");
     EXPECT_EQ(statsBefore.entry_count, 5);
     
-    // Manuell Index-EintrÃ¤ge lÃ¶schen (simuliert Inkonsistenz)
+    // Manuell Index-Einträge löschen (simuliert Inkonsistenz)
     std::string prefix = "idx:users:email:";
     std::vector<std::string> keysToDelete;
     db_->scanPrefix(prefix, [&keysToDelete](std::string_view key, std::string_view) {
@@ -260,18 +260,18 @@ TEST_F(IndexStatsTest, RebuildIndex) {
         db_->del(key);
     }
     
-    // Stats nach LÃ¶schung (sollte 0 sein)
+    // Stats nach Löschung (sollte 0 sein)
     auto statsAfterDelete = indexMgr_->getIndexStats("users", "email");
     EXPECT_EQ(statsAfterDelete.entry_count, 0);
     
-    // Rebuild durchfÃ¼hren
+    // Rebuild durchführen
     indexMgr_->rebuildIndex("users", "email");
     
     // Stats nach Rebuild (sollte wieder 5 sein)
     auto statsAfterRebuild = indexMgr_->getIndexStats("users", "email");
     EXPECT_EQ(statsAfterRebuild.entry_count, 5);
     
-    // FunktionalitÃ¤t prÃ¼fen
+    // Funktionalität prüfen
     auto [status, results] = indexMgr_->scanKeysEqual("users", "email", "user2@test.com");
     ASSERT_TRUE(status.ok);
     EXPECT_EQ(results.size(), 1);
@@ -284,7 +284,7 @@ TEST_F(IndexStatsTest, ReindexTable) {
     indexMgr_->createIndex("products", "category", false);
     indexMgr_->createRangeIndex("products", "price");
     
-    // Produkte einfÃ¼gen
+    // Produkte einfügen
     for (int i = 0; i < 3; i++) {
     BaseEntity entity("prod" + std::to_string(i));
     entity.setField("category", "cat" + std::to_string(i % 2));
@@ -296,7 +296,7 @@ TEST_F(IndexStatsTest, ReindexTable) {
     auto statsBefore = indexMgr_->getAllIndexStats("products");
     EXPECT_EQ(statsBefore.size(), 2);
     
-    // Alle Index-EintrÃ¤ge manuell lÃ¶schen
+    // Alle Index-Einträge manuell löschen
     auto deleteIndexEntries = [this](const std::string& prefix) {
         std::vector<std::string> keys;
         db_->scanPrefix(prefix, [&keys](std::string_view key, std::string_view) {
@@ -311,7 +311,7 @@ TEST_F(IndexStatsTest, ReindexTable) {
     deleteIndexEntries("idx:products:");
     deleteIndexEntries("ridx:products:");
     
-    // Stats nach LÃ¶schung
+    // Stats nach Löschung
     auto statsAfterDelete = indexMgr_->getAllIndexStats("products");
     for (const auto& stats : statsAfterDelete) {
         EXPECT_EQ(stats.entry_count, 0);
@@ -334,7 +334,7 @@ TEST_F(IndexStatsTest, CompositeIndexStats) {
     auto status = indexMgr_->createCompositeIndex("orders", {"customer_id", "status"}, false);
     ASSERT_TRUE(status.ok);
     
-    // Orders einfÃ¼gen
+    // Orders einfügen
     for (int i = 0; i < 6; i++) {
         BaseEntity entity("order" + std::to_string(i));
         entity.setField("customer_id", "cust" + std::to_string(i % 2));
@@ -352,7 +352,7 @@ TEST_F(IndexStatsTest, CompositeIndexStats) {
     EXPECT_TRUE(stats.additional_info.find("customer_id") != std::string::npos);
 }
 
-// Test: Progress-Callback wird aufgerufen und Rebuild vervollstÃ¤ndigt
+// Test: Progress-Callback wird aufgerufen und Rebuild vervollständigt
 TEST_F(IndexStatsTest, RebuildProgressCallback_Completes) {
     // Index und Daten
     indexMgr_->createIndex("users", "email", false);
@@ -362,7 +362,7 @@ TEST_F(IndexStatsTest, RebuildProgressCallback_Completes) {
         indexMgr_->put("users", e);
     }
 
-    // Index-EintrÃ¤ge lÃ¶schen
+    // Index-Einträge löschen
     std::string prefix = "idx:users:email:";
     std::vector<std::string> keysToDelete;
     db_->scanPrefix(prefix, [&keysToDelete](std::string_view key, std::string_view){
@@ -398,7 +398,7 @@ TEST_F(IndexStatsTest, RebuildProgressCallback_Abort) {
         indexMgr_->put("users", e);
     }
 
-    // Index-EintrÃ¤ge lÃ¶schen
+    // Index-Einträge löschen
     std::string prefix = "idx:users:email:";
     std::vector<std::string> keysToDelete;
     db_->scanPrefix(prefix, [&keysToDelete](std::string_view key, std::string_view){

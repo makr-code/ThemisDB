@@ -122,6 +122,10 @@ struct InferenceRequest {
     // LoRA adapter to use (if any)
     std::optional<std::string> lora_adapter_id;
     
+    // Grammar-constrained generation (Phase 3.2)
+    std::optional<std::string> grammar_type;      // Built-in grammar: "json", "xml", "csv", "react_agent"
+    std::optional<std::string> grammar_ebnf;      // Custom EBNF grammar text
+    
     // Streaming callback
     std::function<void(const std::string& token)> stream_callback;
     
@@ -185,7 +189,7 @@ struct RAGContext {
  * @brief Base interface for LLM plugins
  * 
  * All LLM backend plugins must implement this interface.
- * Examples: LlamaCppPlugin, VLLMPlugin, OpenAIPlugin, etc.
+ * Examples: LlamaWrapper, VLLMPlugin, OpenAIPlugin, etc.
  */
 class ILLMPlugin {
 public:

@@ -1,5 +1,5 @@
 #include "llm/llm_plugin_manager.h"
-#include "llm/llamacpp_plugin.h"
+#include "llm/llama_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>
@@ -358,14 +358,14 @@ void LLMPluginManager::clearAllCaches() {
 // Helper functions
 // ═══════════════════════════════════════════════════════════
 
-bool createLlamaCppPlugin(
+bool createLlamaWrapper(
     const std::string& name,
     const std::string& model_path,
     const json& config
 ) {
     try {
         // Create llama.cpp plugin with config
-        LlamaCppPlugin::Config plugin_config;
+        LlamaWrapper::Config plugin_config;
         
         // Parse basic configuration
         if (config.contains("n_gpu_layers")) {
@@ -418,7 +418,7 @@ bool createLlamaCppPlugin(
             }
         }
         
-        auto plugin = std::make_unique<LlamaCppPlugin>(plugin_config);
+        auto plugin = std::make_unique<LlamaWrapper>(plugin_config);
         
         // Load model if path provided
         if (!model_path.empty()) {

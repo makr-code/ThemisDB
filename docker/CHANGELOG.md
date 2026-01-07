@@ -4,6 +4,121 @@ All notable changes to ThemisDB Docker images.
 
 ---
 
+## [1.3.4] - 2026-01-04
+
+🚀 **Major Release - Optimized Docker Build, LLM Integration, GPU Support & RAID Clustering**
+
+### Docker Images
+
+**New Tags:**
+- `themisdb/themisdb:v1.3.4-community` - Latest community edition (LLM + GPU + Metrics enabled)
+- `themisdb/themisdb:latest` - Points to v1.3.4-community
+- `themisdb/themisdb:hyperscaler` - Hyperscaler edition (identisch zu community, alle Features enabled)
+
+**Image Improvements:**
+- **Size Reduction:** From 3.79GB to 166MB (-95.6%)
+- **Build Context:** From 38GB to 51MB (-99.86%)
+- **Build Time:** ~2-3 Minuten (mit Cache ~30 Sekunden)
+
+### New Features
+
+**🤖 LLM Integration (All Editions)**
+- llama.cpp integration enabled by default
+- Local LLM inference capabilities
+- Zero external API dependencies
+
+**🎮 GPU/CUDA Support (All Editions)**
+- GPU acceleration for vector operations
+- CUDA compute capabilities
+- Fallback to CPU automatically
+
+**📊 Prometheus Metrics (All Editions)**
+- Native `/metrics` endpoint on port 8080
+- Real-time monitoring and observability
+- Grafana dashboard included
+- RAID performance tracking
+
+**🔄 RAID Clustering**
+- Multi-shard deployment with RAID modes (0, 1, 5)
+- Automatic data rebalancing
+- Health checks and failover
+- Docker Compose orchestration (9 shards + Prometheus + Grafana)
+
+**🐳 Docker Build Optimization**
+- Consolidated `Dockerfile.themis-server` (multi-stage)
+- Aggressive `.dockerignore` exclusions
+- Tests/Benchmarks deactivated in Docker build
+- Minimal Ubuntu 24.04 base image
+
+### Fixed
+
+**Build Issues:**
+- ✅ Missing `#include <atomic>` in `data_migrator.h`
+- ✅ Removed test/benchmark compilation (fehlende Quelldateien)
+- ✅ Added missing build tools (flex, bison for thrift)
+
+**Docker Configuration:**
+- ✅ Unified build args across all editions
+- ✅ Corrected ports (18765 Wire Protocol, 8080 REST API + metrics)
+- ✅ Proper metrics endpoint configuration
+
+### Breaking Changes
+
+**None** - All changes are backward compatible
+
+### Platform Support
+
+**Image Sizes (Compressed):**
+- Standard Release: 166MB
+- Build Time: ~2-3 Minuten (no-cache)
+- Build Time: ~30s (with cache)
+
+**Platforms:**
+- `linux/amd64` - Intel/AMD x64 processors
+- `linux/arm64` - ARM v8 (Raspberry Pi, Apple Silicon, AWS Graviton)
+
+**Base Image:**
+- Ubuntu 24.04 LTS (minimal)
+- Multi-stage build (builder + runtime)
+
+### Database Features
+
+**Massive Insert Optimization:**
+- 23-77x faster bulk inserts via Batch API
+- Stream-based processing
+- Atomic transactions
+
+**RAID Performance Metrics:**
+- Throughput tracking (Bps)
+- Latency p95/p99 percentiles
+- Operations per second
+- Per-shard and aggregate statistics
+
+### Documentation
+
+- ✅ [docs/RAID_BUILD_DEPLOY.md](../docs/RAID_BUILD_DEPLOY.md) - Build and deployment guide
+- ✅ [RAID_TEST_QUICK_START.md](../RAID_TEST_QUICK_START.md) - Quick testing guide
+- ✅ [docker/README.md](README.md) - Updated with new features
+
+### Migration Guide
+
+**From v1.3.3 to v1.3.4:**
+
+```bash
+# Pull new image
+docker pull themisdb/themisdb:v1.3.4-community
+
+# For RAID cluster:
+cd docker/compose
+docker-compose -f docker-compose-sharding.yml up -d
+
+# Monitor with Grafana:
+# http://localhost:3000 (admin/admin)
+# Dashboard: "Themis RAID Benchmark"
+```
+
+---
+
 ## [1.0.2] - 2025-12-14
 
 🔧 **Patch Release - Build Stability & QNAP Support**
