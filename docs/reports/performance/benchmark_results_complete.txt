@@ -1,0 +1,27 @@
+﻿./themis_benchmarks.exe : 2025-12-28T14:42:21+01:00
+In Zeile:1 Zeichen:90
++ ... lyContinue; ./themis_benchmarks.exe --benchmark_min_time=10ms --bench ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2025-12-28T14:42:21+01:00:St    ring) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Running C:\VCC\themis\build-msvc\Release\themis_benchmarks.exe
+Run on (20 X 3696 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x10)
+  L1 Instruction 32 KiB (x10)
+  L2 Unified 256 KiB (x10)
+  L3 Unified 20480 KiB (x1)
+---------------------------------------------------------------------------------------------
+Benchmark                                   Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------
+CRUDFixture/InsertWithAllIndexes         4.22 ms        0.262 ms        43495 items_per_second=3.82374k/s
+CRUDFixture/LookupBySecondaryIndex       3.46 us         3.45 us      4148148 items_per_second=289.511k/s
+CRUDFixture/RangeScanAge                 6.71 us         6.71 us      2031746 items_per_second=149.119k/s
+CRUDFixture/FulltextSearch               12.5 us         12.5 us      1066667 items_per_second=79.8441k/s
+BM_VectorSearch_efSearch/32/10          0.026 ms        0.026 ms       512000 efSearch=32 k=10 queries=512k vectors=20k
+BM_VectorSearch_efSearch/64/10          0.040 ms        0.040 ms       354150 efSearch=64 k=10 queries=354.15k vectors=20k
+BM_VectorSearch_efSearch/128/10         0.057 ms        0.057 ms       234555 efSearch=128 k=10 queries=234.555k vectors=20k
+BM_VectorSearch_efSearch/256/10         0.086 ms        0.086 ms       169697 efSearch=256 k=10 queries=169.697k vectors=20k
+BM_VectorInsert_Batch100/64              5.04 ms         2.04 ms         7593 inserted=759.3k
+BM_VectorInsert_Batch100/128             4.92 ms         2.05 ms         7226 inserted=722.6k

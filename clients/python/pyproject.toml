@@ -19,6 +19,9 @@ license = { text = "Apache-2.0" }
 Homepage = "https://github.com/makr-code/ThemisDB"
 Repository = "https://github.com/makr-code/ThemisDB"
 
+[tool.setuptools]
+packages = ["themis", "themisdb"]
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0",

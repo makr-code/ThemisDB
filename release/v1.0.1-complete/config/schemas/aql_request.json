@@ -1,8 +1,0 @@
-{
-  "type": "object",
-  "required": ["query"],
-  "properties": {
-    "query": { "type": "string" },
-    "bindVars": { "type": "object" }
-  }
-}

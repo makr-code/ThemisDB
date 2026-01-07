@@ -1,0 +1,17 @@
+﻿"benchmark","iterations","real_time","time_unit","cpu_time","bytes_per_sec","items_per_sec","label"
+"BM_Embedding_ColdStartVsWarm/0","373333","0,00196044576827272","ms","0,00196707764917647",,,"ColdStart"
+"BM_Embedding_ColdStartVsWarm/1","373333","0,00188054953622772","ms","0,00188337221729662",,,"WarmCache"
+"BM_Embedding_LatencyDistribution_224/iterations:1000","1000","0,00165849993936718","ms","0",,,
+"BM_Embedding_GPUvsCPU_Latency/0/iterations:500","500","0,00263280002400279","ms","0",,,"CPU"
+"BM_Embedding_GPUvsCPU_Latency/1/iterations:500","500","0,00230619986541569","ms","0",,,"CUDA"
+"BM_Caption_LatencyDistribution/iterations:500","500","0,0220031999051571","ms","0,03125",,,
+"BM_Batch_LatencyPerImage/1/iterations:200","200","0,00197499990463257","ms","0",,,
+"BM_Batch_LatencyPerImage/4/iterations:200","200","0,00661749974824488","ms","0",,,
+"BM_Batch_LatencyPerImage/8/iterations:200","200","0,0124254997354001","ms","0",,,
+"BM_Batch_LatencyPerImage/16/iterations:200","200","0,0252834998536855","ms","0",,,
+"BM_Batch_LatencyPerImage/32/iterations:200","200","0,0501475000055507","ms","0,078125",,,
+"BM_ImageSize_LatencyImpact/224/iterations:300","300","0,0020339999658366","ms","0",,,
+"BM_ImageSize_LatencyImpact/384/iterations:300","300","0,00251366679246227","ms","0",,,
+"BM_ImageSize_LatencyImpact/512/iterations:300","300","0,00302266678772867","ms","0",,,
+"BM_ImageSize_LatencyImpact/1024/iterations:300","300","0,00600733328610659","ms","0",,,
+"BM_SustainedLoad_LatencyStability/iterations:1000","1000","0,00175050005782396","ms","0",,,

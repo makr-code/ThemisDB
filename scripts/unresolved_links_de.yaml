@@ -1,0 +1,860 @@
+__all__:
+  AQL_REFERENCE.md: de/aql/aql_syntax.md
+  ../aql/AQL_REFERENCE.md: de/aql/aql_syntax.md
+  ../../aql/AQL_REFERENCE.md: de/aql/aql_syntax.md
+  REST_API.md: de/apis/HTTP_API_REFERENCE.md
+  ../apis/REST_API.md: de/apis/HTTP_API_REFERENCE.md
+  apis/REST_API.md: de/apis/HTTP_API_REFERENCE.md
+  docs/API.md: de/apis/HTTP_API_REFERENCE.md
+  CONFIGURATION.md: de/guides/CONFIGURATION_TUNING_GUIDE.md
+  operations/CONFIGURATION.md: de/guides/CONFIGURATION_TUNING_GUIDE.md
+  ../operations/CONFIGURATION.md: de/guides/CONFIGURATION_TUNING_GUIDE.md
+  docs/configuration.md: de/guides/CONFIGURATION_TUNING_GUIDE.md
+  INSTALLATION.md: de/guides/QUICK_START.md
+  guides/INSTALLATION.md: de/guides/QUICK_START.md
+  operations/MONITORING.md: de/guides/guides_operations_runbook.md
+  operations/BACKUP.md: de/guides/guides_operations_runbook.md
+  operations/DEPLOYMENT.md: de/deployment/deployment_strategy.md
+  operations_runbook.md: de/guides/guides_operations_runbook.md
+  docs/guides/deployment.md: de/deployment/deployment_strategy.md
+  docs/guides/quick_start.md: de/guides/QUICK_START.md
+  deployment.md: de/deployment/deployment_strategy.md
+  DOCKER_DEPLOYMENT.md: de/deployment/DOCKER_DEPLOYMENT.md
+  FEATURES.md: de/features/features_overview.md
+  FEATURE_VECTOR_SEARCH.md: de/features/features_vector_ops.md
+  ../features/FEATURE_VECTOR_SEARCH.md: de/features/features_vector_ops.md
+  FEATURE_GRAPH_TRAVERSAL.md: de/features/features_property_graph.md
+  ../features/FEATURE_GRAPH_TRAVERSAL.md: de/features/features_property_graph.md
+  GUIDE_TRANSACTIONS.md: de/features/features_transactions.md
+  ../guides/GUIDE_TRANSACTIONS.md: de/features/features_transactions.md
+  indexes.md: de/features/features_indexes.md
+  docs/features/indexes.md: de/features/features_indexes.md
+  recursive_path_queries.md: de/features/features_recursive_path.md
+  docs/features/recursive_path_queries.md: de/features/features_recursive_path.md
+  vector_ops.md: de/features/features_vector_ops.md
+  docs/features/vector_ops.md: de/features/features_vector_ops.md
+  audit_logging.md: de/features/features_audit_logging.md
+  docs/features/audit_logging.md: de/features/features_audit_logging.md
+  compliance.md: de/features/features_compliance.md
+  docs/features/compliance.md: de/features/features_compliance.md
+  multi_tenancy.md: de/features/features_multi_tenancy.md
+  docs/features/multi_tenancy.md: de/features/features_multi_tenancy.md
+  time_series.md: de/features/features_time_series.md
+  docs/features/time_series.md: de/features/features_time_series.md
+  olap_analytics.md: de/features/features_olap_analytics.md
+  docs/features/olap_analytics.md: de/features/features_olap_analytics.md
+  temporal_graphs.md: de/features/features_temporal_graphs.md
+  docs/features/temporal_graphs.md: de/features/features_temporal_graphs.md
+  transactions.md: de/features/features_transactions.md
+  docs/features/transactions.md: de/features/features_transactions.md
+  change_data_capture.md: de/features/features_cdc.md
+  docs/features/change_data_capture.md: de/features/features_cdc.md
+  mvcc_design.md: de/architecture/architecture_mvcc.md
+  docs/architecture/mvcc_design.md: de/architecture/architecture_mvcc.md
+  architecture/OVERVIEW.md: de/architecture/ARCHITECTURE_OVERVIEW.md
+  base_entity.md: de/architecture/architecture_base_entity.md
+  docs/architecture/base_entity.md: de/architecture/architecture_base_entity.md
+  CLOUD_BLOB_BACKENDS.md: de/storage/storage_cloud_backends.md
+  docs/storage/CLOUD_BLOB_BACKENDS.md: de/storage/storage_cloud_backends.md
+  CONTENT_PROCESSOR_PLUGINS.md: de/content/content_processor_plugins.md
+  docs/content/CONTENT_PROCESSOR_PLUGINS.md: de/content/content_processor_plugins.md
+  docs/apis/openapi.md: de/apis/apis_openapi.md
+  docs/apis/graphql.md: de/apis/apis_graphql.md
+  docs/apis/hybrid_search_api.md: de/apis/apis_hybrid_search.md
+  openapi.yaml: ../openapi.yaml
+  docs/openapi.yaml: ../openapi.yaml
+  SECURITY.md: de/security/README.md
+  ../SECURITY.md: de/security/README.md
+  SECURITY_SIGNATURES.md: de/security/security_signatures.md
+  TLS_SETUP.md: de/guides/guides_tls_setup.md
+  AUDIT_LOGGING.md: de/features/features_audit_logging.md
+  VECTOR_AUTO_BUFFER.md: de/search/VECTOR_AUTO_BUFFER.md
+- ../../include/index/graph_index.h (missing)
+- ../../include/index/vector_index.h (missing)
+de\apis\HTTP2_HTTP3_IMPLEMENTATION_SUMMARY.md:
+- boost::system::error_code ec, std::size_t bytes_transferred (missing)
+- LICENSE (missing)
+de\apis\HTTP_API_REFERENCE.md:
+- ../openapi.yaml (missing)
+- ../openapi.yaml (missing)
+- ../../LICENSE (missing)
+de\apis\MCP_MINIMAL_INTEGRATION.md:
+- ../../include/storage/rocksdb_wrapper.h (missing)
+de\aql\AQL_PHASES_1_2_3_CONSOLIDATED.md:
+- const auto& c (missing)
+- ../features/vector_index.md (missing)
+- ../DATABASE_CAPABILITIES_ROADMAP.md (missing)
+- ../../tests/test_hybrid_queries.cpp (missing)
+- ../../include/query/query_engine.h (missing)
+- ../../src/query/query_engine.cpp (missing)
+- ../features/vector_index.md (missing)
+- ../features/spatial_index.md (missing)
+- ../../benchmarks/ADVANCED_BENCHMARKS_GUIDE.md (missing)
+- ../features/vector_index.md (missing)
+- ../features/spatial_index.md (missing)
+de\aql\aql_explain_profile.md:
+- indexes.md (missing)
+- architecture.md#graph-layer (missing)
+de\aql\aql_functions_reference.md:
+- ./INSTALLATION.md (missing)
+- ./MULTI_MODEL_ARCHITECTURE.md (missing)
+- ./ENTERPRISE_ANALYTICS.md (missing)
+- ./API_REFERENCE.md (missing)
+de\aql\aql_hybrid_queries.md:
+- ../features/vector_index.md (missing)
+- ../features/spatial_index.md (missing)
+- ../../benchmarks/ADVANCED_BENCHMARKS_GUIDE.md (missing)
+de\aql\aql_hybrid_queries_phase15.md:
+- const auto& c (missing)
+- ../features/vector_index.md (missing)
+- ../DATABASE_CAPABILITIES_ROADMAP.md (missing)
+- ../../tests/test_hybrid_queries.cpp (missing)
+- ../../include/query/query_engine.h (missing)
+- ../../src/query/query_engine.cpp (missing)
+de\aql\aql_query_engine.md:
+- cursor_pagination.md (missing)
+- indexes.md (missing)
+de\architecture\BINARY_PROTOCOL_BUFFERS.md:
+- ../apis/BUFFER_API.md (missing)
+de\architecture\COMPLETE_SUMMARY.md:
+- cmake/ModularBuild.cmake (missing)
+- include/themis/base/export.h (missing)
+- include/themis/base/module_loader.h (missing)
+- src/base/module_loader.cpp (missing)
+de\architecture\MODULARIZATION_DECISION.de.md:
+- ../../cmake/ModularBuild.cmake (missing)
+- ../../include/themis/base/export.h (missing)
+de\architecture\MODULARIZATION_SUMMARY.md:
+- cmake/ModularBuild.cmake (missing)
+- include/themis/base/export.h (missing)
+de\architecture\SECURITY_ARCHITECTURE.md:
+- auto ec (missing)
+de\architecture\architecture_base_entity.md:
+- path_constraints.md (missing)
+- storage/rocksdb_layout.md (missing)
+- index_stats_maintenance.md (missing)
+- time_series.md (missing)
+- path_constraints.md (missing)
+- storage/rocksdb_layout.md (missing)
+- index_stats_maintenance.md (missing)
+- time_series.md (missing)
+- path_constraints.md (missing)
+de\architecture\architecture_content_pipeline.md:
+- const Request& req, Response& res (missing)
+- const auto& p (missing)
+- content_architecture.md (missing)
+- content/ingestion.md (missing)
+- indexes.md#vector-index (missing)
+- indexes.md#graph-index (missing)
+de\architecture\architecture_ecosystem.md:
+- deployment.md (missing)
+- operations_runbook.md (missing)
+- observability/prometheus_metrics.md (missing)
+- clients/python_sdk_quickstart.md (missing)
+- clients/javascript_sdk_quickstart.md (missing)
+- clients/rust_sdk_quickstart.md (missing)
+- ../tools/STATUS.md (missing)
+- ../adapters/covina_fastapi_ingestion/MODALITIES.md (missing)
+- apis/rest_api.md (missing)
+- query_engine_aql.md (missing)
+- vector_ops.md (missing)
+- time_series.md (missing)
+- deployment.md#backup--recovery (missing)
+- observability/prometheus_metrics.md (missing)
+- deployment.md (missing)
+- deployment.md (missing)
+- vector_ops.md (missing)
+- time_series.md (missing)
+- observability/prometheus_metrics.md (missing)
+de\architecture\architecture_mvcc.md:
+- const VersionedEntity& v (missing)
+- storage/rocksdb_layout.md (missing)
+- auto key, auto value (missing)
+de\archive\QNAP_QUICKSTART.md:
+- QNAP_DEPLOYMENT.md (missing)
+de\archive\RELEASE_NOTES_v1.0.0.md:
+- docs/configuration.md (missing)
+- docs/API.md (missing)
+- docs/API.md (missing)
+- docs/configuration.md (missing)
+- SECURITY.md (missing)
+- CONTRIBUTING.md (missing)
+- LICENSE (missing)
+- vcpkg.json (missing)
+de\archive\mime_detector_deprecated.md:
+- SECURITY_SIGNATURES.md (missing)
+de\audit\README.md:
+- ../../ENTERPRISE.md (missing)
+de\clients\README.md:
+- ../aql/AQL_REFERENCE.md (missing)
+- ../features/FEATURE_VECTOR_SEARCH.md (missing)
+- ../features/FEATURE_GRAPH_TRAVERSAL.md (missing)
+- ../guides/GUIDE_TRANSACTIONS.md (missing)
+de\clients\clients_javascript_sdk.md:
+- ../aql/AQL_REFERENCE.md (missing)
+- ../features/FEATURE_VECTOR_SEARCH.md (missing)
+de\clients\clients_python_sdk.md:
+- ../aql/AQL_REFERENCE.md (missing)
+- ../features/FEATURE_VECTOR_SEARCH.md (missing)
+- ../features/FEATURE_GRAPH_TRAVERSAL.md (missing)
+de\clients\clients_rust_sdk.md:
+- ../aql/AQL_REFERENCE.md (missing)
+de\clients\clients_sdk_implementation.md:
+- ../aql/AQL_REFERENCE.md (missing)
+- ../apis/TRANSACTION_API.md (missing)
+de\compiled\ThemisDB-Complete-2025-12-21.md:
+- ENTERPRISE.md (missing)
+- docs/guides/quick_start.md (missing)
+- docs/features/features_graph.md (missing)
+- docs/guides/guides_configuration.md (missing)
+- CONTRIBUTING.md (missing)
+- docs/apis/api_reference.md (missing)
+- benchmarks/BENCHMARK_DETAILED_RESULTS.md (missing)
+- benchmarks/COMPREHENSIVE_BENCHMARK_GUIDE.md (missing)
+- CONTRIBUTING.md (missing)
+- SECURITY.md (missing)
+- LICENSE (missing)
+- ENTERPRISE.md (missing)
+- guides/INSTALLATION.md (missing)
+- architecture/OVERVIEW.md (missing)
+- apis/REST_API.md (missing)
+- operations/CONFIGURATION.md (missing)
+- operations/MONITORING.md (missing)
+- operations/BACKUP.md (missing)
+- guides/INSTALLATION.md (missing)
+- operations/CONFIGURATION.md (missing)
+- guides/FIRST_QUERY.md (missing)
+- architecture/OVERVIEW.md (missing)
+- architecture/architecture_storage.md (missing)
+- features/features_graph.md (missing)
+- features/features_hypertables.md (missing)
+- features/features_hybrid_search.md (missing)
+- aql/aql_examples.md (missing)
+- apis/REST_API.md (missing)
+- apis/api_graphql.md (missing)
+- operations/DEPLOYMENT.md (missing)
+- operations/CONFIGURATION.md (missing)
+- operations/MONITORING.md (missing)
+- operations/BACKUP.md (missing)
+- operations/TROUBLESHOOTING.md (missing)
+- ../CONTRIBUTING.md (missing)
+- development/SETUP.md (missing)
+- development/TESTING.md (missing)
+- development/CODE_STYLE.md (missing)
+- sharding/sharding_overview.md (missing)
+- sharding/sharding_replication.md (missing)
+- content/content_architecture.md (missing)
+- guides/MIGRATION.md (missing)
+- apis/REST_API.md (missing)
+- observability/OLAP.md (missing)
+- observability/olap.md (missing)
+- features/features_hybrid_search.md (missing)
+- features/features_embedding_cache.md (missing)
+- features/features_graph.md (missing)
+- features/features_graph.md#algorithms (missing)
+- operations/DEPLOYMENT.md (missing)
+- operations/MONITORING.md (missing)
+- operations/BACKUP.md (missing)
+- deployment/deployment_kubernetes.md (missing)
+- deployment/deployment_aws.md (missing)
+- deployment/deployment_azure.md (missing)
+- deployment/deployment_gcp.md (missing)
+- deployment/deployment_rpi.md (missing)
+- performance/performance_overview.md (missing)
+- performance/performance_query.md (missing)
+- ../CONTRIBUTING.md (missing)
+- ../SECURITY.md (missing)
+- guides-QUICK_START (missing)
+- guides-INSTALLATION (missing)
+- operations-CONFIGURATION (missing)
+- guides-FIRST_QUERY (missing)
+- architecture-OVERVIEW (missing)
+- aql-aql_syntax (missing)
+- features-features_overview (missing)
+- api-REST_API (missing)
+- operations-DEPLOYMENT (missing)
+- DOCKER_DEPLOYMENT (missing)
+- operations-MONITORING (missing)
+- security-security_implementation (missing)
+- benchmarks-README (missing)
+- roadmap-ROADMAP (missing)
+- SECURITY (missing)
+- CONTRIBUTING (missing)
+- guides-QUICK_START (missing)
+- guides-QUICK_START (missing)
+- ../SECURITY.md (missing)
+- enterprise/enterprise_scalability.md (missing)
+- enterprise/enterprise_http_pool.md (missing)
+- enterprise/enterprise_final_report.md (missing)
+- architecture/architecture_overview.md (missing)
+- enterprise/enterprise_scalability.md (missing)
+- ../CONTRIBUTING.md (missing)
+- src/governance/policy_engine.cpp.md (ambiguous)
+- ../SECURITY.md (missing)
+- ../operations/CONFIGURATION.md (missing)
+- INSTALLATION.md (missing)
+- ../operations/CONFIGURATION.md (missing)
+- ../apis/REST_API.md (missing)
+- ../../SECURITY.md (missing)
+- docs/architecture/base_entity.md (missing)
+- docs/storage/CLOUD_BLOB_BACKENDS.md (missing)
+- docs/features/indexes.md (missing)
+- docs/features/recursive_path_queries.md (missing)
+- docs/features/vector_ops.md (missing)
+- docs/aql/syntax.md (missing)
+- docs/apis/hybrid_search_api.md (missing)
+- docs/security/implementation_summary.md (missing)
+- docs/security/implementation_summary.md (missing)
+- docs/security/column_encryption.md (missing)
+- docs/security/implementation_summary.md (missing)
+- docs/features/audit_logging.md (missing)
+- docs/features/compliance.md (missing)
+- docs/features/multi_tenancy.md (missing)
+- docs/features/time_series.md (missing)
+- docs/features/olap_analytics.md (missing)
+- docs/features/temporal_graphs.md (missing)
+- docs/architecture/mvcc_design.md (missing)
+- docs/features/transactions.md (missing)
+- docs/features/change_data_capture.md (missing)
+- docs/performance/memory_tuning.md (missing)
+- docs/performance/compression_benchmarks.md (missing)
+- docs/performance/TBB_INTEGRATION.md (missing)
+- docs/performance/GPU_ACCELERATION_PLAN.md (missing)
+- docs/apis/openapi.md (missing)
+- docs/openapi.yaml (missing)
+- docs/apis/graphql.md (missing)
+- docs/architecture/content_architecture.md (missing)
+- docs/content/CONTENT_PROCESSOR_PLUGINS.md (missing)
+- ../../deploy/kubernetes/monitoring/prometheus/alert-rules-sharding.yaml (missing)
+- ../../deploy/kubernetes/monitoring/grafana-dashboards/themisdb-sharding-dashboard.json
+  (missing)
+- docs/guides/deployment.md (missing)
+- docs/guides/deployment.md (missing)
+- LICENSE (missing)
+- BUILD_ORGANIZATION.md (missing)
+- Dockerfile (missing)
+de\compliance\compliance_dashboard.md:
+- FULL_AUDIT_CHECKLIST.md (missing)
+- ../SECURITY.md (missing)
+- security/INCIDENT_RESPONSE_PLAN.md (missing)
+- compliance/DPIA.md (missing)
+- compliance/BCP_DRP.md (missing)
+- THEMIS_PROJECT_VALUATION.md (missing)
+- security/SBOM.md (missing)
+de\connectors\JSONL_LLM_EXPORTER.md:
+- ../storage/base_entity.md (missing)
+- importer_interface.h (missing)
+de\content\content_processor_plugins.md:
+- ../development/plugin_development.md (missing)
+- ../security/PLUGIN_SECURITY.md (missing)
+- ../apis/content_api.md (missing)
+de\content\content_search_api.md:
+- DATABASE_CAPABILITIES_ROADMAP.md (missing)
+- vector_search_api.md (missing)
+de\deployment\CMAKE_DOCUMENTATION_OVERVIEW.md:
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\CMAKE_FIND_PACKAGE_SOLUTIONS.md:
+- CMakeLists.txt#L40-L50 (missing)
+- CMakeLists.txt#L40-L50 (missing)
+- plugins/rpc/grpc/CMakeLists.txt#L8-L20 (missing)
+de\deployment\EXECUTIVE_SUMMARY.md:
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\IMPLEMENTATION_CHECKLIST.md:
+- CMakeLists.txt (missing)
+- plugins/rpc/grpc/CMakeLists.txt (missing)
+- plugins/rpc/grpc/CMakeLists.txt (missing)
+- CMakeLists.txt (missing)
+- plugins/rpc/grpc/CMakeLists.txt (missing)
+de\deployment\INDEX_CMAKE_DOCUMENTATION.md:
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+- CMakeLists.txt (missing)
+- CMakeLists.txt (missing)
+- CMakeLists.txt (missing)
+- ../../plugins/rpc/grpc/CMakeLists.txt (missing)
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\MASTER_INDEX.md:
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\NIGHTLY_BUILDS_QUICKREF.md:
+- ../../actions (missing)
+de\deployment\PORT_REFERENCE.md:
+- ../../examples/railway/docker-compose.railway.yml (missing)
+- ../../docker-compose.yml (missing)
+- ../../Dockerfile (missing)
+- ../../CONTRIBUTING.md (missing)
+de\deployment\PORT_STANDARDIZATION.md:
+- ../../docker-compose.yml (missing)
+- ../../Dockerfile (missing)
+de\deployment\QUICK_REFERENCE.md:
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\README_CMAKE_FIX.md:
+- CMakeLists.txt#L40-L60 (missing)
+- CMakeLists.txt#L502-L512 (missing)
+- CMakeLists.txt#L925-L940 (missing)
+- plugins/rpc/grpc/CMakeLists.txt#L8-L25 (missing)
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\RESEARCH_RESULTS_SUMMARY.md:
+- ../../scripts/fix-cmake-prefix-path.ps1 (missing)
+de\deployment\VCPKG_OFFLINE_STRATEGY.md:
+- ../../CMakeLists.txt (missing)
+- ../../vcpkg.json (missing)
+de\deployment\deployment_arm_benchmarks.md:
+- CI_CD_MULTIARCH.md (missing)
+- ARM_RASPBERRY_PI_BUILD.md (missing)
+de\deployment\deployment_arm_build.md:
+- ARM_PACKAGES.md (missing)
+- RASPBERRY_PI_TUNING.md (missing)
+- ARM_BENCHMARKS.md (missing)
+- ARM_PACKAGES.md (missing)
+- RASPBERRY_PI_TUNING.md (missing)
+- ARM_PACKAGES.md (missing)
+- ARM_BENCHMARKS.md (missing)
+- deployment.md (missing)
+- memory_tuning.md (missing)
+- architecture.md (missing)
+- CI_CD_MULTIARCH.md (missing)
+- CI_CD_MULTIARCH.md (missing)
+de\deployment\deployment_arm_packages.md:
+- ARM_RASPBERRY_PI_BUILD.md (missing)
+de\deployment\deployment_raspberry_tuning.md:
+- ARM_RASPBERRY_PI_BUILD.md (missing)
+- ARM_BENCHMARKS.md (missing)
+- ARM_PACKAGES.md (missing)
+de\deployment\deployment_strategy.md:
+- ../build/BUILDGUIDE.md (missing)
+- ../build/BUILD-SYSTEM.md (missing)
+- ../guides/guides_docker.md (missing)
+de\development\CODE_AUDIT_FRAMEWORK.md:
+- BUILD_GUIDE.md (missing)
+- development/code_quality.md (missing)
+- ../SECURITY.md (missing)
+- CONTRIBUTING.md (missing)
+de\development\DEVELOPMENT_SUMMARY.md:
+- ../sharding/sharding_overview.md (missing)
+de\development\DOCUMENTATION_NAMING_CONVENTION.md:
+- ./component_architecture.md (missing)
+- ./component_api.md (missing)
+- ../features/x.md (missing)
+de\development\build_acceleration.md:
+- docs/performance/CUDA_BACKEND.md (missing)
+- docs/performance/VULKAN_BACKEND.md (missing)
+- docs/performance/HARDWARE_ACCELERATION.md (missing)
+de\enterprise\DISTRIBUTION_BEST_PRACTICES.md:
+- ../../ENTERPRISE.md (missing)
+de\enterprise\README.md:
+- ENTERPRISE_BUILD_GUIDE.md (missing)
+- enterprise_implementation.md (missing)
+- ../ENTERPRISE_SCALABILITY.md#1-token-bucket-rate-limiter (missing)
+- ../ENTERPRISE_SCALABILITY.md#3-load-shedder (missing)
+- ../HTTP_CLIENT_POOL_COMPLETE.md (missing)
+- ../ENTERPRISE_SCALABILITY.md#batch-operations (missing)
+- ../ENTERPRISE_BUILD_GUIDE.md (missing)
+- ../ENTERPRISE_SCALABILITY.md (missing)
+- ../HTTP_CLIENT_POOL_COMPLETE.md (missing)
+- ../ENTERPRISE_BUILD_GUIDE.md (missing)
+- ../performance/ENTERPRISE_SCALABILITY_STRATEGY.md (missing)
+- ../ENTERPRISE_IMPLEMENTATION_STATUS.md (missing)
+- ../ENTERPRISE_FINAL_REPORT.md (missing)
+de\features\features_audit_logging.md:
+- ../src/utils/audit_logger.cpp (missing)
+- ../include/utils/audit_logger.h (missing)
+- SECRETS_MANAGEMENT.md (missing)
+- TLS_SETUP.md (missing)
+de\features\features_compliance.md:
+- compliance_integration.md (missing)
+- openapi.yaml (missing)
+- security/audit_and_retention.md (missing)
+de\features\features_cursor_pagination.md:
+- openapi.yaml (missing)
+de\features\features_extended_compliance.md:
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+de\features\features_governance_usage.md:
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+de\features\features_government_network.md:
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+de\features\features_hnsw_persistence.md:
+- vector_ops.md (missing)
+- indexes.md#vector-index (missing)
+- operations_runbook.md#vector-index-maintenance (missing)
+de\features\features_index_maintenance.md:
+- size_t done, size_t total (missing)
+de\features\features_multi_tenancy.md:
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+de\features\features_overview.md:
+- docs/architecture/base_entity.md (missing)
+- docs/storage/CLOUD_BLOB_BACKENDS.md (missing)
+- docs/features/indexes.md (missing)
+- docs/features/recursive_path_queries.md (missing)
+- docs/features/vector_ops.md (missing)
+- docs/aql/syntax.md (missing)
+- docs/apis/hybrid_search_api.md (missing)
+- docs/security/implementation_summary.md (missing)
+- docs/security/implementation_summary.md (missing)
+- docs/security/column_encryption.md (missing)
+- docs/security/implementation_summary.md (missing)
+- docs/features/audit_logging.md (missing)
+- docs/features/compliance.md (missing)
+- docs/features/multi_tenancy.md (missing)
+- docs/features/time_series.md (missing)
+- docs/features/olap_analytics.md (missing)
+- docs/features/temporal_graphs.md (missing)
+- docs/architecture/mvcc_design.md (missing)
+- docs/features/transactions.md (missing)
+- docs/features/change_data_capture.md (missing)
+- docs/performance/memory_tuning.md (missing)
+- docs/performance/compression_benchmarks.md (missing)
+- docs/performance/TBB_INTEGRATION.md (missing)
+- docs/performance/GPU_ACCELERATION_PLAN.md (missing)
+- docs/apis/openapi.md (missing)
+- docs/openapi.yaml (missing)
+- docs/apis/graphql.md (missing)
+- docs/architecture/content_architecture.md (missing)
+- docs/content/CONTENT_PROCESSOR_PLUGINS.md (missing)
+- ../../deploy/kubernetes/monitoring/prometheus/alert-rules-sharding.yaml (missing)
+- ../../deploy/kubernetes/monitoring/grafana-dashboards/themisdb-sharding-dashboard.json
+  (missing)
+- docs/guides/deployment.md (missing)
+- docs/guides/deployment.md (missing)
+de\features\features_path_constraints.md:
+- const std::vector<AdjacencyInfo>& adj (missing)
+de\features\features_priorities.md:
+- DEVELOPMENT_AUDITLOG.md (missing)
+- docs/column_encryption.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+de\features\features_temporal_queries.md:
+- ./recursive_path_queries.md (missing)
+- ./temporal_graphs.md (missing)
+- ./indexes.md#graph-index (missing)
+- ./mvcc_design.md (missing)
+de\features\features_transactions.md:
+- architecture.md (missing)
+- mvcc_design.md (missing)
+- storage/rocksdb_layout.md (missing)
+- deployment.md (missing)
+- openapi.yaml (missing)
+- base_entity.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+- ../security/best_practices.md (missing)
+- ../architecture/overview.md (missing)
+de\features\features_vector_ops.md:
+- indexes.md (missing)
+- deployment.md (missing)
+- tracing.md (missing)
+de\features\sprachassistent_anleitung.md:
+- LICENSE (missing)
+de\geo\README.md:
+- geo_integration_readme.md (missing)
+- ../performance/performance_geo.md (missing)
+de\governance\README.md:
+- ../security/security_rbac.md (missing)
+- ../compliance/compliance_overview.md (missing)
+- ../features/features_pii_detection.md (missing)
+- ./governance_security.md (missing)
+de\guides\DOCS_QUICKREF.md:
+- BUILD_STRATEGY.md (missing)
+- ../DEVELOPMENT_AUDITLOG.md (missing)
+- apis/openapi.md (missing)
+- THEMIS_SACHSTANDSBERICHT_2025.md (missing)
+- THEMIS_PROJECT_VALUATION.md (missing)
+- FEATURES.md (missing)
+- property_graph_model.md (missing)
+- GEO_ARCHITECTURE.md (missing)
+- time_series.md (missing)
+- content_pipeline.md (missing)
+- vector_ops.md (missing)
+- aql-hybrid-queries.md (missing)
+- storage/rocksdb_layout.md (missing)
+- mvcc_design.md (missing)
+- compression_strategy.md (missing)
+- security/overview.md (missing)
+- encryption_strategy.md (missing)
+- rbac_authorization.md (missing)
+- security/pii_detection.md (missing)
+- SECURITY.md (missing)
+de\guides\LLM_COMPLETE_SETUP_GUIDE.md:
+- ../features/features_graph.md (missing)
+- ../../benchmarks/LLM_NLP_INTEGRATION_QUICKSTART.md (missing)
+- ../../benchmarks/LLM_NLP_INTEGRATION_FRAMEWORK.md (missing)
+de\guides\QUICK_START.md:
+- ../operations/CONFIGURATION.md (missing)
+- INSTALLATION.md (missing)
+- ../operations/CONFIGURATION.md (missing)
+- ../apis/REST_API.md (missing)
+- ../../SECURITY.md (missing)
+de\guides\SYSTEM_ARCHITECT_GUIDE.md:
+- ../../ENTERPRISE.md (missing)
+de\guides\VECTOR_QUANTIZATION_GRPC_GUIDE.md:
+- ../features/vector_quantization.md (missing)
+- ../features/grpc_protocol.md (missing)
+- ../../IMPLEMENTATION_SUMMARY_V1.3.0_FEATURES_7_8.md (missing)
+de\guides\guides_build.md:
+- BUILD_STRATEGY.md (missing)
+de\guides\guides_packaging_quickref.md:
+- packaging.md (missing)
+de\guides\guides_rbac.md:
+- "const std::string& user_id, \n                                    const std::string&\
+  \ resource, \n                                    const std::string& action (missing)"
+- auto req (missing)
+- auto req (missing)
+- auto req (missing)
+- auto req (missing)
+- auto req (missing)
+- auto req (missing)
+- ../src/security/rbac.cpp (missing)
+- ../include/security/rbac.h (missing)
+- AUTH_MIDDLEWARE.md (missing)
+- AUDIT_LOGGING.md (missing)
+de\guides\guides_rbac_authorization.md:
+- security/security_compliance_review.md (missing)
+- operations_runbook.md#authentication (missing)
+- deployment.md (missing)
+de\guides\guides_styleguide.md:
+- storage/rocksdb_layout.md (missing)
+de\guides\guides_update_check.md:
+- configuration.md (missing)
+- ../SECURITY.md (missing)
+de\legal\ATTRIBUTIONS.md:
+- LICENSE (missing)
+de\llm\BENCHMARKS_AND_COMPARISONS.md:
+- ../../benchmarks/BENCHMARK_DETAILED_RESULTS.md (missing)
+de\llm\GPU_REFERENCING_CAPABILITIES.md:
+- ../../include/acceleration/faiss_gpu_backend.h (missing)
+de\llm\LLM_LOADER_GUIDE.md:
+- const crow::request& req (missing)
+- const crow::request& req (missing)
+- const crow::request& req (missing)
+- const std::string& model_id (missing)
+- const crow::request& req (missing)
+- ../../include/acceleration/plugin_loader.h (missing)
+de\llm\LORA_TRAINING_FRAMEWORK_INTEGRATION.md:
+- config (missing)
+de\llm\README.md:
+- ../enterprise/LLM_INTEGRATION_BENEFITS_ANALYSIS.md (missing)
+- ../sharding/sharding_overview.md (missing)
+- ../AQL_PROMPT_ENGINEERING.md (missing)
+de\observability\observability_prometheus.md:
+- ../deployment.md (missing)
+- operations_runbook.md (missing)
+de\performance\README_INGESTION.md:
+- ../../../THEMISDB_IMPACT_ANALYSE_OPTIMIERUNGEN.md (missing)
+de\performance\performance_benchmarks.md:
+- compression_benchmarks.md (missing)
+- compression_benchmarks.md (missing)
+- cursor_pagination.md (missing)
+- index_stats_maintenance.md (missing)
+- compression_benchmarks.md (missing)
+- indexes.md (missing)
+- index_stats_maintenance.md (missing)
+- memory_tuning.md (missing)
+de\performance\performance_enterprise_strategy.md:
+- auto req, auto res, auto next (missing)
+- size_t i (missing)
+- auto req, auto res, auto next (missing)
+- auto req, auto res (missing)
+de\performance\performance_hardware.md:
+- GPU_ACCELERATION_PLAN.md (missing)
+de\performance\performance_tbb.md:
+- const tbb::blocked_range<size_t>& range (missing)
+- const tbb::blocked_range<size_t>& range (missing)
+- uint32_t vertex (missing)
+- const auto& range (missing)
+de\plugins\IMAGE_ANALYSIS_LICENSE_COMPATIBILITY.md:
+- ../../LICENSE (missing)
+de\plugins\README.md:
+- ../llm/IMAGE_ANALYSIS_PLUGINS.md (missing)
+- ../llm/IMAGE_ANALYSIS_BACKENDS.md (missing)
+de\plugins\RPC_MTLS_INTER_SHARD.md:
+- ../../include/sharding/mtls_client.h (missing)
+- ../../include/sharding/pki_shard_certificate.h (missing)
+- ../architecture/sharding_architecture.md (missing)
+de\plugins\TEMPORAL_SNAPSHOTS_CONSISTENCY.md:
+- const BlobVersion& v (missing)
+de\query\query_filtered_vector.md:
+- auto& a, auto& b (missing)
+de\query\query_hybrid_overview.md:
+- ./hybrid-queries-phase1.5.md (missing)
+- ./DATABASE_CAPABILITIES_ROADMAP.md (missing)
+- ./PHASE_1.5_COMPLETION_REPORT.md (missing)
+de\releases\RELEASE_NOTES_v1.3.0.md:
+- benchmarks/BENCHMARK_DETAILED_RESULTS.md (missing)
+- SECURITY.md (missing)
+de\releases\RELEASE_NOTES_v1.3.1.md:
+- ../../LICENSE (missing)
+de\releases\RELEASE_NOTES_v1.3.2.md:
+- ../plugins/IMAGE_ANALYSIS_PLUGINS.md (missing)
+- ../plugins/IMAGE_BACKEND_COMPARISON.md (missing)
+- ../../config/image_analysis_config.example.yaml (missing)
+de\releases\RELEASE_NOTES_v1.3.3.md:
+- ../apis/WEBSOCKET_CDC_STREAMING.md (missing)
+- ../apis/MQTT_BROKER_GUIDE.md (missing)
+- ../apis/HTTP3_IMPLEMENTATION.md (missing)
+- ../apis/POSTGRESQL_WIRE_PROTOCOL.md (missing)
+de\releases\v1.3.0-rpc-framework.md:
+- ../proto/sharding/shard_rpc.proto (missing)
+de\reports\DOCS_CONSOLIDATION_SUMMARY.md:
+- ENTERPRISE_SCALABILITY.md (missing)
+- HTTP_CLIENT_POOL_COMPLETE.md (missing)
+- ENTERPRISE_BUILD_GUIDE.md (missing)
+- BUILD_STRATEGY.md (missing)
+- BUILD_STRATEGY.md (missing)
+de\reports\DOCUMENTATION_CONSOLIDATION_PLAN.md:
+- compliance/index.md (missing)
+- hardening.md (missing)
+- rbac.md (missing)
+- pii/overview.md (missing)
+- key_management.md (missing)
+- policies.md (missing)
+- threat_model.md (missing)
+- audit_checklist.md (missing)
+- new_location.md (missing)
+de\reports\DOCUMENTATION_CONSOLIDATION_REPORT.md:
+- BUILD_STRATEGY.md (missing)
+- ENTERPRISE_SCALABILITY.md (missing)
+- HTTP_CLIENT_POOL_COMPLETE.md (missing)
+- ENTERPRISE_BUILD_GUIDE.md (missing)
+de\reports\DOCUMENTATION_SUMMARY.md:
+- .*\.md (missing)
+de\reports\HOMEPAGE_PDF_UPDATE.md:
+- ../FEATURES.md (missing)
+- FEATURES.md (missing)
+- aql/syntax.md (missing)
+de\reports\LIBRARY_INTERACTIONS_AND_EXTENSIONS.md:
+- CudaBatch batch (missing)
+- const tbb::blocked_range<size_t>& r (missing)
+- int i (missing)
+de\reports\ROOT_CLEANUP_REPORT.md:
+- FEATURES.md (missing)
+- docs/FEATURES.md (missing)
+- BUILD_STRATEGY.md (missing)
+- docs/BUILD_STRATEGY.md (missing)
+- ../BUILD_STRATEGY.md (missing)
+- BUILD_STRATEGY.md (missing)
+- ../FEATURES.md (missing)
+- FEATURES.md (missing)
+de\reports\VARIANT_STRATEGY_v1.1.0.md:
+- const std::string& id (missing)
+de\reports\database_capabilities_roadmap.md:
+- size_t i (missing)
+- size_t i (missing)
+de\reports\phase_4_plan.md:
+- size_t depth, EvaluationContext ctx (missing)
+de\research\WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md:
+- NodeID v (missing)
+de\roadmap\ROADMAP.md:
+- ../../CONTRIBUTING.md (missing)
+de\scheduler\TASK_SCHEDULER.md:
+- const nlohmann::json& params (missing)
+de\search\VECTOR_AUTO_BUFFER.md:
+- ../../include/index/vector_index.h (missing)
+de\search\content_search_summary.md:
+- CONTENT_SEARCH_API.md (missing)
+- DATABASE_CAPABILITIES_ROADMAP.md (missing)
+- CONTENT_POLICY_IMPLEMENTATION.md (missing)
+de\security\PHASE1_IMPLEMENTATION_PLAN.md:
+- "const std::string& key, \n                         const std::vector<uint8_t>&\
+  \ value (missing)"
+- "const std::string& key, \n                         const std::vector<uint8_t>&\
+  \ value (missing)"
+de\security\PHASE1_STATUS_AND_NEXT_STEPS.md:
+- std::string_view key, std::string_view value (missing)
+- std::string_view key, std::string_view value (missing)
+- size_t i (missing)
+- std::string_view key, std::string_view value (missing)
+- auto key, auto value (missing)
+de\security\README.md:
+- ../DOCUMENTATION_SYSTEM_SUMMARY.md (missing)
+- ../BEST_PRACTICES_SUMMARY_DE.md (missing)
+- ../ENTERPRISE.md (missing)
+de\security\SYMMETRIC_ENCRYPTION_APPROACHES.md:
+- size_t i (missing)
+- size_t i (missing)
+de\security\security_certificate_pinning.md:
+- ../src/utils/pki_client.cpp (missing)
+- TLS_SETUP.md (missing)
+- HSM_INTEGRATION.md (missing)
+de\security\security_compliance.md:
+- ../FULL_AUDIT_CHECKLIST.md (missing)
+- overview.md (missing)
+- key_management.md (missing)
+- ../encryption_strategy.md (missing)
+- ../encryption_deployment.md (missing)
+- ../column_encryption.md (missing)
+- pii_detection.md (missing)
+- ../pii_detection_engines.md (missing)
+- ../pii_engine_signing.md (missing)
+- audit_and_retention.md (missing)
+- threat_model.md (missing)
+- ../security_hardening_guide.md (missing)
+- ../compliance_audit.md (missing)
+- ../compliance_governance_strategy.md (missing)
+- ../compliance_integration.md (missing)
+- ../governance_usage.md (missing)
+- ../deployment.md (missing)
+- ../operations_runbook.md (missing)
+- ../tracing.md (missing)
+de\security\security_eidas.md:
+- hsm_integration.md (missing)
+- hsm_integration.md (missing)
+de\security\security_encryption_metrics.md:
+- ./pki_integration_architecture.md (missing)
+- ./key_rotation.md (missing)
+de\security\security_hardening.md:
+- TLS_SETUP.md (missing)
+- SECRETS_MANAGEMENT.md (missing)
+- AUDIT_LOGGING.md (missing)
+- RBAC.md (missing)
+- CERTIFICATE_PINNING.md (missing)
+de\security\security_implementation.md:
+- ../security-pgp-key.asc (missing)
+- security_hardening_guide.md (missing)
+- TLS_SETUP.md (missing)
+- SECRETS_MANAGEMENT.md (missing)
+- AUDIT_LOGGING.md (missing)
+- RBAC.md (missing)
+- CERTIFICATE_PINNING.md (missing)
+de\security\security_incident_response.md:
+- ../SECURITY.md (missing)
+- ../features/audit_logging.md (missing)
+- threat_model.md (missing)
+- hardening_guide.md (missing)
+- key_management.md (missing)
+- ../FULL_AUDIT_CHECKLIST.md (missing)
+de\security\security_pki_rsa.md:
+- ../compliance.md (missing)
+de\security\security_plugins.md:
+- ../development/plugin_development.md (missing)
+- ../security/certificate_management.md (missing)
+- ../security/incident_response.md (missing)
+- ../security/audit_checklist.md (missing)
+de\server\README.md:
+- ../security/security_rbac.md (missing)
+- ./server_security.md (missing)
+- ./server_performance.md (missing)
+de\storage\README.md:
+- ../sharding/sharding_redundancy.md (missing)
+- ../sharding/sharding_streaming.md (missing)
+de\strategie\STRATEGIEPAPIER_GESUNDHEITSWESEN.md:
+- ../../../ENTERPRISE.md (missing)
+de\timeseries\AUTO_BUFFER.md:
+- ../sharding/backpressure_protocol.md (missing)
+de\tools\GIS_VIEWER_CONCEPT.md:
+- const TArray<FOSMBuilding>& Buildings (missing)
+- const TArray<FOSMBuilding>& Buildings (missing)
+- const FTerrainData& Terrain (missing)
+- const TArray<FJsonObject>& Results (missing)
+- const TArray<FOSMBuilding>& Buildings (missing)

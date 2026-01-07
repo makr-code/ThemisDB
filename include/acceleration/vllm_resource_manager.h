@@ -71,7 +71,7 @@ public:
     /**
      * @brief Construct resource manager with configuration
      */
-    explicit VLLMResourceManager(const Config& config = Config{});
+    explicit VLLMResourceManager(const Config& config);
     ~VLLMResourceManager();
     
     // Disable copy, allow move

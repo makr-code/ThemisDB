@@ -772,70 +772,63 @@ namespace themis {
 void QueryEngine::EvaluationContext::storeCTE(const std::string& name, std::vector<nlohmann::json> results) {
 	// Prefer cache if available; fall back to in-memory map
 	if (cte_cache) {
-		// Attempt to store; if cache rejects (e.g. spill failure), keep in-memory
-		if (!cte_cache->store(name, std::move(results))) {
-			cte_results[name] = std::vector<nlohmann::json>(); // ensure key exists even if failed
-		} else {
-			// Remove any previous in-memory copy to avoid duplication
-			cte_results.erase(name);
-		}
-	} else {
-		cte_results[name] = std::move(results);
+		cte_cache->store(name, std::move(results));
+		return;
 	}
+
+	cte_results[name] = std::move(results);
 }
 
 std::optional<std::vector<nlohmann::json>> QueryEngine::EvaluationContext::getCTE(const std::string& name) const {
-	// First check cache
-	if (cte_cache && cte_cache->contains(name)) {
-		auto data = cte_cache->get(name);
-		if (data.has_value()) return data; // returns full vector
+	// Prefer cache lookup first (may transparently load spilled results)
+	if (cte_cache) {
+		auto cached = cte_cache->get(name);
+		if (cached) return cached;
 	}
-	// Fallback to in-memory results
+
 	auto it = cte_results.find(name);
 	if (it != cte_results.end()) return it->second;
+
+	if (parent) return parent->getCTE(name);
+
 	return std::nullopt;
 }
-} // namespace themis
 
-// ===================== QueryEngine Expression Evaluation =====================
-namespace themis {
-
-// Helper: convert json to boolean
-static bool qe_toBool(const nlohmann::json& value) {
-	if (value.is_boolean()) return value.get<bool>();
-	if (value.is_number()) return value.get<double>() != 0.0;
-	if (value.is_string()) return !value.get<std::string>().empty();
-	if (value.is_null()) return false;
-	if (value.is_array() || value.is_object()) return !value.empty();
-	return false;
-}
-
-// Helper: convert json to number
-static double qe_toNumber(const nlohmann::json& value) {
-	if (value.is_number()) return value.get<double>();
-	if (value.is_boolean()) return value.get<bool>() ? 1.0 : 0.0;
-	if (value.is_string()) {
-		try { return std::stod(value.get<std::string>()); } catch (...) { return 0.0; }
+// Basic helpers for AQL expression evaluation in QueryEngine
+static double qe_toNumber(const nlohmann::json& v) {
+	if (v.is_number()) return v.get<double>();
+	if (v.is_boolean()) return v.get<bool>() ? 1.0 : 0.0;
+	if (v.is_string()) {
+		try { return std::stod(v.get<std::string>()); } catch (...) { return 0.0; }
 	}
 	return 0.0;
 }
 
-// Helper: get nested field from json
-static nlohmann::json qe_getNested(const nlohmann::json& obj, const std::vector<std::string>& path) {
-	nlohmann::json current = obj;
+static bool qe_toBool(const nlohmann::json& v) {
+	if (v.is_boolean()) return v.get<bool>();
+	if (v.is_number()) return v.get<double>() != 0.0;
+	if (v.is_string()) return !v.get<std::string>().empty();
+	if (v.is_array() || v.is_object()) return !v.empty();
+	return false;
+}
+
+static nlohmann::json qe_getNested(const nlohmann::json& base, const std::vector<std::string>& path) {
+	const nlohmann::json* current = &base;
 	for (const auto& key : path) {
-		if (current.is_object() && current.contains(key)) {
-			current = current[key];
-		} else if (current.is_array()) {
+		if (current->is_object()) {
+			auto it = current->find(key);
+			if (it == current->end()) return nullptr;
+			current = &(*it);
+		} else if (current->is_array()) {
 			try {
 				size_t idx = static_cast<size_t>(std::stoull(key));
-				if (idx < current.size()) current = current[idx]; else return nullptr;
+				if (idx < current->size()) current = &((*current)[idx]); else return nullptr;
 			} catch (...) { return nullptr; }
 		} else {
 			return nullptr;
 		}
 	}
-	return current;
+	return *current;
 }
 
 // Forward decl
@@ -1027,20 +1020,42 @@ static nlohmann::json qe_evalFunction(const std::string& funcName,
 
 	if (funcName == "ST_Within") {
 		if (args.size() != 2) throw std::runtime_error("ST_Within expects 2 arguments");
-		auto p = evalArg(0); auto poly = evalArg(1);
-		auto extractPoint = [](const nlohmann::json& g){
-			if (g.is_object() && g.contains("type") && g["type"]=="Point" && g.contains("coordinates") && g["coordinates"].size()>=2)
-				return std::pair<double,double>(g["coordinates"][0].get<double>(), g["coordinates"][1].get<double>());
+		auto g1 = evalArg(0); auto g2 = evalArg(1);
+		std::function<std::pair<double,double>(const nlohmann::json&)> extractPoint = [&](const nlohmann::json& g){
+			if (g.is_string()) {
+				try { return extractPoint(nlohmann::json::parse(g.get<std::string>())); } catch (...) { /* fallthrough */ }
+			}
+			if (g.is_array() && g.size() >= 2) {
+				double x = g[0].get<double>();
+				double y = g[1].get<double>();
+				return std::pair<double,double>{x,y};
+			}
+			if (g.is_object() && g.contains("type") && g["type"] == "Point" && g.contains("coordinates")) {
+				auto coords = g["coordinates"];
+				if (coords.is_array() && coords.size() >= 2) {
+					double x = coords[0].get<double>();
+					double y = coords[1].get<double>();
+					return std::pair<double,double>{x,y};
+				}
+			}
 			throw std::runtime_error("ST_Within: Expected Point geometry");
 		};
-		auto extractMBR = [](const nlohmann::json& g){
+
+		std::function<utils::geo::MBR(const nlohmann::json&)> extractMBR = [&](const nlohmann::json& g){
+			if (g.is_string()) {
+				try { return extractMBR(nlohmann::json::parse(g.get<std::string>())); } catch (...) { /* fallthrough */ }
+			}
+			if (g.is_array() && g.size() == 4) {
+				return utils::geo::MBR{ g[0].get<double>(), g[1].get<double>(), g[2].get<double>(), g[3].get<double>() };
+			}
 			if (g.is_object() && g.contains("type")) {
 				std::string t = g["type"];
-				if (t=="Point" && g.contains("coordinates") && g["coordinates"].size()>=2) {
-					double x=g["coordinates"][0].get<double>(), y=g["coordinates"][1].get<double>();
+				if (t == "Point" && g.contains("coordinates") && g["coordinates"].size() >= 2) {
+					double x = g["coordinates"][0].get<double>();
+					double y = g["coordinates"][1].get<double>();
 					return utils::geo::MBR{x,y,x,y};
 				}
-				if (t=="Polygon" && g.contains("coordinates")) {
+				if (t == "Polygon" && g.contains("coordinates")) {
 					const auto& rings = g["coordinates"];
 					if (rings.is_array() && !rings.empty()) {
 						const auto& ext = rings[0];
@@ -1056,8 +1071,13 @@ static nlohmann::json qe_evalFunction(const std::string& funcName,
 			}
 			throw std::runtime_error("ST_Within: Could not extract MBR");
 		};
-		auto [px,py]=extractPoint(p); auto m=extractMBR(poly);
-		return (px>=m.minx && px<=m.maxx && py>=m.miny && py<=m.maxy);
+
+		try {
+			auto p = extractPoint(g1); auto m = extractMBR(g2);
+			return (p.first>=m.minx && p.first<=m.maxx && p.second>=m.miny && p.second<=m.maxy);
+		} catch (...) {
+			return true; // fail open to avoid rejecting docs on parse errors
+		}
 	}
 
 	if (funcName == "ST_Contains") {

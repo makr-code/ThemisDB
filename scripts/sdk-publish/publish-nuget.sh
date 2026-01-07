@@ -19,16 +19,16 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "📦 NuGet Publishing for ThemisDB.Client"
+echo "ðŸ“¦ NuGet Publishing for ThemisDB.Client"
 
 # Check prerequisites
 if ! command -v dotnet &> /dev/null; then
-    echo "❌ dotnet not found"
+    echo "âŒ dotnet not found"
     exit 1
 fi
 
 if [[ -z "${NUGET_API_KEY:-}" ]] && [[ "$DRY_RUN" == "false" ]]; then
-    echo "❌ NUGET_API_KEY environment variable not set"
+    echo "âŒ NUGET_API_KEY environment variable not set"
     exit 1
 fi
 
@@ -41,27 +41,27 @@ if [[ -n "$VERSION" ]]; then
 fi
 
 # Restore dependencies
-echo "📥 Restoring dependencies..."
+echo "ðŸ“¥ Restoring dependencies..."
 dotnet restore
 
 # Build
-echo "🔨 Building..."
+echo "ðŸ”¨ Building..."
 dotnet build -c Release
 
 # Run tests
-echo "🧪 Running tests..."
+echo "ðŸ§ª Running tests..."
 dotnet test -c Release || echo "No tests found or tests skipped"
 
 # Pack
-echo "📦 Packing..."
+echo "ðŸ“¦ Packing..."
 dotnet pack -c Release -o ./nupkg
 
 # Publish
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo "🔍 Dry run - would publish:"
+    echo "ðŸ” Dry run - would publish:"
     ls -la ./nupkg/
 else
-    echo "🚀 Publishing to NuGet..."
+    echo "ðŸš€ Publishing to NuGet..."
     dotnet nuget push ./nupkg/*.nupkg \
         --api-key "$NUGET_API_KEY" \
         --source https://api.nuget.org/v3/index.json
@@ -70,4 +70,4 @@ fi
 # Cleanup
 rm -rf ./nupkg
 
-echo "✅ NuGet publishing complete"
+echo "âœ… NuGet publishing complete"

@@ -5,6 +5,9 @@
 #include <thread>
 #include <chrono>
 #include <filesystem>
+#include <algorithm>
+#include <string>
+#include <cctype>
 
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
@@ -23,16 +26,17 @@ using tcp = net::ip::tcp;
 class HttpVectorApiTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create isolated test database
-        const std::string db_path = "data/themis_http_vector_test";
-        
-        // Clean up old test data
-        if (std::filesystem::exists(db_path)) {
-            std::filesystem::remove_all(db_path);
-        }
-        
+        auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
+        std::string suffix = info ? std::string(info->test_suite_name()) + "_" + info->name() : "default";
+        std::replace_if(suffix.begin(), suffix.end(), [](unsigned char c) { return !std::isalnum(c); }, '_');
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+        db_path_ = std::filesystem::temp_directory_path() / ("themis_http_vector_test_" + suffix + "_" + std::to_string(now));
+        save_dir_ = db_path_.parent_path() / (db_path_.filename().string() + "_save");
+        std::filesystem::create_directories(db_path_);
+
         themis::RocksDBWrapper::Config cfg;
-        cfg.db_path = db_path;
+        cfg.db_path = db_path_.string();
         cfg.memtable_size_mb = 64;
         cfg.block_cache_size_mb = 128;
         storage_ = std::make_shared<themis::RocksDBWrapper>(cfg);
@@ -48,9 +52,10 @@ protected:
         ASSERT_TRUE(st.ok) << st.message;
 
         // Start HTTP server
+        port_ = static_cast<uint16_t>(21000 + (now % 10000));
         themis::server::HttpServer::Config scfg;
         scfg.host = "127.0.0.1";
-        scfg.port = 18085; // avoid clashes with other HTTP tests
+        scfg.port = port_;
         scfg.num_threads = 2;
 
         server_ = std::make_unique<themis::server::HttpServer>(scfg, storage_, secondary_index_, graph_index_, vector_index_, tx_manager_);
@@ -75,12 +80,18 @@ protected:
     }
 
     void TearDown() override {
-        if (server_) server_->stop();
-        storage_->close();
-        
-        // Cleanup test data
-        std::filesystem::remove_all("data/themis_http_vector_test");
-        std::filesystem::remove_all("./data/vector_http_test_save");
+        if (server_) {
+            server_->stop();
+        }
+        if (storage_) {
+            storage_->close();
+        }
+        if (!db_path_.empty()) {
+            std::filesystem::remove_all(db_path_);
+        }
+        if (!save_dir_.empty()) {
+            std::filesystem::remove_all(save_dir_);
+        }
     }
 
     void setupTestData() {
@@ -106,7 +117,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
 
-        auto const results = resolver.resolve("127.0.0.1", std::to_string(18085));
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
 
         http::request<http::string_body> req{http::verb::post, target, 11};
@@ -132,7 +143,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
 
-        auto const results = resolver.resolve("127.0.0.1", std::to_string(18085));
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
 
         http::request<http::string_body> req{http::verb::get, target, 11};
@@ -155,7 +166,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
 
-        auto const results = resolver.resolve("127.0.0.1", std::to_string(18085));
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
 
         http::request<http::string_body> req{http::verb::put, target, 11};
@@ -181,7 +192,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
 
-        auto const results = resolver.resolve("127.0.0.1", std::to_string(18085));
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
 
         http::request<http::string_body> req{http::verb::delete_, target, 11};
@@ -208,6 +219,9 @@ protected:
     std::shared_ptr<themis::VectorIndexManager> vector_index_;
     std::shared_ptr<themis::TransactionManager> tx_manager_;
     std::unique_ptr<themis::server::HttpServer> server_;
+    std::filesystem::path db_path_;
+    std::filesystem::path save_dir_;
+    uint16_t port_{0};
 };
 
 TEST_F(HttpVectorApiTest, VectorIndexStats_ReturnsConfiguration) {
@@ -320,12 +334,10 @@ TEST_F(HttpVectorApiTest, VectorIndexConfigPut_RejectsInvalidEfSearch) {
 }
 
 TEST_F(HttpVectorApiTest, VectorIndexSave_CreatesFiles) {
-    std::string save_dir = "./data/vector_http_test_save";
+    const auto save_dir = save_dir_.string();
     
     // Clean up if exists
-    if (std::filesystem::exists(save_dir)) {
-        std::filesystem::remove_all(save_dir);
-    }
+    std::filesystem::remove_all(save_dir);
     
     json request = {{"directory", save_dir}};
     auto response = httpPost("/vector/index/save", request);
@@ -342,12 +354,10 @@ TEST_F(HttpVectorApiTest, VectorIndexSave_CreatesFiles) {
 }
 
 TEST_F(HttpVectorApiTest, VectorIndexLoad_RestoresFromDisk) {
-    std::string save_dir = "./data/vector_http_test_save";
+    const auto save_dir = save_dir_.string();
     
     // First save the index
-    if (std::filesystem::exists(save_dir)) {
-        std::filesystem::remove_all(save_dir);
-    }
+    std::filesystem::remove_all(save_dir);
     
     json save_request = {{"directory", save_dir}};
     auto save_response = httpPost("/vector/index/save", save_request);
@@ -607,10 +617,8 @@ TEST_F(HttpVectorApiTest, VectorSearch_CursorPagination_Works) {
 
 TEST_F(HttpVectorApiTest, VectorIndexStats_DOTMetric_NoNormalization) {
     // Create a new index with DOT metric to test HTTP API metric handling
-    const std::string db_path_dot = "data/themis_http_vector_test_dot";
-    if (std::filesystem::exists(db_path_dot)) {
-        std::filesystem::remove_all(db_path_dot);
-    }
+    const auto db_path_dot = (db_path_.parent_path() / (db_path_.filename().string() + "_dot")).string();
+    std::filesystem::remove_all(db_path_dot);
     
     themis::RocksDBWrapper::Config cfg;
     cfg.db_path = db_path_dot;

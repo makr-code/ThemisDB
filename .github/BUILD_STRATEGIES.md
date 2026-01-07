@@ -267,3 +267,270 @@ fatal error: simdjson.h: No such file or directory
 - 🔒 Reproduzierbare Builds
 - 🌐 Cross-Platform Support
 - ✅ Exakte Versionskontrolle
+
+---
+
+## Deployment-Strategie und Branching
+
+### Branch-basierte Build & Deployment Strategy
+
+ThemisDB nutzt eine **Git Flow Branching Strategy** mit unterschiedlichen Build- und Deployment-Strategien pro Branch:
+
+#### 1. `develop` Branch - Continuous Integration
+
+**Zweck**: Schnelles Feedback für Feature-Integration
+
+**Build-Strategie:**
+```yaml
+# CI auf develop: Fast Builds mit System Libraries
+trigger: push/PR to develop
+strategy: System Libraries (apt) + minimal vcpkg
+build-time: ~5-10 min
+artifacts: Keine Releases, nur Test-Reports
+```
+
+**CI Workflow:**
+- ✅ Build-Validierung (Linux + Windows)
+- ✅ Unit Tests
+- ✅ Code Quality (clang-tidy, cppcheck)
+- ✅ Security Scans (Gitleaks)
+- ❌ Keine Docker Images
+- ❌ Keine Release-Artefakte
+
+**Verwendete Workflow-Dateien:**
+- `.github/workflows/develop-ci.yml` (oder ähnlich)
+- Schnelle Feedbackzyklen (5-10 min)
+
+#### 2. `release/*` Branch - Release Preparation
+
+**Zweck**: Release-Testing und Stabilisierung
+
+**Build-Strategie:**
+```yaml
+# CI auf release branches: Full vcpkg Builds
+trigger: push to release/*
+strategy: vcpkg Manifest (vollständig)
+build-time: ~30 min
+artifacts: Pre-release binaries für Testing
+```
+
+**CI Workflow:**
+- ✅ Vollständige Builds (alle Plattformen)
+- ✅ Komplette Test-Suite
+- ✅ Performance Benchmarks
+- ✅ Pre-release Docker Images (optional)
+- ✅ Release Notes Validierung
+
+**Artefakte:**
+- Linux: `themis_server` (statisch)
+- Windows: `themis_server.exe`
+- Docker: `themisdb/server:v1.4.0-rc1`
+
+#### 3. `main` Branch - Production Releases
+
+**Zweck**: Stabile Production-Deployments
+
+**Build-Strategie:**
+```yaml
+# CI auf main: Production Builds + Deployment
+trigger: push to main (mit Tag v*.*.*)
+strategy: vcpkg Manifest + Static Linking
+build-time: ~30-40 min (mit Multi-Arch)
+artifacts: Alle Release-Artefakte + Docker Images
+```
+
+**CI Workflow:**
+- ✅ Production Builds (statisch, optimiert)
+- ✅ Multi-Architektur Docker Images (amd64, arm64)
+- ✅ GitHub Release erstellen
+- ✅ Docker Hub Push (`themisdb/server:latest`, `themisdb/server:v1.4.0`)
+- ✅ Dokumentation deployen (GitHub Pages)
+- ✅ Release-Ankündigungen
+
+**Deployment Targets:**
+```bash
+# Docker Hub
+docker.io/themisdb/server:latest
+docker.io/themisdb/server:v1.4.0
+docker.io/themisdb/server:v1.4.0-community
+
+# GitHub Releases
+- themis-server-linux-amd64.tar.gz
+- themis-server-linux-arm64.tar.gz
+- themis-server-windows-amd64.zip
+- themis-server-macos-universal.tar.gz
+```
+
+**Verwendete Workflow-Dateien:**
+- `.github/workflows/release-build.yml`
+- `.github/workflows/docker-build.yml`
+
+#### 4. `hotfix/*` Branch - Emergency Fixes
+
+**Zweck**: Kritische Produktions-Fixes
+
+**Build-Strategie:**
+```yaml
+# CI auf hotfix: Wie Production aber schneller
+trigger: push to hotfix/*
+strategy: vcpkg Manifest (cached)
+build-time: ~10-15 min (mit Cache)
+artifacts: Patch-Release Artefakte
+priority: HIGH
+```
+
+**Fast-Track Workflow:**
+- ✅ Essenzielle Tests nur (schnell)
+- ✅ Production Build
+- ✅ Sofortiges Deployment nach Approval
+- ✅ Automatisches Tagging (v1.4.1)
+
+### Branch-to-Workflow Mapping
+
+| Branch Pattern | Workflow | Build-Typ | Deployment | Docker Push |
+|---------------|----------|-----------|------------|-------------|
+| `develop` | develop-ci.yml | Fast (apt) | ❌ Nie | ❌ Nein |
+| `feature/*` | develop-ci.yml | Fast (apt) | ❌ Nie | ❌ Nein |
+| `bugfix/*` | develop-ci.yml | Fast (apt) | ❌ Nie | ❌ Nein |
+| `release/*` | release-build.yml | Full (vcpkg) | ⚠️ Pre-release | ⚠️ Optional |
+| `main` | release-build.yml + docker-build.yml | Full + Static | ✅ Production | ✅ Latest + Tag |
+| `hotfix/*` | release-build.yml | Full (cached) | ✅ Hotfix | ✅ Patch Tag |
+
+### Beispiel-Workflow Konfigurationen
+
+**develop-ci.yml** (Fast Feedback):
+```yaml
+name: Develop CI
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  fast-build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librocksdb-dev libboost-dev ...
+      - name: Build
+        run: |
+          cmake -B build -G Ninja -DTHEMIS_USE_SYSTEM_LIBS=ON
+          cmake --build build -j$(nproc)
+      - name: Test
+        run: cd build && ctest --output-on-failure
+```
+
+**release-build.yml** (Production):
+```yaml
+name: Release Build
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+jobs:
+  build-release:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            triplet: x64-linux
+          - os: windows-latest
+            triplet: x64-windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+      - name: Build Production
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_STATIC_BUILD=ON \
+            -DCMAKE_TOOLCHAIN_FILE=./vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake --build build -j$(nproc)
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: themis-${{ matrix.triplet }}
+          path: build/themis_server*
+```
+
+### Version-Tagging Konvention
+
+| Branch | Tag Format | Beispiel | Docker Tag |
+|--------|-----------|----------|------------|
+| `main` | `v{MAJOR}.{MINOR}.{PATCH}` | `v1.4.0` | `latest`, `v1.4.0`, `v1.4` |
+| `main` (hotfix) | `v{MAJOR}.{MINOR}.{PATCH}` | `v1.4.1` | `latest`, `v1.4.1`, `v1.4` |
+| `release/*` | `v{VERSION}-rc{N}` | `v1.4.0-rc1` | `v1.4.0-rc1` |
+
+**Semantic Versioning:**
+- **MAJOR**: Breaking Changes (v2.0.0)
+- **MINOR**: Neue Features (v1.4.0)
+- **PATCH**: Bugfixes (v1.4.1)
+
+### Build-Cache Strategie
+
+**develop Branch:**
+```yaml
+# Kein Docker Layer Cache (schnelle apt Builds)
+cache:
+  paths:
+    - ~/.cache/ccache  # Nur Compiler Cache
+```
+
+**main Branch:**
+```yaml
+# Vollständiger vcpkg Cache
+cache:
+  paths:
+    - vcpkg/downloads
+    - vcpkg/packages
+    - ~/.cache/ccache
+```
+
+### Performance-Optimierung nach Branch
+
+| Branch | Build-Zeit Ziel | Cache Strategy | Optimierung |
+|--------|-----------------|----------------|-------------|
+| `develop` | < 10 min | ccache + apt | Schnelles Feedback |
+| `release/*` | < 30 min | vcpkg cache | Vollständig, reproduzierbar |
+| `main` | < 40 min | Full cache | + Multi-arch Docker |
+| `hotfix/*` | < 15 min | Warmer Cache | Fast-track |
+
+### Zusammenfassung
+
+**Entwickler auf `develop`:**
+- Arbeiten mit schnellen System-Library Builds
+- Schnelles Feedback (5-10 min)
+- Keine Release-Artefakte
+
+**Maintainer auf `release/*`:**
+- Vollständige vcpkg Builds für alle Plattformen
+- Release-Testing und Stabilisierung
+- Pre-release Artefakte
+
+**Production auf `main`:**
+- Optimierte, statische Builds
+- Multi-Architektur Docker Images
+- Automatisches Deployment zu Docker Hub
+- GitHub Releases mit allen Artefakten
+
+**Hotfixes:**
+- Fast-Track Process
+- Minimale Tests, maximale Geschwindigkeit
+- Sofortiges Deployment nach Approval
+
+Siehe auch:
+- `BRANCHING_STRATEGY.md` - Vollständige Git Flow Dokumentation
+- `MIGRATION_GUIDE.md` - Migration zu neuer Branching Strategy
+- `.github/workflows/` - Konkrete Workflow-Implementierungen

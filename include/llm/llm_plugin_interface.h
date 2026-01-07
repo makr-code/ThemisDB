@@ -1,0 +1,382 @@
+#pragma once
+
+#include "plugins/plugin_interface.h"
+#include <string>
+#include <vector>
+#include <memory>
+#include <optional>
+#include <functional>
+#include <nlohmann/json.hpp>
+
+/**
+ * @file llm_plugin_interface.h
+ * @brief Plugin interface for LLM backends in ThemisDB
+ * 
+ * This interface enables plugin-based LLM integration for v1.3.0, supporting:
+ * - Multiple LLM backends (llama.cpp, vLLM, etc.)
+ * - LoRA adapter management
+ * - Distributed reasoning capabilities
+ * - Zero-copy memory access where possible
+ * 
+ * Based on AI_ECOSYSTEM_SHARDING_ARCHITECTURE.md design document.
+ */
+
+namespace themis {
+namespace llm {
+
+using json = nlohmann::json;
+
+/**
+ * @brief LLM-specific capabilities
+ */
+struct LLMCapabilities {
+    // Model capabilities
+    bool supports_instruct = false;      // Instruction-tuned models
+    bool supports_chat = false;          // Chat/conversation models
+    bool supports_completion = false;    // Text completion
+    
+    // Advanced features
+    bool supports_lora = false;          // LoRA adapter support
+    bool supports_quantization = false;  // Model quantization (Q4, Q8, etc.)
+    bool supports_streaming = false;     // Token streaming
+    bool supports_batching = false;      // Batch inference
+    
+    // Hardware acceleration
+    bool gpu_accelerated = false;
+    bool supports_cuda = false;
+    bool supports_rocm = false;
+    bool supports_metal = false;
+    bool supports_vulkan = false;
+    
+    // Memory management
+    bool supports_unified_memory = false;  // CUDA unified memory
+    bool supports_zero_copy = false;       // Zero-copy from vector DB
+    
+    // Distributed features (for sharding architecture)
+    bool supports_model_sharding = false;  // Model parallelism
+    bool supports_pipeline_parallel = false;
+    bool supports_tensor_parallel = false;
+};
+
+/**
+ * @brief Model information
+ */
+struct ModelInfo {
+    std::string name;              // e.g., "mistral-7b-instruct"
+    std::string path;              // Path to model file
+    std::string format;            // e.g., "gguf", "safetensors"
+    std::string architecture;      // e.g., "llama", "mistral", "gpt"
+    std::string model_id;          // Logical id
+    bool is_loaded = false;        // Load state
+    size_t size_bytes = 0;
+    std::string quantization;      // e.g., q4_0
+    std::string loaded_at;         // Timestamp string
+    
+    size_t parameter_count = 0;    // Model size (e.g., 7B, 13B)
+    size_t context_length = 0;     // Max context tokens
+    size_t vocab_size = 0;
+    
+    size_t vram_required_mb = 0;   // Estimated VRAM usage
+    size_t ram_required_mb = 0;    // RAM for CPU offload
+    
+    json metadata;                 // Additional model metadata
+};
+
+/**
+ * @brief LoRA adapter information
+ */
+struct LoRAInfo {
+    std::string id;                // Unique identifier
+    std::string name;              // Human-readable name
+    std::string path;              // Path to LoRA weights
+    std::string base_model;        // Compatible base model
+    std::string lora_id;           // Alias
+    std::string adapter_id;        // Test-facing adapter id (alias of id)
+    std::string base_model_id;     // Test-facing base model id (alias of base_model)
+    bool is_loaded = false;
+    
+    size_t size_bytes = 0;
+    float scale = 1.0f;            // LoRA scaling factor
+    
+    json metadata;                 // Domain, version, etc.
+};
+
+/**
+ * @brief Inference request parameters
+ */
+struct InferenceRequest {
+    std::string prompt;
+    std::string model_id = "default";
+    std::string request_id;      // Optional request identifier for tracing
+    
+    // Generation parameters
+    int max_tokens = 512;
+    float temperature = 0.7f;
+    float top_p = 0.9f;
+    int top_k = 40;
+    float repetition_penalty = 1.1f;
+    
+    // Optional system prompt
+    std::optional<std::string> system_prompt;
+    
+    // LoRA adapter to use (if any)
+    std::optional<std::string> lora_adapter_id;
+    
+    // Streaming callback
+    std::function<void(const std::string& token)> stream_callback;
+    
+    // Stop sequences
+    std::vector<std::string> stop_sequences;
+    
+    // Metadata for tracking
+    json metadata;
+};
+
+/**
+ * @brief Inference response
+ */
+struct InferenceResponse {
+    std::string request_id;      // Mirrors request id if provided
+    std::string text;              // Generated text
+    std::string model_id;          // Model identifier used
+    bool cache_hit = false;        // Whether response came from cache
+    
+    // Statistics
+    int tokens_generated = 0;
+    int tokens_prompt = 0;
+    float inference_time_ms = 0.0f;
+    float tokens_per_second = 0.0f;
+    int64_t latency_ms = 0;        // Wall-clock latency in milliseconds
+    
+    // Model information
+    std::string model_used;
+    std::optional<std::string> lora_used;
+    
+    // Quality metrics (if available)
+    std::optional<float> perplexity;
+    std::vector<float> logprobs;   // Log probabilities per token
+    
+    json metadata;
+};
+
+/**
+ * @brief RAG (Retrieval-Augmented Generation) context
+ */
+struct RAGContext {
+    std::string query;             // User query
+    std::string collection_name;
+    int top_k = 0;
+    
+    // Retrieved documents/chunks
+    struct Document {
+        std::string content;
+        std::string source;        // Document identifier
+        float relevance_score = 0.0f;
+        json metadata;
+    };
+    std::vector<Document> documents;
+    
+    // Context assembly parameters
+    int max_context_tokens = 4096;
+    std::string context_template;  // How to format context
+};
+
+/**
+ * @brief Base interface for LLM plugins
+ * 
+ * All LLM backend plugins must implement this interface.
+ * Examples: LlamaCppPlugin, VLLMPlugin, OpenAIPlugin, etc.
+ */
+class ILLMPlugin {
+public:
+    virtual ~ILLMPlugin() = default;
+    
+    // ═══════════════════════════════════════════════════════════
+    // Model Management
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Load a model
+     * @param model_path Path to model file
+     * @param config Model configuration (JSON)
+     * @return true if loaded successfully
+     */
+    virtual bool loadModel(
+        const std::string& model_path,
+        const json& config = {}
+    ) = 0;
+    
+    /**
+     * @brief Unload current model
+     */
+    virtual void unloadModel() = 0;
+    
+    /**
+     * @brief Get current model information
+     */
+    virtual std::optional<ModelInfo> getModelInfo() const = 0;
+    
+    /**
+     * @brief Check if model is loaded
+     */
+    virtual bool isModelLoaded() const = 0;
+    
+    // ═══════════════════════════════════════════════════════════
+    // LoRA Management
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Load a LoRA adapter
+     * @param lora_id Unique identifier
+     * @param lora_path Path to LoRA weights
+     * @param scale LoRA scaling factor
+     * @return true if loaded successfully
+     */
+    virtual bool loadLoRA(
+        const std::string& lora_id,
+        const std::string& lora_path,
+        float scale = 1.0f
+    ) = 0;
+    
+    /**
+     * @brief Unload a LoRA adapter
+     */
+    virtual bool unloadLoRA(const std::string& lora_id) = 0;
+    
+    /**
+     * @brief List loaded LoRA adapters
+     */
+    virtual std::vector<LoRAInfo> listLoRAs() const = 0;
+    
+    // ═══════════════════════════════════════════════════════════
+    // Inference
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Generate text from prompt
+     * @param request Inference parameters
+     * @return Generated response
+     */
+    virtual InferenceResponse generate(const InferenceRequest& request) = 0;
+    
+    /**
+     * @brief RAG-enhanced generation
+     * @param rag_context Retrieved documents and query
+     * @param request Generation parameters
+     * @return Generated response
+     */
+    virtual InferenceResponse generateRAG(
+        const RAGContext& rag_context,
+        const InferenceRequest& request
+    ) = 0;
+    
+    /**
+     * @brief Embed text to vector
+     * @param text Text to embed
+     * @return Embedding vector (typically 768 or 1024 dimensions)
+     */
+    virtual std::vector<float> embed(const std::string& text) = 0;
+    
+    // ═══════════════════════════════════════════════════════════
+    // Capabilities
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get plugin capabilities
+     */
+    virtual LLMCapabilities getCapabilities() const = 0;
+    
+    /**
+     * @brief Get memory usage statistics
+     */
+    virtual json getMemoryStats() const = 0;
+    
+    /**
+     * @brief Get performance statistics
+     */
+    virtual json getPerformanceStats() const = 0;
+    
+    // ═══════════════════════════════════════════════════════════
+    // Distributed Features (for sharding architecture)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Export LoRA for transfer to another shard
+     * @param lora_id LoRA identifier
+     * @return Serialized LoRA weights
+     */
+    virtual std::vector<uint8_t> exportLoRA(const std::string& lora_id) = 0;
+    
+    /**
+     * @brief Import LoRA from another shard
+     * @param lora_id LoRA identifier
+     * @param data Serialized LoRA weights
+     * @return true if imported successfully
+     */
+    virtual bool importLoRA(
+        const std::string& lora_id,
+        const std::vector<uint8_t>& data
+    ) = 0;
+};
+
+/**
+ * @brief Wrapper to integrate ILLMPlugin with ThemisDB plugin system
+ * 
+ * This adapter class bridges ILLMPlugin to IThemisPlugin, allowing
+ * LLM plugins to be managed by the unified PluginManager.
+ */
+class LLMPluginAdapter : public plugins::IThemisPlugin {
+public:
+    explicit LLMPluginAdapter(std::unique_ptr<ILLMPlugin> llm_plugin)
+        : llm_plugin_(std::move(llm_plugin)) {}
+    
+    // IThemisPlugin interface implementation
+    const char* getName() const override { return "LLM Plugin"; }
+    const char* getVersion() const override { return "1.0.0"; }
+    plugins::PluginType getType() const override { 
+        return plugins::PluginType::LLM_BACKEND;
+    }
+    
+    plugins::PluginCapabilities getCapabilities() const override {
+        auto llm_caps = llm_plugin_->getCapabilities();
+        plugins::PluginCapabilities caps;
+        caps.supports_streaming = llm_caps.supports_streaming;
+        caps.supports_batching = llm_caps.supports_batching;
+        caps.gpu_accelerated = llm_caps.gpu_accelerated;
+        caps.thread_safe = true;
+        return caps;
+    }
+    
+    bool initialize(const char* config_json) override {
+        try {
+            json config = json::parse(config_json);
+            if (config.contains("model_path")) {
+                return llm_plugin_->loadModel(
+                    config["model_path"].get<std::string>(),
+                    config
+                );
+            }
+            return true;
+        } catch (...) {
+            return false;
+        }
+    }
+    
+    void shutdown() override {
+        llm_plugin_->unloadModel();
+    }
+    
+    void* getInstance() override {
+        return llm_plugin_.get();
+    }
+    
+    // Direct access to LLM plugin
+    ILLMPlugin* getLLMPlugin() { return llm_plugin_.get(); }
+    const ILLMPlugin* getLLMPlugin() const { return llm_plugin_.get(); }
+    
+private:
+    std::unique_ptr<ILLMPlugin> llm_plugin_;
+};
+
+} // namespace llm
+} // namespace themis

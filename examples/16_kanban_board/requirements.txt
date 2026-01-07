@@ -1,0 +1,4 @@
+-r ../requirements-common.txt
+
+# Data visualization for burndown charts
+matplotlib>=3.5.0

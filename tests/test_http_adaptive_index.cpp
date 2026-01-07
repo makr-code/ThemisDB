@@ -11,6 +11,9 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
+#include <algorithm>
+#include <string>
+#include <cctype>
 
 using namespace themis;
 using namespace themis::server;
@@ -24,8 +27,14 @@ using tcp = net::ip::tcp;
 class HttpAdaptiveIndexTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = std::filesystem::temp_directory_path() / 
-                       ("themis_http_adaptive_test_" + std::to_string(std::time(nullptr)));
+        auto* info = ::testing::UnitTest::GetInstance()->current_test_info();
+        std::string suffix = info ? std::string(info->test_suite_name()) + "_" + info->name() : "default";
+        std::replace_if(suffix.begin(), suffix.end(), [](unsigned char c) { return !std::isalnum(c); }, '_');
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+        test_db_path_ = std::filesystem::temp_directory_path() /
+                       ("themis_http_adaptive_test_" + suffix + "_" + std::to_string(now));
+        std::filesystem::create_directories(test_db_path_);
         
         RocksDBWrapper::Config db_config;
         db_config.db_path = test_db_path_.string();
@@ -40,7 +49,8 @@ protected:
         
         HttpServer::Config server_config;
         server_config.host = "127.0.0.1";
-        server_config.port = 18081;  // Different port to avoid conflicts
+        port_ = static_cast<uint16_t>(22000 + (now % 10000));
+        server_config.port = port_;  // Different port to avoid conflicts
         server_config.num_threads = 2;
         
         server_ = std::make_unique<HttpServer>(
@@ -72,7 +82,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
         
-        auto const results = resolver.resolve("127.0.0.1", "18081");
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
         
         http::request<http::string_body> req{http::verb::get, path, 11};
@@ -96,7 +106,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
         
-        auto const results = resolver.resolve("127.0.0.1", "18081");
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
         
         http::request<http::string_body> req{http::verb::post, path, 11};
@@ -123,7 +133,7 @@ protected:
         tcp::resolver resolver(ioc);
         beast::tcp_stream stream(ioc);
         
-        auto const results = resolver.resolve("127.0.0.1", "18081");
+        auto const results = resolver.resolve("127.0.0.1", std::to_string(port_));
         stream.connect(results);
         
         http::request<http::string_body> req{http::verb::delete_, path, 11};
@@ -147,6 +157,7 @@ protected:
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
     std::unique_ptr<HttpServer> server_;
+    uint16_t port_{0};
 };
 
 // ===== HTTP Endpoint Tests =====

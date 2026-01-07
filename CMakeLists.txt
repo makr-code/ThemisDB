@@ -15,6 +15,23 @@ project(Themis VERSION ${_ver} LANGUAGES CXX)
 # Make project version available to all translation units
 add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
 
+# Linux-specific compiler flags for Boost/vcpkg compatibility
+# Suppress deprecated-declarations and other warnings that occur in vcpkg dependencies
+# on Linux with modern GCC/Clang versions
+if(UNIX AND NOT APPLE)
+    message(STATUS "Configuring for Linux: Adding compiler flags for vcpkg compatibility")
+    add_compile_options(-Wno-deprecated-declarations)
+    add_compile_options(-Wno-error=deprecated-declarations)
+    # Suppress "mangled-name" warnings in some Boost packages
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-Wno-error=format-security)
+    endif()
+endif()
+
+# Include modular build configuration (post-v1.3.0 feature)
+# See docs/architecture/MODULARIZATION_PLAN.md for details
+include(cmake/ModularBuild.cmake)
+
 # C++20 Standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -39,7 +56,10 @@ endif()
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 
 # Dependencies
-find_package(OpenSSL REQUIRED)
+find_package(OpenSSL CONFIG)
+if(NOT OpenSSL_FOUND)
+    find_package(OpenSSL REQUIRED)
+endif()
 
 # Make CURL optional: some environments (CI/dev) may not have dev package installed.
 # If found, create CURL::libcurl target; otherwise provide a fallback and continue.
@@ -62,17 +82,107 @@ option(THEMIS_ENABLE_AVX2 "Enable AVX2/FMA for SIMD kernels in Release builds (M
 option(THEMIS_QNAP_BUILD "Build for QNAP NAS with baseline x86-64 (no AVX)" OFF)
 option(THEMIS_ENABLE_HSM_REAL "Enable real PKCS#11 HSM provider (fallback to stub if OFF)" OFF)
 option(THEMIS_STATIC_BUILD "Build fully static binary for maximum portability (e.g., QNAP)" OFF)
-option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" ON)
+option(THEMIS_CORE_SHARED "Build themis_core as a shared library (DLL/.so) instead of static" OFF)
 option(THEMIS_ENABLE_CONTENT_PROCESSORS "Include content processors (audio/image/video/geo/cad) in core" OFF)
+option(THEMIS_ENABLE_WEBSOCKETS "Enable WebSocket protocol support with CDC (uses Boost.Beast)" ON)
 
 # For QNAP or fully static builds, force static core library
 if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core for QNAP/static builds" FORCE)
+    # FORCE STATIC BUILD FOR WINDOWS (LNK1189 Export Limit Workaround - v1.3.0+)
+    set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core to avoid Windows DLL export limit (LNK1189)" FORCE)
 endif()
+
+# LLM Support (v1.3.0+)
+# Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
+# Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
+option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" ON)
+
+# Voice Assistant Support (v1.4.0+) - Enterprise Feature
+# Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
+option(THEMIS_ENABLE_VOICE_ASSISTANT "Enable Voice Assistant with STT/TTS/LLM (v1.4.0+)" OFF)
+option(THEMIS_ENABLE_WHISPER "Enable Whisper.cpp for Speech-to-Text" OFF)
+option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+
+# Performance Optimization Options (Research-based, see docs/de/research/)
+# Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
+option(THEMIS_ENABLE_MIMALLOC "Use mimalloc allocator for +10-20% performance" OFF)
+option(THEMIS_ENABLE_HUGE_PAGES "Enable huge pages support for +15-30% memory performance" OFF)
+option(THEMIS_ENABLE_RCU_INDEX "Use RCU for read-heavy index paths (+200-500% read performance)" OFF)
+option(THEMIS_ENABLE_LIRS_CACHE "Use LIRS cache replacement policy (+30-40% hit rate)" OFF)
+
+# Phase 2: Medium-Term - Higher impact, medium effort optimizations (from PR #156/#157 research)
+# Medium-term optimizations (3-6 months effort, +100-200% overall performance)
+option(THEMIS_ENABLE_WISCKEY "Enable WiscKey key/value separation (+40-60% writes)" OFF)
+option(THEMIS_ENABLE_DOSTOEVSKY "Enable Dostoevsky adaptive LSM (+25-35% mixed)" OFF)
+option(THEMIS_ENABLE_CICADA "Enable Cicada optimistic CC (+100-150% transactions)" OFF)
+option(THEMIS_ENABLE_LIGRA "Enable Ligra graph processing (+200-300% graph)" OFF)
+option(THEMIS_ENABLE_RABITQ "Enable RaBitQ vector quantization (16x memory reduction)" OFF)
+
+# Phase 3: Long-Term - Very high impact, high effort optimizations (from PR #156/#157 research)
+# Long-term optimizations (6-12 months effort, +200-500% specialized workloads)
+option(THEMIS_ENABLE_DISKANN "Enable DiskANN billion-scale vector search (+300-400%)" OFF)
+option(THEMIS_ENABLE_BWTREE "Enable Bw-Tree lock-free index (+100-200%)" OFF)
+option(THEMIS_ENABLE_SPLINTERDB "Enable SplinterDB concurrent compaction (-70% P99)" OFF)
+option(THEMIS_ENABLE_GUNROCK "Enable Gunrock GPU graph analytics (+1000-3000%)" OFF)
+option(THEMIS_ENABLE_BAO "Enable Bao ML query optimizer (+30-70%)" OFF)
+
+# Build options
+option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks (requires Google Benchmark)" ON)
+
+# Performance Optimization Dependencies
+if(THEMIS_ENABLE_MIMALLOC)
+    message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
+    find_package(mimalloc CONFIG)
+    if(NOT mimalloc_FOUND)
+        message(WARNING "mimalloc not found via vcpkg. Install with: vcpkg install mimalloc")
+        message(WARNING "Building without mimalloc. Performance optimization disabled.")
+        set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "mimalloc not available" FORCE)
+    else()
+        message(STATUS "Found mimalloc: ${mimalloc_DIR}")
+        add_compile_definitions(THEMIS_USE_MIMALLOC)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_HUGE_PAGES)
+    message(STATUS "Enabling huge pages optimization (+15-30% memory performance)")
+    
+    # Check platform support
+    if(UNIX)
+        message(STATUS "Huge pages: Linux/Unix support enabled")
+        message(STATUS "Configure with: echo 1024 | sudo tee /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages")
+        add_compile_definitions(THEMIS_USE_HUGE_PAGES)
+    elseif(WIN32)
+        message(STATUS "Huge pages: Windows large pages support enabled")
+        message(STATUS "Configure via: secpol.msc -> Lock pages in memory")
+        add_compile_definitions(THEMIS_USE_HUGE_PAGES)
+    else()
+        message(WARNING "Huge pages not supported on this platform")
+        set(THEMIS_ENABLE_HUGE_PAGES OFF CACHE BOOL "Platform not supported" FORCE)
+    endif()
+endif()
+
+if(THEMIS_ENABLE_RCU_INDEX)
+    message(STATUS "Enabling RCU index optimization (+200-500% read performance)")
+    message(STATUS "RCU: Read-Copy-Update for lock-free reads in read-heavy workloads")
+    add_compile_definitions(THEMIS_USE_RCU_INDEX)
+    
+    # RCU requires C++17 or later (already set to C++20)
+    # No additional dependencies needed
+endif()
+
+if(THEMIS_ENABLE_LIRS_CACHE)
+    message(STATUS "Enabling LIRS cache optimization (+30-40% cache hit rate)")
+    message(STATUS "LIRS: Low Inter-reference Recency Set for scan-resistant caching")
+    add_compile_definitions(THEMIS_USE_LIRS_CACHE)
+    
+    # LIRS requires C++17 or later (already set to C++20)
+    # No additional dependencies needed
+endif()
 
 # Static build configuration for QNAP/older systems
 if(THEMIS_STATIC_BUILD)
@@ -115,6 +225,19 @@ option(THEMIS_ENABLE_OLAP_VARIANT "Build with DuckDB for OLAP workloads" OFF)
 option(THEMIS_EMBEDDED "Build embedded/lightweight variant (reduced dependencies)" OFF)
 option(THEMIS_VLLM_COLOCATION "Optimize for vLLM co-location (AI/ML workloads)" OFF)
 
+# Network Protocol Support Options
+# Security: All protocols are opt-in (OFF by default) except HTTP/1.1 and protocols already in production
+# Note: HTTP/1.1 is always enabled as the base protocol and cannot be disabled
+option(THEMIS_ENABLE_HTTP2 "Enable HTTP/2 protocol support" OFF)
+option(THEMIS_ENABLE_HTTP3 "Enable HTTP/3 (QUIC) protocol support" OFF)
+option(THEMIS_ENABLE_GRPC "Enable gRPC protocol support (inter-shard communication)" ON)  # Already implemented in v1.3.0
+option(THEMIS_ENABLE_WEBSOCKET "Enable WebSocket protocol support" OFF)
+option(THEMIS_ENABLE_GRAPHQL "Enable GraphQL API support" ON)  # Already implemented
+option(THEMIS_ENABLE_SSE "Enable Server-Sent Events (SSE) support" ON)  # Already implemented
+option(THEMIS_ENABLE_MCP "Enable Model Context Protocol (MCP) support for LLM integration" OFF)
+option(THEMIS_ENABLE_MQTT "Enable MQTT protocol support (IoT)" OFF)
+option(THEMIS_ENABLE_POSTGRES_WIRE "Enable PostgreSQL Wire Protocol support" OFF)
+
 # vLLM Co-Location: Automatically enable CUDA (Kernbestand, not Enterprise!)
 if(THEMIS_VLLM_COLOCATION)
     set(THEMIS_ENABLE_CUDA ON CACHE BOOL "Force CUDA for vLLM co-location" FORCE)
@@ -135,6 +258,62 @@ option(THEMIS_GEO_GPU "Enable GPU backend for Geo (enterprise add-in)" OFF)
 option(THEMIS_GEO_H3 "Enable H3 integration (enterprise add-in)" OFF)
 option(THEMIS_GEO_GEOS_PLUGIN "Enable GEOS prepared geometries plugin (enterprise add-in)" OFF)
 option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
+# Multi-Edition Support (v1.3.5+)
+# THEMIS_EDITION: One of COMMUNITY, ENTERPRISE, or HYPERSCALER (compile-time selection)
+# This setting determines feature availability, licensing limits, and hardware constraints
+set(THEMIS_EDITION "COMMUNITY" CACHE STRING "Edition: COMMUNITY, ENTERPRISE, or HYPERSCALER")
+set_property(CACHE THEMIS_EDITION PROPERTY STRINGS COMMUNITY ENTERPRISE HYPERSCALER)
+
+# Validate edition selection
+if(NOT THEMIS_EDITION MATCHES "^(COMMUNITY|ENTERPRISE|HYPERSCALER)$")
+    message(FATAL_ERROR "THEMIS_EDITION must be COMMUNITY, ENTERPRISE, or HYPERSCALER (got: ${THEMIS_EDITION})")
+endif()
+
+# Edition feature configuration (compile-time feature flags)
+# These determine which functionality is available at build time
+
+# GPU Memory Limits: Edition-specific VRAM constraints
+# COMMUNITY: 24 GB (typical gaming GPU, consumer hardware)
+# ENTERPRISE: 256 GB (data center grade A100/H100)
+# HYPERSCALER: Unlimited (custom, OEM deployments)
+if(THEMIS_EDITION STREQUAL "COMMUNITY")
+    set(THEMIS_GPU_MAX_VRAM_GB 24 CACHE INTERNAL "Max GPU VRAM for Community Edition")
+    set(THEMIS_SHARDING_MAX_NODES 1 CACHE INTERNAL "Max sharding nodes for Community Edition")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS OFF CACHE INTERNAL "Enterprise plugins disabled in Community")
+    set(THEMIS_ENABLE_MULTI_MASTER OFF CACHE INTERNAL "Multi-master replication disabled in Community")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION OFF CACHE INTERNAL "Field-level encryption disabled in Community")
+    set(THEMIS_ENABLE_RBAC OFF CACHE INTERNAL "RBAC disabled in Community")
+    set(THEMIS_ENABLE_HSM OFF CACHE INTERNAL "HSM disabled in Community")
+    message(STATUS "Edition: COMMUNITY - GPU limited to ${THEMIS_GPU_MAX_VRAM_GB}GB, single-node, LLM=${THEMIS_ENABLE_LLM}")
+
+elseif(THEMIS_EDITION STREQUAL "ENTERPRISE")
+    set(THEMIS_GPU_MAX_VRAM_GB 256 CACHE INTERNAL "Max GPU VRAM for Enterprise Edition")
+    set(THEMIS_SHARDING_MAX_NODES 100 CACHE INTERNAL "Max sharding nodes for Enterprise Edition")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
+    set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
+    set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
+    set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    message(STATUS "Edition: ENTERPRISE - GPU up to ${THEMIS_GPU_MAX_VRAM_GB}GB, up to ${THEMIS_SHARDING_MAX_NODES} nodes")
+
+elseif(THEMIS_EDITION STREQUAL "HYPERSCALER")
+    set(THEMIS_GPU_MAX_VRAM_GB 999999 CACHE INTERNAL "Max GPU VRAM for Hyperscaler Edition (unlimited)")
+    set(THEMIS_SHARDING_MAX_NODES 999999 CACHE INTERNAL "Max sharding nodes for Hyperscaler Edition (unlimited)")
+    set(THEMIS_ENABLE_ENTERPRISE_PLUGINS ON CACHE INTERNAL "Enterprise plugins enabled")
+    set(THEMIS_ENABLE_MULTI_MASTER ON CACHE INTERNAL "Multi-master replication enabled")
+    set(THEMIS_ENABLE_FIELD_ENCRYPTION ON CACHE INTERNAL "Field-level encryption enabled")
+    set(THEMIS_ENABLE_RBAC ON CACHE INTERNAL "RBAC enabled")
+    set(THEMIS_ENABLE_HSM ON CACHE INTERNAL "HSM enabled")
+    message(STATUS "Edition: HYPERSCALER - Unlimited GPU VRAM, unlimited nodes, full custom capabilities")
+
+endif()
+
+# Compile-time edition identifier for runtime checks and telemetry
+add_compile_definitions(
+    "THEMIS_EDITION_STRING=\"${THEMIS_EDITION}\""
+    "THEMIS_GPU_MAX_VRAM_GB=${THEMIS_GPU_MAX_VRAM_GB}"
+    "THEMIS_SHARDING_MAX_NODES=${THEMIS_SHARDING_MAX_NODES}"
+)
 
 # Detect target architecture
 set(THEMIS_TARGET_ARCH "unknown")
@@ -252,15 +431,15 @@ endfunction()
 find_package(RocksDB CONFIG)
 
 # Select appropriate RocksDB target based on build type
-# THEMIS_CORE_SHARED=ON requires rocksdb-shared (DLL) to avoid linker issues with huge static .lib
-# THEMIS_CORE_SHARED=OFF can use the static rocksdb library
-set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
-if(TARGET RocksDB::rocksdb-shared AND THEMIS_CORE_SHARED)
-    # Use shared library for Windows DLL build (avoids "unrecognized file format" linker error)
+# Note: vcpkg's rocksdb-shared only exports the C API, so linking the C++ wrapper
+# requires the static library even when themis_core is built as a DLL.
+set(THEMIS_ROCKSDB_TARGET "")
+if(TARGET RocksDB::rocksdb)
+    set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
+    message(STATUS "RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage")
+elseif(TARGET RocksDB::rocksdb-shared)
     set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb-shared")
-    message(STATUS "RocksDB: Using shared library (rocksdb-shared.dll) for THEMIS_CORE_SHARED=ON")
-elseif(TARGET RocksDB::rocksdb)
-    message(STATUS "RocksDB: Using static library (rocksdb.lib)")
+    message(STATUS "RocksDB: Using shared C API library (rocksdb-shared.dll)")
 endif()
 
 # Fallback: locate system RocksDB if vcpkg didn't provide it
@@ -341,6 +520,23 @@ find_package(hnswlib CONFIG)
 
 # Optional: Faiss for GPU support (graceful degradation if not found)
 if(THEMIS_ENABLE_GPU)
+    # Hint CMake's FindBLAS towards OpenBLAS on Windows to avoid vendor auto-detection issues
+    set(BLA_VENDOR OpenBLAS CACHE STRING "Preferred BLAS vendor for Windows" FORCE)
+
+    # Try to locate OpenBLAS/LAPACK provided by vcpkg (CONFIG mode)
+    find_package(OpenBLAS CONFIG QUIET)
+    if(OpenBLAS_FOUND)
+        message(STATUS "OpenBLAS gefunden – BLAS-Unterstützung aktiv")
+    else()
+        message(WARNING "OpenBLAS nicht gefunden – installieren mit: vcpkg install openblas")
+    endif()
+
+    find_package(LAPACK CONFIG QUIET)
+    if(LAPACK_FOUND)
+        message(STATUS "LAPACK gefunden")
+    endif()
+
+    # FAISS (CONFIG mode via vcpkg). If missing, gracefully disable GPU.
     find_package(faiss CONFIG)
     if(NOT faiss_FOUND)
         message(WARNING "Faiss nicht gefunden – GPU-Unterstützung wird automatisch deaktiviert.")
@@ -364,6 +560,35 @@ if(THEMIS_USE_MIMALLOC)
     endif()
 endif()
 
+# HTTP/2 Protocol Support
+if(THEMIS_ENABLE_HTTP2)
+    find_package(nghttp2 CONFIG)
+    if(nghttp2_FOUND)
+        message(STATUS "nghttp2 found - HTTP/2 protocol support enabled")
+    else()
+        message(WARNING "nghttp2 not found - disabling HTTP/2 support. Install with: vcpkg install nghttp2")
+        set(THEMIS_ENABLE_HTTP2 OFF CACHE BOOL "nghttp2 not available" FORCE)
+    endif()
+endif()
+
+# HTTP/3 Protocol Support (requires both nghttp3 and ngtcp2)
+if(THEMIS_ENABLE_HTTP3)
+    find_package(nghttp3 CONFIG)
+    find_package(ngtcp2 CONFIG)
+    if(nghttp3_FOUND AND ngtcp2_FOUND)
+        message(STATUS "nghttp3 and ngtcp2 found - HTTP/3 (QUIC) protocol support enabled")
+    else()
+        if(NOT nghttp3_FOUND)
+            message(WARNING "nghttp3 not found - Install with: vcpkg install nghttp3")
+        endif()
+        if(NOT ngtcp2_FOUND)
+            message(WARNING "ngtcp2 not found - Install with: vcpkg install ngtcp2[openssl]")
+        endif()
+        message(WARNING "Disabling HTTP/3 support due to missing dependencies")
+        set(THEMIS_ENABLE_HTTP3 OFF CACHE BOOL "nghttp3/ngtcp2 not available" FORCE)
+    endif()
+endif()
+
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -375,6 +600,84 @@ include_directories(
 # running tests via CTest/gtest_discover_tests). This is safe and cheap.
 if(EXISTS "${CMAKE_SOURCE_DIR}/config")
     file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
+endif()
+
+# ═══════════════════════════════════════════════════════════
+# llama.cpp Integration (v1.3.0+)
+# ═══════════════════════════════════════════════════════════
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "LLM support enabled - integrating llama.cpp")
+
+    # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
+    # Fallback to legacy path external/llama.cpp if present
+    set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
+    if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
+        if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+            set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
+            message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
+        else()
+            message(FATAL_ERROR
+                "llama.cpp source not found!\n"
+                "Clone locally (ignored by Git/Docker):\n"
+                "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
+                "Or run: bash scripts/setup-llamacpp.sh")
+        endif()
+    endif()
+
+    # Configure llama.cpp build options
+    set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
+    set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
+    set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
+    set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
+    
+    # Linux-specific optimizations for llama.cpp
+    # Suppress warnings that occur on Linux GCC/Clang with modern C++ standards
+    if(UNIX AND NOT APPLE)
+        message(STATUS "  Configuring llama.cpp for Linux with optimization flags")
+        set(LLAMA_AVX2 ON CACHE BOOL "Enable AVX2 optimization in llama.cpp" FORCE)
+        set(LLAMA_F16C ON CACHE BOOL "Enable F16C optimization in llama.cpp" FORCE)
+        # Disable problematic features that cause Linux build failures
+        set(LLAMA_CCACHE OFF CACHE BOOL "Disable ccache for reproducibility" FORCE)
+    endif()
+    
+    # GPU acceleration options
+    if(THEMIS_ENABLE_CUDA)
+        message(STATUS "  Enabling CUDA support in llama.cpp")
+        set(LLAMA_CUDA ON CACHE BOOL "Enable CUDA in llama.cpp" FORCE)
+        set(LLAMA_CUDA_F16 ON CACHE BOOL "Enable FP16 in CUDA" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_METAL)
+        message(STATUS "  Enabling Metal support in llama.cpp")
+        set(LLAMA_METAL ON CACHE BOOL "Enable Metal in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_VULKAN)
+        message(STATUS "  Enabling Vulkan support in llama.cpp")
+        set(LLAMA_VULKAN ON CACHE BOOL "Enable Vulkan in llama.cpp" FORCE)
+    endif()
+    
+    if(THEMIS_ENABLE_HIP OR THEMIS_ENABLE_ROCM)
+        message(STATUS "  Enabling HIP/ROCm support in llama.cpp")
+        set(LLAMA_HIPBLAS ON CACHE BOOL "Enable hipBLAS in llama.cpp" FORCE)
+    endif()
+    
+    # Add llama.cpp subdirectory (resolved via LLAMA_SRC_DIR)
+    add_subdirectory(${LLAMA_SRC_DIR} EXCLUDE_FROM_ALL)
+    
+    # MSVC fix: char8_t string literals in llama-chat.cpp require /Zc:char8_t-
+    if(MSVC AND TARGET llama)
+        target_compile_options(llama PRIVATE /Zc:char8_t-)
+    endif()
+    
+    # Linux GCC/Clang fix: Suppress deprecated-declarations warning in llama.cpp
+    if(UNIX AND NOT APPLE AND TARGET llama)
+        target_compile_options(llama PRIVATE -Wno-deprecated-declarations)
+    endif()
+    # Define LLM enabled for ThemisDB code
+    add_compile_definitions(THEMIS_LLM_ENABLED)
+    
+    message(STATUS "  llama.cpp configured successfully")
 endif()
 
 # Core library sources
@@ -393,6 +696,7 @@ set(THEMIS_CORE_SOURCES
     src/index/gnn_embeddings.cpp
     src/index/graph_analytics.cpp
     src/index/vector_index.cpp
+    src/index/product_quantizer.cpp
     src/index/adaptive_index.cpp
     
     src/security/mock_key_provider.cpp
@@ -410,18 +714,22 @@ set(THEMIS_CORE_SOURCES
     src/query/query_engine.cpp
     src/query/query_optimizer.cpp
     src/query/aql_parser.cpp
+    src/query/aql_parser_json.cpp
     src/query/aql_translator.cpp
     src/query/aql_runner.cpp
     src/query/let_evaluator.cpp
     src/query/window_evaluator.cpp
     src/query/cte_subquery.cpp
     src/query/cte_cache.cpp
+
+    
+    
     src/query/statistical_aggregator.cpp
     src/query/semantic_cache.cpp
     src/query/functions/function_registry.cpp
     
     src/server/http_server.cpp
-    src/server/sse_connection_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SSE}>:src/server/sse_connection_manager.cpp>
     src/server/audit_api_handler.cpp
     src/server/pki_api_handler.cpp
     src/server/saga_api_handler.cpp
@@ -434,12 +742,20 @@ set(THEMIS_CORE_SOURCES
     src/server/ranger_adapter.cpp
     src/server/policy_engine.cpp
     src/server/auth_middleware.cpp
+    
+    # LLM integration (server/API/grpc) is added conditionally below
     src/server/rate_limiter.cpp
     src/server/rate_limiter_v2.cpp
     src/server/load_shedder.cpp
     src/server/update_api_handler.cpp
     src/server/hot_reload_api_handler.cpp
     src/server/export_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:src/server/http2_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:src/server/websocket_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:src/server/postgres_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MCP}>:src/server/mcp_server.cpp>
     
     src/content/content_type.cpp
     src/content/content_manager.cpp
@@ -451,6 +767,8 @@ set(THEMIS_CORE_SOURCES
     src/content/version_manager.cpp
     
     src/cache/semantic_cache.cpp
+    src/cache/embedding_cache.cpp
+    # Multi-Agent LLM Framework (v1.4.0)
     src/llm/llm_interaction_store.cpp
     src/llm/prompt_manager.cpp
     src/llm/multi_agent_orchestrator.cpp
@@ -510,6 +828,9 @@ set(THEMIS_CORE_SOURCES
     
     # Spatial index
     src/index/spatial_index.cpp
+    
+    # Hybrid search (BM25 + Vector)
+    src/search/hybrid_search.cpp
     src/security/pki_key_provider.cpp
     src/security/cms_signing.cpp
     src/security/rbac.cpp
@@ -538,6 +859,7 @@ set(THEMIS_CORE_SOURCES
     src/sharding/mtls_client.cpp
     src/sharding/signed_request.cpp
     src/sharding/remote_executor.cpp
+    src/sharding/shard_rpc_client.cpp
     src/sharding/shard_router.cpp
     src/sharding/rebalance_operation.cpp
     src/sharding/data_migrator.cpp
@@ -579,8 +901,8 @@ set(THEMIS_CORE_SOURCES
     # Observability
     src/observability/metrics_collector.cpp
     
-    # GraphQL API
-    src/api/graphql.cpp
+    # GraphQL API (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:src/api/graphql.cpp>
     
     # Exporters and Importers
     src/exporters/jsonl_llm_exporter.cpp
@@ -591,6 +913,113 @@ set(THEMIS_CORE_SOURCES
     src/analytics/process_mining.cpp
 )
 
+# Phase 2 Performance Optimizations (PR #156/#157)
+# Conditionally add Phase 2 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    src/performance/phase2_feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_WISCKEY)
+    message(STATUS "Including WiscKey key/value separation (THEMIS_ENABLE_WISCKEY=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/wisckey.cpp)
+endif()
+
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    message(STATUS "Including Dostoevsky adaptive LSM (THEMIS_ENABLE_DOSTOEVSKY=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/dostoevsky.cpp)
+endif()
+
+if(THEMIS_ENABLE_CICADA)
+    message(STATUS "Including Cicada optimistic CC (THEMIS_ENABLE_CICADA=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/cicada.cpp)
+endif()
+
+if(THEMIS_ENABLE_LIGRA)
+    message(STATUS "Including Ligra graph processing (THEMIS_ENABLE_LIGRA=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/ligra.cpp)
+endif()
+
+if(THEMIS_ENABLE_RABITQ)
+    message(STATUS "Including RaBitQ vector quantization (THEMIS_ENABLE_RABITQ=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/rabitq.cpp)
+endif()
+
+# Phase 3 Performance Optimizations (PR #156/#157)
+# Conditionally add Phase 3 optimization sources when enabled
+list(APPEND THEMIS_CORE_SOURCES
+    src/performance/phase3/feature_flags.cpp
+)
+
+if(THEMIS_ENABLE_DISKANN)
+    message(STATUS "Including DiskANN billion-scale vector search (THEMIS_ENABLE_DISKANN=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/diskann.cpp)
+endif()
+
+if(THEMIS_ENABLE_BWTREE)
+    message(STATUS "Including Bw-Tree lock-free index (THEMIS_ENABLE_BWTREE=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bwtree.cpp)
+endif()
+
+if(THEMIS_ENABLE_SPLINTERDB)
+    message(STATUS "Including SplinterDB concurrent compaction (THEMIS_ENABLE_SPLINTERDB=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/splinterdb.cpp)
+endif()
+
+if(THEMIS_ENABLE_GUNROCK)
+    message(STATUS "Including Gunrock GPU graph analytics (THEMIS_ENABLE_GUNROCK=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/gunrock.cpp)
+endif()
+
+if(THEMIS_ENABLE_BAO)
+    message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
+    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bao.cpp)
+endif()
+
+# Conditionally add LLM sources (v1.3.0+) only when enabled
+if(THEMIS_ENABLE_LLM)
+    message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
+    list(APPEND THEMIS_CORE_SOURCES
+        # Server/API (HTTP + optional gRPC)
+        src/server/llm_api_handler.cpp
+        src/aql/llm_aql_handler.cpp
+
+        # Optional: gRPC service and generated proto headers (guarded by gRPC)
+        # Only add when gRPC is available, otherwise skip to prevent missing headers
+    )
+
+    find_package(gRPC CONFIG QUIET)
+    if(gRPC_FOUND)
+        message(STATUS "gRPC found - enabling LLM gRPC service")
+            # TEMP: gRPC proto generation not yet configured - comment out until ready
+            # list(APPEND THEMIS_CORE_SOURCES
+            #     src/server/llm_grpc_service.cpp
+            #     proto/llm_service.proto
+            # )
+        # Note: Proto generation should be configured in a separate section when needed
+    else()
+        message(STATUS "gRPC not found - disabling LLM gRPC service and proto generation")
+    endif()
+        # TEMP: Disable llm_grpc_service until proto generation is configured
+        # list(REMOVE_ITEM THEMIS_CORE_SOURCES src/server/llm_grpc_service.cpp)
+
+    # LLM core components
+    list(APPEND THEMIS_CORE_SOURCES
+        src/llm/llm_interaction_store.cpp
+        src/llm/prompt_manager.cpp
+        src/llm/block_table.cpp
+        src/llm/paged_kv_cache.cpp
+    )
+endif()
+
+# Ensure minimal LLM components are available when referenced from http_server.
+# These have lightweight dependencies and avoid undefined references if LLM is disabled.
+if(NOT THEMIS_ENABLE_LLM)
+    list(APPEND THEMIS_CORE_SOURCES
+        src/llm/llm_interaction_store.cpp
+        src/llm/prompt_manager.cpp
+    )
+endif()
+
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
 if(THEMIS_CORE_SHARED)
@@ -598,9 +1027,30 @@ if(THEMIS_CORE_SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
+# Per-file compile options for heavy AQL parser translation units (MSVC-only)
+if(MSVC)
+    set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
+    set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+endif()
+
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)
 if(MSVC AND THEMIS_CORE_SHARED)
-    set_target_properties(themis_core PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    # Auto-export needs normal COFF objects; disable /GL (IPO) so __create_def can read symbols
+    set_target_properties(themis_core PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON
+        INTERPROCEDURAL_OPTIMIZATION FALSE
+        VS_GLOBAL_WholeProgramOptimization "false"
+    )
+    target_compile_options(themis_core PRIVATE
+        $<$<CONFIG:Release>:/GL->
+        $<$<CONFIG:RelWithDebInfo>:/GL->
+        $<$<CONFIG:MinSizeRel>:/GL->
+    )
+    target_link_options(themis_core PRIVATE
+        $<$<CONFIG:Release>:/LTCG:OFF>
+        $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+        $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
+    )
 endif()
 
 # Add hardware acceleration backends based on build options
@@ -684,8 +1134,34 @@ if(TARGET Arrow::arrow_shared)
     set(THEMIS_ARROW_TARGET Arrow::arrow_shared)
 elseif(TARGET Arrow::arrow_static)
     set(THEMIS_ARROW_TARGET Arrow::arrow_static)
+elseif(TARGET arrow_shared)
+    set(THEMIS_ARROW_TARGET arrow_shared)
+elseif(TARGET arrow_static)
+    set(THEMIS_ARROW_TARGET arrow_static)
 else()
     set(THEMIS_ARROW_TARGET "")
+endif()
+
+# Parquet target (for Arrow parquet writer)
+find_package(Parquet CONFIG QUIET)
+set(THEMIS_PARQUET_TARGET "")
+if(Parquet_FOUND)
+    if(TARGET Parquet::parquet_shared)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet_shared)
+    elseif(TARGET Parquet::parquet_static)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet_static)
+    elseif(TARGET Parquet::parquet)
+        set(THEMIS_PARQUET_TARGET Parquet::parquet)
+    endif()
+else()
+    # Fallbacks some package layouts expose
+    if(TARGET parquet)
+        set(THEMIS_PARQUET_TARGET parquet)
+    elseif(TARGET parquet_static)
+        set(THEMIS_PARQUET_TARGET parquet_static)
+    elseif(TARGET parquet_shared)
+        set(THEMIS_PARQUET_TARGET parquet_shared)
+    endif()
 endif()
 
 # v1.1.0: Define ARROW_ENABLED if Arrow is available
@@ -700,6 +1176,7 @@ target_link_libraries(themis_core
         simdjson::simdjson
         TBB::tbb
         ${THEMIS_ARROW_TARGET}
+        ${THEMIS_PARQUET_TARGET}
         fmt::fmt
         spdlog::spdlog
         Boost::system
@@ -730,6 +1207,40 @@ target_compile_definitions(themis_core PUBLIC
     THEMIS_VERSION_STRING="${PROJECT_VERSION}"
 )
 
+# Phase 2 Performance Optimizations compile definitions
+if(THEMIS_ENABLE_WISCKEY)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WISCKEY)
+endif()
+if(THEMIS_ENABLE_DOSTOEVSKY)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DOSTOEVSKY)
+endif()
+if(THEMIS_ENABLE_CICADA)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CICADA)
+endif()
+if(THEMIS_ENABLE_LIGRA)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_LIGRA)
+endif()
+if(THEMIS_ENABLE_RABITQ)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_RABITQ)
+endif()
+
+# Phase 3 Performance Optimizations compile definitions
+if(THEMIS_ENABLE_DISKANN)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DISKANN)
+endif()
+if(THEMIS_ENABLE_BWTREE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BWTREE)
+endif()
+if(THEMIS_ENABLE_SPLINTERDB)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SPLINTERDB)
+endif()
+if(THEMIS_ENABLE_GUNROCK)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GUNROCK)
+endif()
+if(THEMIS_ENABLE_BAO)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_BAO)
+endif()
+
 if(THEMIS_ENABLE_GPU)
     target_link_libraries(themis_core PUBLIC faiss)
     target_compile_definitions(themis_core PUBLIC THEMIS_GPU_ENABLED)
@@ -745,6 +1256,87 @@ if(THEMIS_USE_MIMALLOC AND mimalloc_FOUND)
     message(STATUS "mimalloc linked to themis_core")
 endif()
 
+# HTTP/2 Protocol Support
+if(THEMIS_ENABLE_HTTP2 AND nghttp2_FOUND)
+    target_link_libraries(themis_core PUBLIC nghttp2::nghttp2)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP2)
+    message(STATUS "HTTP/2 support enabled and linked to themis_core")
+endif()
+
+# HTTP/3 Protocol Support
+if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
+    target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
+    message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# GraphQL Protocol Support
+if(THEMIS_ENABLE_GRAPHQL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRAPHQL)
+    message(STATUS "GraphQL API support enabled")
+endif()
+
+# SSE (Server-Sent Events) Support
+if(THEMIS_ENABLE_SSE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_SSE)
+    message(STATUS "Server-Sent Events (SSE) support enabled")
+endif()
+
+# WebSocket Protocol Support
+if(THEMIS_ENABLE_WEBSOCKET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WEBSOCKET)
+    message(STATUS "WebSocket protocol support enabled")
+endif()
+
+# MCP (Model Context Protocol) Support
+if(THEMIS_ENABLE_MCP)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MCP)
+    message(STATUS "Model Context Protocol (MCP) support enabled")
+    message(STATUS "  MCP Transports: stdio, SSE, WebSocket")
+    message(STATUS "  MCP Components: Tools, Resources, Prompts")
+endif()
+
+# MQTT Protocol Support
+if(THEMIS_ENABLE_MQTT)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
+    message(STATUS "MQTT protocol support enabled")
+endif()
+
+# PostgreSQL Wire Protocol Support
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
+    message(STATUS "PostgreSQL Wire Protocol support enabled")
+endif()
+
+# gRPC Protocol Support (inter-shard communication - implemented in v1.3.0)
+if(THEMIS_ENABLE_GRPC)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GRPC)
+    message(STATUS "gRPC support enabled (inter-shard communication)")
+    # Note: gRPC dependencies may already be linked via sharding modules
+    # TODO: Verify gRPC linking in sharding components
+endif()
+
+# WebSocket Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_WEBSOCKET)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_WEBSOCKET)
+    message(STATUS "WebSocket support enabled (Boost.Beast has native support)")
+    # Note: Boost.Beast already provides WebSocket support, just needs integration
+endif()
+
+# MQTT Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_MQTT)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MQTT)
+    message(STATUS "MQTT support enabled (stub - full implementation pending)")
+    # TODO: Add MQTT dependencies when implemented
+    # find_package(PahoMqttCpp CONFIG)
+endif()
+
+# PostgreSQL Wire Protocol Support (placeholder for future implementation)
+if(THEMIS_ENABLE_POSTGRES_WIRE)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_POSTGRES_WIRE)
+    message(STATUS "PostgreSQL Wire Protocol support enabled (stub - full implementation pending)")
+endif()
+
 # v1.1.0: vLLM Co-Location compile definitions
 if(THEMIS_VLLM_COLOCATION)
     target_compile_definitions(themis_core PRIVATE
@@ -756,6 +1348,56 @@ if(THEMIS_VLLM_COLOCATION)
         THEMIS_RAM_GB_ALLOCATED=200        # 200 of 256 GB
     )
     message(STATUS "vLLM Co-Location: Resource limits configured")
+endif()
+
+# v1.3.0: LLM Plugin Support with llama.cpp
+if(THEMIS_ENABLE_LLM)
+    # Add LLM plugin source files
+    target_sources(themis_core PRIVATE
+        src/llm/llamacpp_plugin.cpp
+        src/llm/llm_plugin_manager.cpp
+        src/llm/model_loader.cpp          # Ollama-style lazy loading
+        src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
+        src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        # v1.3.1: Cache Reuse Integration (Phase 2)
+        src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
+        src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
+        src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
+        src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
+        
+        # Phase 4+5 Week 4-6: llama.cpp Integration
+        src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
+        src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+    )
+    
+    # Threading support required for async inference
+    find_package(Threads REQUIRED)
+    target_link_libraries(themis_core PRIVATE Threads::Threads)
+    
+    # Link llama.cpp library
+    if(TARGET llama)
+        target_link_libraries(themis_core PRIVATE llama)
+        # Include headers for llama.cpp
+        if(DEFINED LLAMA_SRC_DIR)
+            target_include_directories(themis_core PRIVATE ${LLAMA_SRC_DIR}/include)
+        endif()
+        message(STATUS "LLM Plugin: Linked llama.cpp library")
+    else()
+        message(WARNING "LLM Plugin: llama.cpp target not found - plugin will be built without llama.cpp")
+    endif()
+    
+    # LLM is already defined via THEMIS_LLM_ENABLED in earlier section
+    message(STATUS "LLM Plugin: Source files added to themis_core")
+    message(STATUS "  - Ollama-style lazy model loading enabled")
+    message(STATUS "  - vLLM-style multi-LoRA management enabled")
+    message(STATUS "  - Async inference engine enabled (independent threading)")
+    message(STATUS "  - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)")
+    message(STATUS "    * ModelMetadataCache (ConcurrentCache)")
+    message(STATUS "    * LoRAMetadataCache (ConcurrentCache)")
+    message(STATUS "    * PagedBlockManager (foundation for PagedAttention v1.4.0)")
+    message(STATUS "    * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)")
+    message(STATUS "    * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)")
 endif()
 
 
@@ -827,6 +1469,12 @@ target_link_libraries(themis_server
         themis_core
 )
 
+# Link performance optimization libraries
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    target_link_libraries(themis_server PRIVATE mimalloc)
+    message(STATUS "Linking themis_server with mimalloc")
+endif()
+
 # Tests
 if(THEMIS_BUILD_TESTS)
     enable_testing()
@@ -835,6 +1483,15 @@ if(THEMIS_BUILD_TESTS)
     add_executable(themis_tests
         tests/test_env.cpp
         tests/test_base_entity.cpp
+        tests/test_rocksdb_high_parallel_tuning.cpp
+        tests/test_rocksdb_stats_json.cpp
+        # Library integration tests (systematic coverage)
+        tests/test_lib_rocksdb_integration.cpp
+        tests/test_lib_openssl_integration.cpp
+        tests/test_lib_json_integration.cpp
+        tests/test_lib_hnsw_integration.cpp
+        tests/test_lib_boost_integration.cpp
+        tests/test_lib_tbb_integration.cpp
         tests/test_secondary_index.cpp
         tests/test_composite_index.cpp
         tests/test_unique_index.cpp
@@ -870,10 +1527,14 @@ if(THEMIS_BUILD_TESTS)
         tests/test_http_aql_collect.cpp
         tests/test_http_config.cpp
         tests/test_http_aql_graph.cpp
+        tests/test_crash_recovery_direct.cpp
+        tests/test_wal_manifest_corruption.cpp
+        tests/test_domain_durability.cpp
         tests/test_http_aql_collect.cpp
         tests/test_http_vector.cpp
         tests/test_http_vector_largescale.cpp
         tests/test_http_content.cpp
+        tests/test_video_processor_extended.cpp
         tests/test_http_changefeed.cpp
         tests/test_http_changefeed_sse.cpp
         tests/test_http_timeseries.cpp
@@ -909,6 +1570,8 @@ if(THEMIS_BUILD_TESTS)
         tests/test_text_processor.cpp
     tests/test_prompt_manager.cpp
     tests/test_mock_clip.cpp
+        tests/test_image_analysis_interface.cpp
+        tests/test_image_analysis_quality.cpp
         tests/test_backup_restore.cpp
         tests/test_cursor.cpp
         tests/test_temporal_graph.cpp
@@ -948,7 +1611,8 @@ if(THEMIS_BUILD_TESTS)
     tests/test_cms_signing.cpp
         tests/test_keyprovider_signing.cpp
     tests/test_vault_signing_provider.cpp
-        tests/test_enterprise_scalability.cpp
+        # Enterprise tests (only if enterprise source is available)
+        $<$<AND:$<BOOL:${THEMIS_BUILD_ENTERPRISE}>,$<TARGET_EXISTS:themis_enterprise_common>>:tests/test_enterprise_scalability.cpp>
         tests/test_http_policies_export.cpp
         tests/test_pii_soft_delete.cpp
         tests/test_http_pii_lazy_init.cpp
@@ -960,6 +1624,7 @@ if(THEMIS_BUILD_TESTS)
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
         tests/test_sharding_core.cpp
+        tests/test_stream_protocol_extended.cpp
         tests/test_cloud_agent.cpp
         tests/test_pki_shard_certificate.cpp
         tests/test_mtls_client.cpp
@@ -973,9 +1638,38 @@ if(THEMIS_BUILD_TESTS)
         tests/test_tenant_manager.cpp
         tests/test_graphql.cpp
         tests/test_olap.cpp
+        tests/test_olap_extended.cpp
+        tests/test_process_mining_extended.cpp
+        tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
+        
+        # Phase 1: Database Durability & Crash Recovery Tests (v1.3.4+)
+        tests/test_crash_recovery_direct.cpp
+        tests/test_wal_manifest_corruption.cpp
+        tests/test_domain_durability.cpp
+        
+        # Phase 1 Performance Optimization Tests (from PR #157)
+        tests/test_performance_feature_flags.cpp
+        tests/test_performance_allocator.cpp
+        tests/test_huge_pages.cpp
+        tests/test_rcu_index.cpp
+        tests/test_lirs_cache.cpp
+        
+        # Phase 2 Performance Optimization Tests (from this PR)
+        tests/test_phase2_optimizations.cpp
+        
+        # Protocol tests (conditional based on build flags)
+        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_server_push.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:tests/test_http3_protocol.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:tests/test_websocket_cdc.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_MQTT}>:tests/test_mqtt_protocol.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:tests/test_postgres_wire.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_MCP}>:tests/test_mcp_protocol.cpp>
         
         # Vector encryption integration tests
         tests/test_vector_encryption_integration.cpp
+        
+        # LLM plugin tests (v1.3.0+) are added conditionally below
     )
     
     target_link_libraries(themis_tests
@@ -985,6 +1679,78 @@ if(THEMIS_BUILD_TESTS)
             GTest::gtest_main
             Boost::system
     )
+
+    # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
+    add_executable(themis_secidx_tests
+        tests/test_secondary_index.cpp
+    )
+    target_link_libraries(themis_secidx_tests
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+            Boost::system
+    )
+    include(GoogleTest)
+    gtest_discover_tests(themis_secidx_tests
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # CRITICAL TESTS ONLY (for fast validation)
+    add_executable(themis_tests_critical
+        tests/test_lib_rocksdb_integration.cpp
+        tests/test_lib_hnsw_integration.cpp
+        tests/test_lib_boost_integration.cpp
+        tests/test_secondary_index.cpp
+    )
+    target_link_libraries(themis_tests_critical
+        PRIVATE
+            themis_core
+            GTest::gtest
+            GTest::gtest_main
+            Boost::system
+    )
+    include(GoogleTest)
+    gtest_discover_tests(themis_tests_critical
+        DISCOVERY_MODE PRE_TEST
+        WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
+        EXTRA_ARGS --gtest_color=yes
+        CONFIGURATIONS Release Debug
+    )
+
+    # Conditionally add LLM tests only when LLM is enabled
+    if(THEMIS_ENABLE_LLM)
+        target_sources(themis_tests PRIVATE
+            tests/test_llm_plugin.cpp
+            tests/test_llamacpp_integration.cpp
+            tests/test_llm_caching.cpp
+            tests/test_kv_cache_buffer.cpp
+            tests/test_llm_response_cache.cpp
+            tests/test_paged_attention.cpp
+        )
+
+        # Lightweight LLM-only test target to avoid unrelated suite breakages
+        add_executable(themis_llm_tests
+            tests/test_llamacpp_integration.cpp
+        )
+        target_link_libraries(themis_llm_tests
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+                Boost::system
+        )
+            include(GoogleTest)
+        gtest_discover_tests(themis_llm_tests
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_llm_tests>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+    endif()
 
     # Discover individual GoogleTest tests for better CTest integration
     include(GoogleTest)
@@ -1006,7 +1772,7 @@ if(THEMIS_BUILD_TESTS)
     # the full suite a second time and can make CI appear to hang on the last
     # test (previously "Test #619: ThemisTests").
     
-    # Optimization tests (v1.4.0) - HNSW, WriteBatch, gRPC
+    # Multi-Agent LLM & Core Optimization Tests (v1.4.0)
     add_executable(test_optimizations_v1_4_0
         tests/test_optimizations_v1_4_0.cpp
     )
@@ -1023,11 +1789,164 @@ if(THEMIS_BUILD_TESTS)
         WORKING_DIRECTORY ${_gtest_workdir}
         EXTRA_ARGS --gtest_color=yes
     )
+    
+    # Phase 3 Performance Optimization Tests (separate executables)
+    if(THEMIS_ENABLE_DISKANN)
+        add_executable(test_diskann
+            tests/performance/phase3/test_diskann.cpp
+        )
+        target_link_libraries(test_diskann
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_diskann
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_BWTREE)
+        add_executable(test_bwtree
+            tests/performance/phase3/test_bwtree.cpp
+        )
+        target_link_libraries(test_bwtree
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_bwtree
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_SPLINTERDB)
+        add_executable(test_splinterdb
+            tests/performance/phase3/test_splinterdb.cpp
+        )
+        target_link_libraries(test_splinterdb
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_splinterdb
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_GUNROCK)
+        add_executable(test_gunrock
+            tests/performance/phase3/test_gunrock.cpp
+        )
+        target_link_libraries(test_gunrock
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gunrock
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    if(THEMIS_ENABLE_BAO)
+        add_executable(test_bao
+            tests/performance/phase3/test_bao.cpp
+        )
+        target_link_libraries(test_bao
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_bao
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY ${_gtest_workdir}
+            EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
 endif()
 
 # Benchmarks
 if(THEMIS_BUILD_BENCHMARKS)
     find_package(benchmark CONFIG REQUIRED)
+    
+    # Modern performance benchmarks (all core areas)
+    add_executable(bench_core_performance
+        benchmarks/bench_core_performance.cpp
+    )
+    
+    target_link_libraries(bench_core_performance
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Comprehensive benchmark suite (simple/complex, LLM, AQL, binary, stress tests)
+    add_executable(bench_comprehensive
+        benchmarks/bench_comprehensive.cpp
+    )
+    
+    target_link_libraries(bench_comprehensive
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
+    add_executable(bench_advanced_patterns
+        benchmarks/bench_advanced_patterns.cpp
+    )
+    
+    target_link_libraries(bench_advanced_patterns
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_hotspots_micro
+        benchmarks/bench_hotspots_micro.cpp
+    )
+
+    target_link_libraries(bench_hotspots_micro
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_lock_contention
+        benchmarks/bench_lock_contention.cpp
+    )
+    target_link_libraries(bench_lock_contention
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    add_executable(bench_wal_stress
+        benchmarks/bench_wal_stress.cpp
+    )
+    target_link_libraries(bench_wal_stress
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
     
     add_executable(themis_benchmarks
         benchmarks/bench_crud.cpp
@@ -1094,6 +2013,66 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     target_link_libraries(bench_encryption
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # OLAP Analytics benchmark (v1.3.0 Phase 2)
+    add_executable(bench_olap_analytics
+        benchmarks/bench_olap_analytics.cpp
+    )
+    
+    target_link_libraries(bench_olap_analytics
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Video Processor benchmark (v1.3.0 Phase 2)
+    add_executable(bench_video_processor
+        benchmarks/bench_video_processor.cpp
+    )
+    
+    target_link_libraries(bench_video_processor
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Stream Protocol benchmark (v1.3.0 Phase 2)
+    add_executable(bench_stream_protocol
+        benchmarks/bench_stream_protocol.cpp
+    )
+    
+    target_link_libraries(bench_stream_protocol
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Process Mining benchmark (v1.3.0 Phase 2)
+    add_executable(bench_process_mining
+        benchmarks/bench_process_mining.cpp
+    )
+    
+    target_link_libraries(bench_process_mining
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Async I/O MultiScan benchmark (v1.3.0 Phase 2)
+    add_executable(bench_async_io_multiscan
+        benchmarks/bench_async_io_multiscan.cpp
+    )
+    
+    target_link_libraries(bench_async_io_multiscan
         PRIVATE
             themis_core
             benchmark::benchmark
@@ -1258,6 +2237,28 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark_main
     )
     
+    add_executable(bench_image_analysis
+        benchmarks/bench_image_analysis.cpp
+    )
+    
+    target_link_libraries(bench_image_analysis
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
+    add_executable(bench_image_analysis_latency
+        benchmarks/bench_image_analysis_latency.cpp
+    )
+    
+    target_link_libraries(bench_image_analysis_latency
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+    
     add_executable(bench_policy_evaluation
         benchmarks/bench_policy_evaluation.cpp
     )
@@ -1268,6 +2269,190 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    
+    # Image Analysis Plugin Benchmark
+    add_executable(benchmark_image_analysis
+        benchmarks/benchmark_image_analysis.cpp
+    )
+    
+    target_link_libraries(benchmark_image_analysis
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # Scientific Standard Benchmarks (Phase 2-4)
+    # TPC-C: OLTP benchmark (Transaction Processing Council Standard)
+    add_executable(bench_tpcc
+        benchmarks/bench_tpcc.cpp
+    )
+    
+    target_link_libraries(bench_tpcc
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # YCSB: Yahoo Cloud Serving Benchmark (Workloads A-F)
+    add_executable(bench_ycsb
+        benchmarks/bench_ycsb.cpp
+    )
+    
+    target_link_libraries(bench_ycsb
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # MMDB-E: Multi-Modal Database Benchmark with Embeddings (Industry-First)
+    add_executable(bench_mmdb
+        benchmarks/bench_mmdb.cpp
+    )
+    
+    target_link_libraries(bench_mmdb
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # TPC-H: Decision Support (OLAP) Benchmark - 22 Analytical Queries
+    add_executable(bench_tpch
+        benchmarks/bench_tpch.cpp
+    )
+    
+    target_link_libraries(bench_tpch
+        PRIVATE
+            themis_core
+            benchmark::benchmark
+            benchmark::benchmark_main
+    )
+
+    # V1.3.0 Additional Benchmarks (previously missing)
+    
+    # AQL Functions Benchmark
+    add_executable(bench_aql_functions
+        benchmarks/bench_aql_functions.cpp
+    )
+    target_link_libraries(bench_aql_functions PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # ARM Memory Benchmark
+    add_executable(bench_arm_memory
+        benchmarks/bench_arm_memory.cpp
+    )
+    target_link_libraries(bench_arm_memory PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # ARM SIMD Benchmark
+    add_executable(bench_arm_simd
+        benchmarks/bench_arm_simd.cpp
+    )
+    target_link_libraries(bench_arm_simd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Auto Buffers Benchmark
+    add_executable(bench_auto_buffers
+        benchmarks/bench_auto_buffers.cpp
+    )
+    target_link_libraries(bench_auto_buffers PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Blob ZSTD Compression Benchmark
+    add_executable(bench_blob_zstd
+        benchmarks/bench_blob_zstd.cpp
+    )
+    target_link_libraries(bench_blob_zstd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # HNSW Prefilter Minimal Benchmark
+    add_executable(bench_hnsw_prefilter_minimal
+        benchmarks/bench_hnsw_prefilter_minimal.cpp
+    )
+    target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Hybrid Vector+Geo Benchmark
+    add_executable(bench_hybrid_vector_geo
+        benchmarks/bench_hybrid_vector_geo.cpp
+    )
+    target_link_libraries(bench_hybrid_vector_geo PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Lossy vs Lossless Compression Benchmark
+    add_executable(bench_lossy_vs_lossless
+        benchmarks/bench_lossy_vs_lossless.cpp
+    )
+    target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Product Quantization Benchmark
+    add_executable(bench_product_quantization
+        benchmarks/bench_product_quantization.cpp
+    )
+    target_link_libraries(bench_product_quantization PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Sanity Tests Benchmark
+    add_executable(bench_sanity
+        benchmarks/bench_sanity.cpp
+    )
+    target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Sharding Performance Benchmark
+    add_executable(bench_sharding_performance
+        benchmarks/bench_sharding_performance.cpp
+    )
+    target_link_libraries(bench_sharding_performance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # SIMD Distance Benchmark
+    add_executable(bench_simd_distance
+        benchmarks/bench_simd_distance.cpp
+    )
+    target_link_libraries(bench_simd_distance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Spatial Index Benchmark
+    add_executable(bench_spatial_index
+        benchmarks/bench_spatial_index.cpp
+    )
+    target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # V1.3.0 Features Benchmark (Critical for Release Testing)
+    add_executable(bench_v1_3_0_features
+        benchmarks/bench_v1_3_0_features.cpp
+    )
+    target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Vector Compression Lossless Benchmark
+    add_executable(bench_vector_compression_lossless
+        benchmarks/bench_vector_compression_lossless.cpp
+    )
+    target_link_libraries(bench_vector_compression_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Vector Prefilter Benchmark
+    add_executable(bench_vector_prefilter
+        benchmarks/bench_vector_prefilter.cpp
+    )
+    target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Phase 2 Performance Optimization Benchmarks
+    add_executable(bench_phase2
+        benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
+    )
+    target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # v1.3.4 Optimization Benchmarks
+    add_executable(bench_v1_3_4_optimizations
+        benchmarks/bench_v1_3_4_optimizations.cpp
+    )
+    target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # v1.3.4 Batch Insert Benchmark
+    add_executable(bench_batch_insert
+        benchmarks/bench_batch_insert.cpp
+    )
+    target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
+    # Simple insert test for debugging
+    add_executable(bench_simple_insert_test
+        benchmarks/bench_simple_insert_test.cpp
+    )
+    target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+
 endif()
 
 # Admin Tools (.NET)
@@ -1285,7 +2470,12 @@ endif()
 # Enterprise Modules (new modular DLL architecture)
 option(THEMIS_BUILD_ENTERPRISE "Enable enterprise module builds" OFF)
 if(THEMIS_BUILD_ENTERPRISE)
-    add_subdirectory(src/enterprise)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/enterprise")
+        add_subdirectory(src/enterprise)
+    else()
+        message(WARNING "Enterprise source code not found. Enterprise features require a commercial license. Contact sales@themisdb.com")
+        set(THEMIS_BUILD_ENTERPRISE OFF CACHE BOOL "Enterprise source not available" FORCE)
+    endif()
 endif()
 
 # Installation
@@ -1298,3 +2488,9 @@ install(TARGETS themis_server themis_core
 install(DIRECTORY include/
     DESTINATION include
 )
+
+# Performance Optimization Benchmarks
+# if(THEMIS_BUILD_BENCHMARKS)
+#     add_subdirectory(benchmarks/performance_optimizations)
+# endif()
+

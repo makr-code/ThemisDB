@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "themis",
+  "version": "1.0.1",
+  "description": "Themis Multi-Model Database System - Docker Build",
+  "homepage": "https://github.com/makr-code/VCC",
+  "license": "MIT",
+  "dependencies": [
+    { "name": "rocksdb", "features": ["lz4", "zstd"] },
+    { "name": "simdjson" },
+    { "name": "tbb" },
+    { "name": "hnswlib" },
+    { "name": "boost-system" },
+    { "name": "boost-asio" },
+    { "name": "boost-beast" },
+    { "name": "boost-optional" },
+    { "name": "fmt" },
+    { "name": "spdlog" },
+    { "name": "nlohmann-json" },
+    { "name": "curl" },
+    { "name": "yaml-cpp" }
+  ]
+}

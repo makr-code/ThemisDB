@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <vector>
 #include <memory>
+#include <fstream>
 
 using namespace themis;
 namespace fs = std::filesystem;
@@ -47,7 +48,10 @@ protected:
         EncryptedField<std::vector<uint8_t>>::setFieldEncryption(field_encryption_);
         
         // Create database
-        db_ = std::make_unique<RocksDBWrapper>(test_db_path_);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_;
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
     }
     
     void TearDown() override {
@@ -87,6 +91,9 @@ TEST_F(VectorEncryptionIntegrationTest, Phase1_VectorEncryptionOnly) {
         auto add_status = vim.addEntity(entity);
         ASSERT_TRUE(add_status.ok) << "Failed to add entity " << i;
     }
+    
+    // Flush pending encrypted writes
+    vim.flushEncryptedWrites();
     
     // Verify encrypted storage
     auto stored = db_->get("documents:doc0");
@@ -378,7 +385,4 @@ TEST_F(VectorEncryptionIntegrationTest, AutoSave_OnShutdown) {
     EXPECT_TRUE(fs::exists(test_hnsw_path_ + "/index.bin.encrypted"));
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Note: No custom main here; linked with GTest::gtest_main

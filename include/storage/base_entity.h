@@ -68,6 +68,10 @@ public:
     
     /// Get field value (returns nullopt if not found)
     std::optional<Value> getField(std::string_view field_name) const;
+
+    /// Convenience helpers returning defaults
+    std::string getFieldString(std::string_view field_name) const;
+    int64_t getFieldInt(std::string_view field_name) const;
     
     /// Get field as string (with type conversion)
     std::optional<std::string> getFieldAsString(std::string_view field_name) const;

@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <random>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
 
 // Optional: LZ4 compression (conditional compilation)
 #ifdef THEMIS_ENABLE_LZ4
@@ -1036,7 +1038,6 @@ void StreamTransferTask::transferLoop() {
 }
 
 std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index) {
-    // TODO: Implement chunk creation from file
     StreamChunk chunk;
     chunk.chunk_index = chunk_index;
     chunk.file_offset = static_cast<uint64_t>(chunk_index) * config_.chunk_size;
@@ -1047,21 +1048,88 @@ std::optional<StreamChunk> StreamTransferTask::createChunk(uint32_t chunk_index)
 
     chunk.uncompressed_size = static_cast<uint32_t>(
         std::min<uint64_t>(config_.chunk_size, remaining));
-    chunk.compressed_size = chunk.uncompressed_size;
-
-    // No payload in stub implementation
-    chunk.data.clear();
-    chunk.checksum = 0;
 
     if (chunk.uncompressed_size == 0) {
         return std::nullopt;
     }
+
+    // Read data from source file
+    chunk.data.resize(chunk.uncompressed_size);
+    std::ifstream file(file_.source_path, std::ios::binary);
+    if (!file) {
+        std::cerr << "Failed to open file: " << file_.source_path << std::endl;
+        return std::nullopt;
+    }
+
+    file.seekg(chunk.file_offset);
+    file.read(reinterpret_cast<char*>(chunk.data.data()), chunk.uncompressed_size);
+    if (!file) {
+        std::cerr << "Failed to read chunk at offset " << chunk.file_offset << std::endl;
+        return std::nullopt;
+    }
+
+    // Calculate checksum
+    chunk.checksum = calculateCRC32(chunk.data.data(), chunk.uncompressed_size);
+
+    // Compress if enabled; only keep compressed if it's smaller
+    if (config_.compression != CompressionAlgorithm::NONE) {
+        auto compressed = StreamCompressor::compress(
+            chunk.data, config_.compression, config_.compression_level);
+        if (compressed.size() < chunk.uncompressed_size) {
+            chunk.compressed_size = static_cast<uint32_t>(compressed.size());
+            chunk.data = std::move(compressed);
+        } else {
+            chunk.compressed_size = chunk.uncompressed_size;
+        }
+    } else {
+        chunk.compressed_size = chunk.uncompressed_size;
+    }
+
     return chunk;
 }
 
 bool StreamTransferTask::sendChunk(const StreamChunk& chunk) {
-    // TODO: Implement chunk sending via network
-    return true;
+    // Local implementation: write chunk to temporary staging area
+    // In distributed setup, this would send via RPC/network to target shard
+    
+    // Security: Use platform-specific temporary directory instead of hardcoded /tmp
+    std::filesystem::path staging_dir = std::filesystem::temp_directory_path() / "themis_stream_staging";
+    if (!std::filesystem::exists(staging_dir)) {
+        try {
+            std::filesystem::create_directories(staging_dir);
+            // Set restrictive permissions (owner read/write only) on Unix-like systems
+            #ifndef _WIN32
+            std::filesystem::permissions(staging_dir, 
+                                       std::filesystem::perms::owner_read | 
+                                       std::filesystem::perms::owner_write | 
+                                       std::filesystem::perms::owner_exec,
+                                       std::filesystem::perm_options::replace);
+            #endif
+        } catch (const std::filesystem::filesystem_error& e) {
+            std::cerr << "Failed to create staging directory: " << e.what() << std::endl;
+            return false;
+        }
+    }
+
+    // Write chunk to staging file (simulates network transfer)
+    std::filesystem::path chunk_file = staging_dir / 
+        (file_.file_id + "_chunk_" + std::to_string(chunk.chunk_index) + ".dat");
+    
+    std::ofstream out(chunk_file, std::ios::binary);
+    if (!out) {
+        std::cerr << "Failed to write chunk file: " << chunk_file << std::endl;
+        return false;
+    }
+
+    // Write chunk metadata and data
+    out.write(reinterpret_cast<const char*>(&chunk.chunk_index), sizeof(chunk.chunk_index));
+    out.write(reinterpret_cast<const char*>(&chunk.file_offset), sizeof(chunk.file_offset));
+    out.write(reinterpret_cast<const char*>(&chunk.uncompressed_size), sizeof(chunk.uncompressed_size));
+    out.write(reinterpret_cast<const char*>(&chunk.compressed_size), sizeof(chunk.compressed_size));
+    out.write(reinterpret_cast<const char*>(&chunk.checksum), sizeof(chunk.checksum));
+    out.write(reinterpret_cast<const char*>(chunk.data.data()), chunk.data.size());
+
+    return out.good();
 }
 
 // ============================================================================
@@ -1083,7 +1151,30 @@ StreamReceiveTask::~StreamReceiveTask() {
 
 bool StreamReceiveTask::start() {
     running_ = true;
-    // TODO: Open output file
+    
+    // Create output directory if it doesn't exist
+    std::filesystem::path out_path(output_path_);
+    std::filesystem::path parent_dir = out_path.parent_path();
+    
+    if (!parent_dir.empty() && !std::filesystem::exists(parent_dir)) {
+        std::error_code ec;
+        if (!std::filesystem::create_directories(parent_dir, ec)) {
+            std::cerr << "Failed to create output directory: " << parent_dir 
+                      << " - " << ec.message() << std::endl;
+            failed_ = true;
+            return false;
+        }
+    }
+    
+    // Open output file for writing
+    std::ofstream test_file(output_path_, std::ios::binary | std::ios::trunc);
+    if (!test_file.is_open()) {
+        std::cerr << "Failed to open output file for writing: " << output_path_ << std::endl;
+        failed_ = true;
+        return false;
+    }
+    test_file.close();
+    
     return true;
 }
 
@@ -1144,17 +1235,98 @@ StreamFileProgress StreamReceiveTask::getProgress() const {
 }
 
 bool StreamReceiveTask::verifyIntegrity() const {
-    // TODO: Implement checksum verification
+    if (!std::filesystem::exists(output_path_)) {
+        std::cerr << "Output file does not exist: " << output_path_ << std::endl;
+        return false;
+    }
+    
+    // Check file size matches expected size
+    auto file_size = std::filesystem::file_size(output_path_);
+    if (file_size != file_.file_size) {
+        std::cerr << "File size mismatch: expected " << file_.file_size 
+                  << " but got " << file_size << std::endl;
+        return false;
+    }
+    
+    // File-level checksum verification is disabled here because StreamFileInfo
+    // no longer contains a numeric checksum field. Per-chunk CRC checks remain in place.
+    
     return true;
 }
 
 bool StreamReceiveTask::writeChunk(const StreamChunk& chunk) {
-    // TODO: Implement actual file writing
+    // Decompress if needed
+    std::vector<uint8_t> write_data;
+    if (chunk.compressed_size < chunk.uncompressed_size) {
+        // Data is compressed, decompress it
+        write_data = StreamCompressor::decompress(
+            chunk.data, config_.compression, chunk.uncompressed_size);
+        if (write_data.empty() && chunk.uncompressed_size > 0) {
+            std::cerr << "Failed to decompress chunk " << chunk.chunk_index << std::endl;
+            return false;
+        }
+    } else {
+        write_data = chunk.data;
+    }
+
+    // Verify checksum
+    uint32_t computed_checksum = calculateCRC32(write_data.data(), write_data.size());
+    if (computed_checksum != chunk.checksum) {
+        std::cerr << "Checksum mismatch for chunk " << chunk.chunk_index 
+                  << " (expected: " << chunk.checksum 
+                  << ", got: " << computed_checksum << ")" << std::endl;
+        return false;
+    }
+
+    // Write to target file
+    std::ofstream file(file_.target_path, std::ios::binary | std::ios::in | std::ios::out);
+    if (!file) {
+        // File doesn't exist, create it
+        file.open(file_.target_path, std::ios::binary | std::ios::out);
+        if (!file) {
+            std::cerr << "Failed to open target file: " << file_.target_path << std::endl;
+            return false;
+        }
+    }
+
+    file.seekp(chunk.file_offset);
+    file.write(reinterpret_cast<const char*>(write_data.data()), write_data.size());
+    
+    if (!file.good()) {
+        std::cerr << "Failed to write chunk " << chunk.chunk_index 
+                  << " to file at offset " << chunk.file_offset << std::endl;
+        return false;
+    }
+
     return true;
 }
 
 void StreamReceiveTask::requestRetry(uint32_t chunk_index) {
-    // TODO: Implement retry request via network
+    // Request retry for a specific chunk
+    // In a real implementation, this would send a network message to the sender
+    // For now, we log the retry request
+    
+    std::cerr << "Requesting retry for chunk " << chunk_index 
+              << " of file_id " << file_.file_id << std::endl;
+    
+    // In production, this would:
+    // 1. Create a RETRY_REQUEST message
+    // 2. Include the session_id, file_id, and chunk_index
+    // 3. Send via the network layer to the sender shard
+    // 
+    // Example structure:
+    // StreamMessage retry_msg;
+    // retry_msg.type = StreamMessageType::RETRY_REQUEST;
+    // retry_msg.session_id = config_.session_id;
+    // retry_msg.file_id = file_.file_id;
+    // retry_msg.chunk_index = chunk_index;
+    // network_->sendMessage(config_.peer_address, retry_msg);
+    
+    // Mark chunk as not received so it can be processed again
+    if (chunk_index < chunks_received_.size()) {
+        std::lock_guard<std::mutex> lock(write_mutex_);
+        chunks_received_[chunk_index] = false;
+    }
 }
 
 } // namespace streaming

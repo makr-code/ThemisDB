@@ -2,9 +2,125 @@
 
 ## Übersicht
 
-Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen zur Verwaltung, Überwachung und Compliance-Prüfung der ThemisDB-Datenbank.
+Die ThemisDB Admin Tools sind eine Suite von Windows-Desktop-Anwendungen und Python-Tools zur Verwaltung, Überwachung, Analyse und Compliance-Prüfung der ThemisDB-Datenbank.
 
-## Projekte
+## Python-Tools
+
+### Ingestion Tool (`ingest.py`)
+
+Ein autonomes Werkzeug zur rekursiven Durchsuchung von Verzeichnissen nach ingestierbaren Dateien und deren Aufbereitung für ThemisDB.
+
+**Features:**
+- Rekursive Verzeichnisdurchsuchung mit konfigurierbaren Filtern
+- Hash-basierte Duplikaterkennung (SHA256) - bereits ingestierte Dateien werden übersprungen
+- Fortschrittsanzeige mit Progress Bar (tqdm)
+- Detailliertes Logging in `ingestion.log`
+- SQLite-Tracking-Datenbank für verarbeitete Dateien
+- Metadatenextraktion für ThemisDB-Modelle:
+  - **Graph**: Entitäten, Beziehungen, Properties
+  - **Vector**: Text-Content für Embeddings, semantische Suche
+  - **Relational**: Schema, Datensätze, Feldtypen
+- Unterstützung für JSON, YAML, CSV, Text-Dateien
+- Konfiguration über YAML/JSON oder Kommandozeile
+
+**Verwendung:**
+```bash
+# Grundlegende Verwendung
+python3 tools/ingest.py --source /path/to/data
+
+# Mit Konfigurationsdatei
+python3 tools/ingest.py --config tools/ingest_config.example.yaml
+
+# Mit benutzerdefinierten Optionen
+python3 tools/ingest.py --source /path/to/data \
+    --output results.json \
+    --include-ext .json .yaml .txt \
+    --max-size 50
+
+# Nur bestimmte Modelle aktivieren
+python3 tools/ingest.py --source /path/to/data --no-relational
+
+# Verbose Modus für detailliertes Logging
+python3 tools/ingest.py --source /path/to/data --verbose
+```
+
+**Ausgaben:**
+- `ingestion_output.json` - Detaillierte Metadaten aller ingestierten Dateien
+- `ingestion_tracker.db` - SQLite-Datenbank mit Hash-Tracking
+- `ingestion.log` - Logdatei mit allen Ereignissen
+
+**Konfigurationsdatei:**
+Siehe `ingest_config.example.yaml` für ein vollständiges Beispiel.
+
+**Integration mit ThemisDB:**
+Das Tool generiert Metadaten im Format, das mit ThemisDB's BaseEntity und Importer Interface kompatibel ist. Die generierten JSON-Daten können direkt in ThemisDB importiert werden.
+
+**Voraussetzungen:**
+- Python 3.8+
+- Optional: `pyyaml` für YAML-Konfiguration (`pip install pyyaml`)
+- Optional: `tqdm` für Progress Bar (`pip install tqdm`)
+
+### Ingestion Tool - C# Version (`Themis.IngestionTool`)
+
+Eine C# .NET Console-Anwendung mit den gleichen Features wie das Python-Tool, aber mit Integration in die Themis.AdminTools.Shared Bibliothek.
+
+**Features:**
+- Alle Features des Python-Tools
+- Integration mit Themis.AdminTools.Shared
+- System.CommandLine für CLI
+- Microsoft.Extensions.Logging für strukturiertes Logging
+- SQLite mit System.Data.SQLite
+- YamlDotNet für YAML-Unterstützung
+
+**Verwendung:**
+```bash
+cd Themis.IngestionTool
+dotnet build
+
+# Grundlegende Verwendung
+dotnet run -- --source /path/to/data
+
+# Mit Optionen
+dotnet run -- --source /path/to/data --output results.json --verbose
+```
+
+**Voraussetzungen:**
+- .NET 8.0 SDK
+- Windows, Linux oder macOS
+
+**Dokumentation:** Siehe [Themis.IngestionTool/README.md](Themis.IngestionTool/README.md)
+
+
+
+### Namespace Analyzer (`namespace_analyzer.py`)
+
+Ein Python-Tool zur umfassenden Analyse der ThemisDB-Codebasis. Extrahiert und dokumentiert:
+- Namespaces und ihre Hierarchien
+- Klassen, Structs und Enums innerhalb jeder Namespace
+- Funktionen und ihre Signaturen
+- Variablen und Konstanten
+- Zeitliche Informationen (wann jede Entität eingeführt/geändert wurde) via Git-Metadaten
+
+**Verwendung:**
+```bash
+# Grundlegende Analyse (alle Formate)
+python3 tools/namespace_analyzer.py
+
+# Mit Git-Metadaten (langsamer)
+python3 tools/namespace_analyzer.py --include-git
+
+# Nur Markdown-Bericht
+python3 tools/namespace_analyzer.py --format markdown
+```
+
+**Ausgabeformate:**
+- JSON (`namespace_analysis.json`) - Strukturierte Daten für maschinelle Verarbeitung
+- Markdown (`namespace_analysis.md`) - Menschenlesbarer Bericht
+- CSV (`namespaces.csv`, `classes.csv`, `functions.csv`) - Tabellarische Daten
+
+**Dokumentation:** Siehe [NAMESPACE_ANALYZER_README.md](NAMESPACE_ANALYZER_README.md)
+
+## .NET Desktop-Anwendungen
 
 ### Themis.AdminTools.Shared
 Gemeinsam genutzte Bibliothek mit:

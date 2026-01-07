@@ -1,5 +1,5 @@
 ﻿Themis.AuditLogViewer
-
+1.0.0.0
 
 winexe
 C#
@@ -12,8 +12,8 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR
 C:\VCC\themis\tools\Themis.AuditLogViewer\App.xaml
 2-524658173
 
-5559276904
-2181734215541
+71873972909
+218-1094497383
 Views\AboutWindow.xaml;Views\MainWindow.xaml;
 
 False

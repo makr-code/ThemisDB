@@ -20,6 +20,7 @@
  */
 
 // Platform-specific export macros
+#ifndef THEMIS_PLUGIN_EXPORT
 #ifdef _WIN32
     #ifdef THEMIS_PLUGIN_EXPORTS
         #define THEMIS_PLUGIN_EXPORT __declspec(dllexport)
@@ -28,6 +29,7 @@
     #endif
 #else
     #define THEMIS_PLUGIN_EXPORT __attribute__((visibility("default")))
+#endif
 #endif
 
 namespace themis {
@@ -41,6 +43,7 @@ namespace plugins {
  * - BLOB_STORAGE -> New blob storage backends
  * - IMPORTER -> New data importers
  * - HSM_PROVIDER -> security::HSMProvider (PKCS#11)
+ * - LLM_BACKEND -> llm::ILLMPlugin (v1.5.0+)
  */
 enum class PluginType {
     COMPUTE_BACKEND,   // Vector/Graph/Geo acceleration (existing)
@@ -49,6 +52,7 @@ enum class PluginType {
     EXPORTER,          // Data exporters
     HSM_PROVIDER,      // Hardware Security Modules (PKCS#11)
     EMBEDDING,         // Embedding providers (Sentence-BERT, OpenAI)
+    LLM_BACKEND,       // LLM backends (llama.cpp, vLLM, etc.) - v1.5.0+
     CUSTOM             // Custom plugins
 };
 

@@ -3,11 +3,13 @@
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
+#include <rocksdb/utilities/write_batch_with_index.h>
 #include <rocksdb/options.h>
 #include <rocksdb/write_batch.h>
 #include <rocksdb/iterator.h>
 #include <rocksdb/table.h>
 #include <rocksdb/filter_policy.h>
+#include <rocksdb/cache.h>
 #include <rocksdb/advanced_options.h>
 #include <rocksdb/statistics.h>
 #include <rocksdb/utilities/checkpoint.h>
@@ -15,6 +17,7 @@
 #include <filesystem>
 #include <nlohmann/json.hpp>
 #include <unordered_map>
+#include <iostream> // For debugging
 
 namespace themis {
 
@@ -59,36 +62,89 @@ RocksDBWrapper& RocksDBWrapper::operator=(RocksDBWrapper&& other) noexcept {
 }
 
 void RocksDBWrapper::configureOptions() {
+    // Optional: auto-apply Phase 2H tuning for high concurrency when enabled
+    if (config_.enable_high_parallel_tuning) {
+        if (config_.max_background_compactions <= 0) config_.max_background_compactions = 8;
+        if (config_.max_background_flushes <= 0) config_.max_background_flushes = 2;
+        if (config_.background_threads_low <= 0) config_.background_threads_low = 8;
+        if (config_.background_threads_high <= 0) config_.background_threads_high = 2;
+        if (config_.max_subcompactions <= 1) config_.max_subcompactions = 2;
+        if (config_.level0_file_num_compaction_trigger <= 0) config_.level0_file_num_compaction_trigger = 2;
+        if (config_.level0_slowdown_writes_trigger <= 0) config_.level0_slowdown_writes_trigger = 8;
+        if (config_.level0_stop_writes_trigger <= 0) config_.level0_stop_writes_trigger = 16;
+        if (config_.block_cache_shard_bits < 0) config_.block_cache_shard_bits = 6; // 64 shards
+        if (config_.db_write_buffer_size_mb == 0) config_.db_write_buffer_size_mb = 512;
+    }
     // Create DB if missing
     options_->create_if_missing = true;
     
-    // Enable statistics for monitoring
-    options_->statistics = rocksdb::CreateDBStatistics();
-    options_->statistics->set_stats_level(rocksdb::kExceptHistogramOrTimers);
+    // Enable statistics for monitoring (can be disabled for microbenchmarks)
+    if (config_.enable_statistics) {
+        options_->statistics = rocksdb::CreateDBStatistics();
+        options_->statistics->set_stats_level(rocksdb::kExceptHistogramOrTimers);
+    }
     
     // Memtable (write buffer) configuration
+    // v1.3.0 Phase 2: Optimized write buffer settings for high throughput
+    // Recommended for write-heavy workloads: write_buffer_size=256MB, max_write_buffer_number=6
+    // Expected improvement: +20-40% write performance with proper tuning
     options_->write_buffer_size = config_.memtable_size_mb * 1024 * 1024;
     options_->max_write_buffer_number = config_.max_write_buffer_number;
     options_->min_write_buffer_number_to_merge = config_.min_write_buffer_number_to_merge;
     
     // Block cache (read cache) configuration
+    // Prefer HyperClockCache if available; fallback to LRUCache for compatibility
     rocksdb::BlockBasedTableOptions table_options;
+    // Some RocksDB builds (e.g., via vcpkg) do not expose NewHyperClockCache.
+    // Use LRU cache universally for maximum compatibility.
     table_options.block_cache = rocksdb::NewLRUCache(
-        config_.block_cache_size_mb * 1024 * 1024, // capacity
-        -1,                                         // num_shard_bits (auto)
-        false,                                      // strict_capacity_limit
-        config_.high_pri_pool_ratio                 // high_pri_pool_ratio
+        static_cast<size_t>(config_.block_cache_size_mb) * 1024ull * 1024ull
     );
     table_options.cache_index_and_filter_blocks = config_.cache_index_and_filter_blocks;
     table_options.pin_l0_filter_and_index_blocks_in_cache = config_.pin_l0_filter_and_index_blocks_in_cache;
     table_options.partition_filters = config_.partition_filters;
     
     // Bloom filter for faster point lookups
-    table_options.filter_policy.reset(rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false));
+    // CRITICAL FIX: Avoid use-after-free with BlockBasedTableOptions
+    // NewBlockBasedTableFactory makes a copy of the options internally.
+    // BlockBasedTableOptions::filter_policy is a shared_ptr that manages lifetime.
+    // Directly assign the newly created FilterPolicy pointer.
+    table_options.filter_policy.reset(
+        rocksdb::NewBloomFilterPolicy(config_.bloom_bits_per_key, false)
+    );
+    
+    // Create BlockBasedTableFactory immediately - it will copy all internal structures
     options_->table_factory.reset(rocksdb::NewBlockBasedTableFactory(table_options));
+    
+    // Phase 2H: Configure background thread pools for high parallelism
+    // CRITICAL: options_->env is initialized by RocksDB during Options construction
+    // Ensure it's not null before calling SetBackgroundThreads
+    if (options_->env == nullptr) {
+        options_->env = rocksdb::Env::Default();
+    }
+    
+    // Set flush thread pool (HIGH priority)
+    if (config_.background_threads_high > 0 && options_->env) {
+        options_->env->SetBackgroundThreads(config_.background_threads_high, rocksdb::Env::Priority::HIGH);
+    }
+    // Set compaction thread pool (LOW priority)
+    if (config_.background_threads_low > 0 && options_->env) {
+        options_->env->SetBackgroundThreads(config_.background_threads_low, rocksdb::Env::Priority::LOW);
+    }
     
     // Compaction
     options_->max_background_jobs = config_.max_background_jobs;
+    
+    // Phase 2H: Granular background operation control
+    if (config_.max_background_compactions > 0) {
+        options_->max_background_compactions = config_.max_background_compactions;
+    }
+    if (config_.max_background_flushes > 0) {
+        options_->max_background_flushes = config_.max_background_flushes;
+    }
+    if (config_.max_subcompactions > 0) {
+        options_->max_subcompactions = config_.max_subcompactions;
+    }
     if (config_.use_universal_compaction) {
         options_->compaction_style = rocksdb::kCompactionStyleUniversal;
     } else {
@@ -97,6 +153,16 @@ void RocksDBWrapper::configureOptions() {
     options_->level_compaction_dynamic_level_bytes = config_.dynamic_level_bytes;
     options_->target_file_size_base = config_.target_file_size_base_mb * 1024ull * 1024ull;
     options_->max_bytes_for_level_base = config_.max_bytes_for_level_base_mb * 1024ull * 1024ull;
+    
+    // Phase 2H: Level0 file control to prevent write stalls
+    options_->level0_file_num_compaction_trigger = config_.level0_file_num_compaction_trigger;
+    options_->level0_slowdown_writes_trigger = config_.level0_slowdown_writes_trigger;
+    options_->level0_stop_writes_trigger = config_.level0_stop_writes_trigger;
+    
+    // Phase 2H: Total write buffer size limit
+    if (config_.db_write_buffer_size_mb > 0) {
+        options_->db_write_buffer_size = config_.db_write_buffer_size_mb * 1024ull * 1024ull;
+    }
 
     // Compression preferences (best-effort; depends on build of RocksDB)
     auto toCompression = [](const std::string& s) {
@@ -114,8 +180,31 @@ void RocksDBWrapper::configureOptions() {
     options_->compression = toCompression(config_.compression_default);
     options_->bottommost_compression = toCompression(config_.compression_bottommost);
     
-    // WAL
+    // v1.3.0 Phase 2: Parallel Compression (RocksDB 10.6+)
+    // Use threads only when compression is enabled to avoid extra scheduling
+    const bool compression_enabled = options_->compression != rocksdb::kNoCompression;
+    options_->compression_opts.parallel_threads = compression_enabled ? 8 : 0;
+    options_->compression_opts.max_dict_bytes = 16 * 1024;  // 16KB dictionary for better compression
+    
+    // Parallel Write Optimization (RocksDB Best Practices)
+    // v1.3.0 Lock Optimization: WRITE_PREPARED policy allows concurrent memtable writes
+    // This significantly improves write throughput with many threads (>16)
+    if (config_.write_policy != Config::WritePolicy::WriteCommitted) {
+        options_->allow_concurrent_memtable_write = config_.allow_concurrent_memtable_write;
+    } else {
+        // WRITE_COMMITTED requires this to be disabled for correctness
+        options_->allow_concurrent_memtable_write = false;
+    }
+    // Pipelined writes sind mit Prepare/Concurrent Prepares in TransactionDB
+    // grundsätzlich inkompatibel. Da ThemisDB MVCC/Transaktionen auch für
+    // mehrstufige Updates (CFs, Indizes) nutzt, deaktivieren wir sie global.
+    // Siehe RocksDB: "pipelined_writes is not compatible with concurrent prepares".
+    options_->enable_pipelined_write = false;
+    // options_->allow_unordered_write = config_.allow_unordered_write;  // Not available in this version
+    
+    // WAL Configuration
     write_options_->sync = config_.enable_wal;
+    write_options_->disableWAL = config_.disable_wal_for_benchmark;  // Phase 2F: Benchmark optimization
     if (!config_.wal_dir.empty()) {
         options_->wal_dir = config_.wal_dir;
     }
@@ -137,14 +226,48 @@ void RocksDBWrapper::configureOptions() {
     // MVCC Transaction Configuration
     txn_db_options_->transaction_lock_timeout = 1000; // 1 second timeout
     txn_db_options_->default_lock_timeout = 1000;
+
+    // Per-Key Point Lock Manager options are not available in all RocksDB versions.
+    // Skip setting unavailable TransactionDBOptions fields to preserve compatibility.
+
+    // Configure TransactionDB write policy
+    switch (config_.write_policy) {
+        case Config::WritePolicy::WriteCommitted:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_COMMITTED;
+            break;
+        case Config::WritePolicy::WritePrepared:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_PREPARED;
+            break;
+        case Config::WritePolicy::WriteUnprepared:
+            txn_db_options_->write_policy = rocksdb::TxnDBWritePolicy::WRITE_UNPREPARED;
+            break;
+    }
+    if (config_.write_policy != Config::WritePolicy::WriteCommitted) {
+        options_->two_write_queues = config_.two_write_queues;
+    }
     
     // Set transaction options for optimistic concurrency control
     txn_options_->set_snapshot = true; // Automatically create snapshot on begin
+    // Use single-phase commit; do not require Prepare() for Commit
+    txn_options_->skip_prepare = true;
     
-    // TODO: Configure BlobDB when enable_blobdb is true
+    // v1.3.0 Phase 2: Configure BlobDB for large values (>1KB)
+    // Allow explicit disable even when memtables are large to avoid overhead for tiny values
+    if (config_.enable_blobdb) {
+        options_->enable_blob_files = true;
+        options_->min_blob_size = 1024;  // 1KB threshold - values larger than this go to blob files
+        options_->blob_compression_type = options_->compression;  // Use same compression as main DB
+        options_->enable_blob_garbage_collection = true;  // Clean up obsolete blob files
+        options_->blob_garbage_collection_age_cutoff = 0.25;  // GC blobs in files where >25% is garbage
+    }
 }
 
 bool RocksDBWrapper::open() {
+    // If already open, close cleanly to avoid stale handles before reopen
+    if (db_) {
+        close();
+    }
+
     // Ensure target directories exist when using relative paths and tests run from build dir
     try {
         std::error_code ec;
@@ -210,10 +333,13 @@ bool RocksDBWrapper::open() {
     
     // Prepare column family descriptors
     std::vector<rocksdb::ColumnFamilyDescriptor> cf_descriptors;
-    rocksdb::ColumnFamilyOptions cf_opts;
-    cf_opts.OptimizeForPointLookup(256); // 256MB block cache
     
     for (const auto& cf_name : cf_names) {
+        rocksdb::ColumnFamilyOptions cf_opts;
+        // Avoid calling OptimizeForPointLookup which can cause issues with large values
+        // Instead configure options directly for stability
+        cf_opts.write_buffer_size = options_->write_buffer_size;
+        cf_opts.max_write_buffer_number = options_->max_write_buffer_number;
         cf_descriptors.emplace_back(cf_name, cf_opts);
     }
     
@@ -303,45 +429,127 @@ bool RocksDBWrapper::get(std::string_view key, std::string& out) {
 }
 
 bool RocksDBWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
-    if (!db_) return false;
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::put: db_ is null");
+        return false;
+    }
     
-    rocksdb::Status status = db_->Put(
-        *write_options_,
-        rocksdb::Slice(key.data(), key.size()),
-        rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
-    );
+    // TransactionDB requires all writes to go through transactions for MVCC semantics
+    // Always use transaction-based writes for consistency and correctness
+    auto txn = beginTransaction();
+    if (!txn) {
+        themis::utils::Logger::error("RocksDBWrapper::put: failed to begin transaction");
+        return false;
+    }
     
-    return status.ok();
+    if (!txn->put(key, value)) {
+        themis::utils::Logger::error("RocksDBWrapper::put (transaction): put failed");
+        txn->rollback();
+        return false;
+    }
+    
+    if (!txn->commit()) {
+        themis::utils::Logger::error("RocksDBWrapper::put (transaction): commit failed");
+        return false;
+    }
+    
+    return true;
 }
 
 bool RocksDBWrapper::put(std::string_view key, std::string_view value) {
-    if (!db_) return false;
-    rocksdb::Status status = db_->Put(
-        *write_options_,
-        rocksdb::Slice(key.data(), key.size()),
-        rocksdb::Slice(value.data(), value.size())
-    );
-    return status.ok();
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view): db_ is null");
+        return false;
+    }
+    
+    // TransactionDB requires all writes to go through transactions for MVCC semantics
+    auto txn = beginTransaction();
+    if (!txn) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view): failed to begin transaction");
+        return false;
+    }
+    
+    // Convert string_view to vector for transaction API
+    std::vector<uint8_t> val_vec(value.begin(), value.end());
+    if (!txn->put(key, val_vec)) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view, transaction): put failed");
+        txn->rollback();
+        return false;
+    }
+    
+    if (!txn->commit()) {
+        themis::utils::Logger::error("RocksDBWrapper::put (string_view, transaction): commit failed");
+        return false;
+    }
+    
+    return true;
 }
 
 bool RocksDBWrapper::del(std::string_view key) {
-    if (!db_) return false;
-    
-    rocksdb::Status status = db_->Delete(*write_options_, rocksdb::Slice(key.data(), key.size()));
-    return status.ok();
+    if (!db_) {
+        themis::utils::Logger::error("RocksDBWrapper::del: db_ is null");
+        return false;
+    }
+
+    // Keep write path consistent with MVCC: always go through a transaction
+    auto txn = beginTransaction();
+    if (!txn) {
+        themis::utils::Logger::error("RocksDBWrapper::del: failed to begin transaction");
+        return false;
+    }
+
+    if (!txn->del(key)) {
+        themis::utils::Logger::error("RocksDBWrapper::del (transaction): delete failed");
+        txn->rollback();
+        return false;
+    }
+
+    if (!txn->commit()) {
+        themis::utils::Logger::error("RocksDBWrapper::del (transaction): commit failed");
+        return false;
+    }
+
+    return true;
 }
 
 std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGet(
     const std::vector<std::string>& keys
 ) {
     std::vector<std::optional<std::vector<uint8_t>>> results;
-    if (!db_) return results;
-    
-    // TODO: Use RocksDB MultiGet for batch efficiency
-    for (const auto& key : keys) {
-        results.push_back(get(key));
+    if (!db_) {
+        THEMIS_ERROR("multiGet: database not open");
+        return results;
     }
-    
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("multiGet: base DB is null");
+        return results;
+    }
+
+    // Prepare keys for RocksDB MultiGet
+    std::vector<rocksdb::Slice> rock_keys;
+    rock_keys.reserve(keys.size());
+    for (const auto& key : keys) {
+        rock_keys.emplace_back(key);
+    }
+
+    std::vector<std::string> values;
+    std::vector<rocksdb::Status> statuses = base_db->MultiGet(*read_options_, rock_keys, &values);
+
+    results.reserve(keys.size());
+    for (size_t i = 0; i < keys.size(); ++i) {
+        if (statuses[i].ok()) {
+            std::vector<uint8_t> value(values[i].begin(), values[i].end());
+            results.emplace_back(std::move(value));
+        } else if (statuses[i].IsNotFound()) {
+            results.emplace_back(std::nullopt);
+        } else {
+            THEMIS_ERROR("multiGet error for key {}: {}", keys[i], statuses[i].ToString());
+            results.emplace_back(std::nullopt);
+        }
+    }
+
     return results;
 }
 
@@ -375,14 +583,94 @@ std::unique_ptr<RocksDBWrapper::WriteBatchWrapper> RocksDBWrapper::createWriteBa
     return std::make_unique<WriteBatchWrapper>(this);
 }
 
+// WriteBatchWithIndexWrapper implementation
+
+RocksDBWrapper::WriteBatchWithIndexWrapper::WriteBatchWithIndexWrapper(RocksDBWrapper* db, bool overwrite_key)
+    : db_(db) {
+    batch_ = std::make_unique<rocksdb::WriteBatchWithIndex>(nullptr, overwrite_key);
+}
+
+RocksDBWrapper::WriteBatchWithIndexWrapper::~WriteBatchWithIndexWrapper() = default;
+
+void RocksDBWrapper::WriteBatchWithIndexWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
+    batch_->Put(
+        rocksdb::Slice(key.data(), key.size()),
+        rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
+    );
+}
+
+void RocksDBWrapper::WriteBatchWithIndexWrapper::del(std::string_view key) {
+    batch_->Delete(rocksdb::Slice(key.data(), key.size()));
+}
+
+std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatch(std::string_view key) {
+    if (!db_) return std::nullopt;
+    
+    std::string value;
+    rocksdb::Status status = batch_->GetFromBatch(
+        *db_->options_,
+        rocksdb::Slice(key.data(), key.size()),
+        &value
+    );
+    
+    if (status.ok()) {
+        return std::vector<uint8_t>(value.begin(), value.end());
+    }
+    return std::nullopt;
+}
+
+std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatchAndDB(std::string_view key) {
+    if (!db_ || !db_->db_) return std::nullopt;
+    
+    std::string value;
+    rocksdb::Status status = batch_->GetFromBatchAndDB(
+        db_->db_.get(),
+        *db_->read_options_,
+        rocksdb::Slice(key.data(), key.size()),
+        &value
+    );
+    
+    if (status.ok()) {
+        return std::vector<uint8_t>(value.begin(), value.end());
+    }
+    return std::nullopt;
+}
+
+bool RocksDBWrapper::WriteBatchWithIndexWrapper::commit() {
+    if (!db_ || !batch_) return false;
+    // WriteBatchWithIndex inherits from WriteBatch - cast to parent
+    rocksdb::WriteBatch* wb = dynamic_cast<rocksdb::WriteBatch*>(batch_.get());
+    if (!wb) return false;
+    rocksdb::Status status = db_->db_->Write(*db_->write_options_, wb);
+    return status.ok();
+}
+
+void RocksDBWrapper::WriteBatchWithIndexWrapper::rollback() {
+    batch_->Clear();
+}
+
+std::unique_ptr<RocksDBWrapper::WriteBatchWithIndexWrapper> RocksDBWrapper::createWriteBatchWithIndex(bool overwrite_key) {
+    return std::make_unique<WriteBatchWithIndexWrapper>(this, overwrite_key);
+}
+
 // TransactionWrapper implementation (MVCC)
 
 RocksDBWrapper::TransactionWrapper::TransactionWrapper(RocksDBWrapper* db)
     : db_(db) {
-    if (db_->db_) {
-        txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
-        THEMIS_DEBUG("MVCC Transaction started with snapshot");
+    if (!db_ || !db_->db_) {
+        THEMIS_ERROR("MVCC Transaction: db_ is nullptr");
+        active_ = false;
+        return;
     }
+
+    txn_.reset(db_->db_->BeginTransaction(*db_->write_options_, *db_->txn_options_));
+    if (!txn_) {
+        THEMIS_ERROR("MVCC Transaction: BeginTransaction returned nullptr");
+        active_ = false;
+        return;
+    }
+
+    THEMIS_DEBUG("MVCC Transaction started with snapshot");
 }
 
 RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
@@ -394,6 +682,10 @@ RocksDBWrapper::TransactionWrapper::~TransactionWrapper() {
 
 std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std::string_view key) {
     if (!txn_) return std::nullopt;
+    if (!active_) {
+        THEMIS_ERROR("TransactionWrapper::get: transaction not active");
+        return std::nullopt;
+    }
     
     std::string value;
     rocksdb::ReadOptions read_opts;
@@ -409,28 +701,65 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::TransactionWrapper::get(std:
 }
 
 bool RocksDBWrapper::TransactionWrapper::put(std::string_view key, const std::vector<uint8_t>& value) {
-    if (!txn_ || !active_) return false;
+    if (!txn_) {
+        THEMIS_ERROR("TransactionWrapper::put: txn_ is nullptr");
+        return false;
+    }
+    if (!active_) {
+        THEMIS_ERROR("TransactionWrapper::put: transaction not active");
+        return false;
+    }
     
     rocksdb::Status status = txn_->Put(
         rocksdb::Slice(key.data(), key.size()),
         rocksdb::Slice(reinterpret_cast<const char*>(value.data()), value.size())
     );
     
+    if (!status.ok()) {
+        THEMIS_ERROR("TransactionWrapper::put: Put() failed: " + status.ToString());
+    }
+    
     return status.ok();
 }
 
 bool RocksDBWrapper::TransactionWrapper::del(std::string_view key) {
-    if (!txn_ || !active_) return false;
-    
+    if (!txn_) {
+        THEMIS_ERROR("TransactionWrapper::del: txn_ is nullptr");
+        return false;
+    }
+    if (!active_) {
+        THEMIS_ERROR("TransactionWrapper::del: transaction not active");
+        return false;
+    }
+
     rocksdb::Status status = txn_->Delete(rocksdb::Slice(key.data(), key.size()));
+    if (!status.ok()) {
+        THEMIS_ERROR("TransactionWrapper::del: Delete() failed: {}", status.ToString());
+    }
+
     return status.ok();
 }
 
 bool RocksDBWrapper::TransactionWrapper::commit() {
-    if (!txn_ || !active_) return false;
+    if (!txn_ || !active_) {
+        return false;
+    }
+    // If WritePrepared is active or skip_prepare is false, ensure Prepare() is called
+    bool require_prepare = false;
+    if (db_) {
+        // Only require prepare when skip_prepare is explicitly disabled
+        require_prepare = (db_->txn_options_ && !db_->txn_options_->skip_prepare);
+    }
+    if (require_prepare && !prepared_) {
+        rocksdb::Status prep_st = txn_->Prepare();
+        if (!prep_st.ok()) {
+            THEMIS_ERROR("Transaction prepare failed before commit: {}", prep_st.ToString());
+            return false;
+        }
+        prepared_ = true;
+    }
     
     rocksdb::Status status = txn_->Commit();
-    active_ = false;
     
     if (!status.ok()) {
         if (status.IsBusy() || status.IsTimedOut() || status.IsTryAgain()) {
@@ -440,6 +769,8 @@ bool RocksDBWrapper::TransactionWrapper::commit() {
         }
         return false;
     }
+    
+    active_ = false;
     
     THEMIS_DEBUG("MVCC Transaction committed successfully");
     return true;
@@ -454,7 +785,21 @@ void RocksDBWrapper::TransactionWrapper::rollback() {
 }
 
 const rocksdb::Snapshot* RocksDBWrapper::TransactionWrapper::getSnapshot() const {
-    return txn_ ? txn_->GetSnapshot() : nullptr;
+    if (!txn_ || !active_) {
+        return nullptr;
+    }
+    return txn_->GetSnapshot();
+}
+
+bool RocksDBWrapper::TransactionWrapper::prepare() {
+    if (!txn_ || !active_) return false;
+    rocksdb::Status status = txn_->Prepare();
+    if (!status.ok()) {
+        THEMIS_ERROR("Transaction prepare failed: {}", status.ToString());
+        return false;
+    }
+    prepared_ = true;
+    return true;
 }
 
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction() {
@@ -470,8 +815,14 @@ bool RocksDBWrapper::commitBatch(rocksdb::WriteBatch* batch) {
 
 void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) {
     if (!db_) return;
-    
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(*read_options_));
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanPrefix: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
     rocksdb::Slice prefix_slice(prefix.data(), prefix.size());
     
     for (it->Seek(prefix_slice); it->Valid() && it->key().starts_with(prefix_slice); it->Next()) {
@@ -486,8 +837,14 @@ void RocksDBWrapper::scanPrefix(std::string_view prefix, ScanCallback callback) 
 
 void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_key, ScanCallback callback) {
     if (!db_) return;
-    
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(*read_options_));
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanRange: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
     rocksdb::Slice start_slice(start_key.data(), start_key.size());
     rocksdb::Slice end_slice(end_key.data(), end_key.size());
     
@@ -503,8 +860,14 @@ void RocksDBWrapper::scanRange(std::string_view start_key, std::string_view end_
 
 void RocksDBWrapper::scanAll(ScanCallback callback) {
     if (!db_) return;
-    
-    std::unique_ptr<rocksdb::Iterator> it(db_->NewIterator(*read_options_));
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanAll: base DB is null");
+        return;
+    }
+
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(*read_options_));
     
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
         std::string_view key(it->key().data(), it->key().size());
@@ -768,7 +1131,7 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
     
     // Create new column family with default options
     rocksdb::ColumnFamilyOptions cf_opts;
-    cf_opts.OptimizeForPointLookup(256); // 256MB block cache
+    // Avoid OptimizeForPointLookup because it mutates multiple internals implicitly; stick to defaults
     rocksdb::ColumnFamilyHandle* cf_handle = nullptr;
     rocksdb::Status s = db_->CreateColumnFamily(cf_opts, cf_name, &cf_handle);
     
@@ -788,6 +1151,12 @@ rocksdb::ColumnFamilyHandle* RocksDBWrapper::getOrCreateColumnFamily(const std::
 bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool flush_before_backup) {
     if (!db_) {
         THEMIS_ERROR("createIncrementalBackup failed: database not open");
+        return false;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("createIncrementalBackup failed: base DB is null");
         return false;
     }
     
@@ -810,7 +1179,7 @@ bool RocksDBWrapper::createIncrementalBackup(const std::string& backup_dir, bool
         std::unique_ptr<rocksdb::BackupEngine> backup_engine(backup_engine_ptr);
         
         // Create incremental backup (only delta since last backup)
-        s = backup_engine->CreateNewBackup(db_->GetBaseDB(), flush_before_backup);
+        s = backup_engine->CreateNewBackup(base_db, flush_before_backup);
         
         if (!s.ok()) {
             THEMIS_ERROR("Failed to create incremental backup: {}", s.ToString());
@@ -956,6 +1325,263 @@ uint64_t RocksDBWrapper::getStatistic(const std::string& ticker_name) const {
     }
     
     return 0;
+}
+
+// v1.3.0 Phase 2: Async I/O MultiScan Implementation
+
+std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::scanWithAsyncIO(
+    std::string_view prefix, int limit) {
+    
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("scanWithAsyncIO: database not open");
+        return results;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("scanWithAsyncIO: base DB is null");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Create iterator
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
+    
+    // Seek to prefix or start of database
+    if (prefix.empty()) {
+        it->SeekToFirst();
+    } else {
+        it->Seek(prefix);
+    }
+    
+    // Collect results up to limit
+    int count = 0;
+    while (it->Valid() && count < limit) {
+        std::string key = it->key().ToString();
+        
+        // Check prefix match
+        if (!prefix.empty() && !key.starts_with(prefix)) {
+            break;
+        }
+        
+        std::vector<uint8_t> value(it->value().data(), 
+                                   it->value().data() + it->value().size());
+        results.emplace_back(std::move(key), std::move(value));
+        
+        it->Next();
+        count++;
+    }
+    
+    if (!it->status().ok()) {
+        THEMIS_ERROR("scanWithAsyncIO iterator error: {}", it->status().ToString());
+    }
+    
+    return results;
+}
+
+std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::rangeQueryWithAsyncIO(
+    std::string_view start_key, std::string_view end_key) {
+    
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO: database not open");
+        return results;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO: base DB is null");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Create iterator
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
+    
+    // Seek to start key
+    it->Seek(start_key);
+    
+    // Collect results in range
+    while (it->Valid()) {
+        std::string key = it->key().ToString();
+        
+        // Check if we've exceeded end_key
+        if (key > end_key) {
+            break;
+        }
+        
+        std::vector<uint8_t> value(it->value().data(), 
+                                   it->value().data() + it->value().size());
+        results.emplace_back(std::move(key), std::move(value));
+        
+        it->Next();
+    }
+    
+    if (!it->status().ok()) {
+        THEMIS_ERROR("rangeQueryWithAsyncIO iterator error: {}", it->status().ToString());
+    }
+    
+    return results;
+}
+
+std::vector<std::pair<std::string, std::vector<uint8_t>>> RocksDBWrapper::reverseScanWithAsyncIO(
+    std::string_view start_key, int limit) {
+    
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("reverseScanWithAsyncIO: database not open");
+        return results;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("reverseScanWithAsyncIO: base DB is null");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Create iterator
+    std::unique_ptr<rocksdb::Iterator> it(base_db->NewIterator(read_opts));
+    
+    // Seek to start key or last if empty
+    if (start_key.empty()) {
+        it->SeekToLast();
+    } else {
+        it->Seek(start_key);
+        if (!it->Valid()) {
+            it->SeekToLast();
+        }
+    }
+    
+    // Collect results in reverse order up to limit
+    int count = 0;
+    while (it->Valid() && count < limit) {
+        std::string key = it->key().ToString();
+        std::vector<uint8_t> value(it->value().data(), 
+                                   it->value().data() + it->value().size());
+        results.emplace_back(std::move(key), std::move(value));
+        
+        it->Prev();
+        count++;
+    }
+    
+    if (!it->status().ok()) {
+        THEMIS_ERROR("reverseScanWithAsyncIO iterator error: {}", it->status().ToString());
+    }
+    
+    return results;
+}
+
+std::vector<std::optional<std::vector<uint8_t>>> RocksDBWrapper::multiGetWithAsyncIO(
+    const std::vector<std::string>& keys) {
+    
+    std::vector<std::optional<std::vector<uint8_t>>> results;
+    
+    if (!db_) {
+        THEMIS_ERROR("multiGetWithAsyncIO: database not open");
+        return results;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("multiGetWithAsyncIO: base DB is null");
+        return results;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    // Prepare keys for RocksDB MultiGet
+    std::vector<rocksdb::Slice> rock_keys;
+    rock_keys.reserve(keys.size());
+    for (const auto& key : keys) {
+        rock_keys.emplace_back(key);
+    }
+    
+    // Perform MultiGet
+    std::vector<std::string> values;
+    std::vector<rocksdb::Status> statuses = base_db->MultiGet(read_opts, rock_keys, &values);
+    
+    // Process results
+    results.reserve(keys.size());
+    for (size_t i = 0; i < keys.size(); ++i) {
+        if (statuses[i].ok()) {
+            std::vector<uint8_t> value(values[i].begin(), values[i].end());
+            results.emplace_back(std::move(value));
+        } else if (statuses[i].IsNotFound()) {
+            results.emplace_back(std::nullopt);
+        } else {
+            THEMIS_ERROR("multiGetWithAsyncIO error for key {}: {}", 
+                        keys[i], statuses[i].ToString());
+            results.emplace_back(std::nullopt);
+        }
+    }
+    
+    return results;
+}
+
+std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newAsyncIterator() {
+    if (!db_) {
+        THEMIS_ERROR("newAsyncIterator: database not open");
+        return nullptr;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("newAsyncIterator: base DB is null");
+        return nullptr;
+    }
+    
+    // Configure read options with async I/O if enabled
+    rocksdb::ReadOptions read_opts;
+    if (config_.enable_async_io) {
+        read_opts.async_io = true;
+        read_opts.readahead_size = config_.async_io_readahead_size_mb * 1024 * 1024;
+    }
+    
+    return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
+}
+
+std::unique_ptr<rocksdb::Iterator> RocksDBWrapper::newIterator() {
+    if (!db_) {
+        THEMIS_ERROR("newIterator: database not open");
+        return nullptr;
+    }
+
+    auto* base_db = db_->GetBaseDB();
+    if (!base_db) {
+        THEMIS_ERROR("newIterator: base DB is null");
+        return nullptr;
+    }
+
+    rocksdb::ReadOptions read_opts;
+    return std::unique_ptr<rocksdb::Iterator>(base_db->NewIterator(read_opts));
 }
 
 } // namespace themis

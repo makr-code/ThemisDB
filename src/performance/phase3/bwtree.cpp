@@ -1,0 +1,252 @@
+#include "performance/phase3/bwtree.h"
+#include <algorithm>
+#include <stdexcept>
+
+namespace themis {
+namespace performance {
+namespace phase3 {
+
+// ==================== MappingTable Implementation ====================
+
+MappingTable::MappingTable(size_t size) : table_(size) {
+    for (auto& entry : table_) {
+        entry.store(nullptr, std::memory_order_relaxed);
+    }
+}
+
+BwTreePage* MappingTable::get(PageID pid) const {
+    size_t index = pid % table_.size();
+    return table_[index].load(std::memory_order_acquire);
+}
+
+bool MappingTable::compare_and_swap(PageID pid, BwTreePage* expected, BwTreePage* desired) {
+    size_t index = pid % table_.size();
+    return table_[index].compare_exchange_strong(
+        expected, desired,
+        std::memory_order_release,
+        std::memory_order_acquire
+    );
+}
+
+// ==================== BwTree Implementation ====================
+
+BwTree::BwTree() {
+    mapping_table_ = std::make_unique<MappingTable>();
+    
+    // Create initial root page
+    root_pid_ = next_pid_.fetch_add(1, std::memory_order_relaxed);
+    auto root = new LeafPage();
+    
+    // Install root in mapping table
+    BwTreePage* expected = nullptr;
+    if (!mapping_table_->compare_and_swap(root_pid_, expected, root)) {
+        delete root;
+        throw std::runtime_error("Failed to install root page");
+    }
+}
+
+BwTree::~BwTree() {
+    // Clean up all pages
+    // In production, would need proper page traversal and cleanup
+}
+
+bool BwTree::insert(int64_t key, const std::string& value) {
+    // Simplified insert: always inserts into root for now
+    // In full implementation, would traverse tree to find correct leaf
+    
+    while (true) {
+        BwTreePage* page = mapping_table_->get(root_pid_);
+        if (!page) {
+            return false;
+        }
+        
+        // Create delta insert record
+        auto delta = new DeltaInsert(key, value);
+        delta->next_delta.store(page, std::memory_order_relaxed);
+        
+        // Try to install delta
+        if (mapping_table_->compare_and_swap(root_pid_, page, delta)) {
+            return true;
+        }
+        
+        // CAS failed, retry
+        delete delta;
+    }
+}
+
+bool BwTree::remove(int64_t key) {
+    // Simplified: not implemented in this basic version
+    return false;
+}
+
+bool BwTree::search(int64_t key, std::string& value) const {
+    BwTreePage* page = mapping_table_->get(root_pid_);
+    if (!page) {
+        return false;
+    }
+    
+    // Apply deltas to get consolidated view
+    auto consolidated = apply_deltas(page);
+    if (!consolidated) {
+        return false;
+    }
+    
+    // Binary search in sorted records
+    auto it = std::lower_bound(
+        consolidated->records.begin(),
+        consolidated->records.end(),
+        key,
+        [](const std::pair<int64_t, std::string>& record, int64_t k) {
+            return record.first < k;
+        }
+    );
+    
+    if (it != consolidated->records.end() && it->first == key) {
+        value = it->second;
+        return true;
+    }
+    
+    return false;
+}
+
+std::vector<std::pair<int64_t, std::string>> BwTree::range_scan(
+    int64_t start_key, int64_t end_key) const {
+    
+    BwTreePage* page = mapping_table_->get(root_pid_);
+    if (!page) {
+        return {};
+    }
+    
+    // Apply deltas to get consolidated view
+    auto consolidated = apply_deltas(page);
+    if (!consolidated) {
+        return {};
+    }
+    
+    std::vector<std::pair<int64_t, std::string>> results;
+    
+    for (const auto& [k, v] : consolidated->records) {
+        if (k >= start_key && k <= end_key) {
+            results.push_back({k, v});
+        }
+    }
+    
+    return results;
+}
+
+BwTree::Stats BwTree::get_stats() const {
+    Stats stats;
+    stats.num_pages = next_pid_.load(std::memory_order_relaxed);
+    stats.num_deltas = 0;
+    stats.consolidations = 0;
+    
+    // Count deltas in root page
+    BwTreePage* page = mapping_table_->get(root_pid_);
+    while (page) {
+        if (page->type != PageType::LEAF) {
+            stats.num_deltas++;
+        }
+        page = page->next_delta.load(std::memory_order_acquire);
+    }
+    
+    return stats;
+}
+
+void BwTree::consolidate(PageID pid) {
+    while (true) {
+        BwTreePage* page = mapping_table_->get(pid);
+        if (!page) {
+            return;
+        }
+        
+        // Apply deltas to create consolidated page
+        auto consolidated = apply_deltas(page);
+        if (!consolidated) {
+            return;
+        }
+        
+        // Try to install consolidated page
+        if (mapping_table_->compare_and_swap(pid, page, consolidated.get())) {
+            consolidated.release();  // Now owned by mapping table
+            
+            // Clean up old delta chain
+            BwTreePage* current = page;
+            while (current) {
+                BwTreePage* next = current->next_delta.load(std::memory_order_acquire);
+                delete current;
+                current = next;
+            }
+            return;
+        }
+        
+        // CAS failed, retry
+    }
+}
+
+std::unique_ptr<LeafPage> BwTree::apply_deltas(BwTreePage* page) const {
+    if (!page) {
+        return nullptr;
+    }
+    
+    auto result = std::make_unique<LeafPage>();
+    
+    // Collect all deltas in reverse order
+    std::vector<BwTreePage*> delta_chain;
+    BwTreePage* current = page;
+    
+    while (current) {
+        delta_chain.push_back(current);
+        current = current->next_delta.load(std::memory_order_acquire);
+    }
+    
+    // Find base page (LEAF)
+    LeafPage* base = nullptr;
+    for (auto it = delta_chain.rbegin(); it != delta_chain.rend(); ++it) {
+        if ((*it)->type == PageType::LEAF) {
+            base = static_cast<LeafPage*>(*it);
+            break;
+        }
+    }
+    
+    if (!base) {
+        return nullptr;
+    }
+    
+    // Start with base page records
+    result->records = base->records;
+    result->left_sibling = base->left_sibling;
+    result->right_sibling = base->right_sibling;
+    
+    // Apply deltas in forward order
+    for (auto it = delta_chain.rbegin(); it != delta_chain.rend(); ++it) {
+        BwTreePage* delta = *it;
+        
+        if (delta->type == PageType::DELTA_INSERT) {
+            auto insert_delta = static_cast<DeltaInsert*>(delta);
+            
+            // Find insertion point
+            auto pos = std::lower_bound(
+                result->records.begin(),
+                result->records.end(),
+                insert_delta->key,
+                [](const std::pair<int64_t, std::string>& record, int64_t k) {
+                    return record.first < k;
+                }
+            );
+            
+            // Update if exists, insert if not
+            if (pos != result->records.end() && pos->first == insert_delta->key) {
+                pos->second = insert_delta->value;
+            } else {
+                result->records.insert(pos, {insert_delta->key, insert_delta->value});
+            }
+        }
+        // Handle other delta types (DELETE, SPLIT, etc.) here
+    }
+    
+    return result;
+}
+
+} // namespace phase3
+} // namespace performance
+} // namespace themis

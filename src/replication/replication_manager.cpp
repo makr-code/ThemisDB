@@ -8,6 +8,7 @@
  */
 
 #include "replication/replication_manager.h"
+#include "replication/multi_master_replication.h"
 #include <openssl/sha.h>
 #include <openssl/evp.h>
 #include <fstream>

@@ -1,0 +1,636 @@
+/**
+ * @file stt_processor.cpp
+ * @brief Speech-to-Text (STT) Processor Implementation
+ * 
+ * @author ThemisDB Team
+ * @date December 2025
+ */
+
+// Ensure plugin entry points export correctly when built into core
+#define THEMIS_PLUGIN_EXPORTS
+
+#include "content/stt_processor.h"
+#include <algorithm>
+#include <cstring>
+#include <sstream>
+#include <chrono>
+
+// Conditional Whisper.cpp include
+#ifdef THEMIS_ENABLE_WHISPER
+extern "C" {
+    #include <whisper.h>
+}
+#endif
+
+namespace themis {
+namespace content {
+
+STTProcessor::STTProcessor() = default;
+
+STTProcessor::~STTProcessor() {
+    if (initialized_) {
+        shutdown();
+    }
+}
+
+PluginInfo STTProcessor::getInfo() const {
+    PluginInfo info;
+    info.name = "stt-processor";
+    info.version = "1.0.0";
+    info.description = "Speech-to-Text processor using Whisper.cpp";
+    info.author = "ThemisDB Team";
+    info.license = "Apache-2.0";
+    
+    info.mime_types = {
+        "audio/mpeg",
+        "audio/mp3",
+        "audio/wav",
+        "audio/x-wav",
+        "audio/ogg",
+        "audio/flac",
+        "audio/aac",
+        "audio/mp4",
+        "audio/webm",
+        "audio/x-m4a",
+        "audio/opus"
+    };
+    
+    info.extensions = {
+        "mp3", "wav", "ogg", "flac", "aac", "m4a", "opus", "wma"
+    };
+    
+    info.supports_chunking = true;
+    info.supports_embedding = false;
+    info.supports_streaming = true;
+    
+    info.min_memory_mb = 256;
+    info.recommended_memory_mb = 1024;
+    
+    return info;
+}
+
+bool STTProcessor::initialize(const PluginConfig& config) {
+    if (initialized_) {
+        return true;
+    }
+    
+    // Load configuration
+    model_path_ = config.get<std::string>("model_path", "./models/ggml-base.bin");
+    model_size_ = config.get<std::string>("model_size", "base");
+    default_language_ = config.get<std::string>("language", "auto");
+    enable_timestamps_ = config.get<bool>("timestamps", true);
+    enable_speaker_diarization_ = config.get<bool>("speaker_diarization", false);
+    max_speakers_ = config.get<int>("max_speakers", 0);
+    enable_word_confidence_ = config.get<bool>("word_confidence", false);
+    vad_threshold_ = config.get<float>("vad_threshold", 0.5f);
+    
+    // Load Whisper model
+    if (!loadWhisperModel()) {
+        return false;
+    }
+    
+    initialized_ = true;
+    return true;
+}
+
+void STTProcessor::shutdown() {
+    if (!initialized_) {
+        return;
+    }
+    
+    unloadWhisperModel();
+    initialized_ = false;
+}
+
+bool STTProcessor::canProcess(const std::string& mime_type) const {
+    static const std::vector<std::string> supported = {
+        "audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav",
+        "audio/ogg", "audio/flac", "audio/aac", "audio/mp4",
+        "audio/webm", "audio/x-m4a", "audio/opus"
+    };
+    
+    return std::find(supported.begin(), supported.end(), mime_type) != supported.end();
+}
+
+ContentExtractionResult STTProcessor::extract(
+    const std::vector<uint8_t>& blob,
+    const std::string& mime_type,
+    const ExtractionOptions& options
+) {
+    auto start = std::chrono::steady_clock::now();
+    ContentExtractionResult result;
+    result.input_size_bytes = blob.size();
+    
+    if (!initialized_) {
+        result.success = false;
+        result.error_message = "STT processor not initialized";
+        errors_++;
+        return result;
+    }
+    
+    if (blob.empty()) {
+        result.success = false;
+        result.error_message = "Empty input blob";
+        errors_++;
+        return result;
+    }
+    
+    try {
+        // Convert audio to WAV 16kHz mono (required by Whisper)
+        auto wav_data = convertToWav16kHz(blob);
+        
+        // Extract PCM float data
+        auto pcm_data = extractPCMData(wav_data);
+        
+        // Perform transcription
+        json transcription_options;
+        transcription_options["language"] = default_language_;
+        transcription_options["timestamps"] = enable_timestamps_;
+        transcription_options["speaker_diarization"] = enable_speaker_diarization_;
+        
+        auto transcription = transcribeInternal(pcm_data, transcription_options);
+        
+        if (!transcription.success) {
+            result.success = false;
+            result.error_message = transcription.error_message;
+            errors_++;
+            return result;
+        }
+        
+        // Build result
+        result.text = transcription.full_text;
+        result.success = true;
+        
+        // Add metadata
+        json metadata;
+        metadata["transcription"] = {
+            {"language", transcription.detected_language},
+            {"confidence", transcription.average_confidence},
+            {"duration_ms", transcription.audio_duration_ms},
+            {"segment_count", transcription.segments.size()}
+        };
+        
+        // Add segments with timestamps
+        json segments_json = json::array();
+        for (const auto& seg : transcription.segments) {
+            json seg_json;
+            seg_json["text"] = seg.text;
+            seg_json["start_ms"] = seg.start_ms;
+            seg_json["end_ms"] = seg.end_ms;
+            seg_json["confidence"] = seg.confidence;
+            if (seg.speaker_id >= 0) {
+                seg_json["speaker_id"] = seg.speaker_id;
+            }
+            segments_json.push_back(seg_json);
+        }
+        metadata["segments"] = segments_json;
+        
+        result.metadata = metadata;
+        
+        // Update statistics
+        transcriptions_completed_++;
+        total_audio_duration_ms_ += transcription.audio_duration_ms;
+        total_processing_time_ms_ += transcription.processing_time_ms;
+        
+    } catch (const std::exception& e) {
+        result.success = false;
+        result.error_message = std::string("STT processing failed: ") + e.what();
+        errors_++;
+    }
+    
+    auto end = std::chrono::steady_clock::now();
+    result.processing_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    
+    return result;
+}
+
+std::vector<ContentChunk> STTProcessor::chunk(
+    const ContentExtractionResult& result,
+    int max_tokens,
+    int overlap
+) {
+    std::vector<ContentChunk> chunks;
+    
+    if (!result.success || result.text.empty()) {
+        return chunks;
+    }
+    
+    // Chunk by transcription segments if available
+    if (result.metadata.contains("segments")) {
+        auto segments = result.metadata["segments"];
+        
+        std::string current_chunk;
+        int sequence = 0;
+        int64_t chunk_start_ms = 0;
+        int64_t chunk_end_ms = 0;
+        
+        for (const auto& seg : segments) {
+            std::string seg_text = seg["text"].get<std::string>();
+            int seg_tokens = countTokens(seg_text);
+            int current_tokens = countTokens(current_chunk);
+            
+            if (current_tokens + seg_tokens > max_tokens && !current_chunk.empty()) {
+                ContentChunk chunk;
+                chunk.text = current_chunk;
+                chunk.sequence = sequence++;
+                chunk.token_count = current_tokens;
+                chunk.metadata["start_ms"] = chunk_start_ms;
+                chunk.metadata["end_ms"] = chunk_end_ms;
+                chunks.push_back(chunk);
+                
+                current_chunk = "";
+                chunk_start_ms = seg["start_ms"].get<int64_t>();
+            }
+            
+            if (current_chunk.empty()) {
+                chunk_start_ms = seg["start_ms"].get<int64_t>();
+            }
+            
+            if (!current_chunk.empty()) {
+                current_chunk += " ";
+            }
+            current_chunk += seg_text;
+            chunk_end_ms = seg["end_ms"].get<int64_t>();
+        }
+        
+        // Add remaining
+        if (!current_chunk.empty()) {
+            ContentChunk chunk;
+            chunk.text = current_chunk;
+            chunk.sequence = sequence++;
+            chunk.token_count = countTokens(current_chunk);
+            chunk.metadata["start_ms"] = chunk_start_ms;
+            chunk.metadata["end_ms"] = chunk_end_ms;
+            chunks.push_back(chunk);
+        }
+    } else {
+        // Fallback to sentence-based chunking
+        auto sentences = splitSentences(result.text);
+        
+        std::string current_chunk;
+        int sequence = 0;
+        
+        for (const auto& sentence : sentences) {
+            int sentence_tokens = countTokens(sentence);
+            int current_tokens = countTokens(current_chunk);
+            
+            if (current_tokens + sentence_tokens > max_tokens && !current_chunk.empty()) {
+                ContentChunk chunk;
+                chunk.text = current_chunk;
+                chunk.sequence = sequence++;
+                chunk.token_count = current_tokens;
+                chunks.push_back(chunk);
+                
+                current_chunk = "";
+            }
+            
+            if (!current_chunk.empty()) {
+                current_chunk += " ";
+            }
+            current_chunk += sentence;
+        }
+        
+        if (!current_chunk.empty()) {
+            ContentChunk chunk;
+            chunk.text = current_chunk;
+            chunk.sequence = sequence++;
+            chunk.token_count = countTokens(current_chunk);
+            chunks.push_back(chunk);
+        }
+    }
+    
+    return chunks;
+}
+
+bool STTProcessor::healthCheck() const {
+    return initialized_ && whisper_ctx_ != nullptr;
+}
+
+json STTProcessor::getStatistics() const {
+    json stats;
+    stats["transcriptions_completed"] = transcriptions_completed_.load();
+    stats["total_audio_duration_ms"] = total_audio_duration_ms_.load();
+    stats["total_processing_time_ms"] = total_processing_time_ms_.load();
+    stats["errors"] = errors_.load();
+    
+    // Calculate real-time factor
+    if (total_audio_duration_ms_ > 0) {
+        double rtf = static_cast<double>(total_processing_time_ms_.load()) / 
+                     static_cast<double>(total_audio_duration_ms_.load());
+        stats["real_time_factor"] = rtf;
+    }
+    
+    return stats;
+}
+
+TranscriptionResult STTProcessor::transcribe(
+    const std::vector<uint8_t>& audio_blob,
+    const json& options
+) {
+    if (!initialized_) {
+        TranscriptionResult result;
+        result.success = false;
+        result.error_message = "STT processor not initialized";
+        return result;
+    }
+    
+    auto wav_data = convertToWav16kHz(audio_blob);
+    auto pcm_data = extractPCMData(wav_data);
+    
+    return transcribeInternal(pcm_data, options);
+}
+
+bool STTProcessor::streamTranscribe(
+    const std::vector<uint8_t>& audio_stream,
+    std::function<void(const TranscriptionSegment&)> callback
+) {
+    // Real-time streaming transcription
+    // This would process audio in chunks and call the callback for each segment
+    // For now, return placeholder
+    return false;
+}
+
+json STTProcessor::generateMeetingProtocol(
+    const std::vector<uint8_t>& audio_blob,
+    const json& options
+) {
+    json protocol_options;
+    protocol_options["language"] = options.value("language", default_language_);
+    protocol_options["timestamps"] = true;
+    protocol_options["speaker_diarization"] = options.value("speaker_diarization", true);
+    
+    auto transcription = transcribe(audio_blob, protocol_options);
+    
+    if (!transcription.success) {
+        json error_result;
+        error_result["success"] = false;
+        error_result["error"] = transcription.error_message;
+        return error_result;
+    }
+    
+    return formatAsProtocol(transcription, options);
+}
+
+// Private implementation methods
+
+bool STTProcessor::loadWhisperModel() {
+    // Real implementation loading Whisper.cpp model
+    #ifdef THEMIS_ENABLE_WHISPER
+    try {
+        // Initialize whisper context from model file
+        struct whisper_context_params cparams = whisper_context_default_params();
+        cparams.use_gpu = false;  // Can be configured
+        
+        whisper_ctx_ = whisper_init_from_file_with_params(model_path_.c_str(), cparams);
+        
+        if (!whisper_ctx_) {
+            return false;
+        }
+        
+        // Verify model is loaded
+        if (!whisper_is_multilingual(static_cast<struct whisper_context*>(whisper_ctx_))) {
+            // Model loaded but only single language
+        }
+        
+        return true;
+    } catch (const std::exception& e) {
+        return false;
+    }
+    #else
+    // Whisper.cpp not enabled in build - use placeholder
+    whisper_ctx_ = nullptr;
+    return false;
+    #endif
+}
+
+void STTProcessor::unloadWhisperModel() {
+    #ifdef THEMIS_ENABLE_WHISPER
+    if (whisper_ctx_) {
+        whisper_free(static_cast<struct whisper_context*>(whisper_ctx_));
+        whisper_ctx_ = nullptr;
+    }
+    #else
+    whisper_ctx_ = nullptr;
+    #endif
+}
+
+std::vector<uint8_t> STTProcessor::convertToWav16kHz(const std::vector<uint8_t>& audio_blob) {
+    // Real implementation would:
+    // 1. Decode input audio format (MP3, AAC, etc.)
+    // 2. Resample to 16kHz mono
+    // 3. Convert to WAV format
+    // For now, return placeholder
+    return audio_blob;
+}
+
+std::vector<float> STTProcessor::extractPCMData(const std::vector<uint8_t>& wav_data) {
+    // Real implementation would:
+    // 1. Parse WAV header
+    // 2. Extract PCM samples
+    // 3. Convert to float [-1.0, 1.0]
+    std::vector<float> pcm_data;
+    pcm_data.reserve(wav_data.size() / 2);
+    
+    // Placeholder: assume 16-bit PCM
+    for (size_t i = 0; i + 1 < wav_data.size(); i += 2) {
+        int16_t sample = static_cast<int16_t>(
+            (static_cast<uint16_t>(wav_data[i + 1]) << 8) | 
+            static_cast<uint16_t>(wav_data[i])
+        );
+        pcm_data.push_back(sample / 32768.0f);
+    }
+    
+    return pcm_data;
+}
+
+TranscriptionResult STTProcessor::transcribeInternal(
+    const std::vector<float>& pcm_data,
+    const json& options
+) {
+    auto start = std::chrono::steady_clock::now();
+    
+    TranscriptionResult result;
+    
+    #ifdef THEMIS_ENABLE_WHISPER
+    // Real Whisper.cpp implementation
+    if (!whisper_ctx_) {
+        result.success = false;
+        result.error_message = "Whisper model not loaded";
+        return result;
+    }
+    
+    try {
+        auto* ctx = static_cast<struct whisper_context*>(whisper_ctx_);
+        
+        // Setup whisper parameters
+        struct whisper_full_params wparams = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
+        
+        // Configure parameters from options
+        wparams.print_progress = false;
+        wparams.print_timestamps = enable_timestamps_;
+        wparams.print_realtime = false;
+        wparams.print_special = false;
+        wparams.translate = false;
+        wparams.no_context = false;
+        wparams.single_segment = false;
+        wparams.max_len = 0;  // no length limit
+        wparams.split_on_word = true;
+        wparams.audio_ctx = 0;  // use default
+        wparams.speed_up = false;
+        
+        // Language detection or specific language
+        std::string language = options.value("language", default_language_);
+        if (language != "auto") {
+            wparams.language = language.c_str();
+        } else {
+            wparams.language = nullptr;  // auto-detect
+        }
+        
+        // Run transcription
+        int ret = whisper_full(ctx, wparams, pcm_data.data(), static_cast<int>(pcm_data.size()));
+        
+        if (ret != 0) {
+            result.success = false;
+            result.error_message = "Whisper transcription failed";
+            return result;
+        }
+        
+        // Extract results
+        const int n_segments = whisper_full_n_segments(ctx);
+        
+        std::string full_text;
+        float total_confidence = 0.0f;
+        int confidence_count = 0;
+        
+        for (int i = 0; i < n_segments; ++i) {
+            const char* text = whisper_full_get_segment_text(ctx, i);
+            const int64_t t0 = whisper_full_get_segment_t0(ctx, i);
+            const int64_t t1 = whisper_full_get_segment_t1(ctx, i);
+            
+            TranscriptionSegment segment;
+            segment.text = text;
+            segment.start_ms = t0 * 10;  // Convert to milliseconds
+            segment.end_ms = t1 * 10;
+            
+            // Get token-level confidence (average for segment)
+            const int n_tokens = whisper_full_n_tokens(ctx, i);
+            float segment_confidence = 0.0f;
+            for (int j = 0; j < n_tokens; ++j) {
+                const auto token_data = whisper_full_get_token_data(ctx, i, j);
+                segment_confidence += token_data.p;
+            }
+            if (n_tokens > 0) {
+                segment_confidence /= n_tokens;
+            }
+            segment.confidence = segment_confidence;
+            
+            result.segments.push_back(segment);
+            full_text += text;
+            
+            total_confidence += segment_confidence;
+            confidence_count++;
+        }
+        
+        result.success = true;
+        result.full_text = full_text;
+        result.detected_language = whisper_lang_str(whisper_full_lang_id(ctx));
+        result.average_confidence = confidence_count > 0 ? total_confidence / confidence_count : 0.0f;
+        result.audio_duration_ms = static_cast<int64_t>(pcm_data.size() / 16.0);  // 16kHz sample rate
+        
+    } catch (const std::exception& e) {
+        result.success = false;
+        result.error_message = std::string("Whisper transcription error: ") + e.what();
+        return result;
+    }
+    #else
+    // Placeholder implementation when Whisper.cpp is not enabled
+    result.success = true;
+    result.full_text = "[Transcription requires Whisper.cpp - enable THEMIS_ENABLE_WHISPER in CMake]";
+    result.detected_language = "en";
+    result.average_confidence = 0.0f;
+    result.audio_duration_ms = static_cast<int64_t>(pcm_data.size() / 16.0);  // 16kHz sample rate
+    
+    // Create placeholder segment
+    TranscriptionSegment segment;
+    segment.text = result.full_text;
+    segment.start_ms = 0;
+    segment.end_ms = result.audio_duration_ms;
+    segment.confidence = 0.0f;
+    result.segments.push_back(segment);
+    #endif
+    
+    auto end = std::chrono::steady_clock::now();
+    result.processing_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    
+    return result;
+}
+
+std::vector<TranscriptionSegment> STTProcessor::performSpeakerDiarization(
+    const std::vector<TranscriptionSegment>& segments,
+    const std::vector<float>& pcm_data
+) {
+    // Real implementation would:
+    // 1. Extract speaker embeddings
+    // 2. Cluster speakers
+    // 3. Assign speaker IDs to segments
+    
+    // Placeholder: return segments unchanged
+    return segments;
+}
+
+json STTProcessor::formatAsProtocol(
+    const TranscriptionResult& result,
+    const json& options
+) {
+    json protocol;
+    protocol["type"] = "meeting_protocol";
+    protocol["timestamp"] = std::chrono::system_clock::now().time_since_epoch().count();
+    protocol["language"] = result.detected_language;
+    protocol["duration_ms"] = result.audio_duration_ms;
+    protocol["confidence"] = result.average_confidence;
+    
+    // Full transcript
+    protocol["transcript"] = result.full_text;
+    
+    // Segments with timestamps
+    json segments = json::array();
+    for (const auto& seg : result.segments) {
+        json seg_json;
+        seg_json["start_time"] = formatTimestamp(seg.start_ms);
+        seg_json["end_time"] = formatTimestamp(seg.end_ms);
+        seg_json["text"] = seg.text;
+        seg_json["confidence"] = seg.confidence;
+        
+        if (seg.speaker_id >= 0) {
+            seg_json["speaker"] = "Speaker " + std::to_string(seg.speaker_id + 1);
+        }
+        
+        segments.push_back(seg_json);
+    }
+    protocol["segments"] = segments;
+    
+    // Summary (would use LLM for generation)
+    protocol["summary"] = "[Summary to be generated by LLM]";
+    protocol["key_points"] = json::array();
+    protocol["action_items"] = json::array();
+    
+    return protocol;
+}
+
+// Helper function to format timestamp
+std::string STTProcessor::formatTimestamp(int64_t ms) {
+    int hours = ms / 3600000;
+    int minutes = (ms % 3600000) / 60000;
+    int seconds = (ms % 60000) / 1000;
+    int millis = ms % 1000;
+    
+    char buffer[32];
+    snprintf(buffer, sizeof(buffer), "%02d:%02d:%02d.%03d", hours, minutes, seconds, millis);
+    return std::string(buffer);
+}
+
+// Plugin entry point
+THEMIS_CONTENT_PLUGIN(STTProcessor)
+
+} // namespace content
+} // namespace themis

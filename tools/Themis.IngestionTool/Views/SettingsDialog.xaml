@@ -1,0 +1,83 @@
+<Window x:Class="Themis.IngestionTool.Views.SettingsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Einstellungen" Height="700" Width="600"
+        WindowStartupLocation="CenterOwner"
+        Background="#F5F5F5"
+        ResizeMode="NoResize">
+    <StackPanel Margin="20">
+        <!-- Header -->
+        <TextBlock Text="Einstellungen" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,0,0,20" />
+
+        <!-- Themis Connection Settings -->
+        <GroupBox Header="Themis Verbindung" Foreground="#333" Padding="15" Margin="0,0,0,15" Background="White">
+            <StackPanel>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Host:" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBox Text="{Binding ThemisHost, UpdateSourceTrigger=PropertyChanged}" 
+                            Grid.Column="1" Padding="8" Margin="10,0,0,0" />
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Port:" VerticalAlignment="Center" FontWeight="Bold" />
+                    <TextBox Text="{Binding ThemisPort, UpdateSourceTrigger=PropertyChanged}" 
+                            Grid.Column="1" Padding="8" Margin="10,0,0,0" />
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Datenbankeinstellungen -->
+        <GroupBox Header="Datenbankeinstellungen" Foreground="#333" Padding="15" Margin="0,0,0,15" Background="White">
+            <StackPanel>
+                <TextBlock Text="Datenbankpfad:" FontWeight="Bold" Margin="0,0,0,8" />
+                <TextBox Text="{Binding DatabasePath, UpdateSourceTrigger=PropertyChanged}" 
+                        Padding="8" Margin="0,0,0,15" />
+
+                <TextBlock Text="Max. Dateigröße (MB):" FontWeight="Bold" Margin="0,0,0,8" />
+                <TextBox Text="{Binding MaxFileSize, UpdateSourceTrigger=PropertyChanged}" Padding="8" />
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Metadaten-Optionen -->
+        <GroupBox Header="Metadaten-Optionen" Foreground="#333" Padding="15" Margin="0,0,0,15" Background="White">
+            <StackPanel>
+                <CheckBox Content="Vector-Metadaten aktivieren" 
+                         IsChecked="{Binding EnableVectorMetadata}" Margin="0,0,0,10" />
+                <CheckBox Content="Graph-Metadaten aktivieren" 
+                         IsChecked="{Binding EnableGraphMetadata}" Margin="0,0,0,10" />
+                <CheckBox Content="Relationale Metadaten aktivieren" 
+                         IsChecked="{Binding EnableRelationalMetadata}" />
+            </StackPanel>
+        </GroupBox>
+
+        <!-- LLM Status Monitoring Optionen -->
+        <GroupBox Header="LLM Status Überwachung" Foreground="#333" Padding="15" Margin="0,0,0,15" Background="White">
+            <StackPanel>
+                <CheckBox Content="LLM-Status-Überwachung aktivieren" 
+                         IsChecked="{Binding EnableLlmStatusMonitoring}" Margin="0,0,0,10" />
+                <CheckBox Content="LLM-Status in Statusleiste anzeigen" 
+                         IsChecked="{Binding ShowLlmStatusInStatusBar}" Margin="0,0,0,10" />
+                
+                <TextBlock Text="Status-Check Intervall (Sekunden):" FontWeight="Bold" Margin="0,0,0,5" FontSize="11" />
+                <TextBox Text="{Binding LlmStatusCheckIntervalSeconds, UpdateSourceTrigger=PropertyChanged}" 
+                        Padding="8" Width="150" HorizontalAlignment="Left" />
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="OK" Padding="20,10" Background="#007ACC" Foreground="White" 
+                   FontWeight="Bold" Cursor="Hand" Margin="0,0,10,0" Click="OnOk" />
+            <Button Content="Abbrechen" Padding="20,10" Background="#6C757D" Foreground="White" 
+                   FontWeight="Bold" Cursor="Hand" Click="OnCancel" />
+        </StackPanel>
+    </StackPanel>
+</Window>

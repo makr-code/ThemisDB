@@ -1,0 +1,4 @@
+-r ../requirements-common.txt
+
+# Date and time handling
+python-dateutil>=2.8.0

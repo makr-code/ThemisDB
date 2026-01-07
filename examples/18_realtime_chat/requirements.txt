@@ -1,0 +1,7 @@
+-r ../requirements-common.txt
+
+# WebSocket for real-time
+websockets>=10.0
+
+# Async support
+aiohttp>=3.8.0

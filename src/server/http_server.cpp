@@ -91,6 +91,14 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
 
+#ifdef THEMIS_ENABLE_HTTP2
+#include "server/http2_session.h"
+#endif
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+#include "server/websocket_session.h"
+#endif
+
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
 #include "query/aql_parser.h"
@@ -223,6 +231,25 @@ HttpServer::HttpServer(
         );
         THEMIS_INFO("SSE Connection Manager initialized");
     }
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    // Initialize WebSocket Manager
+    if (config_.enable_websocket) {
+        // Pass changefeed for CDC support with configurable poll interval
+        websocket_manager_ = std::make_shared<WebSocketManager>(
+            changefeed_.get(), 
+            config_.websocket_cdc_poll_interval_ms
+        );
+        THEMIS_INFO("WebSocket Connection Manager initialized with CDC support");
+        
+        // Start CDC polling if changefeed is available
+        if (changefeed_) {
+            websocket_manager_->startCDCPolling(ioc_, config_.websocket_cdc_poll_interval_ms);
+            THEMIS_INFO("CDC polling started for WebSocket connections (interval={}ms)", 
+                       config_.websocket_cdc_poll_interval_ms);
+        }
+    }
+#endif
 
     // Initialize PII Mappings ColumnFamily + Handler (independent of CDC)
     if (config_.feature_pii_manager) {
@@ -705,6 +732,14 @@ HttpServer::HttpServer(
                 THEMIS_INFO("mTLS: client certificate verification disabled (one-way TLS)");
             }
 
+#ifdef THEMIS_ENABLE_HTTP2
+            // Configure ALPN for HTTP/2 protocol negotiation
+            if (config_.enable_http2) {
+                Http2Handler::configureAlpn(*ssl_ctx_);
+                THEMIS_INFO("HTTP/2: ALPN configured for protocol negotiation (h2, http/1.1)");
+            }
+#endif
+
             THEMIS_INFO("HTTPS server enabled (TLS configured successfully)");
         } catch (const std::exception& e) {
             THEMIS_ERROR("Failed to initialize TLS: {}", e.what());
@@ -844,10 +879,29 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection (SSL or plain based on config)
+        // Create new session for this connection
         if (config_.enable_tls && ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
+            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
+            if (config_.enable_http2) {
+                std::make_shared<Http2Session>(
+                    std::move(socket),
+                    *ssl_ctx_,
+                    this,
+                    config_.http2_max_concurrent_streams,
+                    config_.http2_initial_window_size
+                )->start();
+            } else {
+                // TLS without HTTP/2
+                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+            }
+#else
+            // TLS without HTTP/2 support
             std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
         } else {
+            // Plain HTTP/1.1 without TLS
             std::make_shared<Session>(std::move(socket), this)->start();
         }
     }
@@ -2893,17 +2947,17 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         out += "# TYPE process_uptime_seconds gauge\n";
         out += "process_uptime_seconds " + std::to_string(uptime_seconds) + "\n";
 
-        out += "# HELP themis_requests_total Total HTTP requests handled\n";
-        out += "# TYPE themis_requests_total counter\n";
-        out += "themis_requests_total " + std::to_string(total_requests) + "\n";
+        out += "# HELP vccdb_requests_total Total HTTP requests handled\n";
+        out += "# TYPE vccdb_requests_total counter\n";
+        out += "vccdb_requests_total " + std::to_string(total_requests) + "\n";
 
-        out += "# HELP themis_errors_total Total HTTP errors returned\n";
-        out += "# TYPE themis_errors_total counter\n";
-        out += "themis_errors_total " + std::to_string(total_errors) + "\n";
+        out += "# HELP vccdb_errors_total Total HTTP errors returned\n";
+        out += "# TYPE vccdb_errors_total counter\n";
+        out += "vccdb_errors_total " + std::to_string(total_errors) + "\n";
 
-    out += "# HELP themis_qps Queries per second (approx)\n";
-        out += "# TYPE themis_qps gauge\n";
-        out += "themis_qps " + std::to_string(qps) + "\n";
+    out += "# HELP vccdb_qps Queries per second (approx)\n";
+        out += "# TYPE vccdb_qps gauge\n";
+        out += "vccdb_qps " + std::to_string(qps) + "\n";
         // Auth metrics (if enabled)
         if (auth_ && auth_->isEnabled()) {
             const auto& m = auth_->getMetrics();
@@ -2987,17 +3041,17 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
             auto emit = [&](const char* name, uint64_t value){ out += std::string(name) + " " + std::to_string(value) + "\n"; };
 
             const char* names[] = {
-                "themis_latency_bucket_microseconds{le=\"100\"}",
-                "themis_latency_bucket_microseconds{le=\"500\"}",
-                "themis_latency_bucket_microseconds{le=\"1000\"}",
-                "themis_latency_bucket_microseconds{le=\"5000\"}",
-                "themis_latency_bucket_microseconds{le=\"10000\"}",
-                "themis_latency_bucket_microseconds{le=\"50000\"}",
-                "themis_latency_bucket_microseconds{le=\"100000\"}",
-                "themis_latency_bucket_microseconds{le=\"500000\"}",
-                "themis_latency_bucket_microseconds{le=\"1000000\"}",
-                "themis_latency_bucket_microseconds{le=\"5000000\"}",
-                "themis_latency_bucket_microseconds{le=\"+Inf\"}"
+                "vccdb_latency_bucket_microseconds{le=\"100\"}",
+                "vccdb_latency_bucket_microseconds{le=\"500\"}",
+                "vccdb_latency_bucket_microseconds{le=\"1000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"5000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"10000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"50000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"100000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"500000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"1000000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"5000000\"}",
+                "vccdb_latency_bucket_microseconds{le=\"+Inf\"}"
             };
 
             for (size_t i = 0; i < raw.size(); ++i) {
@@ -3015,12 +3069,12 @@ http::response<http::string_body> HttpServer::handleMetricsJson(
         // Sum + count for histogram
         uint64_t total_latency_us = latency_sum_us_.load(std::memory_order_relaxed);
         uint64_t total_count = latency_bucket_inf_.load(std::memory_order_relaxed);
-        out += "# HELP themis_latency_sum_microseconds Total request latency in microseconds\n";
-        out += "# TYPE themis_latency_sum_microseconds counter\n";
-        out += "themis_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
-        out += "# HELP themis_latency_count Total recorded requests for latency histogram\n";
-        out += "# TYPE themis_latency_count counter\n";
-        out += "themis_latency_count " + std::to_string(total_count) + "\n";
+        out += "# HELP vccdb_latency_sum_microseconds Total request latency in microseconds\n";
+        out += "# TYPE vccdb_latency_sum_microseconds counter\n";
+        out += "vccdb_latency_sum_microseconds " + std::to_string(total_latency_us) + "\n";
+        out += "# HELP vccdb_latency_count Total recorded requests for latency histogram\n";
+        out += "# TYPE vccdb_latency_count counter\n";
+        out += "vccdb_latency_count " + std::to_string(total_count) + "\n";
 
     // Index rebuild metrics
         auto& rebuild_metrics = secondary_index_->getRebuildMetrics();
@@ -10123,6 +10177,31 @@ void HttpServer::Session::onRead(
 
 void HttpServer::Session::processRequest() {
     try {
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        // Check for WebSocket upgrade request
+        if (server_->config_.enable_websocket && 
+            websocket::is_upgrade(request_)) {
+            THEMIS_INFO("WebSocket upgrade requested from plain HTTP");
+            
+            // Create WebSocket session and transfer socket ownership
+            auto ws_session = std::make_shared<WebSocketSession>(
+                std::move(socket_),
+                server_
+            );
+            
+            // Add to manager
+            if (server_->websocket_manager_) {
+                server_->websocket_manager_->addSession(ws_session);
+            }
+            
+            // Start WebSocket session
+            ws_session->run(std::move(request_));
+            
+            // Session transferred to WebSocket, don't continue HTTP processing
+            return;
+        }
+#endif
+        
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
     } catch (const std::exception& e) {
@@ -10222,6 +10301,8 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
         }
     }
 
+    // Note: HTTP/2 ALPN negotiation is handled in onAccept() by creating Http2Session
+    // This SslSession is only used for HTTP/1.1 over TLS
     doRead();
 }
 
@@ -10257,6 +10338,31 @@ void HttpServer::SslSession::onRead(
 
 void HttpServer::SslSession::processRequest() {
     try {
+#ifdef THEMIS_ENABLE_WEBSOCKET
+        // Check for WebSocket upgrade request
+        if (server_->config_.enable_websocket && 
+            websocket::is_upgrade(request_)) {
+            THEMIS_INFO("WebSocket upgrade requested from HTTPS");
+            
+            // Create WebSocket session and transfer SSL stream ownership
+            auto ws_session = std::make_shared<WebSocketSession>(
+                std::move(stream_),
+                server_
+            );
+            
+            // Add to manager
+            if (server_->websocket_manager_) {
+                server_->websocket_manager_->addSession(ws_session);
+            }
+            
+            // Start WebSocket session
+            ws_session->run(std::move(request_));
+            
+            // Session transferred to WebSocket, don't continue HTTP processing
+            return;
+        }
+#endif
+        
         // Route request to appropriate handler
         response_ = server_->routeRequest(request_);
         

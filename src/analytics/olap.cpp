@@ -5,6 +5,81 @@
 #include <chrono>
 #include <unordered_set>
 #include <map>
+#include <limits>
+#include <string>
+#include <string_view>
+#include <variant>
+#include <unordered_map>
+#include <vector>
+
+#ifdef ARROW_ENABLED
+#include <arrow/api.h>
+#include <arrow/io/api.h>
+#include <parquet/arrow/writer.h>
+#endif
+
+#if defined(_WIN32)
+// Windows build stub: minimal no-op implementations to unblock compilation
+namespace themis {
+namespace analytics {
+
+class OLAPEngine::Impl {};
+
+OLAPEngine::OLAPEngine() : impl_(nullptr) {}
+OLAPEngine::~OLAPEngine() = default;
+
+OLAPResult OLAPEngine::execute(const OLAPQuery&) { return {}; }
+OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery&) { return {}; }
+OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery&) { return {}; }
+OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery&) { return {}; }
+OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery&) { return {}; }
+double OLAPEngine::computeAggregate(const std::vector<double>&, Measure::Function, double) { return 0.0; }
+OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery&) { return {}; }
+void OLAPEngine::collectStatistics(std::string_view) {}
+bool OLAPEngine::exportToParquet(const OLAPResult&, const std::string&, const std::string&) { return false; }
+bool OLAPEngine::exportCollectionToParquet(std::string_view, const std::string&, const std::vector<Filter>&, const std::string&) { return false; }
+
+class ColumnarStore::Impl {
+public:
+    std::unordered_map<std::string, std::string> columns;
+    size_t rows = 0;
+};
+
+ColumnarStore::ColumnarStore() : impl_(std::make_unique<Impl>()) {}
+ColumnarStore::~ColumnarStore() = default;
+void ColumnarStore::createColumn(std::string_view name, std::string_view type) { impl_->columns[std::string(name)] = std::string(type); }
+void ColumnarStore::dropColumn(std::string_view name) { impl_->columns.erase(std::string(name)); }
+bool ColumnarStore::hasColumn(std::string_view name) const { return impl_->columns.count(std::string(name)) > 0; }
+void ColumnarStore::appendRows(const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& rows) { impl_->rows += rows.size(); }
+void ColumnarStore::clear() { impl_->rows = 0; }
+size_t ColumnarStore::rowCount() const { return impl_->rows; }
+double ColumnarStore::sum(std::string_view) const { return 0.0; }
+double ColumnarStore::avg(std::string_view) const { return 0.0; }
+double ColumnarStore::min(std::string_view) const { return 0.0; }
+double ColumnarStore::max(std::string_view) const { return 0.0; }
+int64_t ColumnarStore::count(std::string_view) const { return static_cast<int64_t>(impl_->rows); }
+int64_t ColumnarStore::countDistinct(std::string_view) const { return 0; }
+double ColumnarStore::sumWhere(std::string_view, const std::vector<bool>&) const { return 0.0; }
+ColumnarStore::ColumnStats ColumnarStore::getColumnStats(std::string_view column) const { ColumnStats stats; stats.name = std::string(column); stats.row_count = static_cast<int64_t>(impl_->rows); return stats; }
+
+class MaterializedView::Impl {
+public:
+    std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>> rows;
+};
+
+MaterializedView::MaterializedView(const Definition& def) : definition_(def), impl_(std::make_unique<Impl>()) {}
+MaterializedView::~MaterializedView() = default;
+void MaterializedView::refresh() {}
+void MaterializedView::incrementalRefresh(const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& changes) { impl_->rows.insert(impl_->rows.end(), changes.begin(), changes.end()); }
+OLAPResult MaterializedView::query(const std::vector<Filter>&, const std::vector<Sort>&, std::optional<int64_t>) { return {}; }
+std::chrono::system_clock::time_point MaterializedView::lastRefreshTime() const { return std::chrono::system_clock::now(); }
+int64_t MaterializedView::rowCount() const { return static_cast<int64_t>(impl_->rows.size()); }
+bool MaterializedView::isStale() const { return false; }
+
+} // namespace analytics
+} // namespace themis
+
+#else
 
 namespace themis {
 namespace analytics {
@@ -907,16 +982,12 @@ bool MaterializedView::isStale() const {
 // ============================================================================
 
 #ifdef ARROW_ENABLED
-#include <arrow/api.h>
-#include <arrow/io/api.h>
-#include <parquet/arrow/writer.h>
 
 bool OLAPEngine::exportToParquet(
     const OLAPResult& result,
     const std::string& path,
     const std::string& compression
 ) {
-    try {
         // Build Arrow schema from result columns
         std::vector<std::shared_ptr<arrow::Field>> schema_fields;
         
@@ -973,45 +1044,57 @@ bool OLAPEngine::exportToParquet(
                 for (const auto& row : result.rows) {
                     auto it = row.values.find(col_name);
                     if (it != row.values.end() && std::holds_alternative<bool>(it->second)) {
-                        builder.Append(std::get<bool>(it->second));
+                        auto st = builder.Append(std::get<bool>(it->second));
+                        if (!st.ok()) return false;
                     } else {
-                        builder.AppendNull();
+                        auto st = builder.AppendNull();
+                        if (!st.ok()) return false;
                     }
                 }
-                builder.Finish(&array);
+                auto st = builder.Finish(&array);
+                if (!st.ok()) return false;
             } else if (field_type->id() == arrow::Type::INT64) {
                 arrow::Int64Builder builder;
                 for (const auto& row : result.rows) {
                     auto it = row.values.find(col_name);
                     if (it != row.values.end() && std::holds_alternative<int64_t>(it->second)) {
-                        builder.Append(std::get<int64_t>(it->second));
+                        auto st = builder.Append(std::get<int64_t>(it->second));
+                        if (!st.ok()) return false;
                     } else {
-                        builder.AppendNull();
+                        auto st = builder.AppendNull();
+                        if (!st.ok()) return false;
                     }
                 }
-                builder.Finish(&array);
+                auto st = builder.Finish(&array);
+                if (!st.ok()) return false;
             } else if (field_type->id() == arrow::Type::DOUBLE) {
                 arrow::DoubleBuilder builder;
                 for (const auto& row : result.rows) {
                     auto it = row.values.find(col_name);
                     if (it != row.values.end() && std::holds_alternative<double>(it->second)) {
-                        builder.Append(std::get<double>(it->second));
+                        auto st = builder.Append(std::get<double>(it->second));
+                        if (!st.ok()) return false;
                     } else {
-                        builder.AppendNull();
+                        auto st = builder.AppendNull();
+                        if (!st.ok()) return false;
                     }
                 }
-                builder.Finish(&array);
+                auto st = builder.Finish(&array);
+                if (!st.ok()) return false;
             } else {
                 arrow::StringBuilder builder;
                 for (const auto& row : result.rows) {
                     auto it = row.values.find(col_name);
                     if (it != row.values.end() && std::holds_alternative<std::string>(it->second)) {
-                        builder.Append(std::get<std::string>(it->second));
+                        auto st = builder.Append(std::get<std::string>(it->second));
+                        if (!st.ok()) return false;
                     } else {
-                        builder.AppendNull();
+                        auto st = builder.AppendNull();
+                        if (!st.ok()) return false;
                     }
                 }
-                builder.Finish(&array);
+                auto st = builder.Finish(&array);
+                if (!st.ok()) return false;
             }
             
             arrays.push_back(array);
@@ -1044,12 +1127,6 @@ bool OLAPEngine::exportToParquet(
         );
         
         return true;
-        
-    } catch (const std::exception& e) {
-        // Note: Error logging available via THEMIS_ERROR in production builds
-        (void)e;  // Suppress unused variable warning
-        return false;
-    }
 }
 
 bool OLAPEngine::exportCollectionToParquet(
@@ -1092,3 +1169,5 @@ bool OLAPEngine::exportCollectionToParquet(
 
 } // namespace analytics
 } // namespace themis
+
+#endif // _WIN32

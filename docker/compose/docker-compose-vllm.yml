@@ -1,0 +1,160 @@
+# v1.1.0: ThemisDB + vLLM Co-Location
+# Optimized resource sharing for RAG and AI/ML workloads
+version: '3.8'
+
+services:
+  # ThemisDB: Database with vector search, optimized for CPU/RAM
+  themisdb:
+    image: themisdb/themisdb:v1.1.0-cuda
+    container_name: themisdb_vllm_colocation
+    
+    # Resource allocation (50 cores, 200 GB RAM, minimal GPU)
+    deploy:
+      resources:
+        limits:
+          cpus: '50'
+          memory: 200G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1  # Share GPU 0 with vLLM
+              capabilities: [gpu]
+    
+    # Environment configuration
+    environment:
+      # v1.1.0: vLLM Co-Location settings
+      - THEMIS_VLLM_COLOCATION=1
+      - THEMIS_CPU_CORES=50
+      - THEMIS_RAM_GB=200
+      - THEMIS_MAX_GPU_VRAM_MB=2048        # 2 GB max (vLLM has rest)
+      - THEMIS_MAX_VECTOR_BATCH_SIZE=1024  # Small batches
+      - THEMIS_GPU_LOW_PRIORITY=1
+      
+      # RocksDB tuning for 200 GB RAM
+      - THEMIS_ROCKSDB_THREADS=15          # 30% of 50 cores
+      - THEMIS_ROCKSDB_BLOCK_CACHE_MB=98304  # 96 GB (60% of 160 GB usable)
+      - THEMIS_ROCKSDB_MEMTABLE_MB=49152    # 48 GB (30% of 160 GB)
+      
+      # TBB thread pool
+      - THEMIS_TBB_THREADS=30              # 60% of 50 cores
+      
+      # Enable mimalloc
+      - THEMIS_USE_MIMALLOC=1
+    
+    ports:
+      - "8080:8080"     # HTTP API (REST, GraphQL)
+      - "18765:18765"   # Wire Protocol (binary, gRPC)
+      - "4318:4318"     # OpenTelemetry/Prometheus metrics
+      
+      # Optional protocol ports (uncomment when build flags are enabled):
+      # - "3000:3000"   # MCP server for LLM integration (requires -DTHEMIS_ENABLE_MCP=ON)
+    
+    volumes:
+      - themis_data:/var/lib/themisdb
+      - ./config:/app/config:ro
+    
+    networks:
+      - ai_network
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  
+  # vLLM: LLM inference server, optimized for GPU/VRAM
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: vllm_inference
+    
+    # Resource allocation (14 cores, 56 GB RAM, dominant GPU)
+    deploy:
+      resources:
+        limits:
+          cpus: '14'
+          memory: 56G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 4  # All 4 GPUs for model inference
+              capabilities: [gpu]
+    
+    # vLLM configuration
+    command: >
+      --model meta-llama/Llama-3-70b-chat-hf
+      --tensor-parallel-size 4
+      --gpu-memory-utilization 0.95
+      --max-model-len 4096
+      --dtype auto
+    
+    environment:
+      - CUDA_VISIBLE_DEVICES=0,1,2,3
+      - HF_TOKEN=${HF_TOKEN}  # HuggingFace token for model download
+    
+    ports:
+      - "8000:8000"  # OpenAI-compatible API
+    
+    volumes:
+      - vllm_cache:/root/.cache/huggingface
+    
+    networks:
+      - ai_network
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: RAG application using both ThemisDB and vLLM
+  rag_app:
+    image: python:3.11-slim
+    container_name: rag_application
+    
+    depends_on:
+      - themisdb
+      - vllm
+    
+    environment:
+      - THEMIS_URL=http://themisdb:8080
+      - VLLM_URL=http://vllm:8000/v1
+    
+    ports:
+      - "3000:3000"
+    
+    networks:
+      - ai_network
+    
+    volumes:
+      - ./rag_app:/app:ro
+    
+    command: python /app/main.py
+
+# Network for inter-service communication
+networks:
+  ai_network:
+    driver: bridge
+
+# Persistent volumes
+volumes:
+  themis_data:
+    driver: local
+  vllm_cache:
+    driver: local
+
+# Resource Summary:
+# ┌─────────────────────────────────────────────────────────┐
+# │  Hardware Requirements:                                 │
+# │  - CPU: 64+ cores (50 ThemisDB, 14 vLLM)               │
+# │  - RAM: 256+ GB (200 ThemisDB, 56 vLLM)                │
+# │  - GPU: 4x NVIDIA A100 80GB (shared GPU 0, rest vLLM)  │
+# │  - Storage: 1 TB+ NVMe SSD                             │
+# └─────────────────────────────────────────────────────────┘
+#
+# Typical Workflow:
+# 1. User query → vLLM embedding generation (1-2ms, GPU)
+# 2. Vector search → ThemisDB HNSW/CUDA (5-10ms, CPU or GPU if idle)
+# 3. Document retrieval → ThemisDB RocksDB (1-2ms, RAM cache)
+# 4. LLM generation → vLLM inference (100-500ms, GPU)
+#
+# Total RAG latency: ~110-520ms (optimized co-location)

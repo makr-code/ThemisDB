@@ -27,6 +27,9 @@
 #include "content/mime_detector.h"
 #include "cache/semantic_cache.h"
 #include "server/sse_connection_manager.h"
+#ifdef THEMIS_ENABLE_WEBSOCKET
+#include "server/websocket_session.h"
+#endif
 #include "server/audit_api_handler.h"
 #include "server/saga_api_handler.h"
 #include "server/pii_api_handler.h"
@@ -118,6 +121,18 @@ public:
         std::string tls_min_version = "TLSv1.3"; // Minimum TLS version (TLSv1.2 or TLSv1.3)
         std::string tls_cipher_list; // OpenSSL cipher list (empty = secure defaults)
         
+        // HTTP Protocol Configuration
+        bool enable_http2 = false; // Enable HTTP/2 protocol (requires TLS with ALPN)
+        bool enable_http3 = false; // Enable HTTP/3 (QUIC) protocol
+        bool enable_websocket = false; // Enable WebSocket protocol
+        uint16_t http3_port = 0; // HTTP/3 UDP port (default: same as main port)
+        uint32_t http2_max_concurrent_streams = 100; // Max concurrent streams per HTTP/2 connection
+        uint32_t http2_initial_window_size = 65535; // HTTP/2 flow control window size
+        uint32_t http3_max_idle_timeout_ms = 30000; // HTTP/3 connection idle timeout
+        uint32_t websocket_max_message_size = 1048576; // WebSocket max message size (1MB default)
+        uint32_t websocket_ping_interval_ms = 30000; // WebSocket ping interval (30s default)
+        uint32_t websocket_cdc_poll_interval_ms = 500; // WebSocket CDC polling interval (500ms default)
+        
         Config() = default;
         Config(std::string h, uint16_t p, size_t threads = 0) 
             : host(std::move(h)), port(p) {
@@ -163,6 +178,17 @@ public:
     const themis::content::ContentManager::Metrics* contentMetrics() const {
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
     }
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    /**
+     * @brief Get WebSocket manager for broadcasting
+     */
+    std::shared_ptr<WebSocketManager> getWebSocketManager() { return websocket_manager_; }
+#endif
+
+    // Friend classes for protocol handlers
+    friend class Http2Session;
+    friend class WebSocketSession;
 
 private:
     // Session class for handling individual connections
@@ -491,6 +517,11 @@ private:
     
     // SSE Connection Manager for Changefeed streaming
     std::unique_ptr<SseConnectionManager> sse_manager_;
+    
+#ifdef THEMIS_ENABLE_WEBSOCKET
+    // WebSocket Connection Manager
+    std::shared_ptr<WebSocketManager> websocket_manager_;
+#endif
     
     // Time-Series Store (Sprint B)
     std::unique_ptr<TSStore> timeseries_;

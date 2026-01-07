@@ -1,109 +1,192 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-    Build ThemisDB Docker image(s) with automatic cache update
+    ThemisDB Docker Image Build & Push Script
 .DESCRIPTION
-    Updates vcpkg cache, then builds Docker image(s) with buildx
+    Builds Docker images for ThemisDB and optionally pushes to Docker Hub.
+    Supports both pre-built binaries and full Docker builds.
 .EXAMPLE
-    .\build-docker.ps1
-    .\build-docker.ps1 -Platforms "linux/amd64"
-    .\build-docker.ps1 -Platforms "linux/amd64,linux/arm64" -Push
+    .\build-docker.ps1 -Tag "1.3.4" -Push
+    .\build-docker.ps1 -Platforms "linux/amd64,linux/arm64" -Tag "1.3.4"
 #>
 
 param(
-    [string]$Platforms = "linux/amd64,linux/arm64",
+    [string]$Platforms = "linux/amd64",
+    [string]$Tag = (Get-Content -Path (Join-Path (Split-Path -Parent $PSScriptRoot) "VERSION") -ErrorAction SilentlyContinue | Select-Object -First 1).Trim(),
+    [string]$Dockerfile = "Dockerfile.simple",
     [switch]$Push,
     [switch]$NoCache,
-    [string]$Tag = ((Get-Content -Path (Join-Path $PSScriptRoot "..\VERSION") -ErrorAction SilentlyContinue) | Select-Object -First 1).Trim(),
-    [string]$Registry = "themisdb"
+    [switch]$BuildBinary
 )
 
 $ErrorActionPreference = "Stop"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$rootDir = Split-Path -Parent $scriptDir
+$repoRoot = Split-Path -Parent $scriptDir
+$releaseDir = Join-Path $repoRoot "release"
 
-Write-Host "=== ThemisDB Docker Build ===" -ForegroundColor Cyan
-Write-Host "Platforms: $Platforms" -ForegroundColor Yellow
-if (-not $Tag) { throw "Version konnte nicht aus VERSION gelesen werden. Bitte VERSION pflegen oder -Tag angeben." }
-Write-Host "Tag: $Registry/themisdb:$Tag" -ForegroundColor Yellow
-Write-Host "Push: $Push" -ForegroundColor Yellow
-
-# Step 1: Update cache
-if (-not $NoCache) {
-    Write-Host "`n[1/2] Updating vcpkg cache (offline sources)..." -ForegroundColor Cyan
-    & "$scriptDir\update-vcpkg-cache.ps1" -Triplets @("x64-linux", "arm64-linux")
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Cache update failed" -ForegroundColor Red
-        exit 1
-    }
+# Validation
+if (-not $Tag) {
+    Write-Host "ERROR: Version tag required. Provide -Tag or ensure VERSION file exists." -ForegroundColor Red
+    exit 1
 }
 
-# Step 2: Build with Docker buildx
-Write-Host "`n[2/2] Building Docker image(s)..." -ForegroundColor Cyan
-$buildxArgs = @(
-    "buildx", "build"
-    "--builder", "themis-multiarch"
-    "--platform", $Platforms
-    "-f", "Dockerfile"
-    "-t", "$Registry/themisdb:$Tag"
-    "-t", "$Registry/themisdb:latest"
-    "--build-arg", "THEMIS_VERSION=$Tag"
-)
+Write-Host "╔════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host "║     ThemisDB Docker Build Script      ║" -ForegroundColor Cyan
+Write-Host "╚════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Configuration:" -ForegroundColor Green
+Write-Host "  Tag:       $Tag"
+Write-Host "  Platforms: $Platforms"
+Write-Host "  Dockerfile: $Dockerfile"
+Write-Host "  Push:      $(if ($Push) { 'YES' } else { 'NO' })"
+Write-Host "  Build Binary: $(if ($BuildBinary) { 'YES' } else { 'NO' })"
+Write-Host ""
 
-if ($Push) {
-    $buildxArgs += "--push"
-}
-else {
-    $buildxArgs += "--load"
-}
-
-# Add no-cache if requested
-if ($NoCache) {
-    $buildxArgs += "--no-cache"
-}
-
-$buildxArgs += "."
-$buildxArgs += "--progress=plain"
-
-Write-Host "Running: docker $($buildxArgs -join ' ')" -ForegroundColor DarkGray
-Push-Location $rootDir
-try {
-    & docker @buildxArgs
+# Step 1: Build binary if requested
+if ($BuildBinary) {
+    Write-Host "════════ Building themis_server binary ════════" -ForegroundColor Yellow
     
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Docker build failed" -ForegroundColor Red
+    $buildArgs = @(
+        "-B", "build-msvc",
+        "-G", "Visual Studio 17 2022",
+        "-A", "x64",
+        "-DCMAKE_TOOLCHAIN_FILE=$(Join-Path $repoRoot 'vcpkg/scripts/buildsystems/vcpkg.cmake')",
+        "-DVCPKG_TARGET_TRIPLET=x64-windows",
+        "-DTHEMIS_BUILD_TESTS=OFF",
+        "-DTHEMIS_BUILD_BENCHMARKS=OFF"
+    )
+    
+    Write-Host "Configuring CMake..." -ForegroundColor Cyan
+    & cmake -S $repoRoot @buildArgs
+    if ($LASTEXITCODE -ne 0) { throw "CMake configuration failed" }
+    
+    Write-Host "Building themis_server..." -ForegroundColor Cyan
+    & cmake --build (Join-Path $repoRoot "build-msvc") --config Release --target themis_server --parallel 8
+    if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+    
+    # Copy binary to release directory
+    if (-not (Test-Path $releaseDir)) { New-Item -ItemType Directory -Path $releaseDir | Out-Null }
+    $binaryPath = Join-Path $repoRoot "build-msvc/Release/themis_server.exe"
+    if (Test-Path $binaryPath) {
+        Write-Host "Copying binary to $releaseDir..." -ForegroundColor Cyan
+        Copy-Item -Path $binaryPath -Destination (Join-Path $releaseDir "themis_server.exe") -Force
+    }
+}
+
+# Step 2: Ensure binary exists for Dockerfile.simple
+if ($Dockerfile -eq "Dockerfile.simple") {
+    $binaryFile = Join-Path $releaseDir "themis_server.exe"
+    if (-not (Test-Path $binaryFile)) {
+        Write-Host "ERROR: Binary not found at $binaryFile" -ForegroundColor Red
+        Write-Host "Either:" -ForegroundColor Yellow
+        Write-Host "  1. Build it first with: .\build-docker.ps1 -BuildBinary -Tag $Tag" -ForegroundColor Yellow
+        Write-Host "  2. Use full Dockerfile: .\build-docker.ps1 -Dockerfile Dockerfile -Tag $Tag" -ForegroundColor Yellow
         exit 1
     }
+    Write-Host "Binary found: $binaryFile" -ForegroundColor Green
+}
 
-    # Wenn gepusht, Digest ermitteln und als Sicherheitsreferenz speichern
+# Step 3: Check Docker installation
+Write-Host ""
+Write-Host "════════ Checking Docker installation ════════" -ForegroundColor Yellow
+$dockerVersion = docker --version 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: Docker not found or not running" -ForegroundColor Red
+    exit 1
+}
+Write-Host $dockerVersion -ForegroundColor Green
+
+# Step 4: Build Docker image
+Write-Host ""
+Write-Host "════════ Building Docker image ════════" -ForegroundColor Yellow
+
+$imageTag = "themisdb/themis:$Tag"
+$imageTagLatest = "themisdb/themis:latest"
+
+# For multi-arch builds, use buildx
+if ($Platforms -match ",") {
+    Write-Host "Building multi-architecture image..." -ForegroundColor Cyan
+    if (-not (docker buildx ls 2>$null)) {
+        Write-Host "Setting up buildx builder..." -ForegroundColor Cyan
+        & docker buildx create --name themis-builder --use
+    }
+    
+    $buildxArgs = @(
+        "buildx", "build",
+        "-f", (Join-Path $repoRoot "docker/$Dockerfile"),
+        "-t", $imageTag,
+        "-t", $imageTagLatest,
+        "--platform", $Platforms,
+        "--build-arg", "VERSION=$Tag"
+    )
+    if (-not $NoCache) { $buildxArgs += "--cache-from=type=gha" }
     if ($Push) {
-        $img = "$Registry/themisdb:$Tag"
-        Write-Host "Ermittle Image-Digest für $img ..." -ForegroundColor Cyan
-        $inspect = & docker buildx imagetools inspect $img 2>$null
-        if ($LASTEXITCODE -eq 0 -and $inspect) {
-            $digest = ($inspect | Select-String -Pattern "sha256:[0-9a-f]{64}" -AllMatches | Select-Object -First 1).Matches.Value
-            $releaseDir = Join-Path $rootDir "release"
-            New-Item -ItemType Directory -Path $releaseDir -Force | Out-Null
-            $outFile = Join-Path $releaseDir ("docker-digest-$Tag.txt")
-            if ($digest) {
-                "Image: $img`nDigest: $digest" | Out-File -FilePath $outFile -Encoding ASCII
-                Write-Host "✓ Docker Digest gespeichert: $outFile" -ForegroundColor Green
-            } else {
-                "Inspect Output:`n$inspect" | Out-File -FilePath $outFile -Encoding ASCII
-                Write-Host "⚠ Digest nicht gefunden, Inspect-Output gespeichert: $outFile" -ForegroundColor Yellow
-            }
+        $buildxArgs += "--push"
+        Write-Host "  [Push enabled - image will be pushed after build]" -ForegroundColor Green
+    } else {
+        $buildxArgs += "--load"
+    }
+    
+    & docker @buildxArgs (Join-Path $repoRoot "docker")
+    if ($LASTEXITCODE -ne 0) { throw "Multi-arch Docker build failed" }
+} else {
+    # Single-arch build with standard docker build
+    $dockerArgs = @(
+        "build",
+        "-f", (Join-Path $repoRoot "docker/$Dockerfile"),
+        "-t", $imageTag,
+        "-t", $imageTagLatest,
+        "--build-arg", "VERSION=$Tag"
+    )
+    if ($NoCache) { $dockerArgs += "--no-cache" }
+    
+    & docker @dockerArgs (Join-Path $repoRoot "docker")
+    if ($LASTEXITCODE -ne 0) { throw "Docker build failed" }
+    
+    Write-Host "Image built successfully: $imageTag" -ForegroundColor Green
+    
+    # Step 5: Push to Docker Hub (if requested)
+    if ($Push) {
+        Write-Host ""
+        Write-Host "════════ Pushing to Docker Hub ════════" -ForegroundColor Yellow
+        
+        # Check Docker login
+        $loginStatus = docker info 2>$null | Select-String "Username"
+        if (-not $loginStatus) {
+            Write-Host "Docker not logged in. Running: docker login" -ForegroundColor Cyan
+            & docker login
+            if ($LASTEXITCODE -ne 0) { throw "Docker login failed" }
         }
+        
+        # Push image and tags
+        Write-Host "Pushing $imageTag..." -ForegroundColor Cyan
+        & docker push $imageTag
+        if ($LASTEXITCODE -ne 0) { throw "Docker push failed for $imageTag" }
+        
+        Write-Host "Pushing $imageTagLatest..." -ForegroundColor Cyan
+        & docker push $imageTagLatest
+        if ($LASTEXITCODE -ne 0) { throw "Docker push failed for $imageTagLatest" }
+        
+        Write-Host "✅ Images pushed successfully!" -ForegroundColor Green
     }
 }
-finally {
-    Pop-Location
-}
 
-Write-Host "`n=== Docker Build Complete ===" -ForegroundColor Green
-Write-Host "Image: $Registry/themisdb:$Tag" -ForegroundColor Green
+# Step 6: Summary
+Write-Host ""
+Write-Host "╔════════════════════════════════════════╗" -ForegroundColor Green
+Write-Host "║    Docker Build Completed Successfully ║" -ForegroundColor Green
+Write-Host "╚════════════════════════════════════════╝" -ForegroundColor Green
+Write-Host ""
+Write-Host "Image Tags:" -ForegroundColor Cyan
+Write-Host "  • $imageTag"
+Write-Host "  • $imageTagLatest"
+Write-Host ""
+Write-Host "Next Steps:" -ForegroundColor Cyan
 if ($Push) {
-    Write-Host "Status: Pushed to registry" -ForegroundColor Green
+    Write-Host "  ✅ Image has been pushed to Docker Hub"
+    Write-Host "  → Pull with: docker pull $imageTag"
+} else {
+    Write-Host "  → Run locally: docker run -d -p 18765:18765 -v themisdb_data:/data $imageTag"
+    Write-Host "  → Push to registry: docker push $imageTag"
 }
-else {
-    Write-Host "Status: Loaded locally (use --push to push to registry)" -ForegroundColor Yellow
-}
+Write-Host ""

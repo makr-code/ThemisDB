@@ -12,6 +12,7 @@ namespace rocksdb {
     class TransactionDB;
     class Transaction;
     class WriteBatch;
+    class WriteBatchWithIndex;
     class Iterator;
     class Options;
     class ReadOptions;
@@ -40,6 +41,7 @@ public:
 
         size_t memtable_size_mb = 256;
         size_t block_cache_size_mb = 1024;
+        int block_cache_shard_bits = -1;  // -1 = auto, 4 = 16 shards, 6 = 64 shards (better for 8+ threads)
         bool cache_index_and_filter_blocks = true;
         bool pin_l0_filter_and_index_blocks_in_cache = true;
         bool partition_filters = true;
@@ -47,8 +49,18 @@ public:
         int bloom_bits_per_key = 10;
         bool enable_wal = true;
         bool enable_blobdb = true;
+        bool enable_statistics = true;          // allow disabling stats in microbenchmarks
         size_t blob_size_threshold = 4096;  // Files > 4KB go to BlobDB
         int max_background_jobs = 4;
+        
+        // Phase 2H: Granular background thread control for high parallelism
+        int max_background_compactions = -1;  // -1 = use max_background_jobs (auto)
+        int max_background_flushes = -1;      // -1 = use max_background_jobs (auto)
+        int max_subcompactions = 1;           // Parallel sub-compactions per compaction
+        int background_threads_high = 2;      // Flush thread pool size
+        int background_threads_low = 2;       // Compaction thread pool size
+        bool enable_high_parallel_tuning = false;  // Hybrid flag: apply Phase 2H presets automatically
+        int high_parallel_thread_threshold = 16;   // Turn on tuning at/above this concurrency
         
         // Compaction
         bool use_universal_compaction = false;
@@ -59,10 +71,27 @@ public:
         // Write buffer tuning
         int max_write_buffer_number = 3;
         int min_write_buffer_number_to_merge = 1;
+        size_t db_write_buffer_size_mb = 0;  // Total memtable memory limit across all CFs (0 = unlimited)
+        
+        // Phase 2H: Level0 file control to prevent write stalls
+        int level0_file_num_compaction_trigger = 4;  // Start L0->L1 compaction
+        int level0_slowdown_writes_trigger = 20;     // Slow down writes
+        int level0_stop_writes_trigger = 36;         // Stop writes completely
+        
+        bool allow_concurrent_memtable_write = true;   // v1.3.0: Allow parallel writes to different memtables
+        bool enable_pipelined_write = false;           // v1.3.0: Disabled for TransactionDB - pipelined_writes incompatible with concurrent prepares
+        bool allow_unordered_write = false;            // Allow unordered writes (better concurrency)
+        bool disable_wal_for_benchmark = false;        // WriteOptions::disableWAL for benchmark mode (NO fsync on writes!)
 
         // I/O
         bool use_direct_reads = false;
         bool use_direct_io_for_flush_and_compaction = false;
+
+        // v1.3.0 Phase 2: Async I/O with Prefetching
+        bool enable_async_io = false;                    // Enable async I/O for scans
+        size_t async_io_readahead_size_mb = 64;         // Prefetch buffer size (MB)
+        int async_io_multiget_batch_size = 100;         // MultiGet batch size
+        int async_io_num_threads = 4;                   // Async I/O thread pool size
 
         // Compression (best-effort; depends on RocksDB build)
         // Values: "none", "lz4", "zstd", "snappy", "zlib", "bzip2", "lz4hc"
@@ -75,6 +104,16 @@ public:
         // v1.1.0: TTL (Time-To-Live) support
         bool enable_ttl = false;         // Enable TTL for automatic data expiration
         int32_t ttl_seconds = 0;         // TTL in seconds (0 = disabled)
+
+        // TransactionDB write policy (performance tuning)
+        enum class WritePolicy {
+            WriteCommitted,
+            WritePrepared,
+            WriteUnprepared
+        };
+        WritePolicy write_policy = WritePolicy::WriteUnprepared;  // v1.3.0: Use WriteUnprepared for safe Snapshot Isolation + skip_prepare compatibility
+        bool two_write_queues = true;           // Enable dual write queues (prepare/commit) - reduces lock contention
+        uint64_t wp_commit_cache_bits = 23;     // 2^23 ~= 8M commit cache entries
     };
     
     explicit RocksDBWrapper(const Config& config);
@@ -94,7 +133,7 @@ public:
     
     /// Check if database is open
     bool isOpen() const;
-    
+
     // ===== CRUD Operations =====
     
     /// Get value by key
@@ -142,6 +181,37 @@ public:
     
     std::unique_ptr<WriteBatchWrapper> createWriteBatch();
     
+    /// Create a write batch with index for fast reads from the batch (WBWI = Write Batch With Index)
+    /// Useful for Read-Modify-Write workloads where you need to read recently written data
+    /// before committing the batch. GetFromBatchAndDB will first check the batch before hitting DB.
+    class WriteBatchWithIndexWrapper {
+    public:
+        explicit WriteBatchWithIndexWrapper(RocksDBWrapper* db, bool overwrite_key = true);
+        ~WriteBatchWithIndexWrapper();
+        
+        void put(std::string_view key, const std::vector<uint8_t>& value);
+        void del(std::string_view key);
+        
+        /// Get from batch only (very fast)
+        std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key);
+        
+        /// Get from batch first, then DB if not found (Read-Your-Own-Writes)
+        std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key);
+        
+        /// Commit the batch atomically
+        bool commit();
+        
+        /// Rollback (discard) the batch
+        void rollback();
+        
+    private:
+        RocksDBWrapper* db_;
+        std::unique_ptr<rocksdb::WriteBatchWithIndex> batch_;
+        friend class RocksDBWrapper;
+    };
+    
+    std::unique_ptr<WriteBatchWithIndexWrapper> createWriteBatchWithIndex(bool overwrite_key = true);
+    
     // ===== MVCC Transaction Operations =====
     
     /// Create a new MVCC transaction with snapshot isolation
@@ -164,6 +234,9 @@ public:
         
         /// Rollback the transaction
         void rollback();
+
+        /// Prepare the transaction (for WritePrepared policy)
+        bool prepare();
         
         /// Check if transaction is still active
         bool isActive() const { return active_; }
@@ -175,6 +248,7 @@ public:
         RocksDBWrapper* db_;
         std::unique_ptr<rocksdb::Transaction> txn_;
         bool active_ = true;
+        bool prepared_ = false;
         friend class RocksDBWrapper;
     };
     
@@ -191,6 +265,33 @@ public:
     
     /// Full scan (use sparingly!)
     void scanAll(ScanCallback callback);
+    
+    // v1.3.0 Phase 2: Async I/O Scan Operations
+    
+    /// Scan with async I/O and prefetching (prefix-based)
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> scanWithAsyncIO(
+        std::string_view prefix, int limit = 1000);
+    
+    /// Range query with async I/O
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> rangeQueryWithAsyncIO(
+        std::string_view start_key, std::string_view end_key);
+    
+    /// Reverse scan with async I/O
+    std::vector<std::pair<std::string, std::vector<uint8_t>>> reverseScanWithAsyncIO(
+        std::string_view start_key, int limit = 1000);
+    
+    /// MultiGet with async I/O optimization
+    std::vector<std::optional<std::vector<uint8_t>>> multiGetWithAsyncIO(
+        const std::vector<std::string>& keys);
+    
+    /// Create async iterator with prefetching
+    std::unique_ptr<rocksdb::Iterator> newAsyncIterator();
+    
+    /// Create standard iterator (for comparison)
+    std::unique_ptr<rocksdb::Iterator> newIterator();
+    
+    /// Check if async I/O is enabled
+    bool isAsyncIOEnabled() const { return config_.enable_async_io; }
     
     // ===== Statistics & Maintenance =====
     

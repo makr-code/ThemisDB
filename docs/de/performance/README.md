@@ -1,0 +1,69 @@
+# Performance Documentation
+
+**Stand:** 22. Dezember 2025  
+**Version:** v1.3.0  
+**Kategorie:** ⚡ Performance
+
+---
+
+## 📑 Inhaltsverzeichnis
+
+- [Übersicht](#übersicht)
+- [Benchmark-Ergebnisse](#benchmark-ergebnisse-v100)
+- [Hardware-Referenz](#hardware-referenz)
+- [Dokumentation](#dokumentation-in-diesem-ordner)
+
+## Übersicht
+
+Performance-Benchmarks und Optimierungs-Strategien für ThemisDB.
+
+## Benchmark-Ergebnisse (v1.0.0)
+
+| Operation | Throughput | Latency (p99) |
+|-----------|------------|---------------|
+| Write | 45,000 ops/s | 5ms |
+| Read | 120,000 ops/s | 2ms |
+| Vector Search (k=10) | 8,000 qps | 15ms |
+| Graph Traversal (3 hops) | 5,000 qps | 25ms |
+
+## Hardware-Referenz
+
+- **CPU:** AMD EPYC 7543 (32 cores)
+- **RAM:** 128 GB DDR4
+- **Storage:** NVMe SSD (3,500 MB/s)
+- **Network:** 10 Gbit/s
+
+## Dokumentation in diesem Ordner
+
+| Datei | Beschreibung |
+|-------|--------------|
+| [PERFORMANCE_INDEX.md](PERFORMANCE_INDEX.md) | 📊 **Hauptindex** - Vollständige Übersicht |
+| [performance_benchmarks.md](performance_benchmarks.md) | Benchmark-Ergebnisse |
+| [performance_compression_benchmarks.md](performance_compression_benchmarks.md) | Kompression Benchmarks |
+| [performance_compression_strategy.md](performance_compression_strategy.md) | Kompression Strategie |
+| [performance_cuda.md](performance_cuda.md) | CUDA/GPU Acceleration |
+| [performance_enterprise_strategy.md](performance_enterprise_strategy.md) | Enterprise Tuning |
+| [performance_gpu_plan.md](performance_gpu_plan.md) | GPU Roadmap |
+| [performance_hardware.md](performance_hardware.md) | Hardware Requirements |
+| [performance_memory.md](performance_memory.md) | Memory Optimization |
+| [performance_multi_cpu.md](performance_multi_cpu.md) | Multi-CPU Scaling |
+| [performance_tbb.md](performance_tbb.md) | Intel TBB Integration |
+
+## 🔬 Wissenschaftliche Research
+
+| Datei | Beschreibung |
+|-------|--------------|
+| [🔬 **Wissenschaftliche Performance-Optimierungen**](../research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md) | **NEW** - Research-basierte Optimierungs-Strategien aus 25+ Papers (SIGMOD, VLDB, OSDI, NeurIPS) mit konkreten Implementierungs-Empfehlungen |
+
+**Highlights:**
+- ⚡ **Phase 1 (Quick Wins):** +50-100% bei Read-Heavy Workloads (1-3 Monate)
+- 🚀 **Phase 2 (Medium-Term):** +100-200% Overall Performance (3-6 Monate)
+- 🎯 **Phase 3 (Long-Term):** +200-500% Domain-Specific (6-12 Monate)
+
+**Bereiche:** LSM-Trees, Vector Search, Graph Processing, GPU Acceleration, MVCC, Query Optimization, Memory Management, Concurrency Control, Compression, Caching
+
+## Verwandte Dokumentation
+
+- [🔬 Research Documentation](../research/README.md) - Wissenschaftliche Erkenntnisse
+- [Enterprise Features](../enterprise/README.md) - Enterprise Scalability
+- [Storage Module](../storage/README.md) - Storage Performance

@@ -2009,7 +2009,7 @@ inline void registerCollectionFunctions(FunctionRegistry& reg) {
     reg.registerFunction(std::make_unique<OrFunction>());
     reg.registerFunction(std::make_unique<NotFunction>());
     reg.registerFunction(std::make_unique<XorFunction>());
-    reg.registerFunction(std::make_unique<IfFunction>());
+    reg.registerFunction(std::make_unique<IfFunction_Collection>());
     reg.registerFunction(std::make_unique<IfsFunction>());
     reg.registerFunction(std::make_unique<SwitchFunction>());
     reg.registerFunction(std::make_unique<ChooseFunction>());

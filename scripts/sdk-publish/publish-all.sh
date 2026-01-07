@@ -71,13 +71,13 @@ if [[ -z "$VERSION" ]]; then
     fi
 fi
 
-echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║           ThemisDB SDK Publishing v${VERSION}                    ║${NC}"
-echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
+echo -e "${BLUE}â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—${NC}"
+echo -e "${BLUE}â•‘           ThemisDB SDK Publishing v${VERSION}                    â•‘${NC}"
+echo -e "${BLUE}â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo ""
 
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo -e "${YELLOW}⚠️  DRY RUN MODE - No packages will be published${NC}"
+    echo -e "${YELLOW}âš ï¸  DRY RUN MODE - No packages will be published${NC}"
     echo ""
 fi
 
@@ -100,14 +100,14 @@ publish_registry() {
     local registry="$3"
     
     if should_skip "$registry"; then
-        echo -e "${YELLOW}⏭️  Skipping $name${NC}"
+        echo -e "${YELLOW}â­ï¸  Skipping $name${NC}"
         RESULTS["$name"]="SKIPPED"
         return
     fi
     
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}📦 Publishing $name...${NC}"
-    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${BLUE}â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”${NC}"
+    echo -e "${BLUE}ðŸ“¦ Publishing $name...${NC}"
+    echo -e "${BLUE}â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”${NC}"
     
     local args="--version $VERSION"
     if [[ "$DRY_RUN" == "true" ]]; then
@@ -117,14 +117,14 @@ publish_registry() {
     if [[ -f "$script" ]]; then
         if bash "$script" $args; then
             RESULTS["$name"]="SUCCESS"
-            echo -e "${GREEN}✅ $name published successfully${NC}"
+            echo -e "${GREEN}âœ… $name published successfully${NC}"
         else
             RESULTS["$name"]="FAILED"
-            echo -e "${RED}❌ $name publishing failed${NC}"
+            echo -e "${RED}âŒ $name publishing failed${NC}"
         fi
     else
         RESULTS["$name"]="SCRIPT_NOT_FOUND"
-        echo -e "${YELLOW}⚠️  Script not found: $script${NC}"
+        echo -e "${YELLOW}âš ï¸  Script not found: $script${NC}"
     fi
     echo ""
 }
@@ -139,9 +139,9 @@ publish_registry "Go (go.dev)" "$SCRIPT_DIR/publish-go.sh" "go"
 publish_registry "Swift (Swift PM)" "$SCRIPT_DIR/publish-swift.sh" "swift"
 
 # Summary
-echo -e "${BLUE}╔════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║                    Publishing Summary                       ║${NC}"
-echo -e "${BLUE}╚════════════════════════════════════════════════════════════╝${NC}"
+echo -e "${BLUE}â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—${NC}"
+echo -e "${BLUE}â•‘                    Publishing Summary                       â•‘${NC}"
+echo -e "${BLUE}â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${NC}"
 echo ""
 
 success_count=0
@@ -152,19 +152,19 @@ for registry in "${!RESULTS[@]}"; do
     result="${RESULTS[$registry]}"
     case "$result" in
         SUCCESS)
-            echo -e "  ${GREEN}✅ $registry${NC}"
+            echo -e "  ${GREEN}âœ… $registry${NC}"
             ((success_count++))
             ;;
         FAILED)
-            echo -e "  ${RED}❌ $registry${NC}"
+            echo -e "  ${RED}âŒ $registry${NC}"
             ((failed_count++))
             ;;
         SKIPPED)
-            echo -e "  ${YELLOW}⏭️  $registry (skipped)${NC}"
+            echo -e "  ${YELLOW}â­ï¸  $registry (skipped)${NC}"
             ((skipped_count++))
             ;;
         *)
-            echo -e "  ${YELLOW}⚠️  $registry ($result)${NC}"
+            echo -e "  ${YELLOW}âš ï¸  $registry ($result)${NC}"
             ((skipped_count++))
             ;;
     esac

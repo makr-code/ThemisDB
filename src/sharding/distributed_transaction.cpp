@@ -2,6 +2,8 @@
 // Licensed under MIT License
 
 #include "sharding/distributed_transaction.h"
+#include "sharding/shard_rpc_client.h"
+#include "utils/logger.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -173,13 +175,35 @@ nlohmann::json DistributedTransactionCoordinator::executeReadOnly(
     nlohmann::json results = nlohmann::json::object();
     
     for (const auto& shard_id : shard_ids) {
-        // TODO: Send read request to shard with snapshot timestamp
-        // For now, just simulate success
-        results[shard_id] = nlohmann::json::object({
-            {"status", "success"},
-            {"snapshot_timestamp", snapshot_ts.count()},
-            {"data", nlohmann::json::array()}
-        });
+        // v1.3.0: Real RPC implementation for snapshot reads
+        try {
+            ShardRPCClient::Config rpc_config;
+            rpc_config.endpoint = "shard://" + shard_id;
+            rpc_config.timeout_ms = 5000;
+            
+            ShardRPCClient client(rpc_config);
+            
+            // Execute snapshot read at specific timestamp
+            nlohmann::json query = nlohmann::json::object({
+                {"shard_id", shard_id},
+                {"snapshot_timestamp", snapshot_ts.count()}
+            });
+            
+            auto shard_results = client.snapshotRead(snapshot_ts.count(), query);
+            
+            results[shard_id] = {
+                {"status", "success"},
+                {"snapshot_timestamp", snapshot_ts.count()},
+                {"data", shard_results}
+            };
+            
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Snapshot read from shard {} failed: {}", shard_id, e.what());
+            results[shard_id] = {
+                {"status", "error"},
+                {"error", e.what()}
+            };
+        }
     }
     
     readonly_transactions_.fetch_add(1, std::memory_order_relaxed);
@@ -256,10 +280,40 @@ bool DistributedTransactionCoordinator::sendPrepare(
     TransactionParticipant& participant,
     const std::string& txn_id
 ) {
-    // TODO: Implement actual RPC to shard
-    // For now, simulate success
-    participant.prepared = true;
-    return true;
+    // v1.3.0: Real RPC implementation for 2PC PREPARE
+    try {
+        ShardRPCClient::Config rpc_config;
+        rpc_config.endpoint = participant.endpoint;
+        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.max_retries = config_.max_retries;
+        
+        ShardRPCClient client(rpc_config);
+        
+        // Get operations for this shard
+        nlohmann::json operations = nlohmann::json::array();
+        auto it = transactions_.find(txn_id);
+        if (it != transactions_.end()) {
+            auto& txn = it->second;
+            if (txn.operations.contains(participant.shard_id)) {
+                operations = txn.operations[participant.shard_id];
+            }
+        }
+        
+        // Send PREPARE request
+        bool vote_commit = client.prepare(txn_id, operations);
+        participant.prepared = vote_commit;
+        
+        THEMIS_DEBUG("PREPARE shard {}: vote={}", 
+                    participant.shard_id, vote_commit ? "COMMIT" : "ABORT");
+        
+        return vote_commit;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("PREPARE RPC to shard {} failed: {}", 
+                    participant.shard_id, e.what());
+        participant.prepared = false;
+        return false;
+    }
 }
 
 bool DistributedTransactionCoordinator::sendCommit(
@@ -267,20 +321,60 @@ bool DistributedTransactionCoordinator::sendCommit(
     const std::string& txn_id,
     std::chrono::nanoseconds commit_timestamp
 ) {
-    // TODO: Implement actual RPC to shard
-    // Send commit with timestamp
-    participant.committed = true;
-    return true;
+    // v1.3.0: Real RPC implementation for 2PC COMMIT
+    try {
+        ShardRPCClient::Config rpc_config;
+        rpc_config.endpoint = participant.endpoint;
+        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.max_retries = config_.max_retries;
+        
+        ShardRPCClient client(rpc_config);
+        
+        // Send COMMIT request with timestamp for MVCC
+        bool committed = client.commit(txn_id, commit_timestamp.count());
+        participant.committed = committed;
+        
+        THEMIS_DEBUG("COMMIT shard {}: success={}", 
+                    participant.shard_id, committed);
+        
+        return committed;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("COMMIT RPC to shard {} failed: {}", 
+                    participant.shard_id, e.what());
+        participant.committed = false;
+        return false;
+    }
 }
 
 bool DistributedTransactionCoordinator::sendAbort(
     TransactionParticipant& participant,
     const std::string& txn_id
 ) {
-    // TODO: Implement actual RPC to shard
-    participant.prepared = false;
-    participant.committed = false;
-    return true;
+    // v1.3.0: Real RPC implementation for 2PC ABORT
+    try {
+        ShardRPCClient::Config rpc_config;
+        rpc_config.endpoint = participant.endpoint;
+        rpc_config.timeout_ms = config_.rpc_timeout_ms;
+        rpc_config.max_retries = config_.max_retries;
+        
+        ShardRPCClient client(rpc_config);
+        
+        // Send ABORT request
+        bool aborted = client.abort(txn_id);
+        participant.prepared = false;
+        participant.committed = false;
+        
+        THEMIS_DEBUG("ABORT shard {}: success={}", 
+                    participant.shard_id, aborted);
+        
+        return aborted;
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("ABORT RPC to shard {} failed: {}", 
+                    participant.shard_id, e.what());
+        return false;
+    }
 }
 
 std::string DistributedTransactionCoordinator::generateTransactionId() {

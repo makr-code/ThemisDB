@@ -1,0 +1,6 @@
+-r ../requirements-common.txt
+
+# Additional dependencies for Graph Social Network
+networkx>=2.6.0
+matplotlib>=3.5.0
+

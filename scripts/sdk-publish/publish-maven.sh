@@ -19,16 +19,16 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "📦 Maven Publishing for io.themisdb:client"
+echo "ðŸ“¦ Maven Publishing for io.themisdb:client"
 
 # Check prerequisites
 if ! command -v mvn &> /dev/null; then
-    echo "❌ mvn not found"
+    echo "âŒ mvn not found"
     exit 1
 fi
 
 if [[ -z "${MAVEN_USERNAME:-}" || -z "${MAVEN_PASSWORD:-}" ]] && [[ "$DRY_RUN" == "false" ]]; then
-    echo "❌ MAVEN_USERNAME and/or MAVEN_PASSWORD environment variables not set"
+    echo "âŒ MAVEN_USERNAME and/or MAVEN_PASSWORD environment variables not set"
     exit 1
 fi
 
@@ -40,15 +40,15 @@ if [[ -n "$VERSION" ]]; then
 fi
 
 # Build
-echo "🔨 Building..."
+echo "ðŸ”¨ Building..."
 mvn clean compile
 
 # Run tests
-echo "🧪 Running tests..."
+echo "ðŸ§ª Running tests..."
 mvn test || echo "No tests found or tests skipped"
 
 # Package
-echo "📦 Packaging..."
+echo "ðŸ“¦ Packaging..."
 mvn package -DskipTests
 
 # Generate sources and javadoc
@@ -56,10 +56,10 @@ mvn source:jar javadoc:jar
 
 # Publish
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo "🔍 Dry run - would publish:"
+    echo "ðŸ” Dry run - would publish:"
     ls -la target/*.jar
 else
-    echo "🚀 Publishing to Maven Central..."
+    echo "ðŸš€ Publishing to Maven Central..."
     
     # Create settings.xml with credentials
     mkdir -p ~/.m2
@@ -81,4 +81,4 @@ EOF
         -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
 fi
 
-echo "✅ Maven publishing complete"
+echo "âœ… Maven publishing complete"

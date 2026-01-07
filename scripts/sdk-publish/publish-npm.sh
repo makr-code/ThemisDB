@@ -19,16 +19,16 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "📦 NPM Publishing for @themisdb/client"
+echo "ðŸ“¦ NPM Publishing for @themisdb/client"
 
 # Check prerequisites
 if ! command -v npm &> /dev/null; then
-    echo "❌ npm not found"
+    echo "âŒ npm not found"
     exit 1
 fi
 
 if [[ -z "${NPM_TOKEN:-}" ]] && [[ "$DRY_RUN" == "false" ]]; then
-    echo "❌ NPM_TOKEN environment variable not set"
+    echo "âŒ NPM_TOKEN environment variable not set"
     exit 1
 fi
 
@@ -40,25 +40,25 @@ if [[ -n "$VERSION" ]]; then
 fi
 
 # Install dependencies
-echo "📥 Installing dependencies..."
+echo "ðŸ“¥ Installing dependencies..."
 npm ci
 
 # Build
-echo "🔨 Building..."
+echo "ðŸ”¨ Building..."
 npm run build
 
 # Run tests
-echo "🧪 Running tests..."
+echo "ðŸ§ª Running tests..."
 npm test
 
 # Publish
 if [[ "$DRY_RUN" == "true" ]]; then
-    echo "🔍 Dry run - would publish:"
+    echo "ðŸ” Dry run - would publish:"
     npm pack --dry-run
 else
-    echo "🚀 Publishing to npm..."
+    echo "ðŸš€ Publishing to npm..."
     echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
     npm publish --access public
 fi
 
-echo "✅ NPM publishing complete"
+echo "âœ… NPM publishing complete"

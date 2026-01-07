@@ -1,0 +1,28 @@
+INHERIT: mkdocs.yml
+
+plugins:
+  - search:
+      lang: de
+  - print-site:
+      add_to_navigation: true
+      print_page_title: 'Gesamte Dokumentation (Druckansicht)'
+      add_print_site_banner: true
+      print_site_banner_template: "docs/print-banner.html"
+      enumerate_headings: true
+      enumerate_figures: true
+      add_table_of_contents: true
+      toc_title: 'Inhaltsverzeichnis'
+      toc_depth: 3
+      add_full_urls: false
+      add_cover_page: true
+      cover_page_template: "docs/print-cover.html"
+  - exclude:
+      glob:
+        - "gimini/**"
+        - "compendium/**"
+        - "en/**"
+        - "es/**"
+        - "fr/**"
+        - "ja/**"
+        - "reports/**"
+        - "features/**"

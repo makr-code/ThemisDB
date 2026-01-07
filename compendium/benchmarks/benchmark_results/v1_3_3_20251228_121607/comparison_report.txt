@@ -1,0 +1,129 @@
+
+====================================================================================================
+BENCHMARK ANALYSIS REPORT
+====================================================================================================
+
+📊 SUMMARY:
+  ✅ Improved:    0
+  ⚠️  Regressed:   0
+  🆕 New:        51
+  ➡️  Unchanged:  0
+  📝 Total:      51
+
+----------------------------------------------------------------------------------------------------
+IMPROVED BENCHMARKS (Performance Gains):
+----------------------------------------------------------------------------------------------------
+  (none)
+
+----------------------------------------------------------------------------------------------------
+REGRESSED BENCHMARKS (Performance Loss):
+----------------------------------------------------------------------------------------------------
+  (none)
+
+----------------------------------------------------------------------------------------------------
+NEW BENCHMARKS:
+----------------------------------------------------------------------------------------------------
+  🆕 BM_EmbeddingCache_Store/384
+     Performance: 758,519 items/sec
+  🆕 BM_EmbeddingCache_Store/768
+     Performance: 374,797 items/sec
+  🆕 BM_EmbeddingCache_Store/1536
+     Performance: 14,222 items/sec
+  🆕 BM_EmbeddingCache_Store/3072
+     Performance: 102,400 items/sec
+  🆕 BM_EmbeddingCache_Query_Hit/384
+     Performance: 155,826,087 items/sec
+  🆕 BM_EmbeddingCache_Query_Hit/768
+     Performance: 155,826,087 items/sec
+  🆕 BM_EmbeddingCache_Query_Hit/1536
+     Performance: 540,981 items/sec
+  🆕 BM_EmbeddingCache_Query_Hit/3072
+     Performance: 154,983,784 items/sec
+  🆕 BM_EmbeddingCache_Query_Miss/384
+     Performance: 777,019 items/sec
+  🆕 BM_EmbeddingCache_Query_Miss/768
+     Performance: 398,222 items/sec
+  🆕 BM_EmbeddingCache_Query_Miss/1536
+     Performance: 149,333 items/sec
+  🆕 BM_EmbeddingCache_Query_Miss/3072
+     Performance: 99,902 items/sec
+  🆕 BM_EmbeddingCache_CostSavings
+     Performance: 585,143 items/sec
+  🆕 BM_HybridSearch_RRF/384
+     Performance: 6,637,037 items/sec
+  🆕 BM_HybridSearch_RRF/768
+     Performance: 7,079,506 items/sec
+  🆕 BM_HybridSearch_RRF/1536
+     Performance: 6,667,907 items/sec
+  🆕 BM_HybridSearch_LinearCombination
+     Performance: 9,752,381 items/sec
+  🆕 BM_HybridSearch_VaryingWeights/0
+     Performance: 9,752,381 items/sec
+  🆕 BM_HybridSearch_VaryingWeights/25
+     Performance: 9,955,556 items/sec
+  🆕 BM_HybridSearch_VaryingWeights/50
+     Performance: 10,167,376 items/sec
+  🆕 BM_HybridSearch_VaryingWeights/75
+     Performance: 9,990,244 items/sec
+  🆕 BM_HybridSearch_VaryingWeights/100
+     Performance: 9,955,556 items/sec
+  🆕 BM_CTE_NonRecursive_Simple/1
+     Performance: 952,558,140 items/sec
+  🆕 BM_CTE_NonRecursive_Simple/5
+     Performance: 874,146,341 items/sec
+  🆕 BM_CTE_NonRecursive_Simple/10
+     Performance: 910,222,222 items/sec
+  🆕 BM_CTE_NonRecursive_Simple/20
+     Performance: 938,526,992 items/sec
+  🆕 BM_CTE_Recursive_Depth/10
+     Performance: 87,148,936 items/sec
+  🆕 BM_CTE_Recursive_Depth/50
+     Performance: 16,290,909 items/sec
+  🆕 BM_CTE_Recursive_Depth/100
+     Performance: 8,610,211 items/sec
+  🆕 BM_CTE_Recursive_Depth/1000
+     Performance: 896,000 items/sec
+  🆕 BM_CTE_CycleDetection/100
+     Performance: 19,393,939 items/sec
+  🆕 BM_CTE_CycleDetection/1000
+     Performance: 8,145,455 items/sec
+  🆕 BM_CTE_CycleDetection/10000
+     Performance: 853,333 items/sec
+  🆕 BM_Subquery_EXISTS_WithLIMIT1/100
+     Performance: inf items/sec
+  🆕 BM_Subquery_EXISTS_WithLIMIT1/1000
+     Performance: inf items/sec
+  🆕 BM_Subquery_EXISTS_WithLIMIT1/10000
+     Performance: inf items/sec
+  🆕 BM_Subquery_EXISTS_WithLIMIT1/100000
+     Performance: inf items/sec
+  🆕 BM_Subquery_EXISTS_WithoutLIMIT1/100
+     Performance: 13,335,814 items/sec
+  🆕 BM_Subquery_EXISTS_WithoutLIMIT1/1000
+     Performance: 1,405,490 items/sec
+  🆕 BM_Subquery_EXISTS_WithoutLIMIT1/10000
+     Performance: 147,036 items/sec
+  🆕 BM_Subquery_EXISTS_WithoutLIMIT1/100000
+     Performance: 14,704 items/sec
+  🆕 BM_DistributedTxn_2PC_Latency/2
+     Performance: 6,400 items/sec
+  🆕 BM_DistributedTxn_2PC_Latency/4
+     Performance: 6,400 items/sec
+  🆕 BM_DistributedTxn_2PC_Latency/8
+     Performance: 1,600 items/sec
+  🆕 BM_DistributedTxn_2PC_Latency/16
+     Performance: 1,280 items/sec
+  🆕 BM_DistributedTxn_Throughput
+     Performance: 6,400 items/sec
+  🆕 BM_DistributedTxn_SnapshotRead/2
+     Performance: inf items/sec
+  🆕 BM_DistributedTxn_SnapshotRead/4
+     Performance: 6,400 items/sec
+  🆕 BM_DistributedTxn_SnapshotRead/8
+     Performance: 3,200 items/sec
+  🆕 BM_DistributedTxn_SnapshotRead/16
+     Performance: 3,200 items/sec
+  🆕 BM_Combined_LLM_RAG_Pipeline
+     Performance: 15,929 items/sec
+
+====================================================================================================

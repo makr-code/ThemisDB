@@ -1,0 +1,4 @@
+-r ../requirements-common.txt
+
+# Data visualization for sales charts
+matplotlib>=3.5.0

@@ -1,42 +1,33 @@
-# ThemisDB Dokumentations-Index
+<div align="center">
 
-**Letzte Aktualisierung:** 5. Dezember 2025
-**Version:** 1.0.0
+# ThemisDB Documentation Index (Language Selector)
 
-## 🎯 Schnelleinstieg nach Rolle
+</div>
 
-### Für Entwickler
-1. [README.md](../README.md) - Projektübersicht & Quick Start
-2. [guides/guides_build_strategy.md](guides/guides_build_strategy.md) - Build-Toolchain (Windows/Linux/Docker)
-3. [docs/guides/guides_build.md](guides/guides_build.md) - Detaillierte Build-Anleitung
-4. [DEVELOPMENT_AUDITLOG.md](development/DEVELOPMENT_SUMMARY.md) - Aktueller Entwicklungsstand
-5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
+Diese Datei ist jetzt sprachneutral. Bitte wähle die Sprachversion:
 
-### Für Stakeholder
-1. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
-2. [THEMIS_PROJECT_VALUATION.md](reports/reports_project_valuation.md) - Wirtschaftliche Bewertung
-3. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
-4. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
+- 🇩🇪 Deutsch (Primär): [de/DOCUMENTATION_INDEX.md](de/DOCUMENTATION_INDEX.md)
+- 🇬🇧 English: [en/DOCUMENTATION_INDEX.md](en/DOCUMENTATION_INDEX.md)
 
-### Für Compliance & Audits
-1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary
-2. [compliance/compliance_full_checklist.md](compliance/compliance_full_checklist.md) - BSI C5, ISO 27001, DSGVO, eIDAS, SOC 2
-3. [security/SECURITY_AUDIT_REPORT.md](security/security_audit_report.md) - Security Audit Ergebnisse
-4. [SECURITY.md](../SECURITY.md) - Vulnerability Disclosure Policy
-
-## 📚 Dokumentationsstruktur
-
+> [!NOTE]
+> Die deutschsprachige Version ist die maßgebliche Quelle. Übersetzungen können nachhängen.
 ### Root-Level Dokumente
 ```
 /
 ├── README.md                        # Projektübersicht & Quick Start
-├── features/features_overview.md                      # Feature-Liste mit Status
+├── LICENSE                          # MIT License with Government Clause
+├── THIRD_PARTY_LICENSES.md          # ⭐ Third-Party License Attribution (v1.3.0)
+├── aql/                             # ⭐ AQL EBNF Grammatik (v1.3.0)
+│   ├── AQL_GRAMMAR.ebnf             # Vollständige formale Grammatik
+│   └── README.md                    # AQL Übersicht
+├── features/features_overview.md    # Feature-Liste mit Status
 ├── ROADMAP.md                       # Entwicklungs-Roadmap
 ├── CHANGELOG.md                     # Änderungshistorie
-├── guides/guides_build_strategy.md                # Build-Toolchain & Strategie
+├── guides/guides_build_strategy.md  # Build-Toolchain & Strategie
 ├── INTEGRATION_ANALYSIS.md          # Enterprise Integration Analysis
 ├── TEST_REPORT.md                   # Vollständiger Test-Report
 ├── DEVELOPMENT_AUDITLOG.md          # Entwicklungsstand & Audit
+├── DOCKER_DEPLOYMENT.md             # Docker Deployment Guide (v1.3.0)
 └── CONTRIBUTING.md                  # Contribution Guidelines
 ```
 
@@ -48,6 +39,8 @@ docs/
 ├── performance/                     # Performance & Benchmarks
 │   └── ENTERPRISE_SCALABILITY_STRATEGY.md
 ├── security/                        # Sicherheit & Compliance
+├── legal/                           # ⭐ Legal & Licensing (v1.3.0)
+│   └── LICENSE_COMPATIBILITY_ANALYSIS.md  # Dependency License Analysis
 ├── architecture/                    # Architektur-Dokumentation
 ├── api/                            # API-Dokumentation
 └── guides/                         # User Guides

@@ -1,0 +1,90 @@
+{
+  "context": {
+    "date": "2025-12-23T11:26:00+01:00",
+    "host_name": "DESKTOP-712S8LO",
+    "executable": "C:\\VCC\\themis\\build-msvc\\Release\\bench_pagerank.exe",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3696,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 20971520,
+        "num_sharing": 20
+      }
+    ],
+    "load_avg": [],
+    "library_version": "v1.9.4",
+    "library_build_type": "release",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "PageRankBenchmarkFixture/PageRankStandard/100/5/iterations:5",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "PageRankBenchmarkFixture/PageRankStandard/100/5/iterations:5",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 5,
+      "real_time": 8.7122000986710191e-01,
+      "cpu_time": 0.0000000000000000e+00,
+      "time_unit": "ms",
+      "items_per_second": Infinity,
+      "max_iterations": 2.0000000000000000e+01,
+      "num_nodes": 1.0000000000000000e+02
+    },
+    {
+      "name": "PageRankBenchmarkFixture/PageRankStandard/1000/5/iterations:5",
+      "family_index": 0,
+      "per_family_instance_index": 1,
+      "run_name": "PageRankBenchmarkFixture/PageRankStandard/1000/5/iterations:5",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 5,
+      "real_time": 2.4127158400020562e+03,
+      "cpu_time": 2.4125000000000000e+03,
+      "time_unit": "ms",
+      "items_per_second": 4.1450777202072536e-01,
+      "max_iterations": 2.0000000000000000e+01,
+      "num_nodes": 1.1000000000000000e+03
+    },
+    {
+      "name": "PageRankBenchmarkFixture/PageRankStandard/10000/5/iterations:5",
+      "family_index": 0,
+      "per_family_instance_index": 2,
+      "run_name": "PageRankBenchmarkFixture/PageRankStandard/10000/5/iterations:5",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 5,
+      "real_time": 2.7460585408000043e+05,
+      "cpu_time": 2.7375937500000000e+05,
+      "time_unit": "ms",
+      "items_per_second": 3.6528429391687500e-03,
+      "max_iterations": 2.0000000000000000e+01,
+      "num_nodes": 1.1100000000000000e+04
+    }

@@ -1,15 +1,16 @@
-# Welcome to ThemisDB
+<div align="center">
 
-**A high-performance multi-model database with ACID guarantees**
+# ThemisDB Documentation Home (Language Selector)
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.2.0)
-[![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/makr-code/ThemisDB/blob/main/LICENSE)
+</div>
 
----
+This page is now language-neutral. Please choose your language:
 
-## Overview
+- 🇩🇪 Deutsch (primär): [de/Home.md](de/Home.md)
+- 🇬🇧 English: [en/Home.md](en/Home.md)
 
+> [!NOTE]
+> German docs are authoritative; translations may lag.
 ThemisDB is a production-ready multi-model database that combines **relational, graph, vector, and document** models in a single system with full ACID transaction support. Built on RocksDB with advanced security and compliance features.
 
 **Key Capabilities:**
@@ -44,48 +45,6 @@ ThemisDB is a production-ready multi-model database that combines **relational, 
 
 ---
 
-## What's New in v1.2.0
-
-**Enterprise Features Release (December 2025)**
-
-### 🎯 New Features
-
-**Hypertables - TimescaleDB Compatibility**
-- Automatic time-based partitioning using RocksDB Column Families
-- 100K inserts/s, 5ms query latency
-- 5x storage compression
-- [Documentation](features-features_hypertables)
-
-**Hybrid Search - RAG Optimization**
-- Combines BM25 full-text + vector semantic search
-- 85% recall@10 (vs 60% BM25-only, 70% vector-only)
-- Reciprocal Rank Fusion (RRF) algorithm
-- [Documentation](features-features_hybrid_search)
-
-**FAISS Advanced - Production Vector Search**
-- IVF+PQ for 10-100x memory reduction
-- GPU acceleration via CUDA
-- 2-10x faster on large datasets (>1M vectors)
-- [Documentation](features-features_faiss)
-
-**Embedding Cache - Cost Reduction**
-- 70-90% cost savings for LLM applications
-- 100-1000x faster (1ms vs 100-1000ms API call)
-- Fuzzy matching via vector similarity
-- [Documentation](features-features_embedding_cache)
-
-**Time-Series Aggregates - SIMD Acceleration**
-- 5-10x faster aggregations (AVX2/AVX512)
-- SUM, AVG, MIN, MAX, STDDEV, Percentiles
-- Zero-copy batch processing
-- [Documentation](features-features_aggregates)
-
-### 📋 Full Release Notes
-- **[Changelog](CHANGELOG)** - Complete version history
-- **[v1.2.0 Release Notes](releases-v1.2.0)** - Detailed release information
-- **[Migration Guide](guides-MIGRATION)** - Upgrade from v1.1.0
-
----
 
 ## Core Features
 
