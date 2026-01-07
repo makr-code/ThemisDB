@@ -23,12 +23,10 @@ delete_transient('themisdb_tco_github_release');
 
 // For multisite installations
 if (is_multisite()) {
-    global $wpdb;
+    $sites = get_sites(array('number' => 0));
     
-    $blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
-    
-    foreach ($blog_ids as $blog_id) {
-        switch_to_blog($blog_id);
+    foreach ($sites as $site) {
+        switch_to_blog($site->blog_id);
         
         // Delete options for each site
         delete_option('themisdb_tco_enable_ai_features');

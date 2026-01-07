@@ -218,7 +218,7 @@ class ThemisDB_TCO_Calculator {
      * Add action links to plugin page
      */
     public function add_action_links($links) {
-        $settings_link = '<a href="' . admin_url('options-general.php?page=themisdb-tco-calculator') . '">' . 
+        $settings_link = '<a href="' . esc_url(admin_url('options-general.php?page=themisdb-tco-calculator')) . '">' . 
                         __('Einstellungen', 'themisdb-tco-calculator') . '</a>';
         array_unshift($links, $settings_link);
         return $links;
@@ -303,11 +303,18 @@ class ThemisDB_TCO_Calculator {
         $response = wp_remote_get($api_url, array(
             'timeout' => 10,
             'headers' => array(
-                'Accept' => 'application/vnd.github.v3+json',
+                'Accept' => 'application/vnd.github+json',
+                'X-GitHub-Api-Version' => '2022-11-28',
             ),
         ));
         
         if (is_wp_error($response)) {
+            return false;
+        }
+        
+        // Check HTTP status code
+        $status_code = wp_remote_retrieve_response_code($response);
+        if ($status_code !== 200) {
             return false;
         }
         
