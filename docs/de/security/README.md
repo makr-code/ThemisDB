@@ -54,6 +54,34 @@ Das Security-Modul implementiert umfassende Sicherheitsfunktionen für ThemisDB,
 - **[VECTOR_ENCRYPTION_CONFIGURATION.md](VECTOR_ENCRYPTION_CONFIGURATION.md)** - Phase 1: Vektor-Verschlüsselung in RocksDB
 - **[HNSW_ENCRYPTION_CONFIGURATION.md](HNSW_ENCRYPTION_CONFIGURATION.md)** - Phase 2: HNSW Index Verschlüsselung
 
+### 🔴 LLM & LoRa Adapter Sicherheit (v1.4.0+) - NEU ✅
+
+**Bedrohungsanalyse:**
+- **[LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md)** ⭐ **WICHTIG** - Umfassende Analyse von Angriffsvektoren auf LLMs und LoRa-Adapter
+
+**Hauptrisiken:**
+- 🔴 Prompt Injection (Hoch)
+- 🔴 LoRa Model Poisoning (Hoch)
+- 🟠 Vector Embedding Manipulation (Mittel, durch Verschlüsselung geschützt)
+- 🟠 HNSW Index Poisoning (Mittel, durch Verschlüsselung geschützt)
+- 🟡 Adapter Weight Extraction (Niedrig)
+
+**Schutzmaßnahmen (Implementiert):**
+- ⚠️ `LoRASecurityValidator` - Architektur und Tests (Signaturvalidierung: Stub)
+- ⚠️ `PromptInjectionDetector` - Pattern-basierte Injection-Erkennung (Produktionsreif)
+- ⚠️ `EmbeddingAnomalyDetector` - Statistische Anomalieerkennung (Produktionsreif)
+- ✅ Unit Tests in `tests/test_lora_security.cpp`
+
+> **⚠️ HINWEIS:** Die Signaturvalidierung für LoRa-Adapter ist derzeit als
+> Prototyp implementiert und verwendet Stub-Code. Für Produktionsumgebungen
+> muss die OpenSSL-Integration vervollständigt werden. Siehe 
+> [LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md) für Details.
+
+**Referenzen:**
+- [Multi-LoRa Manager](../../include/llm/multi_lora_manager.h) - Adapter-Verwaltung
+- [Security Validator](../../include/llm/lora_security_validator.h) - Sicherheitsvalidierung
+- [RAID LoRa Implementation](../../docs/RAID_LORA_IMPLEMENTATION_REPORT.md) - Verteilte Adapter
+
 **Implementierungsdetails:**
 - **[COMPLETE_IMPLEMENTATION_SUMMARY.md](COMPLETE_IMPLEMENTATION_SUMMARY.md)** - Vollständige Übersicht aller Phasen
 - **[PHASE1_FINAL_REPORT.md](PHASE1_FINAL_REPORT.md)** - Phase 1 Abschlussbericht

@@ -41,6 +41,14 @@ Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 - PII‑Leakage in Logs/Exports
 - Manipulation Audit‑Trail
 
+### LLM & LoRa-spezifische Risiken (v1.4.0+)
+- **Prompt Injection:** Manipulation von System-Prompts oder Benutzer-Eingaben
+- **LoRa Model Poisoning:** Vergiftete Adapter mit Backdoors
+- **Vector Embedding Manipulation:** Manipulation von HNSW-Indizes für RAG
+- **Adapter Weight Extraction:** Seitenkanal-Angriffe auf LoRa-Weights
+- **Multi-LoRa Adversarial Switching:** Ausnutzung von Adapter-Batching
+- Siehe: [LLM_LORA_ATTACK_VECTORS.md](LLM_LORA_ATTACK_VECTORS.md)
+
 ## Gegenmaßnahmen
 - RBAC/Netzwerk‑Kontrollen vor Admin‑APIs (/keys/rotate, /changefeed/retention)
 - TLS‑Terminations‑Proxy, mTLS optional
@@ -48,6 +56,14 @@ Ziel: Risiken sichtbar machen und mit pragmatischen Kontrollen adressieren.
 - Minimierte Logs; Pseudonymisierung sensibler Werte
 - Regelmäßige Rotation, Least‑Privilege, Vier‑Augen‑Prinzip bei kritischen Aktionen
 - Backup/Restore mit Integritätsprüfungen
+
+### LLM & LoRa-Schutzmaßnahmen (v1.4.0+)
+- **LoRa Signature Verification:** Signaturvalidierung für Adapter (`LoRASecurityValidator`)
+- **Prompt Injection Detection:** Pattern-basierte Erkennung (`PromptInjectionDetector`)
+- **Embedding Anomaly Detection:** Statistische Anomalieerkennung (`EmbeddingAnomalyDetector`)
+- **Vector Encryption:** At-Rest-Verschlüsselung für HNSW (Phase 1+2 ✅)
+- **Adapter Integrity Checks:** Checksum-Validierung und Weight-Anomalie-Detection
+- Siehe: Implementierung in `include/llm/lora_security_validator.h`
 
 ## Beobachtbarkeit
 - Health/Metrics Endpunkte überwachen (/health, /metrics)
