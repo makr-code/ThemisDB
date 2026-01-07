@@ -500,7 +500,7 @@ class ThemisDB_Wiki_Integration {
                 continue;
             }
             
-            // Main heading (h2 - ###)
+            // Main heading (h3 - ###)
             if (preg_match('/^###\s+(.+)$/', $line, $matches)) {
                 // Close previous subsection if open
                 if ($in_subsection) {

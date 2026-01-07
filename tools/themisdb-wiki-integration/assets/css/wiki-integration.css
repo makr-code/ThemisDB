@@ -109,15 +109,7 @@
     transform: rotate(-90deg);
 }
 
-.themisdb-wiki-nav-accordion .themisdb-nav-section-items {
-    max-height: 1000px;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-
-.themisdb-wiki-nav-accordion .themisdb-nav-section-title.collapsed + .themisdb-nav-section-items {
-    max-height: 0;
-}
+/* Note: Section items visibility is handled by JavaScript slideUp/slideDown */
 
 /* Horizontal style */
 .themisdb-wiki-nav-horizontal {

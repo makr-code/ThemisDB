@@ -72,7 +72,9 @@
                     // Expand parent section if accordion
                     var $section = $link.closest('.themisdb-nav-section');
                     if ($section.length) {
-                        $section.find('.themisdb-nav-section-title').removeClass('collapsed');
+                        var $title = $section.find('.themisdb-nav-section-title');
+                        $title.removeClass('collapsed');
+                        $title.next('.themisdb-nav-section-items').slideDown(300);
                     }
                 }
             });
