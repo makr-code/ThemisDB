@@ -19,6 +19,8 @@ class ThemisDB_Downloads_Shortcodes {
         add_shortcode('themisdb_downloads', array($this, 'render_downloads'));
         add_shortcode('themisdb_latest', array($this, 'render_latest'));
         add_shortcode('themisdb_verify', array($this, 'render_verify_tool'));
+        add_shortcode('themisdb_readme', array($this, 'render_readme'));
+        add_shortcode('themisdb_changelog', array($this, 'render_changelog'));
     }
     
     /**
@@ -373,6 +375,162 @@ class ThemisDB_Downloads_Shortcodes {
         );
         
         return isset($icons[$platform]) ? $icons[$platform] : $icons['other'];
+    }
+    
+    /**
+     * Render README shortcode
+     * 
+     * @param array $atts Shortcode attributes
+     * @return string HTML output
+     */
+    public function render_readme($atts) {
+        $atts = shortcode_atts(array(
+            'version' => 'latest', // 'latest' or specific version tag
+            'style' => 'default' // 'default' or 'raw'
+        ), $atts);
+        
+        // Get release
+        if ($atts['version'] === 'latest') {
+            $release = $this->api->get_latest_release();
+        } else {
+            // For specific version, get all releases and find matching one
+            $all_releases = $this->api->get_all_releases(50);
+            $release = null;
+            if (!is_wp_error($all_releases)) {
+                foreach ($all_releases as $r) {
+                    if ($r['version'] === $atts['version'] || $r['version'] === 'v' . $atts['version']) {
+                        $release = $r;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (is_wp_error($release) || empty($release)) {
+            return '<div class="themisdb-downloads-notice">README nicht verfügbar.</div>';
+        }
+        
+        if (empty($release['readme'])) {
+            return '<div class="themisdb-downloads-notice">Kein README für diese Version gefunden.</div>';
+        }
+        
+        // Render README
+        ob_start();
+        ?>
+        <div class="themisdb-readme-container">
+            <div class="readme-header">
+                <h3>README - <?php echo esc_html($release['version']); ?></h3>
+            </div>
+            <div class="readme-content">
+                <?php
+                if ($atts['style'] === 'raw') {
+                    echo '<pre>' . esc_html($release['readme']) . '</pre>';
+                } else {
+                    // Parse markdown to HTML (basic conversion)
+                    echo wp_kses_post($this->markdown_to_html($release['readme']));
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render CHANGELOG shortcode
+     * 
+     * @param array $atts Shortcode attributes
+     * @return string HTML output
+     */
+    public function render_changelog($atts) {
+        $atts = shortcode_atts(array(
+            'version' => 'latest', // 'latest' or specific version tag
+            'style' => 'default' // 'default' or 'raw'
+        ), $atts);
+        
+        // Get release
+        if ($atts['version'] === 'latest') {
+            $release = $this->api->get_latest_release();
+        } else {
+            // For specific version, get all releases and find matching one
+            $all_releases = $this->api->get_all_releases(50);
+            $release = null;
+            if (!is_wp_error($all_releases)) {
+                foreach ($all_releases as $r) {
+                    if ($r['version'] === $atts['version'] || $r['version'] === 'v' . $atts['version']) {
+                        $release = $r;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (is_wp_error($release) || empty($release)) {
+            return '<div class="themisdb-downloads-notice">CHANGELOG nicht verfügbar.</div>';
+        }
+        
+        if (empty($release['changelog'])) {
+            return '<div class="themisdb-downloads-notice">Kein CHANGELOG für diese Version gefunden.</div>';
+        }
+        
+        // Render CHANGELOG
+        ob_start();
+        ?>
+        <div class="themisdb-changelog-container">
+            <div class="changelog-header">
+                <h3>CHANGELOG - <?php echo esc_html($release['version']); ?></h3>
+            </div>
+            <div class="changelog-content">
+                <?php
+                if ($atts['style'] === 'raw') {
+                    echo '<pre>' . esc_html($release['changelog']) . '</pre>';
+                } else {
+                    // Parse markdown to HTML (basic conversion)
+                    echo wp_kses_post($this->markdown_to_html($release['changelog']));
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+        return ob_get_clean();
+    }
+    
+    /**
+     * Basic markdown to HTML conversion
+     * 
+     * @param string $markdown Markdown text
+     * @return string HTML
+     */
+    private function markdown_to_html($markdown) {
+        // Basic markdown parsing (headers, lists, code blocks, links)
+        $html = $markdown;
+        
+        // Headers (### to h3, ## to h2, # to h1)
+        $html = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $html);
+        $html = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $html);
+        $html = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $html);
+        
+        // Bold and italic
+        $html = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $html);
+        $html = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $html);
+        
+        // Links [text](url)
+        $html = preg_replace('/\[([^\]]+)\]\(([^\)]+)\)/', '<a href="$2" target="_blank">$1</a>', $html);
+        
+        // Code blocks ```
+        $html = preg_replace('/```([^`]+)```/s', '<pre><code>$1</code></pre>', $html);
+        
+        // Inline code `code`
+        $html = preg_replace('/`([^`]+)`/', '<code>$1</code>', $html);
+        
+        // Lists (- item or * item)
+        $html = preg_replace('/^[\-\*] (.+)$/m', '<li>$1</li>', $html);
+        $html = preg_replace('/(<li>.*<\/li>\n?)+/s', '<ul>$0</ul>', $html);
+        
+        // Paragraphs (double newline)
+        $html = wpautop($html);
+        
+        return $html;
     }
     
     /**

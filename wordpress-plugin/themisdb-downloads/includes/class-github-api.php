@@ -95,7 +95,9 @@ class ThemisDB_Downloads_GitHub_API {
             'body' => $data->body,
             'html_url' => $data->html_url,
             'assets' => array(),
-            'sha256sums' => array()
+            'sha256sums' => array(),
+            'readme' => '',
+            'changelog' => ''
         );
         
         // Parse assets
@@ -116,6 +118,22 @@ class ThemisDB_Downloads_GitHub_API {
                 }
             }
             
+            // Check if this is a README file
+            if (preg_match('/^README(_.*)?\.md$/i', $asset->name)) {
+                $readme_content = $this->download_text_file($asset->browser_download_url);
+                if (!is_wp_error($readme_content) && !empty($readme_content)) {
+                    $release['readme'] = $readme_content;
+                }
+            }
+            
+            // Check if this is a CHANGELOG file
+            if (preg_match('/^CHANGELOG(_.*)?\.md$/i', $asset->name) || preg_match('/^RELEASE_NOTES(_.*)?\.md$/i', $asset->name)) {
+                $changelog_content = $this->download_text_file($asset->browser_download_url);
+                if (!is_wp_error($changelog_content) && !empty($changelog_content)) {
+                    $release['changelog'] = $changelog_content;
+                }
+            }
+            
             $release['assets'][] = $asset_data;
         }
         
@@ -129,6 +147,16 @@ class ThemisDB_Downloads_GitHub_API {
      * @return string|WP_Error File content or error
      */
     private function download_sha256_file($url) {
+        return $this->download_text_file($url);
+    }
+    
+    /**
+     * Download text file content (README, CHANGELOG, SHA256SUMS, etc.)
+     * 
+     * @param string $url URL to text file
+     * @return string|WP_Error File content or error
+     */
+    private function download_text_file($url) {
         $args = array(
             'timeout' => 30
         );
@@ -147,7 +175,7 @@ class ThemisDB_Downloads_GitHub_API {
         
         $code = wp_remote_retrieve_response_code($response);
         if ($code !== 200) {
-            return new WP_Error('download_failed', 'Failed to download SHA256SUMS file');
+            return new WP_Error('download_failed', 'Failed to download file');
         }
         
         return wp_remote_retrieve_body($response);

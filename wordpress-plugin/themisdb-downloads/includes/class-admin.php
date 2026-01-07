@@ -253,6 +253,14 @@ class ThemisDB_Downloads_Admin {
                 
                 <h4>Kompakte Ansicht:</h4>
                 <code>[themisdb_downloads style="compact"]</code>
+                
+                <h4>README anzeigen:</h4>
+                <code>[themisdb_readme]</code>
+                <code>[themisdb_readme version="v1.3.4"]</code>
+                
+                <h4>CHANGELOG anzeigen:</h4>
+                <code>[themisdb_changelog]</code>
+                <code>[themisdb_changelog version="v1.3.4"]</code>
             </div>
             
             <hr>

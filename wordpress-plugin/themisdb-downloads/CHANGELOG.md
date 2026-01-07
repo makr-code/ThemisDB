@@ -5,6 +5,22 @@ All notable changes to this WordPress plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-07
+
+### Added
+- README.md display from release assets with `[themisdb_readme]` shortcode
+- CHANGELOG.md/RELEASE_NOTES.md display from release assets with `[themisdb_changelog]` shortcode
+- Support for version-specific README/CHANGELOG display (e.g., `version="v1.3.4"`)
+- Basic markdown to HTML conversion for README and CHANGELOG files
+- Styling for formatted README and CHANGELOG display
+- Raw text display mode for README/CHANGELOG with `style="raw"` attribute
+
+### Changed
+- Extended GitHub API handler to download and parse README/CHANGELOG files
+- Consolidated file download methods for better code reuse
+- Updated admin panel to show new shortcode options
+- Enhanced documentation with README/CHANGELOG shortcode examples
+
 ## [1.0.0] - 2026-01-07
 
 ### Added

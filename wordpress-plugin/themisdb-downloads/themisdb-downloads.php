@@ -3,7 +3,7 @@
  * Plugin Name: ThemisDB Downloads
  * Plugin URI: https://github.com/makr-code/ThemisDB
  * Description: Automatisch die neuesten ThemisDB Packages von GitHub abrufen und als Download-Links mit SHA256-Checksums anzeigen
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
  * License: MIT
@@ -27,7 +27,7 @@ if (version_compare(PHP_VERSION, '7.2', '<')) {
 }
 
 // Plugin constants
-define('THEMISDB_DOWNLOADS_VERSION', '1.0.0');
+define('THEMISDB_DOWNLOADS_VERSION', '1.1.0');
 define('THEMISDB_DOWNLOADS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_DOWNLOADS_PLUGIN_URL', plugin_dir_url(__FILE__));
 

@@ -390,3 +390,161 @@
         gap: 0.5rem;
     }
 }
+
+/* README and CHANGELOG Styles */
+.themisdb-readme-container,
+.themisdb-changelog-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.readme-header,
+.changelog-header {
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.readme-header h3,
+.changelog-header h3 {
+    margin: 0;
+    color: #23282d;
+    font-size: 1.5rem;
+}
+
+.readme-content,
+.changelog-content {
+    line-height: 1.8;
+    color: #23282d;
+}
+
+.readme-content h1,
+.changelog-content h1 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #23282d;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.readme-content h2,
+.changelog-content h2 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #23282d;
+}
+
+.readme-content h3,
+.changelog-content h3 {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #23282d;
+}
+
+.readme-content ul,
+.changelog-content ul {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.readme-content li,
+.changelog-content li {
+    margin: 0.5rem 0;
+}
+
+.readme-content code,
+.changelog-content code {
+    background: #f7f7f7;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    border: 1px solid #ddd;
+}
+
+.readme-content pre,
+.changelog-content pre {
+    background: #f7f7f7;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    margin: 1rem 0;
+}
+
+.readme-content pre code,
+.changelog-content pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+.readme-content a,
+.changelog-content a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.readme-content a:hover,
+.changelog-content a:hover {
+    text-decoration: underline;
+}
+
+.readme-content blockquote,
+.changelog-content blockquote {
+    border-left: 4px solid #0073aa;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #666;
+    font-style: italic;
+}
+
+.readme-content table,
+.changelog-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.readme-content table th,
+.changelog-content table th {
+    background: #f7f7f7;
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-weight: 600;
+}
+
+.readme-content table td,
+.changelog-content table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+}
+
+.readme-content img,
+.changelog-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+/* Responsive for README/CHANGELOG */
+@media (max-width: 768px) {
+    .themisdb-readme-container,
+    .themisdb-changelog-container {
+        padding: 1rem;
+    }
+    
+    .readme-content,
+    .changelog-content {
+        font-size: 0.95rem;
+    }
+}

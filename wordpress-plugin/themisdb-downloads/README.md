@@ -132,6 +132,48 @@ Zeigt nur die neueste Versionsnummer (z.B. "v1.4.0").
 
 Zeigt ein interaktives Tool zur Überprüfung der Download-Integrität.
 
+#### 9. README anzeigen
+
+```
+[themisdb_readme]
+```
+
+Zeigt die README.md Datei der neuesten Version an.
+
+**Optionen:**
+- `version="latest"` - Neueste Version (Standard)
+- `version="v1.4.0"` - Spezifische Version
+- `style="default"` - HTML-formatiert (Standard)
+- `style="raw"` - Unformatierter Text
+
+**Beispiele:**
+```
+[themisdb_readme]                           # Neueste README
+[themisdb_readme version="v1.3.4"]         # README für v1.3.4
+[themisdb_readme style="raw"]              # Rohtext-Ansicht
+```
+
+#### 10. CHANGELOG anzeigen
+
+```
+[themisdb_changelog]
+```
+
+Zeigt die CHANGELOG.md oder RELEASE_NOTES.md Datei der neuesten Version an.
+
+**Optionen:**
+- `version="latest"` - Neueste Version (Standard)
+- `version="v1.4.0"` - Spezifische Version
+- `style="default"` - HTML-formatiert (Standard)
+- `style="raw"` - Unformatierter Text
+
+**Beispiele:**
+```
+[themisdb_changelog]                        # Neuestes CHANGELOG
+[themisdb_changelog version="v1.3.4"]      # CHANGELOG für v1.3.4
+[themisdb_changelog style="raw"]           # Rohtext-Ansicht
+```
+
 ## Beispiel-Seite
 
 Erstellen Sie eine neue Seite mit folgendem Inhalt:
@@ -144,9 +186,15 @@ Erstellen Sie eine neue Seite mit folgendem Inhalt:
 <h3>Neueste Version herunterladen</h3>
 [themisdb_downloads]
 
+<h3>Was ist neu?</h3>
+[themisdb_changelog]
+
 <h3>Download-Verifizierung</h3>
 <p>Überprüfen Sie die Integrität Ihrer heruntergeladenen Datei:</p>
 [themisdb_verify]
+
+<h3>Dokumentation</h3>
+[themisdb_readme]
 
 <h3>Alle Versionen</h3>
 [themisdb_downloads show="all" style="table" limit="5"]
