@@ -10,10 +10,13 @@ if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
     message(FATAL_ERROR "Invalid VERSION content: '${_ver}'. Expected semantic version like 1.2.3")
 endif()
 
-project(Themis VERSION ${_ver} LANGUAGES CXX)
+# Extract numeric version for CMake project() command (CMake doesn't like -alpha suffix)
+string(REGEX REPLACE "^([0-9]+\\.[0-9]+\\.[0-9]+).*$" "\\1" _ver_numeric "${_ver}")
 
-# Make project version available to all translation units
-add_compile_definitions(THEMIS_VERSION_STRING="${PROJECT_VERSION}")
+project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
+
+# Make full project version (with suffix) available to all translation units
+add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
 
 # Include modular build configuration (post-v1.3.0 feature)
 # See docs/architecture/MODULARIZATION_PLAN.md for details
@@ -748,6 +751,7 @@ set(THEMIS_CORE_SOURCES
     src/security/field_encryption.cpp
     src/security/encrypted_field.cpp
     src/security/malware_scanner.cpp
+    src/security/usb_admin_authenticator.cpp
     
     src/transaction/transaction_manager.cpp
     src/transaction/saga.cpp
@@ -1576,23 +1580,24 @@ add_executable(themis_demo_encryption
     src/demo_encryption.cpp
 )
 
-    target_link_libraries(themis_server PRIVATE mimalloc)
-        # Fallback: if CONFIG packages not found, try pkg-config for apt-installed gRPC
-        if(NOT gRPC_FOUND OR NOT Protobuf_FOUND)
-            find_package(PkgConfig QUIET)
-            if(PkgConfig_FOUND)
-                pkg_check_modules(GRPC QUIET grpc++)
-                pkg_check_modules(PROTOBUF QUIET protobuf)
-                if(GRPC_FOUND AND PROTOBUF_FOUND)
-                    target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
-                    target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
-                    message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
-                endif()
-            endif()
-        endif()
-    endif()
-    message(STATUS "Linking themis_server with mimalloc")
-endif()
+# TODO: Fix orphaned mimalloc/gRPC linking code below - appears to be incomplete
+# This code block is missing an opening if() statement and should be reviewed
+#    target_link_libraries(themis_server PRIVATE mimalloc)
+#        # Fallback: if CONFIG packages not found, try pkg-config for apt-installed gRPC
+#        if(NOT gRPC_FOUND OR NOT Protobuf_FOUND)
+#            find_package(PkgConfig QUIET)
+#            if(PkgConfig_FOUND)
+#                pkg_check_modules(GRPC QUIET grpc++)
+#                pkg_check_modules(PROTOBUF QUIET protobuf)
+#                if(GRPC_FOUND AND PROTOBUF_FOUND)
+#                    target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
+#                    target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
+#                    message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
+#                endif()
+#            endif()
+#        endif()
+#    message(STATUS "Linking themis_server with mimalloc")
+#endif()
 
 # Tests
 if(THEMIS_BUILD_TESTS)
@@ -1741,6 +1746,8 @@ if(THEMIS_BUILD_TESTS)
     tests/test_jwt_integration.cpp
         tests/test_jwt_rotation_unit.cpp
         tests/test_llm_api_handler_jwt.cpp
+        tests/test_auth_middleware.cpp
+        tests/test_usb_admin_authenticator.cpp
         tests/test_pki_client_rest.cpp
         tests/test_group_dek.cpp
         tests/test_input_validator.cpp
