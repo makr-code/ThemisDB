@@ -1,0 +1,406 @@
+/**
+ * ThemisDB Test Dashboard Styles
+ * Version: 1.0.0
+ */
+
+/* CSS Variables for consistent theming */
+:root {
+    --tdb-primary: #0066cc;
+    --tdb-success: #28a745;
+    --tdb-warning: #ffc107;
+    --tdb-danger: #dc3545;
+    --tdb-info: #17a2b8;
+    --tdb-light: #f8f9fa;
+    --tdb-dark: #343a40;
+    --tdb-border: #dee2e6;
+    --tdb-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --tdb-radius: 8px;
+    --tdb-transition: all 0.3s ease;
+}
+
+/* Container */
+.themisdb-test-dashboard {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Header */
+.tdb-header {
+    background: linear-gradient(135deg, var(--tdb-primary), #0052a3);
+    color: white;
+    padding: 2rem;
+    border-radius: var(--tdb-radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--tdb-shadow);
+}
+
+.tdb-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.tdb-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Controls */
+.tdb-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: var(--tdb-radius);
+    box-shadow: var(--tdb-shadow);
+}
+
+.tdb-control-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.tdb-control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--tdb-dark);
+}
+
+.tdb-control-group select,
+.tdb-control-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--tdb-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: var(--tdb-transition);
+}
+
+.tdb-control-group select:focus,
+.tdb-control-group input:focus {
+    outline: none;
+    border-color: var(--tdb-primary);
+    box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.tdb-button {
+    padding: 0.75rem 1.5rem;
+    background: var(--tdb-primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--tdb-transition);
+    margin-top: auto;
+}
+
+.tdb-button:hover {
+    background: #0052a3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 102, 204, 0.2);
+}
+
+.tdb-button:active {
+    transform: translateY(0);
+}
+
+/* Loading State */
+.tdb-loading {
+    text-align: center;
+    padding: 3rem;
+}
+
+.tdb-spinner {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--tdb-border);
+    border-top-color: var(--tdb-primary);
+    border-radius: 50%;
+    animation: tdb-spin 1s linear infinite;
+}
+
+@keyframes tdb-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Dashboard Grid */
+.tdb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Cards */
+.tdb-card {
+    background: white;
+    border-radius: var(--tdb-radius);
+    padding: 1.5rem;
+    box-shadow: var(--tdb-shadow);
+    transition: var(--tdb-transition);
+}
+
+.tdb-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.tdb-card h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    color: var(--tdb-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tdb-card-icon {
+    font-size: 1.5rem;
+}
+
+/* Metric Cards */
+.tdb-metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--tdb-primary);
+    margin: 0.5rem 0;
+}
+
+.tdb-metric-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.tdb-metric-change {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.tdb-metric-change.positive {
+    background: #d4edda;
+    color: var(--tdb-success);
+}
+
+.tdb-metric-change.negative {
+    background: #f8d7da;
+    color: var(--tdb-danger);
+}
+
+/* Chart Container */
+.tdb-chart-container {
+    position: relative;
+    height: 400px;
+    margin: 1rem 0;
+}
+
+.tdb-chart-container canvas {
+    max-height: 100%;
+}
+
+/* Quality Gates */
+.tdb-quality-gates {
+    display: grid;
+    gap: 1rem;
+}
+
+.tdb-gate {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: var(--tdb-light);
+    border-radius: 4px;
+    border-left: 4px solid var(--tdb-border);
+    transition: var(--tdb-transition);
+}
+
+.tdb-gate.pass {
+    border-left-color: var(--tdb-success);
+    background: #d4edda;
+}
+
+.tdb-gate.warning {
+    border-left-color: var(--tdb-warning);
+    background: #fff3cd;
+}
+
+.tdb-gate.fail {
+    border-left-color: var(--tdb-danger);
+    background: #f8d7da;
+}
+
+.tdb-gate-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+.tdb-gate-info {
+    flex: 1;
+}
+
+.tdb-gate-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.tdb-gate-value {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.tdb-gate-progress {
+    height: 8px;
+    background: var(--tdb-border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.tdb-gate-progress-bar {
+    height: 100%;
+    background: var(--tdb-success);
+    transition: width 0.5s ease;
+}
+
+/* Pipeline Runs */
+.tdb-pipeline-runs {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.tdb-run {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: var(--tdb-light);
+    border-radius: 4px;
+    transition: var(--tdb-transition);
+}
+
+.tdb-run:hover {
+    background: #e9ecef;
+}
+
+.tdb-run-status {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.tdb-run-status.success {
+    background: var(--tdb-success);
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+.tdb-run-status.failure {
+    background: var(--tdb-danger);
+    box-shadow: 0 0 8px rgba(220, 53, 69, 0.5);
+}
+
+.tdb-run-info {
+    flex: 1;
+}
+
+.tdb-run-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.tdb-run-meta {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.tdb-run-duration {
+    font-weight: 600;
+    color: var(--tdb-dark);
+}
+
+/* Export Buttons */
+.tdb-export {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tdb-export-btn {
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid var(--tdb-border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--tdb-transition);
+}
+
+.tdb-export-btn:hover {
+    background: var(--tdb-light);
+    border-color: var(--tdb-primary);
+    color: var(--tdb-primary);
+}
+
+/* Notification */
+.tdb-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    background: white;
+    border-radius: var(--tdb-radius);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 10000;
+    animation: tdb-slide-in 0.3s ease;
+}
+
+@keyframes tdb-slide-in {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.tdb-notification.success {
+    border-left: 4px solid var(--tdb-success);
+}
+
+.tdb-notification.error {
+    border-left: 4px solid var(--tdb-danger);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tdb-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .tdb-controls {
+        flex-direction: column;
+    }
+    
+    .tdb-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tdb-chart-container {
+        height: 300px;
+    }
+    
+    .tdb-metric-value {
+        font-size: 2rem;
+    }
+}
