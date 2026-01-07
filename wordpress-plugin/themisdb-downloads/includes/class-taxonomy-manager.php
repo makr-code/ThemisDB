@@ -72,7 +72,7 @@ class ThemisDB_Downloads_Taxonomy_Manager {
             $current_tags = wp_get_post_tags($post->ID, array('fields' => 'names'));
             
             // Only process if no ThemisDB tags exist yet
-            if (empty($current_tags) || !$this->has_themisdb_tags($current_tags)) {
+            if (!$this->has_themisdb_tags($current_tags)) {
                 $this->extract_and_assign_taxonomies($post->ID, $content);
             }
         }
@@ -388,10 +388,11 @@ class ThemisDB_Downloads_Taxonomy_Manager {
             }
         }
         
-        // Clean up categories (but not the default "Uncategorized")
+        // Clean up categories (but not the default category)
+        $default_category = get_option('default_category');
         $categories = $this->get_themisdb_categories();
         foreach ($categories as $category) {
-            if ($category->count == 0 && $category->term_id != 1) {
+            if ($category->count == 0 && $category->term_id != $default_category) {
                 wp_delete_term($category->term_id, 'category');
                 $deleted['categories']++;
             }

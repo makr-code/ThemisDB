@@ -229,7 +229,7 @@ class ThemisDB_Downloads_Admin {
                     </tr>
                 </table>
                 
-                <h2>Automatische Schlagwörter und Kategorien</h2>
+                <h3>Automatische Schlagwörter und Kategorien</h3>
                 <p>Das Plugin kann automatisch Schlagwörter (Tags) und Kategorien basierend auf Release-Informationen erstellen und zuweisen.</p>
                 
                 <table class="form-table">
