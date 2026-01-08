@@ -3,7 +3,7 @@
  * Plugin Name: ThemisDB Architecture Diagrams
  * Plugin URI: https://github.com/makr-code/ThemisDB
  * Description: Interactive architecture diagrams for ThemisDB. Visualize multi-model architecture, storage layer, LLM integration, and sharding with Mermaid.js. Use shortcode [themisdb_architecture] to embed.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
  * License: MIT
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('THEMISDB_AD_VERSION', '1.0.0');
+define('THEMISDB_AD_VERSION', '1.0.1');
 define('THEMISDB_AD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_AD_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_AD_PLUGIN_FILE', __FILE__);

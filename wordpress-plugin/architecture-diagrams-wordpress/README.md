@@ -1,5 +1,19 @@
 # ThemisDB Architecture Diagrams - WordPress Plugin
 
+## 🔧 Update v1.0.1 - Bug Fix
+
+**Issue Fixed**: Graph code was not being converted by Mermaid into graphics.
+
+**Solution**: The plugin has been updated to use the correct Mermaid.js v10+ API:
+- `mermaid.run()` now uses the `nodes` array parameter instead of `querySelector`
+- Improved waiting logic for Mermaid library loading
+- Added error handling for rendering failures
+- Removes `data-processed` attribute for re-rendering
+
+Diagrams should now display correctly! 🎉
+
+---
+
 A WordPress plugin for interactive visualization of ThemisDB system architecture. Display multi-model architecture, storage layer, LLM integration, and sharding/RAID configurations with Mermaid.js.
 
 ## 📋 Overview
