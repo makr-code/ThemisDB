@@ -87,7 +87,7 @@ jobs:
           VERSION="${{ steps.version.outputs.version }}"
           CHANGELOG_FILE="wordpress-theme-changelog.md"
           
-          cat > ${CHANGELOG_FILE} << 'EOF'
+          cat > ${CHANGELOG_FILE} << EOF
           # ThemisDB WordPress Theme - ${VERSION}
           
           ## Installation

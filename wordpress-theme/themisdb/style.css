@@ -305,7 +305,7 @@ a:focus {
     gap: 0.25rem;
     margin-top: 0;
     border: 1px solid var(--border-light);
-    /* Add a small invisible bridge area to prevent dropdown from closing */
+    /* Extra padding for visual spacing (invisible bridge created by ::before) */
     padding-top: 1rem;
 }
 

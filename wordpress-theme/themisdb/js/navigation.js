@@ -29,7 +29,8 @@
                 item.addEventListener('mouseleave', function() {
                     clearTimeout(dropdownTimeout);
                     dropdownTimeout = setTimeout(function() {
-                        // The CSS will handle hiding via :hover, this is just for cleanup
+                        // CSS :hover handles the actual hiding - this timeout just prevents
+                        // immediate closing if user briefly moves mouse off the menu
                     }, 100);
                 });
 
