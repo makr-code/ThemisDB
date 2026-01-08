@@ -1,0 +1,30 @@
+{
+  "port": 18765,
+  "http_port": 8080,
+  "data_dir": "/var/lib/themisdb",
+  "edition": "HYPERSCALER",
+  "role": "raid_controller",
+  "log_level": "info",
+  "metrics": {
+    "enabled": true,
+    "port": 4318,
+    "prometheus_export": true
+  },
+  "raid": {
+    "enabled": true,
+    "controller_mode": true,
+    "heartbeat_interval_ms": 1000,
+    "sync_interval_ms": 5000,
+    "failure_detection_timeout_ms": 10000
+  },
+  "storage": {
+    "max_memory_mb": 2048,
+    "cache_size_mb": 512,
+    "flush_interval_ms": 5000
+  },
+  "network": {
+    "max_connections": 1000,
+    "connection_timeout_ms": 30000,
+    "keepalive_interval_ms": 10000
+  }
+}

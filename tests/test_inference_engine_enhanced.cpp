@@ -551,9 +551,3 @@ TEST_F(InferenceEngineEnhancedTest, ModelManagement) {
     
     spdlog::info("Model management test completed");
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    spdlog::set_level(spdlog::level::info);
-    return RUN_ALL_TESTS();
-}
