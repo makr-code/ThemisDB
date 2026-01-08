@@ -157,11 +157,19 @@ function themisdb_widgets_init() {
 add_action( 'widgets_init', 'themisdb_widgets_init' );
 
 /**
+ * Load custom widgets
+ */
+require get_template_directory() . '/inc/widgets.php';
+
+/**
  * Enqueue scripts and styles
  */
 function themisdb_scripts() {
     // Main stylesheet
     wp_enqueue_style( 'themisdb-style', get_stylesheet_uri(), array(), '1.0.0' );
+
+    // Widgets stylesheet
+    wp_enqueue_style( 'themisdb-widgets', get_template_directory_uri() . '/css/widgets.css', array( 'themisdb-style' ), '1.0.0' );
 
     // Theme JavaScript
     wp_enqueue_script( 'themisdb-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '1.0.0', true );
@@ -171,6 +179,12 @@ function themisdb_scripts() {
 
     // Modern enhancements (animations, lazy loading, etc.)
     wp_enqueue_script( 'themisdb-enhancements', get_template_directory_uri() . '/js/enhancements.js', array(), '1.0.0', true );
+
+    // Featured Slider
+    wp_enqueue_script( 'themisdb-slider', get_template_directory_uri() . '/js/slider.js', array(), '1.0.0', true );
+
+    // Carousel widgets (testimonials, images, timeline)
+    wp_enqueue_script( 'themisdb-carousel', get_template_directory_uri() . '/js/carousel.js', array(), '1.0.0', true );
 
     // Comment reply script
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
