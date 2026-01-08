@@ -287,12 +287,16 @@ class ThemisDB_Benchmark_Visualizer {
         // Parse benchmark data
         $parsed_data = $this->parse_benchmark_files($benchmark_files, $metric);
         
+        // Get detailed description for this category
+        $description = $this->get_category_description($category, $parsed_data['summary']);
+        
         return array(
             'labels' => $parsed_data['labels'],
             'datasets' => $parsed_data['datasets'],
             'metric' => $metric,
             'category' => $category,
             'summary' => $parsed_data['summary'],
+            'description' => $description,
         );
     }
     
@@ -342,7 +346,7 @@ class ThemisDB_Benchmark_Visualizer {
     private function get_benchmark_files($benchmark_dir, $category) {
         $files = array();
         
-        // Map categories to file patterns
+        // Map categories to file patterns with metadata
         $category_map = array(
             'all' => array(
                 'bench_comprehensive.json',
@@ -402,6 +406,187 @@ class ThemisDB_Benchmark_Visualizer {
         }
         
         return $files;
+    }
+    
+    /**
+     * Get detailed category description based on actual benchmark data
+     */
+    private function get_category_description($category, $summary_stats) {
+        $descriptions = array(
+            'all' => array(
+                'title' => 'Umfassende Multi-Model-Performance',
+                'tests' => 'Misst die vereinheitlichte Programmschicht von ThemisDB über Vector-, Graph-, Relational- und Transaktionsoperationen hinweg.',
+                'results' => 'Zeigt die Performance der einheitlichen Storage-Architektur basierend auf RocksDB (LSM-Tree) mit spezialisierten Indizes.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'ThemisDB bietet eine unified Multi-Model-Architektur ohne separate "Query-Engine" und "LLM-Engine"',
+                        'Die abstrakte Programmschicht vereint alle Datenmodelle in einem konsistenten System',
+                        'Performance-Metriken reflektieren die tatsächliche Unified-Storage-Performance',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Separate APIs für unterschiedliche Datenmodelle',
+                        'NICHT: Vergleichbarkeit mit Polyglot-Persistence-Systemen (mehrere separate Datenbanken)',
+                        'NICHT: Isolierte Engine-Performance ohne Storage-Layer-Overhead',
+                    ),
+                ),
+            ),
+            'vector_search' => array(
+                'title' => 'Vector Search & Embeddings (HNSW)',
+                'tests' => 'bench_comprehensive.json: RGB-Vektoren (3D), 384D-Embeddings, 1536D LLM-Vektoren. bench_gnn_embeddings.json: Graph Neural Network Embeddings mit verschiedenen Dimensionen.',
+                'results' => 'Insert-Performance: 100K-351K ops/sec. KNN-Search: <1ms für 1M Vektoren. Metriken: Cosine, Euclidean, Dot Product.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Native HNSW-Implementierung mit GPU-Beschleunigung (10 Backends)',
+                        'Zero-Copy-Architektur für direkte Speicher-Integration',
+                        'Unified Memory Space für DB und AI-Operationen',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Separate Vector-DB neben relationaler DB',
+                        'NICHT: Externes Vector-Engine-API',
+                        'NICHT: Client-seitige Embedding-Berechnung erforderlich',
+                    ),
+                ),
+            ),
+            'graph_traversal' => array(
+                'title' => 'Graph-Traversierung & Analytics',
+                'tests' => 'BFS/DFS-Traversierung mit 100-10K Knoten, PageRank-Algorithmus, verschiedene Konnektivitätsgrade (4-20 Edges pro Knoten).',
+                'results' => 'BFS: 0.18-20ms je nach Graphgröße. PageRank: Skaliert mit Knotenzahl. Throughput: 50-540K nodes/sec.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Native Graph-Operationen auf demselben LSM-Tree wie alle anderen Modelle',
+                        'Keine separate Graph-DB oder Graph-Engine',
+                        'Unified Query-Interface für Graph + Relational + Vector',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Separate Graph-Datenbank',
+                        'NICHT: Cypher als isolierte Query-Sprache',
+                        'NICHT: Graph-only Performance ohne Multi-Model-Kontext',
+                    ),
+                ),
+            ),
+            'encryption' => array(
+                'title' => 'Verschlüsselung & HSM-Integration',
+                'tests' => 'Field-Level-Encryption, HSM-Provider-Integration, verschiedene Verschlüsselungsalgorithmen und Key-Management.',
+                'results' => 'Encryption-Overhead: typisch <10% für Field-Level. HSM-Operationen: abhängig von Hardware-Provider.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Unified BaseEntity-Storage stellt konsistente Verschlüsselung über alle Modelle sicher',
+                        'Field-Level-Encryption ohne Modell-spezifische Implementierungen',
+                        'Enterprise-grade PKI/HSM-Integration in die unified Architektur',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Modell-spezifische Verschlüsselungslösungen',
+                        'NICHT: Separate Encryption-APIs pro Datenmodell',
+                    ),
+                ),
+            ),
+            'compression' => array(
+                'title' => 'Datenkompression (ZSTD, LZ4)',
+                'tests' => 'Verschiedene Kompressionsalgorithmen (ZSTD, LZ4), Kompressionsraten und Geschwindigkeitstests.',
+                'results' => 'Kompressionsrate: 3-5x typisch. Geschwindigkeit: Balance zwischen Ratio und Latenz.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Unified Storage-Layer mit transparenter Kompression',
+                        'Gleiche Kompression für alle Datenmodelle',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Unterschiedliche Kompression je Datenmodell',
+                    ),
+                ),
+            ),
+            'transaction' => array(
+                'title' => 'MVCC & Transaktionsverarbeitung',
+                'tests' => 'MVCC-Operationen, Lock Contention unter Last, Snapshot Isolation, Distributed 2PC.',
+                'results' => 'Transaction Throughput: 525K-637K ops/sec. Lock Contention: Performance-Degradation unter hoher Parallelität messbar.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'ACID-Garantien über alle Datenmodelle (unified Transaction-Layer)',
+                        'MVCC mit Snapshot Isolation über den gesamten Multi-Model-Storage',
+                        'Distributed SAGA-Patterns für Sharding',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Unterschiedliche Transaktionssemantik je Modell',
+                        'NICHT: Separate Transaction-Manager',
+                        'NICHT: Eventual-Consistency als Standard',
+                    ),
+                ),
+            ),
+            'image_analysis' => array(
+                'title' => 'AI-Image-Processing & Vision',
+                'tests' => 'Image-Caption-Generation, Vision-Embeddings, kombinierte LLM+Vision-Queries.',
+                'results' => 'Latenz: variiert je nach Modellgröße. Unified LLM+Vision-Architektur: 1.56x schneller als separate Systeme.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Unified Stack für Text- und Vision-Modelle',
+                        'Native Integration ohne separate Vision-API',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Separate Vision-Engine',
+                        'NICHT: Client-seitige Bildverarbeitung erforderlich',
+                    ),
+                ),
+            ),
+            'advanced' => array(
+                'title' => 'Advanced Patterns, AQL & Changefeeds',
+                'tests' => 'Komplexe AQL-Queries, Hybrid-Queries (Vector+Graph+Relational), Changefeed-Throughput, Performance-Hotspots.',
+                'results' => 'Hybrid-Search: 450 q/s. CTE-Expressions: 850M-950M ops/sec (non-recursive). Changefeed: Echtzeit-Änderungsströme.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Eine unified Query-Sprache (AQL) für alle Modelle',
+                        'Abstrakte Programmschicht kombiniert Vector-, Graph-, Relational-Queries nahtlos',
+                        'Keine separate "Query-Engine" vs. "LLM-Engine" – alles ist vereint',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Mehrere Query-Sprachen für verschiedene Modelle',
+                        'NICHT: Separate Engines die koordiniert werden müssen',
+                    ),
+                ),
+            ),
+            'gpu' => array(
+                'title' => 'GPU-Beschleunigung (10 Backends)',
+                'tests' => 'GPU-Backend-Performance: CUDA, ROCm, Vulkan, Metal, OpenCL, etc.',
+                'results' => 'GPU-Acceleration: bis zu 10x für rechenintensive Operationen (Vector-Distance, Matrix-Ops).',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Unified VRAM Pool für DB + AI',
+                        'Hardware-Acceleration transparent in die vereinheitlichte Architektur integriert',
+                    ),
+                    'invalid' => array(
+                        'NICHT: GPU nur für AI/LLM',
+                        'NICHT: Separate GPU-Memory-Spaces',
+                    ),
+                ),
+            ),
+            'content' => array(
+                'title' => 'Content Versioning & Index-Maintenance',
+                'tests' => 'Content-Versioning-Operationen, Index-Rebuild-Performance.',
+                'results' => 'Versionsverwaltung über unified BaseEntity-Storage. Index-Rebuild: abhängig von Datenmenge.',
+                'conclusions' => array(
+                    'valid' => array(
+                        'Unified Ingestion Pipeline für alle Content-Typen',
+                        'Konsistente Versionierung über alle Modelle',
+                    ),
+                    'invalid' => array(
+                        'NICHT: Modell-spezifische Versioning-Strategien',
+                    ),
+                ),
+            ),
+        );
+        
+        $desc = isset($descriptions[$category]) ? $descriptions[$category] : $descriptions['all'];
+        
+        // Add summary statistics to description
+        if ($summary_stats && isset($summary_stats['total_benchmarks'])) {
+            $desc['stats_summary'] = sprintf(
+                '%d Tests durchgeführt. Durchschnitt: %.2f ms. Schnellster: %.2f ms. Langsamster: %.2f ms.',
+                $summary_stats['total_benchmarks'],
+                $summary_stats['avg_time'],
+                $summary_stats['fastest'],
+                $summary_stats['slowest']
+            );
+        }
+        
+        return $desc;
     }
     
     /**

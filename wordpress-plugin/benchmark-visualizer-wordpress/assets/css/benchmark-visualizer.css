@@ -302,6 +302,7 @@
     background: var(--themisdb-light-bg);
     border-left: 4px solid var(--themisdb-primary);
     border-radius: 4px;
+    margin-bottom: 16px;
 }
 
 .themisdb-insight-card h4 {
@@ -311,21 +312,47 @@
 }
 
 .themisdb-insight-card p {
-    margin: 0;
+    margin: 0 0 8px 0;
     font-size: 0.9rem;
     color: var(--themisdb-text-secondary);
+    line-height: 1.6;
+}
+
+.themisdb-insight-card p:last-child {
+    margin-bottom: 0;
+}
+
+.themisdb-insight-card ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.themisdb-insight-card li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: var(--themisdb-text-secondary);
+    line-height: 1.5;
+}
+
+.themisdb-insight-card strong {
+    color: var(--themisdb-text-primary);
+    font-weight: 600;
 }
 
 .themisdb-insight-card.success {
     border-left-color: var(--themisdb-success);
+    background: rgba(39, 174, 96, 0.05);
 }
 
 .themisdb-insight-card.warning {
     border-left-color: var(--themisdb-warning);
+    background: rgba(243, 156, 18, 0.05);
 }
 
 .themisdb-insight-card.info {
     border-left-color: var(--themisdb-secondary);
+    background: rgba(52, 152, 219, 0.05);
 }
 
 /* Export Section */

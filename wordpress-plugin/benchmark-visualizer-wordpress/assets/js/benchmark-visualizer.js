@@ -346,64 +346,95 @@
             const $insightsContainer = $('#bv-insights');
             const metric = $('#bv-metric-filter').val() || 'latency';
             const category = $('#bv-category-filter').val() || 'all';
+            const description = this.currentData.description;
 
             // Generate insights HTML
             let html = '';
 
-            // Summary insight
-            if (this.currentData.summary) {
-                const summary = this.currentData.summary;
-                
-                html += '<div class="themisdb-insight-card success">';
-                html += '<h4>📊 Benchmark Summary</h4>';
-                html += '<p><strong>' + summary.total_benchmarks + ' benchmarks</strong> were executed in the ';
-                html += '<strong>' + this.getCategoryName(category) + '</strong> category. ';
-                
-                if (metric === 'latency') {
-                    html += 'Average latency: <strong>' + summary.avg_time.toFixed(2) + ' ms</strong>. ';
-                    html += 'Best performance: <strong>' + summary.fastest.toFixed(2) + ' ms</strong>.';
-                } else if (metric === 'throughput') {
-                    html += 'Average throughput: <strong>' + summary.avg_time.toFixed(0) + ' ops/sec</strong>. ';
-                    html += 'Peak throughput: <strong>' + summary.slowest.toFixed(0) + ' ops/sec</strong>.';
-                } else {
-                    html += 'Average value: <strong>' + summary.avg_time.toFixed(2) + '</strong>.';
-                }
-                html += '</p></div>';
-            }
-
-            // Performance range insight
-            if (this.currentData.summary && this.currentData.summary.fastest && this.currentData.summary.slowest) {
-                const range = this.currentData.summary.slowest - this.currentData.summary.fastest;
-                const rangePercent = (range / this.currentData.summary.avg_time * 100).toFixed(1);
-                
+            // Category-specific detailed description
+            if (description) {
                 html += '<div class="themisdb-insight-card info">';
-                html += '<h4>📈 Performance Variance</h4>';
-                html += '<p>Performance varies by <strong>' + rangePercent + '%</strong> across different operations. ';
-                
-                if (metric === 'latency') {
-                    if (parseFloat(rangePercent) < 50) {
-                        html += 'ThemisDB shows <strong>consistent low-latency</strong> performance.';
-                    } else {
-                        html += 'Some operations are more complex and require more time.';
-                    }
-                } else {
-                    html += 'Different operations have different throughput characteristics.';
+                html += '<h4>📊 ' + description.title + '</h4>';
+                html += '<p><strong>Getestete Operationen:</strong> ' + description.tests + '</p>';
+                html += '<p><strong>Ergebnisse:</strong> ' + description.results + '</p>';
+                if (description.stats_summary) {
+                    html += '<p><strong>Statistik:</strong> ' + description.stats_summary + '</p>';
                 }
-                html += '</p></div>';
-            }
+                html += '</div>';
+                
+                // Valid conclusions
+                if (description.conclusions && description.conclusions.valid) {
+                    html += '<div class="themisdb-insight-card success">';
+                    html += '<h4>✅ Gültige Schlussfolgerungen</h4>';
+                    html += '<ul>';
+                    description.conclusions.valid.forEach(function(conclusion) {
+                        html += '<li>' + conclusion + '</li>';
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                }
+                
+                // Invalid conclusions
+                if (description.conclusions && description.conclusions.invalid) {
+                    html += '<div class="themisdb-insight-card warning">';
+                    html += '<h4>⚠️ Ungültige Schlussfolgerungen</h4>';
+                    html += '<ul>';
+                    description.conclusions.invalid.forEach(function(conclusion) {
+                        html += '<li>' + conclusion + '</li>';
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                }
+            } else {
+                // Fallback to summary insight if no description available
+                if (this.currentData.summary) {
+                    const summary = this.currentData.summary;
+                    
+                    html += '<div class="themisdb-insight-card success">';
+                    html += '<h4>📊 Benchmark Summary</h4>';
+                    html += '<p><strong>' + summary.total_benchmarks + ' benchmarks</strong> were executed in the ';
+                    html += '<strong>' + this.getCategoryName(category) + '</strong> category. ';
+                    
+                    if (metric === 'latency') {
+                        html += 'Average latency: <strong>' + summary.avg_time.toFixed(2) + ' ms</strong>. ';
+                        html += 'Best performance: <strong>' + summary.fastest.toFixed(2) + ' ms</strong>.';
+                    } else if (metric === 'throughput') {
+                        html += 'Average throughput: <strong>' + summary.avg_time.toFixed(0) + ' ops/sec</strong>. ';
+                        html += 'Peak throughput: <strong>' + summary.slowest.toFixed(0) + ' ops/sec</strong>.';
+                    } else {
+                        html += 'Average value: <strong>' + summary.avg_time.toFixed(2) + '</strong>.';
+                    }
+                    html += '</p></div>';
+                }
 
-            // Category-specific insights
-            const categoryInsights = this.getCategoryInsight(category, metric);
-            if (categoryInsights) {
-                html += categoryInsights;
-            }
+                // Performance range insight
+                if (this.currentData.summary && this.currentData.summary.fastest && this.currentData.summary.slowest) {
+                    const range = this.currentData.summary.slowest - this.currentData.summary.fastest;
+                    const rangePercent = (range / this.currentData.summary.avg_time * 100).toFixed(1);
+                    
+                    html += '<div class="themisdb-insight-card info">';
+                    html += '<h4>📈 Performance Variance</h4>';
+                    html += '<p>Performance varies by <strong>' + rangePercent + '%</strong> across different operations. ';
+                    
+                    if (metric === 'latency') {
+                        if (parseFloat(rangePercent) < 50) {
+                            html += 'ThemisDB shows <strong>consistent low-latency</strong> performance.';
+                        } else {
+                            html += 'Some operations are more complex and require more time.';
+                        }
+                    } else {
+                        html += 'Different operations have different throughput characteristics.';
+                    }
+                    html += '</p></div>';
+                }
 
-            // Key takeaway
-            html += '<div class="themisdb-insight-card warning">';
-            html += '<h4>💡 Key Takeaway</h4>';
-            html += '<p>These benchmarks show real-world performance on actual hardware. ';
-            html += 'Results may vary based on your specific hardware configuration, workload patterns, and data size. ';
-            html += 'Use these as a reference for understanding ThemisDB\'s performance characteristics.</p></div>';
+                // Key takeaway
+                html += '<div class="themisdb-insight-card warning">';
+                html += '<h4>💡 Key Takeaway</h4>';
+                html += '<p>These benchmarks show real-world performance on actual hardware. ';
+                html += 'Results may vary based on your specific hardware configuration, workload patterns, and data size. ';
+                html += 'Use these as a reference for understanding ThemisDB\'s performance characteristics.</p></div>';
+            }
 
             $insightsContainer.html(html);
         },
