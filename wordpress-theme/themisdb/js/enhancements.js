@@ -420,3 +420,53 @@
     }
 
 })();
+
+/**
+ * Copy URL to clipboard function for social share
+ */
+function themisdbCopyUrl(button) {
+    const url = button.getAttribute('data-url');
+    
+    if (navigator.clipboard && window.isSecureContext) {
+        // Modern async clipboard API
+        navigator.clipboard.writeText(url).then(() => {
+            showCopySuccess(button);
+        }).catch(() => {
+            fallbackCopyUrl(url, button);
+        });
+    } else {
+        // Fallback for older browsers
+        fallbackCopyUrl(url, button);
+    }
+}
+
+function fallbackCopyUrl(url, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = url;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopySuccess(button);
+    } catch (err) {
+        console.error('Failed to copy URL:', err);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+function showCopySuccess(button) {
+    const originalText = button.innerHTML;
+    button.innerHTML = '✅ ' + (button.getAttribute('data-copied-text') || 'Copied!');
+    button.classList.add('copied');
+    
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.classList.remove('copied');
+    }, 2000);
+}

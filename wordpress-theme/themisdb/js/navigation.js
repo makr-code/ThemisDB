@@ -87,4 +87,31 @@
         });
     });
 
+    // Hamburger menu toggle
+    const hamburgerButton = document.querySelector('.hamburger-menu-button');
+    const hamburgerDropdown = document.querySelector('.hamburger-dropdown');
+
+    if (hamburgerButton && hamburgerDropdown) {
+        hamburgerButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const expanded = hamburgerButton.getAttribute('aria-expanded') === 'true';
+            hamburgerButton.setAttribute('aria-expanded', !expanded);
+        });
+
+        // Close hamburger menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.hamburger-menu-item')) {
+                hamburgerButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && hamburgerButton.getAttribute('aria-expanded') === 'true') {
+                hamburgerButton.setAttribute('aria-expanded', 'false');
+                hamburgerButton.focus();
+            }
+        });
+    }
+
 })();

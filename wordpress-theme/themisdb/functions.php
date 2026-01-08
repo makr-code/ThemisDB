@@ -33,8 +33,9 @@ function themisdb_setup() {
 
     // Register navigation menus
     register_nav_menus( array(
-        'primary' => esc_html__( 'Primary Menu', 'themisdb' ),
-        'footer'  => esc_html__( 'Footer Menu', 'themisdb' ),
+        'primary'   => esc_html__( 'Primary Menu', 'themisdb' ),
+        'footer'    => esc_html__( 'Footer Menu', 'themisdb' ),
+        'hamburger' => esc_html__( 'Hamburger Menu', 'themisdb' ),
     ) );
 
     // Switch default core markup to output valid HTML5
@@ -544,3 +545,171 @@ function themisdb_custom_colors_css() {
     wp_add_inline_style( 'themisdb-style', $css );
 }
 add_action( 'wp_enqueue_scripts', 'themisdb_custom_colors_css' );
+
+/**
+ * Breadcrumb Navigation
+ * Display hierarchical navigation path
+ */
+function themisdb_breadcrumbs() {
+    // Don't display on homepage
+    if ( is_front_page() ) {
+        return;
+    }
+
+    $separator = ' 🔸 ';
+    $home_title = '🏠 ' . esc_html__( 'Home', 'themisdb' );
+
+    echo '<nav class="breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'themisdb' ) . '">';
+    echo '<ol class="breadcrumb-list">';
+
+    // Home link
+    echo '<li class="breadcrumb-item"><a href="' . esc_url( home_url( '/' ) ) . '">' . $home_title . '</a></li>';
+
+    if ( is_category() || is_single() ) {
+        $categories = get_the_category();
+        if ( ! empty( $categories ) ) {
+            $category = $categories[0];
+            if ( $category->parent ) {
+                $parent_cats = array();
+                $current_cat = $category;
+                while ( $current_cat->parent ) {
+                    $current_cat = get_category( $current_cat->parent );
+                    $parent_cats[] = $current_cat;
+                }
+                $parent_cats = array_reverse( $parent_cats );
+                foreach ( $parent_cats as $parent_cat ) {
+                    echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_category_link( $parent_cat->term_id ) ) . '">📁 ' . esc_html( $parent_cat->name ) . '</a></li>';
+                }
+            }
+            echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">📁 ' . esc_html( $category->name ) . '</a></li>';
+        }
+
+        if ( is_single() ) {
+            echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '📝 ' . esc_html( get_the_title() ) . '</li>';
+        }
+    } elseif ( is_page() ) {
+        if ( $post = get_post() ) {
+            if ( $post->post_parent ) {
+                $parent_id  = $post->post_parent;
+                $breadcrumbs = array();
+                while ( $parent_id ) {
+                    $page = get_post( $parent_id );
+                    $breadcrumbs[] = '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_permalink( $page->ID ) ) . '">📄 ' . esc_html( get_the_title( $page->ID ) ) . '</a></li>';
+                    $parent_id = $page->post_parent;
+                }
+                $breadcrumbs = array_reverse( $breadcrumbs );
+                foreach ( $breadcrumbs as $crumb ) {
+                    echo $crumb;
+                }
+            }
+            echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '📄 ' . esc_html( get_the_title() ) . '</li>';
+        }
+    } elseif ( is_tag() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '🏷️ ' . esc_html( single_tag_title( '', false ) ) . '</li>';
+    } elseif ( is_author() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '👤 ' . esc_html( get_the_author() ) . '</li>';
+    } elseif ( is_day() ) {
+        echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_year_link( get_the_time( 'Y' ) ) ) . '">📅 ' . esc_html( get_the_time( 'Y' ) ) . '</a></li>';
+        echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_month_link( get_the_time( 'Y' ), get_the_time( 'm' ) ) ) . '">' . esc_html( get_the_time( 'F' ) ) . '</a></li>';
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . esc_html( get_the_time( 'd' ) ) . '</li>';
+    } elseif ( is_month() ) {
+        echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_year_link( get_the_time( 'Y' ) ) ) . '">📅 ' . esc_html( get_the_time( 'Y' ) ) . '</a></li>';
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . esc_html( get_the_time( 'F' ) ) . '</li>';
+    } elseif ( is_year() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '📅 ' . esc_html( get_the_time( 'Y' ) ) . '</li>';
+    } elseif ( is_search() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '🔍 ' . esc_html__( 'Search Results', 'themisdb' ) . '</li>';
+    } elseif ( is_404() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '❌ ' . esc_html__( '404 Error', 'themisdb' ) . '</li>';
+    }
+
+    echo '</ol>';
+    echo '</nav>';
+}
+
+/**
+ * Social Share Buttons
+ * Display social sharing options for posts
+ */
+function themisdb_social_share_buttons() {
+    if ( ! is_single() ) {
+        return;
+    }
+
+    $post_url = urlencode( get_permalink() );
+    $post_title = urlencode( get_the_title() );
+    
+    ?>
+    <div class="social-share">
+        <h3 class="social-share-title">🔗 <?php esc_html_e( 'Share this post:', 'themisdb' ); ?></h3>
+        <div class="social-share-buttons">
+            <a href="https://twitter.com/intent/tweet?url=<?php echo $post_url; ?>&text=<?php echo $post_title; ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="share-button share-twitter"
+               aria-label="<?php esc_attr_e( 'Share on Twitter', 'themisdb' ); ?>">
+                🐦 Twitter
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $post_url; ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="share-button share-facebook"
+               aria-label="<?php esc_attr_e( 'Share on Facebook', 'themisdb' ); ?>">
+                📘 Facebook
+            </a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $post_url; ?>&title=<?php echo $post_title; ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="share-button share-linkedin"
+               aria-label="<?php esc_attr_e( 'Share on LinkedIn', 'themisdb' ); ?>">
+                💼 LinkedIn
+            </a>
+            <a href="mailto:?subject=<?php echo $post_title; ?>&body=<?php echo $post_url; ?>" 
+               class="share-button share-email"
+               aria-label="<?php esc_attr_e( 'Share via Email', 'themisdb' ); ?>">
+                ✉️ Email
+            </a>
+            <button class="share-button share-copy" 
+                    data-url="<?php echo esc_url( get_permalink() ); ?>"
+                    onclick="themisdbCopyUrl(this)"
+                    aria-label="<?php esc_attr_e( 'Copy link', 'themisdb' ); ?>">
+                📋 <?php esc_html_e( 'Copy Link', 'themisdb' ); ?>
+            </button>
+        </div>
+    </div>
+    <?php
+}
+
+/**
+ * Estimated Reading Time
+ * Calculate and display reading time for posts
+ */
+function themisdb_reading_time() {
+    $content = get_post_field( 'post_content', get_the_ID() );
+    $word_count = str_word_count( strip_tags( $content ) );
+    $reading_time = ceil( $word_count / 200 ); // Average reading speed: 200 words per minute
+
+    if ( $reading_time > 0 ) {
+        printf(
+            '<span class="reading-time">⏱️ %s</span>',
+            sprintf(
+                _n( '%d minute read', '%d minutes read', $reading_time, 'themisdb' ),
+                $reading_time
+            )
+        );
+    }
+}
+
+/**
+ * Hamburger Menu Fallback
+ * Display default items when no menu is assigned
+ */
+function themisdb_hamburger_menu_fallback() {
+    ?>
+    <ul id="hamburger-menu" class="menu">
+        <li><a href="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>">⚙️ <?php esc_html_e( 'Settings', 'themisdb' ); ?></a></li>
+        <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">ℹ️ <?php esc_html_e( 'About', 'themisdb' ); ?></a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">📧 <?php esc_html_e( 'Contact', 'themisdb' ); ?></a></li>
+    </ul>
+    <?php
+}
