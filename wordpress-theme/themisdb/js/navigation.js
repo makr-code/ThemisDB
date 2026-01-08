@@ -19,6 +19,27 @@
     // Add dropdown toggle for mobile
     const menuItemsWithChildren = document.querySelectorAll('.main-navigation .menu-item-has-children');
     
+    // Desktop dropdown delay to prevent accidental closing
+    let dropdownTimeout;
+    if (window.innerWidth > 768) {
+        menuItemsWithChildren.forEach(function(item) {
+            const submenu = item.querySelector('ul');
+            if (submenu) {
+                // Add a slight delay when mouse leaves to prevent accidental closing
+                item.addEventListener('mouseleave', function() {
+                    clearTimeout(dropdownTimeout);
+                    dropdownTimeout = setTimeout(function() {
+                        // The CSS will handle hiding via :hover, this is just for cleanup
+                    }, 100);
+                });
+
+                item.addEventListener('mouseenter', function() {
+                    clearTimeout(dropdownTimeout);
+                });
+            }
+        });
+    }
+    
     menuItemsWithChildren.forEach(function(item) {
         const link = item.querySelector('a');
         if (link) {

@@ -303,8 +303,21 @@ a:focus {
     display: none;
     flex-direction: column;
     gap: 0.25rem;
-    margin-top: 0.5rem;
+    margin-top: 0;
     border: 1px solid var(--border-light);
+    /* Add a small invisible bridge area to prevent dropdown from closing */
+    padding-top: 1rem;
+}
+
+/* Create invisible bridge between parent and dropdown */
+.main-navigation ul ul::before {
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    left: 0;
+    right: 0;
+    height: 0.5rem;
+    background: transparent;
 }
 
 .main-navigation li:hover > ul,
