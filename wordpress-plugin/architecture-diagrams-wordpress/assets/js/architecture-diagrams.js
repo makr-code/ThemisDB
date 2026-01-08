@@ -208,6 +208,7 @@
                     this.showError('Failed to render diagram: ' + error.message);
                 });
             } else {
+                // Safety check - should not reach here due to waitForMermaid() in init()
                 this.showError('Mermaid library not loaded');
             }
         },

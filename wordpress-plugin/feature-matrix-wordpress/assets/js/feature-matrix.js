@@ -234,7 +234,7 @@
 
             // Render the diagram
             mermaid.run({
-                nodes: [$diagramContainer[0]]
+                nodes: [$diagramContainer.get(0)]
             }).catch((error) => {
                 console.error('Mermaid rendering error:', error);
             });
