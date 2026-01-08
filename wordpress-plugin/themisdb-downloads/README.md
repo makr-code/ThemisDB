@@ -179,6 +179,31 @@ Zeigt die CHANGELOG.md oder RELEASE_NOTES.md Datei der neuesten Version an.
 [themisdb_changelog style="raw"]           # Rohtext-Ansicht
 ```
 
+### Markdown-Unterstützung
+
+README und CHANGELOG Dateien werden automatisch von Markdown nach HTML konvertiert mit voller Unterstützung für:
+
+**Formatierungen:**
+- **Fett**, *kursiv*, ~~durchgestrichen~~
+- `Inline-Code` und Code-Blöcke mit Syntax-Highlighting
+- Links und Bilder
+- Listen (nummeriert und unnummeriert, mit Verschachtelung)
+- Tabellen mit Ausrichtung
+- Blockzitate
+- Überschriften (H1-H6)
+- Horizontale Trennlinien
+
+**Erweiterte Features:**
+- **Mermaid-Diagramme**: Eingebettete Diagramme werden automatisch gerendert
+  ```
+  ```mermaid
+  graph TD
+    A[Start] --> B[Ende]
+  ```
+  ```
+- Sichere HTML-Escaping für XSS-Schutz
+- Responsive Design für alle Geräte
+
 ## Beispiel-Seite
 
 Erstellen Sie eine neue Seite mit folgendem Inhalt:

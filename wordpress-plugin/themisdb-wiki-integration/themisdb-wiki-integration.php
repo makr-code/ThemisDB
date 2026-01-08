@@ -23,6 +23,9 @@ define('THEMISDB_WIKI_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_WIKI_CACHE_GROUP', 'themisdb_wiki');
 define('THEMISDB_WIKI_CACHE_EXPIRATION', 3600); // 1 hour
 
+// Include markdown converter
+require_once THEMISDB_WIKI_PLUGIN_DIR . 'includes/class-markdown-converter.php';
+
 /**
  * Main Plugin Class
  */
@@ -142,10 +145,19 @@ class ThemisDB_Wiki_Integration {
                 THEMISDB_WIKI_VERSION
             );
             
+            // Enqueue Mermaid.js for diagram rendering
+            wp_enqueue_script(
+                'mermaid-js',
+                'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js',
+                array(),
+                '10.0.0',
+                true
+            );
+            
             wp_enqueue_script(
                 'themisdb-wiki-script',
                 THEMISDB_WIKI_PLUGIN_URL . 'assets/js/wiki-integration.js',
-                array('jquery'),
+                array('jquery', 'mermaid-js'),
                 THEMISDB_WIKI_VERSION,
                 true
             );
@@ -226,85 +238,10 @@ class ThemisDB_Wiki_Integration {
     }
     
     /**
-     * Convert Markdown to HTML
+     * Convert Markdown to HTML using shared converter
      */
     private function markdown_to_html($markdown) {
-        // Basic Markdown conversion with XSS protection
-        // For production, consider using a library like Parsedown
-        
-        // Sanitize input first
-        $markdown = wp_kses_post($markdown);
-        
-        $html = $markdown;
-        
-        // Headers
-        $html = preg_replace('/^### (.*?)$/m', '<h3>$1</h3>', $html);
-        $html = preg_replace('/^## (.*?)$/m', '<h2>$1</h2>', $html);
-        $html = preg_replace('/^# (.*?)$/m', '<h1>$1</h1>', $html);
-        
-        // Bold and Italic
-        $html = preg_replace('/\*\*\*(.*?)\*\*\*/s', '<strong><em>$1</em></strong>', $html);
-        $html = preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $html);
-        $html = preg_replace('/\*(.*?)\*/s', '<em>$1</em>', $html);
-        
-        // Links (with URL validation)
-        $html = preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function($matches) {
-            $text = esc_html($matches[1]);
-            $url = esc_url($matches[2]);
-            return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $text . '</a>';
-        }, $html);
-        
-        // Code blocks
-        $html = preg_replace_callback('/```(.*?)```/s', function($matches) {
-            return '<pre><code>' . esc_html($matches[1]) . '</code></pre>';
-        }, $html);
-        $html = preg_replace_callback('/`(.*?)`/', function($matches) {
-            return '<code>' . esc_html($matches[1]) . '</code>';
-        }, $html);
-        
-        // Lists - improved to handle multiple lists correctly
-        $lines = explode("\n", $html);
-        $in_list = false;
-        $result = array();
-        
-        foreach ($lines as $line) {
-            if (preg_match('/^[\*\-] (.*)$/', $line, $matches)) {
-                if (!$in_list) {
-                    $result[] = '<ul>';
-                    $in_list = true;
-                }
-                $result[] = '<li>' . $matches[1] . '</li>';
-            } else {
-                if ($in_list) {
-                    $result[] = '</ul>';
-                    $in_list = false;
-                }
-                $result[] = $line;
-            }
-        }
-        
-        if ($in_list) {
-            $result[] = '</ul>';
-        }
-        
-        $html = implode("\n", $result);
-        
-        // Paragraphs
-        $html = preg_replace('/\n\n/', '</p><p>', $html);
-        $html = '<p>' . $html . '</p>';
-        
-        // Final sanitization
-        $allowed_html = array(
-            'h1' => array(), 'h2' => array(), 'h3' => array(),
-            'p' => array(), 'br' => array(),
-            'strong' => array(), 'em' => array(),
-            'ul' => array(), 'ol' => array(), 'li' => array(),
-            'a' => array('href' => array(), 'target' => array(), 'rel' => array()),
-            'code' => array(), 'pre' => array(),
-            'blockquote' => array()
-        );
-        
-        return wp_kses($html, $allowed_html);
+        return ThemisDB_Markdown_Converter::convert($markdown);
     }
     
     /**
