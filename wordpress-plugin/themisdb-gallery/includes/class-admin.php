@@ -397,7 +397,11 @@ class ThemisDB_Gallery_Admin {
             'insertImage' => __('Bild einfügen', 'themisdb-gallery'),
             'downloading' => __('Lade herunter...', 'themisdb-gallery'),
             'error' => __('Fehler beim Laden', 'themisdb-gallery'),
-            'imported' => __('Importiert', 'themisdb-gallery')
+            'imported' => __('Importiert', 'themisdb-gallery'),
+            'searchBtn' => __('Suchen', 'themisdb-gallery'),
+            'generatingAI' => __('Generiere...', 'themisdb-gallery'),
+            'generateAIBtn' => __('AI Generieren', 'themisdb-gallery'),
+            'aiPromptRequired' => __('Bitte geben Sie eine Bildbeschreibung ein', 'themisdb-gallery')
         ));
         
         ?>

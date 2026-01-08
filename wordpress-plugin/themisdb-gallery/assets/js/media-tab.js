@@ -33,7 +33,7 @@
             var prompt = $('#themisdb-gallery-media-ai-prompt').val();
             
             if (!prompt) {
-                alert('Bitte geben Sie eine Bildbeschreibung ein');
+                alert(themisdbGalleryMediaTab.aiPromptRequired);
                 return;
             }
             
@@ -68,7 +68,7 @@
                     provider: provider
                 },
                 success: function(response) {
-                    $btn.prop('disabled', false).text('Suchen');
+                    $btn.prop('disabled', false).text(themisdbGalleryMediaTab.searchBtn);
                     
                     if (response.success && response.data.images) {
                         displayResults(response.data.images);
@@ -77,7 +77,7 @@
                     }
                 },
                 error: function() {
-                    $btn.prop('disabled', false).text('Suchen');
+                    $btn.prop('disabled', false).text(themisdbGalleryMediaTab.searchBtn);
                     $results.html('<div class="themisdb-media-error" style="text-align: center; padding: 40px; color: #a00;">' + themisdbGalleryMediaTab.error + '</div>');
                 }
             });
@@ -90,8 +90,8 @@
             var $results = $('#themisdb-gallery-media-results');
             var $btn = $('#themisdb-gallery-media-ai-btn');
             
-            $btn.prop('disabled', true).text('Generiere...');
-            $results.html('<div class="themisdb-media-loading" style="text-align: center; padding: 40px; color: #666;"><span class="spinner is-active" style="float: none; margin: 0 auto;"></span><br>Bild wird generiert, bitte warten...</div>');
+            $btn.prop('disabled', true).text(themisdbGalleryMediaTab.generatingAI);
+            $results.html('<div class="themisdb-media-loading" style="text-align: center; padding: 40px; color: #666;"><span class="spinner is-active" style="float: none; margin: 0 auto;"></span><br>' + themisdbGalleryMediaTab.generatingAI + '</div>');
             
             $.ajax({
                 url: themisdbGalleryMediaTab.ajaxurl,
@@ -102,7 +102,7 @@
                     prompt: prompt
                 },
                 success: function(response) {
-                    $btn.prop('disabled', false).text('AI Generieren');
+                    $btn.prop('disabled', false).text(themisdbGalleryMediaTab.generateAIBtn);
                     
                     if (response.success && response.data.image) {
                         displayResults([response.data.image]);
@@ -111,7 +111,7 @@
                     }
                 },
                 error: function() {
-                    $btn.prop('disabled', false).text('AI Generieren');
+                    $btn.prop('disabled', false).text(themisdbGalleryMediaTab.generateAIBtn);
                     $results.html('<div class="themisdb-media-error" style="text-align: center; padding: 40px; color: #a00;">' + themisdbGalleryMediaTab.error + '</div>');
                 }
             });
