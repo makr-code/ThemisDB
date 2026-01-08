@@ -218,6 +218,9 @@
             const $tableContainer = $('#bv-results-table');
             const metric = $('#bv-metric-filter').val() || 'latency';
 
+            // Render statistics summary first
+            this.renderStatsSummary();
+
             let html = '<table>';
             html += '<thead><tr>';
             html += '<th>Operation</th>';
@@ -250,6 +253,91 @@
         },
 
         /**
+         * Render statistics summary
+         */
+        renderStatsSummary: function() {
+            if (!this.currentData || !this.currentData.summary) return;
+
+            const $summaryContainer = $('#bv-stats-summary');
+            const summary = this.currentData.summary;
+            const metric = $('#bv-metric-filter').val() || 'latency';
+            
+            let html = '<div class="themisdb-stats-grid">';
+            
+            // Total benchmarks
+            html += '<div class="themisdb-stat-card">';
+            html += '<div class="stat-icon">📊</div>';
+            html += '<div class="stat-value">' + summary.total_benchmarks + '</div>';
+            html += '<div class="stat-label">Total Benchmarks';
+            if (summary.displayed_benchmarks && summary.displayed_benchmarks < summary.total_benchmarks) {
+                html += ' (' + summary.displayed_benchmarks + ' shown)';
+            }
+            html += '</div>';
+            html += '</div>';
+            
+            // Files parsed
+            if (summary.files_parsed) {
+                html += '<div class="themisdb-stat-card">';
+                html += '<div class="stat-icon">📁</div>';
+                html += '<div class="stat-value">' + summary.files_parsed + '</div>';
+                html += '<div class="stat-label">Benchmark Files</div>';
+                html += '</div>';
+            }
+            
+            // Average time
+            if (summary.avg_time) {
+                html += '<div class="themisdb-stat-card">';
+                html += '<div class="stat-icon">⏱️</div>';
+                html += '<div class="stat-value">' + summary.avg_time.toFixed(2) + '</div>';
+                html += '<div class="stat-label">Average ' + (metric === 'latency' ? 'Latency (ms)' : 
+                                                             metric === 'throughput' ? 'Throughput (ops/sec)' : 'Value') + '</div>';
+                html += '</div>';
+            }
+            
+            // Fastest / Best performance
+            if (summary.fastest !== null) {
+                html += '<div class="themisdb-stat-card success">';
+                html += '<div class="stat-icon">🚀</div>';
+                html += '<div class="stat-value">' + summary.fastest.toFixed(2) + '</div>';
+                html += '<div class="stat-label">';
+                if (metric === 'throughput') {
+                    html += 'Lowest Throughput';
+                } else {
+                    html += 'Best Performance';
+                }
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            // Slowest / Worst performance or Peak
+            if (summary.slowest !== null) {
+                html += '<div class="themisdb-stat-card warning">';
+                html += '<div class="stat-icon">🐌</div>';
+                html += '<div class="stat-value">' + summary.slowest.toFixed(2) + '</div>';
+                html += '<div class="stat-label">';
+                if (metric === 'throughput') {
+                    html += 'Peak Throughput';
+                } else {
+                    html += 'Slowest Operation';
+                }
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            
+            // Add note if data is limited
+            if (summary.displayed_benchmarks && summary.displayed_benchmarks < summary.total_benchmarks) {
+                html += '<div class="themisdb-display-note">';
+                html += '<p><small>📝 Showing top ' + summary.displayed_benchmarks + ' best-performing benchmarks out of ' + 
+                        summary.total_benchmarks + ' total for better visualization.</small></p>';
+                html += '</div>';
+            }
+            
+            $summaryContainer.html(html);
+        },
+
+        /**
          * Generate performance insights
          */
         generateInsights: function() {
@@ -257,55 +345,162 @@
 
             const $insightsContainer = $('#bv-insights');
             const metric = $('#bv-metric-filter').val() || 'latency';
-
-            // Calculate averages for each database
-            const averages = this.currentData.datasets.map(function(dataset) {
-                const sum = dataset.data.reduce((a, b) => a + b, 0);
-                return {
-                    label: dataset.label,
-                    average: sum / dataset.data.length,
-                    color: dataset.backgroundColor
-                };
-            });
-
-            // Sort by performance (lower is better for latency, higher for throughput)
-            if (metric === 'latency' || metric === 'memory') {
-                averages.sort((a, b) => a.average - b.average);
-            } else {
-                averages.sort((a, b) => b.average - a.average);
-            }
+            const category = $('#bv-category-filter').val() || 'all';
+            const description = this.currentData.description;
 
             // Generate insights HTML
             let html = '';
 
-            // Best performer
-            html += '<div class="themisdb-insight-card success">';
-            html += '<h4>🏆 Best Performance</h4>';
-            html += '<p><strong>' + averages[0].label + '</strong> shows the best overall performance ';
-            html += 'with an average of ' + averages[0].average.toFixed(2);
-            html += ' ' + (metric === 'latency' ? 'ms' : metric === 'throughput' ? 'ops/sec' : 'MB');
-            html += '</p></div>';
-
-            // ThemisDB specific insight
-            const themisdbData = averages.find(d => d.label === 'ThemisDB');
-            if (themisdbData && themisdbData !== averages[0]) {
-                const comparison = ((Math.abs(averages[0].average - themisdbData.average) / averages[0].average) * 100).toFixed(1);
+            // Category-specific detailed description
+            if (description) {
                 html += '<div class="themisdb-insight-card info">';
-                html += '<h4>ℹ️ ThemisDB Performance</h4>';
-                html += '<p><strong>ThemisDB</strong> is within ' + comparison + '% of the best performing database';
-                html += ' across all operations.</p></div>';
-            } else if (themisdbData === averages[0]) {
-                html += '<div class="themisdb-insight-card success">';
-                html += '<h4>🚀 ThemisDB Leads</h4>';
-                html += '<p><strong>ThemisDB</strong> delivers the best performance across all tested operations!</p></div>';
+                html += '<h4>📊 ' + description.title + '</h4>';
+                html += '<p><strong>Getestete Operationen:</strong> ' + description.tests + '</p>';
+                html += '<p><strong>Ergebnisse:</strong> ' + description.results + '</p>';
+                if (description.stats_summary) {
+                    html += '<p><strong>Statistik:</strong> ' + description.stats_summary + '</p>';
+                }
+                html += '</div>';
+                
+                // Valid conclusions
+                if (description.conclusions && description.conclusions.valid) {
+                    html += '<div class="themisdb-insight-card success">';
+                    html += '<h4>✅ Gültige Schlussfolgerungen</h4>';
+                    html += '<ul>';
+                    description.conclusions.valid.forEach(function(conclusion) {
+                        html += '<li>' + conclusion + '</li>';
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                }
+                
+                // Invalid conclusions
+                if (description.conclusions && description.conclusions.invalid) {
+                    html += '<div class="themisdb-insight-card warning">';
+                    html += '<h4>⚠️ Ungültige Schlussfolgerungen</h4>';
+                    html += '<ul>';
+                    description.conclusions.invalid.forEach(function(conclusion) {
+                        html += '<li>' + conclusion + '</li>';
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                }
+            } else {
+                // Fallback to summary insight if no description available
+                if (this.currentData.summary) {
+                    const summary = this.currentData.summary;
+                    
+                    html += '<div class="themisdb-insight-card success">';
+                    html += '<h4>📊 Benchmark Summary</h4>';
+                    html += '<p><strong>' + summary.total_benchmarks + ' benchmarks</strong> were executed in the ';
+                    html += '<strong>' + this.getCategoryName(category) + '</strong> category. ';
+                    
+                    if (metric === 'latency') {
+                        html += 'Average latency: <strong>' + summary.avg_time.toFixed(2) + ' ms</strong>. ';
+                        html += 'Best performance: <strong>' + summary.fastest.toFixed(2) + ' ms</strong>.';
+                    } else if (metric === 'throughput') {
+                        html += 'Average throughput: <strong>' + summary.avg_time.toFixed(0) + ' ops/sec</strong>. ';
+                        html += 'Peak throughput: <strong>' + summary.slowest.toFixed(0) + ' ops/sec</strong>.';
+                    } else {
+                        html += 'Average value: <strong>' + summary.avg_time.toFixed(2) + '</strong>.';
+                    }
+                    html += '</p></div>';
+                }
+
+                // Performance range insight
+                if (this.currentData.summary && this.currentData.summary.fastest && this.currentData.summary.slowest) {
+                    const range = this.currentData.summary.slowest - this.currentData.summary.fastest;
+                    const rangePercent = (range / this.currentData.summary.avg_time * 100).toFixed(1);
+                    
+                    html += '<div class="themisdb-insight-card info">';
+                    html += '<h4>📈 Performance Variance</h4>';
+                    html += '<p>Performance varies by <strong>' + rangePercent + '%</strong> across different operations. ';
+                    
+                    if (metric === 'latency') {
+                        if (parseFloat(rangePercent) < 50) {
+                            html += 'ThemisDB shows <strong>consistent low-latency</strong> performance.';
+                        } else {
+                            html += 'Some operations are more complex and require more time.';
+                        }
+                    } else {
+                        html += 'Different operations have different throughput characteristics.';
+                    }
+                    html += '</p></div>';
+                }
+
+                // Key takeaway
+                html += '<div class="themisdb-insight-card warning">';
+                html += '<h4>💡 Key Takeaway</h4>';
+                html += '<p>These benchmarks show real-world performance on actual hardware. ';
+                html += 'Results may vary based on your specific hardware configuration, workload patterns, and data size. ';
+                html += 'Use these as a reference for understanding ThemisDB\'s performance characteristics.</p></div>';
             }
 
-            // Additional insight
-            html += '<div class="themisdb-insight-card warning">';
-            html += '<h4>💡 Key Takeaway</h4>';
-            html += '<p>Performance varies by operation type. Consider your specific workload when choosing a database.</p></div>';
-
             $insightsContainer.html(html);
+        },
+
+        /**
+         * Get category display name
+         */
+        getCategoryName: function(category) {
+            const names = {
+                'all': 'All Operations',
+                'vector_search': 'Vector Search & Embeddings',
+                'graph_traversal': 'Graph Traversal & PageRank',
+                'encryption': 'Encryption & HSM',
+                'compression': 'Compression',
+                'transaction': 'MVCC & Transactions',
+                'image_analysis': 'Image Analysis',
+                'advanced': 'Advanced Patterns & AQL',
+                'gpu': 'GPU Backends',
+                'content': 'Content Versioning & Indexing'
+            };
+            return names[category] || category;
+        },
+
+        /**
+         * Get category-specific insights
+         */
+        getCategoryInsight: function(category, metric) {
+            const insights = {
+                'vector_search': '<div class="themisdb-insight-card success"><h4>🎯 Vector Search Performance</h4>' +
+                    '<p>ThemisDB provides <strong>native vector search</strong> capabilities with competitive performance for ' +
+                    'similarity search, embeddings, and nearest-neighbor queries including GNN embeddings.</p></div>',
+                    
+                'graph_traversal': '<div class="themisdb-insight-card success"><h4>🕸️ Graph Processing</h4>' +
+                    '<p>ThemisDB\'s graph traversal algorithms are optimized for <strong>complex relationship queries</strong>, ' +
+                    'BFS/DFS operations, and graph analytics like PageRank with various graph sizes.</p></div>',
+                    
+                'encryption': '<div class="themisdb-insight-card success"><h4>🔒 Security Performance</h4>' +
+                    '<p>Encryption operations show that ThemisDB maintains <strong>strong security</strong> with HSM provider support while ' +
+                    'minimizing performance overhead through optimized cryptographic implementations.</p></div>',
+                    
+                'compression': '<div class="themisdb-insight-card success"><h4>📦 Compression Efficiency</h4>' +
+                    '<p>ThemisDB\'s compression algorithms balance <strong>storage savings</strong> with fast ' +
+                    'compression and decompression speeds for optimal data management.</p></div>',
+                    
+                'transaction': '<div class="themisdb-insight-card success"><h4>💼 ACID Transactions</h4>' +
+                    '<p>MVCC and transaction benchmarks demonstrate ThemisDB\'s <strong>reliable ACID guarantees</strong> ' +
+                    'with efficient concurrency control and minimal lock contention.</p></div>',
+                    
+                'image_analysis': '<div class="themisdb-insight-card success"><h4>🖼️ Image Processing</h4>' +
+                    '<p>ThemisDB\'s image analysis features show strong performance for <strong>AI-powered ' +
+                    'image operations</strong>, enabling multimedia database applications with low latency processing.</p></div>',
+                    
+                'advanced': '<div class="themisdb-insight-card success"><h4>🚀 Advanced Features</h4>' +
+                    '<p>Advanced patterns, hybrid AQL queries, changefeed throughput, and micro-optimization benchmarks showcase ' +
+                    'ThemisDB\'s <strong>multi-model capabilities</strong>, combining different data paradigms efficiently.</p></div>',
+                    
+                'gpu': '<div class="themisdb-insight-card success"><h4>⚡ GPU Acceleration</h4>' +
+                    '<p>GPU backend benchmarks demonstrate ThemisDB\'s ability to leverage <strong>hardware acceleration</strong> ' +
+                    'for compute-intensive operations, improving performance for complex queries.</p></div>',
+                    
+                'content': '<div class="themisdb-insight-card success"><h4>📝 Content Management</h4>' +
+                    '<p>Content versioning and index rebuild benchmarks show ThemisDB\'s <strong>robust data management</strong> ' +
+                    'capabilities for applications requiring version control and efficient index maintenance.</p></div>'
+            };
+            
+            return insights[category] || null;
         },
 
         /**

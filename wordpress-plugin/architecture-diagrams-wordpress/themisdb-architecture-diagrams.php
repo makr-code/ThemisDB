@@ -251,6 +251,15 @@ class ThemisDB_Architecture_Diagrams {
             'storage_layer' => $this->get_storage_layer_diagram(),
             'llm_integration' => $this->get_llm_integration_diagram(),
             'sharding_raid' => $this->get_sharding_raid_diagram(),
+            'database_comparison' => $this->get_database_comparison_diagram(),
+            'llm_comparison' => $this->get_llm_comparison_diagram(),
+            'hardware_architecture' => $this->get_hardware_architecture_diagram(),
+            'performance_comparison' => $this->get_performance_comparison_diagram(),
+            'tco_comparison' => $this->get_tco_comparison_diagram(),
+            'feature_matrix' => $this->get_feature_matrix_diagram(),
+            'deployment_options' => $this->get_deployment_options_diagram(),
+            'use_case_recommendations' => $this->get_use_case_recommendations_diagram(),
+            'migration_paths' => $this->get_migration_paths_diagram(),
         );
         
         return isset($diagrams[$view]) ? $diagrams[$view] : $diagrams['high_level'];
@@ -268,29 +277,37 @@ class ThemisDB_Architecture_Diagrams {
         SDK[SDK Clients]
     end
     
-    subgraph API[\"API Layer\"]
-        RESTAPI[REST API Server]
+    subgraph Server[\"API & Server Layer\"]
+        RESTAPI[HTTP/REST Server]
         GRPCAPI[gRPC Server]
-        Auth[Authentication]
+        Auth[Authentication & Rate Limiting]
     end
     
-    subgraph Query[\"Query Engine\"]
+    subgraph QueryLayer[\"Query Layer (Unified Programming Layer)\"]
         AQL[AQL Parser]
         OPT[Query Optimizer]
         EXEC[Execution Engine]
+        FUNC[Function Libraries]
+        LLM_FUNC[LLM Functions Optional]
+    end
+    
+    subgraph Transaction[\"Transaction & Concurrency Layer\"]
+        MVCC[MVCC]
+        TXN[Transaction Manager]
+        WAL[WAL Management]
+    end
+    
+    subgraph Index[\"Index Layer\"]
+        VECTOR[Vector Index HNSW]
+        GRAPH[Graph Index]
+        SECONDARY[Secondary Indexes]
+        FULLTEXT[Fulltext Index]
     end
     
     subgraph Storage[\"Storage Layer\"]
-        ROCKS[(RocksDB)]
-        VECTOR[Vector Index HNSW]
-        GRAPH[Graph Store]
-        DOC[Document Store]
-    end
-    
-    subgraph AI[\"AI/LLM Layer\"]
-        LLAMA[llama.cpp Engine]
-        MODELS[LLM Models]
-        EMBED[Embeddings]
+        ROCKS[(RocksDB LSM-tree)]
+        COMPRESS[Compression]
+        SNAPSHOT[Snapshot Management]
     end
     
     CLI --> RESTAPI
@@ -305,22 +322,32 @@ class ThemisDB_Architecture_Diagrams {
     
     AQL --> OPT
     OPT --> EXEC
+    EXEC --> FUNC
+    FUNC -.-> LLM_FUNC
     
-    EXEC --> ROCKS
+    EXEC --> TXN
+    TXN --> MVCC
+    MVCC --> WAL
+    
     EXEC --> VECTOR
     EXEC --> GRAPH
-    EXEC --> DOC
+    EXEC --> SECONDARY
+    EXEC --> FULLTEXT
     
-    RESTAPI --> LLAMA
-    GRPCAPI --> LLAMA
-    LLAMA --> MODELS
-    LLAMA --> EMBED
+    VECTOR --> ROCKS
+    GRAPH --> ROCKS
+    SECONDARY --> ROCKS
+    FULLTEXT --> ROCKS
     
+    ROCKS --> COMPRESS
+    ROCKS --> SNAPSHOT
+    
+    style QueryLayer fill:#3498db
+    style EXEC fill:#2ea44f
+    style LLM_FUNC fill:#9b59b6
     style ROCKS fill:#2ea44f
-    style VECTOR fill:#2ea44f
-    style GRAPH fill:#2ea44f
-    style DOC fill:#2ea44f
-    style LLAMA fill:#3498db";
+    style VECTOR fill:#27ae60
+    style GRAPH fill:#27ae60";
     }
     
     /**
@@ -388,67 +415,83 @@ class ThemisDB_Architecture_Diagrams {
      * LLM integration diagram
      */
     private function get_llm_integration_diagram() {
-        return "graph LR
+        return "graph TB
     subgraph Client[\"Client Applications\"]
         APP[Application]
     end
     
-    subgraph API[\"ThemisDB API\"]
-        REST[REST Endpoint]
-        LLM_API[LLM API]
+    subgraph Server[\"API & Server Layer\"]
+        HTTP[HTTP/REST Server]
+        GRPC[gRPC Server]
     end
     
-    subgraph LLM[\"LLM Engine\"]
-        LLAMA[llama.cpp]
-        
+    subgraph QueryLayer[\"Query Layer (Unified Programming Layer)\"]
+        AQL[AQL Parser]
+        EXEC[Execution Engine]
+        FUNC[Function Libraries]
+        LLM_FUNC[\"LLM Functions (Optional)<br/>llm_generate(), llm_embed()\"]
+    end
+    
+    subgraph LLM[\"LLM Plugin (Optional - llama.cpp)\"]
         subgraph Models[\"Model Management\"]
             LOADER[Model Loader]
             CACHE[Model Cache]
-            QUANT[Quantization]
+            QUANT[Quantization Q4/Q5/Q8]
         end
         
         subgraph Inference[\"Inference Engine\"]
             PROMPT[Prompt Processing]
             TOKENS[Tokenization]
-            GEN[Generation]
+            GEN[Text Generation]
             SAMPLE[Sampling]
         end
         
-        subgraph Optimization[\"Optimization\"]
-            CUDA[CUDA Support]
-            METAL[Metal Support]
-            SIMD[SIMD Vectorization]
+        subgraph Optimization[\"Hardware Optimization\"]
+            CUDA[CUDA GPU]
+            METAL[Metal GPU]
+            SIMD[CPU SIMD AVX2/512]
         end
     end
     
-    subgraph Storage[\"Storage\"]
-        MODELS_DB[(Model Files)]
-        EMBED_DB[(Embeddings)]
-        VECTOR_IDX[Vector Index]
+    subgraph Storage[\"Storage Layer\"]
+        MODELS_DB[(Model Files<br/>GGUF Format)]
+        EMBED_DB[(Embeddings Cache)]
+        VECTOR_IDX[Vector Index HNSW]
+        ROCKS[(RocksDB)]
     end
     
-    APP --> REST
-    REST --> LLM_API
+    APP --> HTTP
+    APP --> GRPC
+    HTTP --> AQL
+    GRPC --> AQL
     
-    LLM_API --> LLAMA
-    LLAMA --> LOADER
-    LOADER --> MODELS_DB
+    AQL --> EXEC
+    EXEC --> FUNC
+    FUNC --> LLM_FUNC
+    
+    LLM_FUNC -.->|\"Optional Plugin\"| LOADER
+    LLM_FUNC -.->|\"Optional Plugin\"| PROMPT
+    
     LOADER --> CACHE
     CACHE --> QUANT
+    QUANT --> MODELS_DB
     
-    LLAMA --> PROMPT
     PROMPT --> TOKENS
     TOKENS --> GEN
     GEN --> SAMPLE
     
-    LLAMA --> CUDA
-    LLAMA --> METAL
-    LLAMA --> SIMD
+    GEN --> CUDA
+    GEN --> METAL
+    GEN --> SIMD
     
-    LLAMA --> EMBED_DB
+    LLM_FUNC --> EMBED_DB
     EMBED_DB --> VECTOR_IDX
+    VECTOR_IDX --> ROCKS
     
-    style LLAMA fill:#3498db
+    style QueryLayer fill:#3498db
+    style LLM_FUNC fill:#9b59b6
+    style LOADER fill:#9b59b6
+    style PROMPT fill:#9b59b6
     style CUDA fill:#27ae60
     style METAL fill:#27ae60
     style VECTOR_IDX fill:#2ea44f";
@@ -519,6 +562,601 @@ class ThemisDB_Architecture_Diagrams {
     style S2P fill:#2ea44f
     style S3P fill:#2ea44f
     style RAFT fill:#e74c3c";
+    }
+    
+    /**
+     * Database comparison diagram
+     */
+    private function get_database_comparison_diagram() {
+        return "graph TB
+    subgraph ThemisDB[\"ThemisDB Architecture\"]
+        TDB_API[\"Unified API<br/>(REST, gRPC, PostgreSQL Wire)\"]
+        TDB_MULTI[\"Multi-Model Engine<br/>(Relational, Graph, Vector, Document)\"]
+        TDB_LLM[\"Embedded LLM<br/>(llama.cpp, No API Costs)\"]
+        TDB_STORAGE[\"RocksDB + HNSW<br/>(ACID, Vector Search)\"]
+        TDB_GPU[\"GPU Support<br/>(CUDA, Metal, Vulkan)\"]
+    end
+    
+    subgraph PostgreSQL[\"PostgreSQL\"]
+        PG_API[\"SQL API Only\"]
+        PG_REL[\"Relational Only<br/>(+ pgvector extension)\"]
+        PG_NO_LLM[\"No LLM<br/>(External API Required)\"]
+        PG_STORAGE[\"B-Tree Storage<br/>(ACID)\"]
+        PG_CPU[\"CPU Only\"]
+    end
+    
+    subgraph MongoDB[\"MongoDB\"]
+        MG_API[\"MongoDB Wire Protocol\"]
+        MG_DOC[\"Document Model<br/>(+ Atlas Vector Search)\"]
+        MG_NO_LLM[\"No LLM<br/>(External API Required)\"]
+        MG_STORAGE[\"WiredTiger<br/>(Eventual Consistency)\"]
+        MG_CPU[\"CPU Only\"]
+    end
+    
+    subgraph Neo4j[\"Neo4j\"]
+        NJ_API[\"Cypher API\"]
+        NJ_GRAPH[\"Graph Only<br/>(+ Vector Plugin)\"]
+        NJ_NO_LLM[\"No LLM<br/>(External API Required)\"]
+        NJ_STORAGE[\"Native Graph Store<br/>(ACID)\"]
+        NJ_CPU[\"CPU Only\"]
+    end
+    
+    TDB_API -.->|\"Supports All\"| PG_API
+    TDB_API -.->|\"Supports All\"| MG_API
+    TDB_API -.->|\"Supports All\"| NJ_API
+    
+    TDB_MULTI -.->|\"Includes\"| PG_REL
+    TDB_MULTI -.->|\"Includes\"| MG_DOC
+    TDB_MULTI -.->|\"Includes\"| NJ_GRAPH
+    
+    TDB_LLM -.->|\"Built-in vs External\"| PG_NO_LLM
+    TDB_LLM -.->|\"Built-in vs External\"| MG_NO_LLM
+    TDB_LLM -.->|\"Built-in vs External\"| NJ_NO_LLM
+    
+    TDB_GPU -.->|\"GPU Accelerated\"| PG_CPU
+    TDB_GPU -.->|\"GPU Accelerated\"| MG_CPU
+    TDB_GPU -.->|\"GPU Accelerated\"| NJ_CPU
+    
+    style TDB_API fill:#2ea44f
+    style TDB_MULTI fill:#2ea44f
+    style TDB_LLM fill:#3498db
+    style TDB_STORAGE fill:#2ea44f
+    style TDB_GPU fill:#27ae60
+    style PG_API fill:#cccccc
+    style MG_API fill:#cccccc
+    style NJ_API fill:#cccccc";
+    }
+    
+    /**
+     * LLM comparison diagram
+     */
+    private function get_llm_comparison_diagram() {
+        return "graph TB
+    subgraph ThemisDB_LLM[\"ThemisDB - Embedded LLM\"]
+        TDB_EMBED[\"Embedded llama.cpp\"]
+        TDB_LOCAL[\"Local Model Files<br/>(LLaMA, Mistral, Phi-3)\"]
+        TDB_NO_API[\"No API Calls<br/>(Zero Latency)\"]
+        TDB_QUANT[\"Quantization Support<br/>(Q4, Q5, Q8)\"]
+        TDB_GPU_LLM[\"GPU Acceleration<br/>(CUDA, Metal)\"]
+        TDB_COST[\"💰 Zero Runtime Cost\"]
+        TDB_PRIVACY[\"🔒 Complete Privacy<br/>(Data Never Leaves Server)\"]
+    end
+    
+    subgraph OpenAI[\"OpenAI API\"]
+        OAI_API[\"REST API Calls\"]
+        OAI_CLOUD[\"Cloud-Hosted Models<br/>(GPT-3.5, GPT-4)\"]
+        OAI_LATENCY[\"Network Latency<br/>(100-500ms)\"]
+        OAI_NO_QUANT[\"No Quantization<br/>(Fixed Model Size)\"]
+        OAI_CLOUD_GPU[\"Cloud GPU<br/>(Abstracted)\"]
+        OAI_COST[\"💰 Pay Per Token<br/>($0.002-$0.06/1K tokens)\"]
+        OAI_DATA[\"⚠️ Data Sent to Cloud\"]
+    end
+    
+    subgraph Anthropic[\"Anthropic Claude\"]
+        ANT_API[\"REST API Calls\"]
+        ANT_CLOUD[\"Cloud-Hosted Models<br/>(Claude 2, 3)\"]
+        ANT_LATENCY[\"Network Latency<br/>(100-500ms)\"]
+        ANT_NO_QUANT[\"No Quantization\"]
+        ANT_CLOUD_GPU[\"Cloud GPU\"]
+        ANT_COST[\"💰 Pay Per Token<br/>($0.003-$0.015/1K tokens)\"]
+        ANT_DATA[\"⚠️ Data Sent to Cloud\"]
+    end
+    
+    subgraph Ollama[\"Ollama (Local)\"]
+        OLL_LOCAL[\"Local Server\"]
+        OLL_MODELS[\"Local Models<br/>(Same as ThemisDB)\"]
+        OLL_NO_API[\"Local API<br/>(Low Latency)\"]
+        OLL_QUANT[\"Quantization Support\"]
+        OLL_GPU[\"GPU Support\"]
+        OLL_COST[\"💰 Zero Runtime Cost\"]
+        OLL_PRIVACY[\"🔒 Local Privacy\"]
+        OLL_SEPARATE[\"⚠️ Separate Service<br/>(Not Integrated)\"]
+    end
+    
+    TDB_EMBED -.->|\"Integrated vs Separate\"| OAI_API
+    TDB_EMBED -.->|\"Integrated vs Separate\"| ANT_API
+    TDB_EMBED -.->|\"Integrated vs External\"| OLL_LOCAL
+    
+    TDB_NO_API -.->|\"0ms vs 100-500ms\"| OAI_LATENCY
+    TDB_NO_API -.->|\"0ms vs 100-500ms\"| ANT_LATENCY
+    
+    TDB_COST -.->|\"Free vs Paid\"| OAI_COST
+    TDB_COST -.->|\"Free vs Paid\"| ANT_COST
+    
+    TDB_PRIVACY -.->|\"Private vs Cloud\"| OAI_DATA
+    TDB_PRIVACY -.->|\"Private vs Cloud\"| ANT_DATA
+    
+    style TDB_EMBED fill:#3498db
+    style TDB_NO_API fill:#27ae60
+    style TDB_COST fill:#2ea44f
+    style TDB_PRIVACY fill:#2ea44f
+    style TDB_GPU_LLM fill:#27ae60
+    style OAI_API fill:#cccccc
+    style ANT_API fill:#cccccc
+    style OAI_COST fill:#e74c3c
+    style ANT_COST fill:#e74c3c
+    style OAI_DATA fill:#f39c12
+    style ANT_DATA fill:#f39c12";
+    }
+    
+    /**
+     * Hardware architecture diagram
+     */
+    private function get_hardware_architecture_diagram() {
+        return "graph TB
+    subgraph Server[\"ThemisDB Server Hardware Stack\"]
+        subgraph CPU_Layer[\"CPU Layer\"]
+            CPU[\"CPU<br/>Intel Xeon / AMD EPYC<br/>20-128 Cores\"]
+            CPU_CACHE[\"L1/L2/L3 Cache<br/>256KB-256MB\"]
+            SIMD[\"SIMD Instructions<br/>AVX2, AVX-512\"]
+        end
+        
+        subgraph GPU_Layer[\"GPU Layer (Optional)\"]
+            GPU[\"GPU<br/>NVIDIA A100/H100<br/>RTX 4090\"]
+            GPU_MEM[\"GPU Memory<br/>VRAM: 24-80GB<br/>Bandwidth: 2-3 TB/s\"]
+            CUDA[\"CUDA Cores<br/>10K-18K Cores\"]
+            TENSOR[\"Tensor Cores<br/>AI Acceleration\"]
+        end
+        
+        subgraph Memory[\"System Memory\"]
+            RAM[\"DDR4/DDR5 RAM<br/>64GB - 1TB\"]
+            SWAP[\"Swap Space<br/>Optional\"]
+            NUMA[\"NUMA Architecture<br/>Multi-Socket Systems\"]
+        end
+        
+        subgraph Storage_HW[\"Storage Hardware\"]
+            SSD[\"NVMe SSD<br/>1-10TB<br/>Read: 7GB/s\"]
+            HDD[\"HDD (Archive)<br/>10-100TB<br/>Read: 200MB/s\"]
+            RAID_HW[\"RAID Controller<br/>RAID 0/1/5/10\"]
+        end
+        
+        subgraph Network[\"Network Interface\"]
+            NIC[\"Network Card<br/>10/25/100 Gbps\"]
+            RDMA[\"RDMA Support<br/>(Optional)\"]
+        end
+    end
+    
+    subgraph Software[\"ThemisDB Software Mapping\"]
+        DB_ENGINE[\"Database Engine<br/>(CPU Intensive)\"]
+        VECTOR_SEARCH[\"Vector Search<br/>(GPU Accelerated)\"]
+        LLM_ENGINE[\"LLM Inference<br/>(GPU Accelerated)\"]
+        STORAGE_ENGINE[\"Storage Engine<br/>(SSD Optimized)\"]
+        REPLICATION[\"Replication<br/>(Network Intensive)\"]
+    end
+    
+    CPU --> DB_ENGINE
+    CPU_CACHE --> DB_ENGINE
+    SIMD --> DB_ENGINE
+    
+    GPU --> VECTOR_SEARCH
+    GPU --> LLM_ENGINE
+    GPU_MEM --> VECTOR_SEARCH
+    GPU_MEM --> LLM_ENGINE
+    CUDA --> LLM_ENGINE
+    TENSOR --> LLM_ENGINE
+    
+    RAM --> DB_ENGINE
+    RAM --> VECTOR_SEARCH
+    RAM --> LLM_ENGINE
+    NUMA --> DB_ENGINE
+    
+    SSD --> STORAGE_ENGINE
+    HDD --> STORAGE_ENGINE
+    RAID_HW --> STORAGE_ENGINE
+    
+    NIC --> REPLICATION
+    RDMA --> REPLICATION
+    
+    style CPU fill:#3498db
+    style GPU fill:#27ae60
+    style RAM fill:#9b59b6
+    style SSD fill:#e67e22
+    style NIC fill:#e74c3c
+    style VECTOR_SEARCH fill:#27ae60
+    style LLM_ENGINE fill:#27ae60
+    style DB_ENGINE fill:#3498db
+    style STORAGE_ENGINE fill:#2ea44f";
+    }
+    
+    /**
+     * Performance comparison with hardware considerations
+     */
+    private function get_performance_comparison_diagram() {
+        return "graph TB
+    subgraph Config1[\"Configuration 1: CPU Only\"]
+        C1_HW[\"Hardware:<br/>Intel Xeon 32-Core<br/>128GB RAM<br/>NVMe SSD\"]
+        C1_TDB[\"ThemisDB<br/>Vector Search: 10K qps<br/>LLM: 5 tokens/sec\"]
+        C1_PG[\"PostgreSQL + pgvector<br/>Vector Search: 2K qps<br/>No LLM\"]
+        C1_COST[\"💰 Cost: $500/month\"]
+    end
+    
+    subgraph Config2[\"Configuration 2: CPU + Mid GPU\"]
+        C2_HW[\"Hardware:<br/>Intel Xeon 32-Core<br/>128GB RAM + RTX 4090<br/>NVMe SSD\"]
+        C2_TDB[\"ThemisDB<br/>Vector Search: 50K qps<br/>LLM: 50 tokens/sec\"]
+        C2_PG[\"PostgreSQL + pgvector<br/>Vector Search: 2K qps<br/>No LLM Support\"]
+        C2_COST[\"💰 Cost: $2,000/month\"]
+    end
+    
+    subgraph Config3[\"Configuration 3: High-End GPU\"]
+        C3_HW[\"Hardware:<br/>AMD EPYC 64-Core<br/>256GB RAM + A100 80GB<br/>NVMe SSD RAID\"]
+        C3_TDB[\"ThemisDB<br/>Vector Search: 200K qps<br/>LLM: 150 tokens/sec\"]
+        C3_PG[\"PostgreSQL + pgvector<br/>Vector Search: 5K qps<br/>No LLM Support\"]
+        C3_COST[\"💰 Cost: $10,000/month\"]
+    end
+    
+    subgraph Cloud[\"Cloud Alternative\"]
+        CL_HW[\"Cloud Services:<br/>OpenAI API<br/>Pinecone Vector DB<br/>AWS RDS\"]
+        CL_PERF[\"Performance:<br/>Vector Search: 10K qps<br/>LLM: 20 tokens/sec<br/>+ Network Latency\"]
+        CL_COST[\"💰 Cost: $5,000-50,000/month<br/>(Depends on Usage)\"]
+        CL_PRIVACY[\"⚠️ Data Leaves Premises\"]
+    end
+    
+    C1_TDB -.->|\"5x Faster Vector\"| C1_PG
+    C2_TDB -.->|\"25x Faster Vector<br/>+ Native LLM\"| C2_PG
+    C3_TDB -.->|\"40x Faster Vector<br/>+ Fast LLM\"| C3_PG
+    
+    C1_COST -.->|\"vs\"| CL_COST
+    C2_COST -.->|\"vs\"| CL_COST
+    C3_COST -.->|\"vs\"| CL_COST
+    
+    style C1_TDB fill:#2ea44f
+    style C2_TDB fill:#2ea44f
+    style C3_TDB fill:#2ea44f
+    style C1_PG fill:#cccccc
+    style C2_PG fill:#cccccc
+    style C3_PG fill:#cccccc
+    style C1_COST fill:#3498db
+    style C2_COST fill:#3498db
+    style C3_COST fill:#3498db
+    style CL_COST fill:#e74c3c
+    style CL_PRIVACY fill:#f39c12";
+    }
+    
+    /**
+     * TCO (Total Cost of Ownership) comparison over time
+     */
+    private function get_tco_comparison_diagram() {
+        return "graph LR
+    subgraph Year1[\"Year 1 Costs\"]
+        TDB_Y1[\"ThemisDB Self-Hosted<br/>Hardware: $20,000<br/>Monthly: $500<br/>Total: $26,000\"]
+        PG_Y1[\"PostgreSQL + pgvector<br/>Hardware: $15,000<br/>Monthly: $500<br/>Total: $21,000\"]
+        CLOUD_Y1[\"Cloud Services<br/>Setup: $5,000<br/>Monthly: $15,000<br/>Total: $185,000\"]
+    end
+    
+    subgraph Year3[\"Year 3 Costs (Cumulative)\"]
+        TDB_Y3[\"ThemisDB<br/>Initial: $20,000<br/>3yr Operating: $18,000<br/>Total: $38,000\"]
+        PG_Y3[\"PostgreSQL<br/>Initial: $15,000<br/>3yr Operating: $18,000<br/>+ LLM API: $180,000<br/>Total: $213,000\"]
+        CLOUD_Y3[\"Cloud Services<br/>Setup: $5,000<br/>3yr Monthly: $540,000<br/>Total: $545,000\"]
+    end
+    
+    subgraph Year5[\"Year 5 Costs (Cumulative)\"]
+        TDB_Y5[\"ThemisDB<br/>Initial: $20,000<br/>5yr Operating: $30,000<br/>Upgrade: $10,000<br/>Total: $60,000<br/>💰 Best ROI\"]
+        PG_Y5[\"PostgreSQL<br/>Initial: $15,000<br/>5yr Operating: $30,000<br/>+ LLM API: $300,000<br/>Total: $345,000\"]
+        CLOUD_Y5[\"Cloud Services<br/>Setup: $5,000<br/>5yr Monthly: $900,000<br/>Total: $905,000<br/>⚠️ Highest Cost\"]
+    end
+    
+    TDB_Y1 --> TDB_Y3
+    TDB_Y3 --> TDB_Y5
+    PG_Y1 --> PG_Y3
+    PG_Y3 --> PG_Y5
+    CLOUD_Y1 --> CLOUD_Y3
+    CLOUD_Y3 --> CLOUD_Y5
+    
+    style TDB_Y1 fill:#2ea44f
+    style TDB_Y3 fill:#2ea44f
+    style TDB_Y5 fill:#27ae60
+    style PG_Y1 fill:#cccccc
+    style PG_Y3 fill:#cccccc
+    style PG_Y5 fill:#999999
+    style CLOUD_Y1 fill:#f39c12
+    style CLOUD_Y3 fill:#e67e22
+    style CLOUD_Y5 fill:#e74c3c";
+    }
+    
+    /**
+     * Feature matrix comparison
+     */
+    private function get_feature_matrix_diagram() {
+        return "graph TB
+    subgraph Features[\"Feature Comparison Matrix\"]
+        F1[\"Multi-Model Support\"]
+        F2[\"Embedded LLM\"]
+        F3[\"GPU Acceleration\"]
+        F4[\"ACID Transactions\"]
+        F5[\"Vector Search\"]
+        F6[\"Graph Queries\"]
+        F7[\"Time Series\"]
+        F8[\"Full-Text Search\"]
+        F9[\"Sharding/Clustering\"]
+        F10[\"Real-time Sync\"]
+    end
+    
+    subgraph ThemisDB[\"ThemisDB\"]
+        T1[\"✅ Native All Models\"]
+        T2[\"✅ llama.cpp Built-in\"]
+        T3[\"✅ CUDA/Metal/Vulkan\"]
+        T4[\"✅ Full ACID\"]
+        T5[\"✅ HNSW + FAISS\"]
+        T6[\"✅ Native Graph\"]
+        T7[\"✅ Built-in\"]
+        T8[\"✅ Integrated\"]
+        T9[\"✅ RAID-style\"]
+        T10[\"✅ CDC/Changefeed\"]
+    end
+    
+    subgraph PostgreSQL[\"PostgreSQL\"]
+        P1[\"⚠️ Relational Only\"]
+        P2[\"❌ No LLM\"]
+        P3[\"❌ CPU Only\"]
+        P4[\"✅ Full ACID\"]
+        P5[\"⚠️ pgvector ext\"]
+        P6[\"❌ No Native\"]
+        P7[\"⚠️ TimescaleDB ext\"]
+        P8[\"✅ Built-in\"]
+        P9[\"⚠️ Complex Setup\"]
+        P10[\"⚠️ Logical Repl\"]
+    end
+    
+    subgraph MongoDB[\"MongoDB\"]
+        M1[\"⚠️ Document Only\"]
+        M2[\"❌ No LLM\"]
+        M3[\"❌ CPU Only\"]
+        M4[\"⚠️ Eventual Consistency\"]
+        M5[\"⚠️ Atlas Vector\"]
+        M6[\"❌ No Native\"]
+        M7[\"✅ Built-in\"]
+        M8[\"✅ Text Search\"]
+        M9[\"✅ Sharding\"]
+        M10[\"✅ Change Streams\"]
+    end
+    
+    subgraph Neo4j[\"Neo4j\"]
+        N1[\"⚠️ Graph Only\"]
+        N2[\"❌ No LLM\"]
+        N3[\"❌ CPU Only\"]
+        N4[\"✅ Full ACID\"]
+        N5[\"⚠️ Plugin\"]
+        N6[\"✅ Native Graph\"]
+        N7[\"❌ No Native\"]
+        N8[\"✅ Lucene\"]
+        N9[\"✅ Clustering\"]
+        N10[\"❌ Limited\"]
+    end
+    
+    F1 --> T1 & P1 & M1 & N1
+    F2 --> T2 & P2 & M2 & N2
+    F3 --> T3 & P3 & M3 & N3
+    F4 --> T4 & P4 & M4 & N4
+    F5 --> T5 & P5 & M5 & N5
+    F6 --> T6 & P6 & M6 & N6
+    F7 --> T7 & P7 & M7 & N7
+    F8 --> T8 & P8 & M8 & N8
+    F9 --> T9 & P9 & M9 & N9
+    F10 --> T10 & P10 & M10 & N10
+    
+    style T1 fill:#2ea44f
+    style T2 fill:#2ea44f
+    style T3 fill:#2ea44f
+    style T4 fill:#2ea44f
+    style T5 fill:#2ea44f
+    style T6 fill:#2ea44f
+    style T7 fill:#2ea44f
+    style T8 fill:#2ea44f
+    style T9 fill:#2ea44f
+    style T10 fill:#2ea44f";
+    }
+    
+    /**
+     * Deployment options comparison
+     */
+    private function get_deployment_options_diagram() {
+        return "graph TB
+    subgraph OnPrem[\"On-Premise Deployment\"]
+        OP_TDB[\"ThemisDB\"]
+        OP_HW[\"Your Hardware<br/>Full Control\"]
+        OP_DATA[\"🔒 Data On-Site<br/>Complete Privacy\"]
+        OP_COST[\"💰 CapEx Model<br/>Predictable Costs\"]
+        OP_PERF[\"⚡ No Network Latency<br/>Max Performance\"]
+        OP_MAINT[\"🔧 Self-Managed<br/>Your Team\"]
+    end
+    
+    subgraph Cloud[\"Cloud Deployment\"]
+        CL_TDB[\"ThemisDB on Cloud VM\"]
+        CL_HW[\"AWS/Azure/GCP<br/>Flexible Scaling\"]
+        CL_DATA[\"🔒 Data in Cloud<br/>Your VPC/Region\"]
+        CL_COST[\"💰 OpEx Model<br/>Pay-as-you-go\"]
+        CL_PERF[\"⚡ Regional Latency<br/>Good Performance\"]
+        CL_MAINT[\"🔧 Managed Infrastructure<br/>Cloud Provider\"]
+    end
+    
+    subgraph Hybrid[\"Hybrid Deployment\"]
+        HY_TDB[\"ThemisDB Distributed\"]
+        HY_HW[\"On-Prem + Cloud<br/>Best of Both\"]
+        HY_DATA[\"🔒 Sensitive Data On-Prem<br/>Archive in Cloud\"]
+        HY_COST[\"💰 Mixed Model<br/>Optimized Costs\"]
+        HY_PERF[\"⚡ Edge Processing<br/>Central Storage\"]
+        HY_MAINT[\"🔧 Split Responsibility<br/>Shared Management\"]
+    end
+    
+    subgraph SaaS[\"Cloud Services (Alternative)\"]
+        SA_SERV[\"Multiple Services\"]
+        SA_HW[\"Fully Managed<br/>No Control\"]
+        SA_DATA[\"⚠️ Data with Vendor<br/>Limited Privacy\"]
+        SA_COST[\"💰 Per-Use Billing<br/>Unpredictable\"]
+        SA_PERF[\"⚡ Internet Latency<br/>Variable Performance\"]
+        SA_MAINT[\"🔧 Vendor Managed<br/>Lock-in Risk\"]
+    end
+    
+    OP_TDB --> OP_HW --> OP_DATA
+    OP_DATA --> OP_COST --> OP_PERF --> OP_MAINT
+    
+    CL_TDB --> CL_HW --> CL_DATA
+    CL_DATA --> CL_COST --> CL_PERF --> CL_MAINT
+    
+    HY_TDB --> HY_HW --> HY_DATA
+    HY_DATA --> HY_COST --> HY_PERF --> HY_MAINT
+    
+    SA_SERV --> SA_HW --> SA_DATA
+    SA_DATA --> SA_COST --> SA_PERF --> SA_MAINT
+    
+    style OP_TDB fill:#2ea44f
+    style OP_DATA fill:#27ae60
+    style CL_TDB fill:#3498db
+    style CL_DATA fill:#3498db
+    style HY_TDB fill:#9b59b6
+    style HY_DATA fill:#8e44ad
+    style SA_SERV fill:#e74c3c
+    style SA_DATA fill:#c0392b";
+    }
+    
+    /**
+     * Use case recommendations
+     */
+    private function get_use_case_recommendations_diagram() {
+        return "graph TB
+    subgraph AI_ML[\"AI/ML Applications\"]
+        AI_DESC[\"RAG, Embeddings,<br/>Semantic Search\"]
+        AI_REC[\"✅ ThemisDB<br/>Embedded LLM + Vector Search<br/>Zero API Costs\"]
+    end
+    
+    subgraph RealTime[\"Real-Time Analytics\"]
+        RT_DESC[\"Dashboards, Monitoring,<br/>Time-Series Data\"]
+        RT_REC[\"✅ ThemisDB<br/>Native Time-Series + Fast Queries<br/>Or: PostgreSQL + TimescaleDB\"]
+    end
+    
+    subgraph GraphApp[\"Graph Applications\"]
+        GR_DESC[\"Social Networks,<br/>Knowledge Graphs, Recommendations\"]
+        GR_REC[\"✅ ThemisDB<br/>Native Graph + Multi-Model<br/>Or: Neo4j (Graph-only)\"]
+    end
+    
+    subgraph MultiModel[\"Complex Data Models\"]
+        MM_DESC[\"Mixed Relational, Graph,<br/>Vector, Document Data\"]
+        MM_REC[\"✅ ThemisDB<br/>Single Database for All Models<br/>No Data Duplication\"]
+    end
+    
+    subgraph Enterprise[\"Enterprise Applications\"]
+        ENT_DESC[\"ERP, CRM, OLTP<br/>High Transaction Volume\"]
+        ENT_REC[\"✅ ThemisDB or PostgreSQL<br/>Full ACID Compliance<br/>Proven Reliability\"]
+    end
+    
+    subgraph ContentMgmt[\"Content Management\"]
+        CM_DESC[\"CMS, Document Storage,<br/>Flexible Schemas\"]
+        CM_REC[\"✅ ThemisDB or MongoDB<br/>Document Model<br/>Schema Flexibility\"]
+    end
+    
+    subgraph IoT[\"IoT & Edge Computing\"]
+        IOT_DESC[\"Sensor Data, Edge Analytics,<br/>Time-Series + AI\"]
+        IOT_REC[\"✅ ThemisDB<br/>Time-Series + LLM + Compact<br/>Edge Deployment Ready\"]
+    end
+    
+    subgraph Compliance[\"Privacy & Compliance\"]
+        COMP_DESC[\"GDPR, HIPAA, Financial,<br/>Data Sovereignty\"]
+        COMP_REC[\"✅ ThemisDB On-Premise<br/>Data Never Leaves Infrastructure<br/>Full Audit Trail\"]
+    end
+    
+    AI_DESC --> AI_REC
+    RT_DESC --> RT_REC
+    GR_DESC --> GR_REC
+    MM_DESC --> MM_REC
+    ENT_DESC --> ENT_REC
+    CM_DESC --> CM_REC
+    IOT_DESC --> IOT_REC
+    COMP_DESC --> COMP_REC
+    
+    style AI_REC fill:#2ea44f
+    style RT_REC fill:#2ea44f
+    style GR_REC fill:#2ea44f
+    style MM_REC fill:#2ea44f
+    style ENT_REC fill:#3498db
+    style CM_REC fill:#3498db
+    style IOT_REC fill:#2ea44f
+    style COMP_REC fill:#27ae60";
+    }
+    
+    /**
+     * Migration paths from other databases
+     */
+    private function get_migration_paths_diagram() {
+        return "graph TB
+    subgraph FromPG[\"From PostgreSQL\"]
+        PG_SRC[\"PostgreSQL Database\"]
+        PG_EXPORT[\"pg_dump Export\"]
+        PG_SCHEMA[\"Schema Mapping<br/>SQL → AQL\"]
+        PG_IMPORT[\"ThemisDB Import\"]
+        PG_BENEFIT[\"✅ Gain: LLM + Vector + Graph<br/>Keep: ACID + SQL Compatibility\"]
+    end
+    
+    subgraph FromMongo[\"From MongoDB\"]
+        MG_SRC[\"MongoDB Database\"]
+        MG_EXPORT[\"mongoexport JSON\"]
+        MG_SCHEMA[\"Document Mapping<br/>BSON → ThemisDB\"]
+        MG_IMPORT[\"ThemisDB Import\"]
+        MG_BENEFIT[\"✅ Gain: ACID + LLM + Multi-Model<br/>Keep: Document Flexibility\"]
+    end
+    
+    subgraph FromNeo4j[\"From Neo4j\"]
+        NJ_SRC[\"Neo4j Database\"]
+        NJ_EXPORT[\"Cypher Export\"]
+        NJ_SCHEMA[\"Graph Mapping<br/>Cypher → AQL\"]
+        NJ_IMPORT[\"ThemisDB Import\"]
+        NJ_BENEFIT[\"✅ Gain: LLM + Vector + Relational<br/>Keep: Graph Queries\"]
+    end
+    
+    subgraph FromLegacy[\"From Legacy Systems\"]
+        LEG_SRC[\"Oracle/MSSQL/MySQL\"]
+        LEG_EXPORT[\"SQL Export\"]
+        LEG_SCHEMA[\"Schema Conversion<br/>SQL → AQL\"]
+        LEG_IMPORT[\"ThemisDB Import\"]
+        LEG_BENEFIT[\"✅ Gain: Modern Features + Cost Savings<br/>Keep: Data Integrity\"]
+    end
+    
+    subgraph ToThemis[\"ThemisDB Unified Platform\"]
+        THEMIS[\"ThemisDB\"]
+        THEMIS_FEAT[\"All Features Available:<br/>• Multi-Model (SQL, Graph, Document, Vector)<br/>• Embedded LLM (llama.cpp)<br/>• GPU Acceleration<br/>• Full ACID Transactions<br/>• Horizontal Sharding\"]
+    end
+    
+    PG_SRC --> PG_EXPORT --> PG_SCHEMA --> PG_IMPORT --> PG_BENEFIT
+    MG_SRC --> MG_EXPORT --> MG_SCHEMA --> MG_IMPORT --> MG_BENEFIT
+    NJ_SRC --> NJ_EXPORT --> NJ_SCHEMA --> NJ_IMPORT --> NJ_BENEFIT
+    LEG_SRC --> LEG_EXPORT --> LEG_SCHEMA --> LEG_IMPORT --> LEG_BENEFIT
+    
+    PG_BENEFIT --> THEMIS
+    MG_BENEFIT --> THEMIS
+    NJ_BENEFIT --> THEMIS
+    LEG_BENEFIT --> THEMIS
+    
+    THEMIS --> THEMIS_FEAT
+    
+    style PG_IMPORT fill:#2ea44f
+    style MG_IMPORT fill:#2ea44f
+    style NJ_IMPORT fill:#2ea44f
+    style LEG_IMPORT fill:#2ea44f
+    style THEMIS fill:#27ae60
+    style THEMIS_FEAT fill:#27ae60
+    style PG_BENEFIT fill:#3498db
+    style MG_BENEFIT fill:#3498db
+    style NJ_BENEFIT fill:#3498db
+    style LEG_BENEFIT fill:#3498db";
     }
 }
 
