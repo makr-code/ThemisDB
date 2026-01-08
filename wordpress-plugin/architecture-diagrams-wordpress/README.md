@@ -19,6 +19,13 @@ This plugin follows the established **TCO Calculator** template pattern and prov
 - �� **Storage Layer**: Multi-model storage details
 - 🤖 **LLM Integration**: AI/ML architecture
 - 🔄 **Sharding & RAID**: Distributed system configuration
+- 🖥️ **Hardware Architecture**: CPU, GPU, Memory, Storage mapping to software components
+
+### Comparison Diagrams (NEW!)
+- 🆚 **Database Comparison**: ThemisDB vs PostgreSQL, MongoDB, Neo4j with feature matrix
+- 🧠 **LLM Services Comparison**: Embedded LLM vs OpenAI, Anthropic, Ollama (cost, latency, privacy)
+- ⚡ **Performance by Hardware**: CPU-only, Mid-Range GPU (RTX 4090), High-End GPU (A100) configurations
+- 💰 **Cost Analysis**: Self-hosted vs Cloud services with TCO considerations
 
 ### Interactive Features
 - 🎨 **Mermaid.js Diagrams**: Professional flowcharts
@@ -68,10 +75,17 @@ This plugin follows the established **TCO Calculator** template pattern and prov
 
 #### Specific View
 ```php
+<!-- Architecture Views -->
 [themisdb_architecture view="high_level"]
 [themisdb_architecture view="storage_layer"]
 [themisdb_architecture view="llm_integration"]
 [themisdb_architecture view="sharding_raid"]
+[themisdb_architecture view="hardware_architecture"]
+
+<!-- Comparison Views -->
+[themisdb_architecture view="database_comparison"]
+[themisdb_architecture view="llm_comparison"]
+[themisdb_architecture view="performance_comparison"]
 ```
 
 #### Custom Theme
@@ -128,6 +142,31 @@ themisdb-architecture-diagrams/
 2. **Storage Layer**: Displays RocksDB-based multi-model storage with indexes
 3. **LLM Integration**: Illustrates llama.cpp integration and model management
 4. **Sharding & RAID**: Demonstrates distributed architecture with replication
+5. **Hardware Architecture**: Maps software components to hardware (CPU, GPU, RAM, Storage, Network)
+
+### Comparison Views (NEW!)
+
+1. **Database Comparison**: Comprehensive comparison showing:
+   - **ThemisDB** vs **PostgreSQL** vs **MongoDB** vs **Neo4j**
+   - Multi-model support (ThemisDB supports all models natively)
+   - LLM capabilities (only ThemisDB has embedded LLM)
+   - GPU acceleration (only ThemisDB has native GPU support)
+   - Protocol compatibility (ThemisDB supports all major protocols)
+
+2. **LLM Services Comparison**: Side-by-side comparison of:
+   - **ThemisDB Embedded LLM** (llama.cpp): Zero latency, zero cost, complete privacy
+   - **OpenAI API**: Cloud-based, pay-per-token, data sent to cloud
+   - **Anthropic Claude**: Cloud-based, pay-per-token, data sent to cloud
+   - **Ollama**: Local but separate service, not database-integrated
+   - Key metrics: Latency, cost, privacy, integration
+
+3. **Performance by Hardware**: Shows real-world performance across different configurations:
+   - **CPU Only** (Intel Xeon 32-Core): Baseline performance, $500/month
+   - **CPU + Mid-Range GPU** (RTX 4090): 5-25x faster, $2,000/month
+   - **CPU + High-End GPU** (A100 80GB): 20-40x faster, $10,000/month
+   - **Cloud Alternative**: Variable cost ($5K-50K/month), network latency, no privacy
+   - Includes vector search QPS and LLM tokens/sec metrics
+
 
 ## 🎨 Mermaid.js Integration
 
