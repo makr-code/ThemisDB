@@ -249,8 +249,9 @@ a:focus {
 .main-navigation {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex: 1;
+    margin-left: auto;
 }
 
 .main-navigation ul {
@@ -358,8 +359,9 @@ a:focus {
     transform: translateX(4px);
 }
 
-/* Hamburger Menu Item (right-aligned) */
+/* Hamburger Menu Item (hidden - optional feature) */
 .hamburger-menu-item {
+    display: none;
     margin-left: auto;
     position: relative;
 }
@@ -1481,7 +1483,7 @@ article:hover {
 .nav-graph-toggle {
     position: fixed;
     top: 20px;
-    right: 20px;
+    left: 20px;
     z-index: 10000;
     background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-purple-dark) 100%);
     color: var(--white);
