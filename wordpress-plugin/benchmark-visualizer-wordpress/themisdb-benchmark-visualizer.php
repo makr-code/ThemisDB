@@ -270,8 +270,214 @@ class ThemisDB_Benchmark_Visualizer {
      * Load local benchmark data
      */
     private function load_local_benchmark_data($category, $metric) {
-        // Sample data structure for demonstration
-        // In production, this would parse actual benchmark JSON files
+        // Find the benchmark results directory
+        $benchmark_dir = $this->find_benchmark_directory();
+        
+        if (!$benchmark_dir || !is_dir($benchmark_dir)) {
+            return $this->get_fallback_data($category, $metric);
+        }
+        
+        // Get available benchmark files
+        $benchmark_files = $this->get_benchmark_files($benchmark_dir, $category);
+        
+        if (empty($benchmark_files)) {
+            return $this->get_fallback_data($category, $metric);
+        }
+        
+        // Parse benchmark data
+        $parsed_data = $this->parse_benchmark_files($benchmark_files, $metric);
+        
+        return array(
+            'labels' => $parsed_data['labels'],
+            'datasets' => $parsed_data['datasets'],
+            'metric' => $metric,
+            'category' => $category,
+            'summary' => $parsed_data['summary'],
+        );
+    }
+    
+    /**
+     * Find benchmark directory
+     */
+    private function find_benchmark_directory() {
+        // Try multiple possible locations
+        $possible_paths = array(
+            // Relative to plugin directory
+            THEMISDB_BV_PLUGIN_DIR . '../../benchmarks/benchmark_results/20251223_085556',
+            THEMISDB_BV_PLUGIN_DIR . '../../../benchmarks/benchmark_results/20251223_085556',
+            // Absolute paths
+            '/home/runner/work/ThemisDB/ThemisDB/benchmarks/benchmark_results/20251223_085556',
+            dirname(THEMISDB_BV_PLUGIN_DIR, 4) . '/benchmarks/benchmark_results/20251223_085556',
+        );
+        
+        foreach ($possible_paths as $path) {
+            if (is_dir($path)) {
+                return $path;
+            }
+        }
+        
+        // Try to find latest benchmark results
+        $benchmark_base = dirname(THEMISDB_BV_PLUGIN_DIR, 4) . '/benchmarks/benchmark_results';
+        if (is_dir($benchmark_base)) {
+            $dirs = glob($benchmark_base . '/202*', GLOB_ONLYDIR);
+            if (!empty($dirs)) {
+                rsort($dirs); // Get latest
+                return $dirs[0];
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Get benchmark files based on category
+     */
+    private function get_benchmark_files($benchmark_dir, $category) {
+        $files = array();
+        
+        // Map categories to file patterns
+        $category_map = array(
+            'all' => array('bench_comprehensive.json', 'bench_core_performance.json', 'bench_graph_traversal.json'),
+            'vector_search' => array('bench_comprehensive.json', 'bench_gnn_embeddings.json'),
+            'graph_traversal' => array('bench_graph_traversal.json', 'bench_pagerank.json'),
+            'encryption' => array('bench_encryption.json'),
+            'compression' => array('bench_compression.json'),
+            'transaction' => array('bench_mvcc.json', 'bench_lock_contention.json'),
+            'image_analysis' => array('bench_image_analysis.json', 'bench_image_analysis_latency.json'),
+            'advanced' => array('bench_advanced_patterns.json', 'bench_hybrid_aql_sugar.json'),
+        );
+        
+        $patterns = isset($category_map[$category]) ? $category_map[$category] : $category_map['all'];
+        
+        foreach ($patterns as $pattern) {
+            $file_path = $benchmark_dir . '/' . $pattern;
+            if (file_exists($file_path)) {
+                $files[] = $file_path;
+            }
+        }
+        
+        return $files;
+    }
+    
+    /**
+     * Parse benchmark JSON files
+     */
+    private function parse_benchmark_files($files, $metric) {
+        $labels = array();
+        $data_points = array();
+        $summary_stats = array(
+            'total_benchmarks' => 0,
+            'avg_time' => 0,
+            'fastest' => null,
+            'slowest' => null,
+        );
+        
+        foreach ($files as $file) {
+            $content = file_get_contents($file);
+            $json = json_decode($content, true);
+            
+            if (!$json || !isset($json['benchmarks'])) {
+                continue;
+            }
+            
+            foreach ($json['benchmarks'] as $bench) {
+                $name = $this->format_benchmark_name($bench['name']);
+                
+                // Extract metric value
+                $value = $this->extract_metric_value($bench, $metric);
+                
+                if ($value !== null) {
+                    $labels[] = $name;
+                    $data_points[] = $value;
+                    $summary_stats['total_benchmarks']++;
+                    
+                    if ($summary_stats['fastest'] === null || $value < $summary_stats['fastest']) {
+                        $summary_stats['fastest'] = $value;
+                    }
+                    if ($summary_stats['slowest'] === null || $value > $summary_stats['slowest']) {
+                        $summary_stats['slowest'] = $value;
+                    }
+                }
+            }
+        }
+        
+        if (!empty($data_points)) {
+            $summary_stats['avg_time'] = array_sum($data_points) / count($data_points);
+        }
+        
+        // Build datasets
+        $datasets = array(
+            array(
+                'label' => 'ThemisDB',
+                'data' => $data_points,
+                'backgroundColor' => 'rgba(46, 164, 79, 0.8)',
+                'borderColor' => 'rgba(46, 164, 79, 1)',
+                'borderWidth' => 2,
+                'pointRadius' => 4,
+                'pointHoverRadius' => 6,
+            ),
+        );
+        
+        return array(
+            'labels' => $labels,
+            'datasets' => $datasets,
+            'summary' => $summary_stats,
+        );
+    }
+    
+    /**
+     * Format benchmark name for display
+     */
+    private function format_benchmark_name($name) {
+        // Remove benchmark fixture prefix
+        $name = preg_replace('/^[^\/]+\//', '', $name);
+        
+        // Replace underscores with spaces
+        $name = str_replace('_', ' ', $name);
+        
+        // Truncate if too long
+        if (strlen($name) > 50) {
+            $name = substr($name, 0, 47) . '...';
+        }
+        
+        return $name;
+    }
+    
+    /**
+     * Extract metric value from benchmark data
+     */
+    private function extract_metric_value($bench, $metric) {
+        switch ($metric) {
+            case 'latency':
+                // Convert time to milliseconds
+                $time = isset($bench['real_time']) ? $bench['real_time'] : $bench['cpu_time'];
+                $unit = isset($bench['time_unit']) ? $bench['time_unit'] : 'ms';
+                
+                if ($unit === 'ns') {
+                    return $time / 1000000; // ns to ms
+                } elseif ($unit === 'us') {
+                    return $time / 1000; // us to ms
+                } elseif ($unit === 's') {
+                    return $time * 1000; // s to ms
+                }
+                return $time; // already in ms
+                
+            case 'throughput':
+                return isset($bench['items_per_second']) ? $bench['items_per_second'] : null;
+                
+            case 'memory':
+                // Memory metrics might not be available in all benchmarks
+                return isset($bench['bytes_per_second']) ? $bench['bytes_per_second'] / (1024 * 1024) : null;
+                
+            default:
+                return isset($bench['real_time']) ? $bench['real_time'] : null;
+        }
+    }
+    
+    /**
+     * Get fallback data when real benchmarks aren't available
+     */
+    private function get_fallback_data($category, $metric) {
         return array(
             'labels' => array('Vector Search', 'AQL Query', 'Graph Traversal', 'Document Insert', 'Transaction'),
             'datasets' => array(
@@ -282,23 +488,15 @@ class ThemisDB_Benchmark_Visualizer {
                     'borderColor' => 'rgba(46, 164, 79, 1)',
                     'borderWidth' => 1,
                 ),
-                array(
-                    'label' => 'PostgreSQL',
-                    'data' => array(8.5, 3.2, 15.4, 1.2, 6.5),
-                    'backgroundColor' => 'rgba(54, 162, 235, 0.8)',
-                    'borderColor' => 'rgba(54, 162, 235, 1)',
-                    'borderWidth' => 1,
-                ),
-                array(
-                    'label' => 'MongoDB',
-                    'data' => array(12.3, 2.8, 25.6, 0.9, 8.1),
-                    'backgroundColor' => 'rgba(255, 206, 86, 0.8)',
-                    'borderColor' => 'rgba(255, 206, 86, 1)',
-                    'borderWidth' => 1,
-                ),
             ),
             'metric' => $metric,
             'category' => $category,
+            'summary' => array(
+                'total_benchmarks' => 5,
+                'avg_time' => 2.38,
+                'fastest' => 0.8,
+                'slowest' => 4.2,
+            ),
         );
     }
     
