@@ -131,8 +131,7 @@
         
         // Validate that each node has required properties
         const hasValidNodes = data.nodes.every(node => 
-            node.id !== undefined && 
-            node.id !== null && 
+            node.id != null && 
             typeof node.label === 'string' && 
             typeof node.type === 'string'
         );
