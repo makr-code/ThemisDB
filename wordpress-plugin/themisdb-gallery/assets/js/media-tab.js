@@ -13,7 +13,7 @@
             var provider = $('#themisdb-gallery-media-provider').val();
             
             if (!query) {
-                alert(themisdbGalleryMediaTab.searchPlaceholder);
+                alert(themisdbGalleryMediaTab.searchRequired);
                 return;
             }
             
@@ -191,8 +191,9 @@
                             
                             // Try to trigger the insert into editor
                             if (window.parent.send_to_editor) {
-                                var html = '<img src="' + attachmentUrl + '" alt="' + escapeHtml(imageData.title) + '" />';
+                                var html = '<img src="' + escapeHtml(attachmentUrl) + '" alt="' + escapeHtml(imageData.title) + '" />';
                                 if (response.data.attribution) {
+                                    // Attribution is already escaped server-side by generate_attribution_text()
                                     html = '<figure>' + html + '<figcaption>' + response.data.attribution + '</figcaption></figure>';
                                 }
                                 window.parent.send_to_editor(html);

@@ -392,6 +392,7 @@ class ThemisDB_Gallery_Admin {
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('themisdb_gallery_admin_nonce'),
             'searchPlaceholder' => __('Suche nach Bildern...', 'themisdb-gallery'),
+            'searchRequired' => __('Bitte geben Sie einen Suchbegriff ein', 'themisdb-gallery'),
             'searching' => __('Suche läuft...', 'themisdb-gallery'),
             'noResults' => __('Keine Bilder gefunden', 'themisdb-gallery'),
             'insertImage' => __('Bild einfügen', 'themisdb-gallery'),
