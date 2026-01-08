@@ -26,31 +26,40 @@
         
         <div class="form-grid">
             <!-- Workload Parameters -->
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="requestsPerDay">
                     <span class="label-text">Anfragen pro Tag</span>
                     <span class="label-info" title="Durchschnittliche Anzahl von Datenbank-Anfragen pro Tag">ℹ️</span>
                 </label>
-                <input type="number" id="requestsPerDay" value="1000000" min="1000" step="10000">
-                <small>Beispiel: 1.000.000 = 1 Million Anfragen/Tag</small>
+                <div class="slider-container">
+                    <input type="range" id="requestsPerDay" class="slider" value="1000000" min="1000" max="10000000" step="10000">
+                    <output for="requestsPerDay" id="requestsPerDay-value" class="slider-value">1.000.000</output>
+                </div>
+                <small>1 Tausend bis 10 Millionen Anfragen/Tag</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="dataSize">
                     <span class="label-text">Datenmenge (GB)</span>
                     <span class="label-info" title="Geschätzte Gesamtgröße Ihrer Daten">ℹ️</span>
                 </label>
-                <input type="number" id="dataSize" value="500" min="1" step="10">
-                <small>Aktive Datenmenge in Gigabyte</small>
+                <div class="slider-container">
+                    <input type="range" id="dataSize" class="slider" value="500" min="10" max="10000" step="10">
+                    <output for="dataSize" id="dataSize-value" class="slider-value">500 GB</output>
+                </div>
+                <small>10 GB bis 10 TB</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="peakLoad">
                     <span class="label-text">Spitzenlast-Faktor</span>
                     <span class="label-info" title="Verhältnis von Spitzenlast zu Durchschnittslast">ℹ️</span>
                 </label>
-                <input type="number" id="peakLoad" value="3" min="1" max="10" step="0.5">
-                <small>Peak Load / Average Load (1-10x)</small>
+                <div class="slider-container">
+                    <input type="range" id="peakLoad" class="slider" value="3" min="1" max="10" step="0.5">
+                    <output for="peakLoad" id="peakLoad-value" class="slider-value">3x</output>
+                </div>
+                <small>1x bis 10x der Durchschnittslast</small>
             </div>
 
             <div class="form-group">
@@ -67,96 +76,126 @@
             </div>
 
             <!-- Infrastructure Parameters -->
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="serverCost">
                     <span class="label-text">Server-Kosten (€/Monat)</span>
                     <span class="label-info" title="Monatliche Kosten pro Server (Cloud oder On-Premise)">ℹ️</span>
                 </label>
-                <input type="number" id="serverCost" value="500" min="0" step="50">
-                <small>Kosten pro physischer/virtueller Server</small>
+                <div class="slider-container">
+                    <input type="range" id="serverCost" class="slider" value="500" min="100" max="2000" step="50">
+                    <output for="serverCost" id="serverCost-value" class="slider-value">€500</output>
+                </div>
+                <small>€100 bis €2.000 pro Server</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="storageCostPerGB">
                     <span class="label-text">Speicher-Kosten (€/GB/Monat)</span>
                     <span class="label-info" title="Monatliche Kosten pro GB Speicher">ℹ️</span>
                 </label>
-                <input type="number" id="storageCostPerGB" value="0.10" min="0" step="0.01">
-                <small>SSD/NVMe Speicher pro GB</small>
+                <div class="slider-container">
+                    <input type="range" id="storageCostPerGB" class="slider" value="0.10" min="0.01" max="1" step="0.01">
+                    <output for="storageCostPerGB" id="storageCostPerGB-value" class="slider-value">€0.10</output>
+                </div>
+                <small>€0.01 bis €1.00 pro GB</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="networkCost">
                     <span class="label-text">Netzwerk-Kosten (€/TB)</span>
                     <span class="label-info" title="Kosten für ausgehenden Datenverkehr pro TB">ℹ️</span>
                 </label>
-                <input type="number" id="networkCost" value="50" min="0" step="10">
-                <small>Egress/Outbound Traffic</small>
+                <div class="slider-container">
+                    <input type="range" id="networkCost" class="slider" value="50" min="10" max="200" step="10">
+                    <output for="networkCost" id="networkCost-value" class="slider-value">€50</output>
+                </div>
+                <small>€10 bis €200 pro TB</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="backupCost">
                     <span class="label-text">Backup-Kosten (€/GB/Monat)</span>
                     <span class="label-info" title="Monatliche Kosten für Backup-Speicher">ℹ️</span>
                 </label>
-                <input type="number" id="backupCost" value="0.05" min="0" step="0.01">
-                <small>Backup & DR Storage</small>
+                <div class="slider-container">
+                    <input type="range" id="backupCost" class="slider" value="0.05" min="0.01" max="0.5" step="0.01">
+                    <output for="backupCost" id="backupCost-value" class="slider-value">€0.05</output>
+                </div>
+                <small>€0.01 bis €0.50 pro GB</small>
             </div>
 
             <!-- Personnel Costs -->
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="dbaCount">
                     <span class="label-text">Anzahl DBAs</span>
                     <span class="label-info" title="Anzahl Vollzeit-Datenbankadministratoren">ℹ️</span>
                 </label>
-                <input type="number" id="dbaCount" value="2" min="0" step="0.5">
-                <small>Database Administrators (FTE)</small>
+                <div class="slider-container">
+                    <input type="range" id="dbaCount" class="slider" value="2" min="0" max="10" step="0.5">
+                    <output for="dbaCount" id="dbaCount-value" class="slider-value">2 FTE</output>
+                </div>
+                <small>0 bis 10 FTE</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="dbaSalary">
                     <span class="label-text">DBA Gehalt (€/Jahr)</span>
                     <span class="label-info" title="Durchschnittliches Jahresgehalt pro DBA">ℹ️</span>
                 </label>
-                <input type="number" id="dbaSalary" value="85000" min="0" step="5000">
-                <small>Durchschnittliches Jahresgehalt</small>
+                <div class="slider-container">
+                    <input type="range" id="dbaSalary" class="slider" value="85000" min="40000" max="150000" step="5000">
+                    <output for="dbaSalary" id="dbaSalary-value" class="slider-value">€85.000</output>
+                </div>
+                <small>€40.000 bis €150.000</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="devCount">
                     <span class="label-text">Anzahl Entwickler</span>
                     <span class="label-info" title="Entwickler für Datenbankintegration">ℹ️</span>
                 </label>
-                <input type="number" id="devCount" value="5" min="0" step="0.5">
-                <small>Entwickler (FTE) für DB-Integration</small>
+                <div class="slider-container">
+                    <input type="range" id="devCount" class="slider" value="5" min="0" max="20" step="0.5">
+                    <output for="devCount" id="devCount-value" class="slider-value">5 FTE</output>
+                </div>
+                <small>0 bis 20 FTE</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="devSalary">
                     <span class="label-text">Dev Gehalt (€/Jahr)</span>
                     <span class="label-info" title="Durchschnittliches Jahresgehalt pro Entwickler">ℹ️</span>
                 </label>
-                <input type="number" id="devSalary" value="75000" min="0" step="5000">
-                <small>Durchschnittliches Jahresgehalt</small>
+                <div class="slider-container">
+                    <input type="range" id="devSalary" class="slider" value="75000" min="35000" max="130000" step="5000">
+                    <output for="devSalary" id="devSalary-value" class="slider-value">€75.000</output>
+                </div>
+                <small>€35.000 bis €130.000</small>
             </div>
 
             <!-- Additional Costs -->
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="trainingCost">
                     <span class="label-text">Schulungskosten (€/Jahr)</span>
                     <span class="label-info" title="Jährliche Kosten für Team-Schulungen">ℹ️</span>
                 </label>
-                <input type="number" id="trainingCost" value="20000" min="0" step="1000">
-                <small>Team Training & Zertifizierungen</small>
+                <div class="slider-container">
+                    <input type="range" id="trainingCost" class="slider" value="20000" min="0" max="100000" step="1000">
+                    <output for="trainingCost" id="trainingCost-value" class="slider-value">€20.000</output>
+                </div>
+                <small>€0 bis €100.000</small>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="supportCost">
                     <span class="label-text">Support-Kosten (€/Jahr)</span>
                     <span class="label-info" title="Jährliche Enterprise-Support-Kosten">ℹ️</span>
                 </label>
-                <input type="number" id="supportCost" value="50000" min="0" step="5000">
-                <small>Enterprise Support & Wartung</small>
+                <div class="slider-container">
+                    <input type="range" id="supportCost" class="slider" value="50000" min="0" max="200000" step="5000">
+                    <output for="supportCost" id="supportCost-value" class="slider-value">€50.000</output>
+                </div>
+                <small>€0 bis €200.000</small>
             </div>
 
             <!-- AI/LLM Features -->
@@ -171,13 +210,16 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group slider-group">
                 <label for="aiApiCost">
                     <span class="label-text">Externe AI API Kosten (€/Monat)</span>
                     <span class="label-info" title="Monatliche Kosten für externe AI APIs (OpenAI, etc.)">ℹ️</span>
                 </label>
-                <input type="number" id="aiApiCost" value="5000" min="0" step="500">
-                <small>Nur bei externen AI Services</small>
+                <div class="slider-container">
+                    <input type="range" id="aiApiCost" class="slider" value="5000" min="0" max="20000" step="500">
+                    <output for="aiApiCost" id="aiApiCost-value" class="slider-value">€5.000</output>
+                </div>
+                <small>€0 bis €20.000</small>
             </div>
         </div>
 
@@ -208,21 +250,53 @@
                         <span class="cost-label">Gesamtkosten</span>
                     </div>
                     <div class="cost-breakdown">
-                        <div class="cost-item">
-                            <span class="cost-item-label">Infrastruktur:</span>
-                            <span class="cost-item-value" id="themisdbInfra">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-infra')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Material & Infrastruktur:
+                                </span>
+                                <span class="cost-item-value" id="themisdbInfra">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="themisdb-infra-details">
+                                <small>Server, Storage, Netzwerk, Backups</small>
+                            </div>
                         </div>
-                        <div class="cost-item">
-                            <span class="cost-item-label">Personal:</span>
-                            <span class="cost-item-value" id="themisdbPersonnel">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-personnel')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Personal:
+                                </span>
+                                <span class="cost-item-value" id="themisdbPersonnel">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="themisdb-personnel-details">
+                                <small>DBAs & Entwickler (inkl. 30% Overhead für Sozialleistungen)</small>
+                            </div>
                         </div>
-                        <div class="cost-item">
-                            <span class="cost-item-label">Lizenzen:</span>
-                            <span class="cost-item-value" id="themisdbLicense">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-software')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Software & Lizenzen:
+                                </span>
+                                <span class="cost-item-value" id="themisdbLicense">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="themisdb-software-details">
+                                <small>ThemisDB Lizenz (Community = kostenlos)</small>
+                            </div>
                         </div>
-                        <div class="cost-item">
-                            <span class="cost-item-label">Betrieb:</span>
-                            <span class="cost-item-value" id="themisdbOps">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-ops')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Betrieb & Schulung:
+                                </span>
+                                <span class="cost-item-value" id="themisdbOps">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="themisdb-ops-details">
+                                <small>Support, Wartung, Team-Schulungen</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -239,21 +313,53 @@
                         <span class="cost-label">Gesamtkosten</span>
                     </div>
                     <div class="cost-breakdown">
-                        <div class="cost-item">
-                            <span class="cost-item-label">Compute:</span>
-                            <span class="cost-item-value" id="hyperscalerCompute">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-compute')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Compute (Pay-per-Request):
+                                </span>
+                                <span class="cost-item-value" id="hyperscalerCompute">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="hyperscaler-compute-details">
+                                <small>Nutzungsbasierte Abrechnung pro Anfrage</small>
+                            </div>
                         </div>
-                        <div class="cost-item">
-                            <span class="cost-item-label">Storage:</span>
-                            <span class="cost-item-value" id="hyperscalerStorage">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-storage')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Storage:
+                                </span>
+                                <span class="cost-item-value" id="hyperscalerStorage">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="hyperscaler-storage-details">
+                                <small>Redundante Speicherung (1.5x Multiplikator)</small>
+                            </div>
                         </div>
-                        <div class="cost-item">
-                            <span class="cost-item-label">Network:</span>
-                            <span class="cost-item-value" id="hyperscalerNetwork">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-network')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    Network (Egress):
+                                </span>
+                                <span class="cost-item-value" id="hyperscalerNetwork">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="hyperscaler-network-details">
+                                <small>Datenübertragungskosten (ausgehend)</small>
+                            </div>
                         </div>
-                        <div class="cost-item">
-                            <span class="cost-item-label">AI APIs:</span>
-                            <span class="cost-item-value" id="hyperscalerAI">€0</span>
+                        <div class="cost-item collapsible-item">
+                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-ai')">
+                                <span class="cost-item-label">
+                                    <span class="collapse-icon">▼</span>
+                                    AI APIs:
+                                </span>
+                                <span class="cost-item-value" id="hyperscalerAI">€0</span>
+                            </div>
+                            <div class="cost-item-details" id="hyperscaler-ai-details">
+                                <small>Externe AI API Kosten (OpenAI, Anthropic, etc.)</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -283,6 +389,45 @@
         <div class="chart-container">
             <h3>📊 Kostenvergleich über 3 Jahre</h3>
             <canvas id="costChart"></canvas>
+        </div>
+
+        <!-- Mermaid Diagram Section -->
+        <div class="mermaid-container">
+            <h3>📊 Dynamischer Kostenvergleich (Mermaid)</h3>
+            <div class="mermaid-diagram" id="mermaidDiagram">
+                <!-- Mermaid diagram will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Personnel Cost Explanation -->
+        <div class="info-box personnel-explanation">
+            <h3>💡 Warum erscheinen die Personalkosten hoch?</h3>
+            <p>
+                Die Personalkosten bei ThemisDB umfassen nicht nur die reinen Gehälter, sondern auch:
+            </p>
+            <ul>
+                <li><strong>30% Overhead</strong> für Sozialleistungen, Büroinfrastruktur, Equipment und andere Nebenkosten</li>
+                <li><strong>Qualifiziertes Personal</strong>: DBAs und Entwickler für optimalen Betrieb und Integration</li>
+                <li><strong>Vollständige Kontrolle</strong>: Im Gegensatz zu Hyperscalern, wo Personal versteckt in den Service-Kosten enthalten ist</li>
+            </ul>
+            <p>
+                <strong>Wichtiger Kontext:</strong> Bei Hyperscalern zahlen Sie ebenfalls für Personal - es ist nur unsichtbar in den Service-Preisen eingerechnet. 
+                Bei ThemisDB haben Sie die <em>Transparenz</em> und können durch Automatisierung und Effizienz diese Kosten optimieren.
+                Zudem entfällt bei der <strong>Community Edition</strong> die Lizenzgebühr komplett, was erhebliche Einsparungen ermöglicht.
+            </p>
+            <div class="cost-comparison-highlight">
+                <h4>💰 Der Unterschied:</h4>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <strong>ThemisDB:</strong>
+                        <p>Transparente Personalkosten + Keine/Niedrige Lizenzkosten + Vorhersagbare Infrastruktur</p>
+                    </div>
+                    <div class="comparison-item">
+                        <strong>Hyperscaler:</strong>
+                        <p>Versteckte Personalkosten in Pay-per-Request + Unvorhersagbare Kosten bei Skalierung</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Detailed Breakdown -->

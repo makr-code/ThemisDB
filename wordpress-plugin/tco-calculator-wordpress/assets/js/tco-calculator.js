@@ -101,6 +101,89 @@ class TCOCalculator {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
         });
+
+        // Initialize sliders
+        this.initializeSliders();
+    }
+
+    /**
+     * Initialize slider event listeners and value displays
+     */
+    initializeSliders() {
+        const sliders = document.querySelectorAll('.slider');
+        sliders.forEach(slider => {
+            const outputId = slider.id + '-value';
+            const output = document.getElementById(outputId);
+            
+            if (output) {
+                // Set initial value
+                this.updateSliderValue(slider, output);
+                this.updateSliderBackground(slider);
+                
+                // Update on input
+                slider.addEventListener('input', () => {
+                    this.updateSliderValue(slider, output);
+                    this.updateSliderBackground(slider);
+                });
+            }
+        });
+    }
+
+    /**
+     * Update slider value display
+     */
+    updateSliderValue(slider, output) {
+        const value = parseFloat(slider.value);
+        const id = slider.id;
+        
+        // Format value based on slider type
+        let formattedValue;
+        switch (id) {
+            case 'requestsPerDay':
+                formattedValue = this.formatNumber(value);
+                break;
+            case 'dataSize':
+                formattedValue = `${this.formatNumber(value)} GB`;
+                break;
+            case 'peakLoad':
+                formattedValue = `${value}x`;
+                break;
+            case 'serverCost':
+            case 'networkCost':
+            case 'trainingCost':
+            case 'supportCost':
+            case 'aiApiCost':
+                formattedValue = `€${this.formatNumber(value)}`;
+                break;
+            case 'storageCostPerGB':
+            case 'backupCost':
+                formattedValue = `€${value.toFixed(2)}`;
+                break;
+            case 'dbaCount':
+            case 'devCount':
+                formattedValue = `${value} FTE`;
+                break;
+            case 'dbaSalary':
+            case 'devSalary':
+                formattedValue = `€${this.formatNumber(value)}`;
+                break;
+            default:
+                formattedValue = value;
+        }
+        
+        output.textContent = formattedValue;
+    }
+
+    /**
+     * Update slider background to show progress
+     */
+    updateSliderBackground(slider) {
+        const value = slider.value;
+        const min = slider.min || 0;
+        const max = slider.max || 100;
+        const percentage = ((value - min) / (max - min)) * 100;
+        
+        slider.style.background = `linear-gradient(to right, var(--secondary-color) 0%, var(--secondary-color) ${percentage}%, var(--light-bg) ${percentage}%, var(--light-bg) 100%)`;
     }
 
     /**
@@ -304,6 +387,7 @@ class TCOCalculator {
     displayResults() {
         this.updateSummaryCards();
         this.createChart();
+        this.createMermaidDiagram();
         this.updateBreakdownTables();
         this.generateInsights();
     }
@@ -468,6 +552,85 @@ class TCOCalculator {
                 },
             },
         });
+    }
+
+    /**
+     * Create Mermaid diagram for cost comparison
+     */
+    createMermaidDiagram() {
+        const mermaidContainer = document.getElementById('mermaidDiagram');
+        if (!mermaidContainer) {
+            return;
+        }
+
+        const themisdb = this.results.themisdb;
+        const hyperscaler = this.results.hyperscaler;
+        
+        // Calculate percentages for better visualization
+        const themisdbInfra = themisdb.costs.infrastructure.reduce((a, b) => a + b, 0);
+        const themisdbPersonnel = themisdb.costs.personnel.reduce((a, b) => a + b, 0);
+        const themisdbLicense = themisdb.costs.licenses.reduce((a, b) => a + b, 0);
+        const themisdbOps = themisdb.costs.operations.reduce((a, b) => a + b, 0);
+        
+        const themisdbInfraPercent = ((themisdbInfra / themisdb.totalCost) * 100).toFixed(1);
+        const themisdbPersonnelPercent = ((themisdbPersonnel / themisdb.totalCost) * 100).toFixed(1);
+        const themisdbLicensePercent = ((themisdbLicense / themisdb.totalCost) * 100).toFixed(1);
+        const themisdbOpsPercent = ((themisdbOps / themisdb.totalCost) * 100).toFixed(1);
+        
+        const hyperscalerCompute = hyperscaler.costs.compute.reduce((a, b) => a + b, 0);
+        const hyperscalerStorage = hyperscaler.costs.storage.reduce((a, b) => a + b, 0);
+        const hyperscalerNetwork = hyperscaler.costs.network.reduce((a, b) => a + b, 0);
+        const hyperscalerAI = hyperscaler.costs.ai.reduce((a, b) => a + b, 0);
+        
+        const hyperscalerComputePercent = ((hyperscalerCompute / hyperscaler.totalCost) * 100).toFixed(1);
+        const hyperscalerStoragePercent = ((hyperscalerStorage / hyperscaler.totalCost) * 100).toFixed(1);
+        const hyperscalerNetworkPercent = ((hyperscalerNetwork / hyperscaler.totalCost) * 100).toFixed(1);
+        const hyperscalerAIPercent = ((hyperscalerAI / hyperscaler.totalCost) * 100).toFixed(1);
+        
+        // Create Mermaid diagram
+        const mermaidCode = `
+graph TB
+    subgraph ThemisDB["<b>ThemisDB TCO: ${this.formatCurrency(themisdb.totalCost)}</b>"]
+        T1["Material & Infrastruktur<br/>${this.formatCurrency(themisdbInfra)}<br/>(${themisdbInfraPercent}%)"]
+        T2["Personal<br/>${this.formatCurrency(themisdbPersonnel)}<br/>(${themisdbPersonnelPercent}%)"]
+        T3["Software & Lizenzen<br/>${this.formatCurrency(themisdbLicense)}<br/>(${themisdbLicensePercent}%)"]
+        T4["Betrieb & Schulung<br/>${this.formatCurrency(themisdbOps)}<br/>(${themisdbOpsPercent}%)"]
+    end
+    
+    subgraph Hyperscaler["<b>Hyperscaler TCO: ${this.formatCurrency(hyperscaler.totalCost)}</b>"]
+        H1["Compute Pay-per-Request<br/>${this.formatCurrency(hyperscalerCompute)}<br/>(${hyperscalerComputePercent}%)"]
+        H2["Storage<br/>${this.formatCurrency(hyperscalerStorage)}<br/>(${hyperscalerStoragePercent}%)"]
+        H3["Network Egress<br/>${this.formatCurrency(hyperscalerNetwork)}<br/>(${hyperscalerNetworkPercent}%)"]
+        H4["AI APIs<br/>${this.formatCurrency(hyperscalerAI)}<br/>(${hyperscalerAIPercent}%)"]
+    end
+    
+    style T1 fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style T2 fill:#ffeaa7,stroke:#fdcb6e,stroke-width:2px
+    style T3 fill:#dfe6e9,stroke:#636e72,stroke-width:2px
+    style T4 fill:#74b9ff,stroke:#0984e3,stroke-width:2px
+    
+    style H1 fill:#fab1a0,stroke:#e17055,stroke-width:2px
+    style H2 fill:#fdcb6e,stroke:#f39c12,stroke-width:2px
+    style H3 fill:#a29bfe,stroke:#6c5ce7,stroke-width:2px
+    style H4 fill:#fd79a8,stroke:#e84393,stroke-width:2px
+    
+    style ThemisDB fill:#e8f8f5,stroke:#27ae60,stroke-width:3px
+    style Hyperscaler fill:#fef5e7,stroke:#f39c12,stroke-width:3px
+        `;
+        
+        // Check if Mermaid is available
+        if (typeof mermaid !== 'undefined') {
+            mermaidContainer.innerHTML = `<div class="mermaid">${mermaidCode}</div>`;
+            mermaid.init(undefined, mermaidContainer.querySelector('.mermaid'));
+        } else {
+            mermaidContainer.innerHTML = `
+                <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
+                    <p>⚠️ Mermaid.js wird geladen...</p>
+                    <p>Falls das Diagramm nicht erscheint, laden Sie die Seite bitte neu.</p>
+                </div>
+            `;
+            console.warn('Mermaid.js not available for diagram rendering');
+        }
     }
 
     /**
@@ -656,6 +819,17 @@ class TCOCalculator {
         document.getElementById('useAI').value = 'false';
         document.getElementById('aiApiCost').value = 5000;
         
+        // Update all slider displays
+        const sliders = document.querySelectorAll('.slider');
+        sliders.forEach(slider => {
+            const outputId = slider.id + '-value';
+            const output = document.getElementById(outputId);
+            if (output) {
+                this.updateSliderValue(slider, output);
+                this.updateSliderBackground(slider);
+            }
+        });
+        
         const resultsSection = document.getElementById('resultsSection');
         if (resultsSection) {
             resultsSection.style.display = 'none';
@@ -710,3 +884,19 @@ if (document.readyState === 'loading') {
     window.tcoCalculator = calculator;
     console.log('ThemisDB TCO Calculator (WordPress) initialized');
 }
+
+/**
+ * Toggle cost details visibility
+ * @param {string} detailsId - ID prefix of the details element
+ */
+function toggleCostDetails(detailsId) {
+    const detailsElement = document.getElementById(detailsId + '-details');
+    const parentItem = detailsElement.closest('.collapsible-item');
+    
+    if (parentItem) {
+        parentItem.classList.toggle('collapsed');
+    }
+}
+
+// Make toggle function globally available
+window.toggleCostDetails = toggleCostDetails;
