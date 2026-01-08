@@ -373,11 +373,6 @@ a:focus {
 .menu-toggle[aria-expanded="true"] .menu-icon {
     transform: rotate(90deg);
 }
-    font-size: 1rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-}
 
 .menu-toggle:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -2671,7 +2666,7 @@ select:focus {
     margin-bottom: 1.5em;
 }
 
-/* Drop caps for better visual interest */
+/* Drop caps for better visual interest - respects user preferences */
 .entry-content > p:first-of-type::first-letter {
     font-size: 3.5em;
     line-height: 0.8;
@@ -2679,6 +2674,18 @@ select:focus {
     margin: 0.1em 0.1em 0 0;
     color: var(--accent-purple);
     font-weight: bold;
+}
+
+/* Disable drop caps for users who prefer reduced motion or simplified view */
+@media (prefers-reduced-motion: reduce), (prefers-contrast: more) {
+    .entry-content > p:first-of-type::first-letter {
+        font-size: inherit;
+        line-height: inherit;
+        float: none;
+        margin: 0;
+        color: inherit;
+        font-weight: inherit;
+    }
 }
 
 /* Better blockquote styling */
@@ -2728,22 +2735,24 @@ article:hover {
     transform: scale(1.05);
 }
 
-/* Add overlay on image hover */
+/* Add overlay on image hover - decorative only, hidden from screen readers */
 .entry-thumbnail::after {
-    content: '🔗';
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 3rem;
-    color: white;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle, rgba(124, 77, 255, 0.3) 0%, rgba(52, 152, 219, 0.5) 100%);
+    transform: scale(0);
     transition: transform 0.3s ease;
     pointer-events: none;
+    opacity: 0;
 }
 
 .entry-thumbnail:hover::after {
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
+    opacity: 1;
 }
 
 /* ===== Visual Hierarchy Improvements ===== */
