@@ -112,8 +112,12 @@
      * Uses WordPress posts, pages, categories, and tags data passed from PHP
      */
     function buildGraphData() {
-        // Check if WordPress data is available
-        if (typeof themisdbGraphData !== 'undefined' && themisdbGraphData.nodes && themisdbGraphData.links) {
+        // Check if WordPress data is available with thorough validation
+        if (typeof themisdbGraphData !== 'undefined' && 
+            themisdbGraphData && 
+            Array.isArray(themisdbGraphData.nodes) && 
+            Array.isArray(themisdbGraphData.links) &&
+            themisdbGraphData.nodes.length > 0) {
             console.log('Using WordPress content data for graph');
             return processWordPressGraphData(themisdbGraphData);
         }
@@ -454,15 +458,18 @@
             .attr('class', 'graph-tooltip')
             .style('position', 'absolute')
             .style('visibility', 'hidden')
-            .style('background', 'rgba(44, 62, 80, 0.95)')
+            .style('background', 'linear-gradient(135deg, rgba(44, 62, 80, 0.98) 0%, rgba(52, 73, 94, 0.98) 100%)')
             .style('color', '#fff')
-            .style('padding', '12px')
-            .style('border-radius', '8px')
-            .style('font-size', '13px')
-            .style('max-width', '300px')
-            .style('box-shadow', '0 4px 12px rgba(0,0,0,0.3)')
+            .style('padding', '16px')
+            .style('border-radius', '12px')
+            .style('font-size', '14px')
+            .style('max-width', '320px')
+            .style('min-width', '200px')
+            .style('box-shadow', '0 8px 24px rgba(0,0,0,0.4)')
             .style('pointer-events', 'none')
-            .style('z-index', '10000');
+            .style('z-index', '10000')
+            .style('border', '2px solid rgba(124, 77, 255, 0.5)')
+            .style('line-height', '1.6');
 
         // Add hover effects
         node.on('mouseover', function(event, d) {
@@ -484,24 +491,46 @@
                 (l.source.id === d.id || l.target.id === d.id) ? 1 : 0
             );
             
-            // Show tooltip with node information
-            let tooltipHTML = `<strong>${d.icon} ${d.label}</strong><br/>`;
-            tooltipHTML += `<em>${d.type}</em>`;
+            // Show tooltip with node information and quick link
+            let tooltipHTML = '<div style="border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 8px;">';
+            tooltipHTML += `<strong style="font-size: 16px;">${d.icon} ${d.label}</strong>`;
+            tooltipHTML += '</div>';
             
+            // Type badge
+            const typeColors = {
+                'home': '#7c4dff',
+                'category': '#3498db',
+                'tag': '#f39c12',
+                'page': '#27ae60',
+                'post': '#e74c3c'
+            };
+            const typeColor = typeColors[d.type] || '#95a5a6';
+            tooltipHTML += `<div style="margin-bottom: 12px;"><span style="background: ${typeColor}; padding: 2px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase; font-weight: bold;">${d.type}</span></div>`;
+            
+            // Content information
             if (d.excerpt && d.excerpt.trim()) {
-                tooltipHTML += `<br/><br/>${d.excerpt}`;
+                tooltipHTML += `<div style="color: #ecf0f1; margin-bottom: 12px; font-size: 13px; line-height: 1.5;">${d.excerpt}</div>`;
             }
             
+            // Metadata
             if (d.count && d.count > 0) {
-                tooltipHTML += `<br/><br/>📊 ${d.count} items`;
+                tooltipHTML += `<div style="color: #bdc3c7; font-size: 12px; margin-bottom: 4px;">📊 <strong>${d.count}</strong> ${d.type === 'category' ? 'posts' : 'items'}</div>`;
             }
             
             if (d.date) {
                 const date = new Date(d.date);
-                tooltipHTML += `<br/>📅 ${date.toLocaleDateString()}`;
+                const formattedDate = date.toLocaleDateString('de-DE', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                tooltipHTML += `<div style="color: #bdc3c7; font-size: 12px; margin-bottom: 8px;">📅 ${formattedDate}</div>`;
             }
             
-            tooltipHTML += `<br/><br/><small>Click to visit</small>`;
+            // Quick link button
+            tooltipHTML += '<div style="border-top: 2px solid rgba(255,255,255,0.2); padding-top: 8px; margin-top: 8px; text-align: center;">';
+            tooltipHTML += '<span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block;">🔗 Klicken zum Öffnen</span>';
+            tooltipHTML += '</div>';
             
             tooltip
                 .html(tooltipHTML)

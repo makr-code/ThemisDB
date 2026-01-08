@@ -15,12 +15,14 @@ on:
       - 'wordpress-theme/**'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-and-deploy:
     name: Build and Deploy WordPress Theme
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Only this job needs write permission for releases
     
     steps:
       - name: Checkout repository

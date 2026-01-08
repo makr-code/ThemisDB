@@ -20,20 +20,11 @@
     const menuItemsWithChildren = document.querySelectorAll('.main-navigation .menu-item-has-children');
     
     // Desktop dropdown delay to prevent accidental closing
-    let dropdownTimeout;
     if (window.innerWidth > 768) {
         menuItemsWithChildren.forEach(function(item) {
             const submenu = item.querySelector('ul');
             if (submenu) {
-                // Add a slight delay when mouse leaves to prevent accidental closing
-                item.addEventListener('mouseleave', function() {
-                    clearTimeout(dropdownTimeout);
-                    dropdownTimeout = setTimeout(function() {
-                        // CSS :hover handles the actual hiding - this timeout just prevents
-                        // immediate closing if user briefly moves mouse off the menu
-                    }, 100);
-                });
-
+                // Clear any existing timeout when mouse enters
                 item.addEventListener('mouseenter', function() {
                     clearTimeout(dropdownTimeout);
                 });

@@ -200,10 +200,15 @@ add_action( 'wp_enqueue_scripts', 'themisdb_scripts' );
 /**
  * Get graph data for visualization
  * Builds a network of posts, pages, categories, and tags
+ * Limits can be filtered via 'themisdb_graph_post_limit' and 'themisdb_graph_page_limit'
  */
 function themisdb_get_graph_data() {
     $nodes = array();
     $links = array();
+    
+    // Allow customization of limits via filters
+    $post_limit = apply_filters( 'themisdb_graph_post_limit', 50 );
+    $page_limit = apply_filters( 'themisdb_graph_page_limit', 30 );
     
     // Get all categories
     $categories = get_categories( array(
@@ -215,16 +220,16 @@ function themisdb_get_graph_data() {
         'hide_empty' => false,
     ) );
     
-    // Get all posts (limit to recent 50 for performance)
+    // Get all posts (limit to recent posts for performance)
     $posts = get_posts( array(
-        'numberposts' => 50,
+        'numberposts' => $post_limit,
         'post_status' => 'publish',
         'post_type'   => 'post',
     ) );
     
-    // Get all pages (limit to 30 for performance)
+    // Get all pages (limit for performance)
     $pages = get_posts( array(
-        'numberposts' => 30,
+        'numberposts' => $page_limit,
         'post_status' => 'publish',
         'post_type'   => 'page',
     ) );
