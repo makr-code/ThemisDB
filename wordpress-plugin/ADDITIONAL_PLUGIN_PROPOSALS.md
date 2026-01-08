@@ -17,6 +17,17 @@ Based on the analysis of existing ThemisDB WordPress plugins, this document prop
 4. **Social Proof** - Success stories and testimonials
 5. **Developer Tools** - Useful tools for developers
 
+### ⚠️ Important: Duplication Avoidance
+
+A **cross-reference analysis** (see [CROSS_REFERENCE_TOOLS_EXAMPLES.md](CROSS_REFERENCE_TOOLS_EXAMPLES.md)) was performed to avoid overlaps between `/tools/`, `/examples/`, and `/wordpress-plugin/`.
+
+**Established Pattern (similar to TCO Calculator):**
+- ✅ **Standalone Version** in `/tools/<tool-name>/` (HTML/JS)
+- ✅ **WordPress Variant** in `/wordpress-plugin/<tool-name>-wordpress/`
+- ✅ **Data Source Principle:** Aggregation instead of duplication
+  - Plugins link to existing data in `/examples/`, `/docs/`, `/benchmarks/`
+  - **NO** code duplication, only referencing and embedding
+
 ---
 
 ## Existing Plugins (Overview)

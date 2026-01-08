@@ -17,6 +17,17 @@ Basierend auf der Analyse der bestehenden ThemisDB WordPress-Plugins werden hier
 4. **Social Proof** - Success Stories und Testimonials
 5. **Developer Tools** - Nützliche Tools für Entwickler
 
+### ⚠️ Wichtig: Duplikationsvermeidung
+
+Eine **Cross-Reference-Analyse** (siehe [CROSS_REFERENCE_TOOLS_EXAMPLES.md](CROSS_REFERENCE_TOOLS_EXAMPLES.md)) wurde durchgeführt, um Überschneidungen zwischen `/tools/`, `/examples/` und `/wordpress-plugin/` zu vermeiden.
+
+**Etabliertes Pattern (analog TCO Calculator):**
+- ✅ **Standalone Version** in `/tools/<tool-name>/` (HTML/JS)
+- ✅ **WordPress-Variante** in `/wordpress-plugin/<tool-name>-wordpress/`
+- ✅ **Datenquellen-Prinzip:** Aggregation statt Duplikation
+  - Plugins verlinken zu existierenden Daten in `/examples/`, `/docs/`, `/benchmarks/`
+  - **KEIN** Code dupliziert, sondern referenziert und eingebettet
+
 ---
 
 ## Bestehende Plugins (Übersicht)
@@ -42,6 +53,12 @@ Basierend auf der Analyse der bestehenden ThemisDB WordPress-Plugins werden hier
 ### 1. 🎓 ThemisDB Tutorial Builder Plugin
 **Priorität:** Hoch  
 **Zweck:** Interaktive Step-by-Step Tutorials für ThemisDB Features
+
+#### ⚠️ Duplikationsvermeidung
+- **Datenquelle:** Nutzt bestehende `HOW_TO.md` aus `/examples/*/HOW_TO.md`
+- **Standalone Version:** Erstelle `/tools/tutorial-builder/` (HTML/JS)
+- **WordPress-Variante:** `/wordpress-plugin/tutorial-builder-wordpress/`
+- **Keine Duplikation:** Tutorials werden aus `/examples/` gelesen, nicht kopiert
 
 #### Features
 - **Guided Walkthroughs**: Schritt-für-Schritt Anleitungen
@@ -84,6 +101,16 @@ Basierend auf der Analyse der bestehenden ThemisDB WordPress-Plugins werden hier
 ### 2. 🏆 Use Case Showcase Plugin
 **Priorität:** Hoch  
 **Zweck:** Real-World Use Cases von ThemisDB demonstrieren
+
+#### ⚠️ Duplikationsvermeidung
+- **Datenquelle:** Nutzt bestehende Use Cases aus `/examples/` (22+ Beispiele)
+- **Standalone Version:** Erstelle `/tools/use-case-showcase/` (HTML/JS)
+- **WordPress-Variante:** `/wordpress-plugin/use-case-showcase-wordpress/`
+- **Aggregator-Prinzip:** Plugin listet und verlinkt zu `/examples/`, dupliziert Code NICHT
+  - Zeigt README.md Zusammenfassungen
+  - Verlinkt zu vollständigem Code auf GitHub
+  - Zeigt Screenshots/Diagramme (falls vorhanden)
+  - Performance-Metriken aus Benchmarks
 
 #### Features
 - **Industry-Specific Use Cases**: E-Commerce, Healthcare, Finance, IoT, Gaming
@@ -224,6 +251,16 @@ Basierend auf der Analyse der bestehenden ThemisDB WordPress-Plugins werden hier
 **Priorität:** Mittel  
 **Zweck:** Code-Beispiele für verschiedene Programming Languages und Frameworks
 
+#### ⚠️ Duplikationsvermeidung
+- **Datenquelle:** Code-Beispiele existieren in `/clients/`, `/sdks/`, `/examples/`
+- **Standalone Version:** Erstelle `/tools/sdk-examples-browser/` (HTML/JS)
+- **WordPress-Variante:** `/wordpress-plugin/sdk-examples-wordpress/`
+- **Code-Browser-Prinzip:** Plugin scannt und zeigt bestehenden Code, dupliziert ihn NICHT
+  - Scannt `/clients/` und `/examples/` für Code
+  - Gruppiert nach Sprache/Framework
+  - Zeigt Code via GitHub embed oder iframe
+  - Links zu vollständigen Repos
+
 #### Features
 - **Multi-Language Code Samples**: Python, Java, Go, JavaScript, C#, PHP, Ruby
 - **Framework Examples**: Spring Boot, Django, Express.js, .NET, Laravel
@@ -345,6 +382,16 @@ add_filter('the_content', 'themisdb_auto_link_terms');
 ### 8. 🎨 Interactive Performance Calculator
 **Priorität:** Niedrig  
 **Zweck:** Berechne erwartete Performance basierend auf Workload
+
+#### ⚠️ Duplikationsvermeidung
+- **Existing Tool:** `/tools/compare_hyperscaler.py` (CLI-Tool für Hyperscaler-Vergleich)
+- **Standalone Version:** Erstelle `/tools/performance-calculator/` (HTML/JS)
+- **WordPress-Variante:** `/wordpress-plugin/performance-calculator-wordpress/`
+- **Analog zu TCO Calculator Pattern:**
+  - Python-Tool bleibt für CLI/Scripting-Nutzung
+  - Neue Standalone HTML/JS Version für Browser
+  - WordPress-Plugin als Web-Integration
+  - **KEINE** Duplikation der Logik - shared formulas
 
 #### Features
 - **Workload Profile Input**: Read/Write Ratio, Query Types, Data Size
