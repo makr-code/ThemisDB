@@ -32,6 +32,7 @@ define('THEMISDB_DOWNLOADS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_DOWNLOADS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 // Include required files
+require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-markdown-converter.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-github-api.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-admin.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-shortcodes.php';
@@ -105,10 +106,19 @@ function themisdb_downloads_enqueue_scripts() {
         THEMISDB_DOWNLOADS_VERSION
     );
     
+    // Enqueue Mermaid.js for diagram rendering
+    wp_enqueue_script(
+        'mermaid-js',
+        'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js',
+        array(),
+        '10.0.0',
+        true
+    );
+    
     wp_enqueue_script(
         'themisdb-downloads-script',
         THEMISDB_DOWNLOADS_PLUGIN_URL . 'assets/js/script.js',
-        array('jquery'),
+        array('jquery', 'mermaid-js'),
         THEMISDB_DOWNLOADS_VERSION,
         true
     );
