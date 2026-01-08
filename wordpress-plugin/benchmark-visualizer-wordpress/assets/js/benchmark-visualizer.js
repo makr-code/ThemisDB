@@ -290,25 +290,37 @@
                 html += '<div class="stat-icon">⏱️</div>';
                 html += '<div class="stat-value">' + summary.avg_time.toFixed(2) + '</div>';
                 html += '<div class="stat-label">Average ' + (metric === 'latency' ? 'Latency (ms)' : 
-                                                             metric === 'throughput' ? 'Throughput' : 'Value') + '</div>';
+                                                             metric === 'throughput' ? 'Throughput (ops/sec)' : 'Value') + '</div>';
                 html += '</div>';
             }
             
-            // Fastest
+            // Fastest / Best performance
             if (summary.fastest !== null) {
                 html += '<div class="themisdb-stat-card success">';
                 html += '<div class="stat-icon">🚀</div>';
                 html += '<div class="stat-value">' + summary.fastest.toFixed(2) + '</div>';
-                html += '<div class="stat-label">Best Performance</div>';
+                html += '<div class="stat-label">';
+                if (metric === 'throughput') {
+                    html += 'Lowest Throughput';
+                } else {
+                    html += 'Best Performance';
+                }
+                html += '</div>';
                 html += '</div>';
             }
             
-            // Slowest
+            // Slowest / Worst performance or Peak
             if (summary.slowest !== null) {
                 html += '<div class="themisdb-stat-card warning">';
                 html += '<div class="stat-icon">🐌</div>';
                 html += '<div class="stat-value">' + summary.slowest.toFixed(2) + '</div>';
-                html += '<div class="stat-label">Slowest Operation</div>';
+                html += '<div class="stat-label">';
+                if (metric === 'throughput') {
+                    html += 'Peak Throughput';
+                } else {
+                    html += 'Slowest Operation';
+                }
+                html += '</div>';
                 html += '</div>';
             }
             
@@ -353,6 +365,8 @@
                 } else if (metric === 'throughput') {
                     html += 'Average throughput: <strong>' + summary.avg_time.toFixed(0) + ' ops/sec</strong>. ';
                     html += 'Peak throughput: <strong>' + summary.slowest.toFixed(0) + ' ops/sec</strong>.';
+                } else {
+                    html += 'Average value: <strong>' + summary.avg_time.toFixed(2) + '</strong>.';
                 }
                 html += '</p></div>';
             }

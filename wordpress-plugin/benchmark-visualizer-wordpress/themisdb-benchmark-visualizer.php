@@ -301,27 +301,34 @@ class ThemisDB_Benchmark_Visualizer {
      */
     private function find_benchmark_directory() {
         // Try multiple possible locations
-        $possible_paths = array(
-            // Relative to plugin directory
-            THEMISDB_BV_PLUGIN_DIR . '../../benchmarks/benchmark_results/20251223_085556',
-            THEMISDB_BV_PLUGIN_DIR . '../../../benchmarks/benchmark_results/20251223_085556',
-            // Absolute paths
-            '/home/runner/work/ThemisDB/ThemisDB/benchmarks/benchmark_results/20251223_085556',
-            dirname(THEMISDB_BV_PLUGIN_DIR, 4) . '/benchmarks/benchmark_results/20251223_085556',
-        );
+        $possible_paths = array();
         
-        foreach ($possible_paths as $path) {
-            if (is_dir($path)) {
-                return $path;
-            }
+        // Relative to plugin directory (common WordPress installations)
+        $possible_paths[] = THEMISDB_BV_PLUGIN_DIR . '../../benchmarks/benchmark_results';
+        $possible_paths[] = THEMISDB_BV_PLUGIN_DIR . '../../../benchmarks/benchmark_results';
+        
+        // Try to find from document root
+        if (isset($_SERVER['DOCUMENT_ROOT'])) {
+            $doc_root = $_SERVER['DOCUMENT_ROOT'];
+            $possible_paths[] = $doc_root . '/benchmarks/benchmark_results';
+            $possible_paths[] = dirname($doc_root) . '/benchmarks/benchmark_results';
         }
         
-        // Try to find latest benchmark results
-        $benchmark_base = dirname(THEMISDB_BV_PLUGIN_DIR, 4) . '/benchmarks/benchmark_results';
-        if (is_dir($benchmark_base)) {
-            $dirs = glob($benchmark_base . '/202*', GLOB_ONLYDIR);
+        // Check if environment variable is set
+        if (getenv('THEMISDB_BENCHMARK_PATH')) {
+            $possible_paths[] = getenv('THEMISDB_BENCHMARK_PATH');
+        }
+        
+        // Try each path and find the latest dated directory
+        foreach ($possible_paths as $base_path) {
+            if (!is_dir($base_path)) {
+                continue;
+            }
+            
+            // Find latest dated directory (format: YYYYMMDD_HHMMSS)
+            $dirs = glob($base_path . '/202*', GLOB_ONLYDIR);
             if (!empty($dirs)) {
-                rsort($dirs); // Get latest
+                rsort($dirs); // Sort descending to get latest first
                 return $dirs[0];
             }
         }
@@ -408,6 +415,8 @@ class ThemisDB_Benchmark_Visualizer {
             'avg_time' => 0,
             'fastest' => null,
             'slowest' => null,
+            'min_value' => null,
+            'max_value' => null,
             'files_parsed' => 0,
         );
         
@@ -432,6 +441,16 @@ class ThemisDB_Benchmark_Visualizer {
                     $data_points[] = $value;
                     $summary_stats['total_benchmarks']++;
                     
+                    // Track min and max for all metrics
+                    if ($summary_stats['min_value'] === null || $value < $summary_stats['min_value']) {
+                        $summary_stats['min_value'] = $value;
+                    }
+                    if ($summary_stats['max_value'] === null || $value > $summary_stats['max_value']) {
+                        $summary_stats['max_value'] = $value;
+                    }
+                    
+                    // For latency, fastest = lowest, slowest = highest
+                    // For throughput, fastest = highest, slowest = lowest
                     if ($summary_stats['fastest'] === null || $value < $summary_stats['fastest']) {
                         $summary_stats['fastest'] = $value;
                     }
