@@ -51,6 +51,21 @@ if (!defined('ABSPATH')) {
                     <option value="performance_comparison" <?php selected($atts['view'], 'performance_comparison'); ?>>
                         <?php _e('Performance by Hardware', 'themisdb-architecture-diagrams'); ?>
                     </option>
+                    <option value="tco_comparison" <?php selected($atts['view'], 'tco_comparison'); ?>>
+                        <?php _e('TCO Over Time (1-5 Years)', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="feature_matrix" <?php selected($atts['view'], 'feature_matrix'); ?>>
+                        <?php _e('Feature Matrix', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="deployment_options" <?php selected($atts['view'], 'deployment_options'); ?>>
+                        <?php _e('Deployment Options', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="use_case_recommendations" <?php selected($atts['view'], 'use_case_recommendations'); ?>>
+                        <?php _e('Use Case Recommendations', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="migration_paths" <?php selected($atts['view'], 'migration_paths'); ?>>
+                        <?php _e('Migration Paths', 'themisdb-architecture-diagrams'); ?>
+                    </option>
                 </optgroup>
             </select>
         </div>

@@ -25,11 +25,15 @@ This plugin follows the established **TCO Calculator** template pattern and prov
 - 🆚 **Database Comparison**: ThemisDB vs PostgreSQL, MongoDB, Neo4j with feature matrix
 - 🧠 **LLM Services Comparison**: Embedded LLM vs OpenAI, Anthropic, Ollama (cost, latency, privacy)
 - ⚡ **Performance by Hardware**: CPU-only, Mid-Range GPU (RTX 4090), High-End GPU (A100) configurations
-- 💰 **Cost Analysis**: Self-hosted vs Cloud services with TCO considerations
+- 💰 **TCO Over Time**: 1, 3, and 5-year cost comparison (self-hosted vs cloud)
+- ✅ **Feature Matrix**: Comprehensive feature support across all databases
+- 🚀 **Deployment Options**: On-Premise, Cloud, Hybrid, and SaaS alternatives
+- 🎯 **Use Case Recommendations**: Best database for each scenario (AI/ML, Graph, IoT, etc.)
+- 🔄 **Migration Paths**: Clear migration routes from PostgreSQL, MongoDB, Neo4j, legacy systems
 
-### Interactive Features
+### Interactive Features (All Diagrams)
 - 🎨 **Mermaid.js Diagrams**: Professional flowcharts
-- 🖱️ **Clickable Components**: Show component details
+- 🖱️ **Clickable Components**: Show component details (interactive=true by default)
 - 🔍 **Zoom Controls**: In, out, and reset
 - 📺 **Fullscreen Mode**: Immersive viewing
 - 📊 **Multiple Themes**: Neutral, default, dark, forest
