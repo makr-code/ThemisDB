@@ -548,3 +548,121 @@
         font-size: 0.95rem;
     }
 }
+
+/* Mermaid Diagrams */
+.readme-content .mermaid,
+.changelog-content .mermaid {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+}
+
+/* Ensure Mermaid SVG is responsive */
+.readme-content .mermaid svg,
+.changelog-content .mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Markdown Tables */
+.readme-content .markdown-table,
+.changelog-content .markdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    border: 1px solid #ddd;
+}
+
+.readme-content .markdown-table th,
+.changelog-content .markdown-table th {
+    background: #f7f7f7;
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.readme-content .markdown-table td,
+.changelog-content .markdown-table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+}
+
+.readme-content .markdown-table tr:nth-child(even),
+.changelog-content .markdown-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Markdown Images */
+.readme-content .markdown-image,
+.changelog-content .markdown-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1rem 0;
+    display: block;
+}
+
+/* Horizontal Rules */
+.readme-content hr,
+.changelog-content hr {
+    border: none;
+    border-top: 2px solid #ddd;
+    margin: 2rem 0;
+}
+
+/* Strikethrough text */
+.readme-content del,
+.changelog-content del {
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Nested Lists */
+.readme-content ul ul,
+.readme-content ul ol,
+.readme-content ol ul,
+.readme-content ol ol,
+.changelog-content ul ul,
+.changelog-content ul ol,
+.changelog-content ol ul,
+.changelog-content ol ol {
+    margin: 0.5rem 0;
+}
+
+/* Ordered Lists */
+.readme-content ol,
+.changelog-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    list-style-type: decimal;
+}
+
+/* Code blocks with language highlighting */
+.readme-content pre code[class*="language-"],
+.changelog-content pre code[class*="language-"] {
+    display: block;
+    overflow-x: auto;
+}
+
+/* Better spacing for paragraphs */
+.readme-content p,
+.changelog-content p {
+    margin: 1rem 0;
+}
+
+/* First paragraph no margin top */
+.readme-content p:first-child,
+.changelog-content p:first-child {
+    margin-top: 0;
+}
+
+/* Last paragraph no margin bottom */
+.readme-content p:last-child,
+.changelog-content p:last-child {
+    margin-bottom: 0;
+}

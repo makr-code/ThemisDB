@@ -5,6 +5,52 @@ All notable changes to this WordPress plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-08
+
+### Added
+- **Enhanced Markdown to HTML Conversion**: Complete rewrite of markdown parsing with full Markdown support
+  - Headers (H1-H6)
+  - Text formatting (bold, italic, strikethrough)
+  - Links with title attributes
+  - Images with alt text and titles
+  - Code blocks with language detection (JavaScript, Python, PHP, etc.)
+  - Inline code
+  - Ordered and unordered lists with nesting support
+  - Blockquotes
+  - Tables with column alignment (left, center, right)
+  - Horizontal rules
+- **Mermaid Diagram Support**: Embedded diagrams are automatically rendered
+  - Integration with Mermaid.js v10 via CDN
+  - Support for flowcharts, sequence diagrams, Gantt charts, etc.
+  - Secure rendering with strict security level
+- **Shared Markdown Converter Class**: New `ThemisDB_Markdown_Converter` for code reuse
+  - Used across all WordPress plugins
+  - Centralized conversion logic
+  - Proper HTML escaping and XSS protection
+- **Enhanced CSS Styling**: Comprehensive styling for all markdown elements
+  - Tables with alternating row colors
+  - Responsive images
+  - Styled code blocks and inline code
+  - Mermaid diagram containers
+  - Nested list support
+  - Proper spacing and typography
+
+### Changed
+- Refactored `markdown_to_html()` method to use shared converter class
+- Updated JavaScript to initialize Mermaid.js on page load
+- Improved regex for language identifier detection (now supports JavaScript, C++, PHP8, etc.)
+
+### Security
+- Changed Mermaid security level from 'loose' to 'strict' to prevent XSS attacks
+- Enhanced HTML escaping in markdown converter
+- Proper URL validation for links and images
+
+### Fixed
+- Markdown files from GitHub (README, CHANGELOG) now display properly formatted instead of raw text
+- Links in markdown now open in new tabs with proper security attributes
+- Nested lists now render correctly
+- Tables with alignment now display properly
+
 ## [1.2.0] - 2026-01-07
 
 ### Added
@@ -170,6 +216,7 @@ See [INSTALLATION.md](INSTALLATION.md) for detailed instructions.
 
 ## Version History
 
+- **1.3.0** (2026-01-08) - Enhanced markdown conversion with Mermaid diagram support
 - **1.2.0** (2026-01-07) - Auto tags and categories feature
 - **1.1.0** (2026-01-07) - README and CHANGELOG shortcodes
 - **1.0.0** (2026-01-07) - Initial release

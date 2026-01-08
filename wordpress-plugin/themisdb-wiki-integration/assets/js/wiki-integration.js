@@ -8,6 +8,16 @@
     
     // Initialize when document is ready
     $(document).ready(function() {
+        // Initialize Mermaid for diagram rendering
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                securityLevel: 'strict',
+                fontFamily: 'inherit'
+            });
+        }
+        
         ThemisDBWikiIntegration.init();
         ThemisDBWikiNav.init();
     });

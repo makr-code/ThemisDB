@@ -39,7 +39,7 @@
                 mermaid.initialize({
                     startOnLoad: false,
                     theme: this.settings.theme || 'neutral',
-                    securityLevel: 'loose',
+                    securityLevel: 'strict',
                     flowchart: {
                         useMaxWidth: true,
                         htmlLabels: true,
