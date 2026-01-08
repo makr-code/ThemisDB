@@ -1286,6 +1286,9 @@ graph LR
             }
         });
         
+        // Reset the hasCalculated flag to restore scroll behavior
+        this.hasCalculated = false;
+        
         const resultsSection = document.getElementById('resultsSection');
         if (resultsSection) {
             resultsSection.style.display = 'none';
