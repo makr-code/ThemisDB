@@ -569,6 +569,47 @@ section h3 {
     line-height: 1.8;
 }
 
+/* Polyglot Database Legend */
+.polyglot-legend {
+    margin-top: 25px;
+    padding: 20px;
+    background: var(--light-bg);
+    border-radius: 8px;
+}
+
+.polyglot-legend h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.polyglot-legend ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.polyglot-legend li {
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: var(--white);
+    border-left: 4px solid var(--warning-color);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.polyglot-legend li strong {
+    color: var(--primary-color);
+    min-width: 150px;
+}
+
+.polyglot-legend li span {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
 .cost-comparison-highlight {
     margin-top: 20px;
     padding: 20px;

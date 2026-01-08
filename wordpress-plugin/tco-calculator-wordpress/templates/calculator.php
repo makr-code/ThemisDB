@@ -399,6 +399,26 @@
             </div>
         </div>
 
+        <!-- Polyglot Database Capabilities Radar Chart -->
+        <div class="mermaid-container">
+            <h3>🎯 Multi-Model Fähigkeiten: ThemisDB vs. Hyperscaler Polyglot</h3>
+            <div class="info-box" style="margin-bottom: 20px;">
+                <p>
+                    <strong>ThemisDB</strong> ist eine Multi-Model-Datenbank, die alle Anforderungen in einem System vereint. 
+                    Bei Hyperscalern benötigen Sie mehrere spezialisierte Datenbanken, was die Komplexität und Kosten erhöht.
+                </p>
+            </div>
+            <div class="mermaid-diagram" id="polyglotDiagram">
+                <!-- Polyglot radar diagram will be rendered here -->
+            </div>
+            <div class="polyglot-legend">
+                <h4>Benötigte Datenbank-Services beim Hyperscaler:</h4>
+                <ul id="polyglotServicesList">
+                    <!-- Will be filled by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
         <!-- Personnel Cost Explanation -->
         <div class="info-box personnel-explanation">
             <h3>💡 Warum erscheinen die Personalkosten hoch?</h3>

@@ -399,6 +399,7 @@ class TCOCalculator {
         this.updateSummaryCards();
         this.createChart();
         this.createMermaidDiagram();
+        this.createPolyglotDiagram();
         this.updateBreakdownTables();
         this.generateInsights();
     }
@@ -687,6 +688,189 @@ graph TB
             
             mermaidContainer.appendChild(fallbackDiv);
             console.warn('Mermaid.js not available for diagram rendering');
+        }
+    }
+
+    /**
+     * Create Polyglot Database Capabilities Radar Diagram
+     */
+    createPolyglotDiagram() {
+        const polyglotContainer = document.getElementById('polyglotDiagram');
+        const servicesList = document.getElementById('polyglotServicesList');
+        
+        if (!polyglotContainer) {
+            return;
+        }
+
+        // Define database capabilities that ThemisDB supports
+        const capabilities = {
+            'Graph': { themisdb: 100, hyperscaler: 0 },
+            'Relational': { themisdb: 100, hyperscaler: 0 },
+            'Document': { themisdb: 100, hyperscaler: 0 },
+            'Vector': { themisdb: 100, hyperscaler: 0 },
+            'Time-Series': { themisdb: 100, hyperscaler: 0 },
+            'Geo-Spatial': { themisdb: 100, hyperscaler: 0 },
+            'Key-Value': { themisdb: 100, hyperscaler: 0 },
+            'LLM': { themisdb: 100, hyperscaler: 0 }
+        };
+
+        // Hyperscaler services needed (example: AWS)
+        const hyperscalerServices = [
+            { capability: 'Graph', service: 'Neptune', cost: '€200-500/Monat' },
+            { capability: 'Relational', service: 'RDS/Aurora', cost: '€100-300/Monat' },
+            { capability: 'Document', service: 'DocumentDB', cost: '€150-400/Monat' },
+            { capability: 'Vector', service: 'OpenSearch + Plugin', cost: '€300-600/Monat' },
+            { capability: 'Time-Series', service: 'Timestream', cost: '€100-250/Monat' },
+            { capability: 'Geo-Spatial', service: 'Location Service', cost: '€50-150/Monat' },
+            { capability: 'Key-Value', service: 'DynamoDB', cost: '€50-200/Monat' },
+            { capability: 'LLM', service: 'Bedrock/SageMaker', cost: '€500-2000/Monat' }
+        ];
+
+        // Calculate total hyperscaler cost
+        const totalHyperscalerServices = hyperscalerServices.length;
+        const estimatedMonthlyCost = '€1.450-4.400';
+
+        // Escape function for safe text content
+        const escapeText = (text) => {
+            return String(text).replace(/[<>&"']/g, (match) => {
+                const escapeMap = {
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '&': '&amp;',
+                    '"': '&quot;',
+                    "'": '&#x27;'
+                };
+                return escapeMap[match];
+            });
+        };
+
+        // Create Mermaid radar chart using quadrantChart (Mermaid 10.x)
+        // Note: Using pie chart as spider/radar is not directly supported in Mermaid strict mode
+        // We'll create a visual comparison using a flowchart instead
+        const mermaidCode = `
+graph TB
+    ThemisDB["<b>ThemisDB</b><br/>1 Datenbank<br/>Alle Modelle integriert"]
+    
+    subgraph Capabilities["Multi-Model Fähigkeiten"]
+        Graph["📊 Graph"]
+        Relational["📋 Relational"]
+        Document["📄 Document"]
+        Vector["🎯 Vector"]
+        TimeSeries["⏱️ Time-Series IoT"]
+        GeoSpatial["🌍 Geo-Spatial"]
+        KeyValue["🔑 Key-Value"]
+        LLM["🤖 LLM/AI"]
+    end
+    
+    subgraph Hyperscaler["Hyperscaler Stack<br/>${escapeText(totalHyperscalerServices)} separate Services<br/>Geschätzt: ${escapeText(estimatedMonthlyCost)}/Monat"]
+        Neptune["Neptune"]
+        RDS["RDS/Aurora"]
+        DocumentDB["DocumentDB"]
+        OpenSearch["OpenSearch"]
+        Timestream["Timestream"]
+        Location["Location Service"]
+        DynamoDB["DynamoDB"]
+        Bedrock["Bedrock/SageMaker"]
+    end
+    
+    ThemisDB --> Graph
+    ThemisDB --> Relational
+    ThemisDB --> Document
+    ThemisDB --> Vector
+    ThemisDB --> TimeSeries
+    ThemisDB --> GeoSpatial
+    ThemisDB --> KeyValue
+    ThemisDB --> LLM
+    
+    Graph -.-> Neptune
+    Relational -.-> RDS
+    Document -.-> DocumentDB
+    Vector -.-> OpenSearch
+    TimeSeries -.-> Timestream
+    GeoSpatial -.-> Location
+    KeyValue -.-> DynamoDB
+    LLM -.-> Bedrock
+    
+    style ThemisDB fill:#27ae60,stroke:#229954,stroke-width:3px,color:#fff
+    style Capabilities fill:#e8f8f5,stroke:#27ae60,stroke-width:2px
+    style Hyperscaler fill:#fef5e7,stroke:#f39c12,stroke-width:2px
+    
+    style Graph fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style Relational fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style Document fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style Vector fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style TimeSeries fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style GeoSpatial fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style KeyValue fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    style LLM fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
+    
+    style Neptune fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style RDS fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style DocumentDB fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style OpenSearch fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style Timestream fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style Location fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style DynamoDB fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+    style Bedrock fill:#fad7a0,stroke:#e67e22,stroke-width:2px
+        `;
+
+        // Render Mermaid diagram
+        if (typeof mermaid !== 'undefined') {
+            polyglotContainer.textContent = '';
+            
+            const mermaidDiv = document.createElement('div');
+            mermaidDiv.className = 'mermaid';
+            mermaidDiv.textContent = mermaidCode;
+            polyglotContainer.appendChild(mermaidDiv);
+            
+            try {
+                mermaid.init(undefined, mermaidDiv);
+            } catch (error) {
+                console.error('Mermaid polyglot diagram rendering error:', error);
+                polyglotContainer.textContent = '';
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = 'padding: 20px; text-align: center; color: var(--text-secondary);';
+                const errorP = document.createElement('p');
+                errorP.textContent = '⚠️ Polyglot-Diagramm konnte nicht gerendert werden.';
+                errorDiv.appendChild(errorP);
+                polyglotContainer.appendChild(errorDiv);
+            }
+        } else {
+            polyglotContainer.textContent = '';
+            const fallbackDiv = document.createElement('div');
+            fallbackDiv.style.cssText = 'padding: 20px; text-align: center; color: var(--text-secondary);';
+            
+            const p1 = document.createElement('p');
+            p1.textContent = '⚠️ Mermaid.js wird geladen...';
+            fallbackDiv.appendChild(p1);
+            
+            polyglotContainer.appendChild(fallbackDiv);
+        }
+
+        // Update services list
+        if (servicesList) {
+            servicesList.textContent = '';
+            hyperscalerServices.forEach(service => {
+                const li = document.createElement('li');
+                const strong = document.createElement('strong');
+                strong.textContent = `${service.capability}:`;
+                const span = document.createElement('span');
+                span.textContent = ` ${service.service} (${service.cost})`;
+                li.appendChild(strong);
+                li.appendChild(span);
+                servicesList.appendChild(li);
+            });
+
+            // Add summary
+            const summaryLi = document.createElement('li');
+            summaryLi.style.cssText = 'border-left-color: var(--danger-color); font-weight: bold;';
+            const summaryStrong = document.createElement('strong');
+            summaryStrong.textContent = 'Gesamt:';
+            const summarySpan = document.createElement('span');
+            summarySpan.textContent = ` ${totalHyperscalerServices} separate Services ≈ ${estimatedMonthlyCost}/Monat`;
+            summaryLi.appendChild(summaryStrong);
+            summaryLi.appendChild(summarySpan);
+            servicesList.appendChild(summaryLi);
         }
     }
 
