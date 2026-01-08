@@ -599,7 +599,18 @@ class TCOCalculator {
         const hyperscalerAIPercent = ((hyperscalerAI / hyperscaler.totalCost) * 100).toFixed(1);
         
         // Escape function for safe text content
-        const escapeText = (text) => text.replace(/[<>&"']/g, '');
+        const escapeText = (text) => {
+            return String(text).replace(/[<>&"']/g, (match) => {
+                const escapeMap = {
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '&': '&amp;',
+                    '"': '&quot;',
+                    "'": '&#x27;'
+                };
+                return escapeMap[match];
+            });
+        };
         
         // Create Mermaid diagram with escaped values
         const mermaidCode = `
@@ -648,19 +659,28 @@ graph TB
                 mermaid.init(undefined, mermaidDiv);
             } catch (error) {
                 console.error('Mermaid rendering error:', error);
-                mermaidContainer.innerHTML = `
-                    <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
-                        <p>⚠️ Diagramm konnte nicht gerendert werden.</p>
-                    </div>
-                `;
+                mermaidContainer.textContent = '';
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = 'padding: 20px; text-align: center; color: var(--text-secondary);';
+                const errorP = document.createElement('p');
+                errorP.textContent = '⚠️ Diagramm konnte nicht gerendert werden.';
+                errorDiv.appendChild(errorP);
+                mermaidContainer.appendChild(errorDiv);
             }
         } else {
-            mermaidContainer.innerHTML = `
-                <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
-                    <p>⚠️ Mermaid.js wird geladen...</p>
-                    <p>Falls das Diagramm nicht erscheint, laden Sie die Seite bitte neu.</p>
-                </div>
-            `;
+            mermaidContainer.textContent = '';
+            const fallbackDiv = document.createElement('div');
+            fallbackDiv.style.cssText = 'padding: 20px; text-align: center; color: var(--text-secondary);';
+            
+            const p1 = document.createElement('p');
+            p1.textContent = '⚠️ Mermaid.js wird geladen...';
+            fallbackDiv.appendChild(p1);
+            
+            const p2 = document.createElement('p');
+            p2.textContent = 'Falls das Diagramm nicht erscheint, laden Sie die Seite bitte neu.';
+            fallbackDiv.appendChild(p2);
+            
+            mermaidContainer.appendChild(fallbackDiv);
             console.warn('Mermaid.js not available for diagram rendering');
         }
     }
