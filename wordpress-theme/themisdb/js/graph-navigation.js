@@ -817,13 +817,10 @@
             <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H3v2.5a.5.5 0 0 1-1 0v-3zm12 12a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H13v-2.5a.5.5 0 0 1 1 0v3zM2 9.5a.5.5 0 0 1 .5.5v2.5H5a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5zm12-7a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V3h-2.5a.5.5 0 0 1 0-1h3a.5.5 0 0 1 .5.5z"/>
         </svg>`;
         
-        // Insert button in header
+        // Insert button in header (far left)
         const header = document.querySelector('.header-inner');
         if (header) {
-            const branding = header.querySelector('.site-branding');
-            if (branding) {
-                branding.insertAdjacentElement('afterend', button);
-            }
+            header.insertAdjacentElement('afterbegin', button);
         }
 
         // Add event listeners
