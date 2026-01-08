@@ -1,12 +1,14 @@
 # ThemisDB Downloads WordPress Plugin
 
-Ein WordPress Plugin, das automatisch die neuesten ThemisDB Packages von GitHub abruft und als Download-Links mit SHA256-Checksums auf einer WordPress-Seite anzeigt.
+Ein WordPress Plugin, das automatisch die neuesten ThemisDB Packages von GitHub abruft und als Download-Links mit SHA256-Checksums auf einer WordPress-Seite anzeigt. Das Plugin analysiert beim Speichern von Artikeln automatisch den Inhalt und erstellt passende Schlagwörter (Tags) und Kategorien.
 
 ## Features
 
 - ✅ **Automatischer Download von GitHub Releases**: Ruft die neuesten Releases von GitHub automatisch ab
 - ✅ **SHA256-Checksums Anzeige**: Zeigt SHA256-Hashes für alle Download-Dateien an
 - ✅ **Download-Verifizierung**: Integriertes Tool zur Überprüfung der Datei-Integrität
+- ✅ **Automatische Schlagwörter und Kategorien**: Analysiert Artikelinhalte und erstellt automatisch relevante Tags und Kategorien beim Speichern
+- ✅ **Intelligente Textanalyse**: Verwendet Häufigkeit, Relevanz und Phrase-Erkennung für beste Ergebnisse
 - ✅ **Mehrere Anzeigestile**: Standard, Kompakt, Tabellen-Ansicht
 - ✅ **Plattform-Filter**: Zeige nur Windows, Linux, Docker oder andere Plattformen
 - ✅ **Cache-System**: Reduziert API-Aufrufe durch intelligentes Caching
@@ -51,6 +53,9 @@ Nach der Aktivierung:
 | **Cache Dauer** | Wie lange Release-Daten gecacht werden sollen (in Sekunden) | `3600` (1 Stunde) |
 | **Anzahl Releases** | Wie viele Releases angezeigt werden sollen | `10` |
 | **Pre-Releases** | Beta- und Alpha-Versionen anzeigen | `Aus` |
+| **Automatische Taxonomien** | Automatische Zuweisung von Schlagwörtern und Kategorien aktivieren | `Ein` |
+| **Automatische Tags** | Tags automatisch erstellen und zuweisen | `Ein` |
+| **Automatische Kategorien** | Kategorien automatisch erstellen und zuweisen | `Ein` |
 
 ### GitHub Token (Optional)
 
@@ -225,6 +230,80 @@ sha256sum themis-1.4.0-linux-x64.tar.gz
 
 Vergleichen Sie den berechneten Hash mit dem angezeigten SHA256-Checksum.
 
+## Automatische Schlagwörter und Kategorien
+
+Das Plugin kann automatisch relevante Schlagwörter (Tags) und Kategorien aus dem Inhalt von Beiträgen und Seiten extrahieren und zuweisen.
+
+### Funktionsweise
+
+Das Plugin analysiert **Titel und Textinhalt** von Beiträgen und Seiten beim Speichern und verwendet dabei fortgeschrittene Textanalyse-Techniken:
+
+- **Wortfrequenz-Analyse**: Häufig vorkommende Wörter werden als relevanter eingestuft
+- **Titel-Gewichtung**: Wörter aus dem Titel erhalten höhere Priorität (3x Gewichtung)
+- **Wortlängen-Bonus**: Längere Wörter (>6 Zeichen) werden als bedeutsamer gewertet
+- **Stop-Word-Filterung**: Füllwörter (der, die, das, the, is, are, etc.) werden ausgeschlossen
+- **Phrase-Erkennung**: Zusammenhängende Begriffe (2-3 Wörter) werden für Kategorien verwendet
+
+#### Automatische Tags
+
+Tags werden extrahiert basierend auf:
+- **Häufigkeit**: Wie oft ein Wort im Text vorkommt
+- **Relevanz**: Position im Titel, Wortlänge, Kapitalisierung
+- **Best Practice**: Bis zu 15 relevanteste Begriffe werden als Tags vergeben
+
+**Beispiel für Beitrag "ThemisDB Version 1.4.0 - Neue Release mit Windows Support":**
+- ThemisDB (hohe Frequenz + im Titel)
+- Version (im Titel)
+- Windows (im Titel + Inhalt)
+- Release (im Titel)
+- Support (im Titel + Inhalt)
+- Database (im Inhalt)
+- Installation (im Inhalt)
+- Performance (im Inhalt)
+
+#### Automatische Kategorien
+
+Kategorien werden extrahiert basierend auf:
+- **Phrase-Analyse**: 2-3 Wort-Kombinationen werden identifiziert
+- **Kontext-Relevanz**: Phrasen aus dem Titel haben höhere Priorität
+- **Best Practice**: Bis zu 5 relevanteste Phrasen werden als Kategorien vergeben
+
+**Beispiel-Kategorien:**
+- ThemisDB Version
+- Windows Support
+- Neue Release
+- Database Management
+
+### Aktivierung und Konfiguration
+
+1. Gehen Sie zu **Einstellungen → ThemisDB Downloads**
+2. Scrollen Sie zum Abschnitt **"Automatische Schlagwörter und Kategorien"**
+3. Aktivieren Sie die gewünschten Optionen:
+   - **Automatische Taxonomien aktivieren**: Haupt-Schalter für die Funktion
+   - **Automatische Schlagwörter (Tags)**: Tags aus Inhalt extrahieren und zuweisen
+   - **Automatische Kategorien**: Kategorien aus Phrasen extrahieren und zuweisen
+
+### Wann werden Taxonomien zugewiesen?
+
+Taxonomien werden automatisch zugewiesen:
+- **Beim Speichern** eines Beitrags oder einer Seite
+- Gilt für alle Beiträge und Seiten (nicht nur solche mit Shortcodes)
+
+### Vorhandene Taxonomien
+
+- Das Plugin **fügt** Tags und Kategorien **hinzu**, ohne vorhandene zu entfernen
+- Wenn bereits ThemisDB-Tags vorhanden sind, werden keine neuen hinzugefügt
+- Sie können jederzeit manuell Tags und Kategorien bearbeiten
+
+### Deaktivierung
+
+Um die automatische Taxonomie-Zuweisung zu deaktivieren:
+1. Gehen Sie zu **Einstellungen → ThemisDB Downloads**
+2. Deaktivieren Sie "Automatische Taxonomien aktivieren"
+3. Klicken Sie auf "Einstellungen speichern"
+
+Bereits erstellte Tags und Kategorien bleiben erhalten, aber es werden keine neuen mehr erstellt.
+
 ## API-Limits
 
 ### Ohne Token
@@ -320,7 +399,8 @@ themisdb-downloads/
 ├── includes/
 │   ├── class-github-api.php     # GitHub API Handler
 │   ├── class-admin.php          # Admin Panel
-│   └── class-shortcodes.php     # Shortcode Handler
+│   ├── class-shortcodes.php     # Shortcode Handler
+│   └── class-taxonomy-manager.php # Taxonomy Manager (Auto Tags/Kategorien)
 ├── assets/
 │   ├── css/
 │   │   ├── style.css            # Frontend Styles
@@ -385,6 +465,18 @@ Dieses Plugin ist unter der MIT-Lizenz lizenziert. Siehe [LICENSE](../../LICENSE
 Entwickelt für das ThemisDB-Projekt.
 
 ## Changelog
+
+### Version 1.2.0 (Januar 2026)
+- ✅ **NEU: Automatische Schlagwörter und Kategorien**
+- ✅ Automatische Tag-Erstellung basierend auf Release-Daten
+- ✅ Automatische Kategorien-Erstellung
+- ✅ Konfigurierbare Taxonomie-Einstellungen im Admin-Panel
+- ✅ Intelligente Taxonomie-Zuweisung beim Speichern von Beiträgen
+
+### Version 1.1.0 (Januar 2026)
+- ✅ README und CHANGELOG Shortcodes
+- ✅ Verbesserte Markdown-Darstellung
+- ✅ Erweiterte Dokumentation
 
 ### Version 1.0.0 (Januar 2026)
 - ✅ Erste Veröffentlichung

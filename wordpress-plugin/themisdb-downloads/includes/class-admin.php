@@ -39,6 +39,9 @@ class ThemisDB_Downloads_Admin {
         register_setting('themisdb_downloads_settings', 'themisdb_cache_duration');
         register_setting('themisdb_downloads_settings', 'themisdb_show_prerelease');
         register_setting('themisdb_downloads_settings', 'themisdb_releases_count');
+        register_setting('themisdb_downloads_settings', 'themisdb_auto_taxonomy');
+        register_setting('themisdb_downloads_settings', 'themisdb_auto_tags');
+        register_setting('themisdb_downloads_settings', 'themisdb_auto_categories');
     }
     
     /**
@@ -103,6 +106,9 @@ class ThemisDB_Downloads_Admin {
             update_option('themisdb_cache_duration', intval($_POST['themisdb_cache_duration']));
             update_option('themisdb_show_prerelease', isset($_POST['themisdb_show_prerelease']) ? 1 : 0);
             update_option('themisdb_releases_count', intval($_POST['themisdb_releases_count']));
+            update_option('themisdb_auto_taxonomy', isset($_POST['themisdb_auto_taxonomy']) ? 1 : 0);
+            update_option('themisdb_auto_tags', isset($_POST['themisdb_auto_tags']) ? 1 : 0);
+            update_option('themisdb_auto_categories', isset($_POST['themisdb_auto_categories']) ? 1 : 0);
             
             echo '<div class="notice notice-success"><p>Einstellungen gespeichert!</p></div>';
         }
@@ -113,6 +119,9 @@ class ThemisDB_Downloads_Admin {
         $cache_duration = get_option('themisdb_cache_duration', 3600);
         $show_prerelease = get_option('themisdb_show_prerelease', 0);
         $releases_count = get_option('themisdb_releases_count', 10);
+        $auto_taxonomy = get_option('themisdb_auto_taxonomy', 1);
+        $auto_tags = get_option('themisdb_auto_tags', 1);
+        $auto_categories = get_option('themisdb_auto_categories', 1);
         
         // Test API connection
         $api = new ThemisDB_Downloads_GitHub_API();
@@ -216,6 +225,64 @@ class ThemisDB_Downloads_Admin {
                                        <?php checked($show_prerelease, 1); ?>>
                                 Beta- und Alpha-Versionen anzeigen
                             </label>
+                        </td>
+                    </tr>
+                </table>
+                
+                <h3>Automatische Schlagwörter und Kategorien</h3>
+                <p>Das Plugin analysiert Titel und Textinhalt von Beiträgen und verwendet Textanalyse-Techniken (Häufigkeit, Relevanz, Phrase-Erkennung) um automatisch passende Schlagwörter und Kategorien zu erstellen.</p>
+                
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            Automatische Taxonomien aktivieren
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" 
+                                       id="themisdb_auto_taxonomy" 
+                                       name="themisdb_auto_taxonomy" 
+                                       value="1" 
+                                       <?php checked($auto_taxonomy, 1); ?>>
+                                Automatische Zuweisung von Schlagwörtern und Kategorien aktivieren
+                            </label>
+                            <p class="description">Wenn aktiviert, analysiert das Plugin beim Speichern den Titel und Inhalt von Beiträgen/Seiten und extrahiert automatisch relevante Tags und Kategorien.</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">
+                            Automatische Schlagwörter (Tags)
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" 
+                                       id="themisdb_auto_tags" 
+                                       name="themisdb_auto_tags" 
+                                       value="1" 
+                                       <?php checked($auto_tags, 1); ?>>
+                                Tags automatisch aus Beitragsinhalt extrahieren
+                            </label>
+                            <p class="description">Tags werden durch Textanalyse extrahiert: Häufigkeit, Titel-Gewichtung, Wortlänge.</p>
+                            <p class="description"><strong>Beispiel-Tags:</strong> ThemisDB, Version, Windows, Support, Database, Installation</p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">
+                            Automatische Kategorien
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" 
+                                       id="themisdb_auto_categories" 
+                                       name="themisdb_auto_categories" 
+                                       value="1" 
+                                       <?php checked($auto_categories, 1); ?>>
+                                Kategorien automatisch aus Beitragsinhalt extrahieren
+                            </label>
+                            <p class="description">Kategorien werden durch Phrase-Analyse erstellt (2-3 Wort-Kombinationen).</p>
+                            <p class="description"><strong>Beispiel-Kategorien:</strong> ThemisDB Version, Windows Support, Database Management</p>
                         </td>
                     </tr>
                 </table>

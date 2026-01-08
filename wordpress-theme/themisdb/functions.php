@@ -169,6 +169,9 @@ function themisdb_scripts() {
     // Graph Navigation (Neo4j Bloom inspired)
     wp_enqueue_script( 'themisdb-graph-navigation', get_template_directory_uri() . '/js/graph-navigation.js', array(), '1.0.0', true );
 
+    // Modern enhancements (animations, lazy loading, etc.)
+    wp_enqueue_script( 'themisdb-enhancements', get_template_directory_uri() . '/js/enhancements.js', array(), '1.0.0', true );
+
     // Comment reply script
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );
@@ -227,7 +230,7 @@ function themisdb_posted_on() {
     );
 
     echo '<span class="posted-on">';
-    echo '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>';
+    echo '📅 ';
     echo $time_string;
     echo '</span>';
 }
@@ -237,7 +240,7 @@ function themisdb_posted_on() {
  */
 function themisdb_posted_by() {
     echo '<span class="byline">';
-    echo '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>';
+    echo '👤 ';
     printf(
         '<a href="%s">%s</a>',
         esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
@@ -253,7 +256,7 @@ function themisdb_categories() {
     $categories_list = get_the_category_list( ', ' );
     if ( $categories_list ) {
         echo '<span class="cat-links">';
-        echo '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 11 5.622V13.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 1 13.5v-11z"/></svg>';
+        echo '📁 ';
         echo $categories_list;
         echo '</span>';
     }
@@ -266,7 +269,7 @@ function themisdb_tags() {
     $tags_list = get_the_tag_list( '', ', ' );
     if ( $tags_list ) {
         echo '<span class="tags-links">';
-        echo '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>';
+        echo '🏷️ ';
         echo $tags_list;
         echo '</span>';
     }
@@ -278,7 +281,7 @@ function themisdb_tags() {
 function themisdb_comments_link() {
     if ( ! is_single() && ! post_password_required() && ( comments_open() || get_comments_number() ) ) {
         echo '<span class="comments-link">';
-        echo '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/></svg>';
+        echo '💬 ';
         comments_popup_link(
             sprintf(
                 wp_kses(
