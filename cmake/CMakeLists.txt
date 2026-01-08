@@ -1822,7 +1822,7 @@ if(THEMIS_BUILD_TESTS)
         
         # New feature tests
         ${CMAKE_SOURCE_DIR}/tests/test_tenant_manager.cpp
-        $<$<NOT:$<BOOL:WIN32>>:${CMAKE_SOURCE_DIR}/tests/test_graphql.cpp>
+        ${CMAKE_SOURCE_DIR}/tests/test_graphql.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_olap.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_olap_extended.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_process_mining_extended.cpp
@@ -1917,14 +1917,10 @@ if(THEMIS_BUILD_TESTS)
             ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
         )
 
-        # P1: Enhanced inference engine tests (disabled on Windows for now due to instability)
-        if(NOT WIN32)
-            target_sources(themis_tests PRIVATE
-                ${CMAKE_SOURCE_DIR}/tests/test_inference_engine_enhanced.cpp
-            )
-        else()
-            message(STATUS "Skipping test_inference_engine_enhanced.cpp on Windows")
-        endif()
+        # P1: Enhanced inference engine tests
+        target_sources(themis_tests PRIVATE
+            ${CMAKE_SOURCE_DIR}/tests/test_inference_engine_enhanced.cpp
+        )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
         add_executable(themis_llm_tests
