@@ -233,13 +233,11 @@
             $diagramContainer.removeAttr('data-processed');
 
             // Render the diagram
-            if (typeof mermaid !== 'undefined') {
-                mermaid.run({
-                    nodes: [$diagramContainer[0]]
-                }).catch((error) => {
-                    console.error('Mermaid rendering error:', error);
-                });
-            }
+            mermaid.run({
+                nodes: [$diagramContainer[0]]
+            }).catch((error) => {
+                console.error('Mermaid rendering error:', error);
+            });
         },
 
         /**
