@@ -174,6 +174,83 @@ class ThemisDB_Order_Database {
             KEY created_at (created_at)
         ) $charset_collate;";
         
+        // Payments table
+        $table_payments = $wpdb->prefix . 'themisdb_payments';
+        $sql_payments = "CREATE TABLE IF NOT EXISTS $table_payments (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            payment_number varchar(50) NOT NULL UNIQUE,
+            order_id bigint(20) NOT NULL,
+            contract_id bigint(20) DEFAULT NULL,
+            amount decimal(10,2) NOT NULL,
+            currency varchar(10) NOT NULL DEFAULT 'EUR',
+            payment_method varchar(50) NOT NULL,
+            payment_status varchar(50) NOT NULL DEFAULT 'pending',
+            transaction_id varchar(255) DEFAULT NULL,
+            payment_date datetime DEFAULT NULL,
+            verified_at datetime DEFAULT NULL,
+            verified_by bigint(20) DEFAULT NULL,
+            notes text DEFAULT NULL,
+            epserver_payment_id varchar(100) DEFAULT NULL,
+            metadata longtext DEFAULT NULL,
+            created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY order_id (order_id),
+            KEY contract_id (contract_id),
+            KEY payment_status (payment_status),
+            KEY payment_date (payment_date),
+            KEY created_at (created_at)
+        ) $charset_collate;";
+        
+        // Licenses table
+        $table_licenses = $wpdb->prefix . 'themisdb_licenses';
+        $sql_licenses = "CREATE TABLE IF NOT EXISTS $table_licenses (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            license_key varchar(255) NOT NULL UNIQUE,
+            order_id bigint(20) NOT NULL,
+            contract_id bigint(20) NOT NULL,
+            customer_id bigint(20) NOT NULL,
+            product_edition varchar(50) NOT NULL,
+            license_type varchar(50) NOT NULL DEFAULT 'standard',
+            max_nodes int(11) DEFAULT 1,
+            max_cores int(11) DEFAULT NULL,
+            max_storage_gb int(11) DEFAULT NULL,
+            license_status varchar(50) NOT NULL DEFAULT 'pending',
+            activation_date datetime DEFAULT NULL,
+            expiry_date datetime DEFAULT NULL,
+            last_check datetime DEFAULT NULL,
+            usage_data longtext DEFAULT NULL,
+            license_file_path varchar(255) DEFAULT NULL,
+            license_file_data longtext DEFAULT NULL,
+            epserver_subscription_id varchar(100) DEFAULT NULL,
+            created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY order_id (order_id),
+            KEY contract_id (contract_id),
+            KEY customer_id (customer_id),
+            KEY license_status (license_status),
+            KEY expiry_date (expiry_date),
+            KEY created_at (created_at)
+        ) $charset_collate;";
+        
+        // License authentication log
+        $table_license_auth = $wpdb->prefix . 'themisdb_license_auth_log';
+        $sql_license_auth = "CREATE TABLE IF NOT EXISTS $table_license_auth (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            license_id bigint(20) NOT NULL,
+            auth_method varchar(50) NOT NULL,
+            auth_status varchar(50) NOT NULL,
+            ip_address varchar(45) DEFAULT NULL,
+            user_agent text DEFAULT NULL,
+            auth_data longtext DEFAULT NULL,
+            created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY  (id),
+            KEY license_id (license_id),
+            KEY auth_status (auth_status),
+            KEY created_at (created_at)
+        ) $charset_collate;";
+        
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         
         dbDelta($sql_orders);
@@ -183,6 +260,9 @@ class ThemisDB_Order_Database {
         dbDelta($sql_modules);
         dbDelta($sql_training);
         dbDelta($sql_email_log);
+        dbDelta($sql_payments);
+        dbDelta($sql_licenses);
+        dbDelta($sql_license_auth);
         
         // Insert default product data
         self::insert_default_data();

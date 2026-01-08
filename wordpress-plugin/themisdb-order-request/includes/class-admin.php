@@ -58,6 +58,24 @@ class ThemisDB_Order_Admin {
         
         add_submenu_page(
             'themisdb-orders',
+            __('Zahlungen', 'themisdb-order-request'),
+            __('Zahlungen', 'themisdb-order-request'),
+            'manage_options',
+            'themisdb-payments',
+            array($this, 'payments_page')
+        );
+        
+        add_submenu_page(
+            'themisdb-orders',
+            __('Lizenzen', 'themisdb-order-request'),
+            __('Lizenzen', 'themisdb-order-request'),
+            'manage_options',
+            'themisdb-licenses',
+            array($this, 'licenses_page')
+        );
+        
+        add_submenu_page(
+            'themisdb-orders',
             __('E-Mail Log', 'themisdb-order-request'),
             __('E-Mail Log', 'themisdb-order-request'),
             'manage_options',
@@ -540,6 +558,442 @@ class ThemisDB_Order_Admin {
                     </tbody>
                 </table>
             </div>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Payments page
+     */
+    public function payments_page() {
+        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $payment_id = isset($_GET['payment_id']) ? intval($_GET['payment_id']) : 0;
+        
+        // Handle payment verification
+        if ($action === 'verify' && $payment_id && check_admin_referer('verify_payment_' . $payment_id)) {
+            ThemisDB_Payment_Manager::verify_payment($payment_id);
+            wp_redirect(admin_url('admin.php?page=themisdb-payments&verified=1'));
+            exit;
+        }
+        
+        if ($action === 'view' && $payment_id) {
+            $this->view_payment($payment_id);
+        } else {
+            $this->list_payments();
+        }
+    }
+    
+    /**
+     * List payments
+     */
+    private function list_payments() {
+        $payments = ThemisDB_Payment_Manager::get_all_payments();
+        $stats = ThemisDB_Payment_Manager::get_payment_stats();
+        
+        ?>
+        <div class="wrap">
+            <h1><?php _e('Zahlungen', 'themisdb-order-request'); ?></h1>
+            
+            <?php if (isset($_GET['verified'])): ?>
+            <div class="notice notice-success"><p><?php _e('Zahlung wurde erfolgreich verifiziert', 'themisdb-order-request'); ?></p></div>
+            <?php endif; ?>
+            
+            <div class="card" style="max-width: none; margin-bottom: 20px;">
+                <h2><?php _e('Zahlungsübersicht', 'themisdb-order-request'); ?></h2>
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e('Gesamt Zahlungen', 'themisdb-order-request'); ?>:</th>
+                        <td><strong><?php echo $stats['total_payments']; ?></strong></td>
+                        <th><?php _e('Gesamtbetrag', 'themisdb-order-request'); ?>:</th>
+                        <td><strong><?php echo number_format($stats['total_amount'], 2, ',', '.'); ?> €</strong></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Verifiziert', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: green;"><strong><?php echo $stats['verified_payments']; ?></strong></span></td>
+                        <th><?php _e('Verifizierter Betrag', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: green;"><strong><?php echo number_format($stats['verified_amount'], 2, ',', '.'); ?> €</strong></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Ausstehend', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: orange;"><strong><?php echo $stats['pending_payments']; ?></strong></span></td>
+                        <th><?php _e('Fehlgeschlagen', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: red;"><strong><?php echo $stats['failed_payments']; ?></strong></span></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <table class="wp-list-table widefat fixed striped">
+                <thead>
+                    <tr>
+                        <th><?php _e('Zahlungsnummer', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Bestellung', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Betrag', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Methode', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Status', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Datum', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Aktionen', 'themisdb-order-request'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($payments)): ?>
+                    <tr>
+                        <td colspan="7"><?php _e('Keine Zahlungen gefunden', 'themisdb-order-request'); ?></td>
+                    </tr>
+                    <?php else: ?>
+                        <?php foreach ($payments as $payment): ?>
+                        <?php $order = ThemisDB_Order_Manager::get_order($payment['order_id']); ?>
+                        <tr>
+                            <td><strong><?php echo esc_html($payment['payment_number']); ?></strong></td>
+                            <td>
+                                <?php if ($order): ?>
+                                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>">
+                                        <?php echo esc_html($order['order_number']); ?>
+                                    </a>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo number_format($payment['amount'], 2, ',', '.'); ?> <?php echo esc_html($payment['currency']); ?></td>
+                            <td><?php echo esc_html(ucfirst($payment['payment_method'])); ?></td>
+                            <td>
+                                <span class="payment-status status-<?php echo esc_attr($payment['payment_status']); ?>">
+                                    <?php echo esc_html(ucfirst($payment['payment_status'])); ?>
+                                </span>
+                            </td>
+                            <td><?php echo date('d.m.Y H:i', strtotime($payment['created_at'])); ?></td>
+                            <td>
+                                <a href="?page=themisdb-payments&action=view&payment_id=<?php echo $payment['id']; ?>" class="button button-small">
+                                    <?php _e('Ansehen', 'themisdb-order-request'); ?>
+                                </a>
+                                <?php if ($payment['payment_status'] === 'pending'): ?>
+                                <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=themisdb-payments&action=verify&payment_id=' . $payment['id']), 'verify_payment_' . $payment['id']); ?>" 
+                                   class="button button-small button-primary">
+                                    <?php _e('Verifizieren', 'themisdb-order-request'); ?>
+                                </a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    
+    /**
+     * View single payment
+     */
+    private function view_payment($payment_id) {
+        $payment = ThemisDB_Payment_Manager::get_payment($payment_id);
+        
+        if (!$payment) {
+            echo '<div class="notice notice-error"><p>' . __('Zahlung nicht gefunden', 'themisdb-order-request') . '</p></div>';
+            return;
+        }
+        
+        $order = ThemisDB_Order_Manager::get_order($payment['order_id']);
+        
+        ?>
+        <div class="wrap">
+            <h1><?php _e('Zahlung', 'themisdb-order-request'); ?>: <?php echo esc_html($payment['payment_number']); ?></h1>
+            
+            <div class="card">
+                <h2><?php _e('Zahlungsdetails', 'themisdb-order-request'); ?></h2>
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e('Zahlungsnummer', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo esc_html($payment['payment_number']); ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Betrag', 'themisdb-order-request'); ?>:</th>
+                        <td><strong><?php echo number_format($payment['amount'], 2, ',', '.'); ?> <?php echo esc_html($payment['currency']); ?></strong></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Zahlungsmethode', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo esc_html(ucfirst($payment['payment_method'])); ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Status', 'themisdb-order-request'); ?>:</th>
+                        <td>
+                            <span class="payment-status status-<?php echo esc_attr($payment['payment_status']); ?>">
+                                <?php echo esc_html(ucfirst($payment['payment_status'])); ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <?php if ($payment['transaction_id']): ?>
+                    <tr>
+                        <th><?php _e('Transaktions-ID', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo esc_html($payment['transaction_id']); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php if ($payment['payment_date']): ?>
+                    <tr>
+                        <th><?php _e('Zahlungsdatum', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y H:i', strtotime($payment['payment_date'])); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php if ($payment['verified_at']): ?>
+                    <tr>
+                        <th><?php _e('Verifiziert am', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y H:i', strtotime($payment['verified_at'])); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <th><?php _e('Erstellt am', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y H:i', strtotime($payment['created_at'])); ?></td>
+                    </tr>
+                    <?php if ($payment['notes']): ?>
+                    <tr>
+                        <th><?php _e('Notizen', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo esc_html($payment['notes']); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                </table>
+            </div>
+            
+            <?php if ($order): ?>
+            <div class="card">
+                <h2><?php _e('Zugehörige Bestellung', 'themisdb-order-request'); ?></h2>
+                <p>
+                    <strong><?php _e('Bestellnummer', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['order_number']); ?><br>
+                    <strong><?php _e('Kunde', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['customer_name']); ?><br>
+                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>" class="button button-small">
+                        <?php _e('Bestellung ansehen', 'themisdb-order-request'); ?>
+                    </a>
+                </p>
+            </div>
+            <?php endif; ?>
+            
+            <p>
+                <a href="?page=themisdb-payments" class="button"><?php _e('Zurück zur Übersicht', 'themisdb-order-request'); ?></a>
+                <?php if ($payment['payment_status'] === 'pending'): ?>
+                <a href="<?php echo wp_nonce_url(admin_url('admin.php?page=themisdb-payments&action=verify&payment_id=' . $payment['id']), 'verify_payment_' . $payment['id']); ?>" 
+                   class="button button-primary">
+                    <?php _e('Zahlung verifizieren', 'themisdb-order-request'); ?>
+                </a>
+                <?php endif; ?>
+            </p>
+        </div>
+        <?php
+    }
+    
+    /**
+     * Licenses page
+     */
+    public function licenses_page() {
+        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $license_id = isset($_GET['license_id']) ? intval($_GET['license_id']) : 0;
+        
+        if ($action === 'view' && $license_id) {
+            $this->view_license($license_id);
+        } else {
+            $this->list_licenses();
+        }
+    }
+    
+    /**
+     * List licenses
+     */
+    private function list_licenses() {
+        global $wpdb;
+        $table_licenses = $wpdb->prefix . 'themisdb_licenses';
+        $licenses = $wpdb->get_results("SELECT * FROM $table_licenses ORDER BY created_at DESC LIMIT 50", ARRAY_A);
+        $stats = ThemisDB_License_Manager::get_license_stats();
+        
+        ?>
+        <div class="wrap">
+            <h1><?php _e('Lizenzen', 'themisdb-order-request'); ?></h1>
+            
+            <div class="card" style="max-width: none; margin-bottom: 20px;">
+                <h2><?php _e('Lizenzübersicht', 'themisdb-order-request'); ?></h2>
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e('Gesamt Lizenzen', 'themisdb-order-request'); ?>:</th>
+                        <td><strong><?php echo $stats['total_licenses']; ?></strong></td>
+                        <th><?php _e('Aktiv', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: green;"><strong><?php echo $stats['active_licenses']; ?></strong></span></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Ausstehend', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: orange;"><strong><?php echo $stats['pending_licenses']; ?></strong></span></td>
+                        <th><?php _e('Suspendiert', 'themisdb-order-request'); ?>:</th>
+                        <td><span style="color: red;"><strong><?php echo $stats['suspended_licenses']; ?></strong></span></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <table class="wp-list-table widefat fixed striped">
+                <thead>
+                    <tr>
+                        <th><?php _e('Lizenzschlüssel', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Edition', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Kunde', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Status', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Aktiviert', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Läuft ab', 'themisdb-order-request'); ?></th>
+                        <th><?php _e('Aktionen', 'themisdb-order-request'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($licenses)): ?>
+                    <tr>
+                        <td colspan="7"><?php _e('Keine Lizenzen gefunden', 'themisdb-order-request'); ?></td>
+                    </tr>
+                    <?php else: ?>
+                        <?php foreach ($licenses as $license): ?>
+                        <?php $order = ThemisDB_Order_Manager::get_order($license['order_id']); ?>
+                        <tr>
+                            <td><code style="font-size: 10px;"><?php echo esc_html(substr($license['license_key'], 0, 20)); ?>...</code></td>
+                            <td><?php echo esc_html(ucfirst($license['product_edition'])); ?></td>
+                            <td>
+                                <?php if ($order): ?>
+                                    <?php echo esc_html($order['customer_name']); ?>
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <span class="license-status status-<?php echo esc_attr($license['license_status']); ?>">
+                                    <?php echo esc_html(ucfirst($license['license_status'])); ?>
+                                </span>
+                            </td>
+                            <td><?php echo $license['activation_date'] ? date('d.m.Y', strtotime($license['activation_date'])) : '-'; ?></td>
+                            <td><?php echo $license['expiry_date'] ? date('d.m.Y', strtotime($license['expiry_date'])) : '∞'; ?></td>
+                            <td>
+                                <a href="?page=themisdb-licenses&action=view&license_id=<?php echo $license['id']; ?>" class="button button-small">
+                                    <?php _e('Ansehen', 'themisdb-order-request'); ?>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+    
+    /**
+     * View single license
+     */
+    private function view_license($license_id) {
+        $license = ThemisDB_License_Manager::get_license($license_id);
+        
+        if (!$license) {
+            echo '<div class="notice notice-error"><p>' . __('Lizenz nicht gefunden', 'themisdb-order-request') . '</p></div>';
+            return;
+        }
+        
+        $order = ThemisDB_Order_Manager::get_order($license['order_id']);
+        $contract = ThemisDB_Contract_Manager::get_contract($license['contract_id']);
+        
+        ?>
+        <div class="wrap">
+            <h1><?php _e('Lizenz', 'themisdb-order-request'); ?>: <?php echo esc_html($license['product_edition']); ?></h1>
+            
+            <div class="card">
+                <h2><?php _e('Lizenzdetails', 'themisdb-order-request'); ?></h2>
+                <table class="form-table">
+                    <tr>
+                        <th><?php _e('Lizenzschlüssel', 'themisdb-order-request'); ?>:</th>
+                        <td><code><?php echo esc_html($license['license_key']); ?></code></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Edition', 'themisdb-order-request'); ?>:</th>
+                        <td><strong><?php echo esc_html(ucfirst($license['product_edition'])); ?></strong></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Lizenztyp', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo esc_html(ucfirst($license['license_type'])); ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Status', 'themisdb-order-request'); ?>:</th>
+                        <td>
+                            <span class="license-status status-<?php echo esc_attr($license['license_status']); ?>">
+                                <?php echo esc_html(ucfirst($license['license_status'])); ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><?php _e('Max. Nodes', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo $license['max_nodes'] ? $license['max_nodes'] : '∞'; ?></td>
+                    </tr>
+                    <?php if ($license['max_cores']): ?>
+                    <tr>
+                        <th><?php _e('Max. Cores', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo $license['max_cores']; ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php if ($license['max_storage_gb']): ?>
+                    <tr>
+                        <th><?php _e('Max. Storage', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo $license['max_storage_gb']; ?> GB</td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php if ($license['activation_date']): ?>
+                    <tr>
+                        <th><?php _e('Aktivierungsdatum', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y H:i', strtotime($license['activation_date'])); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php if ($license['expiry_date']): ?>
+                    <tr>
+                        <th><?php _e('Ablaufdatum', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y', strtotime($license['expiry_date'])); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <?php if ($license['last_check']): ?>
+                    <tr>
+                        <th><?php _e('Letzte Prüfung', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y H:i', strtotime($license['last_check'])); ?></td>
+                    </tr>
+                    <?php endif; ?>
+                    <tr>
+                        <th><?php _e('Erstellt am', 'themisdb-order-request'); ?>:</th>
+                        <td><?php echo date('d.m.Y H:i', strtotime($license['created_at'])); ?></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <?php if ($order): ?>
+            <div class="card">
+                <h2><?php _e('Zugehörige Bestellung', 'themisdb-order-request'); ?></h2>
+                <p>
+                    <strong><?php _e('Bestellnummer', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['order_number']); ?><br>
+                    <strong><?php _e('Kunde', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['customer_name']); ?><br>
+                    <strong><?php _e('E-Mail', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['customer_email']); ?><br>
+                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>" class="button button-small">
+                        <?php _e('Bestellung ansehen', 'themisdb-order-request'); ?>
+                    </a>
+                </p>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($contract): ?>
+            <div class="card">
+                <h2><?php _e('Zugehöriger Vertrag', 'themisdb-order-request'); ?></h2>
+                <p>
+                    <strong><?php _e('Vertragsnummer', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($contract['contract_number']); ?><br>
+                    <strong><?php _e('Status', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html(ucfirst($contract['status'])); ?><br>
+                    <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo $contract['id']; ?>" class="button button-small">
+                        <?php _e('Vertrag ansehen', 'themisdb-order-request'); ?>
+                    </a>
+                </p>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($license['license_file_data']): ?>
+            <div class="card">
+                <h2><?php _e('Lizenzdatei', 'themisdb-order-request'); ?></h2>
+                <p><?php _e('Die Lizenzdatei wurde generiert und kann für die Authentifizierung verwendet werden.', 'themisdb-order-request'); ?></p>
+                <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 12px;"><?php echo esc_textarea(json_encode($license['license_file_data'], JSON_PRETTY_PRINT)); ?></textarea>
+            </div>
+            <?php endif; ?>
+            
+            <p>
+                <a href="?page=themisdb-licenses" class="button"><?php _e('Zurück zur Übersicht', 'themisdb-order-request'); ?></a>
+            </p>
         </div>
         <?php
     }

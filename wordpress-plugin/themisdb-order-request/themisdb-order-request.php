@@ -35,11 +35,14 @@ define('THEMISDB_ORDER_PLUGIN_URL', plugin_dir_url(__FILE__));
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-database.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-order-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-contract-manager.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-payment-manager.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-pdf-generator.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-email-handler.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-epserver-api.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-admin.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-shortcodes.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-auth-system.php';
 
 /**
  * Initialize the plugin

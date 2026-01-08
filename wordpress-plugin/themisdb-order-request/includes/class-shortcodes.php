@@ -599,6 +599,27 @@ class ThemisDB_Order_Shortcodes {
             
             // Send contract email
             ThemisDB_Email_Handler::send_contract_email($contract_id);
+            
+            // Create payment record
+            $payment_data = array(
+                'order_id' => $order_id,
+                'contract_id' => $contract_id,
+                'amount' => $order['total_amount'],
+                'currency' => $order['currency'],
+                'payment_method' => 'bank_transfer'
+            );
+            $payment_id = ThemisDB_Payment_Manager::create_payment($payment_data);
+            
+            // Create license
+            $license_data = array(
+                'order_id' => $order_id,
+                'contract_id' => $contract_id,
+                'customer_id' => $order['customer_id'],
+                'product_edition' => $order['product_edition'],
+                'license_type' => 'standard',
+                'max_nodes' => $order['product_edition'] === 'enterprise' ? 100 : ($order['product_edition'] === 'hyperscaler' ? -1 : 1)
+            );
+            $license_id = ThemisDB_License_Manager::create_license($license_data);
         }
         
         // Clear session

@@ -64,6 +64,61 @@
     font-weight: bold;
 }
 
+/* Payment Status Styles */
+.payment-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.payment-status.status-verified {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.payment-status.status-pending {
+    background-color: #fcf8e3;
+    color: #856404;
+}
+
+.payment-status.status-failed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* License Status Styles */
+.license-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.license-status.status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.license-status.status-pending {
+    background-color: #fcf8e3;
+    color: #856404;
+}
+
+.license-status.status-suspended {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.license-status.status-expired {
+    background-color: #f0f0f1;
+    color: #3c434a;
+}
+
 /* Admin Table Enhancements */
 .wp-list-table.themisdb-table th {
     font-weight: 600;

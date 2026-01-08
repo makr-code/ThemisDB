@@ -224,6 +224,58 @@ class ThemisDB_EPServer_API {
     }
     
     /**
+     * Check payment status in epServer
+     */
+    public static function check_payment_status($epserver_payment_id) {
+        $response = self::make_request('/payments/' . $epserver_payment_id);
+        
+        if (isset($response['error'])) {
+            return false;
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Verify payment in epServer
+     */
+    public static function verify_payment($epserver_payment_id) {
+        $response = self::make_request('/payments/' . $epserver_payment_id . '/verify', 'POST');
+        
+        if (isset($response['error'])) {
+            return false;
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Get subscription details from epServer
+     */
+    public static function get_subscription($subscription_id) {
+        $response = self::make_request('/subscriptions/' . $subscription_id);
+        
+        if (isset($response['error'])) {
+            return false;
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * Get license information from epServer
+     */
+    public static function get_license_info($license_key) {
+        $response = self::make_request('/license/info/' . $license_key);
+        
+        if (isset($response['error'])) {
+            return false;
+        }
+        
+        return $response;
+    }
+    
+    /**
      * Test API connection
      */
     public static function test_connection() {
