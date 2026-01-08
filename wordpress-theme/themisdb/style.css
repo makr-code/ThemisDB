@@ -307,6 +307,12 @@ a:focus {
     border: 1px solid var(--border-light);
     /* Extra padding for visual spacing (invisible bridge created by ::before) */
     padding-top: 1rem;
+    z-index: 1000;
+}
+
+/* Hide parent menu item underline when dropdown is visible */
+.main-navigation .menu-item-has-children:hover > a::before {
+    display: none;
 }
 
 /* Create invisible bridge between parent and dropdown */
