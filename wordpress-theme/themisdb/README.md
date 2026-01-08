@@ -9,6 +9,8 @@ ThemisDB is a sophisticated WordPress theme that combines clean design with powe
 ### Key Features
 
 - **Modern Design**: Clean, professional layout inspired by midnight-blogger theme
+- **Featured Slider**: Showcase important posts with an animated slider (NEW!)
+- **Custom Widgets**: 4 specialized widgets for enhanced content presentation (NEW!)
 - **Themis Brand Colors**: 
   - Primary: #2c3e50 (dark blue-gray)
   - Secondary: #3498db (bright blue)
@@ -25,6 +27,32 @@ ThemisDB is a sophisticated WordPress theme that combines clean design with powe
 - **Navigation Menus**: Primary and footer menu locations
 - **Featured Images**: Beautiful post thumbnails
 - **Code Highlighting**: Optimized styles for code blocks (perfect for technical content)
+
+## New Widget Features 🎉
+
+### ThemisDB: Featured Slider
+- Displays sticky posts in an animated slider
+- Autoplay with pause on hover
+- Touch gestures for mobile devices
+- Keyboard navigation support
+- Perfect for highlighting important articles
+
+### ThemisDB: Recent Posts
+- Shows recent posts with optional thumbnails
+- Customizable number of posts
+- Clean, compact design
+
+### ThemisDB: Category Highlights
+- Showcase posts from specific categories
+- Featured images and excerpts
+- Great for organizing content by topic
+
+### ThemisDB: Call to Action
+- Eye-catching CTA boxes with gradient backgrounds
+- 4 color styles (Primary, Secondary, Accent, Success)
+- Perfect for downloads, links, or announcements
+
+For detailed widget documentation, see `/wordpress-theme/WIDGETS_GUIDE.md`
 
 ## Installation
 
@@ -77,9 +105,15 @@ ThemisDB is a sophisticated WordPress theme that combines clean design with powe
 ```
 themisdb/
 ├── css/
-│   └── style.css              # Main stylesheet
+│   ├── style.css              # Main stylesheet
+│   └── widgets.css            # Widget styles (NEW!)
 ├── js/
-│   └── navigation.js          # Navigation and mobile menu scripts
+│   ├── navigation.js          # Navigation and mobile menu scripts
+│   ├── slider.js              # Featured slider functionality (NEW!)
+│   ├── graph-navigation.js    # Graph navigation features
+│   └── enhancements.js        # Modern UI enhancements
+├── inc/
+│   └── widgets.php            # Custom widget classes (NEW!)
 ├── template-parts/
 │   ├── content.php            # Default post template
 │   ├── content-single.php     # Single post template
