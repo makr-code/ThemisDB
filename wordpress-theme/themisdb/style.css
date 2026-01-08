@@ -3852,10 +3852,14 @@ pre code {
         padding: 0.5rem;
     }
     
-    /* Better mobile table handling - wrap table in scrollable container */
-    .entry-content table {
+    /* Better mobile table handling - use wrapper for scrolling */
+    .entry-content {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+    }
+    
+    .entry-content table {
+        min-width: 600px;
     }
     
     /* Improve pre/code blocks on mobile */
@@ -3947,8 +3951,15 @@ pre code {
 
 /* ===== Enhanced Mobile Experience ===== */
 
-/* Better tap highlight color for mobile */
-* {
+/* Better tap highlight color for mobile - only on interactive elements */
+a,
+button,
+[role='button'],
+input,
+select,
+textarea,
+.button,
+.wp-block-button__link {
     -webkit-tap-highlight-color: rgba(124, 77, 255, 0.3);
     tap-highlight-color: rgba(124, 77, 255, 0.3);
 }
@@ -4000,7 +4011,7 @@ pre,
     }
 }
 
-/* Very small screens (320px) */
+/* Extra small screens (below 375px) */
 @media (max-width: 375px) {
     html {
         font-size: 13px;
