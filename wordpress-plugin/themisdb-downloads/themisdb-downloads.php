@@ -32,6 +32,7 @@ define('THEMISDB_DOWNLOADS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_DOWNLOADS_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 // Include required files
+require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-markdown-converter.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-github-api.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-admin.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-shortcodes.php';
