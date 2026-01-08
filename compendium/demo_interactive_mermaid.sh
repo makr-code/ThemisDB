@@ -1,6 +1,10 @@
 #!/bin/bash
 # Demo Script für Interactive Mermaid PDF Generation
 # Zeigt alle Features
+# 
+# HINWEIS: Dieses Script installiert Python-Pakete mit pip.
+# Wenn Sie das nicht möchten, brechen Sie ab und installieren Sie manuell:
+#   pip install --user reportlab pypdf qrcode[pil] pillow markdown
 
 set -e
 
@@ -10,7 +14,13 @@ echo "╚═══════════════════════�
 echo ""
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMP_OUTPUT="/tmp/themis_interactive_pdf"
+
+# Determine cross-platform temp directory
+if [[ "$OSTYPE" == "msys" ]] || [[ "$OSTYPE" == "win32" ]]; then
+    TEMP_OUTPUT="$TEMP/themis_interactive_pdf"
+else
+    TEMP_OUTPUT="${TMPDIR:-/tmp}/themis_interactive_pdf"
+fi
 
 # Check dependencies
 echo "📦 Checking dependencies..."
@@ -18,8 +28,15 @@ command -v python3 >/dev/null 2>&1 || { echo "❌ Python 3 required"; exit 1; }
 echo "   ✓ Python 3 found"
 
 python3 -c "import reportlab" 2>/dev/null || {
-    echo "   ⚠ reportlab not found, installing..."
-    pip install --user reportlab pypdf qrcode[pil] pillow markdown
+    echo "   ⚠ reportlab not found"
+    read -p "   Install Python packages now? (y/N) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        pip install --user reportlab pypdf qrcode[pil] pillow markdown
+    else
+        echo "   Please install manually: pip install reportlab pypdf qrcode[pil] pillow markdown"
+        exit 1
+    fi
 }
 echo "   ✓ Python packages OK"
 

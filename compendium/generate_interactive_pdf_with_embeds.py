@@ -14,6 +14,7 @@ import re
 import subprocess
 import hashlib
 import json
+import tempfile
 from pathlib import Path
 from datetime import datetime
 from io import BytesIO
@@ -63,13 +64,19 @@ except ImportError:
 # Configuration
 SCRIPT_DIR = Path(__file__).parent.absolute()
 OUTPUT_DIR = SCRIPT_DIR / "pdf"
-TEMP_DIR = Path("/tmp/themis_interactive_pdf")
+# Cross-platform temp directory
+TEMP_DIR = Path(tempfile.gettempdir()) / "themis_interactive_pdf"
 MERMAID_CACHE = TEMP_DIR / "mermaid_svgs"
 HTML_CACHE = TEMP_DIR / "mermaid_htmls"
 QR_CACHE = TEMP_DIR / "qr_codes"
 
-# GitHub Pages URL (adjust as needed)
-GITHUB_PAGES_BASE = "https://makr-code.github.io/ThemisDB/compendium/interactive/"
+# GitHub Pages URL - CUSTOMIZE THIS FOR YOUR DEPLOYMENT
+# This URL is used for QR codes. Update before deploying to production.
+# Example: "https://YOUR-USERNAME.github.io/ThemisDB/compendium/interactive/"
+GITHUB_PAGES_BASE = os.environ.get(
+    'THEMIS_GITHUB_PAGES_URL',
+    "https://makr-code.github.io/ThemisDB/compendium/interactive/"
+)
 
 # Chapters
 CHAPTERS = [

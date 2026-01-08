@@ -12,6 +12,7 @@ import re
 import subprocess
 import hashlib
 import shutil
+import tempfile
 from pathlib import Path
 from datetime import datetime
 import markdown
@@ -19,7 +20,8 @@ import markdown
 # Configuration
 SCRIPT_DIR = Path(__file__).parent.absolute()
 OUTPUT_DIR = SCRIPT_DIR.parent.parent / "pdf_output"
-TEMP_DIR = Path("/tmp/themis_pdf_interactive_mermaid")
+# Cross-platform temp directory
+TEMP_DIR = Path(tempfile.gettempdir()) / "themis_pdf_interactive_mermaid"
 MERMAID_CACHE = TEMP_DIR / "mermaid_cache"
 HTML_OUTPUT = TEMP_DIR / "interactive"
 
