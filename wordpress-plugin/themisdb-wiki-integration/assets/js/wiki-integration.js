@@ -13,7 +13,7 @@
             mermaid.initialize({
                 startOnLoad: true,
                 theme: 'default',
-                securityLevel: 'loose',
+                securityLevel: 'strict',
                 fontFamily: 'inherit'
             });
         }

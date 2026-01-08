@@ -24,7 +24,7 @@ class ThemisDB_Markdown_Converter {
         
         // 1. Extract and protect code blocks (including Mermaid) before other processing
         $code_blocks = array();
-        $html = preg_replace_callback('/```([a-z]*)\n(.*?)\n```/s', function($matches) use (&$code_blocks) {
+        $html = preg_replace_callback('/```([a-zA-Z0-9+\-]*)\n(.*?)\n```/s', function($matches) use (&$code_blocks) {
             $language = trim($matches[1]);
             $code = $matches[2];
             $placeholder = '___CODE_BLOCK_' . count($code_blocks) . '___';
