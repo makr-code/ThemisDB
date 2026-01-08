@@ -36,7 +36,7 @@
             </div>
 
             <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
-                <?php esc_html_e( 'Menu', 'themisdb' ); ?>
+                <span class="menu-icon">☰</span> <?php esc_html_e( 'Menu', 'themisdb' ); ?>
             </button>
 
             <nav id="site-navigation" class="main-navigation">
@@ -48,6 +48,22 @@
                     'fallback_cb'    => false,
                 ) );
                 ?>
+                <!-- Hamburger Menu Item (right-aligned) -->
+                <div class="hamburger-menu-item">
+                    <button class="hamburger-menu-button" aria-label="<?php esc_attr_e( 'Additional Menu', 'themisdb' ); ?>" aria-expanded="false">
+                        🍔
+                    </button>
+                    <div class="hamburger-dropdown">
+                        <?php
+                        wp_nav_menu( array(
+                            'theme_location' => 'hamburger',
+                            'menu_id'        => 'hamburger-menu',
+                            'container'      => false,
+                            'fallback_cb'    => 'themisdb_hamburger_menu_fallback',
+                        ) );
+                        ?>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>

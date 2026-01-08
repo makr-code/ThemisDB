@@ -17,7 +17,7 @@
             <p>
                 <?php
                 printf(
-                    esc_html__( 'Powered by %1$s | Theme: %2$s', 'themisdb' ),
+                    esc_html__( '⚡ Powered by %1$s | 🎨 Theme: %2$s', 'themisdb' ),
                     '<a href="' . esc_url( 'https://github.com/makr-code/ThemisDB' ) . '">ThemisDB</a>',
                     '<a href="' . esc_url( 'https://github.com/makr-code/ThemisDB' ) . '">ThemisDB Theme</a>'
                 );
@@ -34,6 +34,11 @@
             ?>
         </div>
     </footer>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Scroll to top">
+        ⬆
+    </button>
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

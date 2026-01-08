@@ -20,6 +20,7 @@
             <?php
             themisdb_posted_on();
             themisdb_posted_by();
+            themisdb_reading_time();
             themisdb_categories();
             themisdb_comments_link();
             ?>

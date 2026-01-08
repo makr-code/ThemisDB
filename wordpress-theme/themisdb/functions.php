@@ -33,8 +33,9 @@ function themisdb_setup() {
 
     // Register navigation menus
     register_nav_menus( array(
-        'primary' => esc_html__( 'Primary Menu', 'themisdb' ),
-        'footer'  => esc_html__( 'Footer Menu', 'themisdb' ),
+        'primary'   => esc_html__( 'Primary Menu', 'themisdb' ),
+        'footer'    => esc_html__( 'Footer Menu', 'themisdb' ),
+        'hamburger' => esc_html__( 'Hamburger Menu', 'themisdb' ),
     ) );
 
     // Switch default core markup to output valid HTML5
@@ -176,6 +177,10 @@ function themisdb_scripts() {
 
     // Graph Navigation (Neo4j Bloom inspired)
     wp_enqueue_script( 'themisdb-graph-navigation', get_template_directory_uri() . '/js/graph-navigation.js', array(), '1.0.0', true );
+    
+    // Pass WordPress content data to graph navigation script
+    $graph_data = themisdb_get_graph_data();
+    wp_localize_script( 'themisdb-graph-navigation', 'themisdbGraphData', $graph_data );
 
     // Modern enhancements (animations, lazy loading, etc.)
     wp_enqueue_script( 'themisdb-enhancements', get_template_directory_uri() . '/js/enhancements.js', array(), '1.0.0', true );
@@ -192,6 +197,154 @@ function themisdb_scripts() {
     }
 }
 add_action( 'wp_enqueue_scripts', 'themisdb_scripts' );
+
+/**
+ * Get graph data for visualization
+ * Builds a network of posts, pages, categories, and tags
+ * Limits can be filtered via 'themisdb_graph_post_limit' and 'themisdb_graph_page_limit'
+ */
+function themisdb_get_graph_data() {
+    $nodes = array();
+    $links = array();
+    
+    // Allow customization of limits via filters
+    $post_limit = apply_filters( 'themisdb_graph_post_limit', 50 );
+    $page_limit = apply_filters( 'themisdb_graph_page_limit', 30 );
+    
+    // Get all categories
+    $categories = get_categories( array(
+        'hide_empty' => false,
+    ) );
+    
+    // Get all tags
+    $tags = get_tags( array(
+        'hide_empty' => false,
+    ) );
+    
+    // Get all posts (limit to recent posts for performance)
+    $posts = get_posts( array(
+        'numberposts' => $post_limit,
+        'post_status' => 'publish',
+        'post_type'   => 'post',
+    ) );
+    
+    // Get all pages (limit for performance)
+    $pages = get_posts( array(
+        'numberposts' => $page_limit,
+        'post_status' => 'publish',
+        'post_type'   => 'page',
+    ) );
+    
+    // Add home node
+    $nodes[] = array(
+        'id'    => 'home',
+        'label' => get_bloginfo( 'name' ),
+        'url'   => home_url( '/' ),
+        'type'  => 'home',
+        'level' => 0,
+    );
+    
+    // Add category nodes
+    foreach ( $categories as $category ) {
+        $nodes[] = array(
+            'id'    => 'cat_' . $category->term_id,
+            'label' => $category->name,
+            'url'   => get_category_link( $category->term_id ),
+            'type'  => 'category',
+            'level' => 1,
+            'count' => $category->count,
+        );
+        
+        // Link from home to category
+        $links[] = array(
+            'source' => 'home',
+            'target' => 'cat_' . $category->term_id,
+            'type'   => 'contains',
+        );
+    }
+    
+    // Add tag nodes
+    foreach ( $tags as $tag ) {
+        $nodes[] = array(
+            'id'    => 'tag_' . $tag->term_id,
+            'label' => $tag->name,
+            'url'   => get_tag_link( $tag->term_id ),
+            'type'  => 'tag',
+            'level' => 1,
+            'count' => $tag->count,
+        );
+        
+        // Link from home to tag
+        $links[] = array(
+            'source' => 'home',
+            'target' => 'tag_' . $tag->term_id,
+            'type'   => 'tagged',
+        );
+    }
+    
+    // Add post nodes and their relationships
+    foreach ( $posts as $post ) {
+        $post_id = 'post_' . $post->ID;
+        
+        $nodes[] = array(
+            'id'       => $post_id,
+            'label'    => $post->post_title,
+            'url'      => get_permalink( $post->ID ),
+            'type'     => 'post',
+            'level'    => 2,
+            'date'     => $post->post_date,
+            'excerpt'  => wp_trim_words( get_the_excerpt( $post->ID ), 20 ),
+        );
+        
+        // Get post categories and create links
+        $post_categories = get_the_category( $post->ID );
+        foreach ( $post_categories as $cat ) {
+            $links[] = array(
+                'source' => 'cat_' . $cat->term_id,
+                'target' => $post_id,
+                'type'   => 'has_post',
+            );
+        }
+        
+        // Get post tags and create links
+        $post_tags = get_the_tags( $post->ID );
+        if ( $post_tags ) {
+            foreach ( $post_tags as $tag ) {
+                $links[] = array(
+                    'source' => 'tag_' . $tag->term_id,
+                    'target' => $post_id,
+                    'type'   => 'has_tag',
+                );
+            }
+        }
+    }
+    
+    // Add page nodes
+    foreach ( $pages as $page ) {
+        $page_id = 'page_' . $page->ID;
+        
+        $nodes[] = array(
+            'id'      => $page_id,
+            'label'   => $page->post_title,
+            'url'     => get_permalink( $page->ID ),
+            'type'    => 'page',
+            'level'   => 1,
+            'excerpt' => wp_trim_words( get_the_excerpt( $page->ID ), 20 ),
+        );
+        
+        // Link from home to pages
+        $links[] = array(
+            'source' => 'home',
+            'target' => $page_id,
+            'type'   => 'page_of',
+        );
+    }
+    
+    return array(
+        'nodes' => $nodes,
+        'links' => $links,
+    );
+}
 
 /**
  * Add body classes
@@ -392,3 +545,171 @@ function themisdb_custom_colors_css() {
     wp_add_inline_style( 'themisdb-style', $css );
 }
 add_action( 'wp_enqueue_scripts', 'themisdb_custom_colors_css' );
+
+/**
+ * Breadcrumb Navigation
+ * Display hierarchical navigation path
+ */
+function themisdb_breadcrumbs() {
+    // Don't display on homepage
+    if ( is_front_page() ) {
+        return;
+    }
+
+    $separator = ' 🔸 ';
+    $home_title = '🏠 ' . esc_html__( 'Home', 'themisdb' );
+
+    echo '<nav class="breadcrumbs" aria-label="' . esc_attr__( 'Breadcrumb', 'themisdb' ) . '">';
+    echo '<ol class="breadcrumb-list">';
+
+    // Home link
+    echo '<li class="breadcrumb-item"><a href="' . esc_url( home_url( '/' ) ) . '">' . $home_title . '</a></li>';
+
+    if ( is_category() || is_single() ) {
+        $categories = get_the_category();
+        if ( ! empty( $categories ) ) {
+            $category = $categories[0];
+            if ( $category->parent ) {
+                $parent_cats = array();
+                $current_cat = $category;
+                while ( $current_cat->parent ) {
+                    $current_cat = get_category( $current_cat->parent );
+                    $parent_cats[] = $current_cat;
+                }
+                $parent_cats = array_reverse( $parent_cats );
+                foreach ( $parent_cats as $parent_cat ) {
+                    echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_category_link( $parent_cat->term_id ) ) . '">📁 ' . esc_html( $parent_cat->name ) . '</a></li>';
+                }
+            }
+            echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_category_link( $category->term_id ) ) . '">📁 ' . esc_html( $category->name ) . '</a></li>';
+        }
+
+        if ( is_single() ) {
+            echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '📝 ' . esc_html( get_the_title() ) . '</li>';
+        }
+    } elseif ( is_page() ) {
+        if ( $post = get_post() ) {
+            if ( $post->post_parent ) {
+                $parent_id  = $post->post_parent;
+                $breadcrumbs = array();
+                while ( $parent_id ) {
+                    $page = get_post( $parent_id );
+                    $breadcrumbs[] = '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_permalink( $page->ID ) ) . '">📄 ' . esc_html( get_the_title( $page->ID ) ) . '</a></li>';
+                    $parent_id = $page->post_parent;
+                }
+                $breadcrumbs = array_reverse( $breadcrumbs );
+                foreach ( $breadcrumbs as $crumb ) {
+                    echo $crumb;
+                }
+            }
+            echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '📄 ' . esc_html( get_the_title() ) . '</li>';
+        }
+    } elseif ( is_tag() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '🏷️ ' . esc_html( single_tag_title( '', false ) ) . '</li>';
+    } elseif ( is_author() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '👤 ' . esc_html( get_the_author() ) . '</li>';
+    } elseif ( is_day() ) {
+        echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_year_link( get_the_time( 'Y' ) ) ) . '">📅 ' . esc_html( get_the_time( 'Y' ) ) . '</a></li>';
+        echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_month_link( get_the_time( 'Y' ), get_the_time( 'm' ) ) ) . '">' . esc_html( get_the_time( 'F' ) ) . '</a></li>';
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . esc_html( get_the_time( 'd' ) ) . '</li>';
+    } elseif ( is_month() ) {
+        echo '<li class="breadcrumb-item">' . $separator . '<a href="' . esc_url( get_year_link( get_the_time( 'Y' ) ) ) . '">📅 ' . esc_html( get_the_time( 'Y' ) ) . '</a></li>';
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . esc_html( get_the_time( 'F' ) ) . '</li>';
+    } elseif ( is_year() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '📅 ' . esc_html( get_the_time( 'Y' ) ) . '</li>';
+    } elseif ( is_search() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '🔍 ' . esc_html__( 'Search Results', 'themisdb' ) . '</li>';
+    } elseif ( is_404() ) {
+        echo '<li class="breadcrumb-item active" aria-current="page">' . $separator . '❌ ' . esc_html__( '404 Error', 'themisdb' ) . '</li>';
+    }
+
+    echo '</ol>';
+    echo '</nav>';
+}
+
+/**
+ * Social Share Buttons
+ * Display social sharing options for posts
+ */
+function themisdb_social_share_buttons() {
+    if ( ! is_single() ) {
+        return;
+    }
+
+    $post_url = urlencode( get_permalink() );
+    $post_title = urlencode( get_the_title() );
+    
+    ?>
+    <div class="social-share">
+        <h3 class="social-share-title">🔗 <?php esc_html_e( 'Share this post:', 'themisdb' ); ?></h3>
+        <div class="social-share-buttons">
+            <a href="https://twitter.com/intent/tweet?url=<?php echo $post_url; ?>&text=<?php echo $post_title; ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="share-button share-twitter"
+               aria-label="<?php esc_attr_e( 'Share on Twitter', 'themisdb' ); ?>">
+                🐦 Twitter
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $post_url; ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="share-button share-facebook"
+               aria-label="<?php esc_attr_e( 'Share on Facebook', 'themisdb' ); ?>">
+                📘 Facebook
+            </a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $post_url; ?>&title=<?php echo $post_title; ?>" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="share-button share-linkedin"
+               aria-label="<?php esc_attr_e( 'Share on LinkedIn', 'themisdb' ); ?>">
+                💼 LinkedIn
+            </a>
+            <a href="mailto:?subject=<?php echo $post_title; ?>&body=<?php echo $post_url; ?>" 
+               class="share-button share-email"
+               aria-label="<?php esc_attr_e( 'Share via Email', 'themisdb' ); ?>">
+                ✉️ Email
+            </a>
+            <button class="share-button share-copy" 
+                    data-url="<?php echo esc_url( get_permalink() ); ?>"
+                    onclick="themisdbCopyUrl(this)"
+                    aria-label="<?php esc_attr_e( 'Copy link', 'themisdb' ); ?>">
+                📋 <?php esc_html_e( 'Copy Link', 'themisdb' ); ?>
+            </button>
+        </div>
+    </div>
+    <?php
+}
+
+/**
+ * Estimated Reading Time
+ * Calculate and display reading time for posts
+ */
+function themisdb_reading_time() {
+    $content = get_post_field( 'post_content', get_the_ID() );
+    $word_count = str_word_count( strip_tags( $content ) );
+    $reading_time = ceil( $word_count / 200 ); // Average reading speed: 200 words per minute
+
+    if ( $reading_time > 0 ) {
+        printf(
+            '<span class="reading-time">⏱️ %s</span>',
+            sprintf(
+                _n( '%d minute read', '%d minutes read', $reading_time, 'themisdb' ),
+                $reading_time
+            )
+        );
+    }
+}
+
+/**
+ * Hamburger Menu Fallback
+ * Display default items when no menu is assigned
+ */
+function themisdb_hamburger_menu_fallback() {
+    ?>
+    <ul id="hamburger-menu" class="menu">
+        <li><a href="<?php echo esc_url( admin_url( 'nav-menus.php' ) ); ?>">⚙️ <?php esc_html_e( 'Settings', 'themisdb' ); ?></a></li>
+        <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">ℹ️ <?php esc_html_e( 'About', 'themisdb' ); ?></a></li>
+        <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">📧 <?php esc_html_e( 'Contact', 'themisdb' ); ?></a></li>
+    </ul>
+    <?php
+}

@@ -2,8 +2,8 @@
 /**
  * Plugin Name: ThemisDB Wiki Integration
  * Plugin URI: https://github.com/makr-code/ThemisDB
- * Description: Automatically integrates ThemisDB documentation/wiki from GitHub into WordPress. Fetches markdown files and displays them with proper formatting.
- * Version: 1.0.0
+ * Description: Integrates ThemisDB documentation/wiki from GitHub into WordPress. Fetches markdown files on-demand and displays them with proper formatting. Manual sync recommended.
+ * Version: 1.0.1
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code
  * License: MIT
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('THEMISDB_WIKI_VERSION', '1.0.0');
+define('THEMISDB_WIKI_VERSION', '1.0.1');
 define('THEMISDB_WIKI_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_WIKI_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_WIKI_CACHE_GROUP', 'themisdb_wiki');
@@ -66,11 +66,11 @@ class ThemisDB_Wiki_Integration {
         add_option('themisdb_wiki_github_repo', 'makr-code/ThemisDB');
         add_option('themisdb_wiki_github_branch', 'main');
         add_option('themisdb_wiki_docs_path', 'docs');
-        add_option('themisdb_wiki_auto_sync', 'yes');
+        add_option('themisdb_wiki_auto_sync', 'no'); // Changed to 'no' - sync only on-demand
         add_option('themisdb_wiki_sync_interval', '3600');
         add_option('themisdb_wiki_default_lang', 'de');
         
-        // Schedule auto-sync if enabled
+        // Schedule auto-sync if enabled (disabled by default)
         if (get_option('themisdb_wiki_auto_sync') === 'yes') {
             if (!wp_next_scheduled('themisdb_wiki_auto_sync_hook')) {
                 wp_schedule_event(time(), 'hourly', 'themisdb_wiki_auto_sync_hook');
