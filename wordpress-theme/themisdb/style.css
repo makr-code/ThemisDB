@@ -54,6 +54,11 @@ ThemisDB is distributed under the terms of the MIT License
 html {
     font-size: 16px;
     scroll-behavior: smooth;
+    /* Prevent text inflation on mobile devices */
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 body {
@@ -64,6 +69,8 @@ body {
     background-color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Prevent body overflow on mobile */
+    overflow-x: hidden;
 }
 
 /* ===== Typography ===== */
@@ -636,12 +643,21 @@ article:hover {
     height: auto;
     border-radius: 8px;
     margin: 1.5rem 0;
+    /* Prevent layout shift while images load */
+    display: block;
 }
 
 .entry-content table {
     width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+    .entry-content img {
+        margin: 1rem 0;
+        border-radius: 6px;
+    }
 }
 
 .entry-content table th,
@@ -1094,6 +1110,8 @@ article:hover {
 }
 
 /* ===== Responsive Design ===== */
+
+/* Tablet Landscape and Below */
 @media (max-width: 1024px) {
     .has-sidebar .site-content {
         grid-template-columns: 1fr;
@@ -1101,19 +1119,58 @@ article:hover {
     
     .sidebar {
         order: 2;
+        position: relative;
+        top: 0;
+    }
+    
+    .site-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .footer-widgets {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
 }
 
+/* Tablet Portrait and Below */
 @media (max-width: 768px) {
+    /* Header adjustments */
     .header-inner {
-        padding: 1rem;
+        padding: 0.75rem 1rem;
         flex-wrap: wrap;
+        gap: 1rem;
     }
     
+    .site-branding {
+        flex: 1;
+    }
+    
+    .site-logo {
+        max-height: 40px;
+    }
+    
+    .site-title {
+        font-size: 1.5rem;
+    }
+    
+    .site-description {
+        font-size: 0.8rem;
+    }
+    
+    /* Mobile menu toggle button */
     .menu-toggle {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        order: 2;
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
     }
     
+    /* Main navigation for mobile */
     .main-navigation {
         width: 100%;
         order: 3;
@@ -1126,7 +1183,8 @@ article:hover {
         background: var(--primary-dark);
         padding: 1rem;
         margin-top: 1rem;
-        border-radius: 4px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     
     .main-navigation.toggled ul {
@@ -1137,24 +1195,203 @@ article:hover {
         width: 100%;
     }
     
+    .main-navigation a {
+        padding: 1rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Dropdown menus on mobile */
     .main-navigation ul ul {
         position: static;
         box-shadow: none;
         padding-left: 1rem;
+        margin-top: 0.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        display: none;
+        flex-direction: column;
     }
     
-    h1 { font-size: 2rem; }
-    h2 { font-size: 1.75rem; }
-    h3 { font-size: 1.5rem; }
+    .main-navigation li.toggled > ul {
+        display: flex;
+    }
     
-    .entry-header,
-    .entry-content,
+    /* Hide hamburger menu on mobile, use main menu toggle instead */
+    .hamburger-menu-item {
+        display: none;
+    }
+    
+    /* Typography scaling */
+    html {
+        font-size: 15px;
+    }
+    
+    h1 { font-size: 1.875rem; }
+    h2 { font-size: 1.625rem; }
+    h3 { font-size: 1.375rem; }
+    h4 { font-size: 1.125rem; }
+    h5 { font-size: 1rem; }
+    h6 { font-size: 0.95rem; }
+    
+    /* Content padding adjustments */
+    .site-content {
+        padding: 1rem 0.75rem;
+    }
+    
+    .entry-header {
+        padding: 1.25rem;
+    }
+    
+    .entry-content {
+        padding: 1.25rem;
+    }
+    
     .entry-footer {
-        padding: 1.5rem;
+        padding: 1rem 1.25rem;
+    }
+    
+    /* Entry meta adjustments */
+    .entry-meta {
+        gap: 0.75rem;
+        font-size: 0.85rem;
+    }
+    
+    .posted-on,
+    .byline,
+    .cat-links,
+    .tags-links,
+    .comments-link {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Widget spacing */
+    .widget {
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .widget-title {
+        font-size: 1.125rem;
+    }
+    
+    /* Footer adjustments */
+    .site-footer {
+        padding: 2rem 1rem 1rem;
     }
     
     .footer-widgets {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    /* Button adjustments for better touch targets */
+    .button,
+    .wp-block-button__link,
+    .search-submit,
+    .form-submit input {
+        padding: 0.875rem 1.75rem;
+        font-size: 1rem;
+        min-height: 44px;
+    }
+    
+    /* Search form improvements */
+    .search-field {
+        padding: 0.875rem 1rem;
+        font-size: 1rem;
+        min-height: 44px;
+    }
+    
+    /* Comment form improvements */
+    .comment-form input[type="text"],
+    .comment-form input[type="email"],
+    .comment-form input[type="url"],
+    .comment-form textarea {
+        padding: 0.875rem;
+        font-size: 1rem;
+        min-height: 44px;
+    }
+    
+    /* Pagination improvements */
+    .page-numbers {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Mobile devices (small phones) */
+@media (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .header-inner {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .site-title {
+        font-size: 1.25rem;
+    }
+    
+    .site-description {
+        display: none;
+    }
+    
+    .menu-toggle {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+    
+    .site-content {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .entry-header,
+    .entry-content,
+    .entry-footer {
+        padding: 1rem;
+    }
+    
+    .entry-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    article {
+        border-radius: 8px;
+    }
+    
+    .widget {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .site-footer {
+        padding: 1.5rem 0.75rem 1rem;
+    }
+    
+    /* Table responsiveness */
+    table {
+        font-size: 0.875rem;
+    }
+    
+    table th,
+    table td {
+        padding: 0.5rem;
+    }
+    
+    /* Card grid adjustments */
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 }
 
@@ -1616,7 +1853,21 @@ article:hover {
     flex: 1;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for graph navigation */
+@media (max-width: 1024px) {
+    .nav-graph-toggle {
+        width: 52px;
+        height: 52px;
+        top: 18px;
+        right: 18px;
+    }
+    
+    .nav-graph-container {
+        width: 96%;
+        height: 92%;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-graph-toggle {
         width: 48px;
@@ -1637,22 +1888,61 @@ article:hover {
     }
 
     .control-btn {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
+        font-size: 1.25rem;
     }
 
     .nav-node {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.95rem;
+        min-height: 44px;
     }
 
     .nav-node.start-node,
     .nav-node.home {
-        font-size: 1rem;
+        font-size: 1.125rem;
+        padding: 1rem 1.25rem;
     }
 
     .fallback-nav-tree {
         padding: 1rem;
+    }
+    
+    .graph-tooltip {
+        max-width: 280px;
+        min-width: 180px;
+        padding: 12px;
+        font-size: 13px;
+    }
+    
+    .graph-tooltip-title {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-graph-toggle {
+        width: 44px;
+        height: 44px;
+        top: 12px;
+        right: 12px;
+        font-size: 1.25rem;
+    }
+    
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.125rem;
+    }
+    
+    .nav-node {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .fallback-nav-tree {
+        padding: 0.75rem;
     }
 }
 
@@ -2632,12 +2922,36 @@ article:hover::before {
     transform: translateY(-2px);
 }
 
-/* Mobile responsive lightbox */
+/* Mobile responsive lightbox and other elements */
+@media (max-width: 1024px) {
+    .lightbox-prev,
+    .lightbox-next {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+    
+    .lightbox-prev {
+        left: 15px;
+    }
+    
+    .lightbox-next {
+        right: 15px;
+    }
+    
+    .lightbox-close {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+}
+
 @media (max-width: 768px) {
     .lightbox-prev,
     .lightbox-next {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         font-size: 20px;
     }
     
@@ -2652,8 +2966,8 @@ article:hover::before {
     .lightbox-close {
         top: 10px;
         right: 10px;
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
     }
     
     .timeline::before {
@@ -2667,6 +2981,7 @@ article:hover::before {
     .timeline-content {
         margin-left: 3rem;
         max-width: calc(100% - 4rem);
+        padding: 1rem;
     }
     
     .hero h1 {
@@ -2675,6 +2990,87 @@ article:hover::before {
     
     .hero p {
         font-size: 1rem;
+    }
+    
+    .hero {
+        padding: 2.5rem 1.5rem;
+    }
+    
+    .stats-section {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .stat-box {
+        padding: 1.5rem;
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .wp-block-gallery,
+    .gallery {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .scroll-to-top {
+        width: 44px;
+        height: 44px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.25rem;
+    }
+    
+    .notification {
+        top: 80px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lightbox-content {
+        max-width: 95%;
+    }
+    
+    .timeline-content {
+        margin-left: 2.5rem;
+        max-width: calc(100% - 3rem);
+        padding: 0.75rem;
+    }
+    
+    .timeline-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.75rem;
+    }
+    
+    .hero p {
+        font-size: 0.95rem;
+    }
+    
+    .hero {
+        padding: 2rem 1rem;
+    }
+    
+    .scroll-to-top {
+        width: 40px;
+        height: 40px;
+        bottom: 15px;
+        right: 15px;
+        font-size: 1.125rem;
     }
 }
 
@@ -3379,6 +3775,26 @@ pre code {
 }
 
 /* ===== Responsive Adjustments ===== */
+@media (max-width: 1024px) {
+    .breadcrumb-list {
+        font-size: 0.85rem;
+    }
+    
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .comparison-table {
+        font-size: 0.9rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.75rem;
+    }
+}
+
 @media (max-width: 768px) {
     .breadcrumb-list {
         font-size: 0.8rem;
@@ -3395,10 +3811,320 @@ pre code {
     .share-button {
         width: 100%;
         justify-content: center;
+        min-height: 44px;
     }
 
     .sidebar {
         position: relative;
         top: 0;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .card {
+        border-radius: 8px;
+    }
+    
+    .card-header,
+    .card-body,
+    .card-footer {
+        padding: 1rem;
+    }
+    
+    .accordion-header {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .accordion-content.active {
+        padding: 0.875rem 1rem;
+    }
+    
+    .comparison-table {
+        font-size: 0.85rem;
+    }
+    
+    .comparison-table th,
+    .comparison-table td {
+        padding: 0.5rem;
+    }
+    
+    /* Better mobile table handling - use wrapper for scrolling */
+    .entry-content {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .entry-content table {
+        min-width: 600px;
+    }
+    
+    /* Improve pre/code blocks on mobile */
+    pre {
+        padding: 1rem;
+        font-size: 0.85rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Better blockquote on mobile */
+    blockquote {
+        padding-left: 1.5rem;
+        margin: 1.5rem 0;
+        font-size: 0.95rem;
+    }
+    
+    blockquote::before {
+        font-size: 2.5rem;
+        left: 0.25rem;
+    }
+    
+    /* Alert boxes */
+    .alert {
+        padding: 0.875rem 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    /* Badge adjustments */
+    .badge {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    /* Featured box */
+    .featured-box {
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+    }
+    
+    .featured-box::before {
+        font-size: 1.5rem;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-share {
+        padding: 1rem;
+    }
+    
+    .social-share-title {
+        font-size: 1rem;
+    }
+    
+    .share-button {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    
+    .accordion-item {
+        border-radius: 6px;
+    }
+    
+    blockquote {
+        padding-left: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    blockquote::before {
+        font-size: 2rem;
+    }
+    
+    .alert {
+        padding: 0.75rem;
+        border-radius: 6px;
+    }
+    
+    /* Improve touch targets for links in lists */
+    .widget ul li a,
+    .footer-widget ul li a {
+        padding: 0.5rem 0;
+        display: inline-block;
+    }
+}
+
+/* ===== Enhanced Mobile Experience ===== */
+
+/* Better tap highlight color for mobile - only on interactive elements */
+a,
+button,
+[role='button'],
+input,
+select,
+textarea,
+.button,
+.wp-block-button__link {
+    -webkit-tap-highlight-color: rgba(124, 77, 255, 0.3);
+    tap-highlight-color: rgba(124, 77, 255, 0.3);
+}
+
+/* Improve touch scrolling performance */
+.main-navigation ul,
+.entry-content,
+pre,
+.widget,
+.comments-area {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Better mobile input handling */
+@media (max-width: 768px) {
+    /* Prevent zoom on input focus for iOS - using 16px minimum */
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    textarea,
+    select {
+        font-size: 16px;
+    }
+    
+    /* Better spacing for touch targets */
+    .main-navigation a,
+    .widget a,
+    .footer-widget a,
+    .entry-meta a {
+        -webkit-tap-highlight-color: rgba(124, 77, 255, 0.2);
+    }
+    
+    /* Improve mobile menu visibility */
+    .main-navigation ul {
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+    }
+    
+    /* Better image galleries on mobile */
+    .wp-block-gallery,
+    .gallery {
+        margin: 1.5rem 0;
+    }
+    
+    .wp-block-gallery img,
+    .gallery img {
+        height: 200px;
+    }
+}
+
+/* Extra small screens (below 375px) */
+@media (max-width: 375px) {
+    html {
+        font-size: 13px;
+    }
+    
+    .site-content {
+        padding: 0.5rem;
+    }
+    
+    .entry-header,
+    .entry-content,
+    .entry-footer {
+        padding: 0.875rem;
+    }
+    
+    .button,
+    .wp-block-button__link {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    article {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Landscape orientation improvements for mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .site-header {
+        position: relative;
+    }
+    
+    .main-navigation ul {
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+    
+    .nav-graph-container {
+        height: 85%;
+    }
+}
+
+/* Medium devices (tablets in portrait) - 768px to 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .site-content {
+        padding: 1.5rem 1rem;
+    }
+    
+    .has-sidebar .site-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .entry-header,
+    .entry-content {
+        padding: 1.75rem;
+    }
+    
+    /* Better button sizing for tablets */
+    .button,
+    .wp-block-button__link {
+        padding: 0.875rem 2rem;
+    }
+    
+    /* Optimize sidebar for tablets */
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+    
+    .sidebar .widget {
+        margin-bottom: 0;
+    }
+}
+
+/* Large tablets and small desktops */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .site-content {
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+    }
+    
+    .has-sidebar .site-content {
+        grid-template-columns: 1fr 280px;
+        gap: 1.5rem;
+    }
+}
+
+/* Print-friendly responsive adjustments */
+@media print {
+    html {
+        font-size: 12pt;
+    }
+    
+    body {
+        line-height: 1.5;
+    }
+    
+    img {
+        max-width: 100%;
+        page-break-inside: avoid;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+    }
+    
+    article {
+        page-break-inside: avoid;
     }
 }
