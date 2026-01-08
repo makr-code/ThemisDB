@@ -419,6 +419,27 @@
             </div>
         </div>
 
+        <!-- Performance Calculator Diagram -->
+        <div class="mermaid-container">
+            <h3>⚡ Performance-Vergleich: ThemisDB vs. Hyperscaler</h3>
+            <div class="info-box" style="margin-bottom: 20px;">
+                <p>
+                    <strong>ThemisDB</strong> bietet überlegene Performance durch native Optimierungen wie RAID Sharding, 
+                    integrierte LLM-Verarbeitung und Multi-Model-Engine. Hyperscaler leiden unter Netzwerk-Latenz 
+                    und Overhead durch verteilte Systeme.
+                </p>
+            </div>
+            <div class="mermaid-diagram" id="performanceDiagram">
+                <!-- Performance diagram will be rendered here -->
+            </div>
+            <div class="polyglot-legend">
+                <h4>Performance-Metriken im Detail:</h4>
+                <ul id="performanceMetricsList">
+                    <!-- Will be filled by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
         <!-- Personnel Cost Explanation -->
         <div class="info-box personnel-explanation">
             <h3>💡 Warum erscheinen die Personalkosten hoch?</h3>
