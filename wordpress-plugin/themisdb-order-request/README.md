@@ -21,6 +21,30 @@ Dieses Plugin bietet einen dialog-basierten Bestellprozess für ThemisDB-Produkt
 - ✅ **Update**: Versionierung mit Revisionshistorie
 - ✅ **Delete**: Sichere Löschung mit Backup
 
+### Zahlungsverifizierung
+- 💰 **Zahlungsüberwachung**: Automatische Erfassung aller Zahlungen
+- ✅ **Verifizierung**: Manuelle und automatische Zahlungsbestätigung
+- 📊 **Status-Tracking**: Pending, Verified, Failed
+- 💳 **Transaktions-IDs**: Vollständige Nachverfolgbarkeit
+- 📈 **Statistiken**: Zahlungsübersicht und Auswertungen
+- 🔄 **epServer-Sync**: Automatische Synchronisation mit epServer
+
+### Lizenzverwaltung
+- 🔑 **Automatische Lizenzgenerierung**: Nach jeder Bestellung
+- 📄 **Lizenzdatei**: Sichere JSON-Datei mit digitaler Signatur
+- ⏱️ **Status-Management**: Pending, Active, Suspended, Expired
+- 🎯 **Limitierungen**: Node-, Core- und Storage-Limits
+- 🔐 **Validierung**: Echtheitsprüfung und Ablaufdatum-Check
+- 📱 **epServer-Integration**: Echtzeit-Lizenzvalidierung
+
+### Anmeldesystem mit Lizenzdatei
+- 🔓 **Dual-Login**: Standard (Username/Password) + Lizenzdatei
+- 📤 **Lizenz-Upload**: Sichere Lizenzdatei-Authentifizierung (.json)
+- ✍️ **Signatur-Prüfung**: HMAC-SHA256 Verifikation
+- 👤 **Auto-User-Creation**: Automatische Benutzererstellung aus Lizenz
+- 🔒 **Session-Management**: Sichere Sitzungsverwaltung
+- 📋 **Audit-Log**: Vollständige Authentifizierungs-Historie
+
 ### PDF-Generierung
 - Automatische PDF-Erstellung für Verträge
 - Professionelle Vorlagen mit Firmenbranding
@@ -38,6 +62,8 @@ Dieses Plugin bietet einen dialog-basierten Bestellprozess für ThemisDB-Produkt
 - Automatische Kundenregistrierung
 - Abonnement-Verwaltung
 - Lizenzschlüssel-Validierung
+- Zahlungsstatus-Abfragen
+- Lizenzinformations-Abfragen
 
 ## 📋 Systemanforderungen
 
@@ -117,6 +143,16 @@ Verwenden Sie den Shortcode auf einer Seite oder in einem Beitrag:
 [themisdb_my_contracts]
 ```
 
+**Anmeldeformular** (Standard + Lizenzdatei):
+```
+[themisdb_login]
+```
+
+**Lizenz-Upload**:
+```
+[themisdb_license_upload]
+```
+
 ### Admin-Bereich
 
 #### Bestellungen verwalten
@@ -125,6 +161,33 @@ Verwenden Sie den Shortcode auf einer Seite oder in einem Beitrag:
 2. Sehen Sie alle Bestellungen mit Status
 3. Klicken Sie auf "Ansehen" für Details
 4. Status ändern: Draft → Pending → Processing → Completed
+
+#### Zahlungen verwalten
+
+1. **ThemisDB Orders → Zahlungen**
+2. Übersicht aller Zahlungen mit Status (Pending, Verified, Failed)
+3. Klicken Sie auf "Ansehen" für Details
+4. **"Verifizieren"** Button für manuelle Zahlungsbestätigung
+5. Statistik-Dashboard:
+   - Gesamt Zahlungen und Betrag
+   - Verifizierte Zahlungen und Betrag
+   - Ausstehende und fehlgeschlagene Zahlungen
+6. Automatische Lizenzaktivierung nach Zahlungsverifizierung
+
+#### Lizenzen verwalten
+
+1. **ThemisDB Orders → Lizenzen**
+2. Übersicht aller Lizenzen mit Status (Pending, Active, Suspended, Expired)
+3. Klicken Sie auf "Ansehen" für Details:
+   - Vollständiger Lizenzschlüssel
+   - Edition und Typ
+   - Node-, Core-, Storage-Limits
+   - Aktivierungs- und Ablaufdatum
+   - Zugehörige Bestellung und Vertrag
+   - Lizenzdatei (JSON) zum Download
+4. Statistik-Dashboard:
+   - Gesamt Lizenzen
+   - Aktive, ausstehende, suspendierte Lizenzen
 
 #### Verträge verwalten
 
@@ -145,6 +208,56 @@ Verwenden Sie den Shortcode auf einer Seite oder in einem Beitrag:
 2. Alle gesendeten E-Mails mit Status
 3. Fehlersuche bei E-Mail-Problemen
 
+### Anmeldesystem nutzen
+
+#### Als Kunde - Standard-Anmeldung
+
+1. Gehen Sie zur Login-Seite: `[themisdb_login]`
+2. Wählen Sie Tab **"Standard-Anmeldung"**
+3. Geben Sie E-Mail/Benutzername und Passwort ein
+4. Optional: "Angemeldet bleiben" aktivieren
+5. Klicken Sie auf "Anmelden"
+
+#### Als Kunde - Lizenz-Anmeldung
+
+1. Gehen Sie zur Login-Seite: `[themisdb_login]`
+2. Wählen Sie Tab **"Lizenz-Anmeldung"**
+3. Laden Sie Ihre Lizenzdatei (.json) hoch
+4. System verifiziert automatisch die Lizenz
+5. Bei erfolgreicher Verifizierung werden Sie eingeloggt
+6. Falls noch kein Account existiert, wird dieser automatisch erstellt
+
+**Lizenzdatei-Format**:
+```json
+{
+  "version": "1.0",
+  "license_key": "ENT-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX",
+  "product_edition": "enterprise",
+  "customer_name": "Max Mustermann",
+  "customer_email": "max@example.com",
+  "max_nodes": 100,
+  "expiry_date": "2027-01-08",
+  "signature": "..."
+}
+```
+
+#### Ablauf: Von Bestellung bis Login
+
+1. **Kunde bestellt** → Bestellung wird erstellt
+2. **System erstellt automatisch**:
+   - Zahlung (Status: Pending)
+   - Vertrag mit PDF
+   - Lizenz mit Lizenzdatei
+3. **Admin verifiziert Zahlung** → Lizenz wird aktiviert
+4. **Kunde erhält E-Mail** mit:
+   - Bestellbestätigung
+   - Vertrag als PDF
+   - Download-Link für Lizenzdatei (optional)
+5. **Kunde kann sich anmelden**:
+   - Mit Lizenzdatei hochladen
+   - Automatisch eingeloggt
+   - Zugriff auf Bestellungen und Verträge
+
 ## 🗄️ Datenbankstruktur
 
 Das Plugin erstellt folgende Tabellen:
@@ -152,6 +265,9 @@ Das Plugin erstellt folgende Tabellen:
 - `wp_themisdb_orders` - Bestellungen
 - `wp_themisdb_contracts` - Verträge
 - `wp_themisdb_contract_revisions` - Vertragsrevisionen
+- `wp_themisdb_payments` - Zahlungen mit Verifizierung
+- `wp_themisdb_licenses` - Lizenzen mit Lizenzdateien
+- `wp_themisdb_license_auth_log` - Authentifizierungs-Log
 - `wp_themisdb_products` - Produkte
 - `wp_themisdb_modules` - Module
 - `wp_themisdb_training_modules` - Schulungen
