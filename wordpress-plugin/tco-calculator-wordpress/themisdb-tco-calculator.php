@@ -125,6 +125,21 @@ class ThemisDB_TCO_Calculator {
                 true
             );
             
+            // Enqueue Mermaid.js from CDN
+            wp_enqueue_script(
+                'mermaidjs',
+                'https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js',
+                array(),
+                '10.6.1',
+                true
+            );
+            
+            // Initialize Mermaid
+            wp_add_inline_script(
+                'mermaidjs',
+                'if (typeof mermaid !== "undefined") { mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "strict" }); }'
+            );
+            
             // Enqueue plugin CSS
             wp_enqueue_style(
                 'themisdb-tco-calculator-styles',
@@ -137,7 +152,7 @@ class ThemisDB_TCO_Calculator {
             wp_enqueue_script(
                 'themisdb-tco-calculator-script',
                 THEMISDB_TCO_PLUGIN_URL . 'assets/js/tco-calculator.js',
-                array('chartjs'),
+                array('chartjs', 'mermaidjs'),
                 THEMISDB_TCO_VERSION,
                 true
             );
