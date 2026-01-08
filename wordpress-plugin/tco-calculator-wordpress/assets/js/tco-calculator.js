@@ -333,25 +333,20 @@ class TCOCalculator {
             const dataGrowth = Math.pow(1 + CONFIG.DATA_GROWTH_RATE, year - 1);
             const currentDataSize = this.inputs.dataSize * dataGrowth;
             
-            // Get efficiency/investment multipliers for this year
-            let investmentMultiplier, personnelEfficiency;
-            switch(year) {
-                case 1:
-                    investmentMultiplier = CONFIG.INVESTMENT_MULTIPLIER_YEAR_1;
-                    personnelEfficiency = CONFIG.PERSONNEL_EFFICIENCY_YEAR_1;
-                    break;
-                case 2:
-                    investmentMultiplier = CONFIG.INVESTMENT_MULTIPLIER_YEAR_2;
-                    personnelEfficiency = CONFIG.PERSONNEL_EFFICIENCY_YEAR_2;
-                    break;
-                case 3:
-                    investmentMultiplier = CONFIG.INVESTMENT_MULTIPLIER_YEAR_3;
-                    personnelEfficiency = CONFIG.PERSONNEL_EFFICIENCY_YEAR_3;
-                    break;
-                default:
-                    investmentMultiplier = 1.0;
-                    personnelEfficiency = 1.0;
-            }
+            // Get efficiency/investment multipliers for this year using array lookup
+            const investmentMultipliers = [
+                CONFIG.INVESTMENT_MULTIPLIER_YEAR_1,
+                CONFIG.INVESTMENT_MULTIPLIER_YEAR_2,
+                CONFIG.INVESTMENT_MULTIPLIER_YEAR_3
+            ];
+            const personnelEfficiencies = [
+                CONFIG.PERSONNEL_EFFICIENCY_YEAR_1,
+                CONFIG.PERSONNEL_EFFICIENCY_YEAR_2,
+                CONFIG.PERSONNEL_EFFICIENCY_YEAR_3
+            ];
+            
+            const investmentMultiplier = investmentMultipliers[year - 1] || 1.0;
+            const personnelEfficiency = personnelEfficiencies[year - 1] || 1.0;
             
             // Infrastructure costs (apply investment multiplier)
             let serverCount = this.calculateThemisDBServers(edition);
