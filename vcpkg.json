@@ -25,7 +25,9 @@
     { "name": "yaml-cpp" },
     { "name": "zstd" },
     { "name": "mimalloc" },
-    { "name": "prometheus-cpp", "features": ["pull"] }
+    { "name": "prometheus-cpp", "features": ["pull"] },
+    { "name": "libzip" },
+    { "name": "pugixml" }
   ],
   "features": {
     "gpu": {
