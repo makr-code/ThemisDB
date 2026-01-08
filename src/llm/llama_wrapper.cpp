@@ -160,6 +160,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     }
     
     // Initialize vision encoder (multi-modal support)
+#ifdef THEMIS_ENABLE_VISION
     if (config_.enable_vision && !config_.clip_model_path.empty()) {
         try {
             initializeVisionEncoder();
@@ -168,6 +169,7 @@ LlamaWrapper::LlamaWrapper(const Config& config)
             vision_enabled_ = false;
         }
     }
+#endif
     
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
@@ -181,7 +183,9 @@ LlamaWrapper::LlamaWrapper(const Config& config)
 }
 
 LlamaWrapper::~LlamaWrapper() {
+#ifdef THEMIS_ENABLE_VISION
     shutdownVisionEncoder();
+#endif
     unloadDraftModel();
     unloadModel();
 }
@@ -1988,6 +1992,7 @@ std::shared_ptr<Grammar> LlamaWrapper::getOrCreateGrammar(const InferenceRequest
 // Vision Support (Multi-Modal)
 // ═══════════════════════════════════════════════════════════
 
+#ifdef THEMIS_ENABLE_VISION
 bool LlamaWrapper::initializeVisionEncoder() {
     if (config_.clip_model_path.empty()) {
         spdlog::warn("Vision encoder: CLIP model path not configured");
@@ -2151,6 +2156,7 @@ VisionResponse LlamaWrapper::generateVision(const VisionRequest& vision_request)
     
     return response;
 }
+#endif // THEMIS_ENABLE_VISION
 
 } // namespace llm
 } // namespace themis

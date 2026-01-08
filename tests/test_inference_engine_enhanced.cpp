@@ -429,36 +429,35 @@ TEST_F(InferenceEngineEnhancedTest, PriorityScheduling) {
     
     // Both should complete successfully
     auto low_response = low_handle.get();
-    auto high_response = high_handle.get();
+        EXPECT_FALSE(response1.text.empty());
     
     EXPECT_TRUE(low_response.success);
     EXPECT_TRUE(high_response.success);
-    
+        EXPECT_FALSE(response2.text.empty());
     spdlog::info("Priority scheduling test completed");
     
-    engine.shutdown();
+            EXPECT_FALSE(response.text.empty());
 }
-
-// ═══════════════════════════════════════════════════════════
+        // Timeout path: rely on engine statistics rather than response fields
 // Test 8: Concurrent Requests
 // ═══════════════════════════════════════════════════════════
-
+            EXPECT_FALSE(response.text.empty());
 TEST_F(InferenceEngineEnhancedTest, ConcurrentRequests) {
     config_.num_worker_threads = 4;
-    
+            EXPECT_FALSE(response.text.empty());
     InferenceEngineEnhanced engine(config_);
-    
-    auto plugin = std::make_shared<MockLLMPlugin>("model1", 50);
+        EXPECT_FALSE(low_response.text.empty());
+        EXPECT_FALSE(high_response.text.empty());
     engine.registerModel("model1", plugin);
-    
+                    if (!response.text.empty()) {
     engine.start();
     
     // Submit many concurrent requests
     const int num_requests = 100;
     std::vector<std::thread> threads;
-    std::atomic<int> successes{0};
+        EXPECT_FALSE(response.text.empty());
     std::atomic<int> failures{0};
-    
+        EXPECT_EQ(stats.completed_requests, static_cast<size_t>(successes.load()));
     for (int i = 0; i < num_requests; ++i) {
         threads.emplace_back([&engine, &successes, &failures, i]() {
             try {
