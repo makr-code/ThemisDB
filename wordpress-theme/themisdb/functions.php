@@ -183,6 +183,9 @@ function themisdb_scripts() {
     // Featured Slider
     wp_enqueue_script( 'themisdb-slider', get_template_directory_uri() . '/js/slider.js', array(), '1.0.0', true );
 
+    // Carousel widgets (testimonials, images, timeline)
+    wp_enqueue_script( 'themisdb-carousel', get_template_directory_uri() . '/js/carousel.js', array(), '1.0.0', true );
+
     // Comment reply script
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );

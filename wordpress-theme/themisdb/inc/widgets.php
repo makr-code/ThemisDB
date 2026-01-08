@@ -896,6 +896,411 @@ class ThemisDB_Quick_Links_Widget extends WP_Widget {
 }
 
 /**
+ * Testimonials/Quotes Carousel Widget
+ * Rotating testimonials or quotes display
+ */
+class ThemisDB_Testimonials_Carousel_Widget extends WP_Widget {
+
+    public function __construct() {
+        parent::__construct(
+            'themisdb_testimonials_carousel',
+            esc_html__( 'ThemisDB: Testimonials Carousel', 'themisdb' ),
+            array( 
+                'description' => esc_html__( 'Display rotating testimonials or quotes in a carousel', 'themisdb' ),
+                'classname' => 'themisdb-testimonials-carousel-widget'
+            )
+        );
+    }
+
+    public function widget( $args, $instance ) {
+        echo $args['before_widget'];
+
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+        if ( $title ) {
+            echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
+        }
+
+        $testimonials = array();
+        for ( $i = 1; $i <= 3; $i++ ) {
+            $quote = ! empty( $instance['quote_' . $i] ) ? $instance['quote_' . $i] : '';
+            $author = ! empty( $instance['author_' . $i] ) ? $instance['author_' . $i] : '';
+            $role = ! empty( $instance['role_' . $i] ) ? $instance['role_' . $i] : '';
+            
+            if ( $quote && $author ) {
+                $testimonials[] = array(
+                    'quote'  => $quote,
+                    'author' => $author,
+                    'role'   => $role,
+                );
+            }
+        }
+
+        if ( ! empty( $testimonials ) ) :
+            ?>
+            <div class="themisdb-testimonials-container">
+                <div class="themisdb-testimonials-carousel">
+                    <?php foreach ( $testimonials as $index => $testimonial ) : ?>
+                        <div class="testimonial-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                            <div class="testimonial-quote">
+                                <span class="quote-icon">❝</span>
+                                <p><?php echo esc_html( $testimonial['quote'] ); ?></p>
+                            </div>
+                            <div class="testimonial-author">
+                                <strong><?php echo esc_html( $testimonial['author'] ); ?></strong>
+                                <?php if ( $testimonial['role'] ) : ?>
+                                    <span class="author-role"><?php echo esc_html( $testimonial['role'] ); ?></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if ( count( $testimonials ) > 1 ) : ?>
+                    <div class="testimonial-nav">
+                        <button class="testimonial-prev" aria-label="<?php esc_attr_e( 'Previous testimonial', 'themisdb' ); ?>">‹</button>
+                        <button class="testimonial-next" aria-label="<?php esc_attr_e( 'Next testimonial', 'themisdb' ); ?>">›</button>
+                    </div>
+                    <div class="testimonial-dots"></div>
+                <?php endif; ?>
+            </div>
+            <?php
+        else :
+            echo '<p>' . esc_html__( 'Please configure testimonials in widget settings.', 'themisdb' ) . '</p>';
+        endif;
+
+        echo $args['after_widget'];
+    }
+
+    public function form( $instance ) {
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'What People Say', 'themisdb' );
+        ?>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
+                <?php esc_html_e( 'Title:', 'themisdb' ); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" 
+                   name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" 
+                   value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        <?php for ( $i = 1; $i <= 3; $i++ ) : 
+            $quote = ! empty( $instance['quote_' . $i] ) ? $instance['quote_' . $i] : '';
+            $author = ! empty( $instance['author_' . $i] ) ? $instance['author_' . $i] : '';
+            $role = ! empty( $instance['role_' . $i] ) ? $instance['role_' . $i] : '';
+        ?>
+            <p><strong><?php echo sprintf( esc_html__( 'Testimonial %d', 'themisdb' ), $i ); ?></strong></p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'quote_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Quote:', 'themisdb' ); ?>
+                </label>
+                <textarea class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'quote_' . $i ) ); ?>" 
+                          name="<?php echo esc_attr( $this->get_field_name( 'quote_' . $i ) ); ?>" rows="3"><?php echo esc_textarea( $quote ); ?></textarea>
+            </p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'author_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Author:', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'author_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'author_' . $i ) ); ?>" type="text" 
+                       value="<?php echo esc_attr( $author ); ?>">
+            </p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'role_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Role/Company:', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'role_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'role_' . $i ) ); ?>" type="text" 
+                       value="<?php echo esc_attr( $role ); ?>">
+            </p>
+        <?php endfor; ?>
+        <?php
+    }
+
+    public function update( $new_instance, $old_instance ) {
+        $instance = array();
+        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+        
+        for ( $i = 1; $i <= 3; $i++ ) {
+            $instance['quote_' . $i] = ( ! empty( $new_instance['quote_' . $i] ) ) ? sanitize_textarea_field( $new_instance['quote_' . $i] ) : '';
+            $instance['author_' . $i] = ( ! empty( $new_instance['author_' . $i] ) ) ? sanitize_text_field( $new_instance['author_' . $i] ) : '';
+            $instance['role_' . $i] = ( ! empty( $new_instance['role_' . $i] ) ) ? sanitize_text_field( $new_instance['role_' . $i] ) : '';
+        }
+        
+        return $instance;
+    }
+}
+
+/**
+ * Image Gallery Carousel Widget
+ * Rotating images with captions
+ */
+class ThemisDB_Image_Carousel_Widget extends WP_Widget {
+
+    public function __construct() {
+        parent::__construct(
+            'themisdb_image_carousel',
+            esc_html__( 'ThemisDB: Image Carousel', 'themisdb' ),
+            array( 
+                'description' => esc_html__( 'Display rotating images with captions in a carousel', 'themisdb' ),
+                'classname' => 'themisdb-image-carousel-widget'
+            )
+        );
+    }
+
+    public function widget( $args, $instance ) {
+        echo $args['before_widget'];
+
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+        if ( $title ) {
+            echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
+        }
+
+        $images = array();
+        for ( $i = 1; $i <= 5; $i++ ) {
+            $image_url = ! empty( $instance['image_url_' . $i] ) ? $instance['image_url_' . $i] : '';
+            $caption = ! empty( $instance['caption_' . $i] ) ? $instance['caption_' . $i] : '';
+            $link = ! empty( $instance['link_' . $i] ) ? $instance['link_' . $i] : '';
+            
+            if ( $image_url ) {
+                $images[] = array(
+                    'url'     => $image_url,
+                    'caption' => $caption,
+                    'link'    => $link,
+                );
+            }
+        }
+
+        if ( ! empty( $images ) ) :
+            ?>
+            <div class="themisdb-image-carousel-container">
+                <div class="themisdb-image-carousel">
+                    <?php foreach ( $images as $index => $image ) : ?>
+                        <div class="carousel-image-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                            <?php if ( $image['link'] ) : ?>
+                                <a href="<?php echo esc_url( $image['link'] ); ?>">
+                            <?php endif; ?>
+                                <img src="<?php echo esc_url( $image['url'] ); ?>" alt="<?php echo esc_attr( $image['caption'] ); ?>">
+                            <?php if ( $image['link'] ) : ?>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ( $image['caption'] ) : ?>
+                                <div class="carousel-caption">
+                                    <?php echo esc_html( $image['caption'] ); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if ( count( $images ) > 1 ) : ?>
+                    <button class="carousel-nav carousel-prev" aria-label="<?php esc_attr_e( 'Previous image', 'themisdb' ); ?>">‹</button>
+                    <button class="carousel-nav carousel-next" aria-label="<?php esc_attr_e( 'Next image', 'themisdb' ); ?>">›</button>
+                    <div class="carousel-indicators"></div>
+                <?php endif; ?>
+            </div>
+            <?php
+        else :
+            echo '<p>' . esc_html__( 'Please configure images in widget settings.', 'themisdb' ) . '</p>';
+        endif;
+
+        echo $args['after_widget'];
+    }
+
+    public function form( $instance ) {
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Gallery', 'themisdb' );
+        ?>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
+                <?php esc_html_e( 'Title:', 'themisdb' ); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" 
+                   name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" 
+                   value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        <?php for ( $i = 1; $i <= 5; $i++ ) : 
+            $image_url = ! empty( $instance['image_url_' . $i] ) ? $instance['image_url_' . $i] : '';
+            $caption = ! empty( $instance['caption_' . $i] ) ? $instance['caption_' . $i] : '';
+            $link = ! empty( $instance['link_' . $i] ) ? $instance['link_' . $i] : '';
+        ?>
+            <p><strong><?php echo sprintf( esc_html__( 'Image %d', 'themisdb' ), $i ); ?></strong></p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'image_url_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Image URL:', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'image_url_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'image_url_' . $i ) ); ?>" type="url" 
+                       value="<?php echo esc_url( $image_url ); ?>">
+            </p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'caption_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Caption:', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'caption_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'caption_' . $i ) ); ?>" type="text" 
+                       value="<?php echo esc_attr( $caption ); ?>">
+            </p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'link_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Link URL (optional):', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'link_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'link_' . $i ) ); ?>" type="url" 
+                       value="<?php echo esc_url( $link ); ?>">
+            </p>
+        <?php endfor; ?>
+        <?php
+    }
+
+    public function update( $new_instance, $old_instance ) {
+        $instance = array();
+        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+        
+        for ( $i = 1; $i <= 5; $i++ ) {
+            $instance['image_url_' . $i] = ( ! empty( $new_instance['image_url_' . $i] ) ) ? esc_url_raw( $new_instance['image_url_' . $i] ) : '';
+            $instance['caption_' . $i] = ( ! empty( $new_instance['caption_' . $i] ) ) ? sanitize_text_field( $new_instance['caption_' . $i] ) : '';
+            $instance['link_' . $i] = ( ! empty( $new_instance['link_' . $i] ) ) ? esc_url_raw( $new_instance['link_' . $i] ) : '';
+        }
+        
+        return $instance;
+    }
+}
+
+/**
+ * Timeline/Milestones Carousel Widget
+ * Display events or milestones in a sliding timeline
+ */
+class ThemisDB_Timeline_Carousel_Widget extends WP_Widget {
+
+    public function __construct() {
+        parent::__construct(
+            'themisdb_timeline_carousel',
+            esc_html__( 'ThemisDB: Timeline Carousel', 'themisdb' ),
+            array( 
+                'description' => esc_html__( 'Display timeline events or milestones in a carousel', 'themisdb' ),
+                'classname' => 'themisdb-timeline-carousel-widget'
+            )
+        );
+    }
+
+    public function widget( $args, $instance ) {
+        echo $args['before_widget'];
+
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+        $title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+
+        if ( $title ) {
+            echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
+        }
+
+        $events = array();
+        for ( $i = 1; $i <= 5; $i++ ) {
+            $date = ! empty( $instance['date_' . $i] ) ? $instance['date_' . $i] : '';
+            $event_title = ! empty( $instance['event_title_' . $i] ) ? $instance['event_title_' . $i] : '';
+            $description = ! empty( $instance['description_' . $i] ) ? $instance['description_' . $i] : '';
+            
+            if ( $date && $event_title ) {
+                $events[] = array(
+                    'date'        => $date,
+                    'title'       => $event_title,
+                    'description' => $description,
+                );
+            }
+        }
+
+        if ( ! empty( $events ) ) :
+            ?>
+            <div class="themisdb-timeline-container">
+                <div class="themisdb-timeline-carousel">
+                    <?php foreach ( $events as $index => $event ) : ?>
+                        <div class="timeline-item <?php echo $index === 0 ? 'active' : ''; ?>">
+                            <div class="timeline-date">
+                                <?php echo esc_html( $event['date'] ); ?>
+                            </div>
+                            <div class="timeline-content">
+                                <h4 class="timeline-title"><?php echo esc_html( $event['title'] ); ?></h4>
+                                <?php if ( $event['description'] ) : ?>
+                                    <p class="timeline-description"><?php echo esc_html( $event['description'] ); ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if ( count( $events ) > 1 ) : ?>
+                    <div class="timeline-nav">
+                        <button class="timeline-prev" aria-label="<?php esc_attr_e( 'Previous event', 'themisdb' ); ?>">‹</button>
+                        <button class="timeline-next" aria-label="<?php esc_attr_e( 'Next event', 'themisdb' ); ?>">›</button>
+                    </div>
+                    <div class="timeline-progress"></div>
+                <?php endif; ?>
+            </div>
+            <?php
+        else :
+            echo '<p>' . esc_html__( 'Please configure timeline events in widget settings.', 'themisdb' ) . '</p>';
+        endif;
+
+        echo $args['after_widget'];
+    }
+
+    public function form( $instance ) {
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Timeline', 'themisdb' );
+        ?>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
+                <?php esc_html_e( 'Title:', 'themisdb' ); ?>
+            </label>
+            <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" 
+                   name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" 
+                   value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        <?php for ( $i = 1; $i <= 5; $i++ ) : 
+            $date = ! empty( $instance['date_' . $i] ) ? $instance['date_' . $i] : '';
+            $event_title = ! empty( $instance['event_title_' . $i] ) ? $instance['event_title_' . $i] : '';
+            $description = ! empty( $instance['description_' . $i] ) ? $instance['description_' . $i] : '';
+        ?>
+            <p><strong><?php echo sprintf( esc_html__( 'Event %d', 'themisdb' ), $i ); ?></strong></p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'date_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Date:', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'date_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'date_' . $i ) ); ?>" type="text" 
+                       value="<?php echo esc_attr( $date ); ?>" placeholder="e.g., 2024 or Jan 2024">
+            </p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'event_title_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Event Title:', 'themisdb' ); ?>
+                </label>
+                <input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'event_title_' . $i ) ); ?>" 
+                       name="<?php echo esc_attr( $this->get_field_name( 'event_title_' . $i ) ); ?>" type="text" 
+                       value="<?php echo esc_attr( $event_title ); ?>">
+            </p>
+            <p>
+                <label for="<?php echo esc_attr( $this->get_field_id( 'description_' . $i ) ); ?>">
+                    <?php esc_html_e( 'Description:', 'themisdb' ); ?>
+                </label>
+                <textarea class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'description_' . $i ) ); ?>" 
+                          name="<?php echo esc_attr( $this->get_field_name( 'description_' . $i ) ); ?>" rows="2"><?php echo esc_textarea( $description ); ?></textarea>
+            </p>
+        <?php endfor; ?>
+        <?php
+    }
+
+    public function update( $new_instance, $old_instance ) {
+        $instance = array();
+        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
+        
+        for ( $i = 1; $i <= 5; $i++ ) {
+            $instance['date_' . $i] = ( ! empty( $new_instance['date_' . $i] ) ) ? sanitize_text_field( $new_instance['date_' . $i] ) : '';
+            $instance['event_title_' . $i] = ( ! empty( $new_instance['event_title_' . $i] ) ) ? sanitize_text_field( $new_instance['event_title_' . $i] ) : '';
+            $instance['description_' . $i] = ( ! empty( $new_instance['description_' . $i] ) ) ? sanitize_textarea_field( $new_instance['description_' . $i] ) : '';
+        }
+        
+        return $instance;
+    }
+}
+
+/**
  * Register all custom widgets
  */
 function themisdb_register_widgets() {
@@ -907,5 +1312,8 @@ function themisdb_register_widgets() {
     register_widget( 'ThemisDB_Social_Widget' );
     register_widget( 'ThemisDB_Tag_Cloud_Widget' );
     register_widget( 'ThemisDB_Quick_Links_Widget' );
+    register_widget( 'ThemisDB_Testimonials_Carousel_Widget' );
+    register_widget( 'ThemisDB_Image_Carousel_Widget' );
+    register_widget( 'ThemisDB_Timeline_Carousel_Widget' );
 }
 add_action( 'widgets_init', 'themisdb_register_widgets' );

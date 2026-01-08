@@ -168,6 +168,75 @@ Zeigt bis zu 5 wichtige Dokumentations- oder Navigationslinks.
 - Häufig besuchte Seiten
 - Tutorial-Links
 
+### 9. ThemisDB: Testimonials Carousel (Testimonials-Karussell) 💬
+
+Zeigt Kundenstimmen oder Zitate in einem rotierenden Karussell.
+
+**Funktionen:**
+- Bis zu 3 Testimonials mit automatischem Wechsel
+- Zitat, Autor und Rolle/Firma
+- Navigation mit Pfeil-Buttons und Punkten
+- Autoplay mit 7 Sekunden Intervall
+- Touch-Gesten für mobile Geräte
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: Testimonials Carousel"
+2. Konfigurieren:
+   - **Titel**: z.B. "Was Nutzer sagen"
+   - **Testimonial 1-3**: Zitat, Autor, Rolle für jedes Testimonial
+
+**Ideal für:**
+- Kundenfeedback präsentieren
+- Vertrauen aufbauen
+- Erfolgsgeschichten zeigen
+- Community-Stimmen hervorheben
+
+### 10. ThemisDB: Image Carousel (Bild-Karussell) 🖼️
+
+Rotierendes Bild-Karussell mit Bildunterschriften.
+
+**Funktionen:**
+- Bis zu 5 Bilder mit Kaptions
+- Automatischer Wechsel (5 Sekunden)
+- Optionale Links für Bilder
+- Navigation mit Pfeilen und Indikatoren
+- Touch-Gesten für mobile Geräte
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: Image Carousel"
+2. Konfigurieren:
+   - **Titel**: z.B. "Galerie"
+   - **Bild 1-5**: Bild-URL, Bildunterschrift, optionaler Link
+
+**Ideal für:**
+- Produkt-Screenshots zeigen
+- Feature-Highlights visualisieren
+- Dashboard-Übersichten präsentieren
+- Projekt-Portfolio
+
+### 11. ThemisDB: Timeline Carousel (Zeitstrahl-Karussell) 📅
+
+Zeigt Ereignisse oder Meilensteine in einem Zeitstrahl-Karussell.
+
+**Funktionen:**
+- Bis zu 5 Zeitstrahl-Events
+- Datum, Titel und Beschreibung
+- Navigation mit Pfeil-Buttons
+- Fortschrittsbalken
+- Kein Autoplay (manuelle Steuerung)
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: Timeline Carousel"
+2. Konfigurieren:
+   - **Titel**: z.B. "Projekt-Timeline"
+   - **Event 1-5**: Datum, Event-Titel, Beschreibung
+
+**Ideal für:**
+- Projekt-Meilensteine
+- Versions-Historie
+- Unternehmens-Geschichte
+- Roadmap-Präsentation
+
 ## Homepage Featured Slider
 
 Zusätzlich zu den Widgets wird auf der Startseite automatisch ein Featured Slider angezeigt, wenn Sie Sticky Posts haben.
