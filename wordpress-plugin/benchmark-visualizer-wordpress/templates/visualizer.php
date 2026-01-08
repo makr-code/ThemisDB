@@ -28,11 +28,13 @@ if (!defined('ABSPATH')) {
                 <option value="all" <?php selected($atts['category'], 'all'); ?>><?php _e('All Operations', 'themisdb-benchmark-visualizer'); ?></option>
                 <option value="vector_search" <?php selected($atts['category'], 'vector_search'); ?>><?php _e('Vector Search & Embeddings', 'themisdb-benchmark-visualizer'); ?></option>
                 <option value="graph_traversal" <?php selected($atts['category'], 'graph_traversal'); ?>><?php _e('Graph Traversal & PageRank', 'themisdb-benchmark-visualizer'); ?></option>
-                <option value="encryption" <?php selected($atts['category'], 'encryption'); ?>><?php _e('Encryption & Security', 'themisdb-benchmark-visualizer'); ?></option>
+                <option value="encryption" <?php selected($atts['category'], 'encryption'); ?>><?php _e('Encryption & HSM', 'themisdb-benchmark-visualizer'); ?></option>
                 <option value="compression" <?php selected($atts['category'], 'compression'); ?>><?php _e('Compression', 'themisdb-benchmark-visualizer'); ?></option>
                 <option value="transaction" <?php selected($atts['category'], 'transaction'); ?>><?php _e('MVCC & Transactions', 'themisdb-benchmark-visualizer'); ?></option>
                 <option value="image_analysis" <?php selected($atts['category'], 'image_analysis'); ?>><?php _e('Image Analysis', 'themisdb-benchmark-visualizer'); ?></option>
-                <option value="advanced" <?php selected($atts['category'], 'advanced'); ?>><?php _e('Advanced Patterns', 'themisdb-benchmark-visualizer'); ?></option>
+                <option value="advanced" <?php selected($atts['category'], 'advanced'); ?>><?php _e('Advanced Patterns & AQL', 'themisdb-benchmark-visualizer'); ?></option>
+                <option value="gpu" <?php selected($atts['category'], 'gpu'); ?>><?php _e('GPU Backends', 'themisdb-benchmark-visualizer'); ?></option>
+                <option value="content" <?php selected($atts['category'], 'content'); ?>><?php _e('Content Versioning & Indexing', 'themisdb-benchmark-visualizer'); ?></option>
             </select>
         </div>
 

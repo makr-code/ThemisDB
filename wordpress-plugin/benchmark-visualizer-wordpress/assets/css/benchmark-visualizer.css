@@ -198,6 +198,19 @@
     margin-bottom: 20px;
 }
 
+.themisdb-display-note {
+    background: var(--themisdb-light-bg);
+    border-left: 3px solid var(--themisdb-secondary);
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-top: 12px;
+}
+
+.themisdb-display-note p {
+    margin: 0;
+    color: var(--themisdb-text-secondary);
+}
+
 .themisdb-stat-card {
     background: var(--themisdb-white);
     border: 2px solid var(--themisdb-border);

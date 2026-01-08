@@ -268,8 +268,21 @@
             html += '<div class="themisdb-stat-card">';
             html += '<div class="stat-icon">📊</div>';
             html += '<div class="stat-value">' + summary.total_benchmarks + '</div>';
-            html += '<div class="stat-label">Total Benchmarks</div>';
+            html += '<div class="stat-label">Total Benchmarks';
+            if (summary.displayed_benchmarks && summary.displayed_benchmarks < summary.total_benchmarks) {
+                html += ' (' + summary.displayed_benchmarks + ' shown)';
+            }
             html += '</div>';
+            html += '</div>';
+            
+            // Files parsed
+            if (summary.files_parsed) {
+                html += '<div class="themisdb-stat-card">';
+                html += '<div class="stat-icon">📁</div>';
+                html += '<div class="stat-value">' + summary.files_parsed + '</div>';
+                html += '<div class="stat-label">Benchmark Files</div>';
+                html += '</div>';
+            }
             
             // Average time
             if (summary.avg_time) {
@@ -300,6 +313,15 @@
             }
             
             html += '</div>';
+            
+            // Add note if data is limited
+            if (summary.displayed_benchmarks && summary.displayed_benchmarks < summary.total_benchmarks) {
+                html += '<div class="themisdb-display-note">';
+                html += '<p><small>📝 Showing top ' + summary.displayed_benchmarks + ' best-performing benchmarks out of ' + 
+                        summary.total_benchmarks + ' total for better visualization.</small></p>';
+                html += '</div>';
+            }
+            
             $summaryContainer.html(html);
         },
 
@@ -380,11 +402,13 @@
                 'all': 'All Operations',
                 'vector_search': 'Vector Search & Embeddings',
                 'graph_traversal': 'Graph Traversal & PageRank',
-                'encryption': 'Encryption & Security',
+                'encryption': 'Encryption & HSM',
                 'compression': 'Compression',
                 'transaction': 'MVCC & Transactions',
                 'image_analysis': 'Image Analysis',
-                'advanced': 'Advanced Patterns'
+                'advanced': 'Advanced Patterns & AQL',
+                'gpu': 'GPU Backends',
+                'content': 'Content Versioning & Indexing'
             };
             return names[category] || category;
         },
@@ -396,14 +420,14 @@
             const insights = {
                 'vector_search': '<div class="themisdb-insight-card success"><h4>🎯 Vector Search Performance</h4>' +
                     '<p>ThemisDB provides <strong>native vector search</strong> capabilities with competitive performance for ' +
-                    'similarity search, embeddings, and nearest-neighbor queries.</p></div>',
+                    'similarity search, embeddings, and nearest-neighbor queries including GNN embeddings.</p></div>',
                     
                 'graph_traversal': '<div class="themisdb-insight-card success"><h4>🕸️ Graph Processing</h4>' +
                     '<p>ThemisDB\'s graph traversal algorithms are optimized for <strong>complex relationship queries</strong>, ' +
-                    'BFS/DFS operations, and graph analytics like PageRank.</p></div>',
+                    'BFS/DFS operations, and graph analytics like PageRank with various graph sizes.</p></div>',
                     
                 'encryption': '<div class="themisdb-insight-card success"><h4>🔒 Security Performance</h4>' +
-                    '<p>Encryption operations show that ThemisDB maintains <strong>strong security</strong> while ' +
+                    '<p>Encryption operations show that ThemisDB maintains <strong>strong security</strong> with HSM provider support while ' +
                     'minimizing performance overhead through optimized cryptographic implementations.</p></div>',
                     
                 'compression': '<div class="themisdb-insight-card success"><h4>📦 Compression Efficiency</h4>' +
@@ -416,11 +440,19 @@
                     
                 'image_analysis': '<div class="themisdb-insight-card success"><h4>🖼️ Image Processing</h4>' +
                     '<p>ThemisDB\'s image analysis features show strong performance for <strong>AI-powered ' +
-                    'image operations</strong>, enabling multimedia database applications.</p></div>',
+                    'image operations</strong>, enabling multimedia database applications with low latency processing.</p></div>',
                     
                 'advanced': '<div class="themisdb-insight-card success"><h4>🚀 Advanced Features</h4>' +
-                    '<p>Advanced patterns and hybrid queries showcase ThemisDB\'s <strong>multi-model capabilities</strong>, ' +
-                    'combining different data paradigms efficiently.</p></div>'
+                    '<p>Advanced patterns, hybrid AQL queries, changefeed throughput, and micro-optimization benchmarks showcase ' +
+                    'ThemisDB\'s <strong>multi-model capabilities</strong>, combining different data paradigms efficiently.</p></div>',
+                    
+                'gpu': '<div class="themisdb-insight-card success"><h4>⚡ GPU Acceleration</h4>' +
+                    '<p>GPU backend benchmarks demonstrate ThemisDB\'s ability to leverage <strong>hardware acceleration</strong> ' +
+                    'for compute-intensive operations, improving performance for complex queries.</p></div>',
+                    
+                'content': '<div class="themisdb-insight-card success"><h4>📝 Content Management</h4>' +
+                    '<p>Content versioning and index rebuild benchmarks show ThemisDB\'s <strong>robust data management</strong> ' +
+                    'capabilities for applications requiring version control and efficient index maintenance.</p></div>'
             };
             
             return insights[category] || null;

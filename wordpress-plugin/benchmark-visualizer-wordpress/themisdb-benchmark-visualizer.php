@@ -337,14 +337,52 @@ class ThemisDB_Benchmark_Visualizer {
         
         // Map categories to file patterns
         $category_map = array(
-            'all' => array('bench_comprehensive.json', 'bench_core_performance.json', 'bench_graph_traversal.json'),
-            'vector_search' => array('bench_comprehensive.json', 'bench_gnn_embeddings.json'),
-            'graph_traversal' => array('bench_graph_traversal.json', 'bench_pagerank.json'),
-            'encryption' => array('bench_encryption.json'),
-            'compression' => array('bench_compression.json'),
-            'transaction' => array('bench_mvcc.json', 'bench_lock_contention.json'),
-            'image_analysis' => array('bench_image_analysis.json', 'bench_image_analysis_latency.json'),
-            'advanced' => array('bench_advanced_patterns.json', 'bench_hybrid_aql_sugar.json'),
+            'all' => array(
+                'bench_comprehensive.json',
+                'bench_core_performance.json',
+                'bench_graph_traversal.json',
+                'bench_advanced_patterns.json',
+                'bench_compression.json',
+                'bench_encryption.json',
+                'bench_mvcc.json',
+                'bench_image_analysis.json',
+            ),
+            'vector_search' => array(
+                'bench_comprehensive.json',
+                'bench_gnn_embeddings.json',
+            ),
+            'graph_traversal' => array(
+                'bench_graph_traversal.json',
+                'bench_pagerank.json',
+            ),
+            'encryption' => array(
+                'bench_encryption.json',
+                'bench_hsm_provider.json',
+            ),
+            'compression' => array(
+                'bench_compression.json',
+            ),
+            'transaction' => array(
+                'bench_mvcc.json',
+                'bench_lock_contention.json',
+            ),
+            'image_analysis' => array(
+                'bench_image_analysis.json',
+                'bench_image_analysis_latency.json',
+            ),
+            'advanced' => array(
+                'bench_advanced_patterns.json',
+                'bench_hybrid_aql_sugar.json',
+                'bench_changefeed_throughput.json',
+                'bench_hotspots_micro.json',
+            ),
+            'gpu' => array(
+                'bench_gpu_backends.json',
+            ),
+            'content' => array(
+                'bench_content_versioning.json',
+                'bench_index_rebuild.json',
+            ),
         );
         
         $patterns = isset($category_map[$category]) ? $category_map[$category] : $category_map['all'];
@@ -370,6 +408,7 @@ class ThemisDB_Benchmark_Visualizer {
             'avg_time' => 0,
             'fastest' => null,
             'slowest' => null,
+            'files_parsed' => 0,
         );
         
         foreach ($files as $file) {
@@ -379,6 +418,8 @@ class ThemisDB_Benchmark_Visualizer {
             if (!$json || !isset($json['benchmarks'])) {
                 continue;
             }
+            
+            $summary_stats['files_parsed']++;
             
             foreach ($json['benchmarks'] as $bench) {
                 $name = $this->format_benchmark_name($bench['name']);
@@ -403,6 +444,32 @@ class ThemisDB_Benchmark_Visualizer {
         
         if (!empty($data_points)) {
             $summary_stats['avg_time'] = array_sum($data_points) / count($data_points);
+        }
+        
+        // Limit the number of data points for better visualization (show top N by performance)
+        $max_points = 30;
+        if (count($data_points) > $max_points) {
+            // Create array of indices sorted by performance
+            $indexed_data = array();
+            foreach ($data_points as $idx => $value) {
+                $indexed_data[] = array('index' => $idx, 'value' => $value, 'label' => $labels[$idx]);
+            }
+            
+            // Sort by value (best performers first)
+            usort($indexed_data, function($a, $b) {
+                return $a['value'] <=> $b['value'];
+            });
+            
+            // Take top N performers
+            $indexed_data = array_slice($indexed_data, 0, $max_points);
+            
+            // Extract labels and values
+            $labels = array_map(function($item) { return $item['label']; }, $indexed_data);
+            $data_points = array_map(function($item) { return $item['value']; }, $indexed_data);
+            
+            $summary_stats['displayed_benchmarks'] = $max_points;
+        } else {
+            $summary_stats['displayed_benchmarks'] = count($data_points);
         }
         
         // Build datasets
@@ -435,9 +502,12 @@ class ThemisDB_Benchmark_Visualizer {
         // Replace underscores with spaces
         $name = str_replace('_', ' ', $name);
         
+        // Remove repetitive prefixes
+        $name = preg_replace('/^(Bench|Test|Benchmark)\s+/i', '', $name);
+        
         // Truncate if too long
-        if (strlen($name) > 50) {
-            $name = substr($name, 0, 47) . '...';
+        if (strlen($name) > 60) {
+            $name = substr($name, 0, 57) . '...';
         }
         
         return $name;

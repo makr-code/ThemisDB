@@ -16,10 +16,22 @@ This plugin is designed following the **TCO Calculator** template pattern and pr
 ### Comprehensive Benchmark Visualization
 - 📊 **Interactive Charts**: Dynamic visualizations with Chart.js
 - 🔍 **Multiple Metrics**: Latency, Throughput, Memory Usage
-- 🎯 **Category Filters**: Vector Search, AQL Queries, Graph Traversal, Documents, Transactions
+- 🎯 **10 Category Filters**: 
+  - All Operations (comprehensive overview)
+  - Vector Search & Embeddings (GNN embeddings support)
+  - Graph Traversal & PageRank
+  - Encryption & HSM (Hardware Security Module)
+  - Compression
+  - MVCC & Transactions (lock contention analysis)
+  - Image Analysis (with latency metrics)
+  - Advanced Patterns & AQL (hybrid queries, changefeeds)
+  - GPU Backends (hardware acceleration)
+  - Content Versioning & Indexing
 - 📈 **Multiple Chart Types**: Bar, Line, and Radar charts
-- 🔄 **Real-time Comparison**: Compare multiple databases simultaneously
-- 💡 **Performance Insights**: Automated analysis and recommendations
+- 🔄 **Real-time Data**: Parses actual benchmark results from Google Benchmark JSON files
+- 📊 **Statistics Dashboard**: View total benchmarks, files parsed, average/best/worst performance
+- 💡 **Performance Insights**: Automated analysis with category-specific recommendations
+- 🎨 **Smart Visualization**: Displays top 30 performers for optimal chart readability
 
 ### WordPress Integration
 - 📝 **Shortcode**: Easy embedding via `[themisdb_benchmark_visualizer]`
@@ -30,10 +42,11 @@ This plugin is designed following the **TCO Calculator** template pattern and pr
 - 📱 **Responsive**: Optimized for all screen sizes
 
 ### Data Management
-- 💾 **Local Data**: Load from local benchmark files
-- 🌐 **GitHub Integration**: Fetch latest benchmarks from repository
-- ⚡ **Smart Caching**: Configurable cache duration
+- 💾 **Real Benchmark Data**: Parses Google Benchmark JSON format from benchmark_results directory
+- 📁 **19 Benchmark Files**: Comprehensive coverage of all ThemisDB features
+- ⚡ **Smart Caching**: Configurable cache duration for optimal performance
 - 🔄 **Auto-refresh**: Optional automatic data updates
+- 📊 **Top Performers**: Displays best-performing benchmarks for clarity
 
 ### Export & Sharing
 - 📥 **Export Functions**: CSV export
@@ -86,12 +99,30 @@ Display the benchmark visualizer with default settings:
 // Show only Vector Search benchmarks
 [themisdb_benchmark_visualizer category="vector_search"]
 
-// Show only AQL Query benchmarks
-[themisdb_benchmark_visualizer category="aql_query"]
-
-// Show only Graph Traversal benchmarks
+// Show Graph Traversal benchmarks
 [themisdb_benchmark_visualizer category="graph_traversal"]
+
+// Show Encryption & HSM benchmarks
+[themisdb_benchmark_visualizer category="encryption"]
+
+// Show GPU Backend benchmarks
+[themisdb_benchmark_visualizer category="gpu"]
+
+// Show all available categories
+[themisdb_benchmark_visualizer category="all"]
 ```
+
+**Available Categories:**
+- `all` - All Operations (8 key benchmark files)
+- `vector_search` - Vector Search & GNN Embeddings
+- `graph_traversal` - Graph algorithms including PageRank
+- `encryption` - Encryption and HSM provider tests
+- `compression` - Data compression benchmarks
+- `transaction` - MVCC and lock contention tests
+- `image_analysis` - AI-powered image processing
+- `advanced` - Advanced patterns, AQL, changefeeds, hotspots
+- `gpu` - GPU backend acceleration tests
+- `content` - Content versioning and index rebuilding
 
 #### Specify Metric
 ```php
