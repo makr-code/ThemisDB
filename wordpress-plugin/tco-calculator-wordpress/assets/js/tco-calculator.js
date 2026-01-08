@@ -702,18 +702,6 @@ graph TB
             return;
         }
 
-        // Define database capabilities that ThemisDB supports
-        const capabilities = {
-            'Graph': { themisdb: 100, hyperscaler: 0 },
-            'Relational': { themisdb: 100, hyperscaler: 0 },
-            'Document': { themisdb: 100, hyperscaler: 0 },
-            'Vector': { themisdb: 100, hyperscaler: 0 },
-            'Time-Series': { themisdb: 100, hyperscaler: 0 },
-            'Geo-Spatial': { themisdb: 100, hyperscaler: 0 },
-            'Key-Value': { themisdb: 100, hyperscaler: 0 },
-            'LLM': { themisdb: 100, hyperscaler: 0 }
-        };
-
         // Hyperscaler services needed (example: AWS)
         const hyperscalerServices = [
             { capability: 'Graph', service: 'Neptune', cost: '€200-500/Monat' },
@@ -744,9 +732,7 @@ graph TB
             });
         };
 
-        // Create Mermaid radar chart using quadrantChart (Mermaid 10.x)
-        // Note: Using pie chart as spider/radar is not directly supported in Mermaid strict mode
-        // We'll create a visual comparison using a flowchart instead
+        // Create Mermaid flowchart showing ThemisDB multi-model vs Hyperscaler polyglot architecture
         const mermaidCode = `
 graph TB
     ThemisDB["<b>ThemisDB</b><br/>1 Datenbank<br/>Alle Modelle integriert"]
