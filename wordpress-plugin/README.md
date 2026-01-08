@@ -10,6 +10,19 @@ Automatische Anzeige von ThemisDB Release-Downloads auf WordPress-Seiten. Es ruf
 ### 2. ThemisDB Gallery Plugin
 Hilft beim Artikel erstellen relevante frei verfügbare thematisch passende Bilder im Internet zu finden, herunterzuladen und einzubinden - mit vollen Credits (Urheber usw.). Optional mit KI-Bildgenerator.
 
+### 3. ThemisDB Architecture Diagrams Plugin ⭐ NEU
+Interaktive Visualisierung der ThemisDB-Systemarchitektur mit Mermaid.js. Umfasst umfassende Vergleichsdiagramme zwischen ThemisDB und anderen Datenbanken (PostgreSQL, MongoDB, Neo4j) sowie LLM-Diensten (OpenAI, Anthropic, Ollama) unter Berücksichtigung der zugrundeliegenden Hardware.
+
+**Neue Funktionen:**
+- 🆚 Datenbank-Vergleich mit Multi-Model, LLM und GPU-Unterstützung
+- 🧠 LLM-Dienste-Vergleich (Kosten, Latenz, Datenschutz)
+- 🖥️ Hardware-Architektur-Mapping (CPU, GPU, RAM, Storage)
+- ⚡ Performance-Vergleich nach Hardware-Konfigurationen
+
+**Dokumentation:**
+- [English README](architecture-diagrams-wordpress/README.md)
+- [Deutsche Dokumentation](architecture-diagrams-wordpress/README_DE.md)
+
 ---
 
 ## ThemisDB Downloads Plugin
@@ -393,6 +406,95 @@ Alle Dienste bieten kostenlose API-Schlüssel:
 - **Plugin README:** [themisdb-gallery/README.md](themisdb-gallery/README.md)
 - **Installation:** [themisdb-gallery/INSTALLATION.md](themisdb-gallery/INSTALLATION.md)
 - **Changelog:** [themisdb-gallery/CHANGELOG.md](themisdb-gallery/CHANGELOG.md)
+
+---
+
+## ThemisDB Architecture Diagrams Plugin
+
+### Übersicht
+
+Das Architecture Diagrams Plugin bietet interaktive Visualisierungen der ThemisDB-Architektur und umfassende Vergleiche mit anderen Datenbanken und LLM-Diensten. Alle Diagramme werden mit Mermaid.js erstellt und berücksichtigen die zugrundeliegende Hardware.
+
+### Hauptfunktionen
+
+**Architektur-Diagramme:**
+- 🏗️ **High-Level Architecture**: Komplette Systemübersicht mit allen Schichten
+- 💾 **Storage Layer**: Multi-Model Storage Details (RocksDB, HNSW, Graph)
+- 🤖 **LLM Integration**: AI/ML Architektur mit llama.cpp
+- 🔄 **Sharding & RAID**: Verteilte Systemkonfiguration
+- 🖥️ **Hardware Architecture**: CPU, GPU, Memory, Storage Mapping
+
+**Vergleichs-Diagramme (NEU!):**
+- 🆚 **Database Comparison**: ThemisDB vs PostgreSQL vs MongoDB vs Neo4j
+  - Multi-Model Unterstützung
+  - Embedded LLM Vergleich
+  - GPU-Beschleunigung
+  - API-Kompatibilität
+
+- 🧠 **LLM Services Comparison**: Embedded LLM vs Cloud-Dienste
+  - ThemisDB (llama.cpp): 0ms Latenz, $0 Kosten, 100% Datenschutz
+  - OpenAI API: 100-500ms Latenz, $0.002-$0.06/1K tokens, Daten in Cloud
+  - Anthropic Claude: 100-500ms Latenz, $0.003-$0.015/1K tokens, Daten in Cloud
+  - Ollama: Lokal aber separater Service
+
+- ⚡ **Performance by Hardware**: Performance-Vergleich über Hardware-Konfigurationen
+  - CPU Only: 10K qps Vector Search, 5 tokens/sec LLM ($500/Monat)
+  - CPU + RTX 4090: 50K qps Vector Search, 50 tokens/sec LLM ($2,000/Monat)
+  - CPU + A100: 200K qps Vector Search, 150 tokens/sec LLM ($10,000/Monat)
+  - Cloud Services: Variable Kosten $5K-50K/Monat, Datenschutz-Bedenken
+
+### Installation
+
+```bash
+# Plugin-Verzeichnis nach WordPress kopieren
+cp -r wordpress-plugin/architecture-diagrams-wordpress /pfad/zu/wordpress/wp-content/plugins/themisdb-architecture-diagrams
+
+# In WordPress aktivieren
+# WordPress Admin → Plugins → "ThemisDB Architecture Diagrams" aktivieren
+```
+
+### Verwendung
+
+**Basis-Shortcode:**
+```php
+[themisdb_architecture]
+```
+
+**Spezifische Ansichten:**
+```php
+<!-- Architektur-Ansichten -->
+[themisdb_architecture view="high_level"]
+[themisdb_architecture view="storage_layer"]
+[themisdb_architecture view="llm_integration"]
+[themisdb_architecture view="sharding_raid"]
+[themisdb_architecture view="hardware_architecture"]
+
+<!-- Vergleichs-Ansichten -->
+[themisdb_architecture view="database_comparison"]
+[themisdb_architecture view="llm_comparison"]
+[themisdb_architecture view="performance_comparison"]
+```
+
+**Mit Parametern:**
+```php
+[themisdb_architecture view="database_comparison" theme="neutral"]
+[themisdb_architecture view="llm_comparison" interactive="true"]
+[themisdb_architecture view="performance_comparison" show_controls="true"]
+```
+
+### Features
+
+- **Interaktiv**: Klickbare Komponenten mit Details
+- **Export**: SVG und PNG Download
+- **Zoom**: Vergrößern, Verkleinern, Zurücksetzen
+- **Fullscreen**: Vollbild-Modus
+- **Themes**: Neutral, Dark, Forest
+- **Responsive**: Optimiert für alle Bildschirmgrößen
+
+### Dokumentation
+
+- **English**: [architecture-diagrams-wordpress/README.md](architecture-diagrams-wordpress/README.md)
+- **Deutsch**: [architecture-diagrams-wordpress/README_DE.md](architecture-diagrams-wordpress/README_DE.md)
 
 ---
 

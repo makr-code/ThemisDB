@@ -24,18 +24,49 @@ if (!defined('ABSPATH')) {
                 <strong><?php _e('Architecture View:', 'themisdb-architecture-diagrams'); ?></strong>
             </label>
             <select id="ad-view-select" class="themisdb-select">
-                <option value="high_level" <?php selected($atts['view'], 'high_level'); ?>>
-                    <?php _e('High-Level Architecture', 'themisdb-architecture-diagrams'); ?>
-                </option>
-                <option value="storage_layer" <?php selected($atts['view'], 'storage_layer'); ?>>
-                    <?php _e('Storage Layer', 'themisdb-architecture-diagrams'); ?>
-                </option>
-                <option value="llm_integration" <?php selected($atts['view'], 'llm_integration'); ?>>
-                    <?php _e('LLM Integration', 'themisdb-architecture-diagrams'); ?>
-                </option>
-                <option value="sharding_raid" <?php selected($atts['view'], 'sharding_raid'); ?>>
-                    <?php _e('Sharding & RAID', 'themisdb-architecture-diagrams'); ?>
-                </option>
+                <optgroup label="<?php _e('ThemisDB Architecture', 'themisdb-architecture-diagrams'); ?>">
+                    <option value="high_level" <?php selected($atts['view'], 'high_level'); ?>>
+                        <?php _e('High-Level Architecture', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="storage_layer" <?php selected($atts['view'], 'storage_layer'); ?>>
+                        <?php _e('Storage Layer', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="llm_integration" <?php selected($atts['view'], 'llm_integration'); ?>>
+                        <?php _e('LLM Integration', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="sharding_raid" <?php selected($atts['view'], 'sharding_raid'); ?>>
+                        <?php _e('Sharding & RAID', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="hardware_architecture" <?php selected($atts['view'], 'hardware_architecture'); ?>>
+                        <?php _e('Hardware Architecture', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                </optgroup>
+                <optgroup label="<?php _e('Comparisons', 'themisdb-architecture-diagrams'); ?>">
+                    <option value="database_comparison" <?php selected($atts['view'], 'database_comparison'); ?>>
+                        <?php _e('Database Comparison', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="llm_comparison" <?php selected($atts['view'], 'llm_comparison'); ?>>
+                        <?php _e('LLM Services Comparison', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="performance_comparison" <?php selected($atts['view'], 'performance_comparison'); ?>>
+                        <?php _e('Performance by Hardware', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="tco_comparison" <?php selected($atts['view'], 'tco_comparison'); ?>>
+                        <?php _e('TCO Over Time (1-5 Years)', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="feature_matrix" <?php selected($atts['view'], 'feature_matrix'); ?>>
+                        <?php _e('Feature Matrix', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="deployment_options" <?php selected($atts['view'], 'deployment_options'); ?>>
+                        <?php _e('Deployment Options', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="use_case_recommendations" <?php selected($atts['view'], 'use_case_recommendations'); ?>>
+                        <?php _e('Use Case Recommendations', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="migration_paths" <?php selected($atts['view'], 'migration_paths'); ?>>
+                        <?php _e('Migration Paths', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                </optgroup>
             </select>
         </div>
 
