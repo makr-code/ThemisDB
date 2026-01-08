@@ -137,7 +137,7 @@ class ThemisDB_TCO_Calculator {
             // Initialize Mermaid
             wp_add_inline_script(
                 'mermaidjs',
-                'if (typeof mermaid !== "undefined") { mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "loose" }); }'
+                'if (typeof mermaid !== "undefined") { mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "strict" }); }'
             );
             
             // Enqueue plugin CSS

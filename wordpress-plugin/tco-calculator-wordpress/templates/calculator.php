@@ -251,7 +251,7 @@
                     </div>
                     <div class="cost-breakdown">
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-infra')">
+                            <div class="cost-item-header" data-toggle-details="themisdb-infra">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Material & Infrastruktur:
@@ -263,7 +263,7 @@
                             </div>
                         </div>
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-personnel')">
+                            <div class="cost-item-header" data-toggle-details="themisdb-personnel">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Personal:
@@ -275,7 +275,7 @@
                             </div>
                         </div>
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-software')">
+                            <div class="cost-item-header" data-toggle-details="themisdb-software">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Software & Lizenzen:
@@ -287,7 +287,7 @@
                             </div>
                         </div>
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('themisdb-ops')">
+                            <div class="cost-item-header" data-toggle-details="themisdb-ops">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Betrieb & Schulung:
@@ -314,7 +314,7 @@
                     </div>
                     <div class="cost-breakdown">
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-compute')">
+                            <div class="cost-item-header" data-toggle-details="hyperscaler-compute">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Compute (Pay-per-Request):
@@ -326,7 +326,7 @@
                             </div>
                         </div>
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-storage')">
+                            <div class="cost-item-header" data-toggle-details="hyperscaler-storage">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Storage:
@@ -338,7 +338,7 @@
                             </div>
                         </div>
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-network')">
+                            <div class="cost-item-header" data-toggle-details="hyperscaler-network">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     Network (Egress):
@@ -350,7 +350,7 @@
                             </div>
                         </div>
                         <div class="cost-item collapsible-item">
-                            <div class="cost-item-header" onclick="toggleCostDetails('hyperscaler-ai')">
+                            <div class="cost-item-header" data-toggle-details="hyperscaler-ai">
                                 <span class="cost-item-label">
                                     <span class="collapse-icon">▼</span>
                                     AI APIs:

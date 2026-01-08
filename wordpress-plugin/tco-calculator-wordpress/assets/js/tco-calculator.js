@@ -102,6 +102,17 @@ class TCOCalculator {
             btn.addEventListener('click', (e) => this.switchTab(e.target.dataset.tab));
         });
 
+        // Collapsible cost details - using event delegation
+        document.addEventListener('click', (e) => {
+            const header = e.target.closest('.cost-item-header[data-toggle-details]');
+            if (header) {
+                const detailsId = header.getAttribute('data-toggle-details');
+                if (detailsId) {
+                    toggleCostDetails(detailsId);
+                }
+            }
+        });
+
         // Initialize sliders
         this.initializeSliders();
     }
@@ -587,21 +598,24 @@ class TCOCalculator {
         const hyperscalerNetworkPercent = ((hyperscalerNetwork / hyperscaler.totalCost) * 100).toFixed(1);
         const hyperscalerAIPercent = ((hyperscalerAI / hyperscaler.totalCost) * 100).toFixed(1);
         
-        // Create Mermaid diagram
+        // Escape function for safe text content
+        const escapeText = (text) => text.replace(/[<>&"']/g, '');
+        
+        // Create Mermaid diagram with escaped values
         const mermaidCode = `
 graph TB
-    subgraph ThemisDB["<b>ThemisDB TCO: ${this.formatCurrency(themisdb.totalCost)}</b>"]
-        T1["Material & Infrastruktur<br/>${this.formatCurrency(themisdbInfra)}<br/>(${themisdbInfraPercent}%)"]
-        T2["Personal<br/>${this.formatCurrency(themisdbPersonnel)}<br/>(${themisdbPersonnelPercent}%)"]
-        T3["Software & Lizenzen<br/>${this.formatCurrency(themisdbLicense)}<br/>(${themisdbLicensePercent}%)"]
-        T4["Betrieb & Schulung<br/>${this.formatCurrency(themisdbOps)}<br/>(${themisdbOpsPercent}%)"]
+    subgraph ThemisDB["ThemisDB TCO: ${escapeText(this.formatCurrency(themisdb.totalCost))}"]
+        T1["Material & Infrastruktur<br/>${escapeText(this.formatCurrency(themisdbInfra))}<br/>(${escapeText(themisdbInfraPercent)}%)"]
+        T2["Personal<br/>${escapeText(this.formatCurrency(themisdbPersonnel))}<br/>(${escapeText(themisdbPersonnelPercent)}%)"]
+        T3["Software & Lizenzen<br/>${escapeText(this.formatCurrency(themisdbLicense))}<br/>(${escapeText(themisdbLicensePercent)}%)"]
+        T4["Betrieb & Schulung<br/>${escapeText(this.formatCurrency(themisdbOps))}<br/>(${escapeText(themisdbOpsPercent)}%)"]
     end
     
-    subgraph Hyperscaler["<b>Hyperscaler TCO: ${this.formatCurrency(hyperscaler.totalCost)}</b>"]
-        H1["Compute Pay-per-Request<br/>${this.formatCurrency(hyperscalerCompute)}<br/>(${hyperscalerComputePercent}%)"]
-        H2["Storage<br/>${this.formatCurrency(hyperscalerStorage)}<br/>(${hyperscalerStoragePercent}%)"]
-        H3["Network Egress<br/>${this.formatCurrency(hyperscalerNetwork)}<br/>(${hyperscalerNetworkPercent}%)"]
-        H4["AI APIs<br/>${this.formatCurrency(hyperscalerAI)}<br/>(${hyperscalerAIPercent}%)"]
+    subgraph Hyperscaler["Hyperscaler TCO: ${escapeText(this.formatCurrency(hyperscaler.totalCost))}"]
+        H1["Compute Pay-per-Request<br/>${escapeText(this.formatCurrency(hyperscalerCompute))}<br/>(${escapeText(hyperscalerComputePercent)}%)"]
+        H2["Storage<br/>${escapeText(this.formatCurrency(hyperscalerStorage))}<br/>(${escapeText(hyperscalerStoragePercent)}%)"]
+        H3["Network Egress<br/>${escapeText(this.formatCurrency(hyperscalerNetwork))}<br/>(${escapeText(hyperscalerNetworkPercent)}%)"]
+        H4["AI APIs<br/>${escapeText(this.formatCurrency(hyperscalerAI))}<br/>(${escapeText(hyperscalerAIPercent)}%)"]
     end
     
     style T1 fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
@@ -620,8 +634,26 @@ graph TB
         
         // Check if Mermaid is available
         if (typeof mermaid !== 'undefined') {
-            mermaidContainer.innerHTML = `<div class="mermaid">${mermaidCode}</div>`;
-            mermaid.init(undefined, mermaidContainer.querySelector('.mermaid'));
+            // Clear previous content
+            mermaidContainer.textContent = '';
+            
+            // Create div for mermaid content
+            const mermaidDiv = document.createElement('div');
+            mermaidDiv.className = 'mermaid';
+            mermaidDiv.textContent = mermaidCode;
+            mermaidContainer.appendChild(mermaidDiv);
+            
+            // Render with modern API
+            try {
+                mermaid.init(undefined, mermaidDiv);
+            } catch (error) {
+                console.error('Mermaid rendering error:', error);
+                mermaidContainer.innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
+                        <p>⚠️ Diagramm konnte nicht gerendert werden.</p>
+                    </div>
+                `;
+            }
         } else {
             mermaidContainer.innerHTML = `
                 <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
@@ -891,6 +923,12 @@ if (document.readyState === 'loading') {
  */
 function toggleCostDetails(detailsId) {
     const detailsElement = document.getElementById(detailsId + '-details');
+    
+    if (!detailsElement) {
+        console.warn(`Details element not found: ${detailsId}-details`);
+        return;
+    }
+    
     const parentItem = detailsElement.closest('.collapsible-item');
     
     if (parentItem) {
