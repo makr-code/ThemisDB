@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB Compendium - Interactive PDF Viewer</title>
+    
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
+    <!-- Mermaid.js -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #2c3e50;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .main-container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+        
+        .pdf-viewer {
+            flex: 1;
+            overflow: auto;
+            background: #34495e;
+            padding: 20px;
+            position: relative;
+        }
+        
+        .pdf-canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        canvas {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .mermaid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        
+        .mermaid-overlay.active {
+            display: flex;
+        }
+        
+        .mermaid-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .close-btn:hover {
+            background: #c0392b;
+            transform: rotate(90deg);
+        }
+        
+        .mermaid-diagram {
+            color: #2c3e50;
+            padding: 20px;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .diagram-title {
+            color: #7c4dff;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background: #1a252f;
+            padding: 20px;
+            overflow-y: auto;
+            border-left: 1px solid #34495e;
+        }
+        
+        .sidebar h3 {
+            color: #7c4dff;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .diagram-list {
+            list-style: none;
+        }
+        
+        .diagram-list li {
+            background: rgba(124, 77, 255, 0.1);
+            border-left: 3px solid #7c4dff;
+            padding: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .diagram-list li:hover {
+            background: rgba(124, 77, 255, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .diagram-list li .type {
+            color: #7c4dff;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .diagram-list li .id {
+            color: #bbb;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+        
+        .zoom-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 100;
+        }
+        
+        .zoom-controls button {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            font-size: 18px;
+        }
+        
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .loading.hidden {
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #7c4dff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-panel {
+            background: rgba(124, 77, 255, 0.1);
+            border-left: 3px solid #7c4dff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .info-panel strong {
+            color: #7c4dff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 ThemisDB Compendium - Interactive Viewer</h1>
+        <div class="controls">
+            <button id="prevBtn" onclick="previousPage()">◀ Zurück</button>
+            <span class="page-info">
+                Seite <span id="pageNum">-</span> von <span id="pageCount">-</span>
+            </span>
+            <button id="nextBtn" onclick="nextPage()">Weiter ▶</button>
+            <button onclick="toggleFullscreen()">⛶ Vollbild</button>
+        </div>
+    </div>
+    
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <div>PDF wird geladen...</div>
+    </div>
+    
+    <div class="main-container">
+        <div class="pdf-viewer" id="pdfViewer">
+            <div class="info-panel">
+                <strong>💡 Hinweis:</strong> Dieser Viewer kombiniert PDF.js mit interaktiven Mermaid-Diagrammen.
+                Klicken Sie auf Diagramme in der Seitenleiste für interaktive Ansicht.
+            </div>
+            <div class="pdf-canvas-container" id="canvasContainer"></div>
+        </div>
+        
+        <div class="sidebar">
+            <h3>📊 Interaktive Diagramme</h3>
+            <ul class="diagram-list" id="diagramList">
+                <li>Diagramme werden geladen...</li>
+            </ul>
+            
+            <div class="info-panel" style="margin-top: 30px;">
+                <h4 style="margin-bottom: 10px;">Funktionen:</h4>
+                <ul style="padding-left: 20px; line-height: 1.8;">
+                    <li>🖱️ Diagramme anklicken</li>
+                    <li>🔍 Zoom mit Mausrad</li>
+                    <li>📱 QR-Codes scannen</li>
+                    <li>⛶ Vollbildmodus</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="zoom-controls">
+        <button onclick="zoomIn()" title="Vergrößern">+</button>
+        <button onclick="zoomOut()" title="Verkleinern">−</button>
+        <button onclick="resetZoom()" title="Zurücksetzen">↺</button>
+    </div>
+    
+    <div class="mermaid-overlay" id="mermaidOverlay">
+        <div class="mermaid-content">
+            <button class="close-btn" onclick="closeMermaid()">✕</button>
+            <div class="diagram-title" id="diagramTitle"></div>
+            <div class="mermaid-diagram" id="mermaidDiagram"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Configuration
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // State
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        let scale = 1.5;
+        let diagrams = [];
+        
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#7c4dff',
+                primaryTextColor: '#fff',
+                primaryBorderColor: '#6c3ddf',
+                lineColor: '#7c4dff',
+                secondaryColor: '#f5f3ff',
+                tertiaryColor: '#fafafa'
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+        
+        // Load diagrams metadata
+        async function loadDiagrams() {
+            try {
+                const response = await fetch('diagrams_metadata.json');
+                diagrams = await response.json();
+                renderDiagramList();
+            } catch (err) {
+                console.error('Error loading diagrams:', err);
+                // Mock data for demo
+                diagrams = [
+                    {
+                        id: 'chapter_01_diagram_1',
+                        type: 'Flowchart',
+                        chapter: 'chapter_01_introduction.md',
+                        code: 'graph TB\n    A[Start] --> B[Process]\n    B --> C[End]'
+                    }
+                ];
+                renderDiagramList();
+            }
+        }
+        
+        function renderDiagramList() {
+            const list = document.getElementById('diagramList');
+            list.innerHTML = '';
+            
+            diagrams.forEach((diagram, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="type">${diagram.type}</div>
+                    <div class="id">${diagram.id}</div>
+                `;
+                li.onclick = () => showMermaid(diagram);
+                list.appendChild(li);
+            });
+        }
+        
+        function showMermaid(diagram) {
+            const overlay = document.getElementById('mermaidOverlay');
+            const title = document.getElementById('diagramTitle');
+            const container = document.getElementById('mermaidDiagram');
+            
+            title.textContent = `${diagram.type} - ${diagram.id}`;
+            container.innerHTML = `<div class="mermaid">${diagram.code}</div>`;
+            
+            overlay.classList.add('active');
+            
+            // Render Mermaid
+            mermaid.run({
+                querySelector: '#mermaidDiagram .mermaid'
+            });
+        }
+        
+        function closeMermaid() {
+            document.getElementById('mermaidOverlay').classList.remove('active');
+        }
+        
+        // PDF Loading
+        async function loadPDF(url) {
+            const loading = document.getElementById('loading');
+            loading.classList.remove('hidden');
+            
+            try {
+                pdfDoc = await pdfjsLib.getDocument(url).promise;
+                document.getElementById('pageCount').textContent = pdfDoc.numPages;
+                renderAllPages();
+                loading.classList.add('hidden');
+            } catch (err) {
+                console.error('Error loading PDF:', err);
+                loading.innerHTML = `<div>❌ Fehler beim Laden: ${err.message}</div>`;
+            }
+        }
+        
+        async function renderAllPages() {
+            const container = document.getElementById('canvasContainer');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const canvas = document.createElement('canvas');
+                canvas.id = `page-${i}`;
+                container.appendChild(canvas);
+                await renderPage(i, canvas);
+            }
+        }
+        
+        async function renderPage(num, canvas) {
+            const page = await pdfDoc.getPage(num);
+            const viewport = page.getViewport({ scale: scale });
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            
+            await page.render(renderContext).promise;
+        }
+        
+        function previousPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            scrollToPage(pageNum);
+        }
+        
+        function nextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            scrollToPage(pageNum);
+        }
+        
+        function scrollToPage(num) {
+            const canvas = document.getElementById(`page-${num}`);
+            if (canvas) {
+                canvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.getElementById('pageNum').textContent = num;
+            }
+        }
+        
+        function zoomIn() {
+            scale += 0.2;
+            renderAllPages();
+        }
+        
+        function zoomOut() {
+            if (scale > 0.4) {
+                scale -= 0.2;
+                renderAllPages();
+            }
+        }
+        
+        function resetZoom() {
+            scale = 1.5;
+            renderAllPages();
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') previousPage();
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'Escape') closeMermaid();
+            if (e.key === 'f' || e.key === 'F') toggleFullscreen();
+            if (e.key === '+' || e.key === '=') zoomIn();
+            if (e.key === '-' || e.key === '_') zoomOut();
+            if (e.key === '0') resetZoom();
+        });
+        
+        // Initialize
+        loadDiagrams();
+        
+        // Load PDF (update path as needed)
+        const pdfPath = 'ThemisDB-Compendium-v1.3.4-interactive.pdf';
+        loadPDF(pdfPath);
+        
+        // Update page number on scroll
+        const pdfViewer = document.getElementById('pdfViewer');
+        pdfViewer.addEventListener('scroll', () => {
+            const canvases = document.querySelectorAll('canvas');
+            for (let i = 0; i < canvases.length; i++) {
+                const rect = canvases[i].getBoundingClientRect();
+                if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
+                    pageNum = i + 1;
+                    document.getElementById('pageNum').textContent = pageNum;
+                    break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
