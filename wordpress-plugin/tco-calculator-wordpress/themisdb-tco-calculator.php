@@ -59,8 +59,14 @@ class ThemisDB_TCO_Calculator {
         add_action('init', array($this, 'init'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
         
-        // Register shortcode
+        // Register shortcodes
         add_shortcode('themisdb_tco_calculator', array($this, 'render_calculator'));
+        add_shortcode('themisdb_tco_workload', array($this, 'render_workload_section'));
+        add_shortcode('themisdb_tco_infrastructure', array($this, 'render_infrastructure_section'));
+        add_shortcode('themisdb_tco_personnel', array($this, 'render_personnel_section'));
+        add_shortcode('themisdb_tco_operations', array($this, 'render_operations_section'));
+        add_shortcode('themisdb_tco_ai', array($this, 'render_ai_section'));
+        add_shortcode('themisdb_tco_results', array($this, 'render_results_section'));
         
         // Admin menu
         add_action('admin_menu', array($this, 'add_admin_menu'));
@@ -113,9 +119,30 @@ class ThemisDB_TCO_Calculator {
      * Enqueue scripts and styles
      */
     public function enqueue_assets() {
-        // Only load on pages with the shortcode
+        // Only load on pages with any TCO shortcode
         global $post;
-        if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'themisdb_tco_calculator')) {
+        $has_tco_shortcode = false;
+        
+        if (is_a($post, 'WP_Post')) {
+            $shortcodes = array(
+                'themisdb_tco_calculator',
+                'themisdb_tco_workload',
+                'themisdb_tco_infrastructure',
+                'themisdb_tco_personnel',
+                'themisdb_tco_operations',
+                'themisdb_tco_ai',
+                'themisdb_tco_results'
+            );
+            
+            foreach ($shortcodes as $shortcode) {
+                if (has_shortcode($post->post_content, $shortcode)) {
+                    $has_tco_shortcode = true;
+                    break;
+                }
+            }
+        }
+        
+        if ($has_tco_shortcode) {
             // Enqueue Chart.js from CDN
             wp_enqueue_script(
                 'chartjs',
@@ -191,6 +218,96 @@ class ThemisDB_TCO_Calculator {
         include THEMISDB_TCO_PLUGIN_DIR . 'templates/calculator.php';
         
         // Return buffered content
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render workload section
+     */
+    public function render_workload_section($atts) {
+        $atts = shortcode_atts(array(
+            'scale' => '1',
+            'animation' => 'fade-in',
+            'delay' => '0',
+        ), $atts);
+        
+        ob_start();
+        include THEMISDB_TCO_PLUGIN_DIR . 'templates/sections/workload.php';
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render infrastructure section
+     */
+    public function render_infrastructure_section($atts) {
+        $atts = shortcode_atts(array(
+            'scale' => '1',
+            'animation' => 'fade-in',
+            'delay' => '0',
+        ), $atts);
+        
+        ob_start();
+        include THEMISDB_TCO_PLUGIN_DIR . 'templates/sections/infrastructure.php';
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render personnel section
+     */
+    public function render_personnel_section($atts) {
+        $atts = shortcode_atts(array(
+            'scale' => '1',
+            'animation' => 'fade-in',
+            'delay' => '0',
+        ), $atts);
+        
+        ob_start();
+        include THEMISDB_TCO_PLUGIN_DIR . 'templates/sections/personnel.php';
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render operations section
+     */
+    public function render_operations_section($atts) {
+        $atts = shortcode_atts(array(
+            'scale' => '1',
+            'animation' => 'fade-in',
+            'delay' => '0',
+        ), $atts);
+        
+        ob_start();
+        include THEMISDB_TCO_PLUGIN_DIR . 'templates/sections/operations.php';
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render AI section
+     */
+    public function render_ai_section($atts) {
+        $atts = shortcode_atts(array(
+            'scale' => '1',
+            'animation' => 'fade-in',
+            'delay' => '0',
+        ), $atts);
+        
+        ob_start();
+        include THEMISDB_TCO_PLUGIN_DIR . 'templates/sections/ai.php';
+        return ob_get_clean();
+    }
+    
+    /**
+     * Render results section
+     */
+    public function render_results_section($atts) {
+        $atts = shortcode_atts(array(
+            'scale' => '1',
+            'animation' => 'fade-in',
+            'delay' => '0',
+        ), $atts);
+        
+        ob_start();
+        include THEMISDB_TCO_PLUGIN_DIR . 'templates/sections/results.php';
         return ob_get_clean();
     }
     
