@@ -1,7 +1,7 @@
 # Multi-stage Docker build for ThemisDB on QNAP
 # Uses same base as standard Dockerfile but with QNAP-specific CPU optimizations
 
-FROM ubuntu:20.04 AS build
+FROM ubuntu:22.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install build tools and system dependencies (apply available security updates first)
