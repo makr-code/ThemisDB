@@ -546,3 +546,19 @@ The **4 production-ready plugins** provide comprehensive functionality:
 
 Phase 3 plugins can be completed as needed based on priority and resources.
 
+---
+
+## 💡 Additional Plugin Proposals
+
+For further marketing and developer experience enhancements, see:
+- **[WEITERE_PLUGIN_VORSCHLAEGE.md](WEITERE_PLUGIN_VORSCHLAEGE.md)** (German)
+- **[ADDITIONAL_PLUGIN_PROPOSALS.md](ADDITIONAL_PLUGIN_PROPOSALS.md)** (English)
+
+These documents propose **10 additional WordPress plugins** covering:
+- 🎓 Developer Experience (Tutorial Builder, SDK Examples, Migration Assistant)
+- 🏆 Marketing & Sales (Use Case Showcase, Success Stories, News Aggregator)
+- 🎨 Technical Showcase (Performance Calculator, CDC Demo, Interactive Demos)
+
+**Total proposed effort:** 430-580h (~€32,250-43,500)  
+**Recommended priority:** Tutorial Builder + Use Case Showcase (Phase 4)
+

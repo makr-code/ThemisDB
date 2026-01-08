@@ -496,41 +496,13 @@ class ThemisDB_Downloads_Shortcodes {
     }
     
     /**
-     * Basic markdown to HTML conversion
+     * Convert markdown to HTML using shared converter
      * 
      * @param string $markdown Markdown text
      * @return string HTML
      */
     private function markdown_to_html($markdown) {
-        // Basic markdown parsing (headers, lists, code blocks, links)
-        $html = $markdown;
-        
-        // Headers (### to h3, ## to h2, # to h1)
-        $html = preg_replace('/^### (.+)$/m', '<h3>$1</h3>', $html);
-        $html = preg_replace('/^## (.+)$/m', '<h2>$1</h2>', $html);
-        $html = preg_replace('/^# (.+)$/m', '<h1>$1</h1>', $html);
-        
-        // Bold and italic
-        $html = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $html);
-        $html = preg_replace('/\*(.+?)\*/', '<em>$1</em>', $html);
-        
-        // Links [text](url)
-        $html = preg_replace('/\[([^\]]+)\]\(([^\)]+)\)/', '<a href="$2" target="_blank">$1</a>', $html);
-        
-        // Code blocks ```
-        $html = preg_replace('/```([^`]+)```/s', '<pre><code>$1</code></pre>', $html);
-        
-        // Inline code `code`
-        $html = preg_replace('/`([^`]+)`/', '<code>$1</code>', $html);
-        
-        // Lists (- item or * item)
-        $html = preg_replace('/^[\-\*] (.+)$/m', '<li>$1</li>', $html);
-        $html = preg_replace('/(<li>.*<\/li>\n?)+/s', '<ul>$0</ul>', $html);
-        
-        // Paragraphs (double newline)
-        $html = wpautop($html);
-        
-        return $html;
+        return ThemisDB_Markdown_Converter::convert($markdown);
     }
     
     /**
