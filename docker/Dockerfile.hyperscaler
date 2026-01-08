@@ -26,6 +26,7 @@ ENV THEMIS_EDITION=HYPERSCALER
 # Install minimal build dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     build-essential cmake ninja-build git curl ca-certificates python3 \
+    zip unzip tar pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 # Bootstrap vcpkg (minimal - no aria2, simpler setup)
