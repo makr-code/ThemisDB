@@ -40,7 +40,7 @@
             the_content();
         } else {
             the_excerpt();
-            echo '<a href="' . esc_url( get_permalink() ) . '" class="button">' . esc_html__( 'Read More', 'themisdb' ) . '</a>';
+            echo '<a href="' . esc_url( get_permalink() ) . '" class="button">📖 ' . esc_html__( 'Read More', 'themisdb' ) . '</a>';
         }
 
         wp_link_pages( array(

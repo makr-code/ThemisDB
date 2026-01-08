@@ -36,7 +36,7 @@
             </div>
 
             <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
-                <?php esc_html_e( 'Menu', 'themisdb' ); ?>
+                <span class="menu-icon">☰</span> <?php esc_html_e( 'Menu', 'themisdb' ); ?>
             </button>
 
             <nav id="site-navigation" class="main-navigation">
