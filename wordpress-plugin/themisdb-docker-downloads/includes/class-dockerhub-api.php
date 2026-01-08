@@ -36,7 +36,12 @@ class ThemisDB_Docker_Downloads_DockerHub_API {
             return $cached;
         }
         
-        $url = "https://hub.docker.com/v2/repositories/{$this->namespace}/{$this->repository}/tags?page_size={$per_page}";
+        $url = sprintf(
+            'https://hub.docker.com/v2/repositories/%s/%s/tags?page_size=%d',
+            urlencode($this->namespace),
+            urlencode($this->repository),
+            intval($per_page)
+        );
         $response = $this->make_request($url);
         
         if (is_wp_error($response)) {

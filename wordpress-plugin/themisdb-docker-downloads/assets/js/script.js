@@ -24,6 +24,29 @@
          * @param {jQuery} button - Button element that was clicked
          */
         function copyToClipboard(text, button) {
+            // Try modern Clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(function() {
+                        showCopySuccess(button);
+                    })
+                    .catch(function(err) {
+                        console.error('Clipboard API failed:', err);
+                        // Fallback to execCommand
+                        fallbackCopy(text, button);
+                    });
+            } else {
+                // Fallback for older browsers
+                fallbackCopy(text, button);
+            }
+        }
+        
+        /**
+         * Fallback copy method using execCommand
+         * @param {string} text - Text to copy
+         * @param {jQuery} button - Button element that was clicked
+         */
+        function fallbackCopy(text, button) {
             // Create temporary textarea
             const textarea = document.createElement('textarea');
             textarea.value = text;
@@ -37,17 +60,7 @@
             
             try {
                 document.execCommand('copy');
-                
-                // Show success feedback
-                const originalText = button.text();
-                button.text('✓ Copied!');
-                button.addClass('copy-success');
-                
-                // Reset button after 2 seconds
-                setTimeout(function() {
-                    button.text(originalText);
-                    button.removeClass('copy-success');
-                }, 2000);
+                showCopySuccess(button);
             } catch (err) {
                 console.error('Failed to copy:', err);
                 alert('Failed to copy to clipboard');
@@ -57,10 +70,57 @@
             document.body.removeChild(textarea);
         }
         
+        /**
+         * Show copy success feedback
+         * @param {jQuery} button - Button element that was clicked
+         */
+        function showCopySuccess(button) {
+            const originalText = button.text();
+            button.text('✓ Copied!');
+            button.addClass('copy-success');
+            
+            // Reset button after 2 seconds
+            setTimeout(function() {
+                button.text(originalText);
+                button.removeClass('copy-success');
+            }, 2000);
+        }
+        
         // Show full digest on click
         $('.digest-value').on('click', function() {
             const fullDigest = $(this).attr('title');
-            alert('Full Digest:\n\n' + fullDigest);
+            const $digestDisplay = $('<div class="digest-fullscreen">')
+                .html('<div class="digest-modal">' +
+                      '<h3>Full Image Digest</h3>' +
+                      '<code class="full-digest-code">' + fullDigest + '</code>' +
+                      '<button class="copy-full-digest" data-digest="' + fullDigest + '">📋 Copy Digest</button>' +
+                      '<button class="close-digest-modal">✕ Close</button>' +
+                      '</div>')
+                .hide()
+                .appendTo('body')
+                .fadeIn(200);
+            
+            // Close on button click
+            $('.close-digest-modal').on('click', function() {
+                $digestDisplay.fadeOut(200, function() {
+                    $(this).remove();
+                });
+            });
+            
+            // Close on background click
+            $('.digest-fullscreen').on('click', function(e) {
+                if ($(e.target).hasClass('digest-fullscreen')) {
+                    $(this).fadeOut(200, function() {
+                        $(this).remove();
+                    });
+                }
+            });
+            
+            // Copy full digest
+            $('.copy-full-digest').on('click', function() {
+                const digest = $(this).data('digest');
+                copyToClipboard(digest, $(this));
+            });
         });
     });
     
