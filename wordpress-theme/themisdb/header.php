@@ -51,7 +51,7 @@
                 <!-- Hamburger Menu Item (right-aligned) -->
                 <div class="hamburger-menu-item">
                     <button class="hamburger-menu-button" aria-label="<?php esc_attr_e( 'Additional Menu', 'themisdb' ); ?>" aria-expanded="false">
-                        🍔
+                        ☰
                     </button>
                     <div class="hamburger-dropdown">
                         <?php

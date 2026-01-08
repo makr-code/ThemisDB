@@ -108,6 +108,42 @@
     }
 
     /**
+     * Validate WordPress graph data structure
+     */
+    function isValidWordPressData(data) {
+        if (!data || typeof data !== 'object') {
+            return false;
+        }
+        
+        // Check if data has required properties
+        if (!data.nodes || !Array.isArray(data.nodes)) {
+            return false;
+        }
+        
+        if (!data.links || !Array.isArray(data.links)) {
+            return false;
+        }
+        
+        // Check if nodes array has at least one node
+        if (data.nodes.length === 0) {
+            return false;
+        }
+        
+        // Validate that each node has required properties
+        const hasValidNodes = data.nodes.every(node => 
+            node.id && 
+            node.label && 
+            typeof node.type === 'string'
+        );
+        
+        if (!hasValidNodes) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
      * Build graph data structure for force-directed layout
      * Uses WordPress posts, pages, categories, and tags data passed from PHP
      */
