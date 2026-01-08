@@ -88,6 +88,12 @@ include(cmake/Versions.cmake)
 # Dependencies
 include(cmake/Dependencies.cmake)
 
+# Testing
+if(THEMIS_BUILD_TESTS)
+    include(CTest)
+    enable_testing()
+endif()
+
 # Main build logic
 add_subdirectory(cmake)
 
