@@ -13,8 +13,14 @@ RUN apt-get update && apt-get install -y \
 COPY build-msvc/Release/themis_server.exe /usr/local/bin/themis_server
 RUN chmod +x /usr/local/bin/themis_server
 
-# Create data directory
-RUN mkdir -p /data && chmod 755 /data
+# Create non-root user for security
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis --uid=999 --home-dir=/data --shell=/bin/bash themis
+
+# Create data directory with proper ownership
+RUN mkdir -p /data && \
+    chmod 755 /data && \
+    chown themis:themis /data
 
 # Expose port
 EXPOSE 8765
@@ -22,6 +28,9 @@ EXPOSE 8765
 # Health check
 HEALTHCHECK --interval=10s --timeout=5s --retries=10 --start-period=30s \
     CMD curl -fsS http://localhost:8765/health || exit 1
+
+# Run as non-root user
+USER themis
 
 # Start server
 ENTRYPOINT ["themis_server"]

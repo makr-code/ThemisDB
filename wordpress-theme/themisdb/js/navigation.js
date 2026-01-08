@@ -19,6 +19,20 @@
     // Add dropdown toggle for mobile
     const menuItemsWithChildren = document.querySelectorAll('.main-navigation .menu-item-has-children');
     
+    // Desktop dropdown delay to prevent accidental closing
+    let dropdownTimeout;
+    if (window.innerWidth > 768) {
+        menuItemsWithChildren.forEach(function(item) {
+            const submenu = item.querySelector('ul');
+            if (submenu) {
+                // Clear any existing timeout when mouse enters
+                item.addEventListener('mouseenter', function() {
+                    clearTimeout(dropdownTimeout);
+                });
+            }
+        });
+    }
+    
     menuItemsWithChildren.forEach(function(item) {
         const link = item.querySelector('a');
         if (link) {
@@ -72,5 +86,32 @@
             }
         });
     });
+
+    // Hamburger menu toggle
+    const hamburgerButton = document.querySelector('.hamburger-menu-button');
+    const hamburgerDropdown = document.querySelector('.hamburger-dropdown');
+
+    if (hamburgerButton && hamburgerDropdown) {
+        hamburgerButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const expanded = hamburgerButton.getAttribute('aria-expanded') === 'true';
+            hamburgerButton.setAttribute('aria-expanded', !expanded);
+        });
+
+        // Close hamburger menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.hamburger-menu-item')) {
+                hamburgerButton.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && hamburgerButton.getAttribute('aria-expanded') === 'true') {
+                hamburgerButton.setAttribute('aria-expanded', 'false');
+                hamburgerButton.focus();
+            }
+        });
+    }
 
 })();

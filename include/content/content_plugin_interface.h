@@ -207,6 +207,13 @@ struct ExtractionOptions {
     // Format-specific options
     json format_options;
     
+    // Spatial filtering (for geospatial data)
+    bool use_spatial_filter = false;
+    double filter_minx = 0.0;
+    double filter_miny = 0.0;
+    double filter_maxx = 0.0;
+    double filter_maxy = 0.0;
+    
     // Timeout
     int timeout_seconds = 60;
 };

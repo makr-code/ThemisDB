@@ -64,6 +64,34 @@ if(NOT CURL_FOUND)
     message(WARNING "CURL package not found; building without libcurl. Some features may be disabled.")
 endif()
 
+# Office document support (DOCX/XLSX/PPTX)
+# Requires libzip (for ZIP archive handling) and pugixml (for XML parsing)
+if(THEMIS_ENABLE_OFFICE)
+    find_package(libzip CONFIG)
+    if(NOT libzip_FOUND)
+        find_package(libzip)
+    endif()
+    
+    find_package(pugixml CONFIG)
+    if(NOT pugixml_FOUND)
+        find_package(pugixml)
+    endif()
+    
+    if(libzip_FOUND AND pugixml_FOUND)
+        message(STATUS "Office support enabled - libzip and pugixml found")
+        add_compile_definitions(THEMIS_ENABLE_OFFICE)
+    else()
+        if(NOT libzip_FOUND)
+            message(WARNING "libzip not found - Install with: vcpkg install libzip")
+        endif()
+        if(NOT pugixml_FOUND)
+            message(WARNING "pugixml not found - Install with: vcpkg install pugixml")
+        endif()
+        message(WARNING "Disabling Office support due to missing dependencies")
+        set(THEMIS_ENABLE_OFFICE OFF CACHE BOOL "Office support disabled - missing dependencies" FORCE)
+    endif()
+endif()
+
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
@@ -99,6 +127,14 @@ option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+
+# Geospatial Processing (P2 - v1.4.0+)
+# Enables GDAL integration for Shapefile and GeoTIFF support
+option(THEMIS_ENABLE_GDAL "Enable GDAL integration for geospatial data processing" OFF)
+
+# Office Document Processing (P2 - v1.4.0+)
+# Enables libzip and pugixml integration for DOCX/XLSX/PPTX support
+option(THEMIS_ENABLE_OFFICE "Enable Office document support (DOCX/XLSX/PPTX) with libzip+pugixml" ON)
 
 # Performance Optimization Options (Research-based, see docs/de/research/)
 # Phase 1: Quick Wins - Low effort, high impact optimizations (from PR #157)
@@ -648,6 +684,40 @@ if(THEMIS_ENABLE_HTTP3)
     endif()
 endif()
 
+# ═══════════════════════════════════════════════════════════
+# GDAL Integration (P2 - v1.4.0+)
+# ═══════════════════════════════════════════════════════════
+if(THEMIS_ENABLE_GDAL)
+    message(STATUS "GDAL support enabled - integrating GDAL for geospatial data processing")
+    
+    # Find GDAL package
+    find_package(GDAL CONFIG QUIET)
+    if(GDAL_FOUND)
+        message(STATUS "GDAL found via CONFIG: ${GDAL_VERSION}")
+    else()
+        # Fallback to MODULE mode
+        find_package(GDAL MODULE)
+        if(GDAL_FOUND)
+            message(STATUS "GDAL found via MODULE: ${GDAL_VERSION}")
+            # Create imported target if not already created
+            if(NOT TARGET GDAL::GDAL)
+                add_library(GDAL::GDAL UNKNOWN IMPORTED)
+                set_target_properties(GDAL::GDAL PROPERTIES
+                    IMPORTED_LOCATION "${GDAL_LIBRARY}"
+                    INTERFACE_INCLUDE_DIRECTORIES "${GDAL_INCLUDE_DIR}")
+            endif()
+        else()
+            message(WARNING "GDAL not found - Install with: vcpkg install gdal")
+            message(WARNING "Disabling GDAL support due to missing dependency")
+            set(THEMIS_ENABLE_GDAL OFF CACHE BOOL "GDAL not available" FORCE)
+        endif()
+    endif()
+    
+    if(GDAL_FOUND)
+        message(STATUS "  GDAL features: Shapefile, GeoTIFF, GeoPackage support enabled")
+    endif()
+endif()
+
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -826,6 +896,7 @@ set(THEMIS_CORE_SOURCES
     /src/content/content_policy.cpp
     /src/content/content_fs.cpp
     /src/content/version_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:/src/content/office_processor.cpp>
     
     /src/cache/semantic_cache.cpp
     /src/cache/embedding_cache.cpp
@@ -943,7 +1014,11 @@ set(THEMIS_CORE_SOURCES
     /src/sharding/distributed_transaction.cpp
     /src/sharding/redundancy_strategy.cpp
     /src/sharding/hot_spare_manager.cpp
+    /src/sharding/predictive_detector.cpp
     /src/sharding/shard_rpc_server.cpp
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>
+    $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:/src/sharding/gpu_erasure_coder_opencl.cpp>
     /src/storage/blob_redundancy_manager.cpp
     /src/server/sharding_metrics_handler.cpp
     
@@ -1262,6 +1337,31 @@ target_link_libraries(themis_core
     TBB::tbb
 )
 
+# Link Office document libraries (libzip and pugixml) if enabled
+if(THEMIS_ENABLE_OFFICE)
+    # libzip may export as libzip::zip or libzip::libzip depending on version
+    if(TARGET libzip::zip)
+        target_link_libraries(themis_core PUBLIC libzip::zip)
+    elseif(TARGET libzip::libzip)
+        target_link_libraries(themis_core PUBLIC libzip::libzip)
+    else()
+        message(WARNING "libzip target not found - please check libzip installation")
+    endif()
+    
+    # pugixml should export as pugixml::pugixml or pugixml::static
+    if(TARGET pugixml::pugixml)
+        target_link_libraries(themis_core PUBLIC pugixml::pugixml)
+    elseif(TARGET pugixml::static)
+        target_link_libraries(themis_core PUBLIC pugixml::static)
+    elseif(TARGET pugixml)
+        target_link_libraries(themis_core PUBLIC pugixml)
+    else()
+        message(WARNING "pugixml target not found - please check pugixml installation")
+    endif()
+    
+    message(STATUS "Office support linked: libzip and pugixml")
+endif()
+
 # Link ZSTD if available and define compile flag
 if(DEFINED THEMIS_ZSTD_TARGET)
     target_link_libraries(themis_core PUBLIC ${THEMIS_ZSTD_TARGET})
@@ -1351,6 +1451,13 @@ if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
     target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
     message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# GDAL Geospatial Processing Support
+if(THEMIS_ENABLE_GDAL AND GDAL_FOUND)
+    target_link_libraries(themis_core PUBLIC GDAL::GDAL)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_GDAL)
+    message(STATUS "GDAL geospatial processing enabled and linked to themis_core")
 endif()
 
 # GraphQL Protocol Support
@@ -1810,6 +1917,9 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
         # SKIPPED: ${CMAKE_SOURCE_DIR}/tests/test_lora_adapter.cpp  # MultiLoRAManager implementation missing
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
+        $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
+        $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:${CMAKE_SOURCE_DIR}/tests/test_office_processor.cpp>
         ${CMAKE_SOURCE_DIR}/tests/test_stream_protocol_extended.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_cloud_agent.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_pki_shard_certificate.cpp
@@ -2706,6 +2816,18 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
         prometheus-cpp::pull
         prometheus-cpp::core
     )
+    
+    # GPU Erasure Coding Benchmark (conditionally compiled if CUDA is enabled)
+    if(THEMIS_ENABLE_CUDA)
+        add_executable(bench_gpu_erasure
+            ${CMAKE_SOURCE_DIR}/benchmarks/bench_gpu_erasure.cpp
+        )
+        target_link_libraries(bench_gpu_erasure PRIVATE 
+            themis_core 
+            benchmark::benchmark 
+            benchmark::benchmark_main
+        )
+    endif()
 endif()
 
 # Admin Tools (.NET)
