@@ -44,7 +44,8 @@ Das Plugin aktualisiert sich automatisch von GitHub:
 
 ## 📊 Features
 
-✅ Interaktive TCO-Berechnung
+✅ Interaktive TCO-Berechnung mit Echtzeit-Updates
+✅ Automatische Neuberechnung beim Bewegen der Schieberegler
 ✅ Visuelle Diagramme und Charts
 ✅ Export als PDF oder CSV
 ✅ Vollständig responsive
