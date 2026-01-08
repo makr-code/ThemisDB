@@ -292,7 +292,7 @@ function themisdb_get_graph_data() {
             'type'     => 'post',
             'level'    => 2,
             'date'     => $post->post_date,
-            'excerpt'  => wp_trim_words( $post->post_excerpt ? $post->post_excerpt : $post->post_content, 20 ),
+            'excerpt'  => wp_trim_words( get_the_excerpt( $post->ID ), 20 ),
         );
         
         // Get post categories and create links
@@ -328,7 +328,7 @@ function themisdb_get_graph_data() {
             'url'     => get_permalink( $page->ID ),
             'type'    => 'page',
             'level'   => 1,
-            'excerpt' => wp_trim_words( $page->post_excerpt ? $page->post_excerpt : $page->post_content, 20 ),
+            'excerpt' => wp_trim_words( get_the_excerpt( $page->ID ), 20 ),
         );
         
         // Link from home to pages

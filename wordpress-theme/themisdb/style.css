@@ -1320,6 +1320,73 @@ article:hover {
     transform: scale(0.95);
 }
 
+/* Graph tooltip styles */
+.graph-tooltip {
+    position: absolute;
+    visibility: hidden;
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.98) 0%, rgba(52, 73, 94, 0.98) 100%);
+    color: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    max-width: 320px;
+    min-width: 200px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    pointer-events: none;
+    z-index: 10000;
+    border: 2px solid rgba(124, 77, 255, 0.5);
+    line-height: 1.6;
+}
+
+.graph-tooltip-header {
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.graph-tooltip-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.graph-tooltip-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.graph-tooltip-excerpt {
+    color: #ecf0f1;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.graph-tooltip-meta {
+    color: #bdc3c7;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.graph-tooltip-footer {
+    border-top: 2px solid rgba(255,255,255,0.2);
+    padding-top: 8px;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.graph-tooltip-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
 /* Fallback navigation tree */
 .fallback-nav-tree {
     display: flex;

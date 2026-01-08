@@ -20,6 +20,7 @@
     const menuItemsWithChildren = document.querySelectorAll('.main-navigation .menu-item-has-children');
     
     // Desktop dropdown delay to prevent accidental closing
+    let dropdownTimeout;
     if (window.innerWidth > 768) {
         menuItemsWithChildren.forEach(function(item) {
             const submenu = item.querySelector('ul');

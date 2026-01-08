@@ -113,13 +113,9 @@
      */
     function buildGraphData() {
         // Check if WordPress data is available with thorough validation
-        if (typeof themisdbGraphData !== 'undefined' && 
-            themisdbGraphData && 
-            Array.isArray(themisdbGraphData.nodes) && 
-            Array.isArray(themisdbGraphData.links) &&
-            themisdbGraphData.nodes.length > 0) {
+        if (isValidWordPressData(window.themisdbGraphData)) {
             console.log('Using WordPress content data for graph');
-            return processWordPressGraphData(themisdbGraphData);
+            return processWordPressGraphData(window.themisdbGraphData);
         }
         
         // Fallback to menu-based graph if no WordPress data
@@ -492,8 +488,8 @@
             );
             
             // Show tooltip with node information and quick link
-            let tooltipHTML = '<div style="border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 8px; margin-bottom: 8px;">';
-            tooltipHTML += `<strong style="font-size: 16px;">${d.icon} ${d.label}</strong>`;
+            let tooltipHTML = '<div class="graph-tooltip-header">';
+            tooltipHTML += `<span class="graph-tooltip-title">${d.icon} ${d.label}</span>`;
             tooltipHTML += '</div>';
             
             // Type badge
@@ -505,16 +501,16 @@
                 'post': '#e74c3c'
             };
             const typeColor = typeColors[d.type] || '#95a5a6';
-            tooltipHTML += `<div style="margin-bottom: 12px;"><span style="background: ${typeColor}; padding: 2px 8px; border-radius: 4px; font-size: 11px; text-transform: uppercase; font-weight: bold;">${d.type}</span></div>`;
+            tooltipHTML += `<div style="margin-bottom: 12px;"><span class="graph-tooltip-badge" style="background: ${typeColor};">${d.type}</span></div>`;
             
             // Content information
             if (d.excerpt && d.excerpt.trim()) {
-                tooltipHTML += `<div style="color: #ecf0f1; margin-bottom: 12px; font-size: 13px; line-height: 1.5;">${d.excerpt}</div>`;
+                tooltipHTML += `<div class="graph-tooltip-excerpt">${d.excerpt}</div>`;
             }
             
             // Metadata
             if (d.count && d.count > 0) {
-                tooltipHTML += `<div style="color: #bdc3c7; font-size: 12px; margin-bottom: 4px;">📊 <strong>${d.count}</strong> ${d.type === 'category' ? 'posts' : 'items'}</div>`;
+                tooltipHTML += `<div class="graph-tooltip-meta">📊 <strong>${d.count}</strong> ${d.type === 'category' ? 'posts' : 'items'}</div>`;
             }
             
             if (d.date) {
@@ -524,12 +520,12 @@
                     month: 'long', 
                     day: 'numeric' 
                 });
-                tooltipHTML += `<div style="color: #bdc3c7; font-size: 12px; margin-bottom: 8px;">📅 ${formattedDate}</div>`;
+                tooltipHTML += `<div class="graph-tooltip-meta">📅 ${formattedDate}</div>`;
             }
             
             // Quick link button
-            tooltipHTML += '<div style="border-top: 2px solid rgba(255,255,255,0.2); padding-top: 8px; margin-top: 8px; text-align: center;">';
-            tooltipHTML += '<span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block;">🔗 Klicken zum Öffnen</span>';
+            tooltipHTML += '<div class="graph-tooltip-footer">';
+            tooltipHTML += '<span class="graph-tooltip-button">🔗 Klicken zum Öffnen</span>';
             tooltipHTML += '</div>';
             
             tooltip
