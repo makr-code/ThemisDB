@@ -495,6 +495,60 @@ module ThemisDB
     def encode_blob(data)
       data.is_a?(String) ? data : JSON.generate(data)
     end
+
+    # Create an LLM interaction
+    #
+    # @param model [String] LLM model name (e.g., 'gpt-4o', 'llama-3.1')
+    # @param messages [Array<Hash>] List of messages
+    # @param reasoning_steps [Array<Hash>, nil] Optional reasoning steps
+    # @param metadata [Hash, nil] Optional metadata
+    # @return [Hash]
+    def llm_interaction(model, messages, reasoning_steps: nil, metadata: nil)
+      endpoint = @endpoints[0]
+      
+      body = {
+        model: model,
+        messages: messages
+      }
+      
+      body[:reasoning_steps] = reasoning_steps if reasoning_steps
+      body[:metadata] = metadata if metadata
+      
+      request(:post, "#{endpoint}/llm/interaction", body)
+    end
+
+    # Get a specific LLM interaction by ID
+    #
+    # @param interaction_id [String] The interaction ID
+    # @return [Hash, nil]
+    def get_llm_interaction(interaction_id)
+      endpoint = @endpoints[0]
+      
+      request(:get, "#{endpoint}/llm/interaction/#{interaction_id}")
+    rescue NotFoundError
+      nil
+    end
+
+    # List LLM interactions with optional filtering
+    #
+    # @param model [String, nil] Optional model name filter
+    # @param limit [Integer, nil] Maximum number of results
+    # @param offset [Integer, nil] Result offset for pagination
+    # @return [Array<Hash>]
+    def list_llm_interactions(model: nil, limit: nil, offset: nil)
+      endpoint = @endpoints[0]
+      params = []
+      
+      params << "model=#{URI.encode_www_form_component(model)}" if model
+      params << "limit=#{limit}" if limit
+      params << "offset=#{offset}" if offset
+      
+      url = "#{endpoint}/llm/interaction"
+      url += "?#{params.join('&')}" unless params.empty?
+      
+      response = request(:get, url)
+      response['interactions'] || []
+    end
   end
 
   # Custom exceptions

@@ -1,7 +1,7 @@
 # ThemisDB Dokumentations-Index
 
-**Letzte Aktualisierung:** 20. Dezember 2025
-**Version:** 1.3.0 (LLM Integration Release)
+**Letzte Aktualisierung:** 7. Januar 2026
+**Version:** 1.3.6 (Monetary Valuation Analysis)
 
 ## 🎯 Schnelleinstieg nach Rolle
 
@@ -13,11 +13,14 @@
 5. [Enterprise Features](enterprise/README.md) - Enterprise Scalability Features
 
 ### Für Stakeholder
-1. [STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ⭐ **NEU:** Industrie 4.0 & IoT Strategie
-2. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
-3. ~~THEMIS_PROJECT_VALUATION.md~~ - 🔒 Confidential (available to licensed customers only)
-4. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
-5. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
+1. [THEMISDB_MONETARY_VALUATION_ANALYSIS.md](THEMISDB_MONETARY_VALUATION_ANALYSIS.md) - ⭐ **NEU:** Monetäre Bewertungsanalyse & Hyperscaler-Vergleich (AWS/Azure/GCP), TCO-Analyse, Unternehmenswert €40M-€250M
+2. [STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - Industrie 4.0 & IoT Strategie
+3. [BLAULICHT_STRATEGIE.md](BLAULICHT_STRATEGIE.md) - Strategie für Rettungsdienst, Feuerwehr, Polizei (KRITIS)
+4. [THEMIS_SACHSTANDSBERICHT_2025.md](reports/themis_sachstandsbericht_2025.md) - Executive Summary
+5. [COMPARATIVE_ANALYSIS_v1.3.4.md](COMPARATIVE_ANALYSIS_v1.3.4.md) - Benchmark-Vergleiche mit Konkurrenten
+6. [deployment/PRICING_MODEL_v1.3.5.md](deployment/PRICING_MODEL_v1.3.5.md) - Preismodell & Lizenz-Editionen
+7. [features/features_overview.md](features/features_overview.md) - Feature-Übersicht mit Status
+8. [ROADMAP.md](roadmap/roadmap_overview.md) - Entwicklungs-Roadmap
 
 ### Für Compliance & Audits
 1. [compliance/compliance_dashboard.md](compliance/compliance_dashboard.md) - Executive Compliance Summary

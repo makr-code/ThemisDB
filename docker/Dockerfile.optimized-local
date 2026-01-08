@@ -34,12 +34,20 @@ COPY BENCHMARK_RESULTS_COMPLETE_2025.md /app/
 # Make binary executable
 RUN chmod +x /app/themis_server
 
+# Create non-root user for security
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis --uid=999 --home-dir=/app --shell=/bin/bash themis && \
+    chown -R themis:themis /app
+
 # Expose API ports
 EXPOSE 8765 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8765/health || exit 1
+
+# Run as non-root user
+USER themis
 
 # Default command starts server
 CMD ["/app/themis_server", "--bind", "0.0.0.0", "--port", "8765"]

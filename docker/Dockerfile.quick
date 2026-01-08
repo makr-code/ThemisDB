@@ -36,6 +36,14 @@ RUN if [ -d "/app/build-wsl/Release" ]; then \
 # Create benchmark results directory
 RUN mkdir -p /app/benchmark_results /results
 
+# Create non-root user for security
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis --uid=999 --home-dir=/app --shell=/bin/bash themis && \
+    chown -R themis:themis /app /results
+
+# Run as non-root user
+USER themis
+
 # Default command: run benchmarks
 CMD ["python3", "/app/benchmarks/run_complete_benchmarks.py"]
 

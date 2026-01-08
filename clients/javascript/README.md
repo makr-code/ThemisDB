@@ -5,7 +5,8 @@ Official JavaScript/TypeScript client for ThemisDB - A high-performance multi-mo
 ## Features
 
 - ✅ **TypeScript Support** - Full type definitions included
-- ✅ **Transaction Support** - BEGIN/COMMIT/ROLLBACK with isolation levels (NEW!)
+- ✅ **Transaction Support** - BEGIN/COMMIT/ROLLBACK with isolation levels
+- ✅ **LLM Integration** - Native support for LLM interactions (v1.4.0+) 🆕
 - ✅ **Multi-Model** - Relational, Graph, Vector operations
 - ✅ **Query Support** - AQL (Advanced Query Language)
 - ✅ **Topology-Aware** - Automatic shard routing
@@ -44,6 +45,35 @@ try {
 ```
 
 ## API Reference
+
+### LLM Integration (v1.4.0+) 🆕
+
+```typescript
+// Create LLM interaction
+const result = await client.llmInteraction(
+  "gpt-4o",
+  [{ role: "user", content: "Explain MVCC" }],
+  {
+    reasoning_steps: [
+      {
+        type: "chain_of_thought",
+        content: ["MVCC allows parallel reads", "Each tx gets a snapshot"]
+      }
+    ],
+    metadata: { use_case: "docs" }
+  }
+);
+
+// Get interaction
+const interaction = await client.getLlmInteraction(result.id);
+
+// List interactions
+const interactions = await client.listLlmInteractions({
+  model: "gpt-4o",
+  limit: 50,
+  offset: 0
+});
+```
 
 ### Transaction Support
 

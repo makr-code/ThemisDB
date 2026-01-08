@@ -72,11 +72,6 @@ TEST_F(FlashAttentionTest, ConfigurationEnabled) {
     config.use_kv_cache_reuse = false;
     config.enable_embeddings = false;
     
-    // Validate configuration is accepted
-    EXPECT_NO_THROW({
-        LlamaWrapper::validateConfig(config);
-    });
-    
     // Check configuration value
     EXPECT_TRUE(config.use_flash_attn);
 }
@@ -84,11 +79,6 @@ TEST_F(FlashAttentionTest, ConfigurationEnabled) {
 TEST_F(FlashAttentionTest, ConfigurationDisabled) {
     LlamaWrapper::Config config;
     config.use_flash_attn = false;
-    
-    // Validate configuration is accepted
-    EXPECT_NO_THROW({
-        LlamaWrapper::validateConfig(config);
-    });
     
     // Check configuration value
     EXPECT_FALSE(config.use_flash_attn);

@@ -14,7 +14,7 @@ protected:
     
     void SetUp() override {
         // Create temporary directory for testing
-        test_mount_path_ = fs::temp_directory_path() / "themis_usb_test";
+        test_mount_path_ = (fs::temp_directory_path() / "themis_usb_test").string();
         fs::create_directories(test_mount_path_);
         license_file_path_ = test_mount_path_ + "/themis_admin.lic";
     }

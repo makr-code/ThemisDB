@@ -10,7 +10,9 @@
 #include "llm/llm_response_cache.h"
 #include "llm/grammar.h"
 #include "llm/grammar_cache.h"
+#ifdef THEMIS_ENABLE_VISION
 #include "llm/vision_encoder.h"
+#endif
 #include <mutex>
 #include <unordered_map>
 #include <memory>
@@ -251,15 +253,12 @@ public:
         const InferenceRequest& request
     ) override;
     
+#ifdef THEMIS_ENABLE_VISION
     /**
      * @brief Generate response with vision support (multi-modal)
-     * 
-     * Processes both text and images using vision-language models like LLaVA.
-     * 
-     * @param vision_request Vision request with text prompt and image(s)
-     * @return Vision response with generated text
      */
     VisionResponse generateVision(const VisionRequest& vision_request);
+#endif
     
     std::vector<float> embed(const std::string& text) override;
     
@@ -388,7 +387,9 @@ private:
     std::unique_ptr<GrammarCache> grammar_cache_;
     std::unordered_map<std::string, std::string> builtin_grammars_;  // name -> ebnf text
     // Vision Support (Multi-Modal)
+#ifdef THEMIS_ENABLE_VISION
     std::unique_ptr<VisionEncoder> vision_encoder_;
+#endif
     bool vision_enabled_ = false;
     
     // Current active model
@@ -435,9 +436,11 @@ private:
     void synchronizeDraftToTarget(const std::vector<llama_token>& accepted_tokens);
     
     // Vision support helpers
+#ifdef THEMIS_ENABLE_VISION
     bool initializeVisionEncoder();
     void shutdownVisionEncoder();
     std::string buildVisionPrompt(const VisionRequest& request);
+#endif
     
     // Internal llama.cpp helper functions
     std::vector<llama_token> tokenizeInternal(

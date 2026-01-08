@@ -1,6 +1,6 @@
 ## ThemisDB Dokumentation
 
-**Version:** 1.3.0 | **Stand:** Dezember 2025
+**Version:** 1.4.0-alpha | **Stand:** Januar 2026
 
 ---
 
@@ -9,6 +9,24 @@
 - [Home](home.md)
 - [Dokumentations-Index](DOCUMENTATION_INDEX.md)
 - [Quick Reference](DOCS_QUICKREF.md)
+
+### 🚀 v1.4.0-alpha Release
+- [Release Notes](../RELEASE_NOTES_V1.4.0_ALPHA.md)
+- [Changelog](../CHANGELOG.md#v140-alpha)
+- [Kompendium Update](../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md)
+- [Dokumentation Abschluss](../DOCUMENTATION_COMPLETION_SUMMARY.md)
+
+### 📝 Neue Features (v1.4.0-alpha)
+- [Grammatik-gesteuerte Generierung](en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
+- [RoPE Scaling](en/llm/ROPE_SCALING_IMPLEMENTATION.md)
+- [Vision Support](en/llm/VISION_SUPPORT_QUICK_START.md)
+- [Flash Attention](en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
+- [Speculative Decoding](en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md)
+- [Continuous Batching](en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md)
+
+---
+
+### 📚 Dokumentation
 - [Sachstandsbericht 2025](THEMIS_SACHSTANDSBERICHT_2025.md)
 - [Features](FEATURES.md)
 - [Roadmap](ROADMAP.md)

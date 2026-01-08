@@ -245,6 +245,42 @@ Die Deployment-Dokumentation für ThemisDB v1.3.1 bietet:
 - `docker_status.md` → archiviert (Historischer Status-Report)
 - `DOCKER_DEPLOYMENT.md` → Erweitert mit Build-Strategien und Multi-Arch-Details
 
-**Letzte Aktualisierung:** 26. Dezember 2025  
-**Version:** v1.3.1  
+---
+
+## 🌐 WordPress Plugin für Downloads
+
+ThemisDB bietet ein WordPress Plugin, das automatisch die neuesten Releases von GitHub abruft und auf Ihrer Website als Download-Links mit SHA256-Checksums anzeigt.
+
+**Features:**
+- ✅ Automatisches Abrufen von GitHub Releases
+- ✅ Download-Links für alle Plattformen (Windows, Linux, Docker, QNAP, ARM)
+- ✅ SHA256-Checksums Anzeige
+- ✅ Browser-basierte Download-Verifizierung
+- ✅ Mehrere Anzeigestile (Standard, Kompakt, Tabelle)
+- ✅ Cache-System zur Reduzierung von API-Aufrufen
+
+**Dokumentation:** [wordpress-plugin/README.md](../../../wordpress-plugin/README.md)
+
+**Installation:**
+```bash
+# Plugin-Verzeichnis in WordPress kopieren
+cp -r wordpress-plugin/themisdb-downloads /var/www/html/wp-content/plugins/
+
+# In WordPress aktivieren
+WordPress Admin → Plugins → ThemisDB Downloads → Aktivieren
+```
+
+**Verwendung:**
+```
+[themisdb_downloads]              # Neueste Version anzeigen
+[themisdb_downloads show="all"]   # Alle Releases anzeigen
+[themisdb_verify]                 # Verifizierungs-Tool
+```
+
+Siehe [wordpress-plugin/themisdb-downloads/README.md](../../../wordpress-plugin/themisdb-downloads/README.md) für Details.
+
+---
+
+**Letzte Aktualisierung:** 7. Januar 2026  
+**Version:** v1.3.1 + WordPress Plugin v1.0.0  
 **Status:** Production-Ready ✅

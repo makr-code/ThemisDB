@@ -217,6 +217,132 @@ Antwort:
 ### GET /api/audit/export/csv
 Gleiche Query-Parameter, gibt CSV-Datei zurück.
 
+## Web-Tools
+
+### TCO Calculator (`tco-calculator-wordpress`)
+
+Ein WordPress-Plugin für den Total Cost of Ownership (TCO) Rechner für ThemisDB.
+
+**Features:**
+- Shortcode-basierte Einbindung: `[themisdb_tco_calculator]`
+- Admin-Einstellungsseite für Standardwerte
+- Vollständige TCO-Analyse (Infrastruktur, Personal, Lizenzen, Betrieb, AI/LLM)
+- Interaktive Visualisierungen mit Chart.js
+- Export-Funktionen (PDF, CSV)
+- WordPress-optimiert und theme-kompatibel
+
+**Verwendung:**
+```php
+// In WordPress Seite/Post
+[themisdb_tco_calculator]
+
+// Mit Parametern
+[themisdb_tco_calculator show_intro="no" title="Kostenrechner"]
+```
+
+**Installation:**
+```bash
+# In WordPress plugins-Verzeichnis kopieren
+cp -r tco-calculator-wordpress /path/to/wordpress/wp-content/plugins/themisdb-tco-calculator/
+
+# In WordPress Admin aktivieren
+# Plugins → ThemisDB TCO Calculator → Aktivieren
+```
+
+**Dokumentation:**
+- [README](tco-calculator-wordpress/README.md)
+- [Quickstart](tco-calculator-wordpress/QUICKSTART.md)
+- [Installation](tco-calculator-wordpress/INSTALLATION.md)
+- [Implementation Guide](tco-calculator-wordpress/IMPLEMENTATION.md)
+
+---
+
+### Wiki Integration (`themisdb-wiki-integration`)
+
+Ein WordPress-Plugin zur **automatischen Integration der ThemisDB-Dokumentation aus GitHub**.
+
+**Features:**
+- ✅ Automatisches Abrufen von Markdown-Dateien aus GitHub
+- ✅ Unterstützung für mehrere Sprachen (DE, EN, FR)
+- ✅ Caching-Mechanismus für Performance
+- ✅ Automatische stündliche Synchronisierung
+- ✅ Inhaltsverzeichnis-Generierung
+- ✅ Responsive Design mit Dark Mode Support
+- ✅ Admin-Panel zur Konfiguration
+
+**Verwendung:**
+```php
+// Dokumentation anzeigen
+[themisdb_wiki file="README.md" lang="de" show_toc="yes"]
+
+// Dokumentationsliste anzeigen
+[themisdb_docs lang="de" layout="grid"]
+
+// Beispiele
+[themisdb_wiki file="features/FEATURES.md" lang="de" show_toc="yes"]
+[themisdb_wiki file="architecture/ARCHITECTURE.md" lang="en"]
+```
+
+**Installation:**
+```bash
+# In WordPress plugins-Verzeichnis kopieren
+cp -r themisdb-wiki-integration /path/to/wordpress/wp-content/plugins/
+
+# In WordPress Admin aktivieren
+# Plugins → ThemisDB Wiki Integration → Aktivieren
+```
+
+**Konfiguration:**
+- Gehen Sie zu **Einstellungen → ThemisDB Wiki**
+- GitHub Repository: `makr-code/ThemisDB`
+- Branch: `main`
+- Dokumentationspfad: `docs`
+- Optional: GitHub Token für höhere API-Limits
+
+**Dokumentation:**
+- [README](themisdb-wiki-integration/README.md)
+- [Quick Start](themisdb-wiki-integration/QUICKSTART.md)
+- [Installation Guide](themisdb-wiki-integration/INSTALLATION.md)
+
+### ThemisDB-spezifische WordPress Plugins (Konzept)
+
+**Spezialisierte Plugins zur Visualisierung von ThemisDB-Daten** (Benchmarks, Features, Tests, Docs).
+
+**Dokumentation:**
+- [Vollständiges Konzept (DE)](../docs/de/tools/THEMISDB_WORDPRESS_PLUGINS_KONZEPT.md) - 7 Plugin-Ideen mit Roadmap
+- [Concept (EN)](../docs/en/tools/THEMISDB_WORDPRESS_PLUGINS_CONCEPT.md) - Plugin concepts and prioritization
+
+**Vorgeschlagene Plugins:**
+1. **Benchmark Visualizer** (Prio: Hoch) - Performance-Vergleiche interaktiv
+2. **Live Query Playground** (Prio: Hoch) - AQL-Queries im Browser testen
+3. **Feature Matrix** (Prio: Mittel) - Feature-Vergleich vs. Wettbewerber
+4. **Documentation Search** (Prio: Mittel) - AI-basierte Docs-Suche mit ThemisDB
+5. **Architecture Diagrams** (Prio: Mittel) - Interaktive Architektur-Visualisierung
+
+**Phase 1 Budget:** ~70-100h (~€5.250-7.500) für Benchmark Visualizer + Feature Matrix
+
+---
+
+### Generische WordPress Plugins Empfehlung
+
+Analyse von Standard-WordPress-Plugins für Website-Funktionalität (SEO, Performance, Sicherheit).
+
+**Dokumentation:**
+- [Deutsche Version](../docs/de/tools/WORDPRESS_PLUGINS_EMPFEHLUNG.md) - Vollständige Analyse (22 Kategorien, 50+ Plugins)
+- [English Version](../docs/en/tools/WORDPRESS_PLUGINS_RECOMMENDATION.md) - Concise recommendations
+- [Quick Reference](../docs/de/tools/WORDPRESS_PLUGINS_QUICKREF.md) - Schnellübersicht und Checkliste
+
+**Kernempfehlungen:**
+- SEO: Rank Math SEO
+- Performance: WP Rocket
+- Sicherheit: Wordfence Security
+- Code: Syntax Highlighter Evolved
+- Dokumentation: Heroic KB
+- Analytics: MonsterInsights
+- Backup: UpdraftPlus
+
+**Budget:** €0 (kostenlos) bis €601/Jahr (Enterprise-Setup)
+
 ## Entwicklung
 
 **Architektur:**
