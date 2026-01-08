@@ -17,6 +17,7 @@ Ein WordPress-Plugin, das beim Erstellen von Artikeln hilft, relevante frei verf
   - Gespeichert in WordPress-Medien-Metadaten
 
 - **WordPress-Integration**
+  - **Tab im Medien-Dashboard** - Direkt in der WordPress-Mediathek verfügbar
   - Meta-Box im Post-Editor für einfache Suche
   - Direkte Einfügung in Posts und Pages
   - Shortcodes für flexible Anzeige
@@ -112,6 +113,17 @@ Nur erforderlich für AI-Bildgenerierung:
 - **Automatische Quellenangabe**: Automatisch Attributionen zu Bildunterschriften hinzufügen
 
 ## 📝 Verwendung
+
+### In der Mediathek (Dashboard)
+
+1. Klicken Sie im WordPress-Dashboard auf **Medien → Dateien hinzufügen**
+2. Oder klicken Sie im Post-Editor auf **Medien hinzufügen**
+3. Im Media-Upload-Dialog sehen Sie einen neuen Tab **"ThemisDB Gallery"**
+4. Geben Sie einen Suchbegriff ein (z.B. "Natur", "Technologie", "Business")
+5. Wählen Sie einen Anbieter oder "Alle Anbieter"
+6. Klicken Sie auf **Suchen**
+7. Klicken Sie auf **Bild einfügen** bei dem gewünschten Bild
+8. Das Bild wird in Ihre Mediathek importiert und direkt in den Post eingefügt
 
 ### Im Post-Editor
 

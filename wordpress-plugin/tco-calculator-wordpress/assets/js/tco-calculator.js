@@ -9,6 +9,14 @@ const CONFIG = {
     YEARS: 3,
     DATA_GROWTH_RATE: 0.20, // 20% per year
     PERSONNEL_OVERHEAD: 1.30, // 30% overhead for benefits, infrastructure
+    // Personnel efficiency improvements (learning curve effect)
+    PERSONNEL_EFFICIENCY_YEAR_1: 1.0,   // 100% of initial cost
+    PERSONNEL_EFFICIENCY_YEAR_2: 0.75,  // 25% reduction in year 2
+    PERSONNEL_EFFICIENCY_YEAR_3: 0.60,  // 40% reduction in year 3
+    // Investment cost distribution (front-loaded)
+    INVESTMENT_MULTIPLIER_YEAR_1: 1.3,  // 130% in first year (setup costs)
+    INVESTMENT_MULTIPLIER_YEAR_2: 0.9,  // 90% in second year (optimization)
+    INVESTMENT_MULTIPLIER_YEAR_3: 0.8,  // 80% in third year (mature operations)
     THEMISDB_ENTERPRISE_LICENSE: 50000, // €/year estimated
     THEMISDB_MINIMAL_MAX_REQUESTS: 100000, // requests/day
     THEMISDB_COMMUNITY_MAX_REQUESTS: 1000000, // requests/day
@@ -34,8 +42,12 @@ class TCOCalculator {
             hyperscaler: {},
         };
         this.chart = null;
+        this.calculationTimeout = null;
+        this.hasCalculated = false;
         this.initializeEventListeners();
         this.loadWordPressSettings();
+        // Create debounced calculation function
+        this.debouncedCalculate = this.debounce(() => this.calculate(), 500);
     }
 
     /**
@@ -54,6 +66,21 @@ class TCOCalculator {
             };
             return escapeMap[match];
         });
+    }
+
+    /**
+     * Debounce function to limit calculation frequency
+     * @param {Function} func - Function to debounce
+     * @param {number} wait - Wait time in milliseconds
+     * @returns {Function} Debounced function
+     */
+    debounce(func, wait) {
+        return (...args) => {
+            clearTimeout(this.calculationTimeout);
+            this.calculationTimeout = setTimeout(() => {
+                func.apply(this, args);
+            }, wait);
+        };
     }
 
     /**
@@ -153,8 +180,18 @@ class TCOCalculator {
                 slider.addEventListener('input', () => {
                     this.updateSliderValue(slider, output);
                     this.updateSliderBackground(slider);
+                    // Trigger debounced calculation for real-time updates
+                    this.debouncedCalculate();
                 });
             }
+        });
+        
+        // Also listen to select/dropdown changes
+        const selectInputs = document.querySelectorAll('#availability, #useAI');
+        selectInputs.forEach(select => {
+            select.addEventListener('change', () => {
+                this.debouncedCalculate();
+            });
         });
     }
 
@@ -254,10 +291,16 @@ class TCOCalculator {
         // Display results
         this.displayResults();
         
-        // Show results section with smooth scroll
+        // Show results section with smooth scroll only on first calculation
         const resultsSection = document.getElementById('resultsSection');
-        resultsSection.style.display = 'block';
-        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!this.hasCalculated) {
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            this.hasCalculated = true;
+        } else {
+            // Just ensure it's visible for subsequent calculations
+            resultsSection.style.display = 'block';
+        }
     }
 
     /**
@@ -290,7 +333,22 @@ class TCOCalculator {
             const dataGrowth = Math.pow(1 + CONFIG.DATA_GROWTH_RATE, year - 1);
             const currentDataSize = this.inputs.dataSize * dataGrowth;
             
-            // Infrastructure costs
+            // Get efficiency/investment multipliers for this year using array lookup
+            const investmentMultipliers = [
+                CONFIG.INVESTMENT_MULTIPLIER_YEAR_1,
+                CONFIG.INVESTMENT_MULTIPLIER_YEAR_2,
+                CONFIG.INVESTMENT_MULTIPLIER_YEAR_3
+            ];
+            const personnelEfficiencies = [
+                CONFIG.PERSONNEL_EFFICIENCY_YEAR_1,
+                CONFIG.PERSONNEL_EFFICIENCY_YEAR_2,
+                CONFIG.PERSONNEL_EFFICIENCY_YEAR_3
+            ];
+            
+            const investmentMultiplier = investmentMultipliers[year - 1] || 1.0;
+            const personnelEfficiency = personnelEfficiencies[year - 1] || 1.0;
+            
+            // Infrastructure costs (apply investment multiplier)
             let serverCount = this.calculateThemisDBServers(edition);
             let monthlyServerCost = serverCount * this.inputs.serverCost;
             
@@ -303,20 +361,20 @@ class TCOCalculator {
             const backupCost = currentDataSize * CONFIG.BACKUP_REDUNDANCY_MULTIPLIER * this.inputs.backupCost;
             const networkCost = this.estimateNetworkUsage() * this.inputs.networkCost / 1000;
             
-            const yearlyInfra = (monthlyServerCost + storageCost + backupCost + networkCost) * 12;
+            const yearlyInfra = (monthlyServerCost + storageCost + backupCost + networkCost) * 12 * investmentMultiplier;
             costs.infrastructure.push(yearlyInfra);
             
-            // Personnel costs (with overhead)
+            // Personnel costs (with overhead and efficiency improvement)
             const dbaCost = this.inputs.dbaCount * this.inputs.dbaSalary * CONFIG.PERSONNEL_OVERHEAD;
             const devCost = this.inputs.devCount * this.inputs.devSalary * CONFIG.PERSONNEL_OVERHEAD;
-            const yearlyPersonnel = dbaCost + devCost;
+            const yearlyPersonnel = (dbaCost + devCost) * personnelEfficiency;
             costs.personnel.push(yearlyPersonnel);
             
             // License costs
             costs.licenses.push(licenseCost);
             
-            // Operations costs
-            const yearlyOps = this.inputs.trainingCost + this.inputs.supportCost;
+            // Operations costs (also benefit from efficiency improvements)
+            const yearlyOps = (this.inputs.trainingCost + this.inputs.supportCost) * personnelEfficiency;
             costs.operations.push(yearlyOps);
             
             // Total
@@ -1250,6 +1308,9 @@ graph LR
                 this.updateSliderBackground(slider);
             }
         });
+        
+        // Reset the hasCalculated flag to restore scroll behavior
+        this.hasCalculated = false;
         
         const resultsSection = document.getElementById('resultsSection');
         if (resultsSection) {

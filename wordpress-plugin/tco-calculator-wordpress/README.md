@@ -30,6 +30,7 @@ Dieses Plugin ist eine WordPress-Adaptation des [JavaScript TCO-Rechners](../tco
 - 📱 **Responsive**: Optimiert für alle Bildschirmgrößen
 
 ### Interaktive Features
+- ⚡ **Echtzeit-Berechnung**: Werte aktualisieren sich automatisch beim Bewegen der Schieberegler (500ms Debouncing)
 - 📊 **Visualisierungen**: Dynamische Charts mit Chart.js
 - 📈 **Jahresvergleich**: Detaillierte Aufschlüsselung über 3 Jahre
 - 💡 **Intelligente Insights**: Automatische Analyse und Empfehlungen

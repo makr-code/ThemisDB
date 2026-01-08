@@ -24,202 +24,225 @@
     <section class="input-section">
         <h2>⚙️ Ihre Anforderungen</h2>
         
-        <div class="form-grid">
-            <!-- Workload Parameters -->
-            <div class="form-group slider-group">
-                <label for="requestsPerDay">
-                    <span class="label-text">Anfragen pro Tag</span>
-                    <span class="label-info" title="Durchschnittliche Anzahl von Datenbank-Anfragen pro Tag">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="requestsPerDay" class="slider" value="1000000" min="1000" max="10000000" step="10000">
-                    <output for="requestsPerDay" id="requestsPerDay-value" class="slider-value">1.000.000</output>
+        <!-- Workload Parameters -->
+        <div class="parameter-group">
+            <h3 class="group-title">📊 Workload & Anforderungen</h3>
+            <div class="form-grid">
+                <div class="form-group slider-group">
+                    <label for="requestsPerDay">
+                        <span class="label-text">Anfragen pro Tag</span>
+                        <span class="label-info" title="Durchschnittliche Anzahl von Datenbank-Anfragen pro Tag">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="requestsPerDay" class="slider" value="1000000" min="1000" max="10000000" step="10000">
+                        <output for="requestsPerDay" id="requestsPerDay-value" class="slider-value">1.000.000</output>
+                    </div>
+                    <small>1 Tausend bis 10 Millionen Anfragen/Tag</small>
                 </div>
-                <small>1 Tausend bis 10 Millionen Anfragen/Tag</small>
-            </div>
 
-            <div class="form-group slider-group">
-                <label for="dataSize">
-                    <span class="label-text">Datenmenge (GB)</span>
-                    <span class="label-info" title="Geschätzte Gesamtgröße Ihrer Daten">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="dataSize" class="slider" value="500" min="10" max="10000" step="10">
-                    <output for="dataSize" id="dataSize-value" class="slider-value">500 GB</output>
+                <div class="form-group slider-group">
+                    <label for="dataSize">
+                        <span class="label-text">Datenmenge (GB)</span>
+                        <span class="label-info" title="Geschätzte Gesamtgröße Ihrer Daten">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="dataSize" class="slider" value="500" min="10" max="10000" step="10">
+                        <output for="dataSize" id="dataSize-value" class="slider-value">500 GB</output>
+                    </div>
+                    <small>10 GB bis 10 TB</small>
                 </div>
-                <small>10 GB bis 10 TB</small>
-            </div>
 
-            <div class="form-group slider-group">
-                <label for="peakLoad">
-                    <span class="label-text">Spitzenlast-Faktor</span>
-                    <span class="label-info" title="Verhältnis von Spitzenlast zu Durchschnittslast">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="peakLoad" class="slider" value="3" min="1" max="10" step="0.5">
-                    <output for="peakLoad" id="peakLoad-value" class="slider-value">3x</output>
+                <div class="form-group slider-group">
+                    <label for="peakLoad">
+                        <span class="label-text">Spitzenlast-Faktor</span>
+                        <span class="label-info" title="Verhältnis von Spitzenlast zu Durchschnittslast">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="peakLoad" class="slider" value="3" min="1" max="10" step="0.5">
+                        <output for="peakLoad" id="peakLoad-value" class="slider-value">3x</output>
+                    </div>
+                    <small>1x bis 10x der Durchschnittslast</small>
                 </div>
-                <small>1x bis 10x der Durchschnittslast</small>
-            </div>
 
-            <div class="form-group">
-                <label for="availability">
-                    <span class="label-text">Verfügbarkeitsanforderung</span>
-                    <span class="label-info" title="Benötigte Systemverfügbarkeit">ℹ️</span>
-                </label>
-                <select id="availability">
-                    <option value="99">99% (Standard)</option>
-                    <option value="99.9">99.9% (High)</option>
-                    <option value="99.99">99.99% (Very High)</option>
-                    <option value="99.999" selected>99.999% (Mission Critical)</option>
-                </select>
-            </div>
-
-            <!-- Infrastructure Parameters -->
-            <div class="form-group slider-group">
-                <label for="serverCost">
-                    <span class="label-text">Server-Kosten (€/Monat)</span>
-                    <span class="label-info" title="Monatliche Kosten pro Server (Cloud oder On-Premise)">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="serverCost" class="slider" value="500" min="100" max="2000" step="50">
-                    <output for="serverCost" id="serverCost-value" class="slider-value">€500</output>
+                <div class="form-group">
+                    <label for="availability">
+                        <span class="label-text">Verfügbarkeitsanforderung</span>
+                        <span class="label-info" title="Benötigte Systemverfügbarkeit">ℹ️</span>
+                    </label>
+                    <select id="availability">
+                        <option value="99">99% (Standard)</option>
+                        <option value="99.9">99.9% (High)</option>
+                        <option value="99.99">99.99% (Very High)</option>
+                        <option value="99.999" selected>99.999% (Mission Critical)</option>
+                    </select>
                 </div>
-                <small>€100 bis €2.000 pro Server</small>
             </div>
+        </div>
 
-            <div class="form-group slider-group">
-                <label for="storageCostPerGB">
-                    <span class="label-text">Speicher-Kosten (€/GB/Monat)</span>
-                    <span class="label-info" title="Monatliche Kosten pro GB Speicher">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="storageCostPerGB" class="slider" value="0.10" min="0.01" max="1" step="0.01">
-                    <output for="storageCostPerGB" id="storageCostPerGB-value" class="slider-value">€0.10</output>
+        <!-- Infrastructure Parameters -->
+        <div class="parameter-group">
+            <h3 class="group-title">🖥️ Infrastruktur & Hardware</h3>
+            <div class="form-grid">
+                <div class="form-group slider-group">
+                    <label for="serverCost">
+                        <span class="label-text">Server-Kosten (€/Monat)</span>
+                        <span class="label-info" title="Monatliche Kosten pro Server (Cloud oder On-Premise)">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="serverCost" class="slider" value="500" min="100" max="2000" step="50">
+                        <output for="serverCost" id="serverCost-value" class="slider-value">€500</output>
+                    </div>
+                    <small>€100 bis €2.000 pro Server</small>
                 </div>
-                <small>€0.01 bis €1.00 pro GB</small>
-            </div>
 
-            <div class="form-group slider-group">
-                <label for="networkCost">
-                    <span class="label-text">Netzwerk-Kosten (€/TB)</span>
-                    <span class="label-info" title="Kosten für ausgehenden Datenverkehr pro TB">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="networkCost" class="slider" value="50" min="10" max="200" step="10">
-                    <output for="networkCost" id="networkCost-value" class="slider-value">€50</output>
+                <div class="form-group slider-group">
+                    <label for="storageCostPerGB">
+                        <span class="label-text">Speicher-Kosten (€/GB/Monat)</span>
+                        <span class="label-info" title="Monatliche Kosten pro GB Speicher">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="storageCostPerGB" class="slider" value="0.10" min="0.01" max="1" step="0.01">
+                        <output for="storageCostPerGB" id="storageCostPerGB-value" class="slider-value">€0.10</output>
+                    </div>
+                    <small>€0.01 bis €1.00 pro GB</small>
                 </div>
-                <small>€10 bis €200 pro TB</small>
-            </div>
 
-            <div class="form-group slider-group">
-                <label for="backupCost">
-                    <span class="label-text">Backup-Kosten (€/GB/Monat)</span>
-                    <span class="label-info" title="Monatliche Kosten für Backup-Speicher">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="backupCost" class="slider" value="0.05" min="0.01" max="0.5" step="0.01">
-                    <output for="backupCost" id="backupCost-value" class="slider-value">€0.05</output>
+                <div class="form-group slider-group">
+                    <label for="networkCost">
+                        <span class="label-text">Netzwerk-Kosten (€/TB)</span>
+                        <span class="label-info" title="Kosten für ausgehenden Datenverkehr pro TB">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="networkCost" class="slider" value="50" min="10" max="200" step="10">
+                        <output for="networkCost" id="networkCost-value" class="slider-value">€50</output>
+                    </div>
+                    <small>€10 bis €200 pro TB</small>
                 </div>
-                <small>€0.01 bis €0.50 pro GB</small>
-            </div>
 
-            <!-- Personnel Costs -->
-            <div class="form-group slider-group">
-                <label for="dbaCount">
-                    <span class="label-text">Anzahl DBAs</span>
-                    <span class="label-info" title="Anzahl Vollzeit-Datenbankadministratoren">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="dbaCount" class="slider" value="2" min="0" max="10" step="0.5">
-                    <output for="dbaCount" id="dbaCount-value" class="slider-value">2 FTE</output>
+                <div class="form-group slider-group">
+                    <label for="backupCost">
+                        <span class="label-text">Backup-Kosten (€/GB/Monat)</span>
+                        <span class="label-info" title="Monatliche Kosten für Backup-Speicher">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="backupCost" class="slider" value="0.05" min="0.01" max="0.5" step="0.01">
+                        <output for="backupCost" id="backupCost-value" class="slider-value">€0.05</output>
+                    </div>
+                    <small>€0.01 bis €0.50 pro GB</small>
                 </div>
-                <small>0 bis 10 FTE</small>
             </div>
+        </div>
 
-            <div class="form-group slider-group">
-                <label for="dbaSalary">
-                    <span class="label-text">DBA Gehalt (€/Jahr)</span>
-                    <span class="label-info" title="Durchschnittliches Jahresgehalt pro DBA">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="dbaSalary" class="slider" value="85000" min="40000" max="150000" step="5000">
-                    <output for="dbaSalary" id="dbaSalary-value" class="slider-value">€85.000</output>
+        <!-- Personnel Costs -->
+        <div class="parameter-group">
+            <h3 class="group-title">👥 Personal & Team</h3>
+            <div class="form-grid">
+                <div class="form-group slider-group">
+                    <label for="dbaCount">
+                        <span class="label-text">Anzahl DBAs</span>
+                        <span class="label-info" title="Anzahl Vollzeit-Datenbankadministratoren">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="dbaCount" class="slider" value="2" min="0" max="10" step="0.5">
+                        <output for="dbaCount" id="dbaCount-value" class="slider-value">2 FTE</output>
+                    </div>
+                    <small>0 bis 10 FTE</small>
                 </div>
-                <small>€40.000 bis €150.000</small>
-            </div>
 
-            <div class="form-group slider-group">
-                <label for="devCount">
-                    <span class="label-text">Anzahl Entwickler</span>
-                    <span class="label-info" title="Entwickler für Datenbankintegration">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="devCount" class="slider" value="5" min="0" max="20" step="0.5">
-                    <output for="devCount" id="devCount-value" class="slider-value">5 FTE</output>
+                <div class="form-group slider-group">
+                    <label for="dbaSalary">
+                        <span class="label-text">DBA Gehalt (€/Jahr)</span>
+                        <span class="label-info" title="Durchschnittliches Jahresgehalt pro DBA">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="dbaSalary" class="slider" value="85000" min="40000" max="150000" step="5000">
+                        <output for="dbaSalary" id="dbaSalary-value" class="slider-value">€85.000</output>
+                    </div>
+                    <small>€40.000 bis €150.000</small>
                 </div>
-                <small>0 bis 20 FTE</small>
-            </div>
 
-            <div class="form-group slider-group">
-                <label for="devSalary">
-                    <span class="label-text">Dev Gehalt (€/Jahr)</span>
-                    <span class="label-info" title="Durchschnittliches Jahresgehalt pro Entwickler">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="devSalary" class="slider" value="75000" min="35000" max="130000" step="5000">
-                    <output for="devSalary" id="devSalary-value" class="slider-value">€75.000</output>
+                <div class="form-group slider-group">
+                    <label for="devCount">
+                        <span class="label-text">Anzahl Entwickler</span>
+                        <span class="label-info" title="Entwickler für Datenbankintegration">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="devCount" class="slider" value="5" min="0" max="20" step="0.5">
+                        <output for="devCount" id="devCount-value" class="slider-value">5 FTE</output>
+                    </div>
+                    <small>0 bis 20 FTE</small>
                 </div>
-                <small>€35.000 bis €130.000</small>
-            </div>
 
-            <!-- Additional Costs -->
-            <div class="form-group slider-group">
-                <label for="trainingCost">
-                    <span class="label-text">Schulungskosten (€/Jahr)</span>
-                    <span class="label-info" title="Jährliche Kosten für Team-Schulungen">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="trainingCost" class="slider" value="20000" min="0" max="100000" step="1000">
-                    <output for="trainingCost" id="trainingCost-value" class="slider-value">€20.000</output>
+                <div class="form-group slider-group">
+                    <label for="devSalary">
+                        <span class="label-text">Dev Gehalt (€/Jahr)</span>
+                        <span class="label-info" title="Durchschnittliches Jahresgehalt pro Entwickler">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="devSalary" class="slider" value="75000" min="35000" max="130000" step="5000">
+                        <output for="devSalary" id="devSalary-value" class="slider-value">€75.000</output>
+                    </div>
+                    <small>€35.000 bis €130.000</small>
                 </div>
-                <small>€0 bis €100.000</small>
             </div>
+        </div>
 
-            <div class="form-group slider-group">
-                <label for="supportCost">
-                    <span class="label-text">Support-Kosten (€/Jahr)</span>
-                    <span class="label-info" title="Jährliche Enterprise-Support-Kosten">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="supportCost" class="slider" value="50000" min="0" max="200000" step="5000">
-                    <output for="supportCost" id="supportCost-value" class="slider-value">€50.000</output>
+        <!-- Additional Costs -->
+        <div class="parameter-group">
+            <h3 class="group-title">🔧 Betrieb & Support</h3>
+            <div class="form-grid">
+                <div class="form-group slider-group">
+                    <label for="trainingCost">
+                        <span class="label-text">Schulungskosten (€/Jahr)</span>
+                        <span class="label-info" title="Jährliche Kosten für Team-Schulungen">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="trainingCost" class="slider" value="20000" min="0" max="100000" step="1000">
+                        <output for="trainingCost" id="trainingCost-value" class="slider-value">€20.000</output>
+                    </div>
+                    <small>€0 bis €100.000</small>
                 </div>
-                <small>€0 bis €200.000</small>
-            </div>
 
-            <!-- AI/LLM Features -->
-            <div class="form-group">
-                <label for="useAI">
-                    <span class="label-text">AI/LLM Features nutzen?</span>
-                    <span class="label-info" title="Native LLM-Integration mit llama.cpp">ℹ️</span>
-                </label>
-                <select id="useAI">
-                    <option value="false">Nein</option>
-                    <option value="true">Ja (inkl. GPU)</option>
-                </select>
-            </div>
-
-            <div class="form-group slider-group">
-                <label for="aiApiCost">
-                    <span class="label-text">Externe AI API Kosten (€/Monat)</span>
-                    <span class="label-info" title="Monatliche Kosten für externe AI APIs (OpenAI, etc.)">ℹ️</span>
-                </label>
-                <div class="slider-container">
-                    <input type="range" id="aiApiCost" class="slider" value="5000" min="0" max="20000" step="500">
-                    <output for="aiApiCost" id="aiApiCost-value" class="slider-value">€5.000</output>
+                <div class="form-group slider-group">
+                    <label for="supportCost">
+                        <span class="label-text">Support-Kosten (€/Jahr)</span>
+                        <span class="label-info" title="Jährliche Enterprise-Support-Kosten">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="supportCost" class="slider" value="50000" min="0" max="200000" step="5000">
+                        <output for="supportCost" id="supportCost-value" class="slider-value">€50.000</output>
+                    </div>
+                    <small>€0 bis €200.000</small>
                 </div>
-                <small>€0 bis €20.000</small>
+            </div>
+        </div>
+
+        <!-- AI/LLM Features -->
+        <div class="parameter-group">
+            <h3 class="group-title">🤖 AI & LLM Features</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="useAI">
+                        <span class="label-text">AI/LLM Features nutzen?</span>
+                        <span class="label-info" title="Native LLM-Integration mit llama.cpp">ℹ️</span>
+                    </label>
+                    <select id="useAI">
+                        <option value="false">Nein</option>
+                        <option value="true">Ja (inkl. GPU)</option>
+                    </select>
+                </div>
+
+                <div class="form-group slider-group">
+                    <label for="aiApiCost">
+                        <span class="label-text">Externe AI API Kosten (€/Monat)</span>
+                        <span class="label-info" title="Monatliche Kosten für externe AI APIs (OpenAI, etc.)">ℹ️</span>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="aiApiCost" class="slider" value="5000" min="0" max="20000" step="500">
+                        <output for="aiApiCost" id="aiApiCost-value" class="slider-value">€5.000</output>
+                    </div>
+                    <small>€0 bis €20.000</small>
+                </div>
             </div>
         </div>
 

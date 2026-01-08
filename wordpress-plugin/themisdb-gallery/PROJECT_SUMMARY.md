@@ -32,6 +32,7 @@ WordPress plugin that helps when creating articles to find relevant freely avail
 - Configurable auto-attribution
 
 ### 3. WordPress Integration ✅
+- **Media Library Tab**: Direct integration in WordPress Dashboard 'Medien'
 - Meta box in post/page editor
 - Visual search interface
 - Direct image insertion
@@ -74,13 +75,13 @@ wordpress-plugin/themisdb-gallery/
 ├── themisdb-gallery.php           # Main plugin file
 ├── includes/
 │   ├── class-image-api.php        # API integrations
-│   ├── class-admin.php            # Admin interface
+│   ├── class-admin.php            # Admin interface + Media Library tab
 │   ├── class-media-handler.php    # Image import
 │   ├── class-shortcodes.php       # Shortcode handlers
 │   └── class-gutenberg-block.php  # Block editor
 ├── assets/
 │   ├── css/                       # Styles
-│   └── js/                        # JavaScript
+│   └── js/                        # JavaScript (including media-tab.js)
 ├── README.md                      # Documentation
 ├── INSTALLATION.md                # Setup guide
 ├── CHANGELOG.md                   # Version history
@@ -143,6 +144,23 @@ wordpress-plugin/themisdb-gallery/
 
 ## Usage Workflow
 
+### Method 1: Via Media Library Dashboard (NEW in 1.0.1)
+1. **Access Media Library**
+   - Go to **Medien → Dateien hinzufügen** in WordPress Dashboard
+   - Or click **Medien hinzufügen** in post editor
+   
+2. **Use ThemisDB Gallery Tab**
+   - Click on **"ThemisDB Gallery"** tab in media upload dialog
+   - Search interface appears directly in media library
+   
+3. **Find & Insert Images**
+   - Enter search term
+   - Select provider (or search all)
+   - Browse results in grid view
+   - Click "Bild einfügen" on desired image
+   - Image downloads, imports, and inserts automatically
+
+### Method 2: Via Post Editor Meta Box
 1. **Installation**
    - Upload plugin ZIP or use package script
    - Activate in WordPress
@@ -161,7 +179,7 @@ wordpress-plugin/themisdb-gallery/
    - Imports to media library
    - Inserts into post with attribution
 
-4. **Display Galleries**
+### Method 3: Using Shortcodes
    - Use shortcodes in content
    - Configure columns and limits
    - Automatic responsive layout
@@ -260,9 +278,10 @@ The ThemisDB Gallery plugin successfully fulfills all requirements:
 The plugin is production-ready, secure, well-documented, and follows WordPress best practices. It provides content creators with a powerful tool for finding and using freely available images while respecting copyright and attribution requirements.
 
 ## Files Changed
-- Added: 20 new files
+- Added: 21 new files
 - Modified: 1 file (main README.md)
-- Total lines: ~3,000+ lines of code and documentation
+- Total lines: ~3,300+ lines of code and documentation
+- Version: 1.0.1 (updated from 1.0.0)
 
 ## Repository Location
 ```

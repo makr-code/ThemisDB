@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2026-01-08
+
+### Added
+- **Media Library Tab Integration** - ThemisDB Gallery ist jetzt direkt im WordPress Dashboard 'Medien' als Tab verfügbar
+  - Neuer Tab "ThemisDB Gallery" im Media-Upload-Dialog
+  - Bildsuche direkt aus der Mediathek heraus
+  - Nahtlose Integration in den WordPress Media Modal
+  - Bilder können direkt beim Hochladen durchsucht und eingefügt werden
+- `assets/js/media-tab.js` - Dedicated JavaScript for media library tab functionality
+
+### Changed
+- Erweiterte WordPress-Integration für bessere Benutzerfreundlichkeit
+- Optimierte Bildauswahl-Workflow im Admin-Bereich
+
 ## [1.0.0] - 2026-01-07
 
 ### Added
