@@ -511,6 +511,9 @@ class TCOCalculator {
         const themisdb = this.results.themisdb;
         const hyperscaler = this.results.hyperscaler;
         
+        // Store reference to this for use in callbacks
+        const self = this;
+        
         this.chart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -547,8 +550,8 @@ class TCOCalculator {
                     },
                     tooltip: {
                         callbacks: {
-                            label: (context) => {
-                                return `${context.dataset.label}: ${this.formatCurrency(context.parsed.y)}`;
+                            label: function(context) {
+                                return `${context.dataset.label}: ${self.formatCurrency(context.parsed.y)}`;
                             },
                         },
                     },
@@ -557,7 +560,9 @@ class TCOCalculator {
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            callback: (value) => this.formatCurrency(value),
+                            callback: function(value) {
+                                return self.formatCurrency(value);
+                            },
                         },
                     },
                 },
