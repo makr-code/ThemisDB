@@ -13,123 +13,67 @@
 # - Full monitoring & metrics
 
 # ============================================================================
-# Stage 1: Builder
+# Stage 1: Builder - Minimal dependencies
 # ============================================================================
 FROM ubuntu:24.04 AS builder
 
-ARG CMAKE_BUILD_TYPE=Release
 ARG ENABLE_LLM=ON
 ARG LLAMA_GIT_REF=master
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV THEMIS_EDITION=HYPERSCALER
 
-# Install build dependencies
+# Install minimal build dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    build-essential cmake ninja-build git curl zip unzip tar pkg-config \
-    ca-certificates python3 perl nasm autoconf automake libtool aria2 \
-    wget gpg software-properties-common \
+    build-essential cmake ninja-build git curl ca-certificates python3 \
     && rm -rf /var/lib/apt/lists/*
 
-# Upgrade to CMake >=3.25 (required by Boost 1.86)
-RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc | gpg --dearmor -o /usr/share/keyrings/kitware-archive-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main" > /etc/apt/sources.list.d/kitware.list && \
-    apt-get update && apt-get install -y --no-install-recommends cmake && \
-    cmake --version && \
-    rm -rf /var/lib/apt/lists/*
-
-# Bootstrap vcpkg
+# Bootstrap vcpkg (minimal - no aria2, simpler setup)
 ENV VCPKG_ROOT=/opt/vcpkg
-ENV VCPKG_FORCE_SYSTEM_BINARIES=1
-ENV VCPKG_USE_ARIA2=1
 ENV VCPKG_DISABLE_METRICS=1
 
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
     cd ${VCPKG_ROOT} && \
-    git checkout 2024.10.21 && \
-    ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics && \
-    ./vcpkg update
+    ./bootstrap-vcpkg.sh -disableMetrics
 
-# Create downloads directory
-RUN mkdir -p ${VCPKG_ROOT}/downloads
-
-# Set up environment
+# Set build tools
 ENV CC=/usr/bin/gcc
 ENV CXX=/usr/bin/g++
-ENV VCPKG_DEFAULT_TRIPLET=x64-linux
 
 WORKDIR /src
 
-# Copy vcpkg manifest files
-COPY vcpkg.docker.json ./vcpkg.json
-COPY vcpkg-configuration.json ./
-COPY ports-overlays ./ports-overlays
-ENV VCPKG_OVERLAY_PORTS=/src/ports-overlays
-
-# Pin vcpkg registry baseline
-RUN cd ${VCPKG_ROOT} && \
-    VCPKG_BASELINE=$(git rev-parse HEAD) && \
-    echo "{\"default-registry\":{\"kind\":\"builtin\",\"baseline\":\"$VCPKG_BASELINE\"}}" > /src/vcpkg-configuration.json
-
-# Install dependencies via vcpkg
-ENV VCPKG_BINARY_SOURCES="clear;files,/src/vcpkg_installed,readwrite"
-ENV VCPKG_INSTALLED_DIR=/src/vcpkg_installed
-ENV VCPKG_BUILD_TYPE=release
-ENV VCPKG_MAX_CONCURRENCY=4
-
-RUN export VCPKG_DOWNLOAD_TOOL=aria2 && \
-    export VCPKG_USE_ARIA2=1 && \
-    for attempt in 1 2 3; do \
-        echo "vcpkg install attempt ${attempt}/3"; \
-        if ${VCPKG_ROOT}/vcpkg install --triplet=x64-linux 2>&1 | tee /tmp/vcpkg_install.log; then \
-            break; \
-        fi; \
-        if [ "$attempt" -eq 3 ]; then \
-            echo "vcpkg install failed after 3 attempts"; \
-            tail -n 200 /tmp/vcpkg_install.log; \
-            exit 1; \
-        fi; \
-        echo "vcpkg install failed; retrying in 15s..."; \
-        sleep 15; \
-    done
-
-# Copy source code
+# Copy source files FIRST (before manifest)
 COPY CMakeLists.txt VERSION ./
 COPY include ./include
 COPY cmake ./cmake
 COPY src ./src
+COPY vcpkg.json ./
 
-# Clone llama.cpp if LLM is enabled
+# Clone llama.cpp if needed
 RUN if [ "$ENABLE_LLM" = "ON" ]; then \
-        echo "Cloning llama.cpp (${LLAMA_GIT_REF}) - LLM support enabled"; \
+        echo "Cloning llama.cpp for LLM support"; \
         git clone --depth=1 https://github.com/ggerganov/llama.cpp.git /src/llama.cpp && \
         (cd /src/llama.cpp && git fetch --depth=1 origin ${LLAMA_GIT_REF} || true && git checkout ${LLAMA_GIT_REF} || true); \
-    else \
-        echo "LLM support disabled"; \
     fi
 
 # Build ThemisDB HYPERSCALER Edition
-RUN echo "=== Building ThemisDB HYPERSCALER Edition for x64-linux ===" && \
+RUN echo "=== Building ThemisDB HYPERSCALER Edition ===" && \
     cmake -S . -B build -G Ninja \
-        -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja \
-        -DCMAKE_C_COMPILER=/usr/bin/gcc \
-        -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
         -DCMAKE_BUILD_TYPE=Release \
-        -DTHEMIS_CORE_SHARED=OFF \
+        -DCMAKE_C_COMPILER=gcc \
+        -DCMAKE_CXX_COMPILER=g++ \
+        -DCMAKE_MAKE_PROGRAM=/usr/bin/ninja \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=x64-linux \
-        -DVCPKG_MANIFEST_DIR=/src \
-        -DVCPKG_INSTALLED_DIR=/src/vcpkg_installed \
-        -DVCPKG_FEATURE_FLAGS=manifests,versions \
         -DTHEMIS_BUILD_TESTS=OFF \
         -DTHEMIS_BUILD_BENCHMARKS=OFF \
         -DTHEMIS_ENABLE_TRACING=OFF \
-        -DTHEMIS_STATIC_BUILD=OFF \
         -DTHEMIS_EDITION=HYPERSCALER \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
         -DTHEMIS_ENABLE_GRAPHQL=ON \
-        -DTHEMIS_ENABLE_VISION=OFF 2>&1 | tee /tmp/cmake_config.log && \
-    ninja -C build 2>&1 | tee /tmp/cmake_build.log && \
-    ls -lh /src/build/themis_server
+        -DTHEMIS_ENABLE_VISION=OFF && \
+    ninja -C build -j$(nproc) && \
+    ls -lh /src/build/themis_server || (echo "Build failed - themis_server not found" && exit 1)
 
 # ============================================================================
 # Stage 2: Runtime
@@ -138,58 +82,50 @@ FROM ubuntu:24.04 AS runtime
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Image metadata
-ARG THEMIS_VERSION
+ARG THEMIS_VERSION=1.4.0
 LABEL org.opencontainers.image.title="ThemisDB HYPERSCALER Edition" \
-    org.opencontainers.image.description="ThemisDB HYPERSCALER Edition - Enterprise-grade multi-datacenter deployment" \
-    org.opencontainers.image.version="$THEMIS_VERSION" \
-    org.opencontainers.image.edition="HYPERSCALER"
+    org.opencontainers.image.description="Enterprise multi-datacenter deployment" \
+    org.opencontainers.image.version="$THEMIS_VERSION"
 
-# Install runtime dependencies
+# Install runtime dependencies only
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    ca-certificates curl libstdc++6 jq \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    ca-certificates curl libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user 'themis'
+# Create non-root user
 RUN groupadd -r themis --gid=999 && \
-    useradd -r -g themis --uid=999 --home-dir=/var/lib/themisdb --shell=/bin/bash themis
+    useradd -r -g themis --uid=999 --home-dir=/var/lib/themisdb themis
 
-# Copy built binary
-COPY --from=builder /src/build/themis_server /usr/local/bin/themis_server
+# Copy binary from builder
+COPY --from=builder --chown=themis:themis /src/build/themis_server /usr/local/bin/themis_server
 
-# Copy entrypoint script
+# Copy entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Copy configuration files
-RUN mkdir -p /etc/themis /usr/local/share/themis/docs
+# Setup config directory
+RUN mkdir -p /etc/themis && \
+    chown themis:themis /etc/themis && chmod 755 /etc/themis
 COPY config/config.json /etc/themis/config.json
-
-# Copy shared libraries from vcpkg (must succeed)
-COPY --from=builder /src/vcpkg_installed/x64-linux/lib/*.so* /usr/local/lib/
-RUN ldconfig
-
-# Ensure config files are readable by themis user
-RUN chown -R themis:themis /etc/themis && \
-    chmod -R 755 /etc/themis
 
 # Create data directory
 RUN mkdir -p /var/lib/themisdb && \
-    chown -R themis:themis /var/lib/themisdb && \
-    chmod 700 /var/lib/themisdb
+    chown themis:themis /var/lib/themisdb && chmod 700 /var/lib/themisdb
+
+# Copy any runtime libraries from builder if needed
+COPY --from=builder --chown=themis:themis /src/vcpkg_installed/x64-linux/lib/*.so* /usr/local/lib/ 2>/dev/null || true
+RUN ldconfig || true
 
 # Expose ports
 EXPOSE 8080 18765 4318
+
+# Health check
+HEALTHCHECK --interval=10s --timeout=3s --start-period=15s --retries=3 \
+    CMD curl -fsSL http://localhost:8080/health || exit 1
 
 # Switch to themis user
 USER themis
 WORKDIR /var/lib/themisdb
 
-# Health check
-HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=3 \
-    CMD curl -fsS http://localhost:8080/health || exit 1
-
-# Use entrypoint script
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["--config", "/etc/themis/config.json"]
