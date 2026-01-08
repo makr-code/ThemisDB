@@ -17,6 +17,10 @@ class ThemisDB_Gallery_Admin {
         add_action('add_meta_boxes', array($this, 'add_gallery_meta_box'));
         add_action('wp_ajax_themisdb_gallery_search', array($this, 'ajax_search_images'));
         add_action('wp_ajax_themisdb_gallery_generate_ai', array($this, 'ajax_generate_ai_image'));
+        
+        // Media Library Tab Integration
+        add_filter('media_upload_tabs', array($this, 'add_media_upload_tab'));
+        add_action('media_upload_themisdb_gallery', array($this, 'media_upload_tab_content'));
     }
     
     /**
@@ -343,6 +347,118 @@ class ThemisDB_Gallery_Admin {
         }
         
         wp_send_json_success(array('image' => $result));
+    }
+    
+    /**
+     * Add ThemisDB Gallery tab to Media Upload tabs
+     * 
+     * @param array $tabs Existing tabs
+     * @return array Modified tabs
+     */
+    public function add_media_upload_tab($tabs) {
+        $tabs['themisdb_gallery'] = __('ThemisDB Gallery', 'themisdb-gallery');
+        return $tabs;
+    }
+    
+    /**
+     * Render content for Media Upload tab
+     */
+    public function media_upload_tab_content() {
+        wp_iframe(array($this, 'render_media_upload_iframe'));
+    }
+    
+    /**
+     * Render iframe content for Media Upload tab
+     */
+    public function render_media_upload_iframe() {
+        // Enqueue necessary scripts and styles
+        wp_enqueue_style(
+            'themisdb-gallery-media-tab',
+            THEMISDB_GALLERY_PLUGIN_URL . 'assets/css/admin.css',
+            array(),
+            THEMISDB_GALLERY_VERSION
+        );
+        
+        wp_enqueue_script(
+            'themisdb-gallery-media-tab',
+            THEMISDB_GALLERY_PLUGIN_URL . 'assets/js/media-tab.js',
+            array('jquery'),
+            THEMISDB_GALLERY_VERSION,
+            true
+        );
+        
+        // Localize script for AJAX
+        wp_localize_script('themisdb-gallery-media-tab', 'themisdbGalleryMediaTab', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('themisdb_gallery_admin_nonce'),
+            'searchPlaceholder' => __('Suche nach Bildern...', 'themisdb-gallery'),
+            'searching' => __('Suche läuft...', 'themisdb-gallery'),
+            'noResults' => __('Keine Bilder gefunden', 'themisdb-gallery'),
+            'insertImage' => __('Bild einfügen', 'themisdb-gallery'),
+            'downloading' => __('Lade herunter...', 'themisdb-gallery'),
+            'error' => __('Fehler beim Laden', 'themisdb-gallery'),
+            'imported' => __('Importiert', 'themisdb-gallery')
+        ));
+        
+        ?>
+        <div class="themisdb-gallery-media-tab-wrapper">
+            <div class="themisdb-gallery-search-controls" style="padding: 20px; background: #f0f0f0; border-bottom: 1px solid #ddd;">
+                <h2><?php _e('Suche nach frei verfügbaren Bildern', 'themisdb-gallery'); ?></h2>
+                <p><?php _e('Durchsuchen Sie Unsplash, Pexels und Pixabay nach thematisch passenden Bildern mit automatischer Quellenangabe.', 'themisdb-gallery'); ?></p>
+                
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <input 
+                        type="text" 
+                        id="themisdb-gallery-media-search-input" 
+                        placeholder="<?php _e('Suche nach Bildern...', 'themisdb-gallery'); ?>" 
+                        style="flex: 1; padding: 8px;"
+                    />
+                    <select id="themisdb-gallery-media-provider" style="padding: 8px;">
+                        <option value="all"><?php _e('Alle Anbieter', 'themisdb-gallery'); ?></option>
+                        <option value="unsplash">Unsplash</option>
+                        <option value="pexels">Pexels</option>
+                        <option value="pixabay">Pixabay</option>
+                    </select>
+                    <button 
+                        type="button" 
+                        class="button button-primary" 
+                        id="themisdb-gallery-media-search-btn"
+                        style="padding: 8px 20px;"
+                    >
+                        <?php _e('Suchen', 'themisdb-gallery'); ?>
+                    </button>
+                </div>
+                
+                <?php if (get_option('themisdb_gallery_openai_key')): ?>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+                    <h3><?php _e('AI Bildgenerierung', 'themisdb-gallery'); ?></h3>
+                    <div style="display: flex; gap: 10px;">
+                        <input 
+                            type="text" 
+                            id="themisdb-gallery-media-ai-prompt" 
+                            placeholder="<?php _e('AI Bild beschreiben...', 'themisdb-gallery'); ?>" 
+                            style="flex: 1; padding: 8px;"
+                        />
+                        <button 
+                            type="button" 
+                            class="button" 
+                            id="themisdb-gallery-media-ai-btn"
+                            style="padding: 8px 20px;"
+                        >
+                            <?php _e('AI Generieren', 'themisdb-gallery'); ?>
+                        </button>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+            
+            <div id="themisdb-gallery-media-results" style="padding: 20px;">
+                <p style="text-align: center; color: #666; margin: 40px 0;">
+                    <?php _e('Geben Sie einen Suchbegriff ein, um Bilder zu finden.', 'themisdb-gallery'); ?>
+                </p>
+            </div>
+        </div>
+        <?php
     }
 }
 

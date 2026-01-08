@@ -3,7 +3,7 @@
  * Plugin Name: ThemisDB Gallery
  * Plugin URI: https://github.com/makr-code/ThemisDB
  * Description: Hilft beim Artikel erstellen relevante frei verfügbare thematisch passende Bilder im Internet zu finden, herunterzuladen und einzubinden - mit vollen Credits (Urheber usw.)
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
  * License: MIT
@@ -27,7 +27,7 @@ if (version_compare(PHP_VERSION, '7.2', '<')) {
 }
 
 // Plugin constants
-define('THEMISDB_GALLERY_VERSION', '1.0.0');
+define('THEMISDB_GALLERY_VERSION', '1.0.1');
 define('THEMISDB_GALLERY_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_GALLERY_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_GALLERY_PLUGIN_BASENAME', plugin_basename(__FILE__));
