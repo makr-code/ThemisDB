@@ -81,6 +81,93 @@ Ein auffälliges Box-Widget für wichtige Mitteilungen oder Links.
    - **Button URL**: Link-Ziel
    - **Style**: Wählen Sie eine Farbe (Primary/Secondary/Accent/Success)
 
+### 5. ThemisDB: About Box (Info-Box) 📦
+
+Zeigt Projektinformationen oder Über-Uns-Inhalte in einer ansprechenden Box.
+
+**Funktionen:**
+- Anpassbarer Titel und Inhalt
+- Optionales Datenbank-Icon
+- Sauberes, kompaktes Design
+- Perfekt für Sidebar-Informationen
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: About Box"
+2. Konfigurieren:
+   - **Titel**: z.B. "Über ThemisDB"
+   - **Content**: Beschreibungstext (unterstützt HTML)
+   - **Show icon**: Häkchen für Datenbank-Icon
+
+**Ideal für:**
+- Projekt-Beschreibungen
+- Über-Uns-Informationen
+- Wichtige Hinweise in der Sidebar
+
+### 6. ThemisDB: Social Links (Social Media) 🔗
+
+Zeigt Social Media und Community-Links mit Icons.
+
+**Funktionen:**
+- GitHub, Twitter, Discord, LinkedIn
+- Professionelle SVG-Icons
+- Hover-Effekte mit Markenfarben
+- Responsive Design
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: Social Links"
+2. Konfigurieren:
+   - **Titel**: z.B. "Folgen Sie uns"
+   - **GitHub URL**: z.B. "https://github.com/makr-code/ThemisDB"
+   - **Twitter URL**: Optional
+   - **Discord URL**: Optional
+   - **LinkedIn URL**: Optional
+
+**Hinweis:** Nur konfigurierte Links werden angezeigt.
+
+### 7. ThemisDB: Tag Cloud (Schlagwort-Wolke) 🏷️
+
+Zeigt die am häufigsten verwendeten Tags/Schlagwörter.
+
+**Funktionen:**
+- Sortiert nach Verwendung
+- Optionale Post-Anzahl
+- Hover-Effekte
+- Konfigurierbare Anzahl
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: Tag Cloud"
+2. Konfigurieren:
+   - **Titel**: z.B. "Themen"
+   - **Anzahl der Tags**: Standard 20
+   - **Show post count**: Häkchen für Anzahl-Anzeige
+
+**Perfekt für:**
+- Themen-Navigation
+- Content-Discovery
+- SEO-Optimierung
+
+### 8. ThemisDB: Quick Links (Schnellzugriff) ⚡
+
+Zeigt bis zu 5 wichtige Dokumentations- oder Navigationslinks.
+
+**Funktionen:**
+- Bis zu 5 konfigurierbare Links
+- Icon und Pfeil-Animation
+- Klares, übersichtliches Design
+- Ideal für Dokumentation
+
+**Verwendung:**
+1. Widget hinzufügen: "ThemisDB: Quick Links"
+2. Konfigurieren:
+   - **Titel**: z.B. "Dokumentation"
+   - **Link 1-5**: Titel und URL für jeden Link
+
+**Ideal für:**
+- API-Dokumentation
+- Installations-Anleitungen
+- Häufig besuchte Seiten
+- Tutorial-Links
+
 ## Homepage Featured Slider
 
 Zusätzlich zu den Widgets wird auf der Startseite automatisch ein Featured Slider angezeigt, wenn Sie Sticky Posts haben.
@@ -109,22 +196,58 @@ Das ThemisDB Theme bietet folgende Widget-Bereiche:
 
 ## Empfohlene Widget-Platzierungen
 
-### Startseite Setup
+### Startseite Setup (Homepage)
 - **Sidebar:**
+  - ThemisDB: About Box (Projekt-Info)
   - ThemisDB: Call to Action (Download-Link)
-  - ThemisDB: Category Highlights (Tutorials)
-  - ThemisDB: Recent Posts
+  - ThemisDB: Social Links (Community)
+  - ThemisDB: Tag Cloud (Themen-Navigation)
 
 ### Blog-Seite Setup
 - **Sidebar:**
-  - ThemisDB: Featured Slider
-  - Search
-  - Categories
+  - ThemisDB: Featured Slider (Hervorgehobene Artikel)
+  - ThemisDB: Quick Links (Dokumentation)
+  - ThemisDB: Tag Cloud (Themen)
+  - Search Widget (WordPress Standard)
+
+### Dokumentations-Seite Setup
+- **Sidebar:**
+  - ThemisDB: Quick Links (API, Installation, Guides)
+  - ThemisDB: Tag Cloud (Themen)
+  - ThemisDB: Recent Posts (Neueste Artikel)
+
+### Archiv/Kategorie-Seiten Setup
+- **Sidebar:**
+  - ThemisDB: Category Highlights (Verwandte Artikel)
+  - ThemisDB: Tag Cloud (Andere Themen)
+  - ThemisDB: About Box (Kontext-Info)
 
 ### Footer Setup
-- **Footer Widget 1:** About Text / Navigation
-- **Footer Widget 2:** ThemisDB: Recent Posts (mit Thumbnails)
-- **Footer Widget 3:** ThemisDB: Call to Action (Newsletter/Social)
+- **Footer Widget 1:** 
+  - ThemisDB: About Box (Über ThemisDB)
+  - Navigation Menu
+  
+- **Footer Widget 2:** 
+  - ThemisDB: Recent Posts (mit Thumbnails)
+  - ThemisDB: Quick Links (Wichtige Seiten)
+  
+- **Footer Widget 3:** 
+  - ThemisDB: Social Links (Community)
+  - ThemisDB: Call to Action (Newsletter/Download)
+
+### Empfohlene Sidebar-Kombinationen
+
+**Für maximale Benutzerfreundlichkeit:**
+1. ThemisDB: About Box (oben) - Kontext geben
+2. ThemisDB: Quick Links - Wichtige Seiten schnell erreichbar
+3. ThemisDB: Tag Cloud - Themen-Exploration
+4. ThemisDB: Social Links - Community-Verbindung
+
+**Für Content-Discovery:**
+1. ThemisDB: Featured Slider - Wichtige Artikel
+2. ThemisDB: Category Highlights - Spezifische Inhalte
+3. ThemisDB: Recent Posts - Neueste Updates
+4. ThemisDB: Tag Cloud - Themen-Navigation
 
 ## Technische Details
 

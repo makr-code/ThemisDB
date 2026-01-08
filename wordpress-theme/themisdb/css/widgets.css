@@ -503,3 +503,224 @@
         height: 180px;
     }
 }
+
+/* ===== About Box Widget ===== */
+.themisdb-about-widget {
+    margin-bottom: 2rem;
+}
+
+.themisdb-about-box {
+    padding: 1.5rem;
+    background: var(--lighter-bg);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-purple);
+}
+
+.about-icon {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.icon-database {
+    font-size: 3rem;
+    display: inline-block;
+}
+
+.about-content {
+    font-size: 0.938rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+
+.about-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ===== Social Links Widget ===== */
+.themisdb-social-widget {
+    margin-bottom: 2rem;
+}
+
+.themisdb-social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--lighter-bg);
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.social-link:hover {
+    background: var(--white);
+    border-color: var(--secondary-color);
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.social-link svg {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+}
+
+.social-link span {
+    font-weight: 600;
+    font-size: 0.938rem;
+}
+
+.social-github:hover {
+    border-color: #333;
+}
+
+.social-twitter:hover {
+    border-color: #1da1f2;
+}
+
+.social-discord:hover {
+    border-color: #5865f2;
+}
+
+.social-linkedin:hover {
+    border-color: #0077b5;
+}
+
+/* ===== Tag Cloud Widget ===== */
+.themisdb-tag-cloud-widget {
+    margin-bottom: 2rem;
+}
+
+.themisdb-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    background: var(--lighter-bg);
+    border-radius: 20px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-light);
+}
+
+.tag-item:hover {
+    background: var(--accent-purple);
+    color: var(--white);
+    border-color: var(--accent-purple);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.tag-count {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* ===== Quick Links Widget ===== */
+.themisdb-quick-links-widget {
+    margin-bottom: 2rem;
+}
+
+.themisdb-quick-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-link-item {
+    margin-bottom: 0.5rem;
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--lighter-bg);
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.quick-link:hover {
+    background: var(--light-bg);
+    border-left-color: var(--accent-purple);
+    padding-left: 1.25rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.link-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.link-text {
+    flex: 1;
+    font-weight: 500;
+    font-size: 0.938rem;
+}
+
+.link-arrow {
+    color: var(--accent-purple);
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.quick-link:hover .link-arrow {
+    opacity: 1;
+}
+
+/* ===== Responsive Adjustments for New Widgets ===== */
+@media screen and (max-width: 768px) {
+    .themisdb-about-box {
+        padding: 1rem;
+    }
+
+    .icon-database {
+        font-size: 2.5rem;
+    }
+
+    .social-link {
+        padding: 0.625rem 0.875rem;
+    }
+
+    .tag-item {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.813rem;
+    }
+
+    .quick-link {
+        padding: 0.625rem 0.875rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .social-link svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .social-link span {
+        font-size: 0.875rem;
+    }
+}
