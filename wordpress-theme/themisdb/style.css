@@ -651,8 +651,6 @@ article:hover {
     width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
-    /* Make tables responsive on mobile */
-    display: table;
 }
 
 @media (max-width: 768px) {
@@ -1213,6 +1211,7 @@ article:hover {
         background: rgba(255, 255, 255, 0.05);
         border-radius: 4px;
         display: none;
+        flex-direction: column;
     }
     
     .main-navigation li.toggled > ul {
@@ -3853,9 +3852,8 @@ pre code {
         padding: 0.5rem;
     }
     
-    /* Better mobile table handling */
+    /* Better mobile table handling - wrap table in scrollable container */
     .entry-content table {
-        display: block;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
     }
@@ -3966,14 +3964,14 @@ pre,
 
 /* Better mobile input handling */
 @media (max-width: 768px) {
-    /* Prevent zoom on input focus for iOS */
+    /* Prevent zoom on input focus for iOS - using 16px minimum */
     input[type="text"],
     input[type="email"],
     input[type="url"],
     input[type="search"],
     textarea,
     select {
-        font-size: 16px !important;
+        font-size: 16px;
     }
     
     /* Better spacing for touch targets */
@@ -4107,7 +4105,7 @@ pre,
     }
     
     img {
-        max-width: 100% !important;
+        max-width: 100%;
         page-break-inside: avoid;
     }
     
