@@ -34,8 +34,12 @@ class TCOCalculator {
             hyperscaler: {},
         };
         this.chart = null;
+        this.calculationTimeout = null;
+        this.hasCalculated = false;
         this.initializeEventListeners();
         this.loadWordPressSettings();
+        // Create debounced calculation function
+        this.debouncedCalculate = this.debounce(() => this.calculate(), 500);
     }
 
     /**
@@ -54,6 +58,21 @@ class TCOCalculator {
             };
             return escapeMap[match];
         });
+    }
+
+    /**
+     * Debounce function to limit calculation frequency
+     * @param {Function} func - Function to debounce
+     * @param {number} wait - Wait time in milliseconds
+     * @returns {Function} Debounced function
+     */
+    debounce(func, wait) {
+        return (...args) => {
+            clearTimeout(this.calculationTimeout);
+            this.calculationTimeout = setTimeout(() => {
+                func.apply(this, args);
+            }, wait);
+        };
     }
 
     /**
@@ -153,8 +172,18 @@ class TCOCalculator {
                 slider.addEventListener('input', () => {
                     this.updateSliderValue(slider, output);
                     this.updateSliderBackground(slider);
+                    // Trigger debounced calculation for real-time updates
+                    this.debouncedCalculate();
                 });
             }
+        });
+        
+        // Also listen to select/dropdown changes
+        const selectInputs = document.querySelectorAll('#availability, #useAI');
+        selectInputs.forEach(select => {
+            select.addEventListener('change', () => {
+                this.debouncedCalculate();
+            });
         });
     }
 
@@ -254,10 +283,16 @@ class TCOCalculator {
         // Display results
         this.displayResults();
         
-        // Show results section with smooth scroll
+        // Show results section with smooth scroll only on first calculation
         const resultsSection = document.getElementById('resultsSection');
-        resultsSection.style.display = 'block';
-        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!this.hasCalculated) {
+            resultsSection.style.display = 'block';
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            this.hasCalculated = true;
+        } else {
+            // Just ensure it's visible for subsequent calculations
+            resultsSection.style.display = 'block';
+        }
     }
 
     /**
