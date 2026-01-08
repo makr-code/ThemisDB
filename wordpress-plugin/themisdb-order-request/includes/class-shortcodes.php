@@ -616,8 +616,8 @@ class ThemisDB_Order_Shortcodes {
                 'contract_id' => $contract_id,
                 'customer_id' => $order['customer_id'],
                 'product_edition' => $order['product_edition'],
-                'license_type' => 'standard',
-                'max_nodes' => $order['product_edition'] === 'enterprise' ? 100 : ($order['product_edition'] === 'hyperscaler' ? -1 : 1)
+                'license_type' => 'standard'
+                // Limits will be set automatically based on tier in create_license()
             );
             $license_id = ThemisDB_License_Manager::create_license($license_data);
         }

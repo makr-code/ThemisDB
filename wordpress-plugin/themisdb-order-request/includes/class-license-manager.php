@@ -18,8 +18,37 @@ class ThemisDB_License_Manager {
         
         $table_licenses = $wpdb->prefix . 'themisdb_licenses';
         
-        // Generate license key
+        // Generate license key (matching ThemisDB format)
         $license_key = self::generate_license_key($data['product_edition']);
+        
+        // Set tier-specific limits based on ThemisDB source code
+        // From epServer/models/__init__.py: max_nodes, max_cores, max_storage_tb
+        // -1 = unlimited (like in ThemisDB)
+        $tier_limits = array(
+            'community' => array(
+                'max_nodes' => 1,
+                'max_cores' => -1,  // unlimited for single node
+                'max_storage_tb' => -1  // unlimited
+            ),
+            'enterprise' => array(
+                'max_nodes' => 100,  // typical enterprise cluster
+                'max_cores' => -1,  // unlimited
+                'max_storage_tb' => -1  // unlimited
+            ),
+            'hyperscaler' => array(
+                'max_nodes' => -1,  // unlimited nodes
+                'max_cores' => -1,  // unlimited cores
+                'max_storage_tb' => -1  // unlimited storage
+            ),
+            'reseller' => array(
+                'max_nodes' => -1,  // unlimited for reseller
+                'max_cores' => -1,
+                'max_storage_tb' => -1
+            )
+        );
+        
+        $edition = strtolower($data['product_edition']);
+        $limits = isset($tier_limits[$edition]) ? $tier_limits[$edition] : $tier_limits['community'];
         
         $license_data = array(
             'license_key' => $license_key,
@@ -28,9 +57,9 @@ class ThemisDB_License_Manager {
             'customer_id' => intval($data['customer_id']),
             'product_edition' => sanitize_text_field($data['product_edition']),
             'license_type' => isset($data['license_type']) ? sanitize_text_field($data['license_type']) : 'standard',
-            'max_nodes' => isset($data['max_nodes']) ? intval($data['max_nodes']) : 1,
-            'max_cores' => isset($data['max_cores']) ? intval($data['max_cores']) : null,
-            'max_storage_gb' => isset($data['max_storage_gb']) ? intval($data['max_storage_gb']) : null,
+            'max_nodes' => isset($data['max_nodes']) ? intval($data['max_nodes']) : $limits['max_nodes'],
+            'max_cores' => isset($data['max_cores']) ? intval($data['max_cores']) : $limits['max_cores'],
+            'max_storage_gb' => isset($data['max_storage_gb']) ? intval($data['max_storage_gb']) : ($limits['max_storage_tb'] * 1024),  // Convert TB to GB
             'license_status' => 'pending',
             'expiry_date' => isset($data['expiry_date']) ? $data['expiry_date'] : null,
             'epserver_subscription_id' => isset($data['epserver_subscription_id']) ? sanitize_text_field($data['epserver_subscription_id']) : null
@@ -109,6 +138,15 @@ class ThemisDB_License_Manager {
     public static function validate_license($license_key) {
         global $wpdb;
         
+        // First validate format (matching ThemisDB's validate_license_key_format)
+        if (!self::validate_license_key_format($license_key)) {
+            return array(
+                'valid' => false,
+                'status' => 'invalid_format',
+                'error' => 'License key format is invalid'
+            );
+        }
+        
         $table_licenses = $wpdb->prefix . 'themisdb_licenses';
         
         $license = $wpdb->get_row($wpdb->prepare(
@@ -119,25 +157,56 @@ class ThemisDB_License_Manager {
         if (!$license) {
             return array(
                 'valid' => false,
+                'status' => 'not_found',
                 'error' => 'License key not found'
             );
         }
         
-        // Check license status
-        if ($license['license_status'] !== 'active') {
+        // Check license status (matching ThemisDB statuses)
+        $status_map = array(
+            'cancelled' => 'cancelled',
+            'suspended' => 'suspended',
+            'pending' => 'pending_payment'
+        );
+        
+        if (isset($status_map[$license['license_status']])) {
+            $error_messages = array(
+                'cancelled' => 'License has been cancelled',
+                'suspended' => 'License has been suspended',
+                'pending' => 'License is pending payment activation'
+            );
+            
             return array(
                 'valid' => false,
-                'error' => 'License is ' . $license['license_status']
+                'status' => $status_map[$license['license_status']],
+                'error' => $error_messages[$license['license_status']],
+                'tier' => $license['product_edition']
             );
         }
         
         // Check expiry date
         if ($license['expiry_date']) {
             $expiry = strtotime($license['expiry_date']);
-            if ($expiry < time()) {
+            $now = time();
+            
+            if ($expiry < $now) {
+                // Auto-update status to expired
+                if ($license['license_status'] === 'active') {
+                    $wpdb->update(
+                        $table_licenses,
+                        array('license_status' => 'expired'),
+                        array('id' => $license['id']),
+                        null,
+                        array('%d')
+                    );
+                }
+                
                 return array(
                     'valid' => false,
-                    'error' => 'License has expired'
+                    'status' => 'expired',
+                    'error' => 'License expired on ' . date('Y-m-d', $expiry),
+                    'tier' => $license['product_edition'],
+                    'expiry_date' => date('c', $expiry)
                 );
             }
         }
@@ -151,9 +220,156 @@ class ThemisDB_License_Manager {
             array('%d')
         );
         
+        // Build limits (matching ThemisDB response format)
+        $limits = array(
+            'max_nodes' => $license['max_nodes'] ? intval($license['max_nodes']) : -1,
+            'max_cores' => $license['max_cores'] ? intval($license['max_cores']) : -1,
+            'max_storage_tb' => $license['max_storage_gb'] ? floatval($license['max_storage_gb']) / 1024 : -1
+        );
+        
+        // Calculate days remaining
+        $days_remaining = null;
+        if ($license['expiry_date']) {
+            $expiry_timestamp = strtotime($license['expiry_date']);
+            $days_remaining = floor(($expiry_timestamp - time()) / 86400);
+        }
+        
+        // Get order for organization info
+        $order = ThemisDB_Order_Manager::get_order($license['order_id']);
+        
         return array(
             'valid' => true,
+            'status' => 'active',
+            'message' => 'License is valid and active',
+            'tier' => $license['product_edition'],
+            'license_key' => $license_key,
+            'organization' => $order ? $order['customer_company'] : null,
+            'limits' => $limits,
+            'start_date' => $license['activation_date'] ? date('c', strtotime($license['activation_date'])) : null,
+            'end_date' => $license['expiry_date'] ? date('c', strtotime($license['expiry_date'])) : null,
+            'days_remaining' => $days_remaining,
             'license' => $license
+        );
+    }
+    
+    /**
+     * Validate license key format (matching ThemisDB)
+     */
+    private static function validate_license_key_format($license_key) {
+        // Format: THEMIS-{TIER}-{HASH}-{RANDOM}
+        // Example: THEMIS-ENT-A1B2C3D4-E5F6G7H8
+        
+        if (!is_string($license_key) || strpos($license_key, 'THEMIS-') !== 0) {
+            return false;
+        }
+        
+        $parts = explode('-', $license_key);
+        if (count($parts) !== 4) {
+            return false;
+        }
+        
+        // Check tier code
+        $valid_tiers = array('COM', 'ENT', 'HYP', 'RES');
+        if (!in_array($parts[1], $valid_tiers)) {
+            return false;
+        }
+        
+        // Check hash length (8 chars)
+        if (strlen($parts[2]) !== 8) {
+            return false;
+        }
+        
+        // Check random part length (8 chars)
+        if (strlen($parts[3]) !== 8) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Check license limits (matching ThemisDB check_license_limits)
+     */
+    public static function check_license_limits($license_key, $current_nodes, $current_cores = null, $current_storage_tb = null) {
+        $validation = self::validate_license($license_key);
+        
+        if (!$validation['valid']) {
+            return array(
+                'compliant' => false,
+                'reason' => $validation['error'],
+                'limits_check' => null
+            );
+        }
+        
+        $limits = $validation['limits'];
+        $checks = array();
+        $compliant = true;
+        
+        // Check nodes
+        if ($limits['max_nodes'] != -1) { // -1 means unlimited
+            $nodes_ok = $current_nodes <= $limits['max_nodes'];
+            $checks['nodes'] = array(
+                'limit' => $limits['max_nodes'],
+                'current' => $current_nodes,
+                'compliant' => $nodes_ok
+            );
+            if (!$nodes_ok) {
+                $compliant = false;
+            }
+        } else {
+            $checks['nodes'] = array(
+                'limit' => 'unlimited',
+                'current' => $current_nodes,
+                'compliant' => true
+            );
+        }
+        
+        // Check cores
+        if ($current_cores !== null) {
+            if ($limits['max_cores'] != -1) {
+                $cores_ok = $current_cores <= $limits['max_cores'];
+                $checks['cores'] = array(
+                    'limit' => $limits['max_cores'],
+                    'current' => $current_cores,
+                    'compliant' => $cores_ok
+                );
+                if (!$cores_ok) {
+                    $compliant = false;
+                }
+            } else {
+                $checks['cores'] = array(
+                    'limit' => 'unlimited',
+                    'current' => $current_cores,
+                    'compliant' => true
+                );
+            }
+        }
+        
+        // Check storage
+        if ($current_storage_tb !== null) {
+            if ($limits['max_storage_tb'] != -1) {
+                $storage_ok = $current_storage_tb <= $limits['max_storage_tb'];
+                $checks['storage_tb'] = array(
+                    'limit' => $limits['max_storage_tb'],
+                    'current' => $current_storage_tb,
+                    'compliant' => $storage_ok
+                );
+                if (!$storage_ok) {
+                    $compliant = false;
+                }
+            } else {
+                $checks['storage_tb'] = array(
+                    'limit' => 'unlimited',
+                    'current' => $current_storage_tb,
+                    'compliant' => true
+                );
+            }
+        }
+        
+        return array(
+            'compliant' => $compliant,
+            'limits_check' => $checks,
+            'tier' => $validation['tier']
         );
     }
     
@@ -301,20 +517,30 @@ class ThemisDB_License_Manager {
      * Generate license key
      */
     private static function generate_license_key($edition) {
-        $prefix = strtoupper(substr($edition, 0, 3));
-        $random = strtoupper(bin2hex(random_bytes(16)));
+        // Match ThemisDB source code format: THEMIS-{TIER}-{HASH}-{RANDOM}
+        // From epServer/utils/license.py
         
-        // Format: XXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
-        $formatted = $prefix . '-' . 
-                     substr($random, 0, 4) . '-' . 
-                     substr($random, 4, 4) . '-' . 
-                     substr($random, 8, 4) . '-' . 
-                     substr($random, 12, 4) . '-' . 
-                     substr($random, 16, 4) . '-' . 
-                     substr($random, 20, 4) . '-' . 
-                     substr($random, 24, 4);
+        // Map edition to tier code (matching ThemisDB)
+        $tier_codes = array(
+            'community' => 'COM',
+            'enterprise' => 'ENT',
+            'hyperscaler' => 'HYP',
+            'reseller' => 'RES'
+        );
         
-        return $formatted;
+        $tier_code = isset($tier_codes[strtolower($edition)]) ? $tier_codes[strtolower($edition)] : 'UNK';
+        
+        // Create hash component (8 chars) - using customer data + timestamp like ThemisDB
+        $timestamp = gmdate('c'); // ISO 8601 format
+        $data = get_current_user_id() . ':' . $edition . ':' . $timestamp;
+        $hash_digest = strtoupper(substr(hash('sha256', $data), 0, 8));
+        
+        // Generate random component (8 chars) - matching ThemisDB's secrets.token_hex(4)
+        $random_part = strtoupper(bin2hex(random_bytes(4)));
+        
+        // Format: THEMIS-{TIER}-{HASH}-{RANDOM}
+        // Example: THEMIS-ENT-A1B2C3D4-E5F6G7H8
+        return "THEMIS-{$tier_code}-{$hash_digest}-{$random_part}";
     }
     
     /**
