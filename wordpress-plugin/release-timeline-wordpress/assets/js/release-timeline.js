@@ -205,9 +205,17 @@
             container.innerHTML = `<div class="themisdb-rt-diagram"><pre class="mermaid">${diagram}</pre></div>`;
             
             if (typeof mermaid !== 'undefined') {
-                mermaid.run({
-                    querySelector: '.themisdb-rt-diagram .mermaid'
-                });
+                const mermaidElement = container.querySelector('.themisdb-rt-diagram .mermaid');
+                if (mermaidElement) {
+                    // Remove data-processed attribute for re-rendering
+                    mermaidElement.removeAttribute('data-processed');
+                    
+                    mermaid.run({
+                        nodes: [mermaidElement]
+                    }).catch((error) => {
+                        console.error('Mermaid rendering error:', error);
+                    });
+                }
             }
         }
         

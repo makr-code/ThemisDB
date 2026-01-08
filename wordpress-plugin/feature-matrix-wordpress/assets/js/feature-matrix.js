@@ -228,10 +228,15 @@
 
             // Set the Mermaid code
             $diagramContainer.text(diagramCode);
+            
+            // Remove data-processed attribute for re-rendering
+            $diagramContainer.removeAttr('data-processed');
 
             // Render the diagram
             mermaid.run({
-                querySelector: '#fm-feature-diagram'
+                nodes: [$diagramContainer.get(0)]
+            }).catch((error) => {
+                console.error('Mermaid rendering error:', error);
             });
         },
 

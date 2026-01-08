@@ -1,5 +1,19 @@
 # ThemisDB Architektur-Diagramme Plugin - Umfassende Vergleiche
 
+## 🔧 Aktualisierung v1.0.1 - Fehlerbehebung
+
+**Problem behoben**: Der Graph-Code wurde von Mermaid nicht in Grafiken umgewandelt.
+
+**Lösung**: Das Plugin wurde aktualisiert, um die korrekte Mermaid.js v10+ API zu verwenden:
+- `mermaid.run()` verwendet jetzt den `nodes` Array-Parameter statt `querySelector`
+- Verbesserte Wartelogik für das Laden der Mermaid-Bibliothek
+- Fehlerbehandlung für Rendering-Fehler hinzugefügt
+- Das `data-processed` Attribut wird für das erneute Rendern entfernt
+
+Die Diagramme sollten jetzt korrekt angezeigt werden! 🎉
+
+---
+
 ## Übersicht
 
 Das ThemisDB Architecture Diagrams WordPress Plugin wurde erweitert um umfassende Mermaid-Diagramme, die Vergleiche zwischen ThemisDB und anderen Datenbanken sowie LLM-Diensten ermöglichen. Die Diagramme berücksichtigen dabei die zugrundeliegende Hardware.
