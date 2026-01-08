@@ -39,6 +39,24 @@ class TCOCalculator {
     }
 
     /**
+     * Escape HTML entities for safe text rendering
+     * @param {string} text - Text to escape
+     * @returns {string} Escaped text
+     */
+    escapeText(text) {
+        return String(text).replace(/[<>&"']/g, (match) => {
+            const escapeMap = {
+                '<': '&lt;',
+                '>': '&gt;',
+                '&': '&amp;',
+                '"': '&quot;',
+                "'": '&#x27;'
+            };
+            return escapeMap[match];
+        });
+    }
+
+    /**
      * Load settings from WordPress
      */
     loadWordPressSettings() {
@@ -604,35 +622,21 @@ class TCOCalculator {
         const hyperscalerNetworkPercent = ((hyperscalerNetwork / hyperscaler.totalCost) * 100).toFixed(1);
         const hyperscalerAIPercent = ((hyperscalerAI / hyperscaler.totalCost) * 100).toFixed(1);
         
-        // Escape function for safe text content
-        const escapeText = (text) => {
-            return String(text).replace(/[<>&"']/g, (match) => {
-                const escapeMap = {
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '&': '&amp;',
-                    '"': '&quot;',
-                    "'": '&#x27;'
-                };
-                return escapeMap[match];
-            });
-        };
-        
         // Create Mermaid diagram with escaped values
         const mermaidCode = `
 graph TB
-    subgraph ThemisDB["ThemisDB TCO: ${escapeText(this.formatCurrency(themisdb.totalCost))}"]
-        T1["Material & Infrastruktur<br/>${escapeText(this.formatCurrency(themisdbInfra))}<br/>(${escapeText(themisdbInfraPercent)}%)"]
-        T2["Personal<br/>${escapeText(this.formatCurrency(themisdbPersonnel))}<br/>(${escapeText(themisdbPersonnelPercent)}%)"]
-        T3["Software & Lizenzen<br/>${escapeText(this.formatCurrency(themisdbLicense))}<br/>(${escapeText(themisdbLicensePercent)}%)"]
-        T4["Betrieb & Schulung<br/>${escapeText(this.formatCurrency(themisdbOps))}<br/>(${escapeText(themisdbOpsPercent)}%)"]
+    subgraph ThemisDB["ThemisDB TCO: ${this.escapeText(this.formatCurrency(themisdb.totalCost))}"]
+        T1["Material & Infrastruktur<br/>${this.escapeText(this.formatCurrency(themisdbInfra))}<br/>(${this.escapeText(themisdbInfraPercent)}%)"]
+        T2["Personal<br/>${this.escapeText(this.formatCurrency(themisdbPersonnel))}<br/>(${this.escapeText(themisdbPersonnelPercent)}%)"]
+        T3["Software & Lizenzen<br/>${this.escapeText(this.formatCurrency(themisdbLicense))}<br/>(${this.escapeText(themisdbLicensePercent)}%)"]
+        T4["Betrieb & Schulung<br/>${this.escapeText(this.formatCurrency(themisdbOps))}<br/>(${this.escapeText(themisdbOpsPercent)}%)"]
     end
     
-    subgraph Hyperscaler["Hyperscaler TCO: ${escapeText(this.formatCurrency(hyperscaler.totalCost))}"]
-        H1["Compute Pay-per-Request<br/>${escapeText(this.formatCurrency(hyperscalerCompute))}<br/>(${escapeText(hyperscalerComputePercent)}%)"]
-        H2["Storage<br/>${escapeText(this.formatCurrency(hyperscalerStorage))}<br/>(${escapeText(hyperscalerStoragePercent)}%)"]
-        H3["Network Egress<br/>${escapeText(this.formatCurrency(hyperscalerNetwork))}<br/>(${escapeText(hyperscalerNetworkPercent)}%)"]
-        H4["AI APIs<br/>${escapeText(this.formatCurrency(hyperscalerAI))}<br/>(${escapeText(hyperscalerAIPercent)}%)"]
+    subgraph Hyperscaler["Hyperscaler TCO: ${this.escapeText(this.formatCurrency(hyperscaler.totalCost))}"]
+        H1["Compute Pay-per-Request<br/>${this.escapeText(this.formatCurrency(hyperscalerCompute))}<br/>(${this.escapeText(hyperscalerComputePercent)}%)"]
+        H2["Storage<br/>${this.escapeText(this.formatCurrency(hyperscalerStorage))}<br/>(${this.escapeText(hyperscalerStoragePercent)}%)"]
+        H3["Network Egress<br/>${this.escapeText(this.formatCurrency(hyperscalerNetwork))}<br/>(${this.escapeText(hyperscalerNetworkPercent)}%)"]
+        H4["AI APIs<br/>${this.escapeText(this.formatCurrency(hyperscalerAI))}<br/>(${this.escapeText(hyperscalerAIPercent)}%)"]
     end
     
     style T1 fill:#d5f4e6,stroke:#27ae60,stroke-width:2px
@@ -714,23 +718,7 @@ graph TB
             { capability: 'LLM', service: 'Bedrock/SageMaker', cost: '€500-2000/Monat' }
         ];
 
-        // Calculate total hyperscaler cost
-        const totalHyperscalerServices = hyperscalerServices.length;
         const estimatedMonthlyCost = '€1.450-4.400';
-
-        // Escape function for safe text content
-        const escapeText = (text) => {
-            return String(text).replace(/[<>&"']/g, (match) => {
-                const escapeMap = {
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '&': '&amp;',
-                    '"': '&quot;',
-                    "'": '&#x27;'
-                };
-                return escapeMap[match];
-            });
-        };
 
         // Create Mermaid flowchart showing ThemisDB multi-model vs Hyperscaler polyglot architecture
         const mermaidCode = `
@@ -748,7 +736,7 @@ graph TB
         LLM["🤖 LLM/AI"]
     end
     
-    subgraph Hyperscaler["Hyperscaler Stack<br/>${escapeText(totalHyperscalerServices)} separate Services<br/>Geschätzt: ${escapeText(estimatedMonthlyCost)}/Monat"]
+    subgraph Hyperscaler["Hyperscaler Stack<br/>${this.escapeText(String(hyperscalerServices.length))} separate Services<br/>Geschätzt: ${this.escapeText(estimatedMonthlyCost)}/Monat"]
         Neptune["Neptune"]
         RDS["RDS/Aurora"]
         DocumentDB["DocumentDB"]
@@ -853,7 +841,7 @@ graph TB
             const summaryStrong = document.createElement('strong');
             summaryStrong.textContent = 'Gesamt:';
             const summarySpan = document.createElement('span');
-            summarySpan.textContent = ` ${totalHyperscalerServices} separate Services ≈ ${estimatedMonthlyCost}/Monat`;
+            summarySpan.textContent = ` ${hyperscalerServices.length} separate Services ≈ ${estimatedMonthlyCost}/Monat`;
             summaryLi.appendChild(summaryStrong);
             summaryLi.appendChild(summarySpan);
             servicesList.appendChild(summaryLi);
