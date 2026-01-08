@@ -270,6 +270,16 @@
     animation: copySuccess 0.5s ease;
 }
 
+/* Copy Error Animation */
+@keyframes copyError {
+    0% { background: #dc3545; }
+    100% { background: #0066cc; }
+}
+
+.copy-error {
+    animation: copyError 0.5s ease;
+}
+
 /* Digest Modal */
 .digest-fullscreen {
     position: fixed;

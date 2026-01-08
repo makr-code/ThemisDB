@@ -63,7 +63,7 @@
                 showCopySuccess(button);
             } catch (err) {
                 console.error('Failed to copy:', err);
-                alert('Failed to copy to clipboard');
+                showCopyError(button);
             }
             
             // Remove temporary textarea
@@ -83,6 +83,22 @@
             setTimeout(function() {
                 button.text(originalText);
                 button.removeClass('copy-success');
+            }, 2000);
+        }
+        
+        /**
+         * Show copy error feedback
+         * @param {jQuery} button - Button element that was clicked
+         */
+        function showCopyError(button) {
+            const originalText = button.text();
+            button.text('✗ Failed');
+            button.addClass('copy-error');
+            
+            // Reset button after 2 seconds
+            setTimeout(function() {
+                button.text(originalText);
+                button.removeClass('copy-error');
             }, 2000);
         }
         
