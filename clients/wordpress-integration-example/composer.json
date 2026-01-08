@@ -1,0 +1,31 @@
+{
+    "name": "themisdb/wordpress-llm-integration",
+    "description": "WordPress Plugin for ThemisDB LLM Integration - Hybrid Approach",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ThemisDB Team",
+            "email": "info@themisdb.org"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "themisdb/themisdb-php": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ThemisDB\\WordPress\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "cs-check": "phpcs --standard=PSR12 src/",
+        "cs-fix": "phpcbf --standard=PSR12 src/"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
