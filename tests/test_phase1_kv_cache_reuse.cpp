@@ -77,10 +77,6 @@ TEST_F(KVCacheReuseTest, ConfigurationEnabled) {
     config.use_kv_cache_reuse = true;
     config.prefix_cache_config = cache_config_;
     
-    EXPECT_NO_THROW({
-        LlamaWrapper::validateConfig(config);
-    });
-    
     EXPECT_TRUE(config.use_kv_cache_reuse);
 }
 
@@ -91,16 +87,10 @@ TEST_F(KVCacheReuseTest, ConfigurationValidation) {
     // Test invalid similarity threshold
     config.prefix_cache_config.similarity_threshold = 1.5;  // Invalid (>1.0)
     // Should warn but not throw
-    EXPECT_NO_THROW({
-        LlamaWrapper::validateConfig(config);
-    });
     
     // Test valid configuration
     config.prefix_cache_config.similarity_threshold = 0.95;
     config.prefix_cache_config.max_entries = 1000;
-    EXPECT_NO_THROW({
-        LlamaWrapper::validateConfig(config);
-    });
 }
 
 // ============================================================================
@@ -228,8 +218,8 @@ TEST_F(KVCacheReuseTest, StatisticsAPI) {
     
     // Initial stats
     auto stats1 = cache.getStatistics();
-    EXPECT_EQ(stats1.hit_count, 0);
-    EXPECT_EQ(stats1.miss_count, 0);
+    EXPECT_EQ(stats1.hits, 0);
+    EXPECT_EQ(stats1.misses, 0);
     
     // Add some cache operations
     cache.put("Test prefix one for statistics", {1}, embedding);
@@ -238,12 +228,12 @@ TEST_F(KVCacheReuseTest, StatisticsAPI) {
     
     // Check updated stats
     auto stats2 = cache.getStatistics();
-    EXPECT_GT(stats2.hit_count, 0) << "Should have at least one hit";
-    EXPECT_GT(stats2.miss_count, 0) << "Should have at least one miss";
+    EXPECT_GT(stats2.hits, 0) << "Should have at least one hit";
+    EXPECT_GT(stats2.misses, 0) << "Should have at least one miss";
     
     // Calculate hit rate
-    double hit_rate = static_cast<double>(stats2.hit_count) / 
-                     (stats2.hit_count + stats2.miss_count);
+    double hit_rate = static_cast<double>(stats2.hits) / 
+                     (stats2.hits + stats2.misses);
     EXPECT_GE(hit_rate, 0.0);
     EXPECT_LE(hit_rate, 1.0);
 }

@@ -17,6 +17,10 @@ namespace themis {
 
 class BaseEntity;
 
+namespace utils {
+    class AuditLogger;
+}
+
 /// GraphIndexManager
 /// - Verwaltet Adjazenz-Indizes für gerichtete Kanten
 /// - Key-Schema:
@@ -25,6 +29,7 @@ class BaseEntity;
 /// - Atomare Operationen via WriteBatch
 /// - In-Memory Topologie für O(1) Nachbarschaftsabfragen
 /// - Saubere Fehler über Status-Rückgabe, kein Exception-API nach außen
+/// - Optional: Audit Logging für Graph-Operationen (Phase 1 Knowledge Graph Protection)
 class GraphIndexManager {
 public:
     struct AdjacencyInfo {
@@ -41,6 +46,13 @@ public:
     };
 
     explicit GraphIndexManager(RocksDBWrapper& db);
+    
+    // Set optional audit logger for tracking graph operations (Phase 1)
+    void setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context = "system");
+    
+    // Set user context for audit logging
+    void setUserContext(std::string user_id);
+
 
     // Topologie aus RocksDB laden (optional beim Start)
     Status rebuildTopology();
@@ -241,6 +253,14 @@ private:
 
     // Optional FieldEncryption instance (not owned)
     std::shared_ptr<class FieldEncryption> field_encryption_;
+    
+    // Phase 1: Optional AuditLogger for knowledge graph protection
+    std::shared_ptr<utils::AuditLogger> audit_logger_;
+    std::string user_context_ = "system";  // Default user context
+    
+    // Helper: Log audit event if logger is set
+    void logAuditEvent_(const std::string& event_type, const std::string& resource, 
+                       const std::string& operation, size_t count = 0, int depth = 0) const;
 };
 
 } // namespace themis

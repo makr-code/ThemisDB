@@ -7,13 +7,56 @@
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-  [![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)
+  [![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
 ---
 
 ## 🎉 What's New
+
+### 🚀 v1.4.0-alpha - Advanced LLM Features (2026-01-05)
+
+#### 🧠 Advanced LLM Capabilities
+- 📝 **Grammar-Constrained Generation** - EBNF/GBNF support for guaranteed valid JSON/XML/CSV outputs (95-99% reliability vs 60-70%)
+  - Built-in grammars: JSON, XML, CSV, ReAct Agent
+  - Thread-safe grammar cache with LRU eviction
+  - Zero post-processing required
+- 🔭 **RoPE Scaling** - Extended context window from 4K → 32K tokens (8x increase)
+  - Linear, NTK-aware, YaRN scaling methods
+  - Process entire research papers and codebases
+- 🖼️ **Vision Support** - Multi-modal LLMs with CLIP-based image encoding
+  - LLaVA integration for image analysis
+  - Single and multiple image support
+  - Thread-safe VisionEncoder class
+- ⚡ **Flash Attention** - CUDA kernels for 15-25% speedup, 30% memory reduction
+  - Optimized attention mechanism
+  - Backward pass for training support
+  - Multi-compute capability support
+- 🎯 **Speculative Decoding** - 2-3x faster inference with draft+target models
+- 🔄 **Continuous Batching** - 2x+ throughput with dynamic request batching
+
+#### 🏢 Enterprise Enhancements
+- 🔥 **Hot Spare Management** - Automatic failover with health monitoring
+- 📊 **Enhanced Prometheus Metrics** - LLM inference, cache performance, response tracking
+- 🔄 **WAL Replication via gRPC** - Distributed inter-shard replication
+- 🎮 **Multi-GPU LoRA Support** - Distributed LoRA adapters across GPUs
+- 🐘 **PostgreSQL Protocol** - COPY, prepared statements, transaction support
+
+#### 📊 Quality & Testing
+- 31 new test suites with comprehensive coverage
+- 11 new performance benchmarks
+- 17 new documentation guides
+- 938 files changed (+113,762 lines, -45,154 lines)
+
+**📚 Quick Links:**
+- [Grammar-Constrained Generation](docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
+- [RoPE Scaling Guide](docs/en/llm/ROPE_SCALING_IMPLEMENTATION.md)
+- [Vision Support Quick Start](docs/en/llm/VISION_SUPPORT_QUICK_START.md)
+- [Flash Attention Implementation](docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
+- [Complete Changelog](CHANGELOG.md#v140-alpha)
+
+---
 
 ### �️ RAID Sharding Deadlock Hotfix (2026-01-04)
 - 🔧 **Critical Fix** - Resolved server hang in RAID cluster mode at "Adaptive Index Manager initialized"
@@ -27,14 +70,15 @@
 **Files Modified:** `src/storage/rocksdb_wrapper.cpp`, `src/server/http_server.cpp`, `docker/compose/docker-compose-sharding.yml`, `Dockerfile.themis-server`, `.dockerignore`  
 **Tools Added:** `scripts/raid_endurance_test.py`, `scripts/monitor_raid_test.ps1`
 
-### �🔒 RocksDB Wrapper Security Hotfix (2026-01-02)
-- 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper
-- 🔧 **Memory Safety** - Fixed use-after-free vulnerability in BlockBasedTableOptions
-- ✅ **Null-Pointer Protection** - Added null-checks for `options_->env` before SetBackgroundThreads calls
-- 📊 **Transaction Safety** - Improved transaction error handling and resource cleanup
-- 📝 **Comprehensive Audit** - Full security audit report available in [ROCKSDB_WRAPPER_AUDIT_REPORT.md](ROCKSDB_WRAPPER_AUDIT_REPORT.md)
+### 🔒 Security Improvements Summary (v1.3.0 - v1.3.4)
+- 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper (100% segfault risk elimination)
+- 🐳 **Docker Security** - Upgraded to Ubuntu 24.04 LTS with 80%+ CVE reduction
+- 🔄 **Update Checker Security** - Secure token handling, HTTPS-only, thread-safe implementation
+- 🔐 **Binary Authenticity** - Cryptographic manifest signing architecture (RSA-4096, SHA-256)
+- 🔧 **Memory Safety** - Fixed use-after-free vulnerabilities, memory leaks, and resource management
+- ✅ **Verification** - CodeQL passed, comprehensive audit reports, all critical issues resolved
 
-**Quick Links:** [Security Audit Report](ROCKSDB_WRAPPER_AUDIT_REPORT.md) | [Security Policy](SECURITY.md)
+**Quick Links:** [Security Summary (EN)](docs/SECURITY_WORK_SUMMARY_v1.3.4_EN.md) | [Sicherheitszusammenfassung (DE)](docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md) | [Security Audit](docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md) | [Security Policy](SECURITY.md)
 
 ### 🎙️ Voice Assistant Integration (2025-12-30) - Enterprise Feature
 - 🗣️ **Natural Language Voice Interaction** - Similar to Alexa/Siri, powered by Whisper.cpp + Piper TTS + llama.cpp
@@ -88,11 +132,16 @@
 | Feature | Description | Status |
 |---------|-------------|--------|
 | 🧠 **Embedded LLM Engine** | llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params) | ✅ |
+| 📝 **Grammar Constraints** | EBNF/GBNF for guaranteed valid JSON/XML/CSV outputs | ✅ v1.4.0-alpha |
+| 🔭 **RoPE Scaling** | Extended context window 4K → 32K tokens (8x increase) | ✅ v1.4.0-alpha |
+| 🖼️ **Vision Support** | Multi-modal LLMs with CLIP image encoding (LLaVA) | ✅ v1.4.0-alpha |
+| ⚡ **Flash Attention** | CUDA kernels: 15-25% speedup, 30% memory reduction | ✅ v1.4.0-alpha |
+| 🎯 **Speculative Decoding** | 2-3x faster inference with draft+target models | ✅ v1.4.0-alpha |
+| 🔄 **Continuous Batching** | 2x+ throughput with dynamic request batching | ✅ v1.4.0-alpha |
 | 🎙️ **Voice Assistant** | STT/TTS/LLM for phone calls, meetings, voice commands (Enterprise) | ✅ |
 | 🖼️ **Image Analysis AI** | Multi-backend plugins (llama.cpp Vision, ONNX CLIP, OpenCV DNN) | ✅ |
 | ⚡ **GPU Acceleration** | NVIDIA CUDA support with significant speedup | ✅ |
 | 💾 **PagedAttention** | Advanced memory management | ✅ |
-| 🎯 **Continuous Batching** | Handle concurrent inference requests | ✅ |
 | 🔧 **Quantization** | Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage | ✅ |
 | 📊 **Monitoring** | Grafana dashboards with metrics and alerts | ✅ |
 | 🔌 **Plugin Architecture** | Extensible LLM and image analysis backends | ✅ |

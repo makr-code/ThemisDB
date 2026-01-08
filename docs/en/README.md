@@ -4,25 +4,77 @@
 > This is a translation of the ThemisDB documentation. The **authoritative and most up-to-date documentation is maintained in German** (`docs/de/`).  
 > Translations may lag behind the German version. For the latest information, please refer to the [German documentation](../de/README.md).
 
-**Last Updated:** December 20, 2025  
-**Version:** 1.3.0 (LLM Integration Release)  
+**Last Updated:** January 5, 2026  
+**Version:** 1.4.0-alpha (Advanced LLM Features)  
 **Type:** Documentation Index  
 **Language:** English (Translation)
 
 ---
 
-## 🚀 NEW in v1.3.0: Native LLM Integration (Optional Feature) ✅
+## 🚀 NEW in v1.4.0-alpha: Advanced LLM Features ✅
 
-**AI directly in the database - no external API costs!**
+**AI directly in the database with advanced capabilities - no external API costs!**
 
-> **Important**: LLM Integration is an **optional feature** in v1.3.0:
+### Advanced LLM Features (v1.4.0-alpha)
+
+- 📝 **Grammar-Constrained Generation** - EBNF/GBNF support for guaranteed valid outputs (95-99% reliability vs 60-70%)
+  - Built-in grammars: JSON, XML, CSV, ReAct Agent
+  - Thread-safe grammar cache with LRU eviction
+  - Zero post-processing required
+- 🔭 **RoPE Scaling** - Extended context window from 4K → 32K tokens (8x increase)
+  - Linear, NTK-aware, YaRN scaling methods
+  - Process entire research papers and codebases
+- 🖼️ **Vision Support** - Multi-modal LLMs with CLIP-based image encoding
+  - LLaVA integration for image analysis
+  - Single and multiple image support
+- ⚡ **Flash Attention** - CUDA kernels for 15-25% speedup, 30% memory reduction
+  - Optimized attention mechanism
+  - Backward pass for training support
+- 🎯 **Speculative Decoding** - 2-3x faster inference with draft+target models
+- 🔄 **Continuous Batching** - 2x+ throughput with dynamic request batching
+
+### Documentation (v1.4.0-alpha)
+
+- **[Grammar-Constrained Generation](llm/GRAMMAR_CONSTRAINED_GENERATION.md)** ⭐ **v1.4.0-alpha**
+  - EBNF/GBNF grammar support
+  - Built-in and custom grammars
+  - Usage examples and best practices
+
+- **[RoPE Scaling Implementation](llm/ROPE_SCALING_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - Extended context windows (4K→32K)
+  - Scaling methods comparison
+  - Configuration guide
+
+- **[Vision Support Quick Start](llm/VISION_SUPPORT_QUICK_START.md)** ⭐ **v1.4.0-alpha**
+  - Multi-modal LLM setup
+  - CLIP model integration
+  - Image analysis examples
+
+- **[Flash Attention Implementation](llm/FLASH_ATTENTION_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - CUDA kernel optimization
+  - Performance benchmarks
+  - Configuration guide
+
+- **[Speculative Decoding](llm/SPECULATIVE_DECODING_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - Draft+target model pairing
+  - 2-3x speedup guide
+  - Model recommendations
+
+- **[Continuous Batching](llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - Dynamic batching configuration
+  - Throughput optimization
+  - Token budget management
+
+## 🚀 LLM Integration (Optional Feature) - v1.3.0 Base
+
+> **Important**: LLM Integration is an **optional feature** in v1.3.0+:
 > - Requires build flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - Requires external dependency: llama.cpp (clone separately)
 > - See [Build Guide](guides/guides_build_strategy.md) for setup instructions
 
 ThemisDB can be extended as the first multi-model database with an **embedded LLM engine**:
 
-### Highlights (Production-Ready, when enabled)
+### Core Features (v1.3.0)
 
 - 🧠 **Embedded llama.cpp** - SLMs/LLMs (1B-70B parameters) directly on GPU ✅
 - ⚡ **GPU Acceleration** - Significant speedup with NVIDIA CUDA support ✅

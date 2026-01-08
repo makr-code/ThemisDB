@@ -1,5 +1,10 @@
 name: Sync Documentation to GitHub Wiki
 
+# This workflow syncs documentation to GitHub Wiki only when explicitly triggered:
+# - On version tags (v*.*.*)
+# - Manual workflow dispatch from GitHub UI
+# No automatic/scheduled syncs - on-demand only!
+
 on:
   push:
     tags:

@@ -5,9 +5,10 @@ CONFIG_TEMPLATE="/usr/local/share/themis/config.qnap.json"
 TARGET_CONFIG="${THEMIS_CONFIG_PATH:-/etc/themis/config.json}"
 PORT="${THEMIS_PORT:-18765}"
 
-# Ensure persistent directories exist with permissive ownership
+# Ensure persistent directories exist with secure ownership
+# Use 0750 permissions (rwxr-x---) to prevent world access
 mkdir -p /data /data/themis_server /data/vector_indexes /var/log/themis || true
-chmod 0775 /data /data/themis_server /data/vector_indexes /var/log/themis || true
+chmod 0750 /data /data/themis_server /data/vector_indexes /var/log/themis || true
 
 # Try to set ownership to the non-root runtime user (uid 999)
 if id -u themis >/dev/null 2>&1; then

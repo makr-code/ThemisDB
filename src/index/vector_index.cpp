@@ -8,6 +8,7 @@
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include "utils/simd_distance.h"
+#include "utils/audit_logger.h"  // Phase 1: Knowledge Graph Protection
 
 // EXPERIMENTAL: Lossless vector compression support
 // NOTE: This is a scientific experiment and may be rolled back.
@@ -45,6 +46,49 @@ VectorIndexManager::VectorIndexManager(RocksDBWrapper& db) : db_(db) {}
 
 VectorIndexManager::~VectorIndexManager() {
 	shutdown();
+}
+
+// Phase 1: Set audit logger for tracking vector operations
+void VectorIndexManager::setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context) {
+	audit_logger_ = std::move(logger);
+	user_context_ = std::move(user_context);
+}
+
+void VectorIndexManager::setUserContext(std::string user_id) {
+	user_context_ = std::move(user_id);
+}
+
+// Helper: Log audit event if audit logger is configured
+void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std::string& resource,
+                                        const std::string& operation, size_t count) const {
+	if (!audit_logger_) return;
+	
+	try {
+		nlohmann::json details = {
+			{"operation", operation},
+			{"resource", resource}
+		};
+		
+		if (count > 0) {
+			details["count"] = count;
+		}
+		
+		// Map event_type string to SecurityEventType enum
+		utils::SecurityEventType event;
+		if (event_type == "EMBEDDING_QUERY") {
+			event = utils::SecurityEventType::EMBEDDING_QUERY;
+		} else if (event_type == "EMBEDDING_EXPORT") {
+			event = utils::SecurityEventType::EMBEDDING_EXPORT;
+		} else {
+			event = utils::SecurityEventType::CUSTOM_EVENT;
+			details["custom_event_type"] = event_type;
+		}
+		
+		audit_logger_->logSecurityEvent(event, user_context_, resource, details);
+	} catch (const std::exception& e) {
+		// Don't fail vector operations if audit logging fails
+		THEMIS_WARN("Failed to log audit event: {}", e.what());
+	}
 }
 
 VectorIndexManager::Status VectorIndexManager::shutdown() {
@@ -437,6 +481,12 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 		}
 		return true;
 	});
+	
+	// Phase 1: Audit log for bulk embedding rebuild (threshold: 100+ vectors)
+	if (cache_.size() >= 100) {
+		logAuditEvent_("EMBEDDING_EXPORT", objectName_, "rebuildFromStorage", cache_.size());
+	}
+	
 	return Status::OK();
 }
 
@@ -979,7 +1029,14 @@ VectorIndexManager::searchKnn(const std::vector<float>& query, size_t k, const s
 	}
 #endif
 	// Fallback oder Whitelist-Fall: Brute-Force
-	return {Status::OK(), bruteForceSearch_(query, k, whitelist)};
+	auto results = bruteForceSearch_(query, k, whitelist);
+	
+	// Phase 1: Audit log for embedding queries (threshold: 10+ results or whitelist usage)
+	if (results.size() >= 10 || (whitelist && !whitelist->empty())) {
+		logAuditEvent_("EMBEDDING_QUERY", objectName_, "searchKnn", results.size());
+	}
+	
+	return {Status::OK(), std::move(results)};
 }
 
 // =============================================================================

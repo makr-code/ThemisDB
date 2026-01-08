@@ -26,7 +26,9 @@
 #include "content/content_processor.h"
 #include "content/mime_detector.h"
 #include "cache/semantic_cache.h"
+#ifdef THEMIS_ENABLE_SSE
 #include "server/sse_connection_manager.h"
+#endif
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #include "server/websocket_session.h"
 #endif
@@ -77,6 +79,9 @@ class SpatialIndexManager;
 }
 
 namespace server {
+
+// Forward declare SSE manager so member can exist without header
+class SseConnectionManager;
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -547,7 +552,9 @@ private:
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
     
     // SSE Connection Manager for Changefeed streaming
+#ifdef THEMIS_ENABLE_SSE
     std::unique_ptr<SseConnectionManager> sse_manager_;
+#endif
     
 #ifdef THEMIS_ENABLE_WEBSOCKET
     // WebSocket Connection Manager

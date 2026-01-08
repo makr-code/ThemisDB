@@ -1,0 +1,358 @@
+/* ThemisDB Docker Downloads - Frontend Styles */
+
+.themisdb-docker-downloads-container {
+    margin: 20px 0;
+}
+
+.themisdb-docker-tag {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.themisdb-docker-tag:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease;
+}
+
+.tag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 10px;
+}
+
+.tag-name {
+    margin: 0;
+    font-size: 1.5em;
+    color: #0066cc;
+}
+
+.tag-date {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.tag-info {
+    margin-top: 15px;
+}
+
+.pull-command {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.docker-command {
+    display: inline-block;
+    background: #f1f3f5;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.copy-command-btn,
+.copy-digest-btn,
+.copy-btn {
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+.copy-command-btn:hover,
+.copy-digest-btn:hover,
+.copy-btn:hover {
+    background: #0052a3;
+}
+
+.tag-images {
+    margin: 15px 0;
+}
+
+.architecture-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.architecture-item {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.arch-platform {
+    font-weight: bold;
+    color: #0066cc;
+    display: inline-block;
+    min-width: 120px;
+}
+
+.image-digest {
+    margin-top: 8px;
+    font-size: 0.9em;
+}
+
+.digest-value {
+    background: #f1f3f5;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+}
+
+.image-size {
+    display: inline-block;
+    margin-left: 15px;
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+.tag-links {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.docker-hub-link {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.docker-hub-link:hover {
+    text-decoration: underline;
+}
+
+/* Compact Style */
+.themisdb-docker-downloads-compact {
+    margin: 20px 0;
+}
+
+.docker-tags-list {
+    list-style: none;
+    padding: 0;
+}
+
+.docker-tag-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.docker-tag-item .tag-name {
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.docker-tag-item .pull-command {
+    flex: 1;
+    background: #fff;
+    padding: 8px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+}
+
+/* Table Style */
+.themisdb-docker-downloads-table {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.docker-tags-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.docker-tags-table th {
+    background: #0066cc;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.docker-tags-table td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.docker-tags-table tr:hover {
+    background: #f8f9fa;
+}
+
+.docker-tags-table .pull-command code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    background: #f1f3f5;
+    padding: 4px 8px;
+    border-radius: 3px;
+}
+
+.docker-tags-table .actions {
+    white-space: nowrap;
+}
+
+.docker-tags-table .hub-link {
+    margin-left: 8px;
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.docker-tags-table .hub-link:hover {
+    text-decoration: underline;
+}
+
+/* Error Message */
+.themisdb-docker-error {
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tag-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .docker-command {
+        font-size: 0.8em;
+        overflow-x: auto;
+        max-width: 100%;
+    }
+    
+    .docker-tags-table {
+        font-size: 0.9em;
+    }
+    
+    .docker-tag-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Copy Success Animation */
+@keyframes copySuccess {
+    0% { background: #28a745; }
+    100% { background: #0066cc; }
+}
+
+.copy-success {
+    animation: copySuccess 0.5s ease;
+}
+
+/* Copy Error Animation */
+@keyframes copyError {
+    0% { background: #dc3545; }
+    100% { background: #0066cc; }
+}
+
+.copy-error {
+    animation: copyError 0.5s ease;
+}
+
+/* Digest Modal */
+.digest-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.digest-modal {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.digest-modal h3 {
+    margin-top: 0;
+    color: #0066cc;
+}
+
+.full-digest-code {
+    display: block;
+    background: #f1f3f5;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    word-break: break-all;
+    margin: 15px 0;
+    border: 1px solid #dee2e6;
+}
+
+.copy-full-digest,
+.close-digest-modal {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.copy-full-digest {
+    background: #0066cc;
+    color: white;
+}
+
+.copy-full-digest:hover {
+    background: #0052a3;
+}
+
+.close-digest-modal {
+    background: #6c757d;
+    color: white;
+}
+
+.close-digest-modal:hover {
+    background: #5a6268;
+}
+
+.digest-value {
+    cursor: pointer;
+}
+
+.digest-value:hover {
+    background: #e9ecef;
+}

@@ -93,6 +93,53 @@ impl<T> Default for QueryResult<T> {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LlmMessage {
+    pub role: String,
+    pub content: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub image_url: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReasoningStep {
+    pub r#type: String,
+    pub content: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LlmInteraction {
+    pub id: String,
+    pub created_at: String,
+    pub model: String,
+    pub messages: Vec<LlmMessage>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reasoning_steps: Option<Vec<ReasoningStep>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<Map<String, Value>>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct LlmInteractionResult {
+    pub id: String,
+    pub success: bool,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct LlmInteractionOptions {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reasoning_steps: Option<Vec<ReasoningStep>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<Map<String, Value>>,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct ListLlmInteractionsOptions {
+    pub model: Option<String>,
+    pub limit: Option<u32>,
+    pub offset: Option<u32>,
+}
+
 #[derive(Debug, Error)]
 pub enum ThemisError {
     #[error("invalid configuration: {0}")]
@@ -377,6 +424,107 @@ impl ThemisClient {
             }
         }
         Ok(json!({ "results": results, "partials": raw }))
+    }
+
+    // ==================== LLM API ====================
+
+    pub async fn llm_interaction(
+        &self,
+        model: &str,
+        messages: Vec<LlmMessage>,
+        options: Option<LlmInteractionOptions>,
+    ) -> Result<LlmInteractionResult> {
+        let mut body = json!({
+            "model": model,
+            "messages": messages,
+        });
+
+        if let Some(opts) = options {
+            if let Some(reasoning_steps) = opts.reasoning_steps {
+                body["reasoning_steps"] = json!(reasoning_steps);
+            }
+            if let Some(metadata) = opts.metadata {
+                body["metadata"] = json!(metadata);
+            }
+        }
+
+        let endpoint = &self.config.endpoints[0];
+        let url = format!("{}/llm/interaction", endpoint.trim_end_matches('/'));
+        let response = self
+            .request(
+                Method::POST,
+                url,
+                Some(RequestBody {
+                    body: Some(body.to_string()),
+                    content_type: Some(JSON_CONTENT_TYPE.to_string()),
+                }),
+            )
+            .await?;
+
+        let result = ensure_success(response)
+            .await?
+            .json::<LlmInteractionResult>()
+            .await
+            .map_err(|err| ThemisError::Serde(err.to_string()))?;
+
+        Ok(result)
+    }
+
+    pub async fn get_llm_interaction(&self, interaction_id: &str) -> Result<Option<LlmInteraction>> {
+        let endpoint = &self.config.endpoints[0];
+        let url = format!("{}/llm/interaction/{}", endpoint.trim_end_matches('/'), interaction_id);
+        let response = self.request(Method::GET, url, None).await?;
+
+        if response.status() == 404 {
+            return Ok(None);
+        }
+
+        let interaction = ensure_success(response)
+            .await?
+            .json::<LlmInteraction>()
+            .await
+            .map_err(|err| ThemisError::Serde(err.to_string()))?;
+
+        Ok(Some(interaction))
+    }
+
+    pub async fn list_llm_interactions(
+        &self,
+        options: Option<ListLlmInteractionsOptions>,
+    ) -> Result<Vec<LlmInteraction>> {
+        let endpoint = &self.config.endpoints[0];
+        let mut url = format!("{}/llm/interaction", endpoint.trim_end_matches('/'));
+
+        if let Some(opts) = options {
+            let mut params = Vec::new();
+            if let Some(model) = opts.model {
+                params.push(format!("model={}", model));
+            }
+            if let Some(limit) = opts.limit {
+                params.push(format!("limit={}", limit));
+            }
+            if let Some(offset) = opts.offset {
+                params.push(format!("offset={}", offset));
+            }
+            if !params.is_empty() {
+                url = format!("{}?{}", url, params.join("&"));
+            }
+        }
+
+        let response = self.request(Method::GET, url, None).await?;
+
+        #[derive(Deserialize)]
+        struct ListResponse {
+            interactions: Vec<LlmInteraction>,
+        }
+
+        let list_response = ensure_success(response)
+            .await?
+            .json::<ListResponse>()
+            .await
+            .map_err(|err| ThemisError::Serde(err.to_string()))?;
+
+        Ok(list_response.interactions)
     }
 
     // ==================== Graph API ====================

@@ -1,0 +1,668 @@
+/* ThemisDB Downloads Plugin - Frontend Styles */
+
+.themisdb-downloads-container {
+    margin: 2rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.themisdb-release {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.release-header {
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.release-version {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    color: #23282d;
+}
+
+.release-tag {
+    display: inline-block;
+    background: #0073aa;
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    font-weight: normal;
+}
+
+.release-date {
+    color: #666;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.release-notes {
+    background: #f7f7f7;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.release-downloads h4 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    color: #23282d;
+}
+
+.downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.download-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.download-item:hover {
+    background: #fff;
+    border-color: #0073aa;
+    box-shadow: 0 2px 8px rgba(0,115,170,0.1);
+}
+
+.download-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.download-info {
+    flex: 1;
+}
+
+.download-link {
+    display: inline-block;
+    font-weight: 600;
+    color: #0073aa;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    word-break: break-all;
+}
+
+.download-link:hover {
+    text-decoration: underline;
+}
+
+.download-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.75rem;
+}
+
+.download-checksum {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.download-checksum strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #23282d;
+}
+
+.sha256-hash {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    background: #f7f7f7;
+    padding: 0.5rem;
+    border-radius: 3px;
+    word-break: break-all;
+    margin-bottom: 0.5rem;
+}
+
+.copy-hash-button {
+    background: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.copy-hash-button:hover {
+    background: #005a87;
+}
+
+.copy-hash-button.copied {
+    background: #46b450;
+}
+
+.release-checksums {
+    margin-top: 1.5rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+}
+
+.release-checksums summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #0073aa;
+    padding: 0.5rem;
+    background: #f7f7f7;
+    border-radius: 4px;
+}
+
+.release-checksums summary:hover {
+    background: #e7e7e7;
+}
+
+.checksums-list {
+    margin-top: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.checksum-item {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.85rem;
+}
+
+.checksum-item:last-child {
+    border-bottom: none;
+}
+
+.checksum-filename {
+    font-weight: 600;
+    color: #23282d;
+}
+
+.checksum-hash {
+    font-family: 'Courier New', monospace;
+    color: #666;
+    font-size: 0.75rem;
+}
+
+/* Compact Style */
+.themisdb-downloads-compact {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+.release-compact {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.release-compact:last-child {
+    border-bottom: none;
+}
+
+.release-date-compact {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.downloads-compact {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.download-link-compact {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: #0073aa;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+.download-link-compact:hover {
+    background: #005a87;
+}
+
+/* Table Style */
+.themisdb-downloads-table {
+    overflow-x: auto;
+}
+
+.themisdb-downloads-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.themisdb-downloads-table th {
+    background: #f7f7f7;
+    font-weight: 600;
+    text-align: left;
+}
+
+.themisdb-downloads-table td,
+.themisdb-downloads-table th {
+    padding: 0.75rem;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Verify Tool */
+.themisdb-verify-tool {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.themisdb-verify-tool h3 {
+    margin-top: 0;
+    color: #23282d;
+}
+
+.verify-input-group {
+    margin-bottom: 1.5rem;
+}
+
+.verify-input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #23282d;
+}
+
+.themisdb-file-input,
+.themisdb-hash-input {
+    width: 100%;
+    max-width: 600px;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.verify-result {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 4px;
+    display: none;
+}
+
+.verify-result.success {
+    display: block;
+    background: #d7f5d7;
+    border: 1px solid #46b450;
+    color: #155724;
+}
+
+.verify-result.error {
+    display: block;
+    background: #f8d7da;
+    border: 1px solid #dc3545;
+    color: #721c24;
+}
+
+.verify-result.warning {
+    display: block;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    color: #856404;
+}
+
+.verify-instructions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+}
+
+.verify-instructions h4 {
+    margin-top: 1rem;
+    color: #23282d;
+}
+
+.verify-instructions code {
+    display: block;
+    background: #f7f7f7;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    margin: 0.5rem 0;
+}
+
+/* Notices */
+.themisdb-downloads-notice,
+.themisdb-downloads-error {
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.themisdb-downloads-notice {
+    background: #e7f5fe;
+    border: 1px solid #0073aa;
+    color: #23282d;
+}
+
+.themisdb-downloads-error {
+    background: #f8d7da;
+    border: 1px solid #dc3545;
+    color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .downloads-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .download-item {
+        flex-direction: column;
+    }
+    
+    .download-icon {
+        font-size: 2rem;
+    }
+    
+    .checksum-item {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* README and CHANGELOG Styles */
+.themisdb-readme-container,
+.themisdb-changelog-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.readme-header,
+.changelog-header {
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.readme-header h3,
+.changelog-header h3 {
+    margin: 0;
+    color: #23282d;
+    font-size: 1.5rem;
+}
+
+.readme-content,
+.changelog-content {
+    line-height: 1.8;
+    color: #23282d;
+}
+
+.readme-content h1,
+.changelog-content h1 {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #23282d;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.readme-content h2,
+.changelog-content h2 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: #23282d;
+}
+
+.readme-content h3,
+.changelog-content h3 {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #23282d;
+}
+
+.readme-content ul,
+.changelog-content ul {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.readme-content li,
+.changelog-content li {
+    margin: 0.5rem 0;
+}
+
+.readme-content code,
+.changelog-content code {
+    background: #f7f7f7;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    border: 1px solid #ddd;
+}
+
+.readme-content pre,
+.changelog-content pre {
+    background: #f7f7f7;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    margin: 1rem 0;
+}
+
+.readme-content pre code,
+.changelog-content pre code {
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+.readme-content a,
+.changelog-content a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.readme-content a:hover,
+.changelog-content a:hover {
+    text-decoration: underline;
+}
+
+.readme-content blockquote,
+.changelog-content blockquote {
+    border-left: 4px solid #0073aa;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #666;
+    font-style: italic;
+}
+
+.readme-content table,
+.changelog-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.readme-content table th,
+.changelog-content table th {
+    background: #f7f7f7;
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-weight: 600;
+}
+
+.readme-content table td,
+.changelog-content table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+}
+
+.readme-content img,
+.changelog-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+/* Responsive for README/CHANGELOG */
+@media (max-width: 768px) {
+    .themisdb-readme-container,
+    .themisdb-changelog-container {
+        padding: 1rem;
+    }
+    
+    .readme-content,
+    .changelog-content {
+        font-size: 0.95rem;
+    }
+}
+
+/* Mermaid Diagrams */
+.readme-content .mermaid,
+.changelog-content .mermaid {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+}
+
+/* Ensure Mermaid SVG is responsive */
+.readme-content .mermaid svg,
+.changelog-content .mermaid svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Markdown Tables */
+.readme-content .markdown-table,
+.changelog-content .markdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    border: 1px solid #ddd;
+}
+
+.readme-content .markdown-table th,
+.changelog-content .markdown-table th {
+    background: #f7f7f7;
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-weight: 600;
+    color: #23282d;
+}
+
+.readme-content .markdown-table td,
+.changelog-content .markdown-table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+}
+
+.readme-content .markdown-table tr:nth-child(even),
+.changelog-content .markdown-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+/* Markdown Images */
+.readme-content .markdown-image,
+.changelog-content .markdown-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1rem 0;
+    display: block;
+}
+
+/* Horizontal Rules */
+.readme-content hr,
+.changelog-content hr {
+    border: none;
+    border-top: 2px solid #ddd;
+    margin: 2rem 0;
+}
+
+/* Strikethrough text */
+.readme-content del,
+.changelog-content del {
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Nested Lists */
+.readme-content ul ul,
+.readme-content ul ol,
+.readme-content ol ul,
+.readme-content ol ol,
+.changelog-content ul ul,
+.changelog-content ul ol,
+.changelog-content ol ul,
+.changelog-content ol ol {
+    margin: 0.5rem 0;
+}
+
+/* Ordered Lists */
+.readme-content ol,
+.changelog-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    list-style-type: decimal;
+}
+
+/* Code blocks with language highlighting */
+.readme-content pre code[class*="language-"],
+.changelog-content pre code[class*="language-"] {
+    display: block;
+    overflow-x: auto;
+}
+
+/* Better spacing for paragraphs */
+.readme-content p,
+.changelog-content p {
+    margin: 1rem 0;
+}
+
+/* First paragraph no margin top */
+.readme-content p:first-child,
+.changelog-content p:first-child {
+    margin-top: 0;
+}
+
+/* Last paragraph no margin bottom */
+.readme-content p:last-child,
+.changelog-content p:last-child {
+    margin-bottom: 0;
+}

@@ -44,6 +44,15 @@ enum class SecurityEventType {
     DATA_DELETE,
     BULK_EXPORT,
     
+    // Graph & Vector Operations (Phase 1 - Knowledge Graph Protection)
+    GRAPH_TRAVERSAL,        // BFS/DFS traversal operations
+    BULK_NODE_ACCESS,       // Large-scale node queries
+    BULK_EDGE_ACCESS,       // Large-scale edge queries
+    EMBEDDING_QUERY,        // Vector embedding queries
+    EMBEDDING_EXPORT,       // Vector embedding downloads
+    GRAPH_EXPORT,           // Full graph exports
+    TEMPORAL_QUERY,         // Historical graph queries
+    
     // PII Operations
     PII_ACCESSED,
     PII_REVEALED,

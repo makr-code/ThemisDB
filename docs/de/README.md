@@ -4,25 +4,77 @@
 > Dies ist die **maßgebliche und aktuellste Dokumentation** von ThemisDB.  
 > Übersetzungen sind in anderen Sprachen verfügbar: [English](../en/README.md) | [Français](../fr/README.md) | [Español](../es/README.md) | [日本語](../ja/README.md)
 
-**Stand:** 20. Dezember 2025  
-**Version:** 1.3.0 (LLM Integration Release)  
+**Stand:** 5. Januar 2026  
+**Version:** 1.4.0-alpha (Erweiterte LLM-Features)  
 **Typ:** Dokumentations-Index  
 **Sprache:** Deutsch (Hauptdokumentation)
 
 ---
 
-## 🚀 NEW in v1.3.0: Native LLM Integration (Optional Feature) ✅
+## 🚀 NEU in v1.4.0-alpha: Erweiterte LLM-Funktionen ✅
 
-**AI direkt in der Datenbank - ohne externe API-Kosten!**
+**AI direkt in der Datenbank mit erweiterten Fähigkeiten - ohne externe API-Kosten!**
 
-> **Wichtig**: LLM-Integration ist ein **optionales Feature** in v1.3.0:
+### Neue Features in v1.4.0-alpha
+
+- 📝 **Grammatik-gesteuerte Generierung** - EBNF/GBNF-Unterstützung für garantiert valide Ausgaben (95-99% Zuverlässigkeit vs. 60-70%)
+  - Eingebaute Grammatiken: JSON, XML, CSV, ReAct Agent
+  - Thread-sicherer Grammar-Cache mit LRU-Verdrängung
+  - Keine Nachbearbeitung erforderlich
+- 🔭 **RoPE Scaling** - Erweitertes Kontextfenster von 4K → 32K Tokens (8-fache Vergrößerung)
+  - Skalierungsmethoden: Linear, NTK-aware, YaRN
+  - Verarbeitung ganzer Forschungspapiere und Codebases
+- 🖼️ **Vision Support** - Multi-modale LLMs mit CLIP-basierter Bildcodierung
+  - LLaVA-Integration für Bildanalyse
+  - Unterstützung für einzelne und mehrere Bilder
+- ⚡ **Flash Attention** - CUDA-Kernel für 15-25% Geschwindigkeitssteigerung, 30% Speicherreduktion
+  - Optimierter Attention-Mechanismus
+  - Backward Pass für Training-Unterstützung
+- 🎯 **Speculative Decoding** - 2-3x schnellere Inferenz mit Draft+Target-Modellen
+- 🔄 **Continuous Batching** - 2x+ Durchsatz mit dynamischem Request-Batching
+
+### Dokumentation (v1.4.0-alpha)
+
+- **[Grammatik-gesteuerte Generierung](../../en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)** ⭐ **v1.4.0-alpha**
+  - EBNF/GBNF-Grammatik-Unterstützung
+  - Eingebaute und benutzerdefinierte Grammatiken
+  - Verwendungsbeispiele und Best Practices
+
+- **[RoPE Scaling Implementierung](../../en/llm/ROPE_SCALING_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - Erweiterte Kontextfenster (4K→32K)
+  - Vergleich der Skalierungsmethoden
+  - Konfigurationshandbuch
+
+- **[Vision Support Quick Start](../../en/llm/VISION_SUPPORT_QUICK_START.md)** ⭐ **v1.4.0-alpha**
+  - Multi-modale LLM-Einrichtung
+  - CLIP-Modell-Integration
+  - Bildanalyse-Beispiele
+
+- **[Flash Attention Implementierung](../../en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - CUDA-Kernel-Optimierung
+  - Performance-Benchmarks
+  - Konfigurationshandbuch
+
+- **[Speculative Decoding](../../en/llm/SPECULATIVE_DECODING_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - Draft+Target-Modell-Pairing
+  - 2-3x Speedup-Anleitung
+  - Modellempfehlungen
+
+- **[Continuous Batching](../../en/llm/CONTINUOUS_BATCHING_IMPLEMENTATION.md)** ⭐ **v1.4.0-alpha**
+  - Dynamische Batching-Konfiguration
+  - Durchsatz-Optimierung
+  - Token-Budget-Management
+
+## 🚀 LLM-Integration (Optionales Feature) - v1.3.0 Basis
+
+> **Wichtig**: LLM-Integration ist ein **optionales Feature** in v1.3.0+:
 > - Erfordert Build-Flag: `-DTHEMIS_ENABLE_LLM=ON`
 > - Benötigt externe Abhängigkeit: llama.cpp (separat klonen)
 > - Siehe [Build Guide](guides/guides_build_strategy.md) für Setup-Anweisungen
 
 ThemisDB kann als erste Multi-Model-Datenbank mit **eingebetteter LLM-Engine** erweitert werden:
 
-### Highlights (Production-Ready, wenn aktiviert)
+### Kernfunktionen (v1.3.0)
 
 - 🧠 **Embedded llama.cpp** - SLMs/LLMs (1B-70B Parameter) direkt auf GPU ✅
 - ⚡ **GPU Acceleration** - Signifikanter Speedup mit NVIDIA CUDA support ✅

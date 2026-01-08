@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20)
 
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
@@ -6,16 +6,19 @@ if(NOT EXISTS "${CMAKE_SOURCE_DIR}/VERSION")
 endif()
 file(READ "${CMAKE_SOURCE_DIR}/VERSION" _ver)
 string(STRIP "${_ver}" _ver)
+# Accept semantic versions with optional pre-release/build suffixes, but sanitize for CMake's project(VERSION)
 if(NOT _ver MATCHES "^[0-9]+\\.[0-9]+\\.[0-9]+(.*)?$")
     message(FATAL_ERROR "Invalid VERSION content: '${_ver}'. Expected semantic version like 1.2.3")
 endif()
-
-# Extract numeric version for CMake project() command (CMake doesn't like -alpha suffix)
-string(REGEX REPLACE "^([0-9]+\\.[0-9]+\\.[0-9]+).*$" "\\1" _ver_numeric "${_ver}")
+# Extract numeric MAJOR.MINOR.PATCH for CMake's version field
+string(REGEX MATCH "^[0-9]+\\.[0-9]+\\.[0-9]+" _ver_numeric "${_ver}")
+if(NOT _ver_numeric)
+    message(FATAL_ERROR "Failed to parse numeric version from '${_ver}'")
+endif()
 
 project(Themis VERSION ${_ver_numeric} LANGUAGES CXX)
 
-# Make full project version (with suffix) available to all translation units
+# Make project version available to all translation units
 add_compile_definitions(THEMIS_VERSION_STRING="${_ver}")
 
 # Include modular build configuration (post-v1.3.0 feature)
@@ -208,7 +211,7 @@ option(THEMIS_ENABLE_ONEAPI "Enable Intel OneAPI/SYCL acceleration" OFF)
 option(THEMIS_ENABLE_OPENCL "Enable OpenCL acceleration" OFF)
 option(THEMIS_ENABLE_WEBGPU "Enable WebGPU acceleration (experimental)" OFF)
 
-# Lokal aktivierbare Code-Qualität (clang-tidy) ohne CI-Kosten.
+# Lokal aktivierbare Code-Qualit�t (clang-tidy) ohne CI-Kosten.
 option(ENABLE_LOCAL_CLANG_TIDY "Enable local clang-tidy analysis (off by default)" OFF)
 
 
@@ -346,6 +349,22 @@ add_compile_definitions(
     "THEMIS_SHARDING_MAX_NODES=${THEMIS_SHARDING_MAX_NODES}"
 )
 
+# MSVC: sanitize any accidentally injected '/WX:NO' options (invalid for cl.exe)
+if(MSVC)
+    get_property(_allTargets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_t IN LISTS _allTargets)
+        foreach(_prop IN ITEMS COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS)
+            get_target_property(_opts ${_t} ${_prop})
+            if(_opts)
+                list(TRANSFORM _opts REPLACE "/WX:NO" "")
+                list(TRANSFORM _opts REPLACE "/WX:No" "")
+                list(TRANSFORM _opts REPLACE "/WX:0"  "")
+                set_target_properties(${_t} PROPERTIES ${_prop} "${_opts}")
+            endif()
+        endforeach()
+    endforeach()
+endif()
+
 # Detect target architecture
 set(THEMIS_TARGET_ARCH "unknown")
 if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64|x64)$")
@@ -424,12 +443,12 @@ if(THEMIS_ENABLE_ASAN)
     endif()
 endif()
 
-# Optionale lokale clang-tidy Aktivierung (nicht in CI standardmäßig).
+# Optionale lokale clang-tidy Aktivierung (nicht in CI standardm��ig).
 if(ENABLE_LOCAL_CLANG_TIDY)
     find_program(CLANG_TIDY_EXE NAMES clang-tidy)
     if(CLANG_TIDY_EXE)
         message(STATUS "clang-tidy aktiviert: ${CLANG_TIDY_EXE}")
-        # Keine automatischen Fixes hier; Entwickler nutzen Skript für -fix.
+        # Keine automatischen Fixes hier; Entwickler nutzen Skript f�r -fix.
         set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
     else()
         message(WARNING "ENABLE_LOCAL_CLANG_TIDY=ON aber clang-tidy nicht gefunden.")
@@ -478,22 +497,6 @@ find_package(RocksDB CONFIG)
 # Note: vcpkg's rocksdb-shared only exports the C API, so linking the C++ wrapper
 # requires the static library even when themis_core is built as a DLL.
 set(THEMIS_ROCKSDB_TARGET "")
-        # Fix duplicate: remove the extra else block that was added
-        if(gRPC_FOUND AND Protobuf_FOUND)
-            # Already linked above
-        else()
-            # Try fallback with pkg-config
-            find_package(PkgConfig QUIET)
-            if(PkgConfig_FOUND)
-                pkg_check_modules(GRPC QUIET grpc++)
-                pkg_check_modules(PROTOBUF QUIET protobuf)
-                if(GRPC_FOUND AND PROTOBUF_FOUND)
-                    target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
-                    target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
-                    message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
-                endif()
-            endif()
-        endif()
 if(TARGET RocksDB::rocksdb)
     set(THEMIS_ROCKSDB_TARGET "RocksDB::rocksdb")
     message(STATUS "RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage")
@@ -586,9 +589,9 @@ if(THEMIS_ENABLE_GPU)
     # Try to locate OpenBLAS/LAPACK provided by vcpkg (CONFIG mode)
     find_package(OpenBLAS CONFIG QUIET)
     if(OpenBLAS_FOUND)
-        message(STATUS "OpenBLAS gefunden – BLAS-Unterstützung aktiv")
+        message(STATUS "OpenBLAS gefunden � BLAS-Unterst�tzung aktiv")
     else()
-        message(WARNING "OpenBLAS nicht gefunden – installieren mit: vcpkg install openblas")
+        message(WARNING "OpenBLAS nicht gefunden � installieren mit: vcpkg install openblas")
     endif()
 
     find_package(LAPACK CONFIG QUIET)
@@ -599,7 +602,7 @@ if(THEMIS_ENABLE_GPU)
     # FAISS (CONFIG mode via vcpkg). If missing, gracefully disable GPU.
     find_package(faiss CONFIG)
     if(NOT faiss_FOUND)
-        message(WARNING "Faiss nicht gefunden – GPU-Unterstützung wird automatisch deaktiviert.")
+        message(WARNING "Faiss nicht gefunden � GPU-Unterst�tzung wird automatisch deaktiviert.")
         set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search" FORCE)
     endif()
 endif()
@@ -696,9 +699,9 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/config")
     file(COPY "${CMAKE_SOURCE_DIR}/config" DESTINATION "${CMAKE_BINARY_DIR}")
 endif()
 
-# ═══════════════════════════════════════════════════════════
+# -----------------------------------------------------------
 # llama.cpp Integration (v1.3.0+)
-# ═══════════════════════════════════════════════════════════
+# -----------------------------------------------------------
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
 
@@ -762,302 +765,315 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "  llama.cpp configured successfully")
 endif()
 
+# Helper: normalize source entries that start with '/' to be rooted at the project source dir
+function(_themis_normalize_sources list_var)
+    set(_normalized "")
+    foreach(_entry IN LISTS ${list_var})
+        if(_entry MATCHES "^/")
+            list(APPEND _normalized "${CMAKE_SOURCE_DIR}${_entry}")
+        else()
+            list(APPEND _normalized "${_entry}")
+        endif()
+    endforeach()
+    set(${list_var} "${_normalized}" PARENT_SCOPE)
+endfunction()
+
 # Core library sources
 set(THEMIS_CORE_SOURCES
-    src/storage/rocksdb_wrapper.cpp
-    src/storage/base_entity.cpp
-    src/storage/key_schema.cpp
-    src/storage/backup_manager.cpp
+    /src/storage/rocksdb_wrapper.cpp
+    /src/storage/base_entity.cpp
+    /src/storage/key_schema.cpp
+    /src/storage/backup_manager.cpp
     
-    src/index/secondary_index.cpp
-    src/index/graph_index.cpp
-    src/index/temporal_graph.cpp
-    src/index/property_graph.cpp
-    src/index/edge_types.cpp
-    src/index/process_graph.cpp
-    src/index/gnn_embeddings.cpp
-    src/index/graph_analytics.cpp
-    src/index/vector_index.cpp
-    src/index/product_quantizer.cpp
-    src/index/adaptive_index.cpp
+    /src/index/secondary_index.cpp
+    /src/index/graph_index.cpp
+    /src/index/temporal_graph.cpp
+    /src/index/property_graph.cpp
+    /src/index/edge_types.cpp
+    /src/index/process_graph.cpp
+    /src/index/gnn_embeddings.cpp
+    /src/index/graph_analytics.cpp
+    /src/index/vector_index.cpp
+    /src/index/product_quantizer.cpp
+    /src/index/adaptive_index.cpp
     
-    src/security/mock_key_provider.cpp
-    src/security/vault_key_provider.cpp
-    src/security/key_cache.cpp
-    src/security/keyprovider_signing.cpp
-    src/security/vault_signing_provider.cpp
-    src/security/field_encryption.cpp
-    src/security/encrypted_field.cpp
-    src/security/malware_scanner.cpp
-    src/security/usb_admin_authenticator.cpp
+    /src/security/mock_key_provider.cpp
+    /src/security/vault_key_provider.cpp
+    /src/security/key_cache.cpp
+    /src/security/keyprovider_signing.cpp
+    /src/security/vault_signing_provider.cpp
+    /src/security/field_encryption.cpp
+    /src/security/encrypted_field.cpp
+    /src/security/malware_scanner.cpp
+    /src/security/usb_admin_authenticator.cpp
     
-    src/transaction/transaction_manager.cpp
-    src/transaction/saga.cpp
+    /src/transaction/transaction_manager.cpp
+    /src/transaction/saga.cpp
     
-    src/query/query_engine.cpp
-    src/query/query_optimizer.cpp
-    src/query/aql_parser.cpp
-    src/query/aql_parser_json.cpp
-    src/query/aql_translator.cpp
-    src/query/aql_runner.cpp
-    src/query/let_evaluator.cpp
-    src/query/window_evaluator.cpp
-    src/query/cte_subquery.cpp
-    src/query/cte_cache.cpp
+    /src/query/query_engine.cpp
+    /src/query/query_optimizer.cpp
+    /src/query/aql_parser.cpp
+    /src/query/aql_parser_json.cpp
+    /src/query/aql_translator.cpp
+    /src/query/aql_runner.cpp
+    /src/query/let_evaluator.cpp
+    /src/query/window_evaluator.cpp
+    /src/query/cte_subquery.cpp
+    /src/query/cte_cache.cpp
 
     
     
-    src/query/statistical_aggregator.cpp
-    src/query/semantic_cache.cpp
-    src/query/functions/function_registry.cpp
+    /src/query/statistical_aggregator.cpp
+    /src/query/semantic_cache.cpp
+    /src/query/functions/function_registry.cpp
     
-    src/server/http_server.cpp
-    $<$<BOOL:${THEMIS_ENABLE_SSE}>:src/server/sse_connection_manager.cpp>
-    src/server/audit_api_handler.cpp
-    src/server/pki_api_handler.cpp
-    src/server/saga_api_handler.cpp
-    src/server/pii_api_handler.cpp
-    src/server/retention_api_handler.cpp
-    src/server/keys_api_handler.cpp
-    src/server/classification_api_handler.cpp
-    src/server/reports_api_handler.cpp
-    src/server/ranger_adapter.cpp
-    src/server/policy_engine.cpp
-    src/server/auth_middleware.cpp
-    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:src/server/wal_grpc_service.cpp>
+    /src/server/http_server.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SSE}>:${CMAKE_SOURCE_DIR}/src/server/sse_connection_manager.cpp>
+    /src/server/audit_api_handler.cpp
+    /src/server/pki_api_handler.cpp
+    /src/server/saga_api_handler.cpp
+    /src/server/pii_api_handler.cpp
+    /src/server/retention_api_handler.cpp
+    /src/server/keys_api_handler.cpp
+    /src/server/classification_api_handler.cpp
+    /src/server/reports_api_handler.cpp
+    /src/server/ranger_adapter.cpp
+    /src/server/policy_engine.cpp
+    /src/server/auth_middleware.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:${CMAKE_SOURCE_DIR}/src/server/wal_grpc_service.cpp>
     
     # LLM integration (server/API/grpc) is added conditionally below
-    src/server/rate_limiter.cpp
-    src/server/rate_limiter_v2.cpp
-    src/server/load_shedder.cpp
-    src/server/update_api_handler.cpp
-    src/server/hot_reload_api_handler.cpp
-    src/server/export_api_handler.cpp
-    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:src/server/http2_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:src/server/http3_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:src/server/websocket_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:src/server/mqtt_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:src/server/postgres_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_MCP}>:src/server/mcp_server.cpp>
+    /src/server/rate_limiter.cpp
+    /src/server/rate_limiter_v2.cpp
+    /src/server/load_shedder.cpp
+    /src/server/update_api_handler.cpp
+    /src/server/hot_reload_api_handler.cpp
+    /src/server/export_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:${CMAKE_SOURCE_DIR}/src/server/http2_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:${CMAKE_SOURCE_DIR}/src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${CMAKE_SOURCE_DIR}/src/server/websocket_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:${CMAKE_SOURCE_DIR}/src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:${CMAKE_SOURCE_DIR}/src/server/postgres_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MCP}>:${CMAKE_SOURCE_DIR}/src/server/mcp_server.cpp>
     
-    src/content/content_type.cpp
-    src/content/content_manager.cpp
-    src/content/text_processor.cpp
-    src/content/mock_clip_processor.cpp
-    src/content/mime_detector.cpp
-    src/content/content_policy.cpp
-    src/content/content_fs.cpp
-    src/content/version_manager.cpp
+    /src/content/content_type.cpp
+    /src/content/content_manager.cpp
+    /src/content/text_processor.cpp
+    /src/content/mock_clip_processor.cpp
+    /src/content/mime_detector.cpp
+    /src/content/content_policy.cpp
+    /src/content/content_fs.cpp
+    /src/content/version_manager.cpp
     
-    src/cache/semantic_cache.cpp
-    src/cache/embedding_cache.cpp
+    /src/cache/semantic_cache.cpp
+    /src/cache/embedding_cache.cpp
     # LLM core components are added conditionally below
-    src/cdc/changefeed.cpp
+    /src/cdc/changefeed.cpp
     
     # Replication
-    src/replication/replication_manager.cpp
+    /src/replication/replication_manager.cpp
     
     # Temporal conflict resolution
-    src/temporal/temporal_conflict_resolver.cpp
+    /src/temporal/temporal_conflict_resolver.cpp
     
-    src/timeseries/timeseries.cpp
-    src/timeseries/tsstore.cpp
-    src/timeseries/gorilla.cpp
-    src/timeseries/retention.cpp
-    src/timeseries/continuous_agg.cpp
-    src/timeseries/aggregate_scheduler.cpp
-    src/timeseries/aggregate_scheduler_helper.cpp
-    src/timeseries/query_optimizer.cpp
+    /src/timeseries/timeseries.cpp
+    /src/timeseries/tsstore.cpp
+    /src/timeseries/gorilla.cpp
+    /src/timeseries/retention.cpp
+    /src/timeseries/continuous_agg.cpp
+    /src/timeseries/aggregate_scheduler.cpp
+    /src/timeseries/aggregate_scheduler_helper.cpp
+    /src/timeseries/query_optimizer.cpp
     
-    src/utils/serialization.cpp
-    src/utils/logger.cpp
-    src/utils/cursor.cpp
-    src/utils/tracing.cpp
-    src/utils/zstd_codec.cpp
-    src/utils/pki_client.cpp
-    src/utils/input_validator.cpp
-    src/utils/audit_logger.cpp
-    src/utils/pii_detection_engine.cpp
-    src/utils/regex_detection_engine.cpp
-    src/utils/pii_detector.cpp
-    src/utils/retention_manager.cpp
-    src/utils/hkdf_helper.cpp
-    src/utils/hkdf_cache.cpp
-    src/utils/saga_logger.cpp
-    src/utils/lek_manager.cpp
-    src/utils/stemmer.cpp
-    src/utils/stopwords.cpp
-    src/utils/pii_pseudonymizer.cpp
-    src/utils/normalizer.cpp
-    src/utils/simd_distance.cpp
-    src/utils/update_checker.cpp
-    src/utils/http_client_pool.cpp
-    src/utils/build_info.cpp
+    /src/utils/serialization.cpp
+    /src/utils/logger.cpp
+    /src/utils/cursor.cpp
+    /src/utils/tracing.cpp
+    /src/utils/zstd_codec.cpp
+    /src/utils/pki_client.cpp
+    /src/utils/input_validator.cpp
+    /src/utils/audit_logger.cpp
+    /src/utils/pii_detection_engine.cpp
+    /src/utils/regex_detection_engine.cpp
+    /src/utils/pii_detector.cpp
+    /src/utils/retention_manager.cpp
+    /src/utils/hkdf_helper.cpp
+    /src/utils/hkdf_cache.cpp
+    /src/utils/saga_logger.cpp
+    /src/utils/lek_manager.cpp
+    /src/utils/stemmer.cpp
+    /src/utils/stopwords.cpp
+    /src/utils/pii_pseudonymizer.cpp
+    /src/utils/normalizer.cpp
+    /src/utils/simd_distance.cpp
+    /src/utils/update_checker.cpp
+    /src/utils/http_client_pool.cpp
+    /src/utils/build_info.cpp
     
     # Updates (hot-reload)
-    src/updates/release_manifest.cpp
-    src/updates/manifest_database.cpp
-    src/updates/hot_reload_engine.cpp
-    src/updates/updates_config.cpp
+    /src/updates/release_manifest.cpp
+    /src/updates/manifest_database.cpp
+    /src/updates/hot_reload_engine.cpp
+    /src/updates/updates_config.cpp
     
     # Geo utilities
-    src/utils/geo/ewkb.cpp
+    /src/utils/geo/ewkb.cpp
     
     # Spatial index
-    src/index/spatial_index.cpp
+    /src/index/spatial_index.cpp
     
     # Hybrid search (BM25 + Vector)
-    src/search/hybrid_search.cpp
-    src/security/pki_key_provider.cpp
-    src/security/cms_signing.cpp
-    src/security/rbac.cpp
-    src/security/hsm_provider.cpp
-    src/security/hsm_provider_pkcs11.cpp
-    src/security/timestamp_authority.cpp
-    src/security/timestamp_authority_openssl.cpp
-    src/security/vcc_pki_client.cpp
-    src/storage/security_signature.cpp
-    src/storage/security_signature_manager.cpp
-    src/auth/jwt_validator.cpp
-    src/governance/policy_engine.cpp
+    /src/search/hybrid_search.cpp
+    /src/security/pki_key_provider.cpp
+    /src/security/cms_signing.cpp
+    /src/security/rbac.cpp
+    /src/security/hsm_provider.cpp
+    /src/security/hsm_provider_pkcs11.cpp
+    /src/security/timestamp_authority.cpp
+    /src/security/timestamp_authority_openssl.cpp
+    /src/security/vcc_pki_client.cpp
+    /src/storage/security_signature.cpp
+    /src/storage/security_signature_manager.cpp
+    /src/auth/jwt_validator.cpp
+    /src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
-    src/geo/cpu_backend.cpp
-    src/geo/gpu_backend_stub.cpp
-    src/geo/boost_cpu_exact_backend.cpp
-    src/api/geo_index_hooks.cpp
+    /src/geo/cpu_backend.cpp
+    /src/geo/gpu_backend_stub.cpp
+    /src/geo/boost_cpu_exact_backend.cpp
+    /src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
-        src/utils/boost_throw_exception.cpp
-    src/sharding/urn.cpp
-    src/sharding/consistent_hash.cpp
-    src/sharding/shard_topology.cpp
-    src/sharding/urn_resolver.cpp
-    src/sharding/pki_shard_certificate.cpp
-    src/sharding/mtls_client.cpp
-    src/sharding/signed_request.cpp
-    src/sharding/remote_executor.cpp
-    src/sharding/shard_rpc_client.cpp
-    src/sharding/shard_router.cpp
-    src/sharding/rebalance_operation.cpp
-    src/sharding/data_migrator.cpp
-    src/sharding/shard_load_detector.cpp
-    src/sharding/auto_rebalancer.cpp
-    src/sharding/prometheus_metrics.cpp
-    src/sharding/metrics_registry.cpp
-    src/sharding/health_check.cpp
-    src/sharding/admin_api.cpp
-    src/sharding/cloud_agent.cpp
-    src/sharding/circuit_breaker.cpp
-    src/sharding/gossip_protocol.cpp
-    src/sharding/raft_configuration.cpp
-    src/sharding/raft_log.cpp
-    src/sharding/raft_state.cpp
-    src/sharding/raft_wal_integration.cpp
-    src/sharding/stream_protocol.cpp
-    src/sharding/wal_applier.cpp
-    src/sharding/wal_manager.cpp
-    src/sharding/wal_shipper.cpp
-    src/sharding/replication_coordinator.cpp
-    src/sharding/replica_topology.cpp
-    src/sharding/multi_primary_coordinator.cpp
-    src/sharding/health_monitor.cpp
-    src/sharding/truetime.cpp
-    src/sharding/distributed_transaction.cpp
-    src/sharding/redundancy_strategy.cpp
-    src/sharding/hot_spare_manager.cpp
-    src/sharding/shard_rpc_server.cpp
-    src/storage/blob_redundancy_manager.cpp
-    src/server/sharding_metrics_handler.cpp
+        /src/utils/boost_throw_exception.cpp
+    /src/sharding/urn.cpp
+    /src/sharding/consistent_hash.cpp
+    /src/sharding/shard_topology.cpp
+    /src/sharding/urn_resolver.cpp
+    /src/sharding/pki_shard_certificate.cpp
+    /src/sharding/mtls_client.cpp
+    /src/sharding/signed_request.cpp
+    /src/sharding/remote_executor.cpp
+    /src/sharding/shard_rpc_client.cpp
+    /src/sharding/shard_router.cpp
+    /src/sharding/rebalance_operation.cpp
+    /src/sharding/data_migrator.cpp
+    /src/sharding/shard_load_detector.cpp
+    /src/sharding/auto_rebalancer.cpp
+    /src/sharding/prometheus_metrics.cpp
+    /src/sharding/metrics_registry.cpp
+    /src/sharding/health_check.cpp
+    /src/sharding/admin_api.cpp
+    /src/sharding/cloud_agent.cpp
+    /src/sharding/circuit_breaker.cpp
+    /src/sharding/gossip_protocol.cpp
+    /src/sharding/raft_configuration.cpp
+    /src/sharding/raft_log.cpp
+    /src/sharding/raft_state.cpp
+    /src/sharding/raft_wal_integration.cpp
+    /src/sharding/stream_protocol.cpp
+    /src/sharding/wal_applier.cpp
+    /src/sharding/wal_manager.cpp
+    /src/sharding/wal_shipper.cpp
+    /src/sharding/replication_coordinator.cpp
+    /src/sharding/replica_topology.cpp
+    /src/sharding/multi_primary_coordinator.cpp
+    /src/sharding/health_monitor.cpp
+    /src/sharding/truetime.cpp
+    /src/sharding/distributed_transaction.cpp
+    /src/sharding/redundancy_strategy.cpp
+    /src/sharding/hot_spare_manager.cpp
+    /src/sharding/shard_rpc_server.cpp
+    /src/storage/blob_redundancy_manager.cpp
+    /src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
-    src/acceleration/backend_registry.cpp
-    src/acceleration/cpu_backend.cpp
-    src/acceleration/plugin_loader.cpp
-    src/acceleration/plugin_security.cpp
+    /src/acceleration/backend_registry.cpp
+    /src/acceleration/cpu_backend.cpp
+    /src/acceleration/plugin_loader.cpp
+    /src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
-    src/plugins/plugin_manager.cpp
+    /src/plugins/plugin_manager.cpp
     
     # Multi-tenancy support
-    src/server/tenant_manager.cpp
+    /src/server/tenant_manager.cpp
     
     # Network
-    src/network/wire_protocol_server.cpp
+    /src/network/wire_protocol_server.cpp
     
     # Observability
-    src/observability/metrics_collector.cpp
+    /src/observability/metrics_collector.cpp
     
     # GraphQL API (conditional)
-    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:${CMAKE_SOURCE_DIR}/src/api/graphql.cpp>
     
     # Exporters and Importers
-    src/exporters/jsonl_llm_exporter.cpp
-    src/importers/postgres_importer.cpp
+    /src/exporters/jsonl_llm_exporter.cpp
+    /src/importers/postgres_importer.cpp
     
     # OLAP Analytics
-    src/analytics/olap.cpp
-    src/analytics/process_mining.cpp
+    /src/analytics/olap.cpp
+    /src/analytics/process_mining.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)
 # Conditionally add Phase 2 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
-    src/performance/phase2_feature_flags.cpp
+    /src/performance/phase2_feature_flags.cpp
 )
 
 if(THEMIS_ENABLE_WISCKEY)
     message(STATUS "Including WiscKey key/value separation (THEMIS_ENABLE_WISCKEY=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/wisckey.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/wisckey.cpp)
 endif()
 
 if(THEMIS_ENABLE_DOSTOEVSKY)
     message(STATUS "Including Dostoevsky adaptive LSM (THEMIS_ENABLE_DOSTOEVSKY=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/dostoevsky.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/dostoevsky.cpp)
 endif()
 
 if(THEMIS_ENABLE_CICADA)
     message(STATUS "Including Cicada optimistic CC (THEMIS_ENABLE_CICADA=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/cicada.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/cicada.cpp)
 endif()
 
 if(THEMIS_ENABLE_LIGRA)
     message(STATUS "Including Ligra graph processing (THEMIS_ENABLE_LIGRA=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/ligra.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/ligra.cpp)
 endif()
 
 if(THEMIS_ENABLE_RABITQ)
     message(STATUS "Including RaBitQ vector quantization (THEMIS_ENABLE_RABITQ=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/rabitq.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/rabitq.cpp)
 endif()
 
 # Phase 3 Performance Optimizations (PR #156/#157)
 # Conditionally add Phase 3 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
-    src/performance/phase3/feature_flags.cpp
+    /src/performance/phase3/feature_flags.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
     message(STATUS "Including DiskANN billion-scale vector search (THEMIS_ENABLE_DISKANN=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/diskann.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/diskann.cpp)
 endif()
 
 if(THEMIS_ENABLE_BWTREE)
     message(STATUS "Including Bw-Tree lock-free index (THEMIS_ENABLE_BWTREE=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bwtree.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/bwtree.cpp)
 endif()
 
 if(THEMIS_ENABLE_SPLINTERDB)
     message(STATUS "Including SplinterDB concurrent compaction (THEMIS_ENABLE_SPLINTERDB=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/splinterdb.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/splinterdb.cpp)
 endif()
 
 if(THEMIS_ENABLE_GUNROCK)
     message(STATUS "Including Gunrock GPU graph analytics (THEMIS_ENABLE_GUNROCK=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/gunrock.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/gunrock.cpp)
 endif()
 
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
-    list(APPEND THEMIS_CORE_SOURCES src/performance/phase3/bao.cpp)
+    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/bao.cpp)
 endif()
 
 # Conditionally add LLM sources (v1.3.0+) only when enabled
@@ -1065,8 +1081,8 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
     list(APPEND THEMIS_CORE_SOURCES
         # Server/API (HTTP + optional gRPC)
-        src/server/llm_api_handler.cpp
-        src/aql/llm_aql_handler.cpp
+        /src/server/llm_api_handler.cpp
+        /src/aql/llm_aql_handler.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -1077,22 +1093,22 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "gRPC found - enabling LLM gRPC service")
             # TEMP: gRPC proto generation not yet configured - comment out until ready
             # list(APPEND THEMIS_CORE_SOURCES
-            #     src/server/llm_grpc_service.cpp
-            #     proto/llm_service.proto
+            #     /src/server/llm_grpc_service.cpp
+            #     /proto/llm_service.proto
             # )
         # Note: Proto generation should be configured in a separate section when needed
     else()
         message(STATUS "gRPC not found - disabling LLM gRPC service and proto generation")
     endif()
         # TEMP: Disable llm_grpc_service until proto generation is configured
-        # list(REMOVE_ITEM THEMIS_CORE_SOURCES src/server/llm_grpc_service.cpp)
+        # list(REMOVE_ITEM THEMIS_CORE_SOURCES /src/server/llm_grpc_service.cpp)
 
     # LLM core components
     list(APPEND THEMIS_CORE_SOURCES
-        src/llm/llm_interaction_store.cpp
-        src/llm/prompt_manager.cpp
-        src/llm/block_table.cpp
-        src/llm/paged_kv_cache.cpp
+        /src/llm/llm_interaction_store.cpp
+        /src/llm/prompt_manager.cpp
+        /src/llm/block_table.cpp
+        /src/llm/paged_kv_cache.cpp
     )
 endif()
 
@@ -1100,10 +1116,12 @@ endif()
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.
 if(NOT THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
-        src/llm/llm_interaction_store.cpp
-        src/llm/prompt_manager.cpp
+        /src/llm/llm_interaction_store.cpp
+        /src/llm/prompt_manager.cpp
     )
 endif()
+
+_themis_normalize_sources(THEMIS_CORE_SOURCES)
 
 # Define core library early so subsequent target_* commands are valid
 set(_THEMIS_CORE_LIBTYPE STATIC)
@@ -1111,6 +1129,14 @@ if(THEMIS_CORE_SHARED)
     set(_THEMIS_CORE_LIBTYPE SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
+
+# Base include directories for core headers
+# Needed to resolve includes like "sharding/...", "llm/...", etc.
+target_include_directories(themis_core
+    PUBLIC
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+)
 
 # Per-file compile options for heavy AQL parser translation units (MSVC-only)
 if(MSVC)
@@ -1147,8 +1173,8 @@ if(THEMIS_ENABLE_CUDA)
     
     # Add CUDA source files
     list(APPEND THEMIS_ACCELERATION_SOURCES 
-        src/acceleration/cuda_backend.cpp
-        src/acceleration/cuda/vector_kernels.cu
+        /src/acceleration/cuda_backend.cpp
+        /src/acceleration/cuda/vector_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
@@ -1162,7 +1188,7 @@ endif()
 
 # Graphics API backends
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES src/acceleration/graphics_backends.cpp)
+    list(APPEND THEMIS_ACCELERATION_SOURCES /src/acceleration/graphics_backends.cpp)
     
     if(THEMIS_ENABLE_DIRECTX)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DIRECTX)
@@ -1189,6 +1215,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
 endif()
 
 # Add acceleration sources to core if any were selected
+_themis_normalize_sources(THEMIS_ACCELERATION_SOURCES)
 if(THEMIS_ACCELERATION_SOURCES)
     target_sources(themis_core PRIVATE ${THEMIS_ACCELERATION_SOURCES})
 endif()
@@ -1197,7 +1224,7 @@ endif()
 
 if(THEMIS_ENABLE_HSM_REAL)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HSM_REAL)
-    target_sources(themis_core PRIVATE src/security/hsm_provider_pkcs11.cpp)
+    target_sources(themis_core PRIVATE /src/security/hsm_provider_pkcs11.cpp)
 endif()
 
 # Geo feature flags and Boost.Geometry support
@@ -1421,7 +1448,7 @@ if(THEMIS_ENABLE_GRPC)
 
         if(COMMAND protobuf_generate)
             # Generate shard RPC stubs (ApplyWalBatch, etc.)
-            set(SHARD_PROTO ${CMAKE_CURRENT_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
+            set(SHARD_PROTO ${CMAKE_SOURCE_DIR}/proto/sharding/shard_rpc.proto)
             set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
             file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
 
@@ -1441,7 +1468,7 @@ if(THEMIS_ENABLE_GRPC)
                 ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
                      --grpc_out ${SHARD_PROTO_GEN_DIR}
                      --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
-                     -I ${CMAKE_CURRENT_SOURCE_DIR}/proto/sharding
+                     -I ${CMAKE_SOURCE_DIR}/proto/sharding
                      ${SHARD_PROTO}
                 DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
                 COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
@@ -1458,6 +1485,19 @@ if(THEMIS_ENABLE_GRPC)
         endif()
     else()
         message(WARNING "gRPC/Protobuf not found - WAL gRPC service will be disabled at runtime")
+    endif()
+    # Fallback: if CONFIG packages not found, try pkg-config for apt-installed gRPC
+    if(NOT gRPC_FOUND OR NOT Protobuf_FOUND)
+        find_package(PkgConfig QUIET)
+        if(PkgConfig_FOUND)
+            pkg_check_modules(GRPC QUIET grpc++)
+            pkg_check_modules(PROTOBUF QUIET protobuf)
+            if(GRPC_FOUND AND PROTOBUF_FOUND)
+                target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
+                target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
+                message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
+            endif()
+        endif()
     endif()
 endif()
 
@@ -1499,46 +1539,57 @@ endif()
 if(THEMIS_ENABLE_LLM)
     # Add LLM plugin source files
     target_sources(themis_core PRIVATE
-        src/llm/llama_wrapper.cpp
-        src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
-        src/llm/llm_plugin_manager.cpp
-        src/llm/model_loader.cpp          # Ollama-style lazy loading
-        src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
-        src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        ${CMAKE_SOURCE_DIR}/src/llm/llama_wrapper.cpp
+        ${CMAKE_SOURCE_DIR}/src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
+        ${CMAKE_SOURCE_DIR}/src/llm/llm_plugin_manager.cpp
+        ${CMAKE_SOURCE_DIR}/src/llm/model_loader.cpp          # Ollama-style lazy loading
+        ${CMAKE_SOURCE_DIR}/src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
+        ${CMAKE_SOURCE_DIR}/src/llm/async_inference_engine.cpp # Async threading (independent from DB)
         # v1.3.1: Cache Reuse Integration (Phase 2)
-        src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
-        src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
-        src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
-        src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
-        src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
+        ${CMAKE_SOURCE_DIR}/src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
+        ${CMAKE_SOURCE_DIR}/src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        ${CMAKE_SOURCE_DIR}/src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
+        ${CMAKE_SOURCE_DIR}/src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
+        ${CMAKE_SOURCE_DIR}/src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
         
         # Phase 3.2: Grammar-Constrained Generation
-        src/llm/grammar.cpp               # Grammar parsing and compilation
-        src/llm/grammar_cache.cpp         # Grammar caching for performance
+        ${CMAKE_SOURCE_DIR}/src/llm/grammar.cpp               # Grammar parsing and compilation
+        ${CMAKE_SOURCE_DIR}/src/llm/grammar_cache.cpp         # Grammar caching for performance
         
         # Phase 4+5 Week 4-6: llama.cpp Integration
-        src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
-        src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        ${CMAKE_SOURCE_DIR}/src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
+        ${CMAKE_SOURCE_DIR}/src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
-        src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
+        ${CMAKE_SOURCE_DIR}/src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
         
         # P1: Enterprise Features - LLM Inference Engine Improvements
-        src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
-        src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
-        src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
-        src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        ${CMAKE_SOURCE_DIR}/src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
+        ${CMAKE_SOURCE_DIR}/src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
+        ${CMAKE_SOURCE_DIR}/src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
+        ${CMAKE_SOURCE_DIR}/src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         
         # P3: Vision Support (Multi-Modal)
-        src/llm/vision_encoder.cpp             # CLIP vision encoder for LLaVA
-        src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
-        src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
+        # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
+        ${CMAKE_SOURCE_DIR}/src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
+        ${CMAKE_SOURCE_DIR}/src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
     )
+
+    # Add CLIP vision encoder only when explicitly enabled
+    if(THEMIS_ENABLE_VISION)
+        target_sources(themis_core PRIVATE
+            ${CMAKE_SOURCE_DIR}/src/llm/vision_encoder.cpp
+        )
+        target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VISION=1)
+        message(STATUS "LLM Vision: CLIP vision encoder enabled")
+    else()
+        message(STATUS "LLM Vision: disabled (set -DTHEMIS_ENABLE_VISION=ON to enable)")
+    endif()
     
     # Add CUDA kernel fusion sources when CUDA is enabled
     if(THEMIS_ENABLE_CUDA)
         list(APPEND THEMIS_CORE_SOURCES
-            src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+            ${CMAKE_SOURCE_DIR}/src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
     endif()
@@ -1613,7 +1664,7 @@ endif()
 
 # Main executable (demo)
 add_executable(themis_demo
-    src/main.cpp
+    ${CMAKE_SOURCE_DIR}/src/main.cpp
 )
 
 target_link_libraries(themis_demo
@@ -1623,27 +1674,29 @@ target_link_libraries(themis_demo
 
 # Encryption demo executable
 add_executable(themis_demo_encryption
-    src/demo_encryption.cpp
+    ${CMAKE_SOURCE_DIR}/src/demo_encryption.cpp
 )
 
-# TODO: Fix orphaned mimalloc/gRPC linking code below - appears to be incomplete
-# This code block is missing an opening if() statement and should be reviewed
-#    target_link_libraries(themis_server PRIVATE mimalloc)
-#        # Fallback: if CONFIG packages not found, try pkg-config for apt-installed gRPC
-#        if(NOT gRPC_FOUND OR NOT Protobuf_FOUND)
-#            find_package(PkgConfig QUIET)
-#            if(PkgConfig_FOUND)
-#                pkg_check_modules(GRPC QUIET grpc++)
-#                pkg_check_modules(PROTOBUF QUIET protobuf)
-#                if(GRPC_FOUND AND PROTOBUF_FOUND)
-#                    target_link_libraries(themis_core PUBLIC ${GRPC_LIBRARIES} ${PROTOBUF_LIBRARIES})
-#                    target_include_directories(themis_core PUBLIC ${GRPC_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIRS})
-#                    message(STATUS "gRPC and Protobuf found via pkg-config - linking to themis_core")
-#                endif()
-#            endif()
-#        endif()
-#    message(STATUS "Linking themis_server with mimalloc")
-#endif()
+target_link_libraries(themis_demo_encryption
+    PRIVATE
+        themis_core
+)
+
+# API Server executable
+add_executable(themis_server
+    ${CMAKE_SOURCE_DIR}/src/main_server.cpp
+)
+
+target_link_libraries(themis_server
+    PRIVATE
+        themis_core
+)
+
+# Link performance optimization libraries
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    target_link_libraries(themis_server PRIVATE mimalloc)
+    message(STATUS "Linking themis_server with mimalloc")
+endif()
 
 # Tests
 if(THEMIS_BUILD_TESTS)
@@ -1651,184 +1704,184 @@ if(THEMIS_BUILD_TESTS)
     find_package(GTest CONFIG REQUIRED)
     
     add_executable(themis_tests
-        tests/test_env.cpp
-        tests/test_base_entity.cpp
-        tests/test_rocksdb_high_parallel_tuning.cpp
-        tests/test_rocksdb_stats_json.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_env.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_base_entity.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_rocksdb_high_parallel_tuning.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_rocksdb_stats_json.cpp
         # Library integration tests (systematic coverage)
-        tests/test_lib_rocksdb_integration.cpp
-        tests/test_lib_openssl_integration.cpp
-        tests/test_lib_json_integration.cpp
-        tests/test_lib_hnsw_integration.cpp
-        tests/test_lib_boost_integration.cpp
-        tests/test_lib_tbb_integration.cpp
-        tests/test_secondary_index.cpp
-        tests/test_composite_index.cpp
-        tests/test_unique_index.cpp
-        tests/test_range_index.cpp
-        tests/test_sparse_geo_index.cpp
-        tests/test_ttl_fulltext_index.cpp
-        tests/test_index_stats.cpp
-        tests/test_graph_index.cpp
-        tests/test_vector_index.cpp
-        tests/test_query_engine.cpp
-        tests/test_query_or.cpp
-        tests/test_stats_api.cpp
-        tests/test_http_range_index.cpp
-              tests/test_stemming.cpp
-              tests/test_stopwords.cpp
-              tests/test_normalization.cpp
-              tests/test_phrase_search.cpp
-              tests/test_aql_fulltext.cpp
-              tests/test_aql_or.cpp
-              tests/test_aql_fulltext_hybrid.cpp
-              tests/test_aql_bm25.cpp
-              tests/test_aql_similarity.cpp
-              tests/test_aql_similarity_dispatch.cpp
-              tests/test_aql_proximity.cpp
-              tests/test_aql_proximity_dispatch.cpp
-        tests/test_metrics_api.cpp
-        tests/test_http_query_range.cpp
-        tests/test_http_aql.cpp
-        tests/test_http_aql_fulltext_score.cpp
-        tests/test_http_aql_fulltext_or.cpp
-    tests/test_http_aql_join.cpp
-    tests/test_http_aql_let.cpp
-        tests/test_http_aql_collect.cpp
-        tests/test_http_config.cpp
-        tests/test_http_aql_graph.cpp
-        tests/test_crash_recovery_direct.cpp
-        tests/test_http_aql_collect.cpp
-        tests/test_http_vector.cpp
-        tests/test_http_vector_largescale.cpp
-        tests/test_http_content.cpp
-        tests/test_video_processor_extended.cpp
-        tests/test_http_changefeed.cpp
-        tests/test_http_changefeed_sse.cpp
-        tests/test_http_timeseries.cpp
-    tests/test_stemming.cpp
-        tests/test_stopwords.cpp
-        tests/test_http_governance.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_openssl_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_json_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_tbb_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_composite_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_unique_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_range_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_sparse_geo_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_ttl_fulltext_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_index_stats.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_graph_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_vector_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_query_engine.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_query_or.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_stats_api.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_range_index.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_stemming.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_stopwords.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_normalization.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_phrase_search.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_fulltext.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_or.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_fulltext_hybrid.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_bm25.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_similarity.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_similarity_dispatch.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_proximity.cpp
+              ${CMAKE_SOURCE_DIR}/tests/test_aql_proximity_dispatch.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_metrics_api.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_query_range.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_aql.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_fulltext_score.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_fulltext_or.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_http_aql_join.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_http_aql_let.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_collect.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_config.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_graph.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_crash_recovery_direct.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_aql_collect.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_vector.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_vector_largescale.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_content.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_video_processor_extended.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_changefeed.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_changefeed_sse.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_timeseries.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_stemming.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_stopwords.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_governance.cpp
         
         # Geo tests
-        tests/geo/test_geo_ewkb.cpp
-        tests/geo/test_spatial_index.cpp
-        tests/geo/test_aql_st_functions.cpp
-        tests/geo/test_aql_st_queryengine.cpp
-        tests/geo/test_geo_3d_functions.cpp
-        tests/test_geo_index_integration.cpp
-        tests/test_aql_let_st.cpp
-        tests/test_hybrid_queries.cpp
-        tests/test_http_audit.cpp
-        tests/test_transaction_manager.cpp
-        tests/test_transaction_isolation.cpp
-        tests/test_changefeed_ordering.cpp
-        tests/test_gorilla_codec_edge_cases.cpp
-        tests/test_saga_concurrent_execution.cpp
-        tests/test_consistent_hash_distribution.cpp
-        tests/test_vulkan_backend.cpp
-        tests/test_postgres_importer_datatypes.cpp
-        tests/test_plugin_lifecycle.cpp
-        tests/test_mvcc.cpp
-        tests/test_aql_parser.cpp
-        tests/test_aql_with_clause.cpp
-        tests/test_aql_subqueries.cpp
-        tests/test_cte_cache.cpp
-        tests/test_aql_translator.cpp
-        tests/test_text_processor.cpp
-    tests/test_prompt_manager.cpp
-    tests/test_mock_clip.cpp
-        tests/test_image_analysis_interface.cpp
-        tests/test_image_analysis_quality.cpp
-        tests/test_backup_restore.cpp
-        tests/test_raid5_backup.cpp
-        tests/test_cursor.cpp
-        tests/test_temporal_graph.cpp
-        tests/test_temporal_aggregation.cpp
-    tests/test_temporal_aggregation_property.cpp
-        tests/temporal/test_temporal_conflict_resolver.cpp
-        tests/test_recursive_path_query.cpp
-        tests/test_timerange_query.cpp
-        tests/test_property_graph.cpp
-        tests/test_graph_type_filtering.cpp
-        tests/test_gnn_embeddings.cpp
-        tests/test_semantic_cache.cpp
-        tests/test_tsstore.cpp
-        tests/test_gorilla.cpp
-    tests/test_gorilla_probe.cpp
-        tests/test_timeseries_retention.cpp
-        tests/test_continuous_agg.cpp
-        tests/test_adaptive_index.cpp
-        tests/test_http_adaptive_index.cpp
-        tests/test_encryption.cpp
-    tests/test_hkdf_cache.cpp
-    tests/test_field_encryption_batch.cpp
-    tests/test_pki_eidas.cpp
-    tests/test_pki_api_handler.cpp
-    tests/test_wal_archiving.cpp
-        tests/test_encryption_e2e.cpp
-        tests/test_vault_key_provider.cpp
-        tests/test_vault_key_provider_retry.cpp
-    tests/test_wal_backup_manager.cpp
-    tests/test_wal_grpc_apply.cpp
-        tests/test_wal_replication_integration.cpp
-        tests/test_audit_logger.cpp
-        tests/test_pii_detector.cpp
-        tests/test_retention_manager.cpp
-        tests/test_saga_logger.cpp
-        tests/test_http_retention_api.cpp
-        tests/test_policy_yaml.cpp
-        tests/test_pki_client.cpp
-    tests/test_cms_signing.cpp
-        tests/test_keyprovider_signing.cpp
-    tests/test_vault_signing_provider.cpp
+        ${CMAKE_SOURCE_DIR}/tests/geo/test_geo_ewkb.cpp
+        ${CMAKE_SOURCE_DIR}/tests/geo/test_spatial_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/geo/test_aql_st_functions.cpp
+        ${CMAKE_SOURCE_DIR}/tests/geo/test_aql_st_queryengine.cpp
+        ${CMAKE_SOURCE_DIR}/tests/geo/test_geo_3d_functions.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_geo_index_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_aql_let_st.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_hybrid_queries.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_audit.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_transaction_manager.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_transaction_isolation.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_changefeed_ordering.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_gorilla_codec_edge_cases.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_saga_concurrent_execution.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_consistent_hash_distribution.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_vulkan_backend.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_postgres_importer_datatypes.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_plugin_lifecycle.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_mvcc.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_aql_parser.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_aql_with_clause.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_aql_subqueries.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_cte_cache.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_aql_translator.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_text_processor.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_prompt_manager.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_mock_clip.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_interface.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_quality.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_backup_restore.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_raid5_backup.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_cursor.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_temporal_graph.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_temporal_aggregation.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_temporal_aggregation_property.cpp
+        ${CMAKE_SOURCE_DIR}/tests/temporal/test_temporal_conflict_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_recursive_path_query.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_timerange_query.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_property_graph.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_graph_type_filtering.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_gnn_embeddings.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_semantic_cache.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_tsstore.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_gorilla.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_gorilla_probe.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_timeseries_retention.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_continuous_agg.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_adaptive_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_adaptive_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_encryption.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_hkdf_cache.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_field_encryption_batch.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_pki_eidas.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_pki_api_handler.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_wal_archiving.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_encryption_e2e.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_vault_key_provider.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_vault_key_provider_retry.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_wal_backup_manager.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_wal_grpc_apply.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_wal_replication_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_audit_logger.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_pii_detector.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_retention_manager.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_saga_logger.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_retention_api.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_policy_yaml.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_pki_client.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_cms_signing.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_keyprovider_signing.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_vault_signing_provider.cpp
         # Enterprise tests (only if enterprise source is available)
         $<$<AND:$<BOOL:${THEMIS_BUILD_ENTERPRISE}>,$<TARGET_EXISTS:themis_enterprise_common>>:tests/test_enterprise_scalability.cpp>
-        tests/test_http_policies_export.cpp
-        tests/test_pii_soft_delete.cpp
-        tests/test_http_pii_lazy_init.cpp
-    tests/test_http_pii_manager_new.cpp
-    tests/test_jwt_validator.cpp
-    tests/test_jwt_integration.cpp
-        tests/test_jwt_rotation_unit.cpp
-        tests/test_llm_api_handler_jwt.cpp
-        tests/test_auth_middleware.cpp
-        tests/test_usb_admin_authenticator.cpp
-        tests/test_pki_client_rest.cpp
-        tests/test_group_dek.cpp
-        tests/test_input_validator.cpp
-        tests/test_sharding_core.cpp
-        tests/test_raid_redundancy.cpp
-        tests/test_hot_spare.cpp
-        # SKIPPED: tests/test_lora_adapter.cpp  # MultiLoRAManager implementation missing
-        tests/test_raid_integration.cpp
-        tests/test_stream_protocol_extended.cpp
-        tests/test_cloud_agent.cpp
-        tests/test_pki_shard_certificate.cpp
-        tests/test_mtls_client.cpp
-        tests/test_signed_request.cpp
-        tests/test_shard_communication.cpp
-        tests/test_rebalance_migration.cpp
-        tests/test_monitoring_ops.cpp
-        tests/update_checker_test.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_policies_export.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_pii_soft_delete.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_http_pii_lazy_init.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_http_pii_manager_new.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_jwt_validator.cpp
+    ${CMAKE_SOURCE_DIR}/tests/test_jwt_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_jwt_rotation_unit.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_llm_api_handler_jwt.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_auth_middleware.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_usb_admin_authenticator.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_pki_client_rest.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_group_dek.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_input_validator.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_sharding_core.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
+        # SKIPPED: ${CMAKE_SOURCE_DIR}/tests/test_lora_adapter.cpp  # MultiLoRAManager implementation missing
+        ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_stream_protocol_extended.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_cloud_agent.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_pki_shard_certificate.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_mtls_client.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_signed_request.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_shard_communication.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_rebalance_migration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_monitoring_ops.cpp
+        ${CMAKE_SOURCE_DIR}/tests/update_checker_test.cpp
         
         # New feature tests
-        tests/test_tenant_manager.cpp
-        tests/test_graphql.cpp
-        tests/test_olap.cpp
-        tests/test_olap_extended.cpp
-        tests/test_process_mining_extended.cpp
-        tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
+        ${CMAKE_SOURCE_DIR}/tests/test_tenant_manager.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_graphql.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_olap.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_olap_extended.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_process_mining_extended.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_async_io_multiscan.cpp  # v1.3.0 Phase 2: Async I/O MultiScan tests
         
         # Phase 1 Performance Optimization Tests (from PR #157)
-        tests/test_performance_feature_flags.cpp
-        tests/test_performance_allocator.cpp
-        tests/test_huge_pages.cpp
-        tests/test_rcu_index.cpp
-        tests/test_lirs_cache.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_performance_feature_flags.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_performance_allocator.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_huge_pages.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_rcu_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lirs_cache.cpp
         
         # Phase 2 Performance Optimization Tests (from this PR)
-        tests/test_phase2_optimizations.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_phase2_optimizations.cpp
         
         # Protocol tests (conditional based on build flags)
         $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:tests/test_http2_protocol.cpp>
@@ -1840,7 +1893,7 @@ if(THEMIS_BUILD_TESTS)
         $<$<BOOL:${THEMIS_ENABLE_MCP}>:tests/test_mcp_protocol.cpp>
         
         # Vector encryption integration tests
-        tests/test_vector_encryption_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_vector_encryption_integration.cpp
         
         # LLM plugin tests (v1.3.0+) are added conditionally below
     )
@@ -1855,7 +1908,7 @@ if(THEMIS_BUILD_TESTS)
 
     # Leichtgewichtiger Test-Target: Nur SecondaryIndex-Tests
     add_executable(themis_secidx_tests
-        tests/test_secondary_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
     )
     target_link_libraries(themis_secidx_tests
         PRIVATE
@@ -1874,10 +1927,10 @@ if(THEMIS_BUILD_TESTS)
 
     # CRITICAL TESTS ONLY (for fast validation)
     add_executable(themis_tests_critical
-        tests/test_lib_rocksdb_integration.cpp
-        tests/test_lib_hnsw_integration.cpp
-        tests/test_lib_boost_integration.cpp
-        tests/test_secondary_index.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_rocksdb_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_hnsw_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_lib_boost_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_secondary_index.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE
@@ -1897,22 +1950,26 @@ if(THEMIS_BUILD_TESTS)
     # Conditionally add LLM tests only when LLM is enabled
     if(THEMIS_ENABLE_LLM)
         target_sources(themis_tests PRIVATE
-            tests/test_llm_plugin.cpp
-            tests/test_llamacpp_integration.cpp
-            tests/test_llm_caching.cpp
-            tests/test_kv_cache_buffer.cpp
-            tests/test_llm_response_cache.cpp
-            tests/test_paged_attention.cpp
-            tests/test_continuous_batch_scheduler.cpp
-            tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
-            tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
-            tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
-            tests/test_inference_engine_enhanced.cpp  # P1: Enhanced inference engine tests
+            ${CMAKE_SOURCE_DIR}/tests/test_llm_plugin.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_llm_caching.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_kv_cache_buffer.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_paged_attention.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_continuous_batch_scheduler.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_production_validator.cpp  # P1 Enterprise: Production validation tests
+            ${CMAKE_SOURCE_DIR}/tests/test_llm_grafana_metrics.cpp   # P1 Enterprise: Grafana metrics integration tests
+            ${CMAKE_SOURCE_DIR}/tests/test_llm_response_cache_metrics.cpp  # P1 Enterprise: Response cache metrics tests
+        )
+
+        # P1: Enhanced inference engine tests
+        target_sources(themis_tests PRIVATE
+            ${CMAKE_SOURCE_DIR}/tests/test_inference_engine_enhanced.cpp
         )
 
         # Lightweight LLM-only test target to avoid unrelated suite breakages
         add_executable(themis_llm_tests
-            tests/test_llamacpp_integration.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_llamacpp_integration.cpp
         )
         target_link_libraries(themis_llm_tests
             PRIVATE
@@ -1932,7 +1989,7 @@ if(THEMIS_BUILD_TESTS)
         # Phase 1 Feature Tests (Flash Attention, KV-Cache Reuse, Embeddings)
         # Flash Attention Tests
         add_executable(test_phase1_flash_attention
-            tests/test_phase1_flash_attention.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_phase1_flash_attention.cpp
         )
         target_link_libraries(test_phase1_flash_attention
             PRIVATE
@@ -1949,7 +2006,7 @@ if(THEMIS_BUILD_TESTS)
         
         # KV-Cache Reuse Tests
         add_executable(test_phase1_kv_cache_reuse
-            tests/test_phase1_kv_cache_reuse.cpp
+            ${CMAKE_SOURCE_DIR}/tests/test_phase1_kv_cache_reuse.cpp
         )
         target_link_libraries(test_phase1_kv_cache_reuse
             PRIVATE
@@ -1988,7 +2045,7 @@ if(THEMIS_BUILD_TESTS)
     # Phase 3 Performance Optimization Tests (separate executables)
     if(THEMIS_ENABLE_DISKANN)
         add_executable(test_diskann
-            tests/performance/phase3/test_diskann.cpp
+            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_diskann.cpp
         )
         target_link_libraries(test_diskann
             PRIVATE
@@ -2005,7 +2062,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_BWTREE)
         add_executable(test_bwtree
-            tests/performance/phase3/test_bwtree.cpp
+            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_bwtree.cpp
         )
         target_link_libraries(test_bwtree
             PRIVATE
@@ -2022,7 +2079,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_SPLINTERDB)
         add_executable(test_splinterdb
-            tests/performance/phase3/test_splinterdb.cpp
+            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_splinterdb.cpp
         )
         target_link_libraries(test_splinterdb
             PRIVATE
@@ -2039,7 +2096,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_GUNROCK)
         add_executable(test_gunrock
-            tests/performance/phase3/test_gunrock.cpp
+            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_gunrock.cpp
         )
         target_link_libraries(test_gunrock
             PRIVATE
@@ -2056,7 +2113,7 @@ if(THEMIS_BUILD_TESTS)
     
     if(THEMIS_ENABLE_BAO)
         add_executable(test_bao
-            tests/performance/phase3/test_bao.cpp
+            ${CMAKE_SOURCE_DIR}/tests/performance/phase3/test_bao.cpp
         )
         target_link_libraries(test_bao
             PRIVATE
@@ -2080,7 +2137,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Modern performance benchmarks (all core areas)
     add_executable(bench_core_performance
-        benchmarks/bench_core_performance.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_core_performance.cpp
     )
     
     target_link_libraries(bench_core_performance
@@ -2092,7 +2149,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Comprehensive benchmark suite (simple/complex, LLM, AQL, binary, stress tests)
     add_executable(bench_comprehensive
-        benchmarks/bench_comprehensive.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_comprehensive.cpp
     )
     
     target_link_libraries(bench_comprehensive
@@ -2104,7 +2161,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
     add_executable(bench_advanced_patterns
-        benchmarks/bench_advanced_patterns.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_advanced_patterns.cpp
     )
     
     target_link_libraries(bench_advanced_patterns
@@ -2115,7 +2172,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_hotspots_micro
-        benchmarks/bench_hotspots_micro.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hotspots_micro.cpp
     )
 
     target_link_libraries(bench_hotspots_micro
@@ -2126,7 +2183,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_lock_contention
-        benchmarks/bench_lock_contention.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_lock_contention.cpp
     )
     target_link_libraries(bench_lock_contention
         PRIVATE
@@ -2136,7 +2193,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
 
     add_executable(bench_wal_stress
-        benchmarks/bench_wal_stress.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_wal_stress.cpp
     )
     target_link_libraries(bench_wal_stress
         PRIVATE
@@ -2146,10 +2203,10 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(themis_benchmarks
-        benchmarks/bench_crud.cpp
-        benchmarks/bench_query.cpp
-        benchmarks/bench_vector_search.cpp
-        benchmarks/bench_wal_apply_grpc.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_crud.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_query.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_search.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_wal_apply_grpc.cpp
     )
     
     target_link_libraries(themis_benchmarks
@@ -2161,7 +2218,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Compression benchmark (standalone)
     add_executable(bench_compression
-        benchmarks/bench_compression.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_compression.cpp
     )
     
     target_link_libraries(bench_compression
@@ -2172,7 +2229,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Index rebuild benchmark (standalone)
     add_executable(bench_index_rebuild
-        benchmarks/bench_index_rebuild.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_index_rebuild.cpp
     )
     
     target_link_libraries(bench_index_rebuild
@@ -2183,7 +2240,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # MVCC performance benchmark (standalone)
     add_executable(bench_mvcc
-        benchmarks/bench_mvcc.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_mvcc.cpp
     )
     
     target_link_libraries(bench_mvcc
@@ -2195,7 +2252,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Encryption performance benchmark (standalone)
     add_executable(bench_encryption
-        benchmarks/bench_encryption.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_encryption.cpp
     )
     
     target_link_libraries(bench_encryption
@@ -2207,7 +2264,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # OLAP Analytics benchmark (v1.3.0 Phase 2)
     add_executable(bench_olap_analytics
-        benchmarks/bench_olap_analytics.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_olap_analytics.cpp
     )
     
     target_link_libraries(bench_olap_analytics
@@ -2219,7 +2276,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Video Processor benchmark (v1.3.0 Phase 2)
     add_executable(bench_video_processor
-        benchmarks/bench_video_processor.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_video_processor.cpp
     )
     
     target_link_libraries(bench_video_processor
@@ -2231,7 +2288,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Stream Protocol benchmark (v1.3.0 Phase 2)
     add_executable(bench_stream_protocol
-        benchmarks/bench_stream_protocol.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_stream_protocol.cpp
     )
     
     target_link_libraries(bench_stream_protocol
@@ -2243,7 +2300,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Process Mining benchmark (v1.3.0 Phase 2)
     add_executable(bench_process_mining
-        benchmarks/bench_process_mining.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_process_mining.cpp
     )
     
     target_link_libraries(bench_process_mining
@@ -2255,7 +2312,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Async I/O MultiScan benchmark (v1.3.0 Phase 2)
     add_executable(bench_async_io_multiscan
-        benchmarks/bench_async_io_multiscan.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_async_io_multiscan.cpp
     )
     
     target_link_libraries(bench_async_io_multiscan
@@ -2267,7 +2324,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Hybrid AQL Syntax Sugar benchmark (Phase 2.5)
     add_executable(bench_hybrid_aql_sugar
-        benchmarks/bench_hybrid_aql_sugar.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hybrid_aql_sugar.cpp
     )
     
     target_link_libraries(bench_hybrid_aql_sugar
@@ -2278,7 +2335,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # HSM Provider performance benchmark (standalone)
     add_executable(bench_hsm_provider
-        benchmarks/bench_hsm_provider.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hsm_provider.cpp
     )
     
     target_link_libraries(bench_hsm_provider
@@ -2292,7 +2349,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Shard Routing benchmark
     add_executable(bench_shard_routing
-        benchmarks/bench_shard_routing.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_shard_routing.cpp
     )
     
     target_link_libraries(bench_shard_routing
@@ -2304,7 +2361,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Transaction Throughput benchmark
     add_executable(bench_transaction_throughput
-        benchmarks/bench_transaction_throughput.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_transaction_throughput.cpp
     )
     
     target_link_libraries(bench_transaction_throughput
@@ -2316,7 +2373,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Changefeed Throughput benchmark
     add_executable(bench_changefeed_throughput
-        benchmarks/bench_changefeed_throughput.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_changefeed_throughput.cpp
     )
     
     target_link_libraries(bench_changefeed_throughput
@@ -2328,7 +2385,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Timeseries Ingestion benchmark
     add_executable(bench_timeseries_ingestion
-        benchmarks/bench_timeseries_ingestion.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_timeseries_ingestion.cpp
     )
     
     target_link_libraries(bench_timeseries_ingestion
@@ -2340,7 +2397,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # SAGA Compensation benchmark
     add_executable(bench_saga_compensation
-        benchmarks/bench_saga_compensation.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_saga_compensation.cpp
     )
     
     target_link_libraries(bench_saga_compensation
@@ -2354,7 +2411,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Flash Attention Benchmark
     add_executable(bench_phase1_flash_attention
-        benchmarks/bench_phase1_flash_attention.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_phase1_flash_attention.cpp
     )
     
     target_link_libraries(bench_phase1_flash_attention
@@ -2368,7 +2425,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # Graph Traversal benchmark
     add_executable(bench_graph_traversal
-        benchmarks/bench_graph_traversal.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_graph_traversal.cpp
     )
     
     target_link_libraries(bench_graph_traversal
@@ -2380,7 +2437,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # PageRank benchmark
     add_executable(bench_pagerank
-        benchmarks/bench_pagerank.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_pagerank.cpp
     )
     
     target_link_libraries(bench_pagerank
@@ -2392,7 +2449,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # GPU Backends benchmark
     add_executable(bench_gpu_backends
-        benchmarks/bench_gpu_backends.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_gpu_backends.cpp
     )
     
     target_link_libraries(bench_gpu_backends
@@ -2404,7 +2461,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # GNN Embeddings benchmark
     add_executable(bench_gnn_embeddings
-        benchmarks/bench_gnn_embeddings.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_gnn_embeddings.cpp
     )
     
     target_link_libraries(bench_gnn_embeddings
@@ -2416,7 +2473,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Phase 3: Content Management & Governance Benchmarks
     add_executable(bench_content_versioning
-        benchmarks/bench_content_versioning.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_content_versioning.cpp
     )
     
     target_link_libraries(bench_content_versioning
@@ -2427,7 +2484,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_text_extraction
-        benchmarks/bench_text_extraction.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_text_extraction.cpp
     )
     
     target_link_libraries(bench_text_extraction
@@ -2438,7 +2495,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_image_analysis
-        benchmarks/bench_image_analysis.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_image_analysis.cpp
     )
     
     target_link_libraries(bench_image_analysis
@@ -2449,7 +2506,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_image_analysis_latency
-        benchmarks/bench_image_analysis_latency.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_image_analysis_latency.cpp
     )
     
     target_link_libraries(bench_image_analysis_latency
@@ -2460,7 +2517,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     )
     
     add_executable(bench_policy_evaluation
-        benchmarks/bench_policy_evaluation.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_policy_evaluation.cpp
     )
     
     target_link_libraries(bench_policy_evaluation
@@ -2472,7 +2529,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # Image Analysis Plugin Benchmark
     add_executable(benchmark_image_analysis
-        benchmarks/benchmark_image_analysis.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/benchmark_image_analysis.cpp
     )
     
     target_link_libraries(benchmark_image_analysis
@@ -2485,7 +2542,7 @@ if(THEMIS_BUILD_BENCHMARKS)
     # Scientific Standard Benchmarks (Phase 2-4)
     # TPC-C: OLTP benchmark (Transaction Processing Council Standard)
     add_executable(bench_tpcc
-        benchmarks/bench_tpcc.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_tpcc.cpp
     )
     
     target_link_libraries(bench_tpcc
@@ -2497,7 +2554,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # YCSB: Yahoo Cloud Serving Benchmark (Workloads A-F)
     add_executable(bench_ycsb
-        benchmarks/bench_ycsb.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_ycsb.cpp
     )
     
     target_link_libraries(bench_ycsb
@@ -2509,7 +2566,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # MMDB-E: Multi-Modal Database Benchmark with Embeddings (Industry-First)
     add_executable(bench_mmdb
-        benchmarks/bench_mmdb.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_mmdb.cpp
     )
     
     target_link_libraries(bench_mmdb
@@ -2521,7 +2578,7 @@ if(THEMIS_BUILD_BENCHMARKS)
 
     # TPC-H: Decision Support (OLAP) Benchmark - 22 Analytical Queries
     add_executable(bench_tpch
-        benchmarks/bench_tpch.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_tpch.cpp
     )
     
     target_link_libraries(bench_tpch
@@ -2535,129 +2592,145 @@ if(THEMIS_BUILD_BENCHMARKS)
     
     # AQL Functions Benchmark
     add_executable(bench_aql_functions
-        benchmarks/bench_aql_functions.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_aql_functions.cpp
     )
     target_link_libraries(bench_aql_functions PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # ARM Memory Benchmark
     add_executable(bench_arm_memory
-        benchmarks/bench_arm_memory.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_arm_memory.cpp
     )
     target_link_libraries(bench_arm_memory PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # ARM SIMD Benchmark
     add_executable(bench_arm_simd
-        benchmarks/bench_arm_simd.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_arm_simd.cpp
     )
     target_link_libraries(bench_arm_simd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Auto Buffers Benchmark
     add_executable(bench_auto_buffers
-        benchmarks/bench_auto_buffers.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_auto_buffers.cpp
     )
     target_link_libraries(bench_auto_buffers PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Blob ZSTD Compression Benchmark
     add_executable(bench_blob_zstd
-        benchmarks/bench_blob_zstd.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_blob_zstd.cpp
     )
     target_link_libraries(bench_blob_zstd PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # HNSW Prefilter Minimal Benchmark
     add_executable(bench_hnsw_prefilter_minimal
-        benchmarks/bench_hnsw_prefilter_minimal.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hnsw_prefilter_minimal.cpp
     )
     target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Hybrid Vector+Geo Benchmark
     add_executable(bench_hybrid_vector_geo
-        benchmarks/bench_hybrid_vector_geo.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_hybrid_vector_geo.cpp
     )
     target_link_libraries(bench_hybrid_vector_geo PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Lossy vs Lossless Compression Benchmark
     add_executable(bench_lossy_vs_lossless
-        benchmarks/bench_lossy_vs_lossless.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_lossy_vs_lossless.cpp
     )
     target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Product Quantization Benchmark
     add_executable(bench_product_quantization
-        benchmarks/bench_product_quantization.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_product_quantization.cpp
     )
     target_link_libraries(bench_product_quantization PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Sanity Tests Benchmark
     add_executable(bench_sanity
-        benchmarks/bench_sanity.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_sanity.cpp
     )
     target_link_libraries(bench_sanity PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Sharding Performance Benchmark
     add_executable(bench_sharding_performance
-        benchmarks/bench_sharding_performance.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_sharding_performance.cpp
     )
     target_link_libraries(bench_sharding_performance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # SIMD Distance Benchmark
     add_executable(bench_simd_distance
-        benchmarks/bench_simd_distance.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_simd_distance.cpp
     )
     target_link_libraries(bench_simd_distance PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # Spatial Index Benchmark
     add_executable(bench_spatial_index
-        benchmarks/bench_spatial_index.cpp
+        ${CMAKE_SOURCE_DIR}/benchmarks/bench_spatial_index.cpp
     )
     target_link_libraries(bench_spatial_index PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
 
     # V1.3.0 Features Benchmark (Critical for Release Testing)
-    add_executable(bench_v1_3_0_features
-        benchmarks/bench_v1_3_0_features.cpp
-    )
-    target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp")
+        add_executable(bench_v1_3_0_features
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_0_features.cpp
+        )
+        target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
     # Vector Compression Lossless Benchmark
-    add_executable(bench_vector_compression_lossless
-        benchmarks/bench_vector_compression_lossless.cpp
-    )
-    target_link_libraries(bench_vector_compression_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp")
+        add_executable(bench_vector_compression_lossless
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_compression_lossless.cpp
+        )
+        target_link_libraries(bench_vector_compression_lossless PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
     # Vector Prefilter Benchmark
-    add_executable(bench_vector_prefilter
-        benchmarks/bench_vector_prefilter.cpp
-    )
-    target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp")
+        add_executable(bench_vector_prefilter
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_vector_prefilter.cpp
+        )
+        target_link_libraries(bench_vector_prefilter PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
     # Phase 2 Performance Optimization Benchmarks
-    add_executable(bench_phase2
-        benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
-    )
-    target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp")
+        add_executable(bench_phase2
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp
+        )
+        target_link_libraries(bench_phase2 PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
     # v1.3.4 Optimization Benchmarks
-    add_executable(bench_v1_3_4_optimizations
-        benchmarks/bench_v1_3_4_optimizations.cpp
-    )
-    target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp")
+        add_executable(bench_v1_3_4_optimizations
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_v1_3_4_optimizations.cpp
+        )
+        target_link_libraries(bench_v1_3_4_optimizations PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
-    # v1.3.4 Batch Insert Benchmark
-    add_executable(bench_batch_insert
-        benchmarks/bench_batch_insert.cpp
-    )
-    target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    # v1.3.4 Batch Insert Benchmark (optional if source exists)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp")
+        add_executable(bench_batch_insert
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_batch_insert.cpp
+        )
+        target_link_libraries(bench_batch_insert PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
-    # Simple insert test for debugging
-    add_executable(bench_simple_insert_test
-        benchmarks/bench_simple_insert_test.cpp
-    )
-    target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    # Simple insert test for debugging (optional if source exists)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp")
+        add_executable(bench_simple_insert_test
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_simple_insert_test.cpp
+        )
+        target_link_libraries(bench_simple_insert_test PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
-    # RAID and LoRA Adapter Benchmark
-    add_executable(bench_raid_lora
-        benchmarks/bench_raid_lora.cpp
-    )
-    target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    # RAID and LoRA Adapter Benchmark (optional if source exists)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp")
+        add_executable(bench_raid_lora
+            ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_raid_lora.cpp
+        )
+        target_link_libraries(bench_raid_lora PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
 
 endif()
 
@@ -2667,9 +2740,9 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     # Docker RAID Comprehensive Benchmark (v1.3.4+)
     # 1+ hour benchmark suite for Docker multi-container RAID testing
     # Tests RAID0, RAID1, RAID5, RAID6, RAID10 configurations
-    # See: benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
+    # See: ${CMAKE_SOURCE_DIR}/benchmarks/DOCKER_RAID_BENCHMARK_SUITE_README.md
     add_executable(bench_docker_raid_comprehensive
-        ${CMAKE_CURRENT_SOURCE_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}${CMAKE_SOURCE_DIR}/benchmarks/bench_docker_raid_comprehensive.cpp
     )
     target_link_libraries(bench_docker_raid_comprehensive PRIVATE 
         themis_core 
@@ -2710,7 +2783,7 @@ install(TARGETS themis_server themis_core
     ARCHIVE DESTINATION lib
 )
 
-install(DIRECTORY include/
+install(DIRECTORY /include/
     DESTINATION include
 )
 
@@ -2718,4 +2791,25 @@ install(DIRECTORY include/
 if(THEMIS_BUILD_BENCHMARKS)
     # add_subdirectory(benchmarks/performance_optimizations) # Directory does not exist
 endif()
+
+
+# Final MSVC cleanup: strip any invalid '/WX:NO' that might have been injected
+if(MSVC)
+    get_property(_allTargets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_t IN LISTS _allTargets)
+        foreach(_prop IN ITEMS COMPILE_OPTIONS INTERFACE_COMPILE_OPTIONS)
+            get_target_property(_opts ${_t} ${_prop})
+            if(_opts)
+                list(TRANSFORM _opts REPLACE "/WX:NO" "")
+                list(TRANSFORM _opts REPLACE "/WX:No" "")
+                list(TRANSFORM _opts REPLACE "/WX:0"  "")
+                set_target_properties(${_t} PROPERTIES ${_prop} "${_opts}")
+            endif()
+        endforeach()
+    endforeach()
+endif()
+
+
+
+
 

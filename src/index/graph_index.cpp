@@ -6,6 +6,7 @@
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include "security/encryption.h"
+#include "utils/audit_logger.h"  // Phase 1: Knowledge Graph Protection
 
 #include <queue>
 #include <unordered_set>
@@ -20,6 +21,56 @@ std::vector<uint8_t> GraphIndexManager::toBytes(std::string_view sv) {
 }
 
 GraphIndexManager::GraphIndexManager(RocksDBWrapper& db) : db_(db) {}
+
+// Phase 1: Set audit logger for tracking graph operations
+void GraphIndexManager::setAuditLogger(std::shared_ptr<utils::AuditLogger> logger, std::string user_context) {
+	audit_logger_ = std::move(logger);
+	user_context_ = std::move(user_context);
+}
+
+void GraphIndexManager::setUserContext(std::string user_id) {
+	user_context_ = std::move(user_id);
+}
+
+// Helper: Log audit event if audit logger is configured
+void GraphIndexManager::logAuditEvent_(const std::string& event_type, const std::string& resource,
+                                       const std::string& operation, size_t count, int depth) const {
+	if (!audit_logger_) return;
+	
+	try {
+		nlohmann::json details = {
+			{"operation", operation},
+			{"resource", resource}
+		};
+		
+		if (count > 0) {
+			details["count"] = count;
+		}
+		if (depth > 0) {
+			details["depth"] = depth;
+		}
+		
+		// Map event_type string to SecurityEventType enum
+		utils::SecurityEventType event;
+		if (event_type == "GRAPH_TRAVERSAL") {
+			event = utils::SecurityEventType::GRAPH_TRAVERSAL;
+		} else if (event_type == "BULK_NODE_ACCESS") {
+			event = utils::SecurityEventType::BULK_NODE_ACCESS;
+		} else if (event_type == "BULK_EDGE_ACCESS") {
+			event = utils::SecurityEventType::BULK_EDGE_ACCESS;
+		} else if (event_type == "TEMPORAL_QUERY") {
+			event = utils::SecurityEventType::TEMPORAL_QUERY;
+		} else {
+			event = utils::SecurityEventType::CUSTOM_EVENT;
+			details["custom_event_type"] = event_type;
+		}
+		
+		audit_logger_->logSecurityEvent(event, user_context_, resource, details);
+	} catch (const std::exception& e) {
+		// Don't fail graph operations if audit logging fails
+		THEMIS_WARN("Failed to log audit event: {}", e.what());
+	}
+}
 
 GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	if (!db_.isOpen()) return Status::Error("addEdge: Datenbank ist nicht geöffnet");
@@ -231,6 +282,12 @@ GraphIndexManager::outNeighbors(std::string_view fromPk) const {
 		result.emplace_back(std::string(val));
 		return true;
 	});
+	
+	// Phase 1: Audit log for bulk node access (threshold: 100+ neighbors)
+	if (result.size() >= 100) {
+		logAuditEvent_("BULK_NODE_ACCESS", std::string(fromPk), "outNeighbors", result.size(), 0);
+	}
+	
 	return {Status::OK(), std::move(result)};
 }
 
@@ -390,6 +447,10 @@ GraphIndexManager::bfs(std::string_view startPk, int maxDepth) const {
 			return true;
 		});
 	}
+	
+	// Phase 1: Audit log for graph traversal
+	logAuditEvent_("GRAPH_TRAVERSAL", std::string(startPk), "bfs", order.size(), maxDepth);
+	
 	return {Status::OK(), std::move(order)};
 }
 
@@ -1209,6 +1270,9 @@ GraphIndexManager::bfsAtTime(std::string_view startPk, int64_t timestamp_ms, int
 			}
 		}
 	}
+	
+	// Phase 1: Audit log for temporal query
+	logAuditEvent_("TEMPORAL_QUERY", std::string(startPk), "bfsAtTime", order.size(), maxDepth);
 
 	return {Status::OK(), std::move(order)};
 }

@@ -105,8 +105,13 @@ COPY config/config-minimal.yaml /etc/themisdb/config.yaml
 # Make executable
 RUN chmod +x /usr/local/bin/themis_server
 
-# Create data directory
-RUN mkdir -p /data/rocksdb
+# Create non-root user for security
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis --uid=999 --home-dir=/data --shell=/bin/bash themis
+
+# Create data directory with proper ownership
+RUN mkdir -p /data/rocksdb && \
+    chown -R themis:themis /data
 
 # Expose HTTP port only (no gRPC, no other protocols)
 EXPOSE 8080
@@ -121,6 +126,9 @@ WORKDIR /data
 # Environment variables
 ENV THEMIS_CONFIG=/etc/themisdb/config.yaml
 ENV THEMIS_EDITION=MINIMAL
+
+# Run as non-root user
+USER themis
 
 # Run server
 CMD ["/usr/local/bin/themis_server", "--config", "/etc/themisdb/config.yaml"]

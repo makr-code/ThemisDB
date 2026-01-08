@@ -194,6 +194,15 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::DATA_WRITE: return "DATA_WRITE";
         case SecurityEventType::DATA_DELETE: return "DATA_DELETE";
         case SecurityEventType::BULK_EXPORT: return "BULK_EXPORT";
+        // Graph & Vector Operations (Phase 1)
+        case SecurityEventType::GRAPH_TRAVERSAL: return "GRAPH_TRAVERSAL";
+        case SecurityEventType::BULK_NODE_ACCESS: return "BULK_NODE_ACCESS";
+        case SecurityEventType::BULK_EDGE_ACCESS: return "BULK_EDGE_ACCESS";
+        case SecurityEventType::EMBEDDING_QUERY: return "EMBEDDING_QUERY";
+        case SecurityEventType::EMBEDDING_EXPORT: return "EMBEDDING_EXPORT";
+        case SecurityEventType::GRAPH_EXPORT: return "GRAPH_EXPORT";
+        case SecurityEventType::TEMPORAL_QUERY: return "TEMPORAL_QUERY";
+        // PII
         case SecurityEventType::PII_ACCESSED: return "PII_ACCESSED";
         case SecurityEventType::PII_REVEALED: return "PII_REVEALED";
         case SecurityEventType::PII_ERASED: return "PII_ERASED";
