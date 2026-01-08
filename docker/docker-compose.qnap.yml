@@ -21,8 +21,9 @@ services:
       - /share/Container/themis/data:/data
       # Optional: eigene Config mounten (ansonsten wird Template verwendet)
       #- /share/Container/themis/config/config.qnap.json:/etc/vccdb/config.json:ro
-    # Container Station läuft i.d.R. als root; wir erzwingen hier root im Container
-    user: "0:0"
+    # Run as themis user (uid:gid 999:999) for security
+    # Note: QNAP Container Station may require adjusting volume permissions
+    user: "999:999"
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:18765/health || exit 1"]
       interval: 10s
