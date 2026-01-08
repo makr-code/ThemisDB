@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemisDB Theme Widgets - Demo</title>
+    <style>
+        /* CSS Variables (Themis Colors) */
+        :root {
+            --primary-color: #2c3e50;
+            --primary-dark: #1a252f;
+            --secondary-color: #3498db;
+            --secondary-dark: #2980b9;
+            --accent-purple: #7c4dff;
+            --accent-purple-dark: #651fff;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-bg: #ecf0f1;
+            --lighter-bg: #f8f9fa;
+            --white: #ffffff;
+            --text-primary: #2c3e50;
+            --text-secondary: #7f8c8d;
+            --text-muted: #95a5a6;
+            --border-color: #bdc3c7;
+            --border-light: #dee2e6;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--lighter-bg);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .demo-section {
+            margin-bottom: 3rem;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .demo-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-purple);
+            padding-bottom: 0.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="css/widgets.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 ThemisDB Theme - Widgets Demo</h1>
+
+        <!-- Featured Slider Demo -->
+        <div class="demo-section">
+            <h2>Featured Slider Widget</h2>
+            <div class="themisdb-slider-container">
+                <div class="themisdb-slider">
+                    <div class="slider-item active">
+                        <div class="slider-image">
+                            <a href="#">
+                                <img src="https://via.placeholder.com/1200x675/2c3e50/ffffff?text=Featured+Post+1" alt="Featured Post 1">
+                            </a>
+                        </div>
+                        <div class="slider-content">
+                            <h3 class="slider-title">
+                                <a href="#">ThemisDB 1.4.0 Alpha - New Features Released</a>
+                            </h3>
+                            <div class="slider-meta">
+                                <span class="slider-date">Januar 8, 2026</span>
+                            </div>
+                            <div class="slider-excerpt">
+                                Discover the latest features in ThemisDB including enhanced AI integration, improved query performance, and new database models for modern applications.
+                            </div>
+                            <a href="#" class="slider-readmore">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="slider-item">
+                        <div class="slider-image">
+                            <a href="#">
+                                <img src="https://via.placeholder.com/1200x675/3498db/ffffff?text=Featured+Post+2" alt="Featured Post 2">
+                            </a>
+                        </div>
+                        <div class="slider-content">
+                            <h3 class="slider-title">
+                                <a href="#">Getting Started with ThemisDB</a>
+                            </h3>
+                            <div class="slider-meta">
+                                <span class="slider-date">Januar 7, 2026</span>
+                            </div>
+                            <div class="slider-excerpt">
+                                A comprehensive guide to installing and configuring ThemisDB for your first multi-model database project with native LLM integration.
+                            </div>
+                            <a href="#" class="slider-readmore">Read More →</a>
+                        </div>
+                    </div>
+                    <div class="slider-item">
+                        <div class="slider-image">
+                            <a href="#">
+                                <img src="https://via.placeholder.com/1200x675/7c4dff/ffffff?text=Featured+Post+3" alt="Featured Post 3">
+                            </a>
+                        </div>
+                        <div class="slider-content">
+                            <h3 class="slider-title">
+                                <a href="#">Performance Benchmarks 2026</a>
+                            </h3>
+                            <div class="slider-meta">
+                                <span class="slider-date">Januar 6, 2026</span>
+                            </div>
+                            <div class="slider-excerpt">
+                                See how ThemisDB compares to other database systems in our comprehensive performance testing suite with real-world workloads.
+                            </div>
+                            <a href="#" class="slider-readmore">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav slider-prev" aria-label="Previous slide">‹</button>
+                <button class="slider-nav slider-next" aria-label="Next slide">›</button>
+                <div class="slider-dots"></div>
+            </div>
+        </div>
+
+        <!-- Recent Posts Widget Demo -->
+        <div class="demo-section">
+            <h2>Recent Posts Widget</h2>
+            <ul class="themisdb-recent-posts">
+                <li class="recent-post-item">
+                    <div class="recent-post-thumbnail">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x300/2c3e50/ffffff?text=Post+1" alt="Post 1">
+                        </a>
+                    </div>
+                    <div class="recent-post-content">
+                        <h4 class="recent-post-title">
+                            <a href="#">Understanding Multi-Model Databases</a>
+                        </h4>
+                        <span class="recent-post-date">Januar 5, 2026</span>
+                    </div>
+                </li>
+                <li class="recent-post-item">
+                    <div class="recent-post-thumbnail">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x300/3498db/ffffff?text=Post+2" alt="Post 2">
+                        </a>
+                    </div>
+                    <div class="recent-post-content">
+                        <h4 class="recent-post-title">
+                            <a href="#">AI Integration Best Practices</a>
+                        </h4>
+                        <span class="recent-post-date">Januar 4, 2026</span>
+                    </div>
+                </li>
+                <li class="recent-post-item">
+                    <div class="recent-post-thumbnail">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x300/7c4dff/ffffff?text=Post+3" alt="Post 3">
+                        </a>
+                    </div>
+                    <div class="recent-post-content">
+                        <h4 class="recent-post-title">
+                            <a href="#">Query Optimization Techniques</a>
+                        </h4>
+                        <span class="recent-post-date">Januar 3, 2026</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Category Highlights Widget Demo -->
+        <div class="demo-section">
+            <h2>Category Highlights Widget</h2>
+            <div class="themisdb-category-highlights">
+                <article class="category-highlight-item">
+                    <div class="highlight-thumbnail">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x300/27ae60/ffffff?text=Tutorial+1" alt="Tutorial 1">
+                        </a>
+                    </div>
+                    <div class="highlight-content">
+                        <h4 class="highlight-title">
+                            <a href="#">Installation Guide for Linux</a>
+                        </h4>
+                        <div class="highlight-excerpt">
+                            Step-by-step instructions for installing ThemisDB on Ubuntu, Debian, and other Linux distributions.
+                        </div>
+                    </div>
+                </article>
+                <article class="category-highlight-item">
+                    <div class="highlight-thumbnail">
+                        <a href="#">
+                            <img src="https://via.placeholder.com/400x300/27ae60/ffffff?text=Tutorial+2" alt="Tutorial 2">
+                        </a>
+                    </div>
+                    <div class="highlight-content">
+                        <h4 class="highlight-title">
+                            <a href="#">Database Schema Design</a>
+                        </h4>
+                        <div class="highlight-excerpt">
+                            Learn how to design efficient database schemas for your multi-model applications.
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Call-to-Action Widget Demo -->
+        <div class="demo-section">
+            <h2>Call-to-Action Widgets</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div class="themisdb-cta-box cta-style-primary">
+                    <h3 class="cta-title">Download ThemisDB</h3>
+                    <div class="cta-content">
+                        <p>Get the latest version of ThemisDB and start building your multi-model database today.</p>
+                    </div>
+                    <a href="#" class="cta-button">Download Now</a>
+                </div>
+                <div class="themisdb-cta-box cta-style-secondary">
+                    <h3 class="cta-title">Read the Docs</h3>
+                    <div class="cta-content">
+                        <p>Comprehensive documentation to help you get started with ThemisDB.</p>
+                    </div>
+                    <a href="#" class="cta-button">View Docs</a>
+                </div>
+                <div class="themisdb-cta-box cta-style-accent">
+                    <h3 class="cta-title">Join Community</h3>
+                    <div class="cta-content">
+                        <p>Connect with other ThemisDB users and developers on GitHub.</p>
+                    </div>
+                    <a href="#" class="cta-button">Join Now</a>
+                </div>
+                <div class="themisdb-cta-box cta-style-success">
+                    <h3 class="cta-title">Try the Demo</h3>
+                    <div class="cta-content">
+                        <p>Experience ThemisDB in action with our interactive online demo.</p>
+                    </div>
+                    <a href="#" class="cta-button">Try Demo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/slider.js"></script>
+</body>
+</html>

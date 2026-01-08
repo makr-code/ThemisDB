@@ -11,6 +11,24 @@
     margin-bottom: 2rem;
 }
 
+/* Homepage Featured Slider Section */
+.featured-slider-section {
+    margin-bottom: 3rem;
+}
+
+.featured-slider-section .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.homepage-slider {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .themisdb-slider-container {
     position: relative;
     overflow: hidden;
