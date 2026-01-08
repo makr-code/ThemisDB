@@ -6,6 +6,10 @@
 (function($) {
     'use strict';
 
+    // Constants
+    const MAX_MERMAID_LOAD_ATTEMPTS = 50; // Maximum attempts to wait for Mermaid library (5 seconds)
+    const MERMAID_CHECK_INTERVAL_MS = 100; // Interval between checks in milliseconds
+
     // Global namespace
     window.ThemisDBArchitecture = {
         currentView: null,
@@ -43,16 +47,15 @@
         waitForMermaid: function() {
             return new Promise((resolve, reject) => {
                 let attempts = 0;
-                const maxAttempts = 50; // 5 seconds max wait
                 
                 const checkMermaid = () => {
                     if (typeof mermaid !== 'undefined') {
                         resolve();
-                    } else if (attempts >= maxAttempts) {
+                    } else if (attempts >= MAX_MERMAID_LOAD_ATTEMPTS) {
                         reject(new Error('Mermaid library load timeout'));
                     } else {
                         attempts++;
-                        setTimeout(checkMermaid, 100);
+                        setTimeout(checkMermaid, MERMAID_CHECK_INTERVAL_MS);
                     }
                 };
                 
