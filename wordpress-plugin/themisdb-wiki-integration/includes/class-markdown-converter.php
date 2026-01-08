@@ -8,6 +8,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!class_exists('ThemisDB_Markdown_Converter')) {
+
 class ThemisDB_Markdown_Converter {
     
     /**
@@ -309,4 +311,6 @@ class ThemisDB_Markdown_Converter {
         
         return implode("\n\n", $result);
     }
+}
+
 }
