@@ -21,14 +21,43 @@
             this.settings = themisdbAD.settings || {};
             this.currentView = this.settings.default_view || 'high_level';
 
-            // Initialize Mermaid
-            this.initMermaid();
+            // Wait for Mermaid library to be loaded
+            this.waitForMermaid().then(() => {
+                // Initialize Mermaid
+                this.initMermaid();
 
-            // Set up event listeners
-            this.setupEventListeners();
+                // Set up event listeners
+                this.setupEventListeners();
 
-            // Load initial diagram
-            this.loadDiagram(this.currentView);
+                // Load initial diagram
+                this.loadDiagram(this.currentView);
+            }).catch((error) => {
+                console.error('Mermaid library failed to load:', error);
+                this.showError('Failed to load Mermaid library. Please refresh the page.');
+            });
+        },
+
+        /**
+         * Wait for Mermaid library to be loaded
+         */
+        waitForMermaid: function() {
+            return new Promise((resolve, reject) => {
+                let attempts = 0;
+                const maxAttempts = 50; // 5 seconds max wait
+                
+                const checkMermaid = () => {
+                    if (typeof mermaid !== 'undefined') {
+                        resolve();
+                    } else if (attempts >= maxAttempts) {
+                        reject(new Error('Mermaid library load timeout'));
+                    } else {
+                        attempts++;
+                        setTimeout(checkMermaid, 100);
+                    }
+                };
+                
+                checkMermaid();
+            });
         },
 
         /**
@@ -153,19 +182,30 @@
         renderDiagram: function(diagramCode) {
             const $container = $('#ad-mermaid-diagram');
             
-            // Set the diagram code
+            // Clear previous content
+            $container.empty();
+            
+            // Set the diagram code as text content
             $container.text(diagramCode);
+            
+            // Remove any data-processed attribute from previous renders
+            $container.removeAttr('data-processed');
 
             // Render with Mermaid
             if (typeof mermaid !== 'undefined') {
                 mermaid.run({
-                    querySelector: '#ad-mermaid-diagram'
+                    nodes: [$container[0]]
                 }).then(() => {
                     // Add node interactivity after rendering
                     if (this.settings.interactive) {
                         this.setupNodeInteractivity();
                     }
+                }).catch((error) => {
+                    console.error('Mermaid rendering error:', error);
+                    this.showError('Failed to render diagram: ' + error.message);
                 });
+            } else {
+                this.showError('Mermaid library not loaded');
             }
         },
 
