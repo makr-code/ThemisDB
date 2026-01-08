@@ -109,8 +109,120 @@
 
     /**
      * Build graph data structure for force-directed layout
+     * Uses WordPress posts, pages, categories, and tags data passed from PHP
      */
     function buildGraphData() {
+        // Check if WordPress data is available
+        if (typeof themisdbGraphData !== 'undefined' && themisdbGraphData.nodes && themisdbGraphData.links) {
+            console.log('Using WordPress content data for graph');
+            return processWordPressGraphData(themisdbGraphData);
+        }
+        
+        // Fallback to menu-based graph if no WordPress data
+        console.log('Falling back to menu-based graph');
+        return buildMenuGraphData();
+    }
+    
+    /**
+     * Process WordPress content data into graph format
+     */
+    function processWordPressGraphData(wpData) {
+        const nodes = [];
+        const links = [];
+        
+        // Process nodes and add visual properties
+        wpData.nodes.forEach((node, index) => {
+            const themeColor = getThemeColorByType(node.type, index);
+            
+            nodes.push({
+                id: node.id,
+                label: node.label,
+                url: node.url,
+                level: node.level,
+                type: node.type,
+                color: themeColor.fill,
+                icon: themeColor.label,
+                size: getNodeSize(node.type, node.level),
+                excerpt: node.excerpt || '',
+                count: node.count || 0,
+                date: node.date || ''
+            });
+        });
+        
+        // Process links
+        wpData.links.forEach(link => {
+            links.push({
+                source: link.source,
+                target: link.target,
+                label: getLinkLabel(link.type),
+                strength: getLinkStrength(link.type)
+            });
+        });
+        
+        return { nodes, links };
+    }
+    
+    /**
+     * Get node size based on type and level
+     */
+    function getNodeSize(type, level) {
+        const sizes = {
+            'home': 35,
+            'category': 28,
+            'tag': 25,
+            'page': 26,
+            'post': 22
+        };
+        return sizes[type] || Math.max(20, 30 - level * 5);
+    }
+    
+    /**
+     * Get theme color based on node type
+     */
+    function getThemeColorByType(type, index) {
+        const typeColors = {
+            'home': { fill: '#7c4dff', stroke: '#651fff', class: 'homeNode', label: '🏠' },
+            'category': { fill: '#3498db', stroke: '#2980b9', class: 'categoryNode', label: '📁' },
+            'tag': { fill: '#f39c12', stroke: '#e67e22', class: 'tagNode', label: '🏷️' },
+            'page': { fill: '#27ae60', stroke: '#229954', class: 'pageNode', label: '📄' },
+            'post': { fill: '#e74c3c', stroke: '#c0392b', class: 'postNode', label: '📝' }
+        };
+        
+        return typeColors[type] || { fill: '#95a5a6', stroke: '#7f8c8d', class: 'defaultNode', label: '●' };
+    }
+    
+    /**
+     * Get link label based on relationship type
+     */
+    function getLinkLabel(type) {
+        const labels = {
+            'contains': 'contains',
+            'tagged': 'tagged with',
+            'has_post': 'has post',
+            'has_tag': 'tagged',
+            'page_of': 'page of'
+        };
+        return labels[type] || 'related to';
+    }
+    
+    /**
+     * Get link strength based on relationship type
+     */
+    function getLinkStrength(type) {
+        const strengths = {
+            'contains': 0.8,
+            'tagged': 0.7,
+            'has_post': 1.0,
+            'has_tag': 0.9,
+            'page_of': 0.9
+        };
+        return strengths[type] || 0.5;
+    }
+    
+    /**
+     * Build graph data from navigation menu (fallback)
+     */
+    function buildMenuGraphData() {
         const menu = document.querySelector('#primary-menu');
         if (!menu) return null;
 
@@ -336,6 +448,22 @@
             .style('pointer-events', 'none')
             .text(d => d.label);
 
+        // Create tooltip element
+        const tooltip = d3.select(container)
+            .append('div')
+            .attr('class', 'graph-tooltip')
+            .style('position', 'absolute')
+            .style('visibility', 'hidden')
+            .style('background', 'rgba(44, 62, 80, 0.95)')
+            .style('color', '#fff')
+            .style('padding', '12px')
+            .style('border-radius', '8px')
+            .style('font-size', '13px')
+            .style('max-width', '300px')
+            .style('box-shadow', '0 4px 12px rgba(0,0,0,0.3)')
+            .style('pointer-events', 'none')
+            .style('z-index', '10000');
+
         // Add hover effects
         node.on('mouseover', function(event, d) {
             d3.select(this).select('circle')
@@ -355,6 +483,36 @@
             linkLabel.style('opacity', l =>
                 (l.source.id === d.id || l.target.id === d.id) ? 1 : 0
             );
+            
+            // Show tooltip with node information
+            let tooltipHTML = `<strong>${d.icon} ${d.label}</strong><br/>`;
+            tooltipHTML += `<em>${d.type}</em>`;
+            
+            if (d.excerpt && d.excerpt.trim()) {
+                tooltipHTML += `<br/><br/>${d.excerpt}`;
+            }
+            
+            if (d.count && d.count > 0) {
+                tooltipHTML += `<br/><br/>📊 ${d.count} items`;
+            }
+            
+            if (d.date) {
+                const date = new Date(d.date);
+                tooltipHTML += `<br/>📅 ${date.toLocaleDateString()}`;
+            }
+            
+            tooltipHTML += `<br/><br/><small>Click to visit</small>`;
+            
+            tooltip
+                .html(tooltipHTML)
+                .style('visibility', 'visible')
+                .style('left', (event.pageX + 15) + 'px')
+                .style('top', (event.pageY - 15) + 'px');
+        })
+        .on('mousemove', function(event) {
+            tooltip
+                .style('left', (event.pageX + 15) + 'px')
+                .style('top', (event.pageY - 15) + 'px');
         })
         .on('mouseout', function(event, d) {
             d3.select(this).select('circle')
@@ -367,6 +525,8 @@
                 .style('stroke-width', 2);
 
             linkLabel.style('opacity', 0);
+            
+            tooltip.style('visibility', 'hidden');
         })
         .on('click', function(event, d) {
             if (d.url) {
