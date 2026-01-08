@@ -7,6 +7,16 @@
     
     $(document).ready(function() {
         
+        // Initialize Mermaid for diagram rendering
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'default',
+                securityLevel: 'loose',
+                fontFamily: 'inherit'
+            });
+        }
+        
         // Copy hash to clipboard
         $('.copy-hash-button').on('click', function(e) {
             e.preventDefault();
