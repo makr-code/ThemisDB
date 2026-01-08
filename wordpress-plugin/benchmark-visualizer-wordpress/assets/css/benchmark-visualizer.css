@@ -186,6 +186,74 @@
     margin-top: 16px;
 }
 
+/* Stats Summary Grid */
+.themisdb-stats-summary {
+    margin-bottom: 20px;
+}
+
+.themisdb-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.themisdb-display-note {
+    background: var(--themisdb-light-bg);
+    border-left: 3px solid var(--themisdb-secondary);
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-top: 12px;
+}
+
+.themisdb-display-note p {
+    margin: 0;
+    color: var(--themisdb-text-secondary);
+}
+
+.themisdb-stat-card {
+    background: var(--themisdb-white);
+    border: 2px solid var(--themisdb-border);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: var(--themisdb-transition);
+}
+
+.themisdb-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--themisdb-shadow-hover);
+}
+
+.themisdb-stat-card.success {
+    border-color: var(--themisdb-success);
+    background: rgba(39, 174, 96, 0.05);
+}
+
+.themisdb-stat-card.warning {
+    border-color: var(--themisdb-warning);
+    background: rgba(243, 156, 18, 0.05);
+}
+
+.themisdb-stat-card .stat-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.themisdb-stat-card .stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--themisdb-text-primary);
+    margin-bottom: 4px;
+}
+
+.themisdb-stat-card .stat-label {
+    font-size: 0.85rem;
+    color: var(--themisdb-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .themisdb-results-table table {
     width: 100%;
     border-collapse: collapse;
@@ -234,6 +302,7 @@
     background: var(--themisdb-light-bg);
     border-left: 4px solid var(--themisdb-primary);
     border-radius: 4px;
+    margin-bottom: 16px;
 }
 
 .themisdb-insight-card h4 {
@@ -243,21 +312,47 @@
 }
 
 .themisdb-insight-card p {
-    margin: 0;
+    margin: 0 0 8px 0;
     font-size: 0.9rem;
     color: var(--themisdb-text-secondary);
+    line-height: 1.6;
+}
+
+.themisdb-insight-card p:last-child {
+    margin-bottom: 0;
+}
+
+.themisdb-insight-card ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.themisdb-insight-card li {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: var(--themisdb-text-secondary);
+    line-height: 1.5;
+}
+
+.themisdb-insight-card strong {
+    color: var(--themisdb-text-primary);
+    font-weight: 600;
 }
 
 .themisdb-insight-card.success {
     border-left-color: var(--themisdb-success);
+    background: rgba(39, 174, 96, 0.05);
 }
 
 .themisdb-insight-card.warning {
     border-left-color: var(--themisdb-warning);
+    background: rgba(243, 156, 18, 0.05);
 }
 
 .themisdb-insight-card.info {
     border-left-color: var(--themisdb-secondary);
+    background: rgba(52, 152, 219, 0.05);
 }
 
 /* Export Section */
