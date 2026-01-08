@@ -86,6 +86,10 @@ docs/compendium/
 
 ```bash
 pip install -r ../../requirements-docs.txt
+
+# Für interaktive Mermaid-Diagramme (optional)
+pip install reportlab pypdf qrcode[pil] pillow markdown
+npm install -g @mermaid-js/mermaid-cli  # Optional für SVG-Rendering
 ```
 
 ### HTML Build
@@ -105,6 +109,20 @@ mkdocs build -f mkdocs-compendium.yml
 ```
 
 Output: `../ThemisDB-Kompendium-v1.3.4.pdf`
+
+### 🆕 Interactive Mermaid PDF (NEU!)
+
+```bash
+# Generiere interaktive HTML-Diagramme mit Mermaid.js
+python3 generate_interactive_pdf_with_embeds.py
+
+# Output:
+# - HTML-Dateien mit interaktiven Diagrammen
+# - QR-Codes für mobile Zugriff
+# - Metadata-JSON für PDF.js Viewer
+```
+
+📖 **Siehe:** `README_INTERACTIVE.md` für vollständige Anleitung
 
 ### Development Server
 
@@ -214,6 +232,9 @@ Alle 21 Examples sind auf Kapitel verteilt:
 ### Diagramme
 
 - **Mermaid:** Für Architektur und Flows
+  - 🆕 **Interaktiv:** Nutze `generate_interactive_pdf_with_embeds.py` für interaktive HTML/JS Versionen
+  - 📱 **QR-Codes:** Automatische Generierung für mobile Zugriff
+  - 🌐 **PDF.js Viewer:** Custom Browser-Viewer mit voller Interaktivität
 - **ASCII:** Für einfache Strukturen
 - **Screenshots:** Für UI (falls relevant)
 
