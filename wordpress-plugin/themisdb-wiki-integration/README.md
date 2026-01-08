@@ -20,7 +20,7 @@ This WordPress plugin enables automatic integration of ThemisDB documentation (w
 - ✅ **Drei Navigationsstile**: Sidebar, Accordion, Horizontal
 - ✅ Unterstützung für mehrere Sprachen (DE, EN, FR)
 - ✅ Caching-Mechanismus für bessere Performance
-- ✅ Automatische Synchronisierung (stündlich)
+- ✅ **Manuelle Synchronisierung** (on-demand, kein automatischer Hintergrund-Sync)
 - ✅ Shortcodes für einfache Integration
 - ✅ Inhaltsverzeichnis-Generierung
 - ✅ Responsive Design
@@ -53,7 +53,9 @@ Nach der Aktivierung gehen Sie zu **Einstellungen → ThemisDB Wiki** und konfig
 - **Dokumentationspfad**: `docs` (Standard)
 - **Standard-Sprache**: `de`, `en`, oder `fr`
 - **GitHub Token** (Optional): Für private Repos oder höhere Rate Limits
-- **Auto-Sync**: Aktivieren für automatische stündliche Synchronisierung
+- **Auto-Sync**: Standardmäßig deaktiviert (manuelle Synchronisierung empfohlen)
+
+**Hinweis:** Die Synchronisierung erfolgt on-demand über den "Sync Now" Button im Admin-Panel oder kann optional für automatische stündliche Updates aktiviert werden.
 
 ## Verwendung / Usage
 
@@ -163,7 +165,7 @@ themisdb-wiki-integration/
 2. **Caching**: Abgerufene Inhalte werden für 1 Stunde im WordPress-Transient-Cache gespeichert
 3. **Markdown-Parsing**: Einfache Markdown-zu-HTML-Konvertierung (für Produktion empfohlen: Parsedown-Library)
 4. **Shortcode-Rendering**: WordPress Shortcodes ermöglichen flexible Integration in Seiten/Posts
-5. **Auto-Sync**: Optionale stündliche Aktualisierung der Dokumentation
+5. **Manuelle Synchronisierung**: On-demand Aktualisierung über Admin-Panel "Sync Now" Button (Auto-Sync optional deaktivierbar)
 
 ## Technische Details
 
@@ -176,8 +178,8 @@ themisdb-wiki-integration/
 ### Caching
 
 - **Transient Cache**: 1 Stunde Standardwert
-- **Manuelles Löschen**: Admin-Panel → "Sync Now" Button
-- **Automatisches Löschen**: Bei stündlicher Auto-Sync
+- **Manuelles Löschen**: Admin-Panel → "Sync Now" Button (empfohlene Methode)
+- **Automatisches Löschen**: Nur bei aktiviertem Auto-Sync (standardmäßig deaktiviert)
 
 ### Performance
 
@@ -286,13 +288,19 @@ Dieses Plugin ist unter der MIT-Lizenz lizenziert. Siehe [LICENSE](LICENSE) für
 
 ## Changelog
 
+### Version 1.0.1 (Januar 2026)
+- ⚠️ **Breaking Change**: Auto-Sync standardmäßig deaktiviert
+- ✅ Manuelle On-Demand-Synchronisierung als Standard
+- ✅ Auto-Sync weiterhin optional aktivierbar
+- 📝 Dokumentation aktualisiert
+
 ### Version 1.0.0 (Januar 2026)
 - ✅ Initiale Veröffentlichung
 - ✅ GitHub API Integration
 - ✅ Markdown-zu-HTML-Konvertierung
 - ✅ Mehrsprachige Unterstützung (DE, EN, FR)
 - ✅ Caching-Mechanismus
-- ✅ Auto-Sync-Funktion
+- ✅ Auto-Sync-Funktion (optional)
 - ✅ Admin-Panel
 - ✅ Responsive Design
 - ✅ Dark Mode Support
