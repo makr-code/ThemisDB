@@ -77,10 +77,43 @@ FOR order IN orders
 // - Keine Duplikation
 // - Single source of truth
 // - Einfache Updates (nur 1 Dokument)
+```
 
-// ❌ Nachteile:
-// - Zusätzlicher Query-Overhead (JOIN)
-// - Referentielle Integrität manuell sicherstellen
+**Entscheidungsmatrix:**
+
+```mermaid
+flowchart TD
+    Start{Data Modeling} --> Relation{Beziehungstyp?}
+    
+    Relation -->|1:1| Embed1[Embedded empfohlen]
+    Relation -->|1:N| CheckN{N ist klein?}
+    Relation -->|N:M| Ref1[Referenced mit Junction]
+    
+    CheckN -->|Ja, N < 100| Embed2[Embedded]
+    CheckN -->|Nein, N > 100| Ref2[Referenced]
+    
+    Embed1 --> Update{Häufige Updates?}
+    Embed2 --> Update
+    
+    Update -->|Ja| Ref3[Referenced besser]
+    Update -->|Nein| Final1[Embedded OK]
+    
+    Ref1 --> Final2[Referenced Pattern]
+    Ref2 --> Final2
+    Ref3 --> Final2
+    
+    Final1 --> Check{Dokumentgröße?}
+    Check -->|< 16MB| OK[Schema OK]
+    Check -->|> 16MB| Split[Split in Chunks]
+    
+    Final2 --> Index[Index auf Foreign Keys]
+    Index --> OK
+    
+    style Embed1 fill:#51cf66
+    style Embed2 fill:#51cf66
+    style Final1 fill:#51cf66
+    style Final2 fill:#4dabf7
+    style OK fill:#40c057
 ```
 
 **Entscheidungsmatrix:**

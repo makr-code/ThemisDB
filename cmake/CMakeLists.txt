@@ -872,27 +872,31 @@ endif()
 if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM support enabled - integrating llama.cpp")
 
-    # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
-    # Fallback to legacy path external/llama.cpp if present
-    set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
-    if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
-        if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
-            set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
-            message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
-        else()
-            message(FATAL_ERROR
-                "llama.cpp source not found!\n"
-                "Clone locally (ignored by Git/Docker):\n"
-                "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
-                "Or run: bash scripts/setup-llamacpp.sh")
+    # Check if llama was already found via find_package (e.g. from installed version)
+    if(TARGET llama)
+        message(STATUS "llama.cpp already available as target (from find_package) - skipping add_subdirectory")
+    else()
+        # Prefer local, non-committed root clone at ${CMAKE_SOURCE_DIR}/llama.cpp
+        # Fallback to legacy path external/llama.cpp if present
+        set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/llama.cpp")
+        if(NOT EXISTS "${LLAMA_SRC_DIR}/CMakeLists.txt")
+            if(EXISTS "${CMAKE_SOURCE_DIR}/external/llama.cpp/CMakeLists.txt")
+                set(LLAMA_SRC_DIR "${CMAKE_SOURCE_DIR}/external/llama.cpp")
+                message(WARNING "Using legacy llama.cpp at external/llama.cpp. Prefer root llama.cpp/ (ignored by Git/Docker).")
+            else()
+                message(FATAL_ERROR
+                    "llama.cpp source not found!\n"
+                    "Clone locally (ignored by Git/Docker):\n"
+                    "  git clone https://github.com/ggerganov/llama.cpp.git llama.cpp\n"
+                    "Or run: bash scripts/setup-llamacpp.sh")
+            endif()
         endif()
-    endif()
 
-    # Configure llama.cpp build options
-    set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
-    set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
-    set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
-    set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
+        # Configure llama.cpp build options
+        set(LLAMA_BUILD_TESTS OFF CACHE BOOL "Disable llama.cpp tests" FORCE)
+        set(LLAMA_BUILD_EXAMPLES OFF CACHE BOOL "Disable llama.cpp examples" FORCE)
+        set(LLAMA_BUILD_SERVER OFF CACHE BOOL "Disable llama.cpp server" FORCE)
+        set(LLAMA_STATIC ON CACHE BOOL "Build llama.cpp as static library" FORCE)
     
     # GPU acceleration options
     if(THEMIS_ENABLE_CUDA)
@@ -930,6 +934,7 @@ if(THEMIS_ENABLE_LLM)
     add_compile_definitions(THEMIS_LLM_ENABLED)
     
     message(STATUS "  llama.cpp configured successfully")
+    endif() # end of else block for TARGET llama check
 endif()
 
 # Helper: normalize source entries that start with '/' to be rooted at the project source dir
@@ -947,306 +952,306 @@ endfunction()
 
 # Core library sources
 set(THEMIS_CORE_SOURCES
-    /src/storage/rocksdb_wrapper.cpp
-    /src/storage/base_entity.cpp
-    /src/storage/key_schema.cpp
-    /src/storage/backup_manager.cpp
+    ../src/storage/rocksdb_wrapper.cpp
+    ../src/storage/base_entity.cpp
+    ../src/storage/key_schema.cpp
+    ../src/storage/backup_manager.cpp
     
-    /src/index/secondary_index.cpp
-    /src/index/graph_index.cpp
-    /src/index/temporal_graph.cpp
-    /src/index/property_graph.cpp
-    /src/index/edge_types.cpp
-    /src/index/process_graph.cpp
-    /src/index/gnn_embeddings.cpp
-    /src/index/graph_analytics.cpp
-    /src/index/vector_index.cpp
-    /src/index/product_quantizer.cpp
-    /src/index/adaptive_index.cpp
+    ../src/index/secondary_index.cpp
+    ../src/index/graph_index.cpp
+    ../src/index/temporal_graph.cpp
+    ../src/index/property_graph.cpp
+    ../src/index/edge_types.cpp
+    ../src/index/process_graph.cpp
+    ../src/index/gnn_embeddings.cpp
+    ../src/index/graph_analytics.cpp
+    ../src/index/vector_index.cpp
+    ../src/index/product_quantizer.cpp
+    ../src/index/adaptive_index.cpp
     
-    /src/security/mock_key_provider.cpp
-    /src/security/vault_key_provider.cpp
-    /src/security/key_cache.cpp
-    /src/security/keyprovider_signing.cpp
-    /src/security/vault_signing_provider.cpp
-    /src/security/field_encryption.cpp
-    /src/security/encrypted_field.cpp
-    /src/security/malware_scanner.cpp
-    /src/security/usb_admin_authenticator.cpp
+    ../src/security/mock_key_provider.cpp
+    ../src/security/vault_key_provider.cpp
+    ../src/security/key_cache.cpp
+    ../src/security/keyprovider_signing.cpp
+    ../src/security/vault_signing_provider.cpp
+    ../src/security/field_encryption.cpp
+    ../src/security/encrypted_field.cpp
+    ../src/security/malware_scanner.cpp
+    ../src/security/usb_admin_authenticator.cpp
     
-    /src/transaction/transaction_manager.cpp
-    /src/transaction/saga.cpp
+    ../src/transaction/transaction_manager.cpp
+    ../src/transaction/saga.cpp
     
-    /src/query/query_engine.cpp
-    /src/query/query_optimizer.cpp
-    /src/query/aql_parser.cpp
-    /src/query/aql_parser_json.cpp
-    /src/query/aql_translator.cpp
-    /src/query/aql_runner.cpp
-    /src/query/let_evaluator.cpp
-    /src/query/window_evaluator.cpp
-    /src/query/cte_subquery.cpp
-    /src/query/cte_cache.cpp
+    ../src/query/query_engine.cpp
+    ../src/query/query_optimizer.cpp
+    ../src/query/aql_parser.cpp
+    ../src/query/aql_parser_json.cpp
+    ../src/query/aql_translator.cpp
+    ../src/query/aql_runner.cpp
+    ../src/query/let_evaluator.cpp
+    ../src/query/window_evaluator.cpp
+    ../src/query/cte_subquery.cpp
+    ../src/query/cte_cache.cpp
 
     
     
-    /src/query/statistical_aggregator.cpp
-    /src/query/semantic_cache.cpp
-    /src/query/functions/function_registry.cpp
+    ../src/query/statistical_aggregator.cpp
+    ../src/query/semantic_cache.cpp
+    ../src/query/functions/function_registry.cpp
     
-    /src/server/http_server.cpp
-    $<$<BOOL:${THEMIS_ENABLE_SSE}>:${CMAKE_SOURCE_DIR}/src/server/sse_connection_manager.cpp>
-    /src/server/audit_api_handler.cpp
-    /src/server/pki_api_handler.cpp
-    /src/server/saga_api_handler.cpp
-    /src/server/pii_api_handler.cpp
-    /src/server/retention_api_handler.cpp
-    /src/server/keys_api_handler.cpp
-    /src/server/classification_api_handler.cpp
-    /src/server/reports_api_handler.cpp
-    /src/server/ranger_adapter.cpp
-    /src/server/policy_engine.cpp
-    /src/server/auth_middleware.cpp
-    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:${CMAKE_SOURCE_DIR}/src/server/wal_grpc_service.cpp>
+    ../src/server/http_server.cpp
+    $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
+    ../src/server/audit_api_handler.cpp
+    ../src/server/pki_api_handler.cpp
+    ../src/server/saga_api_handler.cpp
+    ../src/server/pii_api_handler.cpp
+    ../src/server/retention_api_handler.cpp
+    ../src/server/keys_api_handler.cpp
+    ../src/server/classification_api_handler.cpp
+    ../src/server/reports_api_handler.cpp
+    ../src/server/ranger_adapter.cpp
+    ../src/server/policy_engine.cpp
+    ../src/server/auth_middleware.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
     
     # LLM integration (server/API/grpc) is added conditionally below
-    /src/server/rate_limiter.cpp
-    /src/server/rate_limiter_v2.cpp
-    /src/server/load_shedder.cpp
-    /src/server/update_api_handler.cpp
-    /src/server/hot_reload_api_handler.cpp
-    /src/server/export_api_handler.cpp
-    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:${CMAKE_SOURCE_DIR}/src/server/http2_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:${CMAKE_SOURCE_DIR}/src/server/http3_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:${CMAKE_SOURCE_DIR}/src/server/websocket_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:${CMAKE_SOURCE_DIR}/src/server/mqtt_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:${CMAKE_SOURCE_DIR}/src/server/postgres_session.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_MCP}>:${CMAKE_SOURCE_DIR}/src/server/mcp_server.cpp>
+    ../src/server/rate_limiter.cpp
+    ../src/server/rate_limiter_v2.cpp
+    ../src/server/load_shedder.cpp
+    ../src/server/update_api_handler.cpp
+    ../src/server/hot_reload_api_handler.cpp
+    ../src/server/export_api_handler.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MQTT}>:../src/server/mqtt_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_POSTGRES_WIRE}>:../src/server/postgres_session.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_MCP}>:../src/server/mcp_server.cpp>
     
-    /src/content/content_type.cpp
-    /src/content/content_manager.cpp
-    /src/content/text_processor.cpp
-    /src/content/mock_clip_processor.cpp
-    /src/content/mime_detector.cpp
-    /src/content/content_policy.cpp
-    /src/content/content_fs.cpp
-    /src/content/version_manager.cpp
-    $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:/src/content/office_processor.cpp>
+    ../src/content/content_type.cpp
+    ../src/content/content_manager.cpp
+    ../src/content/text_processor.cpp
+    ../src/content/mock_clip_processor.cpp
+    ../src/content/mime_detector.cpp
+    ../src/content/content_policy.cpp
+    ../src/content/content_fs.cpp
+    ../src/content/version_manager.cpp
+    $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:../src/content/office_processor.cpp>
     
-    /src/cache/semantic_cache.cpp
-    /src/cache/embedding_cache.cpp
+    ../src/cache/semantic_cache.cpp
+    ../src/cache/embedding_cache.cpp
     # LLM core components are added conditionally below
-    /src/cdc/changefeed.cpp
+    ../src/cdc/changefeed.cpp
     
     # Replication
-    /src/replication/replication_manager.cpp
+    ../src/replication/replication_manager.cpp
     
     # Temporal conflict resolution
-    /src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/temporal_conflict_resolver.cpp
     
-    /src/timeseries/timeseries.cpp
-    /src/timeseries/tsstore.cpp
-    /src/timeseries/gorilla.cpp
-    /src/timeseries/retention.cpp
-    /src/timeseries/continuous_agg.cpp
-    /src/timeseries/aggregate_scheduler.cpp
-    /src/timeseries/aggregate_scheduler_helper.cpp
-    /src/timeseries/query_optimizer.cpp
+    ../src/timeseries/timeseries.cpp
+    ../src/timeseries/tsstore.cpp
+    ../src/timeseries/gorilla.cpp
+    ../src/timeseries/retention.cpp
+    ../src/timeseries/continuous_agg.cpp
+    ../src/timeseries/aggregate_scheduler.cpp
+    ../src/timeseries/aggregate_scheduler_helper.cpp
+    ../src/timeseries/query_optimizer.cpp
     
-    /src/utils/serialization.cpp
-    /src/utils/logger.cpp
-    /src/utils/cursor.cpp
-    /src/utils/tracing.cpp
-    /src/utils/zstd_codec.cpp
-    /src/utils/pki_client.cpp
-    /src/utils/input_validator.cpp
-    /src/utils/audit_logger.cpp
-    /src/utils/pii_detection_engine.cpp
-    /src/utils/regex_detection_engine.cpp
-    /src/utils/pii_detector.cpp
-    /src/utils/retention_manager.cpp
-    /src/utils/hkdf_helper.cpp
-    /src/utils/hkdf_cache.cpp
-    /src/utils/saga_logger.cpp
-    /src/utils/lek_manager.cpp
-    /src/utils/stemmer.cpp
-    /src/utils/stopwords.cpp
-    /src/utils/pii_pseudonymizer.cpp
-    /src/utils/normalizer.cpp
-    /src/utils/simd_distance.cpp
-    /src/utils/update_checker.cpp
-    /src/utils/http_client_pool.cpp
-    /src/utils/build_info.cpp
-    /src/utils/license_info.cpp
+    ../src/utils/serialization.cpp
+    ../src/utils/logger.cpp
+    ../src/utils/cursor.cpp
+    ../src/utils/tracing.cpp
+    ../src/utils/zstd_codec.cpp
+    ../src/utils/pki_client.cpp
+    ../src/utils/input_validator.cpp
+    ../src/utils/audit_logger.cpp
+    ../src/utils/pii_detection_engine.cpp
+    ../src/utils/regex_detection_engine.cpp
+    ../src/utils/pii_detector.cpp
+    ../src/utils/retention_manager.cpp
+    ../src/utils/hkdf_helper.cpp
+    ../src/utils/hkdf_cache.cpp
+    ../src/utils/saga_logger.cpp
+    ../src/utils/lek_manager.cpp
+    ../src/utils/stemmer.cpp
+    ../src/utils/stopwords.cpp
+    ../src/utils/pii_pseudonymizer.cpp
+    ../src/utils/normalizer.cpp
+    ../src/utils/simd_distance.cpp
+    ../src/utils/update_checker.cpp
+    ../src/utils/http_client_pool.cpp
+    ../src/utils/build_info.cpp
+    ../src/utils/license_info.cpp
     
     # Updates (hot-reload)
-    /src/updates/release_manifest.cpp
-    /src/updates/manifest_database.cpp
-    /src/updates/hot_reload_engine.cpp
-    /src/updates/updates_config.cpp
+    ../src/updates/release_manifest.cpp
+    ../src/updates/manifest_database.cpp
+    ../src/updates/hot_reload_engine.cpp
+    ../src/updates/updates_config.cpp
     
     # Geo utilities
-    /src/utils/geo/ewkb.cpp
+    ../src/utils/geo/ewkb.cpp
     
     # Spatial index
-    /src/index/spatial_index.cpp
+    ../src/index/spatial_index.cpp
     
     # Hybrid search (BM25 + Vector)
-    /src/search/hybrid_search.cpp
-    /src/security/pki_key_provider.cpp
-    /src/security/cms_signing.cpp
-    /src/security/rbac.cpp
-    /src/security/hsm_provider.cpp
-    /src/security/hsm_provider_pkcs11.cpp
-    /src/security/timestamp_authority.cpp
-    /src/security/timestamp_authority_openssl.cpp
-    /src/security/vcc_pki_client.cpp
-    /src/storage/security_signature.cpp
-    /src/storage/security_signature_manager.cpp
-    /src/auth/jwt_validator.cpp
-    /src/governance/policy_engine.cpp
+    ../src/search/hybrid_search.cpp
+    ../src/security/pki_key_provider.cpp
+    ../src/security/cms_signing.cpp
+    ../src/security/rbac.cpp
+    ../src/security/hsm_provider.cpp
+    ../src/security/hsm_provider_pkcs11.cpp
+    ../src/security/timestamp_authority.cpp
+    ../src/security/timestamp_authority_openssl.cpp
+    ../src/security/vcc_pki_client.cpp
+    ../src/storage/security_signature.cpp
+    ../src/storage/security_signature_manager.cpp
+    ../src/auth/jwt_validator.cpp
+    ../src/governance/policy_engine.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
-    /src/geo/cpu_backend.cpp
-    /src/geo/gpu_backend_stub.cpp
-    /src/geo/boost_cpu_exact_backend.cpp
-    /src/api/geo_index_hooks.cpp
+    ../src/geo/cpu_backend.cpp
+    ../src/geo/gpu_backend_stub.cpp
+    ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/api/geo_index_hooks.cpp
     
     # Sharding (horizontal scaling)
-        /src/utils/boost_throw_exception.cpp
-    /src/sharding/urn.cpp
-    /src/sharding/consistent_hash.cpp
-    /src/sharding/shard_topology.cpp
-    /src/sharding/urn_resolver.cpp
-    /src/sharding/pki_shard_certificate.cpp
-    /src/sharding/mtls_client.cpp
-    /src/sharding/signed_request.cpp
-    /src/sharding/remote_executor.cpp
-    /src/sharding/shard_rpc_client.cpp
-    /src/sharding/shard_router.cpp
-    /src/sharding/rebalance_operation.cpp
-    /src/sharding/data_migrator.cpp
-    /src/sharding/shard_load_detector.cpp
-    /src/sharding/auto_rebalancer.cpp
-    /src/sharding/prometheus_metrics.cpp
-    /src/sharding/metrics_registry.cpp
-    /src/sharding/health_check.cpp
-    /src/sharding/admin_api.cpp
-    /src/sharding/cloud_agent.cpp
-    /src/sharding/circuit_breaker.cpp
-    /src/sharding/gossip_protocol.cpp
-    /src/sharding/raft_configuration.cpp
-    /src/sharding/raft_log.cpp
-    /src/sharding/raft_state.cpp
-    /src/sharding/raft_wal_integration.cpp
-    /src/sharding/stream_protocol.cpp
-    /src/sharding/wal_applier.cpp
-    /src/sharding/wal_manager.cpp
-    /src/sharding/wal_shipper.cpp
-    /src/sharding/replication_coordinator.cpp
-    /src/sharding/replica_topology.cpp
-    /src/sharding/multi_primary_coordinator.cpp
-    /src/sharding/health_monitor.cpp
-    /src/sharding/truetime.cpp
-    /src/sharding/distributed_transaction.cpp
-    /src/sharding/redundancy_strategy.cpp
-    /src/sharding/hot_spare_manager.cpp
-    /src/sharding/predictive_detector.cpp
-    /src/sharding/shard_rpc_server.cpp
+    ../src/utils/boost_throw_exception.cpp
+    ../src/sharding/urn.cpp
+    ../src/sharding/consistent_hash.cpp
+    ../src/sharding/shard_topology.cpp
+    ../src/sharding/urn_resolver.cpp
+    ../src/sharding/pki_shard_certificate.cpp
+    ../src/sharding/mtls_client.cpp
+    ../src/sharding/signed_request.cpp
+    ../src/sharding/remote_executor.cpp
+    ../src/sharding/shard_rpc_client.cpp
+    ../src/sharding/shard_router.cpp
+    ../src/sharding/rebalance_operation.cpp
+    ../src/sharding/data_migrator.cpp
+    ../src/sharding/shard_load_detector.cpp
+    ../src/sharding/auto_rebalancer.cpp
+    ../src/sharding/prometheus_metrics.cpp
+    ../src/sharding/metrics_registry.cpp
+    ../src/sharding/health_check.cpp
+    ../src/sharding/admin_api.cpp
+    ../src/sharding/cloud_agent.cpp
+    ../src/sharding/circuit_breaker.cpp
+    ../src/sharding/gossip_protocol.cpp
+    ../src/sharding/raft_configuration.cpp
+    ../src/sharding/raft_log.cpp
+    ../src/sharding/raft_state.cpp
+    ../src/sharding/raft_wal_integration.cpp
+    ../src/sharding/stream_protocol.cpp
+    ../src/sharding/wal_applier.cpp
+    ../src/sharding/wal_manager.cpp
+    ../src/sharding/wal_shipper.cpp
+    ../src/sharding/replication_coordinator.cpp
+    ../src/sharding/replica_topology.cpp
+    ../src/sharding/multi_primary_coordinator.cpp
+    ../src/sharding/health_monitor.cpp
+    ../src/sharding/truetime.cpp
+    ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/redundancy_strategy.cpp
+    ../src/sharding/hot_spare_manager.cpp
+    ../src/sharding/predictive_detector.cpp
+    ../src/sharding/shard_rpc_server.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>
     $<$<BOOL:${THEMIS_ENABLE_OPENCL}>:/src/sharding/gpu_erasure_coder_opencl.cpp>
-    /src/storage/blob_redundancy_manager.cpp
-    /src/server/sharding_metrics_handler.cpp
+    ../src/storage/blob_redundancy_manager.cpp
+    ../src/server/sharding_metrics_handler.cpp
     
     # Hardware acceleration (core abstraction layer - always included)
-    /src/acceleration/backend_registry.cpp
-    /src/acceleration/cpu_backend.cpp
-    /src/acceleration/plugin_loader.cpp
-    /src/acceleration/plugin_security.cpp
+    ../src/acceleration/backend_registry.cpp
+    ../src/acceleration/cpu_backend.cpp
+    ../src/acceleration/plugin_loader.cpp
+    ../src/acceleration/plugin_security.cpp
     # Plugin manager (core plugin orchestration)
-    /src/plugins/plugin_manager.cpp
+    ../src/plugins/plugin_manager.cpp
     
     # Multi-tenancy support
-    /src/server/tenant_manager.cpp
+    ../src/server/tenant_manager.cpp
     
     # Network
-    /src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_server.cpp
     
     # Observability
-    /src/observability/metrics_collector.cpp
+    ../src/observability/metrics_collector.cpp
     
     # GraphQL API (conditional)
-    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:${CMAKE_SOURCE_DIR}/src/api/graphql.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
     
     # Exporters and Importers
-    /src/exporters/jsonl_llm_exporter.cpp
-    /src/importers/postgres_importer.cpp
+    ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/importers/postgres_importer.cpp
     
     # OLAP Analytics
-    /src/analytics/olap.cpp
-    /src/analytics/process_mining.cpp
+    ../src/analytics/olap.cpp
+    ../src/analytics/process_mining.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)
 # Conditionally add Phase 2 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
-    /src/performance/phase2_feature_flags.cpp
+    ../src/performance/phase2_feature_flags.cpp
 )
 
 if(THEMIS_ENABLE_WISCKEY)
     message(STATUS "Including WiscKey key/value separation (THEMIS_ENABLE_WISCKEY=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/wisckey.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/wisckey.cpp)
 endif()
 
 if(THEMIS_ENABLE_DOSTOEVSKY)
     message(STATUS "Including Dostoevsky adaptive LSM (THEMIS_ENABLE_DOSTOEVSKY=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/dostoevsky.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/dostoevsky.cpp)
 endif()
 
 if(THEMIS_ENABLE_CICADA)
     message(STATUS "Including Cicada optimistic CC (THEMIS_ENABLE_CICADA=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/cicada.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/cicada.cpp)
 endif()
 
 if(THEMIS_ENABLE_LIGRA)
     message(STATUS "Including Ligra graph processing (THEMIS_ENABLE_LIGRA=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/ligra.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/ligra.cpp)
 endif()
 
 if(THEMIS_ENABLE_RABITQ)
     message(STATUS "Including RaBitQ vector quantization (THEMIS_ENABLE_RABITQ=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/rabitq.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/rabitq.cpp)
 endif()
 
 # Phase 3 Performance Optimizations (PR #156/#157)
 # Conditionally add Phase 3 optimization sources when enabled
 list(APPEND THEMIS_CORE_SOURCES
-    /src/performance/phase3/feature_flags.cpp
+    ../src/performance/phase3/feature_flags.cpp
 )
 
 if(THEMIS_ENABLE_DISKANN)
     message(STATUS "Including DiskANN billion-scale vector search (THEMIS_ENABLE_DISKANN=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/diskann.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/diskann.cpp)
 endif()
 
 if(THEMIS_ENABLE_BWTREE)
     message(STATUS "Including Bw-Tree lock-free index (THEMIS_ENABLE_BWTREE=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/bwtree.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bwtree.cpp)
 endif()
 
 if(THEMIS_ENABLE_SPLINTERDB)
     message(STATUS "Including SplinterDB concurrent compaction (THEMIS_ENABLE_SPLINTERDB=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/splinterdb.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/splinterdb.cpp)
 endif()
 
 if(THEMIS_ENABLE_GUNROCK)
     message(STATUS "Including Gunrock GPU graph analytics (THEMIS_ENABLE_GUNROCK=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/gunrock.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/gunrock.cpp)
 endif()
 
 if(THEMIS_ENABLE_BAO)
     message(STATUS "Including Bao ML query optimizer (THEMIS_ENABLE_BAO=ON)")
-    list(APPEND THEMIS_CORE_SOURCES /src/performance/phase3/bao.cpp)
+    list(APPEND THEMIS_CORE_SOURCES ../src/performance/phase3/bao.cpp)
 endif()
 
 # Conditionally add LLM sources (v1.3.0+) only when enabled
@@ -1254,8 +1259,8 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)")
     list(APPEND THEMIS_CORE_SOURCES
         # Server/API (HTTP + optional gRPC)
-        /src/server/llm_api_handler.cpp
-        /src/aql/llm_aql_handler.cpp
+    ../src/server/llm_api_handler.cpp
+    ../src/aql/llm_aql_handler.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -1266,7 +1271,7 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "gRPC found - enabling LLM gRPC service")
             # TEMP: gRPC proto generation not yet configured - comment out until ready
             # list(APPEND THEMIS_CORE_SOURCES
-            #     /src/server/llm_grpc_service.cpp
+            #     ../src/server/llm_grpc_service.cpp
             #     /proto/llm_service.proto
             # )
         # Note: Proto generation should be configured in a separate section when needed
@@ -1274,14 +1279,14 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "gRPC not found - disabling LLM gRPC service and proto generation")
     endif()
         # TEMP: Disable llm_grpc_service until proto generation is configured
-        # list(REMOVE_ITEM THEMIS_CORE_SOURCES /src/server/llm_grpc_service.cpp)
+        # list(REMOVE_ITEM THEMIS_CORE_SOURCES ../src/server/llm_grpc_service.cpp)
 
     # LLM core components
     list(APPEND THEMIS_CORE_SOURCES
-        /src/llm/llm_interaction_store.cpp
-        /src/llm/prompt_manager.cpp
-        /src/llm/block_table.cpp
-        /src/llm/paged_kv_cache.cpp
+    ../src/llm/llm_interaction_store.cpp
+    ../src/llm/prompt_manager.cpp
+    ../src/llm/block_table.cpp
+    ../src/llm/paged_kv_cache.cpp
     )
 endif()
 
@@ -1289,8 +1294,8 @@ endif()
 # These have lightweight dependencies and avoid undefined references if LLM is disabled.
 if(NOT THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
-        /src/llm/llm_interaction_store.cpp
-        /src/llm/prompt_manager.cpp
+    ../src/llm/llm_interaction_store.cpp
+    ../src/llm/prompt_manager.cpp
     )
 endif()
 
@@ -1346,8 +1351,8 @@ if(THEMIS_ENABLE_CUDA)
     
     # Add CUDA source files
     list(APPEND THEMIS_ACCELERATION_SOURCES 
-        /src/acceleration/cuda_backend.cpp
-        /src/acceleration/cuda/vector_kernels.cu
+    ../src/acceleration/cuda_backend.cpp
+    ../src/acceleration/cuda/vector_kernels.cu
     )
     
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
@@ -1361,7 +1366,7 @@ endif()
 
 # Graphics API backends
 if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
-    list(APPEND THEMIS_ACCELERATION_SOURCES /src/acceleration/graphics_backends.cpp)
+    list(APPEND THEMIS_ACCELERATION_SOURCES ../src/acceleration/graphics_backends.cpp)
     
     if(THEMIS_ENABLE_DIRECTX)
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_DIRECTX)
@@ -1397,7 +1402,7 @@ endif()
 
 if(THEMIS_ENABLE_HSM_REAL)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HSM_REAL)
-    target_sources(themis_core PRIVATE /src/security/hsm_provider_pkcs11.cpp)
+    target_sources(themis_core PRIVATE ../src/security/hsm_provider_pkcs11.cpp)
 endif()
 
 # Geo feature flags and Boost.Geometry support
@@ -1737,46 +1742,46 @@ endif()
 if(THEMIS_ENABLE_LLM)
     # Add LLM plugin source files
     target_sources(themis_core PRIVATE
-        ${CMAKE_SOURCE_DIR}/src/llm/llama_wrapper.cpp
-        ${CMAKE_SOURCE_DIR}/src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
-        ${CMAKE_SOURCE_DIR}/src/llm/llm_plugin_manager.cpp
-        ${CMAKE_SOURCE_DIR}/src/llm/model_loader.cpp          # Ollama-style lazy loading
-        ${CMAKE_SOURCE_DIR}/src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
-        ${CMAKE_SOURCE_DIR}/src/llm/async_inference_engine.cpp # Async threading (independent from DB)
+        ../src/llm/llama_wrapper.cpp
+        ../src/llm/embedded_llm.cpp          # Embedded LLM facade for system-wide use
+        ../src/llm/llm_plugin_manager.cpp
+        ../src/llm/model_loader.cpp          # Ollama-style lazy loading
+        ../src/llm/multi_lora_manager.cpp    # vLLM-style multi-LoRA
+        ../src/llm/async_inference_engine.cpp # Async threading (independent from DB)
         # v1.3.1: Cache Reuse Integration (Phase 2)
-        ${CMAKE_SOURCE_DIR}/src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
-        ${CMAKE_SOURCE_DIR}/src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
-        ${CMAKE_SOURCE_DIR}/src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
-        ${CMAKE_SOURCE_DIR}/src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
-        ${CMAKE_SOURCE_DIR}/src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
+        ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
+        ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
+        ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
+        ../src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
         
         # Phase 3.2: Grammar-Constrained Generation
-        ${CMAKE_SOURCE_DIR}/src/llm/grammar.cpp               # Grammar parsing and compilation
-        ${CMAKE_SOURCE_DIR}/src/llm/grammar_cache.cpp         # Grammar caching for performance
+        ../src/llm/grammar.cpp               # Grammar parsing and compilation
+        ../src/llm/grammar_cache.cpp         # Grammar caching for performance
         
         # Phase 4+5 Week 4-6: llama.cpp Integration
-        ${CMAKE_SOURCE_DIR}/src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
-        ${CMAKE_SOURCE_DIR}/src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
+        ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
+        ../src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
-        ${CMAKE_SOURCE_DIR}/src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
+        ../src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking
         
         # P1: Enterprise Features - LLM Inference Engine Improvements
-        ${CMAKE_SOURCE_DIR}/src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
-        ${CMAKE_SOURCE_DIR}/src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
-        ${CMAKE_SOURCE_DIR}/src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
-        ${CMAKE_SOURCE_DIR}/src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
+        ../src/llm/continuous_batch_scheduler.cpp  # vLLM-style continuous batching
+        ../src/llm/llm_prefix_cache.cpp           # Context caching with prefix reuse
+        ../src/llm/grafana_metrics.cpp            # Prometheus/Grafana metrics integration
+        ../src/llm/inference_engine_enhanced.cpp  # Enhanced inference engine with P1 features
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
-        ${CMAKE_SOURCE_DIR}/src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
-        ${CMAKE_SOURCE_DIR}/src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
+        ../src/llm/gpu_memory_manager.cpp         # GPU memory management (CPU fallback when CUDA disabled)
+        ../src/llm/kernel_fusion.cpp              # Kernel fusion with CPU fallback
     )
 
     # Add CLIP vision encoder only when explicitly enabled
     if(THEMIS_ENABLE_VISION)
         target_sources(themis_core PRIVATE
-            ${CMAKE_SOURCE_DIR}/src/llm/vision_encoder.cpp
+            ../src/llm/vision_encoder.cpp
         )
         target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VISION=1)
         message(STATUS "LLM Vision: CLIP vision encoder enabled")
@@ -1787,7 +1792,7 @@ if(THEMIS_ENABLE_LLM)
     # Add CUDA kernel fusion sources when CUDA is enabled
     if(THEMIS_ENABLE_CUDA)
         list(APPEND THEMIS_CORE_SOURCES
-            ${CMAKE_SOURCE_DIR}/src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
+            ../src/llm/kernel_fusion.cu           # Flash Attention CUDA kernels
         )
         message(STATUS "LLM: CUDA kernel fusion enabled (Flash Attention)")
     endif()
@@ -1862,7 +1867,7 @@ endif()
 
 # Main executable (demo)
 add_executable(themis_demo
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
+    ../src/main.cpp
 )
 
 target_link_libraries(themis_demo
@@ -1872,7 +1877,7 @@ target_link_libraries(themis_demo
 
 # Encryption demo executable
 add_executable(themis_demo_encryption
-    ${CMAKE_SOURCE_DIR}/src/demo_encryption.cpp
+    ../src/demo_encryption.cpp
 )
 
 target_link_libraries(themis_demo_encryption
@@ -1882,7 +1887,7 @@ target_link_libraries(themis_demo_encryption
 
 # API Server executable
 add_executable(themis_server
-    ${CMAKE_SOURCE_DIR}/src/main_server.cpp
+    ../src/main_server.cpp
 )
 
 target_link_libraries(themis_server

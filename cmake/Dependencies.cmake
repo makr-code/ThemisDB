@@ -43,6 +43,9 @@ message(STATUS "Boost found: ${Boost_VERSION}")
 find_package(Threads REQUIRED)
 message(STATUS "Threads found")
 
+find_package(OpenMP REQUIRED)
+message(STATUS "OpenMP found")
+
 # Protobuf (required for gRPC and general serialization)
 find_package(Protobuf REQUIRED CONFIG)
 message(STATUS "Protobuf found: ${Protobuf_VERSION}")
@@ -208,6 +211,13 @@ endif()
 # ============================================================================
 
 if(THEMIS_ENABLE_LLM)
+    # Ensure C language is enabled so OpenMP::OpenMP_C target exists
+    enable_language(C)
+    # OpenMP MUST be found before llama.cpp configuration
+    # because ggml-config.cmake references OpenMP::OpenMP_C target
+    find_package(OpenMP REQUIRED)
+    message(STATUS "OpenMP found for LLM support")
+    
     # Check if llama.cpp is available as a target or library
     find_package(llama QUIET CONFIG)
     
@@ -282,3 +292,4 @@ message(STATUS "Optional: CURL, Arrow, Parquet, mimalloc, OpenTelemetry")
 message(STATUS "Protocols: HTTP/2=${THEMIS_ENABLE_HTTP2}, HTTP/3=${THEMIS_ENABLE_HTTP3}")
 message(STATUS "Features: LLM=${THEMIS_ENABLE_LLM}, GPU=${THEMIS_ENABLE_GPU}, CUDA=${THEMIS_ENABLE_CUDA}")
 message(STATUS "============================================")
+
