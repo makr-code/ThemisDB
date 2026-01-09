@@ -1,0 +1,92 @@
+# Minimal Fast Dockerfile für ThemisDB (Community Edition)
+# Ultra-schneller Build ohne LLM/GPU für Entwicklung und Testing
+# Optimierungen: BuildKit Cache Mounts, ccache, Layer-Split
+
+FROM ubuntu:24.04 AS builder
+
+ARG CMAKE_BUILD_TYPE=Release
+ARG VCPKG_BINARY_SOURCES="clear;default,readwrite"
+
+# Install minimal build dependencies (cached layer)
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+    build-essential gcc g++ cmake git curl wget zip unzip tar pkg-config python3 \
+    ninja-build ccache autoconf automake libtool \
+    libssl-dev zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment
+ENV CC=/usr/bin/gcc \
+    CXX=/usr/bin/g++ \
+    CCACHE_DIR=/ccache \
+    VCPKG_BINARY_SOURCES=${VCPKG_BINARY_SOURCES}
+
+# Bootstrap vcpkg (cached layer)
+RUN --mount=type=cache,target=/root/.cache/vcpkg \
+    git clone --depth 1 https://github.com/microsoft/vcpkg.git /vcpkg && \
+    /vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
+WORKDIR /build
+
+# Copy only dependency manifests (better caching)
+COPY CMakeLists.txt vcpkg.json vcpkg-configuration.json VERSION RELEASE_TYPE ./
+COPY cmake/ cmake/
+
+# Install vcpkg dependencies (cached separately)
+RUN --mount=type=cache,target=/root/.cache/vcpkg \
+    --mount=type=cache,target=/vcpkg/buildtrees \
+    --mount=type=cache,target=/vcpkg/downloads \
+    cmake -S . -B build \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+    -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
+    -DVCPKG_TARGET_TRIPLET=x64-linux \
+    -DTHEMIS_ENABLE_LLM=OFF \
+    -DTHEMIS_ENABLE_GPU=OFF \
+    -DTHEMIS_ENABLE_GRPC=ON \
+    -DTHEMIS_BUILD_TESTS=OFF \
+    -DTHEMIS_BUILD_BENCHMARKS=OFF
+
+# Now copy source code (changes here won't rebuild vcpkg)
+COPY src/ src/
+COPY include/ include/
+COPY proto/ proto/
+COPY internal/ internal/
+COPY scripts/ scripts/
+
+# Build with ccache
+RUN --mount=type=cache,target=/ccache \
+    cmake --build build --config ${CMAKE_BUILD_TYPE} --parallel 8
+
+# ============================================================================
+# Runtime Stage (Minimal)
+# ============================================================================
+FROM ubuntu:24.04
+
+# Install minimal runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates libssl3 libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy binary
+COPY --from=builder /build/build/cmake/themis_server /usr/local/bin/themis_server
+RUN chmod +x /usr/local/bin/themis_server
+
+# Setup user and directories
+RUN useradd -r -s /bin/false themis && \
+    mkdir -p /var/lib/themisdb /etc/themis && \
+    chown -R themis:themis /var/lib/themisdb
+
+# Minimal config
+RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb"}' > /etc/themis/config.json
+
+EXPOSE 18765 8080
+
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=2 \
+    CMD test -S /var/lib/themisdb/themis.sock || exit 1
+
+USER themis
+WORKDIR /var/lib/themisdb
+
+CMD ["/usr/local/bin/themis_server", "--config", "/etc/themis/config.json"]
