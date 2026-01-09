@@ -492,7 +492,7 @@ Der schnellste Weg, ThemisDB zu starten:
 
 ```bash
 # ThemisDB mit Docker starten
-docker run -d -p 8765:8765 themisdb/themisdb:1.3.4
+docker run -d -p 8765:8765 themisdb/themisdb:1.4.0-alpha
 
 # Warten bis Server bereit ist
 sleep 5
@@ -505,7 +505,7 @@ curl http://localhost:8765/health
 ```json
 {
   "status": "ok",
-  "version": "1.3.4",
+  "version": "1.4.0-alpha",
   "uptime": 5.2
 }
 ```
@@ -662,7 +662,7 @@ recommendations = client.query(query, {
 
 ## 1.7 Quickstart (5 Minuten)
 
-1. **Docker starten:** `docker run -d -p 8765:8765 themisdb/themisdb:1.3.4`
+1. **Docker starten:** `docker run -d -p 8765:8765 themisdb/themisdb:1.4.0-alpha`
 2. **Healthcheck prüfen:** `curl http://localhost:8765/health`
 3. **Minimal-Collection anlegen:**
 

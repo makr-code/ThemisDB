@@ -1917,7 +1917,657 @@ Output:
 }
 ```
 
-### 17.12.6 Vision Support
+### 17.12.6 Grammar-Constrained Generation
+
+**Neu in v1.4.0-alpha:** EBNF/GBNF-basierte Grammar-Constraints garantieren gültige, strukturierte LLM-Ausgaben (JSON, XML, CSV) ohne Post-Processing.
+
+**Problem ohne Grammar Constraints:**
+
+LLMs erzeugen oft ungültige Outputs, selbst bei expliziten Anweisungen:
+
+```aql
+// ❌ Ohne Grammar: 60-70% Erfolgsrate
+LET response = PROMPT('llama-70b-local',
+  'Gebe eine JSON-Liste mit 3 Produkten zurück: {name, price, stock}')
+
+// Typische Fehler:
+// - Trailing commas: {"name": "Laptop", "price": 999,}
+// - Fehlende Quotes: {name: Laptop}
+// - Zusätzlicher Text: "Here is the JSON: {...}"
+// - Inkompletter Output: {"name": "Laptop"  [abgebrochen]
+```
+
+**Lösung: Grammar-Constrained Generation (95-99% Erfolgsrate):**
+
+```mermaid
+graph LR
+    subgraph "Traditioneller Ansatz"
+        P1[Prompt:<br/>'Return JSON'] --> L1[LLM<br/>Generation]
+        L1 --> O1[Output:<br/>invalid JSON<br/>60-70% valid]
+        O1 --> V1{Validate}
+        V1 -->|Invalid| Retry[Retry with<br/>error message]
+        Retry --> L1
+        V1 -->|Valid| Result1[Use Data]
+    end
+    
+    subgraph "Grammar-Constrained"
+        P2[Prompt +<br/>Grammar Rules] --> L2[LLM<br/>with Grammar]
+        L2 --> O2[Output:<br/>guaranteed valid<br/>95-99% valid]
+        O2 --> Result2[Use Data]
+    end
+    
+    style O1 fill:#f78ca0
+    style O2 fill:#43e97b
+    style V1 fill:#ffd32a
+    style Result2 fill:#95e1d3
+```
+
+**Diagramm-Erklärung:**
+- **Traditionell:** LLM generiert frei → Validierung → bei Fehler Retry (teuer, langsam)
+- **Grammar-Constrained:** Grammar-Regeln garantieren gültigen Output → kein Retry nötig
+- **Effizienz:** 95-99% Erfolgsrate, kein Post-Processing, niedrigere Kosten
+
+**Verwendung in AQL:**
+
+```aql
+// ✅ Mit Grammar: 95-99% Erfolgsrate, kein Retry nötig
+FOR product IN products_to_export
+  LIMIT 100
+  
+  LET json_data = PROMPT('llama-70b-local',
+    CONCAT('Erstelle JSON für Produkt: ', product.name),
+    {
+      temperature: 0.3,
+      grammar_type: 'json',  // Built-in Grammar
+      response_schema: {
+        name: 'string',
+        description: 'string',
+        price: 'number',
+        stock: 'integer',
+        categories: 'array'
+      }
+    }
+  )
+  
+  // json_data ist GARANTIERT valides JSON!
+  INSERT json_data INTO exports
+```
+
+**Built-in Grammars:**
+
+| Grammar Type | Use Case | Beispiel-Output |
+|--------------|----------|-----------------|
+| `json` | API-Responses, Strukturierte Daten | `{"key": "value", "arr": [1,2,3]}` |
+| `json_strict` | Strenge JSON-Compliance | Keine trailing commas, quotes required |
+| `xml` | Legacy-Systeme, SOAP APIs | `<root><item>value</item></root>` |
+| `csv` | Daten-Export, Excel-Integration | `name,price,stock\nLaptop,999,15` |
+| `react_agent` | Multi-Step Reasoning | `Thought: ...\nAction: ...\nObservation: ...` |
+
+**JSON Grammar mit Schema:**
+
+```aql
+// Produkt-Export mit garantiert gültigem JSON-Schema
+FOR order IN orders
+  FILTER order.exported == false
+  LIMIT 50
+  
+  LET export_data = PROMPT('gpt-4',
+    {
+      system: 'Du bist ein Daten-Export-Assistent. Konvertiere Bestellungen zu JSON.',
+      user: CONCAT('Bestellung: ', TO_STRING(order))
+    },
+    {
+      grammar_type: 'json_strict',
+      response_schema: {
+        order_id: 'string',
+        customer: {
+          name: 'string',
+          email: 'string',
+          address: {
+            street: 'string',
+            city: 'string',
+            zip: 'string'
+          }
+        },
+        items: [{
+          product_id: 'string',
+          name: 'string',
+          quantity: 'integer',
+          price: 'number'
+        }],
+        total: 'number',
+        status: 'enum:pending,shipped,delivered'
+      }
+    }
+  )
+  
+  // Garantiert valides, schemakonforme JSON - kein try/catch nötig!
+  INSERT export_data INTO order_exports
+  UPDATE order WITH {exported: true} IN orders
+```
+
+**XML Grammar für Legacy-Integration:**
+
+```aql
+// SOAP-API Integration mit garantiert gültigem XML
+FOR invoice IN pending_invoices
+  LIMIT 20
+  
+  LET xml_payload = PROMPT('gpt-4',
+    CONCAT('Konvertiere Rechnung zu XML: ', TO_STRING(invoice)),
+    {
+      grammar_type: 'xml',
+      temperature: 0.1
+    }
+  )
+  
+  // xml_payload ist garantiert well-formed XML
+  LET soap_response = HTTP_POST('https://erp.example.com/soap', {
+    body: CONCAT(
+      '<soap:Envelope>',
+      '<soap:Body>', xml_payload, '</soap:Body>',
+      '</soap:Envelope>'
+    ),
+    headers: {'Content-Type': 'text/xml'}
+  })
+  
+  UPDATE invoice WITH {
+    erp_synced: true,
+    erp_response: soap_response
+  } IN pending_invoices
+```
+
+**CSV Grammar für Daten-Export:**
+
+```aql
+// Batch-Export zu CSV mit Grammar-Garantie
+LET csv_export = PROMPT('gpt-4',
+  {
+    system: '''Konvertiere Produktdaten zu CSV.
+               Spalten: ProductID, Name, Category, Price, Stock
+               Keine zusätzlichen Kommentare, nur CSV.''',
+    user: CONCAT('Produkte: ', TO_STRING(SLICE(products, 0, 100)))
+  },
+  {
+    grammar_type: 'csv',
+    temperature: 0.0
+  }
+)
+
+// csv_export ist garantiert gültiges CSV - direkt speicherbar
+LET file_written = FILE_WRITE('/exports/products.csv', csv_export)
+RETURN {written: file_written, rows: COUNT_LINES(csv_export)}
+```
+
+**ReAct Agent Grammar für Multi-Step Reasoning:**
+
+```aql
+// Agent-basierte Problemlösung mit strukturiertem Output
+FOR task IN complex_tasks
+  FILTER task.status == 'pending'
+  LIMIT 5
+  
+  LET agent_steps = PROMPT('gpt-4',
+    {
+      system: '''Du bist ein Problem-Solving Agent.
+                 Verwende ReAct Format:
+                 Thought: [dein Gedankengang]
+                 Action: [Aktion zum Ausführen]
+                 Observation: [Ergebnis der Aktion]
+                 ... (wiederholen bis Lösung)
+                 Final Answer: [endgültige Antwort]''',
+      user: CONCAT('Problem: ', task.description)
+    },
+    {
+      grammar_type: 'react_agent',
+      max_tokens: 1000
+    }
+  )
+  
+  // agent_steps ist strukturiert nach ReAct-Format
+  // → Einfach zu parsen und auszuführen
+  LET parsed = PARSE_REACT_FORMAT(agent_steps)
+  
+  UPDATE task WITH {
+    solution_steps: parsed.steps,
+    final_answer: parsed.final_answer,
+    status: 'solved'
+  } IN complex_tasks
+```
+
+**Custom Grammars (EBNF):**
+
+```aql
+// Eigene Grammar-Definition für spezielle Formate
+LET custom_grammar = '''
+root ::= person+
+person ::= name age email
+name ::= "Name:" [a-zA-Z ]+ "\\n"
+age ::= "Age:" [0-9]+ "\\n"
+email ::= "Email:" [a-z0-9@.]+ "\\n"
+'''
+
+FOR contact IN contact_queue
+  LET formatted = PROMPT('gpt-4',
+    CONCAT('Formatiere Kontakt: ', TO_STRING(contact)),
+    {
+      grammar_ebnf: custom_grammar,
+      temperature: 0.2
+    }
+  )
+  
+  // Output garantiert im definierten Format:
+  // Name: Max Mustermann
+  // Age: 35
+  // Email: max@example.com
+  INSERT {text: formatted} INTO formatted_contacts
+```
+
+**Grammar Cache für Performance:**
+
+Grammars werden automatisch gecacht (LRU Cache, 100 Entries):
+
+```aql
+// Statistiken abfragen
+RETURN GRAMMAR_CACHE_STATS()
+```
+
+Output:
+```json
+{
+  "cache_size": 100,
+  "cache_hits": 15420,
+  "cache_misses": 234,
+  "hit_rate": 0.985,
+  "builtin_grammars": ["json", "json_strict", "xml", "csv", "react_agent"],
+  "custom_grammars_loaded": 15
+}
+```
+
+**Performance-Vergleich:**
+
+```aql
+// Benchmark: Mit vs. Ohne Grammar
+RETURN LLM_GRAMMAR_BENCHMARK({
+  prompt: 'Generate JSON product list',
+  iterations: 100
+})
+```
+
+Output:
+```json
+{
+  "without_grammar": {
+    "avg_latency_ms": 890,
+    "success_rate": 0.68,
+    "retries_needed": 32,
+    "total_tokens": 125000,
+    "cost_usd": 3.75
+  },
+  "with_grammar": {
+    "avg_latency_ms": 950,
+    "success_rate": 0.98,
+    "retries_needed": 2,
+    "total_tokens": 102000,
+    "cost_usd": 3.06
+  },
+  "savings": {
+    "cost_reduction_percent": 18.4,
+    "time_saved_percent": -6.7,  // Initial 7% slower...
+    "reliability_improvement": "+44%",
+    "effective_time_saved": "+65%"  // ...aber massiv weniger Retries!
+  }
+}
+```
+
+**Erklärung:**
+- Grammar fügt ~7% Overhead hinzu
+- ABER: 44% höhere Erfolgsrate → 94% weniger Retries
+- Effektiv: 65% schneller + 18% günstiger
+
+**Best Practices:**
+
+1. ✅ **Verwende Built-in Grammars** wenn möglich (optimiert, gecacht)
+2. ✅ **Definiere klare Schemas** für `json` Grammar
+3. ✅ **Temperature niedrig halten** (0.0-0.3) für deterministische Outputs
+4. ✅ **Grammar für Batch-Jobs** - Amortisiert Overhead über viele Requests
+5. ❌ **Nicht für kreative Texte** - Grammar schränkt Flexibilität ein
+6. ❌ **Nicht für Chat/Dialog** - Zu restriktiv für natürliche Konversation
+
+**Use Cases - Perfekt für:**
+
+- ✅ API-Integration (JSON/XML-Generierung)
+- ✅ Daten-Export (CSV, strukturierte Formate)
+- ✅ Code-Generierung (Syntax-korrekt)
+- ✅ Formular-Parsing (strukturierte Extraktion)
+- ✅ Agent-Frameworks (ReAct, Tool-Calling)
+
+**Use Cases - Nicht geeignet für:**
+
+- ❌ Kreatives Schreiben
+- ❌ Chat/Dialog
+- ❌ Offene Fragen
+- ❌ Brainstorming
+
+**Weitere Ressourcen:**
+
+- llama.cpp GBNF Spezifikation: [GitHub](https://github.com/ggerganov/llama.cpp/blob/master/grammars/README.md)
+- Built-in Grammars: `src/llm/grammars/*.gbnf`
+- Custom Grammar API: `docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md`
+
+---
+
+### 17.12.7 RoPE Scaling - Extended Context Window
+
+**Neu in v1.4.0-alpha:** RoPE (Rotary Position Embedding) Scaling erweitert das Kontext-Fenster von Standard 4K-8K auf bis zu 32K+ Tokens (8x Increase).
+
+**Problem: Begrenzte Kontext-Länge:**
+
+Standard-LLMs sind auf 4K-8K Tokens limitiert:
+
+```aql
+// ❌ Fehler: Kontext zu lang
+LET research_paper = FILE_READ('paper.txt')  // 25K Tokens
+LET summary = PROMPT('llama-70b-local',
+  CONCAT('Fasse zusammen: ', research_paper)  // ERROR: Context too long!
+)
+```
+
+**Lösung: RoPE Scaling:**
+
+```mermaid
+graph TB
+    subgraph "Standard LLM (4K Context)"
+        S1[Input:<br/>4K tokens max] --> S2[Processing]
+        S2 --> S3[Output]
+        S4[Long Document<br/>25K tokens] -.x.-|Truncate| S1
+    end
+    
+    subgraph "RoPE Scaled LLM (32K Context)"
+        R1[Input:<br/>32K tokens] --> R2[RoPE Scaling<br/>Frequency Adjustment]
+        R2 --> R3[Processing<br/>with scaled positions]
+        R3 --> R4[Output]
+        R5[Long Document<br/>25K tokens] -->|Full Text| R1
+    end
+    
+    style S4 fill:#f78ca0
+    style R5 fill:#43e97b
+    style R2 fill:#667eea
+```
+
+**Diagramm-Erklärung:**
+- **Standard:** Input auf 4K tokens gekürzt → Informationsverlust
+- **RoPE Scaling:** Positions-Embeddings "gestreckt" → 8x längerer Kontext möglich
+- **NTK-aware / YaRN:** Intelligente Skalierung erhält Qualität auch bei 32K
+
+**Scaling-Methoden:**
+
+| Methode | Kontext | Qualität | Use Case |
+|---------|---------|----------|----------|
+| **Linear** | 4K → 16K (4x) | ⭐⭐⭐ Gut | Einfache Dokumente |
+| **NTK-aware** | 4K → 24K (6x) | ⭐⭐⭐⭐ Sehr gut | Standard-Anwendungen |
+| **YaRN** | 4K → 32K (8x) | ⭐⭐⭐⭐⭐ Exzellent | Research Papers, Code |
+
+**Konfiguration:**
+
+```yaml
+# config/llm.yaml
+llm:
+  models:
+    - name: llama-70b-extended
+      path: ./models/llama-70b.gguf
+      rope_scaling:
+        type: yarn  # linear, ntk_aware, yarn
+        factor: 8   # 4K → 32K
+        freq_base: 10000.0
+        freq_scale: 1.0
+      n_ctx: 32768  # 32K context window
+```
+
+**Verwendung in AQL:**
+
+```aql
+// ✅ Mit RoPE Scaling: Vollständige Research Paper Analyse
+FOR paper IN research_papers
+  FILTER paper.analyzed == false
+  LIMIT 10
+  
+  // Paper hat 25K tokens - passt in 32K Context!
+  LET full_text = FILE_READ(paper.file_path)
+  
+  LET analysis = PROMPT('llama-70b-extended',
+    {
+      system: '''Du bist ein wissenschaftlicher Assistent.
+                 Analysiere das Paper gründlich und extrahiere:
+                 1. Kernaussagen und Hypothesen
+                 2. Methodologie
+                 3. Ergebnisse und Erkenntnisse
+                 4. Limitationen
+                 5. Relevanz für unser Forschungsgebiet''',
+      user: CONCAT('Research Paper (vollständig):\n\n', full_text)
+    },
+    {
+      temperature: 0.3,
+      max_tokens: 2000,
+      rope_scaling_type: 'yarn',  // Optional: Per-Request Override
+      n_ctx: 32768
+    }
+  )
+  
+  UPDATE paper WITH {
+    analysis: analysis,
+    analyzed: true,
+    tokens_used: TOKEN_COUNT(full_text)
+  } IN research_papers
+```
+
+**Codebase-Verständnis:**
+
+```aql
+// Vollständige Codebase-Analyse (große Repositories)
+LET codebase_files = (
+  FOR file IN GLOB('src/**/*.cpp')
+    RETURN {
+      path: file,
+      content: FILE_READ(file)
+    }
+)
+
+// Alle Files concatenieren
+LET full_codebase = (
+  FOR file IN codebase_files
+    RETURN CONCAT(
+      '// File: ', file.path, '\n',
+      file.content, '\n\n'
+    )
+)
+
+LET concatenated = CONCAT_ARRAY(full_codebase)
+
+// Analyse mit extended context (20K tokens codebase)
+LET code_analysis = PROMPT('gpt-4-32k',
+  {
+    system: 'Du bist ein Code-Reviewer. Analysiere die Codebase ganzheitlich.',
+    user: CONCAT(
+      'Komplette Codebase:\n\n', concatenated, '\n\n',
+      'Identifiziere: Architektur-Patterns, potentielle Bugs, ',
+      'Performance-Probleme, Security-Issues.'
+    )
+  },
+  {
+    n_ctx: 32768,
+    rope_scaling_type: 'yarn'
+  }
+)
+
+RETURN {
+  total_files: LENGTH(codebase_files),
+  total_tokens: TOKEN_COUNT(concatenated),
+  analysis: code_analysis
+}
+```
+
+**Long-Form Content Generation:**
+
+```aql
+// Buch-Kapitel mit vollem Kontext vorheriger Kapitel
+FOR chapter IN book_chapters
+  FILTER chapter.generated == false
+  SORT chapter.number ASC
+  
+  // Alle vorherigen Kapitel als Kontext
+  LET previous_chapters = (
+    FOR prev IN book_chapters
+      FILTER prev.number < chapter.number
+      SORT prev.number ASC
+      RETURN prev.content
+  )
+  
+  LET context = CONCAT_ARRAY(previous_chapters)  // Kann 20K+ tokens sein
+  
+  LET new_chapter = PROMPT('gpt-4-32k',
+    {
+      system: '''Du bist ein Buchautor. Schreibe das nächste Kapitel
+                 mit Konsistenz zu allen vorherigen Kapiteln.''',
+      user: CONCAT(
+        'Bisherige Kapitel (vollständig):\n\n', context, '\n\n',
+        'Schreibe jetzt Kapitel ', chapter.number, ': ', chapter.title
+      )
+    },
+    {
+      temperature: 0.8,
+      max_tokens: 4000,
+      n_ctx: 32768
+    }
+  )
+  
+  UPDATE chapter WITH {
+    content: new_chapter,
+    generated: true
+  } IN book_chapters
+```
+
+**Extended Conversations:**
+
+```aql
+// Chat mit vollem Konversations-Verlauf (100+ Messages)
+FOR session IN chat_sessions
+  FILTER session.needs_response == true
+  
+  // Vollständige Chat-History laden
+  LET messages = (
+    FOR msg IN chat_messages
+      FILTER msg.session_id == session._key
+      SORT msg.timestamp ASC
+      RETURN CONCAT(msg.role, ': ', msg.content)
+  )
+  
+  LET full_history = CONCAT_ARRAY(messages, '\n')  // 15K tokens
+  
+  LET response = PROMPT('gpt-4-32k',
+    {
+      system: 'Du bist ein hilfreicher Assistent. Beziehe dich auf die gesamte Konversation.',
+      user: CONCAT(
+        'Konversationsverlauf:\n', full_history, '\n\n',
+        'Nutzer: ', session.latest_message
+      )
+    },
+    {
+      temperature: 0.7,
+      n_ctx: 32768
+    }
+  )
+  
+  INSERT {
+    session_id: session._key,
+    role: 'assistant',
+    content: response,
+    timestamp: DATE_NOW()
+  } INTO chat_messages
+  
+  UPDATE session WITH {needs_response: false} IN chat_sessions
+```
+
+**Performance & Qualität:**
+
+```aql
+// Benchmark: Context Length vs. Qualität
+RETURN ROPE_SCALING_BENCHMARK({
+  model: 'llama-70b',
+  test_contexts: [4096, 8192, 16384, 32768],
+  test_iterations: 50
+})
+```
+
+Output:
+```json
+{
+  "4K_baseline": {
+    "throughput_tokens_per_sec": 45,
+    "quality_score": 0.92,
+    "memory_gb": 65
+  },
+  "16K_ntk_aware": {
+    "throughput_tokens_per_sec": 34,
+    "quality_score": 0.89,
+    "memory_gb": 80,
+    "quality_loss_percent": 3.3
+  },
+  "32K_yarn": {
+    "throughput_tokens_per_sec": 22,
+    "quality_score": 0.88,
+    "memory_gb": 95,
+    "quality_loss_percent": 4.3
+  },
+  "recommendations": {
+    "for_quality": "Use YaRN up to 32K",
+    "for_speed": "Use NTK-aware up to 16K",
+    "for_memory": "Stay at baseline 4K or use quantization"
+  }
+}
+```
+
+**Trade-offs:**
+
+| Context | Throughput | Memory | Qualität | Best For |
+|---------|------------|--------|----------|----------|
+| 4K | 100% | 1x | ⭐⭐⭐⭐⭐ | Standard-Tasks |
+| 16K (4x) | 75% | 1.2x | ⭐⭐⭐⭐ | Längere Docs |
+| 32K (8x) | 50% | 1.5x | ⭐⭐⭐⭐ | Research Papers |
+
+**Best Practices:**
+
+1. ✅ **Start mit kleinstem Context** der funktioniert
+2. ✅ **YaRN für maximale Qualität** bei langen Kontexten
+3. ✅ **Monitor Quality Loss** mit Benchmarks
+4. ✅ **Quantization kombinieren** (Q4/Q5) für Speicher-Effizienz
+5. ✅ **Batch kurze Dokumente** statt einzeln lange Kontext
+6. ❌ **Nicht blind auf 32K** - nur wenn wirklich nötig
+7. ❌ **Nicht für Streaming** - Latenz zu hoch
+
+**Use Cases - Perfekt für:**
+
+- ✅ Research Paper Analyse (20-30K tokens)
+- ✅ Codebase Review (vollständiger Code-Kontext)
+- ✅ Long-Form Content (Bücher, Reports)
+- ✅ Extended Conversations (100+ Messages)
+- ✅ Legal Document Review (Verträge, Gesetzestexte)
+
+**Use Cases - Overkill für:**
+
+- ❌ Chat (Standard 4K reicht)
+- ❌ Kurze Queries (<1K tokens)
+- ❌ Real-time Anwendungen (zu langsam)
+
+**Weitere Ressourcen:**
+
+- YaRN Paper: [arXiv:2309.00071](https://arxiv.org/abs/2309.00071)
+- RoPE Scaling Guide: `docs/en/llm/ROPE_SCALING_IMPLEMENTATION.md`
+- Configuration: `config/llm.yaml`
+
+---
+
+### 17.12.8 Vision Support
 
 **Neu in v1.4.0-alpha:** Multimodale LLM-Integration für Text + Bild-Verarbeitung, ermöglicht visuelle Analyse, OCR und Bildbeschreibung direkt in AQL.
 

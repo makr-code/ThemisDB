@@ -1,6 +1,6 @@
 # ThemisDB Kompendium
 
-**Das vollständige Handbuch für ThemisDB v1.3.4**
+**Das vollständige Handbuch für ThemisDB v1.4.0-alpha**
 
 ---
 
@@ -104,7 +104,7 @@ export ENABLE_PDF_EXPORT=1
 mkdocs build -f mkdocs-compendium.yml
 ```
 
-Output: `../ThemisDB-Kompendium-v1.3.4.pdf`
+Output: `../ThemisDB-Kompendium-v1.4.0-alpha.pdf`
 
 ### Development Server
 
