@@ -135,7 +135,6 @@ a {
     text-decoration: none;
     transition: var(--transition);
     /* Prevent long URLs from breaking layout */
-    word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
@@ -594,8 +593,6 @@ article:hover {
     /* Prevent content from overflowing container */
     max-width: 100%;
     overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
 }
 
 .entry-content h1,
@@ -618,7 +615,6 @@ article:hover {
     padding-left: 2rem;
     max-width: 100%;
     overflow-wrap: break-word;
-    word-wrap: break-word;
 }
 
 .entry-content li {
@@ -634,7 +630,6 @@ article:hover {
     color: var(--text-secondary);
     max-width: 100%;
     overflow-wrap: break-word;
-    word-wrap: break-word;
 }
 
 .entry-content code {
@@ -655,8 +650,7 @@ article:hover {
     margin: 2rem 0;
     /* Prevent pre blocks from overflowing */
     max-width: 100%;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .entry-content pre code {
@@ -681,9 +675,7 @@ article:hover {
     max-width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
-    /* Ensure tables don't overflow on mobile */
-    display: block;
-    overflow-x: auto;
+    /* Table will scroll if too wide, without breaking semantics */
 }
 
 @media (max-width: 768px) {
@@ -3406,9 +3398,6 @@ table {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
-    /* Ensure tables scroll on overflow */
-    display: block;
-    overflow-x: auto;
 }
 
 table th {
@@ -3893,16 +3882,13 @@ pre code {
     .entry-content {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        /* Ensure content never exceeds viewport */
-        max-width: 100vw;
+        /* Ensure content never exceeds viewport - use 100% not 100vw to avoid scrollbar issues */
+        max-width: 100%;
     }
     
+    /* Table overflow handling on mobile - keep scrollable */
     .entry-content table {
         min-width: 600px;
-        /* Make sure table itself doesn't exceed container */
-        width: 100%;
-        display: block;
-        overflow-x: auto;
     }
     
     /* Improve pre/code blocks on mobile */
