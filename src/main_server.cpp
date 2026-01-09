@@ -37,6 +37,7 @@
 #include "sharding/prometheus_metrics.h"
 #include "sharding/metrics_registry.h"
 #include "themis/build_info.h"
+#include "themis/license_info.h"
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
@@ -121,6 +122,38 @@ int main(int argc, char* argv[]) {
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to display build configuration: {}", e.what());
+    }
+    
+    // Display embedded license information (if present)
+    try {
+        auto license = themis::license::getEmbeddedLicense();
+        if (license) {
+            std::string license_info = themis::license::formatLicenseInfo(*license);
+            // Log the formatted license info (line by line to preserve formatting)
+            std::istringstream iss(license_info);
+            std::string line;
+            while (std::getline(iss, line)) {
+                THEMIS_INFO("{}", line);
+            }
+            
+            // Check license validity
+            if (!themis::license::isLicenseValid(*license)) {
+                THEMIS_ERROR("WARNING: License has expired!");
+                THEMIS_ERROR("Please contact {} to renew your license.", 
+                           license->contact_email.empty() ? "your license provider" : license->contact_email);
+                // Note: We continue to start the server but log the warning
+                // Production deployments may want to enforce license expiry
+            } else {
+                int days = themis::license::getDaysUntilExpiry(*license);
+                if (days < 30) {
+                    THEMIS_WARN("License will expire in {} days. Please renew soon.", days);
+                }
+            }
+        } else {
+            THEMIS_INFO("No embedded license data (running without license embedding)");
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to display license information: {}", e.what());
     }
     
     try {
