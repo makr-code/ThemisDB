@@ -241,6 +241,15 @@ rag:
   # Enable RAG
   enabled: true
   
+  # Ethical guidelines integration
+  ethical_guidelines:
+    # Enable ethical context detection during RAG retrieval
+    enabled: true
+    # Path to ethical guidelines configuration
+    config_path: "config/ethical_guidelines.yaml"
+    # Check both query and retrieved documents for ethical context
+    check_documents: true
+  
   # Context assembly
   context:
     # Maximum tokens for context
@@ -254,7 +263,7 @@ rag:
   
   # Prompt templates
   templates:
-    # Default RAG template
+    # Default RAG template (will be augmented if ethical context detected)
     default: |
       Context:
       {context}

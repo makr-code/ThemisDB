@@ -1,6 +1,7 @@
 #pragma once
 
 #include "llm/llama_wrapper.h"
+#include "llm/ethical_guidelines_manager.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -37,6 +38,10 @@ public:
         int n_threads = 4;             // CPU threads
         bool enable_caching = true;    // Response caching
         bool enable_streaming = false; // Default: no streaming
+        
+        // Ethical guidelines configuration
+        bool enable_ethical_guidelines = true;  // Enable ethical guidelines system
+        std::string ethical_guidelines_config = "config/ethical_guidelines.yaml";
     };
     
     explicit EmbeddedLLM(const Config& config);
@@ -175,9 +180,25 @@ public:
      */
     void clearCache();
     
+    // ═══════════════════════════════════════════════════════════
+    // Ethical Guidelines Support
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get ethical guidelines manager (if enabled)
+     * @return Pointer to manager or nullptr if not enabled
+     */
+    EthicalGuidelinesManager* getEthicalGuidelines();
+    
+    /**
+     * @brief Check if ethical guidelines are enabled
+     */
+    bool hasEthicalGuidelines() const;
+    
 private:
     std::unique_ptr<LlamaWrapper> wrapper_;
     Config config_;
+    std::unique_ptr<EthicalGuidelinesManager> ethical_guidelines_;
     
     // Internal helpers
     InferenceRequest createRequest(
@@ -185,6 +206,12 @@ private:
         int max_tokens,
         float temperature = 0.7f,
         float top_p = 0.9f
+    );
+    
+    // Apply ethical guidelines to prompt if enabled
+    std::string applyEthicalGuidelines(
+        const std::string& prompt,
+        const std::string& context_text = ""
     );
 };
 
