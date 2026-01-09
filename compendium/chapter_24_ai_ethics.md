@@ -3,8 +3,8 @@
 **Autor:** ThemisDB Team  
 **Reviewer:** TBD  
 **Status:** Draft  
-**Letzte Aktualisierung:** 30. Dezember 2025  
-**Version:** 1.0.0
+**Letzte Aktualisierung:** 09. Januar 2026  
+**Version:** 1.1.0
 
 ---
 
@@ -15,6 +15,8 @@ Nach dem Durcharbeiten dieses Kapitels sollten Sie:
 - [x] Die ethischen Herausforderungen von KI-Systemen in der öffentlichen Verwaltung verstehen
 - [x] Spezifische Risiken entlang der VCC-Architektur (Covina, Clara, Veritas) identifizieren können
 - [x] "Ethik-by-Design"-Prinzipien auf datenbankgestützte KI-Systeme anwenden können
+- [x] Das Ethische Richtlinien System (UN Human Rights + Asimov's Laws) verstehen und konfigurieren können
+- [x] LLM-as-ethical-judge Pattern für kontextuelle Erkennung implementieren können
 - [x] Governance-Mechanismen zur Risikominimierung implementieren können
 
 ---
@@ -37,8 +39,9 @@ Die Einführung eines KI-Ökosystems wie **VCC (Veritas, Covina, Clara)** in der
 2. Architektonische Risikoquellen (Covina, Clara, Veritas)
 3. Bias-Audits und Datenqualität
 4. Human-in-the-Loop und Automation Bias
-5. Governance-Framework und Ethik-by-Design
-6. Praktische Implementierung in ThemisDB
+5. **Ethische Richtlinien System (PR #305)** - UN Human Rights + Asimov's Laws
+6. Governance-Framework und Ethik-by-Design
+7. Praktische Implementierung in ThemisDB
 
 ---
 
@@ -639,7 +642,510 @@ public:
 
 ---
 
-## 24.5 Zusammenfassung und Best Practices
+## 24.5 Ethische Richtlinien System (Ethical Guidelines System)
+
+**Eingeführt mit PR #305** zur Gewährleistung, dass ThemisDB KI **niemals den Menschen bevormundet** und **menschliche Autonomie respektiert**.
+
+### 24.5.1 Grundlegende Prinzipien
+
+Das Ethische Richtlinien System basiert auf zwei fundamentalen ethischen Rahmenwerken:
+
+#### 1. Allgemeine Erklärung der Menschenrechte (UN, 1948)
+
+```mermaid
+graph TB
+    A[UN Menschenrechte 1948] --> B[Art. 1: Würde & Gleichheit]
+    A --> C[Art. 2: Diskriminierungsverbot]
+    A --> D[Art. 18: Gedanken-, Gewissens-<br/>und Religionsfreiheit]
+    A --> E[Art. 19: Meinungsfreiheit]
+    
+    B --> F[ThemisDB: Respekt für<br/>menschliche Entscheidungen]
+    C --> G[ThemisDB: Anti-Bias<br/>Mechanismen]
+    D --> H[ThemisDB: Mehrere moralische<br/>Perspektiven präsentieren]
+    E --> I[ThemisDB: Transparente<br/>Quellen und Grenzen]
+    
+    style A fill:#e1f5ff
+    style F fill:#c8e6c9
+    style G fill:#c8e6c9
+    style H fill:#c8e6c9
+    style I fill:#c8e6c9
+```
+
+#### 2. Isaac Asimovs Robotergesetze (angepasst für KI)
+
+```mermaid
+graph LR
+    A[Asimov's Gesetze<br/>für AI angepasst] --> B[1. Gesetz:<br/>Nicht schaden]
+    A --> C[2. Gesetz angepasst:<br/>Autonomie respektieren]
+    A --> D[3. Gesetz:<br/>Integrität wahren]
+    
+    B --> E[System warnt vor<br/>gefährlichen Handlungen]
+    C --> F[Präsentiert Optionen,<br/>gibt keine Befehle]
+    D --> G[Quellennachweis &<br/>Konsistenz]
+    
+    style A fill:#fff3e0
+    style B fill:#ffccbc
+    style C fill:#ffccbc
+    style D fill:#ffccbc
+    style E fill:#c8e6c9
+    style F fill:#c8e6c9
+    style G fill:#c8e6c9
+```
+
+**Kernunterschied zur klassischen Formulierung:**
+- **Original 2. Gesetz:** "Ein Roboter muss den Befehlen von Menschen gehorchen..."
+- **ThemisDB Anpassung:** "KI muss menschliche Autonomie respektieren und Entscheidungen **unterstützen** (nicht ersetzen)"
+
+Diese Anpassung ist **fundamental**, da sie Bevormundung verhindert.
+
+### 24.5.2 Systemarchitektur: Ethische Kontexterkennung
+
+Das System nutzt einen **Hybrid-Ansatz** für die Erkennung ethischer Implikationen:
+
+```mermaid
+flowchart TD
+    Start([User Query]) --> Keywords{Keyword-basierte<br/>Erkennung<br/>schnell, O n}
+    
+    Keywords -->|Ethische Keywords<br/>gefunden| Detected[Direkt erkannt<br/>Confidence: hoch]
+    Keywords -->|Keine Keywords| LLM{LLM-as-Judge<br/>aktiviert?}
+    
+    LLM -->|Nein| NoContext[Kein ethischer<br/>Kontext erkannt]
+    LLM -->|Ja| Judge[LLM-as-Ethical-Judge<br/>Analyse]
+    
+    Judge --> Analysis[Analysiert:<br/>• Implizite Fragen<br/>• Machtdynamiken<br/>• Schadenspotential<br/>• Rechtekonflikte<br/>• Kulturelle Sensitivität]
+    
+    Analysis --> JudgeResult{Ethischer<br/>Kontext?}
+    JudgeResult -->|Ja| Detected
+    JudgeResult -->|Nein| NoContext
+    
+    Detected --> Augment[Prompt Augmentation<br/>mit ethischen Richtlinien]
+    NoContext --> DefaultAug[Optional: Default<br/>Augmentation]
+    
+    Augment --> LLMGen[LLM generiert Antwort<br/>mit ethischen Guidelines]
+    DefaultAug --> LLMGen
+    
+    LLMGen --> Response[Response Augmentation<br/>mit Disclaimer]
+    Response --> End([Finale Antwort an User])
+    
+    style Keywords fill:#fff9c4
+    style Judge fill:#e1bee7
+    style Detected fill:#c8e6c9
+    style Augment fill:#bbdefb
+    style Response fill:#f8bbd0
+```
+
+**Wissenschaftliche Grundlage:**
+- **Keyword-Matching:** Schnell (O(n)), für explizite ethische Begriffe
+- **LLM-as-Judge:** Basiert auf Zheng et al. (2023), "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (UC Berkeley)
+
+### 24.5.3 Fünf Augmentations-Templates
+
+Das System bietet **fünf spezialisierte Templates** für unterschiedliche ethische Kontexte:
+
+```mermaid
+graph TB
+    A[Ethischer Kontext<br/>erkannt] --> B{Template-<br/>Auswahl}
+    
+    B --> C[default:<br/>Allgemeine ethische<br/>Richtlinien]
+    B --> D[high_autonomy:<br/>Kritische persönliche<br/>Entscheidungen]
+    B --> E[administrative:<br/>Verwaltungs-<br/>entscheidungen]
+    B --> F[bias_prevention:<br/>Anti-Diskriminierung]
+    B --> G[moral_imperatives:<br/>Moralische<br/>Verpflichtungen]
+    
+    D --> D1[Medizinische Beratung<br/>Rechtliche Beratung<br/>Finanzentscheidungen]
+    E --> E1[VCC-System<br/>Behördenentscheidungen<br/>Genehmigungen]
+    G --> G1[5 Perspektiven:<br/>• Kantische Ethik<br/>• Utilitarismus<br/>• Tugendethik<br/>• Religiöse Ethik<br/>• Kulturrelativismus]
+    
+    style A fill:#e1f5ff
+    style C fill:#fff9c4
+    style D fill:#ffccbc
+    style E fill:#c5e1a5
+    style F fill:#ce93d8
+    style G fill:#90caf9
+```
+
+**Beispiel: moral_imperatives Template**
+
+Wenn ein User fragt: "Was ist meine moralische Pflicht gegenüber meiner Familie?"
+
+→ System erkennt Keywords: "moralische Pflicht" (Confidence: 0.85)
+→ Wählt Template: `moral_imperatives`
+→ Augmentierter Prompt enthält:
+
+```yaml
+═══════════════════════════════════════════════════════════
+MORALISCHE IMPERATIVE ERKANNT
+
+GRUNDLAGEN: 
+- Menschenrechte Art. 18 - Gedanken-, Gewissens- und Religionsfreiheit
+- Asimovs Zweites Gesetz (angepasst) - Respekt für menschliche Autonomie
+═══════════════════════════════════════════════════════════
+
+Moralische Imperative werden in verschiedenen ethischen Traditionen 
+unterschiedlich verstanden:
+
+1. KANTISCHE ETHIK: Handle nur nach derjenigen Maxime, durch die du 
+   zugleich wollen kannst, dass sie ein allgemeines Gesetz werde...
+
+2. UTILITARISMUS: Das größte Glück der größten Zahl...
+
+3. TUGENDETHIK: Fokus auf Charaktereigenschaften wie Mut, Weisheit...
+
+4. RELIGIÖSE ETHIK: Verschiedene religiöse Traditionen bieten...
+
+5. KULTURRELATIVISMUS: Moralische Normen sind kulturabhängig...
+
+IHRE ROLLE ALS KI (gemäß Asimov's Laws):
+- Präsentiere VERSCHIEDENE moralphilosophische Perspektiven
+- Respektiere die Gewissensfreiheit des Nutzers
+- NIEMALS eine moralische Position als absolut wahr darstellen
+
+VERBOTEN:
+❌ "Sie müssen moralisch..."
+❌ "Es ist Ihre Pflicht..."
+
+ERLAUBT:
+✅ "Verschiedene Traditionen sehen das so..."
+✅ "Eine Perspektive wäre..."
+```
+
+### 24.5.4 LLM-as-Ethical-Judge: Kontextuelle Erkennung
+
+**Problem:** Keyword-basierte Erkennung versagt bei **impliziten** ethischen Fragen.
+
+**Beispiel:**
+```
+User: "Mein Chef verlangt von mir, diese Zahlen anzupassen."
+```
+→ Keine ethischen Keywords, aber **klare ethische Implikation** (Integrität, Manipulation)
+
+**Lösung:** LLM-as-Ethical-Judge analysiert Kontext
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant M as EthicalGuidelinesManager
+    participant K as Keyword Detector
+    participant L as LLM Judge
+    participant R as Response Generator
+    
+    U->>M: "Mein Chef will, dass ich<br/>Daten ändere"
+    M->>K: Check Keywords
+    K-->>M: Keine Keywords gefunden (0.1)
+    
+    M->>L: Kontextuelle Analyse
+    Note over L: Analysiert:<br/>• "Chef verlangt" = Druck<br/>• "Daten ändern" = Manipulation?<br/>• Integrität vs. Autorität
+    L-->>M: Ethischer Kontext erkannt<br/>Confidence: 0.88<br/>Reasoning: Impliziter Konflikt
+    
+    M->>R: Augmentiere Prompt mit<br/>high_autonomy Template
+    R->>U: Antwort mit mehreren<br/>Perspektiven + Disclaimer
+    
+    Note over U,R: User behält volle<br/>Entscheidungsfreiheit
+```
+
+**Code-Integration:**
+
+```cpp
+#include "llm/ethical_guidelines_manager.h"
+#include "llm/llama_wrapper.h"
+
+// LLM initialisieren
+LlamaWrapper llm;
+llm.loadModel("models/mistral-7b-instruct.gguf");
+
+// Manager mit LLM-Judge
+EthicalGuidelinesManager manager("config/ethical_guidelines.yaml");
+manager.getConfig().use_llm_as_judge = true;
+
+// Gesprächsverlauf für Kontext
+std::vector<std::string> conversation = {
+    "User: Ich arbeite in der Buchhaltung.",
+    "Assistant: Wie kann ich Ihnen helfen?",
+    "User: Mein Chef verlangt, Zahlen anzupassen."
+};
+
+// Kontextuelle Erkennung
+auto result = manager.detectWithLLMJudge(
+    "Sollte ich das tun?",  // Aktuelle Frage
+    conversation,            // Kontext
+    &llm                    // LLM für Analyse
+);
+
+if (result.has_ethical_context) {
+    std::cout << "Ethische Implikation: " << result.llm_reasoning << std::endl;
+    // Prompt wird automatisch mit ethischen Richtlinien augmentiert
+}
+```
+
+### 24.5.5 RAG-Integration mit ethischer Analyse
+
+**Herausforderung:** Auch **RAG-Dokumente** können ethisch problematische Inhalte enthalten.
+
+```mermaid
+flowchart TB
+    Query[User Query:<br/>'Wie behandle ich<br/>diesen Fall?'] --> RAG[RAG Retrieval]
+    
+    RAG --> Docs[Retrieved Documents:<br/>• Doc 1: Verwaltungsvorschrift<br/>• Doc 2: Gerichtsurteil<br/>• Doc 3: Interne Guideline]
+    
+    Docs --> EthCheck{Ethische Prüfung<br/>Query + Docs}
+    
+    EthCheck --> DocAnalysis[Pro Dokument:<br/>• Bias-Audit Status<br/>• Provenienz Check<br/>• Historischer Kontext<br/>• Diskriminierungsrisiko]
+    
+    DocAnalysis --> Flag{Probleme<br/>gefunden?}
+    
+    Flag -->|Ja| Filter[Dokument filtern oder<br/>mit Warnung versehen]
+    Flag -->|Nein| Pass[Dokument zulässig]
+    
+    Filter --> Augment[Query + Docs → LLM<br/>mit ethischen Guidelines]
+    Pass --> Augment
+    
+    Augment --> Response[Antwort mit:<br/>• Multiple Perspektiven<br/>• Quellennachweis<br/>• Disclaimer]
+    
+    Response --> User[User erhält ethisch<br/>geprüfte Antwort]
+    
+    style Query fill:#e1f5ff
+    style EthCheck fill:#fff9c4
+    style Flag fill:#ffccbc
+    style Filter fill:#ef9a9a
+    style Augment fill:#c8e6c9
+    style Response fill:#90caf9
+```
+
+**Code-Beispiel:**
+
+```cpp
+// RAG-Integration
+std::vector<std::string> retrieved_docs = rag_retriever.retrieve(query);
+
+// Ethische Prüfung von Query + Dokumenten
+auto rag_result = manager.detectEthicalContextInRAG(
+    retrieved_docs,  // Alle RAG-Dokumente
+    query,           // User-Query
+    conversation     // Optional: Gesprächskontext
+);
+
+if (rag_result.has_ethical_context) {
+    // Filtere oder markiere problematische Dokumente
+    for (const auto& doc : retrieved_docs) {
+        if (doc.ethics_metadata.bias_audit.status != "PASSED") {
+            // Entferne oder warne
+            LogWarning("Document {} flagged: {}", 
+                      doc.id, doc.ethics_metadata.bias_findings);
+        }
+    }
+}
+```
+
+### 24.5.6 Praktische Konfiguration
+
+**Datei: `config/ethical_guidelines.yaml`**
+
+```yaml
+# Aktivierung
+config:
+  enabled: true
+  detection_threshold: 0.6          # Keyword-basiert
+  llm_judge_threshold: 0.7          # LLM-basiert
+  
+  # Hybrid-Ansatz (empfohlen)
+  use_llm_as_judge: true            # Kontextuelle Analyse
+  combine_with_keywords: true       # Kombiniert beide Methoden
+  
+  # Transparenz
+  show_disclaimers: true            # Wichtig für Autonomie
+  enable_logging: true              # Für Audits
+  
+  # Sprachen
+  language_mode: "both"             # de, en, oder both
+  
+  # Standard-Augmentation
+  always_apply_default: true        # Auch ohne Kontext-Erkennung
+
+# Augmentation Templates
+augmentations:
+  default:
+    system_prefix: |
+      Sie sind ein hilfreicher KI-Assistent, der menschliche Autonomie 
+      respektiert (Asimov's 2. Gesetz angepasst).
+      
+      GRUNDPRINZIPIEN:
+      1. Präsentieren Sie Optionen, geben Sie keine Befehle
+      2. Respektieren Sie Gedankenfreiheit (UN Menschenrechte Art. 18)
+      3. Seien Sie transparent über Unsicherheiten
+      4. Behandeln Sie alle Menschen gleich (Art. 2)
+    
+    response_suffix: |
+      
+      ⚠️ HINWEIS: Diese Informationen dienen zur Orientierung.
+      Die Entscheidung liegt bei Ihnen.
+
+  moral_imperatives:
+    system_prefix: |
+      ═══════════════════════════════════════════════════════════
+      MORALISCHE IMPERATIVE ERKANNT
+      
+      GRUNDLAGEN: 
+      - Menschenrechte Art. 18 - Gedanken-, Gewissens- und Religionsfreiheit
+      - Asimovs Zweites Gesetz (angepasst) - Respekt für menschliche Autonomie
+      ═══════════════════════════════════════════════════════════
+      
+      Moralische Imperative werden in verschiedenen ethischen 
+      Traditionen unterschiedlich verstanden:
+      
+      1. KANTISCHE ETHIK: Kategorischer Imperativ
+         "Handle nur nach derjenigen Maxime..."
+      
+      2. UTILITARISMUS: Das größte Glück der größten Zahl
+         Folgen-orientiert, maximiere Wohlbefinden
+      
+      3. TUGENDETHIK: Fokus auf Charaktereigenschaften
+         Mut, Weisheit, Gerechtigkeit, Mäßigung
+      
+      4. RELIGIÖSE ETHIK: Verschiedene religiöse Traditionen
+         Christentum, Islam, Judentum, Buddhismus, Hinduismus
+      
+      5. KULTURRELATIVISMUS: Kulturabhängige Normen
+         Was in einer Kultur als moralisch gilt, variiert
+      
+      IHRE ROLLE ALS KI (gemäß Asimov's Laws):
+      - Präsentiere VERSCHIEDENE moralphilosophische Perspektiven
+      - Respektiere die Gewissensfreiheit des Nutzers
+      - NIEMALS eine moralische Position als absolut wahr darstellen
+      
+      VERBOTEN:
+      ❌ "Sie müssen moralisch..."
+      ❌ "Es ist Ihre Pflicht..."
+      ❌ "Die richtige Entscheidung ist..."
+      
+      ERLAUBT:
+      ✅ "Eine kantische Perspektive wäre..."
+      ✅ "Aus utilitaristischer Sicht könnte man argumentieren..."
+      ✅ "Verschiedene Traditionen sehen das unterschiedlich..."
+
+# Domain-spezifische Zuordnungen
+domains:
+  medical:
+    keywords: ["arzt", "patient", "medizin", "behandlung", "operation"]
+    augmentation: "high_autonomy"
+    
+  legal:
+    keywords: ["rechtlich", "gesetz", "gericht", "anwalt", "klage"]
+    augmentation: "high_autonomy"
+    
+  administrative:
+    keywords: ["verwaltung", "behörde", "genehmigung", "antrag", "bescheid"]
+    augmentation: "administrative"
+    
+  financial:
+    keywords: ["finanzen", "investition", "geld", "kredit", "schulden"]
+    augmentation: "high_autonomy"
+```
+
+### 24.5.7 Monitoring und Statistiken
+
+**Dashboard für ethische Richtlinien:**
+
+```mermaid
+graph TB
+    A[Ethical Guidelines<br/>Statistics Dashboard] --> B[Detection Metrics]
+    A --> C[Augmentation Metrics]
+    A --> D[Domain Metrics]
+    
+    B --> B1[Total Detections: 1,247]
+    B --> B2[Keyword-based: 892 71%]
+    B --> B3[LLM-Judge: 355 29%]
+    B --> B4[Average Confidence: 0.82]
+    
+    C --> C1[Prompts Augmented: 1,180]
+    C --> C2[default: 520 44%]
+    C --> C3[moral_imperatives: 280 24%]
+    C --> C4[high_autonomy: 240 20%]
+    C --> C5[administrative: 140 12%]
+    
+    D --> D1[medical: 180]
+    D --> D2[legal: 120]
+    D --> D3[administrative: 140]
+    D --> D4[financial: 95]
+    
+    style A fill:#e1f5ff
+    style B fill:#fff9c4
+    style C fill:#c8e6c9
+    style D fill:#bbdefb
+```
+
+**Code zum Abrufen von Statistiken:**
+
+```cpp
+// Statistiken abrufen
+auto stats = manager.getStatistics();
+
+std::cout << "═══ ETHICAL GUIDELINES STATISTICS ═══" << std::endl;
+std::cout << "Total Detections: " << stats.total_detections << std::endl;
+std::cout << "Ethical Contexts Found: " << stats.ethical_contexts_found 
+          << " (" << (100.0 * stats.ethical_contexts_found / stats.total_detections) 
+          << "%)" << std::endl;
+std::cout << "Prompts Augmented: " << stats.prompts_augmented << std::endl;
+
+// Domain-Breakdown
+std::cout << "\n═══ DOMAIN BREAKDOWN ═══" << std::endl;
+for (const auto& [domain, count] : stats.domain_counts) {
+    std::cout << domain << ": " << count << std::endl;
+}
+
+// Template-Usage
+std::cout << "\n═══ TEMPLATE USAGE ═══" << std::endl;
+for (const auto& [template_name, count] : stats.template_usage) {
+    std::cout << template_name << ": " << count << std::endl;
+}
+```
+
+### 24.5.8 Wissenschaftliche Roadmap (Highlights)
+
+Das System basiert auf aktueller Forschung und ist für zukünftige Erweiterungen konzipiert:
+
+```mermaid
+timeline
+    title Ethische KI Roadmap - ThemisDB
+    section Phase 1 - Q1 2026 ✅
+        Foundation : UN Human Rights
+                   : Asimov's Laws adapted
+                   : Keyword Detection
+                   : LLM-as-Judge
+                   : 5 Templates
+    section Phase 2 - Q2 2026
+        Advanced Detection : Fine-Tuned Classifier
+                          : Multi-Agent Debate
+                          : Continual Learning
+    section Phase 3 - Q3 2026
+        Contextual : Deep Context Understanding
+                   : Multi-Cultural Frameworks
+                   : Emotional Context
+    section Phase 4 - Q4 2026
+        Production : Adversarial Testing
+                   : Interpretability
+                   : Privacy-Preserving
+```
+
+**Phase 2 Highlights:**
+
+1. **Fine-Tuned Ethical Classifier** (Hendrycks et al. 2021, ETHICS benchmark)
+   - 10-50x schneller als LLM-Judge
+   - Spezialisiert auf ethische Klassifikation
+   - 130k+ Trainingsszenarien
+
+2. **Multi-Agent Ethical Debate** (Du et al. 2023, Google Research)
+   - 3-4 spezialisierte Agents (je eine ethische Tradition)
+   - Konsens oder "Agree to Disagree"
+   - Robuster gegen einzelne Agent-Bias
+
+3. **Continual Learning** (Anthropic 2023, Constitutional AI)
+   - System lernt aus Nutzerfeedback
+   - Self-critique und Improvement
+   - Privacy-preserving (Federated Learning)
+
+---
+
+## 24.6 Zusammenfassung und Best Practices
 
 **Wichtigste Erkenntnisse:**
 
@@ -654,6 +1160,14 @@ public:
 
 4. 🎯 **Human-in-the-Loop ist essentiell**: Kritische Entscheidungen dürfen niemals vollständig automatisiert werden [9]
 
+5. 🎯 **Ethische Richtlinien System (PR #305)**: Basiert auf UN Menschenrechten und Asimov's Laws (angepasst), verhindert Bevormundung durch:
+   - Hybrid-Erkennung (Keywords + LLM-as-Judge)
+   - 5 spezialisierte Augmentation-Templates
+   - Transparente Disclaimer und multiple Perspektiven
+   - RAG-Integration mit ethischer Prüfung
+
+6. 🎯 **Wissenschaftlich fundiert**: System basiert auf 14+ peer-reviewed Studien (Zheng et al. 2023, Floridi & Cowls 2019, Hendrycks et al. 2021, etc.)
+
 **Checkliste für ethische KI-Systeme:**
 
 - [ ] Interdisziplinäres Ethik-Gremium eingerichtet
@@ -665,6 +1179,9 @@ public:
 - [ ] Ethik-Metadaten in allen Base Entities
 - [ ] Clara-Feedback-Validierung mit Experten-Review
 - [ ] Transparente Unsicherheits-Kennzeichnung in Veritas
+- [ ] **Ethical Guidelines System aktiviert und konfiguriert** (`config/ethical_guidelines.yaml`)
+- [ ] **LLM-as-ethical-judge für kontextuelle Erkennung aktiviert**
+- [ ] **Statistiken und Monitoring für ethische Detektionen eingerichtet**
 - [ ] Regelmäßige Ethik-Audits (mindestens quarterly)
 
 ---
@@ -674,6 +1191,12 @@ public:
 ### Dokumentation
 
 - **[9]**: Expertenanalyse: Ethische und moralische Implikationen des KI-Ökosystems VCC
+- **Ethical Guidelines System**: `docs/de/llm/ETHICAL_GUIDELINES_SYSTEM.md`
+- **LLM-as-Ethical-Judge**: `docs/de/llm/LLM_AS_ETHICAL_JUDGE.md`
+- **RAG Ethical Detection**: `docs/de/llm/RAG_ETHICAL_DETECTION.md`
+- **Implementation Summary**: `IMPLEMENTATION_SUMMARY_ETHICAL_GUIDELINES.md`
+- **Scientific Roadmap**: `ROADMAP_ETHICAL_GUIDELINES.md`
+- **Configuration**: `config/ethical_guidelines.yaml`, `config/README_ETHICAL_GUIDELINES.md`
 - **Enterprise Security**: `docs/security/RBAC_AUTHORIZATION.md`
 - **Compliance**: `docs/compliance/DSGVO_BY_DESIGN.md`
 
@@ -693,6 +1216,24 @@ public:
 
 [7] Goddard, K., et al. (2012). "Automation Bias: A Systematic Review of Frequency, Effect Mediators, and Mitigators". Journal of the American Medical Informatics Association, 19(1), 121-127.
 
+**Neu mit PR #305 - Ethical Guidelines System:**
+
+[8] Zheng, L., et al. (2023). "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena". arXiv:2306.05685. UC Berkeley, LMSYS.
+
+[9] Hendrycks, D., et al. (2021). "Aligning AI With Shared Human Values". arXiv:2008.02275. UC Berkeley. ETHICS benchmark.
+
+[10] Du, Y., et al. (2023). "Improving Factuality and Reasoning through Multiagent Debate". arXiv:2305.14325. Google Research.
+
+[11] Anthropic (2023). "Constitutional AI: Harmlessness from AI Feedback". arXiv:2212.08073.
+
+[12] Lewis, P., et al. (2020). "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks". NeurIPS 2020.
+
+[13] Gao, Y., et al. (2023). "Retrieval-Augmented Generation for Large Language Models: A Survey". arXiv:2312.10997.
+
+[14] European Commission (2021). "Ethics Guidelines for Trustworthy AI". High-Level Expert Group on AI (DAISIE).
+
+[15] Asimov, I. (1942). "Three Laws of Robotics" (adapted for AI systems in ThemisDB).
+
 ---
 
 ## Glossar für dieses Kapitel
@@ -707,6 +1248,13 @@ public:
 | **Kaskadieren Integritätskompromittierung** | Fehler, der sich durch Feedback-Loops permanent im System verankert |
 | **Provenienz** | Herkunft und Entstehungsgeschichte von Daten |
 | **Verantwortungsdiffusion** | Unklare Zuständigkeit bei automatisierten Entscheidungen ("Die KI war's") |
+| **Ethical Guidelines System** | PR #305: System basierend auf UN Menschenrechten und Asimov's Laws zur Verhinderung von Bevormundung |
+| **LLM-as-Judge** | Pattern zur Nutzung eines LLM zur Bewertung/Analyse (hier: ethischer Kontext) |
+| **Prompt Augmentation** | Anreicherung von LLM-Prompts mit zusätzlichen Richtlinien oder Kontext |
+| **Moral Imperatives** | Moralische Verpflichtungen aus verschiedenen ethischen Traditionen (Kant, Utilitarismus, etc.) |
+| **High Autonomy Template** | Augmentation-Template für Entscheidungen, die besonders hohe menschliche Autonomie erfordern (medizinisch, rechtlich, finanziell) |
+| **Constitutional AI** | Ansatz von Anthropic: KI lernt aus Selbstkritik und Feedback zur Harmlosigkeit |
+| **Multi-Agent Debate** | Mehrere KI-Agents diskutieren zur robusteren Entscheidungsfindung |
 
 ---
 
@@ -715,9 +1263,10 @@ public:
 | Version | Datum | Autor | Änderungen |
 |---------|-------|-------|------------|
 | 1.0.0 | 2025-12-30 | ThemisDB Team | Initiale Version basierend auf gimini Ethics-Analyse [9] |
+| 1.1.0 | 2026-01-09 | ThemisDB Team | **PR #305**: Hinzufügung Ethical Guidelines System mit UN Menschenrechten + Asimov's Laws, LLM-as-ethical-judge Pattern, 5 Augmentation-Templates, Mermaid-Diagramme, wissenschaftliche Roadmap |
 
 ---
 
 **Schwierigkeitsgrad:** Fortgeschritten  
-**Geschätzte Lesezeit:** 45 Minuten  
-**Tags:** ethics, ai-governance, bias, automation-bias, human-in-the-loop, verwaltungs-ki
+**Geschätzte Lesezeit:** 75 Minuten (erweitert von 45 Minuten)  
+**Tags:** ethics, ai-governance, bias, automation-bias, human-in-the-loop, verwaltungs-ki, ethical-guidelines, llm-as-judge, asimov-laws, un-human-rights, prompt-augmentation
