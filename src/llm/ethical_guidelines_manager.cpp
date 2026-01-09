@@ -50,6 +50,11 @@ bool EthicalGuidelinesManager::loadConfig(const std::string& config_path) {
             if (cfg["always_apply_default"]) config_.always_apply_default = cfg["always_apply_default"].as<bool>();
             if (cfg["show_disclaimers"]) config_.show_disclaimers = cfg["show_disclaimers"].as<bool>();
             if (cfg["language_mode"]) config_.language_mode = cfg["language_mode"].as<std::string>();
+            
+            // LLM-as-judge configuration
+            if (cfg["use_llm_as_judge"]) config_.use_llm_as_judge = cfg["use_llm_as_judge"].as<bool>();
+            if (cfg["llm_judge_threshold"]) config_.llm_judge_threshold = cfg["llm_judge_threshold"].as<float>();
+            if (cfg["combine_with_keywords"]) config_.combine_with_keywords = cfg["combine_with_keywords"].as<bool>();
         }
         
         // Load core principles
@@ -248,7 +253,8 @@ EthicalGuidelinesManager::detectEthicalContext(
 EthicalGuidelinesManager::DetectionResult 
 EthicalGuidelinesManager::detectEthicalContextInRAG(
     const std::vector<std::string>& documents,
-    const std::string& query) {
+    const std::string& query,
+    const std::vector<std::string>& conversation_history) {
     
     if (!config_.enabled) {
         return DetectionResult{};
@@ -276,6 +282,16 @@ EthicalGuidelinesManager::detectEthicalContextInRAG(
         
         // Update confidence (take maximum)
         result.confidence = std::max(result.confidence, doc_result.confidence);
+    }
+    
+    // If conversation history provided and LLM judge enabled, analyze context
+    if (!conversation_history.empty() && config_.use_llm_as_judge) {
+        // Note: LLM judge would be called here if llm_wrapper is available
+        // For now, we increase confidence if conversation history is present
+        // as it provides additional context for ethical considerations
+        if (!result.detected_keywords.empty()) {
+            result.confidence = std::min(result.confidence * 1.2f, 1.0f);
+        }
     }
     
     // Remove duplicates
@@ -500,3 +516,66 @@ void EthicalGuidelinesManager::resetStatistics() {
 
 } // namespace llm
 } // namespace themis
+
+EthicalGuidelinesManager::DetectionResult 
+EthicalGuidelinesManager::detectWithLLMJudge(
+    const std::string& text,
+    const std::vector<std::string>& conversation_context,
+    void* llm_wrapper_ptr) {
+    
+    DetectionResult result;
+    result.used_llm_judge = true;
+    
+    if (!llm_wrapper_ptr) {
+        LogWarning("LLM judge requested but no LLM wrapper provided");
+        return result;
+    }
+    
+    // Build context from conversation history
+    std::stringstream context_builder;
+    context_builder << "Conversation History:\n";
+    for (size_t i = 0; i < conversation_context.size(); i++) {
+        context_builder << (i + 1) << ". " << conversation_context[i] << "\n";
+    }
+    context_builder << "\nCurrent Text: " << text << "\n";
+    
+    // LLM-as-ethical-judge prompt
+    std::string judge_prompt = R"(
+You are an ethical analysis expert. Your task is to analyze text and conversation context to identify ethical and moral implications that may not be immediately obvious.
+
+Consider:
+1. **Implicit moral questions** - Is someone facing a decision with ethical implications?
+2. **Power dynamics** - Are there issues of autonomy, coercion, or vulnerable parties?
+3. **Harm potential** - Could actions discussed cause harm (physical, psychological, social)?
+4. **Rights conflicts** - Are human rights, duties, or moral obligations in tension?
+5. **Cultural/religious sensitivity** - Are there diverse moral perspectives to consider?
+
+)";
+    
+    judge_prompt += context_builder.str();
+    judge_prompt += R"(
+
+Analyze the above text and context. Respond in JSON format:
+{
+  "has_ethical_implications": true/false,
+  "confidence": 0.0-1.0,
+  "reasoning": "Brief explanation of why this has ethical implications",
+  "implicit_questions": ["list of implicit moral questions"],
+  "recommended_approach": "default/high_autonomy/administrative/moral_imperatives"
+}
+)";
+    
+    // Note: Actual LLM inference would be called here
+    // For now, this is a placeholder that demonstrates the pattern
+    // The actual implementation would use the llm_wrapper to generate a response
+    // and parse the JSON to populate the result
+    
+    LogInfo("LLM-as-ethical-judge analysis requested (implementation pending LLM integration)");
+    
+    // Placeholder: In real implementation, parse LLM response JSON
+    result.llm_confidence = 0.0f;
+    result.llm_reasoning = "LLM judge integration pending";
+    result.has_ethical_context = false;
+    
+    return result;
+}

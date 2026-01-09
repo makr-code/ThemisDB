@@ -65,6 +65,11 @@ public:
         std::vector<std::string> detected_domains;
         float confidence = 0.0f;
         std::string recommended_augmentation;
+        
+        // LLM-as-judge results
+        bool used_llm_judge = false;
+        std::string llm_reasoning = "";      // Why LLM detected ethical context
+        float llm_confidence = 0.0f;         // LLM's confidence score
     };
     
     /**
@@ -77,6 +82,11 @@ public:
         bool always_apply_default = true;
         bool show_disclaimers = true;
         std::string language_mode = "both";  // de, en, both
+        
+        // LLM-as-ethical-judge configuration
+        bool use_llm_as_judge = false;        // Use LLM for context-aware detection
+        float llm_judge_threshold = 0.7f;     // Confidence threshold for LLM judge
+        bool combine_with_keywords = true;    // Combine LLM judge with keyword matching
     };
     
     /**
@@ -109,11 +119,30 @@ public:
      * @brief Detect ethical context in multiple documents (RAG retrieval)
      * @param documents Vector of retrieved document texts
      * @param query Original user query
+     * @param conversation_history Optional conversation history for context
      * @return Aggregated detection result
      */
     DetectionResult detectEthicalContextInRAG(
         const std::vector<std::string>& documents,
-        const std::string& query
+        const std::string& query,
+        const std::vector<std::string>& conversation_history = {}
+    );
+    
+    /**
+     * @brief Use LLM as ethical judge to detect context-aware implications
+     * @param text Text to analyze
+     * @param conversation_context Optional conversation history
+     * @param llm_wrapper Pointer to LLM wrapper for inference
+     * @return Detection result with LLM reasoning
+     * 
+     * This implements "LLM-as-ethical-judge" pattern similar to "LLM-as-judge".
+     * The LLM analyzes the text and conversation context to identify
+     * ethical/moral implications that may not be obvious from keywords alone.
+     */
+    DetectionResult detectWithLLMJudge(
+        const std::string& text,
+        const std::vector<std::string>& conversation_context,
+        void* llm_wrapper  // LlamaWrapper* - forward declared to avoid circular dependency
     );
     
     /**

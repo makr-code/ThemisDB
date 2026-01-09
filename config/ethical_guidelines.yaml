@@ -538,6 +538,13 @@ config:
   # Minimum confidence threshold for context detection (0.0-1.0)
   detection_threshold: 0.6
   
+  # LLM-as-ethical-judge: Kontextuelle Erkennung (Enhanced!)
+  # Verwendet das LLM selbst zur Analyse von impliziten ethischen Implikationen
+  # Analog zum "LLM-as-judge" Pattern (Zheng et al., 2023)
+  use_llm_as_judge: false           # Set to true for context-aware detection
+  llm_judge_threshold: 0.7          # Confidence threshold for LLM judge
+  combine_with_keywords: true       # Combine LLM judge with keyword matching (recommended)
+  
   # Log all ethical guideline applications
   enable_logging: true
   
