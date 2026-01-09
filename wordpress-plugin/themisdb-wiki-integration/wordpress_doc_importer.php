@@ -166,10 +166,16 @@ class ThemisDB_Doc_Importer {
         if (function_exists('themisdb_get_taxonomy_manager')) {
             $manager = themisdb_get_taxonomy_manager();
             $hierarchy = $manager->get_hierarchy();
+            
+            // Check if category already exists first
+            $existing = get_term_by('name', $name, 'category');
             $cat_id = $hierarchy->get_or_create_hierarchical_category($name);
             
             if (!is_wp_error($cat_id)) {
-                $this->stats['categories_created']++;
+                // Only increment if it was newly created
+                if (!$existing) {
+                    $this->stats['categories_created']++;
+                }
                 return $cat_id;
             }
         }
