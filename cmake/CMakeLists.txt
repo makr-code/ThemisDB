@@ -387,8 +387,13 @@ add_compile_definitions(
 # Allows embedding company/license data into the binary at build time.
 # This supports both offline deployments and CI/CD pipelines.
 # 
+# Default Behavior:
+#   If no license file is specified, automatically uses the community license
+#   from config/license_community_default.json
+#
 # Usage:
-#   cmake -B build -S . -DTHEMIS_LICENSE_FILE=path/to/license.json
+#   cmake -B build -S .  # Uses community license by default
+#   cmake -B build -S . -DTHEMIS_LICENSE_FILE=path/to/license.json  # Custom license
 #
 # The license file should be a JSON file with the following structure:
 # {
@@ -408,6 +413,15 @@ add_compile_definitions(
 
 set(THEMIS_LICENSE_FILE "" CACHE FILEPATH "Path to license JSON file for embedding")
 
+# Auto-detect default license file if none specified
+if(NOT THEMIS_LICENSE_FILE OR THEMIS_LICENSE_FILE STREQUAL "")
+    set(DEFAULT_LICENSE_FILE "${CMAKE_SOURCE_DIR}/config/license_community_default.json")
+    if(EXISTS "${DEFAULT_LICENSE_FILE}")
+        set(THEMIS_LICENSE_FILE "${DEFAULT_LICENSE_FILE}")
+        message(STATUS "No license file specified, using default community license: ${THEMIS_LICENSE_FILE}")
+    endif()
+endif()
+
 # Default license values (empty/unset if no license file provided)
 set(THEMIS_LICENSE_ORG_NAME "")
 set(THEMIS_LICENSE_ORG_ID "")
@@ -423,7 +437,7 @@ set(THEMIS_LICENSE_BUILD_ID "")
 set(THEMIS_LICENSE_BUILD_TIMESTAMP "")
 set(THEMIS_LICENSE_SIGNATURE "")
 
-# If license file is provided, read and parse it
+# If license file is provided or auto-detected, read and parse it
 if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
     message(STATUS "Embedding license data from: ${THEMIS_LICENSE_FILE}")
     

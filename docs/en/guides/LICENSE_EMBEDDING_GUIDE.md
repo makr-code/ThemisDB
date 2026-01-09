@@ -62,7 +62,19 @@ Die Lizenzdaten werden als JSON-Datei bereitgestellt:
 
 ## Build-Prozess / Build Process
 
-### Methode 1: CMake-Konfiguration
+### Standard-Build (Community Edition)
+
+```bash
+# Ohne Angabe einer Lizenzdatei wird automatisch die Community-Lizenz verwendet
+# Without specifying a license file, the community license is automatically used
+cmake -B build -S . -DTHEMIS_EDITION=COMMUNITY
+cmake --build build --config Release
+
+# Die Community-Lizenz wird automatisch aus config/license_community_default.json geladen
+# The community license is automatically loaded from config/license_community_default.json
+```
+
+### Methode 1: CMake-Konfiguration mit eigener Lizenz
 
 ```bash
 # Mit Lizenzdatei kompilieren / Compile with license file
