@@ -140,7 +140,22 @@ class CategoryExtractor:
     """Extracts meaningful categories and tags from markdown documentation"""
     
     def __init__(self, docs_path: str, wp_url: Optional[str] = None, wp_user: Optional[str] = None, wp_password: Optional[str] = None):
-        self.docs_path = Path(docs_path)
+        self.docs_path = Path(docs_path).resolve()
+        
+        # Security: Validate that docs_path exists and is a directory
+        if not self.docs_path.exists():
+            raise ValueError(f"Documentation path does not exist: {docs_path}")
+        if not self.docs_path.is_dir():
+            raise ValueError(f"Documentation path is not a directory: {docs_path}")
+        
+        # Security: Basic validation to prevent system path traversal
+        # Ensure path doesn't start with suspicious directories
+        path_str = str(self.docs_path)
+        suspicious_prefixes = ['/etc', '/proc', '/sys', '/dev', '/root', '/var/log', '/usr/bin', '/usr/sbin']
+        for prefix in suspicious_prefixes:
+            if path_str.startswith(prefix):
+                raise ValueError(f"Documentation path in restricted system directory: {docs_path}")
+        
         self.wp_url = wp_url
         self.wp_user = wp_user
         self.wp_password = wp_password

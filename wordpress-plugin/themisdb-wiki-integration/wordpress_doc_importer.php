@@ -306,6 +306,27 @@ class ThemisDB_Doc_Importer {
             return "Content not available - invalid file path";
         }
         
+        // Security: Ensure file is within an allowed directory
+        // Allow files from the documentation directory or theme directory
+        $allowed_bases = array(
+            ABSPATH,  // WordPress root
+            get_template_directory(),  // Theme directory
+            WP_CONTENT_DIR,  // wp-content directory
+        );
+        
+        $is_allowed = false;
+        foreach ($allowed_bases as $base) {
+            $base = realpath($base);
+            if ($base && strpos($file_path, $base) === 0) {
+                $is_allowed = true;
+                break;
+            }
+        }
+        
+        if (!$is_allowed) {
+            return "Content not available - file path not in allowed directory";
+        }
+        
         // Check if file exists and is readable
         if (!file_exists($file_path) || !is_readable($file_path)) {
             return "Content not available - file not found or not readable: " . basename($file_path);
@@ -356,7 +377,19 @@ if (defined('WP_CLI') && WP_CLI) {
     // Get JSON file path from command line arguments
     $json_file = 'wordpress_categories.json';  // Default
     if (isset($argv) && count($argv) > 1) {
-        $json_file = $argv[1];
+        $json_file = sanitize_text_field($argv[1]);
+        
+        // Validate that the file exists and is readable
+        if (!file_exists($json_file) || !is_readable($json_file)) {
+            WP_CLI::error("JSON file not found or not readable: {$json_file}");
+            exit(1);
+        }
+        
+        // Validate file extension
+        if (pathinfo($json_file, PATHINFO_EXTENSION) !== 'json') {
+            WP_CLI::error("Invalid file type. Expected .json file.");
+            exit(1);
+        }
     }
     
     $importer = new ThemisDB_Doc_Importer($json_file);
