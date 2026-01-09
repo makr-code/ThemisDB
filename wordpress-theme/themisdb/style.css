@@ -134,6 +134,9 @@ a {
     color: var(--secondary-color);
     text-decoration: none;
     transition: var(--transition);
+    /* Prevent long URLs from breaking layout */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 a:hover,
@@ -156,10 +159,15 @@ a:focus {
     padding: 2rem 1rem;
     width: 100%;
     background-color: var(--white);
+    /* Prevent horizontal overflow */
+    overflow-x: hidden;
 }
 
 .content-area {
     width: 100%;
+    max-width: 100%;
+    /* Prevent content from exceeding container */
+    overflow: hidden;
 }
 
 /* Two Column Layout */
@@ -483,6 +491,8 @@ article {
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid transparent;
+    /* Ensure article never exceeds container */
+    max-width: 100%;
 }
 
 article:hover {
@@ -581,6 +591,11 @@ article:hover {
 
 .entry-content {
     padding: 2rem;
+    /* Prevent content from overflowing container */
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .entry-content h1,
@@ -601,6 +616,9 @@ article:hover {
 .entry-content ol {
     margin-bottom: 1.5rem;
     padding-left: 2rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .entry-content li {
@@ -614,6 +632,9 @@ article:hover {
     background: var(--lighter-bg);
     font-style: italic;
     color: var(--text-secondary);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .entry-content code {
@@ -632,6 +653,10 @@ article:hover {
     border-radius: 8px;
     overflow-x: auto;
     margin: 2rem 0;
+    /* Prevent pre blocks from overflowing */
+    max-width: 100%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .entry-content pre code {
@@ -647,12 +672,18 @@ article:hover {
     margin: 1.5rem 0;
     /* Prevent layout shift while images load */
     display: block;
+    /* Ensure images never exceed container width */
+    width: auto;
 }
 
 .entry-content table {
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
+    /* Ensure tables don't overflow on mobile */
+    display: block;
+    overflow-x: auto;
 }
 
 @media (max-width: 768px) {
@@ -3140,7 +3171,7 @@ select:focus {
 /* Better readability with optimal line length and spacing */
 .entry-content p,
 .page-content p {
-    max-width: 65ch; /* Optimal reading width */
+    /* Removed max-width: 65ch to prevent container overflow */
     margin-bottom: 1.5em;
 }
 
@@ -3368,12 +3399,16 @@ html {
 /* ===== Better Table Styling ===== */
 table {
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
     background: var(--white);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    /* Ensure tables scroll on overflow */
+    display: block;
+    overflow-x: auto;
 }
 
 table th {
@@ -3858,10 +3893,16 @@ pre code {
     .entry-content {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+        /* Ensure content never exceeds viewport */
+        max-width: 100vw;
     }
     
     .entry-content table {
         min-width: 600px;
+        /* Make sure table itself doesn't exceed container */
+        width: 100%;
+        display: block;
+        overflow-x: auto;
     }
     
     /* Improve pre/code blocks on mobile */
