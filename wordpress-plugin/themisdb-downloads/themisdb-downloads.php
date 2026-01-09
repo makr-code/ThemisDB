@@ -36,7 +36,12 @@ require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-markdown-converter.
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-github-api.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-admin.php';
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-shortcodes.php';
-require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-taxonomy-manager.php';
+
+// Keep legacy taxonomy manager for backward compatibility
+// But prefer shared taxonomy manager if available
+if (!function_exists('themisdb_get_taxonomy_manager')) {
+    require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-taxonomy-manager.php';
+}
 
 /**
  * Initialize the plugin
@@ -51,12 +56,30 @@ function themisdb_downloads_init() {
     new ThemisDB_Downloads_Shortcodes();
     
     // Initialize taxonomy manager
-    new ThemisDB_Downloads_Taxonomy_Manager();
+    // Use shared taxonomy manager if available, otherwise use legacy
+    if (!function_exists('themisdb_get_taxonomy_manager')) {
+        new ThemisDB_Downloads_Taxonomy_Manager();
+    } else {
+        // Shared taxonomy manager is active, no need for legacy manager
+        add_action('admin_notices', 'themisdb_downloads_show_shared_taxonomy_notice');
+    }
     
     // Load text domain for translations
     load_plugin_textdomain('themisdb-downloads', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 add_action('plugins_loaded', 'themisdb_downloads_init');
+
+/**
+ * Show notice when shared taxonomy manager is active
+ */
+function themisdb_downloads_show_shared_taxonomy_notice() {
+    $screen = get_current_screen();
+    if ($screen && $screen->id === 'plugins') {
+        echo '<div class="notice notice-info"><p>';
+        echo '<strong>ThemisDB Downloads:</strong> Using shared ThemisDB Taxonomy Manager for enhanced category and tag management.';
+        echo '</p></div>';
+    }
+}
 
 /**
  * Activation hook

@@ -159,8 +159,22 @@ class ThemisDB_Doc_Importer {
     
     /**
      * Get or create a category
+     * Uses shared taxonomy manager if available for hierarchical categories
      */
     private function get_or_create_category($name) {
+        // Use shared taxonomy manager if available
+        if (function_exists('themisdb_get_taxonomy_manager')) {
+            $manager = themisdb_get_taxonomy_manager();
+            $hierarchy = $manager->get_hierarchy();
+            $cat_id = $hierarchy->get_or_create_hierarchical_category($name);
+            
+            if (!is_wp_error($cat_id)) {
+                $this->stats['categories_created']++;
+                return $cat_id;
+            }
+        }
+        
+        // Fallback to standard category creation
         // Check if category exists
         $term = term_exists($name, 'category');
         
