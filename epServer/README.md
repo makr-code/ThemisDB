@@ -35,6 +35,12 @@ Ein umfassendes Python/FastAPI-basiertes Abonnement- und Zahlungsverwaltungssyst
 - **Automatische Prüfung**: Bei Server-Start und periodisch
 - **Offline-Modus**: Caching für Air-Gapped Deployments
 - **Limits-Überwachung**: Prüfung von Nodes, Cores, Storage gegen Lizenzlimits
+- **Build-Time Embedding**: Lizenz-Generierung für Compile-Time-Integration
+
+**Dokumentation:**
+- [LICENSE_INTEGRATION.md](LICENSE_INTEGRATION.md) - Online-Lizenzvalidierung
+- [../docs/de/guides/LICENSE_EMBEDDING_EPSERVER.md](../docs/de/guides/LICENSE_EMBEDDING_EPSERVER.md) - Lizenz-Embedding in Binaries
+- [../docs/en/guides/LICENSE_EMBEDDING_GUIDE.md](../docs/en/guides/LICENSE_EMBEDDING_GUIDE.md) - Build-Process Guide (DE/EN)
 
 ### 🖥️ Tkinter Admin UI
 - Grafische Benutzeroberfläche für Verwaltungsaufgaben
