@@ -64,6 +64,7 @@ class ThemisDB_Graph_Pattern {
         // Admin menu
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
         
         // Plugin action links
         add_filter('plugin_action_links_' . plugin_basename(THEMISDB_GP_PLUGIN_FILE), array($this, 'add_action_links'));
@@ -168,6 +169,23 @@ class ThemisDB_Graph_Pattern {
                 'enable_export' => get_option('themisdb_gp_enable_export', true),
             ),
         ));
+    }
+    
+    /**
+     * Enqueue admin assets
+     */
+    public function enqueue_admin_assets($hook) {
+        // Only load on our settings page
+        if ('settings_page_themisdb-gp-settings' !== $hook) {
+            return;
+        }
+        
+        wp_enqueue_style(
+            'themisdb-gp-admin-style',
+            THEMISDB_GP_PLUGIN_URL . 'assets/css/admin.css',
+            array(),
+            THEMISDB_GP_VERSION
+        );
     }
     
     /**

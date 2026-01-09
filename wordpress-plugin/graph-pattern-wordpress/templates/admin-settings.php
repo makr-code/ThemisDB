@@ -260,21 +260,3 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 </div>
-
-<style>
-.themisdb-admin-container pre {
-    font-size: 13px;
-    line-height: 1.6;
-}
-.themisdb-admin-container code {
-    background: #f6f8fa;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 13px;
-}
-.themisdb-admin-container h3 {
-    margin-top: 24px;
-    margin-bottom: 12px;
-}
-</style>

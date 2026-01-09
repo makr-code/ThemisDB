@@ -441,8 +441,10 @@
 
             this.groups[groupId].color = color;
             
-            // Update color indicator
-            $(`.themisdb-filter-color[style*="${this.groups[groupId].color}"]`)
+            // Update color indicator using data attribute
+            $('.gp-group-color[data-group="' + groupId + '"]')
+                .closest('.themisdb-filter-item')
+                .find('.themisdb-filter-color')
                 .css('background-color', color);
         },
 
@@ -473,7 +475,7 @@
             if (!this.network || !this.nodes) return;
 
             // Reset all nodes
-            this.nodes.forEach(node => {
+            this.nodes.get().forEach(node => {
                 this.nodes.update({
                     id: node.id,
                     borderWidth: 2,
@@ -506,7 +508,7 @@
             this.searchResults = [];
             if (!this.nodes) return;
 
-            this.nodes.forEach(node => {
+            this.nodes.get().forEach(node => {
                 this.nodes.update({
                     id: node.id,
                     borderWidth: 2,
@@ -677,7 +679,7 @@
         toggleLabels: function(enabled) {
             if (!this.nodes) return;
             
-            this.nodes.forEach(node => {
+            this.nodes.get().forEach(node => {
                 this.nodes.update({
                     id: node.id,
                     font: enabled ? { color: '#24292f', size: 14 } : { size: 0 }
