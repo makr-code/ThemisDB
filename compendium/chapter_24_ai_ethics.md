@@ -428,7 +428,7 @@ class CovinaBiasAuditor:
     
     def audit_document_batch(self, documents: List[Document]) -> AuditReport:
         """
-        Audited alle Dokumente vor Ingestion.
+        Auditiert alle Dokumente vor Ingestion.
         """
         high_risk_docs = []
         
@@ -704,7 +704,7 @@ Das System nutzt einen **Hybrid-Ansatz** für die Erkennung ethischer Implikatio
 
 ```mermaid
 flowchart TD
-    Start([User Query]) --> Keywords{Keyword-basierte<br/>Erkennung<br/>schnell, O n}
+    Start([User Query]) --> Keywords{Keyword-basierte<br/>Erkennung<br/>schnell, O(n)}
     
     Keywords -->|Ethische Keywords<br/>gefunden| Detected[Direkt erkannt<br/>Confidence: hoch]
     Keywords -->|Keine Keywords| LLM{LLM-as-Judge<br/>aktiviert?}
@@ -1262,7 +1262,7 @@ timeline
 
 | Version | Datum | Autor | Änderungen |
 |---------|-------|-------|------------|
-| 1.0.0 | 2025-12-30 | ThemisDB Team | Initiale Version basierend auf gimini Ethics-Analyse [9] |
+| 1.0.0 | 2025-12-30 | ThemisDB Team | Initiale Version basierend auf Gemini Ethics-Analyse [9] |
 | 1.1.0 | 2026-01-09 | ThemisDB Team | **PR #305**: Hinzufügung Ethical Guidelines System mit UN Menschenrechten + Asimov's Laws, LLM-as-ethical-judge Pattern, 5 Augmentation-Templates, Mermaid-Diagramme, wissenschaftliche Roadmap |
 
 ---
