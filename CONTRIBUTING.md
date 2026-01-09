@@ -961,6 +961,241 @@ By contributing to ThemisDB, you agree that your contributions will be licensed 
 Thank you for contributing to ThemisDB! 🚀
 ---
 
+## 🚀 Release Process
+
+ThemisDB uses a **tag-based release strategy** with semantic versioning. Releases are automated through GitHub Actions when version tags are pushed.
+
+### Branching Strategy Overview
+
+> [!IMPORTANT]
+> **ThemisDB Git Flow:**
+> - `develop` = Default branch for active development (integration)
+> - `main` = Protected production branch (releases only)
+> - `feature/*` = Feature branches (from/to develop)
+> - `bugfix/*` = Bug fix branches (from/to develop)
+> - `release/*` = Release preparation branches (from develop to main)
+> - `hotfix/*` = Emergency fixes (from/to main, then back to develop)
+
+### Release Flow
+
+```
+feature branches → develop → release branch → main → tag → GitHub Release
+                      ↑                         ↓
+                      └─────── merge back ──────┘
+```
+
+### Creating a Release
+
+<details>
+<summary><b>1️⃣ Prepare Release Branch</b></summary>
+
+```bash
+# Branch from develop for release preparation
+git checkout develop
+git pull origin develop
+git checkout -b release/v1.4.0
+
+# Update VERSION file
+echo "1.4.0" > VERSION
+
+# Update CHANGELOG.md
+# Add release notes under ## [1.4.0] - YYYY-MM-DD
+
+# Commit version updates
+git add VERSION CHANGELOG.md
+git commit -m "chore(release): Prepare version 1.4.0"
+git push origin release/v1.4.0
+```
+
+</details>
+
+<details>
+<summary><b>2️⃣ Create PR to Main</b></summary>
+
+1. Create a Pull Request from `release/v1.4.0` to `main`
+2. PR title: "Release v1.4.0"
+3. **Required checks must pass:**
+   - ✅ Build & Test (Ubuntu, Windows, macOS)
+   - ✅ Security scan
+   - ✅ Code quality checks
+4. Get approval from maintainer
+5. Merge using **merge commit** (not squash)
+
+</details>
+
+<details>
+<summary><b>3️⃣ Create and Push Tag</b></summary>
+
+```bash
+# After PR is merged to main
+git checkout main
+git pull origin main
+
+# Create annotated tag with release notes
+git tag -a v1.4.0 -m "Release v1.4.0
+
+- Feature 1: Description
+- Feature 2: Description
+- Bug fix: Description
+
+See CHANGELOG.md for full details."
+
+# Push tag to trigger release workflow
+git push origin v1.4.0
+```
+
+> [!NOTE]
+> The tag push **automatically triggers** the release workflow which:
+> - Builds release binaries for Ubuntu, Windows, and macOS
+> - Creates a GitHub Release
+> - Uploads artifacts (.tar.gz, .deb, .zip)
+> - Generates release notes from commits and CHANGELOG.md
+
+</details>
+
+<details>
+<summary><b>4️⃣ Merge Back to Develop</b></summary>
+
+```bash
+# Keep develop in sync with main
+git checkout develop
+git pull origin develop
+git merge main -m "chore: Merge release v1.4.0 back to develop"
+git push origin develop
+```
+
+</details>
+
+### Version Numbering
+
+ThemisDB follows **Semantic Versioning 2.0.0** (semver.org):
+
+```
+MAJOR.MINOR.PATCH[-PRERELEASE][+BUILD]
+
+Examples:
+- 1.4.0         (stable release)
+- 1.4.0-alpha   (alpha pre-release)
+- 1.4.0-beta.1  (beta pre-release)
+- 1.4.0-rc.1    (release candidate)
+- 1.4.0+build.1 (build metadata)
+```
+
+**Version Increment Rules:**
+
+| Version | When to Increment | Example |
+|---------|------------------|---------|
+| **MAJOR** | Breaking changes to API/behavior | 1.4.0 → 2.0.0 |
+| **MINOR** | New features (backward compatible) | 1.4.0 → 1.5.0 |
+| **PATCH** | Bug fixes (backward compatible) | 1.4.0 → 1.4.1 |
+
+### Hotfix Process
+
+For critical production issues that need immediate release:
+
+<details>
+<summary><b>Hotfix Workflow</b></summary>
+
+```bash
+# 1. Create hotfix branch from main
+git checkout main
+git pull origin main
+git checkout -b hotfix/v1.4.1
+
+# 2. Fix the issue
+# ... make changes ...
+
+# 3. Update VERSION and CHANGELOG
+echo "1.4.1" > VERSION
+# Update CHANGELOG.md with hotfix notes
+
+# 4. Commit and push
+git add .
+git commit -m "fix: Critical security issue in authentication"
+git push origin hotfix/v1.4.1
+
+# 5. Create PR to main (fast-track approval)
+# Merge after required checks pass
+
+# 6. Tag the hotfix release
+git checkout main
+git pull origin main
+git tag -a v1.4.1 -m "Hotfix v1.4.1: Security patch"
+git push origin v1.4.1
+
+# 7. Merge back to develop
+git checkout develop
+git pull origin develop
+git merge main -m "chore: Merge hotfix v1.4.1 to develop"
+git push origin develop
+```
+
+</details>
+
+### Pre-Release Process
+
+For alpha, beta, or release candidate versions:
+
+```bash
+# Example: Create beta release
+echo "1.5.0-beta.1" > VERSION
+
+# Tag with pre-release label
+git tag -a v1.5.0-beta.1 -m "Beta release v1.5.0-beta.1"
+git push origin v1.5.0-beta.1
+```
+
+> [!NOTE]
+> Pre-release tags (containing `-` like v1.5.0-beta.1) are automatically marked as **pre-release** in GitHub Releases.
+
+### Release Checklist
+
+Use this checklist when preparing a release:
+
+- [ ] All features for this version are merged to `develop`
+- [ ] All tests pass on `develop` branch
+- [ ] CHANGELOG.md is updated with all changes
+- [ ] VERSION file is updated to new version
+- [ ] Documentation is up to date
+- [ ] Migration guide prepared (if breaking changes)
+- [ ] Security scan passed
+- [ ] Release notes drafted
+- [ ] Release branch created from develop
+- [ ] PR to main created and approved
+- [ ] Tag created and pushed
+- [ ] GitHub Release published (automatic)
+- [ ] Changes merged back to develop
+- [ ] Package maintainers notified
+
+### Status Check Requirements
+
+| Branch | Required Checks | Optional Checks |
+|--------|----------------|-----------------|
+| **develop** | Ubuntu build & test | Windows, macOS |
+| **main** | All platforms (Ubuntu, Windows, macOS) | Security scan |
+
+### Automated Release Workflow
+
+When you push a version tag (e.g., `v1.4.0`), the release workflow automatically:
+
+1. ✅ Validates version tag matches VERSION file
+2. 🔨 Builds release binaries for:
+   - Ubuntu (`.tar.gz`, `.deb`)
+   - Windows (`.zip`)
+   - macOS (`.tar.gz`)
+3. 📦 Packages all binaries with CPack
+4. 📝 Generates release notes from CHANGELOG.md and commits
+5. 🚀 Creates GitHub Release with all artifacts
+6. 📢 Publishes release (or marks as pre-release)
+
+### Monitoring Releases
+
+- **GitHub Actions**: [Actions Tab](https://github.com/makr-code/ThemisDB/actions)
+- **Releases**: [Releases Page](https://github.com/makr-code/ThemisDB/releases)
+- **Tags**: [Tags List](https://github.com/makr-code/ThemisDB/tags)
+
+---
+
 ## 📦 Package Maintenance
 
 > **Interested in maintaining ThemisDB packages for your platform?**  
