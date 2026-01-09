@@ -23,6 +23,23 @@ Interaktive Visualisierung der ThemisDB-Systemarchitektur mit Mermaid.js. Umfass
 - [English README](architecture-diagrams-wordpress/README.md)
 - [Deutsche Dokumentation](architecture-diagrams-wordpress/README_DE.md)
 
+### 4. ThemisDB Graph Pattern Visualizer ⭐ NEU
+Interaktive Graph-Pattern-Visualisierung mit Options-Overlay für Filterung, Suche und farbcodierte Knotengruppen. Inspiriert von Neo4j Bloom - bringt intuitive Graph-Exploration nach WordPress.
+
+**Hauptfunktionen:**
+- 🔍 Echtzeit-Suche mit Knoten-Hervorhebung
+- 🎨 Dynamische Farbanpassung mit Color-Pickern
+- 👁️ Gruppenfilter mit Show/Hide Checkboxen
+- 🎛️ Layout-Steuerung (Force-directed, Hierarchisch, Kreisförmig)
+- 📊 Interaktive Schieberegler für Physik-Parameter
+- 📥 Export als PNG oder JSON
+- 📱 Vollbildmodus und responsive Design
+
+**Dokumentation:**
+- [English README](graph-pattern-wordpress/README.md)
+- [Deutsche Dokumentation](graph-pattern-wordpress/README_DE.md)
+- [Changelog](graph-pattern-wordpress/CHANGELOG.md)
+
 ---
 
 ## ThemisDB Downloads Plugin
