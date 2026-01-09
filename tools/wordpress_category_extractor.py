@@ -90,6 +90,7 @@ CATEGORY_MAPPING = {
     'reports': 'Reports',
     'research': 'Research',
     'audit': 'Audit',
+    'docs': 'Documentation',  # Added
 }
 
 # Words to exclude from categories (dates, common words, etc.)
@@ -216,9 +217,18 @@ class CategoryExtractor:
     def extract_categories_from_path(self, relative_path: Path) -> List[str]:
         """Extract meaningful categories from file path"""
         categories = []
-        parts = relative_path.parts
         
-        # Process each directory in the path
+        # Also check the docs_path itself for categories
+        docs_parts = self.docs_path.parts
+        for part in docs_parts:
+            if part.lower() in CATEGORY_MAPPING:
+                categories.append(CATEGORY_MAPPING[part.lower()])
+            elif self.is_valid_category(part):
+                clean_part = part.replace('_', ' ').replace('-', ' ').title()
+                categories.append(clean_part)
+        
+        # Process each directory in the relative path
+        parts = relative_path.parts
         for part in parts[:-1]:  # Exclude the filename itself
             # Check if we have a semantic mapping
             if part.lower() in CATEGORY_MAPPING:
