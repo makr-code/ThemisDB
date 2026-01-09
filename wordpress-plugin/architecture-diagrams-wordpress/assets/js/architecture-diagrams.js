@@ -7,7 +7,7 @@
     'use strict';
 
     // Constants
-    const MAX_MERMAID_LOAD_ATTEMPTS = 50; // Maximum attempts to wait for Mermaid library (5 seconds)
+    const MAX_MERMAID_LOAD_ATTEMPTS = 100; // Maximum attempts to wait for Mermaid library (10 seconds)
     const MERMAID_CHECK_INTERVAL_MS = 100; // Interval between checks in milliseconds
 
     // Global namespace
@@ -37,7 +37,12 @@
                 this.loadDiagram(this.currentView);
             }).catch((error) => {
                 console.error('Mermaid library failed to load:', error);
-                this.showError('Failed to load Mermaid library. Please refresh the page.');
+                this.showError('Failed to load Mermaid library from CDN. This may be due to:<br>' +
+                    '• Network connectivity issues<br>' +
+                    '• Content blockers or ad blockers<br>' +
+                    '• Firewall restrictions<br><br>' +
+                    'Please check your network connection and try refreshing the page. ' +
+                    'If the problem persists, contact your site administrator.');
             });
         },
 
@@ -50,8 +55,10 @@
                 
                 const checkMermaid = () => {
                     if (typeof mermaid !== 'undefined') {
+                        console.log('Mermaid library loaded successfully after ' + attempts + ' attempts');
                         resolve();
                     } else if (attempts >= MAX_MERMAID_LOAD_ATTEMPTS) {
+                        console.error('Mermaid library load timeout after ' + attempts + ' attempts');
                         reject(new Error('Mermaid library load timeout'));
                     } else {
                         attempts++;

@@ -1,5 +1,20 @@
 # Changelog - ThemisDB Architecture Diagrams Plugin
 
+## [1.0.2] - 2026-01-08
+
+### Fixed
+- **Script Loading Order Issue**: Fixed "Failed to load Mermaid library" error
+  - Changed Mermaid.js CDN script to load in header instead of footer to prevent timing issues
+  - Increased timeout for Mermaid library loading from 5 seconds to 10 seconds
+  - Improved error messages to provide more helpful troubleshooting information
+  - Added debug logging to console for Mermaid library load status
+
+### Technical Details
+- Changed `wp_enqueue_script()` 5th parameter from `true` (footer) to `false` (header)
+- Extended `MAX_MERMAID_LOAD_ATTEMPTS` from 50 to 100 (10 seconds total)
+- Added detailed error messages mentioning network, content blockers, and firewall issues
+- Added console logging to help diagnose load timing issues
+
 ## [1.0.1] - 2026-01-08
 
 ### Fixed
