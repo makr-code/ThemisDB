@@ -40,7 +40,8 @@ CHAPTERS = [
     "chapter_21_performance.md",
     "chapter_24_ai_ethics.md",
     "appendix_literatur.md",
-    "appendix_d_feature_status.md"
+    "appendix_d_feature_status.md",
+    "appendix_h_glossary.md"
 ]
 
 def print_section(title):
@@ -190,7 +191,7 @@ def generate_pdf_weasyprint():
     <div class="title-page">
         <h1>ThemisDB Compendium</h1>
         <h2>Das vollständige technische Handbuch</h2>
-        <p><strong>Version 1.3.4</strong></p>
+        <p><strong>Version 1.4.0-alpha</strong></p>
         <p>ThemisDB Development Team</p>
         <p>{}</p>
     </div>
@@ -247,7 +248,7 @@ def generate_pdf_weasyprint():
         f.write(full_html)
     
     # Generate PDF
-    output_file = OUTPUT_DIR / f"ThemisDB-Compendium-v1.3.4-{datetime.now().strftime('%Y%m%d')}-mermaid.pdf"
+    output_file = OUTPUT_DIR / f"ThemisDB-Compendium-v1.4.0-alpha-{datetime.now().strftime('%Y%m%d')}-mermaid.pdf"
     
     print(f"\n🔨 Generating PDF with WeasyPrint...")
     print(f"  Output: {output_file}")
@@ -259,7 +260,7 @@ def generate_pdf_weasyprint():
             margin: 25mm 20mm;
             
             @top-center {
-                content: "ThemisDB Compendium v1.3.4";
+                content: "ThemisDB Compendium v1.4.0-alpha";
                 font-size: 9pt;
                 color: #666;
             }

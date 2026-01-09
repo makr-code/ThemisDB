@@ -40,7 +40,8 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 - **Security & Compliance**: ✅ Production-Ready (DSGVO, BSI C5, Audit Logging)
 - **Horizontal Scaling**: ✅ Production-Ready (2/4/8-Node Clusters, 91% Efficiency)
 - **High Availability**: 🆕 Alpha (Hot Spare, WAL Replication)
-- **LLM/RAG Integration**: 🆕 Alpha (6 neue Features: Prefix/Response Caching, Multi-GPU, Paged Attention, LoRA, Vision)
+- **Voice Assistant**: 🆕 Alpha (Whisper STT, Piper TTS, Meeting Protocols, Call Center Automation)
+- **LLM/RAG Integration**: 🆕 Alpha (8 neue Features: Prefix/Response Caching, Multi-GPU, Paged Attention, LoRA, Grammar-Constrained Generation, RoPE Scaling, Vision)
 - **Performance Optimizations**: 🆕 Alpha (Flash Attention, Speculative Decoding, Continuous Batching)
 - **PostgreSQL Wire Protocol**: 🆕 Alpha (COPY, LISTEN/NOTIFY, Binary Format, Pipeline Mode)
 - **Enhanced Monitoring**: 🆕 Alpha (30+ neue Prometheus-Metriken für LLM, HA, Performance)
@@ -58,11 +59,26 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 | **Multi-GPU Support** | 🆕 Alpha | Early | Chapter 17.12.3 | 4-8x throughput |
 | **Paged Attention** | 🆕 Alpha | Early | Chapter 17.12.4 | 80% memory reduction |
 | **LoRA Support** | 🆕 Alpha | Early | Chapter 17.12.5 | 99% less memory |
-| **Vision Support** | 🆕 Alpha | Early | Chapter 17.12.6 | Multimodal AI |
+| **Grammar-Constrained Generation** | 🆕 Alpha | Early | Chapter 17.12.6 | 95-99% valid outputs |
+| **RoPE Scaling** | 🆕 Alpha | Early | Chapter 17.12.7 | 4K→32K context |
+| **Vision Support** | 🆕 Alpha | Early | Chapter 17.12.8 | Multimodal AI |
 
 **Roadmap:**
 - Beta (Feb 2026): Performance tuning, extended testing
 - GA (Mar 2026): Production-ready certification
+
+### Enterprise Features (Kapitel 10)
+
+| Feature | Status | Maturity | Documentation | Use Case |
+|---------|--------|----------|---------------|----------|
+| **Voice Assistant** | 🆕 Alpha | Early | Chapter 10.7 | Call Center, Meeting Protocols |
+| **Multi-Tenancy** | ✅ Production-Ready | Stable | Chapter 10.1 | SaaS Applications |
+| **RBAC** | ✅ Production-Ready | Stable | Chapter 10.1 | Enterprise Security |
+| **Audit Logging** | ✅ Production-Ready | Stable | Chapter 10.1 | Compliance |
+
+**Roadmap (Voice Assistant):**
+- Beta (Feb 2026): Enhanced language support, improved accuracy
+- GA (Mar 2026): Production-ready certification for enterprise use
 
 ### Performance-Optimierungen (Kapitel 21)
 

@@ -1909,6 +1909,547 @@ rocksdb_prefixes:
 2. **Regionale Add-ons** (Compliance-Pakete) nur für passende Regionen aktivieren
 3. **Config-as-Code**: Tenant-Policies versionieren
 
+
+---
+
+## 10.7 Sprachassistent für Enterprise (Voice Assistant)
+
+> **Enterprise-Feature:** Der Voice Assistant ist ein optionales Enterprise-Feature, das natürlichsprachliche Sprachinteraktion direkt in ThemisDB integriert.
+
+### Überblick
+
+Der ThemisDB Sprachassistent bietet Voice-Interaktionsfähigkeiten ähnlich wie Alexa oder Siri, jedoch direkt in die Datenbank integriert und mit voller Enterprise-Compliance. Er kombiniert drei Technologien:
+
+1. **Speech-to-Text (STT)** via Whisper.cpp - Hochgenaue Transkription in 100+ Sprachen
+2. **Text-to-Speech (TTS)** via Piper - Natürliche Sprachsynthese
+3. **LLM-Integration** via llama.cpp - Natürlichsprachliches Verständnis
+
+**Hauptanwendungsfälle:**
+- 📞 **Call Center**: Automatische Telefonaufzeichnung und Transkription
+- 📝 **Meeting Protokolle**: KI-gestützte Protokollerstellung mit Aktionspunkten
+- 🗣️ **Voice Commands**: Datenbankabfragen über natürliche Sprache
+- 🏥 **Diktiersysteme**: Medizinische/rechtliche Dokumentation
+- 🤖 **Voice Bots**: Interaktive Sprachassistenten für Kunden
+
+Alle Aufzeichnungen werden **revision-safe** in ThemisDB gespeichert mit vollständigen Audit-Trails und DSGVO-konformer Aufbewahrung.
+
+### Architektur
+
+```mermaid
+graph TB
+    subgraph "Voice Assistant Architektur"
+        User([Benutzer<br/>Sprachinput]) -->|Audio| API[REST API<br/>/api/v1/voice]
+        User -->|Realtime| WS[WebSocket<br/>/ws/voice]
+        
+        API --> STT[Speech-to-Text<br/>Whisper.cpp]
+        WS --> STT
+        
+        STT -->|Transkript| LLM[LLM Engine<br/>llama.cpp]
+        
+        LLM -->|Intent| QE[Query Engine<br/>AQL Processing]
+        LLM -->|Response Text| TTS[Text-to-Speech<br/>Piper TTS]
+        
+        QE -->|Results| DB[(ThemisDB<br/>Base Entities)]
+        
+        TTS -->|Audio| User
+        
+        DB -->|Store| Recordings[Voice Recordings<br/>+ Transcripts]
+        DB -->|Audit| Logs[Audit Logs<br/>DSGVO-konform]
+    end
+    
+    style STT fill:#43e97b
+    style LLM fill:#667eea
+    style TTS fill:#f093fb
+    style DB fill:#ffd32a
+    style Recordings fill:#fee140
+    style Logs fill:#f78ca0
+```
+
+### STT: Speech-to-Text mit Whisper.cpp
+
+Whisper.cpp ist eine hochperformante C++ Implementierung von OpenAI's Whisper Modell.
+
+**Modellgrößen** (Trade-off: Geschwindigkeit vs. Genauigkeit):
+
+| Modell | Parameter | Geschwindigkeit | Genauigkeit | Use Case |
+|--------|-----------|-----------------|-------------|----------|
+| `tiny` | 39M | ~10x realtime | 85% | Echtzeit-Interaktion |
+| `base` | 74M | ~5x realtime | 90% | Standard (empfohlen) |
+| `small` | 244M | ~2x realtime | 94% | Call Center |
+| `medium` | 769M | ~1x realtime | 96% | Medizinische Diktate |
+| `large` | 1550M | ~0.5x realtime | 98% | Juristische Protokolle |
+
+**Konfiguration:**
+
+```yaml
+voice_assistant:
+  enabled: true
+  
+  stt:
+    model_path: "./models/ggml-base.bin"
+    model_size: "base"
+    language: "auto"  # Automatische Spracherkennung
+    threads: 4
+    
+    # Erweiterte Optionen
+    speaker_diarization: true  # Sprecher-Identifikation
+    timestamps: true           # Wort-Timestamps
+    vad_filter: true           # Voice Activity Detection
+```
+
+**Praktisches Beispiel - Telefonaufzeichnung:**
+
+```python
+import requests
+import json
+
+# 1. Audio-Datei hochladen und transkribieren
+with open("call_recording.mp3", "rb") as audio:
+    response = requests.post(
+        "http://localhost:8080/api/v1/voice/transcribe",
+        files={"audio": audio},
+        headers={"Authorization": "Bearer YOUR_TOKEN"},
+        data={
+            "language": "de",
+            "speaker_diarization": True,
+            "store_recording": True,  # In ThemisDB speichern
+            "tenant_id": "acme_corp"
+        }
+    )
+
+result = response.json()
+print(f"Transkript ID: {result['id']}")
+print(f"Dauer: {result['duration_seconds']}s")
+print(f"Sprecher: {len(result['speakers'])}")
+
+# 2. Transkript abrufen mit Sprecher-Tags
+for segment in result['segments']:
+    print(f"[{segment['start']}s - {segment['end']}s] "
+          f"Speaker {segment['speaker']}: {segment['text']}")
+
+# Beispiel-Output:
+# [0.0s - 3.2s] Speaker 1: Guten Tag, wie kann ich Ihnen helfen?
+# [3.5s - 8.1s] Speaker 2: Ich habe eine Frage zu meiner Bestellung...
+```
+
+**Unterstützte Audio-Formate:**
+- MP3, WAV, OGG, FLAC, AAC, M4A, Opus, WMA
+- Sampling Rate: 16 kHz (empfohlen) oder Auto-Resampling
+
+### TTS: Text-to-Speech mit Piper
+
+Piper ist eine schnelle, neuronale TTS-Engine mit natürlich klingenden Stimmen.
+
+**Verfügbare Stimmen:**
+
+```python
+# Stimmen auflisten
+response = requests.get("http://localhost:8080/api/v1/voice/voices")
+voices = response.json()
+
+# Beispiel-Voices:
+# - de_DE-thorsten-neutral (Deutsch, männlich, neutral)
+# - de_DE-kerstin-low (Deutsch, weiblich, niedrig)
+# - en_US-amy-medium (Englisch US, weiblich, medium)
+# - en_GB-alan-medium (Englisch UK, männlich, medium)
+```
+
+**Text zu Sprache konvertieren:**
+
+```python
+# Meeting-Zusammenfassung vorlesen
+summary = """
+Wichtige Punkte aus dem Meeting:
+1. Q4 Umsatz übertrifft Erwartungen um 15 Prozent
+2. Neues Feature-Release für Ende Januar geplant
+3. Team-Event am 15. Februar
+"""
+
+response = requests.post(
+    "http://localhost:8080/api/v1/voice/synthesize",
+    headers={"Authorization": "Bearer YOUR_TOKEN"},
+    json={
+        "text": summary,
+        "voice": "de_DE-thorsten-neutral",
+        "speed": 1.0,  # Normale Geschwindigkeit
+        "pitch": 1.0,  # Normale Tonhöhe
+        "output_format": "mp3"
+    }
+)
+
+# Audio speichern
+with open("meeting_summary.mp3", "wb") as f:
+    f.write(response.content)
+```
+
+**Performance:**
+- ~10-20x schneller als Realtime
+- Streaming-Modus für niedrige Latenz
+- Geringe CPU-Last (läuft auch ohne GPU)
+
+### LLM-Integration für natürlichsprachliche Queries
+
+Der Voice Assistant nutzt die LLM-Engine (siehe Kapitel 17) für:
+
+1. **Intent Recognition** - Verstehen was der Nutzer möchte
+2. **Text-to-AQL** - Natürlichsprachliche Queries in AQL übersetzen
+3. **Zusammenfassungen** - Meeting-Protokolle und Key Points
+4. **Konversation** - Multi-Turn Dialog mit Kontext
+
+**Beispiel - Voice-gesteuerte Datenbankabfrage:**
+
+```python
+# Benutzer sagt: "Zeige mir alle offenen Bestellungen von gestern"
+response = requests.post(
+    "http://localhost:8080/api/v1/voice/command",
+    headers={"Authorization": "Bearer YOUR_TOKEN"},
+    json={
+        "text": "Zeige mir alle offenen Bestellungen von gestern",
+        "session_id": "user_42",
+        "return_audio": True  # TTS-Antwort als Audio
+    }
+)
+
+result = response.json()
+
+# LLM hat verstanden und AQL generiert:
+print(result['intent'])  # "query_orders"
+print(result['aql'])
+# FOR o IN orders
+#   FILTER o.status == 'open'
+#   FILTER o.created_at >= DATE_SUB(NOW(), 1, 'day')
+#   RETURN o
+
+# Ergebnisse
+print(f"Gefunden: {len(result['results'])} Bestellungen")
+
+# TTS-Antwort
+with open("response.mp3", "wb") as f:
+    f.write(base64.b64decode(result['audio_response']))
+# Audio sagt: "Ich habe 23 offene Bestellungen von gestern gefunden."
+```
+
+### Meeting-Protokoll-Generierung
+
+**Vollständiger Workflow:**
+
+```python
+# 1. Meeting aufzeichnen (Live WebSocket oder Upload)
+import websockets
+import asyncio
+
+async def record_meeting():
+    uri = "ws://localhost:8080/ws/voice/record"
+    async with websockets.connect(uri) as websocket:
+        # Sende Konfigurations-Header
+        await websocket.send(json.dumps({
+            "type": "config",
+            "session_id": "meeting_2026_01_09",
+            "language": "de",
+            "speaker_diarization": True,
+            "llm_analysis": True  # Aktiviert Echtzeit-Analyse
+        }))
+        
+        # Streame Audio-Chunks (z.B. von Mikrofon)
+        while recording:
+            audio_chunk = microphone.read()
+            await websocket.send(audio_chunk)
+            
+            # Empfange Transkript-Updates
+            if response := await websocket.recv():
+                update = json.loads(response)
+                if update['type'] == 'transcript':
+                    print(f"[{update['speaker']}]: {update['text']}")
+
+# 2. Meeting beenden und Protokoll generieren
+response = requests.post(
+    "http://localhost:8080/api/v1/voice/meeting/finalize",
+    headers={"Authorization": "Bearer YOUR_TOKEN"},
+    json={
+        "session_id": "meeting_2026_01_09",
+        "generate_protocol": True,
+        "extract_action_items": True,
+        "participants": ["Alice", "Bob", "Carol"]
+    }
+)
+
+protocol = response.json()
+
+# Generiertes Protokoll
+print("=== MEETING PROTOKOLL ===")
+print(f"Datum: {protocol['date']}")
+print(f"Dauer: {protocol['duration_minutes']} Minuten")
+print(f"Teilnehmer: {', '.join(protocol['participants'])}")
+print()
+print("Zusammenfassung:")
+print(protocol['summary'])
+print()
+print("Kernpunkte:")
+for i, point in enumerate(protocol['key_points'], 1):
+    print(f"{i}. {point}")
+print()
+print("Aktionspunkte:")
+for action in protocol['action_items']:
+    print(f"- [ ] {action['task']} (verantwortlich: {action['assignee']})")
+```
+
+**Beispiel-Protokoll-Output:**
+
+```
+=== MEETING PROTOKOLL ===
+Datum: 2026-01-09 14:30:00
+Dauer: 45 Minuten
+Teilnehmer: Alice (Product Manager), Bob (Developer), Carol (Designer)
+
+Zusammenfassung:
+Das Team diskutierte den Stand des Q1 Releases. Die Entwicklung liegt gut
+im Zeitplan. Design-Reviews für 3 neue Features wurden abgeschlossen. Es
+wurden Prioritäten für die nächsten 2 Wochen festgelegt.
+
+Kernpunkte:
+1. Login-Feature ist fertig entwickelt, QA-Phase läuft
+2. Dashboard-Design wurde final abgenommen
+3. API-Performance verbessert um 40% durch Caching
+4. Zwei kritische Bugs in Production gefunden und gefixt
+
+Aktionspunkte:
+- [ ] API-Dokumentation aktualisieren (verantwortlich: Bob, bis 12.01.)
+- [ ] User Testing für neues Dashboard organisieren (verantwortlich: Carol, bis 15.01.)
+- [ ] Release Notes vorbereiten (verantwortlich: Alice, bis 20.01.)
+```
+
+### Security & Compliance
+
+**DSGVO-konforme Speicherung:**
+
+```python
+# Voice Recordings mit Aufbewahrungsfristen
+response = requests.post(
+    "http://localhost:8080/api/v1/voice/record",
+    headers={"Authorization": "Bearer YOUR_TOKEN"},
+    json={
+        "audio_base64": audio_data,
+        "metadata": {
+            "purpose": "customer_service",
+            "consent_given": True,
+            "retention_days": 90,  # Automatische Löschung nach 90 Tagen
+            "dsgvo_category": "call_recording"
+        }
+    }
+)
+
+# Verschlüsselung at-rest und in-transit
+config = {
+    "voice_assistant": {
+        "encryption": {
+            "at_rest": True,   # Recordings verschlüsselt speichern
+            "key_rotation_days": 30
+        },
+        "audit": {
+            "log_all_access": True,
+            "log_transcripts": False  # Sensible Daten nicht loggen
+        }
+    }
+}
+```
+
+**Audit-Logging:**
+
+Alle Voice-Operationen werden vollständig geloggt:
+
+```sql
+-- Audit-Log für Voice-Zugriffe
+SELECT * FROM audit_logs 
+WHERE operation_type IN ('voice_transcribe', 'voice_synthesize', 'voice_access')
+ORDER BY timestamp DESC
+LIMIT 100;
+
+-- Typischer Log-Eintrag:
+{
+  "timestamp": "2026-01-09T14:30:22Z",
+  "user_id": "user_42",
+  "operation": "voice_transcribe",
+  "recording_id": "rec_abc123",
+  "ip_address": "192.168.1.100",
+  "metadata": {
+    "duration_seconds": 180,
+    "language": "de",
+    "speakers": 2
+  }
+}
+```
+
+### Performance & Skalierung
+
+**Benchmark-Ergebnisse** (Hardware: 8-Core CPU, 16GB RAM):
+
+| Operation | Modell | Latenz | Throughput |
+|-----------|--------|--------|------------|
+| STT (tiny) | 39M | 0.1x realtime | 10 concurrent |
+| STT (base) | 74M | 0.2x realtime | 5 concurrent |
+| STT (large) | 1550M | 2x realtime | 1 concurrent |
+| TTS | Piper | 0.05x realtime | 20 concurrent |
+| LLM Analysis | 7B | 20 tok/s | 3 concurrent |
+
+**Skalierungs-Strategie:**
+
+```yaml
+# Horizontale Skalierung mit dedizierten Voice-Nodes
+voice_assistant:
+  worker_nodes:
+    - node: voice-worker-1
+      capabilities: [stt, tts]
+      gpu: false
+    
+    - node: voice-worker-2
+      capabilities: [stt]
+      model: large
+      gpu: true  # GPU-beschleunigte Transkription
+    
+    - node: voice-worker-3
+      capabilities: [llm]
+      gpu: true
+  
+  load_balancing:
+    strategy: least_loaded
+    health_check_interval: 30s
+```
+
+### Use Case: Call Center Automation
+
+**Vollständiges Beispiel:**
+
+```python
+class CallCenterIntegration:
+    """
+    Integration des Voice Assistant in ein Call Center System.
+    Automatische Aufzeichnung, Transkription, Sentiment-Analyse und
+    CRM-Update.
+    """
+    
+    def __init__(self, themisdb_url, api_key):
+        self.base_url = themisdb_url
+        self.headers = {"Authorization": f"Bearer {api_key}"}
+    
+    def process_call(self, call_id, audio_file, customer_id):
+        """Verarbeitet einen eingehenden Anruf."""
+        
+        # 1. Transkribieren mit Speaker Diarization
+        transcript_result = self.transcribe_call(audio_file)
+        
+        # 2. Sentiment-Analyse via LLM
+        sentiment = self.analyze_sentiment(transcript_result['transcript'])
+        
+        # 3. Kernpunkte extrahieren
+        summary = self.extract_summary(transcript_result['transcript'])
+        
+        # 4. CRM aktualisieren
+        self.update_crm(customer_id, {
+            "call_id": call_id,
+            "transcript_id": transcript_result['id'],
+            "duration": transcript_result['duration'],
+            "sentiment": sentiment,
+            "summary": summary,
+            "action_items": summary['action_items']
+        })
+        
+        # 5. Automatische Follow-up Email generieren
+        if sentiment['score'] < 0.5:  # Negativer Call
+            self.create_followup_task(customer_id, "urgent")
+        
+        return {
+            "status": "processed",
+            "transcript_id": transcript_result['id'],
+            "sentiment": sentiment,
+            "summary": summary
+        }
+    
+    def transcribe_call(self, audio_file):
+        """Transkribiert Audio mit Whisper."""
+        with open(audio_file, "rb") as f:
+            response = requests.post(
+                f"{self.base_url}/api/v1/voice/transcribe",
+                files={"audio": f},
+                headers=self.headers,
+                data={
+                    "speaker_diarization": True,
+                    "language": "auto",
+                    "model": "base"
+                }
+            )
+        return response.json()
+    
+    def analyze_sentiment(self, transcript):
+        """Sentiment-Analyse via LLM."""
+        response = requests.post(
+            f"{self.base_url}/api/v1/llm/analyze",
+            headers=self.headers,
+            json={
+                "prompt": f"""
+                Analysiere die Stimmung in diesem Kundenservice-Gespräch.
+                Gib einen Sentiment-Score von 0.0 (sehr negativ) bis 1.0 (sehr positiv)
+                und die Hauptgründe.
+                
+                Gespräch:
+                {transcript}
+                """,
+                "response_format": "json",
+                "schema": {
+                    "score": "float",
+                    "reasons": "array",
+                    "customer_satisfied": "boolean"
+                }
+            }
+        )
+        return response.json()['result']
+
+# Verwendung
+call_center = CallCenterIntegration(
+    themisdb_url="http://localhost:8080",
+    api_key="your_api_key"
+)
+
+result = call_center.process_call(
+    call_id="CALL_2026_01_09_001",
+    audio_file="recordings/call_001.mp3",
+    customer_id="CUST_42"
+)
+
+print(f"Call verarbeitet. Sentiment: {result['sentiment']['score']:.2f}")
+print(f"Zusammenfassung: {result['summary']['text']}")
+```
+
+### Zusammenfassung & Best Practices
+
+**Was Sie gelernt haben:**
+- Voice Assistant Architektur (STT, TTS, LLM)
+- Whisper.cpp für hochgenaue Transkription
+- Piper TTS für natürliche Sprachsynthese
+- Meeting-Protokoll-Generierung
+- Call Center Integration
+- DSGVO-konforme Speicherung
+
+**Best Practices:**
+1. ✅ **Modell-Größe wählen** basierend auf Latenz-Anforderungen
+2. ✅ **Speaker Diarization** für Meeting-Protokolle aktivieren
+3. ✅ **Retention Policies** für DSGVO-Compliance setzen
+4. ✅ **GPU-Beschleunigung** für höheren Durchsatz nutzen
+5. ✅ **Horizontale Skalierung** mit dedizierten Voice-Worker-Nodes
+6. ✅ **Audit-Logging** für alle Zugriffe aktivieren
+7. ✅ **Verschlüsselung** at-rest und in-transit
+
+**Anti-Patterns:**
+- ❌ Large-Modell für Echtzeit-Interaktion (zu langsam)
+- ❌ Recordings ohne Retention Policy speichern (DSGVO-Risiko)
+- ❌ TTS ohne Rate-Limiting (DoS-Gefahr)
+- ❌ Transkripte ohne Verschlüsselung (Security-Risiko)
+
+**Weitere Ressourcen:**
+- Vollständige API-Dokumentation: `docs/de/features/sprachassistent_anleitung.md`
+- Whisper.cpp Dokumentation: [GitHub](https://github.com/ggerganov/whisper.cpp)
+- Piper TTS: [GitHub](https://github.com/rhasspy/piper)
+- Kapitel 17: LLM-Integration für erweiterte NLP-Features
+
 ---
 
 ## 10.6 Zusammenfassung
@@ -1921,6 +2462,7 @@ In diesem Kapitel haben Sie gelernt:
 - **Workflow-Management**: Geschäftsprozesse als Graph modellieren
 - **DMS/ERP**: Dokumentenmanagement mit Versionierung und OCR
 - **CRM**: Customer Relationship Management mit Lead-Scoring
+- **Voice Assistant**: STT/TTS/LLM für Call Center und Meeting-Protokolle
 - **Enterprise Best Practices**: Performance, Caching, Monitoring
 
 ### Wichtige Erkenntnisse:
@@ -1930,6 +2472,7 @@ In diesem Kapitel haben Sie gelernt:
 3. **Audit-Log als First-Class Citizen** - Nicht nachrüsten, von Anfang an einplanen
 4. **Hybrid-Search unverzichtbar** - Volltext + Vector Search kombinieren
 5. **Background-Jobs für schwere Operations** - API bleibt responsiv
+6. **Voice Assistant für moderne UX** - Natürlichsprachliche Interaktion steigert Produktivität
 
 ### Übungen:
 
@@ -1938,5 +2481,6 @@ In diesem Kapitel haben Sie gelernt:
 3. Erstellen Sie einen Workflow-Designer (GUI)
 4. Integrieren Sie Email-Tracking ins CRM
 5. Implementieren Sie Webhooks für externe Integrationen
+6. Bauen Sie ein Meeting-Protokoll-System mit Voice Assistant
 
 Im nächsten Kapitel tauchen wir in Realtime-Anwendungen ein: Chat und Kanban-Boards mit Live-Updates!

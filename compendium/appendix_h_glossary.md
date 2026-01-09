@@ -515,6 +515,10 @@ Low cardinality: Status (10 values)
 
 **Garbage Collection:** Freeing unused memory
 
+**GBNF (GGML BNF):** Grammar notation used by llama.cpp for constrained generation. Extends EBNF with specific syntax for controlling LLM output format. See Grammar-Constrained Generation.
+
+**Grammar-Constrained Generation:** LLM technique that uses EBNF/GBNF grammar rules to guarantee syntactically valid outputs (JSON, XML, CSV). Achieves 95-99% success rate vs 60-70% without constraints, eliminating need for output validation and retries. See Chapter 17.12.6.
+
 **Graph:** Network of connected nodes
 
 **Heap:** Memory area for dynamic allocation
@@ -569,6 +573,8 @@ Low cardinality: Status (10 values)
 
 **Persistence:** Data survives shutdown
 
+**Piper:** Fast, local neural Text-to-Speech (TTS) engine used in ThemisDB Voice Assistant. Provides natural-sounding voice synthesis in multiple languages with <50ms latency and minimal CPU usage. See Chapter 10.7.
+
 **Prefix Caching:** LLM optimization that caches the attention states of frequently used prompt prefixes (such as system prompts), enabling 75% cost savings and 95% latency reduction for repeated queries with common prompt beginnings. See Chapter 17.12.1.
 
 **Projection:** Selecting subset of columns
@@ -588,6 +594,10 @@ Low cardinality: Status (10 values)
 **RocksDB:** Embedded key-value store (ThemisDB storage engine)
 
 **Rollback:** Undo transaction
+
+**RoPE (Rotary Position Embedding):** Position encoding technique for transformer models that enables context window extension beyond training length through scaling. ThemisDB supports Linear, NTK-aware, and YaRN scaling methods to extend context from 4K to 32K+ tokens. See Chapter 17.12.7.
+
+**RoPE Scaling:** Technique to extend LLM context windows beyond their original training length by adjusting the rotary position embedding frequency. YaRN method achieves 8x context extension (4K→32K tokens) with <10% quality loss. See Chapter 17.12.7.
 
 **RPO:** Recovery Point Objective (max data loss)
 
@@ -621,11 +631,15 @@ Low cardinality: Status (10 values)
 
 **View:** Virtual table derived from query
 
+**Voice Assistant:** Enterprise feature providing natural language voice interaction using Whisper (STT), Piper (TTS), and llama.cpp (LLM). Enables call center automation, meeting protocol generation, and voice-controlled database queries with DSGVO-compliant storage. See Chapter 10.7.
+
 **WAL (Write-Ahead Log):** Transaction log that records all database changes before they are applied, ensuring durability and enabling replication. In ThemisDB v1.4.0-alpha, WAL replication provides zero-data-loss failover with support for synchronous, asynchronous, and hybrid replication modes. See Chapter 16.10.2.
 
 **WAL Replication:** Replication mechanism based on Write-Ahead Log streaming that continuously transfers transaction log entries from primary to replica nodes. Supports sync (zero data loss, higher latency), async (minimal latency, potential data loss), and hybrid modes. See Chapter 16.10.2.
 
 **Warm Data:** Occasionally accessed data
+
+**Whisper:** OpenAI's high-accuracy Speech-to-Text (STT) model integrated into ThemisDB Voice Assistant via whisper.cpp. Supports 100+ languages with auto-detection, speaker diarization, and 5 model sizes (tiny to large) trading accuracy for speed. See Chapter 10.7.
 
 **Workload:** Pattern of database usage
 

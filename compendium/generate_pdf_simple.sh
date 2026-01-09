@@ -164,7 +164,7 @@ pandoc "${COMBINED_MD}" \
     --variable=sansfont:"Helvetica Neue" \
     --variable=monofont:"Courier New" \
     --variable=linestretch:1.3 \
-    --template=eisvogel \
+     \
     --listings \
     2>&1 | tee "${TEMP_DIR}/pandoc_log.txt"
 
