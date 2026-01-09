@@ -165,8 +165,9 @@ a:focus {
 .content-area {
     width: 100%;
     max-width: 100%;
-    /* Prevent content from exceeding container */
-    overflow: hidden;
+    /* Prevent horizontal overflow while allowing vertical scrolling */
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 /* Two Column Layout */
@@ -650,7 +651,6 @@ article:hover {
     margin: 2rem 0;
     /* Prevent pre blocks from overflowing */
     max-width: 100%;
-    overflow-wrap: break-word;
 }
 
 .entry-content pre code {
@@ -666,8 +666,6 @@ article:hover {
     margin: 1.5rem 0;
     /* Prevent layout shift while images load */
     display: block;
-    /* Ensure images never exceed container width */
-    width: auto;
 }
 
 .entry-content table {
