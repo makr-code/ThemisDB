@@ -31,6 +31,7 @@
 #include "transaction/transaction_manager.h"
 #include "utils/logger.h"
 #include "themis/build_info.h"
+#include "themis/license_info.h"
 
 #include "utils/logger_impl.h"
 #include "utils/tracing.h"
@@ -3039,6 +3040,25 @@ http::response<http::string_body> HttpServer::handleHealthCheck(
         {"database", "themis"},
         {"uptime_seconds", uptime_seconds}
     };
+    
+    // Add license information if available
+    auto license = themis::license::getEmbeddedLicense();
+    if (license) {
+        // Mask license key for security (show only first 8 chars)
+        std::string masked_key = license->license_key;
+        if (masked_key.length() > 8) {
+            masked_key = masked_key.substr(0, 8) + "...";
+        }
+        
+        response["license"] = {
+            {"organization", license->organization_name},
+            {"edition", license->edition},
+            {"license_key", masked_key},  // Masked for security
+            {"valid", themis::license::isLicenseValid(*license)},
+            {"days_until_expiry", themis::license::getDaysUntilExpiry(*license)}
+        };
+    }
+    
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
@@ -3068,6 +3088,34 @@ http::response<http::string_body> HttpServer::handleVersion(
 #else
         response["version"] = "unknown";
 #endif
+
+        // Add embedded license information if available
+        auto license = themis::license::getEmbeddedLicense();
+        if (license) {
+            response["license"] = {
+                {"organization_name", license->organization_name},
+                {"organization_id", license->organization_id},
+                {"contact_email", license->contact_email},
+                {"license_key", license->license_key},
+                {"edition", license->edition},
+                {"issued_date", license->issued_date},
+                {"expiry_date", license->expiry_date},
+                {"valid", themis::license::isLicenseValid(*license)},
+                {"days_until_expiry", themis::license::getDaysUntilExpiry(*license)},
+                {"limits", {
+                    {"max_nodes", license->max_nodes},
+                    {"max_cores", license->max_cores},
+                    {"max_storage_tb", license->max_storage_tb}
+                }},
+                {"build_id", license->build_id},
+                {"build_timestamp", license->build_timestamp}
+            };
+            
+            // Add signature status if present
+            if (!license->signature.empty()) {
+                response["license"]["signature_valid"] = themis::license::verifyLicenseSignature(*license);
+            }
+        }
         
         // Add module information
         json modules_compiled = json::array();
