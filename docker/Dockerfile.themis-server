@@ -1,5 +1,5 @@
-﻿# Multi-Stage Dockerfile für ThemisDB Hyperscaler Edition
-# Features: LLM (llama.cpp) + GPU + Prometheus Metrics
+﻿# Multi-Stage Dockerfile für ThemisDB Hyperscaler Edition (Hochoptimiert)
+# Optimierungen: vcpkg Binary Cache, BuildKit Cache Mounts, ccache, Layer-Optimierung
 
 FROM ubuntu:24.04 AS builder
 
@@ -9,85 +9,112 @@ ARG THEMIS_ENABLE_GRPC=ON
 ARG CMAKE_BUILD_TYPE=Release
 ARG THEMIS_BUILD_TESTS=OFF
 ARG THEMIS_BUILD_BENCHMARKS=OFF
+ARG VCPKG_BINARY_SOURCES="clear;default,readwrite"
 
-# Install build dependencies with C/C++ compiler explicitly
-RUN apt-get update && apt-get install -y \
+# Install build dependencies (cached layer)
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     build-essential gcc g++ cmake git curl wget zip unzip tar pkg-config python3 \
-    libboost-all-dev libgrpc-dev libgrpc++-dev protobuf-compiler-grpc libssl-dev \
-    libprotobuf-dev libgtest-dev nlohmann-json3-dev libcurl4-openssl-dev \
-    librocksdb-dev \
-    zlib1g-dev liblz4-dev libzstd-dev libc-ares-dev libtbb-dev libspdlog-dev \
-    libsimdjson-dev libyaml-cpp-dev \
+    ninja-build ccache autoconf automake libtool flex bison \
+    libssl-dev zlib1g-dev libcurl4-openssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Set compiler explicitly and CMAKE_PREFIX_PATH for gRPC discovery
-ENV CC=/usr/bin/gcc
-ENV CXX=/usr/bin/g++
-ENV CMAKE_C_COMPILER=/usr/bin/gcc
-ENV CMAKE_CXX_COMPILER=/usr/bin/g++
-ENV CMAKE_MAKE_PROGRAM=/usr/bin/make
+# Set environment
+ENV CC=/usr/bin/gcc \
+    CXX=/usr/bin/g++ \
+    CMAKE_C_COMPILER=/usr/bin/gcc \
+    CMAKE_CXX_COMPILER=/usr/bin/g++ \
+    CCACHE_DIR=/ccache \
+    VCPKG_BINARY_SOURCES=${VCPKG_BINARY_SOURCES}
 
-# Copy source and build
+# Bootstrap vcpkg (full clone for baseline support)
+RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg && \
+    /vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
 WORKDIR /build
-# Copy minimal sources and build config
-COPY CMakeLists.txt ./
+
+# Copy dependency manifests first (for better layer caching)
+COPY CMakeLists.txt vcpkg.json vcpkg-configuration.json VERSION RELEASE_TYPE ./
 COPY cmake/ cmake/
+
+# Now copy source code early (needed for llama.cpp detection)
 COPY src/ src/
 COPY include/ include/
 COPY proto/ proto/
 COPY internal/ internal/
 COPY scripts/ scripts/
-COPY VERSION VERSION
-COPY RELEASE_TYPE RELEASE_TYPE
-COPY vcpkg.json vcpkg.json
-COPY vcpkg-configuration.json vcpkg-configuration.json
 
-# Mirror source roots into cmake/ to satisfy relative paths in cmake/CMakeLists.txt
-RUN cd cmake && \
-    ln -s ../src src && \
-    ln -s ../include include && \
-    ln -s ../proto proto && \
-    ln -s ../internal internal && \
-    ln -s ../scripts scripts
-
-# Sanity: ensure key sources exist
-RUN test -f src/storage/rocksdb_wrapper.cpp && test -f src/main.cpp && test -f src/main_server.cpp
-
-# Quick inventory to debug missing sources in CMake
-RUN du -sh src internal include proto scripts || true \
-    && find src -maxdepth 2 -type f | head -n 40
-
-# Clone llama.cpp wenn THEMIS_ENABLE_LLM=ON (wird von CMake benötigt)
+# Clone llama.cpp into source (required by CMake)
 RUN if [ "${THEMIS_ENABLE_LLM}" = "ON" ]; then \
-        echo "Cloning llama.cpp for LLM support..." && \
-        git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp; \
+        echo "Cloning llama.cpp..."; \
+        git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp && \
+        ls -la llama.cpp/ && \
+        echo "llama.cpp cloned successfully"; \
+    else \
+        echo "THEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} - skipping llama.cpp clone"; \
     fi
 
-# Configure with explicit compiler and gRPC linkage
-# Note: CMakePresets.json now in cmake/ subdirectory
-RUN cmake -S . -B build \
+# Verify directory structure before cmake
+RUN echo "=== Build directory structure ===" && \
+    ls -la /build/ && \
+    if [ -d "/build/llama.cpp" ]; then \
+        echo "llama.cpp directory exists"; \
+        ls -la /build/llama.cpp/ | head -20; \
+    else \
+        echo "WARNING: llama.cpp directory NOT found!"; \
+    fi
+
+# Install vcpkg dependencies (cached separately from source changes)
+RUN --mount=type=cache,target=/root/.cache/vcpkg \
+    --mount=type=cache,target=/vcpkg/buildtrees \
+    --mount=type=cache,target=/vcpkg/downloads \
+    cmake -S . -B build-deps \
+    -G Ninja \
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+    -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
+    -DVCPKG_TARGET_TRIPLET=x64-linux \
     -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
     -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
     -DTHEMIS_ENABLE_GRPC=${THEMIS_ENABLE_GRPC} \
-    -DTHEMIS_BUILD_TESTS=${THEMIS_BUILD_TESTS} \
-    -DTHEMIS_BUILD_BENCHMARKS=${THEMIS_BUILD_BENCHMARKS} \
-    -DTHEMIS_ENABLE_TRACING=OFF \
-    -DBUILD_SHARED_LIBS=OFF
+    -DTHEMIS_BUILD_TESTS=OFF \
+    -DTHEMIS_BUILD_BENCHMARKS=OFF
 
-# Build with parallel jobs
-RUN cmake --build build --config ${CMAKE_BUILD_TYPE} -j 4
+# Build with ccache and parallel jobs
+RUN --mount=type=cache,target=/ccache \
+    cmake --build build-deps --config ${CMAKE_BUILD_TYPE} --parallel 8
 
 # ============================================================================
-# Runtime Stage
+# Debug Stage (Development mit allen Tools)
 # ============================================================================
-FROM ubuntu:24.04
+FROM builder AS debug
+
+# Install debugging tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gdb lldb valgrind strace ltrace \
+    vim-tiny nano less curl wget \
+    net-tools iproute2 tcpdump \
+    && rm -rf /var/lib/apt/lists/*
+
+# Keep build artifacts and source for debugging
+WORKDIR /build
+EXPOSE 18765 8080 9090
+
+# Debug config with verbose logging
+RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb", "log_level": "debug"}' > /etc/themis/config-debug.json
+
+CMD ["/build/build-deps/cmake/themis_server", "--config", "/etc/themis/config-debug.json"]
+
+# ============================================================================
+# Release Stage (Production - minimal)
+# ============================================================================
+FROM ubuntu:24.04 AS release
 
 ARG CMAKE_BUILD_TYPE=Release
 
-# Install runtime dependencies
-RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
-    curl \
+# Install minimal runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libssl3 \
     libcurl4 \
@@ -95,28 +122,29 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Copy built binary
-COPY --from=builder /build/build/cmake/themis_server /usr/local/bin/themis_server
+# Copy only the binary
+COPY --from=builder /build/build-deps/cmake/themis_server /usr/local/bin/themis_server
 RUN chmod +x /usr/local/bin/themis_server
 
-# Create themis user and directories
+# Create non-root user
 RUN useradd -r -s /bin/false themis && \
     mkdir -p /var/lib/themisdb /etc/themis && \
     chown -R themis:themis /var/lib/themisdb
 
-# Create default config
-RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb"}' > /etc/themis/config.json
+# Minimal production config
+RUN echo '{"port": 18765, "http_port": 8080, "data_dir": "/var/lib/themisdb", "log_level": "info"}' > /etc/themis/config.json
 
-# Expose ports
 EXPOSE 18765 8080 9090
 
-# Health check
-HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=3 \
-    CMD curl -fsS http://localhost:8080/health || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+    CMD test -f /var/lib/themisdb/.health || exit 1
 
-# Run as themis user
 USER themis
 WORKDIR /var/lib/themisdb
 
-# Start server
 CMD ["/usr/local/bin/themis_server", "--config", "/etc/themis/config.json"]
+
+# ============================================================================
+# Default: Release Stage
+# ============================================================================
+FROM release

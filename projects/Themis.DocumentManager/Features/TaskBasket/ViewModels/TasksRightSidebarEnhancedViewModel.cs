@@ -176,14 +176,13 @@ public partial class TasksRightSidebarEnhancedViewModel : ObservableObject
         {
             foreach (var task in tasks.Where(t => t.DueDate.HasValue))
             {
-                await _timelineService.AddEventAsync(new Models.TimelineEvent
+                await _timelineService.CreateEventAsync(new Models.TimelineEvent
                 {
                     Id = $"task-{task.Id}",
-                    Title = task.Title,
-                    Description = task.Description,
+                    DocumentId = task.Id,
+                    Description = $"{task.Title} - {task.Description}",
                     Timestamp = task.DueDate!.Value,
-                    Category = $"Task-{task.Priority}",
-                    Type = "task-deadline",
+                    EventType = "task-deadline",
                     Metadata = new Dictionary<string, object>
                     {
                         { "taskId", task.Id },
@@ -245,7 +244,7 @@ public partial class TasksRightSidebarEnhancedViewModel : ObservableObject
 
 Provide a brief, actionable suggestion (max 100 words) on which tasks to focus on first and why.";
 
-            var response = await _ollamaService.GenerateAsync(prompt, "llama3.2", temperature: 0.3);
+            var response = await _ollamaService.ChatAsync(prompt, "llama3.2");
             
             if (!string.IsNullOrEmpty(response))
             {
@@ -374,16 +373,21 @@ Provide a brief, actionable suggestion (max 100 words) on which tasks to focus o
         
         task.Status = Application.Tasks.Queries.GetMyTasks.TaskStatus.Completed;
         
-        // ThemisDB Enhancement: Update timeline event
+        // ThemisDB Enhancement: Create timeline completion event
         if (_timelineService != null && task.DueDate.HasValue)
         {
-            await _timelineService.UpdateEventAsync($"task-{task.Id}", new Models.TimelineEvent
+            await _timelineService.CreateEventAsync(new Models.TimelineEvent
             {
-                Id = $"task-{task.Id}",
-                Title = $"✓ {task.Title}",
+                Id = $"task-completed-{task.Id}-{DateTime.Now.Ticks}",
+                DocumentId = task.Id,
+                Description = $"✓ {task.Title} - Completed",
                 Timestamp = DateTime.Now,
-                Category = "Task-Completed",
-                Type = "task-completion"
+                EventType = "task-completion",
+                Metadata = new Dictionary<string, object>
+                {
+                    { "taskId", task.Id },
+                    { "completedAt", DateTime.Now }
+                }
             });
         }
 
@@ -436,7 +440,7 @@ Provide:
 
 Keep response concise (max 150 words).";
 
-            var summary = await _ollamaService.GenerateAsync(prompt, "llama3.2", temperature: 0.5);
+            var summary = await _ollamaService.ChatAsync(prompt, "llama3.2");
             
             if (!string.IsNullOrEmpty(summary))
             {

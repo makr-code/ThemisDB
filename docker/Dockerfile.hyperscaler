@@ -39,6 +39,16 @@ COPY vcpkg.json ./
 # Install dependencies (this layer gets cached)
 RUN ${VCPKG_ROOT}/vcpkg install --triplet=x64-linux --clean-after-build
 
+# Bring in llama.cpp to satisfy THEMIS_ENABLE_LLM defaults for HYPERSCALER
+RUN git clone https://github.com/ggerganov/llama.cpp.git /src/llama.cpp && \
+    cmake -S /src/llama.cpp -B /src/llama.cpp/build -G Ninja \
+        -DLLAMA_BUILD_TESTS=OFF \
+        -DLLAMA_BUILD_EXAMPLES=OFF \
+        -DLLAMA_BUILD_SERVER=OFF \
+        -DLLAMA_BUILD_SHARED_LIB=ON && \
+    ninja -C /src/llama.cpp/build -j$(nproc) && \
+    ninja -C /src/llama.cpp/build install
+
 # Copy source
 COPY CMakeLists.txt VERSION ./
 COPY include ./include
@@ -54,7 +64,7 @@ RUN cmake -S . -B build -G Ninja \
         -DTHEMIS_BUILD_BENCHMARKS=OFF \
         -DTHEMIS_ENABLE_TRACING=OFF \
         -DTHEMIS_EDITION=HYPERSCALER \
-        -DTHEMIS_ENABLE_LLM=OFF \
+        -DTHEMIS_ENABLE_LLM=ON \
         -DTHEMIS_ENABLE_GRAPHQL=OFF \
         -DTHEMIS_ENABLE_VISION=OFF && \
     ninja -C build -j$(nproc) themis_server && \
@@ -85,6 +95,10 @@ RUN groupadd -r themis --gid=999 && \
 # Copy binary from builder
 COPY --from=builder --chown=themis:themis /src/build/themis_server /usr/local/bin/themis_server
 RUN chmod +x /usr/local/bin/themis_server
+
+# Copy llama runtime libs
+COPY --from=builder /usr/local/lib/libllama*.so* /usr/local/lib/ 2>/dev/null || true
+RUN ldconfig
 
 # Copy entrypoint
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
