@@ -3044,10 +3044,16 @@ http::response<http::string_body> HttpServer::handleHealthCheck(
     // Add license information if available
     auto license = themis::license::getEmbeddedLicense();
     if (license) {
+        // Mask license key for security (show only first 8 chars)
+        std::string masked_key = license->license_key;
+        if (masked_key.length() > 8) {
+            masked_key = masked_key.substr(0, 8) + "...";
+        }
+        
         response["license"] = {
             {"organization", license->organization_name},
             {"edition", license->edition},
-            {"license_key", license->license_key},
+            {"license_key", masked_key},  // Masked for security
             {"valid", themis::license::isLicenseValid(*license)},
             {"days_until_expiry", themis::license::getDaysUntilExpiry(*license)}
         };

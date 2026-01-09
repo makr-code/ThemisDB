@@ -8,9 +8,18 @@
 #include <sstream>
 #include <iomanip>
 #include <ctime>
+#include <chrono>
 
 namespace themis {
 namespace license {
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+// Magic values for license expiry calculation
+constexpr int PERPETUAL_LICENSE_DAYS = 999999;
+constexpr int INVALID_LICENSE_DAYS = -999999;
 
 // ============================================================================
 // COMPILE-TIME LICENSE DATA (Injected by CMake)
@@ -195,7 +204,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
     // Parse expiry date (ISO 8601 format: YYYY-MM-DD)
     if (license.expiry_date.empty() || license.expiry_date == "9999-12-31") {
         // No expiry or perpetual license
-        return 999999;
+        return PERPETUAL_LICENSE_DAYS;
     }
     
     try {
@@ -205,13 +214,20 @@ int getDaysUntilExpiry(const LicenseData& license) {
         
         if (ss.fail()) {
             // Invalid date format, assume expired
-            return -999999;
+            return INVALID_LICENSE_DAYS;
         }
         
-        // Get current time
+        // Get current time (thread-safe)
         auto now = std::chrono::system_clock::now();
         std::time_t now_t = std::chrono::system_clock::to_time_t(now);
-        std::tm now_tm = *std::localtime(&now_t);
+        
+        // Use gmtime for thread-safe conversion (UTC)
+        std::tm now_tm = {};
+#ifdef _WIN32
+        gmtime_s(&now_tm, &now_t);
+#else
+        gmtime_r(&now_t, &now_tm);
+#endif
         
         // Convert to time_t for comparison
         std::time_t expiry_t = std::mktime(&expiry_tm);
@@ -224,7 +240,7 @@ int getDaysUntilExpiry(const LicenseData& license) {
         return diff_days;
     } catch (...) {
         // Error parsing date, assume expired
-        return -999999;
+        return INVALID_LICENSE_DAYS;
     }
 }
 
@@ -235,12 +251,19 @@ bool verifyLicenseSignature(const LicenseData& license) {
     }
     
     // TODO: Implement actual signature verification using RSA/SHA-256
-    // For now, we just check if signature is present and non-empty
-    // A real implementation would:
+    // SECURITY WARNING: This is a placeholder implementation!
+    // For production use, implement proper RSA signature verification:
     // 1. Construct the data to sign (license_key + org + dates + limits)
     // 2. Verify RSA signature using public key embedded in binary
     // 3. Return true if signature matches
+    //
+    // Example implementation:
+    // std::string data_to_verify = license.license_key + license.organization_name +
+    //                               license.issued_date + license.expiry_date;
+    // return verify_rsa_signature(data_to_verify, license.signature, PUBLIC_KEY);
     
+    // PLACEHOLDER: For now, just check if signature is present
+    // This does NOT provide real security - implement proper verification!
     return !license.signature.empty();
 }
 

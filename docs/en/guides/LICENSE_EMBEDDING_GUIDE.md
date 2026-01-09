@@ -41,7 +41,7 @@ Die Lizenzdaten werden als JSON-Datei bereitgestellt:
 }
 ```
 
-### Feldbesch reibungen / Field Descriptions
+### Feldbeschreibungen / Field Descriptions
 
 | Feld / Field | Typ / Type | Beschreibung / Description |
 |--------------|------------|----------------------------|
