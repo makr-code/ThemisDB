@@ -87,7 +87,7 @@ flowchart TD
     A[Client Request] --> B{Supports HTTP/3?}
     B -->|Ja| C[Connect via QUIC]
     B -->|Nein| D[Fallback HTTP/2]
-    C --> E{Loss > 5%?}
+    C --> E{Loss > 5 percent?}
     E -->|Ja| D
     E -->|Nein| F[Continue HTTP/3]
     style C fill:#e1f5ff

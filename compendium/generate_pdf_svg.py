@@ -23,7 +23,7 @@ from datetime import datetime
 
 # Configuration
 COMPENDIUM_DIR = Path(__file__).parent
-PDF_OUTPUT_DIR = COMPENDIUM_DIR / ".." / ".." / "pdf_output"
+PDF_OUTPUT_DIR = COMPENDIUM_DIR.parent.parent / "pdf_output"
 SVG_OUTPUT_DIR = PDF_OUTPUT_DIR / "mermaid_svg"
 CHAPTER_FILES = sorted(COMPENDIUM_DIR.glob("chapter_*.md"))
 
@@ -36,17 +36,23 @@ def extract_mermaid_blocks(content):
 def mermaid_to_svg(mermaid_code, output_path):
     """Convert Mermaid code to SVG using mermaid-cli."""
     try:
-        # Create temporary mermaid file
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.mmd', delete=False) as f:
+        # Create temporary mermaid file with UTF-8 encoding
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.mmd', delete=False, encoding='utf-8') as f:
             f.write(mermaid_code)
             mmd_file = f.name
         
-        # Run mmdc (mermaid-cli) to convert to SVG
+        # Determine mmdc command - handle both Windows and Unix
+        mmdc_cmd = 'mmdc'
+        if os.name == 'nt':  # Windows
+            mmdc_cmd = 'mmdc.cmd'
+        
+        # Run mmdc (mermaid-cli) to convert to SVG with longer timeout
         result = subprocess.run(
-            ['mmdc', '-i', mmd_file, '-o', str(output_path), '-b', 'transparent'],
+            [mmdc_cmd, '-i', mmd_file, '-o', str(output_path), '-b', 'transparent'],
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=60,  # Increased from 30 to 60 seconds
+            shell=True
         )
         
         # Clean up temp file
@@ -112,15 +118,16 @@ def generate_pdf_with_svg(theme='material'):
     
     # Check if mmdc is available
     try:
-        subprocess.run(['mmdc', '--version'], capture_output=True, check=True)
+        mmdc_cmd = 'mmdc.cmd' if os.name == 'nt' else 'mmdc'
+        subprocess.run([mmdc_cmd, '--version'], capture_output=True, check=True, shell=True)
     except (FileNotFoundError, subprocess.CalledProcessError):
-        print("\n❌ Error: mermaid-cli (mmdc) not found!")
+        print("\nERROR: mermaid-cli (mmdc) not found!")
         print("   Install with: npm install -g @mermaid-js/mermaid-cli")
         print("   This will download Chromium (~400 MB) on first run.")
         return
     
     # Process all chapter files
-    print("\n📊 Converting Mermaid diagrams to SVG...")
+    print("\n[INFO] Converting Mermaid diagrams to SVG...")
     print("-" * 60)
     
     temp_dir = tempfile.mkdtemp()
@@ -177,16 +184,16 @@ def generate_pdf_with_svg(theme='material'):
             f.write(pdf)
         
         file_size_mb = pdf_path.stat().st_size / (1024 * 1024)
-        print(f"\n✅ PDF successfully generated!")
+        print(f"\n[SUCCESS] PDF successfully generated!")
         print(f"   Output: {pdf_path}")
         print(f"   Size: {file_size_mb:.2f} MB")
         print(f"   SVG diagrams: {len(list(SVG_OUTPUT_DIR.glob('*.svg')))}")
         
     except ImportError as e:
-        print(f"\n❌ Error: Missing Python package: {e}")
+        print(f"\n[ERROR] Missing Python package: {e}")
         print("   Install with: pip install weasyprint markdown pymdown-extensions")
     except Exception as e:
-        print(f"\n❌ Error generating PDF: {e}")
+        print(f"\n[ERROR] Error generating PDF: {e}")
     finally:
         # Cleanup temp files
         import shutil

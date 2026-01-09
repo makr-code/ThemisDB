@@ -78,11 +78,11 @@ graph TB
     subgraph "Installation Options"
         Choice{Choose Installation Method}
         
-        Choice -->|Fastest & Easiest| Docker[Docker Install<br/>✅ Works out-of-box<br/>✅ Cross-platform<br/>⚡ 5 minutes]
+        Choice -->|Fastest & Easiest| Docker[Docker Install<br/>[OK] Works out-of-box<br/>[OK] Cross-platform<br/>⚡ 5 minutes]
         
-        Choice -->|Pre-built| Binary[Binary Install<br/>✅ No compilation<br/>✅ Native performance<br/>⚡ 10 minutes]
+        Choice -->|Pre-built| Binary[Binary Install<br/>[OK] No compilation<br/>[OK] Native performance<br/>⚡ 10 minutes]
         
-        Choice -->|Full Control| Source[Source Build<br/>✅ Custom config<br/>✅ Latest features<br/>⏱️ 30-60 minutes]
+        Choice -->|Full Control| Source[Source Build<br/>[OK] Custom config<br/>[OK] Latest features<br/>⏱️ 30-60 minutes]
         
         Docker --> Run1[docker run themisdb]
         Binary --> Run2[./themisdb-server]

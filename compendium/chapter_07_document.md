@@ -101,8 +101,8 @@ graph TB
         Doc[Single Document; title, content, comments[], tags[]]
     end
     
-    Pro1[✅ Self-contained<br/>✅ Single read<br/>✅ No JOINs<br/>✅ Flexible schema]
-    Pro2[✅ Data integrity<br/>✅ No duplication<br/>✅ Normalized<br/>✅ ACID across tables]
+    Pro1[[OK] Self-contained<br/>[OK] Single read<br/>[OK] No JOINs<br/>[OK] Flexible schema]
+    Pro2[[OK] Data integrity<br/>[OK] No duplication<br/>[OK] Normalized<br/>[OK] ACID across tables]
     
     Doc --> Pro1
     Art --> Pro2

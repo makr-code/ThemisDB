@@ -74,9 +74,9 @@ graph TB
         end
     end
     
-    Iso1[✅ Max Isolation<br/>❌ High overhead] -.-> T1DB
-    Iso2[✅ Balance<br/>✅ Efficient] -.-> SharedDB
-    Iso3[✅ Automatic<br/>✅ Secure] -.-> RLSDB
+    Iso1[[OK] Max Isolation<br/>[ERROR] High overhead] -.-> T1DB
+    Iso2[[OK] Balance<br/>[OK] Efficient] -.-> SharedDB
+    Iso3[[OK] Automatic<br/>[OK] Secure] -.-> RLSDB
     
     style T1DB fill:#667eea
     style T2DB fill:#667eea

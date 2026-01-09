@@ -36,7 +36,7 @@ D.h. eine Chat-Anfrage über Veritas kann über das Agentensystem aus verschiede
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f9f9f9', 'primaryBorderColor': '#7c4dff', 'primaryTextColor': '#1a1a1a', 'lineColor': '#ddd', 'secondaryColor': '#f5f5f5', 'fontSize': '14px', 'fontFamily': 'Georgia, serif'}, 'flowchart': {'htmlLabels': true}}}%%
 graph LR
-    Eingang["<b>Antragseingang</b><br/>Bürger → Bauaufsicht"] --> Sachbearbeitung["<b>Sachbearbeitung</b><br/>Vollständigkeit · Fachbeteiligungen"]
+    Eingang["<b>Antragseingang</b><br/>Bürger -> Bauaufsicht"] --> Sachbearbeitung["<b>Sachbearbeitung</b><br/>Vollständigkeit · Fachbeteiligungen"]
     Sachbearbeitung --> Entscheidung["<b>Entscheidung</b><br/>Genehmigung / Ablehnung"]
 
     style Eingang fill:#f5f5f5,stroke:#7c4dff,stroke-width:2px,color:#1a1a1a
@@ -415,7 +415,7 @@ graph TD
 %%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f9f9f9', 'primaryBorderColor': '#7c4dff', 'primaryTextColor': '#1a1a1a', 'lineColor': '#ddd', 'fontSize': '14px', 'fontFamily': 'Georgia, serif'}, 'quadrantChart': {'pointRadius': 8, 'chartWidth': 600, 'chartHeight': 500, 'quadrant1Fill': '#f5f5f5', 'quadrant2Fill': '#fff', 'quadrant3Fill': '#f5f5f5', 'quadrant4Fill': '#f9f9f9'}}%%
 quadrantChart
     title Marktpositionierung: Hyperscaler vs Sovereign Data
-    x-axis Vendor Lock-in --> Volle Sovränität
+    x-axis Vendor Lock-in --> Volle Souveraenitaet
     y-axis Eventual Consistency --> ACID Garantie
     
     Hyperscaler: 0.15, 0.25
@@ -423,11 +423,6 @@ quadrantChart
 ```
 
 <figcaption><b>Abb. 0.5:</b> Marktpositionierung: ThemisDB im Quadrant der hohen Datensouveränität und strikten ACID-Garantien vs. Hyperscaler-Modelle</figcaption>
-</figure> x-axis Vendor Lock-in --> Volle Sovränität
-    y-axis Eventual Consistency --> ACID Garantie
-    
-    Hyperscaler: 0.15, 0.25
-    ThemisDB: 0.9, 0.95
 ```
 
 ### Roadmap: Die nächsten Schritte

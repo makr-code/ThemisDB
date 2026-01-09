@@ -1437,7 +1437,7 @@ sequenceDiagram
     LLM-->>ThemisDB: Response
     ThemisDB-->>Client: Response (45ms total)
     
-    Note over Client,LLM: 95% Latency Reduction, 75% Cost Savings
+    Note over Client,LLM: 95 percent Latency Reduction, 75 percent Cost Savings
 ```
 
 **Diagramm-Erklärung:**
@@ -1506,19 +1506,19 @@ Response Caching speichert LLM-Antworten und verwendet Embedding-basierte Ähnli
 ```mermaid
 graph TB
     subgraph "Response Caching Flow"
-        Q1[Neue Anfrage:<br/>'Wie installiere ich ThemisDB?'] --> E1[Embedding<br/>Generierung]
-        E1 --> V1[Vector<br/>[0.12, -0.34, ...]]
-        V1 --> S1{Similarity<br/>Search<br/>threshold=0.92}
+        Q1["Neue Anfrage: Wie installiere ich ThemisDB?"] --> E1["Embedding Generierung"]
+        E1 --> V1["Vector 0.12 -0.34"]
+        V1 --> S1{"Similarity Search threshold=0.92"}
         
-        S1 -->|Match Found<br/>similarity=0.95| C1[Cached Response:<br/>'Führe npm install aus...']
-        S1 -->|No Match<br/>similarity<0.92| L1[LLM Call<br/>GPT-4]
+        S1 -->|Match Found similarity=0.95| C1["Cached Response: Führe npm install aus"]
+        S1 -->|No Match similarity less than 0.92| L1["LLM Call GPT-4"]
         
-        L1 --> R1[New Response:<br/>'Führe npm install aus...']
-        R1 --> Store[Store in Cache<br/>+ Embedding<br/>+ TTL: 7 days]
-        Store --> Return1[Return Response]
-        C1 --> Return2[Return Cached<br/>60-80% cost saved]
+        L1 --> R1["New Response: Führe npm install aus"]
+        R1 --> Store["Store in Cache Embedding TTL: 7 days"]
+        Store --> Return1["Return Response"]
+        C1 --> Return2["Return Cached 60-80 percent cost saved"]
         
-        Q2[Ähnliche Anfrage:<br/>'ThemisDB Installation?'] -.->|96% similar| S1
+        Q2["Ähnliche Anfrage: ThemisDB Installation?"] -.->|96 percent similar| S1
     end
     
     style C1 fill:#43e97b
@@ -1943,7 +1943,7 @@ LET response = PROMPT('llama-70b-local',
 graph LR
     subgraph "Traditioneller Ansatz"
         P1[Prompt:<br/>'Return JSON'] --> L1[LLM<br/>Generation]
-        L1 --> O1[Output:<br/>invalid JSON<br/>60-70% valid]
+        L1 --> O1[Output:<br/>invalid JSON<br/>60-70 percent valid]
         O1 --> V1{Validate}
         V1 -->|Invalid| Retry[Retry with<br/>error message]
         Retry --> L1
@@ -1952,7 +1952,7 @@ graph LR
     
     subgraph "Grammar-Constrained"
         P2[Prompt +<br/>Grammar Rules] --> L2[LLM<br/>with Grammar]
-        L2 --> O2[Output:<br/>guaranteed valid<br/>95-99% valid]
+        L2 --> O2[Output:<br/>guaranteed valid<br/>95-99 percent valid]
         O2 --> Result2[Use Data]
     end
     

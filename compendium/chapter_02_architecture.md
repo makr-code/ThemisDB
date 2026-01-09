@@ -156,7 +156,7 @@ sequenceDiagram
     
     T2->>MVCC: UPDATE(row_id, age=30)
     T2->>MVCC: COMMIT
-    Note over MVCC: ❌ Conflict Detection!
+    Note over MVCC: [ERROR] Conflict Detection!
     MVCC--xT2: ERROR: Write-Write Conflict
 ```
 

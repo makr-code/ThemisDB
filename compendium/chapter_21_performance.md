@@ -41,7 +41,7 @@ flowchart TD
     Plan --> SeqScan[Sequential Scan<br/>orders table<br/>45ms]
     Plan --> IdxScan[Index Scan<br/>customers<br/>15ms]
     
-    SeqScan --> Filter[Filter: date > 2023<br/>10,000 → 5,000 rows]
+    SeqScan --> Filter[Filter: date > 2023<br/>10,000 -> 5,000 rows]
     IdxScan --> Hash[Build Hash Table<br/>25ms]
     
     Filter --> Join[Hash Join<br/>5,000 matches<br/>85ms]
@@ -885,7 +885,7 @@ sequenceDiagram
     Client->>Draft: Generate K tokens
     Draft-->>Draft: Generiere 5 Tokens<br/>spekulativ
     Draft->>Target: Validate all 5 tokens
-    Target-->>Target: Prüfe Token 1: ✓<br/>Token 2: ✓<br/>Token 3: ✗
+    Target-->>Target: Prüfe Token 1: [OK]<br/>Token 2: [OK]<br/>Token 3: ✗
     Target->>Client: Accept 2, reject rest
     
     Note over Client,Target: 2-3x schneller als<br/>sequential decoding

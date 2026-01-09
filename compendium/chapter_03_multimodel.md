@@ -211,10 +211,10 @@ quadrantChart
     title Datenmodell-Entscheidungsmatrix
     x-axis Flexible Struktur --> Feste Struktur
     y-axis Daten-fokussiert --> Beziehungs-fokussiert
-    quadrant-1 Relational: Geschaeftsdaten; ACID kritisch; BI und Reporting
-    quadrant-2 Graph: Social Networks; Empfehlungen; Fraud Detection
-    quadrant-3 Dokument: CMS; Prototyping; Logs und Events
-    quadrant-4 Vektor: Semantic Search; ML und AI; Similarity
+    quadrant-1 Relational - ACID Geschaeftsdaten
+    quadrant-2 Graph - Empfehlungen und Analysen
+    quadrant-3 Dokument - CMS und Logs
+    quadrant-4 Vektor - Semantic Search AI
 ```
 
 ```mermaid

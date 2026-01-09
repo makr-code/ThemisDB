@@ -125,9 +125,9 @@ sequenceDiagram
     
     CDC->>RDB: WriteBatch {<br/>  Base Entity Updates<br/>  CDC Event #42<br/>  CDC Event #43<br/>}
     
-    RDB-->>CDC: ✓ ATOMIC COMMIT
-    CDC-->>TM: ✓ Events persistent
-    TM-->>App: ✓ COMMIT erfolreich
+    RDB-->>CDC: [OK] ATOMIC COMMIT
+    CDC-->>TM: [OK] Events persistent
+    TM-->>App: [OK] COMMIT erfolreich
     
     Note over RDB: ALLE Änderungen atomar:<br/>Base Entities + CDC Events
 ```

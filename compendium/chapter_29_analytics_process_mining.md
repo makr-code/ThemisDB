@@ -433,7 +433,7 @@ flowchart TB
     end
     
     I1 -.Match.-> R1
-    I2 -.Missing!.-> X[❌]
+    I2 -.Missing!.-> X[[ERROR]]
     I3 -.Match.-> R3
     I4 -.Match.-> R4
     

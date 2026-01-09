@@ -704,28 +704,28 @@ Das System nutzt einen **Hybrid-Ansatz** für die Erkennung ethischer Implikatio
 
 ```mermaid
 flowchart TD
-    Start([User Query]) --> Keywords{Keyword-basierte<br/>Erkennung<br/>schnell, O(n)}
+    Start(["User Query"]) --> Keywords{"Keyword-basierte<br/>Erkennung<br/>schnell O(n)"}
     
-    Keywords -->|Ethische Keywords<br/>gefunden| Detected[Direkt erkannt<br/>Confidence: hoch]
-    Keywords -->|Keine Keywords| LLM{LLM-as-Judge<br/>aktiviert?}
+    Keywords -->|Ethische Keywords<br/>gefunden| Detected["Direkt erkannt<br/>Confidence: hoch"]
+    Keywords -->|Keine Keywords| LLM{"LLM-as-Judge<br/>aktiviert?"}
     
-    LLM -->|Nein| NoContext[Kein ethischer<br/>Kontext erkannt]
-    LLM -->|Ja| Judge[LLM-as-Ethical-Judge<br/>Analyse]
+    LLM -->|Nein| NoContext["Kein ethischer<br/>Kontext erkannt"]
+    LLM -->|Ja| Judge["LLM-as-Ethical-Judge<br/>Analyse"]
     
-    Judge --> Analysis[Analysiert:<br/>• Implizite Fragen<br/>• Machtdynamiken<br/>• Schadenspotential<br/>• Rechtekonflikte<br/>• Kulturelle Sensitivität]
+    Judge --> Analysis["Analysiert:<br/>Implizite Fragen<br/>Machtdynamiken<br/>Schadenspotential<br/>Rechtekonflikte<br/>Kulturelle Sensitivitaet"]
     
-    Analysis --> JudgeResult{Ethischer<br/>Kontext?}
+    Analysis --> JudgeResult{"Ethischer<br/>Kontext?"}
     JudgeResult -->|Ja| Detected
     JudgeResult -->|Nein| NoContext
     
-    Detected --> Augment[Prompt Augmentation<br/>mit ethischen Richtlinien]
-    NoContext --> DefaultAug[Optional: Default<br/>Augmentation]
+    Detected --> Augment["Prompt Augmentation<br/>mit ethischen Richtlinien"]
+    NoContext --> DefaultAug["Optional: Default<br/>Augmentation"]
     
-    Augment --> LLMGen[LLM generiert Antwort<br/>mit ethischen Guidelines]
+    Augment --> LLMGen["LLM generiert Antwort<br/>mit ethischen Guidelines"]
     DefaultAug --> LLMGen
     
-    LLMGen --> Response[Response Augmentation<br/>mit Disclaimer]
-    Response --> End([Finale Antwort an User])
+    LLMGen --> Response["Response Augmentation<br/>mit Disclaimer"]
+    Response --> End(["Finale Antwort an User"])
     
     style Keywords fill:#fff9c4
     style Judge fill:#e1bee7
@@ -896,7 +896,7 @@ flowchart TB
     Flag -->|Ja| Filter[Dokument filtern oder<br/>mit Warnung versehen]
     Flag -->|Nein| Pass[Dokument zulässig]
     
-    Filter --> Augment[Query + Docs → LLM<br/>mit ethischen Guidelines]
+    Filter --> Augment[Query + Docs -> LLM<br/>mit ethischen Guidelines]
     Pass --> Augment
     
     Augment --> Response[Antwort mit:<br/>• Multiple Perspektiven<br/>• Quellennachweis<br/>• Disclaimer]
@@ -1052,15 +1052,15 @@ graph TB
     A --> D[Domain Metrics]
     
     B --> B1[Total Detections: 1,247]
-    B --> B2[Keyword-based: 892 71%]
-    B --> B3[LLM-Judge: 355 29%]
+    B --> B2[Keyword-based: 892 71 percent]
+    B --> B3[LLM-Judge: 355 29 percent]
     B --> B4[Average Confidence: 0.82]
     
     C --> C1[Prompts Augmented: 1,180]
-    C --> C2[default: 520 44%]
-    C --> C3[moral_imperatives: 280 24%]
-    C --> C4[high_autonomy: 240 20%]
-    C --> C5[administrative: 140 12%]
+    C --> C2[default: 520 44 percent]
+    C --> C3[moral_imperatives: 280 24 percent]
+    C --> C4[high_autonomy: 240 20 percent]
+    C --> C5[administrative: 140 12 percent]
     
     D --> D1[medical: 180]
     D --> D2[legal: 120]
@@ -1106,7 +1106,7 @@ Das System basiert auf aktueller Forschung und ist für zukünftige Erweiterunge
 ```mermaid
 timeline
     title Ethische KI Roadmap - ThemisDB
-    section Phase 1 - Q1 2026 ✅
+    section Phase 1 - Q1 2026 [OK]
         Foundation : UN Human Rights
                    : Asimov's Laws adapted
                    : Keyword Detection

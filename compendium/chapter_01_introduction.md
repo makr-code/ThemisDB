@@ -118,15 +118,15 @@ sequenceDiagram
     Note over App: Lösche Benutzer ID=123
     
     App->>PG: DELETE FROM users WHERE id=123
-    PG-->>App: ✓ Erfolg
+    PG-->>App: [OK] Erfolg
     
     App->>N4: MATCH (u:User {id:123}) DETACH DELETE u
-    N4-->>App: ✓ Erfolg
+    N4-->>App: [OK] Erfolg
     
     App->>CD: delete(collection="user_embeddings", ids=["123"])
     CD--xApp: ✗ Fehler (Netzwerkproblem)
     
-    Note over App,CD: ❌ INKONSISTENTER ZUSTAND!<br/>User aus PG & Neo4j gelöscht,<br/>aber Vektoren existieren noch
+    Note over App,CD: [ERROR] INKONSISTENTER ZUSTAND!<br/>User aus PG & Neo4j gelöscht,<br/>aber Vektoren existieren noch
     
     rect rgb(255, 200, 200)
     Note over App: Rollback? UNMÖGLICH!<br/>PostgreSQL & Neo4j kennen sich nicht

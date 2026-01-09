@@ -73,18 +73,18 @@ Ein einzelner ThemisDB-Server kann beeindruckende Mengen an Daten handhaben:
 ```mermaid
 graph TB
     subgraph "Replication - Read Scaling"
-        Client1[Client] --> Primary1[(Primary<br/>100% Data)]
-        Primary1 -.sync.-> Replica1A[(Replica 1<br/>100% Data)]
-        Primary1 -.sync.-> Replica1B[(Replica 2<br/>100% Data)]
+        Client1[Client] --> Primary1[(Primary<br/>100 percent Data)]
+        Primary1 -.sync.-> Replica1A[(Replica 1<br/>100 percent Data)]
+        Primary1 -.sync.-> Replica1B[(Replica 2<br/>100 percent Data)]
         Client1 -.read.-> Replica1A
         Client1 -.read.-> Replica1B
     end
     
     subgraph "Sharding - Full Scaling"
         Client2[Client] --> Router[Shard Router<br/>Hash-based]
-        Router --> Shard1[(Shard 1<br/>33% Data)]
-        Router --> Shard2[(Shard 2<br/>33% Data)]
-        Router --> Shard3[(Shard 3<br/>34% Data)]
+        Router --> Shard1[(Shard 1<br/>33 percent Data)]
+        Router --> Shard2[(Shard 2<br/>33 percent Data)]
+        Router --> Shard3[(Shard 3<br/>34 percent Data)]
     end
     
     style Primary1 fill:#667eea
@@ -148,13 +148,13 @@ sequenceDiagram
     participant S3 as Shard 3
     
     Client->>Router: INSERT user_12345 {data}
-    Note over Router: MurmurHash3("user_12345")<br/>= 3847592834<br/>3847592834 % 3 = 2
+    Note over Router: MurmurHash3("user_12345")<br/>= 3847592834<br/>3847592834 mod 3 = 2
     Router->>S2: INSERT {data}
-    S2-->>Router: ✓ Success
-    Router-->>Client: ✓ Inserted
+    S2-->>Router: [OK] Success
+    Router-->>Client: [OK] Inserted
     
     Client->>Router: SELECT * WHERE id='user_12345'
-    Note over Router: Hash("user_12345") % 3 = 2
+    Note over Router: Hash("user_12345") mod 3 = 2
     Router->>S2: SELECT * WHERE id='user_12345'
     S2-->>Router: {user data}
     Router-->>Client: {user data}
@@ -710,7 +710,7 @@ graph TB
     subgraph "Nach Shard 2 Ausfall"
         Client2[Clients] --> Router2[Shard Router]
         Router2 --> Shard1A[(Shard 1<br/>ACTIVE)]
-        Router2 -.failover.-> HotSpare2[(Hot Spare<br/>→ ACTIVE<br/>replaces Shard 2)]
+        Router2 -.failover.-> HotSpare2[(Hot Spare<br/>-> ACTIVE<br/>replaces Shard 2)]
         Router2 --> Shard3A[(Shard 3<br/>ACTIVE)]
         Shard2X[(Shard 2<br/>FAILED)] -.->|recovery| Recovery[Recovery Process]
         
@@ -855,7 +855,7 @@ sequenceDiagram
     Router-->>Client: Response
     Monitor->>Shard: Health Check (OK)
     
-    Note over Shard: ❌ Shard 2 Crashes
+    Note over Shard: [ERROR] Shard 2 Crashes
     Monitor->>Shard: Health Check (FAIL)
     Monitor->>Shard: Health Check (FAIL)
     Monitor->>Shard: Health Check (FAIL)
