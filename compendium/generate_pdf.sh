@@ -16,7 +16,7 @@ echo ""
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUTPUT_DIR="${SCRIPT_DIR}/../../pdf_output"
-OUTPUT_FILE="${OUTPUT_DIR}/ThemisDB-Compendium-v1.3.4-$(date +%Y%m%d).pdf"
+OUTPUT_FILE="${OUTPUT_DIR}/ThemisDB-Compendium-v1.4.0-alpha-$(date +%Y%m%d).pdf"
 TEMP_DIR="/tmp/themis_pdf_build"
 
 # Create output directory
@@ -43,6 +43,7 @@ CHAPTERS=(
     "chapter_24_ai_ethics.md"
     "appendix_literatur.md"
     "appendix_d_feature_status.md"
+    "appendix_h_glossary.md"
 )
 
 # Concatenate all chapters
@@ -55,7 +56,7 @@ cat > "${COMBINED_MD}" << 'EOF'
 title: "ThemisDB Compendium"
 subtitle: "Das vollständige technische Handbuch"
 author: "ThemisDB Development Team"
-date: "Version 1.3.4"
+date: "Version 1.4.0-alpha"
 lang: de-DE
 papersize: a4
 geometry:
@@ -74,7 +75,7 @@ header-includes: |
   \usepackage{fancyhdr}
   \pagestyle{fancy}
   \fancyhead[L]{ThemisDB Compendium}
-  \fancyhead[R]{Version 1.3.4}
+  \fancyhead[R]{Version 1.4.0-alpha}
   \usepackage{listings}
   \lstset{
     basicstyle=\ttfamily\footnotesize,
@@ -88,7 +89,7 @@ header-includes: |
 
 # Vorwort
 
-Willkommen zum ThemisDB Compendium - dem umfassenden technischen Handbuch für ThemisDB Version 1.3.4.
+Willkommen zum ThemisDB Compendium - dem umfassenden technischen Handbuch für ThemisDB Version 1.4.0-alpha.
 
 **Aktueller Stand:** ~135.500 Wörter (≈271 Seiten)
 
