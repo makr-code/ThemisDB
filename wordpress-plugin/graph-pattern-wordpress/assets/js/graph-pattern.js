@@ -475,6 +475,7 @@
             if (!this.network || !this.nodes) return;
 
             // Reset all nodes
+            // Note: this.nodes.get() returns an array, so forEach is valid
             this.nodes.get().forEach(node => {
                 this.nodes.update({
                     id: node.id,
