@@ -22,6 +22,19 @@ EmbeddedLLM::EmbeddedLLM(const Config& config)
     
     wrapper_ = std::make_unique<LlamaWrapper>(wrapper_config);
     
+    // Initialize ethical guidelines if enabled
+    if (config.enable_ethical_guidelines) {
+        try {
+            ethical_guidelines_ = std::make_unique<EthicalGuidelinesManager>(
+                config.ethical_guidelines_config
+            );
+            spdlog::info("Ethical guidelines enabled: {}", config.ethical_guidelines_config);
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to load ethical guidelines: {}. Continuing without.", e.what());
+            ethical_guidelines_ = nullptr;
+        }
+    }
+    
     // Load model
     if (!config.model_path.empty()) {
         if (!wrapper_->loadModel(config.model_path)) {
@@ -43,8 +56,18 @@ EmbeddedLLM::~EmbeddedLLM() {
 // ═══════════════════════════════════════════════════════════
 
 std::string EmbeddedLLM::generate(const std::string& prompt, int max_tokens) {
-    InferenceRequest request = createRequest(prompt, max_tokens);
+    // Apply ethical guidelines to prompt
+    std::string final_prompt = applyEthicalGuidelines(prompt);
+    
+    InferenceRequest request = createRequest(final_prompt, max_tokens);
     auto response = wrapper_->generate(request);
+    
+    // Apply ethical guidelines to response (add disclaimer if needed)
+    if (hasEthicalGuidelines()) {
+        auto detection_result = ethical_guidelines_->detectEthicalContext(prompt);
+        response.text = ethical_guidelines_->augmentResponse(response.text, detection_result);
+    }
+    
     return response.text;
 }
 
@@ -54,8 +77,18 @@ std::string EmbeddedLLM::generateWithParams(
     float top_p,
     int max_tokens
 ) {
-    InferenceRequest request = createRequest(prompt, max_tokens, temperature, top_p);
+    // Apply ethical guidelines to prompt
+    std::string final_prompt = applyEthicalGuidelines(prompt);
+    
+    InferenceRequest request = createRequest(final_prompt, max_tokens, temperature, top_p);
     auto response = wrapper_->generate(request);
+    
+    // Apply ethical guidelines to response
+    if (hasEthicalGuidelines()) {
+        auto detection_result = ethical_guidelines_->detectEthicalContext(prompt);
+        response.text = ethical_guidelines_->augmentResponse(response.text, detection_result);
+    }
+    
     return response.text;
 }
 
@@ -211,6 +244,30 @@ InferenceRequest EmbeddedLLM::createRequest(
     request.model_id = config_.model_id;
     
     return request;
+}
+
+std::string EmbeddedLLM::applyEthicalGuidelines(
+    const std::string& prompt,
+    const std::string& context_text) {
+    
+    if (!ethical_guidelines_ || !ethical_guidelines_->isEnabled()) {
+        return prompt;
+    }
+    
+    // Detect ethical context in prompt (and optionally in context)
+    std::string text_to_check = context_text.empty() ? prompt : prompt + " " + context_text;
+    auto detection_result = ethical_guidelines_->detectEthicalContext(text_to_check);
+    
+    // Augment prompt if ethical context detected or if always_apply_default is true
+    return ethical_guidelines_->augmentPrompt(prompt, detection_result);
+}
+
+EthicalGuidelinesManager* EmbeddedLLM::getEthicalGuidelines() {
+    return ethical_guidelines_.get();
+}
+
+bool EmbeddedLLM::hasEthicalGuidelines() const {
+    return ethical_guidelines_ != nullptr && ethical_guidelines_->isEnabled();
 }
 
 // ═══════════════════════════════════════════════════════════
