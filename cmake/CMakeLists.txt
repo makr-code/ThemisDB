@@ -381,6 +381,127 @@ add_compile_definitions(
     "THEMIS_SHARDING_MAX_NODES=${THEMIS_SHARDING_MAX_NODES}"
 )
 
+# ============================================================================
+# LICENSE DATA EMBEDDING (v1.4.0+)
+# ============================================================================
+# Allows embedding company/license data into the binary at build time.
+# This supports both offline deployments and CI/CD pipelines.
+# 
+# Usage:
+#   cmake -B build -S . -DTHEMIS_LICENSE_FILE=path/to/license.json
+#
+# The license file should be a JSON file with the following structure:
+# {
+#   "organization_name": "Company Name",
+#   "organization_id": "optional-org-id",
+#   "contact_email": "contact@company.com",
+#   "license_key": "THEMIS-XXX-XXXXXXXXXXXX",
+#   "edition": "ENTERPRISE",
+#   "issued_date": "2026-01-01",
+#   "expiry_date": "2027-12-31",
+#   "max_nodes": 100,
+#   "max_cores": -1,
+#   "max_storage_tb": -1,
+#   "build_id": "optional-build-id",
+#   "signature": "optional-rsa-signature"
+# }
+
+set(THEMIS_LICENSE_FILE "" CACHE FILEPATH "Path to license JSON file for embedding")
+
+# Default license values (empty/unset if no license file provided)
+set(THEMIS_LICENSE_ORG_NAME "")
+set(THEMIS_LICENSE_ORG_ID "")
+set(THEMIS_LICENSE_CONTACT_EMAIL "")
+set(THEMIS_LICENSE_KEY "")
+set(THEMIS_LICENSE_EDITION "")
+set(THEMIS_LICENSE_ISSUED_DATE "")
+set(THEMIS_LICENSE_EXPIRY_DATE "")
+set(THEMIS_LICENSE_MAX_NODES -1)
+set(THEMIS_LICENSE_MAX_CORES -1)
+set(THEMIS_LICENSE_MAX_STORAGE_TB -1)
+set(THEMIS_LICENSE_BUILD_ID "")
+set(THEMIS_LICENSE_BUILD_TIMESTAMP "")
+set(THEMIS_LICENSE_SIGNATURE "")
+
+# If license file is provided, read and parse it
+if(THEMIS_LICENSE_FILE AND EXISTS "${THEMIS_LICENSE_FILE}")
+    message(STATUS "Embedding license data from: ${THEMIS_LICENSE_FILE}")
+    
+    # Read the license file
+    file(READ "${THEMIS_LICENSE_FILE}" LICENSE_JSON_CONTENT)
+    
+    # Parse JSON using CMake's built-in JSON support (CMake 3.19+)
+    # Note: We need to extract values using string operations since CMake's JSON support is limited
+    
+    # Helper macro to extract JSON string value
+    macro(extract_json_string VAR_NAME JSON_KEY)
+        string(REGEX MATCH "\"${JSON_KEY}\"[ \t\n]*:[ \t\n]*\"([^\"]*)\"" _match "${LICENSE_JSON_CONTENT}")
+        if(_match)
+            set(${VAR_NAME} "${CMAKE_MATCH_1}")
+        endif()
+    endmacro()
+    
+    # Helper macro to extract JSON integer value
+    macro(extract_json_int VAR_NAME JSON_KEY)
+        string(REGEX MATCH "\"${JSON_KEY}\"[ \t\n]*:[ \t\n]*(-?[0-9]+)" _match "${LICENSE_JSON_CONTENT}")
+        if(_match)
+            set(${VAR_NAME} "${CMAKE_MATCH_1}")
+        endif()
+    endmacro()
+    
+    # Extract all license fields
+    extract_json_string(THEMIS_LICENSE_ORG_NAME "organization_name")
+    extract_json_string(THEMIS_LICENSE_ORG_ID "organization_id")
+    extract_json_string(THEMIS_LICENSE_CONTACT_EMAIL "contact_email")
+    extract_json_string(THEMIS_LICENSE_KEY "license_key")
+    extract_json_string(THEMIS_LICENSE_EDITION "edition")
+    extract_json_string(THEMIS_LICENSE_ISSUED_DATE "issued_date")
+    extract_json_string(THEMIS_LICENSE_EXPIRY_DATE "expiry_date")
+    extract_json_int(THEMIS_LICENSE_MAX_NODES "max_nodes")
+    extract_json_int(THEMIS_LICENSE_MAX_CORES "max_cores")
+    extract_json_int(THEMIS_LICENSE_MAX_STORAGE_TB "max_storage_tb")
+    extract_json_string(THEMIS_LICENSE_BUILD_ID "build_id")
+    extract_json_string(THEMIS_LICENSE_SIGNATURE "signature")
+    
+    # Set build timestamp to current time
+    string(TIMESTAMP THEMIS_LICENSE_BUILD_TIMESTAMP "%Y-%m-%d %H:%M:%S UTC" UTC)
+    
+    # Display embedded license information
+    message(STATUS "  Organization:     ${THEMIS_LICENSE_ORG_NAME}")
+    message(STATUS "  License Key:      ${THEMIS_LICENSE_KEY}")
+    message(STATUS "  Edition:          ${THEMIS_LICENSE_EDITION}")
+    message(STATUS "  Expiry Date:      ${THEMIS_LICENSE_EXPIRY_DATE}")
+    message(STATUS "  Max Nodes:        ${THEMIS_LICENSE_MAX_NODES}")
+    message(STATUS "  Build Timestamp:  ${THEMIS_LICENSE_BUILD_TIMESTAMP}")
+    
+    # Validate that license edition matches build edition
+    if(THEMIS_LICENSE_EDITION AND NOT THEMIS_LICENSE_EDITION STREQUAL THEMIS_EDITION)
+        message(WARNING "License edition (${THEMIS_LICENSE_EDITION}) does not match build edition (${THEMIS_EDITION})")
+    endif()
+else()
+    if(THEMIS_LICENSE_FILE)
+        message(WARNING "License file specified but not found: ${THEMIS_LICENSE_FILE}")
+    endif()
+    message(STATUS "No license data will be embedded in this build")
+endif()
+
+# Add license data as compile definitions
+add_compile_definitions(
+    "THEMIS_LICENSE_ORG_NAME=\"${THEMIS_LICENSE_ORG_NAME}\""
+    "THEMIS_LICENSE_ORG_ID=\"${THEMIS_LICENSE_ORG_ID}\""
+    "THEMIS_LICENSE_CONTACT_EMAIL=\"${THEMIS_LICENSE_CONTACT_EMAIL}\""
+    "THEMIS_LICENSE_KEY=\"${THEMIS_LICENSE_KEY}\""
+    "THEMIS_LICENSE_EDITION=\"${THEMIS_LICENSE_EDITION}\""
+    "THEMIS_LICENSE_ISSUED_DATE=\"${THEMIS_LICENSE_ISSUED_DATE}\""
+    "THEMIS_LICENSE_EXPIRY_DATE=\"${THEMIS_LICENSE_EXPIRY_DATE}\""
+    "THEMIS_LICENSE_MAX_NODES=${THEMIS_LICENSE_MAX_NODES}"
+    "THEMIS_LICENSE_MAX_CORES=${THEMIS_LICENSE_MAX_CORES}"
+    "THEMIS_LICENSE_MAX_STORAGE_TB=${THEMIS_LICENSE_MAX_STORAGE_TB}"
+    "THEMIS_LICENSE_BUILD_ID=\"${THEMIS_LICENSE_BUILD_ID}\""
+    "THEMIS_LICENSE_BUILD_TIMESTAMP=\"${THEMIS_LICENSE_BUILD_TIMESTAMP}\""
+    "THEMIS_LICENSE_SIGNATURE=\"${THEMIS_LICENSE_SIGNATURE}\""
+)
+
 # MSVC: sanitize any accidentally injected '/WX:NO' options (invalid for cl.exe)
 if(MSVC)
     get_property(_allTargets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
@@ -942,6 +1063,7 @@ set(THEMIS_CORE_SOURCES
     /src/utils/update_checker.cpp
     /src/utils/http_client_pool.cpp
     /src/utils/build_info.cpp
+    /src/utils/license_info.cpp
     
     # Updates (hot-reload)
     /src/updates/release_manifest.cpp
