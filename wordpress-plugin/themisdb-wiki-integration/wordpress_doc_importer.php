@@ -268,11 +268,11 @@ class ThemisDB_Doc_Importer {
      * Find existing post by title and content hash
      */
     private function find_existing_post($title, $content_hash) {
+        // First try to find by content hash (most reliable)
         $posts = get_posts(array(
             'post_type'      => 'post',
             'post_status'    => 'any',
             'posts_per_page' => 1,
-            'title'          => $title,
             'meta_query'     => array(
                 array(
                     'key'     => '_themisdb_content_hash',
@@ -282,13 +282,35 @@ class ThemisDB_Doc_Importer {
             ),
         ));
         
-        return !empty($posts) ? $posts[0] : null;
+        if (!empty($posts)) {
+            return $posts[0];
+        }
+        
+        // Fallback: search by exact title
+        global $wpdb;
+        $post_id = $wpdb->get_var($wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts} WHERE post_title = %s AND post_type = 'post' LIMIT 1",
+            $title
+        ));
+        
+        return $post_id ? get_post($post_id) : null;
     }
     
     /**
      * Prepare content from markdown file
      */
     private function prepare_content($file_path) {
+        // Security: Validate file path
+        $file_path = realpath($file_path);
+        if ($file_path === false) {
+            return "Content not available - invalid file path";
+        }
+        
+        // Check if file exists and is readable
+        if (!file_exists($file_path) || !is_readable($file_path)) {
+            return "Content not available - file not found or not readable: " . basename($file_path);
+        }
+        
         // If markdown converter is available, use it
         if (class_exists('ThemisDB_Markdown_Converter')) {
             $markdown = file_get_contents($file_path);
@@ -296,11 +318,7 @@ class ThemisDB_Doc_Importer {
         }
         
         // Otherwise, just read the file as-is
-        if (file_exists($file_path)) {
-            return file_get_contents($file_path);
-        }
-        
-        return "Content not available - file not found: {$file_path}";
+        return file_get_contents($file_path);
     }
     
     /**
@@ -335,7 +353,12 @@ class ThemisDB_Doc_Importer {
 
 // Run import if executed via WP-CLI
 if (defined('WP_CLI') && WP_CLI) {
-    $json_file = isset($args[0]) ? $args[0] : 'wordpress_categories.json';
+    // Get JSON file path from command line arguments
+    $json_file = 'wordpress_categories.json';  // Default
+    if (isset($argv) && count($argv) > 1) {
+        $json_file = $argv[1];
+    }
+    
     $importer = new ThemisDB_Doc_Importer($json_file);
     $importer->import();
 }

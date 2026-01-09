@@ -90,7 +90,7 @@ CATEGORY_MAPPING = {
     'reports': 'Reports',
     'research': 'Research',
     'audit': 'Audit',
-    'docs': 'Documentation',  # Added
+    'docs': 'Documentation',
 }
 
 # Words to exclude from categories (dates, common words, etc.)
@@ -218,13 +218,14 @@ class CategoryExtractor:
         """Extract meaningful categories from file path"""
         categories = []
         
-        # Also check the docs_path itself for categories
-        docs_parts = self.docs_path.parts
-        for part in docs_parts:
-            if part.lower() in CATEGORY_MAPPING:
-                categories.append(CATEGORY_MAPPING[part.lower()])
-            elif self.is_valid_category(part):
-                clean_part = part.replace('_', ' ').replace('-', ' ').title()
+        # Also check the last part of docs_path for categories
+        # Only process the final directory name to avoid system paths
+        if len(self.docs_path.parts) > 0:
+            last_part = self.docs_path.parts[-1]
+            if last_part.lower() in CATEGORY_MAPPING:
+                categories.append(CATEGORY_MAPPING[last_part.lower()])
+            elif self.is_valid_category(last_part):
+                clean_part = last_part.replace('_', ' ').replace('-', ' ').title()
                 categories.append(clean_part)
         
         # Process each directory in the relative path
