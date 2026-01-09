@@ -48,7 +48,22 @@ COPY scripts/ scripts/
 
 # Clone llama.cpp into source (required by CMake)
 RUN if [ "${THEMIS_ENABLE_LLM}" = "ON" ]; then \
-        git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp; \
+        echo "Cloning llama.cpp..."; \
+        git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git llama.cpp && \
+        ls -la llama.cpp/ && \
+        echo "llama.cpp cloned successfully"; \
+    else \
+        echo "THEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} - skipping llama.cpp clone"; \
+    fi
+
+# Verify directory structure before cmake
+RUN echo "=== Build directory structure ===" && \
+    ls -la /build/ && \
+    if [ -d "/build/llama.cpp" ]; then \
+        echo "llama.cpp directory exists"; \
+        ls -la /build/llama.cpp/ | head -20; \
+    else \
+        echo "WARNING: llama.cpp directory NOT found!"; \
     fi
 
 # Install vcpkg dependencies (cached separately from source changes)
