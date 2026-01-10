@@ -401,6 +401,42 @@ choco install themisdb
 
 ---
 
+## **Release & Publication Policy**
+
+- **Public Editions:** Minimal, Community. Enterprise bleibt kommerziell und wird nicht im öffentlichen Repo geführt.
+- **Nicht veröffentlichte Inhalte:** Werden über `.gitignore` und Release-Prozesse ausgeschlossen.
+- **Branch-Scope:** `main` enthält nur Minimal/Community; `develop` enthält alle Komponenten (inkl. Enterprise, Benchmarks, Marketing-Assets).
+- **Merge-Schutz:** `.gitattributes` erzwingt für sensible Pfade `merge=ours`, damit `develop → main` keine nicht-öffentlichen Inhalte überträgt.
+- **Begründung:** Vermeidung von versehentlichen Veröffentlichungen vertraulicher oder nicht betriebsrelevanter Komponenten.
+
+**Explizit ausgeschlossen (nicht Teil der öffentlichen Veröffentlichung):**
+- **`llama.cpp/`**: Lokaler Clone für optionale LLM-Builds; nicht committen.
+- **`internal/`**: Interne vertrauliche Dokumente und Artefakte.
+- **Enterprise-Quellcode/Dokumente**: `src/enterprise/`, `include/enterprise/`, `plugins/enterprise/`, `docs/enterprise/*` (nur feature Docs bleiben öffentlich). 
+- **WordPress-Assets**: `wordpress-plugin/`, `wordpress-theme/` (Marketing/Website-Integration, nicht server-kritisch).
+- **Ephemere/experimentelle Apps**: `epServer/` (nicht für regulären Betrieb vorgesehen).
+- **Build-/Artefakt-Verzeichnisse**: `build*/`, `out/`, `bin/`, `lib/`, `CMakeFiles/`, `site/`, Logs und temporäre Dateien.
+- **Lokale Toolchains/Vendor-Artefakte**: `vcpkg/`, `vcpkg_installed/`, `packages/`, `downloads/`, `buildtrees/`.
+- **Model-/Testdaten**: `models/*` (nur Platzhalter erlaubt), `data/`, RocksDB-Dateien (`*.db`, `*.sst`).
+
+Hinweise zur Editionsgrenze:
+- Community/Minimal enthalten nur komponentenrelevanten Code für den Betrieb (Server, Kernmodule, öffentlich dokumentierte Plugins, Tests, APIs, Docker/Helm für Deployment).
+- Enterprise-spezifische Benchmarks/Analysen und proprietäre Plugins bleiben ausgeschlossen.
+
+> Pflegehinweis: Siehe `.gitignore` im Projekt-Root für die vollständige, bindende Liste der Ausschlüsse. Änderungen an der Veröffentlichungsstrategie werden dort und im CHANGELOG dokumentiert.
+
+---
+
+## **Merge-Vorbereitung: develop → main**
+
+- **Dokumentation aktualisiert:** README (Release-/Exclusions-Abschnitt), `.gitignore` erweitert, CHANGELOG ergänzt.
+- **Ziel:** Sauberer Stand für Veröffentlichung der öffentlichen Editionen ohne vertrauliche Inhalte.
+- **Validierung:** CI/CTest auf `build-msvc`/Release; optional Docker Nightly gegen Community-Edition.
+
+> Nächste Schritte nach Merge: Release-Tag setzen, Artefakte bauen (Docker/DEB/RPM), Changelog veröffentlichen, Coverage/Docs aktualisieren.
+
+---
+
 ## 5-Minute Tutorial
 
 ```bash

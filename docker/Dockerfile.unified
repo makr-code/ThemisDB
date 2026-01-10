@@ -15,19 +15,17 @@ ENV VCPKG_ROOT=/opt/vcpkg
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ENV VCPKG_DISABLE_METRICS=1
 
-# Install build essentials
+# Install build essentials (combined layer for efficiency)
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison aria2 python3 perl nasm autoconf \
         automake libtool && \
-    rm -rf /var/lib/apt/lists/*
-
-# Clone and bootstrap vcpkg
-RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
+    rm -rf /var/lib/apt/lists/* && \
+    git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
     cd ${VCPKG_ROOT} && \
-    git checkout 2024.10.21 && \
+    git checkout 10b7a178346f3f0abef60cecd5130e295afd8da4 && \
     ./bootstrap-vcpkg.sh -disableMetrics
 
 # ============================================================================
@@ -37,6 +35,7 @@ FROM base AS deps
 
 ARG THEMIS_EDITION=COMMUNITY
 ARG TARGETARCH=amd64
+ARG VCPKG_MANIFEST_HASH=""
 
 WORKDIR /build
 
@@ -65,24 +64,25 @@ RUN set -eux; \
 # Copy vcpkg configuration
 COPY vcpkg-configuration.json ./
 
-# Seed vcpkg download cache from host (if present)
-COPY vcpkg/downloads/ ${VCPKG_ROOT}/downloads/
-
 # Install dependencies (with cache mounts for downloads/packages)
 RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
+    --mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly \
     set -eux; \
+    echo "Using VCPKG_MANIFEST_HASH=${VCPKG_MANIFEST_HASH}"; \
     TRIPLET=$(cat /tmp/triplet.txt); \
+    find /tmp/host-vcpkg-downloads -type f -name "*.tar.gz" -o -name "*.zip" 2>/dev/null | \
+        xargs -I{} cp -n {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
     export VCPKG_BUILD_TYPE=release; \
     export VCPKG_MAX_CONCURRENCY=2; \
-    export VCPKG_DOWNLOAD_TOOL=aria2; \
-    export VCPKG_USE_ARIA2=1; \
-    export VCPKG_DOWNLOADER=aria2; \
-    export VCPKG_ARIA2_OPTIONS="--max-tries=5 --retry-wait=5 --timeout=300 --connect-timeout=60"; \
+    export VCPKG_DOWNLOAD_TOOL=curl; \
+    export CURL_RETRIES=10; \
+    export CURL_TIMEOUT=600; \
     mkdir -p /build/vcpkg_installed; \
         # remove any stale partial boost archives that can poison the cache
         find /opt/vcpkg/downloads -name '*.part' -delete || true; \
     echo "Installing packages for ${TRIPLET} with aria2..."; \
+    INSTALL_SUCCESS=0; \
     for i in 1 2 3; do \
         if ${VCPKG_ROOT}/vcpkg install \
             --triplet="${TRIPLET}" \
@@ -90,11 +90,24 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
             --x-install-root=/build/vcpkg_installed \
             --allow-unsupported \
             --clean-after-build; then \
+            INSTALL_SUCCESS=1; \
             break; \
         fi; \
-        echo "vcpkg install failed (attempt ${i}), retrying in 10s"; \
+        echo "vcpkg install failed (attempt ${i}/3), retrying in 10s"; \
         sleep 10; \
     done; \
+    if [ ${INSTALL_SUCCESS:-0} -ne 1 ]; then \
+        if ! ${VCPKG_ROOT}/vcpkg install \
+            --triplet="${TRIPLET}" \
+            --x-manifest-root=/build \
+            --x-install-root=/build/vcpkg_installed \
+            --allow-unsupported \
+            --clean-after-build; then \
+            echo "ERROR: vcpkg install failed after 3 attempts. Packages not installed."; \
+            exit 1; \
+        fi; \
+        INSTALL_SUCCESS=1; \
+    fi; \
     echo "✓ Packages installed in /build/vcpkg_installed"; \
     ls -la /build/vcpkg_installed/lib/ || echo "WARNING: No lib dir"; \
     find /build/vcpkg_installed -name "*openssl*" -o -name "*curl*" | head -20
@@ -108,7 +121,7 @@ ARG ENABLE_LLM=OFF
 
 WORKDIR /opt
 
-# Copy llama.cpp source
+# Copy llama.cpp source (excluding build/, models/, etc. via .dockerignore)
 COPY llama.cpp ./llama.cpp
 
 # Build if LLM is enabled
@@ -167,8 +180,10 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 # Build ThemisDB
 RUN set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
+    VCPKG_ROOT=/opt/vcpkg; \
     echo "Building ThemisDB ${THEMIS_EDITION} (LLM=${ENABLE_LLM})..."; \
-    ls -la /build/vcpkg_installed || echo "No vcpkg_installed"; \
+    echo "TRIPLET=$TRIPLET"; \
+    ls -la /build/vcpkg_installed/${TRIPLET} 2>/dev/null | head -20 || echo "No vcpkg_installed"; \
     cmake -S . -B build -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DTHEMIS_EDITION=${THEMIS_EDITION} \
@@ -176,8 +191,9 @@ RUN set -eux; \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
-        -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share" \
+        -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
         -DOPENSSL_ROOT_DIR=/build/vcpkg_installed/${TRIPLET} \
+        -DOpenSSL_DIR=/build/vcpkg_installed/${TRIPLET}/share/openssl \
         -DVCPKG_MANIFEST_MODE=OFF && \
     ninja -C build -j$(nproc)
 

@@ -79,28 +79,36 @@ cmake --build build-wsl --target themis_server -j8
 # ODER: cmake --build build-msvc --config Release --target themis_server
 
 # 2. Docker Image aus Binary
-docker build -f docker/Dockerfile.dev -t themisdb:dev .
+docker build -f docker/Dockerfile.dev -t themisdb:dev . > logs/docker-build-dev.log 2>&1
 docker run -d -p 8080:8080 -p 18765:18765 themisdb:dev
 ```
 
 ### Unified Build (alle Editionen, 2-3 Minuten mit Cache)
+**Logs**: Alle Build-Logs werden in `./logs/` gespeichert.
+
+> Tipp: Nach Änderungen an `vcpkg-*.json` einen Hash übergeben, damit der deps-Layer neu gebaut wird: `--build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-community.json | cut -d' ' -f1)` (Linux) bzw. `$(Get-FileHash docker/vcpkg-community.json).Hash` (PowerShell).
 ```bash
 # Minimal (IoT/Embedded)
 docker buildx build --build-arg THEMIS_EDITION=MINIMAL \
-    -t themisdb:minimal -f docker/Dockerfile.unified .
+  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-minimal.json | cut -d' ' -f1) \
+  -t themisdb:minimal -f docker/Dockerfile.unified .
 
 # Community
 docker buildx build --build-arg THEMIS_EDITION=COMMUNITY \
-    -t themisdb:community -f docker/Dockerfile.unified .
+  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-community.json | cut -d' ' -f1) \
+  -t themisdb:community -f docker/Dockerfile.unified .
 
 # Enterprise
 docker buildx build --build-arg THEMIS_EDITION=ENTERPRISE \
-    -t themisdb:enterprise -f docker/Dockerfile.unified .
+  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-enterprise.json | cut -d' ' -f1) \
+  -t themisdb:enterprise -f docker/Dockerfile.unified .
 
 # Hyperscaler mit LLM
 docker buildx build --build-arg THEMIS_EDITION=HYPERSCALER \
-    --build-arg ENABLE_LLM=ON -t themisdb:hyperscaler \
-    -f docker/Dockerfile.unified .
+  --build-arg ENABLE_LLM=ON \
+  --build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-hyperscaler.json | cut -d' ' -f1) \
+  -t themisdb:hyperscaler \
+  -f docker/Dockerfile.unified .
 ```
 
 ### Base Images bauen (einmalig, ~15-20 Minuten)

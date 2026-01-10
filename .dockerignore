@@ -19,6 +19,14 @@ CMakeFiles/
 Testing/
 vcpkg_installed/
 
+# llama.cpp build artifacts and large files
+llama.cpp/build/
+llama.cpp/build-*/
+llama.cpp/models/
+llama.cpp/.git/
+llama.cpp/benches/
+llama.cpp/media/
+
 # Development/test only
 tests/
 benchmarks/
