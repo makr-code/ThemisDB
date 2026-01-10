@@ -6,6 +6,9 @@ env-*/
 compendium/chrome/
 compendium/temp
 
+# Confidential business/strategic documents (marked with .confidential.md extension)
+**/*.confidential.md
+
 # Build directories (CMake, Ninja, MSVC, other build outputs)
 enterprise*/
 test_*/
