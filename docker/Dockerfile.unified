@@ -188,7 +188,8 @@ RUN set -eux; \
         -DCMAKE_BUILD_TYPE=Release \
         -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
-        -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
+            -DTHEMIS_ENABLE_TRACING=OFF \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
         -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
