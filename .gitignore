@@ -22,6 +22,10 @@ CTestTestfile.cmake
 Makefile
 *.cmake
 
+# Logs
+/logs/
+*.log
+
 # vcpkg (local installs - 163k+ files!)
 vcpkg_installed/
 .vcpkg/
@@ -105,6 +109,10 @@ Thumbs.db
 .docker/
 docker/tmp/
 
+# Local clone of optional LLM engine (excluded from VCS)
+# Kept locally for optional builds; never committed
+llama.cpp/
+
 # Logs and runtime files
 logs/
 *.log
@@ -155,6 +163,10 @@ site/
 !docker/README.md
 !docker/CHANGELOG.md
 !docker/ROADMAP.md
+
+# WordPress assets (marketing site integrations; not part of server operation)
+wordpress-plugin/
+wordpress-theme/
 
 # Namespace analysis reports (generated)
 namespace_analysis/
@@ -254,6 +266,9 @@ docs/enterprise/enterprise_scalability.md
 
 # Internal confidential docs (excluded from VCS - v1.3.5+)
 internal/
+
+# Ephemeral server harnesses and experimental apps (not part of public release)
+epServer/
 
 # --- Sensitive Business/Strategic Documents (confidential, not for competitors) ---
 # Market analysis, pricing, revenue projections, and strategic planning documents

@@ -13,7 +13,11 @@ set(CMAKE_FIND_PACKAGE_PREFER_CONFIG ON)
 # REQUIRED DEPENDENCIES (core functionality)
 # ============================================================================
 
-find_package(OpenSSL REQUIRED CONFIG)
+find_package(OpenSSL CONFIG)
+if(NOT OpenSSL_FOUND)
+    # Fallback to built-in FindOpenSSL when CONFIG package is missing
+    find_package(OpenSSL REQUIRED)
+endif()
 message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 
 find_package(ZLIB 1.3.1 REQUIRED)
@@ -22,11 +26,19 @@ message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 find_package(RocksDB REQUIRED CONFIG)
 message(STATUS "RocksDB found")
 
-find_package(simdjson REQUIRED CONFIG)
-message(STATUS "simdjson found")
+find_package(simdjson CONFIG)
+if(simdjson_FOUND)
+    message(STATUS "simdjson found")
+else()
+    message(WARNING "simdjson not found - some features may be disabled")
+endif()
 
-find_package(TBB REQUIRED CONFIG)
-message(STATUS "TBB found")
+find_package(TBB CONFIG)
+if(TBB_FOUND)
+    message(STATUS "TBB found")
+else()
+    message(WARNING "TBB not found - using fallback threading")
+endif()
 
 find_package(fmt REQUIRED CONFIG)
 message(STATUS "fmt found")
@@ -37,7 +49,11 @@ message(STATUS "spdlog found")
 find_package(nlohmann_json REQUIRED CONFIG)
 message(STATUS "nlohmann_json found")
 
-find_package(Boost 1.70 REQUIRED CONFIG COMPONENTS system filesystem)
+# Boost: Try CONFIG first, fall back to MODULE if not found
+find_package(Boost 1.70 CONFIG COMPONENTS system filesystem)
+if(NOT Boost_FOUND)
+    find_package(Boost 1.70 MODULE REQUIRED COMPONENTS system filesystem)
+endif()
 message(STATUS "Boost found: ${Boost_VERSION}")
 
 find_package(Threads REQUIRED)

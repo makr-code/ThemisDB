@@ -19,6 +19,16 @@
 
 ## 🚧 [Unreleased]
 
+### Changed
+- README: Neuer Abschnitt "Release & Publication Policy" inkl. Branch-Scope (`main` nur Minimal/Community, `develop` voll) und Merge-Schutz-Hinweis.
+- `.gitignore`: Explizite Ausschlüsse ergänzt für `llama.cpp/`, `wordpress-plugin/`, `wordpress-theme/`, `epServer/`.
+- `.gitattributes`: Merge-Guards (`merge=ours`) für Enterprise/Marketing/experimentelle Pfade, damit `develop → main` keine nicht-öffentlichen Inhalte überträgt.
+- Merge-Vorbereitung `develop → main`: Dokumentations- und Exklusionsstand vereinheitlicht für öffentliche Editionen.
+
+### Notes
+- Exklusionsliste spiegelt Editionsgrenzen (Minimal/Community öffentlich, Enterprise proprietär).
+- Bereits versionierte Dateien werden durch `.gitignore` nicht rückwirkend entfernt; beim Release werden Artefakte nur aus freigegebenen Komponenten gebaut.
+
 ---
 
 ## 🎉 [v1.4.0-alpha] - 2026-01-05

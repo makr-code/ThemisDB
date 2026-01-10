@@ -115,6 +115,11 @@ find /opt/vcpkg/downloads -name '*.part' -delete || true
 - Entfernt vergiftete partielle Downloads vor jedem vcpkg install
 - Verhindert "hash mismatch" Fehler
 
+## ✅ Cache-Bust bei Manifest-Änderungen
+
+- Nach Änderungen an `vcpkg-*.json` einen Build-Arg übergeben (z.B. `--build-arg VCPKG_MANIFEST_HASH=$(sha256sum docker/vcpkg-community.json | cut -d' ' -f1)`), der im deps-Layer verwendet wird.
+- Dadurch wird der vcpkg-Installations-Layer neu gebaut und stellt sicher, dass neue Abhängigkeiten (z.B. simdjson/TBB) wirklich installiert werden.
+
 ---
 
 ## ⚡ Optimale Strategie (3-stufig)
