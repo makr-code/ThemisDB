@@ -40,6 +40,8 @@ Traditionelle Datenbanken speichern nur Dateinamen - **Computer Vision Datenbank
 - Spatial Queries (GPS-basiert)
 - Temporal Queries (Zeitreihen)
 
+<figure>
+
 ```mermaid
 flowchart TD
     Start[Raw Image] --> Store[(ThemisDB Storage)]
@@ -75,6 +77,9 @@ flowchart TD
     style VecIndex fill:#f093fb
     style Results fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 12.1:</b> Computer-Vision-Pipeline</figcaption>
+</figure>
 
 ## 12.2 Computer Vision Datenmodell
 

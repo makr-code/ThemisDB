@@ -15,7 +15,7 @@ services:
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
-      - "9090:9090"
+      - "9090:9090"  # Prometheus UI and API
     networks:
       - themisdb-monitoring
     restart: unless-stopped
@@ -49,7 +49,7 @@ services:
       - THEMIS_ENABLE_METRICS=true
       - THEMIS_METRICS_PORT=9091
     ports:
-      - "9091:9091"  # Metrics endpoint
+      - "19091:9091"  # Metrics endpoint - changed to avoid conflict
       - "8080:8080"  # API endpoint
     networks:
       - themisdb-monitoring

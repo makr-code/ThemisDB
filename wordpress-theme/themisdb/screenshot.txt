@@ -1,0 +1,20 @@
+Screenshot Placeholder
+
+To add a proper screenshot.png:
+1. Create a 1200x900px image showing your theme design
+2. Save it as screenshot.png in the theme root directory
+3. This file is required for the theme to display properly in WordPress theme selector
+
+Recommended content for screenshot:
+- Show the header with logo and navigation
+- Display 1-2 blog posts with featured images
+- Include sidebar widgets
+- Show the footer area
+- Use Themis brand colors prominently
+
+You can use any graphics software to create this:
+- Photoshop
+- GIMP
+- Figma
+- Canva
+- Or take a screenshot of your actual site once set up

@@ -206,16 +206,23 @@ FOR product IN products
 ✗ Exact matches ausreichend
 ```
 
+<figure>
+
 ```mermaid
 quadrantChart
     title Datenmodell-Entscheidungsmatrix
     x-axis Flexible Struktur --> Feste Struktur
     y-axis Daten-fokussiert --> Beziehungs-fokussiert
-    quadrant-1 "Relational - Geschaeftsdaten; ACID kritisch; BI und Reporting"
-    quadrant-2 "Graph - Social Networks; Empfehlungen; Fraud Detection"
-    quadrant-3 "Dokument - CMS; Prototyping; Logs und Events"
-    quadrant-4 "Vektor - Semantic Search; ML und AI; Similarity"
+    quadrant-1 Relational - ACID Geschaeftsdaten
+    quadrant-2 Graph - Empfehlungen und Analysen
+    quadrant-3 Dokument - CMS und Logs
+    quadrant-4 Vektor - Semantic Search AI
 ```
+
+<figcaption><b>Abb. 03.1:</b> Datenmodell-Entscheidungsmatrix</figcaption>
+</figure>
+
+<figure>
 
 ```mermaid
 flowchart TD
@@ -241,6 +248,9 @@ flowchart TD
     style GraphDoc fill:#fee140
     style Fulltext fill:#30cfd0
 ```
+
+<figcaption><b>Abb. 03.2:</b> Multi-Model-Data-Flow</figcaption>
+</figure>
 
 ---
 

@@ -49,6 +49,8 @@ Team-Expertise nötig:      6 × Spezialisten
 
 **Das Resultat:** Hohe Komplexität, teure Wartung, schwierige Debugging-Sessions, und Datenkonsistenz über Systemgrenzen ist nahezu unmöglich.
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Polyglot Persistence - Komplexität"
@@ -76,6 +78,9 @@ graph TB
     style RD fill:#fce38a
     style IF fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 01.1:</b> ThemisDB Multi-Model Architektur</figcaption>
+</figure>
 
 ### Der fundamentale Fehler: Eventual Consistency
 
@@ -108,6 +113,8 @@ except Exception:
 
 Polyglot Persistence erzwingt systemisch **"Eventual Consistency" (BASE)** [18] statt starker ACID-Garantien [16]. Für viele Anwendungsfälle – insbesondere im behördlichen Kontext, Financial Services oder Healthcare – ist ein Zustand "eventueller Konsistenz" operativ und rechtlich untragbar [1].
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant App as Application
@@ -118,20 +125,23 @@ sequenceDiagram
     Note over App: Lösche Benutzer ID=123
     
     App->>PG: DELETE FROM users WHERE id=123
-    PG-->>App: ✓ Erfolg
+    PG-->>App: [OK] Erfolg
     
     App->>N4: MATCH (u:User {id:123}) DETACH DELETE u
-    N4-->>App: ✓ Erfolg
+    N4-->>App: [OK] Erfolg
     
     App->>CD: delete(collection="user_embeddings", ids=["123"])
     CD--xApp: ✗ Fehler (Netzwerkproblem)
     
-    Note over App,CD: ❌ INKONSISTENTER ZUSTAND!<br/>User aus PG & Neo4j gelöscht,<br/>aber Vektoren existieren noch
+    Note over App,CD: [ERROR] INKONSISTENTER ZUSTAND!<br/>User aus PG & Neo4j gelöscht,<br/>aber Vektoren existieren noch
     
     rect rgb(255, 200, 200)
     Note over App: Rollback? UNMÖGLICH!<br/>PostgreSQL & Neo4j kennen sich nicht
     end
 ```
+
+<figcaption><b>Abb. 01.2:</b> Datenmodell-Übersicht</figcaption>
+</figure>
 
 ### Der Multi-Model-Ansatz
 
@@ -143,6 +153,8 @@ ThemisDB nimmt einen anderen Weg. Anstatt spezialisierte Datenbanken zu kombinie
 4. **Vektor:** Embeddings für AI/ML und Ähnlichkeitssuche
 
 **Der Vorteil:** Ein System, eine API, eine Query-Sprache (AQL), ein Backup-Prozess, eine Security-Konfiguration.
+
+<figure>
 
 ```mermaid
 graph TB
@@ -175,6 +187,9 @@ graph TB
     style ST fill:#0a3d62
     style B fill:#079992
 ```
+
+<figcaption><b>Abb. 01.3:</b> Query-Processing-Pipeline</figcaption>
+</figure>
 
 ### Ist das nicht nur ein Kompromiss?
 
@@ -212,6 +227,8 @@ with themis_db.transaction() as tx:
     tx.commit()  # ACID-garantiert!
 ```
 
+<figure>
+
 ```mermaid
 flowchart LR
     Start([Transaction Begin]) --> R[Update Relational]
@@ -232,6 +249,9 @@ flowchart LR
     style Check fill:#ffd32a
 ```
 
+<figcaption><b>Abb. 01.4:</b> Storage-Engine-Architektur</figcaption>
+</figure>
+
 Dies ist architektonisch nur möglich, weil alle Daten physisch im selben transaktionalen Backend (RocksDB TransactionDB) liegen. Siehe Kapitel 2.4 für technische Details.
 
 ---
@@ -245,6 +265,8 @@ ThemisDB folgt bewährten Design-Prinzipien:
 **1. Modularität**
 
 Jede Komponente hat eine klar definierte Aufgabe:
+
+<figure>
 
 ```mermaid
 graph TB
@@ -285,6 +307,9 @@ graph TB
     style IM fill:#4facfe
     style SL fill:#00f2fe
 ```
+
+<figcaption><b>Abb. 01.5:</b> Use-Case-Szenarien</figcaption>
+</figure>
 
 **2. Composability**
 
@@ -492,7 +517,7 @@ Der schnellste Weg, ThemisDB zu starten:
 
 ```bash
 # ThemisDB mit Docker starten
-docker run -d -p 8765:8765 themisdb/themisdb:1.3.4
+docker run -d -p 8765:8765 themisdb/themisdb:1.4.0-alpha
 
 # Warten bis Server bereit ist
 sleep 5
@@ -505,7 +530,7 @@ curl http://localhost:8765/health
 ```json
 {
   "status": "ok",
-  "version": "1.3.4",
+  "version": "1.4.0-alpha",
   "uptime": 5.2
 }
 ```
@@ -662,7 +687,7 @@ recommendations = client.query(query, {
 
 ## 1.7 Quickstart (5 Minuten)
 
-1. **Docker starten:** `docker run -d -p 8765:8765 themisdb/themisdb:1.3.4`
+1. **Docker starten:** `docker run -d -p 8765:8765 themisdb/themisdb:1.4.0-alpha`
 2. **Healthcheck prüfen:** `curl http://localhost:8765/health`
 3. **Minimal-Collection anlegen:**
 

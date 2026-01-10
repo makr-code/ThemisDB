@@ -139,6 +139,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<VectorSearchResult>(content);
+                    if (result == null)
+                    {
+                        return new VectorSearchResult { Results = new List<VectorSearchMatch>() };
+                    }
                     _loggerService.LogInfo($"Vector search returned {result.Results.Count} results");
                     return result;
                 }
@@ -182,6 +186,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<VectorRadiusResult>(content);
+                    if (result == null)
+                    {
+                        return new VectorRadiusResult { Matches = new List<VectorSearchMatch>() };
+                    }
                     _loggerService.LogInfo($"Radius search returned {result.Matches.Count} matches");
                     return result;
                 }
@@ -223,6 +231,10 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<SimilarityResult>(content);
+                    if (result == null)
+                    {
+                        return new SimilarityResult { SimilarityScore = 0 };
+                    }
                     _loggerService.LogInfo($"Similarity score: {result.SimilarityScore:F4}");
                     return result;
                 }
@@ -250,8 +262,11 @@ namespace Themis.IngestionTool.Services
                 {
                     var content = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<VectorStatistics>(content);
-                    _loggerService.LogInfo($"Vector stats: {result.TotalVectors} vectors, dimension {result.VectorDimension}");
-                    return result;
+                    if (result != null)
+                    {
+                        _loggerService.LogInfo($"Vector stats: {result.TotalVectors} vectors, dimension {result.VectorDimension}");
+                        return result;
+                    }
                 }
 
                 _loggerService.LogError($"Vector stats retrieval failed: {response.StatusCode}");
@@ -301,7 +316,7 @@ namespace Themis.IngestionTool.Services
     public class VectorSearchRequest
     {
         [JsonProperty("embedding")]
-        public double[] Embedding { get; set; }
+        public double[] Embedding { get; set; } = Array.Empty<double>();
 
         [JsonProperty("top_k")]
         public int TopK { get; set; }
@@ -328,13 +343,13 @@ namespace Themis.IngestionTool.Services
     public class VectorSearchMatch
     {
         [JsonProperty("entity_id")]
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = string.Empty;
 
         [JsonProperty("entity_type")]
-        public string EntityType { get; set; }
+        public string EntityType { get; set; } = string.Empty;
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [JsonProperty("similarity_score")]
         public double SimilarityScore { get; set; }
@@ -352,7 +367,7 @@ namespace Themis.IngestionTool.Services
     public class VectorRadiusRequest
     {
         [JsonProperty("center_point")]
-        public double[] CenterPoint { get; set; }
+        public double[] CenterPoint { get; set; } = Array.Empty<double>();
 
         [JsonProperty("radius")]
         public double Radius { get; set; }
@@ -382,10 +397,10 @@ namespace Themis.IngestionTool.Services
     public class SimilarityRequest
     {
         [JsonProperty("entity_id_1")]
-        public string EntityId1 { get; set; }
+        public string EntityId1 { get; set; } = string.Empty;
 
         [JsonProperty("entity_id_2")]
-        public string EntityId2 { get; set; }
+        public string EntityId2 { get; set; } = string.Empty;
 
         [JsonProperty("metric")]
         public string Metric { get; set; } = "cosine";
@@ -394,10 +409,10 @@ namespace Themis.IngestionTool.Services
     public class SimilarityResult
     {
         [JsonProperty("entity_id_1")]
-        public string EntityId1 { get; set; }
+        public string EntityId1 { get; set; } = string.Empty;
 
         [JsonProperty("entity_id_2")]
-        public string EntityId2 { get; set; }
+        public string EntityId2 { get; set; } = string.Empty;
 
         [JsonProperty("similarity_score")]
         public double SimilarityScore { get; set; }

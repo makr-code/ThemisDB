@@ -99,6 +99,8 @@ FOR location IN locations
 - Automatische Rebalancierung bei Updates
 - Optimiert für Nearest-Neighbor Queries
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "R-Tree Hierarchical Index Structure"
@@ -137,6 +139,9 @@ graph TB
     style P6 fill:#f093fb
     style P7 fill:#f093fb
 ```
+
+<figcaption><b>Abb. 14.1:</b> Geospatial-Index-Struktur</figcaption>
+</figure>
 
 ### Geo-Hash Index
 
@@ -190,6 +195,8 @@ pois = conn.query("""
 """, {"min_lon": min_lon, "min_lat": min_lat, "max_lon": max_lon, "max_lat": max_lat})
 ```
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Geospatial Query Types"
@@ -229,6 +236,9 @@ graph TB
     style A2 fill:#43e97b
     style Outside fill:#ff6348
 ```
+
+<figcaption><b>Abb. 14.2:</b> Proximity-Search-Algorithmus</figcaption>
+</figure>
 
 ### Polygon Queries
 

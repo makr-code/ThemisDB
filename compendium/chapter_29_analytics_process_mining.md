@@ -31,6 +31,8 @@ ThemisDB bietet umfassende Analytics-Funktionen, von klassischen OLAP-Cubes bis 
 
 ### 29.1.2 OLAP Cube Architektur
 
+<figure>
+
 ```mermaid
 flowchart TB
     A[Fact Table: Sales] --> B[Dimension: Time]
@@ -60,6 +62,9 @@ flowchart TB
     style D fill:#ffe1f5
     style E fill:#f5e1ff
 ```
+
+<figcaption><b>Abb. 29.1:</b> Process-Mining-Pipeline</figcaption>
+</figure>
 
 ### 29.1.3 OLAP Operations in AQL
 
@@ -171,6 +176,8 @@ Process Mining analysiert Event-Logs, um reale Prozesse zu:
 
 ### 29.2.3 Process Mining Pipeline
 
+<figure>
+
 ```mermaid
 flowchart LR
     A[Event Log] --> B[Process Discovery]
@@ -189,6 +196,9 @@ flowchart LR
     style E fill:#ffe1e1
     style I fill:#e1ffe1
 ```
+
+<figcaption><b>Abb. 29.2:</b> Event-Log-Processing</figcaption>
+</figure>
 
 ---
 
@@ -325,6 +335,8 @@ FOR result IN similar
 
 ### 29.4.3 Similarity Visualization
 
+<figure>
+
 ```mermaid
 flowchart LR
     A[Ideal Process] --> B[Graph Edit Distance]
@@ -349,6 +361,9 @@ flowchart LR
     style E fill:#fff4e1
     style J fill:#e1ffe1
 ```
+
+<figcaption><b>Abb. 29.3:</b> Process-Discovery-Algorithm</figcaption>
+</figure>
 
 ---
 
@@ -419,6 +434,8 @@ FOR case IN bauantraege
 
 ### 29.5.3 Conformance Heatmap
 
+<figure>
+
 ```mermaid
 flowchart TB
     subgraph Ideal Process
@@ -433,7 +450,7 @@ flowchart TB
     end
     
     I1 -.Match.-> R1
-    I2 -.Missing!.-> X[❌]
+    I2 -.Missing!.-> X[[ERROR]]
     I3 -.Match.-> R3
     I4 -.Match.-> R4
     
@@ -443,6 +460,9 @@ flowchart TB
     style R3 fill:#e1ffe1
     style R4 fill:#fff4e1
 ```
+
+<figcaption><b>Abb. 29.4:</b> Conformance-Checking-Flow</figcaption>
+</figure>
 
 ---
 

@@ -493,6 +493,8 @@ Low cardinality: Status (10 values)
 
 **Consistency:** Data integrity maintained across system
 
+**Continuous Batching:** Dynamic request batching technique for LLM inference that allows new requests to join active batches, dramatically improving throughput (176%) and reducing latency (57%) compared to static batching. See Chapter 20.9A.3.
+
 **Cursor:** Pointer to result set for iteration
 
 **Denormalization:** Storing redundant data for performance
@@ -507,9 +509,15 @@ Low cardinality: Status (10 values)
 
 **Failover:** Automatic switch to backup system
 
+**Flash Attention:** IO-aware attention mechanism for LLMs that uses SRAM tiling instead of HBM storage, reducing GPU memory usage by 37% and increasing throughput by 69%. Requires NVIDIA Ampere+ GPUs. See Chapter 20.9A.1.
+
 **Flush:** Write data from memory to disk
 
 **Garbage Collection:** Freeing unused memory
+
+**GBNF (GGML BNF):** Grammar notation used by llama.cpp for constrained generation. Extends EBNF with specific syntax for controlling LLM output format. See Grammar-Constrained Generation.
+
+**Grammar-Constrained Generation:** LLM technique that uses EBNF/GBNF grammar rules to guarantee syntactically valid outputs (JSON, XML, CSV). Achieves 95-99% success rate vs 60-70% without constraints, eliminating need for output validation and retries. See Chapter 17.12.6.
 
 **Graph:** Network of connected nodes
 
@@ -518,6 +526,8 @@ Low cardinality: Status (10 values)
 **HNSW:** Hierarchical Navigable Small Worlds - vector index
 
 **Hot Data:** Frequently accessed data
+
+**Hot Spare:** Fully configured standby node in a database cluster that can automatically take over (failover) when an active shard fails, typically within <5 seconds. Provides high availability with zero data loss when combined with WAL replication. See Chapter 16.10.1.
 
 **Index:** Data structure for fast lookups
 
@@ -537,6 +547,8 @@ Low cardinality: Status (10 values)
 
 **Latency:** Time delay for operation
 
+**LoRA (Low-Rank Adaptation):** Efficient fine-tuning technique for large language models that adds trainable low-rank matrices to pretrained models, reducing memory requirements by 99% and training time by 3-10x compared to full fine-tuning. Multiple LoRA adapters can run on a single base model. See Chapter 17.12.5.
+
 **LSM:** Log-Structured Merge tree
 
 **MVCC:** Multi-Version Concurrency Control
@@ -551,6 +563,8 @@ Low cardinality: Status (10 values)
 
 **Optimization:** Making something run faster
 
+**Paged Attention:** Memory management technique for LLM attention mechanisms that organizes KV-cache into fixed-size pages instead of continuous memory allocation, reducing GPU memory waste by 80% and increasing concurrent request capacity by 5x. See Chapter 17.12.4.
+
 **Pagination:** Dividing results into pages
 
 **Partition:** Division of data across nodes
@@ -558,6 +572,10 @@ Low cardinality: Status (10 values)
 **Percentile:** Value below which percentage falls
 
 **Persistence:** Data survives shutdown
+
+**Piper:** Fast, local neural Text-to-Speech (TTS) engine used in ThemisDB Voice Assistant. Provides natural-sounding voice synthesis in multiple languages with <50ms latency and minimal CPU usage. See Chapter 10.7.
+
+**Prefix Caching:** LLM optimization that caches the attention states of frequently used prompt prefixes (such as system prompts), enabling 75% cost savings and 95% latency reduction for repeated queries with common prompt beginnings. See Chapter 17.12.1.
 
 **Projection:** Selecting subset of columns
 
@@ -571,9 +589,15 @@ Low cardinality: Status (10 values)
 
 **Replication:** Process of copying data to replicas
 
+**Response Caching:** Intelligent caching system for LLM responses that uses embedding-based semantic similarity to identify and reuse answers to similar questions, providing 60-80% cost savings for repetitive queries. Supports configurable TTL and similarity thresholds. See Chapter 17.12.2.
+
 **RocksDB:** Embedded key-value store (ThemisDB storage engine)
 
 **Rollback:** Undo transaction
+
+**RoPE (Rotary Position Embedding):** Position encoding technique for transformer models that enables context window extension beyond training length through scaling. ThemisDB supports Linear, NTK-aware, and YaRN scaling methods to extend context from 4K to 32K+ tokens. See Chapter 17.12.7.
+
+**RoPE Scaling:** Technique to extend LLM context windows beyond their original training length by adjusting the rotary position embedding frequency. YaRN method achieves 8x context extension (4K→32K tokens) with <10% quality loss. See Chapter 17.12.7.
 
 **RPO:** Recovery Point Objective (max data loss)
 
@@ -591,6 +615,8 @@ Low cardinality: Status (10 values)
 
 **Snapshot:** Point-in-time data view
 
+**Speculative Decoding:** LLM acceleration technique that uses a small, fast "draft model" to speculatively generate multiple tokens in parallel, which are then validated by the larger "target model". Achieves 2-3x speedup with 82-88% token acceptance rates. See Chapter 20.9A.2.
+
 **SQL:** Structured Query Language
 
 **SSTable:** Sorted String Table
@@ -605,9 +631,15 @@ Low cardinality: Status (10 values)
 
 **View:** Virtual table derived from query
 
-**WAL:** Write-Ahead Log
+**Voice Assistant:** Enterprise feature providing natural language voice interaction using Whisper (STT), Piper (TTS), and llama.cpp (LLM). Enables call center automation, meeting protocol generation, and voice-controlled database queries with DSGVO-compliant storage. See Chapter 10.7.
+
+**WAL (Write-Ahead Log):** Transaction log that records all database changes before they are applied, ensuring durability and enabling replication. In ThemisDB v1.4.0-alpha, WAL replication provides zero-data-loss failover with support for synchronous, asynchronous, and hybrid replication modes. See Chapter 16.10.2.
+
+**WAL Replication:** Replication mechanism based on Write-Ahead Log streaming that continuously transfers transaction log entries from primary to replica nodes. Supports sync (zero data loss, higher latency), async (minimal latency, potential data loss), and hybrid modes. See Chapter 16.10.2.
 
 **Warm Data:** Occasionally accessed data
+
+**Whisper:** OpenAI's high-accuracy Speech-to-Text (STT) model integrated into ThemisDB Voice Assistant via whisper.cpp. Supports 100+ languages with auto-detection, speaker diarization, and 5 model sizes (tiny to large) trading accuracy for speed. See Chapter 10.7.
 
 **Workload:** Pattern of database usage
 

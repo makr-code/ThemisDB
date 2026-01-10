@@ -4,16 +4,6 @@ name: Java SDK [Dry-Run]
 # 🔶 DRY-RUN MODE - Package is built but NOT deployed to Maven Central
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'clients/java/**'
-      - '.github/workflows/java-sdk-test.yml'
-  pull_request:
-    branches: [main, develop]
-    paths:
-      - 'clients/java/**'
-      - '.github/workflows/java-sdk-test.yml'
   workflow_dispatch:
 
 # Minimal permissions for security

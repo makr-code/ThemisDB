@@ -57,3 +57,23 @@ benchmark_results/*.json binary
 CMakeLists.txt text eol=lf
 *.cmake text eol=lf
 vcpkg.json text eol=lf
+
+# --- Merge strategy guards ---------------------------------------------------
+# Keep main restricted to Minimal/Community when merging from develop.
+# These patterns force merges to prefer the current branch version (ours),
+# preventing sensitive or non-public assets from landing on main.
+src/enterprise/** merge=ours
+include/enterprise/** merge=ours
+plugins/enterprise/** merge=ours
+docs/enterprise/** merge=ours
+docs/en/confidential/** merge=ours
+docs/de/confidencial/** merge=ours
+internal/** merge=ours
+wordpress-plugin/** merge=ours
+wordpress-theme/** merge=ours
+epServer/** merge=ours
+examples/gpu_impact_analysis/** merge=ours
+tests/test_enterprise_*.cpp merge=ours
+tests/test_gpu_impact_analysis_plugin.cpp merge=ours
+benchmarks/bench_gpu_impact_analysis.cpp merge=ours
+benchmarks/run_enterprise_benchmarks.py merge=ours

@@ -1,0 +1,36 @@
+# Relaxed JSON Grammar
+# Allows some JSON5-like features: trailing commas, unquoted keys (limited)
+
+root ::= ws value ws
+
+# Values
+value ::= object | array | string | number | boolean | null
+
+# Objects (allows trailing comma)
+object ::= "{" ws "}" | "{" ws pair (ws "," ws pair)* (ws ",")? ws "}"
+pair ::= key ws ":" ws value
+key ::= string | identifier
+
+# Arrays (allows trailing comma)
+array ::= "[" ws "]" | "[" ws value (ws "," ws value)* (ws ",")? ws "]"
+
+# Strings
+string ::= "\"" char* "\""
+char ::= [^"\\] | "\\" escape
+escape ::= ["\\bfnrt] | "u" [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F] [0-9a-fA-F]
+
+# Identifiers (for unquoted keys)
+identifier ::= [a-zA-Z_] [a-zA-Z0-9_]*
+
+# Numbers
+number ::= integer fraction? exponent?
+integer ::= "-"? ("0" | [1-9] [0-9]*)
+fraction ::= "." [0-9]+
+exponent ::= [eE] [+-]? [0-9]+
+
+# Booleans and null
+boolean ::= "true" | "false"
+null ::= "null"
+
+# Whitespace
+ws ::= [ \t\n\r]*

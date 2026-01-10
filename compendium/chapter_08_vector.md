@@ -25,6 +25,8 @@ Ein **Embedding** ist eine hochdimensionale Vektorrepräsentation von Text, Bild
 
 **Kosinus-Ähnlichkeit** misst, wie ähnlich zwei Vektoren sind (0 = keine Ähnlichkeit, 1 = identisch).
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Embedding Space - Semantic Similarity"
@@ -49,6 +51,9 @@ graph TB
     style V4 fill:#43e97b
     style V5 fill:#4facfe
 ```
+
+<figcaption><b>Abb. 08.1:</b> Vector-Embedding-Pipeline</figcaption>
+</figure>
 
 ### Vector Search vs. Fulltext Search
 
@@ -90,6 +95,8 @@ WITH (m = 16, ef_construction = 200);
 - `m`: Anzahl Verbindungen (höher = bessere Qualität, langsamer Build)
 - `ef_construction`: Exploration während Index-Build (höher = bessere Qualität)
 - `vector_cosine_ops`: Kosinus-Distanz (alternativ: L2, inner product)
+
+<figure>
 
 ```mermaid
 graph TB
@@ -150,6 +157,9 @@ graph TB
     style L0_2 fill:#43e97b
 ```
 
+<figcaption><b>Abb. 08.2:</b> Similarity-Search-Ablauf</figcaption>
+</figure>
+
 ### Similarity Search Query
 
 ```aql
@@ -195,6 +205,8 @@ ORDER BY combined_score DESC
 LIMIT 20;
 ```
 
+<figure>
+
 ```mermaid
 flowchart LR
     Query[User Query: Marathon Laufschuhe] --> Split{Hybrid Search}
@@ -221,6 +233,9 @@ flowchart LR
     style Merge fill:#ffd32a
     style Final fill:#4facfe
 ```
+
+<figcaption><b>Abb. 08.3:</b> Index-Struktur für Vektoren</figcaption>
+</figure>
 
 ## 8.3 Example: Dokumenten-Suche (RAG System)
 

@@ -139,6 +139,11 @@ public:
      * Force immediate ship (for testing or manual trigger)
      */
     void forceShip();
+    
+    /**
+     * Set Prometheus metrics exporter (optional)
+     */
+    void setMetricsExporter(std::shared_ptr<class PrometheusMetrics> metrics);
 
 private:
     WALShipperConfig config_;
@@ -160,6 +165,9 @@ private:
     
     // mTLS client
     std::shared_ptr<MTLSClient> mtls_client_;
+    
+    // Prometheus metrics (optional)
+    std::shared_ptr<class PrometheusMetrics> metrics_;
     
     /**
      * Main shipping loop

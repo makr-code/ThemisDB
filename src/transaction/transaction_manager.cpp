@@ -6,6 +6,8 @@
 #include "index/vector_index.h"
 #include "transaction/saga.h"
 #include "utils/logger.h"
+#include <functional>
+#include <thread>
 
 namespace themis {
 
@@ -29,7 +31,10 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
         active_transactions_[txn_id] = txn;
     }
     
-    total_begun_.fetch_add(1, std::memory_order_relaxed);
+    // SOLUTION 2B: Update statistics with sequence lock
+    updateStatsWithSeqLock([this]() {
+        total_begun_.fetch_add(1, std::memory_order_relaxed);
+    });
     THEMIS_INFO("Transaction {} begun (isolation: {})", txn_id, 
                isolation == IsolationLevel::ReadCommitted ? "ReadCommitted" : "Snapshot");
     
@@ -58,10 +63,16 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
     
     auto status = txn->commit();
     if (status.ok) {
-        total_committed_.fetch_add(1, std::memory_order_relaxed);
+        // SOLUTION 2B: Update statistics with sequence lock
+        updateStatsWithSeqLock([this]() {
+            total_committed_.fetch_add(1, std::memory_order_relaxed);
+        });
         THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
     } else {
-        total_aborted_.fetch_add(1, std::memory_order_relaxed);
+        // SOLUTION 2B: Update statistics with sequence lock
+        updateStatsWithSeqLock([this]() {
+            total_aborted_.fetch_add(1, std::memory_order_relaxed);
+        });
         THEMIS_WARN("Transaction {} commit failed: {}", id, status.message);
     }
     
@@ -81,7 +92,10 @@ void TransactionManager::rollbackTransaction(TransactionId id) {
     }
     
     txn->rollback();
-    total_aborted_.fetch_add(1, std::memory_order_relaxed);
+    // SOLUTION 2B: Update statistics with sequence lock
+    updateStatsWithSeqLock([this]() {
+        total_aborted_.fetch_add(1, std::memory_order_relaxed);
+    });
     THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
     
     moveToCompleted(id);
@@ -91,6 +105,14 @@ void TransactionManager::moveToCompleted(TransactionId id) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     auto it = active_transactions_.find(id);
     if (it != active_transactions_.end()) {
+        // RACE CONDITION FIX: Check if transaction already exists in completed map
+        auto completed_it = completed_transactions_.find(id);
+        if (completed_it != completed_transactions_.end()) {
+            THEMIS_WARN("Transaction {} already in completed map, skipping duplicate move", id);
+            active_transactions_.erase(it);
+            return;
+        }
+        
         completed_transactions_[id] = std::move(it->second);
         active_transactions_.erase(it);
     }
@@ -122,6 +144,68 @@ TransactionManager::Stats TransactionManager::getStats() const {
     return stats;
 }
 
+// SOLUTION 2B: Lock-free statistics with sequence lock pattern
+TransactionManager::Stats TransactionManager::getStatsLockFree() const {
+    Stats stats;
+    uint64_t seq1, seq2;
+    
+    // Optimistic read with retry on concurrent modification
+    do {
+        // Read sequence number (acquire semantics)
+        seq1 = stats_sequence_.load(std::memory_order_acquire);
+        
+        // If sequence is odd, a writer is active - retry
+        if ((seq1 & 1) != 0) {
+            std::this_thread::yield();  // Give writer a chance to finish
+            continue;
+        }
+        
+        // Read all statistics atomically
+        stats.total_begun = total_begun_.load(std::memory_order_relaxed);
+        stats.total_committed = total_committed_.load(std::memory_order_relaxed);
+        stats.total_aborted = total_aborted_.load(std::memory_order_relaxed);
+        
+        // For map sizes, we need a quick lock (cannot be done lock-free)
+        // This is acceptable as the lock is held very briefly
+        {
+            std::lock_guard<std::mutex> lock(sessions_mutex_);
+            stats.active_count = active_transactions_.size();
+            
+            // Calculate duration stats
+            uint64_t total_duration = 0;
+            stats.max_duration_ms = 0;
+            size_t count = 0;
+            
+            for (const auto& [id, txn] : completed_transactions_) {
+                auto duration = txn->getDurationMs();
+                total_duration += duration;
+                stats.max_duration_ms = std::max(stats.max_duration_ms, duration);
+                ++count;
+            }
+            
+            stats.avg_duration_ms = count > 0 ? total_duration / count : 0;
+        }
+        
+        // Read sequence number again (acquire semantics)
+        seq2 = stats_sequence_.load(std::memory_order_acquire);
+        
+    } while (seq1 != seq2 || (seq1 & 1) != 0);  // Retry if modified during read
+    
+    return stats;
+}
+
+// Helper to update statistics with sequence lock protocol
+void TransactionManager::updateStatsWithSeqLock(std::function<void()> update) {
+    // Increment sequence (odd = writer active)
+    stats_sequence_.fetch_add(1, std::memory_order_release);
+    
+    // Perform the update
+    update();
+    
+    // Increment sequence again (even = no active writer)
+    stats_sequence_.fetch_add(1, std::memory_order_release);
+}
+
 void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
     std::lock_guard<std::mutex> lock(sessions_mutex_);
     
@@ -140,7 +224,10 @@ void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
 // Direct transaction (legacy API)
 TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
-    total_begun_.fetch_add(1, std::memory_order_relaxed);
+    // SOLUTION 2B: Update statistics with sequence lock
+    updateStatsWithSeqLock([this]() {
+        total_begun_.fetch_add(1, std::memory_order_relaxed);
+    });
     return Transaction(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
 }
 
@@ -155,13 +242,17 @@ TransactionManager::Transaction::Transaction(TransactionId id,
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()) {
     mvcc_txn_ = db_.beginTransaction();
+    if (!mvcc_txn_) {
+        throw std::runtime_error("Failed to create MVCC transaction");
+    }
     saga_ = std::make_unique<Saga>();
     THEMIS_INFO("Transaction {} initialized with MVCC and SAGA support (isolation: {})", 
                id_, isolation_ == IsolationLevel::Snapshot ? "Snapshot" : "ReadCommitted");
 }
 
 TransactionManager::Transaction::~Transaction() {
-    if (!finished_ && mvcc_txn_ && mvcc_txn_->isActive()) {
+    // Use atomic load to check if finished
+    if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
         THEMIS_WARN("Transaction {} destructed without commit/rollback; rolling back implicitly", id_);
         mvcc_txn_->rollback();
         saga_->compensate();
@@ -177,13 +268,14 @@ uint64_t TransactionManager::Transaction::getDurationMs() const {
 TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
     : id_(other.id_), db_(other.db_), secIdx_(other.secIdx_), graphIdx_(other.graphIdx_), 
       vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),
-      mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), finished_(other.finished_) {
-    other.finished_ = true;
+      mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
+      finished_(other.finished_.load(std::memory_order_acquire)) {
+    other.finished_.store(true, std::memory_order_release);
 }
 
 TransactionManager::Transaction& TransactionManager::Transaction::operator=(Transaction&& other) noexcept {
     if (this != &other) {
-        if (!finished_ && mvcc_txn_ && mvcc_txn_->isActive()) {
+        if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
             mvcc_txn_->rollback();
             saga_->compensate();
         }
@@ -191,8 +283,8 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         // Diese werden in Konstruktor initialisiert und bleiben über Lebensdauer konstant.
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
-        finished_ = other.finished_;
-        other.finished_ = true;
+        finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
+        other.finished_.store(true, std::memory_order_release);
     }
     return *this;
 }
@@ -386,8 +478,15 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
 }
 
 TransactionManager::Status TransactionManager::Transaction::commit() {
-    if (finished_) return Status::Error("commit: Transaktion bereits abgeschlossen");
-    if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("commit: keine aktive Transaktion");
+    // RACE CONDITION FIX: Use atomic compare-exchange to prevent double commit
+    bool expected = false;
+    if (!finished_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+        return Status::Error("commit: Transaktion bereits abgeschlossen");
+    }
+    
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("commit: keine aktive Transaktion");
+    }
     
     THEMIS_DEBUG("Committing MVCC transaction {} with {} SAGA steps (duration: {} ms)", 
                 id_, saga_->stepCount(), getDurationMs());
@@ -396,19 +495,19 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
         // Commit failed - MVCC conflict detected
         THEMIS_ERROR("Transaction {} commit failed - MVCC conflict, executing SAGA compensation", id_);
         saga_->compensate();
-        finished_ = true;
         return Status::Error("commit: MVCC conflict detected, transaction must be retried");
     }
     
     // Success - clear SAGA (no compensation needed)
     saga_->clear();
-    finished_ = true;
     THEMIS_INFO("Transaction {} committed successfully (MVCC)", id_);
     return Status::OK();
 }
 
 void TransactionManager::Transaction::rollback() {
-    if (finished_) {
+    // RACE CONDITION FIX: Use atomic compare-exchange to prevent double rollback
+    bool expected = false;
+    if (!finished_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         THEMIS_WARN("Transaction {} already finished, rollback skipped", id_);
         return;
     }
@@ -422,7 +521,6 @@ void TransactionManager::Transaction::rollback() {
     // Execute SAGA compensation
     saga_->compensate();
     
-    finished_ = true;
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }
 

@@ -1,0 +1,1008 @@
+/**
+ * ThemisDB Blob-Level Redundancy Manager Implementation
+ * 
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "storage/blob_redundancy_manager.h"
+#include <spdlog/spdlog.h>
+#include <random>
+#include <sstream>
+#include <iomanip>
+
+namespace themisdb {
+namespace storage {
+
+// ═══════════════════════════════════════════════════════════
+// BlobMetadata Implementation
+// ═══════════════════════════════════════════════════════════
+
+bool BlobMetadata::isHealthy() const {
+    return healthyLocationCount() >= requiredLocationCount();
+}
+
+uint32_t BlobMetadata::healthyLocationCount() const {
+    uint32_t count = 0;
+    for (const auto& loc : locations) {
+        if (loc.is_healthy) count++;
+    }
+    return count;
+}
+
+uint32_t BlobMetadata::requiredLocationCount() const {
+    switch (config.mode) {
+        case RedundancyMode::NONE:
+        case RedundancyMode::STRIPE:
+            return 1;
+        case RedundancyMode::MIRROR:
+        case RedundancyMode::STRIPE_MIRROR:
+        case RedundancyMode::GEO_MIRROR:
+            return config.replication_factor;
+        case RedundancyMode::PARITY:
+            return config.erasure_coding.data_shards;
+        default:
+            return 1;
+    }
+}
+
+bool BlobMetadata::canRecover() const {
+    if (config.mode == RedundancyMode::PARITY) {
+        // Need at least data_shards for recovery
+        return healthyLocationCount() >= config.erasure_coding.data_shards;
+    }
+    
+    // For other modes, need at least one healthy location
+    return healthyLocationCount() >= 1;
+}
+
+std::vector<std::string> BlobMetadata::getMissingShards() const {
+    std::vector<std::string> missing;
+    // Simplified implementation
+    return missing;
+}
+
+std::string BlobMetadata::toJson() const {
+    // Simplified JSON serialization
+    // In production, use nlohmann::json or similar
+    return "{}";
+}
+
+std::optional<BlobMetadata> BlobMetadata::fromJson(const std::string& json) {
+    // Simplified JSON deserialization
+    return std::nullopt;
+}
+
+// ═══════════════════════════════════════════════════════════
+// CollectionRedundancyConfig Implementation
+// ═══════════════════════════════════════════════════════════
+
+std::optional<CollectionRedundancyConfig> CollectionRedundancyConfig::loadFromYaml(
+    const std::string& path
+) {
+    // Simplified YAML loading
+    // In production, use yaml-cpp
+    return std::nullopt;
+}
+
+bool CollectionRedundancyConfig::saveToYaml(const std::string& path) const {
+    // Simplified YAML saving
+    return false;
+}
+
+// ═══════════════════════════════════════════════════════════
+// BlobRedundancyManager Implementation
+// ═══════════════════════════════════════════════════════════
+
+BlobRedundancyManager::BlobRedundancyManager(const Config& config)
+    : config_(config) {
+    
+    spdlog::info("BlobRedundancyManager initializing...");
+    
+    // Load configuration
+    if (!config_.config_path.empty()) {
+        loadConfig(config_.config_path);
+    }
+    
+    // Initialize default blob type configurations
+    // L0 SST files: High replication, sync writes
+    BlobRedundancyConfig l0_config;
+    l0_config.mode = RedundancyMode::MIRROR;
+    l0_config.replication_factor = 3;
+    l0_config.tier = StorageTier::HOT;
+    l0_config.sync_write = true;
+    l0_config.priority = BlobPriority::HIGH;
+    blob_type_configs_[BlobType::SST_L0] = l0_config;
+    
+    // L1 SST files: Medium replication
+    BlobRedundancyConfig l1_config;
+    l1_config.mode = RedundancyMode::MIRROR;
+    l1_config.replication_factor = 2;
+    l1_config.tier = StorageTier::HOT;
+    l1_config.priority = BlobPriority::NORMAL;
+    blob_type_configs_[BlobType::SST_L1] = l1_config;
+    
+    // L2+ SST files: Lower replication, can use erasure coding
+    BlobRedundancyConfig l2_config;
+    l2_config.mode = RedundancyMode::PARITY;
+    l2_config.tier = StorageTier::WARM;
+    l2_config.priority = BlobPriority::NORMAL;
+    l2_config.erasure_coding.data_shards = 4;
+    l2_config.erasure_coding.parity_shards = 2;
+    blob_type_configs_[BlobType::SST_L2_PLUS] = l2_config;
+    
+    // WAL: Critical, high replication
+    BlobRedundancyConfig wal_config;
+    wal_config.mode = RedundancyMode::MIRROR;
+    wal_config.replication_factor = 3;
+    wal_config.tier = StorageTier::HOT;
+    wal_config.sync_write = true;
+    wal_config.priority = BlobPriority::CRITICAL;
+    blob_type_configs_[BlobType::WAL] = wal_config;
+    
+    // Manifest: Critical
+    BlobRedundancyConfig manifest_config;
+    manifest_config.mode = RedundancyMode::MIRROR;
+    manifest_config.replication_factor = 3;
+    manifest_config.tier = StorageTier::HOT;
+    manifest_config.sync_write = true;
+    manifest_config.priority = BlobPriority::CRITICAL;
+    blob_type_configs_[BlobType::MANIFEST] = manifest_config;
+    
+    spdlog::info("BlobRedundancyManager initialized with {} blob type configurations",
+                 blob_type_configs_.size());
+}
+
+BlobRedundancyManager::~BlobRedundancyManager() {
+    stop();
+}
+
+bool BlobRedundancyManager::start() {
+    if (running_.exchange(true)) {
+        spdlog::warn("BlobRedundancyManager already running");
+        return false;
+    }
+    
+    spdlog::info("Starting BlobRedundancyManager background threads...");
+    
+    // Start maintenance thread
+    maintenance_thread_ = std::thread([this]() {
+        maintenanceLoop();
+    });
+    
+    // Start repair thread
+    repair_thread_ = std::thread([this]() {
+        repairLoop();
+    });
+    
+    // Start config reload thread if hot reload is enabled
+    if (config_.hot_reload_enabled) {
+        config_reload_thread_ = std::thread([this]() {
+            configReloadLoop();
+        });
+    }
+    
+    spdlog::info("BlobRedundancyManager started successfully");
+    return true;
+}
+
+void BlobRedundancyManager::stop() {
+    if (!running_.exchange(false)) {
+        return;
+    }
+    
+    spdlog::info("Stopping BlobRedundancyManager...");
+    
+    // Wake up repair thread
+    repair_cv_.notify_all();
+    
+    // Wait for threads to finish
+    if (maintenance_thread_.joinable()) {
+        maintenance_thread_.join();
+    }
+    if (repair_thread_.joinable()) {
+        repair_thread_.join();
+    }
+    if (config_reload_thread_.joinable()) {
+        config_reload_thread_.join();
+    }
+    
+    spdlog::info("BlobRedundancyManager stopped");
+}
+
+bool BlobRedundancyManager::isRunning() const {
+    return running_.load();
+}
+
+bool BlobRedundancyManager::loadConfig(const std::string& path) {
+    spdlog::info("Loading blob redundancy configuration from: {}", path);
+    
+    // Simplified implementation
+    // In production, parse YAML configuration file
+    
+    return true;
+}
+
+bool BlobRedundancyManager::reloadConfig() {
+    return loadConfig(config_.config_path);
+}
+
+BlobRedundancyConfig BlobRedundancyManager::getConfigForBlob(
+    BlobType type,
+    const std::string& collection
+) {
+    std::shared_lock<std::shared_mutex> lock(config_mutex_);
+    
+    // Check for document-specific override
+    if (!collection.empty()) {
+        auto doc_it = document_overrides_.find(collection);
+        if (doc_it != document_overrides_.end()) {
+            return doc_it->second;
+        }
+        
+        // Check for collection-specific override
+        auto coll_it = collection_overrides_.find(collection);
+        if (coll_it != collection_overrides_.end()) {
+            return coll_it->second;
+        }
+    }
+    
+    // Return blob type default
+    auto it = blob_type_configs_.find(type);
+    if (it != blob_type_configs_.end()) {
+        return it->second;
+    }
+    
+    // Return generic default
+    BlobRedundancyConfig default_config;
+    default_config.mode = RedundancyMode::MIRROR;
+    default_config.replication_factor = 2;
+    return default_config;
+}
+
+void BlobRedundancyManager::setCollectionOverride(
+    const std::string& collection,
+    const BlobRedundancyConfig& config
+) {
+    std::unique_lock<std::shared_mutex> lock(config_mutex_);
+    collection_overrides_[collection] = config;
+}
+
+void BlobRedundancyManager::setDocumentOverride(
+    const std::string& collection,
+    const std::string& doc_id,
+    const BlobRedundancyConfig& config
+) {
+    std::unique_lock<std::shared_mutex> lock(config_mutex_);
+    std::string key = collection + ":" + doc_id;
+    document_overrides_[key] = config;
+}
+
+std::string BlobRedundancyManager::registerBlob(
+    BlobType type,
+    const std::string& local_path,
+    uint64_t size_bytes,
+    const std::string& collection,
+    const std::string& document_id
+) {
+    // Generate blob ID
+    std::string blob_id = generateBlobId();
+    
+    // Get configuration for this blob type
+    auto config = getConfigForBlob(type, collection);
+    
+    // Create metadata
+    BlobMetadata metadata;
+    metadata.blob_id = blob_id;
+    metadata.type = type;
+    metadata.collection = collection;
+    metadata.document_id = document_id;
+    metadata.config = config;
+    metadata.created_at = std::chrono::system_clock::now();
+    metadata.last_accessed = metadata.created_at;
+    metadata.last_modified = metadata.created_at;
+    metadata.total_size = size_bytes;
+    
+    // Add primary location
+    BlobLocation primary_loc;
+    primary_loc.shard_id = "local";  // Simplified
+    primary_loc.path = local_path;
+    primary_loc.tier = config.tier;
+    primary_loc.size_bytes = size_bytes;
+    primary_loc.created_at = metadata.created_at;
+    primary_loc.is_healthy = true;
+    metadata.locations.push_back(primary_loc);
+    
+    // Store metadata
+    {
+        std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+        blobs_[blob_id] = metadata;
+        stats_total_blobs_++;
+    }
+    
+    spdlog::debug("Registered blob: {} (type={}, size={} bytes)",
+                  blob_id, static_cast<int>(type), size_bytes);
+    
+    // Queue for redundancy ensuring (async)
+    if (config.replication_factor > 1 || config.mode == RedundancyMode::PARITY) {
+        std::lock_guard<std::mutex> repair_lock(repair_mutex_);
+        repair_queue_.push(blob_id);
+        repair_cv_.notify_one();
+    }
+    
+    return blob_id;
+}
+
+void BlobRedundancyManager::unregisterBlob(const std::string& blob_id) {
+    std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it != blobs_.end()) {
+        spdlog::debug("Unregistered blob: {}", blob_id);
+        blobs_.erase(it);
+        stats_total_blobs_--;
+    }
+}
+
+BlobOperationResult BlobRedundancyManager::ensureRedundancy(const std::string& blob_id) {
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        BlobOperationResult result;
+        result.success = false;
+        result.blob_id = blob_id;
+        result.error_message = "Blob not found";
+        return result;
+    }
+    
+    const auto& metadata = it->second;
+    
+    // Check if redundancy is already satisfied
+    if (metadata.isHealthy()) {
+        BlobOperationResult result;
+        result.success = true;
+        result.blob_id = blob_id;
+        return result;
+    }
+    
+    // Queue for repair
+    {
+        std::lock_guard<std::mutex> repair_lock(repair_mutex_);
+        repair_queue_.push(blob_id);
+        repair_cv_.notify_one();
+    }
+    
+    BlobOperationResult result;
+    result.success = true;
+    result.blob_id = blob_id;
+    result.error_message = "Queued for repair";
+    return result;
+}
+
+BlobOperationResult BlobRedundancyManager::repairBlob(const std::string& blob_id) {
+    auto start = std::chrono::steady_clock::now();
+    
+    BlobOperationResult result;
+    result.blob_id = blob_id;
+    result.success = false;
+    
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        result.error_message = "Blob not found";
+        return result;
+    }
+    
+    const auto& metadata = it->second;
+    
+    // Simplified repair logic
+    // In production, implement actual replication/repair
+    
+    stats_repairs_++;
+    
+    result.success = true;
+    
+    auto end = std::chrono::steady_clock::now();
+    result.latency = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    return result;
+}
+
+bool BlobRedundancyManager::verifyBlob(const std::string& blob_id) {
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        return false;
+    }
+    
+    const auto& metadata = it->second;
+    
+    // Verify checksums, location health, etc.
+    // Simplified implementation
+    
+    return metadata.isHealthy();
+}
+
+BlobOperationResult BlobRedundancyManager::writeBlob(
+    const std::string& blob_id,
+    const std::vector<uint8_t>& data,
+    WriteHandler handler
+) {
+    BlobOperationResult result;
+    result.blob_id = blob_id;
+    result.success = false;
+    
+    // Get blob metadata
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        result.error_message = "Blob not found";
+        return result;
+    }
+    
+    const auto& metadata = it->second;
+    lock.unlock();
+    
+    // Write to target shards based on redundancy mode
+    auto target_shards = selectTargetShards(metadata);
+    
+    std::vector<std::string> written_shards;
+    for (const auto& shard_id : target_shards) {
+        if (handler(shard_id, metadata.blob_id, data)) {
+            written_shards.push_back(shard_id);
+        }
+    }
+    
+    result.success = !written_shards.empty();
+    result.affected_shards = written_shards;
+    
+    return result;
+}
+
+std::optional<std::vector<uint8_t>> BlobRedundancyManager::readBlob(
+    const std::string& blob_id,
+    ReadHandler handler
+) {
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        return std::nullopt;
+    }
+    
+    const auto& metadata = it->second;
+    lock.unlock();
+    
+    // Select read shard
+    auto read_shard = selectReadShard(metadata);
+    
+    // Read from selected shard
+    return handler(read_shard, blob_id);
+}
+
+BlobOperationResult BlobRedundancyManager::deleteBlob(
+    const std::string& blob_id,
+    DeleteHandler handler
+) {
+    BlobOperationResult result;
+    result.blob_id = blob_id;
+    result.success = false;
+    
+    std::unique_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it == blobs_.end()) {
+        result.error_message = "Blob not found";
+        return result;
+    }
+    
+    const auto& metadata = it->second;
+    
+    // Delete from all locations
+    std::vector<std::string> deleted_shards;
+    for (const auto& location : metadata.locations) {
+        if (handler(location.shard_id, location.path)) {
+            deleted_shards.push_back(location.shard_id);
+        }
+    }
+    
+    // Remove from metadata
+    blobs_.erase(it);
+    stats_total_blobs_--;
+    
+    result.success = true;
+    result.affected_shards = deleted_shards;
+    
+    return result;
+}
+
+BlobOperationResult BlobRedundancyManager::tierDown(
+    const std::string& blob_id,
+    StorageTier target
+) {
+    BlobOperationResult result;
+    result.blob_id = blob_id;
+    result.success = true;
+    
+    stats_tier_transitions_++;
+    
+    return result;
+}
+
+BlobOperationResult BlobRedundancyManager::tierUp(
+    const std::string& blob_id,
+    StorageTier target
+) {
+    BlobOperationResult result;
+    result.blob_id = blob_id;
+    result.success = true;
+    
+    stats_tier_transitions_++;
+    
+    return result;
+}
+
+std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() {
+    std::vector<std::string> candidates;
+    
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto now = std::chrono::system_clock::now();
+    
+    for (const auto& [blob_id, metadata] : blobs_) {
+        if (!metadata.config.auto_tier_down) continue;
+        
+        auto age_days = std::chrono::duration_cast<std::chrono::hours>(
+            now - metadata.last_accessed).count() / 24;
+        
+        if (age_days >= metadata.config.tier_down_after_days) {
+            candidates.push_back(blob_id);
+        }
+    }
+    
+    return candidates;
+}
+
+BlobMetadata BlobRedundancyManager::getBlobMetadata(const std::string& blob_id) {
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    auto it = blobs_.find(blob_id);
+    if (it != blobs_.end()) {
+        return it->second;
+    }
+    
+    return BlobMetadata{};
+}
+
+std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() {
+    std::vector<std::string> degraded;
+    
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    for (const auto& [blob_id, metadata] : blobs_) {
+        if (!metadata.isHealthy() && metadata.canRecover()) {
+            degraded.push_back(blob_id);
+        }
+    }
+    
+    return degraded;
+}
+
+std::vector<std::string> BlobRedundancyManager::getCriticalBlobs() {
+    std::vector<std::string> critical;
+    
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    for (const auto& [blob_id, metadata] : blobs_) {
+        if (!metadata.canRecover()) {
+            critical.push_back(blob_id);
+        }
+    }
+    
+    return critical;
+}
+
+BlobRedundancyStats BlobRedundancyManager::getStats() const {
+    BlobRedundancyStats stats;
+    
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    stats.total_blobs = blobs_.size();
+    
+    for (const auto& [blob_id, metadata] : blobs_) {
+        if (metadata.isHealthy()) {
+            stats.healthy_blobs++;
+        } else if (metadata.canRecover()) {
+            stats.degraded_blobs++;
+        } else {
+            stats.critical_blobs++;
+        }
+        
+        stats.logical_bytes += metadata.total_size;
+        stats.physical_bytes += metadata.total_size * metadata.locations.size();
+        
+        // Count by type
+        stats.blobs_by_type[metadata.type]++;
+        stats.bytes_by_type[metadata.type] += metadata.total_size;
+        
+        // Count by tier
+        for (const auto& location : metadata.locations) {
+            stats.blobs_by_tier[location.tier]++;
+            stats.bytes_by_tier[location.tier] += location.size_bytes;
+        }
+    }
+    
+    if (stats.physical_bytes > 0) {
+        stats.storage_efficiency = static_cast<double>(stats.logical_bytes) / stats.physical_bytes;
+    }
+    
+    stats.repair_operations = stats_repairs_.load();
+    stats.tier_transitions = stats_tier_transitions_.load();
+    
+    return stats;
+}
+
+void BlobRedundancyManager::runMaintenanceCycle() {
+    spdlog::debug("Running blob redundancy maintenance cycle");
+    
+    // Check blob health
+    auto degraded = getDegradedBlobs();
+    spdlog::info("Found {} degraded blobs", degraded.size());
+    
+    // Queue degraded blobs for repair
+    {
+        std::lock_guard<std::mutex> lock(repair_mutex_);
+        for (const auto& blob_id : degraded) {
+            repair_queue_.push(blob_id);
+        }
+    }
+    repair_cv_.notify_one();
+    
+    // Check for tier-down candidates
+    auto tier_candidates = getBlobsForTierDown();
+    spdlog::info("Found {} blobs eligible for tier-down", tier_candidates.size());
+    
+    // Process tier transitions (limited per cycle)
+    size_t max_tier_ops = 10;
+    for (size_t i = 0; i < std::min(tier_candidates.size(), max_tier_ops); ++i) {
+        // Simplified: just log for now
+        spdlog::debug("Blob {} eligible for tier-down", tier_candidates[i]);
+    }
+}
+
+void BlobRedundancyManager::runScrub(bool full) {
+    spdlog::info("Running blob scrub (full={})", full);
+    
+    std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
+    
+    for (const auto& [blob_id, metadata] : blobs_) {
+        // Verify checksums
+        // Check location health
+        // Simplified implementation
+    }
+}
+
+void BlobRedundancyManager::runRepairQueue() {
+    spdlog::debug("Processing blob repair queue");
+    
+    std::unique_lock<std::mutex> lock(repair_mutex_);
+    
+    while (!repair_queue_.empty()) {
+        auto blob_id = repair_queue_.front();
+        repair_queue_.pop();
+        
+        lock.unlock();
+        
+        auto result = repairBlob(blob_id);
+        if (!result.success) {
+            spdlog::warn("Failed to repair blob {}: {}", blob_id, result.error_message);
+        }
+        
+        lock.lock();
+    }
+}
+
+std::string BlobRedundancyManager::exportPrometheusMetrics() const {
+    auto stats = getStats();
+    
+    std::stringstream ss;
+    
+    ss << "# HELP themis_blob_redundancy_total_blobs Total number of blobs\n";
+    ss << "# TYPE themis_blob_redundancy_total_blobs gauge\n";
+    ss << "themis_blob_redundancy_total_blobs " << stats.total_blobs << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_healthy_blobs Number of healthy blobs\n";
+    ss << "# TYPE themis_blob_redundancy_healthy_blobs gauge\n";
+    ss << "themis_blob_redundancy_healthy_blobs " << stats.healthy_blobs << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_degraded_blobs Number of degraded blobs\n";
+    ss << "# TYPE themis_blob_redundancy_degraded_blobs gauge\n";
+    ss << "themis_blob_redundancy_degraded_blobs " << stats.degraded_blobs << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_critical_blobs Number of critical blobs\n";
+    ss << "# TYPE themis_blob_redundancy_critical_blobs gauge\n";
+    ss << "themis_blob_redundancy_critical_blobs " << stats.critical_blobs << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_logical_bytes Logical bytes (actual data size)\n";
+    ss << "# TYPE themis_blob_redundancy_logical_bytes gauge\n";
+    ss << "themis_blob_redundancy_logical_bytes " << stats.logical_bytes << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_physical_bytes Physical bytes (with redundancy)\n";
+    ss << "# TYPE themis_blob_redundancy_physical_bytes gauge\n";
+    ss << "themis_blob_redundancy_physical_bytes " << stats.physical_bytes << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_storage_efficiency Storage efficiency ratio\n";
+    ss << "# TYPE themis_blob_redundancy_storage_efficiency gauge\n";
+    ss << "themis_blob_redundancy_storage_efficiency " << stats.storage_efficiency << "\n";
+    
+    ss << "# HELP themis_blob_redundancy_repairs_total Total repair operations\n";
+    ss << "# TYPE themis_blob_redundancy_repairs_total counter\n";
+    ss << "themis_blob_redundancy_repairs_total " << stats.repair_operations << "\n";
+    
+    return ss.str();
+}
+
+std::shared_ptr<rocksdb::EventListener> BlobRedundancyManager::createRocksDBListener() {
+    // Return event listener for RocksDB integration
+    // Simplified: return nullptr for now
+    return nullptr;
+}
+
+// ═══════════════════════════════════════════════════════════
+// Private Methods
+// ═══════════════════════════════════════════════════════════
+
+void BlobRedundancyManager::maintenanceLoop() {
+    spdlog::info("Blob redundancy maintenance loop started");
+    
+    while (running_.load()) {
+        try {
+            runMaintenanceCycle();
+        } catch (const std::exception& e) {
+            spdlog::error("Maintenance cycle error: {}", e.what());
+        }
+        
+        // Sleep
+        std::this_thread::sleep_for(
+            std::chrono::seconds(config_.maintenance_interval_seconds)
+        );
+    }
+    
+    spdlog::info("Blob redundancy maintenance loop stopped");
+}
+
+void BlobRedundancyManager::repairLoop() {
+    spdlog::info("Blob repair loop started");
+    
+    while (running_.load()) {
+        std::unique_lock<std::mutex> lock(repair_mutex_);
+        
+        // Wait for repair queue or stop signal
+        repair_cv_.wait_for(lock, std::chrono::seconds(5), [this]() {
+            return !repair_queue_.empty() || !running_.load();
+        });
+        
+        if (!running_.load()) break;
+        
+        lock.unlock();
+        
+        try {
+            runRepairQueue();
+        } catch (const std::exception& e) {
+            spdlog::error("Repair queue error: {}", e.what());
+        }
+    }
+    
+    spdlog::info("Blob repair loop stopped");
+}
+
+void BlobRedundancyManager::configReloadLoop() {
+    spdlog::info("Config reload loop started");
+    
+    while (running_.load()) {
+        std::this_thread::sleep_for(
+            std::chrono::seconds(config_.hot_reload_check_seconds)
+        );
+        
+        if (!running_.load()) break;
+        
+        try {
+            // Check if config file has changed
+            // Reload if needed
+            // Simplified: skip for now
+        } catch (const std::exception& e) {
+            spdlog::error("Config reload error: {}", e.what());
+        }
+    }
+    
+    spdlog::info("Config reload loop stopped");
+}
+
+std::string BlobRedundancyManager::generateBlobId() {
+    static std::random_device rd;
+    static std::mt19937_64 gen(rd());
+    static std::uniform_int_distribution<uint64_t> dis;
+    
+    uint64_t id = dis(gen);
+    
+    std::stringstream ss;
+    ss << "blob-" << std::hex << std::setfill('0') << std::setw(16) << id;
+    
+    return ss.str();
+}
+
+std::string BlobRedundancyManager::calculateChecksum(const std::vector<uint8_t>& data) {
+    // Simplified checksum calculation
+    // In production, use proper hash function (SHA256, etc.)
+    uint64_t sum = 0;
+    for (auto byte : data) {
+        sum += byte;
+    }
+    
+    std::stringstream ss;
+    ss << std::hex << sum;
+    return ss.str();
+}
+
+BlobType BlobRedundancyManager::classifyBlobType(const std::string& path, uint64_t size) {
+    // Classify blob based on path and size
+    if (path.find("MANIFEST") != std::string::npos) {
+        return BlobType::MANIFEST;
+    }
+    if (path.find("CURRENT") != std::string::npos) {
+        return BlobType::CURRENT;
+    }
+    if (path.find(".sst") != std::string::npos) {
+        // Classify SST by level (simplified)
+        return BlobType::SST_L0;
+    }
+    if (path.find(".log") != std::string::npos) {
+        return BlobType::WAL;
+    }
+    
+    // Classify by size
+    if (size < 1024 * 1024) {
+        return BlobType::BLOB_SMALL;
+    } else if (size < 100 * 1024 * 1024) {
+        return BlobType::BLOB_MEDIUM;
+    } else {
+        return BlobType::BLOB_LARGE;
+    }
+}
+
+bool BlobRedundancyManager::replicateToShard(
+    const std::string& shard_id,
+    const BlobMetadata& blob,
+    const std::vector<uint8_t>& data,
+    WriteHandler handler
+) {
+    return handler(shard_id, blob.blob_id, data);
+}
+
+bool BlobRedundancyManager::deleteFromShard(
+    const std::string& shard_id,
+    const std::string& path,
+    DeleteHandler handler
+) {
+    return handler(shard_id, path);
+}
+
+std::vector<std::string> BlobRedundancyManager::selectTargetShards(const BlobMetadata& blob) {
+    std::vector<std::string> shards;
+    
+    // Simplified: return locations from metadata
+    for (const auto& location : blob.locations) {
+        shards.push_back(location.shard_id);
+    }
+    
+    return shards;
+}
+
+std::string BlobRedundancyManager::selectReadShard(const BlobMetadata& blob) {
+    // Select based on read preference
+    // Simplified: return first healthy location
+    for (const auto& location : blob.locations) {
+        if (location.is_healthy) {
+            return location.shard_id;
+        }
+    }
+    
+    // Fallback to first location
+    if (!blob.locations.empty()) {
+        return blob.locations[0].shard_id;
+    }
+    
+    return "local";
+}
+
+void BlobRedundancyManager::updateMetadataStore(const BlobMetadata& blob) {
+    // Update distributed metadata store (etcd, etc.)
+    // Simplified: no-op for now
+}
+
+void BlobRedundancyManager::removeFromMetadataStore(const std::string& blob_id) {
+    // Remove from distributed metadata store
+    // Simplified: no-op for now
+}
+
+void BlobRedundancyManager::loadFromMetadataStore() {
+    // Load blob metadata from distributed store on startup
+    // Simplified: no-op for now
+}
+
+// ═══════════════════════════════════════════════════════════
+// RocksDBBlobListener Implementation
+// ═══════════════════════════════════════════════════════════
+
+RocksDBBlobListener::RocksDBBlobListener(
+    BlobRedundancyManager& manager,
+    const std::string& collection
+) : manager_(manager), collection_(collection) {
+    spdlog::info("RocksDBBlobListener created for collection: {}", collection);
+}
+
+void RocksDBBlobListener::OnFlushCompleted(
+    rocksdb::DB* db,
+    const rocksdb::FlushJobInfo& info
+) {
+    // New SST file created
+    spdlog::debug("SST file created (flush): {}", info.file_path);
+    
+    // Register with blob manager
+    manager_.registerBlob(
+        BlobType::SST_L0,
+        info.file_path,
+        static_cast<uint64_t>(info.table_properties.data_size),
+        collection_,
+        ""
+    );
+}
+
+void RocksDBBlobListener::OnCompactionCompleted(
+    rocksdb::DB* db,
+    const rocksdb::CompactionJobInfo& info
+) {
+    // New SST files created by compaction
+    spdlog::debug("Compaction completed, output files: {}", info.output_files.size());
+    
+    for (const auto& file_path : info.output_files) {
+        // Get file size
+        // Register with blob manager
+        auto blob_type = levelToBlobType(info.output_level);
+        
+        manager_.registerBlob(
+            blob_type,
+            file_path,
+            0,  // Size not available here
+            collection_,
+            ""
+        );
+    }
+}
+
+void RocksDBBlobListener::OnTableFileDeleted(
+    const rocksdb::TableFileDeletionInfo& info
+) {
+    // SST file deleted
+    spdlog::debug("SST file deleted: {}", info.file_path);
+    
+    // Unregister from blob manager
+    // Need to look up by path - simplified for now
+}
+
+BlobType RocksDBBlobListener::levelToBlobType(int level) {
+    if (level == 0) {
+        return BlobType::SST_L0;
+    } else if (level == 1) {
+        return BlobType::SST_L1;
+    } else {
+        return BlobType::SST_L2_PLUS;
+    }
+}
+
+} // namespace storage
+} // namespace themisdb

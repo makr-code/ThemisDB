@@ -1,0 +1,22 @@
+/**
+ * ThemisDB Gallery - Block Editor Styles
+ */
+
+.themisdb-block-editor {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+.themisdb-block-preview {
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.themisdb-block-preview p {
+    margin: 0;
+    color: #666;
+}

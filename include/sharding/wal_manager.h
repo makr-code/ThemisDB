@@ -1,5 +1,36 @@
 #pragma once
 
+// Prevent/clean Windows macro pollution that can break enum/identifiers
+#if defined(_WIN32)
+#ifndef NOMINMAX
+#define NOMINMAX 1
+#endif
+#ifdef LSN
+#undef LSN
+#endif
+#ifdef DELETE
+#undef DELETE
+#endif
+#ifdef INSERT
+#undef INSERT
+#endif
+#ifdef UPDATE
+#undef UPDATE
+#endif
+#ifdef BEGIN
+#undef BEGIN
+#endif
+#ifdef COMMIT
+#undef COMMIT
+#endif
+#ifdef ABORT
+#undef ABORT
+#endif
+#ifdef CHECKPOINT
+#undef CHECKPOINT
+#endif
+#endif
+
 #include <string>
 #include <vector>
 #include <memory>
@@ -7,6 +38,8 @@
 #include <atomic>
 #include <mutex>
 #include <fstream>
+#include <optional>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -178,13 +211,7 @@ public:
     /**
      * Get WAL statistics
      */
-    struct Statistics {
-        uint64_t total_entries = 0;
-        uint64_t total_bytes = 0;
-        uint64_t segments = 0;
-        LSN current_lsn;
-        LSN oldest_lsn;
-    };
+    struct Statistics;
     Statistics getStatistics() const;
 
 private:
@@ -235,6 +262,17 @@ private:
      * Cleanup old segments
      */
     void cleanupOldSegments();
+};
+
+/**
+ * WAL Manager Statistics
+ */
+struct WALManager::Statistics {
+    uint64_t total_entries = 0;
+    uint64_t total_bytes = 0;
+    uint64_t segments = 0;
+    LSN current_lsn;
+    LSN oldest_lsn;
 };
 
 } // namespace themis::sharding

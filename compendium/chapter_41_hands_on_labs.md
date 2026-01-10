@@ -17,6 +17,41 @@ Drei geführte Labs mit klaren Zielen, Schritt-für-Schritt-Anleitungen, Verifik
 
 ---
 
+<figure>
+
+```mermaid
+graph LR
+    Setup[Lab Setup] --> Lab1[Lab 1:<br/>Installation]
+    Lab1 --> Lab2[Lab 2:<br/>Basic Queries]
+    Lab2 --> Lab3[Lab 3:<br/>Multi-Model]
+    Lab3 --> Lab4[Lab 4:<br/>Performance]
+    Lab4 --> Lab5[Lab 5:<br/>Replication]
+    Lab5 --> Final[Final Project]
+    
+    Lab1 --> Check1{Validate}
+    Lab2 --> Check2{Validate}
+    Lab3 --> Check3{Validate}
+    Lab4 --> Check4{Validate}
+    Lab5 --> Check5{Validate}
+    
+    Check1 -->|Pass| Lab2
+    Check2 -->|Pass| Lab3
+    Check3 -->|Pass| Lab4
+    Check4 -->|Pass| Lab5
+    Check5 -->|Pass| Final
+    
+    Check1 -->|Fail| Trouble1[Troubleshoot]
+    Check2 -->|Fail| Trouble2[Troubleshoot]
+    
+    style Final fill:#43e97b
+    style Setup fill:#4facfe
+```
+
+<figcaption><b>Abb. 41.0:</b> Lab-Curriculum-Flow</figcaption>
+</figure>
+
+---
+
 ## Lab A: Deployment & Smoke Tests (30-45 min)
 
 ### Ziel

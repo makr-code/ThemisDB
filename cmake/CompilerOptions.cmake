@@ -1,0 +1,85 @@
+# ThemisDB Compiler Options and C++ Standards
+
+# C++20 Standard (required)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Export compile commands for IDE support (VSCode, Clion, etc)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# CUDA support (if enabled)
+if(THEMIS_ENABLE_CUDA)
+    enable_language(CUDA)
+    set(CMAKE_CUDA_STANDARD 17)
+    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+    message(STATUS "CUDA Language Enabled")
+endif()
+
+# Compiler-specific options
+if(MSVC)
+    # Windows MSVC compiler options
+    add_compile_options(
+        /W4              # Warning level 4
+        /WX-             # Don't treat warnings as errors (unless THEMIS_STRICT_BUILD)
+        /fp:precise      # Precise floating point
+        /Gy              # Enable function-level linking
+        /permissive-     # Conformance mode
+    )
+    
+    # Release-specific options for SIMD optimization
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
+        add_compile_options(/arch:AVX2)
+        add_compile_definitions(THEMIS_HAS_AVX2=1)
+    endif()
+    
+    # Treat warnings as errors if requested
+    if(THEMIS_STRICT_BUILD)
+        add_compile_options(/WX)
+    endif()
+    
+else()
+    # GCC/Clang compiler options
+    add_compile_options(
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Wno-unused-parameter
+        -Wno-deprecated-declarations
+    )
+    
+    # Release-specific options for SIMD optimization
+    if(CMAKE_BUILD_TYPE STREQUAL "Release" AND THEMIS_ENABLE_AVX2)
+        add_compile_options(-mavx2 -mfma)
+        add_compile_definitions(THEMIS_HAS_AVX2=1)
+    elseif(THEMIS_QNAP_BUILD)
+        # QNAP: baseline x86-64 without AVX
+        add_compile_options(-march=x86-64)
+        add_compile_definitions(THEMIS_BASELINE_X64=1)
+    endif()
+    
+    # Treat warnings as errors if requested
+    if(THEMIS_STRICT_BUILD)
+        add_compile_options(-Werror)
+    endif()
+    
+    # AddressSanitizer support for debugging
+    if(THEMIS_ENABLE_ASAN)
+        add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=address)
+        message(STATUS "AddressSanitizer enabled for debugging")
+    endif()
+endif()
+
+# Platform-specific handling
+if(WIN32)
+    add_compile_definitions(
+        _WIN32_WINNT=0x0A00    # Windows 10+
+        WIN32_LEAN_AND_MEAN
+        NOMINMAX               # Prevent min/max macro conflicts
+    )
+endif()
+
+message(STATUS "C++ Standard: C++${CMAKE_CXX_STANDARD}")
+message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+message(STATUS "Compiler: ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")

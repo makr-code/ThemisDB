@@ -12,6 +12,9 @@ ThemisDB uses a comprehensive Git Flow branching strategy with dedicated workflo
 |----------|------|----------|---------|----------|
 | **Feature/Bugfix CI** | `feature-ci.yml` | PR to `develop` from `feature/*`, `bugfix/*` | Validate features | ~30-45 min |
 | **Develop CI** | `develop-ci.yml` | Push/PR to `develop` | Integration testing | ~30-45 min |
+| **CI - Development** | `ci-develop.yml` | Push/PR to `develop` | Fast feedback CI (all platforms) | ~15-30 min |
+| **Build & Test** | `build-and-test.yml` | PR to `main` | Main branch protection (required) | ~45-60 min |
+| **Release** | `release.yml` | Tag push `v*` | Automated release creation | ~60-90 min |
 | **Release CI** | `release-ci.yml` | Push to `release/*`, PR to `main` | Release preparation | ~45-60 min |
 | **Hotfix CI** | `hotfix-ci.yml` | PR to `main` from `hotfix/*` | Fast-track fixes | ~20-30 min |
 | **Main CI** | `main-ci.yml` | Push to `main`, tags `v*` | Production deployment | ~45-60 min |
@@ -39,17 +42,25 @@ git checkout develop
 git checkout -b feature/my-feature
 # ... develop ...
 git push origin feature/my-feature
-# Create PR to develop → Triggers feature-ci.yml
+# Create PR to develop → Triggers ci-develop.yml (fast) or feature-ci.yml
 ```
 
 **Preparing a release?**
 ```bash
 git checkout develop
-git checkout -b release/1.4.0
+git checkout -b release/v1.4.0
 echo "1.4.0" > VERSION
+# Update CHANGELOG.md
 git commit -am "chore: Prepare release v1.4.0"
-git push origin release/1.4.0
-# Create PR to main → Triggers release-ci.yml
+git push origin release/v1.4.0
+# Create PR to main → Triggers build-and-test.yml (required checks)
+
+# After PR is merged
+git checkout main
+git pull
+git tag -a v1.4.0 -m "Release v1.4.0"
+git push origin v1.4.0
+# → Triggers release.yml → Automated GitHub Release
 ```
 
 **Hotfixing production?**
@@ -68,6 +79,80 @@ For complete Git Flow documentation, see:
 - [BRANCHING_STRATEGY.md](../../BRANCHING_STRATEGY.md) - Complete strategy guide
 - [CI_CD_WORKFLOWS.md](../../CI_CD_WORKFLOWS.md) - Workflow documentation
 - [BRANCH_PROTECTION_SETUP.md](../../BRANCH_PROTECTION_SETUP.md) - Protection setup
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Tag-based release process
+
+## New Tag-Based Release Workflows
+
+ThemisDB now includes streamlined workflows for tag-based releases:
+
+### 🚀 ci-develop.yml - Development Pipeline
+
+**Fast feedback CI for the develop branch with multi-platform support.**
+
+- **Triggers**: Push to `develop`, PRs to `develop`
+- **Platforms**: Ubuntu (required), Windows, macOS
+- **Features**:
+  - Quick validation (VERSION file, branch strategy)
+  - Parallel builds on all platforms
+  - Unit tests and static analysis
+  - Fast iteration (~15-30 minutes on Ubuntu)
+- **Status**: Ubuntu required, Windows/macOS optional
+
+### 🛡️ build-and-test.yml - Main Branch Protection
+
+**Comprehensive testing before merging to production.**
+
+- **Triggers**: PRs to `main` (from release/* or hotfix/* only)
+- **Platforms**: Ubuntu, Windows, macOS (all required)
+- **Features**:
+  - Pre-merge validation (branch strategy, VERSION, CHANGELOG)
+  - Full test suite with extended timeouts
+  - Complete static analysis
+  - Security scanning
+  - All platforms must pass
+- **Purpose**: Required status check before merge to main
+
+### 📦 release.yml - Automated Release
+
+**Fully automated release creation from version tags.**
+
+- **Triggers**: Tag push matching `v*` (e.g., v1.4.0, v1.5.0-beta)
+- **Features**:
+  - Validates tag matches VERSION file
+  - Builds optimized release binaries for all platforms
+  - Packages with CPack (.tar.gz, .deb, .zip)
+  - Generates release notes from CHANGELOG.md
+  - Creates GitHub Release automatically
+  - Uploads all artifacts
+  - Detects pre-releases (tags with `-` like v1.5.0-alpha)
+- **Usage**: Just push a tag, everything else is automatic!
+
+**Example Release Flow:**
+```bash
+# 1. Prepare release on develop
+git checkout -b release/v1.5.0 develop
+echo "1.5.0" > VERSION
+# Update CHANGELOG.md
+git commit -am "chore: Prepare v1.5.0"
+
+# 2. Create PR to main
+git push origin release/v1.5.0
+# PR triggers build-and-test.yml
+# All platforms must pass
+
+# 3. After PR merged, tag the release
+git checkout main && git pull
+git tag -a v1.5.0 -m "Release v1.5.0"
+git push origin v1.5.0
+
+# 4. GitHub Actions automatically:
+# - Builds for Ubuntu, Windows, macOS
+# - Creates GitHub Release
+# - Uploads all binaries
+# - Publishes release notes
+```
+
+
 
 ## Local Testing with `act`
 

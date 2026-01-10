@@ -19,6 +19,37 @@ Data Modeling ist die Grundlage jeder erfolgreichen Datenbankanwendung. Dieses K
 
 ---
 
+<figure>
+
+```mermaid
+graph LR
+    subgraph "Embedded (1:Few)"
+        UserEmb[User] --> AddressEmb[Addresses Array]
+    end
+    
+    subgraph "Referenced (1:Many)"
+        UserRef[User] --> OrderRef[Orders Collection]
+        OrderRef --> OrderDoc1[Order 1]
+        OrderRef --> OrderDoc2[Order 2]
+        OrderRef --> OrderDoc3["Order N..."]
+    end
+    
+    subgraph "Hybrid (Best of Both)"
+        UserHyb[User] --> AddressHyb[Address Embedded]
+        UserHyb --> OrderSummary[Recent Orders Embedded]
+        UserHyb --> OrderRefHyb[All Orders Referenced]
+    end
+    
+    style UserEmb fill:#4facfe
+    style UserRef fill:#f093fb
+    style UserHyb fill:#43e97b
+```
+
+<figcaption><b>Abb. 35.0:</b> Data-Modeling-Patterns</figcaption>
+</figure>
+
+---
+
 ## 35.1 Embedded vs Referenced Documents
 
 ### Pattern 1: Full Embedding

@@ -656,17 +656,17 @@ void CloudAgent::recordMetrics(
 }
 
 void CloudAgent::cleanupOldOperations() {
-    static auto last_cleanup = std::chrono::steady_clock::now();
     auto now = std::chrono::steady_clock::now();
     
-    // Use configurable cleanup interval
-    if (now - last_cleanup < config_.cleanup_interval) {
+    // Lock mutex to access shared state (last_cleanup_ is protected by mutex_)
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Check if enough time has passed since last cleanup
+    if (now - last_cleanup_ < config_.cleanup_interval) {
         return;
     }
     
-    last_cleanup = now;
-    
-    std::lock_guard<std::mutex> lock(mutex_);
+    last_cleanup_ = now;
     
     // Remove completed operations when exceeding the configured threshold
     const size_t max_history = config_.max_completed_operations_history;

@@ -303,6 +303,8 @@ FOR order IN orders
     }
 ```
 
+<figure>
+
 ```mermaid
 graph LR
     subgraph "Table: customers"
@@ -342,6 +344,11 @@ graph LR
     style R3 fill:#43e97b
 ```
 
+<figcaption><b>Abb. 05.1:</b> Relationales Schema-Design</figcaption>
+</figure>
+
+<figure>
+
 ```mermaid
 erDiagram
     CUSTOMER ||--o{ ORDER : places
@@ -377,6 +384,9 @@ erDiagram
         int stock
     }
 ```
+
+<figcaption><b>Abb. 05.2:</b> Join-Optimierung-Strategie</figcaption>
+</figure>
       total: order.total,
       customer_name: customer.name
     }

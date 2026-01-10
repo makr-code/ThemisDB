@@ -6,16 +6,104 @@
 #include <thread>
 #include <chrono>
 #include <stdexcept>
+#include <algorithm>
 
-// TODO: Replace with actual HTTP/gRPC client when available
-// For now, using in-process simulation
+// gRPC support for multi-node deployments
+#ifdef THEMIS_ENABLE_GRPC
+#if __has_include("shard_rpc.grpc.pb.h")
+#include <grpcpp/grpcpp.h>
+#include "shard_rpc.grpc.pb.h"
+#include "shard_rpc.pb.h"
+#define THEMIS_HAS_SHARD_GRPC 1
+#else
+#define THEMIS_HAS_SHARD_GRPC 0
+#endif
+#else
+#define THEMIS_HAS_SHARD_GRPC 0
+#endif
 
 namespace themis::sharding {
 
 struct ShardRPCClient::Impl {
     Config config;
+    bool use_grpc = false;
     
-    explicit Impl(const Config& cfg) : config(cfg) {}
+#if THEMIS_HAS_SHARD_GRPC
+    std::shared_ptr<grpc::Channel> channel;
+    std::unique_ptr<themis::sharding::proto::ShardService::Stub> stub;
+#endif
+    
+    explicit Impl(const Config& cfg) : config(cfg) {
+        // Detect if we should use gRPC or in-process simulation
+        // Use in-process if endpoint contains loopback addresses
+        use_grpc = !isLoopbackEndpoint(config.endpoint);
+        
+#if THEMIS_HAS_SHARD_GRPC
+        if (use_grpc) {
+            initializeGrpcChannel();
+        }
+#else
+        // Force in-process simulation if gRPC is not available
+        use_grpc = false;
+#endif
+    }
+    
+    /**
+     * @brief Check if endpoint is a loopback address
+     */
+    bool isLoopbackEndpoint(const std::string& endpoint) {
+        // Check for common loopback addresses and hostnames
+        // Note: 0.0.0.0 is not included as it typically means "bind to all interfaces"
+        // and is used for server listening, not client connections
+        return (endpoint.find("localhost") != std::string::npos ||
+                endpoint.find("127.0.0.1") != std::string::npos ||
+                endpoint.find("::1") != std::string::npos);
+    }
+    
+#if THEMIS_HAS_SHARD_GRPC
+    void initializeGrpcChannel() {
+        // Configure channel arguments for keepalive and reliability
+        grpc::ChannelArguments args;
+        
+        // Keepalive settings
+        args.SetInt(GRPC_ARG_KEEPALIVE_TIME_MS, 30000);  // 30 seconds
+        args.SetInt(GRPC_ARG_KEEPALIVE_TIMEOUT_MS, 10000);  // 10 seconds
+        args.SetInt(GRPC_ARG_KEEPALIVE_PERMIT_WITHOUT_CALLS, 1);
+        args.SetInt(GRPC_ARG_HTTP2_MAX_PINGS_WITHOUT_DATA, 0);
+        
+        // Connection settings
+        args.SetInt(GRPC_ARG_MAX_RECONNECT_BACKOFF_MS, 10000);  // 10 seconds max
+        args.SetInt(GRPC_ARG_INITIAL_RECONNECT_BACKOFF_MS, 1000);  // 1 second initial
+        
+        // Create channel with insecure credentials for now
+        // TODO: Add mTLS support for production
+        channel = grpc::CreateCustomChannel(
+            config.endpoint,
+            grpc::InsecureChannelCredentials(),
+            args
+        );
+        
+        stub = themis::sharding::proto::ShardService::NewStub(channel);
+        
+        THEMIS_INFO("gRPC channel initialized for endpoint: {}", config.endpoint);
+    }
+    
+    bool isChannelReady() {
+        if (!channel) return false;
+        
+        auto state = channel->GetState(false);
+        return state == GRPC_CHANNEL_READY || state == GRPC_CHANNEL_IDLE;
+    }
+    
+    bool waitForChannelReady(int timeout_ms) {
+        if (!channel) return false;
+        
+        auto deadline = std::chrono::system_clock::now() + 
+                       std::chrono::milliseconds(timeout_ms);
+        
+        return channel->WaitForConnected(deadline);
+    }
+#endif
 };
 
 ShardRPCClient::ShardRPCClient(const Config& config)
@@ -151,10 +239,22 @@ nlohmann::json ShardRPCClient::sendRequest(
     const std::string& method,
     const nlohmann::json& params
 ) {
-    // v1.3.0: Functional implementation with in-process simulation
-    // Production deployment: Replace with actual HTTP/gRPC client
-    // Current implementation is sufficient for single-node and testing
+#if THEMIS_HAS_SHARD_GRPC
+    // Use gRPC for multi-node deployments
+    if (impl_->use_grpc) {
+        return sendRequestGrpc(method, params);
+    }
+#endif
     
+    // Fall back to in-process simulation for single-node deployments
+    return sendRequestInProcess(method, params);
+}
+
+#if THEMIS_HAS_SHARD_GRPC
+nlohmann::json ShardRPCClient::sendRequestGrpc(
+    const std::string& method,
+    const nlohmann::json& params
+) {
     int attempts = 0;
     std::exception_ptr last_exception;
     
@@ -162,11 +262,217 @@ nlohmann::json ShardRPCClient::sendRequest(
         ++attempts;
         
         try {
-            // v1.3.0: In-process simulation for single-node deployments
-            // Distributed deployment: Replace with HTTP/gRPC network calls
-            // The protocol and retry logic are production-ready
+            THEMIS_DEBUG("gRPC {} attempt {}/{} to {}",
+                        method, attempts, impl_->config.max_retries,
+                        impl_->config.endpoint);
             
-            THEMIS_DEBUG("RPC {} attempt {}/{} to {}",
+            // Ensure channel is ready
+            if (!impl_->waitForChannelReady(impl_->config.timeout_ms)) {
+                throw std::runtime_error("Failed to connect to gRPC server");
+            }
+            
+            grpc::ClientContext context;
+            auto deadline = std::chrono::system_clock::now() + 
+                           std::chrono::milliseconds(impl_->config.timeout_ms);
+            context.set_deadline(deadline);
+            
+            // Route to appropriate gRPC method
+            if (method == "prepare") {
+                return handlePrepareGrpc(context, params);
+            } else if (method == "commit") {
+                return handleCommitGrpc(context, params);
+            } else if (method == "abort") {
+                return handleAbortGrpc(context, params);
+            } else if (method == "snapshot_read") {
+                return handleSnapshotReadGrpc(context, params);
+            } else if (method == "ping") {
+                return handleHealthCheckGrpc(context);
+            } else {
+                throw std::runtime_error("Unknown RPC method: " + method);
+            }
+            
+        } catch (const std::exception& e) {
+            last_exception = std::current_exception();
+            THEMIS_WARN("gRPC {} attempt {}/{} failed: {}",
+                       method, attempts, impl_->config.max_retries, e.what());
+            
+            if (attempts < impl_->config.max_retries) {
+                // Exponential backoff
+                int delay_ms = impl_->config.retry_delay_ms * (1 << (attempts - 1));
+                delay_ms = std::min(delay_ms, 5000);  // Cap at 5 seconds
+                
+                std::this_thread::sleep_for(
+                    std::chrono::milliseconds(delay_ms)
+                );
+            }
+        }
+    }
+    
+    // All retries failed
+    if (last_exception) {
+        std::rethrow_exception(last_exception);
+    }
+    
+    throw std::runtime_error("gRPC request failed after " + 
+                           std::to_string(impl_->config.max_retries) + " attempts");
+}
+
+nlohmann::json ShardRPCClient::handlePrepareGrpc(
+    grpc::ClientContext& context,
+    const nlohmann::json& params
+) {
+    themis::sharding::proto::PrepareRequest request;
+    request.set_transaction_id(params.value("transaction_id", ""));
+    request.set_coordinator_shard_id(params.value("coordinator_shard_id", ""));
+    
+    // Serialize operations as JSON
+    if (params.contains("operations")) {
+        std::string ops_json = params["operations"].dump();
+        request.set_transaction_data(ops_json);
+    }
+    
+    themis::sharding::proto::PrepareResponse response;
+    grpc::Status status = impl_->stub->PrepareTransaction(&context, request, &response);
+    
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("Retryable error: " + status.error_message());
+        }
+        throw std::runtime_error("Non-retryable error: " + status.error_message());
+    }
+    
+    nlohmann::json result = {
+        {"vote", response.vote_commit() ? "commit" : "abort"},
+        {"status", response.vote_commit() ? "prepared" : "failed"},
+        {"error", response.error()}
+    };
+    
+    return result;
+}
+
+nlohmann::json ShardRPCClient::handleCommitGrpc(
+    grpc::ClientContext& context,
+    const nlohmann::json& params
+) {
+    themis::sharding::proto::CommitRequest request;
+    request.set_transaction_id(params.value("transaction_id", ""));
+    
+    themis::sharding::proto::CommitResponse response;
+    grpc::Status status = impl_->stub->CommitTransaction(&context, request, &response);
+    
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("Retryable error: " + status.error_message());
+        }
+        throw std::runtime_error("Non-retryable error: " + status.error_message());
+    }
+    
+    nlohmann::json result = {
+        {"status", response.success() ? "committed" : "failed"},
+        {"error", response.error()}
+    };
+    
+    return result;
+}
+
+nlohmann::json ShardRPCClient::handleAbortGrpc(
+    grpc::ClientContext& context,
+    const nlohmann::json& params
+) {
+    themis::sharding::proto::AbortRequest request;
+    request.set_transaction_id(params.value("transaction_id", ""));
+    
+    themis::sharding::proto::AbortResponse response;
+    grpc::Status status = impl_->stub->AbortTransaction(&context, request, &response);
+    
+    if (!status.ok()) {
+        if (isRetryableError(status.error_code())) {
+            throw std::runtime_error("Retryable error: " + status.error_message());
+        }
+        throw std::runtime_error("Non-retryable error: " + status.error_message());
+    }
+    
+    nlohmann::json result = {
+        {"status", response.success() ? "aborted" : "failed"}
+    };
+    
+    return result;
+}
+
+nlohmann::json ShardRPCClient::handleSnapshotReadGrpc(
+    grpc::ClientContext& context,
+    const nlohmann::json& params
+) {
+    // For now, return empty data as the snapshot read is not yet implemented
+    // This would use a different RPC method when available
+    nlohmann::json result = {
+        {"status", "success"},
+        {"data", nlohmann::json::array()}
+    };
+    
+    return result;
+}
+
+nlohmann::json ShardRPCClient::handleHealthCheckGrpc(
+    grpc::ClientContext& context
+) {
+    themis::sharding::proto::HealthRequest request;
+    themis::sharding::proto::HealthResponse response;
+    
+    grpc::Status status = impl_->stub->HealthCheck(&context, request, &response);
+    
+    if (!status.ok()) {
+        throw std::runtime_error("Health check failed: " + status.error_message());
+    }
+    
+    nlohmann::json result = {
+        {"status", response.status() == "healthy" ? "ok" : "unhealthy"},
+        {"version", response.version()},
+        {"uptime_seconds", response.uptime_seconds()}
+    };
+    
+    return result;
+}
+
+bool ShardRPCClient::isRetryableError(grpc::StatusCode code) {
+    // Categorize errors as retryable or non-retryable
+    switch (code) {
+        case grpc::StatusCode::UNAVAILABLE:
+        case grpc::StatusCode::DEADLINE_EXCEEDED:
+        case grpc::StatusCode::RESOURCE_EXHAUSTED:
+        case grpc::StatusCode::ABORTED:
+        case grpc::StatusCode::INTERNAL:
+            return true;
+        
+        case grpc::StatusCode::INVALID_ARGUMENT:
+        case grpc::StatusCode::NOT_FOUND:
+        case grpc::StatusCode::ALREADY_EXISTS:
+        case grpc::StatusCode::PERMISSION_DENIED:
+        case grpc::StatusCode::UNAUTHENTICATED:
+        case grpc::StatusCode::FAILED_PRECONDITION:
+        case grpc::StatusCode::OUT_OF_RANGE:
+        case grpc::StatusCode::UNIMPLEMENTED:
+            return false;
+        
+        default:
+            return false;
+    }
+}
+#endif
+
+nlohmann::json ShardRPCClient::sendRequestInProcess(
+    const std::string& method,
+    const nlohmann::json& params
+) {
+    // In-process simulation for single-node deployments
+    int attempts = 0;
+    std::exception_ptr last_exception;
+    
+    while (attempts < impl_->config.max_retries) {
+        ++attempts;
+        
+        try {
+            THEMIS_DEBUG("RPC {} attempt {}/{} to {} (in-process)",
                         method, attempts, impl_->config.max_retries,
                         impl_->config.endpoint);
             

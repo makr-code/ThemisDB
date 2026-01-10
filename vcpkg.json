@@ -24,7 +24,10 @@
     { "name": "curl" },
     { "name": "yaml-cpp" },
     { "name": "zstd" },
-    { "name": "mimalloc" }
+    { "name": "mimalloc" },
+    { "name": "prometheus-cpp", "features": ["pull"] },
+    { "name": "libzip" },
+    { "name": "pugixml" }
   ],
   "features": {
     "gpu": {
@@ -83,6 +86,10 @@
     "postgres-wire": {
       "description": "Enable PostgreSQL Wire Protocol support for SQL tool compatibility",
       "dependencies": []
+    },
+    "gdal": {
+      "description": "Enable GDAL integration for Shapefile and GeoTIFF support",
+      "dependencies": ["gdal"]
     }
   }
 }

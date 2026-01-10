@@ -1,4 +1,4 @@
-﻿#include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "transaction/transaction_manager.h"

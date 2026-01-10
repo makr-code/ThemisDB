@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "themisdb-minimal",
+  "version": "1.4.0",
+  "description": "ThemisDB MINIMAL Edition - Embedded/IoT, minimal dependencies",
+  "builtin-baseline": "10b7a178346f3f0abef60cecd5130e295afd8da4",
+  "dependencies": [
+    "openssl",
+    "rocksdb",
+    "simdjson",
+    "tbb",
+    "boost-asio",
+    "boost-beast",
+    "spdlog",
+    "nlohmann-json",
+    "curl",
+    "zstd",
+    "mimalloc"
+  ]
+}

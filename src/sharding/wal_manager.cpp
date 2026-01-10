@@ -50,7 +50,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     }
     
     // Transaction ID length (4 bytes)
-    uint32_t tx_id_len = transaction_id.size();
+    uint32_t tx_id_len = static_cast<uint32_t>(transaction_id.size());
     for (int i = 3; i >= 0; --i) {
         result.push_back((tx_id_len >> (i * 8)) & 0xFF);
     }
@@ -60,7 +60,7 @@ std::vector<uint8_t> WALEntry::serialize() const {
     
     // Data (JSON)
     std::string data_str = data.dump();
-    uint32_t data_len = data_str.size();
+    uint32_t data_len = static_cast<uint32_t>(data_str.size());
     
     // Data length (4 bytes)
     for (int i = 3; i >= 0; --i) {

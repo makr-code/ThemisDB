@@ -6,25 +6,50 @@
 #include <unordered_map>
 #include <mutex>
 #include <string>
+#include <memory>
+#include <functional>
 #include "llm_plugin_interface.h"
+
+// Forward declarations
+namespace themis {
+class VectorIndexManager;
+class RocksDBWrapper;
+
+namespace llm {
+class EmbeddedLLM;
+namespace monitoring {
+class LLMMetricsCollector;
+}
+}
+}
 
 namespace themis {
 namespace llm {
 
 /**
- * @brief LLM response cache using SemanticCache for prompt/response caching
+ * @brief LLM response cache using VectorIndexManager for semantic similarity caching
  * 
- * Wraps ThemisDB's SemanticCache to provide:
- * - Semantic similarity matching (find similar prompts)
- * - RocksDB-backed persistence (survives restarts)
+ * Uses ThemisDB's VectorIndexManager with HNSW indexing to provide:
+ * - Semantic similarity matching via cosine similarity
+ * - Fast ANN search with HNSW index from ThemisDB core
  * - TTL-based expiration
  * - Hit/miss statistics
  * 
  * Benefits:
  * - 75x faster cached inference (2ms vs 150ms)
- * - 70-90% cache hit rate in production
- * - Persistent across process restarts
- * - Semantic matching (not just exact prompts)
+ * - 70-90% cache hit rate in production with semantic matching
+ * - Efficient similarity search (not just exact prompts)
+ * - Automatic eviction with LRU policy
+ * 
+ * Integration:
+ * - Uses pointer exchange pattern with ThemisDB's VectorIndexManager
+ * - Leverages existing HNSW infrastructure for efficient ANN search
+ * - No duplication of vector index functionality
+ * 
+ * Embedding Strategy:
+ * - Uses existing LLM embedding infrastructure (LlamaWrapper::embed, EmbeddedLLM::embed)
+ * - Supports custom embedding function via callback for flexibility
+ * - Falls back to simple feature-based embeddings if no LLM available
  */
 class LLMResponseCache {
 public:
@@ -32,7 +57,12 @@ public:
         float similarity_threshold = 0.90f;  // 90% similarity required for match
         uint32_t ttl_seconds = 3600;         // 1 hour TTL
         size_t max_entries = 10000;          // Max cached responses
-        std::string db_path = "./llm_cache"; // RocksDB path
+        std::string cache_dir = "./llm_cache"; // Cache storage directory
+        size_t embedding_dim = 384;          // Embedding dimension (default: 384 for small models)
+        bool use_vector_index = true;        // Use HNSW for fast lookup
+        RocksDBWrapper* db_ptr = nullptr;    // Optional: External RocksDB instance (pointer exchange)
+        EmbeddedLLM* llm_ptr = nullptr;      // Optional: LLM instance for real embeddings (pointer exchange)
+        std::function<std::vector<float>(const std::string&)> embedding_fn = nullptr; // Optional: Custom embedding function
     };
 
     struct CacheStatistics {
@@ -48,7 +78,7 @@ public:
     };
 
     explicit LLMResponseCache(const std::string& cache_name, const Config& config);
-    ~LLMResponseCache() = default;
+    ~LLMResponseCache();  // Must be defined in .cpp where VectorIndexManager is complete
 
     // Non-copyable, moveable
     LLMResponseCache(const LLMResponseCache&) = delete;
@@ -72,6 +102,12 @@ public:
 
     /**
      * @brief Invalidate cache entries matching a pattern
+     * 
+     * Thread-safety: This operation is atomic with respect to the cache structure,
+     * but concurrent get() calls may still return entries that match the
+     * invalidation pattern if they are in progress. This is expected cache
+     * behavior (eventual consistency).
+     * 
      * @param pattern Regex pattern to match prompts
      * @return Number of entries invalidated
      */
@@ -87,27 +123,54 @@ public:
      */
     CacheStatistics getStatistics() const;
 
+    /**
+     * @brief Set metrics collector for recording cache metrics
+     * @param collector Pointer to metrics collector (optional)
+     */
+    void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
+        metrics_collector_ = collector;
+    }
+
 private:
     struct CachedEntry {
+        std::string prompt;
         InferenceResponse response;
         std::chrono::system_clock::time_point timestamp;
-        float embedding[512];  // Simplified - would use actual embedding
     };
 
     std::string cache_name_;
     Config config_;
     mutable CacheStatistics stats_;
+    
+    // Metrics collection (optional)
+    monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
 
-    // TODO: v1.3.0 - Replace with actual SemanticCache integration
-    // For now, use std::unordered_map as stub
-    std::unordered_map<std::string, CachedEntry> cache_store_;
+    // Real semantic cache implementation using VectorIndexManager (pointer exchange pattern)
+    std::unique_ptr<RocksDBWrapper> owned_db_;      // Owned DB if no external DB provided
+    std::unique_ptr<VectorIndexManager> vector_index_; // ThemisDB's HNSW vector index
+    
+    // Map from prompt hash to cached response
+    std::unordered_map<std::string, CachedEntry> response_store_;
     mutable std::mutex cache_mutex_;
 
     /**
-     * @brief Calculate semantic similarity between two prompts
-     * @return Similarity score [0.0, 1.0]
+     * @brief Generate embedding for a prompt
+     * 
+     * Priority:
+     * 1. Use custom embedding_fn if provided
+     * 2. Use LLM instance (llm_ptr) if available
+     * 3. Fall back to simple feature-based embeddings
+     * 
+     * @param prompt The input prompt
+     * @return Embedding vector or empty vector on error
      */
-    float calculateSimilarity(const std::string& prompt1, const std::string& prompt2) const;
+    std::vector<float> generateEmbedding(const std::string& prompt) const;
+    
+    /**
+     * @brief Generate simple feature-based embedding (fallback)
+     * Used when no LLM is available
+     */
+    std::vector<float> generateSimpleEmbedding(const std::string& prompt) const;
 
     /**
      * @brief Check if entry has expired based on TTL

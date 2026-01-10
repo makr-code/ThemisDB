@@ -16,6 +16,8 @@ Production-grade Datenbanken erfordern automatisierte Bereitstellung, Monitoring
 - Disaster Recovery Planning
 - Operational Runbooks
 
+<figure>
+
 ```mermaid
 flowchart LR
     subgraph "Source Control"
@@ -67,6 +69,9 @@ flowchart LR
     style Rollback fill:#ff6b6b
     style OK fill:#40c057
 ```
+
+<figcaption><b>Abb. 25.1:</b> DevOps-Pipeline-Architektur</figcaption>
+</figure>
 
 ---
 

@@ -354,7 +354,7 @@ params.cache_type_v = LLAMA_CACHE_TYPE_Q8_0;  // 8-bit Values
 ### Phase 1: llama.cpp Basis (v1.3.0) ✅
 
 - [x] llama.cpp als Library integrieren
-- [x] `LlamaCppPlugin` mit Model Loading
+- [x] `LlamaWrapper` mit Model Loading
 - [x] `LazyModelLoader` (Ollama-style)
 - [x] `MultiLoRAManager` (vLLM-style)
 - [x] Basis RAG Integration

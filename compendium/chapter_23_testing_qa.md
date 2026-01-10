@@ -18,6 +18,52 @@ Zuverlässige Datenbanken erfordern rigorose Tests auf mehreren Ebenen: Unit-Tes
 
 ---
 
+<figure>
+
+```mermaid
+graph TB
+    Commit[Code Commit] --> Build[Build & Compile]
+    Build --> UnitTests[Unit Tests<br/>Functions & Logic]
+    UnitTests --> IntTests[Integration Tests<br/>Transactions & Data]
+    IntTests --> E2E[E2E Tests<br/>Full Workflows]
+    E2E --> QualityGate{Quality Gate<br/>Coverage greater than 80 percent}
+    QualityGate -->|Pass| Deploy[Deploy to Staging]
+    QualityGate -->|Fail| Notify[Notify Developers]
+    
+    style QualityGate fill:#f093fb
+    style Deploy fill:#43e97b
+    style Notify fill:#ff6b6b
+```
+
+<figcaption><b>Abb. 23.0:</b> CI/CD Test-Pipeline</figcaption>
+</figure>
+
+---
+
+## 23.0 Test-Strategie Überblick
+
+<figure>
+
+```mermaid
+graph TB
+    Commit[Code Commit] --> Build[Build & Compile]
+    Build --> UnitTests[Unit Tests<br/>Functions & Logic]
+    UnitTests --> IntTests[Integration Tests<br/>Transactions & Data]
+    IntTests --> E2E[E2E Tests<br/>Full Workflows]
+    E2E --> QualityGate{Quality Gate<br/>Coverage > 80%}
+    QualityGate -->|Pass| Deploy[Deploy to Staging]
+    QualityGate -->|Fail| Notify[Notify Developers]
+    
+    style QualityGate fill:#f093fb
+    style Deploy fill:#43e97b
+    style Notify fill:#ff6b6b
+```
+
+<figcaption><b>Abb. 23.0:</b> CI/CD Test-Pipeline: Automatisierte Qualitätssicherung auf mehreren Ebenen</figcaption>
+</figure>
+
+---
+
 ## 23.1 AQL Unit Testing
 
 ### Test-Framework Setup

@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_set>
 #include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -132,6 +133,7 @@ private:
     mutable std::mutex idempotency_mutex_;
     std::unordered_set<std::string> completed_migrations_;
     std::unordered_set<std::string> completed_batches_;
+    std::atomic<size_t> batch_counter_{0};  // Thread-safe counter for idempotency state persistence
     
     /**
      * Load idempotency state from persistent storage

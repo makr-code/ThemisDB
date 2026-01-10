@@ -129,6 +129,8 @@ transaction2.commit()  # FEHLER: Conflict Detection!
 
 **Vorteil:** Reads blockieren nie Writes, Writes blockieren nie Reads.
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant T1 as Transaction 1
@@ -156,9 +158,12 @@ sequenceDiagram
     
     T2->>MVCC: UPDATE(row_id, age=30)
     T2->>MVCC: COMMIT
-    Note over MVCC: ❌ Conflict Detection!
+    Note over MVCC: [ERROR] Conflict Detection!
     MVCC--xT2: ERROR: Write-Write Conflict
 ```
+
+<figcaption><b>Abb. 02.1:</b> Systemarchitektur-Übersicht</figcaption>
+</figure>
 
 ### Wie funktioniert MVCC intern?
 
@@ -184,6 +189,8 @@ Version 102 (in_progress, transaction_id=555):
 
 **Write-Write Conflicts:** Wenn zwei Transaktionen die gleiche Row ändern wollen, gewinnt die erste. Die zweite bekommt einen Conflict Error beim Commit.
 
+<figure>
+
 ```mermaid
 graph LR
     subgraph "MVCC Version History"
@@ -203,6 +210,9 @@ graph LR
     style V101 fill:#78e08f
     style V102 fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 02.2:</b> Query-Engine-Komponenten</figcaption>
+</figure>
 
 ---
 
@@ -264,6 +274,8 @@ transaction.commit()
 # Selbst wenn Server JETZT abstürzt, sind Daten da.
 ```
 
+<figure>
+
 ```mermaid
 stateDiagram-v2
     [*] --> Begin: transaction.begin()
@@ -301,6 +313,9 @@ stateDiagram-v2
         bereits committed?
     end note
 ```
+
+<figcaption><b>Abb. 02.3:</b> Storage-Layer-Struktur</figcaption>
+</figure>
 
 ### Isolation Levels
 
@@ -1243,6 +1258,8 @@ ThemisDB verwendet ein typsicheres `std::variant`-System:
 
 ### 2.11.3 BaseEntity Lifecycle
 
+<figure>
+
 ```mermaid
 flowchart TB
     A[JSON Input] --> B[fromJson]
@@ -1265,6 +1282,9 @@ flowchart TB
     style J fill:#fff4e1
     style F fill:#ffe1e1
 ```
+
+<figcaption><b>Abb. 02.4:</b> Transaction-Management-Flow</figcaption>
+</figure>
 
 **Lazy Parsing:** Felder werden erst geparst, wenn sie angefordert werden - spart CPU-Zeit bei großen Objekten.
 
@@ -1297,6 +1317,8 @@ ThemisDB vereint alle Datenmodelle in einer einzigen RocksDB-Instanz durch ein h
 
 ### 2.12.2 Key Schema Visualisierung
 
+<figure>
+
 ```mermaid
 flowchart LR
     A[RocksDB] --> B[entity: Prefix]
@@ -1325,6 +1347,9 @@ flowchart LR
     style E fill:#f5e1ff
 ```
 
+<figcaption><b>Abb. 02.5:</b> MVCC-Versionskontrolle</figcaption>
+</figure>
+
 ### 2.12.3 Primary Key Extraktion
 
 ```cpp
@@ -1348,6 +1373,8 @@ std::string key = KeySchema::makeRelationalKey("users", "alice");
 Nachdem wir in Abschnitt 2.2 die Grundlagen von MVCC kennengelernt haben, tauchen wir nun in die Implementierungsdetails ein.
 
 ### 2.13.1 RocksDB TransactionDB Architektur
+
+<figure>
 
 ```mermaid
 flowchart TB
@@ -1376,6 +1403,9 @@ flowchart TB
     style F fill:#ffe1e1
 ```
 
+<figcaption><b>Abb. 02.6:</b> Index-Strukturen</figcaption>
+</figure>
+
 ### 2.13.2 Snapshot Isolation Flow
 
 ```cpp
@@ -1396,6 +1426,8 @@ txn_a->commit();
 ```
 
 ### 2.13.3 Write-Write Conflict Detection
+
+<figure>
 
 ```mermaid
 sequenceDiagram
@@ -1421,6 +1453,9 @@ sequenceDiagram
     T2->>DB: commit()
     DB-->>T2: CONFLICT (rollback)
 ```
+
+<figcaption><b>Abb. 02.7:</b> Replication-Topologie</figcaption>
+</figure>
 
 **Konfliktauflösung:** Transaction 2 wird automatisch zurückgerollt - die Anwendung muss die Transaktion wiederholen.
 
@@ -1516,6 +1551,8 @@ Gorilla Compressed:
 
 **Scalar Quantization** reduziert `float32` (4 bytes) auf `int8` (1 byte):
 
+<figure>
+
 ```mermaid
 flowchart LR
     A[Float32 Vector] --> B[Compute Min/Max]
@@ -1530,6 +1567,9 @@ flowchart LR
     style D fill:#e1ffe1
     style G fill:#fff4e1
 ```
+
+<figcaption><b>Abb. 02.8:</b> Failover-Mechanismus</figcaption>
+</figure>
 
 **Trade-off:**
 - ✅ 4x Speicherersparnis

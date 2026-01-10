@@ -1,4 +1,5 @@
 #include "sharding/wal_shipper.h"
+#include "sharding/prometheus_metrics.h"
 #include "utils/zstd_codec.h"
 #include <algorithm>
 #include <iostream>
@@ -90,6 +91,10 @@ void WALShipper::forceShip() {
     cv_.notify_all();
 }
 
+void WALShipper::setMetricsExporter(std::shared_ptr<PrometheusMetrics> metrics) {
+    metrics_ = metrics;
+}
+
 void WALShipper::shippingLoop() {
     while (running_) {
         auto start_time = std::chrono::steady_clock::now();
@@ -139,7 +144,7 @@ void WALShipper::shippingLoop() {
     }
 }
 
-bool WALShipper::shipToReplica(const std::string& replica_id, ReplicaInfo& replica) {
+bool WALShipper::shipToReplica(const std::string& /*replica_id*/, ReplicaInfo& replica) {
     // Get current LSN
     LSN current_lsn = wal_manager_->getCurrentLSN();
     
@@ -306,6 +311,14 @@ void WALShipper::updateReplicaStatus(ReplicaInfo& replica, bool success, size_t 
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
     
+    // Record metrics if exporter available
+    if (metrics_) {
+        metrics_->recordWalShipBatch(replica.replica_id, 
+                                     success ? 1 : 0, 
+                                     success ? bytes_shipped : 0, 
+                                     success);
+    }
+    
     if (success) {
         replica.is_healthy = true;
         replica.last_success_ts = now;
@@ -349,6 +362,12 @@ void WALShipper::calculateLag(ReplicaInfo& replica) {
         if (std::chrono::milliseconds(replica.lag_ms) > stats_.max_lag) {
             stats_.max_lag = std::chrono::milliseconds(replica.lag_ms);
         }
+    }
+    
+    // Record lag metrics if exporter available
+    if (metrics_) {
+        metrics_->recordWalReplicationLag(replica.replica_id, replica.lag_ms / 1000.0);
+        metrics_->setWalBacklogBytes(replica.replica_id, static_cast<int64_t>(replica.lag_bytes));
     }
 }
 

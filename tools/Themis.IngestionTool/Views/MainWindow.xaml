@@ -18,6 +18,59 @@
             </MenuItem>
         </Menu>
 
+        <!-- Toolbar mit Schnellzugriffen und Icons -->
+        <ToolBarTray DockPanel.Dock="Top" Background="White" Margin="0,0,0,1">
+            <ToolBar Background="White" BorderBrush="#E0E0E0" BorderThickness="0,0,0,1" Padding="6">
+                <ToggleButton x:Name="SidebarToggle" Content="☰ Menu" Width="70" Height="28" Margin="0,0,6,0" Click="OnToggleSidebar" FontSize="12" FontWeight="Bold" ToolTip="Seitenleiste ein/ausblenden" />
+                <Separator />
+                <Button Content="📁 Quelle" Width="110" Height="28" Margin="6,0,0,0" Click="OnBrowseSource" ToolTip="Quellordner wählen" FontSize="11" />
+                <Button Width="120" Height="28" Margin="6,0,0,0" Click="OnToggleIngestion" FontSize="11">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="Content" Value="▶ Start" />
+                            <Setter Property="ToolTip" Value="Analyse / Ingestion starten" />
+                            <Setter Property="Background" Value="#28A745" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                    <Setter Property="Content" Value="⏹ Stop" />
+                                    <Setter Property="ToolTip" Value="Aktuellen Lauf abbrechen" />
+                                    <Setter Property="Background" Value="#DC3545" />
+                                    <Setter Property="IsEnabled" Value="True" />
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsRunning}" Value="False" />
+                                        <Condition Binding="{Binding IsConnected}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="True" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="⚡ Real Ingestion" Width="150" Height="28" Margin="6,0,0,0" Click="OnStartRealIngestion" ToolTip="Direkte Speicherung in ThemisDB" FontSize="11">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsRunning}" Value="False" />
+                                        <Condition Binding="{Binding IsConnected}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="True" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Separator />
+                <Button Content="⚙ Einstellungen" Width="130" Height="28" Margin="6,0,0,0" Click="OnOpenSettings" ToolTip="Einstellungen öffnen" FontSize="11" />
+            </ToolBar>
+        </ToolBarTray>
+
         <!-- Statuszeile -->
         <StatusBar DockPanel.Dock="Bottom" Background="White" BorderBrush="#E0E0E0" BorderThickness="0,1,0,0">
             <StatusBarItem FlowDirection="LeftToRight">
@@ -69,12 +122,14 @@
         <!-- Hauptinhalt -->
         <Grid DockPanel.Dock="Top" Background="White" Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="380"/>
+                <ColumnDefinition x:Name="LeftColumn" Width="380"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
             <!-- Linke Spalte: Steuerung -->
-            <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
+            <Border Grid.Column="0" Margin="10" Background="White" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel VerticalAlignment="Top" Margin="10">
                 <!-- Header -->
                 <TextBlock Text="Datei-Ingestion" FontSize="20" FontWeight="Bold" Foreground="#333" Margin="0,0,0,8" />
                 <TextBlock Text="{Binding CurrentStage}" FontSize="11" Foreground="#666" Margin="0,0,0,15" />
@@ -121,16 +176,37 @@
 
                 <!-- Buttons -->
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <Button Click="OnStartIngestion" 
-                           Content="Start" 
-                           Padding="15,8" Background="#28A745" Foreground="White" 
-                           FontWeight="Bold" FontSize="11" Cursor="Hand" Margin="0,0,8,0" />
-                    <Button Click="OnCancelIngestion" 
-                           Content="Stop" 
-                           Padding="15,8" Background="#DC3545" Foreground="White" 
-                           FontWeight="Bold" FontSize="11" Cursor="Hand" />
+                    <Button Click="OnToggleIngestion" 
+                           Padding="20,10" Foreground="White" 
+                           FontWeight="Bold" FontSize="12" Cursor="Hand" MinWidth="140">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                <Setter Property="Content" Value="▶ Start" />
+                                <Setter Property="ToolTip" Value="Datei-Analyse starten" />
+                                <Setter Property="Background" Value="#28A745" />
+                                <Setter Property="IsEnabled" Value="False" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsRunning}" Value="True">
+                                        <Setter Property="Content" Value="⏹ Stop" />
+                                        <Setter Property="ToolTip" Value="Analyse abbrechen" />
+                                        <Setter Property="Background" Value="#DC3545" />
+                                        <Setter Property="IsEnabled" Value="True" />
+                                    </DataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsRunning}" Value="False" />
+                                            <Condition Binding="{Binding IsConnected}" Value="True" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="True" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
-            </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
             
             <!-- Rechte Spalte: TabControl für Live-Analyse und Details -->
             <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="1,0,0,0" Background="White" Margin="10,10,10,10">

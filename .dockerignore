@@ -1,220 +1,107 @@
 # ============================================================================
-# .dockerignore - Docker Build Context Optimization
+# Docker Build Context Exclusions
 # ============================================================================
-# Version: 2.0.0 (vcpkg Offline-First)
-# Last Updated: 18. Dezember 2025
-#
-# Reduziert Build-Context von ~200k+ auf ~2k Dateien
-# WICHTIG: vcpkg/downloads/ (~2.5 GB) wird inkludiert für offline builds
-# Spart dennoch ~15 GB durch Exclusion von vcpkg/packages & buildtrees
+# Only exclude files/folders NOT needed for Docker build and runtime
 
-# --- Build Artifacts (nicht für Docker-Build nötig) ------------------------
-# Alle lokalen Build-Verzeichnisse ausschließen
+# Build artifacts (not needed in container, will be rebuilt)
 build/
 build-*/
+build-msvc/
+build-wsl/
 out/
-bin/
-lib/
-dist/
-Testing/
 CMakeFiles/
-CMakeCache.txt
-*.cmake
-
-# Build logs (alle Varianten)
-*.log
-build*.txt
-docker-build*.log
-msbuild*.txt
-msvc_build*.txt
-
-# (Release assets re-included below after release/ exclusion)
-
-# --- vcpkg Offline-First Strategy (v4.0.0) ---------------------------------
-# Include: vcpkg/downloads/ (~2.5 GB) for offline builds
-# Exclude: build artifacts (~15 GB) - werden im Docker neu gebaut
-# CRITICAL: Exclude vcpkg/buildtrees/* to avoid file access issues in Docker
-vcpkg_installed/
-vcpkg/buildtrees/
-vcpkg/buildtrees/**
-vcpkg/packages/
-vcpkg/installed/
-.vcpkg/
-
-# INCLUDE vcpkg essentials for offline builds (only specific subpaths)
-!vcpkg/downloads/
-!vcpkg/downloads/**
-!vcpkg/scripts/
-!vcpkg/scripts/**
-!vcpkg/.vcpkg-root
-!vcpkg/bootstrap-vcpkg.sh
-!vcpkg/vcpkg.json
-!vcpkg-configuration.json
-
-# --- Exclude local LLM source (not needed in Docker context) --------------
-llama.cpp/
-
-# --- Development & Testing (nicht f??r Production) --------------------------
-tests/
-benchmarks/
-fuzz/
-data/
-test_geo_integration_db/
-# examples/ - NEEDED for Docker packages
-# clients/ - NEEDED for SDK distribution
-# openapi/ - NEEDED for API specification
-adapters/
-
-# --- Release packages (not needed in Docker builds) -----------------------
-release/
-
-# Allow selected release artifacts for Docker builds
-!release/v*/themis-v*.tar.gz
-!release/v*/themis-v*.zip
-!docker/themis-linux.tar.gz
-
-# --- Documentation (nicht f??r Runtime) ----------------------------------------
-# docs/ - Some docs needed for packages (openapi, deployment guides)
-# Most markdown files excluded, but keep essentials
-*.md
-!README.md
-!CHANGELOG.md
-!LICENSE
-!SECURITY.md
-!docker/README.md
-!docker/CHANGELOG.md
-!docker/ROADMAP.md
-!DOCKER_DEPLOYMENT.md
-# Exclude heavy documentation dirs
-site/
-wiki/
-wiki_out/
-wiki-temp/
-docs/archive/
-docs/api/
-docs/architecture/
-docs/compliance/
-docs/development/
-docs/enterprise/
-docs/features/
-docs/governance/
-docs/guides/
-docs/operations/
-docs/performance/
-docs/plugins/
-docs/query/
-docs/reports/
-docs/roadmap/
-docs/sdk/
-docs/security/
-docs/server/
-docs/sharding/
-docs/src/
-docs/storage/
-docs/tools/
-docs/updates/
-docs/analysis/
-
-# --- Developer Tools (nicht f??r Production) --------------------------------
-# tools/ - plugin_signer and sign scripts needed
-tools/jaeger/
-tools/Themis.*/
-tools/CMakeLists.txt
-tools/debug_graph_keys.cpp
-tools/publish_wiki.py
-tools/STATUS.md
-tools/MOCK_MODE.md
-tools/Themis.sln
-.tools/
-# scripts/ - needed for install scripts in packages
-.github/
-.vscode/
-.idea/
-.vs/
-
-# --- Logs und tempor??re Dateien --------------------------------------------
-logs/
-*.log
-*.pid
-*.err
-*.out
-tmp*/
-test_output*
-server.pid
-server.err
-server.out
-
-# --- Git Repository --------------------------------------------------------
-.git/
-.gitignore
-.gitattributes
-
-# --- IDE und OS Dateien ----------------------------------------------------
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-*.suo
-*.user
-.vscode/
-.idea/
-
-# --- Build Artefakte (kompiliert) ------------------------------------------
 *.o
-*.obj
 *.a
-*.lib
-*.so
+*.so*
 *.dll
 *.exe
 *.pdb
-*.ilk
-*.dylib
+Testing/
+vcpkg_installed/
 
-# --- Archive und Packages --------------------------------------------------
-*.tar.gz
-*.zip
-*.deb
-*.rpm
-*.tgz
-# BUT allow release archives
-!themis-linux.tar.gz
+# llama.cpp build artifacts and large files
+llama.cpp/build/
+llama.cpp/build-*/
+llama.cpp/models/
+llama.cpp/.git/
+llama.cpp/benches/
+llama.cpp/media/
 
-# --- Python (falls vorhanden) ----------------------------------------------
+# Development/test only
+tests/
+benchmarks/
+fuzz/
+
+# Documentation (not needed in runtime image)
+docs/
+site/
+book/
+compendium/
+CHANGELOG.md
+README.md
+CONTRIBUTING.md
+CODING_STANDARDS.md
+SECURITY.md
+LICENSE
+
+# CI/CD and VCS
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# Python cache and node modules
 __pycache__/
-*.py[cod]
-.pytest_cache/
-venv/
-.venv/
-.venv-*/
-.venv-wsl/
-.venv_wsl/
-env/
-env-*/
-compendium/.venv/
-compendium/.venv_wsl/
-*.egg-info/
-
-# --- Node.js (falls vorhanden) ---------------------------------------------
+*.pyc
 node_modules/
-npm-debug.log
-yarn-error.log
 
-# --- Packaging (nicht f??r Docker-Build) ------------------------------------
+# IDE and build files
+.vscode/
+.clang-*
+*.code-workspace
+CMakePresets.json
+CMakeLists.txt.user
+CMakeUserPresets.json
+
+# Release/packaging (handled separately)
+release/
+release-changelogs/
 packaging/
 debian/
-PKGBUILD
-*.spec
+wordpress-*/
+
+# Data and models (development only)
+data/
+models/
+test_geo_integration_db/
+test_replication_loopback_data/
+
+# VCS hooks and metadata
+.gitmodules
+.gitleaks.toml
+
+# Build logs and temp files
+*.log
+build_*.log
+docker_*.log
+cmake_*.log
+*.txt~
 
 # ============================================================================
-# Explizit einbeziehen (??berschreibt obige Regeln)
+# IMPORTANT: These are explicitly NOT excluded (needed for build)
 # ============================================================================
-!CMakeLists.txt
+# !llama.cpp/          - Essential for ThemisDB LLM features
+# !vcpkg/              - Required for dependency management
+# !vcpkg.json          - Dependency manifest
+# !vcpkg-configuration.json
+# !ports-overlays/     - Custom vcpkg ports
+# !CMakeLists.txt      - Build configuration
+# !cmake/              - CMake modules and settings
+# !src/                - Source code
+# !include/            - Header files
+# !proto/              - Protocol buffer definitions
+# !internal/           - Internal libraries
+# !scripts/            - Build and configuration scripts
+# !Dockerfile*         - Docker build files
+# !.dockerignore       - This file
 
-!Dockerfile
-!docker-compose*.yml
-!setup.sh
-!build.sh
-!ports-overlays/**
-# --- Ende .dockerignore -----------------------------------------------------

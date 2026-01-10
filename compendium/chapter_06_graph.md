@@ -78,6 +78,8 @@ user_node = {
 }
 ```
 
+<figure>
+
 ```mermaid
 graph LR
     subgraph "Property Graph Struktur"
@@ -102,6 +104,9 @@ graph LR
     style P1 fill:#4facfe
     style P2 fill:#43e97b
 ```
+
+<figcaption><b>Abb. 06.1:</b> Graph-Traversierung-Algorithmus</figcaption>
+</figure>
 
 **2. Kanten (Edges/Relationships)**
 - Verbinden zwei Knoten (gerichtet oder ungerichtet)
@@ -167,6 +172,8 @@ ThemisDB speichert alle Kanten gerichtet, aber Graph-Queries können beide Richt
 - `INBOUND` - Von B nach A
 - `ANY` - Beide Richtungen (für ungerichtete Graphs)
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Gerichtete Kanten (Directed)"
@@ -189,6 +196,9 @@ graph TB
     style B2 fill:#764ba2
     style C2 fill:#f093fb
 ```
+
+<figcaption><b>Abb. 06.2:</b> Shortest-Path-Berechnung</figcaption>
+</figure>
 
 ## 6.3 Graph-Traversierung
 
@@ -231,6 +241,8 @@ FOR v IN 2..2 OUTBOUND @my_id friendships
     RETURN v
 ```
 
+<figure>
+
 ```mermaid
 graph TD
     Start((Alice<br/>Start)) -->|Hop 1| F1((Bob<br/>Friend))
@@ -255,6 +267,11 @@ graph TD
     style FF4 fill:#43e97b
 ```
 
+<figcaption><b>Abb. 06.3:</b> Community-Detection-Workflow</figcaption>
+</figure>
+
+<figure>
+
 ```mermaid
 flowchart LR
     subgraph "DFS - Depth First Search"
@@ -276,6 +293,9 @@ flowchart LR
     style D_Start fill:#667eea
     style B_Start fill:#667eea
 ```
+
+<figcaption><b>Abb. 06.4:</b> Pagerank-Algorithmus-Visualisierung</figcaption>
+</figure>
 
 ### Pattern Matching
 

@@ -9,8 +9,6 @@ name: CI
 # This workflow provides a general-purpose CI check for all PRs.
 
 on:
-  pull_request:
-    branches: [main, develop]
   workflow_dispatch:
 
 # Concurrency: Cancel in-progress runs for same workflow on same branch

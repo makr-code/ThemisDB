@@ -7,13 +7,78 @@
   [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
   [![Code Quality](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/code-quality.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
-  [![Version](https://img.shields.io/badge/version-1.3.3-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.3.3)
+  [![Version](https://img.shields.io/badge/version-1.4.0--alpha-blue)](https://github.com/makr-code/ThemisDB/releases/tag/v1.4.0-alpha)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
 ---
 
 ## 🎉 What's New
+
+### 🚀 v1.4.0-alpha - Advanced LLM Features (2026-01-05)
+
+#### 🧠 Advanced LLM Capabilities
+- 📝 **Grammar-Constrained Generation** - EBNF/GBNF support for guaranteed valid JSON/XML/CSV outputs (95-99% reliability vs 60-70%)
+  - Built-in grammars: JSON, XML, CSV, ReAct Agent
+  - Thread-safe grammar cache with LRU eviction
+  - Zero post-processing required
+- 🔭 **RoPE Scaling** - Extended context window from 4K → 32K tokens (8x increase)
+  - Linear, NTK-aware, YaRN scaling methods
+  - Process entire research papers and codebases
+- 🖼️ **Vision Support** - Multi-modal LLMs with CLIP-based image encoding
+  - LLaVA integration for image analysis
+  - Single and multiple image support
+  - Thread-safe VisionEncoder class
+- ⚡ **Flash Attention** - CUDA kernels for 15-25% speedup, 30% memory reduction
+  - Optimized attention mechanism
+  - Backward pass for training support
+  - Multi-compute capability support
+- 🎯 **Speculative Decoding** - 2-3x faster inference with draft+target models
+- 🔄 **Continuous Batching** - 2x+ throughput with dynamic request batching
+
+#### 🏢 Enterprise Enhancements
+- 🔥 **Hot Spare Management** - Automatic failover with health monitoring
+- 📊 **Enhanced Prometheus Metrics** - LLM inference, cache performance, response tracking
+- 🔄 **WAL Replication via gRPC** - Distributed inter-shard replication
+- 🎮 **Multi-GPU LoRA Support** - Distributed LoRA adapters across GPUs
+- 🐘 **PostgreSQL Protocol** - COPY, prepared statements, transaction support
+
+#### 📊 Quality & Testing
+- 31 new test suites with comprehensive coverage
+- 11 new performance benchmarks
+- 17 new documentation guides
+- 938 files changed (+113,762 lines, -45,154 lines)
+
+**📚 Quick Links:**
+- [Grammar-Constrained Generation](docs/en/llm/GRAMMAR_CONSTRAINED_GENERATION.md)
+- [RoPE Scaling Guide](docs/en/llm/ROPE_SCALING_IMPLEMENTATION.md)
+- [Vision Support Quick Start](docs/en/llm/VISION_SUPPORT_QUICK_START.md)
+- [Flash Attention Implementation](docs/en/llm/FLASH_ATTENTION_IMPLEMENTATION.md)
+- [Complete Changelog](CHANGELOG.md#v140-alpha)
+
+---
+
+### �️ RAID Sharding Deadlock Hotfix (2026-01-04)
+- 🔧 **Critical Fix** - Resolved server hang in RAID cluster mode at "Adaptive Index Manager initialized"
+- 🎯 **Root Cause** - AdaptiveIndexManager MVCC coordination across 2 CFs before Sharding Manager initialization
+- ✅ **Solution** - Conditional Column Family opening when `THEMIS_ENABLE_SHARDING=true` detected
+- 🔧 **Port Mapping Fix** - Corrected docker-compose HTTP mappings from `808X:8080` to `808X:8765`
+- 🧪 **RAID Testing** - 2-hour endurance test suite with monitoring dashboard
+- 📊 **Verification** - All 9 RAID shards (RAID 0/1/5) operational with 0% error rate
+- 📦 **Build Optimization** - Docker build context reduced from 3GB to 85MB (97% reduction)
+
+**Files Modified:** `src/storage/rocksdb_wrapper.cpp`, `src/server/http_server.cpp`, `docker/compose/docker-compose-sharding.yml`, `Dockerfile.themis-server`, `.dockerignore`  
+**Tools Added:** `scripts/raid_endurance_test.py`, `scripts/monitor_raid_test.ps1`
+
+### 🔒 Security Improvements Summary (v1.3.0 - v1.3.4)
+- 🛡️ **Critical Security Fixes** - Addressed 7 critical and 8 medium severity issues in RocksDB wrapper (100% segfault risk elimination)
+- 🐳 **Docker Security** - Upgraded to Ubuntu 24.04 LTS with 80%+ CVE reduction
+- 🔄 **Update Checker Security** - Secure token handling, HTTPS-only, thread-safe implementation
+- 🔐 **Binary Authenticity** - Cryptographic manifest signing architecture (RSA-4096, SHA-256)
+- 🔧 **Memory Safety** - Fixed use-after-free vulnerabilities, memory leaks, and resource management
+- ✅ **Verification** - CodeQL passed, comprehensive audit reports, all critical issues resolved
+
+**Quick Links:** [Security Summary (EN)](docs/SECURITY_WORK_SUMMARY_v1.3.4_EN.md) | [Sicherheitszusammenfassung (DE)](docs/de/releases/SECURITY_WORK_SUMMARY_V1.3.4.md) | [Security Audit](docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md) | [Security Policy](SECURITY.md)
 
 ### 🎙️ Voice Assistant Integration (2025-12-30) - Enterprise Feature
 - 🗣️ **Natural Language Voice Interaction** - Similar to Alexa/Siri, powered by Whisper.cpp + Piper TTS + llama.cpp
@@ -67,11 +132,16 @@
 | Feature | Description | Status |
 |---------|-------------|--------|
 | 🧠 **Embedded LLM Engine** | llama.cpp integration for LLaMA/Mistral/Phi-3 (1B-70B params) | ✅ |
+| 📝 **Grammar Constraints** | EBNF/GBNF for guaranteed valid JSON/XML/CSV outputs | ✅ v1.4.0-alpha |
+| 🔭 **RoPE Scaling** | Extended context window 4K → 32K tokens (8x increase) | ✅ v1.4.0-alpha |
+| 🖼️ **Vision Support** | Multi-modal LLMs with CLIP image encoding (LLaVA) | ✅ v1.4.0-alpha |
+| ⚡ **Flash Attention** | CUDA kernels: 15-25% speedup, 30% memory reduction | ✅ v1.4.0-alpha |
+| 🎯 **Speculative Decoding** | 2-3x faster inference with draft+target models | ✅ v1.4.0-alpha |
+| 🔄 **Continuous Batching** | 2x+ throughput with dynamic request batching | ✅ v1.4.0-alpha |
 | 🎙️ **Voice Assistant** | STT/TTS/LLM for phone calls, meetings, voice commands (Enterprise) | ✅ |
 | 🖼️ **Image Analysis AI** | Multi-backend plugins (llama.cpp Vision, ONNX CLIP, OpenCV DNN) | ✅ |
 | ⚡ **GPU Acceleration** | NVIDIA CUDA support with significant speedup | ✅ |
 | 💾 **PagedAttention** | Advanced memory management | ✅ |
-| 🎯 **Continuous Batching** | Handle concurrent inference requests | ✅ |
 | 🔧 **Quantization** | Q4_K_M, Q5_K_M, Q8_0 for efficient memory usage | ✅ |
 | 📊 **Monitoring** | Grafana dashboards with metrics and alerts | ✅ |
 | 🔌 **Plugin Architecture** | Extensible LLM and image analysis backends | ✅ |
@@ -98,12 +168,13 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 <details open>
 <summary><b>Available Editions</b></summary>
 
-| Edition | License | Features |
-|---------|---------|----------|
-| 🆓 **Community** | Open Source (MIT) | Full-featured single-node database with all core capabilities |
-| 🔒 **Enterprise** | Commercial | + Horizontal scaling, advanced analytics, HA/replication, and more |
+| Edition | License | Features | Use Case |
+|---------|---------|----------|----------|
+| 🔹 **Minimal** | Open Source (MIT) | Core database only - no LLM, GPU, sharding, advanced protocols | Embedded systems, IoT, edge devices, fast builds |
+| 🆓 **Community** | Open Source (MIT) | Full-featured single-node database with all core capabilities | Development, startups, single-server deployments |
+| 🔒 **Enterprise** | Commercial | + Horizontal scaling, advanced analytics, HA/replication, and more | Large-scale production deployments |
 
-**[→ See Enterprise Edition Details](ENTERPRISE.md)**
+**[→ See Minimal Edition Details](docs/MINIMAL_EDITION.md)** | **[→ See Enterprise Edition Details](ENTERPRISE.md)**
 
 </details>
 
@@ -327,6 +398,42 @@ brew services start themisdb
 ```powershell
 choco install themisdb
 ```
+
+---
+
+## **Release & Publication Policy**
+
+- **Public Editions:** Minimal, Community. Enterprise bleibt kommerziell und wird nicht im öffentlichen Repo geführt.
+- **Nicht veröffentlichte Inhalte:** Werden über `.gitignore` und Release-Prozesse ausgeschlossen.
+- **Branch-Scope:** `main` enthält nur Minimal/Community; `develop` enthält alle Komponenten (inkl. Enterprise, Benchmarks, Marketing-Assets).
+- **Merge-Schutz:** `.gitattributes` erzwingt für sensible Pfade `merge=ours`, damit `develop → main` keine nicht-öffentlichen Inhalte überträgt.
+- **Begründung:** Vermeidung von versehentlichen Veröffentlichungen vertraulicher oder nicht betriebsrelevanter Komponenten.
+
+**Explizit ausgeschlossen (nicht Teil der öffentlichen Veröffentlichung):**
+- **`llama.cpp/`**: Lokaler Clone für optionale LLM-Builds; nicht committen.
+- **`internal/`**: Interne vertrauliche Dokumente und Artefakte.
+- **Enterprise-Quellcode/Dokumente**: `src/enterprise/`, `include/enterprise/`, `plugins/enterprise/`, `docs/enterprise/*` (nur feature Docs bleiben öffentlich). 
+- **WordPress-Assets**: `wordpress-plugin/`, `wordpress-theme/` (Marketing/Website-Integration, nicht server-kritisch).
+- **Ephemere/experimentelle Apps**: `epServer/` (nicht für regulären Betrieb vorgesehen).
+- **Build-/Artefakt-Verzeichnisse**: `build*/`, `out/`, `bin/`, `lib/`, `CMakeFiles/`, `site/`, Logs und temporäre Dateien.
+- **Lokale Toolchains/Vendor-Artefakte**: `vcpkg/`, `vcpkg_installed/`, `packages/`, `downloads/`, `buildtrees/`.
+- **Model-/Testdaten**: `models/*` (nur Platzhalter erlaubt), `data/`, RocksDB-Dateien (`*.db`, `*.sst`).
+
+Hinweise zur Editionsgrenze:
+- Community/Minimal enthalten nur komponentenrelevanten Code für den Betrieb (Server, Kernmodule, öffentlich dokumentierte Plugins, Tests, APIs, Docker/Helm für Deployment).
+- Enterprise-spezifische Benchmarks/Analysen und proprietäre Plugins bleiben ausgeschlossen.
+
+> Pflegehinweis: Siehe `.gitignore` im Projekt-Root für die vollständige, bindende Liste der Ausschlüsse. Änderungen an der Veröffentlichungsstrategie werden dort und im CHANGELOG dokumentiert.
+
+---
+
+## **Merge-Vorbereitung: develop → main**
+
+- **Dokumentation aktualisiert:** README (Release-/Exclusions-Abschnitt), `.gitignore` erweitert, CHANGELOG ergänzt.
+- **Ziel:** Sauberer Stand für Veröffentlichung der öffentlichen Editionen ohne vertrauliche Inhalte.
+- **Validierung:** CI/CTest auf `build-msvc`/Release; optional Docker Nightly gegen Community-Edition.
+
+> Nächste Schritte nach Merge: Release-Tag setzen, Artefakte bauen (Docker/DEB/RPM), Changelog veröffentlichen, Coverage/Docs aktualisieren.
 
 ---
 

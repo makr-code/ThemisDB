@@ -4,16 +4,6 @@ name: C# SDK [Dry-Run]
 # 🔶 DRY-RUN MODE - Package is built but NOT pushed to NuGet
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'clients/csharp/**'
-      - '.github/workflows/csharp-sdk-test.yml'
-  pull_request:
-    branches: [main, develop]
-    paths:
-      - 'clients/csharp/**'
-      - '.github/workflows/csharp-sdk-test.yml'
   workflow_dispatch:
 
 # Minimal permissions for security

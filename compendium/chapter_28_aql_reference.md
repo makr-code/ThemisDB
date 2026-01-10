@@ -18,6 +18,36 @@ Dieses Kapitel ist die komplette Referenz für AQL (Adaptive Query Language), di
 
 ---
 
+<figure>
+
+```mermaid
+graph LR
+    AQL[AQL Query] --> Parser[Parser]
+    Parser --> AST[Abstract Syntax Tree]
+    AST --> Optimizer[Query Optimizer]
+    
+    Optimizer --> LogPlan[Logical Plan]
+    LogPlan --> PhysPlan[Physical Plan]
+    
+    PhysPlan --> IndexSel[Index Selection]
+    PhysPlan --> JoinOrd[Join Ordering]
+    PhysPlan --> PushDown[Predicate Pushdown]
+    
+    IndexSel --> Execution[Execution Engine]
+    JoinOrd --> Execution
+    PushDown --> Execution
+    
+    Execution --> Result[Query Result]
+    
+    style Optimizer fill:#f093fb
+    style Execution fill:#4facfe
+```
+
+<figcaption><b>Abb. 28.0:</b> AQL-Query-Execution-Pipeline</figcaption>
+</figure>
+
+---
+
 ## 28.1 Sprachumfang-Überblick
 
 ### Executive Summary

@@ -1,9 +1,26 @@
 # ThemisDB Documentation
 
-**Version:** 1.3.0  
-**Last Updated:** December 20, 2025
+**Version:** 1.4.0-alpha  
+**Last Updated:** January 5, 2026
 
 Welcome to the ThemisDB documentation! This guide will help you find the information you need.
+
+---
+
+## 🚀 NEU in v1.4.0-alpha: Erweiterte LLM-Funktionen
+
+**Dokumentation verfügbar:**
+- [Release Notes v1.4.0-alpha](../../RELEASE_NOTES_V1.4.0_ALPHA.md) - Umfassende Release-Zusammenfassung
+- [Changelog v1.4.0-alpha](../../CHANGELOG.md#v140-alpha) - Vollständige Änderungsliste
+- [Kompendium Update-Notizen](../../compendium/V1.4.0_ALPHA_UPDATE_NOTES.md) - Deutsche Integrationsanleitung
+
+**Neue Features:**
+- 📝 **Grammatik-gesteuerte Generierung** - EBNF/GBNF für garantiert valide JSON/XML/CSV-Ausgaben
+- 🔭 **RoPE Scaling** - Erweitertes Kontextfenster 4K → 32K Tokens (8x Vergrößerung)
+- 🖼️ **Vision Support** - Multi-modale LLMs mit CLIP-Bildcodierung
+- ⚡ **Flash Attention** - 15-25% Geschwindigkeitssteigerung, 30% Speicherreduktion
+- 🎯 **Speculative Decoding** - 2-3x schnellere Inferenz
+- 🔄 **Continuous Batching** - 2x+ Durchsatz
 
 ---
 
