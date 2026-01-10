@@ -44,7 +44,7 @@ plugins:
   - search:
       lang: de
   - with-pdf:
-    output_path: pdf/ThemisDB-Kompendium-v1.4.0-alpha.pdf
+      output_path: pdf/ThemisDB-Kompendium-v1.4.0-alpha.pdf
       cover_title: "ThemisDB"
       cover_subtitle: "Das vollständige Handbuch - Version 1.4.0-alpha"
       author: "ThemisDB Team"

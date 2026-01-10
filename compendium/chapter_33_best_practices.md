@@ -81,6 +81,8 @@ FOR order IN orders
 
 **Entscheidungsmatrix:**
 
+<figure>
+
 ```mermaid
 flowchart TD
     Start{Data Modeling} --> Relation{Beziehungstyp?}
@@ -115,6 +117,9 @@ flowchart TD
     style Final2 fill:#4dabf7
     style OK fill:#40c057
 ```
+
+<figcaption><b>Abb. 33.1:</b> Best-Practices-Decision-Tree</figcaption>
+</figure>
 
 **Entscheidungsmatrix:**
 | Use Case | Pattern | Begründung |

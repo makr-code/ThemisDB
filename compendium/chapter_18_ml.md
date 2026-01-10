@@ -11,6 +11,8 @@ ThemisDB bietet umfassende Integration mit Machine-Learning-Frameworks und -Work
 
 Die Kombination aus relationalen Daten, Graphen, Dokumenten und Vektoren macht ThemisDB zur idealen Plattform für ML-Pipelines.
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "ML Pipeline with ThemisDB"
@@ -45,6 +47,9 @@ graph TB
     style Vec fill:#ffd32a
     style Results fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 18.1:</b> ML-Pipeline-Architektur</figcaption>
+</figure>
 
 ## 18.1 ML Feature Store
 

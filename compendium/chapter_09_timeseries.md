@@ -33,6 +33,8 @@ Time-Series-Daten sind Messungen, die über die Zeit gesammelt werden. Jeder Dat
 | Log Aggregation | Variabel | 7-30 Tage | Application Logs, Metrics |
 | Smart Home | 1-60 sec | 3-6 Monate | Stromverbrauch, Heizung |
 
+<figure>
+
 ```mermaid
 gantt
     title Time-Series Data Lifecycle
@@ -54,6 +56,9 @@ gantt
     Downsample to daily           :done, aggd, 2024-02-01, 365d
     Retention 1 year+             :aggdr, 2025-02-01, 730d
 ```
+
+<figcaption><b>Abb. 09.1:</b> Timeseries-Data-Ingestion</figcaption>
+</figure>
 
 ## 9.2 Time-Series-Datenmodell in ThemisDB
 
@@ -91,6 +96,8 @@ CREATE INDEX idx_ttl
 2. **TTL-Policies**: Automatisches Löschen alter Daten via Expiration-Index
 3. **Sharding**: Horizontales Partitionieren nach `sensor_id` für Skalierung
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Time-Series Partitioning Strategy"
@@ -115,6 +122,9 @@ graph TB
     style P4 fill:#f093fb
     style Q1 fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 09.2:</b> Aggregation-Pipeline</figcaption>
+</figure>
 
 ### Indexes für Time-Series
 
@@ -235,6 +245,8 @@ FOR doc IN hour_data
     sample_count = EXCLUDED.sample_count;
 ```
 
+<figure>
+
 ```mermaid
 flowchart TD
     Start[Raw Sensor Data<br/>1 sample/second] --> Buffer[Write Buffer<br/>High Frequency]
@@ -261,6 +273,9 @@ flowchart TD
     style Delete2 fill:#ff6348
     style Delete3 fill:#ff6348
 ```
+
+<figcaption><b>Abb. 09.3:</b> Downsampling-Strategie</figcaption>
+</figure>
 
 ### Retention Policy Implementation
 

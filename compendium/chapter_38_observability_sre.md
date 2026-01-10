@@ -22,6 +22,37 @@ Dieses Kapitel liefert ein praktisches Observability- und SRE-Playbook für Them
 
 ---
 
+<figure>
+
+```mermaid
+graph TB
+    App[ThemisDB] --> Metrics[Metrics<br/>Prometheus]
+    App --> Logs[Logs<br/>Loki]
+    App --> Traces[Traces<br/>Jaeger]
+    
+    Metrics --> Dashboard[Grafana Dashboard]
+    Logs --> Dashboard
+    Traces --> Dashboard
+    
+    Dashboard --> Alerts{Alerts}
+    Alerts -->|SLO Breach| Incident[Incident]
+    Alerts -->|OK| Monitor[Continue Monitoring]
+    
+    Incident --> Diagnose[Diagnose]
+    Diagnose --> Mitigate[Mitigate]
+    Mitigate --> Postmortem[Postmortem]
+    Postmortem --> Improve[Improve Systems]
+    
+    style Alerts fill:#ff6b6b
+    style Dashboard fill:#4facfe
+    style Improve fill:#43e97b
+```
+
+<figcaption><b>Abb. 38.0:</b> Observability-Säulen</figcaption>
+</figure>
+
+---
+
 ## 38.1 Metriken (What to Measure)
 
 ### Core DB Metriken

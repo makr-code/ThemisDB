@@ -652,6 +652,8 @@ Das Ethische Richtlinien System basiert auf zwei fundamentalen ethischen Rahmenw
 
 #### 1. Allgemeine Erklärung der Menschenrechte (UN, 1948)
 
+<figure>
+
 ```mermaid
 graph TB
     A[UN Menschenrechte 1948] --> B[Art. 1: Würde & Gleichheit]
@@ -671,7 +673,12 @@ graph TB
     style I fill:#c8e6c9
 ```
 
+<figcaption><b>Abb. 24.1:</b> Ethical-Framework-Overview</figcaption>
+</figure>
+
 #### 2. Isaac Asimovs Robotergesetze (angepasst für KI)
+
+<figure>
 
 ```mermaid
 graph LR
@@ -692,6 +699,9 @@ graph LR
     style G fill:#c8e6c9
 ```
 
+<figcaption><b>Abb. 24.2:</b> Bias-Detection-Pipeline</figcaption>
+</figure>
+
 **Kernunterschied zur klassischen Formulierung:**
 - **Original 2. Gesetz:** "Ein Roboter muss den Befehlen von Menschen gehorchen..."
 - **ThemisDB Anpassung:** "KI muss menschliche Autonomie respektieren und Entscheidungen **unterstützen** (nicht ersetzen)"
@@ -701,6 +711,8 @@ Diese Anpassung ist **fundamental**, da sie Bevormundung verhindert.
 ### 24.5.2 Systemarchitektur: Ethische Kontexterkennung
 
 Das System nutzt einen **Hybrid-Ansatz** für die Erkennung ethischer Implikationen:
+
+<figure>
 
 ```mermaid
 flowchart TD
@@ -734,6 +746,9 @@ flowchart TD
     style Response fill:#f8bbd0
 ```
 
+<figcaption><b>Abb. 24.3:</b> Context-Recognition-Flow</figcaption>
+</figure>
+
 **Wissenschaftliche Grundlage:**
 - **Keyword-Matching:** Schnell (O(n)), für explizite ethische Begriffe
 - **LLM-as-Judge:** Basiert auf Zheng et al. (2023), "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena" (UC Berkeley)
@@ -741,6 +756,8 @@ flowchart TD
 ### 24.5.3 Fünf Augmentations-Templates
 
 Das System bietet **fünf spezialisierte Templates** für unterschiedliche ethische Kontexte:
+
+<figure>
 
 ```mermaid
 graph TB
@@ -763,6 +780,9 @@ graph TB
     style F fill:#ce93d8
     style G fill:#90caf9
 ```
+
+<figcaption><b>Abb. 24.4:</b> Augmentation-Templates-Matrix</figcaption>
+</figure>
 
 **Beispiel: moral_imperatives Template**
 
@@ -821,6 +841,8 @@ User: "Mein Chef verlangt von mir, diese Zahlen anzupassen."
 
 **Lösung:** LLM-as-Ethical-Judge analysiert Kontext
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant U as User
@@ -842,6 +864,9 @@ sequenceDiagram
     
     Note over U,R: User behält volle<br/>Entscheidungsfreiheit
 ```
+
+<figcaption><b>Abb. 24.5:</b> Ethical-Guardrails-Workflow</figcaption>
+</figure>
 
 **Code-Integration:**
 
@@ -881,6 +906,8 @@ if (result.has_ethical_context) {
 
 **Herausforderung:** Auch **RAG-Dokumente** können ethisch problematische Inhalte enthalten.
 
+<figure>
+
 ```mermaid
 flowchart TB
     Query[User Query:<br/>'Wie behandle ich<br/>diesen Fall?'] --> RAG[RAG Retrieval]
@@ -910,6 +937,9 @@ flowchart TB
     style Augment fill:#c8e6c9
     style Response fill:#90caf9
 ```
+
+<figcaption><b>Abb. 24.6:</b> Privacy-Protection-Layers</figcaption>
+</figure>
 
 **Code-Beispiel:**
 
@@ -1045,6 +1075,8 @@ domains:
 
 **Dashboard für ethische Richtlinien:**
 
+<figure>
+
 ```mermaid
 graph TB
     A[Ethical Guidelines<br/>Statistics Dashboard] --> B[Detection Metrics]
@@ -1072,6 +1104,9 @@ graph TB
     style C fill:#c8e6c9
     style D fill:#bbdefb
 ```
+
+<figcaption><b>Abb. 24.7:</b> Fairness-Evaluation-Metrics</figcaption>
+</figure>
 
 **Code zum Abrufen von Statistiken:**
 
@@ -1103,6 +1138,8 @@ for (const auto& [template_name, count] : stats.template_usage) {
 
 Das System basiert auf aktueller Forschung und ist für zukünftige Erweiterungen konzipiert:
 
+<figure>
+
 ```mermaid
 timeline
     title Ethische KI Roadmap - ThemisDB
@@ -1125,6 +1162,9 @@ timeline
                    : Interpretability
                    : Privacy-Preserving
 ```
+
+<figcaption><b>Abb. 24.8:</b> Transparency-Reporting-Flow</figcaption>
+</figure>
 
 **Phase 2 Highlights:**
 

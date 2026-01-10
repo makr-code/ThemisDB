@@ -43,6 +43,8 @@ Time-Series Metrics:              ts:<metric>:<timestamp>:<tags>
 - **Prefix-Extraktion:** RocksDB Prefix-Extractor ermöglicht Bloom-Filter auf Collection-Ebene
 - **Co-Location:** Related Data (z.B. alle Indizes einer Tabelle) wird physisch nah gespeichert
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "RocksDB LSM-Tree Architecture"
@@ -79,6 +81,9 @@ graph TB
     style L3 fill:#f093fb
     style Cache fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 08.1:</b> Storage-Engine-Internals</figcaption>
+</figure>
 
 **Code-Beispiel: Prefix-Extractor-Konfiguration**
 

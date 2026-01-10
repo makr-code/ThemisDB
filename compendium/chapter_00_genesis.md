@@ -412,14 +412,15 @@ graph TD
 <figure>
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f9f9f9', 'primaryBorderColor': '#7c4dff', 'primaryTextColor': '#1a1a1a', 'lineColor': '#ddd', 'fontSize': '14px', 'fontFamily': 'Georgia, serif'}, 'quadrantChart': {'pointRadius': 8, 'chartWidth': 600, 'chartHeight': 500, 'quadrant1Fill': '#f5f5f5', 'quadrant2Fill': '#fff', 'quadrant3Fill': '#f5f5f5', 'quadrant4Fill': '#f9f9f9'}}%%
-quadrantChart
-    title Marktpositionierung: Hyperscaler vs Sovereign Data
-    x-axis Vendor Lock-in --> Volle Souveraenitaet
-    y-axis Eventual Consistency --> ACID Garantie
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#f9f9f9', 'primaryBorderColor': '#7c4dff', 'primaryTextColor': '#1a1a1a', 'lineColor': '#ddd', 'fontSize': '14px', 'fontFamily': 'Georgia, serif'}}}%%
+graph TB
+    subgraph "Marktpositionierung: Datenbank-Modelle"
+        HS["🔷 Hyperscaler<br/>AWS/Google/Azure<br/>Vendor Lock-in: HOCH<br/>ACID-Garantie: MITTEL"]
+        TDB["🟢 ThemisDB<br/>Sovereign Data<br/>Vendor Lock-in: KEINE<br/>ACID-Garantie: MAXIMAL"]
+    end
     
-    Hyperscaler: 0.15, 0.25
-    ThemisDB: 0.9, 0.95
+    style HS fill:#ffcccc
+    style TDB fill:#ccffcc
 ```
 
 <figcaption><b>Abb. 0.5:</b> Marktpositionierung: ThemisDB im Quadrant der hohen Datensouveränität und strikten ACID-Garantien vs. Hyperscaler-Modelle</figcaption>

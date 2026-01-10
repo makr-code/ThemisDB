@@ -16,6 +16,8 @@ Change Data Capture (CDC) ist eine kritische Komponente moderner Datenarchitektu
 5. **Cross-System Sync:** Spiegelung von Daten in externe Systeme (Elasticsearch, Redis Cache)
 6. **Kafka Integration:** Streaming in ein zentrales Event-Bus-System
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "ThemisDB CDC Architecture"
@@ -38,6 +40,9 @@ graph TB
     style Kafka fill:#ff6348
     style Audit fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 11.1:</b> Real-time-Streaming-Architektur</figcaption>
+</figure>
 
 ## 11.2 CDC-Architektur und Datenmodell
 
@@ -102,6 +107,8 @@ batch.Put(event_key, serialize_event(event));
 db->Write(batch);  // ACID: Sequence & Event atomar committed
 ```
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant App as Application
@@ -131,6 +138,9 @@ sequenceDiagram
     
     Note over RDB: ALLE Änderungen atomar:<br/>Base Entities + CDC Events
 ```
+
+<figcaption><b>Abb. 11.2:</b> Change-Stream-Processing</figcaption>
+</figure>
 
 **Performance-Trade-off:** Die zentrale Sequenzvergabe ist ein Bottleneck bei hohen Schreibraten (>100K writes/sec). Zukünftige Optimierungen:
 

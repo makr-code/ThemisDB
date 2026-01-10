@@ -21,6 +21,8 @@ Dieses Kapitel behandelt die Protokoll-Features von ThemisDB: moderne HTTP/2/HTT
 
 ### 31.2.1 Multiplexing & Header-Kompression
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant C as Client
@@ -33,6 +35,9 @@ sequenceDiagram
     S-->>C: Response Stream 3
     S-->>C: Response Stream 5
 ```
+
+<figcaption><b>Abb. 31.1:</b> API-Protocol-Stack</figcaption>
+</figure>
 
 **Vorteile:**
 - Keine Head-of-Line-Blocking auf Applikationsebene
@@ -82,6 +87,8 @@ Server antwortet mit gepushten Ressourcen (nur wenn vom Client erlaubt):
 
 ### 31.3.3 Fallback-Strategie
 
+<figure>
+
 ```mermaid
 flowchart TD
     A[Client Request] --> B{Supports HTTP/3?}
@@ -93,6 +100,9 @@ flowchart TD
     style C fill:#e1f5ff
     style D fill:#fff4e1
 ```
+
+<figcaption><b>Abb. 31.2:</b> Request-Response-Flow</figcaption>
+</figure>
 
 ---
 

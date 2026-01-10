@@ -1,23 +1,14 @@
-vcpkg/
-vcpkg_installed/
-llama.cpp/
-external/
+# ============================================================================
+# Docker Build Context Exclusions
+# ============================================================================
+# Only exclude files/folders NOT needed for Docker build and runtime
 
-**/buildtrees/
-**/packages/
-**/downloads/
-**/installed/
-
+# Build artifacts (not needed in container, will be rebuilt)
 build/
 build-*/
 build-msvc/
 build-wsl/
 out/
-bin/
-lib/
-obj/
-dist/
-Testing/
 CMakeFiles/
 *.o
 *.a
@@ -25,38 +16,84 @@ CMakeFiles/
 *.dll
 *.exe
 *.pdb
+Testing/
+vcpkg_installed/
 
+# Development/test only
 tests/
 benchmarks/
 fuzz/
-data/
-models/
+
+# Documentation (not needed in runtime image)
 docs/
 site/
 book/
 compendium/
+CHANGELOG.md
+README.md
+CONTRIBUTING.md
+CODING_STANDARDS.md
+SECURITY.md
+LICENSE
+
+# CI/CD and VCS
+.git/
+.github/
+.gitignore
+.gitattributes
+
+# Python cache and node modules
+__pycache__/
+*.pyc
+node_modules/
+
+# IDE and build files
+.vscode/
+.clang-*
+*.code-workspace
+CMakePresets.json
+CMakeLists.txt.user
+CMakeUserPresets.json
+
+# Release/packaging (handled separately)
 release/
 release-changelogs/
 packaging/
 debian/
-examples/
-projects/
+wordpress-*/
+
+# Data and models (development only)
+data/
+models/
 test_geo_integration_db/
 test_replication_loopback_data/
 
-node_modules/
+# VCS hooks and metadata
+.gitmodules
+.gitleaks.toml
 
-.git/
-.github/
-.gitignore
+# Build logs and temp files
+*.log
+build_*.log
+docker_*.log
+cmake_*.log
+*.txt~
 
-# Explicitly include sources/config needed for build
-!CMakeLists.txt
-!cmake/
-!src/
-!include/
-!proto/
-!internal/
-!scripts/
-!Dockerfile*
+# ============================================================================
+# IMPORTANT: These are explicitly NOT excluded (needed for build)
+# ============================================================================
+# !llama.cpp/          - Essential for ThemisDB LLM features
+# !vcpkg/              - Required for dependency management
+# !vcpkg.json          - Dependency manifest
+# !vcpkg-configuration.json
+# !ports-overlays/     - Custom vcpkg ports
+# !CMakeLists.txt      - Build configuration
+# !cmake/              - CMake modules and settings
+# !src/                - Source code
+# !include/            - Header files
+# !proto/              - Protocol buffer definitions
+# !internal/           - Internal libraries
+# !scripts/            - Build and configuration scripts
+# !Dockerfile*         - Docker build files
+# !.dockerignore       - This file
 

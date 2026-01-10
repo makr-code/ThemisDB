@@ -86,6 +86,8 @@ db.documents.insert("articles", article)
 }
 ```
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Relational Model - Normalized"
@@ -98,11 +100,11 @@ graph TB
     end
     
     subgraph "Document Model - Denormalized"
-        Doc[Single Document; title, content, comments[], tags[]]
+        Doc["Single Document<br/>title, content, comments, tags"]
     end
     
-    Pro1[[OK] Self-contained<br/>[OK] Single read<br/>[OK] No JOINs<br/>[OK] Flexible schema]
-    Pro2[[OK] Data integrity<br/>[OK] No duplication<br/>[OK] Normalized<br/>[OK] ACID across tables]
+    Pro1["✓ Self-contained<br/>✓ Single read<br/>✓ No JOINs<br/>✓ Flexible schema"]
+    Pro2["✓ Data integrity<br/>✓ No duplication<br/>✓ Normalized<br/>✓ ACID across tables"]
     
     Doc --> Pro1
     Art --> Pro2
@@ -114,6 +116,9 @@ graph TB
     style Pro1 fill:#95e1d3
     style Pro2 fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 07.1:</b> Dokument-Store-Architektur</figcaption>
+</figure>
 
 ### Schema Evolution
 

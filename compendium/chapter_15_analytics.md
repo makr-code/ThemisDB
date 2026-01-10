@@ -16,6 +16,8 @@ ThemisDB bietet leistungsstarke Analyse- und Reporting-Funktionen, die es ermög
 
 ### 15.9.1 Star Schema
 
+<figure>
+
 ```mermaid
 flowchart TB
         F[Fact: sales] --> D1[Dim: time]
@@ -37,6 +39,9 @@ flowchart TB
         style D3 fill:#fff4e1
         style D4 fill:#fff4e1
 ```
+
+<figcaption><b>Abb. 15.1:</b> Analytics-Query-Pipeline</figcaption>
+</figure>
 
 **Keys:**
 - Fact: `time_key`, `product_key`, `customer_key`, `region_key`

@@ -208,12 +208,10 @@ float VectorIndexManager::l2(const std::vector<float>& a, const std::vector<floa
 float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std::vector<float>& b) {
 	float dot = 0.0f, na = 0.0f, nb = 0.0f;
 	size_t n = a.size();
-	size_t i = 0;
 	const size_t simd_width = 8;
 	
-	// SIMD-optimized loop with OpenMP reduction
-	#pragma omp simd reduction(+:dot,na,nb) collapse(1)
-	for (; i + simd_width <= n; i += simd_width) {
+	// SIMD-optimized loop
+	for (size_t i = 0; i + simd_width <= n; i += simd_width) {
 		#if defined(__clang__) || defined(__GNUC__)
 		#pragma unroll(8)
 		#endif
@@ -225,7 +223,7 @@ float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std:
 	}
 	
 	// Remainder loop
-	for (; i < n; ++i) {
+	for (size_t i = (n / simd_width) * simd_width; i < n; ++i) {
 		dot += a[i] * b[i];
 		na += a[i] * a[i];
 		nb += b[i] * b[i];
@@ -239,19 +237,17 @@ float VectorIndexManager::cosineOneMinus(const std::vector<float>& a, const std:
 float VectorIndexManager::dotProduct(const std::vector<float>& a, const std::vector<float>& b) {
 	float dot = 0.0f;
 	size_t n = a.size();
-	size_t i = 0;
 	const size_t simd_width = 8;
 	
-	// SIMD-optimized loop with OpenMP
-	#pragma omp simd reduction(+:dot)
-	for (; i + simd_width <= n; i += simd_width) {
+	// SIMD-optimized loop
+	for (size_t i = 0; i + simd_width <= n; i += simd_width) {
 		for (size_t j = 0; j < simd_width; ++j) {
 			dot += a[i+j] * b[i+j];
 		}
 	}
 	
 	// Remainder loop
-	for (; i < n; ++i) {
+	for (size_t i = (n / simd_width) * simd_width; i < n; ++i) {
 		dot += a[i] * b[i];
 	}
 	

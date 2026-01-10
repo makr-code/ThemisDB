@@ -49,6 +49,8 @@ Team-Expertise nötig:      6 × Spezialisten
 
 **Das Resultat:** Hohe Komplexität, teure Wartung, schwierige Debugging-Sessions, und Datenkonsistenz über Systemgrenzen ist nahezu unmöglich.
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Polyglot Persistence - Komplexität"
@@ -76,6 +78,9 @@ graph TB
     style RD fill:#fce38a
     style IF fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 01.1:</b> ThemisDB Multi-Model Architektur</figcaption>
+</figure>
 
 ### Der fundamentale Fehler: Eventual Consistency
 
@@ -108,6 +113,8 @@ except Exception:
 
 Polyglot Persistence erzwingt systemisch **"Eventual Consistency" (BASE)** [18] statt starker ACID-Garantien [16]. Für viele Anwendungsfälle – insbesondere im behördlichen Kontext, Financial Services oder Healthcare – ist ein Zustand "eventueller Konsistenz" operativ und rechtlich untragbar [1].
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant App as Application
@@ -133,6 +140,9 @@ sequenceDiagram
     end
 ```
 
+<figcaption><b>Abb. 01.2:</b> Datenmodell-Übersicht</figcaption>
+</figure>
+
 ### Der Multi-Model-Ansatz
 
 ThemisDB nimmt einen anderen Weg. Anstatt spezialisierte Datenbanken zu kombinieren, bieten wir **vier Datenmodelle in einem System:**
@@ -143,6 +153,8 @@ ThemisDB nimmt einen anderen Weg. Anstatt spezialisierte Datenbanken zu kombinie
 4. **Vektor:** Embeddings für AI/ML und Ähnlichkeitssuche
 
 **Der Vorteil:** Ein System, eine API, eine Query-Sprache (AQL), ein Backup-Prozess, eine Security-Konfiguration.
+
+<figure>
 
 ```mermaid
 graph TB
@@ -175,6 +187,9 @@ graph TB
     style ST fill:#0a3d62
     style B fill:#079992
 ```
+
+<figcaption><b>Abb. 01.3:</b> Query-Processing-Pipeline</figcaption>
+</figure>
 
 ### Ist das nicht nur ein Kompromiss?
 
@@ -212,6 +227,8 @@ with themis_db.transaction() as tx:
     tx.commit()  # ACID-garantiert!
 ```
 
+<figure>
+
 ```mermaid
 flowchart LR
     Start([Transaction Begin]) --> R[Update Relational]
@@ -232,6 +249,9 @@ flowchart LR
     style Check fill:#ffd32a
 ```
 
+<figcaption><b>Abb. 01.4:</b> Storage-Engine-Architektur</figcaption>
+</figure>
+
 Dies ist architektonisch nur möglich, weil alle Daten physisch im selben transaktionalen Backend (RocksDB TransactionDB) liegen. Siehe Kapitel 2.4 für technische Details.
 
 ---
@@ -245,6 +265,8 @@ ThemisDB folgt bewährten Design-Prinzipien:
 **1. Modularität**
 
 Jede Komponente hat eine klar definierte Aufgabe:
+
+<figure>
 
 ```mermaid
 graph TB
@@ -285,6 +307,9 @@ graph TB
     style IM fill:#4facfe
     style SL fill:#00f2fe
 ```
+
+<figcaption><b>Abb. 01.5:</b> Use-Case-Szenarien</figcaption>
+</figure>
 
 **2. Composability**
 

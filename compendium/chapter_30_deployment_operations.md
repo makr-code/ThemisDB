@@ -653,6 +653,8 @@ backup:
 
 ### 30.6.1 Sharding Strategy
 
+<figure>
+
 ```mermaid
 flowchart TB
     A[Load Balancer] --> B[Shard 1<br/>ID Range: 0-333]
@@ -668,6 +670,9 @@ flowchart TB
     style C fill:#e1ffe1
     style D fill:#ffe1f5
 ```
+
+<figcaption><b>Abb. 30.1:</b> Deployment-Strategy-Matrix</figcaption>
+</figure>
 
 **Sharding Config:**
 

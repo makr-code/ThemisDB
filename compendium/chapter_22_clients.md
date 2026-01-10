@@ -23,6 +23,8 @@ Die ThemisDB Client-Architecture basiert auf einem mehrschichtigen Ansatz:
 - **ORM Support:** Object-Relational Mapping für typsichere Datenmodelle
 - **Raw Query:** Direkter Zugriff auf AQL für maximale Flexibilität
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Client Architecture Layers"
@@ -57,6 +59,9 @@ graph TB
     style Pool fill:#f093fb
     style Server fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 22.1:</b> Client-SDK-Architektur</figcaption>
+</figure>
 
 ### 21.1.2 Unterstützte Sprachen
 

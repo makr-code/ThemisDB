@@ -67,6 +67,8 @@ themisdb-backup --type differential \
   --output /backups/diff_$(date +%Y%m%d).tar.gz
 ```
 
+<figure>
+
 ```mermaid
 gantt
     title Backup Strategy Timeline
@@ -88,6 +90,11 @@ gantt
     section Differential
     Differential Day 2-7    :done, diff1, 2024-01-09, 6d
 ```
+
+<figcaption><b>Abb. 20.1:</b> Backup-Strategy-Overview</figcaption>
+</figure>
+
+<figure>
 
 ```mermaid
 flowchart LR
@@ -119,6 +126,9 @@ flowchart LR
     style Storage fill:#ffd32a
     style Archive fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 20.2:</b> Point-in-Time-Recovery-Timeline</figcaption>
+</figure>
 
 ## 19.2 Backup-Mechanismen
 

@@ -19,6 +19,38 @@ Production-Probleme erfordern systematische Diagnose und schnelle Remediation. D
 
 ---
 
+<figure>
+
+```mermaid
+flowchart TD
+    Problem[Performance Issue] --> Symptoms{Symptom<br/>Analysis}
+    
+    Symptoms -->|High Latency| LatencyCheck[Check Query Plan]
+    Symptoms -->|High CPU| CPUCheck[Check Resource Usage]
+    Symptoms -->|Memory Issues| MemCheck[Check Cache Hit Rate]
+    
+    LatencyCheck --> Index{Index<br/>Missing?}
+    Index -->|Yes| AddIndex[Add Index]
+    Index -->|No| QueryOpt[Optimize Query]
+    
+    CPUCheck --> Parallel{Parallel<br/>Queries?}
+    Parallel -->|Yes| LimitConn[Limit Connections]
+    Parallel -->|No| BadQuery[Identify Bad Query]
+    
+    MemCheck --> CacheSize{Cache<br/>Too Small?}
+    CacheSize -->|Yes| IncCache[Increase Cache Size]
+    CacheSize -->|No| CheckLeak[Check Memory Leak]
+    
+    style Problem fill:#ff6b6b
+    style AddIndex fill:#43e97b
+    style IncCache fill:#43e97b
+```
+
+<figcaption><b>Abb. 27.0:</b> Troubleshooting-Decision-Tree</figcaption>
+</figure>
+
+---
+
 ## 27.1 Systematische Problem-Diagnose
 
 ### 5-Why Root Cause Analysis

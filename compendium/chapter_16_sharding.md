@@ -70,6 +70,8 @@ Ein einzelner ThemisDB-Server kann beeindruckende Mengen an Daten handhaben:
 - ✅ Geografische Verteilung
 - ⚠️ Komplexere Verwaltung
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Replication - Read Scaling"
@@ -95,6 +97,9 @@ graph TB
     style Shard2 fill:#43e97b
     style Shard3 fill:#43e97b
 ```
+
+<figcaption><b>Abb. 16.1:</b> Replication vs Sharding Vergleich</figcaption>
+</figure>
 
 ---
 
@@ -139,6 +144,8 @@ public:
 4. **Query wird an Shard weitergeleitet**
 5. **Ergebnis zurück zum Client**
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant Client
@@ -159,6 +166,9 @@ sequenceDiagram
     S2-->>Router: {user data}
     Router-->>Client: {user data}
 ```
+
+<figcaption><b>Abb. 16.2:</b> Hash-Based-Routing-Flow</figcaption>
+</figure>
 
 **Beispiel:**
 ```python
@@ -692,6 +702,8 @@ services:
 
 Ein Hot Spare ist ein vollständig konfigurierter Standby-Node, der im Cluster registriert ist und bei Ausfall eines aktiven Shards sofort dessen Rolle übernehmen kann.
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Normale Operation"
@@ -720,6 +732,9 @@ graph TB
         style Shard2X fill:#ff6b6b
     end
 ```
+
+<figcaption><b>Abb. 16.3:</b> Shard-Key-Selection-Matrix</figcaption>
+</figure>
 
 **Konfiguration:**
 
@@ -817,6 +832,8 @@ HA:     Drei gleichzeitige Ausfälle abgedeckt
 
 **Detaillierte Failover-Timeline:**
 
+<figure>
+
 ```mermaid
 gantt
     title Hot Spare Failover Timeline (Total: ~5s)
@@ -839,6 +856,11 @@ gantt
     Accept Client Requests  :done, r1, 5000, 8000
     Background Sync         :active, r2, 5000, 120000
 ```
+
+<figcaption><b>Abb. 16.4:</b> Hot-Spare-Failover-Timeline</figcaption>
+</figure>
+
+<figure>
 
 ```mermaid
 sequenceDiagram
@@ -873,6 +895,9 @@ sequenceDiagram
     HS-->>Router: Response
     Router-->>Client: Response (5s total failover)
 ```
+
+<figcaption><b>Abb. 16.5:</b> Failover-Sequenzdiagramm</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **Gantt-Chart (oben):** Zeigt die zeitliche Abfolge der Failover-Phasen
@@ -950,6 +975,8 @@ watch -n 0.5 'curl -s http://localhost:8765/cluster/status | jq .nodes'
 
 WAL (Write-Ahead Log) Replication überträgt alle Schreiboperationen über ein transaktionales Log an Replicas und Hot Spares, bevor sie bestätigt werden.
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant Client
@@ -971,6 +998,9 @@ sequenceDiagram
     
     Note over Primary,Replica: Zero data loss guarantee
 ```
+
+<figcaption><b>Abb. 16.6:</b> Elastic-Sharding-Workflow</figcaption>
+</figure>
 
 **Replikations-Modi:**
 

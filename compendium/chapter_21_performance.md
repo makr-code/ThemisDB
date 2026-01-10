@@ -31,6 +31,8 @@ Query Plan:
 │        └─ Index Scan on customers (cost=0.00, rows=5000, time=15ms)
 ```
 
+<figure>
+
 ```mermaid
 flowchart TD
     Start[Query Request] --> Parse[Parse & Validate]
@@ -58,6 +60,9 @@ flowchart TD
     style Join fill:#4facfe
     style Result fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 21.1:</b> Query-Performance-Optimization-Flow</figcaption>
+</figure>
 
 ### 20.1.2 Python Profiling
 
@@ -721,6 +726,8 @@ def stress_test(duration_seconds=60, target_qps=1000):
 - **Vector-Heavy:** Mehr RAM für HNSW, SQ8 aktivieren ab 1M Vektoren, Cache Warmup
 - **TS-Heavy:** Gorilla an, 24h-Chunks, `target_file_size_base` erhöhen
 
+<figure>
+
 ```mermaid
 flowchart LR
     A[Workload Profiling] --> B{Workload-Typ}
@@ -742,6 +749,9 @@ flowchart LR
     style F1 fill:#fff4e1
 ```
 
+<figcaption><b>Abb. 21.2:</b> Index-Selection-Strategy</figcaption>
+</figure>
+
 ## 20.9A LLM-Performance-Optimierungen (v1.4.0-alpha)
 
 ### 20.9A.1 Flash Attention
@@ -756,6 +766,8 @@ Klassische Self-Attention allokiert temporär große Attention-Matrizen im HBM (
 - Suboptimaler GPU-Auslastung führt
 
 **Flash Attention Lösung:**
+
+<figure>
 
 ```mermaid
 graph TB
@@ -775,6 +787,9 @@ graph TB
     style SRAM fill:#4facfe
     style HBM1 fill:#ffd32a
 ```
+
+<figcaption><b>Abb. 21.3:</b> Cache-Hierarchy-Diagram</figcaption>
+</figure>
 
 **Aktivierung in ThemisDB:**
 
@@ -876,6 +891,8 @@ RETURN benchmark_results
 
 Speculative Decoding nutzt ein kleines, schnelles "Draft Model", um mehrere Tokens parallel zu generieren, die dann vom größeren "Target Model" validiert werden.
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant Client
@@ -890,6 +907,9 @@ sequenceDiagram
     
     Note over Client,Target: 2-3x schneller als<br/>sequential decoding
 ```
+
+<figcaption><b>Abb. 21.4:</b> Query-Plan-Optimization</figcaption>
+</figure>
 
 **Konfiguration:**
 
@@ -1014,6 +1034,8 @@ Request 3 (50 tokens)  ─→ ✓ Fertig nach 50 tokens
 Request 4 (neu)        ───┘ Tritt in Batch ein
 ```
 
+<figure>
+
 ```mermaid
 graph LR
     Q[Request Queue] --> CB[Continuous Batcher]
@@ -1028,7 +1050,12 @@ graph LR
     style Batch fill:#ffd32a
 ```
 
+<figcaption><b>Abb. 21.5:</b> Resource-Allocation-Matrix</figcaption>
+</figure>
+
 **Detaillierter Timeline-Ablauf:**
+
+<figure>
 
 ```mermaid
 gantt
@@ -1048,6 +1075,9 @@ gantt
     Request 3 (50 tok)  :done, c3, 0, 50
     Request 4 (new)     :active, c4, 100, 200
 ```
+
+<figcaption><b>Abb. 21.6:</b> Performance-Tuning-Workflow</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **Static Batching (oben):** Alle Requests warten bis zum langsamsten (500 tokens)

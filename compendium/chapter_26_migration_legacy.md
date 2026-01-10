@@ -18,6 +18,35 @@ Migration von Legacy-Systemen (PostgreSQL, MongoDB, Neo4j) zu ThemisDB ist eine 
 
 ---
 
+<figure>
+
+```mermaid
+sequenceDiagram
+    participant Legacy
+    participant Proxy
+    participant ThemisDB
+    
+    Note over Legacy,ThemisDB: Phase 1: Dual Write
+    Proxy->>Legacy: Write
+    Proxy->>ThemisDB: Write (shadow)
+    
+    Note over Legacy,ThemisDB: Phase 2: Validation
+    Proxy->>Legacy: Read
+    Proxy->>ThemisDB: Read (compare)
+    
+    Note over Legacy,ThemisDB: Phase 3: Cutover
+    Proxy->>ThemisDB: Read slash Write (primary)
+    Proxy->>Legacy: Write (backup)
+    
+    Note over Legacy,ThemisDB: Phase 4: Decommission
+    Proxy->>ThemisDB: Read slash Write (only)
+```
+
+<figcaption><b>Abb. 26.0:</b> Migration-Strategie: Strangler Pattern</figcaption>
+</figure>
+
+---
+
 ## 26.1 Schema-Mapping Strategien
 
 ### PostgreSQL → ThemisDB Mapping

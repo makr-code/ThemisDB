@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "themisdb-community",
+  "version": "1.4.0",
+  "description": "ThemisDB Community Edition - Core dependencies",
+  "builtin-baseline": "10b7a178346f3f0abef60cecd5130e295afd8da4",
+  "dependencies": [
+    "boost-asio",
+    "boost-beast",
+    "fmt",
+    "spdlog",
+    "nlohmann-json",
+    "simdjson",
+    "tbb",
+    "curl",
+    "openssl",
+    "zlib",
+    "zstd",
+    "lz4",
+    "snappy"
+  ]
+}

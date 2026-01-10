@@ -21,6 +21,36 @@ Dieses Kapitel bietet Praktiker-Anleitungen für Production-Grade Security in Th
 
 ---
 
+<figure>
+
+```mermaid
+graph TB
+    Client[Client Application] --> TLS[TLS slash SSL Layer]
+    TLS --> Auth[Authentication]
+    
+    Auth --> JWT{JWT Token<br/>Validation}
+    JWT -->|Valid| RBAC[RBAC Check]
+    JWT -->|Invalid| Reject1[Reject 401]
+    
+    RBAC --> Perm{Permission<br/>Check}
+    Perm -->|Granted| EncData[Encrypted Data Access]
+    Perm -->|Denied| Reject2[Reject 403]
+    
+    EncData --> Decrypt[Decrypt at Runtime]
+    Decrypt --> Result[Return Data]
+    
+    Result --> Audit[Audit Log]
+    
+    style TLS fill:#4facfe
+    style EncData fill:#43e97b
+    style Audit fill:#f093fb
+```
+
+<figcaption><b>Abb. 36.0:</b> Security-Layers: Defense in Depth</figcaption>
+</figure>
+
+---
+
 ## 36.1 Network Security
 
 ### Firwall-Regeln

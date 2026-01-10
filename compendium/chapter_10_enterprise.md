@@ -48,6 +48,8 @@ db.execute("""
 """)
 ```
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Multi-Tenancy Strategies"
@@ -74,9 +76,9 @@ graph TB
         end
     end
     
-    Iso1[[OK] Max Isolation<br/>[ERROR] High overhead] -.-> T1DB
-    Iso2[[OK] Balance<br/>[OK] Efficient] -.-> SharedDB
-    Iso3[[OK] Automatic<br/>[OK] Secure] -.-> RLSDB
+    Iso1["✓ Max Isolation<br/>✗ High overhead"] -.-> T1DB
+    Iso2["✓ Balance<br/>✓ Efficient"] -.-> SharedDB
+    Iso3["✓ Automatic<br/>✓ Secure"] -.-> RLSDB
     
     style T1DB fill:#667eea
     style T2DB fill:#667eea
@@ -84,6 +86,9 @@ graph TB
     style SharedDB fill:#43e97b
     style RLSDB fill:#f093fb
 ```
+
+<figcaption><b>Abb. 10.1:</b> Enterprise-Architektur-Übersicht</figcaption>
+</figure>
 
 **Best Practice in ThemisDB:**
 ```python
@@ -146,6 +151,8 @@ def has_permission(user_id, permission):
     return len(result) > 0
 ```
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "RBAC - Role Based Access Control"
@@ -178,6 +185,9 @@ graph TB
     style R3 fill:#95e1d3
     style Resource fill:#f093fb
 ```
+
+<figcaption><b>Abb. 10.2:</b> RBAC-Hierarchie</figcaption>
+</figure>
 
 # Dekorator für API-Endpoints
 def requires_permission(permission):
@@ -1813,6 +1823,8 @@ Compliance-Anforderungen (DSGVO, BAIT, ISO 27001) verlangen nachvollziehbare Än
 
 ### 10.5.1 Audit-Log Architektur
 
+<figure>
+
 ```mermaid
 flowchart LR
         A[Client/API] --> B[Service Layer]
@@ -1829,6 +1841,9 @@ flowchart LR
         style G fill:#fff4e1
         style I fill:#e1ffe1
 ```
+
+<figcaption><b>Abb. 10.3:</b> Audit-Log-Flow</figcaption>
+</figure>
 
 ### 10.5.2 Audit-Log Schema (RocksDB Prefix)
 
@@ -1935,6 +1950,8 @@ Alle Aufzeichnungen werden **revision-safe** in ThemisDB gespeichert mit vollst�
 
 ### Architektur
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Voice Assistant Architektur"
@@ -1964,6 +1981,9 @@ graph TB
     style Recordings fill:#fee140
     style Logs fill:#f78ca0
 ```
+
+<figcaption><b>Abb. 10.4:</b> Compliance-Workflow</figcaption>
+</figure>
 
 ### STT: Speech-to-Text mit Whisper.cpp
 

@@ -11,6 +11,8 @@ ThemisDB bietet eine nahtlose Integration von Large Language Models (LLMs) direk
 - **Vector Search Integration** - Kombiniert mit Chapter 8 für Semantic Search
 - **Multi-Model LLM** - Unterstützung für OpenAI, Anthropic, Ollama, lokale Models
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "LLM Integration Architecture"
@@ -42,6 +44,9 @@ graph TB
     style Vector fill:#95e1d3
     style Result fill:#fee140
 ```
+
+<figcaption><b>Abb. 17.1:</b> LLM-Integration-Architektur</figcaption>
+</figure>
 
 ## 17.1 LLM-Funktionen in AQL
 
@@ -258,6 +263,8 @@ RETURN {
 }
 ```
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant User
@@ -289,6 +296,9 @@ sequenceDiagram
     
     Note over App,LLM: RAG Pattern:<br/>1. Retrieve relevant docs<br/>2. Augment prompt with context<br/>3. Generate informed answer
 ```
+
+<figcaption><b>Abb. 17.2:</b> RAG-Pipeline-Flow</figcaption>
+</figure>
 
 ### 17.3.2 Erweiterte RAG mit Re-Ranking
 
@@ -1411,6 +1421,8 @@ Prefix Caching speichert die Attention-States häufig verwendeter Prompt-Anfäng
 - Lange Kontext-Dokumente in RAG-Patterns
 - Wiederkehrende Dokumentations- oder Codebase-Referenzen
 
+<figure>
+
 ```mermaid
 sequenceDiagram
     participant Client
@@ -1439,6 +1451,9 @@ sequenceDiagram
     
     Note over Client,LLM: 95 percent Latency Reduction, 75 percent Cost Savings
 ```
+
+<figcaption><b>Abb. 17.3:</b> Embedding-Generierung-Prozess</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **Cache Miss (erste Anfrage):** System-Prompt wird verarbeitet und Attention-States gecacht (890ms)
@@ -1503,6 +1518,8 @@ Beispiel-Output:
 
 Response Caching speichert LLM-Antworten und verwendet Embedding-basierte Ähnlichkeitssuche, um identische oder sehr ähnliche Anfragen zu erkennen.
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Response Caching Flow"
@@ -1526,6 +1543,9 @@ graph TB
     style S1 fill:#4facfe
     style Store fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 17.4:</b> Response-Caching-Flow</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **Embedding-Generierung:** Jede Anfrage wird in einen Vektor umgewandelt
@@ -1714,6 +1734,8 @@ Traditionelle Attention-Implementierungen allokieren kontinuierlichen Speicher f
 
 **Lösung mit Paged Attention:**
 
+<figure>
+
 ```mermaid
 graph LR
     A[Request 1<br/>512 tokens] -->|Pages| PA[Paged Attention]
@@ -1729,6 +1751,9 @@ graph LR
     style GPU2 fill:#43e97b
     style GPU3 fill:#43e97b
 ```
+
+<figcaption><b>Abb. 17.5:</b> Context-Window-Management</figcaption>
+</figure>
 
 **Aktivierung:**
 
@@ -1939,6 +1964,8 @@ LET response = PROMPT('llama-70b-local',
 
 **Lösung: Grammar-Constrained Generation (95-99% Erfolgsrate):**
 
+<figure>
+
 ```mermaid
 graph LR
     subgraph "Traditioneller Ansatz"
@@ -1961,6 +1988,9 @@ graph LR
     style V1 fill:#ffd32a
     style Result2 fill:#95e1d3
 ```
+
+<figcaption><b>Abb. 17.6:</b> Token-Optimization-Strategy</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **Traditionell:** LLM generiert frei → Validierung → bei Fehler Retry (teuer, langsam)
@@ -2275,12 +2305,14 @@ LET summary = PROMPT('llama-70b-local',
 
 **Lösung: RoPE Scaling:**
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "Standard LLM (4K Context)"
         S1[Input:<br/>4K tokens max] --> S2[Processing]
         S2 --> S3[Output]
-        S4[Long Document<br/>25K tokens] -.x.-|Truncate| S1
+        S4[Long Document<br/>25K tokens] -.->|Truncate| S1
     end
     
     subgraph "RoPE Scaled LLM (32K Context)"
@@ -2294,6 +2326,9 @@ graph TB
     style R5 fill:#43e97b
     style R2 fill:#667eea
 ```
+
+<figcaption><b>Abb. 17.7:</b> Multi-LLM-Orchestration</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **Standard:** Input auf 4K tokens gekürzt → Informationsverlust

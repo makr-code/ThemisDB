@@ -61,6 +61,8 @@ ThemisDB implementiert ein umfassendes Production-Grade Monitoring- und Observab
 - **Staging**: Grafana Tempo + Prometheus + Grafana Stack
 - **Production**: Multi-Node Prometheus Federation + Thanos für Long-Term Storage
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "ThemisDB Server"
@@ -93,6 +95,9 @@ graph TB
     style Grafana fill:#43e97b
     style Alert fill:#ff6348
 ```
+
+<figcaption><b>Abb. 19.1:</b> Monitoring-Stack-Übersicht</figcaption>
+</figure>
 
 ---
 
@@ -1247,6 +1252,8 @@ config:
 
 **Monitoring-Architektur Übersicht:**
 
+<figure>
+
 ```mermaid
 graph TB
     subgraph "ThemisDB Cluster"
@@ -1290,6 +1297,9 @@ graph TB
     style Grafana fill:#4facfe
     style AlertManager fill:#f093fb
 ```
+
+<figcaption><b>Abb. 19.2:</b> Alert-Management-Workflow</figcaption>
+</figure>
 
 **Diagramm-Erklärung:**
 - **ThemisDB Nodes:** Jeder Node exportiert Metriken über HTTP-Endpoint (/metrics)

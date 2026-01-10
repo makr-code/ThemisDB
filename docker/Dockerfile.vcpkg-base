@@ -1,0 +1,72 @@
+# syntax=docker/dockerfile:1.6
+# ============================================================================
+# vcpkg-base - Pre-built vcpkg foundation image
+# ============================================================================
+# This image contains vcpkg bootstrapped and ready to install packages
+# Build once, reuse everywhere
+#
+# Build:
+#   docker buildx build -f docker/Dockerfile.vcpkg-base -t themisdb/vcpkg-base:2024.10.21 .
+#   docker push themisdb/vcpkg-base:2024.10.21
+#
+# Usage in other Dockerfiles:
+#   FROM themisdb/vcpkg-base:2024.10.21
+
+FROM ubuntu:26.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV VCPKG_ROOT=/opt/vcpkg
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
+ENV VCPKG_DISABLE_METRICS=1
+
+LABEL org.opencontainers.image.title="vcpkg base image" \
+      org.opencontainers.image.description="Pre-bootstrapped vcpkg for ThemisDB builds" \
+      org.opencontainers.image.version="2024.10.21"
+
+# Install all build tools needed for vcpkg packages
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    curl \
+    ca-certificates \
+    pkg-config \
+    zip \
+    unzip \
+    tar \
+    wget \
+    flex \
+    bison \
+    aria2 \
+    python3 \
+    python3-pip \
+    perl \
+    nasm \
+    autoconf \
+    automake \
+    libtool \
+    linux-libc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Clone vcpkg at pinned version
+RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
+    cd ${VCPKG_ROOT} && \
+    git checkout 2024.10.21 && \
+    ./bootstrap-vcpkg.sh -disableMetrics && \
+    ${VCPKG_ROOT}/vcpkg version
+
+# Set default triplet
+ENV VCPKG_DEFAULT_TRIPLET=x64-linux
+ENV VCPKG_BUILD_TYPE=release
+ENV VCPKG_MAX_CONCURRENCY=8
+
+# Create directories for package installation
+RUN mkdir -p /opt/vcpkg-installed && \
+    chmod 777 /opt/vcpkg-installed
+
+WORKDIR /build
+
+CMD ["/bin/bash"]

@@ -18,6 +18,50 @@ Ein praxisorientiertes Tuning-Kochbuch für ThemisDB. Jede Sektion enthält Symp
 
 ---
 
+<figure>
+
+```mermaid
+flowchart TD
+    Start[Performance Issue] --> Profile[Profile System]
+    
+    Profile --> CPU{CPU<br/>Bottleneck?}
+    Profile --> Memory{Memory<br/>Bottleneck?}
+    Profile --> Disk{Disk<br/>Bottleneck?}
+    Profile --> Network{Network<br/>Bottleneck?}
+    
+    CPU -->|Yes| OptQuery[Optimize Queries]
+    CPU -->|Yes| AddIndex[Add Indexes]
+    
+    Memory -->|Yes| IncCache[Increase Cache]
+    Memory -->|Yes| OptDataStruct[Optimize Data Structures]
+    
+    Disk -->|Yes| SSD[Use SSD]
+    Disk -->|Yes| Partition[Partition Data]
+    
+    Network -->|Yes| CompData[Compress Data]
+    Network -->|Yes| BatchReq[Batch Requests]
+    
+    OptQuery --> Verify[Verify Improvement]
+    AddIndex --> Verify
+    IncCache --> Verify
+    OptDataStruct --> Verify
+    SSD --> Verify
+    Partition --> Verify
+    CompData --> Verify
+    BatchReq --> Verify
+    
+    Verify --> Done[Done]
+    
+    style Start fill:#ff6b6b
+    style Verify fill:#f093fb
+    style Done fill:#43e97b
+```
+
+<figcaption><b>Abb. 39.0:</b> Performance-Tuning-Workflow</figcaption>
+</figure>
+
+---
+
 ## 39.1 Quick Tuning Checklist
 
 - **Latenz hoch?** EXPLAIN, Index-Pfade, Projection pushdown, LIMIT

@@ -20,6 +20,35 @@ Query-Performance ist einer der kritischsten Faktoren für den Datenbankenerfolg
 
 ---
 
+<figure>
+
+```mermaid
+graph TB
+    Query["SELECT * FROM users<br/>WHERE age greater than 25<br/>AND city = Berlin"] --> Optimizer[Query Optimizer]
+    
+    Optimizer --> Plan1["Plan 1:<br/>Index Scan on age<br/>Filter city"]
+    Optimizer --> Plan2["Plan 2:<br/>Index Scan on city<br/>Filter age"]
+    Optimizer --> Plan3["Plan 3:<br/>Composite Index<br/>age plus city"]
+    
+    Plan1 --> Cost1[Cost: 1200]
+    Plan2 --> Cost2[Cost: 800]
+    Plan3 --> Cost3[Cost: 150]
+    
+    Cost1 --> Select{Select<br/>Best Plan}
+    Cost2 --> Select
+    Cost3 --> Select
+    
+    Select --> Execute[Execute Plan 3]
+    
+    style Plan3 fill:#43e97b
+    style Execute fill:#4facfe
+```
+
+<figcaption><b>Abb. 34.0:</b> Query-Plan-Optimierung</figcaption>
+</figure>
+
+---
+
 ## 34.1 EXPLAIN und Query-Profiling
 
 ### EXPLAIN Output verstehen

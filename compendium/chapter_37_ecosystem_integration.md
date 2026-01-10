@@ -20,6 +20,31 @@ Dieses Kapitel zeigt, wie ThemisDB mit externen Systemen integriert wird und wie
 
 ---
 
+<figure>
+
+```mermaid
+graph LR
+    ExtSys[External Systems] --> Gateway[API Gateway]
+    Gateway --> Auth[Auth Service]
+    
+    Auth --> ThemisDB["(ThemisDB)"]
+    
+    ThemisDB --> CDC[Change Data Capture]
+    CDC --> Kafka[Kafka Event Stream]
+    
+    Kafka --> Analytics[Analytics Service]
+    Kafka --> Search[Search Service]
+    Kafka --> Cache[Cache Service]
+    
+    style ThemisDB fill:#7c4dff
+    style Kafka fill:#f093fb
+```
+
+<figcaption><b>Abb. 37.0:</b> Integration mit externen Systemen</figcaption>
+</figure>
+
+---
+
 ## 37.1 Beliebte Integrationen
 
 ### Elasticsearch Integration

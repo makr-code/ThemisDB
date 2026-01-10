@@ -206,6 +206,8 @@ FOR product IN products
 ✗ Exact matches ausreichend
 ```
 
+<figure>
+
 ```mermaid
 quadrantChart
     title Datenmodell-Entscheidungsmatrix
@@ -216,6 +218,11 @@ quadrantChart
     quadrant-3 Dokument - CMS und Logs
     quadrant-4 Vektor - Semantic Search AI
 ```
+
+<figcaption><b>Abb. 03.1:</b> Datenmodell-Entscheidungsmatrix</figcaption>
+</figure>
+
+<figure>
 
 ```mermaid
 flowchart TD
@@ -241,6 +248,9 @@ flowchart TD
     style GraphDoc fill:#fee140
     style Fulltext fill:#30cfd0
 ```
+
+<figcaption><b>Abb. 03.2:</b> Multi-Model-Data-Flow</figcaption>
+</figure>
 
 ---
 

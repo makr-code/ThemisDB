@@ -20,6 +20,40 @@ Ein praxisnahes Governance- und Compliance-Kapitel für ThemisDB: Policies, Zugr
 
 ---
 
+<figure>
+
+```mermaid
+graph TB
+    Data[Personal Data] --> Classification[Data Classification]
+    
+    Classification --> Public[Public Data]
+    Classification --> Internal[Internal Data]
+    Classification --> Confidential[Confidential Data]
+    Classification --> Restricted[Restricted Data]
+    
+    Confidential --> Encrypt[Encryption Required]
+    Restricted --> Encrypt
+    
+    Encrypt --> Access[Access Control]
+    Access --> RBAC[RBAC Enforcement]
+    
+    RBAC --> Audit[Audit Logging]
+    Audit --> Retention[Retention Policy]
+    
+    Retention --> Active[Active: 2 years]
+    Retention --> Archive[Archive: 5 years]
+    Retention --> Delete[Delete: after 7 years]
+    
+    style Confidential fill:#ff6b6b
+    style Encrypt fill:#f093fb
+    style Audit fill:#4facfe
+```
+
+<figcaption><b>Abb. 40.0:</b> Data-Governance-Framework</figcaption>
+</figure>
+
+---
+
 ## 40.1 Governance Operating Model
 
 - **Ownership:** Jede Collection hat Owner (Team), Steward (Data Quality), Custodian (Ops)

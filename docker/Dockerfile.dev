@@ -1,0 +1,76 @@
+# syntax=docker/dockerfile:1.6
+# ============================================================================
+# ThemisDB - Fast Local Development Build
+# ============================================================================
+# Uses pre-built binaries from local WSL/native build
+# Build time: ~10-15 seconds (no compilation, only copy)
+#
+# Prerequisites:
+#   1. Build locally first:
+#      cmake --build build-wsl --target themis_server -j8
+#      # OR on Windows:
+#      cmake --build build-msvc --config Release --target themis_server
+#
+#   2. Build Docker image:
+#      docker build -f docker/Dockerfile.dev -t themisdb:dev .
+#
+#   3. Run:
+#      docker run -d -p 8080:8080 -p 18765:18765 themisdb:dev
+
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install minimal runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    libstdc++6 \
+    libssl3t64 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create application user
+RUN groupadd -r themis --gid=999 && \
+    useradd -r -g themis --uid=999 --home-dir=/var/lib/themisdb --create-home themis
+
+# Copy pre-built binary from local build
+# Try multiple locations (WSL, MSVC, generic build)
+COPY build-wsl/themis_server* build-msvc/Release/themis_server* build/themis_server* /tmp/ 2>/dev/null || true
+
+# Move binary to final location
+RUN find /tmp -name 'themis_server*' -type f -executable -exec cp {} /usr/local/bin/themis_server \; && \
+    chmod +x /usr/local/bin/themis_server && \
+    rm -rf /tmp/themis_server* && \
+    ldd /usr/local/bin/themis_server || true
+
+# Copy shared libraries if available
+COPY build-wsl/*.so* build-msvc/Release/*.dll /usr/local/lib/ 2>/dev/null || true
+RUN ldconfig 2>/dev/null || true
+
+# Setup directories
+RUN mkdir -p /etc/themis /var/lib/themisdb /var/log/themis && \
+    chown -R themis:themis /etc/themis /var/lib/themisdb /var/log/themis && \
+    chmod 755 /etc/themis && \
+    chmod 700 /var/lib/themisdb
+
+# Copy config if available
+COPY config/config.json /etc/themis/config.json 2>/dev/null || echo '{}' > /etc/themis/config.json
+RUN chown themis:themis /etc/themis/config.json
+
+# Expose ports
+EXPOSE 8080 18765
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD curl -fsSL http://localhost:8080/health || exit 1
+
+# Switch to non-root user
+USER themis
+WORKDIR /var/lib/themisdb
+
+# Set environment
+ENV THEMIS_DATA_DIR=/var/lib/themisdb \
+    THEMIS_CONFIG=/etc/themis/config.json \
+    THEMIS_LOG_LEVEL=info
+
+CMD ["/usr/local/bin/themis_server", "--config", "/etc/themis/config.json"]

@@ -1,0 +1,152 @@
+# Multi-stage Docker build for ThemisDB Hyperscaler with LLM support
+# STAGE 1: Builder - Full compilation environment
+# STAGE 2: Debug   - Builder + debugging tools  
+# STAGE 3: Release - Minimal runtime image
+
+FROM ubuntu:24.04 AS builder
+
+# Arguments for build configuration
+ARG CMAKE_BUILD_TYPE=Release
+ARG THEMIS_ENABLE_LLM=ON
+ARG THEMIS_ENABLE_GPU=ON
+ARG THEMIS_ENABLE_GRPC=ON
+
+# Build environment variables
+ENV CC=/usr/bin/gcc \
+    CXX=/usr/bin/g++ \
+    CMAKE_C_COMPILER=/usr/bin/gcc \
+    CMAKE_CXX_COMPILER=/usr/bin/g++ \
+    CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+
+WORKDIR /build
+
+# ============================================================================
+# Install build dependencies (apt)
+# ============================================================================
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+    git ninja-build cmake pkg-config ca-certificates curl zip unzip tar \
+    build-essential gcc-13 g++-13 gfortran \
+    flex bison python3 python3-pip \
+    libssl-dev zlib1g-dev \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100
+
+# Copy dependency manifests first (for better layer caching)
+COPY CMakeLists.txt vcpkg.json vcpkg-configuration.json VERSION RELEASE_TYPE ./
+COPY cmake/ cmake/
+
+# Now copy source code
+COPY src/ src/
+COPY include/ include/
+COPY proto/ proto/
+COPY internal/ internal/
+COPY scripts/ scripts/
+COPY plugins/ plugins/
+
+# ============================================================================
+# STEP 1: Clone and install vcpkg
+# ============================================================================
+RUN git clone https://github.com/microsoft/vcpkg.git /vcpkg && \
+    /vcpkg/bootstrap-vcpkg.sh -disableMetrics && \
+    echo "✓ vcpkg installed"
+
+# ============================================================================
+# STEP 2: Build llama.cpp independently with OpenMP enabled
+# ============================================================================
+RUN git clone --depth 1 --branch master https://github.com/ggerganov/llama.cpp.git /tmp/llama.cpp && \
+    cd /tmp/llama.cpp && \
+    cmake -S . -B build \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/opt/llama.cpp \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DLLAMA_CCACHE=OFF -DLLAMA_OPENMP=ON -DLLAMA_CURL=OFF && \
+    cmake --build build --parallel 8 && \
+    cmake --install build && \
+    rm -rf /tmp/llama.cpp && \
+    echo "✓ llama.cpp built and installed successfully"
+
+# ============================================================================
+# STEP 3: Configure and build ThemisDB with vcpkg + llama.cpp
+# ============================================================================
+RUN --mount=type=cache,target=/root/.cache/vcpkg \
+    --mount=type=cache,target=/vcpkg/buildtrees \
+    --mount=type=cache,target=/vcpkg/downloads \
+    cmake -S . -B build-deps \
+    -G Ninja \
+    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+    -DCMAKE_TOOLCHAIN_FILE=/vcpkg/scripts/buildsystems/vcpkg.cmake \
+    -DVCPKG_TARGET_TRIPLET=x64-linux \
+    -DTHEMIS_ENABLE_LLM=${THEMIS_ENABLE_LLM} \
+    -DTHEMIS_ENABLE_GPU=${THEMIS_ENABLE_GPU} \
+    -DTHEMIS_ENABLE_GRPC=${THEMIS_ENABLE_GRPC} \
+    -DTHEMIS_BUILD_TESTS=OFF \
+    -DTHEMIS_BUILD_BENCHMARKS=OFF \
+    -Dllama_DIR=/opt/llama.cpp/lib/cmake/llama && \
+    cmake --build build-deps --config ${CMAKE_BUILD_TYPE} --parallel 8 && \
+    echo "✓ ThemisDB build completed"
+
+# ============================================================================
+# STAGE 2: Debug Image (includes debugging tools)
+# ============================================================================
+FROM builder AS debug
+
+# Install debugging tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gdb valgrind strace ltrace tcpdump \
+    vim nano less curl wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy built artifacts and source from builder
+WORKDIR /build
+
+# Keep all build artifacts, source code, and tools
+ENV PATH="/build/build-deps:${PATH}"
+
+CMD ["/bin/bash"]
+
+# ============================================================================
+# STAGE 3: Release Image (minimal runtime)
+# ============================================================================
+FROM ubuntu:24.04 AS release
+
+ARG CMAKE_BUILD_TYPE=Release
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libssl3 libcurl4 libstdc++6 libgomp1 \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user for security
+RUN useradd -m -s /sbin/nologin themis
+
+WORKDIR /app
+
+# Copy only the built binary and runtime dependencies from builder
+COPY --from=builder /build/build-deps/cmake/themis_server /usr/local/bin/
+COPY --from=builder /opt/llama.cpp/lib/libggml*.so* /usr/local/lib/
+COPY --from=builder /opt/llama.cpp/lib/libllama.so* /usr/local/lib/
+
+# Update library cache
+RUN ldconfig && \
+    chmod +x /usr/local/bin/themis_server && \
+    chown -R themis:themis /app
+
+USER themis
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD themis_server --version || exit 1
+
+EXPOSE 8080 9090
+
+# Default command
+CMD ["/usr/local/bin/themis_server"]
+
+
+
+
+
