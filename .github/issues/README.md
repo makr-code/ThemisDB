@@ -325,11 +325,23 @@ Verify all 5,221 documentation TODOs to distinguish between already-implemented 
 
 Use the automated script to create all issues at once:
 
+**Python Script** (Cross-platform: Windows, Linux, macOS):
 ```bash
 # Navigate to repository root
 cd /path/to/ThemisDB
 
-# Run the issue creation script
+# Run the Python script
+python .github/create_github_issues.py
+# or
+python3 .github/create_github_issues.py
+```
+
+**Bash Script** (Linux/macOS/WSL):
+```bash
+# Navigate to repository root
+cd /path/to/ThemisDB
+
+# Run the bash script
 ./.github/create_github_issues.sh
 ```
 
@@ -339,8 +351,10 @@ cd /path/to/ThemisDB
 - ✅ Skips issues that already exist (checks by title)
 - ✅ Rate-limited to avoid GitHub API throttling
 - ✅ Provides summary of created/skipped/failed issues
+- ✅ Cross-platform compatible (Python version works on Windows)
 
 **Requirements**:
+- Python 3.6+ (for Python script)
 - GitHub CLI (`gh`) must be installed: https://cli.github.com/
 - Must be authenticated: `gh auth login`
 
