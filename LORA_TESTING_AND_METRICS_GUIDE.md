@@ -620,9 +620,9 @@ groups:
       summary: "LoRA training failures detected"
 ```
 
-### Dashboard Panel Customization
+## Customization
 
-#### Modifying Thresholds
+### Modifying Thresholds
 
 To adjust alert thresholds in panels:
 
@@ -635,9 +635,13 @@ To adjust alert thresholds in panels:
 4. **Save dashboard**
 
 Example threshold configurations:
-- **Cache Hit Rate**: Red < 0.6, Yellow 0.6-0.8, Green > 0.8
-- **Load Duration**: Green < 0.3s, Yellow 0.3-0.5s, Red > 0.5s
+- **Cache Hit Rate**: Red < 0.6 (60%), Yellow 0.6-0.8, Green > 0.8 (80%)
+- **Load Duration**: Green < 0.3s (300ms), Yellow 0.3-0.5s, Red > 0.5s (500ms)
 - **Error Rate**: Green < 1%, Yellow 1-5%, Red > 5%
+- **Training Accuracy**: Red < 0.80 (80%), Yellow 0.80-0.90, Green > 0.90 (90%)
+- **Audit Log Size**: Green < 1GB (1073741824 bytes), Yellow 1-5GB, Red > 5GB (5368709120 bytes)
+
+**Note**: These thresholds are examples and should be adjusted based on your specific Service Level Objectives (SLOs) and workload characteristics.
 
 #### Adding Custom Panels
 

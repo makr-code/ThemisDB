@@ -129,6 +129,15 @@ Panels include visual alert indicators:
 3. Adjust values and colors
 4. Click **Apply** and **Save dashboard**
 
+**Default Threshold Values**:
+- **Cache Hit Rate**: 60% (warning), 80% (good)
+- **Adapter Load Duration**: 300ms (warning), 500ms (critical)
+- **Training Accuracy**: 80% (warning), 90% (good)
+- **Error Rate**: 1% (warning), 5% (critical)
+- **Audit Log Size**: 1GB (warning), 5GB (critical)
+
+These thresholds should be adjusted based on your specific Service Level Objectives (SLOs).
+
 ### Adding Panels
 
 1. Click **Add panel** button (top right)

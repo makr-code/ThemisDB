@@ -1,5 +1,11 @@
 #!/bin/bash
 # Validate Grafana dashboard JSON files
+#
+# This script validates all Grafana dashboard JSON files in the repository.
+# It checks for valid JSON syntax, required fields, and dashboard structure.
+#
+# Usage: ./scripts/validate_grafana_dashboards.sh
+# Note: Requires jq to be installed (apt-get install jq)
 
 set -e
 
