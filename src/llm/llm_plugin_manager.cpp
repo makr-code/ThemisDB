@@ -424,7 +424,7 @@ bool createLlamaWrapper(
         // Load model if path provided
         if (!model_path.empty()) {
             if (!plugin->loadModel(model_path, config)) {
-                spdlog::error("Failed to load model: {}", model_path);
+                errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
                 return false;
             }
         }

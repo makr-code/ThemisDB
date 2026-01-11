@@ -290,7 +290,7 @@ bool LlamaWrapper::loadModel(
     );
     
     if (!model) {
-        spdlog::error("Failed to load model: {}", model_path);
+        errors::logError(errors::ErrorCode::ERR_LLM_MODEL_LOAD_FAILED, model_path);
         
         if (metrics_collector_) {
             metrics_collector_->recordError("model_load_failed", "model_loader");
@@ -376,7 +376,7 @@ bool LlamaWrapper::loadLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
-        spdlog::error("Cannot load LoRA: no model loaded");
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no model");
         return false;
     }
     
@@ -851,7 +851,7 @@ bool LlamaWrapper::importLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
-        spdlog::error("Cannot import LoRA: no model loaded");
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no model");
         return false;
     }
     

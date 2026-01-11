@@ -227,8 +227,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (!canAllocate(bytes, 0)) {
-        spdlog::error("Cannot allocate {} bytes VRAM for model {}: insufficient memory", 
-                      bytes, model_id);
+        size_t bytes_mb = bytes / (1024 * 1024);
+        size_t available_mb = (config_.max_vram_bytes - total_vram_used_) / (1024 * 1024);
+        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
         return nullptr;
     }
     
@@ -246,7 +247,8 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
         // Fallback to simulation when CUDA is available but no GPU detected
         ptr = std::malloc(bytes);
         if (!ptr) {
-            spdlog::error("Failed to allocate {} bytes for model {} (simulation)", bytes, model_id);
+            size_t bytes_mb = bytes / (1024 * 1024);
+            errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
             return nullptr;
         }
     }
@@ -254,7 +256,8 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     // Simulation mode: use regular malloc when CUDA is not enabled at build time
     ptr = std::malloc(bytes);
     if (!ptr) {
-        spdlog::error("Failed to allocate {} bytes for model {} (simulation)", bytes, model_id);
+        size_t bytes_mb = bytes / (1024 * 1024);
+        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
         return nullptr;
     }
 #endif
@@ -966,8 +969,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     // Check per-GPU capacity
     size_t gpu_used = per_gpu_vram_used_[gpu_device_id];
     if (gpu_used + bytes > config_.max_vram_bytes) {
-        spdlog::error("Cannot allocate {} bytes on GPU {}: insufficient memory (used: {}, max: {})", 
-                      bytes, gpu_device_id, gpu_used, config_.max_vram_bytes);
+        size_t bytes_mb = bytes / (1024 * 1024);
+        size_t available_mb = (config_.max_vram_bytes - gpu_used) / (1024 * 1024);
+        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, available_mb);
         return nullptr;
     }
     
@@ -988,8 +992,8 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
         // Fallback to simulation
         ptr = std::malloc(bytes);
         if (!ptr) {
-            spdlog::error("Failed to allocate {} bytes on GPU {} for model {} (simulation)", 
-                         bytes, gpu_device_id, model_id);
+            size_t bytes_mb = bytes / (1024 * 1024);
+            errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
             return nullptr;
         }
     }
@@ -997,8 +1001,8 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     // Simulation mode: use regular malloc when CUDA is not enabled at build time
     ptr = std::malloc(bytes);
     if (!ptr) {
-        spdlog::error("Failed to allocate {} bytes on GPU {} for model {} (simulation)", 
-                     bytes, gpu_device_id, model_id);
+        size_t bytes_mb = bytes / (1024 * 1024);
+        errors::logError(errors::ErrorCode::ERR_LLM_GPU_OOM, bytes_mb, 0);
         return nullptr;
     }
 #endif
