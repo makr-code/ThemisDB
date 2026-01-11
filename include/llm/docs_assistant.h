@@ -47,6 +47,7 @@ struct DocumentEntry {
  */
 struct DocsAssistantConfig {
     std::string docs_database_path = "data/docs_database.json";
+    std::string database_type = "json";  // "json" or "rocksdb"
     int max_context_docs = 5;  // Maximum number of docs to include in RAG context
     int context_preview_length = 1000;  // Characters to include per document
     bool enable_semantic_search = true;

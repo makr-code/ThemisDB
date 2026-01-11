@@ -136,6 +136,7 @@ tidy_full.log
 # Local data directories (development/testing only)
 data/
 !data/docs_database.json
+!data/docs.db/
 !data/.gitkeep
 models/*
 !models/.gitkeep
