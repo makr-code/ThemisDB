@@ -7,9 +7,9 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 
 **Generated**: 2026-01-11  
 **Source Analysis**:
-- 162 TODOs found in source code
-- 33 Stubs/Mocks found in source code  
-- Multiple research documents analyzed
+- **229 markers found** (complete exhaustive search)
+- **92 files** with TODOs/stubs across entire codebase
+- **40+ component directories** analyzed
 - All gaps verified before issue creation
 
 ---
@@ -33,7 +33,7 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 - ✅ **All issues verified** - features confirmed as missing before issue creation
 - ✅ **No duplicate issues** - each represents unique gap
 - ✅ **All issues actionable** - include implementation details, tasks, timelines
-- ✅ **Comprehensive search** - Systematic core-to-plugins analysis found **206 markers** (was 195)
+- ✅ **Exhaustive search** - Complete codebase scan found **229 markers** (all files, all directories)
 
 ---
 
@@ -207,34 +207,30 @@ Complete task scheduler with 16 missing features for task management, scheduling
 
 ### Not Yet Converted to Issues (Lower Priority)
 
-#### LLM TODOs (54 total)
-- CUDA kernel implementations (kernel fusion, RoPE, RMSNorm)
-- Async model loading (v1.3.0)
-- Grammar support (llama.cpp pending)
-- Vision multi-modal integration completion
-- Paged block manager accessor patterns (v1.3.1)
-- Production validator comprehensive tests
+**Total catalogued**: 222 additional markers across:
 
-#### Server/API TODOs (42 total)
-- WebSocket query integration
-- Export API AQL query implementation
-- Postgres session table/column discovery
-- HTTP/2 buffer management
-- Voice API base64 encoding/decoding
+#### By Component (Top Categories)
+- **LLM TODOs** (73 total): CUDA kernels, async loading, grammar support, vision integration, production validator tests (31 TODOs)
+- **Server/API TODOs** (41 total): RPC implementation (17), WebSocket integration, Postgres queries, HTTP optimizations
+- **Security** (20 total): USB admin authenticator (6), stubs already covered in Issue #003
+- **Scheduler** (16 total): Covered in Issue #007
+- **Tests** (20 total): Integration tests, various test infrastructure
+- **Tools** (7 total): themis_docs_builder TODOs
+- **Benchmarks** (3 total): Sharding performance, insert profiling
+- **Analytics/AQL** (4 total): LLM integration, batch inference
+- **Others** (38 total): Storage, sharding, temporal, timeseries, updates, exporters, etc.
 
-#### Sharding TODOs (7 total)
-- WAL segment management
-- PKI shard certificate custom OIDs
-- Health monitoring enhancements
-
-#### Storage TODOs (2 total)
-- Proper size calculation in RocksDBWrapper
-- Signature manager iteration support
-
-#### Documentation Gaps
-- HNSW Persistence documentation
-- Cosine Similarity documentation
-- Backup/Restore runbook
+#### Newly Found Categories (23 additional markers)
+- `benchmarks/` (3): Performance benchmark completion
+- `src/analytics/` (1): LLM API integration  
+- `src/aql/` (3): Batch inference, vector search integration
+- `src/base/` (1): Module loader
+- `src/exporters/` (1): JSONL exporter
+- `src/timeseries/` (1): TSStore implementation
+- `src/updates/` (1): Manifest database
+- `tools/themis_docs_builder/` (7): Documentation builder TODOs
+- Additional markers in security (usb_admin_authenticator)
+- Additional test files with markers
 
 ---
 
