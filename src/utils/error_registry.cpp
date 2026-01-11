@@ -1,4 +1,5 @@
 #include "utils/error_registry.h"
+#include "utils/string_utils.h"
 #include <algorithm>
 
 namespace themis {
@@ -410,20 +411,10 @@ std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
     
     std::vector<ErrorMetadata> result;
     
-    // Helper function for case-insensitive comparison
-    auto contains_case_insensitive = [](const std::string& str, const std::string& query) {
-        auto it = std::search(
-            str.begin(), str.end(),
-            query.begin(), query.end(),
-            [](char ch1, char ch2) { return std::tolower(ch1) == std::tolower(ch2); }
-        );
-        return it != str.end();
-    };
-    
     for (const auto& [code, metadata] : errors_) {
         // Search in keywords (case-insensitive)
         for (const auto& keyword : metadata.keywords) {
-            if (contains_case_insensitive(keyword, query)) {
+            if (utils::containsCaseInsensitive(keyword, query)) {
                 result.push_back(metadata);
                 break;
             }
