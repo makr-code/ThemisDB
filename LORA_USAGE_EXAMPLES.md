@@ -4,12 +4,59 @@ This document provides practical examples for using the unified LLM + LoRA frame
 
 ## Table of Contents
 
-1. [Basic Usage](#basic-usage)
-2. [LLM Model Management](#llm-model-management)
-3. [LoRA Adapter Management](#lora-adapter-management)
-4. [themis_help_lora Application](#themis_help_lora-application)
-5. [Audit Logging](#audit-logging)
-6. [Advanced Queries](#advanced-queries)
+1. [Docker Quick Start](#docker-quick-start) ⭐ **New!**
+2. [Basic Usage](#basic-usage)
+3. [LLM Model Management](#llm-model-management)
+4. [LoRA Adapter Management](#lora-adapter-management)
+5. [themis_help_lora Application](#themis_help_lora-application)
+6. [Audit Logging](#audit-logging)
+7. [Advanced Queries](#advanced-queries)
+
+---
+
+## Docker Quick Start
+
+🐳 **Fastest way to start using the LoRA framework** - Complete environment ready in < 5 minutes!
+
+### Start the Environment
+
+```bash
+# Navigate to docker directory
+cd docker
+
+# Start all services (ThemisDB + Prometheus + Grafana)
+./scripts/start.sh
+
+# Services are now running:
+# - ThemisDB:   http://localhost:8529
+# - Prometheus: http://localhost:9091
+# - Grafana:    http://localhost:3000 (admin/admin)
+```
+
+### Quick Test
+
+```bash
+# Check ThemisDB is running
+curl http://localhost:8529/health
+
+# View LoRA metrics in Grafana
+open http://localhost:3000  # Navigate to "LoRA Framework Overview" dashboard
+```
+
+### Run Tests in Docker
+
+```bash
+# Run integration tests
+./scripts/test.sh
+
+# View logs
+./scripts/logs.sh themisdb
+
+# Stop environment
+./scripts/stop.sh
+```
+
+**Full Docker documentation**: See [docker/README.md](docker/README.md)
 
 ---
 
