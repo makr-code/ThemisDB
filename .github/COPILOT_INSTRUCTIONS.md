@@ -81,6 +81,44 @@ git checkout -b release/1.4.0 develop
 
 ---
 
+## Merge Strategy für Pull Requests
+
+ThemisDB verwendet unterschiedliche Merge-Methoden abhängig vom Branch-Typ:
+
+### Merge-Strategie Übersicht
+
+| Branch-Typ | Ziel | Merge-Methode | Begründung |
+|-----------|------|---------------|------------|
+| **`feature/*`** | `develop` | **Squash and merge** ✅ | Saubere Historie, ein Commit pro Feature |
+| **`bugfix/*`** | `develop` | **Squash and merge** ✅ | Saubere Historie, ein Commit pro Fix |
+| **`release/*`** | `main` | **Merge commit** | Vollständige Release-Historie erhalten |
+| **`hotfix/*`** | `main` | **Merge commit** | Vollständige Hotfix-Historie für Audit |
+
+### Wichtig für Copilot bei PR-Erstellung
+
+Wenn du Pull Requests erstellst:
+
+1. **PR-Titel ist kritisch**: Wird zur Commit-Message bei Squash Merge
+   - Format: `<type>(<scope>): <description>`
+   - Beispiel: `feat(storage): Add vector search optimization`
+
+2. **PR-Beschreibung ist wichtig**: Wird zum Commit-Body bei Squash Merge
+   - Erkläre was sich geändert hat
+   - Erkläre warum die Änderung notwendig war
+   - Referenziere Issues: `Closes #123`
+
+3. **Einzelne Commits im Branch**: Unwichtig bei Feature/Bugfix
+   - WIP commits sind OK
+   - Werden nicht in `develop` erscheinen
+   - Nur PR-Titel und -Beschreibung zählen
+
+**Dokumentation**:
+- Vollständige Anleitung: `docs/MERGE_STRATEGY_MIGRATION.md`
+- Quick Reference: `docs/MERGE_STRATEGY_QUICK_REF.md`
+- Siehe auch: `CONTRIBUTING.md` → "Merge Strategy Guidelines"
+
+---
+
 ## ThemisDB Build-System Übersicht
 
 ## ThemisDB Build-System (v2.1 - Moderne Pipeline)

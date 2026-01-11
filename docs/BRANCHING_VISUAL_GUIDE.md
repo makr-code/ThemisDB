@@ -44,7 +44,7 @@
         ├─ PR Review
         ├─ CI Checks
         │
-        └─ merge (squash or merge commit)
+        └─ squash and merge (recommended)
         ↓
     develop (updated)
 

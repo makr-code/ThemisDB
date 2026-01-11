@@ -133,6 +133,6 @@ cd build && ctest --output-on-failure
 - [ ] Ready to merge
 
 ### Merge Strategy
-- [ ] Squash and merge
-- [ ] Merge commit
+- [ ] **Squash and merge** (✅ Recommended for feature/bugfix PRs - cleaner history)
+- [ ] Merge commit (Only for release/hotfix branches)
 - [ ] Rebase and merge
