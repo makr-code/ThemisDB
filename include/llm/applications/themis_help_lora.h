@@ -36,6 +36,13 @@ public:
         std::string base_model_id = "llama-2-7b";
         std::string docs_database_path = "data/docs_database.json";
         
+        // Remote model loading (Ollama support)
+        bool enable_remote_loading = false;
+        std::string ollama_url = "http://localhost:11434";
+        std::string ollama_model_name = "llama2:7b";
+        std::string model_config_yaml = "config/llm_remote_models.yaml";
+        bool auto_download_model = true;
+        
         // Dependencies (to be injected)
         rocksdb::TransactionDB* db = nullptr;
         std::shared_ptr<storage::BlobStorageManager> blob_manager;
@@ -145,9 +152,6 @@ private:
 
     class Impl;
     std::unique_ptr<Impl> impl_;
-    
-    // Helper function
-    static std::string incrementVersion(const std::string& version);
 };
 
 /**
