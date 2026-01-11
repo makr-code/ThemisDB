@@ -733,6 +733,12 @@ if(NOT TARGET yaml-cpp::yaml-cpp)
     message(STATUS "yaml-cpp optional dependency not available - continuing without it")
 endif()
 
+# Define optional YAML target for linking
+set(THEMIS_YAML_TARGET "")
+if(TARGET yaml-cpp::yaml-cpp)
+    set(THEMIS_YAML_TARGET yaml-cpp::yaml-cpp)
+endif()
+
 # Defensive check: Ensure Boost::system target exists after find_package
 if(NOT TARGET Boost::system)
     message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
@@ -1485,7 +1491,7 @@ target_link_libraries(themis_core
         Boost::system
         nlohmann_json::nlohmann_json
     $<$<BOOL:${CURL_FOUND}>:CURL::libcurl>
-        yaml-cpp::yaml-cpp
+        ${THEMIS_YAML_TARGET}
     OpenSSL::SSL
     OpenSSL::Crypto
     TBB::tbb

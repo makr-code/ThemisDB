@@ -23,8 +23,20 @@ message(STATUS "OpenSSL found: ${OPENSSL_VERSION}")
 find_package(ZLIB 1.3.1 REQUIRED)
 message(STATUS "ZLIB found: ${ZLIB_VERSION}")
 
-find_package(RocksDB REQUIRED CONFIG)
-message(STATUS "RocksDB found")
+# RocksDB: Prefer CONFIG (vcpkg) and fallback to unofficial target if provided by vcpkg
+find_package(RocksDB CONFIG QUIET)
+if(RocksDB_FOUND)
+    message(STATUS "RocksDB found")
+else()
+    # vcpkg often provides 'unofficial-rocksdb' with target 'unofficial::rocksdb'
+    find_package(unofficial-rocksdb CONFIG QUIET)
+    if(unofficial-rocksdb_FOUND)
+        add_library(RocksDB::rocksdb ALIAS unofficial::rocksdb)
+        message(STATUS "RocksDB found via vcpkg (unofficial)")
+    else()
+        message(FATAL_ERROR "RocksDB not found. Install via vcpkg (rocksdb) or system package librocksdb-dev.")
+    endif()
+endif()
 
 find_package(simdjson CONFIG)
 if(simdjson_FOUND)
