@@ -295,7 +295,60 @@ json FeedbackStorageService::getStatistics(const std::optional<std::string>& ada
     stats["by_rating"] = rating_counts;
     stats["by_category"] = category_counts;
     
+    // Cache statistics
+    int cached_count = 0;
+    int direct_count = 0;
+    float total_weight = 0.0f;
+    
+    for (const auto& fb : feedback_list) {
+        if (fb.is_cached_response) {
+            cached_count++;
+        } else {
+            direct_count++;
+        }
+        if (fb.flagged_for_training) {
+            total_weight += fb.training_weight;
+        }
+    }
+    
+    stats["cached_responses"] = cached_count;
+    stats["direct_responses"] = direct_count;
+    stats["effective_training_size"] = total_weight;
+    
     return stats;
+}
+
+std::vector<Feedback> FeedbackStorageService::getWeightedTrainingFeedback(
+    const std::optional<std::string>& adapter_id,
+    size_t limit
+) const {
+    // Get training feedback
+    auto training_feedback = getTrainingFeedback(adapter_id, limit * 2);
+    
+    // Sort by training weight (descending) to prioritize high-weight feedback
+    std::sort(training_feedback.begin(), training_feedback.end(),
+        [](const Feedback& a, const Feedback& b) {
+            return a.training_weight > b.training_weight;
+        }
+    );
+    
+    // Take top 'limit' entries
+    if (training_feedback.size() > limit) {
+        training_feedback.resize(limit);
+    }
+    
+    return training_feedback;
+}
+
+float FeedbackStorageService::calculateEffectiveBatchSize(const std::string& adapter_id) const {
+    auto training_feedback = getTrainingFeedback(adapter_id, 10000);
+    
+    float effective_size = 0.0f;
+    for (const auto& fb : training_feedback) {
+        effective_size += fb.training_weight;
+    }
+    
+    return effective_size;
 }
 
 // ═══════════════════════════════════════════════════════════

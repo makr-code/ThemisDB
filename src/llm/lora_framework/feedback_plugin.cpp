@@ -175,6 +175,54 @@ float TrainingTriggerPlugin::calculateAverageRating(const std::vector<Feedback>&
     return static_cast<float>(sum) / static_cast<float>(batch.size());
 }
 
+// ═══════════════════════════════════════════════════════════
+// CacheAwareWeightingPlugin Implementation
+// ═══════════════════════════════════════════════════════════
+
+void CacheAwareWeightingPlugin::process(Feedback& feedback) {
+    // If cache training is disabled and this is cached, set weight to 0
+    if (config_.disable_cache_training && feedback.is_cached_response) {
+        feedback.training_weight = 0.0f;
+        feedback.flagged_for_training = false;
+        return;
+    }
+    
+    // Calculate weight based on cache status
+    if (!feedback.is_cached_response) {
+        // Direct LLM response - full weight
+        feedback.training_weight = config_.direct_response_weight;
+    } else {
+        // Cached response - calculate weighted value
+        feedback.training_weight = calculateCacheWeight(feedback);
+    }
+    
+    // Adjust flagging based on weight
+    // Don't flag very low weight feedback for training
+    if (feedback.training_weight < 0.1f) {
+        feedback.flagged_for_training = false;
+    }
+}
+
+float CacheAwareWeightingPlugin::calculateCacheWeight(const Feedback& feedback) const {
+    // Exact cache hit (similarity = 1.0)
+    if (feedback.cache_similarity_score >= 0.99f) {
+        return config_.exact_cache_weight;
+    }
+    
+    // Semantic cache hit - weight based on similarity
+    // Formula: base_weight + (similarity - 0.9) * factor * 10
+    // Example: 
+    //   similarity=0.95: 0.3 + (0.95-0.9)*0.5*10 = 0.3 + 0.25 = 0.55
+    //   similarity=0.92: 0.3 + (0.92-0.9)*0.5*10 = 0.3 + 0.10 = 0.40
+    float similarity_bonus = (feedback.cache_similarity_score - 0.9f) * 
+                            config_.similarity_weight_factor * 10.0f;
+    
+    float weight = config_.semantic_cache_base_weight + similarity_bonus;
+    
+    // Clamp between 0 and exact_cache_weight
+    return std::max(0.0f, std::min(weight, config_.exact_cache_weight));
+}
+
 } // namespace lora
 } // namespace llm
 } // namespace themis

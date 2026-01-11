@@ -132,6 +132,40 @@ private:
     float calculateAverageRating(const std::vector<Feedback>& batch) const;
 };
 
+/**
+ * @brief Cache-aware weighting plugin
+ * 
+ * Adjusts training weights based on cache status:
+ * - Direct (non-cached) responses: weight = 1.0
+ * - Cached responses (exact match): weight = 0.3-0.5 (configurable)
+ * - Cached responses (semantic match): weight based on similarity
+ * 
+ * Rationale:
+ * - Cached responses are already validated by previous use
+ * - Lower weight prevents overtraining on popular queries
+ * - Semantic matches get graduated weight based on similarity
+ */
+class CacheAwareWeightingPlugin : public BaseFeedbackPlugin {
+public:
+    struct Config {
+        float direct_response_weight = 1.0f;         // Weight for direct LLM responses
+        float exact_cache_weight = 0.4f;             // Weight for exact cache hits
+        float semantic_cache_base_weight = 0.3f;     // Base weight for semantic cache
+        float similarity_weight_factor = 0.5f;       // Factor for similarity-based weight
+        bool disable_cache_training = false;         // If true, don't train on cached at all
+    };
+    
+    explicit CacheAwareWeightingPlugin(const Config& config = Config{})
+        : config_(config) {}
+    
+    void process(Feedback& feedback) override;
+    std::string getName() const override { return "CacheAwareWeightingPlugin"; }
+    
+private:
+    Config config_;
+    float calculateCacheWeight(const Feedback& feedback) const;
+};
+
 } // namespace lora
 } // namespace llm
 } // namespace themis

@@ -118,6 +118,33 @@ public:
      * @return JSON with statistics
      */
     json getStatistics(const std::optional<std::string>& adapter_id = std::nullopt) const;
+    
+    /**
+     * @brief Get weighted training feedback
+     * 
+     * Returns feedback for training with weights applied.
+     * Cached responses have lower weights to prevent overtraining.
+     * 
+     * @param adapter_id Optional adapter filter
+     * @param limit Maximum number of results
+     * @return Vector of feedback entries with training weights
+     */
+    std::vector<Feedback> getWeightedTrainingFeedback(
+        const std::optional<std::string>& adapter_id = std::nullopt,
+        size_t limit = 100
+    ) const;
+    
+    /**
+     * @brief Calculate effective training batch size
+     * 
+     * Sums up training weights instead of counting entries.
+     * Example: 100 direct responses (weight=1.0) = 100 effective samples
+     *          100 cached responses (weight=0.4) = 40 effective samples
+     * 
+     * @param adapter_id LoRA adapter ID
+     * @return Effective batch size considering weights
+     */
+    float calculateEffectiveBatchSize(const std::string& adapter_id) const;
 
 private:
     Config config_;

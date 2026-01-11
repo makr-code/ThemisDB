@@ -32,6 +32,15 @@ struct Feedback {
     std::string response;                         // Model response
     std::optional<std::string> model_response_id; // Link to model response (optional)
     
+    // Cache information
+    bool is_cached_response = false;              // True if response was from cache
+    std::optional<std::string> cache_key;         // Cache key if cached
+    float cache_similarity_score = 1.0f;          // Similarity score (1.0 = exact match)
+    
+    // Training weight
+    float training_weight = 1.0f;                 // Weight for training (0.0-1.0)
+                                                  // Lower weight for cached responses
+    
     // Metadata
     std::chrono::system_clock::time_point timestamp;
     bool flagged_for_training = false;            // Flag for training inclusion
@@ -53,11 +62,18 @@ struct Feedback {
             {"response", response},
             {"timestamp", time_t},
             {"flagged_for_training", flagged_for_training},
-            {"training_category", training_category}
+            {"training_category", training_category},
+            {"is_cached_response", is_cached_response},
+            {"cache_similarity_score", cache_similarity_score},
+            {"training_weight", training_weight}
         };
         
         if (model_response_id.has_value()) {
             j["model_response_id"] = *model_response_id;
+        }
+        
+        if (cache_key.has_value()) {
+            j["cache_key"] = *cache_key;
         }
         
         if (!custom_metadata.empty()) {
@@ -83,6 +99,22 @@ struct Feedback {
         
         if (j.contains("model_response_id")) {
             fb.model_response_id = j["model_response_id"].get<std::string>();
+        }
+        
+        if (j.contains("cache_key")) {
+            fb.cache_key = j["cache_key"].get<std::string>();
+        }
+        
+        if (j.contains("is_cached_response")) {
+            fb.is_cached_response = j["is_cached_response"].get<bool>();
+        }
+        
+        if (j.contains("cache_similarity_score")) {
+            fb.cache_similarity_score = j["cache_similarity_score"].get<float>();
+        }
+        
+        if (j.contains("training_weight")) {
+            fb.training_weight = j["training_weight"].get<float>();
         }
         
         if (j.contains("timestamp")) {
