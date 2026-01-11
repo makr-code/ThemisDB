@@ -560,53 +560,49 @@ def link_entities(article_id, entities):
 
 ### Text-Klassifikation
 
-Automatische Kategorisierung von Texten.
+Die automatische Kategorisierung von Texten kombiniert ThemisDB's Fulltext-Suche mit Machine Learning. Das System lädt bereits kategorisierte Artikel als Trainingsdaten, extrahiert TF-IDF Features und trainiert einen Naive Bayes Klassifikator. Neue unkategorisierte Artikel werden dann automatisch mit Confidence-Score versehen.
 
-**Training eines Klassifikators:**
+📁 **Vollständiger Code:** `examples/13_fulltext_search/text_classification.py` (~70 Zeilen)
+
+**Training und Klassifikation:**
 
 ```python
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
-from themisdb import ThemisDB
 
-db = ThemisDB()
-
-# Training-Daten laden (bereits kategorisierte Artikel)
+# Training-Daten aus ThemisDB laden
 training_data = db.query("""
-    SELECT content, category 
-    FROM articles 
-    WHERE category IS NOT NULL
+    SELECT content, category FROM articles WHERE category IS NOT NULL
 """)
 
 X_train = [row['content'] for row in training_data]
 y_train = [row['category'] for row in training_data]
 
-# Pipeline: TF-IDF + Naive Bayes
+# Pipeline: TF-IDF (5000 Features) + Naive Bayes
 classifier = Pipeline([
     ('vectorizer', TfidfVectorizer(max_features=5000)),
     ('classifier', MultinomialNB())
 ])
-
 classifier.fit(X_train, y_train)
 
-# Neue Artikel klassifizieren
-new_articles = db.query("""
-    SELECT id, content 
-    FROM articles 
-    WHERE category IS NULL
-""")
+# Neue Artikel klassifizieren mit Confidence-Score
+new_articles = db.query("""SELECT id, content FROM articles WHERE category IS NULL""")
 
 for article in new_articles:
     predicted_category = classifier.predict([article['content']])[0]
-    confidence = max(classifier.predict_proba([article['content']])[0])
+    confidence = max(classifier.predict_proba([article['content']])[0])  # Max probability
     
     db.query("""
-        UPDATE articles
-        SET category = ?, category_confidence = ?
-        WHERE id = ?
+        UPDATE articles SET category = ?, category_confidence = ? WHERE id = ?
     """, [predicted_category, confidence, article['id']])
 ```
+
+**Vorteile:**
+- Integration mit ThemisDB Fulltext-Indizes
+- Confidence-Score für manuelle Review bei niedrigen Werten (<0.7)
+- TF-IDF mit 5000 Features für gute Balance zwischen Genauigkeit und Performance
+- Naive Bayes: Schnell, robust bei kleinen Trainingssets
 
 ### Keyword-Extraktion
 
