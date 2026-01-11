@@ -129,6 +129,20 @@ public:
     bool isTrained() const;
     
 private:
+    /**
+     * @brief Helper to increment version string
+     * @param version Current version
+     * @return Incremented version
+     */
+    static std::string incrementVersion(const std::string& version);
+    
+    /**
+     * @brief Helper to decrement version string
+     * @param version Current version
+     * @return Decremented version
+     */
+    static std::string decrementVersion(const std::string& version);
+
     class Impl;
     std::unique_ptr<Impl> impl_;
     
