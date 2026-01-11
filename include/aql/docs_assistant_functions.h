@@ -1,10 +1,11 @@
 /**
  * @file docs_assistant_functions.h
- * @brief AQL function wrappers for Documentation Assistant
+ * @brief AQL function wrappers for Documentation Assistant with LoRA support
  * 
  * Exposes DocsAssistant functionality as AQL functions:
- * - HELP(query: string) -> string - Unified intelligent helper (RECOMMENDED)
+ * - HELP(query: string) -> string - Unified intelligent helper with LoRA support (RECOMMENDED)
  *   Three-tier intent detection: Native NLP → LLM → Regex fallback
+ *   Optionally uses themis_help_lora adapter for enhanced accuracy
  * - DOCS_QUERY(query: string) -> string
  * - DOCS_SEARCH(query: string, limit: int) -> array<object>
  * - DOCS_CONFIG_HELP(topic: string) -> string
@@ -12,14 +13,21 @@
  * 
  * The HELP() function uses ThemisDB's native NLP capabilities (CLASSIFY function)
  * as the primary method, with LLM-based classification and regex pattern matching
- * as fallbacks for maximum reliability.
+ * as fallbacks for maximum reliability. When available, it uses the themis_help_lora
+ * adapter for improved context-specific assistance.
+ * 
+ * LoRA Integration:
+ * - Dynamically loads themis_help_lora adapter when available
+ * - Falls back to base LLM if adapter not available
+ * - Tracks performance metrics for LoRA vs base model
+ * - Supports adapter caching and hot-swapping
  * 
  * Supports SSE (Server-Sent Events) for streaming and MCP (Model Context Protocol).
  * Can incorporate user feedback for continuous improvement.
  * 
  * Usage examples:
  * ```sql
- * -- Unified helper (automatically detects intent via native NLP/LLM)
+ * -- Unified helper (automatically uses LoRA if available)
  * SELECT HELP('How do I enable sharding?') AS answer;
  * SELECT HELP('Server hangs at startup') AS solution;
  * SELECT HELP('Configure security settings') AS guide;
@@ -63,7 +71,7 @@ public:
     ~DocsAssistantFunctions();
     
     /**
-     * @brief Unified intelligent helper function (RECOMMENDED)
+     * @brief Unified intelligent helper function with LoRA support (RECOMMENDED)
      * 
      * Automatically determines the intent from the query using a three-tier
      * detection strategy, then routes to the appropriate function:
@@ -77,19 +85,30 @@ public:
      * 2. **LLM-based** - Uses embedded LLM for semantic classification
      * 3. **Regex fallback** - Keyword pattern matching for reliability
      * 
+     * LoRA Integration:
+     * - When themis_help_lora adapter is available, uses it for enhanced accuracy
+     * - Falls back to base LLM if adapter not loaded or unavailable
+     * - Tracks performance metrics (latency, accuracy) for both modes
+     * - Supports dynamic adapter loading/unloading
+     * 
      * Supports SSE (Server-Sent Events) streaming and MCP (Model Context Protocol).
      * Can incorporate user feedback for continuous improvement.
      * 
      * @param query User query or question
+     * @param user_id Optional user ID for logging and personalization (default: "anonymous")
+     *                Note: This parameter is optional and maintains backward compatibility
      * @return Generated answer, search results, or guidance as string
      * 
+     * **Backward Compatibility**: The user_id parameter is optional with a default value,
+     * so existing calls like `help("question")` continue to work without modification.
+     * 
      * Examples:
-     * - HELP('How do I enable sharding?') → RAG query
+     * - HELP('How do I enable sharding?') → RAG query with LoRA
      * - HELP('Configure security') → Configuration help
      * - HELP('Server hangs at startup') → Troubleshooting
      * - HELP('Search for RAID documentation') → Document search
      */
-    std::string help(const std::string& query);
+    std::string help(const std::string& query, const std::string& user_id = "anonymous");
     
     /**
      * @brief Query documentation for assistance
@@ -152,9 +171,21 @@ public:
     bool isReady() const;
     
     /**
-     * @brief Clear any cached results
+     * @brief Clear any cached results and unload LoRA adapter if loaded
      */
     void clearCache();
+    
+    /**
+     * @brief Check if LoRA adapter is available and loaded
+     * @return true if LoRA adapter is active
+     */
+    bool isLoRAActive() const;
+    
+    /**
+     * @brief Get performance metrics for LoRA vs base model
+     * @return JSON with performance stats
+     */
+    json getPerformanceMetrics() const;
 
 private:
     class Impl;
