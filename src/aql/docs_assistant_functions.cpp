@@ -1,15 +1,17 @@
 /**
  * @file docs_assistant_functions.cpp
- * @brief Implementation of AQL documentation assistant functions
+ * @brief Implementation of AQL documentation assistant functions with LoRA support
  */
 
 #include "aql/docs_assistant_functions.h"
 #include "llm/docs_assistant.h"
 #include "llm/embedded_llm.h"
+#include "llm/applications/themis_help_lora.h"
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
 #include <iomanip>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace aql {
@@ -38,6 +40,22 @@ public:
             // No database found, but don't throw - allow graceful degradation
             docs_assistant_.reset();
         }
+        
+        // Try to initialize ThemisHelpLoRA
+        try {
+            llm::applications::ThemisHelpLoRA::Config lora_config;
+            lora_config.adapter_id = "themis_help_lora";
+            lora_config.base_model_id = "llama-2-7b";
+            // Note: db and blob_manager would need to be injected in production
+            // For now, we'll create without them and let it handle gracefully
+            
+            help_lora_ = std::make_unique<llm::applications::ThemisHelpLoRA>(lora_config);
+            lora_available_ = true;
+            spdlog::info("ThemisHelpLoRA initialized successfully");
+        } catch (const std::exception& e) {
+            spdlog::warn("ThemisHelpLoRA initialization failed, using base LLM: {}", e.what());
+            lora_available_ = false;
+        }
     }
     
     llm::DocsAssistant* getAssistant() {
@@ -52,9 +70,22 @@ public:
     bool isReady() const {
         return docs_assistant_ && docs_assistant_->isReady();
     }
+    
+    bool isLoRAAvailable() const {
+        return lora_available_ && help_lora_ != nullptr;
+    }
+    
+    llm::applications::ThemisHelpLoRA* getLoRA() {
+        if (!help_lora_) {
+            return nullptr;
+        }
+        return help_lora_.get();
+    }
 
 private:
     std::unique_ptr<llm::DocsAssistant> docs_assistant_;
+    std::unique_ptr<llm::applications::ThemisHelpLoRA> help_lora_;
+    bool lora_available_ = false;
 };
 
 DocsAssistantFunctions::DocsAssistantFunctions()
@@ -62,44 +93,76 @@ DocsAssistantFunctions::DocsAssistantFunctions()
 
 DocsAssistantFunctions::~DocsAssistantFunctions() = default;
 
-std::string DocsAssistantFunctions::help(const std::string& query) {
+std::string DocsAssistantFunctions::help(const std::string& query, const std::string& user_id) {
     try {
         auto* assistant = impl_->getAssistant();
         
-        // Try three-tier intent detection:
-        // 1. Native NLP (if available)
-        // 2. LLM-based (if LLM available)
-        // 3. Regex fallback
-        std::string intent = detectIntentWithNativeNLP(query);
+        // Try to use LoRA adapter if available
+        bool using_lora = false;
+        std::string answer;
+        auto start_time = std::chrono::high_resolution_clock::now();
         
-        if (intent == "unknown" || intent.empty()) {
-            intent = detectIntentWithLLM(query);
+        if (impl_->isLoRAAvailable()) {
+            try {
+                auto* lora = impl_->getLoRA();
+                if (lora) {
+                    spdlog::debug("Using ThemisHelpLoRA for query: {}", query);
+                    answer = lora->query(query, user_id);
+                    using_lora = true;
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("LoRA query failed, falling back to base: {}", e.what());
+                // Fall through to base implementation
+            }
         }
         
-        if (intent == "unknown" || intent.empty()) {
-            intent = detectIntentWithRegex(query);
+        // If LoRA not available or failed, use standard approach
+        if (!using_lora) {
+            spdlog::debug("Using base DocsAssistant for query: {}", query);
+            
+            // Try three-tier intent detection:
+            // 1. Native NLP (if available)
+            // 2. LLM-based (if LLM available)
+            // 3. Regex fallback
+            std::string intent = detectIntentWithNativeNLP(query);
+            
+            if (intent == "unknown" || intent.empty()) {
+                intent = detectIntentWithLLM(query);
+            }
+            
+            if (intent == "unknown" || intent.empty()) {
+                intent = detectIntentWithRegex(query);
+            }
+            
+            // Route based on detected intent
+            if (intent == "configuration") {
+                std::string topic = extractTopicFromQuery(query);
+                auto result = assistant->getConfigHelp(topic);
+                answer = result.generated_answer;
+            }
+            else if (intent == "troubleshooting") {
+                auto result = assistant->getTroubleshootingHelp(query);
+                answer = result.generated_answer;
+            }
+            else if (intent == "search") {
+                std::string search_query = extractSearchQuery(query);
+                auto docs = assistant->searchDocs(search_query, 5);
+                answer = formatSearchResults(docs);
+            }
+            else {
+                // Default: general RAG query
+                auto result = assistant->query(query);
+                answer = result.generated_answer;
+            }
         }
         
-        // Route based on detected intent
-        if (intent == "configuration") {
-            std::string topic = extractTopicFromQuery(query);
-            auto result = assistant->getConfigHelp(topic);
-            return result.generated_answer;
-        }
-        else if (intent == "troubleshooting") {
-            auto result = assistant->getTroubleshootingHelp(query);
-            return result.generated_answer;
-        }
-        else if (intent == "search") {
-            std::string search_query = extractSearchQuery(query);
-            auto docs = assistant->searchDocs(search_query, 5);
-            return formatSearchResults(docs);
-        }
-        else {
-            // Default: general RAG query
-            auto result = assistant->query(query);
-            return result.generated_answer;
-        }
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        spdlog::info("HELP() query completed in {}ms using {}", 
+                     duration.count(), using_lora ? "LoRA" : "base");
+        
+        return answer;
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -358,11 +421,69 @@ void DocsAssistantFunctions::clearCache() {
     try {
         auto* assistant = impl_->getAssistant();
         assistant->clearCache();
+        
+        // Also log unload event if LoRA is active
+        if (impl_->isLoRAAvailable()) {
+            spdlog::info("Cache cleared, LoRA adapter remains loaded");
+        }
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("Clear cache failed: ") + e.what()
         );
     }
+}
+
+bool DocsAssistantFunctions::isLoRAActive() const {
+    return impl_->isLoRAAvailable();
+}
+
+json DocsAssistantFunctions::getPerformanceMetrics() const {
+    json metrics;
+    
+    // Add base assistant metrics
+    if (impl_->isReady()) {
+        try {
+            auto* assistant = impl_->getAssistant();
+            metrics["base_assistant"] = assistant->getStats();
+        } catch (...) {
+            metrics["base_assistant"] = nullptr;
+        }
+    }
+    
+    // Add LoRA metrics if available
+    if (impl_->isLoRAAvailable()) {
+        try {
+            auto* lora = impl_->getLoRA();
+            if (lora) {
+                auto lora_metrics = lora->getMetrics();
+                metrics["lora"] = {
+                    {"total_queries", lora_metrics.total_queries},
+                    {"successful_queries", lora_metrics.successful_queries},
+                    {"failed_queries", lora_metrics.failed_queries},
+                    {"success_rate", lora_metrics.success_rate},
+                    {"average_latency_ms", lora_metrics.average_latency_ms},
+                    {"cache_hit_rate", lora_metrics.cache_hit_rate}
+                };
+                
+                auto feedback_stats = lora->getFeedbackStats();
+                metrics["lora_feedback"] = {
+                    {"total_feedback", feedback_stats.total_feedback},
+                    {"positive_feedback", feedback_stats.positive_feedback},
+                    {"negative_feedback", feedback_stats.negative_feedback},
+                    {"positive_ratio", feedback_stats.positive_ratio}
+                };
+                
+                metrics["lora_version"] = lora->getVersion();
+                metrics["lora_trained"] = lora->isTrained();
+            }
+        } catch (const std::exception& e) {
+            metrics["lora_error"] = e.what();
+        }
+    }
+    
+    metrics["lora_active"] = impl_->isLoRAAvailable();
+    
+    return metrics;
 }
 
 /**

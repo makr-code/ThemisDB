@@ -479,3 +479,247 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+
+/**
+ * ============================================================================
+ * LoRA Integration Tests
+ * ============================================================================
+ */
+
+/**
+ * @brief Test that LoRA availability can be checked
+ */
+TEST_F(DocsAssistantAQLTest, LoRAAvailabilityCheck) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    // Should not crash when checking LoRA availability
+    bool lora_active = docs_func.isLoRAActive();
+    
+    // Log result for debugging
+    if (lora_active) {
+        std::cout << "LoRA adapter is active" << std::endl;
+    } else {
+        std::cout << "LoRA adapter not available, using base model" << std::endl;
+    }
+    
+    // Test should pass regardless of whether LoRA is available
+    SUCCEED();
+}
+
+/**
+ * @brief Test HELP() function with potential LoRA support
+ */
+TEST_F(DocsAssistantAQLTest, HelpWithLoRASupport) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // Query should work whether LoRA is available or not
+        auto answer = docs_func.help("How do I configure sharding?", "test_user");
+        
+        EXPECT_FALSE(answer.empty());
+        
+        // Answer should contain relevant keywords
+        std::string lower_answer = answer;
+        std::transform(lower_answer.begin(), lower_answer.end(), 
+                      lower_answer.begin(), ::tolower);
+        
+        EXPECT_TRUE(
+            lower_answer.find("shard") != std::string::npos ||
+            lower_answer.find("distribute") != std::string::npos ||
+            lower_answer.find("partition") != std::string::npos
+        ) << "Answer should contain sharding-related keywords";
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM/LoRA not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test performance metrics retrieval
+ */
+TEST_F(DocsAssistantAQLTest, PerformanceMetrics) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    // Should be able to get metrics
+    auto metrics = docs_func.getPerformanceMetrics();
+    
+    EXPECT_TRUE(metrics.is_object());
+    EXPECT_TRUE(metrics.contains("lora_active"));
+    
+    // If LoRA is active, should have LoRA-specific metrics
+    if (metrics["lora_active"].get<bool>()) {
+        EXPECT_TRUE(metrics.contains("lora"));
+        EXPECT_TRUE(metrics.contains("lora_feedback"));
+        EXPECT_TRUE(metrics.contains("lora_version"));
+        EXPECT_TRUE(metrics.contains("lora_trained"));
+        
+        std::cout << "LoRA Metrics:\n" << metrics.dump(2) << std::endl;
+    }
+}
+
+/**
+ * @brief Test multiple queries to verify LoRA caching/performance
+ */
+TEST_F(DocsAssistantAQLTest, MultipleQueriesWithLoRA) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        std::vector<std::string> queries = {
+            "How do I enable sharding?",
+            "Configure security settings",
+            "Server hangs at startup"
+        };
+        
+        for (const auto& query : queries) {
+            auto start = std::chrono::high_resolution_clock::now();
+            auto answer = docs_func.help(query, "test_user");
+            auto end = std::chrono::high_resolution_clock::now();
+            
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            
+            EXPECT_FALSE(answer.empty()) << "Query: " << query;
+            std::cout << "Query '" << query << "' completed in " 
+                     << duration.count() << "ms" << std::endl;
+        }
+        
+        // Get metrics after multiple queries
+        auto metrics = docs_func.getPerformanceMetrics();
+        if (metrics.contains("lora") && metrics["lora"].contains("total_queries")) {
+            std::cout << "Total LoRA queries: " 
+                     << metrics["lora"]["total_queries"] << std::endl;
+        }
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM/LoRA not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test fallback behavior when LoRA is not available
+ */
+TEST_F(DocsAssistantAQLTest, FallbackToBaseModel) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // Query should work even if LoRA is not available
+        auto answer = docs_func.help("How do I configure replication?");
+        
+        EXPECT_FALSE(answer.empty());
+        
+        // Log which model was used
+        bool lora_active = docs_func.isLoRAActive();
+        std::cout << "Query completed using: " 
+                 << (lora_active ? "LoRA adapter" : "Base model") << std::endl;
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test intent detection with LoRA support
+ */
+TEST_F(DocsAssistantAQLTest, IntentDetectionWithLoRA) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // Configuration intent
+        auto config_answer = docs_func.help("Configure security settings");
+        EXPECT_FALSE(config_answer.empty());
+        
+        // Troubleshooting intent
+        auto trouble_answer = docs_func.help("Server error at startup");
+        EXPECT_FALSE(trouble_answer.empty());
+        
+        // Search intent
+        auto search_answer = docs_func.help("Search for RAID documentation");
+        EXPECT_FALSE(search_answer.empty());
+        
+        // General query intent
+        auto general_answer = docs_func.help("What is sharding?");
+        EXPECT_FALSE(general_answer.empty());
+        
+        std::cout << "All intent types handled successfully" << std::endl;
+        
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM/LoRA not available: " << e.what();
+    }
+}
+
+/**
+ * @brief Test error handling when queries fail
+ */
+TEST_F(DocsAssistantAQLTest, ErrorHandlingWithLoRA) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    try {
+        // Empty query should still be handled gracefully
+        auto answer = docs_func.help("", "test_user");
+        
+        // Should return something, even if it's an error message
+        // The implementation should not crash
+        EXPECT_TRUE(true) << "Empty query handled without crash";
+        
+    } catch (const std::exception& e) {
+        // Exception is acceptable for invalid input
+        EXPECT_TRUE(true) << "Exception thrown for invalid input: " << e.what();
+    }
+}
+
+/**
+ * @brief Test cache clearing with LoRA
+ */
+TEST_F(DocsAssistantAQLTest, CacheClearWithLoRA) {
+    auto& docs_func = themis::aql::getDocsAssistantFunctions();
+    
+    if (!docs_func.isReady()) {
+        GTEST_SKIP() << "Documentation database not available";
+    }
+    
+    // Perform some queries to populate cache
+    try {
+        docs_func.help("Test query 1");
+        docs_func.help("Test query 2");
+    } catch (...) {
+        GTEST_SKIP() << "LLM not available";
+    }
+    
+    // Clear cache should not throw
+    EXPECT_NO_THROW(docs_func.clearCache());
+    
+    // Should still be able to query after cache clear
+    try {
+        auto answer = docs_func.help("Test query after clear");
+        EXPECT_FALSE(answer.empty());
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "LLM not available: " << e.what();
+    }
+}

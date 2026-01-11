@@ -9,6 +9,7 @@
 
 namespace themis {
 namespace llm {
+namespace applications {
 
 // ═══════════════════════════════════════════════════════════
 // Implementation Details
@@ -20,8 +21,8 @@ public:
     Config config;
     
     // Components
-    std::shared_ptr<LoRAOrchestrator> orchestrator;
-    std::shared_ptr<LoRAAuditLogger> lora_audit;
+    std::shared_ptr<lora::LoRAOrchestrator> orchestrator;
+    std::shared_ptr<lora::LoRAAuditLogger> lora_audit;
     std::shared_ptr<LLMModelAuditLogger> llm_audit;
     
     // State
@@ -39,20 +40,20 @@ public:
         , current_adapter_version("v1.0")
     {
         // Initialize orchestrator
-        LoRAOrchestrator::Config orch_config;
+        lora::LoRAOrchestrator::Config orch_config;
         orch_config.db = config.db;
         orch_config.blob_manager = config.blob_manager;
         orch_config.enable_encryption = true;
         orch_config.enable_signatures = true;
         
-        orchestrator = std::make_shared<LoRAOrchestrator>(orch_config);
+        orchestrator = std::make_shared<lora::LoRAOrchestrator>(orch_config);
         
         // Initialize audit loggers
         utils::AuditLoggerConfig audit_config;
         audit_config.log_file = "logs/themis_help_lora_audit.jsonl";
         audit_config.enable_encryption = true;
         
-        lora_audit = std::make_shared<LoRAAuditLogger>(audit_config);
+        lora_audit = std::make_shared<lora::LoRAAuditLogger>(audit_config);
         
         audit_config.log_file = "logs/themis_help_llm_audit.jsonl";
         llm_audit = std::make_shared<LLMModelAuditLogger>(audit_config);
@@ -260,7 +261,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
     try {
         // Log training started
         impl_->lora_audit->logTraining(
-            LoRAAuditEventType::TRAINING_STARTED,
+            lora::LoRAAuditEventType::TRAINING_STARTED,
             impl_->config.adapter_id,
             impl_->config.base_model_id,
             static_cast<int>(impl_->feedback_buffer.size()),
@@ -289,7 +290,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         
         // Log training completed
         impl_->lora_audit->logTraining(
-            LoRAAuditEventType::TRAINING_COMPLETED,
+            lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
             impl_->config.base_model_id,
             static_cast<int>(num_samples),
@@ -308,7 +309,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
         spdlog::error("Training failed: {}", e.what());
         
         impl_->lora_audit->logTraining(
-            LoRAAuditEventType::TRAINING_FAILED,
+            lora::LoRAAuditEventType::TRAINING_FAILED,
             impl_->config.adapter_id,
             impl_->config.base_model_id,
             static_cast<int>(impl_->feedback_buffer.size()),
@@ -328,7 +329,7 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
     try {
         // Log training started
         impl_->lora_audit->logTraining(
-            LoRAAuditEventType::TRAINING_STARTED,
+            lora::LoRAAuditEventType::TRAINING_STARTED,
             impl_->config.adapter_id,
             impl_->config.base_model_id,
             1151,  // Documentation count from requirements
@@ -345,7 +346,7 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
         
         // Log training completed
         impl_->lora_audit->logTraining(
-            LoRAAuditEventType::TRAINING_COMPLETED,
+            lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
             impl_->config.base_model_id,
             1151,
@@ -363,7 +364,7 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
         spdlog::error("Documentation training failed: {}", e.what());
         
         impl_->lora_audit->logTraining(
-            LoRAAuditEventType::TRAINING_FAILED,
+            lora::LoRAAuditEventType::TRAINING_FAILED,
             impl_->config.adapter_id,
             impl_->config.base_model_id,
             1151,
