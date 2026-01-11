@@ -1,0 +1,204 @@
+#pragma once
+
+#include "content/content_processor.h"
+#include <string>
+#include <vector>
+#include <optional>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace content {
+
+using json = nlohmann::json;
+
+/**
+ * @brief Archive handling strategy
+ */
+enum class ArchiveStrategy {
+    EXTRACT_AND_INGEST,  // Extract all files and ingest individually (default)
+    METADATA_ONLY,       // Store only archive metadata without extraction
+    REJECT               // Reject archive uploads
+};
+
+/**
+ * @brief Encrypted archive handling policy
+ */
+enum class EncryptedArchivePolicy {
+    REJECT,           // Reject encrypted archives (default)
+    METADATA_ONLY,    // Store encrypted archive as blob with metadata
+    REQUIRE_PASSWORD  // Accept password parameter for extraction
+};
+
+/**
+ * @brief Archive format detection
+ */
+enum class ArchiveFormat {
+    ZIP,
+    TAR,
+    TAR_GZ,
+    TAR_BZ2,
+    TAR_XZ,
+    SEVEN_ZIP,
+    UNKNOWN
+};
+
+/**
+ * @brief Archive member information
+ */
+struct ArchiveMember {
+    std::string path;              // Path within archive
+    uint64_t uncompressed_size;    // Uncompressed size in bytes
+    uint64_t compressed_size;      // Compressed size in bytes
+    bool is_directory;             // True if this is a directory entry
+    bool is_encrypted;             // True if this member is encrypted
+};
+
+/**
+ * @brief Archive metadata
+ */
+struct ArchiveMetadata {
+    ArchiveFormat format;
+    bool is_encrypted;
+    uint64_t total_uncompressed_size;
+    uint64_t total_compressed_size;
+    size_t member_count;
+    size_t directory_count;
+    size_t file_count;
+    std::vector<ArchiveMember> members;
+    std::string comment;  // Archive comment if any
+};
+
+/**
+ * @brief Archive extraction result
+ */
+struct ExtractionResult {
+    bool success;
+    std::string error_message;
+    std::vector<std::string> extracted_files;  // Paths to extracted files in temp directory
+    std::string temp_directory;  // Temporary directory used for extraction
+};
+
+/**
+ * @brief Archive Processor Configuration
+ */
+struct ArchiveProcessorConfig {
+    ArchiveStrategy strategy = ArchiveStrategy::EXTRACT_AND_INGEST;
+    EncryptedArchivePolicy encrypted_policy = EncryptedArchivePolicy::REJECT;
+    
+    // Security limits
+    uint64_t max_total_size = 1024ULL * 1024 * 1024 * 10;  // 10 GB max total extracted size
+    uint64_t max_file_size = 1024ULL * 1024 * 1024;        // 1 GB max single file size
+    uint64_t max_compression_ratio = 100;                  // Max 100:1 compression ratio (zip bomb protection)
+    size_t max_file_count = 10000;                         // Max 10,000 files in archive
+    size_t max_path_depth = 20;                            // Max 20 levels of directory nesting
+    size_t max_path_length = 4096;                         // Max 4096 characters in path
+    
+    // Password for encrypted archives (if REQUIRE_PASSWORD policy)
+    std::string password;
+    
+    // Enable verbose logging
+    bool verbose = false;
+};
+
+/**
+ * @brief Archive Content Processor
+ * 
+ * Handles compressed archive formats (.zip, .tar, .tar.gz, etc.)
+ * Supports extraction and ingestion of archive contents with configurable strategies.
+ * 
+ * Security Features:
+ * - Zip bomb detection (compression ratio check)
+ * - Path traversal prevention (sanitizes file paths)
+ * - Encrypted archive handling
+ * - Size limit enforcement
+ * 
+ * Thread-Safety: Not thread-safe. Use separate instances per thread.
+ */
+class ArchiveProcessor : public IContentProcessor {
+public:
+    explicit ArchiveProcessor(ArchiveProcessorConfig config = ArchiveProcessorConfig{});
+    ~ArchiveProcessor() override = default;
+
+    // IContentProcessor interface
+    std::string getName() const override { return "ArchiveProcessor"; }
+    ContentCategory getCategory() const override { return ContentCategory::ARCHIVE; }
+    bool canHandle(const std::string& mime_type) const override;
+    ContentProcessorResult process(
+        const std::string& blob,
+        const std::string& mime_type,
+        const std::string& filename
+    ) override;
+
+    /**
+     * @brief Detect archive format from blob
+     */
+    static ArchiveFormat detectFormat(const std::string& blob, const std::string& filename);
+    
+    /**
+     * @brief Extract archive metadata without full extraction
+     */
+    static std::optional<ArchiveMetadata> extractMetadata(
+        const std::string& blob,
+        ArchiveFormat format
+    );
+
+    /**
+     * @brief Check if archive is encrypted
+     */
+    static bool isEncrypted(const std::string& blob, ArchiveFormat format);
+
+    /**
+     * @brief Extract archive to temporary directory
+     * 
+     * @param blob Archive binary data
+     * @param format Archive format
+     * @param password Optional password for encrypted archives
+     * @return ExtractionResult with extracted file paths or error
+     */
+    ExtractionResult extractToTemp(
+        const std::string& blob,
+        ArchiveFormat format,
+        const std::string& password = ""
+    );
+
+    /**
+     * @brief Validate archive against security limits
+     */
+    bool validateArchive(const ArchiveMetadata& metadata, std::string& error_message) const;
+
+    /**
+     * @brief Sanitize file path to prevent path traversal attacks
+     * 
+     * Removes ".." components and ensures path is relative
+     */
+    static std::string sanitizePath(const std::string& path);
+
+    /**
+     * @brief Clean up temporary extraction directory
+     */
+    static void cleanupTempDirectory(const std::string& temp_dir);
+
+    /**
+     * @brief Get configuration
+     */
+    const ArchiveProcessorConfig& getConfig() const { return config_; }
+
+    /**
+     * @brief Update configuration
+     */
+    void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
+
+private:
+    ArchiveProcessorConfig config_;
+    
+    // Format-specific extraction methods
+    ExtractionResult extractZip(const std::string& blob, const std::string& password);
+    ExtractionResult extractTar(const std::string& blob, ArchiveFormat format);
+    
+    // Helper methods
+    std::string generateTempDirectory() const;
+    bool checkCompressionRatio(uint64_t compressed, uint64_t uncompressed) const;
+};
+
+} // namespace content
+} // namespace themis
