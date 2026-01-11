@@ -92,6 +92,12 @@ include(cmake/Dependencies.cmake)
 if(THEMIS_BUILD_TESTS)
     include(CTest)
     enable_testing()
+    add_subdirectory(tests)
+endif()
+
+# Benchmarking
+if(THEMIS_BUILD_BENCHMARKS)
+    add_subdirectory(benchmarks)
 endif()
 
 # Main build logic
