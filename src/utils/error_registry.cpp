@@ -409,14 +409,21 @@ std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
     const std::string& query) const {
     
     std::vector<ErrorMetadata> result;
-    std::string query_lower = query;
-    std::transform(query_lower.begin(), query_lower.end(), 
-                  query_lower.begin(), ::tolower);
+    
+    // Helper function for case-insensitive comparison
+    auto contains_case_insensitive = [](const std::string& str, const std::string& query) {
+        auto it = std::search(
+            str.begin(), str.end(),
+            query.begin(), query.end(),
+            [](char ch1, char ch2) { return std::tolower(ch1) == std::tolower(ch2); }
+        );
+        return it != str.end();
+    };
     
     for (const auto& [code, metadata] : errors_) {
-        // Search in keywords
+        // Search in keywords (case-insensitive)
         for (const auto& keyword : metadata.keywords) {
-            if (keyword.find(query_lower) != std::string::npos) {
+            if (contains_case_insensitive(keyword, query)) {
                 result.push_back(metadata);
                 break;
             }

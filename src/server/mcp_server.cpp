@@ -943,22 +943,28 @@ json McpServer::toolIntrospectDatabase(const json& args) {
         return {{"status", "error"}, {"message", "No question provided"}};
     }
     
-    std::string question_lower = question;
-    std::transform(question_lower.begin(), question_lower.end(), 
-                  question_lower.begin(), ::tolower);
+    // Helper function for case-insensitive search
+    auto contains_ci = [](const std::string& str, const std::string& substr) {
+        auto it = std::search(
+            str.begin(), str.end(),
+            substr.begin(), substr.end(),
+            [](char ch1, char ch2) { return std::tolower(ch1) == std::tolower(ch2); }
+        );
+        return it != str.end();
+    };
     
     std::string answer;
     
-    // Error-related questions
-    if (question_lower.find("fehler") != std::string::npos ||
-        question_lower.find("error") != std::string::npos ||
-        question_lower.find("problem") != std::string::npos) {
-        answer = generateErrorAnswer(question_lower);
+    // Error-related questions (support both English and German)
+    if (contains_ci(question, "fehler") ||
+        contains_ci(question, "error") ||
+        contains_ci(question, "problem")) {
+        answer = generateErrorAnswer(question);
     }
     // Database capability questions
-    else if (question_lower.find("what can") != std::string::npos ||
-             question_lower.find("capabilities") != std::string::npos ||
-             question_lower.find("features") != std::string::npos) {
+    else if (contains_ci(question, "what can") ||
+             contains_ci(question, "capabilities") ||
+             contains_ci(question, "features")) {
         answer = "ThemisDB is a distributed multi-model database supporting:\n\n"
                 "**Core Features:**\n"
                 "- Multi-model: Graph, Document, Key-Value, Time-Series, Vector\n"
@@ -991,13 +997,23 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     };
 }
 
-std::string McpServer::generateErrorAnswer(const std::string& question_lower) {
+std::string McpServer::generateErrorAnswer(const std::string& question) {
     auto& registry = errors::ErrorRegistry::getInstance();
     
+    // Helper function for case-insensitive search
+    auto contains_ci = [](const std::string& str, const std::string& substr) {
+        auto it = std::search(
+            str.begin(), str.end(),
+            substr.begin(), substr.end(),
+            [](char ch1, char ch2) { return std::tolower(ch1) == std::tolower(ch2); }
+        );
+        return it != str.end();
+    };
+    
     // "Welche Fehler können auftreten?" / "What errors can occur?"
-    if (question_lower.find("welche fehler") != std::string::npos ||
-        question_lower.find("what errors") != std::string::npos ||
-        question_lower.find("which errors") != std::string::npos) {
+    if (contains_ci(question, "welche fehler") ||
+        contains_ci(question, "what errors") ||
+        contains_ci(question, "which errors")) {
         
         auto categories = registry.getAllCategories();
         std::string answer = "I can help with the following error categories:\n\n";
@@ -1012,19 +1028,20 @@ std::string McpServer::generateErrorAnswer(const std::string& question_lower) {
     }
     
     // "Was bedeutet Fehler X?" / "What does error X mean?"
-    if (question_lower.find("bedeutet") != std::string::npos ||
-        question_lower.find("mean") != std::string::npos ||
-        question_lower.find("what is") != std::string::npos) {
+    if (contains_ci(question, "bedeutet") ||
+        contains_ci(question, "mean") ||
+        contains_ci(question, "what is")) {
         
-        // Extract error code or keyword
+        // Extract error code
         std::regex code_regex(R"(\b\d{4}\b)");
         std::smatch match;
         
-        if (std::regex_search(question_lower, match, code_regex)) {
+        if (std::regex_search(question, match, code_regex)) {
             int code = std::stoi(match.str());
             auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
             
-            if (static_cast<int>(metadata.code) != 9999 || code == 9999) {
+            if (static_cast<int>(metadata.code) != static_cast<int>(errors::ErrorCode::ERR_UNKNOWN) || 
+                code == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
                 return fmt::format(
                     "**Error {}: {}**\n\n"
                     "**Category:** {}\n"
@@ -1045,12 +1062,12 @@ std::string McpServer::generateErrorAnswer(const std::string& question_lower) {
     }
     
     // "How do I fix...?" / "Wie behebe ich...?"
-    if (question_lower.find("fix") != std::string::npos ||
-        question_lower.find("solve") != std::string::npos ||
-        question_lower.find("behebe") != std::string::npos) {
+    if (contains_ci(question, "fix") ||
+        contains_ci(question, "solve") ||
+        contains_ci(question, "behebe")) {
         
         // Search by keywords in question
-        auto results = registry.searchErrors(question_lower);
+        auto results = registry.searchErrors(question);
         if (!results.empty()) {
             std::string answer = fmt::format("I found {} relevant error(s) that might help:\n\n", 
                                             results.size());
@@ -1071,7 +1088,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question_lower) {
     }
     
     // Fallback: Search by keywords
-    auto results = registry.searchErrors(question_lower);
+    auto results = registry.searchErrors(question);
     if (!results.empty()) {
         std::string answer = fmt::format("I found {} relevant error(s):\n\n", 
                                         results.size());

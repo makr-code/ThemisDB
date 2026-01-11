@@ -130,7 +130,7 @@ private:
     json toolGetErrorInfo(const json& args);
     json toolSearchErrors(const json& args);
     json toolIntrospectDatabase(const json& args);
-    std::string generateErrorAnswer(const std::string& question_lower);
+    std::string generateErrorAnswer(const std::string& question);
 
     // LLM Tool handlers (NEW)
     #ifdef THEMIS_ENABLE_LLM
