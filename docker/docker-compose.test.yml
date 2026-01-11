@@ -1,0 +1,164 @@
+# ============================================================================
+# ThemisDB LoRA Framework - Testing Configuration
+# ============================================================================
+# Minimal configuration for CI/CD testing:
+# - Fast startup times
+# - Ephemeral storage
+# - Automated test execution
+# - Resource limits for CI environments
+#
+# Usage:
+#   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # ThemisDB - Test Configuration
+  # ==========================================================================
+  themisdb:
+    build:
+      args:
+        BUILD_TYPE: RelWithDebInfo  # Optimized but with debug symbols
+        BUILD_TESTS: "ON"
+        BUILD_BENCHMARKS: "OFF"  # Skip benchmarks in CI
+    volumes:
+      # No persistent volumes for testing
+      - type: tmpfs
+        target: /var/lib/themisdb/data
+        tmpfs:
+          size: 1G
+      - type: tmpfs
+        target: /var/lib/themisdb/logs
+        tmpfs:
+          size: 100M
+    environment:
+      - THEMIS_LOG_LEVEL=warn  # Reduce log noise in CI
+      - THEMIS_TEST_MODE=true
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    restart: "no"  # Don't restart in test mode
+
+  # ==========================================================================
+  # Test Database - Test Configuration
+  # ==========================================================================
+  test-db:
+    build:
+      args:
+        BUILD_TYPE: RelWithDebInfo
+        BUILD_TESTS: "ON"
+    volumes:
+      - type: tmpfs
+        target: /var/lib/themisdb/data
+        tmpfs:
+          size: 512M
+    environment:
+      - THEMIS_LOG_LEVEL=warn
+      - THEMIS_TEST_MODE=true
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    restart: "no"
+
+  # ==========================================================================
+  # Prometheus - Minimal Test Configuration
+  # ==========================================================================
+  prometheus:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=1h'  # Minimal retention for tests
+      - '--log.level=warn'
+    volumes:
+      - type: tmpfs
+        target: /prometheus
+        tmpfs:
+          size: 256M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    restart: "no"
+
+  # ==========================================================================
+  # Grafana - Minimal Test Configuration
+  # ==========================================================================
+  grafana:
+    environment:
+      - GF_LOG_LEVEL=warn
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+    volumes:
+      - type: tmpfs
+        target: /var/lib/grafana
+        tmpfs:
+          size: 256M
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    restart: "no"
+
+  # ==========================================================================
+  # Test Runner - Automated Test Execution
+  # ==========================================================================
+  test-runner:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.themisdb
+      args:
+        BUILD_TYPE: RelWithDebInfo
+        BUILD_TESTS: "ON"
+    image: themisdb:test-runner
+    container_name: themisdb-test-runner
+    hostname: test-runner
+    volumes:
+      - ../tests:/app/tests:ro
+      - test-results:/app/test-results
+    environment:
+      - GTEST_OUTPUT=xml:/app/test-results/
+      - THEMIS_TEST_DB_HOST=test-db
+      - THEMIS_TEST_DB_PORT=8529
+    depends_on:
+      - themisdb
+      - test-db
+    networks:
+      - themis-network
+    command: >
+      /bin/bash -c "
+      echo 'Waiting for test database to be ready...';
+      sleep 10;
+      echo 'Running LoRA framework tests...';
+      cd /app/build/tests;
+      ./test_lora_framework --gtest_output=xml:/app/test-results/lora_framework.xml;
+      TEST_EXIT_CODE=\$?;
+      echo 'Tests completed with exit code:' \$TEST_EXIT_CODE;
+      exit \$TEST_EXIT_CODE;
+      "
+    restart: "no"
+
+  # Skip vcpkg-builder in test mode (not needed for CI)
+  vcpkg-builder:
+    deploy:
+      replicas: 0
+
+# ============================================================================
+# Test Volumes
+# ============================================================================
+volumes:
+  test-results:
+    driver: local
