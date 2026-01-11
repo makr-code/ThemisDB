@@ -376,7 +376,7 @@ bool LlamaWrapper::loadLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
-        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no model");
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no_base_model_loaded");
         return false;
     }
     
@@ -851,7 +851,7 @@ bool LlamaWrapper::importLoRA(
     std::lock_guard<std::mutex> lock(mutex_);
     
     if (current_model_id_.empty()) {
-        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no model");
+        errors::logError(errors::ErrorCode::ERR_LORA_NOT_LOADED, "no_base_model_loaded");
         return false;
     }
     
