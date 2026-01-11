@@ -1,0 +1,334 @@
+﻿#pragma once
+
+#include <string>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <string_view>
+#include <optional>
+#include <cstdint>
+
+/**
+ * @file nlp_text_analyzer.h
+ * @brief Natural Language Processing (NLP) text analysis for ThemisDB
+ * 
+ * Provides lightweight, CPU-efficient text analysis capabilities as an alternative
+ * to compute-intensive LLM/SLM approaches. Designed for AQL query optimization,
+ * execution plan generation, and text-based query analysis.
+ * 
+ * Referenced in PR #317 for AQL execution plan orchestration.
+ * 
+ * @note This is NOT a full NLP framework - it provides basic text analysis
+ *       functions optimized for database query processing and optimization.
+ */
+
+namespace themis {
+namespace analytics {
+
+/**
+ * @brief Token information from text analysis
+ */
+struct Token {
+    std::string text;           ///< The token text
+    size_t position;            ///< Position in original text
+    std::string lemma;          ///< Base form of the word
+    std::string pos_tag;        ///< Part-of-speech tag (NOUN, VERB, etc.)
+    
+    Token() = default;
+    Token(std::string t, size_t pos) : text(std::move(t)), position(pos) {}
+};
+
+/**
+ * @brief Named entity extracted from text
+ */
+struct NamedEntity {
+    std::string text;           ///< Entity text
+    std::string type;           ///< Entity type (PERSON, ORG, LOC, etc.)
+    double confidence;          ///< Confidence score [0.0, 1.0]
+    size_t start_pos;           ///< Start position in text
+    size_t end_pos;             ///< End position in text
+    
+    NamedEntity(std::string t, std::string ty, double conf = 1.0)
+        : text(std::move(t)), type(std::move(ty)), confidence(conf) 
+        , start_pos(0), end_pos(0) {}
+};
+
+/**
+ * @brief Keyword with relevance score
+ */
+struct Keyword {
+    std::string text;           ///< Keyword text
+    double score;               ///< TF-IDF or relevance score
+    size_t frequency;           ///< Occurrence count
+    
+    Keyword(std::string t, double s, size_t f = 1)
+        : text(std::move(t)), score(s), frequency(f) {}
+        
+    bool operator<(const Keyword& other) const {
+        return score > other.score; // Higher score first
+    }
+};
+
+/**
+ * @brief Sentiment analysis result
+ */
+struct SentimentResult {
+    enum class Polarity {
+        NEGATIVE,
+        NEUTRAL,
+        POSITIVE
+    };
+    
+    Polarity polarity;          ///< Overall sentiment
+    double score;               ///< Sentiment score [-1.0, 1.0]
+    double confidence;          ///< Confidence in analysis [0.0, 1.0]
+    
+    SentimentResult() : polarity(Polarity::NEUTRAL), score(0.0), confidence(0.5) {}
+};
+
+/**
+ * @brief Text complexity metrics
+ */
+struct ComplexityMetrics {
+    size_t word_count;          ///< Total words
+    size_t sentence_count;      ///< Total sentences
+    size_t unique_words;        ///< Unique word count
+    double avg_word_length;     ///< Average word length
+    double avg_sentence_length; ///< Average sentence length
+    double lexical_diversity;   ///< Unique words / total words
+    size_t complex_words;       ///< Words with 3+ syllables
+    
+    ComplexityMetrics() : word_count(0), sentence_count(0), unique_words(0)
+                       , avg_word_length(0.0), avg_sentence_length(0.0)
+                       , lexical_diversity(0.0), complex_words(0) {}
+};
+
+/**
+ * @brief Lightweight NLP text analyzer for query optimization
+ * 
+ * Provides basic NLP capabilities without heavy dependencies or
+ * compute requirements. Designed for:
+ * - AQL query analysis and optimization
+ * - Execution plan cost estimation
+ * - Text-based query pattern recognition
+ * - Semantic query hints generation
+ * 
+ * @note This class is thread-safe for read operations after initialization.
+ */
+class NlpTextAnalyzer {
+public:
+    /**
+     * @brief Supported languages for analysis
+     */
+    enum class Language {
+        UNKNOWN,
+        GERMAN,     // de
+        ENGLISH,    // en
+        FRENCH,     // fr
+        SPANISH,    // es
+        ITALIAN,    // it
+        DUTCH,      // nl
+    };
+
+    /**
+     * @brief Configuration options for NLP analyzer
+     */
+    struct Config {
+        bool enable_stemming = true;        ///< Enable word stemming
+        bool enable_stopwords = true;       ///< Remove stopwords
+        size_t max_keywords = 10;           ///< Max keywords to extract
+        size_t min_word_length = 3;         ///< Minimum word length
+        Language default_language = Language::ENGLISH;
+        
+        // Stop words configuration
+        std::string stopwords_directory = "config/nlp/stopwords";  ///< Directory for stop word YAML files
+        bool auto_load_stopwords = true;    ///< Auto-load stop words from YAML files
+        
+        Config() = default;
+    };
+
+    /**
+     * @brief Construct NLP analyzer with configuration
+     */
+    explicit NlpTextAnalyzer(const Config& config = Config());
+    
+    ~NlpTextAnalyzer() = default;
+
+    // ========== Core Analysis Functions ==========
+
+    /**
+     * @brief Detect language of text
+     * @param text Input text
+     * @return Detected language
+     */
+    Language detectLanguage(std::string_view text) const;
+
+    /**
+     * @brief Tokenize text into words/tokens
+     * @param text Input text
+     * @return Vector of tokens
+     */
+    std::vector<Token> tokenize(std::string_view text) const;
+
+    /**
+     * @brief Extract keywords using TF-IDF approach
+     * @param text Input text
+     * @param max_keywords Maximum number of keywords (0 = use config)
+     * @return Sorted keywords by relevance
+     */
+    std::vector<Keyword> extractKeywords(std::string_view text, size_t max_keywords = 0) const;
+
+    /**
+     * @brief Extract named entities (person, organization, location)
+     * @param text Input text
+     * @return Vector of named entities
+     */
+    std::vector<NamedEntity> extractEntities(std::string_view text) const;
+
+    /**
+     * @brief Analyze sentiment of text
+     * @param text Input text
+     * @return Sentiment analysis result
+     */
+    SentimentResult analyzeSentiment(std::string_view text) const;
+
+    /**
+     * @brief Calculate text complexity metrics
+     * @param text Input text
+     * @return Complexity metrics
+     */
+    ComplexityMetrics analyzeComplexity(std::string_view text) const;
+
+    // ========== AQL Query Optimization Support ==========
+
+    /**
+     * @brief Estimate query complexity based on text analysis
+     * @param query_text AQL query text
+     * @return Complexity score [0.0, 1.0], higher = more complex
+     */
+    double estimateQueryComplexity(std::string_view query_text) const;
+
+    /**
+     * @brief Extract semantic hints for query optimization
+     * @param query_text AQL query text
+     * @return Map of hint_type -> hint_value
+     */
+    std::map<std::string, std::string> extractQueryHints(std::string_view query_text) const;
+
+    /**
+     * @brief Suggest index usage based on query text patterns
+     * @param query_text AQL query text
+     * @return Vector of suggested index types
+     */
+    std::vector<std::string> suggestIndexes(std::string_view query_text) const;
+
+    /**
+     * @brief Normalize query text for comparison
+     * @param query_text Input query
+     * @return Normalized form
+     */
+    std::string normalizeQuery(std::string_view query_text) const;
+
+    // ========== Utility Functions ==========
+
+    /**
+     * @brief Check if word is a stop word
+     */
+    bool isStopWord(std::string_view word, Language lang = Language::ENGLISH) const;
+
+    /**
+     * @brief Stem a word to its base form
+     */
+    std::string stemWord(std::string_view word, Language lang = Language::ENGLISH) const;
+
+    /**
+     * @brief Calculate similarity between two texts
+     * @param text1 First text
+     * @param text2 Second text
+     * @return Similarity score [0.0, 1.0]
+     */
+    double calculateSimilarity(std::string_view text1, std::string_view text2) const;
+
+    /**
+     * @brief Get statistics about analyzer state
+     */
+    std::map<std::string, size_t> getStatistics() const;
+
+    /**
+     * @brief Load stop words from YAML file for a specific language
+     * @param yaml_path Path to YAML file
+     * @param lang Language code
+     * @return true if loaded successfully
+     */
+    bool loadStopWordsFromYaml(const std::string& yaml_path, Language lang);
+
+    /**
+     * @brief Load all stop word files from directory
+     * @param directory Directory containing YAML files
+     * @return Number of languages loaded
+     */
+    size_t loadStopWordsFromDirectory(const std::string& directory);
+
+private:
+    Config config_;
+    
+    // Stop word dictionaries per language
+    std::unordered_map<Language, std::set<std::string>> stopwords_;
+    
+    // Sentiment lexicons (word -> score)
+    std::unordered_map<std::string, double> sentiment_lexicon_;
+    
+    // Named entity patterns (simple regex-based)
+    struct EntityPattern {
+        std::string pattern;
+        std::string type;
+    };
+    std::vector<EntityPattern> entity_patterns_;
+
+    // Statistics
+    mutable size_t analysis_count_ = 0;
+    mutable size_t token_count_ = 0;
+
+    // ========== Private Helper Methods ==========
+    
+    void initializeStopWords();
+    void initializeSentimentLexicon();
+    void initializeEntityPatterns();
+    
+    std::vector<std::string> splitSentences(std::string_view text) const;
+    std::string toLowerCase(std::string_view text) const;
+    std::string removePunctuation(std::string_view text) const;
+    
+    double calculateTfIdf(const std::string& term,
+                         const std::map<std::string, size_t>& term_freqs,
+                         size_t total_terms) const;
+    
+    bool isCapitalized(std::string_view word) const;
+    bool isAllCaps(std::string_view word) const;
+    size_t countSyllables(std::string_view word) const;
+    
+    // Query-specific helpers
+    bool containsAggregation(std::string_view query) const;
+    bool containsJoin(std::string_view query) const;
+    bool containsSubquery(std::string_view query) const;
+    std::vector<std::string> extractTableNames(std::string_view query) const;
+};
+
+/**
+ * @brief Helper function to convert language enum to string
+ */
+inline std::string_view languageToString(NlpTextAnalyzer::Language lang) {
+    switch (lang) {
+        case NlpTextAnalyzer::Language::GERMAN:  return "de";
+        case NlpTextAnalyzer::Language::ENGLISH: return "en";
+        case NlpTextAnalyzer::Language::FRENCH:  return "fr";
+        case NlpTextAnalyzer::Language::SPANISH: return "es";
+        case NlpTextAnalyzer::Language::ITALIAN: return "it";
+        case NlpTextAnalyzer::Language::DUTCH:   return "nl";
+        default: return "unknown";
+    }
+}
+
+} // namespace analytics
+} // namespace themis

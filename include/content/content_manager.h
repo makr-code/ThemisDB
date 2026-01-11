@@ -172,6 +172,38 @@ public:
     Status importContent(const json& spec, const std::optional<std::string>& blob = std::nullopt, const std::string& user_context = "");
 
     /**
+     * @brief Ingest raw blob with automatic processor selection and archive handling
+     * 
+     * High-level API that:
+     * 1. Detects content type from blob/MIME type/filename
+     * 2. For archives: Extracts contents, ingests each file, creates graph relationships
+     * 3. For other types: Uses appropriate processor
+     * 4. Returns content ID(s) of ingested content
+     * 
+     * @param blob Binary content data
+     * @param filename Original filename (used for type detection)
+     * @param mime_type Optional MIME type override
+     * @param user_context User context for encryption/authorization
+     * @param config Optional JSON configuration (archive strategy, etc.)
+     * @return Status with message and JSON result containing content_id(s)
+     */
+    struct IngestResult {
+        bool success;
+        std::string error_message;
+        std::string primary_content_id;  // Main content ID (archive or single file)
+        std::vector<std::string> extracted_content_ids;  // IDs of extracted files (for archives)
+        json metadata;  // Additional metadata about the ingestion
+    };
+    
+    IngestResult ingestRawBlob(
+        const std::string& blob,
+        const std::string& filename,
+        const std::string& mime_type = "",
+        const std::string& user_context = "",
+        const json& config = json::object()
+    );
+
+    /**
      * @brief Get content metadata
      * 
      * @param content_id Content UUID (with or without "content:" prefix)

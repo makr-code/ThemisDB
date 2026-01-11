@@ -19,6 +19,38 @@
 
 ## 🚧 [Unreleased]
 
+### Added
+
+<details open>
+<summary><b>🔍 AI-Explained Error Handling System</b> (Phase 7: Error Awareness)</summary>
+
+- 🎯 **Structured Error Codes** - 1000-9999 organized by category (Storage, LLM, LoRA, MCP, Schema, Network)
+- 📋 **Error Registry** - 20+ predefined errors with rich metadata (cause, solution, documentation links, keywords)
+- 🤖 **MCP Tools Integration** - Three new tools for error introspection:
+  - `get_error_info` - Lookup by error code or keyword search
+  - `search_errors` - Filter by category or full-text search
+  - `introspect_database` - Natural language interface (EN/DE)
+- 🌐 **Natural Language Queries** - "What errors can occur?", "What does error 2000 mean?", "How do I fix GPU OOM?"
+- 🔎 **Case-Insensitive Search** - Zero-copy algorithm for efficient error lookup
+- 🛠️ **REST API Handlers** - Ready-to-integrate endpoints for `/api/v1/errors`
+- 🧪 **Test Suite** - 15+ comprehensive test cases for all functionality
+- 📚 **Documentation** - Implementation based on `docs/research/ERROR_AWARENESS_AND_INTROSPECTION.md`
+
+**Key Components:**
+- `include/utils/error_registry.h` & `src/utils/error_registry.cpp` - Error registry with singleton pattern
+- `include/utils/string_utils.h` - Reusable case-insensitive string utilities
+- `include/server/error_api_handler.h` & `src/server/error_api_handler.cpp` - REST API handlers
+- `tests/test_error_registry.cpp` - Comprehensive test coverage
+- MCP integration in `src/server/mcp_server.cpp` - Auto-registers when `THEMIS_ENABLE_MCP=ON`
+
+**Benefits:**
+- ✅ Self-service error resolution through AI-powered explanations
+- ✅ Reduced support burden with detailed error documentation
+- ✅ Improved developer experience with contextual error guidance
+- ✅ Multilingual support (English and German)
+
+</details>
+
 ### Changed
 - README: Neuer Abschnitt "Release & Publication Policy" inkl. Branch-Scope (`main` nur Minimal/Community, `develop` voll) und Merge-Schutz-Hinweis.
 - `.gitignore`: Explizite Ausschlüsse ergänzt für `llama.cpp/`, `wordpress-plugin/`, `wordpress-theme/`, `epServer/`.

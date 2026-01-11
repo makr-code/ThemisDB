@@ -27,6 +27,7 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | [💻 Development Workflow](#-development-workflow) | Branching and committing |
 | [✅ Code Quality Standards](#-code-quality-standards) | Enforced quality checks |
 | [🔄 Pull Request Process](#-pull-request-process) | Submitting changes |
+| [🏷️ Issue Labels](#️-issue-labels) | GitHub label system |
 | [🐛 Reporting Bugs](#-reporting-bugs) | Bug report guidelines |
 | [💡 Feature Requests](#-feature-requests) | Suggesting enhancements |
 | [📦 Package Maintenance](#-package-maintenance) | Platform packaging |
@@ -831,7 +832,62 @@ Describe the tests you ran to verify your changes.
 
 4. **Merge**:
    - Once approved and all checks pass
-   - Maintainer will merge (squash or merge commit)
+   - Maintainer will **squash and merge** (preferred for feature/bugfix PRs to keep history clean)
+   - Merge commits are only used for release and hotfix branches
+
+### Merge Strategy Guidelines
+
+> [!IMPORTANT]
+> **ThemisDB uses different merge strategies depending on the branch type:**
+
+| Branch Type | Merge Method | Reason |
+|------------|--------------|---------|
+| **feature/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per feature |
+| **bugfix/** → develop | **Squash and merge** ✅ | Keeps develop history clean, one commit per fix |
+| **release/** → main | **Merge commit** | Preserves full release history and commit metadata |
+| **hotfix/** → main | **Merge commit** | Preserves full hotfix history for audit purposes |
+
+**Why squash merge for features/bugfixes?**
+- ✅ Cleaner, more readable git history
+- ✅ One logical commit per feature/fix
+- ✅ Easier to revert if needed
+- ✅ Better changelog generation
+- ❌ Development commits (WIP, fix typo, etc.) stay in feature branch
+
+**Configuring GitHub Repository Settings:**
+
+Maintainers should configure the repository settings on GitHub to enforce this:
+1. Go to Settings → General → Pull Requests
+2. Enable "Allow squash merging" ✅
+3. Enable "Allow merge commits" ✅ (needed for releases)
+4. Disable "Allow rebase merging" ❌ (optional)
+5. Set "Squash merging" as the default for the repository
+
+## 🏷️ Issue Labels
+
+ThemisDB uses a comprehensive labeling system to categorize and organize issues and pull requests.
+
+**Quick Reference:**
+
+| Label Category | Purpose | Examples |
+|----------------|---------|----------|
+| **Priority** | Urgency level | `priority:P0` (critical), `priority:P1` (high) |
+| **Type** | Issue nature | `type:bug`, `type:feature`, `type:enhancement` |
+| **Area** | Component affected | `area:llm`, `area:storage`, `area:api` |
+| **Status** | Current state | `status:ready`, `status:in-progress` |
+| **Effort** | Work required | `effort:small` (<1 day), `effort:large` (1-2 weeks) |
+| **Experience** | Contributor level | `good first issue`, `help wanted` |
+
+**For issue reporters:** Don't worry about adding labels - maintainers will add appropriate labels during triage.
+
+**For contributors:** Look for `good first issue` labels if you're new to the project.
+
+**Complete documentation:**
+- **Full Guide:** [.github/LABELS_GUIDE.md](.github/LABELS_GUIDE.md) (English & German)
+- **Quick Reference:** [.github/LABELS_QUICK_REF.md](.github/LABELS_QUICK_REF.md)
+- **Label Definitions:** [.github/labels.yml](.github/labels.yml)
+
+---
 
 ## Reporting Bugs
 

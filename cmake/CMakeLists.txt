@@ -65,13 +65,21 @@ if(NOT CURL_FOUND)
 endif()
 
 # Office document support (DOCX/XLSX/PPTX)
-# Requires libzip (for ZIP archive handling) and pugixml (for XML parsing)
+# Find libzip (needed for both Office and Archive processing)
+find_package(libzip CONFIG)
+if(NOT libzip_FOUND)
+    find_package(libzip)
+endif()
+
+if(libzip_FOUND)
+    message(STATUS "libzip found - Archive processing available")
+else()
+    message(WARNING "libzip not found - Install with: vcpkg install libzip")
+    message(WARNING "Archive processing will not be available")
+endif()
+
+# Office support requires both libzip and pugixml
 if(THEMIS_ENABLE_OFFICE)
-    find_package(libzip CONFIG)
-    if(NOT libzip_FOUND)
-        find_package(libzip)
-    endif()
-    
     find_package(pugixml CONFIG)
     if(NOT pugixml_FOUND)
         find_package(pugixml)
@@ -81,9 +89,6 @@ if(THEMIS_ENABLE_OFFICE)
         message(STATUS "Office support enabled - libzip and pugixml found")
         add_compile_definitions(THEMIS_ENABLE_OFFICE)
     else()
-        if(NOT libzip_FOUND)
-            message(WARNING "libzip not found - Install with: vcpkg install libzip")
-        endif()
         if(NOT pugixml_FOUND)
             message(WARNING "pugixml not found - Install with: vcpkg install pugixml")
         endif()
@@ -1041,6 +1046,8 @@ set(THEMIS_CORE_SOURCES
     ../src/content/content_fs.cpp
     ../src/content/version_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:../src/content/office_processor.cpp>
+    ../src/content/archive_processor.cpp  # Archive processing (uses libzip, always available)
+    ../src/content/async_ingestion_worker.cpp  # Async ingestion for development/showcase
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
@@ -1087,6 +1094,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/http_client_pool.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/error_registry.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
@@ -1194,6 +1202,7 @@ set(THEMIS_CORE_SOURCES
     # OLAP Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
+    ../src/analytics/nlp_text_analyzer.cpp
 )
 
 # Phase 2 Performance Optimizations (PR #156/#157)
@@ -1482,8 +1491,8 @@ target_link_libraries(themis_core
     TBB::tbb
 )
 
-# Link Office document libraries (libzip and pugixml) if enabled
-if(THEMIS_ENABLE_OFFICE)
+# Link libzip (for archive and office processing)
+if(libzip_FOUND)
     # libzip may export as libzip::zip or libzip::libzip depending on version
     if(TARGET libzip::zip)
         target_link_libraries(themis_core PUBLIC libzip::zip)
@@ -1492,7 +1501,10 @@ if(THEMIS_ENABLE_OFFICE)
     else()
         message(WARNING "libzip target not found - please check libzip installation")
     endif()
-    
+endif()
+
+# Link pugixml (for office processing) if enabled
+if(THEMIS_ENABLE_OFFICE AND pugixml_FOUND)
     # pugixml should export as pugixml::pugixml or pugixml::static
     if(TARGET pugixml::pugixml)
         target_link_libraries(themis_core PUBLIC pugixml::pugixml)
@@ -1996,6 +2008,8 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_cte_cache.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_aql_translator.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_text_processor.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_nlp_integration.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_nlp_metadata_extractor.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_prompt_manager.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_mock_clip.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_interface.cpp

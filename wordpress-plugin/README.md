@@ -40,6 +40,23 @@ Interaktive Graph-Pattern-Visualisierung mit Options-Overlay für Filterung, Suc
 - [Deutsche Dokumentation](graph-pattern-wordpress/README_DE.md)
 - [Changelog](graph-pattern-wordpress/CHANGELOG.md)
 
+### 5. ThemisDB Formula Renderer ⭐ NEU
+Mathematische Formeln in LaTeX-Notation automatisch in schön dargestellte Formeln umwandeln. Nutzt KaTeX für schnelles und präzises Rendering.
+
+**Hauptfunktionen:**
+- 🧮 LaTeX-Formel-Rendering mit KaTeX
+- 📝 Inline-Formeln (`$E = mc^2$`) und Block-Formeln (`$$...$$`)
+- ⚡ Schnelles Client-seitiges Rendering
+- 🎨 Responsive Design mit Dark Mode
+- 📋 Multiple Shortcodes: `[formula]`, `[latex]`, `[math]`
+- ⚙️ Anpassbare Delimiters und Einstellungen
+- 📱 Kompatibel mit Gutenberg und Classic Editor
+
+**Dokumentation:**
+- [README](themisdb-formula-renderer/README.md)
+- [Installation](themisdb-formula-renderer/INSTALLATION.md)
+- [Changelog](themisdb-formula-renderer/CHANGELOG.md)
+
 ---
 
 ## ThemisDB Downloads Plugin
