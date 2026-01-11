@@ -1,6 +1,6 @@
 #pragma once
 
-#include "content/content_plugin_interface.h"
+#include "content/content_processor.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -79,10 +79,32 @@ struct ExtractionResult {
 };
 
 /**
- * @brief Archive Processor Plugin
+ * @brief Archive Processor Configuration
+ */
+struct ArchiveProcessorConfig {
+    ArchiveStrategy strategy = ArchiveStrategy::EXTRACT_AND_INGEST;
+    EncryptedArchivePolicy encrypted_policy = EncryptedArchivePolicy::REJECT;
+    
+    // Security limits
+    uint64_t max_total_size = 1024ULL * 1024 * 1024 * 10;  // 10 GB max total extracted size
+    uint64_t max_file_size = 1024ULL * 1024 * 1024;        // 1 GB max single file size
+    uint64_t max_compression_ratio = 100;                  // Max 100:1 compression ratio (zip bomb protection)
+    size_t max_file_count = 10000;                         // Max 10,000 files in archive
+    size_t max_path_depth = 20;                            // Max 20 levels of directory nesting
+    size_t max_path_length = 4096;                         // Max 4096 characters in path
+    
+    // Password for encrypted archives (if REQUIRE_PASSWORD policy)
+    std::string password;
+    
+    // Enable verbose logging
+    bool verbose = false;
+};
+
+/**
+ * @brief Archive Content Processor
  * 
- * Implements ThemisDB plugin interface for archive processing.
  * Handles compressed archive formats (.zip, .tar, .tar.gz, etc.)
+ * Supports extraction and ingestion of archive contents with configurable strategies.
  * 
  * Security Features:
  * - Zip bomb detection (compression ratio check)
@@ -90,59 +112,78 @@ struct ExtractionResult {
  * - Encrypted archive handling
  * - Size limit enforcement
  * 
- * Plugin Lifecycle:
- * 1. Load: themis_create_plugin()
- * 2. Init: initialize(config)
- * 3. Use: extract(), chunk()
- * 4. Shutdown: shutdown()
- * 5. Unload: themis_destroy_plugin()
+ * Thread-Safety: Not thread-safe. Use separate instances per thread.
  */
-class ArchiveProcessorPlugin : public IContentProcessorPlugin {
+class ArchiveProcessor : public IContentProcessor {
 public:
-    ArchiveProcessorPlugin();
-    ~ArchiveProcessorPlugin() override = default;
+    explicit ArchiveProcessor(ArchiveProcessorConfig config = ArchiveProcessorConfig{});
+    ~ArchiveProcessor() override = default;
 
-    // IContentProcessorPlugin interface
-    PluginInfo getInfo() const override;
-    bool initialize(const PluginConfig& config) override;
-    void shutdown() override;
-    bool canProcess(const std::string& mime_type) const override;
-    
-    ContentExtractionResult extract(
-        const std::vector<uint8_t>& blob,
+    // IContentProcessor interface
+    std::string getName() const override { return "ArchiveProcessor"; }
+    ContentCategory getCategory() const override { return ContentCategory::ARCHIVE; }
+    bool canHandle(const std::string& mime_type) const override;
+    ContentProcessorResult process(
+        const std::string& blob,
         const std::string& mime_type,
-        const ExtractionOptions& options = {}
+        const std::string& filename
     ) override;
-    
-    std::vector<ContentChunk> chunk(
-        const ContentExtractionResult& result,
-        int max_tokens,
-        int overlap
-    ) override;
-    
-    bool healthCheck() const override;
-    json getStatistics() const override;
+
+    /**
+     * @brief Check if archive processing is available
+     * 
+     * Returns true if libzip is available and the processor can function.
+     * For plugin architecture - allows runtime detection of capability.
+     */
+    static bool isAvailable() {
+        #ifdef THEMIS_ENABLE_ARCHIVES
+        return true;
+        #else
+        return true;  // libzip is in dependencies, always available for now
+        #endif
+    }
 
     /**
      * @brief Detect archive format from blob
      */
-    static ArchiveFormat detectFormat(const std::vector<uint8_t>& blob, const std::string& filename);
+    static ArchiveFormat detectFormat(const std::string& blob, const std::string& filename);
     
     /**
      * @brief Extract archive metadata without full extraction
      */
     static std::optional<ArchiveMetadata> extractMetadata(
-        const std::vector<uint8_t>& blob,
+        const std::string& blob,
         ArchiveFormat format
     );
 
     /**
      * @brief Check if archive is encrypted
      */
-    static bool isEncrypted(const std::vector<uint8_t>& blob, ArchiveFormat format);
+    static bool isEncrypted(const std::string& blob, ArchiveFormat format);
+
+    /**
+     * @brief Extract archive to temporary directory
+     * 
+     * @param blob Archive binary data
+     * @param format Archive format
+     * @param password Optional password for encrypted archives
+     * @return ExtractionResult with extracted file paths or error
+     */
+    ExtractionResult extractToTemp(
+        const std::string& blob,
+        ArchiveFormat format,
+        const std::string& password = ""
+    );
+
+    /**
+     * @brief Validate archive against security limits
+     */
+    bool validateArchive(const ArchiveMetadata& metadata, std::string& error_message) const;
 
     /**
      * @brief Sanitize file path to prevent path traversal attacks
+     * 
+     * Removes ".." components and ensures path is relative
      */
     static std::string sanitizePath(const std::string& path);
 
@@ -151,35 +192,26 @@ public:
      */
     static void cleanupTempDirectory(const std::string& temp_dir);
 
+    /**
+     * @brief Get configuration
+     */
+    const ArchiveProcessorConfig& getConfig() const { return config_; }
+
+    /**
+     * @brief Update configuration
+     */
+    void setConfig(ArchiveProcessorConfig config) { config_ = std::move(config); }
+
 private:
-    // Configuration (loaded from plugin config)
-    ArchiveStrategy strategy_;
-    EncryptedArchivePolicy encrypted_policy_;
-    uint64_t max_total_size_;
-    uint64_t max_file_size_;
-    uint64_t max_compression_ratio_;
-    size_t max_file_count_;
-    size_t max_path_depth_;
-    size_t max_path_length_;
-    std::string password_;
-    bool verbose_;
+    ArchiveProcessorConfig config_;
     
-    // Statistics
-    std::atomic<uint64_t> archives_processed_;
-    std::atomic<uint64_t> files_extracted_;
-    std::atomic<uint64_t> total_bytes_processed_;
-    std::atomic<uint64_t> errors_count_;
+    // Format-specific extraction methods
+    ExtractionResult extractZip(const std::string& blob, const std::string& password);
+    ExtractionResult extractTar(const std::string& blob, ArchiveFormat format);
     
-    // Extraction methods
-    ExtractionResult extractZip(const std::vector<uint8_t>& blob, const std::string& password);
-    ExtractionResult extractTar(const std::vector<uint8_t>& blob, ArchiveFormat format);
-    
-    // Validation
-    bool validateArchive(const ArchiveMetadata& metadata, std::string& error_message) const;
-    bool checkCompressionRatio(uint64_t compressed, uint64_t uncompressed) const;
-    
-    // Helpers
+    // Helper methods
     std::string generateTempDirectory() const;
+    bool checkCompressionRatio(uint64_t compressed, uint64_t uncompressed) const;
 };
 
 } // namespace content
