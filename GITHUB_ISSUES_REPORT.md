@@ -8,15 +8,15 @@
 
 ## 📊 Executive Summary
 
-Successfully analyzed the entire ThemisDB codebase and documentation to identify gaps, TODOs, and stub implementations, then created **5 verified, high-quality GitHub issues** ready for filing.
+Successfully analyzed the entire ThemisDB codebase and documentation using **systematic core-to-plugins search** to identify gaps, TODOs, and stub implementations, then created **7 verified, high-quality GitHub issues** ready for filing.
 
 ### Key Achievements
 
-✅ **Comprehensive Analysis**:
+✅ **Comprehensive Systematic Analysis**:
 - Analyzed **1,112 documentation files**
-- Found **162 TODO/FIXME/HACK** comments in source code
-- Found **33 STUB/MOCK** implementations
-- Categorized by component (LLM, Security, RPC, Storage, etc.)
+- Found **206 TODO/FIXME/HACK/STUB** markers (improved from initial 195)
+- Systematic search from core → plugins → include → tests
+- Categorized by 16 component categories
 
 ✅ **Verification Process**:
 - **Every issue verified** before creation
@@ -159,6 +159,47 @@ Line 128: spdlog::info("Metrics Server started (STUB)");
 
 ---
 
+### Issue #006: Process Mining Features
+**File**: `.github/issues/006-process-mining-features.md`  
+**Priority**: MEDIUM | **Effort**: 3-4 weeks
+
+**Problem**: 8 TODO markers in process_graph.cpp for critical process mining features
+
+**Verification**:
+```cpp
+// src/index/process_graph.cpp (verified TODOs)
+Line 709:  // TODO: Implement condition evaluation
+Line 832:  // TODO: Implement event handling for message/signal catching events
+Line 841:  // TODO: Implement task assignment queries
+Line 852:  // TODO: Implement node history queries using temporal indices
+Line 861:  // TODO: Implement process metrics aggregation
+Line 868:  // TODO: Implement critical path analysis
+Line 876:  // TODO: Implement hyperedge status retrieval
+Line 883:  // TODO: Implement hyperedge readiness check
+```
+
+**Impact**: Blocks business process analysis capabilities
+
+**Features**: Condition evaluation, event handling, task queries, history, metrics, critical path, hyperedge operations
+
+---
+
+### Issue #007: Task Scheduler Implementation
+**File**: `.github/issues/007-task-scheduler-todos.md`  
+**Priority**: MEDIUM | **Effort**: 2-3 weeks
+
+**Problem**: 16 TODO markers in task_scheduler.cpp for incomplete scheduler features
+
+**Verification**:
+```cpp
+// src/scheduler/task_scheduler.cpp
+16 TODO markers for task management, scheduling, execution, resource allocation
+```
+
+**Impact**: Affects async task execution, background jobs, distributed work coordination
+
+---
+
 ## 📈 Analysis Statistics
 
 ### Source Code Analysis
@@ -186,8 +227,8 @@ Line 128: spdlog::info("Metrics Server started (STUB)");
 | Priority | Count | Effort | Components |
 |----------|-------|--------|------------|
 | HIGH | 3 | 7-11 weeks | Self-Awareness, RPC, Security |
-| MEDIUM | 2 | 2-4 weeks | LLM, Observability |
-| **TOTAL** | **5** | **9-15 weeks** | |
+| MEDIUM | 4 | 8-13 weeks | LLM, Observability, Process Mining, Scheduler |
+| **TOTAL** | **7** | **15-24 weeks** | |
 
 ---
 
@@ -369,8 +410,14 @@ curl -X POST \
 | Category | Items Found | Issues Created | Coverage |
 |----------|-------------|----------------|----------|
 | High-Priority Gaps | 11 | 3 | 100% |
-| Medium-Priority Gaps | ~50 | 2 | Selected |
+| Medium-Priority Gaps | ~50 | 4 | Selected |
 | Documentation Gaps | ~30 | 0 | Future work |
+
+**Updated Statistics** (Systematic Search):
+- **Total Markers Found**: 206 (up from 195)
+- **Core Components**: Analyzed systematically
+- **Issues Created**: 7 (up from 5)
+- **Remaining for Future**: ~199 lower-priority items
 
 ---
 

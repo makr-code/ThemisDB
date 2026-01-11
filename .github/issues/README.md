@@ -19,18 +19,21 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 ### By Priority
 - **CRITICAL**: 0 issues (Apache Ranger already implemented, skipped)
 - **HIGH**: 3 issues (Self-awareness, RPC implementation, Security stubs)
-- **MEDIUM**: 2 issues (LLM features, Metrics)
+- **MEDIUM**: 4 issues (LLM features, Metrics, Process Mining, Scheduler)
 
 ### By Component
 - **Self-Awareness / Agentic AI**: 1 issue
 - **RPC / Distribution**: 1 issue
 - **Security / Enterprise**: 1 issue
 - **LLM Integration**: 2 issues
+- **Process Mining / Analytics**: 1 issue
+- **Scheduler / Task Management**: 1 issue
 
 ### Status
 - ✅ **All issues verified** - features confirmed as missing before issue creation
 - ✅ **No duplicate issues** - each represents unique gap
 - ✅ **All issues actionable** - include implementation details, tasks, timelines
+- ✅ **Comprehensive search** - Systematic core-to-plugins analysis found **206 markers** (was 195)
 
 ---
 
@@ -177,6 +180,26 @@ curl -X POST \
   -d @001-schema-manager-self-awareness.md \
   https://api.github.com/repos/makr-code/ThemisDB/issues
 ```
+
+---
+
+### 006: Process Mining Features
+**Priority**: MEDIUM | **Effort**: 3-4 weeks | **Component**: Process Mining/Analytics
+
+Implement 8 missing process mining features: condition evaluation, event handling, task assignment queries, node history, process metrics, critical path analysis, and hyperedge operations.
+
+**Source**:
+- `src/index/process_graph.cpp` (8 TODOs verified at lines 709, 832, 841, 852, 861, 868, 876, 883)
+
+---
+
+### 007: Task Scheduler Implementation
+**Priority**: MEDIUM | **Effort**: 2-3 weeks | **Component**: Scheduler
+
+Complete task scheduler with 16 missing features for task management, scheduling, execution, and resource allocation.
+
+**Source**:
+- `src/scheduler/task_scheduler.cpp` (16 TODOs verified)
 
 ---
 
