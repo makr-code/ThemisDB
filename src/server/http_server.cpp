@@ -97,6 +97,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/auth_middleware.h"
 #include "server/ranger_adapter.h"
 #include "server/pii_api_handler.h"
+#include "server/feedback_api_handler.h"
+#include "llm/lora_framework/lora_feedback_storage.h"
+#include "llm/lora_framework/feedback_plugin.h"
+#include "llm/lora_framework/lora_training_config.h"
 
 #ifdef THEMIS_ENABLE_HTTP2
 #include "server/http2_session.h"
@@ -605,6 +609,58 @@ HttpServer::HttpServer(
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to initialize Update Checker: {}", e.what());
         }
+    }
+    
+    // Initialize Feedback API Handler
+    try {
+        using namespace llm::lora;
+        
+        // Create feedback storage service
+        FeedbackStorageService::Config feedback_config;
+        feedback_config.db = storage_;
+        if (graph_index_) {
+            feedback_config.graph_index = graph_index_;
+        }
+        feedback_config.collection_name = "help_feedback";
+        feedback_config.enable_graph_links = true;
+        
+        auto feedback_storage = std::make_shared<FeedbackStorageService>(feedback_config);
+        
+        // Register default plugins
+        feedback_storage->registerPlugin(std::make_shared<BaseFeedbackPlugin>());
+        feedback_storage->registerPlugin(std::make_shared<PrivacyFilterPlugin>());
+        feedback_storage->registerPlugin(std::make_shared<ContentValidationPlugin>());
+        
+        // Try to load YAML configuration and register configured plugins
+        try {
+            auto training_config = LoRATrainingConfig::loadFromFile("config/lora_training_config.yaml");
+            
+            // Register cache weighting plugin from config
+            auto cache_plugin = training_config.createCacheWeightingPlugin("themis_help_lora");
+            feedback_storage->registerPlugin(cache_plugin);
+            
+            // Register training trigger plugin from config
+            auto trigger_plugin = training_config.createTrainingTriggerPlugin("themis_help_lora");
+            feedback_storage->registerPlugin(trigger_plugin);
+            
+            THEMIS_INFO("Feedback system initialized with YAML configuration");
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to load YAML configuration, using defaults: {}", e.what());
+            
+            // Fall back to default plugins
+            TrainingTriggerPlugin::Config trigger_config;
+            trigger_config.min_batch_size = 50;
+            trigger_config.max_batch_size = 200;
+            feedback_storage->registerPlugin(std::make_shared<TrainingTriggerPlugin>(trigger_config));
+            
+            CacheAwareWeightingPlugin::Config cache_config;
+            feedback_storage->registerPlugin(std::make_shared<CacheAwareWeightingPlugin>(cache_config));
+        }
+        
+        feedback_api_handler_ = std::make_unique<server::FeedbackAPIHandler>(feedback_storage);
+        THEMIS_INFO("Feedback API Handler initialized");
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Failed to initialize Feedback API Handler: {}", e.what());
     }
 
     // Initialize Policy Engine (Governance)
@@ -1153,6 +1209,15 @@ namespace {
     UpdateConfigGet,
     UpdateConfigPut,
        
+    // Feedback API
+    FeedbackPost,              // POST /api/feedback
+    FeedbackGet,               // GET /api/feedback
+    FeedbackGetById,           // GET /api/feedback/{id}
+    FeedbackPut,               // PUT /api/feedback/{id}
+    FeedbackDelete,            // DELETE /api/feedback/{id}
+    FeedbackAdapterGet,        // GET /api/feedback/adapter/{adapter_id}
+    FeedbackStatsGet,          // GET /api/feedback/stats
+       
     // G5: Spatial Index Management
     SpatialIndexCreatePost,
     SpatialIndexRebuildPost,
@@ -1292,6 +1357,27 @@ namespace {
     if (path_only == "/api/updates/check" && method == http::verb::post) return Route::UpdateCheckPost;
     if (path_only == "/api/updates/config" && method == http::verb::get) return Route::UpdateConfigGet;
     if (path_only == "/api/updates/config" && method == http::verb::put) return Route::UpdateConfigPut;
+    
+    // Feedback API routes
+    if (path_only == "/api/feedback/stats" && method == http::verb::get) return Route::FeedbackStatsGet;
+    if (path_only == "/api/feedback" && method == http::verb::post) return Route::FeedbackPost;
+    if (path_only == "/api/feedback" && method == http::verb::get) return Route::FeedbackGet;
+    
+    // Pattern: /api/feedback/adapter/{adapter_id} or /api/feedback/{id}
+    if (path_only.rfind("/api/feedback/", 0) == 0 && path_only != "/api/feedback/stats") {
+        std::string suffix = path_only.substr(14); // Length of "/api/feedback/"
+        
+        if (suffix.rfind("adapter/", 0) == 0) {
+            // /api/feedback/adapter/{adapter_id}
+            if (method == http::verb::get) return Route::FeedbackAdapterGet;
+        } else if (!suffix.empty() && suffix.find('/') == std::string::npos) {
+            // /api/feedback/{id}
+            if (method == http::verb::get) return Route::FeedbackGetById;
+            if (method == http::verb::put) return Route::FeedbackPut;
+            if (method == http::verb::delete_) return Route::FeedbackDelete;
+        }
+    }
+    
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
@@ -1694,6 +1780,99 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "Update checker not enabled", req);
             }
             break;
+            
+        // Feedback API routes
+        case Route::FeedbackPost:
+            if (feedback_api_handler_) {
+                response = feedback_api_handler_->handleCreateFeedback(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+            
+        case Route::FeedbackGet:
+            if (feedback_api_handler_) {
+                response = feedback_api_handler_->handleListFeedback(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+            
+        case Route::FeedbackGetById: {
+            if (feedback_api_handler_) {
+                std::string path(req.target());
+                std::string id = path.substr(14); // Remove "/api/feedback/"
+                size_t query_pos = id.find('?');
+                if (query_pos != std::string::npos) {
+                    id = id.substr(0, query_pos);
+                }
+                response = feedback_api_handler_->handleGetFeedback(req, id);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+        }
+        
+        case Route::FeedbackPut: {
+            if (feedback_api_handler_) {
+                std::string path(req.target());
+                std::string id = path.substr(14); // Remove "/api/feedback/"
+                size_t query_pos = id.find('?');
+                if (query_pos != std::string::npos) {
+                    id = id.substr(0, query_pos);
+                }
+                response = feedback_api_handler_->handleUpdateFeedback(req, id);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+        }
+        
+        case Route::FeedbackDelete: {
+            if (feedback_api_handler_) {
+                std::string path(req.target());
+                std::string id = path.substr(14); // Remove "/api/feedback/"
+                size_t query_pos = id.find('?');
+                if (query_pos != std::string::npos) {
+                    id = id.substr(0, query_pos);
+                }
+                response = feedback_api_handler_->handleDeleteFeedback(req, id);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+        }
+        
+        case Route::FeedbackAdapterGet: {
+            if (feedback_api_handler_) {
+                std::string path(req.target());
+                std::string adapter_id = path.substr(22); // Remove "/api/feedback/adapter/"
+                size_t query_pos = adapter_id.find('?');
+                if (query_pos != std::string::npos) {
+                    adapter_id = adapter_id.substr(0, query_pos);
+                }
+                response = feedback_api_handler_->handleGetAdapterFeedback(req, adapter_id);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+        }
+        
+        case Route::FeedbackStatsGet:
+            if (feedback_api_handler_) {
+                response = feedback_api_handler_->handleGetStatistics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "Feedback API not available", req);
+            }
+            break;
+            
         case Route::TransactionPost:
             response = handleTransaction(req);
             break;

@@ -1036,6 +1036,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp
+    ../src/server/feedback_api_handler.cpp
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1781,6 +1782,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
         ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
         ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
+        ../src/llm/lora_framework/feedback_plugin.cpp         # Feedback plugin system
+        ../src/llm/lora_framework/lora_feedback_storage.cpp   # Feedback storage service
+        ../src/llm/lora_framework/lora_training_config.cpp    # YAML training configuration
         
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
@@ -2095,6 +2099,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
         $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_feedback.cpp>  # LoRA Feedback System tests
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
