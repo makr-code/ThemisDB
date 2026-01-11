@@ -16,7 +16,6 @@
     "grpc",
     "curl",
     "openssl",
-    "yaml-cpp",
     "zlib",
     "zstd",
     "lz4",
