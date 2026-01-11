@@ -1767,6 +1767,15 @@ if(THEMIS_ENABLE_LLM)
         # v1.3.1: Cache Reuse Integration (Phase 2)
         ../src/llm/model_metadata_cache.cpp  # Model metadata caching with ConcurrentCache
         ../src/llm/lora_metadata_cache.cpp   # LoRA metadata caching with ConcurrentCache
+        
+        # LoRA Adapter Framework (Issue #319)
+        ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
+        ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
+        ../src/llm/lora_framework/lora_storage_service.cpp    # BaseEntity storage integration
+        ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend
+        ../src/llm/lora_framework/lora_training_service.cpp   # Training pipeline
+        ../src/llm/lora_framework/lora_audit_logger.cpp       # Audit logging
+        
         ../src/llm/paged_block_manager.cpp   # Block management for PagedAttention (v1.4.0 prep)
         ../src/llm/kv_cache_buffer.cpp       # KV cache batching with VectorAutoBuffer (Phase 2.2)
         ../src/llm/llm_response_cache.cpp    # Response caching with SemanticCache (Phase 2.3)
@@ -1833,6 +1842,11 @@ if(THEMIS_ENABLE_LLM)
     message(STATUS "LLM Plugin: Source files added to themis_core")
     message(STATUS "  - Ollama-style lazy model loading enabled")
     message(STATUS "  - vLLM-style multi-LoRA management enabled")
+    message(STATUS "  - LoRA Adapter Framework enabled (Issue #319)")
+    message(STATUS "    * Full CRUD operations with BaseEntity storage")
+    message(STATUS "    * Enterprise security (AES-256-GCM + Ed25519)")
+    message(STATUS "    * Async job management for training/loading")
+    message(STATUS "    * Complete audit trail for compliance")
     message(STATUS "  - Async inference engine enabled (independent threading)")
     message(STATUS "  - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)")
     message(STATUS "    * ModelMetadataCache (ConcurrentCache)")
@@ -2074,7 +2088,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_sharding_core.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_raid_redundancy.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_hot_spare.cpp
-        # SKIPPED: ${CMAKE_SOURCE_DIR}/tests/test_lora_adapter.cpp  # MultiLoRAManager implementation missing
+        $<$<BOOL:${THEMIS_ENABLE_LLM}>:${CMAKE_SOURCE_DIR}/tests/test_lora_framework.cpp>  # LoRA Adapter Framework tests (Issue #319)
         ${CMAKE_SOURCE_DIR}/tests/test_raid_integration.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_predictive_detector.cpp
         $<$<BOOL:${THEMIS_ENABLE_CUDA}>:${CMAKE_SOURCE_DIR}/tests/test_gpu_erasure_coding.cpp>
