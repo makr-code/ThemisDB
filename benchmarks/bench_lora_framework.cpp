@@ -10,7 +10,16 @@
  * - Storage I/O performance
  * - Concurrent adapter operations
  * - Memory usage tracking
+ * 
+ * @note Requires Google Benchmark: vcpkg install benchmark OR apt-get install libbenchmark-dev
+ * @build cmake -DTHEMIS_BUILD_BENCHMARKS=ON ..
+ * @run ./benchmarks/bench_lora_framework
+ * @run ./benchmarks/bench_lora_framework --benchmark_out=results.json
  */
+
+#ifndef THEMIS_BENCHMARK_BUILD
+#define THEMIS_BENCHMARK_BUILD 1
+#endif
 
 #include <benchmark/benchmark.h>
 #include "llm/lora_framework/lora_adapter_manager.h"

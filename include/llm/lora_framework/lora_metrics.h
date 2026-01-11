@@ -9,20 +9,47 @@
  * - Storage I/O (read/write latency, throughput)
  * - Audit logging (entries/sec, query latency)
  * - Resource usage (memory, CPU, GPU VRAM)
+ * 
+ * @note Requires Prometheus C++ client library
+ * @note Install with: vcpkg install prometheus-cpp OR apt-get install libprometheus-cpp-dev
  */
 
 #pragma once
 
+#include <memory>
+#include <string>
+#include <chrono>
+
+// ============================================================================
+// Compilation Guard for Prometheus
+// ============================================================================
+#ifdef THEMIS_HAS_PROMETHEUS
 #include <prometheus/registry.h>
 #include <prometheus/counter.h>
 #include <prometheus/gauge.h>
 #include <prometheus/histogram.h>
 #include <prometheus/summary.h>
-#include <memory>
-#include <string>
-#include <chrono>
+#else
+// Provide stub types when Prometheus is not available
+namespace prometheus {
+    class Registry {};
+    template<typename T> class Family {};
+    class Counter {};
+    class Gauge {};
+    class Histogram {};
+    class Summary {};
+}
+#endif
 
 namespace themis::llm::lora::metrics {
+
+// ============================================================================
+// Conditional Compilation Notice
+// ============================================================================
+#ifndef THEMIS_HAS_PROMETHEUS
+#warning "Prometheus C++ client not found - metrics collection will be disabled"
+#warning "Install with: vcpkg install prometheus-cpp"
+#endif
 
 // ============================================================================
 // Metric Types

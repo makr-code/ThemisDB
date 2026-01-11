@@ -9,7 +9,15 @@
  * - Orchestrator (CRUD operations, monitoring)
  * - Audit Logger (inference tracing, compliance)
  * - themis_help_lora (documentation assistant)
+ * 
+ * @note Requires GTest: vcpkg install gtest OR apt-get install libgtest-dev
+ * @build cmake -DTHEMIS_BUILD_TESTS=ON ..
+ * @run ./tests/test_lora_framework
  */
+
+#ifndef THEMIS_TEST_BUILD
+#define THEMIS_TEST_BUILD 1
+#endif
 
 #include <gtest/gtest.h>
 #include "llm/lora_framework/lora_adapter_manager.h"
