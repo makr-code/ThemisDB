@@ -68,16 +68,20 @@ COPY vcpkg-configuration.json ./
 RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
     --mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly \
+    --mount=type=bind,source=vcpkg/packages,target=/tmp/host-vcpkg-packages,readonly \
     set -eux; \
     echo "Using VCPKG_MANIFEST_HASH=${VCPKG_MANIFEST_HASH}"; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     find /tmp/host-vcpkg-downloads -type f -name "*.tar.gz" -o -name "*.zip" 2>/dev/null | \
         xargs -I{} cp -n {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
+    find /tmp/host-vcpkg-packages -maxdepth 1 -mindepth 1 -type d -name "*_${TRIPLET}" 2>/dev/null | \
+        xargs -I{} cp -rn {} /opt/vcpkg/packages/ 2>/dev/null || true; \
     export VCPKG_BUILD_TYPE=release; \
     export VCPKG_MAX_CONCURRENCY=2; \
     export VCPKG_DOWNLOAD_TOOL=curl; \
     export CURL_RETRIES=10; \
     export CURL_TIMEOUT=600; \
+    export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
     mkdir -p /build/vcpkg_installed; \
         # remove any stale partial boost archives that can poison the cache
         find /opt/vcpkg/downloads -name '*.part' -delete || true; \
@@ -188,6 +192,9 @@ RUN set -eux; \
         -DCMAKE_BUILD_TYPE=Release \
         -DTHEMIS_EDITION=${THEMIS_EDITION} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
+        -DTHEMIS_ENABLE_TRACING=OFF \
+        -DTHEMIS_BUILD_BENCHMARKS=OFF \
+        -DTHEMIS_BUILD_TESTS=OFF \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
         -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \

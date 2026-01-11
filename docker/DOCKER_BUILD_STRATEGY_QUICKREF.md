@@ -38,6 +38,52 @@ export VCPKG_DOWNLOADER=aria2
 
 ---
 
+### vcpkg Triple-Cache-Strategie 💾
+
+**Status:** ✅ Implementiert (11. Januar 2026)
+
+```dockerfile
+# 1. BuildKit Container-Cache (persistent zwischen Builds)
+--mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked
+--mount=type=cache,target=/opt/vcpkg/packages,sharing=locked
+
+# 2. Host-Cache Bind-Mounts (Ihre lokalen Verzeichnisse)
+--mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly
+--mount=type=bind,source=vcpkg/packages,target=/tmp/host-vcpkg-packages,readonly
+
+# 3. vcpkg Binary Caching (kompilierte Packages als .zip)
+export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"
+
+# 4. Kopier-Logik (Host → Container vor vcpkg install)
+find /tmp/host-vcpkg-downloads ... | xargs cp -n /opt/vcpkg/downloads/
+find /tmp/host-vcpkg-packages -name "*_x64-linux" | xargs cp -rn /opt/vcpkg/packages/
+```
+
+**Vorteile:**
+- 🚀 **Null Downloads** wenn Packages bereits im Host-Cache existieren
+- 💾 **~144 Packages** (~2.8GB) sofort verfügbar aus `./vcpkg/packages/`
+- ⚡ **Keine Rebuilds** für bereits kompilierte Dependencies
+- 🔄 **Automatisches Fallback** zu Download nur bei fehlenden Packages
+- 🎯 **Binary Caching** speichert kompilierte Packages als .zip (effizienter als Verzeichnisse)
+
+**Ablauf:**
+1. Host-Packages (`./vcpkg/packages/*_x64-linux`) → `/opt/vcpkg/packages/`
+2. Host-Downloads (`./vcpkg/downloads/*.tar.gz`) → `/opt/vcpkg/downloads/`
+3. vcpkg Binary Cache aktiviert → Packages als .zip gespeichert
+4. `vcpkg install` findet alle Dependencies bereits vor → **Skip Build**
+5. Nur fehlende Packages werden heruntergeladen/gebaut
+
+**Performance:**
+- Mit vollem Cache: **~30 Sekunden** statt ~10-15 Minuten
+- Kein GitHub-Netzwerk erforderlich für gecachte Packages
+- Robustheit gegen GitHub-Download-Timeouts
+
+**Referenz:**
+- [Reddit: vcpkg Docker Caching](https://www.reddit.com/r/cpp_questions/comments/1nb1cwo/how_to_solve_the_problem_of_vcpkg_needlessly/)
+- [vcpkg Binary Caching Docs](https://learn.microsoft.com/vcpkg/users/binarycaching)
+
+---
+
 ### 3-Stufige Build-Architektur
 
 ```

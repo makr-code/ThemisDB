@@ -716,12 +716,16 @@ else()
             set_target_properties(yaml-cpp::yaml-cpp PROPERTIES
                 INTERFACE_INCLUDE_DIRECTORIES "${YAMLCPP_INCLUDE_DIRS}"
                 INTERFACE_LINK_LIBRARIES "${YAMLCPP_LIBRARIES}")
+        else()
+            message(WARNING "yaml-cpp not found - some configuration features may be limited")
         endif()
+    else()
+        message(WARNING "yaml-cpp not found - some configuration features may be limited")
     endif()
 endif()
 
 if(NOT TARGET yaml-cpp::yaml-cpp)
-    message(FATAL_ERROR "yaml-cpp not found via CONFIG or PkgConfig")
+    message(STATUS "yaml-cpp optional dependency not available - continuing without it")
 endif()
 
 # Defensive check: Ensure Boost::system target exists after find_package
