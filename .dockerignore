@@ -1,13 +1,37 @@
 # ============================================================================
-# Docker Build Context Exclusions
+# Docker Build Context Exclusions (BLACKLIST - exclude large/unnecessary files)
 # ============================================================================
-# Only exclude files/folders NOT needed for Docker build and runtime
+# Strategy: Exclude everything NOT needed for Docker build to minimize context size
 
-# Build artifacts (not needed in container, will be rebuilt)
+# ============================================================================
+# CRITICAL: Large directories (60GB+ excluded)
+# ============================================================================
+models/                 # 30GB - LLM models, not needed for build
+build-msvc/             # 22GB - build artifacts
+build-wsl/              # 6GB - build artifacts
+projects/               # 922MB - example projects
+external/               # 826MB - external dependencies
+compendium/             # 612MB - documentation
+release/                # 947MB - release artifacts
+site/                   # 141MB - generated website
+tools/                  # 122MB - development tools
+
+# vcpkg/ MUST stay in context for bind-mounts to work
+# Only exclude unnecessary subdirectories
+vcpkg/buildtrees/
+vcpkg/.git/
+
+# llama.cpp/ is NEEDED for build - only exclude large subdirectories
+llama.cpp/build/
+llama.cpp/build-*/
+llama.cpp/models/
+llama.cpp/.git/
+
+# ============================================================================
+# Build artifacts (will be rebuilt in container)
+# ============================================================================
 build/
 build-*/
-build-msvc/
-build-wsl/
 out/
 CMakeFiles/
 *.o
@@ -18,74 +42,69 @@ CMakeFiles/
 *.pdb
 Testing/
 vcpkg_installed/
+logs/
 
-# llama.cpp build artifacts and large files
-llama.cpp/build/
-llama.cpp/build-*/
-llama.cpp/models/
-llama.cpp/.git/
-llama.cpp/benches/
-llama.cpp/media/
-
-# Development/test only
+# ============================================================================
+# Development/testing (not needed for Docker build)
+# ============================================================================
 tests/
 benchmarks/
 fuzz/
+data/
+test_geo_integration_db/
+test_replication_loopback_data/
 
+# ============================================================================
 # Documentation (not needed in runtime image)
+# ============================================================================
 docs/
-site/
 book/
-compendium/
-CHANGELOG.md
-README.md
-CONTRIBUTING.md
-CODING_STANDARDS.md
-SECURITY.md
-LICENSE
+*.md
+!docker/*.md
 
+# ============================================================================
 # CI/CD and VCS
+# ============================================================================
 .git/
 .github/
 .gitignore
 .gitattributes
+.gitmodules
+.gitleaks.toml
 
-# Python cache and node modules
-__pycache__/
-*.pyc
-node_modules/
-
-# IDE and build files
+# ============================================================================
+# IDE and dev tools
+# ============================================================================
 .vscode/
 .clang-*
 *.code-workspace
 CMakePresets.json
 CMakeLists.txt.user
 CMakeUserPresets.json
+__pycache__/
+*.pyc
+node_modules/
 
-# Release/packaging (handled separately)
-release/
-release-changelogs/
+# ============================================================================
+# Packaging and release artifacts
+# ============================================================================
 packaging/
 debian/
+release-changelogs/
 wordpress-*/
+helm/
+grafana/
+deploy/
 
-# Data and models (development only)
-data/
-models/
-test_geo_integration_db/
-test_replication_loopback_data/
-
-# VCS hooks and metadata
-.gitmodules
-.gitleaks.toml
-
-# Build logs and temp files
+# ============================================================================
+# Temporary and log files
+# ============================================================================
 *.log
-build_*.log
-docker_*.log
-cmake_*.log
-*.txt~
+*.log.*
+*.tmp
+*.swp
+*~
+.DS_Store
 
 # ============================================================================
 # IMPORTANT: These are explicitly NOT excluded (needed for build)

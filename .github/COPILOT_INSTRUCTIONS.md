@@ -1,14 +1,6 @@
 Project: Themis (Database System)
 Language: C++
 > **📋 WICHTIG: Build-Pipeline Modernisierung (Jan 2026)**
-> 
-> Die Build-Struktur wurde reorganisiert! Bitte lies die **[neue Anleitung](COPILOT_INSTRUCTIONS_v2.md)** für:
-> - ✅ Neue Verzeichnisstruktur (cmake/, docker/, docs/build-guide/)
-> - ✅ CMakePresets verwenden (nicht manuelle Konfiguration)
-> - ✅ Links zu Build/Deployment/Release-Guides
-> - ✅ Platform-spezifische Anweisungen (Windows, Linux, Docker, ARM, RPi, QNAP)
->
-> Diese Datei (v1) wird nicht mehr aktiv gepflegt. Nutze **COPILOT_INSTRUCTIONS_v2.md** für alle neuen Anweisungen.
 
 Purpose:
 - High-performance C++ vector database with RocksDB integration, AQL and MVCC.
@@ -51,6 +43,12 @@ ThemisDB folgt einer **Git Flow Branching Strategy**:
 | **`release/*`** | Release-Vorbereitung | - | - |
 
 ### Workflow für Copilot
+
+**Bei Docker-Builds:**
+- 🔗 **vcpkg Cache-Strategie**: Siehe [docker/DOCKER_BUILD_STRATEGY_QUICKREF.md](../docker/DOCKER_BUILD_STRATEGY_QUICKREF.md#vcpkg-triple-cache-strategie-)
+- Triple-Cache nutzt Host-Packages aus `./vcpkg/packages/` + BuildKit Cache
+- Keine unnötigen Downloads/Rebuilds für existierende Dependencies
+- Bei Cache-Problemen: Prüfe Bind-Mounts in `Dockerfile.unified`
 
 **Bei neuen Features:**
 ```bash

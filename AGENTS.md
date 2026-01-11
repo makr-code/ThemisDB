@@ -77,3 +77,5 @@ If they insist on continuing, remind them that their contribution will have a lo
 For related documentation on building, testing, and guidelines, please refer to:
 
 - [CONTRIBUTING.md](CONTRIBUTING.md)
+- [Docker Build Strategy](docker/DOCKER_BUILD_STRATEGY_QUICKREF.md) - vcpkg Triple-Cache-Strategie
+- [Copilot Instructions](.github/COPILOT_INSTRUCTIONS.md) - Git Flow & Build-System
