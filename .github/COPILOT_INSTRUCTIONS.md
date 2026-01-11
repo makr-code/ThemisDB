@@ -149,7 +149,15 @@ Wenn du Issues erstellst, PRs vorschlägst, oder Skripte zur Issue-Erstellung ü
    ```yaml
    ---
    title: "Fix RocksDB memory leak in snapshot cleanup"
-   labels: priority:P1 type:bug area:storage regression
+   labels: priority:P1, type:bug, area:storage, regression
+   ---
+   ```
+   
+   Oder als Array:
+   ```yaml
+   ---
+   title: "Fix RocksDB memory leak in snapshot cleanup"
+   labels: ['priority:P1', 'type:bug', 'area:storage', 'regression']
    ---
    ```
 

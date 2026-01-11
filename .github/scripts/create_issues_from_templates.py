@@ -137,6 +137,7 @@ class IssueTemplateProcessor:
                         # Parse labels - can be comma-separated or array
                         # NOTE: Labels should be valid labels from .github/labels.yml
                         # See .github/LABELS_GUIDE.md for available labels
+                        # This is guidance for template authors - labels are not validated at runtime
                         if value.startswith('['):
                             labels = re.findall(r"'([^']*)'|\"([^\"]*)\"", value)
                             issue_data['labels'] = [l[0] or l[1] for l in labels]
