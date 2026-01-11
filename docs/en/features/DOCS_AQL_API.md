@@ -2,13 +2,19 @@
 
 ## Overview
 
-ThemisDB provides integrated documentation assistance through AQL functions that leverage a pre-compiled documentation database and LLM capabilities. These functions enable users to query documentation, get configuration help, and troubleshoot issues directly from AQL queries.
+ThemisDB provides integrated documentation assistance through AQL functions that leverage a pre-compiled documentation database and advanced AI capabilities. These functions enable users to query documentation, get configuration help, and troubleshoot issues directly from AQL queries.
 
-**NEW: Unified HELP() Function** - A single intelligent function that uses **LLM-based intent detection** to automatically determine what you need and provide the most appropriate response. Falls back to regex pattern matching if LLM is unavailable. This is the **recommended** way to access documentation assistance.
+**NEW: Unified HELP() Function** - A single intelligent function that uses **three-tier intent detection** to automatically determine what you need and provide the most appropriate response. This is the **recommended** way to access documentation assistance.
+
+**Three-Tier Intent Detection:**
+1. **Native NLP** - Uses ThemisDB's CLASSIFY() function (primary, fastest)
+2. **LLM-Based** - Uses embedded LLM for semantic understanding (secondary, most accurate)
+3. **Regex Fallback** - Pattern matching for guaranteed reliability (tertiary, always works)
 
 **Key Features:**
-- **LLM-Powered Classification** - Uses embedded LLM for accurate intent detection
-- **Regex Fallback** - Ensures reliability when LLM unavailable
+- **Native AI Integration** - Leverages ThemisDB's built-in NLP capabilities
+- **LLM-Powered Classification** - Uses embedded LLM for complex cases
+- **Regex Fallback** - Ensures reliability when AI unavailable
 - **SSE Compatible** - Supports Server-Sent Events for streaming
 - **MCP Integration** - Works with Model Context Protocol
 - **User Feedback** - Can learn from corrections over time
@@ -17,7 +23,7 @@ ThemisDB provides integrated documentation assistance through AQL functions that
 
 ### HELP(query: string) -> string
 
-**The unified intelligent helper function with LLM-based intent detection.**
+**The unified intelligent helper function with three-tier intent detection.**
 
 **Syntax:**
 ```sql
@@ -32,18 +38,26 @@ SELECT HELP(question_or_query) AS answer;
 
 **How it works:**
 
-The `HELP()` function uses a two-tier approach:
+The `HELP()` function uses a three-tier approach for maximum reliability and accuracy:
 
-1. **Primary: LLM-Based Classification**
+1. **Primary: Native NLP Classification** ⚡ Fastest
+   - Uses ThemisDB's built-in CLASSIFY() function
+   - Zero-shot classification with no training required
+   - Native implementation for best performance
+   - Currently in development (returns to next tier)
+
+2. **Secondary: LLM-Based Classification** 🧠 Most Accurate
    - Sends your query to an embedded LLM for intelligent classification
    - LLM analyzes semantic meaning and context
    - Returns intent: configuration, troubleshooting, search, or general
    - Highly accurate and context-aware
+   - Supports multiple languages
 
-2. **Fallback: Regex Pattern Matching**
-   - If LLM unavailable, uses keyword-based detection
-   - Ensures reliability even without LLM
+3. **Tertiary: Regex Pattern Matching** 🛡️ Always Reliable
+   - If both AI methods unavailable, uses keyword-based detection
+   - Ensures reliability even without AI
    - Pattern matching on common keywords
+   - Fast and predictable
 
 **Intent Routing:**
 - **Configuration** → Configuration help with topic extraction
@@ -58,17 +72,17 @@ SELECT HELP('How do I enable sharding?') AS answer;
 SELECT HELP('What is vector search?') AS info;
 SELECT HELP('Explain RAID configuration') AS explanation;
 
--- Configuration help (LLM detects setup intent)
+-- Configuration help (AI detects setup intent)
 SELECT HELP('Configure security settings') AS guide;
 SELECT HELP('Setup replication') AS setup_guide;
 SELECT HELP('How to configure sharding?') AS config;
 
--- Troubleshooting (LLM detects problem/error)
+-- Troubleshooting (AI detects problem/error)
 SELECT HELP('Server hangs at startup') AS solution;
 SELECT HELP('Connection error on port 8529') AS fix;
 SELECT HELP('Database fails to start') AS troubleshooting;
 
--- Document search (LLM detects information retrieval)
+-- Document search (AI detects information retrieval)
 SELECT HELP('Search for RAID documentation') AS search_results;
 SELECT HELP('Find information about vector embeddings') AS docs;
 SELECT HELP('Look for security best practices') AS references;

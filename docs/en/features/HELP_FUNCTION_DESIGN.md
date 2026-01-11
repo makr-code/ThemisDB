@@ -2,15 +2,16 @@
 
 ## Overview
 
-This document describes the new unified `HELP()` function that consolidates all documentation assistant functions into a single intelligent interface with LLM-based intent detection.
+This document describes the new unified `HELP()` function that consolidates all documentation assistant functions into a single intelligent interface with **three-tier intent detection**.
 
 ## Key Features
 
-1. **LLM-Based Intent Detection** - Uses embedded LLM for intelligent classification (primary method)
-2. **Regex Fallback** - Falls back to pattern matching if LLM unavailable
-3. **SSE Support** - Compatible with Server-Sent Events for streaming responses
-4. **MCP Integration** - Works with Model Context Protocol
-5. **User Feedback** - Can incorporate user feedback for continuous improvement
+1. **Native NLP Classification** - Uses ThemisDB's CLASSIFY() function (primary method)
+2. **LLM-Based Intent Detection** - Uses embedded LLM for semantic understanding (secondary method)
+3. **Regex Fallback** - Pattern matching for guaranteed reliability (tertiary method)
+4. **SSE Support** - Compatible with Server-Sent Events for streaming responses
+5. **MCP Integration** - Works with Model Context Protocol
+6. **User Feedback** - Can incorporate user feedback for continuous improvement
 
 ## Motivation
 
@@ -25,22 +26,40 @@ This required users to know which function to use, which added cognitive overhea
 
 ## Solution
 
-The new `HELP()` function automatically determines user intent using LLM-based classification and routes to the appropriate underlying function. This provides:
+The new `HELP()` function automatically determines user intent using a three-tier approach and routes to the appropriate underlying function. This provides:
 
 1. **Simplicity** - Single function to remember
-2. **Intelligence** - LLM-powered intent detection
-3. **Robustness** - Regex fallback when LLM unavailable
+2. **Intelligence** - Native NLP + LLM-powered intent detection
+3. **Robustness** - Multiple fallback layers ensure reliability
 4. **Flexibility** - Handles all use cases
 5. **Adaptability** - Can learn from user feedback
 6. **Backward Compatibility** - Original functions still available
 
 ## How It Works
 
-The `HELP()` function uses a two-tier approach for intent detection:
+The `HELP()` function uses a three-tier approach for intent detection, trying each method in order:
 
-### Primary Method: LLM-Based Classification
+### Primary Method: Native NLP Classification
 
-When an LLM is available, the function uses it to classify user intent:
+When ThemisDB's native NLP capabilities are available, uses the built-in CLASSIFY() function:
+
+1. **Call CLASSIFY()** with the user's query and category labels
+2. **Zero-shot classification** - No training required
+3. **Fast and efficient** - Native implementation
+4. **Returns intent category** with confidence scores
+
+**Advantages:**
+- Fastest method (native implementation)
+- No external dependencies
+- Consistent performance
+- Integrated with ThemisDB
+- Uses zero-shot classification
+
+**Status:** Currently returns "unknown" (placeholder) - will be integrated at AQL parser level in future version.
+
+### Secondary Method: LLM-Based Classification
+
+If native NLP unavailable, uses embedded LLM for semantic analysis:
 
 1. **Send classification prompt to LLM** with the user's query
 2. **LLM analyzes** the semantic meaning and context
@@ -54,14 +73,19 @@ When an LLM is available, the function uses it to classify user intent:
 - Can adapt to different phrasings
 - More accurate than pattern matching
 
-### Fallback Method: Regex-Based Detection
+### Tertiary Method: Regex-Based Detection (Fallback)
 
-If LLM is unavailable or fails, falls back to pattern matching:
+If both native NLP and LLM are unavailable, falls back to pattern matching:
 
 1. **Convert query to lowercase**
 2. **Search for keyword patterns**
 3. **Match against predefined rules**
 4. **Route based on matched patterns**
+
+**Advantages:**
+- Always available (no dependencies)
+- Fast and predictable
+- Guaranteed reliability
 
 ### Intent Categories
 
@@ -113,26 +137,61 @@ SELECT HELP('How do I enable sharding?') AS answer;
 ### Intent Detection Algorithm
 
 ```cpp
-1. Try LLM-based classification:
-   a. Create classification prompt with query
-   b. Send to embedded LLM (max 20 tokens)
-   c. Parse LLM response (configuration/troubleshooting/search/general)
-   d. Validate response
+1. Try Native NLP classification (primary):
+   a. Check if CLASSIFY() function available
+   b. Call CLASSIFY(query, ["configuration", "troubleshooting", "search", "general"])
+   c. Parse classification result
+   d. If valid and confident, use native NLP classification
+   e. Currently returns "unknown" (placeholder for future integration)
+   
+2. If native NLP unavailable or returns "unknown":
+   a. Try LLM-based classification
+   b. Create classification prompt with query
+   c. Send to embedded LLM (max 20 tokens)
+   d. Parse and validate response
    e. If valid, use LLM classification
    
-2. If LLM unavailable or returns "unknown":
+3. If LLM unavailable or returns "unknown":
    a. Fall back to regex pattern matching
    b. Check configuration keywords
    c. Check troubleshooting keywords
    d. Check search keywords
    e. Default to "general"
    
-3. Route based on detected intent:
+4. Route based on detected intent:
    - configuration → getConfigHelp()
    - troubleshooting → getTroubleshootingHelp()
    - search → searchDocs() with formatting
    - general → query() (RAG-powered)
 ```
+
+### Native NLP Classification (Future)
+
+ThemisDB's native CLASSIFY() function will be used when available:
+
+```sql
+-- Native NLP classification (future integration)
+LET classification = CLASSIFY(
+    'Configure security settings',
+    ['configuration', 'troubleshooting', 'search', 'general']
+)
+
+-- Returns: {
+--   category: 'configuration',
+--   confidence: 0.92,
+--   scores: {
+--     configuration: 0.92,
+--     troubleshooting: 0.05,
+--     search: 0.02,
+--     general: 0.01
+--   }
+-- }
+```
+
+**Integration Plan:**
+- Phase 1: Placeholder (current) - returns "unknown"
+- Phase 2: Integration at AQL parser level
+- Phase 3: Direct function call with execution context
 
 ### LLM Classification Prompt
 

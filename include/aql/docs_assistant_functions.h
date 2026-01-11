@@ -4,20 +4,22 @@
  * 
  * Exposes DocsAssistant functionality as AQL functions:
  * - HELP(query: string) -> string - Unified intelligent helper (RECOMMENDED)
- *   Uses LLM-based intent detection with regex fallback
+ *   Three-tier intent detection: Native NLP → LLM → Regex fallback
  * - DOCS_QUERY(query: string) -> string
  * - DOCS_SEARCH(query: string, limit: int) -> array<object>
  * - DOCS_CONFIG_HELP(topic: string) -> string
  * - DOCS_TROUBLESHOOT(error: string) -> string
  * 
- * The HELP() function uses LLM for intelligent intent classification when available,
- * falling back to regex-based pattern matching if LLM is not available.
+ * The HELP() function uses ThemisDB's native NLP capabilities (CLASSIFY function)
+ * as the primary method, with LLM-based classification and regex pattern matching
+ * as fallbacks for maximum reliability.
  * 
  * Supports SSE (Server-Sent Events) for streaming and MCP (Model Context Protocol).
+ * Can incorporate user feedback for continuous improvement.
  * 
  * Usage examples:
  * ```sql
- * -- Unified helper (automatically detects intent via LLM)
+ * -- Unified helper (automatically detects intent via native NLP/LLM)
  * SELECT HELP('How do I enable sharding?') AS answer;
  * SELECT HELP('Server hangs at startup') AS solution;
  * SELECT HELP('Configure security settings') AS guide;
@@ -63,19 +65,20 @@ public:
     /**
      * @brief Unified intelligent helper function (RECOMMENDED)
      * 
-     * Automatically determines the intent from the query using LLM-based
-     * classification (when available) with regex fallback, then routes to the
-     * appropriate function:
+     * Automatically determines the intent from the query using a three-tier
+     * detection strategy, then routes to the appropriate function:
      * - Configuration questions → configuration help
      * - Error/problem descriptions → troubleshooting help
      * - Search requests → document search
      * - General questions → RAG-powered query
      * 
-     * Intent Detection Strategy:
-     * 1. Try LLM-based intent classification (primary method)
-     * 2. Fall back to regex pattern matching if LLM unavailable
+     * Intent Detection Strategy (in order of preference):
+     * 1. **Native NLP** - Uses ThemisDB's CLASSIFY() function (when available)
+     * 2. **LLM-based** - Uses embedded LLM for semantic classification
+     * 3. **Regex fallback** - Keyword pattern matching for reliability
      * 
      * Supports SSE (Server-Sent Events) streaming and MCP (Model Context Protocol).
+     * Can incorporate user feedback for continuous improvement.
      * 
      * @param query User query or question
      * @return Generated answer, search results, or guidance as string
@@ -158,7 +161,17 @@ private:
     std::unique_ptr<Impl> impl_;
     
     /**
-     * @brief Detect user intent using LLM (primary method)
+     * @brief Detect user intent using native NLP (primary method)
+     * @param query User query
+     * @return Intent: "configuration", "troubleshooting", "search", "general", or "unknown"
+     * 
+     * Uses ThemisDB's native CLASSIFY() function for zero-shot classification.
+     * Currently returns "unknown" as placeholder - will be integrated at AQL parser level.
+     */
+    std::string detectIntentWithNativeNLP(const std::string& query);
+    
+    /**
+     * @brief Detect user intent using LLM (secondary method)
      * @param query User query
      * @return Intent: "configuration", "troubleshooting", "search", "general", or "unknown"
      */

@@ -66,10 +66,16 @@ std::string DocsAssistantFunctions::help(const std::string& query) {
     try {
         auto* assistant = impl_->getAssistant();
         
-        // Try LLM-based intent detection first
-        std::string intent = detectIntentWithLLM(query);
+        // Try three-tier intent detection:
+        // 1. Native NLP (if available)
+        // 2. LLM-based (if LLM available)
+        // 3. Regex fallback
+        std::string intent = detectIntentWithNativeNLP(query);
         
-        // If LLM detection failed or returned "unknown", fall back to regex
+        if (intent == "unknown" || intent.empty()) {
+            intent = detectIntentWithLLM(query);
+        }
+        
         if (intent == "unknown" || intent.empty()) {
             intent = detectIntentWithRegex(query);
         }
@@ -99,6 +105,30 @@ std::string DocsAssistantFunctions::help(const std::string& query) {
         throw std::runtime_error(
             std::string("HELP failed: ") + e.what()
         );
+    }
+}
+
+std::string DocsAssistantFunctions::detectIntentWithNativeNLP(const std::string& query) {
+    try {
+        // Try to use ThemisDB native NLP CLASSIFY function
+        // This would require access to the function registry and execution context
+        // For now, return unknown to skip to next method
+        // TODO: Integrate with native CLASSIFY function when execution context available
+        
+        // The native CLASSIFY function signature is:
+        // CLASSIFY(text, categories) -> {category, confidence, scores}
+        // We would call it with:
+        // CLASSIFY(query, ["configuration", "troubleshooting", "search", "general"])
+        
+        // Since we don't have direct access to the function execution context here,
+        // we return unknown to fall through to LLM method
+        // In a future enhancement, this could be integrated at the AQL parser level
+        
+        return "unknown";
+        
+    } catch (const std::exception&) {
+        // Native NLP not available or failed
+        return "unknown";
     }
 }
 
