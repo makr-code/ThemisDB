@@ -453,10 +453,10 @@ TEST_F(LoRAFrameworkTest, ThemisHelpLoRA_Query) {
     help_config.adapter_id = "themis_help_lora";
     help_config.base_model = "llama-2-7b";
     
-    ThemisHelpLoRA help(help_config, storage_, manager_, training_, audit_);
+    ThemisHelpLoRA help(help_config);
     
-    // Query
-    std::string response = help.query("How do I enable sharding?", "test_user");
+    // Query (no user_id parameter)
+    std::string response = help.query("How do I enable sharding?");
     EXPECT_FALSE(response.empty());
 }
 
@@ -465,19 +465,19 @@ TEST_F(LoRAFrameworkTest, ThemisHelpLoRA_FeedbackCollection) {
     help_config.adapter_id = "themis_help_lora";
     help_config.base_model = "llama-2-7b";
     
-    ThemisHelpLoRA help(help_config, storage_, manager_, training_, audit_);
+    ThemisHelpLoRA help(help_config);
     
-    // Add positive feedback
-    help.addPositiveFeedback("Good question", "Good answer", "user1");
+    // Add positive feedback (no user_id parameter)
+    help.addPositiveFeedback("Good question", "Good answer");
     
-    // Add negative feedback with correction
+    // Add negative feedback with correction (no user_id parameter)
     help.addNegativeFeedback("Wrong question", "Wrong answer", 
-                            "Corrected answer", "user2");
+                            "Corrected answer");
     
-    // Get feedback stats
+    // Get feedback stats (returns json)
     auto stats = help.getFeedbackStats();
-    EXPECT_EQ(stats.positive_count, 1);
-    EXPECT_EQ(stats.negative_count, 1);
+    EXPECT_EQ(stats["positive_feedback"], 1);
+    EXPECT_EQ(stats["negative_feedback"], 1);
 }
 
 TEST_F(LoRAFrameworkTest, ThemisHelpLoRA_Training) {
@@ -485,20 +485,20 @@ TEST_F(LoRAFrameworkTest, ThemisHelpLoRA_Training) {
     help_config.adapter_id = "themis_help_lora";
     help_config.base_model = "llama-2-7b";
     
-    ThemisHelpLoRA help(help_config, storage_, manager_, training_, audit_);
+    ThemisHelpLoRA help(help_config);
     
     // Add feedback
     for (int i = 0; i < 100; i++) {
         help.addPositiveFeedback("Question " + std::to_string(i), 
-                                "Answer " + std::to_string(i), "user");
+                                "Answer " + std::to_string(i));
     }
     
-    // Train from feedback (placeholder)
-    bool trained = help.trainFromFeedback();
-    EXPECT_TRUE(trained);
+    // Train from feedback (returns TrainingResult)
+    auto result = help.trainFromFeedback();
+    EXPECT_TRUE(result.success);
     
     // Check version incremented
-    EXPECT_GT(help.getVersion(), "v1.0");
+    EXPECT_GT(help.getAdapterVersion(), "v1.0");
 }
 
 // ============================================================================
