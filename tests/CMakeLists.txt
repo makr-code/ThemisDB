@@ -91,6 +91,18 @@ endif()
 # endif()
 
 # ============================================================================
+# Integration Tests Subdirectory
+# ============================================================================
+
+# Add integration tests if directory exists
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integration/CMakeLists.txt")
+    message(STATUS "Adding integration tests from: ${CMAKE_CURRENT_SOURCE_DIR}/integration")
+    add_subdirectory(integration)
+else()
+    message(STATUS "Integration tests directory not found or no CMakeLists.txt")
+endif()
+
+# ============================================================================
 # Test Discovery & Reporting
 # ============================================================================
 
@@ -105,7 +117,15 @@ add_custom_target(run_tests
     COMMENT "Running all ThemisDB tests..."
 )
 
+# Add custom target to run only integration tests
+add_custom_target(run_integration_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} -R integration --output-on-failure --verbose
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Running ThemisDB integration tests..."
+)
+
 message(STATUS "Tests configured successfully")
 message(STATUS "  - Build tests with: cmake --build . --target test_lora_framework")
 message(STATUS "  - Run tests with: ctest --output-on-failure")
-message(STATUS "  - Or use: make run_tests")
+message(STATUS "  - Run integration tests with: ctest -R integration")
+message(STATUS "  - Or use: make run_tests / make run_integration_tests")
