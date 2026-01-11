@@ -2,7 +2,15 @@
 
 ## Overview
 
-This document describes the new unified `HELP()` function that consolidates all documentation assistant functions into a single intelligent interface.
+This document describes the new unified `HELP()` function that consolidates all documentation assistant functions into a single intelligent interface with LLM-based intent detection.
+
+## Key Features
+
+1. **LLM-Based Intent Detection** - Uses embedded LLM for intelligent classification (primary method)
+2. **Regex Fallback** - Falls back to pattern matching if LLM unavailable
+3. **SSE Support** - Compatible with Server-Sent Events for streaming responses
+4. **MCP Integration** - Works with Model Context Protocol
+5. **User Feedback** - Can incorporate user feedback for continuous improvement
 
 ## Motivation
 
@@ -17,33 +25,66 @@ This required users to know which function to use, which added cognitive overhea
 
 ## Solution
 
-The new `HELP()` function automatically determines user intent from the query and routes to the appropriate underlying function. This provides:
+The new `HELP()` function automatically determines user intent using LLM-based classification and routes to the appropriate underlying function. This provides:
 
 1. **Simplicity** - Single function to remember
-2. **Intelligence** - Automatic intent detection
-3. **Flexibility** - Handles all use cases
-4. **Backward Compatibility** - Original functions still available
+2. **Intelligence** - LLM-powered intent detection
+3. **Robustness** - Regex fallback when LLM unavailable
+4. **Flexibility** - Handles all use cases
+5. **Adaptability** - Can learn from user feedback
+6. **Backward Compatibility** - Original functions still available
 
 ## How It Works
 
-The `HELP()` function analyzes the query text for keywords to determine intent:
+The `HELP()` function uses a two-tier approach for intent detection:
 
-### Configuration Intent
-**Triggers**: "config", "configure", "setting", "setup"
+### Primary Method: LLM-Based Classification
+
+When an LLM is available, the function uses it to classify user intent:
+
+1. **Send classification prompt to LLM** with the user's query
+2. **LLM analyzes** the semantic meaning and context
+3. **Returns intent category**: configuration, troubleshooting, search, or general
+4. **Route to appropriate function** based on LLM's decision
+
+**Advantages:**
+- Understands semantic meaning and context
+- Handles ambiguous or complex queries
+- Works across multiple languages
+- Can adapt to different phrasings
+- More accurate than pattern matching
+
+### Fallback Method: Regex-Based Detection
+
+If LLM is unavailable or fails, falls back to pattern matching:
+
+1. **Convert query to lowercase**
+2. **Search for keyword patterns**
+3. **Match against predefined rules**
+4. **Route based on matched patterns**
+
+### Intent Categories
+
+#### Configuration Intent
+**LLM Detection**: Semantic analysis of setup/configuration requests
+**Regex Triggers**: "config", "configure", "setting", "setup"
 **Routes to**: Configuration help with topic extraction
 **Example**: `HELP('Configure security settings')` → Configuration guidance
 
-### Troubleshooting Intent
-**Triggers**: "error", "fail", "problem", "issue", "hang", "crash", "not work"
+#### Troubleshooting Intent
+**LLM Detection**: Identifies problem descriptions and error reports
+**Regex Triggers**: "error", "fail", "problem", "issue", "hang", "crash", "not work"
 **Routes to**: Troubleshooting help
 **Example**: `HELP('Server hangs at startup')` → Troubleshooting guidance
 
-### Search Intent
-**Triggers**: "search", "find", "look for", "documentation about"
+#### Search Intent
+**LLM Detection**: Recognizes information retrieval requests
+**Regex Triggers**: "search", "find", "look for", "documentation about"
 **Routes to**: Document search with formatted results
 **Example**: `HELP('Search for RAID documentation')` → List of relevant documents
 
-### General Query (Default)
+#### General Query (Default)
+**LLM Detection**: All other queries
 **Routes to**: RAG-powered query with LLM
 **Example**: `HELP('How do I enable sharding?')` → AI-generated answer
 
@@ -72,11 +113,39 @@ SELECT HELP('How do I enable sharding?') AS answer;
 ### Intent Detection Algorithm
 
 ```cpp
-1. Convert query to lowercase
-2. Check for configuration keywords → getConfigHelp()
-3. Check for troubleshooting keywords → getTroubleshootingHelp()
-4. Check for search keywords → searchDocs()
-5. Default: query() (RAG-powered general query)
+1. Try LLM-based classification:
+   a. Create classification prompt with query
+   b. Send to embedded LLM (max 20 tokens)
+   c. Parse LLM response (configuration/troubleshooting/search/general)
+   d. Validate response
+   e. If valid, use LLM classification
+   
+2. If LLM unavailable or returns "unknown":
+   a. Fall back to regex pattern matching
+   b. Check configuration keywords
+   c. Check troubleshooting keywords
+   d. Check search keywords
+   e. Default to "general"
+   
+3. Route based on detected intent:
+   - configuration → getConfigHelp()
+   - troubleshooting → getTroubleshootingHelp()
+   - search → searchDocs() with formatting
+   - general → query() (RAG-powered)
+```
+
+### LLM Classification Prompt
+
+```
+Classify the following user query into exactly ONE category:
+- configuration: User wants to configure or set up something
+- troubleshooting: User has an error, problem, or issue to solve
+- search: User wants to find or search for documentation
+- general: General question about ThemisDB
+
+User query: "<user_input>"
+
+Respond with ONLY the category name. No explanation, just the single word.
 ```
 
 ### Topic Extraction (for configuration)
@@ -96,6 +165,32 @@ When search intent is detected, the function extracts the actual search query by
 - "search for X" → "X"
 - "find X" → "X"
 - "look for X" → "X"
+
+## Integration Considerations
+
+### SSE (Server-Sent Events)
+
+The HELP() function is compatible with SSE for streaming responses:
+- LLM-based intent detection can stream classification reasoning
+- Final responses can be streamed for better UX
+- Compatible with existing SSE infrastructure
+
+### MCP (Model Context Protocol)
+
+Supports MCP for:
+- Cross-model intent classification
+- Context sharing between LLM calls
+- Protocol-level optimizations
+
+### User Feedback
+
+The system can incorporate user feedback:
+- Track classification accuracy
+- Learn from corrections
+- Adjust confidence thresholds
+- Improve intent detection over time
+
+**Future Enhancement**: Store feedback in database for training data
 
 ## Backward Compatibility
 
@@ -118,11 +213,24 @@ Added comprehensive tests covering:
 ## Future Enhancements
 
 Potential improvements for future versions:
-1. Machine learning-based intent classification
-2. Multi-language support
-3. Context-aware routing (based on conversation history)
-4. Confidence scores for intent detection
-5. Customizable routing rules
+
+### Short-term (Next Release)
+1. **Enhanced LLM prompts** - Multi-shot examples for better classification
+2. **Confidence scoring** - Return confidence level with classification
+3. **User feedback collection** - Store user corrections for improvement
+4. **Multi-language support** - Extend beyond English/German
+
+### Medium-term
+1. **Fine-tuned classification model** - Custom model trained on user queries
+2. **Context-aware routing** - Use conversation history for better intent detection
+3. **A/B testing framework** - Compare LLM vs regex performance
+4. **Telemetry integration** - Track accuracy metrics
+
+### Long-term
+1. **Active learning pipeline** - Continuously improve from user feedback
+2. **Personalized routing** - Learn user preferences over time
+3. **Multi-modal input** - Support images, code snippets in queries
+4. **Distributed classification** - Use multiple models for ensemble voting
 
 ## Migration Guide
 

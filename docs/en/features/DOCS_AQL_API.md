@@ -4,13 +4,20 @@
 
 ThemisDB provides integrated documentation assistance through AQL functions that leverage a pre-compiled documentation database and LLM capabilities. These functions enable users to query documentation, get configuration help, and troubleshoot issues directly from AQL queries.
 
-**NEW: Unified HELP() Function** - A single intelligent function that automatically detects your intent and provides the most appropriate response. This is the **recommended** way to access documentation assistance.
+**NEW: Unified HELP() Function** - A single intelligent function that uses **LLM-based intent detection** to automatically determine what you need and provide the most appropriate response. Falls back to regex pattern matching if LLM is unavailable. This is the **recommended** way to access documentation assistance.
+
+**Key Features:**
+- **LLM-Powered Classification** - Uses embedded LLM for accurate intent detection
+- **Regex Fallback** - Ensures reliability when LLM unavailable
+- **SSE Compatible** - Supports Server-Sent Events for streaming
+- **MCP Integration** - Works with Model Context Protocol
+- **User Feedback** - Can learn from corrections over time
 
 ## Primary Function (Recommended)
 
 ### HELP(query: string) -> string
 
-**The unified intelligent helper function that automatically determines intent from your query.**
+**The unified intelligent helper function with LLM-based intent detection.**
 
 **Syntax:**
 ```sql
@@ -24,11 +31,25 @@ SELECT HELP(question_or_query) AS answer;
 - String containing the appropriate response (answer, guidance, search results, or solution)
 
 **How it works:**
-The `HELP()` function analyzes your query and automatically routes it to the appropriate underlying function:
-- **Configuration questions** (contains: "config", "configure", "setting", "setup") → Configuration help
-- **Troubleshooting** (contains: "error", "fail", "problem", "issue", "hang", "crash") → Troubleshooting help
-- **Search requests** (contains: "search", "find", "look for") → Document search
-- **General questions** → RAG-powered query with context
+
+The `HELP()` function uses a two-tier approach:
+
+1. **Primary: LLM-Based Classification**
+   - Sends your query to an embedded LLM for intelligent classification
+   - LLM analyzes semantic meaning and context
+   - Returns intent: configuration, troubleshooting, search, or general
+   - Highly accurate and context-aware
+
+2. **Fallback: Regex Pattern Matching**
+   - If LLM unavailable, uses keyword-based detection
+   - Ensures reliability even without LLM
+   - Pattern matching on common keywords
+
+**Intent Routing:**
+- **Configuration** → Configuration help with topic extraction
+- **Troubleshooting** → Error diagnosis and solutions
+- **Search** → Document search with ranked results
+- **General** → RAG-powered query with context
 
 **Examples:**
 ```sql
@@ -37,17 +58,17 @@ SELECT HELP('How do I enable sharding?') AS answer;
 SELECT HELP('What is vector search?') AS info;
 SELECT HELP('Explain RAID configuration') AS explanation;
 
--- Configuration help (auto-detected)
+-- Configuration help (LLM detects setup intent)
 SELECT HELP('Configure security settings') AS guide;
 SELECT HELP('Setup replication') AS setup_guide;
 SELECT HELP('How to configure sharding?') AS config;
 
--- Troubleshooting (auto-detected)
+-- Troubleshooting (LLM detects problem/error)
 SELECT HELP('Server hangs at startup') AS solution;
 SELECT HELP('Connection error on port 8529') AS fix;
 SELECT HELP('Database fails to start') AS troubleshooting;
 
--- Document search (auto-detected)
+-- Document search (LLM detects information retrieval)
 SELECT HELP('Search for RAID documentation') AS search_results;
 SELECT HELP('Find information about vector embeddings') AS docs;
 SELECT HELP('Look for security best practices') AS references;

@@ -5,6 +5,7 @@
 
 #include "aql/docs_assistant_functions.h"
 #include "llm/docs_assistant.h"
+#include "llm/embedded_llm.h"
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
@@ -65,92 +66,174 @@ std::string DocsAssistantFunctions::help(const std::string& query) {
     try {
         auto* assistant = impl_->getAssistant();
         
-        // Analyze query to determine intent
-        std::string query_lower = query;
-        std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
+        // Try LLM-based intent detection first
+        std::string intent = detectIntentWithLLM(query);
         
-        // Check for configuration intent
-        if (query_lower.find("config") != std::string::npos ||
-            query_lower.find("configure") != std::string::npos ||
-            query_lower.find("setting") != std::string::npos ||
-            query_lower.find("setup") != std::string::npos) {
-            
-            // Extract topic from query (simple heuristic: look for key topics)
-            std::string topic = "general";
-            if (query_lower.find("security") != std::string::npos) topic = "security";
-            else if (query_lower.find("shard") != std::string::npos) topic = "sharding";
-            else if (query_lower.find("replica") != std::string::npos) topic = "replication";
-            else if (query_lower.find("cache") != std::string::npos) topic = "caching";
-            else if (query_lower.find("network") != std::string::npos) topic = "networking";
-            else if (query_lower.find("storage") != std::string::npos) topic = "storage";
-            
+        // If LLM detection failed or returned "unknown", fall back to regex
+        if (intent == "unknown" || intent.empty()) {
+            intent = detectIntentWithRegex(query);
+        }
+        
+        // Route based on detected intent
+        if (intent == "configuration") {
+            std::string topic = extractTopicFromQuery(query);
             auto result = assistant->getConfigHelp(topic);
             return result.generated_answer;
         }
-        
-        // Check for troubleshooting intent
-        if (query_lower.find("error") != std::string::npos ||
-            query_lower.find("fail") != std::string::npos ||
-            query_lower.find("problem") != std::string::npos ||
-            query_lower.find("issue") != std::string::npos ||
-            query_lower.find("hang") != std::string::npos ||
-            query_lower.find("crash") != std::string::npos ||
-            query_lower.find("not work") != std::string::npos ||
-            query_lower.find("doesn't work") != std::string::npos) {
-            
+        else if (intent == "troubleshooting") {
             auto result = assistant->getTroubleshootingHelp(query);
             return result.generated_answer;
         }
-        
-        // Check for search intent
-        if (query_lower.find("search") != std::string::npos ||
-            query_lower.find("find") != std::string::npos ||
-            query_lower.find("look for") != std::string::npos ||
-            query_lower.find("documentation about") != std::string::npos) {
-            
-            // Extract actual search query (remove "search for", "find", etc.)
-            std::string search_query = query;
-            size_t pos;
-            if ((pos = query_lower.find("search for")) != std::string::npos) {
-                search_query = query.substr(pos + 11);
-            } else if ((pos = query_lower.find("find")) != std::string::npos) {
-                search_query = query.substr(pos + 5);
-            } else if ((pos = query_lower.find("look for")) != std::string::npos) {
-                search_query = query.substr(pos + 9);
-            }
-            
-            // Trim whitespace
-            search_query.erase(0, search_query.find_first_not_of(" \t\n\r"));
-            search_query.erase(search_query.find_last_not_of(" \t\n\r") + 1);
-            
+        else if (intent == "search") {
+            std::string search_query = extractSearchQuery(query);
             auto docs = assistant->searchDocs(search_query, 5);
-            
-            // Format search results as text
-            std::ostringstream result;
-            result << "Found " << docs.size() << " relevant documents:\n\n";
-            for (size_t i = 0; i < docs.size(); ++i) {
-                result << (i + 1) << ". " << docs[i].file_name 
-                       << " (relevance: " << std::fixed << std::setprecision(2) 
-                       << (docs[i].relevance_score * 100) << "%)\n";
-                result << "   " << docs[i].file_path << "\n";
-                std::string preview = docs[i].text_content;
-                if (preview.length() > 150) {
-                    preview = preview.substr(0, 150) + "...";
-                }
-                result << "   " << preview << "\n\n";
-            }
-            return result.str();
+            return formatSearchResults(docs);
         }
-        
-        // Default: general RAG query
-        auto result = assistant->query(query);
-        return result.generated_answer;
+        else {
+            // Default: general RAG query
+            auto result = assistant->query(query);
+            return result.generated_answer;
+        }
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("HELP failed: ") + e.what()
         );
     }
+}
+
+std::string DocsAssistantFunctions::detectIntentWithLLM(const std::string& query) {
+    try {
+        // Try to use embedded LLM for intent detection
+        llm::EmbeddedLLM llm;
+        
+        // Create a classification prompt
+        std::ostringstream prompt;
+        prompt << "Classify the following user query into exactly ONE category:\n"
+               << "- configuration: User wants to configure or set up something\n"
+               << "- troubleshooting: User has an error, problem, or issue to solve\n"
+               << "- search: User wants to find or search for documentation\n"
+               << "- general: General question about ThemisDB\n\n"
+               << "User query: \"" << query << "\"\n\n"
+               << "Respond with ONLY the category name (configuration, troubleshooting, search, or general). "
+               << "No explanation, just the single word.";
+        
+        std::string response = llm.generate(prompt.str(), 20);
+        
+        // Clean up response (trim whitespace and convert to lowercase)
+        response.erase(0, response.find_first_not_of(" \t\n\r"));
+        response.erase(response.find_last_not_of(" \t\n\r") + 1);
+        std::transform(response.begin(), response.end(), response.begin(), ::tolower);
+        
+        // Validate response
+        if (response == "configuration" || response == "troubleshooting" || 
+            response == "search" || response == "general") {
+            return response;
+        }
+        
+        // If response is not valid, return unknown
+        return "unknown";
+        
+    } catch (const std::exception&) {
+        // LLM not available or failed, return unknown to trigger fallback
+        return "unknown";
+    }
+}
+
+std::string DocsAssistantFunctions::detectIntentWithRegex(const std::string& query) {
+    // Fallback: regex-based intent detection
+    std::string query_lower = query;
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
+    
+    // Check for configuration intent
+    if (query_lower.find("config") != std::string::npos ||
+        query_lower.find("configure") != std::string::npos ||
+        query_lower.find("setting") != std::string::npos ||
+        query_lower.find("setup") != std::string::npos) {
+        return "configuration";
+    }
+    
+    // Check for troubleshooting intent
+    if (query_lower.find("error") != std::string::npos ||
+        query_lower.find("fail") != std::string::npos ||
+        query_lower.find("problem") != std::string::npos ||
+        query_lower.find("issue") != std::string::npos ||
+        query_lower.find("hang") != std::string::npos ||
+        query_lower.find("crash") != std::string::npos ||
+        query_lower.find("not work") != std::string::npos ||
+        query_lower.find("doesn't work") != std::string::npos) {
+        return "troubleshooting";
+    }
+    
+    // Check for search intent
+    if (query_lower.find("search") != std::string::npos ||
+        query_lower.find("find") != std::string::npos ||
+        query_lower.find("look for") != std::string::npos ||
+        query_lower.find("documentation about") != std::string::npos) {
+        return "search";
+    }
+    
+    // Default: general
+    return "general";
+}
+
+std::string DocsAssistantFunctions::extractTopicFromQuery(const std::string& query) {
+    // Extract topic from query (simple heuristic: look for key topics)
+    std::string query_lower = query;
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
+    
+    if (query_lower.find("security") != std::string::npos) return "security";
+    if (query_lower.find("shard") != std::string::npos) return "sharding";
+    if (query_lower.find("replica") != std::string::npos) return "replication";
+    if (query_lower.find("cache") != std::string::npos) return "caching";
+    if (query_lower.find("network") != std::string::npos) return "networking";
+    if (query_lower.find("storage") != std::string::npos) return "storage";
+    
+    return "general";
+}
+
+std::string DocsAssistantFunctions::extractSearchQuery(const std::string& query) {
+    // Extract actual search query (remove "search for", "find", etc.)
+    std::string query_lower = query;
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
+    
+    std::string search_query = query;
+    size_t pos;
+    
+    if ((pos = query_lower.find("search for")) != std::string::npos) {
+        search_query = query.substr(pos + 11);
+    } else if ((pos = query_lower.find("find")) != std::string::npos) {
+        search_query = query.substr(pos + 5);
+    } else if ((pos = query_lower.find("look for")) != std::string::npos) {
+        search_query = query.substr(pos + 9);
+    }
+    
+    // Trim whitespace
+    search_query.erase(0, search_query.find_first_not_of(" \t\n\r"));
+    search_query.erase(search_query.find_last_not_of(" \t\n\r") + 1);
+    
+    return search_query;
+}
+
+std::string DocsAssistantFunctions::formatSearchResults(const std::vector<llm::DocumentEntry>& docs) {
+    // Format search results as text
+    std::ostringstream result;
+    result << "Found " << docs.size() << " relevant documents:\n\n";
+    
+    for (size_t i = 0; i < docs.size(); ++i) {
+        result << (i + 1) << ". " << docs[i].file_name 
+               << " (relevance: " << std::fixed << std::setprecision(2) 
+               << (docs[i].relevance_score * 100) << "%)\n";
+        result << "   " << docs[i].file_path << "\n";
+        
+        std::string preview = docs[i].text_content;
+        if (preview.length() > 150) {
+            preview = preview.substr(0, 150) + "...";
+        }
+        result << "   " << preview << "\n\n";
+    }
+    
+    return result.str();
 }
 
 std::string DocsAssistantFunctions::docsQuery(const std::string& query) {

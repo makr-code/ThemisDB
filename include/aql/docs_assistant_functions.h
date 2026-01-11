@@ -4,14 +4,20 @@
  * 
  * Exposes DocsAssistant functionality as AQL functions:
  * - HELP(query: string) -> string - Unified intelligent helper (RECOMMENDED)
+ *   Uses LLM-based intent detection with regex fallback
  * - DOCS_QUERY(query: string) -> string
  * - DOCS_SEARCH(query: string, limit: int) -> array<object>
  * - DOCS_CONFIG_HELP(topic: string) -> string
  * - DOCS_TROUBLESHOOT(error: string) -> string
  * 
+ * The HELP() function uses LLM for intelligent intent classification when available,
+ * falling back to regex-based pattern matching if LLM is not available.
+ * 
+ * Supports SSE (Server-Sent Events) for streaming and MCP (Model Context Protocol).
+ * 
  * Usage examples:
  * ```sql
- * -- Unified helper (automatically detects intent)
+ * -- Unified helper (automatically detects intent via LLM)
  * SELECT HELP('How do I enable sharding?') AS answer;
  * SELECT HELP('Server hangs at startup') AS solution;
  * SELECT HELP('Configure security settings') AS guide;
@@ -57,12 +63,19 @@ public:
     /**
      * @brief Unified intelligent helper function (RECOMMENDED)
      * 
-     * Automatically determines the intent from the query and routes to the
+     * Automatically determines the intent from the query using LLM-based
+     * classification (when available) with regex fallback, then routes to the
      * appropriate function:
      * - Configuration questions → configuration help
      * - Error/problem descriptions → troubleshooting help
      * - Search requests → document search
      * - General questions → RAG-powered query
+     * 
+     * Intent Detection Strategy:
+     * 1. Try LLM-based intent classification (primary method)
+     * 2. Fall back to regex pattern matching if LLM unavailable
+     * 
+     * Supports SSE (Server-Sent Events) streaming and MCP (Model Context Protocol).
      * 
      * @param query User query or question
      * @return Generated answer, search results, or guidance as string
@@ -143,6 +156,41 @@ public:
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
+    
+    /**
+     * @brief Detect user intent using LLM (primary method)
+     * @param query User query
+     * @return Intent: "configuration", "troubleshooting", "search", "general", or "unknown"
+     */
+    std::string detectIntentWithLLM(const std::string& query);
+    
+    /**
+     * @brief Detect user intent using regex patterns (fallback method)
+     * @param query User query
+     * @return Intent: "configuration", "troubleshooting", "search", or "general"
+     */
+    std::string detectIntentWithRegex(const std::string& query);
+    
+    /**
+     * @brief Extract configuration topic from query
+     * @param query User query
+     * @return Topic name (e.g., "security", "sharding", etc.)
+     */
+    std::string extractTopicFromQuery(const std::string& query);
+    
+    /**
+     * @brief Extract search query from user input
+     * @param query User query with search keywords
+     * @return Cleaned search query
+     */
+    std::string extractSearchQuery(const std::string& query);
+    
+    /**
+     * @brief Format search results as readable text
+     * @param docs Vector of document entries
+     * @return Formatted string with search results
+     */
+    std::string formatSearchResults(const std::vector<llm::DocumentEntry>& docs);
 };
 
 /**
