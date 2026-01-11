@@ -4,16 +4,21 @@
 
 Diese vorkompilierte RocksDB-Datenbank enthält die gesamte ThemisDB-Dokumentation aus `./docs` und `./compendium` und ist über alle ThemisDB-Datenmodelle zugänglich:
 
+- **Document**: Native `:document` Collection für ThemisDB-Integration
 - **Relational**: Dokumententabellen für SQL-ähnliche Abfragen
 - **Graph**: Dokumenten-Knoten und Beziehungen für Graph-Traversierung
 - **Vector**: Dokumenten-Embeddings für semantische Suche
 - **Metadata**: Datenbank-Metadaten und Statistiken
+
+**Wichtig:** Alle 1.151 Dokumente liegen redundant in allen Modellen vor, sodass Sie je nach Anwendungsfall das optimale Datenmodell wählen können.
 
 ## Struktur
 
 ### Column Families
 
 Die RocksDB-Datenbank verwendet folgende Column Families:
+
+0. **`default`**: Standard RocksDB Column Family
 
 1. **`relational`**: Relationaler Dokumenten-Store
    - Key: `doc:<file_hash>`
@@ -34,6 +39,11 @@ Die RocksDB-Datenbank verwendet folgende Column Families:
 5. **`metadata`**: Datenbank-Metadaten
    - Key: `<metadata_key>` (z.B. `version`, `generation_time`, `total_documents`)
    - Value: String
+
+6. **`document`**: Native `:document` Collection ⭐ NEU
+   - Key: `:document:<file_hash>`
+   - Value: JSON mit `{_key, _id, type, title, content, source, metadata, created_at}`
+   - Vollständiger Dokumenteninhalt für ThemisDB-Integration
 
 ## Generierung
 
@@ -71,6 +81,8 @@ g++ -std=c++17 data/import_docs_rocksdb.cpp -o import_docs_rocksdb \
 # 
 # Importing relational data...
 #   ✓ Imported 1151 relational records
+# Importing :document collection...
+#   ✓ Imported 1151 documents to :document collection
 # Importing graph nodes...
 #   ✓ Imported 1151 graph nodes
 # Importing graph edges...
@@ -101,6 +113,26 @@ THEMIS_CLI=./build/themis_cli data/import_docs_to_rocksdb.sh data/docs.db
 ## Verwendung
 
 ### Abfragen via ThemisDB API
+
+#### Native :document Collection
+
+```cpp
+#include "storage/rocksdb_wrapper.h"
+
+// Öffne die Dokumentationsdatenbank
+RocksDBWrapper docs_db("data/docs.db");
+
+// Lese ein Dokument aus der :document Collection
+std::string doc_json;
+auto status = docs_db.get("document", ":document:<file_hash>", &doc_json);
+
+if (status.ok()) {
+    auto doc = json::parse(doc_json);
+    std::cout << "Title: " << doc["title"] << "\n";
+    std::cout << "Content: " << doc["content"] << "\n";
+    std::cout << "Source: " << doc["source"] << "\n";
+}
+```
 
 #### Relational (SQL-ähnlich)
 

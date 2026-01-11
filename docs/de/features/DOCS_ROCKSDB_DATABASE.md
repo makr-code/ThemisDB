@@ -4,10 +4,13 @@
 
 Diese vorkompilierte RocksDB-Datenbank enthält die gesamte ThemisDB-Dokumentation aus `./docs` und `./compendium` und ist über alle ThemisDB-Datenmodelle zugänglich:
 
+- **Document**: Native `:document` Collection für ThemisDB-Integration
 - **Relational**: Dokumententabellen für SQL-ähnliche Abfragen
 - **Graph**: Dokumenten-Knoten und Beziehungen für Graph-Traversierung  
 - **Vector**: Dokumenten-Embeddings für semantische Suche
 - **Metadata**: Datenbank-Metadaten und Statistiken
+
+**Wichtig:** Alle 1.151 Dokumente liegen redundant in allen Modellen vor, sodass Sie je nach Anwendungsfall das optimale Datenmodell wählen können.
 
 Dies ermöglicht dem integrierten llama.cpp LLM, Administratoren bei der Konfiguration und Fehlerbehebung zu unterstützen.
 
@@ -27,6 +30,9 @@ Dies ermöglicht dem integrierten llama.cpp LLM, Administratoren bei der Konfigu
 ## Struktur der RocksDB-Datenbank
 
 Die Datenbank verwendet **Column Families** für verschiedene Datenmodelle:
+
+### 0. `default` - Standard Column Family
+Standard RocksDB Column Family
 
 ### 1. `relational` - Relationaler Store
 ```
@@ -78,6 +84,41 @@ Value: {
 
 ### 5. `metadata` - Datenbank-Metadaten
 ```
+Key:   version
+Value: "1.0.0"
+
+Key:   generation_time
+Value: "2026-01-11T08:52:58Z"
+
+Key:   total_documents
+Value: "1151"
+```
+
+### 6. `document` - Native `:document` Collection ⭐ NEU
+```
+Key:   :document:<file_hash>
+Value: {
+  "_key": "<file_hash>",
+  "_id": ":document/<file_hash>",
+  "type": "documentation",
+  "title": "RAID_SHARDING.md",
+  "content": "# RAID Sharding in ThemisDB\n\n...",  // Vollständiger Inhalt
+  "source": "/home/.../docs/en/features/RAID_SHARDING.md",
+  "metadata": {
+    "file_name": "RAID_SHARDING.md",
+    "file_extension": ".md",
+    "created_time": "2026-01-11T08:45:13Z",
+    "modified_time": "2026-01-11T08:45:13Z"
+  },
+  "created_at": "2026-01-11T08:52:57Z"
+}
+```
+
+**Besonderheit der `:document` Collection:**
+- Enthält den **vollständigen Dokumenteninhalt** (nicht gekürzt wie in `relational`)
+- Native ThemisDB `:document` Collection für direkte Integration
+- Kompatibel mit ThemisDB AQL-Abfragen
+- Ideal für Full-Text-Suche und Content-Management
 Key:   version
 Value: "1.0.0"
 
@@ -143,18 +184,27 @@ data/import_docs_to_rocksdb.sh data/docs.db
 #include "storage/rocksdb_wrapper.h"
 #include "llm/docs_assistant.h"
 
-// Methode 1: Direkte RocksDB-Abfragen
+// Methode 1: Direkt aus :document Collection lesen
 RocksDBWrapper docs_db("data/docs.db");
 
-// Lese Dokument aus relational CF
 std::string doc_json;
-auto status = docs_db.get("relational", "doc:abc123...", &doc_json);
+auto status = docs_db.get("document", ":document:abc123...", &doc_json);
 if (status.ok()) {
     auto doc = json::parse(doc_json);
-    std::cout << "Inhalt: " << doc["text_content"] << "\n";
+    std::cout << "Titel: " << doc["title"] << "\n";
+    std::cout << "Inhalt: " << doc["content"] << "\n";
+    std::cout << "Quelle: " << doc["source"] << "\n";
 }
 
-// Methode 2: Über DocsAssistant (empfohlen)
+// Methode 2: Aus relational CF lesen (gekürzt)
+std::string doc_json2;
+auto status2 = docs_db.get("relational", "doc:abc123...", &doc_json2);
+if (status2.ok()) {
+    auto doc = json::parse(doc_json2);
+    std::cout << "Inhalt (gekürzt): " << doc["text_content"] << "\n";
+}
+
+// Methode 3: Über DocsAssistant (empfohlen)
 themis::llm::DocsAssistantConfig config;
 config.docs_database_path = "data/docs.db";
 config.database_type = "rocksdb";
@@ -193,7 +243,17 @@ curl -X POST http://localhost:8765/api/v1/llm/docs/query \
 ### AQL (Advanced Query Language)
 
 ```sql
--- Dokumentation durchsuchen
+-- Native :document Collection durchsuchen
+FOR doc IN :document
+  FILTER doc.type == 'documentation'
+  FILTER doc.title CONTAINS 'RAID'
+  RETURN {
+    title: doc.title,
+    source: doc.source,
+    preview: SUBSTRING(doc.content, 0, 200)
+  };
+
+-- Relationalen Store durchsuchen
 SELECT * FROM docs_relational 
 WHERE text_content LIKE '%sharding%' 
 LIMIT 10;
@@ -208,6 +268,20 @@ SELECT * FROM docs_vector
 WHERE embedding_pending = false
 ORDER BY VECTOR_DISTANCE(embedding, @query_embedding)
 LIMIT 5;
+
+-- Kombinierte Abfrage: :document + Metadaten
+FOR doc IN :document
+  FILTER doc.type == 'documentation'
+  LET metadata = FIRST(
+    FOR m IN docs_metadata
+    FILTER m.key == 'db_version'
+    RETURN m.value
+  )
+  RETURN {
+    document: doc.title,
+    content_length: LENGTH(doc.content),
+    db_version: metadata
+  };
 ```
 
 ## Release-Integration
