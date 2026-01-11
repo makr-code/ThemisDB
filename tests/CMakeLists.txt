@@ -75,6 +75,55 @@ else()
 endif()
 
 # ============================================================================
+# LoRA Framework Comprehensive Tests (Issue: Unit Tests für LoRA Framework)
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework_comprehensive.cpp")
+    message(STATUS "Adding LoRA framework comprehensive tests")
+    
+    add_executable(test_lora_framework_comprehensive
+        test_lora_framework_comprehensive.cpp
+    )
+    
+    target_link_libraries(test_lora_framework_comprehensive PRIVATE
+        ${TEST_LIBS}
+        # Add ThemisDB core libraries when available
+        # themis_core
+        # themis_llm
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+    )
+    
+    target_compile_definitions(test_lora_framework_comprehensive PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+    
+    # Add to CTest
+    add_test(NAME LoRAFrameworkComprehensiveTests COMMAND test_lora_framework_comprehensive)
+    
+    # Set test properties
+    set_tests_properties(LoRAFrameworkComprehensiveTests PROPERTIES
+        LABELS "lora;llm;framework;comprehensive"
+        TIMEOUT 600
+    )
+    
+    message(STATUS "  - Comprehensive LoRA tests: 50+ test cases covering:")
+    message(STATUS "    * Storage operations (save, load, delete, versioning)")
+    message(STATUS "    * Adapter lifecycle (load, unload, hot-swap, caching)")
+    message(STATUS "    * Training service (on-the-fly, batch, callbacks)")
+    message(STATUS "    * Multi-adapter management (quantization, multi-GPU)")
+    message(STATUS "    * Thread-safety (concurrent operations)")
+    message(STATUS "    * Error handling and edge cases")
+    message(STATUS "    * Memory management and leak detection")
+    message(STATUS "    * Performance benchmarks")
+else()
+    message(STATUS "LoRA framework comprehensive tests not found")
+endif()
+
+# ============================================================================
 # Existing Tests
 # ============================================================================
 
