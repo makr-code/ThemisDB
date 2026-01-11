@@ -143,6 +143,7 @@ RUN echo "Building llama.cpp..." && \
         -DLLAMA_CURL=OFF \
         -DLLAMA_BUILD_SHARED_LIB=ON && \
     ninja -C build -j$(nproc) && \
+    cmake --install build --prefix /opt/llama-install && \
     echo "llama.cpp build completed"
 
 # ============================================================================
@@ -173,6 +174,7 @@ COPY --from=deps /build/vcpkg_installed /build/vcpkg_installed
 
 # Copy llama.cpp
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
+COPY --from=llama /opt/llama-install /opt/llama-install
 
 # Ensure system RocksDB dev headers/libs for build
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -202,6 +204,7 @@ RUN set -eux; \
         -DCMAKE_PREFIX_PATH="/build/vcpkg_installed/${TRIPLET};/build/vcpkg_installed/${TRIPLET}/share;/build/vcpkg_installed/${TRIPLET}/lib/cmake" \
         -DOPENSSL_ROOT_DIR=/build/vcpkg_installed/${TRIPLET} \
         -DOpenSSL_DIR=/build/vcpkg_installed/${TRIPLET}/share/openssl \
+        -Dllama_DIR=/opt/llama-install/lib/cmake/llama \
         -DVCPKG_MANIFEST_MODE=OFF && \
     ninja -C build -j$(nproc)
 
@@ -228,7 +231,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY --from=build /src/build/themis_server /app/themis_server
 
 # Copy llama.cpp libraries
-COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
+COPY --from=llama /opt/llama-install/lib/* /usr/local/lib/
 
 RUN ldconfig
 
@@ -263,7 +266,7 @@ COPY --from=build /src /src
 COPY --from=build /src/build/themis_server /app/themis_server
 
 # Copy llama.cpp libraries
-COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
+COPY --from=llama /opt/llama-install/lib/* /usr/local/lib/
 
 RUN ldconfig
 
