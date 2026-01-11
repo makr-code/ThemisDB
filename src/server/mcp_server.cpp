@@ -4,11 +4,13 @@
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
 #include "llm/embedded_llm.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
 #include <thread>
 #include <chrono>
 #include <fmt/format.h>
+#include <regex>
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -458,6 +460,53 @@ void McpServer::registerDefaultTools() {
         },
         [this](const json& args) { return toolDatabaseQueryWithLLM(args); });
     #endif
+
+    // ========================================================================
+    // Error Introspection Tools (NEW)
+    // ========================================================================
+    
+    registerTool("get_error_info", "Get detailed information about an error code or message",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query", {
+                    {"type", "string"},
+                    {"description", "Error code (e.g., '2000') or search query"}
+                }}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolGetErrorInfo(args); });
+
+    registerTool("search_errors", "Search for errors by category, keyword, or description",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"query", {
+                    {"type", "string"},
+                    {"description", "Search query (e.g., 'gpu', 'lora', 'storage')"}
+                }},
+                {"category", {
+                    {"type", "string"},
+                    {"description", "Filter by category (optional)"}
+                }}
+            }},
+            {"required", {"query"}}
+        },
+        [this](const json& args) { return toolSearchErrors(args); });
+
+    registerTool("introspect_database", "Ask questions about the database capabilities, errors, and features",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"question", {
+                    {"type", "string"},
+                    {"description", "Natural language question about the database"}
+                }}
+            }},
+            {"required", {"question"}}
+        },
+        [this](const json& args) { return toolIntrospectDatabase(args); });
 }
 
 json McpServer::toolQuery(const json& args) {
@@ -813,6 +862,236 @@ json McpServer::toolDatabaseQueryWithLLM(const json& args) {
     }
 }
 #endif // THEMIS_ENABLE_LLM
+
+// ============================================================================
+// Error Introspection Tool Handlers (NEW)
+// ============================================================================
+
+json McpServer::toolGetErrorInfo(const json& args) {
+    spdlog::info("MCP Tool 'get_error_info' called");
+    
+    std::string query = args.value("query", "");
+    
+    auto& registry = errors::ErrorRegistry::getInstance();
+    
+    // Try to parse as error code
+    try {
+        int code = std::stoi(query);
+        auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
+        
+        return {
+            {"status", "success"},
+            {"error", metadata.toJSON()}
+        };
+    } catch (...) {
+        // Search by query
+        auto results = registry.searchErrors(query);
+        
+        if (results.empty()) {
+            return {
+                {"status", "not_found"},
+                {"message", "No errors found matching query"}
+            };
+        }
+        
+        json errors_json = json::array();
+        for (const auto& error : results) {
+            errors_json.push_back(error.toJSON());
+        }
+        
+        return {
+            {"status", "success"},
+            {"errors", errors_json},
+            {"count", results.size()}
+        };
+    }
+}
+
+json McpServer::toolSearchErrors(const json& args) {
+    spdlog::info("MCP Tool 'search_errors' called");
+    
+    std::string query = args.value("query", "");
+    std::string category = args.value("category", "");
+    
+    auto& registry = errors::ErrorRegistry::getInstance();
+    std::vector<errors::ErrorMetadata> results;
+    
+    if (!category.empty()) {
+        results = registry.getErrorsByCategory(category);
+    } else {
+        results = registry.searchErrors(query);
+    }
+    
+    json errors_json = json::array();
+    for (const auto& error : results) {
+        errors_json.push_back(error.toJSON());
+    }
+    
+    return {
+        {"status", "success"},
+        {"errors", errors_json},
+        {"count", results.size()}
+    };
+}
+
+json McpServer::toolIntrospectDatabase(const json& args) {
+    std::string question = args.value("question", "");
+    
+    spdlog::info("MCP Tool 'introspect_database' called: {}", question);
+    
+    if (question.empty()) {
+        return {{"status", "error"}, {"message", "No question provided"}};
+    }
+    
+    std::string question_lower = question;
+    std::transform(question_lower.begin(), question_lower.end(), 
+                  question_lower.begin(), ::tolower);
+    
+    std::string answer;
+    
+    // Error-related questions
+    if (question_lower.find("fehler") != std::string::npos ||
+        question_lower.find("error") != std::string::npos ||
+        question_lower.find("problem") != std::string::npos) {
+        answer = generateErrorAnswer(question_lower);
+    }
+    // Database capability questions
+    else if (question_lower.find("what can") != std::string::npos ||
+             question_lower.find("capabilities") != std::string::npos ||
+             question_lower.find("features") != std::string::npos) {
+        answer = "ThemisDB is a distributed multi-model database supporting:\n\n"
+                "**Core Features:**\n"
+                "- Multi-model: Graph, Document, Key-Value, Time-Series, Vector\n"
+                "- AQL query language (similar to Cypher)\n"
+                "- Full-text search with BM25 ranking\n"
+                "- Vector similarity search\n"
+                "- Geospatial queries\n"
+                "- ACID transactions\n\n"
+                "**Advanced Features:**\n"
+                "- Integrated LLM inference (llama.cpp)\n"
+                "- Multi-LoRA adapter support\n"
+                "- MCP (Model Context Protocol) integration\n"
+                "- Sharding and replication\n"
+                "- Real-time change feeds\n\n"
+                "Ask me about specific features for more details!";
+    }
+    else {
+        answer = "I can help you understand ThemisDB's features, capabilities, and error handling. "
+                "Try asking:\n"
+                "- 'What errors can occur?'\n"
+                "- 'What does error 2000 mean?'\n"
+                "- 'What are the database capabilities?'\n"
+                "- 'How do I fix GPU out of memory errors?'";
+    }
+    
+    return {
+        {"status", "success"},
+        {"question", question},
+        {"answer", answer}
+    };
+}
+
+std::string McpServer::generateErrorAnswer(const std::string& question_lower) {
+    auto& registry = errors::ErrorRegistry::getInstance();
+    
+    // "Welche Fehler können auftreten?" / "What errors can occur?"
+    if (question_lower.find("welche fehler") != std::string::npos ||
+        question_lower.find("what errors") != std::string::npos ||
+        question_lower.find("which errors") != std::string::npos) {
+        
+        auto categories = registry.getAllCategories();
+        std::string answer = "I can help with the following error categories:\n\n";
+        
+        for (const auto& category : categories) {
+            auto errors = registry.getErrorsByCategory(category);
+            answer += fmt::format("**{}** ({} error types)\n", category, errors.size());
+        }
+        
+        answer += "\nAsk me about specific errors, e.g., 'What does error 2000 mean?'";
+        return answer;
+    }
+    
+    // "Was bedeutet Fehler X?" / "What does error X mean?"
+    if (question_lower.find("bedeutet") != std::string::npos ||
+        question_lower.find("mean") != std::string::npos ||
+        question_lower.find("what is") != std::string::npos) {
+        
+        // Extract error code or keyword
+        std::regex code_regex(R"(\b\d{4}\b)");
+        std::smatch match;
+        
+        if (std::regex_search(question_lower, match, code_regex)) {
+            int code = std::stoi(match.str());
+            auto metadata = registry.getError(static_cast<errors::ErrorCode>(code));
+            
+            if (static_cast<int>(metadata.code) != 9999 || code == 9999) {
+                return fmt::format(
+                    "**Error {}: {}**\n\n"
+                    "**Category:** {}\n"
+                    "**Severity:** {}\n\n"
+                    "**Cause:**\n{}\n\n"
+                    "**Solution:**\n{}\n\n"
+                    "**Documentation:** {}",
+                    code,
+                    metadata.message_template,
+                    metadata.category,
+                    metadata.severity,
+                    metadata.cause,
+                    metadata.solution,
+                    fmt::join(metadata.related_docs, ", ")
+                );
+            }
+        }
+    }
+    
+    // "How do I fix...?" / "Wie behebe ich...?"
+    if (question_lower.find("fix") != std::string::npos ||
+        question_lower.find("solve") != std::string::npos ||
+        question_lower.find("behebe") != std::string::npos) {
+        
+        // Search by keywords in question
+        auto results = registry.searchErrors(question_lower);
+        if (!results.empty()) {
+            std::string answer = fmt::format("I found {} relevant error(s) that might help:\n\n", 
+                                            results.size());
+            
+            for (size_t i = 0; i < std::min(results.size(), size_t(3)); ++i) {
+                const auto& error = results[i];
+                answer += fmt::format(
+                    "**[{}] {}**\n{}\n\n**Solution:**\n{}\n\n",
+                    static_cast<int>(error.code),
+                    error.message_template,
+                    error.cause,
+                    error.solution
+                );
+            }
+            
+            return answer;
+        }
+    }
+    
+    // Fallback: Search by keywords
+    auto results = registry.searchErrors(question_lower);
+    if (!results.empty()) {
+        std::string answer = fmt::format("I found {} relevant error(s):\n\n", 
+                                        results.size());
+        
+        for (size_t i = 0; i < std::min(results.size(), size_t(3)); ++i) {
+            const auto& error = results[i];
+            answer += fmt::format(
+                "**[{}] {}**\n{}\n\n",
+                static_cast<int>(error.code),
+                error.message_template,
+                error.cause
+            );
+        }
+        
+        return answer;
+    }
+    
+    return "I couldn't find matching error information. "
+           "Try asking with a specific error code or keyword like 'gpu', 'model', 'storage', etc.";
+}
 
 // ============================================================================
 // Default Resource Handlers (Stubs)

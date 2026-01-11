@@ -1087,6 +1087,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/http_client_pool.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/error_registry.cpp
     
     # Updates (hot-reload)
     ../src/updates/release_manifest.cpp
