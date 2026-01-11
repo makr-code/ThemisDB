@@ -80,9 +80,9 @@ p {
     widows: 3;
 }
 ```
+- ✅ Mindestens 3 Zeilen am Seitenende (orphans) 
 - ✅ Mindestens 3 Zeilen am Seitenanfang (widows)
-- ✅ Mindestens 3 Zeilen am Seitenende (orphans)
-- ✅ Verhindert "Schusterjungen" und "Hurenkinder"
+- ✅ Verhindert "Schusterjungen" (orphans) und "Hurenkinder" (widows)
 
 ## 3. Überschriften und Seitenumbrüche
 

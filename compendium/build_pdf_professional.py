@@ -49,7 +49,9 @@ table_list = []   # Liste aller Tabellen
 def render_mermaid(mermaid_code, output_path, fmt: str):
     """Render Mermaid via mmdc into given format (svg|png)."""
     try:
-        full_mermaid = f"""%%{{init: {json.dumps(MERMAID_CONFIG)}}}%%
+        # Prepare Mermaid config as JSON string
+        config_json = json.dumps(MERMAID_CONFIG)
+        full_mermaid = f"""%%{{init: {config_json}}}%%
 {mermaid_code}"""
 
         mmd_file = TEMP_DIR / "temp.mmd"
@@ -200,7 +202,7 @@ def clean_md(content, chapter_title=""):
 </figure>
 '''
 
-                # As last resort, keep code block
+        # Fallback: Keep as code block if both SVG and PNG rendering failed
         return f'\n```mermaid\n{mermaid_code}\n```\n'
         
     content = MERMAID_PATTERN.sub(replace_mermaid, content)

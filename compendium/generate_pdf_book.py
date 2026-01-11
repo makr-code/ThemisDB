@@ -5,7 +5,7 @@ ThemisDB Kompendium - PDF Generator mit professionellem Buchlayout
 Dieser Generator erstellt PDFs mit:
 - Durchgehender Seitennummerierung
 - Seitenzahlen im Inhaltsverzeichnis
-- Widow/Orphan Control (keine abgeschnittenen Absätze)
+- Widow/Orphan Control (keine abgeschnittene Absätze)
 - Professionellem Buchlayout
 - Running Headers
 - Intelligenten Seitenumbrüchen
