@@ -18,6 +18,9 @@ class AsyncInferenceEngine;
 namespace auth {
 class JWTValidator;
 }
+namespace server {
+class LoRAApiHandler;
+}
 }
 
 namespace themis::server {
@@ -75,10 +78,18 @@ public:
     void configureJWT(const auth::JWTValidatorConfig& config);
     
     /**
+     * @brief Set LoRA API handler for delegating LoRA-specific requests
+     * 
+     * @param lora_handler LoRA API handler instance
+     */
+    void setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler);
+    
+    /**
      * @brief Handle LLM API request
      * 
      * Routes request to appropriate handler based on path and method.
      * Validates JWT Bearer Token authentication.
+     * Delegates LoRA-specific requests to LoRAApiHandler if configured.
      * 
      * @param req HTTP request
      * @return HTTP response (JSON)
@@ -179,6 +190,7 @@ private:
     
     std::shared_ptr<llm::LLMPluginManager> plugin_manager_;
     std::unique_ptr<auth::JWTValidator> jwt_validator_;
+    std::shared_ptr<LoRAApiHandler> lora_handler_;
 };
 
 } // namespace themis::server
