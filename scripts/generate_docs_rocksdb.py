@@ -69,6 +69,9 @@ CREATE COLLECTION IF NOT EXISTS docs_graph_nodes;
 CREATE COLLECTION IF NOT EXISTS docs_graph_edges;
 CREATE COLLECTION IF NOT EXISTS docs_vector;
 CREATE COLLECTION IF NOT EXISTS docs_metadata;
+
+-- Native :document Collection für volle ThemisDB-Integration
+CREATE COLLECTION IF NOT EXISTS :document;
 """)
     
     # 2. Insert relational data
@@ -96,6 +99,32 @@ INSERT INTO docs_relational (
     '{file_path_escaped}',
     '{content_type}',
     '{text_content_escaped}',
+    '{doc.get('ingestion_time', '')}'
+);
+""")
+        
+        # Native :document Collection insert
+        metadata_json = json.dumps(doc.get('metadata', {})).replace("'", "''")
+        full_text_content = text_content.replace("'", "''")
+        
+        aql_commands.append(f"""
+INSERT INTO :document (
+    _key,
+    _id,
+    type,
+    title,
+    content,
+    source,
+    metadata,
+    created_at
+) VALUES (
+    '{doc.get('file_hash', '')}',
+    ':document/{doc.get('file_hash', '')}',
+    'documentation',
+    '{file_name}',
+    '{full_text_content}',
+    '{file_path_escaped}',
+    '{metadata_json}',
     '{doc.get('ingestion_time', '')}'
 );
 """)
@@ -257,6 +286,7 @@ def generate_cpp_direct_writer(docs_data: dict, output_path: str) -> str:
  * - Graph Edges (Column Family: graph_edges)
  * - Vector (Column Family: vector)
  * - Metadata (Column Family: metadata)
+ * - Document (Column Family: document) - Native ThemisDB :document collection
  */
 
 #include <rocksdb/db.h>
@@ -293,6 +323,7 @@ public:
         
         // Import data
         importRelational(docs_data);
+        importDocument(docs_data);
         importGraphNodes(docs_data);
         importGraphEdges(docs_data);
         importVector(docs_data);
@@ -330,6 +361,8 @@ private:
             "vector", rocksdb::ColumnFamilyOptions()));
         cf_descriptors.push_back(rocksdb::ColumnFamilyDescriptor(
             "metadata", rocksdb::ColumnFamilyOptions()));
+        cf_descriptors.push_back(rocksdb::ColumnFamilyDescriptor(
+            "document", rocksdb::ColumnFamilyOptions()));
         
         rocksdb::Status status = rocksdb::DB::Open(options, db_path_, cf_descriptors, &cf_handles_, &db_);
         
@@ -377,6 +410,43 @@ private:
         }
         
         std::cout << "  ✓ Imported " << count << " relational records" << std::endl;
+    }
+    
+    void importDocument(const json& docs_data) {
+        std::cout << "Importing :document collection..." << std::endl;
+        
+        auto* cf = cf_handles_[6];  // document CF (native :document collection)
+        
+        int count = 0;
+        for (const auto& doc : docs_data["documents"]) {
+            std::string key = ":document:" + doc["file_hash"].get<std::string>();
+            
+            json document = {
+                {"_key", doc["file_hash"]},
+                {"_id", ":document/" + doc["file_hash"].get<std::string>()},
+                {"type", "documentation"},
+                {"title", doc["metadata"]["file_name"]},
+                {"source", doc["file_path"]},
+                {"created_at", doc["ingestion_time"]}
+            };
+            
+            // Add full text content if available
+            if (doc.contains("themis_metadata") && 
+                doc["themis_metadata"].contains("vector") &&
+                doc["themis_metadata"]["vector"].contains("text_content")) {
+                document["content"] = doc["themis_metadata"]["vector"]["text_content"];
+            }
+            
+            // Add metadata
+            if (doc.contains("metadata")) {
+                document["metadata"] = doc["metadata"];
+            }
+            
+            db_->Put(rocksdb::WriteOptions(), cf, key, document.dump());
+            count++;
+        }
+        
+        std::cout << "  ✓ Imported " << count << " documents to :document collection" << std::endl;
     }
     
     void importGraphNodes(const json& docs_data) {
