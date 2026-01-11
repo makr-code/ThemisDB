@@ -22,7 +22,6 @@
 #endif
 
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 // LoRA Framework headers
 #include "llm/lora_framework/lora_adapter_manager.h"
@@ -44,9 +43,6 @@
 
 using namespace themis::llm::lora;
 using namespace themis::llm;
-using ::testing::_;
-using ::testing::Return;
-using ::testing::AtLeast;
 
 // ============================================================================
 // Mock Classes for External Dependencies
