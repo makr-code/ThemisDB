@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <chrono>
 #include <nlohmann/json.hpp>
+#include "llm/i_feedback_plugin.h"
 
 // Forward declarations for RocksDB types
 namespace rocksdb {
@@ -17,6 +18,13 @@ namespace rocksdb {
 
 namespace themis {
 namespace llm {
+
+// Forward declaration for graph edge type
+namespace lora {
+    enum class LoRAEdgeType;
+    struct LoRAGraphEdge;
+}
+
 
 /**
  * @brief Feedback type enumeration
@@ -41,13 +49,19 @@ enum class ValidationStatus {
  * 
  * Features:
  * - Support for positive and negative feedback
- * - Spam detection and validation
+ * - Optional plugin-based validation and preprocessing
+ * - Graph link integration (FEEDBACK_FOR edges to LoRA adapters)
  * - Versioning and timestamping
  * - Integration with LLM interactions
  * - Query and filtering capabilities
  * 
  * Storage: RocksDB with JSON serialization
  * Key format: "help_feedback:{feedback_id}"
+ * 
+ * Graph Links:
+ * - Feedback entries can be linked to LoRA adapters via FEEDBACK_FOR edges
+ * - Enables querying feedback by adapter
+ * - Supports adapter lineage tracking
  */
 class FeedbackStore {
 public:
@@ -115,6 +129,20 @@ public:
                           rocksdb::ColumnFamilyHandle* cf = nullptr);
 
     ~FeedbackStore() = default;
+    
+    /**
+     * @brief Set validation plugin (optional)
+     * @param plugin Validation plugin to use (nullptr = no validation)
+     * 
+     * When a plugin is set, all feedback will be validated through it.
+     * If validation fails, the feedback may be rejected or flagged.
+     */
+    void setValidationPlugin(std::shared_ptr<IFeedbackPlugin> plugin);
+    
+    /**
+     * @brief Get current validation plugin
+     */
+    std::shared_ptr<IFeedbackPlugin> getValidationPlugin() const;
 
     /**
      * @brief Store a new feedback entry
@@ -169,6 +197,10 @@ public:
 
     /**
      * @brief Validate feedback entry (basic spam/quality checks)
+     * 
+     * NOTE: This is now optional. When a validation plugin is set,
+     * it will be used instead of this basic validation.
+     * 
      * @param feedback Feedback entry to validate
      * @return ValidationStatus result
      */
@@ -178,19 +210,74 @@ public:
      * @brief Clear all feedback entries
      */
     void clear();
+    
+    // ===== Graph Link Methods =====
+    
+    /**
+     * @brief Create graph link between feedback and LoRA adapter
+     * 
+     * Creates a FEEDBACK_FOR edge from feedback to adapter.
+     * This enables querying feedback by adapter and tracking adapter lineage.
+     * 
+     * @param feedback_id Feedback entry ID
+     * @param adapter_id LoRA adapter ID
+     * @param metadata Optional edge metadata
+     * @return true if link created successfully
+     */
+    bool createAdapterLink(
+        const std::string& feedback_id,
+        const std::string& adapter_id,
+        const nlohmann::json& metadata = nlohmann::json::object());
+    
+    /**
+     * @brief Get feedback linked to a specific adapter
+     * 
+     * @param adapter_id LoRA adapter ID
+     * @param options List options for filtering
+     * @return Vector of feedback entries
+     */
+    std::vector<FeedbackEntry> getFeedbackForAdapter(
+        const std::string& adapter_id,
+        const ListOptions& options = ListOptions{}) const;
+    
+    /**
+     * @brief Get adapters linked to a specific feedback
+     * 
+     * @param feedback_id Feedback ID
+     * @return Vector of adapter IDs
+     */
+    std::vector<std::string> getLinkedAdapters(const std::string& feedback_id) const;
+    
+    /**
+     * @brief Check if feedback is linked to an adapter
+     * 
+     * @param feedback_id Feedback ID
+     * @param adapter_id Adapter ID
+     * @return true if linked
+     */
+    bool isLinkedToAdapter(
+        const std::string& feedback_id,
+        const std::string& adapter_id) const;
 
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_; // nullptr = default CF
+    std::shared_ptr<IFeedbackPlugin> validation_plugin_;
 
     static constexpr const char* KEY_PREFIX = "help_feedback:";
+    static constexpr const char* GRAPH_EDGE_PREFIX = "feedback_graph_edge:";
     
     std::string makeKey(const std::string& id) const;
+    std::string makeGraphEdgeKey(const std::string& feedback_id, 
+                                  const std::string& adapter_id) const;
     std::string generateId() const;
     
-    // Spam detection configuration
+    // Spam detection configuration (deprecated, use plugin instead)
     static const std::vector<std::string>& getSpamKeywords();
     static bool isLikelySpam(const std::string& text);
+    
+    // Helper: Apply plugin validation if available
+    ValidationStatus applyPluginValidation(const FeedbackEntry& feedback);
 };
 
 } // namespace llm

@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 #include "llm/feedback_store.h"
+#include "llm/i_feedback_plugin.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <memory>
@@ -400,6 +401,219 @@ TEST_F(FeedbackStoreTest, PaginationWithLimit) {
     EXPECT_EQ(limited.size(), 5);
 }
 
+// ===== Plugin System Tests =====
+
+// Test: Set and get validation plugin
+TEST_F(FeedbackStoreTest, SetValidationPlugin) {
+    // Initially no plugin
+    EXPECT_EQ(feedback_store_->getValidationPlugin(), nullptr);
+    
+    // Set plugin
+    auto plugin = std::make_shared<NoOpFeedbackPlugin>();
+    feedback_store_->setValidationPlugin(plugin);
+    
+    // Check plugin is set
+    auto current_plugin = feedback_store_->getValidationPlugin();
+    ASSERT_NE(current_plugin, nullptr);
+    EXPECT_EQ(current_plugin->getName(), "noop");
+}
+
+// Test: NoOp plugin accepts all feedback
+TEST_F(FeedbackStoreTest, NoOpPluginAcceptsAll) {
+    auto plugin = std::make_shared<NoOpFeedbackPlugin>();
+    json config = json::object();
+    ASSERT_TRUE(plugin->initialize(config));
+    
+    feedback_store_->setValidationPlugin(plugin);
+    
+    // Create feedback with minimal data
+    FeedbackStore::FeedbackEntry feedback;
+    feedback.type = FeedbackType::POSITIVE;
+    feedback.question = "x";  // Very short
+    feedback.answer = "y";    // Very short
+    
+    auto stored = feedback_store_->createFeedback(feedback);
+    EXPECT_EQ(stored.validation_status, ValidationStatus::APPROVED);
+    
+    plugin->shutdown();
+}
+
+// Test: Basic spam detection plugin rejects spam
+TEST_F(FeedbackStoreTest, BasicSpamDetectionRejectsSpam) {
+    auto plugin = std::make_shared<BasicSpamDetectionPlugin>();
+    json config = {
+        {"spam_keywords", {"buy now", "casino", "lottery"}}
+    };
+    ASSERT_TRUE(plugin->initialize(config));
+    
+    feedback_store_->setValidationPlugin(plugin);
+    
+    // Create feedback with spam keyword
+    FeedbackStore::FeedbackEntry feedback;
+    feedback.type = FeedbackType::POSITIVE;
+    feedback.question = "How to buy now and get rich?";
+    feedback.answer = "Click here to buy now!";
+    
+    auto stored = feedback_store_->createFeedback(feedback);
+    EXPECT_EQ(stored.validation_status, ValidationStatus::REJECTED);
+    
+    plugin->shutdown();
+}
+
+// Test: Basic spam detection plugin accepts clean feedback
+TEST_F(FeedbackStoreTest, BasicSpamDetectionAcceptsClean) {
+    auto plugin = std::make_shared<BasicSpamDetectionPlugin>();
+    json config = json::object();
+    ASSERT_TRUE(plugin->initialize(config));
+    
+    feedback_store_->setValidationPlugin(plugin);
+    
+    // Create clean feedback
+    FeedbackStore::FeedbackEntry feedback;
+    feedback.type = FeedbackType::POSITIVE;
+    feedback.question = "How do I enable sharding in ThemisDB?";
+    feedback.answer = "To enable sharding, use the SHARD BY clause.";
+    
+    auto stored = feedback_store_->createFeedback(feedback);
+    EXPECT_EQ(stored.validation_status, ValidationStatus::APPROVED);
+    
+    plugin->shutdown();
+}
+
+// ===== Graph Link Tests =====
+
+// Test: Create adapter link
+TEST_F(FeedbackStoreTest, CreateAdapterLink) {
+    // Create feedback
+    FeedbackStore::FeedbackEntry feedback;
+    feedback.type = FeedbackType::POSITIVE;
+    feedback.question = "Test question";
+    feedback.answer = "Test answer";
+    feedback.adapter_id = "test_adapter_v1";
+    
+    auto stored = feedback_store_->createFeedback(feedback);
+    
+    // Create graph link
+    json metadata = {
+        {"confidence", 0.95},
+        {"session_id", "test-session"}
+    };
+    bool success = feedback_store_->createAdapterLink(
+        stored.id, "test_adapter_v1", metadata);
+    
+    EXPECT_TRUE(success);
+}
+
+// Test: Create link for non-existent feedback
+TEST_F(FeedbackStoreTest, CreateLinkForNonExistentFeedback) {
+    bool success = feedback_store_->createAdapterLink(
+        "non-existent-id", "test_adapter", json::object());
+    
+    EXPECT_FALSE(success);
+}
+
+// Test: Check if feedback is linked to adapter
+TEST_F(FeedbackStoreTest, IsLinkedToAdapter) {
+    // Create feedback
+    FeedbackStore::FeedbackEntry feedback;
+    feedback.type = FeedbackType::POSITIVE;
+    feedback.question = "Test";
+    feedback.answer = "Test";
+    
+    auto stored = feedback_store_->createFeedback(feedback);
+    
+    // Create link
+    feedback_store_->createAdapterLink(stored.id, "adapter1", json::object());
+    
+    // Check link exists
+    EXPECT_TRUE(feedback_store_->isLinkedToAdapter(stored.id, "adapter1"));
+    EXPECT_FALSE(feedback_store_->isLinkedToAdapter(stored.id, "adapter2"));
+}
+
+// Test: Get linked adapters
+TEST_F(FeedbackStoreTest, GetLinkedAdapters) {
+    // Create feedback
+    FeedbackStore::FeedbackEntry feedback;
+    feedback.type = FeedbackType::POSITIVE;
+    feedback.question = "Test";
+    feedback.answer = "Test";
+    
+    auto stored = feedback_store_->createFeedback(feedback);
+    
+    // Create multiple links
+    feedback_store_->createAdapterLink(stored.id, "adapter1", json::object());
+    feedback_store_->createAdapterLink(stored.id, "adapter2", json::object());
+    feedback_store_->createAdapterLink(stored.id, "adapter3", json::object());
+    
+    // Get linked adapters
+    auto adapters = feedback_store_->getLinkedAdapters(stored.id);
+    
+    EXPECT_EQ(adapters.size(), 3);
+    EXPECT_NE(std::find(adapters.begin(), adapters.end(), "adapter1"), adapters.end());
+    EXPECT_NE(std::find(adapters.begin(), adapters.end(), "adapter2"), adapters.end());
+    EXPECT_NE(std::find(adapters.begin(), adapters.end(), "adapter3"), adapters.end());
+}
+
+// Test: Get feedback for adapter
+TEST_F(FeedbackStoreTest, GetFeedbackForAdapter) {
+    // Create multiple feedback entries
+    std::vector<std::string> feedback_ids;
+    for (int i = 0; i < 5; i++) {
+        FeedbackStore::FeedbackEntry feedback;
+        feedback.type = FeedbackType::POSITIVE;
+        feedback.question = "Question " + std::to_string(i);
+        feedback.answer = "Answer " + std::to_string(i);
+        
+        auto stored = feedback_store_->createFeedback(feedback);
+        feedback_ids.push_back(stored.id);
+        
+        // Link first 3 to adapter1, last 2 to adapter2
+        if (i < 3) {
+            feedback_store_->createAdapterLink(stored.id, "adapter1", json::object());
+        } else {
+            feedback_store_->createAdapterLink(stored.id, "adapter2", json::object());
+        }
+    }
+    
+    // Get feedback for adapter1
+    auto feedback_list = feedback_store_->getFeedbackForAdapter("adapter1");
+    EXPECT_EQ(feedback_list.size(), 3);
+    
+    // Get feedback for adapter2
+    feedback_list = feedback_store_->getFeedbackForAdapter("adapter2");
+    EXPECT_EQ(feedback_list.size(), 2);
+}
+
+// Test: Get feedback for adapter with filters
+TEST_F(FeedbackStoreTest, GetFeedbackForAdapterWithFilters) {
+    // Create feedback with different types
+    for (int i = 0; i < 5; i++) {
+        FeedbackStore::FeedbackEntry feedback;
+        feedback.type = (i < 3) ? FeedbackType::POSITIVE : FeedbackType::NEGATIVE;
+        feedback.question = "Question " + std::to_string(i);
+        feedback.answer = "Answer " + std::to_string(i);
+        if (feedback.type == FeedbackType::NEGATIVE) {
+            feedback.correction = "Correction " + std::to_string(i);
+        }
+        
+        auto stored = feedback_store_->createFeedback(feedback);
+        feedback_store_->createAdapterLink(stored.id, "test_adapter", json::object());
+    }
+    
+    // Get only positive feedback
+    FeedbackStore::ListOptions options;
+    options.filter_type = FeedbackType::POSITIVE;
+    
+    auto feedback_list = feedback_store_->getFeedbackForAdapter("test_adapter", options);
+    EXPECT_EQ(feedback_list.size(), 3);
+    
+    // Get only negative feedback
+    options.filter_type = FeedbackType::NEGATIVE;
+    feedback_list = feedback_store_->getFeedbackForAdapter("test_adapter", options);
+    EXPECT_EQ(feedback_list.size(), 2);
+}
+
 } // namespace test
 } // namespace llm
 } // namespace themis
+
