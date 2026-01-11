@@ -64,6 +64,26 @@ For transitioning to the new strategy:
   - Automated scripts
   - **Time**: 10-15 minutes
 
+- **[MERGE_STRATEGY_MIGRATION.md](MERGE_STRATEGY_MIGRATION.md)** 🆕
+  - Migration to squash merge strategy
+  - Why we changed from merge commits
+  - Benefits and tradeoffs
+  - FAQ and best practices
+  - **Time**: 10-15 minutes
+
+- **[GITHUB_SETTINGS_CONFIGURATION.md](GITHUB_SETTINGS_CONFIGURATION.md)** 🆕
+  - Step-by-step GitHub repository settings
+  - Configure merge methods
+  - Required for repository administrators
+  - **Time**: 5-10 minutes
+
+- **[MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)** 🆕
+  - One-page merge strategy reference
+  - When to squash vs merge commit
+  - For daily use
+  - **Print this!** 📄
+  - **Time**: 2-3 minutes
+
 ### 🤝 Contributing
 
 Updated guidelines for contributions:
@@ -92,7 +112,10 @@ Documentation Structure
 │
 ├── 🔧 Setup & Migration
 │   ├── MIGRATION_GUIDE.md                     ← Transition guide
-│   └── BRANCH_PROTECTION_SETUP.md             ← GitHub config
+│   ├── BRANCH_PROTECTION_SETUP.md             ← GitHub config
+│   ├── MERGE_STRATEGY_MIGRATION.md            ← Squash merge migration 🆕
+│   ├── GITHUB_SETTINGS_CONFIGURATION.md       ← GitHub settings 🆕
+│   └── MERGE_STRATEGY_QUICK_REF.md            ← Merge quick ref 🆕
 │
 ├── 🤝 Contributing
 │   └── CONTRIBUTING.md                        ← Contribution guide
@@ -178,6 +201,13 @@ Documentation Structure
 - Guidelines: [CONTRIBUTING.md](CONTRIBUTING.md) → "Pull Request Process"
 - Workflow: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Pull Request Workflows"
 - Visual: [BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md) → "Pull Request Flow"
+
+### Merge Strategy
+- Complete guide: [MERGE_STRATEGY_MIGRATION.md](MERGE_STRATEGY_MIGRATION.md) 🆕
+- Quick reference: [MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md) 🆕
+- GitHub setup: [GITHUB_SETTINGS_CONFIGURATION.md](GITHUB_SETTINGS_CONFIGURATION.md) 🆕
+- Guidelines: [CONTRIBUTING.md](CONTRIBUTING.md) → "Merge Strategy Guidelines"
+- Strategy docs: [BRANCHING_STRATEGY.md](BRANCHING_STRATEGY.md) → "Merge-Strategie"
 
 ### Branch Protection
 - Setup: [BRANCH_PROTECTION_SETUP.md](BRANCH_PROTECTION_SETUP.md)
@@ -347,6 +377,8 @@ Always remember:
 | 🔄 **Migrating** | [Migration Guide](MIGRATION_GUIDE.md) | For Contributors |
 | 🛡️ **Setup Protection** | [Branch Protection](BRANCH_PROTECTION_SETUP.md) | Quick Setup |
 | 🤝 **Contributing** | [Contributing Guide](CONTRIBUTING.md) | Development Workflow |
+| 🔀 **Merge Strategy** | [Merge Quick Ref](MERGE_STRATEGY_QUICK_REF.md) | All | 🆕
+| ⚙️ **GitHub Settings** | [GitHub Config](GITHUB_SETTINGS_CONFIGURATION.md) | All | 🆕
 
 ---
 
@@ -355,8 +387,9 @@ Always remember:
 These documents are optimized for printing:
 
 1. **[BRANCHING_QUICK_REF.md](BRANCHING_QUICK_REF.md)** - One page reference
-2. **[BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)** - Visual diagrams
-3. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)** - Overview
+2. **[MERGE_STRATEGY_QUICK_REF.md](MERGE_STRATEGY_QUICK_REF.md)** - Merge strategy reference 🆕
+3. **[BRANCHING_VISUAL_GUIDE.md](BRANCHING_VISUAL_GUIDE.md)** - Visual diagrams
+4. **[BRANCHING_IMPLEMENTATION_SUMMARY.md](BRANCHING_IMPLEMENTATION_SUMMARY.md)** - Overview
 
 **To print:**
 1. Open document in browser
