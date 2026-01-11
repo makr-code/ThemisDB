@@ -77,104 +77,75 @@ flowchart LR
 
 ## 25.1 Terraform Infrastructure-as-Code
 
-### AWS RDS ThemisDB Cluster
+Terraform ermöglicht die deklarative Definition der gesamten AWS-Infrastruktur für ThemisDB. Das Setup beinhaltet ein hochverfügbares RDS-Cluster mit 3 Knoten, automatische Backups, verschlüsselten Storage (KMS), Performance Insights für Monitoring und CloudWatch-Logging für Slowquery-Analyse. Die State-Datei wird in S3 mit DynamoDB-Locking gesichert, um parallele Änderungen zu verhindern.
+
+**📁 Vollständige Infrastruktur:** `terraform/main.tf` (~96 Zeilen)
+
+**AWS RDS ThemisDB Cluster** (Kern-Setup):
 
 ```hcl
 # main.tf: Production ThemisDB Cluster
 terraform {
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
+    aws = { source = "hashicorp/aws", version = "~> 5.0" }
   }
-  
   backend "s3" {
-    bucket         = "themis-terraform-state"
-    key            = "production/themisdb/terraform.tfstate"
-    region         = "eu-central-1"
-    encrypt        = true
-    dynamodb_table = "terraform-locks"
+    bucket  = "themis-terraform-state"
+    key     = "production/themisdb/terraform.tfstate"
+    encrypt = true
   }
 }
 
-provider "aws" {
-  region = var.aws_region
-}
-
-# RDS Cluster
+# Hochverfügbares RDS Cluster
 resource "aws_rds_cluster" "themis" {
   cluster_identifier      = "themis-prod-cluster"
   engine                  = "themisdb"
   engine_version          = "1.3.4"
-  database_name           = "themisdb"
   master_username         = "admin"
   master_password         = random_password.db_password.result
   
-  # Hochverfügbarkeit
+  # Hochverfügbarkeit über 3 Availability Zones
   availability_zones      = data.aws_availability_zones.available.names
   backup_retention_period = 30
   preferred_backup_window = "03:00-04:00"
   
-  # Security
-  db_subnet_group_name            = aws_db_subnet_group.themis.name
-  db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.themis.name
-  vpc_security_group_ids          = [aws_security_group.themis_db.id]
+  # Security: Verschlüsselung + VPC isolation
   storage_encrypted               = true
   kms_key_id                      = aws_kms_key.themis.arn
+  vpc_security_group_ids          = [aws_security_group.themis_db.id]
   
-  # Performance Insights
+  # Monitoring: Performance Insights + CloudWatch
   performance_insights_enabled    = true
-  performance_insights_kms_key_id = aws_kms_key.themis.arn
-  
-  # Logging
   enable_cloudwatch_logs_exports = ["error", "general", "slowquery"]
-  
-  tags = {
-    Environment = "production"
-    Service     = "themisdb"
-  }
 }
 
-# RDS Instances
+# 3-Knoten Cluster für Load Balancing
 resource "aws_rds_cluster_instance" "themis" {
-  count              = 3  # 3-Knoten Cluster
+  count              = 3
   cluster_identifier = aws_rds_cluster.themis.id
-  instance_class     = "db.r6i.2xlarge"
-  engine              = aws_rds_cluster.themis.engine
-  engine_version      = aws_rds_cluster.themis.engine_version
+  instance_class     = "db.r6i.2xlarge"  # 64 GB RAM, 8 vCPUs
   
-  monitoring_interval          = 60
-  monitoring_role_arn          = aws_iam_role.rds_monitoring.arn
+  monitoring_interval          = 60   # CloudWatch detailed monitoring
   performance_insights_enabled = true
-  
-  tags = {
-    Name = "themis-instance-${count.index + 1}"
-  }
 }
 
-# Parameter Group für Tuning
+# Performance-Tuning
 resource "aws_rds_cluster_parameter_group" "themis" {
-  name        = "themis-prod-params"
-  family      = "themisdb1.3"
-  description = "Tuned for high-throughput workloads"
+  name   = "themis-prod-params"
+  family = "themisdb1.3"
   
-  parameter {
-    name  = "max_connections"
-    value = "500"
-  }
-  
-  parameter {
-    name  = "shared_buffers_gb"
-    value = "16"
-  }
-  
-  parameter {
-    name  = "work_mem_mb"
-    value = "256"
-  }
+  parameter { name = "max_connections",    value = "500" }
+  parameter { name = "shared_buffers_gb",  value = "16" }
+  parameter { name = "work_mem_mb",        value = "256" }
 }
 ```
+
+**Weitere Ressourcen in vollständiger Datei:**
+- Subnet Groups für Multi-AZ deployment
+- Security Groups mit Ingress-Rules
+- KMS Keys für Encryption-at-Rest
+- IAM Roles für RDS-Monitoring
+- Random password generation
 
 ### Subnet & Security Groups
 

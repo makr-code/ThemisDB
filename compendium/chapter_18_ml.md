@@ -56,21 +56,29 @@ graph TB
 ### Feature Engineering mit ThemisDB
 
 **Feature-Definition:**
+
+**Feature-Definition:**
+
+Ein Feature Store in ThemisDB speichert vorberechnete ML-Features für verschiedene Entities (Kunden, Produkte, etc.). Die Features werden versioniert und mit Timestamps versehen, sodass Point-in-Time-Lookups für Training und Inference möglich sind. Dies vermeidet Training-Serving-Skew, ein häufiges Problem in ML-Systemen.
+
+> **📁 Vollständiger Code:** `examples/18_ml_features/feature_store.py` (ca. 120 Zeilen)
+
+**Feature Store Schema:**
+
 ```python
 from themisdb import ThemisDB
 import pandas as pd
-from datetime import datetime, timedelta
 
 db = ThemisDB(host='localhost', port=8529)
 
-# Feature Store Schema
+# Feature Store mit Versionierung
 db.execute("""
     CREATE TABLE ml_features (
         feature_id STRING PRIMARY KEY,
         entity_id STRING,
         entity_type STRING,
         feature_name STRING,
-        feature_value VARIANT,
+        feature_value VARIANT,  -- Flexibler Typ für verschiedene Features
         feature_type STRING,
         computed_at TIMESTAMP,
         version INTEGER,
@@ -79,96 +87,91 @@ db.execute("""
         INDEX idx_feature (feature_name, computed_at)
     )
 """)
+```
 
-# Feature-Berechnung für Kunden
+**Feature-Berechnung (Konzept):**
+
+```python
 def compute_customer_features(customer_id):
-    features = {}
+    """Berechnet ML-Features für einen Kunden"""
     
-    # Transaktionshistorie (relational)
-    result = db.execute("""
-        FOR order IN orders
-            FILTER order.customer_id == @customer_id
+    # Transaktions-Historie aggregieren
+    transaction_features = db.query("""
+        FOR txn IN transactions
+            FILTER txn.customer_id == @customer_id
             COLLECT AGGREGATE
-                total_orders = COUNT(1),
-                total_spent = SUM(order.total_amount),
-                avg_order_value = AVG(order.total_amount),
-                days_since_last_order = DATE_DIFF(
-                    MAX(order.order_date),
-                    DATE_NOW(),
-                    'day'
-                )
+                total_spent = SUM(txn.amount),
+                num_transactions = COUNT(1),
+                avg_transaction = AVG(txn.amount),
+                days_since_last = DATE_DIFF(NOW(), MAX(txn.date), 'day')
             RETURN {
-                total_orders,
                 total_spent,
-                avg_order_value,
-                days_since_last_order
+                num_transactions,
+                avg_transaction,
+                days_since_last
             }
-    """, bind_vars={'customer_id': customer_id})
+    """, bind_vars={'customer_id': customer_id})[0]
     
-    features.update(result[0])
+    # Weitere Features: RFM-Score, Category-Preferences, etc.
+    # ... (siehe vollständige Implementierung)
     
-    # Social Graph Features
-    result = db.execute("""
-        FOR v, e, p IN 1..2 OUTBOUND @customer_id GRAPH 'social_graph'
-            COLLECT AGGREGATE
-                friend_count = COUNT(DISTINCT v),
-                avg_friend_spending = AVG(v.total_spent)
-            RETURN {
-                friend_count,
-                avg_friend_spending
-            }
-    """, bind_vars={'customer_id': customer_id})
-    
-    features.update(result[0])
-    
-    # Produktpräferenzen (Vector Similarity)
-    result = db.execute("""
-        LET customer_purchases = (
-            FOR order IN orders
-                FILTER order.customer_id == @customer_id
-                FOR item IN order.items
-                    RETURN DISTINCT item.product_id
+    # Features in Store speichern
+    for feature_name, value in transaction_features.items():
+        store_feature(
+            entity_id=customer_id,
+            entity_type='customer',
+            feature_name=feature_name,
+            feature_value=value,
+            version=1
         )
-        
-        FOR product_id IN customer_purchases
-            FOR product IN products
-                FILTER product._id == product_id
-                RETURN product.category
-    """, bind_vars={'customer_id': customer_id})
-    
-    features['preferred_categories'] = list(set(result))
-    
-    return features
+```
 
-# Features speichern
-def save_features(entity_id, entity_type, features, version=1):
-    for feature_name, feature_value in features.items():
-        db.execute("""
-            INSERT {
-                feature_id: CONCAT(@entity_id, '_', @feature_name, '_', @version),
-                entity_id: @entity_id,
-                entity_type: @entity_type,
-                feature_name: @feature_name,
-                feature_value: @feature_value,
-                feature_type: @feature_type,
-                computed_at: DATE_NOW(),
-                version: @version
-            } INTO ml_features
+**Point-in-Time Feature Lookup:**
+
+```python
+def get_feature_vector(entity_id, feature_names, as_of_time=None):
+    """
+    Holt Feature-Vector zu einem bestimmten Zeitpunkt.
+    Kritisch für Training: Features dürfen nur Daten bis 'as_of_time' nutzen!
+    """
+    if as_of_time is None:
+        as_of_time = datetime.now()
+    
+    features = []
+    for feature_name in feature_names:
+        # Neueste Version VOR as_of_time
+        result = db.query("""
+            FOR f IN ml_features
+                FILTER f.entity_id == @entity_id
+                   AND f.feature_name == @feature_name
+                   AND f.computed_at <= @as_of_time
+                SORT f.computed_at DESC
+                LIMIT 1
+                RETURN f.feature_value
         """, bind_vars={
             'entity_id': entity_id,
-            'entity_type': entity_type,
             'feature_name': feature_name,
-            'feature_value': feature_value,
-            'feature_type': type(feature_value).__name__,
-            'version': version
+            'as_of_time': as_of_time
         })
-
-# Batch Feature Computation
-def batch_compute_features(entity_ids):
-    for entity_id in entity_ids:
-        features = compute_customer_features(entity_id)
-        save_features(entity_id, 'customer', features)
+        
+        features.append(result[0] if result else None)
+    
+    return features
 ```
+
+**Wichtige Konzepte:**
+
+1. **Point-in-Time Correctness**: Features zum Training-Zeitpunkt müssen mit Inference-Features übereinstimmen
+2. **Versionierung**: Ermöglicht A/B-Tests verschiedener Feature-Definitionen
+3. **VARIANT Type**: Speichert unterschiedliche Datentypen (Float, String, Array) in einer Spalte
+4. **Efficient Aggregation**: AQL `COLLECT AGGREGATE` für schnelle Feature-Berechnung
+5. **Incremental Updates**: Nur neue Daten müssen berechnet werden
+
+Die vollständige Implementierung enthält zusätzlich:
+- Batch-Feature-Berechnung für alle Entities
+- Feature-Monitoring (Drift-Detection)
+- Feature-Lineage-Tracking
+- Online-Feature-Store-API für Echtzeit-Inference
 
 ### Online Feature Store (Low-Latency)
 
@@ -368,105 +371,162 @@ model.save('models/churn_prediction_v1.h5')
 ### PyTorch Integration
 
 **Custom Dataset und Training:**
+
+**Custom Dataset und Training:**
+
+PyTorch-Integration mit ThemisDB ermöglicht direktes Training aus der Datenbank ohne CSV-Export. Der `ThemisDataset` lädt Features on-the-fly, was bei großen Datasets Speicher spart. Die direkte DB-Integration stellt sicher, dass Training und Inference dieselbe Datenpipeline nutzen.
+
+> **📁 Vollständiger Code:** `examples/18_ml_pytorch/train_model.py` (ca. 100 Zeilen)
+
+**Custom PyTorch Dataset:**
+
 ```python
 import torch
 from torch.utils.data import Dataset, DataLoader
 import torch.nn as nn
-import torch.optim as optim
 
 class ThemisDataset(Dataset):
-    def __init__(self, db, feature_names):
+    """PyTorch Dataset das Features direkt aus ThemisDB lädt"""
+    
+    def __init__(self, db, feature_names, label_column='churn'):
         self.db = db
         self.feature_names = feature_names
+        self.label_column = label_column
         
-        # Alle Customer IDs laden
-        self.customer_ids = db.execute("FOR c IN customers RETURN c._id")
-        
+        # Entity IDs laden (lazy loading von Features)
+        self.customer_ids = db.execute(
+            "FOR c IN customers RETURN c._id"
+        )
+    
     def __len__(self):
         return len(self.customer_ids)
     
     def __getitem__(self, idx):
         customer_id = self.customer_ids[idx]
         
-        # Features laden
-        features = feature_store.get_feature_vector(customer_id, self.feature_names)
+        # Features aus Feature Store laden
+        features = feature_store.get_feature_vector(
+            customer_id, 
+            self.feature_names
+        )
         features = [f if f is not None else 0.0 for f in features]
         
         # Label laden
-        result = self.db.execute("""
-            FOR customer IN customers
-                FILTER customer._id == @customer_id
-                RETURN customer.churned ? 1.0 : 0.0
-        """, bind_vars={'customer_id': customer_id})
+        label = db.query("""
+            FOR c IN customers
+                FILTER c._id == @customer_id
+                RETURN c[@label_column]
+        """, bind_vars={
+            'customer_id': customer_id,
+            'label_column': self.label_column
+        })[0]
         
-        label = result[0] if result else 0.0
-        
-        return torch.tensor(features, dtype=torch.float32), torch.tensor(label, dtype=torch.float32)
+        return (
+            torch.tensor(features, dtype=torch.float32),
+            torch.tensor(label, dtype=torch.float32)
+        )
+```
 
-# Neural Network
+**Model-Definition und Training:**
+
+```python
+# Einfaches Neural Network
 class ChurnPredictor(nn.Module):
-    def __init__(self, input_size):
-        super(ChurnPredictor, self).__init__()
-        self.fc1 = nn.Linear(input_size, 64)
-        self.fc2 = nn.Linear(64, 32)
-        self.fc3 = nn.Linear(32, 16)
-        self.fc4 = nn.Linear(16, 1)
-        self.relu = nn.ReLU()
-        self.dropout = nn.Dropout(0.3)
-        self.sigmoid = nn.Sigmoid()
-        
+    def __init__(self, input_dim):
+        super().__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(input_dim, 64),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(64, 32),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(32, 1),
+            nn.Sigmoid()
+        )
+    
     def forward(self, x):
-        x = self.relu(self.fc1(x))
-        x = self.dropout(x)
-        x = self.relu(self.fc2(x))
-        x = self.dropout(x)
-        x = self.relu(self.fc3(x))
-        x = self.sigmoid(self.fc4(x))
-        return x
-
-# Dataset und DataLoader
-dataset = ThemisDataset(db, feature_names)
-train_size = int(0.8 * len(dataset))
-test_size = len(dataset) - train_size
-train_dataset, test_dataset = torch.utils.data.random_split(dataset, [train_size, test_size])
-
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-test_loader = DataLoader(test_dataset, batch_size=32)
-
-# Model, Loss, Optimizer
-model = ChurnPredictor(len(feature_names))
-criterion = nn.BCELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+        return self.layers(x)
 
 # Training Loop
-for epoch in range(10):
-    model.train()
-    total_loss = 0
+def train_model(db, feature_names, epochs=10, batch_size=32):
+    # Dataset erstellen
+    dataset = ThemisDataset(db, feature_names)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     
-    for features, labels in train_loader:
-        optimizer.zero_grad()
-        outputs = model(features).squeeze()
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-        total_loss += loss.item()
+    # Model initialisieren
+    model = ChurnPredictor(input_dim=len(feature_names))
+    criterion = nn.BCELoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
     
-    print(f'Epoch {epoch+1}, Loss: {total_loss/len(train_loader):.4f}')
-
-# Evaluation
-model.eval()
-correct = 0
-total = 0
-
-with torch.no_grad():
-    for features, labels in test_loader:
-        outputs = model(features).squeeze()
-        predicted = (outputs > 0.5).float()
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
-
-print(f'Accuracy: {100 * correct / total:.2f}%')
+    # Training
+    for epoch in range(epochs):
+        total_loss = 0
+        for batch_features, batch_labels in dataloader:
+            optimizer.zero_grad()
+            
+            # Forward pass
+            predictions = model(batch_features)
+            loss = criterion(predictions.squeeze(), batch_labels)
+            
+            # Backward pass
+            loss.backward()
+            optimizer.step()
+            
+            total_loss += loss.item()
+        
+        print(f"Epoch {epoch+1}/{epochs}, Loss: {total_loss/len(dataloader):.4f}")
+    
+    return model
 ```
+
+**Model in DB speichern:**
+
+```python
+def save_model_to_db(model, model_name, metadata):
+    """Speichert trainiertes Model zurück in ThemisDB"""
+    
+    # Model als Binary serialisieren
+    model_bytes = io.BytesIO()
+    torch.save(model.state_dict(), model_bytes)
+    model_bytes.seek(0)
+    
+    db.execute("""
+        INSERT INTO ml_models {
+            model_name: @model_name,
+            model_binary: @model_binary,
+            framework: 'pytorch',
+            input_features: @features,
+            metrics: @metrics,
+            trained_at: @timestamp,
+            version: @version
+        }
+    """, bind_vars={
+        'model_name': model_name,
+        'model_binary': model_bytes.read(),
+        'features': metadata['features'],
+        'metrics': metadata['metrics'],
+        'timestamp': datetime.now(),
+        'version': metadata['version']
+    })
+```
+
+**Vorteile der DB-Integration:**
+
+| Vorteil | Beschreibung |
+|---------|--------------|
+| **Keine CSV-Exports** | Features direkt aus DB geladen |
+| **Lazy Loading** | Speicher-effizient bei großen Datasets |
+| **Konsistenz** | Training & Inference nutzen gleiche Pipeline |
+| **Versionierung** | Models und Features zusammen versioniert |
+| **Reproducibility** | Komplette Lineage in einer DB |
+
+Die vollständige Implementierung enthält zusätzlich:
+- Train/Val/Test Split direkt in DB
+- Distributed Training über mehrere Nodes
+- Model-Registry mit A/B-Testing
+- Feature-Importance-Tracking
+- Hyperparameter-Tuning-History
 
 ## 16.3 Model Serving
 

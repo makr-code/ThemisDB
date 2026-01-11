@@ -302,11 +302,16 @@ Implementieren wir ein vollständiges Content-Management-System mit Artikeln, Re
 
 ### Implementation
 
-**`blog_wiki/models.py`:**
+Die Implementation zeigt ein vollständiges Blog/Wiki-System mit verschachtelten Dokumenten (Comments, Revisions) und flexiblem Schema. Die Datenmodelle nutzen Python Dataclasses für klare Strukturierung, während die Document Engine die komplexe Verschachtelung transparent handhabt.
+
+> **📁 Vollständiger Code:** `examples/blog_wiki/models.py` (ca. 80 Zeilen)
+
+**Datenmodelle (Kernstruktur):**
+
 ```python
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 import uuid
 
 @dataclass
@@ -318,19 +323,13 @@ class Comment:
     
     @staticmethod
     def create(author: str, text: str) -> dict:
+        """Factory-Methode für neue Comments"""
         return {
             "id": str(uuid.uuid4()),
             "author": author,
             "text": text,
             "created_at": datetime.now().isoformat()
         }
-
-@dataclass
-class Revision:
-    version: int
-    content: str
-    changed_by: str
-    changed_at: datetime
 
 @dataclass
 class Article:
@@ -345,48 +344,27 @@ class Article:
     metadata: dict
     comments: List[dict] = field(default_factory=list)
     revisions: List[dict] = field(default_factory=list)
-    
-    @staticmethod
-    def create(title: str, content: str, author: str, 
-               tags: List[str], category: str) -> dict:
-        now = datetime.now().isoformat()
-        article_id = str(uuid.uuid4())
-        slug = title.lower().replace(" ", "-")
-        
-        article = {
-            "id": article_id,
-            "title": title,
-            "slug": slug,
-            "content": content,
-            "author": author,
-            "status": "draft",
-            "tags": tags,
-            "category": category,
-            "metadata": {
-                "created_at": now,
-                "updated_at": now,
-                "published_at": None,
-                "views": 0,
-                "featured": False
-            },
-            "comments": [],
-            "revisions": [
-                {
-                    "version": 1,
-                    "content": content,
-                    "changed_by": author,
-                    "changed_at": now
-                }
-            ]
-        }
-        return article
 ```
 
-**`blog_wiki/blog.py`:**
+**Wichtige Design-Entscheidungen:**
+- **Verschachtelte Dokumente:** Comments und Revisions als Arrays innerhalb des Articles
+- **Flexible Metadaten:** `metadata` dict für erweiterbare Eigenschaften
+- **Factory-Methoden:** `Article.create()` initialisiert mit sinnvollen Defaults
+- **UUID-basierte IDs:** Dezentrale ID-Generierung für verteilte Systeme
+
+Die vollständige `Article.create()` Methode generiert automatisch Slug, initialisiert Metadaten (created_at, views, etc.) und erstellt die erste Revision.
+
+
+**Blog/Wiki Service-Klasse:**
+
+Die `BlogWiki` Klasse kapselt alle Datenbankoperationen für das Blog/Wiki-System. Sie demonstriert wichtige Document Engine Features wie Array-Operationen (`array_append`), verschachtelte Updates (`metadata.published_at`), und Transaktionen für atomare Multi-Step-Operationen.
+
+> **📁 Vollständiger Code:** `examples/blog_wiki/blog.py` (ca. 220 Zeilen)
+
+**Index-Setup für Performance:**
+
 ```python
 from themisdb import ThemisDB
-from datetime import datetime
-from typing import List, Optional
 
 class BlogWiki:
     def __init__(self, db_path: str = "blog.db"):
@@ -394,58 +372,40 @@ class BlogWiki:
         self._setup_indexes()
     
     def _setup_indexes(self):
-        """Create indexes for performance"""
-        # Fulltext search on title and content
+        """Erstellt Indizes für häufige Abfragen"""
+        # Fulltext-Suche in Titel und Content
         self.db.execute("""
-            CREATE INDEX IF NOT EXISTS idx_articles_fulltext
+            CREATE INDEX idx_articles_fulltext
             ON articles USING FULLTEXT(title, content)
         """)
         
-        # Fast lookup by slug
+        # Schneller Slug-Lookup
         self.db.execute("""
-            CREATE INDEX IF NOT EXISTS idx_articles_slug
-            ON articles(slug)
+            CREATE INDEX idx_articles_slug ON articles(slug)
         """)
         
-        # Filter by status and category
+        # Filter nach Status und Kategorie
         self.db.execute("""
-            CREATE INDEX IF NOT EXISTS idx_articles_status_category
+            CREATE INDEX idx_articles_status_category 
             ON articles(status, category)
         """)
-        
-        # Tag search
-        self.db.execute("""
-            CREATE INDEX IF NOT EXISTS idx_articles_tags
-            ON articles(tags)
-        """)
-    
+```
+
+**CRUD-Operationen (Auszüge):**
+
+```python
     def create_article(self, title: str, content: str, author: str,
                       tags: List[str], category: str) -> str:
-        """Create new article"""
-        from models import Article
-        
+        """Neuen Artikel erstellen"""
         article = Article.create(title, content, author, tags, category)
         self.db.documents.insert("articles", article)
         return article["id"]
     
-    def publish_article(self, article_id: str):
-        """Publish draft article"""
-        with self.db.transaction():
-            self.db.documents.update(
-                collection="articles",
-                document_id=article_id,
-                updates={
-                    "status": "published",
-                    "metadata.published_at": datetime.now().isoformat()
-                }
-            )
-    
-    def update_article(self, article_id: str, content: str, 
-                      updated_by: str):
-        """Update article and save revision"""
+    def update_article(self, article_id: str, content: str, updated_by: str):
+        """Artikel aktualisieren - speichert automatisch Revision!"""
         article = self.db.documents.get("articles", article_id)
         
-        # Create new revision
+        # Neue Revision erstellen
         new_version = len(article["revisions"]) + 1
         revision = {
             "version": new_version,
@@ -455,118 +415,42 @@ class BlogWiki:
         }
         
         with self.db.transaction():
-            # Update content and add revision
             self.db.documents.update(
                 collection="articles",
                 document_id=article_id,
                 updates={
                     "content": content,
                     "metadata.updated_at": datetime.now().isoformat(),
-                    "revisions": self.db.array_append(revision)
+                    "revisions": self.db.array_append(revision)  # Array-Operation!
                 }
             )
-    
+```
+
+**Array-Operationen für verschachtelte Dokumente:**
+
+```python
     def add_comment(self, article_id: str, author: str, text: str):
-        """Add comment to article"""
-        from models import Comment
-        
+        """Comment zu Article hinzufügen"""
         comment = Comment.create(author, text)
         
         self.db.documents.update(
             collection="articles",
             document_id=article_id,
             updates={
-                "comments": self.db.array_append(comment)
+                "comments": self.db.array_append(comment)  # Effizient!
             }
         )
     
-    def increment_views(self, article_id: str):
-        """Increment view counter"""
-        self.db.documents.update(
-            collection="articles",
-            document_id=article_id,
-            updates={
-                "metadata.views": self.db.increment(1)
-            }
-        )
-    
-    def search_articles(self, query: str) -> List[dict]:
-        """Fulltext search"""
-        results = self.db.query("""
-            FOR article IN articles
-              FILTER FULLTEXT(article.title, @query) OR FULLTEXT(article.content, @query)
-                AND article.status == 'published'
-              SORT article.metadata.published_at DESC
-              RETURN article
-        """, {"query": query})
-        return results
-    
-    def get_by_tag(self, tag: str) -> List[dict]:
-        """Get articles by tag"""
-        results = self.db.query("""
-            FOR article IN articles
-              FILTER @tag IN article.tags
-                AND article.status == 'published'
-              SORT article.metadata.published_at DESC
-              RETURN article
-        """, {"tag": tag})
-        return results
-    
-    def get_by_category(self, category: str) -> List[dict]:
-        """Get articles by category"""
-        results = self.db.query("""
-            FOR article IN articles
-              FILTER article.category == @category
-                AND article.status == 'published'
-              SORT article.metadata.published_at DESC
-              RETURN article
-        """, {"category": category})
-        return results
-    
-    def get_popular(self, limit: int = 10) -> List[dict]:
-        """Get most viewed articles"""
-        results = self.db.query("""
-            FOR article IN articles
-              FILTER article.status == 'published'
-              SORT article.metadata.views DESC
-              LIMIT @limit
-              RETURN article
-        """, {"limit": limit})
-        return results
-    
-    def get_featured(self) -> List[dict]:
-        """Get featured articles"""
-        results = self.db.query("""
-            FOR article IN articles
-              FILTER article.status == 'published'
-                AND article.metadata.featured == true
-              SORT article.metadata.published_at DESC
-              RETURN article
-        """)
-        return results
-    
-    def get_revisions(self, article_id: str) -> List[dict]:
-        """Get revision history"""
+    def revert_to_revision(self, article_id: str, version: int):
+        """Artikel zu früherer Version zurücksetzen"""
         article = self.db.documents.get("articles", article_id)
-        return article.get("revisions", [])
-    
-    def revert_to_revision(self, article_id: str, version: int, 
-                          reverted_by: str):
-        """Revert to previous version"""
-        article = self.db.documents.get("articles", article_id)
-        revisions = article["revisions"]
+        target = next(r for r in article["revisions"] if r["version"] == version)
         
-        # Find target revision
-        target = next((r for r in revisions if r["version"] == version), None)
-        if not target:
-            raise ValueError(f"Revision {version} not found")
-        
-        # Create revert revision
-        new_version = len(revisions) + 1
+        # Revert wird selbst als neue Revision gespeichert
         revert_revision = {
-            "version": new_version,
+            "version": len(article["revisions"]) + 1,
             "content": target["content"],
-            "changed_by": reverted_by,
+            "changed_by": "system",
             "changed_at": datetime.now().isoformat(),
             "reverted_from": version
         }
@@ -577,27 +461,33 @@ class BlogWiki:
                 document_id=article_id,
                 updates={
                     "content": target["content"],
-                    "metadata.updated_at": datetime.now().isoformat(),
                     "revisions": self.db.array_append(revert_revision)
                 }
             )
-    
+```
+
+**Aggregation für Statistiken:**
+
+```python
     def get_statistics(self) -> dict:
-        """Get blog statistics"""
-        stats = self.db.query("""
+        """Blog-Statistiken berechnen"""
+        return self.db.query("""
             SELECT 
                 COUNT(*) AS total_articles,
-                SUM(CASE WHEN status='published' THEN 1 ELSE 0 END) 
-                    AS published,
-                SUM(CASE WHEN status='draft' THEN 1 ELSE 0 END) 
-                    AS drafts,
+                SUM(CASE WHEN status='published' THEN 1 ELSE 0 END) AS published,
                 SUM(metadata.views) AS total_views,
                 AVG(metadata.views) AS avg_views
             FROM articles
         """)[0]
-        
-        return stats
 ```
+
+Die vollständige Klasse enthält zusätzlich:
+- `publish_article()` - Status ändern und Publikationsdatum setzen
+- `increment_views()` - View-Counter inkrementieren
+- `search_articles()` - Fulltext-Suche
+- `get_by_category()` - Kategoriefilter
+- `get_by_tags()` - Tag-basierte Suche
+- `get_related_articles()` - Empfehlungen basierend auf Tags
 
 ### Praktische Anwendung
 
