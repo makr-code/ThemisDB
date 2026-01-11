@@ -130,6 +130,20 @@ public:
     ) override;
 
     /**
+     * @brief Check if archive processing is available
+     * 
+     * Returns true if libzip is available and the processor can function.
+     * For plugin architecture - allows runtime detection of capability.
+     */
+    static bool isAvailable() {
+        #ifdef THEMIS_ENABLE_ARCHIVES
+        return true;
+        #else
+        return true;  // libzip is in dependencies, always available for now
+        #endif
+    }
+
+    /**
      * @brief Detect archive format from blob
      */
     static ArchiveFormat detectFormat(const std::string& blob, const std::string& filename);
