@@ -152,9 +152,6 @@ private:
 
     class Impl;
     std::unique_ptr<Impl> impl_;
-    
-    // Helper function
-    static std::string incrementVersion(const std::string& version);
 };
 
 /**

@@ -105,7 +105,9 @@ public:
         
         // Note: Base model loading is deferred until first query.
         // This allows the system to start even if a model file is not available.
-        // The queryInternal() method will attempt to load the model on-demand.
+        // The queryInternal() method will attempt to load the model on-demand,
+        // either from local storage or via remote download (Ollama) if
+        // enable_remote_loading is configured.
     }
     
     std::string buildDocumentationPrompt(const std::string& question) {
