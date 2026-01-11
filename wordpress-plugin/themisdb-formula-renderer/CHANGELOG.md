@@ -14,19 +14,27 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Unterstützung für Block-Formeln (`$$...$$`)
 - Shortcode-Unterstützung: `[themisdb_formula]`, `[formula]`, `[latex]`, `[math]`
 - Admin-Einstellungsseite mit Konfigurationsoptionen
-- Anpassbare Delimiters (Trennzeichen)
+- Anpassbare Delimiters (Trennzeichen) mit Validierung
 - Responsive Design mit Dark Mode Unterstützung
 - Vollständige LaTeX-Mathematik-Syntax-Unterstützung
 - KaTeX 0.16.9 Integration via CDN
 - Fehlertolerantes Rendering mit aussagekräftigen Fehlermeldungen
 - WordPress Gutenberg und Classic Editor Kompatibilität
 - Mehrsprachige Unterstützung (Text Domain: themisdb-formula-renderer)
-- Auto-Render für dynamisch geladenen Content (AJAX-Support)
+- Auto-Render für dynamisch geladenen Content (AJAX-Support mit intelligenter Retry-Logik)
 - Performance-optimiert mit CDN-Bereitstellung
 - Beispiele und Dokumentation auf der Einstellungsseite
 - CSS-Anpassungsmöglichkeiten
-- XSS-Schutz und Security Best Practices
+- Umfassende Security-Features (siehe unten)
 - MIT Lizenz
+
+### Sicherheit
+- **Input Sanitization**: Alle Benutzereingaben werden sanitized mit `sanitize_text_field()`
+- **Input Validation**: Delimiter-Validierung mit Character-Whitelisting
+- **XSS-Schutz**: Proper escaping und Validierung von `$_GET` Parameter
+- **Field Length Limits**: Server- und Client-seitige Längenbegrenzung (maxlength: 10)
+- **Settings API**: Sanitization Callbacks in `register_setting()` registriert
+- **CDN Security**: Dokumentation zu Subresource Integrity (SRI) für Produktionsumgebungen
 
 ### Features
 - **Auto-Rendering**: Formeln werden automatisch in Beiträgen, Seiten und Kommentaren gerendert
