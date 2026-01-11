@@ -1,0 +1,133 @@
+# ============================================================================
+# ThemisDB LoRA Framework - Development Configuration
+# ============================================================================
+# Extends docker-compose.yml with development-specific settings:
+# - Hot-reload support for code changes
+# - Debug builds with symbols
+# - Volume mounts for local development
+# - Port forwarding for debugging tools
+#
+# Usage:
+#   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # ThemisDB - Development Overrides
+  # ==========================================================================
+  themisdb:
+    build:
+      args:
+        BUILD_TYPE: Debug
+        ENABLE_ASAN: "ON"  # AddressSanitizer for debugging
+    volumes:
+      # Mount source code for hot-reload
+      - ../src:/app/src:ro
+      - ../include:/app/include:ro
+      - ../tests:/app/tests:ro
+      - ../benchmarks:/app/benchmarks:ro
+      # Mount build directory for incremental builds
+      - themisdb-build:/app/build
+      # Mount local config for easy editing
+      - ./config:/etc/themisdb
+    environment:
+      - THEMIS_LOG_LEVEL=debug
+      - THEMIS_ENABLE_PROFILING=true
+      - THEMIS_METRICS_DETAILED=true
+    ports:
+      # Add debugging ports
+      - "5678:5678"  # Python debugger
+      - "2345:2345"  # Go debugger (if needed)
+      - "40000:40000"  # C++ debugger (gdbserver)
+    command: >
+      /bin/bash -c "
+      echo 'Starting ThemisDB in development mode...';
+      if [ -f /app/build/themisdb ]; then
+        /app/build/themisdb --config /etc/themisdb/themisdb.yaml;
+      else
+        echo 'Build not found. Run: docker-compose exec themisdb bash -c \"cd /app/build && cmake .. && make\"';
+        tail -f /dev/null;
+      fi
+      "
+
+  # ==========================================================================
+  # Test Database - Development Overrides
+  # ==========================================================================
+  test-db:
+    build:
+      args:
+        BUILD_TYPE: Debug
+        ENABLE_ASAN: "ON"
+    volumes:
+      - ../src:/app/src:ro
+      - ../include:/app/include:ro
+      - ../tests:/app/tests:ro
+      - test-db-build:/app/build
+    environment:
+      - THEMIS_LOG_LEVEL=trace  # Maximum verbosity for tests
+      - THEMIS_ENABLE_TEST_MODE=true
+
+  # ==========================================================================
+  # Prometheus - Development Overrides
+  # ==========================================================================
+  prometheus:
+    volumes:
+      # Mount config for hot-reload
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=7d'  # Shorter retention for dev
+      - '--web.enable-lifecycle'  # Enable reload via HTTP
+      - '--log.level=debug'
+
+  # ==========================================================================
+  # Grafana - Development Overrides
+  # ==========================================================================
+  grafana:
+    environment:
+      - GF_LOG_LEVEL=debug
+      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s  # Fast refresh for development
+      - GF_SECURITY_ADMIN_PASSWORD=admin  # Easy password for dev
+      - GF_AUTH_ANONYMOUS_ENABLED=true  # Allow anonymous access
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin  # Full access for dev
+
+  # ==========================================================================
+  # Development Tools Container
+  # ==========================================================================
+  dev-tools:
+    image: ubuntu:22.04
+    container_name: themisdb-dev-tools
+    hostname: dev-tools
+    volumes:
+      - ../:/workspace:cached
+      - dev-tools-cache:/root/.cache
+    working_dir: /workspace
+    environment:
+      - TERM=xterm-256color
+    command: >
+      /bin/bash -c "
+      apt-get update && apt-get install -y --no-install-recommends \
+        build-essential cmake ninja-build git curl \
+        gdb valgrind clang-format clang-tidy \
+        vim nano htop ncdu && \
+      echo 'Development tools ready' && \
+      echo 'Access with: docker-compose exec dev-tools bash' && \
+      tail -f /dev/null
+      "
+    networks:
+      - themis-network
+    restart: unless-stopped
+
+# ============================================================================
+# Development Volumes
+# ============================================================================
+volumes:
+  themisdb-build:
+    driver: local
+  test-db-build:
+    driver: local
+  dev-tools-cache:
+    driver: local

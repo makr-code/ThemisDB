@@ -189,9 +189,11 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 
 | Feature | Description | Community | Enterprise |
 |---------|-------------|:---------:|:----------:|
-| 🚀 Quick Start
+| ## 🚀 Quick Start
 
 ### 🐳 Docker (Recommended)
+
+**Option 1: Standard Docker**
 
 ```bash
 # Pull and run the latest version
@@ -212,6 +214,25 @@ docker compose up -d
 # Verify installation
 curl http://localhost:8080/health
 ```
+
+**Option 2: LoRA Framework Development Environment** ⭐ **New!**
+
+Complete development environment with ThemisDB, Prometheus, and Grafana in < 5 minutes:
+
+```bash
+# Navigate to docker directory
+cd docker
+
+# Start all services
+./scripts/start.sh
+
+# Access:
+# - ThemisDB:   http://localhost:8529
+# - Prometheus: http://localhost:9091
+# - Grafana:    http://localhost:3000 (admin/admin)
+```
+
+**Full documentation**: See [docker/README.md](docker/README.md) | [LoRA Build Guide](LORA_BUILD_GUIDE.md)
 
 > [!TIP]
 > Use Docker Compose for production deployments with proper configuration.
