@@ -552,6 +552,54 @@ void ContentTypeRegistry::registerDefaultTypes() {
         .features = {.hierarchical = true}
     });
     
+    registerType({
+        .mime_type = "application/gzip",
+        .category = ContentCategory::ARCHIVE,
+        .extensions = {".gz", ".tgz", ".tar.gz"},
+        .supports_text_extraction = false,
+        .supports_embedding = false,
+        .supports_chunking = false,
+        .supports_metadata_extraction = true,
+        .binary_storage_required = true,
+        .features = {.hierarchical = true}
+    });
+    
+    registerType({
+        .mime_type = "application/x-bzip2",
+        .category = ContentCategory::ARCHIVE,
+        .extensions = {".bz2", ".tbz2", ".tar.bz2"},
+        .supports_text_extraction = false,
+        .supports_embedding = false,
+        .supports_chunking = false,
+        .supports_metadata_extraction = true,
+        .binary_storage_required = true,
+        .features = {.hierarchical = true}
+    });
+    
+    registerType({
+        .mime_type = "application/x-xz",
+        .category = ContentCategory::ARCHIVE,
+        .extensions = {".xz", ".txz", ".tar.xz"},
+        .supports_text_extraction = false,
+        .supports_embedding = false,
+        .supports_chunking = false,
+        .supports_metadata_extraction = true,
+        .binary_storage_required = true,
+        .features = {.hierarchical = true}
+    });
+    
+    registerType({
+        .mime_type = "application/x-7z-compressed",
+        .category = ContentCategory::ARCHIVE,
+        .extensions = {".7z"},
+        .supports_text_extraction = false,
+        .supports_embedding = false,
+        .supports_chunking = false,
+        .supports_metadata_extraction = true,
+        .binary_storage_required = true,
+        .features = {.hierarchical = true}
+    });
+    
     // BINARY (Fallback)
     registerType({
         .mime_type = "application/octet-stream",
