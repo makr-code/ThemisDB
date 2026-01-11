@@ -75,7 +75,7 @@ else()
 endif()
 
 # ============================================================================
-# LoRA Framework Comprehensive Tests (NEW - Issue #XXX)
+# LoRA Framework Comprehensive Tests (Issue: Unit Tests für LoRA Framework)
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_framework_comprehensive.cpp")

@@ -23,21 +23,24 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+
+// LoRA Framework headers
 #include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/multi_lora_manager.h"
-#include <memory>
-#include <thread>
-#include <chrono>
-#include <atomic>
-#include <vector>
-#include <future>
-#include <random>
+
+// Standard library headers
 #include <algorithm>
-#include <sstream>
+#include <atomic>
 #include <cctype>
+#include <chrono>
+#include <future>
+#include <memory>
+#include <sstream>
+#include <thread>
+#include <vector>
 
 using namespace themis::llm::lora;
 using namespace themis::llm;
@@ -715,7 +718,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, ErrorHandling_InvalidVersion_Format) {
             std::string part;
             int part_count = 0;
             while (std::getline(ss, part, '.')) {
-                if (part.empty() || !std::all_of(part.begin(), part.end(), ::isdigit)) {
+                if (part.empty() || !std::all_of(part.begin(), part.end(), [](unsigned char c) { return std::isdigit(c); })) {
                     return false;
                 }
                 part_count++;
@@ -1001,28 +1004,31 @@ TEST_F(LoRAFrameworkComprehensiveTest, Integration_MultiAdapterScenario) {
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     
-    std::cout << "\n";
-    std::cout << "╔══════════════════════════════════════════════════════════════════╗\n";
-    std::cout << "║  ThemisDB LoRA Framework - Comprehensive Unit Test Suite        ║\n";
-    std::cout << "╚══════════════════════════════════════════════════════════════════╝\n";
-    std::cout << "\n";
-    std::cout << "Test Coverage:\n";
-    std::cout << "  ✓ LoRAStorageService (save, load, delete, versioning)\n";
-    std::cout << "  ✓ LoRAAdapterManager (lifecycle, caching, hot-swap)\n";
-    std::cout << "  ✓ LoRATrainingService (training, callbacks, checkpoints)\n";
-    std::cout << "  ✓ MultiLoRAManager (quantization, multi-GPU, fusion)\n";
-    std::cout << "  ✓ Thread-safety (concurrent reads/writes)\n";
-    std::cout << "  ✓ Error handling and edge cases\n";
-    std::cout << "  ✓ Memory management and leak detection\n";
-    std::cout << "  ✓ Performance benchmarks\n";
-    std::cout << "  ✓ Integration scenarios\n";
-    std::cout << "\n";
+    // Print test banner using GTest's testing::Message
+    testing::Message banner;
+    banner << "\n";
+    banner << "╔══════════════════════════════════════════════════════════════════╗\n";
+    banner << "║  ThemisDB LoRA Framework - Comprehensive Unit Test Suite        ║\n";
+    banner << "╚══════════════════════════════════════════════════════════════════╝\n";
+    banner << "\n";
+    banner << "Test Coverage:\n";
+    banner << "  ✓ LoRAStorageService (save, load, delete, versioning)\n";
+    banner << "  ✓ LoRAAdapterManager (lifecycle, caching, hot-swap)\n";
+    banner << "  ✓ LoRATrainingService (training, callbacks, checkpoints)\n";
+    banner << "  ✓ MultiLoRAManager (quantization, multi-GPU, fusion)\n";
+    banner << "  ✓ Thread-safety (concurrent reads/writes)\n";
+    banner << "  ✓ Error handling and edge cases\n";
+    banner << "  ✓ Memory management and leak detection\n";
+    banner << "  ✓ Performance benchmarks\n";
+    banner << "  ✓ Integration scenarios\n";
+    banner << "\n";
+    
+    // Only print banner if not in quiet mode
+    if (testing::GTEST_FLAG(print_time) || !testing::GTEST_FLAG(brief)) {
+        printf("%s", banner.GetString().c_str());
+    }
     
     int result = RUN_ALL_TESTS();
-    
-    std::cout << "\n";
-    std::cout << "Test execution completed.\n";
-    std::cout << "\n";
     
     return result;
 }
