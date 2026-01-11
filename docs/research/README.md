@@ -38,6 +38,8 @@ Konkret: Kann ein Nutzer die Datenbank fragen:
 - "Wo sind die Daten?"
 - "Wie sind die Daten aufgebaut?"
 - "Was ist deine Aufgabe?"
+- **"Welche Behördendaten speicherst du?"** (Domain-spezifisch, Update 11.01.2026)
+- **"Welche LoRA-Adapter sind geladen?"** (LoRA-RAID-Verbund, Update 11.01.2026)
 
 ---
 
@@ -133,7 +135,28 @@ json McpServer::toolGetSchema(const json& args) {
 - `toolIntrospectDatabase()` implementieren
 - ReAct Agent Loop für "Was kannst du?"-Fragen
 
-#### 🔮 **Phase 5: Query Explanation** (Priorität: NIEDRIG)
+#### 🔮 **Phase 5: Domain-Specific Semantic Awareness** (Priorität: MITTEL-HOCH)
+
+**Aufwand:** ~800 LOC  
+**Zeitrahmen:** 3-4 Sprints
+
+- Semantic Metadata Store für Business Context
+- LLM Content Analysis (Sample-based)
+- Entity Extraction (Fachbegriffe, Rechtsnormen)
+- Behörden-Use-Cases: "Welche Genehmigungsverfahren verwaltest du?"
+
+#### 🔮 **Phase 6: LoRA-RAID Verbund Awareness** (Priorität: MITTEL-HOCH)
+
+**Aufwand:** ~1300 LOC  
+**Zeitrahmen:** 4-5 Sprints
+
+- LoRA Introspection API
+- REST API Endpoints (`/api/v1/lora/*`)
+- MCP Tools & Resources für LoRA
+- Natural Language: "Welche LoRA-Adapter sind geladen?"
+- GPU/RAID-Verteilung Transparenz
+
+#### 🔮 **Phase 7: Query Explanation** (Priorität: NIEDRIG)
 
 **Aufwand:** Hoch (Query Planner benötigt)  
 **Zeitrahmen:** 4+ Sprints
@@ -156,6 +179,8 @@ json McpServer::toolGetSchema(const json& args) {
 | **MCP Full Integration** | ⚠️ Stub | **HOCH** | **NIEDRIG** |
 | **Capabilities Endpoint** | ❌ Fehlt | MITTEL | NIEDRIG |
 | **Natural Language Q&A** | ❌ Fehlt | MITTEL | MITTEL-HOCH |
+| **Domain-Semantic Awareness** | ❌ Fehlt | MITTEL-HOCH | HOCH |
+| **LoRA-RAID Verbund Awareness** | ❌ Fehlt | MITTEL-HOCH | HOCH |
 | Query Explanation | ❌ Fehlt | NIEDRIG | HOCH |
 
 **Legende:**

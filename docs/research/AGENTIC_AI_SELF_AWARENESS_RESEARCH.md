@@ -16,6 +16,12 @@ Diese Recherche analysiert die vorhandenen "Self-Awareness"-Fähigkeiten von The
 - "Wo sind die Daten?"
 - "Wie sind die Daten aufgebaut?"
 - "Was ist deine Aufgabe?"
+- **"Welche Behördendaten speicherst du?"** (Domain-spezifisch)
+- **"Welche LoRA-Adapter sind geladen und was können sie?"** (LoRA-RAID-Verbund)
+
+**Update (11.01.2026):** Erweitert um:
+1. **Domain-Specific Semantic Awareness** - die Fähigkeit, nicht nur technische Metadaten (Tabellen, Spalten) zu liefern, sondern auch **Geschäftsdomäne und Zweck** zu verstehen und zu kommunizieren.
+2. **LoRA-RAID Verbund Awareness** - Transparenz über geladene LoRA-Adapter, deren Herkunft, Fähigkeiten und GPU/RAID-Verteilung.
 
 ---
 
@@ -404,7 +410,160 @@ GET /api/v1/capabilities
 
 ---
 
-### 5. **Query Explanation & Analysis** ❌ **NICHT IMPLEMENTIERT**
+### 5. **Domain-Specific Semantic Awareness** ❌ **NICHT IMPLEMENTIERT**
+
+**Idee:** LLM versteht nicht nur technisches Schema, sondern auch **Geschäftsdomäne und Zweck** der Daten
+
+**Problem:** Aktuell kann ThemisDB nur technische Metadaten liefern (Tabellennamen, Spalten, Typen). Es fehlt **semantisches Verständnis** über den Inhalt und Zweck.
+
+**Beispiel - Behördendaten:**
+
+| Frage | Technische Antwort (aktuell möglich) | Semantische Antwort (benötigt) |
+|-------|--------------------------------------|--------------------------------|
+| "Welche Behördendaten speicherst du?" | "Ich speichere Tabellen: documents, agencies, permits, inspections" | "Ich speichere die Dokumente der **Behörde für Umweltschutz Hamburg** im **Akten-Layout nach VwVfG** und fokussiere mich auf **immissionsschutzrechtliche** Verfahren **nach BImSchG** für **genehmigungsbedürftige Anlagen**." |
+| "Was ist der Zweck dieser Daten?" | "Die documents-Tabelle hat 1.2M Einträge mit Properties: id, title, content, created_at" | "Die Daten dienen der **Genehmigungsverfahren für Industrieanlagen** gemäß **Bundesimmissionsschutzgesetz (BImSchG)**. Ich speichere Antragsunterlagen, Gutachten, Genehmigungsbescheide und Überwachungsprotokolle." |
+
+**Was benötigt wird:**
+
+1. **Metadaten-Layer für Business Context:**
+   ```json
+   {
+     "database_purpose": {
+       "domain": "Umweltschutz / Immissionsschutz",
+       "legal_framework": ["BImSchG", "VwVfG", "9. BImSchV"],
+       "organization": "Behörde für Umweltschutz Hamburg",
+       "data_classification": "Behördliche Verwaltungsakten"
+     },
+     "tables": [
+       {
+         "name": "documents",
+         "business_purpose": "Genehmigungsrelevante Dokumente nach BImSchG",
+         "document_types": [
+           "Antragsunterlagen",
+           "Gutachten (Emissionsschutz, Lärmschutz)",
+           "Genehmigungsbescheide",
+           "Überwachungsprotokolle"
+         ],
+         "legal_retention": "30 Jahre nach VwVfG",
+         "sensitivity": "VS-NfD (Nur für den Dienstgebrauch)"
+       }
+     ]
+   }
+   ```
+
+2. **LLM-gestützte Querschnitts-Metadaten-Auswertung:**
+   - **Content Analysis:** LLM analysiert gespeicherte Dokumente und extrahiert Domänen-Kontext
+   - **Pattern Recognition:** Erkennung von Fachbegriffen (BImSchG, Genehmigungsverfahren, etc.)
+   - **Entity Extraction:** Behörden, Rechtsnormen, Anlagentypen
+   - **Cross-Table Semantics:** Verknüpfung zwischen documents ↔ agencies ↔ permits
+
+3. **Semantic Metadata Store:**
+   ```cpp
+   class SemanticMetadataManager {
+   public:
+       struct DomainContext {
+           std::string domain;              // "Umweltschutz"
+           std::vector<std::string> legal_framework; // ["BImSchG", "VwVfG"]
+           std::string organization;        // "Behörde XY"
+           std::string purpose;             // Business purpose
+       };
+       
+       struct TableSemantics {
+           std::string business_purpose;
+           std::vector<std::string> content_types;
+           std::string legal_context;
+           int retention_years;
+       };
+       
+       DomainContext getDomainContext() const;
+       TableSemantics getTableSemantics(std::string_view table) const;
+       
+       // LLM-assisted analysis
+       void analyzeDataContent(const std::string& sample_data);
+       void extractEntities(const std::string& content);
+   };
+   ```
+
+4. **Integration in MCP Self-Awareness:**
+   ```cpp
+   json McpServer::toolIntrospectDatabase(const json& args) {
+       std::string question = args.at("question");
+       
+       if (contains(question, "behördendaten") || 
+           contains(question, "authority data") ||
+           contains(question, "welche daten")) {
+           
+           // Get semantic context
+           auto domain = semantic_metadata_->getDomainContext();
+           auto table_semantics = semantic_metadata_->getTableSemantics("documents");
+           
+           // Build context-aware response
+           std::string prompt = fmt::format(R"(
+               Ich speichere die Dokumente der **{}** im **Akten-Layout nach {}** 
+               und fokussiere mich auf {} Verfahren nach {} für {}.
+               
+               Konkret speichere ich folgende Dokumenttypen:
+               {}
+               
+               Rechtlicher Rahmen: {}
+               Aufbewahrungsfrist: {} Jahre
+           )",
+               domain.organization,
+               "VwVfG", // Verwaltungsverfahrensgesetz
+               domain.domain,
+               domain.legal_framework[0], // BImSchG
+               "genehmigungsbedürftige Anlagen",
+               join(table_semantics.content_types, ", "),
+               join(domain.legal_framework, ", "),
+               table_semantics.retention_years
+           );
+           
+           return {
+               {"status", "success"},
+               {"answer", prompt}
+           };
+       }
+   }
+   ```
+
+5. **Automatische Metadaten-Extraktion:**
+   - **Beim Einfügen neuer Daten:** LLM analysiert Content und extrahiert Metadaten
+   - **Periodisches Scanning:** Regelmäßige Analyse bestehender Daten
+   - **Manual Curation:** Admin kann Domänen-Kontext manuell pflegen
+
+**Implementation Path:**
+
+| Phase | Beschreibung | Aufwand |
+|-------|--------------|---------|
+| **5a** | Semantic Metadata Store (Datenstruktur) | ~200 LOC |
+| **5b** | LLM Content Analysis (Sample-based) | ~300 LOC |
+| **5c** | Entity Extraction (Fachbegriffe, Rechtsnormen) | ~200 LOC |
+| **5d** | Integration in MCP introspect_database | ~100 LOC |
+| **TOTAL** | | **~800 LOC** |
+
+**Use Cases:**
+
+- **Behörden:** "Welche Genehmigungsverfahren verwaltest du?"
+- **Gesundheitswesen:** "Welche Patientendaten speicherst du und warum?"
+- **Logistik:** "Welche Sendungsdaten verfolgst du?"
+- **Finance:** "Welche Transaktionsdaten archivierst du für Compliance?"
+
+**Herausforderungen:**
+
+1. **Privacy/Security:** Sensitive Daten nicht an externes LLM senden
+   - Lösung: Lokales LLM (llama.cpp) für Content-Analyse
+   
+2. **Accuracy:** LLM muss Domänen-Kontext korrekt erkennen
+   - Lösung: Fine-tuned Models für spezifische Domains
+   
+3. **Performance:** Content-Analyse kann teuer sein
+   - Lösung: Sampling-based Analysis + Caching
+
+**Priorität:** MITTEL-HOCH (abhängig von Use Case)
+
+---
+
+### 6. **Query Explanation & Analysis** ❌ **NICHT IMPLEMENTIERT**
 
 **PostgreSQL hat EXPLAIN:**
 ```sql
@@ -419,7 +578,7 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE age > 25;
 
 ---
 
-### 6. **Audit & Provenance Tracking** ⚠️ **TEILWEISE IMPLEMENTIERT**
+### 7. **Audit & Provenance Tracking** ⚠️ **TEILWEISE IMPLEMENTIERT**
 
 **Was existiert:**
 - ✅ Audit Logging (Enterprise)
@@ -607,6 +766,49 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE age > 25;
 
 ---
 
+### 8. **LoRA-RAID Verbund Awareness** ❌ **NICHT IMPLEMENTIERT**
+
+**Idee:** Self-Awareness über **LoRA-Adapter im RAID-Verbund** - welcher LoRA-Adapter woher kommt und was er kann
+
+**Problem:** ThemisDB hat ein umfangreiches **Multi-LoRA-Management-System** mit RAID-ähnlicher Verteilung über GPUs, aber keine Introspection-API dafür.
+
+**Existierende Infrastruktur:**
+
+ThemisDB implementiert (seit v1.3.3+) ein vLLM-inspiriertes Multi-LoRA-System:
+
+| Komponente | Status | Beschreibung |
+|------------|--------|--------------|
+| **MultiLoRAManager** | ✅ Implementiert | Multi-LoRA Inference mit Adapter-Switching |
+| **LoRAMetadataCache** | ✅ Implementiert | Lock-free Metadata Storage |
+| **Multi-GPU Support** | ✅ Implementiert | LoRA-Verteilung über GPUs (ROUND_ROBIN, DATA_PARALLEL, MODEL_PARALLEL) |
+| **RAID-Style Orchestration** | ✅ Implementiert | RAIDLoRAPipelineOrchestrator |
+| **LoRA Quantization** | ✅ Implementiert | INT8/INT4 Compression |
+| **Introspection API** | ❌ Fehlt | Keine Self-Awareness über LoRA-Adapter |
+
+**Beispiel-Fragen die beantwortet werden sollen:**
+
+| Frage | Erwartete Antwort |
+|-------|-------------------|
+| "Welche LoRA-Adapter sind geladen?" | "Aktuell sind 3 LoRA-Adapter geladen: **medical-qa** (GPU 0, Rank 16), **legal-summarization** (GPU 1, Rank 32), **code-generation** (GPU 2, Rank 8)" |
+| "Woher kommt der medical-qa Adapter?" | "Der **medical-qa** LoRA-Adapter stammt von `models/lora/medical-qa.safetensors`, basiert auf **Llama-3-8B**, hat Rank 16 und ist auf **target_modules: [q_proj, v_proj, k_proj]** trainiert." |
+| "Was kann der legal-summarization Adapter?" | "Der **legal-summarization** Adapter ist spezialisiert auf **Zusammenfassung juristischer Dokumente** (§§, Urteile, Verträge). Er wurde trainiert auf **deutsche Rechtsprechung** und kann Dokumente nach BGB, StGB, VwVfG verarbeiten." |
+| "Wie ist die GPU-Verteilung?" | "LoRA-Adapter sind auf **4 GPUs** verteilt (NVIDIA A100 40GB). Strategie: **ROUND_ROBIN**. GPU 0: medical-qa (2.1 GB), GPU 1: legal-summarization (4.3 GB), GPU 2: code-generation (1.2 GB), GPU 3: leer. VRAM-Nutzung: 32% Durchschnitt." |
+| "Welche LoRA-Adapter sind im RAID-Verbund?" | "RAID-Konfiguration: **STRIPE_MIRROR** (RAID 10). LoRA-Adapter werden über 3 Shards verteilt und gespiegelt. Primary Shard für medical-qa: Shard 0, Replicas: Shard 1, Shard 2. Latency: 12ms, Throughput: 450 tokens/s." |
+
+**Was benötigt wird:**
+
+1. **LoRA Introspection API** (~400 LOC)
+2. **REST API Endpoints** (~300 LOC): `/api/v1/lora/adapters`, `/api/v1/lora/gpus`, `/api/v1/lora/raid`
+3. **MCP Tools & Resources Integration** (~200 LOC)
+4. **Natural Language LoRA Awareness** (~200 LOC)
+5. **Semantic Metadata Store für LoRA-Adapter** (~200 LOC)
+
+**Total:** ~1300 LOC
+
+**Priorität:** MITTEL-HOCH (besonders für Multi-Tenant-Szenarien mit mehreren spezialisierten LoRA-Adaptern)
+
+---
+
 ## 📊 Feature-Matrix: Vorhandene vs. Fehlende Funktionen
 
 | Feature | Status | Version | Priorität | Aufwand |
@@ -624,6 +826,15 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE age > 25;
 | **Capabilities Endpoint** | ❌ Fehlt | - | MITTEL | NIEDRIG |
 | **Natural Language Q&A** | ❌ Fehlt | - | MITTEL | HOCH |
 | LLM Self-Awareness Prompts | ❌ Fehlt | - | MITTEL | MITTEL |
+| **Domain-Specific Semantic Awareness** | ❌ Fehlt | - | MITTEL-HOCH | HOCH |
+| Semantic Metadata Store | ❌ Fehlt | - | MITTEL-HOCH | MITTEL |
+| LLM Content Analysis | ❌ Fehlt | - | MITTEL | HOCH |
+| Business Context Understanding | ❌ Fehlt | - | HOCH (Behörden) | HOCH |
+| **LoRA-RAID Verbund Awareness** | ❌ Fehlt | - | MITTEL-HOCH | HOCH |
+| LoRA Introspection API | ❌ Fehlt | - | MITTEL-HOCH | MITTEL |
+| REST /api/v1/lora/* Endpoints | ❌ Fehlt | - | MITTEL | MITTEL |
+| MCP LoRA Tools & Resources | ❌ Fehlt | - | MITTEL | NIEDRIG |
+| LoRA Semantic Metadata | ❌ Fehlt | - | MITTEL | MITTEL |
 | **Query Explanation** | ❌ Fehlt | - | NIEDRIG | HOCH |
 | EXPLAIN Command | ❌ Fehlt | - | NIEDRIG | HOCH |
 | **Audit & Provenance** | ⚠️ Teilweise | v1.3.0 | NIEDRIG | MITTEL |
@@ -725,12 +936,26 @@ Die **MCP-Integration ist "minimal"** - Tools wie `get_schema` und Resources wie
    - Audit-Daten
 
 #### 🔮 **Langfristig (5+ Sprints):**
-5. **Query Explanation**
+5. **Domain-Specific Semantic Awareness**
+   - Semantic Metadata Store
+   - LLM Content Analysis (Sample-based)
+   - Entity Extraction (Fachbegriffe, Rechtsnormen)
+   - Business Context Understanding
+   - Integration für Behörden-Use-Cases
+
+6. **LoRA-RAID Verbund Awareness**
+   - LoRA Introspection API
+   - REST API Endpoints (/api/v1/lora/*)
+   - MCP Tools & Resources für LoRA
+   - Natural Language LoRA Awareness
+   - Semantic Metadata für LoRA-Adapter
+
+7. **Query Explanation**
    - EXPLAIN Command
    - Query Plan Visualization
    - Performance Analysis
 
-6. **Advanced Provenance**
+8. **Advanced Provenance**
    - "Wer hat was wann erstellt?"
    - Query Statistics
    - Data Lineage Tracking
