@@ -83,7 +83,7 @@ good first issue
 priority:P0
 type:security
 area:api
-area:auth
+area:security
 status:ready
 ```
 

@@ -276,16 +276,16 @@
   description: "English language support or documentation"
 
 # ============================================================================
-# RELEASE LABELS - Related to releases
+# MILESTONE LABELS - Related to releases (update as needed)
 # ============================================================================
-- name: "milestone:v1.4.0"
+- name: "milestone:current"
   color: "ededed"
-  description: "Planned for v1.4.0 release"
+  description: "Planned for current release"
 
-- name: "milestone:v1.5.0"
+- name: "milestone:next"
   color: "ededed"
-  description: "Planned for v1.5.0 release"
+  description: "Planned for next release"
 
-- name: "milestone:v1.6.0"
+- name: "milestone:future"
   color: "ededed"
-  description: "Planned for v1.6.0 release"
+  description: "Planned for future release"
