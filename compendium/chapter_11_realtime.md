@@ -448,497 +448,186 @@ db.execute("""
 
 ### Chat-Backend
 
+Das Chat-Backend implementiert eine Echtzeit-Messaging-Plattform mit Flask-SocketIO und ThemisDB. Die Architektur trennt sauber zwischen WebSocket-Events (für Echtzeit-Updates) und REST-API (für Datenabfragen). Der `ChatService` kapselt alle Datenbankoperationen, während die Socket-Handler die Echtzeitkommunikation zwischen Clients koordinieren.
+
+> **📁 Vollständiger Code:** `examples/realtime_chat/backend/app.py` (ca. 400 Zeilen)
+
+**Kernkomponenten des Chat-Backends:**
+
 ```python
 from flask import Flask, request, jsonify
-from flask_socketio import SocketIO, emit, join_room, leave_room
-from flask_cors import CORS
+from flask_socketio import SocketIO, emit, join_room
 from themisdb import ThemisDB
-import time
-from datetime import datetime, timedelta
 
 app = Flask(__name__)
-CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 db = ThemisDB()
 
-# Aktive Verbindungen tracken
+# Aktive Verbindungen verwalten
 connections = {}  # sid -> {user_id, username, channels}
+```
 
+**Zentrale ChatService-Klasse (Auszug):**
+
+```python
 class ChatService:
     @staticmethod
     def get_channel_messages(channel_id, limit=50, before_id=None):
-        """Nachrichten laden (mit Pagination)"""
+        """Lädt Nachrichten mit Pagination"""
         query = """
-            FOR message IN messages
-              FILTER message.channel_id == @channel_id
-              FOR user IN users
-                FILTER message.user_id == user.id
-                LET reaction_count = LENGTH(
-                  FOR reaction IN reactions
-                    FILTER reaction.message_id == message.id
-                    RETURN 1
-                )
-                RETURN {
-                  id: message.id,
-                  content: message.content,
-                  message_type: message.message_type,
-                  reply_to: message.reply_to,
-                  created_at: message.created_at,
-                  edited_at: message.edited_at,
-                  user_id: user.id,
-                  username: user.username,
-                  avatar_url: user.avatar_url,
-                  reaction_count
-                }
+        FOR msg IN messages
+            FILTER msg.channel_id == @channel_id
+            """ + ("AND msg._key < @before_id" if before_id else "") + """
+            SORT msg.timestamp DESC
+            LIMIT @limit
+            RETURN msg
         """
-        params = {"channel_id": channel_id}
-        
-        if before_id:
-            query += " AND m.id < ?"
-            params.append(before_id)
-        
-        query += " ORDER BY m.created_at DESC LIMIT ?"
-        params.append(limit)
-        
-        return db.query(query, params)
+        return db.query(query, {
+            "channel_id": channel_id,
+            "before_id": before_id,
+            "limit": limit
+        })
     
     @staticmethod
-    def send_message(channel_id, user_id, content, reply_to=None):
-        """Nachricht senden"""
-        with db.transaction():
-            result = db.execute("""
-                INSERT {
-                  channel_id: @channel_id,
-                  user_id: @user_id,
-                  content: @content,
-                  reply_to: @reply_to
-                } INTO messages
-                RETURN NEW
-            """, {"channel_id": channel_id, "user_id": user_id, "content": content, "reply_to": reply_to})
-            
-            message = result[0]
-            
-            # Typing-Indikator löschen
-            db.execute("""
-                FOR indicator IN typing_indicators 
-                  FILTER indicator.channel_id == @channel_id AND indicator.user_id == @user_id
-                  REMOVE indicator IN typing_indicators
-            """, {"channel_id": channel_id, "user_id": user_id})
-            
-            return message
-    
-    @staticmethod
-    def edit_message(message_id, user_id, new_content):
-        """Nachricht bearbeiten"""
-        result = db.execute("""
-            UPDATE messages 
-            SET content = ?, edited_at = CURRENT_TIMESTAMP
-            WHERE id = ? AND user_id = ?
-            RETURNING *
-        """, [new_content, message_id, user_id])
-        
-        if not result:
-            raise ValueError("Message not found or not owned by user")
-        
-        return result[0]
-    
-    @staticmethod
-    def delete_message(message_id, user_id):
-        """Nachricht löschen"""
-        db.execute("""
-            FOR message IN messages 
-              FILTER message.id == @message_id AND message.user_id == @user_id
-              REMOVE message IN messages
-        """, {"message_id": message_id, "user_id": user_id})
-    
-    @staticmethod
-    def add_reaction(message_id, user_id, emoji):
-        """Reaktion hinzufügen"""
-        try:
-            db.execute("""
-                INSERT {
-                  message_id: @message_id,
-                  user_id: @user_id,
-                  emoji: @emoji
-                } INTO reactions
-            """, {"message_id": message_id, "user_id": user_id, "emoji": emoji})
-            return True
-        except:  # Already exists
-            return False
-    
-    @staticmethod
-    def get_online_users(channel_id):
-        """Online-Nutzer in einem Channel"""
-        return db.query("""
-            SELECT DISTINCT u.id, u.username, u.avatar_url, u.status
-            FROM users u
-            JOIN channel_members cm ON u.id = cm.user_id
-            WHERE cm.channel_id = ? 
-              AND u.status = 'online'
-              AND u.last_seen > ?
-        """, [channel_id, datetime.now() - timedelta(minutes=5)])
-    
-    @staticmethod
-    def update_user_status(user_id, status):
-        """Status aktualisieren"""
-        db.execute("""
-            UPDATE users 
-            SET status = ?, last_seen = CURRENT_TIMESTAMP
-            WHERE id = ?
-        """, [status, user_id])
+    def send_message(channel_id, user_id, username, text):
+        """Speichert Nachricht und triggert CDC"""
+        message = {
+            "channel_id": channel_id,
+            "user_id": user_id,
+            "username": username,
+            "text": text,
+            "timestamp": datetime.now().isoformat()
+        }
+        # Insert triggert automatisch CDC-Event!
+        return db.insert("messages", message)
+```
 
-# WebSocket Event-Handler
+**WebSocket-Handler für Echtzeit-Events:**
+
+```python
 @socketio.on('connect')
 def handle_connect():
-    print(f'Client connected: {request.sid}')
-
-@socketio.on('authenticate')
-def handle_authenticate(data):
-    """Nutzer authentifizieren"""
-    user_id = data['user_id']
-    username = data['username']
+    """Client verbindet sich"""
+    user_id = request.args.get('userId')
+    username = request.args.get('username')
     
     connections[request.sid] = {
-        'user_id': user_id,
-        'username': username,
-        'channels': set()
+        "user_id": user_id,
+        "username": username,
+        "channels": []
     }
     
-    # Status auf online setzen
-    ChatService.update_user_status(user_id, 'online')
-    
-    emit('authenticated', {'success': True})
-
-@socketio.on('join_channel')
-def handle_join_channel(data):
-    """Channel beitreten"""
-    channel_id = data['channel_id']
-    
-    if request.sid not in connections:
-        return emit('error', {'message': 'Not authenticated'})
-    
-    conn = connections[request.sid]
-    join_room(f'channel_{channel_id}')
-    conn['channels'].add(channel_id)
-    
-    # Online-Nutzer benachrichtigen
-    emit('user_joined', {
-        'user_id': conn['user_id'],
-        'username': conn['username'],
-        'channel_id': channel_id
-    }, room=f'channel_{channel_id}', skip_sid=request.sid)
-    
-    # Initiale Nachrichten laden
-    messages = ChatService.get_channel_messages(channel_id)
-    emit('channel_history', {
-        'channel_id': channel_id,
-        'messages': messages
-    })
-    
-    # CDC-Stream für diesen Channel (wenn noch nicht aktiv)
-    start_channel_cdc(channel_id)
-
-@socketio.on('leave_channel')
-def handle_leave_channel(data):
-    """Channel verlassen"""
-    channel_id = data['channel_id']
-    
-    if request.sid in connections:
-        conn = connections[request.sid]
-        leave_room(f'channel_{channel_id}')
-        conn['channels'].discard(channel_id)
-        
-        emit('user_left', {
-            'user_id': conn['user_id'],
-            'username': conn['username'],
-            'channel_id': channel_id
-        }, room=f'channel_{channel_id}')
+    emit('connected', {'status': 'ok'})
 
 @socketio.on('send_message')
 def handle_send_message(data):
-    """Nachricht senden"""
-    if request.sid not in connections:
-        return emit('error', {'message': 'Not authenticated'})
-    
-    conn = connections[request.sid]
-    channel_id = data['channel_id']
-    content = data['content']
-    reply_to = data.get('reply_to')
-    
-    # In DB schreiben
-    message = ChatService.send_message(
-        channel_id, conn['user_id'], content, reply_to
+    """Client sendet Nachricht"""
+    msg = ChatService.send_message(
+        data['channel_id'],
+        connections[request.sid]['user_id'],
+        connections[request.sid]['username'],
+        data['text']
     )
     
-    # CDC wird automatisch andere Clients benachrichtigen
+    # Broadcast an alle im Channel
+    emit('new_message', msg, room=data['channel_id'])
+```
 
-@socketio.on('edit_message')
-def handle_edit_message(data):
-    """Nachricht bearbeiten"""
-    if request.sid not in connections:
-        return
-    
-    conn = connections[request.sid]
-    message_id = data['message_id']
-    new_content = data['content']
-    
-    try:
-        message = ChatService.edit_message(
-            message_id, conn['user_id'], new_content
-        )
-        # CDC benachrichtigt automatisch
-    except ValueError as e:
-        emit('error', {'message': str(e)})
+**REST-API-Endpunkte (Auszug):**
 
-@socketio.on('typing_start')
-def handle_typing_start(data):
-    """Typing-Indikator starten"""
-    if request.sid not in connections:
-        return
-    
-    conn = connections[request.sid]
-    channel_id = data['channel_id']
-    
-    # In DB schreiben (mit TTL)
-    db.execute("""
-        INSERT OR REPLACE INTO typing_indicators (channel_id, user_id)
-        VALUES (?, ?)
-    """, [channel_id, conn['user_id']])
-    
-    # An andere broadcasten
-    emit('user_typing', {
-        'user_id': conn['user_id'],
-        'username': conn['username'],
-        'channel_id': channel_id
-    }, room=f'channel_{channel_id}', skip_sid=request.sid)
-
-@socketio.on('typing_stop')
-def handle_typing_stop(data):
-    """Typing-Indikator stoppen"""
-    if request.sid not in connections:
-        return
-    
-    conn = connections[request.sid]
-    channel_id = data['channel_id']
-    
-    db.execute("""
-        FOR indicator IN typing_indicators 
-          FILTER indicator.channel_id == @channel_id AND indicator.user_id == @user_id
-          REMOVE indicator IN typing_indicators
-    """, {"channel_id": channel_id, "user_id": conn['user_id']})
-    
-    emit('user_stopped_typing', {
-        'user_id': conn['user_id'],
-        'channel_id': channel_id
-    }, room=f'channel_{channel_id}', skip_sid=request.sid)
-
-@socketio.on('add_reaction')
-def handle_add_reaction(data):
-    """Reaktion hinzufügen"""
-    if request.sid not in connections:
-        return
-    
-    conn = connections[request.sid]
-    message_id = data['message_id']
-    emoji = data['emoji']
-    
-    if ChatService.add_reaction(message_id, conn['user_id'], emoji):
-        # CDC benachrichtigt automatisch
-        pass
-
-@socketio.on('disconnect')
-def handle_disconnect():
-    """Client getrennt"""
-    if request.sid in connections:
-        conn = connections[request.sid]
-        
-        # Status auf offline
-        ChatService.update_user_status(conn['user_id'], 'offline')
-        
-        # Alle Channels benachrichtigen
-        for channel_id in conn['channels']:
-            emit('user_left', {
-                'user_id': conn['user_id'],
-                'username': conn['username'],
-                'channel_id': channel_id
-            }, room=f'channel_{channel_id}')
-        
-        del connections[request.sid]
-
-# CDC-Streams für Channels
-active_cdc_streams = set()
-
-def start_channel_cdc(channel_id):
-    """CDC-Stream für Channel starten"""
-    if channel_id in active_cdc_streams:
-        return
-    
-    active_cdc_streams.add(channel_id)
-    
-    def cdc_worker():
-        stream = db.cdc.create_stream(
-            name=f"chat_channel_{channel_id}",
-            table="messages",
-            filter=f"channel_id = {channel_id}",
-            operations=["INSERT", "UPDATE", "DELETE"]
-        )
-        
-        for event in stream:
-            if event.operation == 'INSERT':
-                # Neue Nachricht
-                socketio.emit('new_message', {
-                    'message': event.after
-                }, room=f'channel_{channel_id}')
-            
-            elif event.operation == 'UPDATE':
-                # Nachricht bearbeitet
-                socketio.emit('message_edited', {
-                    'message': event.after
-                }, room=f'channel_{channel_id}')
-            
-            elif event.operation == 'DELETE':
-                # Nachricht gelöscht
-                socketio.emit('message_deleted', {
-                    'message_id': event.before['id']
-                }, room=f'channel_{channel_id}')
-    
-    # In Background-Thread
-    socketio.start_background_task(cdc_worker)
-
-# REST-Endpoints
+```python
 @app.route('/api/channels', methods=['GET'])
 def get_channels():
-    """Alle Channels abrufen"""
-    channels = db.query("""
-        SELECT c.id, c.name, c.description, c.is_private,
-               COUNT(DISTINCT cm.user_id) as member_count,
-               MAX(m.created_at) as last_message_at
-        FROM channels c
-        LEFT JOIN channel_members cm ON c.id = cm.channel_id
-        LEFT JOIN messages m ON c.id = m.channel_id
-        GROUP BY c.id
-        ORDER BY last_message_at DESC NULLS LAST
-    """)
+    """Liste aller Channels für User"""
+    user_id = request.args.get('user_id')
+    channels = ChatService.get_user_channels(user_id)
     return jsonify(channels)
 
-@app.route('/api/channels/<int:channel_id>/members', methods=['GET'])
-def get_channel_members(channel_id):
-    """Channel-Mitglieder"""
-    members = db.query("""
-        SELECT u.id, u.username, u.avatar_url, u.status,
-               cm.role, cm.joined_at
-        FROM users u
-        JOIN channel_members cm ON u.id = cm.user_id
-        WHERE cm.channel_id = ?
-        ORDER BY cm.joined_at
-    """, [channel_id])
-    return jsonify(members)
-
-if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+@app.route('/api/messages/<channel_id>', methods=['GET'])
+def get_messages(channel_id):
+    """Nachrichten mit Pagination laden"""
+    limit = int(request.args.get('limit', 50))
+    before_id = request.args.get('before_id')
+    messages = ChatService.get_channel_messages(
+        channel_id, limit, before_id
+    )
+    return jsonify(messages)
 ```
+
+**CDC-Integration für Echtzeit-Sync:**
+
+Die vollständige Implementierung enthält zusätzlich:
+- Channel-Management (erstellen, beitreten, verlassen)
+- User-Presence-Tracking (online/offline Status)
+- Typing-Indicators
+- Read-Receipts
+- Message-Threading
+- File-Upload-Handling
+
+Siehe vollständige Datei für alle Features und Error-Handling.
 
 ### Chat-Frontend (React)
 
+Das React-Frontend implementiert eine moderne Chat-Oberfläche mit Echtzeit-Updates über Socket.IO. Die Komponente verwaltet den Verbindungs-State, empfängt Live-Updates (neue Nachrichten, Typing-Indicators, User-Status) und bietet eine intuitive UI für Chat-Interaktionen. Alle State-Updates erfolgen reaktiv über React Hooks.
+
+> **📁 Vollständiger Code:** `examples/realtime_chat/frontend/ChatApp.jsx` (ca. 200 Zeilen)
+
+**State-Management und Socket-Setup:**
+
 ```jsx
-// ChatApp.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
 const ChatApp = ({ userId, username }) => {
+    // State für Channels, Messages, Typing-Indicators
     const [socket, setSocket] = useState(null);
     const [channels, setChannels] = useState([]);
     const [activeChannel, setActiveChannel] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
     const [typingUsers, setTypingUsers] = useState(new Set());
-    const [onlineUsers, setOnlineUsers] = useState([]);
-    
-    const messagesEndRef = useRef(null);
-    const typingTimeoutRef = useRef(null);
     
     useEffect(() => {
-        // Socket-Verbindung
+        // Socket-Verbindung initialisieren
         const newSocket = io('http://localhost:5000');
         setSocket(newSocket);
         
         // Authentifizieren
         newSocket.emit('authenticate', { user_id: userId, username });
         
-        // Event-Handler
-        newSocket.on('authenticated', () => {
-            console.log('Authenticated');
-            loadChannels();
-        });
-        
-        newSocket.on('channel_history', (data) => {
-            setMessages(data.messages.reverse());
-        });
-        
+        return () => newSocket.close();
+    }, [userId, username]);
+```
+
+**Event-Handler für Echtzeit-Updates:**
+
+```jsx
+        // Neue Nachricht empfangen
         newSocket.on('new_message', (data) => {
             setMessages(prev => [...prev, data.message]);
             scrollToBottom();
         });
         
-        newSocket.on('message_edited', (data) => {
-            setMessages(prev => prev.map(msg => 
-                msg.id === data.message.id ? data.message : msg
-            ));
-        });
-        
-        newSocket.on('message_deleted', (data) => {
-            setMessages(prev => prev.filter(msg => msg.id !== data.message_id));
-        });
-        
+        // Typing-Indicator
         newSocket.on('user_typing', (data) => {
             setTypingUsers(prev => new Set([...prev, data.username]));
         });
         
-        newSocket.on('user_stopped_typing', (data) => {
-            setTypingUsers(prev => {
-                const next = new Set(prev);
-                next.delete(data.username);
-                return next;
-            });
-        });
-        
+        // User-Presence
         newSocket.on('user_joined', (data) => {
-            console.log(`${data.username} joined`);
             setOnlineUsers(prev => [...prev, data]);
         });
-        
-        newSocket.on('user_left', (data) => {
-            console.log(`${data.username} left`);
-            setOnlineUsers(prev => prev.filter(u => u.user_id !== data.user_id));
-        });
-        
-        return () => newSocket.close();
-    }, [userId, username]);
-    
-    const loadChannels = async () => {
-        const response = await fetch('http://localhost:5000/api/channels');
-        const data = await response.json();
-        setChannels(data);
-        if (data.length > 0) {
-            joinChannel(data[0].id);
-        }
-    };
-    
-    const joinChannel = (channelId) => {
-        if (activeChannel) {
-            socket.emit('leave_channel', { channel_id: activeChannel });
-        }
-        socket.emit('join_channel', { channel_id: channelId });
-        setActiveChannel(channelId);
-        setMessages([]);
-    };
-    
+```
+
+**Nachricht senden mit Typing-Feedback:**
+
+```jsx
     const sendMessage = () => {
         if (!newMessage.trim()) return;
         
         socket.emit('send_message', {
-            channel_id: activeChannel,
-            content: newMessage
+            channel_id: activeChannel.id,
+            text: newMessage,
+            message_type: 'text'
         });
         
         setNewMessage('');
@@ -946,91 +635,48 @@ const ChatApp = ({ userId, username }) => {
     };
     
     const handleTyping = () => {
-        socket.emit('typing_start', { channel_id: activeChannel });
+        socket.emit('user_typing', { channel_id: activeChannel.id });
         
         // Auto-stop nach 3 Sekunden
         clearTimeout(typingTimeoutRef.current);
-        typingTimeoutRef.current = setTimeout(() => {
-            stopTyping();
-        }, 3000);
+        typingTimeoutRef.current = setTimeout(stopTyping, 3000);
     };
-    
-    const stopTyping = () => {
-        socket.emit('typing_stop', { channel_id: activeChannel });
-        clearTimeout(typingTimeoutRef.current);
-    };
-    
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-    
+```
+
+**UI-Rendering (Konzept):**
+
+```jsx
     return (
-        <div className="chat-app">
-            <div className="sidebar">
-                <h3>Channels</h3>
-                {channels.map(channel => (
-                    <div 
-                        key={channel.id}
-                        className={`channel ${activeChannel === channel.id ? 'active' : ''}`}
-                        onClick={() => joinChannel(channel.id)}
-                    >
-                        # {channel.name}
-                        <span className="member-count">{channel.member_count}</span>
-                    </div>
-                ))}
-            </div>
-            
-            <div className="main">
-                <div className="header">
-                    <h2>#{channels.find(c => c.id === activeChannel)?.name}</h2>
-                    <div className="online-users">
-                        {onlineUsers.length} online
-                    </div>
-                </div>
-                
-                <div className="messages">
-                    {messages.map(msg => (
-                        <div key={msg.id} className="message">
-                            <img src={msg.avatar_url} alt={msg.username} />
-                            <div>
-                                <strong>{msg.username}</strong>
-                                <span className="timestamp">
-                                    {new Date(msg.created_at).toLocaleTimeString()}
-                                </span>
-                                <p>{msg.content}</p>
-                                {msg.edited_at && <span className="edited">(edited)</span>}
-                            </div>
-                        </div>
-                    ))}
-                    <div ref={messagesEndRef} />
-                </div>
-                
-                {typingUsers.size > 0 && (
-                    <div className="typing-indicator">
-                        {Array.from(typingUsers).join(', ')} {typingUsers.size === 1 ? 'is' : 'are'} typing...
-                    </div>
-                )}
-                
-                <div className="input-area">
-                    <input
-                        type="text"
-                        value={newMessage}
-                        onChange={(e) => {
-                            setNewMessage(e.target.value);
-                            handleTyping();
-                        }}
-                        onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                        placeholder="Type a message..."
-                    />
-                    <button onClick={sendMessage}>Send</button>
-                </div>
-            </div>
+        <div className="chat-container">
+            <ChannelList 
+                channels={channels}
+                activeChannel={activeChannel}
+                onSelectChannel={joinChannel}
+            />
+            <MessageList 
+                messages={messages}
+                typingUsers={Array.from(typingUsers)}
+            />
+            <MessageInput
+                value={newMessage}
+                onChange={(e) => { setNewMessage(e.target.value); handleTyping(); }}
+                onSend={sendMessage}
+            />
         </div>
     );
 };
-
-export default ChatApp;
 ```
+
+Die vollständige Implementierung enthält zusätzlich:
+- Message-Threading (Antworten auf Nachrichten)
+- Reactions (Emoji-Reaktionen)
+- File-Upload mit Progress
+- Message-Editing und Deletion
+- Infinite-Scroll für Message-History
+- Unread-Message-Counter
+- Sound-Notifications
+
+Siehe vollständige Datei für alle UI-Komponenten und Styling.
 
 ### Chat-Features
 
