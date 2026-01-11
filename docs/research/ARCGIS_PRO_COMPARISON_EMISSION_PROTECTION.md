@@ -22,6 +22,62 @@ This document provides a comprehensive comparison between ArcGIS Pro's geospatia
 
 ---
 
+## Scope: Database vs. Application Logic
+
+> **Important Distinction:** ThemisDB is a database system focused on **data preparation and provisioning**. This document identifies geospatial functions that belong in the database layer, not application-level analysis tools.
+
+### Database Responsibilities (ThemisDB Scope) ✅
+**Core Principle:** Prepare and provide spatial data efficiently for applications to consume.
+
+- **Spatial data storage** - Store geometries with appropriate indexing (R-Tree, Morton encoding)
+- **Spatial queries** - Enable applications to find, filter, and retrieve spatial data
+  - Example: `ST_INTERSECTS`, `ST_CONTAINS`, `ST_DWITHIN` for spatial predicates
+- **Geometric operations** - Basic transformations and measurements
+  - Example: `ST_BUFFER`, `ST_CENTROID`, `ST_AREA`, `ST_DISTANCE`
+- **Coordinate transformations** - Convert between coordinate systems (EPSG codes)
+  - Example: `ST_TRANSFORM` for projection changes
+- **Data validation** - Ensure geometric integrity
+  - Example: `ST_ISVALID`, `ST_MAKEVALID`
+- **Spatial indexing** - Enable fast spatial queries via R-Tree and spatial indexes
+- **GPU acceleration** - Accelerate *database operations* (buffer, intersection, distance calculations)
+
+### Application Logic (Outside ThemisDB Scope) ❌
+**These belong in specialized GIS applications, not the database:**
+
+- **Domain-specific modeling** - Emission dispersion calculations, noise propagation models
+  - *Why*: Requires domain expertise, regulatory formulas, meteorological data
+  - *Solution*: Application reads prepared spatial data from ThemisDB and applies models
+  
+- **Complex workflows** - Multi-step analysis pipelines (viewshed → interpolation → risk assessment)
+  - *Why*: Business logic varies by use case and regulatory requirements
+  - *Solution*: Application orchestrates multiple database queries
+  
+- **Visualization** - Map rendering, 3D visualization, interactive dashboards
+  - *Why*: UI/UX concerns, not data management
+  - *Solution*: Application consumes GeoJSON/WKT from ThemisDB
+  
+- **Decision support** - Optimal sensor placement, facility siting recommendations
+  - *Why*: Requires optimization algorithms and domain constraints
+  - *Solution*: Application evaluates alternatives using spatial queries
+  
+- **Statistical analysis** - Geostatistical modeling (kriging), spatial autocorrelation
+  - *Why*: Complex statistical methods better suited for R/Python/specialized tools
+  - *Solution*: Export data from ThemisDB, analyze externally, store results back
+
+### Boundary Cases: Database-Assisted Analysis
+Some operations can be *partially* supported by the database to improve performance:
+
+| Operation | Database Role | Application Role |
+|-----------|---------------|------------------|
+| **Kriging Interpolation** | Store sample points, spatial index | Compute semivariogram, solve kriging system |
+| **Viewshed Analysis** | Store DEM raster, spatial queries | Ray-tracing algorithm, visibility computation |
+| **Network Analysis** | Store network topology, cost functions | Dijkstra's algorithm, route optimization |
+| **Kernel Density** | Store point data, spatial index | Compute density surface, bandwidth selection |
+
+**Recommendation:** ThemisDB should provide *building blocks* (spatial queries, geometric operations) that applications compose into domain-specific workflows.
+
+---
+
 ## Table of Contents
 
 1. [ThemisDB Current Geospatial Capabilities](#1-themisdb-current-geospatial-capabilities)
@@ -212,33 +268,35 @@ ArcGIS Pro provides comprehensive GIS capabilities organized into toolboxes. Key
 
 ## 3. Feature Comparison Matrix
 
-### 3.1 Core Spatial Operations
+> **Note:** "DB Layer" column indicates whether function belongs in database (✅) or application logic (❌).
 
-| Function | ThemisDB | ArcGIS Pro | Priority | GPU Suitable |
-|----------|----------|------------|----------|--------------|
-| **ST_BUFFER** | ❌ | ✅ Full | **HIGH** | ✅ Yes |
-| ST_INTERSECTS | ✅ | ✅ | Medium | ✅ Yes |
-| ST_CONTAINS | ✅ | ✅ | Medium | ✅ Yes |
-| ST_DISTANCE | ✅ | ✅ | Low | ⚠️ Partial |
-| ST_UNION | ✅ Partial | ✅ Full | Medium | ✅ Yes |
-| ST_INTERSECTION | ✅ Partial | ✅ Full | Medium | ✅ Yes |
-| ST_DIFFERENCE | ❌ | ✅ | Medium | ✅ Yes |
-| **ST_CONVEXHULL** | ❌ | ✅ | **HIGH** | ✅ Yes |
-| ST_CENTROID | ✅ | ✅ | Low | ❌ No |
-| ST_ENVELOPE | ✅ | ✅ | Low | ❌ No |
+### 3.1 Core Spatial Operations (Database Layer)
 
-### 3.2 Advanced Analysis
+| Function | ThemisDB | ArcGIS Pro | DB Layer | Priority | GPU Suitable |
+|----------|----------|------------|----------|----------|--------------|
+| **ST_BUFFER** | ❌ | ✅ Full | ✅ Core | **HIGH** | ✅ Yes |
+| ST_INTERSECTS | ✅ | ✅ | ✅ Core | Medium | ✅ Yes |
+| ST_CONTAINS | ✅ | ✅ | ✅ Core | Medium | ✅ Yes |
+| ST_DISTANCE | ✅ | ✅ | ✅ Core | Low | ⚠️ Partial |
+| ST_UNION | ✅ Partial | ✅ Full | ✅ Core | Medium | ✅ Yes |
+| ST_INTERSECTION | ✅ Partial | ✅ Full | ✅ Core | Medium | ✅ Yes |
+| ST_DIFFERENCE | ❌ | ✅ | ✅ Core | Medium | ✅ Yes |
+| **ST_CONVEXHULL** | ❌ | ✅ | ✅ Core | **HIGH** | ✅ Yes |
+| ST_CENTROID | ✅ | ✅ | ✅ Core | Low | ❌ No |
+| ST_ENVELOPE | ✅ | ✅ | ✅ Core | Low | ❌ No |
 
-| Function | ThemisDB | ArcGIS Pro | Priority | GPU Suitable |
-|----------|----------|------------|----------|--------------|
-| **Viewshed Analysis** | ❌ | ✅ Full | **CRITICAL** | ✅ Yes |
-| **Kriging Interpolation** | ❌ | ✅ Full | **CRITICAL** | ✅ Yes |
-| IDW Interpolation | ❌ | ✅ Full | **HIGH** | ✅ Yes |
-| Kernel Density | ❌ | ✅ Full | **HIGH** | ✅ Yes |
-| Network Analysis | ❌ | ✅ Full | Medium | ❌ No |
-| 3D Volume Calculation | ❌ | ✅ Full | Medium | ✅ Yes |
-| Surface Analysis | ❌ | ✅ Full | **HIGH** | ✅ Yes |
-| Cost Distance | ❌ | ✅ Full | Low | ✅ Yes |
+### 3.2 Advanced Analysis (Mixed Responsibility)
+
+| Function | ThemisDB | ArcGIS Pro | DB Layer | Priority | GPU Suitable | Notes |
+|----------|----------|------------|----------|----------|--------------|-------|
+| **Viewshed Analysis** | ❌ | ✅ Full | ⚠️ Partial | Medium | ✅ Yes | DB: Store DEM, spatial queries; App: Ray-tracing algorithm |
+| **Kriging Interpolation** | ❌ | ✅ Full | ⚠️ Partial | Medium | ✅ Yes | DB: Store samples, index; App: Compute semivariogram, solve system |
+| IDW Interpolation | ❌ | ✅ Full | ⚠️ Partial | Low | ✅ Yes | DB: Store samples; App: Compute weights, interpolate |
+| Kernel Density | ❌ | ✅ Full | ⚠️ Partial | Low | ✅ Yes | DB: Store points, index; App: Compute density surface |
+| Network Analysis | ❌ | ✅ Full | ⚠️ Partial | Low | ❌ No | DB: Store topology; App: Dijkstra's algorithm |
+| 3D Volume Calculation | ❌ | ✅ Full | ✅ Core | Medium | ✅ Yes | DB can provide geometric volume calculations |
+| Surface Analysis | ❌ | ✅ Full | ⚠️ Partial | Low | ✅ Yes | DB: Store raster; App: Slope/aspect algorithms |
+| Cost Distance | ❌ | ✅ Full | ❌ App | Low | ✅ Yes | Complex algorithm, application logic |
 
 ### 3.3 Validation & Quality
 
@@ -261,6 +319,8 @@ ArcGIS Pro provides comprehensive GIS capabilities organized into toolboxes. Key
 
 ## 4. Emission Protection Use Cases (Immissionsschutz)
 
+> **Architecture Note:** These use cases illustrate how ThemisDB provides spatial data preparation, while specialized applications handle domain-specific analysis and regulatory compliance workflows.
+
 ### 4.1 Air Quality Monitoring Network Design
 
 **Regulatory Context:** EU Air Quality Directive (2008/50/EC), German BImSchG, TA Luft
@@ -268,7 +328,7 @@ ArcGIS Pro provides comprehensive GIS capabilities organized into toolboxes. Key
 #### Use Case 1: Optimal Sensor Placement
 **Goal:** Position air quality sensors to maximize coverage while minimizing costs
 
-**Required Functions:**
+**Database Responsibilities (ThemisDB):**
 1. ✅ `ST_BUFFER` - **MISSING IN THEMISDB** - Create coverage zones around potential sensor locations
    - Fixed radius (e.g., 500m urban, 2km rural per TA Luft guidelines)
    - Variable radius based on population density or emission sources
@@ -276,74 +336,128 @@ ArcGIS Pro provides comprehensive GIS capabilities organized into toolboxes. Key
 2. ✅ `ST_UNION` (with dissolve) - Combine overlapping coverage zones
    - Currently partial in ThemisDB - needs dissolve functionality
    
-3. ❌ **Location-Allocation** - **MISSING** - Optimize sensor positions
-   - Alternative: Use buffer + iterative testing (computationally expensive)
-   
-4. ✅ `ST_DISTANCE` - Calculate distances to emission sources
+3. ✅ `ST_DISTANCE` - Calculate distances to emission sources
    - ThemisDB supports this
 
-**ArcGIS Pro Workflow:**
+4. ✅ `ST_INTERSECTS` - Check which areas are covered by sensor zones
+
+**Application Responsibilities (External GIS Software):**
+- ❌ **Location-Allocation Optimization** - Determine optimal sensor positions
+  - Requires optimization algorithms (linear programming, genetic algorithms)
+  - Business logic: Cost constraints, regulatory requirements, accessibility
+  - *Application workflow*: Query candidate locations from ThemisDB, run optimization, store results back
+
+**ThemisDB Role:** Provide spatial building blocks (buffers, distance calculations, intersection tests) that applications use to evaluate sensor placement scenarios.
+
+**ArcGIS Pro Workflow (Application Level):**
 ```python
-# ArcGIS Pro: Optimal sensor placement
-arcpy.sa.LocationAllocation(
-    facilities=candidate_locations,
+# Application orchestrates multiple database queries
+# 1. Query candidate locations from ThemisDB
+candidates = themisdb.query("FOR loc IN candidate_locations RETURN loc")
+
+# 2. ArcGIS Pro optimization (application logic)
+optimal_locations = arcpy.sa.LocationAllocation(
+    facilities=candidates,
     demand_points=emission_sources,
-    measurement="Euclidean",
     problem_type="MAXIMIZE_COVERAGE",
-    impedance_cutoff=2000  # 2km coverage radius
+    impedance_cutoff=2000
 )
+
+# 3. Store results back to ThemisDB
+themisdb.insert("sensors", optimal_locations)
 ```
 
-**ThemisDB Current Capability:** ⚠️ **Partial**
-- Can calculate distances and check coverage manually
-- Missing automated optimization
-- **GPU opportunity**: Parallel evaluation of coverage scenarios
+**ThemisDB Query Example (Database Level):**
+```sql
+-- ThemisDB provides spatial queries for coverage analysis
+FOR candidate IN candidate_locations
+  LET buffer = ST_BUFFER(candidate.location, 500)  -- DB operation
+  LET covered_sources = (
+    FOR source IN emission_sources
+      FILTER ST_INTERSECTS(source.location, buffer)  -- DB operation
+      RETURN source
+  )
+  RETURN {
+    candidate: candidate,
+    coverage_zone: buffer,
+    covered_count: LENGTH(covered_sources)
+  }
+```
 
 #### Use Case 2: Emission Source Impact Analysis
 **Goal:** Determine which areas are affected by industrial emissions
 
-**Required Functions:**
-1. ❌ **Viewshed Analysis** - **CRITICAL MISSING** - Determine visible areas from emission stack
-   - Terrain considerations for dispersion modeling
-   - Height of emission source matters (stack height)
-   
-2. ✅ `ST_BUFFER` - **MISSING** - Create protection zones
+**Database Responsibilities (ThemisDB):**
+1. ✅ `ST_BUFFER` - **MISSING** - Create protection zones
    - TA Luft: 200m, 500m, 1500m zones depending on facility type
    - Geodesic buffering for large areas (>10km)
    
-3. ❌ **Kriging/IDW Interpolation** - **CRITICAL MISSING** - Map pollutant concentrations
-   - Input: Discrete sensor measurements
-   - Output: Continuous concentration surface
-   - Compliance check against limit values (PM10: 40 µg/m³ annual mean)
+2. ✅ `ST_INTERSECTS` - Check for residential/sensitive areas
+   - ThemisDB supports this
+   
+3. ✅ Spatial queries to retrieve relevant features (buildings, land use, demographics)
 
-**ArcGIS Pro Workflow:**
+**Application Responsibilities (External Software):**
+- ❌ **Viewshed Analysis** - Determine visible areas from emission stack
+  - Requires ray-tracing algorithm with terrain data
+  - *Application*: Use DEM from ThemisDB, compute visibility, store results back
+  
+- ❌ **Kriging/IDW Interpolation** - Map pollutant concentrations
+  - Requires geostatistical modeling (semivariogram, kriging system)
+  - *Application*: Query monitoring data from ThemisDB, compute interpolation surface in R/Python, store back
+  
+- ❌ **Dispersion Modeling** - Calculate pollutant transport
+  - Requires meteorological data, emission formulas (TA Luft Appendix 2)
+  - *Application*: Specialized tools (AUSTAL2000, LASAT) query stack parameters from ThemisDB
+
+**ThemisDB Role:** Store emission sources, DEM raster, monitoring locations. Provide spatial queries for application to consume.
+
+**Application Workflow (Multi-Tool):**
 ```python
-# Viewshed from emission stack
-viewshed = arcpy.sa.Viewshed(
-    dem_raster,
-    observer_points=emission_sources,
-    z_factor=1,
-    observer_offset=50  # Stack height in meters
+# 1. Query emission source from ThemisDB
+source = themisdb.query("FOR s IN emission_sources FILTER s.id == @id RETURN s")[0]
+
+# 2. Run dispersion model (application logic - AUSTAL2000)
+concentration_grid = austal2000.compute_dispersion(
+    stack_height=source.stack_height,
+    emission_rate=source.emission_rate,
+    meteorology=weather_data,  # External data source
+    terrain=themisdb.get_dem(source.location, radius=5000)  # DB query
 )
 
-# Interpolate pollutant concentrations
-concentration_surface = arcpy.sa.Kriging(
-    monitoring_points,
-    "PM10_value",
-    arcpy.sa.KrigingModelOrdinary("SPHERICAL")
-)
+# 3. Store results back to ThemisDB
+themisdb.insert_raster("emission_concentration", concentration_grid)
 
-# Check exceedances
-exceedance_areas = arcpy.sa.Con(
-    concentration_surface > 40,  # PM10 limit
-    concentration_surface
-)
+# 4. Query exceedances using ThemisDB spatial functions
+exceedances = themisdb.query("""
+  FOR pixel IN emission_concentration_raster
+    FILTER pixel.value > 40  -- PM10 limit
+    LET buildings = (
+      FOR b IN buildings
+        FILTER ST_INTERSECTS(b.geometry, pixel.geometry)
+        RETURN b
+    )
+    RETURN {pixel, affected_buildings: buildings}
+""")
 ```
 
-**ThemisDB Current Capability:** ❌ **Not Supported**
-- No visibility analysis
-- No geostatistical interpolation
-- **HIGH PRIORITY** for emission protection compliance
+**ThemisDB Query Example (Database Level):**
+```sql
+-- ThemisDB provides spatial building blocks
+FOR source IN emission_sources
+  LET buffer_zone = ST_BUFFER(source.location, 500)  -- DB operation
+  LET affected_buildings = (
+    FOR building IN buildings
+      FILTER ST_INTERSECTS(building.geometry, buffer_zone)  -- DB operation
+      RETURN building
+  )
+  RETURN {
+    source: source.name,
+    protection_zone: buffer_zone,
+    building_count: LENGTH(affected_buildings),
+    affected: affected_buildings
+  }
+```
 
 ### 4.2 Noise Emission Mapping (Lärmschutz)
 
@@ -626,10 +740,13 @@ __global__ void krigingKernel(
 
 ## 6. Implementation Roadmap
 
-### Phase 1: Critical Gaps (Q1 2026)
+> **Scope Clarification:** This roadmap focuses on database-layer functionality. Complex analysis workflows (dispersion modeling, geostatistical optimization, network analysis) remain application responsibilities.
 
-**Priority 1: ST_BUFFER Implementation** 🔴
-- **Impact:** Unlocks 80% of emission protection use cases
+### Phase 1: Core Database Functions (Q1 2026)
+
+**Priority 1: ST_BUFFER Implementation** 🔴 **[Database Core]**
+- **Scope:** Geometric buffer operation for spatial queries
+- **Impact:** Unlocks 80% of emission protection spatial queries
 - **Complexity:** Medium (planar), High (geodesic)
 - **GPU:** Yes - implement GPU kernel for large datasets
 - **Dependencies:** None
@@ -638,42 +755,91 @@ __global__ void krigingKernel(
   - 1 week: Geodesic buffer (great circle)
   - 1 week: GPU kernel
   - 1 week: Testing and optimization
+- **Application Use:** Applications query buffered zones for coverage analysis, protection zones, proximity queries
 
-**Priority 2: ST_ISVALID / ST_MAKEVALID** 🔴
+**Priority 2: ST_ISVALID / ST_MAKEVALID** 🔴 **[Database Core]**
+- **Scope:** Geometry validation and repair
 - **Impact:** Data quality assurance for emission calculations
 - **Complexity:** Medium
 - **GPU:** No
 - **Dependencies:** None
 - **Estimated Effort:** 1-2 weeks
+- **Application Use:** Ensure data integrity before applications perform analysis
 
-**Priority 3: ST_TRANSFORM (Coordinate Reprojection)** 🔴
+**Priority 3: ST_TRANSFORM (Coordinate Reprojection)** 🔴 **[Database Core]**
+- **Scope:** Convert geometries between coordinate reference systems
 - **Impact:** Essential for working with official datasets (ETRS89, UTM)
 - **Complexity:** High (leverage PROJ library)
 - **GPU:** Partial (batch transformation)
 - **Dependencies:** PROJ library integration
 - **Estimated Effort:** 2-3 weeks
+- **Application Use:** Applications work with data in consistent CRS
 
-### Phase 2: Emission Protection Essentials (Q2 2026)
+### Phase 2: Spatial Query Enhancements (Q2 2026)
 
-**Priority 4: Viewshed Analysis** 🟡
-- **Impact:** Critical for emission source visibility
+**Priority 4: DEM Raster Storage & Queries** 🟡 **[Database Core]**
+- **Scope:** Store and query digital elevation models efficiently
+- **Impact:** Enables terrain-aware applications
+- **Complexity:** Medium
+- **GPU:** Yes - raster operations
+- **Dependencies:** Raster storage backend
+- **Estimated Effort:** 2-3 weeks
+- **Application Use:** Applications query DEM for viewshed, slope, aspect calculations
+
+**Priority 5: ST_DIFFERENCE, ST_SYMDIFFERENCE** 🟡 **[Database Core]**
+- **Scope:** Complete set of geometric overlay operations
+- **Impact:** Enable complex spatial queries
+- **Complexity:** Medium
+- **GPU:** Yes
+- **Dependencies:** None
+- **Estimated Effort:** 2-3 weeks
+
+**Priority 6: Spatial Statistics Functions** 🟡 **[Database Support]**
+- **Scope:** Basic statistical queries (mean center, standard distance)
+- **Impact:** Support simple spatial analysis
+- **Complexity:** Low
+- **GPU:** Partial
+- **Estimated Effort:** 1-2 weeks
+- **Application Use:** Applications get aggregated spatial statistics for decision making
+
+### Phase 3: Advanced Storage (Q3 2026)
+
+**Priority 7: Topology Support** 🟢 **[Database Core]**
+- **Scope:** Store and maintain topological relationships
+- **Impact:** Efficient network storage, polygon adjacency
 - **Complexity:** High
-- **GPU:** Yes - highest performance gain
-- **Dependencies:** DEM raster support
-- **Estimated Effort:** 4-6 weeks
-  - 2 weeks: CPU implementation (reference)
-  - 2 weeks: GPU kernel (CUDA)
-  - 1 week: Vulkan/OpenCL backends
-  - 1 week: Testing with real DEMs
+- **GPU:** No
+- **Estimated Effort:** 4-5 weeks
 
-**Priority 5: Kriging Interpolation** 🟡
-- **Impact:** Required for concentration mapping
-- **Complexity:** High (geostatistical modeling)
-- **GPU:** Yes - matrix operations benefit
-- **Dependencies:** Linear algebra library (Eigen)
-- **Estimated Effort:** 5-7 weeks
-  - 2 weeks: Semivariogram modeling
-  - 2 weeks: Ordinary kriging
+**Priority 8: 3D Geometry Support Enhancement** 🟢 **[Database Core]**
+- **Scope:** Full 3D operations (3D buffer, 3D intersection)
+- **Complexity:** High
+- **GPU:** Yes
+- **Estimated Effort:** 3-4 weeks
+
+### Phase 4: Performance Optimization (Q4 2026)
+
+**Priority 9: Spatial Index Optimization** 🔵 **[Database Core]**
+- **Scope:** R*-Tree implementation, adaptive index tuning
+- **Complexity:** Medium
+- **Estimated Effort:** 2-3 weeks
+
+**Priority 10: GPU Batch Operations** 🔵 **[Database Core]**
+- **Scope:** Batch multiple spatial operations for GPU efficiency
+- **Complexity:** Medium
+- **GPU:** Yes - core focus
+- **Estimated Effort:** 3-4 weeks
+
+### Explicitly Out of Scope (Application Layer)
+
+These remain application responsibilities, not database features:
+
+- ❌ **Viewshed/Visibility Analysis** - Ray-tracing algorithm (application computes using DEM from DB)
+- ❌ **Kriging/Geostatistical Interpolation** - Statistical modeling (application: R/Python with data from DB)
+- ❌ **Network Analysis** - Routing algorithms (application uses topology stored in DB)
+- ❌ **Dispersion Modeling** - Domain-specific calculations (application: AUSTAL2000, LASAT)
+- ❌ **Optimization Problems** - Location-allocation, facility siting (application: OR tools)
+- ❌ **Complex Workflows** - Multi-step analysis pipelines (application orchestrates DB queries)
   - 1 week: GPU implementation
   - 1 week: Cross-validation
   - 1 week: Testing with air quality data
