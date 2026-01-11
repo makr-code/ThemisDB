@@ -15,6 +15,7 @@ namespace llm {
 namespace applications {
 
 using json = nlohmann::json;
+using llm::FeedbackType;  // Make FeedbackType available in this namespace
 
 /**
  * @brief ThemisDB Documentation Assistant with LoRA fine-tuning

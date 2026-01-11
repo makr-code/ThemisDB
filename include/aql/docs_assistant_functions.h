@@ -95,8 +95,12 @@ public:
      * Can incorporate user feedback for continuous improvement.
      * 
      * @param query User query or question
-     * @param user_id Optional user ID for logging and personalization
+     * @param user_id Optional user ID for logging and personalization (default: "anonymous")
+     *                Note: This parameter is optional and maintains backward compatibility
      * @return Generated answer, search results, or guidance as string
+     * 
+     * **Backward Compatibility**: The user_id parameter is optional with a default value,
+     * so existing calls like `help("question")` continue to work without modification.
      * 
      * Examples:
      * - HELP('How do I enable sharding?') → RAG query with LoRA
