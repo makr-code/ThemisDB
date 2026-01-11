@@ -1997,6 +1997,7 @@ if(THEMIS_BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/test_cte_cache.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_aql_translator.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_text_processor.cpp
+        ${CMAKE_SOURCE_DIR}/tests/test_nlp_integration.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_prompt_manager.cpp
     ${CMAKE_SOURCE_DIR}/tests/test_mock_clip.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_image_analysis_interface.cpp
