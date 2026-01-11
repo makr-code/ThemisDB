@@ -1047,6 +1047,7 @@ set(THEMIS_CORE_SOURCES
     ../src/content/version_manager.cpp
     $<$<BOOL:${THEMIS_ENABLE_OFFICE}>:../src/content/office_processor.cpp>
     ../src/content/archive_processor.cpp  # Archive processing (uses libzip, always available)
+    ../src/content/async_ingestion_worker.cpp  # Async ingestion for development/showcase
     
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
