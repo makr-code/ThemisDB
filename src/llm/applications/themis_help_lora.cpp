@@ -422,7 +422,10 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
             return "v" + major + "." + std::to_string(minor_num - 1);
         } else if (major_num > 1) {
             // Minor is 0, decrement major and reset minor to 0
-            // (Note: In a production system, you'd track the actual previous version)
+            // TODO: In a production system, implement proper version history tracking
+            // to determine the actual previous version (e.g., v2.0 -> v1.5 if v1.5
+            // was the last v1.x version). For now, this simplified approach is
+            // sufficient for the initial implementation.
             return "v" + std::to_string(major_num - 1) + ".0";
         } else {
             // Already at minimum version v1.0
