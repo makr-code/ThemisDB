@@ -20,7 +20,7 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 
 ### By Priority
 - **CRITICAL**: 0 issues (Apache Ranger already implemented, skipped)
-- **HIGH**: 3 issues (Self-awareness, RPC implementation, Security stubs)
+- **HIGH**: 4 issues (Self-awareness, RPC implementation, Security stubs, Documentation verification)
 - **MEDIUM**: 4 issues (LLM features, Metrics, Process Mining, Scheduler)
 
 ### By Component
@@ -30,6 +30,7 @@ This directory contains **GitHub-ready issues** generated from comprehensive gap
 - **LLM Integration**: 2 issues
 - **Process Mining / Analytics**: 1 issue
 - **Scheduler / Task Management**: 1 issue
+- **Meta / Verification**: 1 issue (Documentation gap verification)
 
 ### Status
 - ✅ **All issues verified** - features confirmed as missing before issue creation
@@ -206,6 +207,25 @@ Complete task scheduler with 16 missing features for task management, scheduling
 
 ---
 
+### 008: Documentation Gap Verification ✨ NEU
+**Priority**: HIGH | **Effort**: 4-6 weeks | **Component**: Meta-Issue
+
+Verify all 5,221 documentation TODOs to distinguish between already-implemented features (documentation updates needed) vs. actual implementation gaps. Creates verification framework and generates specific issues based on verification results.
+
+**Source**:
+- `docs/SYSTEMATISCHER_REVIEWPLAN.md` (403 markers to verify)
+- `docs/de/development/todo.md` (387 markers to verify)
+- `docs/de/development/DOCUMENTATION_RENEWAL_TODO.md` (220 markers)
+- All other documentation files (5,221 total markers)
+
+**Deliverables**:
+- Verification methodology and scripts
+- Status report for all documentation TODOs
+- 5-15 new issues for verified gaps
+- Documentation updates for completed features
+
+---
+
 ## 📋 Remaining Gap Categories
 
 ### Not Yet Converted to Issues (Lower Priority)
@@ -296,6 +316,53 @@ Complete task scheduler with 16 missing features for task management, scheduling
 - Create issues for remaining LLM TODOs
 - Create issues for documentation gaps
 - Create issues for lower-priority enhancements
+
+---
+
+## 📝 How to File Issues in GitHub
+
+### Automated Method (Recommended)
+
+Use the automated script to create all issues at once:
+
+```bash
+# Navigate to repository root
+cd /path/to/ThemisDB
+
+# Run the issue creation script
+./.github/create_github_issues.sh
+```
+
+**Features**:
+- ✅ Automatically creates issues from all `.md` files in `.github/issues/`
+- ✅ Extracts title, labels, and milestone from frontmatter
+- ✅ Skips issues that already exist (checks by title)
+- ✅ Rate-limited to avoid GitHub API throttling
+- ✅ Provides summary of created/skipped/failed issues
+
+**Requirements**:
+- GitHub CLI (`gh`) must be installed: https://cli.github.com/
+- Must be authenticated: `gh auth login`
+
+### Manual Method
+
+If you prefer to create issues manually or want more control:
+
+```bash
+cd .github/issues
+
+# Create individual issues
+gh issue create --body-file 001-schema-manager-self-awareness.md
+gh issue create --body-file 002-rpc-service-full-implementation.md
+gh issue create --body-file 003-security-stubs-production-implementation.md
+gh issue create --body-file 004-llm-model-blob-store.md
+gh issue create --body-file 005-llm-grafana-metrics-implementation.md
+gh issue create --body-file 006-process-mining-features.md
+gh issue create --body-file 007-task-scheduler-todos.md
+gh issue create --body-file 008-documentation-gap-verification.md
+```
+
+**Or** copy issue content manually to GitHub web interface.
 
 ---
 
