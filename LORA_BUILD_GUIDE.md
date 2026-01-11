@@ -4,14 +4,53 @@ Complete guide for building and testing the ThemisDB LoRA Adapter Framework with
 
 ## 📋 Table of Contents
 
-1. [Prerequisites](#prerequisites)
-2. [Quick Start](#quick-start)
-3. [Build Options](#build-options)
-4. [Dependencies](#dependencies)
-5. [Building](#building)
-6. [Running Tests](#running-tests)
-7. [Running Benchmarks](#running-benchmarks)
-8. [Troubleshooting](#troubleshooting)
+1. [Docker Quick Start](#docker-quick-start) ⭐ **New!**
+2. [Prerequisites](#prerequisites)
+3. [Quick Start](#quick-start)
+4. [Build Options](#build-options)
+5. [Dependencies](#dependencies)
+6. [Building](#building)
+7. [Running Tests](#running-tests)
+8. [Running Benchmarks](#running-benchmarks)
+9. [Troubleshooting](#troubleshooting)
+
+---
+
+## Docker Quick Start
+
+🐳 **Fastest way to get started** - Complete environment in < 5 minutes!
+
+### Using Docker Compose
+
+```bash
+# Navigate to docker directory
+cd docker
+
+# Start all services (ThemisDB + Prometheus + Grafana)
+./scripts/start.sh
+
+# Access services:
+# - ThemisDB:   http://localhost:8529
+# - Prometheus: http://localhost:9091
+# - Grafana:    http://localhost:3000 (admin/admin)
+```
+
+### Development Mode
+
+```bash
+# Start with hot-reload and debug support
+./scripts/start.sh dev
+
+# Run tests in Docker
+./scripts/test.sh
+
+# View logs
+./scripts/logs.sh themisdb
+```
+
+**Full Docker documentation**: See [docker/README.md](docker/README.md)
+
+---
 
 ---
 

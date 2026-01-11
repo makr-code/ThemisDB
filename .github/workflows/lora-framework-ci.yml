@@ -529,7 +529,7 @@ jobs:
   ci-status:
     name: CI Status Summary
     runs-on: ubuntu-latest
-    needs: [code-quality, build-test-ubuntu, build-windows, build-macos]
+    needs: [code-quality, build-test-ubuntu, build-windows, build-macos, docker-build, docker-test]
     if: always()
     
     steps:
@@ -540,11 +540,15 @@ jobs:
           echo "Ubuntu Build & Test: ${{ needs.build-test-ubuntu.result }}"
           echo "Windows Build: ${{ needs.build-windows.result }}"
           echo "macOS Build: ${{ needs.build-macos.result }}"
+          echo "Docker Build: ${{ needs.docker-build.result }}"
+          echo "Docker Test: ${{ needs.docker-test.result }}"
           
           if [[ "${{ needs.code-quality.result }}" != "success" ]] || \
              [[ "${{ needs.build-test-ubuntu.result }}" != "success" ]] || \
              [[ "${{ needs.build-windows.result }}" != "success" ]] || \
-             [[ "${{ needs.build-macos.result }}" != "success" ]]; then
+             [[ "${{ needs.build-macos.result }}" != "success" ]] || \
+             [[ "${{ needs.docker-build.result }}" != "success" ]] || \
+             [[ "${{ needs.docker-test.result }}" != "success" ]]; then
             echo "❌ CI checks failed"
             exit 1
           fi
@@ -559,6 +563,8 @@ jobs:
           echo "- ✅ Ubuntu 22.04 (Build & Test)" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Windows Server 2022 (Build)" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ macOS 13 (Build)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Docker Build (Multi-stage)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Docker Integration Tests" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Components validated:" >> $GITHUB_STEP_SUMMARY
           echo "- Core LoRA framework (15 files)" >> $GITHUB_STEP_SUMMARY
@@ -566,3 +572,110 @@ jobs:
           echo "- Orchestrator & application (4 files)" >> $GITHUB_STEP_SUMMARY
           echo "- Unit tests (35+ test cases)" >> $GITHUB_STEP_SUMMARY
           echo "- Performance benchmarks (15+ scenarios)" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker Compose setup (5 services)" >> $GITHUB_STEP_SUMMARY
+
+  # Docker-based build
+  docker-build:
+    name: Docker Build & Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: code-quality
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build Docker image
+        working-directory: docker
+        run: |
+          docker buildx build \
+            --file Dockerfile.themisdb \
+            --build-arg BUILD_TYPE=Release \
+            --build-arg ENABLE_LLM=ON \
+            --build-arg ENABLE_LORA=ON \
+            --build-arg BUILD_TESTS=ON \
+            --tag themisdb:lora-ci \
+            --load \
+            ..
+      
+      - name: Verify image
+        run: |
+          echo "=== Docker Image Info ==="
+          docker images themisdb:lora-ci
+          docker history themisdb:lora-ci
+          
+          echo ""
+          echo "=== Verify executables exist ==="
+          docker run --rm themisdb:lora-ci ls -lh /usr/local/bin/themisdb
+          docker run --rm themisdb:lora-ci ls -lh /usr/local/bin/test_lora_framework
+      
+      - name: Test Docker startup
+        run: |
+          echo "=== Testing Docker container startup ==="
+          docker run -d --name test-themisdb \
+            -e THEMIS_ENABLE_LLM=true \
+            -e THEMIS_LORA_ENABLED=true \
+            themisdb:lora-ci
+          
+          sleep 10
+          
+          # Check if container is running
+          docker ps -a
+          
+          # Check logs
+          docker logs test-themisdb
+          
+          # Cleanup
+          docker stop test-themisdb || true
+          docker rm test-themisdb || true
+
+  # Docker Compose integration tests
+  docker-test:
+    name: Docker Compose Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: docker-build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Start Docker Compose test environment
+        working-directory: docker
+        run: |
+          echo "=== Starting Docker Compose test environment ==="
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml config
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit --exit-code-from test-runner
+      
+      - name: Check test results
+        if: always()
+        working-directory: docker
+        run: |
+          echo "=== Checking test results ==="
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -a
+          
+          # Copy test results if available
+          if docker ps -a | grep test-runner; then
+            docker cp themisdb-test-runner:/app/test-results ./test-results || true
+          fi
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-test-results
+          path: docker/test-results/*.xml
+          retention-days: 30
+      
+      - name: Cleanup
+        if: always()
+        working-directory: docker
+        run: |
+          docker-compose -f docker-compose.yml -f docker-compose.test.yml down -v

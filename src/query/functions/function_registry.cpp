@@ -21,8 +21,9 @@
  * | File       | Path manipulation, MIME types, sizing    | ~20   |
  * | Collection | JSON-native constructors, logical ops    | ~40   |
  * | Security   | Validation, sanitization, masking        | ~15   |
+ * | LoRA       | LLM adapter management and operations    | 7     |
  * 
- * Total: ~355 functions
+ * Total: ~362 functions
  */
 
 #include "query/functions/function_registry.h"
@@ -39,6 +40,7 @@
 #include "query/functions/file_functions.h"
 #include "query/functions/collection_functions.h"
 #include "query/functions/security_functions.h"
+#include "query/functions/lora_functions.h"
 
 namespace themis {
 namespace query {
@@ -73,6 +75,10 @@ void registerBuiltinFunctions() {
     // Security functions (validation, sanitization, masking)
     // Includes: IS_EMAIL, IS_URL, IS_UUID, SANITIZE, HAS_INJECTION, MASK, etc.
     registerSecurityFunctions();
+    
+    // LoRA functions (LLM adapter management and operations)
+    // Includes: LORA_TRAIN, LORA_QUERY, LORA_SIMILAR, LORA_PATH, LORA_STATS, LORA_RECOMMEND, LORA_LINEAGE
+    registerLoRAFunctions(registry);
 }
 
 } // namespace functions
