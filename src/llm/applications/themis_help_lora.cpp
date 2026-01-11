@@ -56,8 +56,11 @@ public:
         : config(cfg)
         , current_adapter_version("v1.0")
     {
-        // Initialize orchestrator with minimal config
+        // Initialize orchestrator with default config
+        // The orchestrator will use its own defaults for storage, training, etc.
         LoRAOrchestrator::Config orch_config;
+        // Note: In a production environment, these would be configured
+        // based on the application's requirements
         orchestrator = std::make_shared<LoRAOrchestrator>(orch_config);
         
         spdlog::info("ThemisHelpLoRA initialized with adapter: {}", config.adapter_id);
@@ -72,7 +75,10 @@ public:
                 spdlog::info("Loading adapter: {}", config.adapter_id);
                 std::string job_id = orchestrator->loadAdapter(config.adapter_id, false);
                 if (job_id.empty()) {
-                    spdlog::warn("Adapter {} not found, using placeholder", config.adapter_id);
+                    spdlog::warn("Adapter {} not found, using placeholder responses", config.adapter_id);
+                    // Note: This is expected behavior during initial setup or when
+                    // the adapter hasn't been trained yet. The system will still
+                    // provide useful placeholder responses.
                 }
             }
             
@@ -400,6 +406,7 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
     
     size_t dot_pos = version.find('.');
     if (dot_pos == std::string::npos) {
+        // No minor version, can't decrement further
         return "v1.0";
     }
     
@@ -407,11 +414,20 @@ std::string ThemisHelpLoRA::decrementVersion(const std::string& version) {
     std::string minor = version.substr(dot_pos + 1);
     
     try {
+        int major_num = std::stoi(major);
         int minor_num = std::stoi(minor);
+        
         if (minor_num > 0) {
+            // Decrement minor version
             return "v" + major + "." + std::to_string(minor_num - 1);
+        } else if (major_num > 1) {
+            // Minor is 0, decrement major and reset minor to 0
+            // (Note: In a production system, you'd track the actual previous version)
+            return "v" + std::to_string(major_num - 1) + ".0";
+        } else {
+            // Already at minimum version v1.0
+            return "v1.0";
         }
-        return "v1.0";
     } catch (...) {
         return "v1.0";
     }
