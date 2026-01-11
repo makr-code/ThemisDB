@@ -14,6 +14,7 @@
 #include <vector>
 #include <functional>
 #include <chrono>
+#include <thread>
 #include <filesystem>
 
 namespace themis {

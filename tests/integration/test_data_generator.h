@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
