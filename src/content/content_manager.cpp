@@ -1,6 +1,7 @@
 #include "content/content_manager.h"
 #include "content/content_type.h"
 #include "content/content_processor.h"
+#include "content/archive_processor.h"
 #include "utils/logger.h"
 #include "storage/key_schema.h"
 #include "utils/zstd_codec.h"
@@ -20,6 +21,7 @@
 #include <queue>
 #include <set>
 #include <sstream>
+#include <fstream>
 
 namespace themis {
 namespace content {
@@ -1536,6 +1538,294 @@ Status ContentManager::registerPath(const std::string& content_id, const std::st
     } catch (const json::exception& e) {
         return Status::Error(std::string("JSON error: ") + e.what());
     }
+}
+
+ContentManager::IngestResult ContentManager::ingestRawBlob(
+    const std::string& blob,
+    const std::string& filename,
+    const std::string& mime_type,
+    const std::string& user_context,
+    const json& config
+) {
+    IngestResult result;
+    result.success = false;
+    
+    // Detect content type and category
+    std::string detected_mime = mime_type;
+    if (detected_mime.empty()) {
+        auto& registry = ContentTypeRegistry::instance();
+        auto type = registry.detectFromBlob(blob);
+        if (type) {
+            detected_mime = type->mime_type;
+        } else {
+            // Fallback to filename extension
+            auto ext_pos = filename.find_last_of('.');
+            if (ext_pos != std::string::npos) {
+                std::string ext = filename.substr(ext_pos);
+                type = registry.getByExtension(ext);
+                if (type) detected_mime = type->mime_type;
+            }
+        }
+    }
+    
+    if (detected_mime.empty()) {
+        result.error_message = "Unable to detect content type";
+        return result;
+    }
+    
+    // Get category
+    auto& registry = ContentTypeRegistry::instance();
+    auto type = registry.getByMimeType(detected_mime);
+    ContentCategory category = type ? type->category : ContentCategory::UNKNOWN;
+    
+    // Handle archives specially (ONLY if archive processor is registered - plugin design)
+    if (category == ContentCategory::ARCHIVE) {
+        // Try to get archive processor (may not be available - plugin design)
+        auto proc = getProcessor(category);
+        if (!proc) {
+            // No archive processor available - fall back to storing as blob with metadata only
+            THEMIS_INFO("Archive processor not available (plugin not loaded), storing as blob with metadata");
+            
+            // Store as regular content without extraction
+            std::string content_id = generateUuid();
+            
+            ContentMeta meta;
+            meta.id = content_id;
+            meta.mime_type = detected_mime;
+            meta.category = category;
+            meta.original_filename = filename;
+            meta.size_bytes = static_cast<int64_t>(blob.size());
+            meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+            meta.modified_at = meta.created_at;
+            meta.hash_sha256 = computeSHA256(blob);
+            meta.extracted_metadata = json{
+                {"archive_processing", "not_available"},
+                {"note", "Archive processor plugin not loaded"}
+            };
+            
+            json spec = {
+                {"content", meta.toJson()}
+            };
+            
+            auto status = importContent(spec, blob, user_context);
+            if (!status.ok) {
+                result.error_message = status.message;
+                return result;
+            }
+            
+            result.success = true;
+            result.primary_content_id = content_id;
+            result.metadata = json{
+                {"content_id", content_id},
+                {"mime_type", detected_mime},
+                {"category", static_cast<int>(category)},
+                {"archive_processing", "disabled"}
+            };
+            
+            return result;
+        }
+        
+        // Archive processor is available - use it
+        auto* archive_proc = dynamic_cast<content::ArchiveProcessor*>(proc);
+        if (!archive_proc) {
+            result.error_message = "Archive processor not properly registered";
+            return result;
+        }
+        
+        // Configure archive processor from config
+        auto proc_config = archive_proc->getConfig();
+        if (config.contains("archive_strategy")) {
+            std::string strategy = config["archive_strategy"].get<std::string>();
+            if (strategy == "EXTRACT_AND_INGEST") {
+                proc_config.strategy = content::ArchiveStrategy::EXTRACT_AND_INGEST;
+            } else if (strategy == "METADATA_ONLY") {
+                proc_config.strategy = content::ArchiveStrategy::METADATA_ONLY;
+            } else if (strategy == "REJECT") {
+                proc_config.strategy = content::ArchiveStrategy::REJECT;
+            }
+        }
+        
+        if (config.contains("encrypted_policy")) {
+            std::string policy = config["encrypted_policy"].get<std::string>();
+            if (policy == "REJECT") {
+                proc_config.encrypted_policy = content::EncryptedArchivePolicy::REJECT;
+            } else if (policy == "METADATA_ONLY") {
+                proc_config.encrypted_policy = content::EncryptedArchivePolicy::METADATA_ONLY;
+            } else if (policy == "REQUIRE_PASSWORD") {
+                proc_config.encrypted_policy = content::EncryptedArchivePolicy::REQUIRE_PASSWORD;
+                if (config.contains("password")) {
+                    proc_config.password = config["password"].get<std::string>();
+                }
+            }
+        }
+        
+        archive_proc->setConfig(proc_config);
+        
+        // Process archive
+        auto proc_result = archive_proc->process(blob, detected_mime, filename);
+        if (!proc_result.success) {
+            result.error_message = proc_result.error_message;
+            return result;
+        }
+        
+        // Generate archive content ID
+        std::string archive_id = generateUuid();
+        result.primary_content_id = archive_id;
+        
+        // Create archive metadata
+        ContentMeta archive_meta;
+        archive_meta.id = archive_id;
+        archive_meta.mime_type = detected_mime;
+        archive_meta.category = ContentCategory::ARCHIVE;
+        archive_meta.original_filename = filename;
+        archive_meta.size_bytes = static_cast<int64_t>(blob.size());
+        archive_meta.compressed = false;
+        archive_meta.encrypted = false;
+        archive_meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+        archive_meta.modified_at = archive_meta.created_at;
+        archive_meta.hash_sha256 = computeSHA256(blob);
+        archive_meta.text_extracted = false;
+        archive_meta.chunked = false;
+        archive_meta.indexed = false;
+        archive_meta.chunk_count = 0;
+        archive_meta.extracted_metadata = proc_result.metadata;
+        
+        // Store archive metadata
+        json archive_spec = {
+            {"content", archive_meta.toJson()}
+        };
+        
+        auto status = importContent(archive_spec, blob, user_context);
+        if (!status.ok) {
+            result.error_message = "Failed to store archive: " + status.message;
+            return result;
+        }
+        
+        // Handle extraction strategy
+        if (proc_config.strategy == content::ArchiveStrategy::EXTRACT_AND_INGEST && 
+            proc_result.metadata.contains("extracted_files")) {
+            
+            auto extracted_files = proc_result.metadata["extracted_files"];
+            std::string temp_dir = proc_result.metadata.value("temp_directory", "");
+            
+            // Ingest each extracted file
+            for (const auto& file_path : extracted_files) {
+                std::string path_str = file_path.get<std::string>();
+                
+                // Read extracted file
+                std::ifstream file(path_str, std::ios::binary);
+                if (!file) continue;
+                
+                std::string file_blob(
+                    (std::istreambuf_iterator<char>(file)),
+                    std::istreambuf_iterator<char>()
+                );
+                file.close();
+                
+                // Get relative path within archive
+                std::string relative_path = path_str;
+                if (!temp_dir.empty() && path_str.find(temp_dir) == 0) {
+                    relative_path = path_str.substr(temp_dir.size());
+                    if (!relative_path.empty() && relative_path[0] == '/') {
+                        relative_path = relative_path.substr(1);
+                    }
+                }
+                
+                // Extract just the filename
+                auto filename_pos = relative_path.find_last_of('/');
+                std::string extracted_filename = (filename_pos != std::string::npos) 
+                    ? relative_path.substr(filename_pos + 1) 
+                    : relative_path;
+                
+                // Recursively ingest (handles nested archives too)
+                auto nested_result = ingestRawBlob(file_blob, extracted_filename, "", user_context, config);
+                
+                if (nested_result.success) {
+                    result.extracted_content_ids.push_back(nested_result.primary_content_id);
+                    
+                    // Create graph edge: archive -> extracted_file (only if graph_index available)
+                    if (graph_index_) {
+                        try {
+                            graph_index_->addEdge(
+                                std::string("content:") + archive_id,
+                                std::string("content:") + nested_result.primary_content_id,
+                                "CONTAINS",
+                                json{
+                                    {"original_path", relative_path},
+                                    {"extraction_order", result.extracted_content_ids.size() - 1}
+                                }
+                            );
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("Failed to create graph edge for archive member: {}", e.what());
+                        }
+                    }
+                    
+                    // Update extracted file's parent_id
+                    auto member_meta = getContentMeta(nested_result.primary_content_id);
+                    if (member_meta) {
+                        member_meta->parent_id = archive_id;
+                        member_meta->virtual_path = "/" + filename + "/" + relative_path;
+                        
+                        // Update stored metadata
+                        std::string meta_key = std::string("content:") + nested_result.primary_content_id;
+                        std::string meta_json = member_meta->toJson().dump();
+                        storage_->put(meta_key, std::vector<uint8_t>(meta_json.begin(), meta_json.end()));
+                    }
+                }
+            }
+            
+            // Update archive metadata with child IDs
+            archive_meta.child_ids = result.extracted_content_ids;
+            std::string archive_key = std::string("content:") + archive_id;
+            std::string archive_json = archive_meta.toJson().dump();
+            storage_->put(archive_key, std::vector<uint8_t>(archive_json.begin(), archive_json.end()));
+            
+            // Cleanup temporary directory
+            if (!temp_dir.empty()) {
+                content::ArchiveProcessor::cleanupTempDirectory(temp_dir);
+            }
+        }
+        
+        result.success = true;
+        result.metadata = proc_result.metadata;
+        result.metadata["archive_id"] = archive_id;
+        result.metadata["extracted_count"] = result.extracted_content_ids.size();
+        
+        return result;
+    }
+    
+    // For non-archive content, create a simple import spec
+    std::string content_id = generateUuid();
+    
+    ContentMeta meta;
+    meta.id = content_id;
+    meta.mime_type = detected_mime;
+    meta.category = category;
+    meta.original_filename = filename;
+    meta.size_bytes = static_cast<int64_t>(blob.size());
+    meta.created_at = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+    meta.modified_at = meta.created_at;
+    meta.hash_sha256 = computeSHA256(blob);
+    
+    json spec = {
+        {"content", meta.toJson()}
+    };
+    
+    auto status = importContent(spec, blob, user_context);
+    if (!status.ok) {
+        result.error_message = status.message;
+        return result;
+    }
+    
+    result.success = true;
+    result.primary_content_id = content_id;
+    result.metadata = json{
+        {"content_id", content_id},
+        {"mime_type", detected_mime},
+        {"category", static_cast<int>(category)}
+    };
+    
+    return result;
 }
 
 ContentManager::Stats ContentManager::getStats() {
