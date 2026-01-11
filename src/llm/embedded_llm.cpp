@@ -1,4 +1,5 @@
 #include "llm/embedded_llm.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 
 namespace themis {

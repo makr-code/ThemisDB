@@ -1,5 +1,6 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/llama_wrapper.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <sstream>

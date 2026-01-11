@@ -2,6 +2,7 @@
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
 #include "llm/paged_block_manager.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <chrono>
 #include <cmath>

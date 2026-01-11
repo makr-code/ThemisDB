@@ -1,4 +1,5 @@
 #include "llm/model_loader.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>

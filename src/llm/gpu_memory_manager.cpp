@@ -1,4 +1,5 @@
 #include "llm/gpu_memory_manager.h"
+#include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cstring>
