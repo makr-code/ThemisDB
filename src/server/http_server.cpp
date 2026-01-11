@@ -1224,6 +1224,12 @@ namespace {
     SpatialIndexStatsGet,
     SpatialIndexMetricsGet,
        
+    // Error API
+    ErrorApiListGet,          // GET /api/v1/errors
+    ErrorApiGetByCode,        // GET /api/v1/errors/:code
+    ErrorApiCategoriesGet,    // GET /api/v1/errors/categories
+    ErrorApiSearchGet,        // GET /api/v1/errors/search
+       
         NotFound
     };
 
@@ -1412,6 +1418,12 @@ namespace {
     // Encryption schema config
     if (target == "/config/encryption-schema" && method == http::verb::get) return Route::EncryptionSchemaGet;
     if (target == "/config/encryption-schema" && (method == http::verb::put || method == http::verb::post)) return Route::EncryptionSchemaPut;
+    
+    // Error API endpoints
+    if (path_only == "/api/v1/errors/categories" && method == http::verb::get) return Route::ErrorApiCategoriesGet;
+    if (path_only == "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiSearchGet;
+    if (path_only.rfind("/api/v1/errors/", 0) == 0 && path_only != "/api/v1/errors/categories" && path_only != "/api/v1/errors/search" && method == http::verb::get) return Route::ErrorApiGetByCode;
+    if (path_only == "/api/v1/errors" && method == http::verb::get) return Route::ErrorApiListGet;
 
         return Route::NotFound;
     }
@@ -1947,6 +1959,18 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::EncryptionSchemaPut:
             response = handleEncryptionSchemaPut(req);
+            break;
+        case Route::ErrorApiListGet:
+            response = handleErrorApiList(req);
+            break;
+        case Route::ErrorApiGetByCode:
+            response = handleErrorApiGetByCode(req);
+            break;
+        case Route::ErrorApiCategoriesGet:
+            response = handleErrorApiCategories(req);
+            break;
+        case Route::ErrorApiSearchGet:
+            response = handleErrorApiSearch(req);
             break;
         case Route::PoliciesImportRangerPost:
             response = handlePoliciesImportRanger(req);
@@ -12475,6 +12499,183 @@ http::response<http::string_body> HttpServer::handleQueryEnhanced(
         span.setStatus(false, "internal_error");
         return makeErrorResponse(http::status::internal_server_error, 
             std::string("Error: ") + e.what(), req);
+    }
+}
+
+// Error API handlers
+http::response<http::string_body> HttpServer::handleErrorApiList(
+    const http::request<http::string_body>& req
+) {
+    try {
+        // Parse query parameters
+        std::string target_str = std::string(req.target());
+        nlohmann::json query_params = nlohmann::json::object();
+        
+        auto query_pos = target_str.find('?');
+        if (query_pos != std::string::npos) {
+            std::string query_string = target_str.substr(query_pos + 1);
+            // Simple query parameter parsing
+            size_t pos = 0;
+            while (pos < query_string.size()) {
+                auto eq_pos = query_string.find('=', pos);
+                if (eq_pos == std::string::npos) break;
+                auto amp_pos = query_string.find('&', eq_pos);
+                if (amp_pos == std::string::npos) amp_pos = query_string.size();
+                
+                std::string key = query_string.substr(pos, eq_pos - pos);
+                std::string value = query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1);
+                query_params[key] = value;
+                pos = amp_pos + 1;
+            }
+        }
+        
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = target_str;
+        handler_req.query = query_params;
+        handler_req.params = nlohmann::json::object();
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleGetErrors(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleErrorApiGetByCode(
+    const http::request<http::string_body>& req
+) {
+    try {
+        std::string target_str = std::string(req.target());
+        std::string path_only = target_str;
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        
+        // Extract error code from path: /api/v1/errors/:code
+        std::string code_str;
+        if (path_only.rfind("/api/v1/errors/", 0) == 0) {
+            code_str = path_only.substr(std::string("/api/v1/errors/").size());
+        }
+        
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = target_str;
+        handler_req.query = nlohmann::json::object();
+        handler_req.params = nlohmann::json::object();
+        handler_req.params["code"] = code_str;
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleGetError(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleErrorApiCategories(
+    const http::request<http::string_body>& req
+) {
+    try {
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = std::string(req.target());
+        handler_req.query = nlohmann::json::object();
+        handler_req.params = nlohmann::json::object();
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleGetCategories(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> HttpServer::handleErrorApiSearch(
+    const http::request<http::string_body>& req
+) {
+    try {
+        // Parse query parameters
+        std::string target_str = std::string(req.target());
+        nlohmann::json query_params = nlohmann::json::object();
+        
+        auto query_pos = target_str.find('?');
+        if (query_pos != std::string::npos) {
+            std::string query_string = target_str.substr(query_pos + 1);
+            // Simple query parameter parsing
+            size_t pos = 0;
+            while (pos < query_string.size()) {
+                auto eq_pos = query_string.find('=', pos);
+                if (eq_pos == std::string::npos) break;
+                auto amp_pos = query_string.find('&', eq_pos);
+                if (amp_pos == std::string::npos) amp_pos = query_string.size();
+                
+                std::string key = query_string.substr(pos, eq_pos - pos);
+                std::string value = query_string.substr(eq_pos + 1, amp_pos - eq_pos - 1);
+                query_params[key] = value;
+                pos = amp_pos + 1;
+            }
+        }
+        
+        // Create Request object for handler
+        server::Request handler_req;
+        handler_req.method = std::string(http::to_string(req.method()));
+        handler_req.path = target_str;
+        handler_req.query = query_params;
+        handler_req.params = nlohmann::json::object();
+        handler_req.body = nlohmann::json::object();
+        
+        // Call handler
+        server::Response handler_res;
+        if (!error_api_handler_) {
+            error_api_handler_ = std::make_unique<server::ErrorApiHandler>();
+        }
+        error_api_handler_->handleSearchErrors(handler_req, handler_res);
+        
+        // Convert response
+        return makeResponse(
+            static_cast<http::status>(handler_res.status_code),
+            handler_res.body.dump(),
+            req
+        );
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }
 
