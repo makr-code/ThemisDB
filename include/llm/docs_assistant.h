@@ -19,6 +19,8 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include <filesystem>
+#include <fstream>
 #include <nlohmann/json.hpp>
 
 namespace themis::llm {
@@ -48,11 +50,49 @@ struct DocumentEntry {
 struct DocsAssistantConfig {
     std::string docs_database_path = "data/docs_database.json";
     std::string database_type = "json";  // "json" or "rocksdb"
+    bool auto_discover = true;  // Auto-discover docs.db if not explicitly configured
     int max_context_docs = 5;  // Maximum number of docs to include in RAG context
     int context_preview_length = 1000;  // Characters to include per document
     bool enable_semantic_search = true;
     bool enable_caching = true;
     std::string llm_model_id = "";  // Empty = use default
+    
+    /**
+     * @brief Auto-discover documentation database
+     * 
+     * Search order:
+     * 1. Explicit config: docs_database_path
+     * 2. data/docs.db (RocksDB)
+     * 3. data/docs_database.json (JSON)
+     * 4. ./docs.db (RocksDB in current dir)
+     * 5. ./docs_database.json (JSON in current dir)
+     */
+    bool discoverDatabase() {
+        if (!auto_discover) {
+            return false;  // Use explicit configuration
+        }
+        
+        // Search order
+        std::vector<std::pair<std::string, std::string>> search_paths = {
+            {"data/docs.db", "rocksdb"},
+            {"data/docs_database.json", "json"},
+            {"./docs.db", "rocksdb"},
+            {"./docs_database.json", "json"},
+            {"../data/docs.db", "rocksdb"},
+            {"../data/docs_database.json", "json"}
+        };
+        
+        for (const auto& [path, type] : search_paths) {
+            std::ifstream test(path);
+            if (test.good() || std::filesystem::exists(path)) {
+                docs_database_path = path;
+                database_type = type;
+                return true;
+            }
+        }
+        
+        return false;  // No database found
+    }
 };
 
 /**

@@ -8,6 +8,27 @@
 
 Der ThemisDB Dokumentations-Assistent nutzt llama.cpp und eine vorkompilierte RocksDB-Datenbank mit 1.151 Dokumenten, um Administratoren, Superusern und normalen Benutzern kontextbewusste Hilfe zu bieten. Alle Dokumentationen aus `./docs` und `./compendium` sind über mehrere Datenmodelle indexiert.
 
+**Automatische Konfiguration:**
+Der Dokumentations-Assistent findet die Dokumentationsdatenbank automatisch beim Start. Keine manuelle Konfiguration erforderlich!
+
+**Suchpfade (Auto-Discovery):**
+1. `data/docs.db` (RocksDB - empfohlen)
+2. `data/docs_database.json` (JSON - Fallback)
+3. `./docs.db` (aktuelles Verzeichnis)
+4. `./docs_database.json`
+5. `../data/docs.db` (parent directory)
+
+**Manuelle Konfiguration (optional):**
+```yaml
+# config/docs_assistant.yaml
+docs_assistant:
+  enabled: true
+  database:
+    path: "data/docs.db"  # Expliziter Pfad
+    type: "rocksdb"        # json oder rocksdb
+    auto_discover: false   # Deaktiviert Auto-Discovery
+```
+
 **Zielgruppen:**
 - **Administratoren**: Vollzugriff auf Konfiguration, Troubleshooting und Systemoptimierung
 - **Superuser**: Erweiterte Abfragen, Performance-Tuning, erweiterte Features
@@ -79,6 +100,87 @@ graph TB
 ---
 
 ## 42.1 Für Administratoren: Vollständige Systemkontrolle
+
+### 42.1.0 Konfiguration und Auto-Discovery
+
+**Automatische Konfiguration (empfohlen):**
+
+Der Dokumentations-Assistent findet die Datenbank automatisch beim Server-Start:
+
+```bash
+# Generiere Datenbank
+python3 scripts/generate_docs_rocksdb.py --output data/docs.db
+
+# Starte Server - docs.db wird automatisch gefunden!
+./themis_server
+
+# Server-Log zeigt:
+# [INFO] Documentation Assistant: Auto-discovering database...
+# [INFO] Documentation Assistant: Found database at data/docs.db (RocksDB)
+# [INFO] Documentation Assistant: Loaded 1151 documents from 7 column families
+# [INFO] Documentation Assistant: Ready to serve requests
+```
+
+**Manuelle Konfiguration (optional):**
+
+Erstelle `config/docs_assistant.yaml`:
+
+```yaml
+docs_assistant:
+  enabled: true
+  
+  database:
+    path: "/var/lib/themisdb/docs.db"  # Expliziter Pfad
+    type: "rocksdb"                     # json oder rocksdb
+    auto_discover: false                # Deaktiviert Auto-Discovery
+  
+  llm:
+    max_context_docs: 10                # Admin braucht mehr Kontext
+    enable_caching: true
+    cache_ttl_seconds: 300
+  
+  access:
+    enable_rbac: true
+    default_role: "user"
+```
+
+**Umgebungsvariablen (höchste Priorität):**
+
+```bash
+# Überschreibt YAML-Konfiguration
+export THEMIS_DOCS_DATABASE_PATH="/custom/path/docs.db"
+export THEMIS_DOCS_DATABASE_TYPE="rocksdb"
+export THEMIS_DOCS_AUTO_DISCOVER="false"
+
+./themis_server
+```
+
+**Konfigurationspriorität:**
+1. Umgebungsvariablen (höchste)
+2. YAML-Konfiguration (`config/docs_assistant.yaml`)
+3. Auto-Discovery (Standard)
+4. Fallback: `data/docs_database.json`
+
+**Verifizierung:**
+
+```bash
+# Prüfe welche Datenbank geladen wurde
+curl -X GET http://localhost:8765/api/v1/llm/health \
+  -H "Authorization: Bearer ${ADMIN_TOKEN}"
+
+# Antwort:
+{
+  "status": "healthy",
+  "docs_assistant": {
+    "enabled": true,
+    "database_path": "data/docs.db",
+    "database_type": "rocksdb",
+    "documents_loaded": 1151,
+    "column_families": 7,
+    "discovery_method": "auto"  # auto, explicit, env
+  }
+}
+```
 
 ### 42.1.1 Anwendungsfälle für Administratoren
 
