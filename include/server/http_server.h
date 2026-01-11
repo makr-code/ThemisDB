@@ -41,6 +41,7 @@
 #include "server/classification_api_handler.h"
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
+#include "server/feedback_api_handler.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
 #include "server/policy_engine.h"
@@ -609,6 +610,9 @@ private:
     // Update API Handler
     std::unique_ptr<themis::server::UpdateApiHandler> update_api_;
     std::shared_ptr<themis::utils::UpdateChecker> update_checker_;
+    
+    // Feedback API Handler
+    std::unique_ptr<themis::server::FeedbackAPIHandler> feedback_api_handler_;
     
     // Adaptive Index Manager (Sprint C)
     std::unique_ptr<AdaptiveIndexManager> adaptive_index_;
