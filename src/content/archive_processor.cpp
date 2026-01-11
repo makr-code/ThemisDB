@@ -344,8 +344,8 @@ bool ArchiveProcessor::validateArchive(const ArchiveMetadata& metadata, std::str
     return true;
 }
 
-ExtractionResult ArchiveProcessor::extractZip(const std::string& blob, const std::string& password) {
-    ExtractionResult result;
+ArchiveExtractionResult ArchiveProcessor::extractZip(const std::string& blob, const std::string& password) {
+    ArchiveExtractionResult result;
     result.success = false;
     result.temp_directory = generateTempDirectory();
     
@@ -433,14 +433,14 @@ ExtractionResult ArchiveProcessor::extractZip(const std::string& blob, const std
     return result;
 }
 
-ExtractionResult ArchiveProcessor::extractTar(const std::string& blob, ArchiveFormat format) {
-    ExtractionResult result;
+ArchiveExtractionResult ArchiveProcessor::extractTar(const std::string& blob, ArchiveFormat format) {
+    ArchiveExtractionResult result;
     result.success = false;
     result.error_message = "TAR extraction not yet implemented (requires libarchive)";
     return result;
 }
 
-ExtractionResult ArchiveProcessor::extractToTemp(
+ArchiveExtractionResult ArchiveProcessor::extractToTemp(
     const std::string& blob,
     ArchiveFormat format,
     const std::string& password
@@ -470,12 +470,12 @@ void ArchiveProcessor::cleanupTempDirectory(const std::string& temp_dir) {
     }
 }
 
-ContentProcessorResult ArchiveProcessor::process(
+ArchiveProcessorResult ArchiveProcessor::process(
     const std::string& blob,
     const std::string& mime_type,
     const std::string& filename
 ) {
-    ContentProcessorResult result;
+    ArchiveProcessorResult result;
     result.success = false;
     
     // Detect format
@@ -586,6 +586,55 @@ ContentProcessorResult ArchiveProcessor::process(
     // and creating graph relationships. We just provide the file list.
     
     return result;
+}
+
+// ============================================================================
+// IContentProcessor Interface Implementation
+// ============================================================================
+
+ExtractionResult ArchiveProcessor::extract(
+    const std::string& blob,
+    const ContentType& content_type
+) {
+    ExtractionResult result;
+    result.ok = false;
+    
+    // Use the archive-specific process() method
+    auto archive_result = process(blob, content_type.mime_type, "archive");
+    
+    result.ok = archive_result.success;
+    result.error_message = archive_result.error_message;
+    result.metadata = archive_result.metadata;
+    result.text = ""; // Archives don't have direct text content
+    
+    return result;
+}
+
+std::vector<json> ArchiveProcessor::chunk(
+    const ExtractionResult& extraction_result,
+    int chunk_size,
+    int overlap
+) {
+    // Archives don't need chunking - they're metadata containers
+    // Return a single chunk with the metadata
+    std::vector<json> chunks;
+    
+    if (!extraction_result.metadata.empty()) {
+        json chunk = {
+            {"type", "archive_metadata"},
+            {"metadata", extraction_result.metadata},
+            {"seq_num", 0}
+        };
+        chunks.push_back(chunk);
+    }
+    
+    return chunks;
+}
+
+std::vector<float> ArchiveProcessor::generateEmbedding(const std::string& chunk_data) {
+    // Archives don't generate embeddings
+    // Embeddings are generated for the extracted files instead
+    return {};
 }
 
 } // namespace content

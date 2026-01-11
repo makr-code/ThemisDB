@@ -69,13 +69,22 @@ struct ArchiveMetadata {
 };
 
 /**
- * @brief Archive extraction result
+ * @brief Archive extraction result (internal use)
  */
-struct ExtractionResult {
+struct ArchiveExtractionResult {
     bool success;
     std::string error_message;
     std::vector<std::string> extracted_files;  // Paths to extracted files in temp directory
     std::string temp_directory;  // Temporary directory used for extraction
+};
+
+/**
+ * @brief Archive Processor Result (for process() method)
+ */
+struct ArchiveProcessorResult {
+    bool success;
+    std::string error_message;
+    json metadata;
 };
 
 /**
@@ -106,6 +115,8 @@ struct ArchiveProcessorConfig {
  * Handles compressed archive formats (.zip, .tar, .tar.gz, etc.)
  * Supports extraction and ingestion of archive contents with configurable strategies.
  * 
+ * Implements IContentProcessor interface while maintaining archive-specific functionality.
+ * 
  * Security Features:
  * - Zip bomb detection (compression ratio check)
  * - Path traversal prevention (sanitizes file paths)
@@ -120,14 +131,33 @@ public:
     ~ArchiveProcessor() override = default;
 
     // IContentProcessor interface
+    ExtractionResult extract(
+        const std::string& blob,
+        const ContentType& content_type
+    ) override;
+    
+    std::vector<json> chunk(
+        const ExtractionResult& extraction_result,
+        int chunk_size,
+        int overlap
+    ) override;
+    
+    std::vector<float> generateEmbedding(const std::string& chunk_data) override;
+    
     std::string getName() const override { return "ArchiveProcessor"; }
-    ContentCategory getCategory() const override { return ContentCategory::ARCHIVE; }
-    bool canHandle(const std::string& mime_type) const override;
-    ContentProcessorResult process(
+    
+    std::vector<ContentCategory> getSupportedCategories() const override {
+        return {ContentCategory::ARCHIVE};
+    }
+    
+    // Archive-specific interface (used by ContentManager)
+    ArchiveProcessorResult process(
         const std::string& blob,
         const std::string& mime_type,
         const std::string& filename
-    ) override;
+    );
+    
+    bool canHandle(const std::string& mime_type) const;
 
     /**
      * @brief Check if archive processing is available
@@ -167,9 +197,9 @@ public:
      * @param blob Archive binary data
      * @param format Archive format
      * @param password Optional password for encrypted archives
-     * @return ExtractionResult with extracted file paths or error
+     * @return ArchiveExtractionResult with extracted file paths or error
      */
-    ExtractionResult extractToTemp(
+    ArchiveExtractionResult extractToTemp(
         const std::string& blob,
         ArchiveFormat format,
         const std::string& password = ""
@@ -206,8 +236,8 @@ private:
     ArchiveProcessorConfig config_;
     
     // Format-specific extraction methods
-    ExtractionResult extractZip(const std::string& blob, const std::string& password);
-    ExtractionResult extractTar(const std::string& blob, ArchiveFormat format);
+    ArchiveExtractionResult extractZip(const std::string& blob, const std::string& password);
+    ArchiveExtractionResult extractTar(const std::string& blob, ArchiveFormat format);
     
     // Helper methods
     std::string generateTempDirectory() const;
