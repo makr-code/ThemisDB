@@ -126,6 +126,12 @@ private:
     json toolGetSchema(const json& args);
     json toolGetStats(const json& args);
 
+    // Error introspection tool handlers (NEW)
+    json toolGetErrorInfo(const json& args);
+    json toolSearchErrors(const json& args);
+    json toolIntrospectDatabase(const json& args);
+    std::string generateErrorAnswer(const std::string& question);
+
     // LLM Tool handlers (NEW)
     #ifdef THEMIS_ENABLE_LLM
     json toolLLMComplete(const json& args);

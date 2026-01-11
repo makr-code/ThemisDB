@@ -16,10 +16,10 @@ release/                # 947MB - release artifacts
 site/                   # 141MB - generated website
 tools/                  # 122MB - development tools
 
-# vcpkg/ MUST stay in context for bind-mounts to work
-# Only exclude unnecessary subdirectories
-vcpkg/buildtrees/
-vcpkg/.git/
+# exclude full vcpkg from main context; provided via buildx --build-context
+vcpkg/
+
+# (when using buildx --build-context=vcpkg=... you can still access vcpkg in Dockerfile)
 
 # llama.cpp/ is NEEDED for build - only exclude large subdirectories
 llama.cpp/build/

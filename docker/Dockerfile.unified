@@ -64,24 +64,28 @@ RUN set -eux; \
 # Copy vcpkg configuration
 COPY vcpkg-configuration.json ./
 
-# Install dependencies (with cache mounts for downloads/packages)
+# Install dependencies (with asset caching via X_VCPKG_ASSET_SOURCES)
 RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
-    --mount=type=bind,source=vcpkg/downloads,target=/tmp/host-vcpkg-downloads,readonly \
-    --mount=type=bind,source=vcpkg/packages,target=/tmp/host-vcpkg-packages,readonly \
+    --mount=type=bind,from=vcpkg,source=downloads,target=/opt/vcpkg/downloads-host,readonly \
     set -eux; \
     echo "Using VCPKG_MANIFEST_HASH=${VCPKG_MANIFEST_HASH}"; \
     TRIPLET=$(cat /tmp/triplet.txt); \
-    find /tmp/host-vcpkg-downloads -type f -name "*.tar.gz" -o -name "*.zip" 2>/dev/null | \
-        xargs -I{} cp -n {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
-    find /tmp/host-vcpkg-packages -maxdepth 1 -mindepth 1 -type d -name "*_${TRIPLET}" 2>/dev/null | \
-        xargs -I{} cp -rn {} /opt/vcpkg/packages/ 2>/dev/null || true; \
+    \
+    # Copy host downloads into asset cache (read-write mount destination) \
+    echo "Seeding asset cache from host downloads..."; \
+    find /opt/vcpkg/downloads-host -type f \( -name "*.tar.gz" -o -name "*.zip" -o -name "*.zst" \) 2>/dev/null | \
+        xargs -I{} cp -vn {} /opt/vcpkg/downloads/ 2>/dev/null || true; \
+    echo "Asset cache ready: $(find /opt/vcpkg/downloads -type f | wc -l) files"; \
+    \
+    # Configure vcpkg with asset caching and binary caching \
     export VCPKG_BUILD_TYPE=release; \
     export VCPKG_MAX_CONCURRENCY=2; \
     export VCPKG_DOWNLOAD_TOOL=curl; \
     export CURL_RETRIES=10; \
     export CURL_TIMEOUT=600; \
     export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/packages,readwrite"; \
+    export X_VCPKG_ASSET_SOURCES="clear;x-azurl,file:///opt/vcpkg/downloads,,read"; \
     mkdir -p /build/vcpkg_installed; \
         # remove any stale partial boost archives that can poison the cache
         find /opt/vcpkg/downloads -name '*.part' -delete || true; \
