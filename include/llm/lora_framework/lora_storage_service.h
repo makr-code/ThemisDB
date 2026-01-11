@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lora_config.h"
+#include "lora_graph.h"
 #include "storage/base_entity.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/blob_storage_manager.h"
@@ -167,6 +168,81 @@ public:
      * @return JSON with statistics
      */
     json getStats() const;
+    
+    // ═══════════════════════════════════════════════════════════
+    // Graph & Vector Extensions
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Add graph edge between adapters
+     * @param from_id Source adapter
+     * @param to_id Target adapter
+     * @param edge_type Edge type
+     * @param weight Edge weight (optional)
+     * @return true if added successfully
+     */
+    bool addGraphEdge(
+        const std::string& from_id,
+        const std::string& to_id,
+        LoRAEdgeType edge_type,
+        float weight = 1.0f
+    );
+    
+    /**
+     * @brief Get graph edges for adapter
+     * @param adapter_id Adapter identifier
+     * @param direction "incoming", "outgoing", or "both"
+     * @return Vector of edges
+     */
+    std::vector<LoRAGraphEdge> getGraphEdges(
+        const std::string& adapter_id,
+        const std::string& direction = "both"
+    ) const;
+    
+    /**
+     * @brief Get lineage path (from base model to adapter)
+     * @param adapter_id Adapter identifier
+     * @return Graph path
+     */
+    LoRAGraphPath getLineagePath(const std::string& adapter_id) const;
+    
+    /**
+     * @brief Store vector embedding for adapter
+     * @param adapter_id Adapter identifier
+     * @param embedding Vector embedding
+     * @return true if stored successfully
+     */
+    bool storeEmbedding(
+        const std::string& adapter_id,
+        const LoRAVectorEmbedding& embedding
+    );
+    
+    /**
+     * @brief Get vector embeddings for adapter
+     * @param adapter_id Adapter identifier
+     * @return Vector of embeddings
+     */
+    std::vector<LoRAVectorEmbedding> getEmbeddings(const std::string& adapter_id) const;
+    
+    /**
+     * @brief Find similar adapters using vector similarity
+     * @param adapter_id Reference adapter
+     * @param k Number of similar adapters to find
+     * @param threshold Minimum similarity threshold (0-1)
+     * @return Vector of similar adapter IDs with similarity scores
+     */
+    std::vector<std::pair<std::string, float>> findSimilarAdapters(
+        const std::string& adapter_id,
+        int k = 10,
+        float threshold = 0.7f
+    ) const;
+    
+    /**
+     * @brief Get enhanced adapter info with graph and vector data
+     * @param adapter_id Adapter identifier
+     * @return Optional enhanced adapter info
+     */
+    std::optional<AdapterInfoEnhanced> getEnhancedInfo(const std::string& adapter_id) const;
     
 private:
     class Impl;
