@@ -148,6 +148,12 @@ class FeedbackValidator:
     
     def _calculate_quality(self, feedback: Dict[str, Any]) -> float:
         """Calculate quality score (0-1)"""
+        # Configuration constants
+        MIN_LENGTH_SHORT = 5
+        MIN_LENGTH_NORMAL = 10
+        MAX_LENGTH = 5000
+        MIN_REPETITION = 10
+        
         score = 1.0
         
         question = feedback.get('question', '')
@@ -156,25 +162,25 @@ class FeedbackValidator:
         is_positive = feedback.get('is_positive', True)
         
         # Length checks
-        if len(question) < 10:
+        if len(question) < MIN_LENGTH_NORMAL:
             score -= 0.2
-        if len(answer) < 10:
+        if len(answer) < MIN_LENGTH_NORMAL:
             score -= 0.2
         
         # Too short overall
-        if len(question) < 5 or len(answer) < 5:
+        if len(question) < MIN_LENGTH_SHORT or len(answer) < MIN_LENGTH_SHORT:
             score -= 0.3
         
         # Negative feedback without correction
-        if not is_positive and len(correction) < 5:
+        if not is_positive and len(correction) < MIN_LENGTH_SHORT:
             score -= 0.3
         
         # Excessive repetition
-        if re.search(r'(.)\1{10,}', question + answer):
+        if re.search(rf'(.)\1{{{MIN_REPETITION},}}', question + answer):
             score -= 0.4
         
         # Too long (copy-paste spam)
-        if len(question) > 5000 or len(answer) > 5000:
+        if len(question) > MAX_LENGTH or len(answer) > MAX_LENGTH:
             score -= 0.3
         
         return max(0.0, min(1.0, score))

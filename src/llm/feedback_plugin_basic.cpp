@@ -51,8 +51,13 @@ bool BasicSpamDetectionPlugin::containsSpamKeywords(const std::string& text) con
 }
 
 bool BasicSpamDetectionPlugin::isLowQuality(const FeedbackData& feedback) const {
+    // Configuration constants
+    constexpr size_t MIN_LENGTH = 5;
+    constexpr size_t MAX_LENGTH = 10000;
+    constexpr size_t MIN_REPETITION = 10;
+    
     // Too short
-    if (feedback.question.length() < 5 || feedback.answer.length() < 5) {
+    if (feedback.question.length() < MIN_LENGTH || feedback.answer.length() < MIN_LENGTH) {
         return true;
     }
     
@@ -64,7 +69,7 @@ bool BasicSpamDetectionPlugin::isLowQuality(const FeedbackData& feedback) const 
     }
     
     // Too long (likely copy-paste spam)
-    if (feedback.question.length() > 10000 || feedback.answer.length() > 10000) {
+    if (feedback.question.length() > MAX_LENGTH || feedback.answer.length() > MAX_LENGTH) {
         return true;
     }
     
@@ -129,3 +134,4 @@ json BasicSpamDetectionPlugin::getStatistics() const {
 
 } // namespace llm
 } // namespace themis
+

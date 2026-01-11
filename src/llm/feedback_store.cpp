@@ -609,7 +609,9 @@ ValidationStatus FeedbackStore::applyPluginValidation(const FeedbackEntry& feedb
             case FeedbackValidationResult::FLAG:
                 return ValidationStatus::FLAGGED;
             case FeedbackValidationResult::MODIFY:
-                // TODO: Apply modifications if needed
+                // TODO(feedback-plugin): Apply modifications if provided
+                // For now, accept modified feedback as approved
+                // Future: Apply modified_comment and modified_metadata from result
                 return ValidationStatus::APPROVED;
             default:
                 return ValidationStatus::PENDING;
