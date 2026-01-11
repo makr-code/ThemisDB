@@ -22,6 +22,15 @@ docs_assistant:
     #   3. ./docs.db
     #   4. ./docs_database.json
     auto_discover: true
+    
+    # Read-Only Mode (NEW in v1.4.0)
+    # true = Database opened in read-only mode
+    # - No write operations allowed
+    # - No WAL updates
+    # - No compactions
+    # - Prevents accidental or malicious modifications
+    # RECOMMENDED: Always true for production documentation databases!
+    read_only: true
   
   # LLM Configuration
   llm:

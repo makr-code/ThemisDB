@@ -51,6 +51,7 @@ struct DocsAssistantConfig {
     std::string docs_database_path = "data/docs_database.json";
     std::string database_type = "json";  // "json" or "rocksdb"
     bool auto_discover = true;  // Auto-discover docs.db if not explicitly configured
+    bool read_only = true;  // Open database in read-only mode (recommended for security)
     int max_context_docs = 5;  // Maximum number of docs to include in RAG context
     int context_preview_length = 1000;  // Characters to include per document
     bool enable_semantic_search = true;

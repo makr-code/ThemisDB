@@ -103,36 +103,34 @@ graph TB
 
 ### 42.1.0 Konfiguration und Auto-Discovery
 
-**Automatische Konfiguration (empfohlen):**
+**Automatische Konfiguration (empfohlen für Entwicklung):**
 
-Der Dokumentations-Assistent findet die Datenbank automatisch beim Server-Start:
+Der Dokumentations-Assistent kann die Datenbank automatisch beim Server-Start finden, aber für Produktionsumgebungen wird die explizite YAML-Konfiguration empfohlen.
 
 ```bash
 # Generiere Datenbank
 python3 scripts/generate_docs_rocksdb.py --output data/docs.db
 
-# Starte Server - docs.db wird automatisch gefunden!
+# Entwicklung: Auto-Discovery (nur wenn keine YAML-Config vorhanden)
 ./themis_server
 
-# Server-Log zeigt:
-# [INFO] Documentation Assistant: Auto-discovering database...
-# [INFO] Documentation Assistant: Found database at data/docs.db (RocksDB)
-# [INFO] Documentation Assistant: Loaded 1151 documents from 7 column families
-# [INFO] Documentation Assistant: Ready to serve requests
+# Produktion: Explizite YAML-Konfiguration (empfohlen!)
+# Siehe config/docs_assistant.yaml
 ```
 
-**Manuelle Konfiguration (optional):**
+**Manuelle Konfiguration via YAML (empfohlen für Produktion):**
 
-Erstelle `config/docs_assistant.yaml`:
+Die YAML-Konfiguration ist der bevorzugte Weg für Produktionsumgebungen und bietet bessere Kontrolle:
 
 ```yaml
+# config/docs_assistant.yaml
 docs_assistant:
   enabled: true
   
   database:
-    path: "/var/lib/themisdb/docs.db"  # Expliziter Pfad
+    path: "/var/lib/themisdb/docs.db"  # Expliziter Pfad (empfohlen!)
     type: "rocksdb"                     # json oder rocksdb
-    auto_discover: false                # Deaktiviert Auto-Discovery
+    auto_discover: false                # Deaktiviert Auto-Discovery (sicherer)
   
   llm:
     max_context_docs: 10                # Admin braucht mehr Kontext
@@ -142,7 +140,26 @@ docs_assistant:
   access:
     enable_rbac: true
     default_role: "user"
+
+# Server-Log:
+# [INFO] Documentation Assistant: Loading database from config: /var/lib/themisdb/docs.db
+# [INFO] Documentation Assistant: Loaded 1151 documents from 7 column families
 ```
+
+**Wichtige Sicherheitshinweise:**
+
+⚠️ **Security Considerations:**
+- **Explizite Konfiguration bevorzugen**: Auto-Discovery ist praktisch für Entwicklung, aber in Produktion sollte immer ein expliziter Pfad gesetzt werden
+- **Zugriffskontrolle**: Stellen Sie sicher, dass nur autorisierte Benutzer auf docs.db zugreifen können
+- **Zukünftige Datenbanken**: Admins können später nutzungsspezifische Datenbanken hinzufügen - siehe TODO für Security-Folgenabschätzung
+- **Dateisystemberechtigungen**: `chmod 600 /var/lib/themisdb/docs.db` (nur Owner-Zugriff)
+
+📋 **TODO: Security-Folgenabschätzung**
+- Bewertung der Risiken bei mehreren benutzerdefinierten Dokumentationsdatenbanken
+- Validierung der Datenbank-Inhalte beim Laden
+- Sandbox-Mechanismus für Drittanbieter-Datenbanken
+- Audit-Trail für Datenbankzugriffe
+- Rate-Limiting pro Datenbank
 
 **Umgebungsvariablen (höchste Priorität):**
 
@@ -150,15 +167,15 @@ docs_assistant:
 # Überschreibt YAML-Konfiguration
 export THEMIS_DOCS_DATABASE_PATH="/custom/path/docs.db"
 export THEMIS_DOCS_DATABASE_TYPE="rocksdb"
-export THEMIS_DOCS_AUTO_DISCOVER="false"
+export THEMIS_DOCS_AUTO_DISCOVER="false"  # Explizit deaktivieren
 
 ./themis_server
 ```
 
 **Konfigurationspriorität:**
 1. Umgebungsvariablen (höchste)
-2. YAML-Konfiguration (`config/docs_assistant.yaml`)
-3. Auto-Discovery (Standard)
+2. **YAML-Konfiguration (empfohlen für Produktion)** ⭐
+3. Auto-Discovery (nur für Entwicklung)
 4. Fallback: `data/docs_database.json`
 
 **Verifizierung:**
@@ -173,13 +190,44 @@ curl -X GET http://localhost:8765/api/v1/llm/health \
   "status": "healthy",
   "docs_assistant": {
     "enabled": true,
-    "database_path": "data/docs.db",
+    "database_path": "/var/lib/themisdb/docs.db",
     "database_type": "rocksdb",
     "documents_loaded": 1151,
     "column_families": 7,
-    "discovery_method": "auto"  # auto, explicit, env
+    "discovery_method": "yaml_config"  # yaml_config, env, auto, fallback
   }
 }
+```
+
+**Best Practice: YAML-Konfiguration in Produktion**
+
+```yaml
+# config/docs_assistant.yaml - Produktionskonfiguration
+docs_assistant:
+  enabled: true
+  
+  # Primäre Dokumentationsdatenbank (System)
+  database:
+    path: "/var/lib/themisdb/docs.db"
+    type: "rocksdb"
+    auto_discover: false  # Sicherheit: Explizit deaktiviert
+    read_only: true       # Verhindert Änderungen an der Datenbank
+  
+  # TODO: Zukünftige Feature - Zusätzliche Datenbanken
+  # additional_databases:
+  #   - name: "custom_docs"
+  #     path: "/var/lib/themisdb/custom_docs.db"
+  #     enabled: true
+  #     requires_role: "administrator"  # Nur für Admins
+  #     security_validated: true        # Muss validiert sein
+  
+  access:
+    enable_rbac: true
+    require_auth: true
+    
+  monitoring:
+    enable_audit_log: true
+    audit_log_path: "/var/log/themisdb/docs_assistant_audit.log"
 ```
 
 ### 42.1.1 Anwendungsfälle für Administratoren
@@ -569,6 +617,283 @@ async function queryDocs() {
 ---
 
 ## 42.4 Berechtigungsmodell und Zugriffskontrolle
+
+### 42.4.0 YAML-Konfiguration - Detaillierte Dokumentation
+
+**Vollständige config/docs_assistant.yaml mit allen Optionen:**
+
+```yaml
+# ============================================================
+# ThemisDB Documentation Assistant - Vollständige Konfiguration
+# ============================================================
+# Empfohlen für Produktionsumgebungen
+# Auto-Discovery ist nur für Entwicklung gedacht
+
+docs_assistant:
+  # Grundeinstellungen
+  enabled: true
+  
+  # ============================================================
+  # Datenbank-Konfiguration (KRITISCH)
+  # ============================================================
+  database:
+    # Pfad zur Dokumentationsdatenbank
+    # SICHERHEIT: Immer explizit setzen in Produktion!
+    path: "/var/lib/themisdb/docs.db"
+    
+    # Datenbanktyp: "rocksdb" oder "json"
+    type: "rocksdb"
+    
+    # Auto-Discovery deaktivieren (empfohlen für Produktion)
+    # Verhindert automatisches Laden von unbekannten Datenbanken
+    auto_discover: false
+    
+    # Read-Only-Modus (empfohlen)
+    # Verhindert versehentliche Änderungen an der Datenbank
+    read_only: true
+    
+    # Validierung beim Laden
+    validate_on_load: true
+    
+    # Maximale Datenbankgröße (MB)
+    max_size_mb: 500
+    
+    # TODO: Zusätzliche Datenbanken (zukünftiges Feature)
+    # Erfordert Security-Folgenabschätzung vor Implementierung
+    # additional_databases:
+    #   - name: "custom_legal_docs"
+    #     path: "/var/lib/themisdb/legal_docs.db"
+    #     type: "rocksdb"
+    #     enabled: true
+    #     requires_role: "administrator"
+    #     security_validated: true
+    #     checksum: "sha256:abc123..."
+    #     signed_by: "security@example.com"
+  
+  # ============================================================
+  # LLM-Konfiguration
+  # ============================================================
+  llm:
+    # Modell-ID (leer = Standardmodell verwenden)
+    model_id: ""
+    
+    # Maximale Anzahl Dokumente im RAG-Kontext
+    max_context_docs: 5
+    
+    # Zeichen pro Dokument im Kontext
+    context_preview_length: 1000
+    
+    # Semantische Suche aktivieren (benötigt Vector Embeddings)
+    enable_semantic_search: true
+    
+    # Response-Caching
+    enable_caching: true
+    cache_ttl_seconds: 300
+  
+  # ============================================================
+  # Zugriffskontrolle (RBAC)
+  # ============================================================
+  access:
+    # RBAC aktivieren
+    enable_rbac: true
+    
+    # Standardrolle wenn nicht authentifiziert
+    default_role: "anonymous"
+    
+    # Authentifizierung erzwingen
+    require_auth: true
+    
+    # Rollenbasierte Limits (siehe 42.4.1)
+    roles:
+      administrator:
+        requests_per_minute: 100
+        max_context_docs: 10
+        cache_ttl_seconds: 300
+        allowed_endpoints:
+          - query
+          - search
+          - config
+          - troubleshoot
+          - stats
+        # TODO: Zugriff auf zusätzliche Datenbanken
+        additional_databases_access: true
+      
+      superuser:
+        requests_per_minute: 50
+        max_context_docs: 7
+        cache_ttl_seconds: 600
+        allowed_endpoints:
+          - query
+          - search
+          - config  # read-only
+      
+      user:
+        requests_per_minute: 20
+        max_context_docs: 3
+        cache_ttl_seconds: 900
+        allowed_endpoints:
+          - query
+          - search
+      
+      anonymous:
+        requests_per_minute: 5
+        max_context_docs: 1
+        cache_ttl_seconds: 1800
+        allowed_endpoints:
+          - search  # nur Suche, keine LLM-Queries
+  
+  # ============================================================
+  # REST API
+  # ============================================================
+  api:
+    enabled: true
+    base_path: "/api/v1/llm/docs"
+    require_auth: true
+    enable_cors: true
+    cors_origins:
+      - "https://app.example.com"
+      - "https://admin.example.com"
+  
+  # ============================================================
+  # AQL-Funktionen
+  # ============================================================
+  aql:
+    enabled: true
+    function_prefix: "DOCS_"
+    functions:
+      - QUERY        # DOCS_QUERY()
+      - SEARCH       # DOCS_SEARCH()
+      - CONFIG_HELP  # DOCS_CONFIG_HELP()
+      - TROUBLESHOOT # DOCS_TROUBLESHOOT()
+  
+  # ============================================================
+  # Monitoring und Audit
+  # ============================================================
+  monitoring:
+    # Prometheus-Metriken
+    enable_metrics: true
+    metrics_prefix: "themis_docs_"
+    
+    # Audit-Logging (WICHTIG für Compliance)
+    enable_audit_log: true
+    audit_log_path: "/var/log/themisdb/docs_assistant_audit.log"
+    
+    # Was wird geloggt
+    log_queries: false  # WARNUNG: Kann sensible Daten enthalten
+    log_failed_queries: true
+    log_access_denied: true
+    log_database_access: true
+  
+  # ============================================================
+  # Performance
+  # ============================================================
+  performance:
+    worker_threads: 4
+    search_timeout_ms: 5000
+    generation_timeout_ms: 30000
+    enable_async: true
+    async_queue_size: 100
+
+# ============================================================
+# TODO: Security-Folgenabschätzung
+# ============================================================
+# Bevor zusätzliche Datenbanken implementiert werden:
+# 
+# 1. Risikobewertung:
+#    - Kann Admin bösartige Datenbanken einhängen?
+#    - Sandboxing-Mechanismus erforderlich?
+#    - Validierung der Datenbank-Inhalte?
+#
+# 2. Authentifizierung:
+#    - Digitale Signaturen für Datenbanken
+#    - Checksummen-Validierung
+#    - Whitelisting von Datenbankquellen
+#
+# 3. Zugriffskontrolle:
+#    - Welche Rollen dürfen Datenbanken hinzufügen?
+#    - Separate Berechtigungen pro Datenbank
+#    - Isolation zwischen Datenbanken
+#
+# 4. Audit und Compliance:
+#    - Vollständiger Audit-Trail
+#    - Wer hat wann welche Datenbank hinzugefügt?
+#    - Welche Abfragen wurden auf welcher Datenbank ausgeführt?
+#
+# 5. Rate-Limiting:
+#    - Pro Datenbank getrennte Limits?
+#    - Globale Limits über alle Datenbanken?
+#
+# 6. Datenbank-Validierung:
+#    - Schema-Validierung
+#    - Content-Filtering (keine Malware, Scripts, etc.)
+#    - Maximale Größenbeschränkungen
+#
+# Siehe: docs/en/security/DOCS_ASSISTANT_SECURITY_ASSESSMENT.md
+```
+
+**Umgebungsvariablen-Überschreibung:**
+
+```bash
+# Alle YAML-Optionen können via Env-Vars überschrieben werden
+export THEMIS_DOCS_ENABLED=true
+export THEMIS_DOCS_DATABASE_PATH="/var/lib/themisdb/docs.db"
+export THEMIS_DOCS_DATABASE_TYPE="rocksdb"
+export THEMIS_DOCS_AUTO_DISCOVER=false
+export THEMIS_DOCS_READ_ONLY=true
+export THEMIS_DOCS_REQUIRE_AUTH=true
+export THEMIS_DOCS_ENABLE_AUDIT_LOG=true
+export THEMIS_DOCS_AUDIT_LOG_PATH="/var/log/themisdb/audit.log"
+
+./themis_server
+```
+
+**Deployment-Szenarien:**
+
+**Szenario 1: Entwicklung (lokale Maschine)**
+```yaml
+docs_assistant:
+  enabled: true
+  database:
+    path: "data/docs.db"
+    auto_discover: true  # OK für Entwicklung
+  access:
+    require_auth: false  # Nur für lokale Entwicklung!
+```
+
+**Szenario 2: Staging (Test-Umgebung)**
+```yaml
+docs_assistant:
+  enabled: true
+  database:
+    path: "/opt/themisdb/docs.db"
+    auto_discover: false
+    read_only: true
+  access:
+    require_auth: true
+    enable_rbac: true
+  monitoring:
+    enable_audit_log: true
+```
+
+**Szenario 3: Produktion (empfohlen)**
+```yaml
+docs_assistant:
+  enabled: true
+  database:
+    path: "/var/lib/themisdb/docs.db"
+    type: "rocksdb"
+    auto_discover: false  # KRITISCH!
+    read_only: true       # KRITISCH!
+    validate_on_load: true
+  access:
+    require_auth: true
+    enable_rbac: true
+  monitoring:
+    enable_audit_log: true
+    audit_log_path: "/var/log/themisdb/docs_assistant_audit.log"
+    log_access_denied: true
+    log_database_access: true
+```
 
 ### 42.4.1 RBAC-Integration
 
