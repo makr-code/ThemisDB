@@ -179,7 +179,7 @@ TEST_F(LoRAApiHandlerTest, ModelManagementReturnsUnauthorized) {
 // Note: Tests with JWT authentication would require setting up JWTValidator
 // with valid configuration, which would be done in integration tests
 
-} // namespace
+} // anonymous namespace
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

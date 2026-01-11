@@ -13,11 +13,6 @@
 namespace themis::server {
 
 namespace {
-    template <typename T>
-    T json_value_to(const json& value) {
-        return value.get<T>();
-    }
-
     // Helper to extract JWT token from Authorization header
     std::optional<std::string> extractBearerToken(const http::request<http::string_body>& req) {
         auto it = req.find(http::field::authorization);
@@ -138,7 +133,7 @@ http::response<http::string_body> LoRAApiHandler::handleRegisterModel(
     try {
         std::string model_id;
         if (body->contains("model_id")) {
-            model_id = json_value_to<std::string>(body->at("model_id"));
+            model_id = body->at("model_id").get<std::string>();
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'model_id' field");
         }
@@ -296,7 +291,7 @@ http::response<http::string_body> LoRAApiHandler::handleCreateAdapter(
     try {
         std::string adapter_id;
         if (body->contains("adapter_id")) {
-            adapter_id = json_value_to<std::string>(body->at("adapter_id"));
+            adapter_id = body->at("adapter_id").get<std::string>();
         } else {
             return createErrorResponse(http::status::bad_request, "Missing 'adapter_id' field");
         }
@@ -697,7 +692,7 @@ http::response<http::string_body> LoRAApiHandler::handleAdapterStatus(
         json response_data = {
             {"adapter_id", adapter_id},
             {"is_loaded", is_loaded},
-            {"memory_usage_mb", 0},  // Would calculate actual memory usage
+            {"memory_usage_mb", 0},  // TODO: Calculate actual memory usage from adapter manager
             {"last_used", std::chrono::system_clock::now().time_since_epoch().count()}
         };
         
@@ -743,6 +738,8 @@ http::response<http::string_body> LoRAApiHandler::handleLoRAQuery(
         // Perform inference (simplified - would use actual LLM integration)
         auto start_time = std::chrono::steady_clock::now();
         
+        // TODO: Integrate with actual LLM inference engine
+        // This is a placeholder response for API structure demonstration
         std::string response_text = "This is a placeholder response. In production, this would perform actual inference with adapter: " + adapter_id;
         
         auto end_time = std::chrono::steady_clock::now();
@@ -835,11 +832,8 @@ bool LoRAApiHandler::validateBearerToken(const http::request<http::string_body>&
     }
     
     if (!jwt_validator_) {
-        static bool warning_logged = false;
-        if (!warning_logged) {
-            std::cerr << "WARNING: JWT validator not configured. Denying access." << std::endl;
-            warning_logged = true;
-        }
+        // JWT validator not configured - deny access
+        // Note: This is intentional. In production, JWT validation should always be configured.
         return false;
     }
     
