@@ -1066,3 +1066,159 @@ cmake --build .
 ```
 
 ---
+
+## 🐳 Docker & Remote Model Support (Ollama Integration)
+
+### Overview
+
+For Docker deployments and cloud environments, ThemisDB now supports downloading models from remote sources using Ollama-style APIs. This eliminates the need to bundle large model files in Docker images.
+
+### Configuration
+
+**File**: `config/llm_remote_models.yaml`
+
+```yaml
+ollama:
+  endpoint: "http://ollama:11434"
+  timeout: 300
+  auto_pull: true
+  cache_dir: "/var/lib/themisdb/models"
+
+models:
+  themis_help:
+    ollama_model: "llama2:7b"
+    fallback_url: "https://huggingface.co/..."
+    description: "Documentation assistant base model"
+    context_length: 4096
+    gpu_layers: 32
+
+themis_help_lora:
+  base_model: "themis_help"
+  adapter_id: "themis_help_lora"
+  enable_remote: true
+  max_retries: 3
+```
+
+### Docker Compose Setup
+
+```yaml
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+  
+  themisdb:
+    image: themisdb:latest
+    depends_on:
+      - ollama
+    environment:
+      - LLM_CONFIG=/config/llm_remote_models.yaml
+      - OLLAMA_ENDPOINT=http://ollama:11434
+    volumes:
+      - ./config:/config
+      - themisdb_models:/var/lib/themisdb/models
+
+volumes:
+  ollama_data:
+  themisdb_models:
+```
+
+### Usage with Remote Models
+
+```cpp
+// Configure for remote model loading
+ThemisHelpLoRA::Config config;
+config.enable_remote_loading = true;
+config.ollama_url = "http://ollama:11434";
+config.ollama_model_name = "llama2:7b";
+config.model_config_yaml = "config/llm_remote_models.yaml";
+config.auto_download_model = true;
+
+ThemisHelpLoRA help(config);
+
+// First query triggers automatic model download from Ollama
+std::string answer = help.query("How do I enable sharding?", "user123");
+// Model is cached for subsequent queries
+```
+
+### Model Download Process
+
+1. **Check Local Cache**: Look for model in `/var/lib/themisdb/models`
+2. **Query Ollama**: Check if model available from Ollama API
+3. **Pull Model**: Download model using `/api/pull` endpoint
+4. **Export GGUF**: Convert to llama.cpp compatible GGUF format
+5. **Cache Locally**: Save for future use
+6. **Load & Inference**: Use with LlamaWrapper
+
+### Benefits for Docker Deployments
+
+✅ **Small Images**: No need to bundle 4-8GB model files  
+✅ **Flexibility**: Change models without rebuilding images  
+✅ **Centralized**: Share Ollama server across multiple containers  
+✅ **Automatic**: Models download on first use  
+✅ **Cacheable**: Downloaded models persist in volume  
+
+### Model Sources Supported
+
+1. **Ollama API**: Primary method, supports all Ollama models
+2. **Direct URL**: Fallback to HuggingFace or other HTTPS sources
+3. **Local Path**: Traditional file-based loading still supported
+
+### Example: Kubernetes Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: themisdb
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+      - name: themisdb
+        image: themisdb:latest
+        env:
+        - name: OLLAMA_ENDPOINT
+          value: "http://ollama-service:11434"
+        - name: LLM_CONFIG
+          value: "/config/llm_remote_models.yaml"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: model-cache
+          mountPath: /var/lib/themisdb/models
+      volumes:
+      - name: config
+        configMap:
+          name: themisdb-llm-config
+      - name: model-cache
+        persistentVolumeClaim:
+          claimName: themisdb-model-cache
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service
+spec:
+  selector:
+    app: ollama
+  ports:
+  - port: 11434
+```
+
+### Environment Variables
+
+- `OLLAMA_ENDPOINT`: Ollama API URL (default: http://localhost:11434)
+- `LLM_CONFIG`: Path to remote model config YAML
+- `THEMIS_MODEL_CACHE`: Model cache directory (default: /var/lib/themisdb/models)
+- `THEMIS_AUTO_DOWNLOAD`: Enable automatic downloads (default: true)
+
+---
