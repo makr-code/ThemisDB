@@ -171,8 +171,13 @@ stats = (Query(db, "orders")
 
 ### 21.2.4 ORM (Object-Relational Mapping)
 
+Das ORM-Feature ermöglicht es, Python-Klassen direkt auf Collections zu mappen. Es bietet Type-Safety, Validierung und automatisches Schema-Management. Besonders nützlich sind die automatischen Timestamps (`auto_now_add`, `auto_now`) und die Beziehungen zwischen Models.
+
+📁 **Vollständiger Code:** `examples/22_clients/python_orm_demo.py` (~80 Zeilen)
+
 ```python
 from themisdb.orm import Model, Field
+from datetime import datetime
 
 class User(Model):
     __collection__ = "users"
@@ -182,39 +187,34 @@ class User(Model):
     age = Field(int, min=0, max=150)
     created_at = Field(datetime, auto_now_add=True)
     updated_at = Field(datetime, auto_now=True)
-    
-    def __repr__(self):
-        return f"User({self.name}, {self.email})"
 
-# ORM Operationen
-# Create
+# CRUD-Operationen
 user = User(name="Bob", email="bob@example.com", age=25)
-user.save()
+user.save()  # INSERT
 
-# Read
-users = User.objects.filter(age__gte=18).all()
-bob = User.objects.get(email="bob@example.com")
+users = User.objects.filter(age__gte=18).all()  # SELECT mit Filter
+bob = User.objects.get(email="bob@example.com")  # SELECT by unique field
 
-# Update
 bob.age = 26
-bob.save()
+bob.save()  # UPDATE
 
-# Delete
-bob.delete()
+bob.delete()  # DELETE
 
-# Beziehungen
+# Foreign Keys & Related Objects
 class Post(Model):
     __collection__ = "posts"
-    
     title = Field(str)
-    content = Field(str)
-    author = Field(User, foreign_key=True)  # Foreign Key zu User
-    tags = Field(list)
+    author = Field(User, foreign_key=True)  # Beziehung zu User
 
-# Zugriff auf Related Objects
 post = Post.objects.first()
-print(f"Author: {post.author.name}")  # Automatisches Laden
+print(f"Author: {post.author.name}")  # Automatisches Lazy-Loading
 ```
+
+**Weitere ORM-Features im vollständigen Beispiel:**
+- Bulk-Operations (`objects.bulk_create()`)
+- Aggregation (`objects.aggregate()`)
+- Query Prefetching zur Performance-Optimierung
+- Custom Validators und Model-Methods
 
 ### 21.2.5 Async/Await Support
 
@@ -564,6 +564,10 @@ go get github.com/themisdb/themisdb-go
 
 ### 21.5.2 Basic Usage
 
+Der Go-Client bietet eine idiomatische API mit Context-Support für Cancellation und Timeouts. Die Verwendung von Interfaces (`map[string]interface{}`) erlaubt flexible Datenstrukturen, während Struct-Mapping (siehe nächster Abschnitt) Type-Safety bietet.
+
+📁 **Vollständiger Code:** `examples/22_clients/go_client_demo.go` (~120 Zeilen)
+
 ```go
 package main
 
@@ -574,7 +578,7 @@ import (
 )
 
 func main() {
-    // Connect
+    // Connection mit Auth und Database-Selection
     client, err := themisdb.Connect(
         context.Background(),
         "localhost:7687",
@@ -586,30 +590,28 @@ func main() {
     }
     defer client.Close()
     
-    // Insert
+    // Insert Document
     user := map[string]interface{}{
-        "name":  "Alice",
-        "email": "alice@example.com",
-        "age":   30,
+        "name": "Alice", "email": "alice@example.com", "age": 30,
     }
+    result, err := client.Collection("users").InsertOne(context.Background(), user)
     
-    result, err := client.Collection("users").InsertOne(
-        context.Background(),
-        user,
-    )
-    
-    // Query
+    // Query mit Filter
     cursor, err := client.Collection("users").Find(
         context.Background(),
-        themisdb.M{"active": true},
+        themisdb.M{"active": true},  // Filter
     )
     
     var users []map[string]interface{}
-    if err := cursor.All(context.Background(), &users); err != nil {
-        panic(err)
-    }
+    cursor.All(context.Background(), &users)
 }
 ```
+
+**Weitere Features im vollständigen Beispiel:**
+- Batch-Insert mit `InsertMany()`
+- Update/Delete mit Filter-Conditions
+- Aggregation Pipeline
+- Transaction-Support mit `StartSession()`
 
 ### 21.5.3 Struct Mapping
 

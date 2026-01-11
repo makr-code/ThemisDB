@@ -615,7 +615,11 @@ Ein vollständiges Document Management System mit ERP-Features.
 
 ### Datenmodell
 
-**Dokumente:**
+Das Dokumentenmanagementsystem kombiniert relationale, dokumenten-orientierte und vektorbasierte Features für ein vollständiges Enterprise-DMS. Das System verwaltet Dokumente mit Versionierung, Metadaten, Volltext-Indexierung und semantischer Suche - alles mandantenfähig und mit Audit-Logging.
+
+📁 **Vollständiger Code:** `examples/10_enterprise/dms_system.py` (~450 Zeilen)
+
+**Kern-Architektur:**
 ```python
 class Document:
     def __init__(self, db):
@@ -623,13 +627,13 @@ class Document:
         self.init_schema()
     
     def init_schema(self):
-        # Haupt-Dokument (Relational)
+        # Haupt-Dokument mit Versionierung (Relational + Multi-Tenancy)
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS documents (
                 id UUID PRIMARY KEY,
-                tenant_id UUID NOT NULL,
+                tenant_id UUID NOT NULL,  -- Multi-Tenancy
                 title TEXT NOT NULL,
-                type TEXT NOT NULL, -- invoice, contract, hr_document
+                type TEXT NOT NULL,
                 version INT DEFAULT 1,
                 current_version_id UUID,
                 owner_id UUID NOT NULL,
@@ -639,7 +643,7 @@ class Document:
             )
         """)
         
-        # Metadaten (Document Model - JSON)
+        # Metadaten (Document Model - flexible JSON-Struktur)
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS document_metadata (
                 document_id UUID PRIMARY KEY,
@@ -649,69 +653,39 @@ class Document:
             )
         """)
         
-        # Versionen (Dokument Model für Historie)
-        self.db.execute("""
-            CREATE TABLE IF NOT EXISTS document_versions (
-                id UUID PRIMARY KEY,
-                document_id UUID NOT NULL,
-                version INT NOT NULL,
-                file_path TEXT NOT NULL,
-                file_size BIGINT,
-                checksum TEXT,
-                created_by UUID NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                change_note TEXT,
-                FOREIGN KEY (document_id) REFERENCES documents(id)
-            )
-        """)
-        
-        # Permissions (Relational)
-        self.db.execute("""
-            CREATE TABLE IF NOT EXISTS document_permissions (
-                document_id UUID,
-                user_id UUID,
-                permission TEXT CHECK (permission IN ('read', 'write', 'admin')),
-                PRIMARY KEY (document_id, user_id),
-                FOREIGN KEY (document_id) REFERENCES documents(id)
-            )
-        """)
-        
-        # Volltext-Extraktion
+        # Volltext-Extraktion mit OCR-Support
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS document_text (
                 document_id UUID PRIMARY KEY,
                 content TEXT,
-                ocr_content TEXT, -- OCR-erkannter Text
+                ocr_content TEXT,  -- OCR für gescannte Dokumente
                 FOREIGN KEY (document_id) REFERENCES documents(id)
             )
         """)
-        # Fulltext Index
         self.db.execute("CREATE INDEX idx_doc_fulltext ON document_text USING GIN(to_tsvector('german', content))")
         
-        # Vector Embeddings (für Ähnlichkeitssuche)
+        # Vector Embeddings für semantische Suche
         self.db.execute("""
             CREATE TABLE IF NOT EXISTS document_embeddings (
                 document_id UUID PRIMARY KEY,
-                embedding VECTOR(384), -- sentence-transformers
+                embedding VECTOR(384),  -- sentence-transformers
                 FOREIGN KEY (document_id) REFERENCES documents(id)
             )
         """)
         self.db.execute("CREATE INDEX idx_doc_vector ON document_embeddings USING HNSW(embedding)")
 
     def create_document(self, title, doc_type, file_path, metadata=None, owner_id=None):
-        """Neues Dokument erstellen"""
+        """Dokument erstellen mit automatischer Text-Extraktion und Embedding-Generierung"""
         doc_id = uuid.uuid4()
-        version_id = uuid.uuid4()
         
         with self.db.transaction():
-            # 1. Haupt-Eintrag
+            # 1. Haupt-Dokument mit Tenant-Isolation
             self.db.execute("""
                 INSERT {
                   id: @doc_id,
-                  tenant_id: @tenant_id,
+                  tenant_id: @tenant_id,  -- Automatische Mandantentrennung
                   title: @title,
                   type: @doc_type,
-                  current_version_id: @version_id,
                   owner_id: @owner_id
                 } INTO documents
             """, {
@@ -719,48 +693,18 @@ class Document:
                 "tenant_id": get_current_tenant_id(),
                 "title": title,
                 "doc_type": doc_type,
-                "version_id": version_id,
                 "owner_id": owner_id or get_current_user_id()
             })
             
-            # 2. Erste Version
-            file_size = os.path.getsize(file_path)
-            checksum = calculate_checksum(file_path)
-            self.db.execute("""
-                INSERT {
-                  id: @version_id,
-                  document_id: @doc_id,
-                  version: 1,
-                  file_path: @file_path,
-                  file_size: @file_size,
-                  checksum: @checksum,
-                  created_by: @created_by
-                } INTO document_versions
-            """, {
-                "version_id": version_id,
-                "doc_id": doc_id,
-                "file_path": file_path,
-                "file_size": file_size,
-                "checksum": checksum,
-                "created_by": get_current_user_id()
-            })
+            # 2. Text-Extraktion (PDF, DOCX, etc.)
+            text = extract_text(file_path)
             
-            # 3. Metadaten
-            if metadata:
-                self.db.execute("""
-                    INSERT {
-                      document_id: @doc_id,
-                      metadata: @metadata,
-                      tags: @tags
-                    } INTO document_metadata
-                """, {
-                    "doc_id": doc_id,
-                    "metadata": json.dumps(metadata),
-                    "tags": metadata.get('tags', [])
-                })
+            # 3. OCR für gescannte Dokumente
+            if doc_type in ('scan', 'image'):
+                ocr_text = perform_ocr(file_path)
+                text = text + " " + ocr_text
             
-            # 4. Text-Extraktion (asynchron in der Praxis)
-            text = extract_text(file_path)  # PDF, DOCX, etc.
+            # 4. Fulltext-Index befüllen
             self.db.execute("""
                 INSERT {
                   document_id: @doc_id,
@@ -768,17 +712,8 @@ class Document:
                 } INTO document_text
             """, {"doc_id": doc_id, "content": text})
             
-            # 5. OCR für Bilder (wenn nötig)
-            if doc_type in ('scan', 'image'):
-                ocr_text = perform_ocr(file_path)
-                self.db.execute("""
-                    FOR doc_text IN document_text
-                      FILTER doc_text.document_id == @doc_id
-                      UPDATE doc_text WITH {ocr_content: @ocr_text} IN document_text
-                """, {"doc_id": doc_id, "ocr_text": ocr_text})
-            
-            # 6. Vector Embedding
-            embedding = generate_embedding(text)  # sentence-transformers
+            # 5. Semantische Embeddings generieren
+            embedding = generate_embedding(text)  # sentence-transformers/384D
             self.db.execute("""
                 INSERT {
                   document_id: @doc_id,
@@ -786,125 +721,46 @@ class Document:
                 } INTO document_embeddings
             """, {"doc_id": doc_id, "embedding": embedding})
             
-            # 7. Audit-Log
+            # 6. Audit-Log für Compliance
             log_action("CREATE", "document", doc_id, None, {"title": title, "type": doc_type})
         
         return doc_id
 
-    def add_version(self, document_id, file_path, change_note=""):
-        """Neue Version hinzufügen"""
-        # Aktuelle Version ermitteln
-        current = self.db.execute("""
-            FOR doc IN documents 
-              FILTER doc.id == @document_id 
-              LIMIT 1 
-              RETURN doc.version
-        """, {"document_id": document_id})[0]
-        new_version = current + 1
-        version_id = uuid.uuid4()
-        
-        with self.db.transaction():
-            # Version speichern
-            self.db.execute("""
-                INSERT {
-                  id: @version_id,
-                  document_id: @document_id,
-                  version: @new_version,
-                  file_path: @file_path,
-                  file_size: @file_size,
-                  checksum: @checksum,
-                  created_by: @created_by,
-                  change_note: @change_note
-                } INTO document_versions
-            """, {
-                "version_id": version_id,
-                "document_id": document_id,
-                "new_version": new_version,
-                "file_path": file_path,
-                "file_size": os.path.getsize(file_path),
-                "checksum": calculate_checksum(file_path),
-                "created_by": get_current_user_id(),
-                "change_note": change_note
-            })
-            
-            # Dokument aktualisieren
-            self.db.execute("""
-                FOR doc IN documents
-                  FILTER doc.id == @document_id
-                  UPDATE doc WITH {
-                    version: @new_version,
-                    current_version_id: @version_id,
-                    updated_at: DATE_NOW()
-                  } IN documents
-            """, {"document_id": document_id, "new_version": new_version, "version_id": version_id})
-            """, (new_version, version_id, document_id))
-            
-            # Text und Embedding neu generieren
-            text = extract_text(file_path)
-            self.db.execute("""
-                FOR doc_text IN document_text
-                  FILTER doc_text.document_id == @document_id
-                  UPDATE doc_text WITH {content: @text} IN document_text
-            """, {"document_id": document_id, "text": text})
-            
-            embedding = generate_embedding(text)
-            self.db.execute("""
-                FOR doc_emb IN document_embeddings
-                  FILTER doc_emb.document_id == @document_id
-                  UPDATE doc_emb WITH {embedding: @embedding} IN document_embeddings
-            """, {"document_id": document_id, "embedding": embedding})
-            
-            log_action("VERSION_ADD", "document", document_id, None, {"version": new_version})
-        
-        return version_id
-
     def search(self, query, doc_type=None, limit=20):
-        """Hybrid-Suche: Volltext + Vector"""
-        # 1. Fulltext-Suche
-        sql = """
+        """Hybrid-Suche kombiniert Volltext-Ranking mit semantischer Ähnlichkeit"""
+        # 1. Fulltext-Suche (BM25-ähnlich mit ts_rank)
+        fulltext_results = self.db.execute("""
             SELECT d.id, d.title, d.type, 
-                   ts_rank(to_tsvector('german', dt.content), plainto_tsquery('german', ?)) as rank
+                   ts_rank(to_tsvector('german', dt.content), plainto_tsquery('german', @query)) as rank
             FROM documents d
             JOIN document_text dt ON d.id = dt.document_id
-            WHERE d.tenant_id = ? AND to_tsvector('german', dt.content) @@ plainto_tsquery('german', ?)
-        """
-        params = [query, get_current_tenant_id(), query]
+            WHERE d.tenant_id = @tenant_id 
+              AND to_tsvector('german', dt.content) @@ plainto_tsquery('german', @query)
+            ORDER BY rank DESC LIMIT @limit
+        """, {"query": query, "tenant_id": get_current_tenant_id(), "limit": limit})
         
-        if doc_type:
-            sql += " AND d.type = ?"
-            params.append(doc_type)
-        
-        sql += " ORDER BY rank DESC LIMIT ?"
-        params.append(limit)
-        
-        fulltext_results = self.db.execute(sql, params)
-        
-        # 2. Vector-Suche (semantische Ähnlichkeit)
+        # 2. Vector-Suche (semantische Ähnlichkeit via Cosine)
         query_embedding = generate_embedding(query)
         vector_results = self.db.execute("""
             SELECT d.id, d.title, d.type,
-                   1 - (de.embedding <=> ?) as similarity
+                   1 - (de.embedding <=> @query_emb) as similarity
             FROM documents d
             JOIN document_embeddings de ON d.id = de.document_id
-            WHERE d.tenant_id = ?
-            ORDER BY similarity DESC
-            LIMIT ?
-        """, (query_embedding, get_current_tenant_id(), limit))
+            WHERE d.tenant_id = @tenant_id
+            ORDER BY similarity DESC LIMIT @limit
+        """, {"query_emb": query_embedding, "tenant_id": get_current_tenant_id(), "limit": limit})
         
-        # 3. Merge Results (kombiniere Scores)
-        merged = merge_search_results(fulltext_results, vector_results)
+        # 3. Merge und Re-Ranking
+        merged = merge_search_results(fulltext_results, vector_results)  # Reciprocal Rank Fusion
         return merged
-
-    def get_version_history(self, document_id):
-        """Versionsverlauf abrufen"""
-        return self.db.execute("""
-            SELECT v.*, u.name as created_by_name
-            FROM document_versions v
-            LEFT JOIN users u ON v.created_by = u.id
-            WHERE v.document_id = ?
-            ORDER BY v.version DESC
-        """, (document_id,))
 ```
+
+**Zusätzliche Features im vollständigen Code:**
+- Versionsverwaltung mit `add_version()` und `get_version_history()`
+- Fein-granulare Permissions pro Dokument (read/write/admin)
+- Checksum-Verifizierung für Integrität
+- Asynchrone Text-Extraktion für große Dateien
+- Workflow-Integration (siehe nächster Abschnitt)
 
 ### Workflow-Management
 

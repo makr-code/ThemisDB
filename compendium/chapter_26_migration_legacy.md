@@ -210,13 +210,23 @@ FUNCTION migrate_neo4j_graph(cypher_result) {
 
 ### Python ETL Framework
 
+
+### Python ETL Framework
+
+Ein generisches ETL-Framework für Legacy-Migrationen mit Extract-Transform-Load-Pattern. Das Framework unterstützt Batch-Processing, Fehlerbehandlung, Fortschritts-Tracking und Wiederholbarkeit. Die Modularität ermöglicht einfache Anpassung an verschiedene Quellsysteme (Oracle, SQL Server, MongoDB, etc.).
+
+> **📁 Vollständiger Code:** `examples/26_migration/etl/pipeline.py` (ca. 115 Zeilen)
+
+**ETL Pipeline-Klasse:**
+
 ```python
-# etl/pipeline.py: Generischer ETL Runner
 import logging
 from typing import List, Dict, Any
 import themis
 
 class ETLPipeline:
+    """Generischer ETL-Runner für Legacy-Migrationen"""
+    
     def __init__(self, source_db, target_db, batch_size=1000):
         self.source = source_db
         self.target = target_db
@@ -224,103 +234,125 @@ class ETLPipeline:
         self.logger = logging.getLogger(__name__)
     
     def extract(self, source_query: str) -> List[Dict]:
-        """Extract: Daten aus Legacy-System lesen"""
-        self.logger.info(f"Extracting from source: {source_query[:50]}...")
+        """Extract: Liest Daten aus Legacy-System"""
+        self.logger.info(f"Extracting: {source_query[:50]}...")
         return list(self.source.execute(source_query))
     
     def transform(self, rows: List[Dict], transformer_func) -> List[Dict]:
-        """Transform: Schema-Mapping & Validierung"""
+        """Transform: Schema-Mapping & Data-Validation"""
         self.logger.info(f"Transforming {len(rows)} rows...")
         transformed = []
         errors = []
         
         for i, row in enumerate(rows):
             try:
-                transformed.append(transformer_func(row))
+                transformed_row = transformer_func(row)
+                transformed.append(transformed_row)
             except Exception as e:
-                errors.append({'row_index': i, 'error': str(e), 'data': row})
+                errors.append({'row': i, 'error': str(e), 'data': row})
         
         if errors:
-            self.logger.warning(f"Transformation errors: {len(errors)}")
+            self.logger.warning(f"{len(errors)} transformation errors")
+            self._log_errors(errors)
         
-        return transformed, errors
+        return transformed
     
-    def load(self, docs: List[Dict], collection: str) -> Dict:
-        """Load: In ThemisDB einfügen"""
-        self.logger.info(f"Loading {len(docs)} documents into {collection}...")
+    def load(self, collection: str, rows: List[Dict]):
+        """Load: Schreibt Daten nach ThemisDB"""
+        self.logger.info(f"Loading {len(rows)} rows to {collection}...")
         
-        result = {
-            'inserted': 0,
-            'errors': 0,
-            'error_details': []
-        }
+        # Batch-Insert für Performance
+        for i in range(0, len(rows), self.batch_size):
+            batch = rows[i:i + self.batch_size]
+            self.target.insert_many(collection, batch)
+```
+
+**Vollständiger ETL Run:**
+
+```python
+    def run(self, source_query: str, collection: str, 
+            transformer_func, checkpoint_file='progress.json'):
+        """
+        Führt kompletten ETL-Prozess aus mit Checkpoint-Support
+        für Resume bei Fehlern
+        """
+        # Checkpoint laden
+        start_offset = self._load_checkpoint(checkpoint_file)
         
-        # Batch-wise einfügen
-        for i in range(0, len(docs), self.batch_size):
-            batch = docs[i:i+self.batch_size]
+        # Paginierte Extraktion
+        offset = start_offset
+        total_migrated = 0
+        
+        while True:
+            # Extract
+            batch_query = f"{source_query} LIMIT {self.batch_size} OFFSET {offset}"
+            rows = self.extract(batch_query)
             
-            try:
-                aql = f"""
-                  FOR doc IN @docs
-                    INSERT doc INTO {collection}
-                    RETURN NEW._id
-                """
-                ids = self.target.query(aql, {'docs': batch})
-                result['inserted'] += len(ids)
-            except Exception as e:
-                self.logger.error(f"Batch insert error: {e}")
-                result['errors'] += len(batch)
-                result['error_details'].append({
-                    'batch_start': i,
-                    'batch_size': len(batch),
-                    'error': str(e)
-                })
+            if not rows:
+                break  # Fertig
+            
+            # Transform
+            transformed = self.transform(rows, transformer_func)
+            
+            # Load
+            self.load(collection, transformed)
+            
+            # Progress tracking
+            offset += self.batch_size
+            total_migrated += len(transformed)
+            self._save_checkpoint(checkpoint_file, offset)
+            
+            self.logger.info(f"Progress: {total_migrated} rows migrated")
         
-        return result
+        self.logger.info(f"ETL Complete: {total_migrated} total rows")
+        return total_migrated
+```
+
+**Transformer-Funktion Beispiel:**
+
+```python
+def transform_customer(legacy_row: Dict) -> Dict:
+    """Transformiert Legacy-Customer zu ThemisDB-Schema"""
     
-    def run(self, source_query: str, transformer_func, target_collection: str) -> Dict:
-        """Orchestriere E-T-L Pipeline"""
-        try:
-            rows = self.extract(source_query)
-            transformed, errors = self.transform(rows, transformer_func)
-            result = self.load(transformed, target_collection)
-            
-            result['transformation_errors'] = len(errors)
-            result['total_processed'] = len(rows)
-            result['success_rate'] = result['inserted'] / len(rows) * 100
-            
-            return result
-        except Exception as e:
-            self.logger.error(f"Pipeline failed: {e}")
-            raise
-
-# Nutzungsbeispiel
-from adapters.postgresql import PostgreSQLAdapter
-from adapters.themis import ThemisAdapter
-
-source_db = PostgreSQLAdapter(connection_string="postgresql://...")
-target_db = ThemisAdapter(url="http://localhost:8529")
-
-etl = ETLPipeline(source_db, target_db, batch_size=5000)
-
-# Transform-Funktion
-def transform_customer(row):
     return {
-        '_key': str(row['id']),
-        'name': row['name'],
-        'email': row['email'],
-        'created_at': row['created_at'].isoformat(),
-        'migrated_at': datetime.now().isoformat()
+        '_key': str(legacy_row['customer_id']),
+        'name': {
+            'first': legacy_row['first_name'],
+            'last': legacy_row['last_name']
+        },
+        'email': legacy_row['email'].lower().strip(),
+        'created_at': parse_date(legacy_row['created_date']),
+        'status': map_status(legacy_row['status_code']),
+        'metadata': {
+            'migrated_from': 'legacy_crm',
+            'legacy_id': legacy_row['customer_id'],
+            'migration_date': datetime.now().isoformat()
+        }
     }
 
-result = etl.run(
-    source_query="SELECT * FROM customers WHERE status = 'active'",
-    transformer_func=transform_customer,
-    target_collection="customers"
+# ETL ausführen
+pipeline = ETLPipeline(oracle_db, themis_db)
+pipeline.run(
+    source_query="SELECT * FROM customers WHERE active=1",
+    collection="customers",
+    transformer_func=transform_customer
 )
-
-print(f"Migration: {result['inserted']} inserted, {result['errors']} errors, Success: {result['success_rate']:.1f}%")
 ```
+
+**Wichtige Features:**
+
+1. **Checkpoint-Mechanismus**: Resume bei Fehlern ohne Neustart
+2. **Batch-Processing**: Effiziente Verarbeitung großer Datenmengen
+3. **Error-Tracking**: Fehler werden geloggt, Pipeline stoppt nicht
+4. **Progress-Monitoring**: Echtzeit-Status für lange Migrationen
+5. **Transformer-Pattern**: Entkopplung von Extract/Load-Logik
+
+Die vollständige Implementierung enthält zusätzlich:
+- Parallel-Processing für mehrere Collections
+- Dry-Run-Modus für Testing
+- Rollback-Mechanismus bei kritischen Fehlern
+- Prometheus-Metriken für Monitoring
+- Data-Quality-Checks während Transform
 
 ---
 
@@ -411,105 +443,192 @@ print("CDC Replication running in background...")
 
 ### Reconciliation Framework
 
+
+### Reconciliation Framework
+
+Post-Migration-Validation ist kritisch um Datenverlust oder -verfälschung zu erkennen. Das Reconciliation-Framework vergleicht Source und Target systematisch: Row-Counts, Checksums, Daten-Stichproben. Diskrepanzen werden detailliert geloggt für manuelle Untersuchung.
+
+> **📁 Vollständiger Code:** `examples/26_migration/validation/reconciliation.py` (ca. 100 Zeilen)
+
+**Reconciliation-Klasse:**
+
 ```python
-# validation/reconciliation.py: Post-Migration Validation
 class DataReconciliation:
+    """Validiert migrierte Daten gegen Quellsystem"""
+    
     def __init__(self, source_db, target_db):
         self.source = source_db
         self.target = target_db
+        self.report = []
     
     def validate_counts(self, source_query: str, target_collection: str) -> Dict:
-        """Vergleiche Zeilen-Anzahl Source vs Target"""
+        """Vergleicht Row-Counts zwischen Source und Target"""
         
-        source_count = self.source.execute(f"SELECT COUNT(*) FROM ({source_query})")[0]['count']
+        # Source Count
+        source_count = self.source.execute(
+            f"SELECT COUNT(*) as count FROM ({source_query}) t"
+        )[0]['count']
         
+        # Target Count
         target_count = self.target.query(f"""
-          RETURN LENGTH(
-            FOR doc IN {target_collection}
-            RETURN doc
-          )
+            RETURN LENGTH(
+                FOR doc IN {target_collection}
+                RETURN doc
+            )
         """)[0]
         
         match = source_count == target_count
-        return {
+        
+        result = {
             'collection': target_collection,
             'source_count': source_count,
             'target_count': target_count,
             'match': match,
-            'difference': abs(source_count - target_count)
+            'discrepancy': abs(source_count - target_count)
         }
-    
-    def validate_checksums(self, table: str, key_column: str) -> Dict:
-        """Vergleiche Row-Level Checksums"""
         
-        # Source Checksums
-        source_checksums = self.source.execute(f"""
-          SELECT {key_column}, MD5(ROW(*)) as checksum
-          FROM {table}
-          ORDER BY {key_column}
-        """)
+        self.report.append(result)
+        return result
+```
+
+**Daten-Sampling für Detail-Vergleich:**
+
+```python
+    def validate_sample(self, source_query: str, target_collection: str,
+                       sample_size=100, key_field='_key') -> Dict:
+        """
+        Vergleicht Stichprobe von Datensätzen im Detail.
+        Prüft ob alle Felder korrekt transformiert wurden.
+        """
         
-        # Target Checksums (via AQL)
-        target_checksums = self.target.query(f"""
-          FOR doc IN {table.lower()}
-            SORT doc._key
-            RETURN {{
-              key: doc._key,
-              checksum: MD5(JSON_STRINGIFY(doc))
-            }}
-        """)
+        # Random Sample aus Source
+        sample_query = f"{source_query} ORDER BY RANDOM() LIMIT {sample_size}"
+        source_rows = self.source.execute(sample_query)
         
-        # Reconcile
         mismatches = []
-        for src in source_checksums:
-            tgt = next((t for t in target_checksums 
-                       if t['key'] == src[key_column]), None)
+        for source_row in source_rows:
+            key = str(source_row[key_field])
             
-            if not tgt or tgt['checksum'] != src['checksum']:
+            # Korrespondierender Target-Record
+            target_row = self.target.query(f"""
+                FOR doc IN {target_collection}
+                    FILTER doc._key == @key
+                    RETURN doc
+            """, bind_vars={'key': key})
+            
+            if not target_row:
                 mismatches.append({
-                    'id': src[key_column],
-                    'source_checksum': src['checksum'],
-                    'target_checksum': tgt['checksum'] if tgt else None
+                    'key': key,
+                    'issue': 'missing_in_target',
+                    'source_data': source_row
+                })
+                continue
+            
+            # Field-by-Field Vergleich
+            differences = self._compare_records(source_row, target_row[0])
+            if differences:
+                mismatches.append({
+                    'key': key,
+                    'issue': 'data_mismatch',
+                    'differences': differences
                 })
         
         return {
-            'table': table,
-            'total_rows': len(source_checksums),
+            'collection': target_collection,
+            'sample_size': sample_size,
             'mismatches': len(mismatches),
-            'match_rate': (len(source_checksums) - len(mismatches)) / len(source_checksums) * 100,
-            'mismatched_ids': mismatches[:10]  # First 10
+            'details': mismatches[:10]  # Erste 10 für Report
         }
-    
-    def run_full_validation(self) -> Dict:
-        """Komplette Post-Migration Validation"""
+```
+
+**Checksum-Validierung:**
+
+```python
+    def validate_checksums(self, source_query: str, target_collection: str) -> Dict:
+        """
+        Berechnet Checksums über aggregierte Daten.
+        Schneller als row-by-row, aber weniger präzise.
+        """
         
-        validations = [
-            self.validate_counts("SELECT * FROM customers", "customers"),
-            self.validate_counts("SELECT * FROM orders", "orders"),
-            self.validate_checksums("customers", "id"),
-            self.validate_checksums("orders", "id")
-        ]
+        # Source: SUM von numerischen Feldern als Checksum
+        source_checksum = self.source.execute(f"""
+            SELECT 
+                SUM(amount) as total_amount,
+                SUM(quantity) as total_quantity,
+                COUNT(DISTINCT customer_id) as unique_customers
+            FROM ({source_query}) t
+        """)[0]
         
-        all_pass = all(v.get('match', v.get('match_rate', 0) >= 99.9) for v in validations)
+        # Target: Äquivalente Aggregation
+        target_checksum = self.target.query(f"""
+            FOR doc IN {target_collection}
+                COLLECT AGGREGATE
+                    total_amount = SUM(doc.amount),
+                    total_quantity = SUM(doc.quantity),
+                    unique_customers = COUNT_DISTINCT(doc.customer_id)
+                RETURN {{total_amount, total_quantity, unique_customers}}
+        """)[0]
+        
+        matches = (
+            source_checksum == target_checksum
+        )
         
         return {
-            'all_pass': all_pass,
-            'validations': validations,
-            'timestamp': datetime.now().isoformat()
+            'collection': target_collection,
+            'checksums_match': matches,
+            'source': source_checksum,
+            'target': target_checksum
         }
-
-# Führe Validation durch
-recon = DataReconciliation(source_db, target_db)
-result = recon.run_full_validation()
-
-if result['all_pass']:
-    print("✅ Alle Validierungen erfolgreich!")
-else:
-    print("❌ Validierungsfehler gefunden:")
-    for v in result['validations']:
-        if not v.get('match'):
-            print(f"  - {v}")
 ```
+
+**Kompletter Validierungs-Report:**
+
+```python
+    def generate_report(self, validations: List[str]) -> Dict:
+        """Führt alle Validierungen aus und erstellt Report"""
+        
+        report = {
+            'timestamp': datetime.now().isoformat(),
+            'validations': [],
+            'overall_status': 'PASS'
+        }
+        
+        for validation in validations:
+            result = getattr(self, f'validate_{validation}')()
+            report['validations'].append(result)
+            
+            if not result.get('match', True):
+                report['overall_status'] = 'FAIL'
+        
+        return report
+```
+
+**Typische Validierungs-Pipeline:**
+
+```python
+reconciliation = DataReconciliation(oracle_db, themis_db)
+
+# 1. Count-Checks
+reconciliation.validate_counts("SELECT * FROM customers", "customers")
+reconciliation.validate_counts("SELECT * FROM orders", "orders")
+
+# 2. Sample-Checks
+reconciliation.validate_sample("SELECT * FROM customers", "customers", sample_size=1000)
+
+# 3. Checksum-Checks
+reconciliation.validate_checksums("SELECT * FROM orders", "orders")
+
+# Report generieren
+report = reconciliation.generate_report(['counts', 'sample', 'checksums'])
+print(json.dumps(report, indent=2))
+```
+
+Die vollständige Implementierung enthält zusätzlich:
+- Schema-Validierung (alle erwarteten Felder vorhanden?)
+- Referential-Integrity-Checks (Foreign Keys konsistent?)
+- Data-Distribution-Vergleich (Histogramme ähnlich?)
+- Performance-Benchmarks (Target schneller als Source?)
+- Automated-Alerting bei kritischen Diskrepanzen
 
 ---
 

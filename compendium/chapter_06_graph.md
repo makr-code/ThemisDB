@@ -523,31 +523,31 @@ std::pair<Status, std::vector<std::string>> bfsAtTime(
 
 Die `bfsAtTime()`-Funktion durchläuft den Graphen wie eine normale BFS, aber mit einem entscheidenden Unterschied: **Jede Kante wird vor der Traversierung auf Gültigkeit geprüft**.
 
-**Der Algorithmus Schritt-für-Schritt:**
+Die Implementation prüft für jede Kante, ob sie zum Query-Zeitpunkt gültig war, indem sie `valid_from` und `valid_to` vergleicht. Nur Kanten, die im Zeitfenster lagen, werden in der Traversierung berücksichtigt. Dies erlaubt es, historische Graph-Zustände präzise zu rekonstruieren.
+
+📁 **Vollständiger Code:** `src/storage/graph/temporal_traversal.cpp` (~150 Zeilen)
+
+**Kernlogik der temporalen Validierung:**
 
 ```cpp
-// Pseudo-Code der temporalen BFS-Implementation
+// Temporale Gültigkeitsprüfung für Kanten
 bool isValidAtTime(Edge edge, int64_t query_time) {
-    // Fall 1: Kante noch nicht gültig
+    // Kante noch nicht gültig?
     if (edge.valid_from.has_value() && query_time < edge.valid_from) {
-        return false;  // Zu früh!
+        return false;
     }
-    
-    // Fall 2: Kante nicht mehr gültig
+    // Kante nicht mehr gültig?
     if (edge.valid_to.has_value() && query_time > edge.valid_to) {
-        return false;  // Zu spät!
+        return false;
     }
-    
-    // Fall 3: Kante war zum Query-Zeitpunkt gültig
-    return true;
+    return true;  // Kante war zum Query-Zeitpunkt gültig
 }
 
 std::vector<std::string> bfsAtTime(string start, int64_t timestamp, int maxDepth) {
     queue<Node> frontier;
     set<string> visited;
-    vector<string> result;
     
-    frontier.push({start, 0});  // {node_id, depth}
+    frontier.push({start, 0});
     visited.insert(start);
     
     while (!frontier.empty()) {
@@ -556,14 +556,9 @@ std::vector<std::string> bfsAtTime(string start, int64_t timestamp, int maxDepth
         
         if (depth > maxDepth) continue;
         
-        result.push_back(current_node);
-        
-        // Hole alle ausgehenden Kanten
         for (auto& edge : getOutgoingEdges(current_node)) {
-            // KRITISCH: Temporaler Filter!
-            if (!isValidAtTime(edge, timestamp)) {
-                continue;  // Kante überspringen
-            }
+            // KRITISCH: Temporaler Filter vor Traversierung!
+            if (!isValidAtTime(edge, timestamp)) continue;
             
             if (visited.count(edge.to) == 0) {
                 visited.insert(edge.to);
@@ -571,10 +566,15 @@ std::vector<std::string> bfsAtTime(string start, int64_t timestamp, int maxDepth
             }
         }
     }
-    
-    return result;
+    return visited;  // Alle erreichbaren Knoten zum Zeitpunkt
 }
 ```
+
+**Zusätzliche Features in vollständiger Implementation:**
+- Pfad-Tracking für Nachvollziehbarkeit
+- Cycle-Detection für sichere Traversierung
+- Optimierte Edge-Filterung mit Bloom-Filtern
+- Parallele Traversierung für große Graphen
 
 **Der entscheidende Unterschied:** Die Zeile `if (!isValidAtTime(edge, timestamp)) continue;` filtert historisch ungültige Kanten **vor** der Traversierung. Dadurch sieht die BFS exakt den Graph-Zustand, wie er zum Query-Zeitpunkt existierte.
 
@@ -874,8 +874,11 @@ class Friendship:
 
 ### Graph Setup
 
+Das Social Network wird mit Collections für Knoten (Vertices) und Kanten (Edges) initialisiert. Die Graph-Definition verknüpft beide Collections zu einem logischen Graphen, über den Traversierungen möglich sind.
+
+📁 **Vollständiger Code:** `examples/06_graph_social_network/themis_client.py` (~250 Zeilen)
+
 ```python
-# themis_client.py (gekürzt)
 class ThemisGraphClient:
     def __init__(self, host="localhost", port=8529):
         self.client = ThemisDB(host=host, port=port)
@@ -892,56 +895,30 @@ class ThemisGraphClient:
         if not self.db.has_collection("friendships"):
             self.db.create_edge_collection("friendships")
         
-        # Graph-Definition
-        if not self.db.has_graph("social_graph"):
-            graph_def = {
-                "name": "social_graph",
-                "edge_definitions": [{
-                    "collection": "friendships",
-                    "from": ["users"],
-                    "to": ["users"]
-                }]
-            }
-            self.db.create_graph(graph_def)
+        # Graph-Definition verknüpft Collections
+        graph_def = {
+            "name": "social_graph",
+            "edge_definitions": [{
+                "collection": "friendships",
+                "from": ["users"],  # Von users...
+                "to": ["users"]      # ...zu users (self-referencing)
+            }]
+        }
+        self.db.create_graph(graph_def)
         
-        # Indexes für Performance
-        self.db.add_index("users", ["name"])
-        self.db.add_index("users", ["location"])
+        # Indexes für schnelle Lookups
+        self.db.add_index("users", ["name", "location"])
         self.db.add_index("friendships", ["from", "to"])
 ```
 
-### Benutzer und Freundschaften
+**Kernfunktionen:**
+- `add_user()` - Fügt neue Benutzer mit Profil und Interessen hinzu
+- `add_friendship()` - Erstellt **bidirektionale** Freundschaften (beide Richtungen)
+- `get_friends()` - Liefert direkte Freunde eines Benutzers
+- `find_friends_of_friends()` - 2-Hop-Traversierung für Empfehlungen
+- `shortest_path()` - Kürzester Pfad zwischen zwei Usern
 
-```python
-def add_user(self, user: User) -> str:
-    """Fügt einen neuen Benutzer hinzu."""
-    user_doc = user.to_dict()
-    result = self.db.insert("users", user_doc)
-    return result["_key"]
-
-def add_friendship(self, friendship: Friendship):
-    """Erstellt eine bidirektionale Freundschaft."""
-    # Richtung 1: A -> B
-    self.db.insert("friendships", friendship.to_dict())
-    
-    # Richtung 2: B -> A (für ungerichteten Graph)
-    reverse = Friendship(
-        from_user=friendship.to_user,
-        to_user=friendship.from_user,
-        since=friendship.since,
-        strength=friendship.strength
-    )
-    self.db.insert("friendships", reverse.to_dict())
-
-def get_friends(self, user_id: str) -> List[User]:
-    """Holt alle direkten Freunde eines Benutzers."""
-    query = """
-        FOR friend IN OUTBOUND @user_id friendships
-            RETURN friend
-    """
-    result = self.db.execute_query(query, bind_vars={"user_id": f"users/{user_id}"})
-    return [User(**doc) for doc in result]
-```
+**Besonderheit:** Freundschaften werden als **zwei Kanten** gespeichert (A→B und B→A), um ungerichtete Graphen zu modellieren. Dies vereinfacht Traversierungen mit `OUTBOUND`.
 
 ### Friends-of-Friends (FoF)
 

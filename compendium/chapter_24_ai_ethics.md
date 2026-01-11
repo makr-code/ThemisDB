@@ -997,108 +997,59 @@ if (rag_result.has_ethical_context) {
 
 ### 24.5.6 Praktische Konfiguration
 
-**Datei: `config/ethical_guidelines.yaml`**
+Die ethischen Richtlinien werden über eine zentrale YAML-Konfigurationsdatei gesteuert, die verschiedene Augmentation-Templates für unterschiedliche Kontexte bereitstellt. Das System nutzt einen Hybrid-Ansatz aus Keyword-Erkennung und LLM-basierter Kontextanalyse, um sensible Bereiche (Medizin, Recht, Finanzen) automatisch zu erkennen und entsprechende ethische Hinweise einzufügen.
+
+**📁 Vollständige Konfiguration:** `config/ethical_guidelines.yaml` (~100 Zeilen)
+
+**Kern-Konfiguration** (gekürzt):
 
 ```yaml
-# Aktivierung
+# Aktivierung und Erkennung
 config:
   enabled: true
   detection_threshold: 0.6          # Keyword-basiert
-  llm_judge_threshold: 0.7          # LLM-basiert
-  
-  # Hybrid-Ansatz (empfohlen)
-  use_llm_as_judge: true            # Kontextuelle Analyse
-  combine_with_keywords: true       # Kombiniert beide Methoden
-  
-  # Transparenz
-  show_disclaimers: true            # Wichtig für Autonomie
-  enable_logging: true              # Für Audits
-  
-  # Sprachen
-  language_mode: "both"             # de, en, oder both
-  
-  # Standard-Augmentation
-  always_apply_default: true        # Auch ohne Kontext-Erkennung
+  llm_judge_threshold: 0.7          # LLM-Kontextanalyse
+  use_llm_as_judge: true            # Hybrid-Ansatz empfohlen
+  show_disclaimers: true            # Transparenz für Autonomie
 
-# Augmentation Templates
+# Haupt-Augmentation Template
 augmentations:
   default:
     system_prefix: |
-      Sie sind ein hilfreicher KI-Assistent, der menschliche Autonomie 
-      respektiert (Asimov's 2. Gesetz angepasst).
+      KI-Assistent mit Respekt für menschliche Autonomie (Asimov's 2. Gesetz).
       
       GRUNDPRINZIPIEN:
-      1. Präsentieren Sie Optionen, geben Sie keine Befehle
-      2. Respektieren Sie Gedankenfreiheit (UN Menschenrechte Art. 18)
-      3. Seien Sie transparent über Unsicherheiten
-      4. Behandeln Sie alle Menschen gleich (Art. 2)
+      1. Optionen präsentieren, keine Befehle
+      2. Gedankenfreiheit respektieren (UN Menschenrechte Art. 18)
+      3. Transparent über Unsicherheiten
     
     response_suffix: |
-      
       ⚠️ HINWEIS: Diese Informationen dienen zur Orientierung.
       Die Entscheidung liegt bei Ihnen.
 
   moral_imperatives:
-    system_prefix: |
-      ═══════════════════════════════════════════════════════════
-      MORALISCHE IMPERATIVE ERKANNT
-      
-      GRUNDLAGEN: 
-      - Menschenrechte Art. 18 - Gedanken-, Gewissens- und Religionsfreiheit
-      - Asimovs Zweites Gesetz (angepasst) - Respekt für menschliche Autonomie
-      ═══════════════════════════════════════════════════════════
-      
-      Moralische Imperative werden in verschiedenen ethischen 
-      Traditionen unterschiedlich verstanden:
-      
-      1. KANTISCHE ETHIK: Kategorischer Imperativ
-         "Handle nur nach derjenigen Maxime..."
-      
-      2. UTILITARISMUS: Das größte Glück der größten Zahl
-         Folgen-orientiert, maximiere Wohlbefinden
-      
-      3. TUGENDETHIK: Fokus auf Charaktereigenschaften
-         Mut, Weisheit, Gerechtigkeit, Mäßigung
-      
-      4. RELIGIÖSE ETHIK: Verschiedene religiöse Traditionen
-         Christentum, Islam, Judentum, Buddhismus, Hinduismus
-      
-      5. KULTURRELATIVISMUS: Kulturabhängige Normen
-         Was in einer Kultur als moralisch gilt, variiert
-      
-      IHRE ROLLE ALS KI (gemäß Asimov's Laws):
-      - Präsentiere VERSCHIEDENE moralphilosophische Perspektiven
-      - Respektiere die Gewissensfreiheit des Nutzers
-      - NIEMALS eine moralische Position als absolut wahr darstellen
-      
-      VERBOTEN:
-      ❌ "Sie müssen moralisch..."
-      ❌ "Es ist Ihre Pflicht..."
-      ❌ "Die richtige Entscheidung ist..."
-      
-      ERLAUBT:
-      ✅ "Eine kantische Perspektive wäre..."
-      ✅ "Aus utilitaristischer Sicht könnte man argumentieren..."
-      ✅ "Verschiedene Traditionen sehen das unterschiedlich..."
+    # Erkennt moralische Themen und präsentiert verschiedene
+    # philosophische Perspektiven (Kant, Utilitarismus, Tugendethik, etc.)
+    # Respektiert Gewissensfreiheit, vermeidet Imperative
 
 # Domain-spezifische Zuordnungen
 domains:
   medical:
-    keywords: ["arzt", "patient", "medizin", "behandlung", "operation"]
-    augmentation: "high_autonomy"
-    
+    keywords: ["arzt", "patient", "medizin", "behandlung"]
+    augmentation: "high_autonomy"     # Maximale Autonomie
   legal:
-    keywords: ["rechtlich", "gesetz", "gericht", "anwalt", "klage"]
+    keywords: ["rechtlich", "gesetz", "gericht", "anwalt"]
     augmentation: "high_autonomy"
-    
-  administrative:
-    keywords: ["verwaltung", "behörde", "genehmigung", "antrag", "bescheid"]
-    augmentation: "administrative"
-    
   financial:
-    keywords: ["finanzen", "investition", "geld", "kredit", "schulden"]
+    keywords: ["finanzen", "investition", "kredit"]
     augmentation: "high_autonomy"
 ```
+
+**Zusätzliche Features in vollständiger Datei:**
+- Template für moralische Imperative mit 5 ethischen Traditionen (Kant, Utilitarismus, Tugendethik, religiöse Ethik, Kulturrelativismus)
+- Administrative Domain-Zuordnungen
+- Mehrsprachige Unterstützung (de/en)
+- Logging für Compliance-Audits
 
 ### 24.5.7 Monitoring und Statistiken
 

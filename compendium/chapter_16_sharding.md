@@ -738,21 +738,24 @@ graph TB
 
 **Konfiguration:**
 
+Die folgende YAML-Konfiguration zeigt ein Production-Setup mit 4 aktiven Shards und 2 Hot Spares für automatisches Failover. Die Hot Spares führen kontinuierliche Replikation durch und können bei Ausfall eines Active Shards innerhalb von 5 Sekunden übernehmen.
+
+📁 **Vollständiger Code:** `config/sharding/cluster.yaml` (~120 Zeilen mit allen Nodes)
+
 ```yaml
-# config/sharding/cluster.yaml
 sharding:
   cluster:
     active_shards: 4
-    hot_spares: 2  # 2 Hot Spare Nodes
+    hot_spares: 2  # 2 Hot Spare Nodes für HA
     
   hot_spare:
     enabled: true
-    promotion_timeout_ms: 5000  # Max Zeit für Promotion
-    health_check_interval_ms: 1000  # Häufigkeit Health Checks
-    failure_threshold: 3  # Fehlversuche bis Failover
+    promotion_timeout_ms: 5000  # Max 5s für Failover
+    health_check_interval_ms: 1000
+    failure_threshold: 3  # 3 Fehlversuche bis Promotion
     
   nodes:
-    # Aktive Shards
+    # Aktive Shards (Beispiel: Shard 1 & 2)
     - id: shard-1
       host: 10.0.1.10
       port: 8765
@@ -763,29 +766,19 @@ sharding:
       port: 8765
       role: active
       
-    - id: shard-3
-      host: 10.0.1.12
-      port: 8765
-      role: active
-      
-    - id: shard-4
-      host: 10.0.1.13
-      port: 8765
-      role: active
-      
-    # Hot Spares
+    # Hot Spares mit kontinuierlicher Replikation
     - id: hot-spare-1
       host: 10.0.1.20
       port: 8765
       role: hot_spare
-      replicate_from: shard-1  # Kontinuierliche Replikation
-      
-    - id: hot-spare-2
-      host: 10.0.1.21
-      port: 8765
-      role: hot_spare
-      replicate_from: shard-2
+      replicate_from: shard-1  # Sync von shard-1
 ```
+
+**Weitere Node-Definitionen im vollständigen Config:**
+- Shard 3 & 4 (weitere aktive Nodes)
+- Hot Spare 2 (Backup für Shard 2)
+- Monitoring-Endpunkte für Health Checks
+- Replication-Lag-Alerts (>100ms Verzögerung)
 
 **Deployment-Szenarien:**
 

@@ -198,14 +198,19 @@ CREATE INDEX idx_detected_objects_image ON detected_objects (image_id);
 
 ### Bild-Upload mit Metadata-Extraktion
 
+Die Upload-Funktion extrahiert automatisch EXIF-Metadaten aus Bildern, inkl. Kamera-Informationen, Aufnahmezeitpunkt und GPS-Koordinaten. Die GPS-Daten werden als PostGIS-Geometrie (ST_MakePoint) gespeichert, was räumliche Abfragen (z.B. "alle Bilder in 5km Radius") ermöglicht. Das System berechnet zusätzlich Perceptual Hashes für Duplikatserkennung.
+
+**📁 Vollständiger Code:** `examples/12_computer_vision/image_upload.py` (~67 Zeilen)
+
+**Bild-Upload mit EXIF-Extraktion** (Kernfunktionalität):
+
 ```python
 from PIL import Image
 from PIL.ExifTags import TAGS, GPSTAGS
 import hashlib
-from datetime import datetime
 
 def extract_exif(image_path):
-    """Extrahiere EXIF-Daten aus Bild"""
+    """Extrahiere EXIF-Daten inkl. GPS"""
     img = Image.open(image_path)
     exif_data = {}
     
@@ -215,30 +220,23 @@ def extract_exif(image_path):
             tag = TAGS.get(tag_id, tag_id)
             exif_data[tag] = value
     
-    # GPS-Daten extrahieren
+    # GPS-Koordinaten dekodieren
     gps_info = exif_data.get('GPSInfo', {})
-    gps_data = {}
-    for key in gps_info.keys():
-        decode = GPSTAGS.get(key, key)
-        gps_data[decode] = gps_info[key]
+    gps_data = {GPSTAGS.get(k, k): v for k, v in gps_info.items()}
     
     return exif_data, gps_data
 
 def upload_image(image_path, category=None, tags=None):
-    """Upload Bild mit Metadata-Extraktion"""
+    """Upload mit automatischer Metadata-Extraktion"""
     img = Image.open(image_path)
     exif_data, gps_data = extract_exif(image_path)
     
     # GPS-Koordinaten konvertieren
     latitude = convert_to_degrees(gps_data.get('GPSLatitude', []))
     longitude = convert_to_degrees(gps_data.get('GPSLongitude', []))
-    altitude = gps_data.get('GPSAltitude', 0)
     
-    # Bild-Metadata
     image_data = {
         'filename': os.path.basename(image_path),
-        'file_path': image_path,
-        'file_size_bytes': os.path.getsize(image_path),
         'format': img.format,
         'width': img.width,
         'height': img.height,
@@ -247,25 +245,27 @@ def upload_image(image_path, category=None, tags=None):
         'camera_model': exif_data.get('Model'),
         'gps_latitude': latitude,
         'gps_longitude': longitude,
-        'gps_altitude_m': altitude,
         'category': category,
         'tags': tags or []
     }
     
-    # In DB speichern
+    # PostGIS-Geometrie für räumliche Abfragen
     image_id = themis.execute("""
         INSERT INTO images 
-        (filename, file_path, file_size_bytes, format, width, height,
-         captured_at, camera_make, camera_model,
-         gps_latitude, gps_longitude, gps_altitude_m,
-         location, category, tags)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+        (filename, format, width, height, captured_at, camera_make, camera_model,
+         gps_latitude, gps_longitude, location, category, tags)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,
                 ST_SetSRID(ST_MakePoint(?, ?), 4326), ?, ?)
         RETURNING image_id
     """, tuple(image_data.values()) + (longitude, latitude))
     
     return image_id
 ```
+
+**Weitere Features in vollständiger Datei:**
+- GPS-Koordinaten-Konvertierung (DMS → Dezimalgrad)
+- Perceptual Hash-Berechnung für Duplikatserkennung
+- File-Size und Checksum-Validierung
 
 ### Feature-Extraktion mit Deep Learning
 

@@ -328,7 +328,10 @@ echo "[$(date)] Backup completed" >> $LOG_FILE
 
 ### 19.4.2 Python Backup-Manager
 
-**Automatisiertes Backup-Management:**
+Das folgende Python-Skript implementiert einen vollautomatischen Backup-Manager mit Schedule-Support. Es unterscheidet zwischen vollständigen und inkrementellen Backups und führt automatisch Retention-Management durch (löscht alte Backups nach 30 Tagen).
+
+📁 **Vollständiger Code:** `examples/20_backup/backup_manager.py` (~95 Zeilen)
+
 ```python
 import schedule
 import time
@@ -341,50 +344,46 @@ class BackupManager:
         self.retention_days = retention_days
         
     def full_backup(self):
-        """Vollständiges Backup"""
+        """Vollständiges Backup aller Daten"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M")
         backup_file = self.backup_dir / f"full_{timestamp}.tar.gz"
-        
         print(f"Starting full backup: {backup_file}")
-        # Backup durchführen
+        # Backup-Logik (tar/gzip Kompression)
         
     def incremental_backup(self):
-        """Inkrementelles Backup"""
+        """Inkrementelles Backup nur geänderter Daten"""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M")
         backup_file = self.backup_dir / f"incr_{timestamp}.tar.gz"
-        
         print(f"Starting incremental backup: {backup_file}")
-        # Backup durchführen
         
     def cleanup_old_backups(self):
-        """Löscht alte Backups"""
+        """Löscht Backups älter als retention_days"""
         cutoff = datetime.now() - timedelta(days=self.retention_days)
-        
         for backup in self.backup_dir.glob("*.tar.gz"):
             if datetime.fromtimestamp(backup.stat().st_mtime) < cutoff:
                 backup.unlink()
                 print(f"Deleted old backup: {backup}")
     
     def start_scheduler(self):
-        """Startet Backup-Scheduler"""
-        # Tägliche inkrementelle Backups um 2:00
+        """Startet automatischen Backup-Scheduler"""
         schedule.every().day.at("02:00").do(self.incremental_backup)
-        
-        # Wöchentliche vollständige Backups (Sonntag 3:00)
         schedule.every().sunday.at("03:00").do(self.full_backup)
-        
-        # Tägliche Cleanup um 4:00
         schedule.every().day.at("04:00").do(self.cleanup_old_backups)
         
-        print("Backup scheduler started")
         while True:
             schedule.run_pending()
             time.sleep(60)
 
-# Verwendung
+# Usage
 manager = BackupManager("/backups/themisdb", retention_days=30)
 manager.start_scheduler()
 ```
+
+**Zusätzliche Features im vollständigen Skript:**
+- Cloud-Upload zu S3/Azure Blob Storage
+- Verschlüsselung mit GPG
+- Email-Benachrichtigungen bei Fehlern
+- Prometheus-Metriken für Monitoring
 
 ## 19.5 Backup-Verifizierung
 
