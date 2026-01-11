@@ -32,4 +32,3 @@ fi
 
 # Forward all arguments to the Python script
 exec python3 "$PYTHON_SCRIPT" "$@"
-
