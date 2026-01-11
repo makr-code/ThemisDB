@@ -1023,6 +1023,14 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
             
             if (static_cast<int>(metadata.code) != static_cast<int>(errors::ErrorCode::ERR_UNKNOWN) || 
                 code == static_cast<int>(errors::ErrorCode::ERR_UNKNOWN)) {
+                
+                // Manual join for documentation links (fmt::join may not be available in all versions)
+                std::string docs_str;
+                for (size_t i = 0; i < metadata.related_docs.size(); ++i) {
+                    if (i > 0) docs_str += ", ";
+                    docs_str += metadata.related_docs[i];
+                }
+                
                 return fmt::format(
                     "**Error {}: {}**\n\n"
                     "**Category:** {}\n"
@@ -1036,7 +1044,7 @@ std::string McpServer::generateErrorAnswer(const std::string& question) {
                     metadata.severity,
                     metadata.cause,
                     metadata.solution,
-                    fmt::join(metadata.related_docs, ", ")
+                    docs_str
                 );
             }
         }

@@ -36,7 +36,7 @@ TEST_F(ErrorRegistryTest, GetErrorByCode) {
 TEST_F(ErrorRegistryTest, GetUnknownError) {
     auto& registry = ErrorRegistry::getInstance();
     
-    // Test getting an unknown error code
+    // Test getting an unknown error code (using 9998 which is not in the defined range)
     auto metadata = registry.getError(static_cast<ErrorCode>(9998));
     
     EXPECT_EQ(metadata.code, ErrorCode::ERR_UNKNOWN);

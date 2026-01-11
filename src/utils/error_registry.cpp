@@ -411,11 +411,11 @@ std::vector<ErrorMetadata> ErrorRegistry::searchErrors(
     
     std::vector<ErrorMetadata> result;
     
-    for (const auto& [code, metadata] : errors_) {
+    for (const auto& pair : errors_) {
         // Search in keywords (case-insensitive)
-        for (const auto& keyword : metadata.keywords) {
+        for (const auto& keyword : pair.second.keywords) {
             if (utils::containsCaseInsensitive(keyword, query)) {
-                result.push_back(metadata);
+                result.push_back(pair.second);
                 break;
             }
         }
@@ -439,8 +439,8 @@ json ErrorRegistry::toJSON() const {
         {"errors", json::array()}
     };
     
-    for (const auto& [code, metadata] : errors_) {
-        result["errors"].push_back(metadata.toJSON());
+    for (const auto& pair : errors_) {
+        result["errors"].push_back(pair.second.toJSON());
     }
     
     return result;
