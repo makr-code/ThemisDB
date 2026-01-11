@@ -474,8 +474,11 @@ TEST_F(LoRAFunctionsTest, RecommendAndQuery) {
     ASSERT_TRUE(recommend_result.is_object());
     
     // 2. Use recommended adapter (if available)
-    if (recommend_result.contains("adapter_id") && 
-        !recommend_result["adapter_id"].is_null()) {
+    auto hasValidAdapter = [](const json& result) {
+        return result.contains("adapter_id") && !result["adapter_id"].is_null();
+    };
+    
+    if (hasValidAdapter(recommend_result)) {
         std::vector<json> query_args;
         query_args.push_back("llama-2-7b");
         query_args.push_back(recommend_result["adapter_id"]);

@@ -336,7 +336,13 @@ nlohmann::json LoraSimilarFunction::execute(
             
             json result;
             result["adapter_id"] = adapter.adapter_id;
-            result["score"] = 0.95;  // Placeholder - would use actual similarity
+            // TODO: Replace with actual vector similarity calculation using embeddings
+            // For now, use a computed similarity based on matching attributes
+            double similarity = 0.8;  // Base similarity
+            if (adapter.task == adapter_info->task) {
+                similarity += 0.1;  // Bonus for same task
+            }
+            result["score"] = similarity;
             result["task"] = adapter.task;
             result["base_model"] = adapter.base_model;
             
@@ -581,11 +587,14 @@ nlohmann::json LoraRecommendFunction::execute(
         double best_score = 0.0;
         
         for (const auto& adapter : adapters) {
-            // Placeholder scoring logic
-            double accuracy = 0.92;  // Would come from actual metrics
-            int latency = 45;         // Would come from actual metrics
+            // TODO: Retrieve actual metrics from the metrics system
+            // Currently using placeholder values until metrics integration is complete
+            // Real implementation should call: orchestrator->getAdapterMetrics(adapter_id)
+            double accuracy = 0.92;  // PLACEHOLDER: Replace with actual validation_accuracy
+            int latency = 45;         // PLACEHOLDER: Replace with actual avg_latency_ms
             
             if (accuracy >= min_accuracy && latency <= max_latency_ms) {
+                // Score combines accuracy and latency: higher accuracy and lower latency = better score
                 double score = accuracy * (1.0 - (latency / static_cast<double>(max_latency_ms)));
                 if (score > best_score) {
                     best_score = score;
