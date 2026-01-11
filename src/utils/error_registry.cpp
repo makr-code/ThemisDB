@@ -301,7 +301,7 @@ void ErrorRegistry::registerDefaultErrors() {
         ErrorCode::ERR_LORA_FUSION_FAILED,
         "LoRA",
         "Error",
-        "LoRA fusion operation failed",
+        "LoRA fusion operation failed: {}",
         "Could not fuse multiple LoRA adapters together.",
         "1. Verify all adapters are compatible with each other\n"
         "2. Check that adapters are from the same base model\n"
@@ -315,7 +315,7 @@ void ErrorRegistry::registerDefaultErrors() {
         ErrorCode::ERR_LORA_INVALID_DATA,
         "LoRA",
         "Error",
-        "Invalid LoRA data format",
+        "Invalid LoRA data format: {}",
         "The LoRA adapter file contains invalid or corrupted data.",
         "1. Re-download the LoRA adapter file\n"
         "2. Verify file integrity with checksums\n"
