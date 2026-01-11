@@ -311,3 +311,140 @@ Feedback is stored in RocksDB under the key prefix `help_feedback:` with:
 - Full audit trail
 - Efficient querying and filtering
 - Integration with existing ThemisDB storage infrastructure
+
+## Graph Links
+
+### Overview
+
+Feedback entries are linked to LoRA adapters via **FEEDBACK_FOR** graph edges. This enables:
+- Querying feedback by adapter
+- Tracking adapter lineage
+- Multi-model analysis
+- Training data provenance
+
+### Creating Graph Links
+
+Graph links are created automatically when `adapter_id` is specified in feedback submission:
+
+```bash
+curl -X POST https://api.themisdb.com/api/v1/llm/feedback \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "type": "positive",
+    "question": "How do I use vector search?",
+    "answer": "Use the VECTOR SEARCH command...",
+    "adapter_id": "themis_help_lora_v2",
+    "user_id": "user123"
+  }'
+```
+
+Alternatively, create links manually:
+
+```bash
+curl -X POST https://api.themisdb.com/api/v1/llm/feedback/{feedback_id}/link \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "adapter_id": "themis_help_lora_v2",
+    "metadata": {
+      "confidence": 0.95,
+      "session_id": "abc-123"
+    }
+  }'
+```
+
+### Query Feedback by Adapter
+
+Get all feedback for a specific adapter:
+
+```bash
+curl -X GET "https://api.themisdb.com/api/v1/llm/feedback/by-adapter/themis_help_lora_v2?limit=100&unused=true" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora_v2",
+  "feedback": [
+    {
+      "id": "feedback-1",
+      "type": "positive",
+      "question": "...",
+      "answer": "...",
+      "validation_status": "approved",
+      "used_for_training": false
+    }
+  ],
+  "count": 42,
+  "total_linked": 150
+}
+```
+
+### AQL Query Examples
+
+**Get all feedback for an adapter:**
+```aql
+MATCH (f:Feedback)-[r:FEEDBACK_FOR]->(a:Adapter {id: 'themis_help_lora_v2'})
+WHERE f.validation_status = 'approved' 
+  AND f.used_for_training = false
+RETURN f
+LIMIT 100
+```
+
+**Get feedback statistics by adapter:**
+```aql
+MATCH (f:Feedback)-[r:FEEDBACK_FOR]->(a:Adapter)
+RETURN a.id AS adapter_id,
+       COUNT(f) AS total_feedback,
+       SUM(CASE WHEN f.type = 'positive' THEN 1 ELSE 0 END) AS positive_count,
+       SUM(CASE WHEN f.type = 'negative' THEN 1 ELSE 0 END) AS negative_count,
+       AVG(CASE WHEN f.type = 'positive' THEN 1.0 ELSE 0.0 END) AS positive_ratio
+GROUP BY a.id
+```
+
+**Get feedback lineage (adapter inheritance):**
+```aql
+MATCH path = (f:Feedback)-[:FEEDBACK_FOR]->(a1:Adapter)-[:DERIVED_FROM*]->(a2:Adapter)
+WHERE a2.id = 'base_model'
+RETURN path, f.id, a1.id
+```
+
+**Find adapters trained on similar feedback:**
+```aql
+MATCH (f:Feedback)-[:FEEDBACK_FOR]->(a1:Adapter),
+      (f:Feedback)-[:FEEDBACK_FOR]->(a2:Adapter)
+WHERE a1.id <> a2.id
+RETURN a1.id, a2.id, COUNT(f) AS shared_feedback_count
+GROUP BY a1.id, a2.id
+HAVING shared_feedback_count > 10
+ORDER BY shared_feedback_count DESC
+```
+
+## Plugin-Based Validation
+
+The feedback system supports **optional** plugin-based validation. By default, basic validation is performed, but you can customize validation logic using plugins.
+
+### Available Plugins
+
+1. **NoOp Plugin** - No validation (accept all)
+2. **Basic Spam Detection** - Keyword-based spam filtering
+3. **Custom Plugins** - Implement your own validation logic
+
+### Example: Custom Validation
+
+```json
+{
+  "validation_plugin": {
+    "name": "custom_spam_detector",
+    "config": {
+      "ml_model_path": "/models/spam_detector.onnx",
+      "threshold": 0.8
+    }
+  }
+}
+```
+
+For details, see [Feedback Plugin Interface Documentation](FEEDBACK_PLUGIN_INTERFACE.md).
+
