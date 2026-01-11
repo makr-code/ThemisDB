@@ -2,13 +2,19 @@
 
 ## Schnellstart
 
-### Professionelles PDF generieren (Empfohlen)
+### Professionelles PDF generieren (step1-5 Pipeline)
 ```bash
 cd compendium
-python3 generate_pdf_book.py
+
+# Vollständige Pipeline
+python3 step1_generate_svgs.py      # SVGs aus Mermaid-Diagrammen
+python3 step2_generate_html.py      # HTML mit professionellem Layout
+python3 step3_generate_pdf.py       # PDF generieren
+python3 step4_add_bookmarks.py      # PDF-Lesezeichen
+python3 step5_cleanup.py            # Aufräumen
 ```
 
-**Ausgabe:** `pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf`
+**Ausgabe:** `output/ThemisDB-Kompendium-{VERSION}.pdf`
 
 ### Was du bekommst
 
@@ -34,13 +40,23 @@ Falls WeasyPrint fehlt:
 pip install weasyprint
 ```
 
-## Verfügbare Generatoren
+## Pipeline-Schritte
 
-| Generator | Beschreibung | Verwendung |
-|-----------|--------------|------------|
-| **generate_pdf_book.py** | 🌟 **Empfohlen** - Automatisch, professionelles Layout | `python3 generate_pdf_book.py` |
-| **build_pdf_professional.py** | Vollständiges professionelles Layout | `python3 build_pdf_professional.py && weasyprint ...` |
-| **build_pdf_final.py** | Verbesserte Version (mit Layout-Enhancements) | `python3 build_pdf_final.py && weasyprint ...` |
+| Script | Beschreibung | Funktion |
+|--------|--------------|----------|
+| **step1_generate_svgs.py** | Mermaid → SVG | Konvertiert Diagramme zu Vektorgrafiken |
+| **step2_generate_html.py** | Markdown → HTML | 🌟 Mit professionellem Buchlayout |
+| **step3_generate_pdf.py** | HTML → PDF | WeasyPrint oder wkhtmltopdf |
+| **step4_add_bookmarks.py** | PDF-Bookmarks | Navigation im PDF |
+| **step5_cleanup.py** | Aufräumen | Temporäre Dateien löschen |
+
+### Alternative: Einzelne Schritte
+
+Für Tests nur step2 + step3:
+```bash
+python3 step2_generate_html.py
+python3 step3_generate_pdf.py
+```
 
 ## Optionale Features
 
@@ -156,7 +172,8 @@ Generiere PDF nach größeren Änderungen:
 ```bash
 # Nach Updates mehrerer Kapitel
 cd compendium
-python3 generate_pdf_book.py
+python3 step2_generate_html.py
+python3 step3_generate_pdf.py
 ```
 
 ### 2. Version Control
@@ -196,20 +213,24 @@ pip install -r requirements.txt
 # 3. (Optional) Mermaid installieren für beste Diagramme
 npm install
 
-# 4. PDF generieren
-python3 generate_pdf_book.py
+# 4. PDF generieren (komplette Pipeline)
+python3 step1_generate_svgs.py
+python3 step2_generate_html.py
+python3 step3_generate_pdf.py
+python3 step4_add_bookmarks.py
+python3 step5_cleanup.py
 
 # 5. Ergebnis prüfen
-ls -lh pdf/*.pdf
+ls -lh output/*.pdf
 
 # 6. PDF öffnen (Linux)
-xdg-open pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
+xdg-open output/ThemisDB-Kompendium-*.pdf
 
 # Oder (macOS)
-open pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
+open output/ThemisDB-Kompendium-*.pdf
 
 # Oder (Windows)
-start pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
+start output/ThemisDB-Kompendium-*.pdf
 ```
 
 ## Lizenz

@@ -91,42 +91,33 @@ pre, table, figure { page-break-inside: avoid; }
 
 ## 📁 Implementierte Dateien
 
-### Neue Scripts
-1. **`build_pdf_professional.py`** - Vollständiges professionelles Layout
-2. **`generate_pdf_book.py`** - Einfacher Wrapper für Benutzer
-
-### Aktualisierte Scripts
-3. **`step2_generate_html.py`** - YAML-basierte Pipeline mit professionellem CSS
-4. **`build_pdf_final.py`** - Mit Layout-Verbesserungen
+### Aktualisierte Scripts (step*.py Pipeline)
+1. **`step2_generate_html.py`** - YAML-basiert mit professionellem Buchlayout CSS
+2. **`build_pdf_final.py`** - Mit Layout-Verbesserungen (Legacy-Alternative)
 
 ### Dokumentation
-5. **`PDF_LAYOUT_IMPROVEMENTS.md`** - Technische Details aller Features
-6. **`LAYOUT_COMPARISON.md`** - Vorher/Nachher Vergleich
-7. **`PDF_QUICKSTART.md`** - Schnelleinstieg für Benutzer
-8. **`PDF_GENERATION_README.md`** - Aktualisiert mit neuen Features
+3. **`PDF_LAYOUT_IMPROVEMENTS.md`** - Technische Details aller Features
+4. **`LAYOUT_COMPARISON.md`** - Vorher/Nachher Vergleich
+5. **`PDF_QUICKSTART.md`** - Schnelleinstieg für Benutzer
+6. **`PDF_GENERATION_README.md`** - Aktualisiert mit neuen Features
 
 ## 🚀 Verwendung
 
-### Option 1: Neue Standalone-Version (Empfohlen für Tests)
+### step1-5 Pipeline (Empfohlene Production-Pipeline)
 ```bash
 cd compendium
-python3 generate_pdf_book.py
-# Erzeugt: pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
-```
-
-### Option 2: Existierende step1-5 Pipeline (Production)
-```bash
-cd compendium
-python3 step1_generate_svgs.py      # SVGs generieren
+python3 step1_generate_svgs.py      # SVGs aus Mermaid generieren
 python3 step2_generate_html.py      # ← AKTUALISIERT mit professionellem Layout
 python3 step3_generate_pdf.py       # PDF erzeugen
 python3 step4_add_bookmarks.py      # Bookmarks hinzufügen
 python3 step5_cleanup.py            # Aufräumen
 ```
 
+**Ausgabe:** `output/ThemisDB-Kompendium-{VERSION}.pdf`
+
 **Hinweis:** Die step1-5 Pipeline nutzt YAML-Struktur aus `mkdocs-nav.yml` - diese bleibt unverändert!
 
-### Option 3: Verbesserter build_pdf_final.py
+### Alternative: Nur step2 + step3 für schnelle Tests
 ```bash
 cd compendium
 python3 build_pdf_final.py

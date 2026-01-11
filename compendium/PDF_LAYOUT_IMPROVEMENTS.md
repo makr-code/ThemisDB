@@ -157,18 +157,17 @@ thead {
 
 ## Verwendung
 
-### HTML generieren
+### step1-5 Pipeline (Production)
 ```bash
 cd compendium
-python3 build_pdf_professional.py
+python3 step1_generate_svgs.py      # Mermaid → SVG
+python3 step2_generate_html.py      # Markdown → HTML mit professionellem Layout
+python3 step3_generate_pdf.py       # HTML → PDF
+python3 step4_add_bookmarks.py      # PDF-Lesezeichen
+python3 step5_cleanup.py            # Aufräumen
 ```
 
-### PDF generieren
-```bash
-cd compendium
-weasyprint pdf/ThemisDB-Kompendium-v1.3.4-professional.html \
-           pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
-```
+**Ausgabe:** `output/ThemisDB-Kompendium-{VERSION}.pdf`
 
 ## Vergleich zu vorher
 

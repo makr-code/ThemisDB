@@ -21,7 +21,7 @@ Diese Datei zeigt die konkreten Unterschiede zwischen der alten und neuen PDF-Ge
 - ❌ Keine römischen Zahlen für Verzeichnisse
 - ❌ Keine Running Headers
 
-### Nachher (build_pdf_professional.py)
+### Nachher (step2_generate_html.py mit professionellem CSS)
 ```css
 @page {
     size: A4;
@@ -324,28 +324,23 @@ p + p {
 
 ## Verwendung
 
-### Alte Version
+### step1-5 Pipeline (Empfohlene Production-Version)
+```bash
+cd compendium
+python3 step1_generate_svgs.py
+python3 step2_generate_html.py    # ← Mit professionellem Layout
+python3 step3_generate_pdf.py
+python3 step4_add_bookmarks.py
+python3 step5_cleanup.py
+```
+
+### Alternative: Legacy build_pdf_final.py
 ```bash
 cd compendium
 python3 build_pdf_final.py
 weasyprint pdf/ThemisDB-Kompendium-v1.3.4-print.html output.pdf
 ```
 
-### Neue Version (Empfohlen)
-```bash
-cd compendium
-python3 generate_pdf_book.py
-# Erzeugt automatisch: pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
-```
-
-Oder direkt:
-```bash
-cd compendium
-python3 build_pdf_professional.py
-weasyprint pdf/ThemisDB-Kompendium-v1.3.4-professional.html \
-           pdf/ThemisDB-Kompendium-v1.3.4-professional.pdf
-```
-
 ## Hinweis
 
-Die alte Version (`build_pdf_final.py`) wurde ebenfalls mit einigen Verbesserungen aktualisiert (Widow/Orphan Control, Running Headers), aber die neue Version (`build_pdf_professional.py`) bietet das vollständige professionelle Layout.
+Die step1-5 Pipeline (`step2_generate_html.py`) bietet jetzt das vollständige professionelle Layout. Die alte Version (`build_pdf_final.py`) wurde ebenfalls mit einigen Verbesserungen aktualisiert (Widow/Orphan Control, Running Headers) und bleibt als Legacy-Alternative verfügbar.

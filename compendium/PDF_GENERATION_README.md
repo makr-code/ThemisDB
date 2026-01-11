@@ -14,10 +14,14 @@ Professional PDF generation with modern book layout and typography.
 
 ## 🆕 Professional Book Layout (NEU v1.3.4)
 
-### Schnellstart
+### Schnellstart (step1-5 Pipeline)
 ```bash
 cd compendium
-python3 generate_pdf_book.py
+python3 step1_generate_svgs.py
+python3 step2_generate_html.py    # ← Mit professionellem Layout
+python3 step3_generate_pdf.py
+python3 step4_add_bookmarks.py
+python3 step5_cleanup.py
 ```
 
 ### Neue Features
