@@ -1029,3 +1029,586 @@ FOR query IN test_queries
 ---
 
 Last updated: 2026-01-11
+
+---
+
+## REST API Usage
+
+### API Endpoint Overview
+
+The LoRA framework provides a complete REST API for remote management and inference. All endpoints require JWT Bearer Token authentication.
+
+**Base URL:** `http://localhost:8080/api/v1/llm`
+
+**Authentication:**
+```bash
+export TOKEN="your-jwt-token-here"
+```
+
+### Register a New Model
+
+```bash
+curl -X POST http://localhost:8080/api/v1/llm/models \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model_id": "llama-2-7b",
+    "architecture": "llama",
+    "parameter_count": 7000000000,
+    "quantization": "Q4_K_M",
+    "gguf_path": "/models/llama-2-7b-Q4.gguf",
+    "description": "Llama 2 7B model with Q4 quantization"
+  }'
+```
+
+**Response:**
+```json
+{
+  "model_id": "llama-2-7b",
+  "status": "registered",
+  "timestamp": "2026-01-11T14:00:00Z"
+}
+```
+
+### Create a LoRA Adapter
+
+```bash
+curl -X POST http://localhost:8080/api/v1/llm/lora/adapters \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "adapter_id": "themis_help_lora",
+    "base_model": "llama-2-7b",
+    "task": "documentation_qa",
+    "rank": 8,
+    "alpha": 16,
+    "training_data": {
+      "dataset_id": "docs_v1",
+      "samples": 10000
+    },
+    "description": "Documentation Q&A adapter"
+  }'
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora",
+  "version": "v1.0",
+  "status": "training",
+  "job_id": "job_123"
+}
+```
+
+### List All Adapters
+
+```bash
+# List all adapters
+curl -X GET "http://localhost:8080/api/v1/llm/lora/adapters" \
+  -H "Authorization: Bearer $TOKEN"
+
+# Filter by base model and status
+curl -X GET "http://localhost:8080/api/v1/llm/lora/adapters?base_model=llama-2-7b&status=ready&limit=20" \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "adapters": [
+    {
+      "adapter_id": "themis_help_lora",
+      "base_model": "llama-2-7b",
+      "status": "ready",
+      "is_loaded": true,
+      "version": "v1.0"
+    }
+  ],
+  "total": 15,
+  "limit": 10,
+  "offset": 0
+}
+```
+
+### Get Adapter Details
+
+```bash
+curl -X GET http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora",
+  "base_model": "llama-2-7b",
+  "version": "v1.0",
+  "status": "ready",
+  "is_loaded": true,
+  "metrics": {
+    "validation_accuracy": 0.92,
+    "training_loss": 0.15
+  },
+  "created_at": "2026-01-11T14:30:00Z",
+  "hyperparameters": {
+    "rank": 8,
+    "alpha": 16,
+    "dropout": 0.1
+  }
+}
+```
+
+### Load Adapter into Memory
+
+```bash
+curl -X POST http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora/load \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora",
+  "status": "loaded",
+  "load_time_ms": 45
+}
+```
+
+### Check Adapter Status
+
+```bash
+curl -X GET http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora/status \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora",
+  "is_loaded": true,
+  "memory_usage_mb": 32,
+  "last_used": "2026-01-11T15:00:00Z"
+}
+```
+
+### Query with LoRA Adapter
+
+```bash
+curl -X POST http://localhost:8080/api/v1/llm/lora/query \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model_id": "llama-2-7b",
+    "adapter_id": "themis_help_lora",
+    "prompt": "How do I enable sharding in ThemisDB?",
+    "max_tokens": 500,
+    "temperature": 0.7,
+    "user_id": "user_42"
+  }'
+```
+
+**Response:**
+```json
+{
+  "response": "To enable sharding in ThemisDB, you need to configure the sharding settings in your themis.conf file. First, set 'sharding.enabled = true', then define your shard key using 'sharding.key = @collection_name'. You can also specify the number of shards with 'sharding.count = 4'. After configuration, restart ThemisDB and use the SHARD keyword in your AQL queries...",
+  "model_id": "llama-2-7b",
+  "adapter_id": "themis_help_lora",
+  "tokens_used": 145,
+  "inference_time_ms": 850,
+  "audit_id": "audit_789"
+}
+```
+
+### Update Adapter with New Training Data
+
+```bash
+curl -X PUT http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "additional_training_data": {
+      "dataset_id": "feedback_v1",
+      "samples": 500
+    }
+  }'
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora",
+  "version": "v1.1",
+  "status": "training",
+  "job_id": "job_124"
+}
+```
+
+### Get Framework Statistics
+
+```bash
+curl -X GET http://localhost:8080/api/v1/llm/lora/stats \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "total_adapters": 15,
+  "loaded_adapters": 3,
+  "cache_hit_rate": 0.842,
+  "total_inferences": 1234567,
+  "avg_load_time_ms": 450,
+  "uptime_seconds": 864000
+}
+```
+
+### Health Check
+
+```bash
+curl -X GET http://localhost:8080/api/v1/llm/lora/health \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "storage": "ok",
+  "manager": "ok",
+  "training": "ok",
+  "checks_passed": 3,
+  "checks_failed": 0
+}
+```
+
+### Unload Adapter from Memory
+
+```bash
+curl -X POST http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora/unload \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:**
+```json
+{
+  "adapter_id": "themis_help_lora",
+  "status": "unloaded"
+}
+```
+
+### Delete Adapter
+
+```bash
+# Delete specific version
+curl -X DELETE "http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora?version=v1.0" \
+  -H "Authorization: Bearer $TOKEN"
+
+# Delete all versions
+curl -X DELETE http://localhost:8080/api/v1/llm/lora/adapters/themis_help_lora \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+**Response:** `204 No Content`
+
+### Python Example
+
+```python
+import requests
+import json
+
+# Configuration
+BASE_URL = "http://localhost:8080/api/v1/llm"
+TOKEN = "your-jwt-token-here"
+HEADERS = {
+    "Authorization": f"Bearer {TOKEN}",
+    "Content-Type": "application/json"
+}
+
+# Create adapter
+create_data = {
+    "adapter_id": "customer_support_lora",
+    "base_model": "llama-2-7b",
+    "task": "customer_support",
+    "rank": 8,
+    "alpha": 16,
+    "training_data": {
+        "dataset_id": "support_tickets_2024",
+        "samples": 5000
+    }
+}
+
+response = requests.post(
+    f"{BASE_URL}/lora/adapters",
+    headers=HEADERS,
+    json=create_data
+)
+print("Create adapter:", response.json())
+
+# Load adapter
+response = requests.post(
+    f"{BASE_URL}/lora/adapters/customer_support_lora/load",
+    headers=HEADERS
+)
+print("Load adapter:", response.json())
+
+# Query with adapter
+query_data = {
+    "model_id": "llama-2-7b",
+    "adapter_id": "customer_support_lora",
+    "prompt": "How do I reset my password?",
+    "max_tokens": 300,
+    "temperature": 0.7
+}
+
+response = requests.post(
+    f"{BASE_URL}/lora/query",
+    headers=HEADERS,
+    json=query_data
+)
+print("Query response:", response.json()["response"])
+
+# Get statistics
+response = requests.get(
+    f"{BASE_URL}/lora/stats",
+    headers=HEADERS
+)
+print("Statistics:", response.json())
+```
+
+### JavaScript Example
+
+```javascript
+const BASE_URL = 'http://localhost:8080/api/v1/llm';
+const TOKEN = 'your-jwt-token-here';
+
+const headers = {
+  'Authorization': `Bearer ${TOKEN}`,
+  'Content-Type': 'application/json'
+};
+
+// Create adapter
+async function createAdapter() {
+  const response = await fetch(`${BASE_URL}/lora/adapters`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      adapter_id: 'chatbot_lora',
+      base_model: 'llama-2-7b',
+      task: 'conversational',
+      rank: 8,
+      alpha: 16,
+      training_data: {
+        dataset_id: 'conversations_2024',
+        samples: 8000
+      }
+    })
+  });
+  
+  const data = await response.json();
+  console.log('Adapter created:', data);
+  return data;
+}
+
+// Query with adapter
+async function queryAdapter(adapterId, prompt) {
+  const response = await fetch(`${BASE_URL}/lora/query`, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({
+      model_id: 'llama-2-7b',
+      adapter_id: adapterId,
+      prompt: prompt,
+      max_tokens: 500,
+      temperature: 0.7
+    })
+  });
+  
+  const data = await response.json();
+  console.log('Response:', data.response);
+  return data;
+}
+
+// Usage
+(async () => {
+  const adapter = await createAdapter();
+  const result = await queryAdapter('chatbot_lora', 'Hello, how can you help me?');
+})();
+```
+
+### Complete Workflow Example
+
+```bash
+#!/bin/bash
+# complete-lora-workflow.sh
+
+TOKEN="your-jwt-token-here"
+BASE_URL="http://localhost:8080/api/v1/llm"
+
+# 1. Register model
+echo "1. Registering model..."
+curl -X POST ${BASE_URL}/models \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model_id": "llama-2-7b",
+    "architecture": "llama",
+    "parameter_count": 7000000000
+  }'
+
+# 2. Create adapter
+echo -e "\n2. Creating adapter..."
+ADAPTER_RESPONSE=$(curl -X POST ${BASE_URL}/lora/adapters \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "adapter_id": "support_lora",
+    "base_model": "llama-2-7b",
+    "rank": 8,
+    "alpha": 16,
+    "training_data": {"dataset_id": "support_data", "samples": 10000}
+  }')
+echo $ADAPTER_RESPONSE
+
+# Extract job_id from response (requires jq)
+JOB_ID=$(echo $ADAPTER_RESPONSE | jq -r '.job_id')
+echo "Job ID: $JOB_ID"
+
+# 3. Wait for training (simplified - would poll job status in production)
+echo -e "\n3. Waiting for training to complete..."
+sleep 60
+
+# 4. Load adapter
+echo -e "\n4. Loading adapter..."
+curl -X POST ${BASE_URL}/lora/adapters/support_lora/load \
+  -H "Authorization: Bearer $TOKEN"
+
+# 5. Check status
+echo -e "\n5. Checking adapter status..."
+curl -X GET ${BASE_URL}/lora/adapters/support_lora/status \
+  -H "Authorization: Bearer $TOKEN"
+
+# 6. Perform inference
+echo -e "\n6. Running inference..."
+curl -X POST ${BASE_URL}/lora/query \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model_id": "llama-2-7b",
+    "adapter_id": "support_lora",
+    "prompt": "How do I contact support?",
+    "max_tokens": 300
+  }'
+
+# 7. Get statistics
+echo -e "\n7. Getting statistics..."
+curl -X GET ${BASE_URL}/lora/stats \
+  -H "Authorization: Bearer $TOKEN"
+
+echo -e "\n\nWorkflow complete!"
+```
+
+### Error Handling Example
+
+```python
+import requests
+from requests.exceptions import RequestException
+
+def query_with_retry(prompt, adapter_id, max_retries=3):
+    """Query with automatic retry on failure"""
+    
+    BASE_URL = "http://localhost:8080/api/v1/llm"
+    TOKEN = "your-jwt-token-here"
+    
+    headers = {
+        "Authorization": f"Bearer {TOKEN}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "model_id": "llama-2-7b",
+        "adapter_id": adapter_id,
+        "prompt": prompt,
+        "max_tokens": 500
+    }
+    
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(
+                f"{BASE_URL}/lora/query",
+                headers=headers,
+                json=payload,
+                timeout=30
+            )
+            
+            # Check status code
+            if response.status_code == 200:
+                return response.json()
+            elif response.status_code == 401:
+                print("Authentication failed. Check your token.")
+                return None
+            elif response.status_code == 404:
+                print(f"Adapter '{adapter_id}' not found.")
+                return None
+            elif response.status_code == 429:
+                # Rate limited
+                retry_after = int(response.headers.get('Retry-After', 60))
+                print(f"Rate limited. Waiting {retry_after} seconds...")
+                time.sleep(retry_after)
+                continue
+            else:
+                error_data = response.json()
+                print(f"Error: {error_data.get('error', 'Unknown error')}")
+                return None
+                
+        except RequestException as e:
+            print(f"Request failed (attempt {attempt + 1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)  # Exponential backoff
+            
+    return None
+
+# Usage
+result = query_with_retry("How do I configure sharding?", "themis_help_lora")
+if result:
+    print("Response:", result["response"])
+```
+
+### API Integration Best Practices
+
+1. **Authentication Management**
+   - Store tokens securely (environment variables, secret managers)
+   - Refresh tokens before expiration
+   - Implement token rotation
+
+2. **Error Handling**
+   - Always check status codes
+   - Implement retry logic with exponential backoff
+   - Handle rate limiting (429 status)
+
+3. **Performance Optimization**
+   - Load adapters once and reuse
+   - Check adapter status before querying
+   - Use pagination for list operations
+
+4. **Monitoring**
+   - Track inference latency
+   - Monitor cache hit rates
+   - Set up health check alerts
+
+5. **Security**
+   - Use HTTPS in production
+   - Validate all user inputs
+   - Implement request signing for critical operations
+   - Enable audit logging
+
+---
+
+## API Documentation
+
+For complete API documentation, see:
+- **[API Reference](API_REFERENCE.md)** - Complete endpoint reference with examples
+- **[OpenAPI Specification](openapi/lora_api.yaml)** - Machine-readable API spec
+
+---
+
+Last updated: 2026-01-11
