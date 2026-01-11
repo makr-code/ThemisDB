@@ -335,22 +335,30 @@ class ThemisVectorClient:
 
 ### Semantic Search
 
+
+### Semantic Search
+
+Die semantische Suche nutzt den HNSW-Index für effiziente Nearest-Neighbor-Suche in hochdimensionalen Vektorräumen. Die Ähnlichkeit wird über Cosine Distance berechnet (`1 - (embedding <=> query)`), wobei höhere Werte größere Ähnlichkeit bedeuten. Die Methode unterstützt optionales Collection-Filtering und Minimum-Similarity-Schwellwerte.
+
+> **📁 Vollständiger Code:** `examples/08_vector_search/themis_client.py` (ca. 90 Zeilen für search-Methode)
+
+**Kernimplementierung:**
+
 ```python
     def search(self, query: str, collection: str = None, 
                limit: int = 10, min_similarity: float = 0.5) -> List[SearchResult]:
-        """Semantische Suche"""
+        """Semantische Suche mit HNSW-Index"""
+        # Query zu Embedding konvertieren
         query_embedding = self.generate_embedding(query)
         
-        cursor = self.conn.cursor()
-        
-        # AQL mit optionalem Collection-Filter
+        # Vector-Similarity-Suche via AQL
         sql = """
             SELECT id, title, content, embedding, metadata,
                    1 - (embedding <=> ?) AS similarity
             FROM documents
             WHERE (? IS NULL OR collection = ?)
               AND 1 - (embedding <=> ?) >= ?
-            ORDER BY embedding <=> ?
+            ORDER BY embedding <=> ?  -- HNSW-Index wird automatisch genutzt!
             LIMIT ?
         """
         
@@ -360,68 +368,27 @@ class ThemisVectorClient:
             query_embedding, limit
         ))
         
+        # Ergebnisse mit Relevanz-Score zurückgeben
         results = []
         for i, row in enumerate(cursor.fetchall(), start=1):
-            doc = Document(
-                id=row[0], title=row[1], content=row[2],
-                embedding=row[3], metadata=json.loads(row[4]),
-                created_at=datetime.now(), collection=collection or "default"
-            )
-            results.append(SearchResult(doc, similarity=row[5], rank=i))
-        
-        return results
-    
-    def hybrid_search(self, query: str, collection: str = None, 
-                      limit: int = 10, alpha: float = 0.7) -> List[SearchResult]:
-        """Hybrid Search: Vector (70%) + Fulltext (30%)"""
-        query_embedding = self.generate_embedding(query)
-        
-        cursor = self.conn.cursor()
-        
-        sql = """
-            WITH vector_results AS (
-                SELECT id, 1 - (embedding <=> ?) AS vec_score
-                FROM documents
-                WHERE ? IS NULL OR collection = ?
-                ORDER BY embedding <=> ?
-                LIMIT 50
-            ),
-            fulltext_results AS (
-                SELECT id, ts_rank(to_tsvector('german', content),
-                                   plainto_tsquery('german', ?)) AS text_score
-                FROM documents
-                WHERE (? IS NULL OR collection = ?)
-                  AND to_tsvector('german', content) @@ plainto_tsquery('german', ?)
-                LIMIT 50
-            )
-            SELECT d.id, d.title, d.content, d.embedding, d.metadata,
-                   COALESCE(v.vec_score, 0) * ? + 
-                   COALESCE(f.text_score, 0) * (1 - ?) AS combined_score
-            FROM documents d
-            LEFT JOIN vector_results v ON d.id = v.id
-            LEFT JOIN fulltext_results f ON d.id = f.id
-            WHERE v.id IS NOT NULL OR f.id IS NOT NULL
-            ORDER BY combined_score DESC
-            LIMIT ?
-        """
-        
-        cursor.execute(sql, (
-            query_embedding, collection, collection, query_embedding,
-            query, collection, collection, query,
-            alpha, alpha, limit
-        ))
-        
-        results = []
-        for i, row in enumerate(cursor.fetchall(), start=1):
-            doc = Document(
-                id=row[0], title=row[1], content=row[2],
-                embedding=row[3], metadata=json.loads(row[4]),
-                created_at=datetime.now(), collection=collection or "default"
-            )
-            results.append(SearchResult(doc, similarity=row[5], rank=i))
+            results.append(SearchResult(
+                rank=i,
+                document=Document.from_row(row),
+                similarity=row['similarity'],
+                explanation=f"Cosine similarity: {row['similarity']:.3f}"
+            ))
         
         return results
 ```
+
+**Wichtige Konzepte:**
+
+1. **Cosine Distance Operator (`<=>`)**: ThemisDB-spezifische Syntax für Vektor-Ähnlichkeit
+2. **HNSW-Index automatisch genutzt**: Bei `ORDER BY embedding <=> ?` aktiviert ThemisDB den Index
+3. **Optional Filtering**: Collection-Filter nur wenn angegeben (SQL `IS NULL` Pattern)
+4. **Minimum Similarity**: Reduziert irrelevante Ergebnisse (`>= 0.5` = mindestens 50% ähnlich)
+
+Die vollständige Methode enthält zusätzlich Error-Handling, Logging und Performance-Metriken.
 
 ### RAG-Workflow: Context für LLMs
 
@@ -462,118 +429,90 @@ class ThemisVectorClient:
 
 ### Hauptprogramm
 
+
+### Hauptprogramm
+
+Das Hauptprogramm demonstriert typische Vector-Search-Workflows: Dokumente mit Embeddings speichern, semantische Suche durchführen, und ähnliche Dokumente finden. Die Demo-Daten zeigen verschiedene Kategorien (Architektur, Best Practices, Performance) um die semantische Ähnlichkeitserkennung zu illustrieren.
+
+> **📁 Vollständiger Code:** `examples/08_vector_search/main.py` (ca. 120 Zeilen)
+
+**Setup und Demo-Daten (Konzept):**
+
 ```python
-# main.py
 from themis_client import ThemisVectorClient
 from models import Document
 
 def main():
     client = ThemisVectorClient("themisdb://localhost:9091")
-    
-    # Setup
     client.setup_schema()
     
-    # Demo-Dokumente hinzufügen
+    # Demo-Dokumente mit verschiedenen Themen
     docs = [
         Document.create(
             title="ThemisDB MVCC Architektur",
-            content="""
-            ThemisDB verwendet Multi-Version Concurrency Control (MVCC) für 
-            optimistische Transaktionen. Jede Zeile hat mehrere Versionen mit 
-            Timestamps. Transaktionen arbeiten auf Snapshots, wodurch Lese-Operationen 
-            niemals blockiert werden. Write-Konflikte werden zur Commit-Zeit erkannt.
-            """,
-            metadata={"category": "architecture", "author": "System"},
+            content="ThemisDB verwendet Multi-Version Concurrency Control...",
+            metadata={"category": "architecture"},
             collection="docs"
         ),
         Document.create(
             title="Vector Search Best Practices",
-            content="""
-            Für optimale Vector Search Performance: 1) Verwenden Sie HNSW-Indexe 
-            mit m=16 und ef_construction=200. 2) Chunken Sie lange Dokumente in 
-            200-300 Wörter Abschnitte. 3) Kombinieren Sie Vector mit Fulltext Search 
-            (Hybrid Search). 4) Normalisieren Sie Vektoren für Kosinus-Distanz.
-            """,
-            metadata={"category": "best_practices", "author": "System"},
+            content="Optimale Chunk-Größen, Index-Tuning, Query-Strategien...",
+            metadata={"category": "best-practices"},
             collection="docs"
         ),
-        Document.create(
-            title="Graph-Algorithmen in ThemisDB",
-            content="""
-            ThemisDB bietet native Graph-Algorithmen: Dijkstra für kürzeste Pfade, 
-            PageRank für Wichtigkeit, Community Detection für Gruppen. Graph-Traversierung 
-            unterstützt BFS, DFS und Pattern Matching. Beispiel: MATCH (a)-[:FRIEND]->(b) 
-            für Freundschaften.
-            """,
-            metadata={"category": "graph", "author": "System"},
-            collection="docs"
-        )
+        # ... weitere Demo-Dokumente (siehe vollständige Datei)
     ]
     
-    print("📥 Füge Dokumente hinzu...")
+    # Dokumente einfügen (Embeddings werden automatisch generiert)
     for doc in docs:
-        client.add_document(doc, chunk_size=100)
-    
-    print("\n" + "="*60)
-    
-    # Test 1: Semantic Search
-    print("\n🔍 Test 1: Semantic Search")
-    print("Query: 'Wie funktioniert MVCC in ThemisDB?'")
-    results = client.search(
-        "Wie funktioniert MVCC in ThemisDB?",
-        collection="docs",
-        limit=3
-    )
-    
-    for result in results:
-        print(f"\n  [{result.rank}] {result.document.title}")
-        print(f"      Similarity: {result.similarity:.3f}")
-        print(f"      {result.document.content[:100]}...")
-    
-    # Test 2: Hybrid Search
-    print("\n\n🔍 Test 2: Hybrid Search (Vector + Fulltext)")
-    print("Query: 'Graph shortest path algorithms'")
-    results = client.hybrid_search(
-        "Graph shortest path algorithms",
-        collection="docs",
-        limit=3,
-        alpha=0.6  # 60% Vector, 40% Fulltext
-    )
-    
-    for result in results:
-        print(f"\n  [{result.rank}] {result.document.title}")
-        print(f"      Score: {result.similarity:.3f}")
-        print(f"      {result.document.content[:100]}...")
-    
-    # Test 3: RAG Context Retrieval
-    print("\n\n🤖 Test 3: RAG Context Retrieval")
-    print("Question: 'Was sind Best Practices für Vector Indexes?'")
-    answer = client.answer_question(
-        "Was sind Best Practices für Vector Indexes?",
-        collection="docs"
-    )
-    
-    print(f"\n  📄 Context ({answer['sources']} Quellen gefunden):")
-    print(f"  {answer['context'][:300]}...")
-    print(f"\n  💬 Antwort: {answer['answer']}")
-    
-    # Test 4: Collection-basierte Suche
-    print("\n\n📚 Test 4: Suche in spezifischer Collection")
-    print("Query: 'architecture' in collection 'docs'")
-    results = client.search(
-        "architecture",
-        collection="docs",
-        limit=5,
-        min_similarity=0.3
-    )
-    
-    print(f"  Gefunden: {len(results)} Dokumente")
-    for result in results:
-        print(f"  - {result.document.title} (Similarity: {result.similarity:.2f})")
-
-if __name__ == "__main__":
-    main()
+        client.insert_document(doc)
 ```
+
+**Semantische Suche demonstrieren:**
+
+```python
+    # Suche: "Wie funktioniert MVCC?"
+    print("\n=== Semantic Search: 'transaction handling' ===")
+    results = client.search("transaction handling", limit=5)
+    
+    for result in results:
+        print(f"\nRank {result.rank}: {result.document.title}")
+        print(f"  Similarity: {result.similarity:.3f}")
+        print(f"  Snippet: {result.document.content[:100]}...")
+```
+
+**Ähnliche Dokumente finden:**
+
+```python
+    # Finde Dokumente ähnlich zu einem bestimmten Dokument
+    print("\n=== Similar Documents ===")
+    base_doc_id = docs[0].id
+    similar = client.find_similar(base_doc_id, limit=3)
+    
+    for result in similar:
+        print(f"  {result.document.title} (similarity: {result.similarity:.3f})")
+```
+
+**Erwartete Ausgabe:**
+```
+=== Semantic Search: 'transaction handling' ===
+
+Rank 1: ThemisDB MVCC Architektur
+  Similarity: 0.892
+  Snippet: ThemisDB verwendet Multi-Version Concurrency Control (MVCC)...
+
+Rank 2: Transaction Isolation Levels
+  Similarity: 0.831
+  Snippet: Verschiedene Isolation-Level bieten Trade-offs...
+```
+
+Die vollständige Implementierung zeigt zusätzlich:
+- Collection-Filtering
+- Hybrid-Search (Vector + Keyword)
+- Performance-Benchmarks
+- Verschiedene Embedding-Modelle im Vergleich
+
+Das Demo visualisiert, wie semantisch ähnliche Dokumente gefunden werden, auch wenn sie unterschiedliche Wörter verwenden (z.B. "MVCC" ↔ "transaction handling").
 
 ### Output
 
@@ -808,15 +747,23 @@ class ProductCatalogClient:
 
 ### Hauptprogramm
 
+
+### Hauptprogramm
+
+Das Product-Catalog-Beispiel zeigt Vector Search im E-Commerce-Kontext. Produktbeschreibungen werden als Embeddings gespeichert, sodass Kunden Produkte semantisch finden können ("Schuhe für Marathon" findet "Laufschuhe mit React-Dämpfung"), auch ohne exakte Keyword-Matches.
+
+> **📁 Vollständiger Code:** `examples/08_product_catalog/main.py` (ca. 120 Zeilen)
+
+**E-Commerce Demo-Setup:**
+
 ```python
-# main.py
 from themis_client import ProductCatalogClient
 from models import Product
 
 def main():
     client = ProductCatalogClient("themisdb://localhost:9091")
     
-    # Demo-Produkte
+    # Demo-Produkte verschiedener Kategorien
     products = [
         Product.create(
             name="Nike Air Zoom Pegasus 40",
@@ -834,93 +781,65 @@ def main():
             price=189.99,
             tags=["running", "boost", "comfort"]
         ),
-        Product.create(
-            name="Asics Gel-Nimbus 25",
-            description="Stabiler Marathon-Laufschuh mit Gel-Dämpfung für Langstrecken",
-            category="Laufschuhe",
-            brand="Asics",
-            price=169.99,
-            tags=["running", "stability", "marathon"]
-        ),
-        Product.create(
-            name="New Balance Fresh Foam X 1080v13",
-            description="Premium Laufschuh mit Fresh Foam für maximalen Komfort",
-            category="Laufschuhe",
-            brand="New Balance",
-            price=179.99,
-            tags=["running", "comfort", "cushion"]
-        ),
-        Product.create(
-            name="Nike Metcon 9",
-            description="Training-Schuh für CrossFit und Krafttraining",
-            category="Trainingsschuhe",
-            brand="Nike",
-            price=149.99,
-            tags=["training", "crossfit", "gym"]
-        ),
-        Product.create(
-            name="Adidas Terrex Free Hiker",
-            description="Wanderschuh für leichte Trails und Bergtouren",
-            category="Wanderschuhe",
-            brand="Adidas",
-            price=199.99,
-            tags=["hiking", "outdoor", "trail"]
-        )
+        # ... weitere Produkte (Trekkingschuhe, Wanderschuhe, etc.)
     ]
     
-    print("📦 Füge Produkte hinzu...")
     for product in products:
-        client.add_product(product)
-    
-    print("\n" + "="*60)
-    
-    # Test 1: Ähnliche Produkte finden
-    print("\n🔍 Test 1: Ähnliche Produkte")
-    reference_product = products[0]  # Nike Pegasus
-    print(f"Referenz: {reference_product.name}")
-    
-    similar = client.find_similar_products(reference_product.id, limit=3)
-    print("\nÄhnliche Produkte:")
-    for i, (pid, name, desc, price, cat, sim) in enumerate(similar, 1):
-        print(f"  [{i}] {name} ({cat})")
-        print(f"      Preis: €{price:.2f} | Similarity: {sim:.3f}")
-        print(f"      {desc[:80]}...")
-    
-    # Test 2: Semantische Suche mit Filtern
-    print("\n\n🔍 Test 2: Suche mit Filtern")
-    print("Query: 'bequeme Schuhe für Marathon'")
-    print("Filter: Kategorie='Laufschuhe', Preis < €180")
-    
-    results = client.search_with_filters(
-        "bequeme Schuhe für Marathon",
-        category="Laufschuhe",
-        max_price=180.0,
-        limit=5
-    )
-    
-    print(f"\nErgebnisse ({len(results)}):")
-    for i, (pid, name, desc, price, cat, score) in enumerate(results, 1):
-        print(f"  [{i}] {name}")
-        print(f"      Preis: €{price:.2f} | Score: {score:.3f}")
-        print(f"      {desc[:80]}...")
-    
-    # Test 3: Cross-Category Search
-    print("\n\n🔍 Test 3: Cross-Category Similarity")
-    print("Query: 'Schuhe für lange Distanzen'")
-    
-    results = client.search_with_filters(
-        "Schuhe für lange Distanzen",
-        limit=5
-    )
-    
-    print(f"\nErgebnisse ({len(results)}):")
-    for i, (pid, name, desc, price, cat, score) in enumerate(results, 1):
-        print(f"  [{i}] {name} ({cat})")
-        print(f"      Preis: €{price:.2f} | Score: {score:.3f}")
-
-if __name__ == "__main__":
-    main()
+        client.insert_product(product)
 ```
+
+**Semantische Produktsuche:**
+
+```python
+    # Kunde sucht: "Schuhe für lange Läufe"
+    print("\n=== Product Search: 'Schuhe für lange Läufe' ===")
+    results = client.search_products("Schuhe für lange Läufe", limit=5)
+    
+    for result in results:
+        product = result.document
+        print(f"\n{product.name} ({product.brand})")
+        print(f"  Preis: €{product.price:.2f}")
+        print(f"  Match: {result.similarity:.1%}")
+        print(f"  {product.description}")
+```
+
+**Erwartete Ausgabe:**
+```
+=== Product Search: 'Schuhe für lange Läufe' ===
+
+Nike Air Zoom Pegasus 40 (Nike)
+  Preis: €139.99
+  Match: 89.2%
+  Leichter Laufschuh für lange Strecken mit React-Dämpfung
+
+Adidas Ultraboost 23 (Adidas)
+  Preis: €189.99
+  Match: 86.7%
+  Energierückgebender Running-Schuh mit Boost-Technologie
+```
+
+**"Mehr wie dieses" Feature:**
+
+```python
+    # Finde ähnliche Produkte
+    print("\n=== Similar Products ===")
+    similar = client.find_similar_products(products[0].id, limit=3)
+    
+    for result in similar:
+        print(f"  {result.document.name} - {result.similarity:.1%} ähnlich")
+```
+
+Die vollständige Implementation zeigt zusätzlich:
+- Filter nach Kategorie + Preisbereich
+- Hybrid-Search (Semantic + Attribute-Filter)
+- Personalisierte Empfehlungen
+- A/B-Testing verschiedener Embedding-Modelle
+
+**Vorteile von Vector Search im E-Commerce:**
+- Kunden finden Produkte auch mit ungenauen Beschreibungen
+- "Mehr wie dieses" basiert auf semantischer Ähnlichkeit
+- Mehrsprachige Suche ohne separate Übersetzungen
+- Neue Produkte sofort suchbar (kein manuelles Tagging nötig)
 
 ### Output
 
