@@ -78,6 +78,318 @@ Some operations can be *partially* supported by the database to improve performa
 
 ---
 
+## GIS Integration: Interfaces & Protocols
+
+> **Question:** How can ThemisDB provide interfaces to programs like ArcGIS, binary interfaces, or OGC web services (WMS, WFS, WMTS)?
+
+**Answer:** Yes, ThemisDB can provide multiple integration paths for GIS applications. Here's a comprehensive overview:
+
+### Current Integration Capabilities ✅
+
+ThemisDB already supports several integration methods:
+
+1. **REST API (HTTP/1.1)** ✅ Currently Available
+   - Endpoint: `http://localhost:8765/`
+   - Methods: GET, POST, PUT, DELETE
+   - Format: JSON request/response
+   - Spatial data: GeoJSON format via `ST_ASGEOJSON()`
+   - **Use case:** Custom applications, web GIS clients
+
+2. **GraphQL API** ✅ Currently Available
+   - Query language for flexible data retrieval
+   - Can request specific geometry fields
+   - **Use case:** Modern web applications, mobile apps
+
+3. **Binary Wire Protocol** ✅ Currently Available
+   - Port: 18765
+   - High-performance binary communication
+   - **Use case:** High-throughput applications, custom clients
+
+4. **gRPC** ✅ Currently Available (v1.3.0+)
+   - Protocol Buffers for efficient serialization
+   - Bidirectional streaming support
+   - **Use case:** Microservices, distributed systems
+
+5. **PostgreSQL Wire Protocol** ✅ Currently Available (v1.3.0+)
+   - Port: 5432 (configurable)
+   - **Critical for GIS integration:** Enables PostGIS-compatible clients
+   - **Use case:** QGIS, ArcGIS Pro (via PostgreSQL connection), pgAdmin
+   - **Enable:** `cmake -DTHEMIS_ENABLE_POSTGRES_WIRE=ON`
+
+### OGC Web Services Implementation Path 🚧
+
+ThemisDB can implement OGC (Open Geospatial Consortium) standards for broad GIS compatibility:
+
+#### 1. WFS (Web Feature Service) - **RECOMMENDED PRIORITY**
+**Status:** Not yet implemented (can be added)
+
+**Architecture:**
+```
+Client (ArcGIS Pro, QGIS) 
+    ↓ HTTP GET/POST
+WFS Endpoint (:8080/wfs)
+    ↓ Parse WFS request (GetCapabilities, GetFeature, DescribeFeatureType)
+ThemisDB Query Engine
+    ↓ ST_ASGEOJSON() or ST_ASTEXT()
+GML/GeoJSON Response
+```
+
+**Implementation Approach:**
+- Add WFS handler to existing HTTP server (`src/server/http_server.cpp`)
+- Map WFS operations to AQL queries:
+  - `GetCapabilities` → Return available feature types from schema
+  - `GetFeature` → `FOR f IN features FILTER bbox RETURN f` + GML serialization
+  - `DescribeFeatureType` → Return schema for feature class
+  - `Transaction` (WFS-T) → INSERT/UPDATE/DELETE via AQL
+
+**Effort Estimate:** 3-4 weeks
+- 1 week: WFS protocol parser (GetCapabilities, GetFeature)
+- 1 week: GML 3.2 output formatter
+- 1 week: WFS-T (transactional) support
+- 1 week: Testing with QGIS, ArcGIS Pro
+
+**Standards Compliance:**
+- WFS 2.0.0 (ISO 19142:2010)
+- GML 3.2.1 (ISO 19136:2007)
+- Filter Encoding 2.0 (OGC 09-026r2)
+
+**Example WFS Request:**
+```http
+GET /wfs?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  typeName=emission_sources&
+  bbox=8.0,50.0,9.0,51.0&
+  outputFormat=application/json
+```
+
+**ThemisDB Implementation:**
+```cpp
+// src/server/wfs_handler.cpp
+std::string handleWFSGetFeature(const WFSRequest& req) {
+    // Build AQL query from WFS request
+    std::string aql = "FOR feature IN " + req.typeName;
+    
+    if (req.bbox) {
+        aql += " FILTER ST_INTERSECTS(feature.geometry, "
+               "ST_ENVELOPE(" + req.bbox.toWKT() + "))";
+    }
+    
+    if (req.filter) {
+        aql += " FILTER " + translateCQLToAQL(req.filter);
+    }
+    
+    aql += " RETURN {geometry: ST_ASGEOJSON(feature.geometry), "
+           "properties: feature.properties}";
+    
+    auto results = queryEngine->execute(aql);
+    return formatAsGeoJSON(results);  // or GML if requested
+}
+```
+
+#### 2. WMS (Web Map Service) - **OPTIONAL**
+**Status:** Not yet implemented (application layer concern)
+
+**Architecture:**
+```
+Client (ArcGIS Pro, Web Browser)
+    ↓ HTTP GET
+WMS Endpoint (:8080/wms)
+    ↓ GetMap request (bbox, width, height, layers)
+ThemisDB Query + Rendering Engine
+    ↓ Rasterize vector features or serve raster tiles
+PNG/JPEG Image Response
+```
+
+**Recommendation:** ⚠️ **Consider external renderer**
+- WMS requires **map rendering** (application logic, not database)
+- **Alternative 1:** Use MapServer/GeoServer as WMS frontend, ThemisDB as backend via PostgreSQL protocol
+- **Alternative 2:** Implement basic WMS for raster data only (serve stored tiles)
+- **Alternative 3:** Use WFS + client-side rendering (QGIS, Leaflet, OpenLayers)
+
+**If implementing in ThemisDB:**
+- Effort: 6-8 weeks (complex rendering pipeline)
+- Dependencies: Image rendering library (Cairo, AGG, Skia)
+- Standards: WMS 1.3.0 (ISO 19128:2005)
+
+#### 3. WMTS (Web Map Tile Service) - **MEDIUM PRIORITY**
+**Status:** Not yet implemented (can be added)
+
+**Architecture:**
+```
+Client (Web Map, ArcGIS Pro)
+    ↓ HTTP GET
+WMTS Endpoint (:8080/wmts/{z}/{x}/{y}.png)
+    ↓ Tile coordinate → bbox
+ThemisDB Raster Storage
+    ↓ Pre-computed tiles or on-the-fly generation
+PNG Tile Response
+```
+
+**Implementation Approach:**
+- **Pre-computed tiles:** Store tiles in ThemisDB blob storage, serve directly
+- **On-the-fly tiles:** Query features in tile bbox, render with library
+- **Standards:** WMTS 1.0.0 (OGC 07-057r7)
+
+**Effort Estimate:** 2-3 weeks (for pre-computed tiles)
+
+**Use Case:** Base maps, aerial imagery, elevation tiles
+
+#### 4. WCS (Web Coverage Service) - **LOW PRIORITY**
+**Status:** Not yet implemented
+
+**Purpose:** Serve raster data (DEM, satellite imagery) with metadata
+**Standards:** WCS 2.0.1 (OGC 09-110r4)
+**Recommendation:** Implement if ThemisDB stores significant raster data
+
+### Binary Interface for Direct Integration 🔧
+
+For high-performance GIS applications (custom ArcGIS extensions, QGIS plugins):
+
+#### Option 1: PostgreSQL Wire Protocol (RECOMMENDED) ✅
+**Status:** Already implemented in ThemisDB v1.3.0+
+
+**Advantages:**
+- ✅ ArcGIS Pro can connect as PostgreSQL database
+- ✅ QGIS has native PostgreSQL/PostGIS support
+- ✅ pgAdmin for database management
+- ✅ Spatial queries via SQL: `SELECT ST_Buffer(geom, 500) FROM features`
+
+**Connection String:**
+```
+Host: localhost
+Port: 5432
+Database: themis
+User: admin
+Password: ****
+
+# ArcGIS Pro: Add Database Connection → PostgreSQL
+# QGIS: Layer → Add Layer → Add PostGIS Layers
+```
+
+**Limitation:** SQL dialect differences (ThemisDB uses AQL, not full PostgreSQL SQL)
+**Workaround:** Implement SQL-to-AQL translator or PostgreSQL-compatible SQL parser
+
+#### Option 2: GDAL/OGR Driver (BEST COMPATIBILITY)
+**Status:** Not yet implemented (high-value target)
+
+**Why Important:**
+- GDAL/OGR is the **universal GIS library**
+- Used by: ArcGIS, QGIS, GRASS GIS, MapServer, GeoServer, FME, etc.
+- Enables: `ogrinfo themisdb:emission_sources`, `ogr2ogr -f "ThemisDB" ...`
+
+**Implementation Path:**
+1. Create GDAL driver plugin (`ogr_themis.cpp`)
+2. Register driver in GDAL driver list
+3. Implement OGR vector driver interface:
+   - `Open()` - Connect to ThemisDB
+   - `GetLayer()` - Map ThemisDB tables to OGR layers
+   - `GetFeature()` - Execute spatial queries
+   - `CreateFeature()` - Insert geometries
+
+**Effort Estimate:** 4-6 weeks
+- 2 weeks: OGR driver skeleton + read operations
+- 1 week: Write operations (insert, update, delete)
+- 1 week: Spatial filter translation (OGR → AQL)
+- 1-2 weeks: Testing with GDAL utilities and GIS clients
+
+**Example Usage After Implementation:**
+```bash
+# List ThemisDB layers
+ogrinfo themisdb:localhost:8765
+
+# Query with spatial filter
+ogrinfo themisdb:localhost:8765 emission_sources \
+  -spat 8.0 50.0 9.0 51.0
+
+# Convert from Shapefile to ThemisDB
+ogr2ogr -f ThemisDB \
+  themisdb:localhost:8765 \
+  emission_sources.shp
+
+# ArcGIS Pro can then use "Add Data from Path" → OGR driver
+```
+
+#### Option 3: Native Client Libraries (SDK)
+**Status:** Partially available (REST/gRPC clients)
+
+ThemisDB already has client SDKs:
+- ✅ Python client (`clients/python/`)
+- ✅ JavaScript client (`clients/javascript/`)
+- ✅ Go client (`clients/go/`)
+- ✅ Rust client (`clients/rust/`)
+- ✅ Java client (`clients/java/`)
+
+**For GIS Integration:**
+- Create ArcGIS Pro Python toolbox using ThemisDB Python client
+- Create QGIS plugin using ThemisDB Python client
+- Create FME transformer using Java/C++ client
+
+### Recommended Implementation Priority 🎯
+
+| Priority | Interface | Effort | Impact | Compatibility |
+|----------|-----------|--------|--------|---------------|
+| 🔴 **P0** | **GDAL/OGR Driver** | 4-6 weeks | **Universal GIS compatibility** | ArcGIS, QGIS, all GIS tools |
+| 🔴 **P0** | **PostgreSQL Protocol Enhancement** | 2-3 weeks | **Immediate QGIS/pgAdmin support** | PostGIS-compatible clients |
+| 🟡 **P1** | **WFS 2.0** | 3-4 weeks | **Standards-based feature access** | Web GIS, ArcGIS Server |
+| 🟡 **P1** | **WMTS** | 2-3 weeks | **Tile-based visualization** | Web maps, mobile apps |
+| 🟢 **P2** | **WCS** | 3-4 weeks | **Raster data access** | Remote sensing applications |
+| 🔵 **P3** | **WMS** | 6-8 weeks | **Rendered maps** | Consider external renderer |
+
+### Integration Architecture Example
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     GIS Clients                              │
+│  ArcGIS Pro │ QGIS │ Web GIS │ Custom Apps │ Mobile         │
+└────┬────────┴──┬───┴────┬────┴─────┬───────┴────┬───────────┘
+     │           │         │          │            │
+     ├───────────┴─────────┴──────────┴────────────┤
+     │           Integration Layer                  │
+     ├──────────────────────────────────────────────┤
+     │  GDAL/OGR │ PostgreSQL │ WFS │ REST │ gRPC  │
+     └────┬──────┴──────┬─────┴─────┴──┬───┴───┬───┘
+          │             │                │       │
+     ┌────▼─────────────▼────────────────▼───────▼────┐
+     │            ThemisDB Core Engine                 │
+     │  ┌─────────────────────────────────────────┐   │
+     │  │ Spatial Storage (R-Tree, Morton)        │   │
+     │  ├─────────────────────────────────────────┤   │
+     │  │ Query Engine (AQL + Spatial Functions)  │   │
+     │  ├─────────────────────────────────────────┤   │
+     │  │ GPU Acceleration (CUDA/Vulkan)          │   │
+     │  └─────────────────────────────────────────┘   │
+     └──────────────────────────────────────────────────┘
+```
+
+### Summary: Enabling GIS Integration
+
+**Short Answer:** Yes, ThemisDB can provide interfaces to ArcGIS and other GIS programs through:
+
+1. ✅ **Currently Available:**
+   - PostgreSQL wire protocol (connect as PostGIS database)
+   - REST API with GeoJSON
+   - gRPC binary protocol
+   - Native client SDKs (Python, JavaScript, Go, Java, Rust)
+
+2. 🚧 **Recommended Additions:**
+   - **GDAL/OGR driver** (4-6 weeks) - Universal compatibility
+   - **WFS 2.0** (3-4 weeks) - Standards-based feature access
+   - **WMTS** (2-3 weeks) - Tile service for web maps
+
+3. ⚠️ **Application Layer (External):**
+   - **WMS rendering** - Use MapServer/GeoServer with ThemisDB backend
+   - **Complex cartography** - Client-side rendering via WFS + Leaflet/OpenLayers
+
+**Best Path Forward:**
+1. Enhance PostgreSQL protocol compatibility (SQL dialect support)
+2. Implement GDAL/OGR driver for universal GIS access
+3. Add WFS endpoint for standards-based integration
+4. Document integration examples for ArcGIS Pro, QGIS, Web GIS
+
+---
+
 ## Table of Contents
 
 1. [ThemisDB Current Geospatial Capabilities](#1-themisdb-current-geospatial-capabilities)
@@ -86,7 +398,8 @@ Some operations can be *partially* supported by the database to improve performa
 4. [Emission Protection Use Cases](#4-emission-protection-use-cases-immissionsschutz)
 5. [GPU/VRAM Acceleration Opportunities](#5-gpuvram-acceleration-opportunities)
 6. [Implementation Roadmap](#6-implementation-roadmap)
-7. [References](#7-references)
+7. [GIS Integration Interfaces](#gis-integration-interfaces--protocols)
+8. [References](#7-references)
 
 ---
 
