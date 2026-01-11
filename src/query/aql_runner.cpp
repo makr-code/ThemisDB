@@ -1,14 +1,28 @@
 #include "query/aql_runner.h"
 #include "storage/base_entity.h"
+#include "analytics/nlp_text_analyzer.h"
 
 namespace themis {
 
+// Static NLP analyzer instance for query analysis (PR #317)
+static themis::analytics::NlpTextAnalyzer g_nlp_analyzer;
+
 std::pair<QueryEngine::Status, nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
+    // NLP Pre-processing (PR #317 Integration Phase 1)
+    // This provides query analysis for optimization and caching
+    std::string normalized_query = g_nlp_analyzer.normalizeQuery(aql);
+    double query_complexity = g_nlp_analyzer.estimateQueryComplexity(aql);
+    auto query_hints = g_nlp_analyzer.extractQueryHints(aql);
+    auto suggested_indexes = g_nlp_analyzer.suggestIndexes(aql);
+    
+    // Parse AQL query
     query::AQLParser parser;
     auto parseResult = parser.parse(aql);
     if (!parseResult.success) {
         return { QueryEngine::Status::Error(parseResult.error.toString()), nlohmann::json{{"error","parse"}} };
     }
+    
+    // Translate to internal query representation
     auto tr = AQLTranslator::translate(parseResult.query);
     if (!tr.success) {
         return { QueryEngine::Status::Error(tr.error_message), nlohmann::json{{"error","translate"}} };
