@@ -363,39 +363,201 @@ LoRAOrchestrator orchestrator(storage, manager, training, audit, metrics);
 // GET /metrics returns Prometheus format
 ```
 
-### Grafana Dashboard
+### Grafana Dashboards
 
-Create a Grafana dashboard with panels for:
+ThemisDB includes three pre-configured Grafana dashboards for comprehensive LoRA framework monitoring:
 
-1. **Adapter Lifecycle Panel**
-   - Load time histogram
-   - Load success rate
-   - Hot-swap latency
+#### Dashboard 1: LoRA Framework Overview
+**File**: `config/grafana/dashboards/lora-framework-overview.json`
 
-2. **Cache Performance Panel**
-   - Hit rate over time
-   - Eviction rate
-   - Memory usage
+Provides high-level system monitoring across all framework components:
 
-3. **Training Panel**
-   - Training duration
-   - Loss over time
-   - Accuracy trends
+- **Adapter Lifecycle Metrics**
+  - P95 load duration with thresholds (yellow: 300ms, red: 500ms)
+  - Load rate per adapter
+  - Active adapters count (gauge)
+  - Load error rate (gauge)
+  - Hot-swap latency P95 (gauge)
+  - Total adapters managed (stat panel)
 
-4. **Storage Panel**
-   - Read/write latency
-   - Throughput
-   - Error rate
+- **Cache Performance**
+  - Hit rate percentage (gauge with 80% target)
+  - Memory usage with thresholds
+  - Cache size (number of adapters)
+  - Eviction rate trends
 
-5. **Inference Panel**
-   - Request rate
-   - Latency p50, p95, p99
-   - Queue depth
+- **Storage I/O**
+  - Read/write latency percentiles (P50, P95, P99)
+  - Throughput (bytes/sec) for reads and writes
 
-6. **Resource Panel**
-   - Memory usage by category
-   - GPU VRAM usage
-   - CPU usage
+- **Inference Performance**
+  - Request rate per adapter
+  - Latency percentiles with thresholds
+  - Queue size monitoring
+  - Error rate tracking
+
+- **Resource Utilization**
+  - Memory usage by category (stacked)
+  - GPU VRAM usage per adapter (stacked)
+  - CPU usage percentage (gauge)
+
+**Variables**: Adapter ID filter (multi-select)
+
+#### Dashboard 2: LoRA Training & Performance
+**File**: `config/grafana/dashboards/lora-training-performance.json`
+
+Focused on training operations and model quality:
+
+- **Training Operations**
+  - P95 training duration by adapter and mode
+  - Training throughput (samples/sec)
+  - Training starts/completions counters
+  - Success rate gauge (target: >95%)
+  - Error rate monitoring
+
+- **Model Quality Metrics**
+  - Loss curves over time (smooth interpolation)
+  - Accuracy curves with thresholds (yellow: 80%, green: 90%)
+  - Current loss by adapter (bar gauge)
+  - Current accuracy by adapter (bar gauge)
+
+- **Performance Comparison**
+  - Table comparing accuracy, loss, duration, and throughput across adapters
+  - Color-coded cells for quick identification of issues
+
+- **Training Bottlenecks**
+  - Latency distribution heatmap
+  - Operations by mode (pie chart)
+  - Throughput comparison (bar chart)
+
+**Variables**: Adapter ID filter, Training Mode filter
+
+#### Dashboard 3: LoRA Operations & Audit
+**File**: `config/grafana/dashboards/lora-operations-audit.json`
+
+Operations monitoring and compliance tracking:
+
+- **Orchestrator Operations**
+  - P95 operation duration by type
+  - Operation rate with stacking
+  
+- **CRUD Operations**
+  - Success rates for read/write/delete (line graph with thresholds)
+  - Operation distribution (donut chart)
+  - Individual operation counters (stat panels)
+
+- **Audit Logging**
+  - Write duration percentiles (P50, P95, P99)
+  - Query performance tracking
+  - Total audit log entries
+  - Audit log size monitoring
+
+- **Error Tracking**
+  - Error rate by type (adapter load, storage, inference)
+  - Error type distribution (pie chart)
+  - Top 10 errors by adapter (sortable table)
+
+- **System Health**
+  - Overall success rate gauge
+  - Version count by adapter
+  - Version rollback operations
+
+**Variables**: Adapter ID filter, Operation type filter
+
+### Importing Grafana Dashboards
+
+#### Method 1: Grafana UI Import
+
+1. **Open Grafana** (default: http://localhost:3000)
+2. **Navigate to Dashboards** → **Import**
+3. **Upload JSON file** or paste JSON content:
+   - `config/grafana/dashboards/lora-framework-overview.json`
+   - `config/grafana/dashboards/lora-training-performance.json`
+   - `config/grafana/dashboards/lora-operations-audit.json`
+4. **Select Prometheus datasource** from dropdown
+5. **Click Import**
+
+#### Method 2: Provisioning (Recommended for Production)
+
+Create a provisioning configuration file:
+
+```yaml
+# /etc/grafana/provisioning/dashboards/lora-dashboards.yml
+apiVersion: 1
+
+providers:
+  - name: 'LoRA Framework'
+    orgId: 1
+    folder: 'LoRA Monitoring'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /path/to/ThemisDB/config/grafana/dashboards
+```
+
+Then restart Grafana:
+```bash
+sudo systemctl restart grafana-server
+```
+
+#### Method 3: Docker Compose
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards/lora:ro
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+```
+
+### Configuring Prometheus Data Source
+
+Before importing dashboards, configure Prometheus as a data source:
+
+1. **Navigate to Configuration** → **Data Sources**
+2. **Add data source** → **Prometheus**
+3. **Configure settings**:
+   - Name: `Prometheus`
+   - URL: `http://localhost:9090` (or your Prometheus URL)
+   - Access: `Server (default)`
+   - Scrape interval: `15s`
+4. **Save & Test**
+
+### Variable Filters Usage
+
+All dashboards include template variables for dynamic filtering:
+
+#### Adapter ID Filter
+- **Type**: Multi-select dropdown
+- **Purpose**: Filter metrics by specific adapter(s)
+- **Usage**: Select one or multiple adapters, or "All" for aggregate view
+- **Query**: `label_values(themis_lora_adapter_loads_total, adapter_id)`
+
+#### Training Mode Filter (Training Dashboard)
+- **Type**: Multi-select dropdown
+- **Values**: `on_the_fly`, `batch`, etc.
+- **Purpose**: Filter training metrics by training mode
+
+#### Operation Filter (Operations Dashboard)
+- **Type**: Multi-select dropdown
+- **Values**: `create`, `read`, `update`, `delete`, etc.
+- **Purpose**: Filter orchestrator operations
+
+**Tips**:
+- Use `Ctrl+Click` (Windows/Linux) or `Cmd+Click` (Mac) for multi-select
+- Variables are persistent across dashboard navigation
+- Clear filters by selecting "All"
 
 ### Example Grafana Queries
 
@@ -422,6 +584,8 @@ rate(themis_lora_inference_total[1m])
 ```
 
 ### Alerting Rules
+
+Alert rules integrate with Grafana dashboards to provide visual indicators:
 
 ```yaml
 groups:
@@ -455,6 +619,231 @@ groups:
     annotations:
       summary: "LoRA training failures detected"
 ```
+
+## Customization
+
+### Modifying Thresholds
+
+To adjust alert thresholds in panels:
+
+1. **Edit Panel** → Click panel title → **Edit**
+2. **Navigate to** → **Thresholds** section
+3. **Modify values**:
+   - Green (healthy): Base value
+   - Yellow (warning): Warning threshold
+   - Red (critical): Critical threshold
+4. **Save dashboard**
+
+Example threshold configurations:
+- **Cache Hit Rate**: Red < 0.6 (60%), Yellow 0.6-0.8, Green > 0.8 (80%)
+- **Load Duration**: Green < 0.3s (300ms), Yellow 0.3-0.5s, Red > 0.5s (500ms)
+- **Error Rate**: Green < 1%, Yellow 1-5%, Red > 5%
+- **Training Accuracy**: Red < 0.80 (80%), Yellow 0.80-0.90, Green > 0.90 (90%)
+- **Audit Log Size**: Green < 1GB (1073741824 bytes), Yellow 1-5GB, Red > 5GB (5368709120 bytes)
+
+**Note**: These thresholds are examples and should be adjusted based on your specific Service Level Objectives (SLOs) and workload characteristics.
+
+#### Adding Custom Panels
+
+1. **Add Panel** → **Add new panel**
+2. **Select Visualization Type**:
+   - Time series: Trends over time
+   - Stat: Single value display
+   - Gauge: Percentage/threshold visualization
+   - Table: Detailed comparisons
+   - Bar gauge: Category comparisons
+3. **Configure Query**:
+   ```promql
+   # Example: Custom adapter comparison
+   histogram_quantile(0.95, 
+     sum by (adapter_id, le) (
+       rate(themis_lora_inference_duration_seconds_bucket[5m])
+     )
+   )
+   ```
+4. **Set Legend Format**: `{{adapter_id}} - P95 Latency`
+5. **Apply transformations** if needed
+
+#### Customizing Time Ranges
+
+Default time ranges:
+- **Overview Dashboard**: Last 1 hour
+- **Training Dashboard**: Last 6 hours
+- **Operations Dashboard**: Last 6 hours
+
+To modify:
+1. **Dashboard Settings** → **Time options**
+2. **Set default**: `from: now-6h, to: now`
+3. **Configure refresh intervals**: `30s`, `1m`, `5m`, `15m`, `30m`, `1h`
+
+#### Adding Annotations
+
+Annotations mark important events on time series:
+
+1. **Dashboard Settings** → **Annotations**
+2. **Add annotation**:
+   - **Name**: Deployment
+   - **Data source**: Prometheus
+   - **Query**: `changes(themis_lora_total_adapters[1m]) > 0`
+3. **Style**: Line, Region, or Alert
+4. **Save**
+
+### Alert Rule Integration
+
+#### Configuring Alert Notifications
+
+1. **Create notification channel**:
+   - Alerting → Notification channels → New channel
+   - Type: Email, Slack, PagerDuty, etc.
+   
+2. **Link to dashboard**:
+   ```yaml
+   # prometheus/alerts.yml
+   - alert: LoRAHighLatency
+     expr: histogram_quantile(0.95, rate(themis_lora_inference_duration_seconds_bucket[5m])) > 0.2
+     annotations:
+       dashboard: "http://grafana:3000/d/lora-framework-overview"
+       panel: "inference-latency"
+   ```
+
+3. **Visual indicators**:
+   - Panels show alert state colors
+   - Annotations overlay on time series
+   - Alert icons in dashboard list
+
+### Troubleshooting Common Issues
+
+#### Issue 1: No Data Displayed
+
+**Symptoms**: Empty panels, "No data" messages
+
+**Solutions**:
+1. **Check Prometheus connection**:
+   ```bash
+   curl http://localhost:9090/api/v1/query?query=up
+   ```
+2. **Verify metrics are being collected**:
+   ```bash
+   curl http://localhost:9090/api/v1/label/__name__/values | grep themis_lora
+   ```
+3. **Check ThemisDB metrics endpoint**:
+   ```bash
+   curl http://localhost:9091/metrics | grep themis_lora
+   ```
+4. **Verify Prometheus scrape config**:
+   ```yaml
+   scrape_configs:
+     - job_name: 'themisdb-lora'
+       static_configs:
+         - targets: ['localhost:9091']
+   ```
+
+#### Issue 2: Incorrect Time Range
+
+**Symptoms**: Historical data not showing, gaps in graphs
+
+**Solutions**:
+1. **Adjust time range** in top-right corner
+2. **Check Prometheus retention**:
+   ```bash
+   # prometheus.yml
+   global:
+     retention: 30d  # Increase if needed
+   ```
+3. **Verify scrape interval alignment**:
+   - Dashboard queries use `[5m]` rate
+   - Scrape interval should be ≤ 15s
+
+#### Issue 3: Variables Not Populating
+
+**Symptoms**: Empty dropdown for Adapter ID or other filters
+
+**Solutions**:
+1. **Check variable query**:
+   ```promql
+   label_values(themis_lora_adapter_loads_total, adapter_id)
+   ```
+2. **Verify metric has labels**:
+   ```bash
+   curl -g 'http://localhost:9090/api/v1/series?match[]=themis_lora_adapter_loads_total'
+   ```
+3. **Refresh dashboard variables**: Dashboard Settings → Variables → Refresh
+
+#### Issue 4: Dashboard Import Fails
+
+**Symptoms**: Error during JSON import
+
+**Solutions**:
+1. **Validate JSON syntax**:
+   ```bash
+   jq '.' config/grafana/dashboards/lora-framework-overview.json
+   ```
+2. **Check Grafana version compatibility**: Dashboards require Grafana 8.0+
+3. **Remove UID conflicts**: Set `"id": null` in JSON
+4. **Manual datasource selection**: Some Grafana versions require manual selection
+
+#### Issue 5: High Cardinality Warnings
+
+**Symptoms**: Performance issues, slow dashboard loading
+
+**Solutions**:
+1. **Limit label values**:
+   ```promql
+   # Instead of all adapters
+   topk(10, themis_lora_adapter_loads_total)
+   ```
+2. **Use recording rules**:
+   ```yaml
+   # prometheus/rules.yml
+   groups:
+     - name: lora_recording_rules
+       rules:
+         - record: lora:cache_hit_rate:5m
+           expr: rate(themis_lora_cache_hits_total[5m]) / (rate(themis_lora_cache_hits_total[5m]) + rate(themis_lora_cache_misses_total[5m]))
+   ```
+3. **Increase query timeout**: Grafana → Data Sources → Prometheus → Query timeout
+
+#### Issue 6: Missing Panels or Broken Layout
+
+**Symptoms**: Panels overlapping, missing visualizations
+
+**Solutions**:
+1. **Reset dashboard layout**: Dashboard Settings → JSON Model → Restore defaults
+2. **Clear browser cache**: Shift+F5 or Ctrl+Shift+R
+3. **Check panel IDs**: Ensure unique IDs in JSON
+4. **Reimport dashboard**: Delete and reimport from JSON
+
+### Dashboard Best Practices
+
+1. **Organize by Use Case**:
+   - Overview: Real-time health monitoring
+   - Training: Development and optimization
+   - Operations: Production troubleshooting
+
+2. **Use Consistent Time Windows**:
+   - Short-term: 1h for real-time monitoring
+   - Medium-term: 6h for trend analysis
+   - Long-term: 7d for capacity planning
+
+3. **Set Meaningful Thresholds**:
+   - Based on SLOs (Service Level Objectives)
+   - Aligned with alert rules
+   - Adjusted for your workload
+
+4. **Document Customizations**:
+   - Add panel descriptions
+   - Include query explanations
+   - Note threshold rationale
+
+5. **Version Control Dashboards**:
+   - Export JSON after changes
+   - Store in Git repository
+   - Use provisioning for deployment
+
+6. **Regular Review**:
+   - Weekly: Check alert thresholds
+   - Monthly: Update based on performance trends
+   - Quarterly: Add new metrics as features evolve
 
 ---
 

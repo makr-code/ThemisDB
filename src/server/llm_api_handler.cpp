@@ -1,4 +1,5 @@
 #include "server/llm_api_handler.h"
+#include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
@@ -53,8 +54,20 @@ void LLMApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
     jwt_validator_ = std::make_unique<auth::JWTValidator>(config);
 }
 
+void LLMApiHandler::setLoRAHandler(std::shared_ptr<LoRAApiHandler> lora_handler) {
+    lora_handler_ = std::move(lora_handler);
+}
+
 http::response<http::string_body> LLMApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
+    
+    // Delegate to LoRAApiHandler for LoRA-specific paths
+    std::string_view target = req.target();
+    if (lora_handler_ && (
+        target.starts_with("/api/v1/llm/lora/") ||
+        (target.starts_with("/api/v1/llm/models") && req.method() != http::verb::get))) {
+        return lora_handler_->handleRequest(req);
+    }
     
     // Validate Bearer Token (JWT) authentication
     if (!validateBearerToken(req)) {
@@ -65,7 +78,6 @@ http::response<http::string_body> LLMApiHandler::handleRequest(
         );
     }
     
-    std::string_view target = req.target();
     auto method = req.method();
     
     // Route to appropriate handler based on path and method
