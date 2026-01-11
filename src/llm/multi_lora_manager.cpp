@@ -339,7 +339,7 @@ bool MultiLoRAManager::fuseLoRAs(
     }
     
     if (lora_ids.size() != weights.size()) {
-        errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH, 
+        errors::logError(errors::ErrorCode::ERR_LORA_WEIGHT_MISMATCH,
                         lora_ids.size(), weights.size());
         return false;
     }
