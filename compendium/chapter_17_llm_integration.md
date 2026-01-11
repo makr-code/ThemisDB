@@ -302,11 +302,17 @@ sequenceDiagram
 
 ### 17.3.2 Erweiterte RAG mit Re-Ranking
 
+Modernes RAG kombiniert mehrere Retrieval-Strategien für höhere Präzision: Keyword-Search (BM25) findet exakte Begriffe, Vector-Search erfasst semantische Ähnlichkeit, und LLM-Re-Ranking filtert die relevantesten Ergebnisse.
+
+Die Pipeline arbeitet in drei Stufen: (1) Paralleles Retrieval mit BM25 und Vektor-Suche, (2) LLM-basiertes Re-Ranking der kombinierten Ergebnisse, (3) Finale Antwort-Generierung mit Top-K Dokumenten als Kontext.
+
+📁 **Vollständiger Code:** `examples/17_llm_rag/hybrid_search.aql` (~100 Zeilen)
+
 ```aql
-// Hybrid Search: BM25 + Vector + Re-Ranking
+// Hybrid Search: BM25 + Vector + LLM Re-Ranking
 LET user_query = 'Beste Performance-Optimierungen für Graphen-Queries'
 
-// Stage 1: Keyword Search (BM25)
+// Stage 1: Keyword Search (BM25 - exakte Begriffe)
 LET bm25_results = (
   FOR doc IN documentation
     SEARCH ANALYZER(doc.content IN TOKENS(user_query, 'text_en'), 'text_en')
@@ -315,7 +321,7 @@ LET bm25_results = (
     RETURN doc
 )
 
-// Stage 2: Vector Search
+// Stage 2: Vector Search (semantische Ähnlichkeit)
 LET query_embedding = EMBED('text-embedding-3-small', user_query)
 LET vector_results = (
   FOR doc IN documentation
@@ -326,55 +332,35 @@ LET vector_results = (
     RETURN doc
 )
 
-// Stage 3: Combine and Re-Rank with LLM
+// Stage 3: Combine + LLM Re-Ranking (relevanteste Docs identifizieren)
 LET combined = UNION_DISTINCT(bm25_results, vector_results)
-
 LET reranked = (
   FOR doc IN combined
     LET relevance_score = PROMPT('gpt-4',
-      {
-        system: 'Rate die Relevanz von 0.0 bis 1.0. Gebe nur die Zahl zurück.',
-        user: CONCAT(
-          'Query: ', user_query, '\n\n',
-          'Dokument: ', SUBSTRING(doc.content, 0, 500)
-        )
-      },
+      {system: 'Rate Relevanz 0.0-1.0. Nur Zahl zurückgeben.',
+       user: CONCAT('Query: ', user_query, '\n\nDok: ', SUBSTRING(doc.content, 0, 500))},
       {temperature: 0.0, max_tokens: 5}
     )
-    RETURN {
-      doc: doc,
-      score: TO_NUMBER(relevance_score)
-    }
+    RETURN {doc: doc, score: TO_NUMBER(relevance_score)}
 )
 
-LET top_docs = (
-  FOR item IN reranked
-    SORT item.score DESC
-    LIMIT 5
-    RETURN item.doc
-)
+LET top_docs = (FOR item IN reranked SORT item.score DESC LIMIT 5 RETURN item.doc)
 
-// Generate comprehensive answer
+// Generate Answer mit Top-K Kontext
 LET answer = PROMPT('gpt-4',
-  {
-    system: 'Erstelle eine umfassende Antwort basierend auf den relevantesten Dokumenten.',
-    user: CONCAT(
-      'Top Dokumente:\n\n',
-      (FOR doc IN top_docs
-        RETURN CONCAT('---\n', doc.content)
-      ),
-      '\n\nFrage: ', user_query
-    )
-  },
+  {system: 'Erstelle Antwort basierend auf Dokumenten.',
+   user: CONCAT('Docs:\n', (FOR d IN top_docs RETURN CONCAT('---\n', d.content)), '\n\nFrage: ', user_query)},
   {temperature: 0.3, max_tokens: 1500}
 )
 
-RETURN {
-  query: user_query,
-  answer: answer,
-  sources: top_docs[*].title
-}
+RETURN {query: user_query, answer: answer, sources: top_docs[*].title}
 ```
+
+**Vorteile des Hybrid-Ansatzes:**
+- **Recall:** BM25 fängt exakte Begriffe, Vektor-Suche semantische Varianten
+- **Precision:** LLM-Re-Ranking eliminiert false positives
+- **Latenz:** Paralleles Retrieval + effiziente Filterung
+- **Qualität:** Contextual Grounding durch Top-K Dokumente
 
 ### 17.3.3 Architektur-Vergleich: ThemisDB vs. Hyperscaler für RAG
 
@@ -851,64 +837,62 @@ Gesamt-Latenz: 100.000ms + 500ms + 200ms + 10ms = ~100.710ms
 
 ### 17.4.1 Chain-of-Thought Prompting
 
+Chain-of-Thought (CoT) verbessert LLM-Reasoning durch schrittweise Analyse. Statt direkter Antworten führt das LLM explizite Zwischenschritte aus, was zu präziseren Ergebnissen führt – besonders bei komplexen Aufgaben wie Churn-Prediction.
+
+Die Query sammelt zunächst relevante Kundendaten (Bestellungen, Support-Tickets, Umsatz), erstellt dann einen strukturierten Kontext und lässt das LLM schrittweise analysieren. Das Ergebnis wird direkt zurück in die Datenbank geschrieben.
+
+📁 **Vollständiger Code:** `examples/17_llm_advanced/churn_prediction.aql` (~80 Zeilen)
+
 ```aql
-// Multi-Step Reasoning mit CoT
+// Multi-Step Reasoning mit Chain-of-Thought
 FOR customer IN customers
   FILTER customer.churn_risk == null
   LIMIT 10
   
-  // Schritt 1: Daten sammeln
+  // Schritt 1: Aggregiere relevante Kundendaten
   LET customer_data = {
-    orders_count: LENGTH(
-      FOR o IN orders
-        FILTER o.customer_id == customer._key
-        RETURN 1
-    ),
-    last_order_date: (
-      FOR o IN orders
-        FILTER o.customer_id == customer._key
-        SORT o.order_date DESC
-        LIMIT 1
-        RETURN o.order_date
-    )[0],
-    total_spent: SUM(
-      FOR o IN orders
-        FILTER o.customer_id == customer._key
-        RETURN o.total_amount
-    ),
-    support_tickets: LENGTH(
-      FOR t IN support_tickets
-        FILTER t.customer_id == customer._key
-        RETURN 1
-    )
+    orders_count: LENGTH(FOR o IN orders FILTER o.customer_id == customer._key RETURN 1),
+    last_order_date: (FOR o IN orders FILTER o.customer_id == customer._key 
+                      SORT o.order_date DESC LIMIT 1 RETURN o.order_date)[0],
+    total_spent: SUM(FOR o IN orders FILTER o.customer_id == customer._key RETURN o.total_amount),
+    support_tickets: LENGTH(FOR t IN support_tickets FILTER t.customer_id == customer._key RETURN 1)
   }
   
-  // Schritt 2: LLM-Analyse mit Chain-of-Thought
+  // Schritt 2: LLM-Analyse mit expliziten CoT-Anweisungen
   LET analysis = PROMPT('gpt-4',
     {
-      system: `Du bist ein Churn-Prediction-Experte. Analysiere Schritt für Schritt:
-      1. Bewerte die Aktivität des Kunden
-      2. Analysiere Kaufverhalten
+      system: `Churn-Prediction-Experte. Analysiere schrittweise:
+      1. Bewerte Aktivität (Bestellfrequenz, Recency)
+      2. Analysiere Kaufverhalten (Umsatz-Trend)
       3. Berücksichtige Support-Interaktionen
-      4. Gebe Churn-Risiko (low/medium/high) und Begründung`,
+      4. Gebe Churn-Risiko (low/medium/high) + Begründung`,
       user: CONCAT(
-        'Kunde-Daten:\n',
+        'Kundendaten:\n',
         'Bestellungen: ', customer_data.orders_count, '\n',
         'Letzte Bestellung: ', customer_data.last_order_date, '\n',
         'Gesamtumsatz: €', customer_data.total_spent, '\n',
         'Support-Tickets: ', customer_data.support_tickets, '\n\n',
-        'Analysiere Schritt für Schritt das Churn-Risiko.'
+        'Analysiere Schritt für Schritt.'
       )
     },
     {temperature: 0.2, max_tokens: 500}
   )
   
+  // Schritt 3: Speichere Analyse zurück in DB
   UPDATE customer WITH {
     churn_risk: analysis.risk_level,
     churn_reasoning: analysis.reasoning,
     analyzed_at: DATE_NOW()
   } IN customers
 ```
+
+**Vorteile von Chain-of-Thought:**
+- **Accuracy:** 15-30% bessere Ergebnisse bei komplexen Aufgaben (laut OpenAI-Benchmarks)
+- **Interpretability:** Nachvollziehbare Reasoning-Schritte
+- **Debugging:** Fehlerquellen in der Logik erkennbar
+- **Consistency:** Strukturierte Analyse verhindert hallucinations
+
+**Best Practice:** CoT funktioniert am besten mit klaren Schritt-Anweisungen und ausreichend Kontext (temperature 0.2-0.3 für stabile Ergebnisse).
 
 ### 17.4.2 Few-Shot Learning
 
